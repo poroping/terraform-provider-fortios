@@ -11,7 +11,7 @@ description: |-
 Methods used to move the position of a policy, relative to another policy, in the sequence order of how policies are applied.
 
 ## Option I: Move with fortios_firewall_security_policyseq
-* See resource [fortios_firewall_security_policyseq](https://registry.terraform.io/providers/fortinetdev/fortios/latest/docs/resources/fortios_firewall_security_policyseq) for further information.
+* See resource [fortios_firewall_security_policyseq](https://registry.terraform.io/providers/poroping/fortios/latest/docs/resources/fortios_firewall_security_policyseq) for further information.
 
 ## Option II: Quickly move with curl
 1. List existing policies

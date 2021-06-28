@@ -280,7 +280,7 @@ The following arguments are supported:
 * `fmg_cabundlefile` - (Optional) The path of a custom CA bundle file. You can specify a path to the file, or you can specify it by the `FORTIOS_FMG_CABUNDLE` environment variable.
 
 ## Release
-Check out the FortiOS provider release notes and additional information from: [the FortiOS provider releases](https://github.com/fortinetdev/terraform-provider-fortios/releases).
+Check out the FortiOS provider release notes and additional information from: [the FortiOS provider releases](https://github.com/poroping/terraform-provider-fortios/releases).
 
 ## Versioning
 
