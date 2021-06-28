@@ -61,12 +61,12 @@ github.com/davecgh/go-spew/spew
 # github.com/fatih/color v1.7.0
 github.com/fatih/color
 # github.com/fortinetdev/forti-sdk-go v1.4.0
+## explicit
 github.com/fortinetdev/forti-sdk-go/fortimanager/sdkcore
 github.com/fortinetdev/forti-sdk-go/fortimanager/util
 github.com/fortinetdev/forti-sdk-go/fortios/auth
 github.com/fortinetdev/forti-sdk-go/fortios/config
 github.com/fortinetdev/forti-sdk-go/fortios/request
-github.com/fortinetdev/forti-sdk-go/fortios/sdkcore
 # github.com/golang/protobuf v1.3.4
 github.com/golang/protobuf/proto
 github.com/golang/protobuf/protoc-gen-go/descriptor
@@ -80,7 +80,8 @@ github.com/google/go-cmp/cmp/internal/diff
 github.com/google/go-cmp/cmp/internal/flags
 github.com/google/go-cmp/cmp/internal/function
 github.com/google/go-cmp/cmp/internal/value
-# github.com/google/uuid v1.1.1
+# github.com/google/uuid v1.2.0
+## explicit
 github.com/google/uuid
 # github.com/googleapis/gax-go/v2 v2.0.5
 github.com/googleapis/gax-go/v2
@@ -102,7 +103,8 @@ github.com/hashicorp/go-plugin/internal/plugin
 github.com/hashicorp/go-safetemp
 # github.com/hashicorp/go-uuid v1.0.1
 github.com/hashicorp/go-uuid
-# github.com/hashicorp/go-version v1.2.0
+# github.com/hashicorp/go-version v1.3.0
+## explicit
 github.com/hashicorp/go-version
 # github.com/hashicorp/golang-lru v0.5.1
 github.com/hashicorp/golang-lru/simplelru
@@ -134,6 +136,7 @@ github.com/hashicorp/terraform-config-inspect/tfconfig
 # github.com/hashicorp/terraform-json v0.4.0
 github.com/hashicorp/terraform-json
 # github.com/hashicorp/terraform-plugin-sdk v1.12.0
+## explicit
 github.com/hashicorp/terraform-plugin-sdk/acctest
 github.com/hashicorp/terraform-plugin-sdk/helper/acctest
 github.com/hashicorp/terraform-plugin-sdk/helper/hashcode
@@ -211,6 +214,10 @@ github.com/mitchellh/mapstructure
 github.com/mitchellh/reflectwalk
 # github.com/oklog/run v1.0.0
 github.com/oklog/run
+# github.com/poroping/forti-sdk-go v1.5.1 => /home/justinr/forti-sdk-go
+## explicit
+github.com/poroping/forti-sdk-go/fortios/auth
+github.com/poroping/forti-sdk-go/fortios/sdkcore
 # github.com/posener/complete v1.2.1
 github.com/posener/complete
 github.com/posener/complete/cmd
@@ -366,3 +373,4 @@ google.golang.org/grpc/stats
 google.golang.org/grpc/status
 google.golang.org/grpc/tap
 google.golang.org/grpc/test/bufconn
+# github.com/poroping/forti-sdk-go => /home/justinr/forti-sdk-go
