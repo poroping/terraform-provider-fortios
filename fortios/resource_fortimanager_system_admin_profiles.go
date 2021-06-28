@@ -11,10 +11,11 @@ import (
 
 func resourceFortimanagerSystemAdminProfiles() *schema.Resource {
 	return &schema.Resource{
-		Create: createFMGSystemAdminProfiles,
-		Read:   readFMGSystemAdminProfiles,
-		Update: updateFMGSystemAdminProfiles,
-		Delete: deleteFMGSystemAdminProfiles,
+		Create:             createFMGSystemAdminProfiles,
+		Read:               readFMGSystemAdminProfiles,
+		Update:             updateFMGSystemAdminProfiles,
+		Delete:             deleteFMGSystemAdminProfiles,
+		DeprecationMessage: "This resource has been depecated. Please use the dedicated FortiManager provider. This resource will be removed in v2.0.0",
 
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,

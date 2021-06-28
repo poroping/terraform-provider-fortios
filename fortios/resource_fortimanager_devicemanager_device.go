@@ -9,10 +9,11 @@ import (
 
 func resourceFortimanagerDVMDevice() *schema.Resource {
 	return &schema.Resource{
-		Create: createFMGDVMDevice,
-		Read:   readFMGDVMDevice,
-		Update: updateFMGDVMDevice,
-		Delete: deleteFMGDVMDevice,
+		Create:             createFMGDVMDevice,
+		Read:               readFMGDVMDevice,
+		Update:             updateFMGDVMDevice,
+		Delete:             deleteFMGDVMDevice,
+		DeprecationMessage: "This resource has been depecated. Please use the dedicated FortiManager provider. This resource will be removed in v2.0.0",
 
 		Schema: map[string]*schema.Schema{
 			"userid": &schema.Schema{

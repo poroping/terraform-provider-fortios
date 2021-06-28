@@ -11,10 +11,11 @@ import (
 
 func resourceFortimanagerJSONRPCRequest() *schema.Resource {
 	return &schema.Resource{
-		Create: handleFMGJSONRPCRequest,
-		Read:   readFMGJSONRPCRequest,
-		Update: handleFMGJSONRPCRequest,
-		Delete: deleteFMGJSONRPCRequest,
+		Create:             handleFMGJSONRPCRequest,
+		Read:               readFMGJSONRPCRequest,
+		Update:             handleFMGJSONRPCRequest,
+		Delete:             deleteFMGJSONRPCRequest,
+		DeprecationMessage: "This resource has been depecated. Please use the dedicated FortiManager provider. This resource will be removed in v2.0.0",
 
 		Schema: map[string]*schema.Schema{
 			"json_content": &schema.Schema{

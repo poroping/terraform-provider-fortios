@@ -12,10 +12,11 @@ import (
 
 func resourceFortimanagerSystemAdom() *schema.Resource {
 	return &schema.Resource{
-		Create: createFMGSystemAdom,
-		Read:   readFMGSystemAdom,
-		Update: updateFMGSystemAdom,
-		Delete: deleteFMGSystemAdom,
+		Create:             createFMGSystemAdom,
+		Read:               readFMGSystemAdom,
+		Update:             updateFMGSystemAdom,
+		Delete:             deleteFMGSystemAdom,
+		DeprecationMessage: "This resource has been depecated. Please use the dedicated FortiManager provider. This resource will be removed in v2.0.0",
 
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,

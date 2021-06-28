@@ -11,10 +11,11 @@ import (
 
 func resourceFortimanagerSystemNTP() *schema.Resource {
 	return &schema.Resource{
-		Create: setFMGSystemNTP,
-		Read:   readFMGSystemNTP,
-		Update: setFMGSystemNTP,
-		Delete: deleteFMGSystemNTP,
+		Create:             setFMGSystemNTP,
+		Read:               readFMGSystemNTP,
+		Update:             setFMGSystemNTP,
+		Delete:             deleteFMGSystemNTP,
+		DeprecationMessage: "This resource has been depecated. Please use the dedicated FortiManager provider. This resource will be removed in v2.0.0",
 
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,

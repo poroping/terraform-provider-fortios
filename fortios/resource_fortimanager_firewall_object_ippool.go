@@ -11,10 +11,11 @@ import (
 
 func resourceFortimanagerFirewallObjectIppool() *schema.Resource {
 	return &schema.Resource{
-		Create: createFMGFirewallObjectIppool,
-		Read:   readFMGFirewallObjectIppool,
-		Update: updateFMGFirewallObjectIppool,
-		Delete: deleteFMGFirewallObjectIppool,
+		Create:             createFMGFirewallObjectIppool,
+		Read:               readFMGFirewallObjectIppool,
+		Update:             updateFMGFirewallObjectIppool,
+		Delete:             deleteFMGFirewallObjectIppool,
+		DeprecationMessage: "This resource has been depecated. Please use the dedicated FortiManager provider. This resource will be removed in v2.0.0",
 
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,

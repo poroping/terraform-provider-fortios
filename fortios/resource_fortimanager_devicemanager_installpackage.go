@@ -9,10 +9,11 @@ import (
 
 func resourceFortimanagerDVMInstallPolicyPackage() *schema.Resource {
 	return &schema.Resource{
-		Create: createFMGDVMInstallPolicyPackage,
-		Read:   readFMGDVMInstallPolicyPackage,
-		Update: updateFMGDVMInstallPolicyPackage,
-		Delete: deleteFMGDVMInstallPolicyPackage,
+		Create:             createFMGDVMInstallPolicyPackage,
+		Read:               readFMGDVMInstallPolicyPackage,
+		Update:             updateFMGDVMInstallPolicyPackage,
+		Delete:             deleteFMGDVMInstallPolicyPackage,
+		DeprecationMessage: "This resource has been depecated. Please use the dedicated FortiManager provider. This resource will be removed in v2.0.0",
 
 		Schema: map[string]*schema.Schema{
 			"package_name": &schema.Schema{

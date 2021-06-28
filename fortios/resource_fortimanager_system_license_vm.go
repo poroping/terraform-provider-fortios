@@ -9,10 +9,11 @@ import (
 
 func resourceFortimanagerSystemLicenseVM() *schema.Resource {
 	return &schema.Resource{
-		Create: addFMGSystemLicenseVM,
-		Read:   readFMGSystemLicenseVM,
-		Update: updateFMGSystemLicenseVM,
-		Delete: deleteFMGSystemLicenseVM,
+		Create:             addFMGSystemLicenseVM,
+		Read:               readFMGSystemLicenseVM,
+		Update:             updateFMGSystemLicenseVM,
+		Delete:             deleteFMGSystemLicenseVM,
+		DeprecationMessage: "This resource has been depecated. Please use the dedicated FortiManager provider. This resource will be removed in v2.0.0",
 
 		Schema: map[string]*schema.Schema{
 			"target": &schema.Schema{

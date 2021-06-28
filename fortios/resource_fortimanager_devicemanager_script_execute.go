@@ -10,10 +10,11 @@ import (
 
 func resourceFortimanagerDVMScriptExecute() *schema.Resource {
 	return &schema.Resource{
-		Create: createUpdateFMGDVMScriptExecute,
-		Read:   readFMGDVMScriptExecute,
-		Update: createUpdateFMGDVMScriptExecute,
-		Delete: deleteFMGDVMScriptExecute,
+		Create:             createUpdateFMGDVMScriptExecute,
+		Read:               readFMGDVMScriptExecute,
+		Update:             createUpdateFMGDVMScriptExecute,
+		Delete:             deleteFMGDVMScriptExecute,
+		DeprecationMessage: "This resource has been depecated. Please use the dedicated FortiManager provider. This resource will be removed in v2.0.0",
 
 		Schema: map[string]*schema.Schema{
 			"script_name": &schema.Schema{

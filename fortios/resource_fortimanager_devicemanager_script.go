@@ -11,10 +11,11 @@ import (
 
 func resourceFortimanagerDVMScript() *schema.Resource {
 	return &schema.Resource{
-		Create: createFMGDVMScript,
-		Read:   readFMGDVMScript,
-		Update: updateFMGDVMScript,
-		Delete: deleteFMGDVMScript,
+		Create:             createFMGDVMScript,
+		Read:               readFMGDVMScript,
+		Update:             updateFMGDVMScript,
+		Delete:             deleteFMGDVMScript,
+		DeprecationMessage: "This resource has been depecated. Please use the dedicated FortiManager provider. This resource will be removed in v2.0.0",
 
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,

@@ -11,10 +11,11 @@ import (
 
 func resourceFortimanagerFirewallSecurityPolicyPackage() *schema.Resource {
 	return &schema.Resource{
-		Create: createFMGFirewallSecurityPolicyPackage,
-		Read:   readFMGFirewallSecurityPolicyPackage,
-		Update: updateFMGFirewallSecurityPolicyPackage,
-		Delete: deleteFMGFirewallSecurityPolicyPackage,
+		Create:             createFMGFirewallSecurityPolicyPackage,
+		Read:               readFMGFirewallSecurityPolicyPackage,
+		Update:             updateFMGFirewallSecurityPolicyPackage,
+		Delete:             deleteFMGFirewallSecurityPolicyPackage,
+		DeprecationMessage: "This resource has been depecated. Please use the dedicated FortiManager provider. This resource will be removed in v2.0.0",
 
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,

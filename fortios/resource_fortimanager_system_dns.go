@@ -10,10 +10,11 @@ import (
 
 func resourceFortimanagerSystemDNS() *schema.Resource {
 	return &schema.Resource{
-		Create: setFMGSystemDNS,
-		Read:   readFMGSystemDNS,
-		Update: setFMGSystemDNS,
-		Delete: deleteFMGSystemDNS,
+		Create:             setFMGSystemDNS,
+		Read:               readFMGSystemDNS,
+		Update:             setFMGSystemDNS,
+		Delete:             deleteFMGSystemDNS,
+		DeprecationMessage: "This resource has been depecated. Please use the dedicated FortiManager provider. This resource will be removed in v2.0.0",
 
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,

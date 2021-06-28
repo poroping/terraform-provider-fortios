@@ -11,10 +11,11 @@ import (
 
 func resourceFortimanagerFirewallObjectAddress() *schema.Resource {
 	return &schema.Resource{
-		Create: createFMGFirewallObjectAddress,
-		Read:   readFMGFirewallObjectAddress,
-		Update: updateFMGFirewallObjectAddress,
-		Delete: deleteFMGFirewallObjectAddress,
+		Create:             createFMGFirewallObjectAddress,
+		Read:               readFMGFirewallObjectAddress,
+		Update:             updateFMGFirewallObjectAddress,
+		Delete:             deleteFMGFirewallObjectAddress,
+		DeprecationMessage: "This resource has been depecated. Please use the dedicated FortiManager provider. This resource will be removed in v2.0.0",
 
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,

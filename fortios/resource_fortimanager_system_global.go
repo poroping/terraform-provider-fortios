@@ -11,10 +11,11 @@ import (
 
 func resourceFortimanagerSystemGlobal() *schema.Resource {
 	return &schema.Resource{
-		Create: setFMGSystemGlobal,
-		Read:   readFMGSystemGlobal,
-		Update: setFMGSystemGlobal,
-		Delete: deleteFMGSystemGlobal,
+		Create:             setFMGSystemGlobal,
+		Read:               readFMGSystemGlobal,
+		Update:             setFMGSystemGlobal,
+		Delete:             deleteFMGSystemGlobal,
+		DeprecationMessage: "This resource has been depecated. Please use the dedicated FortiManager provider. This resource will be removed in v2.0.0",
 
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,

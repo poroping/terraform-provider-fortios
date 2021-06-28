@@ -10,10 +10,11 @@ import (
 
 func resourceFortimanagerSystemSyslogServer() *schema.Resource {
 	return &schema.Resource{
-		Create: createFMGSystemSyslogServer,
-		Read:   readFMGSystemSyslogServer,
-		Update: updateFMGSystemSyslogServer,
-		Delete: deleteFMGSystemSyslogServer,
+		Create:             createFMGSystemSyslogServer,
+		Read:               readFMGSystemSyslogServer,
+		Update:             updateFMGSystemSyslogServer,
+		Delete:             deleteFMGSystemSyslogServer,
+		DeprecationMessage: "This resource has been depecated. Please use the dedicated FortiManager provider. This resource will be removed in v2.0.0",
 
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,

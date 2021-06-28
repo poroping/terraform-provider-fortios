@@ -11,10 +11,11 @@ import (
 
 func resourceFortimanagerFirewallObjectVip() *schema.Resource {
 	return &schema.Resource{
-		Create: createFMGFirewallObjectVip,
-		Read:   readFMGFirewallObjectVip,
-		Update: updateFMGFirewallObjectVip,
-		Delete: deleteFMGFirewallObjectVip,
+		Create:             createFMGFirewallObjectVip,
+		Read:               readFMGFirewallObjectVip,
+		Update:             updateFMGFirewallObjectVip,
+		Delete:             deleteFMGFirewallObjectVip,
+		DeprecationMessage: "This resource has been depecated. Please use the dedicated FortiManager provider. This resource will be removed in v2.0.0",
 
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,

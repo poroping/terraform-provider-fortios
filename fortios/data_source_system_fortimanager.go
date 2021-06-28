@@ -19,7 +19,8 @@ import (
 
 func dataSourceSystemFortimanager() *schema.Resource {
 	return &schema.Resource{
-		Read: dataSourceSystemFortimanagerRead,
+		Read:               dataSourceSystemFortimanagerRead,
+		DeprecationMessage: "This resource has been depecated. Please use the dedicated FortiManager provider. This resource will be removed in v2.0.0",
 		Schema: map[string]*schema.Schema{
 			"vdomparam": &schema.Schema{
 				Type:     schema.TypeString,
