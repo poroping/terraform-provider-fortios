@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/fortinetdev/forti-sdk-go/fortios/sdkcore"
+	forticlient "github.com/fortinetdev/forti-sdk-go/fortios/sdkcore"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 )
 
@@ -18,6 +18,8 @@ func resourceFirewallObjectAddressGroup() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
+
+		DeprecationMessage: "This resource has been deprecated and will be removed in v2.0.0",
 
 		Schema: map[string]*schema.Schema{
 			"name": &schema.Schema{

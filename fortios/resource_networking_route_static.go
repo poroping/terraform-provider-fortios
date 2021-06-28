@@ -20,6 +20,8 @@ func resourceNetworkingRouteStatic() *schema.Resource {
 			State: schema.ImportStatePassthrough,
 		},
 
+		DeprecationMessage: "This resource has been deprecated and will be removed in v2.0.0",
+
 		Schema: map[string]*schema.Schema{
 			"dst": &schema.Schema{
 				Type:     schema.TypeString,
