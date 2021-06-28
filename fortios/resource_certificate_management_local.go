@@ -12,9 +12,9 @@ import (
 	"strconv"
 	"strings"
 
-	forticlient "github.com/fortinetdev/forti-sdk-go/fortios/sdkcore"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
+	forticlient "github.com/poroping/forti-sdk-go/fortios/sdkcore"
 )
 
 func resourceCertificateManagementLocal() *schema.Resource {

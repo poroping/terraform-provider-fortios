@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"log"
 
-	forticlient "github.com/fortinetdev/forti-sdk-go/fortios/sdkcore"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	forticlient "github.com/poroping/forti-sdk-go/fortios/sdkcore"
 )
 
 func resourceNetworkingInterfacePort() *schema.Resource {
