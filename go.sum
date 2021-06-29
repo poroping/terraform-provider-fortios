@@ -164,8 +164,8 @@ github.com/oklog/run v1.0.0/go.mod h1:dlhp/R75TPv97u0XWUtDeV/lRKWPKSdTuV0TZvrmrQ
 github.com/pierrec/lz4 v2.0.5+incompatible/go.mod h1:pdkljMzZIN41W+lC3N2tnIh5sFi+IEE17M5jbnwPHcY=
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
-github.com/poroping/forti-sdk-go v1.5.1 h1:hsgPP83lK8VwduDTVhd1kxmSp4ajIgEWWbYDuPq24pI=
-github.com/poroping/forti-sdk-go v1.5.1/go.mod h1:u/LO40dqrqBsm4sUqwpx449TUgt0Im/O9LH6DqAUVQY=
+github.com/poroping/forti-sdk-go v1.5.2 h1:0xTsN3LzCgcq0XExEaFunfp/+ntxHIm0w96QuMob/RQ=
+github.com/poroping/forti-sdk-go v1.5.2/go.mod h1:u/LO40dqrqBsm4sUqwpx449TUgt0Im/O9LH6DqAUVQY=
 github.com/posener/complete v1.1.1/go.mod h1:em0nMJCgc9GFtwrmVmEMR/ZL6WyhyjMBndrE9hABlRI=
 github.com/posener/complete v1.2.1 h1:LrvDIY//XNo65Lq84G/akBuMGlawHvGBABv8f/ZN6DI=
 github.com/posener/complete v1.2.1/go.mod h1:6gapUrK/U1TAN7ciCoNRIdVC5sbdBTUh1DKN0g6uH7E=
