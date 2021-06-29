@@ -4,18 +4,18 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 	fmgclient "github.com/fortinetdev/forti-sdk-go/fortimanager/sdkcore"
 	"github.com/fortinetdev/forti-sdk-go/fortimanager/util"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 )
 
 func resourceFortimanagerFirewallSecurityPolicy() *schema.Resource {
 	return &schema.Resource{
-		Create: createFMGFirewallSecurityPolicy,
-		Read:   readFMGFirewallSecurityPolicy,
-		Update: updateFMGFirewallSecurityPolicy,
-		Delete: deleteFMGFirewallSecurityPolicy,
+		Create:             createFMGFirewallSecurityPolicy,
+		Read:               readFMGFirewallSecurityPolicy,
+		Update:             updateFMGFirewallSecurityPolicy,
+		Delete:             deleteFMGFirewallSecurityPolicy,
 		DeprecationMessage: "This resource has been depecated. Please use the dedicated FortiManager provider. This resource will be removed in v2.0.0",
 
 		Importer: &schema.ResourceImporter{
