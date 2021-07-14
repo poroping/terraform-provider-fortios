@@ -78,40 +78,6 @@ func Provider() terraform.ResourceProvider {
 				Default:     "",
 				Description: "",
 			},
-
-			"fmg_hostname": {
-				Type:        schema.TypeString,
-				Optional:    true,
-				Default:     "",
-				Description: "Hostname/IP address of the FortiManager to connect to",
-			},
-
-			"fmg_username": {
-				Type:        schema.TypeString,
-				Optional:    true,
-				Default:     "",
-				Description: "",
-			},
-
-			"fmg_passwd": {
-				Type:        schema.TypeString,
-				Optional:    true,
-				Default:     "",
-				Description: "",
-			},
-
-			"fmg_insecure": {
-				Type:        schema.TypeBool,
-				Optional:    true,
-				Description: "",
-			},
-
-			"fmg_cabundlefile": {
-				Type:        schema.TypeString,
-				Optional:    true,
-				Default:     "",
-				Description: "CA Bundle file",
-			},
 		},
 
 		DataSourcesMap: map[string]*schema.Resource{
@@ -347,6 +313,8 @@ func Provider() terraform.ResourceProvider {
 			"fortios_user_samllist":                           dataSourceUserSamlList(),
 			"fortios_routerbgp_neighborlist":                  dataSourceRouterbgpNeighborList(),
 			"fortios_system_certificate_download":             dataSourceSystemCertificateDownload(),
+			"fortios_firewall_access_proxy":                   dataSourceFirewallAccessProxy(),
+			"fortios_firewall_access_proxy_virtual_host":      dataSourceFirewallAccessProxyVirtualHost(),
 		},
 
 		ResourcesMap: map[string]*schema.Resource{
@@ -918,14 +886,10 @@ func providerConfigure(d *schema.ResourceData) (interface{}, error) {
 
 	// Init client config with the values from TF files
 	config := Config{
-		Hostname:     d.Get("hostname").(string),
-		Token:        d.Get("token").(string),
-		CABundle:     d.Get("cabundlefile").(string),
-		Vdom:         d.Get("vdom").(string),
-		FMG_Hostname: d.Get("fmg_hostname").(string),
-		FMG_CABundle: d.Get("fmg_cabundlefile").(string),
-		FMG_Username: d.Get("fmg_username").(string),
-		FMG_Passwd:   d.Get("fmg_passwd").(string),
+		Hostname: d.Get("hostname").(string),
+		Token:    d.Get("token").(string),
+		CABundle: d.Get("cabundlefile").(string),
+		Vdom:     d.Get("vdom").(string),
 
 		PeerAuth:   d.Get("peerauth").(string),
 		CaCert:     d.Get("cacert").(string),
@@ -937,12 +901,6 @@ func providerConfigure(d *schema.ResourceData) (interface{}, error) {
 	if ok1 {
 		insecure := v1.(bool)
 		config.Insecure = &insecure
-	}
-
-	v2, ok2 := d.GetOkExists("fmg_insecure")
-	if ok2 {
-		insecure := v2.(bool)
-		config.FMG_Insecure = &insecure
 	}
 
 	// Create Client for later connections
