@@ -3,7 +3,6 @@ package fortios
 import (
 	"crypto/sha1"
 	"crypto/x509"
-	"encoding/binary"
 	"encoding/pem"
 	"fmt"
 	"net"
@@ -57,26 +56,27 @@ func escapeFilter(filter string) string {
 	return filter
 }
 
-func sortStringwithNumber(v string) string {
-	i := len(v) - 1
-	for ; i >= 0; i-- {
-		if '0' > v[i] || v[i] > '9' {
-			break
-		}
-	}
-	i++
+// deprecated to be removed
+// func sortStringwithNumber(v string) string {
+// 	i := len(v) - 1
+// 	for ; i >= 0; i-- {
+// 		if '0' > v[i] || v[i] > '9' {
+// 			break
+// 		}
+// 	}
+// 	i++
 
-	b64 := make([]byte, 64/8)
-	s64 := v[i:]
-	if len(s64) > 0 {
-		u64, err := strconv.ParseUint(s64, 10, 64)
-		if err == nil {
-			binary.BigEndian.PutUint64(b64, u64+1)
-		}
-	}
+// 	b64 := make([]byte, 64/8)
+// 	s64 := v[i:]
+// 	if len(s64) > 0 {
+// 		u64, err := strconv.ParseUint(s64, 10, 64)
+// 		if err == nil {
+// 			binary.BigEndian.PutUint64(b64, u64+1)
+// 		}
+// 	}
 
-	return v[:i] + string(b64)
-}
+// 	return v[:i] + string(b64)
+// }
 
 func dynamic_sort_subtable(result []map[string]interface{}, fieldname string, d *schema.ResourceData) {
 	if v, ok := d.GetOk("dynamic_sort_subtable"); ok {
