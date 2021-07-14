@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"net"
 	"os"
+	"reflect"
 	"sort"
 	"strconv"
 	"strings"
@@ -81,10 +82,16 @@ func dynamic_sort_subtable(result []map[string]interface{}, fieldname string, d 
 	if v, ok := d.GetOk("dynamic_sort_subtable"); ok {
 		if v.(string) == "true" {
 			sort.Slice(result, func(i, j int) bool {
-				v1 := fmt.Sprintf("%v", result[i][fieldname])
-				v2 := fmt.Sprintf("%v", result[j][fieldname])
-
-				return sortStringwithNumber(v1) < sortStringwithNumber(v2)
+				v1 := result[i][fieldname]
+				v2 := result[j][fieldname]
+				if reflect.TypeOf(v1).Name() == "string" {
+					return v1.(string) < v2.(string)
+				} else if reflect.TypeOf(v1).Name() == "float64" {
+					return int(v1.(float64)) < int(v2.(float64))
+				} else {
+					println("error")
+					return true
+				}
 			})
 		}
 	}
@@ -106,10 +113,7 @@ func fortiAPIPatch(t interface{}) bool {
 
 func isImportTable() bool {
 	itable := os.Getenv("FORTIOS_IMPORT_TABLE")
-	if itable == "true" {
-		return true
-	}
-	return false
+	return itable == "true"
 }
 
 func convintflist2i(v interface{}) interface{} {
@@ -132,7 +136,7 @@ func convintflist2str(v interface{}) interface{} {
 		bFirst := true
 		for _, v1 := range t {
 			if t1, ok := v1.(float64); ok {
-				if bFirst == true {
+				if bFirst {
 					res += strconv.Itoa(int(t1))
 					bFirst = false
 				} else {
