@@ -80,7 +80,7 @@ func sortStringwithNumber(v string) string {
 
 func dynamic_sort_subtable(result []map[string]interface{}, fieldname string, d *schema.ResourceData) {
 	if v, ok := d.GetOk("dynamic_sort_subtable"); ok {
-		if v.(string) == "true" {
+		if v.(bool) {
 			sort.Slice(result, func(i, j int) bool {
 				v1 := result[i][fieldname]
 				v2 := result[j][fieldname]
