@@ -62,14 +62,14 @@ func testAccCheckFortiOSSystemDdnsExists(n string) resource.TestCheckFunc {
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemDdns(i, "root")
+		o, err := c.ReadSystemDdns(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading SystemDdns: %s", err)
+			return fmt.Errorf("error reading SystemDdns: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating SystemDdns: %s", n)
+			return fmt.Errorf("error creating SystemDdns: %s", n)
 		}
 
 		return nil
@@ -85,11 +85,11 @@ func testAccCheckSystemDdnsDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemDdns(i, "root")
+		o, err := c.ReadSystemDdns(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error SystemDdns %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error SystemDdns %s still exists", rs.Primary.ID)
 			}
 		}
 

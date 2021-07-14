@@ -54,14 +54,14 @@ func testAccCheckFortiOSSystemFmExists(n string) resource.TestCheckFunc {
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemFm(i, "root")
+		o, err := c.ReadSystemFm(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading SystemFm: %s", err)
+			return fmt.Errorf("error reading SystemFm: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating SystemFm: %s", n)
+			return fmt.Errorf("error creating SystemFm: %s", n)
 		}
 
 		return nil
@@ -77,11 +77,11 @@ func testAccCheckSystemFmDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemFm(i, "root")
+		o, err := c.ReadSystemFm(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error SystemFm %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error SystemFm %s still exists", rs.Primary.ID)
 			}
 		}
 

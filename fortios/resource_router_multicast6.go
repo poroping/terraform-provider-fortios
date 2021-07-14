@@ -30,39 +30,39 @@ func resourceRouterMulticast6() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"multicast_routing": &schema.Schema{
+			"multicast_routing": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"multicast_pmtu": &schema.Schema{
+			"multicast_pmtu": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"interface": &schema.Schema{
+			"interface": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 15),
 							Optional:     true,
 							Computed:     true,
 						},
-						"hello_interval": &schema.Schema{
+						"hello_interval": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 65535),
 							Optional:     true,
 							Computed:     true,
 						},
-						"hello_holdtime": &schema.Schema{
+						"hello_holdtime": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 65535),
 							Optional:     true,
@@ -71,29 +71,29 @@ func resourceRouterMulticast6() *schema.Resource {
 					},
 				},
 			},
-			"pim_sm_global": &schema.Schema{
+			"pim_sm_global": {
 				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"register_rate_limit": &schema.Schema{
+						"register_rate_limit": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 65535),
 							Optional:     true,
 							Computed:     true,
 						},
-						"rp_address": &schema.Schema{
+						"rp_address": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"id": &schema.Schema{
+									"id": {
 										Type:     schema.TypeInt,
 										Optional: true,
 										Computed: true,
 									},
-									"ip6_address": &schema.Schema{
+									"ip6_address": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
@@ -104,10 +104,15 @@ func resourceRouterMulticast6() *schema.Resource {
 					},
 				},
 			},
-			"dynamic_sort_subtable": &schema.Schema{
-				Type:     schema.TypeString,
+			"dynamic_sort_subtable": {
+				Type:     schema.TypeBool,
 				Optional: true,
-				Default:  "false",
+				Default:  false,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -126,14 +131,24 @@ func resourceRouterMulticast6Update(d *schema.ResourceData, m interface{}) error
 		}
 	}
 
-	obj, err := getObjectRouterMulticast6(d, false, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating RouterMulticast6 resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateRouterMulticast6(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectRouterMulticast6(d, false, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating RouterMulticast6 resource: %v", err)
+		return fmt.Errorf("error updating RouterMulticast6 resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateRouterMulticast6(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating RouterMulticast6 resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -159,15 +174,25 @@ func resourceRouterMulticast6Delete(d *schema.ResourceData, m interface{}) error
 		}
 	}
 
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
 	obj, err := getObjectRouterMulticast6(d, true, c.Fv)
 
 	if err != nil {
-		return fmt.Errorf("Error updating RouterMulticast6 resource while getting object: %v", err)
+		return fmt.Errorf("error updating RouterMulticast6 resource while getting object: %v", err)
 	}
 
-	_, err = c.UpdateRouterMulticast6(obj, mkey, vdomparam)
+	_, err = c.UpdateRouterMulticast6(obj, mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error clearing RouterMulticast6 resource: %v", err)
+		return fmt.Errorf("error clearing RouterMulticast6 resource: %v", err)
 	}
 
 	d.SetId("")
@@ -189,9 +214,19 @@ func resourceRouterMulticast6Read(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadRouterMulticast6(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadRouterMulticast6(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading RouterMulticast6 resource: %v", err)
+		return fmt.Errorf("error reading RouterMulticast6 resource: %v", err)
 	}
 
 	if o == nil {
@@ -202,7 +237,7 @@ func resourceRouterMulticast6Read(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectRouterMulticast6(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading RouterMulticast6 resource from API: %v", err)
+		return fmt.Errorf("error reading RouterMulticast6 resource from API: %v", err)
 	}
 	return nil
 }
@@ -354,27 +389,27 @@ func refreshObjectRouterMulticast6(d *schema.ResourceData, o map[string]interfac
 
 	if err = d.Set("multicast_routing", flattenRouterMulticast6MulticastRouting(o["multicast-routing"], d, "multicast_routing", sv)); err != nil {
 		if !fortiAPIPatch(o["multicast-routing"]) {
-			return fmt.Errorf("Error reading multicast_routing: %v", err)
+			return fmt.Errorf("error reading multicast_routing: %v", err)
 		}
 	}
 
 	if err = d.Set("multicast_pmtu", flattenRouterMulticast6MulticastPmtu(o["multicast-pmtu"], d, "multicast_pmtu", sv)); err != nil {
 		if !fortiAPIPatch(o["multicast-pmtu"]) {
-			return fmt.Errorf("Error reading multicast_pmtu: %v", err)
+			return fmt.Errorf("error reading multicast_pmtu: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("interface", flattenRouterMulticast6Interface(o["interface"], d, "interface", sv)); err != nil {
 			if !fortiAPIPatch(o["interface"]) {
-				return fmt.Errorf("Error reading interface: %v", err)
+				return fmt.Errorf("error reading interface: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("interface"); ok {
 			if err = d.Set("interface", flattenRouterMulticast6Interface(o["interface"], d, "interface", sv)); err != nil {
 				if !fortiAPIPatch(o["interface"]) {
-					return fmt.Errorf("Error reading interface: %v", err)
+					return fmt.Errorf("error reading interface: %v", err)
 				}
 			}
 		}
@@ -383,14 +418,14 @@ func refreshObjectRouterMulticast6(d *schema.ResourceData, o map[string]interfac
 	if isImportTable() {
 		if err = d.Set("pim_sm_global", flattenRouterMulticast6PimSmGlobal(o["pim-sm-global"], d, "pim_sm_global", sv)); err != nil {
 			if !fortiAPIPatch(o["pim-sm-global"]) {
-				return fmt.Errorf("Error reading pim_sm_global: %v", err)
+				return fmt.Errorf("error reading pim_sm_global: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("pim_sm_global"); ok {
 			if err = d.Set("pim_sm_global", flattenRouterMulticast6PimSmGlobal(o["pim-sm-global"], d, "pim_sm_global", sv)); err != nil {
 				if !fortiAPIPatch(o["pim-sm-global"]) {
-					return fmt.Errorf("Error reading pim_sm_global: %v", err)
+					return fmt.Errorf("error reading pim_sm_global: %v", err)
 				}
 			}
 		}

@@ -21,58 +21,58 @@ func dataSourceFirewallInternetServiceDefinition() *schema.Resource {
 	return &schema.Resource{
 		Read: dataSourceFirewallInternetServiceDefinitionRead,
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
 
-			"fosid": &schema.Schema{
+			"fosid": {
 				Type:     schema.TypeInt,
 				Required: true,
 			},
-			"entry": &schema.Schema{
+			"entry": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"seq_num": &schema.Schema{
+						"seq_num": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"category_id": &schema.Schema{
+						"category_id": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"name": &schema.Schema{
+						"name": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"protocol": &schema.Schema{
+						"protocol": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"port_range": &schema.Schema{
+						"port_range": {
 							Type:     schema.TypeList,
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"id": &schema.Schema{
+									"id": {
 										Type:     schema.TypeInt,
 										Computed: true,
 									},
-									"start_port": &schema.Schema{
+									"start_port": {
 										Type:     schema.TypeInt,
 										Computed: true,
 									},
-									"end_port": &schema.Schema{
+									"end_port": {
 										Type:     schema.TypeInt,
 										Computed: true,
 									},
 								},
 							},
 						},
-						"port": &schema.Schema{
+						"port": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
@@ -103,12 +103,12 @@ func dataSourceFirewallInternetServiceDefinitionRead(d *schema.ResourceData, m i
 	} else if v, ok := t.(int); ok {
 		mkey = strconv.Itoa(v)
 	} else {
-		return fmt.Errorf("Error describing FirewallInternetServiceDefinition: type error")
+		return fmt.Errorf("error describing FirewallInternetServiceDefinition: type error")
 	}
 
-	o, err := c.ReadFirewallInternetServiceDefinition(mkey, vdomparam)
+	o, err := c.ReadFirewallInternetServiceDefinition(mkey, vdomparam, make(map[string][]string), 0)
 	if err != nil {
-		return fmt.Errorf("Error describing FirewallInternetServiceDefinition: %v", err)
+		return fmt.Errorf("error describing FirewallInternetServiceDefinition: %v", err)
 	}
 
 	if o == nil {
@@ -118,7 +118,7 @@ func dataSourceFirewallInternetServiceDefinitionRead(d *schema.ResourceData, m i
 
 	err = dataSourceRefreshObjectFirewallInternetServiceDefinition(d, o)
 	if err != nil {
-		return fmt.Errorf("Error describing FirewallInternetServiceDefinition from API: %v", err)
+		return fmt.Errorf("error describing FirewallInternetServiceDefinition from API: %v", err)
 	}
 
 	d.SetId(mkey)
@@ -266,13 +266,13 @@ func dataSourceRefreshObjectFirewallInternetServiceDefinition(d *schema.Resource
 
 	if err = d.Set("fosid", dataSourceFlattenFirewallInternetServiceDefinitionId(o["id"], d, "fosid")); err != nil {
 		if !fortiAPIPatch(o["id"]) {
-			return fmt.Errorf("Error reading fosid: %v", err)
+			return fmt.Errorf("error reading fosid: %v", err)
 		}
 	}
 
 	if err = d.Set("entry", dataSourceFlattenFirewallInternetServiceDefinitionEntry(o["entry"], d, "entry")); err != nil {
 		if !fortiAPIPatch(o["entry"]) {
-			return fmt.Errorf("Error reading entry: %v", err)
+			return fmt.Errorf("error reading entry: %v", err)
 		}
 	}
 

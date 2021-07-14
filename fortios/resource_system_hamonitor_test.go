@@ -51,14 +51,14 @@ func testAccCheckFortiOSSystemHaMonitorExists(n string) resource.TestCheckFunc {
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemHaMonitor(i, "root")
+		o, err := c.ReadSystemHaMonitor(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading SystemHaMonitor: %s", err)
+			return fmt.Errorf("error reading SystemHaMonitor: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating SystemHaMonitor: %s", n)
+			return fmt.Errorf("error creating SystemHaMonitor: %s", n)
 		}
 
 		return nil
@@ -74,11 +74,11 @@ func testAccCheckSystemHaMonitorDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemHaMonitor(i, "root")
+		o, err := c.ReadSystemHaMonitor(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error SystemHaMonitor %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error SystemHaMonitor %s still exists", rs.Primary.ID)
 			}
 		}
 

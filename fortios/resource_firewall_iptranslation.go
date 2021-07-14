@@ -30,32 +30,37 @@ func resourceFirewallIpTranslation() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"transid": &schema.Schema{
+			"transid": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"type": &schema.Schema{
+			"type": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"startip": &schema.Schema{
+			"startip": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"endip": &schema.Schema{
+			"endip": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"map_startip": &schema.Schema{
+			"map_startip": {
 				Type:     schema.TypeString,
 				Required: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -73,15 +78,25 @@ func resourceFirewallIpTranslationCreate(d *schema.ResourceData, m interface{}) 
 		}
 	}
 
-	obj, err := getObjectFirewallIpTranslation(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating FirewallIpTranslation resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateFirewallIpTranslation(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectFirewallIpTranslation(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating FirewallIpTranslation resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateFirewallIpTranslation(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating FirewallIpTranslation resource: %v", err)
+		return fmt.Errorf("error creating FirewallIpTranslation resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -106,14 +121,24 @@ func resourceFirewallIpTranslationUpdate(d *schema.ResourceData, m interface{}) 
 		}
 	}
 
-	obj, err := getObjectFirewallIpTranslation(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating FirewallIpTranslation resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateFirewallIpTranslation(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectFirewallIpTranslation(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating FirewallIpTranslation resource: %v", err)
+		return fmt.Errorf("error updating FirewallIpTranslation resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateFirewallIpTranslation(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating FirewallIpTranslation resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -140,9 +165,17 @@ func resourceFirewallIpTranslationDelete(d *schema.ResourceData, m interface{}) 
 		}
 	}
 
-	err := c.DeleteFirewallIpTranslation(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteFirewallIpTranslation(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting FirewallIpTranslation resource: %v", err)
+		return fmt.Errorf("error deleting FirewallIpTranslation resource: %v", err)
 	}
 
 	d.SetId("")
@@ -164,9 +197,19 @@ func resourceFirewallIpTranslationRead(d *schema.ResourceData, m interface{}) er
 		}
 	}
 
-	o, err := c.ReadFirewallIpTranslation(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadFirewallIpTranslation(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading FirewallIpTranslation resource: %v", err)
+		return fmt.Errorf("error reading FirewallIpTranslation resource: %v", err)
 	}
 
 	if o == nil {
@@ -177,7 +220,7 @@ func resourceFirewallIpTranslationRead(d *schema.ResourceData, m interface{}) er
 
 	err = refreshObjectFirewallIpTranslation(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading FirewallIpTranslation resource from API: %v", err)
+		return fmt.Errorf("error reading FirewallIpTranslation resource from API: %v", err)
 	}
 	return nil
 }
@@ -207,31 +250,31 @@ func refreshObjectFirewallIpTranslation(d *schema.ResourceData, o map[string]int
 
 	if err = d.Set("transid", flattenFirewallIpTranslationTransid(o["transid"], d, "transid", sv)); err != nil {
 		if !fortiAPIPatch(o["transid"]) {
-			return fmt.Errorf("Error reading transid: %v", err)
+			return fmt.Errorf("error reading transid: %v", err)
 		}
 	}
 
 	if err = d.Set("type", flattenFirewallIpTranslationType(o["type"], d, "type", sv)); err != nil {
 		if !fortiAPIPatch(o["type"]) {
-			return fmt.Errorf("Error reading type: %v", err)
+			return fmt.Errorf("error reading type: %v", err)
 		}
 	}
 
 	if err = d.Set("startip", flattenFirewallIpTranslationStartip(o["startip"], d, "startip", sv)); err != nil {
 		if !fortiAPIPatch(o["startip"]) {
-			return fmt.Errorf("Error reading startip: %v", err)
+			return fmt.Errorf("error reading startip: %v", err)
 		}
 	}
 
 	if err = d.Set("endip", flattenFirewallIpTranslationEndip(o["endip"], d, "endip", sv)); err != nil {
 		if !fortiAPIPatch(o["endip"]) {
-			return fmt.Errorf("Error reading endip: %v", err)
+			return fmt.Errorf("error reading endip: %v", err)
 		}
 	}
 
 	if err = d.Set("map_startip", flattenFirewallIpTranslationMapStartip(o["map-startip"], d, "map_startip", sv)); err != nil {
 		if !fortiAPIPatch(o["map-startip"]) {
-			return fmt.Errorf("Error reading map_startip: %v", err)
+			return fmt.Errorf("error reading map_startip: %v", err)
 		}
 	}
 

@@ -21,21 +21,21 @@ func dataSourceSystemHaMonitor() *schema.Resource {
 	return &schema.Resource{
 		Read: dataSourceSystemHaMonitorRead,
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
 
-			"monitor_vlan": &schema.Schema{
+			"monitor_vlan": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"vlan_hb_interval": &schema.Schema{
+			"vlan_hb_interval": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"vlan_hb_lost_threshold": &schema.Schema{
+			"vlan_hb_lost_threshold": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
@@ -57,9 +57,9 @@ func dataSourceSystemHaMonitorRead(d *schema.ResourceData, m interface{}) error 
 
 	mkey := "SystemHaMonitor"
 
-	o, err := c.ReadSystemHaMonitor(mkey, vdomparam)
+	o, err := c.ReadSystemHaMonitor(mkey, vdomparam, make(map[string][]string), 0)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemHaMonitor: %v", err)
+		return fmt.Errorf("error describing SystemHaMonitor: %v", err)
 	}
 
 	if o == nil {
@@ -69,7 +69,7 @@ func dataSourceSystemHaMonitorRead(d *schema.ResourceData, m interface{}) error 
 
 	err = dataSourceRefreshObjectSystemHaMonitor(d, o)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemHaMonitor from API: %v", err)
+		return fmt.Errorf("error describing SystemHaMonitor from API: %v", err)
 	}
 
 	d.SetId(mkey)
@@ -94,19 +94,19 @@ func dataSourceRefreshObjectSystemHaMonitor(d *schema.ResourceData, o map[string
 
 	if err = d.Set("monitor_vlan", dataSourceFlattenSystemHaMonitorMonitorVlan(o["monitor-vlan"], d, "monitor_vlan")); err != nil {
 		if !fortiAPIPatch(o["monitor-vlan"]) {
-			return fmt.Errorf("Error reading monitor_vlan: %v", err)
+			return fmt.Errorf("error reading monitor_vlan: %v", err)
 		}
 	}
 
 	if err = d.Set("vlan_hb_interval", dataSourceFlattenSystemHaMonitorVlanHbInterval(o["vlan-hb-interval"], d, "vlan_hb_interval")); err != nil {
 		if !fortiAPIPatch(o["vlan-hb-interval"]) {
-			return fmt.Errorf("Error reading vlan_hb_interval: %v", err)
+			return fmt.Errorf("error reading vlan_hb_interval: %v", err)
 		}
 	}
 
 	if err = d.Set("vlan_hb_lost_threshold", dataSourceFlattenSystemHaMonitorVlanHbLostThreshold(o["vlan-hb-lost-threshold"], d, "vlan_hb_lost_threshold")); err != nil {
 		if !fortiAPIPatch(o["vlan-hb-lost-threshold"]) {
-			return fmt.Errorf("Error reading vlan_hb_lost_threshold: %v", err)
+			return fmt.Errorf("error reading vlan_hb_lost_threshold: %v", err)
 		}
 	}
 

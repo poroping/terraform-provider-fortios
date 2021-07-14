@@ -30,43 +30,48 @@ func resourceSwitchControllerAutoConfigPolicy() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				ForceNew:     true,
 				Required:     true,
 			},
-			"qos_policy": &schema.Schema{
+			"qos_policy": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"storm_control_policy": &schema.Schema{
+			"storm_control_policy": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"poe_status": &schema.Schema{
+			"poe_status": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"igmp_flood_report": &schema.Schema{
+			"igmp_flood_report": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"igmp_flood_traffic": &schema.Schema{
+			"igmp_flood_traffic": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -84,15 +89,25 @@ func resourceSwitchControllerAutoConfigPolicyCreate(d *schema.ResourceData, m in
 		}
 	}
 
-	obj, err := getObjectSwitchControllerAutoConfigPolicy(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating SwitchControllerAutoConfigPolicy resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateSwitchControllerAutoConfigPolicy(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSwitchControllerAutoConfigPolicy(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating SwitchControllerAutoConfigPolicy resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateSwitchControllerAutoConfigPolicy(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating SwitchControllerAutoConfigPolicy resource: %v", err)
+		return fmt.Errorf("error creating SwitchControllerAutoConfigPolicy resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -117,14 +132,24 @@ func resourceSwitchControllerAutoConfigPolicyUpdate(d *schema.ResourceData, m in
 		}
 	}
 
-	obj, err := getObjectSwitchControllerAutoConfigPolicy(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SwitchControllerAutoConfigPolicy resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSwitchControllerAutoConfigPolicy(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSwitchControllerAutoConfigPolicy(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SwitchControllerAutoConfigPolicy resource: %v", err)
+		return fmt.Errorf("error updating SwitchControllerAutoConfigPolicy resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSwitchControllerAutoConfigPolicy(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SwitchControllerAutoConfigPolicy resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -151,9 +176,17 @@ func resourceSwitchControllerAutoConfigPolicyDelete(d *schema.ResourceData, m in
 		}
 	}
 
-	err := c.DeleteSwitchControllerAutoConfigPolicy(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSwitchControllerAutoConfigPolicy(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SwitchControllerAutoConfigPolicy resource: %v", err)
+		return fmt.Errorf("error deleting SwitchControllerAutoConfigPolicy resource: %v", err)
 	}
 
 	d.SetId("")
@@ -175,9 +208,19 @@ func resourceSwitchControllerAutoConfigPolicyRead(d *schema.ResourceData, m inte
 		}
 	}
 
-	o, err := c.ReadSwitchControllerAutoConfigPolicy(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSwitchControllerAutoConfigPolicy(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SwitchControllerAutoConfigPolicy resource: %v", err)
+		return fmt.Errorf("error reading SwitchControllerAutoConfigPolicy resource: %v", err)
 	}
 
 	if o == nil {
@@ -188,7 +231,7 @@ func resourceSwitchControllerAutoConfigPolicyRead(d *schema.ResourceData, m inte
 
 	err = refreshObjectSwitchControllerAutoConfigPolicy(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SwitchControllerAutoConfigPolicy resource from API: %v", err)
+		return fmt.Errorf("error reading SwitchControllerAutoConfigPolicy resource from API: %v", err)
 	}
 	return nil
 }
@@ -222,37 +265,37 @@ func refreshObjectSwitchControllerAutoConfigPolicy(d *schema.ResourceData, o map
 
 	if err = d.Set("name", flattenSwitchControllerAutoConfigPolicyName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("qos_policy", flattenSwitchControllerAutoConfigPolicyQosPolicy(o["qos-policy"], d, "qos_policy", sv)); err != nil {
 		if !fortiAPIPatch(o["qos-policy"]) {
-			return fmt.Errorf("Error reading qos_policy: %v", err)
+			return fmt.Errorf("error reading qos_policy: %v", err)
 		}
 	}
 
 	if err = d.Set("storm_control_policy", flattenSwitchControllerAutoConfigPolicyStormControlPolicy(o["storm-control-policy"], d, "storm_control_policy", sv)); err != nil {
 		if !fortiAPIPatch(o["storm-control-policy"]) {
-			return fmt.Errorf("Error reading storm_control_policy: %v", err)
+			return fmt.Errorf("error reading storm_control_policy: %v", err)
 		}
 	}
 
 	if err = d.Set("poe_status", flattenSwitchControllerAutoConfigPolicyPoeStatus(o["poe-status"], d, "poe_status", sv)); err != nil {
 		if !fortiAPIPatch(o["poe-status"]) {
-			return fmt.Errorf("Error reading poe_status: %v", err)
+			return fmt.Errorf("error reading poe_status: %v", err)
 		}
 	}
 
 	if err = d.Set("igmp_flood_report", flattenSwitchControllerAutoConfigPolicyIgmpFloodReport(o["igmp-flood-report"], d, "igmp_flood_report", sv)); err != nil {
 		if !fortiAPIPatch(o["igmp-flood-report"]) {
-			return fmt.Errorf("Error reading igmp_flood_report: %v", err)
+			return fmt.Errorf("error reading igmp_flood_report: %v", err)
 		}
 	}
 
 	if err = d.Set("igmp_flood_traffic", flattenSwitchControllerAutoConfigPolicyIgmpFloodTraffic(o["igmp-flood-traffic"], d, "igmp_flood_traffic", sv)); err != nil {
 		if !fortiAPIPatch(o["igmp-flood-traffic"]) {
-			return fmt.Errorf("Error reading igmp_flood_traffic: %v", err)
+			return fmt.Errorf("error reading igmp_flood_traffic: %v", err)
 		}
 	}
 

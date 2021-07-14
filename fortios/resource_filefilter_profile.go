@@ -30,91 +30,91 @@ func resourceFileFilterProfile() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"comment": &schema.Schema{
+			"comment": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
 			},
-			"feature_set": &schema.Schema{
+			"feature_set": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"replacemsg_group": &schema.Schema{
+			"replacemsg_group": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"log": &schema.Schema{
+			"log": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"extended_log": &schema.Schema{
+			"extended_log": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"scan_archive_contents": &schema.Schema{
+			"scan_archive_contents": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"rules": &schema.Schema{
+			"rules": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"comment": &schema.Schema{
+						"comment": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 255),
 							Optional:     true,
 						},
-						"protocol": &schema.Schema{
+						"protocol": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"action": &schema.Schema{
+						"action": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"direction": &schema.Schema{
+						"direction": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"password_protected": &schema.Schema{
+						"password_protected": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"file_type": &schema.Schema{
+						"file_type": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"name": &schema.Schema{
+									"name": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 39),
 										Optional:     true,
@@ -126,10 +126,15 @@ func resourceFileFilterProfile() *schema.Resource {
 					},
 				},
 			},
-			"dynamic_sort_subtable": &schema.Schema{
-				Type:     schema.TypeString,
+			"dynamic_sort_subtable": {
+				Type:     schema.TypeBool,
 				Optional: true,
-				Default:  "false",
+				Default:  false,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -147,15 +152,25 @@ func resourceFileFilterProfileCreate(d *schema.ResourceData, m interface{}) erro
 		}
 	}
 
-	obj, err := getObjectFileFilterProfile(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating FileFilterProfile resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateFileFilterProfile(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectFileFilterProfile(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating FileFilterProfile resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateFileFilterProfile(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating FileFilterProfile resource: %v", err)
+		return fmt.Errorf("error creating FileFilterProfile resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -180,14 +195,24 @@ func resourceFileFilterProfileUpdate(d *schema.ResourceData, m interface{}) erro
 		}
 	}
 
-	obj, err := getObjectFileFilterProfile(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating FileFilterProfile resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateFileFilterProfile(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectFileFilterProfile(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating FileFilterProfile resource: %v", err)
+		return fmt.Errorf("error updating FileFilterProfile resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateFileFilterProfile(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating FileFilterProfile resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -214,9 +239,17 @@ func resourceFileFilterProfileDelete(d *schema.ResourceData, m interface{}) erro
 		}
 	}
 
-	err := c.DeleteFileFilterProfile(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteFileFilterProfile(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting FileFilterProfile resource: %v", err)
+		return fmt.Errorf("error deleting FileFilterProfile resource: %v", err)
 	}
 
 	d.SetId("")
@@ -238,9 +271,19 @@ func resourceFileFilterProfileRead(d *schema.ResourceData, m interface{}) error 
 		}
 	}
 
-	o, err := c.ReadFileFilterProfile(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadFileFilterProfile(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading FileFilterProfile resource: %v", err)
+		return fmt.Errorf("error reading FileFilterProfile resource: %v", err)
 	}
 
 	if o == nil {
@@ -251,7 +294,7 @@ func resourceFileFilterProfileRead(d *schema.ResourceData, m interface{}) error 
 
 	err = refreshObjectFileFilterProfile(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading FileFilterProfile resource from API: %v", err)
+		return fmt.Errorf("error reading FileFilterProfile resource from API: %v", err)
 	}
 	return nil
 }
@@ -420,57 +463,57 @@ func refreshObjectFileFilterProfile(d *schema.ResourceData, o map[string]interfa
 
 	if err = d.Set("name", flattenFileFilterProfileName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("comment", flattenFileFilterProfileComment(o["comment"], d, "comment", sv)); err != nil {
 		if !fortiAPIPatch(o["comment"]) {
-			return fmt.Errorf("Error reading comment: %v", err)
+			return fmt.Errorf("error reading comment: %v", err)
 		}
 	}
 
 	if err = d.Set("feature_set", flattenFileFilterProfileFeatureSet(o["feature-set"], d, "feature_set", sv)); err != nil {
 		if !fortiAPIPatch(o["feature-set"]) {
-			return fmt.Errorf("Error reading feature_set: %v", err)
+			return fmt.Errorf("error reading feature_set: %v", err)
 		}
 	}
 
 	if err = d.Set("replacemsg_group", flattenFileFilterProfileReplacemsgGroup(o["replacemsg-group"], d, "replacemsg_group", sv)); err != nil {
 		if !fortiAPIPatch(o["replacemsg-group"]) {
-			return fmt.Errorf("Error reading replacemsg_group: %v", err)
+			return fmt.Errorf("error reading replacemsg_group: %v", err)
 		}
 	}
 
 	if err = d.Set("log", flattenFileFilterProfileLog(o["log"], d, "log", sv)); err != nil {
 		if !fortiAPIPatch(o["log"]) {
-			return fmt.Errorf("Error reading log: %v", err)
+			return fmt.Errorf("error reading log: %v", err)
 		}
 	}
 
 	if err = d.Set("extended_log", flattenFileFilterProfileExtendedLog(o["extended-log"], d, "extended_log", sv)); err != nil {
 		if !fortiAPIPatch(o["extended-log"]) {
-			return fmt.Errorf("Error reading extended_log: %v", err)
+			return fmt.Errorf("error reading extended_log: %v", err)
 		}
 	}
 
 	if err = d.Set("scan_archive_contents", flattenFileFilterProfileScanArchiveContents(o["scan-archive-contents"], d, "scan_archive_contents", sv)); err != nil {
 		if !fortiAPIPatch(o["scan-archive-contents"]) {
-			return fmt.Errorf("Error reading scan_archive_contents: %v", err)
+			return fmt.Errorf("error reading scan_archive_contents: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("rules", flattenFileFilterProfileRules(o["rules"], d, "rules", sv)); err != nil {
 			if !fortiAPIPatch(o["rules"]) {
-				return fmt.Errorf("Error reading rules: %v", err)
+				return fmt.Errorf("error reading rules: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("rules"); ok {
 			if err = d.Set("rules", flattenFileFilterProfileRules(o["rules"], d, "rules", sv)); err != nil {
 				if !fortiAPIPatch(o["rules"]) {
-					return fmt.Errorf("Error reading rules: %v", err)
+					return fmt.Errorf("error reading rules: %v", err)
 				}
 			}
 		}

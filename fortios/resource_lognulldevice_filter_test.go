@@ -59,14 +59,14 @@ func testAccCheckFortiOSLogNullDeviceFilterExists(n string) resource.TestCheckFu
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadLogNullDeviceFilter(i, "root")
+		o, err := c.ReadLogNullDeviceFilter(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading LogNullDeviceFilter: %s", err)
+			return fmt.Errorf("error reading LogNullDeviceFilter: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating LogNullDeviceFilter: %s", n)
+			return fmt.Errorf("error creating LogNullDeviceFilter: %s", n)
 		}
 
 		return nil
@@ -82,11 +82,11 @@ func testAccCheckLogNullDeviceFilterDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadLogNullDeviceFilter(i, "root")
+		o, err := c.ReadLogNullDeviceFilter(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error LogNullDeviceFilter %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error LogNullDeviceFilter %s still exists", rs.Primary.ID)
 			}
 		}
 

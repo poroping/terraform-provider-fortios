@@ -30,32 +30,37 @@ func resourceSystemIpv6Tunnel() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 15),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"source": &schema.Schema{
+			"source": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"destination": &schema.Schema{
+			"destination": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"interface": &schema.Schema{
+			"interface": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 15),
 				Optional:     true,
 				Computed:     true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -73,15 +78,25 @@ func resourceSystemIpv6TunnelCreate(d *schema.ResourceData, m interface{}) error
 		}
 	}
 
-	obj, err := getObjectSystemIpv6Tunnel(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating SystemIpv6Tunnel resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateSystemIpv6Tunnel(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemIpv6Tunnel(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating SystemIpv6Tunnel resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateSystemIpv6Tunnel(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating SystemIpv6Tunnel resource: %v", err)
+		return fmt.Errorf("error creating SystemIpv6Tunnel resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -106,14 +121,24 @@ func resourceSystemIpv6TunnelUpdate(d *schema.ResourceData, m interface{}) error
 		}
 	}
 
-	obj, err := getObjectSystemIpv6Tunnel(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SystemIpv6Tunnel resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSystemIpv6Tunnel(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemIpv6Tunnel(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SystemIpv6Tunnel resource: %v", err)
+		return fmt.Errorf("error updating SystemIpv6Tunnel resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSystemIpv6Tunnel(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SystemIpv6Tunnel resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -140,9 +165,17 @@ func resourceSystemIpv6TunnelDelete(d *schema.ResourceData, m interface{}) error
 		}
 	}
 
-	err := c.DeleteSystemIpv6Tunnel(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSystemIpv6Tunnel(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SystemIpv6Tunnel resource: %v", err)
+		return fmt.Errorf("error deleting SystemIpv6Tunnel resource: %v", err)
 	}
 
 	d.SetId("")
@@ -164,9 +197,19 @@ func resourceSystemIpv6TunnelRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadSystemIpv6Tunnel(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSystemIpv6Tunnel(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemIpv6Tunnel resource: %v", err)
+		return fmt.Errorf("error reading SystemIpv6Tunnel resource: %v", err)
 	}
 
 	if o == nil {
@@ -177,7 +220,7 @@ func resourceSystemIpv6TunnelRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectSystemIpv6Tunnel(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemIpv6Tunnel resource from API: %v", err)
+		return fmt.Errorf("error reading SystemIpv6Tunnel resource from API: %v", err)
 	}
 	return nil
 }
@@ -203,25 +246,25 @@ func refreshObjectSystemIpv6Tunnel(d *schema.ResourceData, o map[string]interfac
 
 	if err = d.Set("name", flattenSystemIpv6TunnelName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("source", flattenSystemIpv6TunnelSource(o["source"], d, "source", sv)); err != nil {
 		if !fortiAPIPatch(o["source"]) {
-			return fmt.Errorf("Error reading source: %v", err)
+			return fmt.Errorf("error reading source: %v", err)
 		}
 	}
 
 	if err = d.Set("destination", flattenSystemIpv6TunnelDestination(o["destination"], d, "destination", sv)); err != nil {
 		if !fortiAPIPatch(o["destination"]) {
-			return fmt.Errorf("Error reading destination: %v", err)
+			return fmt.Errorf("error reading destination: %v", err)
 		}
 	}
 
 	if err = d.Set("interface", flattenSystemIpv6TunnelInterface(o["interface"], d, "interface", sv)); err != nil {
 		if !fortiAPIPatch(o["interface"]) {
-			return fmt.Errorf("Error reading interface: %v", err)
+			return fmt.Errorf("error reading interface: %v", err)
 		}
 	}
 

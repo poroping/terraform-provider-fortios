@@ -30,21 +30,26 @@ func resourceNsxtSetting() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"liveness": &schema.Schema{
+			"liveness": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"service": &schema.Schema{
+			"service": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -63,14 +68,24 @@ func resourceNsxtSettingUpdate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectNsxtSetting(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating NsxtSetting resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateNsxtSetting(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectNsxtSetting(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating NsxtSetting resource: %v", err)
+		return fmt.Errorf("error updating NsxtSetting resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateNsxtSetting(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating NsxtSetting resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -97,9 +112,17 @@ func resourceNsxtSettingDelete(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	err := c.DeleteNsxtSetting(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteNsxtSetting(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting NsxtSetting resource: %v", err)
+		return fmt.Errorf("error deleting NsxtSetting resource: %v", err)
 	}
 
 	d.SetId("")
@@ -121,9 +144,19 @@ func resourceNsxtSettingRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadNsxtSetting(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadNsxtSetting(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading NsxtSetting resource: %v", err)
+		return fmt.Errorf("error reading NsxtSetting resource: %v", err)
 	}
 
 	if o == nil {
@@ -134,7 +167,7 @@ func resourceNsxtSettingRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectNsxtSetting(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading NsxtSetting resource from API: %v", err)
+		return fmt.Errorf("error reading NsxtSetting resource from API: %v", err)
 	}
 	return nil
 }
@@ -152,13 +185,13 @@ func refreshObjectNsxtSetting(d *schema.ResourceData, o map[string]interface{}, 
 
 	if err = d.Set("liveness", flattenNsxtSettingLiveness(o["liveness"], d, "liveness", sv)); err != nil {
 		if !fortiAPIPatch(o["liveness"]) {
-			return fmt.Errorf("Error reading liveness: %v", err)
+			return fmt.Errorf("error reading liveness: %v", err)
 		}
 	}
 
 	if err = d.Set("service", flattenNsxtSettingService(o["service"], d, "service", sv)); err != nil {
 		if !fortiAPIPatch(o["service"]) {
-			return fmt.Errorf("Error reading service: %v", err)
+			return fmt.Errorf("error reading service: %v", err)
 		}
 	}
 

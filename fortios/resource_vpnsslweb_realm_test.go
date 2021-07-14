@@ -52,14 +52,14 @@ func testAccCheckFortiOSVpnSslWebRealmExists(n string) resource.TestCheckFunc {
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadVpnSslWebRealm(i, "root")
+		o, err := c.ReadVpnSslWebRealm(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading VpnSslWebRealm: %s", err)
+			return fmt.Errorf("error reading VpnSslWebRealm: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating VpnSslWebRealm: %s", n)
+			return fmt.Errorf("error creating VpnSslWebRealm: %s", n)
 		}
 
 		return nil
@@ -75,11 +75,11 @@ func testAccCheckVpnSslWebRealmDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadVpnSslWebRealm(i, "root")
+		o, err := c.ReadVpnSslWebRealm(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error VpnSslWebRealm %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error VpnSslWebRealm %s still exists", rs.Primary.ID)
 			}
 		}
 

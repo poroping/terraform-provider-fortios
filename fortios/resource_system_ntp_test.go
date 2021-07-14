@@ -54,14 +54,14 @@ func testAccCheckFortiOSSystemNtpExists(n string) resource.TestCheckFunc {
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemNtp(i, "root")
+		o, err := c.ReadSystemNtp(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading SystemNtp: %s", err)
+			return fmt.Errorf("error reading SystemNtp: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating SystemNtp: %s", n)
+			return fmt.Errorf("error creating SystemNtp: %s", n)
 		}
 
 		return nil
@@ -77,11 +77,11 @@ func testAccCheckSystemNtpDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemNtp(i, "root")
+		o, err := c.ReadSystemNtp(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error SystemNtp %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error SystemNtp %s still exists", rs.Primary.ID)
 			}
 		}
 

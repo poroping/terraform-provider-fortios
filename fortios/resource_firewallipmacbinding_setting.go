@@ -30,25 +30,30 @@ func resourceFirewallIpmacbindingSetting() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"bindthroughfw": &schema.Schema{
+			"bindthroughfw": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"bindtofw": &schema.Schema{
+			"bindtofw": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"undefinedhost": &schema.Schema{
+			"undefinedhost": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -67,14 +72,24 @@ func resourceFirewallIpmacbindingSettingUpdate(d *schema.ResourceData, m interfa
 		}
 	}
 
-	obj, err := getObjectFirewallIpmacbindingSetting(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating FirewallIpmacbindingSetting resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateFirewallIpmacbindingSetting(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectFirewallIpmacbindingSetting(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating FirewallIpmacbindingSetting resource: %v", err)
+		return fmt.Errorf("error updating FirewallIpmacbindingSetting resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateFirewallIpmacbindingSetting(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating FirewallIpmacbindingSetting resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -101,9 +116,17 @@ func resourceFirewallIpmacbindingSettingDelete(d *schema.ResourceData, m interfa
 		}
 	}
 
-	err := c.DeleteFirewallIpmacbindingSetting(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteFirewallIpmacbindingSetting(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting FirewallIpmacbindingSetting resource: %v", err)
+		return fmt.Errorf("error deleting FirewallIpmacbindingSetting resource: %v", err)
 	}
 
 	d.SetId("")
@@ -125,9 +148,19 @@ func resourceFirewallIpmacbindingSettingRead(d *schema.ResourceData, m interface
 		}
 	}
 
-	o, err := c.ReadFirewallIpmacbindingSetting(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadFirewallIpmacbindingSetting(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading FirewallIpmacbindingSetting resource: %v", err)
+		return fmt.Errorf("error reading FirewallIpmacbindingSetting resource: %v", err)
 	}
 
 	if o == nil {
@@ -138,7 +171,7 @@ func resourceFirewallIpmacbindingSettingRead(d *schema.ResourceData, m interface
 
 	err = refreshObjectFirewallIpmacbindingSetting(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading FirewallIpmacbindingSetting resource from API: %v", err)
+		return fmt.Errorf("error reading FirewallIpmacbindingSetting resource from API: %v", err)
 	}
 	return nil
 }
@@ -160,19 +193,19 @@ func refreshObjectFirewallIpmacbindingSetting(d *schema.ResourceData, o map[stri
 
 	if err = d.Set("bindthroughfw", flattenFirewallIpmacbindingSettingBindthroughfw(o["bindthroughfw"], d, "bindthroughfw", sv)); err != nil {
 		if !fortiAPIPatch(o["bindthroughfw"]) {
-			return fmt.Errorf("Error reading bindthroughfw: %v", err)
+			return fmt.Errorf("error reading bindthroughfw: %v", err)
 		}
 	}
 
 	if err = d.Set("bindtofw", flattenFirewallIpmacbindingSettingBindtofw(o["bindtofw"], d, "bindtofw", sv)); err != nil {
 		if !fortiAPIPatch(o["bindtofw"]) {
-			return fmt.Errorf("Error reading bindtofw: %v", err)
+			return fmt.Errorf("error reading bindtofw: %v", err)
 		}
 	}
 
 	if err = d.Set("undefinedhost", flattenFirewallIpmacbindingSettingUndefinedhost(o["undefinedhost"], d, "undefinedhost", sv)); err != nil {
 		if !fortiAPIPatch(o["undefinedhost"]) {
-			return fmt.Errorf("Error reading undefinedhost: %v", err)
+			return fmt.Errorf("error reading undefinedhost: %v", err)
 		}
 	}
 

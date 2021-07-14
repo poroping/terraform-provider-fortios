@@ -56,14 +56,14 @@ func testAccCheckFortiOSSystemAutomationTriggerExists(n string) resource.TestChe
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemAutomationTrigger(i, "root")
+		o, err := c.ReadSystemAutomationTrigger(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading SystemAutomationTrigger: %s", err)
+			return fmt.Errorf("error reading SystemAutomationTrigger: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating SystemAutomationTrigger: %s", n)
+			return fmt.Errorf("error creating SystemAutomationTrigger: %s", n)
 		}
 
 		return nil
@@ -79,11 +79,11 @@ func testAccCheckSystemAutomationTriggerDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemAutomationTrigger(i, "root")
+		o, err := c.ReadSystemAutomationTrigger(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error SystemAutomationTrigger %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error SystemAutomationTrigger %s still exists", rs.Primary.ID)
 			}
 		}
 

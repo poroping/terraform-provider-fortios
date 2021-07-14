@@ -21,25 +21,25 @@ func dataSourceSystemFtmPush() *schema.Resource {
 	return &schema.Resource{
 		Read: dataSourceSystemFtmPushRead,
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
 
-			"server_port": &schema.Schema{
+			"server_port": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"server_cert": &schema.Schema{
+			"server_cert": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"server_ip": &schema.Schema{
+			"server_ip": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"status": &schema.Schema{
+			"status": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -61,9 +61,9 @@ func dataSourceSystemFtmPushRead(d *schema.ResourceData, m interface{}) error {
 
 	mkey := "SystemFtmPush"
 
-	o, err := c.ReadSystemFtmPush(mkey, vdomparam)
+	o, err := c.ReadSystemFtmPush(mkey, vdomparam, make(map[string][]string), 0)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemFtmPush: %v", err)
+		return fmt.Errorf("error describing SystemFtmPush: %v", err)
 	}
 
 	if o == nil {
@@ -73,7 +73,7 @@ func dataSourceSystemFtmPushRead(d *schema.ResourceData, m interface{}) error {
 
 	err = dataSourceRefreshObjectSystemFtmPush(d, o)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemFtmPush from API: %v", err)
+		return fmt.Errorf("error describing SystemFtmPush from API: %v", err)
 	}
 
 	d.SetId(mkey)
@@ -102,25 +102,25 @@ func dataSourceRefreshObjectSystemFtmPush(d *schema.ResourceData, o map[string]i
 
 	if err = d.Set("server_port", dataSourceFlattenSystemFtmPushServerPort(o["server-port"], d, "server_port")); err != nil {
 		if !fortiAPIPatch(o["server-port"]) {
-			return fmt.Errorf("Error reading server_port: %v", err)
+			return fmt.Errorf("error reading server_port: %v", err)
 		}
 	}
 
 	if err = d.Set("server_cert", dataSourceFlattenSystemFtmPushServerCert(o["server-cert"], d, "server_cert")); err != nil {
 		if !fortiAPIPatch(o["server-cert"]) {
-			return fmt.Errorf("Error reading server_cert: %v", err)
+			return fmt.Errorf("error reading server_cert: %v", err)
 		}
 	}
 
 	if err = d.Set("server_ip", dataSourceFlattenSystemFtmPushServerIp(o["server-ip"], d, "server_ip")); err != nil {
 		if !fortiAPIPatch(o["server-ip"]) {
-			return fmt.Errorf("Error reading server_ip: %v", err)
+			return fmt.Errorf("error reading server_ip: %v", err)
 		}
 	}
 
 	if err = d.Set("status", dataSourceFlattenSystemFtmPushStatus(o["status"], d, "status")); err != nil {
 		if !fortiAPIPatch(o["status"]) {
-			return fmt.Errorf("Error reading status: %v", err)
+			return fmt.Errorf("error reading status: %v", err)
 		}
 	}
 

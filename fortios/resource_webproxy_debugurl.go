@@ -30,32 +30,37 @@ func resourceWebProxyDebugUrl() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"url_pattern": &schema.Schema{
+			"url_pattern": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 511),
 				Required:     true,
 			},
-			"status": &schema.Schema{
+			"status": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"exact": &schema.Schema{
+			"exact": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -73,15 +78,25 @@ func resourceWebProxyDebugUrlCreate(d *schema.ResourceData, m interface{}) error
 		}
 	}
 
-	obj, err := getObjectWebProxyDebugUrl(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating WebProxyDebugUrl resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateWebProxyDebugUrl(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectWebProxyDebugUrl(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating WebProxyDebugUrl resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateWebProxyDebugUrl(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating WebProxyDebugUrl resource: %v", err)
+		return fmt.Errorf("error creating WebProxyDebugUrl resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -106,14 +121,24 @@ func resourceWebProxyDebugUrlUpdate(d *schema.ResourceData, m interface{}) error
 		}
 	}
 
-	obj, err := getObjectWebProxyDebugUrl(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating WebProxyDebugUrl resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateWebProxyDebugUrl(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectWebProxyDebugUrl(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating WebProxyDebugUrl resource: %v", err)
+		return fmt.Errorf("error updating WebProxyDebugUrl resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateWebProxyDebugUrl(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating WebProxyDebugUrl resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -140,9 +165,17 @@ func resourceWebProxyDebugUrlDelete(d *schema.ResourceData, m interface{}) error
 		}
 	}
 
-	err := c.DeleteWebProxyDebugUrl(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteWebProxyDebugUrl(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting WebProxyDebugUrl resource: %v", err)
+		return fmt.Errorf("error deleting WebProxyDebugUrl resource: %v", err)
 	}
 
 	d.SetId("")
@@ -164,9 +197,19 @@ func resourceWebProxyDebugUrlRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadWebProxyDebugUrl(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadWebProxyDebugUrl(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading WebProxyDebugUrl resource: %v", err)
+		return fmt.Errorf("error reading WebProxyDebugUrl resource: %v", err)
 	}
 
 	if o == nil {
@@ -177,7 +220,7 @@ func resourceWebProxyDebugUrlRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectWebProxyDebugUrl(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading WebProxyDebugUrl resource from API: %v", err)
+		return fmt.Errorf("error reading WebProxyDebugUrl resource from API: %v", err)
 	}
 	return nil
 }
@@ -203,25 +246,25 @@ func refreshObjectWebProxyDebugUrl(d *schema.ResourceData, o map[string]interfac
 
 	if err = d.Set("name", flattenWebProxyDebugUrlName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("url_pattern", flattenWebProxyDebugUrlUrlPattern(o["url-pattern"], d, "url_pattern", sv)); err != nil {
 		if !fortiAPIPatch(o["url-pattern"]) {
-			return fmt.Errorf("Error reading url_pattern: %v", err)
+			return fmt.Errorf("error reading url_pattern: %v", err)
 		}
 	}
 
 	if err = d.Set("status", flattenWebProxyDebugUrlStatus(o["status"], d, "status", sv)); err != nil {
 		if !fortiAPIPatch(o["status"]) {
-			return fmt.Errorf("Error reading status: %v", err)
+			return fmt.Errorf("error reading status: %v", err)
 		}
 	}
 
 	if err = d.Set("exact", flattenWebProxyDebugUrlExact(o["exact"], d, "exact", sv)); err != nil {
 		if !fortiAPIPatch(o["exact"]) {
-			return fmt.Errorf("Error reading exact: %v", err)
+			return fmt.Errorf("error reading exact: %v", err)
 		}
 	}
 

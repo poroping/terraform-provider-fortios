@@ -59,14 +59,14 @@ func testAccCheckFortiOSFirewallAddress6TemplateExists(n string) resource.TestCh
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadFirewallAddress6Template(i, "root")
+		o, err := c.ReadFirewallAddress6Template(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading FirewallAddress6Template: %s", err)
+			return fmt.Errorf("error reading FirewallAddress6Template: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating FirewallAddress6Template: %s", n)
+			return fmt.Errorf("error creating FirewallAddress6Template: %s", n)
 		}
 
 		return nil
@@ -82,11 +82,11 @@ func testAccCheckFirewallAddress6TemplateDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadFirewallAddress6Template(i, "root")
+		o, err := c.ReadFirewallAddress6Template(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error FirewallAddress6Template %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error FirewallAddress6Template %s still exists", rs.Primary.ID)
 			}
 		}
 

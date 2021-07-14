@@ -50,14 +50,14 @@ func testAccCheckFortiOSWanoptPeerExists(n string) resource.TestCheckFunc {
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadWanoptPeer(i, "root")
+		o, err := c.ReadWanoptPeer(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading WanoptPeer: %s", err)
+			return fmt.Errorf("error reading WanoptPeer: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating WanoptPeer: %s", n)
+			return fmt.Errorf("error creating WanoptPeer: %s", n)
 		}
 
 		return nil
@@ -73,11 +73,11 @@ func testAccCheckWanoptPeerDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadWanoptPeer(i, "root")
+		o, err := c.ReadWanoptPeer(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error WanoptPeer %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error WanoptPeer %s still exists", rs.Primary.ID)
 			}
 		}
 

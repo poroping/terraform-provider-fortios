@@ -30,15 +30,20 @@ func resourceAntivirusHeuristic() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"mode": &schema.Schema{
+			"mode": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -57,14 +62,24 @@ func resourceAntivirusHeuristicUpdate(d *schema.ResourceData, m interface{}) err
 		}
 	}
 
-	obj, err := getObjectAntivirusHeuristic(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating AntivirusHeuristic resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateAntivirusHeuristic(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectAntivirusHeuristic(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating AntivirusHeuristic resource: %v", err)
+		return fmt.Errorf("error updating AntivirusHeuristic resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateAntivirusHeuristic(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating AntivirusHeuristic resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -91,9 +106,17 @@ func resourceAntivirusHeuristicDelete(d *schema.ResourceData, m interface{}) err
 		}
 	}
 
-	err := c.DeleteAntivirusHeuristic(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteAntivirusHeuristic(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting AntivirusHeuristic resource: %v", err)
+		return fmt.Errorf("error deleting AntivirusHeuristic resource: %v", err)
 	}
 
 	d.SetId("")
@@ -115,9 +138,19 @@ func resourceAntivirusHeuristicRead(d *schema.ResourceData, m interface{}) error
 		}
 	}
 
-	o, err := c.ReadAntivirusHeuristic(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadAntivirusHeuristic(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading AntivirusHeuristic resource: %v", err)
+		return fmt.Errorf("error reading AntivirusHeuristic resource: %v", err)
 	}
 
 	if o == nil {
@@ -128,7 +161,7 @@ func resourceAntivirusHeuristicRead(d *schema.ResourceData, m interface{}) error
 
 	err = refreshObjectAntivirusHeuristic(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading AntivirusHeuristic resource from API: %v", err)
+		return fmt.Errorf("error reading AntivirusHeuristic resource from API: %v", err)
 	}
 	return nil
 }
@@ -142,7 +175,7 @@ func refreshObjectAntivirusHeuristic(d *schema.ResourceData, o map[string]interf
 
 	if err = d.Set("mode", flattenAntivirusHeuristicMode(o["mode"], d, "mode", sv)); err != nil {
 		if !fortiAPIPatch(o["mode"]) {
-			return fmt.Errorf("Error reading mode: %v", err)
+			return fmt.Errorf("error reading mode: %v", err)
 		}
 	}
 

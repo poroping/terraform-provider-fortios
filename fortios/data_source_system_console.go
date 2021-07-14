@@ -21,25 +21,25 @@ func dataSourceSystemConsole() *schema.Resource {
 	return &schema.Resource{
 		Read: dataSourceSystemConsoleRead,
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
 
-			"mode": &schema.Schema{
+			"mode": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"baudrate": &schema.Schema{
+			"baudrate": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"output": &schema.Schema{
+			"output": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"login": &schema.Schema{
+			"login": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -61,9 +61,9 @@ func dataSourceSystemConsoleRead(d *schema.ResourceData, m interface{}) error {
 
 	mkey := "SystemConsole"
 
-	o, err := c.ReadSystemConsole(mkey, vdomparam)
+	o, err := c.ReadSystemConsole(mkey, vdomparam, make(map[string][]string), 0)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemConsole: %v", err)
+		return fmt.Errorf("error describing SystemConsole: %v", err)
 	}
 
 	if o == nil {
@@ -73,7 +73,7 @@ func dataSourceSystemConsoleRead(d *schema.ResourceData, m interface{}) error {
 
 	err = dataSourceRefreshObjectSystemConsole(d, o)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemConsole from API: %v", err)
+		return fmt.Errorf("error describing SystemConsole from API: %v", err)
 	}
 
 	d.SetId(mkey)
@@ -102,25 +102,25 @@ func dataSourceRefreshObjectSystemConsole(d *schema.ResourceData, o map[string]i
 
 	if err = d.Set("mode", dataSourceFlattenSystemConsoleMode(o["mode"], d, "mode")); err != nil {
 		if !fortiAPIPatch(o["mode"]) {
-			return fmt.Errorf("Error reading mode: %v", err)
+			return fmt.Errorf("error reading mode: %v", err)
 		}
 	}
 
 	if err = d.Set("baudrate", dataSourceFlattenSystemConsoleBaudrate(o["baudrate"], d, "baudrate")); err != nil {
 		if !fortiAPIPatch(o["baudrate"]) {
-			return fmt.Errorf("Error reading baudrate: %v", err)
+			return fmt.Errorf("error reading baudrate: %v", err)
 		}
 	}
 
 	if err = d.Set("output", dataSourceFlattenSystemConsoleOutput(o["output"], d, "output")); err != nil {
 		if !fortiAPIPatch(o["output"]) {
-			return fmt.Errorf("Error reading output: %v", err)
+			return fmt.Errorf("error reading output: %v", err)
 		}
 	}
 
 	if err = d.Set("login", dataSourceFlattenSystemConsoleLogin(o["login"], d, "login")); err != nil {
 		if !fortiAPIPatch(o["login"]) {
-			return fmt.Errorf("Error reading login: %v", err)
+			return fmt.Errorf("error reading login: %v", err)
 		}
 	}
 

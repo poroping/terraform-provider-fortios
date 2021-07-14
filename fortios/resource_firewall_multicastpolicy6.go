@@ -30,49 +30,49 @@ func resourceFirewallMulticastPolicy6() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"fosid": &schema.Schema{
+			"fosid": {
 				Type:     schema.TypeInt,
 				ForceNew: true,
 				Optional: true,
 				Computed: true,
 			},
-			"status": &schema.Schema{
+			"status": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"logtraffic": &schema.Schema{
+			"logtraffic": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"srcintf": &schema.Schema{
+			"srcintf": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Required:     true,
 			},
-			"dstintf": &schema.Schema{
+			"dstintf": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Required:     true,
 			},
-			"srcaddr": &schema.Schema{
+			"srcaddr": {
 				Type:     schema.TypeList,
 				Required: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 79),
 							Optional:     true,
@@ -81,12 +81,12 @@ func resourceFirewallMulticastPolicy6() *schema.Resource {
 					},
 				},
 			},
-			"dstaddr": &schema.Schema{
+			"dstaddr": {
 				Type:     schema.TypeList,
 				Required: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 79),
 							Optional:     true,
@@ -95,43 +95,48 @@ func resourceFirewallMulticastPolicy6() *schema.Resource {
 					},
 				},
 			},
-			"action": &schema.Schema{
+			"action": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"protocol": &schema.Schema{
+			"protocol": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 255),
 				Optional:     true,
 				Computed:     true,
 			},
-			"start_port": &schema.Schema{
+			"start_port": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"end_port": &schema.Schema{
+			"end_port": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"auto_asic_offload": &schema.Schema{
+			"auto_asic_offload": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"comments": &schema.Schema{
+			"comments": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 1023),
 				Optional:     true,
 			},
-			"dynamic_sort_subtable": &schema.Schema{
-				Type:     schema.TypeString,
+			"dynamic_sort_subtable": {
+				Type:     schema.TypeBool,
 				Optional: true,
-				Default:  "false",
+				Default:  false,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -149,15 +154,25 @@ func resourceFirewallMulticastPolicy6Create(d *schema.ResourceData, m interface{
 		}
 	}
 
-	obj, err := getObjectFirewallMulticastPolicy6(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating FirewallMulticastPolicy6 resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateFirewallMulticastPolicy6(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectFirewallMulticastPolicy6(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating FirewallMulticastPolicy6 resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateFirewallMulticastPolicy6(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating FirewallMulticastPolicy6 resource: %v", err)
+		return fmt.Errorf("error creating FirewallMulticastPolicy6 resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -182,14 +197,24 @@ func resourceFirewallMulticastPolicy6Update(d *schema.ResourceData, m interface{
 		}
 	}
 
-	obj, err := getObjectFirewallMulticastPolicy6(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating FirewallMulticastPolicy6 resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateFirewallMulticastPolicy6(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectFirewallMulticastPolicy6(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating FirewallMulticastPolicy6 resource: %v", err)
+		return fmt.Errorf("error updating FirewallMulticastPolicy6 resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateFirewallMulticastPolicy6(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating FirewallMulticastPolicy6 resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -216,9 +241,17 @@ func resourceFirewallMulticastPolicy6Delete(d *schema.ResourceData, m interface{
 		}
 	}
 
-	err := c.DeleteFirewallMulticastPolicy6(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteFirewallMulticastPolicy6(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting FirewallMulticastPolicy6 resource: %v", err)
+		return fmt.Errorf("error deleting FirewallMulticastPolicy6 resource: %v", err)
 	}
 
 	d.SetId("")
@@ -240,9 +273,19 @@ func resourceFirewallMulticastPolicy6Read(d *schema.ResourceData, m interface{})
 		}
 	}
 
-	o, err := c.ReadFirewallMulticastPolicy6(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadFirewallMulticastPolicy6(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading FirewallMulticastPolicy6 resource: %v", err)
+		return fmt.Errorf("error reading FirewallMulticastPolicy6 resource: %v", err)
 	}
 
 	if o == nil {
@@ -253,7 +296,7 @@ func resourceFirewallMulticastPolicy6Read(d *schema.ResourceData, m interface{})
 
 	err = refreshObjectFirewallMulticastPolicy6(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading FirewallMulticastPolicy6 resource from API: %v", err)
+		return fmt.Errorf("error reading FirewallMulticastPolicy6 resource from API: %v", err)
 	}
 	return nil
 }
@@ -387,51 +430,51 @@ func refreshObjectFirewallMulticastPolicy6(d *schema.ResourceData, o map[string]
 
 	if err = d.Set("fosid", flattenFirewallMulticastPolicy6Id(o["id"], d, "fosid", sv)); err != nil {
 		if !fortiAPIPatch(o["id"]) {
-			return fmt.Errorf("Error reading fosid: %v", err)
+			return fmt.Errorf("error reading fosid: %v", err)
 		}
 	}
 
 	if err = d.Set("status", flattenFirewallMulticastPolicy6Status(o["status"], d, "status", sv)); err != nil {
 		if !fortiAPIPatch(o["status"]) {
-			return fmt.Errorf("Error reading status: %v", err)
+			return fmt.Errorf("error reading status: %v", err)
 		}
 	}
 
 	if err = d.Set("name", flattenFirewallMulticastPolicy6Name(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("logtraffic", flattenFirewallMulticastPolicy6Logtraffic(o["logtraffic"], d, "logtraffic", sv)); err != nil {
 		if !fortiAPIPatch(o["logtraffic"]) {
-			return fmt.Errorf("Error reading logtraffic: %v", err)
+			return fmt.Errorf("error reading logtraffic: %v", err)
 		}
 	}
 
 	if err = d.Set("srcintf", flattenFirewallMulticastPolicy6Srcintf(o["srcintf"], d, "srcintf", sv)); err != nil {
 		if !fortiAPIPatch(o["srcintf"]) {
-			return fmt.Errorf("Error reading srcintf: %v", err)
+			return fmt.Errorf("error reading srcintf: %v", err)
 		}
 	}
 
 	if err = d.Set("dstintf", flattenFirewallMulticastPolicy6Dstintf(o["dstintf"], d, "dstintf", sv)); err != nil {
 		if !fortiAPIPatch(o["dstintf"]) {
-			return fmt.Errorf("Error reading dstintf: %v", err)
+			return fmt.Errorf("error reading dstintf: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("srcaddr", flattenFirewallMulticastPolicy6Srcaddr(o["srcaddr"], d, "srcaddr", sv)); err != nil {
 			if !fortiAPIPatch(o["srcaddr"]) {
-				return fmt.Errorf("Error reading srcaddr: %v", err)
+				return fmt.Errorf("error reading srcaddr: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("srcaddr"); ok {
 			if err = d.Set("srcaddr", flattenFirewallMulticastPolicy6Srcaddr(o["srcaddr"], d, "srcaddr", sv)); err != nil {
 				if !fortiAPIPatch(o["srcaddr"]) {
-					return fmt.Errorf("Error reading srcaddr: %v", err)
+					return fmt.Errorf("error reading srcaddr: %v", err)
 				}
 			}
 		}
@@ -440,14 +483,14 @@ func refreshObjectFirewallMulticastPolicy6(d *schema.ResourceData, o map[string]
 	if isImportTable() {
 		if err = d.Set("dstaddr", flattenFirewallMulticastPolicy6Dstaddr(o["dstaddr"], d, "dstaddr", sv)); err != nil {
 			if !fortiAPIPatch(o["dstaddr"]) {
-				return fmt.Errorf("Error reading dstaddr: %v", err)
+				return fmt.Errorf("error reading dstaddr: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("dstaddr"); ok {
 			if err = d.Set("dstaddr", flattenFirewallMulticastPolicy6Dstaddr(o["dstaddr"], d, "dstaddr", sv)); err != nil {
 				if !fortiAPIPatch(o["dstaddr"]) {
-					return fmt.Errorf("Error reading dstaddr: %v", err)
+					return fmt.Errorf("error reading dstaddr: %v", err)
 				}
 			}
 		}
@@ -455,37 +498,37 @@ func refreshObjectFirewallMulticastPolicy6(d *schema.ResourceData, o map[string]
 
 	if err = d.Set("action", flattenFirewallMulticastPolicy6Action(o["action"], d, "action", sv)); err != nil {
 		if !fortiAPIPatch(o["action"]) {
-			return fmt.Errorf("Error reading action: %v", err)
+			return fmt.Errorf("error reading action: %v", err)
 		}
 	}
 
 	if err = d.Set("protocol", flattenFirewallMulticastPolicy6Protocol(o["protocol"], d, "protocol", sv)); err != nil {
 		if !fortiAPIPatch(o["protocol"]) {
-			return fmt.Errorf("Error reading protocol: %v", err)
+			return fmt.Errorf("error reading protocol: %v", err)
 		}
 	}
 
 	if err = d.Set("start_port", flattenFirewallMulticastPolicy6StartPort(o["start-port"], d, "start_port", sv)); err != nil {
 		if !fortiAPIPatch(o["start-port"]) {
-			return fmt.Errorf("Error reading start_port: %v", err)
+			return fmt.Errorf("error reading start_port: %v", err)
 		}
 	}
 
 	if err = d.Set("end_port", flattenFirewallMulticastPolicy6EndPort(o["end-port"], d, "end_port", sv)); err != nil {
 		if !fortiAPIPatch(o["end-port"]) {
-			return fmt.Errorf("Error reading end_port: %v", err)
+			return fmt.Errorf("error reading end_port: %v", err)
 		}
 	}
 
 	if err = d.Set("auto_asic_offload", flattenFirewallMulticastPolicy6AutoAsicOffload(o["auto-asic-offload"], d, "auto_asic_offload", sv)); err != nil {
 		if !fortiAPIPatch(o["auto-asic-offload"]) {
-			return fmt.Errorf("Error reading auto_asic_offload: %v", err)
+			return fmt.Errorf("error reading auto_asic_offload: %v", err)
 		}
 	}
 
 	if err = d.Set("comments", flattenFirewallMulticastPolicy6Comments(o["comments"], d, "comments", sv)); err != nil {
 		if !fortiAPIPatch(o["comments"]) {
-			return fmt.Errorf("Error reading comments: %v", err)
+			return fmt.Errorf("error reading comments: %v", err)
 		}
 	}
 

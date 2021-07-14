@@ -51,14 +51,14 @@ func testAccCheckFortiOSSystemVirtualWanLinkExists(n string) resource.TestCheckF
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemVirtualWanLink(i, "root")
+		o, err := c.ReadSystemVirtualWanLink(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading SystemVirtualWanLink: %s", err)
+			return fmt.Errorf("error reading SystemVirtualWanLink: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating SystemVirtualWanLink: %s", n)
+			return fmt.Errorf("error creating SystemVirtualWanLink: %s", n)
 		}
 
 		return nil
@@ -74,11 +74,11 @@ func testAccCheckSystemVirtualWanLinkDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemVirtualWanLink(i, "root")
+		o, err := c.ReadSystemVirtualWanLink(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error SystemVirtualWanLink %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error SystemVirtualWanLink %s still exists", rs.Primary.ID)
 			}
 		}
 

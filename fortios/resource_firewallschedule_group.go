@@ -30,22 +30,22 @@ func resourceFirewallScheduleGroup() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 31),
 				Required:     true,
 			},
-			"member": &schema.Schema{
+			"member": {
 				Type:     schema.TypeList,
 				Required: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 64),
 							Optional:     true,
@@ -54,16 +54,21 @@ func resourceFirewallScheduleGroup() *schema.Resource {
 					},
 				},
 			},
-			"color": &schema.Schema{
+			"color": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 32),
 				Optional:     true,
 				Computed:     true,
 			},
-			"dynamic_sort_subtable": &schema.Schema{
-				Type:     schema.TypeString,
+			"dynamic_sort_subtable": {
+				Type:     schema.TypeBool,
 				Optional: true,
-				Default:  "false",
+				Default:  false,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -81,15 +86,25 @@ func resourceFirewallScheduleGroupCreate(d *schema.ResourceData, m interface{}) 
 		}
 	}
 
-	obj, err := getObjectFirewallScheduleGroup(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating FirewallScheduleGroup resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateFirewallScheduleGroup(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectFirewallScheduleGroup(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating FirewallScheduleGroup resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateFirewallScheduleGroup(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating FirewallScheduleGroup resource: %v", err)
+		return fmt.Errorf("error creating FirewallScheduleGroup resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -114,14 +129,24 @@ func resourceFirewallScheduleGroupUpdate(d *schema.ResourceData, m interface{}) 
 		}
 	}
 
-	obj, err := getObjectFirewallScheduleGroup(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating FirewallScheduleGroup resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateFirewallScheduleGroup(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectFirewallScheduleGroup(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating FirewallScheduleGroup resource: %v", err)
+		return fmt.Errorf("error updating FirewallScheduleGroup resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateFirewallScheduleGroup(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating FirewallScheduleGroup resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -148,9 +173,17 @@ func resourceFirewallScheduleGroupDelete(d *schema.ResourceData, m interface{}) 
 		}
 	}
 
-	err := c.DeleteFirewallScheduleGroup(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteFirewallScheduleGroup(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting FirewallScheduleGroup resource: %v", err)
+		return fmt.Errorf("error deleting FirewallScheduleGroup resource: %v", err)
 	}
 
 	d.SetId("")
@@ -172,9 +205,19 @@ func resourceFirewallScheduleGroupRead(d *schema.ResourceData, m interface{}) er
 		}
 	}
 
-	o, err := c.ReadFirewallScheduleGroup(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadFirewallScheduleGroup(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading FirewallScheduleGroup resource: %v", err)
+		return fmt.Errorf("error reading FirewallScheduleGroup resource: %v", err)
 	}
 
 	if o == nil {
@@ -185,7 +228,7 @@ func resourceFirewallScheduleGroupRead(d *schema.ResourceData, m interface{}) er
 
 	err = refreshObjectFirewallScheduleGroup(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading FirewallScheduleGroup resource from API: %v", err)
+		return fmt.Errorf("error reading FirewallScheduleGroup resource from API: %v", err)
 	}
 	return nil
 }
@@ -241,21 +284,21 @@ func refreshObjectFirewallScheduleGroup(d *schema.ResourceData, o map[string]int
 
 	if err = d.Set("name", flattenFirewallScheduleGroupName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("member", flattenFirewallScheduleGroupMember(o["member"], d, "member", sv)); err != nil {
 			if !fortiAPIPatch(o["member"]) {
-				return fmt.Errorf("Error reading member: %v", err)
+				return fmt.Errorf("error reading member: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("member"); ok {
 			if err = d.Set("member", flattenFirewallScheduleGroupMember(o["member"], d, "member", sv)); err != nil {
 				if !fortiAPIPatch(o["member"]) {
-					return fmt.Errorf("Error reading member: %v", err)
+					return fmt.Errorf("error reading member: %v", err)
 				}
 			}
 		}
@@ -263,7 +306,7 @@ func refreshObjectFirewallScheduleGroup(d *schema.ResourceData, o map[string]int
 
 	if err = d.Set("color", flattenFirewallScheduleGroupColor(o["color"], d, "color", sv)); err != nil {
 		if !fortiAPIPatch(o["color"]) {
-			return fmt.Errorf("Error reading color: %v", err)
+			return fmt.Errorf("error reading color: %v", err)
 		}
 	}
 

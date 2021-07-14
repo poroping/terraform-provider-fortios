@@ -30,32 +30,37 @@ func resourceSystemReplacemsgAutomation() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"msg_type": &schema.Schema{
+			"msg_type": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 28),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"buffer": &schema.Schema{
+			"buffer": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 32768),
 				Optional:     true,
 			},
-			"header": &schema.Schema{
+			"header": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"format": &schema.Schema{
+			"format": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -73,15 +78,25 @@ func resourceSystemReplacemsgAutomationCreate(d *schema.ResourceData, m interfac
 		}
 	}
 
-	obj, err := getObjectSystemReplacemsgAutomation(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating SystemReplacemsgAutomation resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateSystemReplacemsgAutomation(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemReplacemsgAutomation(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating SystemReplacemsgAutomation resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateSystemReplacemsgAutomation(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating SystemReplacemsgAutomation resource: %v", err)
+		return fmt.Errorf("error creating SystemReplacemsgAutomation resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -106,14 +121,24 @@ func resourceSystemReplacemsgAutomationUpdate(d *schema.ResourceData, m interfac
 		}
 	}
 
-	obj, err := getObjectSystemReplacemsgAutomation(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SystemReplacemsgAutomation resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSystemReplacemsgAutomation(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemReplacemsgAutomation(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SystemReplacemsgAutomation resource: %v", err)
+		return fmt.Errorf("error updating SystemReplacemsgAutomation resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSystemReplacemsgAutomation(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SystemReplacemsgAutomation resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -140,9 +165,17 @@ func resourceSystemReplacemsgAutomationDelete(d *schema.ResourceData, m interfac
 		}
 	}
 
-	err := c.DeleteSystemReplacemsgAutomation(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSystemReplacemsgAutomation(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SystemReplacemsgAutomation resource: %v", err)
+		return fmt.Errorf("error deleting SystemReplacemsgAutomation resource: %v", err)
 	}
 
 	d.SetId("")
@@ -164,9 +197,19 @@ func resourceSystemReplacemsgAutomationRead(d *schema.ResourceData, m interface{
 		}
 	}
 
-	o, err := c.ReadSystemReplacemsgAutomation(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSystemReplacemsgAutomation(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemReplacemsgAutomation resource: %v", err)
+		return fmt.Errorf("error reading SystemReplacemsgAutomation resource: %v", err)
 	}
 
 	if o == nil {
@@ -177,7 +220,7 @@ func resourceSystemReplacemsgAutomationRead(d *schema.ResourceData, m interface{
 
 	err = refreshObjectSystemReplacemsgAutomation(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemReplacemsgAutomation resource from API: %v", err)
+		return fmt.Errorf("error reading SystemReplacemsgAutomation resource from API: %v", err)
 	}
 	return nil
 }
@@ -203,25 +246,25 @@ func refreshObjectSystemReplacemsgAutomation(d *schema.ResourceData, o map[strin
 
 	if err = d.Set("msg_type", flattenSystemReplacemsgAutomationMsgType(o["msg-type"], d, "msg_type", sv)); err != nil {
 		if !fortiAPIPatch(o["msg-type"]) {
-			return fmt.Errorf("Error reading msg_type: %v", err)
+			return fmt.Errorf("error reading msg_type: %v", err)
 		}
 	}
 
 	if err = d.Set("buffer", flattenSystemReplacemsgAutomationBuffer(o["buffer"], d, "buffer", sv)); err != nil {
 		if !fortiAPIPatch(o["buffer"]) {
-			return fmt.Errorf("Error reading buffer: %v", err)
+			return fmt.Errorf("error reading buffer: %v", err)
 		}
 	}
 
 	if err = d.Set("header", flattenSystemReplacemsgAutomationHeader(o["header"], d, "header", sv)); err != nil {
 		if !fortiAPIPatch(o["header"]) {
-			return fmt.Errorf("Error reading header: %v", err)
+			return fmt.Errorf("error reading header: %v", err)
 		}
 	}
 
 	if err = d.Set("format", flattenSystemReplacemsgAutomationFormat(o["format"], d, "format", sv)); err != nil {
 		if !fortiAPIPatch(o["format"]) {
-			return fmt.Errorf("Error reading format: %v", err)
+			return fmt.Errorf("error reading format: %v", err)
 		}
 	}
 

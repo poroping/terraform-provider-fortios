@@ -21,53 +21,53 @@ func dataSourceUserSaml() *schema.Resource {
 	return &schema.Resource{
 		Read: dataSourceUserSamlRead,
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
 
-			"name": &schema.Schema{
+			"name": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"cert": &schema.Schema{
+			"cert": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"entity_id": &schema.Schema{
+			"entity_id": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"single_sign_on_url": &schema.Schema{
+			"single_sign_on_url": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"single_logout_url": &schema.Schema{
+			"single_logout_url": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"idp_entity_id": &schema.Schema{
+			"idp_entity_id": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"idp_single_sign_on_url": &schema.Schema{
+			"idp_single_sign_on_url": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"idp_single_logout_url": &schema.Schema{
+			"idp_single_logout_url": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"idp_cert": &schema.Schema{
+			"idp_cert": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"user_name": &schema.Schema{
+			"user_name": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"group_name": &schema.Schema{
+			"group_name": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -95,12 +95,12 @@ func dataSourceUserSamlRead(d *schema.ResourceData, m interface{}) error {
 	} else if v, ok := t.(int); ok {
 		mkey = strconv.Itoa(v)
 	} else {
-		return fmt.Errorf("Error describing UserSaml: type error")
+		return fmt.Errorf("error describing UserSaml: type error")
 	}
 
-	o, err := c.ReadUserSaml(mkey, vdomparam)
+	o, err := c.ReadUserSaml(mkey, vdomparam, make(map[string][]string), 0)
 	if err != nil {
-		return fmt.Errorf("Error describing UserSaml: %v", err)
+		return fmt.Errorf("error describing UserSaml: %v", err)
 	}
 
 	if o == nil {
@@ -110,7 +110,7 @@ func dataSourceUserSamlRead(d *schema.ResourceData, m interface{}) error {
 
 	err = dataSourceRefreshObjectUserSaml(d, o)
 	if err != nil {
-		return fmt.Errorf("Error describing UserSaml from API: %v", err)
+		return fmt.Errorf("error describing UserSaml from API: %v", err)
 	}
 
 	d.SetId(mkey)
@@ -167,67 +167,67 @@ func dataSourceRefreshObjectUserSaml(d *schema.ResourceData, o map[string]interf
 
 	if err = d.Set("name", dataSourceFlattenUserSamlName(o["name"], d, "name")); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("cert", dataSourceFlattenUserSamlCert(o["cert"], d, "cert")); err != nil {
 		if !fortiAPIPatch(o["cert"]) {
-			return fmt.Errorf("Error reading cert: %v", err)
+			return fmt.Errorf("error reading cert: %v", err)
 		}
 	}
 
 	if err = d.Set("entity_id", dataSourceFlattenUserSamlEntityId(o["entity-id"], d, "entity_id")); err != nil {
 		if !fortiAPIPatch(o["entity-id"]) {
-			return fmt.Errorf("Error reading entity_id: %v", err)
+			return fmt.Errorf("error reading entity_id: %v", err)
 		}
 	}
 
 	if err = d.Set("single_sign_on_url", dataSourceFlattenUserSamlSingleSignOnUrl(o["single-sign-on-url"], d, "single_sign_on_url")); err != nil {
 		if !fortiAPIPatch(o["single-sign-on-url"]) {
-			return fmt.Errorf("Error reading single_sign_on_url: %v", err)
+			return fmt.Errorf("error reading single_sign_on_url: %v", err)
 		}
 	}
 
 	if err = d.Set("single_logout_url", dataSourceFlattenUserSamlSingleLogoutUrl(o["single-logout-url"], d, "single_logout_url")); err != nil {
 		if !fortiAPIPatch(o["single-logout-url"]) {
-			return fmt.Errorf("Error reading single_logout_url: %v", err)
+			return fmt.Errorf("error reading single_logout_url: %v", err)
 		}
 	}
 
 	if err = d.Set("idp_entity_id", dataSourceFlattenUserSamlIdpEntityId(o["idp-entity-id"], d, "idp_entity_id")); err != nil {
 		if !fortiAPIPatch(o["idp-entity-id"]) {
-			return fmt.Errorf("Error reading idp_entity_id: %v", err)
+			return fmt.Errorf("error reading idp_entity_id: %v", err)
 		}
 	}
 
 	if err = d.Set("idp_single_sign_on_url", dataSourceFlattenUserSamlIdpSingleSignOnUrl(o["idp-single-sign-on-url"], d, "idp_single_sign_on_url")); err != nil {
 		if !fortiAPIPatch(o["idp-single-sign-on-url"]) {
-			return fmt.Errorf("Error reading idp_single_sign_on_url: %v", err)
+			return fmt.Errorf("error reading idp_single_sign_on_url: %v", err)
 		}
 	}
 
 	if err = d.Set("idp_single_logout_url", dataSourceFlattenUserSamlIdpSingleLogoutUrl(o["idp-single-logout-url"], d, "idp_single_logout_url")); err != nil {
 		if !fortiAPIPatch(o["idp-single-logout-url"]) {
-			return fmt.Errorf("Error reading idp_single_logout_url: %v", err)
+			return fmt.Errorf("error reading idp_single_logout_url: %v", err)
 		}
 	}
 
 	if err = d.Set("idp_cert", dataSourceFlattenUserSamlIdpCert(o["idp-cert"], d, "idp_cert")); err != nil {
 		if !fortiAPIPatch(o["idp-cert"]) {
-			return fmt.Errorf("Error reading idp_cert: %v", err)
+			return fmt.Errorf("error reading idp_cert: %v", err)
 		}
 	}
 
 	if err = d.Set("user_name", dataSourceFlattenUserSamlUserName(o["user-name"], d, "user_name")); err != nil {
 		if !fortiAPIPatch(o["user-name"]) {
-			return fmt.Errorf("Error reading user_name: %v", err)
+			return fmt.Errorf("error reading user_name: %v", err)
 		}
 	}
 
 	if err = d.Set("group_name", dataSourceFlattenUserSamlGroupName(o["group-name"], d, "group_name")); err != nil {
 		if !fortiAPIPatch(o["group-name"]) {
-			return fmt.Errorf("Error reading group_name: %v", err)
+			return fmt.Errorf("error reading group_name: %v", err)
 		}
 	}
 

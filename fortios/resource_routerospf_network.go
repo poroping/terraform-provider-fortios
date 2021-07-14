@@ -30,26 +30,31 @@ func resourceRouterospfNetwork() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"fosid": &schema.Schema{
+			"fosid": {
 				Type:     schema.TypeInt,
 				ForceNew: true,
 				Optional: true,
 				Computed: true,
 			},
-			"prefix": &schema.Schema{
+			"prefix": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"area": &schema.Schema{
+			"area": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -67,15 +72,25 @@ func resourceRouterospfNetworkCreate(d *schema.ResourceData, m interface{}) erro
 		}
 	}
 
-	obj, err := getObjectRouterospfNetwork(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating RouterospfNetwork resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateRouterospfNetwork(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectRouterospfNetwork(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating RouterospfNetwork resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateRouterospfNetwork(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating RouterospfNetwork resource: %v", err)
+		return fmt.Errorf("error creating RouterospfNetwork resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -100,14 +115,24 @@ func resourceRouterospfNetworkUpdate(d *schema.ResourceData, m interface{}) erro
 		}
 	}
 
-	obj, err := getObjectRouterospfNetwork(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating RouterospfNetwork resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateRouterospfNetwork(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectRouterospfNetwork(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating RouterospfNetwork resource: %v", err)
+		return fmt.Errorf("error updating RouterospfNetwork resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateRouterospfNetwork(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating RouterospfNetwork resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -134,9 +159,17 @@ func resourceRouterospfNetworkDelete(d *schema.ResourceData, m interface{}) erro
 		}
 	}
 
-	err := c.DeleteRouterospfNetwork(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteRouterospfNetwork(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting RouterospfNetwork resource: %v", err)
+		return fmt.Errorf("error deleting RouterospfNetwork resource: %v", err)
 	}
 
 	d.SetId("")
@@ -158,9 +191,19 @@ func resourceRouterospfNetworkRead(d *schema.ResourceData, m interface{}) error 
 		}
 	}
 
-	o, err := c.ReadRouterospfNetwork(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadRouterospfNetwork(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading RouterospfNetwork resource: %v", err)
+		return fmt.Errorf("error reading RouterospfNetwork resource: %v", err)
 	}
 
 	if o == nil {
@@ -171,7 +214,7 @@ func resourceRouterospfNetworkRead(d *schema.ResourceData, m interface{}) error 
 
 	err = refreshObjectRouterospfNetwork(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading RouterospfNetwork resource from API: %v", err)
+		return fmt.Errorf("error reading RouterospfNetwork resource from API: %v", err)
 	}
 	return nil
 }
@@ -200,19 +243,19 @@ func refreshObjectRouterospfNetwork(d *schema.ResourceData, o map[string]interfa
 
 	if err = d.Set("fosid", flattenRouterospfNetworkId(o["id"], d, "fosid", sv)); err != nil {
 		if !fortiAPIPatch(o["id"]) {
-			return fmt.Errorf("Error reading fosid: %v", err)
+			return fmt.Errorf("error reading fosid: %v", err)
 		}
 	}
 
 	if err = d.Set("prefix", flattenRouterospfNetworkPrefix(o["prefix"], d, "prefix", sv)); err != nil {
 		if !fortiAPIPatch(o["prefix"]) {
-			return fmt.Errorf("Error reading prefix: %v", err)
+			return fmt.Errorf("error reading prefix: %v", err)
 		}
 	}
 
 	if err = d.Set("area", flattenRouterospfNetworkArea(o["area"], d, "area", sv)); err != nil {
 		if !fortiAPIPatch(o["area"]) {
-			return fmt.Errorf("Error reading area: %v", err)
+			return fmt.Errorf("error reading area: %v", err)
 		}
 	}
 

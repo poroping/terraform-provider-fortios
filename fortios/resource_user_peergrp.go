@@ -30,24 +30,24 @@ func resourceUserPeergrp() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"member": &schema.Schema{
+			"member": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
@@ -56,10 +56,15 @@ func resourceUserPeergrp() *schema.Resource {
 					},
 				},
 			},
-			"dynamic_sort_subtable": &schema.Schema{
-				Type:     schema.TypeString,
+			"dynamic_sort_subtable": {
+				Type:     schema.TypeBool,
 				Optional: true,
-				Default:  "false",
+				Default:  false,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -77,15 +82,25 @@ func resourceUserPeergrpCreate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectUserPeergrp(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating UserPeergrp resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateUserPeergrp(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectUserPeergrp(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating UserPeergrp resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateUserPeergrp(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating UserPeergrp resource: %v", err)
+		return fmt.Errorf("error creating UserPeergrp resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -110,14 +125,24 @@ func resourceUserPeergrpUpdate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectUserPeergrp(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating UserPeergrp resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateUserPeergrp(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectUserPeergrp(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating UserPeergrp resource: %v", err)
+		return fmt.Errorf("error updating UserPeergrp resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateUserPeergrp(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating UserPeergrp resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -144,9 +169,17 @@ func resourceUserPeergrpDelete(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	err := c.DeleteUserPeergrp(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteUserPeergrp(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting UserPeergrp resource: %v", err)
+		return fmt.Errorf("error deleting UserPeergrp resource: %v", err)
 	}
 
 	d.SetId("")
@@ -168,9 +201,19 @@ func resourceUserPeergrpRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadUserPeergrp(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadUserPeergrp(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading UserPeergrp resource: %v", err)
+		return fmt.Errorf("error reading UserPeergrp resource: %v", err)
 	}
 
 	if o == nil {
@@ -181,7 +224,7 @@ func resourceUserPeergrpRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectUserPeergrp(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading UserPeergrp resource from API: %v", err)
+		return fmt.Errorf("error reading UserPeergrp resource from API: %v", err)
 	}
 	return nil
 }
@@ -233,21 +276,21 @@ func refreshObjectUserPeergrp(d *schema.ResourceData, o map[string]interface{}, 
 
 	if err = d.Set("name", flattenUserPeergrpName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("member", flattenUserPeergrpMember(o["member"], d, "member", sv)); err != nil {
 			if !fortiAPIPatch(o["member"]) {
-				return fmt.Errorf("Error reading member: %v", err)
+				return fmt.Errorf("error reading member: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("member"); ok {
 			if err = d.Set("member", flattenUserPeergrpMember(o["member"], d, "member", sv)); err != nil {
 				if !fortiAPIPatch(o["member"]) {
-					return fmt.Errorf("Error reading member: %v", err)
+					return fmt.Errorf("error reading member: %v", err)
 				}
 			}
 		}

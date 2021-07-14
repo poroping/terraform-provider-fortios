@@ -30,61 +30,61 @@ func resourceFirewallInternetServiceCustom() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"reputation": &schema.Schema{
+			"reputation": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"comment": &schema.Schema{
+			"comment": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
 			},
-			"entry": &schema.Schema{
+			"entry": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 255),
 							Optional:     true,
 							Computed:     true,
 						},
-						"protocol": &schema.Schema{
+						"protocol": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 255),
 							Optional:     true,
 							Computed:     true,
 						},
-						"port_range": &schema.Schema{
+						"port_range": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"id": &schema.Schema{
+									"id": {
 										Type:     schema.TypeInt,
 										Optional: true,
 										Computed: true,
 									},
-									"start_port": &schema.Schema{
+									"start_port": {
 										Type:         schema.TypeInt,
 										ValidateFunc: validation.IntBetween(1, 65535),
 										Optional:     true,
 										Computed:     true,
 									},
-									"end_port": &schema.Schema{
+									"end_port": {
 										Type:         schema.TypeInt,
 										ValidateFunc: validation.IntBetween(1, 65535),
 										Optional:     true,
@@ -93,12 +93,12 @@ func resourceFirewallInternetServiceCustom() *schema.Resource {
 								},
 							},
 						},
-						"dst": &schema.Schema{
+						"dst": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"name": &schema.Schema{
+									"name": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 64),
 										Optional:     true,
@@ -110,10 +110,15 @@ func resourceFirewallInternetServiceCustom() *schema.Resource {
 					},
 				},
 			},
-			"dynamic_sort_subtable": &schema.Schema{
-				Type:     schema.TypeString,
+			"dynamic_sort_subtable": {
+				Type:     schema.TypeBool,
 				Optional: true,
-				Default:  "false",
+				Default:  false,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -131,15 +136,25 @@ func resourceFirewallInternetServiceCustomCreate(d *schema.ResourceData, m inter
 		}
 	}
 
-	obj, err := getObjectFirewallInternetServiceCustom(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating FirewallInternetServiceCustom resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateFirewallInternetServiceCustom(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectFirewallInternetServiceCustom(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating FirewallInternetServiceCustom resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateFirewallInternetServiceCustom(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating FirewallInternetServiceCustom resource: %v", err)
+		return fmt.Errorf("error creating FirewallInternetServiceCustom resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -164,14 +179,24 @@ func resourceFirewallInternetServiceCustomUpdate(d *schema.ResourceData, m inter
 		}
 	}
 
-	obj, err := getObjectFirewallInternetServiceCustom(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating FirewallInternetServiceCustom resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateFirewallInternetServiceCustom(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectFirewallInternetServiceCustom(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating FirewallInternetServiceCustom resource: %v", err)
+		return fmt.Errorf("error updating FirewallInternetServiceCustom resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateFirewallInternetServiceCustom(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating FirewallInternetServiceCustom resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -198,9 +223,17 @@ func resourceFirewallInternetServiceCustomDelete(d *schema.ResourceData, m inter
 		}
 	}
 
-	err := c.DeleteFirewallInternetServiceCustom(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteFirewallInternetServiceCustom(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting FirewallInternetServiceCustom resource: %v", err)
+		return fmt.Errorf("error deleting FirewallInternetServiceCustom resource: %v", err)
 	}
 
 	d.SetId("")
@@ -222,9 +255,19 @@ func resourceFirewallInternetServiceCustomRead(d *schema.ResourceData, m interfa
 		}
 	}
 
-	o, err := c.ReadFirewallInternetServiceCustom(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadFirewallInternetServiceCustom(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading FirewallInternetServiceCustom resource: %v", err)
+		return fmt.Errorf("error reading FirewallInternetServiceCustom resource: %v", err)
 	}
 
 	if o == nil {
@@ -235,7 +278,7 @@ func resourceFirewallInternetServiceCustomRead(d *schema.ResourceData, m interfa
 
 	err = refreshObjectFirewallInternetServiceCustom(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading FirewallInternetServiceCustom resource from API: %v", err)
+		return fmt.Errorf("error reading FirewallInternetServiceCustom resource from API: %v", err)
 	}
 	return nil
 }
@@ -411,33 +454,33 @@ func refreshObjectFirewallInternetServiceCustom(d *schema.ResourceData, o map[st
 
 	if err = d.Set("name", flattenFirewallInternetServiceCustomName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("reputation", flattenFirewallInternetServiceCustomReputation(o["reputation"], d, "reputation", sv)); err != nil {
 		if !fortiAPIPatch(o["reputation"]) {
-			return fmt.Errorf("Error reading reputation: %v", err)
+			return fmt.Errorf("error reading reputation: %v", err)
 		}
 	}
 
 	if err = d.Set("comment", flattenFirewallInternetServiceCustomComment(o["comment"], d, "comment", sv)); err != nil {
 		if !fortiAPIPatch(o["comment"]) {
-			return fmt.Errorf("Error reading comment: %v", err)
+			return fmt.Errorf("error reading comment: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("entry", flattenFirewallInternetServiceCustomEntry(o["entry"], d, "entry", sv)); err != nil {
 			if !fortiAPIPatch(o["entry"]) {
-				return fmt.Errorf("Error reading entry: %v", err)
+				return fmt.Errorf("error reading entry: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("entry"); ok {
 			if err = d.Set("entry", flattenFirewallInternetServiceCustomEntry(o["entry"], d, "entry", sv)); err != nil {
 				if !fortiAPIPatch(o["entry"]) {
-					return fmt.Errorf("Error reading entry: %v", err)
+					return fmt.Errorf("error reading entry: %v", err)
 				}
 			}
 		}

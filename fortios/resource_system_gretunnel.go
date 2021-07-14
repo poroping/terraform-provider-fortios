@@ -30,98 +30,103 @@ func resourceSystemGreTunnel() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 15),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"interface": &schema.Schema{
+			"interface": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 15),
 				Optional:     true,
 				Computed:     true,
 			},
-			"ip_version": &schema.Schema{
+			"ip_version": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"remote_gw6": &schema.Schema{
+			"remote_gw6": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"local_gw6": &schema.Schema{
+			"local_gw6": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"remote_gw": &schema.Schema{
+			"remote_gw": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"local_gw": &schema.Schema{
+			"local_gw": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"sequence_number_transmission": &schema.Schema{
+			"sequence_number_transmission": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"sequence_number_reception": &schema.Schema{
+			"sequence_number_reception": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"checksum_transmission": &schema.Schema{
+			"checksum_transmission": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"checksum_reception": &schema.Schema{
+			"checksum_reception": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"key_outbound": &schema.Schema{
+			"key_outbound": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"key_inbound": &schema.Schema{
+			"key_inbound": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"dscp_copying": &schema.Schema{
+			"dscp_copying": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"diffservcode": &schema.Schema{
+			"diffservcode": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"keepalive_interval": &schema.Schema{
+			"keepalive_interval": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 32767),
 				Optional:     true,
 				Computed:     true,
 			},
-			"keepalive_failtimes": &schema.Schema{
+			"keepalive_failtimes": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 255),
 				Optional:     true,
 				Computed:     true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -139,15 +144,25 @@ func resourceSystemGreTunnelCreate(d *schema.ResourceData, m interface{}) error 
 		}
 	}
 
-	obj, err := getObjectSystemGreTunnel(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating SystemGreTunnel resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateSystemGreTunnel(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemGreTunnel(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating SystemGreTunnel resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateSystemGreTunnel(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating SystemGreTunnel resource: %v", err)
+		return fmt.Errorf("error creating SystemGreTunnel resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -172,14 +187,24 @@ func resourceSystemGreTunnelUpdate(d *schema.ResourceData, m interface{}) error 
 		}
 	}
 
-	obj, err := getObjectSystemGreTunnel(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SystemGreTunnel resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSystemGreTunnel(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemGreTunnel(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SystemGreTunnel resource: %v", err)
+		return fmt.Errorf("error updating SystemGreTunnel resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSystemGreTunnel(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SystemGreTunnel resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -206,9 +231,17 @@ func resourceSystemGreTunnelDelete(d *schema.ResourceData, m interface{}) error 
 		}
 	}
 
-	err := c.DeleteSystemGreTunnel(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSystemGreTunnel(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SystemGreTunnel resource: %v", err)
+		return fmt.Errorf("error deleting SystemGreTunnel resource: %v", err)
 	}
 
 	d.SetId("")
@@ -230,9 +263,19 @@ func resourceSystemGreTunnelRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadSystemGreTunnel(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSystemGreTunnel(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemGreTunnel resource: %v", err)
+		return fmt.Errorf("error reading SystemGreTunnel resource: %v", err)
 	}
 
 	if o == nil {
@@ -243,7 +286,7 @@ func resourceSystemGreTunnelRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectSystemGreTunnel(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemGreTunnel resource from API: %v", err)
+		return fmt.Errorf("error reading SystemGreTunnel resource from API: %v", err)
 	}
 	return nil
 }
@@ -321,103 +364,103 @@ func refreshObjectSystemGreTunnel(d *schema.ResourceData, o map[string]interface
 
 	if err = d.Set("name", flattenSystemGreTunnelName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("interface", flattenSystemGreTunnelInterface(o["interface"], d, "interface", sv)); err != nil {
 		if !fortiAPIPatch(o["interface"]) {
-			return fmt.Errorf("Error reading interface: %v", err)
+			return fmt.Errorf("error reading interface: %v", err)
 		}
 	}
 
 	if err = d.Set("ip_version", flattenSystemGreTunnelIpVersion(o["ip-version"], d, "ip_version", sv)); err != nil {
 		if !fortiAPIPatch(o["ip-version"]) {
-			return fmt.Errorf("Error reading ip_version: %v", err)
+			return fmt.Errorf("error reading ip_version: %v", err)
 		}
 	}
 
 	if err = d.Set("remote_gw6", flattenSystemGreTunnelRemoteGw6(o["remote-gw6"], d, "remote_gw6", sv)); err != nil {
 		if !fortiAPIPatch(o["remote-gw6"]) {
-			return fmt.Errorf("Error reading remote_gw6: %v", err)
+			return fmt.Errorf("error reading remote_gw6: %v", err)
 		}
 	}
 
 	if err = d.Set("local_gw6", flattenSystemGreTunnelLocalGw6(o["local-gw6"], d, "local_gw6", sv)); err != nil {
 		if !fortiAPIPatch(o["local-gw6"]) {
-			return fmt.Errorf("Error reading local_gw6: %v", err)
+			return fmt.Errorf("error reading local_gw6: %v", err)
 		}
 	}
 
 	if err = d.Set("remote_gw", flattenSystemGreTunnelRemoteGw(o["remote-gw"], d, "remote_gw", sv)); err != nil {
 		if !fortiAPIPatch(o["remote-gw"]) {
-			return fmt.Errorf("Error reading remote_gw: %v", err)
+			return fmt.Errorf("error reading remote_gw: %v", err)
 		}
 	}
 
 	if err = d.Set("local_gw", flattenSystemGreTunnelLocalGw(o["local-gw"], d, "local_gw", sv)); err != nil {
 		if !fortiAPIPatch(o["local-gw"]) {
-			return fmt.Errorf("Error reading local_gw: %v", err)
+			return fmt.Errorf("error reading local_gw: %v", err)
 		}
 	}
 
 	if err = d.Set("sequence_number_transmission", flattenSystemGreTunnelSequenceNumberTransmission(o["sequence-number-transmission"], d, "sequence_number_transmission", sv)); err != nil {
 		if !fortiAPIPatch(o["sequence-number-transmission"]) {
-			return fmt.Errorf("Error reading sequence_number_transmission: %v", err)
+			return fmt.Errorf("error reading sequence_number_transmission: %v", err)
 		}
 	}
 
 	if err = d.Set("sequence_number_reception", flattenSystemGreTunnelSequenceNumberReception(o["sequence-number-reception"], d, "sequence_number_reception", sv)); err != nil {
 		if !fortiAPIPatch(o["sequence-number-reception"]) {
-			return fmt.Errorf("Error reading sequence_number_reception: %v", err)
+			return fmt.Errorf("error reading sequence_number_reception: %v", err)
 		}
 	}
 
 	if err = d.Set("checksum_transmission", flattenSystemGreTunnelChecksumTransmission(o["checksum-transmission"], d, "checksum_transmission", sv)); err != nil {
 		if !fortiAPIPatch(o["checksum-transmission"]) {
-			return fmt.Errorf("Error reading checksum_transmission: %v", err)
+			return fmt.Errorf("error reading checksum_transmission: %v", err)
 		}
 	}
 
 	if err = d.Set("checksum_reception", flattenSystemGreTunnelChecksumReception(o["checksum-reception"], d, "checksum_reception", sv)); err != nil {
 		if !fortiAPIPatch(o["checksum-reception"]) {
-			return fmt.Errorf("Error reading checksum_reception: %v", err)
+			return fmt.Errorf("error reading checksum_reception: %v", err)
 		}
 	}
 
 	if err = d.Set("key_outbound", flattenSystemGreTunnelKeyOutbound(o["key-outbound"], d, "key_outbound", sv)); err != nil {
 		if !fortiAPIPatch(o["key-outbound"]) {
-			return fmt.Errorf("Error reading key_outbound: %v", err)
+			return fmt.Errorf("error reading key_outbound: %v", err)
 		}
 	}
 
 	if err = d.Set("key_inbound", flattenSystemGreTunnelKeyInbound(o["key-inbound"], d, "key_inbound", sv)); err != nil {
 		if !fortiAPIPatch(o["key-inbound"]) {
-			return fmt.Errorf("Error reading key_inbound: %v", err)
+			return fmt.Errorf("error reading key_inbound: %v", err)
 		}
 	}
 
 	if err = d.Set("dscp_copying", flattenSystemGreTunnelDscpCopying(o["dscp-copying"], d, "dscp_copying", sv)); err != nil {
 		if !fortiAPIPatch(o["dscp-copying"]) {
-			return fmt.Errorf("Error reading dscp_copying: %v", err)
+			return fmt.Errorf("error reading dscp_copying: %v", err)
 		}
 	}
 
 	if err = d.Set("diffservcode", flattenSystemGreTunnelDiffservcode(o["diffservcode"], d, "diffservcode", sv)); err != nil {
 		if !fortiAPIPatch(o["diffservcode"]) {
-			return fmt.Errorf("Error reading diffservcode: %v", err)
+			return fmt.Errorf("error reading diffservcode: %v", err)
 		}
 	}
 
 	if err = d.Set("keepalive_interval", flattenSystemGreTunnelKeepaliveInterval(o["keepalive-interval"], d, "keepalive_interval", sv)); err != nil {
 		if !fortiAPIPatch(o["keepalive-interval"]) {
-			return fmt.Errorf("Error reading keepalive_interval: %v", err)
+			return fmt.Errorf("error reading keepalive_interval: %v", err)
 		}
 	}
 
 	if err = d.Set("keepalive_failtimes", flattenSystemGreTunnelKeepaliveFailtimes(o["keepalive-failtimes"], d, "keepalive_failtimes", sv)); err != nil {
 		if !fortiAPIPatch(o["keepalive-failtimes"]) {
-			return fmt.Errorf("Error reading keepalive_failtimes: %v", err)
+			return fmt.Errorf("error reading keepalive_failtimes: %v", err)
 		}
 	}
 

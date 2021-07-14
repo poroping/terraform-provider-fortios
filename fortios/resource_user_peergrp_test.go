@@ -52,14 +52,14 @@ func testAccCheckFortiOSUserPeergrpExists(n string) resource.TestCheckFunc {
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadUserPeergrp(i, "root")
+		o, err := c.ReadUserPeergrp(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading UserPeergrp: %s", err)
+			return fmt.Errorf("error reading UserPeergrp: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating UserPeergrp: %s", n)
+			return fmt.Errorf("error creating UserPeergrp: %s", n)
 		}
 
 		return nil
@@ -75,11 +75,11 @@ func testAccCheckUserPeergrpDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadUserPeergrp(i, "root")
+		o, err := c.ReadUserPeergrp(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error UserPeergrp %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error UserPeergrp %s still exists", rs.Primary.ID)
 			}
 		}
 

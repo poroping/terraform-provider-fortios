@@ -30,47 +30,52 @@ func resourceWebProxyWisp() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				ForceNew:     true,
 				Required:     true,
 			},
-			"comment": &schema.Schema{
+			"comment": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
 			},
-			"outgoing_ip": &schema.Schema{
+			"outgoing_ip": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"server_ip": &schema.Schema{
+			"server_ip": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"server_port": &schema.Schema{
+			"server_port": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 65535),
 				Required:     true,
 			},
-			"max_connections": &schema.Schema{
+			"max_connections": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(4, 4096),
 				Optional:     true,
 				Computed:     true,
 			},
-			"timeout": &schema.Schema{
+			"timeout": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 15),
 				Optional:     true,
 				Computed:     true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -88,15 +93,25 @@ func resourceWebProxyWispCreate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectWebProxyWisp(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating WebProxyWisp resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateWebProxyWisp(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectWebProxyWisp(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating WebProxyWisp resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateWebProxyWisp(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating WebProxyWisp resource: %v", err)
+		return fmt.Errorf("error creating WebProxyWisp resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -121,14 +136,24 @@ func resourceWebProxyWispUpdate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectWebProxyWisp(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating WebProxyWisp resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateWebProxyWisp(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectWebProxyWisp(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating WebProxyWisp resource: %v", err)
+		return fmt.Errorf("error updating WebProxyWisp resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateWebProxyWisp(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating WebProxyWisp resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -155,9 +180,17 @@ func resourceWebProxyWispDelete(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	err := c.DeleteWebProxyWisp(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteWebProxyWisp(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting WebProxyWisp resource: %v", err)
+		return fmt.Errorf("error deleting WebProxyWisp resource: %v", err)
 	}
 
 	d.SetId("")
@@ -179,9 +212,19 @@ func resourceWebProxyWispRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadWebProxyWisp(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadWebProxyWisp(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading WebProxyWisp resource: %v", err)
+		return fmt.Errorf("error reading WebProxyWisp resource: %v", err)
 	}
 
 	if o == nil {
@@ -192,7 +235,7 @@ func resourceWebProxyWispRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectWebProxyWisp(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading WebProxyWisp resource from API: %v", err)
+		return fmt.Errorf("error reading WebProxyWisp resource from API: %v", err)
 	}
 	return nil
 }
@@ -230,43 +273,43 @@ func refreshObjectWebProxyWisp(d *schema.ResourceData, o map[string]interface{},
 
 	if err = d.Set("name", flattenWebProxyWispName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("comment", flattenWebProxyWispComment(o["comment"], d, "comment", sv)); err != nil {
 		if !fortiAPIPatch(o["comment"]) {
-			return fmt.Errorf("Error reading comment: %v", err)
+			return fmt.Errorf("error reading comment: %v", err)
 		}
 	}
 
 	if err = d.Set("outgoing_ip", flattenWebProxyWispOutgoingIp(o["outgoing-ip"], d, "outgoing_ip", sv)); err != nil {
 		if !fortiAPIPatch(o["outgoing-ip"]) {
-			return fmt.Errorf("Error reading outgoing_ip: %v", err)
+			return fmt.Errorf("error reading outgoing_ip: %v", err)
 		}
 	}
 
 	if err = d.Set("server_ip", flattenWebProxyWispServerIp(o["server-ip"], d, "server_ip", sv)); err != nil {
 		if !fortiAPIPatch(o["server-ip"]) {
-			return fmt.Errorf("Error reading server_ip: %v", err)
+			return fmt.Errorf("error reading server_ip: %v", err)
 		}
 	}
 
 	if err = d.Set("server_port", flattenWebProxyWispServerPort(o["server-port"], d, "server_port", sv)); err != nil {
 		if !fortiAPIPatch(o["server-port"]) {
-			return fmt.Errorf("Error reading server_port: %v", err)
+			return fmt.Errorf("error reading server_port: %v", err)
 		}
 	}
 
 	if err = d.Set("max_connections", flattenWebProxyWispMaxConnections(o["max-connections"], d, "max_connections", sv)); err != nil {
 		if !fortiAPIPatch(o["max-connections"]) {
-			return fmt.Errorf("Error reading max_connections: %v", err)
+			return fmt.Errorf("error reading max_connections: %v", err)
 		}
 	}
 
 	if err = d.Set("timeout", flattenWebProxyWispTimeout(o["timeout"], d, "timeout", sv)); err != nil {
 		if !fortiAPIPatch(o["timeout"]) {
-			return fmt.Errorf("Error reading timeout: %v", err)
+			return fmt.Errorf("error reading timeout: %v", err)
 		}
 	}
 

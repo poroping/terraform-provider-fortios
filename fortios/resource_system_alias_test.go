@@ -49,14 +49,14 @@ func testAccCheckFortiOSSystemAliasExists(n string) resource.TestCheckFunc {
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemAlias(i, "root")
+		o, err := c.ReadSystemAlias(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading SystemAlias: %s", err)
+			return fmt.Errorf("error reading SystemAlias: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating SystemAlias: %s", n)
+			return fmt.Errorf("error creating SystemAlias: %s", n)
 		}
 
 		return nil
@@ -72,11 +72,11 @@ func testAccCheckSystemAliasDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemAlias(i, "root")
+		o, err := c.ReadSystemAlias(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error SystemAlias %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error SystemAlias %s still exists", rs.Primary.ID)
 			}
 		}
 

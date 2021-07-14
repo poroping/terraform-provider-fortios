@@ -21,89 +21,89 @@ func dataSourceSystemAutomationTrigger() *schema.Resource {
 	return &schema.Resource{
 		Read: dataSourceSystemAutomationTriggerRead,
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
 
-			"name": &schema.Schema{
+			"name": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"trigger_type": &schema.Schema{
+			"trigger_type": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"event_type": &schema.Schema{
+			"event_type": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"license_type": &schema.Schema{
+			"license_type": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"ioc_level": &schema.Schema{
+			"ioc_level": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"report_type": &schema.Schema{
+			"report_type": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"logid": &schema.Schema{
+			"logid": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"trigger_frequency": &schema.Schema{
+			"trigger_frequency": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"trigger_weekday": &schema.Schema{
+			"trigger_weekday": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"trigger_day": &schema.Schema{
+			"trigger_day": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"trigger_hour": &schema.Schema{
+			"trigger_hour": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"trigger_minute": &schema.Schema{
+			"trigger_minute": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"fields": &schema.Schema{
+			"fields": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"name": &schema.Schema{
+						"name": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"value": &schema.Schema{
+						"value": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 					},
 				},
 			},
-			"faz_event_name": &schema.Schema{
+			"faz_event_name": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"faz_event_severity": &schema.Schema{
+			"faz_event_severity": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"faz_event_tags": &schema.Schema{
+			"faz_event_tags": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -131,12 +131,12 @@ func dataSourceSystemAutomationTriggerRead(d *schema.ResourceData, m interface{}
 	} else if v, ok := t.(int); ok {
 		mkey = strconv.Itoa(v)
 	} else {
-		return fmt.Errorf("Error describing SystemAutomationTrigger: type error")
+		return fmt.Errorf("error describing SystemAutomationTrigger: type error")
 	}
 
-	o, err := c.ReadSystemAutomationTrigger(mkey, vdomparam)
+	o, err := c.ReadSystemAutomationTrigger(mkey, vdomparam, make(map[string][]string), 0)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemAutomationTrigger: %v", err)
+		return fmt.Errorf("error describing SystemAutomationTrigger: %v", err)
 	}
 
 	if o == nil {
@@ -146,7 +146,7 @@ func dataSourceSystemAutomationTriggerRead(d *schema.ResourceData, m interface{}
 
 	err = dataSourceRefreshObjectSystemAutomationTrigger(d, o)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemAutomationTrigger from API: %v", err)
+		return fmt.Errorf("error describing SystemAutomationTrigger from API: %v", err)
 	}
 
 	d.SetId(mkey)
@@ -273,97 +273,97 @@ func dataSourceRefreshObjectSystemAutomationTrigger(d *schema.ResourceData, o ma
 
 	if err = d.Set("name", dataSourceFlattenSystemAutomationTriggerName(o["name"], d, "name")); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("trigger_type", dataSourceFlattenSystemAutomationTriggerTriggerType(o["trigger-type"], d, "trigger_type")); err != nil {
 		if !fortiAPIPatch(o["trigger-type"]) {
-			return fmt.Errorf("Error reading trigger_type: %v", err)
+			return fmt.Errorf("error reading trigger_type: %v", err)
 		}
 	}
 
 	if err = d.Set("event_type", dataSourceFlattenSystemAutomationTriggerEventType(o["event-type"], d, "event_type")); err != nil {
 		if !fortiAPIPatch(o["event-type"]) {
-			return fmt.Errorf("Error reading event_type: %v", err)
+			return fmt.Errorf("error reading event_type: %v", err)
 		}
 	}
 
 	if err = d.Set("license_type", dataSourceFlattenSystemAutomationTriggerLicenseType(o["license-type"], d, "license_type")); err != nil {
 		if !fortiAPIPatch(o["license-type"]) {
-			return fmt.Errorf("Error reading license_type: %v", err)
+			return fmt.Errorf("error reading license_type: %v", err)
 		}
 	}
 
 	if err = d.Set("ioc_level", dataSourceFlattenSystemAutomationTriggerIocLevel(o["ioc-level"], d, "ioc_level")); err != nil {
 		if !fortiAPIPatch(o["ioc-level"]) {
-			return fmt.Errorf("Error reading ioc_level: %v", err)
+			return fmt.Errorf("error reading ioc_level: %v", err)
 		}
 	}
 
 	if err = d.Set("report_type", dataSourceFlattenSystemAutomationTriggerReportType(o["report-type"], d, "report_type")); err != nil {
 		if !fortiAPIPatch(o["report-type"]) {
-			return fmt.Errorf("Error reading report_type: %v", err)
+			return fmt.Errorf("error reading report_type: %v", err)
 		}
 	}
 
 	if err = d.Set("logid", dataSourceFlattenSystemAutomationTriggerLogid(o["logid"], d, "logid")); err != nil {
 		if !fortiAPIPatch(o["logid"]) {
-			return fmt.Errorf("Error reading logid: %v", err)
+			return fmt.Errorf("error reading logid: %v", err)
 		}
 	}
 
 	if err = d.Set("trigger_frequency", dataSourceFlattenSystemAutomationTriggerTriggerFrequency(o["trigger-frequency"], d, "trigger_frequency")); err != nil {
 		if !fortiAPIPatch(o["trigger-frequency"]) {
-			return fmt.Errorf("Error reading trigger_frequency: %v", err)
+			return fmt.Errorf("error reading trigger_frequency: %v", err)
 		}
 	}
 
 	if err = d.Set("trigger_weekday", dataSourceFlattenSystemAutomationTriggerTriggerWeekday(o["trigger-weekday"], d, "trigger_weekday")); err != nil {
 		if !fortiAPIPatch(o["trigger-weekday"]) {
-			return fmt.Errorf("Error reading trigger_weekday: %v", err)
+			return fmt.Errorf("error reading trigger_weekday: %v", err)
 		}
 	}
 
 	if err = d.Set("trigger_day", dataSourceFlattenSystemAutomationTriggerTriggerDay(o["trigger-day"], d, "trigger_day")); err != nil {
 		if !fortiAPIPatch(o["trigger-day"]) {
-			return fmt.Errorf("Error reading trigger_day: %v", err)
+			return fmt.Errorf("error reading trigger_day: %v", err)
 		}
 	}
 
 	if err = d.Set("trigger_hour", dataSourceFlattenSystemAutomationTriggerTriggerHour(o["trigger-hour"], d, "trigger_hour")); err != nil {
 		if !fortiAPIPatch(o["trigger-hour"]) {
-			return fmt.Errorf("Error reading trigger_hour: %v", err)
+			return fmt.Errorf("error reading trigger_hour: %v", err)
 		}
 	}
 
 	if err = d.Set("trigger_minute", dataSourceFlattenSystemAutomationTriggerTriggerMinute(o["trigger-minute"], d, "trigger_minute")); err != nil {
 		if !fortiAPIPatch(o["trigger-minute"]) {
-			return fmt.Errorf("Error reading trigger_minute: %v", err)
+			return fmt.Errorf("error reading trigger_minute: %v", err)
 		}
 	}
 
 	if err = d.Set("fields", dataSourceFlattenSystemAutomationTriggerFields(o["fields"], d, "fields")); err != nil {
 		if !fortiAPIPatch(o["fields"]) {
-			return fmt.Errorf("Error reading fields: %v", err)
+			return fmt.Errorf("error reading fields: %v", err)
 		}
 	}
 
 	if err = d.Set("faz_event_name", dataSourceFlattenSystemAutomationTriggerFazEventName(o["faz-event-name"], d, "faz_event_name")); err != nil {
 		if !fortiAPIPatch(o["faz-event-name"]) {
-			return fmt.Errorf("Error reading faz_event_name: %v", err)
+			return fmt.Errorf("error reading faz_event_name: %v", err)
 		}
 	}
 
 	if err = d.Set("faz_event_severity", dataSourceFlattenSystemAutomationTriggerFazEventSeverity(o["faz-event-severity"], d, "faz_event_severity")); err != nil {
 		if !fortiAPIPatch(o["faz-event-severity"]) {
-			return fmt.Errorf("Error reading faz_event_severity: %v", err)
+			return fmt.Errorf("error reading faz_event_severity: %v", err)
 		}
 	}
 
 	if err = d.Set("faz_event_tags", dataSourceFlattenSystemAutomationTriggerFazEventTags(o["faz-event-tags"], d, "faz_event_tags")); err != nil {
 		if !fortiAPIPatch(o["faz-event-tags"]) {
-			return fmt.Errorf("Error reading faz_event_tags: %v", err)
+			return fmt.Errorf("error reading faz_event_tags: %v", err)
 		}
 	}
 

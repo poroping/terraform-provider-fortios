@@ -21,33 +21,33 @@ func dataSourceSystemAutomationDestination() *schema.Resource {
 	return &schema.Resource{
 		Read: dataSourceSystemAutomationDestinationRead,
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
 
-			"name": &schema.Schema{
+			"name": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"type": &schema.Schema{
+			"type": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"destination": &schema.Schema{
+			"destination": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 					},
 				},
 			},
-			"ha_group_id": &schema.Schema{
+			"ha_group_id": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
@@ -75,12 +75,12 @@ func dataSourceSystemAutomationDestinationRead(d *schema.ResourceData, m interfa
 	} else if v, ok := t.(int); ok {
 		mkey = strconv.Itoa(v)
 	} else {
-		return fmt.Errorf("Error describing SystemAutomationDestination: type error")
+		return fmt.Errorf("error describing SystemAutomationDestination: type error")
 	}
 
-	o, err := c.ReadSystemAutomationDestination(mkey, vdomparam)
+	o, err := c.ReadSystemAutomationDestination(mkey, vdomparam, make(map[string][]string), 0)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemAutomationDestination: %v", err)
+		return fmt.Errorf("error describing SystemAutomationDestination: %v", err)
 	}
 
 	if o == nil {
@@ -90,7 +90,7 @@ func dataSourceSystemAutomationDestinationRead(d *schema.ResourceData, m interfa
 
 	err = dataSourceRefreshObjectSystemAutomationDestination(d, o)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemAutomationDestination from API: %v", err)
+		return fmt.Errorf("error describing SystemAutomationDestination from API: %v", err)
 	}
 
 	d.SetId(mkey)
@@ -151,25 +151,25 @@ func dataSourceRefreshObjectSystemAutomationDestination(d *schema.ResourceData, 
 
 	if err = d.Set("name", dataSourceFlattenSystemAutomationDestinationName(o["name"], d, "name")); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("type", dataSourceFlattenSystemAutomationDestinationType(o["type"], d, "type")); err != nil {
 		if !fortiAPIPatch(o["type"]) {
-			return fmt.Errorf("Error reading type: %v", err)
+			return fmt.Errorf("error reading type: %v", err)
 		}
 	}
 
 	if err = d.Set("destination", dataSourceFlattenSystemAutomationDestinationDestination(o["destination"], d, "destination")); err != nil {
 		if !fortiAPIPatch(o["destination"]) {
-			return fmt.Errorf("Error reading destination: %v", err)
+			return fmt.Errorf("error reading destination: %v", err)
 		}
 	}
 
 	if err = d.Set("ha_group_id", dataSourceFlattenSystemAutomationDestinationHaGroupId(o["ha-group-id"], d, "ha_group_id")); err != nil {
 		if !fortiAPIPatch(o["ha-group-id"]) {
-			return fmt.Errorf("Error reading ha_group_id: %v", err)
+			return fmt.Errorf("error reading ha_group_id: %v", err)
 		}
 	}
 

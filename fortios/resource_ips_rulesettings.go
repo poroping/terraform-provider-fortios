@@ -30,15 +30,20 @@ func resourceIpsRuleSettings() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"fosid": &schema.Schema{
+			"fosid": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -56,15 +61,25 @@ func resourceIpsRuleSettingsCreate(d *schema.ResourceData, m interface{}) error 
 		}
 	}
 
-	obj, err := getObjectIpsRuleSettings(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating IpsRuleSettings resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateIpsRuleSettings(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectIpsRuleSettings(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating IpsRuleSettings resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateIpsRuleSettings(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating IpsRuleSettings resource: %v", err)
+		return fmt.Errorf("error creating IpsRuleSettings resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -89,14 +104,24 @@ func resourceIpsRuleSettingsUpdate(d *schema.ResourceData, m interface{}) error 
 		}
 	}
 
-	obj, err := getObjectIpsRuleSettings(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating IpsRuleSettings resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateIpsRuleSettings(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectIpsRuleSettings(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating IpsRuleSettings resource: %v", err)
+		return fmt.Errorf("error updating IpsRuleSettings resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateIpsRuleSettings(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating IpsRuleSettings resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -123,9 +148,17 @@ func resourceIpsRuleSettingsDelete(d *schema.ResourceData, m interface{}) error 
 		}
 	}
 
-	err := c.DeleteIpsRuleSettings(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteIpsRuleSettings(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting IpsRuleSettings resource: %v", err)
+		return fmt.Errorf("error deleting IpsRuleSettings resource: %v", err)
 	}
 
 	d.SetId("")
@@ -147,9 +180,19 @@ func resourceIpsRuleSettingsRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadIpsRuleSettings(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadIpsRuleSettings(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading IpsRuleSettings resource: %v", err)
+		return fmt.Errorf("error reading IpsRuleSettings resource: %v", err)
 	}
 
 	if o == nil {
@@ -160,7 +203,7 @@ func resourceIpsRuleSettingsRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectIpsRuleSettings(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading IpsRuleSettings resource from API: %v", err)
+		return fmt.Errorf("error reading IpsRuleSettings resource from API: %v", err)
 	}
 	return nil
 }
@@ -174,7 +217,7 @@ func refreshObjectIpsRuleSettings(d *schema.ResourceData, o map[string]interface
 
 	if err = d.Set("fosid", flattenIpsRuleSettingsId(o["id"], d, "fosid", sv)); err != nil {
 		if !fortiAPIPatch(o["id"]) {
-			return fmt.Errorf("Error reading fosid: %v", err)
+			return fmt.Errorf("error reading fosid: %v", err)
 		}
 	}
 

@@ -58,14 +58,14 @@ func testAccCheckFortiOSWebProxyProfileExists(n string) resource.TestCheckFunc {
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadWebProxyProfile(i, "root")
+		o, err := c.ReadWebProxyProfile(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading WebProxyProfile: %s", err)
+			return fmt.Errorf("error reading WebProxyProfile: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating WebProxyProfile: %s", n)
+			return fmt.Errorf("error creating WebProxyProfile: %s", n)
 		}
 
 		return nil
@@ -81,11 +81,11 @@ func testAccCheckWebProxyProfileDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadWebProxyProfile(i, "root")
+		o, err := c.ReadWebProxyProfile(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error WebProxyProfile %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error WebProxyProfile %s still exists", rs.Primary.ID)
 			}
 		}
 

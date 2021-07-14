@@ -30,38 +30,38 @@ func resourceSystemVdomException() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"fosid": &schema.Schema{
+			"fosid": {
 				Type:     schema.TypeInt,
 				ForceNew: true,
 				Optional: true,
 				Computed: true,
 			},
-			"object": &schema.Schema{
+			"object": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"oid": &schema.Schema{
+			"oid": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"scope": &schema.Schema{
+			"scope": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"vdom": &schema.Schema{
+			"vdom": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 64),
 							Optional:     true,
@@ -70,10 +70,15 @@ func resourceSystemVdomException() *schema.Resource {
 					},
 				},
 			},
-			"dynamic_sort_subtable": &schema.Schema{
-				Type:     schema.TypeString,
+			"dynamic_sort_subtable": {
+				Type:     schema.TypeBool,
 				Optional: true,
-				Default:  "false",
+				Default:  false,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -91,15 +96,25 @@ func resourceSystemVdomExceptionCreate(d *schema.ResourceData, m interface{}) er
 		}
 	}
 
-	obj, err := getObjectSystemVdomException(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating SystemVdomException resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateSystemVdomException(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemVdomException(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating SystemVdomException resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateSystemVdomException(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating SystemVdomException resource: %v", err)
+		return fmt.Errorf("error creating SystemVdomException resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -124,14 +139,24 @@ func resourceSystemVdomExceptionUpdate(d *schema.ResourceData, m interface{}) er
 		}
 	}
 
-	obj, err := getObjectSystemVdomException(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SystemVdomException resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSystemVdomException(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemVdomException(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SystemVdomException resource: %v", err)
+		return fmt.Errorf("error updating SystemVdomException resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSystemVdomException(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SystemVdomException resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -158,9 +183,17 @@ func resourceSystemVdomExceptionDelete(d *schema.ResourceData, m interface{}) er
 		}
 	}
 
-	err := c.DeleteSystemVdomException(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSystemVdomException(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SystemVdomException resource: %v", err)
+		return fmt.Errorf("error deleting SystemVdomException resource: %v", err)
 	}
 
 	d.SetId("")
@@ -182,9 +215,19 @@ func resourceSystemVdomExceptionRead(d *schema.ResourceData, m interface{}) erro
 		}
 	}
 
-	o, err := c.ReadSystemVdomException(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSystemVdomException(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemVdomException resource: %v", err)
+		return fmt.Errorf("error reading SystemVdomException resource: %v", err)
 	}
 
 	if o == nil {
@@ -195,7 +238,7 @@ func resourceSystemVdomExceptionRead(d *schema.ResourceData, m interface{}) erro
 
 	err = refreshObjectSystemVdomException(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemVdomException resource from API: %v", err)
+		return fmt.Errorf("error reading SystemVdomException resource from API: %v", err)
 	}
 	return nil
 }
@@ -259,39 +302,39 @@ func refreshObjectSystemVdomException(d *schema.ResourceData, o map[string]inter
 
 	if err = d.Set("fosid", flattenSystemVdomExceptionId(o["id"], d, "fosid", sv)); err != nil {
 		if !fortiAPIPatch(o["id"]) {
-			return fmt.Errorf("Error reading fosid: %v", err)
+			return fmt.Errorf("error reading fosid: %v", err)
 		}
 	}
 
 	if err = d.Set("object", flattenSystemVdomExceptionObject(o["object"], d, "object", sv)); err != nil {
 		if !fortiAPIPatch(o["object"]) {
-			return fmt.Errorf("Error reading object: %v", err)
+			return fmt.Errorf("error reading object: %v", err)
 		}
 	}
 
 	if err = d.Set("oid", flattenSystemVdomExceptionOid(o["oid"], d, "oid", sv)); err != nil {
 		if !fortiAPIPatch(o["oid"]) {
-			return fmt.Errorf("Error reading oid: %v", err)
+			return fmt.Errorf("error reading oid: %v", err)
 		}
 	}
 
 	if err = d.Set("scope", flattenSystemVdomExceptionScope(o["scope"], d, "scope", sv)); err != nil {
 		if !fortiAPIPatch(o["scope"]) {
-			return fmt.Errorf("Error reading scope: %v", err)
+			return fmt.Errorf("error reading scope: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("vdom", flattenSystemVdomExceptionVdom(o["vdom"], d, "vdom", sv)); err != nil {
 			if !fortiAPIPatch(o["vdom"]) {
-				return fmt.Errorf("Error reading vdom: %v", err)
+				return fmt.Errorf("error reading vdom: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("vdom"); ok {
 			if err = d.Set("vdom", flattenSystemVdomExceptionVdom(o["vdom"], d, "vdom", sv)); err != nil {
 				if !fortiAPIPatch(o["vdom"]) {
-					return fmt.Errorf("Error reading vdom: %v", err)
+					return fmt.Errorf("error reading vdom: %v", err)
 				}
 			}
 		}

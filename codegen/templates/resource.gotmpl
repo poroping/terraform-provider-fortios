@@ -1,0 +1,90 @@
+{{define "resource"}}
+{{template "HEADER" .}}
+
+
+package fortios
+
+import (
+	"fmt"
+	"log"
+	"strconv"
+
+	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
+)
+
+func resource{{.fpath}}() *schema.Resource {
+	return &schema.Resource{
+		Create: resource{{.fpath}}Create,
+		Read:   resource{{.fpath}}Read,
+		Update: resource{{.fpath}}Update,
+		Delete: resource{{.fpath}}Delete,
+
+		Importer: &schema.ResourceImporter{
+			State: schema.ImportStatePassthrough,
+		},
+
+		Schema: map[string]*schema.Schema{
+			"vdomparam": {
+				Type:     schema.TypeString,
+				Description: "Specifies the vdom to which the resource will be applied when the FortiGate unit is running in VDOM mode. Only one vdom can be specified. If you want to inherit the vdom configuration of the provider, please do not set this parameter.",
+				Optional: true,
+				ForceNew: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Description: "Associate with batch. From 6.4.x+. Currently a WIP and broken.",
+				Optional: true,
+				Default:  0,
+			},
+			{{- if eq .results.mkey "name" }}
+			"allow_append": {
+				Type:         schema.TypeBool,
+				Description: "If set to true allows provider to overwrite existing resources instead of erroring. Useful for brownfield implementations. Use with caution!",
+				Optional:     true,
+				Default:      false,
+			},
+			{{- end }}
+			{{- if .results.dynamic_sort_table }}
+			"dynamic_sort_table": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Default:  false,
+			},
+			{{- end }}
+            {{- template "SCHEMA" .results }}
+		},
+	}
+}
+
+{{ template "CREATERESFUNC" . }}
+
+{{ template "UPDATERESFUNC" . }}
+
+{{ template "DELETERESFUNC" . }}
+
+{{ template "READRESFUNC" . }}
+
+{{ template "FLATTEN" .results }}
+
+func refreshObject{{.fpath}}(d *schema.ResourceData, o map[string]interface{}, sv string) error {
+	var err error
+{{ template "REFRESHOBJECT" .results }}
+
+	return nil
+}
+
+{{ template "EXPAND" .results }}
+
+func getObject{{.fpath}}(d *schema.ResourceData, sv string) (*map[string]interface{}, error) {
+	obj := make(map[string]interface{})
+{{ template "GETOBJECT" .results }}
+	return &obj, nil
+}
+
+
+
+
+
+
+{{end}}

@@ -21,88 +21,88 @@ func dataSourceSystemDdns() *schema.Resource {
 	return &schema.Resource{
 		Read: dataSourceSystemDdnsRead,
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
 
-			"ddnsid": &schema.Schema{
+			"ddnsid": {
 				Type:     schema.TypeInt,
 				Required: true,
 			},
-			"ddns_server": &schema.Schema{
+			"ddns_server": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"ddns_server_ip": &schema.Schema{
+			"ddns_server_ip": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"ddns_zone": &schema.Schema{
+			"ddns_zone": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"ddns_ttl": &schema.Schema{
+			"ddns_ttl": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"ddns_auth": &schema.Schema{
+			"ddns_auth": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"ddns_keyname": &schema.Schema{
+			"ddns_keyname": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"ddns_key": &schema.Schema{
+			"ddns_key": {
 				Type:      schema.TypeString,
 				Sensitive: true,
 				Computed:  true,
 			},
-			"ddns_domain": &schema.Schema{
+			"ddns_domain": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"ddns_username": &schema.Schema{
+			"ddns_username": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"ddns_sn": &schema.Schema{
+			"ddns_sn": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"ddns_password": &schema.Schema{
+			"ddns_password": {
 				Type:      schema.TypeString,
 				Sensitive: true,
 				Computed:  true,
 			},
-			"use_public_ip": &schema.Schema{
+			"use_public_ip": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"update_interval": &schema.Schema{
+			"update_interval": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"clear_text": &schema.Schema{
+			"clear_text": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"ssl_certificate": &schema.Schema{
+			"ssl_certificate": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"bound_ip": &schema.Schema{
+			"bound_ip": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"monitor_interface": &schema.Schema{
+			"monitor_interface": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"interface_name": &schema.Schema{
+						"interface_name": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -133,12 +133,12 @@ func dataSourceSystemDdnsRead(d *schema.ResourceData, m interface{}) error {
 	} else if v, ok := t.(int); ok {
 		mkey = strconv.Itoa(v)
 	} else {
-		return fmt.Errorf("Error describing SystemDdns: type error")
+		return fmt.Errorf("error describing SystemDdns: type error")
 	}
 
-	o, err := c.ReadSystemDdns(mkey, vdomparam)
+	o, err := c.ReadSystemDdns(mkey, vdomparam, make(map[string][]string), 0)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemDdns: %v", err)
+		return fmt.Errorf("error describing SystemDdns: %v", err)
 	}
 
 	if o == nil {
@@ -148,7 +148,7 @@ func dataSourceSystemDdnsRead(d *schema.ResourceData, m interface{}) error {
 
 	err = dataSourceRefreshObjectSystemDdns(d, o)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemDdns from API: %v", err)
+		return fmt.Errorf("error describing SystemDdns from API: %v", err)
 	}
 
 	d.SetId(mkey)
@@ -265,97 +265,97 @@ func dataSourceRefreshObjectSystemDdns(d *schema.ResourceData, o map[string]inte
 
 	if err = d.Set("ddnsid", dataSourceFlattenSystemDdnsDdnsid(o["ddnsid"], d, "ddnsid")); err != nil {
 		if !fortiAPIPatch(o["ddnsid"]) {
-			return fmt.Errorf("Error reading ddnsid: %v", err)
+			return fmt.Errorf("error reading ddnsid: %v", err)
 		}
 	}
 
 	if err = d.Set("ddns_server", dataSourceFlattenSystemDdnsDdnsServer(o["ddns-server"], d, "ddns_server")); err != nil {
 		if !fortiAPIPatch(o["ddns-server"]) {
-			return fmt.Errorf("Error reading ddns_server: %v", err)
+			return fmt.Errorf("error reading ddns_server: %v", err)
 		}
 	}
 
 	if err = d.Set("ddns_server_ip", dataSourceFlattenSystemDdnsDdnsServerIp(o["ddns-server-ip"], d, "ddns_server_ip")); err != nil {
 		if !fortiAPIPatch(o["ddns-server-ip"]) {
-			return fmt.Errorf("Error reading ddns_server_ip: %v", err)
+			return fmt.Errorf("error reading ddns_server_ip: %v", err)
 		}
 	}
 
 	if err = d.Set("ddns_zone", dataSourceFlattenSystemDdnsDdnsZone(o["ddns-zone"], d, "ddns_zone")); err != nil {
 		if !fortiAPIPatch(o["ddns-zone"]) {
-			return fmt.Errorf("Error reading ddns_zone: %v", err)
+			return fmt.Errorf("error reading ddns_zone: %v", err)
 		}
 	}
 
 	if err = d.Set("ddns_ttl", dataSourceFlattenSystemDdnsDdnsTtl(o["ddns-ttl"], d, "ddns_ttl")); err != nil {
 		if !fortiAPIPatch(o["ddns-ttl"]) {
-			return fmt.Errorf("Error reading ddns_ttl: %v", err)
+			return fmt.Errorf("error reading ddns_ttl: %v", err)
 		}
 	}
 
 	if err = d.Set("ddns_auth", dataSourceFlattenSystemDdnsDdnsAuth(o["ddns-auth"], d, "ddns_auth")); err != nil {
 		if !fortiAPIPatch(o["ddns-auth"]) {
-			return fmt.Errorf("Error reading ddns_auth: %v", err)
+			return fmt.Errorf("error reading ddns_auth: %v", err)
 		}
 	}
 
 	if err = d.Set("ddns_keyname", dataSourceFlattenSystemDdnsDdnsKeyname(o["ddns-keyname"], d, "ddns_keyname")); err != nil {
 		if !fortiAPIPatch(o["ddns-keyname"]) {
-			return fmt.Errorf("Error reading ddns_keyname: %v", err)
+			return fmt.Errorf("error reading ddns_keyname: %v", err)
 		}
 	}
 
 	if err = d.Set("ddns_domain", dataSourceFlattenSystemDdnsDdnsDomain(o["ddns-domain"], d, "ddns_domain")); err != nil {
 		if !fortiAPIPatch(o["ddns-domain"]) {
-			return fmt.Errorf("Error reading ddns_domain: %v", err)
+			return fmt.Errorf("error reading ddns_domain: %v", err)
 		}
 	}
 
 	if err = d.Set("ddns_username", dataSourceFlattenSystemDdnsDdnsUsername(o["ddns-username"], d, "ddns_username")); err != nil {
 		if !fortiAPIPatch(o["ddns-username"]) {
-			return fmt.Errorf("Error reading ddns_username: %v", err)
+			return fmt.Errorf("error reading ddns_username: %v", err)
 		}
 	}
 
 	if err = d.Set("ddns_sn", dataSourceFlattenSystemDdnsDdnsSn(o["ddns-sn"], d, "ddns_sn")); err != nil {
 		if !fortiAPIPatch(o["ddns-sn"]) {
-			return fmt.Errorf("Error reading ddns_sn: %v", err)
+			return fmt.Errorf("error reading ddns_sn: %v", err)
 		}
 	}
 
 	if err = d.Set("use_public_ip", dataSourceFlattenSystemDdnsUsePublicIp(o["use-public-ip"], d, "use_public_ip")); err != nil {
 		if !fortiAPIPatch(o["use-public-ip"]) {
-			return fmt.Errorf("Error reading use_public_ip: %v", err)
+			return fmt.Errorf("error reading use_public_ip: %v", err)
 		}
 	}
 
 	if err = d.Set("update_interval", dataSourceFlattenSystemDdnsUpdateInterval(o["update-interval"], d, "update_interval")); err != nil {
 		if !fortiAPIPatch(o["update-interval"]) {
-			return fmt.Errorf("Error reading update_interval: %v", err)
+			return fmt.Errorf("error reading update_interval: %v", err)
 		}
 	}
 
 	if err = d.Set("clear_text", dataSourceFlattenSystemDdnsClearText(o["clear-text"], d, "clear_text")); err != nil {
 		if !fortiAPIPatch(o["clear-text"]) {
-			return fmt.Errorf("Error reading clear_text: %v", err)
+			return fmt.Errorf("error reading clear_text: %v", err)
 		}
 	}
 
 	if err = d.Set("ssl_certificate", dataSourceFlattenSystemDdnsSslCertificate(o["ssl-certificate"], d, "ssl_certificate")); err != nil {
 		if !fortiAPIPatch(o["ssl-certificate"]) {
-			return fmt.Errorf("Error reading ssl_certificate: %v", err)
+			return fmt.Errorf("error reading ssl_certificate: %v", err)
 		}
 	}
 
 	if err = d.Set("bound_ip", dataSourceFlattenSystemDdnsBoundIp(o["bound-ip"], d, "bound_ip")); err != nil {
 		if !fortiAPIPatch(o["bound-ip"]) {
-			return fmt.Errorf("Error reading bound_ip: %v", err)
+			return fmt.Errorf("error reading bound_ip: %v", err)
 		}
 	}
 
 	if err = d.Set("monitor_interface", dataSourceFlattenSystemDdnsMonitorInterface(o["monitor-interface"], d, "monitor_interface")); err != nil {
 		if !fortiAPIPatch(o["monitor-interface"]) {
-			return fmt.Errorf("Error reading monitor_interface: %v", err)
+			return fmt.Errorf("error reading monitor_interface: %v", err)
 		}
 	}
 

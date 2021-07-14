@@ -54,14 +54,14 @@ func testAccCheckFortiOSWebProxyWispExists(n string) resource.TestCheckFunc {
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadWebProxyWisp(i, "root")
+		o, err := c.ReadWebProxyWisp(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading WebProxyWisp: %s", err)
+			return fmt.Errorf("error reading WebProxyWisp: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating WebProxyWisp: %s", n)
+			return fmt.Errorf("error creating WebProxyWisp: %s", n)
 		}
 
 		return nil
@@ -77,11 +77,11 @@ func testAccCheckWebProxyWispDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadWebProxyWisp(i, "root")
+		o, err := c.ReadWebProxyWisp(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error WebProxyWisp %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error WebProxyWisp %s still exists", rs.Primary.ID)
 			}
 		}
 

@@ -51,14 +51,14 @@ func testAccCheckFortiOSLogCustomFieldExists(n string) resource.TestCheckFunc {
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadLogCustomField(i, "root")
+		o, err := c.ReadLogCustomField(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading LogCustomField: %s", err)
+			return fmt.Errorf("error reading LogCustomField: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating LogCustomField: %s", n)
+			return fmt.Errorf("error creating LogCustomField: %s", n)
 		}
 
 		return nil
@@ -74,11 +74,11 @@ func testAccCheckLogCustomFieldDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadLogCustomField(i, "root")
+		o, err := c.ReadLogCustomField(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error LogCustomField %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error LogCustomField %s still exists", rs.Primary.ID)
 			}
 		}
 

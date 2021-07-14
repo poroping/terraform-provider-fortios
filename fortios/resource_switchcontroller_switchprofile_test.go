@@ -50,14 +50,14 @@ func testAccCheckFortiOSSwitchControllerSwitchProfileExists(n string) resource.T
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadSwitchControllerSwitchProfile(i, "root")
+		o, err := c.ReadSwitchControllerSwitchProfile(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading SwitchControllerSwitchProfile: %s", err)
+			return fmt.Errorf("error reading SwitchControllerSwitchProfile: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating SwitchControllerSwitchProfile: %s", n)
+			return fmt.Errorf("error creating SwitchControllerSwitchProfile: %s", n)
 		}
 
 		return nil
@@ -73,11 +73,11 @@ func testAccCheckSwitchControllerSwitchProfileDestroy(s *terraform.State) error 
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadSwitchControllerSwitchProfile(i, "root")
+		o, err := c.ReadSwitchControllerSwitchProfile(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error SwitchControllerSwitchProfile %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error SwitchControllerSwitchProfile %s still exists", rs.Primary.ID)
 			}
 		}
 

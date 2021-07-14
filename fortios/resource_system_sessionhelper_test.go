@@ -52,14 +52,14 @@ func testAccCheckFortiOSSystemSessionHelperExists(n string) resource.TestCheckFu
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemSessionHelper(i, "root")
+		o, err := c.ReadSystemSessionHelper(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading SystemSessionHelper: %s", err)
+			return fmt.Errorf("error reading SystemSessionHelper: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating SystemSessionHelper: %s", n)
+			return fmt.Errorf("error creating SystemSessionHelper: %s", n)
 		}
 
 		return nil
@@ -75,11 +75,11 @@ func testAccCheckSystemSessionHelperDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemSessionHelper(i, "root")
+		o, err := c.ReadSystemSessionHelper(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error SystemSessionHelper %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error SystemSessionHelper %s still exists", rs.Primary.ID)
 			}
 		}
 

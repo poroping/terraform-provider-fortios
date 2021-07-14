@@ -30,50 +30,55 @@ func resourceSystemNetflow() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"collector_ip": &schema.Schema{
+			"collector_ip": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"collector_port": &schema.Schema{
+			"collector_port": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"source_ip": &schema.Schema{
+			"source_ip": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"active_flow_timeout": &schema.Schema{
+			"active_flow_timeout": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 60),
 				Optional:     true,
 				Computed:     true,
 			},
-			"inactive_flow_timeout": &schema.Schema{
+			"inactive_flow_timeout": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(10, 600),
 				Optional:     true,
 				Computed:     true,
 			},
-			"template_tx_timeout": &schema.Schema{
+			"template_tx_timeout": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 1440),
 				Optional:     true,
 				Computed:     true,
 			},
-			"template_tx_counter": &schema.Schema{
+			"template_tx_counter": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(10, 6000),
 				Optional:     true,
 				Computed:     true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -92,14 +97,24 @@ func resourceSystemNetflowUpdate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectSystemNetflow(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SystemNetflow resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSystemNetflow(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemNetflow(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SystemNetflow resource: %v", err)
+		return fmt.Errorf("error updating SystemNetflow resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSystemNetflow(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SystemNetflow resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -126,9 +141,17 @@ func resourceSystemNetflowDelete(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	err := c.DeleteSystemNetflow(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSystemNetflow(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SystemNetflow resource: %v", err)
+		return fmt.Errorf("error deleting SystemNetflow resource: %v", err)
 	}
 
 	d.SetId("")
@@ -150,9 +173,19 @@ func resourceSystemNetflowRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadSystemNetflow(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSystemNetflow(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemNetflow resource: %v", err)
+		return fmt.Errorf("error reading SystemNetflow resource: %v", err)
 	}
 
 	if o == nil {
@@ -163,7 +196,7 @@ func resourceSystemNetflowRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectSystemNetflow(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemNetflow resource from API: %v", err)
+		return fmt.Errorf("error reading SystemNetflow resource from API: %v", err)
 	}
 	return nil
 }
@@ -201,43 +234,43 @@ func refreshObjectSystemNetflow(d *schema.ResourceData, o map[string]interface{}
 
 	if err = d.Set("collector_ip", flattenSystemNetflowCollectorIp(o["collector-ip"], d, "collector_ip", sv)); err != nil {
 		if !fortiAPIPatch(o["collector-ip"]) {
-			return fmt.Errorf("Error reading collector_ip: %v", err)
+			return fmt.Errorf("error reading collector_ip: %v", err)
 		}
 	}
 
 	if err = d.Set("collector_port", flattenSystemNetflowCollectorPort(o["collector-port"], d, "collector_port", sv)); err != nil {
 		if !fortiAPIPatch(o["collector-port"]) {
-			return fmt.Errorf("Error reading collector_port: %v", err)
+			return fmt.Errorf("error reading collector_port: %v", err)
 		}
 	}
 
 	if err = d.Set("source_ip", flattenSystemNetflowSourceIp(o["source-ip"], d, "source_ip", sv)); err != nil {
 		if !fortiAPIPatch(o["source-ip"]) {
-			return fmt.Errorf("Error reading source_ip: %v", err)
+			return fmt.Errorf("error reading source_ip: %v", err)
 		}
 	}
 
 	if err = d.Set("active_flow_timeout", flattenSystemNetflowActiveFlowTimeout(o["active-flow-timeout"], d, "active_flow_timeout", sv)); err != nil {
 		if !fortiAPIPatch(o["active-flow-timeout"]) {
-			return fmt.Errorf("Error reading active_flow_timeout: %v", err)
+			return fmt.Errorf("error reading active_flow_timeout: %v", err)
 		}
 	}
 
 	if err = d.Set("inactive_flow_timeout", flattenSystemNetflowInactiveFlowTimeout(o["inactive-flow-timeout"], d, "inactive_flow_timeout", sv)); err != nil {
 		if !fortiAPIPatch(o["inactive-flow-timeout"]) {
-			return fmt.Errorf("Error reading inactive_flow_timeout: %v", err)
+			return fmt.Errorf("error reading inactive_flow_timeout: %v", err)
 		}
 	}
 
 	if err = d.Set("template_tx_timeout", flattenSystemNetflowTemplateTxTimeout(o["template-tx-timeout"], d, "template_tx_timeout", sv)); err != nil {
 		if !fortiAPIPatch(o["template-tx-timeout"]) {
-			return fmt.Errorf("Error reading template_tx_timeout: %v", err)
+			return fmt.Errorf("error reading template_tx_timeout: %v", err)
 		}
 	}
 
 	if err = d.Set("template_tx_counter", flattenSystemNetflowTemplateTxCounter(o["template-tx-counter"], d, "template_tx_counter", sv)); err != nil {
 		if !fortiAPIPatch(o["template-tx-counter"]) {
-			return fmt.Errorf("Error reading template_tx_counter: %v", err)
+			return fmt.Errorf("error reading template_tx_counter: %v", err)
 		}
 	}
 

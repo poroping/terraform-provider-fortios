@@ -30,34 +30,34 @@ func resourceWanoptContentDeliveryNetworkRule() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"comment": &schema.Schema{
+			"comment": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
 			},
-			"status": &schema.Schema{
+			"status": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"host_domain_name_suffix": &schema.Schema{
+			"host_domain_name_suffix": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 64),
 							Optional:     true,
@@ -66,78 +66,78 @@ func resourceWanoptContentDeliveryNetworkRule() *schema.Resource {
 					},
 				},
 			},
-			"category": &schema.Schema{
+			"category": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"request_cache_control": &schema.Schema{
+			"request_cache_control": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"response_cache_control": &schema.Schema{
+			"response_cache_control": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"response_expires": &schema.Schema{
+			"response_expires": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"text_response_vcache": &schema.Schema{
+			"text_response_vcache": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"updateserver": &schema.Schema{
+			"updateserver": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"rules": &schema.Schema{
+			"rules": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"match_mode": &schema.Schema{
+						"match_mode": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"skip_rule_mode": &schema.Schema{
+						"skip_rule_mode": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"match_entries": &schema.Schema{
+						"match_entries": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"id": &schema.Schema{
+									"id": {
 										Type:     schema.TypeInt,
 										Optional: true,
 										Computed: true,
 									},
-									"target": &schema.Schema{
+									"target": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"pattern": &schema.Schema{
+									"pattern": {
 										Type:     schema.TypeList,
 										Optional: true,
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
-												"string": &schema.Schema{
+												"string": {
 													Type:         schema.TypeString,
 													ValidateFunc: validation.StringLenBetween(0, 64),
 													Optional:     true,
@@ -149,27 +149,27 @@ func resourceWanoptContentDeliveryNetworkRule() *schema.Resource {
 								},
 							},
 						},
-						"skip_entries": &schema.Schema{
+						"skip_entries": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"id": &schema.Schema{
+									"id": {
 										Type:     schema.TypeInt,
 										Optional: true,
 										Computed: true,
 									},
-									"target": &schema.Schema{
+									"target": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"pattern": &schema.Schema{
+									"pattern": {
 										Type:     schema.TypeList,
 										Optional: true,
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
-												"string": &schema.Schema{
+												"string": {
 													Type:         schema.TypeString,
 													ValidateFunc: validation.StringLenBetween(0, 64),
 													Optional:     true,
@@ -181,50 +181,50 @@ func resourceWanoptContentDeliveryNetworkRule() *schema.Resource {
 								},
 							},
 						},
-						"content_id": &schema.Schema{
+						"content_id": {
 							Type:     schema.TypeList,
 							Optional: true,
 							MaxItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"target": &schema.Schema{
+									"target": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"start_str": &schema.Schema{
+									"start_str": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 35),
 										Optional:     true,
 										Computed:     true,
 									},
-									"start_skip": &schema.Schema{
+									"start_skip": {
 										Type:     schema.TypeInt,
 										Optional: true,
 										Computed: true,
 									},
-									"start_direction": &schema.Schema{
+									"start_direction": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"end_str": &schema.Schema{
+									"end_str": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 35),
 										Optional:     true,
 										Computed:     true,
 									},
-									"end_skip": &schema.Schema{
+									"end_skip": {
 										Type:     schema.TypeInt,
 										Optional: true,
 										Computed: true,
 									},
-									"end_direction": &schema.Schema{
+									"end_direction": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"range_str": &schema.Schema{
+									"range_str": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 35),
 										Optional:     true,
@@ -236,10 +236,15 @@ func resourceWanoptContentDeliveryNetworkRule() *schema.Resource {
 					},
 				},
 			},
-			"dynamic_sort_subtable": &schema.Schema{
-				Type:     schema.TypeString,
+			"dynamic_sort_subtable": {
+				Type:     schema.TypeBool,
 				Optional: true,
-				Default:  "false",
+				Default:  false,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -257,15 +262,25 @@ func resourceWanoptContentDeliveryNetworkRuleCreate(d *schema.ResourceData, m in
 		}
 	}
 
-	obj, err := getObjectWanoptContentDeliveryNetworkRule(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating WanoptContentDeliveryNetworkRule resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateWanoptContentDeliveryNetworkRule(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectWanoptContentDeliveryNetworkRule(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating WanoptContentDeliveryNetworkRule resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateWanoptContentDeliveryNetworkRule(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating WanoptContentDeliveryNetworkRule resource: %v", err)
+		return fmt.Errorf("error creating WanoptContentDeliveryNetworkRule resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -290,14 +305,24 @@ func resourceWanoptContentDeliveryNetworkRuleUpdate(d *schema.ResourceData, m in
 		}
 	}
 
-	obj, err := getObjectWanoptContentDeliveryNetworkRule(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating WanoptContentDeliveryNetworkRule resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateWanoptContentDeliveryNetworkRule(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectWanoptContentDeliveryNetworkRule(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating WanoptContentDeliveryNetworkRule resource: %v", err)
+		return fmt.Errorf("error updating WanoptContentDeliveryNetworkRule resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateWanoptContentDeliveryNetworkRule(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating WanoptContentDeliveryNetworkRule resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -324,9 +349,17 @@ func resourceWanoptContentDeliveryNetworkRuleDelete(d *schema.ResourceData, m in
 		}
 	}
 
-	err := c.DeleteWanoptContentDeliveryNetworkRule(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteWanoptContentDeliveryNetworkRule(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting WanoptContentDeliveryNetworkRule resource: %v", err)
+		return fmt.Errorf("error deleting WanoptContentDeliveryNetworkRule resource: %v", err)
 	}
 
 	d.SetId("")
@@ -348,9 +381,19 @@ func resourceWanoptContentDeliveryNetworkRuleRead(d *schema.ResourceData, m inte
 		}
 	}
 
-	o, err := c.ReadWanoptContentDeliveryNetworkRule(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadWanoptContentDeliveryNetworkRule(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading WanoptContentDeliveryNetworkRule resource: %v", err)
+		return fmt.Errorf("error reading WanoptContentDeliveryNetworkRule resource: %v", err)
 	}
 
 	if o == nil {
@@ -361,7 +404,7 @@ func resourceWanoptContentDeliveryNetworkRuleRead(d *schema.ResourceData, m inte
 
 	err = refreshObjectWanoptContentDeliveryNetworkRule(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading WanoptContentDeliveryNetworkRule resource from API: %v", err)
+		return fmt.Errorf("error reading WanoptContentDeliveryNetworkRule resource from API: %v", err)
 	}
 	return nil
 }
@@ -794,33 +837,33 @@ func refreshObjectWanoptContentDeliveryNetworkRule(d *schema.ResourceData, o map
 
 	if err = d.Set("name", flattenWanoptContentDeliveryNetworkRuleName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("comment", flattenWanoptContentDeliveryNetworkRuleComment(o["comment"], d, "comment", sv)); err != nil {
 		if !fortiAPIPatch(o["comment"]) {
-			return fmt.Errorf("Error reading comment: %v", err)
+			return fmt.Errorf("error reading comment: %v", err)
 		}
 	}
 
 	if err = d.Set("status", flattenWanoptContentDeliveryNetworkRuleStatus(o["status"], d, "status", sv)); err != nil {
 		if !fortiAPIPatch(o["status"]) {
-			return fmt.Errorf("Error reading status: %v", err)
+			return fmt.Errorf("error reading status: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("host_domain_name_suffix", flattenWanoptContentDeliveryNetworkRuleHostDomainNameSuffix(o["host-domain-name-suffix"], d, "host_domain_name_suffix", sv)); err != nil {
 			if !fortiAPIPatch(o["host-domain-name-suffix"]) {
-				return fmt.Errorf("Error reading host_domain_name_suffix: %v", err)
+				return fmt.Errorf("error reading host_domain_name_suffix: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("host_domain_name_suffix"); ok {
 			if err = d.Set("host_domain_name_suffix", flattenWanoptContentDeliveryNetworkRuleHostDomainNameSuffix(o["host-domain-name-suffix"], d, "host_domain_name_suffix", sv)); err != nil {
 				if !fortiAPIPatch(o["host-domain-name-suffix"]) {
-					return fmt.Errorf("Error reading host_domain_name_suffix: %v", err)
+					return fmt.Errorf("error reading host_domain_name_suffix: %v", err)
 				}
 			}
 		}
@@ -828,51 +871,51 @@ func refreshObjectWanoptContentDeliveryNetworkRule(d *schema.ResourceData, o map
 
 	if err = d.Set("category", flattenWanoptContentDeliveryNetworkRuleCategory(o["category"], d, "category", sv)); err != nil {
 		if !fortiAPIPatch(o["category"]) {
-			return fmt.Errorf("Error reading category: %v", err)
+			return fmt.Errorf("error reading category: %v", err)
 		}
 	}
 
 	if err = d.Set("request_cache_control", flattenWanoptContentDeliveryNetworkRuleRequestCacheControl(o["request-cache-control"], d, "request_cache_control", sv)); err != nil {
 		if !fortiAPIPatch(o["request-cache-control"]) {
-			return fmt.Errorf("Error reading request_cache_control: %v", err)
+			return fmt.Errorf("error reading request_cache_control: %v", err)
 		}
 	}
 
 	if err = d.Set("response_cache_control", flattenWanoptContentDeliveryNetworkRuleResponseCacheControl(o["response-cache-control"], d, "response_cache_control", sv)); err != nil {
 		if !fortiAPIPatch(o["response-cache-control"]) {
-			return fmt.Errorf("Error reading response_cache_control: %v", err)
+			return fmt.Errorf("error reading response_cache_control: %v", err)
 		}
 	}
 
 	if err = d.Set("response_expires", flattenWanoptContentDeliveryNetworkRuleResponseExpires(o["response-expires"], d, "response_expires", sv)); err != nil {
 		if !fortiAPIPatch(o["response-expires"]) {
-			return fmt.Errorf("Error reading response_expires: %v", err)
+			return fmt.Errorf("error reading response_expires: %v", err)
 		}
 	}
 
 	if err = d.Set("text_response_vcache", flattenWanoptContentDeliveryNetworkRuleTextResponseVcache(o["text-response-vcache"], d, "text_response_vcache", sv)); err != nil {
 		if !fortiAPIPatch(o["text-response-vcache"]) {
-			return fmt.Errorf("Error reading text_response_vcache: %v", err)
+			return fmt.Errorf("error reading text_response_vcache: %v", err)
 		}
 	}
 
 	if err = d.Set("updateserver", flattenWanoptContentDeliveryNetworkRuleUpdateserver(o["updateserver"], d, "updateserver", sv)); err != nil {
 		if !fortiAPIPatch(o["updateserver"]) {
-			return fmt.Errorf("Error reading updateserver: %v", err)
+			return fmt.Errorf("error reading updateserver: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("rules", flattenWanoptContentDeliveryNetworkRuleRules(o["rules"], d, "rules", sv)); err != nil {
 			if !fortiAPIPatch(o["rules"]) {
-				return fmt.Errorf("Error reading rules: %v", err)
+				return fmt.Errorf("error reading rules: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("rules"); ok {
 			if err = d.Set("rules", flattenWanoptContentDeliveryNetworkRuleRules(o["rules"], d, "rules", sv)); err != nil {
 				if !fortiAPIPatch(o["rules"]) {
-					return fmt.Errorf("Error reading rules: %v", err)
+					return fmt.Errorf("error reading rules: %v", err)
 				}
 			}
 		}

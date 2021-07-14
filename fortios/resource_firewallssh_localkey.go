@@ -30,37 +30,42 @@ func resourceFirewallSshLocalKey() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"password": &schema.Schema{
+			"password": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 128),
 				Optional:     true,
 				Sensitive:    true,
 			},
-			"private_key": &schema.Schema{
+			"private_key": {
 				Type:      schema.TypeString,
 				Required:  true,
 				Sensitive: true,
 			},
-			"public_key": &schema.Schema{
+			"public_key": {
 				Type:      schema.TypeString,
 				Required:  true,
 				Sensitive: true,
 			},
-			"source": &schema.Schema{
+			"source": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -78,15 +83,25 @@ func resourceFirewallSshLocalKeyCreate(d *schema.ResourceData, m interface{}) er
 		}
 	}
 
-	obj, err := getObjectFirewallSshLocalKey(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating FirewallSshLocalKey resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateFirewallSshLocalKey(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectFirewallSshLocalKey(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating FirewallSshLocalKey resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateFirewallSshLocalKey(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating FirewallSshLocalKey resource: %v", err)
+		return fmt.Errorf("error creating FirewallSshLocalKey resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -111,14 +126,24 @@ func resourceFirewallSshLocalKeyUpdate(d *schema.ResourceData, m interface{}) er
 		}
 	}
 
-	obj, err := getObjectFirewallSshLocalKey(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating FirewallSshLocalKey resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateFirewallSshLocalKey(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectFirewallSshLocalKey(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating FirewallSshLocalKey resource: %v", err)
+		return fmt.Errorf("error updating FirewallSshLocalKey resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateFirewallSshLocalKey(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating FirewallSshLocalKey resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -145,9 +170,17 @@ func resourceFirewallSshLocalKeyDelete(d *schema.ResourceData, m interface{}) er
 		}
 	}
 
-	err := c.DeleteFirewallSshLocalKey(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteFirewallSshLocalKey(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting FirewallSshLocalKey resource: %v", err)
+		return fmt.Errorf("error deleting FirewallSshLocalKey resource: %v", err)
 	}
 
 	d.SetId("")
@@ -169,9 +202,19 @@ func resourceFirewallSshLocalKeyRead(d *schema.ResourceData, m interface{}) erro
 		}
 	}
 
-	o, err := c.ReadFirewallSshLocalKey(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadFirewallSshLocalKey(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading FirewallSshLocalKey resource: %v", err)
+		return fmt.Errorf("error reading FirewallSshLocalKey resource: %v", err)
 	}
 
 	if o == nil {
@@ -182,7 +225,7 @@ func resourceFirewallSshLocalKeyRead(d *schema.ResourceData, m interface{}) erro
 
 	err = refreshObjectFirewallSshLocalKey(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading FirewallSshLocalKey resource from API: %v", err)
+		return fmt.Errorf("error reading FirewallSshLocalKey resource from API: %v", err)
 	}
 	return nil
 }
@@ -212,13 +255,13 @@ func refreshObjectFirewallSshLocalKey(d *schema.ResourceData, o map[string]inter
 
 	if err = d.Set("name", flattenFirewallSshLocalKeyName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("source", flattenFirewallSshLocalKeySource(o["source"], d, "source", sv)); err != nil {
 		if !fortiAPIPatch(o["source"]) {
-			return fmt.Errorf("Error reading source: %v", err)
+			return fmt.Errorf("error reading source: %v", err)
 		}
 	}
 

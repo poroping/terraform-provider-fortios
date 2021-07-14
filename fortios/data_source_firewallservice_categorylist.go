@@ -17,12 +17,12 @@ func dataSourceFirewallServiceCategoryList() *schema.Resource {
 		Read: dataSourceFirewallServiceCategoryListRead,
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"filter": &schema.Schema{
+			"filter": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
@@ -52,9 +52,9 @@ func dataSourceFirewallServiceCategoryListRead(d *schema.ResourceData, m interfa
 		filter = escapeFilter(filter)
 	}
 
-	o, err := c.GenericGroupRead("/api/v2/cmdb/firewall.service/category", filter, vdomparam)
+	o, err := c.GenericGroupRead("/api/v2/cmdb/firewall.service/category", filter, vdomparam, 0)
 	if err != nil {
-		return fmt.Errorf("Error describing FirewallServiceCategory: %v", err)
+		return fmt.Errorf("error describing FirewallServiceCategory: %v", err)
 	}
 
 	var tmps []string

@@ -21,288 +21,288 @@ func dataSourceSystemVirtualWanLink() *schema.Resource {
 	return &schema.Resource{
 		Read: dataSourceSystemVirtualWanLinkRead,
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
 
-			"status": &schema.Schema{
+			"status": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"load_balance_mode": &schema.Schema{
+			"load_balance_mode": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"neighbor_hold_down": &schema.Schema{
+			"neighbor_hold_down": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"neighbor_hold_down_time": &schema.Schema{
+			"neighbor_hold_down_time": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"neighbor_hold_boot_time": &schema.Schema{
+			"neighbor_hold_boot_time": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"fail_detect": &schema.Schema{
+			"fail_detect": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"fail_alert_interfaces": &schema.Schema{
+			"fail_alert_interfaces": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 					},
 				},
 			},
-			"zone": &schema.Schema{
+			"zone": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 					},
 				},
 			},
-			"members": &schema.Schema{
+			"members": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"seq_num": &schema.Schema{
+						"seq_num": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"interface": &schema.Schema{
+						"interface": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"gateway": &schema.Schema{
+						"gateway": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"source": &schema.Schema{
+						"source": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"gateway6": &schema.Schema{
+						"gateway6": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"source6": &schema.Schema{
+						"source6": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"cost": &schema.Schema{
+						"cost": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"weight": &schema.Schema{
+						"weight": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"priority": &schema.Schema{
+						"priority": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"spillover_threshold": &schema.Schema{
+						"spillover_threshold": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"ingress_spillover_threshold": &schema.Schema{
+						"ingress_spillover_threshold": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"volume_ratio": &schema.Schema{
+						"volume_ratio": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"status": &schema.Schema{
+						"status": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"comment": &schema.Schema{
+						"comment": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 					},
 				},
 			},
-			"health_check": &schema.Schema{
+			"health_check": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"probe_packets": &schema.Schema{
+						"probe_packets": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"addr_mode": &schema.Schema{
+						"addr_mode": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"system_dns": &schema.Schema{
+						"system_dns": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"server": &schema.Schema{
+						"server": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"protocol": &schema.Schema{
+						"protocol": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"port": &schema.Schema{
+						"port": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"security_mode": &schema.Schema{
+						"security_mode": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"password": &schema.Schema{
+						"password": {
 							Type:      schema.TypeString,
 							Sensitive: true,
 							Computed:  true,
 						},
-						"packet_size": &schema.Schema{
+						"packet_size": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"ha_priority": &schema.Schema{
+						"ha_priority": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"http_get": &schema.Schema{
+						"http_get": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"http_agent": &schema.Schema{
+						"http_agent": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"http_match": &schema.Schema{
+						"http_match": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"dns_request_domain": &schema.Schema{
+						"dns_request_domain": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"interval": &schema.Schema{
+						"interval": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"probe_timeout": &schema.Schema{
+						"probe_timeout": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"failtime": &schema.Schema{
+						"failtime": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"recoverytime": &schema.Schema{
+						"recoverytime": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"probe_count": &schema.Schema{
+						"probe_count": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"diffservcode": &schema.Schema{
+						"diffservcode": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"update_cascade_interface": &schema.Schema{
+						"update_cascade_interface": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"update_static_route": &schema.Schema{
+						"update_static_route": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"sla_fail_log_period": &schema.Schema{
+						"sla_fail_log_period": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"sla_pass_log_period": &schema.Schema{
+						"sla_pass_log_period": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"threshold_warning_packetloss": &schema.Schema{
+						"threshold_warning_packetloss": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"threshold_alert_packetloss": &schema.Schema{
+						"threshold_alert_packetloss": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"threshold_warning_latency": &schema.Schema{
+						"threshold_warning_latency": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"threshold_alert_latency": &schema.Schema{
+						"threshold_alert_latency": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"threshold_warning_jitter": &schema.Schema{
+						"threshold_warning_jitter": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"threshold_alert_jitter": &schema.Schema{
+						"threshold_alert_jitter": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"members": &schema.Schema{
+						"members": {
 							Type:     schema.TypeList,
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"seq_num": &schema.Schema{
+									"seq_num": {
 										Type:     schema.TypeInt,
 										Computed: true,
 									},
 								},
 							},
 						},
-						"sla": &schema.Schema{
+						"sla": {
 							Type:     schema.TypeList,
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"id": &schema.Schema{
+									"id": {
 										Type:     schema.TypeInt,
 										Computed: true,
 									},
-									"link_cost_factor": &schema.Schema{
+									"link_cost_factor": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
-									"latency_threshold": &schema.Schema{
+									"latency_threshold": {
 										Type:     schema.TypeInt,
 										Computed: true,
 									},
-									"jitter_threshold": &schema.Schema{
+									"jitter_threshold": {
 										Type:     schema.TypeInt,
 										Computed: true,
 									},
-									"packetloss_threshold": &schema.Schema{
+									"packetloss_threshold": {
 										Type:     schema.TypeInt,
 										Computed: true,
 									},
@@ -312,392 +312,392 @@ func dataSourceSystemVirtualWanLink() *schema.Resource {
 					},
 				},
 			},
-			"neighbor": &schema.Schema{
+			"neighbor": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"ip": &schema.Schema{
+						"ip": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"member": &schema.Schema{
+						"member": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"role": &schema.Schema{
+						"role": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"health_check": &schema.Schema{
+						"health_check": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"sla_id": &schema.Schema{
+						"sla_id": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
 					},
 				},
 			},
-			"service": &schema.Schema{
+			"service": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"name": &schema.Schema{
+						"name": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"addr_mode": &schema.Schema{
+						"addr_mode": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"input_device": &schema.Schema{
+						"input_device": {
 							Type:     schema.TypeList,
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"name": &schema.Schema{
+									"name": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
 								},
 							},
 						},
-						"input_device_negate": &schema.Schema{
+						"input_device_negate": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"mode": &schema.Schema{
+						"mode": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"role": &schema.Schema{
+						"role": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"standalone_action": &schema.Schema{
+						"standalone_action": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"quality_link": &schema.Schema{
+						"quality_link": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"member": &schema.Schema{
+						"member": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"tos": &schema.Schema{
+						"tos": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"tos_mask": &schema.Schema{
+						"tos_mask": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"protocol": &schema.Schema{
+						"protocol": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"start_port": &schema.Schema{
+						"start_port": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"end_port": &schema.Schema{
+						"end_port": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"route_tag": &schema.Schema{
+						"route_tag": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"dst": &schema.Schema{
+						"dst": {
 							Type:     schema.TypeList,
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"name": &schema.Schema{
+									"name": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
 								},
 							},
 						},
-						"dst_negate": &schema.Schema{
+						"dst_negate": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"src": &schema.Schema{
+						"src": {
 							Type:     schema.TypeList,
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"name": &schema.Schema{
+									"name": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
 								},
 							},
 						},
-						"dst6": &schema.Schema{
+						"dst6": {
 							Type:     schema.TypeList,
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"name": &schema.Schema{
+									"name": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
 								},
 							},
 						},
-						"src6": &schema.Schema{
+						"src6": {
 							Type:     schema.TypeList,
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"name": &schema.Schema{
+									"name": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
 								},
 							},
 						},
-						"src_negate": &schema.Schema{
+						"src_negate": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"users": &schema.Schema{
+						"users": {
 							Type:     schema.TypeList,
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"name": &schema.Schema{
+									"name": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
 								},
 							},
 						},
-						"groups": &schema.Schema{
+						"groups": {
 							Type:     schema.TypeList,
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"name": &schema.Schema{
+									"name": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
 								},
 							},
 						},
-						"internet_service": &schema.Schema{
+						"internet_service": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"internet_service_custom": &schema.Schema{
+						"internet_service_custom": {
 							Type:     schema.TypeList,
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"name": &schema.Schema{
+									"name": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
 								},
 							},
 						},
-						"internet_service_custom_group": &schema.Schema{
+						"internet_service_custom_group": {
 							Type:     schema.TypeList,
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"name": &schema.Schema{
+									"name": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
 								},
 							},
 						},
-						"internet_service_name": &schema.Schema{
+						"internet_service_name": {
 							Type:     schema.TypeList,
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"name": &schema.Schema{
+									"name": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
 								},
 							},
 						},
-						"internet_service_id": &schema.Schema{
+						"internet_service_id": {
 							Type:     schema.TypeList,
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"id": &schema.Schema{
+									"id": {
 										Type:     schema.TypeInt,
 										Computed: true,
 									},
 								},
 							},
 						},
-						"internet_service_group": &schema.Schema{
+						"internet_service_group": {
 							Type:     schema.TypeList,
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"name": &schema.Schema{
+									"name": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
 								},
 							},
 						},
-						"internet_service_app_ctrl": &schema.Schema{
+						"internet_service_app_ctrl": {
 							Type:     schema.TypeList,
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"id": &schema.Schema{
+									"id": {
 										Type:     schema.TypeInt,
 										Computed: true,
 									},
 								},
 							},
 						},
-						"internet_service_app_ctrl_group": &schema.Schema{
+						"internet_service_app_ctrl_group": {
 							Type:     schema.TypeList,
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"name": &schema.Schema{
+									"name": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
 								},
 							},
 						},
-						"internet_service_ctrl": &schema.Schema{
+						"internet_service_ctrl": {
 							Type:     schema.TypeList,
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"id": &schema.Schema{
+									"id": {
 										Type:     schema.TypeInt,
 										Computed: true,
 									},
 								},
 							},
 						},
-						"internet_service_ctrl_group": &schema.Schema{
+						"internet_service_ctrl_group": {
 							Type:     schema.TypeList,
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"name": &schema.Schema{
+									"name": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
 								},
 							},
 						},
-						"health_check": &schema.Schema{
+						"health_check": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"link_cost_factor": &schema.Schema{
+						"link_cost_factor": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"packet_loss_weight": &schema.Schema{
+						"packet_loss_weight": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"latency_weight": &schema.Schema{
+						"latency_weight": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"jitter_weight": &schema.Schema{
+						"jitter_weight": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"bandwidth_weight": &schema.Schema{
+						"bandwidth_weight": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"link_cost_threshold": &schema.Schema{
+						"link_cost_threshold": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"hold_down_time": &schema.Schema{
+						"hold_down_time": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"dscp_forward": &schema.Schema{
+						"dscp_forward": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"dscp_reverse": &schema.Schema{
+						"dscp_reverse": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"dscp_forward_tag": &schema.Schema{
+						"dscp_forward_tag": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"dscp_reverse_tag": &schema.Schema{
+						"dscp_reverse_tag": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"sla": &schema.Schema{
+						"sla": {
 							Type:     schema.TypeList,
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"health_check": &schema.Schema{
+									"health_check": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
-									"id": &schema.Schema{
+									"id": {
 										Type:     schema.TypeInt,
 										Computed: true,
 									},
 								},
 							},
 						},
-						"priority_members": &schema.Schema{
+						"priority_members": {
 							Type:     schema.TypeList,
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"seq_num": &schema.Schema{
+									"seq_num": {
 										Type:     schema.TypeInt,
 										Computed: true,
 									},
 								},
 							},
 						},
-						"status": &schema.Schema{
+						"status": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"gateway": &schema.Schema{
+						"gateway": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"default": &schema.Schema{
+						"default": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"sla_compare_method": &schema.Schema{
+						"sla_compare_method": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -722,9 +722,9 @@ func dataSourceSystemVirtualWanLinkRead(d *schema.ResourceData, m interface{}) e
 
 	mkey := "SystemVirtualWanLink"
 
-	o, err := c.ReadSystemVirtualWanLink(mkey, vdomparam)
+	o, err := c.ReadSystemVirtualWanLink(mkey, vdomparam, make(map[string][]string), 0)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemVirtualWanLink: %v", err)
+		return fmt.Errorf("error describing SystemVirtualWanLink: %v", err)
 	}
 
 	if o == nil {
@@ -734,7 +734,7 @@ func dataSourceSystemVirtualWanLinkRead(d *schema.ResourceData, m interface{}) e
 
 	err = dataSourceRefreshObjectSystemVirtualWanLink(d, o)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemVirtualWanLink from API: %v", err)
+		return fmt.Errorf("error describing SystemVirtualWanLink from API: %v", err)
 	}
 
 	d.SetId(mkey)
@@ -2576,73 +2576,73 @@ func dataSourceRefreshObjectSystemVirtualWanLink(d *schema.ResourceData, o map[s
 
 	if err = d.Set("status", dataSourceFlattenSystemVirtualWanLinkStatus(o["status"], d, "status")); err != nil {
 		if !fortiAPIPatch(o["status"]) {
-			return fmt.Errorf("Error reading status: %v", err)
+			return fmt.Errorf("error reading status: %v", err)
 		}
 	}
 
 	if err = d.Set("load_balance_mode", dataSourceFlattenSystemVirtualWanLinkLoadBalanceMode(o["load-balance-mode"], d, "load_balance_mode")); err != nil {
 		if !fortiAPIPatch(o["load-balance-mode"]) {
-			return fmt.Errorf("Error reading load_balance_mode: %v", err)
+			return fmt.Errorf("error reading load_balance_mode: %v", err)
 		}
 	}
 
 	if err = d.Set("neighbor_hold_down", dataSourceFlattenSystemVirtualWanLinkNeighborHoldDown(o["neighbor-hold-down"], d, "neighbor_hold_down")); err != nil {
 		if !fortiAPIPatch(o["neighbor-hold-down"]) {
-			return fmt.Errorf("Error reading neighbor_hold_down: %v", err)
+			return fmt.Errorf("error reading neighbor_hold_down: %v", err)
 		}
 	}
 
 	if err = d.Set("neighbor_hold_down_time", dataSourceFlattenSystemVirtualWanLinkNeighborHoldDownTime(o["neighbor-hold-down-time"], d, "neighbor_hold_down_time")); err != nil {
 		if !fortiAPIPatch(o["neighbor-hold-down-time"]) {
-			return fmt.Errorf("Error reading neighbor_hold_down_time: %v", err)
+			return fmt.Errorf("error reading neighbor_hold_down_time: %v", err)
 		}
 	}
 
 	if err = d.Set("neighbor_hold_boot_time", dataSourceFlattenSystemVirtualWanLinkNeighborHoldBootTime(o["neighbor-hold-boot-time"], d, "neighbor_hold_boot_time")); err != nil {
 		if !fortiAPIPatch(o["neighbor-hold-boot-time"]) {
-			return fmt.Errorf("Error reading neighbor_hold_boot_time: %v", err)
+			return fmt.Errorf("error reading neighbor_hold_boot_time: %v", err)
 		}
 	}
 
 	if err = d.Set("fail_detect", dataSourceFlattenSystemVirtualWanLinkFailDetect(o["fail-detect"], d, "fail_detect")); err != nil {
 		if !fortiAPIPatch(o["fail-detect"]) {
-			return fmt.Errorf("Error reading fail_detect: %v", err)
+			return fmt.Errorf("error reading fail_detect: %v", err)
 		}
 	}
 
 	if err = d.Set("fail_alert_interfaces", dataSourceFlattenSystemVirtualWanLinkFailAlertInterfaces(o["fail-alert-interfaces"], d, "fail_alert_interfaces")); err != nil {
 		if !fortiAPIPatch(o["fail-alert-interfaces"]) {
-			return fmt.Errorf("Error reading fail_alert_interfaces: %v", err)
+			return fmt.Errorf("error reading fail_alert_interfaces: %v", err)
 		}
 	}
 
 	if err = d.Set("zone", dataSourceFlattenSystemVirtualWanLinkZone(o["zone"], d, "zone")); err != nil {
 		if !fortiAPIPatch(o["zone"]) {
-			return fmt.Errorf("Error reading zone: %v", err)
+			return fmt.Errorf("error reading zone: %v", err)
 		}
 	}
 
 	if err = d.Set("members", dataSourceFlattenSystemVirtualWanLinkMembers(o["members"], d, "members")); err != nil {
 		if !fortiAPIPatch(o["members"]) {
-			return fmt.Errorf("Error reading members: %v", err)
+			return fmt.Errorf("error reading members: %v", err)
 		}
 	}
 
 	if err = d.Set("health_check", dataSourceFlattenSystemVirtualWanLinkHealthCheck(o["health-check"], d, "health_check")); err != nil {
 		if !fortiAPIPatch(o["health-check"]) {
-			return fmt.Errorf("Error reading health_check: %v", err)
+			return fmt.Errorf("error reading health_check: %v", err)
 		}
 	}
 
 	if err = d.Set("neighbor", dataSourceFlattenSystemVirtualWanLinkNeighbor(o["neighbor"], d, "neighbor")); err != nil {
 		if !fortiAPIPatch(o["neighbor"]) {
-			return fmt.Errorf("Error reading neighbor: %v", err)
+			return fmt.Errorf("error reading neighbor: %v", err)
 		}
 	}
 
 	if err = d.Set("service", dataSourceFlattenSystemVirtualWanLinkService(o["service"], d, "service")); err != nil {
 		if !fortiAPIPatch(o["service"]) {
-			return fmt.Errorf("Error reading service: %v", err)
+			return fmt.Errorf("error reading service: %v", err)
 		}
 	}
 

@@ -50,14 +50,14 @@ func testAccCheckFortiOSLogMemorySettingExists(n string) resource.TestCheckFunc 
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadLogMemorySetting(i, "root")
+		o, err := c.ReadLogMemorySetting(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading LogMemorySetting: %s", err)
+			return fmt.Errorf("error reading LogMemorySetting: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating LogMemorySetting: %s", n)
+			return fmt.Errorf("error creating LogMemorySetting: %s", n)
 		}
 
 		return nil
@@ -73,11 +73,11 @@ func testAccCheckLogMemorySettingDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadLogMemorySetting(i, "root")
+		o, err := c.ReadLogMemorySetting(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error LogMemorySetting %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error LogMemorySetting %s still exists", rs.Primary.ID)
 			}
 		}
 

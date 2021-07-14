@@ -30,42 +30,42 @@ func resourceSwitchControllerVlanPolicy() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"description": &schema.Schema{
+			"description": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"fortilink": &schema.Schema{
+			"fortilink": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 15),
 				Optional:     true,
 				Computed:     true,
 			},
-			"vlan": &schema.Schema{
+			"vlan": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 15),
 				Optional:     true,
 				Computed:     true,
 			},
-			"allowed_vlans": &schema.Schema{
+			"allowed_vlans": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"vlan_name": &schema.Schema{
+						"vlan_name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 79),
 							Optional:     true,
@@ -74,12 +74,12 @@ func resourceSwitchControllerVlanPolicy() *schema.Resource {
 					},
 				},
 			},
-			"untagged_vlans": &schema.Schema{
+			"untagged_vlans": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"vlan_name": &schema.Schema{
+						"vlan_name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 79),
 							Optional:     true,
@@ -88,20 +88,25 @@ func resourceSwitchControllerVlanPolicy() *schema.Resource {
 					},
 				},
 			},
-			"allowed_vlans_all": &schema.Schema{
+			"allowed_vlans_all": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"discard_mode": &schema.Schema{
+			"discard_mode": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"dynamic_sort_subtable": &schema.Schema{
-				Type:     schema.TypeString,
+			"dynamic_sort_subtable": {
+				Type:     schema.TypeBool,
 				Optional: true,
-				Default:  "false",
+				Default:  false,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -119,15 +124,25 @@ func resourceSwitchControllerVlanPolicyCreate(d *schema.ResourceData, m interfac
 		}
 	}
 
-	obj, err := getObjectSwitchControllerVlanPolicy(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating SwitchControllerVlanPolicy resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateSwitchControllerVlanPolicy(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSwitchControllerVlanPolicy(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating SwitchControllerVlanPolicy resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateSwitchControllerVlanPolicy(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating SwitchControllerVlanPolicy resource: %v", err)
+		return fmt.Errorf("error creating SwitchControllerVlanPolicy resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -152,14 +167,24 @@ func resourceSwitchControllerVlanPolicyUpdate(d *schema.ResourceData, m interfac
 		}
 	}
 
-	obj, err := getObjectSwitchControllerVlanPolicy(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SwitchControllerVlanPolicy resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSwitchControllerVlanPolicy(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSwitchControllerVlanPolicy(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SwitchControllerVlanPolicy resource: %v", err)
+		return fmt.Errorf("error updating SwitchControllerVlanPolicy resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSwitchControllerVlanPolicy(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SwitchControllerVlanPolicy resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -186,9 +211,17 @@ func resourceSwitchControllerVlanPolicyDelete(d *schema.ResourceData, m interfac
 		}
 	}
 
-	err := c.DeleteSwitchControllerVlanPolicy(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSwitchControllerVlanPolicy(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SwitchControllerVlanPolicy resource: %v", err)
+		return fmt.Errorf("error deleting SwitchControllerVlanPolicy resource: %v", err)
 	}
 
 	d.SetId("")
@@ -210,9 +243,19 @@ func resourceSwitchControllerVlanPolicyRead(d *schema.ResourceData, m interface{
 		}
 	}
 
-	o, err := c.ReadSwitchControllerVlanPolicy(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSwitchControllerVlanPolicy(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SwitchControllerVlanPolicy resource: %v", err)
+		return fmt.Errorf("error reading SwitchControllerVlanPolicy resource: %v", err)
 	}
 
 	if o == nil {
@@ -223,7 +266,7 @@ func resourceSwitchControllerVlanPolicyRead(d *schema.ResourceData, m interface{
 
 	err = refreshObjectSwitchControllerVlanPolicy(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SwitchControllerVlanPolicy resource from API: %v", err)
+		return fmt.Errorf("error reading SwitchControllerVlanPolicy resource from API: %v", err)
 	}
 	return nil
 }
@@ -333,39 +376,39 @@ func refreshObjectSwitchControllerVlanPolicy(d *schema.ResourceData, o map[strin
 
 	if err = d.Set("name", flattenSwitchControllerVlanPolicyName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("description", flattenSwitchControllerVlanPolicyDescription(o["description"], d, "description", sv)); err != nil {
 		if !fortiAPIPatch(o["description"]) {
-			return fmt.Errorf("Error reading description: %v", err)
+			return fmt.Errorf("error reading description: %v", err)
 		}
 	}
 
 	if err = d.Set("fortilink", flattenSwitchControllerVlanPolicyFortilink(o["fortilink"], d, "fortilink", sv)); err != nil {
 		if !fortiAPIPatch(o["fortilink"]) {
-			return fmt.Errorf("Error reading fortilink: %v", err)
+			return fmt.Errorf("error reading fortilink: %v", err)
 		}
 	}
 
 	if err = d.Set("vlan", flattenSwitchControllerVlanPolicyVlan(o["vlan"], d, "vlan", sv)); err != nil {
 		if !fortiAPIPatch(o["vlan"]) {
-			return fmt.Errorf("Error reading vlan: %v", err)
+			return fmt.Errorf("error reading vlan: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("allowed_vlans", flattenSwitchControllerVlanPolicyAllowedVlans(o["allowed-vlans"], d, "allowed_vlans", sv)); err != nil {
 			if !fortiAPIPatch(o["allowed-vlans"]) {
-				return fmt.Errorf("Error reading allowed_vlans: %v", err)
+				return fmt.Errorf("error reading allowed_vlans: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("allowed_vlans"); ok {
 			if err = d.Set("allowed_vlans", flattenSwitchControllerVlanPolicyAllowedVlans(o["allowed-vlans"], d, "allowed_vlans", sv)); err != nil {
 				if !fortiAPIPatch(o["allowed-vlans"]) {
-					return fmt.Errorf("Error reading allowed_vlans: %v", err)
+					return fmt.Errorf("error reading allowed_vlans: %v", err)
 				}
 			}
 		}
@@ -374,14 +417,14 @@ func refreshObjectSwitchControllerVlanPolicy(d *schema.ResourceData, o map[strin
 	if isImportTable() {
 		if err = d.Set("untagged_vlans", flattenSwitchControllerVlanPolicyUntaggedVlans(o["untagged-vlans"], d, "untagged_vlans", sv)); err != nil {
 			if !fortiAPIPatch(o["untagged-vlans"]) {
-				return fmt.Errorf("Error reading untagged_vlans: %v", err)
+				return fmt.Errorf("error reading untagged_vlans: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("untagged_vlans"); ok {
 			if err = d.Set("untagged_vlans", flattenSwitchControllerVlanPolicyUntaggedVlans(o["untagged-vlans"], d, "untagged_vlans", sv)); err != nil {
 				if !fortiAPIPatch(o["untagged-vlans"]) {
-					return fmt.Errorf("Error reading untagged_vlans: %v", err)
+					return fmt.Errorf("error reading untagged_vlans: %v", err)
 				}
 			}
 		}
@@ -389,13 +432,13 @@ func refreshObjectSwitchControllerVlanPolicy(d *schema.ResourceData, o map[strin
 
 	if err = d.Set("allowed_vlans_all", flattenSwitchControllerVlanPolicyAllowedVlansAll(o["allowed-vlans-all"], d, "allowed_vlans_all", sv)); err != nil {
 		if !fortiAPIPatch(o["allowed-vlans-all"]) {
-			return fmt.Errorf("Error reading allowed_vlans_all: %v", err)
+			return fmt.Errorf("error reading allowed_vlans_all: %v", err)
 		}
 	}
 
 	if err = d.Set("discard_mode", flattenSwitchControllerVlanPolicyDiscardMode(o["discard-mode"], d, "discard_mode", sv)); err != nil {
 		if !fortiAPIPatch(o["discard-mode"]) {
-			return fmt.Errorf("Error reading discard_mode: %v", err)
+			return fmt.Errorf("error reading discard_mode: %v", err)
 		}
 	}
 

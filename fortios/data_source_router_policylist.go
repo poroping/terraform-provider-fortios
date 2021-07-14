@@ -17,12 +17,12 @@ func dataSourceRouterPolicyList() *schema.Resource {
 		Read: dataSourceRouterPolicyListRead,
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"filter": &schema.Schema{
+			"filter": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
@@ -52,9 +52,9 @@ func dataSourceRouterPolicyListRead(d *schema.ResourceData, m interface{}) error
 		filter = escapeFilter(filter)
 	}
 
-	o, err := c.GenericGroupRead("/api/v2/cmdb/router/policy", filter, vdomparam)
+	o, err := c.GenericGroupRead("/api/v2/cmdb/router/policy", filter, vdomparam, 0)
 	if err != nil {
-		return fmt.Errorf("Error describing RouterPolicy: %v", err)
+		return fmt.Errorf("error describing RouterPolicy: %v", err)
 	}
 
 	var tmps []int

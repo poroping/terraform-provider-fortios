@@ -30,22 +30,22 @@ func resourceSystemNdProxy() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"status": &schema.Schema{
+			"status": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"member": &schema.Schema{
+			"member": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"interface_name": &schema.Schema{
+						"interface_name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 64),
 							Optional:     true,
@@ -54,10 +54,15 @@ func resourceSystemNdProxy() *schema.Resource {
 					},
 				},
 			},
-			"dynamic_sort_subtable": &schema.Schema{
-				Type:     schema.TypeString,
+			"dynamic_sort_subtable": {
+				Type:     schema.TypeBool,
 				Optional: true,
-				Default:  "false",
+				Default:  false,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -76,14 +81,24 @@ func resourceSystemNdProxyUpdate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectSystemNdProxy(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SystemNdProxy resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSystemNdProxy(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemNdProxy(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SystemNdProxy resource: %v", err)
+		return fmt.Errorf("error updating SystemNdProxy resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSystemNdProxy(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SystemNdProxy resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -110,9 +125,17 @@ func resourceSystemNdProxyDelete(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	err := c.DeleteSystemNdProxy(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSystemNdProxy(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SystemNdProxy resource: %v", err)
+		return fmt.Errorf("error deleting SystemNdProxy resource: %v", err)
 	}
 
 	d.SetId("")
@@ -134,9 +157,19 @@ func resourceSystemNdProxyRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadSystemNdProxy(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSystemNdProxy(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemNdProxy resource: %v", err)
+		return fmt.Errorf("error reading SystemNdProxy resource: %v", err)
 	}
 
 	if o == nil {
@@ -147,7 +180,7 @@ func resourceSystemNdProxyRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectSystemNdProxy(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemNdProxy resource from API: %v", err)
+		return fmt.Errorf("error reading SystemNdProxy resource from API: %v", err)
 	}
 	return nil
 }
@@ -199,21 +232,21 @@ func refreshObjectSystemNdProxy(d *schema.ResourceData, o map[string]interface{}
 
 	if err = d.Set("status", flattenSystemNdProxyStatus(o["status"], d, "status", sv)); err != nil {
 		if !fortiAPIPatch(o["status"]) {
-			return fmt.Errorf("Error reading status: %v", err)
+			return fmt.Errorf("error reading status: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("member", flattenSystemNdProxyMember(o["member"], d, "member", sv)); err != nil {
 			if !fortiAPIPatch(o["member"]) {
-				return fmt.Errorf("Error reading member: %v", err)
+				return fmt.Errorf("error reading member: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("member"); ok {
 			if err = d.Set("member", flattenSystemNdProxyMember(o["member"], d, "member", sv)); err != nil {
 				if !fortiAPIPatch(o["member"]) {
-					return fmt.Errorf("Error reading member: %v", err)
+					return fmt.Errorf("error reading member: %v", err)
 				}
 			}
 		}

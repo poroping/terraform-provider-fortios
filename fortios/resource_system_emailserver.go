@@ -30,75 +30,80 @@ func resourceSystemEmailServer() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"type": &schema.Schema{
+			"type": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"reply_to": &schema.Schema{
+			"reply_to": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"server": &schema.Schema{
+			"server": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"port": &schema.Schema{
+			"port": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"source_ip": &schema.Schema{
+			"source_ip": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"source_ip6": &schema.Schema{
+			"source_ip6": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"authenticate": &schema.Schema{
+			"authenticate": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"validate_server": &schema.Schema{
+			"validate_server": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"username": &schema.Schema{
+			"username": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"password": &schema.Schema{
+			"password": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 128),
 				Optional:     true,
 				Sensitive:    true,
 			},
-			"security": &schema.Schema{
+			"security": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ssl_min_proto_version": &schema.Schema{
+			"ssl_min_proto_version": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -117,14 +122,24 @@ func resourceSystemEmailServerUpdate(d *schema.ResourceData, m interface{}) erro
 		}
 	}
 
-	obj, err := getObjectSystemEmailServer(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SystemEmailServer resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSystemEmailServer(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemEmailServer(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SystemEmailServer resource: %v", err)
+		return fmt.Errorf("error updating SystemEmailServer resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSystemEmailServer(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SystemEmailServer resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -151,9 +166,17 @@ func resourceSystemEmailServerDelete(d *schema.ResourceData, m interface{}) erro
 		}
 	}
 
-	err := c.DeleteSystemEmailServer(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSystemEmailServer(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SystemEmailServer resource: %v", err)
+		return fmt.Errorf("error deleting SystemEmailServer resource: %v", err)
 	}
 
 	d.SetId("")
@@ -175,9 +198,19 @@ func resourceSystemEmailServerRead(d *schema.ResourceData, m interface{}) error 
 		}
 	}
 
-	o, err := c.ReadSystemEmailServer(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSystemEmailServer(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemEmailServer resource: %v", err)
+		return fmt.Errorf("error reading SystemEmailServer resource: %v", err)
 	}
 
 	if o == nil {
@@ -188,7 +221,7 @@ func resourceSystemEmailServerRead(d *schema.ResourceData, m interface{}) error 
 
 	err = refreshObjectSystemEmailServer(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemEmailServer resource from API: %v", err)
+		return fmt.Errorf("error reading SystemEmailServer resource from API: %v", err)
 	}
 	return nil
 }
@@ -246,67 +279,67 @@ func refreshObjectSystemEmailServer(d *schema.ResourceData, o map[string]interfa
 
 	if err = d.Set("type", flattenSystemEmailServerType(o["type"], d, "type", sv)); err != nil {
 		if !fortiAPIPatch(o["type"]) {
-			return fmt.Errorf("Error reading type: %v", err)
+			return fmt.Errorf("error reading type: %v", err)
 		}
 	}
 
 	if err = d.Set("reply_to", flattenSystemEmailServerReplyTo(o["reply-to"], d, "reply_to", sv)); err != nil {
 		if !fortiAPIPatch(o["reply-to"]) {
-			return fmt.Errorf("Error reading reply_to: %v", err)
+			return fmt.Errorf("error reading reply_to: %v", err)
 		}
 	}
 
 	if err = d.Set("server", flattenSystemEmailServerServer(o["server"], d, "server", sv)); err != nil {
 		if !fortiAPIPatch(o["server"]) {
-			return fmt.Errorf("Error reading server: %v", err)
+			return fmt.Errorf("error reading server: %v", err)
 		}
 	}
 
 	if err = d.Set("port", flattenSystemEmailServerPort(o["port"], d, "port", sv)); err != nil {
 		if !fortiAPIPatch(o["port"]) {
-			return fmt.Errorf("Error reading port: %v", err)
+			return fmt.Errorf("error reading port: %v", err)
 		}
 	}
 
 	if err = d.Set("source_ip", flattenSystemEmailServerSourceIp(o["source-ip"], d, "source_ip", sv)); err != nil {
 		if !fortiAPIPatch(o["source-ip"]) {
-			return fmt.Errorf("Error reading source_ip: %v", err)
+			return fmt.Errorf("error reading source_ip: %v", err)
 		}
 	}
 
 	if err = d.Set("source_ip6", flattenSystemEmailServerSourceIp6(o["source-ip6"], d, "source_ip6", sv)); err != nil {
 		if !fortiAPIPatch(o["source-ip6"]) {
-			return fmt.Errorf("Error reading source_ip6: %v", err)
+			return fmt.Errorf("error reading source_ip6: %v", err)
 		}
 	}
 
 	if err = d.Set("authenticate", flattenSystemEmailServerAuthenticate(o["authenticate"], d, "authenticate", sv)); err != nil {
 		if !fortiAPIPatch(o["authenticate"]) {
-			return fmt.Errorf("Error reading authenticate: %v", err)
+			return fmt.Errorf("error reading authenticate: %v", err)
 		}
 	}
 
 	if err = d.Set("validate_server", flattenSystemEmailServerValidateServer(o["validate-server"], d, "validate_server", sv)); err != nil {
 		if !fortiAPIPatch(o["validate-server"]) {
-			return fmt.Errorf("Error reading validate_server: %v", err)
+			return fmt.Errorf("error reading validate_server: %v", err)
 		}
 	}
 
 	if err = d.Set("username", flattenSystemEmailServerUsername(o["username"], d, "username", sv)); err != nil {
 		if !fortiAPIPatch(o["username"]) {
-			return fmt.Errorf("Error reading username: %v", err)
+			return fmt.Errorf("error reading username: %v", err)
 		}
 	}
 
 	if err = d.Set("security", flattenSystemEmailServerSecurity(o["security"], d, "security", sv)); err != nil {
 		if !fortiAPIPatch(o["security"]) {
-			return fmt.Errorf("Error reading security: %v", err)
+			return fmt.Errorf("error reading security: %v", err)
 		}
 	}
 
 	if err = d.Set("ssl_min_proto_version", flattenSystemEmailServerSslMinProtoVersion(o["ssl-min-proto-version"], d, "ssl_min_proto_version", sv)); err != nil {
 		if !fortiAPIPatch(o["ssl-min-proto-version"]) {
-			return fmt.Errorf("Error reading ssl_min_proto_version: %v", err)
+			return fmt.Errorf("error reading ssl_min_proto_version: %v", err)
 		}
 	}
 

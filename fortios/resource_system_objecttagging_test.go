@@ -54,14 +54,14 @@ func testAccCheckFortiOSSystemObjectTaggingExists(n string) resource.TestCheckFu
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemObjectTagging(i, "root")
+		o, err := c.ReadSystemObjectTagging(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading SystemObjectTagging: %s", err)
+			return fmt.Errorf("error reading SystemObjectTagging: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating SystemObjectTagging: %s", n)
+			return fmt.Errorf("error creating SystemObjectTagging: %s", n)
 		}
 
 		return nil
@@ -77,11 +77,11 @@ func testAccCheckSystemObjectTaggingDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemObjectTagging(i, "root")
+		o, err := c.ReadSystemObjectTagging(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error SystemObjectTagging %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error SystemObjectTagging %s still exists", rs.Primary.ID)
 			}
 		}
 

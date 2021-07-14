@@ -17,12 +17,12 @@ func dataSourceFirewallMulticastAddress6List() *schema.Resource {
 		Read: dataSourceFirewallMulticastAddress6ListRead,
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"filter": &schema.Schema{
+			"filter": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
@@ -52,9 +52,9 @@ func dataSourceFirewallMulticastAddress6ListRead(d *schema.ResourceData, m inter
 		filter = escapeFilter(filter)
 	}
 
-	o, err := c.GenericGroupRead("/api/v2/cmdb/firewall/multicast-address6", filter, vdomparam)
+	o, err := c.GenericGroupRead("/api/v2/cmdb/firewall/multicast-address6", filter, vdomparam, 0)
 	if err != nil {
-		return fmt.Errorf("Error describing FirewallMulticastAddress6: %v", err)
+		return fmt.Errorf("error describing FirewallMulticastAddress6: %v", err)
 	}
 
 	var tmps []string

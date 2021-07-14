@@ -30,55 +30,60 @@ func resourceIcapServer() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"ip_version": &schema.Schema{
+			"ip_version": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ip_address": &schema.Schema{
+			"ip_address": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ip6_address": &schema.Schema{
+			"ip6_address": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"port": &schema.Schema{
+			"port": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"max_connections": &schema.Schema{
+			"max_connections": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"secure": &schema.Schema{
+			"secure": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ssl_cert": &schema.Schema{
+			"ssl_cert": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
 				Computed:     true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -96,15 +101,25 @@ func resourceIcapServerCreate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectIcapServer(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating IcapServer resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateIcapServer(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectIcapServer(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating IcapServer resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateIcapServer(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating IcapServer resource: %v", err)
+		return fmt.Errorf("error creating IcapServer resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -129,14 +144,24 @@ func resourceIcapServerUpdate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectIcapServer(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating IcapServer resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateIcapServer(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectIcapServer(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating IcapServer resource: %v", err)
+		return fmt.Errorf("error updating IcapServer resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateIcapServer(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating IcapServer resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -163,9 +188,17 @@ func resourceIcapServerDelete(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	err := c.DeleteIcapServer(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteIcapServer(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting IcapServer resource: %v", err)
+		return fmt.Errorf("error deleting IcapServer resource: %v", err)
 	}
 
 	d.SetId("")
@@ -187,9 +220,19 @@ func resourceIcapServerRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadIcapServer(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadIcapServer(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading IcapServer resource: %v", err)
+		return fmt.Errorf("error reading IcapServer resource: %v", err)
 	}
 
 	if o == nil {
@@ -200,7 +243,7 @@ func resourceIcapServerRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectIcapServer(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading IcapServer resource from API: %v", err)
+		return fmt.Errorf("error reading IcapServer resource from API: %v", err)
 	}
 	return nil
 }
@@ -242,49 +285,49 @@ func refreshObjectIcapServer(d *schema.ResourceData, o map[string]interface{}, s
 
 	if err = d.Set("name", flattenIcapServerName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("ip_version", flattenIcapServerIpVersion(o["ip-version"], d, "ip_version", sv)); err != nil {
 		if !fortiAPIPatch(o["ip-version"]) {
-			return fmt.Errorf("Error reading ip_version: %v", err)
+			return fmt.Errorf("error reading ip_version: %v", err)
 		}
 	}
 
 	if err = d.Set("ip_address", flattenIcapServerIpAddress(o["ip-address"], d, "ip_address", sv)); err != nil {
 		if !fortiAPIPatch(o["ip-address"]) {
-			return fmt.Errorf("Error reading ip_address: %v", err)
+			return fmt.Errorf("error reading ip_address: %v", err)
 		}
 	}
 
 	if err = d.Set("ip6_address", flattenIcapServerIp6Address(o["ip6-address"], d, "ip6_address", sv)); err != nil {
 		if !fortiAPIPatch(o["ip6-address"]) {
-			return fmt.Errorf("Error reading ip6_address: %v", err)
+			return fmt.Errorf("error reading ip6_address: %v", err)
 		}
 	}
 
 	if err = d.Set("port", flattenIcapServerPort(o["port"], d, "port", sv)); err != nil {
 		if !fortiAPIPatch(o["port"]) {
-			return fmt.Errorf("Error reading port: %v", err)
+			return fmt.Errorf("error reading port: %v", err)
 		}
 	}
 
 	if err = d.Set("max_connections", flattenIcapServerMaxConnections(o["max-connections"], d, "max_connections", sv)); err != nil {
 		if !fortiAPIPatch(o["max-connections"]) {
-			return fmt.Errorf("Error reading max_connections: %v", err)
+			return fmt.Errorf("error reading max_connections: %v", err)
 		}
 	}
 
 	if err = d.Set("secure", flattenIcapServerSecure(o["secure"], d, "secure", sv)); err != nil {
 		if !fortiAPIPatch(o["secure"]) {
-			return fmt.Errorf("Error reading secure: %v", err)
+			return fmt.Errorf("error reading secure: %v", err)
 		}
 	}
 
 	if err = d.Set("ssl_cert", flattenIcapServerSslCert(o["ssl-cert"], d, "ssl_cert", sv)); err != nil {
 		if !fortiAPIPatch(o["ssl-cert"]) {
-			return fmt.Errorf("Error reading ssl_cert: %v", err)
+			return fmt.Errorf("error reading ssl_cert: %v", err)
 		}
 	}
 

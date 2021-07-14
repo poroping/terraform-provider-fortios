@@ -54,14 +54,14 @@ func testAccCheckFortiOSDlpSensorExists(n string) resource.TestCheckFunc {
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadDlpSensor(i, "root")
+		o, err := c.ReadDlpSensor(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading DlpSensor: %s", err)
+			return fmt.Errorf("error reading DlpSensor: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating DlpSensor: %s", n)
+			return fmt.Errorf("error creating DlpSensor: %s", n)
 		}
 
 		return nil
@@ -77,11 +77,11 @@ func testAccCheckDlpSensorDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadDlpSensor(i, "root")
+		o, err := c.ReadDlpSensor(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error DlpSensor %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error DlpSensor %s still exists", rs.Primary.ID)
 			}
 		}
 

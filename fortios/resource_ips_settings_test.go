@@ -52,14 +52,14 @@ func testAccCheckFortiOSIpsSettingsExists(n string) resource.TestCheckFunc {
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadIpsSettings(i, "root")
+		o, err := c.ReadIpsSettings(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading IpsSettings: %s", err)
+			return fmt.Errorf("error reading IpsSettings: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating IpsSettings: %s", n)
+			return fmt.Errorf("error creating IpsSettings: %s", n)
 		}
 
 		return nil
@@ -75,11 +75,11 @@ func testAccCheckIpsSettingsDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadIpsSettings(i, "root")
+		o, err := c.ReadIpsSettings(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error IpsSettings %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error IpsSettings %s still exists", rs.Primary.ID)
 			}
 		}
 

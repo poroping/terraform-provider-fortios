@@ -50,14 +50,14 @@ func testAccCheckFortiOSUserDeviceAccessListExists(n string) resource.TestCheckF
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadUserDeviceAccessList(i, "root")
+		o, err := c.ReadUserDeviceAccessList(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading UserDeviceAccessList: %s", err)
+			return fmt.Errorf("error reading UserDeviceAccessList: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating UserDeviceAccessList: %s", n)
+			return fmt.Errorf("error creating UserDeviceAccessList: %s", n)
 		}
 
 		return nil
@@ -73,11 +73,11 @@ func testAccCheckUserDeviceAccessListDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadUserDeviceAccessList(i, "root")
+		o, err := c.ReadUserDeviceAccessList(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error UserDeviceAccessList %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error UserDeviceAccessList %s still exists", rs.Primary.ID)
 			}
 		}
 

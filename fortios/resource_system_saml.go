@@ -30,179 +30,179 @@ func resourceSystemSaml() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"status": &schema.Schema{
+			"status": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"role": &schema.Schema{
+			"role": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"default_login_page": &schema.Schema{
+			"default_login_page": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"default_profile": &schema.Schema{
+			"default_profile": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"cert": &schema.Schema{
+			"cert": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"portal_url": &schema.Schema{
+			"portal_url": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
 				Computed:     true,
 			},
-			"entity_id": &schema.Schema{
+			"entity_id": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
 				Computed:     true,
 			},
-			"single_sign_on_url": &schema.Schema{
+			"single_sign_on_url": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
 				Computed:     true,
 			},
-			"single_logout_url": &schema.Schema{
+			"single_logout_url": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
 				Computed:     true,
 			},
-			"idp_entity_id": &schema.Schema{
+			"idp_entity_id": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
 				Computed:     true,
 			},
-			"idp_single_sign_on_url": &schema.Schema{
+			"idp_single_sign_on_url": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
 				Computed:     true,
 			},
-			"idp_single_logout_url": &schema.Schema{
+			"idp_single_logout_url": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
 				Computed:     true,
 			},
-			"idp_cert": &schema.Schema{
+			"idp_cert": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"server_address": &schema.Schema{
+			"server_address": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"tolerance": &schema.Schema{
+			"tolerance": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"life": &schema.Schema{
+			"life": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"service_providers": &schema.Schema{
+			"service_providers": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"prefix": &schema.Schema{
+						"prefix": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"sp_cert": &schema.Schema{
+						"sp_cert": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"sp_entity_id": &schema.Schema{
+						"sp_entity_id": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 255),
 							Optional:     true,
 							Computed:     true,
 						},
-						"sp_single_sign_on_url": &schema.Schema{
+						"sp_single_sign_on_url": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 255),
 							Optional:     true,
 							Computed:     true,
 						},
-						"sp_single_logout_url": &schema.Schema{
+						"sp_single_logout_url": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 255),
 							Optional:     true,
 							Computed:     true,
 						},
-						"sp_portal_url": &schema.Schema{
+						"sp_portal_url": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 255),
 							Optional:     true,
 							Computed:     true,
 						},
-						"idp_entity_id": &schema.Schema{
+						"idp_entity_id": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 255),
 							Optional:     true,
 							Computed:     true,
 						},
-						"idp_single_sign_on_url": &schema.Schema{
+						"idp_single_sign_on_url": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 255),
 							Optional:     true,
 							Computed:     true,
 						},
-						"idp_single_logout_url": &schema.Schema{
+						"idp_single_logout_url": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 255),
 							Optional:     true,
 							Computed:     true,
 						},
-						"assertion_attributes": &schema.Schema{
+						"assertion_attributes": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"name": &schema.Schema{
+									"name": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 35),
 										Optional:     true,
 										Computed:     true,
 									},
-									"type": &schema.Schema{
+									"type": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
@@ -213,10 +213,15 @@ func resourceSystemSaml() *schema.Resource {
 					},
 				},
 			},
-			"dynamic_sort_subtable": &schema.Schema{
-				Type:     schema.TypeString,
+			"dynamic_sort_subtable": {
+				Type:     schema.TypeBool,
 				Optional: true,
-				Default:  "false",
+				Default:  false,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -235,14 +240,24 @@ func resourceSystemSamlUpdate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectSystemSaml(d, false, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SystemSaml resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSystemSaml(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemSaml(d, false, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SystemSaml resource: %v", err)
+		return fmt.Errorf("error updating SystemSaml resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSystemSaml(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SystemSaml resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -268,15 +283,25 @@ func resourceSystemSamlDelete(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
 	obj, err := getObjectSystemSaml(d, true, c.Fv)
 
 	if err != nil {
-		return fmt.Errorf("Error updating SystemSaml resource while getting object: %v", err)
+		return fmt.Errorf("error updating SystemSaml resource while getting object: %v", err)
 	}
 
-	_, err = c.UpdateSystemSaml(obj, mkey, vdomparam)
+	_, err = c.UpdateSystemSaml(obj, mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error clearing SystemSaml resource: %v", err)
+		return fmt.Errorf("error clearing SystemSaml resource: %v", err)
 	}
 
 	d.SetId("")
@@ -298,9 +323,19 @@ func resourceSystemSamlRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadSystemSaml(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSystemSaml(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemSaml resource: %v", err)
+		return fmt.Errorf("error reading SystemSaml resource: %v", err)
 	}
 
 	if o == nil {
@@ -311,7 +346,7 @@ func resourceSystemSamlRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectSystemSaml(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemSaml resource from API: %v", err)
+		return fmt.Errorf("error reading SystemSaml resource from API: %v", err)
 	}
 	return nil
 }
@@ -566,111 +601,111 @@ func refreshObjectSystemSaml(d *schema.ResourceData, o map[string]interface{}, s
 
 	if err = d.Set("status", flattenSystemSamlStatus(o["status"], d, "status", sv)); err != nil {
 		if !fortiAPIPatch(o["status"]) {
-			return fmt.Errorf("Error reading status: %v", err)
+			return fmt.Errorf("error reading status: %v", err)
 		}
 	}
 
 	if err = d.Set("role", flattenSystemSamlRole(o["role"], d, "role", sv)); err != nil {
 		if !fortiAPIPatch(o["role"]) {
-			return fmt.Errorf("Error reading role: %v", err)
+			return fmt.Errorf("error reading role: %v", err)
 		}
 	}
 
 	if err = d.Set("default_login_page", flattenSystemSamlDefaultLoginPage(o["default-login-page"], d, "default_login_page", sv)); err != nil {
 		if !fortiAPIPatch(o["default-login-page"]) {
-			return fmt.Errorf("Error reading default_login_page: %v", err)
+			return fmt.Errorf("error reading default_login_page: %v", err)
 		}
 	}
 
 	if err = d.Set("default_profile", flattenSystemSamlDefaultProfile(o["default-profile"], d, "default_profile", sv)); err != nil {
 		if !fortiAPIPatch(o["default-profile"]) {
-			return fmt.Errorf("Error reading default_profile: %v", err)
+			return fmt.Errorf("error reading default_profile: %v", err)
 		}
 	}
 
 	if err = d.Set("cert", flattenSystemSamlCert(o["cert"], d, "cert", sv)); err != nil {
 		if !fortiAPIPatch(o["cert"]) {
-			return fmt.Errorf("Error reading cert: %v", err)
+			return fmt.Errorf("error reading cert: %v", err)
 		}
 	}
 
 	if err = d.Set("portal_url", flattenSystemSamlPortalUrl(o["portal-url"], d, "portal_url", sv)); err != nil {
 		if !fortiAPIPatch(o["portal-url"]) {
-			return fmt.Errorf("Error reading portal_url: %v", err)
+			return fmt.Errorf("error reading portal_url: %v", err)
 		}
 	}
 
 	if err = d.Set("entity_id", flattenSystemSamlEntityId(o["entity-id"], d, "entity_id", sv)); err != nil {
 		if !fortiAPIPatch(o["entity-id"]) {
-			return fmt.Errorf("Error reading entity_id: %v", err)
+			return fmt.Errorf("error reading entity_id: %v", err)
 		}
 	}
 
 	if err = d.Set("single_sign_on_url", flattenSystemSamlSingleSignOnUrl(o["single-sign-on-url"], d, "single_sign_on_url", sv)); err != nil {
 		if !fortiAPIPatch(o["single-sign-on-url"]) {
-			return fmt.Errorf("Error reading single_sign_on_url: %v", err)
+			return fmt.Errorf("error reading single_sign_on_url: %v", err)
 		}
 	}
 
 	if err = d.Set("single_logout_url", flattenSystemSamlSingleLogoutUrl(o["single-logout-url"], d, "single_logout_url", sv)); err != nil {
 		if !fortiAPIPatch(o["single-logout-url"]) {
-			return fmt.Errorf("Error reading single_logout_url: %v", err)
+			return fmt.Errorf("error reading single_logout_url: %v", err)
 		}
 	}
 
 	if err = d.Set("idp_entity_id", flattenSystemSamlIdpEntityId(o["idp-entity-id"], d, "idp_entity_id", sv)); err != nil {
 		if !fortiAPIPatch(o["idp-entity-id"]) {
-			return fmt.Errorf("Error reading idp_entity_id: %v", err)
+			return fmt.Errorf("error reading idp_entity_id: %v", err)
 		}
 	}
 
 	if err = d.Set("idp_single_sign_on_url", flattenSystemSamlIdpSingleSignOnUrl(o["idp-single-sign-on-url"], d, "idp_single_sign_on_url", sv)); err != nil {
 		if !fortiAPIPatch(o["idp-single-sign-on-url"]) {
-			return fmt.Errorf("Error reading idp_single_sign_on_url: %v", err)
+			return fmt.Errorf("error reading idp_single_sign_on_url: %v", err)
 		}
 	}
 
 	if err = d.Set("idp_single_logout_url", flattenSystemSamlIdpSingleLogoutUrl(o["idp-single-logout-url"], d, "idp_single_logout_url", sv)); err != nil {
 		if !fortiAPIPatch(o["idp-single-logout-url"]) {
-			return fmt.Errorf("Error reading idp_single_logout_url: %v", err)
+			return fmt.Errorf("error reading idp_single_logout_url: %v", err)
 		}
 	}
 
 	if err = d.Set("idp_cert", flattenSystemSamlIdpCert(o["idp-cert"], d, "idp_cert", sv)); err != nil {
 		if !fortiAPIPatch(o["idp-cert"]) {
-			return fmt.Errorf("Error reading idp_cert: %v", err)
+			return fmt.Errorf("error reading idp_cert: %v", err)
 		}
 	}
 
 	if err = d.Set("server_address", flattenSystemSamlServerAddress(o["server-address"], d, "server_address", sv)); err != nil {
 		if !fortiAPIPatch(o["server-address"]) {
-			return fmt.Errorf("Error reading server_address: %v", err)
+			return fmt.Errorf("error reading server_address: %v", err)
 		}
 	}
 
 	if err = d.Set("tolerance", flattenSystemSamlTolerance(o["tolerance"], d, "tolerance", sv)); err != nil {
 		if !fortiAPIPatch(o["tolerance"]) {
-			return fmt.Errorf("Error reading tolerance: %v", err)
+			return fmt.Errorf("error reading tolerance: %v", err)
 		}
 	}
 
 	if err = d.Set("life", flattenSystemSamlLife(o["life"], d, "life", sv)); err != nil {
 		if !fortiAPIPatch(o["life"]) {
-			return fmt.Errorf("Error reading life: %v", err)
+			return fmt.Errorf("error reading life: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("service_providers", flattenSystemSamlServiceProviders(o["service-providers"], d, "service_providers", sv)); err != nil {
 			if !fortiAPIPatch(o["service-providers"]) {
-				return fmt.Errorf("Error reading service_providers: %v", err)
+				return fmt.Errorf("error reading service_providers: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("service_providers"); ok {
 			if err = d.Set("service_providers", flattenSystemSamlServiceProviders(o["service-providers"], d, "service_providers", sv)); err != nil {
 				if !fortiAPIPatch(o["service-providers"]) {
-					return fmt.Errorf("Error reading service_providers: %v", err)
+					return fmt.Errorf("error reading service_providers: %v", err)
 				}
 			}
 		}

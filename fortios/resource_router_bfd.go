@@ -30,22 +30,22 @@ func resourceRouterBfd() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"neighbor": &schema.Schema{
+			"neighbor": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"ip": &schema.Schema{
+						"ip": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"interface": &schema.Schema{
+						"interface": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 15),
 							Optional:     true,
@@ -54,10 +54,15 @@ func resourceRouterBfd() *schema.Resource {
 					},
 				},
 			},
-			"dynamic_sort_subtable": &schema.Schema{
-				Type:     schema.TypeString,
+			"dynamic_sort_subtable": {
+				Type:     schema.TypeBool,
 				Optional: true,
-				Default:  "false",
+				Default:  false,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -76,14 +81,24 @@ func resourceRouterBfdUpdate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectRouterBfd(d, false, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating RouterBfd resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateRouterBfd(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectRouterBfd(d, false, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating RouterBfd resource: %v", err)
+		return fmt.Errorf("error updating RouterBfd resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateRouterBfd(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating RouterBfd resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -109,15 +124,25 @@ func resourceRouterBfdDelete(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
 	obj, err := getObjectRouterBfd(d, true, c.Fv)
 
 	if err != nil {
-		return fmt.Errorf("Error updating RouterBfd resource while getting object: %v", err)
+		return fmt.Errorf("error updating RouterBfd resource while getting object: %v", err)
 	}
 
-	_, err = c.UpdateRouterBfd(obj, mkey, vdomparam)
+	_, err = c.UpdateRouterBfd(obj, mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error clearing RouterBfd resource: %v", err)
+		return fmt.Errorf("error clearing RouterBfd resource: %v", err)
 	}
 
 	d.SetId("")
@@ -139,9 +164,19 @@ func resourceRouterBfdRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadRouterBfd(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadRouterBfd(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading RouterBfd resource: %v", err)
+		return fmt.Errorf("error reading RouterBfd resource: %v", err)
 	}
 
 	if o == nil {
@@ -152,7 +187,7 @@ func resourceRouterBfdRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectRouterBfd(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading RouterBfd resource from API: %v", err)
+		return fmt.Errorf("error reading RouterBfd resource from API: %v", err)
 	}
 	return nil
 }
@@ -211,14 +246,14 @@ func refreshObjectRouterBfd(d *schema.ResourceData, o map[string]interface{}, sv
 	if isImportTable() {
 		if err = d.Set("neighbor", flattenRouterBfdNeighbor(o["neighbor"], d, "neighbor", sv)); err != nil {
 			if !fortiAPIPatch(o["neighbor"]) {
-				return fmt.Errorf("Error reading neighbor: %v", err)
+				return fmt.Errorf("error reading neighbor: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("neighbor"); ok {
 			if err = d.Set("neighbor", flattenRouterBfdNeighbor(o["neighbor"], d, "neighbor", sv)); err != nil {
 				if !fortiAPIPatch(o["neighbor"]) {
-					return fmt.Errorf("Error reading neighbor: %v", err)
+					return fmt.Errorf("error reading neighbor: %v", err)
 				}
 			}
 		}

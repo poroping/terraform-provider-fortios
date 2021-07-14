@@ -59,14 +59,14 @@ func testAccCheckFortiOSLogWebtrendsFilterExists(n string) resource.TestCheckFun
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadLogWebtrendsFilter(i, "root")
+		o, err := c.ReadLogWebtrendsFilter(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading LogWebtrendsFilter: %s", err)
+			return fmt.Errorf("error reading LogWebtrendsFilter: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating LogWebtrendsFilter: %s", n)
+			return fmt.Errorf("error creating LogWebtrendsFilter: %s", n)
 		}
 
 		return nil
@@ -82,11 +82,11 @@ func testAccCheckLogWebtrendsFilterDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadLogWebtrendsFilter(i, "root")
+		o, err := c.ReadLogWebtrendsFilter(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error LogWebtrendsFilter %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error LogWebtrendsFilter %s still exists", rs.Primary.ID)
 			}
 		}
 

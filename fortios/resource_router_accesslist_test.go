@@ -50,14 +50,14 @@ func testAccCheckFortiOSRouterAccessListExists(n string) resource.TestCheckFunc 
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadRouterAccessList(i, "root")
+		o, err := c.ReadRouterAccessList(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading RouterAccessList: %s", err)
+			return fmt.Errorf("error reading RouterAccessList: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating RouterAccessList: %s", n)
+			return fmt.Errorf("error creating RouterAccessList: %s", n)
 		}
 
 		return nil
@@ -73,11 +73,11 @@ func testAccCheckRouterAccessListDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadRouterAccessList(i, "root")
+		o, err := c.ReadRouterAccessList(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error RouterAccessList %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error RouterAccessList %s still exists", rs.Primary.ID)
 			}
 		}
 

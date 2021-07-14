@@ -30,33 +30,38 @@ func resourceUserAdgrp() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 511),
 				ForceNew:     true,
 				Required:     true,
 			},
-			"server_name": &schema.Schema{
+			"server_name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"connector_source": &schema.Schema{
+			"connector_source": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"fosid": &schema.Schema{
+			"fosid": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -74,15 +79,25 @@ func resourceUserAdgrpCreate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectUserAdgrp(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating UserAdgrp resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateUserAdgrp(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectUserAdgrp(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating UserAdgrp resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateUserAdgrp(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating UserAdgrp resource: %v", err)
+		return fmt.Errorf("error creating UserAdgrp resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -107,14 +122,24 @@ func resourceUserAdgrpUpdate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectUserAdgrp(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating UserAdgrp resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateUserAdgrp(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectUserAdgrp(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating UserAdgrp resource: %v", err)
+		return fmt.Errorf("error updating UserAdgrp resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateUserAdgrp(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating UserAdgrp resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -141,9 +166,17 @@ func resourceUserAdgrpDelete(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	err := c.DeleteUserAdgrp(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteUserAdgrp(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting UserAdgrp resource: %v", err)
+		return fmt.Errorf("error deleting UserAdgrp resource: %v", err)
 	}
 
 	d.SetId("")
@@ -165,9 +198,19 @@ func resourceUserAdgrpRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadUserAdgrp(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadUserAdgrp(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading UserAdgrp resource: %v", err)
+		return fmt.Errorf("error reading UserAdgrp resource: %v", err)
 	}
 
 	if o == nil {
@@ -178,7 +221,7 @@ func resourceUserAdgrpRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectUserAdgrp(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading UserAdgrp resource from API: %v", err)
+		return fmt.Errorf("error reading UserAdgrp resource from API: %v", err)
 	}
 	return nil
 }
@@ -204,25 +247,25 @@ func refreshObjectUserAdgrp(d *schema.ResourceData, o map[string]interface{}, sv
 
 	if err = d.Set("name", flattenUserAdgrpName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("server_name", flattenUserAdgrpServerName(o["server-name"], d, "server_name", sv)); err != nil {
 		if !fortiAPIPatch(o["server-name"]) {
-			return fmt.Errorf("Error reading server_name: %v", err)
+			return fmt.Errorf("error reading server_name: %v", err)
 		}
 	}
 
 	if err = d.Set("connector_source", flattenUserAdgrpConnectorSource(o["connector-source"], d, "connector_source", sv)); err != nil {
 		if !fortiAPIPatch(o["connector-source"]) {
-			return fmt.Errorf("Error reading connector_source: %v", err)
+			return fmt.Errorf("error reading connector_source: %v", err)
 		}
 	}
 
 	if err = d.Set("fosid", flattenUserAdgrpId(o["id"], d, "fosid", sv)); err != nil {
 		if !fortiAPIPatch(o["id"]) {
-			return fmt.Errorf("Error reading fosid: %v", err)
+			return fmt.Errorf("error reading fosid: %v", err)
 		}
 	}
 

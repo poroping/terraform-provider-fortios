@@ -30,49 +30,54 @@ func resourceSwitchControllerNacSettings() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"mode": &schema.Schema{
+			"mode": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"inactive_timer": &schema.Schema{
+			"inactive_timer": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 1440),
 				Optional:     true,
 				Computed:     true,
 			},
-			"onboarding_vlan": &schema.Schema{
+			"onboarding_vlan": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 15),
 				Optional:     true,
 				Computed:     true,
 			},
-			"auto_auth": &schema.Schema{
+			"auto_auth": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"bounce_nac_port": &schema.Schema{
+			"bounce_nac_port": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"link_down_flush": &schema.Schema{
+			"link_down_flush": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -90,15 +95,25 @@ func resourceSwitchControllerNacSettingsCreate(d *schema.ResourceData, m interfa
 		}
 	}
 
-	obj, err := getObjectSwitchControllerNacSettings(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating SwitchControllerNacSettings resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateSwitchControllerNacSettings(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSwitchControllerNacSettings(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating SwitchControllerNacSettings resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateSwitchControllerNacSettings(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating SwitchControllerNacSettings resource: %v", err)
+		return fmt.Errorf("error creating SwitchControllerNacSettings resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -123,14 +138,24 @@ func resourceSwitchControllerNacSettingsUpdate(d *schema.ResourceData, m interfa
 		}
 	}
 
-	obj, err := getObjectSwitchControllerNacSettings(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SwitchControllerNacSettings resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSwitchControllerNacSettings(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSwitchControllerNacSettings(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SwitchControllerNacSettings resource: %v", err)
+		return fmt.Errorf("error updating SwitchControllerNacSettings resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSwitchControllerNacSettings(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SwitchControllerNacSettings resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -157,9 +182,17 @@ func resourceSwitchControllerNacSettingsDelete(d *schema.ResourceData, m interfa
 		}
 	}
 
-	err := c.DeleteSwitchControllerNacSettings(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSwitchControllerNacSettings(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SwitchControllerNacSettings resource: %v", err)
+		return fmt.Errorf("error deleting SwitchControllerNacSettings resource: %v", err)
 	}
 
 	d.SetId("")
@@ -181,9 +214,19 @@ func resourceSwitchControllerNacSettingsRead(d *schema.ResourceData, m interface
 		}
 	}
 
-	o, err := c.ReadSwitchControllerNacSettings(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSwitchControllerNacSettings(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SwitchControllerNacSettings resource: %v", err)
+		return fmt.Errorf("error reading SwitchControllerNacSettings resource: %v", err)
 	}
 
 	if o == nil {
@@ -194,7 +237,7 @@ func resourceSwitchControllerNacSettingsRead(d *schema.ResourceData, m interface
 
 	err = refreshObjectSwitchControllerNacSettings(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SwitchControllerNacSettings resource from API: %v", err)
+		return fmt.Errorf("error reading SwitchControllerNacSettings resource from API: %v", err)
 	}
 	return nil
 }
@@ -232,43 +275,43 @@ func refreshObjectSwitchControllerNacSettings(d *schema.ResourceData, o map[stri
 
 	if err = d.Set("name", flattenSwitchControllerNacSettingsName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("mode", flattenSwitchControllerNacSettingsMode(o["mode"], d, "mode", sv)); err != nil {
 		if !fortiAPIPatch(o["mode"]) {
-			return fmt.Errorf("Error reading mode: %v", err)
+			return fmt.Errorf("error reading mode: %v", err)
 		}
 	}
 
 	if err = d.Set("inactive_timer", flattenSwitchControllerNacSettingsInactiveTimer(o["inactive-timer"], d, "inactive_timer", sv)); err != nil {
 		if !fortiAPIPatch(o["inactive-timer"]) {
-			return fmt.Errorf("Error reading inactive_timer: %v", err)
+			return fmt.Errorf("error reading inactive_timer: %v", err)
 		}
 	}
 
 	if err = d.Set("onboarding_vlan", flattenSwitchControllerNacSettingsOnboardingVlan(o["onboarding-vlan"], d, "onboarding_vlan", sv)); err != nil {
 		if !fortiAPIPatch(o["onboarding-vlan"]) {
-			return fmt.Errorf("Error reading onboarding_vlan: %v", err)
+			return fmt.Errorf("error reading onboarding_vlan: %v", err)
 		}
 	}
 
 	if err = d.Set("auto_auth", flattenSwitchControllerNacSettingsAutoAuth(o["auto-auth"], d, "auto_auth", sv)); err != nil {
 		if !fortiAPIPatch(o["auto-auth"]) {
-			return fmt.Errorf("Error reading auto_auth: %v", err)
+			return fmt.Errorf("error reading auto_auth: %v", err)
 		}
 	}
 
 	if err = d.Set("bounce_nac_port", flattenSwitchControllerNacSettingsBounceNacPort(o["bounce-nac-port"], d, "bounce_nac_port", sv)); err != nil {
 		if !fortiAPIPatch(o["bounce-nac-port"]) {
-			return fmt.Errorf("Error reading bounce_nac_port: %v", err)
+			return fmt.Errorf("error reading bounce_nac_port: %v", err)
 		}
 	}
 
 	if err = d.Set("link_down_flush", flattenSwitchControllerNacSettingsLinkDownFlush(o["link-down-flush"], d, "link_down_flush", sv)); err != nil {
 		if !fortiAPIPatch(o["link-down-flush"]) {
-			return fmt.Errorf("Error reading link_down_flush: %v", err)
+			return fmt.Errorf("error reading link_down_flush: %v", err)
 		}
 	}
 

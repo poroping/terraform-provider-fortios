@@ -30,80 +30,80 @@ func resourceFirewallMulticastAddress() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"type": &schema.Schema{
+			"type": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"subnet": &schema.Schema{
+			"subnet": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"start_ip": &schema.Schema{
+			"start_ip": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"end_ip": &schema.Schema{
+			"end_ip": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"comment": &schema.Schema{
+			"comment": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
 			},
-			"visibility": &schema.Schema{
+			"visibility": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"associated_interface": &schema.Schema{
+			"associated_interface": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"color": &schema.Schema{
+			"color": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 32),
 				Optional:     true,
 				Computed:     true,
 			},
-			"tagging": &schema.Schema{
+			"tagging": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 63),
 							Optional:     true,
 							Computed:     true,
 						},
-						"category": &schema.Schema{
+						"category": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 63),
 							Optional:     true,
 							Computed:     true,
 						},
-						"tags": &schema.Schema{
+						"tags": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"name": &schema.Schema{
+									"name": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 64),
 										Optional:     true,
@@ -115,10 +115,21 @@ func resourceFirewallMulticastAddress() *schema.Resource {
 					},
 				},
 			},
-			"dynamic_sort_subtable": &schema.Schema{
-				Type:     schema.TypeString,
+			"dynamic_sort_subtable": {
+				Type:     schema.TypeBool,
 				Optional: true,
-				Default:  "false",
+				Default:  false,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
+			},
+			"allow_append": {
+				Type:         schema.TypeBool,
+				Optional:     true,
+				Default:      false,
+				RequiredWith: []string{"name"},
 			},
 		},
 	}
@@ -136,15 +147,51 @@ func resourceFirewallMulticastAddressCreate(d *schema.ResourceData, m interface{
 		}
 	}
 
-	obj, err := getObjectFirewallMulticastAddress(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating FirewallMulticastAddress resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateFirewallMulticastAddress(obj, vdomparam)
+	allow_append := false
+
+	if v, ok := d.GetOk("allow_append"); ok {
+		if b, ok := v.(bool); ok {
+			allow_append = b
+		}
+	}
+
+	urlparams := make(map[string][]string)
+	urlparams["allow_append"] = []string{strconv.FormatBool(allow_append)}
+
+	key := "name"
+	mkey := ""
+	if v, ok := d.GetOk(key); ok {
+		if s, ok := v.(string); ok {
+			mkey = s
+		}
+	}
+
+	obj, err := getObjectFirewallMulticastAddress(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating FirewallMulticastAddress resource while getting object: %v", err)
+	}
+
+	if mkey == "" && allow_append {
+		return fmt.Errorf("error creating FirewallMulticastAddress resource: %q must be set if \"allow_append\" is true", key)
+	}
+
+	o := make(map[string]interface{})
+	if mkey != "" && allow_append {
+		o, err = c.UpdateFirewallMulticastAddress(obj, mkey, vdomparam, urlparams, batchid)
+	} else {
+		o, err = c.CreateFirewallMulticastAddress(obj, vdomparam, urlparams, batchid)
+	}
 
 	if err != nil {
-		return fmt.Errorf("Error creating FirewallMulticastAddress resource: %v", err)
+		return fmt.Errorf("error creating FirewallMulticastAddress resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -169,14 +216,24 @@ func resourceFirewallMulticastAddressUpdate(d *schema.ResourceData, m interface{
 		}
 	}
 
-	obj, err := getObjectFirewallMulticastAddress(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating FirewallMulticastAddress resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateFirewallMulticastAddress(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectFirewallMulticastAddress(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating FirewallMulticastAddress resource: %v", err)
+		return fmt.Errorf("error updating FirewallMulticastAddress resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateFirewallMulticastAddress(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating FirewallMulticastAddress resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -203,9 +260,17 @@ func resourceFirewallMulticastAddressDelete(d *schema.ResourceData, m interface{
 		}
 	}
 
-	err := c.DeleteFirewallMulticastAddress(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteFirewallMulticastAddress(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting FirewallMulticastAddress resource: %v", err)
+		return fmt.Errorf("error deleting FirewallMulticastAddress resource: %v", err)
 	}
 
 	d.SetId("")
@@ -227,9 +292,19 @@ func resourceFirewallMulticastAddressRead(d *schema.ResourceData, m interface{})
 		}
 	}
 
-	o, err := c.ReadFirewallMulticastAddress(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadFirewallMulticastAddress(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading FirewallMulticastAddress resource: %v", err)
+		return fmt.Errorf("error reading FirewallMulticastAddress resource: %v", err)
 	}
 
 	if o == nil {
@@ -240,7 +315,7 @@ func resourceFirewallMulticastAddressRead(d *schema.ResourceData, m interface{})
 
 	err = refreshObjectFirewallMulticastAddress(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading FirewallMulticastAddress resource from API: %v", err)
+		return fmt.Errorf("error reading FirewallMulticastAddress resource from API: %v", err)
 	}
 	return nil
 }
@@ -384,69 +459,69 @@ func refreshObjectFirewallMulticastAddress(d *schema.ResourceData, o map[string]
 
 	if err = d.Set("name", flattenFirewallMulticastAddressName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("type", flattenFirewallMulticastAddressType(o["type"], d, "type", sv)); err != nil {
 		if !fortiAPIPatch(o["type"]) {
-			return fmt.Errorf("Error reading type: %v", err)
+			return fmt.Errorf("error reading type: %v", err)
 		}
 	}
 
 	if err = d.Set("subnet", flattenFirewallMulticastAddressSubnet(o["subnet"], d, "subnet", sv)); err != nil {
 		if !fortiAPIPatch(o["subnet"]) {
-			return fmt.Errorf("Error reading subnet: %v", err)
+			return fmt.Errorf("error reading subnet: %v", err)
 		}
 	}
 
 	if err = d.Set("start_ip", flattenFirewallMulticastAddressStartIp(o["start-ip"], d, "start_ip", sv)); err != nil {
 		if !fortiAPIPatch(o["start-ip"]) {
-			return fmt.Errorf("Error reading start_ip: %v", err)
+			return fmt.Errorf("error reading start_ip: %v", err)
 		}
 	}
 
 	if err = d.Set("end_ip", flattenFirewallMulticastAddressEndIp(o["end-ip"], d, "end_ip", sv)); err != nil {
 		if !fortiAPIPatch(o["end-ip"]) {
-			return fmt.Errorf("Error reading end_ip: %v", err)
+			return fmt.Errorf("error reading end_ip: %v", err)
 		}
 	}
 
 	if err = d.Set("comment", flattenFirewallMulticastAddressComment(o["comment"], d, "comment", sv)); err != nil {
 		if !fortiAPIPatch(o["comment"]) {
-			return fmt.Errorf("Error reading comment: %v", err)
+			return fmt.Errorf("error reading comment: %v", err)
 		}
 	}
 
 	if err = d.Set("visibility", flattenFirewallMulticastAddressVisibility(o["visibility"], d, "visibility", sv)); err != nil {
 		if !fortiAPIPatch(o["visibility"]) {
-			return fmt.Errorf("Error reading visibility: %v", err)
+			return fmt.Errorf("error reading visibility: %v", err)
 		}
 	}
 
 	if err = d.Set("associated_interface", flattenFirewallMulticastAddressAssociatedInterface(o["associated-interface"], d, "associated_interface", sv)); err != nil {
 		if !fortiAPIPatch(o["associated-interface"]) {
-			return fmt.Errorf("Error reading associated_interface: %v", err)
+			return fmt.Errorf("error reading associated_interface: %v", err)
 		}
 	}
 
 	if err = d.Set("color", flattenFirewallMulticastAddressColor(o["color"], d, "color", sv)); err != nil {
 		if !fortiAPIPatch(o["color"]) {
-			return fmt.Errorf("Error reading color: %v", err)
+			return fmt.Errorf("error reading color: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("tagging", flattenFirewallMulticastAddressTagging(o["tagging"], d, "tagging", sv)); err != nil {
 			if !fortiAPIPatch(o["tagging"]) {
-				return fmt.Errorf("Error reading tagging: %v", err)
+				return fmt.Errorf("error reading tagging: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("tagging"); ok {
 			if err = d.Set("tagging", flattenFirewallMulticastAddressTagging(o["tagging"], d, "tagging", sv)); err != nil {
 				if !fortiAPIPatch(o["tagging"]) {
-					return fmt.Errorf("Error reading tagging: %v", err)
+					return fmt.Errorf("error reading tagging: %v", err)
 				}
 			}
 		}

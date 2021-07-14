@@ -1,0 +1,110 @@
+{{ define "DSFLATTEN" }}
+{{- range $key, $value := .children }}
+{{- if eq $value.category "unitary" }}
+func dataSourceFlatten{{.fpath}}(v interface{}, d *schema.ResourceData, pre string) interface{} {
+{{- if eq $value.type "ipv4-classnet-any" }}
+	if v1, ok := d.GetOkExists(pre); ok && v != nil {
+		if s, ok := v1.(string); ok {
+			v = validateConvIPMask2CIDR(s, v.(string))
+			return v
+		}
+	}
+	return v
+}
+{{- else if eq $value.type "ipv4-classnet-host" }}
+	if v1, ok := d.GetOkExists(pre); ok && v != nil {
+		if s, ok := v1.(string); ok {
+			v = validateConvIPMask2CIDR(s, v.(string))
+			return v
+		}
+	}
+	return v
+}
+{{- else if eq $value.type "ipv4-classnet" }}
+	if v1, ok := d.GetOkExists(pre); ok && v != nil {
+		if s, ok := v1.(string); ok {
+			v = validateConvIPMask2CIDR(s, v.(string))
+			return v
+		}
+	}
+	return v
+}
+{{ else }}
+	return v
+}
+{{ end }}
+{{ end }}
+{{- if eq $value.category "table" }}
+func dataSourceFlatten{{.fpath}}(v interface{}, d *schema.ResourceData, pre string) []map[string]interface{} {
+	if v == nil {
+		return nil
+	}
+
+	l := v.([]interface{})
+	if len(l) == 0 || l[0] == nil {
+		return nil
+	}
+
+	result := make([]map[string]interface{}, 0, len(l))
+
+	con := 0
+	for _, r := range l {
+		tmp := make(map[string]interface{})
+		i := r.(map[string]interface{})
+
+		pre_append := "" // table
+{{- range $key, $value := $value.children }}
+		pre_append = pre + "." + strconv.Itoa(con) + "." + {{(flatten $value.name) | printf "%q" }}
+		if _, ok := i[{{$value.name | printf "%q" }}]; ok {
+
+			tmp[{{(flatten $value.name) | printf "%q" }}] = dataSourceFlatten{{.fpath}}(i[{{$value.name | printf "%q" }}], d, pre_append)
+		}
+{{ end }}
+		result = append(result, tmp)
+
+		con += 1
+	}
+
+	return result
+}
+{{- template "DSFLATTEN" $value }}
+
+{{- end }}
+{{- if eq $value.category "complex" }}
+func dataSourceFlatten{{.fpath}}(v interface{}, d *schema.ResourceData, pre string) []map[string]interface{} {
+	if v == nil {
+		return nil
+	}
+
+	l := v.([]interface{})
+	if len(l) == 0 || l[0] == nil {
+		return nil
+	}
+
+	result := make([]map[string]interface{}, 0, len(l))
+
+	con := 0
+	for _, r := range l {
+		tmp := make(map[string]interface{})
+		i := r.(map[string]interface{})
+
+		pre_append := "" // table
+{{- range $key, $value := $value.children }}
+		pre_append = pre + "." + strconv.Itoa(con) + "." + {{(flatten $value.name) | printf "%q" }}
+		if _, ok := i[{{$value.name | printf "%q" }}]; ok {
+
+			tmp[{{(flatten $value.name) | printf "%q" }}] = dataSourceFlatten{{.fpath}}(i[{{$value.name | printf "%q" }}], d, pre_append)
+		}
+{{ end }}
+		result = append(result, tmp)
+
+		con += 1
+	}
+
+	return result
+}
+{{- template "DSFLATTEN" $value }}
+
+{{- end }}
+{{- end }}
+{{- end }}

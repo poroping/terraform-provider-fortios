@@ -30,40 +30,40 @@ func resourceSystemApiUser() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"comments": &schema.Schema{
+			"comments": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
 			},
-			"api_key": &schema.Schema{
+			"api_key": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 128),
 				Optional:     true,
 				Sensitive:    true,
 			},
-			"accprofile": &schema.Schema{
+			"accprofile": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Required:     true,
 			},
-			"vdom": &schema.Schema{
+			"vdom": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 64),
 							Optional:     true,
@@ -72,50 +72,50 @@ func resourceSystemApiUser() *schema.Resource {
 					},
 				},
 			},
-			"schedule": &schema.Schema{
+			"schedule": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"cors_allow_origin": &schema.Schema{
+			"cors_allow_origin": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 269),
 				Optional:     true,
 				Computed:     true,
 			},
-			"peer_auth": &schema.Schema{
+			"peer_auth": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"peer_group": &schema.Schema{
+			"peer_group": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"trusthost": &schema.Schema{
+			"trusthost": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"type": &schema.Schema{
+						"type": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"ipv4_trusthost": &schema.Schema{
+						"ipv4_trusthost": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"ipv6_trusthost": &schema.Schema{
+						"ipv6_trusthost": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -123,10 +123,15 @@ func resourceSystemApiUser() *schema.Resource {
 					},
 				},
 			},
-			"dynamic_sort_subtable": &schema.Schema{
-				Type:     schema.TypeString,
+			"dynamic_sort_subtable": {
+				Type:     schema.TypeBool,
 				Optional: true,
-				Default:  "false",
+				Default:  false,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -144,15 +149,25 @@ func resourceSystemApiUserCreate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectSystemApiUser(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating SystemApiUser resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateSystemApiUser(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemApiUser(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating SystemApiUser resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateSystemApiUser(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating SystemApiUser resource: %v", err)
+		return fmt.Errorf("error creating SystemApiUser resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -177,14 +192,24 @@ func resourceSystemApiUserUpdate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectSystemApiUser(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SystemApiUser resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSystemApiUser(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemApiUser(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SystemApiUser resource: %v", err)
+		return fmt.Errorf("error updating SystemApiUser resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSystemApiUser(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SystemApiUser resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -211,9 +236,17 @@ func resourceSystemApiUserDelete(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	err := c.DeleteSystemApiUser(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSystemApiUser(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SystemApiUser resource: %v", err)
+		return fmt.Errorf("error deleting SystemApiUser resource: %v", err)
 	}
 
 	d.SetId("")
@@ -235,9 +268,19 @@ func resourceSystemApiUserRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadSystemApiUser(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSystemApiUser(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemApiUser resource: %v", err)
+		return fmt.Errorf("error reading SystemApiUser resource: %v", err)
 	}
 
 	if o == nil {
@@ -248,7 +291,7 @@ func resourceSystemApiUserRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectSystemApiUser(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemApiUser resource from API: %v", err)
+		return fmt.Errorf("error reading SystemApiUser resource from API: %v", err)
 	}
 	return nil
 }
@@ -403,33 +446,33 @@ func refreshObjectSystemApiUser(d *schema.ResourceData, o map[string]interface{}
 
 	if err = d.Set("name", flattenSystemApiUserName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("comments", flattenSystemApiUserComments(o["comments"], d, "comments", sv)); err != nil {
 		if !fortiAPIPatch(o["comments"]) {
-			return fmt.Errorf("Error reading comments: %v", err)
+			return fmt.Errorf("error reading comments: %v", err)
 		}
 	}
 
 	if err = d.Set("accprofile", flattenSystemApiUserAccprofile(o["accprofile"], d, "accprofile", sv)); err != nil {
 		if !fortiAPIPatch(o["accprofile"]) {
-			return fmt.Errorf("Error reading accprofile: %v", err)
+			return fmt.Errorf("error reading accprofile: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("vdom", flattenSystemApiUserVdom(o["vdom"], d, "vdom", sv)); err != nil {
 			if !fortiAPIPatch(o["vdom"]) {
-				return fmt.Errorf("Error reading vdom: %v", err)
+				return fmt.Errorf("error reading vdom: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("vdom"); ok {
 			if err = d.Set("vdom", flattenSystemApiUserVdom(o["vdom"], d, "vdom", sv)); err != nil {
 				if !fortiAPIPatch(o["vdom"]) {
-					return fmt.Errorf("Error reading vdom: %v", err)
+					return fmt.Errorf("error reading vdom: %v", err)
 				}
 			}
 		}
@@ -437,39 +480,39 @@ func refreshObjectSystemApiUser(d *schema.ResourceData, o map[string]interface{}
 
 	if err = d.Set("schedule", flattenSystemApiUserSchedule(o["schedule"], d, "schedule", sv)); err != nil {
 		if !fortiAPIPatch(o["schedule"]) {
-			return fmt.Errorf("Error reading schedule: %v", err)
+			return fmt.Errorf("error reading schedule: %v", err)
 		}
 	}
 
 	if err = d.Set("cors_allow_origin", flattenSystemApiUserCorsAllowOrigin(o["cors-allow-origin"], d, "cors_allow_origin", sv)); err != nil {
 		if !fortiAPIPatch(o["cors-allow-origin"]) {
-			return fmt.Errorf("Error reading cors_allow_origin: %v", err)
+			return fmt.Errorf("error reading cors_allow_origin: %v", err)
 		}
 	}
 
 	if err = d.Set("peer_auth", flattenSystemApiUserPeerAuth(o["peer-auth"], d, "peer_auth", sv)); err != nil {
 		if !fortiAPIPatch(o["peer-auth"]) {
-			return fmt.Errorf("Error reading peer_auth: %v", err)
+			return fmt.Errorf("error reading peer_auth: %v", err)
 		}
 	}
 
 	if err = d.Set("peer_group", flattenSystemApiUserPeerGroup(o["peer-group"], d, "peer_group", sv)); err != nil {
 		if !fortiAPIPatch(o["peer-group"]) {
-			return fmt.Errorf("Error reading peer_group: %v", err)
+			return fmt.Errorf("error reading peer_group: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("trusthost", flattenSystemApiUserTrusthost(o["trusthost"], d, "trusthost", sv)); err != nil {
 			if !fortiAPIPatch(o["trusthost"]) {
-				return fmt.Errorf("Error reading trusthost: %v", err)
+				return fmt.Errorf("error reading trusthost: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("trusthost"); ok {
 			if err = d.Set("trusthost", flattenSystemApiUserTrusthost(o["trusthost"], d, "trusthost", sv)); err != nil {
 				if !fortiAPIPatch(o["trusthost"]) {
-					return fmt.Errorf("Error reading trusthost: %v", err)
+					return fmt.Errorf("error reading trusthost: %v", err)
 				}
 			}
 		}

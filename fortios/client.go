@@ -22,12 +22,6 @@ type Config struct {
 	CABundle string
 	Vdom     string
 
-	FMG_Hostname string
-	FMG_Username string
-	FMG_Passwd   string
-	FMG_Insecure *bool
-	FMG_CABundle string
-
 	PeerAuth   string
 	CaCert     string
 	ClientCert string
@@ -51,26 +45,16 @@ func (c *Config) CreateClient() (interface{}, error) {
 	var fClient FortiClient
 
 	bFOSExist := bFortiOSHostnameExist(c)
-	bFMGExist := bFortiManagerHostnameExist(c)
 
 	if bFOSExist {
 		err := createFortiOSClient(&fClient, c)
 		if err != nil {
-			return nil, fmt.Errorf("Error create fortios client: %v", err)
+			return nil, fmt.Errorf("error create fortios client: %v", err)
 		}
 	}
 
-	if bFMGExist {
-		err := createFortiManagerClient(&fClient, c)
-		if err != nil {
-			return nil, fmt.Errorf("Error create fortimanager client: %v", err)
-		}
-	} else {
-		fClient.ClientFortimanager = fmgclient.NewEmptyClient()
-	}
-
-	if !bFOSExist && !bFMGExist {
-		return nil, fmt.Errorf("FortiOS or FortiManager, at least one of their hostnames should be set")
+	if !bFOSExist {
+		return nil, fmt.Errorf("FortiOS hostname should be set")
 	}
 
 	return &fClient, nil
@@ -86,16 +70,6 @@ func bFortiOSHostnameExist(c *Config) bool {
 	return true
 }
 
-func bFortiManagerHostnameExist(c *Config) bool {
-	if c.FMG_Hostname == "" {
-		if os.Getenv("FORTIOS_FMG_HOSTNAME") == "" {
-			return false
-		}
-	}
-
-	return true
-}
-
 func createFortiOSClient(fClient *FortiClient, c *Config) error {
 	config := &tls.Config{}
 
@@ -104,14 +78,14 @@ func createFortiOSClient(fClient *FortiClient, c *Config) error {
 	if auth.Hostname == "" {
 		_, err := auth.GetEnvHostname()
 		if err != nil {
-			return fmt.Errorf("Error reading Hostname")
+			return fmt.Errorf("error reading Hostname")
 		}
 	}
 
 	if auth.Token == "" {
 		_, err := auth.GetEnvToken()
 		if err != nil {
-			return fmt.Errorf("Error reading Token")
+			return fmt.Errorf("error reading Token")
 		}
 	}
 
@@ -122,25 +96,25 @@ func createFortiOSClient(fClient *FortiClient, c *Config) error {
 	if auth.PeerAuth == "" {
 		_, err := auth.GetEnvPeerAuth()
 		if err != nil {
-			return fmt.Errorf("Error reading PeerAuth")
+			return fmt.Errorf("error reading PeerAuth")
 		}
 	}
 	if auth.CaCert == "" {
 		_, err := auth.GetEnvCaCert()
 		if err != nil {
-			return fmt.Errorf("Error reading CaCert")
+			return fmt.Errorf("error reading CaCert")
 		}
 	}
 	if auth.ClientCert == "" {
 		_, err := auth.GetEnvClientCert()
 		if err != nil {
-			return fmt.Errorf("Error reading ClientCert")
+			return fmt.Errorf("error reading ClientCert")
 		}
 	}
 	if auth.ClientKey == "" {
 		_, err := auth.GetEnvClientKey()
 		if err != nil {
-			return fmt.Errorf("Error reading ClientKey")
+			return fmt.Errorf("error reading ClientKey")
 		}
 	}
 
@@ -149,17 +123,17 @@ func createFortiOSClient(fClient *FortiClient, c *Config) error {
 	if auth.CABundle != "" {
 		f, err := os.Open(auth.CABundle)
 		if err != nil {
-			return fmt.Errorf("Error reading CA Bundle: %v", err)
+			return fmt.Errorf("error reading CA Bundle: %v", err)
 		}
 		defer f.Close()
 
 		caBundle, err := ioutil.ReadAll(f)
 		if err != nil {
-			return fmt.Errorf("Error reading CA Bundle: %v", err)
+			return fmt.Errorf("error reading CA Bundle: %v", err)
 		}
 
 		if !pool.AppendCertsFromPEM([]byte(caBundle)) {
-			return fmt.Errorf("Error reading CA Bundle")
+			return fmt.Errorf("error reading CA Bundle")
 		}
 		config.RootCAs = pool
 	}
@@ -176,16 +150,16 @@ func createFortiOSClient(fClient *FortiClient, c *Config) error {
 		}
 
 		if auth.ClientCert == "" {
-			return fmt.Errorf("User Cert file doesn't exist!")
+			return fmt.Errorf("user cert file doesn't exist")
 		}
 
 		if auth.ClientKey == "" {
-			return fmt.Errorf("User Key file doesn't exist!")
+			return fmt.Errorf("user key file doesn't exist")
 		}
 
 		clientCert, err := tls.LoadX509KeyPair(auth.ClientCert, auth.ClientKey)
 		if err != nil {
-			return fmt.Errorf("Client ioutil.ReadFile couldn't load clientCert/clientKey file: %v", err)
+			return fmt.Errorf("client ioutil.ReadFile couldn't load clientCert/clientKey file: %v", err)
 		}
 
 		config.Certificates = []tls.Certificate{clientCert}
@@ -199,8 +173,8 @@ func createFortiOSClient(fClient *FortiClient, c *Config) error {
 		config.InsecureSkipVerify = *c.Insecure
 	}
 
-	if config.InsecureSkipVerify == false && auth.CABundle == "" {
-		return fmt.Errorf("Error getting CA Bundle, CA Bundle should be set when insecure is false")
+	if !config.InsecureSkipVerify && auth.CABundle == "" {
+		return fmt.Errorf("error getting CA Bundle, CA Bundle should be set when insecure is false")
 	}
 
 	tr := &http.Transport{
@@ -219,81 +193,6 @@ func createFortiOSClient(fClient *FortiClient, c *Config) error {
 	}
 
 	fClient.Client = fc
-
-	return nil
-}
-
-func createFortiManagerClient(fClient *FortiClient, c *Config) error {
-	if c.FMG_Hostname == "" {
-		c.FMG_Hostname = os.Getenv("FORTIOS_FMG_HOSTNAME")
-	}
-	if c.FMG_Username == "" {
-		c.FMG_Username = os.Getenv("FORTIOS_FMG_USERNAME")
-	}
-	if c.FMG_Passwd == "" {
-		c.FMG_Passwd = os.Getenv("FORTIOS_FMG_PASSWORD")
-	}
-	if c.FMG_CABundle == "" {
-		c.FMG_CABundle = os.Getenv("FORTIOS_FMG_CABUNDLE")
-	}
-	if c.FMG_Hostname == "" || c.FMG_Username == "" || c.FMG_Passwd == "" {
-		return fmt.Errorf("Error: hostname, username and passwd are needed here for fortimanager")
-	}
-
-	config := &tls.Config{}
-	if c.FMG_Insecure == nil {
-		insec := os.Getenv("FORTIOS_FMG_INSECURE")
-		if insec == "" || insec == "false" {
-			config.InsecureSkipVerify = false
-		} else if insec == "true" {
-			config.InsecureSkipVerify = true
-		} else {
-			return fmt.Errorf("Error: FORTIOS_FMG_INSECURE shoule be false or true")
-		}
-	} else {
-		config.InsecureSkipVerify = *c.FMG_Insecure
-	}
-
-	if !config.InsecureSkipVerify {
-		if c.FMG_CABundle != "" {
-			f, err := os.Open(c.FMG_CABundle)
-			if err != nil {
-				return fmt.Errorf("Error open CA Bundle file: %v", err)
-			}
-			defer f.Close()
-
-			caBundle, err := ioutil.ReadAll(f)
-			if err != nil {
-				return fmt.Errorf("Error reading CA Bundle: %v", err)
-			}
-
-			pool := x509.NewCertPool()
-			if !pool.AppendCertsFromPEM([]byte(caBundle)) {
-				return fmt.Errorf("Error appending cert from PEM")
-			}
-			config.RootCAs = pool
-		} else {
-			return fmt.Errorf("Error getting CA Bundle, CA Bundle should be set when insecure is false")
-		}
-	}
-
-	tr := &http.Transport{
-		TLSClientConfig: config,
-	}
-
-	client := &http.Client{
-		Transport: tr,
-	}
-	fClient.ClientFortimanager = fmgclient.NewClient(c.FMG_Hostname, c.FMG_Username, c.FMG_Passwd, client)
-
-	fClient.ClientFortimanager.DebugNum = 0
-
-	session, err := fClient.ClientFortimanager.Login()
-	if err != nil {
-		return fmt.Errorf("FortiManager Login failed")
-	}
-	fClient.ClientFortimanager.SessionString = session
-	fClient.ClientFortimanager.Init = true
 
 	return nil
 }

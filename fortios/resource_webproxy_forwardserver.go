@@ -30,73 +30,78 @@ func resourceWebProxyForwardServer() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"addr_type": &schema.Schema{
+			"addr_type": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ip": &schema.Schema{
+			"ip": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"fqdn": &schema.Schema{
+			"fqdn": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
 				Computed:     true,
 			},
-			"port": &schema.Schema{
+			"port": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"healthcheck": &schema.Schema{
+			"healthcheck": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"monitor": &schema.Schema{
+			"monitor": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
 				Computed:     true,
 			},
-			"server_down_option": &schema.Schema{
+			"server_down_option": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"username": &schema.Schema{
+			"username": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 64),
 				Optional:     true,
 				Computed:     true,
 			},
-			"password": &schema.Schema{
+			"password": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 128),
 				Optional:     true,
 				Sensitive:    true,
 			},
-			"comment": &schema.Schema{
+			"comment": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -114,15 +119,25 @@ func resourceWebProxyForwardServerCreate(d *schema.ResourceData, m interface{}) 
 		}
 	}
 
-	obj, err := getObjectWebProxyForwardServer(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating WebProxyForwardServer resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateWebProxyForwardServer(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectWebProxyForwardServer(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating WebProxyForwardServer resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateWebProxyForwardServer(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating WebProxyForwardServer resource: %v", err)
+		return fmt.Errorf("error creating WebProxyForwardServer resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -147,14 +162,24 @@ func resourceWebProxyForwardServerUpdate(d *schema.ResourceData, m interface{}) 
 		}
 	}
 
-	obj, err := getObjectWebProxyForwardServer(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating WebProxyForwardServer resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateWebProxyForwardServer(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectWebProxyForwardServer(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating WebProxyForwardServer resource: %v", err)
+		return fmt.Errorf("error updating WebProxyForwardServer resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateWebProxyForwardServer(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating WebProxyForwardServer resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -181,9 +206,17 @@ func resourceWebProxyForwardServerDelete(d *schema.ResourceData, m interface{}) 
 		}
 	}
 
-	err := c.DeleteWebProxyForwardServer(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteWebProxyForwardServer(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting WebProxyForwardServer resource: %v", err)
+		return fmt.Errorf("error deleting WebProxyForwardServer resource: %v", err)
 	}
 
 	d.SetId("")
@@ -205,9 +238,19 @@ func resourceWebProxyForwardServerRead(d *schema.ResourceData, m interface{}) er
 		}
 	}
 
-	o, err := c.ReadWebProxyForwardServer(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadWebProxyForwardServer(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading WebProxyForwardServer resource: %v", err)
+		return fmt.Errorf("error reading WebProxyForwardServer resource: %v", err)
 	}
 
 	if o == nil {
@@ -218,7 +261,7 @@ func resourceWebProxyForwardServerRead(d *schema.ResourceData, m interface{}) er
 
 	err = refreshObjectWebProxyForwardServer(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading WebProxyForwardServer resource from API: %v", err)
+		return fmt.Errorf("error reading WebProxyForwardServer resource from API: %v", err)
 	}
 	return nil
 }
@@ -272,61 +315,61 @@ func refreshObjectWebProxyForwardServer(d *schema.ResourceData, o map[string]int
 
 	if err = d.Set("name", flattenWebProxyForwardServerName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("addr_type", flattenWebProxyForwardServerAddrType(o["addr-type"], d, "addr_type", sv)); err != nil {
 		if !fortiAPIPatch(o["addr-type"]) {
-			return fmt.Errorf("Error reading addr_type: %v", err)
+			return fmt.Errorf("error reading addr_type: %v", err)
 		}
 	}
 
 	if err = d.Set("ip", flattenWebProxyForwardServerIp(o["ip"], d, "ip", sv)); err != nil {
 		if !fortiAPIPatch(o["ip"]) {
-			return fmt.Errorf("Error reading ip: %v", err)
+			return fmt.Errorf("error reading ip: %v", err)
 		}
 	}
 
 	if err = d.Set("fqdn", flattenWebProxyForwardServerFqdn(o["fqdn"], d, "fqdn", sv)); err != nil {
 		if !fortiAPIPatch(o["fqdn"]) {
-			return fmt.Errorf("Error reading fqdn: %v", err)
+			return fmt.Errorf("error reading fqdn: %v", err)
 		}
 	}
 
 	if err = d.Set("port", flattenWebProxyForwardServerPort(o["port"], d, "port", sv)); err != nil {
 		if !fortiAPIPatch(o["port"]) {
-			return fmt.Errorf("Error reading port: %v", err)
+			return fmt.Errorf("error reading port: %v", err)
 		}
 	}
 
 	if err = d.Set("healthcheck", flattenWebProxyForwardServerHealthcheck(o["healthcheck"], d, "healthcheck", sv)); err != nil {
 		if !fortiAPIPatch(o["healthcheck"]) {
-			return fmt.Errorf("Error reading healthcheck: %v", err)
+			return fmt.Errorf("error reading healthcheck: %v", err)
 		}
 	}
 
 	if err = d.Set("monitor", flattenWebProxyForwardServerMonitor(o["monitor"], d, "monitor", sv)); err != nil {
 		if !fortiAPIPatch(o["monitor"]) {
-			return fmt.Errorf("Error reading monitor: %v", err)
+			return fmt.Errorf("error reading monitor: %v", err)
 		}
 	}
 
 	if err = d.Set("server_down_option", flattenWebProxyForwardServerServerDownOption(o["server-down-option"], d, "server_down_option", sv)); err != nil {
 		if !fortiAPIPatch(o["server-down-option"]) {
-			return fmt.Errorf("Error reading server_down_option: %v", err)
+			return fmt.Errorf("error reading server_down_option: %v", err)
 		}
 	}
 
 	if err = d.Set("username", flattenWebProxyForwardServerUsername(o["username"], d, "username", sv)); err != nil {
 		if !fortiAPIPatch(o["username"]) {
-			return fmt.Errorf("Error reading username: %v", err)
+			return fmt.Errorf("error reading username: %v", err)
 		}
 	}
 
 	if err = d.Set("comment", flattenWebProxyForwardServerComment(o["comment"], d, "comment", sv)); err != nil {
 		if !fortiAPIPatch(o["comment"]) {
-			return fmt.Errorf("Error reading comment: %v", err)
+			return fmt.Errorf("error reading comment: %v", err)
 		}
 	}
 

@@ -30,51 +30,56 @@ func resourceLogFortiguardOverrideSetting() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"override": &schema.Schema{
+			"override": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"status": &schema.Schema{
+			"status": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"upload_option": &schema.Schema{
+			"upload_option": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"upload_interval": &schema.Schema{
+			"upload_interval": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"upload_day": &schema.Schema{
+			"upload_day": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"upload_time": &schema.Schema{
+			"upload_time": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"priority": &schema.Schema{
+			"priority": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"max_log_rate": &schema.Schema{
+			"max_log_rate": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 100000),
 				Optional:     true,
 				Computed:     true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -93,14 +98,24 @@ func resourceLogFortiguardOverrideSettingUpdate(d *schema.ResourceData, m interf
 		}
 	}
 
-	obj, err := getObjectLogFortiguardOverrideSetting(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating LogFortiguardOverrideSetting resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateLogFortiguardOverrideSetting(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectLogFortiguardOverrideSetting(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating LogFortiguardOverrideSetting resource: %v", err)
+		return fmt.Errorf("error updating LogFortiguardOverrideSetting resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateLogFortiguardOverrideSetting(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating LogFortiguardOverrideSetting resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -127,9 +142,17 @@ func resourceLogFortiguardOverrideSettingDelete(d *schema.ResourceData, m interf
 		}
 	}
 
-	err := c.DeleteLogFortiguardOverrideSetting(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteLogFortiguardOverrideSetting(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting LogFortiguardOverrideSetting resource: %v", err)
+		return fmt.Errorf("error deleting LogFortiguardOverrideSetting resource: %v", err)
 	}
 
 	d.SetId("")
@@ -151,9 +174,19 @@ func resourceLogFortiguardOverrideSettingRead(d *schema.ResourceData, m interfac
 		}
 	}
 
-	o, err := c.ReadLogFortiguardOverrideSetting(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadLogFortiguardOverrideSetting(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading LogFortiguardOverrideSetting resource: %v", err)
+		return fmt.Errorf("error reading LogFortiguardOverrideSetting resource: %v", err)
 	}
 
 	if o == nil {
@@ -164,7 +197,7 @@ func resourceLogFortiguardOverrideSettingRead(d *schema.ResourceData, m interfac
 
 	err = refreshObjectLogFortiguardOverrideSetting(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading LogFortiguardOverrideSetting resource from API: %v", err)
+		return fmt.Errorf("error reading LogFortiguardOverrideSetting resource from API: %v", err)
 	}
 	return nil
 }
@@ -206,49 +239,49 @@ func refreshObjectLogFortiguardOverrideSetting(d *schema.ResourceData, o map[str
 
 	if err = d.Set("override", flattenLogFortiguardOverrideSettingOverride(o["override"], d, "override", sv)); err != nil {
 		if !fortiAPIPatch(o["override"]) {
-			return fmt.Errorf("Error reading override: %v", err)
+			return fmt.Errorf("error reading override: %v", err)
 		}
 	}
 
 	if err = d.Set("status", flattenLogFortiguardOverrideSettingStatus(o["status"], d, "status", sv)); err != nil {
 		if !fortiAPIPatch(o["status"]) {
-			return fmt.Errorf("Error reading status: %v", err)
+			return fmt.Errorf("error reading status: %v", err)
 		}
 	}
 
 	if err = d.Set("upload_option", flattenLogFortiguardOverrideSettingUploadOption(o["upload-option"], d, "upload_option", sv)); err != nil {
 		if !fortiAPIPatch(o["upload-option"]) {
-			return fmt.Errorf("Error reading upload_option: %v", err)
+			return fmt.Errorf("error reading upload_option: %v", err)
 		}
 	}
 
 	if err = d.Set("upload_interval", flattenLogFortiguardOverrideSettingUploadInterval(o["upload-interval"], d, "upload_interval", sv)); err != nil {
 		if !fortiAPIPatch(o["upload-interval"]) {
-			return fmt.Errorf("Error reading upload_interval: %v", err)
+			return fmt.Errorf("error reading upload_interval: %v", err)
 		}
 	}
 
 	if err = d.Set("upload_day", flattenLogFortiguardOverrideSettingUploadDay(o["upload-day"], d, "upload_day", sv)); err != nil {
 		if !fortiAPIPatch(o["upload-day"]) {
-			return fmt.Errorf("Error reading upload_day: %v", err)
+			return fmt.Errorf("error reading upload_day: %v", err)
 		}
 	}
 
 	if err = d.Set("upload_time", flattenLogFortiguardOverrideSettingUploadTime(o["upload-time"], d, "upload_time", sv)); err != nil {
 		if !fortiAPIPatch(o["upload-time"]) {
-			return fmt.Errorf("Error reading upload_time: %v", err)
+			return fmt.Errorf("error reading upload_time: %v", err)
 		}
 	}
 
 	if err = d.Set("priority", flattenLogFortiguardOverrideSettingPriority(o["priority"], d, "priority", sv)); err != nil {
 		if !fortiAPIPatch(o["priority"]) {
-			return fmt.Errorf("Error reading priority: %v", err)
+			return fmt.Errorf("error reading priority: %v", err)
 		}
 	}
 
 	if err = d.Set("max_log_rate", flattenLogFortiguardOverrideSettingMaxLogRate(o["max-log-rate"], d, "max_log_rate", sv)); err != nil {
 		if !fortiAPIPatch(o["max-log-rate"]) {
-			return fmt.Errorf("Error reading max_log_rate: %v", err)
+			return fmt.Errorf("error reading max_log_rate: %v", err)
 		}
 	}
 

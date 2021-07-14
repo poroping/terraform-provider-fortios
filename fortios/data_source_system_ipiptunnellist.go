@@ -17,12 +17,12 @@ func dataSourceSystemIpipTunnelList() *schema.Resource {
 		Read: dataSourceSystemIpipTunnelListRead,
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"filter": &schema.Schema{
+			"filter": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
@@ -52,9 +52,9 @@ func dataSourceSystemIpipTunnelListRead(d *schema.ResourceData, m interface{}) e
 		filter = escapeFilter(filter)
 	}
 
-	o, err := c.GenericGroupRead("/api/v2/cmdb/system/ipip-tunnel", filter, vdomparam)
+	o, err := c.GenericGroupRead("/api/v2/cmdb/system/ipip-tunnel", filter, vdomparam, 0)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemIpipTunnel: %v", err)
+		return fmt.Errorf("error describing SystemIpipTunnel: %v", err)
 	}
 
 	var tmps []string

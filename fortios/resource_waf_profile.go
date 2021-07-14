@@ -30,60 +30,60 @@ func resourceWafProfile() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"external": &schema.Schema{
+			"external": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"extended_log": &schema.Schema{
+			"extended_log": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"signature": &schema.Schema{
+			"signature": {
 				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"main_class": &schema.Schema{
+						"main_class": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"id": &schema.Schema{
+									"id": {
 										Type:     schema.TypeInt,
 										Optional: true,
 										Computed: true,
 									},
-									"status": &schema.Schema{
+									"status": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"action": &schema.Schema{
+									"action": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"log": &schema.Schema{
+									"log": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"severity": &schema.Schema{
+									"severity": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
@@ -91,12 +91,12 @@ func resourceWafProfile() *schema.Resource {
 								},
 							},
 						},
-						"disabled_sub_class": &schema.Schema{
+						"disabled_sub_class": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"id": &schema.Schema{
+									"id": {
 										Type:     schema.TypeInt,
 										Optional: true,
 										Computed: true,
@@ -104,12 +104,12 @@ func resourceWafProfile() *schema.Resource {
 								},
 							},
 						},
-						"disabled_signature": &schema.Schema{
+						"disabled_signature": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"id": &schema.Schema{
+									"id": {
 										Type:     schema.TypeInt,
 										Optional: true,
 										Computed: true,
@@ -117,60 +117,60 @@ func resourceWafProfile() *schema.Resource {
 								},
 							},
 						},
-						"credit_card_detection_threshold": &schema.Schema{
+						"credit_card_detection_threshold": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 128),
 							Optional:     true,
 							Computed:     true,
 						},
-						"custom_signature": &schema.Schema{
+						"custom_signature": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"name": &schema.Schema{
+									"name": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 35),
 										Optional:     true,
 										Computed:     true,
 									},
-									"status": &schema.Schema{
+									"status": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"action": &schema.Schema{
+									"action": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"log": &schema.Schema{
+									"log": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"severity": &schema.Schema{
+									"severity": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"direction": &schema.Schema{
+									"direction": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"case_sensitivity": &schema.Schema{
+									"case_sensitivity": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"pattern": &schema.Schema{
+									"pattern": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 511),
 										Optional:     true,
 										Computed:     true,
 									},
-									"target": &schema.Schema{
+									"target": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
@@ -181,39 +181,39 @@ func resourceWafProfile() *schema.Resource {
 					},
 				},
 			},
-			"constraint": &schema.Schema{
+			"constraint": {
 				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"header_length": &schema.Schema{
+						"header_length": {
 							Type:     schema.TypeList,
 							Optional: true,
 							MaxItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"status": &schema.Schema{
+									"status": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"length": &schema.Schema{
+									"length": {
 										Type:     schema.TypeInt,
 										Optional: true,
 										Computed: true,
 									},
-									"action": &schema.Schema{
+									"action": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"log": &schema.Schema{
+									"log": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"severity": &schema.Schema{
+									"severity": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
@@ -221,33 +221,33 @@ func resourceWafProfile() *schema.Resource {
 								},
 							},
 						},
-						"content_length": &schema.Schema{
+						"content_length": {
 							Type:     schema.TypeList,
 							Optional: true,
 							MaxItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"status": &schema.Schema{
+									"status": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"length": &schema.Schema{
+									"length": {
 										Type:     schema.TypeInt,
 										Optional: true,
 										Computed: true,
 									},
-									"action": &schema.Schema{
+									"action": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"log": &schema.Schema{
+									"log": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"severity": &schema.Schema{
+									"severity": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
@@ -255,33 +255,33 @@ func resourceWafProfile() *schema.Resource {
 								},
 							},
 						},
-						"param_length": &schema.Schema{
+						"param_length": {
 							Type:     schema.TypeList,
 							Optional: true,
 							MaxItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"status": &schema.Schema{
+									"status": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"length": &schema.Schema{
+									"length": {
 										Type:     schema.TypeInt,
 										Optional: true,
 										Computed: true,
 									},
-									"action": &schema.Schema{
+									"action": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"log": &schema.Schema{
+									"log": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"severity": &schema.Schema{
+									"severity": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
@@ -289,33 +289,33 @@ func resourceWafProfile() *schema.Resource {
 								},
 							},
 						},
-						"line_length": &schema.Schema{
+						"line_length": {
 							Type:     schema.TypeList,
 							Optional: true,
 							MaxItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"status": &schema.Schema{
+									"status": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"length": &schema.Schema{
+									"length": {
 										Type:     schema.TypeInt,
 										Optional: true,
 										Computed: true,
 									},
-									"action": &schema.Schema{
+									"action": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"log": &schema.Schema{
+									"log": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"severity": &schema.Schema{
+									"severity": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
@@ -323,62 +323,33 @@ func resourceWafProfile() *schema.Resource {
 								},
 							},
 						},
-						"url_param_length": &schema.Schema{
+						"url_param_length": {
 							Type:     schema.TypeList,
 							Optional: true,
 							MaxItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"status": &schema.Schema{
+									"status": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"length": &schema.Schema{
+									"length": {
 										Type:     schema.TypeInt,
 										Optional: true,
 										Computed: true,
 									},
-									"action": &schema.Schema{
+									"action": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"log": &schema.Schema{
+									"log": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"severity": &schema.Schema{
-										Type:     schema.TypeString,
-										Optional: true,
-										Computed: true,
-									},
-								},
-							},
-						},
-						"version": &schema.Schema{
-							Type:     schema.TypeList,
-							Optional: true,
-							MaxItems: 1,
-							Elem: &schema.Resource{
-								Schema: map[string]*schema.Schema{
-									"status": &schema.Schema{
-										Type:     schema.TypeString,
-										Optional: true,
-										Computed: true,
-									},
-									"action": &schema.Schema{
-										Type:     schema.TypeString,
-										Optional: true,
-										Computed: true,
-									},
-									"log": &schema.Schema{
-										Type:     schema.TypeString,
-										Optional: true,
-										Computed: true,
-									},
-									"severity": &schema.Schema{
+									"severity": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
@@ -386,28 +357,28 @@ func resourceWafProfile() *schema.Resource {
 								},
 							},
 						},
-						"method": &schema.Schema{
+						"version": {
 							Type:     schema.TypeList,
 							Optional: true,
 							MaxItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"status": &schema.Schema{
+									"status": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"action": &schema.Schema{
+									"action": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"log": &schema.Schema{
+									"log": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"severity": &schema.Schema{
+									"severity": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
@@ -415,28 +386,28 @@ func resourceWafProfile() *schema.Resource {
 								},
 							},
 						},
-						"hostname": &schema.Schema{
+						"method": {
 							Type:     schema.TypeList,
 							Optional: true,
 							MaxItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"status": &schema.Schema{
+									"status": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"action": &schema.Schema{
+									"action": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"log": &schema.Schema{
+									"log": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"severity": &schema.Schema{
+									"severity": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
@@ -444,28 +415,28 @@ func resourceWafProfile() *schema.Resource {
 								},
 							},
 						},
-						"malformed": &schema.Schema{
+						"hostname": {
 							Type:     schema.TypeList,
 							Optional: true,
 							MaxItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"status": &schema.Schema{
+									"status": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"action": &schema.Schema{
+									"action": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"log": &schema.Schema{
+									"log": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"severity": &schema.Schema{
+									"severity": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
@@ -473,33 +444,62 @@ func resourceWafProfile() *schema.Resource {
 								},
 							},
 						},
-						"max_cookie": &schema.Schema{
+						"malformed": {
 							Type:     schema.TypeList,
 							Optional: true,
 							MaxItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"status": &schema.Schema{
+									"status": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"max_cookie": &schema.Schema{
+									"action": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"log": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"severity": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+								},
+							},
+						},
+						"max_cookie": {
+							Type:     schema.TypeList,
+							Optional: true,
+							MaxItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"status": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"max_cookie": {
 										Type:     schema.TypeInt,
 										Optional: true,
 										Computed: true,
 									},
-									"action": &schema.Schema{
+									"action": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"log": &schema.Schema{
+									"log": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"severity": &schema.Schema{
+									"severity": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
@@ -507,33 +507,33 @@ func resourceWafProfile() *schema.Resource {
 								},
 							},
 						},
-						"max_header_line": &schema.Schema{
+						"max_header_line": {
 							Type:     schema.TypeList,
 							Optional: true,
 							MaxItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"status": &schema.Schema{
+									"status": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"max_header_line": &schema.Schema{
+									"max_header_line": {
 										Type:     schema.TypeInt,
 										Optional: true,
 										Computed: true,
 									},
-									"action": &schema.Schema{
+									"action": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"log": &schema.Schema{
+									"log": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"severity": &schema.Schema{
+									"severity": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
@@ -541,33 +541,33 @@ func resourceWafProfile() *schema.Resource {
 								},
 							},
 						},
-						"max_url_param": &schema.Schema{
+						"max_url_param": {
 							Type:     schema.TypeList,
 							Optional: true,
 							MaxItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"status": &schema.Schema{
+									"status": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"max_url_param": &schema.Schema{
+									"max_url_param": {
 										Type:     schema.TypeInt,
 										Optional: true,
 										Computed: true,
 									},
-									"action": &schema.Schema{
+									"action": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"log": &schema.Schema{
+									"log": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"severity": &schema.Schema{
+									"severity": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
@@ -575,33 +575,33 @@ func resourceWafProfile() *schema.Resource {
 								},
 							},
 						},
-						"max_range_segment": &schema.Schema{
+						"max_range_segment": {
 							Type:     schema.TypeList,
 							Optional: true,
 							MaxItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"status": &schema.Schema{
+									"status": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"max_range_segment": &schema.Schema{
+									"max_range_segment": {
 										Type:     schema.TypeInt,
 										Optional: true,
 										Computed: true,
 									},
-									"action": &schema.Schema{
+									"action": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"log": &schema.Schema{
+									"log": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"severity": &schema.Schema{
+									"severity": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
@@ -609,94 +609,94 @@ func resourceWafProfile() *schema.Resource {
 								},
 							},
 						},
-						"exception": &schema.Schema{
+						"exception": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"id": &schema.Schema{
+									"id": {
 										Type:     schema.TypeInt,
 										Optional: true,
 										Computed: true,
 									},
-									"pattern": &schema.Schema{
+									"pattern": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 511),
 										Optional:     true,
 										Computed:     true,
 									},
-									"regex": &schema.Schema{
+									"regex": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"address": &schema.Schema{
+									"address": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 63),
 										Optional:     true,
 										Computed:     true,
 									},
-									"header_length": &schema.Schema{
+									"header_length": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"content_length": &schema.Schema{
+									"content_length": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"param_length": &schema.Schema{
+									"param_length": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"line_length": &schema.Schema{
+									"line_length": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"url_param_length": &schema.Schema{
+									"url_param_length": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"version": &schema.Schema{
+									"version": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"method": &schema.Schema{
+									"method": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"hostname": &schema.Schema{
+									"hostname": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"malformed": &schema.Schema{
+									"malformed": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"max_cookie": &schema.Schema{
+									"max_cookie": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"max_header_line": &schema.Schema{
+									"max_header_line": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"max_url_param": &schema.Schema{
+									"max_url_param": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"max_range_segment": &schema.Schema{
+									"max_range_segment": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
@@ -707,60 +707,60 @@ func resourceWafProfile() *schema.Resource {
 					},
 				},
 			},
-			"method": &schema.Schema{
+			"method": {
 				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"status": &schema.Schema{
+						"status": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"log": &schema.Schema{
+						"log": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"severity": &schema.Schema{
+						"severity": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"default_allowed_methods": &schema.Schema{
+						"default_allowed_methods": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"method_policy": &schema.Schema{
+						"method_policy": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"id": &schema.Schema{
+									"id": {
 										Type:     schema.TypeInt,
 										Optional: true,
 										Computed: true,
 									},
-									"pattern": &schema.Schema{
+									"pattern": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 511),
 										Optional:     true,
 										Computed:     true,
 									},
-									"regex": &schema.Schema{
+									"regex": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"address": &schema.Schema{
+									"address": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 63),
 										Optional:     true,
 										Computed:     true,
 									},
-									"allowed_methods": &schema.Schema{
+									"allowed_methods": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
@@ -771,33 +771,33 @@ func resourceWafProfile() *schema.Resource {
 					},
 				},
 			},
-			"address_list": &schema.Schema{
+			"address_list": {
 				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"status": &schema.Schema{
+						"status": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"blocked_log": &schema.Schema{
+						"blocked_log": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"severity": &schema.Schema{
+						"severity": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"trusted_address": &schema.Schema{
+						"trusted_address": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"name": &schema.Schema{
+									"name": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 64),
 										Optional:     true,
@@ -806,12 +806,12 @@ func resourceWafProfile() *schema.Resource {
 								},
 							},
 						},
-						"blocked_address": &schema.Schema{
+						"blocked_address": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"name": &schema.Schema{
+									"name": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 64),
 										Optional:     true,
@@ -823,65 +823,65 @@ func resourceWafProfile() *schema.Resource {
 					},
 				},
 			},
-			"url_access": &schema.Schema{
+			"url_access": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"address": &schema.Schema{
+						"address": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 63),
 							Optional:     true,
 							Computed:     true,
 						},
-						"action": &schema.Schema{
+						"action": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"log": &schema.Schema{
+						"log": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"severity": &schema.Schema{
+						"severity": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"access_pattern": &schema.Schema{
+						"access_pattern": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"id": &schema.Schema{
+									"id": {
 										Type:     schema.TypeInt,
 										Optional: true,
 										Computed: true,
 									},
-									"srcaddr": &schema.Schema{
+									"srcaddr": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 63),
 										Optional:     true,
 										Computed:     true,
 									},
-									"pattern": &schema.Schema{
+									"pattern": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 511),
 										Optional:     true,
 										Computed:     true,
 									},
-									"regex": &schema.Schema{
+									"regex": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"negate": &schema.Schema{
+									"negate": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
@@ -892,15 +892,20 @@ func resourceWafProfile() *schema.Resource {
 					},
 				},
 			},
-			"comment": &schema.Schema{
+			"comment": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 1023),
 				Optional:     true,
 			},
-			"dynamic_sort_subtable": &schema.Schema{
-				Type:     schema.TypeString,
+			"dynamic_sort_subtable": {
+				Type:     schema.TypeBool,
 				Optional: true,
-				Default:  "false",
+				Default:  false,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -918,15 +923,25 @@ func resourceWafProfileCreate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectWafProfile(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating WafProfile resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateWafProfile(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectWafProfile(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating WafProfile resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateWafProfile(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating WafProfile resource: %v", err)
+		return fmt.Errorf("error creating WafProfile resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -951,14 +966,24 @@ func resourceWafProfileUpdate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectWafProfile(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating WafProfile resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateWafProfile(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectWafProfile(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating WafProfile resource: %v", err)
+		return fmt.Errorf("error updating WafProfile resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateWafProfile(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating WafProfile resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -985,9 +1010,17 @@ func resourceWafProfileDelete(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	err := c.DeleteWafProfile(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteWafProfile(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting WafProfile resource: %v", err)
+		return fmt.Errorf("error deleting WafProfile resource: %v", err)
 	}
 
 	d.SetId("")
@@ -1009,9 +1042,19 @@ func resourceWafProfileRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadWafProfile(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadWafProfile(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading WafProfile resource: %v", err)
+		return fmt.Errorf("error reading WafProfile resource: %v", err)
 	}
 
 	if o == nil {
@@ -1022,7 +1065,7 @@ func resourceWafProfileRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectWafProfile(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading WafProfile resource from API: %v", err)
+		return fmt.Errorf("error reading WafProfile resource from API: %v", err)
 	}
 	return nil
 }
@@ -2862,33 +2905,33 @@ func refreshObjectWafProfile(d *schema.ResourceData, o map[string]interface{}, s
 
 	if err = d.Set("name", flattenWafProfileName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("external", flattenWafProfileExternal(o["external"], d, "external", sv)); err != nil {
 		if !fortiAPIPatch(o["external"]) {
-			return fmt.Errorf("Error reading external: %v", err)
+			return fmt.Errorf("error reading external: %v", err)
 		}
 	}
 
 	if err = d.Set("extended_log", flattenWafProfileExtendedLog(o["extended-log"], d, "extended_log", sv)); err != nil {
 		if !fortiAPIPatch(o["extended-log"]) {
-			return fmt.Errorf("Error reading extended_log: %v", err)
+			return fmt.Errorf("error reading extended_log: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("signature", flattenWafProfileSignature(o["signature"], d, "signature", sv)); err != nil {
 			if !fortiAPIPatch(o["signature"]) {
-				return fmt.Errorf("Error reading signature: %v", err)
+				return fmt.Errorf("error reading signature: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("signature"); ok {
 			if err = d.Set("signature", flattenWafProfileSignature(o["signature"], d, "signature", sv)); err != nil {
 				if !fortiAPIPatch(o["signature"]) {
-					return fmt.Errorf("Error reading signature: %v", err)
+					return fmt.Errorf("error reading signature: %v", err)
 				}
 			}
 		}
@@ -2897,14 +2940,14 @@ func refreshObjectWafProfile(d *schema.ResourceData, o map[string]interface{}, s
 	if isImportTable() {
 		if err = d.Set("constraint", flattenWafProfileConstraint(o["constraint"], d, "constraint", sv)); err != nil {
 			if !fortiAPIPatch(o["constraint"]) {
-				return fmt.Errorf("Error reading constraint: %v", err)
+				return fmt.Errorf("error reading constraint: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("constraint"); ok {
 			if err = d.Set("constraint", flattenWafProfileConstraint(o["constraint"], d, "constraint", sv)); err != nil {
 				if !fortiAPIPatch(o["constraint"]) {
-					return fmt.Errorf("Error reading constraint: %v", err)
+					return fmt.Errorf("error reading constraint: %v", err)
 				}
 			}
 		}
@@ -2913,14 +2956,14 @@ func refreshObjectWafProfile(d *schema.ResourceData, o map[string]interface{}, s
 	if isImportTable() {
 		if err = d.Set("method", flattenWafProfileMethod(o["method"], d, "method", sv)); err != nil {
 			if !fortiAPIPatch(o["method"]) {
-				return fmt.Errorf("Error reading method: %v", err)
+				return fmt.Errorf("error reading method: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("method"); ok {
 			if err = d.Set("method", flattenWafProfileMethod(o["method"], d, "method", sv)); err != nil {
 				if !fortiAPIPatch(o["method"]) {
-					return fmt.Errorf("Error reading method: %v", err)
+					return fmt.Errorf("error reading method: %v", err)
 				}
 			}
 		}
@@ -2929,14 +2972,14 @@ func refreshObjectWafProfile(d *schema.ResourceData, o map[string]interface{}, s
 	if isImportTable() {
 		if err = d.Set("address_list", flattenWafProfileAddressList(o["address-list"], d, "address_list", sv)); err != nil {
 			if !fortiAPIPatch(o["address-list"]) {
-				return fmt.Errorf("Error reading address_list: %v", err)
+				return fmt.Errorf("error reading address_list: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("address_list"); ok {
 			if err = d.Set("address_list", flattenWafProfileAddressList(o["address-list"], d, "address_list", sv)); err != nil {
 				if !fortiAPIPatch(o["address-list"]) {
-					return fmt.Errorf("Error reading address_list: %v", err)
+					return fmt.Errorf("error reading address_list: %v", err)
 				}
 			}
 		}
@@ -2945,14 +2988,14 @@ func refreshObjectWafProfile(d *schema.ResourceData, o map[string]interface{}, s
 	if isImportTable() {
 		if err = d.Set("url_access", flattenWafProfileUrlAccess(o["url-access"], d, "url_access", sv)); err != nil {
 			if !fortiAPIPatch(o["url-access"]) {
-				return fmt.Errorf("Error reading url_access: %v", err)
+				return fmt.Errorf("error reading url_access: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("url_access"); ok {
 			if err = d.Set("url_access", flattenWafProfileUrlAccess(o["url-access"], d, "url_access", sv)); err != nil {
 				if !fortiAPIPatch(o["url-access"]) {
-					return fmt.Errorf("Error reading url_access: %v", err)
+					return fmt.Errorf("error reading url_access: %v", err)
 				}
 			}
 		}
@@ -2960,7 +3003,7 @@ func refreshObjectWafProfile(d *schema.ResourceData, o map[string]interface{}, s
 
 	if err = d.Set("comment", flattenWafProfileComment(o["comment"], d, "comment", sv)); err != nil {
 		if !fortiAPIPatch(o["comment"]) {
-			return fmt.Errorf("Error reading comment: %v", err)
+			return fmt.Errorf("error reading comment: %v", err)
 		}
 	}
 

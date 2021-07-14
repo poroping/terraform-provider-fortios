@@ -30,59 +30,64 @@ func resourceSystemFortisandbox() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"status": &schema.Schema{
+			"status": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"forticloud": &schema.Schema{
+			"forticloud": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"server": &schema.Schema{
+			"server": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"source_ip": &schema.Schema{
+			"source_ip": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"interface_select_method": &schema.Schema{
+			"interface_select_method": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"interface": &schema.Schema{
+			"interface": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 15),
 				Optional:     true,
 				Computed:     true,
 			},
-			"enc_algorithm": &schema.Schema{
+			"enc_algorithm": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ssl_min_proto_version": &schema.Schema{
+			"ssl_min_proto_version": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"email": &schema.Schema{
+			"email": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -101,14 +106,24 @@ func resourceSystemFortisandboxUpdate(d *schema.ResourceData, m interface{}) err
 		}
 	}
 
-	obj, err := getObjectSystemFortisandbox(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SystemFortisandbox resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSystemFortisandbox(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemFortisandbox(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SystemFortisandbox resource: %v", err)
+		return fmt.Errorf("error updating SystemFortisandbox resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSystemFortisandbox(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SystemFortisandbox resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -135,9 +150,17 @@ func resourceSystemFortisandboxDelete(d *schema.ResourceData, m interface{}) err
 		}
 	}
 
-	err := c.DeleteSystemFortisandbox(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSystemFortisandbox(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SystemFortisandbox resource: %v", err)
+		return fmt.Errorf("error deleting SystemFortisandbox resource: %v", err)
 	}
 
 	d.SetId("")
@@ -159,9 +182,19 @@ func resourceSystemFortisandboxRead(d *schema.ResourceData, m interface{}) error
 		}
 	}
 
-	o, err := c.ReadSystemFortisandbox(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSystemFortisandbox(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemFortisandbox resource: %v", err)
+		return fmt.Errorf("error reading SystemFortisandbox resource: %v", err)
 	}
 
 	if o == nil {
@@ -172,7 +205,7 @@ func resourceSystemFortisandboxRead(d *schema.ResourceData, m interface{}) error
 
 	err = refreshObjectSystemFortisandbox(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemFortisandbox resource from API: %v", err)
+		return fmt.Errorf("error reading SystemFortisandbox resource from API: %v", err)
 	}
 	return nil
 }
@@ -218,55 +251,55 @@ func refreshObjectSystemFortisandbox(d *schema.ResourceData, o map[string]interf
 
 	if err = d.Set("status", flattenSystemFortisandboxStatus(o["status"], d, "status", sv)); err != nil {
 		if !fortiAPIPatch(o["status"]) {
-			return fmt.Errorf("Error reading status: %v", err)
+			return fmt.Errorf("error reading status: %v", err)
 		}
 	}
 
 	if err = d.Set("forticloud", flattenSystemFortisandboxForticloud(o["forticloud"], d, "forticloud", sv)); err != nil {
 		if !fortiAPIPatch(o["forticloud"]) {
-			return fmt.Errorf("Error reading forticloud: %v", err)
+			return fmt.Errorf("error reading forticloud: %v", err)
 		}
 	}
 
 	if err = d.Set("server", flattenSystemFortisandboxServer(o["server"], d, "server", sv)); err != nil {
 		if !fortiAPIPatch(o["server"]) {
-			return fmt.Errorf("Error reading server: %v", err)
+			return fmt.Errorf("error reading server: %v", err)
 		}
 	}
 
 	if err = d.Set("source_ip", flattenSystemFortisandboxSourceIp(o["source-ip"], d, "source_ip", sv)); err != nil {
 		if !fortiAPIPatch(o["source-ip"]) {
-			return fmt.Errorf("Error reading source_ip: %v", err)
+			return fmt.Errorf("error reading source_ip: %v", err)
 		}
 	}
 
 	if err = d.Set("interface_select_method", flattenSystemFortisandboxInterfaceSelectMethod(o["interface-select-method"], d, "interface_select_method", sv)); err != nil {
 		if !fortiAPIPatch(o["interface-select-method"]) {
-			return fmt.Errorf("Error reading interface_select_method: %v", err)
+			return fmt.Errorf("error reading interface_select_method: %v", err)
 		}
 	}
 
 	if err = d.Set("interface", flattenSystemFortisandboxInterface(o["interface"], d, "interface", sv)); err != nil {
 		if !fortiAPIPatch(o["interface"]) {
-			return fmt.Errorf("Error reading interface: %v", err)
+			return fmt.Errorf("error reading interface: %v", err)
 		}
 	}
 
 	if err = d.Set("enc_algorithm", flattenSystemFortisandboxEncAlgorithm(o["enc-algorithm"], d, "enc_algorithm", sv)); err != nil {
 		if !fortiAPIPatch(o["enc-algorithm"]) {
-			return fmt.Errorf("Error reading enc_algorithm: %v", err)
+			return fmt.Errorf("error reading enc_algorithm: %v", err)
 		}
 	}
 
 	if err = d.Set("ssl_min_proto_version", flattenSystemFortisandboxSslMinProtoVersion(o["ssl-min-proto-version"], d, "ssl_min_proto_version", sv)); err != nil {
 		if !fortiAPIPatch(o["ssl-min-proto-version"]) {
-			return fmt.Errorf("Error reading ssl_min_proto_version: %v", err)
+			return fmt.Errorf("error reading ssl_min_proto_version: %v", err)
 		}
 	}
 
 	if err = d.Set("email", flattenSystemFortisandboxEmail(o["email"], d, "email", sv)); err != nil {
 		if !fortiAPIPatch(o["email"]) {
-			return fmt.Errorf("Error reading email: %v", err)
+			return fmt.Errorf("error reading email: %v", err)
 		}
 	}
 

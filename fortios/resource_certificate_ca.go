@@ -30,66 +30,71 @@ func resourceCertificateCa() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 79),
 				ForceNew:     true,
 				Required:     true,
 			},
-			"ca": &schema.Schema{
+			"ca": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"range": &schema.Schema{
+			"range": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"source": &schema.Schema{
+			"source": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ssl_inspection_trusted": &schema.Schema{
+			"ssl_inspection_trusted": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"trusted": &schema.Schema{
+			"trusted": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"scep_url": &schema.Schema{
+			"scep_url": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
 				Computed:     true,
 			},
-			"auto_update_days": &schema.Schema{
+			"auto_update_days": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"auto_update_days_warning": &schema.Schema{
+			"auto_update_days_warning": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"source_ip": &schema.Schema{
+			"source_ip": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"last_updated": &schema.Schema{
+			"last_updated": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -107,15 +112,25 @@ func resourceCertificateCaCreate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectCertificateCa(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating CertificateCa resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateCertificateCa(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectCertificateCa(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating CertificateCa resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateCertificateCa(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating CertificateCa resource: %v", err)
+		return fmt.Errorf("error creating CertificateCa resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -140,14 +155,24 @@ func resourceCertificateCaUpdate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectCertificateCa(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating CertificateCa resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateCertificateCa(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectCertificateCa(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating CertificateCa resource: %v", err)
+		return fmt.Errorf("error updating CertificateCa resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateCertificateCa(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating CertificateCa resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -174,9 +199,17 @@ func resourceCertificateCaDelete(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	err := c.DeleteCertificateCa(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteCertificateCa(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting CertificateCa resource: %v", err)
+		return fmt.Errorf("error deleting CertificateCa resource: %v", err)
 	}
 
 	d.SetId("")
@@ -198,9 +231,19 @@ func resourceCertificateCaRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadCertificateCa(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadCertificateCa(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading CertificateCa resource: %v", err)
+		return fmt.Errorf("error reading CertificateCa resource: %v", err)
 	}
 
 	if o == nil {
@@ -211,7 +254,7 @@ func resourceCertificateCaRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectCertificateCa(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading CertificateCa resource from API: %v", err)
+		return fmt.Errorf("error reading CertificateCa resource from API: %v", err)
 	}
 	return nil
 }
@@ -265,67 +308,67 @@ func refreshObjectCertificateCa(d *schema.ResourceData, o map[string]interface{}
 
 	if err = d.Set("name", flattenCertificateCaName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("ca", flattenCertificateCaCa(o["ca"], d, "ca", sv)); err != nil {
 		if !fortiAPIPatch(o["ca"]) {
-			return fmt.Errorf("Error reading ca: %v", err)
+			return fmt.Errorf("error reading ca: %v", err)
 		}
 	}
 
 	if err = d.Set("range", flattenCertificateCaRange(o["range"], d, "range", sv)); err != nil {
 		if !fortiAPIPatch(o["range"]) {
-			return fmt.Errorf("Error reading range: %v", err)
+			return fmt.Errorf("error reading range: %v", err)
 		}
 	}
 
 	if err = d.Set("source", flattenCertificateCaSource(o["source"], d, "source", sv)); err != nil {
 		if !fortiAPIPatch(o["source"]) {
-			return fmt.Errorf("Error reading source: %v", err)
+			return fmt.Errorf("error reading source: %v", err)
 		}
 	}
 
 	if err = d.Set("ssl_inspection_trusted", flattenCertificateCaSslInspectionTrusted(o["ssl-inspection-trusted"], d, "ssl_inspection_trusted", sv)); err != nil {
 		if !fortiAPIPatch(o["ssl-inspection-trusted"]) {
-			return fmt.Errorf("Error reading ssl_inspection_trusted: %v", err)
+			return fmt.Errorf("error reading ssl_inspection_trusted: %v", err)
 		}
 	}
 
 	if err = d.Set("trusted", flattenCertificateCaTrusted(o["trusted"], d, "trusted", sv)); err != nil {
 		if !fortiAPIPatch(o["trusted"]) {
-			return fmt.Errorf("Error reading trusted: %v", err)
+			return fmt.Errorf("error reading trusted: %v", err)
 		}
 	}
 
 	if err = d.Set("scep_url", flattenCertificateCaScepUrl(o["scep-url"], d, "scep_url", sv)); err != nil {
 		if !fortiAPIPatch(o["scep-url"]) {
-			return fmt.Errorf("Error reading scep_url: %v", err)
+			return fmt.Errorf("error reading scep_url: %v", err)
 		}
 	}
 
 	if err = d.Set("auto_update_days", flattenCertificateCaAutoUpdateDays(o["auto-update-days"], d, "auto_update_days", sv)); err != nil {
 		if !fortiAPIPatch(o["auto-update-days"]) {
-			return fmt.Errorf("Error reading auto_update_days: %v", err)
+			return fmt.Errorf("error reading auto_update_days: %v", err)
 		}
 	}
 
 	if err = d.Set("auto_update_days_warning", flattenCertificateCaAutoUpdateDaysWarning(o["auto-update-days-warning"], d, "auto_update_days_warning", sv)); err != nil {
 		if !fortiAPIPatch(o["auto-update-days-warning"]) {
-			return fmt.Errorf("Error reading auto_update_days_warning: %v", err)
+			return fmt.Errorf("error reading auto_update_days_warning: %v", err)
 		}
 	}
 
 	if err = d.Set("source_ip", flattenCertificateCaSourceIp(o["source-ip"], d, "source_ip", sv)); err != nil {
 		if !fortiAPIPatch(o["source-ip"]) {
-			return fmt.Errorf("Error reading source_ip: %v", err)
+			return fmt.Errorf("error reading source_ip: %v", err)
 		}
 	}
 
 	if err = d.Set("last_updated", flattenCertificateCaLastUpdated(o["last-updated"], d, "last_updated", sv)); err != nil {
 		if !fortiAPIPatch(o["last-updated"]) {
-			return fmt.Errorf("Error reading last_updated: %v", err)
+			return fmt.Errorf("error reading last_updated: %v", err)
 		}
 	}
 

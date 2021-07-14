@@ -21,83 +21,83 @@ func dataSourceSystemMobileTunnel() *schema.Resource {
 	return &schema.Resource{
 		Read: dataSourceSystemMobileTunnelRead,
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
 
-			"name": &schema.Schema{
+			"name": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"status": &schema.Schema{
+			"status": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"roaming_interface": &schema.Schema{
+			"roaming_interface": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"home_agent": &schema.Schema{
+			"home_agent": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"home_address": &schema.Schema{
+			"home_address": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"renew_interval": &schema.Schema{
+			"renew_interval": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"lifetime": &schema.Schema{
+			"lifetime": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"reg_interval": &schema.Schema{
+			"reg_interval": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"reg_retry": &schema.Schema{
+			"reg_retry": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"n_mhae_spi": &schema.Schema{
+			"n_mhae_spi": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"n_mhae_key_type": &schema.Schema{
+			"n_mhae_key_type": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"n_mhae_key": &schema.Schema{
+			"n_mhae_key": {
 				Type:      schema.TypeString,
 				Sensitive: true,
 				Computed:  true,
 			},
-			"hash_algorithm": &schema.Schema{
+			"hash_algorithm": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"tunnel_mode": &schema.Schema{
+			"tunnel_mode": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"network": &schema.Schema{
+			"network": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"interface": &schema.Schema{
+						"interface": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"prefix": &schema.Schema{
+						"prefix": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -128,12 +128,12 @@ func dataSourceSystemMobileTunnelRead(d *schema.ResourceData, m interface{}) err
 	} else if v, ok := t.(int); ok {
 		mkey = strconv.Itoa(v)
 	} else {
-		return fmt.Errorf("Error describing SystemMobileTunnel: type error")
+		return fmt.Errorf("error describing SystemMobileTunnel: type error")
 	}
 
-	o, err := c.ReadSystemMobileTunnel(mkey, vdomparam)
+	o, err := c.ReadSystemMobileTunnel(mkey, vdomparam, make(map[string][]string), 0)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemMobileTunnel: %v", err)
+		return fmt.Errorf("error describing SystemMobileTunnel: %v", err)
 	}
 
 	if o == nil {
@@ -143,7 +143,7 @@ func dataSourceSystemMobileTunnelRead(d *schema.ResourceData, m interface{}) err
 
 	err = dataSourceRefreshObjectSystemMobileTunnel(d, o)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemMobileTunnel from API: %v", err)
+		return fmt.Errorf("error describing SystemMobileTunnel from API: %v", err)
 	}
 
 	d.SetId(mkey)
@@ -273,85 +273,85 @@ func dataSourceRefreshObjectSystemMobileTunnel(d *schema.ResourceData, o map[str
 
 	if err = d.Set("name", dataSourceFlattenSystemMobileTunnelName(o["name"], d, "name")); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("status", dataSourceFlattenSystemMobileTunnelStatus(o["status"], d, "status")); err != nil {
 		if !fortiAPIPatch(o["status"]) {
-			return fmt.Errorf("Error reading status: %v", err)
+			return fmt.Errorf("error reading status: %v", err)
 		}
 	}
 
 	if err = d.Set("roaming_interface", dataSourceFlattenSystemMobileTunnelRoamingInterface(o["roaming-interface"], d, "roaming_interface")); err != nil {
 		if !fortiAPIPatch(o["roaming-interface"]) {
-			return fmt.Errorf("Error reading roaming_interface: %v", err)
+			return fmt.Errorf("error reading roaming_interface: %v", err)
 		}
 	}
 
 	if err = d.Set("home_agent", dataSourceFlattenSystemMobileTunnelHomeAgent(o["home-agent"], d, "home_agent")); err != nil {
 		if !fortiAPIPatch(o["home-agent"]) {
-			return fmt.Errorf("Error reading home_agent: %v", err)
+			return fmt.Errorf("error reading home_agent: %v", err)
 		}
 	}
 
 	if err = d.Set("home_address", dataSourceFlattenSystemMobileTunnelHomeAddress(o["home-address"], d, "home_address")); err != nil {
 		if !fortiAPIPatch(o["home-address"]) {
-			return fmt.Errorf("Error reading home_address: %v", err)
+			return fmt.Errorf("error reading home_address: %v", err)
 		}
 	}
 
 	if err = d.Set("renew_interval", dataSourceFlattenSystemMobileTunnelRenewInterval(o["renew-interval"], d, "renew_interval")); err != nil {
 		if !fortiAPIPatch(o["renew-interval"]) {
-			return fmt.Errorf("Error reading renew_interval: %v", err)
+			return fmt.Errorf("error reading renew_interval: %v", err)
 		}
 	}
 
 	if err = d.Set("lifetime", dataSourceFlattenSystemMobileTunnelLifetime(o["lifetime"], d, "lifetime")); err != nil {
 		if !fortiAPIPatch(o["lifetime"]) {
-			return fmt.Errorf("Error reading lifetime: %v", err)
+			return fmt.Errorf("error reading lifetime: %v", err)
 		}
 	}
 
 	if err = d.Set("reg_interval", dataSourceFlattenSystemMobileTunnelRegInterval(o["reg-interval"], d, "reg_interval")); err != nil {
 		if !fortiAPIPatch(o["reg-interval"]) {
-			return fmt.Errorf("Error reading reg_interval: %v", err)
+			return fmt.Errorf("error reading reg_interval: %v", err)
 		}
 	}
 
 	if err = d.Set("reg_retry", dataSourceFlattenSystemMobileTunnelRegRetry(o["reg-retry"], d, "reg_retry")); err != nil {
 		if !fortiAPIPatch(o["reg-retry"]) {
-			return fmt.Errorf("Error reading reg_retry: %v", err)
+			return fmt.Errorf("error reading reg_retry: %v", err)
 		}
 	}
 
 	if err = d.Set("n_mhae_spi", dataSourceFlattenSystemMobileTunnelNMhaeSpi(o["n-mhae-spi"], d, "n_mhae_spi")); err != nil {
 		if !fortiAPIPatch(o["n-mhae-spi"]) {
-			return fmt.Errorf("Error reading n_mhae_spi: %v", err)
+			return fmt.Errorf("error reading n_mhae_spi: %v", err)
 		}
 	}
 
 	if err = d.Set("n_mhae_key_type", dataSourceFlattenSystemMobileTunnelNMhaeKeyType(o["n-mhae-key-type"], d, "n_mhae_key_type")); err != nil {
 		if !fortiAPIPatch(o["n-mhae-key-type"]) {
-			return fmt.Errorf("Error reading n_mhae_key_type: %v", err)
+			return fmt.Errorf("error reading n_mhae_key_type: %v", err)
 		}
 	}
 
 	if err = d.Set("hash_algorithm", dataSourceFlattenSystemMobileTunnelHashAlgorithm(o["hash-algorithm"], d, "hash_algorithm")); err != nil {
 		if !fortiAPIPatch(o["hash-algorithm"]) {
-			return fmt.Errorf("Error reading hash_algorithm: %v", err)
+			return fmt.Errorf("error reading hash_algorithm: %v", err)
 		}
 	}
 
 	if err = d.Set("tunnel_mode", dataSourceFlattenSystemMobileTunnelTunnelMode(o["tunnel-mode"], d, "tunnel_mode")); err != nil {
 		if !fortiAPIPatch(o["tunnel-mode"]) {
-			return fmt.Errorf("Error reading tunnel_mode: %v", err)
+			return fmt.Errorf("error reading tunnel_mode: %v", err)
 		}
 	}
 
 	if err = d.Set("network", dataSourceFlattenSystemMobileTunnelNetwork(o["network"], d, "network")); err != nil {
 		if !fortiAPIPatch(o["network"]) {
-			return fmt.Errorf("Error reading network: %v", err)
+			return fmt.Errorf("error reading network: %v", err)
 		}
 	}
 

@@ -30,165 +30,165 @@ func resourceReportLayout() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"title": &schema.Schema{
+			"title": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 127),
 				Optional:     true,
 				Computed:     true,
 			},
-			"subtitle": &schema.Schema{
+			"subtitle": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 127),
 				Optional:     true,
 				Computed:     true,
 			},
-			"description": &schema.Schema{
+			"description": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 127),
 				Optional:     true,
 				Computed:     true,
 			},
-			"style_theme": &schema.Schema{
+			"style_theme": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Required:     true,
 			},
-			"options": &schema.Schema{
+			"options": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"format": &schema.Schema{
+			"format": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"schedule_type": &schema.Schema{
+			"schedule_type": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"day": &schema.Schema{
+			"day": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"time": &schema.Schema{
+			"time": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"cutoff_option": &schema.Schema{
+			"cutoff_option": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"cutoff_time": &schema.Schema{
+			"cutoff_time": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"email_send": &schema.Schema{
+			"email_send": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"email_recipients": &schema.Schema{
+			"email_recipients": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 511),
 				Optional:     true,
 				Computed:     true,
 			},
-			"max_pdf_report": &schema.Schema{
+			"max_pdf_report": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 365),
 				Optional:     true,
 				Computed:     true,
 			},
-			"page": &schema.Schema{
+			"page": {
 				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"paper": &schema.Schema{
+						"paper": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"column_break_before": &schema.Schema{
+						"column_break_before": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"page_break_before": &schema.Schema{
+						"page_break_before": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"options": &schema.Schema{
+						"options": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"header": &schema.Schema{
+						"header": {
 							Type:     schema.TypeList,
 							Optional: true,
 							MaxItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"style": &schema.Schema{
+									"style": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 71),
 										Optional:     true,
 										Computed:     true,
 									},
-									"header_item": &schema.Schema{
+									"header_item": {
 										Type:     schema.TypeList,
 										Optional: true,
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
-												"id": &schema.Schema{
+												"id": {
 													Type:     schema.TypeInt,
 													Optional: true,
 													Computed: true,
 												},
-												"description": &schema.Schema{
+												"description": {
 													Type:         schema.TypeString,
 													ValidateFunc: validation.StringLenBetween(0, 63),
 													Optional:     true,
 													Computed:     true,
 												},
-												"type": &schema.Schema{
+												"type": {
 													Type:     schema.TypeString,
 													Optional: true,
 													Computed: true,
 												},
-												"style": &schema.Schema{
+												"style": {
 													Type:         schema.TypeString,
 													ValidateFunc: validation.StringLenBetween(0, 71),
 													Optional:     true,
 													Computed:     true,
 												},
-												"content": &schema.Schema{
+												"content": {
 													Type:         schema.TypeString,
 													ValidateFunc: validation.StringLenBetween(0, 511),
 													Optional:     true,
 													Computed:     true,
 												},
-												"img_src": &schema.Schema{
+												"img_src": {
 													Type:         schema.TypeString,
 													ValidateFunc: validation.StringLenBetween(0, 127),
 													Optional:     true,
@@ -200,52 +200,52 @@ func resourceReportLayout() *schema.Resource {
 								},
 							},
 						},
-						"footer": &schema.Schema{
+						"footer": {
 							Type:     schema.TypeList,
 							Optional: true,
 							MaxItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"style": &schema.Schema{
+									"style": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 71),
 										Optional:     true,
 										Computed:     true,
 									},
-									"footer_item": &schema.Schema{
+									"footer_item": {
 										Type:     schema.TypeList,
 										Optional: true,
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
-												"id": &schema.Schema{
+												"id": {
 													Type:     schema.TypeInt,
 													Optional: true,
 													Computed: true,
 												},
-												"description": &schema.Schema{
+												"description": {
 													Type:         schema.TypeString,
 													ValidateFunc: validation.StringLenBetween(0, 63),
 													Optional:     true,
 													Computed:     true,
 												},
-												"type": &schema.Schema{
+												"type": {
 													Type:     schema.TypeString,
 													Optional: true,
 													Computed: true,
 												},
-												"style": &schema.Schema{
+												"style": {
 													Type:         schema.TypeString,
 													ValidateFunc: validation.StringLenBetween(0, 71),
 													Optional:     true,
 													Computed:     true,
 												},
-												"content": &schema.Schema{
+												"content": {
 													Type:         schema.TypeString,
 													ValidateFunc: validation.StringLenBetween(0, 511),
 													Optional:     true,
 													Computed:     true,
 												},
-												"img_src": &schema.Schema{
+												"img_src": {
 													Type:         schema.TypeString,
 													ValidateFunc: validation.StringLenBetween(0, 127),
 													Optional:     true,
@@ -260,60 +260,60 @@ func resourceReportLayout() *schema.Resource {
 					},
 				},
 			},
-			"body_item": &schema.Schema{
+			"body_item": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"description": &schema.Schema{
+						"description": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 63),
 							Optional:     true,
 							Computed:     true,
 						},
-						"type": &schema.Schema{
+						"type": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"style": &schema.Schema{
+						"style": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 71),
 							Optional:     true,
 							Computed:     true,
 						},
-						"top_n": &schema.Schema{
+						"top_n": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"hide": &schema.Schema{
+						"hide": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"parameters": &schema.Schema{
+						"parameters": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"id": &schema.Schema{
+									"id": {
 										Type:     schema.TypeInt,
 										Optional: true,
 										Computed: true,
 									},
-									"name": &schema.Schema{
+									"name": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 127),
 										Optional:     true,
 										Computed:     true,
 									},
-									"value": &schema.Schema{
+									"value": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 1023),
 										Optional:     true,
@@ -322,39 +322,39 @@ func resourceReportLayout() *schema.Resource {
 								},
 							},
 						},
-						"text_component": &schema.Schema{
+						"text_component": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"content": &schema.Schema{
+						"content": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 511),
 							Optional:     true,
 							Computed:     true,
 						},
-						"img_src": &schema.Schema{
+						"img_src": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 127),
 							Optional:     true,
 							Computed:     true,
 						},
-						"list_component": &schema.Schema{
+						"list_component": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"list": &schema.Schema{
+						"list": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"id": &schema.Schema{
+									"id": {
 										Type:     schema.TypeInt,
 										Optional: true,
 										Computed: true,
 									},
-									"content": &schema.Schema{
+									"content": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 127),
 										Optional:     true,
@@ -363,70 +363,70 @@ func resourceReportLayout() *schema.Resource {
 								},
 							},
 						},
-						"chart": &schema.Schema{
+						"chart": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 71),
 							Optional:     true,
 							Computed:     true,
 						},
-						"chart_options": &schema.Schema{
+						"chart_options": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"drill_down_items": &schema.Schema{
+						"drill_down_items": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 11),
 							Optional:     true,
 							Computed:     true,
 						},
-						"drill_down_types": &schema.Schema{
+						"drill_down_types": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 7),
 							Optional:     true,
 							Computed:     true,
 						},
-						"table_column_widths": &schema.Schema{
+						"table_column_widths": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 179),
 							Optional:     true,
 							Computed:     true,
 						},
-						"table_caption_style": &schema.Schema{
+						"table_caption_style": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 71),
 							Optional:     true,
 							Computed:     true,
 						},
-						"table_head_style": &schema.Schema{
+						"table_head_style": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 71),
 							Optional:     true,
 							Computed:     true,
 						},
-						"table_odd_row_style": &schema.Schema{
+						"table_odd_row_style": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 71),
 							Optional:     true,
 							Computed:     true,
 						},
-						"table_even_row_style": &schema.Schema{
+						"table_even_row_style": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 71),
 							Optional:     true,
 							Computed:     true,
 						},
-						"misc_component": &schema.Schema{
+						"misc_component": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"column": &schema.Schema{
+						"column": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"title": &schema.Schema{
+						"title": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 511),
 							Optional:     true,
@@ -435,10 +435,15 @@ func resourceReportLayout() *schema.Resource {
 					},
 				},
 			},
-			"dynamic_sort_subtable": &schema.Schema{
-				Type:     schema.TypeString,
+			"dynamic_sort_subtable": {
+				Type:     schema.TypeBool,
 				Optional: true,
-				Default:  "false",
+				Default:  false,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -456,15 +461,25 @@ func resourceReportLayoutCreate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectReportLayout(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating ReportLayout resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateReportLayout(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectReportLayout(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating ReportLayout resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateReportLayout(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating ReportLayout resource: %v", err)
+		return fmt.Errorf("error creating ReportLayout resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -489,14 +504,24 @@ func resourceReportLayoutUpdate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectReportLayout(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating ReportLayout resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateReportLayout(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectReportLayout(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating ReportLayout resource: %v", err)
+		return fmt.Errorf("error updating ReportLayout resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateReportLayout(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating ReportLayout resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -523,9 +548,17 @@ func resourceReportLayoutDelete(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	err := c.DeleteReportLayout(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteReportLayout(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting ReportLayout resource: %v", err)
+		return fmt.Errorf("error deleting ReportLayout resource: %v", err)
 	}
 
 	d.SetId("")
@@ -547,9 +580,19 @@ func resourceReportLayoutRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadReportLayout(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadReportLayout(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading ReportLayout resource: %v", err)
+		return fmt.Errorf("error reading ReportLayout resource: %v", err)
 	}
 
 	if o == nil {
@@ -560,7 +603,7 @@ func resourceReportLayoutRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectReportLayout(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading ReportLayout resource from API: %v", err)
+		return fmt.Errorf("error reading ReportLayout resource from API: %v", err)
 	}
 	return nil
 }
@@ -1291,105 +1334,105 @@ func refreshObjectReportLayout(d *schema.ResourceData, o map[string]interface{},
 
 	if err = d.Set("name", flattenReportLayoutName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("title", flattenReportLayoutTitle(o["title"], d, "title", sv)); err != nil {
 		if !fortiAPIPatch(o["title"]) {
-			return fmt.Errorf("Error reading title: %v", err)
+			return fmt.Errorf("error reading title: %v", err)
 		}
 	}
 
 	if err = d.Set("subtitle", flattenReportLayoutSubtitle(o["subtitle"], d, "subtitle", sv)); err != nil {
 		if !fortiAPIPatch(o["subtitle"]) {
-			return fmt.Errorf("Error reading subtitle: %v", err)
+			return fmt.Errorf("error reading subtitle: %v", err)
 		}
 	}
 
 	if err = d.Set("description", flattenReportLayoutDescription(o["description"], d, "description", sv)); err != nil {
 		if !fortiAPIPatch(o["description"]) {
-			return fmt.Errorf("Error reading description: %v", err)
+			return fmt.Errorf("error reading description: %v", err)
 		}
 	}
 
 	if err = d.Set("style_theme", flattenReportLayoutStyleTheme(o["style-theme"], d, "style_theme", sv)); err != nil {
 		if !fortiAPIPatch(o["style-theme"]) {
-			return fmt.Errorf("Error reading style_theme: %v", err)
+			return fmt.Errorf("error reading style_theme: %v", err)
 		}
 	}
 
 	if err = d.Set("options", flattenReportLayoutOptions(o["options"], d, "options", sv)); err != nil {
 		if !fortiAPIPatch(o["options"]) {
-			return fmt.Errorf("Error reading options: %v", err)
+			return fmt.Errorf("error reading options: %v", err)
 		}
 	}
 
 	if err = d.Set("format", flattenReportLayoutFormat(o["format"], d, "format", sv)); err != nil {
 		if !fortiAPIPatch(o["format"]) {
-			return fmt.Errorf("Error reading format: %v", err)
+			return fmt.Errorf("error reading format: %v", err)
 		}
 	}
 
 	if err = d.Set("schedule_type", flattenReportLayoutScheduleType(o["schedule-type"], d, "schedule_type", sv)); err != nil {
 		if !fortiAPIPatch(o["schedule-type"]) {
-			return fmt.Errorf("Error reading schedule_type: %v", err)
+			return fmt.Errorf("error reading schedule_type: %v", err)
 		}
 	}
 
 	if err = d.Set("day", flattenReportLayoutDay(o["day"], d, "day", sv)); err != nil {
 		if !fortiAPIPatch(o["day"]) {
-			return fmt.Errorf("Error reading day: %v", err)
+			return fmt.Errorf("error reading day: %v", err)
 		}
 	}
 
 	if err = d.Set("time", flattenReportLayoutTime(o["time"], d, "time", sv)); err != nil {
 		if !fortiAPIPatch(o["time"]) {
-			return fmt.Errorf("Error reading time: %v", err)
+			return fmt.Errorf("error reading time: %v", err)
 		}
 	}
 
 	if err = d.Set("cutoff_option", flattenReportLayoutCutoffOption(o["cutoff-option"], d, "cutoff_option", sv)); err != nil {
 		if !fortiAPIPatch(o["cutoff-option"]) {
-			return fmt.Errorf("Error reading cutoff_option: %v", err)
+			return fmt.Errorf("error reading cutoff_option: %v", err)
 		}
 	}
 
 	if err = d.Set("cutoff_time", flattenReportLayoutCutoffTime(o["cutoff-time"], d, "cutoff_time", sv)); err != nil {
 		if !fortiAPIPatch(o["cutoff-time"]) {
-			return fmt.Errorf("Error reading cutoff_time: %v", err)
+			return fmt.Errorf("error reading cutoff_time: %v", err)
 		}
 	}
 
 	if err = d.Set("email_send", flattenReportLayoutEmailSend(o["email-send"], d, "email_send", sv)); err != nil {
 		if !fortiAPIPatch(o["email-send"]) {
-			return fmt.Errorf("Error reading email_send: %v", err)
+			return fmt.Errorf("error reading email_send: %v", err)
 		}
 	}
 
 	if err = d.Set("email_recipients", flattenReportLayoutEmailRecipients(o["email-recipients"], d, "email_recipients", sv)); err != nil {
 		if !fortiAPIPatch(o["email-recipients"]) {
-			return fmt.Errorf("Error reading email_recipients: %v", err)
+			return fmt.Errorf("error reading email_recipients: %v", err)
 		}
 	}
 
 	if err = d.Set("max_pdf_report", flattenReportLayoutMaxPdfReport(o["max-pdf-report"], d, "max_pdf_report", sv)); err != nil {
 		if !fortiAPIPatch(o["max-pdf-report"]) {
-			return fmt.Errorf("Error reading max_pdf_report: %v", err)
+			return fmt.Errorf("error reading max_pdf_report: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("page", flattenReportLayoutPage(o["page"], d, "page", sv)); err != nil {
 			if !fortiAPIPatch(o["page"]) {
-				return fmt.Errorf("Error reading page: %v", err)
+				return fmt.Errorf("error reading page: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("page"); ok {
 			if err = d.Set("page", flattenReportLayoutPage(o["page"], d, "page", sv)); err != nil {
 				if !fortiAPIPatch(o["page"]) {
-					return fmt.Errorf("Error reading page: %v", err)
+					return fmt.Errorf("error reading page: %v", err)
 				}
 			}
 		}
@@ -1398,14 +1441,14 @@ func refreshObjectReportLayout(d *schema.ResourceData, o map[string]interface{},
 	if isImportTable() {
 		if err = d.Set("body_item", flattenReportLayoutBodyItem(o["body-item"], d, "body_item", sv)); err != nil {
 			if !fortiAPIPatch(o["body-item"]) {
-				return fmt.Errorf("Error reading body_item: %v", err)
+				return fmt.Errorf("error reading body_item: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("body_item"); ok {
 			if err = d.Set("body_item", flattenReportLayoutBodyItem(o["body-item"], d, "body_item", sv)); err != nil {
 				if !fortiAPIPatch(o["body-item"]) {
-					return fmt.Errorf("Error reading body_item: %v", err)
+					return fmt.Errorf("error reading body_item: %v", err)
 				}
 			}
 		}

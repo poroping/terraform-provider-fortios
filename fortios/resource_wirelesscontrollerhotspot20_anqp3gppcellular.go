@@ -30,36 +30,36 @@ func resourceWirelessControllerHotspot20Anqp3GppCellular() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"mcc_mnc_list": &schema.Schema{
+			"mcc_mnc_list": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 6),
 							Optional:     true,
 							Computed:     true,
 						},
-						"mcc": &schema.Schema{
+						"mcc": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 3),
 							Optional:     true,
 							Computed:     true,
 						},
-						"mnc": &schema.Schema{
+						"mnc": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 3),
 							Optional:     true,
@@ -68,10 +68,15 @@ func resourceWirelessControllerHotspot20Anqp3GppCellular() *schema.Resource {
 					},
 				},
 			},
-			"dynamic_sort_subtable": &schema.Schema{
-				Type:     schema.TypeString,
+			"dynamic_sort_subtable": {
+				Type:     schema.TypeBool,
 				Optional: true,
-				Default:  "false",
+				Default:  false,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -89,15 +94,25 @@ func resourceWirelessControllerHotspot20Anqp3GppCellularCreate(d *schema.Resourc
 		}
 	}
 
-	obj, err := getObjectWirelessControllerHotspot20Anqp3GppCellular(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating WirelessControllerHotspot20Anqp3GppCellular resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateWirelessControllerHotspot20Anqp3GppCellular(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectWirelessControllerHotspot20Anqp3GppCellular(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating WirelessControllerHotspot20Anqp3GppCellular resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateWirelessControllerHotspot20Anqp3GppCellular(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating WirelessControllerHotspot20Anqp3GppCellular resource: %v", err)
+		return fmt.Errorf("error creating WirelessControllerHotspot20Anqp3GppCellular resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -122,14 +137,24 @@ func resourceWirelessControllerHotspot20Anqp3GppCellularUpdate(d *schema.Resourc
 		}
 	}
 
-	obj, err := getObjectWirelessControllerHotspot20Anqp3GppCellular(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating WirelessControllerHotspot20Anqp3GppCellular resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateWirelessControllerHotspot20Anqp3GppCellular(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectWirelessControllerHotspot20Anqp3GppCellular(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating WirelessControllerHotspot20Anqp3GppCellular resource: %v", err)
+		return fmt.Errorf("error updating WirelessControllerHotspot20Anqp3GppCellular resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateWirelessControllerHotspot20Anqp3GppCellular(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating WirelessControllerHotspot20Anqp3GppCellular resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -156,9 +181,17 @@ func resourceWirelessControllerHotspot20Anqp3GppCellularDelete(d *schema.Resourc
 		}
 	}
 
-	err := c.DeleteWirelessControllerHotspot20Anqp3GppCellular(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteWirelessControllerHotspot20Anqp3GppCellular(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting WirelessControllerHotspot20Anqp3GppCellular resource: %v", err)
+		return fmt.Errorf("error deleting WirelessControllerHotspot20Anqp3GppCellular resource: %v", err)
 	}
 
 	d.SetId("")
@@ -180,9 +213,19 @@ func resourceWirelessControllerHotspot20Anqp3GppCellularRead(d *schema.ResourceD
 		}
 	}
 
-	o, err := c.ReadWirelessControllerHotspot20Anqp3GppCellular(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadWirelessControllerHotspot20Anqp3GppCellular(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading WirelessControllerHotspot20Anqp3GppCellular resource: %v", err)
+		return fmt.Errorf("error reading WirelessControllerHotspot20Anqp3GppCellular resource: %v", err)
 	}
 
 	if o == nil {
@@ -193,7 +236,7 @@ func resourceWirelessControllerHotspot20Anqp3GppCellularRead(d *schema.ResourceD
 
 	err = refreshObjectWirelessControllerHotspot20Anqp3GppCellular(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading WirelessControllerHotspot20Anqp3GppCellular resource from API: %v", err)
+		return fmt.Errorf("error reading WirelessControllerHotspot20Anqp3GppCellular resource from API: %v", err)
 	}
 	return nil
 }
@@ -265,21 +308,21 @@ func refreshObjectWirelessControllerHotspot20Anqp3GppCellular(d *schema.Resource
 
 	if err = d.Set("name", flattenWirelessControllerHotspot20Anqp3GppCellularName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("mcc_mnc_list", flattenWirelessControllerHotspot20Anqp3GppCellularMccMncList(o["mcc-mnc-list"], d, "mcc_mnc_list", sv)); err != nil {
 			if !fortiAPIPatch(o["mcc-mnc-list"]) {
-				return fmt.Errorf("Error reading mcc_mnc_list: %v", err)
+				return fmt.Errorf("error reading mcc_mnc_list: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("mcc_mnc_list"); ok {
 			if err = d.Set("mcc_mnc_list", flattenWirelessControllerHotspot20Anqp3GppCellularMccMncList(o["mcc-mnc-list"], d, "mcc_mnc_list", sv)); err != nil {
 				if !fortiAPIPatch(o["mcc-mnc-list"]) {
-					return fmt.Errorf("Error reading mcc_mnc_list: %v", err)
+					return fmt.Errorf("error reading mcc_mnc_list: %v", err)
 				}
 			}
 		}

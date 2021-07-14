@@ -21,37 +21,37 @@ func dataSourceSystemNetflow() *schema.Resource {
 	return &schema.Resource{
 		Read: dataSourceSystemNetflowRead,
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
 
-			"collector_ip": &schema.Schema{
+			"collector_ip": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"collector_port": &schema.Schema{
+			"collector_port": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"source_ip": &schema.Schema{
+			"source_ip": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"active_flow_timeout": &schema.Schema{
+			"active_flow_timeout": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"inactive_flow_timeout": &schema.Schema{
+			"inactive_flow_timeout": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"template_tx_timeout": &schema.Schema{
+			"template_tx_timeout": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"template_tx_counter": &schema.Schema{
+			"template_tx_counter": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
@@ -73,9 +73,9 @@ func dataSourceSystemNetflowRead(d *schema.ResourceData, m interface{}) error {
 
 	mkey := "SystemNetflow"
 
-	o, err := c.ReadSystemNetflow(mkey, vdomparam)
+	o, err := c.ReadSystemNetflow(mkey, vdomparam, make(map[string][]string), 0)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemNetflow: %v", err)
+		return fmt.Errorf("error describing SystemNetflow: %v", err)
 	}
 
 	if o == nil {
@@ -85,7 +85,7 @@ func dataSourceSystemNetflowRead(d *schema.ResourceData, m interface{}) error {
 
 	err = dataSourceRefreshObjectSystemNetflow(d, o)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemNetflow from API: %v", err)
+		return fmt.Errorf("error describing SystemNetflow from API: %v", err)
 	}
 
 	d.SetId(mkey)
@@ -126,43 +126,43 @@ func dataSourceRefreshObjectSystemNetflow(d *schema.ResourceData, o map[string]i
 
 	if err = d.Set("collector_ip", dataSourceFlattenSystemNetflowCollectorIp(o["collector-ip"], d, "collector_ip")); err != nil {
 		if !fortiAPIPatch(o["collector-ip"]) {
-			return fmt.Errorf("Error reading collector_ip: %v", err)
+			return fmt.Errorf("error reading collector_ip: %v", err)
 		}
 	}
 
 	if err = d.Set("collector_port", dataSourceFlattenSystemNetflowCollectorPort(o["collector-port"], d, "collector_port")); err != nil {
 		if !fortiAPIPatch(o["collector-port"]) {
-			return fmt.Errorf("Error reading collector_port: %v", err)
+			return fmt.Errorf("error reading collector_port: %v", err)
 		}
 	}
 
 	if err = d.Set("source_ip", dataSourceFlattenSystemNetflowSourceIp(o["source-ip"], d, "source_ip")); err != nil {
 		if !fortiAPIPatch(o["source-ip"]) {
-			return fmt.Errorf("Error reading source_ip: %v", err)
+			return fmt.Errorf("error reading source_ip: %v", err)
 		}
 	}
 
 	if err = d.Set("active_flow_timeout", dataSourceFlattenSystemNetflowActiveFlowTimeout(o["active-flow-timeout"], d, "active_flow_timeout")); err != nil {
 		if !fortiAPIPatch(o["active-flow-timeout"]) {
-			return fmt.Errorf("Error reading active_flow_timeout: %v", err)
+			return fmt.Errorf("error reading active_flow_timeout: %v", err)
 		}
 	}
 
 	if err = d.Set("inactive_flow_timeout", dataSourceFlattenSystemNetflowInactiveFlowTimeout(o["inactive-flow-timeout"], d, "inactive_flow_timeout")); err != nil {
 		if !fortiAPIPatch(o["inactive-flow-timeout"]) {
-			return fmt.Errorf("Error reading inactive_flow_timeout: %v", err)
+			return fmt.Errorf("error reading inactive_flow_timeout: %v", err)
 		}
 	}
 
 	if err = d.Set("template_tx_timeout", dataSourceFlattenSystemNetflowTemplateTxTimeout(o["template-tx-timeout"], d, "template_tx_timeout")); err != nil {
 		if !fortiAPIPatch(o["template-tx-timeout"]) {
-			return fmt.Errorf("Error reading template_tx_timeout: %v", err)
+			return fmt.Errorf("error reading template_tx_timeout: %v", err)
 		}
 	}
 
 	if err = d.Set("template_tx_counter", dataSourceFlattenSystemNetflowTemplateTxCounter(o["template-tx-counter"], d, "template_tx_counter")); err != nil {
 		if !fortiAPIPatch(o["template-tx-counter"]) {
-			return fmt.Errorf("Error reading template_tx_counter: %v", err)
+			return fmt.Errorf("error reading template_tx_counter: %v", err)
 		}
 	}
 

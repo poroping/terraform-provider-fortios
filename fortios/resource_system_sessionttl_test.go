@@ -49,14 +49,14 @@ func testAccCheckFortiOSSystemSessionTtlExists(n string) resource.TestCheckFunc 
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemSessionTtl(i, "root")
+		o, err := c.ReadSystemSessionTtl(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading SystemSessionTtl: %s", err)
+			return fmt.Errorf("error reading SystemSessionTtl: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating SystemSessionTtl: %s", n)
+			return fmt.Errorf("error creating SystemSessionTtl: %s", n)
 		}
 
 		return nil
@@ -72,11 +72,11 @@ func testAccCheckSystemSessionTtlDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemSessionTtl(i, "root")
+		o, err := c.ReadSystemSessionTtl(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error SystemSessionTtl %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error SystemSessionTtl %s still exists", rs.Primary.ID)
 			}
 		}
 

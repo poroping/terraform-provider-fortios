@@ -54,14 +54,14 @@ func testAccCheckFortiOSFirewallProxyAddressExists(n string) resource.TestCheckF
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadFirewallProxyAddress(i, "root")
+		o, err := c.ReadFirewallProxyAddress(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading FirewallProxyAddress: %s", err)
+			return fmt.Errorf("error reading FirewallProxyAddress: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating FirewallProxyAddress: %s", n)
+			return fmt.Errorf("error creating FirewallProxyAddress: %s", n)
 		}
 
 		return nil
@@ -77,11 +77,11 @@ func testAccCheckFirewallProxyAddressDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadFirewallProxyAddress(i, "root")
+		o, err := c.ReadFirewallProxyAddress(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error FirewallProxyAddress %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error FirewallProxyAddress %s still exists", rs.Primary.ID)
 			}
 		}
 

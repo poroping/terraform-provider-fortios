@@ -21,74 +21,74 @@ func dataSourceSystemPppoeInterface() *schema.Resource {
 	return &schema.Resource{
 		Read: dataSourceSystemPppoeInterfaceRead,
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
 
-			"name": &schema.Schema{
+			"name": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"dial_on_demand": &schema.Schema{
+			"dial_on_demand": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"ipv6": &schema.Schema{
+			"ipv6": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"device": &schema.Schema{
+			"device": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"username": &schema.Schema{
+			"username": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"password": &schema.Schema{
+			"password": {
 				Type:      schema.TypeString,
 				Sensitive: true,
 				Computed:  true,
 			},
-			"auth_type": &schema.Schema{
+			"auth_type": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"ipunnumbered": &schema.Schema{
+			"ipunnumbered": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"pppoe_unnumbered_negotiate": &schema.Schema{
+			"pppoe_unnumbered_negotiate": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"idle_timeout": &schema.Schema{
+			"idle_timeout": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"disc_retry_timeout": &schema.Schema{
+			"disc_retry_timeout": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"padt_retry_timeout": &schema.Schema{
+			"padt_retry_timeout": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"service_name": &schema.Schema{
+			"service_name": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"ac_name": &schema.Schema{
+			"ac_name": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"lcp_echo_interval": &schema.Schema{
+			"lcp_echo_interval": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"lcp_max_echo_fails": &schema.Schema{
+			"lcp_max_echo_fails": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
@@ -116,12 +116,12 @@ func dataSourceSystemPppoeInterfaceRead(d *schema.ResourceData, m interface{}) e
 	} else if v, ok := t.(int); ok {
 		mkey = strconv.Itoa(v)
 	} else {
-		return fmt.Errorf("Error describing SystemPppoeInterface: type error")
+		return fmt.Errorf("error describing SystemPppoeInterface: type error")
 	}
 
-	o, err := c.ReadSystemPppoeInterface(mkey, vdomparam)
+	o, err := c.ReadSystemPppoeInterface(mkey, vdomparam, make(map[string][]string), 0)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemPppoeInterface: %v", err)
+		return fmt.Errorf("error describing SystemPppoeInterface: %v", err)
 	}
 
 	if o == nil {
@@ -131,7 +131,7 @@ func dataSourceSystemPppoeInterfaceRead(d *schema.ResourceData, m interface{}) e
 
 	err = dataSourceRefreshObjectSystemPppoeInterface(d, o)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemPppoeInterface from API: %v", err)
+		return fmt.Errorf("error describing SystemPppoeInterface from API: %v", err)
 	}
 
 	d.SetId(mkey)
@@ -208,91 +208,91 @@ func dataSourceRefreshObjectSystemPppoeInterface(d *schema.ResourceData, o map[s
 
 	if err = d.Set("name", dataSourceFlattenSystemPppoeInterfaceName(o["name"], d, "name")); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("dial_on_demand", dataSourceFlattenSystemPppoeInterfaceDialOnDemand(o["dial-on-demand"], d, "dial_on_demand")); err != nil {
 		if !fortiAPIPatch(o["dial-on-demand"]) {
-			return fmt.Errorf("Error reading dial_on_demand: %v", err)
+			return fmt.Errorf("error reading dial_on_demand: %v", err)
 		}
 	}
 
 	if err = d.Set("ipv6", dataSourceFlattenSystemPppoeInterfaceIpv6(o["ipv6"], d, "ipv6")); err != nil {
 		if !fortiAPIPatch(o["ipv6"]) {
-			return fmt.Errorf("Error reading ipv6: %v", err)
+			return fmt.Errorf("error reading ipv6: %v", err)
 		}
 	}
 
 	if err = d.Set("device", dataSourceFlattenSystemPppoeInterfaceDevice(o["device"], d, "device")); err != nil {
 		if !fortiAPIPatch(o["device"]) {
-			return fmt.Errorf("Error reading device: %v", err)
+			return fmt.Errorf("error reading device: %v", err)
 		}
 	}
 
 	if err = d.Set("username", dataSourceFlattenSystemPppoeInterfaceUsername(o["username"], d, "username")); err != nil {
 		if !fortiAPIPatch(o["username"]) {
-			return fmt.Errorf("Error reading username: %v", err)
+			return fmt.Errorf("error reading username: %v", err)
 		}
 	}
 
 	if err = d.Set("auth_type", dataSourceFlattenSystemPppoeInterfaceAuthType(o["auth-type"], d, "auth_type")); err != nil {
 		if !fortiAPIPatch(o["auth-type"]) {
-			return fmt.Errorf("Error reading auth_type: %v", err)
+			return fmt.Errorf("error reading auth_type: %v", err)
 		}
 	}
 
 	if err = d.Set("ipunnumbered", dataSourceFlattenSystemPppoeInterfaceIpunnumbered(o["ipunnumbered"], d, "ipunnumbered")); err != nil {
 		if !fortiAPIPatch(o["ipunnumbered"]) {
-			return fmt.Errorf("Error reading ipunnumbered: %v", err)
+			return fmt.Errorf("error reading ipunnumbered: %v", err)
 		}
 	}
 
 	if err = d.Set("pppoe_unnumbered_negotiate", dataSourceFlattenSystemPppoeInterfacePppoeUnnumberedNegotiate(o["pppoe-unnumbered-negotiate"], d, "pppoe_unnumbered_negotiate")); err != nil {
 		if !fortiAPIPatch(o["pppoe-unnumbered-negotiate"]) {
-			return fmt.Errorf("Error reading pppoe_unnumbered_negotiate: %v", err)
+			return fmt.Errorf("error reading pppoe_unnumbered_negotiate: %v", err)
 		}
 	}
 
 	if err = d.Set("idle_timeout", dataSourceFlattenSystemPppoeInterfaceIdleTimeout(o["idle-timeout"], d, "idle_timeout")); err != nil {
 		if !fortiAPIPatch(o["idle-timeout"]) {
-			return fmt.Errorf("Error reading idle_timeout: %v", err)
+			return fmt.Errorf("error reading idle_timeout: %v", err)
 		}
 	}
 
 	if err = d.Set("disc_retry_timeout", dataSourceFlattenSystemPppoeInterfaceDiscRetryTimeout(o["disc-retry-timeout"], d, "disc_retry_timeout")); err != nil {
 		if !fortiAPIPatch(o["disc-retry-timeout"]) {
-			return fmt.Errorf("Error reading disc_retry_timeout: %v", err)
+			return fmt.Errorf("error reading disc_retry_timeout: %v", err)
 		}
 	}
 
 	if err = d.Set("padt_retry_timeout", dataSourceFlattenSystemPppoeInterfacePadtRetryTimeout(o["padt-retry-timeout"], d, "padt_retry_timeout")); err != nil {
 		if !fortiAPIPatch(o["padt-retry-timeout"]) {
-			return fmt.Errorf("Error reading padt_retry_timeout: %v", err)
+			return fmt.Errorf("error reading padt_retry_timeout: %v", err)
 		}
 	}
 
 	if err = d.Set("service_name", dataSourceFlattenSystemPppoeInterfaceServiceName(o["service-name"], d, "service_name")); err != nil {
 		if !fortiAPIPatch(o["service-name"]) {
-			return fmt.Errorf("Error reading service_name: %v", err)
+			return fmt.Errorf("error reading service_name: %v", err)
 		}
 	}
 
 	if err = d.Set("ac_name", dataSourceFlattenSystemPppoeInterfaceAcName(o["ac-name"], d, "ac_name")); err != nil {
 		if !fortiAPIPatch(o["ac-name"]) {
-			return fmt.Errorf("Error reading ac_name: %v", err)
+			return fmt.Errorf("error reading ac_name: %v", err)
 		}
 	}
 
 	if err = d.Set("lcp_echo_interval", dataSourceFlattenSystemPppoeInterfaceLcpEchoInterval(o["lcp-echo-interval"], d, "lcp_echo_interval")); err != nil {
 		if !fortiAPIPatch(o["lcp-echo-interval"]) {
-			return fmt.Errorf("Error reading lcp_echo_interval: %v", err)
+			return fmt.Errorf("error reading lcp_echo_interval: %v", err)
 		}
 	}
 
 	if err = d.Set("lcp_max_echo_fails", dataSourceFlattenSystemPppoeInterfaceLcpMaxEchoFails(o["lcp-max-echo-fails"], d, "lcp_max_echo_fails")); err != nil {
 		if !fortiAPIPatch(o["lcp-max-echo-fails"]) {
-			return fmt.Errorf("Error reading lcp_max_echo_fails: %v", err)
+			return fmt.Errorf("error reading lcp_max_echo_fails: %v", err)
 		}
 	}
 

@@ -51,14 +51,14 @@ func testAccCheckFortiOSVpnSslWebHostCheckSoftwareExists(n string) resource.Test
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadVpnSslWebHostCheckSoftware(i, "root")
+		o, err := c.ReadVpnSslWebHostCheckSoftware(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading VpnSslWebHostCheckSoftware: %s", err)
+			return fmt.Errorf("error reading VpnSslWebHostCheckSoftware: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating VpnSslWebHostCheckSoftware: %s", n)
+			return fmt.Errorf("error creating VpnSslWebHostCheckSoftware: %s", n)
 		}
 
 		return nil
@@ -74,11 +74,11 @@ func testAccCheckVpnSslWebHostCheckSoftwareDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadVpnSslWebHostCheckSoftware(i, "root")
+		o, err := c.ReadVpnSslWebHostCheckSoftware(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error VpnSslWebHostCheckSoftware %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error VpnSslWebHostCheckSoftware %s still exists", rs.Primary.ID)
 			}
 		}
 

@@ -30,51 +30,56 @@ func resourceCifsDomainController() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"server_name": &schema.Schema{
+			"server_name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"domain_name": &schema.Schema{
+			"domain_name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 79),
 				Optional:     true,
 				Computed:     true,
 			},
-			"username": &schema.Schema{
+			"username": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 64),
 				Optional:     true,
 				Computed:     true,
 			},
-			"password": &schema.Schema{
+			"password": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 128),
 				Optional:     true,
 				Sensitive:    true,
 			},
-			"port": &schema.Schema{
+			"port": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"ip": &schema.Schema{
+			"ip": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ip6": &schema.Schema{
+			"ip6": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -92,15 +97,25 @@ func resourceCifsDomainControllerCreate(d *schema.ResourceData, m interface{}) e
 		}
 	}
 
-	obj, err := getObjectCifsDomainController(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating CifsDomainController resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateCifsDomainController(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectCifsDomainController(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating CifsDomainController resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateCifsDomainController(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating CifsDomainController resource: %v", err)
+		return fmt.Errorf("error creating CifsDomainController resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -125,14 +140,24 @@ func resourceCifsDomainControllerUpdate(d *schema.ResourceData, m interface{}) e
 		}
 	}
 
-	obj, err := getObjectCifsDomainController(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating CifsDomainController resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateCifsDomainController(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectCifsDomainController(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating CifsDomainController resource: %v", err)
+		return fmt.Errorf("error updating CifsDomainController resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateCifsDomainController(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating CifsDomainController resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -159,9 +184,17 @@ func resourceCifsDomainControllerDelete(d *schema.ResourceData, m interface{}) e
 		}
 	}
 
-	err := c.DeleteCifsDomainController(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteCifsDomainController(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting CifsDomainController resource: %v", err)
+		return fmt.Errorf("error deleting CifsDomainController resource: %v", err)
 	}
 
 	d.SetId("")
@@ -183,9 +216,19 @@ func resourceCifsDomainControllerRead(d *schema.ResourceData, m interface{}) err
 		}
 	}
 
-	o, err := c.ReadCifsDomainController(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadCifsDomainController(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading CifsDomainController resource: %v", err)
+		return fmt.Errorf("error reading CifsDomainController resource: %v", err)
 	}
 
 	if o == nil {
@@ -196,7 +239,7 @@ func resourceCifsDomainControllerRead(d *schema.ResourceData, m interface{}) err
 
 	err = refreshObjectCifsDomainController(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading CifsDomainController resource from API: %v", err)
+		return fmt.Errorf("error reading CifsDomainController resource from API: %v", err)
 	}
 	return nil
 }
@@ -234,37 +277,37 @@ func refreshObjectCifsDomainController(d *schema.ResourceData, o map[string]inte
 
 	if err = d.Set("server_name", flattenCifsDomainControllerServerName(o["server-name"], d, "server_name", sv)); err != nil {
 		if !fortiAPIPatch(o["server-name"]) {
-			return fmt.Errorf("Error reading server_name: %v", err)
+			return fmt.Errorf("error reading server_name: %v", err)
 		}
 	}
 
 	if err = d.Set("domain_name", flattenCifsDomainControllerDomainName(o["domain-name"], d, "domain_name", sv)); err != nil {
 		if !fortiAPIPatch(o["domain-name"]) {
-			return fmt.Errorf("Error reading domain_name: %v", err)
+			return fmt.Errorf("error reading domain_name: %v", err)
 		}
 	}
 
 	if err = d.Set("username", flattenCifsDomainControllerUsername(o["username"], d, "username", sv)); err != nil {
 		if !fortiAPIPatch(o["username"]) {
-			return fmt.Errorf("Error reading username: %v", err)
+			return fmt.Errorf("error reading username: %v", err)
 		}
 	}
 
 	if err = d.Set("port", flattenCifsDomainControllerPort(o["port"], d, "port", sv)); err != nil {
 		if !fortiAPIPatch(o["port"]) {
-			return fmt.Errorf("Error reading port: %v", err)
+			return fmt.Errorf("error reading port: %v", err)
 		}
 	}
 
 	if err = d.Set("ip", flattenCifsDomainControllerIp(o["ip"], d, "ip", sv)); err != nil {
 		if !fortiAPIPatch(o["ip"]) {
-			return fmt.Errorf("Error reading ip: %v", err)
+			return fmt.Errorf("error reading ip: %v", err)
 		}
 	}
 
 	if err = d.Set("ip6", flattenCifsDomainControllerIp6(o["ip6"], d, "ip6", sv)); err != nil {
 		if !fortiAPIPatch(o["ip6"]) {
-			return fmt.Errorf("Error reading ip6: %v", err)
+			return fmt.Errorf("error reading ip6: %v", err)
 		}
 	}
 

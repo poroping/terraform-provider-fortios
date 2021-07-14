@@ -30,66 +30,71 @@ func resourceAuthenticationSetting() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"active_auth_scheme": &schema.Schema{
+			"active_auth_scheme": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"sso_auth_scheme": &schema.Schema{
+			"sso_auth_scheme": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"captive_portal_type": &schema.Schema{
+			"captive_portal_type": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"captive_portal_ip": &schema.Schema{
+			"captive_portal_ip": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"captive_portal_ip6": &schema.Schema{
+			"captive_portal_ip6": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"captive_portal": &schema.Schema{
+			"captive_portal": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
 				Computed:     true,
 			},
-			"captive_portal6": &schema.Schema{
+			"captive_portal6": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
 				Computed:     true,
 			},
-			"captive_portal_port": &schema.Schema{
+			"captive_portal_port": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"auth_https": &schema.Schema{
+			"auth_https": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"captive_portal_ssl_port": &schema.Schema{
+			"captive_portal_ssl_port": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 65535),
 				Optional:     true,
 				Computed:     true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -108,14 +113,24 @@ func resourceAuthenticationSettingUpdate(d *schema.ResourceData, m interface{}) 
 		}
 	}
 
-	obj, err := getObjectAuthenticationSetting(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating AuthenticationSetting resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateAuthenticationSetting(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectAuthenticationSetting(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating AuthenticationSetting resource: %v", err)
+		return fmt.Errorf("error updating AuthenticationSetting resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateAuthenticationSetting(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating AuthenticationSetting resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -142,9 +157,17 @@ func resourceAuthenticationSettingDelete(d *schema.ResourceData, m interface{}) 
 		}
 	}
 
-	err := c.DeleteAuthenticationSetting(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteAuthenticationSetting(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting AuthenticationSetting resource: %v", err)
+		return fmt.Errorf("error deleting AuthenticationSetting resource: %v", err)
 	}
 
 	d.SetId("")
@@ -166,9 +189,19 @@ func resourceAuthenticationSettingRead(d *schema.ResourceData, m interface{}) er
 		}
 	}
 
-	o, err := c.ReadAuthenticationSetting(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadAuthenticationSetting(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading AuthenticationSetting resource: %v", err)
+		return fmt.Errorf("error reading AuthenticationSetting resource: %v", err)
 	}
 
 	if o == nil {
@@ -179,7 +212,7 @@ func resourceAuthenticationSettingRead(d *schema.ResourceData, m interface{}) er
 
 	err = refreshObjectAuthenticationSetting(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading AuthenticationSetting resource from API: %v", err)
+		return fmt.Errorf("error reading AuthenticationSetting resource from API: %v", err)
 	}
 	return nil
 }
@@ -229,61 +262,61 @@ func refreshObjectAuthenticationSetting(d *schema.ResourceData, o map[string]int
 
 	if err = d.Set("active_auth_scheme", flattenAuthenticationSettingActiveAuthScheme(o["active-auth-scheme"], d, "active_auth_scheme", sv)); err != nil {
 		if !fortiAPIPatch(o["active-auth-scheme"]) {
-			return fmt.Errorf("Error reading active_auth_scheme: %v", err)
+			return fmt.Errorf("error reading active_auth_scheme: %v", err)
 		}
 	}
 
 	if err = d.Set("sso_auth_scheme", flattenAuthenticationSettingSsoAuthScheme(o["sso-auth-scheme"], d, "sso_auth_scheme", sv)); err != nil {
 		if !fortiAPIPatch(o["sso-auth-scheme"]) {
-			return fmt.Errorf("Error reading sso_auth_scheme: %v", err)
+			return fmt.Errorf("error reading sso_auth_scheme: %v", err)
 		}
 	}
 
 	if err = d.Set("captive_portal_type", flattenAuthenticationSettingCaptivePortalType(o["captive-portal-type"], d, "captive_portal_type", sv)); err != nil {
 		if !fortiAPIPatch(o["captive-portal-type"]) {
-			return fmt.Errorf("Error reading captive_portal_type: %v", err)
+			return fmt.Errorf("error reading captive_portal_type: %v", err)
 		}
 	}
 
 	if err = d.Set("captive_portal_ip", flattenAuthenticationSettingCaptivePortalIp(o["captive-portal-ip"], d, "captive_portal_ip", sv)); err != nil {
 		if !fortiAPIPatch(o["captive-portal-ip"]) {
-			return fmt.Errorf("Error reading captive_portal_ip: %v", err)
+			return fmt.Errorf("error reading captive_portal_ip: %v", err)
 		}
 	}
 
 	if err = d.Set("captive_portal_ip6", flattenAuthenticationSettingCaptivePortalIp6(o["captive-portal-ip6"], d, "captive_portal_ip6", sv)); err != nil {
 		if !fortiAPIPatch(o["captive-portal-ip6"]) {
-			return fmt.Errorf("Error reading captive_portal_ip6: %v", err)
+			return fmt.Errorf("error reading captive_portal_ip6: %v", err)
 		}
 	}
 
 	if err = d.Set("captive_portal", flattenAuthenticationSettingCaptivePortal(o["captive-portal"], d, "captive_portal", sv)); err != nil {
 		if !fortiAPIPatch(o["captive-portal"]) {
-			return fmt.Errorf("Error reading captive_portal: %v", err)
+			return fmt.Errorf("error reading captive_portal: %v", err)
 		}
 	}
 
 	if err = d.Set("captive_portal6", flattenAuthenticationSettingCaptivePortal6(o["captive-portal6"], d, "captive_portal6", sv)); err != nil {
 		if !fortiAPIPatch(o["captive-portal6"]) {
-			return fmt.Errorf("Error reading captive_portal6: %v", err)
+			return fmt.Errorf("error reading captive_portal6: %v", err)
 		}
 	}
 
 	if err = d.Set("captive_portal_port", flattenAuthenticationSettingCaptivePortalPort(o["captive-portal-port"], d, "captive_portal_port", sv)); err != nil {
 		if !fortiAPIPatch(o["captive-portal-port"]) {
-			return fmt.Errorf("Error reading captive_portal_port: %v", err)
+			return fmt.Errorf("error reading captive_portal_port: %v", err)
 		}
 	}
 
 	if err = d.Set("auth_https", flattenAuthenticationSettingAuthHttps(o["auth-https"], d, "auth_https", sv)); err != nil {
 		if !fortiAPIPatch(o["auth-https"]) {
-			return fmt.Errorf("Error reading auth_https: %v", err)
+			return fmt.Errorf("error reading auth_https: %v", err)
 		}
 	}
 
 	if err = d.Set("captive_portal_ssl_port", flattenAuthenticationSettingCaptivePortalSslPort(o["captive-portal-ssl-port"], d, "captive_portal_ssl_port", sv)); err != nil {
 		if !fortiAPIPatch(o["captive-portal-ssl-port"]) {
-			return fmt.Errorf("Error reading captive_portal_ssl_port: %v", err)
+			return fmt.Errorf("error reading captive_portal_ssl_port: %v", err)
 		}
 	}
 

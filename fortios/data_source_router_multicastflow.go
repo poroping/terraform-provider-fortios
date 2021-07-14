@@ -21,34 +21,34 @@ func dataSourceRouterMulticastFlow() *schema.Resource {
 	return &schema.Resource{
 		Read: dataSourceRouterMulticastFlowRead,
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
 
-			"name": &schema.Schema{
+			"name": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"comments": &schema.Schema{
+			"comments": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"flows": &schema.Schema{
+			"flows": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"group_addr": &schema.Schema{
+						"group_addr": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"source_addr": &schema.Schema{
+						"source_addr": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -79,12 +79,12 @@ func dataSourceRouterMulticastFlowRead(d *schema.ResourceData, m interface{}) er
 	} else if v, ok := t.(int); ok {
 		mkey = strconv.Itoa(v)
 	} else {
-		return fmt.Errorf("Error describing RouterMulticastFlow: type error")
+		return fmt.Errorf("error describing RouterMulticastFlow: type error")
 	}
 
-	o, err := c.ReadRouterMulticastFlow(mkey, vdomparam)
+	o, err := c.ReadRouterMulticastFlow(mkey, vdomparam, make(map[string][]string), 0)
 	if err != nil {
-		return fmt.Errorf("Error describing RouterMulticastFlow: %v", err)
+		return fmt.Errorf("error describing RouterMulticastFlow: %v", err)
 	}
 
 	if o == nil {
@@ -94,7 +94,7 @@ func dataSourceRouterMulticastFlowRead(d *schema.ResourceData, m interface{}) er
 
 	err = dataSourceRefreshObjectRouterMulticastFlow(d, o)
 	if err != nil {
-		return fmt.Errorf("Error describing RouterMulticastFlow from API: %v", err)
+		return fmt.Errorf("error describing RouterMulticastFlow from API: %v", err)
 	}
 
 	d.SetId(mkey)
@@ -169,19 +169,19 @@ func dataSourceRefreshObjectRouterMulticastFlow(d *schema.ResourceData, o map[st
 
 	if err = d.Set("name", dataSourceFlattenRouterMulticastFlowName(o["name"], d, "name")); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("comments", dataSourceFlattenRouterMulticastFlowComments(o["comments"], d, "comments")); err != nil {
 		if !fortiAPIPatch(o["comments"]) {
-			return fmt.Errorf("Error reading comments: %v", err)
+			return fmt.Errorf("error reading comments: %v", err)
 		}
 	}
 
 	if err = d.Set("flows", dataSourceFlattenRouterMulticastFlowFlows(o["flows"], d, "flows")); err != nil {
 		if !fortiAPIPatch(o["flows"]) {
-			return fmt.Errorf("Error reading flows: %v", err)
+			return fmt.Errorf("error reading flows: %v", err)
 		}
 	}
 

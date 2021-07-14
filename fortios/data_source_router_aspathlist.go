@@ -21,30 +21,30 @@ func dataSourceRouterAspathList() *schema.Resource {
 	return &schema.Resource{
 		Read: dataSourceRouterAspathListRead,
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
 
-			"name": &schema.Schema{
+			"name": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"rule": &schema.Schema{
+			"rule": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"action": &schema.Schema{
+						"action": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"regexp": &schema.Schema{
+						"regexp": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -75,12 +75,12 @@ func dataSourceRouterAspathListRead(d *schema.ResourceData, m interface{}) error
 	} else if v, ok := t.(int); ok {
 		mkey = strconv.Itoa(v)
 	} else {
-		return fmt.Errorf("Error describing RouterAspathList: type error")
+		return fmt.Errorf("error describing RouterAspathList: type error")
 	}
 
-	o, err := c.ReadRouterAspathList(mkey, vdomparam)
+	o, err := c.ReadRouterAspathList(mkey, vdomparam, make(map[string][]string), 0)
 	if err != nil {
-		return fmt.Errorf("Error describing RouterAspathList: %v", err)
+		return fmt.Errorf("error describing RouterAspathList: %v", err)
 	}
 
 	if o == nil {
@@ -90,7 +90,7 @@ func dataSourceRouterAspathListRead(d *schema.ResourceData, m interface{}) error
 
 	err = dataSourceRefreshObjectRouterAspathList(d, o)
 	if err != nil {
-		return fmt.Errorf("Error describing RouterAspathList from API: %v", err)
+		return fmt.Errorf("error describing RouterAspathList from API: %v", err)
 	}
 
 	d.SetId(mkey)
@@ -161,13 +161,13 @@ func dataSourceRefreshObjectRouterAspathList(d *schema.ResourceData, o map[strin
 
 	if err = d.Set("name", dataSourceFlattenRouterAspathListName(o["name"], d, "name")); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("rule", dataSourceFlattenRouterAspathListRule(o["rule"], d, "rule")); err != nil {
 		if !fortiAPIPatch(o["rule"]) {
-			return fmt.Errorf("Error reading rule: %v", err)
+			return fmt.Errorf("error reading rule: %v", err)
 		}
 	}
 

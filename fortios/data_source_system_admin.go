@@ -21,292 +21,292 @@ func dataSourceSystemAdmin() *schema.Resource {
 	return &schema.Resource{
 		Read: dataSourceSystemAdminRead,
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
 
-			"name": &schema.Schema{
+			"name": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"wildcard": &schema.Schema{
+			"wildcard": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"remote_auth": &schema.Schema{
+			"remote_auth": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"remote_group": &schema.Schema{
+			"remote_group": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"password": &schema.Schema{
+			"password": {
 				Type:      schema.TypeString,
 				Sensitive: true,
 				Computed:  true,
 			},
-			"peer_auth": &schema.Schema{
+			"peer_auth": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"peer_group": &schema.Schema{
+			"peer_group": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"trusthost1": &schema.Schema{
+			"trusthost1": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"trusthost2": &schema.Schema{
+			"trusthost2": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"trusthost3": &schema.Schema{
+			"trusthost3": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"trusthost4": &schema.Schema{
+			"trusthost4": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"trusthost5": &schema.Schema{
+			"trusthost5": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"trusthost6": &schema.Schema{
+			"trusthost6": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"trusthost7": &schema.Schema{
+			"trusthost7": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"trusthost8": &schema.Schema{
+			"trusthost8": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"trusthost9": &schema.Schema{
+			"trusthost9": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"trusthost10": &schema.Schema{
+			"trusthost10": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"ip6_trusthost1": &schema.Schema{
+			"ip6_trusthost1": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"ip6_trusthost2": &schema.Schema{
+			"ip6_trusthost2": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"ip6_trusthost3": &schema.Schema{
+			"ip6_trusthost3": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"ip6_trusthost4": &schema.Schema{
+			"ip6_trusthost4": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"ip6_trusthost5": &schema.Schema{
+			"ip6_trusthost5": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"ip6_trusthost6": &schema.Schema{
+			"ip6_trusthost6": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"ip6_trusthost7": &schema.Schema{
+			"ip6_trusthost7": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"ip6_trusthost8": &schema.Schema{
+			"ip6_trusthost8": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"ip6_trusthost9": &schema.Schema{
+			"ip6_trusthost9": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"ip6_trusthost10": &schema.Schema{
+			"ip6_trusthost10": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"accprofile": &schema.Schema{
+			"accprofile": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"allow_remove_admin_session": &schema.Schema{
+			"allow_remove_admin_session": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"comments": &schema.Schema{
+			"comments": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"hidden": &schema.Schema{
+			"hidden": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"vdom": &schema.Schema{
+			"vdom": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 					},
 				},
 			},
-			"ssh_public_key1": &schema.Schema{
+			"ssh_public_key1": {
 				Type:      schema.TypeString,
 				Sensitive: true,
 				Computed:  true,
 			},
-			"ssh_public_key2": &schema.Schema{
+			"ssh_public_key2": {
 				Type:      schema.TypeString,
 				Sensitive: true,
 				Computed:  true,
 			},
-			"ssh_public_key3": &schema.Schema{
+			"ssh_public_key3": {
 				Type:      schema.TypeString,
 				Sensitive: true,
 				Computed:  true,
 			},
-			"ssh_certificate": &schema.Schema{
+			"ssh_certificate": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"schedule": &schema.Schema{
+			"schedule": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"accprofile_override": &schema.Schema{
+			"accprofile_override": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"radius_vdom_override": &schema.Schema{
+			"radius_vdom_override": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"password_expire": &schema.Schema{
+			"password_expire": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"force_password_change": &schema.Schema{
+			"force_password_change": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"gui_dashboard": &schema.Schema{
+			"gui_dashboard": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"name": &schema.Schema{
+						"name": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"scope": &schema.Schema{
+						"scope": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"layout_type": &schema.Schema{
+						"layout_type": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"columns": &schema.Schema{
+						"columns": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"widget": &schema.Schema{
+						"widget": {
 							Type:     schema.TypeList,
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"id": &schema.Schema{
+									"id": {
 										Type:     schema.TypeInt,
 										Computed: true,
 									},
-									"type": &schema.Schema{
+									"type": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
-									"x_pos": &schema.Schema{
+									"x_pos": {
 										Type:     schema.TypeInt,
 										Computed: true,
 									},
-									"y_pos": &schema.Schema{
+									"y_pos": {
 										Type:     schema.TypeInt,
 										Computed: true,
 									},
-									"width": &schema.Schema{
+									"width": {
 										Type:     schema.TypeInt,
 										Computed: true,
 									},
-									"height": &schema.Schema{
+									"height": {
 										Type:     schema.TypeInt,
 										Computed: true,
 									},
-									"interface": &schema.Schema{
+									"interface": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
-									"region": &schema.Schema{
+									"region": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
-									"industry": &schema.Schema{
+									"industry": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
-									"fabric_device": &schema.Schema{
+									"fabric_device": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
-									"title": &schema.Schema{
+									"title": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
-									"report_by": &schema.Schema{
+									"report_by": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
-									"timeframe": &schema.Schema{
+									"timeframe": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
-									"sort_by": &schema.Schema{
+									"sort_by": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
-									"visualization": &schema.Schema{
+									"visualization": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
-									"filters": &schema.Schema{
+									"filters": {
 										Type:     schema.TypeList,
 										Computed: true,
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
-												"id": &schema.Schema{
+												"id": {
 													Type:     schema.TypeInt,
 													Computed: true,
 												},
-												"key": &schema.Schema{
+												"key": {
 													Type:     schema.TypeString,
 													Computed: true,
 												},
-												"value": &schema.Schema{
+												"value": {
 													Type:     schema.TypeString,
 													Computed: true,
 												},
@@ -319,118 +319,118 @@ func dataSourceSystemAdmin() *schema.Resource {
 					},
 				},
 			},
-			"two_factor": &schema.Schema{
+			"two_factor": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"two_factor_authentication": &schema.Schema{
+			"two_factor_authentication": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"two_factor_notification": &schema.Schema{
+			"two_factor_notification": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"fortitoken": &schema.Schema{
+			"fortitoken": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"email_to": &schema.Schema{
+			"email_to": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"sms_server": &schema.Schema{
+			"sms_server": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"sms_custom_server": &schema.Schema{
+			"sms_custom_server": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"sms_phone": &schema.Schema{
+			"sms_phone": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"guest_auth": &schema.Schema{
+			"guest_auth": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"guest_usergroups": &schema.Schema{
+			"guest_usergroups": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 					},
 				},
 			},
-			"guest_lang": &schema.Schema{
+			"guest_lang": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"history0": &schema.Schema{
+			"history0": {
 				Type:      schema.TypeString,
 				Sensitive: true,
 				Computed:  true,
 			},
-			"history1": &schema.Schema{
+			"history1": {
 				Type:      schema.TypeString,
 				Sensitive: true,
 				Computed:  true,
 			},
-			"login_time": &schema.Schema{
+			"login_time": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"usr_name": &schema.Schema{
+						"usr_name": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"last_login": &schema.Schema{
+						"last_login": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"last_failed_login": &schema.Schema{
+						"last_failed_login": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 					},
 				},
 			},
-			"gui_global_menu_favorites": &schema.Schema{
+			"gui_global_menu_favorites": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 					},
 				},
 			},
-			"gui_vdom_menu_favorites": &schema.Schema{
+			"gui_vdom_menu_favorites": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 					},
 				},
 			},
-			"gui_new_feature_acknowledge": &schema.Schema{
+			"gui_new_feature_acknowledge": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -461,12 +461,12 @@ func dataSourceSystemAdminRead(d *schema.ResourceData, m interface{}) error {
 	} else if v, ok := t.(int); ok {
 		mkey = strconv.Itoa(v)
 	} else {
-		return fmt.Errorf("Error describing SystemAdmin: type error")
+		return fmt.Errorf("error describing SystemAdmin: type error")
 	}
 
-	o, err := c.ReadSystemAdmin(mkey, vdomparam)
+	o, err := c.ReadSystemAdmin(mkey, vdomparam, make(map[string][]string), 0)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemAdmin: %v", err)
+		return fmt.Errorf("error describing SystemAdmin: %v", err)
 	}
 
 	if o == nil {
@@ -476,7 +476,7 @@ func dataSourceSystemAdminRead(d *schema.ResourceData, m interface{}) error {
 
 	err = dataSourceRefreshObjectSystemAdmin(d, o)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemAdmin from API: %v", err)
+		return fmt.Errorf("error describing SystemAdmin from API: %v", err)
 	}
 
 	d.SetId(mkey)
@@ -1299,319 +1299,319 @@ func dataSourceRefreshObjectSystemAdmin(d *schema.ResourceData, o map[string]int
 
 	if err = d.Set("name", dataSourceFlattenSystemAdminName(o["name"], d, "name")); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("wildcard", dataSourceFlattenSystemAdminWildcard(o["wildcard"], d, "wildcard")); err != nil {
 		if !fortiAPIPatch(o["wildcard"]) {
-			return fmt.Errorf("Error reading wildcard: %v", err)
+			return fmt.Errorf("error reading wildcard: %v", err)
 		}
 	}
 
 	if err = d.Set("remote_auth", dataSourceFlattenSystemAdminRemoteAuth(o["remote-auth"], d, "remote_auth")); err != nil {
 		if !fortiAPIPatch(o["remote-auth"]) {
-			return fmt.Errorf("Error reading remote_auth: %v", err)
+			return fmt.Errorf("error reading remote_auth: %v", err)
 		}
 	}
 
 	if err = d.Set("remote_group", dataSourceFlattenSystemAdminRemoteGroup(o["remote-group"], d, "remote_group")); err != nil {
 		if !fortiAPIPatch(o["remote-group"]) {
-			return fmt.Errorf("Error reading remote_group: %v", err)
+			return fmt.Errorf("error reading remote_group: %v", err)
 		}
 	}
 
 	if err = d.Set("peer_auth", dataSourceFlattenSystemAdminPeerAuth(o["peer-auth"], d, "peer_auth")); err != nil {
 		if !fortiAPIPatch(o["peer-auth"]) {
-			return fmt.Errorf("Error reading peer_auth: %v", err)
+			return fmt.Errorf("error reading peer_auth: %v", err)
 		}
 	}
 
 	if err = d.Set("peer_group", dataSourceFlattenSystemAdminPeerGroup(o["peer-group"], d, "peer_group")); err != nil {
 		if !fortiAPIPatch(o["peer-group"]) {
-			return fmt.Errorf("Error reading peer_group: %v", err)
+			return fmt.Errorf("error reading peer_group: %v", err)
 		}
 	}
 
 	if err = d.Set("trusthost1", dataSourceFlattenSystemAdminTrusthost1(o["trusthost1"], d, "trusthost1")); err != nil {
 		if !fortiAPIPatch(o["trusthost1"]) {
-			return fmt.Errorf("Error reading trusthost1: %v", err)
+			return fmt.Errorf("error reading trusthost1: %v", err)
 		}
 	}
 
 	if err = d.Set("trusthost2", dataSourceFlattenSystemAdminTrusthost2(o["trusthost2"], d, "trusthost2")); err != nil {
 		if !fortiAPIPatch(o["trusthost2"]) {
-			return fmt.Errorf("Error reading trusthost2: %v", err)
+			return fmt.Errorf("error reading trusthost2: %v", err)
 		}
 	}
 
 	if err = d.Set("trusthost3", dataSourceFlattenSystemAdminTrusthost3(o["trusthost3"], d, "trusthost3")); err != nil {
 		if !fortiAPIPatch(o["trusthost3"]) {
-			return fmt.Errorf("Error reading trusthost3: %v", err)
+			return fmt.Errorf("error reading trusthost3: %v", err)
 		}
 	}
 
 	if err = d.Set("trusthost4", dataSourceFlattenSystemAdminTrusthost4(o["trusthost4"], d, "trusthost4")); err != nil {
 		if !fortiAPIPatch(o["trusthost4"]) {
-			return fmt.Errorf("Error reading trusthost4: %v", err)
+			return fmt.Errorf("error reading trusthost4: %v", err)
 		}
 	}
 
 	if err = d.Set("trusthost5", dataSourceFlattenSystemAdminTrusthost5(o["trusthost5"], d, "trusthost5")); err != nil {
 		if !fortiAPIPatch(o["trusthost5"]) {
-			return fmt.Errorf("Error reading trusthost5: %v", err)
+			return fmt.Errorf("error reading trusthost5: %v", err)
 		}
 	}
 
 	if err = d.Set("trusthost6", dataSourceFlattenSystemAdminTrusthost6(o["trusthost6"], d, "trusthost6")); err != nil {
 		if !fortiAPIPatch(o["trusthost6"]) {
-			return fmt.Errorf("Error reading trusthost6: %v", err)
+			return fmt.Errorf("error reading trusthost6: %v", err)
 		}
 	}
 
 	if err = d.Set("trusthost7", dataSourceFlattenSystemAdminTrusthost7(o["trusthost7"], d, "trusthost7")); err != nil {
 		if !fortiAPIPatch(o["trusthost7"]) {
-			return fmt.Errorf("Error reading trusthost7: %v", err)
+			return fmt.Errorf("error reading trusthost7: %v", err)
 		}
 	}
 
 	if err = d.Set("trusthost8", dataSourceFlattenSystemAdminTrusthost8(o["trusthost8"], d, "trusthost8")); err != nil {
 		if !fortiAPIPatch(o["trusthost8"]) {
-			return fmt.Errorf("Error reading trusthost8: %v", err)
+			return fmt.Errorf("error reading trusthost8: %v", err)
 		}
 	}
 
 	if err = d.Set("trusthost9", dataSourceFlattenSystemAdminTrusthost9(o["trusthost9"], d, "trusthost9")); err != nil {
 		if !fortiAPIPatch(o["trusthost9"]) {
-			return fmt.Errorf("Error reading trusthost9: %v", err)
+			return fmt.Errorf("error reading trusthost9: %v", err)
 		}
 	}
 
 	if err = d.Set("trusthost10", dataSourceFlattenSystemAdminTrusthost10(o["trusthost10"], d, "trusthost10")); err != nil {
 		if !fortiAPIPatch(o["trusthost10"]) {
-			return fmt.Errorf("Error reading trusthost10: %v", err)
+			return fmt.Errorf("error reading trusthost10: %v", err)
 		}
 	}
 
 	if err = d.Set("ip6_trusthost1", dataSourceFlattenSystemAdminIp6Trusthost1(o["ip6-trusthost1"], d, "ip6_trusthost1")); err != nil {
 		if !fortiAPIPatch(o["ip6-trusthost1"]) {
-			return fmt.Errorf("Error reading ip6_trusthost1: %v", err)
+			return fmt.Errorf("error reading ip6_trusthost1: %v", err)
 		}
 	}
 
 	if err = d.Set("ip6_trusthost2", dataSourceFlattenSystemAdminIp6Trusthost2(o["ip6-trusthost2"], d, "ip6_trusthost2")); err != nil {
 		if !fortiAPIPatch(o["ip6-trusthost2"]) {
-			return fmt.Errorf("Error reading ip6_trusthost2: %v", err)
+			return fmt.Errorf("error reading ip6_trusthost2: %v", err)
 		}
 	}
 
 	if err = d.Set("ip6_trusthost3", dataSourceFlattenSystemAdminIp6Trusthost3(o["ip6-trusthost3"], d, "ip6_trusthost3")); err != nil {
 		if !fortiAPIPatch(o["ip6-trusthost3"]) {
-			return fmt.Errorf("Error reading ip6_trusthost3: %v", err)
+			return fmt.Errorf("error reading ip6_trusthost3: %v", err)
 		}
 	}
 
 	if err = d.Set("ip6_trusthost4", dataSourceFlattenSystemAdminIp6Trusthost4(o["ip6-trusthost4"], d, "ip6_trusthost4")); err != nil {
 		if !fortiAPIPatch(o["ip6-trusthost4"]) {
-			return fmt.Errorf("Error reading ip6_trusthost4: %v", err)
+			return fmt.Errorf("error reading ip6_trusthost4: %v", err)
 		}
 	}
 
 	if err = d.Set("ip6_trusthost5", dataSourceFlattenSystemAdminIp6Trusthost5(o["ip6-trusthost5"], d, "ip6_trusthost5")); err != nil {
 		if !fortiAPIPatch(o["ip6-trusthost5"]) {
-			return fmt.Errorf("Error reading ip6_trusthost5: %v", err)
+			return fmt.Errorf("error reading ip6_trusthost5: %v", err)
 		}
 	}
 
 	if err = d.Set("ip6_trusthost6", dataSourceFlattenSystemAdminIp6Trusthost6(o["ip6-trusthost6"], d, "ip6_trusthost6")); err != nil {
 		if !fortiAPIPatch(o["ip6-trusthost6"]) {
-			return fmt.Errorf("Error reading ip6_trusthost6: %v", err)
+			return fmt.Errorf("error reading ip6_trusthost6: %v", err)
 		}
 	}
 
 	if err = d.Set("ip6_trusthost7", dataSourceFlattenSystemAdminIp6Trusthost7(o["ip6-trusthost7"], d, "ip6_trusthost7")); err != nil {
 		if !fortiAPIPatch(o["ip6-trusthost7"]) {
-			return fmt.Errorf("Error reading ip6_trusthost7: %v", err)
+			return fmt.Errorf("error reading ip6_trusthost7: %v", err)
 		}
 	}
 
 	if err = d.Set("ip6_trusthost8", dataSourceFlattenSystemAdminIp6Trusthost8(o["ip6-trusthost8"], d, "ip6_trusthost8")); err != nil {
 		if !fortiAPIPatch(o["ip6-trusthost8"]) {
-			return fmt.Errorf("Error reading ip6_trusthost8: %v", err)
+			return fmt.Errorf("error reading ip6_trusthost8: %v", err)
 		}
 	}
 
 	if err = d.Set("ip6_trusthost9", dataSourceFlattenSystemAdminIp6Trusthost9(o["ip6-trusthost9"], d, "ip6_trusthost9")); err != nil {
 		if !fortiAPIPatch(o["ip6-trusthost9"]) {
-			return fmt.Errorf("Error reading ip6_trusthost9: %v", err)
+			return fmt.Errorf("error reading ip6_trusthost9: %v", err)
 		}
 	}
 
 	if err = d.Set("ip6_trusthost10", dataSourceFlattenSystemAdminIp6Trusthost10(o["ip6-trusthost10"], d, "ip6_trusthost10")); err != nil {
 		if !fortiAPIPatch(o["ip6-trusthost10"]) {
-			return fmt.Errorf("Error reading ip6_trusthost10: %v", err)
+			return fmt.Errorf("error reading ip6_trusthost10: %v", err)
 		}
 	}
 
 	if err = d.Set("accprofile", dataSourceFlattenSystemAdminAccprofile(o["accprofile"], d, "accprofile")); err != nil {
 		if !fortiAPIPatch(o["accprofile"]) {
-			return fmt.Errorf("Error reading accprofile: %v", err)
+			return fmt.Errorf("error reading accprofile: %v", err)
 		}
 	}
 
 	if err = d.Set("allow_remove_admin_session", dataSourceFlattenSystemAdminAllowRemoveAdminSession(o["allow-remove-admin-session"], d, "allow_remove_admin_session")); err != nil {
 		if !fortiAPIPatch(o["allow-remove-admin-session"]) {
-			return fmt.Errorf("Error reading allow_remove_admin_session: %v", err)
+			return fmt.Errorf("error reading allow_remove_admin_session: %v", err)
 		}
 	}
 
 	if err = d.Set("comments", dataSourceFlattenSystemAdminComments(o["comments"], d, "comments")); err != nil {
 		if !fortiAPIPatch(o["comments"]) {
-			return fmt.Errorf("Error reading comments: %v", err)
+			return fmt.Errorf("error reading comments: %v", err)
 		}
 	}
 
 	if err = d.Set("hidden", dataSourceFlattenSystemAdminHidden(o["hidden"], d, "hidden")); err != nil {
 		if !fortiAPIPatch(o["hidden"]) {
-			return fmt.Errorf("Error reading hidden: %v", err)
+			return fmt.Errorf("error reading hidden: %v", err)
 		}
 	}
 
 	if err = d.Set("vdom", dataSourceFlattenSystemAdminVdom(o["vdom"], d, "vdom")); err != nil {
 		if !fortiAPIPatch(o["vdom"]) {
-			return fmt.Errorf("Error reading vdom: %v", err)
+			return fmt.Errorf("error reading vdom: %v", err)
 		}
 	}
 
 	if err = d.Set("ssh_certificate", dataSourceFlattenSystemAdminSshCertificate(o["ssh-certificate"], d, "ssh_certificate")); err != nil {
 		if !fortiAPIPatch(o["ssh-certificate"]) {
-			return fmt.Errorf("Error reading ssh_certificate: %v", err)
+			return fmt.Errorf("error reading ssh_certificate: %v", err)
 		}
 	}
 
 	if err = d.Set("schedule", dataSourceFlattenSystemAdminSchedule(o["schedule"], d, "schedule")); err != nil {
 		if !fortiAPIPatch(o["schedule"]) {
-			return fmt.Errorf("Error reading schedule: %v", err)
+			return fmt.Errorf("error reading schedule: %v", err)
 		}
 	}
 
 	if err = d.Set("accprofile_override", dataSourceFlattenSystemAdminAccprofileOverride(o["accprofile-override"], d, "accprofile_override")); err != nil {
 		if !fortiAPIPatch(o["accprofile-override"]) {
-			return fmt.Errorf("Error reading accprofile_override: %v", err)
+			return fmt.Errorf("error reading accprofile_override: %v", err)
 		}
 	}
 
 	if err = d.Set("radius_vdom_override", dataSourceFlattenSystemAdminRadiusVdomOverride(o["radius-vdom-override"], d, "radius_vdom_override")); err != nil {
 		if !fortiAPIPatch(o["radius-vdom-override"]) {
-			return fmt.Errorf("Error reading radius_vdom_override: %v", err)
+			return fmt.Errorf("error reading radius_vdom_override: %v", err)
 		}
 	}
 
 	if err = d.Set("password_expire", dataSourceFlattenSystemAdminPasswordExpire(o["password-expire"], d, "password_expire")); err != nil {
 		if !fortiAPIPatch(o["password-expire"]) {
-			return fmt.Errorf("Error reading password_expire: %v", err)
+			return fmt.Errorf("error reading password_expire: %v", err)
 		}
 	}
 
 	if err = d.Set("force_password_change", dataSourceFlattenSystemAdminForcePasswordChange(o["force-password-change"], d, "force_password_change")); err != nil {
 		if !fortiAPIPatch(o["force-password-change"]) {
-			return fmt.Errorf("Error reading force_password_change: %v", err)
+			return fmt.Errorf("error reading force_password_change: %v", err)
 		}
 	}
 
 	if err = d.Set("gui_dashboard", dataSourceFlattenSystemAdminGuiDashboard(o["gui-dashboard"], d, "gui_dashboard")); err != nil {
 		if !fortiAPIPatch(o["gui-dashboard"]) {
-			return fmt.Errorf("Error reading gui_dashboard: %v", err)
+			return fmt.Errorf("error reading gui_dashboard: %v", err)
 		}
 	}
 
 	if err = d.Set("two_factor", dataSourceFlattenSystemAdminTwoFactor(o["two-factor"], d, "two_factor")); err != nil {
 		if !fortiAPIPatch(o["two-factor"]) {
-			return fmt.Errorf("Error reading two_factor: %v", err)
+			return fmt.Errorf("error reading two_factor: %v", err)
 		}
 	}
 
 	if err = d.Set("two_factor_authentication", dataSourceFlattenSystemAdminTwoFactorAuthentication(o["two-factor-authentication"], d, "two_factor_authentication")); err != nil {
 		if !fortiAPIPatch(o["two-factor-authentication"]) {
-			return fmt.Errorf("Error reading two_factor_authentication: %v", err)
+			return fmt.Errorf("error reading two_factor_authentication: %v", err)
 		}
 	}
 
 	if err = d.Set("two_factor_notification", dataSourceFlattenSystemAdminTwoFactorNotification(o["two-factor-notification"], d, "two_factor_notification")); err != nil {
 		if !fortiAPIPatch(o["two-factor-notification"]) {
-			return fmt.Errorf("Error reading two_factor_notification: %v", err)
+			return fmt.Errorf("error reading two_factor_notification: %v", err)
 		}
 	}
 
 	if err = d.Set("fortitoken", dataSourceFlattenSystemAdminFortitoken(o["fortitoken"], d, "fortitoken")); err != nil {
 		if !fortiAPIPatch(o["fortitoken"]) {
-			return fmt.Errorf("Error reading fortitoken: %v", err)
+			return fmt.Errorf("error reading fortitoken: %v", err)
 		}
 	}
 
 	if err = d.Set("email_to", dataSourceFlattenSystemAdminEmailTo(o["email-to"], d, "email_to")); err != nil {
 		if !fortiAPIPatch(o["email-to"]) {
-			return fmt.Errorf("Error reading email_to: %v", err)
+			return fmt.Errorf("error reading email_to: %v", err)
 		}
 	}
 
 	if err = d.Set("sms_server", dataSourceFlattenSystemAdminSmsServer(o["sms-server"], d, "sms_server")); err != nil {
 		if !fortiAPIPatch(o["sms-server"]) {
-			return fmt.Errorf("Error reading sms_server: %v", err)
+			return fmt.Errorf("error reading sms_server: %v", err)
 		}
 	}
 
 	if err = d.Set("sms_custom_server", dataSourceFlattenSystemAdminSmsCustomServer(o["sms-custom-server"], d, "sms_custom_server")); err != nil {
 		if !fortiAPIPatch(o["sms-custom-server"]) {
-			return fmt.Errorf("Error reading sms_custom_server: %v", err)
+			return fmt.Errorf("error reading sms_custom_server: %v", err)
 		}
 	}
 
 	if err = d.Set("sms_phone", dataSourceFlattenSystemAdminSmsPhone(o["sms-phone"], d, "sms_phone")); err != nil {
 		if !fortiAPIPatch(o["sms-phone"]) {
-			return fmt.Errorf("Error reading sms_phone: %v", err)
+			return fmt.Errorf("error reading sms_phone: %v", err)
 		}
 	}
 
 	if err = d.Set("guest_auth", dataSourceFlattenSystemAdminGuestAuth(o["guest-auth"], d, "guest_auth")); err != nil {
 		if !fortiAPIPatch(o["guest-auth"]) {
-			return fmt.Errorf("Error reading guest_auth: %v", err)
+			return fmt.Errorf("error reading guest_auth: %v", err)
 		}
 	}
 
 	if err = d.Set("guest_usergroups", dataSourceFlattenSystemAdminGuestUsergroups(o["guest-usergroups"], d, "guest_usergroups")); err != nil {
 		if !fortiAPIPatch(o["guest-usergroups"]) {
-			return fmt.Errorf("Error reading guest_usergroups: %v", err)
+			return fmt.Errorf("error reading guest_usergroups: %v", err)
 		}
 	}
 
 	if err = d.Set("guest_lang", dataSourceFlattenSystemAdminGuestLang(o["guest-lang"], d, "guest_lang")); err != nil {
 		if !fortiAPIPatch(o["guest-lang"]) {
-			return fmt.Errorf("Error reading guest_lang: %v", err)
+			return fmt.Errorf("error reading guest_lang: %v", err)
 		}
 	}
 
 	if err = d.Set("login_time", dataSourceFlattenSystemAdminLoginTime(o["login-time"], d, "login_time")); err != nil {
 		if !fortiAPIPatch(o["login-time"]) {
-			return fmt.Errorf("Error reading login_time: %v", err)
+			return fmt.Errorf("error reading login_time: %v", err)
 		}
 	}
 
 	if err = d.Set("gui_global_menu_favorites", dataSourceFlattenSystemAdminGuiGlobalMenuFavorites(o["gui-global-menu-favorites"], d, "gui_global_menu_favorites")); err != nil {
 		if !fortiAPIPatch(o["gui-global-menu-favorites"]) {
-			return fmt.Errorf("Error reading gui_global_menu_favorites: %v", err)
+			return fmt.Errorf("error reading gui_global_menu_favorites: %v", err)
 		}
 	}
 
 	if err = d.Set("gui_vdom_menu_favorites", dataSourceFlattenSystemAdminGuiVdomMenuFavorites(o["gui-vdom-menu-favorites"], d, "gui_vdom_menu_favorites")); err != nil {
 		if !fortiAPIPatch(o["gui-vdom-menu-favorites"]) {
-			return fmt.Errorf("Error reading gui_vdom_menu_favorites: %v", err)
+			return fmt.Errorf("error reading gui_vdom_menu_favorites: %v", err)
 		}
 	}
 
 	if err = d.Set("gui_new_feature_acknowledge", dataSourceFlattenSystemAdminGuiNewFeatureAcknowledge(o["gui-new-feature-acknowledge"], d, "gui_new_feature_acknowledge")); err != nil {
 		if !fortiAPIPatch(o["gui-new-feature-acknowledge"]) {
-			return fmt.Errorf("Error reading gui_new_feature_acknowledge: %v", err)
+			return fmt.Errorf("error reading gui_new_feature_acknowledge: %v", err)
 		}
 	}
 

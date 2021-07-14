@@ -30,30 +30,35 @@ func resourceSystemAffinityPacketRedistribution() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"fosid": &schema.Schema{
+			"fosid": {
 				Type:     schema.TypeInt,
 				ForceNew: true,
 				Required: true,
 			},
-			"interface": &schema.Schema{
+			"interface": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 127),
 				Required:     true,
 			},
-			"rxqid": &schema.Schema{
+			"rxqid": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 255),
 				Required:     true,
 			},
-			"affinity_cpumask": &schema.Schema{
+			"affinity_cpumask": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 127),
 				Required:     true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -71,15 +76,25 @@ func resourceSystemAffinityPacketRedistributionCreate(d *schema.ResourceData, m 
 		}
 	}
 
-	obj, err := getObjectSystemAffinityPacketRedistribution(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating SystemAffinityPacketRedistribution resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateSystemAffinityPacketRedistribution(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemAffinityPacketRedistribution(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating SystemAffinityPacketRedistribution resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateSystemAffinityPacketRedistribution(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating SystemAffinityPacketRedistribution resource: %v", err)
+		return fmt.Errorf("error creating SystemAffinityPacketRedistribution resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -104,14 +119,24 @@ func resourceSystemAffinityPacketRedistributionUpdate(d *schema.ResourceData, m 
 		}
 	}
 
-	obj, err := getObjectSystemAffinityPacketRedistribution(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SystemAffinityPacketRedistribution resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSystemAffinityPacketRedistribution(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemAffinityPacketRedistribution(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SystemAffinityPacketRedistribution resource: %v", err)
+		return fmt.Errorf("error updating SystemAffinityPacketRedistribution resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSystemAffinityPacketRedistribution(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SystemAffinityPacketRedistribution resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -138,9 +163,17 @@ func resourceSystemAffinityPacketRedistributionDelete(d *schema.ResourceData, m 
 		}
 	}
 
-	err := c.DeleteSystemAffinityPacketRedistribution(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSystemAffinityPacketRedistribution(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SystemAffinityPacketRedistribution resource: %v", err)
+		return fmt.Errorf("error deleting SystemAffinityPacketRedistribution resource: %v", err)
 	}
 
 	d.SetId("")
@@ -162,9 +195,19 @@ func resourceSystemAffinityPacketRedistributionRead(d *schema.ResourceData, m in
 		}
 	}
 
-	o, err := c.ReadSystemAffinityPacketRedistribution(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSystemAffinityPacketRedistribution(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemAffinityPacketRedistribution resource: %v", err)
+		return fmt.Errorf("error reading SystemAffinityPacketRedistribution resource: %v", err)
 	}
 
 	if o == nil {
@@ -175,7 +218,7 @@ func resourceSystemAffinityPacketRedistributionRead(d *schema.ResourceData, m in
 
 	err = refreshObjectSystemAffinityPacketRedistribution(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemAffinityPacketRedistribution resource from API: %v", err)
+		return fmt.Errorf("error reading SystemAffinityPacketRedistribution resource from API: %v", err)
 	}
 	return nil
 }
@@ -201,25 +244,25 @@ func refreshObjectSystemAffinityPacketRedistribution(d *schema.ResourceData, o m
 
 	if err = d.Set("fosid", flattenSystemAffinityPacketRedistributionId(o["id"], d, "fosid", sv)); err != nil {
 		if !fortiAPIPatch(o["id"]) {
-			return fmt.Errorf("Error reading fosid: %v", err)
+			return fmt.Errorf("error reading fosid: %v", err)
 		}
 	}
 
 	if err = d.Set("interface", flattenSystemAffinityPacketRedistributionInterface(o["interface"], d, "interface", sv)); err != nil {
 		if !fortiAPIPatch(o["interface"]) {
-			return fmt.Errorf("Error reading interface: %v", err)
+			return fmt.Errorf("error reading interface: %v", err)
 		}
 	}
 
 	if err = d.Set("rxqid", flattenSystemAffinityPacketRedistributionRxqid(o["rxqid"], d, "rxqid", sv)); err != nil {
 		if !fortiAPIPatch(o["rxqid"]) {
-			return fmt.Errorf("Error reading rxqid: %v", err)
+			return fmt.Errorf("error reading rxqid: %v", err)
 		}
 	}
 
 	if err = d.Set("affinity_cpumask", flattenSystemAffinityPacketRedistributionAffinityCpumask(o["affinity-cpumask"], d, "affinity_cpumask", sv)); err != nil {
 		if !fortiAPIPatch(o["affinity-cpumask"]) {
-			return fmt.Errorf("Error reading affinity_cpumask: %v", err)
+			return fmt.Errorf("error reading affinity_cpumask: %v", err)
 		}
 	}
 

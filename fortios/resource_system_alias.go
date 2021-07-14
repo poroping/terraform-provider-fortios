@@ -30,22 +30,27 @@ func resourceSystemAlias() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"command": &schema.Schema{
+			"command": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -63,15 +68,25 @@ func resourceSystemAliasCreate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectSystemAlias(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating SystemAlias resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateSystemAlias(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemAlias(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating SystemAlias resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateSystemAlias(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating SystemAlias resource: %v", err)
+		return fmt.Errorf("error creating SystemAlias resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -96,14 +111,24 @@ func resourceSystemAliasUpdate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectSystemAlias(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SystemAlias resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSystemAlias(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemAlias(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SystemAlias resource: %v", err)
+		return fmt.Errorf("error updating SystemAlias resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSystemAlias(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SystemAlias resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -130,9 +155,17 @@ func resourceSystemAliasDelete(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	err := c.DeleteSystemAlias(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSystemAlias(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SystemAlias resource: %v", err)
+		return fmt.Errorf("error deleting SystemAlias resource: %v", err)
 	}
 
 	d.SetId("")
@@ -154,9 +187,19 @@ func resourceSystemAliasRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadSystemAlias(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSystemAlias(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemAlias resource: %v", err)
+		return fmt.Errorf("error reading SystemAlias resource: %v", err)
 	}
 
 	if o == nil {
@@ -167,7 +210,7 @@ func resourceSystemAliasRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectSystemAlias(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemAlias resource from API: %v", err)
+		return fmt.Errorf("error reading SystemAlias resource from API: %v", err)
 	}
 	return nil
 }
@@ -185,13 +228,13 @@ func refreshObjectSystemAlias(d *schema.ResourceData, o map[string]interface{}, 
 
 	if err = d.Set("name", flattenSystemAliasName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("command", flattenSystemAliasCommand(o["command"], d, "command", sv)); err != nil {
 		if !fortiAPIPatch(o["command"]) {
-			return fmt.Errorf("Error reading command: %v", err)
+			return fmt.Errorf("error reading command: %v", err)
 		}
 	}
 

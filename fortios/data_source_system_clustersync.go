@@ -21,108 +21,108 @@ func dataSourceSystemClusterSync() *schema.Resource {
 	return &schema.Resource{
 		Read: dataSourceSystemClusterSyncRead,
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
 
-			"sync_id": &schema.Schema{
+			"sync_id": {
 				Type:     schema.TypeInt,
 				Required: true,
 			},
-			"peervd": &schema.Schema{
+			"peervd": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"peerip": &schema.Schema{
+			"peerip": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"syncvd": &schema.Schema{
+			"syncvd": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 					},
 				},
 			},
-			"down_intfs_before_sess_sync": &schema.Schema{
+			"down_intfs_before_sess_sync": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 					},
 				},
 			},
-			"hb_interval": &schema.Schema{
+			"hb_interval": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"hb_lost_threshold": &schema.Schema{
+			"hb_lost_threshold": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"ipsec_tunnel_sync": &schema.Schema{
+			"ipsec_tunnel_sync": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"slave_add_ike_routes": &schema.Schema{
+			"slave_add_ike_routes": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"session_sync_filter": &schema.Schema{
+			"session_sync_filter": {
 				Type:     schema.TypeList,
 				Computed: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"srcintf": &schema.Schema{
+						"srcintf": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"dstintf": &schema.Schema{
+						"dstintf": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"srcaddr": &schema.Schema{
+						"srcaddr": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"dstaddr": &schema.Schema{
+						"dstaddr": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"srcaddr6": &schema.Schema{
+						"srcaddr6": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"dstaddr6": &schema.Schema{
+						"dstaddr6": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"custom_service": &schema.Schema{
+						"custom_service": {
 							Type:     schema.TypeList,
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"id": &schema.Schema{
+									"id": {
 										Type:     schema.TypeInt,
 										Computed: true,
 									},
-									"src_port_range": &schema.Schema{
+									"src_port_range": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
-									"dst_port_range": &schema.Schema{
+									"dst_port_range": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
@@ -156,12 +156,12 @@ func dataSourceSystemClusterSyncRead(d *schema.ResourceData, m interface{}) erro
 	} else if v, ok := t.(int); ok {
 		mkey = strconv.Itoa(v)
 	} else {
-		return fmt.Errorf("Error describing SystemClusterSync: type error")
+		return fmt.Errorf("error describing SystemClusterSync: type error")
 	}
 
-	o, err := c.ReadSystemClusterSync(mkey, vdomparam)
+	o, err := c.ReadSystemClusterSync(mkey, vdomparam, make(map[string][]string), 0)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemClusterSync: %v", err)
+		return fmt.Errorf("error describing SystemClusterSync: %v", err)
 	}
 
 	if o == nil {
@@ -171,7 +171,7 @@ func dataSourceSystemClusterSyncRead(d *schema.ResourceData, m interface{}) erro
 
 	err = dataSourceRefreshObjectSystemClusterSync(d, o)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemClusterSync from API: %v", err)
+		return fmt.Errorf("error describing SystemClusterSync from API: %v", err)
 	}
 
 	d.SetId(mkey)
@@ -424,61 +424,61 @@ func dataSourceRefreshObjectSystemClusterSync(d *schema.ResourceData, o map[stri
 
 	if err = d.Set("sync_id", dataSourceFlattenSystemClusterSyncSyncId(o["sync-id"], d, "sync_id")); err != nil {
 		if !fortiAPIPatch(o["sync-id"]) {
-			return fmt.Errorf("Error reading sync_id: %v", err)
+			return fmt.Errorf("error reading sync_id: %v", err)
 		}
 	}
 
 	if err = d.Set("peervd", dataSourceFlattenSystemClusterSyncPeervd(o["peervd"], d, "peervd")); err != nil {
 		if !fortiAPIPatch(o["peervd"]) {
-			return fmt.Errorf("Error reading peervd: %v", err)
+			return fmt.Errorf("error reading peervd: %v", err)
 		}
 	}
 
 	if err = d.Set("peerip", dataSourceFlattenSystemClusterSyncPeerip(o["peerip"], d, "peerip")); err != nil {
 		if !fortiAPIPatch(o["peerip"]) {
-			return fmt.Errorf("Error reading peerip: %v", err)
+			return fmt.Errorf("error reading peerip: %v", err)
 		}
 	}
 
 	if err = d.Set("syncvd", dataSourceFlattenSystemClusterSyncSyncvd(o["syncvd"], d, "syncvd")); err != nil {
 		if !fortiAPIPatch(o["syncvd"]) {
-			return fmt.Errorf("Error reading syncvd: %v", err)
+			return fmt.Errorf("error reading syncvd: %v", err)
 		}
 	}
 
 	if err = d.Set("down_intfs_before_sess_sync", dataSourceFlattenSystemClusterSyncDownIntfsBeforeSessSync(o["down-intfs-before-sess-sync"], d, "down_intfs_before_sess_sync")); err != nil {
 		if !fortiAPIPatch(o["down-intfs-before-sess-sync"]) {
-			return fmt.Errorf("Error reading down_intfs_before_sess_sync: %v", err)
+			return fmt.Errorf("error reading down_intfs_before_sess_sync: %v", err)
 		}
 	}
 
 	if err = d.Set("hb_interval", dataSourceFlattenSystemClusterSyncHbInterval(o["hb-interval"], d, "hb_interval")); err != nil {
 		if !fortiAPIPatch(o["hb-interval"]) {
-			return fmt.Errorf("Error reading hb_interval: %v", err)
+			return fmt.Errorf("error reading hb_interval: %v", err)
 		}
 	}
 
 	if err = d.Set("hb_lost_threshold", dataSourceFlattenSystemClusterSyncHbLostThreshold(o["hb-lost-threshold"], d, "hb_lost_threshold")); err != nil {
 		if !fortiAPIPatch(o["hb-lost-threshold"]) {
-			return fmt.Errorf("Error reading hb_lost_threshold: %v", err)
+			return fmt.Errorf("error reading hb_lost_threshold: %v", err)
 		}
 	}
 
 	if err = d.Set("ipsec_tunnel_sync", dataSourceFlattenSystemClusterSyncIpsecTunnelSync(o["ipsec-tunnel-sync"], d, "ipsec_tunnel_sync")); err != nil {
 		if !fortiAPIPatch(o["ipsec-tunnel-sync"]) {
-			return fmt.Errorf("Error reading ipsec_tunnel_sync: %v", err)
+			return fmt.Errorf("error reading ipsec_tunnel_sync: %v", err)
 		}
 	}
 
 	if err = d.Set("slave_add_ike_routes", dataSourceFlattenSystemClusterSyncSlaveAddIkeRoutes(o["slave-add-ike-routes"], d, "slave_add_ike_routes")); err != nil {
 		if !fortiAPIPatch(o["slave-add-ike-routes"]) {
-			return fmt.Errorf("Error reading slave_add_ike_routes: %v", err)
+			return fmt.Errorf("error reading slave_add_ike_routes: %v", err)
 		}
 	}
 
 	if err = d.Set("session_sync_filter", dataSourceFlattenSystemClusterSyncSessionSyncFilter(o["session-sync-filter"], d, "session_sync_filter")); err != nil {
 		if !fortiAPIPatch(o["session-sync-filter"]) {
-			return fmt.Errorf("Error reading session_sync_filter: %v", err)
+			return fmt.Errorf("error reading session_sync_filter: %v", err)
 		}
 	}
 

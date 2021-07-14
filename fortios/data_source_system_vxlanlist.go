@@ -17,12 +17,12 @@ func dataSourceSystemVxlanList() *schema.Resource {
 		Read: dataSourceSystemVxlanListRead,
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"filter": &schema.Schema{
+			"filter": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
@@ -52,9 +52,9 @@ func dataSourceSystemVxlanListRead(d *schema.ResourceData, m interface{}) error 
 		filter = escapeFilter(filter)
 	}
 
-	o, err := c.GenericGroupRead("/api/v2/cmdb/system/vxlan", filter, vdomparam)
+	o, err := c.GenericGroupRead("/api/v2/cmdb/system/vxlan", filter, vdomparam, 0)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemVxlan: %v", err)
+		return fmt.Errorf("error describing SystemVxlan: %v", err)
 	}
 
 	var tmps []string

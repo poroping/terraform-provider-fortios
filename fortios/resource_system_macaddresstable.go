@@ -30,25 +30,30 @@ func resourceSystemMacAddressTable() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"mac": &schema.Schema{
+			"mac": {
 				Type:     schema.TypeString,
 				ForceNew: true,
 				Required: true,
 			},
-			"interface": &schema.Schema{
+			"interface": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Required:     true,
 			},
-			"reply_substitute": &schema.Schema{
+			"reply_substitute": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -66,15 +71,25 @@ func resourceSystemMacAddressTableCreate(d *schema.ResourceData, m interface{}) 
 		}
 	}
 
-	obj, err := getObjectSystemMacAddressTable(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating SystemMacAddressTable resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateSystemMacAddressTable(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemMacAddressTable(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating SystemMacAddressTable resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateSystemMacAddressTable(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating SystemMacAddressTable resource: %v", err)
+		return fmt.Errorf("error creating SystemMacAddressTable resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -99,14 +114,24 @@ func resourceSystemMacAddressTableUpdate(d *schema.ResourceData, m interface{}) 
 		}
 	}
 
-	obj, err := getObjectSystemMacAddressTable(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SystemMacAddressTable resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSystemMacAddressTable(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemMacAddressTable(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SystemMacAddressTable resource: %v", err)
+		return fmt.Errorf("error updating SystemMacAddressTable resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSystemMacAddressTable(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SystemMacAddressTable resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -133,9 +158,17 @@ func resourceSystemMacAddressTableDelete(d *schema.ResourceData, m interface{}) 
 		}
 	}
 
-	err := c.DeleteSystemMacAddressTable(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSystemMacAddressTable(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SystemMacAddressTable resource: %v", err)
+		return fmt.Errorf("error deleting SystemMacAddressTable resource: %v", err)
 	}
 
 	d.SetId("")
@@ -157,9 +190,19 @@ func resourceSystemMacAddressTableRead(d *schema.ResourceData, m interface{}) er
 		}
 	}
 
-	o, err := c.ReadSystemMacAddressTable(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSystemMacAddressTable(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemMacAddressTable resource: %v", err)
+		return fmt.Errorf("error reading SystemMacAddressTable resource: %v", err)
 	}
 
 	if o == nil {
@@ -170,7 +213,7 @@ func resourceSystemMacAddressTableRead(d *schema.ResourceData, m interface{}) er
 
 	err = refreshObjectSystemMacAddressTable(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemMacAddressTable resource from API: %v", err)
+		return fmt.Errorf("error reading SystemMacAddressTable resource from API: %v", err)
 	}
 	return nil
 }
@@ -192,19 +235,19 @@ func refreshObjectSystemMacAddressTable(d *schema.ResourceData, o map[string]int
 
 	if err = d.Set("mac", flattenSystemMacAddressTableMac(o["mac"], d, "mac", sv)); err != nil {
 		if !fortiAPIPatch(o["mac"]) {
-			return fmt.Errorf("Error reading mac: %v", err)
+			return fmt.Errorf("error reading mac: %v", err)
 		}
 	}
 
 	if err = d.Set("interface", flattenSystemMacAddressTableInterface(o["interface"], d, "interface", sv)); err != nil {
 		if !fortiAPIPatch(o["interface"]) {
-			return fmt.Errorf("Error reading interface: %v", err)
+			return fmt.Errorf("error reading interface: %v", err)
 		}
 	}
 
 	if err = d.Set("reply_substitute", flattenSystemMacAddressTableReplySubstitute(o["reply-substitute"], d, "reply_substitute", sv)); err != nil {
 		if !fortiAPIPatch(o["reply-substitute"]) {
-			return fmt.Errorf("Error reading reply_substitute: %v", err)
+			return fmt.Errorf("error reading reply_substitute: %v", err)
 		}
 	}
 

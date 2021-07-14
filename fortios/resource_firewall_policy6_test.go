@@ -89,14 +89,14 @@ func testAccCheckFortiOSFirewallPolicy6Exists(n string) resource.TestCheckFunc {
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadFirewallPolicy6(i, "root")
+		o, err := c.ReadFirewallPolicy6(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading FirewallPolicy6: %s", err)
+			return fmt.Errorf("error reading FirewallPolicy6: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating FirewallPolicy6: %s", n)
+			return fmt.Errorf("error creating FirewallPolicy6: %s", n)
 		}
 
 		return nil
@@ -112,11 +112,11 @@ func testAccCheckFirewallPolicy6Destroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadFirewallPolicy6(i, "root")
+		o, err := c.ReadFirewallPolicy6(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error FirewallPolicy6 %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error FirewallPolicy6 %s still exists", rs.Primary.ID)
 			}
 		}
 

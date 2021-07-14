@@ -30,44 +30,44 @@ func resourceFirewallVip6() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"fosid": &schema.Schema{
+			"fosid": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"uuid": &schema.Schema{
+			"uuid": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"comment": &schema.Schema{
+			"comment": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
 			},
-			"type": &schema.Schema{
+			"type": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"src_filter": &schema.Schema{
+			"src_filter": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"range": &schema.Schema{
+						"range": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 79),
 							Optional:     true,
@@ -76,131 +76,131 @@ func resourceFirewallVip6() *schema.Resource {
 					},
 				},
 			},
-			"extip": &schema.Schema{
+			"extip": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"mappedip": &schema.Schema{
+			"mappedip": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"nat_source_vip": &schema.Schema{
+			"nat_source_vip": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"arp_reply": &schema.Schema{
+			"arp_reply": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"portforward": &schema.Schema{
+			"portforward": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"protocol": &schema.Schema{
+			"protocol": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"extport": &schema.Schema{
+			"extport": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"mappedport": &schema.Schema{
+			"mappedport": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"color": &schema.Schema{
+			"color": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 32),
 				Optional:     true,
 				Computed:     true,
 			},
-			"ldb_method": &schema.Schema{
+			"ldb_method": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"server_type": &schema.Schema{
+			"server_type": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"http_redirect": &schema.Schema{
+			"http_redirect": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"persistence": &schema.Schema{
+			"persistence": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"realservers": &schema.Schema{
+			"realservers": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"ip": &schema.Schema{
+						"ip": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"port": &schema.Schema{
+						"port": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 65535),
 							Optional:     true,
 							Computed:     true,
 						},
-						"status": &schema.Schema{
+						"status": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"weight": &schema.Schema{
+						"weight": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 255),
 							Optional:     true,
 							Computed:     true,
 						},
-						"holddown_interval": &schema.Schema{
+						"holddown_interval": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(30, 65535),
 							Optional:     true,
 							Computed:     true,
 						},
-						"healthcheck": &schema.Schema{
+						"healthcheck": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"http_host": &schema.Schema{
+						"http_host": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 63),
 							Optional:     true,
 							Computed:     true,
 						},
-						"max_connections": &schema.Schema{
+						"max_connections": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"monitor": &schema.Schema{
+						"monitor": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 64),
 							Optional:     true,
 							Computed:     true,
 						},
-						"client_ip": &schema.Schema{
+						"client_ip": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -208,112 +208,112 @@ func resourceFirewallVip6() *schema.Resource {
 					},
 				},
 			},
-			"http_cookie_domain_from_host": &schema.Schema{
+			"http_cookie_domain_from_host": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"http_cookie_domain": &schema.Schema{
+			"http_cookie_domain": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"http_cookie_path": &schema.Schema{
+			"http_cookie_path": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"http_cookie_generation": &schema.Schema{
+			"http_cookie_generation": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"http_cookie_age": &schema.Schema{
+			"http_cookie_age": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 525600),
 				Optional:     true,
 				Computed:     true,
 			},
-			"http_cookie_share": &schema.Schema{
+			"http_cookie_share": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"https_cookie_secure": &schema.Schema{
+			"https_cookie_secure": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"http_multiplex": &schema.Schema{
+			"http_multiplex": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"http_ip_header": &schema.Schema{
+			"http_ip_header": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"http_ip_header_name": &schema.Schema{
+			"http_ip_header_name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"outlook_web_access": &schema.Schema{
+			"outlook_web_access": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"weblogic_server": &schema.Schema{
+			"weblogic_server": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"websphere_server": &schema.Schema{
+			"websphere_server": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ssl_mode": &schema.Schema{
+			"ssl_mode": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ssl_certificate": &schema.Schema{
+			"ssl_certificate": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"ssl_dh_bits": &schema.Schema{
+			"ssl_dh_bits": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ssl_algorithm": &schema.Schema{
+			"ssl_algorithm": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ssl_cipher_suites": &schema.Schema{
+			"ssl_cipher_suites": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"priority": &schema.Schema{
+						"priority": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"cipher": &schema.Schema{
+						"cipher": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"versions": &schema.Schema{
+						"versions": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -321,27 +321,27 @@ func resourceFirewallVip6() *schema.Resource {
 					},
 				},
 			},
-			"ssl_server_algorithm": &schema.Schema{
+			"ssl_server_algorithm": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ssl_server_cipher_suites": &schema.Schema{
+			"ssl_server_cipher_suites": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"priority": &schema.Schema{
+						"priority": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"cipher": &schema.Schema{
+						"cipher": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"versions": &schema.Schema{
+						"versions": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -349,151 +349,151 @@ func resourceFirewallVip6() *schema.Resource {
 					},
 				},
 			},
-			"ssl_pfs": &schema.Schema{
+			"ssl_pfs": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ssl_min_version": &schema.Schema{
+			"ssl_min_version": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ssl_max_version": &schema.Schema{
+			"ssl_max_version": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ssl_server_min_version": &schema.Schema{
+			"ssl_server_min_version": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ssl_server_max_version": &schema.Schema{
+			"ssl_server_max_version": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ssl_send_empty_frags": &schema.Schema{
+			"ssl_send_empty_frags": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ssl_client_fallback": &schema.Schema{
+			"ssl_client_fallback": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ssl_client_renegotiation": &schema.Schema{
+			"ssl_client_renegotiation": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ssl_client_session_state_type": &schema.Schema{
+			"ssl_client_session_state_type": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ssl_client_session_state_timeout": &schema.Schema{
+			"ssl_client_session_state_timeout": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 14400),
 				Optional:     true,
 				Computed:     true,
 			},
-			"ssl_client_session_state_max": &schema.Schema{
+			"ssl_client_session_state_max": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 10000),
 				Optional:     true,
 				Computed:     true,
 			},
-			"ssl_client_rekey_count": &schema.Schema{
+			"ssl_client_rekey_count": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(200, 1048576),
 				Optional:     true,
 				Computed:     true,
 			},
-			"ssl_server_session_state_type": &schema.Schema{
+			"ssl_server_session_state_type": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ssl_server_session_state_timeout": &schema.Schema{
+			"ssl_server_session_state_timeout": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 14400),
 				Optional:     true,
 				Computed:     true,
 			},
-			"ssl_server_session_state_max": &schema.Schema{
+			"ssl_server_session_state_max": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 10000),
 				Optional:     true,
 				Computed:     true,
 			},
-			"ssl_http_location_conversion": &schema.Schema{
+			"ssl_http_location_conversion": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ssl_http_match_host": &schema.Schema{
+			"ssl_http_match_host": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ssl_hpkp": &schema.Schema{
+			"ssl_hpkp": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ssl_hpkp_primary": &schema.Schema{
+			"ssl_hpkp_primary": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"ssl_hpkp_backup": &schema.Schema{
+			"ssl_hpkp_backup": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"ssl_hpkp_age": &schema.Schema{
+			"ssl_hpkp_age": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(60, 157680000),
 				Optional:     true,
 				Computed:     true,
 			},
-			"ssl_hpkp_report_uri": &schema.Schema{
+			"ssl_hpkp_report_uri": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
 			},
-			"ssl_hpkp_include_subdomains": &schema.Schema{
+			"ssl_hpkp_include_subdomains": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ssl_hsts": &schema.Schema{
+			"ssl_hsts": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ssl_hsts_age": &schema.Schema{
+			"ssl_hsts_age": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(60, 157680000),
 				Optional:     true,
 				Computed:     true,
 			},
-			"ssl_hsts_include_subdomains": &schema.Schema{
+			"ssl_hsts_include_subdomains": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"monitor": &schema.Schema{
+			"monitor": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 64),
 							Optional:     true,
@@ -502,16 +502,27 @@ func resourceFirewallVip6() *schema.Resource {
 					},
 				},
 			},
-			"max_embryonic_connections": &schema.Schema{
+			"max_embryonic_connections": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 100000),
 				Optional:     true,
 				Computed:     true,
 			},
-			"dynamic_sort_subtable": &schema.Schema{
-				Type:     schema.TypeString,
+			"dynamic_sort_subtable": {
+				Type:     schema.TypeBool,
 				Optional: true,
-				Default:  "false",
+				Default:  false,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
+			},
+			"allow_append": {
+				Type:         schema.TypeBool,
+				Optional:     true,
+				Default:      false,
+				RequiredWith: []string{"name"},
 			},
 		},
 	}
@@ -529,15 +540,51 @@ func resourceFirewallVip6Create(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectFirewallVip6(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating FirewallVip6 resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateFirewallVip6(obj, vdomparam)
+	allow_append := false
+
+	if v, ok := d.GetOk("allow_append"); ok {
+		if b, ok := v.(bool); ok {
+			allow_append = b
+		}
+	}
+
+	urlparams := make(map[string][]string)
+	urlparams["allow_append"] = []string{strconv.FormatBool(allow_append)}
+
+	key := "name"
+	mkey := ""
+	if v, ok := d.GetOk(key); ok {
+		if s, ok := v.(string); ok {
+			mkey = s
+		}
+	}
+
+	obj, err := getObjectFirewallVip6(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating FirewallVip6 resource while getting object: %v", err)
+	}
+
+	if mkey == "" && allow_append {
+		return fmt.Errorf("error creating FirewallVip6 resource: %q must be set if \"allow_append\" is true", key)
+	}
+
+	o := make(map[string]interface{})
+	if mkey != "" && allow_append {
+		o, err = c.UpdateFirewallVip6(obj, mkey, vdomparam, urlparams, batchid)
+	} else {
+		o, err = c.CreateFirewallVip6(obj, vdomparam, urlparams, batchid)
+	}
 
 	if err != nil {
-		return fmt.Errorf("Error creating FirewallVip6 resource: %v", err)
+		return fmt.Errorf("error creating FirewallVip6 resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -562,14 +609,24 @@ func resourceFirewallVip6Update(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectFirewallVip6(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating FirewallVip6 resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateFirewallVip6(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectFirewallVip6(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating FirewallVip6 resource: %v", err)
+		return fmt.Errorf("error updating FirewallVip6 resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateFirewallVip6(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating FirewallVip6 resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -596,9 +653,17 @@ func resourceFirewallVip6Delete(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	err := c.DeleteFirewallVip6(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteFirewallVip6(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting FirewallVip6 resource: %v", err)
+		return fmt.Errorf("error deleting FirewallVip6 resource: %v", err)
 	}
 
 	d.SetId("")
@@ -620,9 +685,19 @@ func resourceFirewallVip6Read(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadFirewallVip6(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadFirewallVip6(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading FirewallVip6 resource: %v", err)
+		return fmt.Errorf("error reading FirewallVip6 resource: %v", err)
 	}
 
 	if o == nil {
@@ -633,7 +708,7 @@ func resourceFirewallVip6Read(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectFirewallVip6(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading FirewallVip6 resource from API: %v", err)
+		return fmt.Errorf("error reading FirewallVip6 resource from API: %v", err)
 	}
 	return nil
 }
@@ -1249,45 +1324,45 @@ func refreshObjectFirewallVip6(d *schema.ResourceData, o map[string]interface{},
 
 	if err = d.Set("name", flattenFirewallVip6Name(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("fosid", flattenFirewallVip6Id(o["id"], d, "fosid", sv)); err != nil {
 		if !fortiAPIPatch(o["id"]) {
-			return fmt.Errorf("Error reading fosid: %v", err)
+			return fmt.Errorf("error reading fosid: %v", err)
 		}
 	}
 
 	if err = d.Set("uuid", flattenFirewallVip6Uuid(o["uuid"], d, "uuid", sv)); err != nil {
 		if !fortiAPIPatch(o["uuid"]) {
-			return fmt.Errorf("Error reading uuid: %v", err)
+			return fmt.Errorf("error reading uuid: %v", err)
 		}
 	}
 
 	if err = d.Set("comment", flattenFirewallVip6Comment(o["comment"], d, "comment", sv)); err != nil {
 		if !fortiAPIPatch(o["comment"]) {
-			return fmt.Errorf("Error reading comment: %v", err)
+			return fmt.Errorf("error reading comment: %v", err)
 		}
 	}
 
 	if err = d.Set("type", flattenFirewallVip6Type(o["type"], d, "type", sv)); err != nil {
 		if !fortiAPIPatch(o["type"]) {
-			return fmt.Errorf("Error reading type: %v", err)
+			return fmt.Errorf("error reading type: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("src_filter", flattenFirewallVip6SrcFilter(o["src-filter"], d, "src_filter", sv)); err != nil {
 			if !fortiAPIPatch(o["src-filter"]) {
-				return fmt.Errorf("Error reading src_filter: %v", err)
+				return fmt.Errorf("error reading src_filter: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("src_filter"); ok {
 			if err = d.Set("src_filter", flattenFirewallVip6SrcFilter(o["src-filter"], d, "src_filter", sv)); err != nil {
 				if !fortiAPIPatch(o["src-filter"]) {
-					return fmt.Errorf("Error reading src_filter: %v", err)
+					return fmt.Errorf("error reading src_filter: %v", err)
 				}
 			}
 		}
@@ -1295,93 +1370,93 @@ func refreshObjectFirewallVip6(d *schema.ResourceData, o map[string]interface{},
 
 	if err = d.Set("extip", flattenFirewallVip6Extip(o["extip"], d, "extip", sv)); err != nil {
 		if !fortiAPIPatch(o["extip"]) {
-			return fmt.Errorf("Error reading extip: %v", err)
+			return fmt.Errorf("error reading extip: %v", err)
 		}
 	}
 
 	if err = d.Set("mappedip", flattenFirewallVip6Mappedip(o["mappedip"], d, "mappedip", sv)); err != nil {
 		if !fortiAPIPatch(o["mappedip"]) {
-			return fmt.Errorf("Error reading mappedip: %v", err)
+			return fmt.Errorf("error reading mappedip: %v", err)
 		}
 	}
 
 	if err = d.Set("nat_source_vip", flattenFirewallVip6NatSourceVip(o["nat-source-vip"], d, "nat_source_vip", sv)); err != nil {
 		if !fortiAPIPatch(o["nat-source-vip"]) {
-			return fmt.Errorf("Error reading nat_source_vip: %v", err)
+			return fmt.Errorf("error reading nat_source_vip: %v", err)
 		}
 	}
 
 	if err = d.Set("arp_reply", flattenFirewallVip6ArpReply(o["arp-reply"], d, "arp_reply", sv)); err != nil {
 		if !fortiAPIPatch(o["arp-reply"]) {
-			return fmt.Errorf("Error reading arp_reply: %v", err)
+			return fmt.Errorf("error reading arp_reply: %v", err)
 		}
 	}
 
 	if err = d.Set("portforward", flattenFirewallVip6Portforward(o["portforward"], d, "portforward", sv)); err != nil {
 		if !fortiAPIPatch(o["portforward"]) {
-			return fmt.Errorf("Error reading portforward: %v", err)
+			return fmt.Errorf("error reading portforward: %v", err)
 		}
 	}
 
 	if err = d.Set("protocol", flattenFirewallVip6Protocol(o["protocol"], d, "protocol", sv)); err != nil {
 		if !fortiAPIPatch(o["protocol"]) {
-			return fmt.Errorf("Error reading protocol: %v", err)
+			return fmt.Errorf("error reading protocol: %v", err)
 		}
 	}
 
 	if err = d.Set("extport", flattenFirewallVip6Extport(o["extport"], d, "extport", sv)); err != nil {
 		if !fortiAPIPatch(o["extport"]) {
-			return fmt.Errorf("Error reading extport: %v", err)
+			return fmt.Errorf("error reading extport: %v", err)
 		}
 	}
 
 	if err = d.Set("mappedport", flattenFirewallVip6Mappedport(o["mappedport"], d, "mappedport", sv)); err != nil {
 		if !fortiAPIPatch(o["mappedport"]) {
-			return fmt.Errorf("Error reading mappedport: %v", err)
+			return fmt.Errorf("error reading mappedport: %v", err)
 		}
 	}
 
 	if err = d.Set("color", flattenFirewallVip6Color(o["color"], d, "color", sv)); err != nil {
 		if !fortiAPIPatch(o["color"]) {
-			return fmt.Errorf("Error reading color: %v", err)
+			return fmt.Errorf("error reading color: %v", err)
 		}
 	}
 
 	if err = d.Set("ldb_method", flattenFirewallVip6LdbMethod(o["ldb-method"], d, "ldb_method", sv)); err != nil {
 		if !fortiAPIPatch(o["ldb-method"]) {
-			return fmt.Errorf("Error reading ldb_method: %v", err)
+			return fmt.Errorf("error reading ldb_method: %v", err)
 		}
 	}
 
 	if err = d.Set("server_type", flattenFirewallVip6ServerType(o["server-type"], d, "server_type", sv)); err != nil {
 		if !fortiAPIPatch(o["server-type"]) {
-			return fmt.Errorf("Error reading server_type: %v", err)
+			return fmt.Errorf("error reading server_type: %v", err)
 		}
 	}
 
 	if err = d.Set("http_redirect", flattenFirewallVip6HttpRedirect(o["http-redirect"], d, "http_redirect", sv)); err != nil {
 		if !fortiAPIPatch(o["http-redirect"]) {
-			return fmt.Errorf("Error reading http_redirect: %v", err)
+			return fmt.Errorf("error reading http_redirect: %v", err)
 		}
 	}
 
 	if err = d.Set("persistence", flattenFirewallVip6Persistence(o["persistence"], d, "persistence", sv)); err != nil {
 		if !fortiAPIPatch(o["persistence"]) {
-			return fmt.Errorf("Error reading persistence: %v", err)
+			return fmt.Errorf("error reading persistence: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("realservers", flattenFirewallVip6Realservers(o["realservers"], d, "realservers", sv)); err != nil {
 			if !fortiAPIPatch(o["realservers"]) {
-				return fmt.Errorf("Error reading realservers: %v", err)
+				return fmt.Errorf("error reading realservers: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("realservers"); ok {
 			if err = d.Set("realservers", flattenFirewallVip6Realservers(o["realservers"], d, "realservers", sv)); err != nil {
 				if !fortiAPIPatch(o["realservers"]) {
-					return fmt.Errorf("Error reading realservers: %v", err)
+					return fmt.Errorf("error reading realservers: %v", err)
 				}
 			}
 		}
@@ -1389,117 +1464,117 @@ func refreshObjectFirewallVip6(d *schema.ResourceData, o map[string]interface{},
 
 	if err = d.Set("http_cookie_domain_from_host", flattenFirewallVip6HttpCookieDomainFromHost(o["http-cookie-domain-from-host"], d, "http_cookie_domain_from_host", sv)); err != nil {
 		if !fortiAPIPatch(o["http-cookie-domain-from-host"]) {
-			return fmt.Errorf("Error reading http_cookie_domain_from_host: %v", err)
+			return fmt.Errorf("error reading http_cookie_domain_from_host: %v", err)
 		}
 	}
 
 	if err = d.Set("http_cookie_domain", flattenFirewallVip6HttpCookieDomain(o["http-cookie-domain"], d, "http_cookie_domain", sv)); err != nil {
 		if !fortiAPIPatch(o["http-cookie-domain"]) {
-			return fmt.Errorf("Error reading http_cookie_domain: %v", err)
+			return fmt.Errorf("error reading http_cookie_domain: %v", err)
 		}
 	}
 
 	if err = d.Set("http_cookie_path", flattenFirewallVip6HttpCookiePath(o["http-cookie-path"], d, "http_cookie_path", sv)); err != nil {
 		if !fortiAPIPatch(o["http-cookie-path"]) {
-			return fmt.Errorf("Error reading http_cookie_path: %v", err)
+			return fmt.Errorf("error reading http_cookie_path: %v", err)
 		}
 	}
 
 	if err = d.Set("http_cookie_generation", flattenFirewallVip6HttpCookieGeneration(o["http-cookie-generation"], d, "http_cookie_generation", sv)); err != nil {
 		if !fortiAPIPatch(o["http-cookie-generation"]) {
-			return fmt.Errorf("Error reading http_cookie_generation: %v", err)
+			return fmt.Errorf("error reading http_cookie_generation: %v", err)
 		}
 	}
 
 	if err = d.Set("http_cookie_age", flattenFirewallVip6HttpCookieAge(o["http-cookie-age"], d, "http_cookie_age", sv)); err != nil {
 		if !fortiAPIPatch(o["http-cookie-age"]) {
-			return fmt.Errorf("Error reading http_cookie_age: %v", err)
+			return fmt.Errorf("error reading http_cookie_age: %v", err)
 		}
 	}
 
 	if err = d.Set("http_cookie_share", flattenFirewallVip6HttpCookieShare(o["http-cookie-share"], d, "http_cookie_share", sv)); err != nil {
 		if !fortiAPIPatch(o["http-cookie-share"]) {
-			return fmt.Errorf("Error reading http_cookie_share: %v", err)
+			return fmt.Errorf("error reading http_cookie_share: %v", err)
 		}
 	}
 
 	if err = d.Set("https_cookie_secure", flattenFirewallVip6HttpsCookieSecure(o["https-cookie-secure"], d, "https_cookie_secure", sv)); err != nil {
 		if !fortiAPIPatch(o["https-cookie-secure"]) {
-			return fmt.Errorf("Error reading https_cookie_secure: %v", err)
+			return fmt.Errorf("error reading https_cookie_secure: %v", err)
 		}
 	}
 
 	if err = d.Set("http_multiplex", flattenFirewallVip6HttpMultiplex(o["http-multiplex"], d, "http_multiplex", sv)); err != nil {
 		if !fortiAPIPatch(o["http-multiplex"]) {
-			return fmt.Errorf("Error reading http_multiplex: %v", err)
+			return fmt.Errorf("error reading http_multiplex: %v", err)
 		}
 	}
 
 	if err = d.Set("http_ip_header", flattenFirewallVip6HttpIpHeader(o["http-ip-header"], d, "http_ip_header", sv)); err != nil {
 		if !fortiAPIPatch(o["http-ip-header"]) {
-			return fmt.Errorf("Error reading http_ip_header: %v", err)
+			return fmt.Errorf("error reading http_ip_header: %v", err)
 		}
 	}
 
 	if err = d.Set("http_ip_header_name", flattenFirewallVip6HttpIpHeaderName(o["http-ip-header-name"], d, "http_ip_header_name", sv)); err != nil {
 		if !fortiAPIPatch(o["http-ip-header-name"]) {
-			return fmt.Errorf("Error reading http_ip_header_name: %v", err)
+			return fmt.Errorf("error reading http_ip_header_name: %v", err)
 		}
 	}
 
 	if err = d.Set("outlook_web_access", flattenFirewallVip6OutlookWebAccess(o["outlook-web-access"], d, "outlook_web_access", sv)); err != nil {
 		if !fortiAPIPatch(o["outlook-web-access"]) {
-			return fmt.Errorf("Error reading outlook_web_access: %v", err)
+			return fmt.Errorf("error reading outlook_web_access: %v", err)
 		}
 	}
 
 	if err = d.Set("weblogic_server", flattenFirewallVip6WeblogicServer(o["weblogic-server"], d, "weblogic_server", sv)); err != nil {
 		if !fortiAPIPatch(o["weblogic-server"]) {
-			return fmt.Errorf("Error reading weblogic_server: %v", err)
+			return fmt.Errorf("error reading weblogic_server: %v", err)
 		}
 	}
 
 	if err = d.Set("websphere_server", flattenFirewallVip6WebsphereServer(o["websphere-server"], d, "websphere_server", sv)); err != nil {
 		if !fortiAPIPatch(o["websphere-server"]) {
-			return fmt.Errorf("Error reading websphere_server: %v", err)
+			return fmt.Errorf("error reading websphere_server: %v", err)
 		}
 	}
 
 	if err = d.Set("ssl_mode", flattenFirewallVip6SslMode(o["ssl-mode"], d, "ssl_mode", sv)); err != nil {
 		if !fortiAPIPatch(o["ssl-mode"]) {
-			return fmt.Errorf("Error reading ssl_mode: %v", err)
+			return fmt.Errorf("error reading ssl_mode: %v", err)
 		}
 	}
 
 	if err = d.Set("ssl_certificate", flattenFirewallVip6SslCertificate(o["ssl-certificate"], d, "ssl_certificate", sv)); err != nil {
 		if !fortiAPIPatch(o["ssl-certificate"]) {
-			return fmt.Errorf("Error reading ssl_certificate: %v", err)
+			return fmt.Errorf("error reading ssl_certificate: %v", err)
 		}
 	}
 
 	if err = d.Set("ssl_dh_bits", flattenFirewallVip6SslDhBits(o["ssl-dh-bits"], d, "ssl_dh_bits", sv)); err != nil {
 		if !fortiAPIPatch(o["ssl-dh-bits"]) {
-			return fmt.Errorf("Error reading ssl_dh_bits: %v", err)
+			return fmt.Errorf("error reading ssl_dh_bits: %v", err)
 		}
 	}
 
 	if err = d.Set("ssl_algorithm", flattenFirewallVip6SslAlgorithm(o["ssl-algorithm"], d, "ssl_algorithm", sv)); err != nil {
 		if !fortiAPIPatch(o["ssl-algorithm"]) {
-			return fmt.Errorf("Error reading ssl_algorithm: %v", err)
+			return fmt.Errorf("error reading ssl_algorithm: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("ssl_cipher_suites", flattenFirewallVip6SslCipherSuites(o["ssl-cipher-suites"], d, "ssl_cipher_suites", sv)); err != nil {
 			if !fortiAPIPatch(o["ssl-cipher-suites"]) {
-				return fmt.Errorf("Error reading ssl_cipher_suites: %v", err)
+				return fmt.Errorf("error reading ssl_cipher_suites: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("ssl_cipher_suites"); ok {
 			if err = d.Set("ssl_cipher_suites", flattenFirewallVip6SslCipherSuites(o["ssl-cipher-suites"], d, "ssl_cipher_suites", sv)); err != nil {
 				if !fortiAPIPatch(o["ssl-cipher-suites"]) {
-					return fmt.Errorf("Error reading ssl_cipher_suites: %v", err)
+					return fmt.Errorf("error reading ssl_cipher_suites: %v", err)
 				}
 			}
 		}
@@ -1507,21 +1582,21 @@ func refreshObjectFirewallVip6(d *schema.ResourceData, o map[string]interface{},
 
 	if err = d.Set("ssl_server_algorithm", flattenFirewallVip6SslServerAlgorithm(o["ssl-server-algorithm"], d, "ssl_server_algorithm", sv)); err != nil {
 		if !fortiAPIPatch(o["ssl-server-algorithm"]) {
-			return fmt.Errorf("Error reading ssl_server_algorithm: %v", err)
+			return fmt.Errorf("error reading ssl_server_algorithm: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("ssl_server_cipher_suites", flattenFirewallVip6SslServerCipherSuites(o["ssl-server-cipher-suites"], d, "ssl_server_cipher_suites", sv)); err != nil {
 			if !fortiAPIPatch(o["ssl-server-cipher-suites"]) {
-				return fmt.Errorf("Error reading ssl_server_cipher_suites: %v", err)
+				return fmt.Errorf("error reading ssl_server_cipher_suites: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("ssl_server_cipher_suites"); ok {
 			if err = d.Set("ssl_server_cipher_suites", flattenFirewallVip6SslServerCipherSuites(o["ssl-server-cipher-suites"], d, "ssl_server_cipher_suites", sv)); err != nil {
 				if !fortiAPIPatch(o["ssl-server-cipher-suites"]) {
-					return fmt.Errorf("Error reading ssl_server_cipher_suites: %v", err)
+					return fmt.Errorf("error reading ssl_server_cipher_suites: %v", err)
 				}
 			}
 		}
@@ -1529,171 +1604,171 @@ func refreshObjectFirewallVip6(d *schema.ResourceData, o map[string]interface{},
 
 	if err = d.Set("ssl_pfs", flattenFirewallVip6SslPfs(o["ssl-pfs"], d, "ssl_pfs", sv)); err != nil {
 		if !fortiAPIPatch(o["ssl-pfs"]) {
-			return fmt.Errorf("Error reading ssl_pfs: %v", err)
+			return fmt.Errorf("error reading ssl_pfs: %v", err)
 		}
 	}
 
 	if err = d.Set("ssl_min_version", flattenFirewallVip6SslMinVersion(o["ssl-min-version"], d, "ssl_min_version", sv)); err != nil {
 		if !fortiAPIPatch(o["ssl-min-version"]) {
-			return fmt.Errorf("Error reading ssl_min_version: %v", err)
+			return fmt.Errorf("error reading ssl_min_version: %v", err)
 		}
 	}
 
 	if err = d.Set("ssl_max_version", flattenFirewallVip6SslMaxVersion(o["ssl-max-version"], d, "ssl_max_version", sv)); err != nil {
 		if !fortiAPIPatch(o["ssl-max-version"]) {
-			return fmt.Errorf("Error reading ssl_max_version: %v", err)
+			return fmt.Errorf("error reading ssl_max_version: %v", err)
 		}
 	}
 
 	if err = d.Set("ssl_server_min_version", flattenFirewallVip6SslServerMinVersion(o["ssl-server-min-version"], d, "ssl_server_min_version", sv)); err != nil {
 		if !fortiAPIPatch(o["ssl-server-min-version"]) {
-			return fmt.Errorf("Error reading ssl_server_min_version: %v", err)
+			return fmt.Errorf("error reading ssl_server_min_version: %v", err)
 		}
 	}
 
 	if err = d.Set("ssl_server_max_version", flattenFirewallVip6SslServerMaxVersion(o["ssl-server-max-version"], d, "ssl_server_max_version", sv)); err != nil {
 		if !fortiAPIPatch(o["ssl-server-max-version"]) {
-			return fmt.Errorf("Error reading ssl_server_max_version: %v", err)
+			return fmt.Errorf("error reading ssl_server_max_version: %v", err)
 		}
 	}
 
 	if err = d.Set("ssl_send_empty_frags", flattenFirewallVip6SslSendEmptyFrags(o["ssl-send-empty-frags"], d, "ssl_send_empty_frags", sv)); err != nil {
 		if !fortiAPIPatch(o["ssl-send-empty-frags"]) {
-			return fmt.Errorf("Error reading ssl_send_empty_frags: %v", err)
+			return fmt.Errorf("error reading ssl_send_empty_frags: %v", err)
 		}
 	}
 
 	if err = d.Set("ssl_client_fallback", flattenFirewallVip6SslClientFallback(o["ssl-client-fallback"], d, "ssl_client_fallback", sv)); err != nil {
 		if !fortiAPIPatch(o["ssl-client-fallback"]) {
-			return fmt.Errorf("Error reading ssl_client_fallback: %v", err)
+			return fmt.Errorf("error reading ssl_client_fallback: %v", err)
 		}
 	}
 
 	if err = d.Set("ssl_client_renegotiation", flattenFirewallVip6SslClientRenegotiation(o["ssl-client-renegotiation"], d, "ssl_client_renegotiation", sv)); err != nil {
 		if !fortiAPIPatch(o["ssl-client-renegotiation"]) {
-			return fmt.Errorf("Error reading ssl_client_renegotiation: %v", err)
+			return fmt.Errorf("error reading ssl_client_renegotiation: %v", err)
 		}
 	}
 
 	if err = d.Set("ssl_client_session_state_type", flattenFirewallVip6SslClientSessionStateType(o["ssl-client-session-state-type"], d, "ssl_client_session_state_type", sv)); err != nil {
 		if !fortiAPIPatch(o["ssl-client-session-state-type"]) {
-			return fmt.Errorf("Error reading ssl_client_session_state_type: %v", err)
+			return fmt.Errorf("error reading ssl_client_session_state_type: %v", err)
 		}
 	}
 
 	if err = d.Set("ssl_client_session_state_timeout", flattenFirewallVip6SslClientSessionStateTimeout(o["ssl-client-session-state-timeout"], d, "ssl_client_session_state_timeout", sv)); err != nil {
 		if !fortiAPIPatch(o["ssl-client-session-state-timeout"]) {
-			return fmt.Errorf("Error reading ssl_client_session_state_timeout: %v", err)
+			return fmt.Errorf("error reading ssl_client_session_state_timeout: %v", err)
 		}
 	}
 
 	if err = d.Set("ssl_client_session_state_max", flattenFirewallVip6SslClientSessionStateMax(o["ssl-client-session-state-max"], d, "ssl_client_session_state_max", sv)); err != nil {
 		if !fortiAPIPatch(o["ssl-client-session-state-max"]) {
-			return fmt.Errorf("Error reading ssl_client_session_state_max: %v", err)
+			return fmt.Errorf("error reading ssl_client_session_state_max: %v", err)
 		}
 	}
 
 	if err = d.Set("ssl_client_rekey_count", flattenFirewallVip6SslClientRekeyCount(o["ssl-client-rekey-count"], d, "ssl_client_rekey_count", sv)); err != nil {
 		if !fortiAPIPatch(o["ssl-client-rekey-count"]) {
-			return fmt.Errorf("Error reading ssl_client_rekey_count: %v", err)
+			return fmt.Errorf("error reading ssl_client_rekey_count: %v", err)
 		}
 	}
 
 	if err = d.Set("ssl_server_session_state_type", flattenFirewallVip6SslServerSessionStateType(o["ssl-server-session-state-type"], d, "ssl_server_session_state_type", sv)); err != nil {
 		if !fortiAPIPatch(o["ssl-server-session-state-type"]) {
-			return fmt.Errorf("Error reading ssl_server_session_state_type: %v", err)
+			return fmt.Errorf("error reading ssl_server_session_state_type: %v", err)
 		}
 	}
 
 	if err = d.Set("ssl_server_session_state_timeout", flattenFirewallVip6SslServerSessionStateTimeout(o["ssl-server-session-state-timeout"], d, "ssl_server_session_state_timeout", sv)); err != nil {
 		if !fortiAPIPatch(o["ssl-server-session-state-timeout"]) {
-			return fmt.Errorf("Error reading ssl_server_session_state_timeout: %v", err)
+			return fmt.Errorf("error reading ssl_server_session_state_timeout: %v", err)
 		}
 	}
 
 	if err = d.Set("ssl_server_session_state_max", flattenFirewallVip6SslServerSessionStateMax(o["ssl-server-session-state-max"], d, "ssl_server_session_state_max", sv)); err != nil {
 		if !fortiAPIPatch(o["ssl-server-session-state-max"]) {
-			return fmt.Errorf("Error reading ssl_server_session_state_max: %v", err)
+			return fmt.Errorf("error reading ssl_server_session_state_max: %v", err)
 		}
 	}
 
 	if err = d.Set("ssl_http_location_conversion", flattenFirewallVip6SslHttpLocationConversion(o["ssl-http-location-conversion"], d, "ssl_http_location_conversion", sv)); err != nil {
 		if !fortiAPIPatch(o["ssl-http-location-conversion"]) {
-			return fmt.Errorf("Error reading ssl_http_location_conversion: %v", err)
+			return fmt.Errorf("error reading ssl_http_location_conversion: %v", err)
 		}
 	}
 
 	if err = d.Set("ssl_http_match_host", flattenFirewallVip6SslHttpMatchHost(o["ssl-http-match-host"], d, "ssl_http_match_host", sv)); err != nil {
 		if !fortiAPIPatch(o["ssl-http-match-host"]) {
-			return fmt.Errorf("Error reading ssl_http_match_host: %v", err)
+			return fmt.Errorf("error reading ssl_http_match_host: %v", err)
 		}
 	}
 
 	if err = d.Set("ssl_hpkp", flattenFirewallVip6SslHpkp(o["ssl-hpkp"], d, "ssl_hpkp", sv)); err != nil {
 		if !fortiAPIPatch(o["ssl-hpkp"]) {
-			return fmt.Errorf("Error reading ssl_hpkp: %v", err)
+			return fmt.Errorf("error reading ssl_hpkp: %v", err)
 		}
 	}
 
 	if err = d.Set("ssl_hpkp_primary", flattenFirewallVip6SslHpkpPrimary(o["ssl-hpkp-primary"], d, "ssl_hpkp_primary", sv)); err != nil {
 		if !fortiAPIPatch(o["ssl-hpkp-primary"]) {
-			return fmt.Errorf("Error reading ssl_hpkp_primary: %v", err)
+			return fmt.Errorf("error reading ssl_hpkp_primary: %v", err)
 		}
 	}
 
 	if err = d.Set("ssl_hpkp_backup", flattenFirewallVip6SslHpkpBackup(o["ssl-hpkp-backup"], d, "ssl_hpkp_backup", sv)); err != nil {
 		if !fortiAPIPatch(o["ssl-hpkp-backup"]) {
-			return fmt.Errorf("Error reading ssl_hpkp_backup: %v", err)
+			return fmt.Errorf("error reading ssl_hpkp_backup: %v", err)
 		}
 	}
 
 	if err = d.Set("ssl_hpkp_age", flattenFirewallVip6SslHpkpAge(o["ssl-hpkp-age"], d, "ssl_hpkp_age", sv)); err != nil {
 		if !fortiAPIPatch(o["ssl-hpkp-age"]) {
-			return fmt.Errorf("Error reading ssl_hpkp_age: %v", err)
+			return fmt.Errorf("error reading ssl_hpkp_age: %v", err)
 		}
 	}
 
 	if err = d.Set("ssl_hpkp_report_uri", flattenFirewallVip6SslHpkpReportUri(o["ssl-hpkp-report-uri"], d, "ssl_hpkp_report_uri", sv)); err != nil {
 		if !fortiAPIPatch(o["ssl-hpkp-report-uri"]) {
-			return fmt.Errorf("Error reading ssl_hpkp_report_uri: %v", err)
+			return fmt.Errorf("error reading ssl_hpkp_report_uri: %v", err)
 		}
 	}
 
 	if err = d.Set("ssl_hpkp_include_subdomains", flattenFirewallVip6SslHpkpIncludeSubdomains(o["ssl-hpkp-include-subdomains"], d, "ssl_hpkp_include_subdomains", sv)); err != nil {
 		if !fortiAPIPatch(o["ssl-hpkp-include-subdomains"]) {
-			return fmt.Errorf("Error reading ssl_hpkp_include_subdomains: %v", err)
+			return fmt.Errorf("error reading ssl_hpkp_include_subdomains: %v", err)
 		}
 	}
 
 	if err = d.Set("ssl_hsts", flattenFirewallVip6SslHsts(o["ssl-hsts"], d, "ssl_hsts", sv)); err != nil {
 		if !fortiAPIPatch(o["ssl-hsts"]) {
-			return fmt.Errorf("Error reading ssl_hsts: %v", err)
+			return fmt.Errorf("error reading ssl_hsts: %v", err)
 		}
 	}
 
 	if err = d.Set("ssl_hsts_age", flattenFirewallVip6SslHstsAge(o["ssl-hsts-age"], d, "ssl_hsts_age", sv)); err != nil {
 		if !fortiAPIPatch(o["ssl-hsts-age"]) {
-			return fmt.Errorf("Error reading ssl_hsts_age: %v", err)
+			return fmt.Errorf("error reading ssl_hsts_age: %v", err)
 		}
 	}
 
 	if err = d.Set("ssl_hsts_include_subdomains", flattenFirewallVip6SslHstsIncludeSubdomains(o["ssl-hsts-include-subdomains"], d, "ssl_hsts_include_subdomains", sv)); err != nil {
 		if !fortiAPIPatch(o["ssl-hsts-include-subdomains"]) {
-			return fmt.Errorf("Error reading ssl_hsts_include_subdomains: %v", err)
+			return fmt.Errorf("error reading ssl_hsts_include_subdomains: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("monitor", flattenFirewallVip6Monitor(o["monitor"], d, "monitor", sv)); err != nil {
 			if !fortiAPIPatch(o["monitor"]) {
-				return fmt.Errorf("Error reading monitor: %v", err)
+				return fmt.Errorf("error reading monitor: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("monitor"); ok {
 			if err = d.Set("monitor", flattenFirewallVip6Monitor(o["monitor"], d, "monitor", sv)); err != nil {
 				if !fortiAPIPatch(o["monitor"]) {
-					return fmt.Errorf("Error reading monitor: %v", err)
+					return fmt.Errorf("error reading monitor: %v", err)
 				}
 			}
 		}
@@ -1701,7 +1776,7 @@ func refreshObjectFirewallVip6(d *schema.ResourceData, o map[string]interface{},
 
 	if err = d.Set("max_embryonic_connections", flattenFirewallVip6MaxEmbryonicConnections(o["max-embryonic-connections"], d, "max_embryonic_connections", sv)); err != nil {
 		if !fortiAPIPatch(o["max-embryonic-connections"]) {
-			return fmt.Errorf("Error reading max_embryonic_connections: %v", err)
+			return fmt.Errorf("error reading max_embryonic_connections: %v", err)
 		}
 	}
 

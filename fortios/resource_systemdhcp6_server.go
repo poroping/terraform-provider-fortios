@@ -30,129 +30,129 @@ func resourceSystemDhcp6Server() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"fosid": &schema.Schema{
+			"fosid": {
 				Type:     schema.TypeInt,
 				ForceNew: true,
 				Required: true,
 			},
-			"status": &schema.Schema{
+			"status": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"rapid_commit": &schema.Schema{
+			"rapid_commit": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"lease_time": &schema.Schema{
+			"lease_time": {
 				Type:         schema.TypeInt,
 				ValidateFunc: intBetweenWithZero(300, 8640000),
 				Optional:     true,
 				Computed:     true,
 			},
-			"dns_service": &schema.Schema{
+			"dns_service": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"dns_search_list": &schema.Schema{
+			"dns_search_list": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"dns_server1": &schema.Schema{
+			"dns_server1": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"dns_server2": &schema.Schema{
+			"dns_server2": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"dns_server3": &schema.Schema{
+			"dns_server3": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"dns_server4": &schema.Schema{
+			"dns_server4": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"domain": &schema.Schema{
+			"domain": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"subnet": &schema.Schema{
+			"subnet": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"interface": &schema.Schema{
+			"interface": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 15),
 				Required:     true,
 			},
-			"option1": &schema.Schema{
+			"option1": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"option2": &schema.Schema{
+			"option2": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"option3": &schema.Schema{
+			"option3": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"upstream_interface": &schema.Schema{
+			"upstream_interface": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 15),
 				Optional:     true,
 				Computed:     true,
 			},
-			"ip_mode": &schema.Schema{
+			"ip_mode": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"prefix_mode": &schema.Schema{
+			"prefix_mode": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"prefix_range": &schema.Schema{
+			"prefix_range": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"start_prefix": &schema.Schema{
+						"start_prefix": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"end_prefix": &schema.Schema{
+						"end_prefix": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"prefix_length": &schema.Schema{
+						"prefix_length": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 128),
 							Optional:     true,
@@ -161,22 +161,22 @@ func resourceSystemDhcp6Server() *schema.Resource {
 					},
 				},
 			},
-			"ip_range": &schema.Schema{
+			"ip_range": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"start_ip": &schema.Schema{
+						"start_ip": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"end_ip": &schema.Schema{
+						"end_ip": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -184,10 +184,15 @@ func resourceSystemDhcp6Server() *schema.Resource {
 					},
 				},
 			},
-			"dynamic_sort_subtable": &schema.Schema{
-				Type:     schema.TypeString,
+			"dynamic_sort_subtable": {
+				Type:     schema.TypeBool,
 				Optional: true,
-				Default:  "false",
+				Default:  false,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -205,15 +210,25 @@ func resourceSystemDhcp6ServerCreate(d *schema.ResourceData, m interface{}) erro
 		}
 	}
 
-	obj, err := getObjectSystemDhcp6Server(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating SystemDhcp6Server resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateSystemDhcp6Server(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemDhcp6Server(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating SystemDhcp6Server resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateSystemDhcp6Server(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating SystemDhcp6Server resource: %v", err)
+		return fmt.Errorf("error creating SystemDhcp6Server resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -238,14 +253,24 @@ func resourceSystemDhcp6ServerUpdate(d *schema.ResourceData, m interface{}) erro
 		}
 	}
 
-	obj, err := getObjectSystemDhcp6Server(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SystemDhcp6Server resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSystemDhcp6Server(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemDhcp6Server(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SystemDhcp6Server resource: %v", err)
+		return fmt.Errorf("error updating SystemDhcp6Server resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSystemDhcp6Server(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SystemDhcp6Server resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -272,9 +297,17 @@ func resourceSystemDhcp6ServerDelete(d *schema.ResourceData, m interface{}) erro
 		}
 	}
 
-	err := c.DeleteSystemDhcp6Server(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSystemDhcp6Server(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SystemDhcp6Server resource: %v", err)
+		return fmt.Errorf("error deleting SystemDhcp6Server resource: %v", err)
 	}
 
 	d.SetId("")
@@ -296,9 +329,19 @@ func resourceSystemDhcp6ServerRead(d *schema.ResourceData, m interface{}) error 
 		}
 	}
 
-	o, err := c.ReadSystemDhcp6Server(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSystemDhcp6Server(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemDhcp6Server resource: %v", err)
+		return fmt.Errorf("error reading SystemDhcp6Server resource: %v", err)
 	}
 
 	if o == nil {
@@ -309,7 +352,7 @@ func resourceSystemDhcp6ServerRead(d *schema.ResourceData, m interface{}) error 
 
 	err = refreshObjectSystemDhcp6Server(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemDhcp6Server resource from API: %v", err)
+		return fmt.Errorf("error reading SystemDhcp6Server resource from API: %v", err)
 	}
 	return nil
 }
@@ -521,129 +564,129 @@ func refreshObjectSystemDhcp6Server(d *schema.ResourceData, o map[string]interfa
 
 	if err = d.Set("fosid", flattenSystemDhcp6ServerId(o["id"], d, "fosid", sv)); err != nil {
 		if !fortiAPIPatch(o["id"]) {
-			return fmt.Errorf("Error reading fosid: %v", err)
+			return fmt.Errorf("error reading fosid: %v", err)
 		}
 	}
 
 	if err = d.Set("status", flattenSystemDhcp6ServerStatus(o["status"], d, "status", sv)); err != nil {
 		if !fortiAPIPatch(o["status"]) {
-			return fmt.Errorf("Error reading status: %v", err)
+			return fmt.Errorf("error reading status: %v", err)
 		}
 	}
 
 	if err = d.Set("rapid_commit", flattenSystemDhcp6ServerRapidCommit(o["rapid-commit"], d, "rapid_commit", sv)); err != nil {
 		if !fortiAPIPatch(o["rapid-commit"]) {
-			return fmt.Errorf("Error reading rapid_commit: %v", err)
+			return fmt.Errorf("error reading rapid_commit: %v", err)
 		}
 	}
 
 	if err = d.Set("lease_time", flattenSystemDhcp6ServerLeaseTime(o["lease-time"], d, "lease_time", sv)); err != nil {
 		if !fortiAPIPatch(o["lease-time"]) {
-			return fmt.Errorf("Error reading lease_time: %v", err)
+			return fmt.Errorf("error reading lease_time: %v", err)
 		}
 	}
 
 	if err = d.Set("dns_service", flattenSystemDhcp6ServerDnsService(o["dns-service"], d, "dns_service", sv)); err != nil {
 		if !fortiAPIPatch(o["dns-service"]) {
-			return fmt.Errorf("Error reading dns_service: %v", err)
+			return fmt.Errorf("error reading dns_service: %v", err)
 		}
 	}
 
 	if err = d.Set("dns_search_list", flattenSystemDhcp6ServerDnsSearchList(o["dns-search-list"], d, "dns_search_list", sv)); err != nil {
 		if !fortiAPIPatch(o["dns-search-list"]) {
-			return fmt.Errorf("Error reading dns_search_list: %v", err)
+			return fmt.Errorf("error reading dns_search_list: %v", err)
 		}
 	}
 
 	if err = d.Set("dns_server1", flattenSystemDhcp6ServerDnsServer1(o["dns-server1"], d, "dns_server1", sv)); err != nil {
 		if !fortiAPIPatch(o["dns-server1"]) {
-			return fmt.Errorf("Error reading dns_server1: %v", err)
+			return fmt.Errorf("error reading dns_server1: %v", err)
 		}
 	}
 
 	if err = d.Set("dns_server2", flattenSystemDhcp6ServerDnsServer2(o["dns-server2"], d, "dns_server2", sv)); err != nil {
 		if !fortiAPIPatch(o["dns-server2"]) {
-			return fmt.Errorf("Error reading dns_server2: %v", err)
+			return fmt.Errorf("error reading dns_server2: %v", err)
 		}
 	}
 
 	if err = d.Set("dns_server3", flattenSystemDhcp6ServerDnsServer3(o["dns-server3"], d, "dns_server3", sv)); err != nil {
 		if !fortiAPIPatch(o["dns-server3"]) {
-			return fmt.Errorf("Error reading dns_server3: %v", err)
+			return fmt.Errorf("error reading dns_server3: %v", err)
 		}
 	}
 
 	if err = d.Set("dns_server4", flattenSystemDhcp6ServerDnsServer4(o["dns-server4"], d, "dns_server4", sv)); err != nil {
 		if !fortiAPIPatch(o["dns-server4"]) {
-			return fmt.Errorf("Error reading dns_server4: %v", err)
+			return fmt.Errorf("error reading dns_server4: %v", err)
 		}
 	}
 
 	if err = d.Set("domain", flattenSystemDhcp6ServerDomain(o["domain"], d, "domain", sv)); err != nil {
 		if !fortiAPIPatch(o["domain"]) {
-			return fmt.Errorf("Error reading domain: %v", err)
+			return fmt.Errorf("error reading domain: %v", err)
 		}
 	}
 
 	if err = d.Set("subnet", flattenSystemDhcp6ServerSubnet(o["subnet"], d, "subnet", sv)); err != nil {
 		if !fortiAPIPatch(o["subnet"]) {
-			return fmt.Errorf("Error reading subnet: %v", err)
+			return fmt.Errorf("error reading subnet: %v", err)
 		}
 	}
 
 	if err = d.Set("interface", flattenSystemDhcp6ServerInterface(o["interface"], d, "interface", sv)); err != nil {
 		if !fortiAPIPatch(o["interface"]) {
-			return fmt.Errorf("Error reading interface: %v", err)
+			return fmt.Errorf("error reading interface: %v", err)
 		}
 	}
 
 	if err = d.Set("option1", flattenSystemDhcp6ServerOption1(o["option1"], d, "option1", sv)); err != nil {
 		if !fortiAPIPatch(o["option1"]) {
-			return fmt.Errorf("Error reading option1: %v", err)
+			return fmt.Errorf("error reading option1: %v", err)
 		}
 	}
 
 	if err = d.Set("option2", flattenSystemDhcp6ServerOption2(o["option2"], d, "option2", sv)); err != nil {
 		if !fortiAPIPatch(o["option2"]) {
-			return fmt.Errorf("Error reading option2: %v", err)
+			return fmt.Errorf("error reading option2: %v", err)
 		}
 	}
 
 	if err = d.Set("option3", flattenSystemDhcp6ServerOption3(o["option3"], d, "option3", sv)); err != nil {
 		if !fortiAPIPatch(o["option3"]) {
-			return fmt.Errorf("Error reading option3: %v", err)
+			return fmt.Errorf("error reading option3: %v", err)
 		}
 	}
 
 	if err = d.Set("upstream_interface", flattenSystemDhcp6ServerUpstreamInterface(o["upstream-interface"], d, "upstream_interface", sv)); err != nil {
 		if !fortiAPIPatch(o["upstream-interface"]) {
-			return fmt.Errorf("Error reading upstream_interface: %v", err)
+			return fmt.Errorf("error reading upstream_interface: %v", err)
 		}
 	}
 
 	if err = d.Set("ip_mode", flattenSystemDhcp6ServerIpMode(o["ip-mode"], d, "ip_mode", sv)); err != nil {
 		if !fortiAPIPatch(o["ip-mode"]) {
-			return fmt.Errorf("Error reading ip_mode: %v", err)
+			return fmt.Errorf("error reading ip_mode: %v", err)
 		}
 	}
 
 	if err = d.Set("prefix_mode", flattenSystemDhcp6ServerPrefixMode(o["prefix-mode"], d, "prefix_mode", sv)); err != nil {
 		if !fortiAPIPatch(o["prefix-mode"]) {
-			return fmt.Errorf("Error reading prefix_mode: %v", err)
+			return fmt.Errorf("error reading prefix_mode: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("prefix_range", flattenSystemDhcp6ServerPrefixRange(o["prefix-range"], d, "prefix_range", sv)); err != nil {
 			if !fortiAPIPatch(o["prefix-range"]) {
-				return fmt.Errorf("Error reading prefix_range: %v", err)
+				return fmt.Errorf("error reading prefix_range: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("prefix_range"); ok {
 			if err = d.Set("prefix_range", flattenSystemDhcp6ServerPrefixRange(o["prefix-range"], d, "prefix_range", sv)); err != nil {
 				if !fortiAPIPatch(o["prefix-range"]) {
-					return fmt.Errorf("Error reading prefix_range: %v", err)
+					return fmt.Errorf("error reading prefix_range: %v", err)
 				}
 			}
 		}
@@ -652,14 +695,14 @@ func refreshObjectSystemDhcp6Server(d *schema.ResourceData, o map[string]interfa
 	if isImportTable() {
 		if err = d.Set("ip_range", flattenSystemDhcp6ServerIpRange(o["ip-range"], d, "ip_range", sv)); err != nil {
 			if !fortiAPIPatch(o["ip-range"]) {
-				return fmt.Errorf("Error reading ip_range: %v", err)
+				return fmt.Errorf("error reading ip_range: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("ip_range"); ok {
 			if err = d.Set("ip_range", flattenSystemDhcp6ServerIpRange(o["ip-range"], d, "ip_range", sv)); err != nil {
 				if !fortiAPIPatch(o["ip-range"]) {
-					return fmt.Errorf("Error reading ip_range: %v", err)
+					return fmt.Errorf("error reading ip_range: %v", err)
 				}
 			}
 		}

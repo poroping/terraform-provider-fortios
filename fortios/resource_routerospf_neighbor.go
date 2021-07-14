@@ -30,39 +30,44 @@ func resourceRouterospfNeighbor() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"fosid": &schema.Schema{
+			"fosid": {
 				Type:     schema.TypeInt,
 				ForceNew: true,
 				Optional: true,
 				Computed: true,
 			},
-			"ip": &schema.Schema{
+			"ip": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"poll_interval": &schema.Schema{
+			"poll_interval": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"cost": &schema.Schema{
+			"cost": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"priority": &schema.Schema{
+			"priority": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 255),
 				Optional:     true,
 				Computed:     true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -80,15 +85,25 @@ func resourceRouterospfNeighborCreate(d *schema.ResourceData, m interface{}) err
 		}
 	}
 
-	obj, err := getObjectRouterospfNeighbor(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating RouterospfNeighbor resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateRouterospfNeighbor(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectRouterospfNeighbor(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating RouterospfNeighbor resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateRouterospfNeighbor(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating RouterospfNeighbor resource: %v", err)
+		return fmt.Errorf("error creating RouterospfNeighbor resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -113,14 +128,24 @@ func resourceRouterospfNeighborUpdate(d *schema.ResourceData, m interface{}) err
 		}
 	}
 
-	obj, err := getObjectRouterospfNeighbor(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating RouterospfNeighbor resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateRouterospfNeighbor(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectRouterospfNeighbor(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating RouterospfNeighbor resource: %v", err)
+		return fmt.Errorf("error updating RouterospfNeighbor resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateRouterospfNeighbor(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating RouterospfNeighbor resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -147,9 +172,17 @@ func resourceRouterospfNeighborDelete(d *schema.ResourceData, m interface{}) err
 		}
 	}
 
-	err := c.DeleteRouterospfNeighbor(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteRouterospfNeighbor(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting RouterospfNeighbor resource: %v", err)
+		return fmt.Errorf("error deleting RouterospfNeighbor resource: %v", err)
 	}
 
 	d.SetId("")
@@ -171,9 +204,19 @@ func resourceRouterospfNeighborRead(d *schema.ResourceData, m interface{}) error
 		}
 	}
 
-	o, err := c.ReadRouterospfNeighbor(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadRouterospfNeighbor(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading RouterospfNeighbor resource: %v", err)
+		return fmt.Errorf("error reading RouterospfNeighbor resource: %v", err)
 	}
 
 	if o == nil {
@@ -184,7 +227,7 @@ func resourceRouterospfNeighborRead(d *schema.ResourceData, m interface{}) error
 
 	err = refreshObjectRouterospfNeighbor(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading RouterospfNeighbor resource from API: %v", err)
+		return fmt.Errorf("error reading RouterospfNeighbor resource from API: %v", err)
 	}
 	return nil
 }
@@ -214,31 +257,31 @@ func refreshObjectRouterospfNeighbor(d *schema.ResourceData, o map[string]interf
 
 	if err = d.Set("fosid", flattenRouterospfNeighborId(o["id"], d, "fosid", sv)); err != nil {
 		if !fortiAPIPatch(o["id"]) {
-			return fmt.Errorf("Error reading fosid: %v", err)
+			return fmt.Errorf("error reading fosid: %v", err)
 		}
 	}
 
 	if err = d.Set("ip", flattenRouterospfNeighborIp(o["ip"], d, "ip", sv)); err != nil {
 		if !fortiAPIPatch(o["ip"]) {
-			return fmt.Errorf("Error reading ip: %v", err)
+			return fmt.Errorf("error reading ip: %v", err)
 		}
 	}
 
 	if err = d.Set("poll_interval", flattenRouterospfNeighborPollInterval(o["poll-interval"], d, "poll_interval", sv)); err != nil {
 		if !fortiAPIPatch(o["poll-interval"]) {
-			return fmt.Errorf("Error reading poll_interval: %v", err)
+			return fmt.Errorf("error reading poll_interval: %v", err)
 		}
 	}
 
 	if err = d.Set("cost", flattenRouterospfNeighborCost(o["cost"], d, "cost", sv)); err != nil {
 		if !fortiAPIPatch(o["cost"]) {
-			return fmt.Errorf("Error reading cost: %v", err)
+			return fmt.Errorf("error reading cost: %v", err)
 		}
 	}
 
 	if err = d.Set("priority", flattenRouterospfNeighborPriority(o["priority"], d, "priority", sv)); err != nil {
 		if !fortiAPIPatch(o["priority"]) {
-			return fmt.Errorf("Error reading priority: %v", err)
+			return fmt.Errorf("error reading priority: %v", err)
 		}
 	}
 

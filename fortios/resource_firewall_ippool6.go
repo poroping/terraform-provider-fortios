@@ -30,29 +30,40 @@ func resourceFirewallIppool6() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"startip": &schema.Schema{
+			"startip": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"endip": &schema.Schema{
+			"endip": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"comments": &schema.Schema{
+			"comments": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
+			},
+			"allow_append": {
+				Type:         schema.TypeBool,
+				Optional:     true,
+				Default:      false,
+				RequiredWith: []string{"name"},
 			},
 		},
 	}
@@ -70,15 +81,51 @@ func resourceFirewallIppool6Create(d *schema.ResourceData, m interface{}) error 
 		}
 	}
 
-	obj, err := getObjectFirewallIppool6(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating FirewallIppool6 resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateFirewallIppool6(obj, vdomparam)
+	allow_append := false
+
+	if v, ok := d.GetOk("allow_append"); ok {
+		if b, ok := v.(bool); ok {
+			allow_append = b
+		}
+	}
+
+	urlparams := make(map[string][]string)
+	urlparams["allow_append"] = []string{strconv.FormatBool(allow_append)}
+
+	key := "name"
+	mkey := ""
+	if v, ok := d.GetOk(key); ok {
+		if s, ok := v.(string); ok {
+			mkey = s
+		}
+	}
+
+	obj, err := getObjectFirewallIppool6(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating FirewallIppool6 resource while getting object: %v", err)
+	}
+
+	if mkey == "" && allow_append {
+		return fmt.Errorf("error creating FirewallIppool6 resource: %q must be set if \"allow_append\" is true", key)
+	}
+
+	o := make(map[string]interface{})
+	if mkey != "" && allow_append {
+		o, err = c.UpdateFirewallIppool6(obj, mkey, vdomparam, urlparams, batchid)
+	} else {
+		o, err = c.CreateFirewallIppool6(obj, vdomparam, urlparams, batchid)
+	}
 
 	if err != nil {
-		return fmt.Errorf("Error creating FirewallIppool6 resource: %v", err)
+		return fmt.Errorf("error creating FirewallIppool6 resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -103,14 +150,24 @@ func resourceFirewallIppool6Update(d *schema.ResourceData, m interface{}) error 
 		}
 	}
 
-	obj, err := getObjectFirewallIppool6(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating FirewallIppool6 resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateFirewallIppool6(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectFirewallIppool6(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating FirewallIppool6 resource: %v", err)
+		return fmt.Errorf("error updating FirewallIppool6 resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateFirewallIppool6(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating FirewallIppool6 resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -137,9 +194,17 @@ func resourceFirewallIppool6Delete(d *schema.ResourceData, m interface{}) error 
 		}
 	}
 
-	err := c.DeleteFirewallIppool6(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteFirewallIppool6(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting FirewallIppool6 resource: %v", err)
+		return fmt.Errorf("error deleting FirewallIppool6 resource: %v", err)
 	}
 
 	d.SetId("")
@@ -161,9 +226,19 @@ func resourceFirewallIppool6Read(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadFirewallIppool6(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadFirewallIppool6(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading FirewallIppool6 resource: %v", err)
+		return fmt.Errorf("error reading FirewallIppool6 resource: %v", err)
 	}
 
 	if o == nil {
@@ -174,7 +249,7 @@ func resourceFirewallIppool6Read(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectFirewallIppool6(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading FirewallIppool6 resource from API: %v", err)
+		return fmt.Errorf("error reading FirewallIppool6 resource from API: %v", err)
 	}
 	return nil
 }
@@ -200,25 +275,25 @@ func refreshObjectFirewallIppool6(d *schema.ResourceData, o map[string]interface
 
 	if err = d.Set("name", flattenFirewallIppool6Name(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("startip", flattenFirewallIppool6Startip(o["startip"], d, "startip", sv)); err != nil {
 		if !fortiAPIPatch(o["startip"]) {
-			return fmt.Errorf("Error reading startip: %v", err)
+			return fmt.Errorf("error reading startip: %v", err)
 		}
 	}
 
 	if err = d.Set("endip", flattenFirewallIppool6Endip(o["endip"], d, "endip", sv)); err != nil {
 		if !fortiAPIPatch(o["endip"]) {
-			return fmt.Errorf("Error reading endip: %v", err)
+			return fmt.Errorf("error reading endip: %v", err)
 		}
 	}
 
 	if err = d.Set("comments", flattenFirewallIppool6Comments(o["comments"], d, "comments", sv)); err != nil {
 		if !fortiAPIPatch(o["comments"]) {
-			return fmt.Errorf("Error reading comments: %v", err)
+			return fmt.Errorf("error reading comments: %v", err)
 		}
 	}
 

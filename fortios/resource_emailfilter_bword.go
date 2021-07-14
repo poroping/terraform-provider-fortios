@@ -30,70 +30,70 @@ func resourceEmailfilterBword() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"fosid": &schema.Schema{
+			"fosid": {
 				Type:     schema.TypeInt,
 				ForceNew: true,
 				Optional: true,
 				Computed: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"comment": &schema.Schema{
+			"comment": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
 			},
-			"entries": &schema.Schema{
+			"entries": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"status": &schema.Schema{
+						"status": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"pattern": &schema.Schema{
+						"pattern": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 127),
 							Optional:     true,
 							Computed:     true,
 						},
-						"pattern_type": &schema.Schema{
+						"pattern_type": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"action": &schema.Schema{
+						"action": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"where": &schema.Schema{
+						"where": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"language": &schema.Schema{
+						"language": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"score": &schema.Schema{
+						"score": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 99999),
 							Optional:     true,
@@ -102,10 +102,15 @@ func resourceEmailfilterBword() *schema.Resource {
 					},
 				},
 			},
-			"dynamic_sort_subtable": &schema.Schema{
-				Type:     schema.TypeString,
+			"dynamic_sort_subtable": {
+				Type:     schema.TypeBool,
 				Optional: true,
-				Default:  "false",
+				Default:  false,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -123,15 +128,25 @@ func resourceEmailfilterBwordCreate(d *schema.ResourceData, m interface{}) error
 		}
 	}
 
-	obj, err := getObjectEmailfilterBword(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating EmailfilterBword resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateEmailfilterBword(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectEmailfilterBword(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating EmailfilterBword resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateEmailfilterBword(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating EmailfilterBword resource: %v", err)
+		return fmt.Errorf("error creating EmailfilterBword resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -156,14 +171,24 @@ func resourceEmailfilterBwordUpdate(d *schema.ResourceData, m interface{}) error
 		}
 	}
 
-	obj, err := getObjectEmailfilterBword(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating EmailfilterBword resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateEmailfilterBword(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectEmailfilterBword(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating EmailfilterBword resource: %v", err)
+		return fmt.Errorf("error updating EmailfilterBword resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateEmailfilterBword(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating EmailfilterBword resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -190,9 +215,17 @@ func resourceEmailfilterBwordDelete(d *schema.ResourceData, m interface{}) error
 		}
 	}
 
-	err := c.DeleteEmailfilterBword(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteEmailfilterBword(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting EmailfilterBword resource: %v", err)
+		return fmt.Errorf("error deleting EmailfilterBword resource: %v", err)
 	}
 
 	d.SetId("")
@@ -214,9 +247,19 @@ func resourceEmailfilterBwordRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadEmailfilterBword(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadEmailfilterBword(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading EmailfilterBword resource: %v", err)
+		return fmt.Errorf("error reading EmailfilterBword resource: %v", err)
 	}
 
 	if o == nil {
@@ -227,7 +270,7 @@ func resourceEmailfilterBwordRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectEmailfilterBword(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading EmailfilterBword resource from API: %v", err)
+		return fmt.Errorf("error reading EmailfilterBword resource from API: %v", err)
 	}
 	return nil
 }
@@ -357,33 +400,33 @@ func refreshObjectEmailfilterBword(d *schema.ResourceData, o map[string]interfac
 
 	if err = d.Set("fosid", flattenEmailfilterBwordId(o["id"], d, "fosid", sv)); err != nil {
 		if !fortiAPIPatch(o["id"]) {
-			return fmt.Errorf("Error reading fosid: %v", err)
+			return fmt.Errorf("error reading fosid: %v", err)
 		}
 	}
 
 	if err = d.Set("name", flattenEmailfilterBwordName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("comment", flattenEmailfilterBwordComment(o["comment"], d, "comment", sv)); err != nil {
 		if !fortiAPIPatch(o["comment"]) {
-			return fmt.Errorf("Error reading comment: %v", err)
+			return fmt.Errorf("error reading comment: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("entries", flattenEmailfilterBwordEntries(o["entries"], d, "entries", sv)); err != nil {
 			if !fortiAPIPatch(o["entries"]) {
-				return fmt.Errorf("Error reading entries: %v", err)
+				return fmt.Errorf("error reading entries: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("entries"); ok {
 			if err = d.Set("entries", flattenEmailfilterBwordEntries(o["entries"], d, "entries", sv)); err != nil {
 				if !fortiAPIPatch(o["entries"]) {
-					return fmt.Errorf("Error reading entries: %v", err)
+					return fmt.Errorf("error reading entries: %v", err)
 				}
 			}
 		}

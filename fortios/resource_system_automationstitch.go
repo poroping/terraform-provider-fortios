@@ -30,33 +30,33 @@ func resourceSystemAutomationStitch() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"status": &schema.Schema{
+			"status": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"trigger": &schema.Schema{
+			"trigger": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Required:     true,
 			},
-			"action": &schema.Schema{
+			"action": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 64),
 							Optional:     true,
@@ -65,12 +65,12 @@ func resourceSystemAutomationStitch() *schema.Resource {
 					},
 				},
 			},
-			"destination": &schema.Schema{
+			"destination": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 64),
 							Optional:     true,
@@ -79,10 +79,15 @@ func resourceSystemAutomationStitch() *schema.Resource {
 					},
 				},
 			},
-			"dynamic_sort_subtable": &schema.Schema{
-				Type:     schema.TypeString,
+			"dynamic_sort_subtable": {
+				Type:     schema.TypeBool,
 				Optional: true,
-				Default:  "false",
+				Default:  false,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -100,15 +105,25 @@ func resourceSystemAutomationStitchCreate(d *schema.ResourceData, m interface{})
 		}
 	}
 
-	obj, err := getObjectSystemAutomationStitch(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating SystemAutomationStitch resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateSystemAutomationStitch(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemAutomationStitch(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating SystemAutomationStitch resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateSystemAutomationStitch(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating SystemAutomationStitch resource: %v", err)
+		return fmt.Errorf("error creating SystemAutomationStitch resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -133,14 +148,24 @@ func resourceSystemAutomationStitchUpdate(d *schema.ResourceData, m interface{})
 		}
 	}
 
-	obj, err := getObjectSystemAutomationStitch(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SystemAutomationStitch resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSystemAutomationStitch(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemAutomationStitch(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SystemAutomationStitch resource: %v", err)
+		return fmt.Errorf("error updating SystemAutomationStitch resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSystemAutomationStitch(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SystemAutomationStitch resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -167,9 +192,17 @@ func resourceSystemAutomationStitchDelete(d *schema.ResourceData, m interface{})
 		}
 	}
 
-	err := c.DeleteSystemAutomationStitch(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSystemAutomationStitch(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SystemAutomationStitch resource: %v", err)
+		return fmt.Errorf("error deleting SystemAutomationStitch resource: %v", err)
 	}
 
 	d.SetId("")
@@ -191,9 +224,19 @@ func resourceSystemAutomationStitchRead(d *schema.ResourceData, m interface{}) e
 		}
 	}
 
-	o, err := c.ReadSystemAutomationStitch(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSystemAutomationStitch(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemAutomationStitch resource: %v", err)
+		return fmt.Errorf("error reading SystemAutomationStitch resource: %v", err)
 	}
 
 	if o == nil {
@@ -204,7 +247,7 @@ func resourceSystemAutomationStitchRead(d *schema.ResourceData, m interface{}) e
 
 	err = refreshObjectSystemAutomationStitch(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemAutomationStitch resource from API: %v", err)
+		return fmt.Errorf("error reading SystemAutomationStitch resource from API: %v", err)
 	}
 	return nil
 }
@@ -302,33 +345,33 @@ func refreshObjectSystemAutomationStitch(d *schema.ResourceData, o map[string]in
 
 	if err = d.Set("name", flattenSystemAutomationStitchName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("status", flattenSystemAutomationStitchStatus(o["status"], d, "status", sv)); err != nil {
 		if !fortiAPIPatch(o["status"]) {
-			return fmt.Errorf("Error reading status: %v", err)
+			return fmt.Errorf("error reading status: %v", err)
 		}
 	}
 
 	if err = d.Set("trigger", flattenSystemAutomationStitchTrigger(o["trigger"], d, "trigger", sv)); err != nil {
 		if !fortiAPIPatch(o["trigger"]) {
-			return fmt.Errorf("Error reading trigger: %v", err)
+			return fmt.Errorf("error reading trigger: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("action", flattenSystemAutomationStitchAction(o["action"], d, "action", sv)); err != nil {
 			if !fortiAPIPatch(o["action"]) {
-				return fmt.Errorf("Error reading action: %v", err)
+				return fmt.Errorf("error reading action: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("action"); ok {
 			if err = d.Set("action", flattenSystemAutomationStitchAction(o["action"], d, "action", sv)); err != nil {
 				if !fortiAPIPatch(o["action"]) {
-					return fmt.Errorf("Error reading action: %v", err)
+					return fmt.Errorf("error reading action: %v", err)
 				}
 			}
 		}
@@ -337,14 +380,14 @@ func refreshObjectSystemAutomationStitch(d *schema.ResourceData, o map[string]in
 	if isImportTable() {
 		if err = d.Set("destination", flattenSystemAutomationStitchDestination(o["destination"], d, "destination", sv)); err != nil {
 			if !fortiAPIPatch(o["destination"]) {
-				return fmt.Errorf("Error reading destination: %v", err)
+				return fmt.Errorf("error reading destination: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("destination"); ok {
 			if err = d.Set("destination", flattenSystemAutomationStitchDestination(o["destination"], d, "destination", sv)); err != nil {
 				if !fortiAPIPatch(o["destination"]) {
-					return fmt.Errorf("Error reading destination: %v", err)
+					return fmt.Errorf("error reading destination: %v", err)
 				}
 			}
 		}

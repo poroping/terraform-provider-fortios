@@ -30,77 +30,82 @@ func resourceWebfilterFortiguard() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"cache_mode": &schema.Schema{
+			"cache_mode": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"cache_prefix_match": &schema.Schema{
+			"cache_prefix_match": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"cache_mem_percent": &schema.Schema{
+			"cache_mem_percent": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 15),
 				Optional:     true,
 				Computed:     true,
 			},
-			"ovrd_auth_port_http": &schema.Schema{
+			"ovrd_auth_port_http": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"ovrd_auth_port_https": &schema.Schema{
+			"ovrd_auth_port_https": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"ovrd_auth_port_https_flow": &schema.Schema{
+			"ovrd_auth_port_https_flow": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"ovrd_auth_port_warning": &schema.Schema{
+			"ovrd_auth_port_warning": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"ovrd_auth_https": &schema.Schema{
+			"ovrd_auth_https": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"warn_auth_https": &schema.Schema{
+			"warn_auth_https": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"close_ports": &schema.Schema{
+			"close_ports": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"request_packet_size_limit": &schema.Schema{
+			"request_packet_size_limit": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(576, 10000),
 				Optional:     true,
 				Computed:     true,
 			},
-			"ovrd_auth_port": &schema.Schema{
+			"ovrd_auth_port": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 65535),
 				Optional:     true,
 				Computed:     true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -119,14 +124,24 @@ func resourceWebfilterFortiguardUpdate(d *schema.ResourceData, m interface{}) er
 		}
 	}
 
-	obj, err := getObjectWebfilterFortiguard(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating WebfilterFortiguard resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateWebfilterFortiguard(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectWebfilterFortiguard(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating WebfilterFortiguard resource: %v", err)
+		return fmt.Errorf("error updating WebfilterFortiguard resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateWebfilterFortiguard(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating WebfilterFortiguard resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -153,9 +168,17 @@ func resourceWebfilterFortiguardDelete(d *schema.ResourceData, m interface{}) er
 		}
 	}
 
-	err := c.DeleteWebfilterFortiguard(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteWebfilterFortiguard(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting WebfilterFortiguard resource: %v", err)
+		return fmt.Errorf("error deleting WebfilterFortiguard resource: %v", err)
 	}
 
 	d.SetId("")
@@ -177,9 +200,19 @@ func resourceWebfilterFortiguardRead(d *schema.ResourceData, m interface{}) erro
 		}
 	}
 
-	o, err := c.ReadWebfilterFortiguard(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadWebfilterFortiguard(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading WebfilterFortiguard resource: %v", err)
+		return fmt.Errorf("error reading WebfilterFortiguard resource: %v", err)
 	}
 
 	if o == nil {
@@ -190,7 +223,7 @@ func resourceWebfilterFortiguardRead(d *schema.ResourceData, m interface{}) erro
 
 	err = refreshObjectWebfilterFortiguard(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading WebfilterFortiguard resource from API: %v", err)
+		return fmt.Errorf("error reading WebfilterFortiguard resource from API: %v", err)
 	}
 	return nil
 }
@@ -248,73 +281,73 @@ func refreshObjectWebfilterFortiguard(d *schema.ResourceData, o map[string]inter
 
 	if err = d.Set("cache_mode", flattenWebfilterFortiguardCacheMode(o["cache-mode"], d, "cache_mode", sv)); err != nil {
 		if !fortiAPIPatch(o["cache-mode"]) {
-			return fmt.Errorf("Error reading cache_mode: %v", err)
+			return fmt.Errorf("error reading cache_mode: %v", err)
 		}
 	}
 
 	if err = d.Set("cache_prefix_match", flattenWebfilterFortiguardCachePrefixMatch(o["cache-prefix-match"], d, "cache_prefix_match", sv)); err != nil {
 		if !fortiAPIPatch(o["cache-prefix-match"]) {
-			return fmt.Errorf("Error reading cache_prefix_match: %v", err)
+			return fmt.Errorf("error reading cache_prefix_match: %v", err)
 		}
 	}
 
 	if err = d.Set("cache_mem_percent", flattenWebfilterFortiguardCacheMemPercent(o["cache-mem-percent"], d, "cache_mem_percent", sv)); err != nil {
 		if !fortiAPIPatch(o["cache-mem-percent"]) {
-			return fmt.Errorf("Error reading cache_mem_percent: %v", err)
+			return fmt.Errorf("error reading cache_mem_percent: %v", err)
 		}
 	}
 
 	if err = d.Set("ovrd_auth_port_http", flattenWebfilterFortiguardOvrdAuthPortHttp(o["ovrd-auth-port-http"], d, "ovrd_auth_port_http", sv)); err != nil {
 		if !fortiAPIPatch(o["ovrd-auth-port-http"]) {
-			return fmt.Errorf("Error reading ovrd_auth_port_http: %v", err)
+			return fmt.Errorf("error reading ovrd_auth_port_http: %v", err)
 		}
 	}
 
 	if err = d.Set("ovrd_auth_port_https", flattenWebfilterFortiguardOvrdAuthPortHttps(o["ovrd-auth-port-https"], d, "ovrd_auth_port_https", sv)); err != nil {
 		if !fortiAPIPatch(o["ovrd-auth-port-https"]) {
-			return fmt.Errorf("Error reading ovrd_auth_port_https: %v", err)
+			return fmt.Errorf("error reading ovrd_auth_port_https: %v", err)
 		}
 	}
 
 	if err = d.Set("ovrd_auth_port_https_flow", flattenWebfilterFortiguardOvrdAuthPortHttpsFlow(o["ovrd-auth-port-https-flow"], d, "ovrd_auth_port_https_flow", sv)); err != nil {
 		if !fortiAPIPatch(o["ovrd-auth-port-https-flow"]) {
-			return fmt.Errorf("Error reading ovrd_auth_port_https_flow: %v", err)
+			return fmt.Errorf("error reading ovrd_auth_port_https_flow: %v", err)
 		}
 	}
 
 	if err = d.Set("ovrd_auth_port_warning", flattenWebfilterFortiguardOvrdAuthPortWarning(o["ovrd-auth-port-warning"], d, "ovrd_auth_port_warning", sv)); err != nil {
 		if !fortiAPIPatch(o["ovrd-auth-port-warning"]) {
-			return fmt.Errorf("Error reading ovrd_auth_port_warning: %v", err)
+			return fmt.Errorf("error reading ovrd_auth_port_warning: %v", err)
 		}
 	}
 
 	if err = d.Set("ovrd_auth_https", flattenWebfilterFortiguardOvrdAuthHttps(o["ovrd-auth-https"], d, "ovrd_auth_https", sv)); err != nil {
 		if !fortiAPIPatch(o["ovrd-auth-https"]) {
-			return fmt.Errorf("Error reading ovrd_auth_https: %v", err)
+			return fmt.Errorf("error reading ovrd_auth_https: %v", err)
 		}
 	}
 
 	if err = d.Set("warn_auth_https", flattenWebfilterFortiguardWarnAuthHttps(o["warn-auth-https"], d, "warn_auth_https", sv)); err != nil {
 		if !fortiAPIPatch(o["warn-auth-https"]) {
-			return fmt.Errorf("Error reading warn_auth_https: %v", err)
+			return fmt.Errorf("error reading warn_auth_https: %v", err)
 		}
 	}
 
 	if err = d.Set("close_ports", flattenWebfilterFortiguardClosePorts(o["close-ports"], d, "close_ports", sv)); err != nil {
 		if !fortiAPIPatch(o["close-ports"]) {
-			return fmt.Errorf("Error reading close_ports: %v", err)
+			return fmt.Errorf("error reading close_ports: %v", err)
 		}
 	}
 
 	if err = d.Set("request_packet_size_limit", flattenWebfilterFortiguardRequestPacketSizeLimit(o["request-packet-size-limit"], d, "request_packet_size_limit", sv)); err != nil {
 		if !fortiAPIPatch(o["request-packet-size-limit"]) {
-			return fmt.Errorf("Error reading request_packet_size_limit: %v", err)
+			return fmt.Errorf("error reading request_packet_size_limit: %v", err)
 		}
 	}
 
 	if err = d.Set("ovrd_auth_port", flattenWebfilterFortiguardOvrdAuthPort(o["ovrd-auth-port"], d, "ovrd_auth_port", sv)); err != nil {
 		if !fortiAPIPatch(o["ovrd-auth-port"]) {
-			return fmt.Errorf("Error reading ovrd_auth_port: %v", err)
+			return fmt.Errorf("error reading ovrd_auth_port: %v", err)
 		}
 	}
 

@@ -50,14 +50,14 @@ func testAccCheckFortiOSEndpointControlForticlientRegistrationSyncExists(n strin
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadEndpointControlForticlientRegistrationSync(i, "root")
+		o, err := c.ReadEndpointControlForticlientRegistrationSync(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading EndpointControlForticlientRegistrationSync: %s", err)
+			return fmt.Errorf("error reading EndpointControlForticlientRegistrationSync: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating EndpointControlForticlientRegistrationSync: %s", n)
+			return fmt.Errorf("error creating EndpointControlForticlientRegistrationSync: %s", n)
 		}
 
 		return nil
@@ -73,11 +73,11 @@ func testAccCheckEndpointControlForticlientRegistrationSyncDestroy(s *terraform.
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadEndpointControlForticlientRegistrationSync(i, "root")
+		o, err := c.ReadEndpointControlForticlientRegistrationSync(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error EndpointControlForticlientRegistrationSync %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error EndpointControlForticlientRegistrationSync %s still exists", rs.Primary.ID)
 			}
 		}
 

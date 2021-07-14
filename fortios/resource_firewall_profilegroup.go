@@ -30,111 +30,116 @@ func resourceFirewallProfileGroup() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Required:     true,
 			},
-			"av_profile": &schema.Schema{
+			"av_profile": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"webfilter_profile": &schema.Schema{
+			"webfilter_profile": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"dnsfilter_profile": &schema.Schema{
+			"dnsfilter_profile": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"emailfilter_profile": &schema.Schema{
+			"emailfilter_profile": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"spamfilter_profile": &schema.Schema{
+			"spamfilter_profile": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"dlp_sensor": &schema.Schema{
+			"dlp_sensor": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"file_filter_profile": &schema.Schema{
+			"file_filter_profile": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"ips_sensor": &schema.Schema{
+			"ips_sensor": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"application_list": &schema.Schema{
+			"application_list": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"voip_profile": &schema.Schema{
+			"voip_profile": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"icap_profile": &schema.Schema{
+			"icap_profile": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"cifs_profile": &schema.Schema{
+			"cifs_profile": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"waf_profile": &schema.Schema{
+			"waf_profile": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"ssh_filter_profile": &schema.Schema{
+			"ssh_filter_profile": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"profile_protocol_options": &schema.Schema{
+			"profile_protocol_options": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"ssl_ssh_profile": &schema.Schema{
+			"ssl_ssh_profile": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -152,15 +157,25 @@ func resourceFirewallProfileGroupCreate(d *schema.ResourceData, m interface{}) e
 		}
 	}
 
-	obj, err := getObjectFirewallProfileGroup(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating FirewallProfileGroup resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateFirewallProfileGroup(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectFirewallProfileGroup(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating FirewallProfileGroup resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateFirewallProfileGroup(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating FirewallProfileGroup resource: %v", err)
+		return fmt.Errorf("error creating FirewallProfileGroup resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -185,14 +200,24 @@ func resourceFirewallProfileGroupUpdate(d *schema.ResourceData, m interface{}) e
 		}
 	}
 
-	obj, err := getObjectFirewallProfileGroup(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating FirewallProfileGroup resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateFirewallProfileGroup(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectFirewallProfileGroup(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating FirewallProfileGroup resource: %v", err)
+		return fmt.Errorf("error updating FirewallProfileGroup resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateFirewallProfileGroup(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating FirewallProfileGroup resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -219,9 +244,17 @@ func resourceFirewallProfileGroupDelete(d *schema.ResourceData, m interface{}) e
 		}
 	}
 
-	err := c.DeleteFirewallProfileGroup(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteFirewallProfileGroup(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting FirewallProfileGroup resource: %v", err)
+		return fmt.Errorf("error deleting FirewallProfileGroup resource: %v", err)
 	}
 
 	d.SetId("")
@@ -243,9 +276,19 @@ func resourceFirewallProfileGroupRead(d *schema.ResourceData, m interface{}) err
 		}
 	}
 
-	o, err := c.ReadFirewallProfileGroup(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadFirewallProfileGroup(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading FirewallProfileGroup resource: %v", err)
+		return fmt.Errorf("error reading FirewallProfileGroup resource: %v", err)
 	}
 
 	if o == nil {
@@ -256,7 +299,7 @@ func resourceFirewallProfileGroupRead(d *schema.ResourceData, m interface{}) err
 
 	err = refreshObjectFirewallProfileGroup(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading FirewallProfileGroup resource from API: %v", err)
+		return fmt.Errorf("error reading FirewallProfileGroup resource from API: %v", err)
 	}
 	return nil
 }
@@ -334,103 +377,103 @@ func refreshObjectFirewallProfileGroup(d *schema.ResourceData, o map[string]inte
 
 	if err = d.Set("name", flattenFirewallProfileGroupName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("av_profile", flattenFirewallProfileGroupAvProfile(o["av-profile"], d, "av_profile", sv)); err != nil {
 		if !fortiAPIPatch(o["av-profile"]) {
-			return fmt.Errorf("Error reading av_profile: %v", err)
+			return fmt.Errorf("error reading av_profile: %v", err)
 		}
 	}
 
 	if err = d.Set("webfilter_profile", flattenFirewallProfileGroupWebfilterProfile(o["webfilter-profile"], d, "webfilter_profile", sv)); err != nil {
 		if !fortiAPIPatch(o["webfilter-profile"]) {
-			return fmt.Errorf("Error reading webfilter_profile: %v", err)
+			return fmt.Errorf("error reading webfilter_profile: %v", err)
 		}
 	}
 
 	if err = d.Set("dnsfilter_profile", flattenFirewallProfileGroupDnsfilterProfile(o["dnsfilter-profile"], d, "dnsfilter_profile", sv)); err != nil {
 		if !fortiAPIPatch(o["dnsfilter-profile"]) {
-			return fmt.Errorf("Error reading dnsfilter_profile: %v", err)
+			return fmt.Errorf("error reading dnsfilter_profile: %v", err)
 		}
 	}
 
 	if err = d.Set("emailfilter_profile", flattenFirewallProfileGroupEmailfilterProfile(o["emailfilter-profile"], d, "emailfilter_profile", sv)); err != nil {
 		if !fortiAPIPatch(o["emailfilter-profile"]) {
-			return fmt.Errorf("Error reading emailfilter_profile: %v", err)
+			return fmt.Errorf("error reading emailfilter_profile: %v", err)
 		}
 	}
 
 	if err = d.Set("spamfilter_profile", flattenFirewallProfileGroupSpamfilterProfile(o["spamfilter-profile"], d, "spamfilter_profile", sv)); err != nil {
 		if !fortiAPIPatch(o["spamfilter-profile"]) {
-			return fmt.Errorf("Error reading spamfilter_profile: %v", err)
+			return fmt.Errorf("error reading spamfilter_profile: %v", err)
 		}
 	}
 
 	if err = d.Set("dlp_sensor", flattenFirewallProfileGroupDlpSensor(o["dlp-sensor"], d, "dlp_sensor", sv)); err != nil {
 		if !fortiAPIPatch(o["dlp-sensor"]) {
-			return fmt.Errorf("Error reading dlp_sensor: %v", err)
+			return fmt.Errorf("error reading dlp_sensor: %v", err)
 		}
 	}
 
 	if err = d.Set("file_filter_profile", flattenFirewallProfileGroupFileFilterProfile(o["file-filter-profile"], d, "file_filter_profile", sv)); err != nil {
 		if !fortiAPIPatch(o["file-filter-profile"]) {
-			return fmt.Errorf("Error reading file_filter_profile: %v", err)
+			return fmt.Errorf("error reading file_filter_profile: %v", err)
 		}
 	}
 
 	if err = d.Set("ips_sensor", flattenFirewallProfileGroupIpsSensor(o["ips-sensor"], d, "ips_sensor", sv)); err != nil {
 		if !fortiAPIPatch(o["ips-sensor"]) {
-			return fmt.Errorf("Error reading ips_sensor: %v", err)
+			return fmt.Errorf("error reading ips_sensor: %v", err)
 		}
 	}
 
 	if err = d.Set("application_list", flattenFirewallProfileGroupApplicationList(o["application-list"], d, "application_list", sv)); err != nil {
 		if !fortiAPIPatch(o["application-list"]) {
-			return fmt.Errorf("Error reading application_list: %v", err)
+			return fmt.Errorf("error reading application_list: %v", err)
 		}
 	}
 
 	if err = d.Set("voip_profile", flattenFirewallProfileGroupVoipProfile(o["voip-profile"], d, "voip_profile", sv)); err != nil {
 		if !fortiAPIPatch(o["voip-profile"]) {
-			return fmt.Errorf("Error reading voip_profile: %v", err)
+			return fmt.Errorf("error reading voip_profile: %v", err)
 		}
 	}
 
 	if err = d.Set("icap_profile", flattenFirewallProfileGroupIcapProfile(o["icap-profile"], d, "icap_profile", sv)); err != nil {
 		if !fortiAPIPatch(o["icap-profile"]) {
-			return fmt.Errorf("Error reading icap_profile: %v", err)
+			return fmt.Errorf("error reading icap_profile: %v", err)
 		}
 	}
 
 	if err = d.Set("cifs_profile", flattenFirewallProfileGroupCifsProfile(o["cifs-profile"], d, "cifs_profile", sv)); err != nil {
 		if !fortiAPIPatch(o["cifs-profile"]) {
-			return fmt.Errorf("Error reading cifs_profile: %v", err)
+			return fmt.Errorf("error reading cifs_profile: %v", err)
 		}
 	}
 
 	if err = d.Set("waf_profile", flattenFirewallProfileGroupWafProfile(o["waf-profile"], d, "waf_profile", sv)); err != nil {
 		if !fortiAPIPatch(o["waf-profile"]) {
-			return fmt.Errorf("Error reading waf_profile: %v", err)
+			return fmt.Errorf("error reading waf_profile: %v", err)
 		}
 	}
 
 	if err = d.Set("ssh_filter_profile", flattenFirewallProfileGroupSshFilterProfile(o["ssh-filter-profile"], d, "ssh_filter_profile", sv)); err != nil {
 		if !fortiAPIPatch(o["ssh-filter-profile"]) {
-			return fmt.Errorf("Error reading ssh_filter_profile: %v", err)
+			return fmt.Errorf("error reading ssh_filter_profile: %v", err)
 		}
 	}
 
 	if err = d.Set("profile_protocol_options", flattenFirewallProfileGroupProfileProtocolOptions(o["profile-protocol-options"], d, "profile_protocol_options", sv)); err != nil {
 		if !fortiAPIPatch(o["profile-protocol-options"]) {
-			return fmt.Errorf("Error reading profile_protocol_options: %v", err)
+			return fmt.Errorf("error reading profile_protocol_options: %v", err)
 		}
 	}
 
 	if err = d.Set("ssl_ssh_profile", flattenFirewallProfileGroupSslSshProfile(o["ssl-ssh-profile"], d, "ssl_ssh_profile", sv)); err != nil {
 		if !fortiAPIPatch(o["ssl-ssh-profile"]) {
-			return fmt.Errorf("Error reading ssl_ssh_profile: %v", err)
+			return fmt.Errorf("error reading ssl_ssh_profile: %v", err)
 		}
 	}
 

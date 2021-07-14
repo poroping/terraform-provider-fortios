@@ -21,128 +21,128 @@ func dataSourceRouterOspf6() *schema.Resource {
 	return &schema.Resource{
 		Read: dataSourceRouterOspf6Read,
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
 
-			"abr_type": &schema.Schema{
+			"abr_type": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"auto_cost_ref_bandwidth": &schema.Schema{
+			"auto_cost_ref_bandwidth": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"default_information_originate": &schema.Schema{
+			"default_information_originate": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"log_neighbour_changes": &schema.Schema{
+			"log_neighbour_changes": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"default_information_metric": &schema.Schema{
+			"default_information_metric": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"default_information_metric_type": &schema.Schema{
+			"default_information_metric_type": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"default_information_route_map": &schema.Schema{
+			"default_information_route_map": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"default_metric": &schema.Schema{
+			"default_metric": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"router_id": &schema.Schema{
+			"router_id": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"spf_timers": &schema.Schema{
+			"spf_timers": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"bfd": &schema.Schema{
+			"bfd": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"area": &schema.Schema{
+			"area": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"default_cost": &schema.Schema{
+						"default_cost": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"nssa_translator_role": &schema.Schema{
+						"nssa_translator_role": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"stub_type": &schema.Schema{
+						"stub_type": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"type": &schema.Schema{
+						"type": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"nssa_default_information_originate": &schema.Schema{
+						"nssa_default_information_originate": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"nssa_default_information_originate_metric": &schema.Schema{
+						"nssa_default_information_originate_metric": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"nssa_default_information_originate_metric_type": &schema.Schema{
+						"nssa_default_information_originate_metric_type": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"nssa_redistribution": &schema.Schema{
+						"nssa_redistribution": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"authentication": &schema.Schema{
+						"authentication": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"key_rollover_interval": &schema.Schema{
+						"key_rollover_interval": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"ipsec_auth_alg": &schema.Schema{
+						"ipsec_auth_alg": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"ipsec_enc_alg": &schema.Schema{
+						"ipsec_enc_alg": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"ipsec_keys": &schema.Schema{
+						"ipsec_keys": {
 							Type:     schema.TypeList,
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"spi": &schema.Schema{
+									"spi": {
 										Type:     schema.TypeInt,
 										Computed: true,
 									},
-									"auth_key": &schema.Schema{
+									"auth_key": {
 										Type:      schema.TypeString,
 										Sensitive: true,
 										Computed:  true,
 									},
-									"enc_key": &schema.Schema{
+									"enc_key": {
 										Type:      schema.TypeString,
 										Sensitive: true,
 										Computed:  true,
@@ -150,86 +150,86 @@ func dataSourceRouterOspf6() *schema.Resource {
 								},
 							},
 						},
-						"range": &schema.Schema{
+						"range": {
 							Type:     schema.TypeList,
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"id": &schema.Schema{
+									"id": {
 										Type:     schema.TypeInt,
 										Computed: true,
 									},
-									"prefix6": &schema.Schema{
+									"prefix6": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
-									"advertise": &schema.Schema{
+									"advertise": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
 								},
 							},
 						},
-						"virtual_link": &schema.Schema{
+						"virtual_link": {
 							Type:     schema.TypeList,
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"name": &schema.Schema{
+									"name": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
-									"dead_interval": &schema.Schema{
+									"dead_interval": {
 										Type:     schema.TypeInt,
 										Computed: true,
 									},
-									"hello_interval": &schema.Schema{
+									"hello_interval": {
 										Type:     schema.TypeInt,
 										Computed: true,
 									},
-									"retransmit_interval": &schema.Schema{
+									"retransmit_interval": {
 										Type:     schema.TypeInt,
 										Computed: true,
 									},
-									"transmit_delay": &schema.Schema{
+									"transmit_delay": {
 										Type:     schema.TypeInt,
 										Computed: true,
 									},
-									"peer": &schema.Schema{
+									"peer": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
-									"authentication": &schema.Schema{
+									"authentication": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
-									"key_rollover_interval": &schema.Schema{
+									"key_rollover_interval": {
 										Type:     schema.TypeInt,
 										Computed: true,
 									},
-									"ipsec_auth_alg": &schema.Schema{
+									"ipsec_auth_alg": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
-									"ipsec_enc_alg": &schema.Schema{
+									"ipsec_enc_alg": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
-									"ipsec_keys": &schema.Schema{
+									"ipsec_keys": {
 										Type:     schema.TypeList,
 										Computed: true,
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
-												"spi": &schema.Schema{
+												"spi": {
 													Type:     schema.TypeInt,
 													Computed: true,
 												},
-												"auth_key": &schema.Schema{
+												"auth_key": {
 													Type:      schema.TypeString,
 													Sensitive: true,
 													Computed:  true,
 												},
-												"enc_key": &schema.Schema{
+												"enc_key": {
 													Type:      schema.TypeString,
 													Sensitive: true,
 													Computed:  true,
@@ -243,98 +243,98 @@ func dataSourceRouterOspf6() *schema.Resource {
 					},
 				},
 			},
-			"ospf6_interface": &schema.Schema{
+			"ospf6_interface": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"area_id": &schema.Schema{
+						"area_id": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"interface": &schema.Schema{
+						"interface": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"retransmit_interval": &schema.Schema{
+						"retransmit_interval": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"transmit_delay": &schema.Schema{
+						"transmit_delay": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"cost": &schema.Schema{
+						"cost": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"priority": &schema.Schema{
+						"priority": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"dead_interval": &schema.Schema{
+						"dead_interval": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"hello_interval": &schema.Schema{
+						"hello_interval": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"status": &schema.Schema{
+						"status": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"network_type": &schema.Schema{
+						"network_type": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"bfd": &schema.Schema{
+						"bfd": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"mtu": &schema.Schema{
+						"mtu": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"mtu_ignore": &schema.Schema{
+						"mtu_ignore": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"authentication": &schema.Schema{
+						"authentication": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"key_rollover_interval": &schema.Schema{
+						"key_rollover_interval": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"ipsec_auth_alg": &schema.Schema{
+						"ipsec_auth_alg": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"ipsec_enc_alg": &schema.Schema{
+						"ipsec_enc_alg": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"ipsec_keys": &schema.Schema{
+						"ipsec_keys": {
 							Type:     schema.TypeList,
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"spi": &schema.Schema{
+									"spi": {
 										Type:     schema.TypeInt,
 										Computed: true,
 									},
-									"auth_key": &schema.Schema{
+									"auth_key": {
 										Type:      schema.TypeString,
 										Sensitive: true,
 										Computed:  true,
 									},
-									"enc_key": &schema.Schema{
+									"enc_key": {
 										Type:      schema.TypeString,
 										Sensitive: true,
 										Computed:  true,
@@ -342,24 +342,24 @@ func dataSourceRouterOspf6() *schema.Resource {
 								},
 							},
 						},
-						"neighbor": &schema.Schema{
+						"neighbor": {
 							Type:     schema.TypeList,
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"ip6": &schema.Schema{
+									"ip6": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
-									"poll_interval": &schema.Schema{
+									"poll_interval": {
 										Type:     schema.TypeInt,
 										Computed: true,
 									},
-									"cost": &schema.Schema{
+									"cost": {
 										Type:     schema.TypeInt,
 										Computed: true,
 									},
-									"priority": &schema.Schema{
+									"priority": {
 										Type:     schema.TypeInt,
 										Computed: true,
 									},
@@ -369,64 +369,64 @@ func dataSourceRouterOspf6() *schema.Resource {
 					},
 				},
 			},
-			"redistribute": &schema.Schema{
+			"redistribute": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"status": &schema.Schema{
+						"status": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"metric": &schema.Schema{
+						"metric": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"routemap": &schema.Schema{
+						"routemap": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"metric_type": &schema.Schema{
+						"metric_type": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 					},
 				},
 			},
-			"passive_interface": &schema.Schema{
+			"passive_interface": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 					},
 				},
 			},
-			"summary_address": &schema.Schema{
+			"summary_address": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"prefix6": &schema.Schema{
+						"prefix6": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"advertise": &schema.Schema{
+						"advertise": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"tag": &schema.Schema{
+						"tag": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
@@ -451,9 +451,9 @@ func dataSourceRouterOspf6Read(d *schema.ResourceData, m interface{}) error {
 
 	mkey := "RouterOspf6"
 
-	o, err := c.ReadRouterOspf6(mkey, vdomparam)
+	o, err := c.ReadRouterOspf6(mkey, vdomparam, make(map[string][]string), 0)
 	if err != nil {
-		return fmt.Errorf("Error describing RouterOspf6: %v", err)
+		return fmt.Errorf("error describing RouterOspf6: %v", err)
 	}
 
 	if o == nil {
@@ -463,7 +463,7 @@ func dataSourceRouterOspf6Read(d *schema.ResourceData, m interface{}) error {
 
 	err = dataSourceRefreshObjectRouterOspf6(d, o)
 	if err != nil {
-		return fmt.Errorf("Error describing RouterOspf6 from API: %v", err)
+		return fmt.Errorf("error describing RouterOspf6 from API: %v", err)
 	}
 
 	d.SetId(mkey)
@@ -1474,97 +1474,97 @@ func dataSourceRefreshObjectRouterOspf6(d *schema.ResourceData, o map[string]int
 
 	if err = d.Set("abr_type", dataSourceFlattenRouterOspf6AbrType(o["abr-type"], d, "abr_type")); err != nil {
 		if !fortiAPIPatch(o["abr-type"]) {
-			return fmt.Errorf("Error reading abr_type: %v", err)
+			return fmt.Errorf("error reading abr_type: %v", err)
 		}
 	}
 
 	if err = d.Set("auto_cost_ref_bandwidth", dataSourceFlattenRouterOspf6AutoCostRefBandwidth(o["auto-cost-ref-bandwidth"], d, "auto_cost_ref_bandwidth")); err != nil {
 		if !fortiAPIPatch(o["auto-cost-ref-bandwidth"]) {
-			return fmt.Errorf("Error reading auto_cost_ref_bandwidth: %v", err)
+			return fmt.Errorf("error reading auto_cost_ref_bandwidth: %v", err)
 		}
 	}
 
 	if err = d.Set("default_information_originate", dataSourceFlattenRouterOspf6DefaultInformationOriginate(o["default-information-originate"], d, "default_information_originate")); err != nil {
 		if !fortiAPIPatch(o["default-information-originate"]) {
-			return fmt.Errorf("Error reading default_information_originate: %v", err)
+			return fmt.Errorf("error reading default_information_originate: %v", err)
 		}
 	}
 
 	if err = d.Set("log_neighbour_changes", dataSourceFlattenRouterOspf6LogNeighbourChanges(o["log-neighbour-changes"], d, "log_neighbour_changes")); err != nil {
 		if !fortiAPIPatch(o["log-neighbour-changes"]) {
-			return fmt.Errorf("Error reading log_neighbour_changes: %v", err)
+			return fmt.Errorf("error reading log_neighbour_changes: %v", err)
 		}
 	}
 
 	if err = d.Set("default_information_metric", dataSourceFlattenRouterOspf6DefaultInformationMetric(o["default-information-metric"], d, "default_information_metric")); err != nil {
 		if !fortiAPIPatch(o["default-information-metric"]) {
-			return fmt.Errorf("Error reading default_information_metric: %v", err)
+			return fmt.Errorf("error reading default_information_metric: %v", err)
 		}
 	}
 
 	if err = d.Set("default_information_metric_type", dataSourceFlattenRouterOspf6DefaultInformationMetricType(o["default-information-metric-type"], d, "default_information_metric_type")); err != nil {
 		if !fortiAPIPatch(o["default-information-metric-type"]) {
-			return fmt.Errorf("Error reading default_information_metric_type: %v", err)
+			return fmt.Errorf("error reading default_information_metric_type: %v", err)
 		}
 	}
 
 	if err = d.Set("default_information_route_map", dataSourceFlattenRouterOspf6DefaultInformationRouteMap(o["default-information-route-map"], d, "default_information_route_map")); err != nil {
 		if !fortiAPIPatch(o["default-information-route-map"]) {
-			return fmt.Errorf("Error reading default_information_route_map: %v", err)
+			return fmt.Errorf("error reading default_information_route_map: %v", err)
 		}
 	}
 
 	if err = d.Set("default_metric", dataSourceFlattenRouterOspf6DefaultMetric(o["default-metric"], d, "default_metric")); err != nil {
 		if !fortiAPIPatch(o["default-metric"]) {
-			return fmt.Errorf("Error reading default_metric: %v", err)
+			return fmt.Errorf("error reading default_metric: %v", err)
 		}
 	}
 
 	if err = d.Set("router_id", dataSourceFlattenRouterOspf6RouterId(o["router-id"], d, "router_id")); err != nil {
 		if !fortiAPIPatch(o["router-id"]) {
-			return fmt.Errorf("Error reading router_id: %v", err)
+			return fmt.Errorf("error reading router_id: %v", err)
 		}
 	}
 
 	if err = d.Set("spf_timers", dataSourceFlattenRouterOspf6SpfTimers(o["spf-timers"], d, "spf_timers")); err != nil {
 		if !fortiAPIPatch(o["spf-timers"]) {
-			return fmt.Errorf("Error reading spf_timers: %v", err)
+			return fmt.Errorf("error reading spf_timers: %v", err)
 		}
 	}
 
 	if err = d.Set("bfd", dataSourceFlattenRouterOspf6Bfd(o["bfd"], d, "bfd")); err != nil {
 		if !fortiAPIPatch(o["bfd"]) {
-			return fmt.Errorf("Error reading bfd: %v", err)
+			return fmt.Errorf("error reading bfd: %v", err)
 		}
 	}
 
 	if err = d.Set("area", dataSourceFlattenRouterOspf6Area(o["area"], d, "area")); err != nil {
 		if !fortiAPIPatch(o["area"]) {
-			return fmt.Errorf("Error reading area: %v", err)
+			return fmt.Errorf("error reading area: %v", err)
 		}
 	}
 
 	if err = d.Set("ospf6_interface", dataSourceFlattenRouterOspf6Ospf6Interface(o["ospf6-interface"], d, "ospf6_interface")); err != nil {
 		if !fortiAPIPatch(o["ospf6-interface"]) {
-			return fmt.Errorf("Error reading ospf6_interface: %v", err)
+			return fmt.Errorf("error reading ospf6_interface: %v", err)
 		}
 	}
 
 	if err = d.Set("redistribute", dataSourceFlattenRouterOspf6Redistribute(o["redistribute"], d, "redistribute")); err != nil {
 		if !fortiAPIPatch(o["redistribute"]) {
-			return fmt.Errorf("Error reading redistribute: %v", err)
+			return fmt.Errorf("error reading redistribute: %v", err)
 		}
 	}
 
 	if err = d.Set("passive_interface", dataSourceFlattenRouterOspf6PassiveInterface(o["passive-interface"], d, "passive_interface")); err != nil {
 		if !fortiAPIPatch(o["passive-interface"]) {
-			return fmt.Errorf("Error reading passive_interface: %v", err)
+			return fmt.Errorf("error reading passive_interface: %v", err)
 		}
 	}
 
 	if err = d.Set("summary_address", dataSourceFlattenRouterOspf6SummaryAddress(o["summary-address"], d, "summary_address")); err != nil {
 		if !fortiAPIPatch(o["summary-address"]) {
-			return fmt.Errorf("Error reading summary_address: %v", err)
+			return fmt.Errorf("error reading summary_address: %v", err)
 		}
 	}
 

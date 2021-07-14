@@ -30,67 +30,72 @@ func resourceSwitchControllerNacDevice() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"fosid": &schema.Schema{
+			"fosid": {
 				Type:     schema.TypeInt,
 				ForceNew: true,
 				Optional: true,
 				Computed: true,
 			},
-			"description": &schema.Schema{
+			"description": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 127),
 				Optional:     true,
 				Computed:     true,
 			},
-			"status": &schema.Schema{
+			"status": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"mac": &schema.Schema{
+			"mac": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"last_known_switch": &schema.Schema{
+			"last_known_switch": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"last_known_port": &schema.Schema{
+			"last_known_port": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"matched_nac_policy": &schema.Schema{
+			"matched_nac_policy": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"port_policy": &schema.Schema{
+			"port_policy": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"mac_policy": &schema.Schema{
+			"mac_policy": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"last_seen": &schema.Schema{
+			"last_seen": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -108,15 +113,25 @@ func resourceSwitchControllerNacDeviceCreate(d *schema.ResourceData, m interface
 		}
 	}
 
-	obj, err := getObjectSwitchControllerNacDevice(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating SwitchControllerNacDevice resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateSwitchControllerNacDevice(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSwitchControllerNacDevice(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating SwitchControllerNacDevice resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateSwitchControllerNacDevice(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating SwitchControllerNacDevice resource: %v", err)
+		return fmt.Errorf("error creating SwitchControllerNacDevice resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -141,14 +156,24 @@ func resourceSwitchControllerNacDeviceUpdate(d *schema.ResourceData, m interface
 		}
 	}
 
-	obj, err := getObjectSwitchControllerNacDevice(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SwitchControllerNacDevice resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSwitchControllerNacDevice(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSwitchControllerNacDevice(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SwitchControllerNacDevice resource: %v", err)
+		return fmt.Errorf("error updating SwitchControllerNacDevice resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSwitchControllerNacDevice(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SwitchControllerNacDevice resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -175,9 +200,17 @@ func resourceSwitchControllerNacDeviceDelete(d *schema.ResourceData, m interface
 		}
 	}
 
-	err := c.DeleteSwitchControllerNacDevice(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSwitchControllerNacDevice(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SwitchControllerNacDevice resource: %v", err)
+		return fmt.Errorf("error deleting SwitchControllerNacDevice resource: %v", err)
 	}
 
 	d.SetId("")
@@ -199,9 +232,19 @@ func resourceSwitchControllerNacDeviceRead(d *schema.ResourceData, m interface{}
 		}
 	}
 
-	o, err := c.ReadSwitchControllerNacDevice(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSwitchControllerNacDevice(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SwitchControllerNacDevice resource: %v", err)
+		return fmt.Errorf("error reading SwitchControllerNacDevice resource: %v", err)
 	}
 
 	if o == nil {
@@ -212,7 +255,7 @@ func resourceSwitchControllerNacDeviceRead(d *schema.ResourceData, m interface{}
 
 	err = refreshObjectSwitchControllerNacDevice(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SwitchControllerNacDevice resource from API: %v", err)
+		return fmt.Errorf("error reading SwitchControllerNacDevice resource from API: %v", err)
 	}
 	return nil
 }
@@ -262,61 +305,61 @@ func refreshObjectSwitchControllerNacDevice(d *schema.ResourceData, o map[string
 
 	if err = d.Set("fosid", flattenSwitchControllerNacDeviceId(o["id"], d, "fosid", sv)); err != nil {
 		if !fortiAPIPatch(o["id"]) {
-			return fmt.Errorf("Error reading fosid: %v", err)
+			return fmt.Errorf("error reading fosid: %v", err)
 		}
 	}
 
 	if err = d.Set("description", flattenSwitchControllerNacDeviceDescription(o["description"], d, "description", sv)); err != nil {
 		if !fortiAPIPatch(o["description"]) {
-			return fmt.Errorf("Error reading description: %v", err)
+			return fmt.Errorf("error reading description: %v", err)
 		}
 	}
 
 	if err = d.Set("status", flattenSwitchControllerNacDeviceStatus(o["status"], d, "status", sv)); err != nil {
 		if !fortiAPIPatch(o["status"]) {
-			return fmt.Errorf("Error reading status: %v", err)
+			return fmt.Errorf("error reading status: %v", err)
 		}
 	}
 
 	if err = d.Set("mac", flattenSwitchControllerNacDeviceMac(o["mac"], d, "mac", sv)); err != nil {
 		if !fortiAPIPatch(o["mac"]) {
-			return fmt.Errorf("Error reading mac: %v", err)
+			return fmt.Errorf("error reading mac: %v", err)
 		}
 	}
 
 	if err = d.Set("last_known_switch", flattenSwitchControllerNacDeviceLastKnownSwitch(o["last-known-switch"], d, "last_known_switch", sv)); err != nil {
 		if !fortiAPIPatch(o["last-known-switch"]) {
-			return fmt.Errorf("Error reading last_known_switch: %v", err)
+			return fmt.Errorf("error reading last_known_switch: %v", err)
 		}
 	}
 
 	if err = d.Set("last_known_port", flattenSwitchControllerNacDeviceLastKnownPort(o["last-known-port"], d, "last_known_port", sv)); err != nil {
 		if !fortiAPIPatch(o["last-known-port"]) {
-			return fmt.Errorf("Error reading last_known_port: %v", err)
+			return fmt.Errorf("error reading last_known_port: %v", err)
 		}
 	}
 
 	if err = d.Set("matched_nac_policy", flattenSwitchControllerNacDeviceMatchedNacPolicy(o["matched-nac-policy"], d, "matched_nac_policy", sv)); err != nil {
 		if !fortiAPIPatch(o["matched-nac-policy"]) {
-			return fmt.Errorf("Error reading matched_nac_policy: %v", err)
+			return fmt.Errorf("error reading matched_nac_policy: %v", err)
 		}
 	}
 
 	if err = d.Set("port_policy", flattenSwitchControllerNacDevicePortPolicy(o["port-policy"], d, "port_policy", sv)); err != nil {
 		if !fortiAPIPatch(o["port-policy"]) {
-			return fmt.Errorf("Error reading port_policy: %v", err)
+			return fmt.Errorf("error reading port_policy: %v", err)
 		}
 	}
 
 	if err = d.Set("mac_policy", flattenSwitchControllerNacDeviceMacPolicy(o["mac-policy"], d, "mac_policy", sv)); err != nil {
 		if !fortiAPIPatch(o["mac-policy"]) {
-			return fmt.Errorf("Error reading mac_policy: %v", err)
+			return fmt.Errorf("error reading mac_policy: %v", err)
 		}
 	}
 
 	if err = d.Set("last_seen", flattenSwitchControllerNacDeviceLastSeen(o["last-seen"], d, "last_seen", sv)); err != nil {
 		if !fortiAPIPatch(o["last-seen"]) {
-			return fmt.Errorf("Error reading last_seen: %v", err)
+			return fmt.Errorf("error reading last_seen: %v", err)
 		}
 	}
 

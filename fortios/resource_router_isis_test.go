@@ -73,14 +73,14 @@ func testAccCheckFortiOSRouterIsisExists(n string) resource.TestCheckFunc {
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadRouterIsis(i, "root")
+		o, err := c.ReadRouterIsis(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading RouterIsis: %s", err)
+			return fmt.Errorf("error reading RouterIsis: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating RouterIsis: %s", n)
+			return fmt.Errorf("error creating RouterIsis: %s", n)
 		}
 
 		return nil
@@ -96,11 +96,11 @@ func testAccCheckRouterIsisDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadRouterIsis(i, "root")
+		o, err := c.ReadRouterIsis(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error RouterIsis %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error RouterIsis %s still exists", rs.Primary.ID)
 			}
 		}
 

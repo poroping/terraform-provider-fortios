@@ -21,29 +21,29 @@ func dataSourceFirewallScheduleGroup() *schema.Resource {
 	return &schema.Resource{
 		Read: dataSourceFirewallScheduleGroupRead,
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
 
-			"name": &schema.Schema{
+			"name": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"member": &schema.Schema{
+			"member": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 					},
 				},
 			},
-			"color": &schema.Schema{
+			"color": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
@@ -71,12 +71,12 @@ func dataSourceFirewallScheduleGroupRead(d *schema.ResourceData, m interface{}) 
 	} else if v, ok := t.(int); ok {
 		mkey = strconv.Itoa(v)
 	} else {
-		return fmt.Errorf("Error describing FirewallScheduleGroup: type error")
+		return fmt.Errorf("error describing FirewallScheduleGroup: type error")
 	}
 
-	o, err := c.ReadFirewallScheduleGroup(mkey, vdomparam)
+	o, err := c.ReadFirewallScheduleGroup(mkey, vdomparam, make(map[string][]string), 0)
 	if err != nil {
-		return fmt.Errorf("Error describing FirewallScheduleGroup: %v", err)
+		return fmt.Errorf("error describing FirewallScheduleGroup: %v", err)
 	}
 
 	if o == nil {
@@ -86,7 +86,7 @@ func dataSourceFirewallScheduleGroupRead(d *schema.ResourceData, m interface{}) 
 
 	err = dataSourceRefreshObjectFirewallScheduleGroup(d, o)
 	if err != nil {
-		return fmt.Errorf("Error describing FirewallScheduleGroup from API: %v", err)
+		return fmt.Errorf("error describing FirewallScheduleGroup from API: %v", err)
 	}
 
 	d.SetId(mkey)
@@ -143,19 +143,19 @@ func dataSourceRefreshObjectFirewallScheduleGroup(d *schema.ResourceData, o map[
 
 	if err = d.Set("name", dataSourceFlattenFirewallScheduleGroupName(o["name"], d, "name")); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("member", dataSourceFlattenFirewallScheduleGroupMember(o["member"], d, "member")); err != nil {
 		if !fortiAPIPatch(o["member"]) {
-			return fmt.Errorf("Error reading member: %v", err)
+			return fmt.Errorf("error reading member: %v", err)
 		}
 	}
 
 	if err = d.Set("color", dataSourceFlattenFirewallScheduleGroupColor(o["color"], d, "color")); err != nil {
 		if !fortiAPIPatch(o["color"]) {
-			return fmt.Errorf("Error reading color: %v", err)
+			return fmt.Errorf("error reading color: %v", err)
 		}
 	}
 

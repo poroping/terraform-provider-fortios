@@ -30,119 +30,119 @@ func resourceUserSetting() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"auth_type": &schema.Schema{
+			"auth_type": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"auth_cert": &schema.Schema{
+			"auth_cert": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"auth_ca_cert": &schema.Schema{
+			"auth_ca_cert": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"auth_secure_http": &schema.Schema{
+			"auth_secure_http": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"auth_http_basic": &schema.Schema{
+			"auth_http_basic": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"auth_ssl_allow_renegotiation": &schema.Schema{
+			"auth_ssl_allow_renegotiation": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"auth_src_mac": &schema.Schema{
+			"auth_src_mac": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"auth_on_demand": &schema.Schema{
+			"auth_on_demand": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"auth_timeout": &schema.Schema{
+			"auth_timeout": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 1440),
 				Optional:     true,
 				Computed:     true,
 			},
-			"auth_timeout_type": &schema.Schema{
+			"auth_timeout_type": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"auth_portal_timeout": &schema.Schema{
+			"auth_portal_timeout": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 30),
 				Optional:     true,
 				Computed:     true,
 			},
-			"radius_ses_timeout_act": &schema.Schema{
+			"radius_ses_timeout_act": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"auth_blackout_time": &schema.Schema{
+			"auth_blackout_time": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 3600),
 				Optional:     true,
 				Computed:     true,
 			},
-			"auth_invalid_max": &schema.Schema{
+			"auth_invalid_max": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 100),
 				Optional:     true,
 				Computed:     true,
 			},
-			"auth_lockout_threshold": &schema.Schema{
+			"auth_lockout_threshold": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 10),
 				Optional:     true,
 				Computed:     true,
 			},
-			"auth_lockout_duration": &schema.Schema{
+			"auth_lockout_duration": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"per_policy_disclaimer": &schema.Schema{
+			"per_policy_disclaimer": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"auth_ports": &schema.Schema{
+			"auth_ports": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"type": &schema.Schema{
+						"type": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"port": &schema.Schema{
+						"port": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 65535),
 							Optional:     true,
@@ -151,15 +151,20 @@ func resourceUserSetting() *schema.Resource {
 					},
 				},
 			},
-			"auth_ssl_min_proto_version": &schema.Schema{
+			"auth_ssl_min_proto_version": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"dynamic_sort_subtable": &schema.Schema{
-				Type:     schema.TypeString,
+			"dynamic_sort_subtable": {
+				Type:     schema.TypeBool,
 				Optional: true,
-				Default:  "false",
+				Default:  false,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -178,14 +183,24 @@ func resourceUserSettingUpdate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectUserSetting(d, false, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating UserSetting resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateUserSetting(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectUserSetting(d, false, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating UserSetting resource: %v", err)
+		return fmt.Errorf("error updating UserSetting resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateUserSetting(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating UserSetting resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -211,15 +226,25 @@ func resourceUserSettingDelete(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
 	obj, err := getObjectUserSetting(d, true, c.Fv)
 
 	if err != nil {
-		return fmt.Errorf("Error updating UserSetting resource while getting object: %v", err)
+		return fmt.Errorf("error updating UserSetting resource while getting object: %v", err)
 	}
 
-	_, err = c.UpdateUserSetting(obj, mkey, vdomparam)
+	_, err = c.UpdateUserSetting(obj, mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error clearing UserSetting resource: %v", err)
+		return fmt.Errorf("error clearing UserSetting resource: %v", err)
 	}
 
 	d.SetId("")
@@ -241,9 +266,19 @@ func resourceUserSettingRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadUserSetting(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadUserSetting(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading UserSetting resource: %v", err)
+		return fmt.Errorf("error reading UserSetting resource: %v", err)
 	}
 
 	if o == nil {
@@ -254,7 +289,7 @@ func resourceUserSettingRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectUserSetting(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading UserSetting resource from API: %v", err)
+		return fmt.Errorf("error reading UserSetting resource from API: %v", err)
 	}
 	return nil
 }
@@ -394,117 +429,117 @@ func refreshObjectUserSetting(d *schema.ResourceData, o map[string]interface{}, 
 
 	if err = d.Set("auth_type", flattenUserSettingAuthType(o["auth-type"], d, "auth_type", sv)); err != nil {
 		if !fortiAPIPatch(o["auth-type"]) {
-			return fmt.Errorf("Error reading auth_type: %v", err)
+			return fmt.Errorf("error reading auth_type: %v", err)
 		}
 	}
 
 	if err = d.Set("auth_cert", flattenUserSettingAuthCert(o["auth-cert"], d, "auth_cert", sv)); err != nil {
 		if !fortiAPIPatch(o["auth-cert"]) {
-			return fmt.Errorf("Error reading auth_cert: %v", err)
+			return fmt.Errorf("error reading auth_cert: %v", err)
 		}
 	}
 
 	if err = d.Set("auth_ca_cert", flattenUserSettingAuthCaCert(o["auth-ca-cert"], d, "auth_ca_cert", sv)); err != nil {
 		if !fortiAPIPatch(o["auth-ca-cert"]) {
-			return fmt.Errorf("Error reading auth_ca_cert: %v", err)
+			return fmt.Errorf("error reading auth_ca_cert: %v", err)
 		}
 	}
 
 	if err = d.Set("auth_secure_http", flattenUserSettingAuthSecureHttp(o["auth-secure-http"], d, "auth_secure_http", sv)); err != nil {
 		if !fortiAPIPatch(o["auth-secure-http"]) {
-			return fmt.Errorf("Error reading auth_secure_http: %v", err)
+			return fmt.Errorf("error reading auth_secure_http: %v", err)
 		}
 	}
 
 	if err = d.Set("auth_http_basic", flattenUserSettingAuthHttpBasic(o["auth-http-basic"], d, "auth_http_basic", sv)); err != nil {
 		if !fortiAPIPatch(o["auth-http-basic"]) {
-			return fmt.Errorf("Error reading auth_http_basic: %v", err)
+			return fmt.Errorf("error reading auth_http_basic: %v", err)
 		}
 	}
 
 	if err = d.Set("auth_ssl_allow_renegotiation", flattenUserSettingAuthSslAllowRenegotiation(o["auth-ssl-allow-renegotiation"], d, "auth_ssl_allow_renegotiation", sv)); err != nil {
 		if !fortiAPIPatch(o["auth-ssl-allow-renegotiation"]) {
-			return fmt.Errorf("Error reading auth_ssl_allow_renegotiation: %v", err)
+			return fmt.Errorf("error reading auth_ssl_allow_renegotiation: %v", err)
 		}
 	}
 
 	if err = d.Set("auth_src_mac", flattenUserSettingAuthSrcMac(o["auth-src-mac"], d, "auth_src_mac", sv)); err != nil {
 		if !fortiAPIPatch(o["auth-src-mac"]) {
-			return fmt.Errorf("Error reading auth_src_mac: %v", err)
+			return fmt.Errorf("error reading auth_src_mac: %v", err)
 		}
 	}
 
 	if err = d.Set("auth_on_demand", flattenUserSettingAuthOnDemand(o["auth-on-demand"], d, "auth_on_demand", sv)); err != nil {
 		if !fortiAPIPatch(o["auth-on-demand"]) {
-			return fmt.Errorf("Error reading auth_on_demand: %v", err)
+			return fmt.Errorf("error reading auth_on_demand: %v", err)
 		}
 	}
 
 	if err = d.Set("auth_timeout", flattenUserSettingAuthTimeout(o["auth-timeout"], d, "auth_timeout", sv)); err != nil {
 		if !fortiAPIPatch(o["auth-timeout"]) {
-			return fmt.Errorf("Error reading auth_timeout: %v", err)
+			return fmt.Errorf("error reading auth_timeout: %v", err)
 		}
 	}
 
 	if err = d.Set("auth_timeout_type", flattenUserSettingAuthTimeoutType(o["auth-timeout-type"], d, "auth_timeout_type", sv)); err != nil {
 		if !fortiAPIPatch(o["auth-timeout-type"]) {
-			return fmt.Errorf("Error reading auth_timeout_type: %v", err)
+			return fmt.Errorf("error reading auth_timeout_type: %v", err)
 		}
 	}
 
 	if err = d.Set("auth_portal_timeout", flattenUserSettingAuthPortalTimeout(o["auth-portal-timeout"], d, "auth_portal_timeout", sv)); err != nil {
 		if !fortiAPIPatch(o["auth-portal-timeout"]) {
-			return fmt.Errorf("Error reading auth_portal_timeout: %v", err)
+			return fmt.Errorf("error reading auth_portal_timeout: %v", err)
 		}
 	}
 
 	if err = d.Set("radius_ses_timeout_act", flattenUserSettingRadiusSesTimeoutAct(o["radius-ses-timeout-act"], d, "radius_ses_timeout_act", sv)); err != nil {
 		if !fortiAPIPatch(o["radius-ses-timeout-act"]) {
-			return fmt.Errorf("Error reading radius_ses_timeout_act: %v", err)
+			return fmt.Errorf("error reading radius_ses_timeout_act: %v", err)
 		}
 	}
 
 	if err = d.Set("auth_blackout_time", flattenUserSettingAuthBlackoutTime(o["auth-blackout-time"], d, "auth_blackout_time", sv)); err != nil {
 		if !fortiAPIPatch(o["auth-blackout-time"]) {
-			return fmt.Errorf("Error reading auth_blackout_time: %v", err)
+			return fmt.Errorf("error reading auth_blackout_time: %v", err)
 		}
 	}
 
 	if err = d.Set("auth_invalid_max", flattenUserSettingAuthInvalidMax(o["auth-invalid-max"], d, "auth_invalid_max", sv)); err != nil {
 		if !fortiAPIPatch(o["auth-invalid-max"]) {
-			return fmt.Errorf("Error reading auth_invalid_max: %v", err)
+			return fmt.Errorf("error reading auth_invalid_max: %v", err)
 		}
 	}
 
 	if err = d.Set("auth_lockout_threshold", flattenUserSettingAuthLockoutThreshold(o["auth-lockout-threshold"], d, "auth_lockout_threshold", sv)); err != nil {
 		if !fortiAPIPatch(o["auth-lockout-threshold"]) {
-			return fmt.Errorf("Error reading auth_lockout_threshold: %v", err)
+			return fmt.Errorf("error reading auth_lockout_threshold: %v", err)
 		}
 	}
 
 	if err = d.Set("auth_lockout_duration", flattenUserSettingAuthLockoutDuration(o["auth-lockout-duration"], d, "auth_lockout_duration", sv)); err != nil {
 		if !fortiAPIPatch(o["auth-lockout-duration"]) {
-			return fmt.Errorf("Error reading auth_lockout_duration: %v", err)
+			return fmt.Errorf("error reading auth_lockout_duration: %v", err)
 		}
 	}
 
 	if err = d.Set("per_policy_disclaimer", flattenUserSettingPerPolicyDisclaimer(o["per-policy-disclaimer"], d, "per_policy_disclaimer", sv)); err != nil {
 		if !fortiAPIPatch(o["per-policy-disclaimer"]) {
-			return fmt.Errorf("Error reading per_policy_disclaimer: %v", err)
+			return fmt.Errorf("error reading per_policy_disclaimer: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("auth_ports", flattenUserSettingAuthPorts(o["auth-ports"], d, "auth_ports", sv)); err != nil {
 			if !fortiAPIPatch(o["auth-ports"]) {
-				return fmt.Errorf("Error reading auth_ports: %v", err)
+				return fmt.Errorf("error reading auth_ports: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("auth_ports"); ok {
 			if err = d.Set("auth_ports", flattenUserSettingAuthPorts(o["auth-ports"], d, "auth_ports", sv)); err != nil {
 				if !fortiAPIPatch(o["auth-ports"]) {
-					return fmt.Errorf("Error reading auth_ports: %v", err)
+					return fmt.Errorf("error reading auth_ports: %v", err)
 				}
 			}
 		}
@@ -512,7 +547,7 @@ func refreshObjectUserSetting(d *schema.ResourceData, o map[string]interface{}, 
 
 	if err = d.Set("auth_ssl_min_proto_version", flattenUserSettingAuthSslMinProtoVersion(o["auth-ssl-min-proto-version"], d, "auth_ssl_min_proto_version", sv)); err != nil {
 		if !fortiAPIPatch(o["auth-ssl-min-proto-version"]) {
-			return fmt.Errorf("Error reading auth_ssl_min_proto_version: %v", err)
+			return fmt.Errorf("error reading auth_ssl_min_proto_version: %v", err)
 		}
 	}
 

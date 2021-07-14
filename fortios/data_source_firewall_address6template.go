@@ -21,55 +21,55 @@ func dataSourceFirewallAddress6Template() *schema.Resource {
 	return &schema.Resource{
 		Read: dataSourceFirewallAddress6TemplateRead,
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
 
-			"name": &schema.Schema{
+			"name": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"ip6": &schema.Schema{
+			"ip6": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"subnet_segment_count": &schema.Schema{
+			"subnet_segment_count": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"subnet_segment": &schema.Schema{
+			"subnet_segment": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"name": &schema.Schema{
+						"name": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"bits": &schema.Schema{
+						"bits": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"exclusive": &schema.Schema{
+						"exclusive": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"values": &schema.Schema{
+						"values": {
 							Type:     schema.TypeList,
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"name": &schema.Schema{
+									"name": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
-									"value": &schema.Schema{
+									"value": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
@@ -103,12 +103,12 @@ func dataSourceFirewallAddress6TemplateRead(d *schema.ResourceData, m interface{
 	} else if v, ok := t.(int); ok {
 		mkey = strconv.Itoa(v)
 	} else {
-		return fmt.Errorf("Error describing FirewallAddress6Template: type error")
+		return fmt.Errorf("error describing FirewallAddress6Template: type error")
 	}
 
-	o, err := c.ReadFirewallAddress6Template(mkey, vdomparam)
+	o, err := c.ReadFirewallAddress6Template(mkey, vdomparam, make(map[string][]string), 0)
 	if err != nil {
-		return fmt.Errorf("Error describing FirewallAddress6Template: %v", err)
+		return fmt.Errorf("error describing FirewallAddress6Template: %v", err)
 	}
 
 	if o == nil {
@@ -118,7 +118,7 @@ func dataSourceFirewallAddress6TemplateRead(d *schema.ResourceData, m interface{
 
 	err = dataSourceRefreshObjectFirewallAddress6Template(d, o)
 	if err != nil {
-		return fmt.Errorf("Error describing FirewallAddress6Template from API: %v", err)
+		return fmt.Errorf("error describing FirewallAddress6Template from API: %v", err)
 	}
 
 	d.SetId(mkey)
@@ -256,25 +256,25 @@ func dataSourceRefreshObjectFirewallAddress6Template(d *schema.ResourceData, o m
 
 	if err = d.Set("name", dataSourceFlattenFirewallAddress6TemplateName(o["name"], d, "name")); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("ip6", dataSourceFlattenFirewallAddress6TemplateIp6(o["ip6"], d, "ip6")); err != nil {
 		if !fortiAPIPatch(o["ip6"]) {
-			return fmt.Errorf("Error reading ip6: %v", err)
+			return fmt.Errorf("error reading ip6: %v", err)
 		}
 	}
 
 	if err = d.Set("subnet_segment_count", dataSourceFlattenFirewallAddress6TemplateSubnetSegmentCount(o["subnet-segment-count"], d, "subnet_segment_count")); err != nil {
 		if !fortiAPIPatch(o["subnet-segment-count"]) {
-			return fmt.Errorf("Error reading subnet_segment_count: %v", err)
+			return fmt.Errorf("error reading subnet_segment_count: %v", err)
 		}
 	}
 
 	if err = d.Set("subnet_segment", dataSourceFlattenFirewallAddress6TemplateSubnetSegment(o["subnet-segment"], d, "subnet_segment")); err != nil {
 		if !fortiAPIPatch(o["subnet-segment"]) {
-			return fmt.Errorf("Error reading subnet_segment: %v", err)
+			return fmt.Errorf("error reading subnet_segment: %v", err)
 		}
 	}
 

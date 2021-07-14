@@ -30,54 +30,59 @@ func resourceSystemVneTunnel() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"status": &schema.Schema{
+			"status": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"interface": &schema.Schema{
+			"interface": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 15),
 				Optional:     true,
 				Computed:     true,
 			},
-			"ssl_certificate": &schema.Schema{
+			"ssl_certificate": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"bmr_hostname": &schema.Schema{
+			"bmr_hostname": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 128),
 				Optional:     true,
 				Sensitive:    true,
 			},
-			"ipv4_address": &schema.Schema{
+			"ipv4_address": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"br": &schema.Schema{
+			"br": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"update_url": &schema.Schema{
+			"update_url": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 511),
 				Optional:     true,
 				Computed:     true,
 			},
-			"mode": &schema.Schema{
+			"mode": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -96,14 +101,24 @@ func resourceSystemVneTunnelUpdate(d *schema.ResourceData, m interface{}) error 
 		}
 	}
 
-	obj, err := getObjectSystemVneTunnel(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SystemVneTunnel resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSystemVneTunnel(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemVneTunnel(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SystemVneTunnel resource: %v", err)
+		return fmt.Errorf("error updating SystemVneTunnel resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSystemVneTunnel(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SystemVneTunnel resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -130,9 +145,17 @@ func resourceSystemVneTunnelDelete(d *schema.ResourceData, m interface{}) error 
 		}
 	}
 
-	err := c.DeleteSystemVneTunnel(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSystemVneTunnel(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SystemVneTunnel resource: %v", err)
+		return fmt.Errorf("error deleting SystemVneTunnel resource: %v", err)
 	}
 
 	d.SetId("")
@@ -154,9 +177,19 @@ func resourceSystemVneTunnelRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadSystemVneTunnel(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSystemVneTunnel(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemVneTunnel resource: %v", err)
+		return fmt.Errorf("error reading SystemVneTunnel resource: %v", err)
 	}
 
 	if o == nil {
@@ -167,7 +200,7 @@ func resourceSystemVneTunnelRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectSystemVneTunnel(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemVneTunnel resource from API: %v", err)
+		return fmt.Errorf("error reading SystemVneTunnel resource from API: %v", err)
 	}
 	return nil
 }
@@ -209,43 +242,43 @@ func refreshObjectSystemVneTunnel(d *schema.ResourceData, o map[string]interface
 
 	if err = d.Set("status", flattenSystemVneTunnelStatus(o["status"], d, "status", sv)); err != nil {
 		if !fortiAPIPatch(o["status"]) {
-			return fmt.Errorf("Error reading status: %v", err)
+			return fmt.Errorf("error reading status: %v", err)
 		}
 	}
 
 	if err = d.Set("interface", flattenSystemVneTunnelInterface(o["interface"], d, "interface", sv)); err != nil {
 		if !fortiAPIPatch(o["interface"]) {
-			return fmt.Errorf("Error reading interface: %v", err)
+			return fmt.Errorf("error reading interface: %v", err)
 		}
 	}
 
 	if err = d.Set("ssl_certificate", flattenSystemVneTunnelSslCertificate(o["ssl-certificate"], d, "ssl_certificate", sv)); err != nil {
 		if !fortiAPIPatch(o["ssl-certificate"]) {
-			return fmt.Errorf("Error reading ssl_certificate: %v", err)
+			return fmt.Errorf("error reading ssl_certificate: %v", err)
 		}
 	}
 
 	if err = d.Set("ipv4_address", flattenSystemVneTunnelIpv4Address(o["ipv4-address"], d, "ipv4_address", sv)); err != nil {
 		if !fortiAPIPatch(o["ipv4-address"]) {
-			return fmt.Errorf("Error reading ipv4_address: %v", err)
+			return fmt.Errorf("error reading ipv4_address: %v", err)
 		}
 	}
 
 	if err = d.Set("br", flattenSystemVneTunnelBr(o["br"], d, "br", sv)); err != nil {
 		if !fortiAPIPatch(o["br"]) {
-			return fmt.Errorf("Error reading br: %v", err)
+			return fmt.Errorf("error reading br: %v", err)
 		}
 	}
 
 	if err = d.Set("update_url", flattenSystemVneTunnelUpdateUrl(o["update-url"], d, "update_url", sv)); err != nil {
 		if !fortiAPIPatch(o["update-url"]) {
-			return fmt.Errorf("Error reading update_url: %v", err)
+			return fmt.Errorf("error reading update_url: %v", err)
 		}
 	}
 
 	if err = d.Set("mode", flattenSystemVneTunnelMode(o["mode"], d, "mode", sv)); err != nil {
 		if !fortiAPIPatch(o["mode"]) {
-			return fmt.Errorf("Error reading mode: %v", err)
+			return fmt.Errorf("error reading mode: %v", err)
 		}
 	}
 

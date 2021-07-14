@@ -17,12 +17,12 @@ func dataSourceSystemVdomExceptionList() *schema.Resource {
 		Read: dataSourceSystemVdomExceptionListRead,
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"filter": &schema.Schema{
+			"filter": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
@@ -52,9 +52,9 @@ func dataSourceSystemVdomExceptionListRead(d *schema.ResourceData, m interface{}
 		filter = escapeFilter(filter)
 	}
 
-	o, err := c.GenericGroupRead("/api/v2/cmdb/system/vdom-exception", filter, vdomparam)
+	o, err := c.GenericGroupRead("/api/v2/cmdb/system/vdom-exception", filter, vdomparam, 0)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemVdomException: %v", err)
+		return fmt.Errorf("error describing SystemVdomException: %v", err)
 	}
 
 	var tmps []int

@@ -88,14 +88,14 @@ func testAccCheckFortiOSSystemAccprofileExists(n string) resource.TestCheckFunc 
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemAccprofile(i, "root")
+		o, err := c.ReadSystemAccprofile(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading SystemAccprofile: %s", err)
+			return fmt.Errorf("error reading SystemAccprofile: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating SystemAccprofile: %s", n)
+			return fmt.Errorf("error creating SystemAccprofile: %s", n)
 		}
 
 		return nil
@@ -111,11 +111,11 @@ func testAccCheckSystemAccprofileDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemAccprofile(i, "root")
+		o, err := c.ReadSystemAccprofile(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error SystemAccprofile %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error SystemAccprofile %s still exists", rs.Primary.ID)
 			}
 		}
 

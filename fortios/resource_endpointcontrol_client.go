@@ -30,42 +30,47 @@ func resourceEndpointControlClient() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"fosid": &schema.Schema{
+			"fosid": {
 				Type:     schema.TypeInt,
 				ForceNew: true,
 				Optional: true,
 				Computed: true,
 			},
-			"ftcl_uid": &schema.Schema{
+			"ftcl_uid": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 32),
 				Optional:     true,
 				Computed:     true,
 			},
-			"src_ip": &schema.Schema{
+			"src_ip": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"src_mac": &schema.Schema{
+			"src_mac": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"info": &schema.Schema{
+			"info": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ad_groups": &schema.Schema{
+			"ad_groups": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 51299),
 				Optional:     true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -83,15 +88,25 @@ func resourceEndpointControlClientCreate(d *schema.ResourceData, m interface{}) 
 		}
 	}
 
-	obj, err := getObjectEndpointControlClient(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating EndpointControlClient resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateEndpointControlClient(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectEndpointControlClient(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating EndpointControlClient resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateEndpointControlClient(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating EndpointControlClient resource: %v", err)
+		return fmt.Errorf("error creating EndpointControlClient resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -116,14 +131,24 @@ func resourceEndpointControlClientUpdate(d *schema.ResourceData, m interface{}) 
 		}
 	}
 
-	obj, err := getObjectEndpointControlClient(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating EndpointControlClient resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateEndpointControlClient(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectEndpointControlClient(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating EndpointControlClient resource: %v", err)
+		return fmt.Errorf("error updating EndpointControlClient resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateEndpointControlClient(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating EndpointControlClient resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -150,9 +175,17 @@ func resourceEndpointControlClientDelete(d *schema.ResourceData, m interface{}) 
 		}
 	}
 
-	err := c.DeleteEndpointControlClient(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteEndpointControlClient(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting EndpointControlClient resource: %v", err)
+		return fmt.Errorf("error deleting EndpointControlClient resource: %v", err)
 	}
 
 	d.SetId("")
@@ -174,9 +207,19 @@ func resourceEndpointControlClientRead(d *schema.ResourceData, m interface{}) er
 		}
 	}
 
-	o, err := c.ReadEndpointControlClient(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadEndpointControlClient(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading EndpointControlClient resource: %v", err)
+		return fmt.Errorf("error reading EndpointControlClient resource: %v", err)
 	}
 
 	if o == nil {
@@ -187,7 +230,7 @@ func resourceEndpointControlClientRead(d *schema.ResourceData, m interface{}) er
 
 	err = refreshObjectEndpointControlClient(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading EndpointControlClient resource from API: %v", err)
+		return fmt.Errorf("error reading EndpointControlClient resource from API: %v", err)
 	}
 	return nil
 }
@@ -221,37 +264,37 @@ func refreshObjectEndpointControlClient(d *schema.ResourceData, o map[string]int
 
 	if err = d.Set("fosid", flattenEndpointControlClientId(o["id"], d, "fosid", sv)); err != nil {
 		if !fortiAPIPatch(o["id"]) {
-			return fmt.Errorf("Error reading fosid: %v", err)
+			return fmt.Errorf("error reading fosid: %v", err)
 		}
 	}
 
 	if err = d.Set("ftcl_uid", flattenEndpointControlClientFtclUid(o["ftcl-uid"], d, "ftcl_uid", sv)); err != nil {
 		if !fortiAPIPatch(o["ftcl-uid"]) {
-			return fmt.Errorf("Error reading ftcl_uid: %v", err)
+			return fmt.Errorf("error reading ftcl_uid: %v", err)
 		}
 	}
 
 	if err = d.Set("src_ip", flattenEndpointControlClientSrcIp(o["src-ip"], d, "src_ip", sv)); err != nil {
 		if !fortiAPIPatch(o["src-ip"]) {
-			return fmt.Errorf("Error reading src_ip: %v", err)
+			return fmt.Errorf("error reading src_ip: %v", err)
 		}
 	}
 
 	if err = d.Set("src_mac", flattenEndpointControlClientSrcMac(o["src-mac"], d, "src_mac", sv)); err != nil {
 		if !fortiAPIPatch(o["src-mac"]) {
-			return fmt.Errorf("Error reading src_mac: %v", err)
+			return fmt.Errorf("error reading src_mac: %v", err)
 		}
 	}
 
 	if err = d.Set("info", flattenEndpointControlClientInfo(o["info"], d, "info", sv)); err != nil {
 		if !fortiAPIPatch(o["info"]) {
-			return fmt.Errorf("Error reading info: %v", err)
+			return fmt.Errorf("error reading info: %v", err)
 		}
 	}
 
 	if err = d.Set("ad_groups", flattenEndpointControlClientAdGroups(o["ad-groups"], d, "ad_groups", sv)); err != nil {
 		if !fortiAPIPatch(o["ad-groups"]) {
-			return fmt.Errorf("Error reading ad_groups: %v", err)
+			return fmt.Errorf("error reading ad_groups: %v", err)
 		}
 	}
 

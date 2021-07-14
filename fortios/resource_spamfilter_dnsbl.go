@@ -30,48 +30,48 @@ func resourceSpamfilterDnsbl() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"fosid": &schema.Schema{
+			"fosid": {
 				Type:     schema.TypeInt,
 				ForceNew: true,
 				Required: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Required:     true,
 			},
-			"comment": &schema.Schema{
+			"comment": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
 			},
-			"entries": &schema.Schema{
+			"entries": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"status": &schema.Schema{
+						"status": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"server": &schema.Schema{
+						"server": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 127),
 							Optional:     true,
 							Computed:     true,
 						},
-						"action": &schema.Schema{
+						"action": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -79,10 +79,15 @@ func resourceSpamfilterDnsbl() *schema.Resource {
 					},
 				},
 			},
-			"dynamic_sort_subtable": &schema.Schema{
-				Type:     schema.TypeString,
+			"dynamic_sort_subtable": {
+				Type:     schema.TypeBool,
 				Optional: true,
-				Default:  "false",
+				Default:  false,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -100,15 +105,25 @@ func resourceSpamfilterDnsblCreate(d *schema.ResourceData, m interface{}) error 
 		}
 	}
 
-	obj, err := getObjectSpamfilterDnsbl(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating SpamfilterDnsbl resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateSpamfilterDnsbl(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSpamfilterDnsbl(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating SpamfilterDnsbl resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateSpamfilterDnsbl(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating SpamfilterDnsbl resource: %v", err)
+		return fmt.Errorf("error creating SpamfilterDnsbl resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -133,14 +148,24 @@ func resourceSpamfilterDnsblUpdate(d *schema.ResourceData, m interface{}) error 
 		}
 	}
 
-	obj, err := getObjectSpamfilterDnsbl(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SpamfilterDnsbl resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSpamfilterDnsbl(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSpamfilterDnsbl(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SpamfilterDnsbl resource: %v", err)
+		return fmt.Errorf("error updating SpamfilterDnsbl resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSpamfilterDnsbl(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SpamfilterDnsbl resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -167,9 +192,17 @@ func resourceSpamfilterDnsblDelete(d *schema.ResourceData, m interface{}) error 
 		}
 	}
 
-	err := c.DeleteSpamfilterDnsbl(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSpamfilterDnsbl(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SpamfilterDnsbl resource: %v", err)
+		return fmt.Errorf("error deleting SpamfilterDnsbl resource: %v", err)
 	}
 
 	d.SetId("")
@@ -191,9 +224,19 @@ func resourceSpamfilterDnsblRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadSpamfilterDnsbl(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSpamfilterDnsbl(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SpamfilterDnsbl resource: %v", err)
+		return fmt.Errorf("error reading SpamfilterDnsbl resource: %v", err)
 	}
 
 	if o == nil {
@@ -204,7 +247,7 @@ func resourceSpamfilterDnsblRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectSpamfilterDnsbl(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SpamfilterDnsbl resource from API: %v", err)
+		return fmt.Errorf("error reading SpamfilterDnsbl resource from API: %v", err)
 	}
 	return nil
 }
@@ -294,33 +337,33 @@ func refreshObjectSpamfilterDnsbl(d *schema.ResourceData, o map[string]interface
 
 	if err = d.Set("fosid", flattenSpamfilterDnsblId(o["id"], d, "fosid", sv)); err != nil {
 		if !fortiAPIPatch(o["id"]) {
-			return fmt.Errorf("Error reading fosid: %v", err)
+			return fmt.Errorf("error reading fosid: %v", err)
 		}
 	}
 
 	if err = d.Set("name", flattenSpamfilterDnsblName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("comment", flattenSpamfilterDnsblComment(o["comment"], d, "comment", sv)); err != nil {
 		if !fortiAPIPatch(o["comment"]) {
-			return fmt.Errorf("Error reading comment: %v", err)
+			return fmt.Errorf("error reading comment: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("entries", flattenSpamfilterDnsblEntries(o["entries"], d, "entries", sv)); err != nil {
 			if !fortiAPIPatch(o["entries"]) {
-				return fmt.Errorf("Error reading entries: %v", err)
+				return fmt.Errorf("error reading entries: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("entries"); ok {
 			if err = d.Set("entries", flattenSpamfilterDnsblEntries(o["entries"], d, "entries", sv)); err != nil {
 				if !fortiAPIPatch(o["entries"]) {
-					return fmt.Errorf("Error reading entries: %v", err)
+					return fmt.Errorf("error reading entries: %v", err)
 				}
 			}
 		}

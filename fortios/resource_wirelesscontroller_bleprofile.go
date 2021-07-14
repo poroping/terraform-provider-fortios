@@ -30,86 +30,91 @@ func resourceWirelessControllerBleProfile() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"comment": &schema.Schema{
+			"comment": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"advertising": &schema.Schema{
+			"advertising": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ibeacon_uuid": &schema.Schema{
+			"ibeacon_uuid": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"major_id": &schema.Schema{
+			"major_id": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"minor_id": &schema.Schema{
+			"minor_id": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"eddystone_namespace": &schema.Schema{
+			"eddystone_namespace": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 10),
 				Optional:     true,
 				Computed:     true,
 			},
-			"eddystone_instance": &schema.Schema{
+			"eddystone_instance": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 6),
 				Optional:     true,
 				Computed:     true,
 			},
-			"eddystone_url": &schema.Schema{
+			"eddystone_url": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 127),
 				Optional:     true,
 				Computed:     true,
 			},
-			"eddystone_url_encode_hex": &schema.Schema{
+			"eddystone_url_encode_hex": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 54),
 				Optional:     true,
 				Computed:     true,
 			},
-			"txpower": &schema.Schema{
+			"txpower": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"beacon_interval": &schema.Schema{
+			"beacon_interval": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(40, 3500),
 				Optional:     true,
 				Computed:     true,
 			},
-			"ble_scanning": &schema.Schema{
+			"ble_scanning": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -127,15 +132,25 @@ func resourceWirelessControllerBleProfileCreate(d *schema.ResourceData, m interf
 		}
 	}
 
-	obj, err := getObjectWirelessControllerBleProfile(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating WirelessControllerBleProfile resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateWirelessControllerBleProfile(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectWirelessControllerBleProfile(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating WirelessControllerBleProfile resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateWirelessControllerBleProfile(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating WirelessControllerBleProfile resource: %v", err)
+		return fmt.Errorf("error creating WirelessControllerBleProfile resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -160,14 +175,24 @@ func resourceWirelessControllerBleProfileUpdate(d *schema.ResourceData, m interf
 		}
 	}
 
-	obj, err := getObjectWirelessControllerBleProfile(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating WirelessControllerBleProfile resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateWirelessControllerBleProfile(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectWirelessControllerBleProfile(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating WirelessControllerBleProfile resource: %v", err)
+		return fmt.Errorf("error updating WirelessControllerBleProfile resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateWirelessControllerBleProfile(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating WirelessControllerBleProfile resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -194,9 +219,17 @@ func resourceWirelessControllerBleProfileDelete(d *schema.ResourceData, m interf
 		}
 	}
 
-	err := c.DeleteWirelessControllerBleProfile(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteWirelessControllerBleProfile(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting WirelessControllerBleProfile resource: %v", err)
+		return fmt.Errorf("error deleting WirelessControllerBleProfile resource: %v", err)
 	}
 
 	d.SetId("")
@@ -218,9 +251,19 @@ func resourceWirelessControllerBleProfileRead(d *schema.ResourceData, m interfac
 		}
 	}
 
-	o, err := c.ReadWirelessControllerBleProfile(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadWirelessControllerBleProfile(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading WirelessControllerBleProfile resource: %v", err)
+		return fmt.Errorf("error reading WirelessControllerBleProfile resource: %v", err)
 	}
 
 	if o == nil {
@@ -231,7 +274,7 @@ func resourceWirelessControllerBleProfileRead(d *schema.ResourceData, m interfac
 
 	err = refreshObjectWirelessControllerBleProfile(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading WirelessControllerBleProfile resource from API: %v", err)
+		return fmt.Errorf("error reading WirelessControllerBleProfile resource from API: %v", err)
 	}
 	return nil
 }
@@ -293,79 +336,79 @@ func refreshObjectWirelessControllerBleProfile(d *schema.ResourceData, o map[str
 
 	if err = d.Set("name", flattenWirelessControllerBleProfileName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("comment", flattenWirelessControllerBleProfileComment(o["comment"], d, "comment", sv)); err != nil {
 		if !fortiAPIPatch(o["comment"]) {
-			return fmt.Errorf("Error reading comment: %v", err)
+			return fmt.Errorf("error reading comment: %v", err)
 		}
 	}
 
 	if err = d.Set("advertising", flattenWirelessControllerBleProfileAdvertising(o["advertising"], d, "advertising", sv)); err != nil {
 		if !fortiAPIPatch(o["advertising"]) {
-			return fmt.Errorf("Error reading advertising: %v", err)
+			return fmt.Errorf("error reading advertising: %v", err)
 		}
 	}
 
 	if err = d.Set("ibeacon_uuid", flattenWirelessControllerBleProfileIbeaconUuid(o["ibeacon-uuid"], d, "ibeacon_uuid", sv)); err != nil {
 		if !fortiAPIPatch(o["ibeacon-uuid"]) {
-			return fmt.Errorf("Error reading ibeacon_uuid: %v", err)
+			return fmt.Errorf("error reading ibeacon_uuid: %v", err)
 		}
 	}
 
 	if err = d.Set("major_id", flattenWirelessControllerBleProfileMajorId(o["major-id"], d, "major_id", sv)); err != nil {
 		if !fortiAPIPatch(o["major-id"]) {
-			return fmt.Errorf("Error reading major_id: %v", err)
+			return fmt.Errorf("error reading major_id: %v", err)
 		}
 	}
 
 	if err = d.Set("minor_id", flattenWirelessControllerBleProfileMinorId(o["minor-id"], d, "minor_id", sv)); err != nil {
 		if !fortiAPIPatch(o["minor-id"]) {
-			return fmt.Errorf("Error reading minor_id: %v", err)
+			return fmt.Errorf("error reading minor_id: %v", err)
 		}
 	}
 
 	if err = d.Set("eddystone_namespace", flattenWirelessControllerBleProfileEddystoneNamespace(o["eddystone-namespace"], d, "eddystone_namespace", sv)); err != nil {
 		if !fortiAPIPatch(o["eddystone-namespace"]) {
-			return fmt.Errorf("Error reading eddystone_namespace: %v", err)
+			return fmt.Errorf("error reading eddystone_namespace: %v", err)
 		}
 	}
 
 	if err = d.Set("eddystone_instance", flattenWirelessControllerBleProfileEddystoneInstance(o["eddystone-instance"], d, "eddystone_instance", sv)); err != nil {
 		if !fortiAPIPatch(o["eddystone-instance"]) {
-			return fmt.Errorf("Error reading eddystone_instance: %v", err)
+			return fmt.Errorf("error reading eddystone_instance: %v", err)
 		}
 	}
 
 	if err = d.Set("eddystone_url", flattenWirelessControllerBleProfileEddystoneUrl(o["eddystone-url"], d, "eddystone_url", sv)); err != nil {
 		if !fortiAPIPatch(o["eddystone-url"]) {
-			return fmt.Errorf("Error reading eddystone_url: %v", err)
+			return fmt.Errorf("error reading eddystone_url: %v", err)
 		}
 	}
 
 	if err = d.Set("eddystone_url_encode_hex", flattenWirelessControllerBleProfileEddystoneUrlEncodeHex(o["eddystone-url-encode-hex"], d, "eddystone_url_encode_hex", sv)); err != nil {
 		if !fortiAPIPatch(o["eddystone-url-encode-hex"]) {
-			return fmt.Errorf("Error reading eddystone_url_encode_hex: %v", err)
+			return fmt.Errorf("error reading eddystone_url_encode_hex: %v", err)
 		}
 	}
 
 	if err = d.Set("txpower", flattenWirelessControllerBleProfileTxpower(o["txpower"], d, "txpower", sv)); err != nil {
 		if !fortiAPIPatch(o["txpower"]) {
-			return fmt.Errorf("Error reading txpower: %v", err)
+			return fmt.Errorf("error reading txpower: %v", err)
 		}
 	}
 
 	if err = d.Set("beacon_interval", flattenWirelessControllerBleProfileBeaconInterval(o["beacon-interval"], d, "beacon_interval", sv)); err != nil {
 		if !fortiAPIPatch(o["beacon-interval"]) {
-			return fmt.Errorf("Error reading beacon_interval: %v", err)
+			return fmt.Errorf("error reading beacon_interval: %v", err)
 		}
 	}
 
 	if err = d.Set("ble_scanning", flattenWirelessControllerBleProfileBleScanning(o["ble-scanning"], d, "ble_scanning", sv)); err != nil {
 		if !fortiAPIPatch(o["ble-scanning"]) {
-			return fmt.Errorf("Error reading ble_scanning: %v", err)
+			return fmt.Errorf("error reading ble_scanning: %v", err)
 		}
 	}
 

@@ -69,14 +69,14 @@ func testAccCheckFortiOSSystemLinkMonitorExists(n string) resource.TestCheckFunc
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemLinkMonitor(i, "root")
+		o, err := c.ReadSystemLinkMonitor(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading SystemLinkMonitor: %s", err)
+			return fmt.Errorf("error reading SystemLinkMonitor: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating SystemLinkMonitor: %s", n)
+			return fmt.Errorf("error creating SystemLinkMonitor: %s", n)
 		}
 
 		return nil
@@ -92,11 +92,11 @@ func testAccCheckSystemLinkMonitorDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemLinkMonitor(i, "root")
+		o, err := c.ReadSystemLinkMonitor(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error SystemLinkMonitor %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error SystemLinkMonitor %s still exists", rs.Primary.ID)
 			}
 		}
 

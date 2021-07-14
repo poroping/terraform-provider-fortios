@@ -30,210 +30,210 @@ func resourceRouterIsis() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"is_type": &schema.Schema{
+			"is_type": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"adv_passive_only": &schema.Schema{
+			"adv_passive_only": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"adv_passive_only6": &schema.Schema{
+			"adv_passive_only6": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"auth_mode_l1": &schema.Schema{
+			"auth_mode_l1": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"auth_mode_l2": &schema.Schema{
+			"auth_mode_l2": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"auth_password_l1": &schema.Schema{
+			"auth_password_l1": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 128),
 				Optional:     true,
 				Sensitive:    true,
 			},
-			"auth_password_l2": &schema.Schema{
+			"auth_password_l2": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 128),
 				Optional:     true,
 				Sensitive:    true,
 			},
-			"auth_keychain_l1": &schema.Schema{
+			"auth_keychain_l1": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"auth_keychain_l2": &schema.Schema{
+			"auth_keychain_l2": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"auth_sendonly_l1": &schema.Schema{
+			"auth_sendonly_l1": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"auth_sendonly_l2": &schema.Schema{
+			"auth_sendonly_l2": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ignore_lsp_errors": &schema.Schema{
+			"ignore_lsp_errors": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"lsp_gen_interval_l1": &schema.Schema{
+			"lsp_gen_interval_l1": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 120),
 				Optional:     true,
 				Computed:     true,
 			},
-			"lsp_gen_interval_l2": &schema.Schema{
+			"lsp_gen_interval_l2": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 120),
 				Optional:     true,
 				Computed:     true,
 			},
-			"lsp_refresh_interval": &schema.Schema{
+			"lsp_refresh_interval": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"max_lsp_lifetime": &schema.Schema{
+			"max_lsp_lifetime": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(350, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"spf_interval_exp_l1": &schema.Schema{
+			"spf_interval_exp_l1": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"spf_interval_exp_l2": &schema.Schema{
+			"spf_interval_exp_l2": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"dynamic_hostname": &schema.Schema{
+			"dynamic_hostname": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"adjacency_check": &schema.Schema{
+			"adjacency_check": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"adjacency_check6": &schema.Schema{
+			"adjacency_check6": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"overload_bit": &schema.Schema{
+			"overload_bit": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"overload_bit_suppress": &schema.Schema{
+			"overload_bit_suppress": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"overload_bit_on_startup": &schema.Schema{
+			"overload_bit_on_startup": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(5, 86400),
 				Optional:     true,
 				Computed:     true,
 			},
-			"default_originate": &schema.Schema{
+			"default_originate": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"default_originate6": &schema.Schema{
+			"default_originate6": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"metric_style": &schema.Schema{
+			"metric_style": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"redistribute_l1": &schema.Schema{
+			"redistribute_l1": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"redistribute_l1_list": &schema.Schema{
+			"redistribute_l1_list": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"redistribute_l2": &schema.Schema{
+			"redistribute_l2": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"redistribute_l2_list": &schema.Schema{
+			"redistribute_l2_list": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"redistribute6_l1": &schema.Schema{
+			"redistribute6_l1": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"redistribute6_l1_list": &schema.Schema{
+			"redistribute6_l1_list": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"redistribute6_l2": &schema.Schema{
+			"redistribute6_l2": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"redistribute6_l2_list": &schema.Schema{
+			"redistribute6_l2_list": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"isis_net": &schema.Schema{
+			"isis_net": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"net": &schema.Schema{
+						"net": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -241,175 +241,175 @@ func resourceRouterIsis() *schema.Resource {
 					},
 				},
 			},
-			"isis_interface": &schema.Schema{
+			"isis_interface": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 15),
 							Optional:     true,
 							Computed:     true,
 						},
-						"status": &schema.Schema{
+						"status": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"status6": &schema.Schema{
+						"status6": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"network_type": &schema.Schema{
+						"network_type": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"circuit_type": &schema.Schema{
+						"circuit_type": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"csnp_interval_l1": &schema.Schema{
+						"csnp_interval_l1": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 65535),
 							Optional:     true,
 							Computed:     true,
 						},
-						"csnp_interval_l2": &schema.Schema{
+						"csnp_interval_l2": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 65535),
 							Optional:     true,
 							Computed:     true,
 						},
-						"hello_interval_l1": &schema.Schema{
+						"hello_interval_l1": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 65535),
 							Optional:     true,
 							Computed:     true,
 						},
-						"hello_interval_l2": &schema.Schema{
+						"hello_interval_l2": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 65535),
 							Optional:     true,
 							Computed:     true,
 						},
-						"hello_multiplier_l1": &schema.Schema{
+						"hello_multiplier_l1": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(2, 100),
 							Optional:     true,
 							Computed:     true,
 						},
-						"hello_multiplier_l2": &schema.Schema{
+						"hello_multiplier_l2": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(2, 100),
 							Optional:     true,
 							Computed:     true,
 						},
-						"hello_padding": &schema.Schema{
+						"hello_padding": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"lsp_interval": &schema.Schema{
+						"lsp_interval": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"lsp_retransmit_interval": &schema.Schema{
+						"lsp_retransmit_interval": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 65535),
 							Optional:     true,
 							Computed:     true,
 						},
-						"metric_l1": &schema.Schema{
+						"metric_l1": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 63),
 							Optional:     true,
 							Computed:     true,
 						},
-						"metric_l2": &schema.Schema{
+						"metric_l2": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 63),
 							Optional:     true,
 							Computed:     true,
 						},
-						"wide_metric_l1": &schema.Schema{
+						"wide_metric_l1": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 16777214),
 							Optional:     true,
 							Computed:     true,
 						},
-						"wide_metric_l2": &schema.Schema{
+						"wide_metric_l2": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 16777214),
 							Optional:     true,
 							Computed:     true,
 						},
-						"auth_password_l1": &schema.Schema{
+						"auth_password_l1": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 128),
 							Optional:     true,
 							Sensitive:    true,
 						},
-						"auth_password_l2": &schema.Schema{
+						"auth_password_l2": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 128),
 							Optional:     true,
 							Sensitive:    true,
 						},
-						"auth_keychain_l1": &schema.Schema{
+						"auth_keychain_l1": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"auth_keychain_l2": &schema.Schema{
+						"auth_keychain_l2": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"auth_send_only_l1": &schema.Schema{
+						"auth_send_only_l1": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"auth_send_only_l2": &schema.Schema{
+						"auth_send_only_l2": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"auth_mode_l1": &schema.Schema{
+						"auth_mode_l1": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"auth_mode_l2": &schema.Schema{
+						"auth_mode_l2": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"priority_l1": &schema.Schema{
+						"priority_l1": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 127),
 							Optional:     true,
 							Computed:     true,
 						},
-						"priority_l2": &schema.Schema{
+						"priority_l2": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 127),
 							Optional:     true,
 							Computed:     true,
 						},
-						"mesh_group": &schema.Schema{
+						"mesh_group": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"mesh_group_id": &schema.Schema{
+						"mesh_group_id": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
@@ -417,22 +417,22 @@ func resourceRouterIsis() *schema.Resource {
 					},
 				},
 			},
-			"summary_address": &schema.Schema{
+			"summary_address": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"prefix": &schema.Schema{
+						"prefix": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"level": &schema.Schema{
+						"level": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -440,22 +440,22 @@ func resourceRouterIsis() *schema.Resource {
 					},
 				},
 			},
-			"summary_address6": &schema.Schema{
+			"summary_address6": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"prefix6": &schema.Schema{
+						"prefix6": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"level": &schema.Schema{
+						"level": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -463,78 +463,38 @@ func resourceRouterIsis() *schema.Resource {
 					},
 				},
 			},
-			"redistribute": &schema.Schema{
+			"redistribute": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"protocol": &schema.Schema{
+						"protocol": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"status": &schema.Schema{
+						"status": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"metric": &schema.Schema{
+						"metric": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"metric_type": &schema.Schema{
+						"metric_type": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"level": &schema.Schema{
+						"level": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"routemap": &schema.Schema{
-							Type:         schema.TypeString,
-							ValidateFunc: validation.StringLenBetween(0, 35),
-							Optional:     true,
-							Computed:     true,
-						},
-					},
-				},
-			},
-			"redistribute6": &schema.Schema{
-				Type:     schema.TypeList,
-				Optional: true,
-				Elem: &schema.Resource{
-					Schema: map[string]*schema.Schema{
-						"protocol": &schema.Schema{
-							Type:         schema.TypeString,
-							ValidateFunc: validation.StringLenBetween(0, 35),
-							Optional:     true,
-							Computed:     true,
-						},
-						"status": &schema.Schema{
-							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
-						},
-						"metric": &schema.Schema{
-							Type:     schema.TypeInt,
-							Optional: true,
-							Computed: true,
-						},
-						"metric_type": &schema.Schema{
-							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
-						},
-						"level": &schema.Schema{
-							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
-						},
-						"routemap": &schema.Schema{
+						"routemap": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
@@ -543,10 +503,55 @@ func resourceRouterIsis() *schema.Resource {
 					},
 				},
 			},
-			"dynamic_sort_subtable": &schema.Schema{
-				Type:     schema.TypeString,
+			"redistribute6": {
+				Type:     schema.TypeList,
 				Optional: true,
-				Default:  "false",
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"protocol": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringLenBetween(0, 35),
+							Optional:     true,
+							Computed:     true,
+						},
+						"status": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"metric": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+						},
+						"metric_type": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"level": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"routemap": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringLenBetween(0, 35),
+							Optional:     true,
+							Computed:     true,
+						},
+					},
+				},
+			},
+			"dynamic_sort_subtable": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Default:  false,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -565,14 +570,24 @@ func resourceRouterIsisUpdate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectRouterIsis(d, false, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating RouterIsis resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateRouterIsis(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectRouterIsis(d, false, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating RouterIsis resource: %v", err)
+		return fmt.Errorf("error updating RouterIsis resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateRouterIsis(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating RouterIsis resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -598,15 +613,25 @@ func resourceRouterIsisDelete(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
 	obj, err := getObjectRouterIsis(d, true, c.Fv)
 
 	if err != nil {
-		return fmt.Errorf("Error updating RouterIsis resource while getting object: %v", err)
+		return fmt.Errorf("error updating RouterIsis resource while getting object: %v", err)
 	}
 
-	_, err = c.UpdateRouterIsis(obj, mkey, vdomparam)
+	_, err = c.UpdateRouterIsis(obj, mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error clearing RouterIsis resource: %v", err)
+		return fmt.Errorf("error clearing RouterIsis resource: %v", err)
 	}
 
 	d.SetId("")
@@ -628,9 +653,19 @@ func resourceRouterIsisRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadRouterIsis(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadRouterIsis(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading RouterIsis resource: %v", err)
+		return fmt.Errorf("error reading RouterIsis resource: %v", err)
 	}
 
 	if o == nil {
@@ -641,7 +676,7 @@ func resourceRouterIsisRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectRouterIsis(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading RouterIsis resource from API: %v", err)
+		return fmt.Errorf("error reading RouterIsis resource from API: %v", err)
 	}
 	return nil
 }
@@ -1474,213 +1509,213 @@ func refreshObjectRouterIsis(d *schema.ResourceData, o map[string]interface{}, s
 
 	if err = d.Set("is_type", flattenRouterIsisIsType(o["is-type"], d, "is_type", sv)); err != nil {
 		if !fortiAPIPatch(o["is-type"]) {
-			return fmt.Errorf("Error reading is_type: %v", err)
+			return fmt.Errorf("error reading is_type: %v", err)
 		}
 	}
 
 	if err = d.Set("adv_passive_only", flattenRouterIsisAdvPassiveOnly(o["adv-passive-only"], d, "adv_passive_only", sv)); err != nil {
 		if !fortiAPIPatch(o["adv-passive-only"]) {
-			return fmt.Errorf("Error reading adv_passive_only: %v", err)
+			return fmt.Errorf("error reading adv_passive_only: %v", err)
 		}
 	}
 
 	if err = d.Set("adv_passive_only6", flattenRouterIsisAdvPassiveOnly6(o["adv-passive-only6"], d, "adv_passive_only6", sv)); err != nil {
 		if !fortiAPIPatch(o["adv-passive-only6"]) {
-			return fmt.Errorf("Error reading adv_passive_only6: %v", err)
+			return fmt.Errorf("error reading adv_passive_only6: %v", err)
 		}
 	}
 
 	if err = d.Set("auth_mode_l1", flattenRouterIsisAuthModeL1(o["auth-mode-l1"], d, "auth_mode_l1", sv)); err != nil {
 		if !fortiAPIPatch(o["auth-mode-l1"]) {
-			return fmt.Errorf("Error reading auth_mode_l1: %v", err)
+			return fmt.Errorf("error reading auth_mode_l1: %v", err)
 		}
 	}
 
 	if err = d.Set("auth_mode_l2", flattenRouterIsisAuthModeL2(o["auth-mode-l2"], d, "auth_mode_l2", sv)); err != nil {
 		if !fortiAPIPatch(o["auth-mode-l2"]) {
-			return fmt.Errorf("Error reading auth_mode_l2: %v", err)
+			return fmt.Errorf("error reading auth_mode_l2: %v", err)
 		}
 	}
 
 	if err = d.Set("auth_keychain_l1", flattenRouterIsisAuthKeychainL1(o["auth-keychain-l1"], d, "auth_keychain_l1", sv)); err != nil {
 		if !fortiAPIPatch(o["auth-keychain-l1"]) {
-			return fmt.Errorf("Error reading auth_keychain_l1: %v", err)
+			return fmt.Errorf("error reading auth_keychain_l1: %v", err)
 		}
 	}
 
 	if err = d.Set("auth_keychain_l2", flattenRouterIsisAuthKeychainL2(o["auth-keychain-l2"], d, "auth_keychain_l2", sv)); err != nil {
 		if !fortiAPIPatch(o["auth-keychain-l2"]) {
-			return fmt.Errorf("Error reading auth_keychain_l2: %v", err)
+			return fmt.Errorf("error reading auth_keychain_l2: %v", err)
 		}
 	}
 
 	if err = d.Set("auth_sendonly_l1", flattenRouterIsisAuthSendonlyL1(o["auth-sendonly-l1"], d, "auth_sendonly_l1", sv)); err != nil {
 		if !fortiAPIPatch(o["auth-sendonly-l1"]) {
-			return fmt.Errorf("Error reading auth_sendonly_l1: %v", err)
+			return fmt.Errorf("error reading auth_sendonly_l1: %v", err)
 		}
 	}
 
 	if err = d.Set("auth_sendonly_l2", flattenRouterIsisAuthSendonlyL2(o["auth-sendonly-l2"], d, "auth_sendonly_l2", sv)); err != nil {
 		if !fortiAPIPatch(o["auth-sendonly-l2"]) {
-			return fmt.Errorf("Error reading auth_sendonly_l2: %v", err)
+			return fmt.Errorf("error reading auth_sendonly_l2: %v", err)
 		}
 	}
 
 	if err = d.Set("ignore_lsp_errors", flattenRouterIsisIgnoreLspErrors(o["ignore-lsp-errors"], d, "ignore_lsp_errors", sv)); err != nil {
 		if !fortiAPIPatch(o["ignore-lsp-errors"]) {
-			return fmt.Errorf("Error reading ignore_lsp_errors: %v", err)
+			return fmt.Errorf("error reading ignore_lsp_errors: %v", err)
 		}
 	}
 
 	if err = d.Set("lsp_gen_interval_l1", flattenRouterIsisLspGenIntervalL1(o["lsp-gen-interval-l1"], d, "lsp_gen_interval_l1", sv)); err != nil {
 		if !fortiAPIPatch(o["lsp-gen-interval-l1"]) {
-			return fmt.Errorf("Error reading lsp_gen_interval_l1: %v", err)
+			return fmt.Errorf("error reading lsp_gen_interval_l1: %v", err)
 		}
 	}
 
 	if err = d.Set("lsp_gen_interval_l2", flattenRouterIsisLspGenIntervalL2(o["lsp-gen-interval-l2"], d, "lsp_gen_interval_l2", sv)); err != nil {
 		if !fortiAPIPatch(o["lsp-gen-interval-l2"]) {
-			return fmt.Errorf("Error reading lsp_gen_interval_l2: %v", err)
+			return fmt.Errorf("error reading lsp_gen_interval_l2: %v", err)
 		}
 	}
 
 	if err = d.Set("lsp_refresh_interval", flattenRouterIsisLspRefreshInterval(o["lsp-refresh-interval"], d, "lsp_refresh_interval", sv)); err != nil {
 		if !fortiAPIPatch(o["lsp-refresh-interval"]) {
-			return fmt.Errorf("Error reading lsp_refresh_interval: %v", err)
+			return fmt.Errorf("error reading lsp_refresh_interval: %v", err)
 		}
 	}
 
 	if err = d.Set("max_lsp_lifetime", flattenRouterIsisMaxLspLifetime(o["max-lsp-lifetime"], d, "max_lsp_lifetime", sv)); err != nil {
 		if !fortiAPIPatch(o["max-lsp-lifetime"]) {
-			return fmt.Errorf("Error reading max_lsp_lifetime: %v", err)
+			return fmt.Errorf("error reading max_lsp_lifetime: %v", err)
 		}
 	}
 
 	if err = d.Set("spf_interval_exp_l1", flattenRouterIsisSpfIntervalExpL1(o["spf-interval-exp-l1"], d, "spf_interval_exp_l1", sv)); err != nil {
 		if !fortiAPIPatch(o["spf-interval-exp-l1"]) {
-			return fmt.Errorf("Error reading spf_interval_exp_l1: %v", err)
+			return fmt.Errorf("error reading spf_interval_exp_l1: %v", err)
 		}
 	}
 
 	if err = d.Set("spf_interval_exp_l2", flattenRouterIsisSpfIntervalExpL2(o["spf-interval-exp-l2"], d, "spf_interval_exp_l2", sv)); err != nil {
 		if !fortiAPIPatch(o["spf-interval-exp-l2"]) {
-			return fmt.Errorf("Error reading spf_interval_exp_l2: %v", err)
+			return fmt.Errorf("error reading spf_interval_exp_l2: %v", err)
 		}
 	}
 
 	if err = d.Set("dynamic_hostname", flattenRouterIsisDynamicHostname(o["dynamic-hostname"], d, "dynamic_hostname", sv)); err != nil {
 		if !fortiAPIPatch(o["dynamic-hostname"]) {
-			return fmt.Errorf("Error reading dynamic_hostname: %v", err)
+			return fmt.Errorf("error reading dynamic_hostname: %v", err)
 		}
 	}
 
 	if err = d.Set("adjacency_check", flattenRouterIsisAdjacencyCheck(o["adjacency-check"], d, "adjacency_check", sv)); err != nil {
 		if !fortiAPIPatch(o["adjacency-check"]) {
-			return fmt.Errorf("Error reading adjacency_check: %v", err)
+			return fmt.Errorf("error reading adjacency_check: %v", err)
 		}
 	}
 
 	if err = d.Set("adjacency_check6", flattenRouterIsisAdjacencyCheck6(o["adjacency-check6"], d, "adjacency_check6", sv)); err != nil {
 		if !fortiAPIPatch(o["adjacency-check6"]) {
-			return fmt.Errorf("Error reading adjacency_check6: %v", err)
+			return fmt.Errorf("error reading adjacency_check6: %v", err)
 		}
 	}
 
 	if err = d.Set("overload_bit", flattenRouterIsisOverloadBit(o["overload-bit"], d, "overload_bit", sv)); err != nil {
 		if !fortiAPIPatch(o["overload-bit"]) {
-			return fmt.Errorf("Error reading overload_bit: %v", err)
+			return fmt.Errorf("error reading overload_bit: %v", err)
 		}
 	}
 
 	if err = d.Set("overload_bit_suppress", flattenRouterIsisOverloadBitSuppress(o["overload-bit-suppress"], d, "overload_bit_suppress", sv)); err != nil {
 		if !fortiAPIPatch(o["overload-bit-suppress"]) {
-			return fmt.Errorf("Error reading overload_bit_suppress: %v", err)
+			return fmt.Errorf("error reading overload_bit_suppress: %v", err)
 		}
 	}
 
 	if err = d.Set("overload_bit_on_startup", flattenRouterIsisOverloadBitOnStartup(o["overload-bit-on-startup"], d, "overload_bit_on_startup", sv)); err != nil {
 		if !fortiAPIPatch(o["overload-bit-on-startup"]) {
-			return fmt.Errorf("Error reading overload_bit_on_startup: %v", err)
+			return fmt.Errorf("error reading overload_bit_on_startup: %v", err)
 		}
 	}
 
 	if err = d.Set("default_originate", flattenRouterIsisDefaultOriginate(o["default-originate"], d, "default_originate", sv)); err != nil {
 		if !fortiAPIPatch(o["default-originate"]) {
-			return fmt.Errorf("Error reading default_originate: %v", err)
+			return fmt.Errorf("error reading default_originate: %v", err)
 		}
 	}
 
 	if err = d.Set("default_originate6", flattenRouterIsisDefaultOriginate6(o["default-originate6"], d, "default_originate6", sv)); err != nil {
 		if !fortiAPIPatch(o["default-originate6"]) {
-			return fmt.Errorf("Error reading default_originate6: %v", err)
+			return fmt.Errorf("error reading default_originate6: %v", err)
 		}
 	}
 
 	if err = d.Set("metric_style", flattenRouterIsisMetricStyle(o["metric-style"], d, "metric_style", sv)); err != nil {
 		if !fortiAPIPatch(o["metric-style"]) {
-			return fmt.Errorf("Error reading metric_style: %v", err)
+			return fmt.Errorf("error reading metric_style: %v", err)
 		}
 	}
 
 	if err = d.Set("redistribute_l1", flattenRouterIsisRedistributeL1(o["redistribute-l1"], d, "redistribute_l1", sv)); err != nil {
 		if !fortiAPIPatch(o["redistribute-l1"]) {
-			return fmt.Errorf("Error reading redistribute_l1: %v", err)
+			return fmt.Errorf("error reading redistribute_l1: %v", err)
 		}
 	}
 
 	if err = d.Set("redistribute_l1_list", flattenRouterIsisRedistributeL1List(o["redistribute-l1-list"], d, "redistribute_l1_list", sv)); err != nil {
 		if !fortiAPIPatch(o["redistribute-l1-list"]) {
-			return fmt.Errorf("Error reading redistribute_l1_list: %v", err)
+			return fmt.Errorf("error reading redistribute_l1_list: %v", err)
 		}
 	}
 
 	if err = d.Set("redistribute_l2", flattenRouterIsisRedistributeL2(o["redistribute-l2"], d, "redistribute_l2", sv)); err != nil {
 		if !fortiAPIPatch(o["redistribute-l2"]) {
-			return fmt.Errorf("Error reading redistribute_l2: %v", err)
+			return fmt.Errorf("error reading redistribute_l2: %v", err)
 		}
 	}
 
 	if err = d.Set("redistribute_l2_list", flattenRouterIsisRedistributeL2List(o["redistribute-l2-list"], d, "redistribute_l2_list", sv)); err != nil {
 		if !fortiAPIPatch(o["redistribute-l2-list"]) {
-			return fmt.Errorf("Error reading redistribute_l2_list: %v", err)
+			return fmt.Errorf("error reading redistribute_l2_list: %v", err)
 		}
 	}
 
 	if err = d.Set("redistribute6_l1", flattenRouterIsisRedistribute6L1(o["redistribute6-l1"], d, "redistribute6_l1", sv)); err != nil {
 		if !fortiAPIPatch(o["redistribute6-l1"]) {
-			return fmt.Errorf("Error reading redistribute6_l1: %v", err)
+			return fmt.Errorf("error reading redistribute6_l1: %v", err)
 		}
 	}
 
 	if err = d.Set("redistribute6_l1_list", flattenRouterIsisRedistribute6L1List(o["redistribute6-l1-list"], d, "redistribute6_l1_list", sv)); err != nil {
 		if !fortiAPIPatch(o["redistribute6-l1-list"]) {
-			return fmt.Errorf("Error reading redistribute6_l1_list: %v", err)
+			return fmt.Errorf("error reading redistribute6_l1_list: %v", err)
 		}
 	}
 
 	if err = d.Set("redistribute6_l2", flattenRouterIsisRedistribute6L2(o["redistribute6-l2"], d, "redistribute6_l2", sv)); err != nil {
 		if !fortiAPIPatch(o["redistribute6-l2"]) {
-			return fmt.Errorf("Error reading redistribute6_l2: %v", err)
+			return fmt.Errorf("error reading redistribute6_l2: %v", err)
 		}
 	}
 
 	if err = d.Set("redistribute6_l2_list", flattenRouterIsisRedistribute6L2List(o["redistribute6-l2-list"], d, "redistribute6_l2_list", sv)); err != nil {
 		if !fortiAPIPatch(o["redistribute6-l2-list"]) {
-			return fmt.Errorf("Error reading redistribute6_l2_list: %v", err)
+			return fmt.Errorf("error reading redistribute6_l2_list: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("isis_net", flattenRouterIsisIsisNet(o["isis-net"], d, "isis_net", sv)); err != nil {
 			if !fortiAPIPatch(o["isis-net"]) {
-				return fmt.Errorf("Error reading isis_net: %v", err)
+				return fmt.Errorf("error reading isis_net: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("isis_net"); ok {
 			if err = d.Set("isis_net", flattenRouterIsisIsisNet(o["isis-net"], d, "isis_net", sv)); err != nil {
 				if !fortiAPIPatch(o["isis-net"]) {
-					return fmt.Errorf("Error reading isis_net: %v", err)
+					return fmt.Errorf("error reading isis_net: %v", err)
 				}
 			}
 		}
@@ -1689,14 +1724,14 @@ func refreshObjectRouterIsis(d *schema.ResourceData, o map[string]interface{}, s
 	if isImportTable() {
 		if err = d.Set("isis_interface", flattenRouterIsisIsisInterface(o["isis-interface"], d, "isis_interface", sv)); err != nil {
 			if !fortiAPIPatch(o["isis-interface"]) {
-				return fmt.Errorf("Error reading isis_interface: %v", err)
+				return fmt.Errorf("error reading isis_interface: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("isis_interface"); ok {
 			if err = d.Set("isis_interface", flattenRouterIsisIsisInterface(o["isis-interface"], d, "isis_interface", sv)); err != nil {
 				if !fortiAPIPatch(o["isis-interface"]) {
-					return fmt.Errorf("Error reading isis_interface: %v", err)
+					return fmt.Errorf("error reading isis_interface: %v", err)
 				}
 			}
 		}
@@ -1705,14 +1740,14 @@ func refreshObjectRouterIsis(d *schema.ResourceData, o map[string]interface{}, s
 	if isImportTable() {
 		if err = d.Set("summary_address", flattenRouterIsisSummaryAddress(o["summary-address"], d, "summary_address", sv)); err != nil {
 			if !fortiAPIPatch(o["summary-address"]) {
-				return fmt.Errorf("Error reading summary_address: %v", err)
+				return fmt.Errorf("error reading summary_address: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("summary_address"); ok {
 			if err = d.Set("summary_address", flattenRouterIsisSummaryAddress(o["summary-address"], d, "summary_address", sv)); err != nil {
 				if !fortiAPIPatch(o["summary-address"]) {
-					return fmt.Errorf("Error reading summary_address: %v", err)
+					return fmt.Errorf("error reading summary_address: %v", err)
 				}
 			}
 		}
@@ -1721,14 +1756,14 @@ func refreshObjectRouterIsis(d *schema.ResourceData, o map[string]interface{}, s
 	if isImportTable() {
 		if err = d.Set("summary_address6", flattenRouterIsisSummaryAddress6(o["summary-address6"], d, "summary_address6", sv)); err != nil {
 			if !fortiAPIPatch(o["summary-address6"]) {
-				return fmt.Errorf("Error reading summary_address6: %v", err)
+				return fmt.Errorf("error reading summary_address6: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("summary_address6"); ok {
 			if err = d.Set("summary_address6", flattenRouterIsisSummaryAddress6(o["summary-address6"], d, "summary_address6", sv)); err != nil {
 				if !fortiAPIPatch(o["summary-address6"]) {
-					return fmt.Errorf("Error reading summary_address6: %v", err)
+					return fmt.Errorf("error reading summary_address6: %v", err)
 				}
 			}
 		}
@@ -1737,14 +1772,14 @@ func refreshObjectRouterIsis(d *schema.ResourceData, o map[string]interface{}, s
 	if isImportTable() {
 		if err = d.Set("redistribute", flattenRouterIsisRedistribute(o["redistribute"], d, "redistribute", sv)); err != nil {
 			if !fortiAPIPatch(o["redistribute"]) {
-				return fmt.Errorf("Error reading redistribute: %v", err)
+				return fmt.Errorf("error reading redistribute: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("redistribute"); ok {
 			if err = d.Set("redistribute", flattenRouterIsisRedistribute(o["redistribute"], d, "redistribute", sv)); err != nil {
 				if !fortiAPIPatch(o["redistribute"]) {
-					return fmt.Errorf("Error reading redistribute: %v", err)
+					return fmt.Errorf("error reading redistribute: %v", err)
 				}
 			}
 		}
@@ -1753,14 +1788,14 @@ func refreshObjectRouterIsis(d *schema.ResourceData, o map[string]interface{}, s
 	if isImportTable() {
 		if err = d.Set("redistribute6", flattenRouterIsisRedistribute6(o["redistribute6"], d, "redistribute6", sv)); err != nil {
 			if !fortiAPIPatch(o["redistribute6"]) {
-				return fmt.Errorf("Error reading redistribute6: %v", err)
+				return fmt.Errorf("error reading redistribute6: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("redistribute6"); ok {
 			if err = d.Set("redistribute6", flattenRouterIsisRedistribute6(o["redistribute6"], d, "redistribute6", sv)); err != nil {
 				if !fortiAPIPatch(o["redistribute6"]) {
-					return fmt.Errorf("Error reading redistribute6: %v", err)
+					return fmt.Errorf("error reading redistribute6: %v", err)
 				}
 			}
 		}

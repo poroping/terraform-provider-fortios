@@ -30,20 +30,25 @@ func resourceLogMemorySetting() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"status": &schema.Schema{
+			"status": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"diskfull": &schema.Schema{
+			"diskfull": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -62,14 +67,24 @@ func resourceLogMemorySettingUpdate(d *schema.ResourceData, m interface{}) error
 		}
 	}
 
-	obj, err := getObjectLogMemorySetting(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating LogMemorySetting resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateLogMemorySetting(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectLogMemorySetting(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating LogMemorySetting resource: %v", err)
+		return fmt.Errorf("error updating LogMemorySetting resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateLogMemorySetting(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating LogMemorySetting resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -96,9 +111,17 @@ func resourceLogMemorySettingDelete(d *schema.ResourceData, m interface{}) error
 		}
 	}
 
-	err := c.DeleteLogMemorySetting(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteLogMemorySetting(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting LogMemorySetting resource: %v", err)
+		return fmt.Errorf("error deleting LogMemorySetting resource: %v", err)
 	}
 
 	d.SetId("")
@@ -120,9 +143,19 @@ func resourceLogMemorySettingRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadLogMemorySetting(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadLogMemorySetting(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading LogMemorySetting resource: %v", err)
+		return fmt.Errorf("error reading LogMemorySetting resource: %v", err)
 	}
 
 	if o == nil {
@@ -133,7 +166,7 @@ func resourceLogMemorySettingRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectLogMemorySetting(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading LogMemorySetting resource from API: %v", err)
+		return fmt.Errorf("error reading LogMemorySetting resource from API: %v", err)
 	}
 	return nil
 }
@@ -151,13 +184,13 @@ func refreshObjectLogMemorySetting(d *schema.ResourceData, o map[string]interfac
 
 	if err = d.Set("status", flattenLogMemorySettingStatus(o["status"], d, "status", sv)); err != nil {
 		if !fortiAPIPatch(o["status"]) {
-			return fmt.Errorf("Error reading status: %v", err)
+			return fmt.Errorf("error reading status: %v", err)
 		}
 	}
 
 	if err = d.Set("diskfull", flattenLogMemorySettingDiskfull(o["diskfull"], d, "diskfull", sv)); err != nil {
 		if !fortiAPIPatch(o["diskfull"]) {
-			return fmt.Errorf("Error reading diskfull: %v", err)
+			return fmt.Errorf("error reading diskfull: %v", err)
 		}
 	}
 

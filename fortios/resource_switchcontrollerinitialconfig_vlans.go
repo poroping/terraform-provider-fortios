@@ -30,46 +30,51 @@ func resourceSwitchControllerInitialConfigVlans() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"default_vlan": &schema.Schema{
+			"default_vlan": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"quarantine": &schema.Schema{
+			"quarantine": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"rspan": &schema.Schema{
+			"rspan": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"voice": &schema.Schema{
+			"voice": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"video": &schema.Schema{
+			"video": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"nac": &schema.Schema{
+			"nac": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -88,14 +93,24 @@ func resourceSwitchControllerInitialConfigVlansUpdate(d *schema.ResourceData, m 
 		}
 	}
 
-	obj, err := getObjectSwitchControllerInitialConfigVlans(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SwitchControllerInitialConfigVlans resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSwitchControllerInitialConfigVlans(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSwitchControllerInitialConfigVlans(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SwitchControllerInitialConfigVlans resource: %v", err)
+		return fmt.Errorf("error updating SwitchControllerInitialConfigVlans resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSwitchControllerInitialConfigVlans(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SwitchControllerInitialConfigVlans resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -122,9 +137,17 @@ func resourceSwitchControllerInitialConfigVlansDelete(d *schema.ResourceData, m 
 		}
 	}
 
-	err := c.DeleteSwitchControllerInitialConfigVlans(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSwitchControllerInitialConfigVlans(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SwitchControllerInitialConfigVlans resource: %v", err)
+		return fmt.Errorf("error deleting SwitchControllerInitialConfigVlans resource: %v", err)
 	}
 
 	d.SetId("")
@@ -146,9 +169,19 @@ func resourceSwitchControllerInitialConfigVlansRead(d *schema.ResourceData, m in
 		}
 	}
 
-	o, err := c.ReadSwitchControllerInitialConfigVlans(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSwitchControllerInitialConfigVlans(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SwitchControllerInitialConfigVlans resource: %v", err)
+		return fmt.Errorf("error reading SwitchControllerInitialConfigVlans resource: %v", err)
 	}
 
 	if o == nil {
@@ -159,7 +192,7 @@ func resourceSwitchControllerInitialConfigVlansRead(d *schema.ResourceData, m in
 
 	err = refreshObjectSwitchControllerInitialConfigVlans(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SwitchControllerInitialConfigVlans resource from API: %v", err)
+		return fmt.Errorf("error reading SwitchControllerInitialConfigVlans resource from API: %v", err)
 	}
 	return nil
 }
@@ -193,37 +226,37 @@ func refreshObjectSwitchControllerInitialConfigVlans(d *schema.ResourceData, o m
 
 	if err = d.Set("default_vlan", flattenSwitchControllerInitialConfigVlansDefaultVlan(o["default-vlan"], d, "default_vlan", sv)); err != nil {
 		if !fortiAPIPatch(o["default-vlan"]) {
-			return fmt.Errorf("Error reading default_vlan: %v", err)
+			return fmt.Errorf("error reading default_vlan: %v", err)
 		}
 	}
 
 	if err = d.Set("quarantine", flattenSwitchControllerInitialConfigVlansQuarantine(o["quarantine"], d, "quarantine", sv)); err != nil {
 		if !fortiAPIPatch(o["quarantine"]) {
-			return fmt.Errorf("Error reading quarantine: %v", err)
+			return fmt.Errorf("error reading quarantine: %v", err)
 		}
 	}
 
 	if err = d.Set("rspan", flattenSwitchControllerInitialConfigVlansRspan(o["rspan"], d, "rspan", sv)); err != nil {
 		if !fortiAPIPatch(o["rspan"]) {
-			return fmt.Errorf("Error reading rspan: %v", err)
+			return fmt.Errorf("error reading rspan: %v", err)
 		}
 	}
 
 	if err = d.Set("voice", flattenSwitchControllerInitialConfigVlansVoice(o["voice"], d, "voice", sv)); err != nil {
 		if !fortiAPIPatch(o["voice"]) {
-			return fmt.Errorf("Error reading voice: %v", err)
+			return fmt.Errorf("error reading voice: %v", err)
 		}
 	}
 
 	if err = d.Set("video", flattenSwitchControllerInitialConfigVlansVideo(o["video"], d, "video", sv)); err != nil {
 		if !fortiAPIPatch(o["video"]) {
-			return fmt.Errorf("Error reading video: %v", err)
+			return fmt.Errorf("error reading video: %v", err)
 		}
 	}
 
 	if err = d.Set("nac", flattenSwitchControllerInitialConfigVlansNac(o["nac"], d, "nac", sv)); err != nil {
 		if !fortiAPIPatch(o["nac"]) {
-			return fmt.Errorf("Error reading nac: %v", err)
+			return fmt.Errorf("error reading nac: %v", err)
 		}
 	}
 

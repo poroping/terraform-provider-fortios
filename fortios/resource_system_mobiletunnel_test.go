@@ -62,14 +62,14 @@ func testAccCheckFortiOSSystemMobileTunnelExists(n string) resource.TestCheckFun
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemMobileTunnel(i, "root")
+		o, err := c.ReadSystemMobileTunnel(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading SystemMobileTunnel: %s", err)
+			return fmt.Errorf("error reading SystemMobileTunnel: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating SystemMobileTunnel: %s", n)
+			return fmt.Errorf("error creating SystemMobileTunnel: %s", n)
 		}
 
 		return nil
@@ -85,11 +85,11 @@ func testAccCheckSystemMobileTunnelDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemMobileTunnel(i, "root")
+		o, err := c.ReadSystemMobileTunnel(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error SystemMobileTunnel %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error SystemMobileTunnel %s still exists", rs.Primary.ID)
 			}
 		}
 

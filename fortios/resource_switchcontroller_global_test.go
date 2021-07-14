@@ -54,14 +54,14 @@ func testAccCheckFortiOSSwitchControllerGlobalExists(n string) resource.TestChec
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadSwitchControllerGlobal(i, "root")
+		o, err := c.ReadSwitchControllerGlobal(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading SwitchControllerGlobal: %s", err)
+			return fmt.Errorf("error reading SwitchControllerGlobal: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating SwitchControllerGlobal: %s", n)
+			return fmt.Errorf("error creating SwitchControllerGlobal: %s", n)
 		}
 
 		return nil
@@ -77,11 +77,11 @@ func testAccCheckSwitchControllerGlobalDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadSwitchControllerGlobal(i, "root")
+		o, err := c.ReadSwitchControllerGlobal(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error SwitchControllerGlobal %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error SwitchControllerGlobal %s still exists", rs.Primary.ID)
 			}
 		}
 

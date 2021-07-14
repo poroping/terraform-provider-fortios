@@ -30,88 +30,88 @@ func resourceFirewallSslSshProfile() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Required:     true,
 			},
-			"comment": &schema.Schema{
+			"comment": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
 			},
-			"ssl": &schema.Schema{
+			"ssl": {
 				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"inspect_all": &schema.Schema{
+						"inspect_all": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"client_certificate": &schema.Schema{
+						"client_certificate": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"unsupported_ssl_cipher": &schema.Schema{
+						"unsupported_ssl_cipher": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"unsupported_ssl_negotiation": &schema.Schema{
+						"unsupported_ssl_negotiation": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"expired_server_cert": &schema.Schema{
+						"expired_server_cert": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"revoked_server_cert": &schema.Schema{
+						"revoked_server_cert": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"client_cert_request": &schema.Schema{
+						"client_cert_request": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"unsupported_ssl": &schema.Schema{
+						"unsupported_ssl": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"invalid_server_cert": &schema.Schema{
+						"invalid_server_cert": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"untrusted_server_cert": &schema.Schema{
+						"untrusted_server_cert": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"cert_validation_timeout": &schema.Schema{
+						"cert_validation_timeout": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"cert_validation_failure": &schema.Schema{
+						"cert_validation_failure": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"sni_server_cert_check": &schema.Schema{
+						"sni_server_cert_check": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -119,83 +119,83 @@ func resourceFirewallSslSshProfile() *schema.Resource {
 					},
 				},
 			},
-			"https": &schema.Schema{
+			"https": {
 				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"ports": &schema.Schema{
+						"ports": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"status": &schema.Schema{
+						"status": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"proxy_after_tcp_handshake": &schema.Schema{
+						"proxy_after_tcp_handshake": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"client_certificate": &schema.Schema{
+						"client_certificate": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"unsupported_ssl_cipher": &schema.Schema{
+						"unsupported_ssl_cipher": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"unsupported_ssl_negotiation": &schema.Schema{
+						"unsupported_ssl_negotiation": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"expired_server_cert": &schema.Schema{
+						"expired_server_cert": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"revoked_server_cert": &schema.Schema{
+						"revoked_server_cert": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"client_cert_request": &schema.Schema{
+						"client_cert_request": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"unsupported_ssl": &schema.Schema{
+						"unsupported_ssl": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"invalid_server_cert": &schema.Schema{
+						"invalid_server_cert": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"untrusted_server_cert": &schema.Schema{
+						"untrusted_server_cert": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"cert_validation_timeout": &schema.Schema{
+						"cert_validation_timeout": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"cert_validation_failure": &schema.Schema{
+						"cert_validation_failure": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"sni_server_cert_check": &schema.Schema{
+						"sni_server_cert_check": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -203,78 +203,78 @@ func resourceFirewallSslSshProfile() *schema.Resource {
 					},
 				},
 			},
-			"ftps": &schema.Schema{
+			"ftps": {
 				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"ports": &schema.Schema{
+						"ports": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"status": &schema.Schema{
+						"status": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"client_certificate": &schema.Schema{
+						"client_certificate": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"unsupported_ssl_cipher": &schema.Schema{
+						"unsupported_ssl_cipher": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"unsupported_ssl_negotiation": &schema.Schema{
+						"unsupported_ssl_negotiation": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"expired_server_cert": &schema.Schema{
+						"expired_server_cert": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"revoked_server_cert": &schema.Schema{
+						"revoked_server_cert": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"client_cert_request": &schema.Schema{
+						"client_cert_request": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"unsupported_ssl": &schema.Schema{
+						"unsupported_ssl": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"invalid_server_cert": &schema.Schema{
+						"invalid_server_cert": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"untrusted_server_cert": &schema.Schema{
+						"untrusted_server_cert": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"cert_validation_timeout": &schema.Schema{
+						"cert_validation_timeout": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"cert_validation_failure": &schema.Schema{
+						"cert_validation_failure": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"sni_server_cert_check": &schema.Schema{
+						"sni_server_cert_check": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -282,83 +282,83 @@ func resourceFirewallSslSshProfile() *schema.Resource {
 					},
 				},
 			},
-			"imaps": &schema.Schema{
+			"imaps": {
 				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"ports": &schema.Schema{
+						"ports": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"status": &schema.Schema{
+						"status": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"proxy_after_tcp_handshake": &schema.Schema{
+						"proxy_after_tcp_handshake": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"client_certificate": &schema.Schema{
+						"client_certificate": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"unsupported_ssl_cipher": &schema.Schema{
+						"unsupported_ssl_cipher": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"unsupported_ssl_negotiation": &schema.Schema{
+						"unsupported_ssl_negotiation": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"expired_server_cert": &schema.Schema{
+						"expired_server_cert": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"revoked_server_cert": &schema.Schema{
+						"revoked_server_cert": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"client_cert_request": &schema.Schema{
+						"client_cert_request": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"unsupported_ssl": &schema.Schema{
+						"unsupported_ssl": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"invalid_server_cert": &schema.Schema{
+						"invalid_server_cert": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"untrusted_server_cert": &schema.Schema{
+						"untrusted_server_cert": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"cert_validation_timeout": &schema.Schema{
+						"cert_validation_timeout": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"cert_validation_failure": &schema.Schema{
+						"cert_validation_failure": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"sni_server_cert_check": &schema.Schema{
+						"sni_server_cert_check": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -366,83 +366,83 @@ func resourceFirewallSslSshProfile() *schema.Resource {
 					},
 				},
 			},
-			"pop3s": &schema.Schema{
+			"pop3s": {
 				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"ports": &schema.Schema{
+						"ports": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"status": &schema.Schema{
+						"status": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"proxy_after_tcp_handshake": &schema.Schema{
+						"proxy_after_tcp_handshake": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"client_certificate": &schema.Schema{
+						"client_certificate": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"unsupported_ssl_cipher": &schema.Schema{
+						"unsupported_ssl_cipher": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"unsupported_ssl_negotiation": &schema.Schema{
+						"unsupported_ssl_negotiation": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"expired_server_cert": &schema.Schema{
+						"expired_server_cert": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"revoked_server_cert": &schema.Schema{
+						"revoked_server_cert": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"client_cert_request": &schema.Schema{
+						"client_cert_request": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"unsupported_ssl": &schema.Schema{
+						"unsupported_ssl": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"invalid_server_cert": &schema.Schema{
+						"invalid_server_cert": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"untrusted_server_cert": &schema.Schema{
+						"untrusted_server_cert": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"cert_validation_timeout": &schema.Schema{
+						"cert_validation_timeout": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"cert_validation_failure": &schema.Schema{
+						"cert_validation_failure": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"sni_server_cert_check": &schema.Schema{
+						"sni_server_cert_check": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -450,83 +450,83 @@ func resourceFirewallSslSshProfile() *schema.Resource {
 					},
 				},
 			},
-			"smtps": &schema.Schema{
+			"smtps": {
 				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"ports": &schema.Schema{
+						"ports": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"status": &schema.Schema{
+						"status": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"proxy_after_tcp_handshake": &schema.Schema{
+						"proxy_after_tcp_handshake": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"client_certificate": &schema.Schema{
+						"client_certificate": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"unsupported_ssl_cipher": &schema.Schema{
+						"unsupported_ssl_cipher": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"unsupported_ssl_negotiation": &schema.Schema{
+						"unsupported_ssl_negotiation": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"expired_server_cert": &schema.Schema{
+						"expired_server_cert": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"revoked_server_cert": &schema.Schema{
+						"revoked_server_cert": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"client_cert_request": &schema.Schema{
+						"client_cert_request": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"unsupported_ssl": &schema.Schema{
+						"unsupported_ssl": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"invalid_server_cert": &schema.Schema{
+						"invalid_server_cert": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"untrusted_server_cert": &schema.Schema{
+						"untrusted_server_cert": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"cert_validation_timeout": &schema.Schema{
+						"cert_validation_timeout": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"cert_validation_failure": &schema.Schema{
+						"cert_validation_failure": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"sni_server_cert_check": &schema.Schema{
+						"sni_server_cert_check": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -534,48 +534,48 @@ func resourceFirewallSslSshProfile() *schema.Resource {
 					},
 				},
 			},
-			"ssh": &schema.Schema{
+			"ssh": {
 				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"ports": &schema.Schema{
+						"ports": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"status": &schema.Schema{
+						"status": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"inspect_all": &schema.Schema{
+						"inspect_all": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"proxy_after_tcp_handshake": &schema.Schema{
+						"proxy_after_tcp_handshake": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"unsupported_version": &schema.Schema{
+						"unsupported_version": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"ssh_policy_check": &schema.Schema{
+						"ssh_policy_check": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"ssh_tun_policy_check": &schema.Schema{
+						"ssh_tun_policy_check": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"ssh_algorithm": &schema.Schema{
+						"ssh_algorithm": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -583,67 +583,67 @@ func resourceFirewallSslSshProfile() *schema.Resource {
 					},
 				},
 			},
-			"allowlist": &schema.Schema{
+			"allowlist": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"block_blocklisted_certificates": &schema.Schema{
+			"block_blocklisted_certificates": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"whitelist": &schema.Schema{
+			"whitelist": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"block_blacklisted_certificates": &schema.Schema{
+			"block_blacklisted_certificates": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ssl_exempt": &schema.Schema{
+			"ssl_exempt": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 512),
 							Optional:     true,
 							Computed:     true,
 						},
-						"type": &schema.Schema{
+						"type": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"fortiguard_category": &schema.Schema{
+						"fortiguard_category": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 255),
 							Optional:     true,
 							Computed:     true,
 						},
-						"address": &schema.Schema{
+						"address": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 63),
 							Optional:     true,
 							Computed:     true,
 						},
-						"address6": &schema.Schema{
+						"address6": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 63),
 							Optional:     true,
 							Computed:     true,
 						},
-						"wildcard_fqdn": &schema.Schema{
+						"wildcard_fqdn": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 63),
 							Optional:     true,
 							Computed:     true,
 						},
-						"regex": &schema.Schema{
+						"regex": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 255),
 							Optional:     true,
@@ -652,105 +652,105 @@ func resourceFirewallSslSshProfile() *schema.Resource {
 					},
 				},
 			},
-			"server_cert_mode": &schema.Schema{
+			"server_cert_mode": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"use_ssl_server": &schema.Schema{
+			"use_ssl_server": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"caname": &schema.Schema{
+			"caname": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"untrusted_caname": &schema.Schema{
+			"untrusted_caname": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"server_cert": &schema.Schema{
+			"server_cert": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"ssl_server": &schema.Schema{
+			"ssl_server": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"ip": &schema.Schema{
+						"ip": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"https_client_certificate": &schema.Schema{
+						"https_client_certificate": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"smtps_client_certificate": &schema.Schema{
+						"smtps_client_certificate": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"pop3s_client_certificate": &schema.Schema{
+						"pop3s_client_certificate": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"imaps_client_certificate": &schema.Schema{
+						"imaps_client_certificate": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"ftps_client_certificate": &schema.Schema{
+						"ftps_client_certificate": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"ssl_other_client_certificate": &schema.Schema{
+						"ssl_other_client_certificate": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"https_client_cert_request": &schema.Schema{
+						"https_client_cert_request": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"smtps_client_cert_request": &schema.Schema{
+						"smtps_client_cert_request": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"pop3s_client_cert_request": &schema.Schema{
+						"pop3s_client_cert_request": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"imaps_client_cert_request": &schema.Schema{
+						"imaps_client_cert_request": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"ftps_client_cert_request": &schema.Schema{
+						"ftps_client_cert_request": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"ssl_other_client_cert_request": &schema.Schema{
+						"ssl_other_client_cert_request": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -758,40 +758,45 @@ func resourceFirewallSslSshProfile() *schema.Resource {
 					},
 				},
 			},
-			"ssl_anomalies_log": &schema.Schema{
+			"ssl_anomalies_log": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ssl_exemptions_log": &schema.Schema{
+			"ssl_exemptions_log": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ssl_negotiation_log": &schema.Schema{
+			"ssl_negotiation_log": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"rpc_over_https": &schema.Schema{
+			"rpc_over_https": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"mapi_over_https": &schema.Schema{
+			"mapi_over_https": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"supported_alpn": &schema.Schema{
+			"supported_alpn": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"dynamic_sort_subtable": &schema.Schema{
-				Type:     schema.TypeString,
+			"dynamic_sort_subtable": {
+				Type:     schema.TypeBool,
 				Optional: true,
-				Default:  "false",
+				Default:  false,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -809,15 +814,25 @@ func resourceFirewallSslSshProfileCreate(d *schema.ResourceData, m interface{}) 
 		}
 	}
 
-	obj, err := getObjectFirewallSslSshProfile(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating FirewallSslSshProfile resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateFirewallSslSshProfile(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectFirewallSslSshProfile(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating FirewallSslSshProfile resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateFirewallSslSshProfile(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating FirewallSslSshProfile resource: %v", err)
+		return fmt.Errorf("error creating FirewallSslSshProfile resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -842,14 +857,24 @@ func resourceFirewallSslSshProfileUpdate(d *schema.ResourceData, m interface{}) 
 		}
 	}
 
-	obj, err := getObjectFirewallSslSshProfile(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating FirewallSslSshProfile resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateFirewallSslSshProfile(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectFirewallSslSshProfile(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating FirewallSslSshProfile resource: %v", err)
+		return fmt.Errorf("error updating FirewallSslSshProfile resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateFirewallSslSshProfile(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating FirewallSslSshProfile resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -876,9 +901,17 @@ func resourceFirewallSslSshProfileDelete(d *schema.ResourceData, m interface{}) 
 		}
 	}
 
-	err := c.DeleteFirewallSslSshProfile(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteFirewallSslSshProfile(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting FirewallSslSshProfile resource: %v", err)
+		return fmt.Errorf("error deleting FirewallSslSshProfile resource: %v", err)
 	}
 
 	d.SetId("")
@@ -900,9 +933,19 @@ func resourceFirewallSslSshProfileRead(d *schema.ResourceData, m interface{}) er
 		}
 	}
 
-	o, err := c.ReadFirewallSslSshProfile(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadFirewallSslSshProfile(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading FirewallSslSshProfile resource: %v", err)
+		return fmt.Errorf("error reading FirewallSslSshProfile resource: %v", err)
 	}
 
 	if o == nil {
@@ -913,7 +956,7 @@ func resourceFirewallSslSshProfileRead(d *schema.ResourceData, m interface{}) er
 
 	err = refreshObjectFirewallSslSshProfile(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading FirewallSslSshProfile resource from API: %v", err)
+		return fmt.Errorf("error reading FirewallSslSshProfile resource from API: %v", err)
 	}
 	return nil
 }
@@ -2298,27 +2341,27 @@ func refreshObjectFirewallSslSshProfile(d *schema.ResourceData, o map[string]int
 
 	if err = d.Set("name", flattenFirewallSslSshProfileName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("comment", flattenFirewallSslSshProfileComment(o["comment"], d, "comment", sv)); err != nil {
 		if !fortiAPIPatch(o["comment"]) {
-			return fmt.Errorf("Error reading comment: %v", err)
+			return fmt.Errorf("error reading comment: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("ssl", flattenFirewallSslSshProfileSsl(o["ssl"], d, "ssl", sv)); err != nil {
 			if !fortiAPIPatch(o["ssl"]) {
-				return fmt.Errorf("Error reading ssl: %v", err)
+				return fmt.Errorf("error reading ssl: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("ssl"); ok {
 			if err = d.Set("ssl", flattenFirewallSslSshProfileSsl(o["ssl"], d, "ssl", sv)); err != nil {
 				if !fortiAPIPatch(o["ssl"]) {
-					return fmt.Errorf("Error reading ssl: %v", err)
+					return fmt.Errorf("error reading ssl: %v", err)
 				}
 			}
 		}
@@ -2327,14 +2370,14 @@ func refreshObjectFirewallSslSshProfile(d *schema.ResourceData, o map[string]int
 	if isImportTable() {
 		if err = d.Set("https", flattenFirewallSslSshProfileHttps(o["https"], d, "https", sv)); err != nil {
 			if !fortiAPIPatch(o["https"]) {
-				return fmt.Errorf("Error reading https: %v", err)
+				return fmt.Errorf("error reading https: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("https"); ok {
 			if err = d.Set("https", flattenFirewallSslSshProfileHttps(o["https"], d, "https", sv)); err != nil {
 				if !fortiAPIPatch(o["https"]) {
-					return fmt.Errorf("Error reading https: %v", err)
+					return fmt.Errorf("error reading https: %v", err)
 				}
 			}
 		}
@@ -2343,14 +2386,14 @@ func refreshObjectFirewallSslSshProfile(d *schema.ResourceData, o map[string]int
 	if isImportTable() {
 		if err = d.Set("ftps", flattenFirewallSslSshProfileFtps(o["ftps"], d, "ftps", sv)); err != nil {
 			if !fortiAPIPatch(o["ftps"]) {
-				return fmt.Errorf("Error reading ftps: %v", err)
+				return fmt.Errorf("error reading ftps: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("ftps"); ok {
 			if err = d.Set("ftps", flattenFirewallSslSshProfileFtps(o["ftps"], d, "ftps", sv)); err != nil {
 				if !fortiAPIPatch(o["ftps"]) {
-					return fmt.Errorf("Error reading ftps: %v", err)
+					return fmt.Errorf("error reading ftps: %v", err)
 				}
 			}
 		}
@@ -2359,14 +2402,14 @@ func refreshObjectFirewallSslSshProfile(d *schema.ResourceData, o map[string]int
 	if isImportTable() {
 		if err = d.Set("imaps", flattenFirewallSslSshProfileImaps(o["imaps"], d, "imaps", sv)); err != nil {
 			if !fortiAPIPatch(o["imaps"]) {
-				return fmt.Errorf("Error reading imaps: %v", err)
+				return fmt.Errorf("error reading imaps: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("imaps"); ok {
 			if err = d.Set("imaps", flattenFirewallSslSshProfileImaps(o["imaps"], d, "imaps", sv)); err != nil {
 				if !fortiAPIPatch(o["imaps"]) {
-					return fmt.Errorf("Error reading imaps: %v", err)
+					return fmt.Errorf("error reading imaps: %v", err)
 				}
 			}
 		}
@@ -2375,14 +2418,14 @@ func refreshObjectFirewallSslSshProfile(d *schema.ResourceData, o map[string]int
 	if isImportTable() {
 		if err = d.Set("pop3s", flattenFirewallSslSshProfilePop3S(o["pop3s"], d, "pop3s", sv)); err != nil {
 			if !fortiAPIPatch(o["pop3s"]) {
-				return fmt.Errorf("Error reading pop3s: %v", err)
+				return fmt.Errorf("error reading pop3s: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("pop3s"); ok {
 			if err = d.Set("pop3s", flattenFirewallSslSshProfilePop3S(o["pop3s"], d, "pop3s", sv)); err != nil {
 				if !fortiAPIPatch(o["pop3s"]) {
-					return fmt.Errorf("Error reading pop3s: %v", err)
+					return fmt.Errorf("error reading pop3s: %v", err)
 				}
 			}
 		}
@@ -2391,14 +2434,14 @@ func refreshObjectFirewallSslSshProfile(d *schema.ResourceData, o map[string]int
 	if isImportTable() {
 		if err = d.Set("smtps", flattenFirewallSslSshProfileSmtps(o["smtps"], d, "smtps", sv)); err != nil {
 			if !fortiAPIPatch(o["smtps"]) {
-				return fmt.Errorf("Error reading smtps: %v", err)
+				return fmt.Errorf("error reading smtps: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("smtps"); ok {
 			if err = d.Set("smtps", flattenFirewallSslSshProfileSmtps(o["smtps"], d, "smtps", sv)); err != nil {
 				if !fortiAPIPatch(o["smtps"]) {
-					return fmt.Errorf("Error reading smtps: %v", err)
+					return fmt.Errorf("error reading smtps: %v", err)
 				}
 			}
 		}
@@ -2407,14 +2450,14 @@ func refreshObjectFirewallSslSshProfile(d *schema.ResourceData, o map[string]int
 	if isImportTable() {
 		if err = d.Set("ssh", flattenFirewallSslSshProfileSsh(o["ssh"], d, "ssh", sv)); err != nil {
 			if !fortiAPIPatch(o["ssh"]) {
-				return fmt.Errorf("Error reading ssh: %v", err)
+				return fmt.Errorf("error reading ssh: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("ssh"); ok {
 			if err = d.Set("ssh", flattenFirewallSslSshProfileSsh(o["ssh"], d, "ssh", sv)); err != nil {
 				if !fortiAPIPatch(o["ssh"]) {
-					return fmt.Errorf("Error reading ssh: %v", err)
+					return fmt.Errorf("error reading ssh: %v", err)
 				}
 			}
 		}
@@ -2422,39 +2465,39 @@ func refreshObjectFirewallSslSshProfile(d *schema.ResourceData, o map[string]int
 
 	if err = d.Set("allowlist", flattenFirewallSslSshProfileAllowlist(o["allowlist"], d, "allowlist", sv)); err != nil {
 		if !fortiAPIPatch(o["allowlist"]) {
-			return fmt.Errorf("Error reading allowlist: %v", err)
+			return fmt.Errorf("error reading allowlist: %v", err)
 		}
 	}
 
 	if err = d.Set("block_blocklisted_certificates", flattenFirewallSslSshProfileBlockBlocklistedCertificates(o["block-blocklisted-certificates"], d, "block_blocklisted_certificates", sv)); err != nil {
 		if !fortiAPIPatch(o["block-blocklisted-certificates"]) {
-			return fmt.Errorf("Error reading block_blocklisted_certificates: %v", err)
+			return fmt.Errorf("error reading block_blocklisted_certificates: %v", err)
 		}
 	}
 
 	if err = d.Set("whitelist", flattenFirewallSslSshProfileWhitelist(o["whitelist"], d, "whitelist", sv)); err != nil {
 		if !fortiAPIPatch(o["whitelist"]) {
-			return fmt.Errorf("Error reading whitelist: %v", err)
+			return fmt.Errorf("error reading whitelist: %v", err)
 		}
 	}
 
 	if err = d.Set("block_blacklisted_certificates", flattenFirewallSslSshProfileBlockBlacklistedCertificates(o["block-blacklisted-certificates"], d, "block_blacklisted_certificates", sv)); err != nil {
 		if !fortiAPIPatch(o["block-blacklisted-certificates"]) {
-			return fmt.Errorf("Error reading block_blacklisted_certificates: %v", err)
+			return fmt.Errorf("error reading block_blacklisted_certificates: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("ssl_exempt", flattenFirewallSslSshProfileSslExempt(o["ssl-exempt"], d, "ssl_exempt", sv)); err != nil {
 			if !fortiAPIPatch(o["ssl-exempt"]) {
-				return fmt.Errorf("Error reading ssl_exempt: %v", err)
+				return fmt.Errorf("error reading ssl_exempt: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("ssl_exempt"); ok {
 			if err = d.Set("ssl_exempt", flattenFirewallSslSshProfileSslExempt(o["ssl-exempt"], d, "ssl_exempt", sv)); err != nil {
 				if !fortiAPIPatch(o["ssl-exempt"]) {
-					return fmt.Errorf("Error reading ssl_exempt: %v", err)
+					return fmt.Errorf("error reading ssl_exempt: %v", err)
 				}
 			}
 		}
@@ -2462,25 +2505,25 @@ func refreshObjectFirewallSslSshProfile(d *schema.ResourceData, o map[string]int
 
 	if err = d.Set("server_cert_mode", flattenFirewallSslSshProfileServerCertMode(o["server-cert-mode"], d, "server_cert_mode", sv)); err != nil {
 		if !fortiAPIPatch(o["server-cert-mode"]) {
-			return fmt.Errorf("Error reading server_cert_mode: %v", err)
+			return fmt.Errorf("error reading server_cert_mode: %v", err)
 		}
 	}
 
 	if err = d.Set("use_ssl_server", flattenFirewallSslSshProfileUseSslServer(o["use-ssl-server"], d, "use_ssl_server", sv)); err != nil {
 		if !fortiAPIPatch(o["use-ssl-server"]) {
-			return fmt.Errorf("Error reading use_ssl_server: %v", err)
+			return fmt.Errorf("error reading use_ssl_server: %v", err)
 		}
 	}
 
 	if err = d.Set("caname", flattenFirewallSslSshProfileCaname(o["caname"], d, "caname", sv)); err != nil {
 		if !fortiAPIPatch(o["caname"]) {
-			return fmt.Errorf("Error reading caname: %v", err)
+			return fmt.Errorf("error reading caname: %v", err)
 		}
 	}
 
 	if err = d.Set("untrusted_caname", flattenFirewallSslSshProfileUntrustedCaname(o["untrusted-caname"], d, "untrusted_caname", sv)); err != nil {
 		if !fortiAPIPatch(o["untrusted-caname"]) {
-			return fmt.Errorf("Error reading untrusted_caname: %v", err)
+			return fmt.Errorf("error reading untrusted_caname: %v", err)
 		}
 	}
 
@@ -2508,13 +2551,13 @@ func refreshObjectFirewallSslSshProfile(d *schema.ResourceData, o map[string]int
 		if bstring == true {
 			if err = d.Set("server_cert", vx); err != nil {
 				if !fortiAPIPatch(o["server-cert"]) {
-					return fmt.Errorf("Error reading server_cert: %v", err)
+					return fmt.Errorf("error reading server_cert: %v", err)
 				}
 			}
 		} else {
 			if err = d.Set("server_cert", v); err != nil {
 				if !fortiAPIPatch(o["server-cert"]) {
-					return fmt.Errorf("Error reading server_cert: %v", err)
+					return fmt.Errorf("error reading server_cert: %v", err)
 				}
 			}
 		}
@@ -2523,14 +2566,14 @@ func refreshObjectFirewallSslSshProfile(d *schema.ResourceData, o map[string]int
 	if isImportTable() {
 		if err = d.Set("ssl_server", flattenFirewallSslSshProfileSslServer(o["ssl-server"], d, "ssl_server", sv)); err != nil {
 			if !fortiAPIPatch(o["ssl-server"]) {
-				return fmt.Errorf("Error reading ssl_server: %v", err)
+				return fmt.Errorf("error reading ssl_server: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("ssl_server"); ok {
 			if err = d.Set("ssl_server", flattenFirewallSslSshProfileSslServer(o["ssl-server"], d, "ssl_server", sv)); err != nil {
 				if !fortiAPIPatch(o["ssl-server"]) {
-					return fmt.Errorf("Error reading ssl_server: %v", err)
+					return fmt.Errorf("error reading ssl_server: %v", err)
 				}
 			}
 		}
@@ -2538,37 +2581,37 @@ func refreshObjectFirewallSslSshProfile(d *schema.ResourceData, o map[string]int
 
 	if err = d.Set("ssl_anomalies_log", flattenFirewallSslSshProfileSslAnomaliesLog(o["ssl-anomalies-log"], d, "ssl_anomalies_log", sv)); err != nil {
 		if !fortiAPIPatch(o["ssl-anomalies-log"]) {
-			return fmt.Errorf("Error reading ssl_anomalies_log: %v", err)
+			return fmt.Errorf("error reading ssl_anomalies_log: %v", err)
 		}
 	}
 
 	if err = d.Set("ssl_exemptions_log", flattenFirewallSslSshProfileSslExemptionsLog(o["ssl-exemptions-log"], d, "ssl_exemptions_log", sv)); err != nil {
 		if !fortiAPIPatch(o["ssl-exemptions-log"]) {
-			return fmt.Errorf("Error reading ssl_exemptions_log: %v", err)
+			return fmt.Errorf("error reading ssl_exemptions_log: %v", err)
 		}
 	}
 
 	if err = d.Set("ssl_negotiation_log", flattenFirewallSslSshProfileSslNegotiationLog(o["ssl-negotiation-log"], d, "ssl_negotiation_log", sv)); err != nil {
 		if !fortiAPIPatch(o["ssl-negotiation-log"]) {
-			return fmt.Errorf("Error reading ssl_negotiation_log: %v", err)
+			return fmt.Errorf("error reading ssl_negotiation_log: %v", err)
 		}
 	}
 
 	if err = d.Set("rpc_over_https", flattenFirewallSslSshProfileRpcOverHttps(o["rpc-over-https"], d, "rpc_over_https", sv)); err != nil {
 		if !fortiAPIPatch(o["rpc-over-https"]) {
-			return fmt.Errorf("Error reading rpc_over_https: %v", err)
+			return fmt.Errorf("error reading rpc_over_https: %v", err)
 		}
 	}
 
 	if err = d.Set("mapi_over_https", flattenFirewallSslSshProfileMapiOverHttps(o["mapi-over-https"], d, "mapi_over_https", sv)); err != nil {
 		if !fortiAPIPatch(o["mapi-over-https"]) {
-			return fmt.Errorf("Error reading mapi_over_https: %v", err)
+			return fmt.Errorf("error reading mapi_over_https: %v", err)
 		}
 	}
 
 	if err = d.Set("supported_alpn", flattenFirewallSslSshProfileSupportedAlpn(o["supported-alpn"], d, "supported_alpn", sv)); err != nil {
 		if !fortiAPIPatch(o["supported-alpn"]) {
-			return fmt.Errorf("Error reading supported_alpn: %v", err)
+			return fmt.Errorf("error reading supported_alpn: %v", err)
 		}
 	}
 

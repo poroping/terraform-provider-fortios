@@ -52,14 +52,14 @@ func testAccCheckFortiOSDlpSettingsExists(n string) resource.TestCheckFunc {
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadDlpSettings(i, "root")
+		o, err := c.ReadDlpSettings(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading DlpSettings: %s", err)
+			return fmt.Errorf("error reading DlpSettings: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating DlpSettings: %s", n)
+			return fmt.Errorf("error creating DlpSettings: %s", n)
 		}
 
 		return nil
@@ -75,11 +75,11 @@ func testAccCheckDlpSettingsDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadDlpSettings(i, "root")
+		o, err := c.ReadDlpSettings(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error DlpSettings %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error DlpSettings %s still exists", rs.Primary.ID)
 			}
 		}
 

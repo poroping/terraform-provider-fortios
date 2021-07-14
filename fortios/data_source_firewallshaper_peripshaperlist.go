@@ -17,12 +17,12 @@ func dataSourceFirewallShaperPerIpShaperList() *schema.Resource {
 		Read: dataSourceFirewallShaperPerIpShaperListRead,
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"filter": &schema.Schema{
+			"filter": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
@@ -52,9 +52,9 @@ func dataSourceFirewallShaperPerIpShaperListRead(d *schema.ResourceData, m inter
 		filter = escapeFilter(filter)
 	}
 
-	o, err := c.GenericGroupRead("/api/v2/cmdb/firewall.shaper/per-ip-shaper", filter, vdomparam)
+	o, err := c.GenericGroupRead("/api/v2/cmdb/firewall.shaper/per-ip-shaper", filter, vdomparam, 0)
 	if err != nil {
-		return fmt.Errorf("Error describing FirewallShaperPerIpShaper: %v", err)
+		return fmt.Errorf("error describing FirewallShaperPerIpShaper: %v", err)
 	}
 
 	var tmps []string

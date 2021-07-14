@@ -59,14 +59,14 @@ func testAccCheckFortiOSRouterStatic6Exists(n string) resource.TestCheckFunc {
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadRouterStatic6(i, "root")
+		o, err := c.ReadRouterStatic6(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading RouterStatic6: %s", err)
+			return fmt.Errorf("error reading RouterStatic6: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating RouterStatic6: %s", n)
+			return fmt.Errorf("error creating RouterStatic6: %s", n)
 		}
 
 		return nil
@@ -82,11 +82,11 @@ func testAccCheckRouterStatic6Destroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadRouterStatic6(i, "root")
+		o, err := c.ReadRouterStatic6(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error RouterStatic6 %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error RouterStatic6 %s still exists", rs.Primary.ID)
 			}
 		}
 

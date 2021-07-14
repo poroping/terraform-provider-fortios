@@ -66,14 +66,14 @@ func testAccCheckFortiOSFirewallShapingPolicyExists(n string) resource.TestCheck
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadFirewallShapingPolicy(i, "root")
+		o, err := c.ReadFirewallShapingPolicy(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading FirewallShapingPolicy: %s", err)
+			return fmt.Errorf("error reading FirewallShapingPolicy: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating FirewallShapingPolicy: %s", n)
+			return fmt.Errorf("error creating FirewallShapingPolicy: %s", n)
 		}
 
 		return nil
@@ -89,11 +89,11 @@ func testAccCheckFirewallShapingPolicyDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadFirewallShapingPolicy(i, "root")
+		o, err := c.ReadFirewallShapingPolicy(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error FirewallShapingPolicy %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error FirewallShapingPolicy %s still exists", rs.Primary.ID)
 			}
 		}
 

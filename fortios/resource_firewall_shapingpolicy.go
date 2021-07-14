@@ -30,44 +30,44 @@ func resourceFirewallShapingPolicy() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"fosid": &schema.Schema{
+			"fosid": {
 				Type:     schema.TypeInt,
 				ForceNew: true,
 				Optional: true,
 				Computed: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"comment": &schema.Schema{
+			"comment": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
 			},
-			"status": &schema.Schema{
+			"status": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ip_version": &schema.Schema{
+			"ip_version": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"srcaddr": &schema.Schema{
+			"srcaddr": {
 				Type:     schema.TypeList,
 				Required: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 64),
 							Optional:     true,
@@ -76,12 +76,12 @@ func resourceFirewallShapingPolicy() *schema.Resource {
 					},
 				},
 			},
-			"dstaddr": &schema.Schema{
+			"dstaddr": {
 				Type:     schema.TypeList,
 				Required: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 64),
 							Optional:     true,
@@ -90,12 +90,12 @@ func resourceFirewallShapingPolicy() *schema.Resource {
 					},
 				},
 			},
-			"srcaddr6": &schema.Schema{
+			"srcaddr6": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 64),
 							Optional:     true,
@@ -104,12 +104,12 @@ func resourceFirewallShapingPolicy() *schema.Resource {
 					},
 				},
 			},
-			"dstaddr6": &schema.Schema{
+			"dstaddr6": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 64),
 							Optional:     true,
@@ -118,17 +118,17 @@ func resourceFirewallShapingPolicy() *schema.Resource {
 					},
 				},
 			},
-			"internet_service": &schema.Schema{
+			"internet_service": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"internet_service_name": &schema.Schema{
+			"internet_service_name": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 79),
 							Optional:     true,
@@ -137,12 +137,12 @@ func resourceFirewallShapingPolicy() *schema.Resource {
 					},
 				},
 			},
-			"internet_service_id": &schema.Schema{
+			"internet_service_id": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
@@ -150,12 +150,12 @@ func resourceFirewallShapingPolicy() *schema.Resource {
 					},
 				},
 			},
-			"internet_service_group": &schema.Schema{
+			"internet_service_group": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 64),
 							Optional:     true,
@@ -164,12 +164,12 @@ func resourceFirewallShapingPolicy() *schema.Resource {
 					},
 				},
 			},
-			"internet_service_custom": &schema.Schema{
+			"internet_service_custom": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 64),
 							Optional:     true,
@@ -178,12 +178,12 @@ func resourceFirewallShapingPolicy() *schema.Resource {
 					},
 				},
 			},
-			"internet_service_custom_group": &schema.Schema{
+			"internet_service_custom_group": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 64),
 							Optional:     true,
@@ -192,17 +192,17 @@ func resourceFirewallShapingPolicy() *schema.Resource {
 					},
 				},
 			},
-			"internet_service_src": &schema.Schema{
+			"internet_service_src": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"internet_service_src_name": &schema.Schema{
+			"internet_service_src_name": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 79),
 							Optional:     true,
@@ -211,12 +211,12 @@ func resourceFirewallShapingPolicy() *schema.Resource {
 					},
 				},
 			},
-			"internet_service_src_id": &schema.Schema{
+			"internet_service_src_id": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
@@ -224,12 +224,12 @@ func resourceFirewallShapingPolicy() *schema.Resource {
 					},
 				},
 			},
-			"internet_service_src_group": &schema.Schema{
+			"internet_service_src_group": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 64),
 							Optional:     true,
@@ -238,12 +238,12 @@ func resourceFirewallShapingPolicy() *schema.Resource {
 					},
 				},
 			},
-			"internet_service_src_custom": &schema.Schema{
+			"internet_service_src_custom": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 64),
 							Optional:     true,
@@ -252,12 +252,12 @@ func resourceFirewallShapingPolicy() *schema.Resource {
 					},
 				},
 			},
-			"internet_service_src_custom_group": &schema.Schema{
+			"internet_service_src_custom_group": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 64),
 							Optional:     true,
@@ -266,12 +266,12 @@ func resourceFirewallShapingPolicy() *schema.Resource {
 					},
 				},
 			},
-			"service": &schema.Schema{
+			"service": {
 				Type:     schema.TypeList,
 				Required: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 64),
 							Optional:     true,
@@ -280,18 +280,18 @@ func resourceFirewallShapingPolicy() *schema.Resource {
 					},
 				},
 			},
-			"schedule": &schema.Schema{
+			"schedule": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"users": &schema.Schema{
+			"users": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 64),
 							Optional:     true,
@@ -300,12 +300,12 @@ func resourceFirewallShapingPolicy() *schema.Resource {
 					},
 				},
 			},
-			"groups": &schema.Schema{
+			"groups": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 64),
 							Optional:     true,
@@ -314,12 +314,12 @@ func resourceFirewallShapingPolicy() *schema.Resource {
 					},
 				},
 			},
-			"application": &schema.Schema{
+			"application": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
@@ -327,12 +327,12 @@ func resourceFirewallShapingPolicy() *schema.Resource {
 					},
 				},
 			},
-			"app_category": &schema.Schema{
+			"app_category": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
@@ -340,12 +340,12 @@ func resourceFirewallShapingPolicy() *schema.Resource {
 					},
 				},
 			},
-			"app_group": &schema.Schema{
+			"app_group": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 64),
 							Optional:     true,
@@ -354,12 +354,12 @@ func resourceFirewallShapingPolicy() *schema.Resource {
 					},
 				},
 			},
-			"url_category": &schema.Schema{
+			"url_category": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
@@ -367,12 +367,12 @@ func resourceFirewallShapingPolicy() *schema.Resource {
 					},
 				},
 			},
-			"srcintf": &schema.Schema{
+			"srcintf": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 79),
 							Optional:     true,
@@ -381,12 +381,12 @@ func resourceFirewallShapingPolicy() *schema.Resource {
 					},
 				},
 			},
-			"dstintf": &schema.Schema{
+			"dstintf": {
 				Type:     schema.TypeList,
 				Required: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 64),
 							Optional:     true,
@@ -395,69 +395,74 @@ func resourceFirewallShapingPolicy() *schema.Resource {
 					},
 				},
 			},
-			"tos": &schema.Schema{
+			"tos": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"tos_mask": &schema.Schema{
+			"tos_mask": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"tos_negate": &schema.Schema{
+			"tos_negate": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"traffic_shaper": &schema.Schema{
+			"traffic_shaper": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"traffic_shaper_reverse": &schema.Schema{
+			"traffic_shaper_reverse": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"per_ip_shaper": &schema.Schema{
+			"per_ip_shaper": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"class_id": &schema.Schema{
+			"class_id": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 255),
 				Optional:     true,
 				Computed:     true,
 			},
-			"diffserv_forward": &schema.Schema{
+			"diffserv_forward": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"diffserv_reverse": &schema.Schema{
+			"diffserv_reverse": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"diffservcode_forward": &schema.Schema{
+			"diffservcode_forward": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"diffservcode_rev": &schema.Schema{
+			"diffservcode_rev": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"dynamic_sort_subtable": &schema.Schema{
-				Type:     schema.TypeString,
+			"dynamic_sort_subtable": {
+				Type:     schema.TypeBool,
 				Optional: true,
-				Default:  "false",
+				Default:  false,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -475,15 +480,25 @@ func resourceFirewallShapingPolicyCreate(d *schema.ResourceData, m interface{}) 
 		}
 	}
 
-	obj, err := getObjectFirewallShapingPolicy(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating FirewallShapingPolicy resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateFirewallShapingPolicy(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectFirewallShapingPolicy(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating FirewallShapingPolicy resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateFirewallShapingPolicy(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating FirewallShapingPolicy resource: %v", err)
+		return fmt.Errorf("error creating FirewallShapingPolicy resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -508,14 +523,24 @@ func resourceFirewallShapingPolicyUpdate(d *schema.ResourceData, m interface{}) 
 		}
 	}
 
-	obj, err := getObjectFirewallShapingPolicy(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating FirewallShapingPolicy resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateFirewallShapingPolicy(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectFirewallShapingPolicy(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating FirewallShapingPolicy resource: %v", err)
+		return fmt.Errorf("error updating FirewallShapingPolicy resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateFirewallShapingPolicy(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating FirewallShapingPolicy resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -542,9 +567,17 @@ func resourceFirewallShapingPolicyDelete(d *schema.ResourceData, m interface{}) 
 		}
 	}
 
-	err := c.DeleteFirewallShapingPolicy(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteFirewallShapingPolicy(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting FirewallShapingPolicy resource: %v", err)
+		return fmt.Errorf("error deleting FirewallShapingPolicy resource: %v", err)
 	}
 
 	d.SetId("")
@@ -566,9 +599,19 @@ func resourceFirewallShapingPolicyRead(d *schema.ResourceData, m interface{}) er
 		}
 	}
 
-	o, err := c.ReadFirewallShapingPolicy(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadFirewallShapingPolicy(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading FirewallShapingPolicy resource: %v", err)
+		return fmt.Errorf("error reading FirewallShapingPolicy resource: %v", err)
 	}
 
 	if o == nil {
@@ -579,7 +622,7 @@ func resourceFirewallShapingPolicyRead(d *schema.ResourceData, m interface{}) er
 
 	err = refreshObjectFirewallShapingPolicy(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading FirewallShapingPolicy resource from API: %v", err)
+		return fmt.Errorf("error reading FirewallShapingPolicy resource from API: %v", err)
 	}
 	return nil
 }
@@ -1539,45 +1582,45 @@ func refreshObjectFirewallShapingPolicy(d *schema.ResourceData, o map[string]int
 
 	if err = d.Set("fosid", flattenFirewallShapingPolicyId(o["id"], d, "fosid", sv)); err != nil {
 		if !fortiAPIPatch(o["id"]) {
-			return fmt.Errorf("Error reading fosid: %v", err)
+			return fmt.Errorf("error reading fosid: %v", err)
 		}
 	}
 
 	if err = d.Set("name", flattenFirewallShapingPolicyName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("comment", flattenFirewallShapingPolicyComment(o["comment"], d, "comment", sv)); err != nil {
 		if !fortiAPIPatch(o["comment"]) {
-			return fmt.Errorf("Error reading comment: %v", err)
+			return fmt.Errorf("error reading comment: %v", err)
 		}
 	}
 
 	if err = d.Set("status", flattenFirewallShapingPolicyStatus(o["status"], d, "status", sv)); err != nil {
 		if !fortiAPIPatch(o["status"]) {
-			return fmt.Errorf("Error reading status: %v", err)
+			return fmt.Errorf("error reading status: %v", err)
 		}
 	}
 
 	if err = d.Set("ip_version", flattenFirewallShapingPolicyIpVersion(o["ip-version"], d, "ip_version", sv)); err != nil {
 		if !fortiAPIPatch(o["ip-version"]) {
-			return fmt.Errorf("Error reading ip_version: %v", err)
+			return fmt.Errorf("error reading ip_version: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("srcaddr", flattenFirewallShapingPolicySrcaddr(o["srcaddr"], d, "srcaddr", sv)); err != nil {
 			if !fortiAPIPatch(o["srcaddr"]) {
-				return fmt.Errorf("Error reading srcaddr: %v", err)
+				return fmt.Errorf("error reading srcaddr: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("srcaddr"); ok {
 			if err = d.Set("srcaddr", flattenFirewallShapingPolicySrcaddr(o["srcaddr"], d, "srcaddr", sv)); err != nil {
 				if !fortiAPIPatch(o["srcaddr"]) {
-					return fmt.Errorf("Error reading srcaddr: %v", err)
+					return fmt.Errorf("error reading srcaddr: %v", err)
 				}
 			}
 		}
@@ -1586,14 +1629,14 @@ func refreshObjectFirewallShapingPolicy(d *schema.ResourceData, o map[string]int
 	if isImportTable() {
 		if err = d.Set("dstaddr", flattenFirewallShapingPolicyDstaddr(o["dstaddr"], d, "dstaddr", sv)); err != nil {
 			if !fortiAPIPatch(o["dstaddr"]) {
-				return fmt.Errorf("Error reading dstaddr: %v", err)
+				return fmt.Errorf("error reading dstaddr: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("dstaddr"); ok {
 			if err = d.Set("dstaddr", flattenFirewallShapingPolicyDstaddr(o["dstaddr"], d, "dstaddr", sv)); err != nil {
 				if !fortiAPIPatch(o["dstaddr"]) {
-					return fmt.Errorf("Error reading dstaddr: %v", err)
+					return fmt.Errorf("error reading dstaddr: %v", err)
 				}
 			}
 		}
@@ -1602,14 +1645,14 @@ func refreshObjectFirewallShapingPolicy(d *schema.ResourceData, o map[string]int
 	if isImportTable() {
 		if err = d.Set("srcaddr6", flattenFirewallShapingPolicySrcaddr6(o["srcaddr6"], d, "srcaddr6", sv)); err != nil {
 			if !fortiAPIPatch(o["srcaddr6"]) {
-				return fmt.Errorf("Error reading srcaddr6: %v", err)
+				return fmt.Errorf("error reading srcaddr6: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("srcaddr6"); ok {
 			if err = d.Set("srcaddr6", flattenFirewallShapingPolicySrcaddr6(o["srcaddr6"], d, "srcaddr6", sv)); err != nil {
 				if !fortiAPIPatch(o["srcaddr6"]) {
-					return fmt.Errorf("Error reading srcaddr6: %v", err)
+					return fmt.Errorf("error reading srcaddr6: %v", err)
 				}
 			}
 		}
@@ -1618,14 +1661,14 @@ func refreshObjectFirewallShapingPolicy(d *schema.ResourceData, o map[string]int
 	if isImportTable() {
 		if err = d.Set("dstaddr6", flattenFirewallShapingPolicyDstaddr6(o["dstaddr6"], d, "dstaddr6", sv)); err != nil {
 			if !fortiAPIPatch(o["dstaddr6"]) {
-				return fmt.Errorf("Error reading dstaddr6: %v", err)
+				return fmt.Errorf("error reading dstaddr6: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("dstaddr6"); ok {
 			if err = d.Set("dstaddr6", flattenFirewallShapingPolicyDstaddr6(o["dstaddr6"], d, "dstaddr6", sv)); err != nil {
 				if !fortiAPIPatch(o["dstaddr6"]) {
-					return fmt.Errorf("Error reading dstaddr6: %v", err)
+					return fmt.Errorf("error reading dstaddr6: %v", err)
 				}
 			}
 		}
@@ -1633,21 +1676,21 @@ func refreshObjectFirewallShapingPolicy(d *schema.ResourceData, o map[string]int
 
 	if err = d.Set("internet_service", flattenFirewallShapingPolicyInternetService(o["internet-service"], d, "internet_service", sv)); err != nil {
 		if !fortiAPIPatch(o["internet-service"]) {
-			return fmt.Errorf("Error reading internet_service: %v", err)
+			return fmt.Errorf("error reading internet_service: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("internet_service_name", flattenFirewallShapingPolicyInternetServiceName(o["internet-service-name"], d, "internet_service_name", sv)); err != nil {
 			if !fortiAPIPatch(o["internet-service-name"]) {
-				return fmt.Errorf("Error reading internet_service_name: %v", err)
+				return fmt.Errorf("error reading internet_service_name: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("internet_service_name"); ok {
 			if err = d.Set("internet_service_name", flattenFirewallShapingPolicyInternetServiceName(o["internet-service-name"], d, "internet_service_name", sv)); err != nil {
 				if !fortiAPIPatch(o["internet-service-name"]) {
-					return fmt.Errorf("Error reading internet_service_name: %v", err)
+					return fmt.Errorf("error reading internet_service_name: %v", err)
 				}
 			}
 		}
@@ -1656,14 +1699,14 @@ func refreshObjectFirewallShapingPolicy(d *schema.ResourceData, o map[string]int
 	if isImportTable() {
 		if err = d.Set("internet_service_id", flattenFirewallShapingPolicyInternetServiceId(o["internet-service-id"], d, "internet_service_id", sv)); err != nil {
 			if !fortiAPIPatch(o["internet-service-id"]) {
-				return fmt.Errorf("Error reading internet_service_id: %v", err)
+				return fmt.Errorf("error reading internet_service_id: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("internet_service_id"); ok {
 			if err = d.Set("internet_service_id", flattenFirewallShapingPolicyInternetServiceId(o["internet-service-id"], d, "internet_service_id", sv)); err != nil {
 				if !fortiAPIPatch(o["internet-service-id"]) {
-					return fmt.Errorf("Error reading internet_service_id: %v", err)
+					return fmt.Errorf("error reading internet_service_id: %v", err)
 				}
 			}
 		}
@@ -1672,14 +1715,14 @@ func refreshObjectFirewallShapingPolicy(d *schema.ResourceData, o map[string]int
 	if isImportTable() {
 		if err = d.Set("internet_service_group", flattenFirewallShapingPolicyInternetServiceGroup(o["internet-service-group"], d, "internet_service_group", sv)); err != nil {
 			if !fortiAPIPatch(o["internet-service-group"]) {
-				return fmt.Errorf("Error reading internet_service_group: %v", err)
+				return fmt.Errorf("error reading internet_service_group: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("internet_service_group"); ok {
 			if err = d.Set("internet_service_group", flattenFirewallShapingPolicyInternetServiceGroup(o["internet-service-group"], d, "internet_service_group", sv)); err != nil {
 				if !fortiAPIPatch(o["internet-service-group"]) {
-					return fmt.Errorf("Error reading internet_service_group: %v", err)
+					return fmt.Errorf("error reading internet_service_group: %v", err)
 				}
 			}
 		}
@@ -1688,14 +1731,14 @@ func refreshObjectFirewallShapingPolicy(d *schema.ResourceData, o map[string]int
 	if isImportTable() {
 		if err = d.Set("internet_service_custom", flattenFirewallShapingPolicyInternetServiceCustom(o["internet-service-custom"], d, "internet_service_custom", sv)); err != nil {
 			if !fortiAPIPatch(o["internet-service-custom"]) {
-				return fmt.Errorf("Error reading internet_service_custom: %v", err)
+				return fmt.Errorf("error reading internet_service_custom: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("internet_service_custom"); ok {
 			if err = d.Set("internet_service_custom", flattenFirewallShapingPolicyInternetServiceCustom(o["internet-service-custom"], d, "internet_service_custom", sv)); err != nil {
 				if !fortiAPIPatch(o["internet-service-custom"]) {
-					return fmt.Errorf("Error reading internet_service_custom: %v", err)
+					return fmt.Errorf("error reading internet_service_custom: %v", err)
 				}
 			}
 		}
@@ -1704,14 +1747,14 @@ func refreshObjectFirewallShapingPolicy(d *schema.ResourceData, o map[string]int
 	if isImportTable() {
 		if err = d.Set("internet_service_custom_group", flattenFirewallShapingPolicyInternetServiceCustomGroup(o["internet-service-custom-group"], d, "internet_service_custom_group", sv)); err != nil {
 			if !fortiAPIPatch(o["internet-service-custom-group"]) {
-				return fmt.Errorf("Error reading internet_service_custom_group: %v", err)
+				return fmt.Errorf("error reading internet_service_custom_group: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("internet_service_custom_group"); ok {
 			if err = d.Set("internet_service_custom_group", flattenFirewallShapingPolicyInternetServiceCustomGroup(o["internet-service-custom-group"], d, "internet_service_custom_group", sv)); err != nil {
 				if !fortiAPIPatch(o["internet-service-custom-group"]) {
-					return fmt.Errorf("Error reading internet_service_custom_group: %v", err)
+					return fmt.Errorf("error reading internet_service_custom_group: %v", err)
 				}
 			}
 		}
@@ -1719,21 +1762,21 @@ func refreshObjectFirewallShapingPolicy(d *schema.ResourceData, o map[string]int
 
 	if err = d.Set("internet_service_src", flattenFirewallShapingPolicyInternetServiceSrc(o["internet-service-src"], d, "internet_service_src", sv)); err != nil {
 		if !fortiAPIPatch(o["internet-service-src"]) {
-			return fmt.Errorf("Error reading internet_service_src: %v", err)
+			return fmt.Errorf("error reading internet_service_src: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("internet_service_src_name", flattenFirewallShapingPolicyInternetServiceSrcName(o["internet-service-src-name"], d, "internet_service_src_name", sv)); err != nil {
 			if !fortiAPIPatch(o["internet-service-src-name"]) {
-				return fmt.Errorf("Error reading internet_service_src_name: %v", err)
+				return fmt.Errorf("error reading internet_service_src_name: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("internet_service_src_name"); ok {
 			if err = d.Set("internet_service_src_name", flattenFirewallShapingPolicyInternetServiceSrcName(o["internet-service-src-name"], d, "internet_service_src_name", sv)); err != nil {
 				if !fortiAPIPatch(o["internet-service-src-name"]) {
-					return fmt.Errorf("Error reading internet_service_src_name: %v", err)
+					return fmt.Errorf("error reading internet_service_src_name: %v", err)
 				}
 			}
 		}
@@ -1742,14 +1785,14 @@ func refreshObjectFirewallShapingPolicy(d *schema.ResourceData, o map[string]int
 	if isImportTable() {
 		if err = d.Set("internet_service_src_id", flattenFirewallShapingPolicyInternetServiceSrcId(o["internet-service-src-id"], d, "internet_service_src_id", sv)); err != nil {
 			if !fortiAPIPatch(o["internet-service-src-id"]) {
-				return fmt.Errorf("Error reading internet_service_src_id: %v", err)
+				return fmt.Errorf("error reading internet_service_src_id: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("internet_service_src_id"); ok {
 			if err = d.Set("internet_service_src_id", flattenFirewallShapingPolicyInternetServiceSrcId(o["internet-service-src-id"], d, "internet_service_src_id", sv)); err != nil {
 				if !fortiAPIPatch(o["internet-service-src-id"]) {
-					return fmt.Errorf("Error reading internet_service_src_id: %v", err)
+					return fmt.Errorf("error reading internet_service_src_id: %v", err)
 				}
 			}
 		}
@@ -1758,14 +1801,14 @@ func refreshObjectFirewallShapingPolicy(d *schema.ResourceData, o map[string]int
 	if isImportTable() {
 		if err = d.Set("internet_service_src_group", flattenFirewallShapingPolicyInternetServiceSrcGroup(o["internet-service-src-group"], d, "internet_service_src_group", sv)); err != nil {
 			if !fortiAPIPatch(o["internet-service-src-group"]) {
-				return fmt.Errorf("Error reading internet_service_src_group: %v", err)
+				return fmt.Errorf("error reading internet_service_src_group: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("internet_service_src_group"); ok {
 			if err = d.Set("internet_service_src_group", flattenFirewallShapingPolicyInternetServiceSrcGroup(o["internet-service-src-group"], d, "internet_service_src_group", sv)); err != nil {
 				if !fortiAPIPatch(o["internet-service-src-group"]) {
-					return fmt.Errorf("Error reading internet_service_src_group: %v", err)
+					return fmt.Errorf("error reading internet_service_src_group: %v", err)
 				}
 			}
 		}
@@ -1774,14 +1817,14 @@ func refreshObjectFirewallShapingPolicy(d *schema.ResourceData, o map[string]int
 	if isImportTable() {
 		if err = d.Set("internet_service_src_custom", flattenFirewallShapingPolicyInternetServiceSrcCustom(o["internet-service-src-custom"], d, "internet_service_src_custom", sv)); err != nil {
 			if !fortiAPIPatch(o["internet-service-src-custom"]) {
-				return fmt.Errorf("Error reading internet_service_src_custom: %v", err)
+				return fmt.Errorf("error reading internet_service_src_custom: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("internet_service_src_custom"); ok {
 			if err = d.Set("internet_service_src_custom", flattenFirewallShapingPolicyInternetServiceSrcCustom(o["internet-service-src-custom"], d, "internet_service_src_custom", sv)); err != nil {
 				if !fortiAPIPatch(o["internet-service-src-custom"]) {
-					return fmt.Errorf("Error reading internet_service_src_custom: %v", err)
+					return fmt.Errorf("error reading internet_service_src_custom: %v", err)
 				}
 			}
 		}
@@ -1790,14 +1833,14 @@ func refreshObjectFirewallShapingPolicy(d *schema.ResourceData, o map[string]int
 	if isImportTable() {
 		if err = d.Set("internet_service_src_custom_group", flattenFirewallShapingPolicyInternetServiceSrcCustomGroup(o["internet-service-src-custom-group"], d, "internet_service_src_custom_group", sv)); err != nil {
 			if !fortiAPIPatch(o["internet-service-src-custom-group"]) {
-				return fmt.Errorf("Error reading internet_service_src_custom_group: %v", err)
+				return fmt.Errorf("error reading internet_service_src_custom_group: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("internet_service_src_custom_group"); ok {
 			if err = d.Set("internet_service_src_custom_group", flattenFirewallShapingPolicyInternetServiceSrcCustomGroup(o["internet-service-src-custom-group"], d, "internet_service_src_custom_group", sv)); err != nil {
 				if !fortiAPIPatch(o["internet-service-src-custom-group"]) {
-					return fmt.Errorf("Error reading internet_service_src_custom_group: %v", err)
+					return fmt.Errorf("error reading internet_service_src_custom_group: %v", err)
 				}
 			}
 		}
@@ -1806,14 +1849,14 @@ func refreshObjectFirewallShapingPolicy(d *schema.ResourceData, o map[string]int
 	if isImportTable() {
 		if err = d.Set("service", flattenFirewallShapingPolicyService(o["service"], d, "service", sv)); err != nil {
 			if !fortiAPIPatch(o["service"]) {
-				return fmt.Errorf("Error reading service: %v", err)
+				return fmt.Errorf("error reading service: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("service"); ok {
 			if err = d.Set("service", flattenFirewallShapingPolicyService(o["service"], d, "service", sv)); err != nil {
 				if !fortiAPIPatch(o["service"]) {
-					return fmt.Errorf("Error reading service: %v", err)
+					return fmt.Errorf("error reading service: %v", err)
 				}
 			}
 		}
@@ -1821,21 +1864,21 @@ func refreshObjectFirewallShapingPolicy(d *schema.ResourceData, o map[string]int
 
 	if err = d.Set("schedule", flattenFirewallShapingPolicySchedule(o["schedule"], d, "schedule", sv)); err != nil {
 		if !fortiAPIPatch(o["schedule"]) {
-			return fmt.Errorf("Error reading schedule: %v", err)
+			return fmt.Errorf("error reading schedule: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("users", flattenFirewallShapingPolicyUsers(o["users"], d, "users", sv)); err != nil {
 			if !fortiAPIPatch(o["users"]) {
-				return fmt.Errorf("Error reading users: %v", err)
+				return fmt.Errorf("error reading users: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("users"); ok {
 			if err = d.Set("users", flattenFirewallShapingPolicyUsers(o["users"], d, "users", sv)); err != nil {
 				if !fortiAPIPatch(o["users"]) {
-					return fmt.Errorf("Error reading users: %v", err)
+					return fmt.Errorf("error reading users: %v", err)
 				}
 			}
 		}
@@ -1844,14 +1887,14 @@ func refreshObjectFirewallShapingPolicy(d *schema.ResourceData, o map[string]int
 	if isImportTable() {
 		if err = d.Set("groups", flattenFirewallShapingPolicyGroups(o["groups"], d, "groups", sv)); err != nil {
 			if !fortiAPIPatch(o["groups"]) {
-				return fmt.Errorf("Error reading groups: %v", err)
+				return fmt.Errorf("error reading groups: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("groups"); ok {
 			if err = d.Set("groups", flattenFirewallShapingPolicyGroups(o["groups"], d, "groups", sv)); err != nil {
 				if !fortiAPIPatch(o["groups"]) {
-					return fmt.Errorf("Error reading groups: %v", err)
+					return fmt.Errorf("error reading groups: %v", err)
 				}
 			}
 		}
@@ -1860,14 +1903,14 @@ func refreshObjectFirewallShapingPolicy(d *schema.ResourceData, o map[string]int
 	if isImportTable() {
 		if err = d.Set("application", flattenFirewallShapingPolicyApplication(o["application"], d, "application", sv)); err != nil {
 			if !fortiAPIPatch(o["application"]) {
-				return fmt.Errorf("Error reading application: %v", err)
+				return fmt.Errorf("error reading application: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("application"); ok {
 			if err = d.Set("application", flattenFirewallShapingPolicyApplication(o["application"], d, "application", sv)); err != nil {
 				if !fortiAPIPatch(o["application"]) {
-					return fmt.Errorf("Error reading application: %v", err)
+					return fmt.Errorf("error reading application: %v", err)
 				}
 			}
 		}
@@ -1876,14 +1919,14 @@ func refreshObjectFirewallShapingPolicy(d *schema.ResourceData, o map[string]int
 	if isImportTable() {
 		if err = d.Set("app_category", flattenFirewallShapingPolicyAppCategory(o["app-category"], d, "app_category", sv)); err != nil {
 			if !fortiAPIPatch(o["app-category"]) {
-				return fmt.Errorf("Error reading app_category: %v", err)
+				return fmt.Errorf("error reading app_category: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("app_category"); ok {
 			if err = d.Set("app_category", flattenFirewallShapingPolicyAppCategory(o["app-category"], d, "app_category", sv)); err != nil {
 				if !fortiAPIPatch(o["app-category"]) {
-					return fmt.Errorf("Error reading app_category: %v", err)
+					return fmt.Errorf("error reading app_category: %v", err)
 				}
 			}
 		}
@@ -1892,14 +1935,14 @@ func refreshObjectFirewallShapingPolicy(d *schema.ResourceData, o map[string]int
 	if isImportTable() {
 		if err = d.Set("app_group", flattenFirewallShapingPolicyAppGroup(o["app-group"], d, "app_group", sv)); err != nil {
 			if !fortiAPIPatch(o["app-group"]) {
-				return fmt.Errorf("Error reading app_group: %v", err)
+				return fmt.Errorf("error reading app_group: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("app_group"); ok {
 			if err = d.Set("app_group", flattenFirewallShapingPolicyAppGroup(o["app-group"], d, "app_group", sv)); err != nil {
 				if !fortiAPIPatch(o["app-group"]) {
-					return fmt.Errorf("Error reading app_group: %v", err)
+					return fmt.Errorf("error reading app_group: %v", err)
 				}
 			}
 		}
@@ -1908,14 +1951,14 @@ func refreshObjectFirewallShapingPolicy(d *schema.ResourceData, o map[string]int
 	if isImportTable() {
 		if err = d.Set("url_category", flattenFirewallShapingPolicyUrlCategory(o["url-category"], d, "url_category", sv)); err != nil {
 			if !fortiAPIPatch(o["url-category"]) {
-				return fmt.Errorf("Error reading url_category: %v", err)
+				return fmt.Errorf("error reading url_category: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("url_category"); ok {
 			if err = d.Set("url_category", flattenFirewallShapingPolicyUrlCategory(o["url-category"], d, "url_category", sv)); err != nil {
 				if !fortiAPIPatch(o["url-category"]) {
-					return fmt.Errorf("Error reading url_category: %v", err)
+					return fmt.Errorf("error reading url_category: %v", err)
 				}
 			}
 		}
@@ -1924,14 +1967,14 @@ func refreshObjectFirewallShapingPolicy(d *schema.ResourceData, o map[string]int
 	if isImportTable() {
 		if err = d.Set("srcintf", flattenFirewallShapingPolicySrcintf(o["srcintf"], d, "srcintf", sv)); err != nil {
 			if !fortiAPIPatch(o["srcintf"]) {
-				return fmt.Errorf("Error reading srcintf: %v", err)
+				return fmt.Errorf("error reading srcintf: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("srcintf"); ok {
 			if err = d.Set("srcintf", flattenFirewallShapingPolicySrcintf(o["srcintf"], d, "srcintf", sv)); err != nil {
 				if !fortiAPIPatch(o["srcintf"]) {
-					return fmt.Errorf("Error reading srcintf: %v", err)
+					return fmt.Errorf("error reading srcintf: %v", err)
 				}
 			}
 		}
@@ -1940,14 +1983,14 @@ func refreshObjectFirewallShapingPolicy(d *schema.ResourceData, o map[string]int
 	if isImportTable() {
 		if err = d.Set("dstintf", flattenFirewallShapingPolicyDstintf(o["dstintf"], d, "dstintf", sv)); err != nil {
 			if !fortiAPIPatch(o["dstintf"]) {
-				return fmt.Errorf("Error reading dstintf: %v", err)
+				return fmt.Errorf("error reading dstintf: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("dstintf"); ok {
 			if err = d.Set("dstintf", flattenFirewallShapingPolicyDstintf(o["dstintf"], d, "dstintf", sv)); err != nil {
 				if !fortiAPIPatch(o["dstintf"]) {
-					return fmt.Errorf("Error reading dstintf: %v", err)
+					return fmt.Errorf("error reading dstintf: %v", err)
 				}
 			}
 		}
@@ -1955,67 +1998,67 @@ func refreshObjectFirewallShapingPolicy(d *schema.ResourceData, o map[string]int
 
 	if err = d.Set("tos", flattenFirewallShapingPolicyTos(o["tos"], d, "tos", sv)); err != nil {
 		if !fortiAPIPatch(o["tos"]) {
-			return fmt.Errorf("Error reading tos: %v", err)
+			return fmt.Errorf("error reading tos: %v", err)
 		}
 	}
 
 	if err = d.Set("tos_mask", flattenFirewallShapingPolicyTosMask(o["tos-mask"], d, "tos_mask", sv)); err != nil {
 		if !fortiAPIPatch(o["tos-mask"]) {
-			return fmt.Errorf("Error reading tos_mask: %v", err)
+			return fmt.Errorf("error reading tos_mask: %v", err)
 		}
 	}
 
 	if err = d.Set("tos_negate", flattenFirewallShapingPolicyTosNegate(o["tos-negate"], d, "tos_negate", sv)); err != nil {
 		if !fortiAPIPatch(o["tos-negate"]) {
-			return fmt.Errorf("Error reading tos_negate: %v", err)
+			return fmt.Errorf("error reading tos_negate: %v", err)
 		}
 	}
 
 	if err = d.Set("traffic_shaper", flattenFirewallShapingPolicyTrafficShaper(o["traffic-shaper"], d, "traffic_shaper", sv)); err != nil {
 		if !fortiAPIPatch(o["traffic-shaper"]) {
-			return fmt.Errorf("Error reading traffic_shaper: %v", err)
+			return fmt.Errorf("error reading traffic_shaper: %v", err)
 		}
 	}
 
 	if err = d.Set("traffic_shaper_reverse", flattenFirewallShapingPolicyTrafficShaperReverse(o["traffic-shaper-reverse"], d, "traffic_shaper_reverse", sv)); err != nil {
 		if !fortiAPIPatch(o["traffic-shaper-reverse"]) {
-			return fmt.Errorf("Error reading traffic_shaper_reverse: %v", err)
+			return fmt.Errorf("error reading traffic_shaper_reverse: %v", err)
 		}
 	}
 
 	if err = d.Set("per_ip_shaper", flattenFirewallShapingPolicyPerIpShaper(o["per-ip-shaper"], d, "per_ip_shaper", sv)); err != nil {
 		if !fortiAPIPatch(o["per-ip-shaper"]) {
-			return fmt.Errorf("Error reading per_ip_shaper: %v", err)
+			return fmt.Errorf("error reading per_ip_shaper: %v", err)
 		}
 	}
 
 	if err = d.Set("class_id", flattenFirewallShapingPolicyClassId(o["class-id"], d, "class_id", sv)); err != nil {
 		if !fortiAPIPatch(o["class-id"]) {
-			return fmt.Errorf("Error reading class_id: %v", err)
+			return fmt.Errorf("error reading class_id: %v", err)
 		}
 	}
 
 	if err = d.Set("diffserv_forward", flattenFirewallShapingPolicyDiffservForward(o["diffserv-forward"], d, "diffserv_forward", sv)); err != nil {
 		if !fortiAPIPatch(o["diffserv-forward"]) {
-			return fmt.Errorf("Error reading diffserv_forward: %v", err)
+			return fmt.Errorf("error reading diffserv_forward: %v", err)
 		}
 	}
 
 	if err = d.Set("diffserv_reverse", flattenFirewallShapingPolicyDiffservReverse(o["diffserv-reverse"], d, "diffserv_reverse", sv)); err != nil {
 		if !fortiAPIPatch(o["diffserv-reverse"]) {
-			return fmt.Errorf("Error reading diffserv_reverse: %v", err)
+			return fmt.Errorf("error reading diffserv_reverse: %v", err)
 		}
 	}
 
 	if err = d.Set("diffservcode_forward", flattenFirewallShapingPolicyDiffservcodeForward(o["diffservcode-forward"], d, "diffservcode_forward", sv)); err != nil {
 		if !fortiAPIPatch(o["diffservcode-forward"]) {
-			return fmt.Errorf("Error reading diffservcode_forward: %v", err)
+			return fmt.Errorf("error reading diffservcode_forward: %v", err)
 		}
 	}
 
 	if err = d.Set("diffservcode_rev", flattenFirewallShapingPolicyDiffservcodeRev(o["diffservcode-rev"], d, "diffservcode_rev", sv)); err != nil {
 		if !fortiAPIPatch(o["diffservcode-rev"]) {
-			return fmt.Errorf("Error reading diffservcode_rev: %v", err)
+			return fmt.Errorf("error reading diffservcode_rev: %v", err)
 		}
 	}
 

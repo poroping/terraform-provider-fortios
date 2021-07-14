@@ -30,27 +30,32 @@ func resourceSystemReplacemsgImage() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 23),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"image_type": &schema.Schema{
+			"image_type": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"image_base64": &schema.Schema{
+			"image_base64": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 32768),
 				Optional:     true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -68,15 +73,25 @@ func resourceSystemReplacemsgImageCreate(d *schema.ResourceData, m interface{}) 
 		}
 	}
 
-	obj, err := getObjectSystemReplacemsgImage(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating SystemReplacemsgImage resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateSystemReplacemsgImage(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemReplacemsgImage(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating SystemReplacemsgImage resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateSystemReplacemsgImage(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating SystemReplacemsgImage resource: %v", err)
+		return fmt.Errorf("error creating SystemReplacemsgImage resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -101,14 +116,24 @@ func resourceSystemReplacemsgImageUpdate(d *schema.ResourceData, m interface{}) 
 		}
 	}
 
-	obj, err := getObjectSystemReplacemsgImage(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SystemReplacemsgImage resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSystemReplacemsgImage(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemReplacemsgImage(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SystemReplacemsgImage resource: %v", err)
+		return fmt.Errorf("error updating SystemReplacemsgImage resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSystemReplacemsgImage(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SystemReplacemsgImage resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -135,9 +160,17 @@ func resourceSystemReplacemsgImageDelete(d *schema.ResourceData, m interface{}) 
 		}
 	}
 
-	err := c.DeleteSystemReplacemsgImage(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSystemReplacemsgImage(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SystemReplacemsgImage resource: %v", err)
+		return fmt.Errorf("error deleting SystemReplacemsgImage resource: %v", err)
 	}
 
 	d.SetId("")
@@ -159,9 +192,19 @@ func resourceSystemReplacemsgImageRead(d *schema.ResourceData, m interface{}) er
 		}
 	}
 
-	o, err := c.ReadSystemReplacemsgImage(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSystemReplacemsgImage(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemReplacemsgImage resource: %v", err)
+		return fmt.Errorf("error reading SystemReplacemsgImage resource: %v", err)
 	}
 
 	if o == nil {
@@ -172,7 +215,7 @@ func resourceSystemReplacemsgImageRead(d *schema.ResourceData, m interface{}) er
 
 	err = refreshObjectSystemReplacemsgImage(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemReplacemsgImage resource from API: %v", err)
+		return fmt.Errorf("error reading SystemReplacemsgImage resource from API: %v", err)
 	}
 	return nil
 }
@@ -194,19 +237,19 @@ func refreshObjectSystemReplacemsgImage(d *schema.ResourceData, o map[string]int
 
 	if err = d.Set("name", flattenSystemReplacemsgImageName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("image_type", flattenSystemReplacemsgImageImageType(o["image-type"], d, "image_type", sv)); err != nil {
 		if !fortiAPIPatch(o["image-type"]) {
-			return fmt.Errorf("Error reading image_type: %v", err)
+			return fmt.Errorf("error reading image_type: %v", err)
 		}
 	}
 
 	if err = d.Set("image_base64", flattenSystemReplacemsgImageImageBase64(o["image-base64"], d, "image_base64", sv)); err != nil {
 		if !fortiAPIPatch(o["image-base64"]) {
-			return fmt.Errorf("Error reading image_base64: %v", err)
+			return fmt.Errorf("error reading image_base64: %v", err)
 		}
 	}
 

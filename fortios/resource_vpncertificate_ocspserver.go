@@ -30,51 +30,56 @@ func resourceVpnCertificateOcspServer() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"url": &schema.Schema{
+			"url": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 127),
 				Optional:     true,
 				Computed:     true,
 			},
-			"cert": &schema.Schema{
+			"cert": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 127),
 				Optional:     true,
 				Computed:     true,
 			},
-			"secondary_url": &schema.Schema{
+			"secondary_url": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 127),
 				Optional:     true,
 				Computed:     true,
 			},
-			"secondary_cert": &schema.Schema{
+			"secondary_cert": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 127),
 				Optional:     true,
 				Computed:     true,
 			},
-			"unavail_action": &schema.Schema{
+			"unavail_action": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"source_ip": &schema.Schema{
+			"source_ip": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -92,15 +97,25 @@ func resourceVpnCertificateOcspServerCreate(d *schema.ResourceData, m interface{
 		}
 	}
 
-	obj, err := getObjectVpnCertificateOcspServer(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating VpnCertificateOcspServer resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateVpnCertificateOcspServer(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectVpnCertificateOcspServer(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating VpnCertificateOcspServer resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateVpnCertificateOcspServer(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating VpnCertificateOcspServer resource: %v", err)
+		return fmt.Errorf("error creating VpnCertificateOcspServer resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -125,14 +140,24 @@ func resourceVpnCertificateOcspServerUpdate(d *schema.ResourceData, m interface{
 		}
 	}
 
-	obj, err := getObjectVpnCertificateOcspServer(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating VpnCertificateOcspServer resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateVpnCertificateOcspServer(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectVpnCertificateOcspServer(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating VpnCertificateOcspServer resource: %v", err)
+		return fmt.Errorf("error updating VpnCertificateOcspServer resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateVpnCertificateOcspServer(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating VpnCertificateOcspServer resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -159,9 +184,17 @@ func resourceVpnCertificateOcspServerDelete(d *schema.ResourceData, m interface{
 		}
 	}
 
-	err := c.DeleteVpnCertificateOcspServer(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteVpnCertificateOcspServer(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting VpnCertificateOcspServer resource: %v", err)
+		return fmt.Errorf("error deleting VpnCertificateOcspServer resource: %v", err)
 	}
 
 	d.SetId("")
@@ -183,9 +216,19 @@ func resourceVpnCertificateOcspServerRead(d *schema.ResourceData, m interface{})
 		}
 	}
 
-	o, err := c.ReadVpnCertificateOcspServer(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadVpnCertificateOcspServer(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading VpnCertificateOcspServer resource: %v", err)
+		return fmt.Errorf("error reading VpnCertificateOcspServer resource: %v", err)
 	}
 
 	if o == nil {
@@ -196,7 +239,7 @@ func resourceVpnCertificateOcspServerRead(d *schema.ResourceData, m interface{})
 
 	err = refreshObjectVpnCertificateOcspServer(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading VpnCertificateOcspServer resource from API: %v", err)
+		return fmt.Errorf("error reading VpnCertificateOcspServer resource from API: %v", err)
 	}
 	return nil
 }
@@ -234,43 +277,43 @@ func refreshObjectVpnCertificateOcspServer(d *schema.ResourceData, o map[string]
 
 	if err = d.Set("name", flattenVpnCertificateOcspServerName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("url", flattenVpnCertificateOcspServerUrl(o["url"], d, "url", sv)); err != nil {
 		if !fortiAPIPatch(o["url"]) {
-			return fmt.Errorf("Error reading url: %v", err)
+			return fmt.Errorf("error reading url: %v", err)
 		}
 	}
 
 	if err = d.Set("cert", flattenVpnCertificateOcspServerCert(o["cert"], d, "cert", sv)); err != nil {
 		if !fortiAPIPatch(o["cert"]) {
-			return fmt.Errorf("Error reading cert: %v", err)
+			return fmt.Errorf("error reading cert: %v", err)
 		}
 	}
 
 	if err = d.Set("secondary_url", flattenVpnCertificateOcspServerSecondaryUrl(o["secondary-url"], d, "secondary_url", sv)); err != nil {
 		if !fortiAPIPatch(o["secondary-url"]) {
-			return fmt.Errorf("Error reading secondary_url: %v", err)
+			return fmt.Errorf("error reading secondary_url: %v", err)
 		}
 	}
 
 	if err = d.Set("secondary_cert", flattenVpnCertificateOcspServerSecondaryCert(o["secondary-cert"], d, "secondary_cert", sv)); err != nil {
 		if !fortiAPIPatch(o["secondary-cert"]) {
-			return fmt.Errorf("Error reading secondary_cert: %v", err)
+			return fmt.Errorf("error reading secondary_cert: %v", err)
 		}
 	}
 
 	if err = d.Set("unavail_action", flattenVpnCertificateOcspServerUnavailAction(o["unavail-action"], d, "unavail_action", sv)); err != nil {
 		if !fortiAPIPatch(o["unavail-action"]) {
-			return fmt.Errorf("Error reading unavail_action: %v", err)
+			return fmt.Errorf("error reading unavail_action: %v", err)
 		}
 	}
 
 	if err = d.Set("source_ip", flattenVpnCertificateOcspServerSourceIp(o["source-ip"], d, "source_ip", sv)); err != nil {
 		if !fortiAPIPatch(o["source-ip"]) {
-			return fmt.Errorf("Error reading source_ip: %v", err)
+			return fmt.Errorf("error reading source_ip: %v", err)
 		}
 	}
 

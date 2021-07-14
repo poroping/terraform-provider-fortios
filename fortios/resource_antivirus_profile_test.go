@@ -60,14 +60,14 @@ func testAccCheckFortiOSAntivirusProfileExists(n string) resource.TestCheckFunc 
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadAntivirusProfile(i, "root")
+		o, err := c.ReadAntivirusProfile(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading AntivirusProfile: %s", err)
+			return fmt.Errorf("error reading AntivirusProfile: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating AntivirusProfile: %s", n)
+			return fmt.Errorf("error creating AntivirusProfile: %s", n)
 		}
 
 		return nil
@@ -83,11 +83,11 @@ func testAccCheckAntivirusProfileDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadAntivirusProfile(i, "root")
+		o, err := c.ReadAntivirusProfile(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error AntivirusProfile %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error AntivirusProfile %s still exists", rs.Primary.ID)
 			}
 		}
 

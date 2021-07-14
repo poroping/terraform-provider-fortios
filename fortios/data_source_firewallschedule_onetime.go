@@ -21,29 +21,29 @@ func dataSourceFirewallScheduleOnetime() *schema.Resource {
 	return &schema.Resource{
 		Read: dataSourceFirewallScheduleOnetimeRead,
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
 
-			"name": &schema.Schema{
+			"name": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"start": &schema.Schema{
+			"start": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"end": &schema.Schema{
+			"end": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"color": &schema.Schema{
+			"color": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"expiration_days": &schema.Schema{
+			"expiration_days": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
@@ -71,12 +71,12 @@ func dataSourceFirewallScheduleOnetimeRead(d *schema.ResourceData, m interface{}
 	} else if v, ok := t.(int); ok {
 		mkey = strconv.Itoa(v)
 	} else {
-		return fmt.Errorf("Error describing FirewallScheduleOnetime: type error")
+		return fmt.Errorf("error describing FirewallScheduleOnetime: type error")
 	}
 
-	o, err := c.ReadFirewallScheduleOnetime(mkey, vdomparam)
+	o, err := c.ReadFirewallScheduleOnetime(mkey, vdomparam, make(map[string][]string), 0)
 	if err != nil {
-		return fmt.Errorf("Error describing FirewallScheduleOnetime: %v", err)
+		return fmt.Errorf("error describing FirewallScheduleOnetime: %v", err)
 	}
 
 	if o == nil {
@@ -86,7 +86,7 @@ func dataSourceFirewallScheduleOnetimeRead(d *schema.ResourceData, m interface{}
 
 	err = dataSourceRefreshObjectFirewallScheduleOnetime(d, o)
 	if err != nil {
-		return fmt.Errorf("Error describing FirewallScheduleOnetime from API: %v", err)
+		return fmt.Errorf("error describing FirewallScheduleOnetime from API: %v", err)
 	}
 
 	d.SetId(mkey)
@@ -119,31 +119,31 @@ func dataSourceRefreshObjectFirewallScheduleOnetime(d *schema.ResourceData, o ma
 
 	if err = d.Set("name", dataSourceFlattenFirewallScheduleOnetimeName(o["name"], d, "name")); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("start", dataSourceFlattenFirewallScheduleOnetimeStart(o["start"], d, "start")); err != nil {
 		if !fortiAPIPatch(o["start"]) {
-			return fmt.Errorf("Error reading start: %v", err)
+			return fmt.Errorf("error reading start: %v", err)
 		}
 	}
 
 	if err = d.Set("end", dataSourceFlattenFirewallScheduleOnetimeEnd(o["end"], d, "end")); err != nil {
 		if !fortiAPIPatch(o["end"]) {
-			return fmt.Errorf("Error reading end: %v", err)
+			return fmt.Errorf("error reading end: %v", err)
 		}
 	}
 
 	if err = d.Set("color", dataSourceFlattenFirewallScheduleOnetimeColor(o["color"], d, "color")); err != nil {
 		if !fortiAPIPatch(o["color"]) {
-			return fmt.Errorf("Error reading color: %v", err)
+			return fmt.Errorf("error reading color: %v", err)
 		}
 	}
 
 	if err = d.Set("expiration_days", dataSourceFlattenFirewallScheduleOnetimeExpirationDays(o["expiration-days"], d, "expiration_days")); err != nil {
 		if !fortiAPIPatch(o["expiration-days"]) {
-			return fmt.Errorf("Error reading expiration_days: %v", err)
+			return fmt.Errorf("error reading expiration_days: %v", err)
 		}
 	}
 

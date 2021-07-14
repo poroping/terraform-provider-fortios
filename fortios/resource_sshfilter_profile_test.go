@@ -52,14 +52,14 @@ func testAccCheckFortiOSSshFilterProfileExists(n string) resource.TestCheckFunc 
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadSshFilterProfile(i, "root")
+		o, err := c.ReadSshFilterProfile(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading SshFilterProfile: %s", err)
+			return fmt.Errorf("error reading SshFilterProfile: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating SshFilterProfile: %s", n)
+			return fmt.Errorf("error creating SshFilterProfile: %s", n)
 		}
 
 		return nil
@@ -75,11 +75,11 @@ func testAccCheckSshFilterProfileDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadSshFilterProfile(i, "root")
+		o, err := c.ReadSshFilterProfile(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error SshFilterProfile %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error SshFilterProfile %s still exists", rs.Primary.ID)
 			}
 		}
 

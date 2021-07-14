@@ -21,82 +21,82 @@ func dataSourceSystemSnmpUser() *schema.Resource {
 	return &schema.Resource{
 		Read: dataSourceSystemSnmpUserRead,
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
 
-			"name": &schema.Schema{
+			"name": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"status": &schema.Schema{
+			"status": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"trap_status": &schema.Schema{
+			"trap_status": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"trap_lport": &schema.Schema{
+			"trap_lport": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"trap_rport": &schema.Schema{
+			"trap_rport": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"queries": &schema.Schema{
+			"queries": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"query_port": &schema.Schema{
+			"query_port": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"notify_hosts": &schema.Schema{
+			"notify_hosts": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"notify_hosts6": &schema.Schema{
+			"notify_hosts6": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"source_ip": &schema.Schema{
+			"source_ip": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"source_ipv6": &schema.Schema{
+			"source_ipv6": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"ha_direct": &schema.Schema{
+			"ha_direct": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"events": &schema.Schema{
+			"events": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"security_level": &schema.Schema{
+			"security_level": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"auth_proto": &schema.Schema{
+			"auth_proto": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"auth_pwd": &schema.Schema{
+			"auth_pwd": {
 				Type:      schema.TypeString,
 				Sensitive: true,
 				Computed:  true,
 			},
-			"priv_proto": &schema.Schema{
+			"priv_proto": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"priv_pwd": &schema.Schema{
+			"priv_pwd": {
 				Type:      schema.TypeString,
 				Sensitive: true,
 				Computed:  true,
@@ -125,12 +125,12 @@ func dataSourceSystemSnmpUserRead(d *schema.ResourceData, m interface{}) error {
 	} else if v, ok := t.(int); ok {
 		mkey = strconv.Itoa(v)
 	} else {
-		return fmt.Errorf("Error describing SystemSnmpUser: type error")
+		return fmt.Errorf("error describing SystemSnmpUser: type error")
 	}
 
-	o, err := c.ReadSystemSnmpUser(mkey, vdomparam)
+	o, err := c.ReadSystemSnmpUser(mkey, vdomparam, make(map[string][]string), 0)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemSnmpUser: %v", err)
+		return fmt.Errorf("error describing SystemSnmpUser: %v", err)
 	}
 
 	if o == nil {
@@ -140,7 +140,7 @@ func dataSourceSystemSnmpUserRead(d *schema.ResourceData, m interface{}) error {
 
 	err = dataSourceRefreshObjectSystemSnmpUser(d, o)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemSnmpUser from API: %v", err)
+		return fmt.Errorf("error describing SystemSnmpUser from API: %v", err)
 	}
 
 	d.SetId(mkey)
@@ -225,97 +225,97 @@ func dataSourceRefreshObjectSystemSnmpUser(d *schema.ResourceData, o map[string]
 
 	if err = d.Set("name", dataSourceFlattenSystemSnmpUserName(o["name"], d, "name")); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("status", dataSourceFlattenSystemSnmpUserStatus(o["status"], d, "status")); err != nil {
 		if !fortiAPIPatch(o["status"]) {
-			return fmt.Errorf("Error reading status: %v", err)
+			return fmt.Errorf("error reading status: %v", err)
 		}
 	}
 
 	if err = d.Set("trap_status", dataSourceFlattenSystemSnmpUserTrapStatus(o["trap-status"], d, "trap_status")); err != nil {
 		if !fortiAPIPatch(o["trap-status"]) {
-			return fmt.Errorf("Error reading trap_status: %v", err)
+			return fmt.Errorf("error reading trap_status: %v", err)
 		}
 	}
 
 	if err = d.Set("trap_lport", dataSourceFlattenSystemSnmpUserTrapLport(o["trap-lport"], d, "trap_lport")); err != nil {
 		if !fortiAPIPatch(o["trap-lport"]) {
-			return fmt.Errorf("Error reading trap_lport: %v", err)
+			return fmt.Errorf("error reading trap_lport: %v", err)
 		}
 	}
 
 	if err = d.Set("trap_rport", dataSourceFlattenSystemSnmpUserTrapRport(o["trap-rport"], d, "trap_rport")); err != nil {
 		if !fortiAPIPatch(o["trap-rport"]) {
-			return fmt.Errorf("Error reading trap_rport: %v", err)
+			return fmt.Errorf("error reading trap_rport: %v", err)
 		}
 	}
 
 	if err = d.Set("queries", dataSourceFlattenSystemSnmpUserQueries(o["queries"], d, "queries")); err != nil {
 		if !fortiAPIPatch(o["queries"]) {
-			return fmt.Errorf("Error reading queries: %v", err)
+			return fmt.Errorf("error reading queries: %v", err)
 		}
 	}
 
 	if err = d.Set("query_port", dataSourceFlattenSystemSnmpUserQueryPort(o["query-port"], d, "query_port")); err != nil {
 		if !fortiAPIPatch(o["query-port"]) {
-			return fmt.Errorf("Error reading query_port: %v", err)
+			return fmt.Errorf("error reading query_port: %v", err)
 		}
 	}
 
 	if err = d.Set("notify_hosts", dataSourceFlattenSystemSnmpUserNotifyHosts(o["notify-hosts"], d, "notify_hosts")); err != nil {
 		if !fortiAPIPatch(o["notify-hosts"]) {
-			return fmt.Errorf("Error reading notify_hosts: %v", err)
+			return fmt.Errorf("error reading notify_hosts: %v", err)
 		}
 	}
 
 	if err = d.Set("notify_hosts6", dataSourceFlattenSystemSnmpUserNotifyHosts6(o["notify-hosts6"], d, "notify_hosts6")); err != nil {
 		if !fortiAPIPatch(o["notify-hosts6"]) {
-			return fmt.Errorf("Error reading notify_hosts6: %v", err)
+			return fmt.Errorf("error reading notify_hosts6: %v", err)
 		}
 	}
 
 	if err = d.Set("source_ip", dataSourceFlattenSystemSnmpUserSourceIp(o["source-ip"], d, "source_ip")); err != nil {
 		if !fortiAPIPatch(o["source-ip"]) {
-			return fmt.Errorf("Error reading source_ip: %v", err)
+			return fmt.Errorf("error reading source_ip: %v", err)
 		}
 	}
 
 	if err = d.Set("source_ipv6", dataSourceFlattenSystemSnmpUserSourceIpv6(o["source-ipv6"], d, "source_ipv6")); err != nil {
 		if !fortiAPIPatch(o["source-ipv6"]) {
-			return fmt.Errorf("Error reading source_ipv6: %v", err)
+			return fmt.Errorf("error reading source_ipv6: %v", err)
 		}
 	}
 
 	if err = d.Set("ha_direct", dataSourceFlattenSystemSnmpUserHaDirect(o["ha-direct"], d, "ha_direct")); err != nil {
 		if !fortiAPIPatch(o["ha-direct"]) {
-			return fmt.Errorf("Error reading ha_direct: %v", err)
+			return fmt.Errorf("error reading ha_direct: %v", err)
 		}
 	}
 
 	if err = d.Set("events", dataSourceFlattenSystemSnmpUserEvents(o["events"], d, "events")); err != nil {
 		if !fortiAPIPatch(o["events"]) {
-			return fmt.Errorf("Error reading events: %v", err)
+			return fmt.Errorf("error reading events: %v", err)
 		}
 	}
 
 	if err = d.Set("security_level", dataSourceFlattenSystemSnmpUserSecurityLevel(o["security-level"], d, "security_level")); err != nil {
 		if !fortiAPIPatch(o["security-level"]) {
-			return fmt.Errorf("Error reading security_level: %v", err)
+			return fmt.Errorf("error reading security_level: %v", err)
 		}
 	}
 
 	if err = d.Set("auth_proto", dataSourceFlattenSystemSnmpUserAuthProto(o["auth-proto"], d, "auth_proto")); err != nil {
 		if !fortiAPIPatch(o["auth-proto"]) {
-			return fmt.Errorf("Error reading auth_proto: %v", err)
+			return fmt.Errorf("error reading auth_proto: %v", err)
 		}
 	}
 
 	if err = d.Set("priv_proto", dataSourceFlattenSystemSnmpUserPrivProto(o["priv-proto"], d, "priv_proto")); err != nil {
 		if !fortiAPIPatch(o["priv-proto"]) {
-			return fmt.Errorf("Error reading priv_proto: %v", err)
+			return fmt.Errorf("error reading priv_proto: %v", err)
 		}
 	}
 

@@ -21,49 +21,49 @@ func dataSourceFirewallShaperPerIpShaper() *schema.Resource {
 	return &schema.Resource{
 		Read: dataSourceFirewallShaperPerIpShaperRead,
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
 
-			"name": &schema.Schema{
+			"name": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"max_bandwidth": &schema.Schema{
+			"max_bandwidth": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"bandwidth_unit": &schema.Schema{
+			"bandwidth_unit": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"max_concurrent_session": &schema.Schema{
+			"max_concurrent_session": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"max_concurrent_tcp_session": &schema.Schema{
+			"max_concurrent_tcp_session": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"max_concurrent_udp_session": &schema.Schema{
+			"max_concurrent_udp_session": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"diffserv_forward": &schema.Schema{
+			"diffserv_forward": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"diffserv_reverse": &schema.Schema{
+			"diffserv_reverse": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"diffservcode_forward": &schema.Schema{
+			"diffservcode_forward": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"diffservcode_rev": &schema.Schema{
+			"diffservcode_rev": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -91,12 +91,12 @@ func dataSourceFirewallShaperPerIpShaperRead(d *schema.ResourceData, m interface
 	} else if v, ok := t.(int); ok {
 		mkey = strconv.Itoa(v)
 	} else {
-		return fmt.Errorf("Error describing FirewallShaperPerIpShaper: type error")
+		return fmt.Errorf("error describing FirewallShaperPerIpShaper: type error")
 	}
 
-	o, err := c.ReadFirewallShaperPerIpShaper(mkey, vdomparam)
+	o, err := c.ReadFirewallShaperPerIpShaper(mkey, vdomparam, make(map[string][]string), 0)
 	if err != nil {
-		return fmt.Errorf("Error describing FirewallShaperPerIpShaper: %v", err)
+		return fmt.Errorf("error describing FirewallShaperPerIpShaper: %v", err)
 	}
 
 	if o == nil {
@@ -106,7 +106,7 @@ func dataSourceFirewallShaperPerIpShaperRead(d *schema.ResourceData, m interface
 
 	err = dataSourceRefreshObjectFirewallShaperPerIpShaper(d, o)
 	if err != nil {
-		return fmt.Errorf("Error describing FirewallShaperPerIpShaper from API: %v", err)
+		return fmt.Errorf("error describing FirewallShaperPerIpShaper from API: %v", err)
 	}
 
 	d.SetId(mkey)
@@ -159,61 +159,61 @@ func dataSourceRefreshObjectFirewallShaperPerIpShaper(d *schema.ResourceData, o 
 
 	if err = d.Set("name", dataSourceFlattenFirewallShaperPerIpShaperName(o["name"], d, "name")); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("max_bandwidth", dataSourceFlattenFirewallShaperPerIpShaperMaxBandwidth(o["max-bandwidth"], d, "max_bandwidth")); err != nil {
 		if !fortiAPIPatch(o["max-bandwidth"]) {
-			return fmt.Errorf("Error reading max_bandwidth: %v", err)
+			return fmt.Errorf("error reading max_bandwidth: %v", err)
 		}
 	}
 
 	if err = d.Set("bandwidth_unit", dataSourceFlattenFirewallShaperPerIpShaperBandwidthUnit(o["bandwidth-unit"], d, "bandwidth_unit")); err != nil {
 		if !fortiAPIPatch(o["bandwidth-unit"]) {
-			return fmt.Errorf("Error reading bandwidth_unit: %v", err)
+			return fmt.Errorf("error reading bandwidth_unit: %v", err)
 		}
 	}
 
 	if err = d.Set("max_concurrent_session", dataSourceFlattenFirewallShaperPerIpShaperMaxConcurrentSession(o["max-concurrent-session"], d, "max_concurrent_session")); err != nil {
 		if !fortiAPIPatch(o["max-concurrent-session"]) {
-			return fmt.Errorf("Error reading max_concurrent_session: %v", err)
+			return fmt.Errorf("error reading max_concurrent_session: %v", err)
 		}
 	}
 
 	if err = d.Set("max_concurrent_tcp_session", dataSourceFlattenFirewallShaperPerIpShaperMaxConcurrentTcpSession(o["max-concurrent-tcp-session"], d, "max_concurrent_tcp_session")); err != nil {
 		if !fortiAPIPatch(o["max-concurrent-tcp-session"]) {
-			return fmt.Errorf("Error reading max_concurrent_tcp_session: %v", err)
+			return fmt.Errorf("error reading max_concurrent_tcp_session: %v", err)
 		}
 	}
 
 	if err = d.Set("max_concurrent_udp_session", dataSourceFlattenFirewallShaperPerIpShaperMaxConcurrentUdpSession(o["max-concurrent-udp-session"], d, "max_concurrent_udp_session")); err != nil {
 		if !fortiAPIPatch(o["max-concurrent-udp-session"]) {
-			return fmt.Errorf("Error reading max_concurrent_udp_session: %v", err)
+			return fmt.Errorf("error reading max_concurrent_udp_session: %v", err)
 		}
 	}
 
 	if err = d.Set("diffserv_forward", dataSourceFlattenFirewallShaperPerIpShaperDiffservForward(o["diffserv-forward"], d, "diffserv_forward")); err != nil {
 		if !fortiAPIPatch(o["diffserv-forward"]) {
-			return fmt.Errorf("Error reading diffserv_forward: %v", err)
+			return fmt.Errorf("error reading diffserv_forward: %v", err)
 		}
 	}
 
 	if err = d.Set("diffserv_reverse", dataSourceFlattenFirewallShaperPerIpShaperDiffservReverse(o["diffserv-reverse"], d, "diffserv_reverse")); err != nil {
 		if !fortiAPIPatch(o["diffserv-reverse"]) {
-			return fmt.Errorf("Error reading diffserv_reverse: %v", err)
+			return fmt.Errorf("error reading diffserv_reverse: %v", err)
 		}
 	}
 
 	if err = d.Set("diffservcode_forward", dataSourceFlattenFirewallShaperPerIpShaperDiffservcodeForward(o["diffservcode-forward"], d, "diffservcode_forward")); err != nil {
 		if !fortiAPIPatch(o["diffservcode-forward"]) {
-			return fmt.Errorf("Error reading diffservcode_forward: %v", err)
+			return fmt.Errorf("error reading diffservcode_forward: %v", err)
 		}
 	}
 
 	if err = d.Set("diffservcode_rev", dataSourceFlattenFirewallShaperPerIpShaperDiffservcodeRev(o["diffservcode-rev"], d, "diffservcode_rev")); err != nil {
 		if !fortiAPIPatch(o["diffservcode-rev"]) {
-			return fmt.Errorf("Error reading diffservcode_rev: %v", err)
+			return fmt.Errorf("error reading diffservcode_rev: %v", err)
 		}
 	}
 

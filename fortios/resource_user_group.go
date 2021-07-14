@@ -30,63 +30,63 @@ func resourceUserGroup() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"fosid": &schema.Schema{
+			"fosid": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"group_type": &schema.Schema{
+			"group_type": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"authtimeout": &schema.Schema{
+			"authtimeout": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 43200),
 				Optional:     true,
 				Computed:     true,
 			},
-			"auth_concurrent_override": &schema.Schema{
+			"auth_concurrent_override": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"auth_concurrent_value": &schema.Schema{
+			"auth_concurrent_value": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 100),
 				Optional:     true,
 				Computed:     true,
 			},
-			"http_digest_realm": &schema.Schema{
+			"http_digest_realm": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"sso_attribute_value": &schema.Schema{
+			"sso_attribute_value": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 511),
 				Optional:     true,
 				Computed:     true,
 			},
-			"member": &schema.Schema{
+			"member": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 511),
 							Optional:     true,
@@ -95,23 +95,23 @@ func resourceUserGroup() *schema.Resource {
 					},
 				},
 			},
-			"match": &schema.Schema{
+			"match": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"server_name": &schema.Schema{
+						"server_name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"group_name": &schema.Schema{
+						"group_name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 511),
 							Optional:     true,
@@ -120,132 +120,132 @@ func resourceUserGroup() *schema.Resource {
 					},
 				},
 			},
-			"user_id": &schema.Schema{
+			"user_id": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"password": &schema.Schema{
+			"password": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"user_name": &schema.Schema{
+			"user_name": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"sponsor": &schema.Schema{
+			"sponsor": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"company": &schema.Schema{
+			"company": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"email": &schema.Schema{
+			"email": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"mobile_phone": &schema.Schema{
+			"mobile_phone": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"sms_server": &schema.Schema{
+			"sms_server": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"sms_custom_server": &schema.Schema{
+			"sms_custom_server": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"expire_type": &schema.Schema{
+			"expire_type": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"expire": &schema.Schema{
+			"expire": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 31536000),
 				Optional:     true,
 				Computed:     true,
 			},
-			"max_accounts": &schema.Schema{
+			"max_accounts": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 1024),
 				Optional:     true,
 				Computed:     true,
 			},
-			"multiple_guest_add": &schema.Schema{
+			"multiple_guest_add": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"guest": &schema.Schema{
+			"guest": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"user_id": &schema.Schema{
+						"user_id": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 64),
 							Optional:     true,
 							Computed:     true,
 						},
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 64),
 							Optional:     true,
 							Computed:     true,
 						},
-						"password": &schema.Schema{
+						"password": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 128),
 							Optional:     true,
 							Sensitive:    true,
 						},
-						"mobile_phone": &schema.Schema{
+						"mobile_phone": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"sponsor": &schema.Schema{
+						"sponsor": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"company": &schema.Schema{
+						"company": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"email": &schema.Schema{
+						"email": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 64),
 							Optional:     true,
 							Computed:     true,
 						},
-						"expiration": &schema.Schema{
+						"expiration": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"comment": &schema.Schema{
+						"comment": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 255),
 							Optional:     true,
@@ -253,10 +253,15 @@ func resourceUserGroup() *schema.Resource {
 					},
 				},
 			},
-			"dynamic_sort_subtable": &schema.Schema{
-				Type:     schema.TypeString,
+			"dynamic_sort_subtable": {
+				Type:     schema.TypeBool,
 				Optional: true,
-				Default:  "false",
+				Default:  false,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -274,15 +279,25 @@ func resourceUserGroupCreate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectUserGroup(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating UserGroup resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateUserGroup(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectUserGroup(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating UserGroup resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateUserGroup(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating UserGroup resource: %v", err)
+		return fmt.Errorf("error creating UserGroup resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -307,14 +322,24 @@ func resourceUserGroupUpdate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectUserGroup(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating UserGroup resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateUserGroup(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectUserGroup(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating UserGroup resource: %v", err)
+		return fmt.Errorf("error updating UserGroup resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateUserGroup(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating UserGroup resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -341,9 +366,17 @@ func resourceUserGroupDelete(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	err := c.DeleteUserGroup(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteUserGroup(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting UserGroup resource: %v", err)
+		return fmt.Errorf("error deleting UserGroup resource: %v", err)
 	}
 
 	d.SetId("")
@@ -365,9 +398,19 @@ func resourceUserGroupRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadUserGroup(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadUserGroup(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading UserGroup resource: %v", err)
+		return fmt.Errorf("error reading UserGroup resource: %v", err)
 	}
 
 	if o == nil {
@@ -378,7 +421,7 @@ func resourceUserGroupRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectUserGroup(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading UserGroup resource from API: %v", err)
+		return fmt.Errorf("error reading UserGroup resource from API: %v", err)
 	}
 	return nil
 }
@@ -700,63 +743,63 @@ func refreshObjectUserGroup(d *schema.ResourceData, o map[string]interface{}, sv
 
 	if err = d.Set("name", flattenUserGroupName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("fosid", flattenUserGroupId(o["id"], d, "fosid", sv)); err != nil {
 		if !fortiAPIPatch(o["id"]) {
-			return fmt.Errorf("Error reading fosid: %v", err)
+			return fmt.Errorf("error reading fosid: %v", err)
 		}
 	}
 
 	if err = d.Set("group_type", flattenUserGroupGroupType(o["group-type"], d, "group_type", sv)); err != nil {
 		if !fortiAPIPatch(o["group-type"]) {
-			return fmt.Errorf("Error reading group_type: %v", err)
+			return fmt.Errorf("error reading group_type: %v", err)
 		}
 	}
 
 	if err = d.Set("authtimeout", flattenUserGroupAuthtimeout(o["authtimeout"], d, "authtimeout", sv)); err != nil {
 		if !fortiAPIPatch(o["authtimeout"]) {
-			return fmt.Errorf("Error reading authtimeout: %v", err)
+			return fmt.Errorf("error reading authtimeout: %v", err)
 		}
 	}
 
 	if err = d.Set("auth_concurrent_override", flattenUserGroupAuthConcurrentOverride(o["auth-concurrent-override"], d, "auth_concurrent_override", sv)); err != nil {
 		if !fortiAPIPatch(o["auth-concurrent-override"]) {
-			return fmt.Errorf("Error reading auth_concurrent_override: %v", err)
+			return fmt.Errorf("error reading auth_concurrent_override: %v", err)
 		}
 	}
 
 	if err = d.Set("auth_concurrent_value", flattenUserGroupAuthConcurrentValue(o["auth-concurrent-value"], d, "auth_concurrent_value", sv)); err != nil {
 		if !fortiAPIPatch(o["auth-concurrent-value"]) {
-			return fmt.Errorf("Error reading auth_concurrent_value: %v", err)
+			return fmt.Errorf("error reading auth_concurrent_value: %v", err)
 		}
 	}
 
 	if err = d.Set("http_digest_realm", flattenUserGroupHttpDigestRealm(o["http-digest-realm"], d, "http_digest_realm", sv)); err != nil {
 		if !fortiAPIPatch(o["http-digest-realm"]) {
-			return fmt.Errorf("Error reading http_digest_realm: %v", err)
+			return fmt.Errorf("error reading http_digest_realm: %v", err)
 		}
 	}
 
 	if err = d.Set("sso_attribute_value", flattenUserGroupSsoAttributeValue(o["sso-attribute-value"], d, "sso_attribute_value", sv)); err != nil {
 		if !fortiAPIPatch(o["sso-attribute-value"]) {
-			return fmt.Errorf("Error reading sso_attribute_value: %v", err)
+			return fmt.Errorf("error reading sso_attribute_value: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("member", flattenUserGroupMember(o["member"], d, "member", sv)); err != nil {
 			if !fortiAPIPatch(o["member"]) {
-				return fmt.Errorf("Error reading member: %v", err)
+				return fmt.Errorf("error reading member: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("member"); ok {
 			if err = d.Set("member", flattenUserGroupMember(o["member"], d, "member", sv)); err != nil {
 				if !fortiAPIPatch(o["member"]) {
-					return fmt.Errorf("Error reading member: %v", err)
+					return fmt.Errorf("error reading member: %v", err)
 				}
 			}
 		}
@@ -765,14 +808,14 @@ func refreshObjectUserGroup(d *schema.ResourceData, o map[string]interface{}, sv
 	if isImportTable() {
 		if err = d.Set("match", flattenUserGroupMatch(o["match"], d, "match", sv)); err != nil {
 			if !fortiAPIPatch(o["match"]) {
-				return fmt.Errorf("Error reading match: %v", err)
+				return fmt.Errorf("error reading match: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("match"); ok {
 			if err = d.Set("match", flattenUserGroupMatch(o["match"], d, "match", sv)); err != nil {
 				if !fortiAPIPatch(o["match"]) {
-					return fmt.Errorf("Error reading match: %v", err)
+					return fmt.Errorf("error reading match: %v", err)
 				}
 			}
 		}
@@ -780,93 +823,93 @@ func refreshObjectUserGroup(d *schema.ResourceData, o map[string]interface{}, sv
 
 	if err = d.Set("user_id", flattenUserGroupUserId(o["user-id"], d, "user_id", sv)); err != nil {
 		if !fortiAPIPatch(o["user-id"]) {
-			return fmt.Errorf("Error reading user_id: %v", err)
+			return fmt.Errorf("error reading user_id: %v", err)
 		}
 	}
 
 	if err = d.Set("password", flattenUserGroupPassword(o["password"], d, "password", sv)); err != nil {
 		if !fortiAPIPatch(o["password"]) {
-			return fmt.Errorf("Error reading password: %v", err)
+			return fmt.Errorf("error reading password: %v", err)
 		}
 	}
 
 	if err = d.Set("user_name", flattenUserGroupUserName(o["user-name"], d, "user_name", sv)); err != nil {
 		if !fortiAPIPatch(o["user-name"]) {
-			return fmt.Errorf("Error reading user_name: %v", err)
+			return fmt.Errorf("error reading user_name: %v", err)
 		}
 	}
 
 	if err = d.Set("sponsor", flattenUserGroupSponsor(o["sponsor"], d, "sponsor", sv)); err != nil {
 		if !fortiAPIPatch(o["sponsor"]) {
-			return fmt.Errorf("Error reading sponsor: %v", err)
+			return fmt.Errorf("error reading sponsor: %v", err)
 		}
 	}
 
 	if err = d.Set("company", flattenUserGroupCompany(o["company"], d, "company", sv)); err != nil {
 		if !fortiAPIPatch(o["company"]) {
-			return fmt.Errorf("Error reading company: %v", err)
+			return fmt.Errorf("error reading company: %v", err)
 		}
 	}
 
 	if err = d.Set("email", flattenUserGroupEmail(o["email"], d, "email", sv)); err != nil {
 		if !fortiAPIPatch(o["email"]) {
-			return fmt.Errorf("Error reading email: %v", err)
+			return fmt.Errorf("error reading email: %v", err)
 		}
 	}
 
 	if err = d.Set("mobile_phone", flattenUserGroupMobilePhone(o["mobile-phone"], d, "mobile_phone", sv)); err != nil {
 		if !fortiAPIPatch(o["mobile-phone"]) {
-			return fmt.Errorf("Error reading mobile_phone: %v", err)
+			return fmt.Errorf("error reading mobile_phone: %v", err)
 		}
 	}
 
 	if err = d.Set("sms_server", flattenUserGroupSmsServer(o["sms-server"], d, "sms_server", sv)); err != nil {
 		if !fortiAPIPatch(o["sms-server"]) {
-			return fmt.Errorf("Error reading sms_server: %v", err)
+			return fmt.Errorf("error reading sms_server: %v", err)
 		}
 	}
 
 	if err = d.Set("sms_custom_server", flattenUserGroupSmsCustomServer(o["sms-custom-server"], d, "sms_custom_server", sv)); err != nil {
 		if !fortiAPIPatch(o["sms-custom-server"]) {
-			return fmt.Errorf("Error reading sms_custom_server: %v", err)
+			return fmt.Errorf("error reading sms_custom_server: %v", err)
 		}
 	}
 
 	if err = d.Set("expire_type", flattenUserGroupExpireType(o["expire-type"], d, "expire_type", sv)); err != nil {
 		if !fortiAPIPatch(o["expire-type"]) {
-			return fmt.Errorf("Error reading expire_type: %v", err)
+			return fmt.Errorf("error reading expire_type: %v", err)
 		}
 	}
 
 	if err = d.Set("expire", flattenUserGroupExpire(o["expire"], d, "expire", sv)); err != nil {
 		if !fortiAPIPatch(o["expire"]) {
-			return fmt.Errorf("Error reading expire: %v", err)
+			return fmt.Errorf("error reading expire: %v", err)
 		}
 	}
 
 	if err = d.Set("max_accounts", flattenUserGroupMaxAccounts(o["max-accounts"], d, "max_accounts", sv)); err != nil {
 		if !fortiAPIPatch(o["max-accounts"]) {
-			return fmt.Errorf("Error reading max_accounts: %v", err)
+			return fmt.Errorf("error reading max_accounts: %v", err)
 		}
 	}
 
 	if err = d.Set("multiple_guest_add", flattenUserGroupMultipleGuestAdd(o["multiple-guest-add"], d, "multiple_guest_add", sv)); err != nil {
 		if !fortiAPIPatch(o["multiple-guest-add"]) {
-			return fmt.Errorf("Error reading multiple_guest_add: %v", err)
+			return fmt.Errorf("error reading multiple_guest_add: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("guest", flattenUserGroupGuest(o["guest"], d, "guest", sv)); err != nil {
 			if !fortiAPIPatch(o["guest"]) {
-				return fmt.Errorf("Error reading guest: %v", err)
+				return fmt.Errorf("error reading guest: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("guest"); ok {
 			if err = d.Set("guest", flattenUserGroupGuest(o["guest"], d, "guest", sv)); err != nil {
 				if !fortiAPIPatch(o["guest"]) {
-					return fmt.Errorf("Error reading guest: %v", err)
+					return fmt.Errorf("error reading guest: %v", err)
 				}
 			}
 		}

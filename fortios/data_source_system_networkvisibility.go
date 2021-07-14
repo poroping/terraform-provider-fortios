@@ -21,33 +21,33 @@ func dataSourceSystemNetworkVisibility() *schema.Resource {
 	return &schema.Resource{
 		Read: dataSourceSystemNetworkVisibilityRead,
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
 
-			"destination_visibility": &schema.Schema{
+			"destination_visibility": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"source_location": &schema.Schema{
+			"source_location": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"destination_hostname_visibility": &schema.Schema{
+			"destination_hostname_visibility": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"hostname_ttl": &schema.Schema{
+			"hostname_ttl": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"hostname_limit": &schema.Schema{
+			"hostname_limit": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"destination_location": &schema.Schema{
+			"destination_location": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -69,9 +69,9 @@ func dataSourceSystemNetworkVisibilityRead(d *schema.ResourceData, m interface{}
 
 	mkey := "SystemNetworkVisibility"
 
-	o, err := c.ReadSystemNetworkVisibility(mkey, vdomparam)
+	o, err := c.ReadSystemNetworkVisibility(mkey, vdomparam, make(map[string][]string), 0)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemNetworkVisibility: %v", err)
+		return fmt.Errorf("error describing SystemNetworkVisibility: %v", err)
 	}
 
 	if o == nil {
@@ -81,7 +81,7 @@ func dataSourceSystemNetworkVisibilityRead(d *schema.ResourceData, m interface{}
 
 	err = dataSourceRefreshObjectSystemNetworkVisibility(d, o)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemNetworkVisibility from API: %v", err)
+		return fmt.Errorf("error describing SystemNetworkVisibility from API: %v", err)
 	}
 
 	d.SetId(mkey)
@@ -118,37 +118,37 @@ func dataSourceRefreshObjectSystemNetworkVisibility(d *schema.ResourceData, o ma
 
 	if err = d.Set("destination_visibility", dataSourceFlattenSystemNetworkVisibilityDestinationVisibility(o["destination-visibility"], d, "destination_visibility")); err != nil {
 		if !fortiAPIPatch(o["destination-visibility"]) {
-			return fmt.Errorf("Error reading destination_visibility: %v", err)
+			return fmt.Errorf("error reading destination_visibility: %v", err)
 		}
 	}
 
 	if err = d.Set("source_location", dataSourceFlattenSystemNetworkVisibilitySourceLocation(o["source-location"], d, "source_location")); err != nil {
 		if !fortiAPIPatch(o["source-location"]) {
-			return fmt.Errorf("Error reading source_location: %v", err)
+			return fmt.Errorf("error reading source_location: %v", err)
 		}
 	}
 
 	if err = d.Set("destination_hostname_visibility", dataSourceFlattenSystemNetworkVisibilityDestinationHostnameVisibility(o["destination-hostname-visibility"], d, "destination_hostname_visibility")); err != nil {
 		if !fortiAPIPatch(o["destination-hostname-visibility"]) {
-			return fmt.Errorf("Error reading destination_hostname_visibility: %v", err)
+			return fmt.Errorf("error reading destination_hostname_visibility: %v", err)
 		}
 	}
 
 	if err = d.Set("hostname_ttl", dataSourceFlattenSystemNetworkVisibilityHostnameTtl(o["hostname-ttl"], d, "hostname_ttl")); err != nil {
 		if !fortiAPIPatch(o["hostname-ttl"]) {
-			return fmt.Errorf("Error reading hostname_ttl: %v", err)
+			return fmt.Errorf("error reading hostname_ttl: %v", err)
 		}
 	}
 
 	if err = d.Set("hostname_limit", dataSourceFlattenSystemNetworkVisibilityHostnameLimit(o["hostname-limit"], d, "hostname_limit")); err != nil {
 		if !fortiAPIPatch(o["hostname-limit"]) {
-			return fmt.Errorf("Error reading hostname_limit: %v", err)
+			return fmt.Errorf("error reading hostname_limit: %v", err)
 		}
 	}
 
 	if err = d.Set("destination_location", dataSourceFlattenSystemNetworkVisibilityDestinationLocation(o["destination-location"], d, "destination_location")); err != nil {
 		if !fortiAPIPatch(o["destination-location"]) {
-			return fmt.Errorf("Error reading destination_location: %v", err)
+			return fmt.Errorf("error reading destination_location: %v", err)
 		}
 	}
 

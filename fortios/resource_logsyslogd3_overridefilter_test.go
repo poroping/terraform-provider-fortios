@@ -59,14 +59,14 @@ func testAccCheckFortiOSLogSyslogd3OverrideFilterExists(n string) resource.TestC
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadLogSyslogd3OverrideFilter(i, "root")
+		o, err := c.ReadLogSyslogd3OverrideFilter(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading LogSyslogd3OverrideFilter: %s", err)
+			return fmt.Errorf("error reading LogSyslogd3OverrideFilter: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating LogSyslogd3OverrideFilter: %s", n)
+			return fmt.Errorf("error creating LogSyslogd3OverrideFilter: %s", n)
 		}
 
 		return nil
@@ -82,11 +82,11 @@ func testAccCheckLogSyslogd3OverrideFilterDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadLogSyslogd3OverrideFilter(i, "root")
+		o, err := c.ReadLogSyslogd3OverrideFilter(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error LogSyslogd3OverrideFilter %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error LogSyslogd3OverrideFilter %s still exists", rs.Primary.ID)
 			}
 		}
 

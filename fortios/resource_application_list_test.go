@@ -58,14 +58,14 @@ func testAccCheckFortiOSApplicationListExists(n string) resource.TestCheckFunc {
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadApplicationList(i, "root")
+		o, err := c.ReadApplicationList(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading ApplicationList: %s", err)
+			return fmt.Errorf("error reading ApplicationList: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating ApplicationList: %s", n)
+			return fmt.Errorf("error creating ApplicationList: %s", n)
 		}
 
 		return nil
@@ -81,11 +81,11 @@ func testAccCheckApplicationListDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadApplicationList(i, "root")
+		o, err := c.ReadApplicationList(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error ApplicationList %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error ApplicationList %s still exists", rs.Primary.ID)
 			}
 		}
 

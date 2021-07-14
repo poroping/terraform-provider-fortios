@@ -21,21 +21,21 @@ func dataSourceRouterAuthPath() *schema.Resource {
 	return &schema.Resource{
 		Read: dataSourceRouterAuthPathRead,
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
 
-			"name": &schema.Schema{
+			"name": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"device": &schema.Schema{
+			"device": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"gateway": &schema.Schema{
+			"gateway": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -63,12 +63,12 @@ func dataSourceRouterAuthPathRead(d *schema.ResourceData, m interface{}) error {
 	} else if v, ok := t.(int); ok {
 		mkey = strconv.Itoa(v)
 	} else {
-		return fmt.Errorf("Error describing RouterAuthPath: type error")
+		return fmt.Errorf("error describing RouterAuthPath: type error")
 	}
 
-	o, err := c.ReadRouterAuthPath(mkey, vdomparam)
+	o, err := c.ReadRouterAuthPath(mkey, vdomparam, make(map[string][]string), 0)
 	if err != nil {
-		return fmt.Errorf("Error describing RouterAuthPath: %v", err)
+		return fmt.Errorf("error describing RouterAuthPath: %v", err)
 	}
 
 	if o == nil {
@@ -78,7 +78,7 @@ func dataSourceRouterAuthPathRead(d *schema.ResourceData, m interface{}) error {
 
 	err = dataSourceRefreshObjectRouterAuthPath(d, o)
 	if err != nil {
-		return fmt.Errorf("Error describing RouterAuthPath from API: %v", err)
+		return fmt.Errorf("error describing RouterAuthPath from API: %v", err)
 	}
 
 	d.SetId(mkey)
@@ -103,19 +103,19 @@ func dataSourceRefreshObjectRouterAuthPath(d *schema.ResourceData, o map[string]
 
 	if err = d.Set("name", dataSourceFlattenRouterAuthPathName(o["name"], d, "name")); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("device", dataSourceFlattenRouterAuthPathDevice(o["device"], d, "device")); err != nil {
 		if !fortiAPIPatch(o["device"]) {
-			return fmt.Errorf("Error reading device: %v", err)
+			return fmt.Errorf("error reading device: %v", err)
 		}
 	}
 
 	if err = d.Set("gateway", dataSourceFlattenRouterAuthPathGateway(o["gateway"], d, "gateway")); err != nil {
 		if !fortiAPIPatch(o["gateway"]) {
-			return fmt.Errorf("Error reading gateway: %v", err)
+			return fmt.Errorf("error reading gateway: %v", err)
 		}
 	}
 

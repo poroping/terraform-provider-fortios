@@ -54,14 +54,14 @@ func testAccCheckFortiOSSpamfilterDnsblExists(n string) resource.TestCheckFunc {
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadSpamfilterDnsbl(i, "root")
+		o, err := c.ReadSpamfilterDnsbl(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading SpamfilterDnsbl: %s", err)
+			return fmt.Errorf("error reading SpamfilterDnsbl: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating SpamfilterDnsbl: %s", n)
+			return fmt.Errorf("error creating SpamfilterDnsbl: %s", n)
 		}
 
 		return nil
@@ -77,11 +77,11 @@ func testAccCheckSpamfilterDnsblDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadSpamfilterDnsbl(i, "root")
+		o, err := c.ReadSpamfilterDnsbl(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error SpamfilterDnsbl %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error SpamfilterDnsbl %s still exists", rs.Primary.ID)
 			}
 		}
 

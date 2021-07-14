@@ -30,32 +30,37 @@ func resourceRouterbgpNetwork6() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"fosid": &schema.Schema{
+			"fosid": {
 				Type:     schema.TypeInt,
 				ForceNew: true,
 				Optional: true,
 				Computed: true,
 			},
-			"prefix6": &schema.Schema{
+			"prefix6": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"backdoor": &schema.Schema{
+			"backdoor": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"route_map": &schema.Schema{
+			"route_map": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -73,15 +78,25 @@ func resourceRouterbgpNetwork6Create(d *schema.ResourceData, m interface{}) erro
 		}
 	}
 
-	obj, err := getObjectRouterbgpNetwork6(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating RouterbgpNetwork6 resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateRouterbgpNetwork6(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectRouterbgpNetwork6(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating RouterbgpNetwork6 resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateRouterbgpNetwork6(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating RouterbgpNetwork6 resource: %v", err)
+		return fmt.Errorf("error creating RouterbgpNetwork6 resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -106,14 +121,24 @@ func resourceRouterbgpNetwork6Update(d *schema.ResourceData, m interface{}) erro
 		}
 	}
 
-	obj, err := getObjectRouterbgpNetwork6(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating RouterbgpNetwork6 resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateRouterbgpNetwork6(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectRouterbgpNetwork6(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating RouterbgpNetwork6 resource: %v", err)
+		return fmt.Errorf("error updating RouterbgpNetwork6 resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateRouterbgpNetwork6(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating RouterbgpNetwork6 resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -140,9 +165,17 @@ func resourceRouterbgpNetwork6Delete(d *schema.ResourceData, m interface{}) erro
 		}
 	}
 
-	err := c.DeleteRouterbgpNetwork6(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteRouterbgpNetwork6(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting RouterbgpNetwork6 resource: %v", err)
+		return fmt.Errorf("error deleting RouterbgpNetwork6 resource: %v", err)
 	}
 
 	d.SetId("")
@@ -164,9 +197,19 @@ func resourceRouterbgpNetwork6Read(d *schema.ResourceData, m interface{}) error 
 		}
 	}
 
-	o, err := c.ReadRouterbgpNetwork6(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadRouterbgpNetwork6(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading RouterbgpNetwork6 resource: %v", err)
+		return fmt.Errorf("error reading RouterbgpNetwork6 resource: %v", err)
 	}
 
 	if o == nil {
@@ -177,7 +220,7 @@ func resourceRouterbgpNetwork6Read(d *schema.ResourceData, m interface{}) error 
 
 	err = refreshObjectRouterbgpNetwork6(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading RouterbgpNetwork6 resource from API: %v", err)
+		return fmt.Errorf("error reading RouterbgpNetwork6 resource from API: %v", err)
 	}
 	return nil
 }
@@ -203,25 +246,25 @@ func refreshObjectRouterbgpNetwork6(d *schema.ResourceData, o map[string]interfa
 
 	if err = d.Set("fosid", flattenRouterbgpNetwork6Id(o["id"], d, "fosid", sv)); err != nil {
 		if !fortiAPIPatch(o["id"]) {
-			return fmt.Errorf("Error reading fosid: %v", err)
+			return fmt.Errorf("error reading fosid: %v", err)
 		}
 	}
 
 	if err = d.Set("prefix6", flattenRouterbgpNetwork6Prefix6(o["prefix6"], d, "prefix6", sv)); err != nil {
 		if !fortiAPIPatch(o["prefix6"]) {
-			return fmt.Errorf("Error reading prefix6: %v", err)
+			return fmt.Errorf("error reading prefix6: %v", err)
 		}
 	}
 
 	if err = d.Set("backdoor", flattenRouterbgpNetwork6Backdoor(o["backdoor"], d, "backdoor", sv)); err != nil {
 		if !fortiAPIPatch(o["backdoor"]) {
-			return fmt.Errorf("Error reading backdoor: %v", err)
+			return fmt.Errorf("error reading backdoor: %v", err)
 		}
 	}
 
 	if err = d.Set("route_map", flattenRouterbgpNetwork6RouteMap(o["route-map"], d, "route_map", sv)); err != nil {
 		if !fortiAPIPatch(o["route-map"]) {
-			return fmt.Errorf("Error reading route_map: %v", err)
+			return fmt.Errorf("error reading route_map: %v", err)
 		}
 	}
 

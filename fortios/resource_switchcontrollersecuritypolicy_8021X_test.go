@@ -62,14 +62,14 @@ func testAccCheckFortiOSSwitchControllerSecurityPolicy8021XExists(n string) reso
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadSwitchControllerSecurityPolicy8021X(i, "root")
+		o, err := c.ReadSwitchControllerSecurityPolicy8021X(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading SwitchControllerSecurityPolicy8021X: %s", err)
+			return fmt.Errorf("error reading SwitchControllerSecurityPolicy8021X: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating SwitchControllerSecurityPolicy8021X: %s", n)
+			return fmt.Errorf("error creating SwitchControllerSecurityPolicy8021X: %s", n)
 		}
 
 		return nil
@@ -85,11 +85,11 @@ func testAccCheckSwitchControllerSecurityPolicy8021XDestroy(s *terraform.State) 
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadSwitchControllerSecurityPolicy8021X(i, "root")
+		o, err := c.ReadSwitchControllerSecurityPolicy8021X(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error SwitchControllerSecurityPolicy8021X %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error SwitchControllerSecurityPolicy8021X %s still exists", rs.Primary.ID)
 			}
 		}
 

@@ -30,88 +30,93 @@ func resourceVpnCertificateCrl() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				ForceNew:     true,
 				Required:     true,
 			},
-			"crl": &schema.Schema{
+			"crl": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"range": &schema.Schema{
+			"range": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"source": &schema.Schema{
+			"source": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"update_vdom": &schema.Schema{
+			"update_vdom": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 31),
 				Optional:     true,
 				Computed:     true,
 			},
-			"ldap_server": &schema.Schema{
+			"ldap_server": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"ldap_username": &schema.Schema{
+			"ldap_username": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"ldap_password": &schema.Schema{
+			"ldap_password": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 128),
 				Optional:     true,
 				Sensitive:    true,
 			},
-			"http_url": &schema.Schema{
+			"http_url": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
 				Computed:     true,
 			},
-			"scep_url": &schema.Schema{
+			"scep_url": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
 				Computed:     true,
 			},
-			"scep_cert": &schema.Schema{
+			"scep_cert": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"update_interval": &schema.Schema{
+			"update_interval": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"source_ip": &schema.Schema{
+			"source_ip": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"last_updated": &schema.Schema{
+			"last_updated": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -129,15 +134,25 @@ func resourceVpnCertificateCrlCreate(d *schema.ResourceData, m interface{}) erro
 		}
 	}
 
-	obj, err := getObjectVpnCertificateCrl(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating VpnCertificateCrl resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateVpnCertificateCrl(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectVpnCertificateCrl(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating VpnCertificateCrl resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateVpnCertificateCrl(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating VpnCertificateCrl resource: %v", err)
+		return fmt.Errorf("error creating VpnCertificateCrl resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -162,14 +177,24 @@ func resourceVpnCertificateCrlUpdate(d *schema.ResourceData, m interface{}) erro
 		}
 	}
 
-	obj, err := getObjectVpnCertificateCrl(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating VpnCertificateCrl resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateVpnCertificateCrl(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectVpnCertificateCrl(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating VpnCertificateCrl resource: %v", err)
+		return fmt.Errorf("error updating VpnCertificateCrl resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateVpnCertificateCrl(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating VpnCertificateCrl resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -196,9 +221,17 @@ func resourceVpnCertificateCrlDelete(d *schema.ResourceData, m interface{}) erro
 		}
 	}
 
-	err := c.DeleteVpnCertificateCrl(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteVpnCertificateCrl(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting VpnCertificateCrl resource: %v", err)
+		return fmt.Errorf("error deleting VpnCertificateCrl resource: %v", err)
 	}
 
 	d.SetId("")
@@ -220,9 +253,19 @@ func resourceVpnCertificateCrlRead(d *schema.ResourceData, m interface{}) error 
 		}
 	}
 
-	o, err := c.ReadVpnCertificateCrl(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadVpnCertificateCrl(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading VpnCertificateCrl resource: %v", err)
+		return fmt.Errorf("error reading VpnCertificateCrl resource: %v", err)
 	}
 
 	if o == nil {
@@ -233,7 +276,7 @@ func resourceVpnCertificateCrlRead(d *schema.ResourceData, m interface{}) error 
 
 	err = refreshObjectVpnCertificateCrl(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading VpnCertificateCrl resource from API: %v", err)
+		return fmt.Errorf("error reading VpnCertificateCrl resource from API: %v", err)
 	}
 	return nil
 }
@@ -299,79 +342,79 @@ func refreshObjectVpnCertificateCrl(d *schema.ResourceData, o map[string]interfa
 
 	if err = d.Set("name", flattenVpnCertificateCrlName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("crl", flattenVpnCertificateCrlCrl(o["crl"], d, "crl", sv)); err != nil {
 		if !fortiAPIPatch(o["crl"]) {
-			return fmt.Errorf("Error reading crl: %v", err)
+			return fmt.Errorf("error reading crl: %v", err)
 		}
 	}
 
 	if err = d.Set("range", flattenVpnCertificateCrlRange(o["range"], d, "range", sv)); err != nil {
 		if !fortiAPIPatch(o["range"]) {
-			return fmt.Errorf("Error reading range: %v", err)
+			return fmt.Errorf("error reading range: %v", err)
 		}
 	}
 
 	if err = d.Set("source", flattenVpnCertificateCrlSource(o["source"], d, "source", sv)); err != nil {
 		if !fortiAPIPatch(o["source"]) {
-			return fmt.Errorf("Error reading source: %v", err)
+			return fmt.Errorf("error reading source: %v", err)
 		}
 	}
 
 	if err = d.Set("update_vdom", flattenVpnCertificateCrlUpdateVdom(o["update-vdom"], d, "update_vdom", sv)); err != nil {
 		if !fortiAPIPatch(o["update-vdom"]) {
-			return fmt.Errorf("Error reading update_vdom: %v", err)
+			return fmt.Errorf("error reading update_vdom: %v", err)
 		}
 	}
 
 	if err = d.Set("ldap_server", flattenVpnCertificateCrlLdapServer(o["ldap-server"], d, "ldap_server", sv)); err != nil {
 		if !fortiAPIPatch(o["ldap-server"]) {
-			return fmt.Errorf("Error reading ldap_server: %v", err)
+			return fmt.Errorf("error reading ldap_server: %v", err)
 		}
 	}
 
 	if err = d.Set("ldap_username", flattenVpnCertificateCrlLdapUsername(o["ldap-username"], d, "ldap_username", sv)); err != nil {
 		if !fortiAPIPatch(o["ldap-username"]) {
-			return fmt.Errorf("Error reading ldap_username: %v", err)
+			return fmt.Errorf("error reading ldap_username: %v", err)
 		}
 	}
 
 	if err = d.Set("http_url", flattenVpnCertificateCrlHttpUrl(o["http-url"], d, "http_url", sv)); err != nil {
 		if !fortiAPIPatch(o["http-url"]) {
-			return fmt.Errorf("Error reading http_url: %v", err)
+			return fmt.Errorf("error reading http_url: %v", err)
 		}
 	}
 
 	if err = d.Set("scep_url", flattenVpnCertificateCrlScepUrl(o["scep-url"], d, "scep_url", sv)); err != nil {
 		if !fortiAPIPatch(o["scep-url"]) {
-			return fmt.Errorf("Error reading scep_url: %v", err)
+			return fmt.Errorf("error reading scep_url: %v", err)
 		}
 	}
 
 	if err = d.Set("scep_cert", flattenVpnCertificateCrlScepCert(o["scep-cert"], d, "scep_cert", sv)); err != nil {
 		if !fortiAPIPatch(o["scep-cert"]) {
-			return fmt.Errorf("Error reading scep_cert: %v", err)
+			return fmt.Errorf("error reading scep_cert: %v", err)
 		}
 	}
 
 	if err = d.Set("update_interval", flattenVpnCertificateCrlUpdateInterval(o["update-interval"], d, "update_interval", sv)); err != nil {
 		if !fortiAPIPatch(o["update-interval"]) {
-			return fmt.Errorf("Error reading update_interval: %v", err)
+			return fmt.Errorf("error reading update_interval: %v", err)
 		}
 	}
 
 	if err = d.Set("source_ip", flattenVpnCertificateCrlSourceIp(o["source-ip"], d, "source_ip", sv)); err != nil {
 		if !fortiAPIPatch(o["source-ip"]) {
-			return fmt.Errorf("Error reading source_ip: %v", err)
+			return fmt.Errorf("error reading source_ip: %v", err)
 		}
 	}
 
 	if err = d.Set("last_updated", flattenVpnCertificateCrlLastUpdated(o["last-updated"], d, "last_updated", sv)); err != nil {
 		if !fortiAPIPatch(o["last-updated"]) {
-			return fmt.Errorf("Error reading last_updated: %v", err)
+			return fmt.Errorf("error reading last_updated: %v", err)
 		}
 	}
 

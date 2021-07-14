@@ -30,35 +30,35 @@ func resourceSystemLinkMonitor() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"addr_mode": &schema.Schema{
+			"addr_mode": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"srcintf": &schema.Schema{
+			"srcintf": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 15),
 				Optional:     true,
 				Computed:     true,
 			},
-			"server": &schema.Schema{
+			"server": {
 				Type:     schema.TypeList,
 				Required: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"address": &schema.Schema{
+						"address": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 64),
 							Optional:     true,
@@ -67,127 +67,132 @@ func resourceSystemLinkMonitor() *schema.Resource {
 					},
 				},
 			},
-			"protocol": &schema.Schema{
+			"protocol": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"port": &schema.Schema{
+			"port": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"gateway_ip": &schema.Schema{
+			"gateway_ip": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"gateway_ip6": &schema.Schema{
+			"gateway_ip6": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"source_ip": &schema.Schema{
+			"source_ip": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"source_ip6": &schema.Schema{
+			"source_ip6": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"http_get": &schema.Schema{
+			"http_get": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 1024),
 				Optional:     true,
 				Computed:     true,
 			},
-			"http_agent": &schema.Schema{
+			"http_agent": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 1024),
 				Optional:     true,
 				Computed:     true,
 			},
-			"http_match": &schema.Schema{
+			"http_match": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 1024),
 				Optional:     true,
 				Computed:     true,
 			},
-			"interval": &schema.Schema{
+			"interval": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 3600),
 				Optional:     true,
 				Computed:     true,
 			},
-			"probe_timeout": &schema.Schema{
+			"probe_timeout": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(500, 5000),
 				Optional:     true,
 				Computed:     true,
 			},
-			"failtime": &schema.Schema{
+			"failtime": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 3600),
 				Optional:     true,
 				Computed:     true,
 			},
-			"recoverytime": &schema.Schema{
+			"recoverytime": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 3600),
 				Optional:     true,
 				Computed:     true,
 			},
-			"probe_count": &schema.Schema{
+			"probe_count": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(5, 30),
 				Optional:     true,
 				Computed:     true,
 			},
-			"security_mode": &schema.Schema{
+			"security_mode": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"password": &schema.Schema{
+			"password": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 128),
 				Optional:     true,
 				Sensitive:    true,
 			},
-			"packet_size": &schema.Schema{
+			"packet_size": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(64, 1024),
 				Optional:     true,
 				Computed:     true,
 			},
-			"ha_priority": &schema.Schema{
+			"ha_priority": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 50),
 				Optional:     true,
 				Computed:     true,
 			},
-			"update_cascade_interface": &schema.Schema{
+			"update_cascade_interface": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"update_static_route": &schema.Schema{
+			"update_static_route": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"status": &schema.Schema{
+			"status": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"dynamic_sort_subtable": &schema.Schema{
-				Type:     schema.TypeString,
+			"dynamic_sort_subtable": {
+				Type:     schema.TypeBool,
 				Optional: true,
-				Default:  "false",
+				Default:  false,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -205,15 +210,25 @@ func resourceSystemLinkMonitorCreate(d *schema.ResourceData, m interface{}) erro
 		}
 	}
 
-	obj, err := getObjectSystemLinkMonitor(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating SystemLinkMonitor resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateSystemLinkMonitor(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemLinkMonitor(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating SystemLinkMonitor resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateSystemLinkMonitor(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating SystemLinkMonitor resource: %v", err)
+		return fmt.Errorf("error creating SystemLinkMonitor resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -238,14 +253,24 @@ func resourceSystemLinkMonitorUpdate(d *schema.ResourceData, m interface{}) erro
 		}
 	}
 
-	obj, err := getObjectSystemLinkMonitor(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SystemLinkMonitor resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSystemLinkMonitor(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemLinkMonitor(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SystemLinkMonitor resource: %v", err)
+		return fmt.Errorf("error updating SystemLinkMonitor resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSystemLinkMonitor(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SystemLinkMonitor resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -272,9 +297,17 @@ func resourceSystemLinkMonitorDelete(d *schema.ResourceData, m interface{}) erro
 		}
 	}
 
-	err := c.DeleteSystemLinkMonitor(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSystemLinkMonitor(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SystemLinkMonitor resource: %v", err)
+		return fmt.Errorf("error deleting SystemLinkMonitor resource: %v", err)
 	}
 
 	d.SetId("")
@@ -296,9 +329,19 @@ func resourceSystemLinkMonitorRead(d *schema.ResourceData, m interface{}) error 
 		}
 	}
 
-	o, err := c.ReadSystemLinkMonitor(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSystemLinkMonitor(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemLinkMonitor resource: %v", err)
+		return fmt.Errorf("error reading SystemLinkMonitor resource: %v", err)
 	}
 
 	if o == nil {
@@ -309,7 +352,7 @@ func resourceSystemLinkMonitorRead(d *schema.ResourceData, m interface{}) error 
 
 	err = refreshObjectSystemLinkMonitor(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemLinkMonitor resource from API: %v", err)
+		return fmt.Errorf("error reading SystemLinkMonitor resource from API: %v", err)
 	}
 	return nil
 }
@@ -453,33 +496,33 @@ func refreshObjectSystemLinkMonitor(d *schema.ResourceData, o map[string]interfa
 
 	if err = d.Set("name", flattenSystemLinkMonitorName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("addr_mode", flattenSystemLinkMonitorAddrMode(o["addr-mode"], d, "addr_mode", sv)); err != nil {
 		if !fortiAPIPatch(o["addr-mode"]) {
-			return fmt.Errorf("Error reading addr_mode: %v", err)
+			return fmt.Errorf("error reading addr_mode: %v", err)
 		}
 	}
 
 	if err = d.Set("srcintf", flattenSystemLinkMonitorSrcintf(o["srcintf"], d, "srcintf", sv)); err != nil {
 		if !fortiAPIPatch(o["srcintf"]) {
-			return fmt.Errorf("Error reading srcintf: %v", err)
+			return fmt.Errorf("error reading srcintf: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("server", flattenSystemLinkMonitorServer(o["server"], d, "server", sv)); err != nil {
 			if !fortiAPIPatch(o["server"]) {
-				return fmt.Errorf("Error reading server: %v", err)
+				return fmt.Errorf("error reading server: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("server"); ok {
 			if err = d.Set("server", flattenSystemLinkMonitorServer(o["server"], d, "server", sv)); err != nil {
 				if !fortiAPIPatch(o["server"]) {
-					return fmt.Errorf("Error reading server: %v", err)
+					return fmt.Errorf("error reading server: %v", err)
 				}
 			}
 		}
@@ -487,121 +530,121 @@ func refreshObjectSystemLinkMonitor(d *schema.ResourceData, o map[string]interfa
 
 	if err = d.Set("protocol", flattenSystemLinkMonitorProtocol(o["protocol"], d, "protocol", sv)); err != nil {
 		if !fortiAPIPatch(o["protocol"]) {
-			return fmt.Errorf("Error reading protocol: %v", err)
+			return fmt.Errorf("error reading protocol: %v", err)
 		}
 	}
 
 	if err = d.Set("port", flattenSystemLinkMonitorPort(o["port"], d, "port", sv)); err != nil {
 		if !fortiAPIPatch(o["port"]) {
-			return fmt.Errorf("Error reading port: %v", err)
+			return fmt.Errorf("error reading port: %v", err)
 		}
 	}
 
 	if err = d.Set("gateway_ip", flattenSystemLinkMonitorGatewayIp(o["gateway-ip"], d, "gateway_ip", sv)); err != nil {
 		if !fortiAPIPatch(o["gateway-ip"]) {
-			return fmt.Errorf("Error reading gateway_ip: %v", err)
+			return fmt.Errorf("error reading gateway_ip: %v", err)
 		}
 	}
 
 	if err = d.Set("gateway_ip6", flattenSystemLinkMonitorGatewayIp6(o["gateway-ip6"], d, "gateway_ip6", sv)); err != nil {
 		if !fortiAPIPatch(o["gateway-ip6"]) {
-			return fmt.Errorf("Error reading gateway_ip6: %v", err)
+			return fmt.Errorf("error reading gateway_ip6: %v", err)
 		}
 	}
 
 	if err = d.Set("source_ip", flattenSystemLinkMonitorSourceIp(o["source-ip"], d, "source_ip", sv)); err != nil {
 		if !fortiAPIPatch(o["source-ip"]) {
-			return fmt.Errorf("Error reading source_ip: %v", err)
+			return fmt.Errorf("error reading source_ip: %v", err)
 		}
 	}
 
 	if err = d.Set("source_ip6", flattenSystemLinkMonitorSourceIp6(o["source-ip6"], d, "source_ip6", sv)); err != nil {
 		if !fortiAPIPatch(o["source-ip6"]) {
-			return fmt.Errorf("Error reading source_ip6: %v", err)
+			return fmt.Errorf("error reading source_ip6: %v", err)
 		}
 	}
 
 	if err = d.Set("http_get", flattenSystemLinkMonitorHttpGet(o["http-get"], d, "http_get", sv)); err != nil {
 		if !fortiAPIPatch(o["http-get"]) {
-			return fmt.Errorf("Error reading http_get: %v", err)
+			return fmt.Errorf("error reading http_get: %v", err)
 		}
 	}
 
 	if err = d.Set("http_agent", flattenSystemLinkMonitorHttpAgent(o["http-agent"], d, "http_agent", sv)); err != nil {
 		if !fortiAPIPatch(o["http-agent"]) {
-			return fmt.Errorf("Error reading http_agent: %v", err)
+			return fmt.Errorf("error reading http_agent: %v", err)
 		}
 	}
 
 	if err = d.Set("http_match", flattenSystemLinkMonitorHttpMatch(o["http-match"], d, "http_match", sv)); err != nil {
 		if !fortiAPIPatch(o["http-match"]) {
-			return fmt.Errorf("Error reading http_match: %v", err)
+			return fmt.Errorf("error reading http_match: %v", err)
 		}
 	}
 
 	if err = d.Set("interval", flattenSystemLinkMonitorInterval(o["interval"], d, "interval", sv)); err != nil {
 		if !fortiAPIPatch(o["interval"]) {
-			return fmt.Errorf("Error reading interval: %v", err)
+			return fmt.Errorf("error reading interval: %v", err)
 		}
 	}
 
 	if err = d.Set("probe_timeout", flattenSystemLinkMonitorProbeTimeout(o["probe-timeout"], d, "probe_timeout", sv)); err != nil {
 		if !fortiAPIPatch(o["probe-timeout"]) {
-			return fmt.Errorf("Error reading probe_timeout: %v", err)
+			return fmt.Errorf("error reading probe_timeout: %v", err)
 		}
 	}
 
 	if err = d.Set("failtime", flattenSystemLinkMonitorFailtime(o["failtime"], d, "failtime", sv)); err != nil {
 		if !fortiAPIPatch(o["failtime"]) {
-			return fmt.Errorf("Error reading failtime: %v", err)
+			return fmt.Errorf("error reading failtime: %v", err)
 		}
 	}
 
 	if err = d.Set("recoverytime", flattenSystemLinkMonitorRecoverytime(o["recoverytime"], d, "recoverytime", sv)); err != nil {
 		if !fortiAPIPatch(o["recoverytime"]) {
-			return fmt.Errorf("Error reading recoverytime: %v", err)
+			return fmt.Errorf("error reading recoverytime: %v", err)
 		}
 	}
 
 	if err = d.Set("probe_count", flattenSystemLinkMonitorProbeCount(o["probe-count"], d, "probe_count", sv)); err != nil {
 		if !fortiAPIPatch(o["probe-count"]) {
-			return fmt.Errorf("Error reading probe_count: %v", err)
+			return fmt.Errorf("error reading probe_count: %v", err)
 		}
 	}
 
 	if err = d.Set("security_mode", flattenSystemLinkMonitorSecurityMode(o["security-mode"], d, "security_mode", sv)); err != nil {
 		if !fortiAPIPatch(o["security-mode"]) {
-			return fmt.Errorf("Error reading security_mode: %v", err)
+			return fmt.Errorf("error reading security_mode: %v", err)
 		}
 	}
 
 	if err = d.Set("packet_size", flattenSystemLinkMonitorPacketSize(o["packet-size"], d, "packet_size", sv)); err != nil {
 		if !fortiAPIPatch(o["packet-size"]) {
-			return fmt.Errorf("Error reading packet_size: %v", err)
+			return fmt.Errorf("error reading packet_size: %v", err)
 		}
 	}
 
 	if err = d.Set("ha_priority", flattenSystemLinkMonitorHaPriority(o["ha-priority"], d, "ha_priority", sv)); err != nil {
 		if !fortiAPIPatch(o["ha-priority"]) {
-			return fmt.Errorf("Error reading ha_priority: %v", err)
+			return fmt.Errorf("error reading ha_priority: %v", err)
 		}
 	}
 
 	if err = d.Set("update_cascade_interface", flattenSystemLinkMonitorUpdateCascadeInterface(o["update-cascade-interface"], d, "update_cascade_interface", sv)); err != nil {
 		if !fortiAPIPatch(o["update-cascade-interface"]) {
-			return fmt.Errorf("Error reading update_cascade_interface: %v", err)
+			return fmt.Errorf("error reading update_cascade_interface: %v", err)
 		}
 	}
 
 	if err = d.Set("update_static_route", flattenSystemLinkMonitorUpdateStaticRoute(o["update-static-route"], d, "update_static_route", sv)); err != nil {
 		if !fortiAPIPatch(o["update-static-route"]) {
-			return fmt.Errorf("Error reading update_static_route: %v", err)
+			return fmt.Errorf("error reading update_static_route: %v", err)
 		}
 	}
 
 	if err = d.Set("status", flattenSystemLinkMonitorStatus(o["status"], d, "status", sv)); err != nil {
 		if !fortiAPIPatch(o["status"]) {
-			return fmt.Errorf("Error reading status: %v", err)
+			return fmt.Errorf("error reading status: %v", err)
 		}
 	}
 

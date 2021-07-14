@@ -30,94 +30,99 @@ func resourceEndpointControlFctems() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"server": &schema.Schema{
+			"server": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
 				Computed:     true,
 			},
-			"serial_number": &schema.Schema{
+			"serial_number": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 16),
 				Optional:     true,
 				Computed:     true,
 			},
-			"fortinetone_cloud_authentication": &schema.Schema{
+			"fortinetone_cloud_authentication": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"https_port": &schema.Schema{
+			"https_port": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"admin_username": &schema.Schema{
+			"admin_username": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 128),
 				Optional:     true,
 				Computed:     true,
 			},
-			"admin_password": &schema.Schema{
+			"admin_password": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 68),
 				Optional:     true,
 				Sensitive:    true,
 			},
-			"source_ip": &schema.Schema{
+			"source_ip": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"pull_sysinfo": &schema.Schema{
+			"pull_sysinfo": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"pull_vulnerabilities": &schema.Schema{
+			"pull_vulnerabilities": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"pull_avatars": &schema.Schema{
+			"pull_avatars": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"pull_tags": &schema.Schema{
+			"pull_tags": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"cloud_server_type": &schema.Schema{
+			"cloud_server_type": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"call_timeout": &schema.Schema{
+			"call_timeout": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(500, 30000),
 				Optional:     true,
 				Computed:     true,
 			},
-			"certificate": &schema.Schema{
+			"certificate": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -135,15 +140,25 @@ func resourceEndpointControlFctemsCreate(d *schema.ResourceData, m interface{}) 
 		}
 	}
 
-	obj, err := getObjectEndpointControlFctems(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating EndpointControlFctems resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateEndpointControlFctems(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectEndpointControlFctems(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating EndpointControlFctems resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateEndpointControlFctems(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating EndpointControlFctems resource: %v", err)
+		return fmt.Errorf("error creating EndpointControlFctems resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -168,14 +183,24 @@ func resourceEndpointControlFctemsUpdate(d *schema.ResourceData, m interface{}) 
 		}
 	}
 
-	obj, err := getObjectEndpointControlFctems(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating EndpointControlFctems resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateEndpointControlFctems(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectEndpointControlFctems(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating EndpointControlFctems resource: %v", err)
+		return fmt.Errorf("error updating EndpointControlFctems resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateEndpointControlFctems(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating EndpointControlFctems resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -202,9 +227,17 @@ func resourceEndpointControlFctemsDelete(d *schema.ResourceData, m interface{}) 
 		}
 	}
 
-	err := c.DeleteEndpointControlFctems(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteEndpointControlFctems(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting EndpointControlFctems resource: %v", err)
+		return fmt.Errorf("error deleting EndpointControlFctems resource: %v", err)
 	}
 
 	d.SetId("")
@@ -226,9 +259,19 @@ func resourceEndpointControlFctemsRead(d *schema.ResourceData, m interface{}) er
 		}
 	}
 
-	o, err := c.ReadEndpointControlFctems(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadEndpointControlFctems(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading EndpointControlFctems resource: %v", err)
+		return fmt.Errorf("error reading EndpointControlFctems resource: %v", err)
 	}
 
 	if o == nil {
@@ -239,7 +282,7 @@ func resourceEndpointControlFctemsRead(d *schema.ResourceData, m interface{}) er
 
 	err = refreshObjectEndpointControlFctems(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading EndpointControlFctems resource from API: %v", err)
+		return fmt.Errorf("error reading EndpointControlFctems resource from API: %v", err)
 	}
 	return nil
 }
@@ -309,85 +352,85 @@ func refreshObjectEndpointControlFctems(d *schema.ResourceData, o map[string]int
 
 	if err = d.Set("name", flattenEndpointControlFctemsName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("server", flattenEndpointControlFctemsServer(o["server"], d, "server", sv)); err != nil {
 		if !fortiAPIPatch(o["server"]) {
-			return fmt.Errorf("Error reading server: %v", err)
+			return fmt.Errorf("error reading server: %v", err)
 		}
 	}
 
 	if err = d.Set("serial_number", flattenEndpointControlFctemsSerialNumber(o["serial-number"], d, "serial_number", sv)); err != nil {
 		if !fortiAPIPatch(o["serial-number"]) {
-			return fmt.Errorf("Error reading serial_number: %v", err)
+			return fmt.Errorf("error reading serial_number: %v", err)
 		}
 	}
 
 	if err = d.Set("fortinetone_cloud_authentication", flattenEndpointControlFctemsFortinetoneCloudAuthentication(o["fortinetone-cloud-authentication"], d, "fortinetone_cloud_authentication", sv)); err != nil {
 		if !fortiAPIPatch(o["fortinetone-cloud-authentication"]) {
-			return fmt.Errorf("Error reading fortinetone_cloud_authentication: %v", err)
+			return fmt.Errorf("error reading fortinetone_cloud_authentication: %v", err)
 		}
 	}
 
 	if err = d.Set("https_port", flattenEndpointControlFctemsHttpsPort(o["https-port"], d, "https_port", sv)); err != nil {
 		if !fortiAPIPatch(o["https-port"]) {
-			return fmt.Errorf("Error reading https_port: %v", err)
+			return fmt.Errorf("error reading https_port: %v", err)
 		}
 	}
 
 	if err = d.Set("admin_username", flattenEndpointControlFctemsAdminUsername(o["admin-username"], d, "admin_username", sv)); err != nil {
 		if !fortiAPIPatch(o["admin-username"]) {
-			return fmt.Errorf("Error reading admin_username: %v", err)
+			return fmt.Errorf("error reading admin_username: %v", err)
 		}
 	}
 
 	if err = d.Set("source_ip", flattenEndpointControlFctemsSourceIp(o["source-ip"], d, "source_ip", sv)); err != nil {
 		if !fortiAPIPatch(o["source-ip"]) {
-			return fmt.Errorf("Error reading source_ip: %v", err)
+			return fmt.Errorf("error reading source_ip: %v", err)
 		}
 	}
 
 	if err = d.Set("pull_sysinfo", flattenEndpointControlFctemsPullSysinfo(o["pull-sysinfo"], d, "pull_sysinfo", sv)); err != nil {
 		if !fortiAPIPatch(o["pull-sysinfo"]) {
-			return fmt.Errorf("Error reading pull_sysinfo: %v", err)
+			return fmt.Errorf("error reading pull_sysinfo: %v", err)
 		}
 	}
 
 	if err = d.Set("pull_vulnerabilities", flattenEndpointControlFctemsPullVulnerabilities(o["pull-vulnerabilities"], d, "pull_vulnerabilities", sv)); err != nil {
 		if !fortiAPIPatch(o["pull-vulnerabilities"]) {
-			return fmt.Errorf("Error reading pull_vulnerabilities: %v", err)
+			return fmt.Errorf("error reading pull_vulnerabilities: %v", err)
 		}
 	}
 
 	if err = d.Set("pull_avatars", flattenEndpointControlFctemsPullAvatars(o["pull-avatars"], d, "pull_avatars", sv)); err != nil {
 		if !fortiAPIPatch(o["pull-avatars"]) {
-			return fmt.Errorf("Error reading pull_avatars: %v", err)
+			return fmt.Errorf("error reading pull_avatars: %v", err)
 		}
 	}
 
 	if err = d.Set("pull_tags", flattenEndpointControlFctemsPullTags(o["pull-tags"], d, "pull_tags", sv)); err != nil {
 		if !fortiAPIPatch(o["pull-tags"]) {
-			return fmt.Errorf("Error reading pull_tags: %v", err)
+			return fmt.Errorf("error reading pull_tags: %v", err)
 		}
 	}
 
 	if err = d.Set("cloud_server_type", flattenEndpointControlFctemsCloudServerType(o["cloud-server-type"], d, "cloud_server_type", sv)); err != nil {
 		if !fortiAPIPatch(o["cloud-server-type"]) {
-			return fmt.Errorf("Error reading cloud_server_type: %v", err)
+			return fmt.Errorf("error reading cloud_server_type: %v", err)
 		}
 	}
 
 	if err = d.Set("call_timeout", flattenEndpointControlFctemsCallTimeout(o["call-timeout"], d, "call_timeout", sv)); err != nil {
 		if !fortiAPIPatch(o["call-timeout"]) {
-			return fmt.Errorf("Error reading call_timeout: %v", err)
+			return fmt.Errorf("error reading call_timeout: %v", err)
 		}
 	}
 
 	if err = d.Set("certificate", flattenEndpointControlFctemsCertificate(o["certificate"], d, "certificate", sv)); err != nil {
 		if !fortiAPIPatch(o["certificate"]) {
-			return fmt.Errorf("Error reading certificate: %v", err)
+			return fmt.Errorf("error reading certificate: %v", err)
 		}
 	}
 

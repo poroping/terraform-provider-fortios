@@ -30,21 +30,26 @@ func resourceFirewallInternetServiceReputation() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"fosid": &schema.Schema{
+			"fosid": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"description": &schema.Schema{
+			"description": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 127),
 				Optional:     true,
 				Computed:     true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -62,15 +67,25 @@ func resourceFirewallInternetServiceReputationCreate(d *schema.ResourceData, m i
 		}
 	}
 
-	obj, err := getObjectFirewallInternetServiceReputation(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating FirewallInternetServiceReputation resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateFirewallInternetServiceReputation(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectFirewallInternetServiceReputation(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating FirewallInternetServiceReputation resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateFirewallInternetServiceReputation(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating FirewallInternetServiceReputation resource: %v", err)
+		return fmt.Errorf("error creating FirewallInternetServiceReputation resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -95,14 +110,24 @@ func resourceFirewallInternetServiceReputationUpdate(d *schema.ResourceData, m i
 		}
 	}
 
-	obj, err := getObjectFirewallInternetServiceReputation(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating FirewallInternetServiceReputation resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateFirewallInternetServiceReputation(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectFirewallInternetServiceReputation(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating FirewallInternetServiceReputation resource: %v", err)
+		return fmt.Errorf("error updating FirewallInternetServiceReputation resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateFirewallInternetServiceReputation(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating FirewallInternetServiceReputation resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -129,9 +154,17 @@ func resourceFirewallInternetServiceReputationDelete(d *schema.ResourceData, m i
 		}
 	}
 
-	err := c.DeleteFirewallInternetServiceReputation(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteFirewallInternetServiceReputation(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting FirewallInternetServiceReputation resource: %v", err)
+		return fmt.Errorf("error deleting FirewallInternetServiceReputation resource: %v", err)
 	}
 
 	d.SetId("")
@@ -153,9 +186,19 @@ func resourceFirewallInternetServiceReputationRead(d *schema.ResourceData, m int
 		}
 	}
 
-	o, err := c.ReadFirewallInternetServiceReputation(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadFirewallInternetServiceReputation(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading FirewallInternetServiceReputation resource: %v", err)
+		return fmt.Errorf("error reading FirewallInternetServiceReputation resource: %v", err)
 	}
 
 	if o == nil {
@@ -166,7 +209,7 @@ func resourceFirewallInternetServiceReputationRead(d *schema.ResourceData, m int
 
 	err = refreshObjectFirewallInternetServiceReputation(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading FirewallInternetServiceReputation resource from API: %v", err)
+		return fmt.Errorf("error reading FirewallInternetServiceReputation resource from API: %v", err)
 	}
 	return nil
 }
@@ -184,13 +227,13 @@ func refreshObjectFirewallInternetServiceReputation(d *schema.ResourceData, o ma
 
 	if err = d.Set("fosid", flattenFirewallInternetServiceReputationId(o["id"], d, "fosid", sv)); err != nil {
 		if !fortiAPIPatch(o["id"]) {
-			return fmt.Errorf("Error reading fosid: %v", err)
+			return fmt.Errorf("error reading fosid: %v", err)
 		}
 	}
 
 	if err = d.Set("description", flattenFirewallInternetServiceReputationDescription(o["description"], d, "description", sv)); err != nil {
 		if !fortiAPIPatch(o["description"]) {
-			return fmt.Errorf("Error reading description: %v", err)
+			return fmt.Errorf("error reading description: %v", err)
 		}
 	}
 

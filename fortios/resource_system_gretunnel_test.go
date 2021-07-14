@@ -64,14 +64,14 @@ func testAccCheckFortiOSSystemGreTunnelExists(n string) resource.TestCheckFunc {
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemGreTunnel(i, "root")
+		o, err := c.ReadSystemGreTunnel(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading SystemGreTunnel: %s", err)
+			return fmt.Errorf("error reading SystemGreTunnel: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating SystemGreTunnel: %s", n)
+			return fmt.Errorf("error creating SystemGreTunnel: %s", n)
 		}
 
 		return nil
@@ -87,11 +87,11 @@ func testAccCheckSystemGreTunnelDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemGreTunnel(i, "root")
+		o, err := c.ReadSystemGreTunnel(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error SystemGreTunnel %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error SystemGreTunnel %s still exists", rs.Primary.ID)
 			}
 		}
 

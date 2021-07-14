@@ -52,14 +52,14 @@ func testAccCheckFortiOSWirelessControllerHotspot20AnqpVenueNameExists(n string)
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadWirelessControllerHotspot20AnqpVenueName(i, "root")
+		o, err := c.ReadWirelessControllerHotspot20AnqpVenueName(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading WirelessControllerHotspot20AnqpVenueName: %s", err)
+			return fmt.Errorf("error reading WirelessControllerHotspot20AnqpVenueName: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating WirelessControllerHotspot20AnqpVenueName: %s", n)
+			return fmt.Errorf("error creating WirelessControllerHotspot20AnqpVenueName: %s", n)
 		}
 
 		return nil
@@ -75,11 +75,11 @@ func testAccCheckWirelessControllerHotspot20AnqpVenueNameDestroy(s *terraform.St
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadWirelessControllerHotspot20AnqpVenueName(i, "root")
+		o, err := c.ReadWirelessControllerHotspot20AnqpVenueName(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error WirelessControllerHotspot20AnqpVenueName %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error WirelessControllerHotspot20AnqpVenueName %s still exists", rs.Primary.ID)
 			}
 		}
 

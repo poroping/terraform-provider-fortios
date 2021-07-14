@@ -51,14 +51,14 @@ func testAccCheckFortiOSSystemReplacemsgImageExists(n string) resource.TestCheck
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemReplacemsgImage(i, "root")
+		o, err := c.ReadSystemReplacemsgImage(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading SystemReplacemsgImage: %s", err)
+			return fmt.Errorf("error reading SystemReplacemsgImage: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating SystemReplacemsgImage: %s", n)
+			return fmt.Errorf("error creating SystemReplacemsgImage: %s", n)
 		}
 
 		return nil
@@ -74,11 +74,11 @@ func testAccCheckSystemReplacemsgImageDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemReplacemsgImage(i, "root")
+		o, err := c.ReadSystemReplacemsgImage(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error SystemReplacemsgImage %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error SystemReplacemsgImage %s still exists", rs.Primary.ID)
 			}
 		}
 

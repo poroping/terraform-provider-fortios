@@ -30,42 +30,47 @@ func resourceSystemStandaloneCluster() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"standalone_group_id": &schema.Schema{
+			"standalone_group_id": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 255),
 				Optional:     true,
 				Computed:     true,
 			},
-			"group_member_id": &schema.Schema{
+			"group_member_id": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 3),
 				Optional:     true,
 				Computed:     true,
 			},
-			"layer2_connection": &schema.Schema{
+			"layer2_connection": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"session_sync_dev": &schema.Schema{
+			"session_sync_dev": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"encryption": &schema.Schema{
+			"encryption": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"psksecret": &schema.Schema{
+			"psksecret": {
 				Type:      schema.TypeString,
 				Optional:  true,
 				Sensitive: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -84,14 +89,24 @@ func resourceSystemStandaloneClusterUpdate(d *schema.ResourceData, m interface{}
 		}
 	}
 
-	obj, err := getObjectSystemStandaloneCluster(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SystemStandaloneCluster resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSystemStandaloneCluster(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemStandaloneCluster(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SystemStandaloneCluster resource: %v", err)
+		return fmt.Errorf("error updating SystemStandaloneCluster resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSystemStandaloneCluster(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SystemStandaloneCluster resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -118,9 +133,17 @@ func resourceSystemStandaloneClusterDelete(d *schema.ResourceData, m interface{}
 		}
 	}
 
-	err := c.DeleteSystemStandaloneCluster(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSystemStandaloneCluster(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SystemStandaloneCluster resource: %v", err)
+		return fmt.Errorf("error deleting SystemStandaloneCluster resource: %v", err)
 	}
 
 	d.SetId("")
@@ -142,9 +165,19 @@ func resourceSystemStandaloneClusterRead(d *schema.ResourceData, m interface{}) 
 		}
 	}
 
-	o, err := c.ReadSystemStandaloneCluster(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSystemStandaloneCluster(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemStandaloneCluster resource: %v", err)
+		return fmt.Errorf("error reading SystemStandaloneCluster resource: %v", err)
 	}
 
 	if o == nil {
@@ -155,7 +188,7 @@ func resourceSystemStandaloneClusterRead(d *schema.ResourceData, m interface{}) 
 
 	err = refreshObjectSystemStandaloneCluster(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemStandaloneCluster resource from API: %v", err)
+		return fmt.Errorf("error reading SystemStandaloneCluster resource from API: %v", err)
 	}
 	return nil
 }
@@ -189,31 +222,31 @@ func refreshObjectSystemStandaloneCluster(d *schema.ResourceData, o map[string]i
 
 	if err = d.Set("standalone_group_id", flattenSystemStandaloneClusterStandaloneGroupId(o["standalone-group-id"], d, "standalone_group_id", sv)); err != nil {
 		if !fortiAPIPatch(o["standalone-group-id"]) {
-			return fmt.Errorf("Error reading standalone_group_id: %v", err)
+			return fmt.Errorf("error reading standalone_group_id: %v", err)
 		}
 	}
 
 	if err = d.Set("group_member_id", flattenSystemStandaloneClusterGroupMemberId(o["group-member-id"], d, "group_member_id", sv)); err != nil {
 		if !fortiAPIPatch(o["group-member-id"]) {
-			return fmt.Errorf("Error reading group_member_id: %v", err)
+			return fmt.Errorf("error reading group_member_id: %v", err)
 		}
 	}
 
 	if err = d.Set("layer2_connection", flattenSystemStandaloneClusterLayer2Connection(o["layer2-connection"], d, "layer2_connection", sv)); err != nil {
 		if !fortiAPIPatch(o["layer2-connection"]) {
-			return fmt.Errorf("Error reading layer2_connection: %v", err)
+			return fmt.Errorf("error reading layer2_connection: %v", err)
 		}
 	}
 
 	if err = d.Set("session_sync_dev", flattenSystemStandaloneClusterSessionSyncDev(o["session-sync-dev"], d, "session_sync_dev", sv)); err != nil {
 		if !fortiAPIPatch(o["session-sync-dev"]) {
-			return fmt.Errorf("Error reading session_sync_dev: %v", err)
+			return fmt.Errorf("error reading session_sync_dev: %v", err)
 		}
 	}
 
 	if err = d.Set("encryption", flattenSystemStandaloneClusterEncryption(o["encryption"], d, "encryption", sv)); err != nil {
 		if !fortiAPIPatch(o["encryption"]) {
-			return fmt.Errorf("Error reading encryption: %v", err)
+			return fmt.Errorf("error reading encryption: %v", err)
 		}
 	}
 

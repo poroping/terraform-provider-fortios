@@ -62,14 +62,14 @@ func testAccCheckFortiOSReportChartExists(n string) resource.TestCheckFunc {
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadReportChart(i, "root")
+		o, err := c.ReadReportChart(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading ReportChart: %s", err)
+			return fmt.Errorf("error reading ReportChart: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating ReportChart: %s", n)
+			return fmt.Errorf("error creating ReportChart: %s", n)
 		}
 
 		return nil
@@ -85,11 +85,11 @@ func testAccCheckReportChartDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadReportChart(i, "root")
+		o, err := c.ReadReportChart(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error ReportChart %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error ReportChart %s still exists", rs.Primary.ID)
 			}
 		}
 

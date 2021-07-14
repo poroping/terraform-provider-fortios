@@ -17,12 +17,12 @@ func dataSourceFirewallProfileProtocolOptionsList() *schema.Resource {
 		Read: dataSourceFirewallProfileProtocolOptionsListRead,
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"filter": &schema.Schema{
+			"filter": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
@@ -52,9 +52,9 @@ func dataSourceFirewallProfileProtocolOptionsListRead(d *schema.ResourceData, m 
 		filter = escapeFilter(filter)
 	}
 
-	o, err := c.GenericGroupRead("/api/v2/cmdb/firewall/profile-protocol-options", filter, vdomparam)
+	o, err := c.GenericGroupRead("/api/v2/cmdb/firewall/profile-protocol-options", filter, vdomparam, 0)
 	if err != nil {
-		return fmt.Errorf("Error describing FirewallProfileProtocolOptions: %v", err)
+		return fmt.Errorf("error describing FirewallProfileProtocolOptions: %v", err)
 	}
 
 	var tmps []string

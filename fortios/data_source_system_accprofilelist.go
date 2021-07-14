@@ -17,12 +17,12 @@ func dataSourceSystemAccprofileList() *schema.Resource {
 		Read: dataSourceSystemAccprofileListRead,
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"filter": &schema.Schema{
+			"filter": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
@@ -52,9 +52,9 @@ func dataSourceSystemAccprofileListRead(d *schema.ResourceData, m interface{}) e
 		filter = escapeFilter(filter)
 	}
 
-	o, err := c.GenericGroupRead("/api/v2/cmdb/system/accprofile", filter, vdomparam)
+	o, err := c.GenericGroupRead("/api/v2/cmdb/system/accprofile", filter, vdomparam, 0)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemAccprofile: %v", err)
+		return fmt.Errorf("error describing SystemAccprofile: %v", err)
 	}
 
 	var tmps []string

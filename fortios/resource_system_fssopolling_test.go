@@ -51,14 +51,14 @@ func testAccCheckFortiOSSystemFssoPollingExists(n string) resource.TestCheckFunc
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemFssoPolling(i, "root")
+		o, err := c.ReadSystemFssoPolling(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading SystemFssoPolling: %s", err)
+			return fmt.Errorf("error reading SystemFssoPolling: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating SystemFssoPolling: %s", n)
+			return fmt.Errorf("error creating SystemFssoPolling: %s", n)
 		}
 
 		return nil
@@ -74,11 +74,11 @@ func testAccCheckSystemFssoPollingDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemFssoPolling(i, "root")
+		o, err := c.ReadSystemFssoPolling(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error SystemFssoPolling %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error SystemFssoPolling %s still exists", rs.Primary.ID)
 			}
 		}
 

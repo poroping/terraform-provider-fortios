@@ -30,50 +30,50 @@ func resourceReportDataset() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 71),
 				ForceNew:     true,
 				Required:     true,
 			},
-			"policy": &schema.Schema{
+			"policy": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"query": &schema.Schema{
+			"query": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 2047),
 				Optional:     true,
 				Computed:     true,
 			},
-			"field": &schema.Schema{
+			"field": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"type": &schema.Schema{
+						"type": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 71),
 							Optional:     true,
 							Computed:     true,
 						},
-						"displayname": &schema.Schema{
+						"displayname": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 127),
 							Optional:     true,
@@ -82,29 +82,29 @@ func resourceReportDataset() *schema.Resource {
 					},
 				},
 			},
-			"parameters": &schema.Schema{
+			"parameters": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"display_name": &schema.Schema{
+						"display_name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 127),
 							Optional:     true,
 							Computed:     true,
 						},
-						"field": &schema.Schema{
+						"field": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 127),
 							Optional:     true,
 							Computed:     true,
 						},
-						"data_type": &schema.Schema{
+						"data_type": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -112,10 +112,15 @@ func resourceReportDataset() *schema.Resource {
 					},
 				},
 			},
-			"dynamic_sort_subtable": &schema.Schema{
-				Type:     schema.TypeString,
+			"dynamic_sort_subtable": {
+				Type:     schema.TypeBool,
 				Optional: true,
-				Default:  "false",
+				Default:  false,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -133,15 +138,25 @@ func resourceReportDatasetCreate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectReportDataset(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating ReportDataset resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateReportDataset(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectReportDataset(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating ReportDataset resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateReportDataset(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating ReportDataset resource: %v", err)
+		return fmt.Errorf("error creating ReportDataset resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -166,14 +181,24 @@ func resourceReportDatasetUpdate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectReportDataset(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating ReportDataset resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateReportDataset(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectReportDataset(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating ReportDataset resource: %v", err)
+		return fmt.Errorf("error updating ReportDataset resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateReportDataset(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating ReportDataset resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -200,9 +225,17 @@ func resourceReportDatasetDelete(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	err := c.DeleteReportDataset(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteReportDataset(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting ReportDataset resource: %v", err)
+		return fmt.Errorf("error deleting ReportDataset resource: %v", err)
 	}
 
 	d.SetId("")
@@ -224,9 +257,19 @@ func resourceReportDatasetRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadReportDataset(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadReportDataset(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading ReportDataset resource: %v", err)
+		return fmt.Errorf("error reading ReportDataset resource: %v", err)
 	}
 
 	if o == nil {
@@ -237,7 +280,7 @@ func resourceReportDatasetRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectReportDataset(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading ReportDataset resource from API: %v", err)
+		return fmt.Errorf("error reading ReportDataset resource from API: %v", err)
 	}
 	return nil
 }
@@ -395,33 +438,33 @@ func refreshObjectReportDataset(d *schema.ResourceData, o map[string]interface{}
 
 	if err = d.Set("name", flattenReportDatasetName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("policy", flattenReportDatasetPolicy(o["policy"], d, "policy", sv)); err != nil {
 		if !fortiAPIPatch(o["policy"]) {
-			return fmt.Errorf("Error reading policy: %v", err)
+			return fmt.Errorf("error reading policy: %v", err)
 		}
 	}
 
 	if err = d.Set("query", flattenReportDatasetQuery(o["query"], d, "query", sv)); err != nil {
 		if !fortiAPIPatch(o["query"]) {
-			return fmt.Errorf("Error reading query: %v", err)
+			return fmt.Errorf("error reading query: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("field", flattenReportDatasetField(o["field"], d, "field", sv)); err != nil {
 			if !fortiAPIPatch(o["field"]) {
-				return fmt.Errorf("Error reading field: %v", err)
+				return fmt.Errorf("error reading field: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("field"); ok {
 			if err = d.Set("field", flattenReportDatasetField(o["field"], d, "field", sv)); err != nil {
 				if !fortiAPIPatch(o["field"]) {
-					return fmt.Errorf("Error reading field: %v", err)
+					return fmt.Errorf("error reading field: %v", err)
 				}
 			}
 		}
@@ -430,14 +473,14 @@ func refreshObjectReportDataset(d *schema.ResourceData, o map[string]interface{}
 	if isImportTable() {
 		if err = d.Set("parameters", flattenReportDatasetParameters(o["parameters"], d, "parameters", sv)); err != nil {
 			if !fortiAPIPatch(o["parameters"]) {
-				return fmt.Errorf("Error reading parameters: %v", err)
+				return fmt.Errorf("error reading parameters: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("parameters"); ok {
 			if err = d.Set("parameters", flattenReportDatasetParameters(o["parameters"], d, "parameters", sv)); err != nil {
 				if !fortiAPIPatch(o["parameters"]) {
-					return fmt.Errorf("Error reading parameters: %v", err)
+					return fmt.Errorf("error reading parameters: %v", err)
 				}
 			}
 		}

@@ -16,35 +16,40 @@ func resourceJSONGenericAPI() *schema.Resource {
 		Delete: resourceJSONGenericAPIDelete,
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"path": &schema.Schema{
+			"path": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"method": &schema.Schema{
+			"method": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"specialparams": &schema.Schema{
+			"specialparams": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
-			"force_recreate": &schema.Schema{
+			"force_recreate": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"json": &schema.Schema{
+			"json": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
-			"response": &schema.Schema{
+			"response": {
 				Type:     schema.TypeString,
 				Computed: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -70,10 +75,18 @@ func resourceJSONGenericAPICreateUpdate(d *schema.ResourceData, m interface{}) e
 		}
 	}
 
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
 	//Call process by sdk
-	res, err := c.CreateJSONGenericAPI(i, vdomparam)
+	res, err := c.CreateJSONGenericAPI(i, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error creating json generic api: %v", err)
+		return fmt.Errorf("error creating json generic api: %v", err)
 	}
 
 	//Set index for d

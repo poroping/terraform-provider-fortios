@@ -30,53 +30,58 @@ func resourceSwitchControllerSystem() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"parallel_process_override": &schema.Schema{
+			"parallel_process_override": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"parallel_process": &schema.Schema{
+			"parallel_process": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 300),
 				Optional:     true,
 				Computed:     true,
 			},
-			"data_sync_interval": &schema.Schema{
+			"data_sync_interval": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(30, 1800),
 				Optional:     true,
 				Computed:     true,
 			},
-			"iot_weight_threshold": &schema.Schema{
+			"iot_weight_threshold": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"iot_scan_interval": &schema.Schema{
+			"iot_scan_interval": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"iot_holdoff": &schema.Schema{
+			"iot_holdoff": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"iot_mac_idle": &schema.Schema{
+			"iot_mac_idle": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"nac_periodic_interval": &schema.Schema{
+			"nac_periodic_interval": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(5, 60),
 				Optional:     true,
 				Computed:     true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -95,14 +100,24 @@ func resourceSwitchControllerSystemUpdate(d *schema.ResourceData, m interface{})
 		}
 	}
 
-	obj, err := getObjectSwitchControllerSystem(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SwitchControllerSystem resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSwitchControllerSystem(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSwitchControllerSystem(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SwitchControllerSystem resource: %v", err)
+		return fmt.Errorf("error updating SwitchControllerSystem resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSwitchControllerSystem(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SwitchControllerSystem resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -129,9 +144,17 @@ func resourceSwitchControllerSystemDelete(d *schema.ResourceData, m interface{})
 		}
 	}
 
-	err := c.DeleteSwitchControllerSystem(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSwitchControllerSystem(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SwitchControllerSystem resource: %v", err)
+		return fmt.Errorf("error deleting SwitchControllerSystem resource: %v", err)
 	}
 
 	d.SetId("")
@@ -153,9 +176,19 @@ func resourceSwitchControllerSystemRead(d *schema.ResourceData, m interface{}) e
 		}
 	}
 
-	o, err := c.ReadSwitchControllerSystem(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSwitchControllerSystem(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SwitchControllerSystem resource: %v", err)
+		return fmt.Errorf("error reading SwitchControllerSystem resource: %v", err)
 	}
 
 	if o == nil {
@@ -166,7 +199,7 @@ func resourceSwitchControllerSystemRead(d *schema.ResourceData, m interface{}) e
 
 	err = refreshObjectSwitchControllerSystem(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SwitchControllerSystem resource from API: %v", err)
+		return fmt.Errorf("error reading SwitchControllerSystem resource from API: %v", err)
 	}
 	return nil
 }
@@ -208,49 +241,49 @@ func refreshObjectSwitchControllerSystem(d *schema.ResourceData, o map[string]in
 
 	if err = d.Set("parallel_process_override", flattenSwitchControllerSystemParallelProcessOverride(o["parallel-process-override"], d, "parallel_process_override", sv)); err != nil {
 		if !fortiAPIPatch(o["parallel-process-override"]) {
-			return fmt.Errorf("Error reading parallel_process_override: %v", err)
+			return fmt.Errorf("error reading parallel_process_override: %v", err)
 		}
 	}
 
 	if err = d.Set("parallel_process", flattenSwitchControllerSystemParallelProcess(o["parallel-process"], d, "parallel_process", sv)); err != nil {
 		if !fortiAPIPatch(o["parallel-process"]) {
-			return fmt.Errorf("Error reading parallel_process: %v", err)
+			return fmt.Errorf("error reading parallel_process: %v", err)
 		}
 	}
 
 	if err = d.Set("data_sync_interval", flattenSwitchControllerSystemDataSyncInterval(o["data-sync-interval"], d, "data_sync_interval", sv)); err != nil {
 		if !fortiAPIPatch(o["data-sync-interval"]) {
-			return fmt.Errorf("Error reading data_sync_interval: %v", err)
+			return fmt.Errorf("error reading data_sync_interval: %v", err)
 		}
 	}
 
 	if err = d.Set("iot_weight_threshold", flattenSwitchControllerSystemIotWeightThreshold(o["iot-weight-threshold"], d, "iot_weight_threshold", sv)); err != nil {
 		if !fortiAPIPatch(o["iot-weight-threshold"]) {
-			return fmt.Errorf("Error reading iot_weight_threshold: %v", err)
+			return fmt.Errorf("error reading iot_weight_threshold: %v", err)
 		}
 	}
 
 	if err = d.Set("iot_scan_interval", flattenSwitchControllerSystemIotScanInterval(o["iot-scan-interval"], d, "iot_scan_interval", sv)); err != nil {
 		if !fortiAPIPatch(o["iot-scan-interval"]) {
-			return fmt.Errorf("Error reading iot_scan_interval: %v", err)
+			return fmt.Errorf("error reading iot_scan_interval: %v", err)
 		}
 	}
 
 	if err = d.Set("iot_holdoff", flattenSwitchControllerSystemIotHoldoff(o["iot-holdoff"], d, "iot_holdoff", sv)); err != nil {
 		if !fortiAPIPatch(o["iot-holdoff"]) {
-			return fmt.Errorf("Error reading iot_holdoff: %v", err)
+			return fmt.Errorf("error reading iot_holdoff: %v", err)
 		}
 	}
 
 	if err = d.Set("iot_mac_idle", flattenSwitchControllerSystemIotMacIdle(o["iot-mac-idle"], d, "iot_mac_idle", sv)); err != nil {
 		if !fortiAPIPatch(o["iot-mac-idle"]) {
-			return fmt.Errorf("Error reading iot_mac_idle: %v", err)
+			return fmt.Errorf("error reading iot_mac_idle: %v", err)
 		}
 	}
 
 	if err = d.Set("nac_periodic_interval", flattenSwitchControllerSystemNacPeriodicInterval(o["nac-periodic-interval"], d, "nac_periodic_interval", sv)); err != nil {
 		if !fortiAPIPatch(o["nac-periodic-interval"]) {
-			return fmt.Errorf("Error reading nac_periodic_interval: %v", err)
+			return fmt.Errorf("error reading nac_periodic_interval: %v", err)
 		}
 	}
 

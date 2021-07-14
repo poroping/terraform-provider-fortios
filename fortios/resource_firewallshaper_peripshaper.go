@@ -30,65 +30,70 @@ func resourceFirewallShaperPerIpShaper() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"max_bandwidth": &schema.Schema{
+			"max_bandwidth": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 16776000),
 				Optional:     true,
 				Computed:     true,
 			},
-			"bandwidth_unit": &schema.Schema{
+			"bandwidth_unit": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"max_concurrent_session": &schema.Schema{
+			"max_concurrent_session": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 2097000),
 				Optional:     true,
 				Computed:     true,
 			},
-			"max_concurrent_tcp_session": &schema.Schema{
+			"max_concurrent_tcp_session": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 2097000),
 				Optional:     true,
 				Computed:     true,
 			},
-			"max_concurrent_udp_session": &schema.Schema{
+			"max_concurrent_udp_session": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 2097000),
 				Optional:     true,
 				Computed:     true,
 			},
-			"diffserv_forward": &schema.Schema{
+			"diffserv_forward": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"diffserv_reverse": &schema.Schema{
+			"diffserv_reverse": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"diffservcode_forward": &schema.Schema{
+			"diffservcode_forward": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"diffservcode_rev": &schema.Schema{
+			"diffservcode_rev": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -106,15 +111,25 @@ func resourceFirewallShaperPerIpShaperCreate(d *schema.ResourceData, m interface
 		}
 	}
 
-	obj, err := getObjectFirewallShaperPerIpShaper(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating FirewallShaperPerIpShaper resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateFirewallShaperPerIpShaper(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectFirewallShaperPerIpShaper(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating FirewallShaperPerIpShaper resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateFirewallShaperPerIpShaper(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating FirewallShaperPerIpShaper resource: %v", err)
+		return fmt.Errorf("error creating FirewallShaperPerIpShaper resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -139,14 +154,24 @@ func resourceFirewallShaperPerIpShaperUpdate(d *schema.ResourceData, m interface
 		}
 	}
 
-	obj, err := getObjectFirewallShaperPerIpShaper(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating FirewallShaperPerIpShaper resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateFirewallShaperPerIpShaper(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectFirewallShaperPerIpShaper(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating FirewallShaperPerIpShaper resource: %v", err)
+		return fmt.Errorf("error updating FirewallShaperPerIpShaper resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateFirewallShaperPerIpShaper(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating FirewallShaperPerIpShaper resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -173,9 +198,17 @@ func resourceFirewallShaperPerIpShaperDelete(d *schema.ResourceData, m interface
 		}
 	}
 
-	err := c.DeleteFirewallShaperPerIpShaper(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteFirewallShaperPerIpShaper(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting FirewallShaperPerIpShaper resource: %v", err)
+		return fmt.Errorf("error deleting FirewallShaperPerIpShaper resource: %v", err)
 	}
 
 	d.SetId("")
@@ -197,9 +230,19 @@ func resourceFirewallShaperPerIpShaperRead(d *schema.ResourceData, m interface{}
 		}
 	}
 
-	o, err := c.ReadFirewallShaperPerIpShaper(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadFirewallShaperPerIpShaper(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading FirewallShaperPerIpShaper resource: %v", err)
+		return fmt.Errorf("error reading FirewallShaperPerIpShaper resource: %v", err)
 	}
 
 	if o == nil {
@@ -210,7 +253,7 @@ func resourceFirewallShaperPerIpShaperRead(d *schema.ResourceData, m interface{}
 
 	err = refreshObjectFirewallShaperPerIpShaper(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading FirewallShaperPerIpShaper resource from API: %v", err)
+		return fmt.Errorf("error reading FirewallShaperPerIpShaper resource from API: %v", err)
 	}
 	return nil
 }
@@ -260,61 +303,61 @@ func refreshObjectFirewallShaperPerIpShaper(d *schema.ResourceData, o map[string
 
 	if err = d.Set("name", flattenFirewallShaperPerIpShaperName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("max_bandwidth", flattenFirewallShaperPerIpShaperMaxBandwidth(o["max-bandwidth"], d, "max_bandwidth", sv)); err != nil {
 		if !fortiAPIPatch(o["max-bandwidth"]) {
-			return fmt.Errorf("Error reading max_bandwidth: %v", err)
+			return fmt.Errorf("error reading max_bandwidth: %v", err)
 		}
 	}
 
 	if err = d.Set("bandwidth_unit", flattenFirewallShaperPerIpShaperBandwidthUnit(o["bandwidth-unit"], d, "bandwidth_unit", sv)); err != nil {
 		if !fortiAPIPatch(o["bandwidth-unit"]) {
-			return fmt.Errorf("Error reading bandwidth_unit: %v", err)
+			return fmt.Errorf("error reading bandwidth_unit: %v", err)
 		}
 	}
 
 	if err = d.Set("max_concurrent_session", flattenFirewallShaperPerIpShaperMaxConcurrentSession(o["max-concurrent-session"], d, "max_concurrent_session", sv)); err != nil {
 		if !fortiAPIPatch(o["max-concurrent-session"]) {
-			return fmt.Errorf("Error reading max_concurrent_session: %v", err)
+			return fmt.Errorf("error reading max_concurrent_session: %v", err)
 		}
 	}
 
 	if err = d.Set("max_concurrent_tcp_session", flattenFirewallShaperPerIpShaperMaxConcurrentTcpSession(o["max-concurrent-tcp-session"], d, "max_concurrent_tcp_session", sv)); err != nil {
 		if !fortiAPIPatch(o["max-concurrent-tcp-session"]) {
-			return fmt.Errorf("Error reading max_concurrent_tcp_session: %v", err)
+			return fmt.Errorf("error reading max_concurrent_tcp_session: %v", err)
 		}
 	}
 
 	if err = d.Set("max_concurrent_udp_session", flattenFirewallShaperPerIpShaperMaxConcurrentUdpSession(o["max-concurrent-udp-session"], d, "max_concurrent_udp_session", sv)); err != nil {
 		if !fortiAPIPatch(o["max-concurrent-udp-session"]) {
-			return fmt.Errorf("Error reading max_concurrent_udp_session: %v", err)
+			return fmt.Errorf("error reading max_concurrent_udp_session: %v", err)
 		}
 	}
 
 	if err = d.Set("diffserv_forward", flattenFirewallShaperPerIpShaperDiffservForward(o["diffserv-forward"], d, "diffserv_forward", sv)); err != nil {
 		if !fortiAPIPatch(o["diffserv-forward"]) {
-			return fmt.Errorf("Error reading diffserv_forward: %v", err)
+			return fmt.Errorf("error reading diffserv_forward: %v", err)
 		}
 	}
 
 	if err = d.Set("diffserv_reverse", flattenFirewallShaperPerIpShaperDiffservReverse(o["diffserv-reverse"], d, "diffserv_reverse", sv)); err != nil {
 		if !fortiAPIPatch(o["diffserv-reverse"]) {
-			return fmt.Errorf("Error reading diffserv_reverse: %v", err)
+			return fmt.Errorf("error reading diffserv_reverse: %v", err)
 		}
 	}
 
 	if err = d.Set("diffservcode_forward", flattenFirewallShaperPerIpShaperDiffservcodeForward(o["diffservcode-forward"], d, "diffservcode_forward", sv)); err != nil {
 		if !fortiAPIPatch(o["diffservcode-forward"]) {
-			return fmt.Errorf("Error reading diffservcode_forward: %v", err)
+			return fmt.Errorf("error reading diffservcode_forward: %v", err)
 		}
 	}
 
 	if err = d.Set("diffservcode_rev", flattenFirewallShaperPerIpShaperDiffservcodeRev(o["diffservcode-rev"], d, "diffservcode_rev", sv)); err != nil {
 		if !fortiAPIPatch(o["diffservcode-rev"]) {
-			return fmt.Errorf("Error reading diffservcode_rev: %v", err)
+			return fmt.Errorf("error reading diffservcode_rev: %v", err)
 		}
 	}
 

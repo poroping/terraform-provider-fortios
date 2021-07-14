@@ -30,24 +30,24 @@ func resourceSystemVirtualWirePair() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 11),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"member": &schema.Schema{
+			"member": {
 				Type:     schema.TypeList,
 				Required: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"interface_name": &schema.Schema{
+						"interface_name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 64),
 							Optional:     true,
@@ -56,20 +56,25 @@ func resourceSystemVirtualWirePair() *schema.Resource {
 					},
 				},
 			},
-			"wildcard_vlan": &schema.Schema{
+			"wildcard_vlan": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"vlan_filter": &schema.Schema{
+			"vlan_filter": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"dynamic_sort_subtable": &schema.Schema{
-				Type:     schema.TypeString,
+			"dynamic_sort_subtable": {
+				Type:     schema.TypeBool,
 				Optional: true,
-				Default:  "false",
+				Default:  false,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -87,15 +92,25 @@ func resourceSystemVirtualWirePairCreate(d *schema.ResourceData, m interface{}) 
 		}
 	}
 
-	obj, err := getObjectSystemVirtualWirePair(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating SystemVirtualWirePair resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateSystemVirtualWirePair(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemVirtualWirePair(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating SystemVirtualWirePair resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateSystemVirtualWirePair(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating SystemVirtualWirePair resource: %v", err)
+		return fmt.Errorf("error creating SystemVirtualWirePair resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -120,14 +135,24 @@ func resourceSystemVirtualWirePairUpdate(d *schema.ResourceData, m interface{}) 
 		}
 	}
 
-	obj, err := getObjectSystemVirtualWirePair(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SystemVirtualWirePair resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSystemVirtualWirePair(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemVirtualWirePair(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SystemVirtualWirePair resource: %v", err)
+		return fmt.Errorf("error updating SystemVirtualWirePair resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSystemVirtualWirePair(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SystemVirtualWirePair resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -154,9 +179,17 @@ func resourceSystemVirtualWirePairDelete(d *schema.ResourceData, m interface{}) 
 		}
 	}
 
-	err := c.DeleteSystemVirtualWirePair(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSystemVirtualWirePair(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SystemVirtualWirePair resource: %v", err)
+		return fmt.Errorf("error deleting SystemVirtualWirePair resource: %v", err)
 	}
 
 	d.SetId("")
@@ -178,9 +211,19 @@ func resourceSystemVirtualWirePairRead(d *schema.ResourceData, m interface{}) er
 		}
 	}
 
-	o, err := c.ReadSystemVirtualWirePair(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSystemVirtualWirePair(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemVirtualWirePair resource: %v", err)
+		return fmt.Errorf("error reading SystemVirtualWirePair resource: %v", err)
 	}
 
 	if o == nil {
@@ -191,7 +234,7 @@ func resourceSystemVirtualWirePairRead(d *schema.ResourceData, m interface{}) er
 
 	err = refreshObjectSystemVirtualWirePair(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemVirtualWirePair resource from API: %v", err)
+		return fmt.Errorf("error reading SystemVirtualWirePair resource from API: %v", err)
 	}
 	return nil
 }
@@ -251,21 +294,21 @@ func refreshObjectSystemVirtualWirePair(d *schema.ResourceData, o map[string]int
 
 	if err = d.Set("name", flattenSystemVirtualWirePairName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("member", flattenSystemVirtualWirePairMember(o["member"], d, "member", sv)); err != nil {
 			if !fortiAPIPatch(o["member"]) {
-				return fmt.Errorf("Error reading member: %v", err)
+				return fmt.Errorf("error reading member: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("member"); ok {
 			if err = d.Set("member", flattenSystemVirtualWirePairMember(o["member"], d, "member", sv)); err != nil {
 				if !fortiAPIPatch(o["member"]) {
-					return fmt.Errorf("Error reading member: %v", err)
+					return fmt.Errorf("error reading member: %v", err)
 				}
 			}
 		}
@@ -273,13 +316,13 @@ func refreshObjectSystemVirtualWirePair(d *schema.ResourceData, o map[string]int
 
 	if err = d.Set("wildcard_vlan", flattenSystemVirtualWirePairWildcardVlan(o["wildcard-vlan"], d, "wildcard_vlan", sv)); err != nil {
 		if !fortiAPIPatch(o["wildcard-vlan"]) {
-			return fmt.Errorf("Error reading wildcard_vlan: %v", err)
+			return fmt.Errorf("error reading wildcard_vlan: %v", err)
 		}
 	}
 
 	if err = d.Set("vlan_filter", flattenSystemVirtualWirePairVlanFilter(o["vlan-filter"], d, "vlan_filter", sv)); err != nil {
 		if !fortiAPIPatch(o["vlan-filter"]) {
-			return fmt.Errorf("Error reading vlan_filter: %v", err)
+			return fmt.Errorf("error reading vlan_filter: %v", err)
 		}
 	}
 

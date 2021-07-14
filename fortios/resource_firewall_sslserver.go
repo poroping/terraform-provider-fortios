@@ -30,81 +30,86 @@ func resourceFirewallSslServer() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"ip": &schema.Schema{
+			"ip": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"port": &schema.Schema{
+			"port": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 65535),
 				Required:     true,
 			},
-			"ssl_mode": &schema.Schema{
+			"ssl_mode": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"add_header_x_forwarded_proto": &schema.Schema{
+			"add_header_x_forwarded_proto": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"mapped_port": &schema.Schema{
+			"mapped_port": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"ssl_cert": &schema.Schema{
+			"ssl_cert": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Required:     true,
 			},
-			"ssl_dh_bits": &schema.Schema{
+			"ssl_dh_bits": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ssl_algorithm": &schema.Schema{
+			"ssl_algorithm": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ssl_client_renegotiation": &schema.Schema{
+			"ssl_client_renegotiation": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ssl_min_version": &schema.Schema{
+			"ssl_min_version": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ssl_max_version": &schema.Schema{
+			"ssl_max_version": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ssl_send_empty_frags": &schema.Schema{
+			"ssl_send_empty_frags": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"url_rewrite": &schema.Schema{
+			"url_rewrite": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -122,15 +127,25 @@ func resourceFirewallSslServerCreate(d *schema.ResourceData, m interface{}) erro
 		}
 	}
 
-	obj, err := getObjectFirewallSslServer(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating FirewallSslServer resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateFirewallSslServer(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectFirewallSslServer(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating FirewallSslServer resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateFirewallSslServer(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating FirewallSslServer resource: %v", err)
+		return fmt.Errorf("error creating FirewallSslServer resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -155,14 +170,24 @@ func resourceFirewallSslServerUpdate(d *schema.ResourceData, m interface{}) erro
 		}
 	}
 
-	obj, err := getObjectFirewallSslServer(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating FirewallSslServer resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateFirewallSslServer(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectFirewallSslServer(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating FirewallSslServer resource: %v", err)
+		return fmt.Errorf("error updating FirewallSslServer resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateFirewallSslServer(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating FirewallSslServer resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -189,9 +214,17 @@ func resourceFirewallSslServerDelete(d *schema.ResourceData, m interface{}) erro
 		}
 	}
 
-	err := c.DeleteFirewallSslServer(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteFirewallSslServer(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting FirewallSslServer resource: %v", err)
+		return fmt.Errorf("error deleting FirewallSslServer resource: %v", err)
 	}
 
 	d.SetId("")
@@ -213,9 +246,19 @@ func resourceFirewallSslServerRead(d *schema.ResourceData, m interface{}) error 
 		}
 	}
 
-	o, err := c.ReadFirewallSslServer(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadFirewallSslServer(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading FirewallSslServer resource: %v", err)
+		return fmt.Errorf("error reading FirewallSslServer resource: %v", err)
 	}
 
 	if o == nil {
@@ -226,7 +269,7 @@ func resourceFirewallSslServerRead(d *schema.ResourceData, m interface{}) error 
 
 	err = refreshObjectFirewallSslServer(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading FirewallSslServer resource from API: %v", err)
+		return fmt.Errorf("error reading FirewallSslServer resource from API: %v", err)
 	}
 	return nil
 }
@@ -292,85 +335,85 @@ func refreshObjectFirewallSslServer(d *schema.ResourceData, o map[string]interfa
 
 	if err = d.Set("name", flattenFirewallSslServerName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("ip", flattenFirewallSslServerIp(o["ip"], d, "ip", sv)); err != nil {
 		if !fortiAPIPatch(o["ip"]) {
-			return fmt.Errorf("Error reading ip: %v", err)
+			return fmt.Errorf("error reading ip: %v", err)
 		}
 	}
 
 	if err = d.Set("port", flattenFirewallSslServerPort(o["port"], d, "port", sv)); err != nil {
 		if !fortiAPIPatch(o["port"]) {
-			return fmt.Errorf("Error reading port: %v", err)
+			return fmt.Errorf("error reading port: %v", err)
 		}
 	}
 
 	if err = d.Set("ssl_mode", flattenFirewallSslServerSslMode(o["ssl-mode"], d, "ssl_mode", sv)); err != nil {
 		if !fortiAPIPatch(o["ssl-mode"]) {
-			return fmt.Errorf("Error reading ssl_mode: %v", err)
+			return fmt.Errorf("error reading ssl_mode: %v", err)
 		}
 	}
 
 	if err = d.Set("add_header_x_forwarded_proto", flattenFirewallSslServerAddHeaderXForwardedProto(o["add-header-x-forwarded-proto"], d, "add_header_x_forwarded_proto", sv)); err != nil {
 		if !fortiAPIPatch(o["add-header-x-forwarded-proto"]) {
-			return fmt.Errorf("Error reading add_header_x_forwarded_proto: %v", err)
+			return fmt.Errorf("error reading add_header_x_forwarded_proto: %v", err)
 		}
 	}
 
 	if err = d.Set("mapped_port", flattenFirewallSslServerMappedPort(o["mapped-port"], d, "mapped_port", sv)); err != nil {
 		if !fortiAPIPatch(o["mapped-port"]) {
-			return fmt.Errorf("Error reading mapped_port: %v", err)
+			return fmt.Errorf("error reading mapped_port: %v", err)
 		}
 	}
 
 	if err = d.Set("ssl_cert", flattenFirewallSslServerSslCert(o["ssl-cert"], d, "ssl_cert", sv)); err != nil {
 		if !fortiAPIPatch(o["ssl-cert"]) {
-			return fmt.Errorf("Error reading ssl_cert: %v", err)
+			return fmt.Errorf("error reading ssl_cert: %v", err)
 		}
 	}
 
 	if err = d.Set("ssl_dh_bits", flattenFirewallSslServerSslDhBits(o["ssl-dh-bits"], d, "ssl_dh_bits", sv)); err != nil {
 		if !fortiAPIPatch(o["ssl-dh-bits"]) {
-			return fmt.Errorf("Error reading ssl_dh_bits: %v", err)
+			return fmt.Errorf("error reading ssl_dh_bits: %v", err)
 		}
 	}
 
 	if err = d.Set("ssl_algorithm", flattenFirewallSslServerSslAlgorithm(o["ssl-algorithm"], d, "ssl_algorithm", sv)); err != nil {
 		if !fortiAPIPatch(o["ssl-algorithm"]) {
-			return fmt.Errorf("Error reading ssl_algorithm: %v", err)
+			return fmt.Errorf("error reading ssl_algorithm: %v", err)
 		}
 	}
 
 	if err = d.Set("ssl_client_renegotiation", flattenFirewallSslServerSslClientRenegotiation(o["ssl-client-renegotiation"], d, "ssl_client_renegotiation", sv)); err != nil {
 		if !fortiAPIPatch(o["ssl-client-renegotiation"]) {
-			return fmt.Errorf("Error reading ssl_client_renegotiation: %v", err)
+			return fmt.Errorf("error reading ssl_client_renegotiation: %v", err)
 		}
 	}
 
 	if err = d.Set("ssl_min_version", flattenFirewallSslServerSslMinVersion(o["ssl-min-version"], d, "ssl_min_version", sv)); err != nil {
 		if !fortiAPIPatch(o["ssl-min-version"]) {
-			return fmt.Errorf("Error reading ssl_min_version: %v", err)
+			return fmt.Errorf("error reading ssl_min_version: %v", err)
 		}
 	}
 
 	if err = d.Set("ssl_max_version", flattenFirewallSslServerSslMaxVersion(o["ssl-max-version"], d, "ssl_max_version", sv)); err != nil {
 		if !fortiAPIPatch(o["ssl-max-version"]) {
-			return fmt.Errorf("Error reading ssl_max_version: %v", err)
+			return fmt.Errorf("error reading ssl_max_version: %v", err)
 		}
 	}
 
 	if err = d.Set("ssl_send_empty_frags", flattenFirewallSslServerSslSendEmptyFrags(o["ssl-send-empty-frags"], d, "ssl_send_empty_frags", sv)); err != nil {
 		if !fortiAPIPatch(o["ssl-send-empty-frags"]) {
-			return fmt.Errorf("Error reading ssl_send_empty_frags: %v", err)
+			return fmt.Errorf("error reading ssl_send_empty_frags: %v", err)
 		}
 	}
 
 	if err = d.Set("url_rewrite", flattenFirewallSslServerUrlRewrite(o["url-rewrite"], d, "url_rewrite", sv)); err != nil {
 		if !fortiAPIPatch(o["url-rewrite"]) {
-			return fmt.Errorf("Error reading url_rewrite: %v", err)
+			return fmt.Errorf("error reading url_rewrite: %v", err)
 		}
 	}
 

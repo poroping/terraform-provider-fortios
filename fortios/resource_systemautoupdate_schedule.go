@@ -30,27 +30,32 @@ func resourceSystemAutoupdateSchedule() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"status": &schema.Schema{
+			"status": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"frequency": &schema.Schema{
+			"frequency": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"time": &schema.Schema{
+			"time": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"day": &schema.Schema{
+			"day": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -69,14 +74,24 @@ func resourceSystemAutoupdateScheduleUpdate(d *schema.ResourceData, m interface{
 		}
 	}
 
-	obj, err := getObjectSystemAutoupdateSchedule(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SystemAutoupdateSchedule resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSystemAutoupdateSchedule(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemAutoupdateSchedule(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SystemAutoupdateSchedule resource: %v", err)
+		return fmt.Errorf("error updating SystemAutoupdateSchedule resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSystemAutoupdateSchedule(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SystemAutoupdateSchedule resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -103,9 +118,17 @@ func resourceSystemAutoupdateScheduleDelete(d *schema.ResourceData, m interface{
 		}
 	}
 
-	err := c.DeleteSystemAutoupdateSchedule(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSystemAutoupdateSchedule(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SystemAutoupdateSchedule resource: %v", err)
+		return fmt.Errorf("error deleting SystemAutoupdateSchedule resource: %v", err)
 	}
 
 	d.SetId("")
@@ -127,9 +150,19 @@ func resourceSystemAutoupdateScheduleRead(d *schema.ResourceData, m interface{})
 		}
 	}
 
-	o, err := c.ReadSystemAutoupdateSchedule(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSystemAutoupdateSchedule(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemAutoupdateSchedule resource: %v", err)
+		return fmt.Errorf("error reading SystemAutoupdateSchedule resource: %v", err)
 	}
 
 	if o == nil {
@@ -140,7 +173,7 @@ func resourceSystemAutoupdateScheduleRead(d *schema.ResourceData, m interface{})
 
 	err = refreshObjectSystemAutoupdateSchedule(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemAutoupdateSchedule resource from API: %v", err)
+		return fmt.Errorf("error reading SystemAutoupdateSchedule resource from API: %v", err)
 	}
 	return nil
 }
@@ -166,25 +199,25 @@ func refreshObjectSystemAutoupdateSchedule(d *schema.ResourceData, o map[string]
 
 	if err = d.Set("status", flattenSystemAutoupdateScheduleStatus(o["status"], d, "status", sv)); err != nil {
 		if !fortiAPIPatch(o["status"]) {
-			return fmt.Errorf("Error reading status: %v", err)
+			return fmt.Errorf("error reading status: %v", err)
 		}
 	}
 
 	if err = d.Set("frequency", flattenSystemAutoupdateScheduleFrequency(o["frequency"], d, "frequency", sv)); err != nil {
 		if !fortiAPIPatch(o["frequency"]) {
-			return fmt.Errorf("Error reading frequency: %v", err)
+			return fmt.Errorf("error reading frequency: %v", err)
 		}
 	}
 
 	if err = d.Set("time", flattenSystemAutoupdateScheduleTime(o["time"], d, "time", sv)); err != nil {
 		if !fortiAPIPatch(o["time"]) {
-			return fmt.Errorf("Error reading time: %v", err)
+			return fmt.Errorf("error reading time: %v", err)
 		}
 	}
 
 	if err = d.Set("day", flattenSystemAutoupdateScheduleDay(o["day"], d, "day", sv)); err != nil {
 		if !fortiAPIPatch(o["day"]) {
-			return fmt.Errorf("Error reading day: %v", err)
+			return fmt.Errorf("error reading day: %v", err)
 		}
 	}
 

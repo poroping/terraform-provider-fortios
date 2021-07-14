@@ -30,30 +30,35 @@ func resourceSystemConsole() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"mode": &schema.Schema{
+			"mode": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"baudrate": &schema.Schema{
+			"baudrate": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"output": &schema.Schema{
+			"output": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"login": &schema.Schema{
+			"login": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -72,14 +77,24 @@ func resourceSystemConsoleUpdate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectSystemConsole(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SystemConsole resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSystemConsole(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemConsole(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SystemConsole resource: %v", err)
+		return fmt.Errorf("error updating SystemConsole resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSystemConsole(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SystemConsole resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -106,9 +121,17 @@ func resourceSystemConsoleDelete(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	err := c.DeleteSystemConsole(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSystemConsole(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SystemConsole resource: %v", err)
+		return fmt.Errorf("error deleting SystemConsole resource: %v", err)
 	}
 
 	d.SetId("")
@@ -130,9 +153,19 @@ func resourceSystemConsoleRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadSystemConsole(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSystemConsole(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemConsole resource: %v", err)
+		return fmt.Errorf("error reading SystemConsole resource: %v", err)
 	}
 
 	if o == nil {
@@ -143,7 +176,7 @@ func resourceSystemConsoleRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectSystemConsole(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemConsole resource from API: %v", err)
+		return fmt.Errorf("error reading SystemConsole resource from API: %v", err)
 	}
 	return nil
 }
@@ -169,25 +202,25 @@ func refreshObjectSystemConsole(d *schema.ResourceData, o map[string]interface{}
 
 	if err = d.Set("mode", flattenSystemConsoleMode(o["mode"], d, "mode", sv)); err != nil {
 		if !fortiAPIPatch(o["mode"]) {
-			return fmt.Errorf("Error reading mode: %v", err)
+			return fmt.Errorf("error reading mode: %v", err)
 		}
 	}
 
 	if err = d.Set("baudrate", flattenSystemConsoleBaudrate(o["baudrate"], d, "baudrate", sv)); err != nil {
 		if !fortiAPIPatch(o["baudrate"]) {
-			return fmt.Errorf("Error reading baudrate: %v", err)
+			return fmt.Errorf("error reading baudrate: %v", err)
 		}
 	}
 
 	if err = d.Set("output", flattenSystemConsoleOutput(o["output"], d, "output", sv)); err != nil {
 		if !fortiAPIPatch(o["output"]) {
-			return fmt.Errorf("Error reading output: %v", err)
+			return fmt.Errorf("error reading output: %v", err)
 		}
 	}
 
 	if err = d.Set("login", flattenSystemConsoleLogin(o["login"], d, "login", sv)); err != nil {
 		if !fortiAPIPatch(o["login"]) {
-			return fmt.Errorf("Error reading login: %v", err)
+			return fmt.Errorf("error reading login: %v", err)
 		}
 	}
 

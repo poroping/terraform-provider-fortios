@@ -30,31 +30,36 @@ func resourceSystemReplacemsgTrafficQuota() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"msg_type": &schema.Schema{
+			"msg_type": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 28),
 				ForceNew:     true,
 				Required:     true,
 			},
-			"buffer": &schema.Schema{
+			"buffer": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 32768),
 				Optional:     true,
 			},
-			"header": &schema.Schema{
+			"header": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"format": &schema.Schema{
+			"format": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -73,15 +78,25 @@ func resourceSystemReplacemsgTrafficQuotaUpdate(d *schema.ResourceData, m interf
 		}
 	}
 
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
 	mkey = d.Get("msg_type").(string)
 	obj, err := getObjectSystemReplacemsgTrafficQuota(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SystemReplacemsgTrafficQuota resource while getting object: %v", err)
+		return fmt.Errorf("error updating SystemReplacemsgTrafficQuota resource while getting object: %v", err)
 	}
 
-	o, err := c.UpdateSystemReplacemsgTrafficQuota(obj, mkey, vdomparam)
+	o, err := c.UpdateSystemReplacemsgTrafficQuota(obj, mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error updating SystemReplacemsgTrafficQuota resource: %v", err)
+		return fmt.Errorf("error updating SystemReplacemsgTrafficQuota resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -108,9 +123,17 @@ func resourceSystemReplacemsgTrafficQuotaDelete(d *schema.ResourceData, m interf
 		}
 	}
 
-	err := c.DeleteSystemReplacemsgTrafficQuota(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSystemReplacemsgTrafficQuota(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SystemReplacemsgTrafficQuota resource: %v", err)
+		return fmt.Errorf("error deleting SystemReplacemsgTrafficQuota resource: %v", err)
 	}
 
 	d.SetId("")
@@ -132,9 +155,19 @@ func resourceSystemReplacemsgTrafficQuotaRead(d *schema.ResourceData, m interfac
 		}
 	}
 
-	o, err := c.ReadSystemReplacemsgTrafficQuota(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSystemReplacemsgTrafficQuota(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemReplacemsgTrafficQuota resource: %v", err)
+		return fmt.Errorf("error reading SystemReplacemsgTrafficQuota resource: %v", err)
 	}
 
 	if o == nil {
@@ -145,7 +178,7 @@ func resourceSystemReplacemsgTrafficQuotaRead(d *schema.ResourceData, m interfac
 
 	err = refreshObjectSystemReplacemsgTrafficQuota(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemReplacemsgTrafficQuota resource from API: %v", err)
+		return fmt.Errorf("error reading SystemReplacemsgTrafficQuota resource from API: %v", err)
 	}
 	return nil
 }
@@ -171,25 +204,25 @@ func refreshObjectSystemReplacemsgTrafficQuota(d *schema.ResourceData, o map[str
 
 	if err = d.Set("msg_type", flattenSystemReplacemsgTrafficQuotaMsgType(o["msg-type"], d, "msg_type", sv)); err != nil {
 		if !fortiAPIPatch(o["msg-type"]) {
-			return fmt.Errorf("Error reading msg_type: %v", err)
+			return fmt.Errorf("error reading msg_type: %v", err)
 		}
 	}
 
 	if err = d.Set("buffer", flattenSystemReplacemsgTrafficQuotaBuffer(o["buffer"], d, "buffer", sv)); err != nil {
 		if !fortiAPIPatch(o["buffer"]) {
-			return fmt.Errorf("Error reading buffer: %v", err)
+			return fmt.Errorf("error reading buffer: %v", err)
 		}
 	}
 
 	if err = d.Set("header", flattenSystemReplacemsgTrafficQuotaHeader(o["header"], d, "header", sv)); err != nil {
 		if !fortiAPIPatch(o["header"]) {
-			return fmt.Errorf("Error reading header: %v", err)
+			return fmt.Errorf("error reading header: %v", err)
 		}
 	}
 
 	if err = d.Set("format", flattenSystemReplacemsgTrafficQuotaFormat(o["format"], d, "format", sv)); err != nil {
 		if !fortiAPIPatch(o["format"]) {
-			return fmt.Errorf("Error reading format: %v", err)
+			return fmt.Errorf("error reading format: %v", err)
 		}
 	}
 

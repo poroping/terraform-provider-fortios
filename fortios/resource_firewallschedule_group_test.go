@@ -53,14 +53,14 @@ func testAccCheckFortiOSFirewallScheduleGroupExists(n string) resource.TestCheck
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadFirewallScheduleGroup(i, "root")
+		o, err := c.ReadFirewallScheduleGroup(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading FirewallScheduleGroup: %s", err)
+			return fmt.Errorf("error reading FirewallScheduleGroup: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating FirewallScheduleGroup: %s", n)
+			return fmt.Errorf("error creating FirewallScheduleGroup: %s", n)
 		}
 
 		return nil
@@ -76,11 +76,11 @@ func testAccCheckFirewallScheduleGroupDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadFirewallScheduleGroup(i, "root")
+		o, err := c.ReadFirewallScheduleGroup(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error FirewallScheduleGroup %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error FirewallScheduleGroup %s still exists", rs.Primary.ID)
 			}
 		}
 

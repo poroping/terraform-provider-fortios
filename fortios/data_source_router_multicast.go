@@ -21,144 +21,144 @@ func dataSourceRouterMulticast() *schema.Resource {
 	return &schema.Resource{
 		Read: dataSourceRouterMulticastRead,
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
 
-			"route_threshold": &schema.Schema{
+			"route_threshold": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"route_limit": &schema.Schema{
+			"route_limit": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"multicast_routing": &schema.Schema{
+			"multicast_routing": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"pim_sm_global": &schema.Schema{
+			"pim_sm_global": {
 				Type:     schema.TypeList,
 				Computed: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"message_interval": &schema.Schema{
+						"message_interval": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"join_prune_holdtime": &schema.Schema{
+						"join_prune_holdtime": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"accept_register_list": &schema.Schema{
+						"accept_register_list": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"accept_source_list": &schema.Schema{
+						"accept_source_list": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"bsr_candidate": &schema.Schema{
+						"bsr_candidate": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"bsr_interface": &schema.Schema{
+						"bsr_interface": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"bsr_priority": &schema.Schema{
+						"bsr_priority": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"bsr_hash": &schema.Schema{
+						"bsr_hash": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"bsr_allow_quick_refresh": &schema.Schema{
+						"bsr_allow_quick_refresh": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"cisco_register_checksum": &schema.Schema{
+						"cisco_register_checksum": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"cisco_register_checksum_group": &schema.Schema{
+						"cisco_register_checksum_group": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"cisco_crp_prefix": &schema.Schema{
+						"cisco_crp_prefix": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"cisco_ignore_rp_set_priority": &schema.Schema{
+						"cisco_ignore_rp_set_priority": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"register_rp_reachability": &schema.Schema{
+						"register_rp_reachability": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"register_source": &schema.Schema{
+						"register_source": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"register_source_interface": &schema.Schema{
+						"register_source_interface": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"register_source_ip": &schema.Schema{
+						"register_source_ip": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"register_supression": &schema.Schema{
+						"register_supression": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"null_register_retries": &schema.Schema{
+						"null_register_retries": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"rp_register_keepalive": &schema.Schema{
+						"rp_register_keepalive": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"spt_threshold": &schema.Schema{
+						"spt_threshold": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"spt_threshold_group": &schema.Schema{
+						"spt_threshold_group": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"ssm": &schema.Schema{
+						"ssm": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"ssm_range": &schema.Schema{
+						"ssm_range": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"register_rate_limit": &schema.Schema{
+						"register_rate_limit": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"rp_address": &schema.Schema{
+						"rp_address": {
 							Type:     schema.TypeList,
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"id": &schema.Schema{
+									"id": {
 										Type:     schema.TypeInt,
 										Computed: true,
 									},
-									"ip_address": &schema.Schema{
+									"ip_address": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
-									"group": &schema.Schema{
+									"group": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
@@ -168,142 +168,142 @@ func dataSourceRouterMulticast() *schema.Resource {
 					},
 				},
 			},
-			"interface": &schema.Schema{
+			"interface": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"ttl_threshold": &schema.Schema{
+						"ttl_threshold": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"pim_mode": &schema.Schema{
+						"pim_mode": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"passive": &schema.Schema{
+						"passive": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"bfd": &schema.Schema{
+						"bfd": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"neighbour_filter": &schema.Schema{
+						"neighbour_filter": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"hello_interval": &schema.Schema{
+						"hello_interval": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"hello_holdtime": &schema.Schema{
+						"hello_holdtime": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"cisco_exclude_genid": &schema.Schema{
+						"cisco_exclude_genid": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"dr_priority": &schema.Schema{
+						"dr_priority": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"propagation_delay": &schema.Schema{
+						"propagation_delay": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"state_refresh_interval": &schema.Schema{
+						"state_refresh_interval": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"rp_candidate": &schema.Schema{
+						"rp_candidate": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"rp_candidate_group": &schema.Schema{
+						"rp_candidate_group": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"rp_candidate_priority": &schema.Schema{
+						"rp_candidate_priority": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"rp_candidate_interval": &schema.Schema{
+						"rp_candidate_interval": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"multicast_flow": &schema.Schema{
+						"multicast_flow": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"static_group": &schema.Schema{
+						"static_group": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"rpf_nbr_fail_back": &schema.Schema{
+						"rpf_nbr_fail_back": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"rpf_nbr_fail_back_filter": &schema.Schema{
+						"rpf_nbr_fail_back_filter": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"join_group": &schema.Schema{
+						"join_group": {
 							Type:     schema.TypeList,
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"address": &schema.Schema{
+									"address": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
 								},
 							},
 						},
-						"igmp": &schema.Schema{
+						"igmp": {
 							Type:     schema.TypeList,
 							Computed: true,
 							MaxItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"access_group": &schema.Schema{
+									"access_group": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
-									"version": &schema.Schema{
+									"version": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
-									"immediate_leave_group": &schema.Schema{
+									"immediate_leave_group": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
-									"last_member_query_interval": &schema.Schema{
+									"last_member_query_interval": {
 										Type:     schema.TypeInt,
 										Computed: true,
 									},
-									"last_member_query_count": &schema.Schema{
+									"last_member_query_count": {
 										Type:     schema.TypeInt,
 										Computed: true,
 									},
-									"query_max_response_time": &schema.Schema{
+									"query_max_response_time": {
 										Type:     schema.TypeInt,
 										Computed: true,
 									},
-									"query_interval": &schema.Schema{
+									"query_interval": {
 										Type:     schema.TypeInt,
 										Computed: true,
 									},
-									"query_timeout": &schema.Schema{
+									"query_timeout": {
 										Type:     schema.TypeInt,
 										Computed: true,
 									},
-									"router_alert_check": &schema.Schema{
+									"router_alert_check": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
@@ -331,9 +331,9 @@ func dataSourceRouterMulticastRead(d *schema.ResourceData, m interface{}) error 
 
 	mkey := "RouterMulticast"
 
-	o, err := c.ReadRouterMulticast(mkey, vdomparam)
+	o, err := c.ReadRouterMulticast(mkey, vdomparam, make(map[string][]string), 0)
 	if err != nil {
-		return fmt.Errorf("Error describing RouterMulticast: %v", err)
+		return fmt.Errorf("error describing RouterMulticast: %v", err)
 	}
 
 	if o == nil {
@@ -343,7 +343,7 @@ func dataSourceRouterMulticastRead(d *schema.ResourceData, m interface{}) error 
 
 	err = dataSourceRefreshObjectRouterMulticast(d, o)
 	if err != nil {
-		return fmt.Errorf("Error describing RouterMulticast from API: %v", err)
+		return fmt.Errorf("error describing RouterMulticast from API: %v", err)
 	}
 
 	d.SetId(mkey)
@@ -1012,31 +1012,31 @@ func dataSourceRefreshObjectRouterMulticast(d *schema.ResourceData, o map[string
 
 	if err = d.Set("route_threshold", dataSourceFlattenRouterMulticastRouteThreshold(o["route-threshold"], d, "route_threshold")); err != nil {
 		if !fortiAPIPatch(o["route-threshold"]) {
-			return fmt.Errorf("Error reading route_threshold: %v", err)
+			return fmt.Errorf("error reading route_threshold: %v", err)
 		}
 	}
 
 	if err = d.Set("route_limit", dataSourceFlattenRouterMulticastRouteLimit(o["route-limit"], d, "route_limit")); err != nil {
 		if !fortiAPIPatch(o["route-limit"]) {
-			return fmt.Errorf("Error reading route_limit: %v", err)
+			return fmt.Errorf("error reading route_limit: %v", err)
 		}
 	}
 
 	if err = d.Set("multicast_routing", dataSourceFlattenRouterMulticastMulticastRouting(o["multicast-routing"], d, "multicast_routing")); err != nil {
 		if !fortiAPIPatch(o["multicast-routing"]) {
-			return fmt.Errorf("Error reading multicast_routing: %v", err)
+			return fmt.Errorf("error reading multicast_routing: %v", err)
 		}
 	}
 
 	if err = d.Set("pim_sm_global", dataSourceFlattenRouterMulticastPimSmGlobal(o["pim-sm-global"], d, "pim_sm_global")); err != nil {
 		if !fortiAPIPatch(o["pim-sm-global"]) {
-			return fmt.Errorf("Error reading pim_sm_global: %v", err)
+			return fmt.Errorf("error reading pim_sm_global: %v", err)
 		}
 	}
 
 	if err = d.Set("interface", dataSourceFlattenRouterMulticastInterface(o["interface"], d, "interface")); err != nil {
 		if !fortiAPIPatch(o["interface"]) {
-			return fmt.Errorf("Error reading interface: %v", err)
+			return fmt.Errorf("error reading interface: %v", err)
 		}
 	}
 

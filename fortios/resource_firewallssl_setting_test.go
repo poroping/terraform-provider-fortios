@@ -59,14 +59,14 @@ func testAccCheckFortiOSFirewallSslSettingExists(n string) resource.TestCheckFun
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadFirewallSslSetting(i, "root")
+		o, err := c.ReadFirewallSslSetting(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading FirewallSslSetting: %s", err)
+			return fmt.Errorf("error reading FirewallSslSetting: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating FirewallSslSetting: %s", n)
+			return fmt.Errorf("error creating FirewallSslSetting: %s", n)
 		}
 
 		return nil
@@ -82,11 +82,11 @@ func testAccCheckFirewallSslSettingDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadFirewallSslSetting(i, "root")
+		o, err := c.ReadFirewallSslSetting(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error FirewallSslSetting %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error FirewallSslSetting %s still exists", rs.Primary.ID)
 			}
 		}
 

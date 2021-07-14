@@ -102,14 +102,14 @@ func testAccCheckFortiOSVoipProfileExists(n string) resource.TestCheckFunc {
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadVoipProfile(i, "root")
+		o, err := c.ReadVoipProfile(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading VoipProfile: %s", err)
+			return fmt.Errorf("error reading VoipProfile: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating VoipProfile: %s", n)
+			return fmt.Errorf("error creating VoipProfile: %s", n)
 		}
 
 		return nil
@@ -125,11 +125,11 @@ func testAccCheckVoipProfileDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadVoipProfile(i, "root")
+		o, err := c.ReadVoipProfile(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error VoipProfile %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error VoipProfile %s still exists", rs.Primary.ID)
 			}
 		}
 

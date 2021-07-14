@@ -56,14 +56,14 @@ func testAccCheckFortiOSAuthenticationSchemeExists(n string) resource.TestCheckF
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadAuthenticationScheme(i, "root")
+		o, err := c.ReadAuthenticationScheme(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading AuthenticationScheme: %s", err)
+			return fmt.Errorf("error reading AuthenticationScheme: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating AuthenticationScheme: %s", n)
+			return fmt.Errorf("error creating AuthenticationScheme: %s", n)
 		}
 
 		return nil
@@ -79,11 +79,11 @@ func testAccCheckAuthenticationSchemeDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadAuthenticationScheme(i, "root")
+		o, err := c.ReadAuthenticationScheme(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error AuthenticationScheme %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error AuthenticationScheme %s still exists", rs.Primary.ID)
 			}
 		}
 

@@ -21,59 +21,59 @@ func dataSourceFirewallProxyAddrgrp() *schema.Resource {
 	return &schema.Resource{
 		Read: dataSourceFirewallProxyAddrgrpRead,
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
 
-			"name": &schema.Schema{
+			"name": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"type": &schema.Schema{
+			"type": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"uuid": &schema.Schema{
+			"uuid": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"member": &schema.Schema{
+			"member": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 					},
 				},
 			},
-			"color": &schema.Schema{
+			"color": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"tagging": &schema.Schema{
+			"tagging": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"category": &schema.Schema{
+						"category": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"tags": &schema.Schema{
+						"tags": {
 							Type:     schema.TypeList,
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"name": &schema.Schema{
+									"name": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
@@ -83,11 +83,11 @@ func dataSourceFirewallProxyAddrgrp() *schema.Resource {
 					},
 				},
 			},
-			"comment": &schema.Schema{
+			"comment": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"visibility": &schema.Schema{
+			"visibility": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -115,12 +115,12 @@ func dataSourceFirewallProxyAddrgrpRead(d *schema.ResourceData, m interface{}) e
 	} else if v, ok := t.(int); ok {
 		mkey = strconv.Itoa(v)
 	} else {
-		return fmt.Errorf("Error describing FirewallProxyAddrgrp: type error")
+		return fmt.Errorf("error describing FirewallProxyAddrgrp: type error")
 	}
 
-	o, err := c.ReadFirewallProxyAddrgrp(mkey, vdomparam)
+	o, err := c.ReadFirewallProxyAddrgrp(mkey, vdomparam, make(map[string][]string), 0)
 	if err != nil {
-		return fmt.Errorf("Error describing FirewallProxyAddrgrp: %v", err)
+		return fmt.Errorf("error describing FirewallProxyAddrgrp: %v", err)
 	}
 
 	if o == nil {
@@ -130,7 +130,7 @@ func dataSourceFirewallProxyAddrgrpRead(d *schema.ResourceData, m interface{}) e
 
 	err = dataSourceRefreshObjectFirewallProxyAddrgrp(d, o)
 	if err != nil {
-		return fmt.Errorf("Error describing FirewallProxyAddrgrp from API: %v", err)
+		return fmt.Errorf("error describing FirewallProxyAddrgrp from API: %v", err)
 	}
 
 	d.SetId(mkey)
@@ -289,49 +289,49 @@ func dataSourceRefreshObjectFirewallProxyAddrgrp(d *schema.ResourceData, o map[s
 
 	if err = d.Set("name", dataSourceFlattenFirewallProxyAddrgrpName(o["name"], d, "name")); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("type", dataSourceFlattenFirewallProxyAddrgrpType(o["type"], d, "type")); err != nil {
 		if !fortiAPIPatch(o["type"]) {
-			return fmt.Errorf("Error reading type: %v", err)
+			return fmt.Errorf("error reading type: %v", err)
 		}
 	}
 
 	if err = d.Set("uuid", dataSourceFlattenFirewallProxyAddrgrpUuid(o["uuid"], d, "uuid")); err != nil {
 		if !fortiAPIPatch(o["uuid"]) {
-			return fmt.Errorf("Error reading uuid: %v", err)
+			return fmt.Errorf("error reading uuid: %v", err)
 		}
 	}
 
 	if err = d.Set("member", dataSourceFlattenFirewallProxyAddrgrpMember(o["member"], d, "member")); err != nil {
 		if !fortiAPIPatch(o["member"]) {
-			return fmt.Errorf("Error reading member: %v", err)
+			return fmt.Errorf("error reading member: %v", err)
 		}
 	}
 
 	if err = d.Set("color", dataSourceFlattenFirewallProxyAddrgrpColor(o["color"], d, "color")); err != nil {
 		if !fortiAPIPatch(o["color"]) {
-			return fmt.Errorf("Error reading color: %v", err)
+			return fmt.Errorf("error reading color: %v", err)
 		}
 	}
 
 	if err = d.Set("tagging", dataSourceFlattenFirewallProxyAddrgrpTagging(o["tagging"], d, "tagging")); err != nil {
 		if !fortiAPIPatch(o["tagging"]) {
-			return fmt.Errorf("Error reading tagging: %v", err)
+			return fmt.Errorf("error reading tagging: %v", err)
 		}
 	}
 
 	if err = d.Set("comment", dataSourceFlattenFirewallProxyAddrgrpComment(o["comment"], d, "comment")); err != nil {
 		if !fortiAPIPatch(o["comment"]) {
-			return fmt.Errorf("Error reading comment: %v", err)
+			return fmt.Errorf("error reading comment: %v", err)
 		}
 	}
 
 	if err = d.Set("visibility", dataSourceFlattenFirewallProxyAddrgrpVisibility(o["visibility"], d, "visibility")); err != nil {
 		if !fortiAPIPatch(o["visibility"]) {
-			return fmt.Errorf("Error reading visibility: %v", err)
+			return fmt.Errorf("error reading visibility: %v", err)
 		}
 	}
 

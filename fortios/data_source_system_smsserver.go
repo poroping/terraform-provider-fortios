@@ -21,17 +21,17 @@ func dataSourceSystemSmsServer() *schema.Resource {
 	return &schema.Resource{
 		Read: dataSourceSystemSmsServerRead,
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
 
-			"name": &schema.Schema{
+			"name": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"mail_server": &schema.Schema{
+			"mail_server": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -59,12 +59,12 @@ func dataSourceSystemSmsServerRead(d *schema.ResourceData, m interface{}) error 
 	} else if v, ok := t.(int); ok {
 		mkey = strconv.Itoa(v)
 	} else {
-		return fmt.Errorf("Error describing SystemSmsServer: type error")
+		return fmt.Errorf("error describing SystemSmsServer: type error")
 	}
 
-	o, err := c.ReadSystemSmsServer(mkey, vdomparam)
+	o, err := c.ReadSystemSmsServer(mkey, vdomparam, make(map[string][]string), 0)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemSmsServer: %v", err)
+		return fmt.Errorf("error describing SystemSmsServer: %v", err)
 	}
 
 	if o == nil {
@@ -74,7 +74,7 @@ func dataSourceSystemSmsServerRead(d *schema.ResourceData, m interface{}) error 
 
 	err = dataSourceRefreshObjectSystemSmsServer(d, o)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemSmsServer from API: %v", err)
+		return fmt.Errorf("error describing SystemSmsServer from API: %v", err)
 	}
 
 	d.SetId(mkey)
@@ -95,13 +95,13 @@ func dataSourceRefreshObjectSystemSmsServer(d *schema.ResourceData, o map[string
 
 	if err = d.Set("name", dataSourceFlattenSystemSmsServerName(o["name"], d, "name")); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("mail_server", dataSourceFlattenSystemSmsServerMailServer(o["mail-server"], d, "mail_server")); err != nil {
 		if !fortiAPIPatch(o["mail-server"]) {
-			return fmt.Errorf("Error reading mail_server: %v", err)
+			return fmt.Errorf("error reading mail_server: %v", err)
 		}
 	}
 

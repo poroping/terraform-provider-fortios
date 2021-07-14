@@ -30,39 +30,44 @@ func resourceSwitchControllerQosQosPolicy() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				ForceNew:     true,
 				Required:     true,
 			},
-			"default_cos": &schema.Schema{
+			"default_cos": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 7),
 				Required:     true,
 			},
-			"trust_dot1p_map": &schema.Schema{
+			"trust_dot1p_map": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"trust_ip_dscp_map": &schema.Schema{
+			"trust_ip_dscp_map": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"queue_policy": &schema.Schema{
+			"queue_policy": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -80,15 +85,25 @@ func resourceSwitchControllerQosQosPolicyCreate(d *schema.ResourceData, m interf
 		}
 	}
 
-	obj, err := getObjectSwitchControllerQosQosPolicy(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating SwitchControllerQosQosPolicy resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateSwitchControllerQosQosPolicy(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSwitchControllerQosQosPolicy(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating SwitchControllerQosQosPolicy resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateSwitchControllerQosQosPolicy(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating SwitchControllerQosQosPolicy resource: %v", err)
+		return fmt.Errorf("error creating SwitchControllerQosQosPolicy resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -113,14 +128,24 @@ func resourceSwitchControllerQosQosPolicyUpdate(d *schema.ResourceData, m interf
 		}
 	}
 
-	obj, err := getObjectSwitchControllerQosQosPolicy(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SwitchControllerQosQosPolicy resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSwitchControllerQosQosPolicy(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSwitchControllerQosQosPolicy(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SwitchControllerQosQosPolicy resource: %v", err)
+		return fmt.Errorf("error updating SwitchControllerQosQosPolicy resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSwitchControllerQosQosPolicy(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SwitchControllerQosQosPolicy resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -147,9 +172,17 @@ func resourceSwitchControllerQosQosPolicyDelete(d *schema.ResourceData, m interf
 		}
 	}
 
-	err := c.DeleteSwitchControllerQosQosPolicy(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSwitchControllerQosQosPolicy(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SwitchControllerQosQosPolicy resource: %v", err)
+		return fmt.Errorf("error deleting SwitchControllerQosQosPolicy resource: %v", err)
 	}
 
 	d.SetId("")
@@ -171,9 +204,19 @@ func resourceSwitchControllerQosQosPolicyRead(d *schema.ResourceData, m interfac
 		}
 	}
 
-	o, err := c.ReadSwitchControllerQosQosPolicy(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSwitchControllerQosQosPolicy(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SwitchControllerQosQosPolicy resource: %v", err)
+		return fmt.Errorf("error reading SwitchControllerQosQosPolicy resource: %v", err)
 	}
 
 	if o == nil {
@@ -184,7 +227,7 @@ func resourceSwitchControllerQosQosPolicyRead(d *schema.ResourceData, m interfac
 
 	err = refreshObjectSwitchControllerQosQosPolicy(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SwitchControllerQosQosPolicy resource from API: %v", err)
+		return fmt.Errorf("error reading SwitchControllerQosQosPolicy resource from API: %v", err)
 	}
 	return nil
 }
@@ -214,31 +257,31 @@ func refreshObjectSwitchControllerQosQosPolicy(d *schema.ResourceData, o map[str
 
 	if err = d.Set("name", flattenSwitchControllerQosQosPolicyName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("default_cos", flattenSwitchControllerQosQosPolicyDefaultCos(o["default-cos"], d, "default_cos", sv)); err != nil {
 		if !fortiAPIPatch(o["default-cos"]) {
-			return fmt.Errorf("Error reading default_cos: %v", err)
+			return fmt.Errorf("error reading default_cos: %v", err)
 		}
 	}
 
 	if err = d.Set("trust_dot1p_map", flattenSwitchControllerQosQosPolicyTrustDot1PMap(o["trust-dot1p-map"], d, "trust_dot1p_map", sv)); err != nil {
 		if !fortiAPIPatch(o["trust-dot1p-map"]) {
-			return fmt.Errorf("Error reading trust_dot1p_map: %v", err)
+			return fmt.Errorf("error reading trust_dot1p_map: %v", err)
 		}
 	}
 
 	if err = d.Set("trust_ip_dscp_map", flattenSwitchControllerQosQosPolicyTrustIpDscpMap(o["trust-ip-dscp-map"], d, "trust_ip_dscp_map", sv)); err != nil {
 		if !fortiAPIPatch(o["trust-ip-dscp-map"]) {
-			return fmt.Errorf("Error reading trust_ip_dscp_map: %v", err)
+			return fmt.Errorf("error reading trust_ip_dscp_map: %v", err)
 		}
 	}
 
 	if err = d.Set("queue_policy", flattenSwitchControllerQosQosPolicyQueuePolicy(o["queue-policy"], d, "queue_policy", sv)); err != nil {
 		if !fortiAPIPatch(o["queue-policy"]) {
-			return fmt.Errorf("Error reading queue_policy: %v", err)
+			return fmt.Errorf("error reading queue_policy: %v", err)
 		}
 	}
 

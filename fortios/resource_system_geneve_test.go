@@ -55,14 +55,14 @@ func testAccCheckFortiOSSystemGeneveExists(n string) resource.TestCheckFunc {
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemGeneve(i, "root")
+		o, err := c.ReadSystemGeneve(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading SystemGeneve: %s", err)
+			return fmt.Errorf("error reading SystemGeneve: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating SystemGeneve: %s", n)
+			return fmt.Errorf("error creating SystemGeneve: %s", n)
 		}
 
 		return nil
@@ -78,11 +78,11 @@ func testAccCheckSystemGeneveDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemGeneve(i, "root")
+		o, err := c.ReadSystemGeneve(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error SystemGeneve %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error SystemGeneve %s still exists", rs.Primary.ID)
 			}
 		}
 

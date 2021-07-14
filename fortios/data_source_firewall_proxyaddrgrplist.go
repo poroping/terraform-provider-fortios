@@ -17,12 +17,12 @@ func dataSourceFirewallProxyAddrgrpList() *schema.Resource {
 		Read: dataSourceFirewallProxyAddrgrpListRead,
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"filter": &schema.Schema{
+			"filter": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
@@ -52,9 +52,9 @@ func dataSourceFirewallProxyAddrgrpListRead(d *schema.ResourceData, m interface{
 		filter = escapeFilter(filter)
 	}
 
-	o, err := c.GenericGroupRead("/api/v2/cmdb/firewall/proxy-addrgrp", filter, vdomparam)
+	o, err := c.GenericGroupRead("/api/v2/cmdb/firewall/proxy-addrgrp", filter, vdomparam, 0)
 	if err != nil {
-		return fmt.Errorf("Error describing FirewallProxyAddrgrp: %v", err)
+		return fmt.Errorf("error describing FirewallProxyAddrgrp: %v", err)
 	}
 
 	var tmps []string

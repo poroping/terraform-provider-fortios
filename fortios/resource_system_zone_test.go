@@ -50,14 +50,14 @@ func testAccCheckFortiOSSystemZoneExists(n string) resource.TestCheckFunc {
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemZone(i, "root")
+		o, err := c.ReadSystemZone(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading SystemZone: %s", err)
+			return fmt.Errorf("error reading SystemZone: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating SystemZone: %s", n)
+			return fmt.Errorf("error creating SystemZone: %s", n)
 		}
 
 		return nil
@@ -73,11 +73,11 @@ func testAccCheckSystemZoneDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemZone(i, "root")
+		o, err := c.ReadSystemZone(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error SystemZone %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error SystemZone %s still exists", rs.Primary.ID)
 			}
 		}
 

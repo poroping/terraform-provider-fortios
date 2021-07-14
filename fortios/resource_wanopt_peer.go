@@ -30,22 +30,27 @@ func resourceWanoptPeer() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"peer_host_id": &schema.Schema{
+			"peer_host_id": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"ip": &schema.Schema{
+			"ip": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -63,15 +68,25 @@ func resourceWanoptPeerCreate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectWanoptPeer(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating WanoptPeer resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateWanoptPeer(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectWanoptPeer(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating WanoptPeer resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateWanoptPeer(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating WanoptPeer resource: %v", err)
+		return fmt.Errorf("error creating WanoptPeer resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -96,14 +111,24 @@ func resourceWanoptPeerUpdate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectWanoptPeer(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating WanoptPeer resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateWanoptPeer(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectWanoptPeer(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating WanoptPeer resource: %v", err)
+		return fmt.Errorf("error updating WanoptPeer resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateWanoptPeer(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating WanoptPeer resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -130,9 +155,17 @@ func resourceWanoptPeerDelete(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	err := c.DeleteWanoptPeer(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteWanoptPeer(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting WanoptPeer resource: %v", err)
+		return fmt.Errorf("error deleting WanoptPeer resource: %v", err)
 	}
 
 	d.SetId("")
@@ -154,9 +187,19 @@ func resourceWanoptPeerRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadWanoptPeer(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadWanoptPeer(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading WanoptPeer resource: %v", err)
+		return fmt.Errorf("error reading WanoptPeer resource: %v", err)
 	}
 
 	if o == nil {
@@ -167,7 +210,7 @@ func resourceWanoptPeerRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectWanoptPeer(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading WanoptPeer resource from API: %v", err)
+		return fmt.Errorf("error reading WanoptPeer resource from API: %v", err)
 	}
 	return nil
 }
@@ -185,13 +228,13 @@ func refreshObjectWanoptPeer(d *schema.ResourceData, o map[string]interface{}, s
 
 	if err = d.Set("peer_host_id", flattenWanoptPeerPeerHostId(o["peer-host-id"], d, "peer_host_id", sv)); err != nil {
 		if !fortiAPIPatch(o["peer-host-id"]) {
-			return fmt.Errorf("Error reading peer_host_id: %v", err)
+			return fmt.Errorf("error reading peer_host_id: %v", err)
 		}
 	}
 
 	if err = d.Set("ip", flattenWanoptPeerIp(o["ip"], d, "ip", sv)); err != nil {
 		if !fortiAPIPatch(o["ip"]) {
-			return fmt.Errorf("Error reading ip: %v", err)
+			return fmt.Errorf("error reading ip: %v", err)
 		}
 	}
 

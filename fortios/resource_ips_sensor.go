@@ -30,59 +30,59 @@ func resourceIpsSensor() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				ForceNew:     true,
 				Required:     true,
 			},
-			"comment": &schema.Schema{
+			"comment": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
 			},
-			"replacemsg_group": &schema.Schema{
+			"replacemsg_group": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"block_malicious_url": &schema.Schema{
+			"block_malicious_url": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"scan_botnet_connections": &schema.Schema{
+			"scan_botnet_connections": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"extended_log": &schema.Schema{
+			"extended_log": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"entries": &schema.Schema{
+			"entries": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"rule": &schema.Schema{
+						"rule": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"id": &schema.Schema{
+									"id": {
 										Type:     schema.TypeInt,
 										Optional: true,
 										Computed: true,
@@ -90,37 +90,37 @@ func resourceIpsSensor() *schema.Resource {
 								},
 							},
 						},
-						"location": &schema.Schema{
+						"location": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"severity": &schema.Schema{
+						"severity": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"protocol": &schema.Schema{
+						"protocol": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"os": &schema.Schema{
+						"os": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"application": &schema.Schema{
+						"application": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"cve": &schema.Schema{
+						"cve": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"cve_entry": &schema.Schema{
+									"cve_entry": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 19),
 										Optional:     true,
@@ -129,69 +129,69 @@ func resourceIpsSensor() *schema.Resource {
 								},
 							},
 						},
-						"status": &schema.Schema{
+						"status": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"log": &schema.Schema{
+						"log": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"log_packet": &schema.Schema{
+						"log_packet": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"log_attack_context": &schema.Schema{
+						"log_attack_context": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"action": &schema.Schema{
+						"action": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"rate_count": &schema.Schema{
+						"rate_count": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 65535),
 							Optional:     true,
 							Computed:     true,
 						},
-						"rate_duration": &schema.Schema{
+						"rate_duration": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 65535),
 							Optional:     true,
 							Computed:     true,
 						},
-						"rate_mode": &schema.Schema{
+						"rate_mode": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"rate_track": &schema.Schema{
+						"rate_track": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"exempt_ip": &schema.Schema{
+						"exempt_ip": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"id": &schema.Schema{
+									"id": {
 										Type:     schema.TypeInt,
 										Optional: true,
 										Computed: true,
 									},
-									"src_ip": &schema.Schema{
+									"src_ip": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"dst_ip": &schema.Schema{
+									"dst_ip": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
@@ -199,17 +199,17 @@ func resourceIpsSensor() *schema.Resource {
 								},
 							},
 						},
-						"quarantine": &schema.Schema{
+						"quarantine": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"quarantine_expiry": &schema.Schema{
+						"quarantine_expiry": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"quarantine_log": &schema.Schema{
+						"quarantine_log": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -217,73 +217,73 @@ func resourceIpsSensor() *schema.Resource {
 					},
 				},
 			},
-			"filter": &schema.Schema{
+			"filter": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 31),
 							Optional:     true,
 							Computed:     true,
 						},
-						"location": &schema.Schema{
+						"location": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"severity": &schema.Schema{
+						"severity": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"protocol": &schema.Schema{
+						"protocol": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"os": &schema.Schema{
+						"os": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"application": &schema.Schema{
+						"application": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"status": &schema.Schema{
+						"status": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"log": &schema.Schema{
+						"log": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"log_packet": &schema.Schema{
+						"log_packet": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"action": &schema.Schema{
+						"action": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"quarantine": &schema.Schema{
+						"quarantine": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"quarantine_expiry": &schema.Schema{
+						"quarantine_expiry": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"quarantine_log": &schema.Schema{
+						"quarantine_log": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -291,67 +291,67 @@ func resourceIpsSensor() *schema.Resource {
 					},
 				},
 			},
-			"override": &schema.Schema{
+			"override": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"rule_id": &schema.Schema{
+						"rule_id": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"status": &schema.Schema{
+						"status": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"log": &schema.Schema{
+						"log": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"log_packet": &schema.Schema{
+						"log_packet": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"action": &schema.Schema{
+						"action": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"quarantine": &schema.Schema{
+						"quarantine": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"quarantine_expiry": &schema.Schema{
+						"quarantine_expiry": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"quarantine_log": &schema.Schema{
+						"quarantine_log": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"exempt_ip": &schema.Schema{
+						"exempt_ip": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"id": &schema.Schema{
+									"id": {
 										Type:     schema.TypeInt,
 										Optional: true,
 										Computed: true,
 									},
-									"src_ip": &schema.Schema{
+									"src_ip": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"dst_ip": &schema.Schema{
+									"dst_ip": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
@@ -362,10 +362,15 @@ func resourceIpsSensor() *schema.Resource {
 					},
 				},
 			},
-			"dynamic_sort_subtable": &schema.Schema{
-				Type:     schema.TypeString,
+			"dynamic_sort_subtable": {
+				Type:     schema.TypeBool,
 				Optional: true,
-				Default:  "false",
+				Default:  false,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -383,15 +388,25 @@ func resourceIpsSensorCreate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectIpsSensor(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating IpsSensor resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateIpsSensor(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectIpsSensor(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating IpsSensor resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateIpsSensor(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating IpsSensor resource: %v", err)
+		return fmt.Errorf("error creating IpsSensor resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -416,14 +431,24 @@ func resourceIpsSensorUpdate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectIpsSensor(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating IpsSensor resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateIpsSensor(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectIpsSensor(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating IpsSensor resource: %v", err)
+		return fmt.Errorf("error updating IpsSensor resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateIpsSensor(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating IpsSensor resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -450,9 +475,17 @@ func resourceIpsSensorDelete(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	err := c.DeleteIpsSensor(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteIpsSensor(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting IpsSensor resource: %v", err)
+		return fmt.Errorf("error deleting IpsSensor resource: %v", err)
 	}
 
 	d.SetId("")
@@ -474,9 +507,19 @@ func resourceIpsSensorRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadIpsSensor(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadIpsSensor(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading IpsSensor resource: %v", err)
+		return fmt.Errorf("error reading IpsSensor resource: %v", err)
 	}
 
 	if o == nil {
@@ -487,7 +530,7 @@ func resourceIpsSensorRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectIpsSensor(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading IpsSensor resource from API: %v", err)
+		return fmt.Errorf("error reading IpsSensor resource from API: %v", err)
 	}
 	return nil
 }
@@ -1235,51 +1278,51 @@ func refreshObjectIpsSensor(d *schema.ResourceData, o map[string]interface{}, sv
 
 	if err = d.Set("name", flattenIpsSensorName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("comment", flattenIpsSensorComment(o["comment"], d, "comment", sv)); err != nil {
 		if !fortiAPIPatch(o["comment"]) {
-			return fmt.Errorf("Error reading comment: %v", err)
+			return fmt.Errorf("error reading comment: %v", err)
 		}
 	}
 
 	if err = d.Set("replacemsg_group", flattenIpsSensorReplacemsgGroup(o["replacemsg-group"], d, "replacemsg_group", sv)); err != nil {
 		if !fortiAPIPatch(o["replacemsg-group"]) {
-			return fmt.Errorf("Error reading replacemsg_group: %v", err)
+			return fmt.Errorf("error reading replacemsg_group: %v", err)
 		}
 	}
 
 	if err = d.Set("block_malicious_url", flattenIpsSensorBlockMaliciousUrl(o["block-malicious-url"], d, "block_malicious_url", sv)); err != nil {
 		if !fortiAPIPatch(o["block-malicious-url"]) {
-			return fmt.Errorf("Error reading block_malicious_url: %v", err)
+			return fmt.Errorf("error reading block_malicious_url: %v", err)
 		}
 	}
 
 	if err = d.Set("scan_botnet_connections", flattenIpsSensorScanBotnetConnections(o["scan-botnet-connections"], d, "scan_botnet_connections", sv)); err != nil {
 		if !fortiAPIPatch(o["scan-botnet-connections"]) {
-			return fmt.Errorf("Error reading scan_botnet_connections: %v", err)
+			return fmt.Errorf("error reading scan_botnet_connections: %v", err)
 		}
 	}
 
 	if err = d.Set("extended_log", flattenIpsSensorExtendedLog(o["extended-log"], d, "extended_log", sv)); err != nil {
 		if !fortiAPIPatch(o["extended-log"]) {
-			return fmt.Errorf("Error reading extended_log: %v", err)
+			return fmt.Errorf("error reading extended_log: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("entries", flattenIpsSensorEntries(o["entries"], d, "entries", sv)); err != nil {
 			if !fortiAPIPatch(o["entries"]) {
-				return fmt.Errorf("Error reading entries: %v", err)
+				return fmt.Errorf("error reading entries: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("entries"); ok {
 			if err = d.Set("entries", flattenIpsSensorEntries(o["entries"], d, "entries", sv)); err != nil {
 				if !fortiAPIPatch(o["entries"]) {
-					return fmt.Errorf("Error reading entries: %v", err)
+					return fmt.Errorf("error reading entries: %v", err)
 				}
 			}
 		}
@@ -1288,14 +1331,14 @@ func refreshObjectIpsSensor(d *schema.ResourceData, o map[string]interface{}, sv
 	if isImportTable() {
 		if err = d.Set("filter", flattenIpsSensorFilter(o["filter"], d, "filter", sv)); err != nil {
 			if !fortiAPIPatch(o["filter"]) {
-				return fmt.Errorf("Error reading filter: %v", err)
+				return fmt.Errorf("error reading filter: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("filter"); ok {
 			if err = d.Set("filter", flattenIpsSensorFilter(o["filter"], d, "filter", sv)); err != nil {
 				if !fortiAPIPatch(o["filter"]) {
-					return fmt.Errorf("Error reading filter: %v", err)
+					return fmt.Errorf("error reading filter: %v", err)
 				}
 			}
 		}
@@ -1304,14 +1347,14 @@ func refreshObjectIpsSensor(d *schema.ResourceData, o map[string]interface{}, sv
 	if isImportTable() {
 		if err = d.Set("override", flattenIpsSensorOverride(o["override"], d, "override", sv)); err != nil {
 			if !fortiAPIPatch(o["override"]) {
-				return fmt.Errorf("Error reading override: %v", err)
+				return fmt.Errorf("error reading override: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("override"); ok {
 			if err = d.Set("override", flattenIpsSensorOverride(o["override"], d, "override", sv)); err != nil {
 				if !fortiAPIPatch(o["override"]) {
-					return fmt.Errorf("Error reading override: %v", err)
+					return fmt.Errorf("error reading override: %v", err)
 				}
 			}
 		}

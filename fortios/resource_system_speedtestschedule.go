@@ -30,40 +30,40 @@ func resourceSystemSpeedTestSchedule() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"interface": &schema.Schema{
+			"interface": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 15),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"status": &schema.Schema{
+			"status": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"diffserv": &schema.Schema{
+			"diffserv": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"server_name": &schema.Schema{
+			"server_name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"schedules": &schema.Schema{
+			"schedules": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 31),
 							Optional:     true,
@@ -72,44 +72,49 @@ func resourceSystemSpeedTestSchedule() *schema.Resource {
 					},
 				},
 			},
-			"update_inbandwidth": &schema.Schema{
+			"update_inbandwidth": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"update_outbandwidth": &schema.Schema{
+			"update_outbandwidth": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"update_inbandwidth_maximum": &schema.Schema{
+			"update_inbandwidth_maximum": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 16776000),
 				Optional:     true,
 				Computed:     true,
 			},
-			"update_inbandwidth_minimum": &schema.Schema{
+			"update_inbandwidth_minimum": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 16776000),
 				Optional:     true,
 				Computed:     true,
 			},
-			"update_outbandwidth_maximum": &schema.Schema{
+			"update_outbandwidth_maximum": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 16776000),
 				Optional:     true,
 				Computed:     true,
 			},
-			"update_outbandwidth_minimum": &schema.Schema{
+			"update_outbandwidth_minimum": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 16776000),
 				Optional:     true,
 				Computed:     true,
 			},
-			"dynamic_sort_subtable": &schema.Schema{
-				Type:     schema.TypeString,
+			"dynamic_sort_subtable": {
+				Type:     schema.TypeBool,
 				Optional: true,
-				Default:  "false",
+				Default:  false,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -127,15 +132,25 @@ func resourceSystemSpeedTestScheduleCreate(d *schema.ResourceData, m interface{}
 		}
 	}
 
-	obj, err := getObjectSystemSpeedTestSchedule(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating SystemSpeedTestSchedule resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateSystemSpeedTestSchedule(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemSpeedTestSchedule(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating SystemSpeedTestSchedule resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateSystemSpeedTestSchedule(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating SystemSpeedTestSchedule resource: %v", err)
+		return fmt.Errorf("error creating SystemSpeedTestSchedule resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -160,14 +175,24 @@ func resourceSystemSpeedTestScheduleUpdate(d *schema.ResourceData, m interface{}
 		}
 	}
 
-	obj, err := getObjectSystemSpeedTestSchedule(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SystemSpeedTestSchedule resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSystemSpeedTestSchedule(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemSpeedTestSchedule(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SystemSpeedTestSchedule resource: %v", err)
+		return fmt.Errorf("error updating SystemSpeedTestSchedule resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSystemSpeedTestSchedule(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SystemSpeedTestSchedule resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -194,9 +219,17 @@ func resourceSystemSpeedTestScheduleDelete(d *schema.ResourceData, m interface{}
 		}
 	}
 
-	err := c.DeleteSystemSpeedTestSchedule(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSystemSpeedTestSchedule(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SystemSpeedTestSchedule resource: %v", err)
+		return fmt.Errorf("error deleting SystemSpeedTestSchedule resource: %v", err)
 	}
 
 	d.SetId("")
@@ -218,9 +251,19 @@ func resourceSystemSpeedTestScheduleRead(d *schema.ResourceData, m interface{}) 
 		}
 	}
 
-	o, err := c.ReadSystemSpeedTestSchedule(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSystemSpeedTestSchedule(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemSpeedTestSchedule resource: %v", err)
+		return fmt.Errorf("error reading SystemSpeedTestSchedule resource: %v", err)
 	}
 
 	if o == nil {
@@ -231,7 +274,7 @@ func resourceSystemSpeedTestScheduleRead(d *schema.ResourceData, m interface{}) 
 
 	err = refreshObjectSystemSpeedTestSchedule(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemSpeedTestSchedule resource from API: %v", err)
+		return fmt.Errorf("error reading SystemSpeedTestSchedule resource from API: %v", err)
 	}
 	return nil
 }
@@ -319,39 +362,39 @@ func refreshObjectSystemSpeedTestSchedule(d *schema.ResourceData, o map[string]i
 
 	if err = d.Set("interface", flattenSystemSpeedTestScheduleInterface(o["interface"], d, "interface", sv)); err != nil {
 		if !fortiAPIPatch(o["interface"]) {
-			return fmt.Errorf("Error reading interface: %v", err)
+			return fmt.Errorf("error reading interface: %v", err)
 		}
 	}
 
 	if err = d.Set("status", flattenSystemSpeedTestScheduleStatus(o["status"], d, "status", sv)); err != nil {
 		if !fortiAPIPatch(o["status"]) {
-			return fmt.Errorf("Error reading status: %v", err)
+			return fmt.Errorf("error reading status: %v", err)
 		}
 	}
 
 	if err = d.Set("diffserv", flattenSystemSpeedTestScheduleDiffserv(o["diffserv"], d, "diffserv", sv)); err != nil {
 		if !fortiAPIPatch(o["diffserv"]) {
-			return fmt.Errorf("Error reading diffserv: %v", err)
+			return fmt.Errorf("error reading diffserv: %v", err)
 		}
 	}
 
 	if err = d.Set("server_name", flattenSystemSpeedTestScheduleServerName(o["server-name"], d, "server_name", sv)); err != nil {
 		if !fortiAPIPatch(o["server-name"]) {
-			return fmt.Errorf("Error reading server_name: %v", err)
+			return fmt.Errorf("error reading server_name: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("schedules", flattenSystemSpeedTestScheduleSchedules(o["schedules"], d, "schedules", sv)); err != nil {
 			if !fortiAPIPatch(o["schedules"]) {
-				return fmt.Errorf("Error reading schedules: %v", err)
+				return fmt.Errorf("error reading schedules: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("schedules"); ok {
 			if err = d.Set("schedules", flattenSystemSpeedTestScheduleSchedules(o["schedules"], d, "schedules", sv)); err != nil {
 				if !fortiAPIPatch(o["schedules"]) {
-					return fmt.Errorf("Error reading schedules: %v", err)
+					return fmt.Errorf("error reading schedules: %v", err)
 				}
 			}
 		}
@@ -359,37 +402,37 @@ func refreshObjectSystemSpeedTestSchedule(d *schema.ResourceData, o map[string]i
 
 	if err = d.Set("update_inbandwidth", flattenSystemSpeedTestScheduleUpdateInbandwidth(o["update-inbandwidth"], d, "update_inbandwidth", sv)); err != nil {
 		if !fortiAPIPatch(o["update-inbandwidth"]) {
-			return fmt.Errorf("Error reading update_inbandwidth: %v", err)
+			return fmt.Errorf("error reading update_inbandwidth: %v", err)
 		}
 	}
 
 	if err = d.Set("update_outbandwidth", flattenSystemSpeedTestScheduleUpdateOutbandwidth(o["update-outbandwidth"], d, "update_outbandwidth", sv)); err != nil {
 		if !fortiAPIPatch(o["update-outbandwidth"]) {
-			return fmt.Errorf("Error reading update_outbandwidth: %v", err)
+			return fmt.Errorf("error reading update_outbandwidth: %v", err)
 		}
 	}
 
 	if err = d.Set("update_inbandwidth_maximum", flattenSystemSpeedTestScheduleUpdateInbandwidthMaximum(o["update-inbandwidth-maximum"], d, "update_inbandwidth_maximum", sv)); err != nil {
 		if !fortiAPIPatch(o["update-inbandwidth-maximum"]) {
-			return fmt.Errorf("Error reading update_inbandwidth_maximum: %v", err)
+			return fmt.Errorf("error reading update_inbandwidth_maximum: %v", err)
 		}
 	}
 
 	if err = d.Set("update_inbandwidth_minimum", flattenSystemSpeedTestScheduleUpdateInbandwidthMinimum(o["update-inbandwidth-minimum"], d, "update_inbandwidth_minimum", sv)); err != nil {
 		if !fortiAPIPatch(o["update-inbandwidth-minimum"]) {
-			return fmt.Errorf("Error reading update_inbandwidth_minimum: %v", err)
+			return fmt.Errorf("error reading update_inbandwidth_minimum: %v", err)
 		}
 	}
 
 	if err = d.Set("update_outbandwidth_maximum", flattenSystemSpeedTestScheduleUpdateOutbandwidthMaximum(o["update-outbandwidth-maximum"], d, "update_outbandwidth_maximum", sv)); err != nil {
 		if !fortiAPIPatch(o["update-outbandwidth-maximum"]) {
-			return fmt.Errorf("Error reading update_outbandwidth_maximum: %v", err)
+			return fmt.Errorf("error reading update_outbandwidth_maximum: %v", err)
 		}
 	}
 
 	if err = d.Set("update_outbandwidth_minimum", flattenSystemSpeedTestScheduleUpdateOutbandwidthMinimum(o["update-outbandwidth-minimum"], d, "update_outbandwidth_minimum", sv)); err != nil {
 		if !fortiAPIPatch(o["update-outbandwidth-minimum"]) {
-			return fmt.Errorf("Error reading update_outbandwidth_minimum: %v", err)
+			return fmt.Errorf("error reading update_outbandwidth_minimum: %v", err)
 		}
 	}
 

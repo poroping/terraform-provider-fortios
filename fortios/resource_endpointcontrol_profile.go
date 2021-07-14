@@ -30,45 +30,45 @@ func resourceEndpointControlProfile() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"profile_name": &schema.Schema{
+			"profile_name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"forticlient_winmac_settings": &schema.Schema{
+			"forticlient_winmac_settings": {
 				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"forticlient_registration_compliance_action": &schema.Schema{
+						"forticlient_registration_compliance_action": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"forticlient_ems_compliance": &schema.Schema{
+						"forticlient_ems_compliance": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"forticlient_ems_compliance_action": &schema.Schema{
+						"forticlient_ems_compliance_action": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"forticlient_ems_entries": &schema.Schema{
+						"forticlient_ems_entries": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"name": &schema.Schema{
+									"name": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 64),
 										Optional:     true,
@@ -77,118 +77,118 @@ func resourceEndpointControlProfile() *schema.Resource {
 								},
 							},
 						},
-						"forticlient_security_posture": &schema.Schema{
+						"forticlient_security_posture": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"forticlient_security_posture_compliance_action": &schema.Schema{
+						"forticlient_security_posture_compliance_action": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"forticlient_av": &schema.Schema{
+						"forticlient_av": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"av_realtime_protection": &schema.Schema{
+						"av_realtime_protection": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"av_signature_up_to_date": &schema.Schema{
+						"av_signature_up_to_date": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"sandbox_analysis": &schema.Schema{
+						"sandbox_analysis": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"sandbox_address": &schema.Schema{
+						"sandbox_address": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 255),
 							Optional:     true,
 							Computed:     true,
 						},
-						"os_av_software_installed": &schema.Schema{
+						"os_av_software_installed": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"forticlient_application_firewall": &schema.Schema{
+						"forticlient_application_firewall": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"forticlient_application_firewall_list": &schema.Schema{
+						"forticlient_application_firewall_list": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"forticlient_wf": &schema.Schema{
+						"forticlient_wf": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"forticlient_wf_profile": &schema.Schema{
+						"forticlient_wf_profile": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"forticlient_system_compliance": &schema.Schema{
+						"forticlient_system_compliance": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"forticlient_system_compliance_action": &schema.Schema{
+						"forticlient_system_compliance_action": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"forticlient_minimum_software_version": &schema.Schema{
+						"forticlient_minimum_software_version": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"forticlient_win_ver": &schema.Schema{
+						"forticlient_win_ver": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 63),
 							Optional:     true,
 							Computed:     true,
 						},
-						"forticlient_mac_ver": &schema.Schema{
+						"forticlient_mac_ver": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 63),
 							Optional:     true,
 							Computed:     true,
 						},
-						"forticlient_linux_ver": &schema.Schema{
+						"forticlient_linux_ver": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 63),
 							Optional:     true,
 							Computed:     true,
 						},
-						"forticlient_operating_system": &schema.Schema{
+						"forticlient_operating_system": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"id": &schema.Schema{
+									"id": {
 										Type:     schema.TypeInt,
 										Optional: true,
 										Computed: true,
 									},
-									"os_type": &schema.Schema{
+									"os_type": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"os_name": &schema.Schema{
+									"os_name": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 127),
 										Optional:     true,
@@ -197,70 +197,70 @@ func resourceEndpointControlProfile() *schema.Resource {
 								},
 							},
 						},
-						"forticlient_running_app": &schema.Schema{
+						"forticlient_running_app": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"id": &schema.Schema{
+									"id": {
 										Type:     schema.TypeInt,
 										Optional: true,
 										Computed: true,
 									},
-									"app_name": &schema.Schema{
+									"app_name": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 127),
 										Optional:     true,
 										Computed:     true,
 									},
-									"application_check_rule": &schema.Schema{
+									"application_check_rule": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"process_name": &schema.Schema{
+									"process_name": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 127),
 										Optional:     true,
 										Computed:     true,
 									},
-									"app_sha256_signature": &schema.Schema{
+									"app_sha256_signature": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 64),
 										Optional:     true,
 										Computed:     true,
 									},
-									"process_name2": &schema.Schema{
+									"process_name2": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 127),
 										Optional:     true,
 										Computed:     true,
 									},
-									"app_sha256_signature2": &schema.Schema{
+									"app_sha256_signature2": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 64),
 										Optional:     true,
 										Computed:     true,
 									},
-									"process_name3": &schema.Schema{
+									"process_name3": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 127),
 										Optional:     true,
 										Computed:     true,
 									},
-									"app_sha256_signature3": &schema.Schema{
+									"app_sha256_signature3": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 64),
 										Optional:     true,
 										Computed:     true,
 									},
-									"process_name4": &schema.Schema{
+									"process_name4": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 127),
 										Optional:     true,
 										Computed:     true,
 									},
-									"app_sha256_signature4": &schema.Schema{
+									"app_sha256_signature4": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 64),
 										Optional:     true,
@@ -269,17 +269,17 @@ func resourceEndpointControlProfile() *schema.Resource {
 								},
 							},
 						},
-						"forticlient_registry_entry": &schema.Schema{
+						"forticlient_registry_entry": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"id": &schema.Schema{
+									"id": {
 										Type:     schema.TypeInt,
 										Optional: true,
 										Computed: true,
 									},
-									"registry_entry": &schema.Schema{
+									"registry_entry": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 127),
 										Optional:     true,
@@ -288,17 +288,17 @@ func resourceEndpointControlProfile() *schema.Resource {
 								},
 							},
 						},
-						"forticlient_own_file": &schema.Schema{
+						"forticlient_own_file": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"id": &schema.Schema{
+									"id": {
 										Type:     schema.TypeInt,
 										Optional: true,
 										Computed: true,
 									},
-									"file": &schema.Schema{
+									"file": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 127),
 										Optional:     true,
@@ -307,44 +307,44 @@ func resourceEndpointControlProfile() *schema.Resource {
 								},
 							},
 						},
-						"forticlient_log_upload": &schema.Schema{
+						"forticlient_log_upload": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"forticlient_log_upload_level": &schema.Schema{
+						"forticlient_log_upload_level": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"forticlient_log_upload_server": &schema.Schema{
+						"forticlient_log_upload_server": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 255),
 							Optional:     true,
 							Computed:     true,
 						},
-						"forticlient_vuln_scan": &schema.Schema{
+						"forticlient_vuln_scan": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"forticlient_vuln_scan_compliance_action": &schema.Schema{
+						"forticlient_vuln_scan_compliance_action": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"forticlient_vuln_scan_enforce": &schema.Schema{
+						"forticlient_vuln_scan_enforce": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"forticlient_vuln_scan_enforce_grace": &schema.Schema{
+						"forticlient_vuln_scan_enforce_grace": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 30),
 							Optional:     true,
 							Computed:     true,
 						},
-						"forticlient_vuln_scan_exempt": &schema.Schema{
+						"forticlient_vuln_scan_exempt": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -352,82 +352,82 @@ func resourceEndpointControlProfile() *schema.Resource {
 					},
 				},
 			},
-			"forticlient_android_settings": &schema.Schema{
+			"forticlient_android_settings": {
 				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"forticlient_wf": &schema.Schema{
+						"forticlient_wf": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"forticlient_wf_profile": &schema.Schema{
+						"forticlient_wf_profile": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"disable_wf_when_protected": &schema.Schema{
+						"disable_wf_when_protected": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"forticlient_vpn_provisioning": &schema.Schema{
+						"forticlient_vpn_provisioning": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"forticlient_advanced_vpn": &schema.Schema{
+						"forticlient_advanced_vpn": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"forticlient_advanced_vpn_buffer": &schema.Schema{
+						"forticlient_advanced_vpn_buffer": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 32768),
 							Optional:     true,
 						},
-						"forticlient_vpn_settings": &schema.Schema{
+						"forticlient_vpn_settings": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"name": &schema.Schema{
+									"name": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 35),
 										Optional:     true,
 										Computed:     true,
 									},
-									"type": &schema.Schema{
+									"type": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"remote_gw": &schema.Schema{
+									"remote_gw": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 255),
 										Optional:     true,
 										Computed:     true,
 									},
-									"sslvpn_access_port": &schema.Schema{
+									"sslvpn_access_port": {
 										Type:         schema.TypeInt,
 										ValidateFunc: validation.IntBetween(1, 65535),
 										Optional:     true,
 										Computed:     true,
 									},
-									"sslvpn_require_certificate": &schema.Schema{
+									"sslvpn_require_certificate": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"auth_method": &schema.Schema{
+									"auth_method": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"preshared_key": &schema.Schema{
+									"preshared_key": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 128),
 										Optional:     true,
@@ -439,83 +439,83 @@ func resourceEndpointControlProfile() *schema.Resource {
 					},
 				},
 			},
-			"forticlient_ios_settings": &schema.Schema{
+			"forticlient_ios_settings": {
 				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"forticlient_wf": &schema.Schema{
+						"forticlient_wf": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"forticlient_wf_profile": &schema.Schema{
+						"forticlient_wf_profile": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"disable_wf_when_protected": &schema.Schema{
+						"disable_wf_when_protected": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"client_vpn_provisioning": &schema.Schema{
+						"client_vpn_provisioning": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"client_vpn_settings": &schema.Schema{
+						"client_vpn_settings": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"name": &schema.Schema{
+									"name": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 35),
 										Optional:     true,
 										Computed:     true,
 									},
-									"type": &schema.Schema{
+									"type": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"vpn_configuration_name": &schema.Schema{
+									"vpn_configuration_name": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 35),
 										Optional:     true,
 										Computed:     true,
 									},
-									"vpn_configuration_content": &schema.Schema{
+									"vpn_configuration_content": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 32768),
 										Optional:     true,
 									},
-									"remote_gw": &schema.Schema{
+									"remote_gw": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 255),
 										Optional:     true,
 										Computed:     true,
 									},
-									"sslvpn_access_port": &schema.Schema{
+									"sslvpn_access_port": {
 										Type:         schema.TypeInt,
 										ValidateFunc: validation.IntBetween(1, 65535),
 										Optional:     true,
 										Computed:     true,
 									},
-									"sslvpn_require_certificate": &schema.Schema{
+									"sslvpn_require_certificate": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"auth_method": &schema.Schema{
+									"auth_method": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"preshared_key": &schema.Schema{
+									"preshared_key": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 128),
 										Optional:     true,
@@ -524,18 +524,18 @@ func resourceEndpointControlProfile() *schema.Resource {
 								},
 							},
 						},
-						"distribute_configuration_profile": &schema.Schema{
+						"distribute_configuration_profile": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"configuration_name": &schema.Schema{
+						"configuration_name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"configuration_content": &schema.Schema{
+						"configuration_content": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 32768),
 							Optional:     true,
@@ -543,17 +543,17 @@ func resourceEndpointControlProfile() *schema.Resource {
 					},
 				},
 			},
-			"description": &schema.Schema{
+			"description": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
 			},
-			"src_addr": &schema.Schema{
+			"src_addr": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 64),
 							Optional:     true,
@@ -562,12 +562,12 @@ func resourceEndpointControlProfile() *schema.Resource {
 					},
 				},
 			},
-			"device_groups": &schema.Schema{
+			"device_groups": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 64),
 							Optional:     true,
@@ -576,12 +576,12 @@ func resourceEndpointControlProfile() *schema.Resource {
 					},
 				},
 			},
-			"users": &schema.Schema{
+			"users": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 64),
 							Optional:     true,
@@ -590,12 +590,12 @@ func resourceEndpointControlProfile() *schema.Resource {
 					},
 				},
 			},
-			"user_groups": &schema.Schema{
+			"user_groups": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 64),
 							Optional:     true,
@@ -604,12 +604,12 @@ func resourceEndpointControlProfile() *schema.Resource {
 					},
 				},
 			},
-			"on_net_addr": &schema.Schema{
+			"on_net_addr": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 64),
 							Optional:     true,
@@ -618,16 +618,21 @@ func resourceEndpointControlProfile() *schema.Resource {
 					},
 				},
 			},
-			"replacemsg_override_group": &schema.Schema{
+			"replacemsg_override_group": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"dynamic_sort_subtable": &schema.Schema{
-				Type:     schema.TypeString,
+			"dynamic_sort_subtable": {
+				Type:     schema.TypeBool,
 				Optional: true,
-				Default:  "false",
+				Default:  false,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -645,15 +650,25 @@ func resourceEndpointControlProfileCreate(d *schema.ResourceData, m interface{})
 		}
 	}
 
-	obj, err := getObjectEndpointControlProfile(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating EndpointControlProfile resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateEndpointControlProfile(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectEndpointControlProfile(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating EndpointControlProfile resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateEndpointControlProfile(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating EndpointControlProfile resource: %v", err)
+		return fmt.Errorf("error creating EndpointControlProfile resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -678,14 +693,24 @@ func resourceEndpointControlProfileUpdate(d *schema.ResourceData, m interface{})
 		}
 	}
 
-	obj, err := getObjectEndpointControlProfile(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating EndpointControlProfile resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateEndpointControlProfile(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectEndpointControlProfile(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating EndpointControlProfile resource: %v", err)
+		return fmt.Errorf("error updating EndpointControlProfile resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateEndpointControlProfile(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating EndpointControlProfile resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -712,9 +737,17 @@ func resourceEndpointControlProfileDelete(d *schema.ResourceData, m interface{})
 		}
 	}
 
-	err := c.DeleteEndpointControlProfile(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteEndpointControlProfile(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting EndpointControlProfile resource: %v", err)
+		return fmt.Errorf("error deleting EndpointControlProfile resource: %v", err)
 	}
 
 	d.SetId("")
@@ -736,9 +769,19 @@ func resourceEndpointControlProfileRead(d *schema.ResourceData, m interface{}) e
 		}
 	}
 
-	o, err := c.ReadEndpointControlProfile(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadEndpointControlProfile(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading EndpointControlProfile resource: %v", err)
+		return fmt.Errorf("error reading EndpointControlProfile resource: %v", err)
 	}
 
 	if o == nil {
@@ -749,7 +792,7 @@ func resourceEndpointControlProfileRead(d *schema.ResourceData, m interface{}) e
 
 	err = refreshObjectEndpointControlProfile(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading EndpointControlProfile resource from API: %v", err)
+		return fmt.Errorf("error reading EndpointControlProfile resource from API: %v", err)
 	}
 	return nil
 }
@@ -2009,21 +2052,21 @@ func refreshObjectEndpointControlProfile(d *schema.ResourceData, o map[string]in
 
 	if err = d.Set("profile_name", flattenEndpointControlProfileProfileName(o["profile-name"], d, "profile_name", sv)); err != nil {
 		if !fortiAPIPatch(o["profile-name"]) {
-			return fmt.Errorf("Error reading profile_name: %v", err)
+			return fmt.Errorf("error reading profile_name: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("forticlient_winmac_settings", flattenEndpointControlProfileForticlientWinmacSettings(o["forticlient-winmac-settings"], d, "forticlient_winmac_settings", sv)); err != nil {
 			if !fortiAPIPatch(o["forticlient-winmac-settings"]) {
-				return fmt.Errorf("Error reading forticlient_winmac_settings: %v", err)
+				return fmt.Errorf("error reading forticlient_winmac_settings: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("forticlient_winmac_settings"); ok {
 			if err = d.Set("forticlient_winmac_settings", flattenEndpointControlProfileForticlientWinmacSettings(o["forticlient-winmac-settings"], d, "forticlient_winmac_settings", sv)); err != nil {
 				if !fortiAPIPatch(o["forticlient-winmac-settings"]) {
-					return fmt.Errorf("Error reading forticlient_winmac_settings: %v", err)
+					return fmt.Errorf("error reading forticlient_winmac_settings: %v", err)
 				}
 			}
 		}
@@ -2032,14 +2075,14 @@ func refreshObjectEndpointControlProfile(d *schema.ResourceData, o map[string]in
 	if isImportTable() {
 		if err = d.Set("forticlient_android_settings", flattenEndpointControlProfileForticlientAndroidSettings(o["forticlient-android-settings"], d, "forticlient_android_settings", sv)); err != nil {
 			if !fortiAPIPatch(o["forticlient-android-settings"]) {
-				return fmt.Errorf("Error reading forticlient_android_settings: %v", err)
+				return fmt.Errorf("error reading forticlient_android_settings: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("forticlient_android_settings"); ok {
 			if err = d.Set("forticlient_android_settings", flattenEndpointControlProfileForticlientAndroidSettings(o["forticlient-android-settings"], d, "forticlient_android_settings", sv)); err != nil {
 				if !fortiAPIPatch(o["forticlient-android-settings"]) {
-					return fmt.Errorf("Error reading forticlient_android_settings: %v", err)
+					return fmt.Errorf("error reading forticlient_android_settings: %v", err)
 				}
 			}
 		}
@@ -2048,14 +2091,14 @@ func refreshObjectEndpointControlProfile(d *schema.ResourceData, o map[string]in
 	if isImportTable() {
 		if err = d.Set("forticlient_ios_settings", flattenEndpointControlProfileForticlientIosSettings(o["forticlient-ios-settings"], d, "forticlient_ios_settings", sv)); err != nil {
 			if !fortiAPIPatch(o["forticlient-ios-settings"]) {
-				return fmt.Errorf("Error reading forticlient_ios_settings: %v", err)
+				return fmt.Errorf("error reading forticlient_ios_settings: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("forticlient_ios_settings"); ok {
 			if err = d.Set("forticlient_ios_settings", flattenEndpointControlProfileForticlientIosSettings(o["forticlient-ios-settings"], d, "forticlient_ios_settings", sv)); err != nil {
 				if !fortiAPIPatch(o["forticlient-ios-settings"]) {
-					return fmt.Errorf("Error reading forticlient_ios_settings: %v", err)
+					return fmt.Errorf("error reading forticlient_ios_settings: %v", err)
 				}
 			}
 		}
@@ -2063,21 +2106,21 @@ func refreshObjectEndpointControlProfile(d *schema.ResourceData, o map[string]in
 
 	if err = d.Set("description", flattenEndpointControlProfileDescription(o["description"], d, "description", sv)); err != nil {
 		if !fortiAPIPatch(o["description"]) {
-			return fmt.Errorf("Error reading description: %v", err)
+			return fmt.Errorf("error reading description: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("src_addr", flattenEndpointControlProfileSrcAddr(o["src-addr"], d, "src_addr", sv)); err != nil {
 			if !fortiAPIPatch(o["src-addr"]) {
-				return fmt.Errorf("Error reading src_addr: %v", err)
+				return fmt.Errorf("error reading src_addr: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("src_addr"); ok {
 			if err = d.Set("src_addr", flattenEndpointControlProfileSrcAddr(o["src-addr"], d, "src_addr", sv)); err != nil {
 				if !fortiAPIPatch(o["src-addr"]) {
-					return fmt.Errorf("Error reading src_addr: %v", err)
+					return fmt.Errorf("error reading src_addr: %v", err)
 				}
 			}
 		}
@@ -2086,14 +2129,14 @@ func refreshObjectEndpointControlProfile(d *schema.ResourceData, o map[string]in
 	if isImportTable() {
 		if err = d.Set("device_groups", flattenEndpointControlProfileDeviceGroups(o["device-groups"], d, "device_groups", sv)); err != nil {
 			if !fortiAPIPatch(o["device-groups"]) {
-				return fmt.Errorf("Error reading device_groups: %v", err)
+				return fmt.Errorf("error reading device_groups: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("device_groups"); ok {
 			if err = d.Set("device_groups", flattenEndpointControlProfileDeviceGroups(o["device-groups"], d, "device_groups", sv)); err != nil {
 				if !fortiAPIPatch(o["device-groups"]) {
-					return fmt.Errorf("Error reading device_groups: %v", err)
+					return fmt.Errorf("error reading device_groups: %v", err)
 				}
 			}
 		}
@@ -2102,14 +2145,14 @@ func refreshObjectEndpointControlProfile(d *schema.ResourceData, o map[string]in
 	if isImportTable() {
 		if err = d.Set("users", flattenEndpointControlProfileUsers(o["users"], d, "users", sv)); err != nil {
 			if !fortiAPIPatch(o["users"]) {
-				return fmt.Errorf("Error reading users: %v", err)
+				return fmt.Errorf("error reading users: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("users"); ok {
 			if err = d.Set("users", flattenEndpointControlProfileUsers(o["users"], d, "users", sv)); err != nil {
 				if !fortiAPIPatch(o["users"]) {
-					return fmt.Errorf("Error reading users: %v", err)
+					return fmt.Errorf("error reading users: %v", err)
 				}
 			}
 		}
@@ -2118,14 +2161,14 @@ func refreshObjectEndpointControlProfile(d *schema.ResourceData, o map[string]in
 	if isImportTable() {
 		if err = d.Set("user_groups", flattenEndpointControlProfileUserGroups(o["user-groups"], d, "user_groups", sv)); err != nil {
 			if !fortiAPIPatch(o["user-groups"]) {
-				return fmt.Errorf("Error reading user_groups: %v", err)
+				return fmt.Errorf("error reading user_groups: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("user_groups"); ok {
 			if err = d.Set("user_groups", flattenEndpointControlProfileUserGroups(o["user-groups"], d, "user_groups", sv)); err != nil {
 				if !fortiAPIPatch(o["user-groups"]) {
-					return fmt.Errorf("Error reading user_groups: %v", err)
+					return fmt.Errorf("error reading user_groups: %v", err)
 				}
 			}
 		}
@@ -2134,14 +2177,14 @@ func refreshObjectEndpointControlProfile(d *schema.ResourceData, o map[string]in
 	if isImportTable() {
 		if err = d.Set("on_net_addr", flattenEndpointControlProfileOnNetAddr(o["on-net-addr"], d, "on_net_addr", sv)); err != nil {
 			if !fortiAPIPatch(o["on-net-addr"]) {
-				return fmt.Errorf("Error reading on_net_addr: %v", err)
+				return fmt.Errorf("error reading on_net_addr: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("on_net_addr"); ok {
 			if err = d.Set("on_net_addr", flattenEndpointControlProfileOnNetAddr(o["on-net-addr"], d, "on_net_addr", sv)); err != nil {
 				if !fortiAPIPatch(o["on-net-addr"]) {
-					return fmt.Errorf("Error reading on_net_addr: %v", err)
+					return fmt.Errorf("error reading on_net_addr: %v", err)
 				}
 			}
 		}
@@ -2149,7 +2192,7 @@ func refreshObjectEndpointControlProfile(d *schema.ResourceData, o map[string]in
 
 	if err = d.Set("replacemsg_override_group", flattenEndpointControlProfileReplacemsgOverrideGroup(o["replacemsg-override-group"], d, "replacemsg_override_group", sv)); err != nil {
 		if !fortiAPIPatch(o["replacemsg-override-group"]) {
-			return fmt.Errorf("Error reading replacemsg_override_group: %v", err)
+			return fmt.Errorf("error reading replacemsg_override_group: %v", err)
 		}
 	}
 

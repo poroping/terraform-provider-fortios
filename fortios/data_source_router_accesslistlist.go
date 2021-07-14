@@ -17,12 +17,12 @@ func dataSourceRouterAccessListList() *schema.Resource {
 		Read: dataSourceRouterAccessListListRead,
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"filter": &schema.Schema{
+			"filter": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
@@ -52,9 +52,9 @@ func dataSourceRouterAccessListListRead(d *schema.ResourceData, m interface{}) e
 		filter = escapeFilter(filter)
 	}
 
-	o, err := c.GenericGroupRead("/api/v2/cmdb/router/access-list", filter, vdomparam)
+	o, err := c.GenericGroupRead("/api/v2/cmdb/router/access-list", filter, vdomparam, 0)
 	if err != nil {
-		return fmt.Errorf("Error describing RouterAccessList: %v", err)
+		return fmt.Errorf("error describing RouterAccessList: %v", err)
 	}
 
 	var tmps []string

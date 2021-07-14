@@ -23,6 +23,8 @@
 /test/ddeeff.sh
 /test/example_testacc.sh
 /dist
+/codegen/output
+/codegen/testing
 
 *.backup
 ./*.tfstate

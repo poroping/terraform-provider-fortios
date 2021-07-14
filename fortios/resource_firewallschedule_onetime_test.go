@@ -53,14 +53,14 @@ func testAccCheckFortiOSFirewallScheduleOnetimeExists(n string) resource.TestChe
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadFirewallScheduleOnetime(i, "root")
+		o, err := c.ReadFirewallScheduleOnetime(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading FirewallScheduleOnetime: %s", err)
+			return fmt.Errorf("error reading FirewallScheduleOnetime: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating FirewallScheduleOnetime: %s", n)
+			return fmt.Errorf("error creating FirewallScheduleOnetime: %s", n)
 		}
 
 		return nil
@@ -76,11 +76,11 @@ func testAccCheckFirewallScheduleOnetimeDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadFirewallScheduleOnetime(i, "root")
+		o, err := c.ReadFirewallScheduleOnetime(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error FirewallScheduleOnetime %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error FirewallScheduleOnetime %s still exists", rs.Primary.ID)
 			}
 		}
 

@@ -30,37 +30,42 @@ func resourceSystemSitTunnel() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 15),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"source": &schema.Schema{
+			"source": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"destination": &schema.Schema{
+			"destination": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"ip6": &schema.Schema{
+			"ip6": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"interface": &schema.Schema{
+			"interface": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 15),
 				Optional:     true,
 				Computed:     true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -78,15 +83,25 @@ func resourceSystemSitTunnelCreate(d *schema.ResourceData, m interface{}) error 
 		}
 	}
 
-	obj, err := getObjectSystemSitTunnel(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating SystemSitTunnel resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateSystemSitTunnel(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemSitTunnel(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating SystemSitTunnel resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateSystemSitTunnel(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating SystemSitTunnel resource: %v", err)
+		return fmt.Errorf("error creating SystemSitTunnel resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -111,14 +126,24 @@ func resourceSystemSitTunnelUpdate(d *schema.ResourceData, m interface{}) error 
 		}
 	}
 
-	obj, err := getObjectSystemSitTunnel(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SystemSitTunnel resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSystemSitTunnel(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemSitTunnel(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SystemSitTunnel resource: %v", err)
+		return fmt.Errorf("error updating SystemSitTunnel resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSystemSitTunnel(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SystemSitTunnel resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -145,9 +170,17 @@ func resourceSystemSitTunnelDelete(d *schema.ResourceData, m interface{}) error 
 		}
 	}
 
-	err := c.DeleteSystemSitTunnel(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSystemSitTunnel(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SystemSitTunnel resource: %v", err)
+		return fmt.Errorf("error deleting SystemSitTunnel resource: %v", err)
 	}
 
 	d.SetId("")
@@ -169,9 +202,19 @@ func resourceSystemSitTunnelRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadSystemSitTunnel(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSystemSitTunnel(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemSitTunnel resource: %v", err)
+		return fmt.Errorf("error reading SystemSitTunnel resource: %v", err)
 	}
 
 	if o == nil {
@@ -182,7 +225,7 @@ func resourceSystemSitTunnelRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectSystemSitTunnel(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemSitTunnel resource from API: %v", err)
+		return fmt.Errorf("error reading SystemSitTunnel resource from API: %v", err)
 	}
 	return nil
 }
@@ -212,31 +255,31 @@ func refreshObjectSystemSitTunnel(d *schema.ResourceData, o map[string]interface
 
 	if err = d.Set("name", flattenSystemSitTunnelName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("source", flattenSystemSitTunnelSource(o["source"], d, "source", sv)); err != nil {
 		if !fortiAPIPatch(o["source"]) {
-			return fmt.Errorf("Error reading source: %v", err)
+			return fmt.Errorf("error reading source: %v", err)
 		}
 	}
 
 	if err = d.Set("destination", flattenSystemSitTunnelDestination(o["destination"], d, "destination", sv)); err != nil {
 		if !fortiAPIPatch(o["destination"]) {
-			return fmt.Errorf("Error reading destination: %v", err)
+			return fmt.Errorf("error reading destination: %v", err)
 		}
 	}
 
 	if err = d.Set("ip6", flattenSystemSitTunnelIp6(o["ip6"], d, "ip6", sv)); err != nil {
 		if !fortiAPIPatch(o["ip6"]) {
-			return fmt.Errorf("Error reading ip6: %v", err)
+			return fmt.Errorf("error reading ip6: %v", err)
 		}
 	}
 
 	if err = d.Set("interface", flattenSystemSitTunnelInterface(o["interface"], d, "interface", sv)); err != nil {
 		if !fortiAPIPatch(o["interface"]) {
-			return fmt.Errorf("Error reading interface: %v", err)
+			return fmt.Errorf("error reading interface: %v", err)
 		}
 	}
 

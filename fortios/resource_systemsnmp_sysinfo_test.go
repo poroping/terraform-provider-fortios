@@ -52,14 +52,14 @@ func testAccCheckFortiOSSystemSnmpSysinfoExists(n string) resource.TestCheckFunc
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemSnmpSysinfo(i, "root")
+		o, err := c.ReadSystemSnmpSysinfo(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading SystemSnmpSysinfo: %s", err)
+			return fmt.Errorf("error reading SystemSnmpSysinfo: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating SystemSnmpSysinfo: %s", n)
+			return fmt.Errorf("error creating SystemSnmpSysinfo: %s", n)
 		}
 
 		return nil
@@ -75,11 +75,11 @@ func testAccCheckSystemSnmpSysinfoDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemSnmpSysinfo(i, "root")
+		o, err := c.ReadSystemSnmpSysinfo(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error SystemSnmpSysinfo %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error SystemSnmpSysinfo %s still exists", rs.Primary.ID)
 			}
 		}
 

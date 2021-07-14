@@ -30,157 +30,162 @@ func resourceReportStyle() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 71),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"options": &schema.Schema{
+			"options": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"font_family": &schema.Schema{
+			"font_family": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"font_style": &schema.Schema{
+			"font_style": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"font_weight": &schema.Schema{
+			"font_weight": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"font_size": &schema.Schema{
+			"font_size": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 15),
 				Optional:     true,
 				Computed:     true,
 			},
-			"line_height": &schema.Schema{
+			"line_height": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 15),
 				Optional:     true,
 				Computed:     true,
 			},
-			"fg_color": &schema.Schema{
+			"fg_color": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 15),
 				Optional:     true,
 				Computed:     true,
 			},
-			"bg_color": &schema.Schema{
+			"bg_color": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 15),
 				Optional:     true,
 				Computed:     true,
 			},
-			"align": &schema.Schema{
+			"align": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"width": &schema.Schema{
+			"width": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 15),
 				Optional:     true,
 				Computed:     true,
 			},
-			"height": &schema.Schema{
+			"height": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 15),
 				Optional:     true,
 				Computed:     true,
 			},
-			"margin_top": &schema.Schema{
+			"margin_top": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 15),
 				Optional:     true,
 				Computed:     true,
 			},
-			"margin_right": &schema.Schema{
+			"margin_right": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 15),
 				Optional:     true,
 				Computed:     true,
 			},
-			"margin_bottom": &schema.Schema{
+			"margin_bottom": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 15),
 				Optional:     true,
 				Computed:     true,
 			},
-			"margin_left": &schema.Schema{
+			"margin_left": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 15),
 				Optional:     true,
 				Computed:     true,
 			},
-			"border_top": &schema.Schema{
+			"border_top": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"border_right": &schema.Schema{
+			"border_right": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"border_bottom": &schema.Schema{
+			"border_bottom": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"border_left": &schema.Schema{
+			"border_left": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"padding_top": &schema.Schema{
+			"padding_top": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 15),
 				Optional:     true,
 				Computed:     true,
 			},
-			"padding_right": &schema.Schema{
+			"padding_right": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 15),
 				Optional:     true,
 				Computed:     true,
 			},
-			"padding_bottom": &schema.Schema{
+			"padding_bottom": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 15),
 				Optional:     true,
 				Computed:     true,
 			},
-			"padding_left": &schema.Schema{
+			"padding_left": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 15),
 				Optional:     true,
 				Computed:     true,
 			},
-			"column_span": &schema.Schema{
+			"column_span": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"column_gap": &schema.Schema{
+			"column_gap": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 15),
 				Optional:     true,
 				Computed:     true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -198,15 +203,25 @@ func resourceReportStyleCreate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectReportStyle(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating ReportStyle resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateReportStyle(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectReportStyle(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating ReportStyle resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateReportStyle(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating ReportStyle resource: %v", err)
+		return fmt.Errorf("error creating ReportStyle resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -231,14 +246,24 @@ func resourceReportStyleUpdate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectReportStyle(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating ReportStyle resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateReportStyle(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectReportStyle(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating ReportStyle resource: %v", err)
+		return fmt.Errorf("error updating ReportStyle resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateReportStyle(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating ReportStyle resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -265,9 +290,17 @@ func resourceReportStyleDelete(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	err := c.DeleteReportStyle(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteReportStyle(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting ReportStyle resource: %v", err)
+		return fmt.Errorf("error deleting ReportStyle resource: %v", err)
 	}
 
 	d.SetId("")
@@ -289,9 +322,19 @@ func resourceReportStyleRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadReportStyle(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadReportStyle(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading ReportStyle resource: %v", err)
+		return fmt.Errorf("error reading ReportStyle resource: %v", err)
 	}
 
 	if o == nil {
@@ -302,7 +345,7 @@ func resourceReportStyleRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectReportStyle(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading ReportStyle resource from API: %v", err)
+		return fmt.Errorf("error reading ReportStyle resource from API: %v", err)
 	}
 	return nil
 }
@@ -416,157 +459,157 @@ func refreshObjectReportStyle(d *schema.ResourceData, o map[string]interface{}, 
 
 	if err = d.Set("name", flattenReportStyleName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("options", flattenReportStyleOptions(o["options"], d, "options", sv)); err != nil {
 		if !fortiAPIPatch(o["options"]) {
-			return fmt.Errorf("Error reading options: %v", err)
+			return fmt.Errorf("error reading options: %v", err)
 		}
 	}
 
 	if err = d.Set("font_family", flattenReportStyleFontFamily(o["font-family"], d, "font_family", sv)); err != nil {
 		if !fortiAPIPatch(o["font-family"]) {
-			return fmt.Errorf("Error reading font_family: %v", err)
+			return fmt.Errorf("error reading font_family: %v", err)
 		}
 	}
 
 	if err = d.Set("font_style", flattenReportStyleFontStyle(o["font-style"], d, "font_style", sv)); err != nil {
 		if !fortiAPIPatch(o["font-style"]) {
-			return fmt.Errorf("Error reading font_style: %v", err)
+			return fmt.Errorf("error reading font_style: %v", err)
 		}
 	}
 
 	if err = d.Set("font_weight", flattenReportStyleFontWeight(o["font-weight"], d, "font_weight", sv)); err != nil {
 		if !fortiAPIPatch(o["font-weight"]) {
-			return fmt.Errorf("Error reading font_weight: %v", err)
+			return fmt.Errorf("error reading font_weight: %v", err)
 		}
 	}
 
 	if err = d.Set("font_size", flattenReportStyleFontSize(o["font-size"], d, "font_size", sv)); err != nil {
 		if !fortiAPIPatch(o["font-size"]) {
-			return fmt.Errorf("Error reading font_size: %v", err)
+			return fmt.Errorf("error reading font_size: %v", err)
 		}
 	}
 
 	if err = d.Set("line_height", flattenReportStyleLineHeight(o["line-height"], d, "line_height", sv)); err != nil {
 		if !fortiAPIPatch(o["line-height"]) {
-			return fmt.Errorf("Error reading line_height: %v", err)
+			return fmt.Errorf("error reading line_height: %v", err)
 		}
 	}
 
 	if err = d.Set("fg_color", flattenReportStyleFgColor(o["fg-color"], d, "fg_color", sv)); err != nil {
 		if !fortiAPIPatch(o["fg-color"]) {
-			return fmt.Errorf("Error reading fg_color: %v", err)
+			return fmt.Errorf("error reading fg_color: %v", err)
 		}
 	}
 
 	if err = d.Set("bg_color", flattenReportStyleBgColor(o["bg-color"], d, "bg_color", sv)); err != nil {
 		if !fortiAPIPatch(o["bg-color"]) {
-			return fmt.Errorf("Error reading bg_color: %v", err)
+			return fmt.Errorf("error reading bg_color: %v", err)
 		}
 	}
 
 	if err = d.Set("align", flattenReportStyleAlign(o["align"], d, "align", sv)); err != nil {
 		if !fortiAPIPatch(o["align"]) {
-			return fmt.Errorf("Error reading align: %v", err)
+			return fmt.Errorf("error reading align: %v", err)
 		}
 	}
 
 	if err = d.Set("width", flattenReportStyleWidth(o["width"], d, "width", sv)); err != nil {
 		if !fortiAPIPatch(o["width"]) {
-			return fmt.Errorf("Error reading width: %v", err)
+			return fmt.Errorf("error reading width: %v", err)
 		}
 	}
 
 	if err = d.Set("height", flattenReportStyleHeight(o["height"], d, "height", sv)); err != nil {
 		if !fortiAPIPatch(o["height"]) {
-			return fmt.Errorf("Error reading height: %v", err)
+			return fmt.Errorf("error reading height: %v", err)
 		}
 	}
 
 	if err = d.Set("margin_top", flattenReportStyleMarginTop(o["margin-top"], d, "margin_top", sv)); err != nil {
 		if !fortiAPIPatch(o["margin-top"]) {
-			return fmt.Errorf("Error reading margin_top: %v", err)
+			return fmt.Errorf("error reading margin_top: %v", err)
 		}
 	}
 
 	if err = d.Set("margin_right", flattenReportStyleMarginRight(o["margin-right"], d, "margin_right", sv)); err != nil {
 		if !fortiAPIPatch(o["margin-right"]) {
-			return fmt.Errorf("Error reading margin_right: %v", err)
+			return fmt.Errorf("error reading margin_right: %v", err)
 		}
 	}
 
 	if err = d.Set("margin_bottom", flattenReportStyleMarginBottom(o["margin-bottom"], d, "margin_bottom", sv)); err != nil {
 		if !fortiAPIPatch(o["margin-bottom"]) {
-			return fmt.Errorf("Error reading margin_bottom: %v", err)
+			return fmt.Errorf("error reading margin_bottom: %v", err)
 		}
 	}
 
 	if err = d.Set("margin_left", flattenReportStyleMarginLeft(o["margin-left"], d, "margin_left", sv)); err != nil {
 		if !fortiAPIPatch(o["margin-left"]) {
-			return fmt.Errorf("Error reading margin_left: %v", err)
+			return fmt.Errorf("error reading margin_left: %v", err)
 		}
 	}
 
 	if err = d.Set("border_top", flattenReportStyleBorderTop(o["border-top"], d, "border_top", sv)); err != nil {
 		if !fortiAPIPatch(o["border-top"]) {
-			return fmt.Errorf("Error reading border_top: %v", err)
+			return fmt.Errorf("error reading border_top: %v", err)
 		}
 	}
 
 	if err = d.Set("border_right", flattenReportStyleBorderRight(o["border-right"], d, "border_right", sv)); err != nil {
 		if !fortiAPIPatch(o["border-right"]) {
-			return fmt.Errorf("Error reading border_right: %v", err)
+			return fmt.Errorf("error reading border_right: %v", err)
 		}
 	}
 
 	if err = d.Set("border_bottom", flattenReportStyleBorderBottom(o["border-bottom"], d, "border_bottom", sv)); err != nil {
 		if !fortiAPIPatch(o["border-bottom"]) {
-			return fmt.Errorf("Error reading border_bottom: %v", err)
+			return fmt.Errorf("error reading border_bottom: %v", err)
 		}
 	}
 
 	if err = d.Set("border_left", flattenReportStyleBorderLeft(o["border-left"], d, "border_left", sv)); err != nil {
 		if !fortiAPIPatch(o["border-left"]) {
-			return fmt.Errorf("Error reading border_left: %v", err)
+			return fmt.Errorf("error reading border_left: %v", err)
 		}
 	}
 
 	if err = d.Set("padding_top", flattenReportStylePaddingTop(o["padding-top"], d, "padding_top", sv)); err != nil {
 		if !fortiAPIPatch(o["padding-top"]) {
-			return fmt.Errorf("Error reading padding_top: %v", err)
+			return fmt.Errorf("error reading padding_top: %v", err)
 		}
 	}
 
 	if err = d.Set("padding_right", flattenReportStylePaddingRight(o["padding-right"], d, "padding_right", sv)); err != nil {
 		if !fortiAPIPatch(o["padding-right"]) {
-			return fmt.Errorf("Error reading padding_right: %v", err)
+			return fmt.Errorf("error reading padding_right: %v", err)
 		}
 	}
 
 	if err = d.Set("padding_bottom", flattenReportStylePaddingBottom(o["padding-bottom"], d, "padding_bottom", sv)); err != nil {
 		if !fortiAPIPatch(o["padding-bottom"]) {
-			return fmt.Errorf("Error reading padding_bottom: %v", err)
+			return fmt.Errorf("error reading padding_bottom: %v", err)
 		}
 	}
 
 	if err = d.Set("padding_left", flattenReportStylePaddingLeft(o["padding-left"], d, "padding_left", sv)); err != nil {
 		if !fortiAPIPatch(o["padding-left"]) {
-			return fmt.Errorf("Error reading padding_left: %v", err)
+			return fmt.Errorf("error reading padding_left: %v", err)
 		}
 	}
 
 	if err = d.Set("column_span", flattenReportStyleColumnSpan(o["column-span"], d, "column_span", sv)); err != nil {
 		if !fortiAPIPatch(o["column-span"]) {
-			return fmt.Errorf("Error reading column_span: %v", err)
+			return fmt.Errorf("error reading column_span: %v", err)
 		}
 	}
 
 	if err = d.Set("column_gap", flattenReportStyleColumnGap(o["column-gap"], d, "column_gap", sv)); err != nil {
 		if !fortiAPIPatch(o["column-gap"]) {
-			return fmt.Errorf("Error reading column_gap: %v", err)
+			return fmt.Errorf("error reading column_gap: %v", err)
 		}
 	}
 

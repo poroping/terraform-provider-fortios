@@ -30,94 +30,94 @@ func resourceLogSyslogdSetting() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"status": &schema.Schema{
+			"status": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"server": &schema.Schema{
+			"server": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"mode": &schema.Schema{
+			"mode": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"port": &schema.Schema{
+			"port": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"facility": &schema.Schema{
+			"facility": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"source_ip": &schema.Schema{
+			"source_ip": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"format": &schema.Schema{
+			"format": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"priority": &schema.Schema{
+			"priority": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"max_log_rate": &schema.Schema{
+			"max_log_rate": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 100000),
 				Optional:     true,
 				Computed:     true,
 			},
-			"enc_algorithm": &schema.Schema{
+			"enc_algorithm": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ssl_min_proto_version": &schema.Schema{
+			"ssl_min_proto_version": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"certificate": &schema.Schema{
+			"certificate": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"custom_field_name": &schema.Schema{
+			"custom_field_name": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 255),
 							Optional:     true,
 							Computed:     true,
 						},
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"custom": &schema.Schema{
+						"custom": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
@@ -126,26 +126,31 @@ func resourceLogSyslogdSetting() *schema.Resource {
 					},
 				},
 			},
-			"interface_select_method": &schema.Schema{
+			"interface_select_method": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"interface": &schema.Schema{
+			"interface": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 15),
 				Optional:     true,
 				Computed:     true,
 			},
-			"syslog_type": &schema.Schema{
+			"syslog_type": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"dynamic_sort_subtable": &schema.Schema{
-				Type:     schema.TypeString,
+			"dynamic_sort_subtable": {
+				Type:     schema.TypeBool,
 				Optional: true,
-				Default:  "false",
+				Default:  false,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -164,14 +169,24 @@ func resourceLogSyslogdSettingUpdate(d *schema.ResourceData, m interface{}) erro
 		}
 	}
 
-	obj, err := getObjectLogSyslogdSetting(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating LogSyslogdSetting resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateLogSyslogdSetting(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectLogSyslogdSetting(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating LogSyslogdSetting resource: %v", err)
+		return fmt.Errorf("error updating LogSyslogdSetting resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateLogSyslogdSetting(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating LogSyslogdSetting resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -198,9 +213,17 @@ func resourceLogSyslogdSettingDelete(d *schema.ResourceData, m interface{}) erro
 		}
 	}
 
-	err := c.DeleteLogSyslogdSetting(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteLogSyslogdSetting(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting LogSyslogdSetting resource: %v", err)
+		return fmt.Errorf("error deleting LogSyslogdSetting resource: %v", err)
 	}
 
 	d.SetId("")
@@ -222,9 +245,19 @@ func resourceLogSyslogdSettingRead(d *schema.ResourceData, m interface{}) error 
 		}
 	}
 
-	o, err := c.ReadLogSyslogdSetting(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadLogSyslogdSetting(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading LogSyslogdSetting resource: %v", err)
+		return fmt.Errorf("error reading LogSyslogdSetting resource: %v", err)
 	}
 
 	if o == nil {
@@ -235,7 +268,7 @@ func resourceLogSyslogdSettingRead(d *schema.ResourceData, m interface{}) error 
 
 	err = refreshObjectLogSyslogdSetting(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading LogSyslogdSetting resource from API: %v", err)
+		return fmt.Errorf("error reading LogSyslogdSetting resource from API: %v", err)
 	}
 	return nil
 }
@@ -363,87 +396,87 @@ func refreshObjectLogSyslogdSetting(d *schema.ResourceData, o map[string]interfa
 
 	if err = d.Set("status", flattenLogSyslogdSettingStatus(o["status"], d, "status", sv)); err != nil {
 		if !fortiAPIPatch(o["status"]) {
-			return fmt.Errorf("Error reading status: %v", err)
+			return fmt.Errorf("error reading status: %v", err)
 		}
 	}
 
 	if err = d.Set("server", flattenLogSyslogdSettingServer(o["server"], d, "server", sv)); err != nil {
 		if !fortiAPIPatch(o["server"]) {
-			return fmt.Errorf("Error reading server: %v", err)
+			return fmt.Errorf("error reading server: %v", err)
 		}
 	}
 
 	if err = d.Set("mode", flattenLogSyslogdSettingMode(o["mode"], d, "mode", sv)); err != nil {
 		if !fortiAPIPatch(o["mode"]) {
-			return fmt.Errorf("Error reading mode: %v", err)
+			return fmt.Errorf("error reading mode: %v", err)
 		}
 	}
 
 	if err = d.Set("port", flattenLogSyslogdSettingPort(o["port"], d, "port", sv)); err != nil {
 		if !fortiAPIPatch(o["port"]) {
-			return fmt.Errorf("Error reading port: %v", err)
+			return fmt.Errorf("error reading port: %v", err)
 		}
 	}
 
 	if err = d.Set("facility", flattenLogSyslogdSettingFacility(o["facility"], d, "facility", sv)); err != nil {
 		if !fortiAPIPatch(o["facility"]) {
-			return fmt.Errorf("Error reading facility: %v", err)
+			return fmt.Errorf("error reading facility: %v", err)
 		}
 	}
 
 	if err = d.Set("source_ip", flattenLogSyslogdSettingSourceIp(o["source-ip"], d, "source_ip", sv)); err != nil {
 		if !fortiAPIPatch(o["source-ip"]) {
-			return fmt.Errorf("Error reading source_ip: %v", err)
+			return fmt.Errorf("error reading source_ip: %v", err)
 		}
 	}
 
 	if err = d.Set("format", flattenLogSyslogdSettingFormat(o["format"], d, "format", sv)); err != nil {
 		if !fortiAPIPatch(o["format"]) {
-			return fmt.Errorf("Error reading format: %v", err)
+			return fmt.Errorf("error reading format: %v", err)
 		}
 	}
 
 	if err = d.Set("priority", flattenLogSyslogdSettingPriority(o["priority"], d, "priority", sv)); err != nil {
 		if !fortiAPIPatch(o["priority"]) {
-			return fmt.Errorf("Error reading priority: %v", err)
+			return fmt.Errorf("error reading priority: %v", err)
 		}
 	}
 
 	if err = d.Set("max_log_rate", flattenLogSyslogdSettingMaxLogRate(o["max-log-rate"], d, "max_log_rate", sv)); err != nil {
 		if !fortiAPIPatch(o["max-log-rate"]) {
-			return fmt.Errorf("Error reading max_log_rate: %v", err)
+			return fmt.Errorf("error reading max_log_rate: %v", err)
 		}
 	}
 
 	if err = d.Set("enc_algorithm", flattenLogSyslogdSettingEncAlgorithm(o["enc-algorithm"], d, "enc_algorithm", sv)); err != nil {
 		if !fortiAPIPatch(o["enc-algorithm"]) {
-			return fmt.Errorf("Error reading enc_algorithm: %v", err)
+			return fmt.Errorf("error reading enc_algorithm: %v", err)
 		}
 	}
 
 	if err = d.Set("ssl_min_proto_version", flattenLogSyslogdSettingSslMinProtoVersion(o["ssl-min-proto-version"], d, "ssl_min_proto_version", sv)); err != nil {
 		if !fortiAPIPatch(o["ssl-min-proto-version"]) {
-			return fmt.Errorf("Error reading ssl_min_proto_version: %v", err)
+			return fmt.Errorf("error reading ssl_min_proto_version: %v", err)
 		}
 	}
 
 	if err = d.Set("certificate", flattenLogSyslogdSettingCertificate(o["certificate"], d, "certificate", sv)); err != nil {
 		if !fortiAPIPatch(o["certificate"]) {
-			return fmt.Errorf("Error reading certificate: %v", err)
+			return fmt.Errorf("error reading certificate: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("custom_field_name", flattenLogSyslogdSettingCustomFieldName(o["custom-field-name"], d, "custom_field_name", sv)); err != nil {
 			if !fortiAPIPatch(o["custom-field-name"]) {
-				return fmt.Errorf("Error reading custom_field_name: %v", err)
+				return fmt.Errorf("error reading custom_field_name: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("custom_field_name"); ok {
 			if err = d.Set("custom_field_name", flattenLogSyslogdSettingCustomFieldName(o["custom-field-name"], d, "custom_field_name", sv)); err != nil {
 				if !fortiAPIPatch(o["custom-field-name"]) {
-					return fmt.Errorf("Error reading custom_field_name: %v", err)
+					return fmt.Errorf("error reading custom_field_name: %v", err)
 				}
 			}
 		}
@@ -451,19 +484,19 @@ func refreshObjectLogSyslogdSetting(d *schema.ResourceData, o map[string]interfa
 
 	if err = d.Set("interface_select_method", flattenLogSyslogdSettingInterfaceSelectMethod(o["interface-select-method"], d, "interface_select_method", sv)); err != nil {
 		if !fortiAPIPatch(o["interface-select-method"]) {
-			return fmt.Errorf("Error reading interface_select_method: %v", err)
+			return fmt.Errorf("error reading interface_select_method: %v", err)
 		}
 	}
 
 	if err = d.Set("interface", flattenLogSyslogdSettingInterface(o["interface"], d, "interface", sv)); err != nil {
 		if !fortiAPIPatch(o["interface"]) {
-			return fmt.Errorf("Error reading interface: %v", err)
+			return fmt.Errorf("error reading interface: %v", err)
 		}
 	}
 
 	if err = d.Set("syslog_type", flattenLogSyslogdSettingSyslogType(o["syslog-type"], d, "syslog_type", sv)); err != nil {
 		if !fortiAPIPatch(o["syslog-type"]) {
-			return fmt.Errorf("Error reading syslog_type: %v", err)
+			return fmt.Errorf("error reading syslog_type: %v", err)
 		}
 	}
 

@@ -30,22 +30,27 @@ func resourceFirewallTrafficClass() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"class_id": &schema.Schema{
+			"class_id": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(2, 31),
 				Optional:     true,
 				Computed:     true,
 			},
-			"class_name": &schema.Schema{
+			"class_name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -63,15 +68,25 @@ func resourceFirewallTrafficClassCreate(d *schema.ResourceData, m interface{}) e
 		}
 	}
 
-	obj, err := getObjectFirewallTrafficClass(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating FirewallTrafficClass resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateFirewallTrafficClass(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectFirewallTrafficClass(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating FirewallTrafficClass resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateFirewallTrafficClass(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating FirewallTrafficClass resource: %v", err)
+		return fmt.Errorf("error creating FirewallTrafficClass resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -96,14 +111,24 @@ func resourceFirewallTrafficClassUpdate(d *schema.ResourceData, m interface{}) e
 		}
 	}
 
-	obj, err := getObjectFirewallTrafficClass(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating FirewallTrafficClass resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateFirewallTrafficClass(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectFirewallTrafficClass(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating FirewallTrafficClass resource: %v", err)
+		return fmt.Errorf("error updating FirewallTrafficClass resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateFirewallTrafficClass(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating FirewallTrafficClass resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -130,9 +155,17 @@ func resourceFirewallTrafficClassDelete(d *schema.ResourceData, m interface{}) e
 		}
 	}
 
-	err := c.DeleteFirewallTrafficClass(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteFirewallTrafficClass(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting FirewallTrafficClass resource: %v", err)
+		return fmt.Errorf("error deleting FirewallTrafficClass resource: %v", err)
 	}
 
 	d.SetId("")
@@ -154,9 +187,19 @@ func resourceFirewallTrafficClassRead(d *schema.ResourceData, m interface{}) err
 		}
 	}
 
-	o, err := c.ReadFirewallTrafficClass(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadFirewallTrafficClass(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading FirewallTrafficClass resource: %v", err)
+		return fmt.Errorf("error reading FirewallTrafficClass resource: %v", err)
 	}
 
 	if o == nil {
@@ -167,7 +210,7 @@ func resourceFirewallTrafficClassRead(d *schema.ResourceData, m interface{}) err
 
 	err = refreshObjectFirewallTrafficClass(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading FirewallTrafficClass resource from API: %v", err)
+		return fmt.Errorf("error reading FirewallTrafficClass resource from API: %v", err)
 	}
 	return nil
 }
@@ -185,13 +228,13 @@ func refreshObjectFirewallTrafficClass(d *schema.ResourceData, o map[string]inte
 
 	if err = d.Set("class_id", flattenFirewallTrafficClassClassId(o["class-id"], d, "class_id", sv)); err != nil {
 		if !fortiAPIPatch(o["class-id"]) {
-			return fmt.Errorf("Error reading class_id: %v", err)
+			return fmt.Errorf("error reading class_id: %v", err)
 		}
 	}
 
 	if err = d.Set("class_name", flattenFirewallTrafficClassClassName(o["class-name"], d, "class_name", sv)); err != nil {
 		if !fortiAPIPatch(o["class-name"]) {
-			return fmt.Errorf("Error reading class_name: %v", err)
+			return fmt.Errorf("error reading class_name: %v", err)
 		}
 	}
 

@@ -30,37 +30,42 @@ func resourceReportSetting() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"pdf_report": &schema.Schema{
+			"pdf_report": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"fortiview": &schema.Schema{
+			"fortiview": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"report_source": &schema.Schema{
+			"report_source": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"web_browsing_threshold": &schema.Schema{
+			"web_browsing_threshold": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(3, 15),
 				Optional:     true,
 				Computed:     true,
 			},
-			"top_n": &schema.Schema{
+			"top_n": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(100, 4000),
 				Optional:     true,
 				Computed:     true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -79,14 +84,24 @@ func resourceReportSettingUpdate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectReportSetting(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating ReportSetting resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateReportSetting(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectReportSetting(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating ReportSetting resource: %v", err)
+		return fmt.Errorf("error updating ReportSetting resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateReportSetting(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating ReportSetting resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -113,9 +128,17 @@ func resourceReportSettingDelete(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	err := c.DeleteReportSetting(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteReportSetting(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting ReportSetting resource: %v", err)
+		return fmt.Errorf("error deleting ReportSetting resource: %v", err)
 	}
 
 	d.SetId("")
@@ -137,9 +160,19 @@ func resourceReportSettingRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadReportSetting(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadReportSetting(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading ReportSetting resource: %v", err)
+		return fmt.Errorf("error reading ReportSetting resource: %v", err)
 	}
 
 	if o == nil {
@@ -150,7 +183,7 @@ func resourceReportSettingRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectReportSetting(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading ReportSetting resource from API: %v", err)
+		return fmt.Errorf("error reading ReportSetting resource from API: %v", err)
 	}
 	return nil
 }
@@ -180,31 +213,31 @@ func refreshObjectReportSetting(d *schema.ResourceData, o map[string]interface{}
 
 	if err = d.Set("pdf_report", flattenReportSettingPdfReport(o["pdf-report"], d, "pdf_report", sv)); err != nil {
 		if !fortiAPIPatch(o["pdf-report"]) {
-			return fmt.Errorf("Error reading pdf_report: %v", err)
+			return fmt.Errorf("error reading pdf_report: %v", err)
 		}
 	}
 
 	if err = d.Set("fortiview", flattenReportSettingFortiview(o["fortiview"], d, "fortiview", sv)); err != nil {
 		if !fortiAPIPatch(o["fortiview"]) {
-			return fmt.Errorf("Error reading fortiview: %v", err)
+			return fmt.Errorf("error reading fortiview: %v", err)
 		}
 	}
 
 	if err = d.Set("report_source", flattenReportSettingReportSource(o["report-source"], d, "report_source", sv)); err != nil {
 		if !fortiAPIPatch(o["report-source"]) {
-			return fmt.Errorf("Error reading report_source: %v", err)
+			return fmt.Errorf("error reading report_source: %v", err)
 		}
 	}
 
 	if err = d.Set("web_browsing_threshold", flattenReportSettingWebBrowsingThreshold(o["web-browsing-threshold"], d, "web_browsing_threshold", sv)); err != nil {
 		if !fortiAPIPatch(o["web-browsing-threshold"]) {
-			return fmt.Errorf("Error reading web_browsing_threshold: %v", err)
+			return fmt.Errorf("error reading web_browsing_threshold: %v", err)
 		}
 	}
 
 	if err = d.Set("top_n", flattenReportSettingTopN(o["top-n"], d, "top_n", sv)); err != nil {
 		if !fortiAPIPatch(o["top-n"]) {
-			return fmt.Errorf("Error reading top_n: %v", err)
+			return fmt.Errorf("error reading top_n: %v", err)
 		}
 	}
 

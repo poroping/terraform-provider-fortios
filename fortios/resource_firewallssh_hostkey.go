@@ -30,53 +30,58 @@ func resourceFirewallSshHostKey() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"status": &schema.Schema{
+			"status": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"type": &schema.Schema{
+			"type": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"nid": &schema.Schema{
+			"nid": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ip": &schema.Schema{
+			"ip": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"port": &schema.Schema{
+			"port": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"hostname": &schema.Schema{
+			"hostname": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
 				Computed:     true,
 			},
-			"public_key": &schema.Schema{
+			"public_key": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 32768),
 				Optional:     true,
 				Sensitive:    true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -94,15 +99,25 @@ func resourceFirewallSshHostKeyCreate(d *schema.ResourceData, m interface{}) err
 		}
 	}
 
-	obj, err := getObjectFirewallSshHostKey(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating FirewallSshHostKey resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateFirewallSshHostKey(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectFirewallSshHostKey(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating FirewallSshHostKey resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateFirewallSshHostKey(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating FirewallSshHostKey resource: %v", err)
+		return fmt.Errorf("error creating FirewallSshHostKey resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -127,14 +142,24 @@ func resourceFirewallSshHostKeyUpdate(d *schema.ResourceData, m interface{}) err
 		}
 	}
 
-	obj, err := getObjectFirewallSshHostKey(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating FirewallSshHostKey resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateFirewallSshHostKey(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectFirewallSshHostKey(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating FirewallSshHostKey resource: %v", err)
+		return fmt.Errorf("error updating FirewallSshHostKey resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateFirewallSshHostKey(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating FirewallSshHostKey resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -161,9 +186,17 @@ func resourceFirewallSshHostKeyDelete(d *schema.ResourceData, m interface{}) err
 		}
 	}
 
-	err := c.DeleteFirewallSshHostKey(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteFirewallSshHostKey(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting FirewallSshHostKey resource: %v", err)
+		return fmt.Errorf("error deleting FirewallSshHostKey resource: %v", err)
 	}
 
 	d.SetId("")
@@ -185,9 +218,19 @@ func resourceFirewallSshHostKeyRead(d *schema.ResourceData, m interface{}) error
 		}
 	}
 
-	o, err := c.ReadFirewallSshHostKey(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadFirewallSshHostKey(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading FirewallSshHostKey resource: %v", err)
+		return fmt.Errorf("error reading FirewallSshHostKey resource: %v", err)
 	}
 
 	if o == nil {
@@ -198,7 +241,7 @@ func resourceFirewallSshHostKeyRead(d *schema.ResourceData, m interface{}) error
 
 	err = refreshObjectFirewallSshHostKey(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading FirewallSshHostKey resource from API: %v", err)
+		return fmt.Errorf("error reading FirewallSshHostKey resource from API: %v", err)
 	}
 	return nil
 }
@@ -240,43 +283,43 @@ func refreshObjectFirewallSshHostKey(d *schema.ResourceData, o map[string]interf
 
 	if err = d.Set("name", flattenFirewallSshHostKeyName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("status", flattenFirewallSshHostKeyStatus(o["status"], d, "status", sv)); err != nil {
 		if !fortiAPIPatch(o["status"]) {
-			return fmt.Errorf("Error reading status: %v", err)
+			return fmt.Errorf("error reading status: %v", err)
 		}
 	}
 
 	if err = d.Set("type", flattenFirewallSshHostKeyType(o["type"], d, "type", sv)); err != nil {
 		if !fortiAPIPatch(o["type"]) {
-			return fmt.Errorf("Error reading type: %v", err)
+			return fmt.Errorf("error reading type: %v", err)
 		}
 	}
 
 	if err = d.Set("nid", flattenFirewallSshHostKeyNid(o["nid"], d, "nid", sv)); err != nil {
 		if !fortiAPIPatch(o["nid"]) {
-			return fmt.Errorf("Error reading nid: %v", err)
+			return fmt.Errorf("error reading nid: %v", err)
 		}
 	}
 
 	if err = d.Set("ip", flattenFirewallSshHostKeyIp(o["ip"], d, "ip", sv)); err != nil {
 		if !fortiAPIPatch(o["ip"]) {
-			return fmt.Errorf("Error reading ip: %v", err)
+			return fmt.Errorf("error reading ip: %v", err)
 		}
 	}
 
 	if err = d.Set("port", flattenFirewallSshHostKeyPort(o["port"], d, "port", sv)); err != nil {
 		if !fortiAPIPatch(o["port"]) {
-			return fmt.Errorf("Error reading port: %v", err)
+			return fmt.Errorf("error reading port: %v", err)
 		}
 	}
 
 	if err = d.Set("hostname", flattenFirewallSshHostKeyHostname(o["hostname"], d, "hostname", sv)); err != nil {
 		if !fortiAPIPatch(o["hostname"]) {
-			return fmt.Errorf("Error reading hostname: %v", err)
+			return fmt.Errorf("error reading hostname: %v", err)
 		}
 	}
 

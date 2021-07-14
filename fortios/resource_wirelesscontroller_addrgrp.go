@@ -30,29 +30,29 @@ func resourceWirelessControllerAddrgrp() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"fosid": &schema.Schema{
+			"fosid": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"default_policy": &schema.Schema{
+			"default_policy": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"addresses": &schema.Schema{
+			"addresses": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
@@ -61,10 +61,15 @@ func resourceWirelessControllerAddrgrp() *schema.Resource {
 					},
 				},
 			},
-			"dynamic_sort_subtable": &schema.Schema{
-				Type:     schema.TypeString,
+			"dynamic_sort_subtable": {
+				Type:     schema.TypeBool,
 				Optional: true,
-				Default:  "false",
+				Default:  false,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -82,15 +87,25 @@ func resourceWirelessControllerAddrgrpCreate(d *schema.ResourceData, m interface
 		}
 	}
 
-	obj, err := getObjectWirelessControllerAddrgrp(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating WirelessControllerAddrgrp resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateWirelessControllerAddrgrp(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectWirelessControllerAddrgrp(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating WirelessControllerAddrgrp resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateWirelessControllerAddrgrp(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating WirelessControllerAddrgrp resource: %v", err)
+		return fmt.Errorf("error creating WirelessControllerAddrgrp resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -115,14 +130,24 @@ func resourceWirelessControllerAddrgrpUpdate(d *schema.ResourceData, m interface
 		}
 	}
 
-	obj, err := getObjectWirelessControllerAddrgrp(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating WirelessControllerAddrgrp resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateWirelessControllerAddrgrp(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectWirelessControllerAddrgrp(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating WirelessControllerAddrgrp resource: %v", err)
+		return fmt.Errorf("error updating WirelessControllerAddrgrp resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateWirelessControllerAddrgrp(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating WirelessControllerAddrgrp resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -149,9 +174,17 @@ func resourceWirelessControllerAddrgrpDelete(d *schema.ResourceData, m interface
 		}
 	}
 
-	err := c.DeleteWirelessControllerAddrgrp(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteWirelessControllerAddrgrp(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting WirelessControllerAddrgrp resource: %v", err)
+		return fmt.Errorf("error deleting WirelessControllerAddrgrp resource: %v", err)
 	}
 
 	d.SetId("")
@@ -173,9 +206,19 @@ func resourceWirelessControllerAddrgrpRead(d *schema.ResourceData, m interface{}
 		}
 	}
 
-	o, err := c.ReadWirelessControllerAddrgrp(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadWirelessControllerAddrgrp(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading WirelessControllerAddrgrp resource: %v", err)
+		return fmt.Errorf("error reading WirelessControllerAddrgrp resource: %v", err)
 	}
 
 	if o == nil {
@@ -186,7 +229,7 @@ func resourceWirelessControllerAddrgrpRead(d *schema.ResourceData, m interface{}
 
 	err = refreshObjectWirelessControllerAddrgrp(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading WirelessControllerAddrgrp resource from API: %v", err)
+		return fmt.Errorf("error reading WirelessControllerAddrgrp resource from API: %v", err)
 	}
 	return nil
 }
@@ -242,27 +285,27 @@ func refreshObjectWirelessControllerAddrgrp(d *schema.ResourceData, o map[string
 
 	if err = d.Set("fosid", flattenWirelessControllerAddrgrpId(o["id"], d, "fosid", sv)); err != nil {
 		if !fortiAPIPatch(o["id"]) {
-			return fmt.Errorf("Error reading fosid: %v", err)
+			return fmt.Errorf("error reading fosid: %v", err)
 		}
 	}
 
 	if err = d.Set("default_policy", flattenWirelessControllerAddrgrpDefaultPolicy(o["default-policy"], d, "default_policy", sv)); err != nil {
 		if !fortiAPIPatch(o["default-policy"]) {
-			return fmt.Errorf("Error reading default_policy: %v", err)
+			return fmt.Errorf("error reading default_policy: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("addresses", flattenWirelessControllerAddrgrpAddresses(o["addresses"], d, "addresses", sv)); err != nil {
 			if !fortiAPIPatch(o["addresses"]) {
-				return fmt.Errorf("Error reading addresses: %v", err)
+				return fmt.Errorf("error reading addresses: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("addresses"); ok {
 			if err = d.Set("addresses", flattenWirelessControllerAddrgrpAddresses(o["addresses"], d, "addresses", sv)); err != nil {
 				if !fortiAPIPatch(o["addresses"]) {
-					return fmt.Errorf("Error reading addresses: %v", err)
+					return fmt.Errorf("error reading addresses: %v", err)
 				}
 			}
 		}

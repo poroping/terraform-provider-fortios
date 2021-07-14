@@ -30,56 +30,61 @@ func resourceFtpProxyExplicit() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"status": &schema.Schema{
+			"status": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"incoming_port": &schema.Schema{
+			"incoming_port": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"incoming_ip": &schema.Schema{
+			"incoming_ip": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"outgoing_ip": &schema.Schema{
+			"outgoing_ip": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"sec_default_action": &schema.Schema{
+			"sec_default_action": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ssl": &schema.Schema{
+			"ssl": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ssl_cert": &schema.Schema{
+			"ssl_cert": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"ssl_dh_bits": &schema.Schema{
+			"ssl_dh_bits": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ssl_algorithm": &schema.Schema{
+			"ssl_algorithm": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -98,14 +103,24 @@ func resourceFtpProxyExplicitUpdate(d *schema.ResourceData, m interface{}) error
 		}
 	}
 
-	obj, err := getObjectFtpProxyExplicit(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating FtpProxyExplicit resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateFtpProxyExplicit(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectFtpProxyExplicit(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating FtpProxyExplicit resource: %v", err)
+		return fmt.Errorf("error updating FtpProxyExplicit resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateFtpProxyExplicit(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating FtpProxyExplicit resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -132,9 +147,17 @@ func resourceFtpProxyExplicitDelete(d *schema.ResourceData, m interface{}) error
 		}
 	}
 
-	err := c.DeleteFtpProxyExplicit(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteFtpProxyExplicit(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting FtpProxyExplicit resource: %v", err)
+		return fmt.Errorf("error deleting FtpProxyExplicit resource: %v", err)
 	}
 
 	d.SetId("")
@@ -156,9 +179,19 @@ func resourceFtpProxyExplicitRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadFtpProxyExplicit(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadFtpProxyExplicit(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading FtpProxyExplicit resource: %v", err)
+		return fmt.Errorf("error reading FtpProxyExplicit resource: %v", err)
 	}
 
 	if o == nil {
@@ -169,7 +202,7 @@ func resourceFtpProxyExplicitRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectFtpProxyExplicit(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading FtpProxyExplicit resource from API: %v", err)
+		return fmt.Errorf("error reading FtpProxyExplicit resource from API: %v", err)
 	}
 	return nil
 }
@@ -215,55 +248,55 @@ func refreshObjectFtpProxyExplicit(d *schema.ResourceData, o map[string]interfac
 
 	if err = d.Set("status", flattenFtpProxyExplicitStatus(o["status"], d, "status", sv)); err != nil {
 		if !fortiAPIPatch(o["status"]) {
-			return fmt.Errorf("Error reading status: %v", err)
+			return fmt.Errorf("error reading status: %v", err)
 		}
 	}
 
 	if err = d.Set("incoming_port", flattenFtpProxyExplicitIncomingPort(o["incoming-port"], d, "incoming_port", sv)); err != nil {
 		if !fortiAPIPatch(o["incoming-port"]) {
-			return fmt.Errorf("Error reading incoming_port: %v", err)
+			return fmt.Errorf("error reading incoming_port: %v", err)
 		}
 	}
 
 	if err = d.Set("incoming_ip", flattenFtpProxyExplicitIncomingIp(o["incoming-ip"], d, "incoming_ip", sv)); err != nil {
 		if !fortiAPIPatch(o["incoming-ip"]) {
-			return fmt.Errorf("Error reading incoming_ip: %v", err)
+			return fmt.Errorf("error reading incoming_ip: %v", err)
 		}
 	}
 
 	if err = d.Set("outgoing_ip", flattenFtpProxyExplicitOutgoingIp(o["outgoing-ip"], d, "outgoing_ip", sv)); err != nil {
 		if !fortiAPIPatch(o["outgoing-ip"]) {
-			return fmt.Errorf("Error reading outgoing_ip: %v", err)
+			return fmt.Errorf("error reading outgoing_ip: %v", err)
 		}
 	}
 
 	if err = d.Set("sec_default_action", flattenFtpProxyExplicitSecDefaultAction(o["sec-default-action"], d, "sec_default_action", sv)); err != nil {
 		if !fortiAPIPatch(o["sec-default-action"]) {
-			return fmt.Errorf("Error reading sec_default_action: %v", err)
+			return fmt.Errorf("error reading sec_default_action: %v", err)
 		}
 	}
 
 	if err = d.Set("ssl", flattenFtpProxyExplicitSsl(o["ssl"], d, "ssl", sv)); err != nil {
 		if !fortiAPIPatch(o["ssl"]) {
-			return fmt.Errorf("Error reading ssl: %v", err)
+			return fmt.Errorf("error reading ssl: %v", err)
 		}
 	}
 
 	if err = d.Set("ssl_cert", flattenFtpProxyExplicitSslCert(o["ssl-cert"], d, "ssl_cert", sv)); err != nil {
 		if !fortiAPIPatch(o["ssl-cert"]) {
-			return fmt.Errorf("Error reading ssl_cert: %v", err)
+			return fmt.Errorf("error reading ssl_cert: %v", err)
 		}
 	}
 
 	if err = d.Set("ssl_dh_bits", flattenFtpProxyExplicitSslDhBits(o["ssl-dh-bits"], d, "ssl_dh_bits", sv)); err != nil {
 		if !fortiAPIPatch(o["ssl-dh-bits"]) {
-			return fmt.Errorf("Error reading ssl_dh_bits: %v", err)
+			return fmt.Errorf("error reading ssl_dh_bits: %v", err)
 		}
 	}
 
 	if err = d.Set("ssl_algorithm", flattenFtpProxyExplicitSslAlgorithm(o["ssl-algorithm"], d, "ssl_algorithm", sv)); err != nil {
 		if !fortiAPIPatch(o["ssl-algorithm"]) {
-			return fmt.Errorf("Error reading ssl_algorithm: %v", err)
+			return fmt.Errorf("error reading ssl_algorithm: %v", err)
 		}
 	}
 

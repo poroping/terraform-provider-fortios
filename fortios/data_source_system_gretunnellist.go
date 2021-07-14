@@ -17,12 +17,12 @@ func dataSourceSystemGreTunnelList() *schema.Resource {
 		Read: dataSourceSystemGreTunnelListRead,
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"filter": &schema.Schema{
+			"filter": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
@@ -52,9 +52,9 @@ func dataSourceSystemGreTunnelListRead(d *schema.ResourceData, m interface{}) er
 		filter = escapeFilter(filter)
 	}
 
-	o, err := c.GenericGroupRead("/api/v2/cmdb/system/gre-tunnel", filter, vdomparam)
+	o, err := c.GenericGroupRead("/api/v2/cmdb/system/gre-tunnel", filter, vdomparam, 0)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemGreTunnel: %v", err)
+		return fmt.Errorf("error describing SystemGreTunnel: %v", err)
 	}
 
 	var tmps []string

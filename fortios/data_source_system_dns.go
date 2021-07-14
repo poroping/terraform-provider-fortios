@@ -21,89 +21,89 @@ func dataSourceSystemDns() *schema.Resource {
 	return &schema.Resource{
 		Read: dataSourceSystemDnsRead,
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
 
-			"primary": &schema.Schema{
+			"primary": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"secondary": &schema.Schema{
+			"secondary": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"dns_over_tls": &schema.Schema{
+			"dns_over_tls": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"ssl_certificate": &schema.Schema{
+			"ssl_certificate": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"server_hostname": &schema.Schema{
+			"server_hostname": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"hostname": &schema.Schema{
+						"hostname": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 					},
 				},
 			},
-			"domain": &schema.Schema{
+			"domain": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"domain": &schema.Schema{
+						"domain": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 					},
 				},
 			},
-			"ip6_primary": &schema.Schema{
+			"ip6_primary": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"ip6_secondary": &schema.Schema{
+			"ip6_secondary": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"timeout": &schema.Schema{
+			"timeout": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"retry": &schema.Schema{
+			"retry": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"dns_cache_limit": &schema.Schema{
+			"dns_cache_limit": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"dns_cache_ttl": &schema.Schema{
+			"dns_cache_ttl": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"cache_notfound_responses": &schema.Schema{
+			"cache_notfound_responses": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"source_ip": &schema.Schema{
+			"source_ip": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"interface_select_method": &schema.Schema{
+			"interface_select_method": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"interface": &schema.Schema{
+			"interface": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -125,9 +125,9 @@ func dataSourceSystemDnsRead(d *schema.ResourceData, m interface{}) error {
 
 	mkey := "SystemDns"
 
-	o, err := c.ReadSystemDns(mkey, vdomparam)
+	o, err := c.ReadSystemDns(mkey, vdomparam, make(map[string][]string), 0)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemDns: %v", err)
+		return fmt.Errorf("error describing SystemDns: %v", err)
 	}
 
 	if o == nil {
@@ -137,7 +137,7 @@ func dataSourceSystemDnsRead(d *schema.ResourceData, m interface{}) error {
 
 	err = dataSourceRefreshObjectSystemDns(d, o)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemDns from API: %v", err)
+		return fmt.Errorf("error describing SystemDns from API: %v", err)
 	}
 
 	d.SetId(mkey)
@@ -278,97 +278,97 @@ func dataSourceRefreshObjectSystemDns(d *schema.ResourceData, o map[string]inter
 
 	if err = d.Set("primary", dataSourceFlattenSystemDnsPrimary(o["primary"], d, "primary")); err != nil {
 		if !fortiAPIPatch(o["primary"]) {
-			return fmt.Errorf("Error reading primary: %v", err)
+			return fmt.Errorf("error reading primary: %v", err)
 		}
 	}
 
 	if err = d.Set("secondary", dataSourceFlattenSystemDnsSecondary(o["secondary"], d, "secondary")); err != nil {
 		if !fortiAPIPatch(o["secondary"]) {
-			return fmt.Errorf("Error reading secondary: %v", err)
+			return fmt.Errorf("error reading secondary: %v", err)
 		}
 	}
 
 	if err = d.Set("dns_over_tls", dataSourceFlattenSystemDnsDnsOverTls(o["dns-over-tls"], d, "dns_over_tls")); err != nil {
 		if !fortiAPIPatch(o["dns-over-tls"]) {
-			return fmt.Errorf("Error reading dns_over_tls: %v", err)
+			return fmt.Errorf("error reading dns_over_tls: %v", err)
 		}
 	}
 
 	if err = d.Set("ssl_certificate", dataSourceFlattenSystemDnsSslCertificate(o["ssl-certificate"], d, "ssl_certificate")); err != nil {
 		if !fortiAPIPatch(o["ssl-certificate"]) {
-			return fmt.Errorf("Error reading ssl_certificate: %v", err)
+			return fmt.Errorf("error reading ssl_certificate: %v", err)
 		}
 	}
 
 	if err = d.Set("server_hostname", dataSourceFlattenSystemDnsServerHostname(o["server-hostname"], d, "server_hostname")); err != nil {
 		if !fortiAPIPatch(o["server-hostname"]) {
-			return fmt.Errorf("Error reading server_hostname: %v", err)
+			return fmt.Errorf("error reading server_hostname: %v", err)
 		}
 	}
 
 	if err = d.Set("domain", dataSourceFlattenSystemDnsDomain(o["domain"], d, "domain")); err != nil {
 		if !fortiAPIPatch(o["domain"]) {
-			return fmt.Errorf("Error reading domain: %v", err)
+			return fmt.Errorf("error reading domain: %v", err)
 		}
 	}
 
 	if err = d.Set("ip6_primary", dataSourceFlattenSystemDnsIp6Primary(o["ip6-primary"], d, "ip6_primary")); err != nil {
 		if !fortiAPIPatch(o["ip6-primary"]) {
-			return fmt.Errorf("Error reading ip6_primary: %v", err)
+			return fmt.Errorf("error reading ip6_primary: %v", err)
 		}
 	}
 
 	if err = d.Set("ip6_secondary", dataSourceFlattenSystemDnsIp6Secondary(o["ip6-secondary"], d, "ip6_secondary")); err != nil {
 		if !fortiAPIPatch(o["ip6-secondary"]) {
-			return fmt.Errorf("Error reading ip6_secondary: %v", err)
+			return fmt.Errorf("error reading ip6_secondary: %v", err)
 		}
 	}
 
 	if err = d.Set("timeout", dataSourceFlattenSystemDnsTimeout(o["timeout"], d, "timeout")); err != nil {
 		if !fortiAPIPatch(o["timeout"]) {
-			return fmt.Errorf("Error reading timeout: %v", err)
+			return fmt.Errorf("error reading timeout: %v", err)
 		}
 	}
 
 	if err = d.Set("retry", dataSourceFlattenSystemDnsRetry(o["retry"], d, "retry")); err != nil {
 		if !fortiAPIPatch(o["retry"]) {
-			return fmt.Errorf("Error reading retry: %v", err)
+			return fmt.Errorf("error reading retry: %v", err)
 		}
 	}
 
 	if err = d.Set("dns_cache_limit", dataSourceFlattenSystemDnsDnsCacheLimit(o["dns-cache-limit"], d, "dns_cache_limit")); err != nil {
 		if !fortiAPIPatch(o["dns-cache-limit"]) {
-			return fmt.Errorf("Error reading dns_cache_limit: %v", err)
+			return fmt.Errorf("error reading dns_cache_limit: %v", err)
 		}
 	}
 
 	if err = d.Set("dns_cache_ttl", dataSourceFlattenSystemDnsDnsCacheTtl(o["dns-cache-ttl"], d, "dns_cache_ttl")); err != nil {
 		if !fortiAPIPatch(o["dns-cache-ttl"]) {
-			return fmt.Errorf("Error reading dns_cache_ttl: %v", err)
+			return fmt.Errorf("error reading dns_cache_ttl: %v", err)
 		}
 	}
 
 	if err = d.Set("cache_notfound_responses", dataSourceFlattenSystemDnsCacheNotfoundResponses(o["cache-notfound-responses"], d, "cache_notfound_responses")); err != nil {
 		if !fortiAPIPatch(o["cache-notfound-responses"]) {
-			return fmt.Errorf("Error reading cache_notfound_responses: %v", err)
+			return fmt.Errorf("error reading cache_notfound_responses: %v", err)
 		}
 	}
 
 	if err = d.Set("source_ip", dataSourceFlattenSystemDnsSourceIp(o["source-ip"], d, "source_ip")); err != nil {
 		if !fortiAPIPatch(o["source-ip"]) {
-			return fmt.Errorf("Error reading source_ip: %v", err)
+			return fmt.Errorf("error reading source_ip: %v", err)
 		}
 	}
 
 	if err = d.Set("interface_select_method", dataSourceFlattenSystemDnsInterfaceSelectMethod(o["interface-select-method"], d, "interface_select_method")); err != nil {
 		if !fortiAPIPatch(o["interface-select-method"]) {
-			return fmt.Errorf("Error reading interface_select_method: %v", err)
+			return fmt.Errorf("error reading interface_select_method: %v", err)
 		}
 	}
 
 	if err = d.Set("interface", dataSourceFlattenSystemDnsInterface(o["interface"], d, "interface")); err != nil {
 		if !fortiAPIPatch(o["interface"]) {
-			return fmt.Errorf("Error reading interface: %v", err)
+			return fmt.Errorf("error reading interface: %v", err)
 		}
 	}
 

@@ -62,14 +62,14 @@ func testAccCheckFortiOSFirewallMulticastPolicyExists(n string) resource.TestChe
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadFirewallMulticastPolicy(i, "root")
+		o, err := c.ReadFirewallMulticastPolicy(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading FirewallMulticastPolicy: %s", err)
+			return fmt.Errorf("error reading FirewallMulticastPolicy: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating FirewallMulticastPolicy: %s", n)
+			return fmt.Errorf("error creating FirewallMulticastPolicy: %s", n)
 		}
 
 		return nil
@@ -85,11 +85,11 @@ func testAccCheckFirewallMulticastPolicyDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadFirewallMulticastPolicy(i, "root")
+		o, err := c.ReadFirewallMulticastPolicy(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error FirewallMulticastPolicy %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error FirewallMulticastPolicy %s still exists", rs.Primary.ID)
 			}
 		}
 

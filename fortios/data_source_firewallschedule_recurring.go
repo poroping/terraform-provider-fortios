@@ -21,29 +21,29 @@ func dataSourceFirewallScheduleRecurring() *schema.Resource {
 	return &schema.Resource{
 		Read: dataSourceFirewallScheduleRecurringRead,
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
 
-			"name": &schema.Schema{
+			"name": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"start": &schema.Schema{
+			"start": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"end": &schema.Schema{
+			"end": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"day": &schema.Schema{
+			"day": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"color": &schema.Schema{
+			"color": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
@@ -71,12 +71,12 @@ func dataSourceFirewallScheduleRecurringRead(d *schema.ResourceData, m interface
 	} else if v, ok := t.(int); ok {
 		mkey = strconv.Itoa(v)
 	} else {
-		return fmt.Errorf("Error describing FirewallScheduleRecurring: type error")
+		return fmt.Errorf("error describing FirewallScheduleRecurring: type error")
 	}
 
-	o, err := c.ReadFirewallScheduleRecurring(mkey, vdomparam)
+	o, err := c.ReadFirewallScheduleRecurring(mkey, vdomparam, make(map[string][]string), 0)
 	if err != nil {
-		return fmt.Errorf("Error describing FirewallScheduleRecurring: %v", err)
+		return fmt.Errorf("error describing FirewallScheduleRecurring: %v", err)
 	}
 
 	if o == nil {
@@ -86,7 +86,7 @@ func dataSourceFirewallScheduleRecurringRead(d *schema.ResourceData, m interface
 
 	err = dataSourceRefreshObjectFirewallScheduleRecurring(d, o)
 	if err != nil {
-		return fmt.Errorf("Error describing FirewallScheduleRecurring from API: %v", err)
+		return fmt.Errorf("error describing FirewallScheduleRecurring from API: %v", err)
 	}
 
 	d.SetId(mkey)
@@ -119,31 +119,31 @@ func dataSourceRefreshObjectFirewallScheduleRecurring(d *schema.ResourceData, o 
 
 	if err = d.Set("name", dataSourceFlattenFirewallScheduleRecurringName(o["name"], d, "name")); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("start", dataSourceFlattenFirewallScheduleRecurringStart(o["start"], d, "start")); err != nil {
 		if !fortiAPIPatch(o["start"]) {
-			return fmt.Errorf("Error reading start: %v", err)
+			return fmt.Errorf("error reading start: %v", err)
 		}
 	}
 
 	if err = d.Set("end", dataSourceFlattenFirewallScheduleRecurringEnd(o["end"], d, "end")); err != nil {
 		if !fortiAPIPatch(o["end"]) {
-			return fmt.Errorf("Error reading end: %v", err)
+			return fmt.Errorf("error reading end: %v", err)
 		}
 	}
 
 	if err = d.Set("day", dataSourceFlattenFirewallScheduleRecurringDay(o["day"], d, "day")); err != nil {
 		if !fortiAPIPatch(o["day"]) {
-			return fmt.Errorf("Error reading day: %v", err)
+			return fmt.Errorf("error reading day: %v", err)
 		}
 	}
 
 	if err = d.Set("color", dataSourceFlattenFirewallScheduleRecurringColor(o["color"], d, "color")); err != nil {
 		if !fortiAPIPatch(o["color"]) {
-			return fmt.Errorf("Error reading color: %v", err)
+			return fmt.Errorf("error reading color: %v", err)
 		}
 	}
 

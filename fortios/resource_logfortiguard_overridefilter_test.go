@@ -60,14 +60,14 @@ func testAccCheckFortiOSLogFortiguardOverrideFilterExists(n string) resource.Tes
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadLogFortiguardOverrideFilter(i, "root")
+		o, err := c.ReadLogFortiguardOverrideFilter(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading LogFortiguardOverrideFilter: %s", err)
+			return fmt.Errorf("error reading LogFortiguardOverrideFilter: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating LogFortiguardOverrideFilter: %s", n)
+			return fmt.Errorf("error creating LogFortiguardOverrideFilter: %s", n)
 		}
 
 		return nil
@@ -83,11 +83,11 @@ func testAccCheckLogFortiguardOverrideFilterDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadLogFortiguardOverrideFilter(i, "root")
+		o, err := c.ReadLogFortiguardOverrideFilter(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error LogFortiguardOverrideFilter %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error LogFortiguardOverrideFilter %s still exists", rs.Primary.ID)
 			}
 		}
 

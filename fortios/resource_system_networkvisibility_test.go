@@ -54,14 +54,14 @@ func testAccCheckFortiOSSystemNetworkVisibilityExists(n string) resource.TestChe
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemNetworkVisibility(i, "root")
+		o, err := c.ReadSystemNetworkVisibility(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading SystemNetworkVisibility: %s", err)
+			return fmt.Errorf("error reading SystemNetworkVisibility: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating SystemNetworkVisibility: %s", n)
+			return fmt.Errorf("error creating SystemNetworkVisibility: %s", n)
 		}
 
 		return nil
@@ -77,11 +77,11 @@ func testAccCheckSystemNetworkVisibilityDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemNetworkVisibility(i, "root")
+		o, err := c.ReadSystemNetworkVisibility(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error SystemNetworkVisibility %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error SystemNetworkVisibility %s still exists", rs.Primary.ID)
 			}
 		}
 

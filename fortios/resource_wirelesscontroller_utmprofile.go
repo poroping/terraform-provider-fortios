@@ -30,57 +30,62 @@ func resourceWirelessControllerUtmProfile() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"comment": &schema.Schema{
+			"comment": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"utm_log": &schema.Schema{
+			"utm_log": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ips_sensor": &schema.Schema{
+			"ips_sensor": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"application_list": &schema.Schema{
+			"application_list": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"antivirus_profile": &schema.Schema{
+			"antivirus_profile": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"webfilter_profile": &schema.Schema{
+			"webfilter_profile": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"scan_botnet_connections": &schema.Schema{
+			"scan_botnet_connections": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -98,15 +103,25 @@ func resourceWirelessControllerUtmProfileCreate(d *schema.ResourceData, m interf
 		}
 	}
 
-	obj, err := getObjectWirelessControllerUtmProfile(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating WirelessControllerUtmProfile resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateWirelessControllerUtmProfile(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectWirelessControllerUtmProfile(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating WirelessControllerUtmProfile resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateWirelessControllerUtmProfile(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating WirelessControllerUtmProfile resource: %v", err)
+		return fmt.Errorf("error creating WirelessControllerUtmProfile resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -131,14 +146,24 @@ func resourceWirelessControllerUtmProfileUpdate(d *schema.ResourceData, m interf
 		}
 	}
 
-	obj, err := getObjectWirelessControllerUtmProfile(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating WirelessControllerUtmProfile resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateWirelessControllerUtmProfile(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectWirelessControllerUtmProfile(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating WirelessControllerUtmProfile resource: %v", err)
+		return fmt.Errorf("error updating WirelessControllerUtmProfile resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateWirelessControllerUtmProfile(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating WirelessControllerUtmProfile resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -165,9 +190,17 @@ func resourceWirelessControllerUtmProfileDelete(d *schema.ResourceData, m interf
 		}
 	}
 
-	err := c.DeleteWirelessControllerUtmProfile(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteWirelessControllerUtmProfile(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting WirelessControllerUtmProfile resource: %v", err)
+		return fmt.Errorf("error deleting WirelessControllerUtmProfile resource: %v", err)
 	}
 
 	d.SetId("")
@@ -189,9 +222,19 @@ func resourceWirelessControllerUtmProfileRead(d *schema.ResourceData, m interfac
 		}
 	}
 
-	o, err := c.ReadWirelessControllerUtmProfile(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadWirelessControllerUtmProfile(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading WirelessControllerUtmProfile resource: %v", err)
+		return fmt.Errorf("error reading WirelessControllerUtmProfile resource: %v", err)
 	}
 
 	if o == nil {
@@ -202,7 +245,7 @@ func resourceWirelessControllerUtmProfileRead(d *schema.ResourceData, m interfac
 
 	err = refreshObjectWirelessControllerUtmProfile(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading WirelessControllerUtmProfile resource from API: %v", err)
+		return fmt.Errorf("error reading WirelessControllerUtmProfile resource from API: %v", err)
 	}
 	return nil
 }
@@ -244,49 +287,49 @@ func refreshObjectWirelessControllerUtmProfile(d *schema.ResourceData, o map[str
 
 	if err = d.Set("name", flattenWirelessControllerUtmProfileName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("comment", flattenWirelessControllerUtmProfileComment(o["comment"], d, "comment", sv)); err != nil {
 		if !fortiAPIPatch(o["comment"]) {
-			return fmt.Errorf("Error reading comment: %v", err)
+			return fmt.Errorf("error reading comment: %v", err)
 		}
 	}
 
 	if err = d.Set("utm_log", flattenWirelessControllerUtmProfileUtmLog(o["utm-log"], d, "utm_log", sv)); err != nil {
 		if !fortiAPIPatch(o["utm-log"]) {
-			return fmt.Errorf("Error reading utm_log: %v", err)
+			return fmt.Errorf("error reading utm_log: %v", err)
 		}
 	}
 
 	if err = d.Set("ips_sensor", flattenWirelessControllerUtmProfileIpsSensor(o["ips-sensor"], d, "ips_sensor", sv)); err != nil {
 		if !fortiAPIPatch(o["ips-sensor"]) {
-			return fmt.Errorf("Error reading ips_sensor: %v", err)
+			return fmt.Errorf("error reading ips_sensor: %v", err)
 		}
 	}
 
 	if err = d.Set("application_list", flattenWirelessControllerUtmProfileApplicationList(o["application-list"], d, "application_list", sv)); err != nil {
 		if !fortiAPIPatch(o["application-list"]) {
-			return fmt.Errorf("Error reading application_list: %v", err)
+			return fmt.Errorf("error reading application_list: %v", err)
 		}
 	}
 
 	if err = d.Set("antivirus_profile", flattenWirelessControllerUtmProfileAntivirusProfile(o["antivirus-profile"], d, "antivirus_profile", sv)); err != nil {
 		if !fortiAPIPatch(o["antivirus-profile"]) {
-			return fmt.Errorf("Error reading antivirus_profile: %v", err)
+			return fmt.Errorf("error reading antivirus_profile: %v", err)
 		}
 	}
 
 	if err = d.Set("webfilter_profile", flattenWirelessControllerUtmProfileWebfilterProfile(o["webfilter-profile"], d, "webfilter_profile", sv)); err != nil {
 		if !fortiAPIPatch(o["webfilter-profile"]) {
-			return fmt.Errorf("Error reading webfilter_profile: %v", err)
+			return fmt.Errorf("error reading webfilter_profile: %v", err)
 		}
 	}
 
 	if err = d.Set("scan_botnet_connections", flattenWirelessControllerUtmProfileScanBotnetConnections(o["scan-botnet-connections"], d, "scan_botnet_connections", sv)); err != nil {
 		if !fortiAPIPatch(o["scan-botnet-connections"]) {
-			return fmt.Errorf("Error reading scan_botnet_connections: %v", err)
+			return fmt.Errorf("error reading scan_botnet_connections: %v", err)
 		}
 	}
 

@@ -30,78 +30,78 @@ func resourceVpnSslWebHostCheckSoftware() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"os_type": &schema.Schema{
+			"os_type": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"type": &schema.Schema{
+			"type": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"version": &schema.Schema{
+			"version": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"guid": &schema.Schema{
+			"guid": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"check_item_list": &schema.Schema{
+			"check_item_list": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 65535),
 							Optional:     true,
 							Computed:     true,
 						},
-						"action": &schema.Schema{
+						"action": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"type": &schema.Schema{
+						"type": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"target": &schema.Schema{
+						"target": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 255),
 							Optional:     true,
 							Computed:     true,
 						},
-						"version": &schema.Schema{
+						"version": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"md5s": &schema.Schema{
+						"md5s": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"id": &schema.Schema{
+									"id": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 32),
 										Optional:     true,
@@ -113,10 +113,15 @@ func resourceVpnSslWebHostCheckSoftware() *schema.Resource {
 					},
 				},
 			},
-			"dynamic_sort_subtable": &schema.Schema{
-				Type:     schema.TypeString,
+			"dynamic_sort_subtable": {
+				Type:     schema.TypeBool,
 				Optional: true,
-				Default:  "false",
+				Default:  false,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -134,15 +139,25 @@ func resourceVpnSslWebHostCheckSoftwareCreate(d *schema.ResourceData, m interfac
 		}
 	}
 
-	obj, err := getObjectVpnSslWebHostCheckSoftware(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating VpnSslWebHostCheckSoftware resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateVpnSslWebHostCheckSoftware(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectVpnSslWebHostCheckSoftware(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating VpnSslWebHostCheckSoftware resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateVpnSslWebHostCheckSoftware(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating VpnSslWebHostCheckSoftware resource: %v", err)
+		return fmt.Errorf("error creating VpnSslWebHostCheckSoftware resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -167,14 +182,24 @@ func resourceVpnSslWebHostCheckSoftwareUpdate(d *schema.ResourceData, m interfac
 		}
 	}
 
-	obj, err := getObjectVpnSslWebHostCheckSoftware(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating VpnSslWebHostCheckSoftware resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateVpnSslWebHostCheckSoftware(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectVpnSslWebHostCheckSoftware(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating VpnSslWebHostCheckSoftware resource: %v", err)
+		return fmt.Errorf("error updating VpnSslWebHostCheckSoftware resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateVpnSslWebHostCheckSoftware(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating VpnSslWebHostCheckSoftware resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -201,9 +226,17 @@ func resourceVpnSslWebHostCheckSoftwareDelete(d *schema.ResourceData, m interfac
 		}
 	}
 
-	err := c.DeleteVpnSslWebHostCheckSoftware(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteVpnSslWebHostCheckSoftware(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting VpnSslWebHostCheckSoftware resource: %v", err)
+		return fmt.Errorf("error deleting VpnSslWebHostCheckSoftware resource: %v", err)
 	}
 
 	d.SetId("")
@@ -225,9 +258,19 @@ func resourceVpnSslWebHostCheckSoftwareRead(d *schema.ResourceData, m interface{
 		}
 	}
 
-	o, err := c.ReadVpnSslWebHostCheckSoftware(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadVpnSslWebHostCheckSoftware(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading VpnSslWebHostCheckSoftware resource: %v", err)
+		return fmt.Errorf("error reading VpnSslWebHostCheckSoftware resource: %v", err)
 	}
 
 	if o == nil {
@@ -238,7 +281,7 @@ func resourceVpnSslWebHostCheckSoftwareRead(d *schema.ResourceData, m interface{
 
 	err = refreshObjectVpnSslWebHostCheckSoftware(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading VpnSslWebHostCheckSoftware resource from API: %v", err)
+		return fmt.Errorf("error reading VpnSslWebHostCheckSoftware resource from API: %v", err)
 	}
 	return nil
 }
@@ -389,45 +432,45 @@ func refreshObjectVpnSslWebHostCheckSoftware(d *schema.ResourceData, o map[strin
 
 	if err = d.Set("name", flattenVpnSslWebHostCheckSoftwareName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("os_type", flattenVpnSslWebHostCheckSoftwareOsType(o["os-type"], d, "os_type", sv)); err != nil {
 		if !fortiAPIPatch(o["os-type"]) {
-			return fmt.Errorf("Error reading os_type: %v", err)
+			return fmt.Errorf("error reading os_type: %v", err)
 		}
 	}
 
 	if err = d.Set("type", flattenVpnSslWebHostCheckSoftwareType(o["type"], d, "type", sv)); err != nil {
 		if !fortiAPIPatch(o["type"]) {
-			return fmt.Errorf("Error reading type: %v", err)
+			return fmt.Errorf("error reading type: %v", err)
 		}
 	}
 
 	if err = d.Set("version", flattenVpnSslWebHostCheckSoftwareVersion(o["version"], d, "version", sv)); err != nil {
 		if !fortiAPIPatch(o["version"]) {
-			return fmt.Errorf("Error reading version: %v", err)
+			return fmt.Errorf("error reading version: %v", err)
 		}
 	}
 
 	if err = d.Set("guid", flattenVpnSslWebHostCheckSoftwareGuid(o["guid"], d, "guid", sv)); err != nil {
 		if !fortiAPIPatch(o["guid"]) {
-			return fmt.Errorf("Error reading guid: %v", err)
+			return fmt.Errorf("error reading guid: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("check_item_list", flattenVpnSslWebHostCheckSoftwareCheckItemList(o["check-item-list"], d, "check_item_list", sv)); err != nil {
 			if !fortiAPIPatch(o["check-item-list"]) {
-				return fmt.Errorf("Error reading check_item_list: %v", err)
+				return fmt.Errorf("error reading check_item_list: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("check_item_list"); ok {
 			if err = d.Set("check_item_list", flattenVpnSslWebHostCheckSoftwareCheckItemList(o["check-item-list"], d, "check_item_list", sv)); err != nil {
 				if !fortiAPIPatch(o["check-item-list"]) {
-					return fmt.Errorf("Error reading check_item_list: %v", err)
+					return fmt.Errorf("error reading check_item_list: %v", err)
 				}
 			}
 		}

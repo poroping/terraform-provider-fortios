@@ -30,28 +30,28 @@ func resourceWirelessControllerVapGroup() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				ForceNew:     true,
 				Required:     true,
 			},
-			"comment": &schema.Schema{
+			"comment": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
 			},
-			"vaps": &schema.Schema{
+			"vaps": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
@@ -60,10 +60,15 @@ func resourceWirelessControllerVapGroup() *schema.Resource {
 					},
 				},
 			},
-			"dynamic_sort_subtable": &schema.Schema{
-				Type:     schema.TypeString,
+			"dynamic_sort_subtable": {
+				Type:     schema.TypeBool,
 				Optional: true,
-				Default:  "false",
+				Default:  false,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -81,15 +86,25 @@ func resourceWirelessControllerVapGroupCreate(d *schema.ResourceData, m interfac
 		}
 	}
 
-	obj, err := getObjectWirelessControllerVapGroup(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating WirelessControllerVapGroup resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateWirelessControllerVapGroup(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectWirelessControllerVapGroup(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating WirelessControllerVapGroup resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateWirelessControllerVapGroup(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating WirelessControllerVapGroup resource: %v", err)
+		return fmt.Errorf("error creating WirelessControllerVapGroup resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -114,14 +129,24 @@ func resourceWirelessControllerVapGroupUpdate(d *schema.ResourceData, m interfac
 		}
 	}
 
-	obj, err := getObjectWirelessControllerVapGroup(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating WirelessControllerVapGroup resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateWirelessControllerVapGroup(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectWirelessControllerVapGroup(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating WirelessControllerVapGroup resource: %v", err)
+		return fmt.Errorf("error updating WirelessControllerVapGroup resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateWirelessControllerVapGroup(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating WirelessControllerVapGroup resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -148,9 +173,17 @@ func resourceWirelessControllerVapGroupDelete(d *schema.ResourceData, m interfac
 		}
 	}
 
-	err := c.DeleteWirelessControllerVapGroup(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteWirelessControllerVapGroup(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting WirelessControllerVapGroup resource: %v", err)
+		return fmt.Errorf("error deleting WirelessControllerVapGroup resource: %v", err)
 	}
 
 	d.SetId("")
@@ -172,9 +205,19 @@ func resourceWirelessControllerVapGroupRead(d *schema.ResourceData, m interface{
 		}
 	}
 
-	o, err := c.ReadWirelessControllerVapGroup(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadWirelessControllerVapGroup(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading WirelessControllerVapGroup resource: %v", err)
+		return fmt.Errorf("error reading WirelessControllerVapGroup resource: %v", err)
 	}
 
 	if o == nil {
@@ -185,7 +228,7 @@ func resourceWirelessControllerVapGroupRead(d *schema.ResourceData, m interface{
 
 	err = refreshObjectWirelessControllerVapGroup(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading WirelessControllerVapGroup resource from API: %v", err)
+		return fmt.Errorf("error reading WirelessControllerVapGroup resource from API: %v", err)
 	}
 	return nil
 }
@@ -241,27 +284,27 @@ func refreshObjectWirelessControllerVapGroup(d *schema.ResourceData, o map[strin
 
 	if err = d.Set("name", flattenWirelessControllerVapGroupName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("comment", flattenWirelessControllerVapGroupComment(o["comment"], d, "comment", sv)); err != nil {
 		if !fortiAPIPatch(o["comment"]) {
-			return fmt.Errorf("Error reading comment: %v", err)
+			return fmt.Errorf("error reading comment: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("vaps", flattenWirelessControllerVapGroupVaps(o["vaps"], d, "vaps", sv)); err != nil {
 			if !fortiAPIPatch(o["vaps"]) {
-				return fmt.Errorf("Error reading vaps: %v", err)
+				return fmt.Errorf("error reading vaps: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("vaps"); ok {
 			if err = d.Set("vaps", flattenWirelessControllerVapGroupVaps(o["vaps"], d, "vaps", sv)); err != nil {
 				if !fortiAPIPatch(o["vaps"]) {
-					return fmt.Errorf("Error reading vaps: %v", err)
+					return fmt.Errorf("error reading vaps: %v", err)
 				}
 			}
 		}

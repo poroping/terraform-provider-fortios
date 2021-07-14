@@ -56,14 +56,14 @@ func testAccCheckFortiOSLogSyslogd4SettingExists(n string) resource.TestCheckFun
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadLogSyslogd4Setting(i, "root")
+		o, err := c.ReadLogSyslogd4Setting(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading LogSyslogd4Setting: %s", err)
+			return fmt.Errorf("error reading LogSyslogd4Setting: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating LogSyslogd4Setting: %s", n)
+			return fmt.Errorf("error creating LogSyslogd4Setting: %s", n)
 		}
 
 		return nil
@@ -79,11 +79,11 @@ func testAccCheckLogSyslogd4SettingDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadLogSyslogd4Setting(i, "root")
+		o, err := c.ReadLogSyslogd4Setting(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error LogSyslogd4Setting %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error LogSyslogd4Setting %s still exists", rs.Primary.ID)
 			}
 		}
 

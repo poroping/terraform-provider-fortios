@@ -30,21 +30,32 @@ func resourceFirewallServiceCategory() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"comment": &schema.Schema{
+			"comment": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
+			},
+			"allow_append": {
+				Type:         schema.TypeBool,
+				Optional:     true,
+				Default:      false,
+				RequiredWith: []string{"name"},
 			},
 		},
 	}
@@ -62,15 +73,51 @@ func resourceFirewallServiceCategoryCreate(d *schema.ResourceData, m interface{}
 		}
 	}
 
-	obj, err := getObjectFirewallServiceCategory(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating FirewallServiceCategory resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateFirewallServiceCategory(obj, vdomparam)
+	allow_append := false
+
+	if v, ok := d.GetOk("allow_append"); ok {
+		if b, ok := v.(bool); ok {
+			allow_append = b
+		}
+	}
+
+	urlparams := make(map[string][]string)
+	urlparams["allow_append"] = []string{strconv.FormatBool(allow_append)}
+
+	key := "name"
+	mkey := ""
+	if v, ok := d.GetOk(key); ok {
+		if s, ok := v.(string); ok {
+			mkey = s
+		}
+	}
+
+	obj, err := getObjectFirewallServiceCategory(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating FirewallServiceCategory resource while getting object: %v", err)
+	}
+
+	if mkey == "" && allow_append {
+		return fmt.Errorf("error creating FirewallServiceCategory resource: %q must be set if \"allow_append\" is true", key)
+	}
+
+	o := make(map[string]interface{})
+	if mkey != "" && allow_append {
+		o, err = c.UpdateFirewallServiceCategory(obj, mkey, vdomparam, urlparams, batchid)
+	} else {
+		o, err = c.CreateFirewallServiceCategory(obj, vdomparam, urlparams, batchid)
+	}
 
 	if err != nil {
-		return fmt.Errorf("Error creating FirewallServiceCategory resource: %v", err)
+		return fmt.Errorf("error creating FirewallServiceCategory resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -95,14 +142,24 @@ func resourceFirewallServiceCategoryUpdate(d *schema.ResourceData, m interface{}
 		}
 	}
 
-	obj, err := getObjectFirewallServiceCategory(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating FirewallServiceCategory resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateFirewallServiceCategory(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectFirewallServiceCategory(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating FirewallServiceCategory resource: %v", err)
+		return fmt.Errorf("error updating FirewallServiceCategory resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateFirewallServiceCategory(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating FirewallServiceCategory resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -129,9 +186,17 @@ func resourceFirewallServiceCategoryDelete(d *schema.ResourceData, m interface{}
 		}
 	}
 
-	err := c.DeleteFirewallServiceCategory(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteFirewallServiceCategory(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting FirewallServiceCategory resource: %v", err)
+		return fmt.Errorf("error deleting FirewallServiceCategory resource: %v", err)
 	}
 
 	d.SetId("")
@@ -153,9 +218,19 @@ func resourceFirewallServiceCategoryRead(d *schema.ResourceData, m interface{}) 
 		}
 	}
 
-	o, err := c.ReadFirewallServiceCategory(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadFirewallServiceCategory(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading FirewallServiceCategory resource: %v", err)
+		return fmt.Errorf("error reading FirewallServiceCategory resource: %v", err)
 	}
 
 	if o == nil {
@@ -166,7 +241,7 @@ func resourceFirewallServiceCategoryRead(d *schema.ResourceData, m interface{}) 
 
 	err = refreshObjectFirewallServiceCategory(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading FirewallServiceCategory resource from API: %v", err)
+		return fmt.Errorf("error reading FirewallServiceCategory resource from API: %v", err)
 	}
 	return nil
 }
@@ -184,13 +259,13 @@ func refreshObjectFirewallServiceCategory(d *schema.ResourceData, o map[string]i
 
 	if err = d.Set("name", flattenFirewallServiceCategoryName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("comment", flattenFirewallServiceCategoryComment(o["comment"], d, "comment", sv)); err != nil {
 		if !fortiAPIPatch(o["comment"]) {
-			return fmt.Errorf("Error reading comment: %v", err)
+			return fmt.Errorf("error reading comment: %v", err)
 		}
 	}
 

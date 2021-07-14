@@ -30,204 +30,204 @@ func resourceSystemSettings() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"comments": &schema.Schema{
+			"comments": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
 			},
-			"opmode": &schema.Schema{
+			"opmode": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"inspection_mode": &schema.Schema{
+			"inspection_mode": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ngfw_mode": &schema.Schema{
+			"ngfw_mode": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"implicit_allow_dns": &schema.Schema{
+			"implicit_allow_dns": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ssl_ssh_profile": &schema.Schema{
+			"ssl_ssh_profile": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"consolidated_firewall_mode": &schema.Schema{
+			"consolidated_firewall_mode": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"http_external_dest": &schema.Schema{
+			"http_external_dest": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"firewall_session_dirty": &schema.Schema{
+			"firewall_session_dirty": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"manageip": &schema.Schema{
+			"manageip": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"gateway": &schema.Schema{
+			"gateway": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ip": &schema.Schema{
+			"ip": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"manageip6": &schema.Schema{
+			"manageip6": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"gateway6": &schema.Schema{
+			"gateway6": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ip6": &schema.Schema{
+			"ip6": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"device": &schema.Schema{
+			"device": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"bfd": &schema.Schema{
+			"bfd": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"bfd_desired_min_tx": &schema.Schema{
+			"bfd_desired_min_tx": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 100000),
 				Optional:     true,
 				Computed:     true,
 			},
-			"bfd_required_min_rx": &schema.Schema{
+			"bfd_required_min_rx": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 100000),
 				Optional:     true,
 				Computed:     true,
 			},
-			"bfd_detect_mult": &schema.Schema{
+			"bfd_detect_mult": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 50),
 				Optional:     true,
 				Computed:     true,
 			},
-			"bfd_dont_enforce_src_port": &schema.Schema{
+			"bfd_dont_enforce_src_port": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"utf8_spam_tagging": &schema.Schema{
+			"utf8_spam_tagging": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"wccp_cache_engine": &schema.Schema{
+			"wccp_cache_engine": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"vpn_stats_log": &schema.Schema{
+			"vpn_stats_log": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"vpn_stats_period": &schema.Schema{
+			"vpn_stats_period": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"v4_ecmp_mode": &schema.Schema{
+			"v4_ecmp_mode": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"mac_ttl": &schema.Schema{
+			"mac_ttl": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(300, 8640000),
 				Optional:     true,
 				Computed:     true,
 			},
-			"fw_session_hairpin": &schema.Schema{
+			"fw_session_hairpin": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"prp_trailer_action": &schema.Schema{
+			"prp_trailer_action": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"snat_hairpin_traffic": &schema.Schema{
+			"snat_hairpin_traffic": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"dhcp_proxy": &schema.Schema{
+			"dhcp_proxy": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"dhcp_proxy_interface_select_method": &schema.Schema{
+			"dhcp_proxy_interface_select_method": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"dhcp_proxy_interface": &schema.Schema{
+			"dhcp_proxy_interface": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 15),
 				Optional:     true,
 				Computed:     true,
 			},
-			"dhcp_server_ip": &schema.Schema{
+			"dhcp_server_ip": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"dhcp6_server_ip": &schema.Schema{
+			"dhcp6_server_ip": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"central_nat": &schema.Schema{
+			"central_nat": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"gui_default_policy_columns": &schema.Schema{
+			"gui_default_policy_columns": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 64),
 							Optional:     true,
@@ -236,458 +236,463 @@ func resourceSystemSettings() *schema.Resource {
 					},
 				},
 			},
-			"lldp_reception": &schema.Schema{
+			"lldp_reception": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"lldp_transmission": &schema.Schema{
+			"lldp_transmission": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"link_down_access": &schema.Schema{
+			"link_down_access": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"auxiliary_session": &schema.Schema{
+			"auxiliary_session": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"asymroute": &schema.Schema{
+			"asymroute": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"asymroute_icmp": &schema.Schema{
+			"asymroute_icmp": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"tcp_session_without_syn": &schema.Schema{
+			"tcp_session_without_syn": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ses_denied_traffic": &schema.Schema{
+			"ses_denied_traffic": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"strict_src_check": &schema.Schema{
+			"strict_src_check": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"allow_linkdown_path": &schema.Schema{
+			"allow_linkdown_path": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"asymroute6": &schema.Schema{
+			"asymroute6": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"asymroute6_icmp": &schema.Schema{
+			"asymroute6_icmp": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"sctp_session_without_init": &schema.Schema{
+			"sctp_session_without_init": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"sip_expectation": &schema.Schema{
+			"sip_expectation": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"sip_helper": &schema.Schema{
+			"sip_helper": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"sip_nat_trace": &schema.Schema{
+			"sip_nat_trace": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"status": &schema.Schema{
+			"status": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"sip_tcp_port": &schema.Schema{
+			"sip_tcp_port": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"sip_udp_port": &schema.Schema{
+			"sip_udp_port": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"sip_ssl_port": &schema.Schema{
+			"sip_ssl_port": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"sccp_port": &schema.Schema{
+			"sccp_port": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"multicast_forward": &schema.Schema{
+			"multicast_forward": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"multicast_ttl_notchange": &schema.Schema{
+			"multicast_ttl_notchange": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"multicast_skip_policy": &schema.Schema{
+			"multicast_skip_policy": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"allow_subnet_overlap": &schema.Schema{
+			"allow_subnet_overlap": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"deny_tcp_with_icmp": &schema.Schema{
+			"deny_tcp_with_icmp": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ecmp_max_paths": &schema.Schema{
+			"ecmp_max_paths": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 100),
 				Optional:     true,
 				Computed:     true,
 			},
-			"discovered_device_timeout": &schema.Schema{
+			"discovered_device_timeout": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 365),
 				Optional:     true,
 				Computed:     true,
 			},
-			"email_portal_check_dns": &schema.Schema{
+			"email_portal_check_dns": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"default_voip_alg_mode": &schema.Schema{
+			"default_voip_alg_mode": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"gui_icap": &schema.Schema{
+			"gui_icap": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"gui_nat46_64": &schema.Schema{
+			"gui_nat46_64": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"gui_implicit_policy": &schema.Schema{
+			"gui_implicit_policy": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"gui_dns_database": &schema.Schema{
+			"gui_dns_database": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"gui_load_balance": &schema.Schema{
+			"gui_load_balance": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"gui_multicast_policy": &schema.Schema{
+			"gui_multicast_policy": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"gui_dos_policy": &schema.Schema{
+			"gui_dos_policy": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"gui_object_colors": &schema.Schema{
+			"gui_object_colors": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"gui_replacement_message_groups": &schema.Schema{
+			"gui_replacement_message_groups": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"gui_voip_profile": &schema.Schema{
+			"gui_voip_profile": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"gui_ap_profile": &schema.Schema{
+			"gui_ap_profile": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"gui_security_profile_group": &schema.Schema{
+			"gui_security_profile_group": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"gui_dynamic_profile_display": &schema.Schema{
+			"gui_dynamic_profile_display": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"gui_local_in_policy": &schema.Schema{
+			"gui_local_in_policy": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"gui_local_reports": &schema.Schema{
+			"gui_local_reports": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"gui_wanopt_cache": &schema.Schema{
+			"gui_wanopt_cache": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"gui_explicit_proxy": &schema.Schema{
+			"gui_explicit_proxy": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"gui_dynamic_routing": &schema.Schema{
+			"gui_dynamic_routing": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"gui_dlp": &schema.Schema{
+			"gui_dlp": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"gui_sslvpn_personal_bookmarks": &schema.Schema{
+			"gui_sslvpn_personal_bookmarks": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"gui_sslvpn_realms": &schema.Schema{
+			"gui_sslvpn_realms": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"gui_policy_based_ipsec": &schema.Schema{
+			"gui_policy_based_ipsec": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"gui_threat_weight": &schema.Schema{
+			"gui_threat_weight": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"gui_multiple_utm_profiles": &schema.Schema{
+			"gui_multiple_utm_profiles": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"gui_spamfilter": &schema.Schema{
+			"gui_spamfilter": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"gui_file_filter": &schema.Schema{
+			"gui_file_filter": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"gui_application_control": &schema.Schema{
+			"gui_application_control": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"gui_ips": &schema.Schema{
+			"gui_ips": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"gui_endpoint_control": &schema.Schema{
+			"gui_endpoint_control": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"gui_endpoint_control_advanced": &schema.Schema{
+			"gui_endpoint_control_advanced": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"gui_dhcp_advanced": &schema.Schema{
+			"gui_dhcp_advanced": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"gui_vpn": &schema.Schema{
+			"gui_vpn": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"gui_wireless_controller": &schema.Schema{
+			"gui_wireless_controller": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"gui_switch_controller": &schema.Schema{
+			"gui_switch_controller": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"gui_fortiap_split_tunneling": &schema.Schema{
+			"gui_fortiap_split_tunneling": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"gui_webfilter_advanced": &schema.Schema{
+			"gui_webfilter_advanced": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"gui_traffic_shaping": &schema.Schema{
+			"gui_traffic_shaping": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"gui_wan_load_balancing": &schema.Schema{
+			"gui_wan_load_balancing": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"gui_antivirus": &schema.Schema{
+			"gui_antivirus": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"gui_webfilter": &schema.Schema{
+			"gui_webfilter": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"gui_dnsfilter": &schema.Schema{
+			"gui_dnsfilter": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"gui_waf_profile": &schema.Schema{
+			"gui_waf_profile": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"gui_fortiextender_controller": &schema.Schema{
+			"gui_fortiextender_controller": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"gui_advanced_policy": &schema.Schema{
+			"gui_advanced_policy": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"gui_allow_unnamed_policy": &schema.Schema{
+			"gui_allow_unnamed_policy": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"gui_email_collection": &schema.Schema{
+			"gui_email_collection": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"gui_domain_ip_reputation": &schema.Schema{
+			"gui_domain_ip_reputation": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"gui_multiple_interface_policy": &schema.Schema{
+			"gui_multiple_interface_policy": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"gui_policy_disclaimer": &schema.Schema{
+			"gui_policy_disclaimer": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"gui_per_policy_disclaimer": &schema.Schema{
+			"gui_per_policy_disclaimer": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"gui_policy_learning": &schema.Schema{
+			"gui_policy_learning": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"compliance_check": &schema.Schema{
+			"compliance_check": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ike_session_resume": &schema.Schema{
+			"ike_session_resume": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ike_quick_crash_detect": &schema.Schema{
+			"ike_quick_crash_detect": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ike_dn_format": &schema.Schema{
+			"ike_dn_format": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ike_port": &schema.Schema{
+			"ike_port": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1024, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"ike_natt_port": &schema.Schema{
+			"ike_natt_port": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1024, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"block_land_attack": &schema.Schema{
+			"block_land_attack": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"dynamic_sort_subtable": &schema.Schema{
-				Type:     schema.TypeString,
+			"dynamic_sort_subtable": {
+				Type:     schema.TypeBool,
 				Optional: true,
-				Default:  "false",
+				Default:  false,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -706,14 +711,24 @@ func resourceSystemSettingsUpdate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectSystemSettings(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SystemSettings resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSystemSettings(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemSettings(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SystemSettings resource: %v", err)
+		return fmt.Errorf("error updating SystemSettings resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSystemSettings(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SystemSettings resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -740,9 +755,17 @@ func resourceSystemSettingsDelete(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	err := c.DeleteSystemSettings(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSystemSettings(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SystemSettings resource: %v", err)
+		return fmt.Errorf("error deleting SystemSettings resource: %v", err)
 	}
 
 	d.SetId("")
@@ -764,9 +787,19 @@ func resourceSystemSettingsRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadSystemSettings(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSystemSettings(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemSettings resource: %v", err)
+		return fmt.Errorf("error reading SystemSettings resource: %v", err)
 	}
 
 	if o == nil {
@@ -777,7 +810,7 @@ func resourceSystemSettingsRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectSystemSettings(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemSettings resource from API: %v", err)
+		return fmt.Errorf("error reading SystemSettings resource from API: %v", err)
 	}
 	return nil
 }
@@ -1321,231 +1354,231 @@ func refreshObjectSystemSettings(d *schema.ResourceData, o map[string]interface{
 
 	if err = d.Set("comments", flattenSystemSettingsComments(o["comments"], d, "comments", sv)); err != nil {
 		if !fortiAPIPatch(o["comments"]) {
-			return fmt.Errorf("Error reading comments: %v", err)
+			return fmt.Errorf("error reading comments: %v", err)
 		}
 	}
 
 	if err = d.Set("opmode", flattenSystemSettingsOpmode(o["opmode"], d, "opmode", sv)); err != nil {
 		if !fortiAPIPatch(o["opmode"]) {
-			return fmt.Errorf("Error reading opmode: %v", err)
+			return fmt.Errorf("error reading opmode: %v", err)
 		}
 	}
 
 	if err = d.Set("inspection_mode", flattenSystemSettingsInspectionMode(o["inspection-mode"], d, "inspection_mode", sv)); err != nil {
 		if !fortiAPIPatch(o["inspection-mode"]) {
-			return fmt.Errorf("Error reading inspection_mode: %v", err)
+			return fmt.Errorf("error reading inspection_mode: %v", err)
 		}
 	}
 
 	if err = d.Set("ngfw_mode", flattenSystemSettingsNgfwMode(o["ngfw-mode"], d, "ngfw_mode", sv)); err != nil {
 		if !fortiAPIPatch(o["ngfw-mode"]) {
-			return fmt.Errorf("Error reading ngfw_mode: %v", err)
+			return fmt.Errorf("error reading ngfw_mode: %v", err)
 		}
 	}
 
 	if err = d.Set("implicit_allow_dns", flattenSystemSettingsImplicitAllowDns(o["implicit-allow-dns"], d, "implicit_allow_dns", sv)); err != nil {
 		if !fortiAPIPatch(o["implicit-allow-dns"]) {
-			return fmt.Errorf("Error reading implicit_allow_dns: %v", err)
+			return fmt.Errorf("error reading implicit_allow_dns: %v", err)
 		}
 	}
 
 	if err = d.Set("ssl_ssh_profile", flattenSystemSettingsSslSshProfile(o["ssl-ssh-profile"], d, "ssl_ssh_profile", sv)); err != nil {
 		if !fortiAPIPatch(o["ssl-ssh-profile"]) {
-			return fmt.Errorf("Error reading ssl_ssh_profile: %v", err)
+			return fmt.Errorf("error reading ssl_ssh_profile: %v", err)
 		}
 	}
 
 	if err = d.Set("consolidated_firewall_mode", flattenSystemSettingsConsolidatedFirewallMode(o["consolidated-firewall-mode"], d, "consolidated_firewall_mode", sv)); err != nil {
 		if !fortiAPIPatch(o["consolidated-firewall-mode"]) {
-			return fmt.Errorf("Error reading consolidated_firewall_mode: %v", err)
+			return fmt.Errorf("error reading consolidated_firewall_mode: %v", err)
 		}
 	}
 
 	if err = d.Set("http_external_dest", flattenSystemSettingsHttpExternalDest(o["http-external-dest"], d, "http_external_dest", sv)); err != nil {
 		if !fortiAPIPatch(o["http-external-dest"]) {
-			return fmt.Errorf("Error reading http_external_dest: %v", err)
+			return fmt.Errorf("error reading http_external_dest: %v", err)
 		}
 	}
 
 	if err = d.Set("firewall_session_dirty", flattenSystemSettingsFirewallSessionDirty(o["firewall-session-dirty"], d, "firewall_session_dirty", sv)); err != nil {
 		if !fortiAPIPatch(o["firewall-session-dirty"]) {
-			return fmt.Errorf("Error reading firewall_session_dirty: %v", err)
+			return fmt.Errorf("error reading firewall_session_dirty: %v", err)
 		}
 	}
 
 	if err = d.Set("manageip", flattenSystemSettingsManageip(o["manageip"], d, "manageip", sv)); err != nil {
 		if !fortiAPIPatch(o["manageip"]) {
-			return fmt.Errorf("Error reading manageip: %v", err)
+			return fmt.Errorf("error reading manageip: %v", err)
 		}
 	}
 
 	if err = d.Set("gateway", flattenSystemSettingsGateway(o["gateway"], d, "gateway", sv)); err != nil {
 		if !fortiAPIPatch(o["gateway"]) {
-			return fmt.Errorf("Error reading gateway: %v", err)
+			return fmt.Errorf("error reading gateway: %v", err)
 		}
 	}
 
 	if err = d.Set("ip", flattenSystemSettingsIp(o["ip"], d, "ip", sv)); err != nil {
 		if !fortiAPIPatch(o["ip"]) {
-			return fmt.Errorf("Error reading ip: %v", err)
+			return fmt.Errorf("error reading ip: %v", err)
 		}
 	}
 
 	if err = d.Set("manageip6", flattenSystemSettingsManageip6(o["manageip6"], d, "manageip6", sv)); err != nil {
 		if !fortiAPIPatch(o["manageip6"]) {
-			return fmt.Errorf("Error reading manageip6: %v", err)
+			return fmt.Errorf("error reading manageip6: %v", err)
 		}
 	}
 
 	if err = d.Set("gateway6", flattenSystemSettingsGateway6(o["gateway6"], d, "gateway6", sv)); err != nil {
 		if !fortiAPIPatch(o["gateway6"]) {
-			return fmt.Errorf("Error reading gateway6: %v", err)
+			return fmt.Errorf("error reading gateway6: %v", err)
 		}
 	}
 
 	if err = d.Set("ip6", flattenSystemSettingsIp6(o["ip6"], d, "ip6", sv)); err != nil {
 		if !fortiAPIPatch(o["ip6"]) {
-			return fmt.Errorf("Error reading ip6: %v", err)
+			return fmt.Errorf("error reading ip6: %v", err)
 		}
 	}
 
 	if err = d.Set("device", flattenSystemSettingsDevice(o["device"], d, "device", sv)); err != nil {
 		if !fortiAPIPatch(o["device"]) {
-			return fmt.Errorf("Error reading device: %v", err)
+			return fmt.Errorf("error reading device: %v", err)
 		}
 	}
 
 	if err = d.Set("bfd", flattenSystemSettingsBfd(o["bfd"], d, "bfd", sv)); err != nil {
 		if !fortiAPIPatch(o["bfd"]) {
-			return fmt.Errorf("Error reading bfd: %v", err)
+			return fmt.Errorf("error reading bfd: %v", err)
 		}
 	}
 
 	if err = d.Set("bfd_desired_min_tx", flattenSystemSettingsBfdDesiredMinTx(o["bfd-desired-min-tx"], d, "bfd_desired_min_tx", sv)); err != nil {
 		if !fortiAPIPatch(o["bfd-desired-min-tx"]) {
-			return fmt.Errorf("Error reading bfd_desired_min_tx: %v", err)
+			return fmt.Errorf("error reading bfd_desired_min_tx: %v", err)
 		}
 	}
 
 	if err = d.Set("bfd_required_min_rx", flattenSystemSettingsBfdRequiredMinRx(o["bfd-required-min-rx"], d, "bfd_required_min_rx", sv)); err != nil {
 		if !fortiAPIPatch(o["bfd-required-min-rx"]) {
-			return fmt.Errorf("Error reading bfd_required_min_rx: %v", err)
+			return fmt.Errorf("error reading bfd_required_min_rx: %v", err)
 		}
 	}
 
 	if err = d.Set("bfd_detect_mult", flattenSystemSettingsBfdDetectMult(o["bfd-detect-mult"], d, "bfd_detect_mult", sv)); err != nil {
 		if !fortiAPIPatch(o["bfd-detect-mult"]) {
-			return fmt.Errorf("Error reading bfd_detect_mult: %v", err)
+			return fmt.Errorf("error reading bfd_detect_mult: %v", err)
 		}
 	}
 
 	if err = d.Set("bfd_dont_enforce_src_port", flattenSystemSettingsBfdDontEnforceSrcPort(o["bfd-dont-enforce-src-port"], d, "bfd_dont_enforce_src_port", sv)); err != nil {
 		if !fortiAPIPatch(o["bfd-dont-enforce-src-port"]) {
-			return fmt.Errorf("Error reading bfd_dont_enforce_src_port: %v", err)
+			return fmt.Errorf("error reading bfd_dont_enforce_src_port: %v", err)
 		}
 	}
 
 	if err = d.Set("utf8_spam_tagging", flattenSystemSettingsUtf8SpamTagging(o["utf8-spam-tagging"], d, "utf8_spam_tagging", sv)); err != nil {
 		if !fortiAPIPatch(o["utf8-spam-tagging"]) {
-			return fmt.Errorf("Error reading utf8_spam_tagging: %v", err)
+			return fmt.Errorf("error reading utf8_spam_tagging: %v", err)
 		}
 	}
 
 	if err = d.Set("wccp_cache_engine", flattenSystemSettingsWccpCacheEngine(o["wccp-cache-engine"], d, "wccp_cache_engine", sv)); err != nil {
 		if !fortiAPIPatch(o["wccp-cache-engine"]) {
-			return fmt.Errorf("Error reading wccp_cache_engine: %v", err)
+			return fmt.Errorf("error reading wccp_cache_engine: %v", err)
 		}
 	}
 
 	if err = d.Set("vpn_stats_log", flattenSystemSettingsVpnStatsLog(o["vpn-stats-log"], d, "vpn_stats_log", sv)); err != nil {
 		if !fortiAPIPatch(o["vpn-stats-log"]) {
-			return fmt.Errorf("Error reading vpn_stats_log: %v", err)
+			return fmt.Errorf("error reading vpn_stats_log: %v", err)
 		}
 	}
 
 	if err = d.Set("vpn_stats_period", flattenSystemSettingsVpnStatsPeriod(o["vpn-stats-period"], d, "vpn_stats_period", sv)); err != nil {
 		if !fortiAPIPatch(o["vpn-stats-period"]) {
-			return fmt.Errorf("Error reading vpn_stats_period: %v", err)
+			return fmt.Errorf("error reading vpn_stats_period: %v", err)
 		}
 	}
 
 	if err = d.Set("v4_ecmp_mode", flattenSystemSettingsV4EcmpMode(o["v4-ecmp-mode"], d, "v4_ecmp_mode", sv)); err != nil {
 		if !fortiAPIPatch(o["v4-ecmp-mode"]) {
-			return fmt.Errorf("Error reading v4_ecmp_mode: %v", err)
+			return fmt.Errorf("error reading v4_ecmp_mode: %v", err)
 		}
 	}
 
 	if err = d.Set("mac_ttl", flattenSystemSettingsMacTtl(o["mac-ttl"], d, "mac_ttl", sv)); err != nil {
 		if !fortiAPIPatch(o["mac-ttl"]) {
-			return fmt.Errorf("Error reading mac_ttl: %v", err)
+			return fmt.Errorf("error reading mac_ttl: %v", err)
 		}
 	}
 
 	if err = d.Set("fw_session_hairpin", flattenSystemSettingsFwSessionHairpin(o["fw-session-hairpin"], d, "fw_session_hairpin", sv)); err != nil {
 		if !fortiAPIPatch(o["fw-session-hairpin"]) {
-			return fmt.Errorf("Error reading fw_session_hairpin: %v", err)
+			return fmt.Errorf("error reading fw_session_hairpin: %v", err)
 		}
 	}
 
 	if err = d.Set("prp_trailer_action", flattenSystemSettingsPrpTrailerAction(o["prp-trailer-action"], d, "prp_trailer_action", sv)); err != nil {
 		if !fortiAPIPatch(o["prp-trailer-action"]) {
-			return fmt.Errorf("Error reading prp_trailer_action: %v", err)
+			return fmt.Errorf("error reading prp_trailer_action: %v", err)
 		}
 	}
 
 	if err = d.Set("snat_hairpin_traffic", flattenSystemSettingsSnatHairpinTraffic(o["snat-hairpin-traffic"], d, "snat_hairpin_traffic", sv)); err != nil {
 		if !fortiAPIPatch(o["snat-hairpin-traffic"]) {
-			return fmt.Errorf("Error reading snat_hairpin_traffic: %v", err)
+			return fmt.Errorf("error reading snat_hairpin_traffic: %v", err)
 		}
 	}
 
 	if err = d.Set("dhcp_proxy", flattenSystemSettingsDhcpProxy(o["dhcp-proxy"], d, "dhcp_proxy", sv)); err != nil {
 		if !fortiAPIPatch(o["dhcp-proxy"]) {
-			return fmt.Errorf("Error reading dhcp_proxy: %v", err)
+			return fmt.Errorf("error reading dhcp_proxy: %v", err)
 		}
 	}
 
 	if err = d.Set("dhcp_proxy_interface_select_method", flattenSystemSettingsDhcpProxyInterfaceSelectMethod(o["dhcp-proxy-interface-select-method"], d, "dhcp_proxy_interface_select_method", sv)); err != nil {
 		if !fortiAPIPatch(o["dhcp-proxy-interface-select-method"]) {
-			return fmt.Errorf("Error reading dhcp_proxy_interface_select_method: %v", err)
+			return fmt.Errorf("error reading dhcp_proxy_interface_select_method: %v", err)
 		}
 	}
 
 	if err = d.Set("dhcp_proxy_interface", flattenSystemSettingsDhcpProxyInterface(o["dhcp-proxy-interface"], d, "dhcp_proxy_interface", sv)); err != nil {
 		if !fortiAPIPatch(o["dhcp-proxy-interface"]) {
-			return fmt.Errorf("Error reading dhcp_proxy_interface: %v", err)
+			return fmt.Errorf("error reading dhcp_proxy_interface: %v", err)
 		}
 	}
 
 	if err = d.Set("dhcp_server_ip", flattenSystemSettingsDhcpServerIp(o["dhcp-server-ip"], d, "dhcp_server_ip", sv)); err != nil {
 		if !fortiAPIPatch(o["dhcp-server-ip"]) {
-			return fmt.Errorf("Error reading dhcp_server_ip: %v", err)
+			return fmt.Errorf("error reading dhcp_server_ip: %v", err)
 		}
 	}
 
 	if err = d.Set("dhcp6_server_ip", flattenSystemSettingsDhcp6ServerIp(o["dhcp6-server-ip"], d, "dhcp6_server_ip", sv)); err != nil {
 		if !fortiAPIPatch(o["dhcp6-server-ip"]) {
-			return fmt.Errorf("Error reading dhcp6_server_ip: %v", err)
+			return fmt.Errorf("error reading dhcp6_server_ip: %v", err)
 		}
 	}
 
 	if err = d.Set("central_nat", flattenSystemSettingsCentralNat(o["central-nat"], d, "central_nat", sv)); err != nil {
 		if !fortiAPIPatch(o["central-nat"]) {
-			return fmt.Errorf("Error reading central_nat: %v", err)
+			return fmt.Errorf("error reading central_nat: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("gui_default_policy_columns", flattenSystemSettingsGuiDefaultPolicyColumns(o["gui-default-policy-columns"], d, "gui_default_policy_columns", sv)); err != nil {
 			if !fortiAPIPatch(o["gui-default-policy-columns"]) {
-				return fmt.Errorf("Error reading gui_default_policy_columns: %v", err)
+				return fmt.Errorf("error reading gui_default_policy_columns: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("gui_default_policy_columns"); ok {
 			if err = d.Set("gui_default_policy_columns", flattenSystemSettingsGuiDefaultPolicyColumns(o["gui-default-policy-columns"], d, "gui_default_policy_columns", sv)); err != nil {
 				if !fortiAPIPatch(o["gui-default-policy-columns"]) {
-					return fmt.Errorf("Error reading gui_default_policy_columns: %v", err)
+					return fmt.Errorf("error reading gui_default_policy_columns: %v", err)
 				}
 			}
 		}
@@ -1553,529 +1586,529 @@ func refreshObjectSystemSettings(d *schema.ResourceData, o map[string]interface{
 
 	if err = d.Set("lldp_reception", flattenSystemSettingsLldpReception(o["lldp-reception"], d, "lldp_reception", sv)); err != nil {
 		if !fortiAPIPatch(o["lldp-reception"]) {
-			return fmt.Errorf("Error reading lldp_reception: %v", err)
+			return fmt.Errorf("error reading lldp_reception: %v", err)
 		}
 	}
 
 	if err = d.Set("lldp_transmission", flattenSystemSettingsLldpTransmission(o["lldp-transmission"], d, "lldp_transmission", sv)); err != nil {
 		if !fortiAPIPatch(o["lldp-transmission"]) {
-			return fmt.Errorf("Error reading lldp_transmission: %v", err)
+			return fmt.Errorf("error reading lldp_transmission: %v", err)
 		}
 	}
 
 	if err = d.Set("link_down_access", flattenSystemSettingsLinkDownAccess(o["link-down-access"], d, "link_down_access", sv)); err != nil {
 		if !fortiAPIPatch(o["link-down-access"]) {
-			return fmt.Errorf("Error reading link_down_access: %v", err)
+			return fmt.Errorf("error reading link_down_access: %v", err)
 		}
 	}
 
 	if err = d.Set("auxiliary_session", flattenSystemSettingsAuxiliarySession(o["auxiliary-session"], d, "auxiliary_session", sv)); err != nil {
 		if !fortiAPIPatch(o["auxiliary-session"]) {
-			return fmt.Errorf("Error reading auxiliary_session: %v", err)
+			return fmt.Errorf("error reading auxiliary_session: %v", err)
 		}
 	}
 
 	if err = d.Set("asymroute", flattenSystemSettingsAsymroute(o["asymroute"], d, "asymroute", sv)); err != nil {
 		if !fortiAPIPatch(o["asymroute"]) {
-			return fmt.Errorf("Error reading asymroute: %v", err)
+			return fmt.Errorf("error reading asymroute: %v", err)
 		}
 	}
 
 	if err = d.Set("asymroute_icmp", flattenSystemSettingsAsymrouteIcmp(o["asymroute-icmp"], d, "asymroute_icmp", sv)); err != nil {
 		if !fortiAPIPatch(o["asymroute-icmp"]) {
-			return fmt.Errorf("Error reading asymroute_icmp: %v", err)
+			return fmt.Errorf("error reading asymroute_icmp: %v", err)
 		}
 	}
 
 	if err = d.Set("tcp_session_without_syn", flattenSystemSettingsTcpSessionWithoutSyn(o["tcp-session-without-syn"], d, "tcp_session_without_syn", sv)); err != nil {
 		if !fortiAPIPatch(o["tcp-session-without-syn"]) {
-			return fmt.Errorf("Error reading tcp_session_without_syn: %v", err)
+			return fmt.Errorf("error reading tcp_session_without_syn: %v", err)
 		}
 	}
 
 	if err = d.Set("ses_denied_traffic", flattenSystemSettingsSesDeniedTraffic(o["ses-denied-traffic"], d, "ses_denied_traffic", sv)); err != nil {
 		if !fortiAPIPatch(o["ses-denied-traffic"]) {
-			return fmt.Errorf("Error reading ses_denied_traffic: %v", err)
+			return fmt.Errorf("error reading ses_denied_traffic: %v", err)
 		}
 	}
 
 	if err = d.Set("strict_src_check", flattenSystemSettingsStrictSrcCheck(o["strict-src-check"], d, "strict_src_check", sv)); err != nil {
 		if !fortiAPIPatch(o["strict-src-check"]) {
-			return fmt.Errorf("Error reading strict_src_check: %v", err)
+			return fmt.Errorf("error reading strict_src_check: %v", err)
 		}
 	}
 
 	if err = d.Set("allow_linkdown_path", flattenSystemSettingsAllowLinkdownPath(o["allow-linkdown-path"], d, "allow_linkdown_path", sv)); err != nil {
 		if !fortiAPIPatch(o["allow-linkdown-path"]) {
-			return fmt.Errorf("Error reading allow_linkdown_path: %v", err)
+			return fmt.Errorf("error reading allow_linkdown_path: %v", err)
 		}
 	}
 
 	if err = d.Set("asymroute6", flattenSystemSettingsAsymroute6(o["asymroute6"], d, "asymroute6", sv)); err != nil {
 		if !fortiAPIPatch(o["asymroute6"]) {
-			return fmt.Errorf("Error reading asymroute6: %v", err)
+			return fmt.Errorf("error reading asymroute6: %v", err)
 		}
 	}
 
 	if err = d.Set("asymroute6_icmp", flattenSystemSettingsAsymroute6Icmp(o["asymroute6-icmp"], d, "asymroute6_icmp", sv)); err != nil {
 		if !fortiAPIPatch(o["asymroute6-icmp"]) {
-			return fmt.Errorf("Error reading asymroute6_icmp: %v", err)
+			return fmt.Errorf("error reading asymroute6_icmp: %v", err)
 		}
 	}
 
 	if err = d.Set("sctp_session_without_init", flattenSystemSettingsSctpSessionWithoutInit(o["sctp-session-without-init"], d, "sctp_session_without_init", sv)); err != nil {
 		if !fortiAPIPatch(o["sctp-session-without-init"]) {
-			return fmt.Errorf("Error reading sctp_session_without_init: %v", err)
+			return fmt.Errorf("error reading sctp_session_without_init: %v", err)
 		}
 	}
 
 	if err = d.Set("sip_expectation", flattenSystemSettingsSipExpectation(o["sip-expectation"], d, "sip_expectation", sv)); err != nil {
 		if !fortiAPIPatch(o["sip-expectation"]) {
-			return fmt.Errorf("Error reading sip_expectation: %v", err)
+			return fmt.Errorf("error reading sip_expectation: %v", err)
 		}
 	}
 
 	if err = d.Set("sip_helper", flattenSystemSettingsSipHelper(o["sip-helper"], d, "sip_helper", sv)); err != nil {
 		if !fortiAPIPatch(o["sip-helper"]) {
-			return fmt.Errorf("Error reading sip_helper: %v", err)
+			return fmt.Errorf("error reading sip_helper: %v", err)
 		}
 	}
 
 	if err = d.Set("sip_nat_trace", flattenSystemSettingsSipNatTrace(o["sip-nat-trace"], d, "sip_nat_trace", sv)); err != nil {
 		if !fortiAPIPatch(o["sip-nat-trace"]) {
-			return fmt.Errorf("Error reading sip_nat_trace: %v", err)
+			return fmt.Errorf("error reading sip_nat_trace: %v", err)
 		}
 	}
 
 	if err = d.Set("status", flattenSystemSettingsStatus(o["status"], d, "status", sv)); err != nil {
 		if !fortiAPIPatch(o["status"]) {
-			return fmt.Errorf("Error reading status: %v", err)
+			return fmt.Errorf("error reading status: %v", err)
 		}
 	}
 
 	if err = d.Set("sip_tcp_port", flattenSystemSettingsSipTcpPort(o["sip-tcp-port"], d, "sip_tcp_port", sv)); err != nil {
 		if !fortiAPIPatch(o["sip-tcp-port"]) {
-			return fmt.Errorf("Error reading sip_tcp_port: %v", err)
+			return fmt.Errorf("error reading sip_tcp_port: %v", err)
 		}
 	}
 
 	if err = d.Set("sip_udp_port", flattenSystemSettingsSipUdpPort(o["sip-udp-port"], d, "sip_udp_port", sv)); err != nil {
 		if !fortiAPIPatch(o["sip-udp-port"]) {
-			return fmt.Errorf("Error reading sip_udp_port: %v", err)
+			return fmt.Errorf("error reading sip_udp_port: %v", err)
 		}
 	}
 
 	if err = d.Set("sip_ssl_port", flattenSystemSettingsSipSslPort(o["sip-ssl-port"], d, "sip_ssl_port", sv)); err != nil {
 		if !fortiAPIPatch(o["sip-ssl-port"]) {
-			return fmt.Errorf("Error reading sip_ssl_port: %v", err)
+			return fmt.Errorf("error reading sip_ssl_port: %v", err)
 		}
 	}
 
 	if err = d.Set("sccp_port", flattenSystemSettingsSccpPort(o["sccp-port"], d, "sccp_port", sv)); err != nil {
 		if !fortiAPIPatch(o["sccp-port"]) {
-			return fmt.Errorf("Error reading sccp_port: %v", err)
+			return fmt.Errorf("error reading sccp_port: %v", err)
 		}
 	}
 
 	if err = d.Set("multicast_forward", flattenSystemSettingsMulticastForward(o["multicast-forward"], d, "multicast_forward", sv)); err != nil {
 		if !fortiAPIPatch(o["multicast-forward"]) {
-			return fmt.Errorf("Error reading multicast_forward: %v", err)
+			return fmt.Errorf("error reading multicast_forward: %v", err)
 		}
 	}
 
 	if err = d.Set("multicast_ttl_notchange", flattenSystemSettingsMulticastTtlNotchange(o["multicast-ttl-notchange"], d, "multicast_ttl_notchange", sv)); err != nil {
 		if !fortiAPIPatch(o["multicast-ttl-notchange"]) {
-			return fmt.Errorf("Error reading multicast_ttl_notchange: %v", err)
+			return fmt.Errorf("error reading multicast_ttl_notchange: %v", err)
 		}
 	}
 
 	if err = d.Set("multicast_skip_policy", flattenSystemSettingsMulticastSkipPolicy(o["multicast-skip-policy"], d, "multicast_skip_policy", sv)); err != nil {
 		if !fortiAPIPatch(o["multicast-skip-policy"]) {
-			return fmt.Errorf("Error reading multicast_skip_policy: %v", err)
+			return fmt.Errorf("error reading multicast_skip_policy: %v", err)
 		}
 	}
 
 	if err = d.Set("allow_subnet_overlap", flattenSystemSettingsAllowSubnetOverlap(o["allow-subnet-overlap"], d, "allow_subnet_overlap", sv)); err != nil {
 		if !fortiAPIPatch(o["allow-subnet-overlap"]) {
-			return fmt.Errorf("Error reading allow_subnet_overlap: %v", err)
+			return fmt.Errorf("error reading allow_subnet_overlap: %v", err)
 		}
 	}
 
 	if err = d.Set("deny_tcp_with_icmp", flattenSystemSettingsDenyTcpWithIcmp(o["deny-tcp-with-icmp"], d, "deny_tcp_with_icmp", sv)); err != nil {
 		if !fortiAPIPatch(o["deny-tcp-with-icmp"]) {
-			return fmt.Errorf("Error reading deny_tcp_with_icmp: %v", err)
+			return fmt.Errorf("error reading deny_tcp_with_icmp: %v", err)
 		}
 	}
 
 	if err = d.Set("ecmp_max_paths", flattenSystemSettingsEcmpMaxPaths(o["ecmp-max-paths"], d, "ecmp_max_paths", sv)); err != nil {
 		if !fortiAPIPatch(o["ecmp-max-paths"]) {
-			return fmt.Errorf("Error reading ecmp_max_paths: %v", err)
+			return fmt.Errorf("error reading ecmp_max_paths: %v", err)
 		}
 	}
 
 	if err = d.Set("discovered_device_timeout", flattenSystemSettingsDiscoveredDeviceTimeout(o["discovered-device-timeout"], d, "discovered_device_timeout", sv)); err != nil {
 		if !fortiAPIPatch(o["discovered-device-timeout"]) {
-			return fmt.Errorf("Error reading discovered_device_timeout: %v", err)
+			return fmt.Errorf("error reading discovered_device_timeout: %v", err)
 		}
 	}
 
 	if err = d.Set("email_portal_check_dns", flattenSystemSettingsEmailPortalCheckDns(o["email-portal-check-dns"], d, "email_portal_check_dns", sv)); err != nil {
 		if !fortiAPIPatch(o["email-portal-check-dns"]) {
-			return fmt.Errorf("Error reading email_portal_check_dns: %v", err)
+			return fmt.Errorf("error reading email_portal_check_dns: %v", err)
 		}
 	}
 
 	if err = d.Set("default_voip_alg_mode", flattenSystemSettingsDefaultVoipAlgMode(o["default-voip-alg-mode"], d, "default_voip_alg_mode", sv)); err != nil {
 		if !fortiAPIPatch(o["default-voip-alg-mode"]) {
-			return fmt.Errorf("Error reading default_voip_alg_mode: %v", err)
+			return fmt.Errorf("error reading default_voip_alg_mode: %v", err)
 		}
 	}
 
 	if err = d.Set("gui_icap", flattenSystemSettingsGuiIcap(o["gui-icap"], d, "gui_icap", sv)); err != nil {
 		if !fortiAPIPatch(o["gui-icap"]) {
-			return fmt.Errorf("Error reading gui_icap: %v", err)
+			return fmt.Errorf("error reading gui_icap: %v", err)
 		}
 	}
 
 	if err = d.Set("gui_nat46_64", flattenSystemSettingsGuiNat4664(o["gui-nat46-64"], d, "gui_nat46_64", sv)); err != nil {
 		if !fortiAPIPatch(o["gui-nat46-64"]) {
-			return fmt.Errorf("Error reading gui_nat46_64: %v", err)
+			return fmt.Errorf("error reading gui_nat46_64: %v", err)
 		}
 	}
 
 	if err = d.Set("gui_implicit_policy", flattenSystemSettingsGuiImplicitPolicy(o["gui-implicit-policy"], d, "gui_implicit_policy", sv)); err != nil {
 		if !fortiAPIPatch(o["gui-implicit-policy"]) {
-			return fmt.Errorf("Error reading gui_implicit_policy: %v", err)
+			return fmt.Errorf("error reading gui_implicit_policy: %v", err)
 		}
 	}
 
 	if err = d.Set("gui_dns_database", flattenSystemSettingsGuiDnsDatabase(o["gui-dns-database"], d, "gui_dns_database", sv)); err != nil {
 		if !fortiAPIPatch(o["gui-dns-database"]) {
-			return fmt.Errorf("Error reading gui_dns_database: %v", err)
+			return fmt.Errorf("error reading gui_dns_database: %v", err)
 		}
 	}
 
 	if err = d.Set("gui_load_balance", flattenSystemSettingsGuiLoadBalance(o["gui-load-balance"], d, "gui_load_balance", sv)); err != nil {
 		if !fortiAPIPatch(o["gui-load-balance"]) {
-			return fmt.Errorf("Error reading gui_load_balance: %v", err)
+			return fmt.Errorf("error reading gui_load_balance: %v", err)
 		}
 	}
 
 	if err = d.Set("gui_multicast_policy", flattenSystemSettingsGuiMulticastPolicy(o["gui-multicast-policy"], d, "gui_multicast_policy", sv)); err != nil {
 		if !fortiAPIPatch(o["gui-multicast-policy"]) {
-			return fmt.Errorf("Error reading gui_multicast_policy: %v", err)
+			return fmt.Errorf("error reading gui_multicast_policy: %v", err)
 		}
 	}
 
 	if err = d.Set("gui_dos_policy", flattenSystemSettingsGuiDosPolicy(o["gui-dos-policy"], d, "gui_dos_policy", sv)); err != nil {
 		if !fortiAPIPatch(o["gui-dos-policy"]) {
-			return fmt.Errorf("Error reading gui_dos_policy: %v", err)
+			return fmt.Errorf("error reading gui_dos_policy: %v", err)
 		}
 	}
 
 	if err = d.Set("gui_object_colors", flattenSystemSettingsGuiObjectColors(o["gui-object-colors"], d, "gui_object_colors", sv)); err != nil {
 		if !fortiAPIPatch(o["gui-object-colors"]) {
-			return fmt.Errorf("Error reading gui_object_colors: %v", err)
+			return fmt.Errorf("error reading gui_object_colors: %v", err)
 		}
 	}
 
 	if err = d.Set("gui_replacement_message_groups", flattenSystemSettingsGuiReplacementMessageGroups(o["gui-replacement-message-groups"], d, "gui_replacement_message_groups", sv)); err != nil {
 		if !fortiAPIPatch(o["gui-replacement-message-groups"]) {
-			return fmt.Errorf("Error reading gui_replacement_message_groups: %v", err)
+			return fmt.Errorf("error reading gui_replacement_message_groups: %v", err)
 		}
 	}
 
 	if err = d.Set("gui_voip_profile", flattenSystemSettingsGuiVoipProfile(o["gui-voip-profile"], d, "gui_voip_profile", sv)); err != nil {
 		if !fortiAPIPatch(o["gui-voip-profile"]) {
-			return fmt.Errorf("Error reading gui_voip_profile: %v", err)
+			return fmt.Errorf("error reading gui_voip_profile: %v", err)
 		}
 	}
 
 	if err = d.Set("gui_ap_profile", flattenSystemSettingsGuiApProfile(o["gui-ap-profile"], d, "gui_ap_profile", sv)); err != nil {
 		if !fortiAPIPatch(o["gui-ap-profile"]) {
-			return fmt.Errorf("Error reading gui_ap_profile: %v", err)
+			return fmt.Errorf("error reading gui_ap_profile: %v", err)
 		}
 	}
 
 	if err = d.Set("gui_security_profile_group", flattenSystemSettingsGuiSecurityProfileGroup(o["gui-security-profile-group"], d, "gui_security_profile_group", sv)); err != nil {
 		if !fortiAPIPatch(o["gui-security-profile-group"]) {
-			return fmt.Errorf("Error reading gui_security_profile_group: %v", err)
+			return fmt.Errorf("error reading gui_security_profile_group: %v", err)
 		}
 	}
 
 	if err = d.Set("gui_dynamic_profile_display", flattenSystemSettingsGuiDynamicProfileDisplay(o["gui-dynamic-profile-display"], d, "gui_dynamic_profile_display", sv)); err != nil {
 		if !fortiAPIPatch(o["gui-dynamic-profile-display"]) {
-			return fmt.Errorf("Error reading gui_dynamic_profile_display: %v", err)
+			return fmt.Errorf("error reading gui_dynamic_profile_display: %v", err)
 		}
 	}
 
 	if err = d.Set("gui_local_in_policy", flattenSystemSettingsGuiLocalInPolicy(o["gui-local-in-policy"], d, "gui_local_in_policy", sv)); err != nil {
 		if !fortiAPIPatch(o["gui-local-in-policy"]) {
-			return fmt.Errorf("Error reading gui_local_in_policy: %v", err)
+			return fmt.Errorf("error reading gui_local_in_policy: %v", err)
 		}
 	}
 
 	if err = d.Set("gui_local_reports", flattenSystemSettingsGuiLocalReports(o["gui-local-reports"], d, "gui_local_reports", sv)); err != nil {
 		if !fortiAPIPatch(o["gui-local-reports"]) {
-			return fmt.Errorf("Error reading gui_local_reports: %v", err)
+			return fmt.Errorf("error reading gui_local_reports: %v", err)
 		}
 	}
 
 	if err = d.Set("gui_wanopt_cache", flattenSystemSettingsGuiWanoptCache(o["gui-wanopt-cache"], d, "gui_wanopt_cache", sv)); err != nil {
 		if !fortiAPIPatch(o["gui-wanopt-cache"]) {
-			return fmt.Errorf("Error reading gui_wanopt_cache: %v", err)
+			return fmt.Errorf("error reading gui_wanopt_cache: %v", err)
 		}
 	}
 
 	if err = d.Set("gui_explicit_proxy", flattenSystemSettingsGuiExplicitProxy(o["gui-explicit-proxy"], d, "gui_explicit_proxy", sv)); err != nil {
 		if !fortiAPIPatch(o["gui-explicit-proxy"]) {
-			return fmt.Errorf("Error reading gui_explicit_proxy: %v", err)
+			return fmt.Errorf("error reading gui_explicit_proxy: %v", err)
 		}
 	}
 
 	if err = d.Set("gui_dynamic_routing", flattenSystemSettingsGuiDynamicRouting(o["gui-dynamic-routing"], d, "gui_dynamic_routing", sv)); err != nil {
 		if !fortiAPIPatch(o["gui-dynamic-routing"]) {
-			return fmt.Errorf("Error reading gui_dynamic_routing: %v", err)
+			return fmt.Errorf("error reading gui_dynamic_routing: %v", err)
 		}
 	}
 
 	if err = d.Set("gui_dlp", flattenSystemSettingsGuiDlp(o["gui-dlp"], d, "gui_dlp", sv)); err != nil {
 		if !fortiAPIPatch(o["gui-dlp"]) {
-			return fmt.Errorf("Error reading gui_dlp: %v", err)
+			return fmt.Errorf("error reading gui_dlp: %v", err)
 		}
 	}
 
 	if err = d.Set("gui_sslvpn_personal_bookmarks", flattenSystemSettingsGuiSslvpnPersonalBookmarks(o["gui-sslvpn-personal-bookmarks"], d, "gui_sslvpn_personal_bookmarks", sv)); err != nil {
 		if !fortiAPIPatch(o["gui-sslvpn-personal-bookmarks"]) {
-			return fmt.Errorf("Error reading gui_sslvpn_personal_bookmarks: %v", err)
+			return fmt.Errorf("error reading gui_sslvpn_personal_bookmarks: %v", err)
 		}
 	}
 
 	if err = d.Set("gui_sslvpn_realms", flattenSystemSettingsGuiSslvpnRealms(o["gui-sslvpn-realms"], d, "gui_sslvpn_realms", sv)); err != nil {
 		if !fortiAPIPatch(o["gui-sslvpn-realms"]) {
-			return fmt.Errorf("Error reading gui_sslvpn_realms: %v", err)
+			return fmt.Errorf("error reading gui_sslvpn_realms: %v", err)
 		}
 	}
 
 	if err = d.Set("gui_policy_based_ipsec", flattenSystemSettingsGuiPolicyBasedIpsec(o["gui-policy-based-ipsec"], d, "gui_policy_based_ipsec", sv)); err != nil {
 		if !fortiAPIPatch(o["gui-policy-based-ipsec"]) {
-			return fmt.Errorf("Error reading gui_policy_based_ipsec: %v", err)
+			return fmt.Errorf("error reading gui_policy_based_ipsec: %v", err)
 		}
 	}
 
 	if err = d.Set("gui_threat_weight", flattenSystemSettingsGuiThreatWeight(o["gui-threat-weight"], d, "gui_threat_weight", sv)); err != nil {
 		if !fortiAPIPatch(o["gui-threat-weight"]) {
-			return fmt.Errorf("Error reading gui_threat_weight: %v", err)
+			return fmt.Errorf("error reading gui_threat_weight: %v", err)
 		}
 	}
 
 	if err = d.Set("gui_multiple_utm_profiles", flattenSystemSettingsGuiMultipleUtmProfiles(o["gui-multiple-utm-profiles"], d, "gui_multiple_utm_profiles", sv)); err != nil {
 		if !fortiAPIPatch(o["gui-multiple-utm-profiles"]) {
-			return fmt.Errorf("Error reading gui_multiple_utm_profiles: %v", err)
+			return fmt.Errorf("error reading gui_multiple_utm_profiles: %v", err)
 		}
 	}
 
 	if err = d.Set("gui_spamfilter", flattenSystemSettingsGuiSpamfilter(o["gui-spamfilter"], d, "gui_spamfilter", sv)); err != nil {
 		if !fortiAPIPatch(o["gui-spamfilter"]) {
-			return fmt.Errorf("Error reading gui_spamfilter: %v", err)
+			return fmt.Errorf("error reading gui_spamfilter: %v", err)
 		}
 	}
 
 	if err = d.Set("gui_file_filter", flattenSystemSettingsGuiFileFilter(o["gui-file-filter"], d, "gui_file_filter", sv)); err != nil {
 		if !fortiAPIPatch(o["gui-file-filter"]) {
-			return fmt.Errorf("Error reading gui_file_filter: %v", err)
+			return fmt.Errorf("error reading gui_file_filter: %v", err)
 		}
 	}
 
 	if err = d.Set("gui_application_control", flattenSystemSettingsGuiApplicationControl(o["gui-application-control"], d, "gui_application_control", sv)); err != nil {
 		if !fortiAPIPatch(o["gui-application-control"]) {
-			return fmt.Errorf("Error reading gui_application_control: %v", err)
+			return fmt.Errorf("error reading gui_application_control: %v", err)
 		}
 	}
 
 	if err = d.Set("gui_ips", flattenSystemSettingsGuiIps(o["gui-ips"], d, "gui_ips", sv)); err != nil {
 		if !fortiAPIPatch(o["gui-ips"]) {
-			return fmt.Errorf("Error reading gui_ips: %v", err)
+			return fmt.Errorf("error reading gui_ips: %v", err)
 		}
 	}
 
 	if err = d.Set("gui_endpoint_control", flattenSystemSettingsGuiEndpointControl(o["gui-endpoint-control"], d, "gui_endpoint_control", sv)); err != nil {
 		if !fortiAPIPatch(o["gui-endpoint-control"]) {
-			return fmt.Errorf("Error reading gui_endpoint_control: %v", err)
+			return fmt.Errorf("error reading gui_endpoint_control: %v", err)
 		}
 	}
 
 	if err = d.Set("gui_endpoint_control_advanced", flattenSystemSettingsGuiEndpointControlAdvanced(o["gui-endpoint-control-advanced"], d, "gui_endpoint_control_advanced", sv)); err != nil {
 		if !fortiAPIPatch(o["gui-endpoint-control-advanced"]) {
-			return fmt.Errorf("Error reading gui_endpoint_control_advanced: %v", err)
+			return fmt.Errorf("error reading gui_endpoint_control_advanced: %v", err)
 		}
 	}
 
 	if err = d.Set("gui_dhcp_advanced", flattenSystemSettingsGuiDhcpAdvanced(o["gui-dhcp-advanced"], d, "gui_dhcp_advanced", sv)); err != nil {
 		if !fortiAPIPatch(o["gui-dhcp-advanced"]) {
-			return fmt.Errorf("Error reading gui_dhcp_advanced: %v", err)
+			return fmt.Errorf("error reading gui_dhcp_advanced: %v", err)
 		}
 	}
 
 	if err = d.Set("gui_vpn", flattenSystemSettingsGuiVpn(o["gui-vpn"], d, "gui_vpn", sv)); err != nil {
 		if !fortiAPIPatch(o["gui-vpn"]) {
-			return fmt.Errorf("Error reading gui_vpn: %v", err)
+			return fmt.Errorf("error reading gui_vpn: %v", err)
 		}
 	}
 
 	if err = d.Set("gui_wireless_controller", flattenSystemSettingsGuiWirelessController(o["gui-wireless-controller"], d, "gui_wireless_controller", sv)); err != nil {
 		if !fortiAPIPatch(o["gui-wireless-controller"]) {
-			return fmt.Errorf("Error reading gui_wireless_controller: %v", err)
+			return fmt.Errorf("error reading gui_wireless_controller: %v", err)
 		}
 	}
 
 	if err = d.Set("gui_switch_controller", flattenSystemSettingsGuiSwitchController(o["gui-switch-controller"], d, "gui_switch_controller", sv)); err != nil {
 		if !fortiAPIPatch(o["gui-switch-controller"]) {
-			return fmt.Errorf("Error reading gui_switch_controller: %v", err)
+			return fmt.Errorf("error reading gui_switch_controller: %v", err)
 		}
 	}
 
 	if err = d.Set("gui_fortiap_split_tunneling", flattenSystemSettingsGuiFortiapSplitTunneling(o["gui-fortiap-split-tunneling"], d, "gui_fortiap_split_tunneling", sv)); err != nil {
 		if !fortiAPIPatch(o["gui-fortiap-split-tunneling"]) {
-			return fmt.Errorf("Error reading gui_fortiap_split_tunneling: %v", err)
+			return fmt.Errorf("error reading gui_fortiap_split_tunneling: %v", err)
 		}
 	}
 
 	if err = d.Set("gui_webfilter_advanced", flattenSystemSettingsGuiWebfilterAdvanced(o["gui-webfilter-advanced"], d, "gui_webfilter_advanced", sv)); err != nil {
 		if !fortiAPIPatch(o["gui-webfilter-advanced"]) {
-			return fmt.Errorf("Error reading gui_webfilter_advanced: %v", err)
+			return fmt.Errorf("error reading gui_webfilter_advanced: %v", err)
 		}
 	}
 
 	if err = d.Set("gui_traffic_shaping", flattenSystemSettingsGuiTrafficShaping(o["gui-traffic-shaping"], d, "gui_traffic_shaping", sv)); err != nil {
 		if !fortiAPIPatch(o["gui-traffic-shaping"]) {
-			return fmt.Errorf("Error reading gui_traffic_shaping: %v", err)
+			return fmt.Errorf("error reading gui_traffic_shaping: %v", err)
 		}
 	}
 
 	if err = d.Set("gui_wan_load_balancing", flattenSystemSettingsGuiWanLoadBalancing(o["gui-wan-load-balancing"], d, "gui_wan_load_balancing", sv)); err != nil {
 		if !fortiAPIPatch(o["gui-wan-load-balancing"]) {
-			return fmt.Errorf("Error reading gui_wan_load_balancing: %v", err)
+			return fmt.Errorf("error reading gui_wan_load_balancing: %v", err)
 		}
 	}
 
 	if err = d.Set("gui_antivirus", flattenSystemSettingsGuiAntivirus(o["gui-antivirus"], d, "gui_antivirus", sv)); err != nil {
 		if !fortiAPIPatch(o["gui-antivirus"]) {
-			return fmt.Errorf("Error reading gui_antivirus: %v", err)
+			return fmt.Errorf("error reading gui_antivirus: %v", err)
 		}
 	}
 
 	if err = d.Set("gui_webfilter", flattenSystemSettingsGuiWebfilter(o["gui-webfilter"], d, "gui_webfilter", sv)); err != nil {
 		if !fortiAPIPatch(o["gui-webfilter"]) {
-			return fmt.Errorf("Error reading gui_webfilter: %v", err)
+			return fmt.Errorf("error reading gui_webfilter: %v", err)
 		}
 	}
 
 	if err = d.Set("gui_dnsfilter", flattenSystemSettingsGuiDnsfilter(o["gui-dnsfilter"], d, "gui_dnsfilter", sv)); err != nil {
 		if !fortiAPIPatch(o["gui-dnsfilter"]) {
-			return fmt.Errorf("Error reading gui_dnsfilter: %v", err)
+			return fmt.Errorf("error reading gui_dnsfilter: %v", err)
 		}
 	}
 
 	if err = d.Set("gui_waf_profile", flattenSystemSettingsGuiWafProfile(o["gui-waf-profile"], d, "gui_waf_profile", sv)); err != nil {
 		if !fortiAPIPatch(o["gui-waf-profile"]) {
-			return fmt.Errorf("Error reading gui_waf_profile: %v", err)
+			return fmt.Errorf("error reading gui_waf_profile: %v", err)
 		}
 	}
 
 	if err = d.Set("gui_fortiextender_controller", flattenSystemSettingsGuiFortiextenderController(o["gui-fortiextender-controller"], d, "gui_fortiextender_controller", sv)); err != nil {
 		if !fortiAPIPatch(o["gui-fortiextender-controller"]) {
-			return fmt.Errorf("Error reading gui_fortiextender_controller: %v", err)
+			return fmt.Errorf("error reading gui_fortiextender_controller: %v", err)
 		}
 	}
 
 	if err = d.Set("gui_advanced_policy", flattenSystemSettingsGuiAdvancedPolicy(o["gui-advanced-policy"], d, "gui_advanced_policy", sv)); err != nil {
 		if !fortiAPIPatch(o["gui-advanced-policy"]) {
-			return fmt.Errorf("Error reading gui_advanced_policy: %v", err)
+			return fmt.Errorf("error reading gui_advanced_policy: %v", err)
 		}
 	}
 
 	if err = d.Set("gui_allow_unnamed_policy", flattenSystemSettingsGuiAllowUnnamedPolicy(o["gui-allow-unnamed-policy"], d, "gui_allow_unnamed_policy", sv)); err != nil {
 		if !fortiAPIPatch(o["gui-allow-unnamed-policy"]) {
-			return fmt.Errorf("Error reading gui_allow_unnamed_policy: %v", err)
+			return fmt.Errorf("error reading gui_allow_unnamed_policy: %v", err)
 		}
 	}
 
 	if err = d.Set("gui_email_collection", flattenSystemSettingsGuiEmailCollection(o["gui-email-collection"], d, "gui_email_collection", sv)); err != nil {
 		if !fortiAPIPatch(o["gui-email-collection"]) {
-			return fmt.Errorf("Error reading gui_email_collection: %v", err)
+			return fmt.Errorf("error reading gui_email_collection: %v", err)
 		}
 	}
 
 	if err = d.Set("gui_domain_ip_reputation", flattenSystemSettingsGuiDomainIpReputation(o["gui-domain-ip-reputation"], d, "gui_domain_ip_reputation", sv)); err != nil {
 		if !fortiAPIPatch(o["gui-domain-ip-reputation"]) {
-			return fmt.Errorf("Error reading gui_domain_ip_reputation: %v", err)
+			return fmt.Errorf("error reading gui_domain_ip_reputation: %v", err)
 		}
 	}
 
 	if err = d.Set("gui_multiple_interface_policy", flattenSystemSettingsGuiMultipleInterfacePolicy(o["gui-multiple-interface-policy"], d, "gui_multiple_interface_policy", sv)); err != nil {
 		if !fortiAPIPatch(o["gui-multiple-interface-policy"]) {
-			return fmt.Errorf("Error reading gui_multiple_interface_policy: %v", err)
+			return fmt.Errorf("error reading gui_multiple_interface_policy: %v", err)
 		}
 	}
 
 	if err = d.Set("gui_policy_disclaimer", flattenSystemSettingsGuiPolicyDisclaimer(o["gui-policy-disclaimer"], d, "gui_policy_disclaimer", sv)); err != nil {
 		if !fortiAPIPatch(o["gui-policy-disclaimer"]) {
-			return fmt.Errorf("Error reading gui_policy_disclaimer: %v", err)
+			return fmt.Errorf("error reading gui_policy_disclaimer: %v", err)
 		}
 	}
 
 	if err = d.Set("gui_per_policy_disclaimer", flattenSystemSettingsGuiPerPolicyDisclaimer(o["gui-per-policy-disclaimer"], d, "gui_per_policy_disclaimer", sv)); err != nil {
 		if !fortiAPIPatch(o["gui-per-policy-disclaimer"]) {
-			return fmt.Errorf("Error reading gui_per_policy_disclaimer: %v", err)
+			return fmt.Errorf("error reading gui_per_policy_disclaimer: %v", err)
 		}
 	}
 
 	if err = d.Set("gui_policy_learning", flattenSystemSettingsGuiPolicyLearning(o["gui-policy-learning"], d, "gui_policy_learning", sv)); err != nil {
 		if !fortiAPIPatch(o["gui-policy-learning"]) {
-			return fmt.Errorf("Error reading gui_policy_learning: %v", err)
+			return fmt.Errorf("error reading gui_policy_learning: %v", err)
 		}
 	}
 
 	if err = d.Set("compliance_check", flattenSystemSettingsComplianceCheck(o["compliance-check"], d, "compliance_check", sv)); err != nil {
 		if !fortiAPIPatch(o["compliance-check"]) {
-			return fmt.Errorf("Error reading compliance_check: %v", err)
+			return fmt.Errorf("error reading compliance_check: %v", err)
 		}
 	}
 
 	if err = d.Set("ike_session_resume", flattenSystemSettingsIkeSessionResume(o["ike-session-resume"], d, "ike_session_resume", sv)); err != nil {
 		if !fortiAPIPatch(o["ike-session-resume"]) {
-			return fmt.Errorf("Error reading ike_session_resume: %v", err)
+			return fmt.Errorf("error reading ike_session_resume: %v", err)
 		}
 	}
 
 	if err = d.Set("ike_quick_crash_detect", flattenSystemSettingsIkeQuickCrashDetect(o["ike-quick-crash-detect"], d, "ike_quick_crash_detect", sv)); err != nil {
 		if !fortiAPIPatch(o["ike-quick-crash-detect"]) {
-			return fmt.Errorf("Error reading ike_quick_crash_detect: %v", err)
+			return fmt.Errorf("error reading ike_quick_crash_detect: %v", err)
 		}
 	}
 
 	if err = d.Set("ike_dn_format", flattenSystemSettingsIkeDnFormat(o["ike-dn-format"], d, "ike_dn_format", sv)); err != nil {
 		if !fortiAPIPatch(o["ike-dn-format"]) {
-			return fmt.Errorf("Error reading ike_dn_format: %v", err)
+			return fmt.Errorf("error reading ike_dn_format: %v", err)
 		}
 	}
 
 	if err = d.Set("ike_port", flattenSystemSettingsIkePort(o["ike-port"], d, "ike_port", sv)); err != nil {
 		if !fortiAPIPatch(o["ike-port"]) {
-			return fmt.Errorf("Error reading ike_port: %v", err)
+			return fmt.Errorf("error reading ike_port: %v", err)
 		}
 	}
 
 	if err = d.Set("ike_natt_port", flattenSystemSettingsIkeNattPort(o["ike-natt-port"], d, "ike_natt_port", sv)); err != nil {
 		if !fortiAPIPatch(o["ike-natt-port"]) {
-			return fmt.Errorf("Error reading ike_natt_port: %v", err)
+			return fmt.Errorf("error reading ike_natt_port: %v", err)
 		}
 	}
 
 	if err = d.Set("block_land_attack", flattenSystemSettingsBlockLandAttack(o["block-land-attack"], d, "block_land_attack", sv)); err != nil {
 		if !fortiAPIPatch(o["block-land-attack"]) {
-			return fmt.Errorf("Error reading block_land_attack: %v", err)
+			return fmt.Errorf("error reading block_land_attack: %v", err)
 		}
 	}
 

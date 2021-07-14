@@ -30,29 +30,29 @@ func resourceVpnIpsecConcentrator() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"src_check": &schema.Schema{
+			"src_check": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"member": &schema.Schema{
+			"member": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 64),
 							Optional:     true,
@@ -61,10 +61,15 @@ func resourceVpnIpsecConcentrator() *schema.Resource {
 					},
 				},
 			},
-			"dynamic_sort_subtable": &schema.Schema{
-				Type:     schema.TypeString,
+			"dynamic_sort_subtable": {
+				Type:     schema.TypeBool,
 				Optional: true,
-				Default:  "false",
+				Default:  false,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -82,15 +87,25 @@ func resourceVpnIpsecConcentratorCreate(d *schema.ResourceData, m interface{}) e
 		}
 	}
 
-	obj, err := getObjectVpnIpsecConcentrator(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating VpnIpsecConcentrator resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateVpnIpsecConcentrator(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectVpnIpsecConcentrator(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating VpnIpsecConcentrator resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateVpnIpsecConcentrator(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating VpnIpsecConcentrator resource: %v", err)
+		return fmt.Errorf("error creating VpnIpsecConcentrator resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -115,14 +130,24 @@ func resourceVpnIpsecConcentratorUpdate(d *schema.ResourceData, m interface{}) e
 		}
 	}
 
-	obj, err := getObjectVpnIpsecConcentrator(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating VpnIpsecConcentrator resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateVpnIpsecConcentrator(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectVpnIpsecConcentrator(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating VpnIpsecConcentrator resource: %v", err)
+		return fmt.Errorf("error updating VpnIpsecConcentrator resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateVpnIpsecConcentrator(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating VpnIpsecConcentrator resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -149,9 +174,17 @@ func resourceVpnIpsecConcentratorDelete(d *schema.ResourceData, m interface{}) e
 		}
 	}
 
-	err := c.DeleteVpnIpsecConcentrator(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteVpnIpsecConcentrator(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting VpnIpsecConcentrator resource: %v", err)
+		return fmt.Errorf("error deleting VpnIpsecConcentrator resource: %v", err)
 	}
 
 	d.SetId("")
@@ -173,9 +206,19 @@ func resourceVpnIpsecConcentratorRead(d *schema.ResourceData, m interface{}) err
 		}
 	}
 
-	o, err := c.ReadVpnIpsecConcentrator(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadVpnIpsecConcentrator(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading VpnIpsecConcentrator resource: %v", err)
+		return fmt.Errorf("error reading VpnIpsecConcentrator resource: %v", err)
 	}
 
 	if o == nil {
@@ -186,7 +229,7 @@ func resourceVpnIpsecConcentratorRead(d *schema.ResourceData, m interface{}) err
 
 	err = refreshObjectVpnIpsecConcentrator(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading VpnIpsecConcentrator resource from API: %v", err)
+		return fmt.Errorf("error reading VpnIpsecConcentrator resource from API: %v", err)
 	}
 	return nil
 }
@@ -242,27 +285,27 @@ func refreshObjectVpnIpsecConcentrator(d *schema.ResourceData, o map[string]inte
 
 	if err = d.Set("name", flattenVpnIpsecConcentratorName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("src_check", flattenVpnIpsecConcentratorSrcCheck(o["src-check"], d, "src_check", sv)); err != nil {
 		if !fortiAPIPatch(o["src-check"]) {
-			return fmt.Errorf("Error reading src_check: %v", err)
+			return fmt.Errorf("error reading src_check: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("member", flattenVpnIpsecConcentratorMember(o["member"], d, "member", sv)); err != nil {
 			if !fortiAPIPatch(o["member"]) {
-				return fmt.Errorf("Error reading member: %v", err)
+				return fmt.Errorf("error reading member: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("member"); ok {
 			if err = d.Set("member", flattenVpnIpsecConcentratorMember(o["member"], d, "member", sv)); err != nil {
 				if !fortiAPIPatch(o["member"]) {
-					return fmt.Errorf("Error reading member: %v", err)
+					return fmt.Errorf("error reading member: %v", err)
 				}
 			}
 		}

@@ -49,14 +49,14 @@ func testAccCheckFortiOSDlpFpSensitivityExists(n string) resource.TestCheckFunc 
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadDlpFpSensitivity(i, "root")
+		o, err := c.ReadDlpFpSensitivity(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading DlpFpSensitivity: %s", err)
+			return fmt.Errorf("error reading DlpFpSensitivity: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating DlpFpSensitivity: %s", n)
+			return fmt.Errorf("error creating DlpFpSensitivity: %s", n)
 		}
 
 		return nil
@@ -72,11 +72,11 @@ func testAccCheckDlpFpSensitivityDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadDlpFpSensitivity(i, "root")
+		o, err := c.ReadDlpFpSensitivity(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error DlpFpSensitivity %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error DlpFpSensitivity %s still exists", rs.Primary.ID)
 			}
 		}
 

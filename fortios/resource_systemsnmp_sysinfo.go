@@ -30,54 +30,59 @@ func resourceSystemSnmpSysinfo() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"status": &schema.Schema{
+			"status": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"engine_id": &schema.Schema{
+			"engine_id": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 24),
 				Optional:     true,
 				Computed:     true,
 			},
-			"description": &schema.Schema{
+			"description": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
 			},
-			"contact_info": &schema.Schema{
+			"contact_info": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
 			},
-			"location": &schema.Schema{
+			"location": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
 			},
-			"trap_high_cpu_threshold": &schema.Schema{
+			"trap_high_cpu_threshold": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 100),
 				Optional:     true,
 				Computed:     true,
 			},
-			"trap_low_memory_threshold": &schema.Schema{
+			"trap_low_memory_threshold": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 100),
 				Optional:     true,
 				Computed:     true,
 			},
-			"trap_log_full_threshold": &schema.Schema{
+			"trap_log_full_threshold": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 100),
 				Optional:     true,
 				Computed:     true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -96,14 +101,24 @@ func resourceSystemSnmpSysinfoUpdate(d *schema.ResourceData, m interface{}) erro
 		}
 	}
 
-	obj, err := getObjectSystemSnmpSysinfo(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SystemSnmpSysinfo resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSystemSnmpSysinfo(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemSnmpSysinfo(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SystemSnmpSysinfo resource: %v", err)
+		return fmt.Errorf("error updating SystemSnmpSysinfo resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSystemSnmpSysinfo(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SystemSnmpSysinfo resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -130,9 +145,17 @@ func resourceSystemSnmpSysinfoDelete(d *schema.ResourceData, m interface{}) erro
 		}
 	}
 
-	err := c.DeleteSystemSnmpSysinfo(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSystemSnmpSysinfo(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SystemSnmpSysinfo resource: %v", err)
+		return fmt.Errorf("error deleting SystemSnmpSysinfo resource: %v", err)
 	}
 
 	d.SetId("")
@@ -154,9 +177,19 @@ func resourceSystemSnmpSysinfoRead(d *schema.ResourceData, m interface{}) error 
 		}
 	}
 
-	o, err := c.ReadSystemSnmpSysinfo(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSystemSnmpSysinfo(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemSnmpSysinfo resource: %v", err)
+		return fmt.Errorf("error reading SystemSnmpSysinfo resource: %v", err)
 	}
 
 	if o == nil {
@@ -167,7 +200,7 @@ func resourceSystemSnmpSysinfoRead(d *schema.ResourceData, m interface{}) error 
 
 	err = refreshObjectSystemSnmpSysinfo(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemSnmpSysinfo resource from API: %v", err)
+		return fmt.Errorf("error reading SystemSnmpSysinfo resource from API: %v", err)
 	}
 	return nil
 }
@@ -209,49 +242,49 @@ func refreshObjectSystemSnmpSysinfo(d *schema.ResourceData, o map[string]interfa
 
 	if err = d.Set("status", flattenSystemSnmpSysinfoStatus(o["status"], d, "status", sv)); err != nil {
 		if !fortiAPIPatch(o["status"]) {
-			return fmt.Errorf("Error reading status: %v", err)
+			return fmt.Errorf("error reading status: %v", err)
 		}
 	}
 
 	if err = d.Set("engine_id", flattenSystemSnmpSysinfoEngineId(o["engine-id"], d, "engine_id", sv)); err != nil {
 		if !fortiAPIPatch(o["engine-id"]) {
-			return fmt.Errorf("Error reading engine_id: %v", err)
+			return fmt.Errorf("error reading engine_id: %v", err)
 		}
 	}
 
 	if err = d.Set("description", flattenSystemSnmpSysinfoDescription(o["description"], d, "description", sv)); err != nil {
 		if !fortiAPIPatch(o["description"]) {
-			return fmt.Errorf("Error reading description: %v", err)
+			return fmt.Errorf("error reading description: %v", err)
 		}
 	}
 
 	if err = d.Set("contact_info", flattenSystemSnmpSysinfoContactInfo(o["contact-info"], d, "contact_info", sv)); err != nil {
 		if !fortiAPIPatch(o["contact-info"]) {
-			return fmt.Errorf("Error reading contact_info: %v", err)
+			return fmt.Errorf("error reading contact_info: %v", err)
 		}
 	}
 
 	if err = d.Set("location", flattenSystemSnmpSysinfoLocation(o["location"], d, "location", sv)); err != nil {
 		if !fortiAPIPatch(o["location"]) {
-			return fmt.Errorf("Error reading location: %v", err)
+			return fmt.Errorf("error reading location: %v", err)
 		}
 	}
 
 	if err = d.Set("trap_high_cpu_threshold", flattenSystemSnmpSysinfoTrapHighCpuThreshold(o["trap-high-cpu-threshold"], d, "trap_high_cpu_threshold", sv)); err != nil {
 		if !fortiAPIPatch(o["trap-high-cpu-threshold"]) {
-			return fmt.Errorf("Error reading trap_high_cpu_threshold: %v", err)
+			return fmt.Errorf("error reading trap_high_cpu_threshold: %v", err)
 		}
 	}
 
 	if err = d.Set("trap_low_memory_threshold", flattenSystemSnmpSysinfoTrapLowMemoryThreshold(o["trap-low-memory-threshold"], d, "trap_low_memory_threshold", sv)); err != nil {
 		if !fortiAPIPatch(o["trap-low-memory-threshold"]) {
-			return fmt.Errorf("Error reading trap_low_memory_threshold: %v", err)
+			return fmt.Errorf("error reading trap_low_memory_threshold: %v", err)
 		}
 	}
 
 	if err = d.Set("trap_log_full_threshold", flattenSystemSnmpSysinfoTrapLogFullThreshold(o["trap-log-full-threshold"], d, "trap_log_full_threshold", sv)); err != nil {
 		if !fortiAPIPatch(o["trap-log-full-threshold"]) {
-			return fmt.Errorf("Error reading trap_log_full_threshold: %v", err)
+			return fmt.Errorf("error reading trap_log_full_threshold: %v", err)
 		}
 	}
 

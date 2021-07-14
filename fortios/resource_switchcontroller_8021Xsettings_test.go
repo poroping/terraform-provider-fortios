@@ -51,14 +51,14 @@ func testAccCheckFortiOSSwitchController8021XSettingsExists(n string) resource.T
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadSwitchController8021XSettings(i, "root")
+		o, err := c.ReadSwitchController8021XSettings(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading SwitchController8021XSettings: %s", err)
+			return fmt.Errorf("error reading SwitchController8021XSettings: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating SwitchController8021XSettings: %s", n)
+			return fmt.Errorf("error creating SwitchController8021XSettings: %s", n)
 		}
 
 		return nil
@@ -74,11 +74,11 @@ func testAccCheckSwitchController8021XSettingsDestroy(s *terraform.State) error 
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadSwitchController8021XSettings(i, "root")
+		o, err := c.ReadSwitchController8021XSettings(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error SwitchController8021XSettings %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error SwitchController8021XSettings %s still exists", rs.Primary.ID)
 			}
 		}
 

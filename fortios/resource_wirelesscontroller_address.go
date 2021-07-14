@@ -30,27 +30,32 @@ func resourceWirelessControllerAddress() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"fosid": &schema.Schema{
+			"fosid": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"mac": &schema.Schema{
+			"mac": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"policy": &schema.Schema{
+			"policy": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -68,15 +73,25 @@ func resourceWirelessControllerAddressCreate(d *schema.ResourceData, m interface
 		}
 	}
 
-	obj, err := getObjectWirelessControllerAddress(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating WirelessControllerAddress resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateWirelessControllerAddress(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectWirelessControllerAddress(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating WirelessControllerAddress resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateWirelessControllerAddress(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating WirelessControllerAddress resource: %v", err)
+		return fmt.Errorf("error creating WirelessControllerAddress resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -101,14 +116,24 @@ func resourceWirelessControllerAddressUpdate(d *schema.ResourceData, m interface
 		}
 	}
 
-	obj, err := getObjectWirelessControllerAddress(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating WirelessControllerAddress resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateWirelessControllerAddress(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectWirelessControllerAddress(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating WirelessControllerAddress resource: %v", err)
+		return fmt.Errorf("error updating WirelessControllerAddress resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateWirelessControllerAddress(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating WirelessControllerAddress resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -135,9 +160,17 @@ func resourceWirelessControllerAddressDelete(d *schema.ResourceData, m interface
 		}
 	}
 
-	err := c.DeleteWirelessControllerAddress(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteWirelessControllerAddress(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting WirelessControllerAddress resource: %v", err)
+		return fmt.Errorf("error deleting WirelessControllerAddress resource: %v", err)
 	}
 
 	d.SetId("")
@@ -159,9 +192,19 @@ func resourceWirelessControllerAddressRead(d *schema.ResourceData, m interface{}
 		}
 	}
 
-	o, err := c.ReadWirelessControllerAddress(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadWirelessControllerAddress(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading WirelessControllerAddress resource: %v", err)
+		return fmt.Errorf("error reading WirelessControllerAddress resource: %v", err)
 	}
 
 	if o == nil {
@@ -172,7 +215,7 @@ func resourceWirelessControllerAddressRead(d *schema.ResourceData, m interface{}
 
 	err = refreshObjectWirelessControllerAddress(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading WirelessControllerAddress resource from API: %v", err)
+		return fmt.Errorf("error reading WirelessControllerAddress resource from API: %v", err)
 	}
 	return nil
 }
@@ -194,19 +237,19 @@ func refreshObjectWirelessControllerAddress(d *schema.ResourceData, o map[string
 
 	if err = d.Set("fosid", flattenWirelessControllerAddressId(o["id"], d, "fosid", sv)); err != nil {
 		if !fortiAPIPatch(o["id"]) {
-			return fmt.Errorf("Error reading fosid: %v", err)
+			return fmt.Errorf("error reading fosid: %v", err)
 		}
 	}
 
 	if err = d.Set("mac", flattenWirelessControllerAddressMac(o["mac"], d, "mac", sv)); err != nil {
 		if !fortiAPIPatch(o["mac"]) {
-			return fmt.Errorf("Error reading mac: %v", err)
+			return fmt.Errorf("error reading mac: %v", err)
 		}
 	}
 
 	if err = d.Set("policy", flattenWirelessControllerAddressPolicy(o["policy"], d, "policy", sv)); err != nil {
 		if !fortiAPIPatch(o["policy"]) {
-			return fmt.Errorf("Error reading policy: %v", err)
+			return fmt.Errorf("error reading policy: %v", err)
 		}
 	}
 

@@ -30,39 +30,44 @@ func resourceSwitchControllerSnmpSysinfo() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"status": &schema.Schema{
+			"status": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"engine_id": &schema.Schema{
+			"engine_id": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 24),
 				Optional:     true,
 				Computed:     true,
 			},
-			"description": &schema.Schema{
+			"description": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"contact_info": &schema.Schema{
+			"contact_info": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"location": &schema.Schema{
+			"location": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -81,14 +86,24 @@ func resourceSwitchControllerSnmpSysinfoUpdate(d *schema.ResourceData, m interfa
 		}
 	}
 
-	obj, err := getObjectSwitchControllerSnmpSysinfo(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SwitchControllerSnmpSysinfo resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSwitchControllerSnmpSysinfo(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSwitchControllerSnmpSysinfo(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SwitchControllerSnmpSysinfo resource: %v", err)
+		return fmt.Errorf("error updating SwitchControllerSnmpSysinfo resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSwitchControllerSnmpSysinfo(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SwitchControllerSnmpSysinfo resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -115,9 +130,17 @@ func resourceSwitchControllerSnmpSysinfoDelete(d *schema.ResourceData, m interfa
 		}
 	}
 
-	err := c.DeleteSwitchControllerSnmpSysinfo(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSwitchControllerSnmpSysinfo(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SwitchControllerSnmpSysinfo resource: %v", err)
+		return fmt.Errorf("error deleting SwitchControllerSnmpSysinfo resource: %v", err)
 	}
 
 	d.SetId("")
@@ -139,9 +162,19 @@ func resourceSwitchControllerSnmpSysinfoRead(d *schema.ResourceData, m interface
 		}
 	}
 
-	o, err := c.ReadSwitchControllerSnmpSysinfo(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSwitchControllerSnmpSysinfo(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SwitchControllerSnmpSysinfo resource: %v", err)
+		return fmt.Errorf("error reading SwitchControllerSnmpSysinfo resource: %v", err)
 	}
 
 	if o == nil {
@@ -152,7 +185,7 @@ func resourceSwitchControllerSnmpSysinfoRead(d *schema.ResourceData, m interface
 
 	err = refreshObjectSwitchControllerSnmpSysinfo(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SwitchControllerSnmpSysinfo resource from API: %v", err)
+		return fmt.Errorf("error reading SwitchControllerSnmpSysinfo resource from API: %v", err)
 	}
 	return nil
 }
@@ -182,31 +215,31 @@ func refreshObjectSwitchControllerSnmpSysinfo(d *schema.ResourceData, o map[stri
 
 	if err = d.Set("status", flattenSwitchControllerSnmpSysinfoStatus(o["status"], d, "status", sv)); err != nil {
 		if !fortiAPIPatch(o["status"]) {
-			return fmt.Errorf("Error reading status: %v", err)
+			return fmt.Errorf("error reading status: %v", err)
 		}
 	}
 
 	if err = d.Set("engine_id", flattenSwitchControllerSnmpSysinfoEngineId(o["engine-id"], d, "engine_id", sv)); err != nil {
 		if !fortiAPIPatch(o["engine-id"]) {
-			return fmt.Errorf("Error reading engine_id: %v", err)
+			return fmt.Errorf("error reading engine_id: %v", err)
 		}
 	}
 
 	if err = d.Set("description", flattenSwitchControllerSnmpSysinfoDescription(o["description"], d, "description", sv)); err != nil {
 		if !fortiAPIPatch(o["description"]) {
-			return fmt.Errorf("Error reading description: %v", err)
+			return fmt.Errorf("error reading description: %v", err)
 		}
 	}
 
 	if err = d.Set("contact_info", flattenSwitchControllerSnmpSysinfoContactInfo(o["contact-info"], d, "contact_info", sv)); err != nil {
 		if !fortiAPIPatch(o["contact-info"]) {
-			return fmt.Errorf("Error reading contact_info: %v", err)
+			return fmt.Errorf("error reading contact_info: %v", err)
 		}
 	}
 
 	if err = d.Set("location", flattenSwitchControllerSnmpSysinfoLocation(o["location"], d, "location", sv)); err != nil {
 		if !fortiAPIPatch(o["location"]) {
-			return fmt.Errorf("Error reading location: %v", err)
+			return fmt.Errorf("error reading location: %v", err)
 		}
 	}
 

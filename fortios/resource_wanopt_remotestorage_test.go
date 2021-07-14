@@ -50,14 +50,14 @@ func testAccCheckFortiOSWanoptRemoteStorageExists(n string) resource.TestCheckFu
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadWanoptRemoteStorage(i, "root")
+		o, err := c.ReadWanoptRemoteStorage(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading WanoptRemoteStorage: %s", err)
+			return fmt.Errorf("error reading WanoptRemoteStorage: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating WanoptRemoteStorage: %s", n)
+			return fmt.Errorf("error creating WanoptRemoteStorage: %s", n)
 		}
 
 		return nil
@@ -73,11 +73,11 @@ func testAccCheckWanoptRemoteStorageDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadWanoptRemoteStorage(i, "root")
+		o, err := c.ReadWanoptRemoteStorage(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error WanoptRemoteStorage %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error WanoptRemoteStorage %s still exists", rs.Primary.ID)
 			}
 		}
 

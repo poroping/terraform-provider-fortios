@@ -30,32 +30,37 @@ func resourceVpnIpsecForticlient() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"realm": &schema.Schema{
+			"realm": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"usergroupname": &schema.Schema{
+			"usergroupname": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Required:     true,
 			},
-			"phase2name": &schema.Schema{
+			"phase2name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Required:     true,
 			},
-			"status": &schema.Schema{
+			"status": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -73,15 +78,25 @@ func resourceVpnIpsecForticlientCreate(d *schema.ResourceData, m interface{}) er
 		}
 	}
 
-	obj, err := getObjectVpnIpsecForticlient(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating VpnIpsecForticlient resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateVpnIpsecForticlient(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectVpnIpsecForticlient(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating VpnIpsecForticlient resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateVpnIpsecForticlient(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating VpnIpsecForticlient resource: %v", err)
+		return fmt.Errorf("error creating VpnIpsecForticlient resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -106,14 +121,24 @@ func resourceVpnIpsecForticlientUpdate(d *schema.ResourceData, m interface{}) er
 		}
 	}
 
-	obj, err := getObjectVpnIpsecForticlient(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating VpnIpsecForticlient resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateVpnIpsecForticlient(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectVpnIpsecForticlient(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating VpnIpsecForticlient resource: %v", err)
+		return fmt.Errorf("error updating VpnIpsecForticlient resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateVpnIpsecForticlient(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating VpnIpsecForticlient resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -140,9 +165,17 @@ func resourceVpnIpsecForticlientDelete(d *schema.ResourceData, m interface{}) er
 		}
 	}
 
-	err := c.DeleteVpnIpsecForticlient(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteVpnIpsecForticlient(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting VpnIpsecForticlient resource: %v", err)
+		return fmt.Errorf("error deleting VpnIpsecForticlient resource: %v", err)
 	}
 
 	d.SetId("")
@@ -164,9 +197,19 @@ func resourceVpnIpsecForticlientRead(d *schema.ResourceData, m interface{}) erro
 		}
 	}
 
-	o, err := c.ReadVpnIpsecForticlient(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadVpnIpsecForticlient(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading VpnIpsecForticlient resource: %v", err)
+		return fmt.Errorf("error reading VpnIpsecForticlient resource: %v", err)
 	}
 
 	if o == nil {
@@ -177,7 +220,7 @@ func resourceVpnIpsecForticlientRead(d *schema.ResourceData, m interface{}) erro
 
 	err = refreshObjectVpnIpsecForticlient(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading VpnIpsecForticlient resource from API: %v", err)
+		return fmt.Errorf("error reading VpnIpsecForticlient resource from API: %v", err)
 	}
 	return nil
 }
@@ -203,25 +246,25 @@ func refreshObjectVpnIpsecForticlient(d *schema.ResourceData, o map[string]inter
 
 	if err = d.Set("realm", flattenVpnIpsecForticlientRealm(o["realm"], d, "realm", sv)); err != nil {
 		if !fortiAPIPatch(o["realm"]) {
-			return fmt.Errorf("Error reading realm: %v", err)
+			return fmt.Errorf("error reading realm: %v", err)
 		}
 	}
 
 	if err = d.Set("usergroupname", flattenVpnIpsecForticlientUsergroupname(o["usergroupname"], d, "usergroupname", sv)); err != nil {
 		if !fortiAPIPatch(o["usergroupname"]) {
-			return fmt.Errorf("Error reading usergroupname: %v", err)
+			return fmt.Errorf("error reading usergroupname: %v", err)
 		}
 	}
 
 	if err = d.Set("phase2name", flattenVpnIpsecForticlientPhase2Name(o["phase2name"], d, "phase2name", sv)); err != nil {
 		if !fortiAPIPatch(o["phase2name"]) {
-			return fmt.Errorf("Error reading phase2name: %v", err)
+			return fmt.Errorf("error reading phase2name: %v", err)
 		}
 	}
 
 	if err = d.Set("status", flattenVpnIpsecForticlientStatus(o["status"], d, "status", sv)); err != nil {
 		if !fortiAPIPatch(o["status"]) {
-			return fmt.Errorf("Error reading status: %v", err)
+			return fmt.Errorf("error reading status: %v", err)
 		}
 	}
 

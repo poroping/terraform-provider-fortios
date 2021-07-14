@@ -30,96 +30,96 @@ func resourceSystemMobileTunnel() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 15),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"status": &schema.Schema{
+			"status": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"roaming_interface": &schema.Schema{
+			"roaming_interface": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 15),
 				Required:     true,
 			},
-			"home_agent": &schema.Schema{
+			"home_agent": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"home_address": &schema.Schema{
+			"home_address": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"renew_interval": &schema.Schema{
+			"renew_interval": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(5, 60),
 				Required:     true,
 			},
-			"lifetime": &schema.Schema{
+			"lifetime": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(180, 65535),
 				Required:     true,
 			},
-			"reg_interval": &schema.Schema{
+			"reg_interval": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(5, 300),
 				Required:     true,
 			},
-			"reg_retry": &schema.Schema{
+			"reg_retry": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 30),
 				Required:     true,
 			},
-			"n_mhae_spi": &schema.Schema{
+			"n_mhae_spi": {
 				Type:     schema.TypeInt,
 				Required: true,
 			},
-			"n_mhae_key_type": &schema.Schema{
+			"n_mhae_key_type": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"n_mhae_key": &schema.Schema{
+			"n_mhae_key": {
 				Type:      schema.TypeString,
 				Optional:  true,
 				Sensitive: true,
 				Computed:  true,
 			},
-			"hash_algorithm": &schema.Schema{
+			"hash_algorithm": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"tunnel_mode": &schema.Schema{
+			"tunnel_mode": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"network": &schema.Schema{
+			"network": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"interface": &schema.Schema{
+						"interface": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 15),
 							Optional:     true,
 							Computed:     true,
 						},
-						"prefix": &schema.Schema{
+						"prefix": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -127,10 +127,15 @@ func resourceSystemMobileTunnel() *schema.Resource {
 					},
 				},
 			},
-			"dynamic_sort_subtable": &schema.Schema{
-				Type:     schema.TypeString,
+			"dynamic_sort_subtable": {
+				Type:     schema.TypeBool,
 				Optional: true,
-				Default:  "false",
+				Default:  false,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -148,15 +153,25 @@ func resourceSystemMobileTunnelCreate(d *schema.ResourceData, m interface{}) err
 		}
 	}
 
-	obj, err := getObjectSystemMobileTunnel(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating SystemMobileTunnel resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateSystemMobileTunnel(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemMobileTunnel(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating SystemMobileTunnel resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateSystemMobileTunnel(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating SystemMobileTunnel resource: %v", err)
+		return fmt.Errorf("error creating SystemMobileTunnel resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -181,14 +196,24 @@ func resourceSystemMobileTunnelUpdate(d *schema.ResourceData, m interface{}) err
 		}
 	}
 
-	obj, err := getObjectSystemMobileTunnel(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SystemMobileTunnel resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSystemMobileTunnel(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemMobileTunnel(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SystemMobileTunnel resource: %v", err)
+		return fmt.Errorf("error updating SystemMobileTunnel resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSystemMobileTunnel(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SystemMobileTunnel resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -215,9 +240,17 @@ func resourceSystemMobileTunnelDelete(d *schema.ResourceData, m interface{}) err
 		}
 	}
 
-	err := c.DeleteSystemMobileTunnel(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSystemMobileTunnel(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SystemMobileTunnel resource: %v", err)
+		return fmt.Errorf("error deleting SystemMobileTunnel resource: %v", err)
 	}
 
 	d.SetId("")
@@ -239,9 +272,19 @@ func resourceSystemMobileTunnelRead(d *schema.ResourceData, m interface{}) error
 		}
 	}
 
-	o, err := c.ReadSystemMobileTunnel(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSystemMobileTunnel(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemMobileTunnel resource: %v", err)
+		return fmt.Errorf("error reading SystemMobileTunnel resource: %v", err)
 	}
 
 	if o == nil {
@@ -252,7 +295,7 @@ func resourceSystemMobileTunnelRead(d *schema.ResourceData, m interface{}) error
 
 	err = refreshObjectSystemMobileTunnel(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemMobileTunnel resource from API: %v", err)
+		return fmt.Errorf("error reading SystemMobileTunnel resource from API: %v", err)
 	}
 	return nil
 }
@@ -383,93 +426,93 @@ func refreshObjectSystemMobileTunnel(d *schema.ResourceData, o map[string]interf
 
 	if err = d.Set("name", flattenSystemMobileTunnelName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("status", flattenSystemMobileTunnelStatus(o["status"], d, "status", sv)); err != nil {
 		if !fortiAPIPatch(o["status"]) {
-			return fmt.Errorf("Error reading status: %v", err)
+			return fmt.Errorf("error reading status: %v", err)
 		}
 	}
 
 	if err = d.Set("roaming_interface", flattenSystemMobileTunnelRoamingInterface(o["roaming-interface"], d, "roaming_interface", sv)); err != nil {
 		if !fortiAPIPatch(o["roaming-interface"]) {
-			return fmt.Errorf("Error reading roaming_interface: %v", err)
+			return fmt.Errorf("error reading roaming_interface: %v", err)
 		}
 	}
 
 	if err = d.Set("home_agent", flattenSystemMobileTunnelHomeAgent(o["home-agent"], d, "home_agent", sv)); err != nil {
 		if !fortiAPIPatch(o["home-agent"]) {
-			return fmt.Errorf("Error reading home_agent: %v", err)
+			return fmt.Errorf("error reading home_agent: %v", err)
 		}
 	}
 
 	if err = d.Set("home_address", flattenSystemMobileTunnelHomeAddress(o["home-address"], d, "home_address", sv)); err != nil {
 		if !fortiAPIPatch(o["home-address"]) {
-			return fmt.Errorf("Error reading home_address: %v", err)
+			return fmt.Errorf("error reading home_address: %v", err)
 		}
 	}
 
 	if err = d.Set("renew_interval", flattenSystemMobileTunnelRenewInterval(o["renew-interval"], d, "renew_interval", sv)); err != nil {
 		if !fortiAPIPatch(o["renew-interval"]) {
-			return fmt.Errorf("Error reading renew_interval: %v", err)
+			return fmt.Errorf("error reading renew_interval: %v", err)
 		}
 	}
 
 	if err = d.Set("lifetime", flattenSystemMobileTunnelLifetime(o["lifetime"], d, "lifetime", sv)); err != nil {
 		if !fortiAPIPatch(o["lifetime"]) {
-			return fmt.Errorf("Error reading lifetime: %v", err)
+			return fmt.Errorf("error reading lifetime: %v", err)
 		}
 	}
 
 	if err = d.Set("reg_interval", flattenSystemMobileTunnelRegInterval(o["reg-interval"], d, "reg_interval", sv)); err != nil {
 		if !fortiAPIPatch(o["reg-interval"]) {
-			return fmt.Errorf("Error reading reg_interval: %v", err)
+			return fmt.Errorf("error reading reg_interval: %v", err)
 		}
 	}
 
 	if err = d.Set("reg_retry", flattenSystemMobileTunnelRegRetry(o["reg-retry"], d, "reg_retry", sv)); err != nil {
 		if !fortiAPIPatch(o["reg-retry"]) {
-			return fmt.Errorf("Error reading reg_retry: %v", err)
+			return fmt.Errorf("error reading reg_retry: %v", err)
 		}
 	}
 
 	if err = d.Set("n_mhae_spi", flattenSystemMobileTunnelNMhaeSpi(o["n-mhae-spi"], d, "n_mhae_spi", sv)); err != nil {
 		if !fortiAPIPatch(o["n-mhae-spi"]) {
-			return fmt.Errorf("Error reading n_mhae_spi: %v", err)
+			return fmt.Errorf("error reading n_mhae_spi: %v", err)
 		}
 	}
 
 	if err = d.Set("n_mhae_key_type", flattenSystemMobileTunnelNMhaeKeyType(o["n-mhae-key-type"], d, "n_mhae_key_type", sv)); err != nil {
 		if !fortiAPIPatch(o["n-mhae-key-type"]) {
-			return fmt.Errorf("Error reading n_mhae_key_type: %v", err)
+			return fmt.Errorf("error reading n_mhae_key_type: %v", err)
 		}
 	}
 
 	if err = d.Set("hash_algorithm", flattenSystemMobileTunnelHashAlgorithm(o["hash-algorithm"], d, "hash_algorithm", sv)); err != nil {
 		if !fortiAPIPatch(o["hash-algorithm"]) {
-			return fmt.Errorf("Error reading hash_algorithm: %v", err)
+			return fmt.Errorf("error reading hash_algorithm: %v", err)
 		}
 	}
 
 	if err = d.Set("tunnel_mode", flattenSystemMobileTunnelTunnelMode(o["tunnel-mode"], d, "tunnel_mode", sv)); err != nil {
 		if !fortiAPIPatch(o["tunnel-mode"]) {
-			return fmt.Errorf("Error reading tunnel_mode: %v", err)
+			return fmt.Errorf("error reading tunnel_mode: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("network", flattenSystemMobileTunnelNetwork(o["network"], d, "network", sv)); err != nil {
 			if !fortiAPIPatch(o["network"]) {
-				return fmt.Errorf("Error reading network: %v", err)
+				return fmt.Errorf("error reading network: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("network"); ok {
 			if err = d.Set("network", flattenSystemMobileTunnelNetwork(o["network"], d, "network", sv)); err != nil {
 				if !fortiAPIPatch(o["network"]) {
-					return fmt.Errorf("Error reading network: %v", err)
+					return fmt.Errorf("error reading network: %v", err)
 				}
 			}
 		}

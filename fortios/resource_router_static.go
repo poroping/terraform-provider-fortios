@@ -30,128 +30,133 @@ func resourceRouterStatic() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"seq_num": &schema.Schema{
+			"seq_num": {
 				Type:     schema.TypeInt,
 				ForceNew: true,
 				Optional: true,
 				Computed: true,
 			},
-			"status": &schema.Schema{
+			"status": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
 				Optional:     true,
 				Computed:     true,
 			},
-			"dst": &schema.Schema{
+			"dst": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateIPv4Classnet,
 				Optional:     true,
 				Computed:     true,
 			},
-			"src": &schema.Schema{
+			"src": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateIPv4Classnet,
 				Optional:     true,
 				Computed:     true,
 			},
-			"gateway": &schema.Schema{
+			"gateway": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.IsIPv4Address,
 				Optional:     true,
 				Computed:     true,
 			},
-			"distance": &schema.Schema{
+			"distance": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 255),
 				Optional:     true,
 				Computed:     true,
 			},
-			"weight": &schema.Schema{
+			"weight": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 255),
 				Optional:     true,
 				Computed:     true,
 			},
-			"priority": &schema.Schema{
+			"priority": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"device": &schema.Schema{
+			"device": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"comment": &schema.Schema{
+			"comment": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
 			},
-			"blackhole": &schema.Schema{
+			"blackhole": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
 				Optional:     true,
 				Computed:     true,
 			},
-			"dynamic_gateway": &schema.Schema{
+			"dynamic_gateway": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
 				Optional:     true,
 				Computed:     true,
 			},
-			"sdwan": &schema.Schema{
+			"sdwan": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
 				Optional:     true,
 				Computed:     true,
 			},
-			"virtual_wan_link": &schema.Schema{
+			"virtual_wan_link": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
 				Optional:     true,
 				Computed:     true,
 			},
-			"dstaddr": &schema.Schema{
+			"dstaddr": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"internet_service": &schema.Schema{
+			"internet_service": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"internet_service_custom": &schema.Schema{
+			"internet_service_custom": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 64),
 				Optional:     true,
 				Computed:     true,
 			},
-			"link_monitor_exempt": &schema.Schema{
+			"link_monitor_exempt": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
 				Optional:     true,
 				Computed:     true,
 			},
-			"vrf": &schema.Schema{
+			"vrf": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 31),
 				Optional:     true,
 				Computed:     true,
 			},
-			"bfd": &schema.Schema{
+			"bfd": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
 				Optional:     true,
 				Computed:     true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -169,15 +174,25 @@ func resourceRouterStaticCreate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectRouterStatic(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating RouterStatic resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateRouterStatic(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectRouterStatic(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating RouterStatic resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateRouterStatic(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating RouterStatic resource: %v", err)
+		return fmt.Errorf("error creating RouterStatic resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -202,14 +217,24 @@ func resourceRouterStaticUpdate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectRouterStatic(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating RouterStatic resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateRouterStatic(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectRouterStatic(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating RouterStatic resource: %v", err)
+		return fmt.Errorf("error updating RouterStatic resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateRouterStatic(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating RouterStatic resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -236,9 +261,17 @@ func resourceRouterStaticDelete(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	err := c.DeleteRouterStatic(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteRouterStatic(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting RouterStatic resource: %v", err)
+		return fmt.Errorf("error deleting RouterStatic resource: %v", err)
 	}
 
 	d.SetId("")
@@ -260,9 +293,19 @@ func resourceRouterStaticRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadRouterStatic(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadRouterStatic(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading RouterStatic resource: %v", err)
+		return fmt.Errorf("error reading RouterStatic resource: %v", err)
 	}
 
 	if o == nil {
@@ -273,7 +316,7 @@ func resourceRouterStaticRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectRouterStatic(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading RouterStatic resource from API: %v", err)
+		return fmt.Errorf("error reading RouterStatic resource from API: %v", err)
 	}
 	return nil
 }
@@ -377,121 +420,121 @@ func refreshObjectRouterStatic(d *schema.ResourceData, o map[string]interface{},
 
 	if err = d.Set("seq_num", flattenRouterStaticSeqNum(o["seq-num"], d, "seq_num", sv)); err != nil {
 		if !fortiAPIPatch(o["seq-num"]) {
-			return fmt.Errorf("Error reading seq_num: %v", err)
+			return fmt.Errorf("error reading seq_num: %v", err)
 		}
 	}
 
 	if err = d.Set("status", flattenRouterStaticStatus(o["status"], d, "status", sv)); err != nil {
 		if !fortiAPIPatch(o["status"]) {
-			return fmt.Errorf("Error reading status: %v", err)
+			return fmt.Errorf("error reading status: %v", err)
 		}
 	}
 
 	if err = d.Set("dst", flattenRouterStaticDst(o["dst"], d, "dst", sv)); err != nil {
 		if !fortiAPIPatch(o["dst"]) {
-			return fmt.Errorf("Error reading dst: %v", err)
+			return fmt.Errorf("error reading dst: %v", err)
 		}
 	}
 
 	if err = d.Set("src", flattenRouterStaticSrc(o["src"], d, "src", sv)); err != nil {
 		if !fortiAPIPatch(o["src"]) {
-			return fmt.Errorf("Error reading src: %v", err)
+			return fmt.Errorf("error reading src: %v", err)
 		}
 	}
 
 	if err = d.Set("gateway", flattenRouterStaticGateway(o["gateway"], d, "gateway", sv)); err != nil {
 		if !fortiAPIPatch(o["gateway"]) {
-			return fmt.Errorf("Error reading gateway: %v", err)
+			return fmt.Errorf("error reading gateway: %v", err)
 		}
 	}
 
 	if err = d.Set("distance", flattenRouterStaticDistance(o["distance"], d, "distance", sv)); err != nil {
 		if !fortiAPIPatch(o["distance"]) {
-			return fmt.Errorf("Error reading distance: %v", err)
+			return fmt.Errorf("error reading distance: %v", err)
 		}
 	}
 
 	if err = d.Set("weight", flattenRouterStaticWeight(o["weight"], d, "weight", sv)); err != nil {
 		if !fortiAPIPatch(o["weight"]) {
-			return fmt.Errorf("Error reading weight: %v", err)
+			return fmt.Errorf("error reading weight: %v", err)
 		}
 	}
 
 	if err = d.Set("priority", flattenRouterStaticPriority(o["priority"], d, "priority", sv)); err != nil {
 		if !fortiAPIPatch(o["priority"]) {
-			return fmt.Errorf("Error reading priority: %v", err)
+			return fmt.Errorf("error reading priority: %v", err)
 		}
 	}
 
 	if err = d.Set("device", flattenRouterStaticDevice(o["device"], d, "device", sv)); err != nil {
 		if !fortiAPIPatch(o["device"]) {
-			return fmt.Errorf("Error reading device: %v", err)
+			return fmt.Errorf("error reading device: %v", err)
 		}
 	}
 
 	if err = d.Set("comment", flattenRouterStaticComment(o["comment"], d, "comment", sv)); err != nil {
 		if !fortiAPIPatch(o["comment"]) {
-			return fmt.Errorf("Error reading comment: %v", err)
+			return fmt.Errorf("error reading comment: %v", err)
 		}
 	}
 
 	if err = d.Set("blackhole", flattenRouterStaticBlackhole(o["blackhole"], d, "blackhole", sv)); err != nil {
 		if !fortiAPIPatch(o["blackhole"]) {
-			return fmt.Errorf("Error reading blackhole: %v", err)
+			return fmt.Errorf("error reading blackhole: %v", err)
 		}
 	}
 
 	if err = d.Set("dynamic_gateway", flattenRouterStaticDynamicGateway(o["dynamic-gateway"], d, "dynamic_gateway", sv)); err != nil {
 		if !fortiAPIPatch(o["dynamic-gateway"]) {
-			return fmt.Errorf("Error reading dynamic_gateway: %v", err)
+			return fmt.Errorf("error reading dynamic_gateway: %v", err)
 		}
 	}
 
 	if err = d.Set("sdwan", flattenRouterStaticSdwan(o["sdwan"], d, "sdwan", sv)); err != nil {
 		if !fortiAPIPatch(o["sdwan"]) {
-			return fmt.Errorf("Error reading sdwan: %v", err)
+			return fmt.Errorf("error reading sdwan: %v", err)
 		}
 	}
 
 	if err = d.Set("virtual_wan_link", flattenRouterStaticVirtualWanLink(o["virtual-wan-link"], d, "virtual_wan_link", sv)); err != nil {
 		if !fortiAPIPatch(o["virtual-wan-link"]) {
-			return fmt.Errorf("Error reading virtual_wan_link: %v", err)
+			return fmt.Errorf("error reading virtual_wan_link: %v", err)
 		}
 	}
 
 	if err = d.Set("dstaddr", flattenRouterStaticDstaddr(o["dstaddr"], d, "dstaddr", sv)); err != nil {
 		if !fortiAPIPatch(o["dstaddr"]) {
-			return fmt.Errorf("Error reading dstaddr: %v", err)
+			return fmt.Errorf("error reading dstaddr: %v", err)
 		}
 	}
 
 	if err = d.Set("internet_service", flattenRouterStaticInternetService(o["internet-service"], d, "internet_service", sv)); err != nil {
 		if !fortiAPIPatch(o["internet-service"]) {
-			return fmt.Errorf("Error reading internet_service: %v", err)
+			return fmt.Errorf("error reading internet_service: %v", err)
 		}
 	}
 
 	if err = d.Set("internet_service_custom", flattenRouterStaticInternetServiceCustom(o["internet-service-custom"], d, "internet_service_custom", sv)); err != nil {
 		if !fortiAPIPatch(o["internet-service-custom"]) {
-			return fmt.Errorf("Error reading internet_service_custom: %v", err)
+			return fmt.Errorf("error reading internet_service_custom: %v", err)
 		}
 	}
 
 	if err = d.Set("link_monitor_exempt", flattenRouterStaticLinkMonitorExempt(o["link-monitor-exempt"], d, "link_monitor_exempt", sv)); err != nil {
 		if !fortiAPIPatch(o["link-monitor-exempt"]) {
-			return fmt.Errorf("Error reading link_monitor_exempt: %v", err)
+			return fmt.Errorf("error reading link_monitor_exempt: %v", err)
 		}
 	}
 
 	if err = d.Set("vrf", flattenRouterStaticVrf(o["vrf"], d, "vrf", sv)); err != nil {
 		if !fortiAPIPatch(o["vrf"]) {
-			return fmt.Errorf("Error reading vrf: %v", err)
+			return fmt.Errorf("error reading vrf: %v", err)
 		}
 	}
 
 	if err = d.Set("bfd", flattenRouterStaticBfd(o["bfd"], d, "bfd", sv)); err != nil {
 		if !fortiAPIPatch(o["bfd"]) {
-			return fmt.Errorf("Error reading bfd: %v", err)
+			return fmt.Errorf("error reading bfd: %v", err)
 		}
 	}
 

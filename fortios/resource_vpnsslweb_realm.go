@@ -30,55 +30,60 @@ func resourceVpnSslWebRealm() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"url_path": &schema.Schema{
+			"url_path": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"max_concurrent_user": &schema.Schema{
+			"max_concurrent_user": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"login_page": &schema.Schema{
+			"login_page": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 32768),
 				Optional:     true,
 			},
-			"virtual_host": &schema.Schema{
+			"virtual_host": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
 			},
-			"virtual_host_only": &schema.Schema{
+			"virtual_host_only": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"radius_server": &schema.Schema{
+			"radius_server": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"nas_ip": &schema.Schema{
+			"nas_ip": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"radius_port": &schema.Schema{
+			"radius_port": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 65535),
 				Optional:     true,
 				Computed:     true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -96,15 +101,25 @@ func resourceVpnSslWebRealmCreate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectVpnSslWebRealm(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating VpnSslWebRealm resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateVpnSslWebRealm(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectVpnSslWebRealm(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating VpnSslWebRealm resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateVpnSslWebRealm(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating VpnSslWebRealm resource: %v", err)
+		return fmt.Errorf("error creating VpnSslWebRealm resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -129,14 +144,24 @@ func resourceVpnSslWebRealmUpdate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectVpnSslWebRealm(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating VpnSslWebRealm resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateVpnSslWebRealm(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectVpnSslWebRealm(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating VpnSslWebRealm resource: %v", err)
+		return fmt.Errorf("error updating VpnSslWebRealm resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateVpnSslWebRealm(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating VpnSslWebRealm resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -163,9 +188,17 @@ func resourceVpnSslWebRealmDelete(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	err := c.DeleteVpnSslWebRealm(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteVpnSslWebRealm(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting VpnSslWebRealm resource: %v", err)
+		return fmt.Errorf("error deleting VpnSslWebRealm resource: %v", err)
 	}
 
 	d.SetId("")
@@ -187,9 +220,19 @@ func resourceVpnSslWebRealmRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadVpnSslWebRealm(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadVpnSslWebRealm(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading VpnSslWebRealm resource: %v", err)
+		return fmt.Errorf("error reading VpnSslWebRealm resource: %v", err)
 	}
 
 	if o == nil {
@@ -200,7 +243,7 @@ func resourceVpnSslWebRealmRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectVpnSslWebRealm(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading VpnSslWebRealm resource from API: %v", err)
+		return fmt.Errorf("error reading VpnSslWebRealm resource from API: %v", err)
 	}
 	return nil
 }
@@ -242,49 +285,49 @@ func refreshObjectVpnSslWebRealm(d *schema.ResourceData, o map[string]interface{
 
 	if err = d.Set("url_path", flattenVpnSslWebRealmUrlPath(o["url-path"], d, "url_path", sv)); err != nil {
 		if !fortiAPIPatch(o["url-path"]) {
-			return fmt.Errorf("Error reading url_path: %v", err)
+			return fmt.Errorf("error reading url_path: %v", err)
 		}
 	}
 
 	if err = d.Set("max_concurrent_user", flattenVpnSslWebRealmMaxConcurrentUser(o["max-concurrent-user"], d, "max_concurrent_user", sv)); err != nil {
 		if !fortiAPIPatch(o["max-concurrent-user"]) {
-			return fmt.Errorf("Error reading max_concurrent_user: %v", err)
+			return fmt.Errorf("error reading max_concurrent_user: %v", err)
 		}
 	}
 
 	if err = d.Set("login_page", flattenVpnSslWebRealmLoginPage(o["login-page"], d, "login_page", sv)); err != nil {
 		if !fortiAPIPatch(o["login-page"]) {
-			return fmt.Errorf("Error reading login_page: %v", err)
+			return fmt.Errorf("error reading login_page: %v", err)
 		}
 	}
 
 	if err = d.Set("virtual_host", flattenVpnSslWebRealmVirtualHost(o["virtual-host"], d, "virtual_host", sv)); err != nil {
 		if !fortiAPIPatch(o["virtual-host"]) {
-			return fmt.Errorf("Error reading virtual_host: %v", err)
+			return fmt.Errorf("error reading virtual_host: %v", err)
 		}
 	}
 
 	if err = d.Set("virtual_host_only", flattenVpnSslWebRealmVirtualHostOnly(o["virtual-host-only"], d, "virtual_host_only", sv)); err != nil {
 		if !fortiAPIPatch(o["virtual-host-only"]) {
-			return fmt.Errorf("Error reading virtual_host_only: %v", err)
+			return fmt.Errorf("error reading virtual_host_only: %v", err)
 		}
 	}
 
 	if err = d.Set("radius_server", flattenVpnSslWebRealmRadiusServer(o["radius-server"], d, "radius_server", sv)); err != nil {
 		if !fortiAPIPatch(o["radius-server"]) {
-			return fmt.Errorf("Error reading radius_server: %v", err)
+			return fmt.Errorf("error reading radius_server: %v", err)
 		}
 	}
 
 	if err = d.Set("nas_ip", flattenVpnSslWebRealmNasIp(o["nas-ip"], d, "nas_ip", sv)); err != nil {
 		if !fortiAPIPatch(o["nas-ip"]) {
-			return fmt.Errorf("Error reading nas_ip: %v", err)
+			return fmt.Errorf("error reading nas_ip: %v", err)
 		}
 	}
 
 	if err = d.Set("radius_port", flattenVpnSslWebRealmRadiusPort(o["radius-port"], d, "radius_port", sv)); err != nil {
 		if !fortiAPIPatch(o["radius-port"]) {
-			return fmt.Errorf("Error reading radius_port: %v", err)
+			return fmt.Errorf("error reading radius_port: %v", err)
 		}
 	}
 

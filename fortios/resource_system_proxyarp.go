@@ -30,29 +30,34 @@ func resourceSystemProxyArp() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"fosid": &schema.Schema{
+			"fosid": {
 				Type:     schema.TypeInt,
 				ForceNew: true,
 				Required: true,
 			},
-			"interface": &schema.Schema{
+			"interface": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 15),
 				Required:     true,
 			},
-			"ip": &schema.Schema{
+			"ip": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"end_ip": &schema.Schema{
+			"end_ip": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -70,15 +75,25 @@ func resourceSystemProxyArpCreate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectSystemProxyArp(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating SystemProxyArp resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateSystemProxyArp(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemProxyArp(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating SystemProxyArp resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateSystemProxyArp(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating SystemProxyArp resource: %v", err)
+		return fmt.Errorf("error creating SystemProxyArp resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -103,14 +118,24 @@ func resourceSystemProxyArpUpdate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectSystemProxyArp(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SystemProxyArp resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSystemProxyArp(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemProxyArp(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SystemProxyArp resource: %v", err)
+		return fmt.Errorf("error updating SystemProxyArp resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSystemProxyArp(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SystemProxyArp resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -137,9 +162,17 @@ func resourceSystemProxyArpDelete(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	err := c.DeleteSystemProxyArp(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSystemProxyArp(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SystemProxyArp resource: %v", err)
+		return fmt.Errorf("error deleting SystemProxyArp resource: %v", err)
 	}
 
 	d.SetId("")
@@ -161,9 +194,19 @@ func resourceSystemProxyArpRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadSystemProxyArp(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSystemProxyArp(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemProxyArp resource: %v", err)
+		return fmt.Errorf("error reading SystemProxyArp resource: %v", err)
 	}
 
 	if o == nil {
@@ -174,7 +217,7 @@ func resourceSystemProxyArpRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectSystemProxyArp(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemProxyArp resource from API: %v", err)
+		return fmt.Errorf("error reading SystemProxyArp resource from API: %v", err)
 	}
 	return nil
 }
@@ -200,25 +243,25 @@ func refreshObjectSystemProxyArp(d *schema.ResourceData, o map[string]interface{
 
 	if err = d.Set("fosid", flattenSystemProxyArpId(o["id"], d, "fosid", sv)); err != nil {
 		if !fortiAPIPatch(o["id"]) {
-			return fmt.Errorf("Error reading fosid: %v", err)
+			return fmt.Errorf("error reading fosid: %v", err)
 		}
 	}
 
 	if err = d.Set("interface", flattenSystemProxyArpInterface(o["interface"], d, "interface", sv)); err != nil {
 		if !fortiAPIPatch(o["interface"]) {
-			return fmt.Errorf("Error reading interface: %v", err)
+			return fmt.Errorf("error reading interface: %v", err)
 		}
 	}
 
 	if err = d.Set("ip", flattenSystemProxyArpIp(o["ip"], d, "ip", sv)); err != nil {
 		if !fortiAPIPatch(o["ip"]) {
-			return fmt.Errorf("Error reading ip: %v", err)
+			return fmt.Errorf("error reading ip: %v", err)
 		}
 	}
 
 	if err = d.Set("end_ip", flattenSystemProxyArpEndIp(o["end-ip"], d, "end_ip", sv)); err != nil {
 		if !fortiAPIPatch(o["end-ip"]) {
-			return fmt.Errorf("Error reading end_ip: %v", err)
+			return fmt.Errorf("error reading end_ip: %v", err)
 		}
 	}
 

@@ -30,43 +30,43 @@ func resourceWebfilterContentHeader() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"fosid": &schema.Schema{
+			"fosid": {
 				Type:     schema.TypeInt,
 				ForceNew: true,
 				Required: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Required:     true,
 			},
-			"comment": &schema.Schema{
+			"comment": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
 			},
-			"entries": &schema.Schema{
+			"entries": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"pattern": &schema.Schema{
+						"pattern": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 31),
 							Optional:     true,
 							Computed:     true,
 						},
-						"action": &schema.Schema{
+						"action": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"category": &schema.Schema{
+						"category": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -74,10 +74,15 @@ func resourceWebfilterContentHeader() *schema.Resource {
 					},
 				},
 			},
-			"dynamic_sort_subtable": &schema.Schema{
-				Type:     schema.TypeString,
+			"dynamic_sort_subtable": {
+				Type:     schema.TypeBool,
 				Optional: true,
-				Default:  "false",
+				Default:  false,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -95,15 +100,25 @@ func resourceWebfilterContentHeaderCreate(d *schema.ResourceData, m interface{})
 		}
 	}
 
-	obj, err := getObjectWebfilterContentHeader(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating WebfilterContentHeader resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateWebfilterContentHeader(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectWebfilterContentHeader(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating WebfilterContentHeader resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateWebfilterContentHeader(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating WebfilterContentHeader resource: %v", err)
+		return fmt.Errorf("error creating WebfilterContentHeader resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -128,14 +143,24 @@ func resourceWebfilterContentHeaderUpdate(d *schema.ResourceData, m interface{})
 		}
 	}
 
-	obj, err := getObjectWebfilterContentHeader(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating WebfilterContentHeader resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateWebfilterContentHeader(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectWebfilterContentHeader(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating WebfilterContentHeader resource: %v", err)
+		return fmt.Errorf("error updating WebfilterContentHeader resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateWebfilterContentHeader(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating WebfilterContentHeader resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -162,9 +187,17 @@ func resourceWebfilterContentHeaderDelete(d *schema.ResourceData, m interface{})
 		}
 	}
 
-	err := c.DeleteWebfilterContentHeader(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteWebfilterContentHeader(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting WebfilterContentHeader resource: %v", err)
+		return fmt.Errorf("error deleting WebfilterContentHeader resource: %v", err)
 	}
 
 	d.SetId("")
@@ -186,9 +219,19 @@ func resourceWebfilterContentHeaderRead(d *schema.ResourceData, m interface{}) e
 		}
 	}
 
-	o, err := c.ReadWebfilterContentHeader(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadWebfilterContentHeader(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading WebfilterContentHeader resource: %v", err)
+		return fmt.Errorf("error reading WebfilterContentHeader resource: %v", err)
 	}
 
 	if o == nil {
@@ -199,7 +242,7 @@ func resourceWebfilterContentHeaderRead(d *schema.ResourceData, m interface{}) e
 
 	err = refreshObjectWebfilterContentHeader(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading WebfilterContentHeader resource from API: %v", err)
+		return fmt.Errorf("error reading WebfilterContentHeader resource from API: %v", err)
 	}
 	return nil
 }
@@ -279,33 +322,33 @@ func refreshObjectWebfilterContentHeader(d *schema.ResourceData, o map[string]in
 
 	if err = d.Set("fosid", flattenWebfilterContentHeaderId(o["id"], d, "fosid", sv)); err != nil {
 		if !fortiAPIPatch(o["id"]) {
-			return fmt.Errorf("Error reading fosid: %v", err)
+			return fmt.Errorf("error reading fosid: %v", err)
 		}
 	}
 
 	if err = d.Set("name", flattenWebfilterContentHeaderName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("comment", flattenWebfilterContentHeaderComment(o["comment"], d, "comment", sv)); err != nil {
 		if !fortiAPIPatch(o["comment"]) {
-			return fmt.Errorf("Error reading comment: %v", err)
+			return fmt.Errorf("error reading comment: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("entries", flattenWebfilterContentHeaderEntries(o["entries"], d, "entries", sv)); err != nil {
 			if !fortiAPIPatch(o["entries"]) {
-				return fmt.Errorf("Error reading entries: %v", err)
+				return fmt.Errorf("error reading entries: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("entries"); ok {
 			if err = d.Set("entries", flattenWebfilterContentHeaderEntries(o["entries"], d, "entries", sv)); err != nil {
 				if !fortiAPIPatch(o["entries"]) {
-					return fmt.Errorf("Error reading entries: %v", err)
+					return fmt.Errorf("error reading entries: %v", err)
 				}
 			}
 		}

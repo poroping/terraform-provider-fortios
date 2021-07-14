@@ -30,60 +30,65 @@ func resourceSystemStorage() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"status": &schema.Schema{
+			"status": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"media_status": &schema.Schema{
+			"media_status": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"order": &schema.Schema{
+			"order": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 255),
 				Optional:     true,
 				Computed:     true,
 			},
-			"partition": &schema.Schema{
+			"partition": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 16),
 				Optional:     true,
 				Computed:     true,
 			},
-			"device": &schema.Schema{
+			"device": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 19),
 				Optional:     true,
 				Computed:     true,
 			},
-			"size": &schema.Schema{
+			"size": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"usage": &schema.Schema{
+			"usage": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"wanopt_mode": &schema.Schema{
+			"wanopt_mode": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -101,15 +106,25 @@ func resourceSystemStorageCreate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectSystemStorage(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating SystemStorage resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateSystemStorage(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemStorage(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating SystemStorage resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateSystemStorage(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating SystemStorage resource: %v", err)
+		return fmt.Errorf("error creating SystemStorage resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -134,14 +149,24 @@ func resourceSystemStorageUpdate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectSystemStorage(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SystemStorage resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSystemStorage(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemStorage(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SystemStorage resource: %v", err)
+		return fmt.Errorf("error updating SystemStorage resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSystemStorage(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SystemStorage resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -168,9 +193,17 @@ func resourceSystemStorageDelete(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	err := c.DeleteSystemStorage(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSystemStorage(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SystemStorage resource: %v", err)
+		return fmt.Errorf("error deleting SystemStorage resource: %v", err)
 	}
 
 	d.SetId("")
@@ -192,9 +225,19 @@ func resourceSystemStorageRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadSystemStorage(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSystemStorage(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemStorage resource: %v", err)
+		return fmt.Errorf("error reading SystemStorage resource: %v", err)
 	}
 
 	if o == nil {
@@ -205,7 +248,7 @@ func resourceSystemStorageRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectSystemStorage(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemStorage resource from API: %v", err)
+		return fmt.Errorf("error reading SystemStorage resource from API: %v", err)
 	}
 	return nil
 }
@@ -251,55 +294,55 @@ func refreshObjectSystemStorage(d *schema.ResourceData, o map[string]interface{}
 
 	if err = d.Set("name", flattenSystemStorageName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("status", flattenSystemStorageStatus(o["status"], d, "status", sv)); err != nil {
 		if !fortiAPIPatch(o["status"]) {
-			return fmt.Errorf("Error reading status: %v", err)
+			return fmt.Errorf("error reading status: %v", err)
 		}
 	}
 
 	if err = d.Set("media_status", flattenSystemStorageMediaStatus(o["media-status"], d, "media_status", sv)); err != nil {
 		if !fortiAPIPatch(o["media-status"]) {
-			return fmt.Errorf("Error reading media_status: %v", err)
+			return fmt.Errorf("error reading media_status: %v", err)
 		}
 	}
 
 	if err = d.Set("order", flattenSystemStorageOrder(o["order"], d, "order", sv)); err != nil {
 		if !fortiAPIPatch(o["order"]) {
-			return fmt.Errorf("Error reading order: %v", err)
+			return fmt.Errorf("error reading order: %v", err)
 		}
 	}
 
 	if err = d.Set("partition", flattenSystemStoragePartition(o["partition"], d, "partition", sv)); err != nil {
 		if !fortiAPIPatch(o["partition"]) {
-			return fmt.Errorf("Error reading partition: %v", err)
+			return fmt.Errorf("error reading partition: %v", err)
 		}
 	}
 
 	if err = d.Set("device", flattenSystemStorageDevice(o["device"], d, "device", sv)); err != nil {
 		if !fortiAPIPatch(o["device"]) {
-			return fmt.Errorf("Error reading device: %v", err)
+			return fmt.Errorf("error reading device: %v", err)
 		}
 	}
 
 	if err = d.Set("size", flattenSystemStorageSize(o["size"], d, "size", sv)); err != nil {
 		if !fortiAPIPatch(o["size"]) {
-			return fmt.Errorf("Error reading size: %v", err)
+			return fmt.Errorf("error reading size: %v", err)
 		}
 	}
 
 	if err = d.Set("usage", flattenSystemStorageUsage(o["usage"], d, "usage", sv)); err != nil {
 		if !fortiAPIPatch(o["usage"]) {
-			return fmt.Errorf("Error reading usage: %v", err)
+			return fmt.Errorf("error reading usage: %v", err)
 		}
 	}
 
 	if err = d.Set("wanopt_mode", flattenSystemStorageWanoptMode(o["wanopt-mode"], d, "wanopt_mode", sv)); err != nil {
 		if !fortiAPIPatch(o["wanopt-mode"]) {
-			return fmt.Errorf("Error reading wanopt_mode: %v", err)
+			return fmt.Errorf("error reading wanopt_mode: %v", err)
 		}
 	}
 

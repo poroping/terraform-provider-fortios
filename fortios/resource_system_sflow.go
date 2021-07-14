@@ -30,25 +30,30 @@ func resourceSystemSflow() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"collector_ip": &schema.Schema{
+			"collector_ip": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"collector_port": &schema.Schema{
+			"collector_port": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"source_ip": &schema.Schema{
+			"source_ip": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -67,14 +72,24 @@ func resourceSystemSflowUpdate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectSystemSflow(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SystemSflow resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSystemSflow(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemSflow(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SystemSflow resource: %v", err)
+		return fmt.Errorf("error updating SystemSflow resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSystemSflow(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SystemSflow resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -101,9 +116,17 @@ func resourceSystemSflowDelete(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	err := c.DeleteSystemSflow(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSystemSflow(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SystemSflow resource: %v", err)
+		return fmt.Errorf("error deleting SystemSflow resource: %v", err)
 	}
 
 	d.SetId("")
@@ -125,9 +148,19 @@ func resourceSystemSflowRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadSystemSflow(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSystemSflow(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemSflow resource: %v", err)
+		return fmt.Errorf("error reading SystemSflow resource: %v", err)
 	}
 
 	if o == nil {
@@ -138,7 +171,7 @@ func resourceSystemSflowRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectSystemSflow(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemSflow resource from API: %v", err)
+		return fmt.Errorf("error reading SystemSflow resource from API: %v", err)
 	}
 	return nil
 }
@@ -160,19 +193,19 @@ func refreshObjectSystemSflow(d *schema.ResourceData, o map[string]interface{}, 
 
 	if err = d.Set("collector_ip", flattenSystemSflowCollectorIp(o["collector-ip"], d, "collector_ip", sv)); err != nil {
 		if !fortiAPIPatch(o["collector-ip"]) {
-			return fmt.Errorf("Error reading collector_ip: %v", err)
+			return fmt.Errorf("error reading collector_ip: %v", err)
 		}
 	}
 
 	if err = d.Set("collector_port", flattenSystemSflowCollectorPort(o["collector-port"], d, "collector_port", sv)); err != nil {
 		if !fortiAPIPatch(o["collector-port"]) {
-			return fmt.Errorf("Error reading collector_port: %v", err)
+			return fmt.Errorf("error reading collector_port: %v", err)
 		}
 	}
 
 	if err = d.Set("source_ip", flattenSystemSflowSourceIp(o["source-ip"], d, "source_ip", sv)); err != nil {
 		if !fortiAPIPatch(o["source-ip"]) {
-			return fmt.Errorf("Error reading source_ip: %v", err)
+			return fmt.Errorf("error reading source_ip: %v", err)
 		}
 	}
 

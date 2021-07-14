@@ -30,57 +30,62 @@ func resourceCredentialStoreDomainController() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"server_name": &schema.Schema{
+			"server_name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"hostname": &schema.Schema{
+			"hostname": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
 				Computed:     true,
 			},
-			"domain_name": &schema.Schema{
+			"domain_name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 79),
 				Optional:     true,
 				Computed:     true,
 			},
-			"username": &schema.Schema{
+			"username": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 64),
 				Optional:     true,
 				Computed:     true,
 			},
-			"password": &schema.Schema{
+			"password": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 128),
 				Optional:     true,
 				Sensitive:    true,
 			},
-			"port": &schema.Schema{
+			"port": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"ip": &schema.Schema{
+			"ip": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ip6": &schema.Schema{
+			"ip6": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -98,15 +103,25 @@ func resourceCredentialStoreDomainControllerCreate(d *schema.ResourceData, m int
 		}
 	}
 
-	obj, err := getObjectCredentialStoreDomainController(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating CredentialStoreDomainController resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateCredentialStoreDomainController(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectCredentialStoreDomainController(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating CredentialStoreDomainController resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateCredentialStoreDomainController(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating CredentialStoreDomainController resource: %v", err)
+		return fmt.Errorf("error creating CredentialStoreDomainController resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -131,14 +146,24 @@ func resourceCredentialStoreDomainControllerUpdate(d *schema.ResourceData, m int
 		}
 	}
 
-	obj, err := getObjectCredentialStoreDomainController(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating CredentialStoreDomainController resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateCredentialStoreDomainController(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectCredentialStoreDomainController(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating CredentialStoreDomainController resource: %v", err)
+		return fmt.Errorf("error updating CredentialStoreDomainController resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateCredentialStoreDomainController(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating CredentialStoreDomainController resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -165,9 +190,17 @@ func resourceCredentialStoreDomainControllerDelete(d *schema.ResourceData, m int
 		}
 	}
 
-	err := c.DeleteCredentialStoreDomainController(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteCredentialStoreDomainController(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting CredentialStoreDomainController resource: %v", err)
+		return fmt.Errorf("error deleting CredentialStoreDomainController resource: %v", err)
 	}
 
 	d.SetId("")
@@ -189,9 +222,19 @@ func resourceCredentialStoreDomainControllerRead(d *schema.ResourceData, m inter
 		}
 	}
 
-	o, err := c.ReadCredentialStoreDomainController(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadCredentialStoreDomainController(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading CredentialStoreDomainController resource: %v", err)
+		return fmt.Errorf("error reading CredentialStoreDomainController resource: %v", err)
 	}
 
 	if o == nil {
@@ -202,7 +245,7 @@ func resourceCredentialStoreDomainControllerRead(d *schema.ResourceData, m inter
 
 	err = refreshObjectCredentialStoreDomainController(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading CredentialStoreDomainController resource from API: %v", err)
+		return fmt.Errorf("error reading CredentialStoreDomainController resource from API: %v", err)
 	}
 	return nil
 }
@@ -244,43 +287,43 @@ func refreshObjectCredentialStoreDomainController(d *schema.ResourceData, o map[
 
 	if err = d.Set("server_name", flattenCredentialStoreDomainControllerServerName(o["server-name"], d, "server_name", sv)); err != nil {
 		if !fortiAPIPatch(o["server-name"]) {
-			return fmt.Errorf("Error reading server_name: %v", err)
+			return fmt.Errorf("error reading server_name: %v", err)
 		}
 	}
 
 	if err = d.Set("hostname", flattenCredentialStoreDomainControllerHostname(o["hostname"], d, "hostname", sv)); err != nil {
 		if !fortiAPIPatch(o["hostname"]) {
-			return fmt.Errorf("Error reading hostname: %v", err)
+			return fmt.Errorf("error reading hostname: %v", err)
 		}
 	}
 
 	if err = d.Set("domain_name", flattenCredentialStoreDomainControllerDomainName(o["domain-name"], d, "domain_name", sv)); err != nil {
 		if !fortiAPIPatch(o["domain-name"]) {
-			return fmt.Errorf("Error reading domain_name: %v", err)
+			return fmt.Errorf("error reading domain_name: %v", err)
 		}
 	}
 
 	if err = d.Set("username", flattenCredentialStoreDomainControllerUsername(o["username"], d, "username", sv)); err != nil {
 		if !fortiAPIPatch(o["username"]) {
-			return fmt.Errorf("Error reading username: %v", err)
+			return fmt.Errorf("error reading username: %v", err)
 		}
 	}
 
 	if err = d.Set("port", flattenCredentialStoreDomainControllerPort(o["port"], d, "port", sv)); err != nil {
 		if !fortiAPIPatch(o["port"]) {
-			return fmt.Errorf("Error reading port: %v", err)
+			return fmt.Errorf("error reading port: %v", err)
 		}
 	}
 
 	if err = d.Set("ip", flattenCredentialStoreDomainControllerIp(o["ip"], d, "ip", sv)); err != nil {
 		if !fortiAPIPatch(o["ip"]) {
-			return fmt.Errorf("Error reading ip: %v", err)
+			return fmt.Errorf("error reading ip: %v", err)
 		}
 	}
 
 	if err = d.Set("ip6", flattenCredentialStoreDomainControllerIp6(o["ip6"], d, "ip6", sv)); err != nil {
 		if !fortiAPIPatch(o["ip6"]) {
-			return fmt.Errorf("Error reading ip6: %v", err)
+			return fmt.Errorf("error reading ip6: %v", err)
 		}
 	}
 

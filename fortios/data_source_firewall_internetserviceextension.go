@@ -21,59 +21,59 @@ func dataSourceFirewallInternetServiceExtension() *schema.Resource {
 	return &schema.Resource{
 		Read: dataSourceFirewallInternetServiceExtensionRead,
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
 
-			"fosid": &schema.Schema{
+			"fosid": {
 				Type:     schema.TypeInt,
 				Required: true,
 			},
-			"comment": &schema.Schema{
+			"comment": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"entry": &schema.Schema{
+			"entry": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"protocol": &schema.Schema{
+						"protocol": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"port_range": &schema.Schema{
+						"port_range": {
 							Type:     schema.TypeList,
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"id": &schema.Schema{
+									"id": {
 										Type:     schema.TypeInt,
 										Computed: true,
 									},
-									"start_port": &schema.Schema{
+									"start_port": {
 										Type:     schema.TypeInt,
 										Computed: true,
 									},
-									"end_port": &schema.Schema{
+									"end_port": {
 										Type:     schema.TypeInt,
 										Computed: true,
 									},
 								},
 							},
 						},
-						"dst": &schema.Schema{
+						"dst": {
 							Type:     schema.TypeList,
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"name": &schema.Schema{
+									"name": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
@@ -83,57 +83,57 @@ func dataSourceFirewallInternetServiceExtension() *schema.Resource {
 					},
 				},
 			},
-			"disable_entry": &schema.Schema{
+			"disable_entry": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"protocol": &schema.Schema{
+						"protocol": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"port_range": &schema.Schema{
+						"port_range": {
 							Type:     schema.TypeList,
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"id": &schema.Schema{
+									"id": {
 										Type:     schema.TypeInt,
 										Computed: true,
 									},
-									"start_port": &schema.Schema{
+									"start_port": {
 										Type:     schema.TypeInt,
 										Computed: true,
 									},
-									"end_port": &schema.Schema{
+									"end_port": {
 										Type:     schema.TypeInt,
 										Computed: true,
 									},
 								},
 							},
 						},
-						"port": &schema.Schema{
+						"port": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"ip_range": &schema.Schema{
+						"ip_range": {
 							Type:     schema.TypeList,
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"id": &schema.Schema{
+									"id": {
 										Type:     schema.TypeInt,
 										Computed: true,
 									},
-									"start_ip": &schema.Schema{
+									"start_ip": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
-									"end_ip": &schema.Schema{
+									"end_ip": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
@@ -167,12 +167,12 @@ func dataSourceFirewallInternetServiceExtensionRead(d *schema.ResourceData, m in
 	} else if v, ok := t.(int); ok {
 		mkey = strconv.Itoa(v)
 	} else {
-		return fmt.Errorf("Error describing FirewallInternetServiceExtension: type error")
+		return fmt.Errorf("error describing FirewallInternetServiceExtension: type error")
 	}
 
-	o, err := c.ReadFirewallInternetServiceExtension(mkey, vdomparam)
+	o, err := c.ReadFirewallInternetServiceExtension(mkey, vdomparam, make(map[string][]string), 0)
 	if err != nil {
-		return fmt.Errorf("Error describing FirewallInternetServiceExtension: %v", err)
+		return fmt.Errorf("error describing FirewallInternetServiceExtension: %v", err)
 	}
 
 	if o == nil {
@@ -182,7 +182,7 @@ func dataSourceFirewallInternetServiceExtensionRead(d *schema.ResourceData, m in
 
 	err = dataSourceRefreshObjectFirewallInternetServiceExtension(d, o)
 	if err != nil {
-		return fmt.Errorf("Error describing FirewallInternetServiceExtension from API: %v", err)
+		return fmt.Errorf("error describing FirewallInternetServiceExtension from API: %v", err)
 	}
 
 	d.SetId(mkey)
@@ -520,25 +520,25 @@ func dataSourceRefreshObjectFirewallInternetServiceExtension(d *schema.ResourceD
 
 	if err = d.Set("fosid", dataSourceFlattenFirewallInternetServiceExtensionId(o["id"], d, "fosid")); err != nil {
 		if !fortiAPIPatch(o["id"]) {
-			return fmt.Errorf("Error reading fosid: %v", err)
+			return fmt.Errorf("error reading fosid: %v", err)
 		}
 	}
 
 	if err = d.Set("comment", dataSourceFlattenFirewallInternetServiceExtensionComment(o["comment"], d, "comment")); err != nil {
 		if !fortiAPIPatch(o["comment"]) {
-			return fmt.Errorf("Error reading comment: %v", err)
+			return fmt.Errorf("error reading comment: %v", err)
 		}
 	}
 
 	if err = d.Set("entry", dataSourceFlattenFirewallInternetServiceExtensionEntry(o["entry"], d, "entry")); err != nil {
 		if !fortiAPIPatch(o["entry"]) {
-			return fmt.Errorf("Error reading entry: %v", err)
+			return fmt.Errorf("error reading entry: %v", err)
 		}
 	}
 
 	if err = d.Set("disable_entry", dataSourceFlattenFirewallInternetServiceExtensionDisableEntry(o["disable-entry"], d, "disable_entry")); err != nil {
 		if !fortiAPIPatch(o["disable-entry"]) {
-			return fmt.Errorf("Error reading disable_entry: %v", err)
+			return fmt.Errorf("error reading disable_entry: %v", err)
 		}
 	}
 

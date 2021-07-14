@@ -30,31 +30,36 @@ func resourceSystemReplacemsgFortiguardWf() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"msg_type": &schema.Schema{
+			"msg_type": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 28),
 				ForceNew:     true,
 				Required:     true,
 			},
-			"buffer": &schema.Schema{
+			"buffer": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 32768),
 				Optional:     true,
 			},
-			"header": &schema.Schema{
+			"header": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"format": &schema.Schema{
+			"format": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -73,15 +78,25 @@ func resourceSystemReplacemsgFortiguardWfUpdate(d *schema.ResourceData, m interf
 		}
 	}
 
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
 	mkey = d.Get("msg_type").(string)
 	obj, err := getObjectSystemReplacemsgFortiguardWf(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SystemReplacemsgFortiguardWf resource while getting object: %v", err)
+		return fmt.Errorf("error updating SystemReplacemsgFortiguardWf resource while getting object: %v", err)
 	}
 
-	o, err := c.UpdateSystemReplacemsgFortiguardWf(obj, mkey, vdomparam)
+	o, err := c.UpdateSystemReplacemsgFortiguardWf(obj, mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error updating SystemReplacemsgFortiguardWf resource: %v", err)
+		return fmt.Errorf("error updating SystemReplacemsgFortiguardWf resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -108,9 +123,17 @@ func resourceSystemReplacemsgFortiguardWfDelete(d *schema.ResourceData, m interf
 		}
 	}
 
-	err := c.DeleteSystemReplacemsgFortiguardWf(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSystemReplacemsgFortiguardWf(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SystemReplacemsgFortiguardWf resource: %v", err)
+		return fmt.Errorf("error deleting SystemReplacemsgFortiguardWf resource: %v", err)
 	}
 
 	d.SetId("")
@@ -132,9 +155,19 @@ func resourceSystemReplacemsgFortiguardWfRead(d *schema.ResourceData, m interfac
 		}
 	}
 
-	o, err := c.ReadSystemReplacemsgFortiguardWf(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSystemReplacemsgFortiguardWf(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemReplacemsgFortiguardWf resource: %v", err)
+		return fmt.Errorf("error reading SystemReplacemsgFortiguardWf resource: %v", err)
 	}
 
 	if o == nil {
@@ -145,7 +178,7 @@ func resourceSystemReplacemsgFortiguardWfRead(d *schema.ResourceData, m interfac
 
 	err = refreshObjectSystemReplacemsgFortiguardWf(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemReplacemsgFortiguardWf resource from API: %v", err)
+		return fmt.Errorf("error reading SystemReplacemsgFortiguardWf resource from API: %v", err)
 	}
 	return nil
 }
@@ -171,25 +204,25 @@ func refreshObjectSystemReplacemsgFortiguardWf(d *schema.ResourceData, o map[str
 
 	if err = d.Set("msg_type", flattenSystemReplacemsgFortiguardWfMsgType(o["msg-type"], d, "msg_type", sv)); err != nil {
 		if !fortiAPIPatch(o["msg-type"]) {
-			return fmt.Errorf("Error reading msg_type: %v", err)
+			return fmt.Errorf("error reading msg_type: %v", err)
 		}
 	}
 
 	if err = d.Set("buffer", flattenSystemReplacemsgFortiguardWfBuffer(o["buffer"], d, "buffer", sv)); err != nil {
 		if !fortiAPIPatch(o["buffer"]) {
-			return fmt.Errorf("Error reading buffer: %v", err)
+			return fmt.Errorf("error reading buffer: %v", err)
 		}
 	}
 
 	if err = d.Set("header", flattenSystemReplacemsgFortiguardWfHeader(o["header"], d, "header", sv)); err != nil {
 		if !fortiAPIPatch(o["header"]) {
-			return fmt.Errorf("Error reading header: %v", err)
+			return fmt.Errorf("error reading header: %v", err)
 		}
 	}
 
 	if err = d.Set("format", flattenSystemReplacemsgFortiguardWfFormat(o["format"], d, "format", sv)); err != nil {
 		if !fortiAPIPatch(o["format"]) {
-			return fmt.Errorf("Error reading format: %v", err)
+			return fmt.Errorf("error reading format: %v", err)
 		}
 	}
 

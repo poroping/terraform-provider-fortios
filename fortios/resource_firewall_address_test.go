@@ -57,14 +57,14 @@ func testAccCheckFortiOSFirewallAddressExists(n string) resource.TestCheckFunc {
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadFirewallAddress(i, "root")
+		o, err := c.ReadFirewallAddress(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading FirewallAddress: %s", err)
+			return fmt.Errorf("error reading FirewallAddress: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating FirewallAddress: %s", n)
+			return fmt.Errorf("error creating FirewallAddress: %s", n)
 		}
 
 		return nil
@@ -80,11 +80,11 @@ func testAccCheckFirewallAddressDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadFirewallAddress(i, "root")
+		o, err := c.ReadFirewallAddress(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error FirewallAddress %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error FirewallAddress %s still exists", rs.Primary.ID)
 			}
 		}
 

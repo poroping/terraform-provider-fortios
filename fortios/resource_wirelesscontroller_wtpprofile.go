@@ -30,40 +30,40 @@ func resourceWirelessControllerWtpProfile() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"comment": &schema.Schema{
+			"comment": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
 			},
-			"platform": &schema.Schema{
+			"platform": {
 				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"type": &schema.Schema{
+						"type": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"mode": &schema.Schema{
+						"mode": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"ddscan": &schema.Schema{
+						"ddscan": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -71,139 +71,139 @@ func resourceWirelessControllerWtpProfile() *schema.Resource {
 					},
 				},
 			},
-			"control_message_offload": &schema.Schema{
+			"control_message_offload": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"apcfg_profile": &schema.Schema{
+			"apcfg_profile": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"ble_profile": &schema.Schema{
+			"ble_profile": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"wan_port_mode": &schema.Schema{
+			"wan_port_mode": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"lan": &schema.Schema{
+			"lan": {
 				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"port_mode": &schema.Schema{
+						"port_mode": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"port_ssid": &schema.Schema{
+						"port_ssid": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 15),
 							Optional:     true,
 							Computed:     true,
 						},
-						"port1_mode": &schema.Schema{
+						"port1_mode": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"port1_ssid": &schema.Schema{
+						"port1_ssid": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 15),
 							Optional:     true,
 							Computed:     true,
 						},
-						"port2_mode": &schema.Schema{
+						"port2_mode": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"port2_ssid": &schema.Schema{
+						"port2_ssid": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 15),
 							Optional:     true,
 							Computed:     true,
 						},
-						"port3_mode": &schema.Schema{
+						"port3_mode": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"port3_ssid": &schema.Schema{
+						"port3_ssid": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 15),
 							Optional:     true,
 							Computed:     true,
 						},
-						"port4_mode": &schema.Schema{
+						"port4_mode": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"port4_ssid": &schema.Schema{
+						"port4_ssid": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 15),
 							Optional:     true,
 							Computed:     true,
 						},
-						"port5_mode": &schema.Schema{
+						"port5_mode": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"port5_ssid": &schema.Schema{
+						"port5_ssid": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 15),
 							Optional:     true,
 							Computed:     true,
 						},
-						"port6_mode": &schema.Schema{
+						"port6_mode": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"port6_ssid": &schema.Schema{
+						"port6_ssid": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 15),
 							Optional:     true,
 							Computed:     true,
 						},
-						"port7_mode": &schema.Schema{
+						"port7_mode": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"port7_ssid": &schema.Schema{
+						"port7_ssid": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 15),
 							Optional:     true,
 							Computed:     true,
 						},
-						"port8_mode": &schema.Schema{
+						"port8_mode": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"port8_ssid": &schema.Schema{
+						"port8_ssid": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 15),
 							Optional:     true,
 							Computed:     true,
 						},
-						"port_esl_mode": &schema.Schema{
+						"port_esl_mode": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"port_esl_ssid": &schema.Schema{
+						"port_esl_ssid": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 15),
 							Optional:     true,
@@ -212,22 +212,22 @@ func resourceWirelessControllerWtpProfile() *schema.Resource {
 					},
 				},
 			},
-			"energy_efficient_ethernet": &schema.Schema{
+			"energy_efficient_ethernet": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"led_state": &schema.Schema{
+			"led_state": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"led_schedules": &schema.Schema{
+			"led_schedules": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
@@ -236,48 +236,48 @@ func resourceWirelessControllerWtpProfile() *schema.Resource {
 					},
 				},
 			},
-			"dtls_policy": &schema.Schema{
+			"dtls_policy": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"dtls_in_kernel": &schema.Schema{
+			"dtls_in_kernel": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"max_clients": &schema.Schema{
+			"max_clients": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"handoff_rssi": &schema.Schema{
+			"handoff_rssi": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(20, 30),
 				Optional:     true,
 				Computed:     true,
 			},
-			"handoff_sta_thresh": &schema.Schema{
+			"handoff_sta_thresh": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"handoff_roaming": &schema.Schema{
+			"handoff_roaming": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"deny_mac_list": &schema.Schema{
+			"deny_mac_list": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"mac": &schema.Schema{
+						"mac": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -285,49 +285,49 @@ func resourceWirelessControllerWtpProfile() *schema.Resource {
 					},
 				},
 			},
-			"ap_country": &schema.Schema{
+			"ap_country": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ip_fragment_preventing": &schema.Schema{
+			"ip_fragment_preventing": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"tun_mtu_uplink": &schema.Schema{
+			"tun_mtu_uplink": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(576, 1500),
 				Optional:     true,
 				Computed:     true,
 			},
-			"tun_mtu_downlink": &schema.Schema{
+			"tun_mtu_downlink": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(576, 1500),
 				Optional:     true,
 				Computed:     true,
 			},
-			"split_tunneling_acl_path": &schema.Schema{
+			"split_tunneling_acl_path": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"split_tunneling_acl_local_ap_subnet": &schema.Schema{
+			"split_tunneling_acl_local_ap_subnet": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"split_tunneling_acl": &schema.Schema{
+			"split_tunneling_acl": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"dest_ip": &schema.Schema{
+						"dest_ip": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -335,275 +335,275 @@ func resourceWirelessControllerWtpProfile() *schema.Resource {
 					},
 				},
 			},
-			"allowaccess": &schema.Schema{
+			"allowaccess": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"login_passwd_change": &schema.Schema{
+			"login_passwd_change": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"login_passwd": &schema.Schema{
+			"login_passwd": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 31),
 				Optional:     true,
 				Sensitive:    true,
 			},
-			"lldp": &schema.Schema{
+			"lldp": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"poe_mode": &schema.Schema{
+			"poe_mode": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"frequency_handoff": &schema.Schema{
+			"frequency_handoff": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ap_handoff": &schema.Schema{
+			"ap_handoff": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"radio_1": &schema.Schema{
+			"radio_1": {
 				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"radio_id": &schema.Schema{
+						"radio_id": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 2),
 							Optional:     true,
 							Computed:     true,
 						},
-						"mode": &schema.Schema{
+						"mode": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"band": &schema.Schema{
+						"band": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"band_5g_type": &schema.Schema{
+						"band_5g_type": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"drma": &schema.Schema{
+						"drma": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"drma_sensitivity": &schema.Schema{
+						"drma_sensitivity": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"airtime_fairness": &schema.Schema{
+						"airtime_fairness": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"protection_mode": &schema.Schema{
+						"protection_mode": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"powersave_optimize": &schema.Schema{
+						"powersave_optimize": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"transmit_optimize": &schema.Schema{
+						"transmit_optimize": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"amsdu": &schema.Schema{
+						"amsdu": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"coexistence": &schema.Schema{
+						"coexistence": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"zero_wait_dfs": &schema.Schema{
+						"zero_wait_dfs": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"bss_color": &schema.Schema{
+						"bss_color": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 63),
 							Optional:     true,
 							Computed:     true,
 						},
-						"short_guard_interval": &schema.Schema{
+						"short_guard_interval": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"channel_bonding": &schema.Schema{
+						"channel_bonding": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"auto_power_level": &schema.Schema{
+						"auto_power_level": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"auto_power_high": &schema.Schema{
+						"auto_power_high": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"auto_power_low": &schema.Schema{
+						"auto_power_low": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"auto_power_target": &schema.Schema{
+						"auto_power_target": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 7),
 							Optional:     true,
 							Computed:     true,
 						},
-						"power_level": &schema.Schema{
+						"power_level": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 100),
 							Optional:     true,
 							Computed:     true,
 						},
-						"dtim": &schema.Schema{
+						"dtim": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 255),
 							Optional:     true,
 							Computed:     true,
 						},
-						"beacon_interval": &schema.Schema{
+						"beacon_interval": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 65535),
 							Optional:     true,
 							Computed:     true,
 						},
-						"rts_threshold": &schema.Schema{
+						"rts_threshold": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(256, 2346),
 							Optional:     true,
 							Computed:     true,
 						},
-						"frag_threshold": &schema.Schema{
+						"frag_threshold": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(800, 2346),
 							Optional:     true,
 							Computed:     true,
 						},
-						"ap_sniffer_bufsize": &schema.Schema{
+						"ap_sniffer_bufsize": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 32),
 							Optional:     true,
 							Computed:     true,
 						},
-						"ap_sniffer_chan": &schema.Schema{
+						"ap_sniffer_chan": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"ap_sniffer_addr": &schema.Schema{
+						"ap_sniffer_addr": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"ap_sniffer_mgmt_beacon": &schema.Schema{
+						"ap_sniffer_mgmt_beacon": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"ap_sniffer_mgmt_probe": &schema.Schema{
+						"ap_sniffer_mgmt_probe": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"ap_sniffer_mgmt_other": &schema.Schema{
+						"ap_sniffer_mgmt_other": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"ap_sniffer_ctl": &schema.Schema{
+						"ap_sniffer_ctl": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"ap_sniffer_data": &schema.Schema{
+						"ap_sniffer_data": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"channel_utilization": &schema.Schema{
+						"channel_utilization": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"spectrum_analysis": &schema.Schema{
+						"spectrum_analysis": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"wids_profile": &schema.Schema{
+						"wids_profile": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"darrp": &schema.Schema{
+						"darrp": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"max_clients": &schema.Schema{
+						"max_clients": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"max_distance": &schema.Schema{
+						"max_distance": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 54000),
 							Optional:     true,
 							Computed:     true,
 						},
-						"frequency_handoff": &schema.Schema{
+						"frequency_handoff": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"ap_handoff": &schema.Schema{
+						"ap_handoff": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"vap_all": &schema.Schema{
+						"vap_all": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"vaps": &schema.Schema{
+						"vaps": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"name": &schema.Schema{
+									"name": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 35),
 										Optional:     true,
@@ -612,12 +612,12 @@ func resourceWirelessControllerWtpProfile() *schema.Resource {
 								},
 							},
 						},
-						"channel": &schema.Schema{
+						"channel": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"chan": &schema.Schema{
+									"chan": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 3),
 										Optional:     true,
@@ -626,23 +626,23 @@ func resourceWirelessControllerWtpProfile() *schema.Resource {
 								},
 							},
 						},
-						"call_admission_control": &schema.Schema{
+						"call_admission_control": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"call_capacity": &schema.Schema{
+						"call_capacity": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 60),
 							Optional:     true,
 							Computed:     true,
 						},
-						"bandwidth_admission_control": &schema.Schema{
+						"bandwidth_admission_control": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"bandwidth_capacity": &schema.Schema{
+						"bandwidth_capacity": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 600000),
 							Optional:     true,
@@ -651,239 +651,239 @@ func resourceWirelessControllerWtpProfile() *schema.Resource {
 					},
 				},
 			},
-			"radio_2": &schema.Schema{
+			"radio_2": {
 				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"radio_id": &schema.Schema{
+						"radio_id": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 2),
 							Optional:     true,
 							Computed:     true,
 						},
-						"mode": &schema.Schema{
+						"mode": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"band": &schema.Schema{
+						"band": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"band_5g_type": &schema.Schema{
+						"band_5g_type": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"drma": &schema.Schema{
+						"drma": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"drma_sensitivity": &schema.Schema{
+						"drma_sensitivity": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"airtime_fairness": &schema.Schema{
+						"airtime_fairness": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"protection_mode": &schema.Schema{
+						"protection_mode": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"powersave_optimize": &schema.Schema{
+						"powersave_optimize": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"transmit_optimize": &schema.Schema{
+						"transmit_optimize": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"amsdu": &schema.Schema{
+						"amsdu": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"coexistence": &schema.Schema{
+						"coexistence": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"zero_wait_dfs": &schema.Schema{
+						"zero_wait_dfs": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"bss_color": &schema.Schema{
+						"bss_color": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 63),
 							Optional:     true,
 							Computed:     true,
 						},
-						"short_guard_interval": &schema.Schema{
+						"short_guard_interval": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"channel_bonding": &schema.Schema{
+						"channel_bonding": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"auto_power_level": &schema.Schema{
+						"auto_power_level": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"auto_power_high": &schema.Schema{
+						"auto_power_high": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"auto_power_low": &schema.Schema{
+						"auto_power_low": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"auto_power_target": &schema.Schema{
+						"auto_power_target": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 7),
 							Optional:     true,
 							Computed:     true,
 						},
-						"power_level": &schema.Schema{
+						"power_level": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 100),
 							Optional:     true,
 							Computed:     true,
 						},
-						"dtim": &schema.Schema{
+						"dtim": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 255),
 							Optional:     true,
 							Computed:     true,
 						},
-						"beacon_interval": &schema.Schema{
+						"beacon_interval": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 65535),
 							Optional:     true,
 							Computed:     true,
 						},
-						"rts_threshold": &schema.Schema{
+						"rts_threshold": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(256, 2346),
 							Optional:     true,
 							Computed:     true,
 						},
-						"frag_threshold": &schema.Schema{
+						"frag_threshold": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(800, 2346),
 							Optional:     true,
 							Computed:     true,
 						},
-						"ap_sniffer_bufsize": &schema.Schema{
+						"ap_sniffer_bufsize": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 32),
 							Optional:     true,
 							Computed:     true,
 						},
-						"ap_sniffer_chan": &schema.Schema{
+						"ap_sniffer_chan": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"ap_sniffer_addr": &schema.Schema{
+						"ap_sniffer_addr": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"ap_sniffer_mgmt_beacon": &schema.Schema{
+						"ap_sniffer_mgmt_beacon": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"ap_sniffer_mgmt_probe": &schema.Schema{
+						"ap_sniffer_mgmt_probe": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"ap_sniffer_mgmt_other": &schema.Schema{
+						"ap_sniffer_mgmt_other": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"ap_sniffer_ctl": &schema.Schema{
+						"ap_sniffer_ctl": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"ap_sniffer_data": &schema.Schema{
+						"ap_sniffer_data": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"channel_utilization": &schema.Schema{
+						"channel_utilization": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"spectrum_analysis": &schema.Schema{
+						"spectrum_analysis": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"wids_profile": &schema.Schema{
+						"wids_profile": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"darrp": &schema.Schema{
+						"darrp": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"max_clients": &schema.Schema{
+						"max_clients": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"max_distance": &schema.Schema{
+						"max_distance": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 54000),
 							Optional:     true,
 							Computed:     true,
 						},
-						"frequency_handoff": &schema.Schema{
+						"frequency_handoff": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"ap_handoff": &schema.Schema{
+						"ap_handoff": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"vap_all": &schema.Schema{
+						"vap_all": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"vaps": &schema.Schema{
+						"vaps": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"name": &schema.Schema{
+									"name": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 35),
 										Optional:     true,
@@ -892,12 +892,12 @@ func resourceWirelessControllerWtpProfile() *schema.Resource {
 								},
 							},
 						},
-						"channel": &schema.Schema{
+						"channel": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"chan": &schema.Schema{
+									"chan": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 3),
 										Optional:     true,
@@ -906,23 +906,23 @@ func resourceWirelessControllerWtpProfile() *schema.Resource {
 								},
 							},
 						},
-						"call_admission_control": &schema.Schema{
+						"call_admission_control": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"call_capacity": &schema.Schema{
+						"call_capacity": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 60),
 							Optional:     true,
 							Computed:     true,
 						},
-						"bandwidth_admission_control": &schema.Schema{
+						"bandwidth_admission_control": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"bandwidth_capacity": &schema.Schema{
+						"bandwidth_capacity": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 600000),
 							Optional:     true,
@@ -931,233 +931,233 @@ func resourceWirelessControllerWtpProfile() *schema.Resource {
 					},
 				},
 			},
-			"radio_3": &schema.Schema{
+			"radio_3": {
 				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"mode": &schema.Schema{
+						"mode": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"band": &schema.Schema{
+						"band": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"band_5g_type": &schema.Schema{
+						"band_5g_type": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"drma": &schema.Schema{
+						"drma": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"drma_sensitivity": &schema.Schema{
+						"drma_sensitivity": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"airtime_fairness": &schema.Schema{
+						"airtime_fairness": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"protection_mode": &schema.Schema{
+						"protection_mode": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"powersave_optimize": &schema.Schema{
+						"powersave_optimize": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"transmit_optimize": &schema.Schema{
+						"transmit_optimize": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"amsdu": &schema.Schema{
+						"amsdu": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"coexistence": &schema.Schema{
+						"coexistence": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"zero_wait_dfs": &schema.Schema{
+						"zero_wait_dfs": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"bss_color": &schema.Schema{
+						"bss_color": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 63),
 							Optional:     true,
 							Computed:     true,
 						},
-						"short_guard_interval": &schema.Schema{
+						"short_guard_interval": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"channel_bonding": &schema.Schema{
+						"channel_bonding": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"auto_power_level": &schema.Schema{
+						"auto_power_level": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"auto_power_high": &schema.Schema{
+						"auto_power_high": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"auto_power_low": &schema.Schema{
+						"auto_power_low": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"auto_power_target": &schema.Schema{
+						"auto_power_target": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 7),
 							Optional:     true,
 							Computed:     true,
 						},
-						"power_level": &schema.Schema{
+						"power_level": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 100),
 							Optional:     true,
 							Computed:     true,
 						},
-						"dtim": &schema.Schema{
+						"dtim": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 255),
 							Optional:     true,
 							Computed:     true,
 						},
-						"beacon_interval": &schema.Schema{
+						"beacon_interval": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 65535),
 							Optional:     true,
 							Computed:     true,
 						},
-						"rts_threshold": &schema.Schema{
+						"rts_threshold": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(256, 2346),
 							Optional:     true,
 							Computed:     true,
 						},
-						"frag_threshold": &schema.Schema{
+						"frag_threshold": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(800, 2346),
 							Optional:     true,
 							Computed:     true,
 						},
-						"ap_sniffer_bufsize": &schema.Schema{
+						"ap_sniffer_bufsize": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 32),
 							Optional:     true,
 							Computed:     true,
 						},
-						"ap_sniffer_chan": &schema.Schema{
+						"ap_sniffer_chan": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"ap_sniffer_addr": &schema.Schema{
+						"ap_sniffer_addr": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"ap_sniffer_mgmt_beacon": &schema.Schema{
+						"ap_sniffer_mgmt_beacon": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"ap_sniffer_mgmt_probe": &schema.Schema{
+						"ap_sniffer_mgmt_probe": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"ap_sniffer_mgmt_other": &schema.Schema{
+						"ap_sniffer_mgmt_other": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"ap_sniffer_ctl": &schema.Schema{
+						"ap_sniffer_ctl": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"ap_sniffer_data": &schema.Schema{
+						"ap_sniffer_data": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"channel_utilization": &schema.Schema{
+						"channel_utilization": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"spectrum_analysis": &schema.Schema{
+						"spectrum_analysis": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"wids_profile": &schema.Schema{
+						"wids_profile": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"darrp": &schema.Schema{
+						"darrp": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"max_clients": &schema.Schema{
+						"max_clients": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"max_distance": &schema.Schema{
+						"max_distance": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 54000),
 							Optional:     true,
 							Computed:     true,
 						},
-						"frequency_handoff": &schema.Schema{
+						"frequency_handoff": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"ap_handoff": &schema.Schema{
+						"ap_handoff": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"vap_all": &schema.Schema{
+						"vap_all": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"vaps": &schema.Schema{
+						"vaps": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"name": &schema.Schema{
+									"name": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 35),
 										Optional:     true,
@@ -1166,12 +1166,12 @@ func resourceWirelessControllerWtpProfile() *schema.Resource {
 								},
 							},
 						},
-						"channel": &schema.Schema{
+						"channel": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"chan": &schema.Schema{
+									"chan": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 3),
 										Optional:     true,
@@ -1180,23 +1180,23 @@ func resourceWirelessControllerWtpProfile() *schema.Resource {
 								},
 							},
 						},
-						"call_admission_control": &schema.Schema{
+						"call_admission_control": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"call_capacity": &schema.Schema{
+						"call_capacity": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 60),
 							Optional:     true,
 							Computed:     true,
 						},
-						"bandwidth_admission_control": &schema.Schema{
+						"bandwidth_admission_control": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"bandwidth_capacity": &schema.Schema{
+						"bandwidth_capacity": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 600000),
 							Optional:     true,
@@ -1205,233 +1205,233 @@ func resourceWirelessControllerWtpProfile() *schema.Resource {
 					},
 				},
 			},
-			"radio_4": &schema.Schema{
+			"radio_4": {
 				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"mode": &schema.Schema{
+						"mode": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"band": &schema.Schema{
+						"band": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"band_5g_type": &schema.Schema{
+						"band_5g_type": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"drma": &schema.Schema{
+						"drma": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"drma_sensitivity": &schema.Schema{
+						"drma_sensitivity": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"airtime_fairness": &schema.Schema{
+						"airtime_fairness": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"protection_mode": &schema.Schema{
+						"protection_mode": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"powersave_optimize": &schema.Schema{
+						"powersave_optimize": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"transmit_optimize": &schema.Schema{
+						"transmit_optimize": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"amsdu": &schema.Schema{
+						"amsdu": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"coexistence": &schema.Schema{
+						"coexistence": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"zero_wait_dfs": &schema.Schema{
+						"zero_wait_dfs": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"bss_color": &schema.Schema{
+						"bss_color": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 63),
 							Optional:     true,
 							Computed:     true,
 						},
-						"short_guard_interval": &schema.Schema{
+						"short_guard_interval": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"channel_bonding": &schema.Schema{
+						"channel_bonding": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"auto_power_level": &schema.Schema{
+						"auto_power_level": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"auto_power_high": &schema.Schema{
+						"auto_power_high": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"auto_power_low": &schema.Schema{
+						"auto_power_low": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"auto_power_target": &schema.Schema{
+						"auto_power_target": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 7),
 							Optional:     true,
 							Computed:     true,
 						},
-						"power_level": &schema.Schema{
+						"power_level": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 100),
 							Optional:     true,
 							Computed:     true,
 						},
-						"dtim": &schema.Schema{
+						"dtim": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 255),
 							Optional:     true,
 							Computed:     true,
 						},
-						"beacon_interval": &schema.Schema{
+						"beacon_interval": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 65535),
 							Optional:     true,
 							Computed:     true,
 						},
-						"rts_threshold": &schema.Schema{
+						"rts_threshold": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(256, 2346),
 							Optional:     true,
 							Computed:     true,
 						},
-						"frag_threshold": &schema.Schema{
+						"frag_threshold": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(800, 2346),
 							Optional:     true,
 							Computed:     true,
 						},
-						"ap_sniffer_bufsize": &schema.Schema{
+						"ap_sniffer_bufsize": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 32),
 							Optional:     true,
 							Computed:     true,
 						},
-						"ap_sniffer_chan": &schema.Schema{
+						"ap_sniffer_chan": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"ap_sniffer_addr": &schema.Schema{
+						"ap_sniffer_addr": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"ap_sniffer_mgmt_beacon": &schema.Schema{
+						"ap_sniffer_mgmt_beacon": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"ap_sniffer_mgmt_probe": &schema.Schema{
+						"ap_sniffer_mgmt_probe": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"ap_sniffer_mgmt_other": &schema.Schema{
+						"ap_sniffer_mgmt_other": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"ap_sniffer_ctl": &schema.Schema{
+						"ap_sniffer_ctl": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"ap_sniffer_data": &schema.Schema{
+						"ap_sniffer_data": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"channel_utilization": &schema.Schema{
+						"channel_utilization": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"spectrum_analysis": &schema.Schema{
+						"spectrum_analysis": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"wids_profile": &schema.Schema{
+						"wids_profile": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"darrp": &schema.Schema{
+						"darrp": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"max_clients": &schema.Schema{
+						"max_clients": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"max_distance": &schema.Schema{
+						"max_distance": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 54000),
 							Optional:     true,
 							Computed:     true,
 						},
-						"frequency_handoff": &schema.Schema{
+						"frequency_handoff": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"ap_handoff": &schema.Schema{
+						"ap_handoff": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"vap_all": &schema.Schema{
+						"vap_all": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"vaps": &schema.Schema{
+						"vaps": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"name": &schema.Schema{
+									"name": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 35),
 										Optional:     true,
@@ -1440,12 +1440,12 @@ func resourceWirelessControllerWtpProfile() *schema.Resource {
 								},
 							},
 						},
-						"channel": &schema.Schema{
+						"channel": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"chan": &schema.Schema{
+									"chan": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 3),
 										Optional:     true,
@@ -1454,23 +1454,23 @@ func resourceWirelessControllerWtpProfile() *schema.Resource {
 								},
 							},
 						},
-						"call_admission_control": &schema.Schema{
+						"call_admission_control": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"call_capacity": &schema.Schema{
+						"call_capacity": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 60),
 							Optional:     true,
 							Computed:     true,
 						},
-						"bandwidth_admission_control": &schema.Schema{
+						"bandwidth_admission_control": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"bandwidth_capacity": &schema.Schema{
+						"bandwidth_capacity": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 600000),
 							Optional:     true,
@@ -1479,125 +1479,125 @@ func resourceWirelessControllerWtpProfile() *schema.Resource {
 					},
 				},
 			},
-			"lbs": &schema.Schema{
+			"lbs": {
 				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"ekahau_blink_mode": &schema.Schema{
+						"ekahau_blink_mode": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"ekahau_tag": &schema.Schema{
+						"ekahau_tag": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"erc_server_ip": &schema.Schema{
+						"erc_server_ip": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"erc_server_port": &schema.Schema{
+						"erc_server_port": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1024, 65535),
 							Optional:     true,
 							Computed:     true,
 						},
-						"aeroscout": &schema.Schema{
+						"aeroscout": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"aeroscout_server_ip": &schema.Schema{
+						"aeroscout_server_ip": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"aeroscout_server_port": &schema.Schema{
+						"aeroscout_server_port": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1024, 65535),
 							Optional:     true,
 							Computed:     true,
 						},
-						"aeroscout_mu": &schema.Schema{
+						"aeroscout_mu": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"aeroscout_ap_mac": &schema.Schema{
+						"aeroscout_ap_mac": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"aeroscout_mmu_report": &schema.Schema{
+						"aeroscout_mmu_report": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"aeroscout_mu_factor": &schema.Schema{
+						"aeroscout_mu_factor": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"aeroscout_mu_timeout": &schema.Schema{
+						"aeroscout_mu_timeout": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 65535),
 							Optional:     true,
 							Computed:     true,
 						},
-						"fortipresence": &schema.Schema{
+						"fortipresence": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"fortipresence_server": &schema.Schema{
+						"fortipresence_server": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"fortipresence_port": &schema.Schema{
+						"fortipresence_port": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(300, 65535),
 							Optional:     true,
 							Computed:     true,
 						},
-						"fortipresence_secret": &schema.Schema{
+						"fortipresence_secret": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 123),
 							Optional:     true,
 							Sensitive:    true,
 						},
-						"fortipresence_project": &schema.Schema{
+						"fortipresence_project": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 16),
 							Optional:     true,
 							Computed:     true,
 						},
-						"fortipresence_frequency": &schema.Schema{
+						"fortipresence_frequency": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(5, 65535),
 							Optional:     true,
 							Computed:     true,
 						},
-						"fortipresence_rogue": &schema.Schema{
+						"fortipresence_rogue": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"fortipresence_unassoc": &schema.Schema{
+						"fortipresence_unassoc": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"fortipresence_ble": &schema.Schema{
+						"fortipresence_ble": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"station_locate": &schema.Schema{
+						"station_locate": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -1605,15 +1605,20 @@ func resourceWirelessControllerWtpProfile() *schema.Resource {
 					},
 				},
 			},
-			"ext_info_enable": &schema.Schema{
+			"ext_info_enable": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"dynamic_sort_subtable": &schema.Schema{
-				Type:     schema.TypeString,
+			"dynamic_sort_subtable": {
+				Type:     schema.TypeBool,
 				Optional: true,
-				Default:  "false",
+				Default:  false,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -1631,15 +1636,25 @@ func resourceWirelessControllerWtpProfileCreate(d *schema.ResourceData, m interf
 		}
 	}
 
-	obj, err := getObjectWirelessControllerWtpProfile(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating WirelessControllerWtpProfile resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateWirelessControllerWtpProfile(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectWirelessControllerWtpProfile(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating WirelessControllerWtpProfile resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateWirelessControllerWtpProfile(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating WirelessControllerWtpProfile resource: %v", err)
+		return fmt.Errorf("error creating WirelessControllerWtpProfile resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -1664,14 +1679,24 @@ func resourceWirelessControllerWtpProfileUpdate(d *schema.ResourceData, m interf
 		}
 	}
 
-	obj, err := getObjectWirelessControllerWtpProfile(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating WirelessControllerWtpProfile resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateWirelessControllerWtpProfile(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectWirelessControllerWtpProfile(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating WirelessControllerWtpProfile resource: %v", err)
+		return fmt.Errorf("error updating WirelessControllerWtpProfile resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateWirelessControllerWtpProfile(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating WirelessControllerWtpProfile resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -1698,9 +1723,17 @@ func resourceWirelessControllerWtpProfileDelete(d *schema.ResourceData, m interf
 		}
 	}
 
-	err := c.DeleteWirelessControllerWtpProfile(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteWirelessControllerWtpProfile(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting WirelessControllerWtpProfile resource: %v", err)
+		return fmt.Errorf("error deleting WirelessControllerWtpProfile resource: %v", err)
 	}
 
 	d.SetId("")
@@ -1722,9 +1755,19 @@ func resourceWirelessControllerWtpProfileRead(d *schema.ResourceData, m interfac
 		}
 	}
 
-	o, err := c.ReadWirelessControllerWtpProfile(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadWirelessControllerWtpProfile(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading WirelessControllerWtpProfile resource: %v", err)
+		return fmt.Errorf("error reading WirelessControllerWtpProfile resource: %v", err)
 	}
 
 	if o == nil {
@@ -1735,7 +1778,7 @@ func resourceWirelessControllerWtpProfileRead(d *schema.ResourceData, m interfac
 
 	err = refreshObjectWirelessControllerWtpProfile(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading WirelessControllerWtpProfile resource from API: %v", err)
+		return fmt.Errorf("error reading WirelessControllerWtpProfile resource from API: %v", err)
 	}
 	return nil
 }
@@ -4707,27 +4750,27 @@ func refreshObjectWirelessControllerWtpProfile(d *schema.ResourceData, o map[str
 
 	if err = d.Set("name", flattenWirelessControllerWtpProfileName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("comment", flattenWirelessControllerWtpProfileComment(o["comment"], d, "comment", sv)); err != nil {
 		if !fortiAPIPatch(o["comment"]) {
-			return fmt.Errorf("Error reading comment: %v", err)
+			return fmt.Errorf("error reading comment: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("platform", flattenWirelessControllerWtpProfilePlatform(o["platform"], d, "platform", sv)); err != nil {
 			if !fortiAPIPatch(o["platform"]) {
-				return fmt.Errorf("Error reading platform: %v", err)
+				return fmt.Errorf("error reading platform: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("platform"); ok {
 			if err = d.Set("platform", flattenWirelessControllerWtpProfilePlatform(o["platform"], d, "platform", sv)); err != nil {
 				if !fortiAPIPatch(o["platform"]) {
-					return fmt.Errorf("Error reading platform: %v", err)
+					return fmt.Errorf("error reading platform: %v", err)
 				}
 			}
 		}
@@ -4735,39 +4778,39 @@ func refreshObjectWirelessControllerWtpProfile(d *schema.ResourceData, o map[str
 
 	if err = d.Set("control_message_offload", flattenWirelessControllerWtpProfileControlMessageOffload(o["control-message-offload"], d, "control_message_offload", sv)); err != nil {
 		if !fortiAPIPatch(o["control-message-offload"]) {
-			return fmt.Errorf("Error reading control_message_offload: %v", err)
+			return fmt.Errorf("error reading control_message_offload: %v", err)
 		}
 	}
 
 	if err = d.Set("apcfg_profile", flattenWirelessControllerWtpProfileApcfgProfile(o["apcfg-profile"], d, "apcfg_profile", sv)); err != nil {
 		if !fortiAPIPatch(o["apcfg-profile"]) {
-			return fmt.Errorf("Error reading apcfg_profile: %v", err)
+			return fmt.Errorf("error reading apcfg_profile: %v", err)
 		}
 	}
 
 	if err = d.Set("ble_profile", flattenWirelessControllerWtpProfileBleProfile(o["ble-profile"], d, "ble_profile", sv)); err != nil {
 		if !fortiAPIPatch(o["ble-profile"]) {
-			return fmt.Errorf("Error reading ble_profile: %v", err)
+			return fmt.Errorf("error reading ble_profile: %v", err)
 		}
 	}
 
 	if err = d.Set("wan_port_mode", flattenWirelessControllerWtpProfileWanPortMode(o["wan-port-mode"], d, "wan_port_mode", sv)); err != nil {
 		if !fortiAPIPatch(o["wan-port-mode"]) {
-			return fmt.Errorf("Error reading wan_port_mode: %v", err)
+			return fmt.Errorf("error reading wan_port_mode: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("lan", flattenWirelessControllerWtpProfileLan(o["lan"], d, "lan", sv)); err != nil {
 			if !fortiAPIPatch(o["lan"]) {
-				return fmt.Errorf("Error reading lan: %v", err)
+				return fmt.Errorf("error reading lan: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("lan"); ok {
 			if err = d.Set("lan", flattenWirelessControllerWtpProfileLan(o["lan"], d, "lan", sv)); err != nil {
 				if !fortiAPIPatch(o["lan"]) {
-					return fmt.Errorf("Error reading lan: %v", err)
+					return fmt.Errorf("error reading lan: %v", err)
 				}
 			}
 		}
@@ -4775,27 +4818,27 @@ func refreshObjectWirelessControllerWtpProfile(d *schema.ResourceData, o map[str
 
 	if err = d.Set("energy_efficient_ethernet", flattenWirelessControllerWtpProfileEnergyEfficientEthernet(o["energy-efficient-ethernet"], d, "energy_efficient_ethernet", sv)); err != nil {
 		if !fortiAPIPatch(o["energy-efficient-ethernet"]) {
-			return fmt.Errorf("Error reading energy_efficient_ethernet: %v", err)
+			return fmt.Errorf("error reading energy_efficient_ethernet: %v", err)
 		}
 	}
 
 	if err = d.Set("led_state", flattenWirelessControllerWtpProfileLedState(o["led-state"], d, "led_state", sv)); err != nil {
 		if !fortiAPIPatch(o["led-state"]) {
-			return fmt.Errorf("Error reading led_state: %v", err)
+			return fmt.Errorf("error reading led_state: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("led_schedules", flattenWirelessControllerWtpProfileLedSchedules(o["led-schedules"], d, "led_schedules", sv)); err != nil {
 			if !fortiAPIPatch(o["led-schedules"]) {
-				return fmt.Errorf("Error reading led_schedules: %v", err)
+				return fmt.Errorf("error reading led_schedules: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("led_schedules"); ok {
 			if err = d.Set("led_schedules", flattenWirelessControllerWtpProfileLedSchedules(o["led-schedules"], d, "led_schedules", sv)); err != nil {
 				if !fortiAPIPatch(o["led-schedules"]) {
-					return fmt.Errorf("Error reading led_schedules: %v", err)
+					return fmt.Errorf("error reading led_schedules: %v", err)
 				}
 			}
 		}
@@ -4803,51 +4846,51 @@ func refreshObjectWirelessControllerWtpProfile(d *schema.ResourceData, o map[str
 
 	if err = d.Set("dtls_policy", flattenWirelessControllerWtpProfileDtlsPolicy(o["dtls-policy"], d, "dtls_policy", sv)); err != nil {
 		if !fortiAPIPatch(o["dtls-policy"]) {
-			return fmt.Errorf("Error reading dtls_policy: %v", err)
+			return fmt.Errorf("error reading dtls_policy: %v", err)
 		}
 	}
 
 	if err = d.Set("dtls_in_kernel", flattenWirelessControllerWtpProfileDtlsInKernel(o["dtls-in-kernel"], d, "dtls_in_kernel", sv)); err != nil {
 		if !fortiAPIPatch(o["dtls-in-kernel"]) {
-			return fmt.Errorf("Error reading dtls_in_kernel: %v", err)
+			return fmt.Errorf("error reading dtls_in_kernel: %v", err)
 		}
 	}
 
 	if err = d.Set("max_clients", flattenWirelessControllerWtpProfileMaxClients(o["max-clients"], d, "max_clients", sv)); err != nil {
 		if !fortiAPIPatch(o["max-clients"]) {
-			return fmt.Errorf("Error reading max_clients: %v", err)
+			return fmt.Errorf("error reading max_clients: %v", err)
 		}
 	}
 
 	if err = d.Set("handoff_rssi", flattenWirelessControllerWtpProfileHandoffRssi(o["handoff-rssi"], d, "handoff_rssi", sv)); err != nil {
 		if !fortiAPIPatch(o["handoff-rssi"]) {
-			return fmt.Errorf("Error reading handoff_rssi: %v", err)
+			return fmt.Errorf("error reading handoff_rssi: %v", err)
 		}
 	}
 
 	if err = d.Set("handoff_sta_thresh", flattenWirelessControllerWtpProfileHandoffStaThresh(o["handoff-sta-thresh"], d, "handoff_sta_thresh", sv)); err != nil {
 		if !fortiAPIPatch(o["handoff-sta-thresh"]) {
-			return fmt.Errorf("Error reading handoff_sta_thresh: %v", err)
+			return fmt.Errorf("error reading handoff_sta_thresh: %v", err)
 		}
 	}
 
 	if err = d.Set("handoff_roaming", flattenWirelessControllerWtpProfileHandoffRoaming(o["handoff-roaming"], d, "handoff_roaming", sv)); err != nil {
 		if !fortiAPIPatch(o["handoff-roaming"]) {
-			return fmt.Errorf("Error reading handoff_roaming: %v", err)
+			return fmt.Errorf("error reading handoff_roaming: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("deny_mac_list", flattenWirelessControllerWtpProfileDenyMacList(o["deny-mac-list"], d, "deny_mac_list", sv)); err != nil {
 			if !fortiAPIPatch(o["deny-mac-list"]) {
-				return fmt.Errorf("Error reading deny_mac_list: %v", err)
+				return fmt.Errorf("error reading deny_mac_list: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("deny_mac_list"); ok {
 			if err = d.Set("deny_mac_list", flattenWirelessControllerWtpProfileDenyMacList(o["deny-mac-list"], d, "deny_mac_list", sv)); err != nil {
 				if !fortiAPIPatch(o["deny-mac-list"]) {
-					return fmt.Errorf("Error reading deny_mac_list: %v", err)
+					return fmt.Errorf("error reading deny_mac_list: %v", err)
 				}
 			}
 		}
@@ -4855,51 +4898,51 @@ func refreshObjectWirelessControllerWtpProfile(d *schema.ResourceData, o map[str
 
 	if err = d.Set("ap_country", flattenWirelessControllerWtpProfileApCountry(o["ap-country"], d, "ap_country", sv)); err != nil {
 		if !fortiAPIPatch(o["ap-country"]) {
-			return fmt.Errorf("Error reading ap_country: %v", err)
+			return fmt.Errorf("error reading ap_country: %v", err)
 		}
 	}
 
 	if err = d.Set("ip_fragment_preventing", flattenWirelessControllerWtpProfileIpFragmentPreventing(o["ip-fragment-preventing"], d, "ip_fragment_preventing", sv)); err != nil {
 		if !fortiAPIPatch(o["ip-fragment-preventing"]) {
-			return fmt.Errorf("Error reading ip_fragment_preventing: %v", err)
+			return fmt.Errorf("error reading ip_fragment_preventing: %v", err)
 		}
 	}
 
 	if err = d.Set("tun_mtu_uplink", flattenWirelessControllerWtpProfileTunMtuUplink(o["tun-mtu-uplink"], d, "tun_mtu_uplink", sv)); err != nil {
 		if !fortiAPIPatch(o["tun-mtu-uplink"]) {
-			return fmt.Errorf("Error reading tun_mtu_uplink: %v", err)
+			return fmt.Errorf("error reading tun_mtu_uplink: %v", err)
 		}
 	}
 
 	if err = d.Set("tun_mtu_downlink", flattenWirelessControllerWtpProfileTunMtuDownlink(o["tun-mtu-downlink"], d, "tun_mtu_downlink", sv)); err != nil {
 		if !fortiAPIPatch(o["tun-mtu-downlink"]) {
-			return fmt.Errorf("Error reading tun_mtu_downlink: %v", err)
+			return fmt.Errorf("error reading tun_mtu_downlink: %v", err)
 		}
 	}
 
 	if err = d.Set("split_tunneling_acl_path", flattenWirelessControllerWtpProfileSplitTunnelingAclPath(o["split-tunneling-acl-path"], d, "split_tunneling_acl_path", sv)); err != nil {
 		if !fortiAPIPatch(o["split-tunneling-acl-path"]) {
-			return fmt.Errorf("Error reading split_tunneling_acl_path: %v", err)
+			return fmt.Errorf("error reading split_tunneling_acl_path: %v", err)
 		}
 	}
 
 	if err = d.Set("split_tunneling_acl_local_ap_subnet", flattenWirelessControllerWtpProfileSplitTunnelingAclLocalApSubnet(o["split-tunneling-acl-local-ap-subnet"], d, "split_tunneling_acl_local_ap_subnet", sv)); err != nil {
 		if !fortiAPIPatch(o["split-tunneling-acl-local-ap-subnet"]) {
-			return fmt.Errorf("Error reading split_tunneling_acl_local_ap_subnet: %v", err)
+			return fmt.Errorf("error reading split_tunneling_acl_local_ap_subnet: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("split_tunneling_acl", flattenWirelessControllerWtpProfileSplitTunnelingAcl(o["split-tunneling-acl"], d, "split_tunneling_acl", sv)); err != nil {
 			if !fortiAPIPatch(o["split-tunneling-acl"]) {
-				return fmt.Errorf("Error reading split_tunneling_acl: %v", err)
+				return fmt.Errorf("error reading split_tunneling_acl: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("split_tunneling_acl"); ok {
 			if err = d.Set("split_tunneling_acl", flattenWirelessControllerWtpProfileSplitTunnelingAcl(o["split-tunneling-acl"], d, "split_tunneling_acl", sv)); err != nil {
 				if !fortiAPIPatch(o["split-tunneling-acl"]) {
-					return fmt.Errorf("Error reading split_tunneling_acl: %v", err)
+					return fmt.Errorf("error reading split_tunneling_acl: %v", err)
 				}
 			}
 		}
@@ -4907,51 +4950,51 @@ func refreshObjectWirelessControllerWtpProfile(d *schema.ResourceData, o map[str
 
 	if err = d.Set("allowaccess", flattenWirelessControllerWtpProfileAllowaccess(o["allowaccess"], d, "allowaccess", sv)); err != nil {
 		if !fortiAPIPatch(o["allowaccess"]) {
-			return fmt.Errorf("Error reading allowaccess: %v", err)
+			return fmt.Errorf("error reading allowaccess: %v", err)
 		}
 	}
 
 	if err = d.Set("login_passwd_change", flattenWirelessControllerWtpProfileLoginPasswdChange(o["login-passwd-change"], d, "login_passwd_change", sv)); err != nil {
 		if !fortiAPIPatch(o["login-passwd-change"]) {
-			return fmt.Errorf("Error reading login_passwd_change: %v", err)
+			return fmt.Errorf("error reading login_passwd_change: %v", err)
 		}
 	}
 
 	if err = d.Set("lldp", flattenWirelessControllerWtpProfileLldp(o["lldp"], d, "lldp", sv)); err != nil {
 		if !fortiAPIPatch(o["lldp"]) {
-			return fmt.Errorf("Error reading lldp: %v", err)
+			return fmt.Errorf("error reading lldp: %v", err)
 		}
 	}
 
 	if err = d.Set("poe_mode", flattenWirelessControllerWtpProfilePoeMode(o["poe-mode"], d, "poe_mode", sv)); err != nil {
 		if !fortiAPIPatch(o["poe-mode"]) {
-			return fmt.Errorf("Error reading poe_mode: %v", err)
+			return fmt.Errorf("error reading poe_mode: %v", err)
 		}
 	}
 
 	if err = d.Set("frequency_handoff", flattenWirelessControllerWtpProfileFrequencyHandoff(o["frequency-handoff"], d, "frequency_handoff", sv)); err != nil {
 		if !fortiAPIPatch(o["frequency-handoff"]) {
-			return fmt.Errorf("Error reading frequency_handoff: %v", err)
+			return fmt.Errorf("error reading frequency_handoff: %v", err)
 		}
 	}
 
 	if err = d.Set("ap_handoff", flattenWirelessControllerWtpProfileApHandoff(o["ap-handoff"], d, "ap_handoff", sv)); err != nil {
 		if !fortiAPIPatch(o["ap-handoff"]) {
-			return fmt.Errorf("Error reading ap_handoff: %v", err)
+			return fmt.Errorf("error reading ap_handoff: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("radio_1", flattenWirelessControllerWtpProfileRadio1(o["radio-1"], d, "radio_1", sv)); err != nil {
 			if !fortiAPIPatch(o["radio-1"]) {
-				return fmt.Errorf("Error reading radio_1: %v", err)
+				return fmt.Errorf("error reading radio_1: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("radio_1"); ok {
 			if err = d.Set("radio_1", flattenWirelessControllerWtpProfileRadio1(o["radio-1"], d, "radio_1", sv)); err != nil {
 				if !fortiAPIPatch(o["radio-1"]) {
-					return fmt.Errorf("Error reading radio_1: %v", err)
+					return fmt.Errorf("error reading radio_1: %v", err)
 				}
 			}
 		}
@@ -4960,14 +5003,14 @@ func refreshObjectWirelessControllerWtpProfile(d *schema.ResourceData, o map[str
 	if isImportTable() {
 		if err = d.Set("radio_2", flattenWirelessControllerWtpProfileRadio2(o["radio-2"], d, "radio_2", sv)); err != nil {
 			if !fortiAPIPatch(o["radio-2"]) {
-				return fmt.Errorf("Error reading radio_2: %v", err)
+				return fmt.Errorf("error reading radio_2: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("radio_2"); ok {
 			if err = d.Set("radio_2", flattenWirelessControllerWtpProfileRadio2(o["radio-2"], d, "radio_2", sv)); err != nil {
 				if !fortiAPIPatch(o["radio-2"]) {
-					return fmt.Errorf("Error reading radio_2: %v", err)
+					return fmt.Errorf("error reading radio_2: %v", err)
 				}
 			}
 		}
@@ -4976,14 +5019,14 @@ func refreshObjectWirelessControllerWtpProfile(d *schema.ResourceData, o map[str
 	if isImportTable() {
 		if err = d.Set("radio_3", flattenWirelessControllerWtpProfileRadio3(o["radio-3"], d, "radio_3", sv)); err != nil {
 			if !fortiAPIPatch(o["radio-3"]) {
-				return fmt.Errorf("Error reading radio_3: %v", err)
+				return fmt.Errorf("error reading radio_3: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("radio_3"); ok {
 			if err = d.Set("radio_3", flattenWirelessControllerWtpProfileRadio3(o["radio-3"], d, "radio_3", sv)); err != nil {
 				if !fortiAPIPatch(o["radio-3"]) {
-					return fmt.Errorf("Error reading radio_3: %v", err)
+					return fmt.Errorf("error reading radio_3: %v", err)
 				}
 			}
 		}
@@ -4992,14 +5035,14 @@ func refreshObjectWirelessControllerWtpProfile(d *schema.ResourceData, o map[str
 	if isImportTable() {
 		if err = d.Set("radio_4", flattenWirelessControllerWtpProfileRadio4(o["radio-4"], d, "radio_4", sv)); err != nil {
 			if !fortiAPIPatch(o["radio-4"]) {
-				return fmt.Errorf("Error reading radio_4: %v", err)
+				return fmt.Errorf("error reading radio_4: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("radio_4"); ok {
 			if err = d.Set("radio_4", flattenWirelessControllerWtpProfileRadio4(o["radio-4"], d, "radio_4", sv)); err != nil {
 				if !fortiAPIPatch(o["radio-4"]) {
-					return fmt.Errorf("Error reading radio_4: %v", err)
+					return fmt.Errorf("error reading radio_4: %v", err)
 				}
 			}
 		}
@@ -5008,14 +5051,14 @@ func refreshObjectWirelessControllerWtpProfile(d *schema.ResourceData, o map[str
 	if isImportTable() {
 		if err = d.Set("lbs", flattenWirelessControllerWtpProfileLbs(o["lbs"], d, "lbs", sv)); err != nil {
 			if !fortiAPIPatch(o["lbs"]) {
-				return fmt.Errorf("Error reading lbs: %v", err)
+				return fmt.Errorf("error reading lbs: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("lbs"); ok {
 			if err = d.Set("lbs", flattenWirelessControllerWtpProfileLbs(o["lbs"], d, "lbs", sv)); err != nil {
 				if !fortiAPIPatch(o["lbs"]) {
-					return fmt.Errorf("Error reading lbs: %v", err)
+					return fmt.Errorf("error reading lbs: %v", err)
 				}
 			}
 		}
@@ -5023,7 +5066,7 @@ func refreshObjectWirelessControllerWtpProfile(d *schema.ResourceData, o map[str
 
 	if err = d.Set("ext_info_enable", flattenWirelessControllerWtpProfileExtInfoEnable(o["ext-info-enable"], d, "ext_info_enable", sv)); err != nil {
 		if !fortiAPIPatch(o["ext-info-enable"]) {
-			return fmt.Errorf("Error reading ext_info_enable: %v", err)
+			return fmt.Errorf("error reading ext_info_enable: %v", err)
 		}
 	}
 

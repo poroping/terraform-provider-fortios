@@ -30,38 +30,38 @@ func resourceFirewallDecryptedTrafficMirror() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"dstmac": &schema.Schema{
+			"dstmac": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"traffic_type": &schema.Schema{
+			"traffic_type": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"traffic_source": &schema.Schema{
+			"traffic_source": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"interface": &schema.Schema{
+			"interface": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 79),
 							Optional:     true,
@@ -70,10 +70,15 @@ func resourceFirewallDecryptedTrafficMirror() *schema.Resource {
 					},
 				},
 			},
-			"dynamic_sort_subtable": &schema.Schema{
-				Type:     schema.TypeString,
+			"dynamic_sort_subtable": {
+				Type:     schema.TypeBool,
 				Optional: true,
-				Default:  "false",
+				Default:  false,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -91,15 +96,25 @@ func resourceFirewallDecryptedTrafficMirrorCreate(d *schema.ResourceData, m inte
 		}
 	}
 
-	obj, err := getObjectFirewallDecryptedTrafficMirror(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating FirewallDecryptedTrafficMirror resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateFirewallDecryptedTrafficMirror(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectFirewallDecryptedTrafficMirror(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating FirewallDecryptedTrafficMirror resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateFirewallDecryptedTrafficMirror(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating FirewallDecryptedTrafficMirror resource: %v", err)
+		return fmt.Errorf("error creating FirewallDecryptedTrafficMirror resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -124,14 +139,24 @@ func resourceFirewallDecryptedTrafficMirrorUpdate(d *schema.ResourceData, m inte
 		}
 	}
 
-	obj, err := getObjectFirewallDecryptedTrafficMirror(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating FirewallDecryptedTrafficMirror resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateFirewallDecryptedTrafficMirror(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectFirewallDecryptedTrafficMirror(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating FirewallDecryptedTrafficMirror resource: %v", err)
+		return fmt.Errorf("error updating FirewallDecryptedTrafficMirror resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateFirewallDecryptedTrafficMirror(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating FirewallDecryptedTrafficMirror resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -158,9 +183,17 @@ func resourceFirewallDecryptedTrafficMirrorDelete(d *schema.ResourceData, m inte
 		}
 	}
 
-	err := c.DeleteFirewallDecryptedTrafficMirror(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteFirewallDecryptedTrafficMirror(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting FirewallDecryptedTrafficMirror resource: %v", err)
+		return fmt.Errorf("error deleting FirewallDecryptedTrafficMirror resource: %v", err)
 	}
 
 	d.SetId("")
@@ -182,9 +215,19 @@ func resourceFirewallDecryptedTrafficMirrorRead(d *schema.ResourceData, m interf
 		}
 	}
 
-	o, err := c.ReadFirewallDecryptedTrafficMirror(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadFirewallDecryptedTrafficMirror(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading FirewallDecryptedTrafficMirror resource: %v", err)
+		return fmt.Errorf("error reading FirewallDecryptedTrafficMirror resource: %v", err)
 	}
 
 	if o == nil {
@@ -195,7 +238,7 @@ func resourceFirewallDecryptedTrafficMirrorRead(d *schema.ResourceData, m interf
 
 	err = refreshObjectFirewallDecryptedTrafficMirror(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading FirewallDecryptedTrafficMirror resource from API: %v", err)
+		return fmt.Errorf("error reading FirewallDecryptedTrafficMirror resource from API: %v", err)
 	}
 	return nil
 }
@@ -259,39 +302,39 @@ func refreshObjectFirewallDecryptedTrafficMirror(d *schema.ResourceData, o map[s
 
 	if err = d.Set("name", flattenFirewallDecryptedTrafficMirrorName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("dstmac", flattenFirewallDecryptedTrafficMirrorDstmac(o["dstmac"], d, "dstmac", sv)); err != nil {
 		if !fortiAPIPatch(o["dstmac"]) {
-			return fmt.Errorf("Error reading dstmac: %v", err)
+			return fmt.Errorf("error reading dstmac: %v", err)
 		}
 	}
 
 	if err = d.Set("traffic_type", flattenFirewallDecryptedTrafficMirrorTrafficType(o["traffic-type"], d, "traffic_type", sv)); err != nil {
 		if !fortiAPIPatch(o["traffic-type"]) {
-			return fmt.Errorf("Error reading traffic_type: %v", err)
+			return fmt.Errorf("error reading traffic_type: %v", err)
 		}
 	}
 
 	if err = d.Set("traffic_source", flattenFirewallDecryptedTrafficMirrorTrafficSource(o["traffic-source"], d, "traffic_source", sv)); err != nil {
 		if !fortiAPIPatch(o["traffic-source"]) {
-			return fmt.Errorf("Error reading traffic_source: %v", err)
+			return fmt.Errorf("error reading traffic_source: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("interface", flattenFirewallDecryptedTrafficMirrorInterface(o["interface"], d, "interface", sv)); err != nil {
 			if !fortiAPIPatch(o["interface"]) {
-				return fmt.Errorf("Error reading interface: %v", err)
+				return fmt.Errorf("error reading interface: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("interface"); ok {
 			if err = d.Set("interface", flattenFirewallDecryptedTrafficMirrorInterface(o["interface"], d, "interface", sv)); err != nil {
 				if !fortiAPIPatch(o["interface"]) {
-					return fmt.Errorf("Error reading interface: %v", err)
+					return fmt.Errorf("error reading interface: %v", err)
 				}
 			}
 		}

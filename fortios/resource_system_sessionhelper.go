@@ -30,30 +30,35 @@ func resourceSystemSessionHelper() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"fosid": &schema.Schema{
+			"fosid": {
 				Type:     schema.TypeInt,
 				ForceNew: true,
 				Optional: true,
 				Computed: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"protocol": &schema.Schema{
+			"protocol": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 255),
 				Required:     true,
 			},
-			"port": &schema.Schema{
+			"port": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 65535),
 				Required:     true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -71,15 +76,25 @@ func resourceSystemSessionHelperCreate(d *schema.ResourceData, m interface{}) er
 		}
 	}
 
-	obj, err := getObjectSystemSessionHelper(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating SystemSessionHelper resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateSystemSessionHelper(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemSessionHelper(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating SystemSessionHelper resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateSystemSessionHelper(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating SystemSessionHelper resource: %v", err)
+		return fmt.Errorf("error creating SystemSessionHelper resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -104,14 +119,24 @@ func resourceSystemSessionHelperUpdate(d *schema.ResourceData, m interface{}) er
 		}
 	}
 
-	obj, err := getObjectSystemSessionHelper(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SystemSessionHelper resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSystemSessionHelper(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemSessionHelper(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SystemSessionHelper resource: %v", err)
+		return fmt.Errorf("error updating SystemSessionHelper resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSystemSessionHelper(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SystemSessionHelper resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -138,9 +163,17 @@ func resourceSystemSessionHelperDelete(d *schema.ResourceData, m interface{}) er
 		}
 	}
 
-	err := c.DeleteSystemSessionHelper(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSystemSessionHelper(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SystemSessionHelper resource: %v", err)
+		return fmt.Errorf("error deleting SystemSessionHelper resource: %v", err)
 	}
 
 	d.SetId("")
@@ -162,9 +195,19 @@ func resourceSystemSessionHelperRead(d *schema.ResourceData, m interface{}) erro
 		}
 	}
 
-	o, err := c.ReadSystemSessionHelper(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSystemSessionHelper(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemSessionHelper resource: %v", err)
+		return fmt.Errorf("error reading SystemSessionHelper resource: %v", err)
 	}
 
 	if o == nil {
@@ -175,7 +218,7 @@ func resourceSystemSessionHelperRead(d *schema.ResourceData, m interface{}) erro
 
 	err = refreshObjectSystemSessionHelper(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemSessionHelper resource from API: %v", err)
+		return fmt.Errorf("error reading SystemSessionHelper resource from API: %v", err)
 	}
 	return nil
 }
@@ -201,25 +244,25 @@ func refreshObjectSystemSessionHelper(d *schema.ResourceData, o map[string]inter
 
 	if err = d.Set("fosid", flattenSystemSessionHelperId(o["id"], d, "fosid", sv)); err != nil {
 		if !fortiAPIPatch(o["id"]) {
-			return fmt.Errorf("Error reading fosid: %v", err)
+			return fmt.Errorf("error reading fosid: %v", err)
 		}
 	}
 
 	if err = d.Set("name", flattenSystemSessionHelperName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("protocol", flattenSystemSessionHelperProtocol(o["protocol"], d, "protocol", sv)); err != nil {
 		if !fortiAPIPatch(o["protocol"]) {
-			return fmt.Errorf("Error reading protocol: %v", err)
+			return fmt.Errorf("error reading protocol: %v", err)
 		}
 	}
 
 	if err = d.Set("port", flattenSystemSessionHelperPort(o["port"], d, "port", sv)); err != nil {
 		if !fortiAPIPatch(o["port"]) {
-			return fmt.Errorf("Error reading port: %v", err)
+			return fmt.Errorf("error reading port: %v", err)
 		}
 	}
 

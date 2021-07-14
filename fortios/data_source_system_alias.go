@@ -21,17 +21,17 @@ func dataSourceSystemAlias() *schema.Resource {
 	return &schema.Resource{
 		Read: dataSourceSystemAliasRead,
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
 
-			"name": &schema.Schema{
+			"name": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"command": &schema.Schema{
+			"command": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -59,12 +59,12 @@ func dataSourceSystemAliasRead(d *schema.ResourceData, m interface{}) error {
 	} else if v, ok := t.(int); ok {
 		mkey = strconv.Itoa(v)
 	} else {
-		return fmt.Errorf("Error describing SystemAlias: type error")
+		return fmt.Errorf("error describing SystemAlias: type error")
 	}
 
-	o, err := c.ReadSystemAlias(mkey, vdomparam)
+	o, err := c.ReadSystemAlias(mkey, vdomparam, make(map[string][]string), 0)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemAlias: %v", err)
+		return fmt.Errorf("error describing SystemAlias: %v", err)
 	}
 
 	if o == nil {
@@ -74,7 +74,7 @@ func dataSourceSystemAliasRead(d *schema.ResourceData, m interface{}) error {
 
 	err = dataSourceRefreshObjectSystemAlias(d, o)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemAlias from API: %v", err)
+		return fmt.Errorf("error describing SystemAlias from API: %v", err)
 	}
 
 	d.SetId(mkey)
@@ -95,13 +95,13 @@ func dataSourceRefreshObjectSystemAlias(d *schema.ResourceData, o map[string]int
 
 	if err = d.Set("name", dataSourceFlattenSystemAliasName(o["name"], d, "name")); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("command", dataSourceFlattenSystemAliasCommand(o["command"], d, "command")); err != nil {
 		if !fortiAPIPatch(o["command"]) {
-			return fmt.Errorf("Error reading command: %v", err)
+			return fmt.Errorf("error reading command: %v", err)
 		}
 	}
 

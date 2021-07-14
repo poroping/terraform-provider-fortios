@@ -30,77 +30,77 @@ func resourceApplicationName() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"fosid": &schema.Schema{
+			"fosid": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"category": &schema.Schema{
+			"category": {
 				Type:     schema.TypeInt,
 				Required: true,
 			},
-			"sub_category": &schema.Schema{
+			"sub_category": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 255),
 				Optional:     true,
 				Computed:     true,
 			},
-			"popularity": &schema.Schema{
+			"popularity": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 255),
 				Optional:     true,
 				Computed:     true,
 			},
-			"risk": &schema.Schema{
+			"risk": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 255),
 				Optional:     true,
 				Computed:     true,
 			},
-			"weight": &schema.Schema{
+			"weight": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 255),
 				Optional:     true,
 				Computed:     true,
 			},
-			"protocol": &schema.Schema{
+			"protocol": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"technology": &schema.Schema{
+			"technology": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"behavior": &schema.Schema{
+			"behavior": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"vendor": &schema.Schema{
+			"vendor": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"parameters": &schema.Schema{
+			"parameters": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 31),
 							Optional:     true,
@@ -109,28 +109,28 @@ func resourceApplicationName() *schema.Resource {
 					},
 				},
 			},
-			"parameter": &schema.Schema{
+			"parameter": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"metadata": &schema.Schema{
+			"metadata": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"metaid": &schema.Schema{
+						"metaid": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"valueid": &schema.Schema{
+						"valueid": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
@@ -138,10 +138,15 @@ func resourceApplicationName() *schema.Resource {
 					},
 				},
 			},
-			"dynamic_sort_subtable": &schema.Schema{
-				Type:     schema.TypeString,
+			"dynamic_sort_subtable": {
+				Type:     schema.TypeBool,
 				Optional: true,
-				Default:  "false",
+				Default:  false,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -159,15 +164,25 @@ func resourceApplicationNameCreate(d *schema.ResourceData, m interface{}) error 
 		}
 	}
 
-	obj, err := getObjectApplicationName(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating ApplicationName resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateApplicationName(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectApplicationName(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating ApplicationName resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateApplicationName(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating ApplicationName resource: %v", err)
+		return fmt.Errorf("error creating ApplicationName resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -192,14 +207,24 @@ func resourceApplicationNameUpdate(d *schema.ResourceData, m interface{}) error 
 		}
 	}
 
-	obj, err := getObjectApplicationName(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating ApplicationName resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateApplicationName(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectApplicationName(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating ApplicationName resource: %v", err)
+		return fmt.Errorf("error updating ApplicationName resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateApplicationName(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating ApplicationName resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -226,9 +251,17 @@ func resourceApplicationNameDelete(d *schema.ResourceData, m interface{}) error 
 		}
 	}
 
-	err := c.DeleteApplicationName(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteApplicationName(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting ApplicationName resource: %v", err)
+		return fmt.Errorf("error deleting ApplicationName resource: %v", err)
 	}
 
 	d.SetId("")
@@ -250,9 +283,19 @@ func resourceApplicationNameRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadApplicationName(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadApplicationName(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading ApplicationName resource: %v", err)
+		return fmt.Errorf("error reading ApplicationName resource: %v", err)
 	}
 
 	if o == nil {
@@ -263,7 +306,7 @@ func resourceApplicationNameRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectApplicationName(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading ApplicationName resource from API: %v", err)
+		return fmt.Errorf("error reading ApplicationName resource from API: %v", err)
 	}
 	return nil
 }
@@ -417,81 +460,81 @@ func refreshObjectApplicationName(d *schema.ResourceData, o map[string]interface
 
 	if err = d.Set("name", flattenApplicationNameName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("fosid", flattenApplicationNameId(o["id"], d, "fosid", sv)); err != nil {
 		if !fortiAPIPatch(o["id"]) {
-			return fmt.Errorf("Error reading fosid: %v", err)
+			return fmt.Errorf("error reading fosid: %v", err)
 		}
 	}
 
 	if err = d.Set("category", flattenApplicationNameCategory(o["category"], d, "category", sv)); err != nil {
 		if !fortiAPIPatch(o["category"]) {
-			return fmt.Errorf("Error reading category: %v", err)
+			return fmt.Errorf("error reading category: %v", err)
 		}
 	}
 
 	if err = d.Set("sub_category", flattenApplicationNameSubCategory(o["sub-category"], d, "sub_category", sv)); err != nil {
 		if !fortiAPIPatch(o["sub-category"]) {
-			return fmt.Errorf("Error reading sub_category: %v", err)
+			return fmt.Errorf("error reading sub_category: %v", err)
 		}
 	}
 
 	if err = d.Set("popularity", flattenApplicationNamePopularity(o["popularity"], d, "popularity", sv)); err != nil {
 		if !fortiAPIPatch(o["popularity"]) {
-			return fmt.Errorf("Error reading popularity: %v", err)
+			return fmt.Errorf("error reading popularity: %v", err)
 		}
 	}
 
 	if err = d.Set("risk", flattenApplicationNameRisk(o["risk"], d, "risk", sv)); err != nil {
 		if !fortiAPIPatch(o["risk"]) {
-			return fmt.Errorf("Error reading risk: %v", err)
+			return fmt.Errorf("error reading risk: %v", err)
 		}
 	}
 
 	if err = d.Set("weight", flattenApplicationNameWeight(o["weight"], d, "weight", sv)); err != nil {
 		if !fortiAPIPatch(o["weight"]) {
-			return fmt.Errorf("Error reading weight: %v", err)
+			return fmt.Errorf("error reading weight: %v", err)
 		}
 	}
 
 	if err = d.Set("protocol", flattenApplicationNameProtocol(o["protocol"], d, "protocol", sv)); err != nil {
 		if !fortiAPIPatch(o["protocol"]) {
-			return fmt.Errorf("Error reading protocol: %v", err)
+			return fmt.Errorf("error reading protocol: %v", err)
 		}
 	}
 
 	if err = d.Set("technology", flattenApplicationNameTechnology(o["technology"], d, "technology", sv)); err != nil {
 		if !fortiAPIPatch(o["technology"]) {
-			return fmt.Errorf("Error reading technology: %v", err)
+			return fmt.Errorf("error reading technology: %v", err)
 		}
 	}
 
 	if err = d.Set("behavior", flattenApplicationNameBehavior(o["behavior"], d, "behavior", sv)); err != nil {
 		if !fortiAPIPatch(o["behavior"]) {
-			return fmt.Errorf("Error reading behavior: %v", err)
+			return fmt.Errorf("error reading behavior: %v", err)
 		}
 	}
 
 	if err = d.Set("vendor", flattenApplicationNameVendor(o["vendor"], d, "vendor", sv)); err != nil {
 		if !fortiAPIPatch(o["vendor"]) {
-			return fmt.Errorf("Error reading vendor: %v", err)
+			return fmt.Errorf("error reading vendor: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("parameters", flattenApplicationNameParameters(o["parameters"], d, "parameters", sv)); err != nil {
 			if !fortiAPIPatch(o["parameters"]) {
-				return fmt.Errorf("Error reading parameters: %v", err)
+				return fmt.Errorf("error reading parameters: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("parameters"); ok {
 			if err = d.Set("parameters", flattenApplicationNameParameters(o["parameters"], d, "parameters", sv)); err != nil {
 				if !fortiAPIPatch(o["parameters"]) {
-					return fmt.Errorf("Error reading parameters: %v", err)
+					return fmt.Errorf("error reading parameters: %v", err)
 				}
 			}
 		}
@@ -499,21 +542,21 @@ func refreshObjectApplicationName(d *schema.ResourceData, o map[string]interface
 
 	if err = d.Set("parameter", flattenApplicationNameParameter(o["parameter"], d, "parameter", sv)); err != nil {
 		if !fortiAPIPatch(o["parameter"]) {
-			return fmt.Errorf("Error reading parameter: %v", err)
+			return fmt.Errorf("error reading parameter: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("metadata", flattenApplicationNameMetadata(o["metadata"], d, "metadata", sv)); err != nil {
 			if !fortiAPIPatch(o["metadata"]) {
-				return fmt.Errorf("Error reading metadata: %v", err)
+				return fmt.Errorf("error reading metadata: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("metadata"); ok {
 			if err = d.Set("metadata", flattenApplicationNameMetadata(o["metadata"], d, "metadata", sv)); err != nil {
 				if !fortiAPIPatch(o["metadata"]) {
-					return fmt.Errorf("Error reading metadata: %v", err)
+					return fmt.Errorf("error reading metadata: %v", err)
 				}
 			}
 		}

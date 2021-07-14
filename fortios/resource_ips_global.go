@@ -30,124 +30,129 @@ func resourceIpsGlobal() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"fail_open": &schema.Schema{
+			"fail_open": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"database": &schema.Schema{
+			"database": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"traffic_submit": &schema.Schema{
+			"traffic_submit": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"anomaly_mode": &schema.Schema{
+			"anomaly_mode": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"session_limit_mode": &schema.Schema{
+			"session_limit_mode": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"intelligent_mode": &schema.Schema{
+			"intelligent_mode": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"socket_size": &schema.Schema{
+			"socket_size": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 128),
 				Optional:     true,
 				Computed:     true,
 			},
-			"engine_count": &schema.Schema{
+			"engine_count": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 255),
 				Optional:     true,
 				Computed:     true,
 			},
-			"sync_session_ttl": &schema.Schema{
+			"sync_session_ttl": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"skype_client_public_ipaddr": &schema.Schema{
+			"skype_client_public_ipaddr": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
 			},
-			"deep_app_insp_timeout": &schema.Schema{
+			"deep_app_insp_timeout": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"deep_app_insp_db_limit": &schema.Schema{
+			"deep_app_insp_db_limit": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"exclude_signatures": &schema.Schema{
+			"exclude_signatures": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"packet_log_queue_depth": &schema.Schema{
+			"packet_log_queue_depth": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(128, 4096),
 				Optional:     true,
 				Computed:     true,
 			},
-			"ngfw_max_scan_range": &schema.Schema{
+			"ngfw_max_scan_range": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"tls_active_probe": &schema.Schema{
+			"tls_active_probe": {
 				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"interface_select_method": &schema.Schema{
+						"interface_select_method": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"interface": &schema.Schema{
+						"interface": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 15),
 							Optional:     true,
 							Computed:     true,
 						},
-						"vdom": &schema.Schema{
+						"vdom": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 31),
 							Optional:     true,
 							Computed:     true,
 						},
-						"source_ip": &schema.Schema{
+						"source_ip": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"source_ip6": &schema.Schema{
+						"source_ip6": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
 					},
 				},
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -166,14 +171,24 @@ func resourceIpsGlobalUpdate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectIpsGlobal(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating IpsGlobal resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateIpsGlobal(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectIpsGlobal(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating IpsGlobal resource: %v", err)
+		return fmt.Errorf("error updating IpsGlobal resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateIpsGlobal(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating IpsGlobal resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -200,9 +215,17 @@ func resourceIpsGlobalDelete(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	err := c.DeleteIpsGlobal(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteIpsGlobal(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting IpsGlobal resource: %v", err)
+		return fmt.Errorf("error deleting IpsGlobal resource: %v", err)
 	}
 
 	d.SetId("")
@@ -224,9 +247,19 @@ func resourceIpsGlobalRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadIpsGlobal(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadIpsGlobal(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading IpsGlobal resource: %v", err)
+		return fmt.Errorf("error reading IpsGlobal resource: %v", err)
 	}
 
 	if o == nil {
@@ -237,7 +270,7 @@ func resourceIpsGlobalRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectIpsGlobal(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading IpsGlobal resource from API: %v", err)
+		return fmt.Errorf("error reading IpsGlobal resource from API: %v", err)
 	}
 	return nil
 }
@@ -370,105 +403,105 @@ func refreshObjectIpsGlobal(d *schema.ResourceData, o map[string]interface{}, sv
 
 	if err = d.Set("fail_open", flattenIpsGlobalFailOpen(o["fail-open"], d, "fail_open", sv)); err != nil {
 		if !fortiAPIPatch(o["fail-open"]) {
-			return fmt.Errorf("Error reading fail_open: %v", err)
+			return fmt.Errorf("error reading fail_open: %v", err)
 		}
 	}
 
 	if err = d.Set("database", flattenIpsGlobalDatabase(o["database"], d, "database", sv)); err != nil {
 		if !fortiAPIPatch(o["database"]) {
-			return fmt.Errorf("Error reading database: %v", err)
+			return fmt.Errorf("error reading database: %v", err)
 		}
 	}
 
 	if err = d.Set("traffic_submit", flattenIpsGlobalTrafficSubmit(o["traffic-submit"], d, "traffic_submit", sv)); err != nil {
 		if !fortiAPIPatch(o["traffic-submit"]) {
-			return fmt.Errorf("Error reading traffic_submit: %v", err)
+			return fmt.Errorf("error reading traffic_submit: %v", err)
 		}
 	}
 
 	if err = d.Set("anomaly_mode", flattenIpsGlobalAnomalyMode(o["anomaly-mode"], d, "anomaly_mode", sv)); err != nil {
 		if !fortiAPIPatch(o["anomaly-mode"]) {
-			return fmt.Errorf("Error reading anomaly_mode: %v", err)
+			return fmt.Errorf("error reading anomaly_mode: %v", err)
 		}
 	}
 
 	if err = d.Set("session_limit_mode", flattenIpsGlobalSessionLimitMode(o["session-limit-mode"], d, "session_limit_mode", sv)); err != nil {
 		if !fortiAPIPatch(o["session-limit-mode"]) {
-			return fmt.Errorf("Error reading session_limit_mode: %v", err)
+			return fmt.Errorf("error reading session_limit_mode: %v", err)
 		}
 	}
 
 	if err = d.Set("intelligent_mode", flattenIpsGlobalIntelligentMode(o["intelligent-mode"], d, "intelligent_mode", sv)); err != nil {
 		if !fortiAPIPatch(o["intelligent-mode"]) {
-			return fmt.Errorf("Error reading intelligent_mode: %v", err)
+			return fmt.Errorf("error reading intelligent_mode: %v", err)
 		}
 	}
 
 	if err = d.Set("socket_size", flattenIpsGlobalSocketSize(o["socket-size"], d, "socket_size", sv)); err != nil {
 		if !fortiAPIPatch(o["socket-size"]) {
-			return fmt.Errorf("Error reading socket_size: %v", err)
+			return fmt.Errorf("error reading socket_size: %v", err)
 		}
 	}
 
 	if err = d.Set("engine_count", flattenIpsGlobalEngineCount(o["engine-count"], d, "engine_count", sv)); err != nil {
 		if !fortiAPIPatch(o["engine-count"]) {
-			return fmt.Errorf("Error reading engine_count: %v", err)
+			return fmt.Errorf("error reading engine_count: %v", err)
 		}
 	}
 
 	if err = d.Set("sync_session_ttl", flattenIpsGlobalSyncSessionTtl(o["sync-session-ttl"], d, "sync_session_ttl", sv)); err != nil {
 		if !fortiAPIPatch(o["sync-session-ttl"]) {
-			return fmt.Errorf("Error reading sync_session_ttl: %v", err)
+			return fmt.Errorf("error reading sync_session_ttl: %v", err)
 		}
 	}
 
 	if err = d.Set("skype_client_public_ipaddr", flattenIpsGlobalSkypeClientPublicIpaddr(o["skype-client-public-ipaddr"], d, "skype_client_public_ipaddr", sv)); err != nil {
 		if !fortiAPIPatch(o["skype-client-public-ipaddr"]) {
-			return fmt.Errorf("Error reading skype_client_public_ipaddr: %v", err)
+			return fmt.Errorf("error reading skype_client_public_ipaddr: %v", err)
 		}
 	}
 
 	if err = d.Set("deep_app_insp_timeout", flattenIpsGlobalDeepAppInspTimeout(o["deep-app-insp-timeout"], d, "deep_app_insp_timeout", sv)); err != nil {
 		if !fortiAPIPatch(o["deep-app-insp-timeout"]) {
-			return fmt.Errorf("Error reading deep_app_insp_timeout: %v", err)
+			return fmt.Errorf("error reading deep_app_insp_timeout: %v", err)
 		}
 	}
 
 	if err = d.Set("deep_app_insp_db_limit", flattenIpsGlobalDeepAppInspDbLimit(o["deep-app-insp-db-limit"], d, "deep_app_insp_db_limit", sv)); err != nil {
 		if !fortiAPIPatch(o["deep-app-insp-db-limit"]) {
-			return fmt.Errorf("Error reading deep_app_insp_db_limit: %v", err)
+			return fmt.Errorf("error reading deep_app_insp_db_limit: %v", err)
 		}
 	}
 
 	if err = d.Set("exclude_signatures", flattenIpsGlobalExcludeSignatures(o["exclude-signatures"], d, "exclude_signatures", sv)); err != nil {
 		if !fortiAPIPatch(o["exclude-signatures"]) {
-			return fmt.Errorf("Error reading exclude_signatures: %v", err)
+			return fmt.Errorf("error reading exclude_signatures: %v", err)
 		}
 	}
 
 	if err = d.Set("packet_log_queue_depth", flattenIpsGlobalPacketLogQueueDepth(o["packet-log-queue-depth"], d, "packet_log_queue_depth", sv)); err != nil {
 		if !fortiAPIPatch(o["packet-log-queue-depth"]) {
-			return fmt.Errorf("Error reading packet_log_queue_depth: %v", err)
+			return fmt.Errorf("error reading packet_log_queue_depth: %v", err)
 		}
 	}
 
 	if err = d.Set("ngfw_max_scan_range", flattenIpsGlobalNgfwMaxScanRange(o["ngfw-max-scan-range"], d, "ngfw_max_scan_range", sv)); err != nil {
 		if !fortiAPIPatch(o["ngfw-max-scan-range"]) {
-			return fmt.Errorf("Error reading ngfw_max_scan_range: %v", err)
+			return fmt.Errorf("error reading ngfw_max_scan_range: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("tls_active_probe", flattenIpsGlobalTlsActiveProbe(o["tls-active-probe"], d, "tls_active_probe", sv)); err != nil {
 			if !fortiAPIPatch(o["tls-active-probe"]) {
-				return fmt.Errorf("Error reading tls_active_probe: %v", err)
+				return fmt.Errorf("error reading tls_active_probe: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("tls_active_probe"); ok {
 			if err = d.Set("tls_active_probe", flattenIpsGlobalTlsActiveProbe(o["tls-active-probe"], d, "tls_active_probe", sv)); err != nil {
 				if !fortiAPIPatch(o["tls-active-probe"]) {
-					return fmt.Errorf("Error reading tls_active_probe: %v", err)
+					return fmt.Errorf("error reading tls_active_probe: %v", err)
 				}
 			}
 		}

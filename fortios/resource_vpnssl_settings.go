@@ -30,138 +30,138 @@ func resourceVpnSslSettings() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"reqclientcert": &schema.Schema{
+			"reqclientcert": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"user_peer": &schema.Schema{
+			"user_peer": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"ssl_max_proto_ver": &schema.Schema{
+			"ssl_max_proto_ver": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ssl_min_proto_ver": &schema.Schema{
+			"ssl_min_proto_ver": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"tlsv1_0": &schema.Schema{
+			"tlsv1_0": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"tlsv1_1": &schema.Schema{
+			"tlsv1_1": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"tlsv1_2": &schema.Schema{
+			"tlsv1_2": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"tlsv1_3": &schema.Schema{
+			"tlsv1_3": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"banned_cipher": &schema.Schema{
+			"banned_cipher": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ssl_insert_empty_fragment": &schema.Schema{
+			"ssl_insert_empty_fragment": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"https_redirect": &schema.Schema{
+			"https_redirect": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"x_content_type_options": &schema.Schema{
+			"x_content_type_options": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ssl_client_renegotiation": &schema.Schema{
+			"ssl_client_renegotiation": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"force_two_factor_auth": &schema.Schema{
+			"force_two_factor_auth": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"unsafe_legacy_renegotiation": &schema.Schema{
+			"unsafe_legacy_renegotiation": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"servercert": &schema.Schema{
+			"servercert": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"algorithm": &schema.Schema{
+			"algorithm": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"idle_timeout": &schema.Schema{
+			"idle_timeout": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 259200),
 				Optional:     true,
 				Computed:     true,
 			},
-			"auth_timeout": &schema.Schema{
+			"auth_timeout": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 259200),
 				Optional:     true,
 				Computed:     true,
 			},
-			"login_attempt_limit": &schema.Schema{
+			"login_attempt_limit": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"login_block_time": &schema.Schema{
+			"login_block_time": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"login_timeout": &schema.Schema{
+			"login_timeout": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(10, 180),
 				Optional:     true,
 				Computed:     true,
 			},
-			"dtls_hello_timeout": &schema.Schema{
+			"dtls_hello_timeout": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(10, 60),
 				Optional:     true,
 				Computed:     true,
 			},
-			"tunnel_ip_pools": &schema.Schema{
+			"tunnel_ip_pools": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 64),
 							Optional:     true,
@@ -170,12 +170,12 @@ func resourceVpnSslSettings() *schema.Resource {
 					},
 				},
 			},
-			"tunnel_ipv6_pools": &schema.Schema{
+			"tunnel_ipv6_pools": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 64),
 							Optional:     true,
@@ -184,110 +184,110 @@ func resourceVpnSslSettings() *schema.Resource {
 					},
 				},
 			},
-			"dns_suffix": &schema.Schema{
+			"dns_suffix": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 253),
 				Optional:     true,
 			},
-			"dns_server1": &schema.Schema{
+			"dns_server1": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"dns_server2": &schema.Schema{
+			"dns_server2": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"wins_server1": &schema.Schema{
+			"wins_server1": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"wins_server2": &schema.Schema{
+			"wins_server2": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ipv6_dns_server1": &schema.Schema{
+			"ipv6_dns_server1": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ipv6_dns_server2": &schema.Schema{
+			"ipv6_dns_server2": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ipv6_wins_server1": &schema.Schema{
+			"ipv6_wins_server1": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ipv6_wins_server2": &schema.Schema{
+			"ipv6_wins_server2": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"route_source_interface": &schema.Schema{
+			"route_source_interface": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"url_obscuration": &schema.Schema{
+			"url_obscuration": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"http_compression": &schema.Schema{
+			"http_compression": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"http_only_cookie": &schema.Schema{
+			"http_only_cookie": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"deflate_compression_level": &schema.Schema{
+			"deflate_compression_level": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 9),
 				Optional:     true,
 				Computed:     true,
 			},
-			"deflate_min_data_size": &schema.Schema{
+			"deflate_min_data_size": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(200, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"port": &schema.Schema{
+			"port": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"port_precedence": &schema.Schema{
+			"port_precedence": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"auto_tunnel_static_route": &schema.Schema{
+			"auto_tunnel_static_route": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"header_x_forwarded_for": &schema.Schema{
+			"header_x_forwarded_for": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"source_interface": &schema.Schema{
+			"source_interface": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
@@ -296,12 +296,12 @@ func resourceVpnSslSettings() *schema.Resource {
 					},
 				},
 			},
-			"source_address": &schema.Schema{
+			"source_address": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 64),
 							Optional:     true,
@@ -310,17 +310,17 @@ func resourceVpnSslSettings() *schema.Resource {
 					},
 				},
 			},
-			"source_address_negate": &schema.Schema{
+			"source_address_negate": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"source_address6": &schema.Schema{
+			"source_address6": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 64),
 							Optional:     true,
@@ -329,33 +329,33 @@ func resourceVpnSslSettings() *schema.Resource {
 					},
 				},
 			},
-			"source_address6_negate": &schema.Schema{
+			"source_address6_negate": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"default_portal": &schema.Schema{
+			"default_portal": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"authentication_rule": &schema.Schema{
+			"authentication_rule": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"source_interface": &schema.Schema{
+						"source_interface": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"name": &schema.Schema{
+									"name": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 35),
 										Optional:     true,
@@ -364,12 +364,12 @@ func resourceVpnSslSettings() *schema.Resource {
 								},
 							},
 						},
-						"source_address": &schema.Schema{
+						"source_address": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"name": &schema.Schema{
+									"name": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 64),
 										Optional:     true,
@@ -378,17 +378,17 @@ func resourceVpnSslSettings() *schema.Resource {
 								},
 							},
 						},
-						"source_address_negate": &schema.Schema{
+						"source_address_negate": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"source_address6": &schema.Schema{
+						"source_address6": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"name": &schema.Schema{
+									"name": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 64),
 										Optional:     true,
@@ -397,17 +397,17 @@ func resourceVpnSslSettings() *schema.Resource {
 								},
 							},
 						},
-						"source_address6_negate": &schema.Schema{
+						"source_address6_negate": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"users": &schema.Schema{
+						"users": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"name": &schema.Schema{
+									"name": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 64),
 										Optional:     true,
@@ -416,12 +416,12 @@ func resourceVpnSslSettings() *schema.Resource {
 								},
 							},
 						},
-						"groups": &schema.Schema{
+						"groups": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"name": &schema.Schema{
+									"name": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 64),
 										Optional:     true,
@@ -430,35 +430,35 @@ func resourceVpnSslSettings() *schema.Resource {
 								},
 							},
 						},
-						"portal": &schema.Schema{
+						"portal": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"realm": &schema.Schema{
+						"realm": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"client_cert": &schema.Schema{
+						"client_cert": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"user_peer": &schema.Schema{
+						"user_peer": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"cipher": &schema.Schema{
+						"cipher": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"auth": &schema.Schema{
+						"auth": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -466,76 +466,81 @@ func resourceVpnSslSettings() *schema.Resource {
 					},
 				},
 			},
-			"dtls_tunnel": &schema.Schema{
+			"dtls_tunnel": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"dtls_max_proto_ver": &schema.Schema{
+			"dtls_max_proto_ver": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"dtls_min_proto_ver": &schema.Schema{
+			"dtls_min_proto_ver": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"check_referer": &schema.Schema{
+			"check_referer": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"http_request_header_timeout": &schema.Schema{
+			"http_request_header_timeout": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"http_request_body_timeout": &schema.Schema{
+			"http_request_body_timeout": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"auth_session_check_source_ip": &schema.Schema{
+			"auth_session_check_source_ip": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"tunnel_connect_without_reauth": &schema.Schema{
+			"tunnel_connect_without_reauth": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"tunnel_user_session_timeout": &schema.Schema{
+			"tunnel_user_session_timeout": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 255),
 				Optional:     true,
 				Computed:     true,
 			},
-			"hsts_include_subdomains": &schema.Schema{
+			"hsts_include_subdomains": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"transform_backward_slashes": &schema.Schema{
+			"transform_backward_slashes": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"encode_2f_sequence": &schema.Schema{
+			"encode_2f_sequence": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"encrypt_and_store_password": &schema.Schema{
+			"encrypt_and_store_password": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"dynamic_sort_subtable": &schema.Schema{
-				Type:     schema.TypeString,
+			"dynamic_sort_subtable": {
+				Type:     schema.TypeBool,
 				Optional: true,
-				Default:  "false",
+				Default:  false,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -554,14 +559,24 @@ func resourceVpnSslSettingsUpdate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectVpnSslSettings(d, false, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating VpnSslSettings resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateVpnSslSettings(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectVpnSslSettings(d, false, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating VpnSslSettings resource: %v", err)
+		return fmt.Errorf("error updating VpnSslSettings resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateVpnSslSettings(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating VpnSslSettings resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -587,15 +602,25 @@ func resourceVpnSslSettingsDelete(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
 	obj, err := getObjectVpnSslSettings(d, true, c.Fv)
 
 	if err != nil {
-		return fmt.Errorf("Error updating VpnSslSettings resource while getting object: %v", err)
+		return fmt.Errorf("error updating VpnSslSettings resource while getting object: %v", err)
 	}
 
-	_, err = c.UpdateVpnSslSettings(obj, mkey, vdomparam)
+	_, err = c.UpdateVpnSslSettings(obj, mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error clearing VpnSslSettings resource: %v", err)
+		return fmt.Errorf("error clearing VpnSslSettings resource: %v", err)
 	}
 
 	d.SetId("")
@@ -617,9 +642,19 @@ func resourceVpnSslSettingsRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadVpnSslSettings(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadVpnSslSettings(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading VpnSslSettings resource: %v", err)
+		return fmt.Errorf("error reading VpnSslSettings resource: %v", err)
 	}
 
 	if o == nil {
@@ -630,7 +665,7 @@ func resourceVpnSslSettingsRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectVpnSslSettings(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading VpnSslSettings resource from API: %v", err)
+		return fmt.Errorf("error reading VpnSslSettings resource from API: %v", err)
 	}
 	return nil
 }
@@ -1395,153 +1430,153 @@ func refreshObjectVpnSslSettings(d *schema.ResourceData, o map[string]interface{
 
 	if err = d.Set("reqclientcert", flattenVpnSslSettingsReqclientcert(o["reqclientcert"], d, "reqclientcert", sv)); err != nil {
 		if !fortiAPIPatch(o["reqclientcert"]) {
-			return fmt.Errorf("Error reading reqclientcert: %v", err)
+			return fmt.Errorf("error reading reqclientcert: %v", err)
 		}
 	}
 
 	if err = d.Set("user_peer", flattenVpnSslSettingsUserPeer(o["user-peer"], d, "user_peer", sv)); err != nil {
 		if !fortiAPIPatch(o["user-peer"]) {
-			return fmt.Errorf("Error reading user_peer: %v", err)
+			return fmt.Errorf("error reading user_peer: %v", err)
 		}
 	}
 
 	if err = d.Set("ssl_max_proto_ver", flattenVpnSslSettingsSslMaxProtoVer(o["ssl-max-proto-ver"], d, "ssl_max_proto_ver", sv)); err != nil {
 		if !fortiAPIPatch(o["ssl-max-proto-ver"]) {
-			return fmt.Errorf("Error reading ssl_max_proto_ver: %v", err)
+			return fmt.Errorf("error reading ssl_max_proto_ver: %v", err)
 		}
 	}
 
 	if err = d.Set("ssl_min_proto_ver", flattenVpnSslSettingsSslMinProtoVer(o["ssl-min-proto-ver"], d, "ssl_min_proto_ver", sv)); err != nil {
 		if !fortiAPIPatch(o["ssl-min-proto-ver"]) {
-			return fmt.Errorf("Error reading ssl_min_proto_ver: %v", err)
+			return fmt.Errorf("error reading ssl_min_proto_ver: %v", err)
 		}
 	}
 
 	if err = d.Set("tlsv1_0", flattenVpnSslSettingsTlsv10(o["tlsv1-0"], d, "tlsv1_0", sv)); err != nil {
 		if !fortiAPIPatch(o["tlsv1-0"]) {
-			return fmt.Errorf("Error reading tlsv1_0: %v", err)
+			return fmt.Errorf("error reading tlsv1_0: %v", err)
 		}
 	}
 
 	if err = d.Set("tlsv1_1", flattenVpnSslSettingsTlsv11(o["tlsv1-1"], d, "tlsv1_1", sv)); err != nil {
 		if !fortiAPIPatch(o["tlsv1-1"]) {
-			return fmt.Errorf("Error reading tlsv1_1: %v", err)
+			return fmt.Errorf("error reading tlsv1_1: %v", err)
 		}
 	}
 
 	if err = d.Set("tlsv1_2", flattenVpnSslSettingsTlsv12(o["tlsv1-2"], d, "tlsv1_2", sv)); err != nil {
 		if !fortiAPIPatch(o["tlsv1-2"]) {
-			return fmt.Errorf("Error reading tlsv1_2: %v", err)
+			return fmt.Errorf("error reading tlsv1_2: %v", err)
 		}
 	}
 
 	if err = d.Set("tlsv1_3", flattenVpnSslSettingsTlsv13(o["tlsv1-3"], d, "tlsv1_3", sv)); err != nil {
 		if !fortiAPIPatch(o["tlsv1-3"]) {
-			return fmt.Errorf("Error reading tlsv1_3: %v", err)
+			return fmt.Errorf("error reading tlsv1_3: %v", err)
 		}
 	}
 
 	if err = d.Set("banned_cipher", flattenVpnSslSettingsBannedCipher(o["banned-cipher"], d, "banned_cipher", sv)); err != nil {
 		if !fortiAPIPatch(o["banned-cipher"]) {
-			return fmt.Errorf("Error reading banned_cipher: %v", err)
+			return fmt.Errorf("error reading banned_cipher: %v", err)
 		}
 	}
 
 	if err = d.Set("ssl_insert_empty_fragment", flattenVpnSslSettingsSslInsertEmptyFragment(o["ssl-insert-empty-fragment"], d, "ssl_insert_empty_fragment", sv)); err != nil {
 		if !fortiAPIPatch(o["ssl-insert-empty-fragment"]) {
-			return fmt.Errorf("Error reading ssl_insert_empty_fragment: %v", err)
+			return fmt.Errorf("error reading ssl_insert_empty_fragment: %v", err)
 		}
 	}
 
 	if err = d.Set("https_redirect", flattenVpnSslSettingsHttpsRedirect(o["https-redirect"], d, "https_redirect", sv)); err != nil {
 		if !fortiAPIPatch(o["https-redirect"]) {
-			return fmt.Errorf("Error reading https_redirect: %v", err)
+			return fmt.Errorf("error reading https_redirect: %v", err)
 		}
 	}
 
 	if err = d.Set("x_content_type_options", flattenVpnSslSettingsXContentTypeOptions(o["x-content-type-options"], d, "x_content_type_options", sv)); err != nil {
 		if !fortiAPIPatch(o["x-content-type-options"]) {
-			return fmt.Errorf("Error reading x_content_type_options: %v", err)
+			return fmt.Errorf("error reading x_content_type_options: %v", err)
 		}
 	}
 
 	if err = d.Set("ssl_client_renegotiation", flattenVpnSslSettingsSslClientRenegotiation(o["ssl-client-renegotiation"], d, "ssl_client_renegotiation", sv)); err != nil {
 		if !fortiAPIPatch(o["ssl-client-renegotiation"]) {
-			return fmt.Errorf("Error reading ssl_client_renegotiation: %v", err)
+			return fmt.Errorf("error reading ssl_client_renegotiation: %v", err)
 		}
 	}
 
 	if err = d.Set("force_two_factor_auth", flattenVpnSslSettingsForceTwoFactorAuth(o["force-two-factor-auth"], d, "force_two_factor_auth", sv)); err != nil {
 		if !fortiAPIPatch(o["force-two-factor-auth"]) {
-			return fmt.Errorf("Error reading force_two_factor_auth: %v", err)
+			return fmt.Errorf("error reading force_two_factor_auth: %v", err)
 		}
 	}
 
 	if err = d.Set("unsafe_legacy_renegotiation", flattenVpnSslSettingsUnsafeLegacyRenegotiation(o["unsafe-legacy-renegotiation"], d, "unsafe_legacy_renegotiation", sv)); err != nil {
 		if !fortiAPIPatch(o["unsafe-legacy-renegotiation"]) {
-			return fmt.Errorf("Error reading unsafe_legacy_renegotiation: %v", err)
+			return fmt.Errorf("error reading unsafe_legacy_renegotiation: %v", err)
 		}
 	}
 
 	if err = d.Set("servercert", flattenVpnSslSettingsServercert(o["servercert"], d, "servercert", sv)); err != nil {
 		if !fortiAPIPatch(o["servercert"]) {
-			return fmt.Errorf("Error reading servercert: %v", err)
+			return fmt.Errorf("error reading servercert: %v", err)
 		}
 	}
 
 	if err = d.Set("algorithm", flattenVpnSslSettingsAlgorithm(o["algorithm"], d, "algorithm", sv)); err != nil {
 		if !fortiAPIPatch(o["algorithm"]) {
-			return fmt.Errorf("Error reading algorithm: %v", err)
+			return fmt.Errorf("error reading algorithm: %v", err)
 		}
 	}
 
 	if err = d.Set("idle_timeout", flattenVpnSslSettingsIdleTimeout(o["idle-timeout"], d, "idle_timeout", sv)); err != nil {
 		if !fortiAPIPatch(o["idle-timeout"]) {
-			return fmt.Errorf("Error reading idle_timeout: %v", err)
+			return fmt.Errorf("error reading idle_timeout: %v", err)
 		}
 	}
 
 	if err = d.Set("auth_timeout", flattenVpnSslSettingsAuthTimeout(o["auth-timeout"], d, "auth_timeout", sv)); err != nil {
 		if !fortiAPIPatch(o["auth-timeout"]) {
-			return fmt.Errorf("Error reading auth_timeout: %v", err)
+			return fmt.Errorf("error reading auth_timeout: %v", err)
 		}
 	}
 
 	if err = d.Set("login_attempt_limit", flattenVpnSslSettingsLoginAttemptLimit(o["login-attempt-limit"], d, "login_attempt_limit", sv)); err != nil {
 		if !fortiAPIPatch(o["login-attempt-limit"]) {
-			return fmt.Errorf("Error reading login_attempt_limit: %v", err)
+			return fmt.Errorf("error reading login_attempt_limit: %v", err)
 		}
 	}
 
 	if err = d.Set("login_block_time", flattenVpnSslSettingsLoginBlockTime(o["login-block-time"], d, "login_block_time", sv)); err != nil {
 		if !fortiAPIPatch(o["login-block-time"]) {
-			return fmt.Errorf("Error reading login_block_time: %v", err)
+			return fmt.Errorf("error reading login_block_time: %v", err)
 		}
 	}
 
 	if err = d.Set("login_timeout", flattenVpnSslSettingsLoginTimeout(o["login-timeout"], d, "login_timeout", sv)); err != nil {
 		if !fortiAPIPatch(o["login-timeout"]) {
-			return fmt.Errorf("Error reading login_timeout: %v", err)
+			return fmt.Errorf("error reading login_timeout: %v", err)
 		}
 	}
 
 	if err = d.Set("dtls_hello_timeout", flattenVpnSslSettingsDtlsHelloTimeout(o["dtls-hello-timeout"], d, "dtls_hello_timeout", sv)); err != nil {
 		if !fortiAPIPatch(o["dtls-hello-timeout"]) {
-			return fmt.Errorf("Error reading dtls_hello_timeout: %v", err)
+			return fmt.Errorf("error reading dtls_hello_timeout: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("tunnel_ip_pools", flattenVpnSslSettingsTunnelIpPools(o["tunnel-ip-pools"], d, "tunnel_ip_pools", sv)); err != nil {
 			if !fortiAPIPatch(o["tunnel-ip-pools"]) {
-				return fmt.Errorf("Error reading tunnel_ip_pools: %v", err)
+				return fmt.Errorf("error reading tunnel_ip_pools: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("tunnel_ip_pools"); ok {
 			if err = d.Set("tunnel_ip_pools", flattenVpnSslSettingsTunnelIpPools(o["tunnel-ip-pools"], d, "tunnel_ip_pools", sv)); err != nil {
 				if !fortiAPIPatch(o["tunnel-ip-pools"]) {
-					return fmt.Errorf("Error reading tunnel_ip_pools: %v", err)
+					return fmt.Errorf("error reading tunnel_ip_pools: %v", err)
 				}
 			}
 		}
@@ -1550,14 +1585,14 @@ func refreshObjectVpnSslSettings(d *schema.ResourceData, o map[string]interface{
 	if isImportTable() {
 		if err = d.Set("tunnel_ipv6_pools", flattenVpnSslSettingsTunnelIpv6Pools(o["tunnel-ipv6-pools"], d, "tunnel_ipv6_pools", sv)); err != nil {
 			if !fortiAPIPatch(o["tunnel-ipv6-pools"]) {
-				return fmt.Errorf("Error reading tunnel_ipv6_pools: %v", err)
+				return fmt.Errorf("error reading tunnel_ipv6_pools: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("tunnel_ipv6_pools"); ok {
 			if err = d.Set("tunnel_ipv6_pools", flattenVpnSslSettingsTunnelIpv6Pools(o["tunnel-ipv6-pools"], d, "tunnel_ipv6_pools", sv)); err != nil {
 				if !fortiAPIPatch(o["tunnel-ipv6-pools"]) {
-					return fmt.Errorf("Error reading tunnel_ipv6_pools: %v", err)
+					return fmt.Errorf("error reading tunnel_ipv6_pools: %v", err)
 				}
 			}
 		}
@@ -1565,129 +1600,129 @@ func refreshObjectVpnSslSettings(d *schema.ResourceData, o map[string]interface{
 
 	if err = d.Set("dns_suffix", flattenVpnSslSettingsDnsSuffix(o["dns-suffix"], d, "dns_suffix", sv)); err != nil {
 		if !fortiAPIPatch(o["dns-suffix"]) {
-			return fmt.Errorf("Error reading dns_suffix: %v", err)
+			return fmt.Errorf("error reading dns_suffix: %v", err)
 		}
 	}
 
 	if err = d.Set("dns_server1", flattenVpnSslSettingsDnsServer1(o["dns-server1"], d, "dns_server1", sv)); err != nil {
 		if !fortiAPIPatch(o["dns-server1"]) {
-			return fmt.Errorf("Error reading dns_server1: %v", err)
+			return fmt.Errorf("error reading dns_server1: %v", err)
 		}
 	}
 
 	if err = d.Set("dns_server2", flattenVpnSslSettingsDnsServer2(o["dns-server2"], d, "dns_server2", sv)); err != nil {
 		if !fortiAPIPatch(o["dns-server2"]) {
-			return fmt.Errorf("Error reading dns_server2: %v", err)
+			return fmt.Errorf("error reading dns_server2: %v", err)
 		}
 	}
 
 	if err = d.Set("wins_server1", flattenVpnSslSettingsWinsServer1(o["wins-server1"], d, "wins_server1", sv)); err != nil {
 		if !fortiAPIPatch(o["wins-server1"]) {
-			return fmt.Errorf("Error reading wins_server1: %v", err)
+			return fmt.Errorf("error reading wins_server1: %v", err)
 		}
 	}
 
 	if err = d.Set("wins_server2", flattenVpnSslSettingsWinsServer2(o["wins-server2"], d, "wins_server2", sv)); err != nil {
 		if !fortiAPIPatch(o["wins-server2"]) {
-			return fmt.Errorf("Error reading wins_server2: %v", err)
+			return fmt.Errorf("error reading wins_server2: %v", err)
 		}
 	}
 
 	if err = d.Set("ipv6_dns_server1", flattenVpnSslSettingsIpv6DnsServer1(o["ipv6-dns-server1"], d, "ipv6_dns_server1", sv)); err != nil {
 		if !fortiAPIPatch(o["ipv6-dns-server1"]) {
-			return fmt.Errorf("Error reading ipv6_dns_server1: %v", err)
+			return fmt.Errorf("error reading ipv6_dns_server1: %v", err)
 		}
 	}
 
 	if err = d.Set("ipv6_dns_server2", flattenVpnSslSettingsIpv6DnsServer2(o["ipv6-dns-server2"], d, "ipv6_dns_server2", sv)); err != nil {
 		if !fortiAPIPatch(o["ipv6-dns-server2"]) {
-			return fmt.Errorf("Error reading ipv6_dns_server2: %v", err)
+			return fmt.Errorf("error reading ipv6_dns_server2: %v", err)
 		}
 	}
 
 	if err = d.Set("ipv6_wins_server1", flattenVpnSslSettingsIpv6WinsServer1(o["ipv6-wins-server1"], d, "ipv6_wins_server1", sv)); err != nil {
 		if !fortiAPIPatch(o["ipv6-wins-server1"]) {
-			return fmt.Errorf("Error reading ipv6_wins_server1: %v", err)
+			return fmt.Errorf("error reading ipv6_wins_server1: %v", err)
 		}
 	}
 
 	if err = d.Set("ipv6_wins_server2", flattenVpnSslSettingsIpv6WinsServer2(o["ipv6-wins-server2"], d, "ipv6_wins_server2", sv)); err != nil {
 		if !fortiAPIPatch(o["ipv6-wins-server2"]) {
-			return fmt.Errorf("Error reading ipv6_wins_server2: %v", err)
+			return fmt.Errorf("error reading ipv6_wins_server2: %v", err)
 		}
 	}
 
 	if err = d.Set("route_source_interface", flattenVpnSslSettingsRouteSourceInterface(o["route-source-interface"], d, "route_source_interface", sv)); err != nil {
 		if !fortiAPIPatch(o["route-source-interface"]) {
-			return fmt.Errorf("Error reading route_source_interface: %v", err)
+			return fmt.Errorf("error reading route_source_interface: %v", err)
 		}
 	}
 
 	if err = d.Set("url_obscuration", flattenVpnSslSettingsUrlObscuration(o["url-obscuration"], d, "url_obscuration", sv)); err != nil {
 		if !fortiAPIPatch(o["url-obscuration"]) {
-			return fmt.Errorf("Error reading url_obscuration: %v", err)
+			return fmt.Errorf("error reading url_obscuration: %v", err)
 		}
 	}
 
 	if err = d.Set("http_compression", flattenVpnSslSettingsHttpCompression(o["http-compression"], d, "http_compression", sv)); err != nil {
 		if !fortiAPIPatch(o["http-compression"]) {
-			return fmt.Errorf("Error reading http_compression: %v", err)
+			return fmt.Errorf("error reading http_compression: %v", err)
 		}
 	}
 
 	if err = d.Set("http_only_cookie", flattenVpnSslSettingsHttpOnlyCookie(o["http-only-cookie"], d, "http_only_cookie", sv)); err != nil {
 		if !fortiAPIPatch(o["http-only-cookie"]) {
-			return fmt.Errorf("Error reading http_only_cookie: %v", err)
+			return fmt.Errorf("error reading http_only_cookie: %v", err)
 		}
 	}
 
 	if err = d.Set("deflate_compression_level", flattenVpnSslSettingsDeflateCompressionLevel(o["deflate-compression-level"], d, "deflate_compression_level", sv)); err != nil {
 		if !fortiAPIPatch(o["deflate-compression-level"]) {
-			return fmt.Errorf("Error reading deflate_compression_level: %v", err)
+			return fmt.Errorf("error reading deflate_compression_level: %v", err)
 		}
 	}
 
 	if err = d.Set("deflate_min_data_size", flattenVpnSslSettingsDeflateMinDataSize(o["deflate-min-data-size"], d, "deflate_min_data_size", sv)); err != nil {
 		if !fortiAPIPatch(o["deflate-min-data-size"]) {
-			return fmt.Errorf("Error reading deflate_min_data_size: %v", err)
+			return fmt.Errorf("error reading deflate_min_data_size: %v", err)
 		}
 	}
 
 	if err = d.Set("port", flattenVpnSslSettingsPort(o["port"], d, "port", sv)); err != nil {
 		if !fortiAPIPatch(o["port"]) {
-			return fmt.Errorf("Error reading port: %v", err)
+			return fmt.Errorf("error reading port: %v", err)
 		}
 	}
 
 	if err = d.Set("port_precedence", flattenVpnSslSettingsPortPrecedence(o["port-precedence"], d, "port_precedence", sv)); err != nil {
 		if !fortiAPIPatch(o["port-precedence"]) {
-			return fmt.Errorf("Error reading port_precedence: %v", err)
+			return fmt.Errorf("error reading port_precedence: %v", err)
 		}
 	}
 
 	if err = d.Set("auto_tunnel_static_route", flattenVpnSslSettingsAutoTunnelStaticRoute(o["auto-tunnel-static-route"], d, "auto_tunnel_static_route", sv)); err != nil {
 		if !fortiAPIPatch(o["auto-tunnel-static-route"]) {
-			return fmt.Errorf("Error reading auto_tunnel_static_route: %v", err)
+			return fmt.Errorf("error reading auto_tunnel_static_route: %v", err)
 		}
 	}
 
 	if err = d.Set("header_x_forwarded_for", flattenVpnSslSettingsHeaderXForwardedFor(o["header-x-forwarded-for"], d, "header_x_forwarded_for", sv)); err != nil {
 		if !fortiAPIPatch(o["header-x-forwarded-for"]) {
-			return fmt.Errorf("Error reading header_x_forwarded_for: %v", err)
+			return fmt.Errorf("error reading header_x_forwarded_for: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("source_interface", flattenVpnSslSettingsSourceInterface(o["source-interface"], d, "source_interface", sv)); err != nil {
 			if !fortiAPIPatch(o["source-interface"]) {
-				return fmt.Errorf("Error reading source_interface: %v", err)
+				return fmt.Errorf("error reading source_interface: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("source_interface"); ok {
 			if err = d.Set("source_interface", flattenVpnSslSettingsSourceInterface(o["source-interface"], d, "source_interface", sv)); err != nil {
 				if !fortiAPIPatch(o["source-interface"]) {
-					return fmt.Errorf("Error reading source_interface: %v", err)
+					return fmt.Errorf("error reading source_interface: %v", err)
 				}
 			}
 		}
@@ -1696,14 +1731,14 @@ func refreshObjectVpnSslSettings(d *schema.ResourceData, o map[string]interface{
 	if isImportTable() {
 		if err = d.Set("source_address", flattenVpnSslSettingsSourceAddress(o["source-address"], d, "source_address", sv)); err != nil {
 			if !fortiAPIPatch(o["source-address"]) {
-				return fmt.Errorf("Error reading source_address: %v", err)
+				return fmt.Errorf("error reading source_address: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("source_address"); ok {
 			if err = d.Set("source_address", flattenVpnSslSettingsSourceAddress(o["source-address"], d, "source_address", sv)); err != nil {
 				if !fortiAPIPatch(o["source-address"]) {
-					return fmt.Errorf("Error reading source_address: %v", err)
+					return fmt.Errorf("error reading source_address: %v", err)
 				}
 			}
 		}
@@ -1711,21 +1746,21 @@ func refreshObjectVpnSslSettings(d *schema.ResourceData, o map[string]interface{
 
 	if err = d.Set("source_address_negate", flattenVpnSslSettingsSourceAddressNegate(o["source-address-negate"], d, "source_address_negate", sv)); err != nil {
 		if !fortiAPIPatch(o["source-address-negate"]) {
-			return fmt.Errorf("Error reading source_address_negate: %v", err)
+			return fmt.Errorf("error reading source_address_negate: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("source_address6", flattenVpnSslSettingsSourceAddress6(o["source-address6"], d, "source_address6", sv)); err != nil {
 			if !fortiAPIPatch(o["source-address6"]) {
-				return fmt.Errorf("Error reading source_address6: %v", err)
+				return fmt.Errorf("error reading source_address6: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("source_address6"); ok {
 			if err = d.Set("source_address6", flattenVpnSslSettingsSourceAddress6(o["source-address6"], d, "source_address6", sv)); err != nil {
 				if !fortiAPIPatch(o["source-address6"]) {
-					return fmt.Errorf("Error reading source_address6: %v", err)
+					return fmt.Errorf("error reading source_address6: %v", err)
 				}
 			}
 		}
@@ -1733,27 +1768,27 @@ func refreshObjectVpnSslSettings(d *schema.ResourceData, o map[string]interface{
 
 	if err = d.Set("source_address6_negate", flattenVpnSslSettingsSourceAddress6Negate(o["source-address6-negate"], d, "source_address6_negate", sv)); err != nil {
 		if !fortiAPIPatch(o["source-address6-negate"]) {
-			return fmt.Errorf("Error reading source_address6_negate: %v", err)
+			return fmt.Errorf("error reading source_address6_negate: %v", err)
 		}
 	}
 
 	if err = d.Set("default_portal", flattenVpnSslSettingsDefaultPortal(o["default-portal"], d, "default_portal", sv)); err != nil {
 		if !fortiAPIPatch(o["default-portal"]) {
-			return fmt.Errorf("Error reading default_portal: %v", err)
+			return fmt.Errorf("error reading default_portal: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("authentication_rule", flattenVpnSslSettingsAuthenticationRule(o["authentication-rule"], d, "authentication_rule", sv)); err != nil {
 			if !fortiAPIPatch(o["authentication-rule"]) {
-				return fmt.Errorf("Error reading authentication_rule: %v", err)
+				return fmt.Errorf("error reading authentication_rule: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("authentication_rule"); ok {
 			if err = d.Set("authentication_rule", flattenVpnSslSettingsAuthenticationRule(o["authentication-rule"], d, "authentication_rule", sv)); err != nil {
 				if !fortiAPIPatch(o["authentication-rule"]) {
-					return fmt.Errorf("Error reading authentication_rule: %v", err)
+					return fmt.Errorf("error reading authentication_rule: %v", err)
 				}
 			}
 		}
@@ -1761,79 +1796,79 @@ func refreshObjectVpnSslSettings(d *schema.ResourceData, o map[string]interface{
 
 	if err = d.Set("dtls_tunnel", flattenVpnSslSettingsDtlsTunnel(o["dtls-tunnel"], d, "dtls_tunnel", sv)); err != nil {
 		if !fortiAPIPatch(o["dtls-tunnel"]) {
-			return fmt.Errorf("Error reading dtls_tunnel: %v", err)
+			return fmt.Errorf("error reading dtls_tunnel: %v", err)
 		}
 	}
 
 	if err = d.Set("dtls_max_proto_ver", flattenVpnSslSettingsDtlsMaxProtoVer(o["dtls-max-proto-ver"], d, "dtls_max_proto_ver", sv)); err != nil {
 		if !fortiAPIPatch(o["dtls-max-proto-ver"]) {
-			return fmt.Errorf("Error reading dtls_max_proto_ver: %v", err)
+			return fmt.Errorf("error reading dtls_max_proto_ver: %v", err)
 		}
 	}
 
 	if err = d.Set("dtls_min_proto_ver", flattenVpnSslSettingsDtlsMinProtoVer(o["dtls-min-proto-ver"], d, "dtls_min_proto_ver", sv)); err != nil {
 		if !fortiAPIPatch(o["dtls-min-proto-ver"]) {
-			return fmt.Errorf("Error reading dtls_min_proto_ver: %v", err)
+			return fmt.Errorf("error reading dtls_min_proto_ver: %v", err)
 		}
 	}
 
 	if err = d.Set("check_referer", flattenVpnSslSettingsCheckReferer(o["check-referer"], d, "check_referer", sv)); err != nil {
 		if !fortiAPIPatch(o["check-referer"]) {
-			return fmt.Errorf("Error reading check_referer: %v", err)
+			return fmt.Errorf("error reading check_referer: %v", err)
 		}
 	}
 
 	if err = d.Set("http_request_header_timeout", flattenVpnSslSettingsHttpRequestHeaderTimeout(o["http-request-header-timeout"], d, "http_request_header_timeout", sv)); err != nil {
 		if !fortiAPIPatch(o["http-request-header-timeout"]) {
-			return fmt.Errorf("Error reading http_request_header_timeout: %v", err)
+			return fmt.Errorf("error reading http_request_header_timeout: %v", err)
 		}
 	}
 
 	if err = d.Set("http_request_body_timeout", flattenVpnSslSettingsHttpRequestBodyTimeout(o["http-request-body-timeout"], d, "http_request_body_timeout", sv)); err != nil {
 		if !fortiAPIPatch(o["http-request-body-timeout"]) {
-			return fmt.Errorf("Error reading http_request_body_timeout: %v", err)
+			return fmt.Errorf("error reading http_request_body_timeout: %v", err)
 		}
 	}
 
 	if err = d.Set("auth_session_check_source_ip", flattenVpnSslSettingsAuthSessionCheckSourceIp(o["auth-session-check-source-ip"], d, "auth_session_check_source_ip", sv)); err != nil {
 		if !fortiAPIPatch(o["auth-session-check-source-ip"]) {
-			return fmt.Errorf("Error reading auth_session_check_source_ip: %v", err)
+			return fmt.Errorf("error reading auth_session_check_source_ip: %v", err)
 		}
 	}
 
 	if err = d.Set("tunnel_connect_without_reauth", flattenVpnSslSettingsTunnelConnectWithoutReauth(o["tunnel-connect-without-reauth"], d, "tunnel_connect_without_reauth", sv)); err != nil {
 		if !fortiAPIPatch(o["tunnel-connect-without-reauth"]) {
-			return fmt.Errorf("Error reading tunnel_connect_without_reauth: %v", err)
+			return fmt.Errorf("error reading tunnel_connect_without_reauth: %v", err)
 		}
 	}
 
 	if err = d.Set("tunnel_user_session_timeout", flattenVpnSslSettingsTunnelUserSessionTimeout(o["tunnel-user-session-timeout"], d, "tunnel_user_session_timeout", sv)); err != nil {
 		if !fortiAPIPatch(o["tunnel-user-session-timeout"]) {
-			return fmt.Errorf("Error reading tunnel_user_session_timeout: %v", err)
+			return fmt.Errorf("error reading tunnel_user_session_timeout: %v", err)
 		}
 	}
 
 	if err = d.Set("hsts_include_subdomains", flattenVpnSslSettingsHstsIncludeSubdomains(o["hsts-include-subdomains"], d, "hsts_include_subdomains", sv)); err != nil {
 		if !fortiAPIPatch(o["hsts-include-subdomains"]) {
-			return fmt.Errorf("Error reading hsts_include_subdomains: %v", err)
+			return fmt.Errorf("error reading hsts_include_subdomains: %v", err)
 		}
 	}
 
 	if err = d.Set("transform_backward_slashes", flattenVpnSslSettingsTransformBackwardSlashes(o["transform-backward-slashes"], d, "transform_backward_slashes", sv)); err != nil {
 		if !fortiAPIPatch(o["transform-backward-slashes"]) {
-			return fmt.Errorf("Error reading transform_backward_slashes: %v", err)
+			return fmt.Errorf("error reading transform_backward_slashes: %v", err)
 		}
 	}
 
 	if err = d.Set("encode_2f_sequence", flattenVpnSslSettingsEncode2FSequence(o["encode-2f-sequence"], d, "encode_2f_sequence", sv)); err != nil {
 		if !fortiAPIPatch(o["encode-2f-sequence"]) {
-			return fmt.Errorf("Error reading encode_2f_sequence: %v", err)
+			return fmt.Errorf("error reading encode_2f_sequence: %v", err)
 		}
 	}
 
 	if err = d.Set("encrypt_and_store_password", flattenVpnSslSettingsEncryptAndStorePassword(o["encrypt-and-store-password"], d, "encrypt_and_store_password", sv)); err != nil {
 		if !fortiAPIPatch(o["encrypt-and-store-password"]) {
-			return fmt.Errorf("Error reading encrypt_and_store_password: %v", err)
+			return fmt.Errorf("error reading encrypt_and_store_password: %v", err)
 		}
 	}
 

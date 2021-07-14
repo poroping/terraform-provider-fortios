@@ -30,65 +30,70 @@ func resourceSwitchControllerTrafficPolicy() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				ForceNew:     true,
 				Required:     true,
 			},
-			"description": &schema.Schema{
+			"description": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"policer_status": &schema.Schema{
+			"policer_status": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"guaranteed_bandwidth": &schema.Schema{
+			"guaranteed_bandwidth": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 524287000),
 				Optional:     true,
 				Computed:     true,
 			},
-			"guaranteed_burst": &schema.Schema{
+			"guaranteed_burst": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"maximum_burst": &schema.Schema{
+			"maximum_burst": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"type": &schema.Schema{
+			"type": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"cos_queue": &schema.Schema{
+			"cos_queue": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 7),
 				Optional:     true,
 				Computed:     true,
 			},
-			"cos": &schema.Schema{
+			"cos": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 7),
 				Optional:     true,
 				Computed:     true,
 			},
-			"fosid": &schema.Schema{
+			"fosid": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -106,15 +111,25 @@ func resourceSwitchControllerTrafficPolicyCreate(d *schema.ResourceData, m inter
 		}
 	}
 
-	obj, err := getObjectSwitchControllerTrafficPolicy(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating SwitchControllerTrafficPolicy resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateSwitchControllerTrafficPolicy(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSwitchControllerTrafficPolicy(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating SwitchControllerTrafficPolicy resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateSwitchControllerTrafficPolicy(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating SwitchControllerTrafficPolicy resource: %v", err)
+		return fmt.Errorf("error creating SwitchControllerTrafficPolicy resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -139,14 +154,24 @@ func resourceSwitchControllerTrafficPolicyUpdate(d *schema.ResourceData, m inter
 		}
 	}
 
-	obj, err := getObjectSwitchControllerTrafficPolicy(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SwitchControllerTrafficPolicy resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSwitchControllerTrafficPolicy(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSwitchControllerTrafficPolicy(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SwitchControllerTrafficPolicy resource: %v", err)
+		return fmt.Errorf("error updating SwitchControllerTrafficPolicy resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSwitchControllerTrafficPolicy(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SwitchControllerTrafficPolicy resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -173,9 +198,17 @@ func resourceSwitchControllerTrafficPolicyDelete(d *schema.ResourceData, m inter
 		}
 	}
 
-	err := c.DeleteSwitchControllerTrafficPolicy(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSwitchControllerTrafficPolicy(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SwitchControllerTrafficPolicy resource: %v", err)
+		return fmt.Errorf("error deleting SwitchControllerTrafficPolicy resource: %v", err)
 	}
 
 	d.SetId("")
@@ -197,9 +230,19 @@ func resourceSwitchControllerTrafficPolicyRead(d *schema.ResourceData, m interfa
 		}
 	}
 
-	o, err := c.ReadSwitchControllerTrafficPolicy(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSwitchControllerTrafficPolicy(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SwitchControllerTrafficPolicy resource: %v", err)
+		return fmt.Errorf("error reading SwitchControllerTrafficPolicy resource: %v", err)
 	}
 
 	if o == nil {
@@ -210,7 +253,7 @@ func resourceSwitchControllerTrafficPolicyRead(d *schema.ResourceData, m interfa
 
 	err = refreshObjectSwitchControllerTrafficPolicy(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SwitchControllerTrafficPolicy resource from API: %v", err)
+		return fmt.Errorf("error reading SwitchControllerTrafficPolicy resource from API: %v", err)
 	}
 	return nil
 }
@@ -260,61 +303,61 @@ func refreshObjectSwitchControllerTrafficPolicy(d *schema.ResourceData, o map[st
 
 	if err = d.Set("name", flattenSwitchControllerTrafficPolicyName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("description", flattenSwitchControllerTrafficPolicyDescription(o["description"], d, "description", sv)); err != nil {
 		if !fortiAPIPatch(o["description"]) {
-			return fmt.Errorf("Error reading description: %v", err)
+			return fmt.Errorf("error reading description: %v", err)
 		}
 	}
 
 	if err = d.Set("policer_status", flattenSwitchControllerTrafficPolicyPolicerStatus(o["policer-status"], d, "policer_status", sv)); err != nil {
 		if !fortiAPIPatch(o["policer-status"]) {
-			return fmt.Errorf("Error reading policer_status: %v", err)
+			return fmt.Errorf("error reading policer_status: %v", err)
 		}
 	}
 
 	if err = d.Set("guaranteed_bandwidth", flattenSwitchControllerTrafficPolicyGuaranteedBandwidth(o["guaranteed-bandwidth"], d, "guaranteed_bandwidth", sv)); err != nil {
 		if !fortiAPIPatch(o["guaranteed-bandwidth"]) {
-			return fmt.Errorf("Error reading guaranteed_bandwidth: %v", err)
+			return fmt.Errorf("error reading guaranteed_bandwidth: %v", err)
 		}
 	}
 
 	if err = d.Set("guaranteed_burst", flattenSwitchControllerTrafficPolicyGuaranteedBurst(o["guaranteed-burst"], d, "guaranteed_burst", sv)); err != nil {
 		if !fortiAPIPatch(o["guaranteed-burst"]) {
-			return fmt.Errorf("Error reading guaranteed_burst: %v", err)
+			return fmt.Errorf("error reading guaranteed_burst: %v", err)
 		}
 	}
 
 	if err = d.Set("maximum_burst", flattenSwitchControllerTrafficPolicyMaximumBurst(o["maximum-burst"], d, "maximum_burst", sv)); err != nil {
 		if !fortiAPIPatch(o["maximum-burst"]) {
-			return fmt.Errorf("Error reading maximum_burst: %v", err)
+			return fmt.Errorf("error reading maximum_burst: %v", err)
 		}
 	}
 
 	if err = d.Set("type", flattenSwitchControllerTrafficPolicyType(o["type"], d, "type", sv)); err != nil {
 		if !fortiAPIPatch(o["type"]) {
-			return fmt.Errorf("Error reading type: %v", err)
+			return fmt.Errorf("error reading type: %v", err)
 		}
 	}
 
 	if err = d.Set("cos_queue", flattenSwitchControllerTrafficPolicyCosQueue(o["cos-queue"], d, "cos_queue", sv)); err != nil {
 		if !fortiAPIPatch(o["cos-queue"]) {
-			return fmt.Errorf("Error reading cos_queue: %v", err)
+			return fmt.Errorf("error reading cos_queue: %v", err)
 		}
 	}
 
 	if err = d.Set("cos", flattenSwitchControllerTrafficPolicyCos(o["cos"], d, "cos", sv)); err != nil {
 		if !fortiAPIPatch(o["cos"]) {
-			return fmt.Errorf("Error reading cos: %v", err)
+			return fmt.Errorf("error reading cos: %v", err)
 		}
 	}
 
 	if err = d.Set("fosid", flattenSwitchControllerTrafficPolicyId(o["id"], d, "fosid", sv)); err != nil {
 		if !fortiAPIPatch(o["id"]) {
-			return fmt.Errorf("Error reading fosid: %v", err)
+			return fmt.Errorf("error reading fosid: %v", err)
 		}
 	}
 

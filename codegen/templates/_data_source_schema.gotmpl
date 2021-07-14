@@ -1,0 +1,28 @@
+            {{ define "DSCHEMA" }}
+            {{- range $key, $value := .children }}
+            {{- if eq $value.category "unitary" }}
+            {{(flatten $value.name) | printf "%q" }}:{
+            	{{ (typelookup $value.type) }}
+                Description: {{ $value.help | printf "%q" }},
+				{{- if $value.dsrequired }}
+                Required:     true,
+				{{- else }}
+                Computed:     true,
+				{{- end }}
+			},
+            {{- end }}
+            {{- if or (eq $value.category "table") (eq $value.category "complex") }}
+            "{{- (flatten $value.name) }}": {
+            	Type:         schema.TypeList,
+                Description: {{ $value.help | printf "%q"}},
+				Computed:     true,
+			    Elem: &schema.Resource{
+                        Schema: map[string]*schema.Schema{
+                        {{- template "DSCHEMA" $value}}
+                    },
+                },
+			},
+            {{- end }}
+            {{- end }}
+
+{{- end }}

@@ -17,12 +17,12 @@ func dataSourceFirewallPolicyList() *schema.Resource {
 		Read: dataSourceFirewallPolicyListRead,
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"filter": &schema.Schema{
+			"filter": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
@@ -52,9 +52,9 @@ func dataSourceFirewallPolicyListRead(d *schema.ResourceData, m interface{}) err
 		filter = escapeFilter(filter)
 	}
 
-	o, err := c.GenericGroupRead("/api/v2/cmdb/firewall/policy", filter, vdomparam)
+	o, err := c.GenericGroupRead("/api/v2/cmdb/firewall/policy", filter, vdomparam, 0)
 	if err != nil {
-		return fmt.Errorf("Error describing FirewallPolicy: %v", err)
+		return fmt.Errorf("error describing FirewallPolicy: %v", err)
 	}
 
 	var tmps []int

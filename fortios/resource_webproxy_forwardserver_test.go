@@ -55,14 +55,14 @@ func testAccCheckFortiOSWebProxyForwardServerExists(n string) resource.TestCheck
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadWebProxyForwardServer(i, "root")
+		o, err := c.ReadWebProxyForwardServer(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading WebProxyForwardServer: %s", err)
+			return fmt.Errorf("error reading WebProxyForwardServer: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating WebProxyForwardServer: %s", n)
+			return fmt.Errorf("error creating WebProxyForwardServer: %s", n)
 		}
 
 		return nil
@@ -78,11 +78,11 @@ func testAccCheckWebProxyForwardServerDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadWebProxyForwardServer(i, "root")
+		o, err := c.ReadWebProxyForwardServer(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error WebProxyForwardServer %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error WebProxyForwardServer %s still exists", rs.Primary.ID)
 			}
 		}
 

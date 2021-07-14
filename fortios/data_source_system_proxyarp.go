@@ -21,25 +21,25 @@ func dataSourceSystemProxyArp() *schema.Resource {
 	return &schema.Resource{
 		Read: dataSourceSystemProxyArpRead,
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
 
-			"fosid": &schema.Schema{
+			"fosid": {
 				Type:     schema.TypeInt,
 				Required: true,
 			},
-			"interface": &schema.Schema{
+			"interface": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"ip": &schema.Schema{
+			"ip": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"end_ip": &schema.Schema{
+			"end_ip": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -67,12 +67,12 @@ func dataSourceSystemProxyArpRead(d *schema.ResourceData, m interface{}) error {
 	} else if v, ok := t.(int); ok {
 		mkey = strconv.Itoa(v)
 	} else {
-		return fmt.Errorf("Error describing SystemProxyArp: type error")
+		return fmt.Errorf("error describing SystemProxyArp: type error")
 	}
 
-	o, err := c.ReadSystemProxyArp(mkey, vdomparam)
+	o, err := c.ReadSystemProxyArp(mkey, vdomparam, make(map[string][]string), 0)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemProxyArp: %v", err)
+		return fmt.Errorf("error describing SystemProxyArp: %v", err)
 	}
 
 	if o == nil {
@@ -82,7 +82,7 @@ func dataSourceSystemProxyArpRead(d *schema.ResourceData, m interface{}) error {
 
 	err = dataSourceRefreshObjectSystemProxyArp(d, o)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemProxyArp from API: %v", err)
+		return fmt.Errorf("error describing SystemProxyArp from API: %v", err)
 	}
 
 	d.SetId(mkey)
@@ -111,25 +111,25 @@ func dataSourceRefreshObjectSystemProxyArp(d *schema.ResourceData, o map[string]
 
 	if err = d.Set("fosid", dataSourceFlattenSystemProxyArpId(o["id"], d, "fosid")); err != nil {
 		if !fortiAPIPatch(o["id"]) {
-			return fmt.Errorf("Error reading fosid: %v", err)
+			return fmt.Errorf("error reading fosid: %v", err)
 		}
 	}
 
 	if err = d.Set("interface", dataSourceFlattenSystemProxyArpInterface(o["interface"], d, "interface")); err != nil {
 		if !fortiAPIPatch(o["interface"]) {
-			return fmt.Errorf("Error reading interface: %v", err)
+			return fmt.Errorf("error reading interface: %v", err)
 		}
 	}
 
 	if err = d.Set("ip", dataSourceFlattenSystemProxyArpIp(o["ip"], d, "ip")); err != nil {
 		if !fortiAPIPatch(o["ip"]) {
-			return fmt.Errorf("Error reading ip: %v", err)
+			return fmt.Errorf("error reading ip: %v", err)
 		}
 	}
 
 	if err = d.Set("end_ip", dataSourceFlattenSystemProxyArpEndIp(o["end-ip"], d, "end_ip")); err != nil {
 		if !fortiAPIPatch(o["end-ip"]) {
-			return fmt.Errorf("Error reading end_ip: %v", err)
+			return fmt.Errorf("error reading end_ip: %v", err)
 		}
 	}
 

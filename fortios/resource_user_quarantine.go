@@ -30,72 +30,72 @@ func resourceUserQuarantine() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"quarantine": &schema.Schema{
+			"quarantine": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"traffic_policy": &schema.Schema{
+			"traffic_policy": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"firewall_groups": &schema.Schema{
+			"firewall_groups": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 79),
 				Optional:     true,
 				Computed:     true,
 			},
-			"targets": &schema.Schema{
+			"targets": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"entry": &schema.Schema{
+						"entry": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 63),
 							Optional:     true,
 							Computed:     true,
 						},
-						"description": &schema.Schema{
+						"description": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 63),
 							Optional:     true,
 							Computed:     true,
 						},
-						"macs": &schema.Schema{
+						"macs": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"mac": &schema.Schema{
+									"mac": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"entry_id": &schema.Schema{
+									"entry_id": {
 										Type:     schema.TypeInt,
 										Optional: true,
 										Computed: true,
 									},
-									"description": &schema.Schema{
+									"description": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 63),
 										Optional:     true,
 										Computed:     true,
 									},
-									"drop": &schema.Schema{
+									"drop": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"parent": &schema.Schema{
+									"parent": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 63),
 										Optional:     true,
@@ -107,10 +107,15 @@ func resourceUserQuarantine() *schema.Resource {
 					},
 				},
 			},
-			"dynamic_sort_subtable": &schema.Schema{
-				Type:     schema.TypeString,
+			"dynamic_sort_subtable": {
+				Type:     schema.TypeBool,
 				Optional: true,
-				Default:  "false",
+				Default:  false,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -129,14 +134,24 @@ func resourceUserQuarantineUpdate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectUserQuarantine(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating UserQuarantine resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateUserQuarantine(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectUserQuarantine(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating UserQuarantine resource: %v", err)
+		return fmt.Errorf("error updating UserQuarantine resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateUserQuarantine(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating UserQuarantine resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -163,9 +178,17 @@ func resourceUserQuarantineDelete(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	err := c.DeleteUserQuarantine(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteUserQuarantine(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting UserQuarantine resource: %v", err)
+		return fmt.Errorf("error deleting UserQuarantine resource: %v", err)
 	}
 
 	d.SetId("")
@@ -187,9 +210,19 @@ func resourceUserQuarantineRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadUserQuarantine(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadUserQuarantine(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading UserQuarantine resource: %v", err)
+		return fmt.Errorf("error reading UserQuarantine resource: %v", err)
 	}
 
 	if o == nil {
@@ -200,7 +233,7 @@ func resourceUserQuarantineRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectUserQuarantine(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading UserQuarantine resource from API: %v", err)
+		return fmt.Errorf("error reading UserQuarantine resource from API: %v", err)
 	}
 	return nil
 }
@@ -353,33 +386,33 @@ func refreshObjectUserQuarantine(d *schema.ResourceData, o map[string]interface{
 
 	if err = d.Set("quarantine", flattenUserQuarantineQuarantine(o["quarantine"], d, "quarantine", sv)); err != nil {
 		if !fortiAPIPatch(o["quarantine"]) {
-			return fmt.Errorf("Error reading quarantine: %v", err)
+			return fmt.Errorf("error reading quarantine: %v", err)
 		}
 	}
 
 	if err = d.Set("traffic_policy", flattenUserQuarantineTrafficPolicy(o["traffic-policy"], d, "traffic_policy", sv)); err != nil {
 		if !fortiAPIPatch(o["traffic-policy"]) {
-			return fmt.Errorf("Error reading traffic_policy: %v", err)
+			return fmt.Errorf("error reading traffic_policy: %v", err)
 		}
 	}
 
 	if err = d.Set("firewall_groups", flattenUserQuarantineFirewallGroups(o["firewall-groups"], d, "firewall_groups", sv)); err != nil {
 		if !fortiAPIPatch(o["firewall-groups"]) {
-			return fmt.Errorf("Error reading firewall_groups: %v", err)
+			return fmt.Errorf("error reading firewall_groups: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("targets", flattenUserQuarantineTargets(o["targets"], d, "targets", sv)); err != nil {
 			if !fortiAPIPatch(o["targets"]) {
-				return fmt.Errorf("Error reading targets: %v", err)
+				return fmt.Errorf("error reading targets: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("targets"); ok {
 			if err = d.Set("targets", flattenUserQuarantineTargets(o["targets"], d, "targets", sv)); err != nil {
 				if !fortiAPIPatch(o["targets"]) {
-					return fmt.Errorf("Error reading targets: %v", err)
+					return fmt.Errorf("error reading targets: %v", err)
 				}
 			}
 		}

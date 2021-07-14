@@ -30,29 +30,29 @@ func resourceFirewallCountry() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"fosid": &schema.Schema{
+			"fosid": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"region": &schema.Schema{
+			"region": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 65535),
 							Optional:     true,
@@ -61,10 +61,15 @@ func resourceFirewallCountry() *schema.Resource {
 					},
 				},
 			},
-			"dynamic_sort_subtable": &schema.Schema{
-				Type:     schema.TypeString,
+			"dynamic_sort_subtable": {
+				Type:     schema.TypeBool,
 				Optional: true,
-				Default:  "false",
+				Default:  false,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -82,15 +87,25 @@ func resourceFirewallCountryCreate(d *schema.ResourceData, m interface{}) error 
 		}
 	}
 
-	obj, err := getObjectFirewallCountry(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating FirewallCountry resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateFirewallCountry(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectFirewallCountry(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating FirewallCountry resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateFirewallCountry(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating FirewallCountry resource: %v", err)
+		return fmt.Errorf("error creating FirewallCountry resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -115,14 +130,24 @@ func resourceFirewallCountryUpdate(d *schema.ResourceData, m interface{}) error 
 		}
 	}
 
-	obj, err := getObjectFirewallCountry(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating FirewallCountry resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateFirewallCountry(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectFirewallCountry(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating FirewallCountry resource: %v", err)
+		return fmt.Errorf("error updating FirewallCountry resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateFirewallCountry(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating FirewallCountry resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -149,9 +174,17 @@ func resourceFirewallCountryDelete(d *schema.ResourceData, m interface{}) error 
 		}
 	}
 
-	err := c.DeleteFirewallCountry(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteFirewallCountry(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting FirewallCountry resource: %v", err)
+		return fmt.Errorf("error deleting FirewallCountry resource: %v", err)
 	}
 
 	d.SetId("")
@@ -173,9 +206,19 @@ func resourceFirewallCountryRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadFirewallCountry(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadFirewallCountry(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading FirewallCountry resource: %v", err)
+		return fmt.Errorf("error reading FirewallCountry resource: %v", err)
 	}
 
 	if o == nil {
@@ -186,7 +229,7 @@ func resourceFirewallCountryRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectFirewallCountry(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading FirewallCountry resource from API: %v", err)
+		return fmt.Errorf("error reading FirewallCountry resource from API: %v", err)
 	}
 	return nil
 }
@@ -242,27 +285,27 @@ func refreshObjectFirewallCountry(d *schema.ResourceData, o map[string]interface
 
 	if err = d.Set("fosid", flattenFirewallCountryId(o["id"], d, "fosid", sv)); err != nil {
 		if !fortiAPIPatch(o["id"]) {
-			return fmt.Errorf("Error reading fosid: %v", err)
+			return fmt.Errorf("error reading fosid: %v", err)
 		}
 	}
 
 	if err = d.Set("name", flattenFirewallCountryName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("region", flattenFirewallCountryRegion(o["region"], d, "region", sv)); err != nil {
 			if !fortiAPIPatch(o["region"]) {
-				return fmt.Errorf("Error reading region: %v", err)
+				return fmt.Errorf("error reading region: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("region"); ok {
 			if err = d.Set("region", flattenFirewallCountryRegion(o["region"], d, "region", sv)); err != nil {
 				if !fortiAPIPatch(o["region"]) {
-					return fmt.Errorf("Error reading region: %v", err)
+					return fmt.Errorf("error reading region: %v", err)
 				}
 			}
 		}

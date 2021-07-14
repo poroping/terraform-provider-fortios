@@ -30,25 +30,30 @@ func resourceLogGuiDisplay() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"resolve_hosts": &schema.Schema{
+			"resolve_hosts": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"resolve_apps": &schema.Schema{
+			"resolve_apps": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"fortiview_unscanned_apps": &schema.Schema{
+			"fortiview_unscanned_apps": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -67,14 +72,24 @@ func resourceLogGuiDisplayUpdate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectLogGuiDisplay(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating LogGuiDisplay resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateLogGuiDisplay(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectLogGuiDisplay(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating LogGuiDisplay resource: %v", err)
+		return fmt.Errorf("error updating LogGuiDisplay resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateLogGuiDisplay(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating LogGuiDisplay resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -101,9 +116,17 @@ func resourceLogGuiDisplayDelete(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	err := c.DeleteLogGuiDisplay(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteLogGuiDisplay(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting LogGuiDisplay resource: %v", err)
+		return fmt.Errorf("error deleting LogGuiDisplay resource: %v", err)
 	}
 
 	d.SetId("")
@@ -125,9 +148,19 @@ func resourceLogGuiDisplayRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadLogGuiDisplay(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadLogGuiDisplay(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading LogGuiDisplay resource: %v", err)
+		return fmt.Errorf("error reading LogGuiDisplay resource: %v", err)
 	}
 
 	if o == nil {
@@ -138,7 +171,7 @@ func resourceLogGuiDisplayRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectLogGuiDisplay(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading LogGuiDisplay resource from API: %v", err)
+		return fmt.Errorf("error reading LogGuiDisplay resource from API: %v", err)
 	}
 	return nil
 }
@@ -160,19 +193,19 @@ func refreshObjectLogGuiDisplay(d *schema.ResourceData, o map[string]interface{}
 
 	if err = d.Set("resolve_hosts", flattenLogGuiDisplayResolveHosts(o["resolve-hosts"], d, "resolve_hosts", sv)); err != nil {
 		if !fortiAPIPatch(o["resolve-hosts"]) {
-			return fmt.Errorf("Error reading resolve_hosts: %v", err)
+			return fmt.Errorf("error reading resolve_hosts: %v", err)
 		}
 	}
 
 	if err = d.Set("resolve_apps", flattenLogGuiDisplayResolveApps(o["resolve-apps"], d, "resolve_apps", sv)); err != nil {
 		if !fortiAPIPatch(o["resolve-apps"]) {
-			return fmt.Errorf("Error reading resolve_apps: %v", err)
+			return fmt.Errorf("error reading resolve_apps: %v", err)
 		}
 	}
 
 	if err = d.Set("fortiview_unscanned_apps", flattenLogGuiDisplayFortiviewUnscannedApps(o["fortiview-unscanned-apps"], d, "fortiview_unscanned_apps", sv)); err != nil {
 		if !fortiAPIPatch(o["fortiview-unscanned-apps"]) {
-			return fmt.Errorf("Error reading fortiview_unscanned_apps: %v", err)
+			return fmt.Errorf("error reading fortiview_unscanned_apps: %v", err)
 		}
 	}
 

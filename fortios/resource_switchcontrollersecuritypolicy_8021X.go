@@ -30,29 +30,29 @@ func resourceSwitchControllerSecurityPolicy8021X() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 31),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"security_mode": &schema.Schema{
+			"security_mode": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"user_group": &schema.Schema{
+			"user_group": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 64),
 							Optional:     true,
@@ -61,102 +61,107 @@ func resourceSwitchControllerSecurityPolicy8021X() *schema.Resource {
 					},
 				},
 			},
-			"mac_auth_bypass": &schema.Schema{
+			"mac_auth_bypass": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"open_auth": &schema.Schema{
+			"open_auth": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"eap_passthru": &schema.Schema{
+			"eap_passthru": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"eap_auto_untagged_vlans": &schema.Schema{
+			"eap_auto_untagged_vlans": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"guest_vlan": &schema.Schema{
+			"guest_vlan": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"guest_vlanid": &schema.Schema{
+			"guest_vlanid": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"guest_vlan_id": &schema.Schema{
+			"guest_vlan_id": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 15),
 				Optional:     true,
 				Computed:     true,
 			},
-			"guest_auth_delay": &schema.Schema{
+			"guest_auth_delay": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 900),
 				Optional:     true,
 				Computed:     true,
 			},
-			"auth_fail_vlan": &schema.Schema{
+			"auth_fail_vlan": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"auth_fail_vlanid": &schema.Schema{
+			"auth_fail_vlanid": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"auth_fail_vlan_id": &schema.Schema{
+			"auth_fail_vlan_id": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 15),
 				Optional:     true,
 				Computed:     true,
 			},
-			"framevid_apply": &schema.Schema{
+			"framevid_apply": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"radius_timeout_overwrite": &schema.Schema{
+			"radius_timeout_overwrite": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"policy_type": &schema.Schema{
+			"policy_type": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"authserver_timeout_period": &schema.Schema{
+			"authserver_timeout_period": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(3, 15),
 				Optional:     true,
 				Computed:     true,
 			},
-			"authserver_timeout_vlan": &schema.Schema{
+			"authserver_timeout_vlan": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"authserver_timeout_vlanid": &schema.Schema{
+			"authserver_timeout_vlanid": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 15),
 				Optional:     true,
 				Computed:     true,
 			},
-			"dynamic_sort_subtable": &schema.Schema{
-				Type:     schema.TypeString,
+			"dynamic_sort_subtable": {
+				Type:     schema.TypeBool,
 				Optional: true,
-				Default:  "false",
+				Default:  false,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -174,15 +179,25 @@ func resourceSwitchControllerSecurityPolicy8021XCreate(d *schema.ResourceData, m
 		}
 	}
 
-	obj, err := getObjectSwitchControllerSecurityPolicy8021X(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating SwitchControllerSecurityPolicy8021X resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateSwitchControllerSecurityPolicy8021X(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSwitchControllerSecurityPolicy8021X(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating SwitchControllerSecurityPolicy8021X resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateSwitchControllerSecurityPolicy8021X(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating SwitchControllerSecurityPolicy8021X resource: %v", err)
+		return fmt.Errorf("error creating SwitchControllerSecurityPolicy8021X resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -207,14 +222,24 @@ func resourceSwitchControllerSecurityPolicy8021XUpdate(d *schema.ResourceData, m
 		}
 	}
 
-	obj, err := getObjectSwitchControllerSecurityPolicy8021X(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SwitchControllerSecurityPolicy8021X resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSwitchControllerSecurityPolicy8021X(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSwitchControllerSecurityPolicy8021X(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SwitchControllerSecurityPolicy8021X resource: %v", err)
+		return fmt.Errorf("error updating SwitchControllerSecurityPolicy8021X resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSwitchControllerSecurityPolicy8021X(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SwitchControllerSecurityPolicy8021X resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -241,9 +266,17 @@ func resourceSwitchControllerSecurityPolicy8021XDelete(d *schema.ResourceData, m
 		}
 	}
 
-	err := c.DeleteSwitchControllerSecurityPolicy8021X(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSwitchControllerSecurityPolicy8021X(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SwitchControllerSecurityPolicy8021X resource: %v", err)
+		return fmt.Errorf("error deleting SwitchControllerSecurityPolicy8021X resource: %v", err)
 	}
 
 	d.SetId("")
@@ -265,9 +298,19 @@ func resourceSwitchControllerSecurityPolicy8021XRead(d *schema.ResourceData, m i
 		}
 	}
 
-	o, err := c.ReadSwitchControllerSecurityPolicy8021X(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSwitchControllerSecurityPolicy8021X(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SwitchControllerSecurityPolicy8021X resource: %v", err)
+		return fmt.Errorf("error reading SwitchControllerSecurityPolicy8021X resource: %v", err)
 	}
 
 	if o == nil {
@@ -278,7 +321,7 @@ func resourceSwitchControllerSecurityPolicy8021XRead(d *schema.ResourceData, m i
 
 	err = refreshObjectSwitchControllerSecurityPolicy8021X(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SwitchControllerSecurityPolicy8021X resource from API: %v", err)
+		return fmt.Errorf("error reading SwitchControllerSecurityPolicy8021X resource from API: %v", err)
 	}
 	return nil
 }
@@ -402,27 +445,27 @@ func refreshObjectSwitchControllerSecurityPolicy8021X(d *schema.ResourceData, o 
 
 	if err = d.Set("name", flattenSwitchControllerSecurityPolicy8021XName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("security_mode", flattenSwitchControllerSecurityPolicy8021XSecurityMode(o["security-mode"], d, "security_mode", sv)); err != nil {
 		if !fortiAPIPatch(o["security-mode"]) {
-			return fmt.Errorf("Error reading security_mode: %v", err)
+			return fmt.Errorf("error reading security_mode: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("user_group", flattenSwitchControllerSecurityPolicy8021XUserGroup(o["user-group"], d, "user_group", sv)); err != nil {
 			if !fortiAPIPatch(o["user-group"]) {
-				return fmt.Errorf("Error reading user_group: %v", err)
+				return fmt.Errorf("error reading user_group: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("user_group"); ok {
 			if err = d.Set("user_group", flattenSwitchControllerSecurityPolicy8021XUserGroup(o["user-group"], d, "user_group", sv)); err != nil {
 				if !fortiAPIPatch(o["user-group"]) {
-					return fmt.Errorf("Error reading user_group: %v", err)
+					return fmt.Errorf("error reading user_group: %v", err)
 				}
 			}
 		}
@@ -430,103 +473,103 @@ func refreshObjectSwitchControllerSecurityPolicy8021X(d *schema.ResourceData, o 
 
 	if err = d.Set("mac_auth_bypass", flattenSwitchControllerSecurityPolicy8021XMacAuthBypass(o["mac-auth-bypass"], d, "mac_auth_bypass", sv)); err != nil {
 		if !fortiAPIPatch(o["mac-auth-bypass"]) {
-			return fmt.Errorf("Error reading mac_auth_bypass: %v", err)
+			return fmt.Errorf("error reading mac_auth_bypass: %v", err)
 		}
 	}
 
 	if err = d.Set("open_auth", flattenSwitchControllerSecurityPolicy8021XOpenAuth(o["open-auth"], d, "open_auth", sv)); err != nil {
 		if !fortiAPIPatch(o["open-auth"]) {
-			return fmt.Errorf("Error reading open_auth: %v", err)
+			return fmt.Errorf("error reading open_auth: %v", err)
 		}
 	}
 
 	if err = d.Set("eap_passthru", flattenSwitchControllerSecurityPolicy8021XEapPassthru(o["eap-passthru"], d, "eap_passthru", sv)); err != nil {
 		if !fortiAPIPatch(o["eap-passthru"]) {
-			return fmt.Errorf("Error reading eap_passthru: %v", err)
+			return fmt.Errorf("error reading eap_passthru: %v", err)
 		}
 	}
 
 	if err = d.Set("eap_auto_untagged_vlans", flattenSwitchControllerSecurityPolicy8021XEapAutoUntaggedVlans(o["eap-auto-untagged-vlans"], d, "eap_auto_untagged_vlans", sv)); err != nil {
 		if !fortiAPIPatch(o["eap-auto-untagged-vlans"]) {
-			return fmt.Errorf("Error reading eap_auto_untagged_vlans: %v", err)
+			return fmt.Errorf("error reading eap_auto_untagged_vlans: %v", err)
 		}
 	}
 
 	if err = d.Set("guest_vlan", flattenSwitchControllerSecurityPolicy8021XGuestVlan(o["guest-vlan"], d, "guest_vlan", sv)); err != nil {
 		if !fortiAPIPatch(o["guest-vlan"]) {
-			return fmt.Errorf("Error reading guest_vlan: %v", err)
+			return fmt.Errorf("error reading guest_vlan: %v", err)
 		}
 	}
 
 	if err = d.Set("guest_vlanid", flattenSwitchControllerSecurityPolicy8021XGuestVlanid(o["guest-vlanid"], d, "guest_vlanid", sv)); err != nil {
 		if !fortiAPIPatch(o["guest-vlanid"]) {
-			return fmt.Errorf("Error reading guest_vlanid: %v", err)
+			return fmt.Errorf("error reading guest_vlanid: %v", err)
 		}
 	}
 
 	if err = d.Set("guest_vlan_id", flattenSwitchControllerSecurityPolicy8021XGuestVlanId(o["guest-vlan-id"], d, "guest_vlan_id", sv)); err != nil {
 		if !fortiAPIPatch(o["guest-vlan-id"]) {
-			return fmt.Errorf("Error reading guest_vlan_id: %v", err)
+			return fmt.Errorf("error reading guest_vlan_id: %v", err)
 		}
 	}
 
 	if err = d.Set("guest_auth_delay", flattenSwitchControllerSecurityPolicy8021XGuestAuthDelay(o["guest-auth-delay"], d, "guest_auth_delay", sv)); err != nil {
 		if !fortiAPIPatch(o["guest-auth-delay"]) {
-			return fmt.Errorf("Error reading guest_auth_delay: %v", err)
+			return fmt.Errorf("error reading guest_auth_delay: %v", err)
 		}
 	}
 
 	if err = d.Set("auth_fail_vlan", flattenSwitchControllerSecurityPolicy8021XAuthFailVlan(o["auth-fail-vlan"], d, "auth_fail_vlan", sv)); err != nil {
 		if !fortiAPIPatch(o["auth-fail-vlan"]) {
-			return fmt.Errorf("Error reading auth_fail_vlan: %v", err)
+			return fmt.Errorf("error reading auth_fail_vlan: %v", err)
 		}
 	}
 
 	if err = d.Set("auth_fail_vlanid", flattenSwitchControllerSecurityPolicy8021XAuthFailVlanid(o["auth-fail-vlanid"], d, "auth_fail_vlanid", sv)); err != nil {
 		if !fortiAPIPatch(o["auth-fail-vlanid"]) {
-			return fmt.Errorf("Error reading auth_fail_vlanid: %v", err)
+			return fmt.Errorf("error reading auth_fail_vlanid: %v", err)
 		}
 	}
 
 	if err = d.Set("auth_fail_vlan_id", flattenSwitchControllerSecurityPolicy8021XAuthFailVlanId(o["auth-fail-vlan-id"], d, "auth_fail_vlan_id", sv)); err != nil {
 		if !fortiAPIPatch(o["auth-fail-vlan-id"]) {
-			return fmt.Errorf("Error reading auth_fail_vlan_id: %v", err)
+			return fmt.Errorf("error reading auth_fail_vlan_id: %v", err)
 		}
 	}
 
 	if err = d.Set("framevid_apply", flattenSwitchControllerSecurityPolicy8021XFramevidApply(o["framevid-apply"], d, "framevid_apply", sv)); err != nil {
 		if !fortiAPIPatch(o["framevid-apply"]) {
-			return fmt.Errorf("Error reading framevid_apply: %v", err)
+			return fmt.Errorf("error reading framevid_apply: %v", err)
 		}
 	}
 
 	if err = d.Set("radius_timeout_overwrite", flattenSwitchControllerSecurityPolicy8021XRadiusTimeoutOverwrite(o["radius-timeout-overwrite"], d, "radius_timeout_overwrite", sv)); err != nil {
 		if !fortiAPIPatch(o["radius-timeout-overwrite"]) {
-			return fmt.Errorf("Error reading radius_timeout_overwrite: %v", err)
+			return fmt.Errorf("error reading radius_timeout_overwrite: %v", err)
 		}
 	}
 
 	if err = d.Set("policy_type", flattenSwitchControllerSecurityPolicy8021XPolicyType(o["policy-type"], d, "policy_type", sv)); err != nil {
 		if !fortiAPIPatch(o["policy-type"]) {
-			return fmt.Errorf("Error reading policy_type: %v", err)
+			return fmt.Errorf("error reading policy_type: %v", err)
 		}
 	}
 
 	if err = d.Set("authserver_timeout_period", flattenSwitchControllerSecurityPolicy8021XAuthserverTimeoutPeriod(o["authserver-timeout-period"], d, "authserver_timeout_period", sv)); err != nil {
 		if !fortiAPIPatch(o["authserver-timeout-period"]) {
-			return fmt.Errorf("Error reading authserver_timeout_period: %v", err)
+			return fmt.Errorf("error reading authserver_timeout_period: %v", err)
 		}
 	}
 
 	if err = d.Set("authserver_timeout_vlan", flattenSwitchControllerSecurityPolicy8021XAuthserverTimeoutVlan(o["authserver-timeout-vlan"], d, "authserver_timeout_vlan", sv)); err != nil {
 		if !fortiAPIPatch(o["authserver-timeout-vlan"]) {
-			return fmt.Errorf("Error reading authserver_timeout_vlan: %v", err)
+			return fmt.Errorf("error reading authserver_timeout_vlan: %v", err)
 		}
 	}
 
 	if err = d.Set("authserver_timeout_vlanid", flattenSwitchControllerSecurityPolicy8021XAuthserverTimeoutVlanid(o["authserver-timeout-vlanid"], d, "authserver_timeout_vlanid", sv)); err != nil {
 		if !fortiAPIPatch(o["authserver-timeout-vlanid"]) {
-			return fmt.Errorf("Error reading authserver_timeout_vlanid: %v", err)
+			return fmt.Errorf("error reading authserver_timeout_vlanid: %v", err)
 		}
 	}
 

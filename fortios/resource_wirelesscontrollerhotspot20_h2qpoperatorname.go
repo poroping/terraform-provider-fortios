@@ -30,36 +30,36 @@ func resourceWirelessControllerHotspot20H2QpOperatorName() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"value_list": &schema.Schema{
+			"value_list": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"index": &schema.Schema{
+						"index": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 10),
 							Optional:     true,
 							Computed:     true,
 						},
-						"lang": &schema.Schema{
+						"lang": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 3),
 							Optional:     true,
 							Computed:     true,
 						},
-						"value": &schema.Schema{
+						"value": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 252),
 							Optional:     true,
@@ -68,10 +68,15 @@ func resourceWirelessControllerHotspot20H2QpOperatorName() *schema.Resource {
 					},
 				},
 			},
-			"dynamic_sort_subtable": &schema.Schema{
-				Type:     schema.TypeString,
+			"dynamic_sort_subtable": {
+				Type:     schema.TypeBool,
 				Optional: true,
-				Default:  "false",
+				Default:  false,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -89,15 +94,25 @@ func resourceWirelessControllerHotspot20H2QpOperatorNameCreate(d *schema.Resourc
 		}
 	}
 
-	obj, err := getObjectWirelessControllerHotspot20H2QpOperatorName(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating WirelessControllerHotspot20H2QpOperatorName resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateWirelessControllerHotspot20H2QpOperatorName(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectWirelessControllerHotspot20H2QpOperatorName(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating WirelessControllerHotspot20H2QpOperatorName resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateWirelessControllerHotspot20H2QpOperatorName(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating WirelessControllerHotspot20H2QpOperatorName resource: %v", err)
+		return fmt.Errorf("error creating WirelessControllerHotspot20H2QpOperatorName resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -122,14 +137,24 @@ func resourceWirelessControllerHotspot20H2QpOperatorNameUpdate(d *schema.Resourc
 		}
 	}
 
-	obj, err := getObjectWirelessControllerHotspot20H2QpOperatorName(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating WirelessControllerHotspot20H2QpOperatorName resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateWirelessControllerHotspot20H2QpOperatorName(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectWirelessControllerHotspot20H2QpOperatorName(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating WirelessControllerHotspot20H2QpOperatorName resource: %v", err)
+		return fmt.Errorf("error updating WirelessControllerHotspot20H2QpOperatorName resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateWirelessControllerHotspot20H2QpOperatorName(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating WirelessControllerHotspot20H2QpOperatorName resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -156,9 +181,17 @@ func resourceWirelessControllerHotspot20H2QpOperatorNameDelete(d *schema.Resourc
 		}
 	}
 
-	err := c.DeleteWirelessControllerHotspot20H2QpOperatorName(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteWirelessControllerHotspot20H2QpOperatorName(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting WirelessControllerHotspot20H2QpOperatorName resource: %v", err)
+		return fmt.Errorf("error deleting WirelessControllerHotspot20H2QpOperatorName resource: %v", err)
 	}
 
 	d.SetId("")
@@ -180,9 +213,19 @@ func resourceWirelessControllerHotspot20H2QpOperatorNameRead(d *schema.ResourceD
 		}
 	}
 
-	o, err := c.ReadWirelessControllerHotspot20H2QpOperatorName(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadWirelessControllerHotspot20H2QpOperatorName(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading WirelessControllerHotspot20H2QpOperatorName resource: %v", err)
+		return fmt.Errorf("error reading WirelessControllerHotspot20H2QpOperatorName resource: %v", err)
 	}
 
 	if o == nil {
@@ -193,7 +236,7 @@ func resourceWirelessControllerHotspot20H2QpOperatorNameRead(d *schema.ResourceD
 
 	err = refreshObjectWirelessControllerHotspot20H2QpOperatorName(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading WirelessControllerHotspot20H2QpOperatorName resource from API: %v", err)
+		return fmt.Errorf("error reading WirelessControllerHotspot20H2QpOperatorName resource from API: %v", err)
 	}
 	return nil
 }
@@ -265,21 +308,21 @@ func refreshObjectWirelessControllerHotspot20H2QpOperatorName(d *schema.Resource
 
 	if err = d.Set("name", flattenWirelessControllerHotspot20H2QpOperatorNameName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("value_list", flattenWirelessControllerHotspot20H2QpOperatorNameValueList(o["value-list"], d, "value_list", sv)); err != nil {
 			if !fortiAPIPatch(o["value-list"]) {
-				return fmt.Errorf("Error reading value_list: %v", err)
+				return fmt.Errorf("error reading value_list: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("value_list"); ok {
 			if err = d.Set("value_list", flattenWirelessControllerHotspot20H2QpOperatorNameValueList(o["value-list"], d, "value_list", sv)); err != nil {
 				if !fortiAPIPatch(o["value-list"]) {
-					return fmt.Errorf("Error reading value_list: %v", err)
+					return fmt.Errorf("error reading value_list: %v", err)
 				}
 			}
 		}

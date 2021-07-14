@@ -54,14 +54,14 @@ func testAccCheckFortiOSSystemClusterSyncExists(n string) resource.TestCheckFunc
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemClusterSync(i, "root")
+		o, err := c.ReadSystemClusterSync(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading SystemClusterSync: %s", err)
+			return fmt.Errorf("error reading SystemClusterSync: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating SystemClusterSync: %s", n)
+			return fmt.Errorf("error creating SystemClusterSync: %s", n)
 		}
 
 		return nil
@@ -77,11 +77,11 @@ func testAccCheckSystemClusterSyncDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemClusterSync(i, "root")
+		o, err := c.ReadSystemClusterSync(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error SystemClusterSync %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error SystemClusterSync %s still exists", rs.Primary.ID)
 			}
 		}
 

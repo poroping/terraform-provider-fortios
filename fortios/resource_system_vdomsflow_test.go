@@ -52,14 +52,14 @@ func testAccCheckFortiOSSystemVdomSflowExists(n string) resource.TestCheckFunc {
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemVdomSflow(i, "root")
+		o, err := c.ReadSystemVdomSflow(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading SystemVdomSflow: %s", err)
+			return fmt.Errorf("error reading SystemVdomSflow: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating SystemVdomSflow: %s", n)
+			return fmt.Errorf("error creating SystemVdomSflow: %s", n)
 		}
 
 		return nil
@@ -75,11 +75,11 @@ func testAccCheckSystemVdomSflowDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemVdomSflow(i, "root")
+		o, err := c.ReadSystemVdomSflow(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error SystemVdomSflow %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error SystemVdomSflow %s still exists", rs.Primary.ID)
 			}
 		}
 

@@ -30,53 +30,53 @@ func resourceWirelessControllerHotspot20Icon() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"icon_list": &schema.Schema{
+			"icon_list": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 255),
 							Optional:     true,
 							Computed:     true,
 						},
-						"lang": &schema.Schema{
+						"lang": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 3),
 							Optional:     true,
 							Computed:     true,
 						},
-						"file": &schema.Schema{
+						"file": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 255),
 							Optional:     true,
 							Computed:     true,
 						},
-						"type": &schema.Schema{
+						"type": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"width": &schema.Schema{
+						"width": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 65535),
 							Optional:     true,
 							Computed:     true,
 						},
-						"height": &schema.Schema{
+						"height": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 65535),
 							Optional:     true,
@@ -85,10 +85,15 @@ func resourceWirelessControllerHotspot20Icon() *schema.Resource {
 					},
 				},
 			},
-			"dynamic_sort_subtable": &schema.Schema{
-				Type:     schema.TypeString,
+			"dynamic_sort_subtable": {
+				Type:     schema.TypeBool,
 				Optional: true,
-				Default:  "false",
+				Default:  false,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -106,15 +111,25 @@ func resourceWirelessControllerHotspot20IconCreate(d *schema.ResourceData, m int
 		}
 	}
 
-	obj, err := getObjectWirelessControllerHotspot20Icon(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating WirelessControllerHotspot20Icon resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateWirelessControllerHotspot20Icon(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectWirelessControllerHotspot20Icon(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating WirelessControllerHotspot20Icon resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateWirelessControllerHotspot20Icon(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating WirelessControllerHotspot20Icon resource: %v", err)
+		return fmt.Errorf("error creating WirelessControllerHotspot20Icon resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -139,14 +154,24 @@ func resourceWirelessControllerHotspot20IconUpdate(d *schema.ResourceData, m int
 		}
 	}
 
-	obj, err := getObjectWirelessControllerHotspot20Icon(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating WirelessControllerHotspot20Icon resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateWirelessControllerHotspot20Icon(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectWirelessControllerHotspot20Icon(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating WirelessControllerHotspot20Icon resource: %v", err)
+		return fmt.Errorf("error updating WirelessControllerHotspot20Icon resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateWirelessControllerHotspot20Icon(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating WirelessControllerHotspot20Icon resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -173,9 +198,17 @@ func resourceWirelessControllerHotspot20IconDelete(d *schema.ResourceData, m int
 		}
 	}
 
-	err := c.DeleteWirelessControllerHotspot20Icon(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteWirelessControllerHotspot20Icon(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting WirelessControllerHotspot20Icon resource: %v", err)
+		return fmt.Errorf("error deleting WirelessControllerHotspot20Icon resource: %v", err)
 	}
 
 	d.SetId("")
@@ -197,9 +230,19 @@ func resourceWirelessControllerHotspot20IconRead(d *schema.ResourceData, m inter
 		}
 	}
 
-	o, err := c.ReadWirelessControllerHotspot20Icon(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadWirelessControllerHotspot20Icon(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading WirelessControllerHotspot20Icon resource: %v", err)
+		return fmt.Errorf("error reading WirelessControllerHotspot20Icon resource: %v", err)
 	}
 
 	if o == nil {
@@ -210,7 +253,7 @@ func resourceWirelessControllerHotspot20IconRead(d *schema.ResourceData, m inter
 
 	err = refreshObjectWirelessControllerHotspot20Icon(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading WirelessControllerHotspot20Icon resource from API: %v", err)
+		return fmt.Errorf("error reading WirelessControllerHotspot20Icon resource from API: %v", err)
 	}
 	return nil
 }
@@ -312,21 +355,21 @@ func refreshObjectWirelessControllerHotspot20Icon(d *schema.ResourceData, o map[
 
 	if err = d.Set("name", flattenWirelessControllerHotspot20IconName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("icon_list", flattenWirelessControllerHotspot20IconIconList(o["icon-list"], d, "icon_list", sv)); err != nil {
 			if !fortiAPIPatch(o["icon-list"]) {
-				return fmt.Errorf("Error reading icon_list: %v", err)
+				return fmt.Errorf("error reading icon_list: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("icon_list"); ok {
 			if err = d.Set("icon_list", flattenWirelessControllerHotspot20IconIconList(o["icon-list"], d, "icon_list", sv)); err != nil {
 				if !fortiAPIPatch(o["icon-list"]) {
-					return fmt.Errorf("Error reading icon_list: %v", err)
+					return fmt.Errorf("error reading icon_list: %v", err)
 				}
 			}
 		}

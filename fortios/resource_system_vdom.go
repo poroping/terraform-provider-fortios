@@ -30,38 +30,43 @@ func resourceSystemVdom() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 31),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"short_name": &schema.Schema{
+			"short_name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 11),
 				Optional:     true,
 				Computed:     true,
 			},
-			"vcluster_id": &schema.Schema{
+			"vcluster_id": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"flag": &schema.Schema{
+			"flag": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"temporary": &schema.Schema{
+			"temporary": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -79,15 +84,25 @@ func resourceSystemVdomCreate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectSystemVdom(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating SystemVdom resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateSystemVdom(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemVdom(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating SystemVdom resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateSystemVdom(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating SystemVdom resource: %v", err)
+		return fmt.Errorf("error creating SystemVdom resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -112,14 +127,24 @@ func resourceSystemVdomUpdate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectSystemVdom(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SystemVdom resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSystemVdom(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemVdom(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SystemVdom resource: %v", err)
+		return fmt.Errorf("error updating SystemVdom resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSystemVdom(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SystemVdom resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -146,9 +171,17 @@ func resourceSystemVdomDelete(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	err := c.DeleteSystemVdom(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSystemVdom(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SystemVdom resource: %v", err)
+		return fmt.Errorf("error deleting SystemVdom resource: %v", err)
 	}
 
 	d.SetId("")
@@ -170,9 +203,19 @@ func resourceSystemVdomRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadSystemVdom(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSystemVdom(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemVdom resource: %v", err)
+		return fmt.Errorf("error reading SystemVdom resource: %v", err)
 	}
 
 	if o == nil {
@@ -183,7 +226,7 @@ func resourceSystemVdomRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectSystemVdom(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemVdom resource from API: %v", err)
+		return fmt.Errorf("error reading SystemVdom resource from API: %v", err)
 	}
 	return nil
 }
@@ -213,31 +256,31 @@ func refreshObjectSystemVdom(d *schema.ResourceData, o map[string]interface{}, s
 
 	if err = d.Set("name", flattenSystemVdomName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("short_name", flattenSystemVdomShortName(o["short-name"], d, "short_name", sv)); err != nil {
 		if !fortiAPIPatch(o["short-name"]) {
-			return fmt.Errorf("Error reading short_name: %v", err)
+			return fmt.Errorf("error reading short_name: %v", err)
 		}
 	}
 
 	if err = d.Set("vcluster_id", flattenSystemVdomVclusterId(o["vcluster-id"], d, "vcluster_id", sv)); err != nil {
 		if !fortiAPIPatch(o["vcluster-id"]) {
-			return fmt.Errorf("Error reading vcluster_id: %v", err)
+			return fmt.Errorf("error reading vcluster_id: %v", err)
 		}
 	}
 
 	if err = d.Set("flag", flattenSystemVdomFlag(o["flag"], d, "flag", sv)); err != nil {
 		if !fortiAPIPatch(o["flag"]) {
-			return fmt.Errorf("Error reading flag: %v", err)
+			return fmt.Errorf("error reading flag: %v", err)
 		}
 	}
 
 	if err = d.Set("temporary", flattenSystemVdomTemporary(o["temporary"], d, "temporary", sv)); err != nil {
 		if !fortiAPIPatch(o["temporary"]) {
-			return fmt.Errorf("Error reading temporary: %v", err)
+			return fmt.Errorf("error reading temporary: %v", err)
 		}
 	}
 

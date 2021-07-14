@@ -30,128 +30,128 @@ func resourceRouterospf6Ospf6Interface() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"area_id": &schema.Schema{
+			"area_id": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"interface": &schema.Schema{
+			"interface": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 15),
 				Optional:     true,
 				Computed:     true,
 			},
-			"retransmit_interval": &schema.Schema{
+			"retransmit_interval": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"transmit_delay": &schema.Schema{
+			"transmit_delay": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"cost": &schema.Schema{
+			"cost": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"priority": &schema.Schema{
+			"priority": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 255),
 				Optional:     true,
 				Computed:     true,
 			},
-			"dead_interval": &schema.Schema{
+			"dead_interval": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"hello_interval": &schema.Schema{
+			"hello_interval": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"status": &schema.Schema{
+			"status": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"network_type": &schema.Schema{
+			"network_type": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"bfd": &schema.Schema{
+			"bfd": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"mtu": &schema.Schema{
+			"mtu": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(576, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"mtu_ignore": &schema.Schema{
+			"mtu_ignore": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"authentication": &schema.Schema{
+			"authentication": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"key_rollover_interval": &schema.Schema{
+			"key_rollover_interval": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(300, 216000),
 				Optional:     true,
 				Computed:     true,
 			},
-			"ipsec_auth_alg": &schema.Schema{
+			"ipsec_auth_alg": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ipsec_enc_alg": &schema.Schema{
+			"ipsec_enc_alg": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ipsec_keys": &schema.Schema{
+			"ipsec_keys": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"spi": &schema.Schema{
+						"spi": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"auth_key": &schema.Schema{
+						"auth_key": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 128),
 							Optional:     true,
 						},
-						"enc_key": &schema.Schema{
+						"enc_key": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 128),
 							Optional:     true,
@@ -159,29 +159,29 @@ func resourceRouterospf6Ospf6Interface() *schema.Resource {
 					},
 				},
 			},
-			"neighbor": &schema.Schema{
+			"neighbor": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"ip6": &schema.Schema{
+						"ip6": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"poll_interval": &schema.Schema{
+						"poll_interval": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 65535),
 							Optional:     true,
 							Computed:     true,
 						},
-						"cost": &schema.Schema{
+						"cost": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 65535),
 							Optional:     true,
 							Computed:     true,
 						},
-						"priority": &schema.Schema{
+						"priority": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 255),
 							Optional:     true,
@@ -190,10 +190,15 @@ func resourceRouterospf6Ospf6Interface() *schema.Resource {
 					},
 				},
 			},
-			"dynamic_sort_subtable": &schema.Schema{
-				Type:     schema.TypeString,
+			"dynamic_sort_subtable": {
+				Type:     schema.TypeBool,
 				Optional: true,
-				Default:  "false",
+				Default:  false,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -211,15 +216,25 @@ func resourceRouterospf6Ospf6InterfaceCreate(d *schema.ResourceData, m interface
 		}
 	}
 
-	obj, err := getObjectRouterospf6Ospf6Interface(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating Routerospf6Ospf6Interface resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateRouterospf6Ospf6Interface(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectRouterospf6Ospf6Interface(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating Routerospf6Ospf6Interface resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateRouterospf6Ospf6Interface(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating Routerospf6Ospf6Interface resource: %v", err)
+		return fmt.Errorf("error creating Routerospf6Ospf6Interface resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -244,14 +259,24 @@ func resourceRouterospf6Ospf6InterfaceUpdate(d *schema.ResourceData, m interface
 		}
 	}
 
-	obj, err := getObjectRouterospf6Ospf6Interface(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating Routerospf6Ospf6Interface resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateRouterospf6Ospf6Interface(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectRouterospf6Ospf6Interface(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating Routerospf6Ospf6Interface resource: %v", err)
+		return fmt.Errorf("error updating Routerospf6Ospf6Interface resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateRouterospf6Ospf6Interface(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating Routerospf6Ospf6Interface resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -278,9 +303,17 @@ func resourceRouterospf6Ospf6InterfaceDelete(d *schema.ResourceData, m interface
 		}
 	}
 
-	err := c.DeleteRouterospf6Ospf6Interface(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteRouterospf6Ospf6Interface(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting Routerospf6Ospf6Interface resource: %v", err)
+		return fmt.Errorf("error deleting Routerospf6Ospf6Interface resource: %v", err)
 	}
 
 	d.SetId("")
@@ -302,9 +335,19 @@ func resourceRouterospf6Ospf6InterfaceRead(d *schema.ResourceData, m interface{}
 		}
 	}
 
-	o, err := c.ReadRouterospf6Ospf6Interface(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadRouterospf6Ospf6Interface(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading Routerospf6Ospf6Interface resource: %v", err)
+		return fmt.Errorf("error reading Routerospf6Ospf6Interface resource: %v", err)
 	}
 
 	if o == nil {
@@ -315,7 +358,7 @@ func resourceRouterospf6Ospf6InterfaceRead(d *schema.ResourceData, m interface{}
 
 	err = refreshObjectRouterospf6Ospf6Interface(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading Routerospf6Ospf6Interface resource from API: %v", err)
+		return fmt.Errorf("error reading Routerospf6Ospf6Interface resource from API: %v", err)
 	}
 	return nil
 }
@@ -523,123 +566,123 @@ func refreshObjectRouterospf6Ospf6Interface(d *schema.ResourceData, o map[string
 
 	if err = d.Set("name", flattenRouterospf6Ospf6InterfaceName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("area_id", flattenRouterospf6Ospf6InterfaceAreaId(o["area-id"], d, "area_id", sv)); err != nil {
 		if !fortiAPIPatch(o["area-id"]) {
-			return fmt.Errorf("Error reading area_id: %v", err)
+			return fmt.Errorf("error reading area_id: %v", err)
 		}
 	}
 
 	if err = d.Set("interface", flattenRouterospf6Ospf6InterfaceInterface(o["interface"], d, "interface", sv)); err != nil {
 		if !fortiAPIPatch(o["interface"]) {
-			return fmt.Errorf("Error reading interface: %v", err)
+			return fmt.Errorf("error reading interface: %v", err)
 		}
 	}
 
 	if err = d.Set("retransmit_interval", flattenRouterospf6Ospf6InterfaceRetransmitInterval(o["retransmit-interval"], d, "retransmit_interval", sv)); err != nil {
 		if !fortiAPIPatch(o["retransmit-interval"]) {
-			return fmt.Errorf("Error reading retransmit_interval: %v", err)
+			return fmt.Errorf("error reading retransmit_interval: %v", err)
 		}
 	}
 
 	if err = d.Set("transmit_delay", flattenRouterospf6Ospf6InterfaceTransmitDelay(o["transmit-delay"], d, "transmit_delay", sv)); err != nil {
 		if !fortiAPIPatch(o["transmit-delay"]) {
-			return fmt.Errorf("Error reading transmit_delay: %v", err)
+			return fmt.Errorf("error reading transmit_delay: %v", err)
 		}
 	}
 
 	if err = d.Set("cost", flattenRouterospf6Ospf6InterfaceCost(o["cost"], d, "cost", sv)); err != nil {
 		if !fortiAPIPatch(o["cost"]) {
-			return fmt.Errorf("Error reading cost: %v", err)
+			return fmt.Errorf("error reading cost: %v", err)
 		}
 	}
 
 	if err = d.Set("priority", flattenRouterospf6Ospf6InterfacePriority(o["priority"], d, "priority", sv)); err != nil {
 		if !fortiAPIPatch(o["priority"]) {
-			return fmt.Errorf("Error reading priority: %v", err)
+			return fmt.Errorf("error reading priority: %v", err)
 		}
 	}
 
 	if err = d.Set("dead_interval", flattenRouterospf6Ospf6InterfaceDeadInterval(o["dead-interval"], d, "dead_interval", sv)); err != nil {
 		if !fortiAPIPatch(o["dead-interval"]) {
-			return fmt.Errorf("Error reading dead_interval: %v", err)
+			return fmt.Errorf("error reading dead_interval: %v", err)
 		}
 	}
 
 	if err = d.Set("hello_interval", flattenRouterospf6Ospf6InterfaceHelloInterval(o["hello-interval"], d, "hello_interval", sv)); err != nil {
 		if !fortiAPIPatch(o["hello-interval"]) {
-			return fmt.Errorf("Error reading hello_interval: %v", err)
+			return fmt.Errorf("error reading hello_interval: %v", err)
 		}
 	}
 
 	if err = d.Set("status", flattenRouterospf6Ospf6InterfaceStatus(o["status"], d, "status", sv)); err != nil {
 		if !fortiAPIPatch(o["status"]) {
-			return fmt.Errorf("Error reading status: %v", err)
+			return fmt.Errorf("error reading status: %v", err)
 		}
 	}
 
 	if err = d.Set("network_type", flattenRouterospf6Ospf6InterfaceNetworkType(o["network-type"], d, "network_type", sv)); err != nil {
 		if !fortiAPIPatch(o["network-type"]) {
-			return fmt.Errorf("Error reading network_type: %v", err)
+			return fmt.Errorf("error reading network_type: %v", err)
 		}
 	}
 
 	if err = d.Set("bfd", flattenRouterospf6Ospf6InterfaceBfd(o["bfd"], d, "bfd", sv)); err != nil {
 		if !fortiAPIPatch(o["bfd"]) {
-			return fmt.Errorf("Error reading bfd: %v", err)
+			return fmt.Errorf("error reading bfd: %v", err)
 		}
 	}
 
 	if err = d.Set("mtu", flattenRouterospf6Ospf6InterfaceMtu(o["mtu"], d, "mtu", sv)); err != nil {
 		if !fortiAPIPatch(o["mtu"]) {
-			return fmt.Errorf("Error reading mtu: %v", err)
+			return fmt.Errorf("error reading mtu: %v", err)
 		}
 	}
 
 	if err = d.Set("mtu_ignore", flattenRouterospf6Ospf6InterfaceMtuIgnore(o["mtu-ignore"], d, "mtu_ignore", sv)); err != nil {
 		if !fortiAPIPatch(o["mtu-ignore"]) {
-			return fmt.Errorf("Error reading mtu_ignore: %v", err)
+			return fmt.Errorf("error reading mtu_ignore: %v", err)
 		}
 	}
 
 	if err = d.Set("authentication", flattenRouterospf6Ospf6InterfaceAuthentication(o["authentication"], d, "authentication", sv)); err != nil {
 		if !fortiAPIPatch(o["authentication"]) {
-			return fmt.Errorf("Error reading authentication: %v", err)
+			return fmt.Errorf("error reading authentication: %v", err)
 		}
 	}
 
 	if err = d.Set("key_rollover_interval", flattenRouterospf6Ospf6InterfaceKeyRolloverInterval(o["key-rollover-interval"], d, "key_rollover_interval", sv)); err != nil {
 		if !fortiAPIPatch(o["key-rollover-interval"]) {
-			return fmt.Errorf("Error reading key_rollover_interval: %v", err)
+			return fmt.Errorf("error reading key_rollover_interval: %v", err)
 		}
 	}
 
 	if err = d.Set("ipsec_auth_alg", flattenRouterospf6Ospf6InterfaceIpsecAuthAlg(o["ipsec-auth-alg"], d, "ipsec_auth_alg", sv)); err != nil {
 		if !fortiAPIPatch(o["ipsec-auth-alg"]) {
-			return fmt.Errorf("Error reading ipsec_auth_alg: %v", err)
+			return fmt.Errorf("error reading ipsec_auth_alg: %v", err)
 		}
 	}
 
 	if err = d.Set("ipsec_enc_alg", flattenRouterospf6Ospf6InterfaceIpsecEncAlg(o["ipsec-enc-alg"], d, "ipsec_enc_alg", sv)); err != nil {
 		if !fortiAPIPatch(o["ipsec-enc-alg"]) {
-			return fmt.Errorf("Error reading ipsec_enc_alg: %v", err)
+			return fmt.Errorf("error reading ipsec_enc_alg: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("ipsec_keys", flattenRouterospf6Ospf6InterfaceIpsecKeys(o["ipsec-keys"], d, "ipsec_keys", sv)); err != nil {
 			if !fortiAPIPatch(o["ipsec-keys"]) {
-				return fmt.Errorf("Error reading ipsec_keys: %v", err)
+				return fmt.Errorf("error reading ipsec_keys: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("ipsec_keys"); ok {
 			if err = d.Set("ipsec_keys", flattenRouterospf6Ospf6InterfaceIpsecKeys(o["ipsec-keys"], d, "ipsec_keys", sv)); err != nil {
 				if !fortiAPIPatch(o["ipsec-keys"]) {
-					return fmt.Errorf("Error reading ipsec_keys: %v", err)
+					return fmt.Errorf("error reading ipsec_keys: %v", err)
 				}
 			}
 		}
@@ -648,14 +691,14 @@ func refreshObjectRouterospf6Ospf6Interface(d *schema.ResourceData, o map[string
 	if isImportTable() {
 		if err = d.Set("neighbor", flattenRouterospf6Ospf6InterfaceNeighbor(o["neighbor"], d, "neighbor", sv)); err != nil {
 			if !fortiAPIPatch(o["neighbor"]) {
-				return fmt.Errorf("Error reading neighbor: %v", err)
+				return fmt.Errorf("error reading neighbor: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("neighbor"); ok {
 			if err = d.Set("neighbor", flattenRouterospf6Ospf6InterfaceNeighbor(o["neighbor"], d, "neighbor", sv)); err != nil {
 				if !fortiAPIPatch(o["neighbor"]) {
-					return fmt.Errorf("Error reading neighbor: %v", err)
+					return fmt.Errorf("error reading neighbor: %v", err)
 				}
 			}
 		}

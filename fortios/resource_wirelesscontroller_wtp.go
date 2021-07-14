@@ -30,159 +30,159 @@ func resourceWirelessControllerWtp() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"wtp_id": &schema.Schema{
+			"wtp_id": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"index": &schema.Schema{
+			"index": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"uuid": &schema.Schema{
+			"uuid": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"admin": &schema.Schema{
+			"admin": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"location": &schema.Schema{
+			"location": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"region": &schema.Schema{
+			"region": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"region_x": &schema.Schema{
+			"region_x": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 15),
 				Optional:     true,
 				Computed:     true,
 			},
-			"region_y": &schema.Schema{
+			"region_y": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 15),
 				Optional:     true,
 				Computed:     true,
 			},
-			"firmware_provision": &schema.Schema{
+			"firmware_provision": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"wtp_profile": &schema.Schema{
+			"wtp_profile": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Required:     true,
 			},
-			"wtp_mode": &schema.Schema{
+			"wtp_mode": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"apcfg_profile": &schema.Schema{
+			"apcfg_profile": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"bonjour_profile": &schema.Schema{
+			"bonjour_profile": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"override_led_state": &schema.Schema{
+			"override_led_state": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"led_state": &schema.Schema{
+			"led_state": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"override_wan_port_mode": &schema.Schema{
+			"override_wan_port_mode": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"wan_port_mode": &schema.Schema{
+			"wan_port_mode": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"override_ip_fragment": &schema.Schema{
+			"override_ip_fragment": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ip_fragment_preventing": &schema.Schema{
+			"ip_fragment_preventing": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"tun_mtu_uplink": &schema.Schema{
+			"tun_mtu_uplink": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(576, 1500),
 				Optional:     true,
 				Computed:     true,
 			},
-			"tun_mtu_downlink": &schema.Schema{
+			"tun_mtu_downlink": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(576, 1500),
 				Optional:     true,
 				Computed:     true,
 			},
-			"override_split_tunnel": &schema.Schema{
+			"override_split_tunnel": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"split_tunneling_acl_path": &schema.Schema{
+			"split_tunneling_acl_path": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"split_tunneling_acl_local_ap_subnet": &schema.Schema{
+			"split_tunneling_acl_local_ap_subnet": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"split_tunneling_acl": &schema.Schema{
+			"split_tunneling_acl": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"dest_ip": &schema.Schema{
+						"dest_ip": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -190,122 +190,122 @@ func resourceWirelessControllerWtp() *schema.Resource {
 					},
 				},
 			},
-			"override_lan": &schema.Schema{
+			"override_lan": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"lan": &schema.Schema{
+			"lan": {
 				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"port_mode": &schema.Schema{
+						"port_mode": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"port_ssid": &schema.Schema{
+						"port_ssid": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 15),
 							Optional:     true,
 							Computed:     true,
 						},
-						"port1_mode": &schema.Schema{
+						"port1_mode": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"port1_ssid": &schema.Schema{
+						"port1_ssid": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 15),
 							Optional:     true,
 							Computed:     true,
 						},
-						"port2_mode": &schema.Schema{
+						"port2_mode": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"port2_ssid": &schema.Schema{
+						"port2_ssid": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 15),
 							Optional:     true,
 							Computed:     true,
 						},
-						"port3_mode": &schema.Schema{
+						"port3_mode": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"port3_ssid": &schema.Schema{
+						"port3_ssid": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 15),
 							Optional:     true,
 							Computed:     true,
 						},
-						"port4_mode": &schema.Schema{
+						"port4_mode": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"port4_ssid": &schema.Schema{
+						"port4_ssid": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 15),
 							Optional:     true,
 							Computed:     true,
 						},
-						"port5_mode": &schema.Schema{
+						"port5_mode": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"port5_ssid": &schema.Schema{
+						"port5_ssid": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 15),
 							Optional:     true,
 							Computed:     true,
 						},
-						"port6_mode": &schema.Schema{
+						"port6_mode": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"port6_ssid": &schema.Schema{
+						"port6_ssid": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 15),
 							Optional:     true,
 							Computed:     true,
 						},
-						"port7_mode": &schema.Schema{
+						"port7_mode": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"port7_ssid": &schema.Schema{
+						"port7_ssid": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 15),
 							Optional:     true,
 							Computed:     true,
 						},
-						"port8_mode": &schema.Schema{
+						"port8_mode": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"port8_ssid": &schema.Schema{
+						"port8_ssid": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 15),
 							Optional:     true,
 							Computed:     true,
 						},
-						"port_esl_mode": &schema.Schema{
+						"port_esl_mode": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"port_esl_ssid": &schema.Schema{
+						"port_esl_ssid": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 15),
 							Optional:     true,
@@ -314,112 +314,112 @@ func resourceWirelessControllerWtp() *schema.Resource {
 					},
 				},
 			},
-			"override_allowaccess": &schema.Schema{
+			"override_allowaccess": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"allowaccess": &schema.Schema{
+			"allowaccess": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"override_login_passwd_change": &schema.Schema{
+			"override_login_passwd_change": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"login_passwd_change": &schema.Schema{
+			"login_passwd_change": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"login_passwd": &schema.Schema{
+			"login_passwd": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 31),
 				Optional:     true,
 				Sensitive:    true,
 			},
-			"radio_1": &schema.Schema{
+			"radio_1": {
 				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"radio_id": &schema.Schema{
+						"radio_id": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 2),
 							Optional:     true,
 							Computed:     true,
 						},
-						"override_band": &schema.Schema{
+						"override_band": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"band": &schema.Schema{
+						"band": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"override_analysis": &schema.Schema{
+						"override_analysis": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"spectrum_analysis": &schema.Schema{
+						"spectrum_analysis": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"override_txpower": &schema.Schema{
+						"override_txpower": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"auto_power_level": &schema.Schema{
+						"auto_power_level": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"auto_power_high": &schema.Schema{
+						"auto_power_high": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"auto_power_low": &schema.Schema{
+						"auto_power_low": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"auto_power_target": &schema.Schema{
+						"auto_power_target": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 7),
 							Optional:     true,
 							Computed:     true,
 						},
-						"power_level": &schema.Schema{
+						"power_level": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 100),
 							Optional:     true,
 							Computed:     true,
 						},
-						"override_vaps": &schema.Schema{
+						"override_vaps": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"vap_all": &schema.Schema{
+						"vap_all": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"vaps": &schema.Schema{
+						"vaps": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"name": &schema.Schema{
+									"name": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 35),
 										Optional:     true,
@@ -428,17 +428,17 @@ func resourceWirelessControllerWtp() *schema.Resource {
 								},
 							},
 						},
-						"override_channel": &schema.Schema{
+						"override_channel": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"channel": &schema.Schema{
+						"channel": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"chan": &schema.Schema{
+									"chan": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 3),
 										Optional:     true,
@@ -447,7 +447,7 @@ func resourceWirelessControllerWtp() *schema.Resource {
 								},
 							},
 						},
-						"drma_manual_mode": &schema.Schema{
+						"drma_manual_mode": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -455,86 +455,86 @@ func resourceWirelessControllerWtp() *schema.Resource {
 					},
 				},
 			},
-			"radio_2": &schema.Schema{
+			"radio_2": {
 				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"radio_id": &schema.Schema{
+						"radio_id": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 2),
 							Optional:     true,
 							Computed:     true,
 						},
-						"override_band": &schema.Schema{
+						"override_band": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"band": &schema.Schema{
+						"band": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"override_analysis": &schema.Schema{
+						"override_analysis": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"spectrum_analysis": &schema.Schema{
+						"spectrum_analysis": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"override_txpower": &schema.Schema{
+						"override_txpower": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"auto_power_level": &schema.Schema{
+						"auto_power_level": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"auto_power_high": &schema.Schema{
+						"auto_power_high": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"auto_power_low": &schema.Schema{
+						"auto_power_low": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"auto_power_target": &schema.Schema{
+						"auto_power_target": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 7),
 							Optional:     true,
 							Computed:     true,
 						},
-						"power_level": &schema.Schema{
+						"power_level": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 100),
 							Optional:     true,
 							Computed:     true,
 						},
-						"override_vaps": &schema.Schema{
+						"override_vaps": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"vap_all": &schema.Schema{
+						"vap_all": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"vaps": &schema.Schema{
+						"vaps": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"name": &schema.Schema{
+									"name": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 35),
 										Optional:     true,
@@ -543,17 +543,17 @@ func resourceWirelessControllerWtp() *schema.Resource {
 								},
 							},
 						},
-						"override_channel": &schema.Schema{
+						"override_channel": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"channel": &schema.Schema{
+						"channel": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"chan": &schema.Schema{
+									"chan": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 3),
 										Optional:     true,
@@ -562,7 +562,7 @@ func resourceWirelessControllerWtp() *schema.Resource {
 								},
 							},
 						},
-						"drma_manual_mode": &schema.Schema{
+						"drma_manual_mode": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -570,80 +570,80 @@ func resourceWirelessControllerWtp() *schema.Resource {
 					},
 				},
 			},
-			"radio_3": &schema.Schema{
+			"radio_3": {
 				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"override_band": &schema.Schema{
+						"override_band": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"band": &schema.Schema{
+						"band": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"override_analysis": &schema.Schema{
+						"override_analysis": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"spectrum_analysis": &schema.Schema{
+						"spectrum_analysis": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"override_txpower": &schema.Schema{
+						"override_txpower": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"auto_power_level": &schema.Schema{
+						"auto_power_level": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"auto_power_high": &schema.Schema{
+						"auto_power_high": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"auto_power_low": &schema.Schema{
+						"auto_power_low": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"auto_power_target": &schema.Schema{
+						"auto_power_target": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 7),
 							Optional:     true,
 							Computed:     true,
 						},
-						"power_level": &schema.Schema{
+						"power_level": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 100),
 							Optional:     true,
 							Computed:     true,
 						},
-						"override_vaps": &schema.Schema{
+						"override_vaps": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"vap_all": &schema.Schema{
+						"vap_all": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"vaps": &schema.Schema{
+						"vaps": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"name": &schema.Schema{
+									"name": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 35),
 										Optional:     true,
@@ -652,17 +652,17 @@ func resourceWirelessControllerWtp() *schema.Resource {
 								},
 							},
 						},
-						"override_channel": &schema.Schema{
+						"override_channel": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"channel": &schema.Schema{
+						"channel": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"chan": &schema.Schema{
+									"chan": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 3),
 										Optional:     true,
@@ -671,7 +671,7 @@ func resourceWirelessControllerWtp() *schema.Resource {
 								},
 							},
 						},
-						"drma_manual_mode": &schema.Schema{
+						"drma_manual_mode": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -679,80 +679,80 @@ func resourceWirelessControllerWtp() *schema.Resource {
 					},
 				},
 			},
-			"radio_4": &schema.Schema{
+			"radio_4": {
 				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"override_band": &schema.Schema{
+						"override_band": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"band": &schema.Schema{
+						"band": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"override_analysis": &schema.Schema{
+						"override_analysis": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"spectrum_analysis": &schema.Schema{
+						"spectrum_analysis": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"override_txpower": &schema.Schema{
+						"override_txpower": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"auto_power_level": &schema.Schema{
+						"auto_power_level": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"auto_power_high": &schema.Schema{
+						"auto_power_high": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"auto_power_low": &schema.Schema{
+						"auto_power_low": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"auto_power_target": &schema.Schema{
+						"auto_power_target": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 7),
 							Optional:     true,
 							Computed:     true,
 						},
-						"power_level": &schema.Schema{
+						"power_level": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 100),
 							Optional:     true,
 							Computed:     true,
 						},
-						"override_vaps": &schema.Schema{
+						"override_vaps": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"vap_all": &schema.Schema{
+						"vap_all": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"vaps": &schema.Schema{
+						"vaps": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"name": &schema.Schema{
+									"name": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 35),
 										Optional:     true,
@@ -761,17 +761,17 @@ func resourceWirelessControllerWtp() *schema.Resource {
 								},
 							},
 						},
-						"override_channel": &schema.Schema{
+						"override_channel": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"channel": &schema.Schema{
+						"channel": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"chan": &schema.Schema{
+									"chan": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 3),
 										Optional:     true,
@@ -780,7 +780,7 @@ func resourceWirelessControllerWtp() *schema.Resource {
 								},
 							},
 						},
-						"drma_manual_mode": &schema.Schema{
+						"drma_manual_mode": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -788,32 +788,37 @@ func resourceWirelessControllerWtp() *schema.Resource {
 					},
 				},
 			},
-			"image_download": &schema.Schema{
+			"image_download": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"mesh_bridge_enable": &schema.Schema{
+			"mesh_bridge_enable": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"coordinate_latitude": &schema.Schema{
+			"coordinate_latitude": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 19),
 				Optional:     true,
 				Computed:     true,
 			},
-			"coordinate_longitude": &schema.Schema{
+			"coordinate_longitude": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 19),
 				Optional:     true,
 				Computed:     true,
 			},
-			"dynamic_sort_subtable": &schema.Schema{
-				Type:     schema.TypeString,
+			"dynamic_sort_subtable": {
+				Type:     schema.TypeBool,
 				Optional: true,
-				Default:  "false",
+				Default:  false,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -831,15 +836,25 @@ func resourceWirelessControllerWtpCreate(d *schema.ResourceData, m interface{}) 
 		}
 	}
 
-	obj, err := getObjectWirelessControllerWtp(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating WirelessControllerWtp resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateWirelessControllerWtp(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectWirelessControllerWtp(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating WirelessControllerWtp resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateWirelessControllerWtp(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating WirelessControllerWtp resource: %v", err)
+		return fmt.Errorf("error creating WirelessControllerWtp resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -864,14 +879,24 @@ func resourceWirelessControllerWtpUpdate(d *schema.ResourceData, m interface{}) 
 		}
 	}
 
-	obj, err := getObjectWirelessControllerWtp(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating WirelessControllerWtp resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateWirelessControllerWtp(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectWirelessControllerWtp(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating WirelessControllerWtp resource: %v", err)
+		return fmt.Errorf("error updating WirelessControllerWtp resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateWirelessControllerWtp(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating WirelessControllerWtp resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -898,9 +923,17 @@ func resourceWirelessControllerWtpDelete(d *schema.ResourceData, m interface{}) 
 		}
 	}
 
-	err := c.DeleteWirelessControllerWtp(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteWirelessControllerWtp(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting WirelessControllerWtp resource: %v", err)
+		return fmt.Errorf("error deleting WirelessControllerWtp resource: %v", err)
 	}
 
 	d.SetId("")
@@ -922,9 +955,19 @@ func resourceWirelessControllerWtpRead(d *schema.ResourceData, m interface{}) er
 		}
 	}
 
-	o, err := c.ReadWirelessControllerWtp(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadWirelessControllerWtp(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading WirelessControllerWtp resource: %v", err)
+		return fmt.Errorf("error reading WirelessControllerWtp resource: %v", err)
 	}
 
 	if o == nil {
@@ -935,7 +978,7 @@ func resourceWirelessControllerWtpRead(d *schema.ResourceData, m interface{}) er
 
 	err = refreshObjectWirelessControllerWtp(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading WirelessControllerWtp resource from API: %v", err)
+		return fmt.Errorf("error reading WirelessControllerWtp resource from API: %v", err)
 	}
 	return nil
 }
@@ -2329,165 +2372,165 @@ func refreshObjectWirelessControllerWtp(d *schema.ResourceData, o map[string]int
 
 	if err = d.Set("wtp_id", flattenWirelessControllerWtpWtpId(o["wtp-id"], d, "wtp_id", sv)); err != nil {
 		if !fortiAPIPatch(o["wtp-id"]) {
-			return fmt.Errorf("Error reading wtp_id: %v", err)
+			return fmt.Errorf("error reading wtp_id: %v", err)
 		}
 	}
 
 	if err = d.Set("index", flattenWirelessControllerWtpIndex(o["index"], d, "index", sv)); err != nil {
 		if !fortiAPIPatch(o["index"]) {
-			return fmt.Errorf("Error reading index: %v", err)
+			return fmt.Errorf("error reading index: %v", err)
 		}
 	}
 
 	if err = d.Set("uuid", flattenWirelessControllerWtpUuid(o["uuid"], d, "uuid", sv)); err != nil {
 		if !fortiAPIPatch(o["uuid"]) {
-			return fmt.Errorf("Error reading uuid: %v", err)
+			return fmt.Errorf("error reading uuid: %v", err)
 		}
 	}
 
 	if err = d.Set("admin", flattenWirelessControllerWtpAdmin(o["admin"], d, "admin", sv)); err != nil {
 		if !fortiAPIPatch(o["admin"]) {
-			return fmt.Errorf("Error reading admin: %v", err)
+			return fmt.Errorf("error reading admin: %v", err)
 		}
 	}
 
 	if err = d.Set("name", flattenWirelessControllerWtpName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("location", flattenWirelessControllerWtpLocation(o["location"], d, "location", sv)); err != nil {
 		if !fortiAPIPatch(o["location"]) {
-			return fmt.Errorf("Error reading location: %v", err)
+			return fmt.Errorf("error reading location: %v", err)
 		}
 	}
 
 	if err = d.Set("region", flattenWirelessControllerWtpRegion(o["region"], d, "region", sv)); err != nil {
 		if !fortiAPIPatch(o["region"]) {
-			return fmt.Errorf("Error reading region: %v", err)
+			return fmt.Errorf("error reading region: %v", err)
 		}
 	}
 
 	if err = d.Set("region_x", flattenWirelessControllerWtpRegionX(o["region-x"], d, "region_x", sv)); err != nil {
 		if !fortiAPIPatch(o["region-x"]) {
-			return fmt.Errorf("Error reading region_x: %v", err)
+			return fmt.Errorf("error reading region_x: %v", err)
 		}
 	}
 
 	if err = d.Set("region_y", flattenWirelessControllerWtpRegionY(o["region-y"], d, "region_y", sv)); err != nil {
 		if !fortiAPIPatch(o["region-y"]) {
-			return fmt.Errorf("Error reading region_y: %v", err)
+			return fmt.Errorf("error reading region_y: %v", err)
 		}
 	}
 
 	if err = d.Set("firmware_provision", flattenWirelessControllerWtpFirmwareProvision(o["firmware-provision"], d, "firmware_provision", sv)); err != nil {
 		if !fortiAPIPatch(o["firmware-provision"]) {
-			return fmt.Errorf("Error reading firmware_provision: %v", err)
+			return fmt.Errorf("error reading firmware_provision: %v", err)
 		}
 	}
 
 	if err = d.Set("wtp_profile", flattenWirelessControllerWtpWtpProfile(o["wtp-profile"], d, "wtp_profile", sv)); err != nil {
 		if !fortiAPIPatch(o["wtp-profile"]) {
-			return fmt.Errorf("Error reading wtp_profile: %v", err)
+			return fmt.Errorf("error reading wtp_profile: %v", err)
 		}
 	}
 
 	if err = d.Set("wtp_mode", flattenWirelessControllerWtpWtpMode(o["wtp-mode"], d, "wtp_mode", sv)); err != nil {
 		if !fortiAPIPatch(o["wtp-mode"]) {
-			return fmt.Errorf("Error reading wtp_mode: %v", err)
+			return fmt.Errorf("error reading wtp_mode: %v", err)
 		}
 	}
 
 	if err = d.Set("apcfg_profile", flattenWirelessControllerWtpApcfgProfile(o["apcfg-profile"], d, "apcfg_profile", sv)); err != nil {
 		if !fortiAPIPatch(o["apcfg-profile"]) {
-			return fmt.Errorf("Error reading apcfg_profile: %v", err)
+			return fmt.Errorf("error reading apcfg_profile: %v", err)
 		}
 	}
 
 	if err = d.Set("bonjour_profile", flattenWirelessControllerWtpBonjourProfile(o["bonjour-profile"], d, "bonjour_profile", sv)); err != nil {
 		if !fortiAPIPatch(o["bonjour-profile"]) {
-			return fmt.Errorf("Error reading bonjour_profile: %v", err)
+			return fmt.Errorf("error reading bonjour_profile: %v", err)
 		}
 	}
 
 	if err = d.Set("override_led_state", flattenWirelessControllerWtpOverrideLedState(o["override-led-state"], d, "override_led_state", sv)); err != nil {
 		if !fortiAPIPatch(o["override-led-state"]) {
-			return fmt.Errorf("Error reading override_led_state: %v", err)
+			return fmt.Errorf("error reading override_led_state: %v", err)
 		}
 	}
 
 	if err = d.Set("led_state", flattenWirelessControllerWtpLedState(o["led-state"], d, "led_state", sv)); err != nil {
 		if !fortiAPIPatch(o["led-state"]) {
-			return fmt.Errorf("Error reading led_state: %v", err)
+			return fmt.Errorf("error reading led_state: %v", err)
 		}
 	}
 
 	if err = d.Set("override_wan_port_mode", flattenWirelessControllerWtpOverrideWanPortMode(o["override-wan-port-mode"], d, "override_wan_port_mode", sv)); err != nil {
 		if !fortiAPIPatch(o["override-wan-port-mode"]) {
-			return fmt.Errorf("Error reading override_wan_port_mode: %v", err)
+			return fmt.Errorf("error reading override_wan_port_mode: %v", err)
 		}
 	}
 
 	if err = d.Set("wan_port_mode", flattenWirelessControllerWtpWanPortMode(o["wan-port-mode"], d, "wan_port_mode", sv)); err != nil {
 		if !fortiAPIPatch(o["wan-port-mode"]) {
-			return fmt.Errorf("Error reading wan_port_mode: %v", err)
+			return fmt.Errorf("error reading wan_port_mode: %v", err)
 		}
 	}
 
 	if err = d.Set("override_ip_fragment", flattenWirelessControllerWtpOverrideIpFragment(o["override-ip-fragment"], d, "override_ip_fragment", sv)); err != nil {
 		if !fortiAPIPatch(o["override-ip-fragment"]) {
-			return fmt.Errorf("Error reading override_ip_fragment: %v", err)
+			return fmt.Errorf("error reading override_ip_fragment: %v", err)
 		}
 	}
 
 	if err = d.Set("ip_fragment_preventing", flattenWirelessControllerWtpIpFragmentPreventing(o["ip-fragment-preventing"], d, "ip_fragment_preventing", sv)); err != nil {
 		if !fortiAPIPatch(o["ip-fragment-preventing"]) {
-			return fmt.Errorf("Error reading ip_fragment_preventing: %v", err)
+			return fmt.Errorf("error reading ip_fragment_preventing: %v", err)
 		}
 	}
 
 	if err = d.Set("tun_mtu_uplink", flattenWirelessControllerWtpTunMtuUplink(o["tun-mtu-uplink"], d, "tun_mtu_uplink", sv)); err != nil {
 		if !fortiAPIPatch(o["tun-mtu-uplink"]) {
-			return fmt.Errorf("Error reading tun_mtu_uplink: %v", err)
+			return fmt.Errorf("error reading tun_mtu_uplink: %v", err)
 		}
 	}
 
 	if err = d.Set("tun_mtu_downlink", flattenWirelessControllerWtpTunMtuDownlink(o["tun-mtu-downlink"], d, "tun_mtu_downlink", sv)); err != nil {
 		if !fortiAPIPatch(o["tun-mtu-downlink"]) {
-			return fmt.Errorf("Error reading tun_mtu_downlink: %v", err)
+			return fmt.Errorf("error reading tun_mtu_downlink: %v", err)
 		}
 	}
 
 	if err = d.Set("override_split_tunnel", flattenWirelessControllerWtpOverrideSplitTunnel(o["override-split-tunnel"], d, "override_split_tunnel", sv)); err != nil {
 		if !fortiAPIPatch(o["override-split-tunnel"]) {
-			return fmt.Errorf("Error reading override_split_tunnel: %v", err)
+			return fmt.Errorf("error reading override_split_tunnel: %v", err)
 		}
 	}
 
 	if err = d.Set("split_tunneling_acl_path", flattenWirelessControllerWtpSplitTunnelingAclPath(o["split-tunneling-acl-path"], d, "split_tunneling_acl_path", sv)); err != nil {
 		if !fortiAPIPatch(o["split-tunneling-acl-path"]) {
-			return fmt.Errorf("Error reading split_tunneling_acl_path: %v", err)
+			return fmt.Errorf("error reading split_tunneling_acl_path: %v", err)
 		}
 	}
 
 	if err = d.Set("split_tunneling_acl_local_ap_subnet", flattenWirelessControllerWtpSplitTunnelingAclLocalApSubnet(o["split-tunneling-acl-local-ap-subnet"], d, "split_tunneling_acl_local_ap_subnet", sv)); err != nil {
 		if !fortiAPIPatch(o["split-tunneling-acl-local-ap-subnet"]) {
-			return fmt.Errorf("Error reading split_tunneling_acl_local_ap_subnet: %v", err)
+			return fmt.Errorf("error reading split_tunneling_acl_local_ap_subnet: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("split_tunneling_acl", flattenWirelessControllerWtpSplitTunnelingAcl(o["split-tunneling-acl"], d, "split_tunneling_acl", sv)); err != nil {
 			if !fortiAPIPatch(o["split-tunneling-acl"]) {
-				return fmt.Errorf("Error reading split_tunneling_acl: %v", err)
+				return fmt.Errorf("error reading split_tunneling_acl: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("split_tunneling_acl"); ok {
 			if err = d.Set("split_tunneling_acl", flattenWirelessControllerWtpSplitTunnelingAcl(o["split-tunneling-acl"], d, "split_tunneling_acl", sv)); err != nil {
 				if !fortiAPIPatch(o["split-tunneling-acl"]) {
-					return fmt.Errorf("Error reading split_tunneling_acl: %v", err)
+					return fmt.Errorf("error reading split_tunneling_acl: %v", err)
 				}
 			}
 		}
@@ -2495,21 +2538,21 @@ func refreshObjectWirelessControllerWtp(d *schema.ResourceData, o map[string]int
 
 	if err = d.Set("override_lan", flattenWirelessControllerWtpOverrideLan(o["override-lan"], d, "override_lan", sv)); err != nil {
 		if !fortiAPIPatch(o["override-lan"]) {
-			return fmt.Errorf("Error reading override_lan: %v", err)
+			return fmt.Errorf("error reading override_lan: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("lan", flattenWirelessControllerWtpLan(o["lan"], d, "lan", sv)); err != nil {
 			if !fortiAPIPatch(o["lan"]) {
-				return fmt.Errorf("Error reading lan: %v", err)
+				return fmt.Errorf("error reading lan: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("lan"); ok {
 			if err = d.Set("lan", flattenWirelessControllerWtpLan(o["lan"], d, "lan", sv)); err != nil {
 				if !fortiAPIPatch(o["lan"]) {
-					return fmt.Errorf("Error reading lan: %v", err)
+					return fmt.Errorf("error reading lan: %v", err)
 				}
 			}
 		}
@@ -2517,39 +2560,39 @@ func refreshObjectWirelessControllerWtp(d *schema.ResourceData, o map[string]int
 
 	if err = d.Set("override_allowaccess", flattenWirelessControllerWtpOverrideAllowaccess(o["override-allowaccess"], d, "override_allowaccess", sv)); err != nil {
 		if !fortiAPIPatch(o["override-allowaccess"]) {
-			return fmt.Errorf("Error reading override_allowaccess: %v", err)
+			return fmt.Errorf("error reading override_allowaccess: %v", err)
 		}
 	}
 
 	if err = d.Set("allowaccess", flattenWirelessControllerWtpAllowaccess(o["allowaccess"], d, "allowaccess", sv)); err != nil {
 		if !fortiAPIPatch(o["allowaccess"]) {
-			return fmt.Errorf("Error reading allowaccess: %v", err)
+			return fmt.Errorf("error reading allowaccess: %v", err)
 		}
 	}
 
 	if err = d.Set("override_login_passwd_change", flattenWirelessControllerWtpOverrideLoginPasswdChange(o["override-login-passwd-change"], d, "override_login_passwd_change", sv)); err != nil {
 		if !fortiAPIPatch(o["override-login-passwd-change"]) {
-			return fmt.Errorf("Error reading override_login_passwd_change: %v", err)
+			return fmt.Errorf("error reading override_login_passwd_change: %v", err)
 		}
 	}
 
 	if err = d.Set("login_passwd_change", flattenWirelessControllerWtpLoginPasswdChange(o["login-passwd-change"], d, "login_passwd_change", sv)); err != nil {
 		if !fortiAPIPatch(o["login-passwd-change"]) {
-			return fmt.Errorf("Error reading login_passwd_change: %v", err)
+			return fmt.Errorf("error reading login_passwd_change: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("radio_1", flattenWirelessControllerWtpRadio1(o["radio-1"], d, "radio_1", sv)); err != nil {
 			if !fortiAPIPatch(o["radio-1"]) {
-				return fmt.Errorf("Error reading radio_1: %v", err)
+				return fmt.Errorf("error reading radio_1: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("radio_1"); ok {
 			if err = d.Set("radio_1", flattenWirelessControllerWtpRadio1(o["radio-1"], d, "radio_1", sv)); err != nil {
 				if !fortiAPIPatch(o["radio-1"]) {
-					return fmt.Errorf("Error reading radio_1: %v", err)
+					return fmt.Errorf("error reading radio_1: %v", err)
 				}
 			}
 		}
@@ -2558,14 +2601,14 @@ func refreshObjectWirelessControllerWtp(d *schema.ResourceData, o map[string]int
 	if isImportTable() {
 		if err = d.Set("radio_2", flattenWirelessControllerWtpRadio2(o["radio-2"], d, "radio_2", sv)); err != nil {
 			if !fortiAPIPatch(o["radio-2"]) {
-				return fmt.Errorf("Error reading radio_2: %v", err)
+				return fmt.Errorf("error reading radio_2: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("radio_2"); ok {
 			if err = d.Set("radio_2", flattenWirelessControllerWtpRadio2(o["radio-2"], d, "radio_2", sv)); err != nil {
 				if !fortiAPIPatch(o["radio-2"]) {
-					return fmt.Errorf("Error reading radio_2: %v", err)
+					return fmt.Errorf("error reading radio_2: %v", err)
 				}
 			}
 		}
@@ -2574,14 +2617,14 @@ func refreshObjectWirelessControllerWtp(d *schema.ResourceData, o map[string]int
 	if isImportTable() {
 		if err = d.Set("radio_3", flattenWirelessControllerWtpRadio3(o["radio-3"], d, "radio_3", sv)); err != nil {
 			if !fortiAPIPatch(o["radio-3"]) {
-				return fmt.Errorf("Error reading radio_3: %v", err)
+				return fmt.Errorf("error reading radio_3: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("radio_3"); ok {
 			if err = d.Set("radio_3", flattenWirelessControllerWtpRadio3(o["radio-3"], d, "radio_3", sv)); err != nil {
 				if !fortiAPIPatch(o["radio-3"]) {
-					return fmt.Errorf("Error reading radio_3: %v", err)
+					return fmt.Errorf("error reading radio_3: %v", err)
 				}
 			}
 		}
@@ -2590,14 +2633,14 @@ func refreshObjectWirelessControllerWtp(d *schema.ResourceData, o map[string]int
 	if isImportTable() {
 		if err = d.Set("radio_4", flattenWirelessControllerWtpRadio4(o["radio-4"], d, "radio_4", sv)); err != nil {
 			if !fortiAPIPatch(o["radio-4"]) {
-				return fmt.Errorf("Error reading radio_4: %v", err)
+				return fmt.Errorf("error reading radio_4: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("radio_4"); ok {
 			if err = d.Set("radio_4", flattenWirelessControllerWtpRadio4(o["radio-4"], d, "radio_4", sv)); err != nil {
 				if !fortiAPIPatch(o["radio-4"]) {
-					return fmt.Errorf("Error reading radio_4: %v", err)
+					return fmt.Errorf("error reading radio_4: %v", err)
 				}
 			}
 		}
@@ -2605,25 +2648,25 @@ func refreshObjectWirelessControllerWtp(d *schema.ResourceData, o map[string]int
 
 	if err = d.Set("image_download", flattenWirelessControllerWtpImageDownload(o["image-download"], d, "image_download", sv)); err != nil {
 		if !fortiAPIPatch(o["image-download"]) {
-			return fmt.Errorf("Error reading image_download: %v", err)
+			return fmt.Errorf("error reading image_download: %v", err)
 		}
 	}
 
 	if err = d.Set("mesh_bridge_enable", flattenWirelessControllerWtpMeshBridgeEnable(o["mesh-bridge-enable"], d, "mesh_bridge_enable", sv)); err != nil {
 		if !fortiAPIPatch(o["mesh-bridge-enable"]) {
-			return fmt.Errorf("Error reading mesh_bridge_enable: %v", err)
+			return fmt.Errorf("error reading mesh_bridge_enable: %v", err)
 		}
 	}
 
 	if err = d.Set("coordinate_latitude", flattenWirelessControllerWtpCoordinateLatitude(o["coordinate-latitude"], d, "coordinate_latitude", sv)); err != nil {
 		if !fortiAPIPatch(o["coordinate-latitude"]) {
-			return fmt.Errorf("Error reading coordinate_latitude: %v", err)
+			return fmt.Errorf("error reading coordinate_latitude: %v", err)
 		}
 	}
 
 	if err = d.Set("coordinate_longitude", flattenWirelessControllerWtpCoordinateLongitude(o["coordinate-longitude"], d, "coordinate_longitude", sv)); err != nil {
 		if !fortiAPIPatch(o["coordinate-longitude"]) {
-			return fmt.Errorf("Error reading coordinate_longitude: %v", err)
+			return fmt.Errorf("error reading coordinate_longitude: %v", err)
 		}
 	}
 

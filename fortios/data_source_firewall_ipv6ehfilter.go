@@ -21,41 +21,41 @@ func dataSourceFirewallIpv6EhFilter() *schema.Resource {
 	return &schema.Resource{
 		Read: dataSourceFirewallIpv6EhFilterRead,
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
 
-			"hop_opt": &schema.Schema{
+			"hop_opt": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"dest_opt": &schema.Schema{
+			"dest_opt": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"hdopt_type": &schema.Schema{
+			"hdopt_type": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"routing": &schema.Schema{
+			"routing": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"routing_type": &schema.Schema{
+			"routing_type": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"fragment": &schema.Schema{
+			"fragment": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"auth": &schema.Schema{
+			"auth": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"no_next": &schema.Schema{
+			"no_next": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -77,9 +77,9 @@ func dataSourceFirewallIpv6EhFilterRead(d *schema.ResourceData, m interface{}) e
 
 	mkey := "FirewallIpv6EhFilter"
 
-	o, err := c.ReadFirewallIpv6EhFilter(mkey, vdomparam)
+	o, err := c.ReadFirewallIpv6EhFilter(mkey, vdomparam, make(map[string][]string), 0)
 	if err != nil {
-		return fmt.Errorf("Error describing FirewallIpv6EhFilter: %v", err)
+		return fmt.Errorf("error describing FirewallIpv6EhFilter: %v", err)
 	}
 
 	if o == nil {
@@ -89,7 +89,7 @@ func dataSourceFirewallIpv6EhFilterRead(d *schema.ResourceData, m interface{}) e
 
 	err = dataSourceRefreshObjectFirewallIpv6EhFilter(d, o)
 	if err != nil {
-		return fmt.Errorf("Error describing FirewallIpv6EhFilter from API: %v", err)
+		return fmt.Errorf("error describing FirewallIpv6EhFilter from API: %v", err)
 	}
 
 	d.SetId(mkey)
@@ -134,49 +134,49 @@ func dataSourceRefreshObjectFirewallIpv6EhFilter(d *schema.ResourceData, o map[s
 
 	if err = d.Set("hop_opt", dataSourceFlattenFirewallIpv6EhFilterHopOpt(o["hop-opt"], d, "hop_opt")); err != nil {
 		if !fortiAPIPatch(o["hop-opt"]) {
-			return fmt.Errorf("Error reading hop_opt: %v", err)
+			return fmt.Errorf("error reading hop_opt: %v", err)
 		}
 	}
 
 	if err = d.Set("dest_opt", dataSourceFlattenFirewallIpv6EhFilterDestOpt(o["dest-opt"], d, "dest_opt")); err != nil {
 		if !fortiAPIPatch(o["dest-opt"]) {
-			return fmt.Errorf("Error reading dest_opt: %v", err)
+			return fmt.Errorf("error reading dest_opt: %v", err)
 		}
 	}
 
 	if err = d.Set("hdopt_type", dataSourceFlattenFirewallIpv6EhFilterHdoptType(o["hdopt-type"], d, "hdopt_type")); err != nil {
 		if !fortiAPIPatch(o["hdopt-type"]) {
-			return fmt.Errorf("Error reading hdopt_type: %v", err)
+			return fmt.Errorf("error reading hdopt_type: %v", err)
 		}
 	}
 
 	if err = d.Set("routing", dataSourceFlattenFirewallIpv6EhFilterRouting(o["routing"], d, "routing")); err != nil {
 		if !fortiAPIPatch(o["routing"]) {
-			return fmt.Errorf("Error reading routing: %v", err)
+			return fmt.Errorf("error reading routing: %v", err)
 		}
 	}
 
 	if err = d.Set("routing_type", dataSourceFlattenFirewallIpv6EhFilterRoutingType(o["routing-type"], d, "routing_type")); err != nil {
 		if !fortiAPIPatch(o["routing-type"]) {
-			return fmt.Errorf("Error reading routing_type: %v", err)
+			return fmt.Errorf("error reading routing_type: %v", err)
 		}
 	}
 
 	if err = d.Set("fragment", dataSourceFlattenFirewallIpv6EhFilterFragment(o["fragment"], d, "fragment")); err != nil {
 		if !fortiAPIPatch(o["fragment"]) {
-			return fmt.Errorf("Error reading fragment: %v", err)
+			return fmt.Errorf("error reading fragment: %v", err)
 		}
 	}
 
 	if err = d.Set("auth", dataSourceFlattenFirewallIpv6EhFilterAuth(o["auth"], d, "auth")); err != nil {
 		if !fortiAPIPatch(o["auth"]) {
-			return fmt.Errorf("Error reading auth: %v", err)
+			return fmt.Errorf("error reading auth: %v", err)
 		}
 	}
 
 	if err = d.Set("no_next", dataSourceFlattenFirewallIpv6EhFilterNoNext(o["no-next"], d, "no_next")); err != nil {
 		if !fortiAPIPatch(o["no-next"]) {
-			return fmt.Errorf("Error reading no_next: %v", err)
+			return fmt.Errorf("error reading no_next: %v", err)
 		}
 	}
 

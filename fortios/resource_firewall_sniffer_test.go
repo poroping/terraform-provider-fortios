@@ -64,14 +64,14 @@ func testAccCheckFortiOSFirewallSnifferExists(n string) resource.TestCheckFunc {
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadFirewallSniffer(i, "root")
+		o, err := c.ReadFirewallSniffer(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading FirewallSniffer: %s", err)
+			return fmt.Errorf("error reading FirewallSniffer: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating FirewallSniffer: %s", n)
+			return fmt.Errorf("error creating FirewallSniffer: %s", n)
 		}
 
 		return nil
@@ -87,11 +87,11 @@ func testAccCheckFirewallSnifferDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadFirewallSniffer(i, "root")
+		o, err := c.ReadFirewallSniffer(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error FirewallSniffer %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error FirewallSniffer %s still exists", rs.Primary.ID)
 			}
 		}
 

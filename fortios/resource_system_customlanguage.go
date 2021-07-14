@@ -30,26 +30,31 @@ func resourceSystemCustomLanguage() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				ForceNew:     true,
 				Required:     true,
 			},
-			"filename": &schema.Schema{
+			"filename": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Required:     true,
 			},
-			"comments": &schema.Schema{
+			"comments": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -67,15 +72,25 @@ func resourceSystemCustomLanguageCreate(d *schema.ResourceData, m interface{}) e
 		}
 	}
 
-	obj, err := getObjectSystemCustomLanguage(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating SystemCustomLanguage resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateSystemCustomLanguage(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemCustomLanguage(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating SystemCustomLanguage resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateSystemCustomLanguage(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating SystemCustomLanguage resource: %v", err)
+		return fmt.Errorf("error creating SystemCustomLanguage resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -100,14 +115,24 @@ func resourceSystemCustomLanguageUpdate(d *schema.ResourceData, m interface{}) e
 		}
 	}
 
-	obj, err := getObjectSystemCustomLanguage(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SystemCustomLanguage resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSystemCustomLanguage(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemCustomLanguage(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SystemCustomLanguage resource: %v", err)
+		return fmt.Errorf("error updating SystemCustomLanguage resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSystemCustomLanguage(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SystemCustomLanguage resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -134,9 +159,17 @@ func resourceSystemCustomLanguageDelete(d *schema.ResourceData, m interface{}) e
 		}
 	}
 
-	err := c.DeleteSystemCustomLanguage(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSystemCustomLanguage(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SystemCustomLanguage resource: %v", err)
+		return fmt.Errorf("error deleting SystemCustomLanguage resource: %v", err)
 	}
 
 	d.SetId("")
@@ -158,9 +191,19 @@ func resourceSystemCustomLanguageRead(d *schema.ResourceData, m interface{}) err
 		}
 	}
 
-	o, err := c.ReadSystemCustomLanguage(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSystemCustomLanguage(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemCustomLanguage resource: %v", err)
+		return fmt.Errorf("error reading SystemCustomLanguage resource: %v", err)
 	}
 
 	if o == nil {
@@ -171,7 +214,7 @@ func resourceSystemCustomLanguageRead(d *schema.ResourceData, m interface{}) err
 
 	err = refreshObjectSystemCustomLanguage(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemCustomLanguage resource from API: %v", err)
+		return fmt.Errorf("error reading SystemCustomLanguage resource from API: %v", err)
 	}
 	return nil
 }
@@ -193,19 +236,19 @@ func refreshObjectSystemCustomLanguage(d *schema.ResourceData, o map[string]inte
 
 	if err = d.Set("name", flattenSystemCustomLanguageName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("filename", flattenSystemCustomLanguageFilename(o["filename"], d, "filename", sv)); err != nil {
 		if !fortiAPIPatch(o["filename"]) {
-			return fmt.Errorf("Error reading filename: %v", err)
+			return fmt.Errorf("error reading filename: %v", err)
 		}
 	}
 
 	if err = d.Set("comments", flattenSystemCustomLanguageComments(o["comments"], d, "comments", sv)); err != nil {
 		if !fortiAPIPatch(o["comments"]) {
-			return fmt.Errorf("Error reading comments: %v", err)
+			return fmt.Errorf("error reading comments: %v", err)
 		}
 	}
 

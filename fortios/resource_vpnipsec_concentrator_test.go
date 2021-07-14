@@ -50,14 +50,14 @@ func testAccCheckFortiOSVpnIpsecConcentratorExists(n string) resource.TestCheckF
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadVpnIpsecConcentrator(i, "root")
+		o, err := c.ReadVpnIpsecConcentrator(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading VpnIpsecConcentrator: %s", err)
+			return fmt.Errorf("error reading VpnIpsecConcentrator: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating VpnIpsecConcentrator: %s", n)
+			return fmt.Errorf("error creating VpnIpsecConcentrator: %s", n)
 		}
 
 		return nil
@@ -73,11 +73,11 @@ func testAccCheckVpnIpsecConcentratorDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadVpnIpsecConcentrator(i, "root")
+		o, err := c.ReadVpnIpsecConcentrator(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error VpnIpsecConcentrator %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error VpnIpsecConcentrator %s still exists", rs.Primary.ID)
 			}
 		}
 

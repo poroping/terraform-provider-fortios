@@ -54,14 +54,14 @@ func testAccCheckFortiOSIcapServerExists(n string) resource.TestCheckFunc {
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadIcapServer(i, "root")
+		o, err := c.ReadIcapServer(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading IcapServer: %s", err)
+			return fmt.Errorf("error reading IcapServer: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating IcapServer: %s", n)
+			return fmt.Errorf("error creating IcapServer: %s", n)
 		}
 
 		return nil
@@ -77,11 +77,11 @@ func testAccCheckIcapServerDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadIcapServer(i, "root")
+		o, err := c.ReadIcapServer(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error IcapServer %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error IcapServer %s still exists", rs.Primary.ID)
 			}
 		}
 

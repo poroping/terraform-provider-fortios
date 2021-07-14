@@ -54,14 +54,14 @@ func testAccCheckFortiOSSwitchControllerLldpProfileExists(n string) resource.Tes
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadSwitchControllerLldpProfile(i, "root")
+		o, err := c.ReadSwitchControllerLldpProfile(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading SwitchControllerLldpProfile: %s", err)
+			return fmt.Errorf("error reading SwitchControllerLldpProfile: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating SwitchControllerLldpProfile: %s", n)
+			return fmt.Errorf("error creating SwitchControllerLldpProfile: %s", n)
 		}
 
 		return nil
@@ -77,11 +77,11 @@ func testAccCheckSwitchControllerLldpProfileDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadSwitchControllerLldpProfile(i, "root")
+		o, err := c.ReadSwitchControllerLldpProfile(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error SwitchControllerLldpProfile %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error SwitchControllerLldpProfile %s still exists", rs.Primary.ID)
 			}
 		}
 

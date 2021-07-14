@@ -30,112 +30,112 @@ func resourceLogSetting() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"resolve_ip": &schema.Schema{
+			"resolve_ip": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"resolve_port": &schema.Schema{
+			"resolve_port": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"log_user_in_upper": &schema.Schema{
+			"log_user_in_upper": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"fwpolicy_implicit_log": &schema.Schema{
+			"fwpolicy_implicit_log": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"fwpolicy6_implicit_log": &schema.Schema{
+			"fwpolicy6_implicit_log": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"log_invalid_packet": &schema.Schema{
+			"log_invalid_packet": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"local_in_allow": &schema.Schema{
+			"local_in_allow": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"local_in_deny_unicast": &schema.Schema{
+			"local_in_deny_unicast": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"local_in_deny_broadcast": &schema.Schema{
+			"local_in_deny_broadcast": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"local_out": &schema.Schema{
+			"local_out": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"daemon_log": &schema.Schema{
+			"daemon_log": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"neighbor_event": &schema.Schema{
+			"neighbor_event": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"brief_traffic_format": &schema.Schema{
+			"brief_traffic_format": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"user_anonymize": &schema.Schema{
+			"user_anonymize": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"expolicy_implicit_log": &schema.Schema{
+			"expolicy_implicit_log": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"log_policy_comment": &schema.Schema{
+			"log_policy_comment": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"log_policy_name": &schema.Schema{
+			"log_policy_name": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"faz_override": &schema.Schema{
+			"faz_override": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"syslog_override": &schema.Schema{
+			"syslog_override": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"custom_log_fields": &schema.Schema{
+			"custom_log_fields": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"field_id": &schema.Schema{
+						"field_id": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
@@ -144,10 +144,15 @@ func resourceLogSetting() *schema.Resource {
 					},
 				},
 			},
-			"dynamic_sort_subtable": &schema.Schema{
-				Type:     schema.TypeString,
+			"dynamic_sort_subtable": {
+				Type:     schema.TypeBool,
 				Optional: true,
-				Default:  "false",
+				Default:  false,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -166,14 +171,24 @@ func resourceLogSettingUpdate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectLogSetting(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating LogSetting resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateLogSetting(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectLogSetting(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating LogSetting resource: %v", err)
+		return fmt.Errorf("error updating LogSetting resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateLogSetting(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating LogSetting resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -200,9 +215,17 @@ func resourceLogSettingDelete(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	err := c.DeleteLogSetting(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteLogSetting(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting LogSetting resource: %v", err)
+		return fmt.Errorf("error deleting LogSetting resource: %v", err)
 	}
 
 	d.SetId("")
@@ -224,9 +247,19 @@ func resourceLogSettingRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadLogSetting(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadLogSetting(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading LogSetting resource: %v", err)
+		return fmt.Errorf("error reading LogSetting resource: %v", err)
 	}
 
 	if o == nil {
@@ -237,7 +270,7 @@ func resourceLogSettingRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectLogSetting(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading LogSetting resource from API: %v", err)
+		return fmt.Errorf("error reading LogSetting resource from API: %v", err)
 	}
 	return nil
 }
@@ -361,129 +394,129 @@ func refreshObjectLogSetting(d *schema.ResourceData, o map[string]interface{}, s
 
 	if err = d.Set("resolve_ip", flattenLogSettingResolveIp(o["resolve-ip"], d, "resolve_ip", sv)); err != nil {
 		if !fortiAPIPatch(o["resolve-ip"]) {
-			return fmt.Errorf("Error reading resolve_ip: %v", err)
+			return fmt.Errorf("error reading resolve_ip: %v", err)
 		}
 	}
 
 	if err = d.Set("resolve_port", flattenLogSettingResolvePort(o["resolve-port"], d, "resolve_port", sv)); err != nil {
 		if !fortiAPIPatch(o["resolve-port"]) {
-			return fmt.Errorf("Error reading resolve_port: %v", err)
+			return fmt.Errorf("error reading resolve_port: %v", err)
 		}
 	}
 
 	if err = d.Set("log_user_in_upper", flattenLogSettingLogUserInUpper(o["log-user-in-upper"], d, "log_user_in_upper", sv)); err != nil {
 		if !fortiAPIPatch(o["log-user-in-upper"]) {
-			return fmt.Errorf("Error reading log_user_in_upper: %v", err)
+			return fmt.Errorf("error reading log_user_in_upper: %v", err)
 		}
 	}
 
 	if err = d.Set("fwpolicy_implicit_log", flattenLogSettingFwpolicyImplicitLog(o["fwpolicy-implicit-log"], d, "fwpolicy_implicit_log", sv)); err != nil {
 		if !fortiAPIPatch(o["fwpolicy-implicit-log"]) {
-			return fmt.Errorf("Error reading fwpolicy_implicit_log: %v", err)
+			return fmt.Errorf("error reading fwpolicy_implicit_log: %v", err)
 		}
 	}
 
 	if err = d.Set("fwpolicy6_implicit_log", flattenLogSettingFwpolicy6ImplicitLog(o["fwpolicy6-implicit-log"], d, "fwpolicy6_implicit_log", sv)); err != nil {
 		if !fortiAPIPatch(o["fwpolicy6-implicit-log"]) {
-			return fmt.Errorf("Error reading fwpolicy6_implicit_log: %v", err)
+			return fmt.Errorf("error reading fwpolicy6_implicit_log: %v", err)
 		}
 	}
 
 	if err = d.Set("log_invalid_packet", flattenLogSettingLogInvalidPacket(o["log-invalid-packet"], d, "log_invalid_packet", sv)); err != nil {
 		if !fortiAPIPatch(o["log-invalid-packet"]) {
-			return fmt.Errorf("Error reading log_invalid_packet: %v", err)
+			return fmt.Errorf("error reading log_invalid_packet: %v", err)
 		}
 	}
 
 	if err = d.Set("local_in_allow", flattenLogSettingLocalInAllow(o["local-in-allow"], d, "local_in_allow", sv)); err != nil {
 		if !fortiAPIPatch(o["local-in-allow"]) {
-			return fmt.Errorf("Error reading local_in_allow: %v", err)
+			return fmt.Errorf("error reading local_in_allow: %v", err)
 		}
 	}
 
 	if err = d.Set("local_in_deny_unicast", flattenLogSettingLocalInDenyUnicast(o["local-in-deny-unicast"], d, "local_in_deny_unicast", sv)); err != nil {
 		if !fortiAPIPatch(o["local-in-deny-unicast"]) {
-			return fmt.Errorf("Error reading local_in_deny_unicast: %v", err)
+			return fmt.Errorf("error reading local_in_deny_unicast: %v", err)
 		}
 	}
 
 	if err = d.Set("local_in_deny_broadcast", flattenLogSettingLocalInDenyBroadcast(o["local-in-deny-broadcast"], d, "local_in_deny_broadcast", sv)); err != nil {
 		if !fortiAPIPatch(o["local-in-deny-broadcast"]) {
-			return fmt.Errorf("Error reading local_in_deny_broadcast: %v", err)
+			return fmt.Errorf("error reading local_in_deny_broadcast: %v", err)
 		}
 	}
 
 	if err = d.Set("local_out", flattenLogSettingLocalOut(o["local-out"], d, "local_out", sv)); err != nil {
 		if !fortiAPIPatch(o["local-out"]) {
-			return fmt.Errorf("Error reading local_out: %v", err)
+			return fmt.Errorf("error reading local_out: %v", err)
 		}
 	}
 
 	if err = d.Set("daemon_log", flattenLogSettingDaemonLog(o["daemon-log"], d, "daemon_log", sv)); err != nil {
 		if !fortiAPIPatch(o["daemon-log"]) {
-			return fmt.Errorf("Error reading daemon_log: %v", err)
+			return fmt.Errorf("error reading daemon_log: %v", err)
 		}
 	}
 
 	if err = d.Set("neighbor_event", flattenLogSettingNeighborEvent(o["neighbor-event"], d, "neighbor_event", sv)); err != nil {
 		if !fortiAPIPatch(o["neighbor-event"]) {
-			return fmt.Errorf("Error reading neighbor_event: %v", err)
+			return fmt.Errorf("error reading neighbor_event: %v", err)
 		}
 	}
 
 	if err = d.Set("brief_traffic_format", flattenLogSettingBriefTrafficFormat(o["brief-traffic-format"], d, "brief_traffic_format", sv)); err != nil {
 		if !fortiAPIPatch(o["brief-traffic-format"]) {
-			return fmt.Errorf("Error reading brief_traffic_format: %v", err)
+			return fmt.Errorf("error reading brief_traffic_format: %v", err)
 		}
 	}
 
 	if err = d.Set("user_anonymize", flattenLogSettingUserAnonymize(o["user-anonymize"], d, "user_anonymize", sv)); err != nil {
 		if !fortiAPIPatch(o["user-anonymize"]) {
-			return fmt.Errorf("Error reading user_anonymize: %v", err)
+			return fmt.Errorf("error reading user_anonymize: %v", err)
 		}
 	}
 
 	if err = d.Set("expolicy_implicit_log", flattenLogSettingExpolicyImplicitLog(o["expolicy-implicit-log"], d, "expolicy_implicit_log", sv)); err != nil {
 		if !fortiAPIPatch(o["expolicy-implicit-log"]) {
-			return fmt.Errorf("Error reading expolicy_implicit_log: %v", err)
+			return fmt.Errorf("error reading expolicy_implicit_log: %v", err)
 		}
 	}
 
 	if err = d.Set("log_policy_comment", flattenLogSettingLogPolicyComment(o["log-policy-comment"], d, "log_policy_comment", sv)); err != nil {
 		if !fortiAPIPatch(o["log-policy-comment"]) {
-			return fmt.Errorf("Error reading log_policy_comment: %v", err)
+			return fmt.Errorf("error reading log_policy_comment: %v", err)
 		}
 	}
 
 	if err = d.Set("log_policy_name", flattenLogSettingLogPolicyName(o["log-policy-name"], d, "log_policy_name", sv)); err != nil {
 		if !fortiAPIPatch(o["log-policy-name"]) {
-			return fmt.Errorf("Error reading log_policy_name: %v", err)
+			return fmt.Errorf("error reading log_policy_name: %v", err)
 		}
 	}
 
 	if err = d.Set("faz_override", flattenLogSettingFazOverride(o["faz-override"], d, "faz_override", sv)); err != nil {
 		if !fortiAPIPatch(o["faz-override"]) {
-			return fmt.Errorf("Error reading faz_override: %v", err)
+			return fmt.Errorf("error reading faz_override: %v", err)
 		}
 	}
 
 	if err = d.Set("syslog_override", flattenLogSettingSyslogOverride(o["syslog-override"], d, "syslog_override", sv)); err != nil {
 		if !fortiAPIPatch(o["syslog-override"]) {
-			return fmt.Errorf("Error reading syslog_override: %v", err)
+			return fmt.Errorf("error reading syslog_override: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("custom_log_fields", flattenLogSettingCustomLogFields(o["custom-log-fields"], d, "custom_log_fields", sv)); err != nil {
 			if !fortiAPIPatch(o["custom-log-fields"]) {
-				return fmt.Errorf("Error reading custom_log_fields: %v", err)
+				return fmt.Errorf("error reading custom_log_fields: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("custom_log_fields"); ok {
 			if err = d.Set("custom_log_fields", flattenLogSettingCustomLogFields(o["custom-log-fields"], d, "custom_log_fields", sv)); err != nil {
 				if !fortiAPIPatch(o["custom-log-fields"]) {
-					return fmt.Errorf("Error reading custom_log_fields: %v", err)
+					return fmt.Errorf("error reading custom_log_fields: %v", err)
 				}
 			}
 		}

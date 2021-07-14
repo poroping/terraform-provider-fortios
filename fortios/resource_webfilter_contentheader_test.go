@@ -50,14 +50,14 @@ func testAccCheckFortiOSWebfilterContentHeaderExists(n string) resource.TestChec
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadWebfilterContentHeader(i, "root")
+		o, err := c.ReadWebfilterContentHeader(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading WebfilterContentHeader: %s", err)
+			return fmt.Errorf("error reading WebfilterContentHeader: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating WebfilterContentHeader: %s", n)
+			return fmt.Errorf("error creating WebfilterContentHeader: %s", n)
 		}
 
 		return nil
@@ -73,11 +73,11 @@ func testAccCheckWebfilterContentHeaderDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadWebfilterContentHeader(i, "root")
+		o, err := c.ReadWebfilterContentHeader(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error WebfilterContentHeader %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error WebfilterContentHeader %s still exists", rs.Primary.ID)
 			}
 		}
 

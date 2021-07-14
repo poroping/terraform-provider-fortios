@@ -54,14 +54,14 @@ func testAccCheckFortiOSWebfilterSearchEngineExists(n string) resource.TestCheck
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadWebfilterSearchEngine(i, "root")
+		o, err := c.ReadWebfilterSearchEngine(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading WebfilterSearchEngine: %s", err)
+			return fmt.Errorf("error reading WebfilterSearchEngine: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating WebfilterSearchEngine: %s", n)
+			return fmt.Errorf("error creating WebfilterSearchEngine: %s", n)
 		}
 
 		return nil
@@ -77,11 +77,11 @@ func testAccCheckWebfilterSearchEngineDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadWebfilterSearchEngine(i, "root")
+		o, err := c.ReadWebfilterSearchEngine(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error WebfilterSearchEngine %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error WebfilterSearchEngine %s still exists", rs.Primary.ID)
 			}
 		}
 

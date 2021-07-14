@@ -30,58 +30,63 @@ func resourceSwitchControllerPortPolicy() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"description": &schema.Schema{
+			"description": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"fortilink": &schema.Schema{
+			"fortilink": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 15),
 				Optional:     true,
 				Computed:     true,
 			},
-			"lldp_profile": &schema.Schema{
+			"lldp_profile": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"qos_policy": &schema.Schema{
+			"qos_policy": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"n802_1x": &schema.Schema{
+			"n802_1x": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 31),
 				Optional:     true,
 				Computed:     true,
 			},
-			"vlan_policy": &schema.Schema{
+			"vlan_policy": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"bounce_port_link": &schema.Schema{
+			"bounce_port_link": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -99,15 +104,25 @@ func resourceSwitchControllerPortPolicyCreate(d *schema.ResourceData, m interfac
 		}
 	}
 
-	obj, err := getObjectSwitchControllerPortPolicy(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating SwitchControllerPortPolicy resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateSwitchControllerPortPolicy(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSwitchControllerPortPolicy(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating SwitchControllerPortPolicy resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateSwitchControllerPortPolicy(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating SwitchControllerPortPolicy resource: %v", err)
+		return fmt.Errorf("error creating SwitchControllerPortPolicy resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -132,14 +147,24 @@ func resourceSwitchControllerPortPolicyUpdate(d *schema.ResourceData, m interfac
 		}
 	}
 
-	obj, err := getObjectSwitchControllerPortPolicy(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SwitchControllerPortPolicy resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSwitchControllerPortPolicy(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSwitchControllerPortPolicy(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SwitchControllerPortPolicy resource: %v", err)
+		return fmt.Errorf("error updating SwitchControllerPortPolicy resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSwitchControllerPortPolicy(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SwitchControllerPortPolicy resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -166,9 +191,17 @@ func resourceSwitchControllerPortPolicyDelete(d *schema.ResourceData, m interfac
 		}
 	}
 
-	err := c.DeleteSwitchControllerPortPolicy(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSwitchControllerPortPolicy(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SwitchControllerPortPolicy resource: %v", err)
+		return fmt.Errorf("error deleting SwitchControllerPortPolicy resource: %v", err)
 	}
 
 	d.SetId("")
@@ -190,9 +223,19 @@ func resourceSwitchControllerPortPolicyRead(d *schema.ResourceData, m interface{
 		}
 	}
 
-	o, err := c.ReadSwitchControllerPortPolicy(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSwitchControllerPortPolicy(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SwitchControllerPortPolicy resource: %v", err)
+		return fmt.Errorf("error reading SwitchControllerPortPolicy resource: %v", err)
 	}
 
 	if o == nil {
@@ -203,7 +246,7 @@ func resourceSwitchControllerPortPolicyRead(d *schema.ResourceData, m interface{
 
 	err = refreshObjectSwitchControllerPortPolicy(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SwitchControllerPortPolicy resource from API: %v", err)
+		return fmt.Errorf("error reading SwitchControllerPortPolicy resource from API: %v", err)
 	}
 	return nil
 }
@@ -245,49 +288,49 @@ func refreshObjectSwitchControllerPortPolicy(d *schema.ResourceData, o map[strin
 
 	if err = d.Set("name", flattenSwitchControllerPortPolicyName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("description", flattenSwitchControllerPortPolicyDescription(o["description"], d, "description", sv)); err != nil {
 		if !fortiAPIPatch(o["description"]) {
-			return fmt.Errorf("Error reading description: %v", err)
+			return fmt.Errorf("error reading description: %v", err)
 		}
 	}
 
 	if err = d.Set("fortilink", flattenSwitchControllerPortPolicyFortilink(o["fortilink"], d, "fortilink", sv)); err != nil {
 		if !fortiAPIPatch(o["fortilink"]) {
-			return fmt.Errorf("Error reading fortilink: %v", err)
+			return fmt.Errorf("error reading fortilink: %v", err)
 		}
 	}
 
 	if err = d.Set("lldp_profile", flattenSwitchControllerPortPolicyLldpProfile(o["lldp-profile"], d, "lldp_profile", sv)); err != nil {
 		if !fortiAPIPatch(o["lldp-profile"]) {
-			return fmt.Errorf("Error reading lldp_profile: %v", err)
+			return fmt.Errorf("error reading lldp_profile: %v", err)
 		}
 	}
 
 	if err = d.Set("qos_policy", flattenSwitchControllerPortPolicyQosPolicy(o["qos-policy"], d, "qos_policy", sv)); err != nil {
 		if !fortiAPIPatch(o["qos-policy"]) {
-			return fmt.Errorf("Error reading qos_policy: %v", err)
+			return fmt.Errorf("error reading qos_policy: %v", err)
 		}
 	}
 
 	if err = d.Set("n802_1x", flattenSwitchControllerPortPolicy8021X(o["802-1x"], d, "n802_1x", sv)); err != nil {
 		if !fortiAPIPatch(o["802-1x"]) {
-			return fmt.Errorf("Error reading n802_1x: %v", err)
+			return fmt.Errorf("error reading n802_1x: %v", err)
 		}
 	}
 
 	if err = d.Set("vlan_policy", flattenSwitchControllerPortPolicyVlanPolicy(o["vlan-policy"], d, "vlan_policy", sv)); err != nil {
 		if !fortiAPIPatch(o["vlan-policy"]) {
-			return fmt.Errorf("Error reading vlan_policy: %v", err)
+			return fmt.Errorf("error reading vlan_policy: %v", err)
 		}
 	}
 
 	if err = d.Set("bounce_port_link", flattenSwitchControllerPortPolicyBouncePortLink(o["bounce-port-link"], d, "bounce_port_link", sv)); err != nil {
 		if !fortiAPIPatch(o["bounce-port-link"]) {
-			return fmt.Errorf("Error reading bounce_port_link: %v", err)
+			return fmt.Errorf("error reading bounce_port_link: %v", err)
 		}
 	}
 

@@ -30,51 +30,56 @@ func resourceSystemAutoScript() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"interval": &schema.Schema{
+			"interval": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 31557600),
 				Optional:     true,
 				Computed:     true,
 			},
-			"repeat": &schema.Schema{
+			"repeat": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"start": &schema.Schema{
+			"start": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"script": &schema.Schema{
+			"script": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
 			},
-			"output_size": &schema.Schema{
+			"output_size": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(10, 1024),
 				Optional:     true,
 				Computed:     true,
 			},
-			"timeout": &schema.Schema{
+			"timeout": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 300),
 				Optional:     true,
 				Computed:     true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -92,15 +97,25 @@ func resourceSystemAutoScriptCreate(d *schema.ResourceData, m interface{}) error
 		}
 	}
 
-	obj, err := getObjectSystemAutoScript(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating SystemAutoScript resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateSystemAutoScript(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemAutoScript(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating SystemAutoScript resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateSystemAutoScript(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating SystemAutoScript resource: %v", err)
+		return fmt.Errorf("error creating SystemAutoScript resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -125,14 +140,24 @@ func resourceSystemAutoScriptUpdate(d *schema.ResourceData, m interface{}) error
 		}
 	}
 
-	obj, err := getObjectSystemAutoScript(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SystemAutoScript resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSystemAutoScript(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemAutoScript(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SystemAutoScript resource: %v", err)
+		return fmt.Errorf("error updating SystemAutoScript resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSystemAutoScript(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SystemAutoScript resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -159,9 +184,17 @@ func resourceSystemAutoScriptDelete(d *schema.ResourceData, m interface{}) error
 		}
 	}
 
-	err := c.DeleteSystemAutoScript(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSystemAutoScript(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SystemAutoScript resource: %v", err)
+		return fmt.Errorf("error deleting SystemAutoScript resource: %v", err)
 	}
 
 	d.SetId("")
@@ -183,9 +216,19 @@ func resourceSystemAutoScriptRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadSystemAutoScript(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSystemAutoScript(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemAutoScript resource: %v", err)
+		return fmt.Errorf("error reading SystemAutoScript resource: %v", err)
 	}
 
 	if o == nil {
@@ -196,7 +239,7 @@ func resourceSystemAutoScriptRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectSystemAutoScript(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemAutoScript resource from API: %v", err)
+		return fmt.Errorf("error reading SystemAutoScript resource from API: %v", err)
 	}
 	return nil
 }
@@ -234,43 +277,43 @@ func refreshObjectSystemAutoScript(d *schema.ResourceData, o map[string]interfac
 
 	if err = d.Set("name", flattenSystemAutoScriptName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("interval", flattenSystemAutoScriptInterval(o["interval"], d, "interval", sv)); err != nil {
 		if !fortiAPIPatch(o["interval"]) {
-			return fmt.Errorf("Error reading interval: %v", err)
+			return fmt.Errorf("error reading interval: %v", err)
 		}
 	}
 
 	if err = d.Set("repeat", flattenSystemAutoScriptRepeat(o["repeat"], d, "repeat", sv)); err != nil {
 		if !fortiAPIPatch(o["repeat"]) {
-			return fmt.Errorf("Error reading repeat: %v", err)
+			return fmt.Errorf("error reading repeat: %v", err)
 		}
 	}
 
 	if err = d.Set("start", flattenSystemAutoScriptStart(o["start"], d, "start", sv)); err != nil {
 		if !fortiAPIPatch(o["start"]) {
-			return fmt.Errorf("Error reading start: %v", err)
+			return fmt.Errorf("error reading start: %v", err)
 		}
 	}
 
 	if err = d.Set("script", flattenSystemAutoScriptScript(o["script"], d, "script", sv)); err != nil {
 		if !fortiAPIPatch(o["script"]) {
-			return fmt.Errorf("Error reading script: %v", err)
+			return fmt.Errorf("error reading script: %v", err)
 		}
 	}
 
 	if err = d.Set("output_size", flattenSystemAutoScriptOutputSize(o["output-size"], d, "output_size", sv)); err != nil {
 		if !fortiAPIPatch(o["output-size"]) {
-			return fmt.Errorf("Error reading output_size: %v", err)
+			return fmt.Errorf("error reading output_size: %v", err)
 		}
 	}
 
 	if err = d.Set("timeout", flattenSystemAutoScriptTimeout(o["timeout"], d, "timeout", sv)); err != nil {
 		if !fortiAPIPatch(o["timeout"]) {
-			return fmt.Errorf("Error reading timeout: %v", err)
+			return fmt.Errorf("error reading timeout: %v", err)
 		}
 	}
 

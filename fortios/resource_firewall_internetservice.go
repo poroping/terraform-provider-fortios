@@ -30,73 +30,78 @@ func resourceFirewallInternetService() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"fosid": &schema.Schema{
+			"fosid": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"reputation": &schema.Schema{
+			"reputation": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"icon_id": &schema.Schema{
+			"icon_id": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"sld_id": &schema.Schema{
+			"sld_id": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"direction": &schema.Schema{
+			"direction": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"database": &schema.Schema{
+			"database": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ip_range_number": &schema.Schema{
+			"ip_range_number": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"extra_ip_range_number": &schema.Schema{
+			"extra_ip_range_number": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"ip_number": &schema.Schema{
+			"ip_number": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"singularity": &schema.Schema{
+			"singularity": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"obsolete": &schema.Schema{
+			"obsolete": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 255),
 				Optional:     true,
 				Computed:     true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -114,15 +119,25 @@ func resourceFirewallInternetServiceCreate(d *schema.ResourceData, m interface{}
 		}
 	}
 
-	obj, err := getObjectFirewallInternetService(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating FirewallInternetService resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateFirewallInternetService(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectFirewallInternetService(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating FirewallInternetService resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateFirewallInternetService(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating FirewallInternetService resource: %v", err)
+		return fmt.Errorf("error creating FirewallInternetService resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -147,14 +162,24 @@ func resourceFirewallInternetServiceUpdate(d *schema.ResourceData, m interface{}
 		}
 	}
 
-	obj, err := getObjectFirewallInternetService(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating FirewallInternetService resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateFirewallInternetService(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectFirewallInternetService(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating FirewallInternetService resource: %v", err)
+		return fmt.Errorf("error updating FirewallInternetService resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateFirewallInternetService(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating FirewallInternetService resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -181,9 +206,17 @@ func resourceFirewallInternetServiceDelete(d *schema.ResourceData, m interface{}
 		}
 	}
 
-	err := c.DeleteFirewallInternetService(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteFirewallInternetService(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting FirewallInternetService resource: %v", err)
+		return fmt.Errorf("error deleting FirewallInternetService resource: %v", err)
 	}
 
 	d.SetId("")
@@ -205,9 +238,19 @@ func resourceFirewallInternetServiceRead(d *schema.ResourceData, m interface{}) 
 		}
 	}
 
-	o, err := c.ReadFirewallInternetService(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadFirewallInternetService(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading FirewallInternetService resource: %v", err)
+		return fmt.Errorf("error reading FirewallInternetService resource: %v", err)
 	}
 
 	if o == nil {
@@ -218,7 +261,7 @@ func resourceFirewallInternetServiceRead(d *schema.ResourceData, m interface{}) 
 
 	err = refreshObjectFirewallInternetService(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading FirewallInternetService resource from API: %v", err)
+		return fmt.Errorf("error reading FirewallInternetService resource from API: %v", err)
 	}
 	return nil
 }
@@ -276,73 +319,73 @@ func refreshObjectFirewallInternetService(d *schema.ResourceData, o map[string]i
 
 	if err = d.Set("fosid", flattenFirewallInternetServiceId(o["id"], d, "fosid", sv)); err != nil {
 		if !fortiAPIPatch(o["id"]) {
-			return fmt.Errorf("Error reading fosid: %v", err)
+			return fmt.Errorf("error reading fosid: %v", err)
 		}
 	}
 
 	if err = d.Set("name", flattenFirewallInternetServiceName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("reputation", flattenFirewallInternetServiceReputation(o["reputation"], d, "reputation", sv)); err != nil {
 		if !fortiAPIPatch(o["reputation"]) {
-			return fmt.Errorf("Error reading reputation: %v", err)
+			return fmt.Errorf("error reading reputation: %v", err)
 		}
 	}
 
 	if err = d.Set("icon_id", flattenFirewallInternetServiceIconId(o["icon-id"], d, "icon_id", sv)); err != nil {
 		if !fortiAPIPatch(o["icon-id"]) {
-			return fmt.Errorf("Error reading icon_id: %v", err)
+			return fmt.Errorf("error reading icon_id: %v", err)
 		}
 	}
 
 	if err = d.Set("sld_id", flattenFirewallInternetServiceSldId(o["sld-id"], d, "sld_id", sv)); err != nil {
 		if !fortiAPIPatch(o["sld-id"]) {
-			return fmt.Errorf("Error reading sld_id: %v", err)
+			return fmt.Errorf("error reading sld_id: %v", err)
 		}
 	}
 
 	if err = d.Set("direction", flattenFirewallInternetServiceDirection(o["direction"], d, "direction", sv)); err != nil {
 		if !fortiAPIPatch(o["direction"]) {
-			return fmt.Errorf("Error reading direction: %v", err)
+			return fmt.Errorf("error reading direction: %v", err)
 		}
 	}
 
 	if err = d.Set("database", flattenFirewallInternetServiceDatabase(o["database"], d, "database", sv)); err != nil {
 		if !fortiAPIPatch(o["database"]) {
-			return fmt.Errorf("Error reading database: %v", err)
+			return fmt.Errorf("error reading database: %v", err)
 		}
 	}
 
 	if err = d.Set("ip_range_number", flattenFirewallInternetServiceIpRangeNumber(o["ip-range-number"], d, "ip_range_number", sv)); err != nil {
 		if !fortiAPIPatch(o["ip-range-number"]) {
-			return fmt.Errorf("Error reading ip_range_number: %v", err)
+			return fmt.Errorf("error reading ip_range_number: %v", err)
 		}
 	}
 
 	if err = d.Set("extra_ip_range_number", flattenFirewallInternetServiceExtraIpRangeNumber(o["extra-ip-range-number"], d, "extra_ip_range_number", sv)); err != nil {
 		if !fortiAPIPatch(o["extra-ip-range-number"]) {
-			return fmt.Errorf("Error reading extra_ip_range_number: %v", err)
+			return fmt.Errorf("error reading extra_ip_range_number: %v", err)
 		}
 	}
 
 	if err = d.Set("ip_number", flattenFirewallInternetServiceIpNumber(o["ip-number"], d, "ip_number", sv)); err != nil {
 		if !fortiAPIPatch(o["ip-number"]) {
-			return fmt.Errorf("Error reading ip_number: %v", err)
+			return fmt.Errorf("error reading ip_number: %v", err)
 		}
 	}
 
 	if err = d.Set("singularity", flattenFirewallInternetServiceSingularity(o["singularity"], d, "singularity", sv)); err != nil {
 		if !fortiAPIPatch(o["singularity"]) {
-			return fmt.Errorf("Error reading singularity: %v", err)
+			return fmt.Errorf("error reading singularity: %v", err)
 		}
 	}
 
 	if err = d.Set("obsolete", flattenFirewallInternetServiceObsolete(o["obsolete"], d, "obsolete", sv)); err != nil {
 		if !fortiAPIPatch(o["obsolete"]) {
-			return fmt.Errorf("Error reading obsolete: %v", err)
+			return fmt.Errorf("error reading obsolete: %v", err)
 		}
 	}
 

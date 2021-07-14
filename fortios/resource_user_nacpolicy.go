@@ -30,117 +30,117 @@ func resourceUserNacPolicy() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"description": &schema.Schema{
+			"description": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"category": &schema.Schema{
+			"category": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"status": &schema.Schema{
+			"status": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"mac": &schema.Schema{
+			"mac": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"hw_vendor": &schema.Schema{
+			"hw_vendor": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 15),
 				Optional:     true,
 				Computed:     true,
 			},
-			"type": &schema.Schema{
+			"type": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 15),
 				Optional:     true,
 				Computed:     true,
 			},
-			"family": &schema.Schema{
+			"family": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 31),
 				Optional:     true,
 				Computed:     true,
 			},
-			"os": &schema.Schema{
+			"os": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 31),
 				Optional:     true,
 				Computed:     true,
 			},
-			"hw_version": &schema.Schema{
+			"hw_version": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 15),
 				Optional:     true,
 				Computed:     true,
 			},
-			"sw_version": &schema.Schema{
+			"sw_version": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 15),
 				Optional:     true,
 				Computed:     true,
 			},
-			"host": &schema.Schema{
+			"host": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 64),
 				Optional:     true,
 				Computed:     true,
 			},
-			"user": &schema.Schema{
+			"user": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 64),
 				Optional:     true,
 				Computed:     true,
 			},
-			"src": &schema.Schema{
+			"src": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 15),
 				Optional:     true,
 				Computed:     true,
 			},
-			"user_group": &schema.Schema{
+			"user_group": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"ems_tag": &schema.Schema{
+			"ems_tag": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 79),
 				Optional:     true,
 				Computed:     true,
 			},
-			"switch_fortilink": &schema.Schema{
+			"switch_fortilink": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 15),
 				Optional:     true,
 				Computed:     true,
 			},
-			"switch_scope": &schema.Schema{
+			"switch_scope": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"switch_id": &schema.Schema{
+						"switch_id": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 79),
 							Optional:     true,
@@ -149,27 +149,32 @@ func resourceUserNacPolicy() *schema.Resource {
 					},
 				},
 			},
-			"switch_auto_auth": &schema.Schema{
+			"switch_auto_auth": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"switch_port_policy": &schema.Schema{
+			"switch_port_policy": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"switch_mac_policy": &schema.Schema{
+			"switch_mac_policy": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"dynamic_sort_subtable": &schema.Schema{
-				Type:     schema.TypeString,
+			"dynamic_sort_subtable": {
+				Type:     schema.TypeBool,
 				Optional: true,
-				Default:  "false",
+				Default:  false,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -187,15 +192,25 @@ func resourceUserNacPolicyCreate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectUserNacPolicy(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating UserNacPolicy resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateUserNacPolicy(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectUserNacPolicy(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating UserNacPolicy resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateUserNacPolicy(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating UserNacPolicy resource: %v", err)
+		return fmt.Errorf("error creating UserNacPolicy resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -220,14 +235,24 @@ func resourceUserNacPolicyUpdate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectUserNacPolicy(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating UserNacPolicy resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateUserNacPolicy(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectUserNacPolicy(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating UserNacPolicy resource: %v", err)
+		return fmt.Errorf("error updating UserNacPolicy resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateUserNacPolicy(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating UserNacPolicy resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -254,9 +279,17 @@ func resourceUserNacPolicyDelete(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	err := c.DeleteUserNacPolicy(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteUserNacPolicy(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting UserNacPolicy resource: %v", err)
+		return fmt.Errorf("error deleting UserNacPolicy resource: %v", err)
 	}
 
 	d.SetId("")
@@ -278,9 +311,19 @@ func resourceUserNacPolicyRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadUserNacPolicy(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadUserNacPolicy(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading UserNacPolicy resource: %v", err)
+		return fmt.Errorf("error reading UserNacPolicy resource: %v", err)
 	}
 
 	if o == nil {
@@ -291,7 +334,7 @@ func resourceUserNacPolicyRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectUserNacPolicy(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading UserNacPolicy resource from API: %v", err)
+		return fmt.Errorf("error reading UserNacPolicy resource from API: %v", err)
 	}
 	return nil
 }
@@ -419,117 +462,117 @@ func refreshObjectUserNacPolicy(d *schema.ResourceData, o map[string]interface{}
 
 	if err = d.Set("name", flattenUserNacPolicyName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("description", flattenUserNacPolicyDescription(o["description"], d, "description", sv)); err != nil {
 		if !fortiAPIPatch(o["description"]) {
-			return fmt.Errorf("Error reading description: %v", err)
+			return fmt.Errorf("error reading description: %v", err)
 		}
 	}
 
 	if err = d.Set("category", flattenUserNacPolicyCategory(o["category"], d, "category", sv)); err != nil {
 		if !fortiAPIPatch(o["category"]) {
-			return fmt.Errorf("Error reading category: %v", err)
+			return fmt.Errorf("error reading category: %v", err)
 		}
 	}
 
 	if err = d.Set("status", flattenUserNacPolicyStatus(o["status"], d, "status", sv)); err != nil {
 		if !fortiAPIPatch(o["status"]) {
-			return fmt.Errorf("Error reading status: %v", err)
+			return fmt.Errorf("error reading status: %v", err)
 		}
 	}
 
 	if err = d.Set("mac", flattenUserNacPolicyMac(o["mac"], d, "mac", sv)); err != nil {
 		if !fortiAPIPatch(o["mac"]) {
-			return fmt.Errorf("Error reading mac: %v", err)
+			return fmt.Errorf("error reading mac: %v", err)
 		}
 	}
 
 	if err = d.Set("hw_vendor", flattenUserNacPolicyHwVendor(o["hw-vendor"], d, "hw_vendor", sv)); err != nil {
 		if !fortiAPIPatch(o["hw-vendor"]) {
-			return fmt.Errorf("Error reading hw_vendor: %v", err)
+			return fmt.Errorf("error reading hw_vendor: %v", err)
 		}
 	}
 
 	if err = d.Set("type", flattenUserNacPolicyType(o["type"], d, "type", sv)); err != nil {
 		if !fortiAPIPatch(o["type"]) {
-			return fmt.Errorf("Error reading type: %v", err)
+			return fmt.Errorf("error reading type: %v", err)
 		}
 	}
 
 	if err = d.Set("family", flattenUserNacPolicyFamily(o["family"], d, "family", sv)); err != nil {
 		if !fortiAPIPatch(o["family"]) {
-			return fmt.Errorf("Error reading family: %v", err)
+			return fmt.Errorf("error reading family: %v", err)
 		}
 	}
 
 	if err = d.Set("os", flattenUserNacPolicyOs(o["os"], d, "os", sv)); err != nil {
 		if !fortiAPIPatch(o["os"]) {
-			return fmt.Errorf("Error reading os: %v", err)
+			return fmt.Errorf("error reading os: %v", err)
 		}
 	}
 
 	if err = d.Set("hw_version", flattenUserNacPolicyHwVersion(o["hw-version"], d, "hw_version", sv)); err != nil {
 		if !fortiAPIPatch(o["hw-version"]) {
-			return fmt.Errorf("Error reading hw_version: %v", err)
+			return fmt.Errorf("error reading hw_version: %v", err)
 		}
 	}
 
 	if err = d.Set("sw_version", flattenUserNacPolicySwVersion(o["sw-version"], d, "sw_version", sv)); err != nil {
 		if !fortiAPIPatch(o["sw-version"]) {
-			return fmt.Errorf("Error reading sw_version: %v", err)
+			return fmt.Errorf("error reading sw_version: %v", err)
 		}
 	}
 
 	if err = d.Set("host", flattenUserNacPolicyHost(o["host"], d, "host", sv)); err != nil {
 		if !fortiAPIPatch(o["host"]) {
-			return fmt.Errorf("Error reading host: %v", err)
+			return fmt.Errorf("error reading host: %v", err)
 		}
 	}
 
 	if err = d.Set("user", flattenUserNacPolicyUser(o["user"], d, "user", sv)); err != nil {
 		if !fortiAPIPatch(o["user"]) {
-			return fmt.Errorf("Error reading user: %v", err)
+			return fmt.Errorf("error reading user: %v", err)
 		}
 	}
 
 	if err = d.Set("src", flattenUserNacPolicySrc(o["src"], d, "src", sv)); err != nil {
 		if !fortiAPIPatch(o["src"]) {
-			return fmt.Errorf("Error reading src: %v", err)
+			return fmt.Errorf("error reading src: %v", err)
 		}
 	}
 
 	if err = d.Set("user_group", flattenUserNacPolicyUserGroup(o["user-group"], d, "user_group", sv)); err != nil {
 		if !fortiAPIPatch(o["user-group"]) {
-			return fmt.Errorf("Error reading user_group: %v", err)
+			return fmt.Errorf("error reading user_group: %v", err)
 		}
 	}
 
 	if err = d.Set("ems_tag", flattenUserNacPolicyEmsTag(o["ems-tag"], d, "ems_tag", sv)); err != nil {
 		if !fortiAPIPatch(o["ems-tag"]) {
-			return fmt.Errorf("Error reading ems_tag: %v", err)
+			return fmt.Errorf("error reading ems_tag: %v", err)
 		}
 	}
 
 	if err = d.Set("switch_fortilink", flattenUserNacPolicySwitchFortilink(o["switch-fortilink"], d, "switch_fortilink", sv)); err != nil {
 		if !fortiAPIPatch(o["switch-fortilink"]) {
-			return fmt.Errorf("Error reading switch_fortilink: %v", err)
+			return fmt.Errorf("error reading switch_fortilink: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("switch_scope", flattenUserNacPolicySwitchScope(o["switch-scope"], d, "switch_scope", sv)); err != nil {
 			if !fortiAPIPatch(o["switch-scope"]) {
-				return fmt.Errorf("Error reading switch_scope: %v", err)
+				return fmt.Errorf("error reading switch_scope: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("switch_scope"); ok {
 			if err = d.Set("switch_scope", flattenUserNacPolicySwitchScope(o["switch-scope"], d, "switch_scope", sv)); err != nil {
 				if !fortiAPIPatch(o["switch-scope"]) {
-					return fmt.Errorf("Error reading switch_scope: %v", err)
+					return fmt.Errorf("error reading switch_scope: %v", err)
 				}
 			}
 		}
@@ -537,19 +580,19 @@ func refreshObjectUserNacPolicy(d *schema.ResourceData, o map[string]interface{}
 
 	if err = d.Set("switch_auto_auth", flattenUserNacPolicySwitchAutoAuth(o["switch-auto-auth"], d, "switch_auto_auth", sv)); err != nil {
 		if !fortiAPIPatch(o["switch-auto-auth"]) {
-			return fmt.Errorf("Error reading switch_auto_auth: %v", err)
+			return fmt.Errorf("error reading switch_auto_auth: %v", err)
 		}
 	}
 
 	if err = d.Set("switch_port_policy", flattenUserNacPolicySwitchPortPolicy(o["switch-port-policy"], d, "switch_port_policy", sv)); err != nil {
 		if !fortiAPIPatch(o["switch-port-policy"]) {
-			return fmt.Errorf("Error reading switch_port_policy: %v", err)
+			return fmt.Errorf("error reading switch_port_policy: %v", err)
 		}
 	}
 
 	if err = d.Set("switch_mac_policy", flattenUserNacPolicySwitchMacPolicy(o["switch-mac-policy"], d, "switch_mac_policy", sv)); err != nil {
 		if !fortiAPIPatch(o["switch-mac-policy"]) {
-			return fmt.Errorf("Error reading switch_mac_policy: %v", err)
+			return fmt.Errorf("error reading switch_mac_policy: %v", err)
 		}
 	}
 

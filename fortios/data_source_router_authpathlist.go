@@ -17,12 +17,12 @@ func dataSourceRouterAuthPathList() *schema.Resource {
 		Read: dataSourceRouterAuthPathListRead,
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"filter": &schema.Schema{
+			"filter": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
@@ -52,9 +52,9 @@ func dataSourceRouterAuthPathListRead(d *schema.ResourceData, m interface{}) err
 		filter = escapeFilter(filter)
 	}
 
-	o, err := c.GenericGroupRead("/api/v2/cmdb/router/auth-path", filter, vdomparam)
+	o, err := c.GenericGroupRead("/api/v2/cmdb/router/auth-path", filter, vdomparam, 0)
 	if err != nil {
-		return fmt.Errorf("Error describing RouterAuthPath: %v", err)
+		return fmt.Errorf("error describing RouterAuthPath: %v", err)
 	}
 
 	var tmps []string

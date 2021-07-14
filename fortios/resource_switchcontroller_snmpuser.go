@@ -30,55 +30,60 @@ func resourceSwitchControllerSnmpUser() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 32),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"queries": &schema.Schema{
+			"queries": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"query_port": &schema.Schema{
+			"query_port": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"security_level": &schema.Schema{
+			"security_level": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"auth_proto": &schema.Schema{
+			"auth_proto": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"auth_pwd": &schema.Schema{
+			"auth_pwd": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 128),
 				Optional:     true,
 				Sensitive:    true,
 			},
-			"priv_proto": &schema.Schema{
+			"priv_proto": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"priv_pwd": &schema.Schema{
+			"priv_pwd": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 128),
 				Optional:     true,
 				Sensitive:    true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -96,15 +101,25 @@ func resourceSwitchControllerSnmpUserCreate(d *schema.ResourceData, m interface{
 		}
 	}
 
-	obj, err := getObjectSwitchControllerSnmpUser(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating SwitchControllerSnmpUser resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateSwitchControllerSnmpUser(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSwitchControllerSnmpUser(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating SwitchControllerSnmpUser resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateSwitchControllerSnmpUser(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating SwitchControllerSnmpUser resource: %v", err)
+		return fmt.Errorf("error creating SwitchControllerSnmpUser resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -129,14 +144,24 @@ func resourceSwitchControllerSnmpUserUpdate(d *schema.ResourceData, m interface{
 		}
 	}
 
-	obj, err := getObjectSwitchControllerSnmpUser(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SwitchControllerSnmpUser resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSwitchControllerSnmpUser(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSwitchControllerSnmpUser(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SwitchControllerSnmpUser resource: %v", err)
+		return fmt.Errorf("error updating SwitchControllerSnmpUser resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSwitchControllerSnmpUser(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SwitchControllerSnmpUser resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -163,9 +188,17 @@ func resourceSwitchControllerSnmpUserDelete(d *schema.ResourceData, m interface{
 		}
 	}
 
-	err := c.DeleteSwitchControllerSnmpUser(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSwitchControllerSnmpUser(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SwitchControllerSnmpUser resource: %v", err)
+		return fmt.Errorf("error deleting SwitchControllerSnmpUser resource: %v", err)
 	}
 
 	d.SetId("")
@@ -187,9 +220,19 @@ func resourceSwitchControllerSnmpUserRead(d *schema.ResourceData, m interface{})
 		}
 	}
 
-	o, err := c.ReadSwitchControllerSnmpUser(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSwitchControllerSnmpUser(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SwitchControllerSnmpUser resource: %v", err)
+		return fmt.Errorf("error reading SwitchControllerSnmpUser resource: %v", err)
 	}
 
 	if o == nil {
@@ -200,7 +243,7 @@ func resourceSwitchControllerSnmpUserRead(d *schema.ResourceData, m interface{})
 
 	err = refreshObjectSwitchControllerSnmpUser(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SwitchControllerSnmpUser resource from API: %v", err)
+		return fmt.Errorf("error reading SwitchControllerSnmpUser resource from API: %v", err)
 	}
 	return nil
 }
@@ -242,37 +285,37 @@ func refreshObjectSwitchControllerSnmpUser(d *schema.ResourceData, o map[string]
 
 	if err = d.Set("name", flattenSwitchControllerSnmpUserName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("queries", flattenSwitchControllerSnmpUserQueries(o["queries"], d, "queries", sv)); err != nil {
 		if !fortiAPIPatch(o["queries"]) {
-			return fmt.Errorf("Error reading queries: %v", err)
+			return fmt.Errorf("error reading queries: %v", err)
 		}
 	}
 
 	if err = d.Set("query_port", flattenSwitchControllerSnmpUserQueryPort(o["query-port"], d, "query_port", sv)); err != nil {
 		if !fortiAPIPatch(o["query-port"]) {
-			return fmt.Errorf("Error reading query_port: %v", err)
+			return fmt.Errorf("error reading query_port: %v", err)
 		}
 	}
 
 	if err = d.Set("security_level", flattenSwitchControllerSnmpUserSecurityLevel(o["security-level"], d, "security_level", sv)); err != nil {
 		if !fortiAPIPatch(o["security-level"]) {
-			return fmt.Errorf("Error reading security_level: %v", err)
+			return fmt.Errorf("error reading security_level: %v", err)
 		}
 	}
 
 	if err = d.Set("auth_proto", flattenSwitchControllerSnmpUserAuthProto(o["auth-proto"], d, "auth_proto", sv)); err != nil {
 		if !fortiAPIPatch(o["auth-proto"]) {
-			return fmt.Errorf("Error reading auth_proto: %v", err)
+			return fmt.Errorf("error reading auth_proto: %v", err)
 		}
 	}
 
 	if err = d.Set("priv_proto", flattenSwitchControllerSnmpUserPrivProto(o["priv-proto"], d, "priv_proto", sv)); err != nil {
 		if !fortiAPIPatch(o["priv-proto"]) {
-			return fmt.Errorf("Error reading priv_proto: %v", err)
+			return fmt.Errorf("error reading priv_proto: %v", err)
 		}
 	}
 

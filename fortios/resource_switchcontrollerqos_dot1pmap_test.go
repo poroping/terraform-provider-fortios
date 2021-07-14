@@ -57,14 +57,14 @@ func testAccCheckFortiOSSwitchControllerQosDot1PMapExists(n string) resource.Tes
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadSwitchControllerQosDot1PMap(i, "root")
+		o, err := c.ReadSwitchControllerQosDot1PMap(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading SwitchControllerQosDot1PMap: %s", err)
+			return fmt.Errorf("error reading SwitchControllerQosDot1PMap: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating SwitchControllerQosDot1PMap: %s", n)
+			return fmt.Errorf("error creating SwitchControllerQosDot1PMap: %s", n)
 		}
 
 		return nil
@@ -80,11 +80,11 @@ func testAccCheckSwitchControllerQosDot1PMapDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadSwitchControllerQosDot1PMap(i, "root")
+		o, err := c.ReadSwitchControllerQosDot1PMap(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error SwitchControllerQosDot1PMap %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error SwitchControllerQosDot1PMap %s still exists", rs.Primary.ID)
 			}
 		}
 

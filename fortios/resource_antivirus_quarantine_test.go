@@ -56,14 +56,14 @@ func testAccCheckFortiOSAntivirusQuarantineExists(n string) resource.TestCheckFu
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadAntivirusQuarantine(i, "root")
+		o, err := c.ReadAntivirusQuarantine(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading AntivirusQuarantine: %s", err)
+			return fmt.Errorf("error reading AntivirusQuarantine: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating AntivirusQuarantine: %s", n)
+			return fmt.Errorf("error creating AntivirusQuarantine: %s", n)
 		}
 
 		return nil
@@ -79,11 +79,11 @@ func testAccCheckAntivirusQuarantineDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadAntivirusQuarantine(i, "root")
+		o, err := c.ReadAntivirusQuarantine(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error AntivirusQuarantine %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error AntivirusQuarantine %s still exists", rs.Primary.ID)
 			}
 		}
 

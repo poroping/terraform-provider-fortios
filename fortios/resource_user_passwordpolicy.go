@@ -30,34 +30,39 @@ func resourceUserPasswordPolicy() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"expire_days": &schema.Schema{
+			"expire_days": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 999),
 				Optional:     true,
 				Computed:     true,
 			},
-			"warn_days": &schema.Schema{
+			"warn_days": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 30),
 				Optional:     true,
 				Computed:     true,
 			},
-			"expired_password_renewal": &schema.Schema{
+			"expired_password_renewal": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -75,15 +80,25 @@ func resourceUserPasswordPolicyCreate(d *schema.ResourceData, m interface{}) err
 		}
 	}
 
-	obj, err := getObjectUserPasswordPolicy(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating UserPasswordPolicy resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateUserPasswordPolicy(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectUserPasswordPolicy(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating UserPasswordPolicy resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateUserPasswordPolicy(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating UserPasswordPolicy resource: %v", err)
+		return fmt.Errorf("error creating UserPasswordPolicy resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -108,14 +123,24 @@ func resourceUserPasswordPolicyUpdate(d *schema.ResourceData, m interface{}) err
 		}
 	}
 
-	obj, err := getObjectUserPasswordPolicy(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating UserPasswordPolicy resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateUserPasswordPolicy(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectUserPasswordPolicy(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating UserPasswordPolicy resource: %v", err)
+		return fmt.Errorf("error updating UserPasswordPolicy resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateUserPasswordPolicy(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating UserPasswordPolicy resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -142,9 +167,17 @@ func resourceUserPasswordPolicyDelete(d *schema.ResourceData, m interface{}) err
 		}
 	}
 
-	err := c.DeleteUserPasswordPolicy(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteUserPasswordPolicy(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting UserPasswordPolicy resource: %v", err)
+		return fmt.Errorf("error deleting UserPasswordPolicy resource: %v", err)
 	}
 
 	d.SetId("")
@@ -166,9 +199,19 @@ func resourceUserPasswordPolicyRead(d *schema.ResourceData, m interface{}) error
 		}
 	}
 
-	o, err := c.ReadUserPasswordPolicy(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadUserPasswordPolicy(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading UserPasswordPolicy resource: %v", err)
+		return fmt.Errorf("error reading UserPasswordPolicy resource: %v", err)
 	}
 
 	if o == nil {
@@ -179,7 +222,7 @@ func resourceUserPasswordPolicyRead(d *schema.ResourceData, m interface{}) error
 
 	err = refreshObjectUserPasswordPolicy(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading UserPasswordPolicy resource from API: %v", err)
+		return fmt.Errorf("error reading UserPasswordPolicy resource from API: %v", err)
 	}
 	return nil
 }
@@ -205,25 +248,25 @@ func refreshObjectUserPasswordPolicy(d *schema.ResourceData, o map[string]interf
 
 	if err = d.Set("name", flattenUserPasswordPolicyName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("expire_days", flattenUserPasswordPolicyExpireDays(o["expire-days"], d, "expire_days", sv)); err != nil {
 		if !fortiAPIPatch(o["expire-days"]) {
-			return fmt.Errorf("Error reading expire_days: %v", err)
+			return fmt.Errorf("error reading expire_days: %v", err)
 		}
 	}
 
 	if err = d.Set("warn_days", flattenUserPasswordPolicyWarnDays(o["warn-days"], d, "warn_days", sv)); err != nil {
 		if !fortiAPIPatch(o["warn-days"]) {
-			return fmt.Errorf("Error reading warn_days: %v", err)
+			return fmt.Errorf("error reading warn_days: %v", err)
 		}
 	}
 
 	if err = d.Set("expired_password_renewal", flattenUserPasswordPolicyExpiredPasswordRenewal(o["expired-password-renewal"], d, "expired_password_renewal", sv)); err != nil {
 		if !fortiAPIPatch(o["expired-password-renewal"]) {
-			return fmt.Errorf("Error reading expired_password_renewal: %v", err)
+			return fmt.Errorf("error reading expired_password_renewal: %v", err)
 		}
 	}
 

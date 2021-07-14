@@ -30,72 +30,77 @@ func resourceWirelessControllerHotspot20H2QpConnCapability() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"icmp_port": &schema.Schema{
+			"icmp_port": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ftp_port": &schema.Schema{
+			"ftp_port": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ssh_port": &schema.Schema{
+			"ssh_port": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"http_port": &schema.Schema{
+			"http_port": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"tls_port": &schema.Schema{
+			"tls_port": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"pptp_vpn_port": &schema.Schema{
+			"pptp_vpn_port": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"voip_tcp_port": &schema.Schema{
+			"voip_tcp_port": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"voip_udp_port": &schema.Schema{
+			"voip_udp_port": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ikev2_port": &schema.Schema{
+			"ikev2_port": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ikev2_xx_port": &schema.Schema{
+			"ikev2_xx_port": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"esp_port": &schema.Schema{
+			"esp_port": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -113,15 +118,25 @@ func resourceWirelessControllerHotspot20H2QpConnCapabilityCreate(d *schema.Resou
 		}
 	}
 
-	obj, err := getObjectWirelessControllerHotspot20H2QpConnCapability(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating WirelessControllerHotspot20H2QpConnCapability resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateWirelessControllerHotspot20H2QpConnCapability(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectWirelessControllerHotspot20H2QpConnCapability(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating WirelessControllerHotspot20H2QpConnCapability resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateWirelessControllerHotspot20H2QpConnCapability(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating WirelessControllerHotspot20H2QpConnCapability resource: %v", err)
+		return fmt.Errorf("error creating WirelessControllerHotspot20H2QpConnCapability resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -146,14 +161,24 @@ func resourceWirelessControllerHotspot20H2QpConnCapabilityUpdate(d *schema.Resou
 		}
 	}
 
-	obj, err := getObjectWirelessControllerHotspot20H2QpConnCapability(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating WirelessControllerHotspot20H2QpConnCapability resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateWirelessControllerHotspot20H2QpConnCapability(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectWirelessControllerHotspot20H2QpConnCapability(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating WirelessControllerHotspot20H2QpConnCapability resource: %v", err)
+		return fmt.Errorf("error updating WirelessControllerHotspot20H2QpConnCapability resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateWirelessControllerHotspot20H2QpConnCapability(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating WirelessControllerHotspot20H2QpConnCapability resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -180,9 +205,17 @@ func resourceWirelessControllerHotspot20H2QpConnCapabilityDelete(d *schema.Resou
 		}
 	}
 
-	err := c.DeleteWirelessControllerHotspot20H2QpConnCapability(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteWirelessControllerHotspot20H2QpConnCapability(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting WirelessControllerHotspot20H2QpConnCapability resource: %v", err)
+		return fmt.Errorf("error deleting WirelessControllerHotspot20H2QpConnCapability resource: %v", err)
 	}
 
 	d.SetId("")
@@ -204,9 +237,19 @@ func resourceWirelessControllerHotspot20H2QpConnCapabilityRead(d *schema.Resourc
 		}
 	}
 
-	o, err := c.ReadWirelessControllerHotspot20H2QpConnCapability(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadWirelessControllerHotspot20H2QpConnCapability(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading WirelessControllerHotspot20H2QpConnCapability resource: %v", err)
+		return fmt.Errorf("error reading WirelessControllerHotspot20H2QpConnCapability resource: %v", err)
 	}
 
 	if o == nil {
@@ -217,7 +260,7 @@ func resourceWirelessControllerHotspot20H2QpConnCapabilityRead(d *schema.Resourc
 
 	err = refreshObjectWirelessControllerHotspot20H2QpConnCapability(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading WirelessControllerHotspot20H2QpConnCapability resource from API: %v", err)
+		return fmt.Errorf("error reading WirelessControllerHotspot20H2QpConnCapability resource from API: %v", err)
 	}
 	return nil
 }
@@ -275,73 +318,73 @@ func refreshObjectWirelessControllerHotspot20H2QpConnCapability(d *schema.Resour
 
 	if err = d.Set("name", flattenWirelessControllerHotspot20H2QpConnCapabilityName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("icmp_port", flattenWirelessControllerHotspot20H2QpConnCapabilityIcmpPort(o["icmp-port"], d, "icmp_port", sv)); err != nil {
 		if !fortiAPIPatch(o["icmp-port"]) {
-			return fmt.Errorf("Error reading icmp_port: %v", err)
+			return fmt.Errorf("error reading icmp_port: %v", err)
 		}
 	}
 
 	if err = d.Set("ftp_port", flattenWirelessControllerHotspot20H2QpConnCapabilityFtpPort(o["ftp-port"], d, "ftp_port", sv)); err != nil {
 		if !fortiAPIPatch(o["ftp-port"]) {
-			return fmt.Errorf("Error reading ftp_port: %v", err)
+			return fmt.Errorf("error reading ftp_port: %v", err)
 		}
 	}
 
 	if err = d.Set("ssh_port", flattenWirelessControllerHotspot20H2QpConnCapabilitySshPort(o["ssh-port"], d, "ssh_port", sv)); err != nil {
 		if !fortiAPIPatch(o["ssh-port"]) {
-			return fmt.Errorf("Error reading ssh_port: %v", err)
+			return fmt.Errorf("error reading ssh_port: %v", err)
 		}
 	}
 
 	if err = d.Set("http_port", flattenWirelessControllerHotspot20H2QpConnCapabilityHttpPort(o["http-port"], d, "http_port", sv)); err != nil {
 		if !fortiAPIPatch(o["http-port"]) {
-			return fmt.Errorf("Error reading http_port: %v", err)
+			return fmt.Errorf("error reading http_port: %v", err)
 		}
 	}
 
 	if err = d.Set("tls_port", flattenWirelessControllerHotspot20H2QpConnCapabilityTlsPort(o["tls-port"], d, "tls_port", sv)); err != nil {
 		if !fortiAPIPatch(o["tls-port"]) {
-			return fmt.Errorf("Error reading tls_port: %v", err)
+			return fmt.Errorf("error reading tls_port: %v", err)
 		}
 	}
 
 	if err = d.Set("pptp_vpn_port", flattenWirelessControllerHotspot20H2QpConnCapabilityPptpVpnPort(o["pptp-vpn-port"], d, "pptp_vpn_port", sv)); err != nil {
 		if !fortiAPIPatch(o["pptp-vpn-port"]) {
-			return fmt.Errorf("Error reading pptp_vpn_port: %v", err)
+			return fmt.Errorf("error reading pptp_vpn_port: %v", err)
 		}
 	}
 
 	if err = d.Set("voip_tcp_port", flattenWirelessControllerHotspot20H2QpConnCapabilityVoipTcpPort(o["voip-tcp-port"], d, "voip_tcp_port", sv)); err != nil {
 		if !fortiAPIPatch(o["voip-tcp-port"]) {
-			return fmt.Errorf("Error reading voip_tcp_port: %v", err)
+			return fmt.Errorf("error reading voip_tcp_port: %v", err)
 		}
 	}
 
 	if err = d.Set("voip_udp_port", flattenWirelessControllerHotspot20H2QpConnCapabilityVoipUdpPort(o["voip-udp-port"], d, "voip_udp_port", sv)); err != nil {
 		if !fortiAPIPatch(o["voip-udp-port"]) {
-			return fmt.Errorf("Error reading voip_udp_port: %v", err)
+			return fmt.Errorf("error reading voip_udp_port: %v", err)
 		}
 	}
 
 	if err = d.Set("ikev2_port", flattenWirelessControllerHotspot20H2QpConnCapabilityIkev2Port(o["ikev2-port"], d, "ikev2_port", sv)); err != nil {
 		if !fortiAPIPatch(o["ikev2-port"]) {
-			return fmt.Errorf("Error reading ikev2_port: %v", err)
+			return fmt.Errorf("error reading ikev2_port: %v", err)
 		}
 	}
 
 	if err = d.Set("ikev2_xx_port", flattenWirelessControllerHotspot20H2QpConnCapabilityIkev2XxPort(o["ikev2-xx-port"], d, "ikev2_xx_port", sv)); err != nil {
 		if !fortiAPIPatch(o["ikev2-xx-port"]) {
-			return fmt.Errorf("Error reading ikev2_xx_port: %v", err)
+			return fmt.Errorf("error reading ikev2_xx_port: %v", err)
 		}
 	}
 
 	if err = d.Set("esp_port", flattenWirelessControllerHotspot20H2QpConnCapabilityEspPort(o["esp-port"], d, "esp_port", sv)); err != nil {
 		if !fortiAPIPatch(o["esp-port"]) {
-			return fmt.Errorf("Error reading esp_port: %v", err)
+			return fmt.Errorf("error reading esp_port: %v", err)
 		}
 	}
 

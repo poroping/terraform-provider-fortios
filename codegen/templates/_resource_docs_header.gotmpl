@@ -1,0 +1,11 @@
+{{- define "RESOURCEDOCSHEADER" }}---
+subcategory: "FortiGate {{ (title .path) }}"
+layout: "fortios"
+page_title: "FortiOS: fortios_{{(flatten .path)}}_{{(flatten .name)}}"
+description: |-
+  {{.results.help}}
+---
+
+## fortios_{{(flatten .path)}}_{{(flatten .name)}}
+{{.results.help}}
+{{ end }}

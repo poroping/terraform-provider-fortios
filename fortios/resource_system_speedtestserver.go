@@ -30,51 +30,51 @@ func resourceSystemSpeedTestServer() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"timestamp": &schema.Schema{
+			"timestamp": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"host": &schema.Schema{
+			"host": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"ip": &schema.Schema{
+						"ip": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"port": &schema.Schema{
+						"port": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 65535),
 							Optional:     true,
 							Computed:     true,
 						},
-						"user": &schema.Schema{
+						"user": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 64),
 							Optional:     true,
 							Computed:     true,
 						},
-						"password": &schema.Schema{
+						"password": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 128),
 							Optional:     true,
@@ -83,10 +83,15 @@ func resourceSystemSpeedTestServer() *schema.Resource {
 					},
 				},
 			},
-			"dynamic_sort_subtable": &schema.Schema{
-				Type:     schema.TypeString,
+			"dynamic_sort_subtable": {
+				Type:     schema.TypeBool,
 				Optional: true,
-				Default:  "false",
+				Default:  false,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -104,15 +109,25 @@ func resourceSystemSpeedTestServerCreate(d *schema.ResourceData, m interface{}) 
 		}
 	}
 
-	obj, err := getObjectSystemSpeedTestServer(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating SystemSpeedTestServer resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateSystemSpeedTestServer(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemSpeedTestServer(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating SystemSpeedTestServer resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateSystemSpeedTestServer(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating SystemSpeedTestServer resource: %v", err)
+		return fmt.Errorf("error creating SystemSpeedTestServer resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -137,14 +152,24 @@ func resourceSystemSpeedTestServerUpdate(d *schema.ResourceData, m interface{}) 
 		}
 	}
 
-	obj, err := getObjectSystemSpeedTestServer(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SystemSpeedTestServer resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSystemSpeedTestServer(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemSpeedTestServer(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SystemSpeedTestServer resource: %v", err)
+		return fmt.Errorf("error updating SystemSpeedTestServer resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSystemSpeedTestServer(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SystemSpeedTestServer resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -171,9 +196,17 @@ func resourceSystemSpeedTestServerDelete(d *schema.ResourceData, m interface{}) 
 		}
 	}
 
-	err := c.DeleteSystemSpeedTestServer(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSystemSpeedTestServer(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SystemSpeedTestServer resource: %v", err)
+		return fmt.Errorf("error deleting SystemSpeedTestServer resource: %v", err)
 	}
 
 	d.SetId("")
@@ -195,9 +228,19 @@ func resourceSystemSpeedTestServerRead(d *schema.ResourceData, m interface{}) er
 		}
 	}
 
-	o, err := c.ReadSystemSpeedTestServer(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSystemSpeedTestServer(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemSpeedTestServer resource: %v", err)
+		return fmt.Errorf("error reading SystemSpeedTestServer resource: %v", err)
 	}
 
 	if o == nil {
@@ -208,7 +251,7 @@ func resourceSystemSpeedTestServerRead(d *schema.ResourceData, m interface{}) er
 
 	err = refreshObjectSystemSpeedTestServer(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemSpeedTestServer resource from API: %v", err)
+		return fmt.Errorf("error reading SystemSpeedTestServer resource from API: %v", err)
 	}
 	return nil
 }
@@ -308,27 +351,27 @@ func refreshObjectSystemSpeedTestServer(d *schema.ResourceData, o map[string]int
 
 	if err = d.Set("name", flattenSystemSpeedTestServerName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("timestamp", flattenSystemSpeedTestServerTimestamp(o["timestamp"], d, "timestamp", sv)); err != nil {
 		if !fortiAPIPatch(o["timestamp"]) {
-			return fmt.Errorf("Error reading timestamp: %v", err)
+			return fmt.Errorf("error reading timestamp: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("host", flattenSystemSpeedTestServerHost(o["host"], d, "host", sv)); err != nil {
 			if !fortiAPIPatch(o["host"]) {
-				return fmt.Errorf("Error reading host: %v", err)
+				return fmt.Errorf("error reading host: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("host"); ok {
 			if err = d.Set("host", flattenSystemSpeedTestServerHost(o["host"], d, "host", sv)); err != nil {
 				if !fortiAPIPatch(o["host"]) {
-					return fmt.Errorf("Error reading host: %v", err)
+					return fmt.Errorf("error reading host: %v", err)
 				}
 			}
 		}

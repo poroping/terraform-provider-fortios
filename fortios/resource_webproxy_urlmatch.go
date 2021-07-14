@@ -30,43 +30,48 @@ func resourceWebProxyUrlMatch() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"status": &schema.Schema{
+			"status": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"url_pattern": &schema.Schema{
+			"url_pattern": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 511),
 				Required:     true,
 			},
-			"forward_server": &schema.Schema{
+			"forward_server": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"cache_exemption": &schema.Schema{
+			"cache_exemption": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"comment": &schema.Schema{
+			"comment": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -84,15 +89,25 @@ func resourceWebProxyUrlMatchCreate(d *schema.ResourceData, m interface{}) error
 		}
 	}
 
-	obj, err := getObjectWebProxyUrlMatch(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating WebProxyUrlMatch resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateWebProxyUrlMatch(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectWebProxyUrlMatch(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating WebProxyUrlMatch resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateWebProxyUrlMatch(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating WebProxyUrlMatch resource: %v", err)
+		return fmt.Errorf("error creating WebProxyUrlMatch resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -117,14 +132,24 @@ func resourceWebProxyUrlMatchUpdate(d *schema.ResourceData, m interface{}) error
 		}
 	}
 
-	obj, err := getObjectWebProxyUrlMatch(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating WebProxyUrlMatch resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateWebProxyUrlMatch(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectWebProxyUrlMatch(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating WebProxyUrlMatch resource: %v", err)
+		return fmt.Errorf("error updating WebProxyUrlMatch resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateWebProxyUrlMatch(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating WebProxyUrlMatch resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -151,9 +176,17 @@ func resourceWebProxyUrlMatchDelete(d *schema.ResourceData, m interface{}) error
 		}
 	}
 
-	err := c.DeleteWebProxyUrlMatch(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteWebProxyUrlMatch(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting WebProxyUrlMatch resource: %v", err)
+		return fmt.Errorf("error deleting WebProxyUrlMatch resource: %v", err)
 	}
 
 	d.SetId("")
@@ -175,9 +208,19 @@ func resourceWebProxyUrlMatchRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadWebProxyUrlMatch(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadWebProxyUrlMatch(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading WebProxyUrlMatch resource: %v", err)
+		return fmt.Errorf("error reading WebProxyUrlMatch resource: %v", err)
 	}
 
 	if o == nil {
@@ -188,7 +231,7 @@ func resourceWebProxyUrlMatchRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectWebProxyUrlMatch(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading WebProxyUrlMatch resource from API: %v", err)
+		return fmt.Errorf("error reading WebProxyUrlMatch resource from API: %v", err)
 	}
 	return nil
 }
@@ -222,37 +265,37 @@ func refreshObjectWebProxyUrlMatch(d *schema.ResourceData, o map[string]interfac
 
 	if err = d.Set("name", flattenWebProxyUrlMatchName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("status", flattenWebProxyUrlMatchStatus(o["status"], d, "status", sv)); err != nil {
 		if !fortiAPIPatch(o["status"]) {
-			return fmt.Errorf("Error reading status: %v", err)
+			return fmt.Errorf("error reading status: %v", err)
 		}
 	}
 
 	if err = d.Set("url_pattern", flattenWebProxyUrlMatchUrlPattern(o["url-pattern"], d, "url_pattern", sv)); err != nil {
 		if !fortiAPIPatch(o["url-pattern"]) {
-			return fmt.Errorf("Error reading url_pattern: %v", err)
+			return fmt.Errorf("error reading url_pattern: %v", err)
 		}
 	}
 
 	if err = d.Set("forward_server", flattenWebProxyUrlMatchForwardServer(o["forward-server"], d, "forward_server", sv)); err != nil {
 		if !fortiAPIPatch(o["forward-server"]) {
-			return fmt.Errorf("Error reading forward_server: %v", err)
+			return fmt.Errorf("error reading forward_server: %v", err)
 		}
 	}
 
 	if err = d.Set("cache_exemption", flattenWebProxyUrlMatchCacheExemption(o["cache-exemption"], d, "cache_exemption", sv)); err != nil {
 		if !fortiAPIPatch(o["cache-exemption"]) {
-			return fmt.Errorf("Error reading cache_exemption: %v", err)
+			return fmt.Errorf("error reading cache_exemption: %v", err)
 		}
 	}
 
 	if err = d.Set("comment", flattenWebProxyUrlMatchComment(o["comment"], d, "comment", sv)); err != nil {
 		if !fortiAPIPatch(o["comment"]) {
-			return fmt.Errorf("Error reading comment: %v", err)
+			return fmt.Errorf("error reading comment: %v", err)
 		}
 	}
 

@@ -61,14 +61,14 @@ func testAccCheckFortiOSWebProxyGlobalExists(n string) resource.TestCheckFunc {
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadWebProxyGlobal(i, "root")
+		o, err := c.ReadWebProxyGlobal(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading WebProxyGlobal: %s", err)
+			return fmt.Errorf("error reading WebProxyGlobal: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating WebProxyGlobal: %s", n)
+			return fmt.Errorf("error creating WebProxyGlobal: %s", n)
 		}
 
 		return nil
@@ -84,11 +84,11 @@ func testAccCheckWebProxyGlobalDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadWebProxyGlobal(i, "root")
+		o, err := c.ReadWebProxyGlobal(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error WebProxyGlobal %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error WebProxyGlobal %s still exists", rs.Primary.ID)
 			}
 		}
 

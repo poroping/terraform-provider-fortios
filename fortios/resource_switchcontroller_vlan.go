@@ -30,95 +30,95 @@ func resourceSwitchControllerVlan() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 15),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"vdom": &schema.Schema{
+			"vdom": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 32),
 				Optional:     true,
 				Computed:     true,
 			},
-			"vlanid": &schema.Schema{
+			"vlanid": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 4094),
 				Optional:     true,
 				Computed:     true,
 			},
-			"comments": &schema.Schema{
+			"comments": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"color": &schema.Schema{
+			"color": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 32),
 				Optional:     true,
 				Computed:     true,
 			},
-			"security": &schema.Schema{
+			"security": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"auth": &schema.Schema{
+			"auth": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"radius_server": &schema.Schema{
+			"radius_server": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"usergroup": &schema.Schema{
+			"usergroup": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"portal_message_override_group": &schema.Schema{
+			"portal_message_override_group": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"portal_message_overrides": &schema.Schema{
+			"portal_message_overrides": {
 				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"auth_disclaimer_page": &schema.Schema{
+						"auth_disclaimer_page": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"auth_reject_page": &schema.Schema{
+						"auth_reject_page": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"auth_login_page": &schema.Schema{
+						"auth_login_page": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"auth_login_failed_page": &schema.Schema{
+						"auth_login_failed_page": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
@@ -127,12 +127,12 @@ func resourceSwitchControllerVlan() *schema.Resource {
 					},
 				},
 			},
-			"selected_usergroups": &schema.Schema{
+			"selected_usergroups": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 64),
 							Optional:     true,
@@ -141,10 +141,15 @@ func resourceSwitchControllerVlan() *schema.Resource {
 					},
 				},
 			},
-			"dynamic_sort_subtable": &schema.Schema{
-				Type:     schema.TypeString,
+			"dynamic_sort_subtable": {
+				Type:     schema.TypeBool,
 				Optional: true,
-				Default:  "false",
+				Default:  false,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -162,15 +167,25 @@ func resourceSwitchControllerVlanCreate(d *schema.ResourceData, m interface{}) e
 		}
 	}
 
-	obj, err := getObjectSwitchControllerVlan(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating SwitchControllerVlan resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateSwitchControllerVlan(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSwitchControllerVlan(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating SwitchControllerVlan resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateSwitchControllerVlan(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating SwitchControllerVlan resource: %v", err)
+		return fmt.Errorf("error creating SwitchControllerVlan resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -195,14 +210,24 @@ func resourceSwitchControllerVlanUpdate(d *schema.ResourceData, m interface{}) e
 		}
 	}
 
-	obj, err := getObjectSwitchControllerVlan(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SwitchControllerVlan resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSwitchControllerVlan(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSwitchControllerVlan(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SwitchControllerVlan resource: %v", err)
+		return fmt.Errorf("error updating SwitchControllerVlan resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSwitchControllerVlan(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SwitchControllerVlan resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -229,9 +254,17 @@ func resourceSwitchControllerVlanDelete(d *schema.ResourceData, m interface{}) e
 		}
 	}
 
-	err := c.DeleteSwitchControllerVlan(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSwitchControllerVlan(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SwitchControllerVlan resource: %v", err)
+		return fmt.Errorf("error deleting SwitchControllerVlan resource: %v", err)
 	}
 
 	d.SetId("")
@@ -253,9 +286,19 @@ func resourceSwitchControllerVlanRead(d *schema.ResourceData, m interface{}) err
 		}
 	}
 
-	o, err := c.ReadSwitchControllerVlan(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSwitchControllerVlan(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SwitchControllerVlan resource: %v", err)
+		return fmt.Errorf("error reading SwitchControllerVlan resource: %v", err)
 	}
 
 	if o == nil {
@@ -266,7 +309,7 @@ func resourceSwitchControllerVlanRead(d *schema.ResourceData, m interface{}) err
 
 	err = refreshObjectSwitchControllerVlan(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SwitchControllerVlan resource from API: %v", err)
+		return fmt.Errorf("error reading SwitchControllerVlan resource from API: %v", err)
 	}
 	return nil
 }
@@ -407,75 +450,75 @@ func refreshObjectSwitchControllerVlan(d *schema.ResourceData, o map[string]inte
 
 	if err = d.Set("name", flattenSwitchControllerVlanName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("vdom", flattenSwitchControllerVlanVdom(o["vdom"], d, "vdom", sv)); err != nil {
 		if !fortiAPIPatch(o["vdom"]) {
-			return fmt.Errorf("Error reading vdom: %v", err)
+			return fmt.Errorf("error reading vdom: %v", err)
 		}
 	}
 
 	if err = d.Set("vlanid", flattenSwitchControllerVlanVlanid(o["vlanid"], d, "vlanid", sv)); err != nil {
 		if !fortiAPIPatch(o["vlanid"]) {
-			return fmt.Errorf("Error reading vlanid: %v", err)
+			return fmt.Errorf("error reading vlanid: %v", err)
 		}
 	}
 
 	if err = d.Set("comments", flattenSwitchControllerVlanComments(o["comments"], d, "comments", sv)); err != nil {
 		if !fortiAPIPatch(o["comments"]) {
-			return fmt.Errorf("Error reading comments: %v", err)
+			return fmt.Errorf("error reading comments: %v", err)
 		}
 	}
 
 	if err = d.Set("color", flattenSwitchControllerVlanColor(o["color"], d, "color", sv)); err != nil {
 		if !fortiAPIPatch(o["color"]) {
-			return fmt.Errorf("Error reading color: %v", err)
+			return fmt.Errorf("error reading color: %v", err)
 		}
 	}
 
 	if err = d.Set("security", flattenSwitchControllerVlanSecurity(o["security"], d, "security", sv)); err != nil {
 		if !fortiAPIPatch(o["security"]) {
-			return fmt.Errorf("Error reading security: %v", err)
+			return fmt.Errorf("error reading security: %v", err)
 		}
 	}
 
 	if err = d.Set("auth", flattenSwitchControllerVlanAuth(o["auth"], d, "auth", sv)); err != nil {
 		if !fortiAPIPatch(o["auth"]) {
-			return fmt.Errorf("Error reading auth: %v", err)
+			return fmt.Errorf("error reading auth: %v", err)
 		}
 	}
 
 	if err = d.Set("radius_server", flattenSwitchControllerVlanRadiusServer(o["radius-server"], d, "radius_server", sv)); err != nil {
 		if !fortiAPIPatch(o["radius-server"]) {
-			return fmt.Errorf("Error reading radius_server: %v", err)
+			return fmt.Errorf("error reading radius_server: %v", err)
 		}
 	}
 
 	if err = d.Set("usergroup", flattenSwitchControllerVlanUsergroup(o["usergroup"], d, "usergroup", sv)); err != nil {
 		if !fortiAPIPatch(o["usergroup"]) {
-			return fmt.Errorf("Error reading usergroup: %v", err)
+			return fmt.Errorf("error reading usergroup: %v", err)
 		}
 	}
 
 	if err = d.Set("portal_message_override_group", flattenSwitchControllerVlanPortalMessageOverrideGroup(o["portal-message-override-group"], d, "portal_message_override_group", sv)); err != nil {
 		if !fortiAPIPatch(o["portal-message-override-group"]) {
-			return fmt.Errorf("Error reading portal_message_override_group: %v", err)
+			return fmt.Errorf("error reading portal_message_override_group: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("portal_message_overrides", flattenSwitchControllerVlanPortalMessageOverrides(o["portal-message-overrides"], d, "portal_message_overrides", sv)); err != nil {
 			if !fortiAPIPatch(o["portal-message-overrides"]) {
-				return fmt.Errorf("Error reading portal_message_overrides: %v", err)
+				return fmt.Errorf("error reading portal_message_overrides: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("portal_message_overrides"); ok {
 			if err = d.Set("portal_message_overrides", flattenSwitchControllerVlanPortalMessageOverrides(o["portal-message-overrides"], d, "portal_message_overrides", sv)); err != nil {
 				if !fortiAPIPatch(o["portal-message-overrides"]) {
-					return fmt.Errorf("Error reading portal_message_overrides: %v", err)
+					return fmt.Errorf("error reading portal_message_overrides: %v", err)
 				}
 			}
 		}
@@ -484,14 +527,14 @@ func refreshObjectSwitchControllerVlan(d *schema.ResourceData, o map[string]inte
 	if isImportTable() {
 		if err = d.Set("selected_usergroups", flattenSwitchControllerVlanSelectedUsergroups(o["selected-usergroups"], d, "selected_usergroups", sv)); err != nil {
 			if !fortiAPIPatch(o["selected-usergroups"]) {
-				return fmt.Errorf("Error reading selected_usergroups: %v", err)
+				return fmt.Errorf("error reading selected_usergroups: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("selected_usergroups"); ok {
 			if err = d.Set("selected_usergroups", flattenSwitchControllerVlanSelectedUsergroups(o["selected-usergroups"], d, "selected_usergroups", sv)); err != nil {
 				if !fortiAPIPatch(o["selected-usergroups"]) {
-					return fmt.Errorf("Error reading selected_usergroups: %v", err)
+					return fmt.Errorf("error reading selected_usergroups: %v", err)
 				}
 			}
 		}

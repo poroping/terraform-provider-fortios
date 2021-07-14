@@ -21,33 +21,33 @@ func dataSourceFirewallWildcardFqdnCustom() *schema.Resource {
 	return &schema.Resource{
 		Read: dataSourceFirewallWildcardFqdnCustomRead,
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
 
-			"name": &schema.Schema{
+			"name": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"uuid": &schema.Schema{
+			"uuid": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"wildcard_fqdn": &schema.Schema{
+			"wildcard_fqdn": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"color": &schema.Schema{
+			"color": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"comment": &schema.Schema{
+			"comment": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"visibility": &schema.Schema{
+			"visibility": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -75,12 +75,12 @@ func dataSourceFirewallWildcardFqdnCustomRead(d *schema.ResourceData, m interfac
 	} else if v, ok := t.(int); ok {
 		mkey = strconv.Itoa(v)
 	} else {
-		return fmt.Errorf("Error describing FirewallWildcardFqdnCustom: type error")
+		return fmt.Errorf("error describing FirewallWildcardFqdnCustom: type error")
 	}
 
-	o, err := c.ReadFirewallWildcardFqdnCustom(mkey, vdomparam)
+	o, err := c.ReadFirewallWildcardFqdnCustom(mkey, vdomparam, make(map[string][]string), 0)
 	if err != nil {
-		return fmt.Errorf("Error describing FirewallWildcardFqdnCustom: %v", err)
+		return fmt.Errorf("error describing FirewallWildcardFqdnCustom: %v", err)
 	}
 
 	if o == nil {
@@ -90,7 +90,7 @@ func dataSourceFirewallWildcardFqdnCustomRead(d *schema.ResourceData, m interfac
 
 	err = dataSourceRefreshObjectFirewallWildcardFqdnCustom(d, o)
 	if err != nil {
-		return fmt.Errorf("Error describing FirewallWildcardFqdnCustom from API: %v", err)
+		return fmt.Errorf("error describing FirewallWildcardFqdnCustom from API: %v", err)
 	}
 
 	d.SetId(mkey)
@@ -127,37 +127,37 @@ func dataSourceRefreshObjectFirewallWildcardFqdnCustom(d *schema.ResourceData, o
 
 	if err = d.Set("name", dataSourceFlattenFirewallWildcardFqdnCustomName(o["name"], d, "name")); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("uuid", dataSourceFlattenFirewallWildcardFqdnCustomUuid(o["uuid"], d, "uuid")); err != nil {
 		if !fortiAPIPatch(o["uuid"]) {
-			return fmt.Errorf("Error reading uuid: %v", err)
+			return fmt.Errorf("error reading uuid: %v", err)
 		}
 	}
 
 	if err = d.Set("wildcard_fqdn", dataSourceFlattenFirewallWildcardFqdnCustomWildcardFqdn(o["wildcard-fqdn"], d, "wildcard_fqdn")); err != nil {
 		if !fortiAPIPatch(o["wildcard-fqdn"]) {
-			return fmt.Errorf("Error reading wildcard_fqdn: %v", err)
+			return fmt.Errorf("error reading wildcard_fqdn: %v", err)
 		}
 	}
 
 	if err = d.Set("color", dataSourceFlattenFirewallWildcardFqdnCustomColor(o["color"], d, "color")); err != nil {
 		if !fortiAPIPatch(o["color"]) {
-			return fmt.Errorf("Error reading color: %v", err)
+			return fmt.Errorf("error reading color: %v", err)
 		}
 	}
 
 	if err = d.Set("comment", dataSourceFlattenFirewallWildcardFqdnCustomComment(o["comment"], d, "comment")); err != nil {
 		if !fortiAPIPatch(o["comment"]) {
-			return fmt.Errorf("Error reading comment: %v", err)
+			return fmt.Errorf("error reading comment: %v", err)
 		}
 	}
 
 	if err = d.Set("visibility", dataSourceFlattenFirewallWildcardFqdnCustomVisibility(o["visibility"], d, "visibility")); err != nil {
 		if !fortiAPIPatch(o["visibility"]) {
-			return fmt.Errorf("Error reading visibility: %v", err)
+			return fmt.Errorf("error reading visibility: %v", err)
 		}
 	}
 

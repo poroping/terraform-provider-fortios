@@ -30,31 +30,36 @@ func resourceSystemVdomNetflow() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"vdom_netflow": &schema.Schema{
+			"vdom_netflow": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"collector_ip": &schema.Schema{
+			"collector_ip": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"collector_port": &schema.Schema{
+			"collector_port": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"source_ip": &schema.Schema{
+			"source_ip": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -73,14 +78,24 @@ func resourceSystemVdomNetflowUpdate(d *schema.ResourceData, m interface{}) erro
 		}
 	}
 
-	obj, err := getObjectSystemVdomNetflow(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SystemVdomNetflow resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSystemVdomNetflow(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemVdomNetflow(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SystemVdomNetflow resource: %v", err)
+		return fmt.Errorf("error updating SystemVdomNetflow resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSystemVdomNetflow(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SystemVdomNetflow resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -107,9 +122,17 @@ func resourceSystemVdomNetflowDelete(d *schema.ResourceData, m interface{}) erro
 		}
 	}
 
-	err := c.DeleteSystemVdomNetflow(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSystemVdomNetflow(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SystemVdomNetflow resource: %v", err)
+		return fmt.Errorf("error deleting SystemVdomNetflow resource: %v", err)
 	}
 
 	d.SetId("")
@@ -131,9 +154,19 @@ func resourceSystemVdomNetflowRead(d *schema.ResourceData, m interface{}) error 
 		}
 	}
 
-	o, err := c.ReadSystemVdomNetflow(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSystemVdomNetflow(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemVdomNetflow resource: %v", err)
+		return fmt.Errorf("error reading SystemVdomNetflow resource: %v", err)
 	}
 
 	if o == nil {
@@ -144,7 +177,7 @@ func resourceSystemVdomNetflowRead(d *schema.ResourceData, m interface{}) error 
 
 	err = refreshObjectSystemVdomNetflow(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemVdomNetflow resource from API: %v", err)
+		return fmt.Errorf("error reading SystemVdomNetflow resource from API: %v", err)
 	}
 	return nil
 }
@@ -170,25 +203,25 @@ func refreshObjectSystemVdomNetflow(d *schema.ResourceData, o map[string]interfa
 
 	if err = d.Set("vdom_netflow", flattenSystemVdomNetflowVdomNetflow(o["vdom-netflow"], d, "vdom_netflow", sv)); err != nil {
 		if !fortiAPIPatch(o["vdom-netflow"]) {
-			return fmt.Errorf("Error reading vdom_netflow: %v", err)
+			return fmt.Errorf("error reading vdom_netflow: %v", err)
 		}
 	}
 
 	if err = d.Set("collector_ip", flattenSystemVdomNetflowCollectorIp(o["collector-ip"], d, "collector_ip", sv)); err != nil {
 		if !fortiAPIPatch(o["collector-ip"]) {
-			return fmt.Errorf("Error reading collector_ip: %v", err)
+			return fmt.Errorf("error reading collector_ip: %v", err)
 		}
 	}
 
 	if err = d.Set("collector_port", flattenSystemVdomNetflowCollectorPort(o["collector-port"], d, "collector_port", sv)); err != nil {
 		if !fortiAPIPatch(o["collector-port"]) {
-			return fmt.Errorf("Error reading collector_port: %v", err)
+			return fmt.Errorf("error reading collector_port: %v", err)
 		}
 	}
 
 	if err = d.Set("source_ip", flattenSystemVdomNetflowSourceIp(o["source-ip"], d, "source_ip", sv)); err != nil {
 		if !fortiAPIPatch(o["source-ip"]) {
-			return fmt.Errorf("Error reading source_ip: %v", err)
+			return fmt.Errorf("error reading source_ip: %v", err)
 		}
 	}
 

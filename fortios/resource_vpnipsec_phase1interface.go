@@ -30,83 +30,83 @@ func resourceVpnIpsecPhase1Interface() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 15),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"type": &schema.Schema{
+			"type": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnum([]string{"static", "dynamic", "ddns"}),
 				Optional:     true,
 				Computed:     true,
 			},
-			"interface": &schema.Schema{
+			"interface": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Required:     true,
 			},
-			"ip_version": &schema.Schema{
+			"ip_version": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnum([]string{"4", "6"}),
 				Optional:     true,
 				Computed:     true,
 			},
-			"ike_version": &schema.Schema{
+			"ike_version": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnum([]string{"1", "2"}),
 				Optional:     true,
 				Computed:     true,
 			},
-			"local_gw": &schema.Schema{
+			"local_gw": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.IsIPv4Address,
 				Optional:     true,
 				Computed:     true,
 			},
-			"local_gw6": &schema.Schema{
+			"local_gw6": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.IsIPv6Address,
 				Optional:     true,
 				Computed:     true,
 			},
-			"remote_gw": &schema.Schema{
+			"remote_gw": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.IsIPv4Address,
 				Optional:     true,
 				Computed:     true,
 			},
-			"remote_gw6": &schema.Schema{
+			"remote_gw6": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.IsIPv6Address,
 				Optional:     true,
 				Computed:     true,
 			},
-			"remotegw_ddns": &schema.Schema{
+			"remotegw_ddns": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"keylife": &schema.Schema{
+			"keylife": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(120, 172800),
 				Optional:     true,
 				Computed:     true,
 			},
-			"certificate": &schema.Schema{
+			"certificate": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 64),
 							Optional:     true,
@@ -115,235 +115,235 @@ func resourceVpnIpsecPhase1Interface() *schema.Resource {
 					},
 				},
 			},
-			"authmethod": &schema.Schema{
+			"authmethod": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnum([]string{"psk", "signature"}),
 				Optional:     true,
 				Computed:     true,
 			},
-			"authmethod_remote": &schema.Schema{
+			"authmethod_remote": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnum([]string{"psk", "signature"}),
 				Optional:     true,
 				Computed:     true,
 			},
-			"mode": &schema.Schema{
+			"mode": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnum([]string{"aggressive", "main"}),
 				Optional:     true,
 				Computed:     true,
 			},
-			"peertype": &schema.Schema{
+			"peertype": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"peerid": &schema.Schema{
+			"peerid": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
 				Computed:     true,
 			},
-			"default_gw": &schema.Schema{
+			"default_gw": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.IsIPv4Address,
 				Optional:     true,
 				Computed:     true,
 			},
-			"default_gw_priority": &schema.Schema{
+			"default_gw_priority": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"usrgrp": &schema.Schema{
+			"usrgrp": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"peer": &schema.Schema{
+			"peer": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"peergrp": &schema.Schema{
+			"peergrp": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"monitor": &schema.Schema{
+			"monitor": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"monitor_hold_down_type": &schema.Schema{
+			"monitor_hold_down_type": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"monitor_hold_down_delay": &schema.Schema{
+			"monitor_hold_down_delay": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 31536000),
 				Optional:     true,
 				Computed:     true,
 			},
-			"monitor_hold_down_weekday": &schema.Schema{
+			"monitor_hold_down_weekday": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"monitor_hold_down_time": &schema.Schema{
+			"monitor_hold_down_time": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"net_device": &schema.Schema{
+			"net_device": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
 				Optional:     true,
 				Computed:     true,
 			},
-			"tunnel_search": &schema.Schema{
+			"tunnel_search": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"passive_mode": &schema.Schema{
+			"passive_mode": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
 				Optional:     true,
 				Computed:     true,
 			},
-			"exchange_interface_ip": &schema.Schema{
+			"exchange_interface_ip": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
 				Optional:     true,
 				Computed:     true,
 			},
-			"exchange_ip_addr4": &schema.Schema{
+			"exchange_ip_addr4": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.IsIPv4Address,
 				Optional:     true,
 				Computed:     true,
 			},
-			"exchange_ip_addr6": &schema.Schema{
+			"exchange_ip_addr6": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.IsIPv6Address,
 				Optional:     true,
 				Computed:     true,
 			},
-			"aggregate_member": &schema.Schema{
+			"aggregate_member": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
 				Optional:     true,
 				Computed:     true,
 			},
-			"aggregate_weight": &schema.Schema{
+			"aggregate_weight": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 100),
 				Optional:     true,
 				Computed:     true,
 			},
-			"mode_cfg": &schema.Schema{
+			"mode_cfg": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
 				Optional:     true,
 				Computed:     true,
 			},
-			"assign_ip": &schema.Schema{
+			"assign_ip": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
 				Optional:     true,
 				Computed:     true,
 			},
-			"assign_ip_from": &schema.Schema{
+			"assign_ip_from": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ipv4_start_ip": &schema.Schema{
+			"ipv4_start_ip": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.IsIPv4Address,
 				Optional:     true,
 				Computed:     true,
 			},
-			"ipv4_end_ip": &schema.Schema{
+			"ipv4_end_ip": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.IsIPv4Address,
 				Optional:     true,
 				Computed:     true,
 			},
-			"ipv4_netmask": &schema.Schema{
+			"ipv4_netmask": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateIPv4Netmask,
 				Optional:     true,
 				Computed:     true,
 			},
-			"dhcp_ra_giaddr": &schema.Schema{
+			"dhcp_ra_giaddr": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"dhcp6_ra_linkaddr": &schema.Schema{
+			"dhcp6_ra_linkaddr": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"dns_mode": &schema.Schema{
+			"dns_mode": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ipv4_dns_server1": &schema.Schema{
+			"ipv4_dns_server1": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.IsIPv4Address,
 				Optional:     true,
 				Computed:     true,
 			},
-			"ipv4_dns_server2": &schema.Schema{
+			"ipv4_dns_server2": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.IsIPv4Address,
 				Optional:     true,
 				Computed:     true,
 			},
-			"ipv4_dns_server3": &schema.Schema{
+			"ipv4_dns_server3": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.IsIPv4Address,
 				Optional:     true,
 				Computed:     true,
 			},
-			"ipv4_wins_server1": &schema.Schema{
+			"ipv4_wins_server1": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.IsIPv4Address,
 				Optional:     true,
 				Computed:     true,
 			},
-			"ipv4_wins_server2": &schema.Schema{
+			"ipv4_wins_server2": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.IsIPv4Address,
 				Optional:     true,
 				Computed:     true,
 			},
-			"ipv4_exclude_range": &schema.Schema{
+			"ipv4_exclude_range": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"start_ip": &schema.Schema{
+						"start_ip": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.IsIPv4Address,
 							Optional:     true,
 							Computed:     true,
 						},
-						"end_ip": &schema.Schema{
+						"end_ip": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.IsIPv4Address,
 							Optional:     true,
@@ -352,77 +352,77 @@ func resourceVpnIpsecPhase1Interface() *schema.Resource {
 					},
 				},
 			},
-			"ipv4_split_include": &schema.Schema{
+			"ipv4_split_include": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"split_include_service": &schema.Schema{
+			"split_include_service": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"ipv4_name": &schema.Schema{
+			"ipv4_name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"ipv6_start_ip": &schema.Schema{
+			"ipv6_start_ip": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.IsIPv6Address,
 				Optional:     true,
 				Computed:     true,
 			},
-			"ipv6_end_ip": &schema.Schema{
+			"ipv6_end_ip": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.IsIPv6Address,
 				Optional:     true,
 				Computed:     true,
 			},
-			"ipv6_prefix": &schema.Schema{
+			"ipv6_prefix": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 128),
 				Optional:     true,
 				Computed:     true,
 			},
-			"ipv6_dns_server1": &schema.Schema{
+			"ipv6_dns_server1": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.IsIPv6Address,
 				Optional:     true,
 				Computed:     true,
 			},
-			"ipv6_dns_server2": &schema.Schema{
+			"ipv6_dns_server2": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.IsIPv6Address,
 				Optional:     true,
 				Computed:     true,
 			},
-			"ipv6_dns_server3": &schema.Schema{
+			"ipv6_dns_server3": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.IsIPv6Address,
 				Optional:     true,
 				Computed:     true,
 			},
-			"ipv6_exclude_range": &schema.Schema{
+			"ipv6_exclude_range": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"start_ip": &schema.Schema{
+						"start_ip": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.IsIPv6Address,
 							Optional:     true,
 							Computed:     true,
 						},
-						"end_ip": &schema.Schema{
+						"end_ip": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.IsIPv6Address,
 							Optional:     true,
@@ -431,75 +431,75 @@ func resourceVpnIpsecPhase1Interface() *schema.Resource {
 					},
 				},
 			},
-			"ipv6_split_include": &schema.Schema{
+			"ipv6_split_include": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"ipv6_name": &schema.Schema{
+			"ipv6_name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"unity_support": &schema.Schema{
+			"unity_support": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"domain": &schema.Schema{
+			"domain": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"banner": &schema.Schema{
+			"banner": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 1024),
 				Optional:     true,
 			},
-			"include_local_lan": &schema.Schema{
+			"include_local_lan": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ipv4_split_exclude": &schema.Schema{
+			"ipv4_split_exclude": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"ipv6_split_exclude": &schema.Schema{
+			"ipv6_split_exclude": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"save_password": &schema.Schema{
+			"save_password": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
 				Optional:     true,
 				Computed:     true,
 			},
-			"client_auto_negotiate": &schema.Schema{
+			"client_auto_negotiate": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
 				Optional:     true,
 				Computed:     true,
 			},
-			"client_keep_alive": &schema.Schema{
+			"client_keep_alive": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
 				Optional:     true,
 				Computed:     true,
 			},
-			"backup_gateway": &schema.Schema{
+			"backup_gateway": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"address": &schema.Schema{
+						"address": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 64),
 							Optional:     true,
@@ -508,406 +508,417 @@ func resourceVpnIpsecPhase1Interface() *schema.Resource {
 					},
 				},
 			},
-			"proposal": &schema.Schema{
+			"proposal": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"add_route": &schema.Schema{
+			"add_route": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
 				Optional:     true,
 				Computed:     true,
 			},
-			"add_gw_route": &schema.Schema{
+			"add_gw_route": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
 				Optional:     true,
 				Computed:     true,
 			},
-			"psksecret": &schema.Schema{
+			"psksecret": {
 				Type:      schema.TypeString,
 				Optional:  true,
 				Sensitive: true,
 			},
-			"psksecret_remote": &schema.Schema{
+			"psksecret_remote": {
 				Type:      schema.TypeString,
 				Optional:  true,
 				Sensitive: true,
 			},
-			"keepalive": &schema.Schema{
+			"keepalive": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(10, 900),
 				Optional:     true,
 				Computed:     true,
 			},
-			"distance": &schema.Schema{
+			"distance": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 255),
 				Optional:     true,
 				Computed:     true,
 			},
-			"priority": &schema.Schema{
+			"priority": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"localid": &schema.Schema{
+			"localid": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"localid_type": &schema.Schema{
+			"localid_type": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"auto_negotiate": &schema.Schema{
+			"auto_negotiate": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
 				Optional:     true,
 				Computed:     true,
 			},
-			"negotiate_timeout": &schema.Schema{
+			"negotiate_timeout": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 300),
 				Optional:     true,
 				Computed:     true,
 			},
-			"fragmentation": &schema.Schema{
+			"fragmentation": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
 				Optional:     true,
 				Computed:     true,
 			},
-			"ip_fragmentation": &schema.Schema{
+			"ip_fragmentation": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnum([]string{"pre-encapsulation", "post-encapsulation"}),
 				Optional:     true,
 				Computed:     true,
 			},
-			"dpd": &schema.Schema{
+			"dpd": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnum([]string{"disable", "on-idle", "on-demand"}),
 				Optional:     true,
 				Computed:     true,
 			},
-			"dpd_retrycount": &schema.Schema{
+			"dpd_retrycount": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 10),
 				Optional:     true,
 				Computed:     true,
 			},
-			"dpd_retryinterval": &schema.Schema{
+			"dpd_retryinterval": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"forticlient_enforcement": &schema.Schema{
+			"forticlient_enforcement": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
 				Optional:     true,
 				Computed:     true,
 			},
-			"comments": &schema.Schema{
+			"comments": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
 			},
-			"send_cert_chain": &schema.Schema{
+			"send_cert_chain": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"dhgrp": &schema.Schema{
+			"dhgrp": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"suite_b": &schema.Schema{
+			"suite_b": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"eap": &schema.Schema{
+			"eap": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
 				Optional:     true,
 				Computed:     true,
 			},
-			"eap_identity": &schema.Schema{
+			"eap_identity": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"eap_exclude_peergrp": &schema.Schema{
+			"eap_exclude_peergrp": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"acct_verify": &schema.Schema{
+			"acct_verify": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ppk": &schema.Schema{
+			"ppk": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ppk_secret": &schema.Schema{
+			"ppk_secret": {
 				Type:      schema.TypeString,
 				Optional:  true,
 				Sensitive: true,
 			},
-			"ppk_identity": &schema.Schema{
+			"ppk_identity": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"wizard_type": &schema.Schema{
+			"wizard_type": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"xauthtype": &schema.Schema{
+			"xauthtype": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"reauth": &schema.Schema{
+			"reauth": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"authusr": &schema.Schema{
+			"authusr": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 64),
 				Optional:     true,
 				Computed:     true,
 			},
-			"authpasswd": &schema.Schema{
+			"authpasswd": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 128),
 				Optional:     true,
 				Sensitive:    true,
 			},
-			"group_authentication": &schema.Schema{
+			"group_authentication": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
 				Optional:     true,
 				Computed:     true,
 			},
-			"group_authentication_secret": &schema.Schema{
+			"group_authentication_secret": {
 				Type:      schema.TypeString,
 				Optional:  true,
 				Sensitive: true,
 			},
-			"authusrgrp": &schema.Schema{
+			"authusrgrp": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"mesh_selector_type": &schema.Schema{
+			"mesh_selector_type": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnum([]string{"disable", "subnet", "host"}),
 				Optional:     true,
 				Computed:     true,
 			},
-			"idle_timeout": &schema.Schema{
+			"idle_timeout": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
 				Optional:     true,
 				Computed:     true,
 			},
-			"idle_timeoutinterval": &schema.Schema{
+			"idle_timeoutinterval": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(5, 43200),
 				Optional:     true,
 				Computed:     true,
 			},
-			"ha_sync_esp_seqno": &schema.Schema{
+			"ha_sync_esp_seqno": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
 				Optional:     true,
 				Computed:     true,
 			},
-			"auto_discovery_sender": &schema.Schema{
+			"auto_discovery_sender": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
 				Optional:     true,
 				Computed:     true,
 			},
-			"auto_discovery_receiver": &schema.Schema{
+			"auto_discovery_receiver": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
 				Optional:     true,
 				Computed:     true,
 			},
-			"auto_discovery_forwarder": &schema.Schema{
+			"auto_discovery_forwarder": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
 				Optional:     true,
 				Computed:     true,
 			},
-			"auto_discovery_psk": &schema.Schema{
+			"auto_discovery_psk": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
 				Optional:     true,
 				Computed:     true,
 			},
-			"auto_discovery_shortcuts": &schema.Schema{
+			"auto_discovery_shortcuts": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"encapsulation": &schema.Schema{
+			"encapsulation": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"encapsulation_address": &schema.Schema{
+			"encapsulation_address": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"encap_local_gw4": &schema.Schema{
+			"encap_local_gw4": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"encap_local_gw6": &schema.Schema{
+			"encap_local_gw6": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"encap_remote_gw4": &schema.Schema{
+			"encap_remote_gw4": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"encap_remote_gw6": &schema.Schema{
+			"encap_remote_gw6": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"vni": &schema.Schema{
+			"vni": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 16777215),
 				Optional:     true,
 				Computed:     true,
 			},
-			"nattraversal": &schema.Schema{
+			"nattraversal": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"fragmentation_mtu": &schema.Schema{
+			"fragmentation_mtu": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(500, 16000),
 				Optional:     true,
 				Computed:     true,
 			},
-			"childless_ike": &schema.Schema{
+			"childless_ike": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
 				Optional:     true,
 				Computed:     true,
 			},
-			"rekey": &schema.Schema{
+			"rekey": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
 				Optional:     true,
 				Computed:     true,
 			},
-			"digital_signature_auth": &schema.Schema{
+			"digital_signature_auth": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
 				Optional:     true,
 				Computed:     true,
 			},
-			"signature_hash_alg": &schema.Schema{
+			"signature_hash_alg": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"rsa_signature_format": &schema.Schema{
+			"rsa_signature_format": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"enforce_unique_id": &schema.Schema{
+			"enforce_unique_id": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"cert_id_validation": &schema.Schema{
+			"cert_id_validation": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
 				Optional:     true,
 				Computed:     true,
 			},
-			"fec_egress": &schema.Schema{
+			"fec_egress": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
 				Optional:     true,
 				Computed:     true,
 			},
-			"fec_send_timeout": &schema.Schema{
+			"fec_send_timeout": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 1000),
 				Optional:     true,
 				Computed:     true,
 			},
-			"fec_base": &schema.Schema{
+			"fec_base": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 100),
 				Optional:     true,
 				Computed:     true,
 			},
-			"fec_codec": &schema.Schema{
+			"fec_codec": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 1),
 				Optional:     true,
 				Computed:     true,
 			},
-			"fec_redundant": &schema.Schema{
+			"fec_redundant": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 100),
 				Optional:     true,
 				Computed:     true,
 			},
-			"fec_ingress": &schema.Schema{
+			"fec_ingress": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
 				Optional:     true,
 				Computed:     true,
 			},
-			"fec_receive_timeout": &schema.Schema{
+			"fec_receive_timeout": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 10000),
 				Optional:     true,
 				Computed:     true,
 			},
-			"network_overlay": &schema.Schema{
+			"network_overlay": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
 				Optional:     true,
 				Computed:     true,
 			},
-			"network_id": &schema.Schema{
+			"network_id": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 255),
 				Optional:     true,
 				Computed:     true,
 			},
-			"dynamic_sort_subtable": &schema.Schema{
-				Type:     schema.TypeString,
+			"dynamic_sort_subtable": {
+				Type:     schema.TypeBool,
 				Optional: true,
-				Default:  "false",
+				Default:  false,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
+			},
+			"allow_append": {
+				Type:         schema.TypeBool,
+				Optional:     true,
+				Default:      false,
+				RequiredWith: []string{"name"},
 			},
 		},
 	}
@@ -925,15 +936,51 @@ func resourceVpnIpsecPhase1InterfaceCreate(d *schema.ResourceData, m interface{}
 		}
 	}
 
-	obj, err := getObjectVpnIpsecPhase1Interface(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating VpnIpsecPhase1Interface resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateVpnIpsecPhase1Interface(obj, vdomparam)
+	allow_append := false
+
+	if v, ok := d.GetOk("allow_append"); ok {
+		if b, ok := v.(bool); ok {
+			allow_append = b
+		}
+	}
+
+	urlparams := make(map[string][]string)
+	urlparams["allow_append"] = []string{strconv.FormatBool(allow_append)}
+
+	key := "name"
+	mkey := ""
+	if v, ok := d.GetOk(key); ok {
+		if s, ok := v.(string); ok {
+			mkey = s
+		}
+	}
+
+	obj, err := getObjectVpnIpsecPhase1Interface(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating VpnIpsecPhase1Interface resource while getting object: %v", err)
+	}
+
+	if mkey == "" && allow_append {
+		return fmt.Errorf("error creating VpnIpsecPhase1Interface resource: %q must be set if \"allow_append\" is true", key)
+	}
+
+	o := make(map[string]interface{})
+	if mkey != "" && allow_append {
+		o, err = c.UpdateVpnIpsecPhase1Interface(obj, mkey, vdomparam, urlparams, batchid)
+	} else {
+		o, err = c.CreateVpnIpsecPhase1Interface(obj, vdomparam, urlparams, batchid)
+	}
 
 	if err != nil {
-		return fmt.Errorf("Error creating VpnIpsecPhase1Interface resource: %v", err)
+		return fmt.Errorf("error creating VpnIpsecPhase1Interface resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -958,14 +1005,24 @@ func resourceVpnIpsecPhase1InterfaceUpdate(d *schema.ResourceData, m interface{}
 		}
 	}
 
-	obj, err := getObjectVpnIpsecPhase1Interface(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating VpnIpsecPhase1Interface resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateVpnIpsecPhase1Interface(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectVpnIpsecPhase1Interface(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating VpnIpsecPhase1Interface resource: %v", err)
+		return fmt.Errorf("error updating VpnIpsecPhase1Interface resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateVpnIpsecPhase1Interface(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating VpnIpsecPhase1Interface resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -992,9 +1049,17 @@ func resourceVpnIpsecPhase1InterfaceDelete(d *schema.ResourceData, m interface{}
 		}
 	}
 
-	err := c.DeleteVpnIpsecPhase1Interface(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteVpnIpsecPhase1Interface(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting VpnIpsecPhase1Interface resource: %v", err)
+		return fmt.Errorf("error deleting VpnIpsecPhase1Interface resource: %v", err)
 	}
 
 	d.SetId("")
@@ -1016,9 +1081,19 @@ func resourceVpnIpsecPhase1InterfaceRead(d *schema.ResourceData, m interface{}) 
 		}
 	}
 
-	o, err := c.ReadVpnIpsecPhase1Interface(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadVpnIpsecPhase1Interface(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading VpnIpsecPhase1Interface resource: %v", err)
+		return fmt.Errorf("error reading VpnIpsecPhase1Interface resource: %v", err)
 	}
 
 	if o == nil {
@@ -1029,7 +1104,7 @@ func resourceVpnIpsecPhase1InterfaceRead(d *schema.ResourceData, m interface{}) 
 
 	err = refreshObjectVpnIpsecPhase1Interface(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading VpnIpsecPhase1Interface resource from API: %v", err)
+		return fmt.Errorf("error reading VpnIpsecPhase1Interface resource from API: %v", err)
 	}
 	return nil
 }
@@ -1787,81 +1862,81 @@ func refreshObjectVpnIpsecPhase1Interface(d *schema.ResourceData, o map[string]i
 
 	if err = d.Set("name", flattenVpnIpsecPhase1InterfaceName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("type", flattenVpnIpsecPhase1InterfaceType(o["type"], d, "type", sv)); err != nil {
 		if !fortiAPIPatch(o["type"]) {
-			return fmt.Errorf("Error reading type: %v", err)
+			return fmt.Errorf("error reading type: %v", err)
 		}
 	}
 
 	if err = d.Set("interface", flattenVpnIpsecPhase1InterfaceInterface(o["interface"], d, "interface", sv)); err != nil {
 		if !fortiAPIPatch(o["interface"]) {
-			return fmt.Errorf("Error reading interface: %v", err)
+			return fmt.Errorf("error reading interface: %v", err)
 		}
 	}
 
 	if err = d.Set("ip_version", flattenVpnIpsecPhase1InterfaceIpVersion(o["ip-version"], d, "ip_version", sv)); err != nil {
 		if !fortiAPIPatch(o["ip-version"]) {
-			return fmt.Errorf("Error reading ip_version: %v", err)
+			return fmt.Errorf("error reading ip_version: %v", err)
 		}
 	}
 
 	if err = d.Set("ike_version", flattenVpnIpsecPhase1InterfaceIkeVersion(o["ike-version"], d, "ike_version", sv)); err != nil {
 		if !fortiAPIPatch(o["ike-version"]) {
-			return fmt.Errorf("Error reading ike_version: %v", err)
+			return fmt.Errorf("error reading ike_version: %v", err)
 		}
 	}
 
 	if err = d.Set("local_gw", flattenVpnIpsecPhase1InterfaceLocalGw(o["local-gw"], d, "local_gw", sv)); err != nil {
 		if !fortiAPIPatch(o["local-gw"]) {
-			return fmt.Errorf("Error reading local_gw: %v", err)
+			return fmt.Errorf("error reading local_gw: %v", err)
 		}
 	}
 
 	if err = d.Set("local_gw6", flattenVpnIpsecPhase1InterfaceLocalGw6(o["local-gw6"], d, "local_gw6", sv)); err != nil {
 		if !fortiAPIPatch(o["local-gw6"]) {
-			return fmt.Errorf("Error reading local_gw6: %v", err)
+			return fmt.Errorf("error reading local_gw6: %v", err)
 		}
 	}
 
 	if err = d.Set("remote_gw", flattenVpnIpsecPhase1InterfaceRemoteGw(o["remote-gw"], d, "remote_gw", sv)); err != nil {
 		if !fortiAPIPatch(o["remote-gw"]) {
-			return fmt.Errorf("Error reading remote_gw: %v", err)
+			return fmt.Errorf("error reading remote_gw: %v", err)
 		}
 	}
 
 	if err = d.Set("remote_gw6", flattenVpnIpsecPhase1InterfaceRemoteGw6(o["remote-gw6"], d, "remote_gw6", sv)); err != nil {
 		if !fortiAPIPatch(o["remote-gw6"]) {
-			return fmt.Errorf("Error reading remote_gw6: %v", err)
+			return fmt.Errorf("error reading remote_gw6: %v", err)
 		}
 	}
 
 	if err = d.Set("remotegw_ddns", flattenVpnIpsecPhase1InterfaceRemotegwDdns(o["remotegw-ddns"], d, "remotegw_ddns", sv)); err != nil {
 		if !fortiAPIPatch(o["remotegw-ddns"]) {
-			return fmt.Errorf("Error reading remotegw_ddns: %v", err)
+			return fmt.Errorf("error reading remotegw_ddns: %v", err)
 		}
 	}
 
 	if err = d.Set("keylife", flattenVpnIpsecPhase1InterfaceKeylife(o["keylife"], d, "keylife", sv)); err != nil {
 		if !fortiAPIPatch(o["keylife"]) {
-			return fmt.Errorf("Error reading keylife: %v", err)
+			return fmt.Errorf("error reading keylife: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("certificate", flattenVpnIpsecPhase1InterfaceCertificate(o["certificate"], d, "certificate", sv)); err != nil {
 			if !fortiAPIPatch(o["certificate"]) {
-				return fmt.Errorf("Error reading certificate: %v", err)
+				return fmt.Errorf("error reading certificate: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("certificate"); ok {
 			if err = d.Set("certificate", flattenVpnIpsecPhase1InterfaceCertificate(o["certificate"], d, "certificate", sv)); err != nil {
 				if !fortiAPIPatch(o["certificate"]) {
-					return fmt.Errorf("Error reading certificate: %v", err)
+					return fmt.Errorf("error reading certificate: %v", err)
 				}
 			}
 		}
@@ -1869,237 +1944,237 @@ func refreshObjectVpnIpsecPhase1Interface(d *schema.ResourceData, o map[string]i
 
 	if err = d.Set("authmethod", flattenVpnIpsecPhase1InterfaceAuthmethod(o["authmethod"], d, "authmethod", sv)); err != nil {
 		if !fortiAPIPatch(o["authmethod"]) {
-			return fmt.Errorf("Error reading authmethod: %v", err)
+			return fmt.Errorf("error reading authmethod: %v", err)
 		}
 	}
 
 	if err = d.Set("authmethod_remote", flattenVpnIpsecPhase1InterfaceAuthmethodRemote(o["authmethod-remote"], d, "authmethod_remote", sv)); err != nil {
 		if !fortiAPIPatch(o["authmethod-remote"]) {
-			return fmt.Errorf("Error reading authmethod_remote: %v", err)
+			return fmt.Errorf("error reading authmethod_remote: %v", err)
 		}
 	}
 
 	if err = d.Set("mode", flattenVpnIpsecPhase1InterfaceMode(o["mode"], d, "mode", sv)); err != nil {
 		if !fortiAPIPatch(o["mode"]) {
-			return fmt.Errorf("Error reading mode: %v", err)
+			return fmt.Errorf("error reading mode: %v", err)
 		}
 	}
 
 	if err = d.Set("peertype", flattenVpnIpsecPhase1InterfacePeertype(o["peertype"], d, "peertype", sv)); err != nil {
 		if !fortiAPIPatch(o["peertype"]) {
-			return fmt.Errorf("Error reading peertype: %v", err)
+			return fmt.Errorf("error reading peertype: %v", err)
 		}
 	}
 
 	if err = d.Set("peerid", flattenVpnIpsecPhase1InterfacePeerid(o["peerid"], d, "peerid", sv)); err != nil {
 		if !fortiAPIPatch(o["peerid"]) {
-			return fmt.Errorf("Error reading peerid: %v", err)
+			return fmt.Errorf("error reading peerid: %v", err)
 		}
 	}
 
 	if err = d.Set("default_gw", flattenVpnIpsecPhase1InterfaceDefaultGw(o["default-gw"], d, "default_gw", sv)); err != nil {
 		if !fortiAPIPatch(o["default-gw"]) {
-			return fmt.Errorf("Error reading default_gw: %v", err)
+			return fmt.Errorf("error reading default_gw: %v", err)
 		}
 	}
 
 	if err = d.Set("default_gw_priority", flattenVpnIpsecPhase1InterfaceDefaultGwPriority(o["default-gw-priority"], d, "default_gw_priority", sv)); err != nil {
 		if !fortiAPIPatch(o["default-gw-priority"]) {
-			return fmt.Errorf("Error reading default_gw_priority: %v", err)
+			return fmt.Errorf("error reading default_gw_priority: %v", err)
 		}
 	}
 
 	if err = d.Set("usrgrp", flattenVpnIpsecPhase1InterfaceUsrgrp(o["usrgrp"], d, "usrgrp", sv)); err != nil {
 		if !fortiAPIPatch(o["usrgrp"]) {
-			return fmt.Errorf("Error reading usrgrp: %v", err)
+			return fmt.Errorf("error reading usrgrp: %v", err)
 		}
 	}
 
 	if err = d.Set("peer", flattenVpnIpsecPhase1InterfacePeer(o["peer"], d, "peer", sv)); err != nil {
 		if !fortiAPIPatch(o["peer"]) {
-			return fmt.Errorf("Error reading peer: %v", err)
+			return fmt.Errorf("error reading peer: %v", err)
 		}
 	}
 
 	if err = d.Set("peergrp", flattenVpnIpsecPhase1InterfacePeergrp(o["peergrp"], d, "peergrp", sv)); err != nil {
 		if !fortiAPIPatch(o["peergrp"]) {
-			return fmt.Errorf("Error reading peergrp: %v", err)
+			return fmt.Errorf("error reading peergrp: %v", err)
 		}
 	}
 
 	if err = d.Set("monitor", flattenVpnIpsecPhase1InterfaceMonitor(o["monitor"], d, "monitor", sv)); err != nil {
 		if !fortiAPIPatch(o["monitor"]) {
-			return fmt.Errorf("Error reading monitor: %v", err)
+			return fmt.Errorf("error reading monitor: %v", err)
 		}
 	}
 
 	if err = d.Set("monitor_hold_down_type", flattenVpnIpsecPhase1InterfaceMonitorHoldDownType(o["monitor-hold-down-type"], d, "monitor_hold_down_type", sv)); err != nil {
 		if !fortiAPIPatch(o["monitor-hold-down-type"]) {
-			return fmt.Errorf("Error reading monitor_hold_down_type: %v", err)
+			return fmt.Errorf("error reading monitor_hold_down_type: %v", err)
 		}
 	}
 
 	if err = d.Set("monitor_hold_down_delay", flattenVpnIpsecPhase1InterfaceMonitorHoldDownDelay(o["monitor-hold-down-delay"], d, "monitor_hold_down_delay", sv)); err != nil {
 		if !fortiAPIPatch(o["monitor-hold-down-delay"]) {
-			return fmt.Errorf("Error reading monitor_hold_down_delay: %v", err)
+			return fmt.Errorf("error reading monitor_hold_down_delay: %v", err)
 		}
 	}
 
 	if err = d.Set("monitor_hold_down_weekday", flattenVpnIpsecPhase1InterfaceMonitorHoldDownWeekday(o["monitor-hold-down-weekday"], d, "monitor_hold_down_weekday", sv)); err != nil {
 		if !fortiAPIPatch(o["monitor-hold-down-weekday"]) {
-			return fmt.Errorf("Error reading monitor_hold_down_weekday: %v", err)
+			return fmt.Errorf("error reading monitor_hold_down_weekday: %v", err)
 		}
 	}
 
 	if err = d.Set("monitor_hold_down_time", flattenVpnIpsecPhase1InterfaceMonitorHoldDownTime(o["monitor-hold-down-time"], d, "monitor_hold_down_time", sv)); err != nil {
 		if !fortiAPIPatch(o["monitor-hold-down-time"]) {
-			return fmt.Errorf("Error reading monitor_hold_down_time: %v", err)
+			return fmt.Errorf("error reading monitor_hold_down_time: %v", err)
 		}
 	}
 
 	if err = d.Set("net_device", flattenVpnIpsecPhase1InterfaceNetDevice(o["net-device"], d, "net_device", sv)); err != nil {
 		if !fortiAPIPatch(o["net-device"]) {
-			return fmt.Errorf("Error reading net_device: %v", err)
+			return fmt.Errorf("error reading net_device: %v", err)
 		}
 	}
 
 	if err = d.Set("tunnel_search", flattenVpnIpsecPhase1InterfaceTunnelSearch(o["tunnel-search"], d, "tunnel_search", sv)); err != nil {
 		if !fortiAPIPatch(o["tunnel-search"]) {
-			return fmt.Errorf("Error reading tunnel_search: %v", err)
+			return fmt.Errorf("error reading tunnel_search: %v", err)
 		}
 	}
 
 	if err = d.Set("passive_mode", flattenVpnIpsecPhase1InterfacePassiveMode(o["passive-mode"], d, "passive_mode", sv)); err != nil {
 		if !fortiAPIPatch(o["passive-mode"]) {
-			return fmt.Errorf("Error reading passive_mode: %v", err)
+			return fmt.Errorf("error reading passive_mode: %v", err)
 		}
 	}
 
 	if err = d.Set("exchange_interface_ip", flattenVpnIpsecPhase1InterfaceExchangeInterfaceIp(o["exchange-interface-ip"], d, "exchange_interface_ip", sv)); err != nil {
 		if !fortiAPIPatch(o["exchange-interface-ip"]) {
-			return fmt.Errorf("Error reading exchange_interface_ip: %v", err)
+			return fmt.Errorf("error reading exchange_interface_ip: %v", err)
 		}
 	}
 
 	if err = d.Set("exchange_ip_addr4", flattenVpnIpsecPhase1InterfaceExchangeIpAddr4(o["exchange-ip-addr4"], d, "exchange_ip_addr4", sv)); err != nil {
 		if !fortiAPIPatch(o["exchange-ip-addr4"]) {
-			return fmt.Errorf("Error reading exchange_ip_addr4: %v", err)
+			return fmt.Errorf("error reading exchange_ip_addr4: %v", err)
 		}
 	}
 
 	if err = d.Set("exchange_ip_addr6", flattenVpnIpsecPhase1InterfaceExchangeIpAddr6(o["exchange-ip-addr6"], d, "exchange_ip_addr6", sv)); err != nil {
 		if !fortiAPIPatch(o["exchange-ip-addr6"]) {
-			return fmt.Errorf("Error reading exchange_ip_addr6: %v", err)
+			return fmt.Errorf("error reading exchange_ip_addr6: %v", err)
 		}
 	}
 
 	if err = d.Set("aggregate_member", flattenVpnIpsecPhase1InterfaceAggregateMember(o["aggregate-member"], d, "aggregate_member", sv)); err != nil {
 		if !fortiAPIPatch(o["aggregate-member"]) {
-			return fmt.Errorf("Error reading aggregate_member: %v", err)
+			return fmt.Errorf("error reading aggregate_member: %v", err)
 		}
 	}
 
 	if err = d.Set("aggregate_weight", flattenVpnIpsecPhase1InterfaceAggregateWeight(o["aggregate-weight"], d, "aggregate_weight", sv)); err != nil {
 		if !fortiAPIPatch(o["aggregate-weight"]) {
-			return fmt.Errorf("Error reading aggregate_weight: %v", err)
+			return fmt.Errorf("error reading aggregate_weight: %v", err)
 		}
 	}
 
 	if err = d.Set("mode_cfg", flattenVpnIpsecPhase1InterfaceModeCfg(o["mode-cfg"], d, "mode_cfg", sv)); err != nil {
 		if !fortiAPIPatch(o["mode-cfg"]) {
-			return fmt.Errorf("Error reading mode_cfg: %v", err)
+			return fmt.Errorf("error reading mode_cfg: %v", err)
 		}
 	}
 
 	if err = d.Set("assign_ip", flattenVpnIpsecPhase1InterfaceAssignIp(o["assign-ip"], d, "assign_ip", sv)); err != nil {
 		if !fortiAPIPatch(o["assign-ip"]) {
-			return fmt.Errorf("Error reading assign_ip: %v", err)
+			return fmt.Errorf("error reading assign_ip: %v", err)
 		}
 	}
 
 	if err = d.Set("assign_ip_from", flattenVpnIpsecPhase1InterfaceAssignIpFrom(o["assign-ip-from"], d, "assign_ip_from", sv)); err != nil {
 		if !fortiAPIPatch(o["assign-ip-from"]) {
-			return fmt.Errorf("Error reading assign_ip_from: %v", err)
+			return fmt.Errorf("error reading assign_ip_from: %v", err)
 		}
 	}
 
 	if err = d.Set("ipv4_start_ip", flattenVpnIpsecPhase1InterfaceIpv4StartIp(o["ipv4-start-ip"], d, "ipv4_start_ip", sv)); err != nil {
 		if !fortiAPIPatch(o["ipv4-start-ip"]) {
-			return fmt.Errorf("Error reading ipv4_start_ip: %v", err)
+			return fmt.Errorf("error reading ipv4_start_ip: %v", err)
 		}
 	}
 
 	if err = d.Set("ipv4_end_ip", flattenVpnIpsecPhase1InterfaceIpv4EndIp(o["ipv4-end-ip"], d, "ipv4_end_ip", sv)); err != nil {
 		if !fortiAPIPatch(o["ipv4-end-ip"]) {
-			return fmt.Errorf("Error reading ipv4_end_ip: %v", err)
+			return fmt.Errorf("error reading ipv4_end_ip: %v", err)
 		}
 	}
 
 	if err = d.Set("ipv4_netmask", flattenVpnIpsecPhase1InterfaceIpv4Netmask(o["ipv4-netmask"], d, "ipv4_netmask", sv)); err != nil {
 		if !fortiAPIPatch(o["ipv4-netmask"]) {
-			return fmt.Errorf("Error reading ipv4_netmask: %v", err)
+			return fmt.Errorf("error reading ipv4_netmask: %v", err)
 		}
 	}
 
 	if err = d.Set("dhcp_ra_giaddr", flattenVpnIpsecPhase1InterfaceDhcpRaGiaddr(o["dhcp-ra-giaddr"], d, "dhcp_ra_giaddr", sv)); err != nil {
 		if !fortiAPIPatch(o["dhcp-ra-giaddr"]) {
-			return fmt.Errorf("Error reading dhcp_ra_giaddr: %v", err)
+			return fmt.Errorf("error reading dhcp_ra_giaddr: %v", err)
 		}
 	}
 
 	if err = d.Set("dhcp6_ra_linkaddr", flattenVpnIpsecPhase1InterfaceDhcp6RaLinkaddr(o["dhcp6-ra-linkaddr"], d, "dhcp6_ra_linkaddr", sv)); err != nil {
 		if !fortiAPIPatch(o["dhcp6-ra-linkaddr"]) {
-			return fmt.Errorf("Error reading dhcp6_ra_linkaddr: %v", err)
+			return fmt.Errorf("error reading dhcp6_ra_linkaddr: %v", err)
 		}
 	}
 
 	if err = d.Set("dns_mode", flattenVpnIpsecPhase1InterfaceDnsMode(o["dns-mode"], d, "dns_mode", sv)); err != nil {
 		if !fortiAPIPatch(o["dns-mode"]) {
-			return fmt.Errorf("Error reading dns_mode: %v", err)
+			return fmt.Errorf("error reading dns_mode: %v", err)
 		}
 	}
 
 	if err = d.Set("ipv4_dns_server1", flattenVpnIpsecPhase1InterfaceIpv4DnsServer1(o["ipv4-dns-server1"], d, "ipv4_dns_server1", sv)); err != nil {
 		if !fortiAPIPatch(o["ipv4-dns-server1"]) {
-			return fmt.Errorf("Error reading ipv4_dns_server1: %v", err)
+			return fmt.Errorf("error reading ipv4_dns_server1: %v", err)
 		}
 	}
 
 	if err = d.Set("ipv4_dns_server2", flattenVpnIpsecPhase1InterfaceIpv4DnsServer2(o["ipv4-dns-server2"], d, "ipv4_dns_server2", sv)); err != nil {
 		if !fortiAPIPatch(o["ipv4-dns-server2"]) {
-			return fmt.Errorf("Error reading ipv4_dns_server2: %v", err)
+			return fmt.Errorf("error reading ipv4_dns_server2: %v", err)
 		}
 	}
 
 	if err = d.Set("ipv4_dns_server3", flattenVpnIpsecPhase1InterfaceIpv4DnsServer3(o["ipv4-dns-server3"], d, "ipv4_dns_server3", sv)); err != nil {
 		if !fortiAPIPatch(o["ipv4-dns-server3"]) {
-			return fmt.Errorf("Error reading ipv4_dns_server3: %v", err)
+			return fmt.Errorf("error reading ipv4_dns_server3: %v", err)
 		}
 	}
 
 	if err = d.Set("ipv4_wins_server1", flattenVpnIpsecPhase1InterfaceIpv4WinsServer1(o["ipv4-wins-server1"], d, "ipv4_wins_server1", sv)); err != nil {
 		if !fortiAPIPatch(o["ipv4-wins-server1"]) {
-			return fmt.Errorf("Error reading ipv4_wins_server1: %v", err)
+			return fmt.Errorf("error reading ipv4_wins_server1: %v", err)
 		}
 	}
 
 	if err = d.Set("ipv4_wins_server2", flattenVpnIpsecPhase1InterfaceIpv4WinsServer2(o["ipv4-wins-server2"], d, "ipv4_wins_server2", sv)); err != nil {
 		if !fortiAPIPatch(o["ipv4-wins-server2"]) {
-			return fmt.Errorf("Error reading ipv4_wins_server2: %v", err)
+			return fmt.Errorf("error reading ipv4_wins_server2: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("ipv4_exclude_range", flattenVpnIpsecPhase1InterfaceIpv4ExcludeRange(o["ipv4-exclude-range"], d, "ipv4_exclude_range", sv)); err != nil {
 			if !fortiAPIPatch(o["ipv4-exclude-range"]) {
-				return fmt.Errorf("Error reading ipv4_exclude_range: %v", err)
+				return fmt.Errorf("error reading ipv4_exclude_range: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("ipv4_exclude_range"); ok {
 			if err = d.Set("ipv4_exclude_range", flattenVpnIpsecPhase1InterfaceIpv4ExcludeRange(o["ipv4-exclude-range"], d, "ipv4_exclude_range", sv)); err != nil {
 				if !fortiAPIPatch(o["ipv4-exclude-range"]) {
-					return fmt.Errorf("Error reading ipv4_exclude_range: %v", err)
+					return fmt.Errorf("error reading ipv4_exclude_range: %v", err)
 				}
 			}
 		}
@@ -2107,69 +2182,69 @@ func refreshObjectVpnIpsecPhase1Interface(d *schema.ResourceData, o map[string]i
 
 	if err = d.Set("ipv4_split_include", flattenVpnIpsecPhase1InterfaceIpv4SplitInclude(o["ipv4-split-include"], d, "ipv4_split_include", sv)); err != nil {
 		if !fortiAPIPatch(o["ipv4-split-include"]) {
-			return fmt.Errorf("Error reading ipv4_split_include: %v", err)
+			return fmt.Errorf("error reading ipv4_split_include: %v", err)
 		}
 	}
 
 	if err = d.Set("split_include_service", flattenVpnIpsecPhase1InterfaceSplitIncludeService(o["split-include-service"], d, "split_include_service", sv)); err != nil {
 		if !fortiAPIPatch(o["split-include-service"]) {
-			return fmt.Errorf("Error reading split_include_service: %v", err)
+			return fmt.Errorf("error reading split_include_service: %v", err)
 		}
 	}
 
 	if err = d.Set("ipv4_name", flattenVpnIpsecPhase1InterfaceIpv4Name(o["ipv4-name"], d, "ipv4_name", sv)); err != nil {
 		if !fortiAPIPatch(o["ipv4-name"]) {
-			return fmt.Errorf("Error reading ipv4_name: %v", err)
+			return fmt.Errorf("error reading ipv4_name: %v", err)
 		}
 	}
 
 	if err = d.Set("ipv6_start_ip", flattenVpnIpsecPhase1InterfaceIpv6StartIp(o["ipv6-start-ip"], d, "ipv6_start_ip", sv)); err != nil {
 		if !fortiAPIPatch(o["ipv6-start-ip"]) {
-			return fmt.Errorf("Error reading ipv6_start_ip: %v", err)
+			return fmt.Errorf("error reading ipv6_start_ip: %v", err)
 		}
 	}
 
 	if err = d.Set("ipv6_end_ip", flattenVpnIpsecPhase1InterfaceIpv6EndIp(o["ipv6-end-ip"], d, "ipv6_end_ip", sv)); err != nil {
 		if !fortiAPIPatch(o["ipv6-end-ip"]) {
-			return fmt.Errorf("Error reading ipv6_end_ip: %v", err)
+			return fmt.Errorf("error reading ipv6_end_ip: %v", err)
 		}
 	}
 
 	if err = d.Set("ipv6_prefix", flattenVpnIpsecPhase1InterfaceIpv6Prefix(o["ipv6-prefix"], d, "ipv6_prefix", sv)); err != nil {
 		if !fortiAPIPatch(o["ipv6-prefix"]) {
-			return fmt.Errorf("Error reading ipv6_prefix: %v", err)
+			return fmt.Errorf("error reading ipv6_prefix: %v", err)
 		}
 	}
 
 	if err = d.Set("ipv6_dns_server1", flattenVpnIpsecPhase1InterfaceIpv6DnsServer1(o["ipv6-dns-server1"], d, "ipv6_dns_server1", sv)); err != nil {
 		if !fortiAPIPatch(o["ipv6-dns-server1"]) {
-			return fmt.Errorf("Error reading ipv6_dns_server1: %v", err)
+			return fmt.Errorf("error reading ipv6_dns_server1: %v", err)
 		}
 	}
 
 	if err = d.Set("ipv6_dns_server2", flattenVpnIpsecPhase1InterfaceIpv6DnsServer2(o["ipv6-dns-server2"], d, "ipv6_dns_server2", sv)); err != nil {
 		if !fortiAPIPatch(o["ipv6-dns-server2"]) {
-			return fmt.Errorf("Error reading ipv6_dns_server2: %v", err)
+			return fmt.Errorf("error reading ipv6_dns_server2: %v", err)
 		}
 	}
 
 	if err = d.Set("ipv6_dns_server3", flattenVpnIpsecPhase1InterfaceIpv6DnsServer3(o["ipv6-dns-server3"], d, "ipv6_dns_server3", sv)); err != nil {
 		if !fortiAPIPatch(o["ipv6-dns-server3"]) {
-			return fmt.Errorf("Error reading ipv6_dns_server3: %v", err)
+			return fmt.Errorf("error reading ipv6_dns_server3: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("ipv6_exclude_range", flattenVpnIpsecPhase1InterfaceIpv6ExcludeRange(o["ipv6-exclude-range"], d, "ipv6_exclude_range", sv)); err != nil {
 			if !fortiAPIPatch(o["ipv6-exclude-range"]) {
-				return fmt.Errorf("Error reading ipv6_exclude_range: %v", err)
+				return fmt.Errorf("error reading ipv6_exclude_range: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("ipv6_exclude_range"); ok {
 			if err = d.Set("ipv6_exclude_range", flattenVpnIpsecPhase1InterfaceIpv6ExcludeRange(o["ipv6-exclude-range"], d, "ipv6_exclude_range", sv)); err != nil {
 				if !fortiAPIPatch(o["ipv6-exclude-range"]) {
-					return fmt.Errorf("Error reading ipv6_exclude_range: %v", err)
+					return fmt.Errorf("error reading ipv6_exclude_range: %v", err)
 				}
 			}
 		}
@@ -2177,81 +2252,81 @@ func refreshObjectVpnIpsecPhase1Interface(d *schema.ResourceData, o map[string]i
 
 	if err = d.Set("ipv6_split_include", flattenVpnIpsecPhase1InterfaceIpv6SplitInclude(o["ipv6-split-include"], d, "ipv6_split_include", sv)); err != nil {
 		if !fortiAPIPatch(o["ipv6-split-include"]) {
-			return fmt.Errorf("Error reading ipv6_split_include: %v", err)
+			return fmt.Errorf("error reading ipv6_split_include: %v", err)
 		}
 	}
 
 	if err = d.Set("ipv6_name", flattenVpnIpsecPhase1InterfaceIpv6Name(o["ipv6-name"], d, "ipv6_name", sv)); err != nil {
 		if !fortiAPIPatch(o["ipv6-name"]) {
-			return fmt.Errorf("Error reading ipv6_name: %v", err)
+			return fmt.Errorf("error reading ipv6_name: %v", err)
 		}
 	}
 
 	if err = d.Set("unity_support", flattenVpnIpsecPhase1InterfaceUnitySupport(o["unity-support"], d, "unity_support", sv)); err != nil {
 		if !fortiAPIPatch(o["unity-support"]) {
-			return fmt.Errorf("Error reading unity_support: %v", err)
+			return fmt.Errorf("error reading unity_support: %v", err)
 		}
 	}
 
 	if err = d.Set("domain", flattenVpnIpsecPhase1InterfaceDomain(o["domain"], d, "domain", sv)); err != nil {
 		if !fortiAPIPatch(o["domain"]) {
-			return fmt.Errorf("Error reading domain: %v", err)
+			return fmt.Errorf("error reading domain: %v", err)
 		}
 	}
 
 	if err = d.Set("banner", flattenVpnIpsecPhase1InterfaceBanner(o["banner"], d, "banner", sv)); err != nil {
 		if !fortiAPIPatch(o["banner"]) {
-			return fmt.Errorf("Error reading banner: %v", err)
+			return fmt.Errorf("error reading banner: %v", err)
 		}
 	}
 
 	if err = d.Set("include_local_lan", flattenVpnIpsecPhase1InterfaceIncludeLocalLan(o["include-local-lan"], d, "include_local_lan", sv)); err != nil {
 		if !fortiAPIPatch(o["include-local-lan"]) {
-			return fmt.Errorf("Error reading include_local_lan: %v", err)
+			return fmt.Errorf("error reading include_local_lan: %v", err)
 		}
 	}
 
 	if err = d.Set("ipv4_split_exclude", flattenVpnIpsecPhase1InterfaceIpv4SplitExclude(o["ipv4-split-exclude"], d, "ipv4_split_exclude", sv)); err != nil {
 		if !fortiAPIPatch(o["ipv4-split-exclude"]) {
-			return fmt.Errorf("Error reading ipv4_split_exclude: %v", err)
+			return fmt.Errorf("error reading ipv4_split_exclude: %v", err)
 		}
 	}
 
 	if err = d.Set("ipv6_split_exclude", flattenVpnIpsecPhase1InterfaceIpv6SplitExclude(o["ipv6-split-exclude"], d, "ipv6_split_exclude", sv)); err != nil {
 		if !fortiAPIPatch(o["ipv6-split-exclude"]) {
-			return fmt.Errorf("Error reading ipv6_split_exclude: %v", err)
+			return fmt.Errorf("error reading ipv6_split_exclude: %v", err)
 		}
 	}
 
 	if err = d.Set("save_password", flattenVpnIpsecPhase1InterfaceSavePassword(o["save-password"], d, "save_password", sv)); err != nil {
 		if !fortiAPIPatch(o["save-password"]) {
-			return fmt.Errorf("Error reading save_password: %v", err)
+			return fmt.Errorf("error reading save_password: %v", err)
 		}
 	}
 
 	if err = d.Set("client_auto_negotiate", flattenVpnIpsecPhase1InterfaceClientAutoNegotiate(o["client-auto-negotiate"], d, "client_auto_negotiate", sv)); err != nil {
 		if !fortiAPIPatch(o["client-auto-negotiate"]) {
-			return fmt.Errorf("Error reading client_auto_negotiate: %v", err)
+			return fmt.Errorf("error reading client_auto_negotiate: %v", err)
 		}
 	}
 
 	if err = d.Set("client_keep_alive", flattenVpnIpsecPhase1InterfaceClientKeepAlive(o["client-keep-alive"], d, "client_keep_alive", sv)); err != nil {
 		if !fortiAPIPatch(o["client-keep-alive"]) {
-			return fmt.Errorf("Error reading client_keep_alive: %v", err)
+			return fmt.Errorf("error reading client_keep_alive: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("backup_gateway", flattenVpnIpsecPhase1InterfaceBackupGateway(o["backup-gateway"], d, "backup_gateway", sv)); err != nil {
 			if !fortiAPIPatch(o["backup-gateway"]) {
-				return fmt.Errorf("Error reading backup_gateway: %v", err)
+				return fmt.Errorf("error reading backup_gateway: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("backup_gateway"); ok {
 			if err = d.Set("backup_gateway", flattenVpnIpsecPhase1InterfaceBackupGateway(o["backup-gateway"], d, "backup_gateway", sv)); err != nil {
 				if !fortiAPIPatch(o["backup-gateway"]) {
-					return fmt.Errorf("Error reading backup_gateway: %v", err)
+					return fmt.Errorf("error reading backup_gateway: %v", err)
 				}
 			}
 		}
@@ -2259,397 +2334,397 @@ func refreshObjectVpnIpsecPhase1Interface(d *schema.ResourceData, o map[string]i
 
 	if err = d.Set("proposal", flattenVpnIpsecPhase1InterfaceProposal(o["proposal"], d, "proposal", sv)); err != nil {
 		if !fortiAPIPatch(o["proposal"]) {
-			return fmt.Errorf("Error reading proposal: %v", err)
+			return fmt.Errorf("error reading proposal: %v", err)
 		}
 	}
 
 	if err = d.Set("add_route", flattenVpnIpsecPhase1InterfaceAddRoute(o["add-route"], d, "add_route", sv)); err != nil {
 		if !fortiAPIPatch(o["add-route"]) {
-			return fmt.Errorf("Error reading add_route: %v", err)
+			return fmt.Errorf("error reading add_route: %v", err)
 		}
 	}
 
 	if err = d.Set("add_gw_route", flattenVpnIpsecPhase1InterfaceAddGwRoute(o["add-gw-route"], d, "add_gw_route", sv)); err != nil {
 		if !fortiAPIPatch(o["add-gw-route"]) {
-			return fmt.Errorf("Error reading add_gw_route: %v", err)
+			return fmt.Errorf("error reading add_gw_route: %v", err)
 		}
 	}
 
 	if err = d.Set("keepalive", flattenVpnIpsecPhase1InterfaceKeepalive(o["keepalive"], d, "keepalive", sv)); err != nil {
 		if !fortiAPIPatch(o["keepalive"]) {
-			return fmt.Errorf("Error reading keepalive: %v", err)
+			return fmt.Errorf("error reading keepalive: %v", err)
 		}
 	}
 
 	if err = d.Set("distance", flattenVpnIpsecPhase1InterfaceDistance(o["distance"], d, "distance", sv)); err != nil {
 		if !fortiAPIPatch(o["distance"]) {
-			return fmt.Errorf("Error reading distance: %v", err)
+			return fmt.Errorf("error reading distance: %v", err)
 		}
 	}
 
 	if err = d.Set("priority", flattenVpnIpsecPhase1InterfacePriority(o["priority"], d, "priority", sv)); err != nil {
 		if !fortiAPIPatch(o["priority"]) {
-			return fmt.Errorf("Error reading priority: %v", err)
+			return fmt.Errorf("error reading priority: %v", err)
 		}
 	}
 
 	if err = d.Set("localid", flattenVpnIpsecPhase1InterfaceLocalid(o["localid"], d, "localid", sv)); err != nil {
 		if !fortiAPIPatch(o["localid"]) {
-			return fmt.Errorf("Error reading localid: %v", err)
+			return fmt.Errorf("error reading localid: %v", err)
 		}
 	}
 
 	if err = d.Set("localid_type", flattenVpnIpsecPhase1InterfaceLocalidType(o["localid-type"], d, "localid_type", sv)); err != nil {
 		if !fortiAPIPatch(o["localid-type"]) {
-			return fmt.Errorf("Error reading localid_type: %v", err)
+			return fmt.Errorf("error reading localid_type: %v", err)
 		}
 	}
 
 	if err = d.Set("auto_negotiate", flattenVpnIpsecPhase1InterfaceAutoNegotiate(o["auto-negotiate"], d, "auto_negotiate", sv)); err != nil {
 		if !fortiAPIPatch(o["auto-negotiate"]) {
-			return fmt.Errorf("Error reading auto_negotiate: %v", err)
+			return fmt.Errorf("error reading auto_negotiate: %v", err)
 		}
 	}
 
 	if err = d.Set("negotiate_timeout", flattenVpnIpsecPhase1InterfaceNegotiateTimeout(o["negotiate-timeout"], d, "negotiate_timeout", sv)); err != nil {
 		if !fortiAPIPatch(o["negotiate-timeout"]) {
-			return fmt.Errorf("Error reading negotiate_timeout: %v", err)
+			return fmt.Errorf("error reading negotiate_timeout: %v", err)
 		}
 	}
 
 	if err = d.Set("fragmentation", flattenVpnIpsecPhase1InterfaceFragmentation(o["fragmentation"], d, "fragmentation", sv)); err != nil {
 		if !fortiAPIPatch(o["fragmentation"]) {
-			return fmt.Errorf("Error reading fragmentation: %v", err)
+			return fmt.Errorf("error reading fragmentation: %v", err)
 		}
 	}
 
 	if err = d.Set("ip_fragmentation", flattenVpnIpsecPhase1InterfaceIpFragmentation(o["ip-fragmentation"], d, "ip_fragmentation", sv)); err != nil {
 		if !fortiAPIPatch(o["ip-fragmentation"]) {
-			return fmt.Errorf("Error reading ip_fragmentation: %v", err)
+			return fmt.Errorf("error reading ip_fragmentation: %v", err)
 		}
 	}
 
 	if err = d.Set("dpd", flattenVpnIpsecPhase1InterfaceDpd(o["dpd"], d, "dpd", sv)); err != nil {
 		if !fortiAPIPatch(o["dpd"]) {
-			return fmt.Errorf("Error reading dpd: %v", err)
+			return fmt.Errorf("error reading dpd: %v", err)
 		}
 	}
 
 	if err = d.Set("dpd_retrycount", flattenVpnIpsecPhase1InterfaceDpdRetrycount(o["dpd-retrycount"], d, "dpd_retrycount", sv)); err != nil {
 		if !fortiAPIPatch(o["dpd-retrycount"]) {
-			return fmt.Errorf("Error reading dpd_retrycount: %v", err)
+			return fmt.Errorf("error reading dpd_retrycount: %v", err)
 		}
 	}
 
 	if err = d.Set("dpd_retryinterval", flattenVpnIpsecPhase1InterfaceDpdRetryinterval(o["dpd-retryinterval"], d, "dpd_retryinterval", sv)); err != nil {
 		if !fortiAPIPatch(o["dpd-retryinterval"]) {
-			return fmt.Errorf("Error reading dpd_retryinterval: %v", err)
+			return fmt.Errorf("error reading dpd_retryinterval: %v", err)
 		}
 	}
 
 	if err = d.Set("forticlient_enforcement", flattenVpnIpsecPhase1InterfaceForticlientEnforcement(o["forticlient-enforcement"], d, "forticlient_enforcement", sv)); err != nil {
 		if !fortiAPIPatch(o["forticlient-enforcement"]) {
-			return fmt.Errorf("Error reading forticlient_enforcement: %v", err)
+			return fmt.Errorf("error reading forticlient_enforcement: %v", err)
 		}
 	}
 
 	if err = d.Set("comments", flattenVpnIpsecPhase1InterfaceComments(o["comments"], d, "comments", sv)); err != nil {
 		if !fortiAPIPatch(o["comments"]) {
-			return fmt.Errorf("Error reading comments: %v", err)
+			return fmt.Errorf("error reading comments: %v", err)
 		}
 	}
 
 	if err = d.Set("send_cert_chain", flattenVpnIpsecPhase1InterfaceSendCertChain(o["send-cert-chain"], d, "send_cert_chain", sv)); err != nil {
 		if !fortiAPIPatch(o["send-cert-chain"]) {
-			return fmt.Errorf("Error reading send_cert_chain: %v", err)
+			return fmt.Errorf("error reading send_cert_chain: %v", err)
 		}
 	}
 
 	if err = d.Set("dhgrp", flattenVpnIpsecPhase1InterfaceDhgrp(o["dhgrp"], d, "dhgrp", sv)); err != nil {
 		if !fortiAPIPatch(o["dhgrp"]) {
-			return fmt.Errorf("Error reading dhgrp: %v", err)
+			return fmt.Errorf("error reading dhgrp: %v", err)
 		}
 	}
 
 	if err = d.Set("suite_b", flattenVpnIpsecPhase1InterfaceSuiteB(o["suite-b"], d, "suite_b", sv)); err != nil {
 		if !fortiAPIPatch(o["suite-b"]) {
-			return fmt.Errorf("Error reading suite_b: %v", err)
+			return fmt.Errorf("error reading suite_b: %v", err)
 		}
 	}
 
 	if err = d.Set("eap", flattenVpnIpsecPhase1InterfaceEap(o["eap"], d, "eap", sv)); err != nil {
 		if !fortiAPIPatch(o["eap"]) {
-			return fmt.Errorf("Error reading eap: %v", err)
+			return fmt.Errorf("error reading eap: %v", err)
 		}
 	}
 
 	if err = d.Set("eap_identity", flattenVpnIpsecPhase1InterfaceEapIdentity(o["eap-identity"], d, "eap_identity", sv)); err != nil {
 		if !fortiAPIPatch(o["eap-identity"]) {
-			return fmt.Errorf("Error reading eap_identity: %v", err)
+			return fmt.Errorf("error reading eap_identity: %v", err)
 		}
 	}
 
 	if err = d.Set("eap_exclude_peergrp", flattenVpnIpsecPhase1InterfaceEapExcludePeergrp(o["eap-exclude-peergrp"], d, "eap_exclude_peergrp", sv)); err != nil {
 		if !fortiAPIPatch(o["eap-exclude-peergrp"]) {
-			return fmt.Errorf("Error reading eap_exclude_peergrp: %v", err)
+			return fmt.Errorf("error reading eap_exclude_peergrp: %v", err)
 		}
 	}
 
 	if err = d.Set("acct_verify", flattenVpnIpsecPhase1InterfaceAcctVerify(o["acct-verify"], d, "acct_verify", sv)); err != nil {
 		if !fortiAPIPatch(o["acct-verify"]) {
-			return fmt.Errorf("Error reading acct_verify: %v", err)
+			return fmt.Errorf("error reading acct_verify: %v", err)
 		}
 	}
 
 	if err = d.Set("ppk", flattenVpnIpsecPhase1InterfacePpk(o["ppk"], d, "ppk", sv)); err != nil {
 		if !fortiAPIPatch(o["ppk"]) {
-			return fmt.Errorf("Error reading ppk: %v", err)
+			return fmt.Errorf("error reading ppk: %v", err)
 		}
 	}
 
 	if err = d.Set("ppk_identity", flattenVpnIpsecPhase1InterfacePpkIdentity(o["ppk-identity"], d, "ppk_identity", sv)); err != nil {
 		if !fortiAPIPatch(o["ppk-identity"]) {
-			return fmt.Errorf("Error reading ppk_identity: %v", err)
+			return fmt.Errorf("error reading ppk_identity: %v", err)
 		}
 	}
 
 	if err = d.Set("wizard_type", flattenVpnIpsecPhase1InterfaceWizardType(o["wizard-type"], d, "wizard_type", sv)); err != nil {
 		if !fortiAPIPatch(o["wizard-type"]) {
-			return fmt.Errorf("Error reading wizard_type: %v", err)
+			return fmt.Errorf("error reading wizard_type: %v", err)
 		}
 	}
 
 	if err = d.Set("xauthtype", flattenVpnIpsecPhase1InterfaceXauthtype(o["xauthtype"], d, "xauthtype", sv)); err != nil {
 		if !fortiAPIPatch(o["xauthtype"]) {
-			return fmt.Errorf("Error reading xauthtype: %v", err)
+			return fmt.Errorf("error reading xauthtype: %v", err)
 		}
 	}
 
 	if err = d.Set("reauth", flattenVpnIpsecPhase1InterfaceReauth(o["reauth"], d, "reauth", sv)); err != nil {
 		if !fortiAPIPatch(o["reauth"]) {
-			return fmt.Errorf("Error reading reauth: %v", err)
+			return fmt.Errorf("error reading reauth: %v", err)
 		}
 	}
 
 	if err = d.Set("authusr", flattenVpnIpsecPhase1InterfaceAuthusr(o["authusr"], d, "authusr", sv)); err != nil {
 		if !fortiAPIPatch(o["authusr"]) {
-			return fmt.Errorf("Error reading authusr: %v", err)
+			return fmt.Errorf("error reading authusr: %v", err)
 		}
 	}
 
 	if err = d.Set("group_authentication", flattenVpnIpsecPhase1InterfaceGroupAuthentication(o["group-authentication"], d, "group_authentication", sv)); err != nil {
 		if !fortiAPIPatch(o["group-authentication"]) {
-			return fmt.Errorf("Error reading group_authentication: %v", err)
+			return fmt.Errorf("error reading group_authentication: %v", err)
 		}
 	}
 
 	if err = d.Set("authusrgrp", flattenVpnIpsecPhase1InterfaceAuthusrgrp(o["authusrgrp"], d, "authusrgrp", sv)); err != nil {
 		if !fortiAPIPatch(o["authusrgrp"]) {
-			return fmt.Errorf("Error reading authusrgrp: %v", err)
+			return fmt.Errorf("error reading authusrgrp: %v", err)
 		}
 	}
 
 	if err = d.Set("mesh_selector_type", flattenVpnIpsecPhase1InterfaceMeshSelectorType(o["mesh-selector-type"], d, "mesh_selector_type", sv)); err != nil {
 		if !fortiAPIPatch(o["mesh-selector-type"]) {
-			return fmt.Errorf("Error reading mesh_selector_type: %v", err)
+			return fmt.Errorf("error reading mesh_selector_type: %v", err)
 		}
 	}
 
 	if err = d.Set("idle_timeout", flattenVpnIpsecPhase1InterfaceIdleTimeout(o["idle-timeout"], d, "idle_timeout", sv)); err != nil {
 		if !fortiAPIPatch(o["idle-timeout"]) {
-			return fmt.Errorf("Error reading idle_timeout: %v", err)
+			return fmt.Errorf("error reading idle_timeout: %v", err)
 		}
 	}
 
 	if err = d.Set("idle_timeoutinterval", flattenVpnIpsecPhase1InterfaceIdleTimeoutinterval(o["idle-timeoutinterval"], d, "idle_timeoutinterval", sv)); err != nil {
 		if !fortiAPIPatch(o["idle-timeoutinterval"]) {
-			return fmt.Errorf("Error reading idle_timeoutinterval: %v", err)
+			return fmt.Errorf("error reading idle_timeoutinterval: %v", err)
 		}
 	}
 
 	if err = d.Set("ha_sync_esp_seqno", flattenVpnIpsecPhase1InterfaceHaSyncEspSeqno(o["ha-sync-esp-seqno"], d, "ha_sync_esp_seqno", sv)); err != nil {
 		if !fortiAPIPatch(o["ha-sync-esp-seqno"]) {
-			return fmt.Errorf("Error reading ha_sync_esp_seqno: %v", err)
+			return fmt.Errorf("error reading ha_sync_esp_seqno: %v", err)
 		}
 	}
 
 	if err = d.Set("auto_discovery_sender", flattenVpnIpsecPhase1InterfaceAutoDiscoverySender(o["auto-discovery-sender"], d, "auto_discovery_sender", sv)); err != nil {
 		if !fortiAPIPatch(o["auto-discovery-sender"]) {
-			return fmt.Errorf("Error reading auto_discovery_sender: %v", err)
+			return fmt.Errorf("error reading auto_discovery_sender: %v", err)
 		}
 	}
 
 	if err = d.Set("auto_discovery_receiver", flattenVpnIpsecPhase1InterfaceAutoDiscoveryReceiver(o["auto-discovery-receiver"], d, "auto_discovery_receiver", sv)); err != nil {
 		if !fortiAPIPatch(o["auto-discovery-receiver"]) {
-			return fmt.Errorf("Error reading auto_discovery_receiver: %v", err)
+			return fmt.Errorf("error reading auto_discovery_receiver: %v", err)
 		}
 	}
 
 	if err = d.Set("auto_discovery_forwarder", flattenVpnIpsecPhase1InterfaceAutoDiscoveryForwarder(o["auto-discovery-forwarder"], d, "auto_discovery_forwarder", sv)); err != nil {
 		if !fortiAPIPatch(o["auto-discovery-forwarder"]) {
-			return fmt.Errorf("Error reading auto_discovery_forwarder: %v", err)
+			return fmt.Errorf("error reading auto_discovery_forwarder: %v", err)
 		}
 	}
 
 	if err = d.Set("auto_discovery_psk", flattenVpnIpsecPhase1InterfaceAutoDiscoveryPsk(o["auto-discovery-psk"], d, "auto_discovery_psk", sv)); err != nil {
 		if !fortiAPIPatch(o["auto-discovery-psk"]) {
-			return fmt.Errorf("Error reading auto_discovery_psk: %v", err)
+			return fmt.Errorf("error reading auto_discovery_psk: %v", err)
 		}
 	}
 
 	if err = d.Set("auto_discovery_shortcuts", flattenVpnIpsecPhase1InterfaceAutoDiscoveryShortcuts(o["auto-discovery-shortcuts"], d, "auto_discovery_shortcuts", sv)); err != nil {
 		if !fortiAPIPatch(o["auto-discovery-shortcuts"]) {
-			return fmt.Errorf("Error reading auto_discovery_shortcuts: %v", err)
+			return fmt.Errorf("error reading auto_discovery_shortcuts: %v", err)
 		}
 	}
 
 	if err = d.Set("encapsulation", flattenVpnIpsecPhase1InterfaceEncapsulation(o["encapsulation"], d, "encapsulation", sv)); err != nil {
 		if !fortiAPIPatch(o["encapsulation"]) {
-			return fmt.Errorf("Error reading encapsulation: %v", err)
+			return fmt.Errorf("error reading encapsulation: %v", err)
 		}
 	}
 
 	if err = d.Set("encapsulation_address", flattenVpnIpsecPhase1InterfaceEncapsulationAddress(o["encapsulation-address"], d, "encapsulation_address", sv)); err != nil {
 		if !fortiAPIPatch(o["encapsulation-address"]) {
-			return fmt.Errorf("Error reading encapsulation_address: %v", err)
+			return fmt.Errorf("error reading encapsulation_address: %v", err)
 		}
 	}
 
 	if err = d.Set("encap_local_gw4", flattenVpnIpsecPhase1InterfaceEncapLocalGw4(o["encap-local-gw4"], d, "encap_local_gw4", sv)); err != nil {
 		if !fortiAPIPatch(o["encap-local-gw4"]) {
-			return fmt.Errorf("Error reading encap_local_gw4: %v", err)
+			return fmt.Errorf("error reading encap_local_gw4: %v", err)
 		}
 	}
 
 	if err = d.Set("encap_local_gw6", flattenVpnIpsecPhase1InterfaceEncapLocalGw6(o["encap-local-gw6"], d, "encap_local_gw6", sv)); err != nil {
 		if !fortiAPIPatch(o["encap-local-gw6"]) {
-			return fmt.Errorf("Error reading encap_local_gw6: %v", err)
+			return fmt.Errorf("error reading encap_local_gw6: %v", err)
 		}
 	}
 
 	if err = d.Set("encap_remote_gw4", flattenVpnIpsecPhase1InterfaceEncapRemoteGw4(o["encap-remote-gw4"], d, "encap_remote_gw4", sv)); err != nil {
 		if !fortiAPIPatch(o["encap-remote-gw4"]) {
-			return fmt.Errorf("Error reading encap_remote_gw4: %v", err)
+			return fmt.Errorf("error reading encap_remote_gw4: %v", err)
 		}
 	}
 
 	if err = d.Set("encap_remote_gw6", flattenVpnIpsecPhase1InterfaceEncapRemoteGw6(o["encap-remote-gw6"], d, "encap_remote_gw6", sv)); err != nil {
 		if !fortiAPIPatch(o["encap-remote-gw6"]) {
-			return fmt.Errorf("Error reading encap_remote_gw6: %v", err)
+			return fmt.Errorf("error reading encap_remote_gw6: %v", err)
 		}
 	}
 
 	if err = d.Set("vni", flattenVpnIpsecPhase1InterfaceVni(o["vni"], d, "vni", sv)); err != nil {
 		if !fortiAPIPatch(o["vni"]) {
-			return fmt.Errorf("Error reading vni: %v", err)
+			return fmt.Errorf("error reading vni: %v", err)
 		}
 	}
 
 	if err = d.Set("nattraversal", flattenVpnIpsecPhase1InterfaceNattraversal(o["nattraversal"], d, "nattraversal", sv)); err != nil {
 		if !fortiAPIPatch(o["nattraversal"]) {
-			return fmt.Errorf("Error reading nattraversal: %v", err)
+			return fmt.Errorf("error reading nattraversal: %v", err)
 		}
 	}
 
 	if err = d.Set("fragmentation_mtu", flattenVpnIpsecPhase1InterfaceFragmentationMtu(o["fragmentation-mtu"], d, "fragmentation_mtu", sv)); err != nil {
 		if !fortiAPIPatch(o["fragmentation-mtu"]) {
-			return fmt.Errorf("Error reading fragmentation_mtu: %v", err)
+			return fmt.Errorf("error reading fragmentation_mtu: %v", err)
 		}
 	}
 
 	if err = d.Set("childless_ike", flattenVpnIpsecPhase1InterfaceChildlessIke(o["childless-ike"], d, "childless_ike", sv)); err != nil {
 		if !fortiAPIPatch(o["childless-ike"]) {
-			return fmt.Errorf("Error reading childless_ike: %v", err)
+			return fmt.Errorf("error reading childless_ike: %v", err)
 		}
 	}
 
 	if err = d.Set("rekey", flattenVpnIpsecPhase1InterfaceRekey(o["rekey"], d, "rekey", sv)); err != nil {
 		if !fortiAPIPatch(o["rekey"]) {
-			return fmt.Errorf("Error reading rekey: %v", err)
+			return fmt.Errorf("error reading rekey: %v", err)
 		}
 	}
 
 	if err = d.Set("digital_signature_auth", flattenVpnIpsecPhase1InterfaceDigitalSignatureAuth(o["digital-signature-auth"], d, "digital_signature_auth", sv)); err != nil {
 		if !fortiAPIPatch(o["digital-signature-auth"]) {
-			return fmt.Errorf("Error reading digital_signature_auth: %v", err)
+			return fmt.Errorf("error reading digital_signature_auth: %v", err)
 		}
 	}
 
 	if err = d.Set("signature_hash_alg", flattenVpnIpsecPhase1InterfaceSignatureHashAlg(o["signature-hash-alg"], d, "signature_hash_alg", sv)); err != nil {
 		if !fortiAPIPatch(o["signature-hash-alg"]) {
-			return fmt.Errorf("Error reading signature_hash_alg: %v", err)
+			return fmt.Errorf("error reading signature_hash_alg: %v", err)
 		}
 	}
 
 	if err = d.Set("rsa_signature_format", flattenVpnIpsecPhase1InterfaceRsaSignatureFormat(o["rsa-signature-format"], d, "rsa_signature_format", sv)); err != nil {
 		if !fortiAPIPatch(o["rsa-signature-format"]) {
-			return fmt.Errorf("Error reading rsa_signature_format: %v", err)
+			return fmt.Errorf("error reading rsa_signature_format: %v", err)
 		}
 	}
 
 	if err = d.Set("enforce_unique_id", flattenVpnIpsecPhase1InterfaceEnforceUniqueId(o["enforce-unique-id"], d, "enforce_unique_id", sv)); err != nil {
 		if !fortiAPIPatch(o["enforce-unique-id"]) {
-			return fmt.Errorf("Error reading enforce_unique_id: %v", err)
+			return fmt.Errorf("error reading enforce_unique_id: %v", err)
 		}
 	}
 
 	if err = d.Set("cert_id_validation", flattenVpnIpsecPhase1InterfaceCertIdValidation(o["cert-id-validation"], d, "cert_id_validation", sv)); err != nil {
 		if !fortiAPIPatch(o["cert-id-validation"]) {
-			return fmt.Errorf("Error reading cert_id_validation: %v", err)
+			return fmt.Errorf("error reading cert_id_validation: %v", err)
 		}
 	}
 
 	if err = d.Set("fec_egress", flattenVpnIpsecPhase1InterfaceFecEgress(o["fec-egress"], d, "fec_egress", sv)); err != nil {
 		if !fortiAPIPatch(o["fec-egress"]) {
-			return fmt.Errorf("Error reading fec_egress: %v", err)
+			return fmt.Errorf("error reading fec_egress: %v", err)
 		}
 	}
 
 	if err = d.Set("fec_send_timeout", flattenVpnIpsecPhase1InterfaceFecSendTimeout(o["fec-send-timeout"], d, "fec_send_timeout", sv)); err != nil {
 		if !fortiAPIPatch(o["fec-send-timeout"]) {
-			return fmt.Errorf("Error reading fec_send_timeout: %v", err)
+			return fmt.Errorf("error reading fec_send_timeout: %v", err)
 		}
 	}
 
 	if err = d.Set("fec_base", flattenVpnIpsecPhase1InterfaceFecBase(o["fec-base"], d, "fec_base", sv)); err != nil {
 		if !fortiAPIPatch(o["fec-base"]) {
-			return fmt.Errorf("Error reading fec_base: %v", err)
+			return fmt.Errorf("error reading fec_base: %v", err)
 		}
 	}
 
 	if err = d.Set("fec_codec", flattenVpnIpsecPhase1InterfaceFecCodec(o["fec-codec"], d, "fec_codec", sv)); err != nil {
 		if !fortiAPIPatch(o["fec-codec"]) {
-			return fmt.Errorf("Error reading fec_codec: %v", err)
+			return fmt.Errorf("error reading fec_codec: %v", err)
 		}
 	}
 
 	if err = d.Set("fec_redundant", flattenVpnIpsecPhase1InterfaceFecRedundant(o["fec-redundant"], d, "fec_redundant", sv)); err != nil {
 		if !fortiAPIPatch(o["fec-redundant"]) {
-			return fmt.Errorf("Error reading fec_redundant: %v", err)
+			return fmt.Errorf("error reading fec_redundant: %v", err)
 		}
 	}
 
 	if err = d.Set("fec_ingress", flattenVpnIpsecPhase1InterfaceFecIngress(o["fec-ingress"], d, "fec_ingress", sv)); err != nil {
 		if !fortiAPIPatch(o["fec-ingress"]) {
-			return fmt.Errorf("Error reading fec_ingress: %v", err)
+			return fmt.Errorf("error reading fec_ingress: %v", err)
 		}
 	}
 
 	if err = d.Set("fec_receive_timeout", flattenVpnIpsecPhase1InterfaceFecReceiveTimeout(o["fec-receive-timeout"], d, "fec_receive_timeout", sv)); err != nil {
 		if !fortiAPIPatch(o["fec-receive-timeout"]) {
-			return fmt.Errorf("Error reading fec_receive_timeout: %v", err)
+			return fmt.Errorf("error reading fec_receive_timeout: %v", err)
 		}
 	}
 
 	if err = d.Set("network_overlay", flattenVpnIpsecPhase1InterfaceNetworkOverlay(o["network-overlay"], d, "network_overlay", sv)); err != nil {
 		if !fortiAPIPatch(o["network-overlay"]) {
-			return fmt.Errorf("Error reading network_overlay: %v", err)
+			return fmt.Errorf("error reading network_overlay: %v", err)
 		}
 	}
 
 	if err = d.Set("network_id", flattenVpnIpsecPhase1InterfaceNetworkId(o["network-id"], d, "network_id", sv)); err != nil {
 		if !fortiAPIPatch(o["network-id"]) {
-			return fmt.Errorf("Error reading network_id: %v", err)
+			return fmt.Errorf("error reading network_id: %v", err)
 		}
 	}
 

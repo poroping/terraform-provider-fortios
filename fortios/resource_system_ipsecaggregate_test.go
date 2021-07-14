@@ -55,14 +55,14 @@ func testAccCheckFortiOSSystemIpsecAggregateExists(n string) resource.TestCheckF
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemIpsecAggregate(i, "root")
+		o, err := c.ReadSystemIpsecAggregate(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading SystemIpsecAggregate: %s", err)
+			return fmt.Errorf("error reading SystemIpsecAggregate: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating SystemIpsecAggregate: %s", n)
+			return fmt.Errorf("error creating SystemIpsecAggregate: %s", n)
 		}
 
 		return nil
@@ -78,11 +78,11 @@ func testAccCheckSystemIpsecAggregateDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemIpsecAggregate(i, "root")
+		o, err := c.ReadSystemIpsecAggregate(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error SystemIpsecAggregate %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error SystemIpsecAggregate %s still exists", rs.Primary.ID)
 			}
 		}
 

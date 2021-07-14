@@ -30,39 +30,39 @@ func resourceRouterMulticastFlow() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				ForceNew:     true,
 				Required:     true,
 			},
-			"comments": &schema.Schema{
+			"comments": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 127),
 				Optional:     true,
 				Computed:     true,
 			},
-			"flows": &schema.Schema{
+			"flows": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"group_addr": &schema.Schema{
+						"group_addr": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"source_addr": &schema.Schema{
+						"source_addr": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -70,10 +70,15 @@ func resourceRouterMulticastFlow() *schema.Resource {
 					},
 				},
 			},
-			"dynamic_sort_subtable": &schema.Schema{
-				Type:     schema.TypeString,
+			"dynamic_sort_subtable": {
+				Type:     schema.TypeBool,
 				Optional: true,
-				Default:  "false",
+				Default:  false,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -91,15 +96,25 @@ func resourceRouterMulticastFlowCreate(d *schema.ResourceData, m interface{}) er
 		}
 	}
 
-	obj, err := getObjectRouterMulticastFlow(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating RouterMulticastFlow resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateRouterMulticastFlow(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectRouterMulticastFlow(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating RouterMulticastFlow resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateRouterMulticastFlow(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating RouterMulticastFlow resource: %v", err)
+		return fmt.Errorf("error creating RouterMulticastFlow resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -124,14 +139,24 @@ func resourceRouterMulticastFlowUpdate(d *schema.ResourceData, m interface{}) er
 		}
 	}
 
-	obj, err := getObjectRouterMulticastFlow(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating RouterMulticastFlow resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateRouterMulticastFlow(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectRouterMulticastFlow(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating RouterMulticastFlow resource: %v", err)
+		return fmt.Errorf("error updating RouterMulticastFlow resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateRouterMulticastFlow(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating RouterMulticastFlow resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -158,9 +183,17 @@ func resourceRouterMulticastFlowDelete(d *schema.ResourceData, m interface{}) er
 		}
 	}
 
-	err := c.DeleteRouterMulticastFlow(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteRouterMulticastFlow(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting RouterMulticastFlow resource: %v", err)
+		return fmt.Errorf("error deleting RouterMulticastFlow resource: %v", err)
 	}
 
 	d.SetId("")
@@ -182,9 +215,19 @@ func resourceRouterMulticastFlowRead(d *schema.ResourceData, m interface{}) erro
 		}
 	}
 
-	o, err := c.ReadRouterMulticastFlow(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadRouterMulticastFlow(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading RouterMulticastFlow resource: %v", err)
+		return fmt.Errorf("error reading RouterMulticastFlow resource: %v", err)
 	}
 
 	if o == nil {
@@ -195,7 +238,7 @@ func resourceRouterMulticastFlowRead(d *schema.ResourceData, m interface{}) erro
 
 	err = refreshObjectRouterMulticastFlow(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading RouterMulticastFlow resource from API: %v", err)
+		return fmt.Errorf("error reading RouterMulticastFlow resource from API: %v", err)
 	}
 	return nil
 }
@@ -271,27 +314,27 @@ func refreshObjectRouterMulticastFlow(d *schema.ResourceData, o map[string]inter
 
 	if err = d.Set("name", flattenRouterMulticastFlowName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("comments", flattenRouterMulticastFlowComments(o["comments"], d, "comments", sv)); err != nil {
 		if !fortiAPIPatch(o["comments"]) {
-			return fmt.Errorf("Error reading comments: %v", err)
+			return fmt.Errorf("error reading comments: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("flows", flattenRouterMulticastFlowFlows(o["flows"], d, "flows", sv)); err != nil {
 			if !fortiAPIPatch(o["flows"]) {
-				return fmt.Errorf("Error reading flows: %v", err)
+				return fmt.Errorf("error reading flows: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("flows"); ok {
 			if err = d.Set("flows", flattenRouterMulticastFlowFlows(o["flows"], d, "flows", sv)); err != nil {
 				if !fortiAPIPatch(o["flows"]) {
-					return fmt.Errorf("Error reading flows: %v", err)
+					return fmt.Errorf("error reading flows: %v", err)
 				}
 			}
 		}

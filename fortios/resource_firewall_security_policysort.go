@@ -3,6 +3,7 @@ package fortios
 import (
 	"fmt"
 	"log"
+
 	// "strconv"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
@@ -16,40 +17,40 @@ func resourceFirewallSecurityPolicySort() *schema.Resource {
 		Delete: schema.Noop,
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"sortby": &schema.Schema{
+			"sortby": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"sortdirection": &schema.Schema{
+			"sortdirection": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"status": &schema.Schema{
+			"status": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Default:  "",
 			},
-			"state_policy_list": &schema.Schema{
+			"state_policy_list": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"policyid": &schema.Schema{
+						"policyid": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"name": &schema.Schema{
+						"name": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"action": &schema.Schema{
+						"action": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -57,14 +58,19 @@ func resourceFirewallSecurityPolicySort() *schema.Resource {
 					},
 				},
 			},
-			"force_recreate": &schema.Schema{
+			"force_recreate": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"comment": &schema.Schema{
+			"comment": {
 				Type:     schema.TypeString,
 				Optional: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -87,6 +93,14 @@ func resourceFirewallSecurityPolicySortCreateUpdate(d *schema.ResourceData, m in
 		}
 	}
 
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
 	sortby := d.Get("sortby").(string)
 	sortdirection := d.Get("sortdirection").(string)
 
@@ -98,9 +112,9 @@ func resourceFirewallSecurityPolicySortCreateUpdate(d *schema.ResourceData, m in
 		return fmt.Errorf("Unsupported sort direction: " + sortdirection)
 	}
 
-	err := c.CreateUpdateFirewallSecurityPolicySort(sortby, sortdirection, vdomparam)
+	err := c.CreateUpdateFirewallSecurityPolicySort(sortby, sortdirection, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error Sort Firewall Security Policies: %s", err)
+		return fmt.Errorf("error Sort Firewall Security Policies: %s", err)
 	}
 
 	d.SetId(sortby + sortdirection)
@@ -127,6 +141,14 @@ func resourceFirewallSecurityPolicySortRead(d *schema.ResourceData, m interface{
 		}
 	}
 
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
 	sortby := d.Get("sortby").(string)
 	sortdirection := d.Get("sortdirection").(string)
 
@@ -138,9 +160,9 @@ func resourceFirewallSecurityPolicySortRead(d *schema.ResourceData, m interface{
 		return fmt.Errorf("Unsupported sort direction: " + sortdirection)
 	}
 
-	sorted, err := c.ReadFirewallSecurityPolicySort(sortby, sortdirection, vdomparam)
+	sorted, err := c.ReadFirewallSecurityPolicySort(sortby, sortdirection, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading Firewall Security Policy Sort Status: %s %s", err, mkey)
+		return fmt.Errorf("error reading Firewall Security Policy Sort Status: %s %s", err, mkey)
 	}
 
 	if sorted == false {
@@ -149,9 +171,9 @@ func resourceFirewallSecurityPolicySortRead(d *schema.ResourceData, m interface{
 		d.Set("status", "")
 	}
 
-	o, err := c.GetSecurityPolicyList(vdomparam)
+	o, err := c.GetSecurityPolicyList(vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading Firewall Security Policy List: %s", err)
+		return fmt.Errorf("error reading Firewall Security Policy List: %s", err)
 	}
 
 	if o != nil {

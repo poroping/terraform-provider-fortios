@@ -30,22 +30,27 @@ func resourceSystemSmsServer() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"mail_server": &schema.Schema{
+			"mail_server": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Required:     true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -63,15 +68,25 @@ func resourceSystemSmsServerCreate(d *schema.ResourceData, m interface{}) error 
 		}
 	}
 
-	obj, err := getObjectSystemSmsServer(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating SystemSmsServer resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateSystemSmsServer(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemSmsServer(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating SystemSmsServer resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateSystemSmsServer(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating SystemSmsServer resource: %v", err)
+		return fmt.Errorf("error creating SystemSmsServer resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -96,14 +111,24 @@ func resourceSystemSmsServerUpdate(d *schema.ResourceData, m interface{}) error 
 		}
 	}
 
-	obj, err := getObjectSystemSmsServer(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SystemSmsServer resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSystemSmsServer(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemSmsServer(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SystemSmsServer resource: %v", err)
+		return fmt.Errorf("error updating SystemSmsServer resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSystemSmsServer(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SystemSmsServer resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -130,9 +155,17 @@ func resourceSystemSmsServerDelete(d *schema.ResourceData, m interface{}) error 
 		}
 	}
 
-	err := c.DeleteSystemSmsServer(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSystemSmsServer(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SystemSmsServer resource: %v", err)
+		return fmt.Errorf("error deleting SystemSmsServer resource: %v", err)
 	}
 
 	d.SetId("")
@@ -154,9 +187,19 @@ func resourceSystemSmsServerRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadSystemSmsServer(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSystemSmsServer(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemSmsServer resource: %v", err)
+		return fmt.Errorf("error reading SystemSmsServer resource: %v", err)
 	}
 
 	if o == nil {
@@ -167,7 +210,7 @@ func resourceSystemSmsServerRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectSystemSmsServer(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemSmsServer resource from API: %v", err)
+		return fmt.Errorf("error reading SystemSmsServer resource from API: %v", err)
 	}
 	return nil
 }
@@ -185,13 +228,13 @@ func refreshObjectSystemSmsServer(d *schema.ResourceData, o map[string]interface
 
 	if err = d.Set("name", flattenSystemSmsServerName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("mail_server", flattenSystemSmsServerMailServer(o["mail-server"], d, "mail_server", sv)); err != nil {
 		if !fortiAPIPatch(o["mail-server"]) {
-			return fmt.Errorf("Error reading mail_server: %v", err)
+			return fmt.Errorf("error reading mail_server: %v", err)
 		}
 	}
 

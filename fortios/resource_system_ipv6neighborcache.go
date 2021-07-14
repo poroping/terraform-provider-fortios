@@ -30,28 +30,33 @@ func resourceSystemIpv6NeighborCache() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"fosid": &schema.Schema{
+			"fosid": {
 				Type:     schema.TypeInt,
 				ForceNew: true,
 				Required: true,
 			},
-			"interface": &schema.Schema{
+			"interface": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 15),
 				Required:     true,
 			},
-			"ipv6": &schema.Schema{
+			"ipv6": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"mac": &schema.Schema{
+			"mac": {
 				Type:     schema.TypeString,
 				Required: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -69,15 +74,25 @@ func resourceSystemIpv6NeighborCacheCreate(d *schema.ResourceData, m interface{}
 		}
 	}
 
-	obj, err := getObjectSystemIpv6NeighborCache(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating SystemIpv6NeighborCache resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateSystemIpv6NeighborCache(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemIpv6NeighborCache(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating SystemIpv6NeighborCache resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateSystemIpv6NeighborCache(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating SystemIpv6NeighborCache resource: %v", err)
+		return fmt.Errorf("error creating SystemIpv6NeighborCache resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -102,14 +117,24 @@ func resourceSystemIpv6NeighborCacheUpdate(d *schema.ResourceData, m interface{}
 		}
 	}
 
-	obj, err := getObjectSystemIpv6NeighborCache(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SystemIpv6NeighborCache resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSystemIpv6NeighborCache(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemIpv6NeighborCache(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SystemIpv6NeighborCache resource: %v", err)
+		return fmt.Errorf("error updating SystemIpv6NeighborCache resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSystemIpv6NeighborCache(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SystemIpv6NeighborCache resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -136,9 +161,17 @@ func resourceSystemIpv6NeighborCacheDelete(d *schema.ResourceData, m interface{}
 		}
 	}
 
-	err := c.DeleteSystemIpv6NeighborCache(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSystemIpv6NeighborCache(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SystemIpv6NeighborCache resource: %v", err)
+		return fmt.Errorf("error deleting SystemIpv6NeighborCache resource: %v", err)
 	}
 
 	d.SetId("")
@@ -160,9 +193,19 @@ func resourceSystemIpv6NeighborCacheRead(d *schema.ResourceData, m interface{}) 
 		}
 	}
 
-	o, err := c.ReadSystemIpv6NeighborCache(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSystemIpv6NeighborCache(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemIpv6NeighborCache resource: %v", err)
+		return fmt.Errorf("error reading SystemIpv6NeighborCache resource: %v", err)
 	}
 
 	if o == nil {
@@ -173,7 +216,7 @@ func resourceSystemIpv6NeighborCacheRead(d *schema.ResourceData, m interface{}) 
 
 	err = refreshObjectSystemIpv6NeighborCache(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemIpv6NeighborCache resource from API: %v", err)
+		return fmt.Errorf("error reading SystemIpv6NeighborCache resource from API: %v", err)
 	}
 	return nil
 }
@@ -199,25 +242,25 @@ func refreshObjectSystemIpv6NeighborCache(d *schema.ResourceData, o map[string]i
 
 	if err = d.Set("fosid", flattenSystemIpv6NeighborCacheId(o["id"], d, "fosid", sv)); err != nil {
 		if !fortiAPIPatch(o["id"]) {
-			return fmt.Errorf("Error reading fosid: %v", err)
+			return fmt.Errorf("error reading fosid: %v", err)
 		}
 	}
 
 	if err = d.Set("interface", flattenSystemIpv6NeighborCacheInterface(o["interface"], d, "interface", sv)); err != nil {
 		if !fortiAPIPatch(o["interface"]) {
-			return fmt.Errorf("Error reading interface: %v", err)
+			return fmt.Errorf("error reading interface: %v", err)
 		}
 	}
 
 	if err = d.Set("ipv6", flattenSystemIpv6NeighborCacheIpv6(o["ipv6"], d, "ipv6", sv)); err != nil {
 		if !fortiAPIPatch(o["ipv6"]) {
-			return fmt.Errorf("Error reading ipv6: %v", err)
+			return fmt.Errorf("error reading ipv6: %v", err)
 		}
 	}
 
 	if err = d.Set("mac", flattenSystemIpv6NeighborCacheMac(o["mac"], d, "mac", sv)); err != nil {
 		if !fortiAPIPatch(o["mac"]) {
-			return fmt.Errorf("Error reading mac: %v", err)
+			return fmt.Errorf("error reading mac: %v", err)
 		}
 	}
 

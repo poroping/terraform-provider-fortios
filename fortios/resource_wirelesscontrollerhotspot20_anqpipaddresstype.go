@@ -30,27 +30,32 @@ func resourceWirelessControllerHotspot20AnqpIpAddressType() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"ipv6_address_type": &schema.Schema{
+			"ipv6_address_type": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ipv4_address_type": &schema.Schema{
+			"ipv4_address_type": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -68,15 +73,25 @@ func resourceWirelessControllerHotspot20AnqpIpAddressTypeCreate(d *schema.Resour
 		}
 	}
 
-	obj, err := getObjectWirelessControllerHotspot20AnqpIpAddressType(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating WirelessControllerHotspot20AnqpIpAddressType resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateWirelessControllerHotspot20AnqpIpAddressType(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectWirelessControllerHotspot20AnqpIpAddressType(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating WirelessControllerHotspot20AnqpIpAddressType resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateWirelessControllerHotspot20AnqpIpAddressType(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating WirelessControllerHotspot20AnqpIpAddressType resource: %v", err)
+		return fmt.Errorf("error creating WirelessControllerHotspot20AnqpIpAddressType resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -101,14 +116,24 @@ func resourceWirelessControllerHotspot20AnqpIpAddressTypeUpdate(d *schema.Resour
 		}
 	}
 
-	obj, err := getObjectWirelessControllerHotspot20AnqpIpAddressType(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating WirelessControllerHotspot20AnqpIpAddressType resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateWirelessControllerHotspot20AnqpIpAddressType(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectWirelessControllerHotspot20AnqpIpAddressType(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating WirelessControllerHotspot20AnqpIpAddressType resource: %v", err)
+		return fmt.Errorf("error updating WirelessControllerHotspot20AnqpIpAddressType resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateWirelessControllerHotspot20AnqpIpAddressType(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating WirelessControllerHotspot20AnqpIpAddressType resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -135,9 +160,17 @@ func resourceWirelessControllerHotspot20AnqpIpAddressTypeDelete(d *schema.Resour
 		}
 	}
 
-	err := c.DeleteWirelessControllerHotspot20AnqpIpAddressType(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteWirelessControllerHotspot20AnqpIpAddressType(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting WirelessControllerHotspot20AnqpIpAddressType resource: %v", err)
+		return fmt.Errorf("error deleting WirelessControllerHotspot20AnqpIpAddressType resource: %v", err)
 	}
 
 	d.SetId("")
@@ -159,9 +192,19 @@ func resourceWirelessControllerHotspot20AnqpIpAddressTypeRead(d *schema.Resource
 		}
 	}
 
-	o, err := c.ReadWirelessControllerHotspot20AnqpIpAddressType(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadWirelessControllerHotspot20AnqpIpAddressType(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading WirelessControllerHotspot20AnqpIpAddressType resource: %v", err)
+		return fmt.Errorf("error reading WirelessControllerHotspot20AnqpIpAddressType resource: %v", err)
 	}
 
 	if o == nil {
@@ -172,7 +215,7 @@ func resourceWirelessControllerHotspot20AnqpIpAddressTypeRead(d *schema.Resource
 
 	err = refreshObjectWirelessControllerHotspot20AnqpIpAddressType(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading WirelessControllerHotspot20AnqpIpAddressType resource from API: %v", err)
+		return fmt.Errorf("error reading WirelessControllerHotspot20AnqpIpAddressType resource from API: %v", err)
 	}
 	return nil
 }
@@ -194,19 +237,19 @@ func refreshObjectWirelessControllerHotspot20AnqpIpAddressType(d *schema.Resourc
 
 	if err = d.Set("name", flattenWirelessControllerHotspot20AnqpIpAddressTypeName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("ipv6_address_type", flattenWirelessControllerHotspot20AnqpIpAddressTypeIpv6AddressType(o["ipv6-address-type"], d, "ipv6_address_type", sv)); err != nil {
 		if !fortiAPIPatch(o["ipv6-address-type"]) {
-			return fmt.Errorf("Error reading ipv6_address_type: %v", err)
+			return fmt.Errorf("error reading ipv6_address_type: %v", err)
 		}
 	}
 
 	if err = d.Set("ipv4_address_type", flattenWirelessControllerHotspot20AnqpIpAddressTypeIpv4AddressType(o["ipv4-address-type"], d, "ipv4_address_type", sv)); err != nil {
 		if !fortiAPIPatch(o["ipv4-address-type"]) {
-			return fmt.Errorf("Error reading ipv4_address_type: %v", err)
+			return fmt.Errorf("error reading ipv4_address_type: %v", err)
 		}
 	}
 

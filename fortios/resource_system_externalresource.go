@@ -30,86 +30,91 @@ func resourceSystemExternalResource() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				ForceNew:     true,
 				Required:     true,
 			},
-			"uuid": &schema.Schema{
+			"uuid": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"status": &schema.Schema{
+			"status": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"type": &schema.Schema{
+			"type": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"category": &schema.Schema{
+			"category": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(192, 221),
 				Optional:     true,
 				Computed:     true,
 			},
-			"username": &schema.Schema{
+			"username": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 64),
 				Optional:     true,
 				Computed:     true,
 			},
-			"password": &schema.Schema{
+			"password": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 128),
 				Optional:     true,
 				Sensitive:    true,
 			},
-			"comments": &schema.Schema{
+			"comments": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
 			},
-			"resource": &schema.Schema{
+			"resource": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 511),
 				Required:     true,
 			},
-			"user_agent": &schema.Schema{
+			"user_agent": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 127),
 				Optional:     true,
 				Computed:     true,
 			},
-			"refresh_rate": &schema.Schema{
+			"refresh_rate": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 43200),
 				Required:     true,
 			},
-			"source_ip": &schema.Schema{
+			"source_ip": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"interface_select_method": &schema.Schema{
+			"interface_select_method": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"interface": &schema.Schema{
+			"interface": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 15),
 				Optional:     true,
 				Computed:     true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -127,15 +132,25 @@ func resourceSystemExternalResourceCreate(d *schema.ResourceData, m interface{})
 		}
 	}
 
-	obj, err := getObjectSystemExternalResource(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating SystemExternalResource resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateSystemExternalResource(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemExternalResource(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating SystemExternalResource resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateSystemExternalResource(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating SystemExternalResource resource: %v", err)
+		return fmt.Errorf("error creating SystemExternalResource resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -160,14 +175,24 @@ func resourceSystemExternalResourceUpdate(d *schema.ResourceData, m interface{})
 		}
 	}
 
-	obj, err := getObjectSystemExternalResource(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SystemExternalResource resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSystemExternalResource(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemExternalResource(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SystemExternalResource resource: %v", err)
+		return fmt.Errorf("error updating SystemExternalResource resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSystemExternalResource(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SystemExternalResource resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -194,9 +219,17 @@ func resourceSystemExternalResourceDelete(d *schema.ResourceData, m interface{})
 		}
 	}
 
-	err := c.DeleteSystemExternalResource(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSystemExternalResource(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SystemExternalResource resource: %v", err)
+		return fmt.Errorf("error deleting SystemExternalResource resource: %v", err)
 	}
 
 	d.SetId("")
@@ -218,9 +251,19 @@ func resourceSystemExternalResourceRead(d *schema.ResourceData, m interface{}) e
 		}
 	}
 
-	o, err := c.ReadSystemExternalResource(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSystemExternalResource(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemExternalResource resource: %v", err)
+		return fmt.Errorf("error reading SystemExternalResource resource: %v", err)
 	}
 
 	if o == nil {
@@ -231,7 +274,7 @@ func resourceSystemExternalResourceRead(d *schema.ResourceData, m interface{}) e
 
 	err = refreshObjectSystemExternalResource(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemExternalResource resource from API: %v", err)
+		return fmt.Errorf("error reading SystemExternalResource resource from API: %v", err)
 	}
 	return nil
 }
@@ -297,79 +340,79 @@ func refreshObjectSystemExternalResource(d *schema.ResourceData, o map[string]in
 
 	if err = d.Set("name", flattenSystemExternalResourceName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("uuid", flattenSystemExternalResourceUuid(o["uuid"], d, "uuid", sv)); err != nil {
 		if !fortiAPIPatch(o["uuid"]) {
-			return fmt.Errorf("Error reading uuid: %v", err)
+			return fmt.Errorf("error reading uuid: %v", err)
 		}
 	}
 
 	if err = d.Set("status", flattenSystemExternalResourceStatus(o["status"], d, "status", sv)); err != nil {
 		if !fortiAPIPatch(o["status"]) {
-			return fmt.Errorf("Error reading status: %v", err)
+			return fmt.Errorf("error reading status: %v", err)
 		}
 	}
 
 	if err = d.Set("type", flattenSystemExternalResourceType(o["type"], d, "type", sv)); err != nil {
 		if !fortiAPIPatch(o["type"]) {
-			return fmt.Errorf("Error reading type: %v", err)
+			return fmt.Errorf("error reading type: %v", err)
 		}
 	}
 
 	if err = d.Set("category", flattenSystemExternalResourceCategory(o["category"], d, "category", sv)); err != nil {
 		if !fortiAPIPatch(o["category"]) {
-			return fmt.Errorf("Error reading category: %v", err)
+			return fmt.Errorf("error reading category: %v", err)
 		}
 	}
 
 	if err = d.Set("username", flattenSystemExternalResourceUsername(o["username"], d, "username", sv)); err != nil {
 		if !fortiAPIPatch(o["username"]) {
-			return fmt.Errorf("Error reading username: %v", err)
+			return fmt.Errorf("error reading username: %v", err)
 		}
 	}
 
 	if err = d.Set("comments", flattenSystemExternalResourceComments(o["comments"], d, "comments", sv)); err != nil {
 		if !fortiAPIPatch(o["comments"]) {
-			return fmt.Errorf("Error reading comments: %v", err)
+			return fmt.Errorf("error reading comments: %v", err)
 		}
 	}
 
 	if err = d.Set("resource", flattenSystemExternalResourceResource(o["resource"], d, "resource", sv)); err != nil {
 		if !fortiAPIPatch(o["resource"]) {
-			return fmt.Errorf("Error reading resource: %v", err)
+			return fmt.Errorf("error reading resource: %v", err)
 		}
 	}
 
 	if err = d.Set("user_agent", flattenSystemExternalResourceUserAgent(o["user-agent"], d, "user_agent", sv)); err != nil {
 		if !fortiAPIPatch(o["user-agent"]) {
-			return fmt.Errorf("Error reading user_agent: %v", err)
+			return fmt.Errorf("error reading user_agent: %v", err)
 		}
 	}
 
 	if err = d.Set("refresh_rate", flattenSystemExternalResourceRefreshRate(o["refresh-rate"], d, "refresh_rate", sv)); err != nil {
 		if !fortiAPIPatch(o["refresh-rate"]) {
-			return fmt.Errorf("Error reading refresh_rate: %v", err)
+			return fmt.Errorf("error reading refresh_rate: %v", err)
 		}
 	}
 
 	if err = d.Set("source_ip", flattenSystemExternalResourceSourceIp(o["source-ip"], d, "source_ip", sv)); err != nil {
 		if !fortiAPIPatch(o["source-ip"]) {
-			return fmt.Errorf("Error reading source_ip: %v", err)
+			return fmt.Errorf("error reading source_ip: %v", err)
 		}
 	}
 
 	if err = d.Set("interface_select_method", flattenSystemExternalResourceInterfaceSelectMethod(o["interface-select-method"], d, "interface_select_method", sv)); err != nil {
 		if !fortiAPIPatch(o["interface-select-method"]) {
-			return fmt.Errorf("Error reading interface_select_method: %v", err)
+			return fmt.Errorf("error reading interface_select_method: %v", err)
 		}
 	}
 
 	if err = d.Set("interface", flattenSystemExternalResourceInterface(o["interface"], d, "interface", sv)); err != nil {
 		if !fortiAPIPatch(o["interface"]) {
-			return fmt.Errorf("Error reading interface: %v", err)
+			return fmt.Errorf("error reading interface: %v", err)
 		}
 	}
 

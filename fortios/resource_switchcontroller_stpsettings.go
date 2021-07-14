@@ -30,57 +30,62 @@ func resourceSwitchControllerStpSettings() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 31),
 				Optional:     true,
 				Computed:     true,
 			},
-			"status": &schema.Schema{
+			"status": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"revision": &schema.Schema{
+			"revision": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"hello_time": &schema.Schema{
+			"hello_time": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 10),
 				Optional:     true,
 				Computed:     true,
 			},
-			"forward_time": &schema.Schema{
+			"forward_time": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(4, 30),
 				Optional:     true,
 				Computed:     true,
 			},
-			"max_age": &schema.Schema{
+			"max_age": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(6, 40),
 				Optional:     true,
 				Computed:     true,
 			},
-			"max_hops": &schema.Schema{
+			"max_hops": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 40),
 				Optional:     true,
 				Computed:     true,
 			},
-			"pending_timer": &schema.Schema{
+			"pending_timer": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 15),
 				Optional:     true,
 				Computed:     true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -99,14 +104,24 @@ func resourceSwitchControllerStpSettingsUpdate(d *schema.ResourceData, m interfa
 		}
 	}
 
-	obj, err := getObjectSwitchControllerStpSettings(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SwitchControllerStpSettings resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSwitchControllerStpSettings(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSwitchControllerStpSettings(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SwitchControllerStpSettings resource: %v", err)
+		return fmt.Errorf("error updating SwitchControllerStpSettings resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSwitchControllerStpSettings(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SwitchControllerStpSettings resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -133,9 +148,17 @@ func resourceSwitchControllerStpSettingsDelete(d *schema.ResourceData, m interfa
 		}
 	}
 
-	err := c.DeleteSwitchControllerStpSettings(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSwitchControllerStpSettings(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SwitchControllerStpSettings resource: %v", err)
+		return fmt.Errorf("error deleting SwitchControllerStpSettings resource: %v", err)
 	}
 
 	d.SetId("")
@@ -157,9 +180,19 @@ func resourceSwitchControllerStpSettingsRead(d *schema.ResourceData, m interface
 		}
 	}
 
-	o, err := c.ReadSwitchControllerStpSettings(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSwitchControllerStpSettings(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SwitchControllerStpSettings resource: %v", err)
+		return fmt.Errorf("error reading SwitchControllerStpSettings resource: %v", err)
 	}
 
 	if o == nil {
@@ -170,7 +203,7 @@ func resourceSwitchControllerStpSettingsRead(d *schema.ResourceData, m interface
 
 	err = refreshObjectSwitchControllerStpSettings(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SwitchControllerStpSettings resource from API: %v", err)
+		return fmt.Errorf("error reading SwitchControllerStpSettings resource from API: %v", err)
 	}
 	return nil
 }
@@ -212,49 +245,49 @@ func refreshObjectSwitchControllerStpSettings(d *schema.ResourceData, o map[stri
 
 	if err = d.Set("name", flattenSwitchControllerStpSettingsName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("status", flattenSwitchControllerStpSettingsStatus(o["status"], d, "status", sv)); err != nil {
 		if !fortiAPIPatch(o["status"]) {
-			return fmt.Errorf("Error reading status: %v", err)
+			return fmt.Errorf("error reading status: %v", err)
 		}
 	}
 
 	if err = d.Set("revision", flattenSwitchControllerStpSettingsRevision(o["revision"], d, "revision", sv)); err != nil {
 		if !fortiAPIPatch(o["revision"]) {
-			return fmt.Errorf("Error reading revision: %v", err)
+			return fmt.Errorf("error reading revision: %v", err)
 		}
 	}
 
 	if err = d.Set("hello_time", flattenSwitchControllerStpSettingsHelloTime(o["hello-time"], d, "hello_time", sv)); err != nil {
 		if !fortiAPIPatch(o["hello-time"]) {
-			return fmt.Errorf("Error reading hello_time: %v", err)
+			return fmt.Errorf("error reading hello_time: %v", err)
 		}
 	}
 
 	if err = d.Set("forward_time", flattenSwitchControllerStpSettingsForwardTime(o["forward-time"], d, "forward_time", sv)); err != nil {
 		if !fortiAPIPatch(o["forward-time"]) {
-			return fmt.Errorf("Error reading forward_time: %v", err)
+			return fmt.Errorf("error reading forward_time: %v", err)
 		}
 	}
 
 	if err = d.Set("max_age", flattenSwitchControllerStpSettingsMaxAge(o["max-age"], d, "max_age", sv)); err != nil {
 		if !fortiAPIPatch(o["max-age"]) {
-			return fmt.Errorf("Error reading max_age: %v", err)
+			return fmt.Errorf("error reading max_age: %v", err)
 		}
 	}
 
 	if err = d.Set("max_hops", flattenSwitchControllerStpSettingsMaxHops(o["max-hops"], d, "max_hops", sv)); err != nil {
 		if !fortiAPIPatch(o["max-hops"]) {
-			return fmt.Errorf("Error reading max_hops: %v", err)
+			return fmt.Errorf("error reading max_hops: %v", err)
 		}
 	}
 
 	if err = d.Set("pending_timer", flattenSwitchControllerStpSettingsPendingTimer(o["pending-timer"], d, "pending_timer", sv)); err != nil {
 		if !fortiAPIPatch(o["pending-timer"]) {
-			return fmt.Errorf("Error reading pending_timer: %v", err)
+			return fmt.Errorf("error reading pending_timer: %v", err)
 		}
 	}
 

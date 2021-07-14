@@ -57,14 +57,14 @@ func testAccCheckFortiOSSpamfilterMheaderExists(n string) resource.TestCheckFunc
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadSpamfilterMheader(i, "root")
+		o, err := c.ReadSpamfilterMheader(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading SpamfilterMheader: %s", err)
+			return fmt.Errorf("error reading SpamfilterMheader: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating SpamfilterMheader: %s", n)
+			return fmt.Errorf("error creating SpamfilterMheader: %s", n)
 		}
 
 		return nil
@@ -80,11 +80,11 @@ func testAccCheckSpamfilterMheaderDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadSpamfilterMheader(i, "root")
+		o, err := c.ReadSpamfilterMheader(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error SpamfilterMheader %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error SpamfilterMheader %s still exists", rs.Primary.ID)
 			}
 		}
 

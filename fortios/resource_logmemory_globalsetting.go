@@ -30,33 +30,38 @@ func resourceLogMemoryGlobalSetting() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"max_size": &schema.Schema{
+			"max_size": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"full_first_warning_threshold": &schema.Schema{
+			"full_first_warning_threshold": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 98),
 				Optional:     true,
 				Computed:     true,
 			},
-			"full_second_warning_threshold": &schema.Schema{
+			"full_second_warning_threshold": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(2, 99),
 				Optional:     true,
 				Computed:     true,
 			},
-			"full_final_warning_threshold": &schema.Schema{
+			"full_final_warning_threshold": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(3, 100),
 				Optional:     true,
 				Computed:     true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -75,14 +80,24 @@ func resourceLogMemoryGlobalSettingUpdate(d *schema.ResourceData, m interface{})
 		}
 	}
 
-	obj, err := getObjectLogMemoryGlobalSetting(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating LogMemoryGlobalSetting resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateLogMemoryGlobalSetting(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectLogMemoryGlobalSetting(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating LogMemoryGlobalSetting resource: %v", err)
+		return fmt.Errorf("error updating LogMemoryGlobalSetting resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateLogMemoryGlobalSetting(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating LogMemoryGlobalSetting resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -109,9 +124,17 @@ func resourceLogMemoryGlobalSettingDelete(d *schema.ResourceData, m interface{})
 		}
 	}
 
-	err := c.DeleteLogMemoryGlobalSetting(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteLogMemoryGlobalSetting(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting LogMemoryGlobalSetting resource: %v", err)
+		return fmt.Errorf("error deleting LogMemoryGlobalSetting resource: %v", err)
 	}
 
 	d.SetId("")
@@ -133,9 +156,19 @@ func resourceLogMemoryGlobalSettingRead(d *schema.ResourceData, m interface{}) e
 		}
 	}
 
-	o, err := c.ReadLogMemoryGlobalSetting(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadLogMemoryGlobalSetting(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading LogMemoryGlobalSetting resource: %v", err)
+		return fmt.Errorf("error reading LogMemoryGlobalSetting resource: %v", err)
 	}
 
 	if o == nil {
@@ -146,7 +179,7 @@ func resourceLogMemoryGlobalSettingRead(d *schema.ResourceData, m interface{}) e
 
 	err = refreshObjectLogMemoryGlobalSetting(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading LogMemoryGlobalSetting resource from API: %v", err)
+		return fmt.Errorf("error reading LogMemoryGlobalSetting resource from API: %v", err)
 	}
 	return nil
 }
@@ -172,25 +205,25 @@ func refreshObjectLogMemoryGlobalSetting(d *schema.ResourceData, o map[string]in
 
 	if err = d.Set("max_size", flattenLogMemoryGlobalSettingMaxSize(o["max-size"], d, "max_size", sv)); err != nil {
 		if !fortiAPIPatch(o["max-size"]) {
-			return fmt.Errorf("Error reading max_size: %v", err)
+			return fmt.Errorf("error reading max_size: %v", err)
 		}
 	}
 
 	if err = d.Set("full_first_warning_threshold", flattenLogMemoryGlobalSettingFullFirstWarningThreshold(o["full-first-warning-threshold"], d, "full_first_warning_threshold", sv)); err != nil {
 		if !fortiAPIPatch(o["full-first-warning-threshold"]) {
-			return fmt.Errorf("Error reading full_first_warning_threshold: %v", err)
+			return fmt.Errorf("error reading full_first_warning_threshold: %v", err)
 		}
 	}
 
 	if err = d.Set("full_second_warning_threshold", flattenLogMemoryGlobalSettingFullSecondWarningThreshold(o["full-second-warning-threshold"], d, "full_second_warning_threshold", sv)); err != nil {
 		if !fortiAPIPatch(o["full-second-warning-threshold"]) {
-			return fmt.Errorf("Error reading full_second_warning_threshold: %v", err)
+			return fmt.Errorf("error reading full_second_warning_threshold: %v", err)
 		}
 	}
 
 	if err = d.Set("full_final_warning_threshold", flattenLogMemoryGlobalSettingFullFinalWarningThreshold(o["full-final-warning-threshold"], d, "full_final_warning_threshold", sv)); err != nil {
 		if !fortiAPIPatch(o["full-final-warning-threshold"]) {
-			return fmt.Errorf("Error reading full_final_warning_threshold: %v", err)
+			return fmt.Errorf("error reading full_final_warning_threshold: %v", err)
 		}
 	}
 

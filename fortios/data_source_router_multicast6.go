@@ -21,60 +21,60 @@ func dataSourceRouterMulticast6() *schema.Resource {
 	return &schema.Resource{
 		Read: dataSourceRouterMulticast6Read,
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
 
-			"multicast_routing": &schema.Schema{
+			"multicast_routing": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"multicast_pmtu": &schema.Schema{
+			"multicast_pmtu": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"interface": &schema.Schema{
+			"interface": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"hello_interval": &schema.Schema{
+						"hello_interval": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"hello_holdtime": &schema.Schema{
+						"hello_holdtime": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
 					},
 				},
 			},
-			"pim_sm_global": &schema.Schema{
+			"pim_sm_global": {
 				Type:     schema.TypeList,
 				Computed: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"register_rate_limit": &schema.Schema{
+						"register_rate_limit": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"rp_address": &schema.Schema{
+						"rp_address": {
 							Type:     schema.TypeList,
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"id": &schema.Schema{
+									"id": {
 										Type:     schema.TypeInt,
 										Computed: true,
 									},
-									"ip6_address": &schema.Schema{
+									"ip6_address": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
@@ -102,9 +102,9 @@ func dataSourceRouterMulticast6Read(d *schema.ResourceData, m interface{}) error
 
 	mkey := "RouterMulticast6"
 
-	o, err := c.ReadRouterMulticast6(mkey, vdomparam)
+	o, err := c.ReadRouterMulticast6(mkey, vdomparam, make(map[string][]string), 0)
 	if err != nil {
-		return fmt.Errorf("Error describing RouterMulticast6: %v", err)
+		return fmt.Errorf("error describing RouterMulticast6: %v", err)
 	}
 
 	if o == nil {
@@ -114,7 +114,7 @@ func dataSourceRouterMulticast6Read(d *schema.ResourceData, m interface{}) error
 
 	err = dataSourceRefreshObjectRouterMulticast6(d, o)
 	if err != nil {
-		return fmt.Errorf("Error describing RouterMulticast6 from API: %v", err)
+		return fmt.Errorf("error describing RouterMulticast6 from API: %v", err)
 	}
 
 	d.SetId(mkey)
@@ -261,25 +261,25 @@ func dataSourceRefreshObjectRouterMulticast6(d *schema.ResourceData, o map[strin
 
 	if err = d.Set("multicast_routing", dataSourceFlattenRouterMulticast6MulticastRouting(o["multicast-routing"], d, "multicast_routing")); err != nil {
 		if !fortiAPIPatch(o["multicast-routing"]) {
-			return fmt.Errorf("Error reading multicast_routing: %v", err)
+			return fmt.Errorf("error reading multicast_routing: %v", err)
 		}
 	}
 
 	if err = d.Set("multicast_pmtu", dataSourceFlattenRouterMulticast6MulticastPmtu(o["multicast-pmtu"], d, "multicast_pmtu")); err != nil {
 		if !fortiAPIPatch(o["multicast-pmtu"]) {
-			return fmt.Errorf("Error reading multicast_pmtu: %v", err)
+			return fmt.Errorf("error reading multicast_pmtu: %v", err)
 		}
 	}
 
 	if err = d.Set("interface", dataSourceFlattenRouterMulticast6Interface(o["interface"], d, "interface")); err != nil {
 		if !fortiAPIPatch(o["interface"]) {
-			return fmt.Errorf("Error reading interface: %v", err)
+			return fmt.Errorf("error reading interface: %v", err)
 		}
 	}
 
 	if err = d.Set("pim_sm_global", dataSourceFlattenRouterMulticast6PimSmGlobal(o["pim-sm-global"], d, "pim_sm_global")); err != nil {
 		if !fortiAPIPatch(o["pim-sm-global"]) {
-			return fmt.Errorf("Error reading pim_sm_global: %v", err)
+			return fmt.Errorf("error reading pim_sm_global: %v", err)
 		}
 	}
 

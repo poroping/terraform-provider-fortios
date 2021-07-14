@@ -85,14 +85,14 @@ func testAccCheckFortiOSEndpointControlProfileExists(n string) resource.TestChec
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadEndpointControlProfile(i, "root")
+		o, err := c.ReadEndpointControlProfile(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading EndpointControlProfile: %s", err)
+			return fmt.Errorf("error reading EndpointControlProfile: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating EndpointControlProfile: %s", n)
+			return fmt.Errorf("error creating EndpointControlProfile: %s", n)
 		}
 
 		return nil
@@ -108,11 +108,11 @@ func testAccCheckEndpointControlProfileDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadEndpointControlProfile(i, "root")
+		o, err := c.ReadEndpointControlProfile(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error EndpointControlProfile %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error EndpointControlProfile %s still exists", rs.Primary.ID)
 			}
 		}
 

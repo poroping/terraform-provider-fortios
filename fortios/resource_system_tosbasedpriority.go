@@ -30,27 +30,32 @@ func resourceSystemTosBasedPriority() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"fosid": &schema.Schema{
+			"fosid": {
 				Type:     schema.TypeInt,
 				ForceNew: true,
 				Optional: true,
 				Computed: true,
 			},
-			"tos": &schema.Schema{
+			"tos": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 15),
 				Optional:     true,
 				Computed:     true,
 			},
-			"priority": &schema.Schema{
+			"priority": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -68,15 +73,25 @@ func resourceSystemTosBasedPriorityCreate(d *schema.ResourceData, m interface{})
 		}
 	}
 
-	obj, err := getObjectSystemTosBasedPriority(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating SystemTosBasedPriority resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateSystemTosBasedPriority(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemTosBasedPriority(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating SystemTosBasedPriority resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateSystemTosBasedPriority(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating SystemTosBasedPriority resource: %v", err)
+		return fmt.Errorf("error creating SystemTosBasedPriority resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -101,14 +116,24 @@ func resourceSystemTosBasedPriorityUpdate(d *schema.ResourceData, m interface{})
 		}
 	}
 
-	obj, err := getObjectSystemTosBasedPriority(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SystemTosBasedPriority resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSystemTosBasedPriority(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemTosBasedPriority(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SystemTosBasedPriority resource: %v", err)
+		return fmt.Errorf("error updating SystemTosBasedPriority resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSystemTosBasedPriority(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SystemTosBasedPriority resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -135,9 +160,17 @@ func resourceSystemTosBasedPriorityDelete(d *schema.ResourceData, m interface{})
 		}
 	}
 
-	err := c.DeleteSystemTosBasedPriority(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSystemTosBasedPriority(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SystemTosBasedPriority resource: %v", err)
+		return fmt.Errorf("error deleting SystemTosBasedPriority resource: %v", err)
 	}
 
 	d.SetId("")
@@ -159,9 +192,19 @@ func resourceSystemTosBasedPriorityRead(d *schema.ResourceData, m interface{}) e
 		}
 	}
 
-	o, err := c.ReadSystemTosBasedPriority(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSystemTosBasedPriority(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemTosBasedPriority resource: %v", err)
+		return fmt.Errorf("error reading SystemTosBasedPriority resource: %v", err)
 	}
 
 	if o == nil {
@@ -172,7 +215,7 @@ func resourceSystemTosBasedPriorityRead(d *schema.ResourceData, m interface{}) e
 
 	err = refreshObjectSystemTosBasedPriority(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemTosBasedPriority resource from API: %v", err)
+		return fmt.Errorf("error reading SystemTosBasedPriority resource from API: %v", err)
 	}
 	return nil
 }
@@ -194,19 +237,19 @@ func refreshObjectSystemTosBasedPriority(d *schema.ResourceData, o map[string]in
 
 	if err = d.Set("fosid", flattenSystemTosBasedPriorityId(o["id"], d, "fosid", sv)); err != nil {
 		if !fortiAPIPatch(o["id"]) {
-			return fmt.Errorf("Error reading fosid: %v", err)
+			return fmt.Errorf("error reading fosid: %v", err)
 		}
 	}
 
 	if err = d.Set("tos", flattenSystemTosBasedPriorityTos(o["tos"], d, "tos", sv)); err != nil {
 		if !fortiAPIPatch(o["tos"]) {
-			return fmt.Errorf("Error reading tos: %v", err)
+			return fmt.Errorf("error reading tos: %v", err)
 		}
 	}
 
 	if err = d.Set("priority", flattenSystemTosBasedPriorityPriority(o["priority"], d, "priority", sv)); err != nil {
 		if !fortiAPIPatch(o["priority"]) {
-			return fmt.Errorf("Error reading priority: %v", err)
+			return fmt.Errorf("error reading priority: %v", err)
 		}
 	}
 

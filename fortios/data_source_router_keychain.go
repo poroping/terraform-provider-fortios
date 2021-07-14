@@ -21,34 +21,34 @@ func dataSourceRouterKeyChain() *schema.Resource {
 	return &schema.Resource{
 		Read: dataSourceRouterKeyChainRead,
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
 
-			"name": &schema.Schema{
+			"name": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"key": &schema.Schema{
+			"key": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"accept_lifetime": &schema.Schema{
+						"accept_lifetime": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"send_lifetime": &schema.Schema{
+						"send_lifetime": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"key_string": &schema.Schema{
+						"key_string": {
 							Type:      schema.TypeString,
 							Sensitive: true,
 							Computed:  true,
@@ -80,12 +80,12 @@ func dataSourceRouterKeyChainRead(d *schema.ResourceData, m interface{}) error {
 	} else if v, ok := t.(int); ok {
 		mkey = strconv.Itoa(v)
 	} else {
-		return fmt.Errorf("Error describing RouterKeyChain: type error")
+		return fmt.Errorf("error describing RouterKeyChain: type error")
 	}
 
-	o, err := c.ReadRouterKeyChain(mkey, vdomparam)
+	o, err := c.ReadRouterKeyChain(mkey, vdomparam, make(map[string][]string), 0)
 	if err != nil {
-		return fmt.Errorf("Error describing RouterKeyChain: %v", err)
+		return fmt.Errorf("error describing RouterKeyChain: %v", err)
 	}
 
 	if o == nil {
@@ -95,7 +95,7 @@ func dataSourceRouterKeyChainRead(d *schema.ResourceData, m interface{}) error {
 
 	err = dataSourceRefreshObjectRouterKeyChain(d, o)
 	if err != nil {
-		return fmt.Errorf("Error describing RouterKeyChain from API: %v", err)
+		return fmt.Errorf("error describing RouterKeyChain from API: %v", err)
 	}
 
 	d.SetId(mkey)
@@ -179,13 +179,13 @@ func dataSourceRefreshObjectRouterKeyChain(d *schema.ResourceData, o map[string]
 
 	if err = d.Set("name", dataSourceFlattenRouterKeyChainName(o["name"], d, "name")); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("key", dataSourceFlattenRouterKeyChainKey(o["key"], d, "key")); err != nil {
 		if !fortiAPIPatch(o["key"]) {
-			return fmt.Errorf("Error reading key: %v", err)
+			return fmt.Errorf("error reading key: %v", err)
 		}
 	}
 

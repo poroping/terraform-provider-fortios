@@ -50,14 +50,14 @@ func testAccCheckFortiOSRouterAccessList6Exists(n string) resource.TestCheckFunc
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadRouterAccessList6(i, "root")
+		o, err := c.ReadRouterAccessList6(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading RouterAccessList6: %s", err)
+			return fmt.Errorf("error reading RouterAccessList6: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating RouterAccessList6: %s", n)
+			return fmt.Errorf("error creating RouterAccessList6: %s", n)
 		}
 
 		return nil
@@ -73,11 +73,11 @@ func testAccCheckRouterAccessList6Destroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadRouterAccessList6(i, "root")
+		o, err := c.ReadRouterAccessList6(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error RouterAccessList6 %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error RouterAccessList6 %s still exists", rs.Primary.ID)
 			}
 		}
 

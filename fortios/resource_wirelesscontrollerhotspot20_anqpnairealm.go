@@ -30,73 +30,73 @@ func resourceWirelessControllerHotspot20AnqpNaiRealm() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"nai_list": &schema.Schema{
+			"nai_list": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"encoding": &schema.Schema{
+						"encoding": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"nai_realm": &schema.Schema{
+						"nai_realm": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 255),
 							Optional:     true,
 							Computed:     true,
 						},
-						"eap_method": &schema.Schema{
+						"eap_method": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"index": &schema.Schema{
+									"index": {
 										Type:         schema.TypeInt,
 										ValidateFunc: validation.IntBetween(1, 5),
 										Optional:     true,
 										Computed:     true,
 									},
-									"method": &schema.Schema{
+									"method": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"auth_param": &schema.Schema{
+									"auth_param": {
 										Type:     schema.TypeList,
 										Optional: true,
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
-												"index": &schema.Schema{
+												"index": {
 													Type:         schema.TypeInt,
 													ValidateFunc: validation.IntBetween(1, 4),
 													Optional:     true,
 													Computed:     true,
 												},
-												"id": &schema.Schema{
+												"id": {
 													Type:     schema.TypeString,
 													Optional: true,
 													Computed: true,
 												},
-												"val": &schema.Schema{
+												"val": {
 													Type:     schema.TypeString,
 													Optional: true,
 													Computed: true,
@@ -110,10 +110,15 @@ func resourceWirelessControllerHotspot20AnqpNaiRealm() *schema.Resource {
 					},
 				},
 			},
-			"dynamic_sort_subtable": &schema.Schema{
-				Type:     schema.TypeString,
+			"dynamic_sort_subtable": {
+				Type:     schema.TypeBool,
 				Optional: true,
-				Default:  "false",
+				Default:  false,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -131,15 +136,25 @@ func resourceWirelessControllerHotspot20AnqpNaiRealmCreate(d *schema.ResourceDat
 		}
 	}
 
-	obj, err := getObjectWirelessControllerHotspot20AnqpNaiRealm(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating WirelessControllerHotspot20AnqpNaiRealm resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateWirelessControllerHotspot20AnqpNaiRealm(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectWirelessControllerHotspot20AnqpNaiRealm(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating WirelessControllerHotspot20AnqpNaiRealm resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateWirelessControllerHotspot20AnqpNaiRealm(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating WirelessControllerHotspot20AnqpNaiRealm resource: %v", err)
+		return fmt.Errorf("error creating WirelessControllerHotspot20AnqpNaiRealm resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -164,14 +179,24 @@ func resourceWirelessControllerHotspot20AnqpNaiRealmUpdate(d *schema.ResourceDat
 		}
 	}
 
-	obj, err := getObjectWirelessControllerHotspot20AnqpNaiRealm(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating WirelessControllerHotspot20AnqpNaiRealm resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateWirelessControllerHotspot20AnqpNaiRealm(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectWirelessControllerHotspot20AnqpNaiRealm(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating WirelessControllerHotspot20AnqpNaiRealm resource: %v", err)
+		return fmt.Errorf("error updating WirelessControllerHotspot20AnqpNaiRealm resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateWirelessControllerHotspot20AnqpNaiRealm(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating WirelessControllerHotspot20AnqpNaiRealm resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -198,9 +223,17 @@ func resourceWirelessControllerHotspot20AnqpNaiRealmDelete(d *schema.ResourceDat
 		}
 	}
 
-	err := c.DeleteWirelessControllerHotspot20AnqpNaiRealm(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteWirelessControllerHotspot20AnqpNaiRealm(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting WirelessControllerHotspot20AnqpNaiRealm resource: %v", err)
+		return fmt.Errorf("error deleting WirelessControllerHotspot20AnqpNaiRealm resource: %v", err)
 	}
 
 	d.SetId("")
@@ -222,9 +255,19 @@ func resourceWirelessControllerHotspot20AnqpNaiRealmRead(d *schema.ResourceData,
 		}
 	}
 
-	o, err := c.ReadWirelessControllerHotspot20AnqpNaiRealm(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadWirelessControllerHotspot20AnqpNaiRealm(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading WirelessControllerHotspot20AnqpNaiRealm resource: %v", err)
+		return fmt.Errorf("error reading WirelessControllerHotspot20AnqpNaiRealm resource: %v", err)
 	}
 
 	if o == nil {
@@ -235,7 +278,7 @@ func resourceWirelessControllerHotspot20AnqpNaiRealmRead(d *schema.ResourceData,
 
 	err = refreshObjectWirelessControllerHotspot20AnqpNaiRealm(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading WirelessControllerHotspot20AnqpNaiRealm resource from API: %v", err)
+		return fmt.Errorf("error reading WirelessControllerHotspot20AnqpNaiRealm resource from API: %v", err)
 	}
 	return nil
 }
@@ -423,21 +466,21 @@ func refreshObjectWirelessControllerHotspot20AnqpNaiRealm(d *schema.ResourceData
 
 	if err = d.Set("name", flattenWirelessControllerHotspot20AnqpNaiRealmName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("nai_list", flattenWirelessControllerHotspot20AnqpNaiRealmNaiList(o["nai-list"], d, "nai_list", sv)); err != nil {
 			if !fortiAPIPatch(o["nai-list"]) {
-				return fmt.Errorf("Error reading nai_list: %v", err)
+				return fmt.Errorf("error reading nai_list: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("nai_list"); ok {
 			if err = d.Set("nai_list", flattenWirelessControllerHotspot20AnqpNaiRealmNaiList(o["nai-list"], d, "nai_list", sv)); err != nil {
 				if !fortiAPIPatch(o["nai-list"]) {
-					return fmt.Errorf("Error reading nai_list: %v", err)
+					return fmt.Errorf("error reading nai_list: %v", err)
 				}
 			}
 		}

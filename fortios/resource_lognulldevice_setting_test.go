@@ -49,14 +49,14 @@ func testAccCheckFortiOSLogNullDeviceSettingExists(n string) resource.TestCheckF
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadLogNullDeviceSetting(i, "root")
+		o, err := c.ReadLogNullDeviceSetting(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading LogNullDeviceSetting: %s", err)
+			return fmt.Errorf("error reading LogNullDeviceSetting: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating LogNullDeviceSetting: %s", n)
+			return fmt.Errorf("error creating LogNullDeviceSetting: %s", n)
 		}
 
 		return nil
@@ -72,11 +72,11 @@ func testAccCheckLogNullDeviceSettingDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadLogNullDeviceSetting(i, "root")
+		o, err := c.ReadLogNullDeviceSetting(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error LogNullDeviceSetting %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error LogNullDeviceSetting %s still exists", rs.Primary.ID)
 			}
 		}
 

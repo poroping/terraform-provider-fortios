@@ -17,12 +17,12 @@ func dataSourceSystemSnmpUserList() *schema.Resource {
 		Read: dataSourceSystemSnmpUserListRead,
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"filter": &schema.Schema{
+			"filter": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
@@ -52,9 +52,9 @@ func dataSourceSystemSnmpUserListRead(d *schema.ResourceData, m interface{}) err
 		filter = escapeFilter(filter)
 	}
 
-	o, err := c.GenericGroupRead("/api/v2/cmdb/system.snmp/user", filter, vdomparam)
+	o, err := c.GenericGroupRead("/api/v2/cmdb/system.snmp/user", filter, vdomparam, 0)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemSnmpUser: %v", err)
+		return fmt.Errorf("error describing SystemSnmpUser: %v", err)
 	}
 
 	var tmps []string

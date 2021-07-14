@@ -30,20 +30,25 @@ func resourceSwitchControllerSwitchLog() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"status": &schema.Schema{
+			"status": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"severity": &schema.Schema{
+			"severity": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -62,14 +67,24 @@ func resourceSwitchControllerSwitchLogUpdate(d *schema.ResourceData, m interface
 		}
 	}
 
-	obj, err := getObjectSwitchControllerSwitchLog(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SwitchControllerSwitchLog resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSwitchControllerSwitchLog(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSwitchControllerSwitchLog(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SwitchControllerSwitchLog resource: %v", err)
+		return fmt.Errorf("error updating SwitchControllerSwitchLog resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSwitchControllerSwitchLog(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SwitchControllerSwitchLog resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -96,9 +111,17 @@ func resourceSwitchControllerSwitchLogDelete(d *schema.ResourceData, m interface
 		}
 	}
 
-	err := c.DeleteSwitchControllerSwitchLog(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSwitchControllerSwitchLog(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SwitchControllerSwitchLog resource: %v", err)
+		return fmt.Errorf("error deleting SwitchControllerSwitchLog resource: %v", err)
 	}
 
 	d.SetId("")
@@ -120,9 +143,19 @@ func resourceSwitchControllerSwitchLogRead(d *schema.ResourceData, m interface{}
 		}
 	}
 
-	o, err := c.ReadSwitchControllerSwitchLog(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSwitchControllerSwitchLog(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SwitchControllerSwitchLog resource: %v", err)
+		return fmt.Errorf("error reading SwitchControllerSwitchLog resource: %v", err)
 	}
 
 	if o == nil {
@@ -133,7 +166,7 @@ func resourceSwitchControllerSwitchLogRead(d *schema.ResourceData, m interface{}
 
 	err = refreshObjectSwitchControllerSwitchLog(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SwitchControllerSwitchLog resource from API: %v", err)
+		return fmt.Errorf("error reading SwitchControllerSwitchLog resource from API: %v", err)
 	}
 	return nil
 }
@@ -151,13 +184,13 @@ func refreshObjectSwitchControllerSwitchLog(d *schema.ResourceData, o map[string
 
 	if err = d.Set("status", flattenSwitchControllerSwitchLogStatus(o["status"], d, "status", sv)); err != nil {
 		if !fortiAPIPatch(o["status"]) {
-			return fmt.Errorf("Error reading status: %v", err)
+			return fmt.Errorf("error reading status: %v", err)
 		}
 	}
 
 	if err = d.Set("severity", flattenSwitchControllerSwitchLogSeverity(o["severity"], d, "severity", sv)); err != nil {
 		if !fortiAPIPatch(o["severity"]) {
-			return fmt.Errorf("Error reading severity: %v", err)
+			return fmt.Errorf("error reading severity: %v", err)
 		}
 	}
 

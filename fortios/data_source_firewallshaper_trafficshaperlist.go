@@ -17,12 +17,12 @@ func dataSourceFirewallShaperTrafficShaperList() *schema.Resource {
 		Read: dataSourceFirewallShaperTrafficShaperListRead,
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"filter": &schema.Schema{
+			"filter": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
@@ -52,9 +52,9 @@ func dataSourceFirewallShaperTrafficShaperListRead(d *schema.ResourceData, m int
 		filter = escapeFilter(filter)
 	}
 
-	o, err := c.GenericGroupRead("/api/v2/cmdb/firewall.shaper/traffic-shaper", filter, vdomparam)
+	o, err := c.GenericGroupRead("/api/v2/cmdb/firewall.shaper/traffic-shaper", filter, vdomparam, 0)
 	if err != nil {
-		return fmt.Errorf("Error describing FirewallShaperTrafficShaper: %v", err)
+		return fmt.Errorf("error describing FirewallShaperTrafficShaper: %v", err)
 	}
 
 	var tmps []string

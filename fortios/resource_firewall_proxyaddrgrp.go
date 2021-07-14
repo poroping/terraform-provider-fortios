@@ -30,33 +30,33 @@ func resourceFirewallProxyAddrgrp() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"type": &schema.Schema{
+			"type": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"uuid": &schema.Schema{
+			"uuid": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"member": &schema.Schema{
+			"member": {
 				Type:     schema.TypeList,
 				Required: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 64),
 							Optional:     true,
@@ -65,35 +65,35 @@ func resourceFirewallProxyAddrgrp() *schema.Resource {
 					},
 				},
 			},
-			"color": &schema.Schema{
+			"color": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 32),
 				Optional:     true,
 				Computed:     true,
 			},
-			"tagging": &schema.Schema{
+			"tagging": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 63),
 							Optional:     true,
 							Computed:     true,
 						},
-						"category": &schema.Schema{
+						"category": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 63),
 							Optional:     true,
 							Computed:     true,
 						},
-						"tags": &schema.Schema{
+						"tags": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"name": &schema.Schema{
+									"name": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 64),
 										Optional:     true,
@@ -105,20 +105,25 @@ func resourceFirewallProxyAddrgrp() *schema.Resource {
 					},
 				},
 			},
-			"comment": &schema.Schema{
+			"comment": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
 			},
-			"visibility": &schema.Schema{
+			"visibility": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"dynamic_sort_subtable": &schema.Schema{
-				Type:     schema.TypeString,
+			"dynamic_sort_subtable": {
+				Type:     schema.TypeBool,
 				Optional: true,
-				Default:  "false",
+				Default:  false,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -136,15 +141,25 @@ func resourceFirewallProxyAddrgrpCreate(d *schema.ResourceData, m interface{}) e
 		}
 	}
 
-	obj, err := getObjectFirewallProxyAddrgrp(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating FirewallProxyAddrgrp resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateFirewallProxyAddrgrp(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectFirewallProxyAddrgrp(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating FirewallProxyAddrgrp resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateFirewallProxyAddrgrp(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating FirewallProxyAddrgrp resource: %v", err)
+		return fmt.Errorf("error creating FirewallProxyAddrgrp resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -169,14 +184,24 @@ func resourceFirewallProxyAddrgrpUpdate(d *schema.ResourceData, m interface{}) e
 		}
 	}
 
-	obj, err := getObjectFirewallProxyAddrgrp(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating FirewallProxyAddrgrp resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateFirewallProxyAddrgrp(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectFirewallProxyAddrgrp(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating FirewallProxyAddrgrp resource: %v", err)
+		return fmt.Errorf("error updating FirewallProxyAddrgrp resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateFirewallProxyAddrgrp(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating FirewallProxyAddrgrp resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -203,9 +228,17 @@ func resourceFirewallProxyAddrgrpDelete(d *schema.ResourceData, m interface{}) e
 		}
 	}
 
-	err := c.DeleteFirewallProxyAddrgrp(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteFirewallProxyAddrgrp(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting FirewallProxyAddrgrp resource: %v", err)
+		return fmt.Errorf("error deleting FirewallProxyAddrgrp resource: %v", err)
 	}
 
 	d.SetId("")
@@ -227,9 +260,19 @@ func resourceFirewallProxyAddrgrpRead(d *schema.ResourceData, m interface{}) err
 		}
 	}
 
-	o, err := c.ReadFirewallProxyAddrgrp(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadFirewallProxyAddrgrp(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading FirewallProxyAddrgrp resource: %v", err)
+		return fmt.Errorf("error reading FirewallProxyAddrgrp resource: %v", err)
 	}
 
 	if o == nil {
@@ -240,7 +283,7 @@ func resourceFirewallProxyAddrgrpRead(d *schema.ResourceData, m interface{}) err
 
 	err = refreshObjectFirewallProxyAddrgrp(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading FirewallProxyAddrgrp resource from API: %v", err)
+		return fmt.Errorf("error reading FirewallProxyAddrgrp resource from API: %v", err)
 	}
 	return nil
 }
@@ -403,33 +446,33 @@ func refreshObjectFirewallProxyAddrgrp(d *schema.ResourceData, o map[string]inte
 
 	if err = d.Set("name", flattenFirewallProxyAddrgrpName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("type", flattenFirewallProxyAddrgrpType(o["type"], d, "type", sv)); err != nil {
 		if !fortiAPIPatch(o["type"]) {
-			return fmt.Errorf("Error reading type: %v", err)
+			return fmt.Errorf("error reading type: %v", err)
 		}
 	}
 
 	if err = d.Set("uuid", flattenFirewallProxyAddrgrpUuid(o["uuid"], d, "uuid", sv)); err != nil {
 		if !fortiAPIPatch(o["uuid"]) {
-			return fmt.Errorf("Error reading uuid: %v", err)
+			return fmt.Errorf("error reading uuid: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("member", flattenFirewallProxyAddrgrpMember(o["member"], d, "member", sv)); err != nil {
 			if !fortiAPIPatch(o["member"]) {
-				return fmt.Errorf("Error reading member: %v", err)
+				return fmt.Errorf("error reading member: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("member"); ok {
 			if err = d.Set("member", flattenFirewallProxyAddrgrpMember(o["member"], d, "member", sv)); err != nil {
 				if !fortiAPIPatch(o["member"]) {
-					return fmt.Errorf("Error reading member: %v", err)
+					return fmt.Errorf("error reading member: %v", err)
 				}
 			}
 		}
@@ -437,21 +480,21 @@ func refreshObjectFirewallProxyAddrgrp(d *schema.ResourceData, o map[string]inte
 
 	if err = d.Set("color", flattenFirewallProxyAddrgrpColor(o["color"], d, "color", sv)); err != nil {
 		if !fortiAPIPatch(o["color"]) {
-			return fmt.Errorf("Error reading color: %v", err)
+			return fmt.Errorf("error reading color: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("tagging", flattenFirewallProxyAddrgrpTagging(o["tagging"], d, "tagging", sv)); err != nil {
 			if !fortiAPIPatch(o["tagging"]) {
-				return fmt.Errorf("Error reading tagging: %v", err)
+				return fmt.Errorf("error reading tagging: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("tagging"); ok {
 			if err = d.Set("tagging", flattenFirewallProxyAddrgrpTagging(o["tagging"], d, "tagging", sv)); err != nil {
 				if !fortiAPIPatch(o["tagging"]) {
-					return fmt.Errorf("Error reading tagging: %v", err)
+					return fmt.Errorf("error reading tagging: %v", err)
 				}
 			}
 		}
@@ -459,13 +502,13 @@ func refreshObjectFirewallProxyAddrgrp(d *schema.ResourceData, o map[string]inte
 
 	if err = d.Set("comment", flattenFirewallProxyAddrgrpComment(o["comment"], d, "comment", sv)); err != nil {
 		if !fortiAPIPatch(o["comment"]) {
-			return fmt.Errorf("Error reading comment: %v", err)
+			return fmt.Errorf("error reading comment: %v", err)
 		}
 	}
 
 	if err = d.Set("visibility", flattenFirewallProxyAddrgrpVisibility(o["visibility"], d, "visibility", sv)); err != nil {
 		if !fortiAPIPatch(o["visibility"]) {
-			return fmt.Errorf("Error reading visibility: %v", err)
+			return fmt.Errorf("error reading visibility: %v", err)
 		}
 	}
 

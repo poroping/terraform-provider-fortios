@@ -30,104 +30,104 @@ func resourceApplicationList() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				ForceNew:     true,
 				Required:     true,
 			},
-			"comment": &schema.Schema{
+			"comment": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
 			},
-			"replacemsg_group": &schema.Schema{
+			"replacemsg_group": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"extended_log": &schema.Schema{
+			"extended_log": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"other_application_action": &schema.Schema{
+			"other_application_action": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"app_replacemsg": &schema.Schema{
+			"app_replacemsg": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"other_application_log": &schema.Schema{
+			"other_application_log": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"enforce_default_app_port": &schema.Schema{
+			"enforce_default_app_port": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"force_inclusion_ssl_di_sigs": &schema.Schema{
+			"force_inclusion_ssl_di_sigs": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"unknown_application_action": &schema.Schema{
+			"unknown_application_action": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"unknown_application_log": &schema.Schema{
+			"unknown_application_log": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"p2p_block_list": &schema.Schema{
+			"p2p_block_list": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"p2p_black_list": &schema.Schema{
+			"p2p_black_list": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"deep_app_inspection": &schema.Schema{
+			"deep_app_inspection": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"options": &schema.Schema{
+			"options": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"entries": &schema.Schema{
+			"entries": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"risk": &schema.Schema{
+						"risk": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"level": &schema.Schema{
+									"level": {
 										Type:     schema.TypeInt,
 										Optional: true,
 										Computed: true,
@@ -135,12 +135,12 @@ func resourceApplicationList() *schema.Resource {
 								},
 							},
 						},
-						"category": &schema.Schema{
+						"category": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"id": &schema.Schema{
+									"id": {
 										Type:     schema.TypeInt,
 										Optional: true,
 										Computed: true,
@@ -148,12 +148,12 @@ func resourceApplicationList() *schema.Resource {
 								},
 							},
 						},
-						"sub_category": &schema.Schema{
+						"sub_category": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"id": &schema.Schema{
+									"id": {
 										Type:     schema.TypeInt,
 										Optional: true,
 										Computed: true,
@@ -161,12 +161,12 @@ func resourceApplicationList() *schema.Resource {
 								},
 							},
 						},
-						"application": &schema.Schema{
+						"application": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"id": &schema.Schema{
+									"id": {
 										Type:     schema.TypeInt,
 										Optional: true,
 										Computed: true,
@@ -174,37 +174,37 @@ func resourceApplicationList() *schema.Resource {
 								},
 							},
 						},
-						"protocols": &schema.Schema{
+						"protocols": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"vendor": &schema.Schema{
+						"vendor": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"technology": &schema.Schema{
+						"technology": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"behavior": &schema.Schema{
+						"behavior": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"popularity": &schema.Schema{
+						"popularity": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"exclusion": &schema.Schema{
+						"exclusion": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"id": &schema.Schema{
+									"id": {
 										Type:     schema.TypeInt,
 										Optional: true,
 										Computed: true,
@@ -212,33 +212,33 @@ func resourceApplicationList() *schema.Resource {
 								},
 							},
 						},
-						"parameters": &schema.Schema{
+						"parameters": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"id": &schema.Schema{
+									"id": {
 										Type:     schema.TypeInt,
 										Optional: true,
 										Computed: true,
 									},
-									"members": &schema.Schema{
+									"members": {
 										Type:     schema.TypeList,
 										Optional: true,
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
-												"id": &schema.Schema{
+												"id": {
 													Type:     schema.TypeInt,
 													Optional: true,
 													Computed: true,
 												},
-												"name": &schema.Schema{
+												"name": {
 													Type:         schema.TypeString,
 													ValidateFunc: validation.StringLenBetween(0, 31),
 													Optional:     true,
 													Computed:     true,
 												},
-												"value": &schema.Schema{
+												"value": {
 													Type:         schema.TypeString,
 													ValidateFunc: validation.StringLenBetween(0, 199),
 													Optional:     true,
@@ -247,7 +247,7 @@ func resourceApplicationList() *schema.Resource {
 											},
 										},
 									},
-									"value": &schema.Schema{
+									"value": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 63),
 										Optional:     true,
@@ -256,77 +256,77 @@ func resourceApplicationList() *schema.Resource {
 								},
 							},
 						},
-						"action": &schema.Schema{
+						"action": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"log": &schema.Schema{
+						"log": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"log_packet": &schema.Schema{
+						"log_packet": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"rate_count": &schema.Schema{
+						"rate_count": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 65535),
 							Optional:     true,
 							Computed:     true,
 						},
-						"rate_duration": &schema.Schema{
+						"rate_duration": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 65535),
 							Optional:     true,
 							Computed:     true,
 						},
-						"rate_mode": &schema.Schema{
+						"rate_mode": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"rate_track": &schema.Schema{
+						"rate_track": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"session_ttl": &schema.Schema{
+						"session_ttl": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"shaper": &schema.Schema{
+						"shaper": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"shaper_reverse": &schema.Schema{
+						"shaper_reverse": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"per_ip_shaper": &schema.Schema{
+						"per_ip_shaper": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"quarantine": &schema.Schema{
+						"quarantine": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"quarantine_expiry": &schema.Schema{
+						"quarantine_expiry": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"quarantine_log": &schema.Schema{
+						"quarantine_log": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -334,33 +334,33 @@ func resourceApplicationList() *schema.Resource {
 					},
 				},
 			},
-			"control_default_network_services": &schema.Schema{
+			"control_default_network_services": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"default_network_services": &schema.Schema{
+			"default_network_services": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"port": &schema.Schema{
+						"port": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 65535),
 							Optional:     true,
 							Computed:     true,
 						},
-						"services": &schema.Schema{
+						"services": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"violation_action": &schema.Schema{
+						"violation_action": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -368,10 +368,15 @@ func resourceApplicationList() *schema.Resource {
 					},
 				},
 			},
-			"dynamic_sort_subtable": &schema.Schema{
-				Type:     schema.TypeString,
+			"dynamic_sort_subtable": {
+				Type:     schema.TypeBool,
 				Optional: true,
-				Default:  "false",
+				Default:  false,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -389,15 +394,25 @@ func resourceApplicationListCreate(d *schema.ResourceData, m interface{}) error 
 		}
 	}
 
-	obj, err := getObjectApplicationList(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating ApplicationList resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateApplicationList(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectApplicationList(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating ApplicationList resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateApplicationList(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating ApplicationList resource: %v", err)
+		return fmt.Errorf("error creating ApplicationList resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -422,14 +437,24 @@ func resourceApplicationListUpdate(d *schema.ResourceData, m interface{}) error 
 		}
 	}
 
-	obj, err := getObjectApplicationList(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating ApplicationList resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateApplicationList(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectApplicationList(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating ApplicationList resource: %v", err)
+		return fmt.Errorf("error updating ApplicationList resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateApplicationList(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating ApplicationList resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -456,9 +481,17 @@ func resourceApplicationListDelete(d *schema.ResourceData, m interface{}) error 
 		}
 	}
 
-	err := c.DeleteApplicationList(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteApplicationList(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting ApplicationList resource: %v", err)
+		return fmt.Errorf("error deleting ApplicationList resource: %v", err)
 	}
 
 	d.SetId("")
@@ -480,9 +513,19 @@ func resourceApplicationListRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadApplicationList(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadApplicationList(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading ApplicationList resource: %v", err)
+		return fmt.Errorf("error reading ApplicationList resource: %v", err)
 	}
 
 	if o == nil {
@@ -493,7 +536,7 @@ func resourceApplicationListRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectApplicationList(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading ApplicationList resource from API: %v", err)
+		return fmt.Errorf("error reading ApplicationList resource from API: %v", err)
 	}
 	return nil
 }
@@ -1194,105 +1237,105 @@ func refreshObjectApplicationList(d *schema.ResourceData, o map[string]interface
 
 	if err = d.Set("name", flattenApplicationListName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("comment", flattenApplicationListComment(o["comment"], d, "comment", sv)); err != nil {
 		if !fortiAPIPatch(o["comment"]) {
-			return fmt.Errorf("Error reading comment: %v", err)
+			return fmt.Errorf("error reading comment: %v", err)
 		}
 	}
 
 	if err = d.Set("replacemsg_group", flattenApplicationListReplacemsgGroup(o["replacemsg-group"], d, "replacemsg_group", sv)); err != nil {
 		if !fortiAPIPatch(o["replacemsg-group"]) {
-			return fmt.Errorf("Error reading replacemsg_group: %v", err)
+			return fmt.Errorf("error reading replacemsg_group: %v", err)
 		}
 	}
 
 	if err = d.Set("extended_log", flattenApplicationListExtendedLog(o["extended-log"], d, "extended_log", sv)); err != nil {
 		if !fortiAPIPatch(o["extended-log"]) {
-			return fmt.Errorf("Error reading extended_log: %v", err)
+			return fmt.Errorf("error reading extended_log: %v", err)
 		}
 	}
 
 	if err = d.Set("other_application_action", flattenApplicationListOtherApplicationAction(o["other-application-action"], d, "other_application_action", sv)); err != nil {
 		if !fortiAPIPatch(o["other-application-action"]) {
-			return fmt.Errorf("Error reading other_application_action: %v", err)
+			return fmt.Errorf("error reading other_application_action: %v", err)
 		}
 	}
 
 	if err = d.Set("app_replacemsg", flattenApplicationListAppReplacemsg(o["app-replacemsg"], d, "app_replacemsg", sv)); err != nil {
 		if !fortiAPIPatch(o["app-replacemsg"]) {
-			return fmt.Errorf("Error reading app_replacemsg: %v", err)
+			return fmt.Errorf("error reading app_replacemsg: %v", err)
 		}
 	}
 
 	if err = d.Set("other_application_log", flattenApplicationListOtherApplicationLog(o["other-application-log"], d, "other_application_log", sv)); err != nil {
 		if !fortiAPIPatch(o["other-application-log"]) {
-			return fmt.Errorf("Error reading other_application_log: %v", err)
+			return fmt.Errorf("error reading other_application_log: %v", err)
 		}
 	}
 
 	if err = d.Set("enforce_default_app_port", flattenApplicationListEnforceDefaultAppPort(o["enforce-default-app-port"], d, "enforce_default_app_port", sv)); err != nil {
 		if !fortiAPIPatch(o["enforce-default-app-port"]) {
-			return fmt.Errorf("Error reading enforce_default_app_port: %v", err)
+			return fmt.Errorf("error reading enforce_default_app_port: %v", err)
 		}
 	}
 
 	if err = d.Set("force_inclusion_ssl_di_sigs", flattenApplicationListForceInclusionSslDiSigs(o["force-inclusion-ssl-di-sigs"], d, "force_inclusion_ssl_di_sigs", sv)); err != nil {
 		if !fortiAPIPatch(o["force-inclusion-ssl-di-sigs"]) {
-			return fmt.Errorf("Error reading force_inclusion_ssl_di_sigs: %v", err)
+			return fmt.Errorf("error reading force_inclusion_ssl_di_sigs: %v", err)
 		}
 	}
 
 	if err = d.Set("unknown_application_action", flattenApplicationListUnknownApplicationAction(o["unknown-application-action"], d, "unknown_application_action", sv)); err != nil {
 		if !fortiAPIPatch(o["unknown-application-action"]) {
-			return fmt.Errorf("Error reading unknown_application_action: %v", err)
+			return fmt.Errorf("error reading unknown_application_action: %v", err)
 		}
 	}
 
 	if err = d.Set("unknown_application_log", flattenApplicationListUnknownApplicationLog(o["unknown-application-log"], d, "unknown_application_log", sv)); err != nil {
 		if !fortiAPIPatch(o["unknown-application-log"]) {
-			return fmt.Errorf("Error reading unknown_application_log: %v", err)
+			return fmt.Errorf("error reading unknown_application_log: %v", err)
 		}
 	}
 
 	if err = d.Set("p2p_block_list", flattenApplicationListP2PBlockList(o["p2p-block-list"], d, "p2p_block_list", sv)); err != nil {
 		if !fortiAPIPatch(o["p2p-block-list"]) {
-			return fmt.Errorf("Error reading p2p_block_list: %v", err)
+			return fmt.Errorf("error reading p2p_block_list: %v", err)
 		}
 	}
 
 	if err = d.Set("p2p_black_list", flattenApplicationListP2PBlackList(o["p2p-black-list"], d, "p2p_black_list", sv)); err != nil {
 		if !fortiAPIPatch(o["p2p-black-list"]) {
-			return fmt.Errorf("Error reading p2p_black_list: %v", err)
+			return fmt.Errorf("error reading p2p_black_list: %v", err)
 		}
 	}
 
 	if err = d.Set("deep_app_inspection", flattenApplicationListDeepAppInspection(o["deep-app-inspection"], d, "deep_app_inspection", sv)); err != nil {
 		if !fortiAPIPatch(o["deep-app-inspection"]) {
-			return fmt.Errorf("Error reading deep_app_inspection: %v", err)
+			return fmt.Errorf("error reading deep_app_inspection: %v", err)
 		}
 	}
 
 	if err = d.Set("options", flattenApplicationListOptions(o["options"], d, "options", sv)); err != nil {
 		if !fortiAPIPatch(o["options"]) {
-			return fmt.Errorf("Error reading options: %v", err)
+			return fmt.Errorf("error reading options: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("entries", flattenApplicationListEntries(o["entries"], d, "entries", sv)); err != nil {
 			if !fortiAPIPatch(o["entries"]) {
-				return fmt.Errorf("Error reading entries: %v", err)
+				return fmt.Errorf("error reading entries: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("entries"); ok {
 			if err = d.Set("entries", flattenApplicationListEntries(o["entries"], d, "entries", sv)); err != nil {
 				if !fortiAPIPatch(o["entries"]) {
-					return fmt.Errorf("Error reading entries: %v", err)
+					return fmt.Errorf("error reading entries: %v", err)
 				}
 			}
 		}
@@ -1300,21 +1343,21 @@ func refreshObjectApplicationList(d *schema.ResourceData, o map[string]interface
 
 	if err = d.Set("control_default_network_services", flattenApplicationListControlDefaultNetworkServices(o["control-default-network-services"], d, "control_default_network_services", sv)); err != nil {
 		if !fortiAPIPatch(o["control-default-network-services"]) {
-			return fmt.Errorf("Error reading control_default_network_services: %v", err)
+			return fmt.Errorf("error reading control_default_network_services: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("default_network_services", flattenApplicationListDefaultNetworkServices(o["default-network-services"], d, "default_network_services", sv)); err != nil {
 			if !fortiAPIPatch(o["default-network-services"]) {
-				return fmt.Errorf("Error reading default_network_services: %v", err)
+				return fmt.Errorf("error reading default_network_services: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("default_network_services"); ok {
 			if err = d.Set("default_network_services", flattenApplicationListDefaultNetworkServices(o["default-network-services"], d, "default_network_services", sv)); err != nil {
 				if !fortiAPIPatch(o["default-network-services"]) {
-					return fmt.Errorf("Error reading default_network_services: %v", err)
+					return fmt.Errorf("error reading default_network_services: %v", err)
 				}
 			}
 		}

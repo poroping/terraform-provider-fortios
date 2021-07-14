@@ -60,14 +60,14 @@ func testAccCheckFortiOSWirelessControllerHotspot20H2QpConnCapabilityExists(n st
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadWirelessControllerHotspot20H2QpConnCapability(i, "root")
+		o, err := c.ReadWirelessControllerHotspot20H2QpConnCapability(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading WirelessControllerHotspot20H2QpConnCapability: %s", err)
+			return fmt.Errorf("error reading WirelessControllerHotspot20H2QpConnCapability: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating WirelessControllerHotspot20H2QpConnCapability: %s", n)
+			return fmt.Errorf("error creating WirelessControllerHotspot20H2QpConnCapability: %s", n)
 		}
 
 		return nil
@@ -83,11 +83,11 @@ func testAccCheckWirelessControllerHotspot20H2QpConnCapabilityDestroy(s *terrafo
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadWirelessControllerHotspot20H2QpConnCapability(i, "root")
+		o, err := c.ReadWirelessControllerHotspot20H2QpConnCapability(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error WirelessControllerHotspot20H2QpConnCapability %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error WirelessControllerHotspot20H2QpConnCapability %s still exists", rs.Primary.ID)
 			}
 		}
 

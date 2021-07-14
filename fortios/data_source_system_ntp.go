@@ -21,100 +21,100 @@ func dataSourceSystemNtp() *schema.Resource {
 	return &schema.Resource{
 		Read: dataSourceSystemNtpRead,
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
 
-			"ntpsync": &schema.Schema{
+			"ntpsync": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"type": &schema.Schema{
+			"type": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"syncinterval": &schema.Schema{
+			"syncinterval": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"ntpserver": &schema.Schema{
+			"ntpserver": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"server": &schema.Schema{
+						"server": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"ntpv3": &schema.Schema{
+						"ntpv3": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"authentication": &schema.Schema{
+						"authentication": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"key": &schema.Schema{
+						"key": {
 							Type:      schema.TypeString,
 							Sensitive: true,
 							Computed:  true,
 						},
-						"key_id": &schema.Schema{
+						"key_id": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"interface_select_method": &schema.Schema{
+						"interface_select_method": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"interface": &schema.Schema{
+						"interface": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 					},
 				},
 			},
-			"source_ip": &schema.Schema{
+			"source_ip": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"source_ip6": &schema.Schema{
+			"source_ip6": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"server_mode": &schema.Schema{
+			"server_mode": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"authentication": &schema.Schema{
+			"authentication": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"key_type": &schema.Schema{
+			"key_type": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"key": &schema.Schema{
+			"key": {
 				Type:      schema.TypeString,
 				Sensitive: true,
 				Computed:  true,
 			},
-			"key_id": &schema.Schema{
+			"key_id": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"interface": &schema.Schema{
+			"interface": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"interface_name": &schema.Schema{
+						"interface_name": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -139,9 +139,9 @@ func dataSourceSystemNtpRead(d *schema.ResourceData, m interface{}) error {
 
 	mkey := "SystemNtp"
 
-	o, err := c.ReadSystemNtp(mkey, vdomparam)
+	o, err := c.ReadSystemNtp(mkey, vdomparam, make(map[string][]string), 0)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemNtp: %v", err)
+		return fmt.Errorf("error describing SystemNtp: %v", err)
 	}
 
 	if o == nil {
@@ -151,7 +151,7 @@ func dataSourceSystemNtpRead(d *schema.ResourceData, m interface{}) error {
 
 	err = dataSourceRefreshObjectSystemNtp(d, o)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemNtp from API: %v", err)
+		return fmt.Errorf("error describing SystemNtp from API: %v", err)
 	}
 
 	d.SetId(mkey)
@@ -343,67 +343,67 @@ func dataSourceRefreshObjectSystemNtp(d *schema.ResourceData, o map[string]inter
 
 	if err = d.Set("ntpsync", dataSourceFlattenSystemNtpNtpsync(o["ntpsync"], d, "ntpsync")); err != nil {
 		if !fortiAPIPatch(o["ntpsync"]) {
-			return fmt.Errorf("Error reading ntpsync: %v", err)
+			return fmt.Errorf("error reading ntpsync: %v", err)
 		}
 	}
 
 	if err = d.Set("type", dataSourceFlattenSystemNtpType(o["type"], d, "type")); err != nil {
 		if !fortiAPIPatch(o["type"]) {
-			return fmt.Errorf("Error reading type: %v", err)
+			return fmt.Errorf("error reading type: %v", err)
 		}
 	}
 
 	if err = d.Set("syncinterval", dataSourceFlattenSystemNtpSyncinterval(o["syncinterval"], d, "syncinterval")); err != nil {
 		if !fortiAPIPatch(o["syncinterval"]) {
-			return fmt.Errorf("Error reading syncinterval: %v", err)
+			return fmt.Errorf("error reading syncinterval: %v", err)
 		}
 	}
 
 	if err = d.Set("ntpserver", dataSourceFlattenSystemNtpNtpserver(o["ntpserver"], d, "ntpserver")); err != nil {
 		if !fortiAPIPatch(o["ntpserver"]) {
-			return fmt.Errorf("Error reading ntpserver: %v", err)
+			return fmt.Errorf("error reading ntpserver: %v", err)
 		}
 	}
 
 	if err = d.Set("source_ip", dataSourceFlattenSystemNtpSourceIp(o["source-ip"], d, "source_ip")); err != nil {
 		if !fortiAPIPatch(o["source-ip"]) {
-			return fmt.Errorf("Error reading source_ip: %v", err)
+			return fmt.Errorf("error reading source_ip: %v", err)
 		}
 	}
 
 	if err = d.Set("source_ip6", dataSourceFlattenSystemNtpSourceIp6(o["source-ip6"], d, "source_ip6")); err != nil {
 		if !fortiAPIPatch(o["source-ip6"]) {
-			return fmt.Errorf("Error reading source_ip6: %v", err)
+			return fmt.Errorf("error reading source_ip6: %v", err)
 		}
 	}
 
 	if err = d.Set("server_mode", dataSourceFlattenSystemNtpServerMode(o["server-mode"], d, "server_mode")); err != nil {
 		if !fortiAPIPatch(o["server-mode"]) {
-			return fmt.Errorf("Error reading server_mode: %v", err)
+			return fmt.Errorf("error reading server_mode: %v", err)
 		}
 	}
 
 	if err = d.Set("authentication", dataSourceFlattenSystemNtpAuthentication(o["authentication"], d, "authentication")); err != nil {
 		if !fortiAPIPatch(o["authentication"]) {
-			return fmt.Errorf("Error reading authentication: %v", err)
+			return fmt.Errorf("error reading authentication: %v", err)
 		}
 	}
 
 	if err = d.Set("key_type", dataSourceFlattenSystemNtpKeyType(o["key-type"], d, "key_type")); err != nil {
 		if !fortiAPIPatch(o["key-type"]) {
-			return fmt.Errorf("Error reading key_type: %v", err)
+			return fmt.Errorf("error reading key_type: %v", err)
 		}
 	}
 
 	if err = d.Set("key_id", dataSourceFlattenSystemNtpKeyId(o["key-id"], d, "key_id")); err != nil {
 		if !fortiAPIPatch(o["key-id"]) {
-			return fmt.Errorf("Error reading key_id: %v", err)
+			return fmt.Errorf("error reading key_id: %v", err)
 		}
 	}
 
 	if err = d.Set("interface", dataSourceFlattenSystemNtpInterface(o["interface"], d, "interface")); err != nil {
 		if !fortiAPIPatch(o["interface"]) {
-			return fmt.Errorf("Error reading interface: %v", err)
+			return fmt.Errorf("error reading interface: %v", err)
 		}
 	}
 

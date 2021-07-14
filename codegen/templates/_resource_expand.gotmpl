@@ -1,0 +1,77 @@
+{{define "EXPAND"}}
+{{- range $key, $value := .children }}
+{{- if eq $value.category "unitary" }}
+func expand{{.fpath}}(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+	return v, nil
+}
+{{ end }}
+{{- if eq $value.category "table" }}
+func expand{{.fpath}}(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+	l := v.([]interface{})
+	if len(l) == 0 || l[0] == nil {
+		return nil, nil
+	}
+
+	result := make([]map[string]interface{}, 0, len(l))
+
+	con := 0
+	for _, r := range l {
+		tmp := make(map[string]interface{})
+		i := r.(map[string]interface{})
+		pre_append := "" // table
+{{ range $key, $value := $value.children }}
+		pre_append = pre + "." + strconv.Itoa(con) + "." + {{(flatten $value.name) | printf "%q" }}
+		if _, ok := d.GetOk(pre_append); ok {
+
+			tmp[{{$value.name | printf "%q" }}], _ = expand{{.fpath}}(d, i[{{(flatten $value.name) | printf "%q" }}], pre_append, sv)
+		}{{ if eq $value.category "table" }} else {
+			tmp[{{$value.name | printf "%q" }}] = make([]string, 0)
+		}{{end}}
+{{ end }}
+
+
+		result = append(result, tmp)
+
+		con += 1
+	}
+
+return result, nil
+}
+{{template "EXPAND" $value }}
+{{- end}}
+{{- if eq $value.category "complex" }}
+func expand{{.fpath}}(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+	l := v.([]interface{})
+	if len(l) == 0 || l[0] == nil {
+		return nil, nil
+	}
+
+	result := make([]map[string]interface{}, 0, len(l))
+
+	con := 0
+	for _, r := range l {
+		tmp := make(map[string]interface{})
+		i := r.(map[string]interface{})
+		pre_append := "" // table
+{{ range $key, $value := $value.children }}
+		pre_append = pre + "." + strconv.Itoa(con) + "." + {{(flatten $value.name) | printf "%q" }}
+		if _, ok := d.GetOk(pre_append); ok {
+
+			tmp[{{$value.name | printf "%q" }}], _ = expand{{.fpath}}(d, i[{{(flatten $value.name) | printf "%q" }}], pre_append, sv)
+		}{{ if eq $value.category "table" }} else {
+			tmp[{{$value.name | printf "%q" }}] = make([]string, 0)
+		}{{end}}
+{{ end }}
+
+
+		result = append(result, tmp)
+
+		con += 1
+	}
+	
+return result, nil
+}
+{{template "EXPAND" $value }}
+{{- end}}
+{{- end}}
+{{end}}

@@ -30,46 +30,46 @@ func resourceSystemVirtualSwitch() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 15),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"physical_switch": &schema.Schema{
+			"physical_switch": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 15),
 				Optional:     true,
 				Computed:     true,
 			},
-			"port": &schema.Schema{
+			"port": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 15),
 							Optional:     true,
 							Computed:     true,
 						},
-						"speed": &schema.Schema{
+						"speed": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"status": &schema.Schema{
+						"status": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"alias": &schema.Schema{
+						"alias": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 25),
 							Optional:     true,
@@ -78,32 +78,37 @@ func resourceSystemVirtualSwitch() *schema.Resource {
 					},
 				},
 			},
-			"span": &schema.Schema{
+			"span": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"span_source_port": &schema.Schema{
+			"span_source_port": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 15),
 				Optional:     true,
 				Computed:     true,
 			},
-			"span_dest_port": &schema.Schema{
+			"span_dest_port": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 15),
 				Optional:     true,
 				Computed:     true,
 			},
-			"span_direction": &schema.Schema{
+			"span_direction": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"dynamic_sort_subtable": &schema.Schema{
-				Type:     schema.TypeString,
+			"dynamic_sort_subtable": {
+				Type:     schema.TypeBool,
 				Optional: true,
-				Default:  "false",
+				Default:  false,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -121,15 +126,25 @@ func resourceSystemVirtualSwitchCreate(d *schema.ResourceData, m interface{}) er
 		}
 	}
 
-	obj, err := getObjectSystemVirtualSwitch(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating SystemVirtualSwitch resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateSystemVirtualSwitch(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemVirtualSwitch(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating SystemVirtualSwitch resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateSystemVirtualSwitch(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating SystemVirtualSwitch resource: %v", err)
+		return fmt.Errorf("error creating SystemVirtualSwitch resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -154,14 +169,24 @@ func resourceSystemVirtualSwitchUpdate(d *schema.ResourceData, m interface{}) er
 		}
 	}
 
-	obj, err := getObjectSystemVirtualSwitch(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SystemVirtualSwitch resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSystemVirtualSwitch(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemVirtualSwitch(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SystemVirtualSwitch resource: %v", err)
+		return fmt.Errorf("error updating SystemVirtualSwitch resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSystemVirtualSwitch(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SystemVirtualSwitch resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -188,9 +213,17 @@ func resourceSystemVirtualSwitchDelete(d *schema.ResourceData, m interface{}) er
 		}
 	}
 
-	err := c.DeleteSystemVirtualSwitch(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSystemVirtualSwitch(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SystemVirtualSwitch resource: %v", err)
+		return fmt.Errorf("error deleting SystemVirtualSwitch resource: %v", err)
 	}
 
 	d.SetId("")
@@ -212,9 +245,19 @@ func resourceSystemVirtualSwitchRead(d *schema.ResourceData, m interface{}) erro
 		}
 	}
 
-	o, err := c.ReadSystemVirtualSwitch(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSystemVirtualSwitch(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemVirtualSwitch resource: %v", err)
+		return fmt.Errorf("error reading SystemVirtualSwitch resource: %v", err)
 	}
 
 	if o == nil {
@@ -225,7 +268,7 @@ func resourceSystemVirtualSwitchRead(d *schema.ResourceData, m interface{}) erro
 
 	err = refreshObjectSystemVirtualSwitch(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemVirtualSwitch resource from API: %v", err)
+		return fmt.Errorf("error reading SystemVirtualSwitch resource from API: %v", err)
 	}
 	return nil
 }
@@ -327,27 +370,27 @@ func refreshObjectSystemVirtualSwitch(d *schema.ResourceData, o map[string]inter
 
 	if err = d.Set("name", flattenSystemVirtualSwitchName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("physical_switch", flattenSystemVirtualSwitchPhysicalSwitch(o["physical-switch"], d, "physical_switch", sv)); err != nil {
 		if !fortiAPIPatch(o["physical-switch"]) {
-			return fmt.Errorf("Error reading physical_switch: %v", err)
+			return fmt.Errorf("error reading physical_switch: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("port", flattenSystemVirtualSwitchPort(o["port"], d, "port", sv)); err != nil {
 			if !fortiAPIPatch(o["port"]) {
-				return fmt.Errorf("Error reading port: %v", err)
+				return fmt.Errorf("error reading port: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("port"); ok {
 			if err = d.Set("port", flattenSystemVirtualSwitchPort(o["port"], d, "port", sv)); err != nil {
 				if !fortiAPIPatch(o["port"]) {
-					return fmt.Errorf("Error reading port: %v", err)
+					return fmt.Errorf("error reading port: %v", err)
 				}
 			}
 		}
@@ -355,25 +398,25 @@ func refreshObjectSystemVirtualSwitch(d *schema.ResourceData, o map[string]inter
 
 	if err = d.Set("span", flattenSystemVirtualSwitchSpan(o["span"], d, "span", sv)); err != nil {
 		if !fortiAPIPatch(o["span"]) {
-			return fmt.Errorf("Error reading span: %v", err)
+			return fmt.Errorf("error reading span: %v", err)
 		}
 	}
 
 	if err = d.Set("span_source_port", flattenSystemVirtualSwitchSpanSourcePort(o["span-source-port"], d, "span_source_port", sv)); err != nil {
 		if !fortiAPIPatch(o["span-source-port"]) {
-			return fmt.Errorf("Error reading span_source_port: %v", err)
+			return fmt.Errorf("error reading span_source_port: %v", err)
 		}
 	}
 
 	if err = d.Set("span_dest_port", flattenSystemVirtualSwitchSpanDestPort(o["span-dest-port"], d, "span_dest_port", sv)); err != nil {
 		if !fortiAPIPatch(o["span-dest-port"]) {
-			return fmt.Errorf("Error reading span_dest_port: %v", err)
+			return fmt.Errorf("error reading span_dest_port: %v", err)
 		}
 	}
 
 	if err = d.Set("span_direction", flattenSystemVirtualSwitchSpanDirection(o["span-direction"], d, "span_direction", sv)); err != nil {
 		if !fortiAPIPatch(o["span-direction"]) {
-			return fmt.Errorf("Error reading span_direction: %v", err)
+			return fmt.Errorf("error reading span_direction: %v", err)
 		}
 	}
 

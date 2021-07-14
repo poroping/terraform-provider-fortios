@@ -59,14 +59,14 @@ func testAccCheckFortiOSSystemSdnConnectorExists(n string) resource.TestCheckFun
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemSdnConnector(i, "root")
+		o, err := c.ReadSystemSdnConnector(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading SystemSdnConnector: %s", err)
+			return fmt.Errorf("error reading SystemSdnConnector: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating SystemSdnConnector: %s", n)
+			return fmt.Errorf("error creating SystemSdnConnector: %s", n)
 		}
 
 		return nil
@@ -82,11 +82,11 @@ func testAccCheckSystemSdnConnectorDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemSdnConnector(i, "root")
+		o, err := c.ReadSystemSdnConnector(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error SystemSdnConnector %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error SystemSdnConnector %s still exists", rs.Primary.ID)
 			}
 		}
 

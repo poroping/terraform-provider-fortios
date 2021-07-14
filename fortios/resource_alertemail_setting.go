@@ -30,205 +30,210 @@ func resourceAlertemailSetting() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"username": &schema.Schema{
+			"username": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"mailto1": &schema.Schema{
+			"mailto1": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"mailto2": &schema.Schema{
+			"mailto2": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"mailto3": &schema.Schema{
+			"mailto3": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"filter_mode": &schema.Schema{
+			"filter_mode": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"email_interval": &schema.Schema{
+			"email_interval": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 99999),
 				Optional:     true,
 				Computed:     true,
 			},
-			"ips_logs": &schema.Schema{
+			"ips_logs": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"firewall_authentication_failure_logs": &schema.Schema{
+			"firewall_authentication_failure_logs": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ha_logs": &schema.Schema{
+			"ha_logs": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ipsec_errors_logs": &schema.Schema{
+			"ipsec_errors_logs": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"fds_update_logs": &schema.Schema{
+			"fds_update_logs": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ppp_errors_logs": &schema.Schema{
+			"ppp_errors_logs": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"sslvpn_authentication_errors_logs": &schema.Schema{
+			"sslvpn_authentication_errors_logs": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"antivirus_logs": &schema.Schema{
+			"antivirus_logs": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"webfilter_logs": &schema.Schema{
+			"webfilter_logs": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"configuration_changes_logs": &schema.Schema{
+			"configuration_changes_logs": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"violation_traffic_logs": &schema.Schema{
+			"violation_traffic_logs": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"admin_login_logs": &schema.Schema{
+			"admin_login_logs": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"fds_license_expiring_warning": &schema.Schema{
+			"fds_license_expiring_warning": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"log_disk_usage_warning": &schema.Schema{
+			"log_disk_usage_warning": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"fortiguard_log_quota_warning": &schema.Schema{
+			"fortiguard_log_quota_warning": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"amc_interface_bypass_mode": &schema.Schema{
+			"amc_interface_bypass_mode": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"fips_cc_errors": &schema.Schema{
+			"fips_cc_errors": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"fsso_disconnect_logs": &schema.Schema{
+			"fsso_disconnect_logs": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ssh_logs": &schema.Schema{
+			"ssh_logs": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"fds_license_expiring_days": &schema.Schema{
+			"fds_license_expiring_days": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 100),
 				Optional:     true,
 				Computed:     true,
 			},
-			"local_disk_usage": &schema.Schema{
+			"local_disk_usage": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 99),
 				Optional:     true,
 				Computed:     true,
 			},
-			"emergency_interval": &schema.Schema{
+			"emergency_interval": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 99999),
 				Optional:     true,
 				Computed:     true,
 			},
-			"alert_interval": &schema.Schema{
+			"alert_interval": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 99999),
 				Optional:     true,
 				Computed:     true,
 			},
-			"critical_interval": &schema.Schema{
+			"critical_interval": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 99999),
 				Optional:     true,
 				Computed:     true,
 			},
-			"error_interval": &schema.Schema{
+			"error_interval": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 99999),
 				Optional:     true,
 				Computed:     true,
 			},
-			"warning_interval": &schema.Schema{
+			"warning_interval": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 99999),
 				Optional:     true,
 				Computed:     true,
 			},
-			"notification_interval": &schema.Schema{
+			"notification_interval": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 99999),
 				Optional:     true,
 				Computed:     true,
 			},
-			"information_interval": &schema.Schema{
+			"information_interval": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 99999),
 				Optional:     true,
 				Computed:     true,
 			},
-			"debug_interval": &schema.Schema{
+			"debug_interval": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 99999),
 				Optional:     true,
 				Computed:     true,
 			},
-			"severity": &schema.Schema{
+			"severity": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -247,14 +252,24 @@ func resourceAlertemailSettingUpdate(d *schema.ResourceData, m interface{}) erro
 		}
 	}
 
-	obj, err := getObjectAlertemailSetting(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating AlertemailSetting resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateAlertemailSetting(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectAlertemailSetting(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating AlertemailSetting resource: %v", err)
+		return fmt.Errorf("error updating AlertemailSetting resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateAlertemailSetting(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating AlertemailSetting resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -281,9 +296,17 @@ func resourceAlertemailSettingDelete(d *schema.ResourceData, m interface{}) erro
 		}
 	}
 
-	err := c.DeleteAlertemailSetting(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteAlertemailSetting(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting AlertemailSetting resource: %v", err)
+		return fmt.Errorf("error deleting AlertemailSetting resource: %v", err)
 	}
 
 	d.SetId("")
@@ -305,9 +328,19 @@ func resourceAlertemailSettingRead(d *schema.ResourceData, m interface{}) error 
 		}
 	}
 
-	o, err := c.ReadAlertemailSetting(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadAlertemailSetting(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading AlertemailSetting resource: %v", err)
+		return fmt.Errorf("error reading AlertemailSetting resource: %v", err)
 	}
 
 	if o == nil {
@@ -318,7 +351,7 @@ func resourceAlertemailSettingRead(d *schema.ResourceData, m interface{}) error 
 
 	err = refreshObjectAlertemailSetting(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading AlertemailSetting resource from API: %v", err)
+		return fmt.Errorf("error reading AlertemailSetting resource from API: %v", err)
 	}
 	return nil
 }
@@ -472,217 +505,217 @@ func refreshObjectAlertemailSetting(d *schema.ResourceData, o map[string]interfa
 
 	if err = d.Set("username", flattenAlertemailSettingUsername(o["username"], d, "username", sv)); err != nil {
 		if !fortiAPIPatch(o["username"]) {
-			return fmt.Errorf("Error reading username: %v", err)
+			return fmt.Errorf("error reading username: %v", err)
 		}
 	}
 
 	if err = d.Set("mailto1", flattenAlertemailSettingMailto1(o["mailto1"], d, "mailto1", sv)); err != nil {
 		if !fortiAPIPatch(o["mailto1"]) {
-			return fmt.Errorf("Error reading mailto1: %v", err)
+			return fmt.Errorf("error reading mailto1: %v", err)
 		}
 	}
 
 	if err = d.Set("mailto2", flattenAlertemailSettingMailto2(o["mailto2"], d, "mailto2", sv)); err != nil {
 		if !fortiAPIPatch(o["mailto2"]) {
-			return fmt.Errorf("Error reading mailto2: %v", err)
+			return fmt.Errorf("error reading mailto2: %v", err)
 		}
 	}
 
 	if err = d.Set("mailto3", flattenAlertemailSettingMailto3(o["mailto3"], d, "mailto3", sv)); err != nil {
 		if !fortiAPIPatch(o["mailto3"]) {
-			return fmt.Errorf("Error reading mailto3: %v", err)
+			return fmt.Errorf("error reading mailto3: %v", err)
 		}
 	}
 
 	if err = d.Set("filter_mode", flattenAlertemailSettingFilterMode(o["filter-mode"], d, "filter_mode", sv)); err != nil {
 		if !fortiAPIPatch(o["filter-mode"]) {
-			return fmt.Errorf("Error reading filter_mode: %v", err)
+			return fmt.Errorf("error reading filter_mode: %v", err)
 		}
 	}
 
 	if err = d.Set("email_interval", flattenAlertemailSettingEmailInterval(o["email-interval"], d, "email_interval", sv)); err != nil {
 		if !fortiAPIPatch(o["email-interval"]) {
-			return fmt.Errorf("Error reading email_interval: %v", err)
+			return fmt.Errorf("error reading email_interval: %v", err)
 		}
 	}
 
 	if err = d.Set("ips_logs", flattenAlertemailSettingIpsLogs(o["IPS-logs"], d, "ips_logs", sv)); err != nil {
 		if !fortiAPIPatch(o["IPS-logs"]) {
-			return fmt.Errorf("Error reading ips_logs: %v", err)
+			return fmt.Errorf("error reading ips_logs: %v", err)
 		}
 	}
 
 	if err = d.Set("firewall_authentication_failure_logs", flattenAlertemailSettingFirewallAuthenticationFailureLogs(o["firewall-authentication-failure-logs"], d, "firewall_authentication_failure_logs", sv)); err != nil {
 		if !fortiAPIPatch(o["firewall-authentication-failure-logs"]) {
-			return fmt.Errorf("Error reading firewall_authentication_failure_logs: %v", err)
+			return fmt.Errorf("error reading firewall_authentication_failure_logs: %v", err)
 		}
 	}
 
 	if err = d.Set("ha_logs", flattenAlertemailSettingHaLogs(o["HA-logs"], d, "ha_logs", sv)); err != nil {
 		if !fortiAPIPatch(o["HA-logs"]) {
-			return fmt.Errorf("Error reading ha_logs: %v", err)
+			return fmt.Errorf("error reading ha_logs: %v", err)
 		}
 	}
 
 	if err = d.Set("ipsec_errors_logs", flattenAlertemailSettingIpsecErrorsLogs(o["IPsec-errors-logs"], d, "ipsec_errors_logs", sv)); err != nil {
 		if !fortiAPIPatch(o["IPsec-errors-logs"]) {
-			return fmt.Errorf("Error reading ipsec_errors_logs: %v", err)
+			return fmt.Errorf("error reading ipsec_errors_logs: %v", err)
 		}
 	}
 
 	if err = d.Set("fds_update_logs", flattenAlertemailSettingFdsUpdateLogs(o["FDS-update-logs"], d, "fds_update_logs", sv)); err != nil {
 		if !fortiAPIPatch(o["FDS-update-logs"]) {
-			return fmt.Errorf("Error reading fds_update_logs: %v", err)
+			return fmt.Errorf("error reading fds_update_logs: %v", err)
 		}
 	}
 
 	if err = d.Set("ppp_errors_logs", flattenAlertemailSettingPppErrorsLogs(o["PPP-errors-logs"], d, "ppp_errors_logs", sv)); err != nil {
 		if !fortiAPIPatch(o["PPP-errors-logs"]) {
-			return fmt.Errorf("Error reading ppp_errors_logs: %v", err)
+			return fmt.Errorf("error reading ppp_errors_logs: %v", err)
 		}
 	}
 
 	if err = d.Set("sslvpn_authentication_errors_logs", flattenAlertemailSettingSslvpnAuthenticationErrorsLogs(o["sslvpn-authentication-errors-logs"], d, "sslvpn_authentication_errors_logs", sv)); err != nil {
 		if !fortiAPIPatch(o["sslvpn-authentication-errors-logs"]) {
-			return fmt.Errorf("Error reading sslvpn_authentication_errors_logs: %v", err)
+			return fmt.Errorf("error reading sslvpn_authentication_errors_logs: %v", err)
 		}
 	}
 
 	if err = d.Set("antivirus_logs", flattenAlertemailSettingAntivirusLogs(o["antivirus-logs"], d, "antivirus_logs", sv)); err != nil {
 		if !fortiAPIPatch(o["antivirus-logs"]) {
-			return fmt.Errorf("Error reading antivirus_logs: %v", err)
+			return fmt.Errorf("error reading antivirus_logs: %v", err)
 		}
 	}
 
 	if err = d.Set("webfilter_logs", flattenAlertemailSettingWebfilterLogs(o["webfilter-logs"], d, "webfilter_logs", sv)); err != nil {
 		if !fortiAPIPatch(o["webfilter-logs"]) {
-			return fmt.Errorf("Error reading webfilter_logs: %v", err)
+			return fmt.Errorf("error reading webfilter_logs: %v", err)
 		}
 	}
 
 	if err = d.Set("configuration_changes_logs", flattenAlertemailSettingConfigurationChangesLogs(o["configuration-changes-logs"], d, "configuration_changes_logs", sv)); err != nil {
 		if !fortiAPIPatch(o["configuration-changes-logs"]) {
-			return fmt.Errorf("Error reading configuration_changes_logs: %v", err)
+			return fmt.Errorf("error reading configuration_changes_logs: %v", err)
 		}
 	}
 
 	if err = d.Set("violation_traffic_logs", flattenAlertemailSettingViolationTrafficLogs(o["violation-traffic-logs"], d, "violation_traffic_logs", sv)); err != nil {
 		if !fortiAPIPatch(o["violation-traffic-logs"]) {
-			return fmt.Errorf("Error reading violation_traffic_logs: %v", err)
+			return fmt.Errorf("error reading violation_traffic_logs: %v", err)
 		}
 	}
 
 	if err = d.Set("admin_login_logs", flattenAlertemailSettingAdminLoginLogs(o["admin-login-logs"], d, "admin_login_logs", sv)); err != nil {
 		if !fortiAPIPatch(o["admin-login-logs"]) {
-			return fmt.Errorf("Error reading admin_login_logs: %v", err)
+			return fmt.Errorf("error reading admin_login_logs: %v", err)
 		}
 	}
 
 	if err = d.Set("fds_license_expiring_warning", flattenAlertemailSettingFdsLicenseExpiringWarning(o["FDS-license-expiring-warning"], d, "fds_license_expiring_warning", sv)); err != nil {
 		if !fortiAPIPatch(o["FDS-license-expiring-warning"]) {
-			return fmt.Errorf("Error reading fds_license_expiring_warning: %v", err)
+			return fmt.Errorf("error reading fds_license_expiring_warning: %v", err)
 		}
 	}
 
 	if err = d.Set("log_disk_usage_warning", flattenAlertemailSettingLogDiskUsageWarning(o["log-disk-usage-warning"], d, "log_disk_usage_warning", sv)); err != nil {
 		if !fortiAPIPatch(o["log-disk-usage-warning"]) {
-			return fmt.Errorf("Error reading log_disk_usage_warning: %v", err)
+			return fmt.Errorf("error reading log_disk_usage_warning: %v", err)
 		}
 	}
 
 	if err = d.Set("fortiguard_log_quota_warning", flattenAlertemailSettingFortiguardLogQuotaWarning(o["fortiguard-log-quota-warning"], d, "fortiguard_log_quota_warning", sv)); err != nil {
 		if !fortiAPIPatch(o["fortiguard-log-quota-warning"]) {
-			return fmt.Errorf("Error reading fortiguard_log_quota_warning: %v", err)
+			return fmt.Errorf("error reading fortiguard_log_quota_warning: %v", err)
 		}
 	}
 
 	if err = d.Set("amc_interface_bypass_mode", flattenAlertemailSettingAmcInterfaceBypassMode(o["amc-interface-bypass-mode"], d, "amc_interface_bypass_mode", sv)); err != nil {
 		if !fortiAPIPatch(o["amc-interface-bypass-mode"]) {
-			return fmt.Errorf("Error reading amc_interface_bypass_mode: %v", err)
+			return fmt.Errorf("error reading amc_interface_bypass_mode: %v", err)
 		}
 	}
 
 	if err = d.Set("fips_cc_errors", flattenAlertemailSettingFipsCcErrors(o["FIPS-CC-errors"], d, "fips_cc_errors", sv)); err != nil {
 		if !fortiAPIPatch(o["FIPS-CC-errors"]) {
-			return fmt.Errorf("Error reading fips_cc_errors: %v", err)
+			return fmt.Errorf("error reading fips_cc_errors: %v", err)
 		}
 	}
 
 	if err = d.Set("fsso_disconnect_logs", flattenAlertemailSettingFssoDisconnectLogs(o["FSSO-disconnect-logs"], d, "fsso_disconnect_logs", sv)); err != nil {
 		if !fortiAPIPatch(o["FSSO-disconnect-logs"]) {
-			return fmt.Errorf("Error reading fsso_disconnect_logs: %v", err)
+			return fmt.Errorf("error reading fsso_disconnect_logs: %v", err)
 		}
 	}
 
 	if err = d.Set("ssh_logs", flattenAlertemailSettingSshLogs(o["ssh-logs"], d, "ssh_logs", sv)); err != nil {
 		if !fortiAPIPatch(o["ssh-logs"]) {
-			return fmt.Errorf("Error reading ssh_logs: %v", err)
+			return fmt.Errorf("error reading ssh_logs: %v", err)
 		}
 	}
 
 	if err = d.Set("fds_license_expiring_days", flattenAlertemailSettingFdsLicenseExpiringDays(o["FDS-license-expiring-days"], d, "fds_license_expiring_days", sv)); err != nil {
 		if !fortiAPIPatch(o["FDS-license-expiring-days"]) {
-			return fmt.Errorf("Error reading fds_license_expiring_days: %v", err)
+			return fmt.Errorf("error reading fds_license_expiring_days: %v", err)
 		}
 	}
 
 	if err = d.Set("local_disk_usage", flattenAlertemailSettingLocalDiskUsage(o["local-disk-usage"], d, "local_disk_usage", sv)); err != nil {
 		if !fortiAPIPatch(o["local-disk-usage"]) {
-			return fmt.Errorf("Error reading local_disk_usage: %v", err)
+			return fmt.Errorf("error reading local_disk_usage: %v", err)
 		}
 	}
 
 	if err = d.Set("emergency_interval", flattenAlertemailSettingEmergencyInterval(o["emergency-interval"], d, "emergency_interval", sv)); err != nil {
 		if !fortiAPIPatch(o["emergency-interval"]) {
-			return fmt.Errorf("Error reading emergency_interval: %v", err)
+			return fmt.Errorf("error reading emergency_interval: %v", err)
 		}
 	}
 
 	if err = d.Set("alert_interval", flattenAlertemailSettingAlertInterval(o["alert-interval"], d, "alert_interval", sv)); err != nil {
 		if !fortiAPIPatch(o["alert-interval"]) {
-			return fmt.Errorf("Error reading alert_interval: %v", err)
+			return fmt.Errorf("error reading alert_interval: %v", err)
 		}
 	}
 
 	if err = d.Set("critical_interval", flattenAlertemailSettingCriticalInterval(o["critical-interval"], d, "critical_interval", sv)); err != nil {
 		if !fortiAPIPatch(o["critical-interval"]) {
-			return fmt.Errorf("Error reading critical_interval: %v", err)
+			return fmt.Errorf("error reading critical_interval: %v", err)
 		}
 	}
 
 	if err = d.Set("error_interval", flattenAlertemailSettingErrorInterval(o["error-interval"], d, "error_interval", sv)); err != nil {
 		if !fortiAPIPatch(o["error-interval"]) {
-			return fmt.Errorf("Error reading error_interval: %v", err)
+			return fmt.Errorf("error reading error_interval: %v", err)
 		}
 	}
 
 	if err = d.Set("warning_interval", flattenAlertemailSettingWarningInterval(o["warning-interval"], d, "warning_interval", sv)); err != nil {
 		if !fortiAPIPatch(o["warning-interval"]) {
-			return fmt.Errorf("Error reading warning_interval: %v", err)
+			return fmt.Errorf("error reading warning_interval: %v", err)
 		}
 	}
 
 	if err = d.Set("notification_interval", flattenAlertemailSettingNotificationInterval(o["notification-interval"], d, "notification_interval", sv)); err != nil {
 		if !fortiAPIPatch(o["notification-interval"]) {
-			return fmt.Errorf("Error reading notification_interval: %v", err)
+			return fmt.Errorf("error reading notification_interval: %v", err)
 		}
 	}
 
 	if err = d.Set("information_interval", flattenAlertemailSettingInformationInterval(o["information-interval"], d, "information_interval", sv)); err != nil {
 		if !fortiAPIPatch(o["information-interval"]) {
-			return fmt.Errorf("Error reading information_interval: %v", err)
+			return fmt.Errorf("error reading information_interval: %v", err)
 		}
 	}
 
 	if err = d.Set("debug_interval", flattenAlertemailSettingDebugInterval(o["debug-interval"], d, "debug_interval", sv)); err != nil {
 		if !fortiAPIPatch(o["debug-interval"]) {
-			return fmt.Errorf("Error reading debug_interval: %v", err)
+			return fmt.Errorf("error reading debug_interval: %v", err)
 		}
 	}
 
 	if err = d.Set("severity", flattenAlertemailSettingSeverity(o["severity"], d, "severity", sv)); err != nil {
 		if !fortiAPIPatch(o["severity"]) {
-			return fmt.Errorf("Error reading severity: %v", err)
+			return fmt.Errorf("error reading severity: %v", err)
 		}
 	}
 

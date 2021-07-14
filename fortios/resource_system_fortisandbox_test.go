@@ -51,14 +51,14 @@ func testAccCheckFortiOSSystemFortisandboxExists(n string) resource.TestCheckFun
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemFortisandbox(i, "root")
+		o, err := c.ReadSystemFortisandbox(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading SystemFortisandbox: %s", err)
+			return fmt.Errorf("error reading SystemFortisandbox: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating SystemFortisandbox: %s", n)
+			return fmt.Errorf("error creating SystemFortisandbox: %s", n)
 		}
 
 		return nil
@@ -74,11 +74,11 @@ func testAccCheckSystemFortisandboxDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemFortisandbox(i, "root")
+		o, err := c.ReadSystemFortisandbox(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error SystemFortisandbox %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error SystemFortisandbox %s still exists", rs.Primary.ID)
 			}
 		}
 

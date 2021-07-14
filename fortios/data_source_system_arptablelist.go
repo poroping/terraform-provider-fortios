@@ -17,12 +17,12 @@ func dataSourceSystemArpTableList() *schema.Resource {
 		Read: dataSourceSystemArpTableListRead,
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"filter": &schema.Schema{
+			"filter": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
@@ -52,9 +52,9 @@ func dataSourceSystemArpTableListRead(d *schema.ResourceData, m interface{}) err
 		filter = escapeFilter(filter)
 	}
 
-	o, err := c.GenericGroupRead("/api/v2/cmdb/system/arp-table", filter, vdomparam)
+	o, err := c.GenericGroupRead("/api/v2/cmdb/system/arp-table", filter, vdomparam, 0)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemArpTable: %v", err)
+		return fmt.Errorf("error describing SystemArpTable: %v", err)
 	}
 
 	var tmps []int

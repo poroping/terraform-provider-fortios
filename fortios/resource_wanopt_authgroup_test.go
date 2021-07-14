@@ -52,14 +52,14 @@ func testAccCheckFortiOSWanoptAuthGroupExists(n string) resource.TestCheckFunc {
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadWanoptAuthGroup(i, "root")
+		o, err := c.ReadWanoptAuthGroup(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading WanoptAuthGroup: %s", err)
+			return fmt.Errorf("error reading WanoptAuthGroup: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating WanoptAuthGroup: %s", n)
+			return fmt.Errorf("error creating WanoptAuthGroup: %s", n)
 		}
 
 		return nil
@@ -75,11 +75,11 @@ func testAccCheckWanoptAuthGroupDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadWanoptAuthGroup(i, "root")
+		o, err := c.ReadWanoptAuthGroup(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error WanoptAuthGroup %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error WanoptAuthGroup %s still exists", rs.Primary.ID)
 			}
 		}
 

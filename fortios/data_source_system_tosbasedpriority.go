@@ -21,21 +21,21 @@ func dataSourceSystemTosBasedPriority() *schema.Resource {
 	return &schema.Resource{
 		Read: dataSourceSystemTosBasedPriorityRead,
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
 
-			"fosid": &schema.Schema{
+			"fosid": {
 				Type:     schema.TypeInt,
 				Required: true,
 			},
-			"tos": &schema.Schema{
+			"tos": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"priority": &schema.Schema{
+			"priority": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -63,12 +63,12 @@ func dataSourceSystemTosBasedPriorityRead(d *schema.ResourceData, m interface{})
 	} else if v, ok := t.(int); ok {
 		mkey = strconv.Itoa(v)
 	} else {
-		return fmt.Errorf("Error describing SystemTosBasedPriority: type error")
+		return fmt.Errorf("error describing SystemTosBasedPriority: type error")
 	}
 
-	o, err := c.ReadSystemTosBasedPriority(mkey, vdomparam)
+	o, err := c.ReadSystemTosBasedPriority(mkey, vdomparam, make(map[string][]string), 0)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemTosBasedPriority: %v", err)
+		return fmt.Errorf("error describing SystemTosBasedPriority: %v", err)
 	}
 
 	if o == nil {
@@ -78,7 +78,7 @@ func dataSourceSystemTosBasedPriorityRead(d *schema.ResourceData, m interface{})
 
 	err = dataSourceRefreshObjectSystemTosBasedPriority(d, o)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemTosBasedPriority from API: %v", err)
+		return fmt.Errorf("error describing SystemTosBasedPriority from API: %v", err)
 	}
 
 	d.SetId(mkey)
@@ -103,19 +103,19 @@ func dataSourceRefreshObjectSystemTosBasedPriority(d *schema.ResourceData, o map
 
 	if err = d.Set("fosid", dataSourceFlattenSystemTosBasedPriorityId(o["id"], d, "fosid")); err != nil {
 		if !fortiAPIPatch(o["id"]) {
-			return fmt.Errorf("Error reading fosid: %v", err)
+			return fmt.Errorf("error reading fosid: %v", err)
 		}
 	}
 
 	if err = d.Set("tos", dataSourceFlattenSystemTosBasedPriorityTos(o["tos"], d, "tos")); err != nil {
 		if !fortiAPIPatch(o["tos"]) {
-			return fmt.Errorf("Error reading tos: %v", err)
+			return fmt.Errorf("error reading tos: %v", err)
 		}
 	}
 
 	if err = d.Set("priority", dataSourceFlattenSystemTosBasedPriorityPriority(o["priority"], d, "priority")); err != nil {
 		if !fortiAPIPatch(o["priority"]) {
-			return fmt.Errorf("Error reading priority: %v", err)
+			return fmt.Errorf("error reading priority: %v", err)
 		}
 	}
 

@@ -30,43 +30,43 @@ func resourceSwitchControllerGlobal() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"mac_aging_interval": &schema.Schema{
+			"mac_aging_interval": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(10, 1000000),
 				Optional:     true,
 				Computed:     true,
 			},
-			"allow_multiple_interfaces": &schema.Schema{
+			"allow_multiple_interfaces": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"https_image_push": &schema.Schema{
+			"https_image_push": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"vlan_all_mode": &schema.Schema{
+			"vlan_all_mode": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"vlan_optimization": &schema.Schema{
+			"vlan_optimization": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"disable_discovery": &schema.Schema{
+			"disable_discovery": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 64),
 							Optional:     true,
@@ -75,65 +75,65 @@ func resourceSwitchControllerGlobal() *schema.Resource {
 					},
 				},
 			},
-			"mac_retention_period": &schema.Schema{
+			"mac_retention_period": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 168),
 				Optional:     true,
 				Computed:     true,
 			},
-			"default_virtual_switch_vlan": &schema.Schema{
+			"default_virtual_switch_vlan": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 15),
 				Optional:     true,
 				Computed:     true,
 			},
-			"log_mac_limit_violations": &schema.Schema{
+			"log_mac_limit_violations": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"mac_violation_timer": &schema.Schema{
+			"mac_violation_timer": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"sn_dns_resolution": &schema.Schema{
+			"sn_dns_resolution": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"mac_event_logging": &schema.Schema{
+			"mac_event_logging": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"bounce_quarantined_link": &schema.Schema{
+			"bounce_quarantined_link": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"quarantine_mode": &schema.Schema{
+			"quarantine_mode": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"update_user_device": &schema.Schema{
+			"update_user_device": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"custom_command": &schema.Schema{
+			"custom_command": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"command_entry": &schema.Schema{
+						"command_entry": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"command_name": &schema.Schema{
+						"command_name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
@@ -142,10 +142,15 @@ func resourceSwitchControllerGlobal() *schema.Resource {
 					},
 				},
 			},
-			"dynamic_sort_subtable": &schema.Schema{
-				Type:     schema.TypeString,
+			"dynamic_sort_subtable": {
+				Type:     schema.TypeBool,
 				Optional: true,
-				Default:  "false",
+				Default:  false,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -164,14 +169,24 @@ func resourceSwitchControllerGlobalUpdate(d *schema.ResourceData, m interface{})
 		}
 	}
 
-	obj, err := getObjectSwitchControllerGlobal(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SwitchControllerGlobal resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSwitchControllerGlobal(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSwitchControllerGlobal(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SwitchControllerGlobal resource: %v", err)
+		return fmt.Errorf("error updating SwitchControllerGlobal resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSwitchControllerGlobal(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SwitchControllerGlobal resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -198,9 +213,17 @@ func resourceSwitchControllerGlobalDelete(d *schema.ResourceData, m interface{})
 		}
 	}
 
-	err := c.DeleteSwitchControllerGlobal(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSwitchControllerGlobal(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SwitchControllerGlobal resource: %v", err)
+		return fmt.Errorf("error deleting SwitchControllerGlobal resource: %v", err)
 	}
 
 	d.SetId("")
@@ -222,9 +245,19 @@ func resourceSwitchControllerGlobalRead(d *schema.ResourceData, m interface{}) e
 		}
 	}
 
-	o, err := c.ReadSwitchControllerGlobal(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSwitchControllerGlobal(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SwitchControllerGlobal resource: %v", err)
+		return fmt.Errorf("error reading SwitchControllerGlobal resource: %v", err)
 	}
 
 	if o == nil {
@@ -235,7 +268,7 @@ func resourceSwitchControllerGlobalRead(d *schema.ResourceData, m interface{}) e
 
 	err = refreshObjectSwitchControllerGlobal(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SwitchControllerGlobal resource from API: %v", err)
+		return fmt.Errorf("error reading SwitchControllerGlobal resource from API: %v", err)
 	}
 	return nil
 }
@@ -387,45 +420,45 @@ func refreshObjectSwitchControllerGlobal(d *schema.ResourceData, o map[string]in
 
 	if err = d.Set("mac_aging_interval", flattenSwitchControllerGlobalMacAgingInterval(o["mac-aging-interval"], d, "mac_aging_interval", sv)); err != nil {
 		if !fortiAPIPatch(o["mac-aging-interval"]) {
-			return fmt.Errorf("Error reading mac_aging_interval: %v", err)
+			return fmt.Errorf("error reading mac_aging_interval: %v", err)
 		}
 	}
 
 	if err = d.Set("allow_multiple_interfaces", flattenSwitchControllerGlobalAllowMultipleInterfaces(o["allow-multiple-interfaces"], d, "allow_multiple_interfaces", sv)); err != nil {
 		if !fortiAPIPatch(o["allow-multiple-interfaces"]) {
-			return fmt.Errorf("Error reading allow_multiple_interfaces: %v", err)
+			return fmt.Errorf("error reading allow_multiple_interfaces: %v", err)
 		}
 	}
 
 	if err = d.Set("https_image_push", flattenSwitchControllerGlobalHttpsImagePush(o["https-image-push"], d, "https_image_push", sv)); err != nil {
 		if !fortiAPIPatch(o["https-image-push"]) {
-			return fmt.Errorf("Error reading https_image_push: %v", err)
+			return fmt.Errorf("error reading https_image_push: %v", err)
 		}
 	}
 
 	if err = d.Set("vlan_all_mode", flattenSwitchControllerGlobalVlanAllMode(o["vlan-all-mode"], d, "vlan_all_mode", sv)); err != nil {
 		if !fortiAPIPatch(o["vlan-all-mode"]) {
-			return fmt.Errorf("Error reading vlan_all_mode: %v", err)
+			return fmt.Errorf("error reading vlan_all_mode: %v", err)
 		}
 	}
 
 	if err = d.Set("vlan_optimization", flattenSwitchControllerGlobalVlanOptimization(o["vlan-optimization"], d, "vlan_optimization", sv)); err != nil {
 		if !fortiAPIPatch(o["vlan-optimization"]) {
-			return fmt.Errorf("Error reading vlan_optimization: %v", err)
+			return fmt.Errorf("error reading vlan_optimization: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("disable_discovery", flattenSwitchControllerGlobalDisableDiscovery(o["disable-discovery"], d, "disable_discovery", sv)); err != nil {
 			if !fortiAPIPatch(o["disable-discovery"]) {
-				return fmt.Errorf("Error reading disable_discovery: %v", err)
+				return fmt.Errorf("error reading disable_discovery: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("disable_discovery"); ok {
 			if err = d.Set("disable_discovery", flattenSwitchControllerGlobalDisableDiscovery(o["disable-discovery"], d, "disable_discovery", sv)); err != nil {
 				if !fortiAPIPatch(o["disable-discovery"]) {
-					return fmt.Errorf("Error reading disable_discovery: %v", err)
+					return fmt.Errorf("error reading disable_discovery: %v", err)
 				}
 			}
 		}
@@ -433,69 +466,69 @@ func refreshObjectSwitchControllerGlobal(d *schema.ResourceData, o map[string]in
 
 	if err = d.Set("mac_retention_period", flattenSwitchControllerGlobalMacRetentionPeriod(o["mac-retention-period"], d, "mac_retention_period", sv)); err != nil {
 		if !fortiAPIPatch(o["mac-retention-period"]) {
-			return fmt.Errorf("Error reading mac_retention_period: %v", err)
+			return fmt.Errorf("error reading mac_retention_period: %v", err)
 		}
 	}
 
 	if err = d.Set("default_virtual_switch_vlan", flattenSwitchControllerGlobalDefaultVirtualSwitchVlan(o["default-virtual-switch-vlan"], d, "default_virtual_switch_vlan", sv)); err != nil {
 		if !fortiAPIPatch(o["default-virtual-switch-vlan"]) {
-			return fmt.Errorf("Error reading default_virtual_switch_vlan: %v", err)
+			return fmt.Errorf("error reading default_virtual_switch_vlan: %v", err)
 		}
 	}
 
 	if err = d.Set("log_mac_limit_violations", flattenSwitchControllerGlobalLogMacLimitViolations(o["log-mac-limit-violations"], d, "log_mac_limit_violations", sv)); err != nil {
 		if !fortiAPIPatch(o["log-mac-limit-violations"]) {
-			return fmt.Errorf("Error reading log_mac_limit_violations: %v", err)
+			return fmt.Errorf("error reading log_mac_limit_violations: %v", err)
 		}
 	}
 
 	if err = d.Set("mac_violation_timer", flattenSwitchControllerGlobalMacViolationTimer(o["mac-violation-timer"], d, "mac_violation_timer", sv)); err != nil {
 		if !fortiAPIPatch(o["mac-violation-timer"]) {
-			return fmt.Errorf("Error reading mac_violation_timer: %v", err)
+			return fmt.Errorf("error reading mac_violation_timer: %v", err)
 		}
 	}
 
 	if err = d.Set("sn_dns_resolution", flattenSwitchControllerGlobalSnDnsResolution(o["sn-dns-resolution"], d, "sn_dns_resolution", sv)); err != nil {
 		if !fortiAPIPatch(o["sn-dns-resolution"]) {
-			return fmt.Errorf("Error reading sn_dns_resolution: %v", err)
+			return fmt.Errorf("error reading sn_dns_resolution: %v", err)
 		}
 	}
 
 	if err = d.Set("mac_event_logging", flattenSwitchControllerGlobalMacEventLogging(o["mac-event-logging"], d, "mac_event_logging", sv)); err != nil {
 		if !fortiAPIPatch(o["mac-event-logging"]) {
-			return fmt.Errorf("Error reading mac_event_logging: %v", err)
+			return fmt.Errorf("error reading mac_event_logging: %v", err)
 		}
 	}
 
 	if err = d.Set("bounce_quarantined_link", flattenSwitchControllerGlobalBounceQuarantinedLink(o["bounce-quarantined-link"], d, "bounce_quarantined_link", sv)); err != nil {
 		if !fortiAPIPatch(o["bounce-quarantined-link"]) {
-			return fmt.Errorf("Error reading bounce_quarantined_link: %v", err)
+			return fmt.Errorf("error reading bounce_quarantined_link: %v", err)
 		}
 	}
 
 	if err = d.Set("quarantine_mode", flattenSwitchControllerGlobalQuarantineMode(o["quarantine-mode"], d, "quarantine_mode", sv)); err != nil {
 		if !fortiAPIPatch(o["quarantine-mode"]) {
-			return fmt.Errorf("Error reading quarantine_mode: %v", err)
+			return fmt.Errorf("error reading quarantine_mode: %v", err)
 		}
 	}
 
 	if err = d.Set("update_user_device", flattenSwitchControllerGlobalUpdateUserDevice(o["update-user-device"], d, "update_user_device", sv)); err != nil {
 		if !fortiAPIPatch(o["update-user-device"]) {
-			return fmt.Errorf("Error reading update_user_device: %v", err)
+			return fmt.Errorf("error reading update_user_device: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("custom_command", flattenSwitchControllerGlobalCustomCommand(o["custom-command"], d, "custom_command", sv)); err != nil {
 			if !fortiAPIPatch(o["custom-command"]) {
-				return fmt.Errorf("Error reading custom_command: %v", err)
+				return fmt.Errorf("error reading custom_command: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("custom_command"); ok {
 			if err = d.Set("custom_command", flattenSwitchControllerGlobalCustomCommand(o["custom-command"], d, "custom_command", sv)); err != nil {
 				if !fortiAPIPatch(o["custom-command"]) {
-					return fmt.Errorf("Error reading custom_command: %v", err)
+					return fmt.Errorf("error reading custom_command: %v", err)
 				}
 			}
 		}

@@ -53,14 +53,14 @@ func testAccCheckFortiOSFirewallIpTranslationExists(n string) resource.TestCheck
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadFirewallIpTranslation(i, "root")
+		o, err := c.ReadFirewallIpTranslation(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading FirewallIpTranslation: %s", err)
+			return fmt.Errorf("error reading FirewallIpTranslation: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating FirewallIpTranslation: %s", n)
+			return fmt.Errorf("error creating FirewallIpTranslation: %s", n)
 		}
 
 		return nil
@@ -76,11 +76,11 @@ func testAccCheckFirewallIpTranslationDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadFirewallIpTranslation(i, "root")
+		o, err := c.ReadFirewallIpTranslation(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error FirewallIpTranslation %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error FirewallIpTranslation %s still exists", rs.Primary.ID)
 			}
 		}
 

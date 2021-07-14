@@ -30,189 +30,194 @@ func resourceReportTheme() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"page_orient": &schema.Schema{
+			"page_orient": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"column_count": &schema.Schema{
+			"column_count": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"default_html_style": &schema.Schema{
+			"default_html_style": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 71),
 				Optional:     true,
 				Computed:     true,
 			},
-			"default_pdf_style": &schema.Schema{
+			"default_pdf_style": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 71),
 				Optional:     true,
 				Computed:     true,
 			},
-			"page_style": &schema.Schema{
+			"page_style": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 71),
 				Optional:     true,
 				Computed:     true,
 			},
-			"page_header_style": &schema.Schema{
+			"page_header_style": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 71),
 				Optional:     true,
 				Computed:     true,
 			},
-			"page_footer_style": &schema.Schema{
+			"page_footer_style": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 71),
 				Optional:     true,
 				Computed:     true,
 			},
-			"report_title_style": &schema.Schema{
+			"report_title_style": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 71),
 				Optional:     true,
 				Computed:     true,
 			},
-			"report_subtitle_style": &schema.Schema{
+			"report_subtitle_style": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 71),
 				Optional:     true,
 				Computed:     true,
 			},
-			"toc_title_style": &schema.Schema{
+			"toc_title_style": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 71),
 				Optional:     true,
 				Computed:     true,
 			},
-			"toc_heading1_style": &schema.Schema{
+			"toc_heading1_style": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 71),
 				Optional:     true,
 				Computed:     true,
 			},
-			"toc_heading2_style": &schema.Schema{
+			"toc_heading2_style": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 71),
 				Optional:     true,
 				Computed:     true,
 			},
-			"toc_heading3_style": &schema.Schema{
+			"toc_heading3_style": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 71),
 				Optional:     true,
 				Computed:     true,
 			},
-			"toc_heading4_style": &schema.Schema{
+			"toc_heading4_style": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 71),
 				Optional:     true,
 				Computed:     true,
 			},
-			"heading1_style": &schema.Schema{
+			"heading1_style": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 71),
 				Optional:     true,
 				Computed:     true,
 			},
-			"heading2_style": &schema.Schema{
+			"heading2_style": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 71),
 				Optional:     true,
 				Computed:     true,
 			},
-			"heading3_style": &schema.Schema{
+			"heading3_style": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 71),
 				Optional:     true,
 				Computed:     true,
 			},
-			"heading4_style": &schema.Schema{
+			"heading4_style": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 71),
 				Optional:     true,
 				Computed:     true,
 			},
-			"normal_text_style": &schema.Schema{
+			"normal_text_style": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 71),
 				Optional:     true,
 				Computed:     true,
 			},
-			"bullet_list_style": &schema.Schema{
+			"bullet_list_style": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 71),
 				Optional:     true,
 				Computed:     true,
 			},
-			"numbered_list_style": &schema.Schema{
+			"numbered_list_style": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 71),
 				Optional:     true,
 				Computed:     true,
 			},
-			"image_style": &schema.Schema{
+			"image_style": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 71),
 				Optional:     true,
 				Computed:     true,
 			},
-			"hline_style": &schema.Schema{
+			"hline_style": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 71),
 				Optional:     true,
 				Computed:     true,
 			},
-			"graph_chart_style": &schema.Schema{
+			"graph_chart_style": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 71),
 				Optional:     true,
 				Computed:     true,
 			},
-			"table_chart_style": &schema.Schema{
+			"table_chart_style": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 71),
 				Optional:     true,
 				Computed:     true,
 			},
-			"table_chart_caption_style": &schema.Schema{
+			"table_chart_caption_style": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 71),
 				Optional:     true,
 				Computed:     true,
 			},
-			"table_chart_head_style": &schema.Schema{
+			"table_chart_head_style": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 71),
 				Optional:     true,
 				Computed:     true,
 			},
-			"table_chart_odd_row_style": &schema.Schema{
+			"table_chart_odd_row_style": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 71),
 				Optional:     true,
 				Computed:     true,
 			},
-			"table_chart_even_row_style": &schema.Schema{
+			"table_chart_even_row_style": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 71),
 				Optional:     true,
 				Computed:     true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -230,15 +235,25 @@ func resourceReportThemeCreate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectReportTheme(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating ReportTheme resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateReportTheme(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectReportTheme(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating ReportTheme resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateReportTheme(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating ReportTheme resource: %v", err)
+		return fmt.Errorf("error creating ReportTheme resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -263,14 +278,24 @@ func resourceReportThemeUpdate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectReportTheme(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating ReportTheme resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateReportTheme(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectReportTheme(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating ReportTheme resource: %v", err)
+		return fmt.Errorf("error updating ReportTheme resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateReportTheme(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating ReportTheme resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -297,9 +322,17 @@ func resourceReportThemeDelete(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	err := c.DeleteReportTheme(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteReportTheme(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting ReportTheme resource: %v", err)
+		return fmt.Errorf("error deleting ReportTheme resource: %v", err)
 	}
 
 	d.SetId("")
@@ -321,9 +354,19 @@ func resourceReportThemeRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadReportTheme(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadReportTheme(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading ReportTheme resource: %v", err)
+		return fmt.Errorf("error reading ReportTheme resource: %v", err)
 	}
 
 	if o == nil {
@@ -334,7 +377,7 @@ func resourceReportThemeRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectReportTheme(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading ReportTheme resource from API: %v", err)
+		return fmt.Errorf("error reading ReportTheme resource from API: %v", err)
 	}
 	return nil
 }
@@ -464,181 +507,181 @@ func refreshObjectReportTheme(d *schema.ResourceData, o map[string]interface{}, 
 
 	if err = d.Set("name", flattenReportThemeName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("page_orient", flattenReportThemePageOrient(o["page-orient"], d, "page_orient", sv)); err != nil {
 		if !fortiAPIPatch(o["page-orient"]) {
-			return fmt.Errorf("Error reading page_orient: %v", err)
+			return fmt.Errorf("error reading page_orient: %v", err)
 		}
 	}
 
 	if err = d.Set("column_count", flattenReportThemeColumnCount(o["column-count"], d, "column_count", sv)); err != nil {
 		if !fortiAPIPatch(o["column-count"]) {
-			return fmt.Errorf("Error reading column_count: %v", err)
+			return fmt.Errorf("error reading column_count: %v", err)
 		}
 	}
 
 	if err = d.Set("default_html_style", flattenReportThemeDefaultHtmlStyle(o["default-html-style"], d, "default_html_style", sv)); err != nil {
 		if !fortiAPIPatch(o["default-html-style"]) {
-			return fmt.Errorf("Error reading default_html_style: %v", err)
+			return fmt.Errorf("error reading default_html_style: %v", err)
 		}
 	}
 
 	if err = d.Set("default_pdf_style", flattenReportThemeDefaultPdfStyle(o["default-pdf-style"], d, "default_pdf_style", sv)); err != nil {
 		if !fortiAPIPatch(o["default-pdf-style"]) {
-			return fmt.Errorf("Error reading default_pdf_style: %v", err)
+			return fmt.Errorf("error reading default_pdf_style: %v", err)
 		}
 	}
 
 	if err = d.Set("page_style", flattenReportThemePageStyle(o["page-style"], d, "page_style", sv)); err != nil {
 		if !fortiAPIPatch(o["page-style"]) {
-			return fmt.Errorf("Error reading page_style: %v", err)
+			return fmt.Errorf("error reading page_style: %v", err)
 		}
 	}
 
 	if err = d.Set("page_header_style", flattenReportThemePageHeaderStyle(o["page-header-style"], d, "page_header_style", sv)); err != nil {
 		if !fortiAPIPatch(o["page-header-style"]) {
-			return fmt.Errorf("Error reading page_header_style: %v", err)
+			return fmt.Errorf("error reading page_header_style: %v", err)
 		}
 	}
 
 	if err = d.Set("page_footer_style", flattenReportThemePageFooterStyle(o["page-footer-style"], d, "page_footer_style", sv)); err != nil {
 		if !fortiAPIPatch(o["page-footer-style"]) {
-			return fmt.Errorf("Error reading page_footer_style: %v", err)
+			return fmt.Errorf("error reading page_footer_style: %v", err)
 		}
 	}
 
 	if err = d.Set("report_title_style", flattenReportThemeReportTitleStyle(o["report-title-style"], d, "report_title_style", sv)); err != nil {
 		if !fortiAPIPatch(o["report-title-style"]) {
-			return fmt.Errorf("Error reading report_title_style: %v", err)
+			return fmt.Errorf("error reading report_title_style: %v", err)
 		}
 	}
 
 	if err = d.Set("report_subtitle_style", flattenReportThemeReportSubtitleStyle(o["report-subtitle-style"], d, "report_subtitle_style", sv)); err != nil {
 		if !fortiAPIPatch(o["report-subtitle-style"]) {
-			return fmt.Errorf("Error reading report_subtitle_style: %v", err)
+			return fmt.Errorf("error reading report_subtitle_style: %v", err)
 		}
 	}
 
 	if err = d.Set("toc_title_style", flattenReportThemeTocTitleStyle(o["toc-title-style"], d, "toc_title_style", sv)); err != nil {
 		if !fortiAPIPatch(o["toc-title-style"]) {
-			return fmt.Errorf("Error reading toc_title_style: %v", err)
+			return fmt.Errorf("error reading toc_title_style: %v", err)
 		}
 	}
 
 	if err = d.Set("toc_heading1_style", flattenReportThemeTocHeading1Style(o["toc-heading1-style"], d, "toc_heading1_style", sv)); err != nil {
 		if !fortiAPIPatch(o["toc-heading1-style"]) {
-			return fmt.Errorf("Error reading toc_heading1_style: %v", err)
+			return fmt.Errorf("error reading toc_heading1_style: %v", err)
 		}
 	}
 
 	if err = d.Set("toc_heading2_style", flattenReportThemeTocHeading2Style(o["toc-heading2-style"], d, "toc_heading2_style", sv)); err != nil {
 		if !fortiAPIPatch(o["toc-heading2-style"]) {
-			return fmt.Errorf("Error reading toc_heading2_style: %v", err)
+			return fmt.Errorf("error reading toc_heading2_style: %v", err)
 		}
 	}
 
 	if err = d.Set("toc_heading3_style", flattenReportThemeTocHeading3Style(o["toc-heading3-style"], d, "toc_heading3_style", sv)); err != nil {
 		if !fortiAPIPatch(o["toc-heading3-style"]) {
-			return fmt.Errorf("Error reading toc_heading3_style: %v", err)
+			return fmt.Errorf("error reading toc_heading3_style: %v", err)
 		}
 	}
 
 	if err = d.Set("toc_heading4_style", flattenReportThemeTocHeading4Style(o["toc-heading4-style"], d, "toc_heading4_style", sv)); err != nil {
 		if !fortiAPIPatch(o["toc-heading4-style"]) {
-			return fmt.Errorf("Error reading toc_heading4_style: %v", err)
+			return fmt.Errorf("error reading toc_heading4_style: %v", err)
 		}
 	}
 
 	if err = d.Set("heading1_style", flattenReportThemeHeading1Style(o["heading1-style"], d, "heading1_style", sv)); err != nil {
 		if !fortiAPIPatch(o["heading1-style"]) {
-			return fmt.Errorf("Error reading heading1_style: %v", err)
+			return fmt.Errorf("error reading heading1_style: %v", err)
 		}
 	}
 
 	if err = d.Set("heading2_style", flattenReportThemeHeading2Style(o["heading2-style"], d, "heading2_style", sv)); err != nil {
 		if !fortiAPIPatch(o["heading2-style"]) {
-			return fmt.Errorf("Error reading heading2_style: %v", err)
+			return fmt.Errorf("error reading heading2_style: %v", err)
 		}
 	}
 
 	if err = d.Set("heading3_style", flattenReportThemeHeading3Style(o["heading3-style"], d, "heading3_style", sv)); err != nil {
 		if !fortiAPIPatch(o["heading3-style"]) {
-			return fmt.Errorf("Error reading heading3_style: %v", err)
+			return fmt.Errorf("error reading heading3_style: %v", err)
 		}
 	}
 
 	if err = d.Set("heading4_style", flattenReportThemeHeading4Style(o["heading4-style"], d, "heading4_style", sv)); err != nil {
 		if !fortiAPIPatch(o["heading4-style"]) {
-			return fmt.Errorf("Error reading heading4_style: %v", err)
+			return fmt.Errorf("error reading heading4_style: %v", err)
 		}
 	}
 
 	if err = d.Set("normal_text_style", flattenReportThemeNormalTextStyle(o["normal-text-style"], d, "normal_text_style", sv)); err != nil {
 		if !fortiAPIPatch(o["normal-text-style"]) {
-			return fmt.Errorf("Error reading normal_text_style: %v", err)
+			return fmt.Errorf("error reading normal_text_style: %v", err)
 		}
 	}
 
 	if err = d.Set("bullet_list_style", flattenReportThemeBulletListStyle(o["bullet-list-style"], d, "bullet_list_style", sv)); err != nil {
 		if !fortiAPIPatch(o["bullet-list-style"]) {
-			return fmt.Errorf("Error reading bullet_list_style: %v", err)
+			return fmt.Errorf("error reading bullet_list_style: %v", err)
 		}
 	}
 
 	if err = d.Set("numbered_list_style", flattenReportThemeNumberedListStyle(o["numbered-list-style"], d, "numbered_list_style", sv)); err != nil {
 		if !fortiAPIPatch(o["numbered-list-style"]) {
-			return fmt.Errorf("Error reading numbered_list_style: %v", err)
+			return fmt.Errorf("error reading numbered_list_style: %v", err)
 		}
 	}
 
 	if err = d.Set("image_style", flattenReportThemeImageStyle(o["image-style"], d, "image_style", sv)); err != nil {
 		if !fortiAPIPatch(o["image-style"]) {
-			return fmt.Errorf("Error reading image_style: %v", err)
+			return fmt.Errorf("error reading image_style: %v", err)
 		}
 	}
 
 	if err = d.Set("hline_style", flattenReportThemeHlineStyle(o["hline-style"], d, "hline_style", sv)); err != nil {
 		if !fortiAPIPatch(o["hline-style"]) {
-			return fmt.Errorf("Error reading hline_style: %v", err)
+			return fmt.Errorf("error reading hline_style: %v", err)
 		}
 	}
 
 	if err = d.Set("graph_chart_style", flattenReportThemeGraphChartStyle(o["graph-chart-style"], d, "graph_chart_style", sv)); err != nil {
 		if !fortiAPIPatch(o["graph-chart-style"]) {
-			return fmt.Errorf("Error reading graph_chart_style: %v", err)
+			return fmt.Errorf("error reading graph_chart_style: %v", err)
 		}
 	}
 
 	if err = d.Set("table_chart_style", flattenReportThemeTableChartStyle(o["table-chart-style"], d, "table_chart_style", sv)); err != nil {
 		if !fortiAPIPatch(o["table-chart-style"]) {
-			return fmt.Errorf("Error reading table_chart_style: %v", err)
+			return fmt.Errorf("error reading table_chart_style: %v", err)
 		}
 	}
 
 	if err = d.Set("table_chart_caption_style", flattenReportThemeTableChartCaptionStyle(o["table-chart-caption-style"], d, "table_chart_caption_style", sv)); err != nil {
 		if !fortiAPIPatch(o["table-chart-caption-style"]) {
-			return fmt.Errorf("Error reading table_chart_caption_style: %v", err)
+			return fmt.Errorf("error reading table_chart_caption_style: %v", err)
 		}
 	}
 
 	if err = d.Set("table_chart_head_style", flattenReportThemeTableChartHeadStyle(o["table-chart-head-style"], d, "table_chart_head_style", sv)); err != nil {
 		if !fortiAPIPatch(o["table-chart-head-style"]) {
-			return fmt.Errorf("Error reading table_chart_head_style: %v", err)
+			return fmt.Errorf("error reading table_chart_head_style: %v", err)
 		}
 	}
 
 	if err = d.Set("table_chart_odd_row_style", flattenReportThemeTableChartOddRowStyle(o["table-chart-odd-row-style"], d, "table_chart_odd_row_style", sv)); err != nil {
 		if !fortiAPIPatch(o["table-chart-odd-row-style"]) {
-			return fmt.Errorf("Error reading table_chart_odd_row_style: %v", err)
+			return fmt.Errorf("error reading table_chart_odd_row_style: %v", err)
 		}
 	}
 
 	if err = d.Set("table_chart_even_row_style", flattenReportThemeTableChartEvenRowStyle(o["table-chart-even-row-style"], d, "table_chart_even_row_style", sv)); err != nil {
 		if !fortiAPIPatch(o["table-chart-even-row-style"]) {
-			return fmt.Errorf("Error reading table_chart_even_row_style: %v", err)
+			return fmt.Errorf("error reading table_chart_even_row_style: %v", err)
 		}
 	}
 

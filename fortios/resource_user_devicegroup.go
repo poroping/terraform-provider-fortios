@@ -30,23 +30,23 @@ func resourceUserDeviceGroup() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				ForceNew:     true,
 				Required:     true,
 			},
-			"member": &schema.Schema{
+			"member": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
@@ -55,29 +55,29 @@ func resourceUserDeviceGroup() *schema.Resource {
 					},
 				},
 			},
-			"tagging": &schema.Schema{
+			"tagging": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 63),
 							Optional:     true,
 							Computed:     true,
 						},
-						"category": &schema.Schema{
+						"category": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 63),
 							Optional:     true,
 							Computed:     true,
 						},
-						"tags": &schema.Schema{
+						"tags": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"name": &schema.Schema{
+									"name": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 64),
 										Optional:     true,
@@ -89,15 +89,20 @@ func resourceUserDeviceGroup() *schema.Resource {
 					},
 				},
 			},
-			"comment": &schema.Schema{
+			"comment": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
 			},
-			"dynamic_sort_subtable": &schema.Schema{
-				Type:     schema.TypeString,
+			"dynamic_sort_subtable": {
+				Type:     schema.TypeBool,
 				Optional: true,
-				Default:  "false",
+				Default:  false,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -115,15 +120,25 @@ func resourceUserDeviceGroupCreate(d *schema.ResourceData, m interface{}) error 
 		}
 	}
 
-	obj, err := getObjectUserDeviceGroup(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating UserDeviceGroup resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateUserDeviceGroup(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectUserDeviceGroup(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating UserDeviceGroup resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateUserDeviceGroup(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating UserDeviceGroup resource: %v", err)
+		return fmt.Errorf("error creating UserDeviceGroup resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -148,14 +163,24 @@ func resourceUserDeviceGroupUpdate(d *schema.ResourceData, m interface{}) error 
 		}
 	}
 
-	obj, err := getObjectUserDeviceGroup(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating UserDeviceGroup resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateUserDeviceGroup(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectUserDeviceGroup(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating UserDeviceGroup resource: %v", err)
+		return fmt.Errorf("error updating UserDeviceGroup resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateUserDeviceGroup(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating UserDeviceGroup resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -182,9 +207,17 @@ func resourceUserDeviceGroupDelete(d *schema.ResourceData, m interface{}) error 
 		}
 	}
 
-	err := c.DeleteUserDeviceGroup(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteUserDeviceGroup(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting UserDeviceGroup resource: %v", err)
+		return fmt.Errorf("error deleting UserDeviceGroup resource: %v", err)
 	}
 
 	d.SetId("")
@@ -206,9 +239,19 @@ func resourceUserDeviceGroupRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadUserDeviceGroup(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadUserDeviceGroup(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading UserDeviceGroup resource: %v", err)
+		return fmt.Errorf("error reading UserDeviceGroup resource: %v", err)
 	}
 
 	if o == nil {
@@ -219,7 +262,7 @@ func resourceUserDeviceGroupRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectUserDeviceGroup(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading UserDeviceGroup resource from API: %v", err)
+		return fmt.Errorf("error reading UserDeviceGroup resource from API: %v", err)
 	}
 	return nil
 }
@@ -366,21 +409,21 @@ func refreshObjectUserDeviceGroup(d *schema.ResourceData, o map[string]interface
 
 	if err = d.Set("name", flattenUserDeviceGroupName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("member", flattenUserDeviceGroupMember(o["member"], d, "member", sv)); err != nil {
 			if !fortiAPIPatch(o["member"]) {
-				return fmt.Errorf("Error reading member: %v", err)
+				return fmt.Errorf("error reading member: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("member"); ok {
 			if err = d.Set("member", flattenUserDeviceGroupMember(o["member"], d, "member", sv)); err != nil {
 				if !fortiAPIPatch(o["member"]) {
-					return fmt.Errorf("Error reading member: %v", err)
+					return fmt.Errorf("error reading member: %v", err)
 				}
 			}
 		}
@@ -389,14 +432,14 @@ func refreshObjectUserDeviceGroup(d *schema.ResourceData, o map[string]interface
 	if isImportTable() {
 		if err = d.Set("tagging", flattenUserDeviceGroupTagging(o["tagging"], d, "tagging", sv)); err != nil {
 			if !fortiAPIPatch(o["tagging"]) {
-				return fmt.Errorf("Error reading tagging: %v", err)
+				return fmt.Errorf("error reading tagging: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("tagging"); ok {
 			if err = d.Set("tagging", flattenUserDeviceGroupTagging(o["tagging"], d, "tagging", sv)); err != nil {
 				if !fortiAPIPatch(o["tagging"]) {
-					return fmt.Errorf("Error reading tagging: %v", err)
+					return fmt.Errorf("error reading tagging: %v", err)
 				}
 			}
 		}
@@ -404,7 +447,7 @@ func refreshObjectUserDeviceGroup(d *schema.ResourceData, o map[string]interface
 
 	if err = d.Set("comment", flattenUserDeviceGroupComment(o["comment"], d, "comment", sv)); err != nil {
 		if !fortiAPIPatch(o["comment"]) {
-			return fmt.Errorf("Error reading comment: %v", err)
+			return fmt.Errorf("error reading comment: %v", err)
 		}
 	}
 

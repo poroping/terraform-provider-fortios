@@ -30,39 +30,39 @@ func resourceFirewallVipgrp6() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"uuid": &schema.Schema{
+			"uuid": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"color": &schema.Schema{
+			"color": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 32),
 				Optional:     true,
 				Computed:     true,
 			},
-			"comments": &schema.Schema{
+			"comments": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
 			},
-			"member": &schema.Schema{
+			"member": {
 				Type:     schema.TypeList,
 				Required: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 64),
 							Optional:     true,
@@ -71,10 +71,21 @@ func resourceFirewallVipgrp6() *schema.Resource {
 					},
 				},
 			},
-			"dynamic_sort_subtable": &schema.Schema{
-				Type:     schema.TypeString,
+			"dynamic_sort_subtable": {
+				Type:     schema.TypeBool,
 				Optional: true,
-				Default:  "false",
+				Default:  false,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
+			},
+			"allow_append": {
+				Type:         schema.TypeBool,
+				Optional:     true,
+				Default:      false,
+				RequiredWith: []string{"name"},
 			},
 		},
 	}
@@ -92,15 +103,51 @@ func resourceFirewallVipgrp6Create(d *schema.ResourceData, m interface{}) error 
 		}
 	}
 
-	obj, err := getObjectFirewallVipgrp6(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating FirewallVipgrp6 resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateFirewallVipgrp6(obj, vdomparam)
+	allow_append := false
+
+	if v, ok := d.GetOk("allow_append"); ok {
+		if b, ok := v.(bool); ok {
+			allow_append = b
+		}
+	}
+
+	urlparams := make(map[string][]string)
+	urlparams["allow_append"] = []string{strconv.FormatBool(allow_append)}
+
+	key := "name"
+	mkey := ""
+	if v, ok := d.GetOk(key); ok {
+		if s, ok := v.(string); ok {
+			mkey = s
+		}
+	}
+
+	obj, err := getObjectFirewallVipgrp6(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating FirewallVipgrp6 resource while getting object: %v", err)
+	}
+
+	if mkey == "" && allow_append {
+		return fmt.Errorf("error creating FirewallVipgrp6 resource: %q must be set if \"allow_append\" is true", key)
+	}
+
+	o := make(map[string]interface{})
+	if mkey != "" && allow_append {
+		o, err = c.UpdateFirewallVipgrp6(obj, mkey, vdomparam, urlparams, batchid)
+	} else {
+		o, err = c.CreateFirewallVipgrp6(obj, vdomparam, urlparams, batchid)
+	}
 
 	if err != nil {
-		return fmt.Errorf("Error creating FirewallVipgrp6 resource: %v", err)
+		return fmt.Errorf("error creating FirewallVipgrp6 resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -125,14 +172,24 @@ func resourceFirewallVipgrp6Update(d *schema.ResourceData, m interface{}) error 
 		}
 	}
 
-	obj, err := getObjectFirewallVipgrp6(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating FirewallVipgrp6 resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateFirewallVipgrp6(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectFirewallVipgrp6(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating FirewallVipgrp6 resource: %v", err)
+		return fmt.Errorf("error updating FirewallVipgrp6 resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateFirewallVipgrp6(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating FirewallVipgrp6 resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -159,9 +216,17 @@ func resourceFirewallVipgrp6Delete(d *schema.ResourceData, m interface{}) error 
 		}
 	}
 
-	err := c.DeleteFirewallVipgrp6(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteFirewallVipgrp6(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting FirewallVipgrp6 resource: %v", err)
+		return fmt.Errorf("error deleting FirewallVipgrp6 resource: %v", err)
 	}
 
 	d.SetId("")
@@ -183,9 +248,19 @@ func resourceFirewallVipgrp6Read(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadFirewallVipgrp6(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadFirewallVipgrp6(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading FirewallVipgrp6 resource: %v", err)
+		return fmt.Errorf("error reading FirewallVipgrp6 resource: %v", err)
 	}
 
 	if o == nil {
@@ -196,7 +271,7 @@ func resourceFirewallVipgrp6Read(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectFirewallVipgrp6(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading FirewallVipgrp6 resource from API: %v", err)
+		return fmt.Errorf("error reading FirewallVipgrp6 resource from API: %v", err)
 	}
 	return nil
 }
@@ -260,39 +335,39 @@ func refreshObjectFirewallVipgrp6(d *schema.ResourceData, o map[string]interface
 
 	if err = d.Set("name", flattenFirewallVipgrp6Name(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("uuid", flattenFirewallVipgrp6Uuid(o["uuid"], d, "uuid", sv)); err != nil {
 		if !fortiAPIPatch(o["uuid"]) {
-			return fmt.Errorf("Error reading uuid: %v", err)
+			return fmt.Errorf("error reading uuid: %v", err)
 		}
 	}
 
 	if err = d.Set("color", flattenFirewallVipgrp6Color(o["color"], d, "color", sv)); err != nil {
 		if !fortiAPIPatch(o["color"]) {
-			return fmt.Errorf("Error reading color: %v", err)
+			return fmt.Errorf("error reading color: %v", err)
 		}
 	}
 
 	if err = d.Set("comments", flattenFirewallVipgrp6Comments(o["comments"], d, "comments", sv)); err != nil {
 		if !fortiAPIPatch(o["comments"]) {
-			return fmt.Errorf("Error reading comments: %v", err)
+			return fmt.Errorf("error reading comments: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("member", flattenFirewallVipgrp6Member(o["member"], d, "member", sv)); err != nil {
 			if !fortiAPIPatch(o["member"]) {
-				return fmt.Errorf("Error reading member: %v", err)
+				return fmt.Errorf("error reading member: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("member"); ok {
 			if err = d.Set("member", flattenFirewallVipgrp6Member(o["member"], d, "member", sv)); err != nil {
 				if !fortiAPIPatch(o["member"]) {
-					return fmt.Errorf("Error reading member: %v", err)
+					return fmt.Errorf("error reading member: %v", err)
 				}
 			}
 		}

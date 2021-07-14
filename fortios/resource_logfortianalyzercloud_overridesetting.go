@@ -30,15 +30,20 @@ func resourceLogFortianalyzerCloudOverrideSetting() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"status": &schema.Schema{
+			"status": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -57,14 +62,24 @@ func resourceLogFortianalyzerCloudOverrideSettingUpdate(d *schema.ResourceData, 
 		}
 	}
 
-	obj, err := getObjectLogFortianalyzerCloudOverrideSetting(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating LogFortianalyzerCloudOverrideSetting resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateLogFortianalyzerCloudOverrideSetting(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectLogFortianalyzerCloudOverrideSetting(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating LogFortianalyzerCloudOverrideSetting resource: %v", err)
+		return fmt.Errorf("error updating LogFortianalyzerCloudOverrideSetting resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateLogFortianalyzerCloudOverrideSetting(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating LogFortianalyzerCloudOverrideSetting resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -91,9 +106,17 @@ func resourceLogFortianalyzerCloudOverrideSettingDelete(d *schema.ResourceData, 
 		}
 	}
 
-	err := c.DeleteLogFortianalyzerCloudOverrideSetting(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteLogFortianalyzerCloudOverrideSetting(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting LogFortianalyzerCloudOverrideSetting resource: %v", err)
+		return fmt.Errorf("error deleting LogFortianalyzerCloudOverrideSetting resource: %v", err)
 	}
 
 	d.SetId("")
@@ -115,9 +138,19 @@ func resourceLogFortianalyzerCloudOverrideSettingRead(d *schema.ResourceData, m 
 		}
 	}
 
-	o, err := c.ReadLogFortianalyzerCloudOverrideSetting(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadLogFortianalyzerCloudOverrideSetting(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading LogFortianalyzerCloudOverrideSetting resource: %v", err)
+		return fmt.Errorf("error reading LogFortianalyzerCloudOverrideSetting resource: %v", err)
 	}
 
 	if o == nil {
@@ -128,7 +161,7 @@ func resourceLogFortianalyzerCloudOverrideSettingRead(d *schema.ResourceData, m 
 
 	err = refreshObjectLogFortianalyzerCloudOverrideSetting(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading LogFortianalyzerCloudOverrideSetting resource from API: %v", err)
+		return fmt.Errorf("error reading LogFortianalyzerCloudOverrideSetting resource from API: %v", err)
 	}
 	return nil
 }
@@ -142,7 +175,7 @@ func refreshObjectLogFortianalyzerCloudOverrideSetting(d *schema.ResourceData, o
 
 	if err = d.Set("status", flattenLogFortianalyzerCloudOverrideSettingStatus(o["status"], d, "status", sv)); err != nil {
 		if !fortiAPIPatch(o["status"]) {
-			return fmt.Errorf("Error reading status: %v", err)
+			return fmt.Errorf("error reading status: %v", err)
 		}
 	}
 

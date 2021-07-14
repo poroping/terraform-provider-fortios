@@ -21,38 +21,38 @@ func dataSourceSystemSessionTtl() *schema.Resource {
 	return &schema.Resource{
 		Read: dataSourceSystemSessionTtlRead,
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
 
-			"default": &schema.Schema{
+			"default": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"port": &schema.Schema{
+			"port": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"protocol": &schema.Schema{
+						"protocol": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"start_port": &schema.Schema{
+						"start_port": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"end_port": &schema.Schema{
+						"end_port": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"timeout": &schema.Schema{
+						"timeout": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -77,9 +77,9 @@ func dataSourceSystemSessionTtlRead(d *schema.ResourceData, m interface{}) error
 
 	mkey := "SystemSessionTtl"
 
-	o, err := c.ReadSystemSessionTtl(mkey, vdomparam)
+	o, err := c.ReadSystemSessionTtl(mkey, vdomparam, make(map[string][]string), 0)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemSessionTtl: %v", err)
+		return fmt.Errorf("error describing SystemSessionTtl: %v", err)
 	}
 
 	if o == nil {
@@ -89,7 +89,7 @@ func dataSourceSystemSessionTtlRead(d *schema.ResourceData, m interface{}) error
 
 	err = dataSourceRefreshObjectSystemSessionTtl(d, o)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemSessionTtl from API: %v", err)
+		return fmt.Errorf("error describing SystemSessionTtl from API: %v", err)
 	}
 
 	d.SetId(mkey)
@@ -178,13 +178,13 @@ func dataSourceRefreshObjectSystemSessionTtl(d *schema.ResourceData, o map[strin
 
 	if err = d.Set("default", dataSourceFlattenSystemSessionTtlDefault(o["default"], d, "default")); err != nil {
 		if !fortiAPIPatch(o["default"]) {
-			return fmt.Errorf("Error reading default: %v", err)
+			return fmt.Errorf("error reading default: %v", err)
 		}
 	}
 
 	if err = d.Set("port", dataSourceFlattenSystemSessionTtlPort(o["port"], d, "port")); err != nil {
 		if !fortiAPIPatch(o["port"]) {
-			return fmt.Errorf("Error reading port: %v", err)
+			return fmt.Errorf("error reading port: %v", err)
 		}
 	}
 

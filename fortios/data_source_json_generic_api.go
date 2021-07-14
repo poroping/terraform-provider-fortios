@@ -13,20 +13,20 @@ func dataSourceJSONGenericAPI() *schema.Resource {
 		Read: dataSourceJSONGenericAPIRead,
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"path": &schema.Schema{
+			"path": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"specialparams": &schema.Schema{
+			"specialparams": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
-			"response": &schema.Schema{
+			"response": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -53,9 +53,9 @@ func dataSourceJSONGenericAPIRead(d *schema.ResourceData, m interface{}) error {
 		Json:          "",
 	}
 
-	res, err := c.CreateJSONGenericAPI(i, vdomparam)
+	res, err := c.CreateJSONGenericAPI(i, vdomparam, 0)
 	if err != nil {
-		return fmt.Errorf("Error reading json generic api: %v", err)
+		return fmt.Errorf("error reading json generic api: %v", err)
 	}
 
 	d.SetId("DataSourceJsonGenericApi" + uuid.New().String())

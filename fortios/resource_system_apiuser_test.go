@@ -59,14 +59,14 @@ func testAccCheckFortiOSSystemApiUserExists(n string) resource.TestCheckFunc {
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemApiUser(i, "root")
+		o, err := c.ReadSystemApiUser(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading SystemApiUser: %s", err)
+			return fmt.Errorf("error reading SystemApiUser: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating SystemApiUser: %s", n)
+			return fmt.Errorf("error creating SystemApiUser: %s", n)
 		}
 
 		return nil
@@ -82,11 +82,11 @@ func testAccCheckSystemApiUserDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemApiUser(i, "root")
+		o, err := c.ReadSystemApiUser(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error SystemApiUser %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error SystemApiUser %s still exists", rs.Primary.ID)
 			}
 		}
 

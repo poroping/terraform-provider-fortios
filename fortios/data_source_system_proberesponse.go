@@ -21,38 +21,38 @@ func dataSourceSystemProbeResponse() *schema.Resource {
 	return &schema.Resource{
 		Read: dataSourceSystemProbeResponseRead,
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
 
-			"port": &schema.Schema{
+			"port": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"http_probe_value": &schema.Schema{
+			"http_probe_value": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"ttl_mode": &schema.Schema{
+			"ttl_mode": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"mode": &schema.Schema{
+			"mode": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"security_mode": &schema.Schema{
+			"security_mode": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"password": &schema.Schema{
+			"password": {
 				Type:      schema.TypeString,
 				Sensitive: true,
 				Computed:  true,
 			},
-			"timeout": &schema.Schema{
+			"timeout": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
@@ -74,9 +74,9 @@ func dataSourceSystemProbeResponseRead(d *schema.ResourceData, m interface{}) er
 
 	mkey := "SystemProbeResponse"
 
-	o, err := c.ReadSystemProbeResponse(mkey, vdomparam)
+	o, err := c.ReadSystemProbeResponse(mkey, vdomparam, make(map[string][]string), 0)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemProbeResponse: %v", err)
+		return fmt.Errorf("error describing SystemProbeResponse: %v", err)
 	}
 
 	if o == nil {
@@ -86,7 +86,7 @@ func dataSourceSystemProbeResponseRead(d *schema.ResourceData, m interface{}) er
 
 	err = dataSourceRefreshObjectSystemProbeResponse(d, o)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemProbeResponse from API: %v", err)
+		return fmt.Errorf("error describing SystemProbeResponse from API: %v", err)
 	}
 
 	d.SetId(mkey)
@@ -127,37 +127,37 @@ func dataSourceRefreshObjectSystemProbeResponse(d *schema.ResourceData, o map[st
 
 	if err = d.Set("port", dataSourceFlattenSystemProbeResponsePort(o["port"], d, "port")); err != nil {
 		if !fortiAPIPatch(o["port"]) {
-			return fmt.Errorf("Error reading port: %v", err)
+			return fmt.Errorf("error reading port: %v", err)
 		}
 	}
 
 	if err = d.Set("http_probe_value", dataSourceFlattenSystemProbeResponseHttpProbeValue(o["http-probe-value"], d, "http_probe_value")); err != nil {
 		if !fortiAPIPatch(o["http-probe-value"]) {
-			return fmt.Errorf("Error reading http_probe_value: %v", err)
+			return fmt.Errorf("error reading http_probe_value: %v", err)
 		}
 	}
 
 	if err = d.Set("ttl_mode", dataSourceFlattenSystemProbeResponseTtlMode(o["ttl-mode"], d, "ttl_mode")); err != nil {
 		if !fortiAPIPatch(o["ttl-mode"]) {
-			return fmt.Errorf("Error reading ttl_mode: %v", err)
+			return fmt.Errorf("error reading ttl_mode: %v", err)
 		}
 	}
 
 	if err = d.Set("mode", dataSourceFlattenSystemProbeResponseMode(o["mode"], d, "mode")); err != nil {
 		if !fortiAPIPatch(o["mode"]) {
-			return fmt.Errorf("Error reading mode: %v", err)
+			return fmt.Errorf("error reading mode: %v", err)
 		}
 	}
 
 	if err = d.Set("security_mode", dataSourceFlattenSystemProbeResponseSecurityMode(o["security-mode"], d, "security_mode")); err != nil {
 		if !fortiAPIPatch(o["security-mode"]) {
-			return fmt.Errorf("Error reading security_mode: %v", err)
+			return fmt.Errorf("error reading security_mode: %v", err)
 		}
 	}
 
 	if err = d.Set("timeout", dataSourceFlattenSystemProbeResponseTimeout(o["timeout"], d, "timeout")); err != nil {
 		if !fortiAPIPatch(o["timeout"]) {
-			return fmt.Errorf("Error reading timeout: %v", err)
+			return fmt.Errorf("error reading timeout: %v", err)
 		}
 	}
 

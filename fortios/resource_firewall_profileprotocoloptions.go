@@ -30,201 +30,201 @@ func resourceFirewallProfileProtocolOptions() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Required:     true,
 			},
-			"comment": &schema.Schema{
+			"comment": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
 			},
-			"feature_set": &schema.Schema{
+			"feature_set": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"replacemsg_group": &schema.Schema{
+			"replacemsg_group": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"oversize_log": &schema.Schema{
+			"oversize_log": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"switching_protocols_log": &schema.Schema{
+			"switching_protocols_log": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"http": &schema.Schema{
+			"http": {
 				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"ports": &schema.Schema{
+						"ports": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 65535),
 							Optional:     true,
 							Computed:     true,
 						},
-						"status": &schema.Schema{
+						"status": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"inspect_all": &schema.Schema{
+						"inspect_all": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"proxy_after_tcp_handshake": &schema.Schema{
+						"proxy_after_tcp_handshake": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"options": &schema.Schema{
+						"options": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"comfort_interval": &schema.Schema{
+						"comfort_interval": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 900),
 							Optional:     true,
 							Computed:     true,
 						},
-						"comfort_amount": &schema.Schema{
+						"comfort_amount": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 10240),
 							Optional:     true,
 							Computed:     true,
 						},
-						"range_block": &schema.Schema{
+						"range_block": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"http_policy": &schema.Schema{
+						"http_policy": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"strip_x_forwarded_for": &schema.Schema{
+						"strip_x_forwarded_for": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"post_lang": &schema.Schema{
+						"post_lang": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"fortinet_bar": &schema.Schema{
+						"fortinet_bar": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"fortinet_bar_port": &schema.Schema{
+						"fortinet_bar_port": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 65535),
 							Optional:     true,
 							Computed:     true,
 						},
-						"streaming_content_bypass": &schema.Schema{
+						"streaming_content_bypass": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"switching_protocols": &schema.Schema{
+						"switching_protocols": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"unknown_http_version": &schema.Schema{
+						"unknown_http_version": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"tunnel_non_http": &schema.Schema{
+						"tunnel_non_http": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"oversize_limit": &schema.Schema{
+						"oversize_limit": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 26214),
 							Optional:     true,
 							Computed:     true,
 						},
-						"uncompressed_oversize_limit": &schema.Schema{
+						"uncompressed_oversize_limit": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 26214),
 							Optional:     true,
 							Computed:     true,
 						},
-						"uncompressed_nest_limit": &schema.Schema{
+						"uncompressed_nest_limit": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(2, 100),
 							Optional:     true,
 							Computed:     true,
 						},
-						"stream_based_uncompressed_limit": &schema.Schema{
+						"stream_based_uncompressed_limit": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"scan_bzip2": &schema.Schema{
+						"scan_bzip2": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"block_page_status_code": &schema.Schema{
+						"block_page_status_code": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(100, 599),
 							Optional:     true,
 							Computed:     true,
 						},
-						"retry_count": &schema.Schema{
+						"retry_count": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 100),
 							Optional:     true,
 							Computed:     true,
 						},
-						"tcp_window_type": &schema.Schema{
+						"tcp_window_type": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"tcp_window_minimum": &schema.Schema{
+						"tcp_window_minimum": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(65536, 1048576),
 							Optional:     true,
 							Computed:     true,
 						},
-						"tcp_window_maximum": &schema.Schema{
+						"tcp_window_maximum": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1048576, 33554432),
 							Optional:     true,
 							Computed:     true,
 						},
-						"tcp_window_size": &schema.Schema{
+						"tcp_window_size": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(65536, 33554432),
 							Optional:     true,
 							Computed:     true,
 						},
-						"ssl_offloaded": &schema.Schema{
+						"ssl_offloaded": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -232,97 +232,97 @@ func resourceFirewallProfileProtocolOptions() *schema.Resource {
 					},
 				},
 			},
-			"ftp": &schema.Schema{
+			"ftp": {
 				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"ports": &schema.Schema{
+						"ports": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 65535),
 							Optional:     true,
 							Computed:     true,
 						},
-						"status": &schema.Schema{
+						"status": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"inspect_all": &schema.Schema{
+						"inspect_all": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"options": &schema.Schema{
+						"options": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"comfort_interval": &schema.Schema{
+						"comfort_interval": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 900),
 							Optional:     true,
 							Computed:     true,
 						},
-						"comfort_amount": &schema.Schema{
+						"comfort_amount": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 10240),
 							Optional:     true,
 							Computed:     true,
 						},
-						"oversize_limit": &schema.Schema{
+						"oversize_limit": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 26214),
 							Optional:     true,
 							Computed:     true,
 						},
-						"uncompressed_oversize_limit": &schema.Schema{
+						"uncompressed_oversize_limit": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 26214),
 							Optional:     true,
 							Computed:     true,
 						},
-						"uncompressed_nest_limit": &schema.Schema{
+						"uncompressed_nest_limit": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(2, 100),
 							Optional:     true,
 							Computed:     true,
 						},
-						"stream_based_uncompressed_limit": &schema.Schema{
+						"stream_based_uncompressed_limit": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"scan_bzip2": &schema.Schema{
+						"scan_bzip2": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"tcp_window_type": &schema.Schema{
+						"tcp_window_type": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"tcp_window_minimum": &schema.Schema{
+						"tcp_window_minimum": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(65536, 1048576),
 							Optional:     true,
 							Computed:     true,
 						},
-						"tcp_window_maximum": &schema.Schema{
+						"tcp_window_maximum": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1048576, 33554432),
 							Optional:     true,
 							Computed:     true,
 						},
-						"tcp_window_size": &schema.Schema{
+						"tcp_window_size": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(65536, 33554432),
 							Optional:     true,
 							Computed:     true,
 						},
-						"ssl_offloaded": &schema.Schema{
+						"ssl_offloaded": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -330,62 +330,62 @@ func resourceFirewallProfileProtocolOptions() *schema.Resource {
 					},
 				},
 			},
-			"imap": &schema.Schema{
+			"imap": {
 				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"ports": &schema.Schema{
+						"ports": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 65535),
 							Optional:     true,
 							Computed:     true,
 						},
-						"status": &schema.Schema{
+						"status": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"inspect_all": &schema.Schema{
+						"inspect_all": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"proxy_after_tcp_handshake": &schema.Schema{
+						"proxy_after_tcp_handshake": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"options": &schema.Schema{
+						"options": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"oversize_limit": &schema.Schema{
+						"oversize_limit": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 26214),
 							Optional:     true,
 							Computed:     true,
 						},
-						"uncompressed_oversize_limit": &schema.Schema{
+						"uncompressed_oversize_limit": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 26214),
 							Optional:     true,
 							Computed:     true,
 						},
-						"uncompressed_nest_limit": &schema.Schema{
+						"uncompressed_nest_limit": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(2, 100),
 							Optional:     true,
 							Computed:     true,
 						},
-						"scan_bzip2": &schema.Schema{
+						"scan_bzip2": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"ssl_offloaded": &schema.Schema{
+						"ssl_offloaded": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -393,47 +393,47 @@ func resourceFirewallProfileProtocolOptions() *schema.Resource {
 					},
 				},
 			},
-			"mapi": &schema.Schema{
+			"mapi": {
 				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"ports": &schema.Schema{
+						"ports": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 65535),
 							Optional:     true,
 							Computed:     true,
 						},
-						"status": &schema.Schema{
+						"status": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"options": &schema.Schema{
+						"options": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"oversize_limit": &schema.Schema{
+						"oversize_limit": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 26214),
 							Optional:     true,
 							Computed:     true,
 						},
-						"uncompressed_oversize_limit": &schema.Schema{
+						"uncompressed_oversize_limit": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 26214),
 							Optional:     true,
 							Computed:     true,
 						},
-						"uncompressed_nest_limit": &schema.Schema{
+						"uncompressed_nest_limit": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(2, 100),
 							Optional:     true,
 							Computed:     true,
 						},
-						"scan_bzip2": &schema.Schema{
+						"scan_bzip2": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -441,62 +441,62 @@ func resourceFirewallProfileProtocolOptions() *schema.Resource {
 					},
 				},
 			},
-			"pop3": &schema.Schema{
+			"pop3": {
 				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"ports": &schema.Schema{
+						"ports": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 65535),
 							Optional:     true,
 							Computed:     true,
 						},
-						"status": &schema.Schema{
+						"status": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"inspect_all": &schema.Schema{
+						"inspect_all": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"proxy_after_tcp_handshake": &schema.Schema{
+						"proxy_after_tcp_handshake": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"options": &schema.Schema{
+						"options": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"oversize_limit": &schema.Schema{
+						"oversize_limit": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 26214),
 							Optional:     true,
 							Computed:     true,
 						},
-						"uncompressed_oversize_limit": &schema.Schema{
+						"uncompressed_oversize_limit": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 26214),
 							Optional:     true,
 							Computed:     true,
 						},
-						"uncompressed_nest_limit": &schema.Schema{
+						"uncompressed_nest_limit": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(2, 100),
 							Optional:     true,
 							Computed:     true,
 						},
-						"scan_bzip2": &schema.Schema{
+						"scan_bzip2": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"ssl_offloaded": &schema.Schema{
+						"ssl_offloaded": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -504,67 +504,67 @@ func resourceFirewallProfileProtocolOptions() *schema.Resource {
 					},
 				},
 			},
-			"smtp": &schema.Schema{
+			"smtp": {
 				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"ports": &schema.Schema{
+						"ports": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 65535),
 							Optional:     true,
 							Computed:     true,
 						},
-						"status": &schema.Schema{
+						"status": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"inspect_all": &schema.Schema{
+						"inspect_all": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"proxy_after_tcp_handshake": &schema.Schema{
+						"proxy_after_tcp_handshake": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"options": &schema.Schema{
+						"options": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"oversize_limit": &schema.Schema{
+						"oversize_limit": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 26214),
 							Optional:     true,
 							Computed:     true,
 						},
-						"uncompressed_oversize_limit": &schema.Schema{
+						"uncompressed_oversize_limit": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 26214),
 							Optional:     true,
 							Computed:     true,
 						},
-						"uncompressed_nest_limit": &schema.Schema{
+						"uncompressed_nest_limit": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(2, 100),
 							Optional:     true,
 							Computed:     true,
 						},
-						"scan_bzip2": &schema.Schema{
+						"scan_bzip2": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"server_busy": &schema.Schema{
+						"server_busy": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"ssl_offloaded": &schema.Schema{
+						"ssl_offloaded": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -572,57 +572,57 @@ func resourceFirewallProfileProtocolOptions() *schema.Resource {
 					},
 				},
 			},
-			"nntp": &schema.Schema{
+			"nntp": {
 				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"ports": &schema.Schema{
+						"ports": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 65535),
 							Optional:     true,
 							Computed:     true,
 						},
-						"status": &schema.Schema{
+						"status": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"inspect_all": &schema.Schema{
+						"inspect_all": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"proxy_after_tcp_handshake": &schema.Schema{
+						"proxy_after_tcp_handshake": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"options": &schema.Schema{
+						"options": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"oversize_limit": &schema.Schema{
+						"oversize_limit": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 26214),
 							Optional:     true,
 							Computed:     true,
 						},
-						"uncompressed_oversize_limit": &schema.Schema{
+						"uncompressed_oversize_limit": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 26214),
 							Optional:     true,
 							Computed:     true,
 						},
-						"uncompressed_nest_limit": &schema.Schema{
+						"uncompressed_nest_limit": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(2, 100),
 							Optional:     true,
 							Computed:     true,
 						},
-						"scan_bzip2": &schema.Schema{
+						"scan_bzip2": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -630,81 +630,81 @@ func resourceFirewallProfileProtocolOptions() *schema.Resource {
 					},
 				},
 			},
-			"ssh": &schema.Schema{
+			"ssh": {
 				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"options": &schema.Schema{
+						"options": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"comfort_interval": &schema.Schema{
+						"comfort_interval": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 900),
 							Optional:     true,
 							Computed:     true,
 						},
-						"comfort_amount": &schema.Schema{
+						"comfort_amount": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 65535),
 							Optional:     true,
 							Computed:     true,
 						},
-						"oversize_limit": &schema.Schema{
+						"oversize_limit": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 26214),
 							Optional:     true,
 							Computed:     true,
 						},
-						"uncompressed_oversize_limit": &schema.Schema{
+						"uncompressed_oversize_limit": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 26214),
 							Optional:     true,
 							Computed:     true,
 						},
-						"uncompressed_nest_limit": &schema.Schema{
+						"uncompressed_nest_limit": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(2, 100),
 							Optional:     true,
 							Computed:     true,
 						},
-						"stream_based_uncompressed_limit": &schema.Schema{
+						"stream_based_uncompressed_limit": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"scan_bzip2": &schema.Schema{
+						"scan_bzip2": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"tcp_window_type": &schema.Schema{
+						"tcp_window_type": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"tcp_window_minimum": &schema.Schema{
+						"tcp_window_minimum": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(65536, 1048576),
 							Optional:     true,
 							Computed:     true,
 						},
-						"tcp_window_maximum": &schema.Schema{
+						"tcp_window_maximum": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1048576, 33554432),
 							Optional:     true,
 							Computed:     true,
 						},
-						"tcp_window_size": &schema.Schema{
+						"tcp_window_size": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(65536, 33554432),
 							Optional:     true,
 							Computed:     true,
 						},
-						"ssl_offloaded": &schema.Schema{
+						"ssl_offloaded": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -712,19 +712,19 @@ func resourceFirewallProfileProtocolOptions() *schema.Resource {
 					},
 				},
 			},
-			"dns": &schema.Schema{
+			"dns": {
 				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"ports": &schema.Schema{
+						"ports": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 65535),
 							Optional:     true,
 							Computed:     true,
 						},
-						"status": &schema.Schema{
+						"status": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -732,97 +732,97 @@ func resourceFirewallProfileProtocolOptions() *schema.Resource {
 					},
 				},
 			},
-			"cifs": &schema.Schema{
+			"cifs": {
 				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"ports": &schema.Schema{
+						"ports": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 65535),
 							Optional:     true,
 							Computed:     true,
 						},
-						"status": &schema.Schema{
+						"status": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"options": &schema.Schema{
+						"options": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"oversize_limit": &schema.Schema{
+						"oversize_limit": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 26214),
 							Optional:     true,
 							Computed:     true,
 						},
-						"uncompressed_oversize_limit": &schema.Schema{
+						"uncompressed_oversize_limit": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 26214),
 							Optional:     true,
 							Computed:     true,
 						},
-						"uncompressed_nest_limit": &schema.Schema{
+						"uncompressed_nest_limit": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(2, 100),
 							Optional:     true,
 							Computed:     true,
 						},
-						"scan_bzip2": &schema.Schema{
+						"scan_bzip2": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"tcp_window_type": &schema.Schema{
+						"tcp_window_type": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"tcp_window_minimum": &schema.Schema{
+						"tcp_window_minimum": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(65536, 1048576),
 							Optional:     true,
 							Computed:     true,
 						},
-						"tcp_window_maximum": &schema.Schema{
+						"tcp_window_maximum": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1048576, 33554432),
 							Optional:     true,
 							Computed:     true,
 						},
-						"tcp_window_size": &schema.Schema{
+						"tcp_window_size": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(65536, 33554432),
 							Optional:     true,
 							Computed:     true,
 						},
-						"server_credential_type": &schema.Schema{
+						"server_credential_type": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"domain_controller": &schema.Schema{
+						"domain_controller": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 63),
 							Optional:     true,
 							Computed:     true,
 						},
-						"server_keytab": &schema.Schema{
+						"server_keytab": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"principal": &schema.Schema{
+									"principal": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 511),
 										Optional:     true,
 										Computed:     true,
 									},
-									"keytab": &schema.Schema{
+									"keytab": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 8191),
 										Optional:     true,
@@ -834,18 +834,18 @@ func resourceFirewallProfileProtocolOptions() *schema.Resource {
 					},
 				},
 			},
-			"mail_signature": &schema.Schema{
+			"mail_signature": {
 				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"status": &schema.Schema{
+						"status": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"signature": &schema.Schema{
+						"signature": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 1023),
 							Optional:     true,
@@ -854,10 +854,15 @@ func resourceFirewallProfileProtocolOptions() *schema.Resource {
 					},
 				},
 			},
-			"rpc_over_http": &schema.Schema{
+			"rpc_over_http": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -875,15 +880,25 @@ func resourceFirewallProfileProtocolOptionsCreate(d *schema.ResourceData, m inte
 		}
 	}
 
-	obj, err := getObjectFirewallProfileProtocolOptions(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating FirewallProfileProtocolOptions resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateFirewallProfileProtocolOptions(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectFirewallProfileProtocolOptions(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating FirewallProfileProtocolOptions resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateFirewallProfileProtocolOptions(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating FirewallProfileProtocolOptions resource: %v", err)
+		return fmt.Errorf("error creating FirewallProfileProtocolOptions resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -908,14 +923,24 @@ func resourceFirewallProfileProtocolOptionsUpdate(d *schema.ResourceData, m inte
 		}
 	}
 
-	obj, err := getObjectFirewallProfileProtocolOptions(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating FirewallProfileProtocolOptions resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateFirewallProfileProtocolOptions(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectFirewallProfileProtocolOptions(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating FirewallProfileProtocolOptions resource: %v", err)
+		return fmt.Errorf("error updating FirewallProfileProtocolOptions resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateFirewallProfileProtocolOptions(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating FirewallProfileProtocolOptions resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -942,9 +967,17 @@ func resourceFirewallProfileProtocolOptionsDelete(d *schema.ResourceData, m inte
 		}
 	}
 
-	err := c.DeleteFirewallProfileProtocolOptions(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteFirewallProfileProtocolOptions(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting FirewallProfileProtocolOptions resource: %v", err)
+		return fmt.Errorf("error deleting FirewallProfileProtocolOptions resource: %v", err)
 	}
 
 	d.SetId("")
@@ -966,9 +999,19 @@ func resourceFirewallProfileProtocolOptionsRead(d *schema.ResourceData, m interf
 		}
 	}
 
-	o, err := c.ReadFirewallProfileProtocolOptions(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadFirewallProfileProtocolOptions(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading FirewallProfileProtocolOptions resource: %v", err)
+		return fmt.Errorf("error reading FirewallProfileProtocolOptions resource: %v", err)
 	}
 
 	if o == nil {
@@ -979,7 +1022,7 @@ func resourceFirewallProfileProtocolOptionsRead(d *schema.ResourceData, m interf
 
 	err = refreshObjectFirewallProfileProtocolOptions(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading FirewallProfileProtocolOptions resource from API: %v", err)
+		return fmt.Errorf("error reading FirewallProfileProtocolOptions resource from API: %v", err)
 	}
 	return nil
 }
@@ -2433,51 +2476,51 @@ func refreshObjectFirewallProfileProtocolOptions(d *schema.ResourceData, o map[s
 
 	if err = d.Set("name", flattenFirewallProfileProtocolOptionsName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("comment", flattenFirewallProfileProtocolOptionsComment(o["comment"], d, "comment", sv)); err != nil {
 		if !fortiAPIPatch(o["comment"]) {
-			return fmt.Errorf("Error reading comment: %v", err)
+			return fmt.Errorf("error reading comment: %v", err)
 		}
 	}
 
 	if err = d.Set("feature_set", flattenFirewallProfileProtocolOptionsFeatureSet(o["feature-set"], d, "feature_set", sv)); err != nil {
 		if !fortiAPIPatch(o["feature-set"]) {
-			return fmt.Errorf("Error reading feature_set: %v", err)
+			return fmt.Errorf("error reading feature_set: %v", err)
 		}
 	}
 
 	if err = d.Set("replacemsg_group", flattenFirewallProfileProtocolOptionsReplacemsgGroup(o["replacemsg-group"], d, "replacemsg_group", sv)); err != nil {
 		if !fortiAPIPatch(o["replacemsg-group"]) {
-			return fmt.Errorf("Error reading replacemsg_group: %v", err)
+			return fmt.Errorf("error reading replacemsg_group: %v", err)
 		}
 	}
 
 	if err = d.Set("oversize_log", flattenFirewallProfileProtocolOptionsOversizeLog(o["oversize-log"], d, "oversize_log", sv)); err != nil {
 		if !fortiAPIPatch(o["oversize-log"]) {
-			return fmt.Errorf("Error reading oversize_log: %v", err)
+			return fmt.Errorf("error reading oversize_log: %v", err)
 		}
 	}
 
 	if err = d.Set("switching_protocols_log", flattenFirewallProfileProtocolOptionsSwitchingProtocolsLog(o["switching-protocols-log"], d, "switching_protocols_log", sv)); err != nil {
 		if !fortiAPIPatch(o["switching-protocols-log"]) {
-			return fmt.Errorf("Error reading switching_protocols_log: %v", err)
+			return fmt.Errorf("error reading switching_protocols_log: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("http", flattenFirewallProfileProtocolOptionsHttp(o["http"], d, "http", sv)); err != nil {
 			if !fortiAPIPatch(o["http"]) {
-				return fmt.Errorf("Error reading http: %v", err)
+				return fmt.Errorf("error reading http: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("http"); ok {
 			if err = d.Set("http", flattenFirewallProfileProtocolOptionsHttp(o["http"], d, "http", sv)); err != nil {
 				if !fortiAPIPatch(o["http"]) {
-					return fmt.Errorf("Error reading http: %v", err)
+					return fmt.Errorf("error reading http: %v", err)
 				}
 			}
 		}
@@ -2486,14 +2529,14 @@ func refreshObjectFirewallProfileProtocolOptions(d *schema.ResourceData, o map[s
 	if isImportTable() {
 		if err = d.Set("ftp", flattenFirewallProfileProtocolOptionsFtp(o["ftp"], d, "ftp", sv)); err != nil {
 			if !fortiAPIPatch(o["ftp"]) {
-				return fmt.Errorf("Error reading ftp: %v", err)
+				return fmt.Errorf("error reading ftp: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("ftp"); ok {
 			if err = d.Set("ftp", flattenFirewallProfileProtocolOptionsFtp(o["ftp"], d, "ftp", sv)); err != nil {
 				if !fortiAPIPatch(o["ftp"]) {
-					return fmt.Errorf("Error reading ftp: %v", err)
+					return fmt.Errorf("error reading ftp: %v", err)
 				}
 			}
 		}
@@ -2502,14 +2545,14 @@ func refreshObjectFirewallProfileProtocolOptions(d *schema.ResourceData, o map[s
 	if isImportTable() {
 		if err = d.Set("imap", flattenFirewallProfileProtocolOptionsImap(o["imap"], d, "imap", sv)); err != nil {
 			if !fortiAPIPatch(o["imap"]) {
-				return fmt.Errorf("Error reading imap: %v", err)
+				return fmt.Errorf("error reading imap: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("imap"); ok {
 			if err = d.Set("imap", flattenFirewallProfileProtocolOptionsImap(o["imap"], d, "imap", sv)); err != nil {
 				if !fortiAPIPatch(o["imap"]) {
-					return fmt.Errorf("Error reading imap: %v", err)
+					return fmt.Errorf("error reading imap: %v", err)
 				}
 			}
 		}
@@ -2518,14 +2561,14 @@ func refreshObjectFirewallProfileProtocolOptions(d *schema.ResourceData, o map[s
 	if isImportTable() {
 		if err = d.Set("mapi", flattenFirewallProfileProtocolOptionsMapi(o["mapi"], d, "mapi", sv)); err != nil {
 			if !fortiAPIPatch(o["mapi"]) {
-				return fmt.Errorf("Error reading mapi: %v", err)
+				return fmt.Errorf("error reading mapi: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("mapi"); ok {
 			if err = d.Set("mapi", flattenFirewallProfileProtocolOptionsMapi(o["mapi"], d, "mapi", sv)); err != nil {
 				if !fortiAPIPatch(o["mapi"]) {
-					return fmt.Errorf("Error reading mapi: %v", err)
+					return fmt.Errorf("error reading mapi: %v", err)
 				}
 			}
 		}
@@ -2534,14 +2577,14 @@ func refreshObjectFirewallProfileProtocolOptions(d *schema.ResourceData, o map[s
 	if isImportTable() {
 		if err = d.Set("pop3", flattenFirewallProfileProtocolOptionsPop3(o["pop3"], d, "pop3", sv)); err != nil {
 			if !fortiAPIPatch(o["pop3"]) {
-				return fmt.Errorf("Error reading pop3: %v", err)
+				return fmt.Errorf("error reading pop3: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("pop3"); ok {
 			if err = d.Set("pop3", flattenFirewallProfileProtocolOptionsPop3(o["pop3"], d, "pop3", sv)); err != nil {
 				if !fortiAPIPatch(o["pop3"]) {
-					return fmt.Errorf("Error reading pop3: %v", err)
+					return fmt.Errorf("error reading pop3: %v", err)
 				}
 			}
 		}
@@ -2550,14 +2593,14 @@ func refreshObjectFirewallProfileProtocolOptions(d *schema.ResourceData, o map[s
 	if isImportTable() {
 		if err = d.Set("smtp", flattenFirewallProfileProtocolOptionsSmtp(o["smtp"], d, "smtp", sv)); err != nil {
 			if !fortiAPIPatch(o["smtp"]) {
-				return fmt.Errorf("Error reading smtp: %v", err)
+				return fmt.Errorf("error reading smtp: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("smtp"); ok {
 			if err = d.Set("smtp", flattenFirewallProfileProtocolOptionsSmtp(o["smtp"], d, "smtp", sv)); err != nil {
 				if !fortiAPIPatch(o["smtp"]) {
-					return fmt.Errorf("Error reading smtp: %v", err)
+					return fmt.Errorf("error reading smtp: %v", err)
 				}
 			}
 		}
@@ -2566,14 +2609,14 @@ func refreshObjectFirewallProfileProtocolOptions(d *schema.ResourceData, o map[s
 	if isImportTable() {
 		if err = d.Set("nntp", flattenFirewallProfileProtocolOptionsNntp(o["nntp"], d, "nntp", sv)); err != nil {
 			if !fortiAPIPatch(o["nntp"]) {
-				return fmt.Errorf("Error reading nntp: %v", err)
+				return fmt.Errorf("error reading nntp: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("nntp"); ok {
 			if err = d.Set("nntp", flattenFirewallProfileProtocolOptionsNntp(o["nntp"], d, "nntp", sv)); err != nil {
 				if !fortiAPIPatch(o["nntp"]) {
-					return fmt.Errorf("Error reading nntp: %v", err)
+					return fmt.Errorf("error reading nntp: %v", err)
 				}
 			}
 		}
@@ -2582,14 +2625,14 @@ func refreshObjectFirewallProfileProtocolOptions(d *schema.ResourceData, o map[s
 	if isImportTable() {
 		if err = d.Set("ssh", flattenFirewallProfileProtocolOptionsSsh(o["ssh"], d, "ssh", sv)); err != nil {
 			if !fortiAPIPatch(o["ssh"]) {
-				return fmt.Errorf("Error reading ssh: %v", err)
+				return fmt.Errorf("error reading ssh: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("ssh"); ok {
 			if err = d.Set("ssh", flattenFirewallProfileProtocolOptionsSsh(o["ssh"], d, "ssh", sv)); err != nil {
 				if !fortiAPIPatch(o["ssh"]) {
-					return fmt.Errorf("Error reading ssh: %v", err)
+					return fmt.Errorf("error reading ssh: %v", err)
 				}
 			}
 		}
@@ -2598,14 +2641,14 @@ func refreshObjectFirewallProfileProtocolOptions(d *schema.ResourceData, o map[s
 	if isImportTable() {
 		if err = d.Set("dns", flattenFirewallProfileProtocolOptionsDns(o["dns"], d, "dns", sv)); err != nil {
 			if !fortiAPIPatch(o["dns"]) {
-				return fmt.Errorf("Error reading dns: %v", err)
+				return fmt.Errorf("error reading dns: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("dns"); ok {
 			if err = d.Set("dns", flattenFirewallProfileProtocolOptionsDns(o["dns"], d, "dns", sv)); err != nil {
 				if !fortiAPIPatch(o["dns"]) {
-					return fmt.Errorf("Error reading dns: %v", err)
+					return fmt.Errorf("error reading dns: %v", err)
 				}
 			}
 		}
@@ -2614,14 +2657,14 @@ func refreshObjectFirewallProfileProtocolOptions(d *schema.ResourceData, o map[s
 	if isImportTable() {
 		if err = d.Set("cifs", flattenFirewallProfileProtocolOptionsCifs(o["cifs"], d, "cifs", sv)); err != nil {
 			if !fortiAPIPatch(o["cifs"]) {
-				return fmt.Errorf("Error reading cifs: %v", err)
+				return fmt.Errorf("error reading cifs: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("cifs"); ok {
 			if err = d.Set("cifs", flattenFirewallProfileProtocolOptionsCifs(o["cifs"], d, "cifs", sv)); err != nil {
 				if !fortiAPIPatch(o["cifs"]) {
-					return fmt.Errorf("Error reading cifs: %v", err)
+					return fmt.Errorf("error reading cifs: %v", err)
 				}
 			}
 		}
@@ -2630,14 +2673,14 @@ func refreshObjectFirewallProfileProtocolOptions(d *schema.ResourceData, o map[s
 	if isImportTable() {
 		if err = d.Set("mail_signature", flattenFirewallProfileProtocolOptionsMailSignature(o["mail-signature"], d, "mail_signature", sv)); err != nil {
 			if !fortiAPIPatch(o["mail-signature"]) {
-				return fmt.Errorf("Error reading mail_signature: %v", err)
+				return fmt.Errorf("error reading mail_signature: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("mail_signature"); ok {
 			if err = d.Set("mail_signature", flattenFirewallProfileProtocolOptionsMailSignature(o["mail-signature"], d, "mail_signature", sv)); err != nil {
 				if !fortiAPIPatch(o["mail-signature"]) {
-					return fmt.Errorf("Error reading mail_signature: %v", err)
+					return fmt.Errorf("error reading mail_signature: %v", err)
 				}
 			}
 		}
@@ -2645,7 +2688,7 @@ func refreshObjectFirewallProfileProtocolOptions(d *schema.ResourceData, o map[s
 
 	if err = d.Set("rpc_over_http", flattenFirewallProfileProtocolOptionsRpcOverHttp(o["rpc-over-http"], d, "rpc_over_http", sv)); err != nil {
 		if !fortiAPIPatch(o["rpc-over-http"]) {
-			return fmt.Errorf("Error reading rpc_over_http: %v", err)
+			return fmt.Errorf("error reading rpc_over_http: %v", err)
 		}
 	}
 

@@ -53,14 +53,14 @@ func testAccCheckFortiOSFirewallVipgrp64Exists(n string) resource.TestCheckFunc 
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadFirewallVipgrp64(i, "root")
+		o, err := c.ReadFirewallVipgrp64(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading FirewallVipgrp64: %s", err)
+			return fmt.Errorf("error reading FirewallVipgrp64: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating FirewallVipgrp64: %s", n)
+			return fmt.Errorf("error creating FirewallVipgrp64: %s", n)
 		}
 
 		return nil
@@ -76,11 +76,11 @@ func testAccCheckFirewallVipgrp64Destroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadFirewallVipgrp64(i, "root")
+		o, err := c.ReadFirewallVipgrp64(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error FirewallVipgrp64 %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error FirewallVipgrp64 %s still exists", rs.Primary.ID)
 			}
 		}
 

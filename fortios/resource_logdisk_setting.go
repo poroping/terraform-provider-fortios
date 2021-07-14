@@ -30,169 +30,174 @@ func resourceLogDiskSetting() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"status": &schema.Schema{
+			"status": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"ips_archive": &schema.Schema{
+			"ips_archive": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"max_log_file_size": &schema.Schema{
+			"max_log_file_size": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 100),
 				Optional:     true,
 				Computed:     true,
 			},
-			"max_policy_packet_capture_size": &schema.Schema{
+			"max_policy_packet_capture_size": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"roll_schedule": &schema.Schema{
+			"roll_schedule": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"roll_day": &schema.Schema{
+			"roll_day": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"roll_time": &schema.Schema{
+			"roll_time": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"diskfull": &schema.Schema{
+			"diskfull": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"log_quota": &schema.Schema{
+			"log_quota": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"dlp_archive_quota": &schema.Schema{
+			"dlp_archive_quota": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"report_quota": &schema.Schema{
+			"report_quota": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"maximum_log_age": &schema.Schema{
+			"maximum_log_age": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 3650),
 				Optional:     true,
 				Computed:     true,
 			},
-			"upload": &schema.Schema{
+			"upload": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"upload_destination": &schema.Schema{
+			"upload_destination": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"uploadip": &schema.Schema{
+			"uploadip": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"uploadport": &schema.Schema{
+			"uploadport": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"source_ip": &schema.Schema{
+			"source_ip": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"uploaduser": &schema.Schema{
+			"uploaduser": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"uploadpass": &schema.Schema{
+			"uploadpass": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 128),
 				Optional:     true,
 				Sensitive:    true,
 			},
-			"uploaddir": &schema.Schema{
+			"uploaddir": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"uploadtype": &schema.Schema{
+			"uploadtype": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"uploadsched": &schema.Schema{
+			"uploadsched": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"uploadtime": &schema.Schema{
+			"uploadtime": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"upload_delete_files": &schema.Schema{
+			"upload_delete_files": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"upload_ssl_conn": &schema.Schema{
+			"upload_ssl_conn": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"full_first_warning_threshold": &schema.Schema{
+			"full_first_warning_threshold": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 98),
 				Optional:     true,
 				Computed:     true,
 			},
-			"full_second_warning_threshold": &schema.Schema{
+			"full_second_warning_threshold": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(2, 99),
 				Optional:     true,
 				Computed:     true,
 			},
-			"full_final_warning_threshold": &schema.Schema{
+			"full_final_warning_threshold": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(3, 100),
 				Optional:     true,
 				Computed:     true,
 			},
-			"interface_select_method": &schema.Schema{
+			"interface_select_method": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"interface": &schema.Schema{
+			"interface": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 15),
 				Optional:     true,
 				Computed:     true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -211,14 +216,24 @@ func resourceLogDiskSettingUpdate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectLogDiskSetting(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating LogDiskSetting resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateLogDiskSetting(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectLogDiskSetting(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating LogDiskSetting resource: %v", err)
+		return fmt.Errorf("error updating LogDiskSetting resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateLogDiskSetting(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating LogDiskSetting resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -245,9 +260,17 @@ func resourceLogDiskSettingDelete(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	err := c.DeleteLogDiskSetting(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteLogDiskSetting(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting LogDiskSetting resource: %v", err)
+		return fmt.Errorf("error deleting LogDiskSetting resource: %v", err)
 	}
 
 	d.SetId("")
@@ -269,9 +292,19 @@ func resourceLogDiskSettingRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadLogDiskSetting(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadLogDiskSetting(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading LogDiskSetting resource: %v", err)
+		return fmt.Errorf("error reading LogDiskSetting resource: %v", err)
 	}
 
 	if o == nil {
@@ -282,7 +315,7 @@ func resourceLogDiskSettingRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectLogDiskSetting(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading LogDiskSetting resource from API: %v", err)
+		return fmt.Errorf("error reading LogDiskSetting resource from API: %v", err)
 	}
 	return nil
 }
@@ -412,175 +445,175 @@ func refreshObjectLogDiskSetting(d *schema.ResourceData, o map[string]interface{
 
 	if err = d.Set("status", flattenLogDiskSettingStatus(o["status"], d, "status", sv)); err != nil {
 		if !fortiAPIPatch(o["status"]) {
-			return fmt.Errorf("Error reading status: %v", err)
+			return fmt.Errorf("error reading status: %v", err)
 		}
 	}
 
 	if err = d.Set("ips_archive", flattenLogDiskSettingIpsArchive(o["ips-archive"], d, "ips_archive", sv)); err != nil {
 		if !fortiAPIPatch(o["ips-archive"]) {
-			return fmt.Errorf("Error reading ips_archive: %v", err)
+			return fmt.Errorf("error reading ips_archive: %v", err)
 		}
 	}
 
 	if err = d.Set("max_log_file_size", flattenLogDiskSettingMaxLogFileSize(o["max-log-file-size"], d, "max_log_file_size", sv)); err != nil {
 		if !fortiAPIPatch(o["max-log-file-size"]) {
-			return fmt.Errorf("Error reading max_log_file_size: %v", err)
+			return fmt.Errorf("error reading max_log_file_size: %v", err)
 		}
 	}
 
 	if err = d.Set("max_policy_packet_capture_size", flattenLogDiskSettingMaxPolicyPacketCaptureSize(o["max-policy-packet-capture-size"], d, "max_policy_packet_capture_size", sv)); err != nil {
 		if !fortiAPIPatch(o["max-policy-packet-capture-size"]) {
-			return fmt.Errorf("Error reading max_policy_packet_capture_size: %v", err)
+			return fmt.Errorf("error reading max_policy_packet_capture_size: %v", err)
 		}
 	}
 
 	if err = d.Set("roll_schedule", flattenLogDiskSettingRollSchedule(o["roll-schedule"], d, "roll_schedule", sv)); err != nil {
 		if !fortiAPIPatch(o["roll-schedule"]) {
-			return fmt.Errorf("Error reading roll_schedule: %v", err)
+			return fmt.Errorf("error reading roll_schedule: %v", err)
 		}
 	}
 
 	if err = d.Set("roll_day", flattenLogDiskSettingRollDay(o["roll-day"], d, "roll_day", sv)); err != nil {
 		if !fortiAPIPatch(o["roll-day"]) {
-			return fmt.Errorf("Error reading roll_day: %v", err)
+			return fmt.Errorf("error reading roll_day: %v", err)
 		}
 	}
 
 	if err = d.Set("roll_time", flattenLogDiskSettingRollTime(o["roll-time"], d, "roll_time", sv)); err != nil {
 		if !fortiAPIPatch(o["roll-time"]) {
-			return fmt.Errorf("Error reading roll_time: %v", err)
+			return fmt.Errorf("error reading roll_time: %v", err)
 		}
 	}
 
 	if err = d.Set("diskfull", flattenLogDiskSettingDiskfull(o["diskfull"], d, "diskfull", sv)); err != nil {
 		if !fortiAPIPatch(o["diskfull"]) {
-			return fmt.Errorf("Error reading diskfull: %v", err)
+			return fmt.Errorf("error reading diskfull: %v", err)
 		}
 	}
 
 	if err = d.Set("log_quota", flattenLogDiskSettingLogQuota(o["log-quota"], d, "log_quota", sv)); err != nil {
 		if !fortiAPIPatch(o["log-quota"]) {
-			return fmt.Errorf("Error reading log_quota: %v", err)
+			return fmt.Errorf("error reading log_quota: %v", err)
 		}
 	}
 
 	if err = d.Set("dlp_archive_quota", flattenLogDiskSettingDlpArchiveQuota(o["dlp-archive-quota"], d, "dlp_archive_quota", sv)); err != nil {
 		if !fortiAPIPatch(o["dlp-archive-quota"]) {
-			return fmt.Errorf("Error reading dlp_archive_quota: %v", err)
+			return fmt.Errorf("error reading dlp_archive_quota: %v", err)
 		}
 	}
 
 	if err = d.Set("report_quota", flattenLogDiskSettingReportQuota(o["report-quota"], d, "report_quota", sv)); err != nil {
 		if !fortiAPIPatch(o["report-quota"]) {
-			return fmt.Errorf("Error reading report_quota: %v", err)
+			return fmt.Errorf("error reading report_quota: %v", err)
 		}
 	}
 
 	if err = d.Set("maximum_log_age", flattenLogDiskSettingMaximumLogAge(o["maximum-log-age"], d, "maximum_log_age", sv)); err != nil {
 		if !fortiAPIPatch(o["maximum-log-age"]) {
-			return fmt.Errorf("Error reading maximum_log_age: %v", err)
+			return fmt.Errorf("error reading maximum_log_age: %v", err)
 		}
 	}
 
 	if err = d.Set("upload", flattenLogDiskSettingUpload(o["upload"], d, "upload", sv)); err != nil {
 		if !fortiAPIPatch(o["upload"]) {
-			return fmt.Errorf("Error reading upload: %v", err)
+			return fmt.Errorf("error reading upload: %v", err)
 		}
 	}
 
 	if err = d.Set("upload_destination", flattenLogDiskSettingUploadDestination(o["upload-destination"], d, "upload_destination", sv)); err != nil {
 		if !fortiAPIPatch(o["upload-destination"]) {
-			return fmt.Errorf("Error reading upload_destination: %v", err)
+			return fmt.Errorf("error reading upload_destination: %v", err)
 		}
 	}
 
 	if err = d.Set("uploadip", flattenLogDiskSettingUploadip(o["uploadip"], d, "uploadip", sv)); err != nil {
 		if !fortiAPIPatch(o["uploadip"]) {
-			return fmt.Errorf("Error reading uploadip: %v", err)
+			return fmt.Errorf("error reading uploadip: %v", err)
 		}
 	}
 
 	if err = d.Set("uploadport", flattenLogDiskSettingUploadport(o["uploadport"], d, "uploadport", sv)); err != nil {
 		if !fortiAPIPatch(o["uploadport"]) {
-			return fmt.Errorf("Error reading uploadport: %v", err)
+			return fmt.Errorf("error reading uploadport: %v", err)
 		}
 	}
 
 	if err = d.Set("source_ip", flattenLogDiskSettingSourceIp(o["source-ip"], d, "source_ip", sv)); err != nil {
 		if !fortiAPIPatch(o["source-ip"]) {
-			return fmt.Errorf("Error reading source_ip: %v", err)
+			return fmt.Errorf("error reading source_ip: %v", err)
 		}
 	}
 
 	if err = d.Set("uploaduser", flattenLogDiskSettingUploaduser(o["uploaduser"], d, "uploaduser", sv)); err != nil {
 		if !fortiAPIPatch(o["uploaduser"]) {
-			return fmt.Errorf("Error reading uploaduser: %v", err)
+			return fmt.Errorf("error reading uploaduser: %v", err)
 		}
 	}
 
 	if err = d.Set("uploaddir", flattenLogDiskSettingUploaddir(o["uploaddir"], d, "uploaddir", sv)); err != nil {
 		if !fortiAPIPatch(o["uploaddir"]) {
-			return fmt.Errorf("Error reading uploaddir: %v", err)
+			return fmt.Errorf("error reading uploaddir: %v", err)
 		}
 	}
 
 	if err = d.Set("uploadtype", flattenLogDiskSettingUploadtype(o["uploadtype"], d, "uploadtype", sv)); err != nil {
 		if !fortiAPIPatch(o["uploadtype"]) {
-			return fmt.Errorf("Error reading uploadtype: %v", err)
+			return fmt.Errorf("error reading uploadtype: %v", err)
 		}
 	}
 
 	if err = d.Set("uploadsched", flattenLogDiskSettingUploadsched(o["uploadsched"], d, "uploadsched", sv)); err != nil {
 		if !fortiAPIPatch(o["uploadsched"]) {
-			return fmt.Errorf("Error reading uploadsched: %v", err)
+			return fmt.Errorf("error reading uploadsched: %v", err)
 		}
 	}
 
 	if err = d.Set("uploadtime", flattenLogDiskSettingUploadtime(o["uploadtime"], d, "uploadtime", sv)); err != nil {
 		if !fortiAPIPatch(o["uploadtime"]) {
-			return fmt.Errorf("Error reading uploadtime: %v", err)
+			return fmt.Errorf("error reading uploadtime: %v", err)
 		}
 	}
 
 	if err = d.Set("upload_delete_files", flattenLogDiskSettingUploadDeleteFiles(o["upload-delete-files"], d, "upload_delete_files", sv)); err != nil {
 		if !fortiAPIPatch(o["upload-delete-files"]) {
-			return fmt.Errorf("Error reading upload_delete_files: %v", err)
+			return fmt.Errorf("error reading upload_delete_files: %v", err)
 		}
 	}
 
 	if err = d.Set("upload_ssl_conn", flattenLogDiskSettingUploadSslConn(o["upload-ssl-conn"], d, "upload_ssl_conn", sv)); err != nil {
 		if !fortiAPIPatch(o["upload-ssl-conn"]) {
-			return fmt.Errorf("Error reading upload_ssl_conn: %v", err)
+			return fmt.Errorf("error reading upload_ssl_conn: %v", err)
 		}
 	}
 
 	if err = d.Set("full_first_warning_threshold", flattenLogDiskSettingFullFirstWarningThreshold(o["full-first-warning-threshold"], d, "full_first_warning_threshold", sv)); err != nil {
 		if !fortiAPIPatch(o["full-first-warning-threshold"]) {
-			return fmt.Errorf("Error reading full_first_warning_threshold: %v", err)
+			return fmt.Errorf("error reading full_first_warning_threshold: %v", err)
 		}
 	}
 
 	if err = d.Set("full_second_warning_threshold", flattenLogDiskSettingFullSecondWarningThreshold(o["full-second-warning-threshold"], d, "full_second_warning_threshold", sv)); err != nil {
 		if !fortiAPIPatch(o["full-second-warning-threshold"]) {
-			return fmt.Errorf("Error reading full_second_warning_threshold: %v", err)
+			return fmt.Errorf("error reading full_second_warning_threshold: %v", err)
 		}
 	}
 
 	if err = d.Set("full_final_warning_threshold", flattenLogDiskSettingFullFinalWarningThreshold(o["full-final-warning-threshold"], d, "full_final_warning_threshold", sv)); err != nil {
 		if !fortiAPIPatch(o["full-final-warning-threshold"]) {
-			return fmt.Errorf("Error reading full_final_warning_threshold: %v", err)
+			return fmt.Errorf("error reading full_final_warning_threshold: %v", err)
 		}
 	}
 
 	if err = d.Set("interface_select_method", flattenLogDiskSettingInterfaceSelectMethod(o["interface-select-method"], d, "interface_select_method", sv)); err != nil {
 		if !fortiAPIPatch(o["interface-select-method"]) {
-			return fmt.Errorf("Error reading interface_select_method: %v", err)
+			return fmt.Errorf("error reading interface_select_method: %v", err)
 		}
 	}
 
 	if err = d.Set("interface", flattenLogDiskSettingInterface(o["interface"], d, "interface", sv)); err != nil {
 		if !fortiAPIPatch(o["interface"]) {
-			return fmt.Errorf("Error reading interface: %v", err)
+			return fmt.Errorf("error reading interface: %v", err)
 		}
 	}
 

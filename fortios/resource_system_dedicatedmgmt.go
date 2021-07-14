@@ -30,46 +30,51 @@ func resourceSystemDedicatedMgmt() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"status": &schema.Schema{
+			"status": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"interface": &schema.Schema{
+			"interface": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 15),
 				Optional:     true,
 				Computed:     true,
 			},
-			"default_gateway": &schema.Schema{
+			"default_gateway": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"dhcp_server": &schema.Schema{
+			"dhcp_server": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"dhcp_netmask": &schema.Schema{
+			"dhcp_netmask": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"dhcp_start_ip": &schema.Schema{
+			"dhcp_start_ip": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"dhcp_end_ip": &schema.Schema{
+			"dhcp_end_ip": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -88,14 +93,24 @@ func resourceSystemDedicatedMgmtUpdate(d *schema.ResourceData, m interface{}) er
 		}
 	}
 
-	obj, err := getObjectSystemDedicatedMgmt(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SystemDedicatedMgmt resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSystemDedicatedMgmt(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemDedicatedMgmt(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SystemDedicatedMgmt resource: %v", err)
+		return fmt.Errorf("error updating SystemDedicatedMgmt resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSystemDedicatedMgmt(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SystemDedicatedMgmt resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -122,9 +137,17 @@ func resourceSystemDedicatedMgmtDelete(d *schema.ResourceData, m interface{}) er
 		}
 	}
 
-	err := c.DeleteSystemDedicatedMgmt(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSystemDedicatedMgmt(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SystemDedicatedMgmt resource: %v", err)
+		return fmt.Errorf("error deleting SystemDedicatedMgmt resource: %v", err)
 	}
 
 	d.SetId("")
@@ -146,9 +169,19 @@ func resourceSystemDedicatedMgmtRead(d *schema.ResourceData, m interface{}) erro
 		}
 	}
 
-	o, err := c.ReadSystemDedicatedMgmt(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSystemDedicatedMgmt(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemDedicatedMgmt resource: %v", err)
+		return fmt.Errorf("error reading SystemDedicatedMgmt resource: %v", err)
 	}
 
 	if o == nil {
@@ -159,7 +192,7 @@ func resourceSystemDedicatedMgmtRead(d *schema.ResourceData, m interface{}) erro
 
 	err = refreshObjectSystemDedicatedMgmt(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemDedicatedMgmt resource from API: %v", err)
+		return fmt.Errorf("error reading SystemDedicatedMgmt resource from API: %v", err)
 	}
 	return nil
 }
@@ -197,43 +230,43 @@ func refreshObjectSystemDedicatedMgmt(d *schema.ResourceData, o map[string]inter
 
 	if err = d.Set("status", flattenSystemDedicatedMgmtStatus(o["status"], d, "status", sv)); err != nil {
 		if !fortiAPIPatch(o["status"]) {
-			return fmt.Errorf("Error reading status: %v", err)
+			return fmt.Errorf("error reading status: %v", err)
 		}
 	}
 
 	if err = d.Set("interface", flattenSystemDedicatedMgmtInterface(o["interface"], d, "interface", sv)); err != nil {
 		if !fortiAPIPatch(o["interface"]) {
-			return fmt.Errorf("Error reading interface: %v", err)
+			return fmt.Errorf("error reading interface: %v", err)
 		}
 	}
 
 	if err = d.Set("default_gateway", flattenSystemDedicatedMgmtDefaultGateway(o["default-gateway"], d, "default_gateway", sv)); err != nil {
 		if !fortiAPIPatch(o["default-gateway"]) {
-			return fmt.Errorf("Error reading default_gateway: %v", err)
+			return fmt.Errorf("error reading default_gateway: %v", err)
 		}
 	}
 
 	if err = d.Set("dhcp_server", flattenSystemDedicatedMgmtDhcpServer(o["dhcp-server"], d, "dhcp_server", sv)); err != nil {
 		if !fortiAPIPatch(o["dhcp-server"]) {
-			return fmt.Errorf("Error reading dhcp_server: %v", err)
+			return fmt.Errorf("error reading dhcp_server: %v", err)
 		}
 	}
 
 	if err = d.Set("dhcp_netmask", flattenSystemDedicatedMgmtDhcpNetmask(o["dhcp-netmask"], d, "dhcp_netmask", sv)); err != nil {
 		if !fortiAPIPatch(o["dhcp-netmask"]) {
-			return fmt.Errorf("Error reading dhcp_netmask: %v", err)
+			return fmt.Errorf("error reading dhcp_netmask: %v", err)
 		}
 	}
 
 	if err = d.Set("dhcp_start_ip", flattenSystemDedicatedMgmtDhcpStartIp(o["dhcp-start-ip"], d, "dhcp_start_ip", sv)); err != nil {
 		if !fortiAPIPatch(o["dhcp-start-ip"]) {
-			return fmt.Errorf("Error reading dhcp_start_ip: %v", err)
+			return fmt.Errorf("error reading dhcp_start_ip: %v", err)
 		}
 	}
 
 	if err = d.Set("dhcp_end_ip", flattenSystemDedicatedMgmtDhcpEndIp(o["dhcp-end-ip"], d, "dhcp_end_ip", sv)); err != nil {
 		if !fortiAPIPatch(o["dhcp-end-ip"]) {
-			return fmt.Errorf("Error reading dhcp_end_ip: %v", err)
+			return fmt.Errorf("error reading dhcp_end_ip: %v", err)
 		}
 	}
 

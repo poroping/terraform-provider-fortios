@@ -55,14 +55,14 @@ func testAccCheckFortiOSSwitchControllerStpSettingsExists(n string) resource.Tes
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadSwitchControllerStpSettings(i, "root")
+		o, err := c.ReadSwitchControllerStpSettings(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading SwitchControllerStpSettings: %s", err)
+			return fmt.Errorf("error reading SwitchControllerStpSettings: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating SwitchControllerStpSettings: %s", n)
+			return fmt.Errorf("error creating SwitchControllerStpSettings: %s", n)
 		}
 
 		return nil
@@ -78,11 +78,11 @@ func testAccCheckSwitchControllerStpSettingsDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadSwitchControllerStpSettings(i, "root")
+		o, err := c.ReadSwitchControllerStpSettings(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error SwitchControllerStpSettings %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error SwitchControllerStpSettings %s still exists", rs.Primary.ID)
 			}
 		}
 

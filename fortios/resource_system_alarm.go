@@ -30,123 +30,123 @@ func resourceSystemAlarm() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"status": &schema.Schema{
+			"status": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"audible": &schema.Schema{
+			"audible": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"groups": &schema.Schema{
+			"groups": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"period": &schema.Schema{
+						"period": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"admin_auth_failure_threshold": &schema.Schema{
+						"admin_auth_failure_threshold": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 1024),
 							Optional:     true,
 							Computed:     true,
 						},
-						"admin_auth_lockout_threshold": &schema.Schema{
+						"admin_auth_lockout_threshold": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 1024),
 							Optional:     true,
 							Computed:     true,
 						},
-						"user_auth_failure_threshold": &schema.Schema{
+						"user_auth_failure_threshold": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 1024),
 							Optional:     true,
 							Computed:     true,
 						},
-						"user_auth_lockout_threshold": &schema.Schema{
+						"user_auth_lockout_threshold": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 1024),
 							Optional:     true,
 							Computed:     true,
 						},
-						"replay_attempt_threshold": &schema.Schema{
+						"replay_attempt_threshold": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 1024),
 							Optional:     true,
 							Computed:     true,
 						},
-						"self_test_failure_threshold": &schema.Schema{
+						"self_test_failure_threshold": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 1),
 							Optional:     true,
 							Computed:     true,
 						},
-						"log_full_warning_threshold": &schema.Schema{
+						"log_full_warning_threshold": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 1024),
 							Optional:     true,
 							Computed:     true,
 						},
-						"encryption_failure_threshold": &schema.Schema{
+						"encryption_failure_threshold": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 1024),
 							Optional:     true,
 							Computed:     true,
 						},
-						"decryption_failure_threshold": &schema.Schema{
+						"decryption_failure_threshold": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 1024),
 							Optional:     true,
 							Computed:     true,
 						},
-						"fw_policy_violations": &schema.Schema{
+						"fw_policy_violations": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"id": &schema.Schema{
+									"id": {
 										Type:     schema.TypeInt,
 										Optional: true,
 										Computed: true,
 									},
-									"threshold": &schema.Schema{
+									"threshold": {
 										Type:         schema.TypeInt,
 										ValidateFunc: validation.IntBetween(0, 1024),
 										Optional:     true,
 										Computed:     true,
 									},
-									"src_ip": &schema.Schema{
+									"src_ip": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"dst_ip": &schema.Schema{
+									"dst_ip": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"src_port": &schema.Schema{
+									"src_port": {
 										Type:         schema.TypeInt,
 										ValidateFunc: validation.IntBetween(0, 65535),
 										Optional:     true,
 										Computed:     true,
 									},
-									"dst_port": &schema.Schema{
+									"dst_port": {
 										Type:         schema.TypeInt,
 										ValidateFunc: validation.IntBetween(0, 65535),
 										Optional:     true,
@@ -155,12 +155,12 @@ func resourceSystemAlarm() *schema.Resource {
 								},
 							},
 						},
-						"fw_policy_id": &schema.Schema{
+						"fw_policy_id": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"fw_policy_id_threshold": &schema.Schema{
+						"fw_policy_id_threshold": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 1024),
 							Optional:     true,
@@ -169,10 +169,15 @@ func resourceSystemAlarm() *schema.Resource {
 					},
 				},
 			},
-			"dynamic_sort_subtable": &schema.Schema{
-				Type:     schema.TypeString,
+			"dynamic_sort_subtable": {
+				Type:     schema.TypeBool,
 				Optional: true,
-				Default:  "false",
+				Default:  false,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -191,14 +196,24 @@ func resourceSystemAlarmUpdate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectSystemAlarm(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SystemAlarm resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSystemAlarm(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemAlarm(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SystemAlarm resource: %v", err)
+		return fmt.Errorf("error updating SystemAlarm resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSystemAlarm(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SystemAlarm resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -225,9 +240,17 @@ func resourceSystemAlarmDelete(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	err := c.DeleteSystemAlarm(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSystemAlarm(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SystemAlarm resource: %v", err)
+		return fmt.Errorf("error deleting SystemAlarm resource: %v", err)
 	}
 
 	d.SetId("")
@@ -249,9 +272,19 @@ func resourceSystemAlarmRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadSystemAlarm(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSystemAlarm(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemAlarm resource: %v", err)
+		return fmt.Errorf("error reading SystemAlarm resource: %v", err)
 	}
 
 	if o == nil {
@@ -262,7 +295,7 @@ func resourceSystemAlarmRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectSystemAlarm(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemAlarm resource from API: %v", err)
+		return fmt.Errorf("error reading SystemAlarm resource from API: %v", err)
 	}
 	return nil
 }
@@ -531,27 +564,27 @@ func refreshObjectSystemAlarm(d *schema.ResourceData, o map[string]interface{}, 
 
 	if err = d.Set("status", flattenSystemAlarmStatus(o["status"], d, "status", sv)); err != nil {
 		if !fortiAPIPatch(o["status"]) {
-			return fmt.Errorf("Error reading status: %v", err)
+			return fmt.Errorf("error reading status: %v", err)
 		}
 	}
 
 	if err = d.Set("audible", flattenSystemAlarmAudible(o["audible"], d, "audible", sv)); err != nil {
 		if !fortiAPIPatch(o["audible"]) {
-			return fmt.Errorf("Error reading audible: %v", err)
+			return fmt.Errorf("error reading audible: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("groups", flattenSystemAlarmGroups(o["groups"], d, "groups", sv)); err != nil {
 			if !fortiAPIPatch(o["groups"]) {
-				return fmt.Errorf("Error reading groups: %v", err)
+				return fmt.Errorf("error reading groups: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("groups"); ok {
 			if err = d.Set("groups", flattenSystemAlarmGroups(o["groups"], d, "groups", sv)); err != nil {
 				if !fortiAPIPatch(o["groups"]) {
-					return fmt.Errorf("Error reading groups: %v", err)
+					return fmt.Errorf("error reading groups: %v", err)
 				}
 			}
 		}

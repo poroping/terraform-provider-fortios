@@ -30,50 +30,55 @@ func resourceWebfilterSearchEngine() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				ForceNew:     true,
 				Required:     true,
 			},
-			"hostname": &schema.Schema{
+			"hostname": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 127),
 				Optional:     true,
 				Computed:     true,
 			},
-			"url": &schema.Schema{
+			"url": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 127),
 				Optional:     true,
 				Computed:     true,
 			},
-			"query": &schema.Schema{
+			"query": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 15),
 				Optional:     true,
 				Computed:     true,
 			},
-			"safesearch": &schema.Schema{
+			"safesearch": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"charset": &schema.Schema{
+			"charset": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"safesearch_str": &schema.Schema{
+			"safesearch_str": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 79),
 				Optional:     true,
 				Computed:     true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -91,15 +96,25 @@ func resourceWebfilterSearchEngineCreate(d *schema.ResourceData, m interface{}) 
 		}
 	}
 
-	obj, err := getObjectWebfilterSearchEngine(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating WebfilterSearchEngine resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateWebfilterSearchEngine(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectWebfilterSearchEngine(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating WebfilterSearchEngine resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateWebfilterSearchEngine(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating WebfilterSearchEngine resource: %v", err)
+		return fmt.Errorf("error creating WebfilterSearchEngine resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -124,14 +139,24 @@ func resourceWebfilterSearchEngineUpdate(d *schema.ResourceData, m interface{}) 
 		}
 	}
 
-	obj, err := getObjectWebfilterSearchEngine(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating WebfilterSearchEngine resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateWebfilterSearchEngine(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectWebfilterSearchEngine(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating WebfilterSearchEngine resource: %v", err)
+		return fmt.Errorf("error updating WebfilterSearchEngine resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateWebfilterSearchEngine(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating WebfilterSearchEngine resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -158,9 +183,17 @@ func resourceWebfilterSearchEngineDelete(d *schema.ResourceData, m interface{}) 
 		}
 	}
 
-	err := c.DeleteWebfilterSearchEngine(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteWebfilterSearchEngine(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting WebfilterSearchEngine resource: %v", err)
+		return fmt.Errorf("error deleting WebfilterSearchEngine resource: %v", err)
 	}
 
 	d.SetId("")
@@ -182,9 +215,19 @@ func resourceWebfilterSearchEngineRead(d *schema.ResourceData, m interface{}) er
 		}
 	}
 
-	o, err := c.ReadWebfilterSearchEngine(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadWebfilterSearchEngine(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading WebfilterSearchEngine resource: %v", err)
+		return fmt.Errorf("error reading WebfilterSearchEngine resource: %v", err)
 	}
 
 	if o == nil {
@@ -195,7 +238,7 @@ func resourceWebfilterSearchEngineRead(d *schema.ResourceData, m interface{}) er
 
 	err = refreshObjectWebfilterSearchEngine(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading WebfilterSearchEngine resource from API: %v", err)
+		return fmt.Errorf("error reading WebfilterSearchEngine resource from API: %v", err)
 	}
 	return nil
 }
@@ -233,43 +276,43 @@ func refreshObjectWebfilterSearchEngine(d *schema.ResourceData, o map[string]int
 
 	if err = d.Set("name", flattenWebfilterSearchEngineName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("hostname", flattenWebfilterSearchEngineHostname(o["hostname"], d, "hostname", sv)); err != nil {
 		if !fortiAPIPatch(o["hostname"]) {
-			return fmt.Errorf("Error reading hostname: %v", err)
+			return fmt.Errorf("error reading hostname: %v", err)
 		}
 	}
 
 	if err = d.Set("url", flattenWebfilterSearchEngineUrl(o["url"], d, "url", sv)); err != nil {
 		if !fortiAPIPatch(o["url"]) {
-			return fmt.Errorf("Error reading url: %v", err)
+			return fmt.Errorf("error reading url: %v", err)
 		}
 	}
 
 	if err = d.Set("query", flattenWebfilterSearchEngineQuery(o["query"], d, "query", sv)); err != nil {
 		if !fortiAPIPatch(o["query"]) {
-			return fmt.Errorf("Error reading query: %v", err)
+			return fmt.Errorf("error reading query: %v", err)
 		}
 	}
 
 	if err = d.Set("safesearch", flattenWebfilterSearchEngineSafesearch(o["safesearch"], d, "safesearch", sv)); err != nil {
 		if !fortiAPIPatch(o["safesearch"]) {
-			return fmt.Errorf("Error reading safesearch: %v", err)
+			return fmt.Errorf("error reading safesearch: %v", err)
 		}
 	}
 
 	if err = d.Set("charset", flattenWebfilterSearchEngineCharset(o["charset"], d, "charset", sv)); err != nil {
 		if !fortiAPIPatch(o["charset"]) {
-			return fmt.Errorf("Error reading charset: %v", err)
+			return fmt.Errorf("error reading charset: %v", err)
 		}
 	}
 
 	if err = d.Set("safesearch_str", flattenWebfilterSearchEngineSafesearchStr(o["safesearch-str"], d, "safesearch_str", sv)); err != nil {
 		if !fortiAPIPatch(o["safesearch-str"]) {
-			return fmt.Errorf("Error reading safesearch_str: %v", err)
+			return fmt.Errorf("error reading safesearch_str: %v", err)
 		}
 	}
 

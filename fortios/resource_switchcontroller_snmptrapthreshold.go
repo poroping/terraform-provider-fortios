@@ -30,25 +30,30 @@ func resourceSwitchControllerSnmpTrapThreshold() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"trap_high_cpu_threshold": &schema.Schema{
+			"trap_high_cpu_threshold": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"trap_low_memory_threshold": &schema.Schema{
+			"trap_low_memory_threshold": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"trap_log_full_threshold": &schema.Schema{
+			"trap_log_full_threshold": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -67,14 +72,24 @@ func resourceSwitchControllerSnmpTrapThresholdUpdate(d *schema.ResourceData, m i
 		}
 	}
 
-	obj, err := getObjectSwitchControllerSnmpTrapThreshold(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SwitchControllerSnmpTrapThreshold resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSwitchControllerSnmpTrapThreshold(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSwitchControllerSnmpTrapThreshold(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SwitchControllerSnmpTrapThreshold resource: %v", err)
+		return fmt.Errorf("error updating SwitchControllerSnmpTrapThreshold resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSwitchControllerSnmpTrapThreshold(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SwitchControllerSnmpTrapThreshold resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -101,9 +116,17 @@ func resourceSwitchControllerSnmpTrapThresholdDelete(d *schema.ResourceData, m i
 		}
 	}
 
-	err := c.DeleteSwitchControllerSnmpTrapThreshold(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSwitchControllerSnmpTrapThreshold(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SwitchControllerSnmpTrapThreshold resource: %v", err)
+		return fmt.Errorf("error deleting SwitchControllerSnmpTrapThreshold resource: %v", err)
 	}
 
 	d.SetId("")
@@ -125,9 +148,19 @@ func resourceSwitchControllerSnmpTrapThresholdRead(d *schema.ResourceData, m int
 		}
 	}
 
-	o, err := c.ReadSwitchControllerSnmpTrapThreshold(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSwitchControllerSnmpTrapThreshold(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SwitchControllerSnmpTrapThreshold resource: %v", err)
+		return fmt.Errorf("error reading SwitchControllerSnmpTrapThreshold resource: %v", err)
 	}
 
 	if o == nil {
@@ -138,7 +171,7 @@ func resourceSwitchControllerSnmpTrapThresholdRead(d *schema.ResourceData, m int
 
 	err = refreshObjectSwitchControllerSnmpTrapThreshold(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SwitchControllerSnmpTrapThreshold resource from API: %v", err)
+		return fmt.Errorf("error reading SwitchControllerSnmpTrapThreshold resource from API: %v", err)
 	}
 	return nil
 }
@@ -160,19 +193,19 @@ func refreshObjectSwitchControllerSnmpTrapThreshold(d *schema.ResourceData, o ma
 
 	if err = d.Set("trap_high_cpu_threshold", flattenSwitchControllerSnmpTrapThresholdTrapHighCpuThreshold(o["trap-high-cpu-threshold"], d, "trap_high_cpu_threshold", sv)); err != nil {
 		if !fortiAPIPatch(o["trap-high-cpu-threshold"]) {
-			return fmt.Errorf("Error reading trap_high_cpu_threshold: %v", err)
+			return fmt.Errorf("error reading trap_high_cpu_threshold: %v", err)
 		}
 	}
 
 	if err = d.Set("trap_low_memory_threshold", flattenSwitchControllerSnmpTrapThresholdTrapLowMemoryThreshold(o["trap-low-memory-threshold"], d, "trap_low_memory_threshold", sv)); err != nil {
 		if !fortiAPIPatch(o["trap-low-memory-threshold"]) {
-			return fmt.Errorf("Error reading trap_low_memory_threshold: %v", err)
+			return fmt.Errorf("error reading trap_low_memory_threshold: %v", err)
 		}
 	}
 
 	if err = d.Set("trap_log_full_threshold", flattenSwitchControllerSnmpTrapThresholdTrapLogFullThreshold(o["trap-log-full-threshold"], d, "trap_log_full_threshold", sv)); err != nil {
 		if !fortiAPIPatch(o["trap-log-full-threshold"]) {
-			return fmt.Errorf("Error reading trap_log_full_threshold: %v", err)
+			return fmt.Errorf("error reading trap_log_full_threshold: %v", err)
 		}
 	}
 

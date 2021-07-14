@@ -30,111 +30,111 @@ func resourceAntivirusProfile() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				ForceNew:     true,
 				Required:     true,
 			},
-			"comment": &schema.Schema{
+			"comment": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
 			},
-			"replacemsg_group": &schema.Schema{
+			"replacemsg_group": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"feature_set": &schema.Schema{
+			"feature_set": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"inspection_mode": &schema.Schema{
+			"inspection_mode": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ftgd_analytics": &schema.Schema{
+			"ftgd_analytics": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"analytics_max_upload": &schema.Schema{
+			"analytics_max_upload": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 26214),
 				Optional:     true,
 				Computed:     true,
 			},
-			"analytics_ignore_filetype": &schema.Schema{
+			"analytics_ignore_filetype": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"analytics_accept_filetype": &schema.Schema{
+			"analytics_accept_filetype": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"analytics_wl_filetype": &schema.Schema{
+			"analytics_wl_filetype": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"analytics_bl_filetype": &schema.Schema{
+			"analytics_bl_filetype": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"analytics_db": &schema.Schema{
+			"analytics_db": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"mobile_malware_db": &schema.Schema{
+			"mobile_malware_db": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"http": &schema.Schema{
+			"http": {
 				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"options": &schema.Schema{
+						"options": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"archive_block": &schema.Schema{
+						"archive_block": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"archive_log": &schema.Schema{
+						"archive_log": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"emulator": &schema.Schema{
+						"emulator": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"outbreak_prevention": &schema.Schema{
+						"outbreak_prevention": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"content_disarm": &schema.Schema{
+						"content_disarm": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -142,33 +142,33 @@ func resourceAntivirusProfile() *schema.Resource {
 					},
 				},
 			},
-			"ftp": &schema.Schema{
+			"ftp": {
 				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"options": &schema.Schema{
+						"options": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"archive_block": &schema.Schema{
+						"archive_block": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"archive_log": &schema.Schema{
+						"archive_log": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"emulator": &schema.Schema{
+						"emulator": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"outbreak_prevention": &schema.Schema{
+						"outbreak_prevention": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -176,43 +176,43 @@ func resourceAntivirusProfile() *schema.Resource {
 					},
 				},
 			},
-			"imap": &schema.Schema{
+			"imap": {
 				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"options": &schema.Schema{
+						"options": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"archive_block": &schema.Schema{
+						"archive_block": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"archive_log": &schema.Schema{
+						"archive_log": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"emulator": &schema.Schema{
+						"emulator": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"executables": &schema.Schema{
+						"executables": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"outbreak_prevention": &schema.Schema{
+						"outbreak_prevention": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"content_disarm": &schema.Schema{
+						"content_disarm": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -220,43 +220,43 @@ func resourceAntivirusProfile() *schema.Resource {
 					},
 				},
 			},
-			"pop3": &schema.Schema{
+			"pop3": {
 				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"options": &schema.Schema{
+						"options": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"archive_block": &schema.Schema{
+						"archive_block": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"archive_log": &schema.Schema{
+						"archive_log": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"emulator": &schema.Schema{
+						"emulator": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"executables": &schema.Schema{
+						"executables": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"outbreak_prevention": &schema.Schema{
+						"outbreak_prevention": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"content_disarm": &schema.Schema{
+						"content_disarm": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -264,43 +264,43 @@ func resourceAntivirusProfile() *schema.Resource {
 					},
 				},
 			},
-			"smtp": &schema.Schema{
+			"smtp": {
 				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"options": &schema.Schema{
+						"options": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"archive_block": &schema.Schema{
+						"archive_block": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"archive_log": &schema.Schema{
+						"archive_log": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"emulator": &schema.Schema{
+						"emulator": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"executables": &schema.Schema{
+						"executables": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"outbreak_prevention": &schema.Schema{
+						"outbreak_prevention": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"content_disarm": &schema.Schema{
+						"content_disarm": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -308,38 +308,38 @@ func resourceAntivirusProfile() *schema.Resource {
 					},
 				},
 			},
-			"mapi": &schema.Schema{
+			"mapi": {
 				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"options": &schema.Schema{
+						"options": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"archive_block": &schema.Schema{
+						"archive_block": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"archive_log": &schema.Schema{
+						"archive_log": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"emulator": &schema.Schema{
+						"emulator": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"executables": &schema.Schema{
+						"executables": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"outbreak_prevention": &schema.Schema{
+						"outbreak_prevention": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -347,33 +347,33 @@ func resourceAntivirusProfile() *schema.Resource {
 					},
 				},
 			},
-			"nntp": &schema.Schema{
+			"nntp": {
 				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"options": &schema.Schema{
+						"options": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"archive_block": &schema.Schema{
+						"archive_block": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"archive_log": &schema.Schema{
+						"archive_log": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"emulator": &schema.Schema{
+						"emulator": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"outbreak_prevention": &schema.Schema{
+						"outbreak_prevention": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -381,33 +381,33 @@ func resourceAntivirusProfile() *schema.Resource {
 					},
 				},
 			},
-			"cifs": &schema.Schema{
+			"cifs": {
 				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"options": &schema.Schema{
+						"options": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"archive_block": &schema.Schema{
+						"archive_block": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"archive_log": &schema.Schema{
+						"archive_log": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"emulator": &schema.Schema{
+						"emulator": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"outbreak_prevention": &schema.Schema{
+						"outbreak_prevention": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -415,33 +415,33 @@ func resourceAntivirusProfile() *schema.Resource {
 					},
 				},
 			},
-			"ssh": &schema.Schema{
+			"ssh": {
 				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"options": &schema.Schema{
+						"options": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"archive_block": &schema.Schema{
+						"archive_block": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"archive_log": &schema.Schema{
+						"archive_log": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"emulator": &schema.Schema{
+						"emulator": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"outbreak_prevention": &schema.Schema{
+						"outbreak_prevention": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -449,33 +449,33 @@ func resourceAntivirusProfile() *schema.Resource {
 					},
 				},
 			},
-			"smb": &schema.Schema{
+			"smb": {
 				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"options": &schema.Schema{
+						"options": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"archive_block": &schema.Schema{
+						"archive_block": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"archive_log": &schema.Schema{
+						"archive_log": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"emulator": &schema.Schema{
+						"emulator": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"outbreak_prevention": &schema.Schema{
+						"outbreak_prevention": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -483,23 +483,23 @@ func resourceAntivirusProfile() *schema.Resource {
 					},
 				},
 			},
-			"nac_quar": &schema.Schema{
+			"nac_quar": {
 				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"infected": &schema.Schema{
+						"infected": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"expiry": &schema.Schema{
+						"expiry": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"log": &schema.Schema{
+						"log": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -507,18 +507,18 @@ func resourceAntivirusProfile() *schema.Resource {
 					},
 				},
 			},
-			"outbreak_prevention": &schema.Schema{
+			"outbreak_prevention": {
 				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"ftgd_service": &schema.Schema{
+						"ftgd_service": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"external_blocklist": &schema.Schema{
+						"external_blocklist": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -526,103 +526,103 @@ func resourceAntivirusProfile() *schema.Resource {
 					},
 				},
 			},
-			"content_disarm": &schema.Schema{
+			"content_disarm": {
 				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"original_file_destination": &schema.Schema{
+						"original_file_destination": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"error_action": &schema.Schema{
+						"error_action": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"office_macro": &schema.Schema{
+						"office_macro": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"office_hylink": &schema.Schema{
+						"office_hylink": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"office_linked": &schema.Schema{
+						"office_linked": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"office_embed": &schema.Schema{
+						"office_embed": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"office_dde": &schema.Schema{
+						"office_dde": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"office_action": &schema.Schema{
+						"office_action": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"pdf_javacode": &schema.Schema{
+						"pdf_javacode": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"pdf_embedfile": &schema.Schema{
+						"pdf_embedfile": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"pdf_hyperlink": &schema.Schema{
+						"pdf_hyperlink": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"pdf_act_gotor": &schema.Schema{
+						"pdf_act_gotor": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"pdf_act_launch": &schema.Schema{
+						"pdf_act_launch": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"pdf_act_sound": &schema.Schema{
+						"pdf_act_sound": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"pdf_act_movie": &schema.Schema{
+						"pdf_act_movie": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"pdf_act_java": &schema.Schema{
+						"pdf_act_java": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"pdf_act_form": &schema.Schema{
+						"pdf_act_form": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"cover_page": &schema.Schema{
+						"cover_page": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"detect_only": &schema.Schema{
+						"detect_only": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -630,25 +630,30 @@ func resourceAntivirusProfile() *schema.Resource {
 					},
 				},
 			},
-			"av_virus_log": &schema.Schema{
+			"av_virus_log": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"av_block_log": &schema.Schema{
+			"av_block_log": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"extended_log": &schema.Schema{
+			"extended_log": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"scan_mode": &schema.Schema{
+			"scan_mode": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -666,15 +671,25 @@ func resourceAntivirusProfileCreate(d *schema.ResourceData, m interface{}) error
 		}
 	}
 
-	obj, err := getObjectAntivirusProfile(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating AntivirusProfile resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateAntivirusProfile(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectAntivirusProfile(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating AntivirusProfile resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateAntivirusProfile(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating AntivirusProfile resource: %v", err)
+		return fmt.Errorf("error creating AntivirusProfile resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -699,14 +714,24 @@ func resourceAntivirusProfileUpdate(d *schema.ResourceData, m interface{}) error
 		}
 	}
 
-	obj, err := getObjectAntivirusProfile(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating AntivirusProfile resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateAntivirusProfile(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectAntivirusProfile(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating AntivirusProfile resource: %v", err)
+		return fmt.Errorf("error updating AntivirusProfile resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateAntivirusProfile(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating AntivirusProfile resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -733,9 +758,17 @@ func resourceAntivirusProfileDelete(d *schema.ResourceData, m interface{}) error
 		}
 	}
 
-	err := c.DeleteAntivirusProfile(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteAntivirusProfile(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting AntivirusProfile resource: %v", err)
+		return fmt.Errorf("error deleting AntivirusProfile resource: %v", err)
 	}
 
 	d.SetId("")
@@ -757,9 +790,19 @@ func resourceAntivirusProfileRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadAntivirusProfile(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadAntivirusProfile(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading AntivirusProfile resource: %v", err)
+		return fmt.Errorf("error reading AntivirusProfile resource: %v", err)
 	}
 
 	if o == nil {
@@ -770,7 +813,7 @@ func resourceAntivirusProfileRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectAntivirusProfile(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading AntivirusProfile resource from API: %v", err)
+		return fmt.Errorf("error reading AntivirusProfile resource from API: %v", err)
 	}
 	return nil
 }
@@ -1837,93 +1880,93 @@ func refreshObjectAntivirusProfile(d *schema.ResourceData, o map[string]interfac
 
 	if err = d.Set("name", flattenAntivirusProfileName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("comment", flattenAntivirusProfileComment(o["comment"], d, "comment", sv)); err != nil {
 		if !fortiAPIPatch(o["comment"]) {
-			return fmt.Errorf("Error reading comment: %v", err)
+			return fmt.Errorf("error reading comment: %v", err)
 		}
 	}
 
 	if err = d.Set("replacemsg_group", flattenAntivirusProfileReplacemsgGroup(o["replacemsg-group"], d, "replacemsg_group", sv)); err != nil {
 		if !fortiAPIPatch(o["replacemsg-group"]) {
-			return fmt.Errorf("Error reading replacemsg_group: %v", err)
+			return fmt.Errorf("error reading replacemsg_group: %v", err)
 		}
 	}
 
 	if err = d.Set("feature_set", flattenAntivirusProfileFeatureSet(o["feature-set"], d, "feature_set", sv)); err != nil {
 		if !fortiAPIPatch(o["feature-set"]) {
-			return fmt.Errorf("Error reading feature_set: %v", err)
+			return fmt.Errorf("error reading feature_set: %v", err)
 		}
 	}
 
 	if err = d.Set("inspection_mode", flattenAntivirusProfileInspectionMode(o["inspection-mode"], d, "inspection_mode", sv)); err != nil {
 		if !fortiAPIPatch(o["inspection-mode"]) {
-			return fmt.Errorf("Error reading inspection_mode: %v", err)
+			return fmt.Errorf("error reading inspection_mode: %v", err)
 		}
 	}
 
 	if err = d.Set("ftgd_analytics", flattenAntivirusProfileFtgdAnalytics(o["ftgd-analytics"], d, "ftgd_analytics", sv)); err != nil {
 		if !fortiAPIPatch(o["ftgd-analytics"]) {
-			return fmt.Errorf("Error reading ftgd_analytics: %v", err)
+			return fmt.Errorf("error reading ftgd_analytics: %v", err)
 		}
 	}
 
 	if err = d.Set("analytics_max_upload", flattenAntivirusProfileAnalyticsMaxUpload(o["analytics-max-upload"], d, "analytics_max_upload", sv)); err != nil {
 		if !fortiAPIPatch(o["analytics-max-upload"]) {
-			return fmt.Errorf("Error reading analytics_max_upload: %v", err)
+			return fmt.Errorf("error reading analytics_max_upload: %v", err)
 		}
 	}
 
 	if err = d.Set("analytics_ignore_filetype", flattenAntivirusProfileAnalyticsIgnoreFiletype(o["analytics-ignore-filetype"], d, "analytics_ignore_filetype", sv)); err != nil {
 		if !fortiAPIPatch(o["analytics-ignore-filetype"]) {
-			return fmt.Errorf("Error reading analytics_ignore_filetype: %v", err)
+			return fmt.Errorf("error reading analytics_ignore_filetype: %v", err)
 		}
 	}
 
 	if err = d.Set("analytics_accept_filetype", flattenAntivirusProfileAnalyticsAcceptFiletype(o["analytics-accept-filetype"], d, "analytics_accept_filetype", sv)); err != nil {
 		if !fortiAPIPatch(o["analytics-accept-filetype"]) {
-			return fmt.Errorf("Error reading analytics_accept_filetype: %v", err)
+			return fmt.Errorf("error reading analytics_accept_filetype: %v", err)
 		}
 	}
 
 	if err = d.Set("analytics_wl_filetype", flattenAntivirusProfileAnalyticsWlFiletype(o["analytics-wl-filetype"], d, "analytics_wl_filetype", sv)); err != nil {
 		if !fortiAPIPatch(o["analytics-wl-filetype"]) {
-			return fmt.Errorf("Error reading analytics_wl_filetype: %v", err)
+			return fmt.Errorf("error reading analytics_wl_filetype: %v", err)
 		}
 	}
 
 	if err = d.Set("analytics_bl_filetype", flattenAntivirusProfileAnalyticsBlFiletype(o["analytics-bl-filetype"], d, "analytics_bl_filetype", sv)); err != nil {
 		if !fortiAPIPatch(o["analytics-bl-filetype"]) {
-			return fmt.Errorf("Error reading analytics_bl_filetype: %v", err)
+			return fmt.Errorf("error reading analytics_bl_filetype: %v", err)
 		}
 	}
 
 	if err = d.Set("analytics_db", flattenAntivirusProfileAnalyticsDb(o["analytics-db"], d, "analytics_db", sv)); err != nil {
 		if !fortiAPIPatch(o["analytics-db"]) {
-			return fmt.Errorf("Error reading analytics_db: %v", err)
+			return fmt.Errorf("error reading analytics_db: %v", err)
 		}
 	}
 
 	if err = d.Set("mobile_malware_db", flattenAntivirusProfileMobileMalwareDb(o["mobile-malware-db"], d, "mobile_malware_db", sv)); err != nil {
 		if !fortiAPIPatch(o["mobile-malware-db"]) {
-			return fmt.Errorf("Error reading mobile_malware_db: %v", err)
+			return fmt.Errorf("error reading mobile_malware_db: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("http", flattenAntivirusProfileHttp(o["http"], d, "http", sv)); err != nil {
 			if !fortiAPIPatch(o["http"]) {
-				return fmt.Errorf("Error reading http: %v", err)
+				return fmt.Errorf("error reading http: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("http"); ok {
 			if err = d.Set("http", flattenAntivirusProfileHttp(o["http"], d, "http", sv)); err != nil {
 				if !fortiAPIPatch(o["http"]) {
-					return fmt.Errorf("Error reading http: %v", err)
+					return fmt.Errorf("error reading http: %v", err)
 				}
 			}
 		}
@@ -1932,14 +1975,14 @@ func refreshObjectAntivirusProfile(d *schema.ResourceData, o map[string]interfac
 	if isImportTable() {
 		if err = d.Set("ftp", flattenAntivirusProfileFtp(o["ftp"], d, "ftp", sv)); err != nil {
 			if !fortiAPIPatch(o["ftp"]) {
-				return fmt.Errorf("Error reading ftp: %v", err)
+				return fmt.Errorf("error reading ftp: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("ftp"); ok {
 			if err = d.Set("ftp", flattenAntivirusProfileFtp(o["ftp"], d, "ftp", sv)); err != nil {
 				if !fortiAPIPatch(o["ftp"]) {
-					return fmt.Errorf("Error reading ftp: %v", err)
+					return fmt.Errorf("error reading ftp: %v", err)
 				}
 			}
 		}
@@ -1948,14 +1991,14 @@ func refreshObjectAntivirusProfile(d *schema.ResourceData, o map[string]interfac
 	if isImportTable() {
 		if err = d.Set("imap", flattenAntivirusProfileImap(o["imap"], d, "imap", sv)); err != nil {
 			if !fortiAPIPatch(o["imap"]) {
-				return fmt.Errorf("Error reading imap: %v", err)
+				return fmt.Errorf("error reading imap: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("imap"); ok {
 			if err = d.Set("imap", flattenAntivirusProfileImap(o["imap"], d, "imap", sv)); err != nil {
 				if !fortiAPIPatch(o["imap"]) {
-					return fmt.Errorf("Error reading imap: %v", err)
+					return fmt.Errorf("error reading imap: %v", err)
 				}
 			}
 		}
@@ -1964,14 +2007,14 @@ func refreshObjectAntivirusProfile(d *schema.ResourceData, o map[string]interfac
 	if isImportTable() {
 		if err = d.Set("pop3", flattenAntivirusProfilePop3(o["pop3"], d, "pop3", sv)); err != nil {
 			if !fortiAPIPatch(o["pop3"]) {
-				return fmt.Errorf("Error reading pop3: %v", err)
+				return fmt.Errorf("error reading pop3: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("pop3"); ok {
 			if err = d.Set("pop3", flattenAntivirusProfilePop3(o["pop3"], d, "pop3", sv)); err != nil {
 				if !fortiAPIPatch(o["pop3"]) {
-					return fmt.Errorf("Error reading pop3: %v", err)
+					return fmt.Errorf("error reading pop3: %v", err)
 				}
 			}
 		}
@@ -1980,14 +2023,14 @@ func refreshObjectAntivirusProfile(d *schema.ResourceData, o map[string]interfac
 	if isImportTable() {
 		if err = d.Set("smtp", flattenAntivirusProfileSmtp(o["smtp"], d, "smtp", sv)); err != nil {
 			if !fortiAPIPatch(o["smtp"]) {
-				return fmt.Errorf("Error reading smtp: %v", err)
+				return fmt.Errorf("error reading smtp: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("smtp"); ok {
 			if err = d.Set("smtp", flattenAntivirusProfileSmtp(o["smtp"], d, "smtp", sv)); err != nil {
 				if !fortiAPIPatch(o["smtp"]) {
-					return fmt.Errorf("Error reading smtp: %v", err)
+					return fmt.Errorf("error reading smtp: %v", err)
 				}
 			}
 		}
@@ -1996,14 +2039,14 @@ func refreshObjectAntivirusProfile(d *schema.ResourceData, o map[string]interfac
 	if isImportTable() {
 		if err = d.Set("mapi", flattenAntivirusProfileMapi(o["mapi"], d, "mapi", sv)); err != nil {
 			if !fortiAPIPatch(o["mapi"]) {
-				return fmt.Errorf("Error reading mapi: %v", err)
+				return fmt.Errorf("error reading mapi: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("mapi"); ok {
 			if err = d.Set("mapi", flattenAntivirusProfileMapi(o["mapi"], d, "mapi", sv)); err != nil {
 				if !fortiAPIPatch(o["mapi"]) {
-					return fmt.Errorf("Error reading mapi: %v", err)
+					return fmt.Errorf("error reading mapi: %v", err)
 				}
 			}
 		}
@@ -2012,14 +2055,14 @@ func refreshObjectAntivirusProfile(d *schema.ResourceData, o map[string]interfac
 	if isImportTable() {
 		if err = d.Set("nntp", flattenAntivirusProfileNntp(o["nntp"], d, "nntp", sv)); err != nil {
 			if !fortiAPIPatch(o["nntp"]) {
-				return fmt.Errorf("Error reading nntp: %v", err)
+				return fmt.Errorf("error reading nntp: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("nntp"); ok {
 			if err = d.Set("nntp", flattenAntivirusProfileNntp(o["nntp"], d, "nntp", sv)); err != nil {
 				if !fortiAPIPatch(o["nntp"]) {
-					return fmt.Errorf("Error reading nntp: %v", err)
+					return fmt.Errorf("error reading nntp: %v", err)
 				}
 			}
 		}
@@ -2028,14 +2071,14 @@ func refreshObjectAntivirusProfile(d *schema.ResourceData, o map[string]interfac
 	if isImportTable() {
 		if err = d.Set("cifs", flattenAntivirusProfileCifs(o["cifs"], d, "cifs", sv)); err != nil {
 			if !fortiAPIPatch(o["cifs"]) {
-				return fmt.Errorf("Error reading cifs: %v", err)
+				return fmt.Errorf("error reading cifs: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("cifs"); ok {
 			if err = d.Set("cifs", flattenAntivirusProfileCifs(o["cifs"], d, "cifs", sv)); err != nil {
 				if !fortiAPIPatch(o["cifs"]) {
-					return fmt.Errorf("Error reading cifs: %v", err)
+					return fmt.Errorf("error reading cifs: %v", err)
 				}
 			}
 		}
@@ -2044,14 +2087,14 @@ func refreshObjectAntivirusProfile(d *schema.ResourceData, o map[string]interfac
 	if isImportTable() {
 		if err = d.Set("ssh", flattenAntivirusProfileSsh(o["ssh"], d, "ssh", sv)); err != nil {
 			if !fortiAPIPatch(o["ssh"]) {
-				return fmt.Errorf("Error reading ssh: %v", err)
+				return fmt.Errorf("error reading ssh: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("ssh"); ok {
 			if err = d.Set("ssh", flattenAntivirusProfileSsh(o["ssh"], d, "ssh", sv)); err != nil {
 				if !fortiAPIPatch(o["ssh"]) {
-					return fmt.Errorf("Error reading ssh: %v", err)
+					return fmt.Errorf("error reading ssh: %v", err)
 				}
 			}
 		}
@@ -2060,14 +2103,14 @@ func refreshObjectAntivirusProfile(d *schema.ResourceData, o map[string]interfac
 	if isImportTable() {
 		if err = d.Set("smb", flattenAntivirusProfileSmb(o["smb"], d, "smb", sv)); err != nil {
 			if !fortiAPIPatch(o["smb"]) {
-				return fmt.Errorf("Error reading smb: %v", err)
+				return fmt.Errorf("error reading smb: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("smb"); ok {
 			if err = d.Set("smb", flattenAntivirusProfileSmb(o["smb"], d, "smb", sv)); err != nil {
 				if !fortiAPIPatch(o["smb"]) {
-					return fmt.Errorf("Error reading smb: %v", err)
+					return fmt.Errorf("error reading smb: %v", err)
 				}
 			}
 		}
@@ -2076,14 +2119,14 @@ func refreshObjectAntivirusProfile(d *schema.ResourceData, o map[string]interfac
 	if isImportTable() {
 		if err = d.Set("nac_quar", flattenAntivirusProfileNacQuar(o["nac-quar"], d, "nac_quar", sv)); err != nil {
 			if !fortiAPIPatch(o["nac-quar"]) {
-				return fmt.Errorf("Error reading nac_quar: %v", err)
+				return fmt.Errorf("error reading nac_quar: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("nac_quar"); ok {
 			if err = d.Set("nac_quar", flattenAntivirusProfileNacQuar(o["nac-quar"], d, "nac_quar", sv)); err != nil {
 				if !fortiAPIPatch(o["nac-quar"]) {
-					return fmt.Errorf("Error reading nac_quar: %v", err)
+					return fmt.Errorf("error reading nac_quar: %v", err)
 				}
 			}
 		}
@@ -2092,14 +2135,14 @@ func refreshObjectAntivirusProfile(d *schema.ResourceData, o map[string]interfac
 	if isImportTable() {
 		if err = d.Set("outbreak_prevention", flattenAntivirusProfileOutbreakPrevention(o["outbreak-prevention"], d, "outbreak_prevention", sv)); err != nil {
 			if !fortiAPIPatch(o["outbreak-prevention"]) {
-				return fmt.Errorf("Error reading outbreak_prevention: %v", err)
+				return fmt.Errorf("error reading outbreak_prevention: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("outbreak_prevention"); ok {
 			if err = d.Set("outbreak_prevention", flattenAntivirusProfileOutbreakPrevention(o["outbreak-prevention"], d, "outbreak_prevention", sv)); err != nil {
 				if !fortiAPIPatch(o["outbreak-prevention"]) {
-					return fmt.Errorf("Error reading outbreak_prevention: %v", err)
+					return fmt.Errorf("error reading outbreak_prevention: %v", err)
 				}
 			}
 		}
@@ -2108,14 +2151,14 @@ func refreshObjectAntivirusProfile(d *schema.ResourceData, o map[string]interfac
 	if isImportTable() {
 		if err = d.Set("content_disarm", flattenAntivirusProfileContentDisarm(o["content-disarm"], d, "content_disarm", sv)); err != nil {
 			if !fortiAPIPatch(o["content-disarm"]) {
-				return fmt.Errorf("Error reading content_disarm: %v", err)
+				return fmt.Errorf("error reading content_disarm: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("content_disarm"); ok {
 			if err = d.Set("content_disarm", flattenAntivirusProfileContentDisarm(o["content-disarm"], d, "content_disarm", sv)); err != nil {
 				if !fortiAPIPatch(o["content-disarm"]) {
-					return fmt.Errorf("Error reading content_disarm: %v", err)
+					return fmt.Errorf("error reading content_disarm: %v", err)
 				}
 			}
 		}
@@ -2123,25 +2166,25 @@ func refreshObjectAntivirusProfile(d *schema.ResourceData, o map[string]interfac
 
 	if err = d.Set("av_virus_log", flattenAntivirusProfileAvVirusLog(o["av-virus-log"], d, "av_virus_log", sv)); err != nil {
 		if !fortiAPIPatch(o["av-virus-log"]) {
-			return fmt.Errorf("Error reading av_virus_log: %v", err)
+			return fmt.Errorf("error reading av_virus_log: %v", err)
 		}
 	}
 
 	if err = d.Set("av_block_log", flattenAntivirusProfileAvBlockLog(o["av-block-log"], d, "av_block_log", sv)); err != nil {
 		if !fortiAPIPatch(o["av-block-log"]) {
-			return fmt.Errorf("Error reading av_block_log: %v", err)
+			return fmt.Errorf("error reading av_block_log: %v", err)
 		}
 	}
 
 	if err = d.Set("extended_log", flattenAntivirusProfileExtendedLog(o["extended-log"], d, "extended_log", sv)); err != nil {
 		if !fortiAPIPatch(o["extended-log"]) {
-			return fmt.Errorf("Error reading extended_log: %v", err)
+			return fmt.Errorf("error reading extended_log: %v", err)
 		}
 	}
 
 	if err = d.Set("scan_mode", flattenAntivirusProfileScanMode(o["scan-mode"], d, "scan_mode", sv)); err != nil {
 		if !fortiAPIPatch(o["scan-mode"]) {
-			return fmt.Errorf("Error reading scan_mode: %v", err)
+			return fmt.Errorf("error reading scan_mode: %v", err)
 		}
 	}
 

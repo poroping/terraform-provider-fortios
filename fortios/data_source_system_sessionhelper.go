@@ -21,25 +21,25 @@ func dataSourceSystemSessionHelper() *schema.Resource {
 	return &schema.Resource{
 		Read: dataSourceSystemSessionHelperRead,
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
 
-			"fosid": &schema.Schema{
+			"fosid": {
 				Type:     schema.TypeInt,
 				Required: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"protocol": &schema.Schema{
+			"protocol": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"port": &schema.Schema{
+			"port": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
@@ -67,12 +67,12 @@ func dataSourceSystemSessionHelperRead(d *schema.ResourceData, m interface{}) er
 	} else if v, ok := t.(int); ok {
 		mkey = strconv.Itoa(v)
 	} else {
-		return fmt.Errorf("Error describing SystemSessionHelper: type error")
+		return fmt.Errorf("error describing SystemSessionHelper: type error")
 	}
 
-	o, err := c.ReadSystemSessionHelper(mkey, vdomparam)
+	o, err := c.ReadSystemSessionHelper(mkey, vdomparam, make(map[string][]string), 0)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemSessionHelper: %v", err)
+		return fmt.Errorf("error describing SystemSessionHelper: %v", err)
 	}
 
 	if o == nil {
@@ -82,7 +82,7 @@ func dataSourceSystemSessionHelperRead(d *schema.ResourceData, m interface{}) er
 
 	err = dataSourceRefreshObjectSystemSessionHelper(d, o)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemSessionHelper from API: %v", err)
+		return fmt.Errorf("error describing SystemSessionHelper from API: %v", err)
 	}
 
 	d.SetId(mkey)
@@ -111,25 +111,25 @@ func dataSourceRefreshObjectSystemSessionHelper(d *schema.ResourceData, o map[st
 
 	if err = d.Set("fosid", dataSourceFlattenSystemSessionHelperId(o["id"], d, "fosid")); err != nil {
 		if !fortiAPIPatch(o["id"]) {
-			return fmt.Errorf("Error reading fosid: %v", err)
+			return fmt.Errorf("error reading fosid: %v", err)
 		}
 	}
 
 	if err = d.Set("name", dataSourceFlattenSystemSessionHelperName(o["name"], d, "name")); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("protocol", dataSourceFlattenSystemSessionHelperProtocol(o["protocol"], d, "protocol")); err != nil {
 		if !fortiAPIPatch(o["protocol"]) {
-			return fmt.Errorf("Error reading protocol: %v", err)
+			return fmt.Errorf("error reading protocol: %v", err)
 		}
 	}
 
 	if err = d.Set("port", dataSourceFlattenSystemSessionHelperPort(o["port"], d, "port")); err != nil {
 		if !fortiAPIPatch(o["port"]) {
-			return fmt.Errorf("Error reading port: %v", err)
+			return fmt.Errorf("error reading port: %v", err)
 		}
 	}
 

@@ -30,35 +30,35 @@ func resourceSystemClusterSync() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"sync_id": &schema.Schema{
+			"sync_id": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 255),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"peervd": &schema.Schema{
+			"peervd": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 31),
 				Optional:     true,
 				Computed:     true,
 			},
-			"peerip": &schema.Schema{
+			"peerip": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"syncvd": &schema.Schema{
+			"syncvd": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 64),
 							Optional:     true,
@@ -67,12 +67,12 @@ func resourceSystemClusterSync() *schema.Resource {
 					},
 				},
 			},
-			"down_intfs_before_sess_sync": &schema.Schema{
+			"down_intfs_before_sess_sync": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 64),
 							Optional:     true,
@@ -81,82 +81,82 @@ func resourceSystemClusterSync() *schema.Resource {
 					},
 				},
 			},
-			"hb_interval": &schema.Schema{
+			"hb_interval": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 10),
 				Optional:     true,
 				Computed:     true,
 			},
-			"hb_lost_threshold": &schema.Schema{
+			"hb_lost_threshold": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 10),
 				Optional:     true,
 				Computed:     true,
 			},
-			"ipsec_tunnel_sync": &schema.Schema{
+			"ipsec_tunnel_sync": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"slave_add_ike_routes": &schema.Schema{
+			"slave_add_ike_routes": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"session_sync_filter": &schema.Schema{
+			"session_sync_filter": {
 				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"srcintf": &schema.Schema{
+						"srcintf": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 15),
 							Optional:     true,
 							Computed:     true,
 						},
-						"dstintf": &schema.Schema{
+						"dstintf": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 15),
 							Optional:     true,
 							Computed:     true,
 						},
-						"srcaddr": &schema.Schema{
+						"srcaddr": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"dstaddr": &schema.Schema{
+						"dstaddr": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"srcaddr6": &schema.Schema{
+						"srcaddr6": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"dstaddr6": &schema.Schema{
+						"dstaddr6": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"custom_service": &schema.Schema{
+						"custom_service": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"id": &schema.Schema{
+									"id": {
 										Type:     schema.TypeInt,
 										Optional: true,
 										Computed: true,
 									},
-									"src_port_range": &schema.Schema{
+									"src_port_range": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"dst_port_range": &schema.Schema{
+									"dst_port_range": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
@@ -167,10 +167,15 @@ func resourceSystemClusterSync() *schema.Resource {
 					},
 				},
 			},
-			"dynamic_sort_subtable": &schema.Schema{
-				Type:     schema.TypeString,
+			"dynamic_sort_subtable": {
+				Type:     schema.TypeBool,
 				Optional: true,
-				Default:  "false",
+				Default:  false,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -188,15 +193,25 @@ func resourceSystemClusterSyncCreate(d *schema.ResourceData, m interface{}) erro
 		}
 	}
 
-	obj, err := getObjectSystemClusterSync(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating SystemClusterSync resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateSystemClusterSync(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemClusterSync(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating SystemClusterSync resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateSystemClusterSync(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating SystemClusterSync resource: %v", err)
+		return fmt.Errorf("error creating SystemClusterSync resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -221,14 +236,24 @@ func resourceSystemClusterSyncUpdate(d *schema.ResourceData, m interface{}) erro
 		}
 	}
 
-	obj, err := getObjectSystemClusterSync(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SystemClusterSync resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSystemClusterSync(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemClusterSync(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SystemClusterSync resource: %v", err)
+		return fmt.Errorf("error updating SystemClusterSync resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSystemClusterSync(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SystemClusterSync resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -255,9 +280,17 @@ func resourceSystemClusterSyncDelete(d *schema.ResourceData, m interface{}) erro
 		}
 	}
 
-	err := c.DeleteSystemClusterSync(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSystemClusterSync(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SystemClusterSync resource: %v", err)
+		return fmt.Errorf("error deleting SystemClusterSync resource: %v", err)
 	}
 
 	d.SetId("")
@@ -279,9 +312,19 @@ func resourceSystemClusterSyncRead(d *schema.ResourceData, m interface{}) error 
 		}
 	}
 
-	o, err := c.ReadSystemClusterSync(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSystemClusterSync(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemClusterSync resource: %v", err)
+		return fmt.Errorf("error reading SystemClusterSync resource: %v", err)
 	}
 
 	if o == nil {
@@ -292,7 +335,7 @@ func resourceSystemClusterSyncRead(d *schema.ResourceData, m interface{}) error 
 
 	err = refreshObjectSystemClusterSync(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemClusterSync resource from API: %v", err)
+		return fmt.Errorf("error reading SystemClusterSync resource from API: %v", err)
 	}
 	return nil
 }
@@ -556,33 +599,33 @@ func refreshObjectSystemClusterSync(d *schema.ResourceData, o map[string]interfa
 
 	if err = d.Set("sync_id", flattenSystemClusterSyncSyncId(o["sync-id"], d, "sync_id", sv)); err != nil {
 		if !fortiAPIPatch(o["sync-id"]) {
-			return fmt.Errorf("Error reading sync_id: %v", err)
+			return fmt.Errorf("error reading sync_id: %v", err)
 		}
 	}
 
 	if err = d.Set("peervd", flattenSystemClusterSyncPeervd(o["peervd"], d, "peervd", sv)); err != nil {
 		if !fortiAPIPatch(o["peervd"]) {
-			return fmt.Errorf("Error reading peervd: %v", err)
+			return fmt.Errorf("error reading peervd: %v", err)
 		}
 	}
 
 	if err = d.Set("peerip", flattenSystemClusterSyncPeerip(o["peerip"], d, "peerip", sv)); err != nil {
 		if !fortiAPIPatch(o["peerip"]) {
-			return fmt.Errorf("Error reading peerip: %v", err)
+			return fmt.Errorf("error reading peerip: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("syncvd", flattenSystemClusterSyncSyncvd(o["syncvd"], d, "syncvd", sv)); err != nil {
 			if !fortiAPIPatch(o["syncvd"]) {
-				return fmt.Errorf("Error reading syncvd: %v", err)
+				return fmt.Errorf("error reading syncvd: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("syncvd"); ok {
 			if err = d.Set("syncvd", flattenSystemClusterSyncSyncvd(o["syncvd"], d, "syncvd", sv)); err != nil {
 				if !fortiAPIPatch(o["syncvd"]) {
-					return fmt.Errorf("Error reading syncvd: %v", err)
+					return fmt.Errorf("error reading syncvd: %v", err)
 				}
 			}
 		}
@@ -591,14 +634,14 @@ func refreshObjectSystemClusterSync(d *schema.ResourceData, o map[string]interfa
 	if isImportTable() {
 		if err = d.Set("down_intfs_before_sess_sync", flattenSystemClusterSyncDownIntfsBeforeSessSync(o["down-intfs-before-sess-sync"], d, "down_intfs_before_sess_sync", sv)); err != nil {
 			if !fortiAPIPatch(o["down-intfs-before-sess-sync"]) {
-				return fmt.Errorf("Error reading down_intfs_before_sess_sync: %v", err)
+				return fmt.Errorf("error reading down_intfs_before_sess_sync: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("down_intfs_before_sess_sync"); ok {
 			if err = d.Set("down_intfs_before_sess_sync", flattenSystemClusterSyncDownIntfsBeforeSessSync(o["down-intfs-before-sess-sync"], d, "down_intfs_before_sess_sync", sv)); err != nil {
 				if !fortiAPIPatch(o["down-intfs-before-sess-sync"]) {
-					return fmt.Errorf("Error reading down_intfs_before_sess_sync: %v", err)
+					return fmt.Errorf("error reading down_intfs_before_sess_sync: %v", err)
 				}
 			}
 		}
@@ -606,39 +649,39 @@ func refreshObjectSystemClusterSync(d *schema.ResourceData, o map[string]interfa
 
 	if err = d.Set("hb_interval", flattenSystemClusterSyncHbInterval(o["hb-interval"], d, "hb_interval", sv)); err != nil {
 		if !fortiAPIPatch(o["hb-interval"]) {
-			return fmt.Errorf("Error reading hb_interval: %v", err)
+			return fmt.Errorf("error reading hb_interval: %v", err)
 		}
 	}
 
 	if err = d.Set("hb_lost_threshold", flattenSystemClusterSyncHbLostThreshold(o["hb-lost-threshold"], d, "hb_lost_threshold", sv)); err != nil {
 		if !fortiAPIPatch(o["hb-lost-threshold"]) {
-			return fmt.Errorf("Error reading hb_lost_threshold: %v", err)
+			return fmt.Errorf("error reading hb_lost_threshold: %v", err)
 		}
 	}
 
 	if err = d.Set("ipsec_tunnel_sync", flattenSystemClusterSyncIpsecTunnelSync(o["ipsec-tunnel-sync"], d, "ipsec_tunnel_sync", sv)); err != nil {
 		if !fortiAPIPatch(o["ipsec-tunnel-sync"]) {
-			return fmt.Errorf("Error reading ipsec_tunnel_sync: %v", err)
+			return fmt.Errorf("error reading ipsec_tunnel_sync: %v", err)
 		}
 	}
 
 	if err = d.Set("slave_add_ike_routes", flattenSystemClusterSyncSlaveAddIkeRoutes(o["slave-add-ike-routes"], d, "slave_add_ike_routes", sv)); err != nil {
 		if !fortiAPIPatch(o["slave-add-ike-routes"]) {
-			return fmt.Errorf("Error reading slave_add_ike_routes: %v", err)
+			return fmt.Errorf("error reading slave_add_ike_routes: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("session_sync_filter", flattenSystemClusterSyncSessionSyncFilter(o["session-sync-filter"], d, "session_sync_filter", sv)); err != nil {
 			if !fortiAPIPatch(o["session-sync-filter"]) {
-				return fmt.Errorf("Error reading session_sync_filter: %v", err)
+				return fmt.Errorf("error reading session_sync_filter: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("session_sync_filter"); ok {
 			if err = d.Set("session_sync_filter", flattenSystemClusterSyncSessionSyncFilter(o["session-sync-filter"], d, "session_sync_filter", sv)); err != nil {
 				if !fortiAPIPatch(o["session-sync-filter"]) {
-					return fmt.Errorf("Error reading session_sync_filter: %v", err)
+					return fmt.Errorf("error reading session_sync_filter: %v", err)
 				}
 			}
 		}

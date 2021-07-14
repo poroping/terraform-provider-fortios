@@ -54,14 +54,14 @@ func testAccCheckFortiOSFirewallWildcardFqdnGroupExists(n string) resource.TestC
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadFirewallWildcardFqdnGroup(i, "root")
+		o, err := c.ReadFirewallWildcardFqdnGroup(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading FirewallWildcardFqdnGroup: %s", err)
+			return fmt.Errorf("error reading FirewallWildcardFqdnGroup: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating FirewallWildcardFqdnGroup: %s", n)
+			return fmt.Errorf("error creating FirewallWildcardFqdnGroup: %s", n)
 		}
 
 		return nil
@@ -77,11 +77,11 @@ func testAccCheckFirewallWildcardFqdnGroupDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadFirewallWildcardFqdnGroup(i, "root")
+		o, err := c.ReadFirewallWildcardFqdnGroup(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error FirewallWildcardFqdnGroup %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error FirewallWildcardFqdnGroup %s still exists", rs.Primary.ID)
 			}
 		}
 

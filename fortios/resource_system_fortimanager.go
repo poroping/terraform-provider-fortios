@@ -30,46 +30,51 @@ func resourceSystemFortimanager() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"ip": &schema.Schema{
+			"ip": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"vdom": &schema.Schema{
+			"vdom": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 31),
 				Optional:     true,
 				Computed:     true,
 			},
-			"ipsec": &schema.Schema{
+			"ipsec": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"central_management": &schema.Schema{
+			"central_management": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"central_mgmt_auto_backup": &schema.Schema{
+			"central_mgmt_auto_backup": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"central_mgmt_schedule_config_restore": &schema.Schema{
+			"central_mgmt_schedule_config_restore": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"central_mgmt_schedule_script_restore": &schema.Schema{
+			"central_mgmt_schedule_script_restore": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -88,14 +93,24 @@ func resourceSystemFortimanagerUpdate(d *schema.ResourceData, m interface{}) err
 		}
 	}
 
-	obj, err := getObjectSystemFortimanager(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SystemFortimanager resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSystemFortimanager(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemFortimanager(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SystemFortimanager resource: %v", err)
+		return fmt.Errorf("error updating SystemFortimanager resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSystemFortimanager(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SystemFortimanager resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -122,9 +137,17 @@ func resourceSystemFortimanagerDelete(d *schema.ResourceData, m interface{}) err
 		}
 	}
 
-	err := c.DeleteSystemFortimanager(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSystemFortimanager(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SystemFortimanager resource: %v", err)
+		return fmt.Errorf("error deleting SystemFortimanager resource: %v", err)
 	}
 
 	d.SetId("")
@@ -146,9 +169,19 @@ func resourceSystemFortimanagerRead(d *schema.ResourceData, m interface{}) error
 		}
 	}
 
-	o, err := c.ReadSystemFortimanager(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSystemFortimanager(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemFortimanager resource: %v", err)
+		return fmt.Errorf("error reading SystemFortimanager resource: %v", err)
 	}
 
 	if o == nil {
@@ -159,7 +192,7 @@ func resourceSystemFortimanagerRead(d *schema.ResourceData, m interface{}) error
 
 	err = refreshObjectSystemFortimanager(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemFortimanager resource from API: %v", err)
+		return fmt.Errorf("error reading SystemFortimanager resource from API: %v", err)
 	}
 	return nil
 }
@@ -197,43 +230,43 @@ func refreshObjectSystemFortimanager(d *schema.ResourceData, o map[string]interf
 
 	if err = d.Set("ip", flattenSystemFortimanagerIp(o["ip"], d, "ip", sv)); err != nil {
 		if !fortiAPIPatch(o["ip"]) {
-			return fmt.Errorf("Error reading ip: %v", err)
+			return fmt.Errorf("error reading ip: %v", err)
 		}
 	}
 
 	if err = d.Set("vdom", flattenSystemFortimanagerVdom(o["vdom"], d, "vdom", sv)); err != nil {
 		if !fortiAPIPatch(o["vdom"]) {
-			return fmt.Errorf("Error reading vdom: %v", err)
+			return fmt.Errorf("error reading vdom: %v", err)
 		}
 	}
 
 	if err = d.Set("ipsec", flattenSystemFortimanagerIpsec(o["ipsec"], d, "ipsec", sv)); err != nil {
 		if !fortiAPIPatch(o["ipsec"]) {
-			return fmt.Errorf("Error reading ipsec: %v", err)
+			return fmt.Errorf("error reading ipsec: %v", err)
 		}
 	}
 
 	if err = d.Set("central_management", flattenSystemFortimanagerCentralManagement(o["central-management"], d, "central_management", sv)); err != nil {
 		if !fortiAPIPatch(o["central-management"]) {
-			return fmt.Errorf("Error reading central_management: %v", err)
+			return fmt.Errorf("error reading central_management: %v", err)
 		}
 	}
 
 	if err = d.Set("central_mgmt_auto_backup", flattenSystemFortimanagerCentralMgmtAutoBackup(o["central-mgmt-auto-backup"], d, "central_mgmt_auto_backup", sv)); err != nil {
 		if !fortiAPIPatch(o["central-mgmt-auto-backup"]) {
-			return fmt.Errorf("Error reading central_mgmt_auto_backup: %v", err)
+			return fmt.Errorf("error reading central_mgmt_auto_backup: %v", err)
 		}
 	}
 
 	if err = d.Set("central_mgmt_schedule_config_restore", flattenSystemFortimanagerCentralMgmtScheduleConfigRestore(o["central-mgmt-schedule-config-restore"], d, "central_mgmt_schedule_config_restore", sv)); err != nil {
 		if !fortiAPIPatch(o["central-mgmt-schedule-config-restore"]) {
-			return fmt.Errorf("Error reading central_mgmt_schedule_config_restore: %v", err)
+			return fmt.Errorf("error reading central_mgmt_schedule_config_restore: %v", err)
 		}
 	}
 
 	if err = d.Set("central_mgmt_schedule_script_restore", flattenSystemFortimanagerCentralMgmtScheduleScriptRestore(o["central-mgmt-schedule-script-restore"], d, "central_mgmt_schedule_script_restore", sv)); err != nil {
 		if !fortiAPIPatch(o["central-mgmt-schedule-script-restore"]) {
-			return fmt.Errorf("Error reading central_mgmt_schedule_script_restore: %v", err)
+			return fmt.Errorf("error reading central_mgmt_schedule_script_restore: %v", err)
 		}
 	}
 

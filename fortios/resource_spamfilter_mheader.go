@@ -30,59 +30,59 @@ func resourceSpamfilterMheader() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"fosid": &schema.Schema{
+			"fosid": {
 				Type:     schema.TypeInt,
 				ForceNew: true,
 				Required: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Required:     true,
 			},
-			"comment": &schema.Schema{
+			"comment": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
 			},
-			"entries": &schema.Schema{
+			"entries": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"status": &schema.Schema{
+						"status": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"fieldname": &schema.Schema{
+						"fieldname": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 63),
 							Optional:     true,
 							Computed:     true,
 						},
-						"fieldbody": &schema.Schema{
+						"fieldbody": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 127),
 							Optional:     true,
 							Computed:     true,
 						},
-						"pattern_type": &schema.Schema{
+						"pattern_type": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"action": &schema.Schema{
+						"action": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -90,10 +90,15 @@ func resourceSpamfilterMheader() *schema.Resource {
 					},
 				},
 			},
-			"dynamic_sort_subtable": &schema.Schema{
-				Type:     schema.TypeString,
+			"dynamic_sort_subtable": {
+				Type:     schema.TypeBool,
 				Optional: true,
-				Default:  "false",
+				Default:  false,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -111,15 +116,25 @@ func resourceSpamfilterMheaderCreate(d *schema.ResourceData, m interface{}) erro
 		}
 	}
 
-	obj, err := getObjectSpamfilterMheader(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating SpamfilterMheader resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateSpamfilterMheader(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSpamfilterMheader(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating SpamfilterMheader resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateSpamfilterMheader(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating SpamfilterMheader resource: %v", err)
+		return fmt.Errorf("error creating SpamfilterMheader resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -144,14 +159,24 @@ func resourceSpamfilterMheaderUpdate(d *schema.ResourceData, m interface{}) erro
 		}
 	}
 
-	obj, err := getObjectSpamfilterMheader(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SpamfilterMheader resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSpamfilterMheader(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSpamfilterMheader(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SpamfilterMheader resource: %v", err)
+		return fmt.Errorf("error updating SpamfilterMheader resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSpamfilterMheader(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SpamfilterMheader resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -178,9 +203,17 @@ func resourceSpamfilterMheaderDelete(d *schema.ResourceData, m interface{}) erro
 		}
 	}
 
-	err := c.DeleteSpamfilterMheader(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSpamfilterMheader(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SpamfilterMheader resource: %v", err)
+		return fmt.Errorf("error deleting SpamfilterMheader resource: %v", err)
 	}
 
 	d.SetId("")
@@ -202,9 +235,19 @@ func resourceSpamfilterMheaderRead(d *schema.ResourceData, m interface{}) error 
 		}
 	}
 
-	o, err := c.ReadSpamfilterMheader(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSpamfilterMheader(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SpamfilterMheader resource: %v", err)
+		return fmt.Errorf("error reading SpamfilterMheader resource: %v", err)
 	}
 
 	if o == nil {
@@ -215,7 +258,7 @@ func resourceSpamfilterMheaderRead(d *schema.ResourceData, m interface{}) error 
 
 	err = refreshObjectSpamfilterMheader(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SpamfilterMheader resource from API: %v", err)
+		return fmt.Errorf("error reading SpamfilterMheader resource from API: %v", err)
 	}
 	return nil
 }
@@ -325,33 +368,33 @@ func refreshObjectSpamfilterMheader(d *schema.ResourceData, o map[string]interfa
 
 	if err = d.Set("fosid", flattenSpamfilterMheaderId(o["id"], d, "fosid", sv)); err != nil {
 		if !fortiAPIPatch(o["id"]) {
-			return fmt.Errorf("Error reading fosid: %v", err)
+			return fmt.Errorf("error reading fosid: %v", err)
 		}
 	}
 
 	if err = d.Set("name", flattenSpamfilterMheaderName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("comment", flattenSpamfilterMheaderComment(o["comment"], d, "comment", sv)); err != nil {
 		if !fortiAPIPatch(o["comment"]) {
-			return fmt.Errorf("Error reading comment: %v", err)
+			return fmt.Errorf("error reading comment: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("entries", flattenSpamfilterMheaderEntries(o["entries"], d, "entries", sv)); err != nil {
 			if !fortiAPIPatch(o["entries"]) {
-				return fmt.Errorf("Error reading entries: %v", err)
+				return fmt.Errorf("error reading entries: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("entries"); ok {
 			if err = d.Set("entries", flattenSpamfilterMheaderEntries(o["entries"], d, "entries", sv)); err != nil {
 				if !fortiAPIPatch(o["entries"]) {
-					return fmt.Errorf("Error reading entries: %v", err)
+					return fmt.Errorf("error reading entries: %v", err)
 				}
 			}
 		}

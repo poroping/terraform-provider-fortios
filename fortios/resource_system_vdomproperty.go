@@ -30,118 +30,123 @@ func resourceSystemVdomProperty() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 31),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"description": &schema.Schema{
+			"description": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 127),
 				Optional:     true,
 				Computed:     true,
 			},
-			"snmp_index": &schema.Schema{
+			"snmp_index": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"session": &schema.Schema{
+			"session": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ipsec_phase1": &schema.Schema{
+			"ipsec_phase1": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ipsec_phase2": &schema.Schema{
+			"ipsec_phase2": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ipsec_phase1_interface": &schema.Schema{
+			"ipsec_phase1_interface": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ipsec_phase2_interface": &schema.Schema{
+			"ipsec_phase2_interface": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"dialup_tunnel": &schema.Schema{
+			"dialup_tunnel": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"firewall_policy": &schema.Schema{
+			"firewall_policy": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"firewall_address": &schema.Schema{
+			"firewall_address": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"firewall_addrgrp": &schema.Schema{
+			"firewall_addrgrp": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"custom_service": &schema.Schema{
+			"custom_service": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"service_group": &schema.Schema{
+			"service_group": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"onetime_schedule": &schema.Schema{
+			"onetime_schedule": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"recurring_schedule": &schema.Schema{
+			"recurring_schedule": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"user": &schema.Schema{
+			"user": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"user_group": &schema.Schema{
+			"user_group": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"sslvpn": &schema.Schema{
+			"sslvpn": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"proxy": &schema.Schema{
+			"proxy": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"log_disk_quota": &schema.Schema{
+			"log_disk_quota": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -159,15 +164,25 @@ func resourceSystemVdomPropertyCreate(d *schema.ResourceData, m interface{}) err
 		}
 	}
 
-	obj, err := getObjectSystemVdomProperty(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating SystemVdomProperty resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateSystemVdomProperty(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemVdomProperty(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating SystemVdomProperty resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateSystemVdomProperty(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating SystemVdomProperty resource: %v", err)
+		return fmt.Errorf("error creating SystemVdomProperty resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -192,14 +207,24 @@ func resourceSystemVdomPropertyUpdate(d *schema.ResourceData, m interface{}) err
 		}
 	}
 
-	obj, err := getObjectSystemVdomProperty(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SystemVdomProperty resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSystemVdomProperty(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemVdomProperty(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SystemVdomProperty resource: %v", err)
+		return fmt.Errorf("error updating SystemVdomProperty resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSystemVdomProperty(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SystemVdomProperty resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -226,9 +251,17 @@ func resourceSystemVdomPropertyDelete(d *schema.ResourceData, m interface{}) err
 		}
 	}
 
-	err := c.DeleteSystemVdomProperty(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSystemVdomProperty(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SystemVdomProperty resource: %v", err)
+		return fmt.Errorf("error deleting SystemVdomProperty resource: %v", err)
 	}
 
 	d.SetId("")
@@ -250,9 +283,19 @@ func resourceSystemVdomPropertyRead(d *schema.ResourceData, m interface{}) error
 		}
 	}
 
-	o, err := c.ReadSystemVdomProperty(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSystemVdomProperty(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemVdomProperty resource: %v", err)
+		return fmt.Errorf("error reading SystemVdomProperty resource: %v", err)
 	}
 
 	if o == nil {
@@ -263,7 +306,7 @@ func resourceSystemVdomPropertyRead(d *schema.ResourceData, m interface{}) error
 
 	err = refreshObjectSystemVdomProperty(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemVdomProperty resource from API: %v", err)
+		return fmt.Errorf("error reading SystemVdomProperty resource from API: %v", err)
 	}
 	return nil
 }
@@ -357,127 +400,127 @@ func refreshObjectSystemVdomProperty(d *schema.ResourceData, o map[string]interf
 
 	if err = d.Set("name", flattenSystemVdomPropertyName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("description", flattenSystemVdomPropertyDescription(o["description"], d, "description", sv)); err != nil {
 		if !fortiAPIPatch(o["description"]) {
-			return fmt.Errorf("Error reading description: %v", err)
+			return fmt.Errorf("error reading description: %v", err)
 		}
 	}
 
 	if err = d.Set("snmp_index", flattenSystemVdomPropertySnmpIndex(o["snmp-index"], d, "snmp_index", sv)); err != nil {
 		if !fortiAPIPatch(o["snmp-index"]) {
-			return fmt.Errorf("Error reading snmp_index: %v", err)
+			return fmt.Errorf("error reading snmp_index: %v", err)
 		}
 	}
 
 	if err = d.Set("session", flattenSystemVdomPropertySession(o["session"], d, "session", sv)); err != nil {
 		if !fortiAPIPatch(o["session"]) {
-			return fmt.Errorf("Error reading session: %v", err)
+			return fmt.Errorf("error reading session: %v", err)
 		}
 	}
 
 	if err = d.Set("ipsec_phase1", flattenSystemVdomPropertyIpsecPhase1(o["ipsec-phase1"], d, "ipsec_phase1", sv)); err != nil {
 		if !fortiAPIPatch(o["ipsec-phase1"]) {
-			return fmt.Errorf("Error reading ipsec_phase1: %v", err)
+			return fmt.Errorf("error reading ipsec_phase1: %v", err)
 		}
 	}
 
 	if err = d.Set("ipsec_phase2", flattenSystemVdomPropertyIpsecPhase2(o["ipsec-phase2"], d, "ipsec_phase2", sv)); err != nil {
 		if !fortiAPIPatch(o["ipsec-phase2"]) {
-			return fmt.Errorf("Error reading ipsec_phase2: %v", err)
+			return fmt.Errorf("error reading ipsec_phase2: %v", err)
 		}
 	}
 
 	if err = d.Set("ipsec_phase1_interface", flattenSystemVdomPropertyIpsecPhase1Interface(o["ipsec-phase1-interface"], d, "ipsec_phase1_interface", sv)); err != nil {
 		if !fortiAPIPatch(o["ipsec-phase1-interface"]) {
-			return fmt.Errorf("Error reading ipsec_phase1_interface: %v", err)
+			return fmt.Errorf("error reading ipsec_phase1_interface: %v", err)
 		}
 	}
 
 	if err = d.Set("ipsec_phase2_interface", flattenSystemVdomPropertyIpsecPhase2Interface(o["ipsec-phase2-interface"], d, "ipsec_phase2_interface", sv)); err != nil {
 		if !fortiAPIPatch(o["ipsec-phase2-interface"]) {
-			return fmt.Errorf("Error reading ipsec_phase2_interface: %v", err)
+			return fmt.Errorf("error reading ipsec_phase2_interface: %v", err)
 		}
 	}
 
 	if err = d.Set("dialup_tunnel", flattenSystemVdomPropertyDialupTunnel(o["dialup-tunnel"], d, "dialup_tunnel", sv)); err != nil {
 		if !fortiAPIPatch(o["dialup-tunnel"]) {
-			return fmt.Errorf("Error reading dialup_tunnel: %v", err)
+			return fmt.Errorf("error reading dialup_tunnel: %v", err)
 		}
 	}
 
 	if err = d.Set("firewall_policy", flattenSystemVdomPropertyFirewallPolicy(o["firewall-policy"], d, "firewall_policy", sv)); err != nil {
 		if !fortiAPIPatch(o["firewall-policy"]) {
-			return fmt.Errorf("Error reading firewall_policy: %v", err)
+			return fmt.Errorf("error reading firewall_policy: %v", err)
 		}
 	}
 
 	if err = d.Set("firewall_address", flattenSystemVdomPropertyFirewallAddress(o["firewall-address"], d, "firewall_address", sv)); err != nil {
 		if !fortiAPIPatch(o["firewall-address"]) {
-			return fmt.Errorf("Error reading firewall_address: %v", err)
+			return fmt.Errorf("error reading firewall_address: %v", err)
 		}
 	}
 
 	if err = d.Set("firewall_addrgrp", flattenSystemVdomPropertyFirewallAddrgrp(o["firewall-addrgrp"], d, "firewall_addrgrp", sv)); err != nil {
 		if !fortiAPIPatch(o["firewall-addrgrp"]) {
-			return fmt.Errorf("Error reading firewall_addrgrp: %v", err)
+			return fmt.Errorf("error reading firewall_addrgrp: %v", err)
 		}
 	}
 
 	if err = d.Set("custom_service", flattenSystemVdomPropertyCustomService(o["custom-service"], d, "custom_service", sv)); err != nil {
 		if !fortiAPIPatch(o["custom-service"]) {
-			return fmt.Errorf("Error reading custom_service: %v", err)
+			return fmt.Errorf("error reading custom_service: %v", err)
 		}
 	}
 
 	if err = d.Set("service_group", flattenSystemVdomPropertyServiceGroup(o["service-group"], d, "service_group", sv)); err != nil {
 		if !fortiAPIPatch(o["service-group"]) {
-			return fmt.Errorf("Error reading service_group: %v", err)
+			return fmt.Errorf("error reading service_group: %v", err)
 		}
 	}
 
 	if err = d.Set("onetime_schedule", flattenSystemVdomPropertyOnetimeSchedule(o["onetime-schedule"], d, "onetime_schedule", sv)); err != nil {
 		if !fortiAPIPatch(o["onetime-schedule"]) {
-			return fmt.Errorf("Error reading onetime_schedule: %v", err)
+			return fmt.Errorf("error reading onetime_schedule: %v", err)
 		}
 	}
 
 	if err = d.Set("recurring_schedule", flattenSystemVdomPropertyRecurringSchedule(o["recurring-schedule"], d, "recurring_schedule", sv)); err != nil {
 		if !fortiAPIPatch(o["recurring-schedule"]) {
-			return fmt.Errorf("Error reading recurring_schedule: %v", err)
+			return fmt.Errorf("error reading recurring_schedule: %v", err)
 		}
 	}
 
 	if err = d.Set("user", flattenSystemVdomPropertyUser(o["user"], d, "user", sv)); err != nil {
 		if !fortiAPIPatch(o["user"]) {
-			return fmt.Errorf("Error reading user: %v", err)
+			return fmt.Errorf("error reading user: %v", err)
 		}
 	}
 
 	if err = d.Set("user_group", flattenSystemVdomPropertyUserGroup(o["user-group"], d, "user_group", sv)); err != nil {
 		if !fortiAPIPatch(o["user-group"]) {
-			return fmt.Errorf("Error reading user_group: %v", err)
+			return fmt.Errorf("error reading user_group: %v", err)
 		}
 	}
 
 	if err = d.Set("sslvpn", flattenSystemVdomPropertySslvpn(o["sslvpn"], d, "sslvpn", sv)); err != nil {
 		if !fortiAPIPatch(o["sslvpn"]) {
-			return fmt.Errorf("Error reading sslvpn: %v", err)
+			return fmt.Errorf("error reading sslvpn: %v", err)
 		}
 	}
 
 	if err = d.Set("proxy", flattenSystemVdomPropertyProxy(o["proxy"], d, "proxy", sv)); err != nil {
 		if !fortiAPIPatch(o["proxy"]) {
-			return fmt.Errorf("Error reading proxy: %v", err)
+			return fmt.Errorf("error reading proxy: %v", err)
 		}
 	}
 
 	if err = d.Set("log_disk_quota", flattenSystemVdomPropertyLogDiskQuota(o["log-disk-quota"], d, "log_disk_quota", sv)); err != nil {
 		if !fortiAPIPatch(o["log-disk-quota"]) {
-			return fmt.Errorf("Error reading log_disk_quota: %v", err)
+			return fmt.Errorf("error reading log_disk_quota: %v", err)
 		}
 	}
 

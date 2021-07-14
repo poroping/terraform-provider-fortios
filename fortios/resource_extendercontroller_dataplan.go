@@ -30,118 +30,123 @@ func resourceExtenderControllerDataplan() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 31),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"modem_id": &schema.Schema{
+			"modem_id": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"type": &schema.Schema{
+			"type": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"slot": &schema.Schema{
+			"slot": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"iccid": &schema.Schema{
+			"iccid": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 31),
 				Optional:     true,
 				Computed:     true,
 			},
-			"carrier": &schema.Schema{
+			"carrier": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 31),
 				Optional:     true,
 				Computed:     true,
 			},
-			"apn": &schema.Schema{
+			"apn": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"auth_type": &schema.Schema{
+			"auth_type": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"username": &schema.Schema{
+			"username": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 31),
 				Optional:     true,
 				Computed:     true,
 			},
-			"password": &schema.Schema{
+			"password": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 27),
 				Optional:     true,
 				Sensitive:    true,
 			},
-			"pdn": &schema.Schema{
+			"pdn": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"signal_threshold": &schema.Schema{
+			"signal_threshold": {
 				Type:         schema.TypeInt,
 				ValidateFunc: intBetweenWithZero(50, 100),
 				Optional:     true,
 				Computed:     true,
 			},
-			"signal_period": &schema.Schema{
+			"signal_period": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(600, 18000),
 				Optional:     true,
 				Computed:     true,
 			},
-			"capacity": &schema.Schema{
+			"capacity": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 102400000),
 				Optional:     true,
 				Computed:     true,
 			},
-			"monthly_fee": &schema.Schema{
+			"monthly_fee": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 1000000),
 				Optional:     true,
 				Computed:     true,
 			},
-			"billing_date": &schema.Schema{
+			"billing_date": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 31),
 				Optional:     true,
 				Computed:     true,
 			},
-			"overage": &schema.Schema{
+			"overage": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"preferred_subnet": &schema.Schema{
+			"preferred_subnet": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(8, 32),
 				Optional:     true,
 				Computed:     true,
 			},
-			"private_network": &schema.Schema{
+			"private_network": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -159,15 +164,25 @@ func resourceExtenderControllerDataplanCreate(d *schema.ResourceData, m interfac
 		}
 	}
 
-	obj, err := getObjectExtenderControllerDataplan(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating ExtenderControllerDataplan resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateExtenderControllerDataplan(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectExtenderControllerDataplan(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating ExtenderControllerDataplan resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateExtenderControllerDataplan(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating ExtenderControllerDataplan resource: %v", err)
+		return fmt.Errorf("error creating ExtenderControllerDataplan resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -192,14 +207,24 @@ func resourceExtenderControllerDataplanUpdate(d *schema.ResourceData, m interfac
 		}
 	}
 
-	obj, err := getObjectExtenderControllerDataplan(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating ExtenderControllerDataplan resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateExtenderControllerDataplan(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectExtenderControllerDataplan(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating ExtenderControllerDataplan resource: %v", err)
+		return fmt.Errorf("error updating ExtenderControllerDataplan resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateExtenderControllerDataplan(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating ExtenderControllerDataplan resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -226,9 +251,17 @@ func resourceExtenderControllerDataplanDelete(d *schema.ResourceData, m interfac
 		}
 	}
 
-	err := c.DeleteExtenderControllerDataplan(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteExtenderControllerDataplan(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting ExtenderControllerDataplan resource: %v", err)
+		return fmt.Errorf("error deleting ExtenderControllerDataplan resource: %v", err)
 	}
 
 	d.SetId("")
@@ -250,9 +283,19 @@ func resourceExtenderControllerDataplanRead(d *schema.ResourceData, m interface{
 		}
 	}
 
-	o, err := c.ReadExtenderControllerDataplan(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadExtenderControllerDataplan(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading ExtenderControllerDataplan resource: %v", err)
+		return fmt.Errorf("error reading ExtenderControllerDataplan resource: %v", err)
 	}
 
 	if o == nil {
@@ -263,7 +306,7 @@ func resourceExtenderControllerDataplanRead(d *schema.ResourceData, m interface{
 
 	err = refreshObjectExtenderControllerDataplan(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading ExtenderControllerDataplan resource from API: %v", err)
+		return fmt.Errorf("error reading ExtenderControllerDataplan resource from API: %v", err)
 	}
 	return nil
 }
@@ -349,109 +392,109 @@ func refreshObjectExtenderControllerDataplan(d *schema.ResourceData, o map[strin
 
 	if err = d.Set("name", flattenExtenderControllerDataplanName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("modem_id", flattenExtenderControllerDataplanModemId(o["modem-id"], d, "modem_id", sv)); err != nil {
 		if !fortiAPIPatch(o["modem-id"]) {
-			return fmt.Errorf("Error reading modem_id: %v", err)
+			return fmt.Errorf("error reading modem_id: %v", err)
 		}
 	}
 
 	if err = d.Set("type", flattenExtenderControllerDataplanType(o["type"], d, "type", sv)); err != nil {
 		if !fortiAPIPatch(o["type"]) {
-			return fmt.Errorf("Error reading type: %v", err)
+			return fmt.Errorf("error reading type: %v", err)
 		}
 	}
 
 	if err = d.Set("slot", flattenExtenderControllerDataplanSlot(o["slot"], d, "slot", sv)); err != nil {
 		if !fortiAPIPatch(o["slot"]) {
-			return fmt.Errorf("Error reading slot: %v", err)
+			return fmt.Errorf("error reading slot: %v", err)
 		}
 	}
 
 	if err = d.Set("iccid", flattenExtenderControllerDataplanIccid(o["iccid"], d, "iccid", sv)); err != nil {
 		if !fortiAPIPatch(o["iccid"]) {
-			return fmt.Errorf("Error reading iccid: %v", err)
+			return fmt.Errorf("error reading iccid: %v", err)
 		}
 	}
 
 	if err = d.Set("carrier", flattenExtenderControllerDataplanCarrier(o["carrier"], d, "carrier", sv)); err != nil {
 		if !fortiAPIPatch(o["carrier"]) {
-			return fmt.Errorf("Error reading carrier: %v", err)
+			return fmt.Errorf("error reading carrier: %v", err)
 		}
 	}
 
 	if err = d.Set("apn", flattenExtenderControllerDataplanApn(o["APN"], d, "apn", sv)); err != nil {
 		if !fortiAPIPatch(o["APN"]) {
-			return fmt.Errorf("Error reading apn: %v", err)
+			return fmt.Errorf("error reading apn: %v", err)
 		}
 	}
 
 	if err = d.Set("auth_type", flattenExtenderControllerDataplanAuthType(o["auth-type"], d, "auth_type", sv)); err != nil {
 		if !fortiAPIPatch(o["auth-type"]) {
-			return fmt.Errorf("Error reading auth_type: %v", err)
+			return fmt.Errorf("error reading auth_type: %v", err)
 		}
 	}
 
 	if err = d.Set("username", flattenExtenderControllerDataplanUsername(o["username"], d, "username", sv)); err != nil {
 		if !fortiAPIPatch(o["username"]) {
-			return fmt.Errorf("Error reading username: %v", err)
+			return fmt.Errorf("error reading username: %v", err)
 		}
 	}
 
 	if err = d.Set("pdn", flattenExtenderControllerDataplanPdn(o["PDN"], d, "pdn", sv)); err != nil {
 		if !fortiAPIPatch(o["PDN"]) {
-			return fmt.Errorf("Error reading pdn: %v", err)
+			return fmt.Errorf("error reading pdn: %v", err)
 		}
 	}
 
 	if err = d.Set("signal_threshold", flattenExtenderControllerDataplanSignalThreshold(o["signal-threshold"], d, "signal_threshold", sv)); err != nil {
 		if !fortiAPIPatch(o["signal-threshold"]) {
-			return fmt.Errorf("Error reading signal_threshold: %v", err)
+			return fmt.Errorf("error reading signal_threshold: %v", err)
 		}
 	}
 
 	if err = d.Set("signal_period", flattenExtenderControllerDataplanSignalPeriod(o["signal-period"], d, "signal_period", sv)); err != nil {
 		if !fortiAPIPatch(o["signal-period"]) {
-			return fmt.Errorf("Error reading signal_period: %v", err)
+			return fmt.Errorf("error reading signal_period: %v", err)
 		}
 	}
 
 	if err = d.Set("capacity", flattenExtenderControllerDataplanCapacity(o["capacity"], d, "capacity", sv)); err != nil {
 		if !fortiAPIPatch(o["capacity"]) {
-			return fmt.Errorf("Error reading capacity: %v", err)
+			return fmt.Errorf("error reading capacity: %v", err)
 		}
 	}
 
 	if err = d.Set("monthly_fee", flattenExtenderControllerDataplanMonthlyFee(o["monthly-fee"], d, "monthly_fee", sv)); err != nil {
 		if !fortiAPIPatch(o["monthly-fee"]) {
-			return fmt.Errorf("Error reading monthly_fee: %v", err)
+			return fmt.Errorf("error reading monthly_fee: %v", err)
 		}
 	}
 
 	if err = d.Set("billing_date", flattenExtenderControllerDataplanBillingDate(o["billing-date"], d, "billing_date", sv)); err != nil {
 		if !fortiAPIPatch(o["billing-date"]) {
-			return fmt.Errorf("Error reading billing_date: %v", err)
+			return fmt.Errorf("error reading billing_date: %v", err)
 		}
 	}
 
 	if err = d.Set("overage", flattenExtenderControllerDataplanOverage(o["overage"], d, "overage", sv)); err != nil {
 		if !fortiAPIPatch(o["overage"]) {
-			return fmt.Errorf("Error reading overage: %v", err)
+			return fmt.Errorf("error reading overage: %v", err)
 		}
 	}
 
 	if err = d.Set("preferred_subnet", flattenExtenderControllerDataplanPreferredSubnet(o["preferred-subnet"], d, "preferred_subnet", sv)); err != nil {
 		if !fortiAPIPatch(o["preferred-subnet"]) {
-			return fmt.Errorf("Error reading preferred_subnet: %v", err)
+			return fmt.Errorf("error reading preferred_subnet: %v", err)
 		}
 	}
 
 	if err = d.Set("private_network", flattenExtenderControllerDataplanPrivateNetwork(o["private-network"], d, "private_network", sv)); err != nil {
 		if !fortiAPIPatch(o["private-network"]) {
-			return fmt.Errorf("Error reading private_network: %v", err)
+			return fmt.Errorf("error reading private_network: %v", err)
 		}
 	}
 

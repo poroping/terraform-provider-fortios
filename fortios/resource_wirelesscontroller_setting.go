@@ -30,65 +30,65 @@ func resourceWirelessControllerSetting() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"account_id": &schema.Schema{
+			"account_id": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"country": &schema.Schema{
+			"country": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"duplicate_ssid": &schema.Schema{
+			"duplicate_ssid": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"fapc_compatibility": &schema.Schema{
+			"fapc_compatibility": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"wfa_compatibility": &schema.Schema{
+			"wfa_compatibility": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"phishing_ssid_detect": &schema.Schema{
+			"phishing_ssid_detect": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"fake_ssid_action": &schema.Schema{
+			"fake_ssid_action": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"offending_ssid": &schema.Schema{
+			"offending_ssid": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 65535),
 							Optional:     true,
 							Computed:     true,
 						},
-						"ssid_pattern": &schema.Schema{
+						"ssid_pattern": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 33),
 							Optional:     true,
 							Computed:     true,
 						},
-						"action": &schema.Schema{
+						"action": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -96,36 +96,36 @@ func resourceWirelessControllerSetting() *schema.Resource {
 					},
 				},
 			},
-			"device_weight": &schema.Schema{
+			"device_weight": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 255),
 				Optional:     true,
 				Computed:     true,
 			},
-			"device_holdoff": &schema.Schema{
+			"device_holdoff": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 60),
 				Optional:     true,
 				Computed:     true,
 			},
-			"device_idle": &schema.Schema{
+			"device_idle": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 14400),
 				Optional:     true,
 				Computed:     true,
 			},
-			"darrp_optimize": &schema.Schema{
+			"darrp_optimize": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 86400),
 				Optional:     true,
 				Computed:     true,
 			},
-			"darrp_optimize_schedules": &schema.Schema{
+			"darrp_optimize_schedules": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
@@ -134,10 +134,15 @@ func resourceWirelessControllerSetting() *schema.Resource {
 					},
 				},
 			},
-			"dynamic_sort_subtable": &schema.Schema{
-				Type:     schema.TypeString,
+			"dynamic_sort_subtable": {
+				Type:     schema.TypeBool,
 				Optional: true,
-				Default:  "false",
+				Default:  false,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -156,14 +161,24 @@ func resourceWirelessControllerSettingUpdate(d *schema.ResourceData, m interface
 		}
 	}
 
-	obj, err := getObjectWirelessControllerSetting(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating WirelessControllerSetting resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateWirelessControllerSetting(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectWirelessControllerSetting(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating WirelessControllerSetting resource: %v", err)
+		return fmt.Errorf("error updating WirelessControllerSetting resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateWirelessControllerSetting(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating WirelessControllerSetting resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -190,9 +205,17 @@ func resourceWirelessControllerSettingDelete(d *schema.ResourceData, m interface
 		}
 	}
 
-	err := c.DeleteWirelessControllerSetting(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteWirelessControllerSetting(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting WirelessControllerSetting resource: %v", err)
+		return fmt.Errorf("error deleting WirelessControllerSetting resource: %v", err)
 	}
 
 	d.SetId("")
@@ -214,9 +237,19 @@ func resourceWirelessControllerSettingRead(d *schema.ResourceData, m interface{}
 		}
 	}
 
-	o, err := c.ReadWirelessControllerSetting(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadWirelessControllerSetting(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading WirelessControllerSetting resource: %v", err)
+		return fmt.Errorf("error reading WirelessControllerSetting resource: %v", err)
 	}
 
 	if o == nil {
@@ -227,7 +260,7 @@ func resourceWirelessControllerSettingRead(d *schema.ResourceData, m interface{}
 
 	err = refreshObjectWirelessControllerSetting(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading WirelessControllerSetting resource from API: %v", err)
+		return fmt.Errorf("error reading WirelessControllerSetting resource from API: %v", err)
 	}
 	return nil
 }
@@ -377,57 +410,57 @@ func refreshObjectWirelessControllerSetting(d *schema.ResourceData, o map[string
 
 	if err = d.Set("account_id", flattenWirelessControllerSettingAccountId(o["account-id"], d, "account_id", sv)); err != nil {
 		if !fortiAPIPatch(o["account-id"]) {
-			return fmt.Errorf("Error reading account_id: %v", err)
+			return fmt.Errorf("error reading account_id: %v", err)
 		}
 	}
 
 	if err = d.Set("country", flattenWirelessControllerSettingCountry(o["country"], d, "country", sv)); err != nil {
 		if !fortiAPIPatch(o["country"]) {
-			return fmt.Errorf("Error reading country: %v", err)
+			return fmt.Errorf("error reading country: %v", err)
 		}
 	}
 
 	if err = d.Set("duplicate_ssid", flattenWirelessControllerSettingDuplicateSsid(o["duplicate-ssid"], d, "duplicate_ssid", sv)); err != nil {
 		if !fortiAPIPatch(o["duplicate-ssid"]) {
-			return fmt.Errorf("Error reading duplicate_ssid: %v", err)
+			return fmt.Errorf("error reading duplicate_ssid: %v", err)
 		}
 	}
 
 	if err = d.Set("fapc_compatibility", flattenWirelessControllerSettingFapcCompatibility(o["fapc-compatibility"], d, "fapc_compatibility", sv)); err != nil {
 		if !fortiAPIPatch(o["fapc-compatibility"]) {
-			return fmt.Errorf("Error reading fapc_compatibility: %v", err)
+			return fmt.Errorf("error reading fapc_compatibility: %v", err)
 		}
 	}
 
 	if err = d.Set("wfa_compatibility", flattenWirelessControllerSettingWfaCompatibility(o["wfa-compatibility"], d, "wfa_compatibility", sv)); err != nil {
 		if !fortiAPIPatch(o["wfa-compatibility"]) {
-			return fmt.Errorf("Error reading wfa_compatibility: %v", err)
+			return fmt.Errorf("error reading wfa_compatibility: %v", err)
 		}
 	}
 
 	if err = d.Set("phishing_ssid_detect", flattenWirelessControllerSettingPhishingSsidDetect(o["phishing-ssid-detect"], d, "phishing_ssid_detect", sv)); err != nil {
 		if !fortiAPIPatch(o["phishing-ssid-detect"]) {
-			return fmt.Errorf("Error reading phishing_ssid_detect: %v", err)
+			return fmt.Errorf("error reading phishing_ssid_detect: %v", err)
 		}
 	}
 
 	if err = d.Set("fake_ssid_action", flattenWirelessControllerSettingFakeSsidAction(o["fake-ssid-action"], d, "fake_ssid_action", sv)); err != nil {
 		if !fortiAPIPatch(o["fake-ssid-action"]) {
-			return fmt.Errorf("Error reading fake_ssid_action: %v", err)
+			return fmt.Errorf("error reading fake_ssid_action: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("offending_ssid", flattenWirelessControllerSettingOffendingSsid(o["offending-ssid"], d, "offending_ssid", sv)); err != nil {
 			if !fortiAPIPatch(o["offending-ssid"]) {
-				return fmt.Errorf("Error reading offending_ssid: %v", err)
+				return fmt.Errorf("error reading offending_ssid: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("offending_ssid"); ok {
 			if err = d.Set("offending_ssid", flattenWirelessControllerSettingOffendingSsid(o["offending-ssid"], d, "offending_ssid", sv)); err != nil {
 				if !fortiAPIPatch(o["offending-ssid"]) {
-					return fmt.Errorf("Error reading offending_ssid: %v", err)
+					return fmt.Errorf("error reading offending_ssid: %v", err)
 				}
 			}
 		}
@@ -435,39 +468,39 @@ func refreshObjectWirelessControllerSetting(d *schema.ResourceData, o map[string
 
 	if err = d.Set("device_weight", flattenWirelessControllerSettingDeviceWeight(o["device-weight"], d, "device_weight", sv)); err != nil {
 		if !fortiAPIPatch(o["device-weight"]) {
-			return fmt.Errorf("Error reading device_weight: %v", err)
+			return fmt.Errorf("error reading device_weight: %v", err)
 		}
 	}
 
 	if err = d.Set("device_holdoff", flattenWirelessControllerSettingDeviceHoldoff(o["device-holdoff"], d, "device_holdoff", sv)); err != nil {
 		if !fortiAPIPatch(o["device-holdoff"]) {
-			return fmt.Errorf("Error reading device_holdoff: %v", err)
+			return fmt.Errorf("error reading device_holdoff: %v", err)
 		}
 	}
 
 	if err = d.Set("device_idle", flattenWirelessControllerSettingDeviceIdle(o["device-idle"], d, "device_idle", sv)); err != nil {
 		if !fortiAPIPatch(o["device-idle"]) {
-			return fmt.Errorf("Error reading device_idle: %v", err)
+			return fmt.Errorf("error reading device_idle: %v", err)
 		}
 	}
 
 	if err = d.Set("darrp_optimize", flattenWirelessControllerSettingDarrpOptimize(o["darrp-optimize"], d, "darrp_optimize", sv)); err != nil {
 		if !fortiAPIPatch(o["darrp-optimize"]) {
-			return fmt.Errorf("Error reading darrp_optimize: %v", err)
+			return fmt.Errorf("error reading darrp_optimize: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("darrp_optimize_schedules", flattenWirelessControllerSettingDarrpOptimizeSchedules(o["darrp-optimize-schedules"], d, "darrp_optimize_schedules", sv)); err != nil {
 			if !fortiAPIPatch(o["darrp-optimize-schedules"]) {
-				return fmt.Errorf("Error reading darrp_optimize_schedules: %v", err)
+				return fmt.Errorf("error reading darrp_optimize_schedules: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("darrp_optimize_schedules"); ok {
 			if err = d.Set("darrp_optimize_schedules", flattenWirelessControllerSettingDarrpOptimizeSchedules(o["darrp-optimize-schedules"], d, "darrp_optimize_schedules", sv)); err != nil {
 				if !fortiAPIPatch(o["darrp-optimize-schedules"]) {
-					return fmt.Errorf("Error reading darrp_optimize_schedules: %v", err)
+					return fmt.Errorf("error reading darrp_optimize_schedules: %v", err)
 				}
 			}
 		}

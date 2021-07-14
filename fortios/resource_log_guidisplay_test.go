@@ -51,14 +51,14 @@ func testAccCheckFortiOSLogGuiDisplayExists(n string) resource.TestCheckFunc {
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadLogGuiDisplay(i, "root")
+		o, err := c.ReadLogGuiDisplay(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading LogGuiDisplay: %s", err)
+			return fmt.Errorf("error reading LogGuiDisplay: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating LogGuiDisplay: %s", n)
+			return fmt.Errorf("error creating LogGuiDisplay: %s", n)
 		}
 
 		return nil
@@ -74,11 +74,11 @@ func testAccCheckLogGuiDisplayDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadLogGuiDisplay(i, "root")
+		o, err := c.ReadLogGuiDisplay(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error LogGuiDisplay %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error LogGuiDisplay %s still exists", rs.Primary.ID)
 			}
 		}
 

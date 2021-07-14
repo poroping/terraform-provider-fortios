@@ -51,14 +51,14 @@ func testAccCheckFortiOSWebfilterFtgdLocalRatingExists(n string) resource.TestCh
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadWebfilterFtgdLocalRating(i, "root")
+		o, err := c.ReadWebfilterFtgdLocalRating(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading WebfilterFtgdLocalRating: %s", err)
+			return fmt.Errorf("error reading WebfilterFtgdLocalRating: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating WebfilterFtgdLocalRating: %s", n)
+			return fmt.Errorf("error creating WebfilterFtgdLocalRating: %s", n)
 		}
 
 		return nil
@@ -74,11 +74,11 @@ func testAccCheckWebfilterFtgdLocalRatingDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadWebfilterFtgdLocalRating(i, "root")
+		o, err := c.ReadWebfilterFtgdLocalRating(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error WebfilterFtgdLocalRating %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error WebfilterFtgdLocalRating %s still exists", rs.Primary.ID)
 			}
 		}
 

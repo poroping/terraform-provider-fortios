@@ -30,61 +30,66 @@ func resourceWirelessControllerWagProfile() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"comment": &schema.Schema{
+			"comment": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
 			},
-			"tunnel_type": &schema.Schema{
+			"tunnel_type": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"wag_ip": &schema.Schema{
+			"wag_ip": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"wag_port": &schema.Schema{
+			"wag_port": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"ping_interval": &schema.Schema{
+			"ping_interval": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"ping_number": &schema.Schema{
+			"ping_number": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"return_packet_timeout": &schema.Schema{
+			"return_packet_timeout": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"dhcp_ip_addr": &schema.Schema{
+			"dhcp_ip_addr": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -102,15 +107,25 @@ func resourceWirelessControllerWagProfileCreate(d *schema.ResourceData, m interf
 		}
 	}
 
-	obj, err := getObjectWirelessControllerWagProfile(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating WirelessControllerWagProfile resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateWirelessControllerWagProfile(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectWirelessControllerWagProfile(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating WirelessControllerWagProfile resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateWirelessControllerWagProfile(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating WirelessControllerWagProfile resource: %v", err)
+		return fmt.Errorf("error creating WirelessControllerWagProfile resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -135,14 +150,24 @@ func resourceWirelessControllerWagProfileUpdate(d *schema.ResourceData, m interf
 		}
 	}
 
-	obj, err := getObjectWirelessControllerWagProfile(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating WirelessControllerWagProfile resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateWirelessControllerWagProfile(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectWirelessControllerWagProfile(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating WirelessControllerWagProfile resource: %v", err)
+		return fmt.Errorf("error updating WirelessControllerWagProfile resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateWirelessControllerWagProfile(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating WirelessControllerWagProfile resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -169,9 +194,17 @@ func resourceWirelessControllerWagProfileDelete(d *schema.ResourceData, m interf
 		}
 	}
 
-	err := c.DeleteWirelessControllerWagProfile(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteWirelessControllerWagProfile(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting WirelessControllerWagProfile resource: %v", err)
+		return fmt.Errorf("error deleting WirelessControllerWagProfile resource: %v", err)
 	}
 
 	d.SetId("")
@@ -193,9 +226,19 @@ func resourceWirelessControllerWagProfileRead(d *schema.ResourceData, m interfac
 		}
 	}
 
-	o, err := c.ReadWirelessControllerWagProfile(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadWirelessControllerWagProfile(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading WirelessControllerWagProfile resource: %v", err)
+		return fmt.Errorf("error reading WirelessControllerWagProfile resource: %v", err)
 	}
 
 	if o == nil {
@@ -206,7 +249,7 @@ func resourceWirelessControllerWagProfileRead(d *schema.ResourceData, m interfac
 
 	err = refreshObjectWirelessControllerWagProfile(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading WirelessControllerWagProfile resource from API: %v", err)
+		return fmt.Errorf("error reading WirelessControllerWagProfile resource from API: %v", err)
 	}
 	return nil
 }
@@ -252,55 +295,55 @@ func refreshObjectWirelessControllerWagProfile(d *schema.ResourceData, o map[str
 
 	if err = d.Set("name", flattenWirelessControllerWagProfileName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("comment", flattenWirelessControllerWagProfileComment(o["comment"], d, "comment", sv)); err != nil {
 		if !fortiAPIPatch(o["comment"]) {
-			return fmt.Errorf("Error reading comment: %v", err)
+			return fmt.Errorf("error reading comment: %v", err)
 		}
 	}
 
 	if err = d.Set("tunnel_type", flattenWirelessControllerWagProfileTunnelType(o["tunnel-type"], d, "tunnel_type", sv)); err != nil {
 		if !fortiAPIPatch(o["tunnel-type"]) {
-			return fmt.Errorf("Error reading tunnel_type: %v", err)
+			return fmt.Errorf("error reading tunnel_type: %v", err)
 		}
 	}
 
 	if err = d.Set("wag_ip", flattenWirelessControllerWagProfileWagIp(o["wag-ip"], d, "wag_ip", sv)); err != nil {
 		if !fortiAPIPatch(o["wag-ip"]) {
-			return fmt.Errorf("Error reading wag_ip: %v", err)
+			return fmt.Errorf("error reading wag_ip: %v", err)
 		}
 	}
 
 	if err = d.Set("wag_port", flattenWirelessControllerWagProfileWagPort(o["wag-port"], d, "wag_port", sv)); err != nil {
 		if !fortiAPIPatch(o["wag-port"]) {
-			return fmt.Errorf("Error reading wag_port: %v", err)
+			return fmt.Errorf("error reading wag_port: %v", err)
 		}
 	}
 
 	if err = d.Set("ping_interval", flattenWirelessControllerWagProfilePingInterval(o["ping-interval"], d, "ping_interval", sv)); err != nil {
 		if !fortiAPIPatch(o["ping-interval"]) {
-			return fmt.Errorf("Error reading ping_interval: %v", err)
+			return fmt.Errorf("error reading ping_interval: %v", err)
 		}
 	}
 
 	if err = d.Set("ping_number", flattenWirelessControllerWagProfilePingNumber(o["ping-number"], d, "ping_number", sv)); err != nil {
 		if !fortiAPIPatch(o["ping-number"]) {
-			return fmt.Errorf("Error reading ping_number: %v", err)
+			return fmt.Errorf("error reading ping_number: %v", err)
 		}
 	}
 
 	if err = d.Set("return_packet_timeout", flattenWirelessControllerWagProfileReturnPacketTimeout(o["return-packet-timeout"], d, "return_packet_timeout", sv)); err != nil {
 		if !fortiAPIPatch(o["return-packet-timeout"]) {
-			return fmt.Errorf("Error reading return_packet_timeout: %v", err)
+			return fmt.Errorf("error reading return_packet_timeout: %v", err)
 		}
 	}
 
 	if err = d.Set("dhcp_ip_addr", flattenWirelessControllerWagProfileDhcpIpAddr(o["dhcp-ip-addr"], d, "dhcp_ip_addr", sv)); err != nil {
 		if !fortiAPIPatch(o["dhcp-ip-addr"]) {
-			return fmt.Errorf("Error reading dhcp_ip_addr: %v", err)
+			return fmt.Errorf("error reading dhcp_ip_addr: %v", err)
 		}
 	}
 

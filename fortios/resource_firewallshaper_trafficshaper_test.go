@@ -56,14 +56,14 @@ func testAccCheckFortiOSFirewallShaperTrafficShaperExists(n string) resource.Tes
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadFirewallShaperTrafficShaper(i, "root")
+		o, err := c.ReadFirewallShaperTrafficShaper(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading FirewallShaperTrafficShaper: %s", err)
+			return fmt.Errorf("error reading FirewallShaperTrafficShaper: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating FirewallShaperTrafficShaper: %s", n)
+			return fmt.Errorf("error creating FirewallShaperTrafficShaper: %s", n)
 		}
 
 		return nil
@@ -79,11 +79,11 @@ func testAccCheckFirewallShaperTrafficShaperDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadFirewallShaperTrafficShaper(i, "root")
+		o, err := c.ReadFirewallShaperTrafficShaper(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error FirewallShaperTrafficShaper %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error FirewallShaperTrafficShaper %s still exists", rs.Primary.ID)
 			}
 		}
 

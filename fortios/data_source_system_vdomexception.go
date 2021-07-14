@@ -21,34 +21,34 @@ func dataSourceSystemVdomException() *schema.Resource {
 	return &schema.Resource{
 		Read: dataSourceSystemVdomExceptionRead,
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
 
-			"fosid": &schema.Schema{
+			"fosid": {
 				Type:     schema.TypeInt,
 				Required: true,
 			},
-			"object": &schema.Schema{
+			"object": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"oid": &schema.Schema{
+			"oid": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"scope": &schema.Schema{
+			"scope": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"vdom": &schema.Schema{
+			"vdom": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -79,12 +79,12 @@ func dataSourceSystemVdomExceptionRead(d *schema.ResourceData, m interface{}) er
 	} else if v, ok := t.(int); ok {
 		mkey = strconv.Itoa(v)
 	} else {
-		return fmt.Errorf("Error describing SystemVdomException: type error")
+		return fmt.Errorf("error describing SystemVdomException: type error")
 	}
 
-	o, err := c.ReadSystemVdomException(mkey, vdomparam)
+	o, err := c.ReadSystemVdomException(mkey, vdomparam, make(map[string][]string), 0)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemVdomException: %v", err)
+		return fmt.Errorf("error describing SystemVdomException: %v", err)
 	}
 
 	if o == nil {
@@ -94,7 +94,7 @@ func dataSourceSystemVdomExceptionRead(d *schema.ResourceData, m interface{}) er
 
 	err = dataSourceRefreshObjectSystemVdomException(d, o)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemVdomException from API: %v", err)
+		return fmt.Errorf("error describing SystemVdomException from API: %v", err)
 	}
 
 	d.SetId(mkey)
@@ -159,31 +159,31 @@ func dataSourceRefreshObjectSystemVdomException(d *schema.ResourceData, o map[st
 
 	if err = d.Set("fosid", dataSourceFlattenSystemVdomExceptionId(o["id"], d, "fosid")); err != nil {
 		if !fortiAPIPatch(o["id"]) {
-			return fmt.Errorf("Error reading fosid: %v", err)
+			return fmt.Errorf("error reading fosid: %v", err)
 		}
 	}
 
 	if err = d.Set("object", dataSourceFlattenSystemVdomExceptionObject(o["object"], d, "object")); err != nil {
 		if !fortiAPIPatch(o["object"]) {
-			return fmt.Errorf("Error reading object: %v", err)
+			return fmt.Errorf("error reading object: %v", err)
 		}
 	}
 
 	if err = d.Set("oid", dataSourceFlattenSystemVdomExceptionOid(o["oid"], d, "oid")); err != nil {
 		if !fortiAPIPatch(o["oid"]) {
-			return fmt.Errorf("Error reading oid: %v", err)
+			return fmt.Errorf("error reading oid: %v", err)
 		}
 	}
 
 	if err = d.Set("scope", dataSourceFlattenSystemVdomExceptionScope(o["scope"], d, "scope")); err != nil {
 		if !fortiAPIPatch(o["scope"]) {
-			return fmt.Errorf("Error reading scope: %v", err)
+			return fmt.Errorf("error reading scope: %v", err)
 		}
 	}
 
 	if err = d.Set("vdom", dataSourceFlattenSystemVdomExceptionVdom(o["vdom"], d, "vdom")); err != nil {
 		if !fortiAPIPatch(o["vdom"]) {
-			return fmt.Errorf("Error reading vdom: %v", err)
+			return fmt.Errorf("error reading vdom: %v", err)
 		}
 	}
 

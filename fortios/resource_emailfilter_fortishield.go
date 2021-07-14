@@ -30,26 +30,31 @@ func resourceEmailfilterFortishield() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"spam_submit_srv": &schema.Schema{
+			"spam_submit_srv": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"spam_submit_force": &schema.Schema{
+			"spam_submit_force": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"spam_submit_txt2htm": &schema.Schema{
+			"spam_submit_txt2htm": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -68,14 +73,24 @@ func resourceEmailfilterFortishieldUpdate(d *schema.ResourceData, m interface{})
 		}
 	}
 
-	obj, err := getObjectEmailfilterFortishield(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating EmailfilterFortishield resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateEmailfilterFortishield(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectEmailfilterFortishield(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating EmailfilterFortishield resource: %v", err)
+		return fmt.Errorf("error updating EmailfilterFortishield resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateEmailfilterFortishield(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating EmailfilterFortishield resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -102,9 +117,17 @@ func resourceEmailfilterFortishieldDelete(d *schema.ResourceData, m interface{})
 		}
 	}
 
-	err := c.DeleteEmailfilterFortishield(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteEmailfilterFortishield(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting EmailfilterFortishield resource: %v", err)
+		return fmt.Errorf("error deleting EmailfilterFortishield resource: %v", err)
 	}
 
 	d.SetId("")
@@ -126,9 +149,19 @@ func resourceEmailfilterFortishieldRead(d *schema.ResourceData, m interface{}) e
 		}
 	}
 
-	o, err := c.ReadEmailfilterFortishield(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadEmailfilterFortishield(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading EmailfilterFortishield resource: %v", err)
+		return fmt.Errorf("error reading EmailfilterFortishield resource: %v", err)
 	}
 
 	if o == nil {
@@ -139,7 +172,7 @@ func resourceEmailfilterFortishieldRead(d *schema.ResourceData, m interface{}) e
 
 	err = refreshObjectEmailfilterFortishield(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading EmailfilterFortishield resource from API: %v", err)
+		return fmt.Errorf("error reading EmailfilterFortishield resource from API: %v", err)
 	}
 	return nil
 }
@@ -161,19 +194,19 @@ func refreshObjectEmailfilterFortishield(d *schema.ResourceData, o map[string]in
 
 	if err = d.Set("spam_submit_srv", flattenEmailfilterFortishieldSpamSubmitSrv(o["spam-submit-srv"], d, "spam_submit_srv", sv)); err != nil {
 		if !fortiAPIPatch(o["spam-submit-srv"]) {
-			return fmt.Errorf("Error reading spam_submit_srv: %v", err)
+			return fmt.Errorf("error reading spam_submit_srv: %v", err)
 		}
 	}
 
 	if err = d.Set("spam_submit_force", flattenEmailfilterFortishieldSpamSubmitForce(o["spam-submit-force"], d, "spam_submit_force", sv)); err != nil {
 		if !fortiAPIPatch(o["spam-submit-force"]) {
-			return fmt.Errorf("Error reading spam_submit_force: %v", err)
+			return fmt.Errorf("error reading spam_submit_force: %v", err)
 		}
 	}
 
 	if err = d.Set("spam_submit_txt2htm", flattenEmailfilterFortishieldSpamSubmitTxt2Htm(o["spam-submit-txt2htm"], d, "spam_submit_txt2htm", sv)); err != nil {
 		if !fortiAPIPatch(o["spam-submit-txt2htm"]) {
-			return fmt.Errorf("Error reading spam_submit_txt2htm: %v", err)
+			return fmt.Errorf("error reading spam_submit_txt2htm: %v", err)
 		}
 	}
 

@@ -57,14 +57,14 @@ func testAccCheckFortiOSWebfilterOverrideExists(n string) resource.TestCheckFunc
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadWebfilterOverride(i, "root")
+		o, err := c.ReadWebfilterOverride(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading WebfilterOverride: %s", err)
+			return fmt.Errorf("error reading WebfilterOverride: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating WebfilterOverride: %s", n)
+			return fmt.Errorf("error creating WebfilterOverride: %s", n)
 		}
 
 		return nil
@@ -80,11 +80,11 @@ func testAccCheckWebfilterOverrideDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadWebfilterOverride(i, "root")
+		o, err := c.ReadWebfilterOverride(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error WebfilterOverride %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error WebfilterOverride %s still exists", rs.Primary.ID)
 			}
 		}
 

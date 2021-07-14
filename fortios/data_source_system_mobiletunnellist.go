@@ -17,12 +17,12 @@ func dataSourceSystemMobileTunnelList() *schema.Resource {
 		Read: dataSourceSystemMobileTunnelListRead,
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"filter": &schema.Schema{
+			"filter": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
@@ -52,9 +52,9 @@ func dataSourceSystemMobileTunnelListRead(d *schema.ResourceData, m interface{})
 		filter = escapeFilter(filter)
 	}
 
-	o, err := c.GenericGroupRead("/api/v2/cmdb/system/mobile-tunnel", filter, vdomparam)
+	o, err := c.GenericGroupRead("/api/v2/cmdb/system/mobile-tunnel", filter, vdomparam, 0)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemMobileTunnel: %v", err)
+		return fmt.Errorf("error describing SystemMobileTunnel: %v", err)
 	}
 
 	var tmps []string

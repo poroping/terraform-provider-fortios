@@ -30,83 +30,83 @@ func resourceLogMemoryFilter() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"severity": &schema.Schema{
+			"severity": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"forward_traffic": &schema.Schema{
+			"forward_traffic": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"local_traffic": &schema.Schema{
+			"local_traffic": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"multicast_traffic": &schema.Schema{
+			"multicast_traffic": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"sniffer_traffic": &schema.Schema{
+			"sniffer_traffic": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"anomaly": &schema.Schema{
+			"anomaly": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"netscan_discovery": &schema.Schema{
+			"netscan_discovery": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"netscan_vulnerability": &schema.Schema{
+			"netscan_vulnerability": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"voip": &schema.Schema{
+			"voip": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"gtp": &schema.Schema{
+			"gtp": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"free_style": &schema.Schema{
+			"free_style": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"category": &schema.Schema{
+						"category": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"filter": &schema.Schema{
+						"filter": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 1023),
 							Optional:     true,
 							Computed:     true,
 						},
-						"filter_type": &schema.Schema{
+						"filter_type": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -114,121 +114,126 @@ func resourceLogMemoryFilter() *schema.Resource {
 					},
 				},
 			},
-			"dns": &schema.Schema{
+			"dns": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ssh": &schema.Schema{
+			"ssh": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"event": &schema.Schema{
+			"event": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"system": &schema.Schema{
+			"system": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"radius": &schema.Schema{
+			"radius": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ipsec": &schema.Schema{
+			"ipsec": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"dhcp": &schema.Schema{
+			"dhcp": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ppp": &schema.Schema{
+			"ppp": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"admin": &schema.Schema{
+			"admin": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ha": &schema.Schema{
+			"ha": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"auth": &schema.Schema{
+			"auth": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"pattern": &schema.Schema{
+			"pattern": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"sslvpn_log_auth": &schema.Schema{
+			"sslvpn_log_auth": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"sslvpn_log_adm": &schema.Schema{
+			"sslvpn_log_adm": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"sslvpn_log_session": &schema.Schema{
+			"sslvpn_log_session": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"vip_ssl": &schema.Schema{
+			"vip_ssl": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ldb_monitor": &schema.Schema{
+			"ldb_monitor": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"wan_opt": &schema.Schema{
+			"wan_opt": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"wireless_activity": &schema.Schema{
+			"wireless_activity": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"cpu_memory_usage": &schema.Schema{
+			"cpu_memory_usage": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"filter": &schema.Schema{
+			"filter": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 511),
 				Optional:     true,
 				Computed:     true,
 			},
-			"filter_type": &schema.Schema{
+			"filter_type": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"dynamic_sort_subtable": &schema.Schema{
-				Type:     schema.TypeString,
+			"dynamic_sort_subtable": {
+				Type:     schema.TypeBool,
 				Optional: true,
-				Default:  "false",
+				Default:  false,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -247,14 +252,24 @@ func resourceLogMemoryFilterUpdate(d *schema.ResourceData, m interface{}) error 
 		}
 	}
 
-	obj, err := getObjectLogMemoryFilter(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating LogMemoryFilter resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateLogMemoryFilter(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectLogMemoryFilter(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating LogMemoryFilter resource: %v", err)
+		return fmt.Errorf("error updating LogMemoryFilter resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateLogMemoryFilter(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating LogMemoryFilter resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -281,9 +296,17 @@ func resourceLogMemoryFilterDelete(d *schema.ResourceData, m interface{}) error 
 		}
 	}
 
-	err := c.DeleteLogMemoryFilter(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteLogMemoryFilter(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting LogMemoryFilter resource: %v", err)
+		return fmt.Errorf("error deleting LogMemoryFilter resource: %v", err)
 	}
 
 	d.SetId("")
@@ -305,9 +328,19 @@ func resourceLogMemoryFilterRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadLogMemoryFilter(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadLogMemoryFilter(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading LogMemoryFilter resource: %v", err)
+		return fmt.Errorf("error reading LogMemoryFilter resource: %v", err)
 	}
 
 	if o == nil {
@@ -318,7 +351,7 @@ func resourceLogMemoryFilterRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectLogMemoryFilter(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading LogMemoryFilter resource from API: %v", err)
+		return fmt.Errorf("error reading LogMemoryFilter resource from API: %v", err)
 	}
 	return nil
 }
@@ -524,75 +557,75 @@ func refreshObjectLogMemoryFilter(d *schema.ResourceData, o map[string]interface
 
 	if err = d.Set("severity", flattenLogMemoryFilterSeverity(o["severity"], d, "severity", sv)); err != nil {
 		if !fortiAPIPatch(o["severity"]) {
-			return fmt.Errorf("Error reading severity: %v", err)
+			return fmt.Errorf("error reading severity: %v", err)
 		}
 	}
 
 	if err = d.Set("forward_traffic", flattenLogMemoryFilterForwardTraffic(o["forward-traffic"], d, "forward_traffic", sv)); err != nil {
 		if !fortiAPIPatch(o["forward-traffic"]) {
-			return fmt.Errorf("Error reading forward_traffic: %v", err)
+			return fmt.Errorf("error reading forward_traffic: %v", err)
 		}
 	}
 
 	if err = d.Set("local_traffic", flattenLogMemoryFilterLocalTraffic(o["local-traffic"], d, "local_traffic", sv)); err != nil {
 		if !fortiAPIPatch(o["local-traffic"]) {
-			return fmt.Errorf("Error reading local_traffic: %v", err)
+			return fmt.Errorf("error reading local_traffic: %v", err)
 		}
 	}
 
 	if err = d.Set("multicast_traffic", flattenLogMemoryFilterMulticastTraffic(o["multicast-traffic"], d, "multicast_traffic", sv)); err != nil {
 		if !fortiAPIPatch(o["multicast-traffic"]) {
-			return fmt.Errorf("Error reading multicast_traffic: %v", err)
+			return fmt.Errorf("error reading multicast_traffic: %v", err)
 		}
 	}
 
 	if err = d.Set("sniffer_traffic", flattenLogMemoryFilterSnifferTraffic(o["sniffer-traffic"], d, "sniffer_traffic", sv)); err != nil {
 		if !fortiAPIPatch(o["sniffer-traffic"]) {
-			return fmt.Errorf("Error reading sniffer_traffic: %v", err)
+			return fmt.Errorf("error reading sniffer_traffic: %v", err)
 		}
 	}
 
 	if err = d.Set("anomaly", flattenLogMemoryFilterAnomaly(o["anomaly"], d, "anomaly", sv)); err != nil {
 		if !fortiAPIPatch(o["anomaly"]) {
-			return fmt.Errorf("Error reading anomaly: %v", err)
+			return fmt.Errorf("error reading anomaly: %v", err)
 		}
 	}
 
 	if err = d.Set("netscan_discovery", flattenLogMemoryFilterNetscanDiscovery(o["netscan-discovery"], d, "netscan_discovery", sv)); err != nil {
 		if !fortiAPIPatch(o["netscan-discovery"]) {
-			return fmt.Errorf("Error reading netscan_discovery: %v", err)
+			return fmt.Errorf("error reading netscan_discovery: %v", err)
 		}
 	}
 
 	if err = d.Set("netscan_vulnerability", flattenLogMemoryFilterNetscanVulnerability(o["netscan-vulnerability"], d, "netscan_vulnerability", sv)); err != nil {
 		if !fortiAPIPatch(o["netscan-vulnerability"]) {
-			return fmt.Errorf("Error reading netscan_vulnerability: %v", err)
+			return fmt.Errorf("error reading netscan_vulnerability: %v", err)
 		}
 	}
 
 	if err = d.Set("voip", flattenLogMemoryFilterVoip(o["voip"], d, "voip", sv)); err != nil {
 		if !fortiAPIPatch(o["voip"]) {
-			return fmt.Errorf("Error reading voip: %v", err)
+			return fmt.Errorf("error reading voip: %v", err)
 		}
 	}
 
 	if err = d.Set("gtp", flattenLogMemoryFilterGtp(o["gtp"], d, "gtp", sv)); err != nil {
 		if !fortiAPIPatch(o["gtp"]) {
-			return fmt.Errorf("Error reading gtp: %v", err)
+			return fmt.Errorf("error reading gtp: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("free_style", flattenLogMemoryFilterFreeStyle(o["free-style"], d, "free_style", sv)); err != nil {
 			if !fortiAPIPatch(o["free-style"]) {
-				return fmt.Errorf("Error reading free_style: %v", err)
+				return fmt.Errorf("error reading free_style: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("free_style"); ok {
 			if err = d.Set("free_style", flattenLogMemoryFilterFreeStyle(o["free-style"], d, "free_style", sv)); err != nil {
 				if !fortiAPIPatch(o["free-style"]) {
-					return fmt.Errorf("Error reading free_style: %v", err)
+					return fmt.Errorf("error reading free_style: %v", err)
 				}
 			}
 		}
@@ -600,133 +633,133 @@ func refreshObjectLogMemoryFilter(d *schema.ResourceData, o map[string]interface
 
 	if err = d.Set("dns", flattenLogMemoryFilterDns(o["dns"], d, "dns", sv)); err != nil {
 		if !fortiAPIPatch(o["dns"]) {
-			return fmt.Errorf("Error reading dns: %v", err)
+			return fmt.Errorf("error reading dns: %v", err)
 		}
 	}
 
 	if err = d.Set("ssh", flattenLogMemoryFilterSsh(o["ssh"], d, "ssh", sv)); err != nil {
 		if !fortiAPIPatch(o["ssh"]) {
-			return fmt.Errorf("Error reading ssh: %v", err)
+			return fmt.Errorf("error reading ssh: %v", err)
 		}
 	}
 
 	if err = d.Set("event", flattenLogMemoryFilterEvent(o["event"], d, "event", sv)); err != nil {
 		if !fortiAPIPatch(o["event"]) {
-			return fmt.Errorf("Error reading event: %v", err)
+			return fmt.Errorf("error reading event: %v", err)
 		}
 	}
 
 	if err = d.Set("system", flattenLogMemoryFilterSystem(o["system"], d, "system", sv)); err != nil {
 		if !fortiAPIPatch(o["system"]) {
-			return fmt.Errorf("Error reading system: %v", err)
+			return fmt.Errorf("error reading system: %v", err)
 		}
 	}
 
 	if err = d.Set("radius", flattenLogMemoryFilterRadius(o["radius"], d, "radius", sv)); err != nil {
 		if !fortiAPIPatch(o["radius"]) {
-			return fmt.Errorf("Error reading radius: %v", err)
+			return fmt.Errorf("error reading radius: %v", err)
 		}
 	}
 
 	if err = d.Set("ipsec", flattenLogMemoryFilterIpsec(o["ipsec"], d, "ipsec", sv)); err != nil {
 		if !fortiAPIPatch(o["ipsec"]) {
-			return fmt.Errorf("Error reading ipsec: %v", err)
+			return fmt.Errorf("error reading ipsec: %v", err)
 		}
 	}
 
 	if err = d.Set("dhcp", flattenLogMemoryFilterDhcp(o["dhcp"], d, "dhcp", sv)); err != nil {
 		if !fortiAPIPatch(o["dhcp"]) {
-			return fmt.Errorf("Error reading dhcp: %v", err)
+			return fmt.Errorf("error reading dhcp: %v", err)
 		}
 	}
 
 	if err = d.Set("ppp", flattenLogMemoryFilterPpp(o["ppp"], d, "ppp", sv)); err != nil {
 		if !fortiAPIPatch(o["ppp"]) {
-			return fmt.Errorf("Error reading ppp: %v", err)
+			return fmt.Errorf("error reading ppp: %v", err)
 		}
 	}
 
 	if err = d.Set("admin", flattenLogMemoryFilterAdmin(o["admin"], d, "admin", sv)); err != nil {
 		if !fortiAPIPatch(o["admin"]) {
-			return fmt.Errorf("Error reading admin: %v", err)
+			return fmt.Errorf("error reading admin: %v", err)
 		}
 	}
 
 	if err = d.Set("ha", flattenLogMemoryFilterHa(o["ha"], d, "ha", sv)); err != nil {
 		if !fortiAPIPatch(o["ha"]) {
-			return fmt.Errorf("Error reading ha: %v", err)
+			return fmt.Errorf("error reading ha: %v", err)
 		}
 	}
 
 	if err = d.Set("auth", flattenLogMemoryFilterAuth(o["auth"], d, "auth", sv)); err != nil {
 		if !fortiAPIPatch(o["auth"]) {
-			return fmt.Errorf("Error reading auth: %v", err)
+			return fmt.Errorf("error reading auth: %v", err)
 		}
 	}
 
 	if err = d.Set("pattern", flattenLogMemoryFilterPattern(o["pattern"], d, "pattern", sv)); err != nil {
 		if !fortiAPIPatch(o["pattern"]) {
-			return fmt.Errorf("Error reading pattern: %v", err)
+			return fmt.Errorf("error reading pattern: %v", err)
 		}
 	}
 
 	if err = d.Set("sslvpn_log_auth", flattenLogMemoryFilterSslvpnLogAuth(o["sslvpn-log-auth"], d, "sslvpn_log_auth", sv)); err != nil {
 		if !fortiAPIPatch(o["sslvpn-log-auth"]) {
-			return fmt.Errorf("Error reading sslvpn_log_auth: %v", err)
+			return fmt.Errorf("error reading sslvpn_log_auth: %v", err)
 		}
 	}
 
 	if err = d.Set("sslvpn_log_adm", flattenLogMemoryFilterSslvpnLogAdm(o["sslvpn-log-adm"], d, "sslvpn_log_adm", sv)); err != nil {
 		if !fortiAPIPatch(o["sslvpn-log-adm"]) {
-			return fmt.Errorf("Error reading sslvpn_log_adm: %v", err)
+			return fmt.Errorf("error reading sslvpn_log_adm: %v", err)
 		}
 	}
 
 	if err = d.Set("sslvpn_log_session", flattenLogMemoryFilterSslvpnLogSession(o["sslvpn-log-session"], d, "sslvpn_log_session", sv)); err != nil {
 		if !fortiAPIPatch(o["sslvpn-log-session"]) {
-			return fmt.Errorf("Error reading sslvpn_log_session: %v", err)
+			return fmt.Errorf("error reading sslvpn_log_session: %v", err)
 		}
 	}
 
 	if err = d.Set("vip_ssl", flattenLogMemoryFilterVipSsl(o["vip-ssl"], d, "vip_ssl", sv)); err != nil {
 		if !fortiAPIPatch(o["vip-ssl"]) {
-			return fmt.Errorf("Error reading vip_ssl: %v", err)
+			return fmt.Errorf("error reading vip_ssl: %v", err)
 		}
 	}
 
 	if err = d.Set("ldb_monitor", flattenLogMemoryFilterLdbMonitor(o["ldb-monitor"], d, "ldb_monitor", sv)); err != nil {
 		if !fortiAPIPatch(o["ldb-monitor"]) {
-			return fmt.Errorf("Error reading ldb_monitor: %v", err)
+			return fmt.Errorf("error reading ldb_monitor: %v", err)
 		}
 	}
 
 	if err = d.Set("wan_opt", flattenLogMemoryFilterWanOpt(o["wan-opt"], d, "wan_opt", sv)); err != nil {
 		if !fortiAPIPatch(o["wan-opt"]) {
-			return fmt.Errorf("Error reading wan_opt: %v", err)
+			return fmt.Errorf("error reading wan_opt: %v", err)
 		}
 	}
 
 	if err = d.Set("wireless_activity", flattenLogMemoryFilterWirelessActivity(o["wireless-activity"], d, "wireless_activity", sv)); err != nil {
 		if !fortiAPIPatch(o["wireless-activity"]) {
-			return fmt.Errorf("Error reading wireless_activity: %v", err)
+			return fmt.Errorf("error reading wireless_activity: %v", err)
 		}
 	}
 
 	if err = d.Set("cpu_memory_usage", flattenLogMemoryFilterCpuMemoryUsage(o["cpu-memory-usage"], d, "cpu_memory_usage", sv)); err != nil {
 		if !fortiAPIPatch(o["cpu-memory-usage"]) {
-			return fmt.Errorf("Error reading cpu_memory_usage: %v", err)
+			return fmt.Errorf("error reading cpu_memory_usage: %v", err)
 		}
 	}
 
 	if err = d.Set("filter", flattenLogMemoryFilterFilter(o["filter"], d, "filter", sv)); err != nil {
 		if !fortiAPIPatch(o["filter"]) {
-			return fmt.Errorf("Error reading filter: %v", err)
+			return fmt.Errorf("error reading filter: %v", err)
 		}
 	}
 
 	if err = d.Set("filter_type", flattenLogMemoryFilterFilterType(o["filter-type"], d, "filter_type", sv)); err != nil {
 		if !fortiAPIPatch(o["filter-type"]) {
-			return fmt.Errorf("Error reading filter_type: %v", err)
+			return fmt.Errorf("error reading filter_type: %v", err)
 		}
 	}
 

@@ -21,25 +21,25 @@ func dataSourceSystemArpTable() *schema.Resource {
 	return &schema.Resource{
 		Read: dataSourceSystemArpTableRead,
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
 
-			"fosid": &schema.Schema{
+			"fosid": {
 				Type:     schema.TypeInt,
 				Required: true,
 			},
-			"interface": &schema.Schema{
+			"interface": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"ip": &schema.Schema{
+			"ip": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"mac": &schema.Schema{
+			"mac": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -67,12 +67,12 @@ func dataSourceSystemArpTableRead(d *schema.ResourceData, m interface{}) error {
 	} else if v, ok := t.(int); ok {
 		mkey = strconv.Itoa(v)
 	} else {
-		return fmt.Errorf("Error describing SystemArpTable: type error")
+		return fmt.Errorf("error describing SystemArpTable: type error")
 	}
 
-	o, err := c.ReadSystemArpTable(mkey, vdomparam)
+	o, err := c.ReadSystemArpTable(mkey, vdomparam, make(map[string][]string), 0)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemArpTable: %v", err)
+		return fmt.Errorf("error describing SystemArpTable: %v", err)
 	}
 
 	if o == nil {
@@ -82,7 +82,7 @@ func dataSourceSystemArpTableRead(d *schema.ResourceData, m interface{}) error {
 
 	err = dataSourceRefreshObjectSystemArpTable(d, o)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemArpTable from API: %v", err)
+		return fmt.Errorf("error describing SystemArpTable from API: %v", err)
 	}
 
 	d.SetId(mkey)
@@ -111,25 +111,25 @@ func dataSourceRefreshObjectSystemArpTable(d *schema.ResourceData, o map[string]
 
 	if err = d.Set("fosid", dataSourceFlattenSystemArpTableId(o["id"], d, "fosid")); err != nil {
 		if !fortiAPIPatch(o["id"]) {
-			return fmt.Errorf("Error reading fosid: %v", err)
+			return fmt.Errorf("error reading fosid: %v", err)
 		}
 	}
 
 	if err = d.Set("interface", dataSourceFlattenSystemArpTableInterface(o["interface"], d, "interface")); err != nil {
 		if !fortiAPIPatch(o["interface"]) {
-			return fmt.Errorf("Error reading interface: %v", err)
+			return fmt.Errorf("error reading interface: %v", err)
 		}
 	}
 
 	if err = d.Set("ip", dataSourceFlattenSystemArpTableIp(o["ip"], d, "ip")); err != nil {
 		if !fortiAPIPatch(o["ip"]) {
-			return fmt.Errorf("Error reading ip: %v", err)
+			return fmt.Errorf("error reading ip: %v", err)
 		}
 	}
 
 	if err = d.Set("mac", dataSourceFlattenSystemArpTableMac(o["mac"], d, "mac")); err != nil {
 		if !fortiAPIPatch(o["mac"]) {
-			return fmt.Errorf("Error reading mac: %v", err)
+			return fmt.Errorf("error reading mac: %v", err)
 		}
 	}
 

@@ -30,34 +30,39 @@ func resourceFirewallScheduleRecurring() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 31),
 				Required:     true,
 			},
-			"start": &schema.Schema{
+			"start": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"end": &schema.Schema{
+			"end": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"day": &schema.Schema{
+			"day": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"color": &schema.Schema{
+			"color": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 32),
 				Optional:     true,
 				Computed:     true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -75,15 +80,25 @@ func resourceFirewallScheduleRecurringCreate(d *schema.ResourceData, m interface
 		}
 	}
 
-	obj, err := getObjectFirewallScheduleRecurring(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating FirewallScheduleRecurring resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateFirewallScheduleRecurring(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectFirewallScheduleRecurring(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating FirewallScheduleRecurring resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateFirewallScheduleRecurring(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating FirewallScheduleRecurring resource: %v", err)
+		return fmt.Errorf("error creating FirewallScheduleRecurring resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -108,14 +123,24 @@ func resourceFirewallScheduleRecurringUpdate(d *schema.ResourceData, m interface
 		}
 	}
 
-	obj, err := getObjectFirewallScheduleRecurring(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating FirewallScheduleRecurring resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateFirewallScheduleRecurring(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectFirewallScheduleRecurring(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating FirewallScheduleRecurring resource: %v", err)
+		return fmt.Errorf("error updating FirewallScheduleRecurring resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateFirewallScheduleRecurring(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating FirewallScheduleRecurring resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -142,9 +167,17 @@ func resourceFirewallScheduleRecurringDelete(d *schema.ResourceData, m interface
 		}
 	}
 
-	err := c.DeleteFirewallScheduleRecurring(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteFirewallScheduleRecurring(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting FirewallScheduleRecurring resource: %v", err)
+		return fmt.Errorf("error deleting FirewallScheduleRecurring resource: %v", err)
 	}
 
 	d.SetId("")
@@ -166,9 +199,19 @@ func resourceFirewallScheduleRecurringRead(d *schema.ResourceData, m interface{}
 		}
 	}
 
-	o, err := c.ReadFirewallScheduleRecurring(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadFirewallScheduleRecurring(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading FirewallScheduleRecurring resource: %v", err)
+		return fmt.Errorf("error reading FirewallScheduleRecurring resource: %v", err)
 	}
 
 	if o == nil {
@@ -179,7 +222,7 @@ func resourceFirewallScheduleRecurringRead(d *schema.ResourceData, m interface{}
 
 	err = refreshObjectFirewallScheduleRecurring(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading FirewallScheduleRecurring resource from API: %v", err)
+		return fmt.Errorf("error reading FirewallScheduleRecurring resource from API: %v", err)
 	}
 	return nil
 }
@@ -209,31 +252,31 @@ func refreshObjectFirewallScheduleRecurring(d *schema.ResourceData, o map[string
 
 	if err = d.Set("name", flattenFirewallScheduleRecurringName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("start", flattenFirewallScheduleRecurringStart(o["start"], d, "start", sv)); err != nil {
 		if !fortiAPIPatch(o["start"]) {
-			return fmt.Errorf("Error reading start: %v", err)
+			return fmt.Errorf("error reading start: %v", err)
 		}
 	}
 
 	if err = d.Set("end", flattenFirewallScheduleRecurringEnd(o["end"], d, "end", sv)); err != nil {
 		if !fortiAPIPatch(o["end"]) {
-			return fmt.Errorf("Error reading end: %v", err)
+			return fmt.Errorf("error reading end: %v", err)
 		}
 	}
 
 	if err = d.Set("day", flattenFirewallScheduleRecurringDay(o["day"], d, "day", sv)); err != nil {
 		if !fortiAPIPatch(o["day"]) {
-			return fmt.Errorf("Error reading day: %v", err)
+			return fmt.Errorf("error reading day: %v", err)
 		}
 	}
 
 	if err = d.Set("color", flattenFirewallScheduleRecurringColor(o["color"], d, "color", sv)); err != nil {
 		if !fortiAPIPatch(o["color"]) {
-			return fmt.Errorf("Error reading color: %v", err)
+			return fmt.Errorf("error reading color: %v", err)
 		}
 	}
 

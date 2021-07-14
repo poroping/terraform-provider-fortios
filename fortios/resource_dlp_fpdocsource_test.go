@@ -64,14 +64,14 @@ func testAccCheckFortiOSDlpFpDocSourceExists(n string) resource.TestCheckFunc {
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadDlpFpDocSource(i, "root")
+		o, err := c.ReadDlpFpDocSource(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading DlpFpDocSource: %s", err)
+			return fmt.Errorf("error reading DlpFpDocSource: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating DlpFpDocSource: %s", n)
+			return fmt.Errorf("error creating DlpFpDocSource: %s", n)
 		}
 
 		return nil
@@ -87,11 +87,11 @@ func testAccCheckDlpFpDocSourceDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadDlpFpDocSource(i, "root")
+		o, err := c.ReadDlpFpDocSource(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error DlpFpDocSource %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error DlpFpDocSource %s still exists", rs.Primary.ID)
 			}
 		}
 

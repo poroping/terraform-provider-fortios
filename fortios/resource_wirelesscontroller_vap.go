@@ -30,193 +30,193 @@ func resourceWirelessControllerVap() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 15),
 				ForceNew:     true,
 				Required:     true,
 			},
-			"fast_roaming": &schema.Schema{
+			"fast_roaming": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"external_fast_roaming": &schema.Schema{
+			"external_fast_roaming": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"mesh_backhaul": &schema.Schema{
+			"mesh_backhaul": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"atf_weight": &schema.Schema{
+			"atf_weight": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 100),
 				Optional:     true,
 				Computed:     true,
 			},
-			"max_clients": &schema.Schema{
+			"max_clients": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"max_clients_ap": &schema.Schema{
+			"max_clients_ap": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"ssid": &schema.Schema{
+			"ssid": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 32),
 				Optional:     true,
 				Computed:     true,
 			},
-			"broadcast_ssid": &schema.Schema{
+			"broadcast_ssid": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"security_obsolete_option": &schema.Schema{
+			"security_obsolete_option": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"security": &schema.Schema{
+			"security": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"pmf": &schema.Schema{
+			"pmf": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"pmf_assoc_comeback_timeout": &schema.Schema{
+			"pmf_assoc_comeback_timeout": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 20),
 				Optional:     true,
 				Computed:     true,
 			},
-			"pmf_sa_query_retry_timeout": &schema.Schema{
+			"pmf_sa_query_retry_timeout": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 5),
 				Optional:     true,
 				Computed:     true,
 			},
-			"okc": &schema.Schema{
+			"okc": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"voice_enterprise": &schema.Schema{
+			"voice_enterprise": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"fast_bss_transition": &schema.Schema{
+			"fast_bss_transition": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ft_mobility_domain": &schema.Schema{
+			"ft_mobility_domain": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"ft_r0_key_lifetime": &schema.Schema{
+			"ft_r0_key_lifetime": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"ft_over_ds": &schema.Schema{
+			"ft_over_ds": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"sae_groups": &schema.Schema{
+			"sae_groups": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"owe_groups": &schema.Schema{
+			"owe_groups": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"owe_transition": &schema.Schema{
+			"owe_transition": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"owe_transition_ssid": &schema.Schema{
+			"owe_transition_ssid": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 32),
 				Optional:     true,
 				Computed:     true,
 			},
-			"additional_akms": &schema.Schema{
+			"additional_akms": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"eapol_key_retries": &schema.Schema{
+			"eapol_key_retries": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"tkip_counter_measure": &schema.Schema{
+			"tkip_counter_measure": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"external_web": &schema.Schema{
+			"external_web": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 127),
 				Optional:     true,
 				Computed:     true,
 			},
-			"external_web_format": &schema.Schema{
+			"external_web_format": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"external_logout": &schema.Schema{
+			"external_logout": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 127),
 				Optional:     true,
 				Computed:     true,
 			},
-			"mac_auth_bypass": &schema.Schema{
+			"mac_auth_bypass": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"radius_mac_auth": &schema.Schema{
+			"radius_mac_auth": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"radius_mac_auth_server": &schema.Schema{
+			"radius_mac_auth_server": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"radius_mac_auth_usergroups": &schema.Schema{
+			"radius_mac_auth_usergroups": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 64),
 							Optional:     true,
@@ -225,94 +225,94 @@ func resourceWirelessControllerVap() *schema.Resource {
 					},
 				},
 			},
-			"auth": &schema.Schema{
+			"auth": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"encrypt": &schema.Schema{
+			"encrypt": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"keyindex": &schema.Schema{
+			"keyindex": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 4),
 				Optional:     true,
 				Computed:     true,
 			},
-			"key": &schema.Schema{
+			"key": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 128),
 				Optional:     true,
 				Sensitive:    true,
 			},
-			"passphrase": &schema.Schema{
+			"passphrase": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 128),
 				Optional:     true,
 				Sensitive:    true,
 			},
-			"sae_password": &schema.Schema{
+			"sae_password": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 128),
 				Optional:     true,
 				Sensitive:    true,
 			},
-			"radius_server": &schema.Schema{
+			"radius_server": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"acct_interim_interval": &schema.Schema{
+			"acct_interim_interval": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(60, 86400),
 				Optional:     true,
 				Computed:     true,
 			},
-			"local_standalone": &schema.Schema{
+			"local_standalone": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"local_standalone_nat": &schema.Schema{
+			"local_standalone_nat": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ip": &schema.Schema{
+			"ip": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"dhcp_lease_time": &schema.Schema{
+			"dhcp_lease_time": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(300, 8640000),
 				Optional:     true,
 				Computed:     true,
 			},
-			"local_bridging": &schema.Schema{
+			"local_bridging": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"local_lan": &schema.Schema{
+			"local_lan": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"local_authentication": &schema.Schema{
+			"local_authentication": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"usergroup": &schema.Schema{
+			"usergroup": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 64),
 							Optional:     true,
@@ -321,37 +321,37 @@ func resourceWirelessControllerVap() *schema.Resource {
 					},
 				},
 			},
-			"portal_message_override_group": &schema.Schema{
+			"portal_message_override_group": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"portal_message_overrides": &schema.Schema{
+			"portal_message_overrides": {
 				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"auth_disclaimer_page": &schema.Schema{
+						"auth_disclaimer_page": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"auth_reject_page": &schema.Schema{
+						"auth_reject_page": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"auth_login_page": &schema.Schema{
+						"auth_login_page": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"auth_login_failed_page": &schema.Schema{
+						"auth_login_failed_page": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
@@ -360,17 +360,17 @@ func resourceWirelessControllerVap() *schema.Resource {
 					},
 				},
 			},
-			"portal_type": &schema.Schema{
+			"portal_type": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"selected_usergroups": &schema.Schema{
+			"selected_usergroups": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 64),
 							Optional:     true,
@@ -379,117 +379,117 @@ func resourceWirelessControllerVap() *schema.Resource {
 					},
 				},
 			},
-			"security_exempt_list": &schema.Schema{
+			"security_exempt_list": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"security_redirect_url": &schema.Schema{
+			"security_redirect_url": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 127),
 				Optional:     true,
 				Computed:     true,
 			},
-			"intra_vap_privacy": &schema.Schema{
+			"intra_vap_privacy": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"schedule": &schema.Schema{
+			"schedule": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"ldpc": &schema.Schema{
+			"ldpc": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"high_efficiency": &schema.Schema{
+			"high_efficiency": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"target_wake_time": &schema.Schema{
+			"target_wake_time": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"port_macauth": &schema.Schema{
+			"port_macauth": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"port_macauth_timeout": &schema.Schema{
+			"port_macauth_timeout": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(60, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"port_macauth_reauth_timeout": &schema.Schema{
+			"port_macauth_reauth_timeout": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(120, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"bss_color_partial": &schema.Schema{
+			"bss_color_partial": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"mpsk_profile": &schema.Schema{
+			"mpsk_profile": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"mpsk": &schema.Schema{
+			"mpsk": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"mpsk_concurrent_clients": &schema.Schema{
+			"mpsk_concurrent_clients": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"mpsk_key": &schema.Schema{
+			"mpsk_key": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"key_name": &schema.Schema{
+						"key_name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"passphrase": &schema.Schema{
+						"passphrase": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 128),
 							Optional:     true,
 							Sensitive:    true,
 						},
-						"concurrent_clients": &schema.Schema{
+						"concurrent_clients": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 15),
 							Optional:     true,
 							Computed:     true,
 						},
-						"comment": &schema.Schema{
+						"comment": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 255),
 							Optional:     true,
 						},
-						"mpsk_schedules": &schema.Schema{
+						"mpsk_schedules": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"name": &schema.Schema{
+									"name": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 35),
 										Optional:     true,
@@ -501,161 +501,161 @@ func resourceWirelessControllerVap() *schema.Resource {
 					},
 				},
 			},
-			"split_tunneling": &schema.Schema{
+			"split_tunneling": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"vlanid": &schema.Schema{
+			"vlanid": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 4094),
 				Optional:     true,
 				Computed:     true,
 			},
-			"vlan_auto": &schema.Schema{
+			"vlan_auto": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"dynamic_vlan": &schema.Schema{
+			"dynamic_vlan": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"captive_portal_radius_server": &schema.Schema{
+			"captive_portal_radius_server": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"captive_portal_radius_secret": &schema.Schema{
+			"captive_portal_radius_secret": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 128),
 				Optional:     true,
 				Sensitive:    true,
 			},
-			"captive_portal_macauth_radius_server": &schema.Schema{
+			"captive_portal_macauth_radius_server": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"captive_portal_macauth_radius_secret": &schema.Schema{
+			"captive_portal_macauth_radius_secret": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 128),
 				Optional:     true,
 				Sensitive:    true,
 			},
-			"captive_portal_ac_name": &schema.Schema{
+			"captive_portal_ac_name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"captive_portal_auth_timeout": &schema.Schema{
+			"captive_portal_auth_timeout": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 864000),
 				Optional:     true,
 				Computed:     true,
 			},
-			"captive_portal_session_timeout_interval": &schema.Schema{
+			"captive_portal_session_timeout_interval": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 864000),
 				Optional:     true,
 				Computed:     true,
 			},
-			"alias": &schema.Schema{
+			"alias": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 25),
 				Optional:     true,
 				Computed:     true,
 			},
-			"multicast_rate": &schema.Schema{
+			"multicast_rate": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"multicast_enhance": &schema.Schema{
+			"multicast_enhance": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"igmp_snooping": &schema.Schema{
+			"igmp_snooping": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"broadcast_suppression": &schema.Schema{
+			"broadcast_suppression": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ipv6_rules": &schema.Schema{
+			"ipv6_rules": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"me_disable_thresh": &schema.Schema{
+			"me_disable_thresh": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(2, 256),
 				Optional:     true,
 				Computed:     true,
 			},
-			"mu_mimo": &schema.Schema{
+			"mu_mimo": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"probe_resp_suppression": &schema.Schema{
+			"probe_resp_suppression": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"probe_resp_threshold": &schema.Schema{
+			"probe_resp_threshold": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 7),
 				Optional:     true,
 				Computed:     true,
 			},
-			"radio_sensitivity": &schema.Schema{
+			"radio_sensitivity": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"quarantine": &schema.Schema{
+			"quarantine": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"radio_5g_threshold": &schema.Schema{
+			"radio_5g_threshold": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 7),
 				Optional:     true,
 				Computed:     true,
 			},
-			"radio_2g_threshold": &schema.Schema{
+			"radio_2g_threshold": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 7),
 				Optional:     true,
 				Computed:     true,
 			},
-			"vlan_pooling": &schema.Schema{
+			"vlan_pooling": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"vlan_pool": &schema.Schema{
+			"vlan_pool": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 4094),
 							Optional:     true,
 							Computed:     true,
 						},
-						"wtp_group": &schema.Schema{
+						"wtp_group": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
@@ -664,169 +664,169 @@ func resourceWirelessControllerVap() *schema.Resource {
 					},
 				},
 			},
-			"dhcp_option43_insertion": &schema.Schema{
+			"dhcp_option43_insertion": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"dhcp_option82_insertion": &schema.Schema{
+			"dhcp_option82_insertion": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"dhcp_option82_circuit_id_insertion": &schema.Schema{
+			"dhcp_option82_circuit_id_insertion": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"dhcp_option82_remote_id_insertion": &schema.Schema{
+			"dhcp_option82_remote_id_insertion": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ptk_rekey": &schema.Schema{
+			"ptk_rekey": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ptk_rekey_intv": &schema.Schema{
+			"ptk_rekey_intv": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1800, 864000),
 				Optional:     true,
 				Computed:     true,
 			},
-			"gtk_rekey": &schema.Schema{
+			"gtk_rekey": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"gtk_rekey_intv": &schema.Schema{
+			"gtk_rekey_intv": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1800, 864000),
 				Optional:     true,
 				Computed:     true,
 			},
-			"eap_reauth": &schema.Schema{
+			"eap_reauth": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"eap_reauth_intv": &schema.Schema{
+			"eap_reauth_intv": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1800, 864000),
 				Optional:     true,
 				Computed:     true,
 			},
-			"qos_profile": &schema.Schema{
+			"qos_profile": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"hotspot20_profile": &schema.Schema{
+			"hotspot20_profile": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"access_control_list": &schema.Schema{
+			"access_control_list": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"primary_wag_profile": &schema.Schema{
+			"primary_wag_profile": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"secondary_wag_profile": &schema.Schema{
+			"secondary_wag_profile": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"tunnel_echo_interval": &schema.Schema{
+			"tunnel_echo_interval": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"tunnel_fallback_interval": &schema.Schema{
+			"tunnel_fallback_interval": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"rates_11a": &schema.Schema{
+			"rates_11a": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"rates_11bg": &schema.Schema{
+			"rates_11bg": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"rates_11n_ss12": &schema.Schema{
+			"rates_11n_ss12": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"rates_11n_ss34": &schema.Schema{
+			"rates_11n_ss34": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"rates_11ac_ss12": &schema.Schema{
+			"rates_11ac_ss12": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"rates_11ac_ss34": &schema.Schema{
+			"rates_11ac_ss34": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"utm_profile": &schema.Schema{
+			"utm_profile": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"address_group": &schema.Schema{
+			"address_group": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"mac_filter": &schema.Schema{
+			"mac_filter": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"mac_filter_policy_other": &schema.Schema{
+			"mac_filter_policy_other": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"mac_filter_list": &schema.Schema{
+			"mac_filter_list": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"mac": &schema.Schema{
+						"mac": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"mac_filter_policy": &schema.Schema{
+						"mac_filter_policy": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -834,27 +834,32 @@ func resourceWirelessControllerVap() *schema.Resource {
 					},
 				},
 			},
-			"sticky_client_remove": &schema.Schema{
+			"sticky_client_remove": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"sticky_client_threshold_5g": &schema.Schema{
+			"sticky_client_threshold_5g": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 7),
 				Optional:     true,
 				Computed:     true,
 			},
-			"sticky_client_threshold_2g": &schema.Schema{
+			"sticky_client_threshold_2g": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 7),
 				Optional:     true,
 				Computed:     true,
 			},
-			"dynamic_sort_subtable": &schema.Schema{
-				Type:     schema.TypeString,
+			"dynamic_sort_subtable": {
+				Type:     schema.TypeBool,
 				Optional: true,
-				Default:  "false",
+				Default:  false,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -872,15 +877,25 @@ func resourceWirelessControllerVapCreate(d *schema.ResourceData, m interface{}) 
 		}
 	}
 
-	obj, err := getObjectWirelessControllerVap(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating WirelessControllerVap resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateWirelessControllerVap(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectWirelessControllerVap(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating WirelessControllerVap resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateWirelessControllerVap(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating WirelessControllerVap resource: %v", err)
+		return fmt.Errorf("error creating WirelessControllerVap resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -905,14 +920,24 @@ func resourceWirelessControllerVapUpdate(d *schema.ResourceData, m interface{}) 
 		}
 	}
 
-	obj, err := getObjectWirelessControllerVap(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating WirelessControllerVap resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateWirelessControllerVap(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectWirelessControllerVap(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating WirelessControllerVap resource: %v", err)
+		return fmt.Errorf("error updating WirelessControllerVap resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateWirelessControllerVap(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating WirelessControllerVap resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -939,9 +964,17 @@ func resourceWirelessControllerVapDelete(d *schema.ResourceData, m interface{}) 
 		}
 	}
 
-	err := c.DeleteWirelessControllerVap(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteWirelessControllerVap(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting WirelessControllerVap resource: %v", err)
+		return fmt.Errorf("error deleting WirelessControllerVap resource: %v", err)
 	}
 
 	d.SetId("")
@@ -963,9 +996,19 @@ func resourceWirelessControllerVapRead(d *schema.ResourceData, m interface{}) er
 		}
 	}
 
-	o, err := c.ReadWirelessControllerVap(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadWirelessControllerVap(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading WirelessControllerVap resource: %v", err)
+		return fmt.Errorf("error reading WirelessControllerVap resource: %v", err)
 	}
 
 	if o == nil {
@@ -976,7 +1019,7 @@ func resourceWirelessControllerVapRead(d *schema.ResourceData, m interface{}) er
 
 	err = refreshObjectWirelessControllerVap(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading WirelessControllerVap resource from API: %v", err)
+		return fmt.Errorf("error reading WirelessControllerVap resource from API: %v", err)
 	}
 	return nil
 }
@@ -1854,213 +1897,213 @@ func refreshObjectWirelessControllerVap(d *schema.ResourceData, o map[string]int
 
 	if err = d.Set("name", flattenWirelessControllerVapName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("fast_roaming", flattenWirelessControllerVapFastRoaming(o["fast-roaming"], d, "fast_roaming", sv)); err != nil {
 		if !fortiAPIPatch(o["fast-roaming"]) {
-			return fmt.Errorf("Error reading fast_roaming: %v", err)
+			return fmt.Errorf("error reading fast_roaming: %v", err)
 		}
 	}
 
 	if err = d.Set("external_fast_roaming", flattenWirelessControllerVapExternalFastRoaming(o["external-fast-roaming"], d, "external_fast_roaming", sv)); err != nil {
 		if !fortiAPIPatch(o["external-fast-roaming"]) {
-			return fmt.Errorf("Error reading external_fast_roaming: %v", err)
+			return fmt.Errorf("error reading external_fast_roaming: %v", err)
 		}
 	}
 
 	if err = d.Set("mesh_backhaul", flattenWirelessControllerVapMeshBackhaul(o["mesh-backhaul"], d, "mesh_backhaul", sv)); err != nil {
 		if !fortiAPIPatch(o["mesh-backhaul"]) {
-			return fmt.Errorf("Error reading mesh_backhaul: %v", err)
+			return fmt.Errorf("error reading mesh_backhaul: %v", err)
 		}
 	}
 
 	if err = d.Set("atf_weight", flattenWirelessControllerVapAtfWeight(o["atf-weight"], d, "atf_weight", sv)); err != nil {
 		if !fortiAPIPatch(o["atf-weight"]) {
-			return fmt.Errorf("Error reading atf_weight: %v", err)
+			return fmt.Errorf("error reading atf_weight: %v", err)
 		}
 	}
 
 	if err = d.Set("max_clients", flattenWirelessControllerVapMaxClients(o["max-clients"], d, "max_clients", sv)); err != nil {
 		if !fortiAPIPatch(o["max-clients"]) {
-			return fmt.Errorf("Error reading max_clients: %v", err)
+			return fmt.Errorf("error reading max_clients: %v", err)
 		}
 	}
 
 	if err = d.Set("max_clients_ap", flattenWirelessControllerVapMaxClientsAp(o["max-clients-ap"], d, "max_clients_ap", sv)); err != nil {
 		if !fortiAPIPatch(o["max-clients-ap"]) {
-			return fmt.Errorf("Error reading max_clients_ap: %v", err)
+			return fmt.Errorf("error reading max_clients_ap: %v", err)
 		}
 	}
 
 	if err = d.Set("ssid", flattenWirelessControllerVapSsid(o["ssid"], d, "ssid", sv)); err != nil {
 		if !fortiAPIPatch(o["ssid"]) {
-			return fmt.Errorf("Error reading ssid: %v", err)
+			return fmt.Errorf("error reading ssid: %v", err)
 		}
 	}
 
 	if err = d.Set("broadcast_ssid", flattenWirelessControllerVapBroadcastSsid(o["broadcast-ssid"], d, "broadcast_ssid", sv)); err != nil {
 		if !fortiAPIPatch(o["broadcast-ssid"]) {
-			return fmt.Errorf("Error reading broadcast_ssid: %v", err)
+			return fmt.Errorf("error reading broadcast_ssid: %v", err)
 		}
 	}
 
 	if err = d.Set("security_obsolete_option", flattenWirelessControllerVapSecurityObsoleteOption(o["security-obsolete-option"], d, "security_obsolete_option", sv)); err != nil {
 		if !fortiAPIPatch(o["security-obsolete-option"]) {
-			return fmt.Errorf("Error reading security_obsolete_option: %v", err)
+			return fmt.Errorf("error reading security_obsolete_option: %v", err)
 		}
 	}
 
 	if err = d.Set("security", flattenWirelessControllerVapSecurity(o["security"], d, "security", sv)); err != nil {
 		if !fortiAPIPatch(o["security"]) {
-			return fmt.Errorf("Error reading security: %v", err)
+			return fmt.Errorf("error reading security: %v", err)
 		}
 	}
 
 	if err = d.Set("pmf", flattenWirelessControllerVapPmf(o["pmf"], d, "pmf", sv)); err != nil {
 		if !fortiAPIPatch(o["pmf"]) {
-			return fmt.Errorf("Error reading pmf: %v", err)
+			return fmt.Errorf("error reading pmf: %v", err)
 		}
 	}
 
 	if err = d.Set("pmf_assoc_comeback_timeout", flattenWirelessControllerVapPmfAssocComebackTimeout(o["pmf-assoc-comeback-timeout"], d, "pmf_assoc_comeback_timeout", sv)); err != nil {
 		if !fortiAPIPatch(o["pmf-assoc-comeback-timeout"]) {
-			return fmt.Errorf("Error reading pmf_assoc_comeback_timeout: %v", err)
+			return fmt.Errorf("error reading pmf_assoc_comeback_timeout: %v", err)
 		}
 	}
 
 	if err = d.Set("pmf_sa_query_retry_timeout", flattenWirelessControllerVapPmfSaQueryRetryTimeout(o["pmf-sa-query-retry-timeout"], d, "pmf_sa_query_retry_timeout", sv)); err != nil {
 		if !fortiAPIPatch(o["pmf-sa-query-retry-timeout"]) {
-			return fmt.Errorf("Error reading pmf_sa_query_retry_timeout: %v", err)
+			return fmt.Errorf("error reading pmf_sa_query_retry_timeout: %v", err)
 		}
 	}
 
 	if err = d.Set("okc", flattenWirelessControllerVapOkc(o["okc"], d, "okc", sv)); err != nil {
 		if !fortiAPIPatch(o["okc"]) {
-			return fmt.Errorf("Error reading okc: %v", err)
+			return fmt.Errorf("error reading okc: %v", err)
 		}
 	}
 
 	if err = d.Set("voice_enterprise", flattenWirelessControllerVapVoiceEnterprise(o["voice-enterprise"], d, "voice_enterprise", sv)); err != nil {
 		if !fortiAPIPatch(o["voice-enterprise"]) {
-			return fmt.Errorf("Error reading voice_enterprise: %v", err)
+			return fmt.Errorf("error reading voice_enterprise: %v", err)
 		}
 	}
 
 	if err = d.Set("fast_bss_transition", flattenWirelessControllerVapFastBssTransition(o["fast-bss-transition"], d, "fast_bss_transition", sv)); err != nil {
 		if !fortiAPIPatch(o["fast-bss-transition"]) {
-			return fmt.Errorf("Error reading fast_bss_transition: %v", err)
+			return fmt.Errorf("error reading fast_bss_transition: %v", err)
 		}
 	}
 
 	if err = d.Set("ft_mobility_domain", flattenWirelessControllerVapFtMobilityDomain(o["ft-mobility-domain"], d, "ft_mobility_domain", sv)); err != nil {
 		if !fortiAPIPatch(o["ft-mobility-domain"]) {
-			return fmt.Errorf("Error reading ft_mobility_domain: %v", err)
+			return fmt.Errorf("error reading ft_mobility_domain: %v", err)
 		}
 	}
 
 	if err = d.Set("ft_r0_key_lifetime", flattenWirelessControllerVapFtR0KeyLifetime(o["ft-r0-key-lifetime"], d, "ft_r0_key_lifetime", sv)); err != nil {
 		if !fortiAPIPatch(o["ft-r0-key-lifetime"]) {
-			return fmt.Errorf("Error reading ft_r0_key_lifetime: %v", err)
+			return fmt.Errorf("error reading ft_r0_key_lifetime: %v", err)
 		}
 	}
 
 	if err = d.Set("ft_over_ds", flattenWirelessControllerVapFtOverDs(o["ft-over-ds"], d, "ft_over_ds", sv)); err != nil {
 		if !fortiAPIPatch(o["ft-over-ds"]) {
-			return fmt.Errorf("Error reading ft_over_ds: %v", err)
+			return fmt.Errorf("error reading ft_over_ds: %v", err)
 		}
 	}
 
 	if err = d.Set("sae_groups", flattenWirelessControllerVapSaeGroups(o["sae-groups"], d, "sae_groups", sv)); err != nil {
 		if !fortiAPIPatch(o["sae-groups"]) {
-			return fmt.Errorf("Error reading sae_groups: %v", err)
+			return fmt.Errorf("error reading sae_groups: %v", err)
 		}
 	}
 
 	if err = d.Set("owe_groups", flattenWirelessControllerVapOweGroups(o["owe-groups"], d, "owe_groups", sv)); err != nil {
 		if !fortiAPIPatch(o["owe-groups"]) {
-			return fmt.Errorf("Error reading owe_groups: %v", err)
+			return fmt.Errorf("error reading owe_groups: %v", err)
 		}
 	}
 
 	if err = d.Set("owe_transition", flattenWirelessControllerVapOweTransition(o["owe-transition"], d, "owe_transition", sv)); err != nil {
 		if !fortiAPIPatch(o["owe-transition"]) {
-			return fmt.Errorf("Error reading owe_transition: %v", err)
+			return fmt.Errorf("error reading owe_transition: %v", err)
 		}
 	}
 
 	if err = d.Set("owe_transition_ssid", flattenWirelessControllerVapOweTransitionSsid(o["owe-transition-ssid"], d, "owe_transition_ssid", sv)); err != nil {
 		if !fortiAPIPatch(o["owe-transition-ssid"]) {
-			return fmt.Errorf("Error reading owe_transition_ssid: %v", err)
+			return fmt.Errorf("error reading owe_transition_ssid: %v", err)
 		}
 	}
 
 	if err = d.Set("additional_akms", flattenWirelessControllerVapAdditionalAkms(o["additional-akms"], d, "additional_akms", sv)); err != nil {
 		if !fortiAPIPatch(o["additional-akms"]) {
-			return fmt.Errorf("Error reading additional_akms: %v", err)
+			return fmt.Errorf("error reading additional_akms: %v", err)
 		}
 	}
 
 	if err = d.Set("eapol_key_retries", flattenWirelessControllerVapEapolKeyRetries(o["eapol-key-retries"], d, "eapol_key_retries", sv)); err != nil {
 		if !fortiAPIPatch(o["eapol-key-retries"]) {
-			return fmt.Errorf("Error reading eapol_key_retries: %v", err)
+			return fmt.Errorf("error reading eapol_key_retries: %v", err)
 		}
 	}
 
 	if err = d.Set("tkip_counter_measure", flattenWirelessControllerVapTkipCounterMeasure(o["tkip-counter-measure"], d, "tkip_counter_measure", sv)); err != nil {
 		if !fortiAPIPatch(o["tkip-counter-measure"]) {
-			return fmt.Errorf("Error reading tkip_counter_measure: %v", err)
+			return fmt.Errorf("error reading tkip_counter_measure: %v", err)
 		}
 	}
 
 	if err = d.Set("external_web", flattenWirelessControllerVapExternalWeb(o["external-web"], d, "external_web", sv)); err != nil {
 		if !fortiAPIPatch(o["external-web"]) {
-			return fmt.Errorf("Error reading external_web: %v", err)
+			return fmt.Errorf("error reading external_web: %v", err)
 		}
 	}
 
 	if err = d.Set("external_web_format", flattenWirelessControllerVapExternalWebFormat(o["external-web-format"], d, "external_web_format", sv)); err != nil {
 		if !fortiAPIPatch(o["external-web-format"]) {
-			return fmt.Errorf("Error reading external_web_format: %v", err)
+			return fmt.Errorf("error reading external_web_format: %v", err)
 		}
 	}
 
 	if err = d.Set("external_logout", flattenWirelessControllerVapExternalLogout(o["external-logout"], d, "external_logout", sv)); err != nil {
 		if !fortiAPIPatch(o["external-logout"]) {
-			return fmt.Errorf("Error reading external_logout: %v", err)
+			return fmt.Errorf("error reading external_logout: %v", err)
 		}
 	}
 
 	if err = d.Set("mac_auth_bypass", flattenWirelessControllerVapMacAuthBypass(o["mac-auth-bypass"], d, "mac_auth_bypass", sv)); err != nil {
 		if !fortiAPIPatch(o["mac-auth-bypass"]) {
-			return fmt.Errorf("Error reading mac_auth_bypass: %v", err)
+			return fmt.Errorf("error reading mac_auth_bypass: %v", err)
 		}
 	}
 
 	if err = d.Set("radius_mac_auth", flattenWirelessControllerVapRadiusMacAuth(o["radius-mac-auth"], d, "radius_mac_auth", sv)); err != nil {
 		if !fortiAPIPatch(o["radius-mac-auth"]) {
-			return fmt.Errorf("Error reading radius_mac_auth: %v", err)
+			return fmt.Errorf("error reading radius_mac_auth: %v", err)
 		}
 	}
 
 	if err = d.Set("radius_mac_auth_server", flattenWirelessControllerVapRadiusMacAuthServer(o["radius-mac-auth-server"], d, "radius_mac_auth_server", sv)); err != nil {
 		if !fortiAPIPatch(o["radius-mac-auth-server"]) {
-			return fmt.Errorf("Error reading radius_mac_auth_server: %v", err)
+			return fmt.Errorf("error reading radius_mac_auth_server: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("radius_mac_auth_usergroups", flattenWirelessControllerVapRadiusMacAuthUsergroups(o["radius-mac-auth-usergroups"], d, "radius_mac_auth_usergroups", sv)); err != nil {
 			if !fortiAPIPatch(o["radius-mac-auth-usergroups"]) {
-				return fmt.Errorf("Error reading radius_mac_auth_usergroups: %v", err)
+				return fmt.Errorf("error reading radius_mac_auth_usergroups: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("radius_mac_auth_usergroups"); ok {
 			if err = d.Set("radius_mac_auth_usergroups", flattenWirelessControllerVapRadiusMacAuthUsergroups(o["radius-mac-auth-usergroups"], d, "radius_mac_auth_usergroups", sv)); err != nil {
 				if !fortiAPIPatch(o["radius-mac-auth-usergroups"]) {
-					return fmt.Errorf("Error reading radius_mac_auth_usergroups: %v", err)
+					return fmt.Errorf("error reading radius_mac_auth_usergroups: %v", err)
 				}
 			}
 		}
@@ -2068,87 +2111,87 @@ func refreshObjectWirelessControllerVap(d *schema.ResourceData, o map[string]int
 
 	if err = d.Set("auth", flattenWirelessControllerVapAuth(o["auth"], d, "auth", sv)); err != nil {
 		if !fortiAPIPatch(o["auth"]) {
-			return fmt.Errorf("Error reading auth: %v", err)
+			return fmt.Errorf("error reading auth: %v", err)
 		}
 	}
 
 	if err = d.Set("encrypt", flattenWirelessControllerVapEncrypt(o["encrypt"], d, "encrypt", sv)); err != nil {
 		if !fortiAPIPatch(o["encrypt"]) {
-			return fmt.Errorf("Error reading encrypt: %v", err)
+			return fmt.Errorf("error reading encrypt: %v", err)
 		}
 	}
 
 	if err = d.Set("keyindex", flattenWirelessControllerVapKeyindex(o["keyindex"], d, "keyindex", sv)); err != nil {
 		if !fortiAPIPatch(o["keyindex"]) {
-			return fmt.Errorf("Error reading keyindex: %v", err)
+			return fmt.Errorf("error reading keyindex: %v", err)
 		}
 	}
 
 	if err = d.Set("radius_server", flattenWirelessControllerVapRadiusServer(o["radius-server"], d, "radius_server", sv)); err != nil {
 		if !fortiAPIPatch(o["radius-server"]) {
-			return fmt.Errorf("Error reading radius_server: %v", err)
+			return fmt.Errorf("error reading radius_server: %v", err)
 		}
 	}
 
 	if err = d.Set("acct_interim_interval", flattenWirelessControllerVapAcctInterimInterval(o["acct-interim-interval"], d, "acct_interim_interval", sv)); err != nil {
 		if !fortiAPIPatch(o["acct-interim-interval"]) {
-			return fmt.Errorf("Error reading acct_interim_interval: %v", err)
+			return fmt.Errorf("error reading acct_interim_interval: %v", err)
 		}
 	}
 
 	if err = d.Set("local_standalone", flattenWirelessControllerVapLocalStandalone(o["local-standalone"], d, "local_standalone", sv)); err != nil {
 		if !fortiAPIPatch(o["local-standalone"]) {
-			return fmt.Errorf("Error reading local_standalone: %v", err)
+			return fmt.Errorf("error reading local_standalone: %v", err)
 		}
 	}
 
 	if err = d.Set("local_standalone_nat", flattenWirelessControllerVapLocalStandaloneNat(o["local-standalone-nat"], d, "local_standalone_nat", sv)); err != nil {
 		if !fortiAPIPatch(o["local-standalone-nat"]) {
-			return fmt.Errorf("Error reading local_standalone_nat: %v", err)
+			return fmt.Errorf("error reading local_standalone_nat: %v", err)
 		}
 	}
 
 	if err = d.Set("ip", flattenWirelessControllerVapIp(o["ip"], d, "ip", sv)); err != nil {
 		if !fortiAPIPatch(o["ip"]) {
-			return fmt.Errorf("Error reading ip: %v", err)
+			return fmt.Errorf("error reading ip: %v", err)
 		}
 	}
 
 	if err = d.Set("dhcp_lease_time", flattenWirelessControllerVapDhcpLeaseTime(o["dhcp-lease-time"], d, "dhcp_lease_time", sv)); err != nil {
 		if !fortiAPIPatch(o["dhcp-lease-time"]) {
-			return fmt.Errorf("Error reading dhcp_lease_time: %v", err)
+			return fmt.Errorf("error reading dhcp_lease_time: %v", err)
 		}
 	}
 
 	if err = d.Set("local_bridging", flattenWirelessControllerVapLocalBridging(o["local-bridging"], d, "local_bridging", sv)); err != nil {
 		if !fortiAPIPatch(o["local-bridging"]) {
-			return fmt.Errorf("Error reading local_bridging: %v", err)
+			return fmt.Errorf("error reading local_bridging: %v", err)
 		}
 	}
 
 	if err = d.Set("local_lan", flattenWirelessControllerVapLocalLan(o["local-lan"], d, "local_lan", sv)); err != nil {
 		if !fortiAPIPatch(o["local-lan"]) {
-			return fmt.Errorf("Error reading local_lan: %v", err)
+			return fmt.Errorf("error reading local_lan: %v", err)
 		}
 	}
 
 	if err = d.Set("local_authentication", flattenWirelessControllerVapLocalAuthentication(o["local-authentication"], d, "local_authentication", sv)); err != nil {
 		if !fortiAPIPatch(o["local-authentication"]) {
-			return fmt.Errorf("Error reading local_authentication: %v", err)
+			return fmt.Errorf("error reading local_authentication: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("usergroup", flattenWirelessControllerVapUsergroup(o["usergroup"], d, "usergroup", sv)); err != nil {
 			if !fortiAPIPatch(o["usergroup"]) {
-				return fmt.Errorf("Error reading usergroup: %v", err)
+				return fmt.Errorf("error reading usergroup: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("usergroup"); ok {
 			if err = d.Set("usergroup", flattenWirelessControllerVapUsergroup(o["usergroup"], d, "usergroup", sv)); err != nil {
 				if !fortiAPIPatch(o["usergroup"]) {
-					return fmt.Errorf("Error reading usergroup: %v", err)
+					return fmt.Errorf("error reading usergroup: %v", err)
 				}
 			}
 		}
@@ -2156,21 +2199,21 @@ func refreshObjectWirelessControllerVap(d *schema.ResourceData, o map[string]int
 
 	if err = d.Set("portal_message_override_group", flattenWirelessControllerVapPortalMessageOverrideGroup(o["portal-message-override-group"], d, "portal_message_override_group", sv)); err != nil {
 		if !fortiAPIPatch(o["portal-message-override-group"]) {
-			return fmt.Errorf("Error reading portal_message_override_group: %v", err)
+			return fmt.Errorf("error reading portal_message_override_group: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("portal_message_overrides", flattenWirelessControllerVapPortalMessageOverrides(o["portal-message-overrides"], d, "portal_message_overrides", sv)); err != nil {
 			if !fortiAPIPatch(o["portal-message-overrides"]) {
-				return fmt.Errorf("Error reading portal_message_overrides: %v", err)
+				return fmt.Errorf("error reading portal_message_overrides: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("portal_message_overrides"); ok {
 			if err = d.Set("portal_message_overrides", flattenWirelessControllerVapPortalMessageOverrides(o["portal-message-overrides"], d, "portal_message_overrides", sv)); err != nil {
 				if !fortiAPIPatch(o["portal-message-overrides"]) {
-					return fmt.Errorf("Error reading portal_message_overrides: %v", err)
+					return fmt.Errorf("error reading portal_message_overrides: %v", err)
 				}
 			}
 		}
@@ -2178,21 +2221,21 @@ func refreshObjectWirelessControllerVap(d *schema.ResourceData, o map[string]int
 
 	if err = d.Set("portal_type", flattenWirelessControllerVapPortalType(o["portal-type"], d, "portal_type", sv)); err != nil {
 		if !fortiAPIPatch(o["portal-type"]) {
-			return fmt.Errorf("Error reading portal_type: %v", err)
+			return fmt.Errorf("error reading portal_type: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("selected_usergroups", flattenWirelessControllerVapSelectedUsergroups(o["selected-usergroups"], d, "selected_usergroups", sv)); err != nil {
 			if !fortiAPIPatch(o["selected-usergroups"]) {
-				return fmt.Errorf("Error reading selected_usergroups: %v", err)
+				return fmt.Errorf("error reading selected_usergroups: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("selected_usergroups"); ok {
 			if err = d.Set("selected_usergroups", flattenWirelessControllerVapSelectedUsergroups(o["selected-usergroups"], d, "selected_usergroups", sv)); err != nil {
 				if !fortiAPIPatch(o["selected-usergroups"]) {
-					return fmt.Errorf("Error reading selected_usergroups: %v", err)
+					return fmt.Errorf("error reading selected_usergroups: %v", err)
 				}
 			}
 		}
@@ -2200,19 +2243,19 @@ func refreshObjectWirelessControllerVap(d *schema.ResourceData, o map[string]int
 
 	if err = d.Set("security_exempt_list", flattenWirelessControllerVapSecurityExemptList(o["security-exempt-list"], d, "security_exempt_list", sv)); err != nil {
 		if !fortiAPIPatch(o["security-exempt-list"]) {
-			return fmt.Errorf("Error reading security_exempt_list: %v", err)
+			return fmt.Errorf("error reading security_exempt_list: %v", err)
 		}
 	}
 
 	if err = d.Set("security_redirect_url", flattenWirelessControllerVapSecurityRedirectUrl(o["security-redirect-url"], d, "security_redirect_url", sv)); err != nil {
 		if !fortiAPIPatch(o["security-redirect-url"]) {
-			return fmt.Errorf("Error reading security_redirect_url: %v", err)
+			return fmt.Errorf("error reading security_redirect_url: %v", err)
 		}
 	}
 
 	if err = d.Set("intra_vap_privacy", flattenWirelessControllerVapIntraVapPrivacy(o["intra-vap-privacy"], d, "intra_vap_privacy", sv)); err != nil {
 		if !fortiAPIPatch(o["intra-vap-privacy"]) {
-			return fmt.Errorf("Error reading intra_vap_privacy: %v", err)
+			return fmt.Errorf("error reading intra_vap_privacy: %v", err)
 		}
 	}
 
@@ -2240,13 +2283,13 @@ func refreshObjectWirelessControllerVap(d *schema.ResourceData, o map[string]int
 		if bstring == true {
 			if err = d.Set("schedule", vx); err != nil {
 				if !fortiAPIPatch(o["schedule"]) {
-					return fmt.Errorf("Error reading schedule: %v", err)
+					return fmt.Errorf("error reading schedule: %v", err)
 				}
 			}
 		} else {
 			if err = d.Set("schedule", v); err != nil {
 				if !fortiAPIPatch(o["schedule"]) {
-					return fmt.Errorf("Error reading schedule: %v", err)
+					return fmt.Errorf("error reading schedule: %v", err)
 				}
 			}
 		}
@@ -2254,75 +2297,75 @@ func refreshObjectWirelessControllerVap(d *schema.ResourceData, o map[string]int
 
 	if err = d.Set("ldpc", flattenWirelessControllerVapLdpc(o["ldpc"], d, "ldpc", sv)); err != nil {
 		if !fortiAPIPatch(o["ldpc"]) {
-			return fmt.Errorf("Error reading ldpc: %v", err)
+			return fmt.Errorf("error reading ldpc: %v", err)
 		}
 	}
 
 	if err = d.Set("high_efficiency", flattenWirelessControllerVapHighEfficiency(o["high-efficiency"], d, "high_efficiency", sv)); err != nil {
 		if !fortiAPIPatch(o["high-efficiency"]) {
-			return fmt.Errorf("Error reading high_efficiency: %v", err)
+			return fmt.Errorf("error reading high_efficiency: %v", err)
 		}
 	}
 
 	if err = d.Set("target_wake_time", flattenWirelessControllerVapTargetWakeTime(o["target-wake-time"], d, "target_wake_time", sv)); err != nil {
 		if !fortiAPIPatch(o["target-wake-time"]) {
-			return fmt.Errorf("Error reading target_wake_time: %v", err)
+			return fmt.Errorf("error reading target_wake_time: %v", err)
 		}
 	}
 
 	if err = d.Set("port_macauth", flattenWirelessControllerVapPortMacauth(o["port-macauth"], d, "port_macauth", sv)); err != nil {
 		if !fortiAPIPatch(o["port-macauth"]) {
-			return fmt.Errorf("Error reading port_macauth: %v", err)
+			return fmt.Errorf("error reading port_macauth: %v", err)
 		}
 	}
 
 	if err = d.Set("port_macauth_timeout", flattenWirelessControllerVapPortMacauthTimeout(o["port-macauth-timeout"], d, "port_macauth_timeout", sv)); err != nil {
 		if !fortiAPIPatch(o["port-macauth-timeout"]) {
-			return fmt.Errorf("Error reading port_macauth_timeout: %v", err)
+			return fmt.Errorf("error reading port_macauth_timeout: %v", err)
 		}
 	}
 
 	if err = d.Set("port_macauth_reauth_timeout", flattenWirelessControllerVapPortMacauthReauthTimeout(o["port-macauth-reauth-timeout"], d, "port_macauth_reauth_timeout", sv)); err != nil {
 		if !fortiAPIPatch(o["port-macauth-reauth-timeout"]) {
-			return fmt.Errorf("Error reading port_macauth_reauth_timeout: %v", err)
+			return fmt.Errorf("error reading port_macauth_reauth_timeout: %v", err)
 		}
 	}
 
 	if err = d.Set("bss_color_partial", flattenWirelessControllerVapBssColorPartial(o["bss-color-partial"], d, "bss_color_partial", sv)); err != nil {
 		if !fortiAPIPatch(o["bss-color-partial"]) {
-			return fmt.Errorf("Error reading bss_color_partial: %v", err)
+			return fmt.Errorf("error reading bss_color_partial: %v", err)
 		}
 	}
 
 	if err = d.Set("mpsk_profile", flattenWirelessControllerVapMpskProfile(o["mpsk-profile"], d, "mpsk_profile", sv)); err != nil {
 		if !fortiAPIPatch(o["mpsk-profile"]) {
-			return fmt.Errorf("Error reading mpsk_profile: %v", err)
+			return fmt.Errorf("error reading mpsk_profile: %v", err)
 		}
 	}
 
 	if err = d.Set("mpsk", flattenWirelessControllerVapMpsk(o["mpsk"], d, "mpsk", sv)); err != nil {
 		if !fortiAPIPatch(o["mpsk"]) {
-			return fmt.Errorf("Error reading mpsk: %v", err)
+			return fmt.Errorf("error reading mpsk: %v", err)
 		}
 	}
 
 	if err = d.Set("mpsk_concurrent_clients", flattenWirelessControllerVapMpskConcurrentClients(o["mpsk-concurrent-clients"], d, "mpsk_concurrent_clients", sv)); err != nil {
 		if !fortiAPIPatch(o["mpsk-concurrent-clients"]) {
-			return fmt.Errorf("Error reading mpsk_concurrent_clients: %v", err)
+			return fmt.Errorf("error reading mpsk_concurrent_clients: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("mpsk_key", flattenWirelessControllerVapMpskKey(o["mpsk-key"], d, "mpsk_key", sv)); err != nil {
 			if !fortiAPIPatch(o["mpsk-key"]) {
-				return fmt.Errorf("Error reading mpsk_key: %v", err)
+				return fmt.Errorf("error reading mpsk_key: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("mpsk_key"); ok {
 			if err = d.Set("mpsk_key", flattenWirelessControllerVapMpskKey(o["mpsk-key"], d, "mpsk_key", sv)); err != nil {
 				if !fortiAPIPatch(o["mpsk-key"]) {
-					return fmt.Errorf("Error reading mpsk_key: %v", err)
+					return fmt.Errorf("error reading mpsk_key: %v", err)
 				}
 			}
 		}
@@ -2330,159 +2373,159 @@ func refreshObjectWirelessControllerVap(d *schema.ResourceData, o map[string]int
 
 	if err = d.Set("split_tunneling", flattenWirelessControllerVapSplitTunneling(o["split-tunneling"], d, "split_tunneling", sv)); err != nil {
 		if !fortiAPIPatch(o["split-tunneling"]) {
-			return fmt.Errorf("Error reading split_tunneling: %v", err)
+			return fmt.Errorf("error reading split_tunneling: %v", err)
 		}
 	}
 
 	if err = d.Set("vlanid", flattenWirelessControllerVapVlanid(o["vlanid"], d, "vlanid", sv)); err != nil {
 		if !fortiAPIPatch(o["vlanid"]) {
-			return fmt.Errorf("Error reading vlanid: %v", err)
+			return fmt.Errorf("error reading vlanid: %v", err)
 		}
 	}
 
 	if err = d.Set("vlan_auto", flattenWirelessControllerVapVlanAuto(o["vlan-auto"], d, "vlan_auto", sv)); err != nil {
 		if !fortiAPIPatch(o["vlan-auto"]) {
-			return fmt.Errorf("Error reading vlan_auto: %v", err)
+			return fmt.Errorf("error reading vlan_auto: %v", err)
 		}
 	}
 
 	if err = d.Set("dynamic_vlan", flattenWirelessControllerVapDynamicVlan(o["dynamic-vlan"], d, "dynamic_vlan", sv)); err != nil {
 		if !fortiAPIPatch(o["dynamic-vlan"]) {
-			return fmt.Errorf("Error reading dynamic_vlan: %v", err)
+			return fmt.Errorf("error reading dynamic_vlan: %v", err)
 		}
 	}
 
 	if err = d.Set("captive_portal_radius_server", flattenWirelessControllerVapCaptivePortalRadiusServer(o["captive-portal-radius-server"], d, "captive_portal_radius_server", sv)); err != nil {
 		if !fortiAPIPatch(o["captive-portal-radius-server"]) {
-			return fmt.Errorf("Error reading captive_portal_radius_server: %v", err)
+			return fmt.Errorf("error reading captive_portal_radius_server: %v", err)
 		}
 	}
 
 	if err = d.Set("captive_portal_macauth_radius_server", flattenWirelessControllerVapCaptivePortalMacauthRadiusServer(o["captive-portal-macauth-radius-server"], d, "captive_portal_macauth_radius_server", sv)); err != nil {
 		if !fortiAPIPatch(o["captive-portal-macauth-radius-server"]) {
-			return fmt.Errorf("Error reading captive_portal_macauth_radius_server: %v", err)
+			return fmt.Errorf("error reading captive_portal_macauth_radius_server: %v", err)
 		}
 	}
 
 	if err = d.Set("captive_portal_ac_name", flattenWirelessControllerVapCaptivePortalAcName(o["captive-portal-ac-name"], d, "captive_portal_ac_name", sv)); err != nil {
 		if !fortiAPIPatch(o["captive-portal-ac-name"]) {
-			return fmt.Errorf("Error reading captive_portal_ac_name: %v", err)
+			return fmt.Errorf("error reading captive_portal_ac_name: %v", err)
 		}
 	}
 
 	if err = d.Set("captive_portal_auth_timeout", flattenWirelessControllerVapCaptivePortalAuthTimeout(o["captive-portal-auth-timeout"], d, "captive_portal_auth_timeout", sv)); err != nil {
 		if !fortiAPIPatch(o["captive-portal-auth-timeout"]) {
-			return fmt.Errorf("Error reading captive_portal_auth_timeout: %v", err)
+			return fmt.Errorf("error reading captive_portal_auth_timeout: %v", err)
 		}
 	}
 
 	if err = d.Set("captive_portal_session_timeout_interval", flattenWirelessControllerVapCaptivePortalSessionTimeoutInterval(o["captive-portal-session-timeout-interval"], d, "captive_portal_session_timeout_interval", sv)); err != nil {
 		if !fortiAPIPatch(o["captive-portal-session-timeout-interval"]) {
-			return fmt.Errorf("Error reading captive_portal_session_timeout_interval: %v", err)
+			return fmt.Errorf("error reading captive_portal_session_timeout_interval: %v", err)
 		}
 	}
 
 	if err = d.Set("alias", flattenWirelessControllerVapAlias(o["alias"], d, "alias", sv)); err != nil {
 		if !fortiAPIPatch(o["alias"]) {
-			return fmt.Errorf("Error reading alias: %v", err)
+			return fmt.Errorf("error reading alias: %v", err)
 		}
 	}
 
 	if err = d.Set("multicast_rate", flattenWirelessControllerVapMulticastRate(o["multicast-rate"], d, "multicast_rate", sv)); err != nil {
 		if !fortiAPIPatch(o["multicast-rate"]) {
-			return fmt.Errorf("Error reading multicast_rate: %v", err)
+			return fmt.Errorf("error reading multicast_rate: %v", err)
 		}
 	}
 
 	if err = d.Set("multicast_enhance", flattenWirelessControllerVapMulticastEnhance(o["multicast-enhance"], d, "multicast_enhance", sv)); err != nil {
 		if !fortiAPIPatch(o["multicast-enhance"]) {
-			return fmt.Errorf("Error reading multicast_enhance: %v", err)
+			return fmt.Errorf("error reading multicast_enhance: %v", err)
 		}
 	}
 
 	if err = d.Set("igmp_snooping", flattenWirelessControllerVapIgmpSnooping(o["igmp-snooping"], d, "igmp_snooping", sv)); err != nil {
 		if !fortiAPIPatch(o["igmp-snooping"]) {
-			return fmt.Errorf("Error reading igmp_snooping: %v", err)
+			return fmt.Errorf("error reading igmp_snooping: %v", err)
 		}
 	}
 
 	if err = d.Set("broadcast_suppression", flattenWirelessControllerVapBroadcastSuppression(o["broadcast-suppression"], d, "broadcast_suppression", sv)); err != nil {
 		if !fortiAPIPatch(o["broadcast-suppression"]) {
-			return fmt.Errorf("Error reading broadcast_suppression: %v", err)
+			return fmt.Errorf("error reading broadcast_suppression: %v", err)
 		}
 	}
 
 	if err = d.Set("ipv6_rules", flattenWirelessControllerVapIpv6Rules(o["ipv6-rules"], d, "ipv6_rules", sv)); err != nil {
 		if !fortiAPIPatch(o["ipv6-rules"]) {
-			return fmt.Errorf("Error reading ipv6_rules: %v", err)
+			return fmt.Errorf("error reading ipv6_rules: %v", err)
 		}
 	}
 
 	if err = d.Set("me_disable_thresh", flattenWirelessControllerVapMeDisableThresh(o["me-disable-thresh"], d, "me_disable_thresh", sv)); err != nil {
 		if !fortiAPIPatch(o["me-disable-thresh"]) {
-			return fmt.Errorf("Error reading me_disable_thresh: %v", err)
+			return fmt.Errorf("error reading me_disable_thresh: %v", err)
 		}
 	}
 
 	if err = d.Set("mu_mimo", flattenWirelessControllerVapMuMimo(o["mu-mimo"], d, "mu_mimo", sv)); err != nil {
 		if !fortiAPIPatch(o["mu-mimo"]) {
-			return fmt.Errorf("Error reading mu_mimo: %v", err)
+			return fmt.Errorf("error reading mu_mimo: %v", err)
 		}
 	}
 
 	if err = d.Set("probe_resp_suppression", flattenWirelessControllerVapProbeRespSuppression(o["probe-resp-suppression"], d, "probe_resp_suppression", sv)); err != nil {
 		if !fortiAPIPatch(o["probe-resp-suppression"]) {
-			return fmt.Errorf("Error reading probe_resp_suppression: %v", err)
+			return fmt.Errorf("error reading probe_resp_suppression: %v", err)
 		}
 	}
 
 	if err = d.Set("probe_resp_threshold", flattenWirelessControllerVapProbeRespThreshold(o["probe-resp-threshold"], d, "probe_resp_threshold", sv)); err != nil {
 		if !fortiAPIPatch(o["probe-resp-threshold"]) {
-			return fmt.Errorf("Error reading probe_resp_threshold: %v", err)
+			return fmt.Errorf("error reading probe_resp_threshold: %v", err)
 		}
 	}
 
 	if err = d.Set("radio_sensitivity", flattenWirelessControllerVapRadioSensitivity(o["radio-sensitivity"], d, "radio_sensitivity", sv)); err != nil {
 		if !fortiAPIPatch(o["radio-sensitivity"]) {
-			return fmt.Errorf("Error reading radio_sensitivity: %v", err)
+			return fmt.Errorf("error reading radio_sensitivity: %v", err)
 		}
 	}
 
 	if err = d.Set("quarantine", flattenWirelessControllerVapQuarantine(o["quarantine"], d, "quarantine", sv)); err != nil {
 		if !fortiAPIPatch(o["quarantine"]) {
-			return fmt.Errorf("Error reading quarantine: %v", err)
+			return fmt.Errorf("error reading quarantine: %v", err)
 		}
 	}
 
 	if err = d.Set("radio_5g_threshold", flattenWirelessControllerVapRadio5GThreshold(o["radio-5g-threshold"], d, "radio_5g_threshold", sv)); err != nil {
 		if !fortiAPIPatch(o["radio-5g-threshold"]) {
-			return fmt.Errorf("Error reading radio_5g_threshold: %v", err)
+			return fmt.Errorf("error reading radio_5g_threshold: %v", err)
 		}
 	}
 
 	if err = d.Set("radio_2g_threshold", flattenWirelessControllerVapRadio2GThreshold(o["radio-2g-threshold"], d, "radio_2g_threshold", sv)); err != nil {
 		if !fortiAPIPatch(o["radio-2g-threshold"]) {
-			return fmt.Errorf("Error reading radio_2g_threshold: %v", err)
+			return fmt.Errorf("error reading radio_2g_threshold: %v", err)
 		}
 	}
 
 	if err = d.Set("vlan_pooling", flattenWirelessControllerVapVlanPooling(o["vlan-pooling"], d, "vlan_pooling", sv)); err != nil {
 		if !fortiAPIPatch(o["vlan-pooling"]) {
-			return fmt.Errorf("Error reading vlan_pooling: %v", err)
+			return fmt.Errorf("error reading vlan_pooling: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("vlan_pool", flattenWirelessControllerVapVlanPool(o["vlan-pool"], d, "vlan_pool", sv)); err != nil {
 			if !fortiAPIPatch(o["vlan-pool"]) {
-				return fmt.Errorf("Error reading vlan_pool: %v", err)
+				return fmt.Errorf("error reading vlan_pool: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("vlan_pool"); ok {
 			if err = d.Set("vlan_pool", flattenWirelessControllerVapVlanPool(o["vlan-pool"], d, "vlan_pool", sv)); err != nil {
 				if !fortiAPIPatch(o["vlan-pool"]) {
-					return fmt.Errorf("Error reading vlan_pool: %v", err)
+					return fmt.Errorf("error reading vlan_pool: %v", err)
 				}
 			}
 		}
@@ -2490,177 +2533,177 @@ func refreshObjectWirelessControllerVap(d *schema.ResourceData, o map[string]int
 
 	if err = d.Set("dhcp_option43_insertion", flattenWirelessControllerVapDhcpOption43Insertion(o["dhcp-option43-insertion"], d, "dhcp_option43_insertion", sv)); err != nil {
 		if !fortiAPIPatch(o["dhcp-option43-insertion"]) {
-			return fmt.Errorf("Error reading dhcp_option43_insertion: %v", err)
+			return fmt.Errorf("error reading dhcp_option43_insertion: %v", err)
 		}
 	}
 
 	if err = d.Set("dhcp_option82_insertion", flattenWirelessControllerVapDhcpOption82Insertion(o["dhcp-option82-insertion"], d, "dhcp_option82_insertion", sv)); err != nil {
 		if !fortiAPIPatch(o["dhcp-option82-insertion"]) {
-			return fmt.Errorf("Error reading dhcp_option82_insertion: %v", err)
+			return fmt.Errorf("error reading dhcp_option82_insertion: %v", err)
 		}
 	}
 
 	if err = d.Set("dhcp_option82_circuit_id_insertion", flattenWirelessControllerVapDhcpOption82CircuitIdInsertion(o["dhcp-option82-circuit-id-insertion"], d, "dhcp_option82_circuit_id_insertion", sv)); err != nil {
 		if !fortiAPIPatch(o["dhcp-option82-circuit-id-insertion"]) {
-			return fmt.Errorf("Error reading dhcp_option82_circuit_id_insertion: %v", err)
+			return fmt.Errorf("error reading dhcp_option82_circuit_id_insertion: %v", err)
 		}
 	}
 
 	if err = d.Set("dhcp_option82_remote_id_insertion", flattenWirelessControllerVapDhcpOption82RemoteIdInsertion(o["dhcp-option82-remote-id-insertion"], d, "dhcp_option82_remote_id_insertion", sv)); err != nil {
 		if !fortiAPIPatch(o["dhcp-option82-remote-id-insertion"]) {
-			return fmt.Errorf("Error reading dhcp_option82_remote_id_insertion: %v", err)
+			return fmt.Errorf("error reading dhcp_option82_remote_id_insertion: %v", err)
 		}
 	}
 
 	if err = d.Set("ptk_rekey", flattenWirelessControllerVapPtkRekey(o["ptk-rekey"], d, "ptk_rekey", sv)); err != nil {
 		if !fortiAPIPatch(o["ptk-rekey"]) {
-			return fmt.Errorf("Error reading ptk_rekey: %v", err)
+			return fmt.Errorf("error reading ptk_rekey: %v", err)
 		}
 	}
 
 	if err = d.Set("ptk_rekey_intv", flattenWirelessControllerVapPtkRekeyIntv(o["ptk-rekey-intv"], d, "ptk_rekey_intv", sv)); err != nil {
 		if !fortiAPIPatch(o["ptk-rekey-intv"]) {
-			return fmt.Errorf("Error reading ptk_rekey_intv: %v", err)
+			return fmt.Errorf("error reading ptk_rekey_intv: %v", err)
 		}
 	}
 
 	if err = d.Set("gtk_rekey", flattenWirelessControllerVapGtkRekey(o["gtk-rekey"], d, "gtk_rekey", sv)); err != nil {
 		if !fortiAPIPatch(o["gtk-rekey"]) {
-			return fmt.Errorf("Error reading gtk_rekey: %v", err)
+			return fmt.Errorf("error reading gtk_rekey: %v", err)
 		}
 	}
 
 	if err = d.Set("gtk_rekey_intv", flattenWirelessControllerVapGtkRekeyIntv(o["gtk-rekey-intv"], d, "gtk_rekey_intv", sv)); err != nil {
 		if !fortiAPIPatch(o["gtk-rekey-intv"]) {
-			return fmt.Errorf("Error reading gtk_rekey_intv: %v", err)
+			return fmt.Errorf("error reading gtk_rekey_intv: %v", err)
 		}
 	}
 
 	if err = d.Set("eap_reauth", flattenWirelessControllerVapEapReauth(o["eap-reauth"], d, "eap_reauth", sv)); err != nil {
 		if !fortiAPIPatch(o["eap-reauth"]) {
-			return fmt.Errorf("Error reading eap_reauth: %v", err)
+			return fmt.Errorf("error reading eap_reauth: %v", err)
 		}
 	}
 
 	if err = d.Set("eap_reauth_intv", flattenWirelessControllerVapEapReauthIntv(o["eap-reauth-intv"], d, "eap_reauth_intv", sv)); err != nil {
 		if !fortiAPIPatch(o["eap-reauth-intv"]) {
-			return fmt.Errorf("Error reading eap_reauth_intv: %v", err)
+			return fmt.Errorf("error reading eap_reauth_intv: %v", err)
 		}
 	}
 
 	if err = d.Set("qos_profile", flattenWirelessControllerVapQosProfile(o["qos-profile"], d, "qos_profile", sv)); err != nil {
 		if !fortiAPIPatch(o["qos-profile"]) {
-			return fmt.Errorf("Error reading qos_profile: %v", err)
+			return fmt.Errorf("error reading qos_profile: %v", err)
 		}
 	}
 
 	if err = d.Set("hotspot20_profile", flattenWirelessControllerVapHotspot20Profile(o["hotspot20-profile"], d, "hotspot20_profile", sv)); err != nil {
 		if !fortiAPIPatch(o["hotspot20-profile"]) {
-			return fmt.Errorf("Error reading hotspot20_profile: %v", err)
+			return fmt.Errorf("error reading hotspot20_profile: %v", err)
 		}
 	}
 
 	if err = d.Set("access_control_list", flattenWirelessControllerVapAccessControlList(o["access-control-list"], d, "access_control_list", sv)); err != nil {
 		if !fortiAPIPatch(o["access-control-list"]) {
-			return fmt.Errorf("Error reading access_control_list: %v", err)
+			return fmt.Errorf("error reading access_control_list: %v", err)
 		}
 	}
 
 	if err = d.Set("primary_wag_profile", flattenWirelessControllerVapPrimaryWagProfile(o["primary-wag-profile"], d, "primary_wag_profile", sv)); err != nil {
 		if !fortiAPIPatch(o["primary-wag-profile"]) {
-			return fmt.Errorf("Error reading primary_wag_profile: %v", err)
+			return fmt.Errorf("error reading primary_wag_profile: %v", err)
 		}
 	}
 
 	if err = d.Set("secondary_wag_profile", flattenWirelessControllerVapSecondaryWagProfile(o["secondary-wag-profile"], d, "secondary_wag_profile", sv)); err != nil {
 		if !fortiAPIPatch(o["secondary-wag-profile"]) {
-			return fmt.Errorf("Error reading secondary_wag_profile: %v", err)
+			return fmt.Errorf("error reading secondary_wag_profile: %v", err)
 		}
 	}
 
 	if err = d.Set("tunnel_echo_interval", flattenWirelessControllerVapTunnelEchoInterval(o["tunnel-echo-interval"], d, "tunnel_echo_interval", sv)); err != nil {
 		if !fortiAPIPatch(o["tunnel-echo-interval"]) {
-			return fmt.Errorf("Error reading tunnel_echo_interval: %v", err)
+			return fmt.Errorf("error reading tunnel_echo_interval: %v", err)
 		}
 	}
 
 	if err = d.Set("tunnel_fallback_interval", flattenWirelessControllerVapTunnelFallbackInterval(o["tunnel-fallback-interval"], d, "tunnel_fallback_interval", sv)); err != nil {
 		if !fortiAPIPatch(o["tunnel-fallback-interval"]) {
-			return fmt.Errorf("Error reading tunnel_fallback_interval: %v", err)
+			return fmt.Errorf("error reading tunnel_fallback_interval: %v", err)
 		}
 	}
 
 	if err = d.Set("rates_11a", flattenWirelessControllerVapRates11A(o["rates-11a"], d, "rates_11a", sv)); err != nil {
 		if !fortiAPIPatch(o["rates-11a"]) {
-			return fmt.Errorf("Error reading rates_11a: %v", err)
+			return fmt.Errorf("error reading rates_11a: %v", err)
 		}
 	}
 
 	if err = d.Set("rates_11bg", flattenWirelessControllerVapRates11Bg(o["rates-11bg"], d, "rates_11bg", sv)); err != nil {
 		if !fortiAPIPatch(o["rates-11bg"]) {
-			return fmt.Errorf("Error reading rates_11bg: %v", err)
+			return fmt.Errorf("error reading rates_11bg: %v", err)
 		}
 	}
 
 	if err = d.Set("rates_11n_ss12", flattenWirelessControllerVapRates11NSs12(o["rates-11n-ss12"], d, "rates_11n_ss12", sv)); err != nil {
 		if !fortiAPIPatch(o["rates-11n-ss12"]) {
-			return fmt.Errorf("Error reading rates_11n_ss12: %v", err)
+			return fmt.Errorf("error reading rates_11n_ss12: %v", err)
 		}
 	}
 
 	if err = d.Set("rates_11n_ss34", flattenWirelessControllerVapRates11NSs34(o["rates-11n-ss34"], d, "rates_11n_ss34", sv)); err != nil {
 		if !fortiAPIPatch(o["rates-11n-ss34"]) {
-			return fmt.Errorf("Error reading rates_11n_ss34: %v", err)
+			return fmt.Errorf("error reading rates_11n_ss34: %v", err)
 		}
 	}
 
 	if err = d.Set("rates_11ac_ss12", flattenWirelessControllerVapRates11AcSs12(o["rates-11ac-ss12"], d, "rates_11ac_ss12", sv)); err != nil {
 		if !fortiAPIPatch(o["rates-11ac-ss12"]) {
-			return fmt.Errorf("Error reading rates_11ac_ss12: %v", err)
+			return fmt.Errorf("error reading rates_11ac_ss12: %v", err)
 		}
 	}
 
 	if err = d.Set("rates_11ac_ss34", flattenWirelessControllerVapRates11AcSs34(o["rates-11ac-ss34"], d, "rates_11ac_ss34", sv)); err != nil {
 		if !fortiAPIPatch(o["rates-11ac-ss34"]) {
-			return fmt.Errorf("Error reading rates_11ac_ss34: %v", err)
+			return fmt.Errorf("error reading rates_11ac_ss34: %v", err)
 		}
 	}
 
 	if err = d.Set("utm_profile", flattenWirelessControllerVapUtmProfile(o["utm-profile"], d, "utm_profile", sv)); err != nil {
 		if !fortiAPIPatch(o["utm-profile"]) {
-			return fmt.Errorf("Error reading utm_profile: %v", err)
+			return fmt.Errorf("error reading utm_profile: %v", err)
 		}
 	}
 
 	if err = d.Set("address_group", flattenWirelessControllerVapAddressGroup(o["address-group"], d, "address_group", sv)); err != nil {
 		if !fortiAPIPatch(o["address-group"]) {
-			return fmt.Errorf("Error reading address_group: %v", err)
+			return fmt.Errorf("error reading address_group: %v", err)
 		}
 	}
 
 	if err = d.Set("mac_filter", flattenWirelessControllerVapMacFilter(o["mac-filter"], d, "mac_filter", sv)); err != nil {
 		if !fortiAPIPatch(o["mac-filter"]) {
-			return fmt.Errorf("Error reading mac_filter: %v", err)
+			return fmt.Errorf("error reading mac_filter: %v", err)
 		}
 	}
 
 	if err = d.Set("mac_filter_policy_other", flattenWirelessControllerVapMacFilterPolicyOther(o["mac-filter-policy-other"], d, "mac_filter_policy_other", sv)); err != nil {
 		if !fortiAPIPatch(o["mac-filter-policy-other"]) {
-			return fmt.Errorf("Error reading mac_filter_policy_other: %v", err)
+			return fmt.Errorf("error reading mac_filter_policy_other: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("mac_filter_list", flattenWirelessControllerVapMacFilterList(o["mac-filter-list"], d, "mac_filter_list", sv)); err != nil {
 			if !fortiAPIPatch(o["mac-filter-list"]) {
-				return fmt.Errorf("Error reading mac_filter_list: %v", err)
+				return fmt.Errorf("error reading mac_filter_list: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("mac_filter_list"); ok {
 			if err = d.Set("mac_filter_list", flattenWirelessControllerVapMacFilterList(o["mac-filter-list"], d, "mac_filter_list", sv)); err != nil {
 				if !fortiAPIPatch(o["mac-filter-list"]) {
-					return fmt.Errorf("Error reading mac_filter_list: %v", err)
+					return fmt.Errorf("error reading mac_filter_list: %v", err)
 				}
 			}
 		}
@@ -2668,19 +2711,19 @@ func refreshObjectWirelessControllerVap(d *schema.ResourceData, o map[string]int
 
 	if err = d.Set("sticky_client_remove", flattenWirelessControllerVapStickyClientRemove(o["sticky-client-remove"], d, "sticky_client_remove", sv)); err != nil {
 		if !fortiAPIPatch(o["sticky-client-remove"]) {
-			return fmt.Errorf("Error reading sticky_client_remove: %v", err)
+			return fmt.Errorf("error reading sticky_client_remove: %v", err)
 		}
 	}
 
 	if err = d.Set("sticky_client_threshold_5g", flattenWirelessControllerVapStickyClientThreshold5G(o["sticky-client-threshold-5g"], d, "sticky_client_threshold_5g", sv)); err != nil {
 		if !fortiAPIPatch(o["sticky-client-threshold-5g"]) {
-			return fmt.Errorf("Error reading sticky_client_threshold_5g: %v", err)
+			return fmt.Errorf("error reading sticky_client_threshold_5g: %v", err)
 		}
 	}
 
 	if err = d.Set("sticky_client_threshold_2g", flattenWirelessControllerVapStickyClientThreshold2G(o["sticky-client-threshold-2g"], d, "sticky_client_threshold_2g", sv)); err != nil {
 		if !fortiAPIPatch(o["sticky-client-threshold-2g"]) {
-			return fmt.Errorf("Error reading sticky_client_threshold_2g: %v", err)
+			return fmt.Errorf("error reading sticky_client_threshold_2g: %v", err)
 		}
 	}
 

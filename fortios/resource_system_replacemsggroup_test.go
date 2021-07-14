@@ -51,14 +51,14 @@ func testAccCheckFortiOSSystemReplacemsgGroupExists(n string) resource.TestCheck
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemReplacemsgGroup(i, "root")
+		o, err := c.ReadSystemReplacemsgGroup(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading SystemReplacemsgGroup: %s", err)
+			return fmt.Errorf("error reading SystemReplacemsgGroup: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating SystemReplacemsgGroup: %s", n)
+			return fmt.Errorf("error creating SystemReplacemsgGroup: %s", n)
 		}
 
 		return nil
@@ -74,11 +74,11 @@ func testAccCheckSystemReplacemsgGroupDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemReplacemsgGroup(i, "root")
+		o, err := c.ReadSystemReplacemsgGroup(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error SystemReplacemsgGroup %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error SystemReplacemsgGroup %s still exists", rs.Primary.ID)
 			}
 		}
 

@@ -53,14 +53,14 @@ func testAccCheckFortiOSSystemSettingsExists(n string) resource.TestCheckFunc {
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemSettings(i, "root")
+		o, err := c.ReadSystemSettings(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading SystemSettings: %s", err)
+			return fmt.Errorf("error reading SystemSettings: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating SystemSettings: %s", n)
+			return fmt.Errorf("error creating SystemSettings: %s", n)
 		}
 
 		return nil
@@ -76,11 +76,11 @@ func testAccCheckSystemSettingsDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemSettings(i, "root")
+		o, err := c.ReadSystemSettings(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error SystemSettings %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error SystemSettings %s still exists", rs.Primary.ID)
 			}
 		}
 

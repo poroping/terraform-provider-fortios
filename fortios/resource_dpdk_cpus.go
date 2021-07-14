@@ -30,34 +30,39 @@ func resourceDpdkCpus() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"rx_cpus": &schema.Schema{
+			"rx_cpus": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 1022),
 				Optional:     true,
 				Computed:     true,
 			},
-			"vnp_cpus": &schema.Schema{
+			"vnp_cpus": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 1022),
 				Optional:     true,
 				Computed:     true,
 			},
-			"ips_cpus": &schema.Schema{
+			"ips_cpus": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 1022),
 				Optional:     true,
 				Computed:     true,
 			},
-			"tx_cpus": &schema.Schema{
+			"tx_cpus": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 1022),
 				Optional:     true,
 				Computed:     true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -76,14 +81,24 @@ func resourceDpdkCpusUpdate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectDpdkCpus(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating DpdkCpus resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateDpdkCpus(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectDpdkCpus(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating DpdkCpus resource: %v", err)
+		return fmt.Errorf("error updating DpdkCpus resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateDpdkCpus(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating DpdkCpus resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -110,9 +125,17 @@ func resourceDpdkCpusDelete(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	err := c.DeleteDpdkCpus(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteDpdkCpus(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting DpdkCpus resource: %v", err)
+		return fmt.Errorf("error deleting DpdkCpus resource: %v", err)
 	}
 
 	d.SetId("")
@@ -134,9 +157,19 @@ func resourceDpdkCpusRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadDpdkCpus(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadDpdkCpus(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading DpdkCpus resource: %v", err)
+		return fmt.Errorf("error reading DpdkCpus resource: %v", err)
 	}
 
 	if o == nil {
@@ -147,7 +180,7 @@ func resourceDpdkCpusRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectDpdkCpus(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading DpdkCpus resource from API: %v", err)
+		return fmt.Errorf("error reading DpdkCpus resource from API: %v", err)
 	}
 	return nil
 }
@@ -173,25 +206,25 @@ func refreshObjectDpdkCpus(d *schema.ResourceData, o map[string]interface{}, sv 
 
 	if err = d.Set("rx_cpus", flattenDpdkCpusRxCpus(o["rx-cpus"], d, "rx_cpus", sv)); err != nil {
 		if !fortiAPIPatch(o["rx-cpus"]) {
-			return fmt.Errorf("Error reading rx_cpus: %v", err)
+			return fmt.Errorf("error reading rx_cpus: %v", err)
 		}
 	}
 
 	if err = d.Set("vnp_cpus", flattenDpdkCpusVnpCpus(o["vnp-cpus"], d, "vnp_cpus", sv)); err != nil {
 		if !fortiAPIPatch(o["vnp-cpus"]) {
-			return fmt.Errorf("Error reading vnp_cpus: %v", err)
+			return fmt.Errorf("error reading vnp_cpus: %v", err)
 		}
 	}
 
 	if err = d.Set("ips_cpus", flattenDpdkCpusIpsCpus(o["ips-cpus"], d, "ips_cpus", sv)); err != nil {
 		if !fortiAPIPatch(o["ips-cpus"]) {
-			return fmt.Errorf("Error reading ips_cpus: %v", err)
+			return fmt.Errorf("error reading ips_cpus: %v", err)
 		}
 	}
 
 	if err = d.Set("tx_cpus", flattenDpdkCpusTxCpus(o["tx-cpus"], d, "tx_cpus", sv)); err != nil {
 		if !fortiAPIPatch(o["tx-cpus"]) {
-			return fmt.Errorf("Error reading tx_cpus: %v", err)
+			return fmt.Errorf("error reading tx_cpus: %v", err)
 		}
 	}
 

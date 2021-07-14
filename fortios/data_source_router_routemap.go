@@ -21,226 +21,226 @@ func dataSourceRouterRouteMap() *schema.Resource {
 	return &schema.Resource{
 		Read: dataSourceRouterRouteMapRead,
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
 
-			"name": &schema.Schema{
+			"name": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"comments": &schema.Schema{
+			"comments": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"rule": &schema.Schema{
+			"rule": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"action": &schema.Schema{
+						"action": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"match_as_path": &schema.Schema{
+						"match_as_path": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"match_community": &schema.Schema{
+						"match_community": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"match_community_exact": &schema.Schema{
+						"match_community_exact": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"match_origin": &schema.Schema{
+						"match_origin": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"match_interface": &schema.Schema{
+						"match_interface": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"match_ip_address": &schema.Schema{
+						"match_ip_address": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"match_ip6_address": &schema.Schema{
+						"match_ip6_address": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"match_ip_nexthop": &schema.Schema{
+						"match_ip_nexthop": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"match_ip6_nexthop": &schema.Schema{
+						"match_ip6_nexthop": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"match_metric": &schema.Schema{
+						"match_metric": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"match_route_type": &schema.Schema{
+						"match_route_type": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"match_tag": &schema.Schema{
+						"match_tag": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"match_vrf": &schema.Schema{
+						"match_vrf": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"set_aggregator_as": &schema.Schema{
+						"set_aggregator_as": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"set_aggregator_ip": &schema.Schema{
+						"set_aggregator_ip": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"set_aspath_action": &schema.Schema{
+						"set_aspath_action": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"set_aspath": &schema.Schema{
+						"set_aspath": {
 							Type:     schema.TypeList,
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"as": &schema.Schema{
+									"as": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
 								},
 							},
 						},
-						"set_atomic_aggregate": &schema.Schema{
+						"set_atomic_aggregate": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"set_community_delete": &schema.Schema{
+						"set_community_delete": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"set_community": &schema.Schema{
+						"set_community": {
 							Type:     schema.TypeList,
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"community": &schema.Schema{
+									"community": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
 								},
 							},
 						},
-						"set_community_additive": &schema.Schema{
+						"set_community_additive": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"set_dampening_reachability_half_life": &schema.Schema{
+						"set_dampening_reachability_half_life": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"set_dampening_reuse": &schema.Schema{
+						"set_dampening_reuse": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"set_dampening_suppress": &schema.Schema{
+						"set_dampening_suppress": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"set_dampening_max_suppress": &schema.Schema{
+						"set_dampening_max_suppress": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"set_dampening_unreachability_half_life": &schema.Schema{
+						"set_dampening_unreachability_half_life": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"set_extcommunity_rt": &schema.Schema{
+						"set_extcommunity_rt": {
 							Type:     schema.TypeList,
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"community": &schema.Schema{
+									"community": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
 								},
 							},
 						},
-						"set_extcommunity_soo": &schema.Schema{
+						"set_extcommunity_soo": {
 							Type:     schema.TypeList,
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"community": &schema.Schema{
+									"community": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
 								},
 							},
 						},
-						"set_ip_nexthop": &schema.Schema{
+						"set_ip_nexthop": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"set_ip6_nexthop": &schema.Schema{
+						"set_ip6_nexthop": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"set_ip6_nexthop_local": &schema.Schema{
+						"set_ip6_nexthop_local": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"set_local_preference": &schema.Schema{
+						"set_local_preference": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"set_metric": &schema.Schema{
+						"set_metric": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"set_metric_type": &schema.Schema{
+						"set_metric_type": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"set_originator_id": &schema.Schema{
+						"set_originator_id": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"set_origin": &schema.Schema{
+						"set_origin": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"set_tag": &schema.Schema{
+						"set_tag": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"set_weight": &schema.Schema{
+						"set_weight": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"set_flags": &schema.Schema{
+						"set_flags": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"match_flags": &schema.Schema{
+						"match_flags": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"set_route_tag": &schema.Schema{
+						"set_route_tag": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
@@ -271,12 +271,12 @@ func dataSourceRouterRouteMapRead(d *schema.ResourceData, m interface{}) error {
 	} else if v, ok := t.(int); ok {
 		mkey = strconv.Itoa(v)
 	} else {
-		return fmt.Errorf("Error describing RouterRouteMap: type error")
+		return fmt.Errorf("error describing RouterRouteMap: type error")
 	}
 
-	o, err := c.ReadRouterRouteMap(mkey, vdomparam)
+	o, err := c.ReadRouterRouteMap(mkey, vdomparam, make(map[string][]string), 0)
 	if err != nil {
-		return fmt.Errorf("Error describing RouterRouteMap: %v", err)
+		return fmt.Errorf("error describing RouterRouteMap: %v", err)
 	}
 
 	if o == nil {
@@ -286,7 +286,7 @@ func dataSourceRouterRouteMapRead(d *schema.ResourceData, m interface{}) error {
 
 	err = dataSourceRefreshObjectRouterRouteMap(d, o)
 	if err != nil {
-		return fmt.Errorf("Error describing RouterRouteMap from API: %v", err)
+		return fmt.Errorf("error describing RouterRouteMap from API: %v", err)
 	}
 
 	d.SetId(mkey)
@@ -849,19 +849,19 @@ func dataSourceRefreshObjectRouterRouteMap(d *schema.ResourceData, o map[string]
 
 	if err = d.Set("name", dataSourceFlattenRouterRouteMapName(o["name"], d, "name")); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("comments", dataSourceFlattenRouterRouteMapComments(o["comments"], d, "comments")); err != nil {
 		if !fortiAPIPatch(o["comments"]) {
-			return fmt.Errorf("Error reading comments: %v", err)
+			return fmt.Errorf("error reading comments: %v", err)
 		}
 	}
 
 	if err = d.Set("rule", dataSourceFlattenRouterRouteMapRule(o["rule"], d, "rule")); err != nil {
 		if !fortiAPIPatch(o["rule"]) {
-			return fmt.Errorf("Error reading rule: %v", err)
+			return fmt.Errorf("error reading rule: %v", err)
 		}
 	}
 

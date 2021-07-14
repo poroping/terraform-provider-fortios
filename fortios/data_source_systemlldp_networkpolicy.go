@@ -21,246 +21,246 @@ func dataSourceSystemLldpNetworkPolicy() *schema.Resource {
 	return &schema.Resource{
 		Read: dataSourceSystemLldpNetworkPolicyRead,
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
 
-			"name": &schema.Schema{
+			"name": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"comment": &schema.Schema{
+			"comment": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"voice": &schema.Schema{
+			"voice": {
 				Type:     schema.TypeList,
 				Computed: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"status": &schema.Schema{
+						"status": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"tag": &schema.Schema{
+						"tag": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"vlan": &schema.Schema{
+						"vlan": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"priority": &schema.Schema{
+						"priority": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"dscp": &schema.Schema{
+						"dscp": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
 					},
 				},
 			},
-			"voice_signaling": &schema.Schema{
+			"voice_signaling": {
 				Type:     schema.TypeList,
 				Computed: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"status": &schema.Schema{
+						"status": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"tag": &schema.Schema{
+						"tag": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"vlan": &schema.Schema{
+						"vlan": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"priority": &schema.Schema{
+						"priority": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"dscp": &schema.Schema{
+						"dscp": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
 					},
 				},
 			},
-			"guest": &schema.Schema{
+			"guest": {
 				Type:     schema.TypeList,
 				Computed: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"status": &schema.Schema{
+						"status": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"tag": &schema.Schema{
+						"tag": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"vlan": &schema.Schema{
+						"vlan": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"priority": &schema.Schema{
+						"priority": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"dscp": &schema.Schema{
+						"dscp": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
 					},
 				},
 			},
-			"guest_voice_signaling": &schema.Schema{
+			"guest_voice_signaling": {
 				Type:     schema.TypeList,
 				Computed: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"status": &schema.Schema{
+						"status": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"tag": &schema.Schema{
+						"tag": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"vlan": &schema.Schema{
+						"vlan": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"priority": &schema.Schema{
+						"priority": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"dscp": &schema.Schema{
+						"dscp": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
 					},
 				},
 			},
-			"softphone": &schema.Schema{
+			"softphone": {
 				Type:     schema.TypeList,
 				Computed: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"status": &schema.Schema{
+						"status": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"tag": &schema.Schema{
+						"tag": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"vlan": &schema.Schema{
+						"vlan": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"priority": &schema.Schema{
+						"priority": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"dscp": &schema.Schema{
+						"dscp": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
 					},
 				},
 			},
-			"video_conferencing": &schema.Schema{
+			"video_conferencing": {
 				Type:     schema.TypeList,
 				Computed: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"status": &schema.Schema{
+						"status": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"tag": &schema.Schema{
+						"tag": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"vlan": &schema.Schema{
+						"vlan": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"priority": &schema.Schema{
+						"priority": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"dscp": &schema.Schema{
+						"dscp": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
 					},
 				},
 			},
-			"streaming_video": &schema.Schema{
+			"streaming_video": {
 				Type:     schema.TypeList,
 				Computed: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"status": &schema.Schema{
+						"status": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"tag": &schema.Schema{
+						"tag": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"vlan": &schema.Schema{
+						"vlan": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"priority": &schema.Schema{
+						"priority": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"dscp": &schema.Schema{
+						"dscp": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
 					},
 				},
 			},
-			"video_signaling": &schema.Schema{
+			"video_signaling": {
 				Type:     schema.TypeList,
 				Computed: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"status": &schema.Schema{
+						"status": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"tag": &schema.Schema{
+						"tag": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"vlan": &schema.Schema{
+						"vlan": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"priority": &schema.Schema{
+						"priority": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"dscp": &schema.Schema{
+						"dscp": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
@@ -291,12 +291,12 @@ func dataSourceSystemLldpNetworkPolicyRead(d *schema.ResourceData, m interface{}
 	} else if v, ok := t.(int); ok {
 		mkey = strconv.Itoa(v)
 	} else {
-		return fmt.Errorf("Error describing SystemLldpNetworkPolicy: type error")
+		return fmt.Errorf("error describing SystemLldpNetworkPolicy: type error")
 	}
 
-	o, err := c.ReadSystemLldpNetworkPolicy(mkey, vdomparam)
+	o, err := c.ReadSystemLldpNetworkPolicy(mkey, vdomparam, make(map[string][]string), 0)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemLldpNetworkPolicy: %v", err)
+		return fmt.Errorf("error describing SystemLldpNetworkPolicy: %v", err)
 	}
 
 	if o == nil {
@@ -306,7 +306,7 @@ func dataSourceSystemLldpNetworkPolicyRead(d *schema.ResourceData, m interface{}
 
 	err = dataSourceRefreshObjectSystemLldpNetworkPolicy(d, o)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemLldpNetworkPolicy from API: %v", err)
+		return fmt.Errorf("error describing SystemLldpNetworkPolicy from API: %v", err)
 	}
 
 	d.SetId(mkey)
@@ -791,61 +791,61 @@ func dataSourceRefreshObjectSystemLldpNetworkPolicy(d *schema.ResourceData, o ma
 
 	if err = d.Set("name", dataSourceFlattenSystemLldpNetworkPolicyName(o["name"], d, "name")); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("comment", dataSourceFlattenSystemLldpNetworkPolicyComment(o["comment"], d, "comment")); err != nil {
 		if !fortiAPIPatch(o["comment"]) {
-			return fmt.Errorf("Error reading comment: %v", err)
+			return fmt.Errorf("error reading comment: %v", err)
 		}
 	}
 
 	if err = d.Set("voice", dataSourceFlattenSystemLldpNetworkPolicyVoice(o["voice"], d, "voice")); err != nil {
 		if !fortiAPIPatch(o["voice"]) {
-			return fmt.Errorf("Error reading voice: %v", err)
+			return fmt.Errorf("error reading voice: %v", err)
 		}
 	}
 
 	if err = d.Set("voice_signaling", dataSourceFlattenSystemLldpNetworkPolicyVoiceSignaling(o["voice-signaling"], d, "voice_signaling")); err != nil {
 		if !fortiAPIPatch(o["voice-signaling"]) {
-			return fmt.Errorf("Error reading voice_signaling: %v", err)
+			return fmt.Errorf("error reading voice_signaling: %v", err)
 		}
 	}
 
 	if err = d.Set("guest", dataSourceFlattenSystemLldpNetworkPolicyGuest(o["guest"], d, "guest")); err != nil {
 		if !fortiAPIPatch(o["guest"]) {
-			return fmt.Errorf("Error reading guest: %v", err)
+			return fmt.Errorf("error reading guest: %v", err)
 		}
 	}
 
 	if err = d.Set("guest_voice_signaling", dataSourceFlattenSystemLldpNetworkPolicyGuestVoiceSignaling(o["guest-voice-signaling"], d, "guest_voice_signaling")); err != nil {
 		if !fortiAPIPatch(o["guest-voice-signaling"]) {
-			return fmt.Errorf("Error reading guest_voice_signaling: %v", err)
+			return fmt.Errorf("error reading guest_voice_signaling: %v", err)
 		}
 	}
 
 	if err = d.Set("softphone", dataSourceFlattenSystemLldpNetworkPolicySoftphone(o["softphone"], d, "softphone")); err != nil {
 		if !fortiAPIPatch(o["softphone"]) {
-			return fmt.Errorf("Error reading softphone: %v", err)
+			return fmt.Errorf("error reading softphone: %v", err)
 		}
 	}
 
 	if err = d.Set("video_conferencing", dataSourceFlattenSystemLldpNetworkPolicyVideoConferencing(o["video-conferencing"], d, "video_conferencing")); err != nil {
 		if !fortiAPIPatch(o["video-conferencing"]) {
-			return fmt.Errorf("Error reading video_conferencing: %v", err)
+			return fmt.Errorf("error reading video_conferencing: %v", err)
 		}
 	}
 
 	if err = d.Set("streaming_video", dataSourceFlattenSystemLldpNetworkPolicyStreamingVideo(o["streaming-video"], d, "streaming_video")); err != nil {
 		if !fortiAPIPatch(o["streaming-video"]) {
-			return fmt.Errorf("Error reading streaming_video: %v", err)
+			return fmt.Errorf("error reading streaming_video: %v", err)
 		}
 	}
 
 	if err = d.Set("video_signaling", dataSourceFlattenSystemLldpNetworkPolicyVideoSignaling(o["video-signaling"], d, "video_signaling")); err != nil {
 		if !fortiAPIPatch(o["video-signaling"]) {
-			return fmt.Errorf("Error reading video_signaling: %v", err)
+			return fmt.Errorf("error reading video_signaling: %v", err)
 		}
 	}
 

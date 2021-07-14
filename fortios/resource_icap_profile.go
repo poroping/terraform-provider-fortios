@@ -30,122 +30,122 @@ func resourceIcapProfile() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"replacemsg_group": &schema.Schema{
+			"replacemsg_group": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"request": &schema.Schema{
+			"request": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"response": &schema.Schema{
+			"response": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"streaming_content_bypass": &schema.Schema{
+			"streaming_content_bypass": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"preview": &schema.Schema{
+			"preview": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"preview_data_length": &schema.Schema{
+			"preview_data_length": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 4096),
 				Optional:     true,
 				Computed:     true,
 			},
-			"request_server": &schema.Schema{
+			"request_server": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"response_server": &schema.Schema{
+			"response_server": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"request_failure": &schema.Schema{
+			"request_failure": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"response_failure": &schema.Schema{
+			"response_failure": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"request_path": &schema.Schema{
+			"request_path": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 127),
 				Optional:     true,
 				Computed:     true,
 			},
-			"response_path": &schema.Schema{
+			"response_path": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 127),
 				Optional:     true,
 				Computed:     true,
 			},
-			"methods": &schema.Schema{
+			"methods": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"response_req_hdr": &schema.Schema{
+			"response_req_hdr": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"respmod_default_action": &schema.Schema{
+			"respmod_default_action": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"icap_headers": &schema.Schema{
+			"icap_headers": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 79),
 							Optional:     true,
 							Computed:     true,
 						},
-						"content": &schema.Schema{
+						"content": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 255),
 							Optional:     true,
 							Computed:     true,
 						},
-						"base64_encoding": &schema.Schema{
+						"base64_encoding": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -153,46 +153,46 @@ func resourceIcapProfile() *schema.Resource {
 					},
 				},
 			},
-			"respmod_forward_rules": &schema.Schema{
+			"respmod_forward_rules": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 63),
 							Optional:     true,
 							Computed:     true,
 						},
-						"host": &schema.Schema{
+						"host": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 79),
 							Optional:     true,
 							Computed:     true,
 						},
-						"header_group": &schema.Schema{
+						"header_group": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"id": &schema.Schema{
+									"id": {
 										Type:     schema.TypeInt,
 										Optional: true,
 										Computed: true,
 									},
-									"header_name": &schema.Schema{
+									"header_name": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 79),
 										Optional:     true,
 										Computed:     true,
 									},
-									"header": &schema.Schema{
+									"header": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 255),
 										Optional:     true,
 										Computed:     true,
 									},
-									"case_sensitivity": &schema.Schema{
+									"case_sensitivity": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
@@ -200,17 +200,17 @@ func resourceIcapProfile() *schema.Resource {
 								},
 							},
 						},
-						"action": &schema.Schema{
+						"action": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"http_resp_status_code": &schema.Schema{
+						"http_resp_status_code": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"code": &schema.Schema{
+									"code": {
 										Type:         schema.TypeInt,
 										ValidateFunc: validation.IntBetween(100, 599),
 										Optional:     true,
@@ -222,10 +222,15 @@ func resourceIcapProfile() *schema.Resource {
 					},
 				},
 			},
-			"dynamic_sort_subtable": &schema.Schema{
-				Type:     schema.TypeString,
+			"dynamic_sort_subtable": {
+				Type:     schema.TypeBool,
 				Optional: true,
-				Default:  "false",
+				Default:  false,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -243,15 +248,25 @@ func resourceIcapProfileCreate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectIcapProfile(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating IcapProfile resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateIcapProfile(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectIcapProfile(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating IcapProfile resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateIcapProfile(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating IcapProfile resource: %v", err)
+		return fmt.Errorf("error creating IcapProfile resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -276,14 +291,24 @@ func resourceIcapProfileUpdate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectIcapProfile(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating IcapProfile resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateIcapProfile(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectIcapProfile(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating IcapProfile resource: %v", err)
+		return fmt.Errorf("error updating IcapProfile resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateIcapProfile(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating IcapProfile resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -310,9 +335,17 @@ func resourceIcapProfileDelete(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	err := c.DeleteIcapProfile(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteIcapProfile(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting IcapProfile resource: %v", err)
+		return fmt.Errorf("error deleting IcapProfile resource: %v", err)
 	}
 
 	d.SetId("")
@@ -334,9 +367,19 @@ func resourceIcapProfileRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadIcapProfile(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadIcapProfile(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading IcapProfile resource: %v", err)
+		return fmt.Errorf("error reading IcapProfile resource: %v", err)
 	}
 
 	if o == nil {
@@ -347,7 +390,7 @@ func resourceIcapProfileRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectIcapProfile(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading IcapProfile resource from API: %v", err)
+		return fmt.Errorf("error reading IcapProfile resource from API: %v", err)
 	}
 	return nil
 }
@@ -663,111 +706,111 @@ func refreshObjectIcapProfile(d *schema.ResourceData, o map[string]interface{}, 
 
 	if err = d.Set("replacemsg_group", flattenIcapProfileReplacemsgGroup(o["replacemsg-group"], d, "replacemsg_group", sv)); err != nil {
 		if !fortiAPIPatch(o["replacemsg-group"]) {
-			return fmt.Errorf("Error reading replacemsg_group: %v", err)
+			return fmt.Errorf("error reading replacemsg_group: %v", err)
 		}
 	}
 
 	if err = d.Set("name", flattenIcapProfileName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("request", flattenIcapProfileRequest(o["request"], d, "request", sv)); err != nil {
 		if !fortiAPIPatch(o["request"]) {
-			return fmt.Errorf("Error reading request: %v", err)
+			return fmt.Errorf("error reading request: %v", err)
 		}
 	}
 
 	if err = d.Set("response", flattenIcapProfileResponse(o["response"], d, "response", sv)); err != nil {
 		if !fortiAPIPatch(o["response"]) {
-			return fmt.Errorf("Error reading response: %v", err)
+			return fmt.Errorf("error reading response: %v", err)
 		}
 	}
 
 	if err = d.Set("streaming_content_bypass", flattenIcapProfileStreamingContentBypass(o["streaming-content-bypass"], d, "streaming_content_bypass", sv)); err != nil {
 		if !fortiAPIPatch(o["streaming-content-bypass"]) {
-			return fmt.Errorf("Error reading streaming_content_bypass: %v", err)
+			return fmt.Errorf("error reading streaming_content_bypass: %v", err)
 		}
 	}
 
 	if err = d.Set("preview", flattenIcapProfilePreview(o["preview"], d, "preview", sv)); err != nil {
 		if !fortiAPIPatch(o["preview"]) {
-			return fmt.Errorf("Error reading preview: %v", err)
+			return fmt.Errorf("error reading preview: %v", err)
 		}
 	}
 
 	if err = d.Set("preview_data_length", flattenIcapProfilePreviewDataLength(o["preview-data-length"], d, "preview_data_length", sv)); err != nil {
 		if !fortiAPIPatch(o["preview-data-length"]) {
-			return fmt.Errorf("Error reading preview_data_length: %v", err)
+			return fmt.Errorf("error reading preview_data_length: %v", err)
 		}
 	}
 
 	if err = d.Set("request_server", flattenIcapProfileRequestServer(o["request-server"], d, "request_server", sv)); err != nil {
 		if !fortiAPIPatch(o["request-server"]) {
-			return fmt.Errorf("Error reading request_server: %v", err)
+			return fmt.Errorf("error reading request_server: %v", err)
 		}
 	}
 
 	if err = d.Set("response_server", flattenIcapProfileResponseServer(o["response-server"], d, "response_server", sv)); err != nil {
 		if !fortiAPIPatch(o["response-server"]) {
-			return fmt.Errorf("Error reading response_server: %v", err)
+			return fmt.Errorf("error reading response_server: %v", err)
 		}
 	}
 
 	if err = d.Set("request_failure", flattenIcapProfileRequestFailure(o["request-failure"], d, "request_failure", sv)); err != nil {
 		if !fortiAPIPatch(o["request-failure"]) {
-			return fmt.Errorf("Error reading request_failure: %v", err)
+			return fmt.Errorf("error reading request_failure: %v", err)
 		}
 	}
 
 	if err = d.Set("response_failure", flattenIcapProfileResponseFailure(o["response-failure"], d, "response_failure", sv)); err != nil {
 		if !fortiAPIPatch(o["response-failure"]) {
-			return fmt.Errorf("Error reading response_failure: %v", err)
+			return fmt.Errorf("error reading response_failure: %v", err)
 		}
 	}
 
 	if err = d.Set("request_path", flattenIcapProfileRequestPath(o["request-path"], d, "request_path", sv)); err != nil {
 		if !fortiAPIPatch(o["request-path"]) {
-			return fmt.Errorf("Error reading request_path: %v", err)
+			return fmt.Errorf("error reading request_path: %v", err)
 		}
 	}
 
 	if err = d.Set("response_path", flattenIcapProfileResponsePath(o["response-path"], d, "response_path", sv)); err != nil {
 		if !fortiAPIPatch(o["response-path"]) {
-			return fmt.Errorf("Error reading response_path: %v", err)
+			return fmt.Errorf("error reading response_path: %v", err)
 		}
 	}
 
 	if err = d.Set("methods", flattenIcapProfileMethods(o["methods"], d, "methods", sv)); err != nil {
 		if !fortiAPIPatch(o["methods"]) {
-			return fmt.Errorf("Error reading methods: %v", err)
+			return fmt.Errorf("error reading methods: %v", err)
 		}
 	}
 
 	if err = d.Set("response_req_hdr", flattenIcapProfileResponseReqHdr(o["response-req-hdr"], d, "response_req_hdr", sv)); err != nil {
 		if !fortiAPIPatch(o["response-req-hdr"]) {
-			return fmt.Errorf("Error reading response_req_hdr: %v", err)
+			return fmt.Errorf("error reading response_req_hdr: %v", err)
 		}
 	}
 
 	if err = d.Set("respmod_default_action", flattenIcapProfileRespmodDefaultAction(o["respmod-default-action"], d, "respmod_default_action", sv)); err != nil {
 		if !fortiAPIPatch(o["respmod-default-action"]) {
-			return fmt.Errorf("Error reading respmod_default_action: %v", err)
+			return fmt.Errorf("error reading respmod_default_action: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("icap_headers", flattenIcapProfileIcapHeaders(o["icap-headers"], d, "icap_headers", sv)); err != nil {
 			if !fortiAPIPatch(o["icap-headers"]) {
-				return fmt.Errorf("Error reading icap_headers: %v", err)
+				return fmt.Errorf("error reading icap_headers: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("icap_headers"); ok {
 			if err = d.Set("icap_headers", flattenIcapProfileIcapHeaders(o["icap-headers"], d, "icap_headers", sv)); err != nil {
 				if !fortiAPIPatch(o["icap-headers"]) {
-					return fmt.Errorf("Error reading icap_headers: %v", err)
+					return fmt.Errorf("error reading icap_headers: %v", err)
 				}
 			}
 		}
@@ -776,14 +819,14 @@ func refreshObjectIcapProfile(d *schema.ResourceData, o map[string]interface{}, 
 	if isImportTable() {
 		if err = d.Set("respmod_forward_rules", flattenIcapProfileRespmodForwardRules(o["respmod-forward-rules"], d, "respmod_forward_rules", sv)); err != nil {
 			if !fortiAPIPatch(o["respmod-forward-rules"]) {
-				return fmt.Errorf("Error reading respmod_forward_rules: %v", err)
+				return fmt.Errorf("error reading respmod_forward_rules: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("respmod_forward_rules"); ok {
 			if err = d.Set("respmod_forward_rules", flattenIcapProfileRespmodForwardRules(o["respmod-forward-rules"], d, "respmod_forward_rules", sv)); err != nil {
 				if !fortiAPIPatch(o["respmod-forward-rules"]) {
-					return fmt.Errorf("Error reading respmod_forward_rules: %v", err)
+					return fmt.Errorf("error reading respmod_forward_rules: %v", err)
 				}
 			}
 		}

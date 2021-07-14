@@ -30,37 +30,37 @@ func resourceSystemNat64() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"status": &schema.Schema{
+			"status": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"nat64_prefix": &schema.Schema{
+			"nat64_prefix": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"secondary_prefix_status": &schema.Schema{
+			"secondary_prefix_status": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"secondary_prefix": &schema.Schema{
+			"secondary_prefix": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"nat64_prefix": &schema.Schema{
+						"nat64_prefix": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -68,25 +68,30 @@ func resourceSystemNat64() *schema.Resource {
 					},
 				},
 			},
-			"always_synthesize_aaaa_record": &schema.Schema{
+			"always_synthesize_aaaa_record": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"generate_ipv6_fragment_header": &schema.Schema{
+			"generate_ipv6_fragment_header": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"nat46_force_ipv4_packet_forwarding": &schema.Schema{
+			"nat46_force_ipv4_packet_forwarding": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"dynamic_sort_subtable": &schema.Schema{
-				Type:     schema.TypeString,
+			"dynamic_sort_subtable": {
+				Type:     schema.TypeBool,
 				Optional: true,
-				Default:  "false",
+				Default:  false,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -105,14 +110,24 @@ func resourceSystemNat64Update(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectSystemNat64(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SystemNat64 resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSystemNat64(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemNat64(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SystemNat64 resource: %v", err)
+		return fmt.Errorf("error updating SystemNat64 resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSystemNat64(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SystemNat64 resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -139,9 +154,17 @@ func resourceSystemNat64Delete(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	err := c.DeleteSystemNat64(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSystemNat64(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SystemNat64 resource: %v", err)
+		return fmt.Errorf("error deleting SystemNat64 resource: %v", err)
 	}
 
 	d.SetId("")
@@ -163,9 +186,19 @@ func resourceSystemNat64Read(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadSystemNat64(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSystemNat64(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemNat64 resource: %v", err)
+		return fmt.Errorf("error reading SystemNat64 resource: %v", err)
 	}
 
 	if o == nil {
@@ -176,7 +209,7 @@ func resourceSystemNat64Read(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectSystemNat64(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemNat64 resource from API: %v", err)
+		return fmt.Errorf("error reading SystemNat64 resource from API: %v", err)
 	}
 	return nil
 }
@@ -258,33 +291,33 @@ func refreshObjectSystemNat64(d *schema.ResourceData, o map[string]interface{}, 
 
 	if err = d.Set("status", flattenSystemNat64Status(o["status"], d, "status", sv)); err != nil {
 		if !fortiAPIPatch(o["status"]) {
-			return fmt.Errorf("Error reading status: %v", err)
+			return fmt.Errorf("error reading status: %v", err)
 		}
 	}
 
 	if err = d.Set("nat64_prefix", flattenSystemNat64Nat64Prefix(o["nat64-prefix"], d, "nat64_prefix", sv)); err != nil {
 		if !fortiAPIPatch(o["nat64-prefix"]) {
-			return fmt.Errorf("Error reading nat64_prefix: %v", err)
+			return fmt.Errorf("error reading nat64_prefix: %v", err)
 		}
 	}
 
 	if err = d.Set("secondary_prefix_status", flattenSystemNat64SecondaryPrefixStatus(o["secondary-prefix-status"], d, "secondary_prefix_status", sv)); err != nil {
 		if !fortiAPIPatch(o["secondary-prefix-status"]) {
-			return fmt.Errorf("Error reading secondary_prefix_status: %v", err)
+			return fmt.Errorf("error reading secondary_prefix_status: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("secondary_prefix", flattenSystemNat64SecondaryPrefix(o["secondary-prefix"], d, "secondary_prefix", sv)); err != nil {
 			if !fortiAPIPatch(o["secondary-prefix"]) {
-				return fmt.Errorf("Error reading secondary_prefix: %v", err)
+				return fmt.Errorf("error reading secondary_prefix: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("secondary_prefix"); ok {
 			if err = d.Set("secondary_prefix", flattenSystemNat64SecondaryPrefix(o["secondary-prefix"], d, "secondary_prefix", sv)); err != nil {
 				if !fortiAPIPatch(o["secondary-prefix"]) {
-					return fmt.Errorf("Error reading secondary_prefix: %v", err)
+					return fmt.Errorf("error reading secondary_prefix: %v", err)
 				}
 			}
 		}
@@ -292,19 +325,19 @@ func refreshObjectSystemNat64(d *schema.ResourceData, o map[string]interface{}, 
 
 	if err = d.Set("always_synthesize_aaaa_record", flattenSystemNat64AlwaysSynthesizeAaaaRecord(o["always-synthesize-aaaa-record"], d, "always_synthesize_aaaa_record", sv)); err != nil {
 		if !fortiAPIPatch(o["always-synthesize-aaaa-record"]) {
-			return fmt.Errorf("Error reading always_synthesize_aaaa_record: %v", err)
+			return fmt.Errorf("error reading always_synthesize_aaaa_record: %v", err)
 		}
 	}
 
 	if err = d.Set("generate_ipv6_fragment_header", flattenSystemNat64GenerateIpv6FragmentHeader(o["generate-ipv6-fragment-header"], d, "generate_ipv6_fragment_header", sv)); err != nil {
 		if !fortiAPIPatch(o["generate-ipv6-fragment-header"]) {
-			return fmt.Errorf("Error reading generate_ipv6_fragment_header: %v", err)
+			return fmt.Errorf("error reading generate_ipv6_fragment_header: %v", err)
 		}
 	}
 
 	if err = d.Set("nat46_force_ipv4_packet_forwarding", flattenSystemNat64Nat46ForceIpv4PacketForwarding(o["nat46-force-ipv4-packet-forwarding"], d, "nat46_force_ipv4_packet_forwarding", sv)); err != nil {
 		if !fortiAPIPatch(o["nat46-force-ipv4-packet-forwarding"]) {
-			return fmt.Errorf("Error reading nat46_force_ipv4_packet_forwarding: %v", err)
+			return fmt.Errorf("error reading nat46_force_ipv4_packet_forwarding: %v", err)
 		}
 	}
 

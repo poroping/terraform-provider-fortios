@@ -49,14 +49,14 @@ func testAccCheckFortiOSWirelessControllerHotspot20AnqpRoamingConsortiumExists(n
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadWirelessControllerHotspot20AnqpRoamingConsortium(i, "root")
+		o, err := c.ReadWirelessControllerHotspot20AnqpRoamingConsortium(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading WirelessControllerHotspot20AnqpRoamingConsortium: %s", err)
+			return fmt.Errorf("error reading WirelessControllerHotspot20AnqpRoamingConsortium: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating WirelessControllerHotspot20AnqpRoamingConsortium: %s", n)
+			return fmt.Errorf("error creating WirelessControllerHotspot20AnqpRoamingConsortium: %s", n)
 		}
 
 		return nil
@@ -72,11 +72,11 @@ func testAccCheckWirelessControllerHotspot20AnqpRoamingConsortiumDestroy(s *terr
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadWirelessControllerHotspot20AnqpRoamingConsortium(i, "root")
+		o, err := c.ReadWirelessControllerHotspot20AnqpRoamingConsortium(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error WirelessControllerHotspot20AnqpRoamingConsortium %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error WirelessControllerHotspot20AnqpRoamingConsortium %s still exists", rs.Primary.ID)
 			}
 		}
 

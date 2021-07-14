@@ -30,41 +30,46 @@ func resourceFirewallInternetServiceName() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"type": &schema.Schema{
+			"type": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"internet_service_id": &schema.Schema{
+			"internet_service_id": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"country_id": &schema.Schema{
+			"country_id": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"region_id": &schema.Schema{
+			"region_id": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"city_id": &schema.Schema{
+			"city_id": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -82,15 +87,25 @@ func resourceFirewallInternetServiceNameCreate(d *schema.ResourceData, m interfa
 		}
 	}
 
-	obj, err := getObjectFirewallInternetServiceName(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating FirewallInternetServiceName resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateFirewallInternetServiceName(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectFirewallInternetServiceName(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating FirewallInternetServiceName resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateFirewallInternetServiceName(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating FirewallInternetServiceName resource: %v", err)
+		return fmt.Errorf("error creating FirewallInternetServiceName resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -115,14 +130,24 @@ func resourceFirewallInternetServiceNameUpdate(d *schema.ResourceData, m interfa
 		}
 	}
 
-	obj, err := getObjectFirewallInternetServiceName(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating FirewallInternetServiceName resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateFirewallInternetServiceName(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectFirewallInternetServiceName(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating FirewallInternetServiceName resource: %v", err)
+		return fmt.Errorf("error updating FirewallInternetServiceName resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateFirewallInternetServiceName(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating FirewallInternetServiceName resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -149,9 +174,17 @@ func resourceFirewallInternetServiceNameDelete(d *schema.ResourceData, m interfa
 		}
 	}
 
-	err := c.DeleteFirewallInternetServiceName(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteFirewallInternetServiceName(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting FirewallInternetServiceName resource: %v", err)
+		return fmt.Errorf("error deleting FirewallInternetServiceName resource: %v", err)
 	}
 
 	d.SetId("")
@@ -173,9 +206,19 @@ func resourceFirewallInternetServiceNameRead(d *schema.ResourceData, m interface
 		}
 	}
 
-	o, err := c.ReadFirewallInternetServiceName(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadFirewallInternetServiceName(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading FirewallInternetServiceName resource: %v", err)
+		return fmt.Errorf("error reading FirewallInternetServiceName resource: %v", err)
 	}
 
 	if o == nil {
@@ -186,7 +229,7 @@ func resourceFirewallInternetServiceNameRead(d *schema.ResourceData, m interface
 
 	err = refreshObjectFirewallInternetServiceName(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading FirewallInternetServiceName resource from API: %v", err)
+		return fmt.Errorf("error reading FirewallInternetServiceName resource from API: %v", err)
 	}
 	return nil
 }
@@ -220,37 +263,37 @@ func refreshObjectFirewallInternetServiceName(d *schema.ResourceData, o map[stri
 
 	if err = d.Set("name", flattenFirewallInternetServiceNameName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("type", flattenFirewallInternetServiceNameType(o["type"], d, "type", sv)); err != nil {
 		if !fortiAPIPatch(o["type"]) {
-			return fmt.Errorf("Error reading type: %v", err)
+			return fmt.Errorf("error reading type: %v", err)
 		}
 	}
 
 	if err = d.Set("internet_service_id", flattenFirewallInternetServiceNameInternetServiceId(o["internet-service-id"], d, "internet_service_id", sv)); err != nil {
 		if !fortiAPIPatch(o["internet-service-id"]) {
-			return fmt.Errorf("Error reading internet_service_id: %v", err)
+			return fmt.Errorf("error reading internet_service_id: %v", err)
 		}
 	}
 
 	if err = d.Set("country_id", flattenFirewallInternetServiceNameCountryId(o["country-id"], d, "country_id", sv)); err != nil {
 		if !fortiAPIPatch(o["country-id"]) {
-			return fmt.Errorf("Error reading country_id: %v", err)
+			return fmt.Errorf("error reading country_id: %v", err)
 		}
 	}
 
 	if err = d.Set("region_id", flattenFirewallInternetServiceNameRegionId(o["region-id"], d, "region_id", sv)); err != nil {
 		if !fortiAPIPatch(o["region-id"]) {
-			return fmt.Errorf("Error reading region_id: %v", err)
+			return fmt.Errorf("error reading region_id: %v", err)
 		}
 	}
 
 	if err = d.Set("city_id", flattenFirewallInternetServiceNameCityId(o["city-id"], d, "city_id", sv)); err != nil {
 		if !fortiAPIPatch(o["city-id"]) {
-			return fmt.Errorf("Error reading city_id: %v", err)
+			return fmt.Errorf("error reading city_id: %v", err)
 		}
 	}
 

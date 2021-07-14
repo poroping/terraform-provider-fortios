@@ -30,70 +30,75 @@ func resourceWirelessControllerLog() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"status": &schema.Schema{
+			"status": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"addrgrp_log": &schema.Schema{
+			"addrgrp_log": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ble_log": &schema.Schema{
+			"ble_log": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"clb_log": &schema.Schema{
+			"clb_log": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"dhcp_starv_log": &schema.Schema{
+			"dhcp_starv_log": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"led_sched_log": &schema.Schema{
+			"led_sched_log": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"radio_event_log": &schema.Schema{
+			"radio_event_log": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"rogue_event_log": &schema.Schema{
+			"rogue_event_log": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"sta_event_log": &schema.Schema{
+			"sta_event_log": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"sta_locate_log": &schema.Schema{
+			"sta_locate_log": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"wids_log": &schema.Schema{
+			"wids_log": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"wtp_event_log": &schema.Schema{
+			"wtp_event_log": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -112,14 +117,24 @@ func resourceWirelessControllerLogUpdate(d *schema.ResourceData, m interface{}) 
 		}
 	}
 
-	obj, err := getObjectWirelessControllerLog(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating WirelessControllerLog resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateWirelessControllerLog(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectWirelessControllerLog(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating WirelessControllerLog resource: %v", err)
+		return fmt.Errorf("error updating WirelessControllerLog resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateWirelessControllerLog(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating WirelessControllerLog resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -146,9 +161,17 @@ func resourceWirelessControllerLogDelete(d *schema.ResourceData, m interface{}) 
 		}
 	}
 
-	err := c.DeleteWirelessControllerLog(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteWirelessControllerLog(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting WirelessControllerLog resource: %v", err)
+		return fmt.Errorf("error deleting WirelessControllerLog resource: %v", err)
 	}
 
 	d.SetId("")
@@ -170,9 +193,19 @@ func resourceWirelessControllerLogRead(d *schema.ResourceData, m interface{}) er
 		}
 	}
 
-	o, err := c.ReadWirelessControllerLog(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadWirelessControllerLog(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading WirelessControllerLog resource: %v", err)
+		return fmt.Errorf("error reading WirelessControllerLog resource: %v", err)
 	}
 
 	if o == nil {
@@ -183,7 +216,7 @@ func resourceWirelessControllerLogRead(d *schema.ResourceData, m interface{}) er
 
 	err = refreshObjectWirelessControllerLog(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading WirelessControllerLog resource from API: %v", err)
+		return fmt.Errorf("error reading WirelessControllerLog resource from API: %v", err)
 	}
 	return nil
 }
@@ -241,73 +274,73 @@ func refreshObjectWirelessControllerLog(d *schema.ResourceData, o map[string]int
 
 	if err = d.Set("status", flattenWirelessControllerLogStatus(o["status"], d, "status", sv)); err != nil {
 		if !fortiAPIPatch(o["status"]) {
-			return fmt.Errorf("Error reading status: %v", err)
+			return fmt.Errorf("error reading status: %v", err)
 		}
 	}
 
 	if err = d.Set("addrgrp_log", flattenWirelessControllerLogAddrgrpLog(o["addrgrp-log"], d, "addrgrp_log", sv)); err != nil {
 		if !fortiAPIPatch(o["addrgrp-log"]) {
-			return fmt.Errorf("Error reading addrgrp_log: %v", err)
+			return fmt.Errorf("error reading addrgrp_log: %v", err)
 		}
 	}
 
 	if err = d.Set("ble_log", flattenWirelessControllerLogBleLog(o["ble-log"], d, "ble_log", sv)); err != nil {
 		if !fortiAPIPatch(o["ble-log"]) {
-			return fmt.Errorf("Error reading ble_log: %v", err)
+			return fmt.Errorf("error reading ble_log: %v", err)
 		}
 	}
 
 	if err = d.Set("clb_log", flattenWirelessControllerLogClbLog(o["clb-log"], d, "clb_log", sv)); err != nil {
 		if !fortiAPIPatch(o["clb-log"]) {
-			return fmt.Errorf("Error reading clb_log: %v", err)
+			return fmt.Errorf("error reading clb_log: %v", err)
 		}
 	}
 
 	if err = d.Set("dhcp_starv_log", flattenWirelessControllerLogDhcpStarvLog(o["dhcp-starv-log"], d, "dhcp_starv_log", sv)); err != nil {
 		if !fortiAPIPatch(o["dhcp-starv-log"]) {
-			return fmt.Errorf("Error reading dhcp_starv_log: %v", err)
+			return fmt.Errorf("error reading dhcp_starv_log: %v", err)
 		}
 	}
 
 	if err = d.Set("led_sched_log", flattenWirelessControllerLogLedSchedLog(o["led-sched-log"], d, "led_sched_log", sv)); err != nil {
 		if !fortiAPIPatch(o["led-sched-log"]) {
-			return fmt.Errorf("Error reading led_sched_log: %v", err)
+			return fmt.Errorf("error reading led_sched_log: %v", err)
 		}
 	}
 
 	if err = d.Set("radio_event_log", flattenWirelessControllerLogRadioEventLog(o["radio-event-log"], d, "radio_event_log", sv)); err != nil {
 		if !fortiAPIPatch(o["radio-event-log"]) {
-			return fmt.Errorf("Error reading radio_event_log: %v", err)
+			return fmt.Errorf("error reading radio_event_log: %v", err)
 		}
 	}
 
 	if err = d.Set("rogue_event_log", flattenWirelessControllerLogRogueEventLog(o["rogue-event-log"], d, "rogue_event_log", sv)); err != nil {
 		if !fortiAPIPatch(o["rogue-event-log"]) {
-			return fmt.Errorf("Error reading rogue_event_log: %v", err)
+			return fmt.Errorf("error reading rogue_event_log: %v", err)
 		}
 	}
 
 	if err = d.Set("sta_event_log", flattenWirelessControllerLogStaEventLog(o["sta-event-log"], d, "sta_event_log", sv)); err != nil {
 		if !fortiAPIPatch(o["sta-event-log"]) {
-			return fmt.Errorf("Error reading sta_event_log: %v", err)
+			return fmt.Errorf("error reading sta_event_log: %v", err)
 		}
 	}
 
 	if err = d.Set("sta_locate_log", flattenWirelessControllerLogStaLocateLog(o["sta-locate-log"], d, "sta_locate_log", sv)); err != nil {
 		if !fortiAPIPatch(o["sta-locate-log"]) {
-			return fmt.Errorf("Error reading sta_locate_log: %v", err)
+			return fmt.Errorf("error reading sta_locate_log: %v", err)
 		}
 	}
 
 	if err = d.Set("wids_log", flattenWirelessControllerLogWidsLog(o["wids-log"], d, "wids_log", sv)); err != nil {
 		if !fortiAPIPatch(o["wids-log"]) {
-			return fmt.Errorf("Error reading wids_log: %v", err)
+			return fmt.Errorf("error reading wids_log: %v", err)
 		}
 	}
 
 	if err = d.Set("wtp_event_log", flattenWirelessControllerLogWtpEventLog(o["wtp-event-log"], d, "wtp_event_log", sv)); err != nil {
 		if !fortiAPIPatch(o["wtp-event-log"]) {
-			return fmt.Errorf("Error reading wtp_event_log: %v", err)
+			return fmt.Errorf("error reading wtp_event_log: %v", err)
 		}
 	}
 

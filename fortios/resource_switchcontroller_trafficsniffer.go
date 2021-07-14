@@ -30,32 +30,32 @@ func resourceSwitchControllerTrafficSniffer() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"mode": &schema.Schema{
+			"mode": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"erspan_ip": &schema.Schema{
+			"erspan_ip": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"target_mac": &schema.Schema{
+			"target_mac": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"mac": &schema.Schema{
+						"mac": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"description": &schema.Schema{
+						"description": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 63),
 							Optional:     true,
@@ -64,17 +64,17 @@ func resourceSwitchControllerTrafficSniffer() *schema.Resource {
 					},
 				},
 			},
-			"target_ip": &schema.Schema{
+			"target_ip": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"ip": &schema.Schema{
+						"ip": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"description": &schema.Schema{
+						"description": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 63),
 							Optional:     true,
@@ -83,29 +83,29 @@ func resourceSwitchControllerTrafficSniffer() *schema.Resource {
 					},
 				},
 			},
-			"target_port": &schema.Schema{
+			"target_port": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"switch_id": &schema.Schema{
+						"switch_id": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 16),
 							Optional:     true,
 							Computed:     true,
 						},
-						"description": &schema.Schema{
+						"description": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 63),
 							Optional:     true,
 							Computed:     true,
 						},
-						"in_ports": &schema.Schema{
+						"in_ports": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"name": &schema.Schema{
+									"name": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 79),
 										Optional:     true,
@@ -114,12 +114,12 @@ func resourceSwitchControllerTrafficSniffer() *schema.Resource {
 								},
 							},
 						},
-						"out_ports": &schema.Schema{
+						"out_ports": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"name": &schema.Schema{
+									"name": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 79),
 										Optional:     true,
@@ -131,10 +131,15 @@ func resourceSwitchControllerTrafficSniffer() *schema.Resource {
 					},
 				},
 			},
-			"dynamic_sort_subtable": &schema.Schema{
-				Type:     schema.TypeString,
+			"dynamic_sort_subtable": {
+				Type:     schema.TypeBool,
 				Optional: true,
-				Default:  "false",
+				Default:  false,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -153,14 +158,24 @@ func resourceSwitchControllerTrafficSnifferUpdate(d *schema.ResourceData, m inte
 		}
 	}
 
-	obj, err := getObjectSwitchControllerTrafficSniffer(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SwitchControllerTrafficSniffer resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSwitchControllerTrafficSniffer(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSwitchControllerTrafficSniffer(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SwitchControllerTrafficSniffer resource: %v", err)
+		return fmt.Errorf("error updating SwitchControllerTrafficSniffer resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSwitchControllerTrafficSniffer(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SwitchControllerTrafficSniffer resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -187,9 +202,17 @@ func resourceSwitchControllerTrafficSnifferDelete(d *schema.ResourceData, m inte
 		}
 	}
 
-	err := c.DeleteSwitchControllerTrafficSniffer(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSwitchControllerTrafficSniffer(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SwitchControllerTrafficSniffer resource: %v", err)
+		return fmt.Errorf("error deleting SwitchControllerTrafficSniffer resource: %v", err)
 	}
 
 	d.SetId("")
@@ -211,9 +234,19 @@ func resourceSwitchControllerTrafficSnifferRead(d *schema.ResourceData, m interf
 		}
 	}
 
-	o, err := c.ReadSwitchControllerTrafficSniffer(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSwitchControllerTrafficSniffer(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SwitchControllerTrafficSniffer resource: %v", err)
+		return fmt.Errorf("error reading SwitchControllerTrafficSniffer resource: %v", err)
 	}
 
 	if o == nil {
@@ -224,7 +257,7 @@ func resourceSwitchControllerTrafficSnifferRead(d *schema.ResourceData, m interf
 
 	err = refreshObjectSwitchControllerTrafficSniffer(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SwitchControllerTrafficSniffer resource from API: %v", err)
+		return fmt.Errorf("error reading SwitchControllerTrafficSniffer resource from API: %v", err)
 	}
 	return nil
 }
@@ -472,27 +505,27 @@ func refreshObjectSwitchControllerTrafficSniffer(d *schema.ResourceData, o map[s
 
 	if err = d.Set("mode", flattenSwitchControllerTrafficSnifferMode(o["mode"], d, "mode", sv)); err != nil {
 		if !fortiAPIPatch(o["mode"]) {
-			return fmt.Errorf("Error reading mode: %v", err)
+			return fmt.Errorf("error reading mode: %v", err)
 		}
 	}
 
 	if err = d.Set("erspan_ip", flattenSwitchControllerTrafficSnifferErspanIp(o["erspan-ip"], d, "erspan_ip", sv)); err != nil {
 		if !fortiAPIPatch(o["erspan-ip"]) {
-			return fmt.Errorf("Error reading erspan_ip: %v", err)
+			return fmt.Errorf("error reading erspan_ip: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("target_mac", flattenSwitchControllerTrafficSnifferTargetMac(o["target-mac"], d, "target_mac", sv)); err != nil {
 			if !fortiAPIPatch(o["target-mac"]) {
-				return fmt.Errorf("Error reading target_mac: %v", err)
+				return fmt.Errorf("error reading target_mac: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("target_mac"); ok {
 			if err = d.Set("target_mac", flattenSwitchControllerTrafficSnifferTargetMac(o["target-mac"], d, "target_mac", sv)); err != nil {
 				if !fortiAPIPatch(o["target-mac"]) {
-					return fmt.Errorf("Error reading target_mac: %v", err)
+					return fmt.Errorf("error reading target_mac: %v", err)
 				}
 			}
 		}
@@ -501,14 +534,14 @@ func refreshObjectSwitchControllerTrafficSniffer(d *schema.ResourceData, o map[s
 	if isImportTable() {
 		if err = d.Set("target_ip", flattenSwitchControllerTrafficSnifferTargetIp(o["target-ip"], d, "target_ip", sv)); err != nil {
 			if !fortiAPIPatch(o["target-ip"]) {
-				return fmt.Errorf("Error reading target_ip: %v", err)
+				return fmt.Errorf("error reading target_ip: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("target_ip"); ok {
 			if err = d.Set("target_ip", flattenSwitchControllerTrafficSnifferTargetIp(o["target-ip"], d, "target_ip", sv)); err != nil {
 				if !fortiAPIPatch(o["target-ip"]) {
-					return fmt.Errorf("Error reading target_ip: %v", err)
+					return fmt.Errorf("error reading target_ip: %v", err)
 				}
 			}
 		}
@@ -517,14 +550,14 @@ func refreshObjectSwitchControllerTrafficSniffer(d *schema.ResourceData, o map[s
 	if isImportTable() {
 		if err = d.Set("target_port", flattenSwitchControllerTrafficSnifferTargetPort(o["target-port"], d, "target_port", sv)); err != nil {
 			if !fortiAPIPatch(o["target-port"]) {
-				return fmt.Errorf("Error reading target_port: %v", err)
+				return fmt.Errorf("error reading target_port: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("target_port"); ok {
 			if err = d.Set("target_port", flattenSwitchControllerTrafficSnifferTargetPort(o["target-port"], d, "target_port", sv)); err != nil {
 				if !fortiAPIPatch(o["target-port"]) {
-					return fmt.Errorf("Error reading target_port: %v", err)
+					return fmt.Errorf("error reading target_port: %v", err)
 				}
 			}
 		}

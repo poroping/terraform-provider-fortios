@@ -55,14 +55,14 @@ func testAccCheckFortiOSFirewallMulticastAddressExists(n string) resource.TestCh
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadFirewallMulticastAddress(i, "root")
+		o, err := c.ReadFirewallMulticastAddress(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading FirewallMulticastAddress: %s", err)
+			return fmt.Errorf("error reading FirewallMulticastAddress: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating FirewallMulticastAddress: %s", n)
+			return fmt.Errorf("error creating FirewallMulticastAddress: %s", n)
 		}
 
 		return nil
@@ -78,11 +78,11 @@ func testAccCheckFirewallMulticastAddressDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadFirewallMulticastAddress(i, "root")
+		o, err := c.ReadFirewallMulticastAddress(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error FirewallMulticastAddress %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error FirewallMulticastAddress %s still exists", rs.Primary.ID)
 			}
 		}
 

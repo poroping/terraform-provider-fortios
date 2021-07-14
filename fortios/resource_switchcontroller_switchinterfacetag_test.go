@@ -49,14 +49,14 @@ func testAccCheckFortiOSSwitchControllerSwitchInterfaceTagExists(n string) resou
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadSwitchControllerSwitchInterfaceTag(i, "root")
+		o, err := c.ReadSwitchControllerSwitchInterfaceTag(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading SwitchControllerSwitchInterfaceTag: %s", err)
+			return fmt.Errorf("error reading SwitchControllerSwitchInterfaceTag: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating SwitchControllerSwitchInterfaceTag: %s", n)
+			return fmt.Errorf("error creating SwitchControllerSwitchInterfaceTag: %s", n)
 		}
 
 		return nil
@@ -72,11 +72,11 @@ func testAccCheckSwitchControllerSwitchInterfaceTagDestroy(s *terraform.State) e
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadSwitchControllerSwitchInterfaceTag(i, "root")
+		o, err := c.ReadSwitchControllerSwitchInterfaceTag(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error SwitchControllerSwitchInterfaceTag %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error SwitchControllerSwitchInterfaceTag %s still exists", rs.Primary.ID)
 			}
 		}
 

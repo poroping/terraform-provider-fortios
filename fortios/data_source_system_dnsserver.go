@@ -21,21 +21,21 @@ func dataSourceSystemDnsServer() *schema.Resource {
 	return &schema.Resource{
 		Read: dataSourceSystemDnsServerRead,
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
 
-			"name": &schema.Schema{
+			"name": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"mode": &schema.Schema{
+			"mode": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"dnsfilter_profile": &schema.Schema{
+			"dnsfilter_profile": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -63,12 +63,12 @@ func dataSourceSystemDnsServerRead(d *schema.ResourceData, m interface{}) error 
 	} else if v, ok := t.(int); ok {
 		mkey = strconv.Itoa(v)
 	} else {
-		return fmt.Errorf("Error describing SystemDnsServer: type error")
+		return fmt.Errorf("error describing SystemDnsServer: type error")
 	}
 
-	o, err := c.ReadSystemDnsServer(mkey, vdomparam)
+	o, err := c.ReadSystemDnsServer(mkey, vdomparam, make(map[string][]string), 0)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemDnsServer: %v", err)
+		return fmt.Errorf("error describing SystemDnsServer: %v", err)
 	}
 
 	if o == nil {
@@ -78,7 +78,7 @@ func dataSourceSystemDnsServerRead(d *schema.ResourceData, m interface{}) error 
 
 	err = dataSourceRefreshObjectSystemDnsServer(d, o)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemDnsServer from API: %v", err)
+		return fmt.Errorf("error describing SystemDnsServer from API: %v", err)
 	}
 
 	d.SetId(mkey)
@@ -103,19 +103,19 @@ func dataSourceRefreshObjectSystemDnsServer(d *schema.ResourceData, o map[string
 
 	if err = d.Set("name", dataSourceFlattenSystemDnsServerName(o["name"], d, "name")); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("mode", dataSourceFlattenSystemDnsServerMode(o["mode"], d, "mode")); err != nil {
 		if !fortiAPIPatch(o["mode"]) {
-			return fmt.Errorf("Error reading mode: %v", err)
+			return fmt.Errorf("error reading mode: %v", err)
 		}
 	}
 
 	if err = d.Set("dnsfilter_profile", dataSourceFlattenSystemDnsServerDnsfilterProfile(o["dnsfilter-profile"], d, "dnsfilter_profile")); err != nil {
 		if !fortiAPIPatch(o["dnsfilter-profile"]) {
-			return fmt.Errorf("Error reading dnsfilter_profile: %v", err)
+			return fmt.Errorf("error reading dnsfilter_profile: %v", err)
 		}
 	}
 

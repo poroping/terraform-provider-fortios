@@ -17,12 +17,12 @@ func dataSourceFirewallInternetServiceExtensionList() *schema.Resource {
 		Read: dataSourceFirewallInternetServiceExtensionListRead,
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"filter": &schema.Schema{
+			"filter": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
@@ -52,9 +52,9 @@ func dataSourceFirewallInternetServiceExtensionListRead(d *schema.ResourceData, 
 		filter = escapeFilter(filter)
 	}
 
-	o, err := c.GenericGroupRead("/api/v2/cmdb/firewall/internet-service-extension", filter, vdomparam)
+	o, err := c.GenericGroupRead("/api/v2/cmdb/firewall/internet-service-extension", filter, vdomparam, 0)
 	if err != nil {
-		return fmt.Errorf("Error describing FirewallInternetServiceExtension: %v", err)
+		return fmt.Errorf("error describing FirewallInternetServiceExtension: %v", err)
 	}
 
 	var tmps []int

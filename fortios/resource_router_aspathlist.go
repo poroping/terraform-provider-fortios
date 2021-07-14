@@ -30,33 +30,33 @@ func resourceRouterAspathList() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				ForceNew:     true,
 				Required:     true,
 			},
-			"rule": &schema.Schema{
+			"rule": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"action": &schema.Schema{
+						"action": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"regexp": &schema.Schema{
+						"regexp": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 63),
 							Optional:     true,
@@ -65,10 +65,15 @@ func resourceRouterAspathList() *schema.Resource {
 					},
 				},
 			},
-			"dynamic_sort_subtable": &schema.Schema{
-				Type:     schema.TypeString,
+			"dynamic_sort_subtable": {
+				Type:     schema.TypeBool,
 				Optional: true,
-				Default:  "false",
+				Default:  false,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -86,15 +91,25 @@ func resourceRouterAspathListCreate(d *schema.ResourceData, m interface{}) error
 		}
 	}
 
-	obj, err := getObjectRouterAspathList(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating RouterAspathList resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateRouterAspathList(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectRouterAspathList(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating RouterAspathList resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateRouterAspathList(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating RouterAspathList resource: %v", err)
+		return fmt.Errorf("error creating RouterAspathList resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -119,14 +134,24 @@ func resourceRouterAspathListUpdate(d *schema.ResourceData, m interface{}) error
 		}
 	}
 
-	obj, err := getObjectRouterAspathList(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating RouterAspathList resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateRouterAspathList(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectRouterAspathList(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating RouterAspathList resource: %v", err)
+		return fmt.Errorf("error updating RouterAspathList resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateRouterAspathList(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating RouterAspathList resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -153,9 +178,17 @@ func resourceRouterAspathListDelete(d *schema.ResourceData, m interface{}) error
 		}
 	}
 
-	err := c.DeleteRouterAspathList(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteRouterAspathList(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting RouterAspathList resource: %v", err)
+		return fmt.Errorf("error deleting RouterAspathList resource: %v", err)
 	}
 
 	d.SetId("")
@@ -177,9 +210,19 @@ func resourceRouterAspathListRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadRouterAspathList(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadRouterAspathList(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading RouterAspathList resource: %v", err)
+		return fmt.Errorf("error reading RouterAspathList resource: %v", err)
 	}
 
 	if o == nil {
@@ -190,7 +233,7 @@ func resourceRouterAspathListRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectRouterAspathList(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading RouterAspathList resource from API: %v", err)
+		return fmt.Errorf("error reading RouterAspathList resource from API: %v", err)
 	}
 	return nil
 }
@@ -262,21 +305,21 @@ func refreshObjectRouterAspathList(d *schema.ResourceData, o map[string]interfac
 
 	if err = d.Set("name", flattenRouterAspathListName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("rule", flattenRouterAspathListRule(o["rule"], d, "rule", sv)); err != nil {
 			if !fortiAPIPatch(o["rule"]) {
-				return fmt.Errorf("Error reading rule: %v", err)
+				return fmt.Errorf("error reading rule: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("rule"); ok {
 			if err = d.Set("rule", flattenRouterAspathListRule(o["rule"], d, "rule", sv)); err != nil {
 				if !fortiAPIPatch(o["rule"]) {
-					return fmt.Errorf("Error reading rule: %v", err)
+					return fmt.Errorf("error reading rule: %v", err)
 				}
 			}
 		}

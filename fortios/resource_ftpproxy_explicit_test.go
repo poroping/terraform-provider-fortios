@@ -51,14 +51,14 @@ func testAccCheckFortiOSFtpProxyExplicitExists(n string) resource.TestCheckFunc 
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadFtpProxyExplicit(i, "root")
+		o, err := c.ReadFtpProxyExplicit(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading FtpProxyExplicit: %s", err)
+			return fmt.Errorf("error reading FtpProxyExplicit: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating FtpProxyExplicit: %s", n)
+			return fmt.Errorf("error creating FtpProxyExplicit: %s", n)
 		}
 
 		return nil
@@ -74,11 +74,11 @@ func testAccCheckFtpProxyExplicitDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadFtpProxyExplicit(i, "root")
+		o, err := c.ReadFtpProxyExplicit(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error FtpProxyExplicit %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error FtpProxyExplicit %s still exists", rs.Primary.ID)
 			}
 		}
 

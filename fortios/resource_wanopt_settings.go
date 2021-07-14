@@ -30,25 +30,30 @@ func resourceWanoptSettings() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"host_id": &schema.Schema{
+			"host_id": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Required:     true,
 			},
-			"tunnel_ssl_algorithm": &schema.Schema{
+			"tunnel_ssl_algorithm": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"auto_detect_algorithm": &schema.Schema{
+			"auto_detect_algorithm": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -67,14 +72,24 @@ func resourceWanoptSettingsUpdate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectWanoptSettings(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating WanoptSettings resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateWanoptSettings(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectWanoptSettings(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating WanoptSettings resource: %v", err)
+		return fmt.Errorf("error updating WanoptSettings resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateWanoptSettings(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating WanoptSettings resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -101,9 +116,17 @@ func resourceWanoptSettingsDelete(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	err := c.DeleteWanoptSettings(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteWanoptSettings(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting WanoptSettings resource: %v", err)
+		return fmt.Errorf("error deleting WanoptSettings resource: %v", err)
 	}
 
 	d.SetId("")
@@ -125,9 +148,19 @@ func resourceWanoptSettingsRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadWanoptSettings(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadWanoptSettings(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading WanoptSettings resource: %v", err)
+		return fmt.Errorf("error reading WanoptSettings resource: %v", err)
 	}
 
 	if o == nil {
@@ -138,7 +171,7 @@ func resourceWanoptSettingsRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectWanoptSettings(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading WanoptSettings resource from API: %v", err)
+		return fmt.Errorf("error reading WanoptSettings resource from API: %v", err)
 	}
 	return nil
 }
@@ -160,19 +193,19 @@ func refreshObjectWanoptSettings(d *schema.ResourceData, o map[string]interface{
 
 	if err = d.Set("host_id", flattenWanoptSettingsHostId(o["host-id"], d, "host_id", sv)); err != nil {
 		if !fortiAPIPatch(o["host-id"]) {
-			return fmt.Errorf("Error reading host_id: %v", err)
+			return fmt.Errorf("error reading host_id: %v", err)
 		}
 	}
 
 	if err = d.Set("tunnel_ssl_algorithm", flattenWanoptSettingsTunnelSslAlgorithm(o["tunnel-ssl-algorithm"], d, "tunnel_ssl_algorithm", sv)); err != nil {
 		if !fortiAPIPatch(o["tunnel-ssl-algorithm"]) {
-			return fmt.Errorf("Error reading tunnel_ssl_algorithm: %v", err)
+			return fmt.Errorf("error reading tunnel_ssl_algorithm: %v", err)
 		}
 	}
 
 	if err = d.Set("auto_detect_algorithm", flattenWanoptSettingsAutoDetectAlgorithm(o["auto-detect-algorithm"], d, "auto_detect_algorithm", sv)); err != nil {
 		if !fortiAPIPatch(o["auto-detect-algorithm"]) {
-			return fmt.Errorf("Error reading auto_detect_algorithm: %v", err)
+			return fmt.Errorf("error reading auto_detect_algorithm: %v", err)
 		}
 	}
 

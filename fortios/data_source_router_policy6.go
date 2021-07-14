@@ -21,61 +21,61 @@ func dataSourceRouterPolicy6() *schema.Resource {
 	return &schema.Resource{
 		Read: dataSourceRouterPolicy6Read,
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
 
-			"seq_num": &schema.Schema{
+			"seq_num": {
 				Type:     schema.TypeInt,
 				Required: true,
 			},
-			"input_device": &schema.Schema{
+			"input_device": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"src": &schema.Schema{
+			"src": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"dst": &schema.Schema{
+			"dst": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"protocol": &schema.Schema{
+			"protocol": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"start_port": &schema.Schema{
+			"start_port": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"end_port": &schema.Schema{
+			"end_port": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"gateway": &schema.Schema{
+			"gateway": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"output_device": &schema.Schema{
+			"output_device": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"tos": &schema.Schema{
+			"tos": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"tos_mask": &schema.Schema{
+			"tos_mask": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"status": &schema.Schema{
+			"status": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"comments": &schema.Schema{
+			"comments": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -103,12 +103,12 @@ func dataSourceRouterPolicy6Read(d *schema.ResourceData, m interface{}) error {
 	} else if v, ok := t.(int); ok {
 		mkey = strconv.Itoa(v)
 	} else {
-		return fmt.Errorf("Error describing RouterPolicy6: type error")
+		return fmt.Errorf("error describing RouterPolicy6: type error")
 	}
 
-	o, err := c.ReadRouterPolicy6(mkey, vdomparam)
+	o, err := c.ReadRouterPolicy6(mkey, vdomparam, make(map[string][]string), 0)
 	if err != nil {
-		return fmt.Errorf("Error describing RouterPolicy6: %v", err)
+		return fmt.Errorf("error describing RouterPolicy6: %v", err)
 	}
 
 	if o == nil {
@@ -118,7 +118,7 @@ func dataSourceRouterPolicy6Read(d *schema.ResourceData, m interface{}) error {
 
 	err = dataSourceRefreshObjectRouterPolicy6(d, o)
 	if err != nil {
-		return fmt.Errorf("Error describing RouterPolicy6 from API: %v", err)
+		return fmt.Errorf("error describing RouterPolicy6 from API: %v", err)
 	}
 
 	d.SetId(mkey)
@@ -183,79 +183,79 @@ func dataSourceRefreshObjectRouterPolicy6(d *schema.ResourceData, o map[string]i
 
 	if err = d.Set("seq_num", dataSourceFlattenRouterPolicy6SeqNum(o["seq-num"], d, "seq_num")); err != nil {
 		if !fortiAPIPatch(o["seq-num"]) {
-			return fmt.Errorf("Error reading seq_num: %v", err)
+			return fmt.Errorf("error reading seq_num: %v", err)
 		}
 	}
 
 	if err = d.Set("input_device", dataSourceFlattenRouterPolicy6InputDevice(o["input-device"], d, "input_device")); err != nil {
 		if !fortiAPIPatch(o["input-device"]) {
-			return fmt.Errorf("Error reading input_device: %v", err)
+			return fmt.Errorf("error reading input_device: %v", err)
 		}
 	}
 
 	if err = d.Set("src", dataSourceFlattenRouterPolicy6Src(o["src"], d, "src")); err != nil {
 		if !fortiAPIPatch(o["src"]) {
-			return fmt.Errorf("Error reading src: %v", err)
+			return fmt.Errorf("error reading src: %v", err)
 		}
 	}
 
 	if err = d.Set("dst", dataSourceFlattenRouterPolicy6Dst(o["dst"], d, "dst")); err != nil {
 		if !fortiAPIPatch(o["dst"]) {
-			return fmt.Errorf("Error reading dst: %v", err)
+			return fmt.Errorf("error reading dst: %v", err)
 		}
 	}
 
 	if err = d.Set("protocol", dataSourceFlattenRouterPolicy6Protocol(o["protocol"], d, "protocol")); err != nil {
 		if !fortiAPIPatch(o["protocol"]) {
-			return fmt.Errorf("Error reading protocol: %v", err)
+			return fmt.Errorf("error reading protocol: %v", err)
 		}
 	}
 
 	if err = d.Set("start_port", dataSourceFlattenRouterPolicy6StartPort(o["start-port"], d, "start_port")); err != nil {
 		if !fortiAPIPatch(o["start-port"]) {
-			return fmt.Errorf("Error reading start_port: %v", err)
+			return fmt.Errorf("error reading start_port: %v", err)
 		}
 	}
 
 	if err = d.Set("end_port", dataSourceFlattenRouterPolicy6EndPort(o["end-port"], d, "end_port")); err != nil {
 		if !fortiAPIPatch(o["end-port"]) {
-			return fmt.Errorf("Error reading end_port: %v", err)
+			return fmt.Errorf("error reading end_port: %v", err)
 		}
 	}
 
 	if err = d.Set("gateway", dataSourceFlattenRouterPolicy6Gateway(o["gateway"], d, "gateway")); err != nil {
 		if !fortiAPIPatch(o["gateway"]) {
-			return fmt.Errorf("Error reading gateway: %v", err)
+			return fmt.Errorf("error reading gateway: %v", err)
 		}
 	}
 
 	if err = d.Set("output_device", dataSourceFlattenRouterPolicy6OutputDevice(o["output-device"], d, "output_device")); err != nil {
 		if !fortiAPIPatch(o["output-device"]) {
-			return fmt.Errorf("Error reading output_device: %v", err)
+			return fmt.Errorf("error reading output_device: %v", err)
 		}
 	}
 
 	if err = d.Set("tos", dataSourceFlattenRouterPolicy6Tos(o["tos"], d, "tos")); err != nil {
 		if !fortiAPIPatch(o["tos"]) {
-			return fmt.Errorf("Error reading tos: %v", err)
+			return fmt.Errorf("error reading tos: %v", err)
 		}
 	}
 
 	if err = d.Set("tos_mask", dataSourceFlattenRouterPolicy6TosMask(o["tos-mask"], d, "tos_mask")); err != nil {
 		if !fortiAPIPatch(o["tos-mask"]) {
-			return fmt.Errorf("Error reading tos_mask: %v", err)
+			return fmt.Errorf("error reading tos_mask: %v", err)
 		}
 	}
 
 	if err = d.Set("status", dataSourceFlattenRouterPolicy6Status(o["status"], d, "status")); err != nil {
 		if !fortiAPIPatch(o["status"]) {
-			return fmt.Errorf("Error reading status: %v", err)
+			return fmt.Errorf("error reading status: %v", err)
 		}
 	}
 
 	if err = d.Set("comments", dataSourceFlattenRouterPolicy6Comments(o["comments"], d, "comments")); err != nil {
 		if !fortiAPIPatch(o["comments"]) {
-			return fmt.Errorf("Error reading comments: %v", err)
+			return fmt.Errorf("error reading comments: %v", err)
 		}
 	}
 

@@ -30,62 +30,67 @@ func resourceUserFortitoken() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"serial_number": &schema.Schema{
+			"serial_number": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 16),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"status": &schema.Schema{
+			"status": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"seed": &schema.Schema{
+			"seed": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 200),
 				Optional:     true,
 				Computed:     true,
 			},
-			"comments": &schema.Schema{
+			"comments": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
 			},
-			"license": &schema.Schema{
+			"license": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 31),
 				Optional:     true,
 				Computed:     true,
 			},
-			"activation_code": &schema.Schema{
+			"activation_code": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 32),
 				Optional:     true,
 				Computed:     true,
 			},
-			"activation_expire": &schema.Schema{
+			"activation_expire": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"reg_id": &schema.Schema{
+			"reg_id": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 256),
 				Optional:     true,
 				Computed:     true,
 			},
-			"os_ver": &schema.Schema{
+			"os_ver": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 15),
 				Optional:     true,
 				Computed:     true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -103,15 +108,25 @@ func resourceUserFortitokenCreate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectUserFortitoken(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating UserFortitoken resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateUserFortitoken(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectUserFortitoken(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating UserFortitoken resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateUserFortitoken(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating UserFortitoken resource: %v", err)
+		return fmt.Errorf("error creating UserFortitoken resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -136,14 +151,24 @@ func resourceUserFortitokenUpdate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectUserFortitoken(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating UserFortitoken resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateUserFortitoken(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectUserFortitoken(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating UserFortitoken resource: %v", err)
+		return fmt.Errorf("error updating UserFortitoken resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateUserFortitoken(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating UserFortitoken resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -170,9 +195,17 @@ func resourceUserFortitokenDelete(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	err := c.DeleteUserFortitoken(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteUserFortitoken(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting UserFortitoken resource: %v", err)
+		return fmt.Errorf("error deleting UserFortitoken resource: %v", err)
 	}
 
 	d.SetId("")
@@ -194,9 +227,19 @@ func resourceUserFortitokenRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadUserFortitoken(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadUserFortitoken(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading UserFortitoken resource: %v", err)
+		return fmt.Errorf("error reading UserFortitoken resource: %v", err)
 	}
 
 	if o == nil {
@@ -207,7 +250,7 @@ func resourceUserFortitokenRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectUserFortitoken(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading UserFortitoken resource from API: %v", err)
+		return fmt.Errorf("error reading UserFortitoken resource from API: %v", err)
 	}
 	return nil
 }
@@ -253,55 +296,55 @@ func refreshObjectUserFortitoken(d *schema.ResourceData, o map[string]interface{
 
 	if err = d.Set("serial_number", flattenUserFortitokenSerialNumber(o["serial-number"], d, "serial_number", sv)); err != nil {
 		if !fortiAPIPatch(o["serial-number"]) {
-			return fmt.Errorf("Error reading serial_number: %v", err)
+			return fmt.Errorf("error reading serial_number: %v", err)
 		}
 	}
 
 	if err = d.Set("status", flattenUserFortitokenStatus(o["status"], d, "status", sv)); err != nil {
 		if !fortiAPIPatch(o["status"]) {
-			return fmt.Errorf("Error reading status: %v", err)
+			return fmt.Errorf("error reading status: %v", err)
 		}
 	}
 
 	if err = d.Set("seed", flattenUserFortitokenSeed(o["seed"], d, "seed", sv)); err != nil {
 		if !fortiAPIPatch(o["seed"]) {
-			return fmt.Errorf("Error reading seed: %v", err)
+			return fmt.Errorf("error reading seed: %v", err)
 		}
 	}
 
 	if err = d.Set("comments", flattenUserFortitokenComments(o["comments"], d, "comments", sv)); err != nil {
 		if !fortiAPIPatch(o["comments"]) {
-			return fmt.Errorf("Error reading comments: %v", err)
+			return fmt.Errorf("error reading comments: %v", err)
 		}
 	}
 
 	if err = d.Set("license", flattenUserFortitokenLicense(o["license"], d, "license", sv)); err != nil {
 		if !fortiAPIPatch(o["license"]) {
-			return fmt.Errorf("Error reading license: %v", err)
+			return fmt.Errorf("error reading license: %v", err)
 		}
 	}
 
 	if err = d.Set("activation_code", flattenUserFortitokenActivationCode(o["activation-code"], d, "activation_code", sv)); err != nil {
 		if !fortiAPIPatch(o["activation-code"]) {
-			return fmt.Errorf("Error reading activation_code: %v", err)
+			return fmt.Errorf("error reading activation_code: %v", err)
 		}
 	}
 
 	if err = d.Set("activation_expire", flattenUserFortitokenActivationExpire(o["activation-expire"], d, "activation_expire", sv)); err != nil {
 		if !fortiAPIPatch(o["activation-expire"]) {
-			return fmt.Errorf("Error reading activation_expire: %v", err)
+			return fmt.Errorf("error reading activation_expire: %v", err)
 		}
 	}
 
 	if err = d.Set("reg_id", flattenUserFortitokenRegId(o["reg-id"], d, "reg_id", sv)); err != nil {
 		if !fortiAPIPatch(o["reg-id"]) {
-			return fmt.Errorf("Error reading reg_id: %v", err)
+			return fmt.Errorf("error reading reg_id: %v", err)
 		}
 	}
 
 	if err = d.Set("os_ver", flattenUserFortitokenOsVer(o["os-ver"], d, "os_ver", sv)); err != nil {
 		if !fortiAPIPatch(o["os-ver"]) {
-			return fmt.Errorf("Error reading os_ver: %v", err)
+			return fmt.Errorf("error reading os_ver: %v", err)
 		}
 	}
 

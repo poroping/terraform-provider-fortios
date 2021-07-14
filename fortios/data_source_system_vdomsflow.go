@@ -21,25 +21,25 @@ func dataSourceSystemVdomSflow() *schema.Resource {
 	return &schema.Resource{
 		Read: dataSourceSystemVdomSflowRead,
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
 
-			"vdom_sflow": &schema.Schema{
+			"vdom_sflow": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"collector_ip": &schema.Schema{
+			"collector_ip": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"collector_port": &schema.Schema{
+			"collector_port": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"source_ip": &schema.Schema{
+			"source_ip": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -61,9 +61,9 @@ func dataSourceSystemVdomSflowRead(d *schema.ResourceData, m interface{}) error 
 
 	mkey := "SystemVdomSflow"
 
-	o, err := c.ReadSystemVdomSflow(mkey, vdomparam)
+	o, err := c.ReadSystemVdomSflow(mkey, vdomparam, make(map[string][]string), 0)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemVdomSflow: %v", err)
+		return fmt.Errorf("error describing SystemVdomSflow: %v", err)
 	}
 
 	if o == nil {
@@ -73,7 +73,7 @@ func dataSourceSystemVdomSflowRead(d *schema.ResourceData, m interface{}) error 
 
 	err = dataSourceRefreshObjectSystemVdomSflow(d, o)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemVdomSflow from API: %v", err)
+		return fmt.Errorf("error describing SystemVdomSflow from API: %v", err)
 	}
 
 	d.SetId(mkey)
@@ -102,25 +102,25 @@ func dataSourceRefreshObjectSystemVdomSflow(d *schema.ResourceData, o map[string
 
 	if err = d.Set("vdom_sflow", dataSourceFlattenSystemVdomSflowVdomSflow(o["vdom-sflow"], d, "vdom_sflow")); err != nil {
 		if !fortiAPIPatch(o["vdom-sflow"]) {
-			return fmt.Errorf("Error reading vdom_sflow: %v", err)
+			return fmt.Errorf("error reading vdom_sflow: %v", err)
 		}
 	}
 
 	if err = d.Set("collector_ip", dataSourceFlattenSystemVdomSflowCollectorIp(o["collector-ip"], d, "collector_ip")); err != nil {
 		if !fortiAPIPatch(o["collector-ip"]) {
-			return fmt.Errorf("Error reading collector_ip: %v", err)
+			return fmt.Errorf("error reading collector_ip: %v", err)
 		}
 	}
 
 	if err = d.Set("collector_port", dataSourceFlattenSystemVdomSflowCollectorPort(o["collector-port"], d, "collector_port")); err != nil {
 		if !fortiAPIPatch(o["collector-port"]) {
-			return fmt.Errorf("Error reading collector_port: %v", err)
+			return fmt.Errorf("error reading collector_port: %v", err)
 		}
 	}
 
 	if err = d.Set("source_ip", dataSourceFlattenSystemVdomSflowSourceIp(o["source-ip"], d, "source_ip")); err != nil {
 		if !fortiAPIPatch(o["source-ip"]) {
-			return fmt.Errorf("Error reading source_ip: %v", err)
+			return fmt.Errorf("error reading source_ip: %v", err)
 		}
 	}
 
