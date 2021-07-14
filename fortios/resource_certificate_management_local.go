@@ -29,37 +29,37 @@ func resourceCertificateManagementLocal() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				ForceNew:     true,
 				Required:     true,
 			},
-			"password": &schema.Schema{
+			"password": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 128),
 				ForceNew:     true,
 				Optional:     true,
 				Sensitive:    true,
 			},
-			"comments": &schema.Schema{
+			"comments": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 511),
 				Optional:     true,
 				Computed:     true,
 			},
-			"private_key": &schema.Schema{
+			"private_key": {
 				Type:      schema.TypeString,
 				ForceNew:  true,
 				Optional:  true,
 				Sensitive: true,
 			},
-			"certificate": &schema.Schema{
+			"certificate": {
 				Type:     schema.TypeString,
 				ForceNew: true,
 				Optional: true,
@@ -120,26 +120,31 @@ func resourceCertificateManagementLocal() *schema.Resource {
 					},
 				},
 			},
-			"scope": &schema.Schema{
+			"scope": {
 				Type:     schema.TypeString,
 				ForceNew: true,
 				Required: true,
 			},
-			"ike_localid": &schema.Schema{
+			"ike_localid": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"ike_localid_type": &schema.Schema{
+			"ike_localid_type": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"type": &schema.Schema{
+			"type": {
 				Type:     schema.TypeString,
 				ForceNew: true,
 				Required: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -157,6 +162,14 @@ func resourceCertificateManagementLocalCreate(d *schema.ResourceData, m interfac
 		}
 	}
 
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
 	mkey := d.Get("name").(string)
 
 	i := &forticlient.JSONSystemVpnCertificateLocalImport{
@@ -168,7 +181,7 @@ func resourceCertificateManagementLocalCreate(d *schema.ResourceData, m interfac
 		Scope:       d.Get("scope").(string),
 	}
 
-	_, err := c.CreateSystemVpnCertificateLocalImport(i, vdomparam)
+	_, err := c.CreateSystemVpnCertificateLocalImport(i, vdomparam, batchid)
 
 	if err != nil {
 		return fmt.Errorf("error creating CertificateManagementLocalImport resource: %v", err)
@@ -181,12 +194,14 @@ func resourceCertificateManagementLocalCreate(d *schema.ResourceData, m interfac
 		return fmt.Errorf("error creating CertificateManagementLocal resource while getting object: %v", err)
 	}
 
+	urlparams := make(map[string][]string)
+
 	scope := d.Get("scope").(string)
 	var o map[string]interface{}
 	if scope == "global" {
-		o, err = c.UpdateCertificateLocal(obj, mkey, vdomparam)
+		o, err = c.UpdateCertificateLocal(obj, mkey, vdomparam, urlparams, batchid)
 	} else {
-		o, err = c.UpdateVpnCertificateLocal(obj, mkey, vdomparam)
+		o, err = c.UpdateVpnCertificateLocal(obj, mkey, vdomparam, urlparams, batchid)
 	}
 
 	if err != nil {
@@ -215,6 +230,16 @@ func resourceCertificateManagementLocalUpdate(d *schema.ResourceData, m interfac
 		}
 	}
 
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
 	obj, err := getObjectCertificateManagementLocal(d, c.Fv)
 	if err != nil {
 		return fmt.Errorf("error updating CertificateManagementLocal resource while getting object: %v", err)
@@ -223,9 +248,9 @@ func resourceCertificateManagementLocalUpdate(d *schema.ResourceData, m interfac
 	scope := d.Get("scope").(string)
 	var o map[string]interface{}
 	if scope == "global" {
-		o, err = c.UpdateCertificateLocal(obj, mkey, vdomparam)
+		o, err = c.UpdateCertificateLocal(obj, mkey, vdomparam, urlparams, batchid)
 	} else {
-		o, err = c.UpdateVpnCertificateLocal(obj, mkey, vdomparam)
+		o, err = c.UpdateVpnCertificateLocal(obj, mkey, vdomparam, urlparams, batchid)
 	}
 
 	if err != nil {
@@ -256,12 +281,20 @@ func resourceCertificateManagementLocalDelete(d *schema.ResourceData, m interfac
 		}
 	}
 
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
 	scope := d.Get("scope").(string)
 	var err error
 	if scope == "global" {
-		err = c.DeleteCertificateLocal(mkey, vdomparam)
+		err = c.DeleteCertificateLocal(mkey, vdomparam, batchid)
 	} else {
-		err = c.DeleteVpnCertificateLocal(mkey, vdomparam)
+		err = c.DeleteVpnCertificateLocal(mkey, vdomparam, batchid)
 	}
 
 	if err != nil {
@@ -286,6 +319,16 @@ func resourceCertificateManagementLocalRead(d *schema.ResourceData, m interface{
 			vdomparam = s
 		}
 	}
+
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
 
 	// get certificate from monitor endpoint
 
@@ -313,9 +356,9 @@ func resourceCertificateManagementLocalRead(d *schema.ResourceData, m interface{
 	var o map[string]interface{}
 
 	if scope == "global" {
-		o, err = c.ReadCertificateLocal(mkey, vdomparam)
+		o, err = c.ReadCertificateLocal(mkey, vdomparam, urlparams, batchid)
 	} else {
-		o, err = c.ReadVpnCertificateLocal(mkey, vdomparam)
+		o, err = c.ReadVpnCertificateLocal(mkey, vdomparam, urlparams, batchid)
 	}
 
 	if err != nil {
