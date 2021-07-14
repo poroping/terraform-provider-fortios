@@ -21,66 +21,66 @@ func dataSourceSystemExternalResource() *schema.Resource {
 	return &schema.Resource{
 		Read: dataSourceSystemExternalResourceRead,
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
 
-			"name": &schema.Schema{
+			"name": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"uuid": &schema.Schema{
+			"uuid": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"status": &schema.Schema{
+			"status": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"type": &schema.Schema{
+			"type": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"category": &schema.Schema{
+			"category": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"username": &schema.Schema{
+			"username": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"password": &schema.Schema{
+			"password": {
 				Type:      schema.TypeString,
 				Sensitive: true,
 				Computed:  true,
 			},
-			"comments": &schema.Schema{
+			"comments": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"resource": &schema.Schema{
+			"resource": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"user_agent": &schema.Schema{
+			"user_agent": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"refresh_rate": &schema.Schema{
+			"refresh_rate": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"source_ip": &schema.Schema{
+			"source_ip": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"interface_select_method": &schema.Schema{
+			"interface_select_method": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"interface": &schema.Schema{
+			"interface": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -108,12 +108,12 @@ func dataSourceSystemExternalResourceRead(d *schema.ResourceData, m interface{})
 	} else if v, ok := t.(int); ok {
 		mkey = strconv.Itoa(v)
 	} else {
-		return fmt.Errorf("Error describing SystemExternalResource: type error")
+		return fmt.Errorf("error describing SystemExternalResource: type error")
 	}
 
-	o, err := c.ReadSystemExternalResource(mkey, vdomparam)
+	o, err := c.ReadSystemExternalResource(mkey, vdomparam, make(map[string][]string), 0)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemExternalResource: %v", err)
+		return fmt.Errorf("error describing SystemExternalResource: %v", err)
 	}
 
 	if o == nil {
@@ -123,7 +123,7 @@ func dataSourceSystemExternalResourceRead(d *schema.ResourceData, m interface{})
 
 	err = dataSourceRefreshObjectSystemExternalResource(d, o)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemExternalResource from API: %v", err)
+		return fmt.Errorf("error describing SystemExternalResource from API: %v", err)
 	}
 
 	d.SetId(mkey)
@@ -192,79 +192,79 @@ func dataSourceRefreshObjectSystemExternalResource(d *schema.ResourceData, o map
 
 	if err = d.Set("name", dataSourceFlattenSystemExternalResourceName(o["name"], d, "name")); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("uuid", dataSourceFlattenSystemExternalResourceUuid(o["uuid"], d, "uuid")); err != nil {
 		if !fortiAPIPatch(o["uuid"]) {
-			return fmt.Errorf("Error reading uuid: %v", err)
+			return fmt.Errorf("error reading uuid: %v", err)
 		}
 	}
 
 	if err = d.Set("status", dataSourceFlattenSystemExternalResourceStatus(o["status"], d, "status")); err != nil {
 		if !fortiAPIPatch(o["status"]) {
-			return fmt.Errorf("Error reading status: %v", err)
+			return fmt.Errorf("error reading status: %v", err)
 		}
 	}
 
 	if err = d.Set("type", dataSourceFlattenSystemExternalResourceType(o["type"], d, "type")); err != nil {
 		if !fortiAPIPatch(o["type"]) {
-			return fmt.Errorf("Error reading type: %v", err)
+			return fmt.Errorf("error reading type: %v", err)
 		}
 	}
 
 	if err = d.Set("category", dataSourceFlattenSystemExternalResourceCategory(o["category"], d, "category")); err != nil {
 		if !fortiAPIPatch(o["category"]) {
-			return fmt.Errorf("Error reading category: %v", err)
+			return fmt.Errorf("error reading category: %v", err)
 		}
 	}
 
 	if err = d.Set("username", dataSourceFlattenSystemExternalResourceUsername(o["username"], d, "username")); err != nil {
 		if !fortiAPIPatch(o["username"]) {
-			return fmt.Errorf("Error reading username: %v", err)
+			return fmt.Errorf("error reading username: %v", err)
 		}
 	}
 
 	if err = d.Set("comments", dataSourceFlattenSystemExternalResourceComments(o["comments"], d, "comments")); err != nil {
 		if !fortiAPIPatch(o["comments"]) {
-			return fmt.Errorf("Error reading comments: %v", err)
+			return fmt.Errorf("error reading comments: %v", err)
 		}
 	}
 
 	if err = d.Set("resource", dataSourceFlattenSystemExternalResourceResource(o["resource"], d, "resource")); err != nil {
 		if !fortiAPIPatch(o["resource"]) {
-			return fmt.Errorf("Error reading resource: %v", err)
+			return fmt.Errorf("error reading resource: %v", err)
 		}
 	}
 
 	if err = d.Set("user_agent", dataSourceFlattenSystemExternalResourceUserAgent(o["user-agent"], d, "user_agent")); err != nil {
 		if !fortiAPIPatch(o["user-agent"]) {
-			return fmt.Errorf("Error reading user_agent: %v", err)
+			return fmt.Errorf("error reading user_agent: %v", err)
 		}
 	}
 
 	if err = d.Set("refresh_rate", dataSourceFlattenSystemExternalResourceRefreshRate(o["refresh-rate"], d, "refresh_rate")); err != nil {
 		if !fortiAPIPatch(o["refresh-rate"]) {
-			return fmt.Errorf("Error reading refresh_rate: %v", err)
+			return fmt.Errorf("error reading refresh_rate: %v", err)
 		}
 	}
 
 	if err = d.Set("source_ip", dataSourceFlattenSystemExternalResourceSourceIp(o["source-ip"], d, "source_ip")); err != nil {
 		if !fortiAPIPatch(o["source-ip"]) {
-			return fmt.Errorf("Error reading source_ip: %v", err)
+			return fmt.Errorf("error reading source_ip: %v", err)
 		}
 	}
 
 	if err = d.Set("interface_select_method", dataSourceFlattenSystemExternalResourceInterfaceSelectMethod(o["interface-select-method"], d, "interface_select_method")); err != nil {
 		if !fortiAPIPatch(o["interface-select-method"]) {
-			return fmt.Errorf("Error reading interface_select_method: %v", err)
+			return fmt.Errorf("error reading interface_select_method: %v", err)
 		}
 	}
 
 	if err = d.Set("interface", dataSourceFlattenSystemExternalResourceInterface(o["interface"], d, "interface")); err != nil {
 		if !fortiAPIPatch(o["interface"]) {
-			return fmt.Errorf("Error reading interface: %v", err)
+			return fmt.Errorf("error reading interface: %v", err)
 		}
 	}
 

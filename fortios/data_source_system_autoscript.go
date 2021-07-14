@@ -21,37 +21,37 @@ func dataSourceSystemAutoScript() *schema.Resource {
 	return &schema.Resource{
 		Read: dataSourceSystemAutoScriptRead,
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
 
-			"name": &schema.Schema{
+			"name": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"interval": &schema.Schema{
+			"interval": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"repeat": &schema.Schema{
+			"repeat": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"start": &schema.Schema{
+			"start": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"script": &schema.Schema{
+			"script": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"output_size": &schema.Schema{
+			"output_size": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"timeout": &schema.Schema{
+			"timeout": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
@@ -79,12 +79,12 @@ func dataSourceSystemAutoScriptRead(d *schema.ResourceData, m interface{}) error
 	} else if v, ok := t.(int); ok {
 		mkey = strconv.Itoa(v)
 	} else {
-		return fmt.Errorf("Error describing SystemAutoScript: type error")
+		return fmt.Errorf("error describing SystemAutoScript: type error")
 	}
 
-	o, err := c.ReadSystemAutoScript(mkey, vdomparam)
+	o, err := c.ReadSystemAutoScript(mkey, vdomparam, make(map[string][]string), 0)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemAutoScript: %v", err)
+		return fmt.Errorf("error describing SystemAutoScript: %v", err)
 	}
 
 	if o == nil {
@@ -94,7 +94,7 @@ func dataSourceSystemAutoScriptRead(d *schema.ResourceData, m interface{}) error
 
 	err = dataSourceRefreshObjectSystemAutoScript(d, o)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemAutoScript from API: %v", err)
+		return fmt.Errorf("error describing SystemAutoScript from API: %v", err)
 	}
 
 	d.SetId(mkey)
@@ -135,43 +135,43 @@ func dataSourceRefreshObjectSystemAutoScript(d *schema.ResourceData, o map[strin
 
 	if err = d.Set("name", dataSourceFlattenSystemAutoScriptName(o["name"], d, "name")); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("interval", dataSourceFlattenSystemAutoScriptInterval(o["interval"], d, "interval")); err != nil {
 		if !fortiAPIPatch(o["interval"]) {
-			return fmt.Errorf("Error reading interval: %v", err)
+			return fmt.Errorf("error reading interval: %v", err)
 		}
 	}
 
 	if err = d.Set("repeat", dataSourceFlattenSystemAutoScriptRepeat(o["repeat"], d, "repeat")); err != nil {
 		if !fortiAPIPatch(o["repeat"]) {
-			return fmt.Errorf("Error reading repeat: %v", err)
+			return fmt.Errorf("error reading repeat: %v", err)
 		}
 	}
 
 	if err = d.Set("start", dataSourceFlattenSystemAutoScriptStart(o["start"], d, "start")); err != nil {
 		if !fortiAPIPatch(o["start"]) {
-			return fmt.Errorf("Error reading start: %v", err)
+			return fmt.Errorf("error reading start: %v", err)
 		}
 	}
 
 	if err = d.Set("script", dataSourceFlattenSystemAutoScriptScript(o["script"], d, "script")); err != nil {
 		if !fortiAPIPatch(o["script"]) {
-			return fmt.Errorf("Error reading script: %v", err)
+			return fmt.Errorf("error reading script: %v", err)
 		}
 	}
 
 	if err = d.Set("output_size", dataSourceFlattenSystemAutoScriptOutputSize(o["output-size"], d, "output_size")); err != nil {
 		if !fortiAPIPatch(o["output-size"]) {
-			return fmt.Errorf("Error reading output_size: %v", err)
+			return fmt.Errorf("error reading output_size: %v", err)
 		}
 	}
 
 	if err = d.Set("timeout", dataSourceFlattenSystemAutoScriptTimeout(o["timeout"], d, "timeout")); err != nil {
 		if !fortiAPIPatch(o["timeout"]) {
-			return fmt.Errorf("Error reading timeout: %v", err)
+			return fmt.Errorf("error reading timeout: %v", err)
 		}
 	}
 

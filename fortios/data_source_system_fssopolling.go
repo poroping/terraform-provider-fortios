@@ -21,25 +21,25 @@ func dataSourceSystemFssoPolling() *schema.Resource {
 	return &schema.Resource{
 		Read: dataSourceSystemFssoPollingRead,
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
 
-			"status": &schema.Schema{
+			"status": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"listening_port": &schema.Schema{
+			"listening_port": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"authentication": &schema.Schema{
+			"authentication": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"auth_password": &schema.Schema{
+			"auth_password": {
 				Type:      schema.TypeString,
 				Sensitive: true,
 				Computed:  true,
@@ -62,9 +62,9 @@ func dataSourceSystemFssoPollingRead(d *schema.ResourceData, m interface{}) erro
 
 	mkey := "SystemFssoPolling"
 
-	o, err := c.ReadSystemFssoPolling(mkey, vdomparam)
+	o, err := c.ReadSystemFssoPolling(mkey, vdomparam, make(map[string][]string), 0)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemFssoPolling: %v", err)
+		return fmt.Errorf("error describing SystemFssoPolling: %v", err)
 	}
 
 	if o == nil {
@@ -74,7 +74,7 @@ func dataSourceSystemFssoPollingRead(d *schema.ResourceData, m interface{}) erro
 
 	err = dataSourceRefreshObjectSystemFssoPolling(d, o)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemFssoPolling from API: %v", err)
+		return fmt.Errorf("error describing SystemFssoPolling from API: %v", err)
 	}
 
 	d.SetId(mkey)
@@ -103,19 +103,19 @@ func dataSourceRefreshObjectSystemFssoPolling(d *schema.ResourceData, o map[stri
 
 	if err = d.Set("status", dataSourceFlattenSystemFssoPollingStatus(o["status"], d, "status")); err != nil {
 		if !fortiAPIPatch(o["status"]) {
-			return fmt.Errorf("Error reading status: %v", err)
+			return fmt.Errorf("error reading status: %v", err)
 		}
 	}
 
 	if err = d.Set("listening_port", dataSourceFlattenSystemFssoPollingListeningPort(o["listening-port"], d, "listening_port")); err != nil {
 		if !fortiAPIPatch(o["listening-port"]) {
-			return fmt.Errorf("Error reading listening_port: %v", err)
+			return fmt.Errorf("error reading listening_port: %v", err)
 		}
 	}
 
 	if err = d.Set("authentication", dataSourceFlattenSystemFssoPollingAuthentication(o["authentication"], d, "authentication")); err != nil {
 		if !fortiAPIPatch(o["authentication"]) {
-			return fmt.Errorf("Error reading authentication: %v", err)
+			return fmt.Errorf("error reading authentication: %v", err)
 		}
 	}
 

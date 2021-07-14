@@ -17,12 +17,12 @@ func dataSourceSystemClusterSyncList() *schema.Resource {
 		Read: dataSourceSystemClusterSyncListRead,
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"filter": &schema.Schema{
+			"filter": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
@@ -52,9 +52,9 @@ func dataSourceSystemClusterSyncListRead(d *schema.ResourceData, m interface{}) 
 		filter = escapeFilter(filter)
 	}
 
-	o, err := c.GenericGroupRead("/api/v2/cmdb/system/cluster-sync", filter, vdomparam)
+	o, err := c.GenericGroupRead("/api/v2/cmdb/system/cluster-sync", filter, vdomparam, 0)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemClusterSync: %v", err)
+		return fmt.Errorf("error describing SystemClusterSync: %v", err)
 	}
 
 	var tmps []int

@@ -21,25 +21,25 @@ func dataSourceSystemIpipTunnel() *schema.Resource {
 	return &schema.Resource{
 		Read: dataSourceSystemIpipTunnelRead,
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
 
-			"name": &schema.Schema{
+			"name": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"interface": &schema.Schema{
+			"interface": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"remote_gw": &schema.Schema{
+			"remote_gw": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"local_gw": &schema.Schema{
+			"local_gw": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -67,12 +67,12 @@ func dataSourceSystemIpipTunnelRead(d *schema.ResourceData, m interface{}) error
 	} else if v, ok := t.(int); ok {
 		mkey = strconv.Itoa(v)
 	} else {
-		return fmt.Errorf("Error describing SystemIpipTunnel: type error")
+		return fmt.Errorf("error describing SystemIpipTunnel: type error")
 	}
 
-	o, err := c.ReadSystemIpipTunnel(mkey, vdomparam)
+	o, err := c.ReadSystemIpipTunnel(mkey, vdomparam, make(map[string][]string), 0)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemIpipTunnel: %v", err)
+		return fmt.Errorf("error describing SystemIpipTunnel: %v", err)
 	}
 
 	if o == nil {
@@ -82,7 +82,7 @@ func dataSourceSystemIpipTunnelRead(d *schema.ResourceData, m interface{}) error
 
 	err = dataSourceRefreshObjectSystemIpipTunnel(d, o)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemIpipTunnel from API: %v", err)
+		return fmt.Errorf("error describing SystemIpipTunnel from API: %v", err)
 	}
 
 	d.SetId(mkey)
@@ -111,25 +111,25 @@ func dataSourceRefreshObjectSystemIpipTunnel(d *schema.ResourceData, o map[strin
 
 	if err = d.Set("name", dataSourceFlattenSystemIpipTunnelName(o["name"], d, "name")); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("interface", dataSourceFlattenSystemIpipTunnelInterface(o["interface"], d, "interface")); err != nil {
 		if !fortiAPIPatch(o["interface"]) {
-			return fmt.Errorf("Error reading interface: %v", err)
+			return fmt.Errorf("error reading interface: %v", err)
 		}
 	}
 
 	if err = d.Set("remote_gw", dataSourceFlattenSystemIpipTunnelRemoteGw(o["remote-gw"], d, "remote_gw")); err != nil {
 		if !fortiAPIPatch(o["remote-gw"]) {
-			return fmt.Errorf("Error reading remote_gw: %v", err)
+			return fmt.Errorf("error reading remote_gw: %v", err)
 		}
 	}
 
 	if err = d.Set("local_gw", dataSourceFlattenSystemIpipTunnelLocalGw(o["local-gw"], d, "local_gw")); err != nil {
 		if !fortiAPIPatch(o["local-gw"]) {
-			return fmt.Errorf("Error reading local_gw: %v", err)
+			return fmt.Errorf("error reading local_gw: %v", err)
 		}
 	}
 

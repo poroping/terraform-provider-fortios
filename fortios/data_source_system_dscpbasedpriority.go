@@ -21,21 +21,21 @@ func dataSourceSystemDscpBasedPriority() *schema.Resource {
 	return &schema.Resource{
 		Read: dataSourceSystemDscpBasedPriorityRead,
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
 
-			"fosid": &schema.Schema{
+			"fosid": {
 				Type:     schema.TypeInt,
 				Required: true,
 			},
-			"ds": &schema.Schema{
+			"ds": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"priority": &schema.Schema{
+			"priority": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -63,12 +63,12 @@ func dataSourceSystemDscpBasedPriorityRead(d *schema.ResourceData, m interface{}
 	} else if v, ok := t.(int); ok {
 		mkey = strconv.Itoa(v)
 	} else {
-		return fmt.Errorf("Error describing SystemDscpBasedPriority: type error")
+		return fmt.Errorf("error describing SystemDscpBasedPriority: type error")
 	}
 
-	o, err := c.ReadSystemDscpBasedPriority(mkey, vdomparam)
+	o, err := c.ReadSystemDscpBasedPriority(mkey, vdomparam, make(map[string][]string), 0)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemDscpBasedPriority: %v", err)
+		return fmt.Errorf("error describing SystemDscpBasedPriority: %v", err)
 	}
 
 	if o == nil {
@@ -78,7 +78,7 @@ func dataSourceSystemDscpBasedPriorityRead(d *schema.ResourceData, m interface{}
 
 	err = dataSourceRefreshObjectSystemDscpBasedPriority(d, o)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemDscpBasedPriority from API: %v", err)
+		return fmt.Errorf("error describing SystemDscpBasedPriority from API: %v", err)
 	}
 
 	d.SetId(mkey)
@@ -103,19 +103,19 @@ func dataSourceRefreshObjectSystemDscpBasedPriority(d *schema.ResourceData, o ma
 
 	if err = d.Set("fosid", dataSourceFlattenSystemDscpBasedPriorityId(o["id"], d, "fosid")); err != nil {
 		if !fortiAPIPatch(o["id"]) {
-			return fmt.Errorf("Error reading fosid: %v", err)
+			return fmt.Errorf("error reading fosid: %v", err)
 		}
 	}
 
 	if err = d.Set("ds", dataSourceFlattenSystemDscpBasedPriorityDs(o["ds"], d, "ds")); err != nil {
 		if !fortiAPIPatch(o["ds"]) {
-			return fmt.Errorf("Error reading ds: %v", err)
+			return fmt.Errorf("error reading ds: %v", err)
 		}
 	}
 
 	if err = d.Set("priority", dataSourceFlattenSystemDscpBasedPriorityPriority(o["priority"], d, "priority")); err != nil {
 		if !fortiAPIPatch(o["priority"]) {
-			return fmt.Errorf("Error reading priority: %v", err)
+			return fmt.Errorf("error reading priority: %v", err)
 		}
 	}
 

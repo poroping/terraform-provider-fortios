@@ -21,21 +21,21 @@ func dataSourceSystemSflow() *schema.Resource {
 	return &schema.Resource{
 		Read: dataSourceSystemSflowRead,
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
 
-			"collector_ip": &schema.Schema{
+			"collector_ip": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"collector_port": &schema.Schema{
+			"collector_port": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"source_ip": &schema.Schema{
+			"source_ip": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -57,9 +57,9 @@ func dataSourceSystemSflowRead(d *schema.ResourceData, m interface{}) error {
 
 	mkey := "SystemSflow"
 
-	o, err := c.ReadSystemSflow(mkey, vdomparam)
+	o, err := c.ReadSystemSflow(mkey, vdomparam, make(map[string][]string), 0)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemSflow: %v", err)
+		return fmt.Errorf("error describing SystemSflow: %v", err)
 	}
 
 	if o == nil {
@@ -69,7 +69,7 @@ func dataSourceSystemSflowRead(d *schema.ResourceData, m interface{}) error {
 
 	err = dataSourceRefreshObjectSystemSflow(d, o)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemSflow from API: %v", err)
+		return fmt.Errorf("error describing SystemSflow from API: %v", err)
 	}
 
 	d.SetId(mkey)
@@ -94,19 +94,19 @@ func dataSourceRefreshObjectSystemSflow(d *schema.ResourceData, o map[string]int
 
 	if err = d.Set("collector_ip", dataSourceFlattenSystemSflowCollectorIp(o["collector-ip"], d, "collector_ip")); err != nil {
 		if !fortiAPIPatch(o["collector-ip"]) {
-			return fmt.Errorf("Error reading collector_ip: %v", err)
+			return fmt.Errorf("error reading collector_ip: %v", err)
 		}
 	}
 
 	if err = d.Set("collector_port", dataSourceFlattenSystemSflowCollectorPort(o["collector-port"], d, "collector_port")); err != nil {
 		if !fortiAPIPatch(o["collector-port"]) {
-			return fmt.Errorf("Error reading collector_port: %v", err)
+			return fmt.Errorf("error reading collector_port: %v", err)
 		}
 	}
 
 	if err = d.Set("source_ip", dataSourceFlattenSystemSflowSourceIp(o["source-ip"], d, "source_ip")); err != nil {
 		if !fortiAPIPatch(o["source-ip"]) {
-			return fmt.Errorf("Error reading source_ip: %v", err)
+			return fmt.Errorf("error reading source_ip: %v", err)
 		}
 	}
 

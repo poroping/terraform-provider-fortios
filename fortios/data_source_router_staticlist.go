@@ -17,12 +17,12 @@ func dataSourceRouterStaticList() *schema.Resource {
 		Read: dataSourceRouterStaticListRead,
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"filter": &schema.Schema{
+			"filter": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
@@ -52,9 +52,9 @@ func dataSourceRouterStaticListRead(d *schema.ResourceData, m interface{}) error
 		filter = escapeFilter(filter)
 	}
 
-	o, err := c.GenericGroupRead("/api/v2/cmdb/router/static", filter, vdomparam)
+	o, err := c.GenericGroupRead("/api/v2/cmdb/router/static", filter, vdomparam, 0)
 	if err != nil {
-		return fmt.Errorf("Error describing RouterStatic: %v", err)
+		return fmt.Errorf("error describing RouterStatic: %v", err)
 	}
 
 	var tmps []int

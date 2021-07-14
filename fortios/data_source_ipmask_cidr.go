@@ -15,7 +15,7 @@ func dataSourceIPMaskCIDR() *schema.Resource {
 	return &schema.Resource{
 		Read: dataSourceIPMaskCIDRRead,
 		Schema: map[string]*schema.Schema{
-			"ipmask": &schema.Schema{
+			"ipmask": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
@@ -24,11 +24,11 @@ func dataSourceIPMaskCIDR() *schema.Resource {
 				Optional: true,
 				Elem:     &schema.Schema{Type: schema.TypeString},
 			},
-			"cidr": &schema.Schema{
+			"cidr": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"cidrlist": &schema.Schema{
+			"cidrlist": {
 				Type:     schema.TypeList,
 				Elem:     &schema.Schema{Type: schema.TypeString},
 				Computed: true,

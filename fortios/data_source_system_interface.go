@@ -21,773 +21,773 @@ func dataSourceSystemInterface() *schema.Resource {
 	return &schema.Resource{
 		Read: dataSourceSystemInterfaceRead,
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
 
-			"name": &schema.Schema{
+			"name": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"vdom": &schema.Schema{
+			"vdom": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"vrf": &schema.Schema{
+			"vrf": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"cli_conn_status": &schema.Schema{
+			"cli_conn_status": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"fortilink": &schema.Schema{
+			"fortilink": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"switch_controller_source_ip": &schema.Schema{
+			"switch_controller_source_ip": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"mode": &schema.Schema{
+			"mode": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"client_options": &schema.Schema{
+			"client_options": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"code": &schema.Schema{
+						"code": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"type": &schema.Schema{
+						"type": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"value": &schema.Schema{
+						"value": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"ip": &schema.Schema{
+						"ip": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 					},
 				},
 			},
-			"distance": &schema.Schema{
+			"distance": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"priority": &schema.Schema{
+			"priority": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"dhcp_relay_interface_select_method": &schema.Schema{
+			"dhcp_relay_interface_select_method": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"dhcp_relay_interface": &schema.Schema{
+			"dhcp_relay_interface": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"dhcp_relay_service": &schema.Schema{
+			"dhcp_relay_service": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"dhcp_relay_ip": &schema.Schema{
+			"dhcp_relay_ip": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"dhcp_relay_type": &schema.Schema{
+			"dhcp_relay_type": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"dhcp_relay_agent_option": &schema.Schema{
+			"dhcp_relay_agent_option": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"management_ip": &schema.Schema{
+			"management_ip": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"ip": &schema.Schema{
+			"ip": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"allowaccess": &schema.Schema{
+			"allowaccess": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"gwdetect": &schema.Schema{
+			"gwdetect": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"ping_serv_status": &schema.Schema{
+			"ping_serv_status": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"detectserver": &schema.Schema{
+			"detectserver": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"detectprotocol": &schema.Schema{
+			"detectprotocol": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"ha_priority": &schema.Schema{
+			"ha_priority": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"fail_detect": &schema.Schema{
+			"fail_detect": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"fail_detect_option": &schema.Schema{
+			"fail_detect_option": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"fail_alert_method": &schema.Schema{
+			"fail_alert_method": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"fail_action_on_extender": &schema.Schema{
+			"fail_action_on_extender": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"fail_alert_interfaces": &schema.Schema{
+			"fail_alert_interfaces": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 					},
 				},
 			},
-			"dhcp_client_identifier": &schema.Schema{
+			"dhcp_client_identifier": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"dhcp_renew_time": &schema.Schema{
+			"dhcp_renew_time": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"ipunnumbered": &schema.Schema{
+			"ipunnumbered": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"username": &schema.Schema{
+			"username": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"pppoe_unnumbered_negotiate": &schema.Schema{
+			"pppoe_unnumbered_negotiate": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"password": &schema.Schema{
+			"password": {
 				Type:      schema.TypeString,
 				Sensitive: true,
 				Computed:  true,
 			},
-			"idle_timeout": &schema.Schema{
+			"idle_timeout": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"detected_peer_mtu": &schema.Schema{
+			"detected_peer_mtu": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"disc_retry_timeout": &schema.Schema{
+			"disc_retry_timeout": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"padt_retry_timeout": &schema.Schema{
+			"padt_retry_timeout": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"service_name": &schema.Schema{
+			"service_name": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"ac_name": &schema.Schema{
+			"ac_name": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"lcp_echo_interval": &schema.Schema{
+			"lcp_echo_interval": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"lcp_max_echo_fails": &schema.Schema{
+			"lcp_max_echo_fails": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"defaultgw": &schema.Schema{
+			"defaultgw": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"dns_server_override": &schema.Schema{
+			"dns_server_override": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"auth_type": &schema.Schema{
+			"auth_type": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"pptp_client": &schema.Schema{
+			"pptp_client": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"pptp_user": &schema.Schema{
+			"pptp_user": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"pptp_password": &schema.Schema{
+			"pptp_password": {
 				Type:      schema.TypeString,
 				Sensitive: true,
 				Computed:  true,
 			},
-			"pptp_server_ip": &schema.Schema{
+			"pptp_server_ip": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"pptp_auth_type": &schema.Schema{
+			"pptp_auth_type": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"pptp_timeout": &schema.Schema{
+			"pptp_timeout": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"arpforward": &schema.Schema{
+			"arpforward": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"ndiscforward": &schema.Schema{
+			"ndiscforward": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"broadcast_forward": &schema.Schema{
+			"broadcast_forward": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"bfd": &schema.Schema{
+			"bfd": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"bfd_desired_min_tx": &schema.Schema{
+			"bfd_desired_min_tx": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"bfd_detect_mult": &schema.Schema{
+			"bfd_detect_mult": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"bfd_required_min_rx": &schema.Schema{
+			"bfd_required_min_rx": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"l2forward": &schema.Schema{
+			"l2forward": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"icmp_send_redirect": &schema.Schema{
+			"icmp_send_redirect": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"icmp_accept_redirect": &schema.Schema{
+			"icmp_accept_redirect": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"vlanforward": &schema.Schema{
+			"vlanforward": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"stpforward": &schema.Schema{
+			"stpforward": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"stpforward_mode": &schema.Schema{
+			"stpforward_mode": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"ips_sniffer_mode": &schema.Schema{
+			"ips_sniffer_mode": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"ident_accept": &schema.Schema{
+			"ident_accept": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"ipmac": &schema.Schema{
+			"ipmac": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"subst": &schema.Schema{
+			"subst": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"macaddr": &schema.Schema{
+			"macaddr": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"substitute_dst_mac": &schema.Schema{
+			"substitute_dst_mac": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"speed": &schema.Schema{
+			"speed": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"status": &schema.Schema{
+			"status": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"netbios_forward": &schema.Schema{
+			"netbios_forward": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"wins_ip": &schema.Schema{
+			"wins_ip": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"type": &schema.Schema{
+			"type": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"dedicated_to": &schema.Schema{
+			"dedicated_to": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"trust_ip_1": &schema.Schema{
+			"trust_ip_1": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"trust_ip_2": &schema.Schema{
+			"trust_ip_2": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"trust_ip_3": &schema.Schema{
+			"trust_ip_3": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"trust_ip6_1": &schema.Schema{
+			"trust_ip6_1": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"trust_ip6_2": &schema.Schema{
+			"trust_ip6_2": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"trust_ip6_3": &schema.Schema{
+			"trust_ip6_3": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"mtu_override": &schema.Schema{
+			"mtu_override": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"mtu": &schema.Schema{
+			"mtu": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"ring_rx": &schema.Schema{
+			"ring_rx": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"ring_tx": &schema.Schema{
+			"ring_tx": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"wccp": &schema.Schema{
+			"wccp": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"netflow_sampler": &schema.Schema{
+			"netflow_sampler": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"sflow_sampler": &schema.Schema{
+			"sflow_sampler": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"drop_overlapped_fragment": &schema.Schema{
+			"drop_overlapped_fragment": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"drop_fragment": &schema.Schema{
+			"drop_fragment": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"scan_botnet_connections": &schema.Schema{
+			"scan_botnet_connections": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"src_check": &schema.Schema{
+			"src_check": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"sample_rate": &schema.Schema{
+			"sample_rate": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"polling_interval": &schema.Schema{
+			"polling_interval": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"sample_direction": &schema.Schema{
+			"sample_direction": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"explicit_web_proxy": &schema.Schema{
+			"explicit_web_proxy": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"explicit_ftp_proxy": &schema.Schema{
+			"explicit_ftp_proxy": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"proxy_captive_portal": &schema.Schema{
+			"proxy_captive_portal": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"tcp_mss": &schema.Schema{
+			"tcp_mss": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"inbandwidth": &schema.Schema{
+			"inbandwidth": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"outbandwidth": &schema.Schema{
+			"outbandwidth": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"egress_shaping_profile": &schema.Schema{
+			"egress_shaping_profile": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"ingress_shaping_profile": &schema.Schema{
+			"ingress_shaping_profile": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"disconnect_threshold": &schema.Schema{
+			"disconnect_threshold": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"spillover_threshold": &schema.Schema{
+			"spillover_threshold": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"ingress_spillover_threshold": &schema.Schema{
+			"ingress_spillover_threshold": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"weight": &schema.Schema{
+			"weight": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"interface": &schema.Schema{
+			"interface": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"external": &schema.Schema{
+			"external": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"vlan_protocol": &schema.Schema{
+			"vlan_protocol": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"vlanid": &schema.Schema{
+			"vlanid": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"forward_domain": &schema.Schema{
+			"forward_domain": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"remote_ip": &schema.Schema{
+			"remote_ip": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"member": &schema.Schema{
+			"member": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"interface_name": &schema.Schema{
+						"interface_name": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 					},
 				},
 			},
-			"lacp_mode": &schema.Schema{
+			"lacp_mode": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"lacp_ha_slave": &schema.Schema{
+			"lacp_ha_slave": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"lacp_speed": &schema.Schema{
+			"lacp_speed": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"min_links": &schema.Schema{
+			"min_links": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"min_links_down": &schema.Schema{
+			"min_links_down": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"algorithm": &schema.Schema{
+			"algorithm": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"link_up_delay": &schema.Schema{
+			"link_up_delay": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"priority_override": &schema.Schema{
+			"priority_override": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"aggregate": &schema.Schema{
+			"aggregate": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"redundant_interface": &schema.Schema{
+			"redundant_interface": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"managed_device": &schema.Schema{
+			"managed_device": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 					},
 				},
 			},
-			"devindex": &schema.Schema{
+			"devindex": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"vindex": &schema.Schema{
+			"vindex": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"switch": &schema.Schema{
+			"switch": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"description": &schema.Schema{
+			"description": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"alias": &schema.Schema{
+			"alias": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"security_mode": &schema.Schema{
+			"security_mode": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"captive_portal": &schema.Schema{
+			"captive_portal": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"security_mac_auth_bypass": &schema.Schema{
+			"security_mac_auth_bypass": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"security_external_web": &schema.Schema{
+			"security_external_web": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"security_external_logout": &schema.Schema{
+			"security_external_logout": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"replacemsg_override_group": &schema.Schema{
+			"replacemsg_override_group": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"security_redirect_url": &schema.Schema{
+			"security_redirect_url": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"security_exempt_list": &schema.Schema{
+			"security_exempt_list": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"security_groups": &schema.Schema{
+			"security_groups": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 					},
 				},
 			},
-			"device_identification": &schema.Schema{
+			"device_identification": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"device_user_identification": &schema.Schema{
+			"device_user_identification": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"device_identification_active_scan": &schema.Schema{
+			"device_identification_active_scan": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"device_access_list": &schema.Schema{
+			"device_access_list": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"device_netscan": &schema.Schema{
+			"device_netscan": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"lldp_reception": &schema.Schema{
+			"lldp_reception": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"lldp_transmission": &schema.Schema{
+			"lldp_transmission": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"lldp_network_policy": &schema.Schema{
+			"lldp_network_policy": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"fortiheartbeat": &schema.Schema{
+			"fortiheartbeat": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"broadcast_forticlient_discovery": &schema.Schema{
+			"broadcast_forticlient_discovery": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"endpoint_compliance": &schema.Schema{
+			"endpoint_compliance": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"estimated_upstream_bandwidth": &schema.Schema{
+			"estimated_upstream_bandwidth": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"estimated_downstream_bandwidth": &schema.Schema{
+			"estimated_downstream_bandwidth": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"measured_upstream_bandwidth": &schema.Schema{
+			"measured_upstream_bandwidth": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"measured_downstream_bandwidth": &schema.Schema{
+			"measured_downstream_bandwidth": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"bandwidth_measure_time": &schema.Schema{
+			"bandwidth_measure_time": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"monitor_bandwidth": &schema.Schema{
+			"monitor_bandwidth": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"vrrp_virtual_mac": &schema.Schema{
+			"vrrp_virtual_mac": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"vrrp": &schema.Schema{
+			"vrrp": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"vrid": &schema.Schema{
+						"vrid": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"version": &schema.Schema{
+						"version": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"vrgrp": &schema.Schema{
+						"vrgrp": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"vrip": &schema.Schema{
+						"vrip": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"priority": &schema.Schema{
+						"priority": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"adv_interval": &schema.Schema{
+						"adv_interval": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"start_time": &schema.Schema{
+						"start_time": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"preempt": &schema.Schema{
+						"preempt": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"accept_mode": &schema.Schema{
+						"accept_mode": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"vrdst": &schema.Schema{
+						"vrdst": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"vrdst_priority": &schema.Schema{
+						"vrdst_priority": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"ignore_default_route": &schema.Schema{
+						"ignore_default_route": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"status": &schema.Schema{
+						"status": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"proxy_arp": &schema.Schema{
+						"proxy_arp": {
 							Type:     schema.TypeList,
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"id": &schema.Schema{
+									"id": {
 										Type:     schema.TypeInt,
 										Computed: true,
 									},
-									"ip": &schema.Schema{
+									"ip": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
@@ -797,189 +797,189 @@ func dataSourceSystemInterface() *schema.Resource {
 					},
 				},
 			},
-			"role": &schema.Schema{
+			"role": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"snmp_index": &schema.Schema{
+			"snmp_index": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"secondary_ip": &schema.Schema{
+			"secondary_ip": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"secondaryip": &schema.Schema{
+			"secondaryip": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"ip": &schema.Schema{
+						"ip": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"allowaccess": &schema.Schema{
+						"allowaccess": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"gwdetect": &schema.Schema{
+						"gwdetect": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"ping_serv_status": &schema.Schema{
+						"ping_serv_status": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"detectserver": &schema.Schema{
+						"detectserver": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"detectprotocol": &schema.Schema{
+						"detectprotocol": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"ha_priority": &schema.Schema{
+						"ha_priority": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
 					},
 				},
 			},
-			"preserve_session_route": &schema.Schema{
+			"preserve_session_route": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"auto_auth_extension_device": &schema.Schema{
+			"auto_auth_extension_device": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"ap_discover": &schema.Schema{
+			"ap_discover": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"fortilink_stacking": &schema.Schema{
+			"fortilink_stacking": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"fortilink_neighbor_detect": &schema.Schema{
+			"fortilink_neighbor_detect": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"ip_managed_by_fortiipam": &schema.Schema{
+			"ip_managed_by_fortiipam": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"managed_subnetwork_size": &schema.Schema{
+			"managed_subnetwork_size": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"fortilink_split_interface": &schema.Schema{
+			"fortilink_split_interface": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"internal": &schema.Schema{
+			"internal": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"fortilink_backup_link": &schema.Schema{
+			"fortilink_backup_link": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"switch_controller_access_vlan": &schema.Schema{
+			"switch_controller_access_vlan": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"switch_controller_traffic_policy": &schema.Schema{
+			"switch_controller_traffic_policy": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"switch_controller_rspan_mode": &schema.Schema{
+			"switch_controller_rspan_mode": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"switch_controller_mgmt_vlan": &schema.Schema{
+			"switch_controller_mgmt_vlan": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"switch_controller_igmp_snooping": &schema.Schema{
+			"switch_controller_igmp_snooping": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"switch_controller_igmp_snooping_proxy": &schema.Schema{
+			"switch_controller_igmp_snooping_proxy": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"switch_controller_igmp_snooping_fast_leave": &schema.Schema{
+			"switch_controller_igmp_snooping_fast_leave": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"switch_controller_dhcp_snooping": &schema.Schema{
+			"switch_controller_dhcp_snooping": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"switch_controller_dhcp_snooping_verify_mac": &schema.Schema{
+			"switch_controller_dhcp_snooping_verify_mac": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"switch_controller_dhcp_snooping_option82": &schema.Schema{
+			"switch_controller_dhcp_snooping_option82": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"switch_controller_arp_inspection": &schema.Schema{
+			"switch_controller_arp_inspection": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"switch_controller_learning_limit": &schema.Schema{
+			"switch_controller_learning_limit": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"switch_controller_nac": &schema.Schema{
+			"switch_controller_nac": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"switch_controller_feature": &schema.Schema{
+			"switch_controller_feature": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"switch_controller_iot_scanning": &schema.Schema{
+			"switch_controller_iot_scanning": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"swc_vlan": &schema.Schema{
+			"swc_vlan": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"swc_first_create": &schema.Schema{
+			"swc_first_create": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"color": &schema.Schema{
+			"color": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"tagging": &schema.Schema{
+			"tagging": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"category": &schema.Schema{
+						"category": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"tags": &schema.Schema{
+						"tags": {
 							Type:     schema.TypeList,
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"name": &schema.Schema{
+									"name": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
@@ -989,167 +989,167 @@ func dataSourceSystemInterface() *schema.Resource {
 					},
 				},
 			},
-			"ipv6": &schema.Schema{
+			"ipv6": {
 				Type:     schema.TypeList,
 				Computed: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"ip6_mode": &schema.Schema{
+						"ip6_mode": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"nd_mode": &schema.Schema{
+						"nd_mode": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"nd_cert": &schema.Schema{
+						"nd_cert": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"nd_security_level": &schema.Schema{
+						"nd_security_level": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"nd_timestamp_delta": &schema.Schema{
+						"nd_timestamp_delta": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"nd_timestamp_fuzz": &schema.Schema{
+						"nd_timestamp_fuzz": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"nd_cga_modifier": &schema.Schema{
+						"nd_cga_modifier": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"ip6_dns_server_override": &schema.Schema{
+						"ip6_dns_server_override": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"ip6_address": &schema.Schema{
+						"ip6_address": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"ip6_extra_addr": &schema.Schema{
+						"ip6_extra_addr": {
 							Type:     schema.TypeList,
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"prefix": &schema.Schema{
+									"prefix": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
 								},
 							},
 						},
-						"ip6_allowaccess": &schema.Schema{
+						"ip6_allowaccess": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"ip6_send_adv": &schema.Schema{
+						"ip6_send_adv": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"icmp6_send_redirect": &schema.Schema{
+						"icmp6_send_redirect": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"ip6_manage_flag": &schema.Schema{
+						"ip6_manage_flag": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"ip6_other_flag": &schema.Schema{
+						"ip6_other_flag": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"ip6_max_interval": &schema.Schema{
+						"ip6_max_interval": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"ip6_min_interval": &schema.Schema{
+						"ip6_min_interval": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"ip6_link_mtu": &schema.Schema{
+						"ip6_link_mtu": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"ip6_reachable_time": &schema.Schema{
+						"ip6_reachable_time": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"ip6_retrans_time": &schema.Schema{
+						"ip6_retrans_time": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"ip6_default_life": &schema.Schema{
+						"ip6_default_life": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"ip6_hop_limit": &schema.Schema{
+						"ip6_hop_limit": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"autoconf": &schema.Schema{
+						"autoconf": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"unique_autoconf_addr": &schema.Schema{
+						"unique_autoconf_addr": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"interface_identifier": &schema.Schema{
+						"interface_identifier": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"ip6_prefix_mode": &schema.Schema{
+						"ip6_prefix_mode": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"ip6_upstream_interface": &schema.Schema{
+						"ip6_upstream_interface": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"ip6_subnet": &schema.Schema{
+						"ip6_subnet": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"ip6_prefix_list": &schema.Schema{
+						"ip6_prefix_list": {
 							Type:     schema.TypeList,
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"prefix": &schema.Schema{
+									"prefix": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
-									"autonomous_flag": &schema.Schema{
+									"autonomous_flag": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
-									"onlink_flag": &schema.Schema{
+									"onlink_flag": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
-									"valid_life_time": &schema.Schema{
+									"valid_life_time": {
 										Type:     schema.TypeInt,
 										Computed: true,
 									},
-									"preferred_life_time": &schema.Schema{
+									"preferred_life_time": {
 										Type:     schema.TypeInt,
 										Computed: true,
 									},
-									"rdnss": &schema.Schema{
+									"rdnss": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
-									"dnssl": &schema.Schema{
+									"dnssl": {
 										Type:     schema.TypeList,
 										Computed: true,
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
-												"domain": &schema.Schema{
+												"domain": {
 													Type:     schema.TypeString,
 													Computed: true,
 												},
@@ -1159,132 +1159,132 @@ func dataSourceSystemInterface() *schema.Resource {
 								},
 							},
 						},
-						"ip6_delegated_prefix_list": &schema.Schema{
+						"ip6_delegated_prefix_list": {
 							Type:     schema.TypeList,
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"prefix_id": &schema.Schema{
+									"prefix_id": {
 										Type:     schema.TypeInt,
 										Computed: true,
 									},
-									"upstream_interface": &schema.Schema{
+									"upstream_interface": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
-									"autonomous_flag": &schema.Schema{
+									"autonomous_flag": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
-									"onlink_flag": &schema.Schema{
+									"onlink_flag": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
-									"subnet": &schema.Schema{
+									"subnet": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
-									"rdnss_service": &schema.Schema{
+									"rdnss_service": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
-									"rdnss": &schema.Schema{
+									"rdnss": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
 								},
 							},
 						},
-						"dhcp6_relay_service": &schema.Schema{
+						"dhcp6_relay_service": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"dhcp6_relay_type": &schema.Schema{
+						"dhcp6_relay_type": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"dhcp6_relay_ip": &schema.Schema{
+						"dhcp6_relay_ip": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"dhcp6_client_options": &schema.Schema{
+						"dhcp6_client_options": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"dhcp6_prefix_delegation": &schema.Schema{
+						"dhcp6_prefix_delegation": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"dhcp6_information_request": &schema.Schema{
+						"dhcp6_information_request": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"dhcp6_prefix_hint": &schema.Schema{
+						"dhcp6_prefix_hint": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"dhcp6_prefix_hint_plt": &schema.Schema{
+						"dhcp6_prefix_hint_plt": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"dhcp6_prefix_hint_vlt": &schema.Schema{
+						"dhcp6_prefix_hint_vlt": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"cli_conn6_status": &schema.Schema{
+						"cli_conn6_status": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"vrrp_virtual_mac6": &schema.Schema{
+						"vrrp_virtual_mac6": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"vrip6_link_local": &schema.Schema{
+						"vrip6_link_local": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"vrrp6": &schema.Schema{
+						"vrrp6": {
 							Type:     schema.TypeList,
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"vrid": &schema.Schema{
+									"vrid": {
 										Type:     schema.TypeInt,
 										Computed: true,
 									},
-									"vrgrp": &schema.Schema{
+									"vrgrp": {
 										Type:     schema.TypeInt,
 										Computed: true,
 									},
-									"vrip6": &schema.Schema{
+									"vrip6": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
-									"priority": &schema.Schema{
+									"priority": {
 										Type:     schema.TypeInt,
 										Computed: true,
 									},
-									"adv_interval": &schema.Schema{
+									"adv_interval": {
 										Type:     schema.TypeInt,
 										Computed: true,
 									},
-									"start_time": &schema.Schema{
+									"start_time": {
 										Type:     schema.TypeInt,
 										Computed: true,
 									},
-									"preempt": &schema.Schema{
+									"preempt": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
-									"accept_mode": &schema.Schema{
+									"accept_mode": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
-									"vrdst6": &schema.Schema{
+									"vrdst6": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
-									"status": &schema.Schema{
+									"status": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
@@ -1318,12 +1318,12 @@ func dataSourceSystemInterfaceRead(d *schema.ResourceData, m interface{}) error 
 	} else if v, ok := t.(int); ok {
 		mkey = strconv.Itoa(v)
 	} else {
-		return fmt.Errorf("Error describing SystemInterface: type error")
+		return fmt.Errorf("error describing SystemInterface: type error")
 	}
 
-	o, err := c.ReadSystemInterface(mkey, vdomparam)
+	o, err := c.ReadSystemInterface(mkey, vdomparam, make(map[string][]string), 0)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemInterface: %v", err)
+		return fmt.Errorf("error describing SystemInterface: %v", err)
 	}
 
 	if o == nil {
@@ -1333,7 +1333,7 @@ func dataSourceSystemInterfaceRead(d *schema.ResourceData, m interface{}) error 
 
 	err = dataSourceRefreshObjectSystemInterface(d, o)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemInterface from API: %v", err)
+		return fmt.Errorf("error describing SystemInterface from API: %v", err)
 	}
 
 	d.SetId(mkey)
@@ -3458,1153 +3458,1153 @@ func dataSourceRefreshObjectSystemInterface(d *schema.ResourceData, o map[string
 
 	if err = d.Set("name", dataSourceFlattenSystemInterfaceName(o["name"], d, "name")); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("vdom", dataSourceFlattenSystemInterfaceVdom(o["vdom"], d, "vdom")); err != nil {
 		if !fortiAPIPatch(o["vdom"]) {
-			return fmt.Errorf("Error reading vdom: %v", err)
+			return fmt.Errorf("error reading vdom: %v", err)
 		}
 	}
 
 	if err = d.Set("vrf", dataSourceFlattenSystemInterfaceVrf(o["vrf"], d, "vrf")); err != nil {
 		if !fortiAPIPatch(o["vrf"]) {
-			return fmt.Errorf("Error reading vrf: %v", err)
+			return fmt.Errorf("error reading vrf: %v", err)
 		}
 	}
 
 	if err = d.Set("cli_conn_status", dataSourceFlattenSystemInterfaceCliConnStatus(o["cli-conn-status"], d, "cli_conn_status")); err != nil {
 		if !fortiAPIPatch(o["cli-conn-status"]) {
-			return fmt.Errorf("Error reading cli_conn_status: %v", err)
+			return fmt.Errorf("error reading cli_conn_status: %v", err)
 		}
 	}
 
 	if err = d.Set("fortilink", dataSourceFlattenSystemInterfaceFortilink(o["fortilink"], d, "fortilink")); err != nil {
 		if !fortiAPIPatch(o["fortilink"]) {
-			return fmt.Errorf("Error reading fortilink: %v", err)
+			return fmt.Errorf("error reading fortilink: %v", err)
 		}
 	}
 
 	if err = d.Set("switch_controller_source_ip", dataSourceFlattenSystemInterfaceSwitchControllerSourceIp(o["switch-controller-source-ip"], d, "switch_controller_source_ip")); err != nil {
 		if !fortiAPIPatch(o["switch-controller-source-ip"]) {
-			return fmt.Errorf("Error reading switch_controller_source_ip: %v", err)
+			return fmt.Errorf("error reading switch_controller_source_ip: %v", err)
 		}
 	}
 
 	if err = d.Set("mode", dataSourceFlattenSystemInterfaceMode(o["mode"], d, "mode")); err != nil {
 		if !fortiAPIPatch(o["mode"]) {
-			return fmt.Errorf("Error reading mode: %v", err)
+			return fmt.Errorf("error reading mode: %v", err)
 		}
 	}
 
 	if err = d.Set("client_options", dataSourceFlattenSystemInterfaceClientOptions(o["client-options"], d, "client_options")); err != nil {
 		if !fortiAPIPatch(o["client-options"]) {
-			return fmt.Errorf("Error reading client_options: %v", err)
+			return fmt.Errorf("error reading client_options: %v", err)
 		}
 	}
 
 	if err = d.Set("distance", dataSourceFlattenSystemInterfaceDistance(o["distance"], d, "distance")); err != nil {
 		if !fortiAPIPatch(o["distance"]) {
-			return fmt.Errorf("Error reading distance: %v", err)
+			return fmt.Errorf("error reading distance: %v", err)
 		}
 	}
 
 	if err = d.Set("priority", dataSourceFlattenSystemInterfacePriority(o["priority"], d, "priority")); err != nil {
 		if !fortiAPIPatch(o["priority"]) {
-			return fmt.Errorf("Error reading priority: %v", err)
+			return fmt.Errorf("error reading priority: %v", err)
 		}
 	}
 
 	if err = d.Set("dhcp_relay_interface_select_method", dataSourceFlattenSystemInterfaceDhcpRelayInterfaceSelectMethod(o["dhcp-relay-interface-select-method"], d, "dhcp_relay_interface_select_method")); err != nil {
 		if !fortiAPIPatch(o["dhcp-relay-interface-select-method"]) {
-			return fmt.Errorf("Error reading dhcp_relay_interface_select_method: %v", err)
+			return fmt.Errorf("error reading dhcp_relay_interface_select_method: %v", err)
 		}
 	}
 
 	if err = d.Set("dhcp_relay_interface", dataSourceFlattenSystemInterfaceDhcpRelayInterface(o["dhcp-relay-interface"], d, "dhcp_relay_interface")); err != nil {
 		if !fortiAPIPatch(o["dhcp-relay-interface"]) {
-			return fmt.Errorf("Error reading dhcp_relay_interface: %v", err)
+			return fmt.Errorf("error reading dhcp_relay_interface: %v", err)
 		}
 	}
 
 	if err = d.Set("dhcp_relay_service", dataSourceFlattenSystemInterfaceDhcpRelayService(o["dhcp-relay-service"], d, "dhcp_relay_service")); err != nil {
 		if !fortiAPIPatch(o["dhcp-relay-service"]) {
-			return fmt.Errorf("Error reading dhcp_relay_service: %v", err)
+			return fmt.Errorf("error reading dhcp_relay_service: %v", err)
 		}
 	}
 
 	if err = d.Set("dhcp_relay_ip", dataSourceFlattenSystemInterfaceDhcpRelayIp(o["dhcp-relay-ip"], d, "dhcp_relay_ip")); err != nil {
 		if !fortiAPIPatch(o["dhcp-relay-ip"]) {
-			return fmt.Errorf("Error reading dhcp_relay_ip: %v", err)
+			return fmt.Errorf("error reading dhcp_relay_ip: %v", err)
 		}
 	}
 
 	if err = d.Set("dhcp_relay_type", dataSourceFlattenSystemInterfaceDhcpRelayType(o["dhcp-relay-type"], d, "dhcp_relay_type")); err != nil {
 		if !fortiAPIPatch(o["dhcp-relay-type"]) {
-			return fmt.Errorf("Error reading dhcp_relay_type: %v", err)
+			return fmt.Errorf("error reading dhcp_relay_type: %v", err)
 		}
 	}
 
 	if err = d.Set("dhcp_relay_agent_option", dataSourceFlattenSystemInterfaceDhcpRelayAgentOption(o["dhcp-relay-agent-option"], d, "dhcp_relay_agent_option")); err != nil {
 		if !fortiAPIPatch(o["dhcp-relay-agent-option"]) {
-			return fmt.Errorf("Error reading dhcp_relay_agent_option: %v", err)
+			return fmt.Errorf("error reading dhcp_relay_agent_option: %v", err)
 		}
 	}
 
 	if err = d.Set("management_ip", dataSourceFlattenSystemInterfaceManagementIp(o["management-ip"], d, "management_ip")); err != nil {
 		if !fortiAPIPatch(o["management-ip"]) {
-			return fmt.Errorf("Error reading management_ip: %v", err)
+			return fmt.Errorf("error reading management_ip: %v", err)
 		}
 	}
 
 	if err = d.Set("ip", dataSourceFlattenSystemInterfaceIp(o["ip"], d, "ip")); err != nil {
 		if !fortiAPIPatch(o["ip"]) {
-			return fmt.Errorf("Error reading ip: %v", err)
+			return fmt.Errorf("error reading ip: %v", err)
 		}
 	}
 
 	if err = d.Set("allowaccess", dataSourceFlattenSystemInterfaceAllowaccess(o["allowaccess"], d, "allowaccess")); err != nil {
 		if !fortiAPIPatch(o["allowaccess"]) {
-			return fmt.Errorf("Error reading allowaccess: %v", err)
+			return fmt.Errorf("error reading allowaccess: %v", err)
 		}
 	}
 
 	if err = d.Set("gwdetect", dataSourceFlattenSystemInterfaceGwdetect(o["gwdetect"], d, "gwdetect")); err != nil {
 		if !fortiAPIPatch(o["gwdetect"]) {
-			return fmt.Errorf("Error reading gwdetect: %v", err)
+			return fmt.Errorf("error reading gwdetect: %v", err)
 		}
 	}
 
 	if err = d.Set("ping_serv_status", dataSourceFlattenSystemInterfacePingServStatus(o["ping-serv-status"], d, "ping_serv_status")); err != nil {
 		if !fortiAPIPatch(o["ping-serv-status"]) {
-			return fmt.Errorf("Error reading ping_serv_status: %v", err)
+			return fmt.Errorf("error reading ping_serv_status: %v", err)
 		}
 	}
 
 	if err = d.Set("detectserver", dataSourceFlattenSystemInterfaceDetectserver(o["detectserver"], d, "detectserver")); err != nil {
 		if !fortiAPIPatch(o["detectserver"]) {
-			return fmt.Errorf("Error reading detectserver: %v", err)
+			return fmt.Errorf("error reading detectserver: %v", err)
 		}
 	}
 
 	if err = d.Set("detectprotocol", dataSourceFlattenSystemInterfaceDetectprotocol(o["detectprotocol"], d, "detectprotocol")); err != nil {
 		if !fortiAPIPatch(o["detectprotocol"]) {
-			return fmt.Errorf("Error reading detectprotocol: %v", err)
+			return fmt.Errorf("error reading detectprotocol: %v", err)
 		}
 	}
 
 	if err = d.Set("ha_priority", dataSourceFlattenSystemInterfaceHaPriority(o["ha-priority"], d, "ha_priority")); err != nil {
 		if !fortiAPIPatch(o["ha-priority"]) {
-			return fmt.Errorf("Error reading ha_priority: %v", err)
+			return fmt.Errorf("error reading ha_priority: %v", err)
 		}
 	}
 
 	if err = d.Set("fail_detect", dataSourceFlattenSystemInterfaceFailDetect(o["fail-detect"], d, "fail_detect")); err != nil {
 		if !fortiAPIPatch(o["fail-detect"]) {
-			return fmt.Errorf("Error reading fail_detect: %v", err)
+			return fmt.Errorf("error reading fail_detect: %v", err)
 		}
 	}
 
 	if err = d.Set("fail_detect_option", dataSourceFlattenSystemInterfaceFailDetectOption(o["fail-detect-option"], d, "fail_detect_option")); err != nil {
 		if !fortiAPIPatch(o["fail-detect-option"]) {
-			return fmt.Errorf("Error reading fail_detect_option: %v", err)
+			return fmt.Errorf("error reading fail_detect_option: %v", err)
 		}
 	}
 
 	if err = d.Set("fail_alert_method", dataSourceFlattenSystemInterfaceFailAlertMethod(o["fail-alert-method"], d, "fail_alert_method")); err != nil {
 		if !fortiAPIPatch(o["fail-alert-method"]) {
-			return fmt.Errorf("Error reading fail_alert_method: %v", err)
+			return fmt.Errorf("error reading fail_alert_method: %v", err)
 		}
 	}
 
 	if err = d.Set("fail_action_on_extender", dataSourceFlattenSystemInterfaceFailActionOnExtender(o["fail-action-on-extender"], d, "fail_action_on_extender")); err != nil {
 		if !fortiAPIPatch(o["fail-action-on-extender"]) {
-			return fmt.Errorf("Error reading fail_action_on_extender: %v", err)
+			return fmt.Errorf("error reading fail_action_on_extender: %v", err)
 		}
 	}
 
 	if err = d.Set("fail_alert_interfaces", dataSourceFlattenSystemInterfaceFailAlertInterfaces(o["fail-alert-interfaces"], d, "fail_alert_interfaces")); err != nil {
 		if !fortiAPIPatch(o["fail-alert-interfaces"]) {
-			return fmt.Errorf("Error reading fail_alert_interfaces: %v", err)
+			return fmt.Errorf("error reading fail_alert_interfaces: %v", err)
 		}
 	}
 
 	if err = d.Set("dhcp_client_identifier", dataSourceFlattenSystemInterfaceDhcpClientIdentifier(o["dhcp-client-identifier"], d, "dhcp_client_identifier")); err != nil {
 		if !fortiAPIPatch(o["dhcp-client-identifier"]) {
-			return fmt.Errorf("Error reading dhcp_client_identifier: %v", err)
+			return fmt.Errorf("error reading dhcp_client_identifier: %v", err)
 		}
 	}
 
 	if err = d.Set("dhcp_renew_time", dataSourceFlattenSystemInterfaceDhcpRenewTime(o["dhcp-renew-time"], d, "dhcp_renew_time")); err != nil {
 		if !fortiAPIPatch(o["dhcp-renew-time"]) {
-			return fmt.Errorf("Error reading dhcp_renew_time: %v", err)
+			return fmt.Errorf("error reading dhcp_renew_time: %v", err)
 		}
 	}
 
 	if err = d.Set("ipunnumbered", dataSourceFlattenSystemInterfaceIpunnumbered(o["ipunnumbered"], d, "ipunnumbered")); err != nil {
 		if !fortiAPIPatch(o["ipunnumbered"]) {
-			return fmt.Errorf("Error reading ipunnumbered: %v", err)
+			return fmt.Errorf("error reading ipunnumbered: %v", err)
 		}
 	}
 
 	if err = d.Set("username", dataSourceFlattenSystemInterfaceUsername(o["username"], d, "username")); err != nil {
 		if !fortiAPIPatch(o["username"]) {
-			return fmt.Errorf("Error reading username: %v", err)
+			return fmt.Errorf("error reading username: %v", err)
 		}
 	}
 
 	if err = d.Set("pppoe_unnumbered_negotiate", dataSourceFlattenSystemInterfacePppoeUnnumberedNegotiate(o["pppoe-unnumbered-negotiate"], d, "pppoe_unnumbered_negotiate")); err != nil {
 		if !fortiAPIPatch(o["pppoe-unnumbered-negotiate"]) {
-			return fmt.Errorf("Error reading pppoe_unnumbered_negotiate: %v", err)
+			return fmt.Errorf("error reading pppoe_unnumbered_negotiate: %v", err)
 		}
 	}
 
 	if err = d.Set("idle_timeout", dataSourceFlattenSystemInterfaceIdleTimeout(o["idle-timeout"], d, "idle_timeout")); err != nil {
 		if !fortiAPIPatch(o["idle-timeout"]) {
-			return fmt.Errorf("Error reading idle_timeout: %v", err)
+			return fmt.Errorf("error reading idle_timeout: %v", err)
 		}
 	}
 
 	if err = d.Set("detected_peer_mtu", dataSourceFlattenSystemInterfaceDetectedPeerMtu(o["detected-peer-mtu"], d, "detected_peer_mtu")); err != nil {
 		if !fortiAPIPatch(o["detected-peer-mtu"]) {
-			return fmt.Errorf("Error reading detected_peer_mtu: %v", err)
+			return fmt.Errorf("error reading detected_peer_mtu: %v", err)
 		}
 	}
 
 	if err = d.Set("disc_retry_timeout", dataSourceFlattenSystemInterfaceDiscRetryTimeout(o["disc-retry-timeout"], d, "disc_retry_timeout")); err != nil {
 		if !fortiAPIPatch(o["disc-retry-timeout"]) {
-			return fmt.Errorf("Error reading disc_retry_timeout: %v", err)
+			return fmt.Errorf("error reading disc_retry_timeout: %v", err)
 		}
 	}
 
 	if err = d.Set("padt_retry_timeout", dataSourceFlattenSystemInterfacePadtRetryTimeout(o["padt-retry-timeout"], d, "padt_retry_timeout")); err != nil {
 		if !fortiAPIPatch(o["padt-retry-timeout"]) {
-			return fmt.Errorf("Error reading padt_retry_timeout: %v", err)
+			return fmt.Errorf("error reading padt_retry_timeout: %v", err)
 		}
 	}
 
 	if err = d.Set("service_name", dataSourceFlattenSystemInterfaceServiceName(o["service-name"], d, "service_name")); err != nil {
 		if !fortiAPIPatch(o["service-name"]) {
-			return fmt.Errorf("Error reading service_name: %v", err)
+			return fmt.Errorf("error reading service_name: %v", err)
 		}
 	}
 
 	if err = d.Set("ac_name", dataSourceFlattenSystemInterfaceAcName(o["ac-name"], d, "ac_name")); err != nil {
 		if !fortiAPIPatch(o["ac-name"]) {
-			return fmt.Errorf("Error reading ac_name: %v", err)
+			return fmt.Errorf("error reading ac_name: %v", err)
 		}
 	}
 
 	if err = d.Set("lcp_echo_interval", dataSourceFlattenSystemInterfaceLcpEchoInterval(o["lcp-echo-interval"], d, "lcp_echo_interval")); err != nil {
 		if !fortiAPIPatch(o["lcp-echo-interval"]) {
-			return fmt.Errorf("Error reading lcp_echo_interval: %v", err)
+			return fmt.Errorf("error reading lcp_echo_interval: %v", err)
 		}
 	}
 
 	if err = d.Set("lcp_max_echo_fails", dataSourceFlattenSystemInterfaceLcpMaxEchoFails(o["lcp-max-echo-fails"], d, "lcp_max_echo_fails")); err != nil {
 		if !fortiAPIPatch(o["lcp-max-echo-fails"]) {
-			return fmt.Errorf("Error reading lcp_max_echo_fails: %v", err)
+			return fmt.Errorf("error reading lcp_max_echo_fails: %v", err)
 		}
 	}
 
 	if err = d.Set("defaultgw", dataSourceFlattenSystemInterfaceDefaultgw(o["defaultgw"], d, "defaultgw")); err != nil {
 		if !fortiAPIPatch(o["defaultgw"]) {
-			return fmt.Errorf("Error reading defaultgw: %v", err)
+			return fmt.Errorf("error reading defaultgw: %v", err)
 		}
 	}
 
 	if err = d.Set("dns_server_override", dataSourceFlattenSystemInterfaceDnsServerOverride(o["dns-server-override"], d, "dns_server_override")); err != nil {
 		if !fortiAPIPatch(o["dns-server-override"]) {
-			return fmt.Errorf("Error reading dns_server_override: %v", err)
+			return fmt.Errorf("error reading dns_server_override: %v", err)
 		}
 	}
 
 	if err = d.Set("auth_type", dataSourceFlattenSystemInterfaceAuthType(o["auth-type"], d, "auth_type")); err != nil {
 		if !fortiAPIPatch(o["auth-type"]) {
-			return fmt.Errorf("Error reading auth_type: %v", err)
+			return fmt.Errorf("error reading auth_type: %v", err)
 		}
 	}
 
 	if err = d.Set("pptp_client", dataSourceFlattenSystemInterfacePptpClient(o["pptp-client"], d, "pptp_client")); err != nil {
 		if !fortiAPIPatch(o["pptp-client"]) {
-			return fmt.Errorf("Error reading pptp_client: %v", err)
+			return fmt.Errorf("error reading pptp_client: %v", err)
 		}
 	}
 
 	if err = d.Set("pptp_user", dataSourceFlattenSystemInterfacePptpUser(o["pptp-user"], d, "pptp_user")); err != nil {
 		if !fortiAPIPatch(o["pptp-user"]) {
-			return fmt.Errorf("Error reading pptp_user: %v", err)
+			return fmt.Errorf("error reading pptp_user: %v", err)
 		}
 	}
 
 	if err = d.Set("pptp_server_ip", dataSourceFlattenSystemInterfacePptpServerIp(o["pptp-server-ip"], d, "pptp_server_ip")); err != nil {
 		if !fortiAPIPatch(o["pptp-server-ip"]) {
-			return fmt.Errorf("Error reading pptp_server_ip: %v", err)
+			return fmt.Errorf("error reading pptp_server_ip: %v", err)
 		}
 	}
 
 	if err = d.Set("pptp_auth_type", dataSourceFlattenSystemInterfacePptpAuthType(o["pptp-auth-type"], d, "pptp_auth_type")); err != nil {
 		if !fortiAPIPatch(o["pptp-auth-type"]) {
-			return fmt.Errorf("Error reading pptp_auth_type: %v", err)
+			return fmt.Errorf("error reading pptp_auth_type: %v", err)
 		}
 	}
 
 	if err = d.Set("pptp_timeout", dataSourceFlattenSystemInterfacePptpTimeout(o["pptp-timeout"], d, "pptp_timeout")); err != nil {
 		if !fortiAPIPatch(o["pptp-timeout"]) {
-			return fmt.Errorf("Error reading pptp_timeout: %v", err)
+			return fmt.Errorf("error reading pptp_timeout: %v", err)
 		}
 	}
 
 	if err = d.Set("arpforward", dataSourceFlattenSystemInterfaceArpforward(o["arpforward"], d, "arpforward")); err != nil {
 		if !fortiAPIPatch(o["arpforward"]) {
-			return fmt.Errorf("Error reading arpforward: %v", err)
+			return fmt.Errorf("error reading arpforward: %v", err)
 		}
 	}
 
 	if err = d.Set("ndiscforward", dataSourceFlattenSystemInterfaceNdiscforward(o["ndiscforward"], d, "ndiscforward")); err != nil {
 		if !fortiAPIPatch(o["ndiscforward"]) {
-			return fmt.Errorf("Error reading ndiscforward: %v", err)
+			return fmt.Errorf("error reading ndiscforward: %v", err)
 		}
 	}
 
 	if err = d.Set("broadcast_forward", dataSourceFlattenSystemInterfaceBroadcastForward(o["broadcast-forward"], d, "broadcast_forward")); err != nil {
 		if !fortiAPIPatch(o["broadcast-forward"]) {
-			return fmt.Errorf("Error reading broadcast_forward: %v", err)
+			return fmt.Errorf("error reading broadcast_forward: %v", err)
 		}
 	}
 
 	if err = d.Set("bfd", dataSourceFlattenSystemInterfaceBfd(o["bfd"], d, "bfd")); err != nil {
 		if !fortiAPIPatch(o["bfd"]) {
-			return fmt.Errorf("Error reading bfd: %v", err)
+			return fmt.Errorf("error reading bfd: %v", err)
 		}
 	}
 
 	if err = d.Set("bfd_desired_min_tx", dataSourceFlattenSystemInterfaceBfdDesiredMinTx(o["bfd-desired-min-tx"], d, "bfd_desired_min_tx")); err != nil {
 		if !fortiAPIPatch(o["bfd-desired-min-tx"]) {
-			return fmt.Errorf("Error reading bfd_desired_min_tx: %v", err)
+			return fmt.Errorf("error reading bfd_desired_min_tx: %v", err)
 		}
 	}
 
 	if err = d.Set("bfd_detect_mult", dataSourceFlattenSystemInterfaceBfdDetectMult(o["bfd-detect-mult"], d, "bfd_detect_mult")); err != nil {
 		if !fortiAPIPatch(o["bfd-detect-mult"]) {
-			return fmt.Errorf("Error reading bfd_detect_mult: %v", err)
+			return fmt.Errorf("error reading bfd_detect_mult: %v", err)
 		}
 	}
 
 	if err = d.Set("bfd_required_min_rx", dataSourceFlattenSystemInterfaceBfdRequiredMinRx(o["bfd-required-min-rx"], d, "bfd_required_min_rx")); err != nil {
 		if !fortiAPIPatch(o["bfd-required-min-rx"]) {
-			return fmt.Errorf("Error reading bfd_required_min_rx: %v", err)
+			return fmt.Errorf("error reading bfd_required_min_rx: %v", err)
 		}
 	}
 
 	if err = d.Set("l2forward", dataSourceFlattenSystemInterfaceL2Forward(o["l2forward"], d, "l2forward")); err != nil {
 		if !fortiAPIPatch(o["l2forward"]) {
-			return fmt.Errorf("Error reading l2forward: %v", err)
+			return fmt.Errorf("error reading l2forward: %v", err)
 		}
 	}
 
 	if err = d.Set("icmp_send_redirect", dataSourceFlattenSystemInterfaceIcmpSendRedirect(o["icmp-send-redirect"], d, "icmp_send_redirect")); err != nil {
 		if !fortiAPIPatch(o["icmp-send-redirect"]) {
-			return fmt.Errorf("Error reading icmp_send_redirect: %v", err)
+			return fmt.Errorf("error reading icmp_send_redirect: %v", err)
 		}
 	}
 
 	if err = d.Set("icmp_accept_redirect", dataSourceFlattenSystemInterfaceIcmpAcceptRedirect(o["icmp-accept-redirect"], d, "icmp_accept_redirect")); err != nil {
 		if !fortiAPIPatch(o["icmp-accept-redirect"]) {
-			return fmt.Errorf("Error reading icmp_accept_redirect: %v", err)
+			return fmt.Errorf("error reading icmp_accept_redirect: %v", err)
 		}
 	}
 
 	if err = d.Set("vlanforward", dataSourceFlattenSystemInterfaceVlanforward(o["vlanforward"], d, "vlanforward")); err != nil {
 		if !fortiAPIPatch(o["vlanforward"]) {
-			return fmt.Errorf("Error reading vlanforward: %v", err)
+			return fmt.Errorf("error reading vlanforward: %v", err)
 		}
 	}
 
 	if err = d.Set("stpforward", dataSourceFlattenSystemInterfaceStpforward(o["stpforward"], d, "stpforward")); err != nil {
 		if !fortiAPIPatch(o["stpforward"]) {
-			return fmt.Errorf("Error reading stpforward: %v", err)
+			return fmt.Errorf("error reading stpforward: %v", err)
 		}
 	}
 
 	if err = d.Set("stpforward_mode", dataSourceFlattenSystemInterfaceStpforwardMode(o["stpforward-mode"], d, "stpforward_mode")); err != nil {
 		if !fortiAPIPatch(o["stpforward-mode"]) {
-			return fmt.Errorf("Error reading stpforward_mode: %v", err)
+			return fmt.Errorf("error reading stpforward_mode: %v", err)
 		}
 	}
 
 	if err = d.Set("ips_sniffer_mode", dataSourceFlattenSystemInterfaceIpsSnifferMode(o["ips-sniffer-mode"], d, "ips_sniffer_mode")); err != nil {
 		if !fortiAPIPatch(o["ips-sniffer-mode"]) {
-			return fmt.Errorf("Error reading ips_sniffer_mode: %v", err)
+			return fmt.Errorf("error reading ips_sniffer_mode: %v", err)
 		}
 	}
 
 	if err = d.Set("ident_accept", dataSourceFlattenSystemInterfaceIdentAccept(o["ident-accept"], d, "ident_accept")); err != nil {
 		if !fortiAPIPatch(o["ident-accept"]) {
-			return fmt.Errorf("Error reading ident_accept: %v", err)
+			return fmt.Errorf("error reading ident_accept: %v", err)
 		}
 	}
 
 	if err = d.Set("ipmac", dataSourceFlattenSystemInterfaceIpmac(o["ipmac"], d, "ipmac")); err != nil {
 		if !fortiAPIPatch(o["ipmac"]) {
-			return fmt.Errorf("Error reading ipmac: %v", err)
+			return fmt.Errorf("error reading ipmac: %v", err)
 		}
 	}
 
 	if err = d.Set("subst", dataSourceFlattenSystemInterfaceSubst(o["subst"], d, "subst")); err != nil {
 		if !fortiAPIPatch(o["subst"]) {
-			return fmt.Errorf("Error reading subst: %v", err)
+			return fmt.Errorf("error reading subst: %v", err)
 		}
 	}
 
 	if err = d.Set("macaddr", dataSourceFlattenSystemInterfaceMacaddr(o["macaddr"], d, "macaddr")); err != nil {
 		if !fortiAPIPatch(o["macaddr"]) {
-			return fmt.Errorf("Error reading macaddr: %v", err)
+			return fmt.Errorf("error reading macaddr: %v", err)
 		}
 	}
 
 	if err = d.Set("substitute_dst_mac", dataSourceFlattenSystemInterfaceSubstituteDstMac(o["substitute-dst-mac"], d, "substitute_dst_mac")); err != nil {
 		if !fortiAPIPatch(o["substitute-dst-mac"]) {
-			return fmt.Errorf("Error reading substitute_dst_mac: %v", err)
+			return fmt.Errorf("error reading substitute_dst_mac: %v", err)
 		}
 	}
 
 	if err = d.Set("speed", dataSourceFlattenSystemInterfaceSpeed(o["speed"], d, "speed")); err != nil {
 		if !fortiAPIPatch(o["speed"]) {
-			return fmt.Errorf("Error reading speed: %v", err)
+			return fmt.Errorf("error reading speed: %v", err)
 		}
 	}
 
 	if err = d.Set("status", dataSourceFlattenSystemInterfaceStatus(o["status"], d, "status")); err != nil {
 		if !fortiAPIPatch(o["status"]) {
-			return fmt.Errorf("Error reading status: %v", err)
+			return fmt.Errorf("error reading status: %v", err)
 		}
 	}
 
 	if err = d.Set("netbios_forward", dataSourceFlattenSystemInterfaceNetbiosForward(o["netbios-forward"], d, "netbios_forward")); err != nil {
 		if !fortiAPIPatch(o["netbios-forward"]) {
-			return fmt.Errorf("Error reading netbios_forward: %v", err)
+			return fmt.Errorf("error reading netbios_forward: %v", err)
 		}
 	}
 
 	if err = d.Set("wins_ip", dataSourceFlattenSystemInterfaceWinsIp(o["wins-ip"], d, "wins_ip")); err != nil {
 		if !fortiAPIPatch(o["wins-ip"]) {
-			return fmt.Errorf("Error reading wins_ip: %v", err)
+			return fmt.Errorf("error reading wins_ip: %v", err)
 		}
 	}
 
 	if err = d.Set("type", dataSourceFlattenSystemInterfaceType(o["type"], d, "type")); err != nil {
 		if !fortiAPIPatch(o["type"]) {
-			return fmt.Errorf("Error reading type: %v", err)
+			return fmt.Errorf("error reading type: %v", err)
 		}
 	}
 
 	if err = d.Set("dedicated_to", dataSourceFlattenSystemInterfaceDedicatedTo(o["dedicated-to"], d, "dedicated_to")); err != nil {
 		if !fortiAPIPatch(o["dedicated-to"]) {
-			return fmt.Errorf("Error reading dedicated_to: %v", err)
+			return fmt.Errorf("error reading dedicated_to: %v", err)
 		}
 	}
 
 	if err = d.Set("trust_ip_1", dataSourceFlattenSystemInterfaceTrustIp1(o["trust-ip-1"], d, "trust_ip_1")); err != nil {
 		if !fortiAPIPatch(o["trust-ip-1"]) {
-			return fmt.Errorf("Error reading trust_ip_1: %v", err)
+			return fmt.Errorf("error reading trust_ip_1: %v", err)
 		}
 	}
 
 	if err = d.Set("trust_ip_2", dataSourceFlattenSystemInterfaceTrustIp2(o["trust-ip-2"], d, "trust_ip_2")); err != nil {
 		if !fortiAPIPatch(o["trust-ip-2"]) {
-			return fmt.Errorf("Error reading trust_ip_2: %v", err)
+			return fmt.Errorf("error reading trust_ip_2: %v", err)
 		}
 	}
 
 	if err = d.Set("trust_ip_3", dataSourceFlattenSystemInterfaceTrustIp3(o["trust-ip-3"], d, "trust_ip_3")); err != nil {
 		if !fortiAPIPatch(o["trust-ip-3"]) {
-			return fmt.Errorf("Error reading trust_ip_3: %v", err)
+			return fmt.Errorf("error reading trust_ip_3: %v", err)
 		}
 	}
 
 	if err = d.Set("trust_ip6_1", dataSourceFlattenSystemInterfaceTrustIp61(o["trust-ip6-1"], d, "trust_ip6_1")); err != nil {
 		if !fortiAPIPatch(o["trust-ip6-1"]) {
-			return fmt.Errorf("Error reading trust_ip6_1: %v", err)
+			return fmt.Errorf("error reading trust_ip6_1: %v", err)
 		}
 	}
 
 	if err = d.Set("trust_ip6_2", dataSourceFlattenSystemInterfaceTrustIp62(o["trust-ip6-2"], d, "trust_ip6_2")); err != nil {
 		if !fortiAPIPatch(o["trust-ip6-2"]) {
-			return fmt.Errorf("Error reading trust_ip6_2: %v", err)
+			return fmt.Errorf("error reading trust_ip6_2: %v", err)
 		}
 	}
 
 	if err = d.Set("trust_ip6_3", dataSourceFlattenSystemInterfaceTrustIp63(o["trust-ip6-3"], d, "trust_ip6_3")); err != nil {
 		if !fortiAPIPatch(o["trust-ip6-3"]) {
-			return fmt.Errorf("Error reading trust_ip6_3: %v", err)
+			return fmt.Errorf("error reading trust_ip6_3: %v", err)
 		}
 	}
 
 	if err = d.Set("mtu_override", dataSourceFlattenSystemInterfaceMtuOverride(o["mtu-override"], d, "mtu_override")); err != nil {
 		if !fortiAPIPatch(o["mtu-override"]) {
-			return fmt.Errorf("Error reading mtu_override: %v", err)
+			return fmt.Errorf("error reading mtu_override: %v", err)
 		}
 	}
 
 	if err = d.Set("mtu", dataSourceFlattenSystemInterfaceMtu(o["mtu"], d, "mtu")); err != nil {
 		if !fortiAPIPatch(o["mtu"]) {
-			return fmt.Errorf("Error reading mtu: %v", err)
+			return fmt.Errorf("error reading mtu: %v", err)
 		}
 	}
 
 	if err = d.Set("ring_rx", dataSourceFlattenSystemInterfaceRingRx(o["ring-rx"], d, "ring_rx")); err != nil {
 		if !fortiAPIPatch(o["ring-rx"]) {
-			return fmt.Errorf("Error reading ring_rx: %v", err)
+			return fmt.Errorf("error reading ring_rx: %v", err)
 		}
 	}
 
 	if err = d.Set("ring_tx", dataSourceFlattenSystemInterfaceRingTx(o["ring-tx"], d, "ring_tx")); err != nil {
 		if !fortiAPIPatch(o["ring-tx"]) {
-			return fmt.Errorf("Error reading ring_tx: %v", err)
+			return fmt.Errorf("error reading ring_tx: %v", err)
 		}
 	}
 
 	if err = d.Set("wccp", dataSourceFlattenSystemInterfaceWccp(o["wccp"], d, "wccp")); err != nil {
 		if !fortiAPIPatch(o["wccp"]) {
-			return fmt.Errorf("Error reading wccp: %v", err)
+			return fmt.Errorf("error reading wccp: %v", err)
 		}
 	}
 
 	if err = d.Set("netflow_sampler", dataSourceFlattenSystemInterfaceNetflowSampler(o["netflow-sampler"], d, "netflow_sampler")); err != nil {
 		if !fortiAPIPatch(o["netflow-sampler"]) {
-			return fmt.Errorf("Error reading netflow_sampler: %v", err)
+			return fmt.Errorf("error reading netflow_sampler: %v", err)
 		}
 	}
 
 	if err = d.Set("sflow_sampler", dataSourceFlattenSystemInterfaceSflowSampler(o["sflow-sampler"], d, "sflow_sampler")); err != nil {
 		if !fortiAPIPatch(o["sflow-sampler"]) {
-			return fmt.Errorf("Error reading sflow_sampler: %v", err)
+			return fmt.Errorf("error reading sflow_sampler: %v", err)
 		}
 	}
 
 	if err = d.Set("drop_overlapped_fragment", dataSourceFlattenSystemInterfaceDropOverlappedFragment(o["drop-overlapped-fragment"], d, "drop_overlapped_fragment")); err != nil {
 		if !fortiAPIPatch(o["drop-overlapped-fragment"]) {
-			return fmt.Errorf("Error reading drop_overlapped_fragment: %v", err)
+			return fmt.Errorf("error reading drop_overlapped_fragment: %v", err)
 		}
 	}
 
 	if err = d.Set("drop_fragment", dataSourceFlattenSystemInterfaceDropFragment(o["drop-fragment"], d, "drop_fragment")); err != nil {
 		if !fortiAPIPatch(o["drop-fragment"]) {
-			return fmt.Errorf("Error reading drop_fragment: %v", err)
+			return fmt.Errorf("error reading drop_fragment: %v", err)
 		}
 	}
 
 	if err = d.Set("scan_botnet_connections", dataSourceFlattenSystemInterfaceScanBotnetConnections(o["scan-botnet-connections"], d, "scan_botnet_connections")); err != nil {
 		if !fortiAPIPatch(o["scan-botnet-connections"]) {
-			return fmt.Errorf("Error reading scan_botnet_connections: %v", err)
+			return fmt.Errorf("error reading scan_botnet_connections: %v", err)
 		}
 	}
 
 	if err = d.Set("src_check", dataSourceFlattenSystemInterfaceSrcCheck(o["src-check"], d, "src_check")); err != nil {
 		if !fortiAPIPatch(o["src-check"]) {
-			return fmt.Errorf("Error reading src_check: %v", err)
+			return fmt.Errorf("error reading src_check: %v", err)
 		}
 	}
 
 	if err = d.Set("sample_rate", dataSourceFlattenSystemInterfaceSampleRate(o["sample-rate"], d, "sample_rate")); err != nil {
 		if !fortiAPIPatch(o["sample-rate"]) {
-			return fmt.Errorf("Error reading sample_rate: %v", err)
+			return fmt.Errorf("error reading sample_rate: %v", err)
 		}
 	}
 
 	if err = d.Set("polling_interval", dataSourceFlattenSystemInterfacePollingInterval(o["polling-interval"], d, "polling_interval")); err != nil {
 		if !fortiAPIPatch(o["polling-interval"]) {
-			return fmt.Errorf("Error reading polling_interval: %v", err)
+			return fmt.Errorf("error reading polling_interval: %v", err)
 		}
 	}
 
 	if err = d.Set("sample_direction", dataSourceFlattenSystemInterfaceSampleDirection(o["sample-direction"], d, "sample_direction")); err != nil {
 		if !fortiAPIPatch(o["sample-direction"]) {
-			return fmt.Errorf("Error reading sample_direction: %v", err)
+			return fmt.Errorf("error reading sample_direction: %v", err)
 		}
 	}
 
 	if err = d.Set("explicit_web_proxy", dataSourceFlattenSystemInterfaceExplicitWebProxy(o["explicit-web-proxy"], d, "explicit_web_proxy")); err != nil {
 		if !fortiAPIPatch(o["explicit-web-proxy"]) {
-			return fmt.Errorf("Error reading explicit_web_proxy: %v", err)
+			return fmt.Errorf("error reading explicit_web_proxy: %v", err)
 		}
 	}
 
 	if err = d.Set("explicit_ftp_proxy", dataSourceFlattenSystemInterfaceExplicitFtpProxy(o["explicit-ftp-proxy"], d, "explicit_ftp_proxy")); err != nil {
 		if !fortiAPIPatch(o["explicit-ftp-proxy"]) {
-			return fmt.Errorf("Error reading explicit_ftp_proxy: %v", err)
+			return fmt.Errorf("error reading explicit_ftp_proxy: %v", err)
 		}
 	}
 
 	if err = d.Set("proxy_captive_portal", dataSourceFlattenSystemInterfaceProxyCaptivePortal(o["proxy-captive-portal"], d, "proxy_captive_portal")); err != nil {
 		if !fortiAPIPatch(o["proxy-captive-portal"]) {
-			return fmt.Errorf("Error reading proxy_captive_portal: %v", err)
+			return fmt.Errorf("error reading proxy_captive_portal: %v", err)
 		}
 	}
 
 	if err = d.Set("tcp_mss", dataSourceFlattenSystemInterfaceTcpMss(o["tcp-mss"], d, "tcp_mss")); err != nil {
 		if !fortiAPIPatch(o["tcp-mss"]) {
-			return fmt.Errorf("Error reading tcp_mss: %v", err)
+			return fmt.Errorf("error reading tcp_mss: %v", err)
 		}
 	}
 
 	if err = d.Set("inbandwidth", dataSourceFlattenSystemInterfaceInbandwidth(o["inbandwidth"], d, "inbandwidth")); err != nil {
 		if !fortiAPIPatch(o["inbandwidth"]) {
-			return fmt.Errorf("Error reading inbandwidth: %v", err)
+			return fmt.Errorf("error reading inbandwidth: %v", err)
 		}
 	}
 
 	if err = d.Set("outbandwidth", dataSourceFlattenSystemInterfaceOutbandwidth(o["outbandwidth"], d, "outbandwidth")); err != nil {
 		if !fortiAPIPatch(o["outbandwidth"]) {
-			return fmt.Errorf("Error reading outbandwidth: %v", err)
+			return fmt.Errorf("error reading outbandwidth: %v", err)
 		}
 	}
 
 	if err = d.Set("egress_shaping_profile", dataSourceFlattenSystemInterfaceEgressShapingProfile(o["egress-shaping-profile"], d, "egress_shaping_profile")); err != nil {
 		if !fortiAPIPatch(o["egress-shaping-profile"]) {
-			return fmt.Errorf("Error reading egress_shaping_profile: %v", err)
+			return fmt.Errorf("error reading egress_shaping_profile: %v", err)
 		}
 	}
 
 	if err = d.Set("ingress_shaping_profile", dataSourceFlattenSystemInterfaceIngressShapingProfile(o["ingress-shaping-profile"], d, "ingress_shaping_profile")); err != nil {
 		if !fortiAPIPatch(o["ingress-shaping-profile"]) {
-			return fmt.Errorf("Error reading ingress_shaping_profile: %v", err)
+			return fmt.Errorf("error reading ingress_shaping_profile: %v", err)
 		}
 	}
 
 	if err = d.Set("disconnect_threshold", dataSourceFlattenSystemInterfaceDisconnectThreshold(o["disconnect-threshold"], d, "disconnect_threshold")); err != nil {
 		if !fortiAPIPatch(o["disconnect-threshold"]) {
-			return fmt.Errorf("Error reading disconnect_threshold: %v", err)
+			return fmt.Errorf("error reading disconnect_threshold: %v", err)
 		}
 	}
 
 	if err = d.Set("spillover_threshold", dataSourceFlattenSystemInterfaceSpilloverThreshold(o["spillover-threshold"], d, "spillover_threshold")); err != nil {
 		if !fortiAPIPatch(o["spillover-threshold"]) {
-			return fmt.Errorf("Error reading spillover_threshold: %v", err)
+			return fmt.Errorf("error reading spillover_threshold: %v", err)
 		}
 	}
 
 	if err = d.Set("ingress_spillover_threshold", dataSourceFlattenSystemInterfaceIngressSpilloverThreshold(o["ingress-spillover-threshold"], d, "ingress_spillover_threshold")); err != nil {
 		if !fortiAPIPatch(o["ingress-spillover-threshold"]) {
-			return fmt.Errorf("Error reading ingress_spillover_threshold: %v", err)
+			return fmt.Errorf("error reading ingress_spillover_threshold: %v", err)
 		}
 	}
 
 	if err = d.Set("weight", dataSourceFlattenSystemInterfaceWeight(o["weight"], d, "weight")); err != nil {
 		if !fortiAPIPatch(o["weight"]) {
-			return fmt.Errorf("Error reading weight: %v", err)
+			return fmt.Errorf("error reading weight: %v", err)
 		}
 	}
 
 	if err = d.Set("interface", dataSourceFlattenSystemInterfaceInterface(o["interface"], d, "interface")); err != nil {
 		if !fortiAPIPatch(o["interface"]) {
-			return fmt.Errorf("Error reading interface: %v", err)
+			return fmt.Errorf("error reading interface: %v", err)
 		}
 	}
 
 	if err = d.Set("external", dataSourceFlattenSystemInterfaceExternal(o["external"], d, "external")); err != nil {
 		if !fortiAPIPatch(o["external"]) {
-			return fmt.Errorf("Error reading external: %v", err)
+			return fmt.Errorf("error reading external: %v", err)
 		}
 	}
 
 	if err = d.Set("vlan_protocol", dataSourceFlattenSystemInterfaceVlanProtocol(o["vlan-protocol"], d, "vlan_protocol")); err != nil {
 		if !fortiAPIPatch(o["vlan-protocol"]) {
-			return fmt.Errorf("Error reading vlan_protocol: %v", err)
+			return fmt.Errorf("error reading vlan_protocol: %v", err)
 		}
 	}
 
 	if err = d.Set("vlanid", dataSourceFlattenSystemInterfaceVlanid(o["vlanid"], d, "vlanid")); err != nil {
 		if !fortiAPIPatch(o["vlanid"]) {
-			return fmt.Errorf("Error reading vlanid: %v", err)
+			return fmt.Errorf("error reading vlanid: %v", err)
 		}
 	}
 
 	if err = d.Set("forward_domain", dataSourceFlattenSystemInterfaceForwardDomain(o["forward-domain"], d, "forward_domain")); err != nil {
 		if !fortiAPIPatch(o["forward-domain"]) {
-			return fmt.Errorf("Error reading forward_domain: %v", err)
+			return fmt.Errorf("error reading forward_domain: %v", err)
 		}
 	}
 
 	if err = d.Set("remote_ip", dataSourceFlattenSystemInterfaceRemoteIp(o["remote-ip"], d, "remote_ip")); err != nil {
 		if !fortiAPIPatch(o["remote-ip"]) {
-			return fmt.Errorf("Error reading remote_ip: %v", err)
+			return fmt.Errorf("error reading remote_ip: %v", err)
 		}
 	}
 
 	if err = d.Set("member", dataSourceFlattenSystemInterfaceMember(o["member"], d, "member")); err != nil {
 		if !fortiAPIPatch(o["member"]) {
-			return fmt.Errorf("Error reading member: %v", err)
+			return fmt.Errorf("error reading member: %v", err)
 		}
 	}
 
 	if err = d.Set("lacp_mode", dataSourceFlattenSystemInterfaceLacpMode(o["lacp-mode"], d, "lacp_mode")); err != nil {
 		if !fortiAPIPatch(o["lacp-mode"]) {
-			return fmt.Errorf("Error reading lacp_mode: %v", err)
+			return fmt.Errorf("error reading lacp_mode: %v", err)
 		}
 	}
 
 	if err = d.Set("lacp_ha_slave", dataSourceFlattenSystemInterfaceLacpHaSlave(o["lacp-ha-slave"], d, "lacp_ha_slave")); err != nil {
 		if !fortiAPIPatch(o["lacp-ha-slave"]) {
-			return fmt.Errorf("Error reading lacp_ha_slave: %v", err)
+			return fmt.Errorf("error reading lacp_ha_slave: %v", err)
 		}
 	}
 
 	if err = d.Set("lacp_speed", dataSourceFlattenSystemInterfaceLacpSpeed(o["lacp-speed"], d, "lacp_speed")); err != nil {
 		if !fortiAPIPatch(o["lacp-speed"]) {
-			return fmt.Errorf("Error reading lacp_speed: %v", err)
+			return fmt.Errorf("error reading lacp_speed: %v", err)
 		}
 	}
 
 	if err = d.Set("min_links", dataSourceFlattenSystemInterfaceMinLinks(o["min-links"], d, "min_links")); err != nil {
 		if !fortiAPIPatch(o["min-links"]) {
-			return fmt.Errorf("Error reading min_links: %v", err)
+			return fmt.Errorf("error reading min_links: %v", err)
 		}
 	}
 
 	if err = d.Set("min_links_down", dataSourceFlattenSystemInterfaceMinLinksDown(o["min-links-down"], d, "min_links_down")); err != nil {
 		if !fortiAPIPatch(o["min-links-down"]) {
-			return fmt.Errorf("Error reading min_links_down: %v", err)
+			return fmt.Errorf("error reading min_links_down: %v", err)
 		}
 	}
 
 	if err = d.Set("algorithm", dataSourceFlattenSystemInterfaceAlgorithm(o["algorithm"], d, "algorithm")); err != nil {
 		if !fortiAPIPatch(o["algorithm"]) {
-			return fmt.Errorf("Error reading algorithm: %v", err)
+			return fmt.Errorf("error reading algorithm: %v", err)
 		}
 	}
 
 	if err = d.Set("link_up_delay", dataSourceFlattenSystemInterfaceLinkUpDelay(o["link-up-delay"], d, "link_up_delay")); err != nil {
 		if !fortiAPIPatch(o["link-up-delay"]) {
-			return fmt.Errorf("Error reading link_up_delay: %v", err)
+			return fmt.Errorf("error reading link_up_delay: %v", err)
 		}
 	}
 
 	if err = d.Set("priority_override", dataSourceFlattenSystemInterfacePriorityOverride(o["priority-override"], d, "priority_override")); err != nil {
 		if !fortiAPIPatch(o["priority-override"]) {
-			return fmt.Errorf("Error reading priority_override: %v", err)
+			return fmt.Errorf("error reading priority_override: %v", err)
 		}
 	}
 
 	if err = d.Set("aggregate", dataSourceFlattenSystemInterfaceAggregate(o["aggregate"], d, "aggregate")); err != nil {
 		if !fortiAPIPatch(o["aggregate"]) {
-			return fmt.Errorf("Error reading aggregate: %v", err)
+			return fmt.Errorf("error reading aggregate: %v", err)
 		}
 	}
 
 	if err = d.Set("redundant_interface", dataSourceFlattenSystemInterfaceRedundantInterface(o["redundant-interface"], d, "redundant_interface")); err != nil {
 		if !fortiAPIPatch(o["redundant-interface"]) {
-			return fmt.Errorf("Error reading redundant_interface: %v", err)
+			return fmt.Errorf("error reading redundant_interface: %v", err)
 		}
 	}
 
 	if err = d.Set("managed_device", dataSourceFlattenSystemInterfaceManagedDevice(o["managed-device"], d, "managed_device")); err != nil {
 		if !fortiAPIPatch(o["managed-device"]) {
-			return fmt.Errorf("Error reading managed_device: %v", err)
+			return fmt.Errorf("error reading managed_device: %v", err)
 		}
 	}
 
 	if err = d.Set("devindex", dataSourceFlattenSystemInterfaceDevindex(o["devindex"], d, "devindex")); err != nil {
 		if !fortiAPIPatch(o["devindex"]) {
-			return fmt.Errorf("Error reading devindex: %v", err)
+			return fmt.Errorf("error reading devindex: %v", err)
 		}
 	}
 
 	if err = d.Set("vindex", dataSourceFlattenSystemInterfaceVindex(o["vindex"], d, "vindex")); err != nil {
 		if !fortiAPIPatch(o["vindex"]) {
-			return fmt.Errorf("Error reading vindex: %v", err)
+			return fmt.Errorf("error reading vindex: %v", err)
 		}
 	}
 
 	if err = d.Set("switch", dataSourceFlattenSystemInterfaceSwitch(o["switch"], d, "switch")); err != nil {
 		if !fortiAPIPatch(o["switch"]) {
-			return fmt.Errorf("Error reading switch: %v", err)
+			return fmt.Errorf("error reading switch: %v", err)
 		}
 	}
 
 	if err = d.Set("description", dataSourceFlattenSystemInterfaceDescription(o["description"], d, "description")); err != nil {
 		if !fortiAPIPatch(o["description"]) {
-			return fmt.Errorf("Error reading description: %v", err)
+			return fmt.Errorf("error reading description: %v", err)
 		}
 	}
 
 	if err = d.Set("alias", dataSourceFlattenSystemInterfaceAlias(o["alias"], d, "alias")); err != nil {
 		if !fortiAPIPatch(o["alias"]) {
-			return fmt.Errorf("Error reading alias: %v", err)
+			return fmt.Errorf("error reading alias: %v", err)
 		}
 	}
 
 	if err = d.Set("security_mode", dataSourceFlattenSystemInterfaceSecurityMode(o["security-mode"], d, "security_mode")); err != nil {
 		if !fortiAPIPatch(o["security-mode"]) {
-			return fmt.Errorf("Error reading security_mode: %v", err)
+			return fmt.Errorf("error reading security_mode: %v", err)
 		}
 	}
 
 	if err = d.Set("captive_portal", dataSourceFlattenSystemInterfaceCaptivePortal(o["captive-portal"], d, "captive_portal")); err != nil {
 		if !fortiAPIPatch(o["captive-portal"]) {
-			return fmt.Errorf("Error reading captive_portal: %v", err)
+			return fmt.Errorf("error reading captive_portal: %v", err)
 		}
 	}
 
 	if err = d.Set("security_mac_auth_bypass", dataSourceFlattenSystemInterfaceSecurityMacAuthBypass(o["security-mac-auth-bypass"], d, "security_mac_auth_bypass")); err != nil {
 		if !fortiAPIPatch(o["security-mac-auth-bypass"]) {
-			return fmt.Errorf("Error reading security_mac_auth_bypass: %v", err)
+			return fmt.Errorf("error reading security_mac_auth_bypass: %v", err)
 		}
 	}
 
 	if err = d.Set("security_external_web", dataSourceFlattenSystemInterfaceSecurityExternalWeb(o["security-external-web"], d, "security_external_web")); err != nil {
 		if !fortiAPIPatch(o["security-external-web"]) {
-			return fmt.Errorf("Error reading security_external_web: %v", err)
+			return fmt.Errorf("error reading security_external_web: %v", err)
 		}
 	}
 
 	if err = d.Set("security_external_logout", dataSourceFlattenSystemInterfaceSecurityExternalLogout(o["security-external-logout"], d, "security_external_logout")); err != nil {
 		if !fortiAPIPatch(o["security-external-logout"]) {
-			return fmt.Errorf("Error reading security_external_logout: %v", err)
+			return fmt.Errorf("error reading security_external_logout: %v", err)
 		}
 	}
 
 	if err = d.Set("replacemsg_override_group", dataSourceFlattenSystemInterfaceReplacemsgOverrideGroup(o["replacemsg-override-group"], d, "replacemsg_override_group")); err != nil {
 		if !fortiAPIPatch(o["replacemsg-override-group"]) {
-			return fmt.Errorf("Error reading replacemsg_override_group: %v", err)
+			return fmt.Errorf("error reading replacemsg_override_group: %v", err)
 		}
 	}
 
 	if err = d.Set("security_redirect_url", dataSourceFlattenSystemInterfaceSecurityRedirectUrl(o["security-redirect-url"], d, "security_redirect_url")); err != nil {
 		if !fortiAPIPatch(o["security-redirect-url"]) {
-			return fmt.Errorf("Error reading security_redirect_url: %v", err)
+			return fmt.Errorf("error reading security_redirect_url: %v", err)
 		}
 	}
 
 	if err = d.Set("security_exempt_list", dataSourceFlattenSystemInterfaceSecurityExemptList(o["security-exempt-list"], d, "security_exempt_list")); err != nil {
 		if !fortiAPIPatch(o["security-exempt-list"]) {
-			return fmt.Errorf("Error reading security_exempt_list: %v", err)
+			return fmt.Errorf("error reading security_exempt_list: %v", err)
 		}
 	}
 
 	if err = d.Set("security_groups", dataSourceFlattenSystemInterfaceSecurityGroups(o["security-groups"], d, "security_groups")); err != nil {
 		if !fortiAPIPatch(o["security-groups"]) {
-			return fmt.Errorf("Error reading security_groups: %v", err)
+			return fmt.Errorf("error reading security_groups: %v", err)
 		}
 	}
 
 	if err = d.Set("device_identification", dataSourceFlattenSystemInterfaceDeviceIdentification(o["device-identification"], d, "device_identification")); err != nil {
 		if !fortiAPIPatch(o["device-identification"]) {
-			return fmt.Errorf("Error reading device_identification: %v", err)
+			return fmt.Errorf("error reading device_identification: %v", err)
 		}
 	}
 
 	if err = d.Set("device_user_identification", dataSourceFlattenSystemInterfaceDeviceUserIdentification(o["device-user-identification"], d, "device_user_identification")); err != nil {
 		if !fortiAPIPatch(o["device-user-identification"]) {
-			return fmt.Errorf("Error reading device_user_identification: %v", err)
+			return fmt.Errorf("error reading device_user_identification: %v", err)
 		}
 	}
 
 	if err = d.Set("device_identification_active_scan", dataSourceFlattenSystemInterfaceDeviceIdentificationActiveScan(o["device-identification-active-scan"], d, "device_identification_active_scan")); err != nil {
 		if !fortiAPIPatch(o["device-identification-active-scan"]) {
-			return fmt.Errorf("Error reading device_identification_active_scan: %v", err)
+			return fmt.Errorf("error reading device_identification_active_scan: %v", err)
 		}
 	}
 
 	if err = d.Set("device_access_list", dataSourceFlattenSystemInterfaceDeviceAccessList(o["device-access-list"], d, "device_access_list")); err != nil {
 		if !fortiAPIPatch(o["device-access-list"]) {
-			return fmt.Errorf("Error reading device_access_list: %v", err)
+			return fmt.Errorf("error reading device_access_list: %v", err)
 		}
 	}
 
 	if err = d.Set("device_netscan", dataSourceFlattenSystemInterfaceDeviceNetscan(o["device-netscan"], d, "device_netscan")); err != nil {
 		if !fortiAPIPatch(o["device-netscan"]) {
-			return fmt.Errorf("Error reading device_netscan: %v", err)
+			return fmt.Errorf("error reading device_netscan: %v", err)
 		}
 	}
 
 	if err = d.Set("lldp_reception", dataSourceFlattenSystemInterfaceLldpReception(o["lldp-reception"], d, "lldp_reception")); err != nil {
 		if !fortiAPIPatch(o["lldp-reception"]) {
-			return fmt.Errorf("Error reading lldp_reception: %v", err)
+			return fmt.Errorf("error reading lldp_reception: %v", err)
 		}
 	}
 
 	if err = d.Set("lldp_transmission", dataSourceFlattenSystemInterfaceLldpTransmission(o["lldp-transmission"], d, "lldp_transmission")); err != nil {
 		if !fortiAPIPatch(o["lldp-transmission"]) {
-			return fmt.Errorf("Error reading lldp_transmission: %v", err)
+			return fmt.Errorf("error reading lldp_transmission: %v", err)
 		}
 	}
 
 	if err = d.Set("lldp_network_policy", dataSourceFlattenSystemInterfaceLldpNetworkPolicy(o["lldp-network-policy"], d, "lldp_network_policy")); err != nil {
 		if !fortiAPIPatch(o["lldp-network-policy"]) {
-			return fmt.Errorf("Error reading lldp_network_policy: %v", err)
+			return fmt.Errorf("error reading lldp_network_policy: %v", err)
 		}
 	}
 
 	if err = d.Set("fortiheartbeat", dataSourceFlattenSystemInterfaceFortiheartbeat(o["fortiheartbeat"], d, "fortiheartbeat")); err != nil {
 		if !fortiAPIPatch(o["fortiheartbeat"]) {
-			return fmt.Errorf("Error reading fortiheartbeat: %v", err)
+			return fmt.Errorf("error reading fortiheartbeat: %v", err)
 		}
 	}
 
 	if err = d.Set("broadcast_forticlient_discovery", dataSourceFlattenSystemInterfaceBroadcastForticlientDiscovery(o["broadcast-forticlient-discovery"], d, "broadcast_forticlient_discovery")); err != nil {
 		if !fortiAPIPatch(o["broadcast-forticlient-discovery"]) {
-			return fmt.Errorf("Error reading broadcast_forticlient_discovery: %v", err)
+			return fmt.Errorf("error reading broadcast_forticlient_discovery: %v", err)
 		}
 	}
 
 	if err = d.Set("endpoint_compliance", dataSourceFlattenSystemInterfaceEndpointCompliance(o["endpoint-compliance"], d, "endpoint_compliance")); err != nil {
 		if !fortiAPIPatch(o["endpoint-compliance"]) {
-			return fmt.Errorf("Error reading endpoint_compliance: %v", err)
+			return fmt.Errorf("error reading endpoint_compliance: %v", err)
 		}
 	}
 
 	if err = d.Set("estimated_upstream_bandwidth", dataSourceFlattenSystemInterfaceEstimatedUpstreamBandwidth(o["estimated-upstream-bandwidth"], d, "estimated_upstream_bandwidth")); err != nil {
 		if !fortiAPIPatch(o["estimated-upstream-bandwidth"]) {
-			return fmt.Errorf("Error reading estimated_upstream_bandwidth: %v", err)
+			return fmt.Errorf("error reading estimated_upstream_bandwidth: %v", err)
 		}
 	}
 
 	if err = d.Set("estimated_downstream_bandwidth", dataSourceFlattenSystemInterfaceEstimatedDownstreamBandwidth(o["estimated-downstream-bandwidth"], d, "estimated_downstream_bandwidth")); err != nil {
 		if !fortiAPIPatch(o["estimated-downstream-bandwidth"]) {
-			return fmt.Errorf("Error reading estimated_downstream_bandwidth: %v", err)
+			return fmt.Errorf("error reading estimated_downstream_bandwidth: %v", err)
 		}
 	}
 
 	if err = d.Set("measured_upstream_bandwidth", dataSourceFlattenSystemInterfaceMeasuredUpstreamBandwidth(o["measured-upstream-bandwidth"], d, "measured_upstream_bandwidth")); err != nil {
 		if !fortiAPIPatch(o["measured-upstream-bandwidth"]) {
-			return fmt.Errorf("Error reading measured_upstream_bandwidth: %v", err)
+			return fmt.Errorf("error reading measured_upstream_bandwidth: %v", err)
 		}
 	}
 
 	if err = d.Set("measured_downstream_bandwidth", dataSourceFlattenSystemInterfaceMeasuredDownstreamBandwidth(o["measured-downstream-bandwidth"], d, "measured_downstream_bandwidth")); err != nil {
 		if !fortiAPIPatch(o["measured-downstream-bandwidth"]) {
-			return fmt.Errorf("Error reading measured_downstream_bandwidth: %v", err)
+			return fmt.Errorf("error reading measured_downstream_bandwidth: %v", err)
 		}
 	}
 
 	if err = d.Set("bandwidth_measure_time", dataSourceFlattenSystemInterfaceBandwidthMeasureTime(o["bandwidth-measure-time"], d, "bandwidth_measure_time")); err != nil {
 		if !fortiAPIPatch(o["bandwidth-measure-time"]) {
-			return fmt.Errorf("Error reading bandwidth_measure_time: %v", err)
+			return fmt.Errorf("error reading bandwidth_measure_time: %v", err)
 		}
 	}
 
 	if err = d.Set("monitor_bandwidth", dataSourceFlattenSystemInterfaceMonitorBandwidth(o["monitor-bandwidth"], d, "monitor_bandwidth")); err != nil {
 		if !fortiAPIPatch(o["monitor-bandwidth"]) {
-			return fmt.Errorf("Error reading monitor_bandwidth: %v", err)
+			return fmt.Errorf("error reading monitor_bandwidth: %v", err)
 		}
 	}
 
 	if err = d.Set("vrrp_virtual_mac", dataSourceFlattenSystemInterfaceVrrpVirtualMac(o["vrrp-virtual-mac"], d, "vrrp_virtual_mac")); err != nil {
 		if !fortiAPIPatch(o["vrrp-virtual-mac"]) {
-			return fmt.Errorf("Error reading vrrp_virtual_mac: %v", err)
+			return fmt.Errorf("error reading vrrp_virtual_mac: %v", err)
 		}
 	}
 
 	if err = d.Set("vrrp", dataSourceFlattenSystemInterfaceVrrp(o["vrrp"], d, "vrrp")); err != nil {
 		if !fortiAPIPatch(o["vrrp"]) {
-			return fmt.Errorf("Error reading vrrp: %v", err)
+			return fmt.Errorf("error reading vrrp: %v", err)
 		}
 	}
 
 	if err = d.Set("role", dataSourceFlattenSystemInterfaceRole(o["role"], d, "role")); err != nil {
 		if !fortiAPIPatch(o["role"]) {
-			return fmt.Errorf("Error reading role: %v", err)
+			return fmt.Errorf("error reading role: %v", err)
 		}
 	}
 
 	if err = d.Set("snmp_index", dataSourceFlattenSystemInterfaceSnmpIndex(o["snmp-index"], d, "snmp_index")); err != nil {
 		if !fortiAPIPatch(o["snmp-index"]) {
-			return fmt.Errorf("Error reading snmp_index: %v", err)
+			return fmt.Errorf("error reading snmp_index: %v", err)
 		}
 	}
 
 	if err = d.Set("secondary_ip", dataSourceFlattenSystemInterfaceSecondaryIp(o["secondary-IP"], d, "secondary_ip")); err != nil {
 		if !fortiAPIPatch(o["secondary-IP"]) {
-			return fmt.Errorf("Error reading secondary_ip: %v", err)
+			return fmt.Errorf("error reading secondary_ip: %v", err)
 		}
 	}
 
 	if err = d.Set("secondaryip", dataSourceFlattenSystemInterfaceSecondaryip(o["secondaryip"], d, "secondaryip")); err != nil {
 		if !fortiAPIPatch(o["secondaryip"]) {
-			return fmt.Errorf("Error reading secondaryip: %v", err)
+			return fmt.Errorf("error reading secondaryip: %v", err)
 		}
 	}
 
 	if err = d.Set("preserve_session_route", dataSourceFlattenSystemInterfacePreserveSessionRoute(o["preserve-session-route"], d, "preserve_session_route")); err != nil {
 		if !fortiAPIPatch(o["preserve-session-route"]) {
-			return fmt.Errorf("Error reading preserve_session_route: %v", err)
+			return fmt.Errorf("error reading preserve_session_route: %v", err)
 		}
 	}
 
 	if err = d.Set("auto_auth_extension_device", dataSourceFlattenSystemInterfaceAutoAuthExtensionDevice(o["auto-auth-extension-device"], d, "auto_auth_extension_device")); err != nil {
 		if !fortiAPIPatch(o["auto-auth-extension-device"]) {
-			return fmt.Errorf("Error reading auto_auth_extension_device: %v", err)
+			return fmt.Errorf("error reading auto_auth_extension_device: %v", err)
 		}
 	}
 
 	if err = d.Set("ap_discover", dataSourceFlattenSystemInterfaceApDiscover(o["ap-discover"], d, "ap_discover")); err != nil {
 		if !fortiAPIPatch(o["ap-discover"]) {
-			return fmt.Errorf("Error reading ap_discover: %v", err)
+			return fmt.Errorf("error reading ap_discover: %v", err)
 		}
 	}
 
 	if err = d.Set("fortilink_stacking", dataSourceFlattenSystemInterfaceFortilinkStacking(o["fortilink-stacking"], d, "fortilink_stacking")); err != nil {
 		if !fortiAPIPatch(o["fortilink-stacking"]) {
-			return fmt.Errorf("Error reading fortilink_stacking: %v", err)
+			return fmt.Errorf("error reading fortilink_stacking: %v", err)
 		}
 	}
 
 	if err = d.Set("fortilink_neighbor_detect", dataSourceFlattenSystemInterfaceFortilinkNeighborDetect(o["fortilink-neighbor-detect"], d, "fortilink_neighbor_detect")); err != nil {
 		if !fortiAPIPatch(o["fortilink-neighbor-detect"]) {
-			return fmt.Errorf("Error reading fortilink_neighbor_detect: %v", err)
+			return fmt.Errorf("error reading fortilink_neighbor_detect: %v", err)
 		}
 	}
 
 	if err = d.Set("ip_managed_by_fortiipam", dataSourceFlattenSystemInterfaceIpManagedByFortiipam(o["ip-managed-by-fortiipam"], d, "ip_managed_by_fortiipam")); err != nil {
 		if !fortiAPIPatch(o["ip-managed-by-fortiipam"]) {
-			return fmt.Errorf("Error reading ip_managed_by_fortiipam: %v", err)
+			return fmt.Errorf("error reading ip_managed_by_fortiipam: %v", err)
 		}
 	}
 
 	if err = d.Set("managed_subnetwork_size", dataSourceFlattenSystemInterfaceManagedSubnetworkSize(o["managed-subnetwork-size"], d, "managed_subnetwork_size")); err != nil {
 		if !fortiAPIPatch(o["managed-subnetwork-size"]) {
-			return fmt.Errorf("Error reading managed_subnetwork_size: %v", err)
+			return fmt.Errorf("error reading managed_subnetwork_size: %v", err)
 		}
 	}
 
 	if err = d.Set("fortilink_split_interface", dataSourceFlattenSystemInterfaceFortilinkSplitInterface(o["fortilink-split-interface"], d, "fortilink_split_interface")); err != nil {
 		if !fortiAPIPatch(o["fortilink-split-interface"]) {
-			return fmt.Errorf("Error reading fortilink_split_interface: %v", err)
+			return fmt.Errorf("error reading fortilink_split_interface: %v", err)
 		}
 	}
 
 	if err = d.Set("internal", dataSourceFlattenSystemInterfaceInternal(o["internal"], d, "internal")); err != nil {
 		if !fortiAPIPatch(o["internal"]) {
-			return fmt.Errorf("Error reading internal: %v", err)
+			return fmt.Errorf("error reading internal: %v", err)
 		}
 	}
 
 	if err = d.Set("fortilink_backup_link", dataSourceFlattenSystemInterfaceFortilinkBackupLink(o["fortilink-backup-link"], d, "fortilink_backup_link")); err != nil {
 		if !fortiAPIPatch(o["fortilink-backup-link"]) {
-			return fmt.Errorf("Error reading fortilink_backup_link: %v", err)
+			return fmt.Errorf("error reading fortilink_backup_link: %v", err)
 		}
 	}
 
 	if err = d.Set("switch_controller_access_vlan", dataSourceFlattenSystemInterfaceSwitchControllerAccessVlan(o["switch-controller-access-vlan"], d, "switch_controller_access_vlan")); err != nil {
 		if !fortiAPIPatch(o["switch-controller-access-vlan"]) {
-			return fmt.Errorf("Error reading switch_controller_access_vlan: %v", err)
+			return fmt.Errorf("error reading switch_controller_access_vlan: %v", err)
 		}
 	}
 
 	if err = d.Set("switch_controller_traffic_policy", dataSourceFlattenSystemInterfaceSwitchControllerTrafficPolicy(o["switch-controller-traffic-policy"], d, "switch_controller_traffic_policy")); err != nil {
 		if !fortiAPIPatch(o["switch-controller-traffic-policy"]) {
-			return fmt.Errorf("Error reading switch_controller_traffic_policy: %v", err)
+			return fmt.Errorf("error reading switch_controller_traffic_policy: %v", err)
 		}
 	}
 
 	if err = d.Set("switch_controller_rspan_mode", dataSourceFlattenSystemInterfaceSwitchControllerRspanMode(o["switch-controller-rspan-mode"], d, "switch_controller_rspan_mode")); err != nil {
 		if !fortiAPIPatch(o["switch-controller-rspan-mode"]) {
-			return fmt.Errorf("Error reading switch_controller_rspan_mode: %v", err)
+			return fmt.Errorf("error reading switch_controller_rspan_mode: %v", err)
 		}
 	}
 
 	if err = d.Set("switch_controller_mgmt_vlan", dataSourceFlattenSystemInterfaceSwitchControllerMgmtVlan(o["switch-controller-mgmt-vlan"], d, "switch_controller_mgmt_vlan")); err != nil {
 		if !fortiAPIPatch(o["switch-controller-mgmt-vlan"]) {
-			return fmt.Errorf("Error reading switch_controller_mgmt_vlan: %v", err)
+			return fmt.Errorf("error reading switch_controller_mgmt_vlan: %v", err)
 		}
 	}
 
 	if err = d.Set("switch_controller_igmp_snooping", dataSourceFlattenSystemInterfaceSwitchControllerIgmpSnooping(o["switch-controller-igmp-snooping"], d, "switch_controller_igmp_snooping")); err != nil {
 		if !fortiAPIPatch(o["switch-controller-igmp-snooping"]) {
-			return fmt.Errorf("Error reading switch_controller_igmp_snooping: %v", err)
+			return fmt.Errorf("error reading switch_controller_igmp_snooping: %v", err)
 		}
 	}
 
 	if err = d.Set("switch_controller_igmp_snooping_proxy", dataSourceFlattenSystemInterfaceSwitchControllerIgmpSnoopingProxy(o["switch-controller-igmp-snooping-proxy"], d, "switch_controller_igmp_snooping_proxy")); err != nil {
 		if !fortiAPIPatch(o["switch-controller-igmp-snooping-proxy"]) {
-			return fmt.Errorf("Error reading switch_controller_igmp_snooping_proxy: %v", err)
+			return fmt.Errorf("error reading switch_controller_igmp_snooping_proxy: %v", err)
 		}
 	}
 
 	if err = d.Set("switch_controller_igmp_snooping_fast_leave", dataSourceFlattenSystemInterfaceSwitchControllerIgmpSnoopingFastLeave(o["switch-controller-igmp-snooping-fast-leave"], d, "switch_controller_igmp_snooping_fast_leave")); err != nil {
 		if !fortiAPIPatch(o["switch-controller-igmp-snooping-fast-leave"]) {
-			return fmt.Errorf("Error reading switch_controller_igmp_snooping_fast_leave: %v", err)
+			return fmt.Errorf("error reading switch_controller_igmp_snooping_fast_leave: %v", err)
 		}
 	}
 
 	if err = d.Set("switch_controller_dhcp_snooping", dataSourceFlattenSystemInterfaceSwitchControllerDhcpSnooping(o["switch-controller-dhcp-snooping"], d, "switch_controller_dhcp_snooping")); err != nil {
 		if !fortiAPIPatch(o["switch-controller-dhcp-snooping"]) {
-			return fmt.Errorf("Error reading switch_controller_dhcp_snooping: %v", err)
+			return fmt.Errorf("error reading switch_controller_dhcp_snooping: %v", err)
 		}
 	}
 
 	if err = d.Set("switch_controller_dhcp_snooping_verify_mac", dataSourceFlattenSystemInterfaceSwitchControllerDhcpSnoopingVerifyMac(o["switch-controller-dhcp-snooping-verify-mac"], d, "switch_controller_dhcp_snooping_verify_mac")); err != nil {
 		if !fortiAPIPatch(o["switch-controller-dhcp-snooping-verify-mac"]) {
-			return fmt.Errorf("Error reading switch_controller_dhcp_snooping_verify_mac: %v", err)
+			return fmt.Errorf("error reading switch_controller_dhcp_snooping_verify_mac: %v", err)
 		}
 	}
 
 	if err = d.Set("switch_controller_dhcp_snooping_option82", dataSourceFlattenSystemInterfaceSwitchControllerDhcpSnoopingOption82(o["switch-controller-dhcp-snooping-option82"], d, "switch_controller_dhcp_snooping_option82")); err != nil {
 		if !fortiAPIPatch(o["switch-controller-dhcp-snooping-option82"]) {
-			return fmt.Errorf("Error reading switch_controller_dhcp_snooping_option82: %v", err)
+			return fmt.Errorf("error reading switch_controller_dhcp_snooping_option82: %v", err)
 		}
 	}
 
 	if err = d.Set("switch_controller_arp_inspection", dataSourceFlattenSystemInterfaceSwitchControllerArpInspection(o["switch-controller-arp-inspection"], d, "switch_controller_arp_inspection")); err != nil {
 		if !fortiAPIPatch(o["switch-controller-arp-inspection"]) {
-			return fmt.Errorf("Error reading switch_controller_arp_inspection: %v", err)
+			return fmt.Errorf("error reading switch_controller_arp_inspection: %v", err)
 		}
 	}
 
 	if err = d.Set("switch_controller_learning_limit", dataSourceFlattenSystemInterfaceSwitchControllerLearningLimit(o["switch-controller-learning-limit"], d, "switch_controller_learning_limit")); err != nil {
 		if !fortiAPIPatch(o["switch-controller-learning-limit"]) {
-			return fmt.Errorf("Error reading switch_controller_learning_limit: %v", err)
+			return fmt.Errorf("error reading switch_controller_learning_limit: %v", err)
 		}
 	}
 
 	if err = d.Set("switch_controller_nac", dataSourceFlattenSystemInterfaceSwitchControllerNac(o["switch-controller-nac"], d, "switch_controller_nac")); err != nil {
 		if !fortiAPIPatch(o["switch-controller-nac"]) {
-			return fmt.Errorf("Error reading switch_controller_nac: %v", err)
+			return fmt.Errorf("error reading switch_controller_nac: %v", err)
 		}
 	}
 
 	if err = d.Set("switch_controller_feature", dataSourceFlattenSystemInterfaceSwitchControllerFeature(o["switch-controller-feature"], d, "switch_controller_feature")); err != nil {
 		if !fortiAPIPatch(o["switch-controller-feature"]) {
-			return fmt.Errorf("Error reading switch_controller_feature: %v", err)
+			return fmt.Errorf("error reading switch_controller_feature: %v", err)
 		}
 	}
 
 	if err = d.Set("switch_controller_iot_scanning", dataSourceFlattenSystemInterfaceSwitchControllerIotScanning(o["switch-controller-iot-scanning"], d, "switch_controller_iot_scanning")); err != nil {
 		if !fortiAPIPatch(o["switch-controller-iot-scanning"]) {
-			return fmt.Errorf("Error reading switch_controller_iot_scanning: %v", err)
+			return fmt.Errorf("error reading switch_controller_iot_scanning: %v", err)
 		}
 	}
 
 	if err = d.Set("swc_vlan", dataSourceFlattenSystemInterfaceSwcVlan(o["swc-vlan"], d, "swc_vlan")); err != nil {
 		if !fortiAPIPatch(o["swc-vlan"]) {
-			return fmt.Errorf("Error reading swc_vlan: %v", err)
+			return fmt.Errorf("error reading swc_vlan: %v", err)
 		}
 	}
 
 	if err = d.Set("swc_first_create", dataSourceFlattenSystemInterfaceSwcFirstCreate(o["swc-first-create"], d, "swc_first_create")); err != nil {
 		if !fortiAPIPatch(o["swc-first-create"]) {
-			return fmt.Errorf("Error reading swc_first_create: %v", err)
+			return fmt.Errorf("error reading swc_first_create: %v", err)
 		}
 	}
 
 	if err = d.Set("color", dataSourceFlattenSystemInterfaceColor(o["color"], d, "color")); err != nil {
 		if !fortiAPIPatch(o["color"]) {
-			return fmt.Errorf("Error reading color: %v", err)
+			return fmt.Errorf("error reading color: %v", err)
 		}
 	}
 
 	if err = d.Set("tagging", dataSourceFlattenSystemInterfaceTagging(o["tagging"], d, "tagging")); err != nil {
 		if !fortiAPIPatch(o["tagging"]) {
-			return fmt.Errorf("Error reading tagging: %v", err)
+			return fmt.Errorf("error reading tagging: %v", err)
 		}
 	}
 
 	if err = d.Set("ipv6", dataSourceFlattenSystemInterfaceIpv6(o["ipv6"], d, "ipv6")); err != nil {
 		if !fortiAPIPatch(o["ipv6"]) {
-			return fmt.Errorf("Error reading ipv6: %v", err)
+			return fmt.Errorf("error reading ipv6: %v", err)
 		}
 	}
 

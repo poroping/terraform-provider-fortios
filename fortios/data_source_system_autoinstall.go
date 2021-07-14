@@ -21,25 +21,25 @@ func dataSourceSystemAutoInstall() *schema.Resource {
 	return &schema.Resource{
 		Read: dataSourceSystemAutoInstallRead,
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
 
-			"auto_install_config": &schema.Schema{
+			"auto_install_config": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"auto_install_image": &schema.Schema{
+			"auto_install_image": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"default_config_file": &schema.Schema{
+			"default_config_file": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"default_image_file": &schema.Schema{
+			"default_image_file": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -61,9 +61,9 @@ func dataSourceSystemAutoInstallRead(d *schema.ResourceData, m interface{}) erro
 
 	mkey := "SystemAutoInstall"
 
-	o, err := c.ReadSystemAutoInstall(mkey, vdomparam)
+	o, err := c.ReadSystemAutoInstall(mkey, vdomparam, make(map[string][]string), 0)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemAutoInstall: %v", err)
+		return fmt.Errorf("error describing SystemAutoInstall: %v", err)
 	}
 
 	if o == nil {
@@ -73,7 +73,7 @@ func dataSourceSystemAutoInstallRead(d *schema.ResourceData, m interface{}) erro
 
 	err = dataSourceRefreshObjectSystemAutoInstall(d, o)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemAutoInstall from API: %v", err)
+		return fmt.Errorf("error describing SystemAutoInstall from API: %v", err)
 	}
 
 	d.SetId(mkey)
@@ -102,25 +102,25 @@ func dataSourceRefreshObjectSystemAutoInstall(d *schema.ResourceData, o map[stri
 
 	if err = d.Set("auto_install_config", dataSourceFlattenSystemAutoInstallAutoInstallConfig(o["auto-install-config"], d, "auto_install_config")); err != nil {
 		if !fortiAPIPatch(o["auto-install-config"]) {
-			return fmt.Errorf("Error reading auto_install_config: %v", err)
+			return fmt.Errorf("error reading auto_install_config: %v", err)
 		}
 	}
 
 	if err = d.Set("auto_install_image", dataSourceFlattenSystemAutoInstallAutoInstallImage(o["auto-install-image"], d, "auto_install_image")); err != nil {
 		if !fortiAPIPatch(o["auto-install-image"]) {
-			return fmt.Errorf("Error reading auto_install_image: %v", err)
+			return fmt.Errorf("error reading auto_install_image: %v", err)
 		}
 	}
 
 	if err = d.Set("default_config_file", dataSourceFlattenSystemAutoInstallDefaultConfigFile(o["default-config-file"], d, "default_config_file")); err != nil {
 		if !fortiAPIPatch(o["default-config-file"]) {
-			return fmt.Errorf("Error reading default_config_file: %v", err)
+			return fmt.Errorf("error reading default_config_file: %v", err)
 		}
 	}
 
 	if err = d.Set("default_image_file", dataSourceFlattenSystemAutoInstallDefaultImageFile(o["default-image-file"], d, "default_image_file")); err != nil {
 		if !fortiAPIPatch(o["default-image-file"]) {
-			return fmt.Errorf("Error reading default_image_file: %v", err)
+			return fmt.Errorf("error reading default_image_file: %v", err)
 		}
 	}
 

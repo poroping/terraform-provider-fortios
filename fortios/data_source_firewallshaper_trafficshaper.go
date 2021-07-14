@@ -21,65 +21,65 @@ func dataSourceFirewallShaperTrafficShaper() *schema.Resource {
 	return &schema.Resource{
 		Read: dataSourceFirewallShaperTrafficShaperRead,
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
 
-			"name": &schema.Schema{
+			"name": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"guaranteed_bandwidth": &schema.Schema{
+			"guaranteed_bandwidth": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"maximum_bandwidth": &schema.Schema{
+			"maximum_bandwidth": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"bandwidth_unit": &schema.Schema{
+			"bandwidth_unit": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"priority": &schema.Schema{
+			"priority": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"per_policy": &schema.Schema{
+			"per_policy": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"diffserv": &schema.Schema{
+			"diffserv": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"diffservcode": &schema.Schema{
+			"diffservcode": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"dscp_marking_method": &schema.Schema{
+			"dscp_marking_method": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"exceed_bandwidth": &schema.Schema{
+			"exceed_bandwidth": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"exceed_dscp": &schema.Schema{
+			"exceed_dscp": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"maximum_dscp": &schema.Schema{
+			"maximum_dscp": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"overhead": &schema.Schema{
+			"overhead": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"exceed_class_id": &schema.Schema{
+			"exceed_class_id": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
@@ -107,12 +107,12 @@ func dataSourceFirewallShaperTrafficShaperRead(d *schema.ResourceData, m interfa
 	} else if v, ok := t.(int); ok {
 		mkey = strconv.Itoa(v)
 	} else {
-		return fmt.Errorf("Error describing FirewallShaperTrafficShaper: type error")
+		return fmt.Errorf("error describing FirewallShaperTrafficShaper: type error")
 	}
 
-	o, err := c.ReadFirewallShaperTrafficShaper(mkey, vdomparam)
+	o, err := c.ReadFirewallShaperTrafficShaper(mkey, vdomparam, make(map[string][]string), 0)
 	if err != nil {
-		return fmt.Errorf("Error describing FirewallShaperTrafficShaper: %v", err)
+		return fmt.Errorf("error describing FirewallShaperTrafficShaper: %v", err)
 	}
 
 	if o == nil {
@@ -122,7 +122,7 @@ func dataSourceFirewallShaperTrafficShaperRead(d *schema.ResourceData, m interfa
 
 	err = dataSourceRefreshObjectFirewallShaperTrafficShaper(d, o)
 	if err != nil {
-		return fmt.Errorf("Error describing FirewallShaperTrafficShaper from API: %v", err)
+		return fmt.Errorf("error describing FirewallShaperTrafficShaper from API: %v", err)
 	}
 
 	d.SetId(mkey)
@@ -191,85 +191,85 @@ func dataSourceRefreshObjectFirewallShaperTrafficShaper(d *schema.ResourceData, 
 
 	if err = d.Set("name", dataSourceFlattenFirewallShaperTrafficShaperName(o["name"], d, "name")); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("guaranteed_bandwidth", dataSourceFlattenFirewallShaperTrafficShaperGuaranteedBandwidth(o["guaranteed-bandwidth"], d, "guaranteed_bandwidth")); err != nil {
 		if !fortiAPIPatch(o["guaranteed-bandwidth"]) {
-			return fmt.Errorf("Error reading guaranteed_bandwidth: %v", err)
+			return fmt.Errorf("error reading guaranteed_bandwidth: %v", err)
 		}
 	}
 
 	if err = d.Set("maximum_bandwidth", dataSourceFlattenFirewallShaperTrafficShaperMaximumBandwidth(o["maximum-bandwidth"], d, "maximum_bandwidth")); err != nil {
 		if !fortiAPIPatch(o["maximum-bandwidth"]) {
-			return fmt.Errorf("Error reading maximum_bandwidth: %v", err)
+			return fmt.Errorf("error reading maximum_bandwidth: %v", err)
 		}
 	}
 
 	if err = d.Set("bandwidth_unit", dataSourceFlattenFirewallShaperTrafficShaperBandwidthUnit(o["bandwidth-unit"], d, "bandwidth_unit")); err != nil {
 		if !fortiAPIPatch(o["bandwidth-unit"]) {
-			return fmt.Errorf("Error reading bandwidth_unit: %v", err)
+			return fmt.Errorf("error reading bandwidth_unit: %v", err)
 		}
 	}
 
 	if err = d.Set("priority", dataSourceFlattenFirewallShaperTrafficShaperPriority(o["priority"], d, "priority")); err != nil {
 		if !fortiAPIPatch(o["priority"]) {
-			return fmt.Errorf("Error reading priority: %v", err)
+			return fmt.Errorf("error reading priority: %v", err)
 		}
 	}
 
 	if err = d.Set("per_policy", dataSourceFlattenFirewallShaperTrafficShaperPerPolicy(o["per-policy"], d, "per_policy")); err != nil {
 		if !fortiAPIPatch(o["per-policy"]) {
-			return fmt.Errorf("Error reading per_policy: %v", err)
+			return fmt.Errorf("error reading per_policy: %v", err)
 		}
 	}
 
 	if err = d.Set("diffserv", dataSourceFlattenFirewallShaperTrafficShaperDiffserv(o["diffserv"], d, "diffserv")); err != nil {
 		if !fortiAPIPatch(o["diffserv"]) {
-			return fmt.Errorf("Error reading diffserv: %v", err)
+			return fmt.Errorf("error reading diffserv: %v", err)
 		}
 	}
 
 	if err = d.Set("diffservcode", dataSourceFlattenFirewallShaperTrafficShaperDiffservcode(o["diffservcode"], d, "diffservcode")); err != nil {
 		if !fortiAPIPatch(o["diffservcode"]) {
-			return fmt.Errorf("Error reading diffservcode: %v", err)
+			return fmt.Errorf("error reading diffservcode: %v", err)
 		}
 	}
 
 	if err = d.Set("dscp_marking_method", dataSourceFlattenFirewallShaperTrafficShaperDscpMarkingMethod(o["dscp-marking-method"], d, "dscp_marking_method")); err != nil {
 		if !fortiAPIPatch(o["dscp-marking-method"]) {
-			return fmt.Errorf("Error reading dscp_marking_method: %v", err)
+			return fmt.Errorf("error reading dscp_marking_method: %v", err)
 		}
 	}
 
 	if err = d.Set("exceed_bandwidth", dataSourceFlattenFirewallShaperTrafficShaperExceedBandwidth(o["exceed-bandwidth"], d, "exceed_bandwidth")); err != nil {
 		if !fortiAPIPatch(o["exceed-bandwidth"]) {
-			return fmt.Errorf("Error reading exceed_bandwidth: %v", err)
+			return fmt.Errorf("error reading exceed_bandwidth: %v", err)
 		}
 	}
 
 	if err = d.Set("exceed_dscp", dataSourceFlattenFirewallShaperTrafficShaperExceedDscp(o["exceed-dscp"], d, "exceed_dscp")); err != nil {
 		if !fortiAPIPatch(o["exceed-dscp"]) {
-			return fmt.Errorf("Error reading exceed_dscp: %v", err)
+			return fmt.Errorf("error reading exceed_dscp: %v", err)
 		}
 	}
 
 	if err = d.Set("maximum_dscp", dataSourceFlattenFirewallShaperTrafficShaperMaximumDscp(o["maximum-dscp"], d, "maximum_dscp")); err != nil {
 		if !fortiAPIPatch(o["maximum-dscp"]) {
-			return fmt.Errorf("Error reading maximum_dscp: %v", err)
+			return fmt.Errorf("error reading maximum_dscp: %v", err)
 		}
 	}
 
 	if err = d.Set("overhead", dataSourceFlattenFirewallShaperTrafficShaperOverhead(o["overhead"], d, "overhead")); err != nil {
 		if !fortiAPIPatch(o["overhead"]) {
-			return fmt.Errorf("Error reading overhead: %v", err)
+			return fmt.Errorf("error reading overhead: %v", err)
 		}
 	}
 
 	if err = d.Set("exceed_class_id", dataSourceFlattenFirewallShaperTrafficShaperExceedClassId(o["exceed-class-id"], d, "exceed_class_id")); err != nil {
 		if !fortiAPIPatch(o["exceed-class-id"]) {
-			return fmt.Errorf("Error reading exceed_class_id: %v", err)
+			return fmt.Errorf("error reading exceed_class_id: %v", err)
 		}
 	}
 

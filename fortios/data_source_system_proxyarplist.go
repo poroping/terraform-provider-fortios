@@ -17,12 +17,12 @@ func dataSourceSystemProxyArpList() *schema.Resource {
 		Read: dataSourceSystemProxyArpListRead,
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"filter": &schema.Schema{
+			"filter": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
@@ -52,9 +52,9 @@ func dataSourceSystemProxyArpListRead(d *schema.ResourceData, m interface{}) err
 		filter = escapeFilter(filter)
 	}
 
-	o, err := c.GenericGroupRead("/api/v2/cmdb/system/proxy-arp", filter, vdomparam)
+	o, err := c.GenericGroupRead("/api/v2/cmdb/system/proxy-arp", filter, vdomparam, 0)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemProxyArp: %v", err)
+		return fmt.Errorf("error describing SystemProxyArp: %v", err)
 	}
 
 	var tmps []int

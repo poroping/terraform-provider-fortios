@@ -21,75 +21,75 @@ func dataSourceSystemApiUser() *schema.Resource {
 	return &schema.Resource{
 		Read: dataSourceSystemApiUserRead,
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
 
-			"name": &schema.Schema{
+			"name": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"comments": &schema.Schema{
+			"comments": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"api_key": &schema.Schema{
+			"api_key": {
 				Type:      schema.TypeString,
 				Sensitive: true,
 				Computed:  true,
 			},
-			"accprofile": &schema.Schema{
+			"accprofile": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"vdom": &schema.Schema{
+			"vdom": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 					},
 				},
 			},
-			"schedule": &schema.Schema{
+			"schedule": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"cors_allow_origin": &schema.Schema{
+			"cors_allow_origin": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"peer_auth": &schema.Schema{
+			"peer_auth": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"peer_group": &schema.Schema{
+			"peer_group": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"trusthost": &schema.Schema{
+			"trusthost": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"type": &schema.Schema{
+						"type": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"ipv4_trusthost": &schema.Schema{
+						"ipv4_trusthost": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"ipv6_trusthost": &schema.Schema{
+						"ipv6_trusthost": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -120,12 +120,12 @@ func dataSourceSystemApiUserRead(d *schema.ResourceData, m interface{}) error {
 	} else if v, ok := t.(int); ok {
 		mkey = strconv.Itoa(v)
 	} else {
-		return fmt.Errorf("Error describing SystemApiUser: type error")
+		return fmt.Errorf("error describing SystemApiUser: type error")
 	}
 
-	o, err := c.ReadSystemApiUser(mkey, vdomparam)
+	o, err := c.ReadSystemApiUser(mkey, vdomparam, make(map[string][]string), 0)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemApiUser: %v", err)
+		return fmt.Errorf("error describing SystemApiUser: %v", err)
 	}
 
 	if o == nil {
@@ -135,7 +135,7 @@ func dataSourceSystemApiUserRead(d *schema.ResourceData, m interface{}) error {
 
 	err = dataSourceRefreshObjectSystemApiUser(d, o)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemApiUser from API: %v", err)
+		return fmt.Errorf("error describing SystemApiUser from API: %v", err)
 	}
 
 	d.SetId(mkey)
@@ -286,55 +286,55 @@ func dataSourceRefreshObjectSystemApiUser(d *schema.ResourceData, o map[string]i
 
 	if err = d.Set("name", dataSourceFlattenSystemApiUserName(o["name"], d, "name")); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("comments", dataSourceFlattenSystemApiUserComments(o["comments"], d, "comments")); err != nil {
 		if !fortiAPIPatch(o["comments"]) {
-			return fmt.Errorf("Error reading comments: %v", err)
+			return fmt.Errorf("error reading comments: %v", err)
 		}
 	}
 
 	if err = d.Set("accprofile", dataSourceFlattenSystemApiUserAccprofile(o["accprofile"], d, "accprofile")); err != nil {
 		if !fortiAPIPatch(o["accprofile"]) {
-			return fmt.Errorf("Error reading accprofile: %v", err)
+			return fmt.Errorf("error reading accprofile: %v", err)
 		}
 	}
 
 	if err = d.Set("vdom", dataSourceFlattenSystemApiUserVdom(o["vdom"], d, "vdom")); err != nil {
 		if !fortiAPIPatch(o["vdom"]) {
-			return fmt.Errorf("Error reading vdom: %v", err)
+			return fmt.Errorf("error reading vdom: %v", err)
 		}
 	}
 
 	if err = d.Set("schedule", dataSourceFlattenSystemApiUserSchedule(o["schedule"], d, "schedule")); err != nil {
 		if !fortiAPIPatch(o["schedule"]) {
-			return fmt.Errorf("Error reading schedule: %v", err)
+			return fmt.Errorf("error reading schedule: %v", err)
 		}
 	}
 
 	if err = d.Set("cors_allow_origin", dataSourceFlattenSystemApiUserCorsAllowOrigin(o["cors-allow-origin"], d, "cors_allow_origin")); err != nil {
 		if !fortiAPIPatch(o["cors-allow-origin"]) {
-			return fmt.Errorf("Error reading cors_allow_origin: %v", err)
+			return fmt.Errorf("error reading cors_allow_origin: %v", err)
 		}
 	}
 
 	if err = d.Set("peer_auth", dataSourceFlattenSystemApiUserPeerAuth(o["peer-auth"], d, "peer_auth")); err != nil {
 		if !fortiAPIPatch(o["peer-auth"]) {
-			return fmt.Errorf("Error reading peer_auth: %v", err)
+			return fmt.Errorf("error reading peer_auth: %v", err)
 		}
 	}
 
 	if err = d.Set("peer_group", dataSourceFlattenSystemApiUserPeerGroup(o["peer-group"], d, "peer_group")); err != nil {
 		if !fortiAPIPatch(o["peer-group"]) {
-			return fmt.Errorf("Error reading peer_group: %v", err)
+			return fmt.Errorf("error reading peer_group: %v", err)
 		}
 	}
 
 	if err = d.Set("trusthost", dataSourceFlattenSystemApiUserTrusthost(o["trusthost"], d, "trusthost")); err != nil {
 		if !fortiAPIPatch(o["trusthost"]) {
-			return fmt.Errorf("Error reading trusthost: %v", err)
+			return fmt.Errorf("error reading trusthost: %v", err)
 		}
 	}
 

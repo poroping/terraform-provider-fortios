@@ -17,12 +17,12 @@ func dataSourceSystemIpv6NeighborCacheList() *schema.Resource {
 		Read: dataSourceSystemIpv6NeighborCacheListRead,
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"filter": &schema.Schema{
+			"filter": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
@@ -52,9 +52,9 @@ func dataSourceSystemIpv6NeighborCacheListRead(d *schema.ResourceData, m interfa
 		filter = escapeFilter(filter)
 	}
 
-	o, err := c.GenericGroupRead("/api/v2/cmdb/system/ipv6-neighbor-cache", filter, vdomparam)
+	o, err := c.GenericGroupRead("/api/v2/cmdb/system/ipv6-neighbor-cache", filter, vdomparam, 0)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemIpv6NeighborCache: %v", err)
+		return fmt.Errorf("error describing SystemIpv6NeighborCache: %v", err)
 	}
 
 	var tmps []int

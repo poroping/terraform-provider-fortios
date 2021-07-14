@@ -21,123 +21,123 @@ func dataSourceFirewallProxyAddress() *schema.Resource {
 	return &schema.Resource{
 		Read: dataSourceFirewallProxyAddressRead,
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
 
-			"name": &schema.Schema{
+			"name": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"uuid": &schema.Schema{
+			"uuid": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"type": &schema.Schema{
+			"type": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"host": &schema.Schema{
+			"host": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"host_regex": &schema.Schema{
+			"host_regex": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"path": &schema.Schema{
+			"path": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"query": &schema.Schema{
+			"query": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"referrer": &schema.Schema{
+			"referrer": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"category": &schema.Schema{
+			"category": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
 					},
 				},
 			},
-			"method": &schema.Schema{
+			"method": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"ua": &schema.Schema{
+			"ua": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"header_name": &schema.Schema{
+			"header_name": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"header": &schema.Schema{
+			"header": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"case_sensitivity": &schema.Schema{
+			"case_sensitivity": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"header_group": &schema.Schema{
+			"header_group": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"header_name": &schema.Schema{
+						"header_name": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"header": &schema.Schema{
+						"header": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"case_sensitivity": &schema.Schema{
+						"case_sensitivity": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 					},
 				},
 			},
-			"color": &schema.Schema{
+			"color": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"tagging": &schema.Schema{
+			"tagging": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"category": &schema.Schema{
+						"category": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"tags": &schema.Schema{
+						"tags": {
 							Type:     schema.TypeList,
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"name": &schema.Schema{
+									"name": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
@@ -147,11 +147,11 @@ func dataSourceFirewallProxyAddress() *schema.Resource {
 					},
 				},
 			},
-			"comment": &schema.Schema{
+			"comment": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"visibility": &schema.Schema{
+			"visibility": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -179,12 +179,12 @@ func dataSourceFirewallProxyAddressRead(d *schema.ResourceData, m interface{}) e
 	} else if v, ok := t.(int); ok {
 		mkey = strconv.Itoa(v)
 	} else {
-		return fmt.Errorf("Error describing FirewallProxyAddress: type error")
+		return fmt.Errorf("error describing FirewallProxyAddress: type error")
 	}
 
-	o, err := c.ReadFirewallProxyAddress(mkey, vdomparam)
+	o, err := c.ReadFirewallProxyAddress(mkey, vdomparam, make(map[string][]string), 0)
 	if err != nil {
-		return fmt.Errorf("Error describing FirewallProxyAddress: %v", err)
+		return fmt.Errorf("error describing FirewallProxyAddress: %v", err)
 	}
 
 	if o == nil {
@@ -194,7 +194,7 @@ func dataSourceFirewallProxyAddressRead(d *schema.ResourceData, m interface{}) e
 
 	err = dataSourceRefreshObjectFirewallProxyAddress(d, o)
 	if err != nil {
-		return fmt.Errorf("Error describing FirewallProxyAddress from API: %v", err)
+		return fmt.Errorf("error describing FirewallProxyAddress from API: %v", err)
 	}
 
 	d.SetId(mkey)
@@ -456,115 +456,115 @@ func dataSourceRefreshObjectFirewallProxyAddress(d *schema.ResourceData, o map[s
 
 	if err = d.Set("name", dataSourceFlattenFirewallProxyAddressName(o["name"], d, "name")); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("uuid", dataSourceFlattenFirewallProxyAddressUuid(o["uuid"], d, "uuid")); err != nil {
 		if !fortiAPIPatch(o["uuid"]) {
-			return fmt.Errorf("Error reading uuid: %v", err)
+			return fmt.Errorf("error reading uuid: %v", err)
 		}
 	}
 
 	if err = d.Set("type", dataSourceFlattenFirewallProxyAddressType(o["type"], d, "type")); err != nil {
 		if !fortiAPIPatch(o["type"]) {
-			return fmt.Errorf("Error reading type: %v", err)
+			return fmt.Errorf("error reading type: %v", err)
 		}
 	}
 
 	if err = d.Set("host", dataSourceFlattenFirewallProxyAddressHost(o["host"], d, "host")); err != nil {
 		if !fortiAPIPatch(o["host"]) {
-			return fmt.Errorf("Error reading host: %v", err)
+			return fmt.Errorf("error reading host: %v", err)
 		}
 	}
 
 	if err = d.Set("host_regex", dataSourceFlattenFirewallProxyAddressHostRegex(o["host-regex"], d, "host_regex")); err != nil {
 		if !fortiAPIPatch(o["host-regex"]) {
-			return fmt.Errorf("Error reading host_regex: %v", err)
+			return fmt.Errorf("error reading host_regex: %v", err)
 		}
 	}
 
 	if err = d.Set("path", dataSourceFlattenFirewallProxyAddressPath(o["path"], d, "path")); err != nil {
 		if !fortiAPIPatch(o["path"]) {
-			return fmt.Errorf("Error reading path: %v", err)
+			return fmt.Errorf("error reading path: %v", err)
 		}
 	}
 
 	if err = d.Set("query", dataSourceFlattenFirewallProxyAddressQuery(o["query"], d, "query")); err != nil {
 		if !fortiAPIPatch(o["query"]) {
-			return fmt.Errorf("Error reading query: %v", err)
+			return fmt.Errorf("error reading query: %v", err)
 		}
 	}
 
 	if err = d.Set("referrer", dataSourceFlattenFirewallProxyAddressReferrer(o["referrer"], d, "referrer")); err != nil {
 		if !fortiAPIPatch(o["referrer"]) {
-			return fmt.Errorf("Error reading referrer: %v", err)
+			return fmt.Errorf("error reading referrer: %v", err)
 		}
 	}
 
 	if err = d.Set("category", dataSourceFlattenFirewallProxyAddressCategory(o["category"], d, "category")); err != nil {
 		if !fortiAPIPatch(o["category"]) {
-			return fmt.Errorf("Error reading category: %v", err)
+			return fmt.Errorf("error reading category: %v", err)
 		}
 	}
 
 	if err = d.Set("method", dataSourceFlattenFirewallProxyAddressMethod(o["method"], d, "method")); err != nil {
 		if !fortiAPIPatch(o["method"]) {
-			return fmt.Errorf("Error reading method: %v", err)
+			return fmt.Errorf("error reading method: %v", err)
 		}
 	}
 
 	if err = d.Set("ua", dataSourceFlattenFirewallProxyAddressUa(o["ua"], d, "ua")); err != nil {
 		if !fortiAPIPatch(o["ua"]) {
-			return fmt.Errorf("Error reading ua: %v", err)
+			return fmt.Errorf("error reading ua: %v", err)
 		}
 	}
 
 	if err = d.Set("header_name", dataSourceFlattenFirewallProxyAddressHeaderName(o["header-name"], d, "header_name")); err != nil {
 		if !fortiAPIPatch(o["header-name"]) {
-			return fmt.Errorf("Error reading header_name: %v", err)
+			return fmt.Errorf("error reading header_name: %v", err)
 		}
 	}
 
 	if err = d.Set("header", dataSourceFlattenFirewallProxyAddressHeader(o["header"], d, "header")); err != nil {
 		if !fortiAPIPatch(o["header"]) {
-			return fmt.Errorf("Error reading header: %v", err)
+			return fmt.Errorf("error reading header: %v", err)
 		}
 	}
 
 	if err = d.Set("case_sensitivity", dataSourceFlattenFirewallProxyAddressCaseSensitivity(o["case-sensitivity"], d, "case_sensitivity")); err != nil {
 		if !fortiAPIPatch(o["case-sensitivity"]) {
-			return fmt.Errorf("Error reading case_sensitivity: %v", err)
+			return fmt.Errorf("error reading case_sensitivity: %v", err)
 		}
 	}
 
 	if err = d.Set("header_group", dataSourceFlattenFirewallProxyAddressHeaderGroup(o["header-group"], d, "header_group")); err != nil {
 		if !fortiAPIPatch(o["header-group"]) {
-			return fmt.Errorf("Error reading header_group: %v", err)
+			return fmt.Errorf("error reading header_group: %v", err)
 		}
 	}
 
 	if err = d.Set("color", dataSourceFlattenFirewallProxyAddressColor(o["color"], d, "color")); err != nil {
 		if !fortiAPIPatch(o["color"]) {
-			return fmt.Errorf("Error reading color: %v", err)
+			return fmt.Errorf("error reading color: %v", err)
 		}
 	}
 
 	if err = d.Set("tagging", dataSourceFlattenFirewallProxyAddressTagging(o["tagging"], d, "tagging")); err != nil {
 		if !fortiAPIPatch(o["tagging"]) {
-			return fmt.Errorf("Error reading tagging: %v", err)
+			return fmt.Errorf("error reading tagging: %v", err)
 		}
 	}
 
 	if err = d.Set("comment", dataSourceFlattenFirewallProxyAddressComment(o["comment"], d, "comment")); err != nil {
 		if !fortiAPIPatch(o["comment"]) {
-			return fmt.Errorf("Error reading comment: %v", err)
+			return fmt.Errorf("error reading comment: %v", err)
 		}
 	}
 
 	if err = d.Set("visibility", dataSourceFlattenFirewallProxyAddressVisibility(o["visibility"], d, "visibility")); err != nil {
 		if !fortiAPIPatch(o["visibility"]) {
-			return fmt.Errorf("Error reading visibility: %v", err)
+			return fmt.Errorf("error reading visibility: %v", err)
 		}
 	}
 

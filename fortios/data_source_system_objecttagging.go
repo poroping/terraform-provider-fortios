@@ -21,42 +21,42 @@ func dataSourceSystemObjectTagging() *schema.Resource {
 	return &schema.Resource{
 		Read: dataSourceSystemObjectTaggingRead,
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
 
-			"category": &schema.Schema{
+			"category": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"address": &schema.Schema{
+			"address": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"device": &schema.Schema{
+			"device": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"interface": &schema.Schema{
+			"interface": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"multiple": &schema.Schema{
+			"multiple": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"color": &schema.Schema{
+			"color": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"tags": &schema.Schema{
+			"tags": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -87,12 +87,12 @@ func dataSourceSystemObjectTaggingRead(d *schema.ResourceData, m interface{}) er
 	} else if v, ok := t.(int); ok {
 		mkey = strconv.Itoa(v)
 	} else {
-		return fmt.Errorf("Error describing SystemObjectTagging: type error")
+		return fmt.Errorf("error describing SystemObjectTagging: type error")
 	}
 
-	o, err := c.ReadSystemObjectTagging(mkey, vdomparam)
+	o, err := c.ReadSystemObjectTagging(mkey, vdomparam, make(map[string][]string), 0)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemObjectTagging: %v", err)
+		return fmt.Errorf("error describing SystemObjectTagging: %v", err)
 	}
 
 	if o == nil {
@@ -102,7 +102,7 @@ func dataSourceSystemObjectTaggingRead(d *schema.ResourceData, m interface{}) er
 
 	err = dataSourceRefreshObjectSystemObjectTagging(d, o)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemObjectTagging from API: %v", err)
+		return fmt.Errorf("error describing SystemObjectTagging from API: %v", err)
 	}
 
 	d.SetId(mkey)
@@ -175,43 +175,43 @@ func dataSourceRefreshObjectSystemObjectTagging(d *schema.ResourceData, o map[st
 
 	if err = d.Set("category", dataSourceFlattenSystemObjectTaggingCategory(o["category"], d, "category")); err != nil {
 		if !fortiAPIPatch(o["category"]) {
-			return fmt.Errorf("Error reading category: %v", err)
+			return fmt.Errorf("error reading category: %v", err)
 		}
 	}
 
 	if err = d.Set("address", dataSourceFlattenSystemObjectTaggingAddress(o["address"], d, "address")); err != nil {
 		if !fortiAPIPatch(o["address"]) {
-			return fmt.Errorf("Error reading address: %v", err)
+			return fmt.Errorf("error reading address: %v", err)
 		}
 	}
 
 	if err = d.Set("device", dataSourceFlattenSystemObjectTaggingDevice(o["device"], d, "device")); err != nil {
 		if !fortiAPIPatch(o["device"]) {
-			return fmt.Errorf("Error reading device: %v", err)
+			return fmt.Errorf("error reading device: %v", err)
 		}
 	}
 
 	if err = d.Set("interface", dataSourceFlattenSystemObjectTaggingInterface(o["interface"], d, "interface")); err != nil {
 		if !fortiAPIPatch(o["interface"]) {
-			return fmt.Errorf("Error reading interface: %v", err)
+			return fmt.Errorf("error reading interface: %v", err)
 		}
 	}
 
 	if err = d.Set("multiple", dataSourceFlattenSystemObjectTaggingMultiple(o["multiple"], d, "multiple")); err != nil {
 		if !fortiAPIPatch(o["multiple"]) {
-			return fmt.Errorf("Error reading multiple: %v", err)
+			return fmt.Errorf("error reading multiple: %v", err)
 		}
 	}
 
 	if err = d.Set("color", dataSourceFlattenSystemObjectTaggingColor(o["color"], d, "color")); err != nil {
 		if !fortiAPIPatch(o["color"]) {
-			return fmt.Errorf("Error reading color: %v", err)
+			return fmt.Errorf("error reading color: %v", err)
 		}
 	}
 
 	if err = d.Set("tags", dataSourceFlattenSystemObjectTaggingTags(o["tags"], d, "tags")); err != nil {
 		if !fortiAPIPatch(o["tags"]) {
-			return fmt.Errorf("Error reading tags: %v", err)
+			return fmt.Errorf("error reading tags: %v", err)
 		}
 	}
 

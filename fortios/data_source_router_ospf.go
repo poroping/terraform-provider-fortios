@@ -21,238 +21,238 @@ func dataSourceRouterOspf() *schema.Resource {
 	return &schema.Resource{
 		Read: dataSourceRouterOspfRead,
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
 
-			"abr_type": &schema.Schema{
+			"abr_type": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"auto_cost_ref_bandwidth": &schema.Schema{
+			"auto_cost_ref_bandwidth": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"distance_external": &schema.Schema{
+			"distance_external": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"distance_inter_area": &schema.Schema{
+			"distance_inter_area": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"distance_intra_area": &schema.Schema{
+			"distance_intra_area": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"database_overflow": &schema.Schema{
+			"database_overflow": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"database_overflow_max_lsas": &schema.Schema{
+			"database_overflow_max_lsas": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"database_overflow_time_to_recover": &schema.Schema{
+			"database_overflow_time_to_recover": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"default_information_originate": &schema.Schema{
+			"default_information_originate": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"default_information_metric": &schema.Schema{
+			"default_information_metric": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"default_information_metric_type": &schema.Schema{
+			"default_information_metric_type": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"default_information_route_map": &schema.Schema{
+			"default_information_route_map": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"default_metric": &schema.Schema{
+			"default_metric": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"distance": &schema.Schema{
+			"distance": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"rfc1583_compatible": &schema.Schema{
+			"rfc1583_compatible": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"router_id": &schema.Schema{
+			"router_id": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"spf_timers": &schema.Schema{
+			"spf_timers": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"bfd": &schema.Schema{
+			"bfd": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"log_neighbour_changes": &schema.Schema{
+			"log_neighbour_changes": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"distribute_list_in": &schema.Schema{
+			"distribute_list_in": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"distribute_route_map_in": &schema.Schema{
+			"distribute_route_map_in": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"restart_mode": &schema.Schema{
+			"restart_mode": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"restart_period": &schema.Schema{
+			"restart_period": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"area": &schema.Schema{
+			"area": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"shortcut": &schema.Schema{
+						"shortcut": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"authentication": &schema.Schema{
+						"authentication": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"default_cost": &schema.Schema{
+						"default_cost": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"nssa_translator_role": &schema.Schema{
+						"nssa_translator_role": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"stub_type": &schema.Schema{
+						"stub_type": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"type": &schema.Schema{
+						"type": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"nssa_default_information_originate": &schema.Schema{
+						"nssa_default_information_originate": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"nssa_default_information_originate_metric": &schema.Schema{
+						"nssa_default_information_originate_metric": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"nssa_default_information_originate_metric_type": &schema.Schema{
+						"nssa_default_information_originate_metric_type": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"nssa_redistribution": &schema.Schema{
+						"nssa_redistribution": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"range": &schema.Schema{
+						"range": {
 							Type:     schema.TypeList,
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"id": &schema.Schema{
+									"id": {
 										Type:     schema.TypeInt,
 										Computed: true,
 									},
-									"prefix": &schema.Schema{
+									"prefix": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
-									"advertise": &schema.Schema{
+									"advertise": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
-									"substitute": &schema.Schema{
+									"substitute": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
-									"substitute_status": &schema.Schema{
+									"substitute_status": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
 								},
 							},
 						},
-						"virtual_link": &schema.Schema{
+						"virtual_link": {
 							Type:     schema.TypeList,
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"name": &schema.Schema{
+									"name": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
-									"authentication": &schema.Schema{
+									"authentication": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
-									"authentication_key": &schema.Schema{
+									"authentication_key": {
 										Type:      schema.TypeString,
 										Sensitive: true,
 										Computed:  true,
 									},
-									"md5_key": &schema.Schema{
+									"md5_key": {
 										Type:      schema.TypeString,
 										Sensitive: true,
 										Computed:  true,
 									},
-									"md5_keychain": &schema.Schema{
+									"md5_keychain": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
-									"dead_interval": &schema.Schema{
+									"dead_interval": {
 										Type:     schema.TypeInt,
 										Computed: true,
 									},
-									"hello_interval": &schema.Schema{
+									"hello_interval": {
 										Type:     schema.TypeInt,
 										Computed: true,
 									},
-									"retransmit_interval": &schema.Schema{
+									"retransmit_interval": {
 										Type:     schema.TypeInt,
 										Computed: true,
 									},
-									"transmit_delay": &schema.Schema{
+									"transmit_delay": {
 										Type:     schema.TypeInt,
 										Computed: true,
 									},
-									"peer": &schema.Schema{
+									"peer": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
-									"md5_keys": &schema.Schema{
+									"md5_keys": {
 										Type:     schema.TypeList,
 										Computed: true,
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
-												"id": &schema.Schema{
+												"id": {
 													Type:     schema.TypeInt,
 													Computed: true,
 												},
-												"key_string": &schema.Schema{
+												"key_string": {
 													Type:      schema.TypeString,
 													Sensitive: true,
 													Computed:  true,
@@ -263,20 +263,20 @@ func dataSourceRouterOspf() *schema.Resource {
 								},
 							},
 						},
-						"filter_list": &schema.Schema{
+						"filter_list": {
 							Type:     schema.TypeList,
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"id": &schema.Schema{
+									"id": {
 										Type:     schema.TypeInt,
 										Computed: true,
 									},
-									"list": &schema.Schema{
+									"list": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
-									"direction": &schema.Schema{
+									"direction": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
@@ -286,111 +286,111 @@ func dataSourceRouterOspf() *schema.Resource {
 					},
 				},
 			},
-			"ospf_interface": &schema.Schema{
+			"ospf_interface": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"interface": &schema.Schema{
+						"interface": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"ip": &schema.Schema{
+						"ip": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"authentication": &schema.Schema{
+						"authentication": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"authentication_key": &schema.Schema{
+						"authentication_key": {
 							Type:      schema.TypeString,
 							Sensitive: true,
 							Computed:  true,
 						},
-						"md5_key": &schema.Schema{
+						"md5_key": {
 							Type:      schema.TypeString,
 							Sensitive: true,
 							Computed:  true,
 						},
-						"md5_keychain": &schema.Schema{
+						"md5_keychain": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"prefix_length": &schema.Schema{
+						"prefix_length": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"retransmit_interval": &schema.Schema{
+						"retransmit_interval": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"transmit_delay": &schema.Schema{
+						"transmit_delay": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"cost": &schema.Schema{
+						"cost": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"priority": &schema.Schema{
+						"priority": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"dead_interval": &schema.Schema{
+						"dead_interval": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"hello_interval": &schema.Schema{
+						"hello_interval": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"hello_multiplier": &schema.Schema{
+						"hello_multiplier": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"database_filter_out": &schema.Schema{
+						"database_filter_out": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"mtu": &schema.Schema{
+						"mtu": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"mtu_ignore": &schema.Schema{
+						"mtu_ignore": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"network_type": &schema.Schema{
+						"network_type": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"bfd": &schema.Schema{
+						"bfd": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"status": &schema.Schema{
+						"status": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"resync_timeout": &schema.Schema{
+						"resync_timeout": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"md5_keys": &schema.Schema{
+						"md5_keys": {
 							Type:     schema.TypeList,
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"id": &schema.Schema{
+									"id": {
 										Type:     schema.TypeInt,
 										Computed: true,
 									},
-									"key_string": &schema.Schema{
+									"key_string": {
 										Type:      schema.TypeString,
 										Sensitive: true,
 										Computed:  true,
@@ -401,136 +401,136 @@ func dataSourceRouterOspf() *schema.Resource {
 					},
 				},
 			},
-			"network": &schema.Schema{
+			"network": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"prefix": &schema.Schema{
+						"prefix": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"area": &schema.Schema{
+						"area": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 					},
 				},
 			},
-			"neighbor": &schema.Schema{
+			"neighbor": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"ip": &schema.Schema{
+						"ip": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"poll_interval": &schema.Schema{
+						"poll_interval": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"cost": &schema.Schema{
+						"cost": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"priority": &schema.Schema{
+						"priority": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
 					},
 				},
 			},
-			"passive_interface": &schema.Schema{
+			"passive_interface": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 					},
 				},
 			},
-			"summary_address": &schema.Schema{
+			"summary_address": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"prefix": &schema.Schema{
+						"prefix": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"tag": &schema.Schema{
+						"tag": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"advertise": &schema.Schema{
+						"advertise": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 					},
 				},
 			},
-			"distribute_list": &schema.Schema{
+			"distribute_list": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"access_list": &schema.Schema{
+						"access_list": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"protocol": &schema.Schema{
+						"protocol": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 					},
 				},
 			},
-			"redistribute": &schema.Schema{
+			"redistribute": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"status": &schema.Schema{
+						"status": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"metric": &schema.Schema{
+						"metric": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"routemap": &schema.Schema{
+						"routemap": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"metric_type": &schema.Schema{
+						"metric_type": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"tag": &schema.Schema{
+						"tag": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
@@ -555,9 +555,9 @@ func dataSourceRouterOspfRead(d *schema.ResourceData, m interface{}) error {
 
 	mkey := "RouterOspf"
 
-	o, err := c.ReadRouterOspf(mkey, vdomparam)
+	o, err := c.ReadRouterOspf(mkey, vdomparam, make(map[string][]string), 0)
 	if err != nil {
-		return fmt.Errorf("Error describing RouterOspf: %v", err)
+		return fmt.Errorf("error describing RouterOspf: %v", err)
 	}
 
 	if o == nil {
@@ -567,7 +567,7 @@ func dataSourceRouterOspfRead(d *schema.ResourceData, m interface{}) error {
 
 	err = dataSourceRefreshObjectRouterOspf(d, o)
 	if err != nil {
-		return fmt.Errorf("Error describing RouterOspf from API: %v", err)
+		return fmt.Errorf("error describing RouterOspf from API: %v", err)
 	}
 
 	d.SetId(mkey)
@@ -1793,187 +1793,187 @@ func dataSourceRefreshObjectRouterOspf(d *schema.ResourceData, o map[string]inte
 
 	if err = d.Set("abr_type", dataSourceFlattenRouterOspfAbrType(o["abr-type"], d, "abr_type")); err != nil {
 		if !fortiAPIPatch(o["abr-type"]) {
-			return fmt.Errorf("Error reading abr_type: %v", err)
+			return fmt.Errorf("error reading abr_type: %v", err)
 		}
 	}
 
 	if err = d.Set("auto_cost_ref_bandwidth", dataSourceFlattenRouterOspfAutoCostRefBandwidth(o["auto-cost-ref-bandwidth"], d, "auto_cost_ref_bandwidth")); err != nil {
 		if !fortiAPIPatch(o["auto-cost-ref-bandwidth"]) {
-			return fmt.Errorf("Error reading auto_cost_ref_bandwidth: %v", err)
+			return fmt.Errorf("error reading auto_cost_ref_bandwidth: %v", err)
 		}
 	}
 
 	if err = d.Set("distance_external", dataSourceFlattenRouterOspfDistanceExternal(o["distance-external"], d, "distance_external")); err != nil {
 		if !fortiAPIPatch(o["distance-external"]) {
-			return fmt.Errorf("Error reading distance_external: %v", err)
+			return fmt.Errorf("error reading distance_external: %v", err)
 		}
 	}
 
 	if err = d.Set("distance_inter_area", dataSourceFlattenRouterOspfDistanceInterArea(o["distance-inter-area"], d, "distance_inter_area")); err != nil {
 		if !fortiAPIPatch(o["distance-inter-area"]) {
-			return fmt.Errorf("Error reading distance_inter_area: %v", err)
+			return fmt.Errorf("error reading distance_inter_area: %v", err)
 		}
 	}
 
 	if err = d.Set("distance_intra_area", dataSourceFlattenRouterOspfDistanceIntraArea(o["distance-intra-area"], d, "distance_intra_area")); err != nil {
 		if !fortiAPIPatch(o["distance-intra-area"]) {
-			return fmt.Errorf("Error reading distance_intra_area: %v", err)
+			return fmt.Errorf("error reading distance_intra_area: %v", err)
 		}
 	}
 
 	if err = d.Set("database_overflow", dataSourceFlattenRouterOspfDatabaseOverflow(o["database-overflow"], d, "database_overflow")); err != nil {
 		if !fortiAPIPatch(o["database-overflow"]) {
-			return fmt.Errorf("Error reading database_overflow: %v", err)
+			return fmt.Errorf("error reading database_overflow: %v", err)
 		}
 	}
 
 	if err = d.Set("database_overflow_max_lsas", dataSourceFlattenRouterOspfDatabaseOverflowMaxLsas(o["database-overflow-max-lsas"], d, "database_overflow_max_lsas")); err != nil {
 		if !fortiAPIPatch(o["database-overflow-max-lsas"]) {
-			return fmt.Errorf("Error reading database_overflow_max_lsas: %v", err)
+			return fmt.Errorf("error reading database_overflow_max_lsas: %v", err)
 		}
 	}
 
 	if err = d.Set("database_overflow_time_to_recover", dataSourceFlattenRouterOspfDatabaseOverflowTimeToRecover(o["database-overflow-time-to-recover"], d, "database_overflow_time_to_recover")); err != nil {
 		if !fortiAPIPatch(o["database-overflow-time-to-recover"]) {
-			return fmt.Errorf("Error reading database_overflow_time_to_recover: %v", err)
+			return fmt.Errorf("error reading database_overflow_time_to_recover: %v", err)
 		}
 	}
 
 	if err = d.Set("default_information_originate", dataSourceFlattenRouterOspfDefaultInformationOriginate(o["default-information-originate"], d, "default_information_originate")); err != nil {
 		if !fortiAPIPatch(o["default-information-originate"]) {
-			return fmt.Errorf("Error reading default_information_originate: %v", err)
+			return fmt.Errorf("error reading default_information_originate: %v", err)
 		}
 	}
 
 	if err = d.Set("default_information_metric", dataSourceFlattenRouterOspfDefaultInformationMetric(o["default-information-metric"], d, "default_information_metric")); err != nil {
 		if !fortiAPIPatch(o["default-information-metric"]) {
-			return fmt.Errorf("Error reading default_information_metric: %v", err)
+			return fmt.Errorf("error reading default_information_metric: %v", err)
 		}
 	}
 
 	if err = d.Set("default_information_metric_type", dataSourceFlattenRouterOspfDefaultInformationMetricType(o["default-information-metric-type"], d, "default_information_metric_type")); err != nil {
 		if !fortiAPIPatch(o["default-information-metric-type"]) {
-			return fmt.Errorf("Error reading default_information_metric_type: %v", err)
+			return fmt.Errorf("error reading default_information_metric_type: %v", err)
 		}
 	}
 
 	if err = d.Set("default_information_route_map", dataSourceFlattenRouterOspfDefaultInformationRouteMap(o["default-information-route-map"], d, "default_information_route_map")); err != nil {
 		if !fortiAPIPatch(o["default-information-route-map"]) {
-			return fmt.Errorf("Error reading default_information_route_map: %v", err)
+			return fmt.Errorf("error reading default_information_route_map: %v", err)
 		}
 	}
 
 	if err = d.Set("default_metric", dataSourceFlattenRouterOspfDefaultMetric(o["default-metric"], d, "default_metric")); err != nil {
 		if !fortiAPIPatch(o["default-metric"]) {
-			return fmt.Errorf("Error reading default_metric: %v", err)
+			return fmt.Errorf("error reading default_metric: %v", err)
 		}
 	}
 
 	if err = d.Set("distance", dataSourceFlattenRouterOspfDistance(o["distance"], d, "distance")); err != nil {
 		if !fortiAPIPatch(o["distance"]) {
-			return fmt.Errorf("Error reading distance: %v", err)
+			return fmt.Errorf("error reading distance: %v", err)
 		}
 	}
 
 	if err = d.Set("rfc1583_compatible", dataSourceFlattenRouterOspfRfc1583Compatible(o["rfc1583-compatible"], d, "rfc1583_compatible")); err != nil {
 		if !fortiAPIPatch(o["rfc1583-compatible"]) {
-			return fmt.Errorf("Error reading rfc1583_compatible: %v", err)
+			return fmt.Errorf("error reading rfc1583_compatible: %v", err)
 		}
 	}
 
 	if err = d.Set("router_id", dataSourceFlattenRouterOspfRouterId(o["router-id"], d, "router_id")); err != nil {
 		if !fortiAPIPatch(o["router-id"]) {
-			return fmt.Errorf("Error reading router_id: %v", err)
+			return fmt.Errorf("error reading router_id: %v", err)
 		}
 	}
 
 	if err = d.Set("spf_timers", dataSourceFlattenRouterOspfSpfTimers(o["spf-timers"], d, "spf_timers")); err != nil {
 		if !fortiAPIPatch(o["spf-timers"]) {
-			return fmt.Errorf("Error reading spf_timers: %v", err)
+			return fmt.Errorf("error reading spf_timers: %v", err)
 		}
 	}
 
 	if err = d.Set("bfd", dataSourceFlattenRouterOspfBfd(o["bfd"], d, "bfd")); err != nil {
 		if !fortiAPIPatch(o["bfd"]) {
-			return fmt.Errorf("Error reading bfd: %v", err)
+			return fmt.Errorf("error reading bfd: %v", err)
 		}
 	}
 
 	if err = d.Set("log_neighbour_changes", dataSourceFlattenRouterOspfLogNeighbourChanges(o["log-neighbour-changes"], d, "log_neighbour_changes")); err != nil {
 		if !fortiAPIPatch(o["log-neighbour-changes"]) {
-			return fmt.Errorf("Error reading log_neighbour_changes: %v", err)
+			return fmt.Errorf("error reading log_neighbour_changes: %v", err)
 		}
 	}
 
 	if err = d.Set("distribute_list_in", dataSourceFlattenRouterOspfDistributeListIn(o["distribute-list-in"], d, "distribute_list_in")); err != nil {
 		if !fortiAPIPatch(o["distribute-list-in"]) {
-			return fmt.Errorf("Error reading distribute_list_in: %v", err)
+			return fmt.Errorf("error reading distribute_list_in: %v", err)
 		}
 	}
 
 	if err = d.Set("distribute_route_map_in", dataSourceFlattenRouterOspfDistributeRouteMapIn(o["distribute-route-map-in"], d, "distribute_route_map_in")); err != nil {
 		if !fortiAPIPatch(o["distribute-route-map-in"]) {
-			return fmt.Errorf("Error reading distribute_route_map_in: %v", err)
+			return fmt.Errorf("error reading distribute_route_map_in: %v", err)
 		}
 	}
 
 	if err = d.Set("restart_mode", dataSourceFlattenRouterOspfRestartMode(o["restart-mode"], d, "restart_mode")); err != nil {
 		if !fortiAPIPatch(o["restart-mode"]) {
-			return fmt.Errorf("Error reading restart_mode: %v", err)
+			return fmt.Errorf("error reading restart_mode: %v", err)
 		}
 	}
 
 	if err = d.Set("restart_period", dataSourceFlattenRouterOspfRestartPeriod(o["restart-period"], d, "restart_period")); err != nil {
 		if !fortiAPIPatch(o["restart-period"]) {
-			return fmt.Errorf("Error reading restart_period: %v", err)
+			return fmt.Errorf("error reading restart_period: %v", err)
 		}
 	}
 
 	if err = d.Set("area", dataSourceFlattenRouterOspfArea(o["area"], d, "area")); err != nil {
 		if !fortiAPIPatch(o["area"]) {
-			return fmt.Errorf("Error reading area: %v", err)
+			return fmt.Errorf("error reading area: %v", err)
 		}
 	}
 
 	if err = d.Set("ospf_interface", dataSourceFlattenRouterOspfOspfInterface(o["ospf-interface"], d, "ospf_interface")); err != nil {
 		if !fortiAPIPatch(o["ospf-interface"]) {
-			return fmt.Errorf("Error reading ospf_interface: %v", err)
+			return fmt.Errorf("error reading ospf_interface: %v", err)
 		}
 	}
 
 	if err = d.Set("network", dataSourceFlattenRouterOspfNetwork(o["network"], d, "network")); err != nil {
 		if !fortiAPIPatch(o["network"]) {
-			return fmt.Errorf("Error reading network: %v", err)
+			return fmt.Errorf("error reading network: %v", err)
 		}
 	}
 
 	if err = d.Set("neighbor", dataSourceFlattenRouterOspfNeighbor(o["neighbor"], d, "neighbor")); err != nil {
 		if !fortiAPIPatch(o["neighbor"]) {
-			return fmt.Errorf("Error reading neighbor: %v", err)
+			return fmt.Errorf("error reading neighbor: %v", err)
 		}
 	}
 
 	if err = d.Set("passive_interface", dataSourceFlattenRouterOspfPassiveInterface(o["passive-interface"], d, "passive_interface")); err != nil {
 		if !fortiAPIPatch(o["passive-interface"]) {
-			return fmt.Errorf("Error reading passive_interface: %v", err)
+			return fmt.Errorf("error reading passive_interface: %v", err)
 		}
 	}
 
 	if err = d.Set("summary_address", dataSourceFlattenRouterOspfSummaryAddress(o["summary-address"], d, "summary_address")); err != nil {
 		if !fortiAPIPatch(o["summary-address"]) {
-			return fmt.Errorf("Error reading summary_address: %v", err)
+			return fmt.Errorf("error reading summary_address: %v", err)
 		}
 	}
 
 	if err = d.Set("distribute_list", dataSourceFlattenRouterOspfDistributeList(o["distribute-list"], d, "distribute_list")); err != nil {
 		if !fortiAPIPatch(o["distribute-list"]) {
-			return fmt.Errorf("Error reading distribute_list: %v", err)
+			return fmt.Errorf("error reading distribute_list: %v", err)
 		}
 	}
 
 	if err = d.Set("redistribute", dataSourceFlattenRouterOspfRedistribute(o["redistribute"], d, "redistribute")); err != nil {
 		if !fortiAPIPatch(o["redistribute"]) {
-			return fmt.Errorf("Error reading redistribute: %v", err)
+			return fmt.Errorf("error reading redistribute: %v", err)
 		}
 	}
 

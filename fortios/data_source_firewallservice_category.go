@@ -21,17 +21,17 @@ func dataSourceFirewallServiceCategory() *schema.Resource {
 	return &schema.Resource{
 		Read: dataSourceFirewallServiceCategoryRead,
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
 
-			"name": &schema.Schema{
+			"name": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"comment": &schema.Schema{
+			"comment": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -59,12 +59,12 @@ func dataSourceFirewallServiceCategoryRead(d *schema.ResourceData, m interface{}
 	} else if v, ok := t.(int); ok {
 		mkey = strconv.Itoa(v)
 	} else {
-		return fmt.Errorf("Error describing FirewallServiceCategory: type error")
+		return fmt.Errorf("error describing FirewallServiceCategory: type error")
 	}
 
-	o, err := c.ReadFirewallServiceCategory(mkey, vdomparam)
+	o, err := c.ReadFirewallServiceCategory(mkey, vdomparam, make(map[string][]string), 0)
 	if err != nil {
-		return fmt.Errorf("Error describing FirewallServiceCategory: %v", err)
+		return fmt.Errorf("error describing FirewallServiceCategory: %v", err)
 	}
 
 	if o == nil {
@@ -74,7 +74,7 @@ func dataSourceFirewallServiceCategoryRead(d *schema.ResourceData, m interface{}
 
 	err = dataSourceRefreshObjectFirewallServiceCategory(d, o)
 	if err != nil {
-		return fmt.Errorf("Error describing FirewallServiceCategory from API: %v", err)
+		return fmt.Errorf("error describing FirewallServiceCategory from API: %v", err)
 	}
 
 	d.SetId(mkey)
@@ -95,13 +95,13 @@ func dataSourceRefreshObjectFirewallServiceCategory(d *schema.ResourceData, o ma
 
 	if err = d.Set("name", dataSourceFlattenFirewallServiceCategoryName(o["name"], d, "name")); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("comment", dataSourceFlattenFirewallServiceCategoryComment(o["comment"], d, "comment")); err != nil {
 		if !fortiAPIPatch(o["comment"]) {
-			return fmt.Errorf("Error reading comment: %v", err)
+			return fmt.Errorf("error reading comment: %v", err)
 		}
 	}
 

@@ -17,12 +17,12 @@ func dataSourceSystemLldpNetworkPolicyList() *schema.Resource {
 		Read: dataSourceSystemLldpNetworkPolicyListRead,
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"filter": &schema.Schema{
+			"filter": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
@@ -52,9 +52,9 @@ func dataSourceSystemLldpNetworkPolicyListRead(d *schema.ResourceData, m interfa
 		filter = escapeFilter(filter)
 	}
 
-	o, err := c.GenericGroupRead("/api/v2/cmdb/system.lldp/network-policy", filter, vdomparam)
+	o, err := c.GenericGroupRead("/api/v2/cmdb/system.lldp/network-policy", filter, vdomparam, 0)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemLldpNetworkPolicy: %v", err)
+		return fmt.Errorf("error describing SystemLldpNetworkPolicy: %v", err)
 	}
 
 	var tmps []string

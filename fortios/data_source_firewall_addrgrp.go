@@ -21,83 +21,83 @@ func dataSourceFirewallAddrgrp() *schema.Resource {
 	return &schema.Resource{
 		Read: dataSourceFirewallAddrgrpRead,
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
 
-			"name": &schema.Schema{
+			"name": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"type": &schema.Schema{
+			"type": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"uuid": &schema.Schema{
+			"uuid": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"member": &schema.Schema{
+			"member": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 					},
 				},
 			},
-			"comment": &schema.Schema{
+			"comment": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"exclude": &schema.Schema{
+			"exclude": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"exclude_member": &schema.Schema{
+			"exclude_member": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 					},
 				},
 			},
-			"visibility": &schema.Schema{
+			"visibility": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"color": &schema.Schema{
+			"color": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"tagging": &schema.Schema{
+			"tagging": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"category": &schema.Schema{
+						"category": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"tags": &schema.Schema{
+						"tags": {
 							Type:     schema.TypeList,
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"name": &schema.Schema{
+									"name": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
@@ -107,7 +107,7 @@ func dataSourceFirewallAddrgrp() *schema.Resource {
 					},
 				},
 			},
-			"allow_routing": &schema.Schema{
+			"allow_routing": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -135,12 +135,12 @@ func dataSourceFirewallAddrgrpRead(d *schema.ResourceData, m interface{}) error 
 	} else if v, ok := t.(int); ok {
 		mkey = strconv.Itoa(v)
 	} else {
-		return fmt.Errorf("Error describing FirewallAddrgrp: type error")
+		return fmt.Errorf("error describing FirewallAddrgrp: type error")
 	}
 
-	o, err := c.ReadFirewallAddrgrp(mkey, vdomparam)
+	o, err := c.ReadFirewallAddrgrp(mkey, vdomparam, make(map[string][]string), 0)
 	if err != nil {
-		return fmt.Errorf("Error describing FirewallAddrgrp: %v", err)
+		return fmt.Errorf("error describing FirewallAddrgrp: %v", err)
 	}
 
 	if o == nil {
@@ -150,7 +150,7 @@ func dataSourceFirewallAddrgrpRead(d *schema.ResourceData, m interface{}) error 
 
 	err = dataSourceRefreshObjectFirewallAddrgrp(d, o)
 	if err != nil {
-		return fmt.Errorf("Error describing FirewallAddrgrp from API: %v", err)
+		return fmt.Errorf("error describing FirewallAddrgrp from API: %v", err)
 	}
 
 	d.SetId(mkey)
@@ -353,67 +353,67 @@ func dataSourceRefreshObjectFirewallAddrgrp(d *schema.ResourceData, o map[string
 
 	if err = d.Set("name", dataSourceFlattenFirewallAddrgrpName(o["name"], d, "name")); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("type", dataSourceFlattenFirewallAddrgrpType(o["type"], d, "type")); err != nil {
 		if !fortiAPIPatch(o["type"]) {
-			return fmt.Errorf("Error reading type: %v", err)
+			return fmt.Errorf("error reading type: %v", err)
 		}
 	}
 
 	if err = d.Set("uuid", dataSourceFlattenFirewallAddrgrpUuid(o["uuid"], d, "uuid")); err != nil {
 		if !fortiAPIPatch(o["uuid"]) {
-			return fmt.Errorf("Error reading uuid: %v", err)
+			return fmt.Errorf("error reading uuid: %v", err)
 		}
 	}
 
 	if err = d.Set("member", dataSourceFlattenFirewallAddrgrpMember(o["member"], d, "member")); err != nil {
 		if !fortiAPIPatch(o["member"]) {
-			return fmt.Errorf("Error reading member: %v", err)
+			return fmt.Errorf("error reading member: %v", err)
 		}
 	}
 
 	if err = d.Set("comment", dataSourceFlattenFirewallAddrgrpComment(o["comment"], d, "comment")); err != nil {
 		if !fortiAPIPatch(o["comment"]) {
-			return fmt.Errorf("Error reading comment: %v", err)
+			return fmt.Errorf("error reading comment: %v", err)
 		}
 	}
 
 	if err = d.Set("exclude", dataSourceFlattenFirewallAddrgrpExclude(o["exclude"], d, "exclude")); err != nil {
 		if !fortiAPIPatch(o["exclude"]) {
-			return fmt.Errorf("Error reading exclude: %v", err)
+			return fmt.Errorf("error reading exclude: %v", err)
 		}
 	}
 
 	if err = d.Set("exclude_member", dataSourceFlattenFirewallAddrgrpExcludeMember(o["exclude-member"], d, "exclude_member")); err != nil {
 		if !fortiAPIPatch(o["exclude-member"]) {
-			return fmt.Errorf("Error reading exclude_member: %v", err)
+			return fmt.Errorf("error reading exclude_member: %v", err)
 		}
 	}
 
 	if err = d.Set("visibility", dataSourceFlattenFirewallAddrgrpVisibility(o["visibility"], d, "visibility")); err != nil {
 		if !fortiAPIPatch(o["visibility"]) {
-			return fmt.Errorf("Error reading visibility: %v", err)
+			return fmt.Errorf("error reading visibility: %v", err)
 		}
 	}
 
 	if err = d.Set("color", dataSourceFlattenFirewallAddrgrpColor(o["color"], d, "color")); err != nil {
 		if !fortiAPIPatch(o["color"]) {
-			return fmt.Errorf("Error reading color: %v", err)
+			return fmt.Errorf("error reading color: %v", err)
 		}
 	}
 
 	if err = d.Set("tagging", dataSourceFlattenFirewallAddrgrpTagging(o["tagging"], d, "tagging")); err != nil {
 		if !fortiAPIPatch(o["tagging"]) {
-			return fmt.Errorf("Error reading tagging: %v", err)
+			return fmt.Errorf("error reading tagging: %v", err)
 		}
 	}
 
 	if err = d.Set("allow_routing", dataSourceFlattenFirewallAddrgrpAllowRouting(o["allow-routing"], d, "allow_routing")); err != nil {
 		if !fortiAPIPatch(o["allow-routing"]) {
-			return fmt.Errorf("Error reading allow_routing: %v", err)
+			return fmt.Errorf("error reading allow_routing: %v", err)
 		}
 	}
 

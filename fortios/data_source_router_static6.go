@@ -21,65 +21,65 @@ func dataSourceRouterStatic6() *schema.Resource {
 	return &schema.Resource{
 		Read: dataSourceRouterStatic6Read,
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
 
-			"seq_num": &schema.Schema{
+			"seq_num": {
 				Type:     schema.TypeInt,
 				Required: true,
 			},
-			"status": &schema.Schema{
+			"status": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"dst": &schema.Schema{
+			"dst": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"gateway": &schema.Schema{
+			"gateway": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"device": &schema.Schema{
+			"device": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"devindex": &schema.Schema{
+			"devindex": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"distance": &schema.Schema{
+			"distance": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"priority": &schema.Schema{
+			"priority": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"comment": &schema.Schema{
+			"comment": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"blackhole": &schema.Schema{
+			"blackhole": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"sdwan": &schema.Schema{
+			"sdwan": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"virtual_wan_link": &schema.Schema{
+			"virtual_wan_link": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"link_monitor_exempt": &schema.Schema{
+			"link_monitor_exempt": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"bfd": &schema.Schema{
+			"bfd": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -107,12 +107,12 @@ func dataSourceRouterStatic6Read(d *schema.ResourceData, m interface{}) error {
 	} else if v, ok := t.(int); ok {
 		mkey = strconv.Itoa(v)
 	} else {
-		return fmt.Errorf("Error describing RouterStatic6: type error")
+		return fmt.Errorf("error describing RouterStatic6: type error")
 	}
 
-	o, err := c.ReadRouterStatic6(mkey, vdomparam)
+	o, err := c.ReadRouterStatic6(mkey, vdomparam, make(map[string][]string), 0)
 	if err != nil {
-		return fmt.Errorf("Error describing RouterStatic6: %v", err)
+		return fmt.Errorf("error describing RouterStatic6: %v", err)
 	}
 
 	if o == nil {
@@ -122,7 +122,7 @@ func dataSourceRouterStatic6Read(d *schema.ResourceData, m interface{}) error {
 
 	err = dataSourceRefreshObjectRouterStatic6(d, o)
 	if err != nil {
-		return fmt.Errorf("Error describing RouterStatic6 from API: %v", err)
+		return fmt.Errorf("error describing RouterStatic6 from API: %v", err)
 	}
 
 	d.SetId(mkey)
@@ -191,85 +191,85 @@ func dataSourceRefreshObjectRouterStatic6(d *schema.ResourceData, o map[string]i
 
 	if err = d.Set("seq_num", dataSourceFlattenRouterStatic6SeqNum(o["seq-num"], d, "seq_num")); err != nil {
 		if !fortiAPIPatch(o["seq-num"]) {
-			return fmt.Errorf("Error reading seq_num: %v", err)
+			return fmt.Errorf("error reading seq_num: %v", err)
 		}
 	}
 
 	if err = d.Set("status", dataSourceFlattenRouterStatic6Status(o["status"], d, "status")); err != nil {
 		if !fortiAPIPatch(o["status"]) {
-			return fmt.Errorf("Error reading status: %v", err)
+			return fmt.Errorf("error reading status: %v", err)
 		}
 	}
 
 	if err = d.Set("dst", dataSourceFlattenRouterStatic6Dst(o["dst"], d, "dst")); err != nil {
 		if !fortiAPIPatch(o["dst"]) {
-			return fmt.Errorf("Error reading dst: %v", err)
+			return fmt.Errorf("error reading dst: %v", err)
 		}
 	}
 
 	if err = d.Set("gateway", dataSourceFlattenRouterStatic6Gateway(o["gateway"], d, "gateway")); err != nil {
 		if !fortiAPIPatch(o["gateway"]) {
-			return fmt.Errorf("Error reading gateway: %v", err)
+			return fmt.Errorf("error reading gateway: %v", err)
 		}
 	}
 
 	if err = d.Set("device", dataSourceFlattenRouterStatic6Device(o["device"], d, "device")); err != nil {
 		if !fortiAPIPatch(o["device"]) {
-			return fmt.Errorf("Error reading device: %v", err)
+			return fmt.Errorf("error reading device: %v", err)
 		}
 	}
 
 	if err = d.Set("devindex", dataSourceFlattenRouterStatic6Devindex(o["devindex"], d, "devindex")); err != nil {
 		if !fortiAPIPatch(o["devindex"]) {
-			return fmt.Errorf("Error reading devindex: %v", err)
+			return fmt.Errorf("error reading devindex: %v", err)
 		}
 	}
 
 	if err = d.Set("distance", dataSourceFlattenRouterStatic6Distance(o["distance"], d, "distance")); err != nil {
 		if !fortiAPIPatch(o["distance"]) {
-			return fmt.Errorf("Error reading distance: %v", err)
+			return fmt.Errorf("error reading distance: %v", err)
 		}
 	}
 
 	if err = d.Set("priority", dataSourceFlattenRouterStatic6Priority(o["priority"], d, "priority")); err != nil {
 		if !fortiAPIPatch(o["priority"]) {
-			return fmt.Errorf("Error reading priority: %v", err)
+			return fmt.Errorf("error reading priority: %v", err)
 		}
 	}
 
 	if err = d.Set("comment", dataSourceFlattenRouterStatic6Comment(o["comment"], d, "comment")); err != nil {
 		if !fortiAPIPatch(o["comment"]) {
-			return fmt.Errorf("Error reading comment: %v", err)
+			return fmt.Errorf("error reading comment: %v", err)
 		}
 	}
 
 	if err = d.Set("blackhole", dataSourceFlattenRouterStatic6Blackhole(o["blackhole"], d, "blackhole")); err != nil {
 		if !fortiAPIPatch(o["blackhole"]) {
-			return fmt.Errorf("Error reading blackhole: %v", err)
+			return fmt.Errorf("error reading blackhole: %v", err)
 		}
 	}
 
 	if err = d.Set("sdwan", dataSourceFlattenRouterStatic6Sdwan(o["sdwan"], d, "sdwan")); err != nil {
 		if !fortiAPIPatch(o["sdwan"]) {
-			return fmt.Errorf("Error reading sdwan: %v", err)
+			return fmt.Errorf("error reading sdwan: %v", err)
 		}
 	}
 
 	if err = d.Set("virtual_wan_link", dataSourceFlattenRouterStatic6VirtualWanLink(o["virtual-wan-link"], d, "virtual_wan_link")); err != nil {
 		if !fortiAPIPatch(o["virtual-wan-link"]) {
-			return fmt.Errorf("Error reading virtual_wan_link: %v", err)
+			return fmt.Errorf("error reading virtual_wan_link: %v", err)
 		}
 	}
 
 	if err = d.Set("link_monitor_exempt", dataSourceFlattenRouterStatic6LinkMonitorExempt(o["link-monitor-exempt"], d, "link_monitor_exempt")); err != nil {
 		if !fortiAPIPatch(o["link-monitor-exempt"]) {
-			return fmt.Errorf("Error reading link_monitor_exempt: %v", err)
+			return fmt.Errorf("error reading link_monitor_exempt: %v", err)
 		}
 	}
 
 	if err = d.Set("bfd", dataSourceFlattenRouterStatic6Bfd(o["bfd"], d, "bfd")); err != nil {
 		if !fortiAPIPatch(o["bfd"]) {
-			return fmt.Errorf("Error reading bfd: %v", err)
+			return fmt.Errorf("error reading bfd: %v", err)
 		}
 	}
 

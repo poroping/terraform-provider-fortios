@@ -17,12 +17,12 @@ func dataSourceSystemSdnConnectorList() *schema.Resource {
 		Read: dataSourceSystemSdnConnectorListRead,
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"filter": &schema.Schema{
+			"filter": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
@@ -52,9 +52,9 @@ func dataSourceSystemSdnConnectorListRead(d *schema.ResourceData, m interface{})
 		filter = escapeFilter(filter)
 	}
 
-	o, err := c.GenericGroupRead("/api/v2/cmdb/system/sdn-connector", filter, vdomparam)
+	o, err := c.GenericGroupRead("/api/v2/cmdb/system/sdn-connector", filter, vdomparam, 0)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemSdnConnector: %v", err)
+		return fmt.Errorf("error describing SystemSdnConnector: %v", err)
 	}
 
 	var tmps []string

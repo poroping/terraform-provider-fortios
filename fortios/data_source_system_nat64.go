@@ -21,49 +21,49 @@ func dataSourceSystemNat64() *schema.Resource {
 	return &schema.Resource{
 		Read: dataSourceSystemNat64Read,
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
 
-			"status": &schema.Schema{
+			"status": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"nat64_prefix": &schema.Schema{
+			"nat64_prefix": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"secondary_prefix_status": &schema.Schema{
+			"secondary_prefix_status": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"secondary_prefix": &schema.Schema{
+			"secondary_prefix": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"nat64_prefix": &schema.Schema{
+						"nat64_prefix": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 					},
 				},
 			},
-			"always_synthesize_aaaa_record": &schema.Schema{
+			"always_synthesize_aaaa_record": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"generate_ipv6_fragment_header": &schema.Schema{
+			"generate_ipv6_fragment_header": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"nat46_force_ipv4_packet_forwarding": &schema.Schema{
+			"nat46_force_ipv4_packet_forwarding": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -85,9 +85,9 @@ func dataSourceSystemNat64Read(d *schema.ResourceData, m interface{}) error {
 
 	mkey := "SystemNat64"
 
-	o, err := c.ReadSystemNat64(mkey, vdomparam)
+	o, err := c.ReadSystemNat64(mkey, vdomparam, make(map[string][]string), 0)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemNat64: %v", err)
+		return fmt.Errorf("error describing SystemNat64: %v", err)
 	}
 
 	if o == nil {
@@ -97,7 +97,7 @@ func dataSourceSystemNat64Read(d *schema.ResourceData, m interface{}) error {
 
 	err = dataSourceRefreshObjectSystemNat64(d, o)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemNat64 from API: %v", err)
+		return fmt.Errorf("error describing SystemNat64 from API: %v", err)
 	}
 
 	d.SetId(mkey)
@@ -179,43 +179,43 @@ func dataSourceRefreshObjectSystemNat64(d *schema.ResourceData, o map[string]int
 
 	if err = d.Set("status", dataSourceFlattenSystemNat64Status(o["status"], d, "status")); err != nil {
 		if !fortiAPIPatch(o["status"]) {
-			return fmt.Errorf("Error reading status: %v", err)
+			return fmt.Errorf("error reading status: %v", err)
 		}
 	}
 
 	if err = d.Set("nat64_prefix", dataSourceFlattenSystemNat64Nat64Prefix(o["nat64-prefix"], d, "nat64_prefix")); err != nil {
 		if !fortiAPIPatch(o["nat64-prefix"]) {
-			return fmt.Errorf("Error reading nat64_prefix: %v", err)
+			return fmt.Errorf("error reading nat64_prefix: %v", err)
 		}
 	}
 
 	if err = d.Set("secondary_prefix_status", dataSourceFlattenSystemNat64SecondaryPrefixStatus(o["secondary-prefix-status"], d, "secondary_prefix_status")); err != nil {
 		if !fortiAPIPatch(o["secondary-prefix-status"]) {
-			return fmt.Errorf("Error reading secondary_prefix_status: %v", err)
+			return fmt.Errorf("error reading secondary_prefix_status: %v", err)
 		}
 	}
 
 	if err = d.Set("secondary_prefix", dataSourceFlattenSystemNat64SecondaryPrefix(o["secondary-prefix"], d, "secondary_prefix")); err != nil {
 		if !fortiAPIPatch(o["secondary-prefix"]) {
-			return fmt.Errorf("Error reading secondary_prefix: %v", err)
+			return fmt.Errorf("error reading secondary_prefix: %v", err)
 		}
 	}
 
 	if err = d.Set("always_synthesize_aaaa_record", dataSourceFlattenSystemNat64AlwaysSynthesizeAaaaRecord(o["always-synthesize-aaaa-record"], d, "always_synthesize_aaaa_record")); err != nil {
 		if !fortiAPIPatch(o["always-synthesize-aaaa-record"]) {
-			return fmt.Errorf("Error reading always_synthesize_aaaa_record: %v", err)
+			return fmt.Errorf("error reading always_synthesize_aaaa_record: %v", err)
 		}
 	}
 
 	if err = d.Set("generate_ipv6_fragment_header", dataSourceFlattenSystemNat64GenerateIpv6FragmentHeader(o["generate-ipv6-fragment-header"], d, "generate_ipv6_fragment_header")); err != nil {
 		if !fortiAPIPatch(o["generate-ipv6-fragment-header"]) {
-			return fmt.Errorf("Error reading generate_ipv6_fragment_header: %v", err)
+			return fmt.Errorf("error reading generate_ipv6_fragment_header: %v", err)
 		}
 	}
 
 	if err = d.Set("nat46_force_ipv4_packet_forwarding", dataSourceFlattenSystemNat64Nat46ForceIpv4PacketForwarding(o["nat46-force-ipv4-packet-forwarding"], d, "nat46_force_ipv4_packet_forwarding")); err != nil {
 		if !fortiAPIPatch(o["nat46-force-ipv4-packet-forwarding"]) {
-			return fmt.Errorf("Error reading nat46_force_ipv4_packet_forwarding: %v", err)
+			return fmt.Errorf("error reading nat46_force_ipv4_packet_forwarding: %v", err)
 		}
 	}
 

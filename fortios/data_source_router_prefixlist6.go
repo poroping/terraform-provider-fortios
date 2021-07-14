@@ -21,46 +21,46 @@ func dataSourceRouterPrefixList6() *schema.Resource {
 	return &schema.Resource{
 		Read: dataSourceRouterPrefixList6Read,
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
 
-			"name": &schema.Schema{
+			"name": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"comments": &schema.Schema{
+			"comments": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"rule": &schema.Schema{
+			"rule": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"action": &schema.Schema{
+						"action": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"prefix6": &schema.Schema{
+						"prefix6": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"ge": &schema.Schema{
+						"ge": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"le": &schema.Schema{
+						"le": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"flags": &schema.Schema{
+						"flags": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
@@ -91,12 +91,12 @@ func dataSourceRouterPrefixList6Read(d *schema.ResourceData, m interface{}) erro
 	} else if v, ok := t.(int); ok {
 		mkey = strconv.Itoa(v)
 	} else {
-		return fmt.Errorf("Error describing RouterPrefixList6: type error")
+		return fmt.Errorf("error describing RouterPrefixList6: type error")
 	}
 
-	o, err := c.ReadRouterPrefixList6(mkey, vdomparam)
+	o, err := c.ReadRouterPrefixList6(mkey, vdomparam, make(map[string][]string), 0)
 	if err != nil {
-		return fmt.Errorf("Error describing RouterPrefixList6: %v", err)
+		return fmt.Errorf("error describing RouterPrefixList6: %v", err)
 	}
 
 	if o == nil {
@@ -106,7 +106,7 @@ func dataSourceRouterPrefixList6Read(d *schema.ResourceData, m interface{}) erro
 
 	err = dataSourceRefreshObjectRouterPrefixList6(d, o)
 	if err != nil {
-		return fmt.Errorf("Error describing RouterPrefixList6 from API: %v", err)
+		return fmt.Errorf("error describing RouterPrefixList6 from API: %v", err)
 	}
 
 	d.SetId(mkey)
@@ -208,19 +208,19 @@ func dataSourceRefreshObjectRouterPrefixList6(d *schema.ResourceData, o map[stri
 
 	if err = d.Set("name", dataSourceFlattenRouterPrefixList6Name(o["name"], d, "name")); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("comments", dataSourceFlattenRouterPrefixList6Comments(o["comments"], d, "comments")); err != nil {
 		if !fortiAPIPatch(o["comments"]) {
-			return fmt.Errorf("Error reading comments: %v", err)
+			return fmt.Errorf("error reading comments: %v", err)
 		}
 	}
 
 	if err = d.Set("rule", dataSourceFlattenRouterPrefixList6Rule(o["rule"], d, "rule")); err != nil {
 		if !fortiAPIPatch(o["rule"]) {
-			return fmt.Errorf("Error reading rule: %v", err)
+			return fmt.Errorf("error reading rule: %v", err)
 		}
 	}
 

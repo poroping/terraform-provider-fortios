@@ -21,377 +21,377 @@ func dataSourceFirewallProxyPolicy() *schema.Resource {
 	return &schema.Resource{
 		Read: dataSourceFirewallProxyPolicyRead,
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
 
-			"uuid": &schema.Schema{
+			"uuid": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"policyid": &schema.Schema{
+			"policyid": {
 				Type:     schema.TypeInt,
 				Required: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"proxy": &schema.Schema{
+			"proxy": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"srcintf": &schema.Schema{
+			"srcintf": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 					},
 				},
 			},
-			"dstintf": &schema.Schema{
+			"dstintf": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 					},
 				},
 			},
-			"srcaddr": &schema.Schema{
+			"srcaddr": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 					},
 				},
 			},
-			"poolname": &schema.Schema{
+			"poolname": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 					},
 				},
 			},
-			"dstaddr": &schema.Schema{
+			"dstaddr": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 					},
 				},
 			},
-			"internet_service": &schema.Schema{
+			"internet_service": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"internet_service_negate": &schema.Schema{
+			"internet_service_negate": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"internet_service_name": &schema.Schema{
+			"internet_service_name": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 					},
 				},
 			},
-			"internet_service_id": &schema.Schema{
+			"internet_service_id": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
 					},
 				},
 			},
-			"internet_service_group": &schema.Schema{
+			"internet_service_group": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 					},
 				},
 			},
-			"internet_service_custom": &schema.Schema{
+			"internet_service_custom": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 					},
 				},
 			},
-			"internet_service_custom_group": &schema.Schema{
+			"internet_service_custom_group": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 					},
 				},
 			},
-			"service": &schema.Schema{
+			"service": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 					},
 				},
 			},
-			"srcaddr_negate": &schema.Schema{
+			"srcaddr_negate": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"dstaddr_negate": &schema.Schema{
+			"dstaddr_negate": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"service_negate": &schema.Schema{
+			"service_negate": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"action": &schema.Schema{
+			"action": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"status": &schema.Schema{
+			"status": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"schedule": &schema.Schema{
+			"schedule": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"logtraffic": &schema.Schema{
+			"logtraffic": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"session_ttl": &schema.Schema{
+			"session_ttl": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"srcaddr6": &schema.Schema{
+			"srcaddr6": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 					},
 				},
 			},
-			"dstaddr6": &schema.Schema{
+			"dstaddr6": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 					},
 				},
 			},
-			"groups": &schema.Schema{
+			"groups": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 					},
 				},
 			},
-			"users": &schema.Schema{
+			"users": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 					},
 				},
 			},
-			"http_tunnel_auth": &schema.Schema{
+			"http_tunnel_auth": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"ssh_policy_redirect": &schema.Schema{
+			"ssh_policy_redirect": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"webproxy_forward_server": &schema.Schema{
+			"webproxy_forward_server": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"webproxy_profile": &schema.Schema{
+			"webproxy_profile": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"transparent": &schema.Schema{
+			"transparent": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"webcache": &schema.Schema{
+			"webcache": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"webcache_https": &schema.Schema{
+			"webcache_https": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"disclaimer": &schema.Schema{
+			"disclaimer": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"utm_status": &schema.Schema{
+			"utm_status": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"profile_type": &schema.Schema{
+			"profile_type": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"profile_group": &schema.Schema{
+			"profile_group": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"av_profile": &schema.Schema{
+			"av_profile": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"webfilter_profile": &schema.Schema{
+			"webfilter_profile": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"emailfilter_profile": &schema.Schema{
+			"emailfilter_profile": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"spamfilter_profile": &schema.Schema{
+			"spamfilter_profile": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"dlp_sensor": &schema.Schema{
+			"dlp_sensor": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"file_filter_profile": &schema.Schema{
+			"file_filter_profile": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"ips_sensor": &schema.Schema{
+			"ips_sensor": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"application_list": &schema.Schema{
+			"application_list": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"icap_profile": &schema.Schema{
+			"icap_profile": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"cifs_profile": &schema.Schema{
+			"cifs_profile": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"waf_profile": &schema.Schema{
+			"waf_profile": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"ssh_filter_profile": &schema.Schema{
+			"ssh_filter_profile": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"profile_protocol_options": &schema.Schema{
+			"profile_protocol_options": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"ssl_ssh_profile": &schema.Schema{
+			"ssl_ssh_profile": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"replacemsg_override_group": &schema.Schema{
+			"replacemsg_override_group": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"logtraffic_start": &schema.Schema{
+			"logtraffic_start": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"label": &schema.Schema{
+			"label": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"global_label": &schema.Schema{
+			"global_label": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"scan_botnet_connections": &schema.Schema{
+			"scan_botnet_connections": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"comments": &schema.Schema{
+			"comments": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"redirect_url": &schema.Schema{
+			"redirect_url": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"decrypted_traffic_mirror": &schema.Schema{
+			"decrypted_traffic_mirror": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -419,12 +419,12 @@ func dataSourceFirewallProxyPolicyRead(d *schema.ResourceData, m interface{}) er
 	} else if v, ok := t.(int); ok {
 		mkey = strconv.Itoa(v)
 	} else {
-		return fmt.Errorf("Error describing FirewallProxyPolicy: type error")
+		return fmt.Errorf("error describing FirewallProxyPolicy: type error")
 	}
 
-	o, err := c.ReadFirewallProxyPolicy(mkey, vdomparam)
+	o, err := c.ReadFirewallProxyPolicy(mkey, vdomparam, make(map[string][]string), 0)
 	if err != nil {
-		return fmt.Errorf("Error describing FirewallProxyPolicy: %v", err)
+		return fmt.Errorf("error describing FirewallProxyPolicy: %v", err)
 	}
 
 	if o == nil {
@@ -434,7 +434,7 @@ func dataSourceFirewallProxyPolicyRead(d *schema.ResourceData, m interface{}) er
 
 	err = dataSourceRefreshObjectFirewallProxyPolicy(d, o)
 	if err != nil {
-		return fmt.Errorf("Error describing FirewallProxyPolicy from API: %v", err)
+		return fmt.Errorf("error describing FirewallProxyPolicy from API: %v", err)
 	}
 
 	d.SetId(mkey)
@@ -1175,373 +1175,373 @@ func dataSourceRefreshObjectFirewallProxyPolicy(d *schema.ResourceData, o map[st
 
 	if err = d.Set("uuid", dataSourceFlattenFirewallProxyPolicyUuid(o["uuid"], d, "uuid")); err != nil {
 		if !fortiAPIPatch(o["uuid"]) {
-			return fmt.Errorf("Error reading uuid: %v", err)
+			return fmt.Errorf("error reading uuid: %v", err)
 		}
 	}
 
 	if err = d.Set("policyid", dataSourceFlattenFirewallProxyPolicyPolicyid(o["policyid"], d, "policyid")); err != nil {
 		if !fortiAPIPatch(o["policyid"]) {
-			return fmt.Errorf("Error reading policyid: %v", err)
+			return fmt.Errorf("error reading policyid: %v", err)
 		}
 	}
 
 	if err = d.Set("name", dataSourceFlattenFirewallProxyPolicyName(o["name"], d, "name")); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("proxy", dataSourceFlattenFirewallProxyPolicyProxy(o["proxy"], d, "proxy")); err != nil {
 		if !fortiAPIPatch(o["proxy"]) {
-			return fmt.Errorf("Error reading proxy: %v", err)
+			return fmt.Errorf("error reading proxy: %v", err)
 		}
 	}
 
 	if err = d.Set("srcintf", dataSourceFlattenFirewallProxyPolicySrcintf(o["srcintf"], d, "srcintf")); err != nil {
 		if !fortiAPIPatch(o["srcintf"]) {
-			return fmt.Errorf("Error reading srcintf: %v", err)
+			return fmt.Errorf("error reading srcintf: %v", err)
 		}
 	}
 
 	if err = d.Set("dstintf", dataSourceFlattenFirewallProxyPolicyDstintf(o["dstintf"], d, "dstintf")); err != nil {
 		if !fortiAPIPatch(o["dstintf"]) {
-			return fmt.Errorf("Error reading dstintf: %v", err)
+			return fmt.Errorf("error reading dstintf: %v", err)
 		}
 	}
 
 	if err = d.Set("srcaddr", dataSourceFlattenFirewallProxyPolicySrcaddr(o["srcaddr"], d, "srcaddr")); err != nil {
 		if !fortiAPIPatch(o["srcaddr"]) {
-			return fmt.Errorf("Error reading srcaddr: %v", err)
+			return fmt.Errorf("error reading srcaddr: %v", err)
 		}
 	}
 
 	if err = d.Set("poolname", dataSourceFlattenFirewallProxyPolicyPoolname(o["poolname"], d, "poolname")); err != nil {
 		if !fortiAPIPatch(o["poolname"]) {
-			return fmt.Errorf("Error reading poolname: %v", err)
+			return fmt.Errorf("error reading poolname: %v", err)
 		}
 	}
 
 	if err = d.Set("dstaddr", dataSourceFlattenFirewallProxyPolicyDstaddr(o["dstaddr"], d, "dstaddr")); err != nil {
 		if !fortiAPIPatch(o["dstaddr"]) {
-			return fmt.Errorf("Error reading dstaddr: %v", err)
+			return fmt.Errorf("error reading dstaddr: %v", err)
 		}
 	}
 
 	if err = d.Set("internet_service", dataSourceFlattenFirewallProxyPolicyInternetService(o["internet-service"], d, "internet_service")); err != nil {
 		if !fortiAPIPatch(o["internet-service"]) {
-			return fmt.Errorf("Error reading internet_service: %v", err)
+			return fmt.Errorf("error reading internet_service: %v", err)
 		}
 	}
 
 	if err = d.Set("internet_service_negate", dataSourceFlattenFirewallProxyPolicyInternetServiceNegate(o["internet-service-negate"], d, "internet_service_negate")); err != nil {
 		if !fortiAPIPatch(o["internet-service-negate"]) {
-			return fmt.Errorf("Error reading internet_service_negate: %v", err)
+			return fmt.Errorf("error reading internet_service_negate: %v", err)
 		}
 	}
 
 	if err = d.Set("internet_service_name", dataSourceFlattenFirewallProxyPolicyInternetServiceName(o["internet-service-name"], d, "internet_service_name")); err != nil {
 		if !fortiAPIPatch(o["internet-service-name"]) {
-			return fmt.Errorf("Error reading internet_service_name: %v", err)
+			return fmt.Errorf("error reading internet_service_name: %v", err)
 		}
 	}
 
 	if err = d.Set("internet_service_id", dataSourceFlattenFirewallProxyPolicyInternetServiceId(o["internet-service-id"], d, "internet_service_id")); err != nil {
 		if !fortiAPIPatch(o["internet-service-id"]) {
-			return fmt.Errorf("Error reading internet_service_id: %v", err)
+			return fmt.Errorf("error reading internet_service_id: %v", err)
 		}
 	}
 
 	if err = d.Set("internet_service_group", dataSourceFlattenFirewallProxyPolicyInternetServiceGroup(o["internet-service-group"], d, "internet_service_group")); err != nil {
 		if !fortiAPIPatch(o["internet-service-group"]) {
-			return fmt.Errorf("Error reading internet_service_group: %v", err)
+			return fmt.Errorf("error reading internet_service_group: %v", err)
 		}
 	}
 
 	if err = d.Set("internet_service_custom", dataSourceFlattenFirewallProxyPolicyInternetServiceCustom(o["internet-service-custom"], d, "internet_service_custom")); err != nil {
 		if !fortiAPIPatch(o["internet-service-custom"]) {
-			return fmt.Errorf("Error reading internet_service_custom: %v", err)
+			return fmt.Errorf("error reading internet_service_custom: %v", err)
 		}
 	}
 
 	if err = d.Set("internet_service_custom_group", dataSourceFlattenFirewallProxyPolicyInternetServiceCustomGroup(o["internet-service-custom-group"], d, "internet_service_custom_group")); err != nil {
 		if !fortiAPIPatch(o["internet-service-custom-group"]) {
-			return fmt.Errorf("Error reading internet_service_custom_group: %v", err)
+			return fmt.Errorf("error reading internet_service_custom_group: %v", err)
 		}
 	}
 
 	if err = d.Set("service", dataSourceFlattenFirewallProxyPolicyService(o["service"], d, "service")); err != nil {
 		if !fortiAPIPatch(o["service"]) {
-			return fmt.Errorf("Error reading service: %v", err)
+			return fmt.Errorf("error reading service: %v", err)
 		}
 	}
 
 	if err = d.Set("srcaddr_negate", dataSourceFlattenFirewallProxyPolicySrcaddrNegate(o["srcaddr-negate"], d, "srcaddr_negate")); err != nil {
 		if !fortiAPIPatch(o["srcaddr-negate"]) {
-			return fmt.Errorf("Error reading srcaddr_negate: %v", err)
+			return fmt.Errorf("error reading srcaddr_negate: %v", err)
 		}
 	}
 
 	if err = d.Set("dstaddr_negate", dataSourceFlattenFirewallProxyPolicyDstaddrNegate(o["dstaddr-negate"], d, "dstaddr_negate")); err != nil {
 		if !fortiAPIPatch(o["dstaddr-negate"]) {
-			return fmt.Errorf("Error reading dstaddr_negate: %v", err)
+			return fmt.Errorf("error reading dstaddr_negate: %v", err)
 		}
 	}
 
 	if err = d.Set("service_negate", dataSourceFlattenFirewallProxyPolicyServiceNegate(o["service-negate"], d, "service_negate")); err != nil {
 		if !fortiAPIPatch(o["service-negate"]) {
-			return fmt.Errorf("Error reading service_negate: %v", err)
+			return fmt.Errorf("error reading service_negate: %v", err)
 		}
 	}
 
 	if err = d.Set("action", dataSourceFlattenFirewallProxyPolicyAction(o["action"], d, "action")); err != nil {
 		if !fortiAPIPatch(o["action"]) {
-			return fmt.Errorf("Error reading action: %v", err)
+			return fmt.Errorf("error reading action: %v", err)
 		}
 	}
 
 	if err = d.Set("status", dataSourceFlattenFirewallProxyPolicyStatus(o["status"], d, "status")); err != nil {
 		if !fortiAPIPatch(o["status"]) {
-			return fmt.Errorf("Error reading status: %v", err)
+			return fmt.Errorf("error reading status: %v", err)
 		}
 	}
 
 	if err = d.Set("schedule", dataSourceFlattenFirewallProxyPolicySchedule(o["schedule"], d, "schedule")); err != nil {
 		if !fortiAPIPatch(o["schedule"]) {
-			return fmt.Errorf("Error reading schedule: %v", err)
+			return fmt.Errorf("error reading schedule: %v", err)
 		}
 	}
 
 	if err = d.Set("logtraffic", dataSourceFlattenFirewallProxyPolicyLogtraffic(o["logtraffic"], d, "logtraffic")); err != nil {
 		if !fortiAPIPatch(o["logtraffic"]) {
-			return fmt.Errorf("Error reading logtraffic: %v", err)
+			return fmt.Errorf("error reading logtraffic: %v", err)
 		}
 	}
 
 	if err = d.Set("session_ttl", dataSourceFlattenFirewallProxyPolicySessionTtl(o["session-ttl"], d, "session_ttl")); err != nil {
 		if !fortiAPIPatch(o["session-ttl"]) {
-			return fmt.Errorf("Error reading session_ttl: %v", err)
+			return fmt.Errorf("error reading session_ttl: %v", err)
 		}
 	}
 
 	if err = d.Set("srcaddr6", dataSourceFlattenFirewallProxyPolicySrcaddr6(o["srcaddr6"], d, "srcaddr6")); err != nil {
 		if !fortiAPIPatch(o["srcaddr6"]) {
-			return fmt.Errorf("Error reading srcaddr6: %v", err)
+			return fmt.Errorf("error reading srcaddr6: %v", err)
 		}
 	}
 
 	if err = d.Set("dstaddr6", dataSourceFlattenFirewallProxyPolicyDstaddr6(o["dstaddr6"], d, "dstaddr6")); err != nil {
 		if !fortiAPIPatch(o["dstaddr6"]) {
-			return fmt.Errorf("Error reading dstaddr6: %v", err)
+			return fmt.Errorf("error reading dstaddr6: %v", err)
 		}
 	}
 
 	if err = d.Set("groups", dataSourceFlattenFirewallProxyPolicyGroups(o["groups"], d, "groups")); err != nil {
 		if !fortiAPIPatch(o["groups"]) {
-			return fmt.Errorf("Error reading groups: %v", err)
+			return fmt.Errorf("error reading groups: %v", err)
 		}
 	}
 
 	if err = d.Set("users", dataSourceFlattenFirewallProxyPolicyUsers(o["users"], d, "users")); err != nil {
 		if !fortiAPIPatch(o["users"]) {
-			return fmt.Errorf("Error reading users: %v", err)
+			return fmt.Errorf("error reading users: %v", err)
 		}
 	}
 
 	if err = d.Set("http_tunnel_auth", dataSourceFlattenFirewallProxyPolicyHttpTunnelAuth(o["http-tunnel-auth"], d, "http_tunnel_auth")); err != nil {
 		if !fortiAPIPatch(o["http-tunnel-auth"]) {
-			return fmt.Errorf("Error reading http_tunnel_auth: %v", err)
+			return fmt.Errorf("error reading http_tunnel_auth: %v", err)
 		}
 	}
 
 	if err = d.Set("ssh_policy_redirect", dataSourceFlattenFirewallProxyPolicySshPolicyRedirect(o["ssh-policy-redirect"], d, "ssh_policy_redirect")); err != nil {
 		if !fortiAPIPatch(o["ssh-policy-redirect"]) {
-			return fmt.Errorf("Error reading ssh_policy_redirect: %v", err)
+			return fmt.Errorf("error reading ssh_policy_redirect: %v", err)
 		}
 	}
 
 	if err = d.Set("webproxy_forward_server", dataSourceFlattenFirewallProxyPolicyWebproxyForwardServer(o["webproxy-forward-server"], d, "webproxy_forward_server")); err != nil {
 		if !fortiAPIPatch(o["webproxy-forward-server"]) {
-			return fmt.Errorf("Error reading webproxy_forward_server: %v", err)
+			return fmt.Errorf("error reading webproxy_forward_server: %v", err)
 		}
 	}
 
 	if err = d.Set("webproxy_profile", dataSourceFlattenFirewallProxyPolicyWebproxyProfile(o["webproxy-profile"], d, "webproxy_profile")); err != nil {
 		if !fortiAPIPatch(o["webproxy-profile"]) {
-			return fmt.Errorf("Error reading webproxy_profile: %v", err)
+			return fmt.Errorf("error reading webproxy_profile: %v", err)
 		}
 	}
 
 	if err = d.Set("transparent", dataSourceFlattenFirewallProxyPolicyTransparent(o["transparent"], d, "transparent")); err != nil {
 		if !fortiAPIPatch(o["transparent"]) {
-			return fmt.Errorf("Error reading transparent: %v", err)
+			return fmt.Errorf("error reading transparent: %v", err)
 		}
 	}
 
 	if err = d.Set("webcache", dataSourceFlattenFirewallProxyPolicyWebcache(o["webcache"], d, "webcache")); err != nil {
 		if !fortiAPIPatch(o["webcache"]) {
-			return fmt.Errorf("Error reading webcache: %v", err)
+			return fmt.Errorf("error reading webcache: %v", err)
 		}
 	}
 
 	if err = d.Set("webcache_https", dataSourceFlattenFirewallProxyPolicyWebcacheHttps(o["webcache-https"], d, "webcache_https")); err != nil {
 		if !fortiAPIPatch(o["webcache-https"]) {
-			return fmt.Errorf("Error reading webcache_https: %v", err)
+			return fmt.Errorf("error reading webcache_https: %v", err)
 		}
 	}
 
 	if err = d.Set("disclaimer", dataSourceFlattenFirewallProxyPolicyDisclaimer(o["disclaimer"], d, "disclaimer")); err != nil {
 		if !fortiAPIPatch(o["disclaimer"]) {
-			return fmt.Errorf("Error reading disclaimer: %v", err)
+			return fmt.Errorf("error reading disclaimer: %v", err)
 		}
 	}
 
 	if err = d.Set("utm_status", dataSourceFlattenFirewallProxyPolicyUtmStatus(o["utm-status"], d, "utm_status")); err != nil {
 		if !fortiAPIPatch(o["utm-status"]) {
-			return fmt.Errorf("Error reading utm_status: %v", err)
+			return fmt.Errorf("error reading utm_status: %v", err)
 		}
 	}
 
 	if err = d.Set("profile_type", dataSourceFlattenFirewallProxyPolicyProfileType(o["profile-type"], d, "profile_type")); err != nil {
 		if !fortiAPIPatch(o["profile-type"]) {
-			return fmt.Errorf("Error reading profile_type: %v", err)
+			return fmt.Errorf("error reading profile_type: %v", err)
 		}
 	}
 
 	if err = d.Set("profile_group", dataSourceFlattenFirewallProxyPolicyProfileGroup(o["profile-group"], d, "profile_group")); err != nil {
 		if !fortiAPIPatch(o["profile-group"]) {
-			return fmt.Errorf("Error reading profile_group: %v", err)
+			return fmt.Errorf("error reading profile_group: %v", err)
 		}
 	}
 
 	if err = d.Set("av_profile", dataSourceFlattenFirewallProxyPolicyAvProfile(o["av-profile"], d, "av_profile")); err != nil {
 		if !fortiAPIPatch(o["av-profile"]) {
-			return fmt.Errorf("Error reading av_profile: %v", err)
+			return fmt.Errorf("error reading av_profile: %v", err)
 		}
 	}
 
 	if err = d.Set("webfilter_profile", dataSourceFlattenFirewallProxyPolicyWebfilterProfile(o["webfilter-profile"], d, "webfilter_profile")); err != nil {
 		if !fortiAPIPatch(o["webfilter-profile"]) {
-			return fmt.Errorf("Error reading webfilter_profile: %v", err)
+			return fmt.Errorf("error reading webfilter_profile: %v", err)
 		}
 	}
 
 	if err = d.Set("emailfilter_profile", dataSourceFlattenFirewallProxyPolicyEmailfilterProfile(o["emailfilter-profile"], d, "emailfilter_profile")); err != nil {
 		if !fortiAPIPatch(o["emailfilter-profile"]) {
-			return fmt.Errorf("Error reading emailfilter_profile: %v", err)
+			return fmt.Errorf("error reading emailfilter_profile: %v", err)
 		}
 	}
 
 	if err = d.Set("spamfilter_profile", dataSourceFlattenFirewallProxyPolicySpamfilterProfile(o["spamfilter-profile"], d, "spamfilter_profile")); err != nil {
 		if !fortiAPIPatch(o["spamfilter-profile"]) {
-			return fmt.Errorf("Error reading spamfilter_profile: %v", err)
+			return fmt.Errorf("error reading spamfilter_profile: %v", err)
 		}
 	}
 
 	if err = d.Set("dlp_sensor", dataSourceFlattenFirewallProxyPolicyDlpSensor(o["dlp-sensor"], d, "dlp_sensor")); err != nil {
 		if !fortiAPIPatch(o["dlp-sensor"]) {
-			return fmt.Errorf("Error reading dlp_sensor: %v", err)
+			return fmt.Errorf("error reading dlp_sensor: %v", err)
 		}
 	}
 
 	if err = d.Set("file_filter_profile", dataSourceFlattenFirewallProxyPolicyFileFilterProfile(o["file-filter-profile"], d, "file_filter_profile")); err != nil {
 		if !fortiAPIPatch(o["file-filter-profile"]) {
-			return fmt.Errorf("Error reading file_filter_profile: %v", err)
+			return fmt.Errorf("error reading file_filter_profile: %v", err)
 		}
 	}
 
 	if err = d.Set("ips_sensor", dataSourceFlattenFirewallProxyPolicyIpsSensor(o["ips-sensor"], d, "ips_sensor")); err != nil {
 		if !fortiAPIPatch(o["ips-sensor"]) {
-			return fmt.Errorf("Error reading ips_sensor: %v", err)
+			return fmt.Errorf("error reading ips_sensor: %v", err)
 		}
 	}
 
 	if err = d.Set("application_list", dataSourceFlattenFirewallProxyPolicyApplicationList(o["application-list"], d, "application_list")); err != nil {
 		if !fortiAPIPatch(o["application-list"]) {
-			return fmt.Errorf("Error reading application_list: %v", err)
+			return fmt.Errorf("error reading application_list: %v", err)
 		}
 	}
 
 	if err = d.Set("icap_profile", dataSourceFlattenFirewallProxyPolicyIcapProfile(o["icap-profile"], d, "icap_profile")); err != nil {
 		if !fortiAPIPatch(o["icap-profile"]) {
-			return fmt.Errorf("Error reading icap_profile: %v", err)
+			return fmt.Errorf("error reading icap_profile: %v", err)
 		}
 	}
 
 	if err = d.Set("cifs_profile", dataSourceFlattenFirewallProxyPolicyCifsProfile(o["cifs-profile"], d, "cifs_profile")); err != nil {
 		if !fortiAPIPatch(o["cifs-profile"]) {
-			return fmt.Errorf("Error reading cifs_profile: %v", err)
+			return fmt.Errorf("error reading cifs_profile: %v", err)
 		}
 	}
 
 	if err = d.Set("waf_profile", dataSourceFlattenFirewallProxyPolicyWafProfile(o["waf-profile"], d, "waf_profile")); err != nil {
 		if !fortiAPIPatch(o["waf-profile"]) {
-			return fmt.Errorf("Error reading waf_profile: %v", err)
+			return fmt.Errorf("error reading waf_profile: %v", err)
 		}
 	}
 
 	if err = d.Set("ssh_filter_profile", dataSourceFlattenFirewallProxyPolicySshFilterProfile(o["ssh-filter-profile"], d, "ssh_filter_profile")); err != nil {
 		if !fortiAPIPatch(o["ssh-filter-profile"]) {
-			return fmt.Errorf("Error reading ssh_filter_profile: %v", err)
+			return fmt.Errorf("error reading ssh_filter_profile: %v", err)
 		}
 	}
 
 	if err = d.Set("profile_protocol_options", dataSourceFlattenFirewallProxyPolicyProfileProtocolOptions(o["profile-protocol-options"], d, "profile_protocol_options")); err != nil {
 		if !fortiAPIPatch(o["profile-protocol-options"]) {
-			return fmt.Errorf("Error reading profile_protocol_options: %v", err)
+			return fmt.Errorf("error reading profile_protocol_options: %v", err)
 		}
 	}
 
 	if err = d.Set("ssl_ssh_profile", dataSourceFlattenFirewallProxyPolicySslSshProfile(o["ssl-ssh-profile"], d, "ssl_ssh_profile")); err != nil {
 		if !fortiAPIPatch(o["ssl-ssh-profile"]) {
-			return fmt.Errorf("Error reading ssl_ssh_profile: %v", err)
+			return fmt.Errorf("error reading ssl_ssh_profile: %v", err)
 		}
 	}
 
 	if err = d.Set("replacemsg_override_group", dataSourceFlattenFirewallProxyPolicyReplacemsgOverrideGroup(o["replacemsg-override-group"], d, "replacemsg_override_group")); err != nil {
 		if !fortiAPIPatch(o["replacemsg-override-group"]) {
-			return fmt.Errorf("Error reading replacemsg_override_group: %v", err)
+			return fmt.Errorf("error reading replacemsg_override_group: %v", err)
 		}
 	}
 
 	if err = d.Set("logtraffic_start", dataSourceFlattenFirewallProxyPolicyLogtrafficStart(o["logtraffic-start"], d, "logtraffic_start")); err != nil {
 		if !fortiAPIPatch(o["logtraffic-start"]) {
-			return fmt.Errorf("Error reading logtraffic_start: %v", err)
+			return fmt.Errorf("error reading logtraffic_start: %v", err)
 		}
 	}
 
 	if err = d.Set("label", dataSourceFlattenFirewallProxyPolicyLabel(o["label"], d, "label")); err != nil {
 		if !fortiAPIPatch(o["label"]) {
-			return fmt.Errorf("Error reading label: %v", err)
+			return fmt.Errorf("error reading label: %v", err)
 		}
 	}
 
 	if err = d.Set("global_label", dataSourceFlattenFirewallProxyPolicyGlobalLabel(o["global-label"], d, "global_label")); err != nil {
 		if !fortiAPIPatch(o["global-label"]) {
-			return fmt.Errorf("Error reading global_label: %v", err)
+			return fmt.Errorf("error reading global_label: %v", err)
 		}
 	}
 
 	if err = d.Set("scan_botnet_connections", dataSourceFlattenFirewallProxyPolicyScanBotnetConnections(o["scan-botnet-connections"], d, "scan_botnet_connections")); err != nil {
 		if !fortiAPIPatch(o["scan-botnet-connections"]) {
-			return fmt.Errorf("Error reading scan_botnet_connections: %v", err)
+			return fmt.Errorf("error reading scan_botnet_connections: %v", err)
 		}
 	}
 
 	if err = d.Set("comments", dataSourceFlattenFirewallProxyPolicyComments(o["comments"], d, "comments")); err != nil {
 		if !fortiAPIPatch(o["comments"]) {
-			return fmt.Errorf("Error reading comments: %v", err)
+			return fmt.Errorf("error reading comments: %v", err)
 		}
 	}
 
 	if err = d.Set("redirect_url", dataSourceFlattenFirewallProxyPolicyRedirectUrl(o["redirect-url"], d, "redirect_url")); err != nil {
 		if !fortiAPIPatch(o["redirect-url"]) {
-			return fmt.Errorf("Error reading redirect_url: %v", err)
+			return fmt.Errorf("error reading redirect_url: %v", err)
 		}
 	}
 
 	if err = d.Set("decrypted_traffic_mirror", dataSourceFlattenFirewallProxyPolicyDecryptedTrafficMirror(o["decrypted-traffic-mirror"], d, "decrypted_traffic_mirror")); err != nil {
 		if !fortiAPIPatch(o["decrypted-traffic-mirror"]) {
-			return fmt.Errorf("Error reading decrypted_traffic_mirror: %v", err)
+			return fmt.Errorf("error reading decrypted_traffic_mirror: %v", err)
 		}
 	}
 

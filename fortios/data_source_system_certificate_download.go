@@ -20,20 +20,20 @@ func dataSourceSystemCertificateDownload() *schema.Resource {
 	return &schema.Resource{
 		Read: dataSourceSystemCertificateDownloadRead,
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"type": &schema.Schema{
+			"type": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"certificate": &schema.Schema{
+			"certificate": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -112,7 +112,7 @@ func dataSourceSystemCertificateDownloadRead(d *schema.ResourceData, m interface
 
 	o, err := c.ReadSystemCertificateDownload(i, vdomparam)
 	if err != nil {
-		return fmt.Errorf("Error reading certificate from API: %v", err)
+		return fmt.Errorf("error reading certificate from API: %v", err)
 	}
 
 	if o == "" {
@@ -123,7 +123,7 @@ func dataSourceSystemCertificateDownloadRead(d *schema.ResourceData, m interface
 
 	err = dataSourceRefreshObjectSystemCertificateDownload(d, o)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemCertificateDownload from API: %v", err)
+		return fmt.Errorf("error describing SystemCertificateDownload from API: %v", err)
 	}
 
 	d.SetId(i.Mkey)
@@ -143,11 +143,11 @@ func dataSourceRefreshObjectSystemCertificateDownload(d *schema.ResourceData, o 
 	certificate_details = append(certificate_details, parsed_cert)
 
 	if err = d.Set("certificate_details", certificate_details); err != nil {
-		return fmt.Errorf("Error reading certificate details: %v", err)
+		return fmt.Errorf("error reading certificate details: %v", err)
 	}
 
 	if err = d.Set("certificate", o); err != nil {
-		return fmt.Errorf("Error reading certificate: %v", err)
+		return fmt.Errorf("error reading certificate: %v", err)
 	}
 
 	return nil

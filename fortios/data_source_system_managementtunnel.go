@@ -21,37 +21,37 @@ func dataSourceSystemManagementTunnel() *schema.Resource {
 	return &schema.Resource{
 		Read: dataSourceSystemManagementTunnelRead,
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
 
-			"status": &schema.Schema{
+			"status": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"allow_config_restore": &schema.Schema{
+			"allow_config_restore": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"allow_push_configuration": &schema.Schema{
+			"allow_push_configuration": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"allow_push_firmware": &schema.Schema{
+			"allow_push_firmware": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"allow_collect_statistics": &schema.Schema{
+			"allow_collect_statistics": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"authorized_manager_only": &schema.Schema{
+			"authorized_manager_only": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"serial_number": &schema.Schema{
+			"serial_number": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -73,9 +73,9 @@ func dataSourceSystemManagementTunnelRead(d *schema.ResourceData, m interface{})
 
 	mkey := "SystemManagementTunnel"
 
-	o, err := c.ReadSystemManagementTunnel(mkey, vdomparam)
+	o, err := c.ReadSystemManagementTunnel(mkey, vdomparam, make(map[string][]string), 0)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemManagementTunnel: %v", err)
+		return fmt.Errorf("error describing SystemManagementTunnel: %v", err)
 	}
 
 	if o == nil {
@@ -85,7 +85,7 @@ func dataSourceSystemManagementTunnelRead(d *schema.ResourceData, m interface{})
 
 	err = dataSourceRefreshObjectSystemManagementTunnel(d, o)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemManagementTunnel from API: %v", err)
+		return fmt.Errorf("error describing SystemManagementTunnel from API: %v", err)
 	}
 
 	d.SetId(mkey)
@@ -126,43 +126,43 @@ func dataSourceRefreshObjectSystemManagementTunnel(d *schema.ResourceData, o map
 
 	if err = d.Set("status", dataSourceFlattenSystemManagementTunnelStatus(o["status"], d, "status")); err != nil {
 		if !fortiAPIPatch(o["status"]) {
-			return fmt.Errorf("Error reading status: %v", err)
+			return fmt.Errorf("error reading status: %v", err)
 		}
 	}
 
 	if err = d.Set("allow_config_restore", dataSourceFlattenSystemManagementTunnelAllowConfigRestore(o["allow-config-restore"], d, "allow_config_restore")); err != nil {
 		if !fortiAPIPatch(o["allow-config-restore"]) {
-			return fmt.Errorf("Error reading allow_config_restore: %v", err)
+			return fmt.Errorf("error reading allow_config_restore: %v", err)
 		}
 	}
 
 	if err = d.Set("allow_push_configuration", dataSourceFlattenSystemManagementTunnelAllowPushConfiguration(o["allow-push-configuration"], d, "allow_push_configuration")); err != nil {
 		if !fortiAPIPatch(o["allow-push-configuration"]) {
-			return fmt.Errorf("Error reading allow_push_configuration: %v", err)
+			return fmt.Errorf("error reading allow_push_configuration: %v", err)
 		}
 	}
 
 	if err = d.Set("allow_push_firmware", dataSourceFlattenSystemManagementTunnelAllowPushFirmware(o["allow-push-firmware"], d, "allow_push_firmware")); err != nil {
 		if !fortiAPIPatch(o["allow-push-firmware"]) {
-			return fmt.Errorf("Error reading allow_push_firmware: %v", err)
+			return fmt.Errorf("error reading allow_push_firmware: %v", err)
 		}
 	}
 
 	if err = d.Set("allow_collect_statistics", dataSourceFlattenSystemManagementTunnelAllowCollectStatistics(o["allow-collect-statistics"], d, "allow_collect_statistics")); err != nil {
 		if !fortiAPIPatch(o["allow-collect-statistics"]) {
-			return fmt.Errorf("Error reading allow_collect_statistics: %v", err)
+			return fmt.Errorf("error reading allow_collect_statistics: %v", err)
 		}
 	}
 
 	if err = d.Set("authorized_manager_only", dataSourceFlattenSystemManagementTunnelAuthorizedManagerOnly(o["authorized-manager-only"], d, "authorized_manager_only")); err != nil {
 		if !fortiAPIPatch(o["authorized-manager-only"]) {
-			return fmt.Errorf("Error reading authorized_manager_only: %v", err)
+			return fmt.Errorf("error reading authorized_manager_only: %v", err)
 		}
 	}
 
 	if err = d.Set("serial_number", dataSourceFlattenSystemManagementTunnelSerialNumber(o["serial-number"], d, "serial_number")); err != nil {
 		if !fortiAPIPatch(o["serial-number"]) {
-			return fmt.Errorf("Error reading serial_number: %v", err)
+			return fmt.Errorf("error reading serial_number: %v", err)
 		}
 	}
 

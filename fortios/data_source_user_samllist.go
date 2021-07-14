@@ -17,12 +17,12 @@ func dataSourceUserSamlList() *schema.Resource {
 		Read: dataSourceUserSamlListRead,
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"filter": &schema.Schema{
+			"filter": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
@@ -52,9 +52,9 @@ func dataSourceUserSamlListRead(d *schema.ResourceData, m interface{}) error {
 		filter = escapeFilter(filter)
 	}
 
-	o, err := c.GenericGroupRead("/api/v2/cmdb/user/saml", filter, vdomparam)
+	o, err := c.GenericGroupRead("/api/v2/cmdb/user/saml", filter, vdomparam, 0)
 	if err != nil {
-		return fmt.Errorf("Error describing UserSaml: %v", err)
+		return fmt.Errorf("error describing UserSaml: %v", err)
 	}
 
 	var tmps []string

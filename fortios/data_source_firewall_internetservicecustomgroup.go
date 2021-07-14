@@ -21,26 +21,26 @@ func dataSourceFirewallInternetServiceCustomGroup() *schema.Resource {
 	return &schema.Resource{
 		Read: dataSourceFirewallInternetServiceCustomGroupRead,
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
 
-			"name": &schema.Schema{
+			"name": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"comment": &schema.Schema{
+			"comment": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"member": &schema.Schema{
+			"member": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -71,12 +71,12 @@ func dataSourceFirewallInternetServiceCustomGroupRead(d *schema.ResourceData, m 
 	} else if v, ok := t.(int); ok {
 		mkey = strconv.Itoa(v)
 	} else {
-		return fmt.Errorf("Error describing FirewallInternetServiceCustomGroup: type error")
+		return fmt.Errorf("error describing FirewallInternetServiceCustomGroup: type error")
 	}
 
-	o, err := c.ReadFirewallInternetServiceCustomGroup(mkey, vdomparam)
+	o, err := c.ReadFirewallInternetServiceCustomGroup(mkey, vdomparam, make(map[string][]string), 0)
 	if err != nil {
-		return fmt.Errorf("Error describing FirewallInternetServiceCustomGroup: %v", err)
+		return fmt.Errorf("error describing FirewallInternetServiceCustomGroup: %v", err)
 	}
 
 	if o == nil {
@@ -86,7 +86,7 @@ func dataSourceFirewallInternetServiceCustomGroupRead(d *schema.ResourceData, m 
 
 	err = dataSourceRefreshObjectFirewallInternetServiceCustomGroup(d, o)
 	if err != nil {
-		return fmt.Errorf("Error describing FirewallInternetServiceCustomGroup from API: %v", err)
+		return fmt.Errorf("error describing FirewallInternetServiceCustomGroup from API: %v", err)
 	}
 
 	d.SetId(mkey)
@@ -143,19 +143,19 @@ func dataSourceRefreshObjectFirewallInternetServiceCustomGroup(d *schema.Resourc
 
 	if err = d.Set("name", dataSourceFlattenFirewallInternetServiceCustomGroupName(o["name"], d, "name")); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("comment", dataSourceFlattenFirewallInternetServiceCustomGroupComment(o["comment"], d, "comment")); err != nil {
 		if !fortiAPIPatch(o["comment"]) {
-			return fmt.Errorf("Error reading comment: %v", err)
+			return fmt.Errorf("error reading comment: %v", err)
 		}
 	}
 
 	if err = d.Set("member", dataSourceFlattenFirewallInternetServiceCustomGroupMember(o["member"], d, "member")); err != nil {
 		if !fortiAPIPatch(o["member"]) {
-			return fmt.Errorf("Error reading member: %v", err)
+			return fmt.Errorf("error reading member: %v", err)
 		}
 	}
 

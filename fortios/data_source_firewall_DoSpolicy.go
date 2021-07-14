@@ -21,106 +21,106 @@ func dataSourceFirewallDosPolicy() *schema.Resource {
 	return &schema.Resource{
 		Read: dataSourceFirewallDosPolicyRead,
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
 
-			"policyid": &schema.Schema{
+			"policyid": {
 				Type:     schema.TypeInt,
 				Required: true,
 			},
-			"status": &schema.Schema{
+			"status": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"comments": &schema.Schema{
+			"comments": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"interface": &schema.Schema{
+			"interface": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"srcaddr": &schema.Schema{
+			"srcaddr": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 					},
 				},
 			},
-			"dstaddr": &schema.Schema{
+			"dstaddr": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 					},
 				},
 			},
-			"service": &schema.Schema{
+			"service": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 					},
 				},
 			},
-			"anomaly": &schema.Schema{
+			"anomaly": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"status": &schema.Schema{
+						"status": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"log": &schema.Schema{
+						"log": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"action": &schema.Schema{
+						"action": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"quarantine": &schema.Schema{
+						"quarantine": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"quarantine_expiry": &schema.Schema{
+						"quarantine_expiry": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"quarantine_log": &schema.Schema{
+						"quarantine_log": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"threshold": &schema.Schema{
+						"threshold": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"thresholddefault": &schema.Schema{
+						"thresholddefault": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
@@ -151,12 +151,12 @@ func dataSourceFirewallDosPolicyRead(d *schema.ResourceData, m interface{}) erro
 	} else if v, ok := t.(int); ok {
 		mkey = strconv.Itoa(v)
 	} else {
-		return fmt.Errorf("Error describing FirewallDosPolicy: type error")
+		return fmt.Errorf("error describing FirewallDosPolicy: type error")
 	}
 
-	o, err := c.ReadFirewallDosPolicy(mkey, vdomparam)
+	o, err := c.ReadFirewallDosPolicy(mkey, vdomparam, make(map[string][]string), 0)
 	if err != nil {
-		return fmt.Errorf("Error describing FirewallDosPolicy: %v", err)
+		return fmt.Errorf("error describing FirewallDosPolicy: %v", err)
 	}
 
 	if o == nil {
@@ -166,7 +166,7 @@ func dataSourceFirewallDosPolicyRead(d *schema.ResourceData, m interface{}) erro
 
 	err = dataSourceRefreshObjectFirewallDosPolicy(d, o)
 	if err != nil {
-		return fmt.Errorf("Error describing FirewallDosPolicy from API: %v", err)
+		return fmt.Errorf("error describing FirewallDosPolicy from API: %v", err)
 	}
 
 	d.SetId(mkey)
@@ -415,55 +415,55 @@ func dataSourceRefreshObjectFirewallDosPolicy(d *schema.ResourceData, o map[stri
 
 	if err = d.Set("policyid", dataSourceFlattenFirewallDosPolicyPolicyid(o["policyid"], d, "policyid")); err != nil {
 		if !fortiAPIPatch(o["policyid"]) {
-			return fmt.Errorf("Error reading policyid: %v", err)
+			return fmt.Errorf("error reading policyid: %v", err)
 		}
 	}
 
 	if err = d.Set("status", dataSourceFlattenFirewallDosPolicyStatus(o["status"], d, "status")); err != nil {
 		if !fortiAPIPatch(o["status"]) {
-			return fmt.Errorf("Error reading status: %v", err)
+			return fmt.Errorf("error reading status: %v", err)
 		}
 	}
 
 	if err = d.Set("name", dataSourceFlattenFirewallDosPolicyName(o["name"], d, "name")); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("comments", dataSourceFlattenFirewallDosPolicyComments(o["comments"], d, "comments")); err != nil {
 		if !fortiAPIPatch(o["comments"]) {
-			return fmt.Errorf("Error reading comments: %v", err)
+			return fmt.Errorf("error reading comments: %v", err)
 		}
 	}
 
 	if err = d.Set("interface", dataSourceFlattenFirewallDosPolicyInterface(o["interface"], d, "interface")); err != nil {
 		if !fortiAPIPatch(o["interface"]) {
-			return fmt.Errorf("Error reading interface: %v", err)
+			return fmt.Errorf("error reading interface: %v", err)
 		}
 	}
 
 	if err = d.Set("srcaddr", dataSourceFlattenFirewallDosPolicySrcaddr(o["srcaddr"], d, "srcaddr")); err != nil {
 		if !fortiAPIPatch(o["srcaddr"]) {
-			return fmt.Errorf("Error reading srcaddr: %v", err)
+			return fmt.Errorf("error reading srcaddr: %v", err)
 		}
 	}
 
 	if err = d.Set("dstaddr", dataSourceFlattenFirewallDosPolicyDstaddr(o["dstaddr"], d, "dstaddr")); err != nil {
 		if !fortiAPIPatch(o["dstaddr"]) {
-			return fmt.Errorf("Error reading dstaddr: %v", err)
+			return fmt.Errorf("error reading dstaddr: %v", err)
 		}
 	}
 
 	if err = d.Set("service", dataSourceFlattenFirewallDosPolicyService(o["service"], d, "service")); err != nil {
 		if !fortiAPIPatch(o["service"]) {
-			return fmt.Errorf("Error reading service: %v", err)
+			return fmt.Errorf("error reading service: %v", err)
 		}
 	}
 
 	if err = d.Set("anomaly", dataSourceFlattenFirewallDosPolicyAnomaly(o["anomaly"], d, "anomaly")); err != nil {
 		if !fortiAPIPatch(o["anomaly"]) {
-			return fmt.Errorf("Error reading anomaly: %v", err)
+			return fmt.Errorf("error reading anomaly: %v", err)
 		}
 	}
 

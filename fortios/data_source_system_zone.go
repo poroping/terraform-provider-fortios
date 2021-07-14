@@ -21,35 +21,35 @@ func dataSourceSystemZone() *schema.Resource {
 	return &schema.Resource{
 		Read: dataSourceSystemZoneRead,
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
 
-			"name": &schema.Schema{
+			"name": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"tagging": &schema.Schema{
+			"tagging": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"category": &schema.Schema{
+						"category": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"tags": &schema.Schema{
+						"tags": {
 							Type:     schema.TypeList,
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"name": &schema.Schema{
+									"name": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
@@ -59,20 +59,20 @@ func dataSourceSystemZone() *schema.Resource {
 					},
 				},
 			},
-			"description": &schema.Schema{
+			"description": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"intrazone": &schema.Schema{
+			"intrazone": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"interface": &schema.Schema{
+			"interface": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"interface_name": &schema.Schema{
+						"interface_name": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -103,12 +103,12 @@ func dataSourceSystemZoneRead(d *schema.ResourceData, m interface{}) error {
 	} else if v, ok := t.(int); ok {
 		mkey = strconv.Itoa(v)
 	} else {
-		return fmt.Errorf("Error describing SystemZone: type error")
+		return fmt.Errorf("error describing SystemZone: type error")
 	}
 
-	o, err := c.ReadSystemZone(mkey, vdomparam)
+	o, err := c.ReadSystemZone(mkey, vdomparam, make(map[string][]string), 0)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemZone: %v", err)
+		return fmt.Errorf("error describing SystemZone: %v", err)
 	}
 
 	if o == nil {
@@ -118,7 +118,7 @@ func dataSourceSystemZoneRead(d *schema.ResourceData, m interface{}) error {
 
 	err = dataSourceRefreshObjectSystemZone(d, o)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemZone from API: %v", err)
+		return fmt.Errorf("error describing SystemZone from API: %v", err)
 	}
 
 	d.SetId(mkey)
@@ -265,31 +265,31 @@ func dataSourceRefreshObjectSystemZone(d *schema.ResourceData, o map[string]inte
 
 	if err = d.Set("name", dataSourceFlattenSystemZoneName(o["name"], d, "name")); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("tagging", dataSourceFlattenSystemZoneTagging(o["tagging"], d, "tagging")); err != nil {
 		if !fortiAPIPatch(o["tagging"]) {
-			return fmt.Errorf("Error reading tagging: %v", err)
+			return fmt.Errorf("error reading tagging: %v", err)
 		}
 	}
 
 	if err = d.Set("description", dataSourceFlattenSystemZoneDescription(o["description"], d, "description")); err != nil {
 		if !fortiAPIPatch(o["description"]) {
-			return fmt.Errorf("Error reading description: %v", err)
+			return fmt.Errorf("error reading description: %v", err)
 		}
 	}
 
 	if err = d.Set("intrazone", dataSourceFlattenSystemZoneIntrazone(o["intrazone"], d, "intrazone")); err != nil {
 		if !fortiAPIPatch(o["intrazone"]) {
-			return fmt.Errorf("Error reading intrazone: %v", err)
+			return fmt.Errorf("error reading intrazone: %v", err)
 		}
 	}
 
 	if err = d.Set("interface", dataSourceFlattenSystemZoneInterface(o["interface"], d, "interface")); err != nil {
 		if !fortiAPIPatch(o["interface"]) {
-			return fmt.Errorf("Error reading interface: %v", err)
+			return fmt.Errorf("error reading interface: %v", err)
 		}
 	}
 

@@ -21,57 +21,57 @@ func dataSourceFirewallInternetService() *schema.Resource {
 	return &schema.Resource{
 		Read: dataSourceFirewallInternetServiceRead,
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
 
-			"fosid": &schema.Schema{
+			"fosid": {
 				Type:     schema.TypeInt,
 				Required: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"reputation": &schema.Schema{
+			"reputation": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"icon_id": &schema.Schema{
+			"icon_id": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"sld_id": &schema.Schema{
+			"sld_id": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"direction": &schema.Schema{
+			"direction": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"database": &schema.Schema{
+			"database": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"ip_range_number": &schema.Schema{
+			"ip_range_number": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"extra_ip_range_number": &schema.Schema{
+			"extra_ip_range_number": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"ip_number": &schema.Schema{
+			"ip_number": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"singularity": &schema.Schema{
+			"singularity": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"obsolete": &schema.Schema{
+			"obsolete": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
@@ -99,12 +99,12 @@ func dataSourceFirewallInternetServiceRead(d *schema.ResourceData, m interface{}
 	} else if v, ok := t.(int); ok {
 		mkey = strconv.Itoa(v)
 	} else {
-		return fmt.Errorf("Error describing FirewallInternetService: type error")
+		return fmt.Errorf("error describing FirewallInternetService: type error")
 	}
 
-	o, err := c.ReadFirewallInternetService(mkey, vdomparam)
+	o, err := c.ReadFirewallInternetService(mkey, vdomparam, make(map[string][]string), 0)
 	if err != nil {
-		return fmt.Errorf("Error describing FirewallInternetService: %v", err)
+		return fmt.Errorf("error describing FirewallInternetService: %v", err)
 	}
 
 	if o == nil {
@@ -114,7 +114,7 @@ func dataSourceFirewallInternetServiceRead(d *schema.ResourceData, m interface{}
 
 	err = dataSourceRefreshObjectFirewallInternetService(d, o)
 	if err != nil {
-		return fmt.Errorf("Error describing FirewallInternetService from API: %v", err)
+		return fmt.Errorf("error describing FirewallInternetService from API: %v", err)
 	}
 
 	d.SetId(mkey)
@@ -175,73 +175,73 @@ func dataSourceRefreshObjectFirewallInternetService(d *schema.ResourceData, o ma
 
 	if err = d.Set("fosid", dataSourceFlattenFirewallInternetServiceId(o["id"], d, "fosid")); err != nil {
 		if !fortiAPIPatch(o["id"]) {
-			return fmt.Errorf("Error reading fosid: %v", err)
+			return fmt.Errorf("error reading fosid: %v", err)
 		}
 	}
 
 	if err = d.Set("name", dataSourceFlattenFirewallInternetServiceName(o["name"], d, "name")); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("reputation", dataSourceFlattenFirewallInternetServiceReputation(o["reputation"], d, "reputation")); err != nil {
 		if !fortiAPIPatch(o["reputation"]) {
-			return fmt.Errorf("Error reading reputation: %v", err)
+			return fmt.Errorf("error reading reputation: %v", err)
 		}
 	}
 
 	if err = d.Set("icon_id", dataSourceFlattenFirewallInternetServiceIconId(o["icon-id"], d, "icon_id")); err != nil {
 		if !fortiAPIPatch(o["icon-id"]) {
-			return fmt.Errorf("Error reading icon_id: %v", err)
+			return fmt.Errorf("error reading icon_id: %v", err)
 		}
 	}
 
 	if err = d.Set("sld_id", dataSourceFlattenFirewallInternetServiceSldId(o["sld-id"], d, "sld_id")); err != nil {
 		if !fortiAPIPatch(o["sld-id"]) {
-			return fmt.Errorf("Error reading sld_id: %v", err)
+			return fmt.Errorf("error reading sld_id: %v", err)
 		}
 	}
 
 	if err = d.Set("direction", dataSourceFlattenFirewallInternetServiceDirection(o["direction"], d, "direction")); err != nil {
 		if !fortiAPIPatch(o["direction"]) {
-			return fmt.Errorf("Error reading direction: %v", err)
+			return fmt.Errorf("error reading direction: %v", err)
 		}
 	}
 
 	if err = d.Set("database", dataSourceFlattenFirewallInternetServiceDatabase(o["database"], d, "database")); err != nil {
 		if !fortiAPIPatch(o["database"]) {
-			return fmt.Errorf("Error reading database: %v", err)
+			return fmt.Errorf("error reading database: %v", err)
 		}
 	}
 
 	if err = d.Set("ip_range_number", dataSourceFlattenFirewallInternetServiceIpRangeNumber(o["ip-range-number"], d, "ip_range_number")); err != nil {
 		if !fortiAPIPatch(o["ip-range-number"]) {
-			return fmt.Errorf("Error reading ip_range_number: %v", err)
+			return fmt.Errorf("error reading ip_range_number: %v", err)
 		}
 	}
 
 	if err = d.Set("extra_ip_range_number", dataSourceFlattenFirewallInternetServiceExtraIpRangeNumber(o["extra-ip-range-number"], d, "extra_ip_range_number")); err != nil {
 		if !fortiAPIPatch(o["extra-ip-range-number"]) {
-			return fmt.Errorf("Error reading extra_ip_range_number: %v", err)
+			return fmt.Errorf("error reading extra_ip_range_number: %v", err)
 		}
 	}
 
 	if err = d.Set("ip_number", dataSourceFlattenFirewallInternetServiceIpNumber(o["ip-number"], d, "ip_number")); err != nil {
 		if !fortiAPIPatch(o["ip-number"]) {
-			return fmt.Errorf("Error reading ip_number: %v", err)
+			return fmt.Errorf("error reading ip_number: %v", err)
 		}
 	}
 
 	if err = d.Set("singularity", dataSourceFlattenFirewallInternetServiceSingularity(o["singularity"], d, "singularity")); err != nil {
 		if !fortiAPIPatch(o["singularity"]) {
-			return fmt.Errorf("Error reading singularity: %v", err)
+			return fmt.Errorf("error reading singularity: %v", err)
 		}
 	}
 
 	if err = d.Set("obsolete", dataSourceFlattenFirewallInternetServiceObsolete(o["obsolete"], d, "obsolete")); err != nil {
 		if !fortiAPIPatch(o["obsolete"]) {
-			return fmt.Errorf("Error reading obsolete: %v", err)
+			return fmt.Errorf("error reading obsolete: %v", err)
 		}
 	}
 

@@ -21,613 +21,613 @@ func dataSourceFirewallProfileProtocolOptions() *schema.Resource {
 	return &schema.Resource{
 		Read: dataSourceFirewallProfileProtocolOptionsRead,
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
 
-			"name": &schema.Schema{
+			"name": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"comment": &schema.Schema{
+			"comment": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"feature_set": &schema.Schema{
+			"feature_set": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"replacemsg_group": &schema.Schema{
+			"replacemsg_group": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"oversize_log": &schema.Schema{
+			"oversize_log": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"switching_protocols_log": &schema.Schema{
+			"switching_protocols_log": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"http": &schema.Schema{
+			"http": {
 				Type:     schema.TypeList,
 				Computed: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"ports": &schema.Schema{
+						"ports": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"status": &schema.Schema{
+						"status": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"inspect_all": &schema.Schema{
+						"inspect_all": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"proxy_after_tcp_handshake": &schema.Schema{
+						"proxy_after_tcp_handshake": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"options": &schema.Schema{
+						"options": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"comfort_interval": &schema.Schema{
+						"comfort_interval": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"comfort_amount": &schema.Schema{
+						"comfort_amount": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"range_block": &schema.Schema{
+						"range_block": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"http_policy": &schema.Schema{
+						"http_policy": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"strip_x_forwarded_for": &schema.Schema{
+						"strip_x_forwarded_for": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"post_lang": &schema.Schema{
+						"post_lang": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"fortinet_bar": &schema.Schema{
+						"fortinet_bar": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"fortinet_bar_port": &schema.Schema{
+						"fortinet_bar_port": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"streaming_content_bypass": &schema.Schema{
+						"streaming_content_bypass": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"switching_protocols": &schema.Schema{
+						"switching_protocols": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"unknown_http_version": &schema.Schema{
+						"unknown_http_version": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"tunnel_non_http": &schema.Schema{
+						"tunnel_non_http": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"oversize_limit": &schema.Schema{
+						"oversize_limit": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"uncompressed_oversize_limit": &schema.Schema{
+						"uncompressed_oversize_limit": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"uncompressed_nest_limit": &schema.Schema{
+						"uncompressed_nest_limit": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"stream_based_uncompressed_limit": &schema.Schema{
+						"stream_based_uncompressed_limit": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"scan_bzip2": &schema.Schema{
+						"scan_bzip2": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"block_page_status_code": &schema.Schema{
+						"block_page_status_code": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"retry_count": &schema.Schema{
+						"retry_count": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"tcp_window_type": &schema.Schema{
+						"tcp_window_type": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"tcp_window_minimum": &schema.Schema{
+						"tcp_window_minimum": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"tcp_window_maximum": &schema.Schema{
+						"tcp_window_maximum": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"tcp_window_size": &schema.Schema{
+						"tcp_window_size": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"ssl_offloaded": &schema.Schema{
+						"ssl_offloaded": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 					},
 				},
 			},
-			"ftp": &schema.Schema{
+			"ftp": {
 				Type:     schema.TypeList,
 				Computed: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"ports": &schema.Schema{
+						"ports": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"status": &schema.Schema{
+						"status": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"inspect_all": &schema.Schema{
+						"inspect_all": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"options": &schema.Schema{
+						"options": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"comfort_interval": &schema.Schema{
+						"comfort_interval": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"comfort_amount": &schema.Schema{
+						"comfort_amount": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"oversize_limit": &schema.Schema{
+						"oversize_limit": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"uncompressed_oversize_limit": &schema.Schema{
+						"uncompressed_oversize_limit": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"uncompressed_nest_limit": &schema.Schema{
+						"uncompressed_nest_limit": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"stream_based_uncompressed_limit": &schema.Schema{
+						"stream_based_uncompressed_limit": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"scan_bzip2": &schema.Schema{
+						"scan_bzip2": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"tcp_window_type": &schema.Schema{
+						"tcp_window_type": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"tcp_window_minimum": &schema.Schema{
+						"tcp_window_minimum": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"tcp_window_maximum": &schema.Schema{
+						"tcp_window_maximum": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"tcp_window_size": &schema.Schema{
+						"tcp_window_size": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"ssl_offloaded": &schema.Schema{
+						"ssl_offloaded": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 					},
 				},
 			},
-			"imap": &schema.Schema{
+			"imap": {
 				Type:     schema.TypeList,
 				Computed: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"ports": &schema.Schema{
+						"ports": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"status": &schema.Schema{
+						"status": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"inspect_all": &schema.Schema{
+						"inspect_all": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"proxy_after_tcp_handshake": &schema.Schema{
+						"proxy_after_tcp_handshake": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"options": &schema.Schema{
+						"options": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"oversize_limit": &schema.Schema{
+						"oversize_limit": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"uncompressed_oversize_limit": &schema.Schema{
+						"uncompressed_oversize_limit": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"uncompressed_nest_limit": &schema.Schema{
+						"uncompressed_nest_limit": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"scan_bzip2": &schema.Schema{
+						"scan_bzip2": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"ssl_offloaded": &schema.Schema{
+						"ssl_offloaded": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 					},
 				},
 			},
-			"mapi": &schema.Schema{
+			"mapi": {
 				Type:     schema.TypeList,
 				Computed: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"ports": &schema.Schema{
+						"ports": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"status": &schema.Schema{
+						"status": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"options": &schema.Schema{
+						"options": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"oversize_limit": &schema.Schema{
+						"oversize_limit": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"uncompressed_oversize_limit": &schema.Schema{
+						"uncompressed_oversize_limit": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"uncompressed_nest_limit": &schema.Schema{
+						"uncompressed_nest_limit": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"scan_bzip2": &schema.Schema{
+						"scan_bzip2": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 					},
 				},
 			},
-			"pop3": &schema.Schema{
+			"pop3": {
 				Type:     schema.TypeList,
 				Computed: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"ports": &schema.Schema{
+						"ports": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"status": &schema.Schema{
+						"status": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"inspect_all": &schema.Schema{
+						"inspect_all": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"proxy_after_tcp_handshake": &schema.Schema{
+						"proxy_after_tcp_handshake": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"options": &schema.Schema{
+						"options": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"oversize_limit": &schema.Schema{
+						"oversize_limit": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"uncompressed_oversize_limit": &schema.Schema{
+						"uncompressed_oversize_limit": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"uncompressed_nest_limit": &schema.Schema{
+						"uncompressed_nest_limit": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"scan_bzip2": &schema.Schema{
+						"scan_bzip2": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"ssl_offloaded": &schema.Schema{
+						"ssl_offloaded": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 					},
 				},
 			},
-			"smtp": &schema.Schema{
+			"smtp": {
 				Type:     schema.TypeList,
 				Computed: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"ports": &schema.Schema{
+						"ports": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"status": &schema.Schema{
+						"status": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"inspect_all": &schema.Schema{
+						"inspect_all": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"proxy_after_tcp_handshake": &schema.Schema{
+						"proxy_after_tcp_handshake": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"options": &schema.Schema{
+						"options": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"oversize_limit": &schema.Schema{
+						"oversize_limit": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"uncompressed_oversize_limit": &schema.Schema{
+						"uncompressed_oversize_limit": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"uncompressed_nest_limit": &schema.Schema{
+						"uncompressed_nest_limit": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"scan_bzip2": &schema.Schema{
+						"scan_bzip2": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"server_busy": &schema.Schema{
+						"server_busy": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"ssl_offloaded": &schema.Schema{
+						"ssl_offloaded": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 					},
 				},
 			},
-			"nntp": &schema.Schema{
+			"nntp": {
 				Type:     schema.TypeList,
 				Computed: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"ports": &schema.Schema{
+						"ports": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"status": &schema.Schema{
+						"status": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"inspect_all": &schema.Schema{
+						"inspect_all": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"proxy_after_tcp_handshake": &schema.Schema{
+						"proxy_after_tcp_handshake": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"options": &schema.Schema{
+						"options": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"oversize_limit": &schema.Schema{
+						"oversize_limit": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"uncompressed_oversize_limit": &schema.Schema{
+						"uncompressed_oversize_limit": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"uncompressed_nest_limit": &schema.Schema{
+						"uncompressed_nest_limit": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"scan_bzip2": &schema.Schema{
+						"scan_bzip2": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 					},
 				},
 			},
-			"ssh": &schema.Schema{
+			"ssh": {
 				Type:     schema.TypeList,
 				Computed: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"options": &schema.Schema{
+						"options": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"comfort_interval": &schema.Schema{
+						"comfort_interval": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"comfort_amount": &schema.Schema{
+						"comfort_amount": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"oversize_limit": &schema.Schema{
+						"oversize_limit": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"uncompressed_oversize_limit": &schema.Schema{
+						"uncompressed_oversize_limit": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"uncompressed_nest_limit": &schema.Schema{
+						"uncompressed_nest_limit": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"stream_based_uncompressed_limit": &schema.Schema{
+						"stream_based_uncompressed_limit": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"scan_bzip2": &schema.Schema{
+						"scan_bzip2": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"tcp_window_type": &schema.Schema{
+						"tcp_window_type": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"tcp_window_minimum": &schema.Schema{
+						"tcp_window_minimum": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"tcp_window_maximum": &schema.Schema{
+						"tcp_window_maximum": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"tcp_window_size": &schema.Schema{
+						"tcp_window_size": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"ssl_offloaded": &schema.Schema{
+						"ssl_offloaded": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 					},
 				},
 			},
-			"dns": &schema.Schema{
+			"dns": {
 				Type:     schema.TypeList,
 				Computed: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"ports": &schema.Schema{
+						"ports": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"status": &schema.Schema{
+						"status": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 					},
 				},
 			},
-			"cifs": &schema.Schema{
+			"cifs": {
 				Type:     schema.TypeList,
 				Computed: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"ports": &schema.Schema{
+						"ports": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"status": &schema.Schema{
+						"status": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"options": &schema.Schema{
+						"options": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"oversize_limit": &schema.Schema{
+						"oversize_limit": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"uncompressed_oversize_limit": &schema.Schema{
+						"uncompressed_oversize_limit": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"uncompressed_nest_limit": &schema.Schema{
+						"uncompressed_nest_limit": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"scan_bzip2": &schema.Schema{
+						"scan_bzip2": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"tcp_window_type": &schema.Schema{
+						"tcp_window_type": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"tcp_window_minimum": &schema.Schema{
+						"tcp_window_minimum": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"tcp_window_maximum": &schema.Schema{
+						"tcp_window_maximum": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"tcp_window_size": &schema.Schema{
+						"tcp_window_size": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"server_credential_type": &schema.Schema{
+						"server_credential_type": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"domain_controller": &schema.Schema{
+						"domain_controller": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"server_keytab": &schema.Schema{
+						"server_keytab": {
 							Type:     schema.TypeList,
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"principal": &schema.Schema{
+									"principal": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
-									"keytab": &schema.Schema{
+									"keytab": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
@@ -637,24 +637,24 @@ func dataSourceFirewallProfileProtocolOptions() *schema.Resource {
 					},
 				},
 			},
-			"mail_signature": &schema.Schema{
+			"mail_signature": {
 				Type:     schema.TypeList,
 				Computed: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"status": &schema.Schema{
+						"status": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"signature": &schema.Schema{
+						"signature": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 					},
 				},
 			},
-			"rpc_over_http": &schema.Schema{
+			"rpc_over_http": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -682,12 +682,12 @@ func dataSourceFirewallProfileProtocolOptionsRead(d *schema.ResourceData, m inte
 	} else if v, ok := t.(int); ok {
 		mkey = strconv.Itoa(v)
 	} else {
-		return fmt.Errorf("Error describing FirewallProfileProtocolOptions: type error")
+		return fmt.Errorf("error describing FirewallProfileProtocolOptions: type error")
 	}
 
-	o, err := c.ReadFirewallProfileProtocolOptions(mkey, vdomparam)
+	o, err := c.ReadFirewallProfileProtocolOptions(mkey, vdomparam, make(map[string][]string), 0)
 	if err != nil {
-		return fmt.Errorf("Error describing FirewallProfileProtocolOptions: %v", err)
+		return fmt.Errorf("error describing FirewallProfileProtocolOptions: %v", err)
 	}
 
 	if o == nil {
@@ -697,7 +697,7 @@ func dataSourceFirewallProfileProtocolOptionsRead(d *schema.ResourceData, m inte
 
 	err = dataSourceRefreshObjectFirewallProfileProtocolOptions(d, o)
 	if err != nil {
-		return fmt.Errorf("Error describing FirewallProfileProtocolOptions from API: %v", err)
+		return fmt.Errorf("error describing FirewallProfileProtocolOptions from API: %v", err)
 	}
 
 	d.SetId(mkey)
@@ -2029,109 +2029,109 @@ func dataSourceRefreshObjectFirewallProfileProtocolOptions(d *schema.ResourceDat
 
 	if err = d.Set("name", dataSourceFlattenFirewallProfileProtocolOptionsName(o["name"], d, "name")); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("comment", dataSourceFlattenFirewallProfileProtocolOptionsComment(o["comment"], d, "comment")); err != nil {
 		if !fortiAPIPatch(o["comment"]) {
-			return fmt.Errorf("Error reading comment: %v", err)
+			return fmt.Errorf("error reading comment: %v", err)
 		}
 	}
 
 	if err = d.Set("feature_set", dataSourceFlattenFirewallProfileProtocolOptionsFeatureSet(o["feature-set"], d, "feature_set")); err != nil {
 		if !fortiAPIPatch(o["feature-set"]) {
-			return fmt.Errorf("Error reading feature_set: %v", err)
+			return fmt.Errorf("error reading feature_set: %v", err)
 		}
 	}
 
 	if err = d.Set("replacemsg_group", dataSourceFlattenFirewallProfileProtocolOptionsReplacemsgGroup(o["replacemsg-group"], d, "replacemsg_group")); err != nil {
 		if !fortiAPIPatch(o["replacemsg-group"]) {
-			return fmt.Errorf("Error reading replacemsg_group: %v", err)
+			return fmt.Errorf("error reading replacemsg_group: %v", err)
 		}
 	}
 
 	if err = d.Set("oversize_log", dataSourceFlattenFirewallProfileProtocolOptionsOversizeLog(o["oversize-log"], d, "oversize_log")); err != nil {
 		if !fortiAPIPatch(o["oversize-log"]) {
-			return fmt.Errorf("Error reading oversize_log: %v", err)
+			return fmt.Errorf("error reading oversize_log: %v", err)
 		}
 	}
 
 	if err = d.Set("switching_protocols_log", dataSourceFlattenFirewallProfileProtocolOptionsSwitchingProtocolsLog(o["switching-protocols-log"], d, "switching_protocols_log")); err != nil {
 		if !fortiAPIPatch(o["switching-protocols-log"]) {
-			return fmt.Errorf("Error reading switching_protocols_log: %v", err)
+			return fmt.Errorf("error reading switching_protocols_log: %v", err)
 		}
 	}
 
 	if err = d.Set("http", dataSourceFlattenFirewallProfileProtocolOptionsHttp(o["http"], d, "http")); err != nil {
 		if !fortiAPIPatch(o["http"]) {
-			return fmt.Errorf("Error reading http: %v", err)
+			return fmt.Errorf("error reading http: %v", err)
 		}
 	}
 
 	if err = d.Set("ftp", dataSourceFlattenFirewallProfileProtocolOptionsFtp(o["ftp"], d, "ftp")); err != nil {
 		if !fortiAPIPatch(o["ftp"]) {
-			return fmt.Errorf("Error reading ftp: %v", err)
+			return fmt.Errorf("error reading ftp: %v", err)
 		}
 	}
 
 	if err = d.Set("imap", dataSourceFlattenFirewallProfileProtocolOptionsImap(o["imap"], d, "imap")); err != nil {
 		if !fortiAPIPatch(o["imap"]) {
-			return fmt.Errorf("Error reading imap: %v", err)
+			return fmt.Errorf("error reading imap: %v", err)
 		}
 	}
 
 	if err = d.Set("mapi", dataSourceFlattenFirewallProfileProtocolOptionsMapi(o["mapi"], d, "mapi")); err != nil {
 		if !fortiAPIPatch(o["mapi"]) {
-			return fmt.Errorf("Error reading mapi: %v", err)
+			return fmt.Errorf("error reading mapi: %v", err)
 		}
 	}
 
 	if err = d.Set("pop3", dataSourceFlattenFirewallProfileProtocolOptionsPop3(o["pop3"], d, "pop3")); err != nil {
 		if !fortiAPIPatch(o["pop3"]) {
-			return fmt.Errorf("Error reading pop3: %v", err)
+			return fmt.Errorf("error reading pop3: %v", err)
 		}
 	}
 
 	if err = d.Set("smtp", dataSourceFlattenFirewallProfileProtocolOptionsSmtp(o["smtp"], d, "smtp")); err != nil {
 		if !fortiAPIPatch(o["smtp"]) {
-			return fmt.Errorf("Error reading smtp: %v", err)
+			return fmt.Errorf("error reading smtp: %v", err)
 		}
 	}
 
 	if err = d.Set("nntp", dataSourceFlattenFirewallProfileProtocolOptionsNntp(o["nntp"], d, "nntp")); err != nil {
 		if !fortiAPIPatch(o["nntp"]) {
-			return fmt.Errorf("Error reading nntp: %v", err)
+			return fmt.Errorf("error reading nntp: %v", err)
 		}
 	}
 
 	if err = d.Set("ssh", dataSourceFlattenFirewallProfileProtocolOptionsSsh(o["ssh"], d, "ssh")); err != nil {
 		if !fortiAPIPatch(o["ssh"]) {
-			return fmt.Errorf("Error reading ssh: %v", err)
+			return fmt.Errorf("error reading ssh: %v", err)
 		}
 	}
 
 	if err = d.Set("dns", dataSourceFlattenFirewallProfileProtocolOptionsDns(o["dns"], d, "dns")); err != nil {
 		if !fortiAPIPatch(o["dns"]) {
-			return fmt.Errorf("Error reading dns: %v", err)
+			return fmt.Errorf("error reading dns: %v", err)
 		}
 	}
 
 	if err = d.Set("cifs", dataSourceFlattenFirewallProfileProtocolOptionsCifs(o["cifs"], d, "cifs")); err != nil {
 		if !fortiAPIPatch(o["cifs"]) {
-			return fmt.Errorf("Error reading cifs: %v", err)
+			return fmt.Errorf("error reading cifs: %v", err)
 		}
 	}
 
 	if err = d.Set("mail_signature", dataSourceFlattenFirewallProfileProtocolOptionsMailSignature(o["mail-signature"], d, "mail_signature")); err != nil {
 		if !fortiAPIPatch(o["mail-signature"]) {
-			return fmt.Errorf("Error reading mail_signature: %v", err)
+			return fmt.Errorf("error reading mail_signature: %v", err)
 		}
 	}
 
 	if err = d.Set("rpc_over_http", dataSourceFlattenFirewallProfileProtocolOptionsRpcOverHttp(o["rpc-over-http"], d, "rpc_over_http")); err != nil {
 		if !fortiAPIPatch(o["rpc-over-http"]) {
-			return fmt.Errorf("Error reading rpc_over_http: %v", err)
+			return fmt.Errorf("error reading rpc_over_http: %v", err)
 		}
 	}
 

@@ -21,25 +21,25 @@ func dataSourceSystemIpv6NeighborCache() *schema.Resource {
 	return &schema.Resource{
 		Read: dataSourceSystemIpv6NeighborCacheRead,
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
 
-			"fosid": &schema.Schema{
+			"fosid": {
 				Type:     schema.TypeInt,
 				Required: true,
 			},
-			"interface": &schema.Schema{
+			"interface": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"ipv6": &schema.Schema{
+			"ipv6": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"mac": &schema.Schema{
+			"mac": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -67,12 +67,12 @@ func dataSourceSystemIpv6NeighborCacheRead(d *schema.ResourceData, m interface{}
 	} else if v, ok := t.(int); ok {
 		mkey = strconv.Itoa(v)
 	} else {
-		return fmt.Errorf("Error describing SystemIpv6NeighborCache: type error")
+		return fmt.Errorf("error describing SystemIpv6NeighborCache: type error")
 	}
 
-	o, err := c.ReadSystemIpv6NeighborCache(mkey, vdomparam)
+	o, err := c.ReadSystemIpv6NeighborCache(mkey, vdomparam, make(map[string][]string), 0)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemIpv6NeighborCache: %v", err)
+		return fmt.Errorf("error describing SystemIpv6NeighborCache: %v", err)
 	}
 
 	if o == nil {
@@ -82,7 +82,7 @@ func dataSourceSystemIpv6NeighborCacheRead(d *schema.ResourceData, m interface{}
 
 	err = dataSourceRefreshObjectSystemIpv6NeighborCache(d, o)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemIpv6NeighborCache from API: %v", err)
+		return fmt.Errorf("error describing SystemIpv6NeighborCache from API: %v", err)
 	}
 
 	d.SetId(mkey)
@@ -111,25 +111,25 @@ func dataSourceRefreshObjectSystemIpv6NeighborCache(d *schema.ResourceData, o ma
 
 	if err = d.Set("fosid", dataSourceFlattenSystemIpv6NeighborCacheId(o["id"], d, "fosid")); err != nil {
 		if !fortiAPIPatch(o["id"]) {
-			return fmt.Errorf("Error reading fosid: %v", err)
+			return fmt.Errorf("error reading fosid: %v", err)
 		}
 	}
 
 	if err = d.Set("interface", dataSourceFlattenSystemIpv6NeighborCacheInterface(o["interface"], d, "interface")); err != nil {
 		if !fortiAPIPatch(o["interface"]) {
-			return fmt.Errorf("Error reading interface: %v", err)
+			return fmt.Errorf("error reading interface: %v", err)
 		}
 	}
 
 	if err = d.Set("ipv6", dataSourceFlattenSystemIpv6NeighborCacheIpv6(o["ipv6"], d, "ipv6")); err != nil {
 		if !fortiAPIPatch(o["ipv6"]) {
-			return fmt.Errorf("Error reading ipv6: %v", err)
+			return fmt.Errorf("error reading ipv6: %v", err)
 		}
 	}
 
 	if err = d.Set("mac", dataSourceFlattenSystemIpv6NeighborCacheMac(o["mac"], d, "mac")); err != nil {
 		if !fortiAPIPatch(o["mac"]) {
-			return fmt.Errorf("Error reading mac: %v", err)
+			return fmt.Errorf("error reading mac: %v", err)
 		}
 	}
 

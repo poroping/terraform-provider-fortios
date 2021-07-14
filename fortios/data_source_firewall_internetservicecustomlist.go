@@ -17,12 +17,12 @@ func dataSourceFirewallInternetServiceCustomList() *schema.Resource {
 		Read: dataSourceFirewallInternetServiceCustomListRead,
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"filter": &schema.Schema{
+			"filter": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
@@ -52,9 +52,9 @@ func dataSourceFirewallInternetServiceCustomListRead(d *schema.ResourceData, m i
 		filter = escapeFilter(filter)
 	}
 
-	o, err := c.GenericGroupRead("/api/v2/cmdb/firewall/internet-service-custom", filter, vdomparam)
+	o, err := c.GenericGroupRead("/api/v2/cmdb/firewall/internet-service-custom", filter, vdomparam, 0)
 	if err != nil {
-		return fmt.Errorf("Error describing FirewallInternetServiceCustom: %v", err)
+		return fmt.Errorf("error describing FirewallInternetServiceCustom: %v", err)
 	}
 
 	var tmps []string

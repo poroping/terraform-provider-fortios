@@ -21,239 +21,239 @@ func dataSourceRouterRip() *schema.Resource {
 	return &schema.Resource{
 		Read: dataSourceRouterRipRead,
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
 
-			"default_information_originate": &schema.Schema{
+			"default_information_originate": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"default_metric": &schema.Schema{
+			"default_metric": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"max_out_metric": &schema.Schema{
+			"max_out_metric": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"recv_buffer_size": &schema.Schema{
+			"recv_buffer_size": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"distance": &schema.Schema{
+			"distance": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"prefix": &schema.Schema{
+						"prefix": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"distance": &schema.Schema{
+						"distance": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"access_list": &schema.Schema{
+						"access_list": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 					},
 				},
 			},
-			"distribute_list": &schema.Schema{
+			"distribute_list": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"status": &schema.Schema{
+						"status": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"direction": &schema.Schema{
+						"direction": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"listname": &schema.Schema{
+						"listname": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"interface": &schema.Schema{
+						"interface": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 					},
 				},
 			},
-			"neighbor": &schema.Schema{
+			"neighbor": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"ip": &schema.Schema{
+						"ip": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 					},
 				},
 			},
-			"network": &schema.Schema{
+			"network": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"prefix": &schema.Schema{
+						"prefix": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 					},
 				},
 			},
-			"offset_list": &schema.Schema{
+			"offset_list": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"status": &schema.Schema{
+						"status": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"direction": &schema.Schema{
+						"direction": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"access_list": &schema.Schema{
+						"access_list": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"offset": &schema.Schema{
+						"offset": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"interface": &schema.Schema{
+						"interface": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 					},
 				},
 			},
-			"passive_interface": &schema.Schema{
+			"passive_interface": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 					},
 				},
 			},
-			"redistribute": &schema.Schema{
+			"redistribute": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"status": &schema.Schema{
+						"status": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"metric": &schema.Schema{
+						"metric": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"routemap": &schema.Schema{
+						"routemap": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 					},
 				},
 			},
-			"update_timer": &schema.Schema{
+			"update_timer": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"timeout_timer": &schema.Schema{
+			"timeout_timer": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"garbage_timer": &schema.Schema{
+			"garbage_timer": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"version": &schema.Schema{
+			"version": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"interface": &schema.Schema{
+			"interface": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"auth_keychain": &schema.Schema{
+						"auth_keychain": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"auth_mode": &schema.Schema{
+						"auth_mode": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"auth_string": &schema.Schema{
+						"auth_string": {
 							Type:      schema.TypeString,
 							Sensitive: true,
 							Computed:  true,
 						},
-						"receive_version": &schema.Schema{
+						"receive_version": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"send_version": &schema.Schema{
+						"send_version": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"send_version2_broadcast": &schema.Schema{
+						"send_version2_broadcast": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"split_horizon_status": &schema.Schema{
+						"split_horizon_status": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"split_horizon": &schema.Schema{
+						"split_horizon": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"flags": &schema.Schema{
+						"flags": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
@@ -278,9 +278,9 @@ func dataSourceRouterRipRead(d *schema.ResourceData, m interface{}) error {
 
 	mkey := "RouterRip"
 
-	o, err := c.ReadRouterRip(mkey, vdomparam)
+	o, err := c.ReadRouterRip(mkey, vdomparam, make(map[string][]string), 0)
 	if err != nil {
-		return fmt.Errorf("Error describing RouterRip: %v", err)
+		return fmt.Errorf("error describing RouterRip: %v", err)
 	}
 
 	if o == nil {
@@ -290,7 +290,7 @@ func dataSourceRouterRipRead(d *schema.ResourceData, m interface{}) error {
 
 	err = dataSourceRefreshObjectRouterRip(d, o)
 	if err != nil {
-		return fmt.Errorf("Error describing RouterRip from API: %v", err)
+		return fmt.Errorf("error describing RouterRip from API: %v", err)
 	}
 
 	d.SetId(mkey)
@@ -875,97 +875,97 @@ func dataSourceRefreshObjectRouterRip(d *schema.ResourceData, o map[string]inter
 
 	if err = d.Set("default_information_originate", dataSourceFlattenRouterRipDefaultInformationOriginate(o["default-information-originate"], d, "default_information_originate")); err != nil {
 		if !fortiAPIPatch(o["default-information-originate"]) {
-			return fmt.Errorf("Error reading default_information_originate: %v", err)
+			return fmt.Errorf("error reading default_information_originate: %v", err)
 		}
 	}
 
 	if err = d.Set("default_metric", dataSourceFlattenRouterRipDefaultMetric(o["default-metric"], d, "default_metric")); err != nil {
 		if !fortiAPIPatch(o["default-metric"]) {
-			return fmt.Errorf("Error reading default_metric: %v", err)
+			return fmt.Errorf("error reading default_metric: %v", err)
 		}
 	}
 
 	if err = d.Set("max_out_metric", dataSourceFlattenRouterRipMaxOutMetric(o["max-out-metric"], d, "max_out_metric")); err != nil {
 		if !fortiAPIPatch(o["max-out-metric"]) {
-			return fmt.Errorf("Error reading max_out_metric: %v", err)
+			return fmt.Errorf("error reading max_out_metric: %v", err)
 		}
 	}
 
 	if err = d.Set("recv_buffer_size", dataSourceFlattenRouterRipRecvBufferSize(o["recv-buffer-size"], d, "recv_buffer_size")); err != nil {
 		if !fortiAPIPatch(o["recv-buffer-size"]) {
-			return fmt.Errorf("Error reading recv_buffer_size: %v", err)
+			return fmt.Errorf("error reading recv_buffer_size: %v", err)
 		}
 	}
 
 	if err = d.Set("distance", dataSourceFlattenRouterRipDistance(o["distance"], d, "distance")); err != nil {
 		if !fortiAPIPatch(o["distance"]) {
-			return fmt.Errorf("Error reading distance: %v", err)
+			return fmt.Errorf("error reading distance: %v", err)
 		}
 	}
 
 	if err = d.Set("distribute_list", dataSourceFlattenRouterRipDistributeList(o["distribute-list"], d, "distribute_list")); err != nil {
 		if !fortiAPIPatch(o["distribute-list"]) {
-			return fmt.Errorf("Error reading distribute_list: %v", err)
+			return fmt.Errorf("error reading distribute_list: %v", err)
 		}
 	}
 
 	if err = d.Set("neighbor", dataSourceFlattenRouterRipNeighbor(o["neighbor"], d, "neighbor")); err != nil {
 		if !fortiAPIPatch(o["neighbor"]) {
-			return fmt.Errorf("Error reading neighbor: %v", err)
+			return fmt.Errorf("error reading neighbor: %v", err)
 		}
 	}
 
 	if err = d.Set("network", dataSourceFlattenRouterRipNetwork(o["network"], d, "network")); err != nil {
 		if !fortiAPIPatch(o["network"]) {
-			return fmt.Errorf("Error reading network: %v", err)
+			return fmt.Errorf("error reading network: %v", err)
 		}
 	}
 
 	if err = d.Set("offset_list", dataSourceFlattenRouterRipOffsetList(o["offset-list"], d, "offset_list")); err != nil {
 		if !fortiAPIPatch(o["offset-list"]) {
-			return fmt.Errorf("Error reading offset_list: %v", err)
+			return fmt.Errorf("error reading offset_list: %v", err)
 		}
 	}
 
 	if err = d.Set("passive_interface", dataSourceFlattenRouterRipPassiveInterface(o["passive-interface"], d, "passive_interface")); err != nil {
 		if !fortiAPIPatch(o["passive-interface"]) {
-			return fmt.Errorf("Error reading passive_interface: %v", err)
+			return fmt.Errorf("error reading passive_interface: %v", err)
 		}
 	}
 
 	if err = d.Set("redistribute", dataSourceFlattenRouterRipRedistribute(o["redistribute"], d, "redistribute")); err != nil {
 		if !fortiAPIPatch(o["redistribute"]) {
-			return fmt.Errorf("Error reading redistribute: %v", err)
+			return fmt.Errorf("error reading redistribute: %v", err)
 		}
 	}
 
 	if err = d.Set("update_timer", dataSourceFlattenRouterRipUpdateTimer(o["update-timer"], d, "update_timer")); err != nil {
 		if !fortiAPIPatch(o["update-timer"]) {
-			return fmt.Errorf("Error reading update_timer: %v", err)
+			return fmt.Errorf("error reading update_timer: %v", err)
 		}
 	}
 
 	if err = d.Set("timeout_timer", dataSourceFlattenRouterRipTimeoutTimer(o["timeout-timer"], d, "timeout_timer")); err != nil {
 		if !fortiAPIPatch(o["timeout-timer"]) {
-			return fmt.Errorf("Error reading timeout_timer: %v", err)
+			return fmt.Errorf("error reading timeout_timer: %v", err)
 		}
 	}
 
 	if err = d.Set("garbage_timer", dataSourceFlattenRouterRipGarbageTimer(o["garbage-timer"], d, "garbage_timer")); err != nil {
 		if !fortiAPIPatch(o["garbage-timer"]) {
-			return fmt.Errorf("Error reading garbage_timer: %v", err)
+			return fmt.Errorf("error reading garbage_timer: %v", err)
 		}
 	}
 
 	if err = d.Set("version", dataSourceFlattenRouterRipVersion(o["version"], d, "version")); err != nil {
 		if !fortiAPIPatch(o["version"]) {
-			return fmt.Errorf("Error reading version: %v", err)
+			return fmt.Errorf("error reading version: %v", err)
 		}
 	}
 
 	if err = d.Set("interface", dataSourceFlattenRouterRipInterface(o["interface"], d, "interface")); err != nil {
 		if !fortiAPIPatch(o["interface"]) {
-			return fmt.Errorf("Error reading interface: %v", err)
+			return fmt.Errorf("error reading interface: %v", err)
 		}
 	}
 

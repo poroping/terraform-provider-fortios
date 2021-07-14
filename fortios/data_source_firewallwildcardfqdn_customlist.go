@@ -17,12 +17,12 @@ func dataSourceFirewallWildcardFqdnCustomList() *schema.Resource {
 		Read: dataSourceFirewallWildcardFqdnCustomListRead,
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"filter": &schema.Schema{
+			"filter": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
@@ -52,9 +52,9 @@ func dataSourceFirewallWildcardFqdnCustomListRead(d *schema.ResourceData, m inte
 		filter = escapeFilter(filter)
 	}
 
-	o, err := c.GenericGroupRead("/api/v2/cmdb/firewall.wildcard-fqdn/custom", filter, vdomparam)
+	o, err := c.GenericGroupRead("/api/v2/cmdb/firewall.wildcard-fqdn/custom", filter, vdomparam, 0)
 	if err != nil {
-		return fmt.Errorf("Error describing FirewallWildcardFqdnCustom: %v", err)
+		return fmt.Errorf("error describing FirewallWildcardFqdnCustom: %v", err)
 	}
 
 	var tmps []string

@@ -21,34 +21,34 @@ func dataSourceFirewallInternetServiceGroup() *schema.Resource {
 	return &schema.Resource{
 		Read: dataSourceFirewallInternetServiceGroupRead,
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
 
-			"name": &schema.Schema{
+			"name": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"comment": &schema.Schema{
+			"comment": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"direction": &schema.Schema{
+			"direction": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"member": &schema.Schema{
+			"member": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
@@ -79,12 +79,12 @@ func dataSourceFirewallInternetServiceGroupRead(d *schema.ResourceData, m interf
 	} else if v, ok := t.(int); ok {
 		mkey = strconv.Itoa(v)
 	} else {
-		return fmt.Errorf("Error describing FirewallInternetServiceGroup: type error")
+		return fmt.Errorf("error describing FirewallInternetServiceGroup: type error")
 	}
 
-	o, err := c.ReadFirewallInternetServiceGroup(mkey, vdomparam)
+	o, err := c.ReadFirewallInternetServiceGroup(mkey, vdomparam, make(map[string][]string), 0)
 	if err != nil {
-		return fmt.Errorf("Error describing FirewallInternetServiceGroup: %v", err)
+		return fmt.Errorf("error describing FirewallInternetServiceGroup: %v", err)
 	}
 
 	if o == nil {
@@ -94,7 +94,7 @@ func dataSourceFirewallInternetServiceGroupRead(d *schema.ResourceData, m interf
 
 	err = dataSourceRefreshObjectFirewallInternetServiceGroup(d, o)
 	if err != nil {
-		return fmt.Errorf("Error describing FirewallInternetServiceGroup from API: %v", err)
+		return fmt.Errorf("error describing FirewallInternetServiceGroup from API: %v", err)
 	}
 
 	d.SetId(mkey)
@@ -164,25 +164,25 @@ func dataSourceRefreshObjectFirewallInternetServiceGroup(d *schema.ResourceData,
 
 	if err = d.Set("name", dataSourceFlattenFirewallInternetServiceGroupName(o["name"], d, "name")); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("comment", dataSourceFlattenFirewallInternetServiceGroupComment(o["comment"], d, "comment")); err != nil {
 		if !fortiAPIPatch(o["comment"]) {
-			return fmt.Errorf("Error reading comment: %v", err)
+			return fmt.Errorf("error reading comment: %v", err)
 		}
 	}
 
 	if err = d.Set("direction", dataSourceFlattenFirewallInternetServiceGroupDirection(o["direction"], d, "direction")); err != nil {
 		if !fortiAPIPatch(o["direction"]) {
-			return fmt.Errorf("Error reading direction: %v", err)
+			return fmt.Errorf("error reading direction: %v", err)
 		}
 	}
 
 	if err = d.Set("member", dataSourceFlattenFirewallInternetServiceGroupMember(o["member"], d, "member")); err != nil {
 		if !fortiAPIPatch(o["member"]) {
-			return fmt.Errorf("Error reading member: %v", err)
+			return fmt.Errorf("error reading member: %v", err)
 		}
 	}
 

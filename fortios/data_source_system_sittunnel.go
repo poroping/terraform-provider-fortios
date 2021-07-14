@@ -21,29 +21,29 @@ func dataSourceSystemSitTunnel() *schema.Resource {
 	return &schema.Resource{
 		Read: dataSourceSystemSitTunnelRead,
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
 
-			"name": &schema.Schema{
+			"name": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"source": &schema.Schema{
+			"source": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"destination": &schema.Schema{
+			"destination": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"ip6": &schema.Schema{
+			"ip6": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"interface": &schema.Schema{
+			"interface": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -71,12 +71,12 @@ func dataSourceSystemSitTunnelRead(d *schema.ResourceData, m interface{}) error 
 	} else if v, ok := t.(int); ok {
 		mkey = strconv.Itoa(v)
 	} else {
-		return fmt.Errorf("Error describing SystemSitTunnel: type error")
+		return fmt.Errorf("error describing SystemSitTunnel: type error")
 	}
 
-	o, err := c.ReadSystemSitTunnel(mkey, vdomparam)
+	o, err := c.ReadSystemSitTunnel(mkey, vdomparam, make(map[string][]string), 0)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemSitTunnel: %v", err)
+		return fmt.Errorf("error describing SystemSitTunnel: %v", err)
 	}
 
 	if o == nil {
@@ -86,7 +86,7 @@ func dataSourceSystemSitTunnelRead(d *schema.ResourceData, m interface{}) error 
 
 	err = dataSourceRefreshObjectSystemSitTunnel(d, o)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemSitTunnel from API: %v", err)
+		return fmt.Errorf("error describing SystemSitTunnel from API: %v", err)
 	}
 
 	d.SetId(mkey)
@@ -119,31 +119,31 @@ func dataSourceRefreshObjectSystemSitTunnel(d *schema.ResourceData, o map[string
 
 	if err = d.Set("name", dataSourceFlattenSystemSitTunnelName(o["name"], d, "name")); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("source", dataSourceFlattenSystemSitTunnelSource(o["source"], d, "source")); err != nil {
 		if !fortiAPIPatch(o["source"]) {
-			return fmt.Errorf("Error reading source: %v", err)
+			return fmt.Errorf("error reading source: %v", err)
 		}
 	}
 
 	if err = d.Set("destination", dataSourceFlattenSystemSitTunnelDestination(o["destination"], d, "destination")); err != nil {
 		if !fortiAPIPatch(o["destination"]) {
-			return fmt.Errorf("Error reading destination: %v", err)
+			return fmt.Errorf("error reading destination: %v", err)
 		}
 	}
 
 	if err = d.Set("ip6", dataSourceFlattenSystemSitTunnelIp6(o["ip6"], d, "ip6")); err != nil {
 		if !fortiAPIPatch(o["ip6"]) {
-			return fmt.Errorf("Error reading ip6: %v", err)
+			return fmt.Errorf("error reading ip6: %v", err)
 		}
 	}
 
 	if err = d.Set("interface", dataSourceFlattenSystemSitTunnelInterface(o["interface"], d, "interface")); err != nil {
 		if !fortiAPIPatch(o["interface"]) {
-			return fmt.Errorf("Error reading interface: %v", err)
+			return fmt.Errorf("error reading interface: %v", err)
 		}
 	}
 

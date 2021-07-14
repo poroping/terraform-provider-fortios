@@ -21,22 +21,22 @@ func dataSourceSystemNdProxy() *schema.Resource {
 	return &schema.Resource{
 		Read: dataSourceSystemNdProxyRead,
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
 
-			"status": &schema.Schema{
+			"status": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"member": &schema.Schema{
+			"member": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"interface_name": &schema.Schema{
+						"interface_name": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -61,9 +61,9 @@ func dataSourceSystemNdProxyRead(d *schema.ResourceData, m interface{}) error {
 
 	mkey := "SystemNdProxy"
 
-	o, err := c.ReadSystemNdProxy(mkey, vdomparam)
+	o, err := c.ReadSystemNdProxy(mkey, vdomparam, make(map[string][]string), 0)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemNdProxy: %v", err)
+		return fmt.Errorf("error describing SystemNdProxy: %v", err)
 	}
 
 	if o == nil {
@@ -73,7 +73,7 @@ func dataSourceSystemNdProxyRead(d *schema.ResourceData, m interface{}) error {
 
 	err = dataSourceRefreshObjectSystemNdProxy(d, o)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemNdProxy from API: %v", err)
+		return fmt.Errorf("error describing SystemNdProxy from API: %v", err)
 	}
 
 	d.SetId(mkey)
@@ -126,13 +126,13 @@ func dataSourceRefreshObjectSystemNdProxy(d *schema.ResourceData, o map[string]i
 
 	if err = d.Set("status", dataSourceFlattenSystemNdProxyStatus(o["status"], d, "status")); err != nil {
 		if !fortiAPIPatch(o["status"]) {
-			return fmt.Errorf("Error reading status: %v", err)
+			return fmt.Errorf("error reading status: %v", err)
 		}
 	}
 
 	if err = d.Set("member", dataSourceFlattenSystemNdProxyMember(o["member"], d, "member")); err != nil {
 		if !fortiAPIPatch(o["member"]) {
-			return fmt.Errorf("Error reading member: %v", err)
+			return fmt.Errorf("error reading member: %v", err)
 		}
 	}
 

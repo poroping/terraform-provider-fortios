@@ -21,38 +21,38 @@ func dataSourceRouterCommunityList() *schema.Resource {
 	return &schema.Resource{
 		Read: dataSourceRouterCommunityListRead,
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
 
-			"name": &schema.Schema{
+			"name": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"type": &schema.Schema{
+			"type": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"rule": &schema.Schema{
+			"rule": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"action": &schema.Schema{
+						"action": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"regexp": &schema.Schema{
+						"regexp": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"match": &schema.Schema{
+						"match": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -83,12 +83,12 @@ func dataSourceRouterCommunityListRead(d *schema.ResourceData, m interface{}) er
 	} else if v, ok := t.(int); ok {
 		mkey = strconv.Itoa(v)
 	} else {
-		return fmt.Errorf("Error describing RouterCommunityList: type error")
+		return fmt.Errorf("error describing RouterCommunityList: type error")
 	}
 
-	o, err := c.ReadRouterCommunityList(mkey, vdomparam)
+	o, err := c.ReadRouterCommunityList(mkey, vdomparam, make(map[string][]string), 0)
 	if err != nil {
-		return fmt.Errorf("Error describing RouterCommunityList: %v", err)
+		return fmt.Errorf("error describing RouterCommunityList: %v", err)
 	}
 
 	if o == nil {
@@ -98,7 +98,7 @@ func dataSourceRouterCommunityListRead(d *schema.ResourceData, m interface{}) er
 
 	err = dataSourceRefreshObjectRouterCommunityList(d, o)
 	if err != nil {
-		return fmt.Errorf("Error describing RouterCommunityList from API: %v", err)
+		return fmt.Errorf("error describing RouterCommunityList from API: %v", err)
 	}
 
 	d.SetId(mkey)
@@ -182,19 +182,19 @@ func dataSourceRefreshObjectRouterCommunityList(d *schema.ResourceData, o map[st
 
 	if err = d.Set("name", dataSourceFlattenRouterCommunityListName(o["name"], d, "name")); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("type", dataSourceFlattenRouterCommunityListType(o["type"], d, "type")); err != nil {
 		if !fortiAPIPatch(o["type"]) {
-			return fmt.Errorf("Error reading type: %v", err)
+			return fmt.Errorf("error reading type: %v", err)
 		}
 	}
 
 	if err = d.Set("rule", dataSourceFlattenRouterCommunityListRule(o["rule"], d, "rule")); err != nil {
 		if !fortiAPIPatch(o["rule"]) {
-			return fmt.Errorf("Error reading rule: %v", err)
+			return fmt.Errorf("error reading rule: %v", err)
 		}
 	}
 

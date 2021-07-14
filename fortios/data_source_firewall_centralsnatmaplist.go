@@ -17,12 +17,12 @@ func dataSourceFirewallCentralSnatMapList() *schema.Resource {
 		Read: dataSourceFirewallCentralSnatMapListRead,
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"filter": &schema.Schema{
+			"filter": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
@@ -52,9 +52,9 @@ func dataSourceFirewallCentralSnatMapListRead(d *schema.ResourceData, m interfac
 		filter = escapeFilter(filter)
 	}
 
-	o, err := c.GenericGroupRead("/api/v2/cmdb/firewall/central-snat-map", filter, vdomparam)
+	o, err := c.GenericGroupRead("/api/v2/cmdb/firewall/central-snat-map", filter, vdomparam, 0)
 	if err != nil {
-		return fmt.Errorf("Error describing FirewallCentralSnatMap: %v", err)
+		return fmt.Errorf("error describing FirewallCentralSnatMap: %v", err)
 	}
 
 	var tmps []int

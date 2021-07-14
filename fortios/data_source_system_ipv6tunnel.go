@@ -21,25 +21,25 @@ func dataSourceSystemIpv6Tunnel() *schema.Resource {
 	return &schema.Resource{
 		Read: dataSourceSystemIpv6TunnelRead,
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
 
-			"name": &schema.Schema{
+			"name": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"source": &schema.Schema{
+			"source": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"destination": &schema.Schema{
+			"destination": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"interface": &schema.Schema{
+			"interface": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -67,12 +67,12 @@ func dataSourceSystemIpv6TunnelRead(d *schema.ResourceData, m interface{}) error
 	} else if v, ok := t.(int); ok {
 		mkey = strconv.Itoa(v)
 	} else {
-		return fmt.Errorf("Error describing SystemIpv6Tunnel: type error")
+		return fmt.Errorf("error describing SystemIpv6Tunnel: type error")
 	}
 
-	o, err := c.ReadSystemIpv6Tunnel(mkey, vdomparam)
+	o, err := c.ReadSystemIpv6Tunnel(mkey, vdomparam, make(map[string][]string), 0)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemIpv6Tunnel: %v", err)
+		return fmt.Errorf("error describing SystemIpv6Tunnel: %v", err)
 	}
 
 	if o == nil {
@@ -82,7 +82,7 @@ func dataSourceSystemIpv6TunnelRead(d *schema.ResourceData, m interface{}) error
 
 	err = dataSourceRefreshObjectSystemIpv6Tunnel(d, o)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemIpv6Tunnel from API: %v", err)
+		return fmt.Errorf("error describing SystemIpv6Tunnel from API: %v", err)
 	}
 
 	d.SetId(mkey)
@@ -111,25 +111,25 @@ func dataSourceRefreshObjectSystemIpv6Tunnel(d *schema.ResourceData, o map[strin
 
 	if err = d.Set("name", dataSourceFlattenSystemIpv6TunnelName(o["name"], d, "name")); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("source", dataSourceFlattenSystemIpv6TunnelSource(o["source"], d, "source")); err != nil {
 		if !fortiAPIPatch(o["source"]) {
-			return fmt.Errorf("Error reading source: %v", err)
+			return fmt.Errorf("error reading source: %v", err)
 		}
 	}
 
 	if err = d.Set("destination", dataSourceFlattenSystemIpv6TunnelDestination(o["destination"], d, "destination")); err != nil {
 		if !fortiAPIPatch(o["destination"]) {
-			return fmt.Errorf("Error reading destination: %v", err)
+			return fmt.Errorf("error reading destination: %v", err)
 		}
 	}
 
 	if err = d.Set("interface", dataSourceFlattenSystemIpv6TunnelInterface(o["interface"], d, "interface")); err != nil {
 		if !fortiAPIPatch(o["interface"]) {
-			return fmt.Errorf("Error reading interface: %v", err)
+			return fmt.Errorf("error reading interface: %v", err)
 		}
 	}
 

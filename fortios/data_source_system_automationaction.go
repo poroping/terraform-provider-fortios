@@ -21,217 +21,217 @@ func dataSourceSystemAutomationAction() *schema.Resource {
 	return &schema.Resource{
 		Read: dataSourceSystemAutomationActionRead,
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
 
-			"name": &schema.Schema{
+			"name": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"action_type": &schema.Schema{
+			"action_type": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"tls_certificate": &schema.Schema{
+			"tls_certificate": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"email_to": &schema.Schema{
+			"email_to": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 					},
 				},
 			},
-			"email_from": &schema.Schema{
+			"email_from": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"email_subject": &schema.Schema{
+			"email_subject": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"email_body": &schema.Schema{
+			"email_body": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"minimum_interval": &schema.Schema{
+			"minimum_interval": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"delay": &schema.Schema{
+			"delay": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"required": &schema.Schema{
+			"required": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"aws_api_id": &schema.Schema{
+			"aws_api_id": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"aws_region": &schema.Schema{
+			"aws_region": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"aws_domain": &schema.Schema{
+			"aws_domain": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"aws_api_stage": &schema.Schema{
+			"aws_api_stage": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"aws_api_path": &schema.Schema{
+			"aws_api_path": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"aws_api_key": &schema.Schema{
+			"aws_api_key": {
 				Type:      schema.TypeString,
 				Sensitive: true,
 				Computed:  true,
 			},
-			"azure_app": &schema.Schema{
+			"azure_app": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"azure_function": &schema.Schema{
+			"azure_function": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"azure_domain": &schema.Schema{
+			"azure_domain": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"azure_function_authorization": &schema.Schema{
+			"azure_function_authorization": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"azure_api_key": &schema.Schema{
+			"azure_api_key": {
 				Type:      schema.TypeString,
 				Sensitive: true,
 				Computed:  true,
 			},
-			"gcp_function_region": &schema.Schema{
+			"gcp_function_region": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"gcp_project": &schema.Schema{
+			"gcp_project": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"gcp_function_domain": &schema.Schema{
+			"gcp_function_domain": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"gcp_function": &schema.Schema{
+			"gcp_function": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"alicloud_account_id": &schema.Schema{
+			"alicloud_account_id": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"alicloud_region": &schema.Schema{
+			"alicloud_region": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"alicloud_function_domain": &schema.Schema{
+			"alicloud_function_domain": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"alicloud_version": &schema.Schema{
+			"alicloud_version": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"alicloud_service": &schema.Schema{
+			"alicloud_service": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"alicloud_function": &schema.Schema{
+			"alicloud_function": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"alicloud_function_authorization": &schema.Schema{
+			"alicloud_function_authorization": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"alicloud_access_key_id": &schema.Schema{
+			"alicloud_access_key_id": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"alicloud_access_key_secret": &schema.Schema{
+			"alicloud_access_key_secret": {
 				Type:      schema.TypeString,
 				Sensitive: true,
 				Computed:  true,
 			},
-			"message": &schema.Schema{
+			"message": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"replacement_message": &schema.Schema{
+			"replacement_message": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"protocol": &schema.Schema{
+			"protocol": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"method": &schema.Schema{
+			"method": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"uri": &schema.Schema{
+			"uri": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"http_body": &schema.Schema{
+			"http_body": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"port": &schema.Schema{
+			"port": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"headers": &schema.Schema{
+			"headers": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"header": &schema.Schema{
+						"header": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 					},
 				},
 			},
-			"script": &schema.Schema{
+			"script": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"accprofile": &schema.Schema{
+			"accprofile": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"security_tag": &schema.Schema{
+			"security_tag": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"sdn_connector": &schema.Schema{
+			"sdn_connector": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -262,12 +262,12 @@ func dataSourceSystemAutomationActionRead(d *schema.ResourceData, m interface{})
 	} else if v, ok := t.(int); ok {
 		mkey = strconv.Itoa(v)
 	} else {
-		return fmt.Errorf("Error describing SystemAutomationAction: type error")
+		return fmt.Errorf("error describing SystemAutomationAction: type error")
 	}
 
-	o, err := c.ReadSystemAutomationAction(mkey, vdomparam)
+	o, err := c.ReadSystemAutomationAction(mkey, vdomparam, make(map[string][]string), 0)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemAutomationAction: %v", err)
+		return fmt.Errorf("error describing SystemAutomationAction: %v", err)
 	}
 
 	if o == nil {
@@ -277,7 +277,7 @@ func dataSourceSystemAutomationActionRead(d *schema.ResourceData, m interface{})
 
 	err = dataSourceRefreshObjectSystemAutomationAction(d, o)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemAutomationAction from API: %v", err)
+		return fmt.Errorf("error describing SystemAutomationAction from API: %v", err)
 	}
 
 	d.SetId(mkey)
@@ -570,259 +570,259 @@ func dataSourceRefreshObjectSystemAutomationAction(d *schema.ResourceData, o map
 
 	if err = d.Set("name", dataSourceFlattenSystemAutomationActionName(o["name"], d, "name")); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("action_type", dataSourceFlattenSystemAutomationActionActionType(o["action-type"], d, "action_type")); err != nil {
 		if !fortiAPIPatch(o["action-type"]) {
-			return fmt.Errorf("Error reading action_type: %v", err)
+			return fmt.Errorf("error reading action_type: %v", err)
 		}
 	}
 
 	if err = d.Set("tls_certificate", dataSourceFlattenSystemAutomationActionTlsCertificate(o["tls-certificate"], d, "tls_certificate")); err != nil {
 		if !fortiAPIPatch(o["tls-certificate"]) {
-			return fmt.Errorf("Error reading tls_certificate: %v", err)
+			return fmt.Errorf("error reading tls_certificate: %v", err)
 		}
 	}
 
 	if err = d.Set("email_to", dataSourceFlattenSystemAutomationActionEmailTo(o["email-to"], d, "email_to")); err != nil {
 		if !fortiAPIPatch(o["email-to"]) {
-			return fmt.Errorf("Error reading email_to: %v", err)
+			return fmt.Errorf("error reading email_to: %v", err)
 		}
 	}
 
 	if err = d.Set("email_from", dataSourceFlattenSystemAutomationActionEmailFrom(o["email-from"], d, "email_from")); err != nil {
 		if !fortiAPIPatch(o["email-from"]) {
-			return fmt.Errorf("Error reading email_from: %v", err)
+			return fmt.Errorf("error reading email_from: %v", err)
 		}
 	}
 
 	if err = d.Set("email_subject", dataSourceFlattenSystemAutomationActionEmailSubject(o["email-subject"], d, "email_subject")); err != nil {
 		if !fortiAPIPatch(o["email-subject"]) {
-			return fmt.Errorf("Error reading email_subject: %v", err)
+			return fmt.Errorf("error reading email_subject: %v", err)
 		}
 	}
 
 	if err = d.Set("email_body", dataSourceFlattenSystemAutomationActionEmailBody(o["email-body"], d, "email_body")); err != nil {
 		if !fortiAPIPatch(o["email-body"]) {
-			return fmt.Errorf("Error reading email_body: %v", err)
+			return fmt.Errorf("error reading email_body: %v", err)
 		}
 	}
 
 	if err = d.Set("minimum_interval", dataSourceFlattenSystemAutomationActionMinimumInterval(o["minimum-interval"], d, "minimum_interval")); err != nil {
 		if !fortiAPIPatch(o["minimum-interval"]) {
-			return fmt.Errorf("Error reading minimum_interval: %v", err)
+			return fmt.Errorf("error reading minimum_interval: %v", err)
 		}
 	}
 
 	if err = d.Set("delay", dataSourceFlattenSystemAutomationActionDelay(o["delay"], d, "delay")); err != nil {
 		if !fortiAPIPatch(o["delay"]) {
-			return fmt.Errorf("Error reading delay: %v", err)
+			return fmt.Errorf("error reading delay: %v", err)
 		}
 	}
 
 	if err = d.Set("required", dataSourceFlattenSystemAutomationActionRequired(o["required"], d, "required")); err != nil {
 		if !fortiAPIPatch(o["required"]) {
-			return fmt.Errorf("Error reading required: %v", err)
+			return fmt.Errorf("error reading required: %v", err)
 		}
 	}
 
 	if err = d.Set("aws_api_id", dataSourceFlattenSystemAutomationActionAwsApiId(o["aws-api-id"], d, "aws_api_id")); err != nil {
 		if !fortiAPIPatch(o["aws-api-id"]) {
-			return fmt.Errorf("Error reading aws_api_id: %v", err)
+			return fmt.Errorf("error reading aws_api_id: %v", err)
 		}
 	}
 
 	if err = d.Set("aws_region", dataSourceFlattenSystemAutomationActionAwsRegion(o["aws-region"], d, "aws_region")); err != nil {
 		if !fortiAPIPatch(o["aws-region"]) {
-			return fmt.Errorf("Error reading aws_region: %v", err)
+			return fmt.Errorf("error reading aws_region: %v", err)
 		}
 	}
 
 	if err = d.Set("aws_domain", dataSourceFlattenSystemAutomationActionAwsDomain(o["aws-domain"], d, "aws_domain")); err != nil {
 		if !fortiAPIPatch(o["aws-domain"]) {
-			return fmt.Errorf("Error reading aws_domain: %v", err)
+			return fmt.Errorf("error reading aws_domain: %v", err)
 		}
 	}
 
 	if err = d.Set("aws_api_stage", dataSourceFlattenSystemAutomationActionAwsApiStage(o["aws-api-stage"], d, "aws_api_stage")); err != nil {
 		if !fortiAPIPatch(o["aws-api-stage"]) {
-			return fmt.Errorf("Error reading aws_api_stage: %v", err)
+			return fmt.Errorf("error reading aws_api_stage: %v", err)
 		}
 	}
 
 	if err = d.Set("aws_api_path", dataSourceFlattenSystemAutomationActionAwsApiPath(o["aws-api-path"], d, "aws_api_path")); err != nil {
 		if !fortiAPIPatch(o["aws-api-path"]) {
-			return fmt.Errorf("Error reading aws_api_path: %v", err)
+			return fmt.Errorf("error reading aws_api_path: %v", err)
 		}
 	}
 
 	if err = d.Set("azure_app", dataSourceFlattenSystemAutomationActionAzureApp(o["azure-app"], d, "azure_app")); err != nil {
 		if !fortiAPIPatch(o["azure-app"]) {
-			return fmt.Errorf("Error reading azure_app: %v", err)
+			return fmt.Errorf("error reading azure_app: %v", err)
 		}
 	}
 
 	if err = d.Set("azure_function", dataSourceFlattenSystemAutomationActionAzureFunction(o["azure-function"], d, "azure_function")); err != nil {
 		if !fortiAPIPatch(o["azure-function"]) {
-			return fmt.Errorf("Error reading azure_function: %v", err)
+			return fmt.Errorf("error reading azure_function: %v", err)
 		}
 	}
 
 	if err = d.Set("azure_domain", dataSourceFlattenSystemAutomationActionAzureDomain(o["azure-domain"], d, "azure_domain")); err != nil {
 		if !fortiAPIPatch(o["azure-domain"]) {
-			return fmt.Errorf("Error reading azure_domain: %v", err)
+			return fmt.Errorf("error reading azure_domain: %v", err)
 		}
 	}
 
 	if err = d.Set("azure_function_authorization", dataSourceFlattenSystemAutomationActionAzureFunctionAuthorization(o["azure-function-authorization"], d, "azure_function_authorization")); err != nil {
 		if !fortiAPIPatch(o["azure-function-authorization"]) {
-			return fmt.Errorf("Error reading azure_function_authorization: %v", err)
+			return fmt.Errorf("error reading azure_function_authorization: %v", err)
 		}
 	}
 
 	if err = d.Set("gcp_function_region", dataSourceFlattenSystemAutomationActionGcpFunctionRegion(o["gcp-function-region"], d, "gcp_function_region")); err != nil {
 		if !fortiAPIPatch(o["gcp-function-region"]) {
-			return fmt.Errorf("Error reading gcp_function_region: %v", err)
+			return fmt.Errorf("error reading gcp_function_region: %v", err)
 		}
 	}
 
 	if err = d.Set("gcp_project", dataSourceFlattenSystemAutomationActionGcpProject(o["gcp-project"], d, "gcp_project")); err != nil {
 		if !fortiAPIPatch(o["gcp-project"]) {
-			return fmt.Errorf("Error reading gcp_project: %v", err)
+			return fmt.Errorf("error reading gcp_project: %v", err)
 		}
 	}
 
 	if err = d.Set("gcp_function_domain", dataSourceFlattenSystemAutomationActionGcpFunctionDomain(o["gcp-function-domain"], d, "gcp_function_domain")); err != nil {
 		if !fortiAPIPatch(o["gcp-function-domain"]) {
-			return fmt.Errorf("Error reading gcp_function_domain: %v", err)
+			return fmt.Errorf("error reading gcp_function_domain: %v", err)
 		}
 	}
 
 	if err = d.Set("gcp_function", dataSourceFlattenSystemAutomationActionGcpFunction(o["gcp-function"], d, "gcp_function")); err != nil {
 		if !fortiAPIPatch(o["gcp-function"]) {
-			return fmt.Errorf("Error reading gcp_function: %v", err)
+			return fmt.Errorf("error reading gcp_function: %v", err)
 		}
 	}
 
 	if err = d.Set("alicloud_account_id", dataSourceFlattenSystemAutomationActionAlicloudAccountId(o["alicloud-account-id"], d, "alicloud_account_id")); err != nil {
 		if !fortiAPIPatch(o["alicloud-account-id"]) {
-			return fmt.Errorf("Error reading alicloud_account_id: %v", err)
+			return fmt.Errorf("error reading alicloud_account_id: %v", err)
 		}
 	}
 
 	if err = d.Set("alicloud_region", dataSourceFlattenSystemAutomationActionAlicloudRegion(o["alicloud-region"], d, "alicloud_region")); err != nil {
 		if !fortiAPIPatch(o["alicloud-region"]) {
-			return fmt.Errorf("Error reading alicloud_region: %v", err)
+			return fmt.Errorf("error reading alicloud_region: %v", err)
 		}
 	}
 
 	if err = d.Set("alicloud_function_domain", dataSourceFlattenSystemAutomationActionAlicloudFunctionDomain(o["alicloud-function-domain"], d, "alicloud_function_domain")); err != nil {
 		if !fortiAPIPatch(o["alicloud-function-domain"]) {
-			return fmt.Errorf("Error reading alicloud_function_domain: %v", err)
+			return fmt.Errorf("error reading alicloud_function_domain: %v", err)
 		}
 	}
 
 	if err = d.Set("alicloud_version", dataSourceFlattenSystemAutomationActionAlicloudVersion(o["alicloud-version"], d, "alicloud_version")); err != nil {
 		if !fortiAPIPatch(o["alicloud-version"]) {
-			return fmt.Errorf("Error reading alicloud_version: %v", err)
+			return fmt.Errorf("error reading alicloud_version: %v", err)
 		}
 	}
 
 	if err = d.Set("alicloud_service", dataSourceFlattenSystemAutomationActionAlicloudService(o["alicloud-service"], d, "alicloud_service")); err != nil {
 		if !fortiAPIPatch(o["alicloud-service"]) {
-			return fmt.Errorf("Error reading alicloud_service: %v", err)
+			return fmt.Errorf("error reading alicloud_service: %v", err)
 		}
 	}
 
 	if err = d.Set("alicloud_function", dataSourceFlattenSystemAutomationActionAlicloudFunction(o["alicloud-function"], d, "alicloud_function")); err != nil {
 		if !fortiAPIPatch(o["alicloud-function"]) {
-			return fmt.Errorf("Error reading alicloud_function: %v", err)
+			return fmt.Errorf("error reading alicloud_function: %v", err)
 		}
 	}
 
 	if err = d.Set("alicloud_function_authorization", dataSourceFlattenSystemAutomationActionAlicloudFunctionAuthorization(o["alicloud-function-authorization"], d, "alicloud_function_authorization")); err != nil {
 		if !fortiAPIPatch(o["alicloud-function-authorization"]) {
-			return fmt.Errorf("Error reading alicloud_function_authorization: %v", err)
+			return fmt.Errorf("error reading alicloud_function_authorization: %v", err)
 		}
 	}
 
 	if err = d.Set("alicloud_access_key_id", dataSourceFlattenSystemAutomationActionAlicloudAccessKeyId(o["alicloud-access-key-id"], d, "alicloud_access_key_id")); err != nil {
 		if !fortiAPIPatch(o["alicloud-access-key-id"]) {
-			return fmt.Errorf("Error reading alicloud_access_key_id: %v", err)
+			return fmt.Errorf("error reading alicloud_access_key_id: %v", err)
 		}
 	}
 
 	if err = d.Set("message", dataSourceFlattenSystemAutomationActionMessage(o["message"], d, "message")); err != nil {
 		if !fortiAPIPatch(o["message"]) {
-			return fmt.Errorf("Error reading message: %v", err)
+			return fmt.Errorf("error reading message: %v", err)
 		}
 	}
 
 	if err = d.Set("replacement_message", dataSourceFlattenSystemAutomationActionReplacementMessage(o["replacement-message"], d, "replacement_message")); err != nil {
 		if !fortiAPIPatch(o["replacement-message"]) {
-			return fmt.Errorf("Error reading replacement_message: %v", err)
+			return fmt.Errorf("error reading replacement_message: %v", err)
 		}
 	}
 
 	if err = d.Set("protocol", dataSourceFlattenSystemAutomationActionProtocol(o["protocol"], d, "protocol")); err != nil {
 		if !fortiAPIPatch(o["protocol"]) {
-			return fmt.Errorf("Error reading protocol: %v", err)
+			return fmt.Errorf("error reading protocol: %v", err)
 		}
 	}
 
 	if err = d.Set("method", dataSourceFlattenSystemAutomationActionMethod(o["method"], d, "method")); err != nil {
 		if !fortiAPIPatch(o["method"]) {
-			return fmt.Errorf("Error reading method: %v", err)
+			return fmt.Errorf("error reading method: %v", err)
 		}
 	}
 
 	if err = d.Set("uri", dataSourceFlattenSystemAutomationActionUri(o["uri"], d, "uri")); err != nil {
 		if !fortiAPIPatch(o["uri"]) {
-			return fmt.Errorf("Error reading uri: %v", err)
+			return fmt.Errorf("error reading uri: %v", err)
 		}
 	}
 
 	if err = d.Set("http_body", dataSourceFlattenSystemAutomationActionHttpBody(o["http-body"], d, "http_body")); err != nil {
 		if !fortiAPIPatch(o["http-body"]) {
-			return fmt.Errorf("Error reading http_body: %v", err)
+			return fmt.Errorf("error reading http_body: %v", err)
 		}
 	}
 
 	if err = d.Set("port", dataSourceFlattenSystemAutomationActionPort(o["port"], d, "port")); err != nil {
 		if !fortiAPIPatch(o["port"]) {
-			return fmt.Errorf("Error reading port: %v", err)
+			return fmt.Errorf("error reading port: %v", err)
 		}
 	}
 
 	if err = d.Set("headers", dataSourceFlattenSystemAutomationActionHeaders(o["headers"], d, "headers")); err != nil {
 		if !fortiAPIPatch(o["headers"]) {
-			return fmt.Errorf("Error reading headers: %v", err)
+			return fmt.Errorf("error reading headers: %v", err)
 		}
 	}
 
 	if err = d.Set("script", dataSourceFlattenSystemAutomationActionScript(o["script"], d, "script")); err != nil {
 		if !fortiAPIPatch(o["script"]) {
-			return fmt.Errorf("Error reading script: %v", err)
+			return fmt.Errorf("error reading script: %v", err)
 		}
 	}
 
 	if err = d.Set("accprofile", dataSourceFlattenSystemAutomationActionAccprofile(o["accprofile"], d, "accprofile")); err != nil {
 		if !fortiAPIPatch(o["accprofile"]) {
-			return fmt.Errorf("Error reading accprofile: %v", err)
+			return fmt.Errorf("error reading accprofile: %v", err)
 		}
 	}
 
 	if err = d.Set("security_tag", dataSourceFlattenSystemAutomationActionSecurityTag(o["security-tag"], d, "security_tag")); err != nil {
 		if !fortiAPIPatch(o["security-tag"]) {
-			return fmt.Errorf("Error reading security_tag: %v", err)
+			return fmt.Errorf("error reading security_tag: %v", err)
 		}
 	}
 
 	if err = d.Set("sdn_connector", dataSourceFlattenSystemAutomationActionSdnConnector(o["sdn-connector"], d, "sdn_connector")); err != nil {
 		if !fortiAPIPatch(o["sdn-connector"]) {
-			return fmt.Errorf("Error reading sdn_connector: %v", err)
+			return fmt.Errorf("error reading sdn_connector: %v", err)
 		}
 	}
 

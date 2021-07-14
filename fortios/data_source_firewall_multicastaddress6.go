@@ -21,51 +21,51 @@ func dataSourceFirewallMulticastAddress6() *schema.Resource {
 	return &schema.Resource{
 		Read: dataSourceFirewallMulticastAddress6Read,
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
 
-			"name": &schema.Schema{
+			"name": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"ip6": &schema.Schema{
+			"ip6": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"comment": &schema.Schema{
+			"comment": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"visibility": &schema.Schema{
+			"visibility": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"color": &schema.Schema{
+			"color": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"tagging": &schema.Schema{
+			"tagging": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"category": &schema.Schema{
+						"category": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"tags": &schema.Schema{
+						"tags": {
 							Type:     schema.TypeList,
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"name": &schema.Schema{
+									"name": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
@@ -99,12 +99,12 @@ func dataSourceFirewallMulticastAddress6Read(d *schema.ResourceData, m interface
 	} else if v, ok := t.(int); ok {
 		mkey = strconv.Itoa(v)
 	} else {
-		return fmt.Errorf("Error describing FirewallMulticastAddress6: type error")
+		return fmt.Errorf("error describing FirewallMulticastAddress6: type error")
 	}
 
-	o, err := c.ReadFirewallMulticastAddress6(mkey, vdomparam)
+	o, err := c.ReadFirewallMulticastAddress6(mkey, vdomparam, make(map[string][]string), 0)
 	if err != nil {
-		return fmt.Errorf("Error describing FirewallMulticastAddress6: %v", err)
+		return fmt.Errorf("error describing FirewallMulticastAddress6: %v", err)
 	}
 
 	if o == nil {
@@ -114,7 +114,7 @@ func dataSourceFirewallMulticastAddress6Read(d *schema.ResourceData, m interface
 
 	err = dataSourceRefreshObjectFirewallMulticastAddress6(d, o)
 	if err != nil {
-		return fmt.Errorf("Error describing FirewallMulticastAddress6 from API: %v", err)
+		return fmt.Errorf("error describing FirewallMulticastAddress6 from API: %v", err)
 	}
 
 	d.SetId(mkey)
@@ -233,37 +233,37 @@ func dataSourceRefreshObjectFirewallMulticastAddress6(d *schema.ResourceData, o 
 
 	if err = d.Set("name", dataSourceFlattenFirewallMulticastAddress6Name(o["name"], d, "name")); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("ip6", dataSourceFlattenFirewallMulticastAddress6Ip6(o["ip6"], d, "ip6")); err != nil {
 		if !fortiAPIPatch(o["ip6"]) {
-			return fmt.Errorf("Error reading ip6: %v", err)
+			return fmt.Errorf("error reading ip6: %v", err)
 		}
 	}
 
 	if err = d.Set("comment", dataSourceFlattenFirewallMulticastAddress6Comment(o["comment"], d, "comment")); err != nil {
 		if !fortiAPIPatch(o["comment"]) {
-			return fmt.Errorf("Error reading comment: %v", err)
+			return fmt.Errorf("error reading comment: %v", err)
 		}
 	}
 
 	if err = d.Set("visibility", dataSourceFlattenFirewallMulticastAddress6Visibility(o["visibility"], d, "visibility")); err != nil {
 		if !fortiAPIPatch(o["visibility"]) {
-			return fmt.Errorf("Error reading visibility: %v", err)
+			return fmt.Errorf("error reading visibility: %v", err)
 		}
 	}
 
 	if err = d.Set("color", dataSourceFlattenFirewallMulticastAddress6Color(o["color"], d, "color")); err != nil {
 		if !fortiAPIPatch(o["color"]) {
-			return fmt.Errorf("Error reading color: %v", err)
+			return fmt.Errorf("error reading color: %v", err)
 		}
 	}
 
 	if err = d.Set("tagging", dataSourceFlattenFirewallMulticastAddress6Tagging(o["tagging"], d, "tagging")); err != nil {
 		if !fortiAPIPatch(o["tagging"]) {
-			return fmt.Errorf("Error reading tagging: %v", err)
+			return fmt.Errorf("error reading tagging: %v", err)
 		}
 	}
 

@@ -21,187 +21,187 @@ func dataSourceFirewallAddress() *schema.Resource {
 	return &schema.Resource{
 		Read: dataSourceFirewallAddressRead,
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
 
-			"name": &schema.Schema{
+			"name": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"uuid": &schema.Schema{
+			"uuid": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"subnet": &schema.Schema{
+			"subnet": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"type": &schema.Schema{
+			"type": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"sub_type": &schema.Schema{
+			"sub_type": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"clearpass_spt": &schema.Schema{
+			"clearpass_spt": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"start_mac": &schema.Schema{
+			"start_mac": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"end_mac": &schema.Schema{
+			"end_mac": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"start_ip": &schema.Schema{
+			"start_ip": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"end_ip": &schema.Schema{
+			"end_ip": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"fqdn": &schema.Schema{
+			"fqdn": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"country": &schema.Schema{
+			"country": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"wildcard_fqdn": &schema.Schema{
+			"wildcard_fqdn": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"cache_ttl": &schema.Schema{
+			"cache_ttl": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"wildcard": &schema.Schema{
+			"wildcard": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"sdn": &schema.Schema{
+			"sdn": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"fsso_group": &schema.Schema{
+			"fsso_group": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 					},
 				},
 			},
-			"interface": &schema.Schema{
+			"interface": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"tenant": &schema.Schema{
+			"tenant": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"organization": &schema.Schema{
+			"organization": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"epg_name": &schema.Schema{
+			"epg_name": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"subnet_name": &schema.Schema{
+			"subnet_name": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"sdn_tag": &schema.Schema{
+			"sdn_tag": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"policy_group": &schema.Schema{
+			"policy_group": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"obj_tag": &schema.Schema{
+			"obj_tag": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"obj_type": &schema.Schema{
+			"obj_type": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"comment": &schema.Schema{
+			"comment": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"visibility": &schema.Schema{
+			"visibility": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"associated_interface": &schema.Schema{
+			"associated_interface": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"color": &schema.Schema{
+			"color": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"filter": &schema.Schema{
+			"filter": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"sdn_addr_type": &schema.Schema{
+			"sdn_addr_type": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"node_ip_only": &schema.Schema{
+			"node_ip_only": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"obj_id": &schema.Schema{
+			"obj_id": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"list": &schema.Schema{
+			"list": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"ip": &schema.Schema{
+						"ip": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 					},
 				},
 			},
-			"tagging": &schema.Schema{
+			"tagging": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"category": &schema.Schema{
+						"category": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"tags": &schema.Schema{
+						"tags": {
 							Type:     schema.TypeList,
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"name": &schema.Schema{
+									"name": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
@@ -211,7 +211,7 @@ func dataSourceFirewallAddress() *schema.Resource {
 					},
 				},
 			},
-			"allow_routing": &schema.Schema{
+			"allow_routing": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -239,12 +239,12 @@ func dataSourceFirewallAddressRead(d *schema.ResourceData, m interface{}) error 
 	} else if v, ok := t.(int); ok {
 		mkey = strconv.Itoa(v)
 	} else {
-		return fmt.Errorf("Error describing FirewallAddress: type error")
+		return fmt.Errorf("error describing FirewallAddress: type error")
 	}
 
-	o, err := c.ReadFirewallAddress(mkey, vdomparam)
+	o, err := c.ReadFirewallAddress(mkey, vdomparam, make(map[string][]string), 0)
 	if err != nil {
-		return fmt.Errorf("Error describing FirewallAddress: %v", err)
+		return fmt.Errorf("error describing FirewallAddress: %v", err)
 	}
 
 	if o == nil {
@@ -254,7 +254,7 @@ func dataSourceFirewallAddressRead(d *schema.ResourceData, m interface{}) error 
 
 	err = dataSourceRefreshObjectFirewallAddress(d, o)
 	if err != nil {
-		return fmt.Errorf("Error describing FirewallAddress from API: %v", err)
+		return fmt.Errorf("error describing FirewallAddress from API: %v", err)
 	}
 
 	d.SetId(mkey)
@@ -575,223 +575,223 @@ func dataSourceRefreshObjectFirewallAddress(d *schema.ResourceData, o map[string
 
 	if err = d.Set("name", dataSourceFlattenFirewallAddressName(o["name"], d, "name")); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("uuid", dataSourceFlattenFirewallAddressUuid(o["uuid"], d, "uuid")); err != nil {
 		if !fortiAPIPatch(o["uuid"]) {
-			return fmt.Errorf("Error reading uuid: %v", err)
+			return fmt.Errorf("error reading uuid: %v", err)
 		}
 	}
 
 	if err = d.Set("subnet", dataSourceFlattenFirewallAddressSubnet(o["subnet"], d, "subnet")); err != nil {
 		if !fortiAPIPatch(o["subnet"]) {
-			return fmt.Errorf("Error reading subnet: %v", err)
+			return fmt.Errorf("error reading subnet: %v", err)
 		}
 	}
 
 	if err = d.Set("type", dataSourceFlattenFirewallAddressType(o["type"], d, "type")); err != nil {
 		if !fortiAPIPatch(o["type"]) {
-			return fmt.Errorf("Error reading type: %v", err)
+			return fmt.Errorf("error reading type: %v", err)
 		}
 	}
 
 	if err = d.Set("sub_type", dataSourceFlattenFirewallAddressSubType(o["sub-type"], d, "sub_type")); err != nil {
 		if !fortiAPIPatch(o["sub-type"]) {
-			return fmt.Errorf("Error reading sub_type: %v", err)
+			return fmt.Errorf("error reading sub_type: %v", err)
 		}
 	}
 
 	if err = d.Set("clearpass_spt", dataSourceFlattenFirewallAddressClearpassSpt(o["clearpass-spt"], d, "clearpass_spt")); err != nil {
 		if !fortiAPIPatch(o["clearpass-spt"]) {
-			return fmt.Errorf("Error reading clearpass_spt: %v", err)
+			return fmt.Errorf("error reading clearpass_spt: %v", err)
 		}
 	}
 
 	if err = d.Set("start_mac", dataSourceFlattenFirewallAddressStartMac(o["start-mac"], d, "start_mac")); err != nil {
 		if !fortiAPIPatch(o["start-mac"]) {
-			return fmt.Errorf("Error reading start_mac: %v", err)
+			return fmt.Errorf("error reading start_mac: %v", err)
 		}
 	}
 
 	if err = d.Set("end_mac", dataSourceFlattenFirewallAddressEndMac(o["end-mac"], d, "end_mac")); err != nil {
 		if !fortiAPIPatch(o["end-mac"]) {
-			return fmt.Errorf("Error reading end_mac: %v", err)
+			return fmt.Errorf("error reading end_mac: %v", err)
 		}
 	}
 
 	if err = d.Set("start_ip", dataSourceFlattenFirewallAddressStartIp(o["start-ip"], d, "start_ip")); err != nil {
 		if !fortiAPIPatch(o["start-ip"]) {
-			return fmt.Errorf("Error reading start_ip: %v", err)
+			return fmt.Errorf("error reading start_ip: %v", err)
 		}
 	}
 
 	if err = d.Set("end_ip", dataSourceFlattenFirewallAddressEndIp(o["end-ip"], d, "end_ip")); err != nil {
 		if !fortiAPIPatch(o["end-ip"]) {
-			return fmt.Errorf("Error reading end_ip: %v", err)
+			return fmt.Errorf("error reading end_ip: %v", err)
 		}
 	}
 
 	if err = d.Set("fqdn", dataSourceFlattenFirewallAddressFqdn(o["fqdn"], d, "fqdn")); err != nil {
 		if !fortiAPIPatch(o["fqdn"]) {
-			return fmt.Errorf("Error reading fqdn: %v", err)
+			return fmt.Errorf("error reading fqdn: %v", err)
 		}
 	}
 
 	if err = d.Set("country", dataSourceFlattenFirewallAddressCountry(o["country"], d, "country")); err != nil {
 		if !fortiAPIPatch(o["country"]) {
-			return fmt.Errorf("Error reading country: %v", err)
+			return fmt.Errorf("error reading country: %v", err)
 		}
 	}
 
 	if err = d.Set("wildcard_fqdn", dataSourceFlattenFirewallAddressWildcardFqdn(o["wildcard-fqdn"], d, "wildcard_fqdn")); err != nil {
 		if !fortiAPIPatch(o["wildcard-fqdn"]) {
-			return fmt.Errorf("Error reading wildcard_fqdn: %v", err)
+			return fmt.Errorf("error reading wildcard_fqdn: %v", err)
 		}
 	}
 
 	if err = d.Set("cache_ttl", dataSourceFlattenFirewallAddressCacheTtl(o["cache-ttl"], d, "cache_ttl")); err != nil {
 		if !fortiAPIPatch(o["cache-ttl"]) {
-			return fmt.Errorf("Error reading cache_ttl: %v", err)
+			return fmt.Errorf("error reading cache_ttl: %v", err)
 		}
 	}
 
 	if err = d.Set("wildcard", dataSourceFlattenFirewallAddressWildcard(o["wildcard"], d, "wildcard")); err != nil {
 		if !fortiAPIPatch(o["wildcard"]) {
-			return fmt.Errorf("Error reading wildcard: %v", err)
+			return fmt.Errorf("error reading wildcard: %v", err)
 		}
 	}
 
 	if err = d.Set("sdn", dataSourceFlattenFirewallAddressSdn(o["sdn"], d, "sdn")); err != nil {
 		if !fortiAPIPatch(o["sdn"]) {
-			return fmt.Errorf("Error reading sdn: %v", err)
+			return fmt.Errorf("error reading sdn: %v", err)
 		}
 	}
 
 	if err = d.Set("fsso_group", dataSourceFlattenFirewallAddressFssoGroup(o["fsso-group"], d, "fsso_group")); err != nil {
 		if !fortiAPIPatch(o["fsso-group"]) {
-			return fmt.Errorf("Error reading fsso_group: %v", err)
+			return fmt.Errorf("error reading fsso_group: %v", err)
 		}
 	}
 
 	if err = d.Set("interface", dataSourceFlattenFirewallAddressInterface(o["interface"], d, "interface")); err != nil {
 		if !fortiAPIPatch(o["interface"]) {
-			return fmt.Errorf("Error reading interface: %v", err)
+			return fmt.Errorf("error reading interface: %v", err)
 		}
 	}
 
 	if err = d.Set("tenant", dataSourceFlattenFirewallAddressTenant(o["tenant"], d, "tenant")); err != nil {
 		if !fortiAPIPatch(o["tenant"]) {
-			return fmt.Errorf("Error reading tenant: %v", err)
+			return fmt.Errorf("error reading tenant: %v", err)
 		}
 	}
 
 	if err = d.Set("organization", dataSourceFlattenFirewallAddressOrganization(o["organization"], d, "organization")); err != nil {
 		if !fortiAPIPatch(o["organization"]) {
-			return fmt.Errorf("Error reading organization: %v", err)
+			return fmt.Errorf("error reading organization: %v", err)
 		}
 	}
 
 	if err = d.Set("epg_name", dataSourceFlattenFirewallAddressEpgName(o["epg-name"], d, "epg_name")); err != nil {
 		if !fortiAPIPatch(o["epg-name"]) {
-			return fmt.Errorf("Error reading epg_name: %v", err)
+			return fmt.Errorf("error reading epg_name: %v", err)
 		}
 	}
 
 	if err = d.Set("subnet_name", dataSourceFlattenFirewallAddressSubnetName(o["subnet-name"], d, "subnet_name")); err != nil {
 		if !fortiAPIPatch(o["subnet-name"]) {
-			return fmt.Errorf("Error reading subnet_name: %v", err)
+			return fmt.Errorf("error reading subnet_name: %v", err)
 		}
 	}
 
 	if err = d.Set("sdn_tag", dataSourceFlattenFirewallAddressSdnTag(o["sdn-tag"], d, "sdn_tag")); err != nil {
 		if !fortiAPIPatch(o["sdn-tag"]) {
-			return fmt.Errorf("Error reading sdn_tag: %v", err)
+			return fmt.Errorf("error reading sdn_tag: %v", err)
 		}
 	}
 
 	if err = d.Set("policy_group", dataSourceFlattenFirewallAddressPolicyGroup(o["policy-group"], d, "policy_group")); err != nil {
 		if !fortiAPIPatch(o["policy-group"]) {
-			return fmt.Errorf("Error reading policy_group: %v", err)
+			return fmt.Errorf("error reading policy_group: %v", err)
 		}
 	}
 
 	if err = d.Set("obj_tag", dataSourceFlattenFirewallAddressObjTag(o["obj-tag"], d, "obj_tag")); err != nil {
 		if !fortiAPIPatch(o["obj-tag"]) {
-			return fmt.Errorf("Error reading obj_tag: %v", err)
+			return fmt.Errorf("error reading obj_tag: %v", err)
 		}
 	}
 
 	if err = d.Set("obj_type", dataSourceFlattenFirewallAddressObjType(o["obj-type"], d, "obj_type")); err != nil {
 		if !fortiAPIPatch(o["obj-type"]) {
-			return fmt.Errorf("Error reading obj_type: %v", err)
+			return fmt.Errorf("error reading obj_type: %v", err)
 		}
 	}
 
 	if err = d.Set("comment", dataSourceFlattenFirewallAddressComment(o["comment"], d, "comment")); err != nil {
 		if !fortiAPIPatch(o["comment"]) {
-			return fmt.Errorf("Error reading comment: %v", err)
+			return fmt.Errorf("error reading comment: %v", err)
 		}
 	}
 
 	if err = d.Set("visibility", dataSourceFlattenFirewallAddressVisibility(o["visibility"], d, "visibility")); err != nil {
 		if !fortiAPIPatch(o["visibility"]) {
-			return fmt.Errorf("Error reading visibility: %v", err)
+			return fmt.Errorf("error reading visibility: %v", err)
 		}
 	}
 
 	if err = d.Set("associated_interface", dataSourceFlattenFirewallAddressAssociatedInterface(o["associated-interface"], d, "associated_interface")); err != nil {
 		if !fortiAPIPatch(o["associated-interface"]) {
-			return fmt.Errorf("Error reading associated_interface: %v", err)
+			return fmt.Errorf("error reading associated_interface: %v", err)
 		}
 	}
 
 	if err = d.Set("color", dataSourceFlattenFirewallAddressColor(o["color"], d, "color")); err != nil {
 		if !fortiAPIPatch(o["color"]) {
-			return fmt.Errorf("Error reading color: %v", err)
+			return fmt.Errorf("error reading color: %v", err)
 		}
 	}
 
 	if err = d.Set("filter", dataSourceFlattenFirewallAddressFilter(o["filter"], d, "filter")); err != nil {
 		if !fortiAPIPatch(o["filter"]) {
-			return fmt.Errorf("Error reading filter: %v", err)
+			return fmt.Errorf("error reading filter: %v", err)
 		}
 	}
 
 	if err = d.Set("sdn_addr_type", dataSourceFlattenFirewallAddressSdnAddrType(o["sdn-addr-type"], d, "sdn_addr_type")); err != nil {
 		if !fortiAPIPatch(o["sdn-addr-type"]) {
-			return fmt.Errorf("Error reading sdn_addr_type: %v", err)
+			return fmt.Errorf("error reading sdn_addr_type: %v", err)
 		}
 	}
 
 	if err = d.Set("node_ip_only", dataSourceFlattenFirewallAddressNodeIpOnly(o["node-ip-only"], d, "node_ip_only")); err != nil {
 		if !fortiAPIPatch(o["node-ip-only"]) {
-			return fmt.Errorf("Error reading node_ip_only: %v", err)
+			return fmt.Errorf("error reading node_ip_only: %v", err)
 		}
 	}
 
 	if err = d.Set("obj_id", dataSourceFlattenFirewallAddressObjId(o["obj-id"], d, "obj_id")); err != nil {
 		if !fortiAPIPatch(o["obj-id"]) {
-			return fmt.Errorf("Error reading obj_id: %v", err)
+			return fmt.Errorf("error reading obj_id: %v", err)
 		}
 	}
 
 	if err = d.Set("list", dataSourceFlattenFirewallAddressList(o["list"], d, "list")); err != nil {
 		if !fortiAPIPatch(o["list"]) {
-			return fmt.Errorf("Error reading list: %v", err)
+			return fmt.Errorf("error reading list: %v", err)
 		}
 	}
 
 	if err = d.Set("tagging", dataSourceFlattenFirewallAddressTagging(o["tagging"], d, "tagging")); err != nil {
 		if !fortiAPIPatch(o["tagging"]) {
-			return fmt.Errorf("Error reading tagging: %v", err)
+			return fmt.Errorf("error reading tagging: %v", err)
 		}
 	}
 
 	if err = d.Set("allow_routing", dataSourceFlattenFirewallAddressAllowRouting(o["allow-routing"], d, "allow_routing")); err != nil {
 		if !fortiAPIPatch(o["allow-routing"]) {
-			return fmt.Errorf("Error reading allow_routing: %v", err)
+			return fmt.Errorf("error reading allow_routing: %v", err)
 		}
 	}
 

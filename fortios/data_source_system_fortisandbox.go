@@ -21,45 +21,45 @@ func dataSourceSystemFortisandbox() *schema.Resource {
 	return &schema.Resource{
 		Read: dataSourceSystemFortisandboxRead,
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
 
-			"status": &schema.Schema{
+			"status": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"forticloud": &schema.Schema{
+			"forticloud": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"server": &schema.Schema{
+			"server": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"source_ip": &schema.Schema{
+			"source_ip": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"interface_select_method": &schema.Schema{
+			"interface_select_method": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"interface": &schema.Schema{
+			"interface": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"enc_algorithm": &schema.Schema{
+			"enc_algorithm": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"ssl_min_proto_version": &schema.Schema{
+			"ssl_min_proto_version": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"email": &schema.Schema{
+			"email": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -81,9 +81,9 @@ func dataSourceSystemFortisandboxRead(d *schema.ResourceData, m interface{}) err
 
 	mkey := "SystemFortisandbox"
 
-	o, err := c.ReadSystemFortisandbox(mkey, vdomparam)
+	o, err := c.ReadSystemFortisandbox(mkey, vdomparam, make(map[string][]string), 0)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemFortisandbox: %v", err)
+		return fmt.Errorf("error describing SystemFortisandbox: %v", err)
 	}
 
 	if o == nil {
@@ -93,7 +93,7 @@ func dataSourceSystemFortisandboxRead(d *schema.ResourceData, m interface{}) err
 
 	err = dataSourceRefreshObjectSystemFortisandbox(d, o)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemFortisandbox from API: %v", err)
+		return fmt.Errorf("error describing SystemFortisandbox from API: %v", err)
 	}
 
 	d.SetId(mkey)
@@ -142,55 +142,55 @@ func dataSourceRefreshObjectSystemFortisandbox(d *schema.ResourceData, o map[str
 
 	if err = d.Set("status", dataSourceFlattenSystemFortisandboxStatus(o["status"], d, "status")); err != nil {
 		if !fortiAPIPatch(o["status"]) {
-			return fmt.Errorf("Error reading status: %v", err)
+			return fmt.Errorf("error reading status: %v", err)
 		}
 	}
 
 	if err = d.Set("forticloud", dataSourceFlattenSystemFortisandboxForticloud(o["forticloud"], d, "forticloud")); err != nil {
 		if !fortiAPIPatch(o["forticloud"]) {
-			return fmt.Errorf("Error reading forticloud: %v", err)
+			return fmt.Errorf("error reading forticloud: %v", err)
 		}
 	}
 
 	if err = d.Set("server", dataSourceFlattenSystemFortisandboxServer(o["server"], d, "server")); err != nil {
 		if !fortiAPIPatch(o["server"]) {
-			return fmt.Errorf("Error reading server: %v", err)
+			return fmt.Errorf("error reading server: %v", err)
 		}
 	}
 
 	if err = d.Set("source_ip", dataSourceFlattenSystemFortisandboxSourceIp(o["source-ip"], d, "source_ip")); err != nil {
 		if !fortiAPIPatch(o["source-ip"]) {
-			return fmt.Errorf("Error reading source_ip: %v", err)
+			return fmt.Errorf("error reading source_ip: %v", err)
 		}
 	}
 
 	if err = d.Set("interface_select_method", dataSourceFlattenSystemFortisandboxInterfaceSelectMethod(o["interface-select-method"], d, "interface_select_method")); err != nil {
 		if !fortiAPIPatch(o["interface-select-method"]) {
-			return fmt.Errorf("Error reading interface_select_method: %v", err)
+			return fmt.Errorf("error reading interface_select_method: %v", err)
 		}
 	}
 
 	if err = d.Set("interface", dataSourceFlattenSystemFortisandboxInterface(o["interface"], d, "interface")); err != nil {
 		if !fortiAPIPatch(o["interface"]) {
-			return fmt.Errorf("Error reading interface: %v", err)
+			return fmt.Errorf("error reading interface: %v", err)
 		}
 	}
 
 	if err = d.Set("enc_algorithm", dataSourceFlattenSystemFortisandboxEncAlgorithm(o["enc-algorithm"], d, "enc_algorithm")); err != nil {
 		if !fortiAPIPatch(o["enc-algorithm"]) {
-			return fmt.Errorf("Error reading enc_algorithm: %v", err)
+			return fmt.Errorf("error reading enc_algorithm: %v", err)
 		}
 	}
 
 	if err = d.Set("ssl_min_proto_version", dataSourceFlattenSystemFortisandboxSslMinProtoVersion(o["ssl-min-proto-version"], d, "ssl_min_proto_version")); err != nil {
 		if !fortiAPIPatch(o["ssl-min-proto-version"]) {
-			return fmt.Errorf("Error reading ssl_min_proto_version: %v", err)
+			return fmt.Errorf("error reading ssl_min_proto_version: %v", err)
 		}
 	}
 
 	if err = d.Set("email", dataSourceFlattenSystemFortisandboxEmail(o["email"], d, "email")); err != nil {
 		if !fortiAPIPatch(o["email"]) {
-			return fmt.Errorf("Error reading email: %v", err)
+			return fmt.Errorf("error reading email: %v", err)
 		}
 	}
 

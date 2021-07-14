@@ -21,141 +21,141 @@ func dataSourceFirewallCentralSnatMap() *schema.Resource {
 	return &schema.Resource{
 		Read: dataSourceFirewallCentralSnatMapRead,
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
 
-			"policyid": &schema.Schema{
+			"policyid": {
 				Type:     schema.TypeInt,
 				Required: true,
 			},
-			"uuid": &schema.Schema{
+			"uuid": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"status": &schema.Schema{
+			"status": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"type": &schema.Schema{
+			"type": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"orig_addr": &schema.Schema{
+			"orig_addr": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 					},
 				},
 			},
-			"orig_addr6": &schema.Schema{
+			"orig_addr6": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 					},
 				},
 			},
-			"srcintf": &schema.Schema{
+			"srcintf": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 					},
 				},
 			},
-			"dst_addr": &schema.Schema{
+			"dst_addr": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 					},
 				},
 			},
-			"dst_addr6": &schema.Schema{
+			"dst_addr6": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 					},
 				},
 			},
-			"dstintf": &schema.Schema{
+			"dstintf": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 					},
 				},
 			},
-			"nat_ippool": &schema.Schema{
+			"nat_ippool": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 					},
 				},
 			},
-			"nat_ippool6": &schema.Schema{
+			"nat_ippool6": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 					},
 				},
 			},
-			"protocol": &schema.Schema{
+			"protocol": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"orig_port": &schema.Schema{
+			"orig_port": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"nat_port": &schema.Schema{
+			"nat_port": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"nat": &schema.Schema{
+			"nat": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"comments": &schema.Schema{
+			"comments": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -183,12 +183,12 @@ func dataSourceFirewallCentralSnatMapRead(d *schema.ResourceData, m interface{})
 	} else if v, ok := t.(int); ok {
 		mkey = strconv.Itoa(v)
 	} else {
-		return fmt.Errorf("Error describing FirewallCentralSnatMap: type error")
+		return fmt.Errorf("error describing FirewallCentralSnatMap: type error")
 	}
 
-	o, err := c.ReadFirewallCentralSnatMap(mkey, vdomparam)
+	o, err := c.ReadFirewallCentralSnatMap(mkey, vdomparam, make(map[string][]string), 0)
 	if err != nil {
-		return fmt.Errorf("Error describing FirewallCentralSnatMap: %v", err)
+		return fmt.Errorf("error describing FirewallCentralSnatMap: %v", err)
 	}
 
 	if o == nil {
@@ -198,7 +198,7 @@ func dataSourceFirewallCentralSnatMapRead(d *schema.ResourceData, m interface{})
 
 	err = dataSourceRefreshObjectFirewallCentralSnatMap(d, o)
 	if err != nil {
-		return fmt.Errorf("Error describing FirewallCentralSnatMap from API: %v", err)
+		return fmt.Errorf("error describing FirewallCentralSnatMap from API: %v", err)
 	}
 
 	d.SetId(mkey)
@@ -535,103 +535,103 @@ func dataSourceRefreshObjectFirewallCentralSnatMap(d *schema.ResourceData, o map
 
 	if err = d.Set("policyid", dataSourceFlattenFirewallCentralSnatMapPolicyid(o["policyid"], d, "policyid")); err != nil {
 		if !fortiAPIPatch(o["policyid"]) {
-			return fmt.Errorf("Error reading policyid: %v", err)
+			return fmt.Errorf("error reading policyid: %v", err)
 		}
 	}
 
 	if err = d.Set("uuid", dataSourceFlattenFirewallCentralSnatMapUuid(o["uuid"], d, "uuid")); err != nil {
 		if !fortiAPIPatch(o["uuid"]) {
-			return fmt.Errorf("Error reading uuid: %v", err)
+			return fmt.Errorf("error reading uuid: %v", err)
 		}
 	}
 
 	if err = d.Set("status", dataSourceFlattenFirewallCentralSnatMapStatus(o["status"], d, "status")); err != nil {
 		if !fortiAPIPatch(o["status"]) {
-			return fmt.Errorf("Error reading status: %v", err)
+			return fmt.Errorf("error reading status: %v", err)
 		}
 	}
 
 	if err = d.Set("type", dataSourceFlattenFirewallCentralSnatMapType(o["type"], d, "type")); err != nil {
 		if !fortiAPIPatch(o["type"]) {
-			return fmt.Errorf("Error reading type: %v", err)
+			return fmt.Errorf("error reading type: %v", err)
 		}
 	}
 
 	if err = d.Set("orig_addr", dataSourceFlattenFirewallCentralSnatMapOrigAddr(o["orig-addr"], d, "orig_addr")); err != nil {
 		if !fortiAPIPatch(o["orig-addr"]) {
-			return fmt.Errorf("Error reading orig_addr: %v", err)
+			return fmt.Errorf("error reading orig_addr: %v", err)
 		}
 	}
 
 	if err = d.Set("orig_addr6", dataSourceFlattenFirewallCentralSnatMapOrigAddr6(o["orig-addr6"], d, "orig_addr6")); err != nil {
 		if !fortiAPIPatch(o["orig-addr6"]) {
-			return fmt.Errorf("Error reading orig_addr6: %v", err)
+			return fmt.Errorf("error reading orig_addr6: %v", err)
 		}
 	}
 
 	if err = d.Set("srcintf", dataSourceFlattenFirewallCentralSnatMapSrcintf(o["srcintf"], d, "srcintf")); err != nil {
 		if !fortiAPIPatch(o["srcintf"]) {
-			return fmt.Errorf("Error reading srcintf: %v", err)
+			return fmt.Errorf("error reading srcintf: %v", err)
 		}
 	}
 
 	if err = d.Set("dst_addr", dataSourceFlattenFirewallCentralSnatMapDstAddr(o["dst-addr"], d, "dst_addr")); err != nil {
 		if !fortiAPIPatch(o["dst-addr"]) {
-			return fmt.Errorf("Error reading dst_addr: %v", err)
+			return fmt.Errorf("error reading dst_addr: %v", err)
 		}
 	}
 
 	if err = d.Set("dst_addr6", dataSourceFlattenFirewallCentralSnatMapDstAddr6(o["dst-addr6"], d, "dst_addr6")); err != nil {
 		if !fortiAPIPatch(o["dst-addr6"]) {
-			return fmt.Errorf("Error reading dst_addr6: %v", err)
+			return fmt.Errorf("error reading dst_addr6: %v", err)
 		}
 	}
 
 	if err = d.Set("dstintf", dataSourceFlattenFirewallCentralSnatMapDstintf(o["dstintf"], d, "dstintf")); err != nil {
 		if !fortiAPIPatch(o["dstintf"]) {
-			return fmt.Errorf("Error reading dstintf: %v", err)
+			return fmt.Errorf("error reading dstintf: %v", err)
 		}
 	}
 
 	if err = d.Set("nat_ippool", dataSourceFlattenFirewallCentralSnatMapNatIppool(o["nat-ippool"], d, "nat_ippool")); err != nil {
 		if !fortiAPIPatch(o["nat-ippool"]) {
-			return fmt.Errorf("Error reading nat_ippool: %v", err)
+			return fmt.Errorf("error reading nat_ippool: %v", err)
 		}
 	}
 
 	if err = d.Set("nat_ippool6", dataSourceFlattenFirewallCentralSnatMapNatIppool6(o["nat-ippool6"], d, "nat_ippool6")); err != nil {
 		if !fortiAPIPatch(o["nat-ippool6"]) {
-			return fmt.Errorf("Error reading nat_ippool6: %v", err)
+			return fmt.Errorf("error reading nat_ippool6: %v", err)
 		}
 	}
 
 	if err = d.Set("protocol", dataSourceFlattenFirewallCentralSnatMapProtocol(o["protocol"], d, "protocol")); err != nil {
 		if !fortiAPIPatch(o["protocol"]) {
-			return fmt.Errorf("Error reading protocol: %v", err)
+			return fmt.Errorf("error reading protocol: %v", err)
 		}
 	}
 
 	if err = d.Set("orig_port", dataSourceFlattenFirewallCentralSnatMapOrigPort(o["orig-port"], d, "orig_port")); err != nil {
 		if !fortiAPIPatch(o["orig-port"]) {
-			return fmt.Errorf("Error reading orig_port: %v", err)
+			return fmt.Errorf("error reading orig_port: %v", err)
 		}
 	}
 
 	if err = d.Set("nat_port", dataSourceFlattenFirewallCentralSnatMapNatPort(o["nat-port"], d, "nat_port")); err != nil {
 		if !fortiAPIPatch(o["nat-port"]) {
-			return fmt.Errorf("Error reading nat_port: %v", err)
+			return fmt.Errorf("error reading nat_port: %v", err)
 		}
 	}
 
 	if err = d.Set("nat", dataSourceFlattenFirewallCentralSnatMapNat(o["nat"], d, "nat")); err != nil {
 		if !fortiAPIPatch(o["nat"]) {
-			return fmt.Errorf("Error reading nat: %v", err)
+			return fmt.Errorf("error reading nat: %v", err)
 		}
 	}
 
 	if err = d.Set("comments", dataSourceFlattenFirewallCentralSnatMapComments(o["comments"], d, "comments")); err != nil {
 		if !fortiAPIPatch(o["comments"]) {
-			return fmt.Errorf("Error reading comments: %v", err)
+			return fmt.Errorf("error reading comments: %v", err)
 		}
 	}
 

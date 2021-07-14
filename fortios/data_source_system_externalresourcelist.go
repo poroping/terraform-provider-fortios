@@ -17,12 +17,12 @@ func dataSourceSystemExternalResourceList() *schema.Resource {
 		Read: dataSourceSystemExternalResourceListRead,
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"filter": &schema.Schema{
+			"filter": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
@@ -52,9 +52,9 @@ func dataSourceSystemExternalResourceListRead(d *schema.ResourceData, m interfac
 		filter = escapeFilter(filter)
 	}
 
-	o, err := c.GenericGroupRead("/api/v2/cmdb/system/external-resource", filter, vdomparam)
+	o, err := c.GenericGroupRead("/api/v2/cmdb/system/external-resource", filter, vdomparam, 0)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemExternalResource: %v", err)
+		return fmt.Errorf("error describing SystemExternalResource: %v", err)
 	}
 
 	var tmps []string

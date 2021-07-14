@@ -21,102 +21,102 @@ func dataSourceSystemWccp() *schema.Resource {
 	return &schema.Resource{
 		Read: dataSourceSystemWccpRead,
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
 
-			"service_id": &schema.Schema{
+			"service_id": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"router_id": &schema.Schema{
+			"router_id": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"cache_id": &schema.Schema{
+			"cache_id": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"group_address": &schema.Schema{
+			"group_address": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"server_list": &schema.Schema{
+			"server_list": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"router_list": &schema.Schema{
+			"router_list": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"ports_defined": &schema.Schema{
+			"ports_defined": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"server_type": &schema.Schema{
+			"server_type": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"ports": &schema.Schema{
+			"ports": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"authentication": &schema.Schema{
+			"authentication": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"password": &schema.Schema{
+			"password": {
 				Type:      schema.TypeString,
 				Sensitive: true,
 				Computed:  true,
 			},
-			"forward_method": &schema.Schema{
+			"forward_method": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"cache_engine_method": &schema.Schema{
+			"cache_engine_method": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"service_type": &schema.Schema{
+			"service_type": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"primary_hash": &schema.Schema{
+			"primary_hash": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"priority": &schema.Schema{
+			"priority": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"protocol": &schema.Schema{
+			"protocol": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"assignment_weight": &schema.Schema{
+			"assignment_weight": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"assignment_bucket_format": &schema.Schema{
+			"assignment_bucket_format": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"return_method": &schema.Schema{
+			"return_method": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"assignment_method": &schema.Schema{
+			"assignment_method": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"assignment_srcaddr_mask": &schema.Schema{
+			"assignment_srcaddr_mask": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"assignment_dstaddr_mask": &schema.Schema{
+			"assignment_dstaddr_mask": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -144,12 +144,12 @@ func dataSourceSystemWccpRead(d *schema.ResourceData, m interface{}) error {
 	} else if v, ok := t.(int); ok {
 		mkey = strconv.Itoa(v)
 	} else {
-		return fmt.Errorf("Error describing SystemWccp: type error")
+		return fmt.Errorf("error describing SystemWccp: type error")
 	}
 
-	o, err := c.ReadSystemWccp(mkey, vdomparam)
+	o, err := c.ReadSystemWccp(mkey, vdomparam, make(map[string][]string), 0)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemWccp: %v", err)
+		return fmt.Errorf("error describing SystemWccp: %v", err)
 	}
 
 	if o == nil {
@@ -159,7 +159,7 @@ func dataSourceSystemWccpRead(d *schema.ResourceData, m interface{}) error {
 
 	err = dataSourceRefreshObjectSystemWccp(d, o)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemWccp from API: %v", err)
+		return fmt.Errorf("error describing SystemWccp from API: %v", err)
 	}
 
 	d.SetId(mkey)
@@ -264,133 +264,133 @@ func dataSourceRefreshObjectSystemWccp(d *schema.ResourceData, o map[string]inte
 
 	if err = d.Set("service_id", dataSourceFlattenSystemWccpServiceId(o["service-id"], d, "service_id")); err != nil {
 		if !fortiAPIPatch(o["service-id"]) {
-			return fmt.Errorf("Error reading service_id: %v", err)
+			return fmt.Errorf("error reading service_id: %v", err)
 		}
 	}
 
 	if err = d.Set("router_id", dataSourceFlattenSystemWccpRouterId(o["router-id"], d, "router_id")); err != nil {
 		if !fortiAPIPatch(o["router-id"]) {
-			return fmt.Errorf("Error reading router_id: %v", err)
+			return fmt.Errorf("error reading router_id: %v", err)
 		}
 	}
 
 	if err = d.Set("cache_id", dataSourceFlattenSystemWccpCacheId(o["cache-id"], d, "cache_id")); err != nil {
 		if !fortiAPIPatch(o["cache-id"]) {
-			return fmt.Errorf("Error reading cache_id: %v", err)
+			return fmt.Errorf("error reading cache_id: %v", err)
 		}
 	}
 
 	if err = d.Set("group_address", dataSourceFlattenSystemWccpGroupAddress(o["group-address"], d, "group_address")); err != nil {
 		if !fortiAPIPatch(o["group-address"]) {
-			return fmt.Errorf("Error reading group_address: %v", err)
+			return fmt.Errorf("error reading group_address: %v", err)
 		}
 	}
 
 	if err = d.Set("server_list", dataSourceFlattenSystemWccpServerList(o["server-list"], d, "server_list")); err != nil {
 		if !fortiAPIPatch(o["server-list"]) {
-			return fmt.Errorf("Error reading server_list: %v", err)
+			return fmt.Errorf("error reading server_list: %v", err)
 		}
 	}
 
 	if err = d.Set("router_list", dataSourceFlattenSystemWccpRouterList(o["router-list"], d, "router_list")); err != nil {
 		if !fortiAPIPatch(o["router-list"]) {
-			return fmt.Errorf("Error reading router_list: %v", err)
+			return fmt.Errorf("error reading router_list: %v", err)
 		}
 	}
 
 	if err = d.Set("ports_defined", dataSourceFlattenSystemWccpPortsDefined(o["ports-defined"], d, "ports_defined")); err != nil {
 		if !fortiAPIPatch(o["ports-defined"]) {
-			return fmt.Errorf("Error reading ports_defined: %v", err)
+			return fmt.Errorf("error reading ports_defined: %v", err)
 		}
 	}
 
 	if err = d.Set("server_type", dataSourceFlattenSystemWccpServerType(o["server-type"], d, "server_type")); err != nil {
 		if !fortiAPIPatch(o["server-type"]) {
-			return fmt.Errorf("Error reading server_type: %v", err)
+			return fmt.Errorf("error reading server_type: %v", err)
 		}
 	}
 
 	if err = d.Set("ports", dataSourceFlattenSystemWccpPorts(o["ports"], d, "ports")); err != nil {
 		if !fortiAPIPatch(o["ports"]) {
-			return fmt.Errorf("Error reading ports: %v", err)
+			return fmt.Errorf("error reading ports: %v", err)
 		}
 	}
 
 	if err = d.Set("authentication", dataSourceFlattenSystemWccpAuthentication(o["authentication"], d, "authentication")); err != nil {
 		if !fortiAPIPatch(o["authentication"]) {
-			return fmt.Errorf("Error reading authentication: %v", err)
+			return fmt.Errorf("error reading authentication: %v", err)
 		}
 	}
 
 	if err = d.Set("forward_method", dataSourceFlattenSystemWccpForwardMethod(o["forward-method"], d, "forward_method")); err != nil {
 		if !fortiAPIPatch(o["forward-method"]) {
-			return fmt.Errorf("Error reading forward_method: %v", err)
+			return fmt.Errorf("error reading forward_method: %v", err)
 		}
 	}
 
 	if err = d.Set("cache_engine_method", dataSourceFlattenSystemWccpCacheEngineMethod(o["cache-engine-method"], d, "cache_engine_method")); err != nil {
 		if !fortiAPIPatch(o["cache-engine-method"]) {
-			return fmt.Errorf("Error reading cache_engine_method: %v", err)
+			return fmt.Errorf("error reading cache_engine_method: %v", err)
 		}
 	}
 
 	if err = d.Set("service_type", dataSourceFlattenSystemWccpServiceType(o["service-type"], d, "service_type")); err != nil {
 		if !fortiAPIPatch(o["service-type"]) {
-			return fmt.Errorf("Error reading service_type: %v", err)
+			return fmt.Errorf("error reading service_type: %v", err)
 		}
 	}
 
 	if err = d.Set("primary_hash", dataSourceFlattenSystemWccpPrimaryHash(o["primary-hash"], d, "primary_hash")); err != nil {
 		if !fortiAPIPatch(o["primary-hash"]) {
-			return fmt.Errorf("Error reading primary_hash: %v", err)
+			return fmt.Errorf("error reading primary_hash: %v", err)
 		}
 	}
 
 	if err = d.Set("priority", dataSourceFlattenSystemWccpPriority(o["priority"], d, "priority")); err != nil {
 		if !fortiAPIPatch(o["priority"]) {
-			return fmt.Errorf("Error reading priority: %v", err)
+			return fmt.Errorf("error reading priority: %v", err)
 		}
 	}
 
 	if err = d.Set("protocol", dataSourceFlattenSystemWccpProtocol(o["protocol"], d, "protocol")); err != nil {
 		if !fortiAPIPatch(o["protocol"]) {
-			return fmt.Errorf("Error reading protocol: %v", err)
+			return fmt.Errorf("error reading protocol: %v", err)
 		}
 	}
 
 	if err = d.Set("assignment_weight", dataSourceFlattenSystemWccpAssignmentWeight(o["assignment-weight"], d, "assignment_weight")); err != nil {
 		if !fortiAPIPatch(o["assignment-weight"]) {
-			return fmt.Errorf("Error reading assignment_weight: %v", err)
+			return fmt.Errorf("error reading assignment_weight: %v", err)
 		}
 	}
 
 	if err = d.Set("assignment_bucket_format", dataSourceFlattenSystemWccpAssignmentBucketFormat(o["assignment-bucket-format"], d, "assignment_bucket_format")); err != nil {
 		if !fortiAPIPatch(o["assignment-bucket-format"]) {
-			return fmt.Errorf("Error reading assignment_bucket_format: %v", err)
+			return fmt.Errorf("error reading assignment_bucket_format: %v", err)
 		}
 	}
 
 	if err = d.Set("return_method", dataSourceFlattenSystemWccpReturnMethod(o["return-method"], d, "return_method")); err != nil {
 		if !fortiAPIPatch(o["return-method"]) {
-			return fmt.Errorf("Error reading return_method: %v", err)
+			return fmt.Errorf("error reading return_method: %v", err)
 		}
 	}
 
 	if err = d.Set("assignment_method", dataSourceFlattenSystemWccpAssignmentMethod(o["assignment-method"], d, "assignment_method")); err != nil {
 		if !fortiAPIPatch(o["assignment-method"]) {
-			return fmt.Errorf("Error reading assignment_method: %v", err)
+			return fmt.Errorf("error reading assignment_method: %v", err)
 		}
 	}
 
 	if err = d.Set("assignment_srcaddr_mask", dataSourceFlattenSystemWccpAssignmentSrcaddrMask(o["assignment-srcaddr-mask"], d, "assignment_srcaddr_mask")); err != nil {
 		if !fortiAPIPatch(o["assignment-srcaddr-mask"]) {
-			return fmt.Errorf("Error reading assignment_srcaddr_mask: %v", err)
+			return fmt.Errorf("error reading assignment_srcaddr_mask: %v", err)
 		}
 	}
 
 	if err = d.Set("assignment_dstaddr_mask", dataSourceFlattenSystemWccpAssignmentDstaddrMask(o["assignment-dstaddr-mask"], d, "assignment_dstaddr_mask")); err != nil {
 		if !fortiAPIPatch(o["assignment-dstaddr-mask"]) {
-			return fmt.Errorf("Error reading assignment_dstaddr_mask: %v", err)
+			return fmt.Errorf("error reading assignment_dstaddr_mask: %v", err)
 		}
 	}
 

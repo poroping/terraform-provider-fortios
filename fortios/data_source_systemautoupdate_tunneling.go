@@ -21,29 +21,29 @@ func dataSourceSystemAutoupdateTunneling() *schema.Resource {
 	return &schema.Resource{
 		Read: dataSourceSystemAutoupdateTunnelingRead,
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
 
-			"status": &schema.Schema{
+			"status": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"address": &schema.Schema{
+			"address": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"port": &schema.Schema{
+			"port": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"username": &schema.Schema{
+			"username": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"password": &schema.Schema{
+			"password": {
 				Type:      schema.TypeString,
 				Sensitive: true,
 				Computed:  true,
@@ -66,9 +66,9 @@ func dataSourceSystemAutoupdateTunnelingRead(d *schema.ResourceData, m interface
 
 	mkey := "SystemAutoupdateTunneling"
 
-	o, err := c.ReadSystemAutoupdateTunneling(mkey, vdomparam)
+	o, err := c.ReadSystemAutoupdateTunneling(mkey, vdomparam, make(map[string][]string), 0)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemAutoupdateTunneling: %v", err)
+		return fmt.Errorf("error describing SystemAutoupdateTunneling: %v", err)
 	}
 
 	if o == nil {
@@ -78,7 +78,7 @@ func dataSourceSystemAutoupdateTunnelingRead(d *schema.ResourceData, m interface
 
 	err = dataSourceRefreshObjectSystemAutoupdateTunneling(d, o)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemAutoupdateTunneling from API: %v", err)
+		return fmt.Errorf("error describing SystemAutoupdateTunneling from API: %v", err)
 	}
 
 	d.SetId(mkey)
@@ -111,25 +111,25 @@ func dataSourceRefreshObjectSystemAutoupdateTunneling(d *schema.ResourceData, o 
 
 	if err = d.Set("status", dataSourceFlattenSystemAutoupdateTunnelingStatus(o["status"], d, "status")); err != nil {
 		if !fortiAPIPatch(o["status"]) {
-			return fmt.Errorf("Error reading status: %v", err)
+			return fmt.Errorf("error reading status: %v", err)
 		}
 	}
 
 	if err = d.Set("address", dataSourceFlattenSystemAutoupdateTunnelingAddress(o["address"], d, "address")); err != nil {
 		if !fortiAPIPatch(o["address"]) {
-			return fmt.Errorf("Error reading address: %v", err)
+			return fmt.Errorf("error reading address: %v", err)
 		}
 	}
 
 	if err = d.Set("port", dataSourceFlattenSystemAutoupdateTunnelingPort(o["port"], d, "port")); err != nil {
 		if !fortiAPIPatch(o["port"]) {
-			return fmt.Errorf("Error reading port: %v", err)
+			return fmt.Errorf("error reading port: %v", err)
 		}
 	}
 
 	if err = d.Set("username", dataSourceFlattenSystemAutoupdateTunnelingUsername(o["username"], d, "username")); err != nil {
 		if !fortiAPIPatch(o["username"]) {
-			return fmt.Errorf("Error reading username: %v", err)
+			return fmt.Errorf("error reading username: %v", err)
 		}
 	}
 

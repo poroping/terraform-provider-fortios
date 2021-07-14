@@ -21,122 +21,122 @@ func dataSourceFirewallServiceCustom() *schema.Resource {
 	return &schema.Resource{
 		Read: dataSourceFirewallServiceCustomRead,
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
 
-			"name": &schema.Schema{
+			"name": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"proxy": &schema.Schema{
+			"proxy": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"category": &schema.Schema{
+			"category": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"protocol": &schema.Schema{
+			"protocol": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"helper": &schema.Schema{
+			"helper": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"iprange": &schema.Schema{
+			"iprange": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"fqdn": &schema.Schema{
+			"fqdn": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"protocol_number": &schema.Schema{
+			"protocol_number": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"icmptype": &schema.Schema{
+			"icmptype": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"icmpcode": &schema.Schema{
+			"icmpcode": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"tcp_portrange": &schema.Schema{
+			"tcp_portrange": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"udp_portrange": &schema.Schema{
+			"udp_portrange": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"sctp_portrange": &schema.Schema{
+			"sctp_portrange": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"tcp_halfclose_timer": &schema.Schema{
+			"tcp_halfclose_timer": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"tcp_halfopen_timer": &schema.Schema{
+			"tcp_halfopen_timer": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"tcp_timewait_timer": &schema.Schema{
+			"tcp_timewait_timer": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"udp_idle_timer": &schema.Schema{
+			"udp_idle_timer": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"session_ttl": &schema.Schema{
+			"session_ttl": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"check_reset_range": &schema.Schema{
+			"check_reset_range": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"comment": &schema.Schema{
+			"comment": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"color": &schema.Schema{
+			"color": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"visibility": &schema.Schema{
+			"visibility": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"app_service_type": &schema.Schema{
+			"app_service_type": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"app_category": &schema.Schema{
+			"app_category": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
 					},
 				},
 			},
-			"application": &schema.Schema{
+			"application": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
@@ -167,12 +167,12 @@ func dataSourceFirewallServiceCustomRead(d *schema.ResourceData, m interface{}) 
 	} else if v, ok := t.(int); ok {
 		mkey = strconv.Itoa(v)
 	} else {
-		return fmt.Errorf("Error describing FirewallServiceCustom: type error")
+		return fmt.Errorf("error describing FirewallServiceCustom: type error")
 	}
 
-	o, err := c.ReadFirewallServiceCustom(mkey, vdomparam)
+	o, err := c.ReadFirewallServiceCustom(mkey, vdomparam, make(map[string][]string), 0)
 	if err != nil {
-		return fmt.Errorf("Error describing FirewallServiceCustom: %v", err)
+		return fmt.Errorf("error describing FirewallServiceCustom: %v", err)
 	}
 
 	if o == nil {
@@ -182,7 +182,7 @@ func dataSourceFirewallServiceCustomRead(d *schema.ResourceData, m interface{}) 
 
 	err = dataSourceRefreshObjectFirewallServiceCustom(d, o)
 	if err != nil {
-		return fmt.Errorf("Error describing FirewallServiceCustom from API: %v", err)
+		return fmt.Errorf("error describing FirewallServiceCustom from API: %v", err)
 	}
 
 	d.SetId(mkey)
@@ -359,151 +359,151 @@ func dataSourceRefreshObjectFirewallServiceCustom(d *schema.ResourceData, o map[
 
 	if err = d.Set("name", dataSourceFlattenFirewallServiceCustomName(o["name"], d, "name")); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("proxy", dataSourceFlattenFirewallServiceCustomProxy(o["proxy"], d, "proxy")); err != nil {
 		if !fortiAPIPatch(o["proxy"]) {
-			return fmt.Errorf("Error reading proxy: %v", err)
+			return fmt.Errorf("error reading proxy: %v", err)
 		}
 	}
 
 	if err = d.Set("category", dataSourceFlattenFirewallServiceCustomCategory(o["category"], d, "category")); err != nil {
 		if !fortiAPIPatch(o["category"]) {
-			return fmt.Errorf("Error reading category: %v", err)
+			return fmt.Errorf("error reading category: %v", err)
 		}
 	}
 
 	if err = d.Set("protocol", dataSourceFlattenFirewallServiceCustomProtocol(o["protocol"], d, "protocol")); err != nil {
 		if !fortiAPIPatch(o["protocol"]) {
-			return fmt.Errorf("Error reading protocol: %v", err)
+			return fmt.Errorf("error reading protocol: %v", err)
 		}
 	}
 
 	if err = d.Set("helper", dataSourceFlattenFirewallServiceCustomHelper(o["helper"], d, "helper")); err != nil {
 		if !fortiAPIPatch(o["helper"]) {
-			return fmt.Errorf("Error reading helper: %v", err)
+			return fmt.Errorf("error reading helper: %v", err)
 		}
 	}
 
 	if err = d.Set("iprange", dataSourceFlattenFirewallServiceCustomIprange(o["iprange"], d, "iprange")); err != nil {
 		if !fortiAPIPatch(o["iprange"]) {
-			return fmt.Errorf("Error reading iprange: %v", err)
+			return fmt.Errorf("error reading iprange: %v", err)
 		}
 	}
 
 	if err = d.Set("fqdn", dataSourceFlattenFirewallServiceCustomFqdn(o["fqdn"], d, "fqdn")); err != nil {
 		if !fortiAPIPatch(o["fqdn"]) {
-			return fmt.Errorf("Error reading fqdn: %v", err)
+			return fmt.Errorf("error reading fqdn: %v", err)
 		}
 	}
 
 	if err = d.Set("protocol_number", dataSourceFlattenFirewallServiceCustomProtocolNumber(o["protocol-number"], d, "protocol_number")); err != nil {
 		if !fortiAPIPatch(o["protocol-number"]) {
-			return fmt.Errorf("Error reading protocol_number: %v", err)
+			return fmt.Errorf("error reading protocol_number: %v", err)
 		}
 	}
 
 	if err = d.Set("icmptype", dataSourceFlattenFirewallServiceCustomIcmptype(o["icmptype"], d, "icmptype")); err != nil {
 		if !fortiAPIPatch(o["icmptype"]) {
-			return fmt.Errorf("Error reading icmptype: %v", err)
+			return fmt.Errorf("error reading icmptype: %v", err)
 		}
 	}
 
 	if err = d.Set("icmpcode", dataSourceFlattenFirewallServiceCustomIcmpcode(o["icmpcode"], d, "icmpcode")); err != nil {
 		if !fortiAPIPatch(o["icmpcode"]) {
-			return fmt.Errorf("Error reading icmpcode: %v", err)
+			return fmt.Errorf("error reading icmpcode: %v", err)
 		}
 	}
 
 	if err = d.Set("tcp_portrange", dataSourceFlattenFirewallServiceCustomTcpPortrange(o["tcp-portrange"], d, "tcp_portrange")); err != nil {
 		if !fortiAPIPatch(o["tcp-portrange"]) {
-			return fmt.Errorf("Error reading tcp_portrange: %v", err)
+			return fmt.Errorf("error reading tcp_portrange: %v", err)
 		}
 	}
 
 	if err = d.Set("udp_portrange", dataSourceFlattenFirewallServiceCustomUdpPortrange(o["udp-portrange"], d, "udp_portrange")); err != nil {
 		if !fortiAPIPatch(o["udp-portrange"]) {
-			return fmt.Errorf("Error reading udp_portrange: %v", err)
+			return fmt.Errorf("error reading udp_portrange: %v", err)
 		}
 	}
 
 	if err = d.Set("sctp_portrange", dataSourceFlattenFirewallServiceCustomSctpPortrange(o["sctp-portrange"], d, "sctp_portrange")); err != nil {
 		if !fortiAPIPatch(o["sctp-portrange"]) {
-			return fmt.Errorf("Error reading sctp_portrange: %v", err)
+			return fmt.Errorf("error reading sctp_portrange: %v", err)
 		}
 	}
 
 	if err = d.Set("tcp_halfclose_timer", dataSourceFlattenFirewallServiceCustomTcpHalfcloseTimer(o["tcp-halfclose-timer"], d, "tcp_halfclose_timer")); err != nil {
 		if !fortiAPIPatch(o["tcp-halfclose-timer"]) {
-			return fmt.Errorf("Error reading tcp_halfclose_timer: %v", err)
+			return fmt.Errorf("error reading tcp_halfclose_timer: %v", err)
 		}
 	}
 
 	if err = d.Set("tcp_halfopen_timer", dataSourceFlattenFirewallServiceCustomTcpHalfopenTimer(o["tcp-halfopen-timer"], d, "tcp_halfopen_timer")); err != nil {
 		if !fortiAPIPatch(o["tcp-halfopen-timer"]) {
-			return fmt.Errorf("Error reading tcp_halfopen_timer: %v", err)
+			return fmt.Errorf("error reading tcp_halfopen_timer: %v", err)
 		}
 	}
 
 	if err = d.Set("tcp_timewait_timer", dataSourceFlattenFirewallServiceCustomTcpTimewaitTimer(o["tcp-timewait-timer"], d, "tcp_timewait_timer")); err != nil {
 		if !fortiAPIPatch(o["tcp-timewait-timer"]) {
-			return fmt.Errorf("Error reading tcp_timewait_timer: %v", err)
+			return fmt.Errorf("error reading tcp_timewait_timer: %v", err)
 		}
 	}
 
 	if err = d.Set("udp_idle_timer", dataSourceFlattenFirewallServiceCustomUdpIdleTimer(o["udp-idle-timer"], d, "udp_idle_timer")); err != nil {
 		if !fortiAPIPatch(o["udp-idle-timer"]) {
-			return fmt.Errorf("Error reading udp_idle_timer: %v", err)
+			return fmt.Errorf("error reading udp_idle_timer: %v", err)
 		}
 	}
 
 	if err = d.Set("session_ttl", dataSourceFlattenFirewallServiceCustomSessionTtl(o["session-ttl"], d, "session_ttl")); err != nil {
 		if !fortiAPIPatch(o["session-ttl"]) {
-			return fmt.Errorf("Error reading session_ttl: %v", err)
+			return fmt.Errorf("error reading session_ttl: %v", err)
 		}
 	}
 
 	if err = d.Set("check_reset_range", dataSourceFlattenFirewallServiceCustomCheckResetRange(o["check-reset-range"], d, "check_reset_range")); err != nil {
 		if !fortiAPIPatch(o["check-reset-range"]) {
-			return fmt.Errorf("Error reading check_reset_range: %v", err)
+			return fmt.Errorf("error reading check_reset_range: %v", err)
 		}
 	}
 
 	if err = d.Set("comment", dataSourceFlattenFirewallServiceCustomComment(o["comment"], d, "comment")); err != nil {
 		if !fortiAPIPatch(o["comment"]) {
-			return fmt.Errorf("Error reading comment: %v", err)
+			return fmt.Errorf("error reading comment: %v", err)
 		}
 	}
 
 	if err = d.Set("color", dataSourceFlattenFirewallServiceCustomColor(o["color"], d, "color")); err != nil {
 		if !fortiAPIPatch(o["color"]) {
-			return fmt.Errorf("Error reading color: %v", err)
+			return fmt.Errorf("error reading color: %v", err)
 		}
 	}
 
 	if err = d.Set("visibility", dataSourceFlattenFirewallServiceCustomVisibility(o["visibility"], d, "visibility")); err != nil {
 		if !fortiAPIPatch(o["visibility"]) {
-			return fmt.Errorf("Error reading visibility: %v", err)
+			return fmt.Errorf("error reading visibility: %v", err)
 		}
 	}
 
 	if err = d.Set("app_service_type", dataSourceFlattenFirewallServiceCustomAppServiceType(o["app-service-type"], d, "app_service_type")); err != nil {
 		if !fortiAPIPatch(o["app-service-type"]) {
-			return fmt.Errorf("Error reading app_service_type: %v", err)
+			return fmt.Errorf("error reading app_service_type: %v", err)
 		}
 	}
 
 	if err = d.Set("app_category", dataSourceFlattenFirewallServiceCustomAppCategory(o["app-category"], d, "app_category")); err != nil {
 		if !fortiAPIPatch(o["app-category"]) {
-			return fmt.Errorf("Error reading app_category: %v", err)
+			return fmt.Errorf("error reading app_category: %v", err)
 		}
 	}
 
 	if err = d.Set("application", dataSourceFlattenFirewallServiceCustomApplication(o["application"], d, "application")); err != nil {
 		if !fortiAPIPatch(o["application"]) {
-			return fmt.Errorf("Error reading application: %v", err)
+			return fmt.Errorf("error reading application: %v", err)
 		}
 	}
 

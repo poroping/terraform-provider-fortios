@@ -21,22 +21,22 @@ func dataSourceRouterBfd6() *schema.Resource {
 	return &schema.Resource{
 		Read: dataSourceRouterBfd6Read,
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
 
-			"neighbor": &schema.Schema{
+			"neighbor": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"ip6_address": &schema.Schema{
+						"ip6_address": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"interface": &schema.Schema{
+						"interface": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -61,9 +61,9 @@ func dataSourceRouterBfd6Read(d *schema.ResourceData, m interface{}) error {
 
 	mkey := "RouterBfd6"
 
-	o, err := c.ReadRouterBfd6(mkey, vdomparam)
+	o, err := c.ReadRouterBfd6(mkey, vdomparam, make(map[string][]string), 0)
 	if err != nil {
-		return fmt.Errorf("Error describing RouterBfd6: %v", err)
+		return fmt.Errorf("error describing RouterBfd6: %v", err)
 	}
 
 	if o == nil {
@@ -73,7 +73,7 @@ func dataSourceRouterBfd6Read(d *schema.ResourceData, m interface{}) error {
 
 	err = dataSourceRefreshObjectRouterBfd6(d, o)
 	if err != nil {
-		return fmt.Errorf("Error describing RouterBfd6 from API: %v", err)
+		return fmt.Errorf("error describing RouterBfd6 from API: %v", err)
 	}
 
 	d.SetId(mkey)
@@ -131,7 +131,7 @@ func dataSourceRefreshObjectRouterBfd6(d *schema.ResourceData, o map[string]inte
 
 	if err = d.Set("neighbor", dataSourceFlattenRouterBfd6Neighbor(o["neighbor"], d, "neighbor")); err != nil {
 		if !fortiAPIPatch(o["neighbor"]) {
-			return fmt.Errorf("Error reading neighbor: %v", err)
+			return fmt.Errorf("error reading neighbor: %v", err)
 		}
 	}
 

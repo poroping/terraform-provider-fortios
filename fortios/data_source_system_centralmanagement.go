@@ -21,121 +21,121 @@ func dataSourceSystemCentralManagement() *schema.Resource {
 	return &schema.Resource{
 		Read: dataSourceSystemCentralManagementRead,
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
 
-			"mode": &schema.Schema{
+			"mode": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"type": &schema.Schema{
+			"type": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"schedule_config_restore": &schema.Schema{
+			"schedule_config_restore": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"schedule_script_restore": &schema.Schema{
+			"schedule_script_restore": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"allow_push_configuration": &schema.Schema{
+			"allow_push_configuration": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"allow_push_firmware": &schema.Schema{
+			"allow_push_firmware": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"allow_remote_firmware_upgrade": &schema.Schema{
+			"allow_remote_firmware_upgrade": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"allow_monitor": &schema.Schema{
+			"allow_monitor": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"serial_number": &schema.Schema{
+			"serial_number": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"fmg": &schema.Schema{
+			"fmg": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"fmg_source_ip": &schema.Schema{
+			"fmg_source_ip": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"fmg_source_ip6": &schema.Schema{
+			"fmg_source_ip6": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"local_cert": &schema.Schema{
+			"local_cert": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"ca_cert": &schema.Schema{
+			"ca_cert": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"vdom": &schema.Schema{
+			"vdom": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"server_list": &schema.Schema{
+			"server_list": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"server_type": &schema.Schema{
+						"server_type": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"addr_type": &schema.Schema{
+						"addr_type": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"server_address": &schema.Schema{
+						"server_address": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"server_address6": &schema.Schema{
+						"server_address6": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"fqdn": &schema.Schema{
+						"fqdn": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 					},
 				},
 			},
-			"fmg_update_port": &schema.Schema{
+			"fmg_update_port": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"include_default_servers": &schema.Schema{
+			"include_default_servers": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"enc_algorithm": &schema.Schema{
+			"enc_algorithm": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"interface_select_method": &schema.Schema{
+			"interface_select_method": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"interface": &schema.Schema{
+			"interface": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -157,9 +157,9 @@ func dataSourceSystemCentralManagementRead(d *schema.ResourceData, m interface{}
 
 	mkey := "SystemCentralManagement"
 
-	o, err := c.ReadSystemCentralManagement(mkey, vdomparam)
+	o, err := c.ReadSystemCentralManagement(mkey, vdomparam, make(map[string][]string), 0)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemCentralManagement: %v", err)
+		return fmt.Errorf("error describing SystemCentralManagement: %v", err)
 	}
 
 	if o == nil {
@@ -169,7 +169,7 @@ func dataSourceSystemCentralManagementRead(d *schema.ResourceData, m interface{}
 
 	err = dataSourceRefreshObjectSystemCentralManagement(d, o)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemCentralManagement from API: %v", err)
+		return fmt.Errorf("error describing SystemCentralManagement from API: %v", err)
 	}
 
 	d.SetId(mkey)
@@ -343,127 +343,127 @@ func dataSourceRefreshObjectSystemCentralManagement(d *schema.ResourceData, o ma
 
 	if err = d.Set("mode", dataSourceFlattenSystemCentralManagementMode(o["mode"], d, "mode")); err != nil {
 		if !fortiAPIPatch(o["mode"]) {
-			return fmt.Errorf("Error reading mode: %v", err)
+			return fmt.Errorf("error reading mode: %v", err)
 		}
 	}
 
 	if err = d.Set("type", dataSourceFlattenSystemCentralManagementType(o["type"], d, "type")); err != nil {
 		if !fortiAPIPatch(o["type"]) {
-			return fmt.Errorf("Error reading type: %v", err)
+			return fmt.Errorf("error reading type: %v", err)
 		}
 	}
 
 	if err = d.Set("schedule_config_restore", dataSourceFlattenSystemCentralManagementScheduleConfigRestore(o["schedule-config-restore"], d, "schedule_config_restore")); err != nil {
 		if !fortiAPIPatch(o["schedule-config-restore"]) {
-			return fmt.Errorf("Error reading schedule_config_restore: %v", err)
+			return fmt.Errorf("error reading schedule_config_restore: %v", err)
 		}
 	}
 
 	if err = d.Set("schedule_script_restore", dataSourceFlattenSystemCentralManagementScheduleScriptRestore(o["schedule-script-restore"], d, "schedule_script_restore")); err != nil {
 		if !fortiAPIPatch(o["schedule-script-restore"]) {
-			return fmt.Errorf("Error reading schedule_script_restore: %v", err)
+			return fmt.Errorf("error reading schedule_script_restore: %v", err)
 		}
 	}
 
 	if err = d.Set("allow_push_configuration", dataSourceFlattenSystemCentralManagementAllowPushConfiguration(o["allow-push-configuration"], d, "allow_push_configuration")); err != nil {
 		if !fortiAPIPatch(o["allow-push-configuration"]) {
-			return fmt.Errorf("Error reading allow_push_configuration: %v", err)
+			return fmt.Errorf("error reading allow_push_configuration: %v", err)
 		}
 	}
 
 	if err = d.Set("allow_push_firmware", dataSourceFlattenSystemCentralManagementAllowPushFirmware(o["allow-push-firmware"], d, "allow_push_firmware")); err != nil {
 		if !fortiAPIPatch(o["allow-push-firmware"]) {
-			return fmt.Errorf("Error reading allow_push_firmware: %v", err)
+			return fmt.Errorf("error reading allow_push_firmware: %v", err)
 		}
 	}
 
 	if err = d.Set("allow_remote_firmware_upgrade", dataSourceFlattenSystemCentralManagementAllowRemoteFirmwareUpgrade(o["allow-remote-firmware-upgrade"], d, "allow_remote_firmware_upgrade")); err != nil {
 		if !fortiAPIPatch(o["allow-remote-firmware-upgrade"]) {
-			return fmt.Errorf("Error reading allow_remote_firmware_upgrade: %v", err)
+			return fmt.Errorf("error reading allow_remote_firmware_upgrade: %v", err)
 		}
 	}
 
 	if err = d.Set("allow_monitor", dataSourceFlattenSystemCentralManagementAllowMonitor(o["allow-monitor"], d, "allow_monitor")); err != nil {
 		if !fortiAPIPatch(o["allow-monitor"]) {
-			return fmt.Errorf("Error reading allow_monitor: %v", err)
+			return fmt.Errorf("error reading allow_monitor: %v", err)
 		}
 	}
 
 	if err = d.Set("serial_number", dataSourceFlattenSystemCentralManagementSerialNumber(o["serial-number"], d, "serial_number")); err != nil {
 		if !fortiAPIPatch(o["serial-number"]) {
-			return fmt.Errorf("Error reading serial_number: %v", err)
+			return fmt.Errorf("error reading serial_number: %v", err)
 		}
 	}
 
 	if err = d.Set("fmg", dataSourceFlattenSystemCentralManagementFmg(o["fmg"], d, "fmg")); err != nil {
 		if !fortiAPIPatch(o["fmg"]) {
-			return fmt.Errorf("Error reading fmg: %v", err)
+			return fmt.Errorf("error reading fmg: %v", err)
 		}
 	}
 
 	if err = d.Set("fmg_source_ip", dataSourceFlattenSystemCentralManagementFmgSourceIp(o["fmg-source-ip"], d, "fmg_source_ip")); err != nil {
 		if !fortiAPIPatch(o["fmg-source-ip"]) {
-			return fmt.Errorf("Error reading fmg_source_ip: %v", err)
+			return fmt.Errorf("error reading fmg_source_ip: %v", err)
 		}
 	}
 
 	if err = d.Set("fmg_source_ip6", dataSourceFlattenSystemCentralManagementFmgSourceIp6(o["fmg-source-ip6"], d, "fmg_source_ip6")); err != nil {
 		if !fortiAPIPatch(o["fmg-source-ip6"]) {
-			return fmt.Errorf("Error reading fmg_source_ip6: %v", err)
+			return fmt.Errorf("error reading fmg_source_ip6: %v", err)
 		}
 	}
 
 	if err = d.Set("local_cert", dataSourceFlattenSystemCentralManagementLocalCert(o["local-cert"], d, "local_cert")); err != nil {
 		if !fortiAPIPatch(o["local-cert"]) {
-			return fmt.Errorf("Error reading local_cert: %v", err)
+			return fmt.Errorf("error reading local_cert: %v", err)
 		}
 	}
 
 	if err = d.Set("ca_cert", dataSourceFlattenSystemCentralManagementCaCert(o["ca-cert"], d, "ca_cert")); err != nil {
 		if !fortiAPIPatch(o["ca-cert"]) {
-			return fmt.Errorf("Error reading ca_cert: %v", err)
+			return fmt.Errorf("error reading ca_cert: %v", err)
 		}
 	}
 
 	if err = d.Set("vdom", dataSourceFlattenSystemCentralManagementVdom(o["vdom"], d, "vdom")); err != nil {
 		if !fortiAPIPatch(o["vdom"]) {
-			return fmt.Errorf("Error reading vdom: %v", err)
+			return fmt.Errorf("error reading vdom: %v", err)
 		}
 	}
 
 	if err = d.Set("server_list", dataSourceFlattenSystemCentralManagementServerList(o["server-list"], d, "server_list")); err != nil {
 		if !fortiAPIPatch(o["server-list"]) {
-			return fmt.Errorf("Error reading server_list: %v", err)
+			return fmt.Errorf("error reading server_list: %v", err)
 		}
 	}
 
 	if err = d.Set("fmg_update_port", dataSourceFlattenSystemCentralManagementFmgUpdatePort(o["fmg-update-port"], d, "fmg_update_port")); err != nil {
 		if !fortiAPIPatch(o["fmg-update-port"]) {
-			return fmt.Errorf("Error reading fmg_update_port: %v", err)
+			return fmt.Errorf("error reading fmg_update_port: %v", err)
 		}
 	}
 
 	if err = d.Set("include_default_servers", dataSourceFlattenSystemCentralManagementIncludeDefaultServers(o["include-default-servers"], d, "include_default_servers")); err != nil {
 		if !fortiAPIPatch(o["include-default-servers"]) {
-			return fmt.Errorf("Error reading include_default_servers: %v", err)
+			return fmt.Errorf("error reading include_default_servers: %v", err)
 		}
 	}
 
 	if err = d.Set("enc_algorithm", dataSourceFlattenSystemCentralManagementEncAlgorithm(o["enc-algorithm"], d, "enc_algorithm")); err != nil {
 		if !fortiAPIPatch(o["enc-algorithm"]) {
-			return fmt.Errorf("Error reading enc_algorithm: %v", err)
+			return fmt.Errorf("error reading enc_algorithm: %v", err)
 		}
 	}
 
 	if err = d.Set("interface_select_method", dataSourceFlattenSystemCentralManagementInterfaceSelectMethod(o["interface-select-method"], d, "interface_select_method")); err != nil {
 		if !fortiAPIPatch(o["interface-select-method"]) {
-			return fmt.Errorf("Error reading interface_select_method: %v", err)
+			return fmt.Errorf("error reading interface_select_method: %v", err)
 		}
 	}
 
 	if err = d.Set("interface", dataSourceFlattenSystemCentralManagementInterface(o["interface"], d, "interface")); err != nil {
 		if !fortiAPIPatch(o["interface"]) {
-			return fmt.Errorf("Error reading interface: %v", err)
+			return fmt.Errorf("error reading interface: %v", err)
 		}
 	}
 

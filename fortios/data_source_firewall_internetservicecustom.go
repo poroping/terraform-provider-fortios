@@ -21,63 +21,63 @@ func dataSourceFirewallInternetServiceCustom() *schema.Resource {
 	return &schema.Resource{
 		Read: dataSourceFirewallInternetServiceCustomRead,
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
 
-			"name": &schema.Schema{
+			"name": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"reputation": &schema.Schema{
+			"reputation": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"comment": &schema.Schema{
+			"comment": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"entry": &schema.Schema{
+			"entry": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"protocol": &schema.Schema{
+						"protocol": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"port_range": &schema.Schema{
+						"port_range": {
 							Type:     schema.TypeList,
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"id": &schema.Schema{
+									"id": {
 										Type:     schema.TypeInt,
 										Computed: true,
 									},
-									"start_port": &schema.Schema{
+									"start_port": {
 										Type:     schema.TypeInt,
 										Computed: true,
 									},
-									"end_port": &schema.Schema{
+									"end_port": {
 										Type:     schema.TypeInt,
 										Computed: true,
 									},
 								},
 							},
 						},
-						"dst": &schema.Schema{
+						"dst": {
 							Type:     schema.TypeList,
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"name": &schema.Schema{
+									"name": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
@@ -111,12 +111,12 @@ func dataSourceFirewallInternetServiceCustomRead(d *schema.ResourceData, m inter
 	} else if v, ok := t.(int); ok {
 		mkey = strconv.Itoa(v)
 	} else {
-		return fmt.Errorf("Error describing FirewallInternetServiceCustom: type error")
+		return fmt.Errorf("error describing FirewallInternetServiceCustom: type error")
 	}
 
-	o, err := c.ReadFirewallInternetServiceCustom(mkey, vdomparam)
+	o, err := c.ReadFirewallInternetServiceCustom(mkey, vdomparam, make(map[string][]string), 0)
 	if err != nil {
-		return fmt.Errorf("Error describing FirewallInternetServiceCustom: %v", err)
+		return fmt.Errorf("error describing FirewallInternetServiceCustom: %v", err)
 	}
 
 	if o == nil {
@@ -126,7 +126,7 @@ func dataSourceFirewallInternetServiceCustomRead(d *schema.ResourceData, m inter
 
 	err = dataSourceRefreshObjectFirewallInternetServiceCustom(d, o)
 	if err != nil {
-		return fmt.Errorf("Error describing FirewallInternetServiceCustom from API: %v", err)
+		return fmt.Errorf("error describing FirewallInternetServiceCustom from API: %v", err)
 	}
 
 	d.SetId(mkey)
@@ -296,25 +296,25 @@ func dataSourceRefreshObjectFirewallInternetServiceCustom(d *schema.ResourceData
 
 	if err = d.Set("name", dataSourceFlattenFirewallInternetServiceCustomName(o["name"], d, "name")); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("reputation", dataSourceFlattenFirewallInternetServiceCustomReputation(o["reputation"], d, "reputation")); err != nil {
 		if !fortiAPIPatch(o["reputation"]) {
-			return fmt.Errorf("Error reading reputation: %v", err)
+			return fmt.Errorf("error reading reputation: %v", err)
 		}
 	}
 
 	if err = d.Set("comment", dataSourceFlattenFirewallInternetServiceCustomComment(o["comment"], d, "comment")); err != nil {
 		if !fortiAPIPatch(o["comment"]) {
-			return fmt.Errorf("Error reading comment: %v", err)
+			return fmt.Errorf("error reading comment: %v", err)
 		}
 	}
 
 	if err = d.Set("entry", dataSourceFlattenFirewallInternetServiceCustomEntry(o["entry"], d, "entry")); err != nil {
 		if !fortiAPIPatch(o["entry"]) {
-			return fmt.Errorf("Error reading entry: %v", err)
+			return fmt.Errorf("error reading entry: %v", err)
 		}
 	}
 

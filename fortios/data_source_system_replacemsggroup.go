@@ -21,474 +21,474 @@ func dataSourceSystemReplacemsgGroup() *schema.Resource {
 	return &schema.Resource{
 		Read: dataSourceSystemReplacemsgGroupRead,
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
 
-			"name": &schema.Schema{
+			"name": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"comment": &schema.Schema{
+			"comment": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"group_type": &schema.Schema{
+			"group_type": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"mail": &schema.Schema{
+			"mail": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"msg_type": &schema.Schema{
+						"msg_type": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"buffer": &schema.Schema{
+						"buffer": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"header": &schema.Schema{
+						"header": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"format": &schema.Schema{
+						"format": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 					},
 				},
 			},
-			"http": &schema.Schema{
+			"http": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"msg_type": &schema.Schema{
+						"msg_type": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"buffer": &schema.Schema{
+						"buffer": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"header": &schema.Schema{
+						"header": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"format": &schema.Schema{
+						"format": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 					},
 				},
 			},
-			"webproxy": &schema.Schema{
+			"webproxy": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"msg_type": &schema.Schema{
+						"msg_type": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"buffer": &schema.Schema{
+						"buffer": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"header": &schema.Schema{
+						"header": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"format": &schema.Schema{
+						"format": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 					},
 				},
 			},
-			"ftp": &schema.Schema{
+			"ftp": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"msg_type": &schema.Schema{
+						"msg_type": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"buffer": &schema.Schema{
+						"buffer": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"header": &schema.Schema{
+						"header": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"format": &schema.Schema{
+						"format": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 					},
 				},
 			},
-			"nntp": &schema.Schema{
+			"nntp": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"msg_type": &schema.Schema{
+						"msg_type": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"buffer": &schema.Schema{
+						"buffer": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"header": &schema.Schema{
+						"header": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"format": &schema.Schema{
+						"format": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 					},
 				},
 			},
-			"fortiguard_wf": &schema.Schema{
+			"fortiguard_wf": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"msg_type": &schema.Schema{
+						"msg_type": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"buffer": &schema.Schema{
+						"buffer": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"header": &schema.Schema{
+						"header": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"format": &schema.Schema{
+						"format": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 					},
 				},
 			},
-			"spam": &schema.Schema{
+			"spam": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"msg_type": &schema.Schema{
+						"msg_type": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"buffer": &schema.Schema{
+						"buffer": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"header": &schema.Schema{
+						"header": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"format": &schema.Schema{
+						"format": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 					},
 				},
 			},
-			"alertmail": &schema.Schema{
+			"alertmail": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"msg_type": &schema.Schema{
+						"msg_type": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"buffer": &schema.Schema{
+						"buffer": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"header": &schema.Schema{
+						"header": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"format": &schema.Schema{
+						"format": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 					},
 				},
 			},
-			"admin": &schema.Schema{
+			"admin": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"msg_type": &schema.Schema{
+						"msg_type": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"buffer": &schema.Schema{
+						"buffer": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"header": &schema.Schema{
+						"header": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"format": &schema.Schema{
+						"format": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 					},
 				},
 			},
-			"auth": &schema.Schema{
+			"auth": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"msg_type": &schema.Schema{
+						"msg_type": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"buffer": &schema.Schema{
+						"buffer": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"header": &schema.Schema{
+						"header": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"format": &schema.Schema{
+						"format": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 					},
 				},
 			},
-			"sslvpn": &schema.Schema{
+			"sslvpn": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"msg_type": &schema.Schema{
+						"msg_type": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"buffer": &schema.Schema{
+						"buffer": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"header": &schema.Schema{
+						"header": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"format": &schema.Schema{
+						"format": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 					},
 				},
 			},
-			"ec": &schema.Schema{
+			"ec": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"msg_type": &schema.Schema{
+						"msg_type": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"buffer": &schema.Schema{
+						"buffer": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"header": &schema.Schema{
+						"header": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"format": &schema.Schema{
+						"format": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 					},
 				},
 			},
-			"device_detection_portal": &schema.Schema{
+			"device_detection_portal": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"msg_type": &schema.Schema{
+						"msg_type": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"buffer": &schema.Schema{
+						"buffer": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"header": &schema.Schema{
+						"header": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"format": &schema.Schema{
+						"format": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 					},
 				},
 			},
-			"nac_quar": &schema.Schema{
+			"nac_quar": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"msg_type": &schema.Schema{
+						"msg_type": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"buffer": &schema.Schema{
+						"buffer": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"header": &schema.Schema{
+						"header": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"format": &schema.Schema{
+						"format": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 					},
 				},
 			},
-			"traffic_quota": &schema.Schema{
+			"traffic_quota": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"msg_type": &schema.Schema{
+						"msg_type": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"buffer": &schema.Schema{
+						"buffer": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"header": &schema.Schema{
+						"header": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"format": &schema.Schema{
+						"format": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 					},
 				},
 			},
-			"utm": &schema.Schema{
+			"utm": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"msg_type": &schema.Schema{
+						"msg_type": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"buffer": &schema.Schema{
+						"buffer": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"header": &schema.Schema{
+						"header": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"format": &schema.Schema{
+						"format": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 					},
 				},
 			},
-			"custom_message": &schema.Schema{
+			"custom_message": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"msg_type": &schema.Schema{
+						"msg_type": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"buffer": &schema.Schema{
+						"buffer": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"header": &schema.Schema{
+						"header": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"format": &schema.Schema{
+						"format": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 					},
 				},
 			},
-			"icap": &schema.Schema{
+			"icap": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"msg_type": &schema.Schema{
+						"msg_type": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"buffer": &schema.Schema{
+						"buffer": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"header": &schema.Schema{
+						"header": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"format": &schema.Schema{
+						"format": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 					},
 				},
 			},
-			"automation": &schema.Schema{
+			"automation": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"msg_type": &schema.Schema{
+						"msg_type": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"buffer": &schema.Schema{
+						"buffer": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"header": &schema.Schema{
+						"header": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"format": &schema.Schema{
+						"format": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -519,12 +519,12 @@ func dataSourceSystemReplacemsgGroupRead(d *schema.ResourceData, m interface{}) 
 	} else if v, ok := t.(int); ok {
 		mkey = strconv.Itoa(v)
 	} else {
-		return fmt.Errorf("Error describing SystemReplacemsgGroup: type error")
+		return fmt.Errorf("error describing SystemReplacemsgGroup: type error")
 	}
 
-	o, err := c.ReadSystemReplacemsgGroup(mkey, vdomparam)
+	o, err := c.ReadSystemReplacemsgGroup(mkey, vdomparam, make(map[string][]string), 0)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemReplacemsgGroup: %v", err)
+		return fmt.Errorf("error describing SystemReplacemsgGroup: %v", err)
 	}
 
 	if o == nil {
@@ -534,7 +534,7 @@ func dataSourceSystemReplacemsgGroupRead(d *schema.ResourceData, m interface{}) 
 
 	err = dataSourceRefreshObjectSystemReplacemsgGroup(d, o)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemReplacemsgGroup from API: %v", err)
+		return fmt.Errorf("error describing SystemReplacemsgGroup from API: %v", err)
 	}
 
 	d.SetId(mkey)
@@ -1756,133 +1756,133 @@ func dataSourceRefreshObjectSystemReplacemsgGroup(d *schema.ResourceData, o map[
 
 	if err = d.Set("name", dataSourceFlattenSystemReplacemsgGroupName(o["name"], d, "name")); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("comment", dataSourceFlattenSystemReplacemsgGroupComment(o["comment"], d, "comment")); err != nil {
 		if !fortiAPIPatch(o["comment"]) {
-			return fmt.Errorf("Error reading comment: %v", err)
+			return fmt.Errorf("error reading comment: %v", err)
 		}
 	}
 
 	if err = d.Set("group_type", dataSourceFlattenSystemReplacemsgGroupGroupType(o["group-type"], d, "group_type")); err != nil {
 		if !fortiAPIPatch(o["group-type"]) {
-			return fmt.Errorf("Error reading group_type: %v", err)
+			return fmt.Errorf("error reading group_type: %v", err)
 		}
 	}
 
 	if err = d.Set("mail", dataSourceFlattenSystemReplacemsgGroupMail(o["mail"], d, "mail")); err != nil {
 		if !fortiAPIPatch(o["mail"]) {
-			return fmt.Errorf("Error reading mail: %v", err)
+			return fmt.Errorf("error reading mail: %v", err)
 		}
 	}
 
 	if err = d.Set("http", dataSourceFlattenSystemReplacemsgGroupHttp(o["http"], d, "http")); err != nil {
 		if !fortiAPIPatch(o["http"]) {
-			return fmt.Errorf("Error reading http: %v", err)
+			return fmt.Errorf("error reading http: %v", err)
 		}
 	}
 
 	if err = d.Set("webproxy", dataSourceFlattenSystemReplacemsgGroupWebproxy(o["webproxy"], d, "webproxy")); err != nil {
 		if !fortiAPIPatch(o["webproxy"]) {
-			return fmt.Errorf("Error reading webproxy: %v", err)
+			return fmt.Errorf("error reading webproxy: %v", err)
 		}
 	}
 
 	if err = d.Set("ftp", dataSourceFlattenSystemReplacemsgGroupFtp(o["ftp"], d, "ftp")); err != nil {
 		if !fortiAPIPatch(o["ftp"]) {
-			return fmt.Errorf("Error reading ftp: %v", err)
+			return fmt.Errorf("error reading ftp: %v", err)
 		}
 	}
 
 	if err = d.Set("nntp", dataSourceFlattenSystemReplacemsgGroupNntp(o["nntp"], d, "nntp")); err != nil {
 		if !fortiAPIPatch(o["nntp"]) {
-			return fmt.Errorf("Error reading nntp: %v", err)
+			return fmt.Errorf("error reading nntp: %v", err)
 		}
 	}
 
 	if err = d.Set("fortiguard_wf", dataSourceFlattenSystemReplacemsgGroupFortiguardWf(o["fortiguard-wf"], d, "fortiguard_wf")); err != nil {
 		if !fortiAPIPatch(o["fortiguard-wf"]) {
-			return fmt.Errorf("Error reading fortiguard_wf: %v", err)
+			return fmt.Errorf("error reading fortiguard_wf: %v", err)
 		}
 	}
 
 	if err = d.Set("spam", dataSourceFlattenSystemReplacemsgGroupSpam(o["spam"], d, "spam")); err != nil {
 		if !fortiAPIPatch(o["spam"]) {
-			return fmt.Errorf("Error reading spam: %v", err)
+			return fmt.Errorf("error reading spam: %v", err)
 		}
 	}
 
 	if err = d.Set("alertmail", dataSourceFlattenSystemReplacemsgGroupAlertmail(o["alertmail"], d, "alertmail")); err != nil {
 		if !fortiAPIPatch(o["alertmail"]) {
-			return fmt.Errorf("Error reading alertmail: %v", err)
+			return fmt.Errorf("error reading alertmail: %v", err)
 		}
 	}
 
 	if err = d.Set("admin", dataSourceFlattenSystemReplacemsgGroupAdmin(o["admin"], d, "admin")); err != nil {
 		if !fortiAPIPatch(o["admin"]) {
-			return fmt.Errorf("Error reading admin: %v", err)
+			return fmt.Errorf("error reading admin: %v", err)
 		}
 	}
 
 	if err = d.Set("auth", dataSourceFlattenSystemReplacemsgGroupAuth(o["auth"], d, "auth")); err != nil {
 		if !fortiAPIPatch(o["auth"]) {
-			return fmt.Errorf("Error reading auth: %v", err)
+			return fmt.Errorf("error reading auth: %v", err)
 		}
 	}
 
 	if err = d.Set("sslvpn", dataSourceFlattenSystemReplacemsgGroupSslvpn(o["sslvpn"], d, "sslvpn")); err != nil {
 		if !fortiAPIPatch(o["sslvpn"]) {
-			return fmt.Errorf("Error reading sslvpn: %v", err)
+			return fmt.Errorf("error reading sslvpn: %v", err)
 		}
 	}
 
 	if err = d.Set("ec", dataSourceFlattenSystemReplacemsgGroupEc(o["ec"], d, "ec")); err != nil {
 		if !fortiAPIPatch(o["ec"]) {
-			return fmt.Errorf("Error reading ec: %v", err)
+			return fmt.Errorf("error reading ec: %v", err)
 		}
 	}
 
 	if err = d.Set("device_detection_portal", dataSourceFlattenSystemReplacemsgGroupDeviceDetectionPortal(o["device-detection-portal"], d, "device_detection_portal")); err != nil {
 		if !fortiAPIPatch(o["device-detection-portal"]) {
-			return fmt.Errorf("Error reading device_detection_portal: %v", err)
+			return fmt.Errorf("error reading device_detection_portal: %v", err)
 		}
 	}
 
 	if err = d.Set("nac_quar", dataSourceFlattenSystemReplacemsgGroupNacQuar(o["nac-quar"], d, "nac_quar")); err != nil {
 		if !fortiAPIPatch(o["nac-quar"]) {
-			return fmt.Errorf("Error reading nac_quar: %v", err)
+			return fmt.Errorf("error reading nac_quar: %v", err)
 		}
 	}
 
 	if err = d.Set("traffic_quota", dataSourceFlattenSystemReplacemsgGroupTrafficQuota(o["traffic-quota"], d, "traffic_quota")); err != nil {
 		if !fortiAPIPatch(o["traffic-quota"]) {
-			return fmt.Errorf("Error reading traffic_quota: %v", err)
+			return fmt.Errorf("error reading traffic_quota: %v", err)
 		}
 	}
 
 	if err = d.Set("utm", dataSourceFlattenSystemReplacemsgGroupUtm(o["utm"], d, "utm")); err != nil {
 		if !fortiAPIPatch(o["utm"]) {
-			return fmt.Errorf("Error reading utm: %v", err)
+			return fmt.Errorf("error reading utm: %v", err)
 		}
 	}
 
 	if err = d.Set("custom_message", dataSourceFlattenSystemReplacemsgGroupCustomMessage(o["custom-message"], d, "custom_message")); err != nil {
 		if !fortiAPIPatch(o["custom-message"]) {
-			return fmt.Errorf("Error reading custom_message: %v", err)
+			return fmt.Errorf("error reading custom_message: %v", err)
 		}
 	}
 
 	if err = d.Set("icap", dataSourceFlattenSystemReplacemsgGroupIcap(o["icap"], d, "icap")); err != nil {
 		if !fortiAPIPatch(o["icap"]) {
-			return fmt.Errorf("Error reading icap: %v", err)
+			return fmt.Errorf("error reading icap: %v", err)
 		}
 	}
 
 	if err = d.Set("automation", dataSourceFlattenSystemReplacemsgGroupAutomation(o["automation"], d, "automation")); err != nil {
 		if !fortiAPIPatch(o["automation"]) {
-			return fmt.Errorf("Error reading automation: %v", err)
+			return fmt.Errorf("error reading automation: %v", err)
 		}
 	}
 

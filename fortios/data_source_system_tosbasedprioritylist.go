@@ -17,12 +17,12 @@ func dataSourceSystemTosBasedPriorityList() *schema.Resource {
 		Read: dataSourceSystemTosBasedPriorityListRead,
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"filter": &schema.Schema{
+			"filter": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
@@ -52,9 +52,9 @@ func dataSourceSystemTosBasedPriorityListRead(d *schema.ResourceData, m interfac
 		filter = escapeFilter(filter)
 	}
 
-	o, err := c.GenericGroupRead("/api/v2/cmdb/system/tos-based-priority", filter, vdomparam)
+	o, err := c.GenericGroupRead("/api/v2/cmdb/system/tos-based-priority", filter, vdomparam, 0)
 	if err != nil {
-		return fmt.Errorf("Error describing SystemTosBasedPriority: %v", err)
+		return fmt.Errorf("error describing SystemTosBasedPriority: %v", err)
 	}
 
 	var tmps []int
