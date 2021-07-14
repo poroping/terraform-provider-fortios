@@ -39,7 +39,6 @@
 *.test
 *.iml
 log.txt
-.github
 
 # Test exclusions
 !command/test-fixtures/**/*.tfstate
