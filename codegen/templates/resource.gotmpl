@@ -47,9 +47,9 @@ func resource{{.fpath}}() *schema.Resource {
 			{{- end }}
 			{{- if .results.dynamic_sort_table }}
 			"dynamic_sort_table": {
-				Type:     schema.TypeString,
+				Type:     schema.TypeBool,
 				Optional: true,
-				Default:  "false",
+				Default:  false,
 			},
 			{{- end }}
             {{- template "SCHEMA" .results }}

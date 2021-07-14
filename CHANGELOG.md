@@ -4,11 +4,13 @@
 
 * **Removed:** All FortiManager resources. Please use dedicated FortiManager provider.
 * **Removed:** All FortiOS 'old' resources. Update to new resources.
+* `dynamic_sort_subtable` Type has been changed from string to bool. 
 
 IMPROVEMENTS:
 * Dynamic_sort_subtable will now properly sort both integers and strings properly.
-* Validation has been added to various attributes. This enables Terraform to discover errors in the planning phase and not during apply.
+* Validation has been added to various attributes. This enables Terraform to discover errors in the planning phase and not during apply. Of note here is that attributes that require network addresses (ex. bgp network) will enforce you providing a network address even though the API is capable of doing the conversion for you.
 * Template generator included for creating new resources from API schema. (WIP)
+* CIDR should be able to be used in all locations instead of 'x.x.x.x y.y.y.y' format. This should make working with 
 
 FEATURES:
 

@@ -150,7 +150,7 @@ func resourceLogSyslogd2OverrideSetting() *schema.Resource {
 			"dynamic_sort_subtable": {
 				Type:     schema.TypeString,
 				Optional: true,
-				Default:  "false",
+				Default:  false,
 			},
 			"batchid": {
 				Type:     schema.TypeInt,
