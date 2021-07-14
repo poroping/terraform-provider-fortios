@@ -257,7 +257,7 @@ github.com/mitchellh/mapstructure
 github.com/mitchellh/reflectwalk
 # github.com/oklog/run v1.0.0
 github.com/oklog/run
-# github.com/poroping/forti-sdk-go v1.5.2 => /home/justinr/forti-sdk-go
+# github.com/poroping/forti-sdk-go v1.6.0
 ## explicit
 github.com/poroping/forti-sdk-go/fortios/auth
 github.com/poroping/forti-sdk-go/fortios/config
@@ -494,4 +494,3 @@ google.golang.org/protobuf/types/known/durationpb
 google.golang.org/protobuf/types/known/emptypb
 google.golang.org/protobuf/types/known/timestamppb
 google.golang.org/protobuf/types/pluginpb
-# github.com/poroping/forti-sdk-go => /home/justinr/forti-sdk-go
