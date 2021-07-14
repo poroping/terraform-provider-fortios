@@ -1,0 +1,31 @@
+            {{ define "SCHEMA" }}
+            {{- range $key, $value := .children }}
+            {{- if eq $value.category "unitary" }}
+            {{(flatten $value.name) | printf "%q" }}:{
+            	{{ (typelookup $value.type) }}
+				{{ (valilookup $value) }}
+                Description: {{ $value.help | printf "%q" }},
+                {{- if $value.dsrequired }}
+                ForceNew: true,
+                Required: true,
+                {{- else }}
+                Optional: true,
+                Computed: true,
+                {{- end }}
+			},
+            {{- end }}
+            {{- if or (eq $value.category "table") (eq $value.category "complex") }}
+            {{(flatten $value.name) | printf "%q" }}: {
+            	Type:         schema.TypeList,
+                Description: {{ $value.help | printf "%q"}},
+				Optional:     true,
+			    Elem: &schema.Resource{
+                        Schema: map[string]*schema.Schema{
+                        {{- template "SCHEMA" $value}}
+                    },
+                },
+			},
+            {{- end }}
+            {{- end }}
+
+{{- end }}

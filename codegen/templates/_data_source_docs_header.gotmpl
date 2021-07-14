@@ -1,0 +1,11 @@
+{{- define "DATASOURCEDOCSHEADER" }}---
+subcategory: "FortiGate {{ (title .path) }}"
+layout: "fortios"
+page_title: "FortiOS: fortios_{{(flatten .path)}}_{{(flatten .name)}}"
+description: |-
+  Get information on an fortios {{(flatten .path)}} {{.name}}.
+---
+
+# Data Source: fortios_{{(flatten .path)}}_{{(flatten .name)}}
+Use this data source to get information on an fortios {{(flatten .path)}} {{(flatten .name)}}
+{{ end }}

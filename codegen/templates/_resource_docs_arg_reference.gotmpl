@@ -1,0 +1,36 @@
+{{ define "RESOURCEARGREF" }}
+
+## Argument Reference
+* `vdomparam` - Specifies the vdom to which the data source will be applied when the FortiGate unit is running in VDOM mode. Only one vdom can be specified. If you want to inherit the vdom configuration of the provider, please do not set this parameter.
+{{- if eq .mkey "name" }}
+* `allow_append` - If set to true allows provider to overwrite existing resources instead of erroring. Useful for brownfield implementations. Use with caution! Requires `{{.mkey}}` to be defined.
+{{- end }}
+{{- if .dynamic_sort_table }}
+* `dynamic_sort_table` - String `true` or `false`, set this parameter to `true` when using dynamic for_each + toset to configure and sort sub-tables, if set to `true` static sub-tables must be ordered.
+{{- end }}
+{{ template "RESARG" . }}
+{{ end }}
+
+{{ define "RESARG" }}
+{{- range $key, $value := .children }}
+{{- if eq $value.category "unitary" }}
+* `{{(flatten $value.name)}}` - {{$value.help -}}
+{{- if eq $value.type "option" }} Valid values: {{ range $value.options }}`{{.name}}` {{ end -}}.{{- end -}}
+{{- if $value.resrequired -}} Changing this attribute forces a new resource to be created.{{- end -}}
+{{- if $value.datasource -}} This attribute must reference one of the following datasources: {{ range $value.datasource }}`{{.}}` {{ end -}}.{{- end -}}
+{{- end }}
+{{- end -}}
+{{- range $key, $value := .children }}
+{{- if eq $value.category "table" }}
+* `{{(flatten $value.name)}}` - {{$value.help -}} The structure of `{{(flatten $value.name)}}` block is documented below.
+
+The `{{(flatten $value.name)}}` block contains:
+{{ template "RESARG" $value }}
+{{- else if eq $value.category "complex" }}
+* `{{(flatten $value.name)}}` - {{$value.help -}} The structure of `{{(flatten $value.name)}}` block is documented below.
+
+The `{{(flatten $value.name)}}` block contains:
+{{ template "RESARG" $value }}
+{{- end }}
+{{- end }}
+{{- end }}

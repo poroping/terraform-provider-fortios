@@ -1,0 +1,33 @@
+{{define "DELETERESFUNC" }}
+func resource{{.fpath}}Delete(d *schema.ResourceData, m interface{}) error {
+	mkey := d.Id()
+
+	c := m.(*FortiClient).Client
+	c.Retries = 1
+
+	vdomparam := ""
+
+	if v, ok := d.GetOk("vdomparam"); ok {
+		if s, ok := v.(string); ok {
+			vdomparam = s
+		}
+	}
+
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.Delete{{.fpath}}(mkey, vdomparam, batchid)
+	if err != nil {
+		return fmt.Errorf("error deleting {{.fpath}} resource: %v", err)
+	}
+
+	d.SetId("")
+
+	return nil
+}
+{{ end }}

@@ -1,0 +1,45 @@
+{{define "REFRESHOBJECT" }}
+{{- range $key, $value := .children }}
+{{- if eq $value.category "unitary" }}
+	if err = d.Set({{(flatten $value.name) | printf "%q" }}, flatten{{.fpath}}(o[{{$value.name | printf "%q" }}], d, {{(flatten $value.name) | printf "%q" }}, sv)); err != nil {
+		if !fortiAPIPatch(o[{{$value.name | printf "%q" }}]) {
+			return fmt.Errorf("error reading {{(flatten $value.name)}}: %v", err)
+		}
+	}
+{{- end }}
+{{- if eq $value.category "table" }}
+	if isImportTable() {
+		if err = d.Set({{(flatten $value.name) | printf "%q" }}, flatten{{.fpath}}(o[{{$value.name | printf "%q" }}], d, {{(flatten $value.name) | printf "%q" }}, sv)); err != nil {
+			if !fortiAPIPatch(o[{{$value.name | printf "%q" }}]) {
+				return fmt.Errorf("error reading {{(flatten $value.name)}}: %v", err)
+			}
+		}
+	} else {
+		if _, ok := d.GetOk({{(flatten $value.name) | printf "%q" }}); ok {
+			if err = d.Set({{(flatten $value.name) | printf "%q" }}, flatten{{.fpath}}(o[{{$value.name | printf "%q" }}], d, {{(flatten $value.name) | printf "%q" }}, sv)); err != nil {
+				if !fortiAPIPatch(o[{{$value.name | printf "%q" }}]) {
+					return fmt.Errorf("error reading {{(flatten $value.name)}}: %v", err)
+				}
+			}
+		}
+	}
+{{ end}}
+{{- if eq $value.category "complex" }}
+	if isImportTable() {
+		if err = d.Set({{(flatten $value.name) | printf "%q" }}, flatten{{.fpath}}(o[{{$value.name | printf "%q" }}], d, {{(flatten $value.name) | printf "%q" }}, sv)); err != nil {
+			if !fortiAPIPatch(o[{{$value.name | printf "%q" }}]) {
+				return fmt.Errorf("error reading {{(flatten $value.name)}}: %v", err)
+			}
+		}
+	} else {
+		if _, ok := d.GetOk({{(flatten $value.name) | printf "%q" }}); ok {
+			if err = d.Set({{(flatten $value.name) | printf "%q" }}, flatten{{.fpath}}(o[{{$value.name | printf "%q" }}], d, {{(flatten $value.name) | printf "%q" }}, sv)); err != nil {
+				if !fortiAPIPatch(o[{{$value.name | printf "%q" }}]) {
+					return fmt.Errorf("error reading {{(flatten $value.name)}}: %v", err)
+				}
+			}
+		}
+	}
+{{ end}}
+{{- end}}
+{{end}}

@@ -1,0 +1,43 @@
+{{define "UPDATERESFUNC" }}
+func resource{{.fpath}}Update(d *schema.ResourceData, m interface{}) error {
+	mkey := d.Id()
+	c := m.(*FortiClient).Client
+	c.Retries = 1
+	urlparams := make(map[string][]string)
+
+	vdomparam := ""
+
+	if v, ok := d.GetOk("vdomparam"); ok {
+		if s, ok := v.(string); ok {
+			vdomparam = s
+		}
+	}
+
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	obj, err := getObject{{.fpath}}(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error updating {{.fpath}} resource while getting object: %v", err)
+	}
+
+	o, err := c.Update{{.fpath}}(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating {{.fpath}} resource: %v", err)
+	}
+
+	log.Printf(strconv.Itoa(c.Retries))
+	if o["mkey"] != nil && o["mkey"] != "" {
+		{{if eq .results.mkey "id"}}d.SetId(strconv.Itoa(int(o["mkey"].(float64)))){{else}}d.SetId(o["mkey"].(string)){{end}}
+	} else {
+		d.SetId("{{.fpath}}")
+	}
+
+	return resource{{.fpath}}Read(d, m)
+}
+{{ end }}

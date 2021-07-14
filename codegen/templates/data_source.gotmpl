@@ -1,0 +1,40 @@
+{{define "data_source"}}
+{{template "HEADER" .}}
+
+
+package fortios
+
+import (
+	"fmt"
+	"strconv"
+
+	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+)
+
+func dataSource{{.fpath}}() *schema.Resource {
+	return &schema.Resource{
+		Read:   dataSource{{.fpath}}Read,
+		Schema: map[string]*schema.Schema{
+			"vdomparam": {
+				Type:     schema.TypeString,
+				Description: "Specifies the vdom to which the resource will be applied when the FortiGate unit is running in VDOM mode. Only one vdom can be specified. If you want to inherit the vdom configuration of the provider, please do not set this parameter.",
+				Optional: true,
+				ForceNew: true,
+			},
+            {{- template "DSCHEMA" .results }}
+		},
+	}
+}
+
+{{ template "READDSFUNC" . }}
+
+{{ template "DSFLATTEN" .results }}
+
+func dataSourceRefreshObject{{.fpath}}(d *schema.ResourceData, o map[string]interface{}) error {
+	var err error
+{{ template "DSREFRESHOBJECT" .results }}
+
+	return nil
+}
+
+{{end}}

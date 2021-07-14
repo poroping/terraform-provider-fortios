@@ -1,0 +1,11 @@
+{{define "DSREFRESHOBJECT" }}
+{{- range $key, $value := .children }}
+{{- if $value.category }}
+	if err = d.Set({{(flatten $value.name) | printf "%q" }}, dataSourceFlatten{{.fpath}}(o[{{$value.name | printf "%q" }}], d, {{(flatten $value.name) | printf "%q" }})); err != nil {
+		if !fortiAPIPatch(o[{{$value.name | printf "%q" }}]) {
+			return fmt.Errorf("error reading {{(flatten $value.name)}}: %v", err)
+		}
+	}
+{{- end }}
+{{- end }}
+{{ end }}
