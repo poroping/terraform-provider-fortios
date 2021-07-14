@@ -69,7 +69,7 @@ func resourceWirelessControllerHotspot20H2QpOperatorName() *schema.Resource {
 				},
 			},
 			"dynamic_sort_subtable": {
-				Type:     schema.TypeString,
+				Type:     schema.TypeBool,
 				Optional: true,
 				Default:  false,
 			},

@@ -107,7 +107,7 @@ func resourceSystemSpeedTestSchedule() *schema.Resource {
 				Computed:     true,
 			},
 			"dynamic_sort_subtable": {
-				Type:     schema.TypeString,
+				Type:     schema.TypeBool,
 				Optional: true,
 				Default:  false,
 			},
