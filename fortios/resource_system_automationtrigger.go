@@ -30,94 +30,94 @@ func resourceSystemAutomationTrigger() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"trigger_type": &schema.Schema{
+			"trigger_type": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"event_type": &schema.Schema{
+			"event_type": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"license_type": &schema.Schema{
+			"license_type": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ioc_level": &schema.Schema{
+			"ioc_level": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"report_type": &schema.Schema{
+			"report_type": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"logid": &schema.Schema{
+			"logid": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 99999),
 				Optional:     true,
 				Computed:     true,
 			},
-			"trigger_frequency": &schema.Schema{
+			"trigger_frequency": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"trigger_weekday": &schema.Schema{
+			"trigger_weekday": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"trigger_day": &schema.Schema{
+			"trigger_day": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 31),
 				Optional:     true,
 				Computed:     true,
 			},
-			"trigger_hour": &schema.Schema{
+			"trigger_hour": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 23),
 				Optional:     true,
 				Computed:     true,
 			},
-			"trigger_minute": &schema.Schema{
+			"trigger_minute": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 60),
 				Optional:     true,
 				Computed:     true,
 			},
-			"fields": &schema.Schema{
+			"fields": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"value": &schema.Schema{
+						"value": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 63),
 							Optional:     true,
@@ -125,25 +125,30 @@ func resourceSystemAutomationTrigger() *schema.Resource {
 					},
 				},
 			},
-			"faz_event_name": &schema.Schema{
+			"faz_event_name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
 			},
-			"faz_event_severity": &schema.Schema{
+			"faz_event_severity": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
 			},
-			"faz_event_tags": &schema.Schema{
+			"faz_event_tags": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
 			},
-			"dynamic_sort_subtable": &schema.Schema{
+			"dynamic_sort_subtable": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Default:  "false",
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -161,15 +166,25 @@ func resourceSystemAutomationTriggerCreate(d *schema.ResourceData, m interface{}
 		}
 	}
 
-	obj, err := getObjectSystemAutomationTrigger(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating SystemAutomationTrigger resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateSystemAutomationTrigger(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemAutomationTrigger(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating SystemAutomationTrigger resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateSystemAutomationTrigger(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating SystemAutomationTrigger resource: %v", err)
+		return fmt.Errorf("error creating SystemAutomationTrigger resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -194,14 +209,24 @@ func resourceSystemAutomationTriggerUpdate(d *schema.ResourceData, m interface{}
 		}
 	}
 
-	obj, err := getObjectSystemAutomationTrigger(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SystemAutomationTrigger resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSystemAutomationTrigger(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemAutomationTrigger(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SystemAutomationTrigger resource: %v", err)
+		return fmt.Errorf("error updating SystemAutomationTrigger resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSystemAutomationTrigger(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SystemAutomationTrigger resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -228,9 +253,17 @@ func resourceSystemAutomationTriggerDelete(d *schema.ResourceData, m interface{}
 		}
 	}
 
-	err := c.DeleteSystemAutomationTrigger(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSystemAutomationTrigger(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SystemAutomationTrigger resource: %v", err)
+		return fmt.Errorf("error deleting SystemAutomationTrigger resource: %v", err)
 	}
 
 	d.SetId("")
@@ -252,9 +285,19 @@ func resourceSystemAutomationTriggerRead(d *schema.ResourceData, m interface{}) 
 		}
 	}
 
-	o, err := c.ReadSystemAutomationTrigger(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSystemAutomationTrigger(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemAutomationTrigger resource: %v", err)
+		return fmt.Errorf("error reading SystemAutomationTrigger resource: %v", err)
 	}
 
 	if o == nil {
@@ -265,7 +308,7 @@ func resourceSystemAutomationTriggerRead(d *schema.ResourceData, m interface{}) 
 
 	err = refreshObjectSystemAutomationTrigger(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemAutomationTrigger resource from API: %v", err)
+		return fmt.Errorf("error reading SystemAutomationTrigger resource from API: %v", err)
 	}
 	return nil
 }
@@ -393,87 +436,87 @@ func refreshObjectSystemAutomationTrigger(d *schema.ResourceData, o map[string]i
 
 	if err = d.Set("name", flattenSystemAutomationTriggerName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("trigger_type", flattenSystemAutomationTriggerTriggerType(o["trigger-type"], d, "trigger_type", sv)); err != nil {
 		if !fortiAPIPatch(o["trigger-type"]) {
-			return fmt.Errorf("Error reading trigger_type: %v", err)
+			return fmt.Errorf("error reading trigger_type: %v", err)
 		}
 	}
 
 	if err = d.Set("event_type", flattenSystemAutomationTriggerEventType(o["event-type"], d, "event_type", sv)); err != nil {
 		if !fortiAPIPatch(o["event-type"]) {
-			return fmt.Errorf("Error reading event_type: %v", err)
+			return fmt.Errorf("error reading event_type: %v", err)
 		}
 	}
 
 	if err = d.Set("license_type", flattenSystemAutomationTriggerLicenseType(o["license-type"], d, "license_type", sv)); err != nil {
 		if !fortiAPIPatch(o["license-type"]) {
-			return fmt.Errorf("Error reading license_type: %v", err)
+			return fmt.Errorf("error reading license_type: %v", err)
 		}
 	}
 
 	if err = d.Set("ioc_level", flattenSystemAutomationTriggerIocLevel(o["ioc-level"], d, "ioc_level", sv)); err != nil {
 		if !fortiAPIPatch(o["ioc-level"]) {
-			return fmt.Errorf("Error reading ioc_level: %v", err)
+			return fmt.Errorf("error reading ioc_level: %v", err)
 		}
 	}
 
 	if err = d.Set("report_type", flattenSystemAutomationTriggerReportType(o["report-type"], d, "report_type", sv)); err != nil {
 		if !fortiAPIPatch(o["report-type"]) {
-			return fmt.Errorf("Error reading report_type: %v", err)
+			return fmt.Errorf("error reading report_type: %v", err)
 		}
 	}
 
 	if err = d.Set("logid", flattenSystemAutomationTriggerLogid(o["logid"], d, "logid", sv)); err != nil {
 		if !fortiAPIPatch(o["logid"]) {
-			return fmt.Errorf("Error reading logid: %v", err)
+			return fmt.Errorf("error reading logid: %v", err)
 		}
 	}
 
 	if err = d.Set("trigger_frequency", flattenSystemAutomationTriggerTriggerFrequency(o["trigger-frequency"], d, "trigger_frequency", sv)); err != nil {
 		if !fortiAPIPatch(o["trigger-frequency"]) {
-			return fmt.Errorf("Error reading trigger_frequency: %v", err)
+			return fmt.Errorf("error reading trigger_frequency: %v", err)
 		}
 	}
 
 	if err = d.Set("trigger_weekday", flattenSystemAutomationTriggerTriggerWeekday(o["trigger-weekday"], d, "trigger_weekday", sv)); err != nil {
 		if !fortiAPIPatch(o["trigger-weekday"]) {
-			return fmt.Errorf("Error reading trigger_weekday: %v", err)
+			return fmt.Errorf("error reading trigger_weekday: %v", err)
 		}
 	}
 
 	if err = d.Set("trigger_day", flattenSystemAutomationTriggerTriggerDay(o["trigger-day"], d, "trigger_day", sv)); err != nil {
 		if !fortiAPIPatch(o["trigger-day"]) {
-			return fmt.Errorf("Error reading trigger_day: %v", err)
+			return fmt.Errorf("error reading trigger_day: %v", err)
 		}
 	}
 
 	if err = d.Set("trigger_hour", flattenSystemAutomationTriggerTriggerHour(o["trigger-hour"], d, "trigger_hour", sv)); err != nil {
 		if !fortiAPIPatch(o["trigger-hour"]) {
-			return fmt.Errorf("Error reading trigger_hour: %v", err)
+			return fmt.Errorf("error reading trigger_hour: %v", err)
 		}
 	}
 
 	if err = d.Set("trigger_minute", flattenSystemAutomationTriggerTriggerMinute(o["trigger-minute"], d, "trigger_minute", sv)); err != nil {
 		if !fortiAPIPatch(o["trigger-minute"]) {
-			return fmt.Errorf("Error reading trigger_minute: %v", err)
+			return fmt.Errorf("error reading trigger_minute: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("fields", flattenSystemAutomationTriggerFields(o["fields"], d, "fields", sv)); err != nil {
 			if !fortiAPIPatch(o["fields"]) {
-				return fmt.Errorf("Error reading fields: %v", err)
+				return fmt.Errorf("error reading fields: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("fields"); ok {
 			if err = d.Set("fields", flattenSystemAutomationTriggerFields(o["fields"], d, "fields", sv)); err != nil {
 				if !fortiAPIPatch(o["fields"]) {
-					return fmt.Errorf("Error reading fields: %v", err)
+					return fmt.Errorf("error reading fields: %v", err)
 				}
 			}
 		}
@@ -481,19 +524,19 @@ func refreshObjectSystemAutomationTrigger(d *schema.ResourceData, o map[string]i
 
 	if err = d.Set("faz_event_name", flattenSystemAutomationTriggerFazEventName(o["faz-event-name"], d, "faz_event_name", sv)); err != nil {
 		if !fortiAPIPatch(o["faz-event-name"]) {
-			return fmt.Errorf("Error reading faz_event_name: %v", err)
+			return fmt.Errorf("error reading faz_event_name: %v", err)
 		}
 	}
 
 	if err = d.Set("faz_event_severity", flattenSystemAutomationTriggerFazEventSeverity(o["faz-event-severity"], d, "faz_event_severity", sv)); err != nil {
 		if !fortiAPIPatch(o["faz-event-severity"]) {
-			return fmt.Errorf("Error reading faz_event_severity: %v", err)
+			return fmt.Errorf("error reading faz_event_severity: %v", err)
 		}
 	}
 
 	if err = d.Set("faz_event_tags", flattenSystemAutomationTriggerFazEventTags(o["faz-event-tags"], d, "faz_event_tags", sv)); err != nil {
 		if !fortiAPIPatch(o["faz-event-tags"]) {
-			return fmt.Errorf("Error reading faz_event_tags: %v", err)
+			return fmt.Errorf("error reading faz_event_tags: %v", err)
 		}
 	}
 

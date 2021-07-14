@@ -54,14 +54,14 @@ func testAccCheckFortiOSSystemProbeResponseExists(n string) resource.TestCheckFu
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemProbeResponse(i, "root")
+		o, err := c.ReadSystemProbeResponse(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading SystemProbeResponse: %s", err)
+			return fmt.Errorf("error reading SystemProbeResponse: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating SystemProbeResponse: %s", n)
+			return fmt.Errorf("error creating SystemProbeResponse: %s", n)
 		}
 
 		return nil
@@ -77,11 +77,11 @@ func testAccCheckSystemProbeResponseDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemProbeResponse(i, "root")
+		o, err := c.ReadSystemProbeResponse(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error SystemProbeResponse %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error SystemProbeResponse %s still exists", rs.Primary.ID)
 			}
 		}
 

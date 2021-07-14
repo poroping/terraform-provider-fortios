@@ -50,14 +50,14 @@ func testAccCheckFortiOSWebfilterIpsUrlfilterSettingExists(n string) resource.Te
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadWebfilterIpsUrlfilterSetting(i, "root")
+		o, err := c.ReadWebfilterIpsUrlfilterSetting(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading WebfilterIpsUrlfilterSetting: %s", err)
+			return fmt.Errorf("error reading WebfilterIpsUrlfilterSetting: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating WebfilterIpsUrlfilterSetting: %s", n)
+			return fmt.Errorf("error creating WebfilterIpsUrlfilterSetting: %s", n)
 		}
 
 		return nil
@@ -73,11 +73,11 @@ func testAccCheckWebfilterIpsUrlfilterSettingDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadWebfilterIpsUrlfilterSetting(i, "root")
+		o, err := c.ReadWebfilterIpsUrlfilterSetting(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error WebfilterIpsUrlfilterSetting %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error WebfilterIpsUrlfilterSetting %s still exists", rs.Primary.ID)
 			}
 		}
 

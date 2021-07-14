@@ -52,14 +52,14 @@ func testAccCheckFortiOSLogMemoryGlobalSettingExists(n string) resource.TestChec
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadLogMemoryGlobalSetting(i, "root")
+		o, err := c.ReadLogMemoryGlobalSetting(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading LogMemoryGlobalSetting: %s", err)
+			return fmt.Errorf("error reading LogMemoryGlobalSetting: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating LogMemoryGlobalSetting: %s", n)
+			return fmt.Errorf("error creating LogMemoryGlobalSetting: %s", n)
 		}
 
 		return nil
@@ -75,11 +75,11 @@ func testAccCheckLogMemoryGlobalSettingDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadLogMemoryGlobalSetting(i, "root")
+		o, err := c.ReadLogMemoryGlobalSetting(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error LogMemoryGlobalSetting %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error LogMemoryGlobalSetting %s still exists", rs.Primary.ID)
 			}
 		}
 

@@ -63,14 +63,14 @@ func testAccCheckFortiOSSystemAdminExists(n string) resource.TestCheckFunc {
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemAdmin(i, "root")
+		o, err := c.ReadSystemAdmin(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading SystemAdmin: %s", err)
+			return fmt.Errorf("error reading SystemAdmin: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating SystemAdmin: %s", n)
+			return fmt.Errorf("error creating SystemAdmin: %s", n)
 		}
 
 		return nil
@@ -86,11 +86,11 @@ func testAccCheckSystemAdminDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemAdmin(i, "root")
+		o, err := c.ReadSystemAdmin(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error SystemAdmin %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error SystemAdmin %s still exists", rs.Primary.ID)
 			}
 		}
 

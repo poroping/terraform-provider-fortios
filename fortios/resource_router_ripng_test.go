@@ -69,14 +69,14 @@ func testAccCheckFortiOSRouterRipngExists(n string) resource.TestCheckFunc {
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadRouterRipng(i, "root")
+		o, err := c.ReadRouterRipng(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading RouterRipng: %s", err)
+			return fmt.Errorf("error reading RouterRipng: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating RouterRipng: %s", n)
+			return fmt.Errorf("error creating RouterRipng: %s", n)
 		}
 
 		return nil
@@ -92,11 +92,11 @@ func testAccCheckRouterRipngDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadRouterRipng(i, "root")
+		o, err := c.ReadRouterRipng(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error RouterRipng %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error RouterRipng %s still exists", rs.Primary.ID)
 			}
 		}
 

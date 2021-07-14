@@ -54,14 +54,14 @@ func testAccCheckFortiOSSwitchControllerTrafficPolicyExists(n string) resource.T
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadSwitchControllerTrafficPolicy(i, "root")
+		o, err := c.ReadSwitchControllerTrafficPolicy(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading SwitchControllerTrafficPolicy: %s", err)
+			return fmt.Errorf("error reading SwitchControllerTrafficPolicy: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating SwitchControllerTrafficPolicy: %s", n)
+			return fmt.Errorf("error creating SwitchControllerTrafficPolicy: %s", n)
 		}
 
 		return nil
@@ -77,11 +77,11 @@ func testAccCheckSwitchControllerTrafficPolicyDestroy(s *terraform.State) error 
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadSwitchControllerTrafficPolicy(i, "root")
+		o, err := c.ReadSwitchControllerTrafficPolicy(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error SwitchControllerTrafficPolicy %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error SwitchControllerTrafficPolicy %s still exists", rs.Primary.ID)
 			}
 		}
 

@@ -30,35 +30,35 @@ func resourceSystemSwitchInterface() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 15),
 				ForceNew:     true,
 				Required:     true,
 			},
-			"vdom": &schema.Schema{
+			"vdom": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 31),
 				Optional:     true,
 				Computed:     true,
 			},
-			"span_dest_port": &schema.Schema{
+			"span_dest_port": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 15),
 				Optional:     true,
 				Computed:     true,
 			},
-			"span_source_port": &schema.Schema{
+			"span_source_port": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"interface_name": &schema.Schema{
+						"interface_name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 64),
 							Optional:     true,
@@ -67,12 +67,12 @@ func resourceSystemSwitchInterface() *schema.Resource {
 					},
 				},
 			},
-			"member": &schema.Schema{
+			"member": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"interface_name": &schema.Schema{
+						"interface_name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 64),
 							Optional:     true,
@@ -81,36 +81,41 @@ func resourceSystemSwitchInterface() *schema.Resource {
 					},
 				},
 			},
-			"type": &schema.Schema{
+			"type": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"intra_switch_policy": &schema.Schema{
+			"intra_switch_policy": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"mac_ttl": &schema.Schema{
+			"mac_ttl": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(300, 8640000),
 				Optional:     true,
 				Computed:     true,
 			},
-			"span": &schema.Schema{
+			"span": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"span_direction": &schema.Schema{
+			"span_direction": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"dynamic_sort_subtable": &schema.Schema{
+			"dynamic_sort_subtable": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Default:  "false",
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -128,15 +133,25 @@ func resourceSystemSwitchInterfaceCreate(d *schema.ResourceData, m interface{}) 
 		}
 	}
 
-	obj, err := getObjectSystemSwitchInterface(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating SystemSwitchInterface resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateSystemSwitchInterface(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemSwitchInterface(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating SystemSwitchInterface resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateSystemSwitchInterface(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating SystemSwitchInterface resource: %v", err)
+		return fmt.Errorf("error creating SystemSwitchInterface resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -161,14 +176,24 @@ func resourceSystemSwitchInterfaceUpdate(d *schema.ResourceData, m interface{}) 
 		}
 	}
 
-	obj, err := getObjectSystemSwitchInterface(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SystemSwitchInterface resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSystemSwitchInterface(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemSwitchInterface(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SystemSwitchInterface resource: %v", err)
+		return fmt.Errorf("error updating SystemSwitchInterface resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSystemSwitchInterface(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SystemSwitchInterface resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -195,9 +220,17 @@ func resourceSystemSwitchInterfaceDelete(d *schema.ResourceData, m interface{}) 
 		}
 	}
 
-	err := c.DeleteSystemSwitchInterface(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSystemSwitchInterface(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SystemSwitchInterface resource: %v", err)
+		return fmt.Errorf("error deleting SystemSwitchInterface resource: %v", err)
 	}
 
 	d.SetId("")
@@ -219,9 +252,19 @@ func resourceSystemSwitchInterfaceRead(d *schema.ResourceData, m interface{}) er
 		}
 	}
 
-	o, err := c.ReadSystemSwitchInterface(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSystemSwitchInterface(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemSwitchInterface resource: %v", err)
+		return fmt.Errorf("error reading SystemSwitchInterface resource: %v", err)
 	}
 
 	if o == nil {
@@ -232,7 +275,7 @@ func resourceSystemSwitchInterfaceRead(d *schema.ResourceData, m interface{}) er
 
 	err = refreshObjectSystemSwitchInterface(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemSwitchInterface resource from API: %v", err)
+		return fmt.Errorf("error reading SystemSwitchInterface resource from API: %v", err)
 	}
 	return nil
 }
@@ -350,33 +393,33 @@ func refreshObjectSystemSwitchInterface(d *schema.ResourceData, o map[string]int
 
 	if err = d.Set("name", flattenSystemSwitchInterfaceName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("vdom", flattenSystemSwitchInterfaceVdom(o["vdom"], d, "vdom", sv)); err != nil {
 		if !fortiAPIPatch(o["vdom"]) {
-			return fmt.Errorf("Error reading vdom: %v", err)
+			return fmt.Errorf("error reading vdom: %v", err)
 		}
 	}
 
 	if err = d.Set("span_dest_port", flattenSystemSwitchInterfaceSpanDestPort(o["span-dest-port"], d, "span_dest_port", sv)); err != nil {
 		if !fortiAPIPatch(o["span-dest-port"]) {
-			return fmt.Errorf("Error reading span_dest_port: %v", err)
+			return fmt.Errorf("error reading span_dest_port: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("span_source_port", flattenSystemSwitchInterfaceSpanSourcePort(o["span-source-port"], d, "span_source_port", sv)); err != nil {
 			if !fortiAPIPatch(o["span-source-port"]) {
-				return fmt.Errorf("Error reading span_source_port: %v", err)
+				return fmt.Errorf("error reading span_source_port: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("span_source_port"); ok {
 			if err = d.Set("span_source_port", flattenSystemSwitchInterfaceSpanSourcePort(o["span-source-port"], d, "span_source_port", sv)); err != nil {
 				if !fortiAPIPatch(o["span-source-port"]) {
-					return fmt.Errorf("Error reading span_source_port: %v", err)
+					return fmt.Errorf("error reading span_source_port: %v", err)
 				}
 			}
 		}
@@ -385,14 +428,14 @@ func refreshObjectSystemSwitchInterface(d *schema.ResourceData, o map[string]int
 	if isImportTable() {
 		if err = d.Set("member", flattenSystemSwitchInterfaceMember(o["member"], d, "member", sv)); err != nil {
 			if !fortiAPIPatch(o["member"]) {
-				return fmt.Errorf("Error reading member: %v", err)
+				return fmt.Errorf("error reading member: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("member"); ok {
 			if err = d.Set("member", flattenSystemSwitchInterfaceMember(o["member"], d, "member", sv)); err != nil {
 				if !fortiAPIPatch(o["member"]) {
-					return fmt.Errorf("Error reading member: %v", err)
+					return fmt.Errorf("error reading member: %v", err)
 				}
 			}
 		}
@@ -400,31 +443,31 @@ func refreshObjectSystemSwitchInterface(d *schema.ResourceData, o map[string]int
 
 	if err = d.Set("type", flattenSystemSwitchInterfaceType(o["type"], d, "type", sv)); err != nil {
 		if !fortiAPIPatch(o["type"]) {
-			return fmt.Errorf("Error reading type: %v", err)
+			return fmt.Errorf("error reading type: %v", err)
 		}
 	}
 
 	if err = d.Set("intra_switch_policy", flattenSystemSwitchInterfaceIntraSwitchPolicy(o["intra-switch-policy"], d, "intra_switch_policy", sv)); err != nil {
 		if !fortiAPIPatch(o["intra-switch-policy"]) {
-			return fmt.Errorf("Error reading intra_switch_policy: %v", err)
+			return fmt.Errorf("error reading intra_switch_policy: %v", err)
 		}
 	}
 
 	if err = d.Set("mac_ttl", flattenSystemSwitchInterfaceMacTtl(o["mac-ttl"], d, "mac_ttl", sv)); err != nil {
 		if !fortiAPIPatch(o["mac-ttl"]) {
-			return fmt.Errorf("Error reading mac_ttl: %v", err)
+			return fmt.Errorf("error reading mac_ttl: %v", err)
 		}
 	}
 
 	if err = d.Set("span", flattenSystemSwitchInterfaceSpan(o["span"], d, "span", sv)); err != nil {
 		if !fortiAPIPatch(o["span"]) {
-			return fmt.Errorf("Error reading span: %v", err)
+			return fmt.Errorf("error reading span: %v", err)
 		}
 	}
 
 	if err = d.Set("span_direction", flattenSystemSwitchInterfaceSpanDirection(o["span-direction"], d, "span_direction", sv)); err != nil {
 		if !fortiAPIPatch(o["span-direction"]) {
-			return fmt.Errorf("Error reading span_direction: %v", err)
+			return fmt.Errorf("error reading span_direction: %v", err)
 		}
 	}
 

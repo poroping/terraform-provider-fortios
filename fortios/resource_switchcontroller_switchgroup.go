@@ -30,42 +30,42 @@ func resourceSwitchControllerSwitchGroup() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"description": &schema.Schema{
+			"description": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"fortilink": &schema.Schema{
+			"fortilink": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 15),
 				Optional:     true,
 				Computed:     true,
 			},
-			"members": &schema.Schema{
+			"members": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"switch_id": &schema.Schema{
+						"switch_id": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 79),
 							Optional:     true,
 							Computed:     true,
 						},
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 64),
 							Optional:     true,
@@ -74,10 +74,15 @@ func resourceSwitchControllerSwitchGroup() *schema.Resource {
 					},
 				},
 			},
-			"dynamic_sort_subtable": &schema.Schema{
+			"dynamic_sort_subtable": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Default:  "false",
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -95,15 +100,25 @@ func resourceSwitchControllerSwitchGroupCreate(d *schema.ResourceData, m interfa
 		}
 	}
 
-	obj, err := getObjectSwitchControllerSwitchGroup(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating SwitchControllerSwitchGroup resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateSwitchControllerSwitchGroup(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSwitchControllerSwitchGroup(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating SwitchControllerSwitchGroup resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateSwitchControllerSwitchGroup(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating SwitchControllerSwitchGroup resource: %v", err)
+		return fmt.Errorf("error creating SwitchControllerSwitchGroup resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -128,14 +143,24 @@ func resourceSwitchControllerSwitchGroupUpdate(d *schema.ResourceData, m interfa
 		}
 	}
 
-	obj, err := getObjectSwitchControllerSwitchGroup(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SwitchControllerSwitchGroup resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSwitchControllerSwitchGroup(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSwitchControllerSwitchGroup(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SwitchControllerSwitchGroup resource: %v", err)
+		return fmt.Errorf("error updating SwitchControllerSwitchGroup resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSwitchControllerSwitchGroup(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SwitchControllerSwitchGroup resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -162,9 +187,17 @@ func resourceSwitchControllerSwitchGroupDelete(d *schema.ResourceData, m interfa
 		}
 	}
 
-	err := c.DeleteSwitchControllerSwitchGroup(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSwitchControllerSwitchGroup(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SwitchControllerSwitchGroup resource: %v", err)
+		return fmt.Errorf("error deleting SwitchControllerSwitchGroup resource: %v", err)
 	}
 
 	d.SetId("")
@@ -186,9 +219,19 @@ func resourceSwitchControllerSwitchGroupRead(d *schema.ResourceData, m interface
 		}
 	}
 
-	o, err := c.ReadSwitchControllerSwitchGroup(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSwitchControllerSwitchGroup(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SwitchControllerSwitchGroup resource: %v", err)
+		return fmt.Errorf("error reading SwitchControllerSwitchGroup resource: %v", err)
 	}
 
 	if o == nil {
@@ -199,7 +242,7 @@ func resourceSwitchControllerSwitchGroupRead(d *schema.ResourceData, m interface
 
 	err = refreshObjectSwitchControllerSwitchGroup(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SwitchControllerSwitchGroup resource from API: %v", err)
+		return fmt.Errorf("error reading SwitchControllerSwitchGroup resource from API: %v", err)
 	}
 	return nil
 }
@@ -269,33 +312,33 @@ func refreshObjectSwitchControllerSwitchGroup(d *schema.ResourceData, o map[stri
 
 	if err = d.Set("name", flattenSwitchControllerSwitchGroupName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("description", flattenSwitchControllerSwitchGroupDescription(o["description"], d, "description", sv)); err != nil {
 		if !fortiAPIPatch(o["description"]) {
-			return fmt.Errorf("Error reading description: %v", err)
+			return fmt.Errorf("error reading description: %v", err)
 		}
 	}
 
 	if err = d.Set("fortilink", flattenSwitchControllerSwitchGroupFortilink(o["fortilink"], d, "fortilink", sv)); err != nil {
 		if !fortiAPIPatch(o["fortilink"]) {
-			return fmt.Errorf("Error reading fortilink: %v", err)
+			return fmt.Errorf("error reading fortilink: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("members", flattenSwitchControllerSwitchGroupMembers(o["members"], d, "members", sv)); err != nil {
 			if !fortiAPIPatch(o["members"]) {
-				return fmt.Errorf("Error reading members: %v", err)
+				return fmt.Errorf("error reading members: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("members"); ok {
 			if err = d.Set("members", flattenSwitchControllerSwitchGroupMembers(o["members"], d, "members", sv)); err != nil {
 				if !fortiAPIPatch(o["members"]) {
-					return fmt.Errorf("Error reading members: %v", err)
+					return fmt.Errorf("error reading members: %v", err)
 				}
 			}
 		}

@@ -30,27 +30,32 @@ func resourceSystemVdomLink() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 11),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"vcluster": &schema.Schema{
+			"vcluster": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"type": &schema.Schema{
+			"type": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -68,15 +73,25 @@ func resourceSystemVdomLinkCreate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectSystemVdomLink(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating SystemVdomLink resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateSystemVdomLink(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemVdomLink(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating SystemVdomLink resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateSystemVdomLink(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating SystemVdomLink resource: %v", err)
+		return fmt.Errorf("error creating SystemVdomLink resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -101,14 +116,24 @@ func resourceSystemVdomLinkUpdate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectSystemVdomLink(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SystemVdomLink resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSystemVdomLink(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemVdomLink(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SystemVdomLink resource: %v", err)
+		return fmt.Errorf("error updating SystemVdomLink resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSystemVdomLink(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SystemVdomLink resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -135,9 +160,17 @@ func resourceSystemVdomLinkDelete(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	err := c.DeleteSystemVdomLink(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSystemVdomLink(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SystemVdomLink resource: %v", err)
+		return fmt.Errorf("error deleting SystemVdomLink resource: %v", err)
 	}
 
 	d.SetId("")
@@ -159,9 +192,19 @@ func resourceSystemVdomLinkRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadSystemVdomLink(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSystemVdomLink(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemVdomLink resource: %v", err)
+		return fmt.Errorf("error reading SystemVdomLink resource: %v", err)
 	}
 
 	if o == nil {
@@ -172,7 +215,7 @@ func resourceSystemVdomLinkRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectSystemVdomLink(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemVdomLink resource from API: %v", err)
+		return fmt.Errorf("error reading SystemVdomLink resource from API: %v", err)
 	}
 	return nil
 }
@@ -194,19 +237,19 @@ func refreshObjectSystemVdomLink(d *schema.ResourceData, o map[string]interface{
 
 	if err = d.Set("name", flattenSystemVdomLinkName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("vcluster", flattenSystemVdomLinkVcluster(o["vcluster"], d, "vcluster", sv)); err != nil {
 		if !fortiAPIPatch(o["vcluster"]) {
-			return fmt.Errorf("Error reading vcluster: %v", err)
+			return fmt.Errorf("error reading vcluster: %v", err)
 		}
 	}
 
 	if err = d.Set("type", flattenSystemVdomLinkType(o["type"], d, "type", sv)); err != nil {
 		if !fortiAPIPatch(o["type"]) {
-			return fmt.Errorf("Error reading type: %v", err)
+			return fmt.Errorf("error reading type: %v", err)
 		}
 	}
 

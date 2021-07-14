@@ -30,51 +30,51 @@ func resourceSwitchControllerQosIpDscpMap() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				ForceNew:     true,
 				Required:     true,
 			},
-			"description": &schema.Schema{
+			"description": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"map": &schema.Schema{
+			"map": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 63),
 							Optional:     true,
 							Computed:     true,
 						},
-						"cos_queue": &schema.Schema{
+						"cos_queue": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 7),
 							Optional:     true,
 							Computed:     true,
 						},
-						"diffserv": &schema.Schema{
+						"diffserv": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"ip_precedence": &schema.Schema{
+						"ip_precedence": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"value": &schema.Schema{
+						"value": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -82,10 +82,15 @@ func resourceSwitchControllerQosIpDscpMap() *schema.Resource {
 					},
 				},
 			},
-			"dynamic_sort_subtable": &schema.Schema{
+			"dynamic_sort_subtable": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Default:  "false",
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -103,15 +108,25 @@ func resourceSwitchControllerQosIpDscpMapCreate(d *schema.ResourceData, m interf
 		}
 	}
 
-	obj, err := getObjectSwitchControllerQosIpDscpMap(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating SwitchControllerQosIpDscpMap resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateSwitchControllerQosIpDscpMap(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSwitchControllerQosIpDscpMap(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating SwitchControllerQosIpDscpMap resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateSwitchControllerQosIpDscpMap(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating SwitchControllerQosIpDscpMap resource: %v", err)
+		return fmt.Errorf("error creating SwitchControllerQosIpDscpMap resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -136,14 +151,24 @@ func resourceSwitchControllerQosIpDscpMapUpdate(d *schema.ResourceData, m interf
 		}
 	}
 
-	obj, err := getObjectSwitchControllerQosIpDscpMap(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SwitchControllerQosIpDscpMap resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSwitchControllerQosIpDscpMap(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSwitchControllerQosIpDscpMap(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SwitchControllerQosIpDscpMap resource: %v", err)
+		return fmt.Errorf("error updating SwitchControllerQosIpDscpMap resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSwitchControllerQosIpDscpMap(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SwitchControllerQosIpDscpMap resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -170,9 +195,17 @@ func resourceSwitchControllerQosIpDscpMapDelete(d *schema.ResourceData, m interf
 		}
 	}
 
-	err := c.DeleteSwitchControllerQosIpDscpMap(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSwitchControllerQosIpDscpMap(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SwitchControllerQosIpDscpMap resource: %v", err)
+		return fmt.Errorf("error deleting SwitchControllerQosIpDscpMap resource: %v", err)
 	}
 
 	d.SetId("")
@@ -194,9 +227,19 @@ func resourceSwitchControllerQosIpDscpMapRead(d *schema.ResourceData, m interfac
 		}
 	}
 
-	o, err := c.ReadSwitchControllerQosIpDscpMap(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSwitchControllerQosIpDscpMap(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SwitchControllerQosIpDscpMap resource: %v", err)
+		return fmt.Errorf("error reading SwitchControllerQosIpDscpMap resource: %v", err)
 	}
 
 	if o == nil {
@@ -207,7 +250,7 @@ func resourceSwitchControllerQosIpDscpMapRead(d *schema.ResourceData, m interfac
 
 	err = refreshObjectSwitchControllerQosIpDscpMap(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SwitchControllerQosIpDscpMap resource from API: %v", err)
+		return fmt.Errorf("error reading SwitchControllerQosIpDscpMap resource from API: %v", err)
 	}
 	return nil
 }
@@ -303,27 +346,27 @@ func refreshObjectSwitchControllerQosIpDscpMap(d *schema.ResourceData, o map[str
 
 	if err = d.Set("name", flattenSwitchControllerQosIpDscpMapName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("description", flattenSwitchControllerQosIpDscpMapDescription(o["description"], d, "description", sv)); err != nil {
 		if !fortiAPIPatch(o["description"]) {
-			return fmt.Errorf("Error reading description: %v", err)
+			return fmt.Errorf("error reading description: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("map", flattenSwitchControllerQosIpDscpMapMap(o["map"], d, "map", sv)); err != nil {
 			if !fortiAPIPatch(o["map"]) {
-				return fmt.Errorf("Error reading map: %v", err)
+				return fmt.Errorf("error reading map: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("map"); ok {
 			if err = d.Set("map", flattenSwitchControllerQosIpDscpMapMap(o["map"], d, "map", sv)); err != nil {
 				if !fortiAPIPatch(o["map"]) {
-					return fmt.Errorf("Error reading map: %v", err)
+					return fmt.Errorf("error reading map: %v", err)
 				}
 			}
 		}

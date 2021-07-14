@@ -52,14 +52,14 @@ func testAccCheckFortiOSSystemProxyArpExists(n string) resource.TestCheckFunc {
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemProxyArp(i, "root")
+		o, err := c.ReadSystemProxyArp(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading SystemProxyArp: %s", err)
+			return fmt.Errorf("error reading SystemProxyArp: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating SystemProxyArp: %s", n)
+			return fmt.Errorf("error creating SystemProxyArp: %s", n)
 		}
 
 		return nil
@@ -75,11 +75,11 @@ func testAccCheckSystemProxyArpDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemProxyArp(i, "root")
+		o, err := c.ReadSystemProxyArp(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error SystemProxyArp %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error SystemProxyArp %s still exists", rs.Primary.ID)
 			}
 		}
 

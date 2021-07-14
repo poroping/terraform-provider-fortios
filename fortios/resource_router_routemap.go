@@ -30,132 +30,132 @@ func resourceRouterRouteMap() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				ForceNew:     true,
 				Required:     true,
 			},
-			"comments": &schema.Schema{
+			"comments": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 127),
 				Optional:     true,
 				Computed:     true,
 			},
-			"rule": &schema.Schema{
+			"rule": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"action": &schema.Schema{
+						"action": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"match_as_path": &schema.Schema{
+						"match_as_path": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"match_community": &schema.Schema{
+						"match_community": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"match_community_exact": &schema.Schema{
+						"match_community_exact": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"match_origin": &schema.Schema{
+						"match_origin": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"match_interface": &schema.Schema{
+						"match_interface": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 15),
 							Optional:     true,
 							Computed:     true,
 						},
-						"match_ip_address": &schema.Schema{
+						"match_ip_address": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"match_ip6_address": &schema.Schema{
+						"match_ip6_address": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"match_ip_nexthop": &schema.Schema{
+						"match_ip_nexthop": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"match_ip6_nexthop": &schema.Schema{
+						"match_ip6_nexthop": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"match_metric": &schema.Schema{
+						"match_metric": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"match_route_type": &schema.Schema{
+						"match_route_type": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"match_tag": &schema.Schema{
+						"match_tag": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"match_vrf": &schema.Schema{
+						"match_vrf": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 31),
 							Optional:     true,
 							Computed:     true,
 						},
-						"set_aggregator_as": &schema.Schema{
+						"set_aggregator_as": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"set_aggregator_ip": &schema.Schema{
+						"set_aggregator_ip": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"set_aspath_action": &schema.Schema{
+						"set_aspath_action": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"set_aspath": &schema.Schema{
+						"set_aspath": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"as": &schema.Schema{
+									"as": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 64),
 										Optional:     true,
@@ -164,23 +164,23 @@ func resourceRouterRouteMap() *schema.Resource {
 								},
 							},
 						},
-						"set_atomic_aggregate": &schema.Schema{
+						"set_atomic_aggregate": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"set_community_delete": &schema.Schema{
+						"set_community_delete": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"set_community": &schema.Schema{
+						"set_community": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"community": &schema.Schema{
+									"community": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 64),
 										Optional:     true,
@@ -189,47 +189,47 @@ func resourceRouterRouteMap() *schema.Resource {
 								},
 							},
 						},
-						"set_community_additive": &schema.Schema{
+						"set_community_additive": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"set_dampening_reachability_half_life": &schema.Schema{
+						"set_dampening_reachability_half_life": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 45),
 							Optional:     true,
 							Computed:     true,
 						},
-						"set_dampening_reuse": &schema.Schema{
+						"set_dampening_reuse": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 20000),
 							Optional:     true,
 							Computed:     true,
 						},
-						"set_dampening_suppress": &schema.Schema{
+						"set_dampening_suppress": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 20000),
 							Optional:     true,
 							Computed:     true,
 						},
-						"set_dampening_max_suppress": &schema.Schema{
+						"set_dampening_max_suppress": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 255),
 							Optional:     true,
 							Computed:     true,
 						},
-						"set_dampening_unreachability_half_life": &schema.Schema{
+						"set_dampening_unreachability_half_life": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 45),
 							Optional:     true,
 							Computed:     true,
 						},
-						"set_extcommunity_rt": &schema.Schema{
+						"set_extcommunity_rt": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"community": &schema.Schema{
+									"community": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 64),
 										Optional:     true,
@@ -238,12 +238,12 @@ func resourceRouterRouteMap() *schema.Resource {
 								},
 							},
 						},
-						"set_extcommunity_soo": &schema.Schema{
+						"set_extcommunity_soo": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"community": &schema.Schema{
+									"community": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 64),
 										Optional:     true,
@@ -252,69 +252,69 @@ func resourceRouterRouteMap() *schema.Resource {
 								},
 							},
 						},
-						"set_ip_nexthop": &schema.Schema{
+						"set_ip_nexthop": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"set_ip6_nexthop": &schema.Schema{
+						"set_ip6_nexthop": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"set_ip6_nexthop_local": &schema.Schema{
+						"set_ip6_nexthop_local": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"set_local_preference": &schema.Schema{
+						"set_local_preference": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"set_metric": &schema.Schema{
+						"set_metric": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"set_metric_type": &schema.Schema{
+						"set_metric_type": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"set_originator_id": &schema.Schema{
+						"set_originator_id": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"set_origin": &schema.Schema{
+						"set_origin": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"set_tag": &schema.Schema{
+						"set_tag": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"set_weight": &schema.Schema{
+						"set_weight": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"set_flags": &schema.Schema{
+						"set_flags": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 65535),
 							Optional:     true,
 							Computed:     true,
 						},
-						"match_flags": &schema.Schema{
+						"match_flags": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 65535),
 							Optional:     true,
 							Computed:     true,
 						},
-						"set_route_tag": &schema.Schema{
+						"set_route_tag": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
@@ -322,10 +322,15 @@ func resourceRouterRouteMap() *schema.Resource {
 					},
 				},
 			},
-			"dynamic_sort_subtable": &schema.Schema{
+			"dynamic_sort_subtable": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Default:  "false",
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -343,15 +348,25 @@ func resourceRouterRouteMapCreate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectRouterRouteMap(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating RouterRouteMap resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateRouterRouteMap(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectRouterRouteMap(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating RouterRouteMap resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateRouterRouteMap(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating RouterRouteMap resource: %v", err)
+		return fmt.Errorf("error creating RouterRouteMap resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -376,14 +391,24 @@ func resourceRouterRouteMapUpdate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectRouterRouteMap(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating RouterRouteMap resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateRouterRouteMap(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectRouterRouteMap(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating RouterRouteMap resource: %v", err)
+		return fmt.Errorf("error updating RouterRouteMap resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateRouterRouteMap(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating RouterRouteMap resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -410,9 +435,17 @@ func resourceRouterRouteMapDelete(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	err := c.DeleteRouterRouteMap(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteRouterRouteMap(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting RouterRouteMap resource: %v", err)
+		return fmt.Errorf("error deleting RouterRouteMap resource: %v", err)
 	}
 
 	d.SetId("")
@@ -434,9 +467,19 @@ func resourceRouterRouteMapRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadRouterRouteMap(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadRouterRouteMap(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading RouterRouteMap resource: %v", err)
+		return fmt.Errorf("error reading RouterRouteMap resource: %v", err)
 	}
 
 	if o == nil {
@@ -447,7 +490,7 @@ func resourceRouterRouteMapRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectRouterRouteMap(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading RouterRouteMap resource from API: %v", err)
+		return fmt.Errorf("error reading RouterRouteMap resource from API: %v", err)
 	}
 	return nil
 }
@@ -1055,27 +1098,27 @@ func refreshObjectRouterRouteMap(d *schema.ResourceData, o map[string]interface{
 
 	if err = d.Set("name", flattenRouterRouteMapName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("comments", flattenRouterRouteMapComments(o["comments"], d, "comments", sv)); err != nil {
 		if !fortiAPIPatch(o["comments"]) {
-			return fmt.Errorf("Error reading comments: %v", err)
+			return fmt.Errorf("error reading comments: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("rule", flattenRouterRouteMapRule(o["rule"], d, "rule", sv)); err != nil {
 			if !fortiAPIPatch(o["rule"]) {
-				return fmt.Errorf("Error reading rule: %v", err)
+				return fmt.Errorf("error reading rule: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("rule"); ok {
 			if err = d.Set("rule", flattenRouterRouteMapRule(o["rule"], d, "rule", sv)); err != nil {
 				if !fortiAPIPatch(o["rule"]) {
-					return fmt.Errorf("Error reading rule: %v", err)
+					return fmt.Errorf("error reading rule: %v", err)
 				}
 			}
 		}

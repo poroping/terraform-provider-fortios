@@ -54,14 +54,14 @@ func testAccCheckFortiOSSystemAutoScriptExists(n string) resource.TestCheckFunc 
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemAutoScript(i, "root")
+		o, err := c.ReadSystemAutoScript(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading SystemAutoScript: %s", err)
+			return fmt.Errorf("error reading SystemAutoScript: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating SystemAutoScript: %s", n)
+			return fmt.Errorf("error creating SystemAutoScript: %s", n)
 		}
 
 		return nil
@@ -77,11 +77,11 @@ func testAccCheckSystemAutoScriptDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemAutoScript(i, "root")
+		o, err := c.ReadSystemAutoScript(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error SystemAutoScript %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error SystemAutoScript %s still exists", rs.Primary.ID)
 			}
 		}
 

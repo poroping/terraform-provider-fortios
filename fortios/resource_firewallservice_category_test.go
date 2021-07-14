@@ -49,14 +49,14 @@ func testAccCheckFortiOSFirewallServiceCategoryExists(n string) resource.TestChe
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadFirewallServiceCategory(i, "root")
+		o, err := c.ReadFirewallServiceCategory(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading FirewallServiceCategory: %s", err)
+			return fmt.Errorf("error reading FirewallServiceCategory: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating FirewallServiceCategory: %s", n)
+			return fmt.Errorf("error creating FirewallServiceCategory: %s", n)
 		}
 
 		return nil
@@ -72,11 +72,11 @@ func testAccCheckFirewallServiceCategoryDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadFirewallServiceCategory(i, "root")
+		o, err := c.ReadFirewallServiceCategory(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error FirewallServiceCategory %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error FirewallServiceCategory %s still exists", rs.Primary.ID)
 			}
 		}
 

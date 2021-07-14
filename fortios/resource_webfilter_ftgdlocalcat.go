@@ -30,28 +30,33 @@ func resourceWebfilterFtgdLocalCat() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"status": &schema.Schema{
+			"status": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"fosid": &schema.Schema{
+			"fosid": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(140, 191),
 				Optional:     true,
 				Computed:     true,
 			},
-			"desc": &schema.Schema{
+			"desc": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 79),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -69,15 +74,25 @@ func resourceWebfilterFtgdLocalCatCreate(d *schema.ResourceData, m interface{}) 
 		}
 	}
 
-	obj, err := getObjectWebfilterFtgdLocalCat(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating WebfilterFtgdLocalCat resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateWebfilterFtgdLocalCat(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectWebfilterFtgdLocalCat(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating WebfilterFtgdLocalCat resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateWebfilterFtgdLocalCat(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating WebfilterFtgdLocalCat resource: %v", err)
+		return fmt.Errorf("error creating WebfilterFtgdLocalCat resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -102,14 +117,24 @@ func resourceWebfilterFtgdLocalCatUpdate(d *schema.ResourceData, m interface{}) 
 		}
 	}
 
-	obj, err := getObjectWebfilterFtgdLocalCat(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating WebfilterFtgdLocalCat resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateWebfilterFtgdLocalCat(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectWebfilterFtgdLocalCat(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating WebfilterFtgdLocalCat resource: %v", err)
+		return fmt.Errorf("error updating WebfilterFtgdLocalCat resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateWebfilterFtgdLocalCat(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating WebfilterFtgdLocalCat resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -136,9 +161,17 @@ func resourceWebfilterFtgdLocalCatDelete(d *schema.ResourceData, m interface{}) 
 		}
 	}
 
-	err := c.DeleteWebfilterFtgdLocalCat(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteWebfilterFtgdLocalCat(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting WebfilterFtgdLocalCat resource: %v", err)
+		return fmt.Errorf("error deleting WebfilterFtgdLocalCat resource: %v", err)
 	}
 
 	d.SetId("")
@@ -160,9 +193,19 @@ func resourceWebfilterFtgdLocalCatRead(d *schema.ResourceData, m interface{}) er
 		}
 	}
 
-	o, err := c.ReadWebfilterFtgdLocalCat(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadWebfilterFtgdLocalCat(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading WebfilterFtgdLocalCat resource: %v", err)
+		return fmt.Errorf("error reading WebfilterFtgdLocalCat resource: %v", err)
 	}
 
 	if o == nil {
@@ -173,7 +216,7 @@ func resourceWebfilterFtgdLocalCatRead(d *schema.ResourceData, m interface{}) er
 
 	err = refreshObjectWebfilterFtgdLocalCat(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading WebfilterFtgdLocalCat resource from API: %v", err)
+		return fmt.Errorf("error reading WebfilterFtgdLocalCat resource from API: %v", err)
 	}
 	return nil
 }
@@ -195,19 +238,19 @@ func refreshObjectWebfilterFtgdLocalCat(d *schema.ResourceData, o map[string]int
 
 	if err = d.Set("status", flattenWebfilterFtgdLocalCatStatus(o["status"], d, "status", sv)); err != nil {
 		if !fortiAPIPatch(o["status"]) {
-			return fmt.Errorf("Error reading status: %v", err)
+			return fmt.Errorf("error reading status: %v", err)
 		}
 	}
 
 	if err = d.Set("fosid", flattenWebfilterFtgdLocalCatId(o["id"], d, "fosid", sv)); err != nil {
 		if !fortiAPIPatch(o["id"]) {
-			return fmt.Errorf("Error reading fosid: %v", err)
+			return fmt.Errorf("error reading fosid: %v", err)
 		}
 	}
 
 	if err = d.Set("desc", flattenWebfilterFtgdLocalCatDesc(o["desc"], d, "desc", sv)); err != nil {
 		if !fortiAPIPatch(o["desc"]) {
-			return fmt.Errorf("Error reading desc: %v", err)
+			return fmt.Errorf("error reading desc: %v", err)
 		}
 	}
 

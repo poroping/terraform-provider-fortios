@@ -51,14 +51,14 @@ func testAccCheckFortiOSReportDatasetExists(n string) resource.TestCheckFunc {
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadReportDataset(i, "root")
+		o, err := c.ReadReportDataset(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading ReportDataset: %s", err)
+			return fmt.Errorf("error reading ReportDataset: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating ReportDataset: %s", n)
+			return fmt.Errorf("error creating ReportDataset: %s", n)
 		}
 
 		return nil
@@ -74,11 +74,11 @@ func testAccCheckReportDatasetDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadReportDataset(i, "root")
+		o, err := c.ReadReportDataset(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error ReportDataset %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error ReportDataset %s still exists", rs.Primary.ID)
 			}
 		}
 

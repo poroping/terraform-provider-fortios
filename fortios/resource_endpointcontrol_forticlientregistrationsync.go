@@ -30,21 +30,26 @@ func resourceEndpointControlForticlientRegistrationSync() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"peer_name": &schema.Schema{
+			"peer_name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"peer_ip": &schema.Schema{
+			"peer_ip": {
 				Type:     schema.TypeString,
 				Required: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -62,15 +67,25 @@ func resourceEndpointControlForticlientRegistrationSyncCreate(d *schema.Resource
 		}
 	}
 
-	obj, err := getObjectEndpointControlForticlientRegistrationSync(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating EndpointControlForticlientRegistrationSync resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateEndpointControlForticlientRegistrationSync(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectEndpointControlForticlientRegistrationSync(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating EndpointControlForticlientRegistrationSync resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateEndpointControlForticlientRegistrationSync(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating EndpointControlForticlientRegistrationSync resource: %v", err)
+		return fmt.Errorf("error creating EndpointControlForticlientRegistrationSync resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -95,14 +110,24 @@ func resourceEndpointControlForticlientRegistrationSyncUpdate(d *schema.Resource
 		}
 	}
 
-	obj, err := getObjectEndpointControlForticlientRegistrationSync(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating EndpointControlForticlientRegistrationSync resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateEndpointControlForticlientRegistrationSync(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectEndpointControlForticlientRegistrationSync(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating EndpointControlForticlientRegistrationSync resource: %v", err)
+		return fmt.Errorf("error updating EndpointControlForticlientRegistrationSync resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateEndpointControlForticlientRegistrationSync(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating EndpointControlForticlientRegistrationSync resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -129,9 +154,17 @@ func resourceEndpointControlForticlientRegistrationSyncDelete(d *schema.Resource
 		}
 	}
 
-	err := c.DeleteEndpointControlForticlientRegistrationSync(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteEndpointControlForticlientRegistrationSync(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting EndpointControlForticlientRegistrationSync resource: %v", err)
+		return fmt.Errorf("error deleting EndpointControlForticlientRegistrationSync resource: %v", err)
 	}
 
 	d.SetId("")
@@ -153,9 +186,19 @@ func resourceEndpointControlForticlientRegistrationSyncRead(d *schema.ResourceDa
 		}
 	}
 
-	o, err := c.ReadEndpointControlForticlientRegistrationSync(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadEndpointControlForticlientRegistrationSync(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading EndpointControlForticlientRegistrationSync resource: %v", err)
+		return fmt.Errorf("error reading EndpointControlForticlientRegistrationSync resource: %v", err)
 	}
 
 	if o == nil {
@@ -166,7 +209,7 @@ func resourceEndpointControlForticlientRegistrationSyncRead(d *schema.ResourceDa
 
 	err = refreshObjectEndpointControlForticlientRegistrationSync(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading EndpointControlForticlientRegistrationSync resource from API: %v", err)
+		return fmt.Errorf("error reading EndpointControlForticlientRegistrationSync resource from API: %v", err)
 	}
 	return nil
 }
@@ -184,13 +227,13 @@ func refreshObjectEndpointControlForticlientRegistrationSync(d *schema.ResourceD
 
 	if err = d.Set("peer_name", flattenEndpointControlForticlientRegistrationSyncPeerName(o["peer-name"], d, "peer_name", sv)); err != nil {
 		if !fortiAPIPatch(o["peer-name"]) {
-			return fmt.Errorf("Error reading peer_name: %v", err)
+			return fmt.Errorf("error reading peer_name: %v", err)
 		}
 	}
 
 	if err = d.Set("peer_ip", flattenEndpointControlForticlientRegistrationSyncPeerIp(o["peer-ip"], d, "peer_ip", sv)); err != nil {
 		if !fortiAPIPatch(o["peer-ip"]) {
-			return fmt.Errorf("Error reading peer_ip: %v", err)
+			return fmt.Errorf("error reading peer_ip: %v", err)
 		}
 	}
 

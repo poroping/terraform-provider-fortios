@@ -30,177 +30,182 @@ func resourceUserFsso() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				ForceNew:     true,
 				Required:     true,
 			},
-			"type": &schema.Schema{
+			"type": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"server": &schema.Schema{
+			"server": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Required:     true,
 			},
-			"port": &schema.Schema{
+			"port": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"password": &schema.Schema{
+			"password": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 128),
 				Optional:     true,
 				Sensitive:    true,
 			},
-			"server2": &schema.Schema{
+			"server2": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"port2": &schema.Schema{
+			"port2": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"password2": &schema.Schema{
+			"password2": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 128),
 				Optional:     true,
 				Sensitive:    true,
 			},
-			"server3": &schema.Schema{
+			"server3": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"port3": &schema.Schema{
+			"port3": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"password3": &schema.Schema{
+			"password3": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 128),
 				Optional:     true,
 				Sensitive:    true,
 			},
-			"server4": &schema.Schema{
+			"server4": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"port4": &schema.Schema{
+			"port4": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"password4": &schema.Schema{
+			"password4": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 128),
 				Optional:     true,
 				Sensitive:    true,
 			},
-			"server5": &schema.Schema{
+			"server5": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"port5": &schema.Schema{
+			"port5": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"password5": &schema.Schema{
+			"password5": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 128),
 				Optional:     true,
 				Sensitive:    true,
 			},
-			"ldap_server": &schema.Schema{
+			"ldap_server": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"group_poll_interval": &schema.Schema{
+			"group_poll_interval": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 2880),
 				Optional:     true,
 				Computed:     true,
 			},
-			"ldap_poll": &schema.Schema{
+			"ldap_poll": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ldap_poll_interval": &schema.Schema{
+			"ldap_poll_interval": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 2880),
 				Optional:     true,
 				Computed:     true,
 			},
-			"ldap_poll_filter": &schema.Schema{
+			"ldap_poll_filter": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 2047),
 				Optional:     true,
 				Computed:     true,
 			},
-			"user_info_server": &schema.Schema{
+			"user_info_server": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"ssl": &schema.Schema{
+			"ssl": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ssl_trusted_cert": &schema.Schema{
+			"ssl_trusted_cert": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 79),
 				Optional:     true,
 				Computed:     true,
 			},
-			"source_ip": &schema.Schema{
+			"source_ip": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"source_ip6": &schema.Schema{
+			"source_ip6": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"interface_select_method": &schema.Schema{
+			"interface_select_method": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"interface": &schema.Schema{
+			"interface": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 15),
 				Optional:     true,
 				Computed:     true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -218,15 +223,25 @@ func resourceUserFssoCreate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectUserFsso(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating UserFsso resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateUserFsso(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectUserFsso(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating UserFsso resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateUserFsso(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating UserFsso resource: %v", err)
+		return fmt.Errorf("error creating UserFsso resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -251,14 +266,24 @@ func resourceUserFssoUpdate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectUserFsso(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating UserFsso resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateUserFsso(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectUserFsso(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating UserFsso resource: %v", err)
+		return fmt.Errorf("error updating UserFsso resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateUserFsso(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating UserFsso resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -285,9 +310,17 @@ func resourceUserFssoDelete(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	err := c.DeleteUserFsso(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteUserFsso(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting UserFsso resource: %v", err)
+		return fmt.Errorf("error deleting UserFsso resource: %v", err)
 	}
 
 	d.SetId("")
@@ -309,9 +342,19 @@ func resourceUserFssoRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadUserFsso(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadUserFsso(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading UserFsso resource: %v", err)
+		return fmt.Errorf("error reading UserFsso resource: %v", err)
 	}
 
 	if o == nil {
@@ -322,7 +365,7 @@ func resourceUserFssoRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectUserFsso(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading UserFsso resource from API: %v", err)
+		return fmt.Errorf("error reading UserFsso resource from API: %v", err)
 	}
 	return nil
 }
@@ -448,145 +491,145 @@ func refreshObjectUserFsso(d *schema.ResourceData, o map[string]interface{}, sv 
 
 	if err = d.Set("name", flattenUserFssoName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("type", flattenUserFssoType(o["type"], d, "type", sv)); err != nil {
 		if !fortiAPIPatch(o["type"]) {
-			return fmt.Errorf("Error reading type: %v", err)
+			return fmt.Errorf("error reading type: %v", err)
 		}
 	}
 
 	if err = d.Set("server", flattenUserFssoServer(o["server"], d, "server", sv)); err != nil {
 		if !fortiAPIPatch(o["server"]) {
-			return fmt.Errorf("Error reading server: %v", err)
+			return fmt.Errorf("error reading server: %v", err)
 		}
 	}
 
 	if err = d.Set("port", flattenUserFssoPort(o["port"], d, "port", sv)); err != nil {
 		if !fortiAPIPatch(o["port"]) {
-			return fmt.Errorf("Error reading port: %v", err)
+			return fmt.Errorf("error reading port: %v", err)
 		}
 	}
 
 	if err = d.Set("server2", flattenUserFssoServer2(o["server2"], d, "server2", sv)); err != nil {
 		if !fortiAPIPatch(o["server2"]) {
-			return fmt.Errorf("Error reading server2: %v", err)
+			return fmt.Errorf("error reading server2: %v", err)
 		}
 	}
 
 	if err = d.Set("port2", flattenUserFssoPort2(o["port2"], d, "port2", sv)); err != nil {
 		if !fortiAPIPatch(o["port2"]) {
-			return fmt.Errorf("Error reading port2: %v", err)
+			return fmt.Errorf("error reading port2: %v", err)
 		}
 	}
 
 	if err = d.Set("server3", flattenUserFssoServer3(o["server3"], d, "server3", sv)); err != nil {
 		if !fortiAPIPatch(o["server3"]) {
-			return fmt.Errorf("Error reading server3: %v", err)
+			return fmt.Errorf("error reading server3: %v", err)
 		}
 	}
 
 	if err = d.Set("port3", flattenUserFssoPort3(o["port3"], d, "port3", sv)); err != nil {
 		if !fortiAPIPatch(o["port3"]) {
-			return fmt.Errorf("Error reading port3: %v", err)
+			return fmt.Errorf("error reading port3: %v", err)
 		}
 	}
 
 	if err = d.Set("server4", flattenUserFssoServer4(o["server4"], d, "server4", sv)); err != nil {
 		if !fortiAPIPatch(o["server4"]) {
-			return fmt.Errorf("Error reading server4: %v", err)
+			return fmt.Errorf("error reading server4: %v", err)
 		}
 	}
 
 	if err = d.Set("port4", flattenUserFssoPort4(o["port4"], d, "port4", sv)); err != nil {
 		if !fortiAPIPatch(o["port4"]) {
-			return fmt.Errorf("Error reading port4: %v", err)
+			return fmt.Errorf("error reading port4: %v", err)
 		}
 	}
 
 	if err = d.Set("server5", flattenUserFssoServer5(o["server5"], d, "server5", sv)); err != nil {
 		if !fortiAPIPatch(o["server5"]) {
-			return fmt.Errorf("Error reading server5: %v", err)
+			return fmt.Errorf("error reading server5: %v", err)
 		}
 	}
 
 	if err = d.Set("port5", flattenUserFssoPort5(o["port5"], d, "port5", sv)); err != nil {
 		if !fortiAPIPatch(o["port5"]) {
-			return fmt.Errorf("Error reading port5: %v", err)
+			return fmt.Errorf("error reading port5: %v", err)
 		}
 	}
 
 	if err = d.Set("ldap_server", flattenUserFssoLdapServer(o["ldap-server"], d, "ldap_server", sv)); err != nil {
 		if !fortiAPIPatch(o["ldap-server"]) {
-			return fmt.Errorf("Error reading ldap_server: %v", err)
+			return fmt.Errorf("error reading ldap_server: %v", err)
 		}
 	}
 
 	if err = d.Set("group_poll_interval", flattenUserFssoGroupPollInterval(o["group-poll-interval"], d, "group_poll_interval", sv)); err != nil {
 		if !fortiAPIPatch(o["group-poll-interval"]) {
-			return fmt.Errorf("Error reading group_poll_interval: %v", err)
+			return fmt.Errorf("error reading group_poll_interval: %v", err)
 		}
 	}
 
 	if err = d.Set("ldap_poll", flattenUserFssoLdapPoll(o["ldap-poll"], d, "ldap_poll", sv)); err != nil {
 		if !fortiAPIPatch(o["ldap-poll"]) {
-			return fmt.Errorf("Error reading ldap_poll: %v", err)
+			return fmt.Errorf("error reading ldap_poll: %v", err)
 		}
 	}
 
 	if err = d.Set("ldap_poll_interval", flattenUserFssoLdapPollInterval(o["ldap-poll-interval"], d, "ldap_poll_interval", sv)); err != nil {
 		if !fortiAPIPatch(o["ldap-poll-interval"]) {
-			return fmt.Errorf("Error reading ldap_poll_interval: %v", err)
+			return fmt.Errorf("error reading ldap_poll_interval: %v", err)
 		}
 	}
 
 	if err = d.Set("ldap_poll_filter", flattenUserFssoLdapPollFilter(o["ldap-poll-filter"], d, "ldap_poll_filter", sv)); err != nil {
 		if !fortiAPIPatch(o["ldap-poll-filter"]) {
-			return fmt.Errorf("Error reading ldap_poll_filter: %v", err)
+			return fmt.Errorf("error reading ldap_poll_filter: %v", err)
 		}
 	}
 
 	if err = d.Set("user_info_server", flattenUserFssoUserInfoServer(o["user-info-server"], d, "user_info_server", sv)); err != nil {
 		if !fortiAPIPatch(o["user-info-server"]) {
-			return fmt.Errorf("Error reading user_info_server: %v", err)
+			return fmt.Errorf("error reading user_info_server: %v", err)
 		}
 	}
 
 	if err = d.Set("ssl", flattenUserFssoSsl(o["ssl"], d, "ssl", sv)); err != nil {
 		if !fortiAPIPatch(o["ssl"]) {
-			return fmt.Errorf("Error reading ssl: %v", err)
+			return fmt.Errorf("error reading ssl: %v", err)
 		}
 	}
 
 	if err = d.Set("ssl_trusted_cert", flattenUserFssoSslTrustedCert(o["ssl-trusted-cert"], d, "ssl_trusted_cert", sv)); err != nil {
 		if !fortiAPIPatch(o["ssl-trusted-cert"]) {
-			return fmt.Errorf("Error reading ssl_trusted_cert: %v", err)
+			return fmt.Errorf("error reading ssl_trusted_cert: %v", err)
 		}
 	}
 
 	if err = d.Set("source_ip", flattenUserFssoSourceIp(o["source-ip"], d, "source_ip", sv)); err != nil {
 		if !fortiAPIPatch(o["source-ip"]) {
-			return fmt.Errorf("Error reading source_ip: %v", err)
+			return fmt.Errorf("error reading source_ip: %v", err)
 		}
 	}
 
 	if err = d.Set("source_ip6", flattenUserFssoSourceIp6(o["source-ip6"], d, "source_ip6", sv)); err != nil {
 		if !fortiAPIPatch(o["source-ip6"]) {
-			return fmt.Errorf("Error reading source_ip6: %v", err)
+			return fmt.Errorf("error reading source_ip6: %v", err)
 		}
 	}
 
 	if err = d.Set("interface_select_method", flattenUserFssoInterfaceSelectMethod(o["interface-select-method"], d, "interface_select_method", sv)); err != nil {
 		if !fortiAPIPatch(o["interface-select-method"]) {
-			return fmt.Errorf("Error reading interface_select_method: %v", err)
+			return fmt.Errorf("error reading interface_select_method: %v", err)
 		}
 	}
 
 	if err = d.Set("interface", flattenUserFssoInterface(o["interface"], d, "interface", sv)); err != nil {
 		if !fortiAPIPatch(o["interface"]) {
-			return fmt.Errorf("Error reading interface: %v", err)
+			return fmt.Errorf("error reading interface: %v", err)
 		}
 	}
 

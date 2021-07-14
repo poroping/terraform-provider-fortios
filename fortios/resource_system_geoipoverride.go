@@ -30,46 +30,46 @@ func resourceSystemGeoipOverride() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				ForceNew:     true,
 				Required:     true,
 			},
-			"description": &schema.Schema{
+			"description": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 127),
 				Optional:     true,
 				Computed:     true,
 			},
-			"country_id": &schema.Schema{
+			"country_id": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 2),
 				Optional:     true,
 				Computed:     true,
 			},
-			"ip_range": &schema.Schema{
+			"ip_range": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 65535),
 							Optional:     true,
 							Computed:     true,
 						},
-						"start_ip": &schema.Schema{
+						"start_ip": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"end_ip": &schema.Schema{
+						"end_ip": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -77,23 +77,23 @@ func resourceSystemGeoipOverride() *schema.Resource {
 					},
 				},
 			},
-			"ip6_range": &schema.Schema{
+			"ip6_range": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 65535),
 							Optional:     true,
 							Computed:     true,
 						},
-						"start_ip": &schema.Schema{
+						"start_ip": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"end_ip": &schema.Schema{
+						"end_ip": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -101,10 +101,15 @@ func resourceSystemGeoipOverride() *schema.Resource {
 					},
 				},
 			},
-			"dynamic_sort_subtable": &schema.Schema{
+			"dynamic_sort_subtable": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Default:  "false",
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -122,15 +127,25 @@ func resourceSystemGeoipOverrideCreate(d *schema.ResourceData, m interface{}) er
 		}
 	}
 
-	obj, err := getObjectSystemGeoipOverride(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating SystemGeoipOverride resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateSystemGeoipOverride(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemGeoipOverride(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating SystemGeoipOverride resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateSystemGeoipOverride(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating SystemGeoipOverride resource: %v", err)
+		return fmt.Errorf("error creating SystemGeoipOverride resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -155,14 +170,24 @@ func resourceSystemGeoipOverrideUpdate(d *schema.ResourceData, m interface{}) er
 		}
 	}
 
-	obj, err := getObjectSystemGeoipOverride(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SystemGeoipOverride resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSystemGeoipOverride(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemGeoipOverride(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SystemGeoipOverride resource: %v", err)
+		return fmt.Errorf("error updating SystemGeoipOverride resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSystemGeoipOverride(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SystemGeoipOverride resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -189,9 +214,17 @@ func resourceSystemGeoipOverrideDelete(d *schema.ResourceData, m interface{}) er
 		}
 	}
 
-	err := c.DeleteSystemGeoipOverride(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSystemGeoipOverride(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SystemGeoipOverride resource: %v", err)
+		return fmt.Errorf("error deleting SystemGeoipOverride resource: %v", err)
 	}
 
 	d.SetId("")
@@ -213,9 +246,19 @@ func resourceSystemGeoipOverrideRead(d *schema.ResourceData, m interface{}) erro
 		}
 	}
 
-	o, err := c.ReadSystemGeoipOverride(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSystemGeoipOverride(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemGeoipOverride resource: %v", err)
+		return fmt.Errorf("error reading SystemGeoipOverride resource: %v", err)
 	}
 
 	if o == nil {
@@ -226,7 +269,7 @@ func resourceSystemGeoipOverrideRead(d *schema.ResourceData, m interface{}) erro
 
 	err = refreshObjectSystemGeoipOverride(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemGeoipOverride resource from API: %v", err)
+		return fmt.Errorf("error reading SystemGeoipOverride resource from API: %v", err)
 	}
 	return nil
 }
@@ -364,33 +407,33 @@ func refreshObjectSystemGeoipOverride(d *schema.ResourceData, o map[string]inter
 
 	if err = d.Set("name", flattenSystemGeoipOverrideName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("description", flattenSystemGeoipOverrideDescription(o["description"], d, "description", sv)); err != nil {
 		if !fortiAPIPatch(o["description"]) {
-			return fmt.Errorf("Error reading description: %v", err)
+			return fmt.Errorf("error reading description: %v", err)
 		}
 	}
 
 	if err = d.Set("country_id", flattenSystemGeoipOverrideCountryId(o["country-id"], d, "country_id", sv)); err != nil {
 		if !fortiAPIPatch(o["country-id"]) {
-			return fmt.Errorf("Error reading country_id: %v", err)
+			return fmt.Errorf("error reading country_id: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("ip_range", flattenSystemGeoipOverrideIpRange(o["ip-range"], d, "ip_range", sv)); err != nil {
 			if !fortiAPIPatch(o["ip-range"]) {
-				return fmt.Errorf("Error reading ip_range: %v", err)
+				return fmt.Errorf("error reading ip_range: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("ip_range"); ok {
 			if err = d.Set("ip_range", flattenSystemGeoipOverrideIpRange(o["ip-range"], d, "ip_range", sv)); err != nil {
 				if !fortiAPIPatch(o["ip-range"]) {
-					return fmt.Errorf("Error reading ip_range: %v", err)
+					return fmt.Errorf("error reading ip_range: %v", err)
 				}
 			}
 		}
@@ -399,14 +442,14 @@ func refreshObjectSystemGeoipOverride(d *schema.ResourceData, o map[string]inter
 	if isImportTable() {
 		if err = d.Set("ip6_range", flattenSystemGeoipOverrideIp6Range(o["ip6-range"], d, "ip6_range", sv)); err != nil {
 			if !fortiAPIPatch(o["ip6-range"]) {
-				return fmt.Errorf("Error reading ip6_range: %v", err)
+				return fmt.Errorf("error reading ip6_range: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("ip6_range"); ok {
 			if err = d.Set("ip6_range", flattenSystemGeoipOverrideIp6Range(o["ip6-range"], d, "ip6_range", sv)); err != nil {
 				if !fortiAPIPatch(o["ip6-range"]) {
-					return fmt.Errorf("Error reading ip6_range: %v", err)
+					return fmt.Errorf("error reading ip6_range: %v", err)
 				}
 			}
 		}

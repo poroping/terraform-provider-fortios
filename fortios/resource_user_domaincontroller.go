@@ -30,45 +30,45 @@ func resourceUserDomainController() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"ip_address": &schema.Schema{
+			"ip_address": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"port": &schema.Schema{
+			"port": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"extra_server": &schema.Schema{
+			"extra_server": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 100),
 							Optional:     true,
 							Computed:     true,
 						},
-						"ip_address": &schema.Schema{
+						"ip_address": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"port": &schema.Schema{
+						"port": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 65535),
 							Optional:     true,
@@ -77,21 +77,26 @@ func resourceUserDomainController() *schema.Resource {
 					},
 				},
 			},
-			"domain_name": &schema.Schema{
+			"domain_name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
 				Computed:     true,
 			},
-			"ldap_server": &schema.Schema{
+			"ldap_server": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Required:     true,
 			},
-			"dynamic_sort_subtable": &schema.Schema{
+			"dynamic_sort_subtable": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Default:  "false",
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -109,15 +114,25 @@ func resourceUserDomainControllerCreate(d *schema.ResourceData, m interface{}) e
 		}
 	}
 
-	obj, err := getObjectUserDomainController(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating UserDomainController resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateUserDomainController(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectUserDomainController(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating UserDomainController resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateUserDomainController(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating UserDomainController resource: %v", err)
+		return fmt.Errorf("error creating UserDomainController resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -142,14 +157,24 @@ func resourceUserDomainControllerUpdate(d *schema.ResourceData, m interface{}) e
 		}
 	}
 
-	obj, err := getObjectUserDomainController(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating UserDomainController resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateUserDomainController(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectUserDomainController(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating UserDomainController resource: %v", err)
+		return fmt.Errorf("error updating UserDomainController resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateUserDomainController(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating UserDomainController resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -176,9 +201,17 @@ func resourceUserDomainControllerDelete(d *schema.ResourceData, m interface{}) e
 		}
 	}
 
-	err := c.DeleteUserDomainController(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteUserDomainController(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting UserDomainController resource: %v", err)
+		return fmt.Errorf("error deleting UserDomainController resource: %v", err)
 	}
 
 	d.SetId("")
@@ -200,9 +233,19 @@ func resourceUserDomainControllerRead(d *schema.ResourceData, m interface{}) err
 		}
 	}
 
-	o, err := c.ReadUserDomainController(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadUserDomainController(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading UserDomainController resource: %v", err)
+		return fmt.Errorf("error reading UserDomainController resource: %v", err)
 	}
 
 	if o == nil {
@@ -213,7 +256,7 @@ func resourceUserDomainControllerRead(d *schema.ResourceData, m interface{}) err
 
 	err = refreshObjectUserDomainController(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading UserDomainController resource from API: %v", err)
+		return fmt.Errorf("error reading UserDomainController resource from API: %v", err)
 	}
 	return nil
 }
@@ -301,33 +344,33 @@ func refreshObjectUserDomainController(d *schema.ResourceData, o map[string]inte
 
 	if err = d.Set("name", flattenUserDomainControllerName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("ip_address", flattenUserDomainControllerIpAddress(o["ip-address"], d, "ip_address", sv)); err != nil {
 		if !fortiAPIPatch(o["ip-address"]) {
-			return fmt.Errorf("Error reading ip_address: %v", err)
+			return fmt.Errorf("error reading ip_address: %v", err)
 		}
 	}
 
 	if err = d.Set("port", flattenUserDomainControllerPort(o["port"], d, "port", sv)); err != nil {
 		if !fortiAPIPatch(o["port"]) {
-			return fmt.Errorf("Error reading port: %v", err)
+			return fmt.Errorf("error reading port: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("extra_server", flattenUserDomainControllerExtraServer(o["extra-server"], d, "extra_server", sv)); err != nil {
 			if !fortiAPIPatch(o["extra-server"]) {
-				return fmt.Errorf("Error reading extra_server: %v", err)
+				return fmt.Errorf("error reading extra_server: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("extra_server"); ok {
 			if err = d.Set("extra_server", flattenUserDomainControllerExtraServer(o["extra-server"], d, "extra_server", sv)); err != nil {
 				if !fortiAPIPatch(o["extra-server"]) {
-					return fmt.Errorf("Error reading extra_server: %v", err)
+					return fmt.Errorf("error reading extra_server: %v", err)
 				}
 			}
 		}
@@ -335,7 +378,7 @@ func refreshObjectUserDomainController(d *schema.ResourceData, o map[string]inte
 
 	if err = d.Set("domain_name", flattenUserDomainControllerDomainName(o["domain-name"], d, "domain_name", sv)); err != nil {
 		if !fortiAPIPatch(o["domain-name"]) {
-			return fmt.Errorf("Error reading domain_name: %v", err)
+			return fmt.Errorf("error reading domain_name: %v", err)
 		}
 	}
 
@@ -363,13 +406,13 @@ func refreshObjectUserDomainController(d *schema.ResourceData, o map[string]inte
 		if bstring == true {
 			if err = d.Set("ldap_server", vx); err != nil {
 				if !fortiAPIPatch(o["ldap-server"]) {
-					return fmt.Errorf("Error reading ldap_server: %v", err)
+					return fmt.Errorf("error reading ldap_server: %v", err)
 				}
 			}
 		} else {
 			if err = d.Set("ldap_server", v); err != nil {
 				if !fortiAPIPatch(o["ldap-server"]) {
-					return fmt.Errorf("Error reading ldap_server: %v", err)
+					return fmt.Errorf("error reading ldap_server: %v", err)
 				}
 			}
 		}

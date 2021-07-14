@@ -30,21 +30,26 @@ func resourceSwitchControllerIgmpSnooping() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"aging_time": &schema.Schema{
+			"aging_time": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(15, 3600),
 				Optional:     true,
 				Computed:     true,
 			},
-			"flood_unknown_multicast": &schema.Schema{
+			"flood_unknown_multicast": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -63,14 +68,24 @@ func resourceSwitchControllerIgmpSnoopingUpdate(d *schema.ResourceData, m interf
 		}
 	}
 
-	obj, err := getObjectSwitchControllerIgmpSnooping(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SwitchControllerIgmpSnooping resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSwitchControllerIgmpSnooping(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSwitchControllerIgmpSnooping(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SwitchControllerIgmpSnooping resource: %v", err)
+		return fmt.Errorf("error updating SwitchControllerIgmpSnooping resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSwitchControllerIgmpSnooping(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SwitchControllerIgmpSnooping resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -97,9 +112,17 @@ func resourceSwitchControllerIgmpSnoopingDelete(d *schema.ResourceData, m interf
 		}
 	}
 
-	err := c.DeleteSwitchControllerIgmpSnooping(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSwitchControllerIgmpSnooping(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SwitchControllerIgmpSnooping resource: %v", err)
+		return fmt.Errorf("error deleting SwitchControllerIgmpSnooping resource: %v", err)
 	}
 
 	d.SetId("")
@@ -121,9 +144,19 @@ func resourceSwitchControllerIgmpSnoopingRead(d *schema.ResourceData, m interfac
 		}
 	}
 
-	o, err := c.ReadSwitchControllerIgmpSnooping(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSwitchControllerIgmpSnooping(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SwitchControllerIgmpSnooping resource: %v", err)
+		return fmt.Errorf("error reading SwitchControllerIgmpSnooping resource: %v", err)
 	}
 
 	if o == nil {
@@ -134,7 +167,7 @@ func resourceSwitchControllerIgmpSnoopingRead(d *schema.ResourceData, m interfac
 
 	err = refreshObjectSwitchControllerIgmpSnooping(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SwitchControllerIgmpSnooping resource from API: %v", err)
+		return fmt.Errorf("error reading SwitchControllerIgmpSnooping resource from API: %v", err)
 	}
 	return nil
 }
@@ -152,13 +185,13 @@ func refreshObjectSwitchControllerIgmpSnooping(d *schema.ResourceData, o map[str
 
 	if err = d.Set("aging_time", flattenSwitchControllerIgmpSnoopingAgingTime(o["aging-time"], d, "aging_time", sv)); err != nil {
 		if !fortiAPIPatch(o["aging-time"]) {
-			return fmt.Errorf("Error reading aging_time: %v", err)
+			return fmt.Errorf("error reading aging_time: %v", err)
 		}
 	}
 
 	if err = d.Set("flood_unknown_multicast", flattenSwitchControllerIgmpSnoopingFloodUnknownMulticast(o["flood-unknown-multicast"], d, "flood_unknown_multicast", sv)); err != nil {
 		if !fortiAPIPatch(o["flood-unknown-multicast"]) {
-			return fmt.Errorf("Error reading flood_unknown_multicast: %v", err)
+			return fmt.Errorf("error reading flood_unknown_multicast: %v", err)
 		}
 	}
 

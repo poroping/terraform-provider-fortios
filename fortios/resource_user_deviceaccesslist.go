@@ -30,39 +30,39 @@ func resourceUserDeviceAccessList() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				ForceNew:     true,
 				Required:     true,
 			},
-			"default_action": &schema.Schema{
+			"default_action": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"device_list": &schema.Schema{
+			"device_list": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"device": &schema.Schema{
+						"device": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"action": &schema.Schema{
+						"action": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -70,10 +70,15 @@ func resourceUserDeviceAccessList() *schema.Resource {
 					},
 				},
 			},
-			"dynamic_sort_subtable": &schema.Schema{
+			"dynamic_sort_subtable": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Default:  "false",
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -91,15 +96,25 @@ func resourceUserDeviceAccessListCreate(d *schema.ResourceData, m interface{}) e
 		}
 	}
 
-	obj, err := getObjectUserDeviceAccessList(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating UserDeviceAccessList resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateUserDeviceAccessList(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectUserDeviceAccessList(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating UserDeviceAccessList resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateUserDeviceAccessList(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating UserDeviceAccessList resource: %v", err)
+		return fmt.Errorf("error creating UserDeviceAccessList resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -124,14 +139,24 @@ func resourceUserDeviceAccessListUpdate(d *schema.ResourceData, m interface{}) e
 		}
 	}
 
-	obj, err := getObjectUserDeviceAccessList(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating UserDeviceAccessList resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateUserDeviceAccessList(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectUserDeviceAccessList(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating UserDeviceAccessList resource: %v", err)
+		return fmt.Errorf("error updating UserDeviceAccessList resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateUserDeviceAccessList(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating UserDeviceAccessList resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -158,9 +183,17 @@ func resourceUserDeviceAccessListDelete(d *schema.ResourceData, m interface{}) e
 		}
 	}
 
-	err := c.DeleteUserDeviceAccessList(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteUserDeviceAccessList(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting UserDeviceAccessList resource: %v", err)
+		return fmt.Errorf("error deleting UserDeviceAccessList resource: %v", err)
 	}
 
 	d.SetId("")
@@ -182,9 +215,19 @@ func resourceUserDeviceAccessListRead(d *schema.ResourceData, m interface{}) err
 		}
 	}
 
-	o, err := c.ReadUserDeviceAccessList(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadUserDeviceAccessList(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading UserDeviceAccessList resource: %v", err)
+		return fmt.Errorf("error reading UserDeviceAccessList resource: %v", err)
 	}
 
 	if o == nil {
@@ -195,7 +238,7 @@ func resourceUserDeviceAccessListRead(d *schema.ResourceData, m interface{}) err
 
 	err = refreshObjectUserDeviceAccessList(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading UserDeviceAccessList resource from API: %v", err)
+		return fmt.Errorf("error reading UserDeviceAccessList resource from API: %v", err)
 	}
 	return nil
 }
@@ -271,27 +314,27 @@ func refreshObjectUserDeviceAccessList(d *schema.ResourceData, o map[string]inte
 
 	if err = d.Set("name", flattenUserDeviceAccessListName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("default_action", flattenUserDeviceAccessListDefaultAction(o["default-action"], d, "default_action", sv)); err != nil {
 		if !fortiAPIPatch(o["default-action"]) {
-			return fmt.Errorf("Error reading default_action: %v", err)
+			return fmt.Errorf("error reading default_action: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("device_list", flattenUserDeviceAccessListDeviceList(o["device-list"], d, "device_list", sv)); err != nil {
 			if !fortiAPIPatch(o["device-list"]) {
-				return fmt.Errorf("Error reading device_list: %v", err)
+				return fmt.Errorf("error reading device_list: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("device_list"); ok {
 			if err = d.Set("device_list", flattenUserDeviceAccessListDeviceList(o["device-list"], d, "device_list", sv)); err != nil {
 				if !fortiAPIPatch(o["device-list"]) {
-					return fmt.Errorf("Error reading device_list: %v", err)
+					return fmt.Errorf("error reading device_list: %v", err)
 				}
 			}
 		}

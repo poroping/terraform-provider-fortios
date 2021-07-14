@@ -54,14 +54,14 @@ func testAccCheckFortiOSSystemManagementTunnelExists(n string) resource.TestChec
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemManagementTunnel(i, "root")
+		o, err := c.ReadSystemManagementTunnel(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading SystemManagementTunnel: %s", err)
+			return fmt.Errorf("error reading SystemManagementTunnel: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating SystemManagementTunnel: %s", n)
+			return fmt.Errorf("error creating SystemManagementTunnel: %s", n)
 		}
 
 		return nil
@@ -77,11 +77,11 @@ func testAccCheckSystemManagementTunnelDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemManagementTunnel(i, "root")
+		o, err := c.ReadSystemManagementTunnel(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error SystemManagementTunnel %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error SystemManagementTunnel %s still exists", rs.Primary.ID)
 			}
 		}
 

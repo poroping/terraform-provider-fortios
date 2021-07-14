@@ -50,14 +50,14 @@ func testAccCheckFortiOSAntivirusSettingsExists(n string) resource.TestCheckFunc
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadAntivirusSettings(i, "root")
+		o, err := c.ReadAntivirusSettings(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading AntivirusSettings: %s", err)
+			return fmt.Errorf("error reading AntivirusSettings: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating AntivirusSettings: %s", n)
+			return fmt.Errorf("error creating AntivirusSettings: %s", n)
 		}
 
 		return nil
@@ -73,11 +73,11 @@ func testAccCheckAntivirusSettingsDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadAntivirusSettings(i, "root")
+		o, err := c.ReadAntivirusSettings(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error AntivirusSettings %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error AntivirusSettings %s still exists", rs.Primary.ID)
 			}
 		}
 

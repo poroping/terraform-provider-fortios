@@ -30,29 +30,29 @@ func resourceDnsfilterProfile() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				ForceNew:     true,
 				Required:     true,
 			},
-			"comment": &schema.Schema{
+			"comment": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
 			},
-			"domain_filter": &schema.Schema{
+			"domain_filter": {
 				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"domain_filter_table": &schema.Schema{
+						"domain_filter_table": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
@@ -60,40 +60,40 @@ func resourceDnsfilterProfile() *schema.Resource {
 					},
 				},
 			},
-			"ftgd_dns": &schema.Schema{
+			"ftgd_dns": {
 				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"options": &schema.Schema{
+						"options": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"filters": &schema.Schema{
+						"filters": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"id": &schema.Schema{
+									"id": {
 										Type:         schema.TypeInt,
 										ValidateFunc: validation.IntBetween(0, 255),
 										Optional:     true,
 										Computed:     true,
 									},
-									"category": &schema.Schema{
+									"category": {
 										Type:         schema.TypeInt,
 										ValidateFunc: validation.IntBetween(0, 255),
 										Optional:     true,
 										Computed:     true,
 									},
-									"action": &schema.Schema{
+									"action": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"log": &schema.Schema{
+									"log": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
@@ -104,57 +104,57 @@ func resourceDnsfilterProfile() *schema.Resource {
 					},
 				},
 			},
-			"log_all_domain": &schema.Schema{
+			"log_all_domain": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"sdns_ftgd_err_log": &schema.Schema{
+			"sdns_ftgd_err_log": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"sdns_domain_log": &schema.Schema{
+			"sdns_domain_log": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"block_action": &schema.Schema{
+			"block_action": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"redirect_portal": &schema.Schema{
+			"redirect_portal": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"redirect_portal6": &schema.Schema{
+			"redirect_portal6": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"block_botnet": &schema.Schema{
+			"block_botnet": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"safe_search": &schema.Schema{
+			"safe_search": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"youtube_restrict": &schema.Schema{
+			"youtube_restrict": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"external_ip_blocklist": &schema.Schema{
+			"external_ip_blocklist": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 64),
 							Optional:     true,
@@ -163,52 +163,52 @@ func resourceDnsfilterProfile() *schema.Resource {
 					},
 				},
 			},
-			"dns_translation": &schema.Schema{
+			"dns_translation": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"addr_type": &schema.Schema{
+						"addr_type": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"src": &schema.Schema{
+						"src": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"dst": &schema.Schema{
+						"dst": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"netmask": &schema.Schema{
+						"netmask": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"status": &schema.Schema{
+						"status": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"src6": &schema.Schema{
+						"src6": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"dst6": &schema.Schema{
+						"dst6": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"prefix": &schema.Schema{
+						"prefix": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 128),
 							Optional:     true,
@@ -217,10 +217,15 @@ func resourceDnsfilterProfile() *schema.Resource {
 					},
 				},
 			},
-			"dynamic_sort_subtable": &schema.Schema{
+			"dynamic_sort_subtable": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Default:  "false",
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -238,15 +243,25 @@ func resourceDnsfilterProfileCreate(d *schema.ResourceData, m interface{}) error
 		}
 	}
 
-	obj, err := getObjectDnsfilterProfile(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating DnsfilterProfile resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateDnsfilterProfile(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectDnsfilterProfile(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating DnsfilterProfile resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateDnsfilterProfile(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating DnsfilterProfile resource: %v", err)
+		return fmt.Errorf("error creating DnsfilterProfile resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -271,14 +286,24 @@ func resourceDnsfilterProfileUpdate(d *schema.ResourceData, m interface{}) error
 		}
 	}
 
-	obj, err := getObjectDnsfilterProfile(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating DnsfilterProfile resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateDnsfilterProfile(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectDnsfilterProfile(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating DnsfilterProfile resource: %v", err)
+		return fmt.Errorf("error updating DnsfilterProfile resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateDnsfilterProfile(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating DnsfilterProfile resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -305,9 +330,17 @@ func resourceDnsfilterProfileDelete(d *schema.ResourceData, m interface{}) error
 		}
 	}
 
-	err := c.DeleteDnsfilterProfile(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteDnsfilterProfile(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting DnsfilterProfile resource: %v", err)
+		return fmt.Errorf("error deleting DnsfilterProfile resource: %v", err)
 	}
 
 	d.SetId("")
@@ -329,9 +362,19 @@ func resourceDnsfilterProfileRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadDnsfilterProfile(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadDnsfilterProfile(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading DnsfilterProfile resource: %v", err)
+		return fmt.Errorf("error reading DnsfilterProfile resource: %v", err)
 	}
 
 	if o == nil {
@@ -342,7 +385,7 @@ func resourceDnsfilterProfileRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectDnsfilterProfile(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading DnsfilterProfile resource from API: %v", err)
+		return fmt.Errorf("error reading DnsfilterProfile resource from API: %v", err)
 	}
 	return nil
 }
@@ -671,27 +714,27 @@ func refreshObjectDnsfilterProfile(d *schema.ResourceData, o map[string]interfac
 
 	if err = d.Set("name", flattenDnsfilterProfileName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("comment", flattenDnsfilterProfileComment(o["comment"], d, "comment", sv)); err != nil {
 		if !fortiAPIPatch(o["comment"]) {
-			return fmt.Errorf("Error reading comment: %v", err)
+			return fmt.Errorf("error reading comment: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("domain_filter", flattenDnsfilterProfileDomainFilter(o["domain-filter"], d, "domain_filter", sv)); err != nil {
 			if !fortiAPIPatch(o["domain-filter"]) {
-				return fmt.Errorf("Error reading domain_filter: %v", err)
+				return fmt.Errorf("error reading domain_filter: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("domain_filter"); ok {
 			if err = d.Set("domain_filter", flattenDnsfilterProfileDomainFilter(o["domain-filter"], d, "domain_filter", sv)); err != nil {
 				if !fortiAPIPatch(o["domain-filter"]) {
-					return fmt.Errorf("Error reading domain_filter: %v", err)
+					return fmt.Errorf("error reading domain_filter: %v", err)
 				}
 			}
 		}
@@ -700,14 +743,14 @@ func refreshObjectDnsfilterProfile(d *schema.ResourceData, o map[string]interfac
 	if isImportTable() {
 		if err = d.Set("ftgd_dns", flattenDnsfilterProfileFtgdDns(o["ftgd-dns"], d, "ftgd_dns", sv)); err != nil {
 			if !fortiAPIPatch(o["ftgd-dns"]) {
-				return fmt.Errorf("Error reading ftgd_dns: %v", err)
+				return fmt.Errorf("error reading ftgd_dns: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("ftgd_dns"); ok {
 			if err = d.Set("ftgd_dns", flattenDnsfilterProfileFtgdDns(o["ftgd-dns"], d, "ftgd_dns", sv)); err != nil {
 				if !fortiAPIPatch(o["ftgd-dns"]) {
-					return fmt.Errorf("Error reading ftgd_dns: %v", err)
+					return fmt.Errorf("error reading ftgd_dns: %v", err)
 				}
 			}
 		}
@@ -715,69 +758,69 @@ func refreshObjectDnsfilterProfile(d *schema.ResourceData, o map[string]interfac
 
 	if err = d.Set("log_all_domain", flattenDnsfilterProfileLogAllDomain(o["log-all-domain"], d, "log_all_domain", sv)); err != nil {
 		if !fortiAPIPatch(o["log-all-domain"]) {
-			return fmt.Errorf("Error reading log_all_domain: %v", err)
+			return fmt.Errorf("error reading log_all_domain: %v", err)
 		}
 	}
 
 	if err = d.Set("sdns_ftgd_err_log", flattenDnsfilterProfileSdnsFtgdErrLog(o["sdns-ftgd-err-log"], d, "sdns_ftgd_err_log", sv)); err != nil {
 		if !fortiAPIPatch(o["sdns-ftgd-err-log"]) {
-			return fmt.Errorf("Error reading sdns_ftgd_err_log: %v", err)
+			return fmt.Errorf("error reading sdns_ftgd_err_log: %v", err)
 		}
 	}
 
 	if err = d.Set("sdns_domain_log", flattenDnsfilterProfileSdnsDomainLog(o["sdns-domain-log"], d, "sdns_domain_log", sv)); err != nil {
 		if !fortiAPIPatch(o["sdns-domain-log"]) {
-			return fmt.Errorf("Error reading sdns_domain_log: %v", err)
+			return fmt.Errorf("error reading sdns_domain_log: %v", err)
 		}
 	}
 
 	if err = d.Set("block_action", flattenDnsfilterProfileBlockAction(o["block-action"], d, "block_action", sv)); err != nil {
 		if !fortiAPIPatch(o["block-action"]) {
-			return fmt.Errorf("Error reading block_action: %v", err)
+			return fmt.Errorf("error reading block_action: %v", err)
 		}
 	}
 
 	if err = d.Set("redirect_portal", flattenDnsfilterProfileRedirectPortal(o["redirect-portal"], d, "redirect_portal", sv)); err != nil {
 		if !fortiAPIPatch(o["redirect-portal"]) {
-			return fmt.Errorf("Error reading redirect_portal: %v", err)
+			return fmt.Errorf("error reading redirect_portal: %v", err)
 		}
 	}
 
 	if err = d.Set("redirect_portal6", flattenDnsfilterProfileRedirectPortal6(o["redirect-portal6"], d, "redirect_portal6", sv)); err != nil {
 		if !fortiAPIPatch(o["redirect-portal6"]) {
-			return fmt.Errorf("Error reading redirect_portal6: %v", err)
+			return fmt.Errorf("error reading redirect_portal6: %v", err)
 		}
 	}
 
 	if err = d.Set("block_botnet", flattenDnsfilterProfileBlockBotnet(o["block-botnet"], d, "block_botnet", sv)); err != nil {
 		if !fortiAPIPatch(o["block-botnet"]) {
-			return fmt.Errorf("Error reading block_botnet: %v", err)
+			return fmt.Errorf("error reading block_botnet: %v", err)
 		}
 	}
 
 	if err = d.Set("safe_search", flattenDnsfilterProfileSafeSearch(o["safe-search"], d, "safe_search", sv)); err != nil {
 		if !fortiAPIPatch(o["safe-search"]) {
-			return fmt.Errorf("Error reading safe_search: %v", err)
+			return fmt.Errorf("error reading safe_search: %v", err)
 		}
 	}
 
 	if err = d.Set("youtube_restrict", flattenDnsfilterProfileYoutubeRestrict(o["youtube-restrict"], d, "youtube_restrict", sv)); err != nil {
 		if !fortiAPIPatch(o["youtube-restrict"]) {
-			return fmt.Errorf("Error reading youtube_restrict: %v", err)
+			return fmt.Errorf("error reading youtube_restrict: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("external_ip_blocklist", flattenDnsfilterProfileExternalIpBlocklist(o["external-ip-blocklist"], d, "external_ip_blocklist", sv)); err != nil {
 			if !fortiAPIPatch(o["external-ip-blocklist"]) {
-				return fmt.Errorf("Error reading external_ip_blocklist: %v", err)
+				return fmt.Errorf("error reading external_ip_blocklist: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("external_ip_blocklist"); ok {
 			if err = d.Set("external_ip_blocklist", flattenDnsfilterProfileExternalIpBlocklist(o["external-ip-blocklist"], d, "external_ip_blocklist", sv)); err != nil {
 				if !fortiAPIPatch(o["external-ip-blocklist"]) {
-					return fmt.Errorf("Error reading external_ip_blocklist: %v", err)
+					return fmt.Errorf("error reading external_ip_blocklist: %v", err)
 				}
 			}
 		}
@@ -786,14 +829,14 @@ func refreshObjectDnsfilterProfile(d *schema.ResourceData, o map[string]interfac
 	if isImportTable() {
 		if err = d.Set("dns_translation", flattenDnsfilterProfileDnsTranslation(o["dns-translation"], d, "dns_translation", sv)); err != nil {
 			if !fortiAPIPatch(o["dns-translation"]) {
-				return fmt.Errorf("Error reading dns_translation: %v", err)
+				return fmt.Errorf("error reading dns_translation: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("dns_translation"); ok {
 			if err = d.Set("dns_translation", flattenDnsfilterProfileDnsTranslation(o["dns-translation"], d, "dns_translation", sv)); err != nil {
 				if !fortiAPIPatch(o["dns-translation"]) {
-					return fmt.Errorf("Error reading dns_translation: %v", err)
+					return fmt.Errorf("error reading dns_translation: %v", err)
 				}
 			}
 		}

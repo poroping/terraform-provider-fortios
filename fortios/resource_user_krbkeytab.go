@@ -30,38 +30,43 @@ func resourceUserKrbKeytab() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"pac_data": &schema.Schema{
+			"pac_data": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"principal": &schema.Schema{
+			"principal": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 511),
 				Required:     true,
 			},
-			"ldap_server": &schema.Schema{
+			"ldap_server": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Required:     true,
 			},
-			"keytab": &schema.Schema{
+			"keytab": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 2047),
 				Required:     true,
 				Sensitive:    true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -79,15 +84,25 @@ func resourceUserKrbKeytabCreate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectUserKrbKeytab(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating UserKrbKeytab resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateUserKrbKeytab(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectUserKrbKeytab(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating UserKrbKeytab resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateUserKrbKeytab(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating UserKrbKeytab resource: %v", err)
+		return fmt.Errorf("error creating UserKrbKeytab resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -112,14 +127,24 @@ func resourceUserKrbKeytabUpdate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectUserKrbKeytab(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating UserKrbKeytab resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateUserKrbKeytab(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectUserKrbKeytab(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating UserKrbKeytab resource: %v", err)
+		return fmt.Errorf("error updating UserKrbKeytab resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateUserKrbKeytab(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating UserKrbKeytab resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -146,9 +171,17 @@ func resourceUserKrbKeytabDelete(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	err := c.DeleteUserKrbKeytab(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteUserKrbKeytab(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting UserKrbKeytab resource: %v", err)
+		return fmt.Errorf("error deleting UserKrbKeytab resource: %v", err)
 	}
 
 	d.SetId("")
@@ -170,9 +203,19 @@ func resourceUserKrbKeytabRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadUserKrbKeytab(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadUserKrbKeytab(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading UserKrbKeytab resource: %v", err)
+		return fmt.Errorf("error reading UserKrbKeytab resource: %v", err)
 	}
 
 	if o == nil {
@@ -183,7 +226,7 @@ func resourceUserKrbKeytabRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectUserKrbKeytab(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading UserKrbKeytab resource from API: %v", err)
+		return fmt.Errorf("error reading UserKrbKeytab resource from API: %v", err)
 	}
 	return nil
 }
@@ -213,19 +256,19 @@ func refreshObjectUserKrbKeytab(d *schema.ResourceData, o map[string]interface{}
 
 	if err = d.Set("name", flattenUserKrbKeytabName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("pac_data", flattenUserKrbKeytabPacData(o["pac-data"], d, "pac_data", sv)); err != nil {
 		if !fortiAPIPatch(o["pac-data"]) {
-			return fmt.Errorf("Error reading pac_data: %v", err)
+			return fmt.Errorf("error reading pac_data: %v", err)
 		}
 	}
 
 	if err = d.Set("principal", flattenUserKrbKeytabPrincipal(o["principal"], d, "principal", sv)); err != nil {
 		if !fortiAPIPatch(o["principal"]) {
-			return fmt.Errorf("Error reading principal: %v", err)
+			return fmt.Errorf("error reading principal: %v", err)
 		}
 	}
 
@@ -253,13 +296,13 @@ func refreshObjectUserKrbKeytab(d *schema.ResourceData, o map[string]interface{}
 		if bstring == true {
 			if err = d.Set("ldap_server", vx); err != nil {
 				if !fortiAPIPatch(o["ldap-server"]) {
-					return fmt.Errorf("Error reading ldap_server: %v", err)
+					return fmt.Errorf("error reading ldap_server: %v", err)
 				}
 			}
 		} else {
 			if err = d.Set("ldap_server", v); err != nil {
 				if !fortiAPIPatch(o["ldap-server"]) {
-					return fmt.Errorf("Error reading ldap_server: %v", err)
+					return fmt.Errorf("error reading ldap_server: %v", err)
 				}
 			}
 		}

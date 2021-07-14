@@ -30,90 +30,95 @@ func resourceLogEventfilter() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"event": &schema.Schema{
+			"event": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"system": &schema.Schema{
+			"system": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"vpn": &schema.Schema{
+			"vpn": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"user": &schema.Schema{
+			"user": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"router": &schema.Schema{
+			"router": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"wireless_activity": &schema.Schema{
+			"wireless_activity": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"wan_opt": &schema.Schema{
+			"wan_opt": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"endpoint": &schema.Schema{
+			"endpoint": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ha": &schema.Schema{
+			"ha": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"compliance_check": &schema.Schema{
+			"compliance_check": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"security_rating": &schema.Schema{
+			"security_rating": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"fortiextender": &schema.Schema{
+			"fortiextender": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"connector": &schema.Schema{
+			"connector": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"sdwan": &schema.Schema{
+			"sdwan": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"cifs": &schema.Schema{
+			"cifs": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"switch_controller": &schema.Schema{
+			"switch_controller": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -132,14 +137,24 @@ func resourceLogEventfilterUpdate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectLogEventfilter(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating LogEventfilter resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateLogEventfilter(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectLogEventfilter(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating LogEventfilter resource: %v", err)
+		return fmt.Errorf("error updating LogEventfilter resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateLogEventfilter(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating LogEventfilter resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -166,9 +181,17 @@ func resourceLogEventfilterDelete(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	err := c.DeleteLogEventfilter(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteLogEventfilter(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting LogEventfilter resource: %v", err)
+		return fmt.Errorf("error deleting LogEventfilter resource: %v", err)
 	}
 
 	d.SetId("")
@@ -190,9 +213,19 @@ func resourceLogEventfilterRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadLogEventfilter(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadLogEventfilter(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading LogEventfilter resource: %v", err)
+		return fmt.Errorf("error reading LogEventfilter resource: %v", err)
 	}
 
 	if o == nil {
@@ -203,7 +236,7 @@ func resourceLogEventfilterRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectLogEventfilter(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading LogEventfilter resource from API: %v", err)
+		return fmt.Errorf("error reading LogEventfilter resource from API: %v", err)
 	}
 	return nil
 }
@@ -277,97 +310,97 @@ func refreshObjectLogEventfilter(d *schema.ResourceData, o map[string]interface{
 
 	if err = d.Set("event", flattenLogEventfilterEvent(o["event"], d, "event", sv)); err != nil {
 		if !fortiAPIPatch(o["event"]) {
-			return fmt.Errorf("Error reading event: %v", err)
+			return fmt.Errorf("error reading event: %v", err)
 		}
 	}
 
 	if err = d.Set("system", flattenLogEventfilterSystem(o["system"], d, "system", sv)); err != nil {
 		if !fortiAPIPatch(o["system"]) {
-			return fmt.Errorf("Error reading system: %v", err)
+			return fmt.Errorf("error reading system: %v", err)
 		}
 	}
 
 	if err = d.Set("vpn", flattenLogEventfilterVpn(o["vpn"], d, "vpn", sv)); err != nil {
 		if !fortiAPIPatch(o["vpn"]) {
-			return fmt.Errorf("Error reading vpn: %v", err)
+			return fmt.Errorf("error reading vpn: %v", err)
 		}
 	}
 
 	if err = d.Set("user", flattenLogEventfilterUser(o["user"], d, "user", sv)); err != nil {
 		if !fortiAPIPatch(o["user"]) {
-			return fmt.Errorf("Error reading user: %v", err)
+			return fmt.Errorf("error reading user: %v", err)
 		}
 	}
 
 	if err = d.Set("router", flattenLogEventfilterRouter(o["router"], d, "router", sv)); err != nil {
 		if !fortiAPIPatch(o["router"]) {
-			return fmt.Errorf("Error reading router: %v", err)
+			return fmt.Errorf("error reading router: %v", err)
 		}
 	}
 
 	if err = d.Set("wireless_activity", flattenLogEventfilterWirelessActivity(o["wireless-activity"], d, "wireless_activity", sv)); err != nil {
 		if !fortiAPIPatch(o["wireless-activity"]) {
-			return fmt.Errorf("Error reading wireless_activity: %v", err)
+			return fmt.Errorf("error reading wireless_activity: %v", err)
 		}
 	}
 
 	if err = d.Set("wan_opt", flattenLogEventfilterWanOpt(o["wan-opt"], d, "wan_opt", sv)); err != nil {
 		if !fortiAPIPatch(o["wan-opt"]) {
-			return fmt.Errorf("Error reading wan_opt: %v", err)
+			return fmt.Errorf("error reading wan_opt: %v", err)
 		}
 	}
 
 	if err = d.Set("endpoint", flattenLogEventfilterEndpoint(o["endpoint"], d, "endpoint", sv)); err != nil {
 		if !fortiAPIPatch(o["endpoint"]) {
-			return fmt.Errorf("Error reading endpoint: %v", err)
+			return fmt.Errorf("error reading endpoint: %v", err)
 		}
 	}
 
 	if err = d.Set("ha", flattenLogEventfilterHa(o["ha"], d, "ha", sv)); err != nil {
 		if !fortiAPIPatch(o["ha"]) {
-			return fmt.Errorf("Error reading ha: %v", err)
+			return fmt.Errorf("error reading ha: %v", err)
 		}
 	}
 
 	if err = d.Set("compliance_check", flattenLogEventfilterComplianceCheck(o["compliance-check"], d, "compliance_check", sv)); err != nil {
 		if !fortiAPIPatch(o["compliance-check"]) {
-			return fmt.Errorf("Error reading compliance_check: %v", err)
+			return fmt.Errorf("error reading compliance_check: %v", err)
 		}
 	}
 
 	if err = d.Set("security_rating", flattenLogEventfilterSecurityRating(o["security-rating"], d, "security_rating", sv)); err != nil {
 		if !fortiAPIPatch(o["security-rating"]) {
-			return fmt.Errorf("Error reading security_rating: %v", err)
+			return fmt.Errorf("error reading security_rating: %v", err)
 		}
 	}
 
 	if err = d.Set("fortiextender", flattenLogEventfilterFortiextender(o["fortiextender"], d, "fortiextender", sv)); err != nil {
 		if !fortiAPIPatch(o["fortiextender"]) {
-			return fmt.Errorf("Error reading fortiextender: %v", err)
+			return fmt.Errorf("error reading fortiextender: %v", err)
 		}
 	}
 
 	if err = d.Set("connector", flattenLogEventfilterConnector(o["connector"], d, "connector", sv)); err != nil {
 		if !fortiAPIPatch(o["connector"]) {
-			return fmt.Errorf("Error reading connector: %v", err)
+			return fmt.Errorf("error reading connector: %v", err)
 		}
 	}
 
 	if err = d.Set("sdwan", flattenLogEventfilterSdwan(o["sdwan"], d, "sdwan", sv)); err != nil {
 		if !fortiAPIPatch(o["sdwan"]) {
-			return fmt.Errorf("Error reading sdwan: %v", err)
+			return fmt.Errorf("error reading sdwan: %v", err)
 		}
 	}
 
 	if err = d.Set("cifs", flattenLogEventfilterCifs(o["cifs"], d, "cifs", sv)); err != nil {
 		if !fortiAPIPatch(o["cifs"]) {
-			return fmt.Errorf("Error reading cifs: %v", err)
+			return fmt.Errorf("error reading cifs: %v", err)
 		}
 	}
 
 	if err = d.Set("switch_controller", flattenLogEventfilterSwitchController(o["switch-controller"], d, "switch_controller", sv)); err != nil {
 		if !fortiAPIPatch(o["switch-controller"]) {
-			return fmt.Errorf("Error reading switch_controller: %v", err)
+			return fmt.Errorf("error reading switch_controller: %v", err)
 		}
 	}
 

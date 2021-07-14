@@ -53,14 +53,14 @@ func testAccCheckFortiOSWirelessControllerInterControllerExists(n string) resour
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadWirelessControllerInterController(i, "root")
+		o, err := c.ReadWirelessControllerInterController(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading WirelessControllerInterController: %s", err)
+			return fmt.Errorf("error reading WirelessControllerInterController: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating WirelessControllerInterController: %s", n)
+			return fmt.Errorf("error creating WirelessControllerInterController: %s", n)
 		}
 
 		return nil
@@ -76,11 +76,11 @@ func testAccCheckWirelessControllerInterControllerDestroy(s *terraform.State) er
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadWirelessControllerInterController(i, "root")
+		o, err := c.ReadWirelessControllerInterController(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error WirelessControllerInterController %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error WirelessControllerInterController %s still exists", rs.Primary.ID)
 			}
 		}
 

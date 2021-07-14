@@ -30,140 +30,145 @@ func resourceCertificateLocal() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				ForceNew:     true,
 				Required:     true,
 			},
-			"password": &schema.Schema{
+			"password": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 128),
 				Optional:     true,
 				Sensitive:    true,
 			},
-			"comments": &schema.Schema{
+			"comments": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 511),
 				Optional:     true,
 				Computed:     true,
 			},
-			"private_key": &schema.Schema{
+			"private_key": {
 				Type:      schema.TypeString,
 				Required:  true,
 				Sensitive: true,
 			},
-			"certificate": &schema.Schema{
+			"certificate": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"csr": &schema.Schema{
+			"csr": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"state": &schema.Schema{
+			"state": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"scep_url": &schema.Schema{
+			"scep_url": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
 				Computed:     true,
 			},
-			"range": &schema.Schema{
+			"range": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"source": &schema.Schema{
+			"source": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"auto_regenerate_days": &schema.Schema{
+			"auto_regenerate_days": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"auto_regenerate_days_warning": &schema.Schema{
+			"auto_regenerate_days_warning": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"scep_password": &schema.Schema{
+			"scep_password": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 128),
 				Optional:     true,
 				Sensitive:    true,
 			},
-			"ca_identifier": &schema.Schema{
+			"ca_identifier": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
 				Computed:     true,
 			},
-			"name_encoding": &schema.Schema{
+			"name_encoding": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"source_ip": &schema.Schema{
+			"source_ip": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ike_localid": &schema.Schema{
+			"ike_localid": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"ike_localid_type": &schema.Schema{
+			"ike_localid_type": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"last_updated": &schema.Schema{
+			"last_updated": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"enroll_protocol": &schema.Schema{
+			"enroll_protocol": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"cmp_server": &schema.Schema{
+			"cmp_server": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"cmp_path": &schema.Schema{
+			"cmp_path": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
 				Computed:     true,
 			},
-			"cmp_server_cert": &schema.Schema{
+			"cmp_server_cert": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"cmp_regeneration_method": &schema.Schema{
+			"cmp_regeneration_method": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -181,15 +186,25 @@ func resourceCertificateLocalCreate(d *schema.ResourceData, m interface{}) error
 		}
 	}
 
-	obj, err := getObjectCertificateLocal(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating CertificateLocal resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateCertificateLocal(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectCertificateLocal(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating CertificateLocal resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateCertificateLocal(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating CertificateLocal resource: %v", err)
+		return fmt.Errorf("error creating CertificateLocal resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -214,14 +229,24 @@ func resourceCertificateLocalUpdate(d *schema.ResourceData, m interface{}) error
 		}
 	}
 
-	obj, err := getObjectCertificateLocal(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating CertificateLocal resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateCertificateLocal(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectCertificateLocal(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating CertificateLocal resource: %v", err)
+		return fmt.Errorf("error updating CertificateLocal resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateCertificateLocal(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating CertificateLocal resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -248,9 +273,17 @@ func resourceCertificateLocalDelete(d *schema.ResourceData, m interface{}) error
 		}
 	}
 
-	err := c.DeleteCertificateLocal(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteCertificateLocal(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting CertificateLocal resource: %v", err)
+		return fmt.Errorf("error deleting CertificateLocal resource: %v", err)
 	}
 
 	d.SetId("")
@@ -272,9 +305,19 @@ func resourceCertificateLocalRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadCertificateLocal(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadCertificateLocal(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading CertificateLocal resource: %v", err)
+		return fmt.Errorf("error reading CertificateLocal resource: %v", err)
 	}
 
 	if o == nil {
@@ -285,7 +328,7 @@ func resourceCertificateLocalRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectCertificateLocal(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading CertificateLocal resource from API: %v", err)
+		return fmt.Errorf("error reading CertificateLocal resource from API: %v", err)
 	}
 	return nil
 }
@@ -391,127 +434,127 @@ func refreshObjectCertificateLocal(d *schema.ResourceData, o map[string]interfac
 
 	if err = d.Set("name", flattenCertificateLocalName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("comments", flattenCertificateLocalComments(o["comments"], d, "comments", sv)); err != nil {
 		if !fortiAPIPatch(o["comments"]) {
-			return fmt.Errorf("Error reading comments: %v", err)
+			return fmt.Errorf("error reading comments: %v", err)
 		}
 	}
 
 	if err = d.Set("certificate", flattenCertificateLocalCertificate(o["certificate"], d, "certificate", sv)); err != nil {
 		if !fortiAPIPatch(o["certificate"]) {
-			return fmt.Errorf("Error reading certificate: %v", err)
+			return fmt.Errorf("error reading certificate: %v", err)
 		}
 	}
 
 	if err = d.Set("csr", flattenCertificateLocalCsr(o["csr"], d, "csr", sv)); err != nil {
 		if !fortiAPIPatch(o["csr"]) {
-			return fmt.Errorf("Error reading csr: %v", err)
+			return fmt.Errorf("error reading csr: %v", err)
 		}
 	}
 
 	if err = d.Set("state", flattenCertificateLocalState(o["state"], d, "state", sv)); err != nil {
 		if !fortiAPIPatch(o["state"]) {
-			return fmt.Errorf("Error reading state: %v", err)
+			return fmt.Errorf("error reading state: %v", err)
 		}
 	}
 
 	if err = d.Set("scep_url", flattenCertificateLocalScepUrl(o["scep-url"], d, "scep_url", sv)); err != nil {
 		if !fortiAPIPatch(o["scep-url"]) {
-			return fmt.Errorf("Error reading scep_url: %v", err)
+			return fmt.Errorf("error reading scep_url: %v", err)
 		}
 	}
 
 	if err = d.Set("range", flattenCertificateLocalRange(o["range"], d, "range", sv)); err != nil {
 		if !fortiAPIPatch(o["range"]) {
-			return fmt.Errorf("Error reading range: %v", err)
+			return fmt.Errorf("error reading range: %v", err)
 		}
 	}
 
 	if err = d.Set("source", flattenCertificateLocalSource(o["source"], d, "source", sv)); err != nil {
 		if !fortiAPIPatch(o["source"]) {
-			return fmt.Errorf("Error reading source: %v", err)
+			return fmt.Errorf("error reading source: %v", err)
 		}
 	}
 
 	if err = d.Set("auto_regenerate_days", flattenCertificateLocalAutoRegenerateDays(o["auto-regenerate-days"], d, "auto_regenerate_days", sv)); err != nil {
 		if !fortiAPIPatch(o["auto-regenerate-days"]) {
-			return fmt.Errorf("Error reading auto_regenerate_days: %v", err)
+			return fmt.Errorf("error reading auto_regenerate_days: %v", err)
 		}
 	}
 
 	if err = d.Set("auto_regenerate_days_warning", flattenCertificateLocalAutoRegenerateDaysWarning(o["auto-regenerate-days-warning"], d, "auto_regenerate_days_warning", sv)); err != nil {
 		if !fortiAPIPatch(o["auto-regenerate-days-warning"]) {
-			return fmt.Errorf("Error reading auto_regenerate_days_warning: %v", err)
+			return fmt.Errorf("error reading auto_regenerate_days_warning: %v", err)
 		}
 	}
 
 	if err = d.Set("ca_identifier", flattenCertificateLocalCaIdentifier(o["ca-identifier"], d, "ca_identifier", sv)); err != nil {
 		if !fortiAPIPatch(o["ca-identifier"]) {
-			return fmt.Errorf("Error reading ca_identifier: %v", err)
+			return fmt.Errorf("error reading ca_identifier: %v", err)
 		}
 	}
 
 	if err = d.Set("name_encoding", flattenCertificateLocalNameEncoding(o["name-encoding"], d, "name_encoding", sv)); err != nil {
 		if !fortiAPIPatch(o["name-encoding"]) {
-			return fmt.Errorf("Error reading name_encoding: %v", err)
+			return fmt.Errorf("error reading name_encoding: %v", err)
 		}
 	}
 
 	if err = d.Set("source_ip", flattenCertificateLocalSourceIp(o["source-ip"], d, "source_ip", sv)); err != nil {
 		if !fortiAPIPatch(o["source-ip"]) {
-			return fmt.Errorf("Error reading source_ip: %v", err)
+			return fmt.Errorf("error reading source_ip: %v", err)
 		}
 	}
 
 	if err = d.Set("ike_localid", flattenCertificateLocalIkeLocalid(o["ike-localid"], d, "ike_localid", sv)); err != nil {
 		if !fortiAPIPatch(o["ike-localid"]) {
-			return fmt.Errorf("Error reading ike_localid: %v", err)
+			return fmt.Errorf("error reading ike_localid: %v", err)
 		}
 	}
 
 	if err = d.Set("ike_localid_type", flattenCertificateLocalIkeLocalidType(o["ike-localid-type"], d, "ike_localid_type", sv)); err != nil {
 		if !fortiAPIPatch(o["ike-localid-type"]) {
-			return fmt.Errorf("Error reading ike_localid_type: %v", err)
+			return fmt.Errorf("error reading ike_localid_type: %v", err)
 		}
 	}
 
 	if err = d.Set("last_updated", flattenCertificateLocalLastUpdated(o["last-updated"], d, "last_updated", sv)); err != nil {
 		if !fortiAPIPatch(o["last-updated"]) {
-			return fmt.Errorf("Error reading last_updated: %v", err)
+			return fmt.Errorf("error reading last_updated: %v", err)
 		}
 	}
 
 	if err = d.Set("enroll_protocol", flattenCertificateLocalEnrollProtocol(o["enroll-protocol"], d, "enroll_protocol", sv)); err != nil {
 		if !fortiAPIPatch(o["enroll-protocol"]) {
-			return fmt.Errorf("Error reading enroll_protocol: %v", err)
+			return fmt.Errorf("error reading enroll_protocol: %v", err)
 		}
 	}
 
 	if err = d.Set("cmp_server", flattenCertificateLocalCmpServer(o["cmp-server"], d, "cmp_server", sv)); err != nil {
 		if !fortiAPIPatch(o["cmp-server"]) {
-			return fmt.Errorf("Error reading cmp_server: %v", err)
+			return fmt.Errorf("error reading cmp_server: %v", err)
 		}
 	}
 
 	if err = d.Set("cmp_path", flattenCertificateLocalCmpPath(o["cmp-path"], d, "cmp_path", sv)); err != nil {
 		if !fortiAPIPatch(o["cmp-path"]) {
-			return fmt.Errorf("Error reading cmp_path: %v", err)
+			return fmt.Errorf("error reading cmp_path: %v", err)
 		}
 	}
 
 	if err = d.Set("cmp_server_cert", flattenCertificateLocalCmpServerCert(o["cmp-server-cert"], d, "cmp_server_cert", sv)); err != nil {
 		if !fortiAPIPatch(o["cmp-server-cert"]) {
-			return fmt.Errorf("Error reading cmp_server_cert: %v", err)
+			return fmt.Errorf("error reading cmp_server_cert: %v", err)
 		}
 	}
 
 	if err = d.Set("cmp_regeneration_method", flattenCertificateLocalCmpRegenerationMethod(o["cmp-regeneration-method"], d, "cmp_regeneration_method", sv)); err != nil {
 		if !fortiAPIPatch(o["cmp-regeneration-method"]) {
-			return fmt.Errorf("Error reading cmp_regeneration_method: %v", err)
+			return fmt.Errorf("error reading cmp_regeneration_method: %v", err)
 		}
 	}
 

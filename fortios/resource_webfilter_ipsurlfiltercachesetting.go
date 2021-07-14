@@ -30,22 +30,27 @@ func resourceWebfilterIpsUrlfilterCacheSetting() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"dns_retry_interval": &schema.Schema{
+			"dns_retry_interval": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 2147483),
 				Optional:     true,
 				Computed:     true,
 			},
-			"extended_ttl": &schema.Schema{
+			"extended_ttl": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 2147483),
 				Optional:     true,
 				Computed:     true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -64,14 +69,24 @@ func resourceWebfilterIpsUrlfilterCacheSettingUpdate(d *schema.ResourceData, m i
 		}
 	}
 
-	obj, err := getObjectWebfilterIpsUrlfilterCacheSetting(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating WebfilterIpsUrlfilterCacheSetting resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateWebfilterIpsUrlfilterCacheSetting(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectWebfilterIpsUrlfilterCacheSetting(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating WebfilterIpsUrlfilterCacheSetting resource: %v", err)
+		return fmt.Errorf("error updating WebfilterIpsUrlfilterCacheSetting resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateWebfilterIpsUrlfilterCacheSetting(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating WebfilterIpsUrlfilterCacheSetting resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -98,9 +113,17 @@ func resourceWebfilterIpsUrlfilterCacheSettingDelete(d *schema.ResourceData, m i
 		}
 	}
 
-	err := c.DeleteWebfilterIpsUrlfilterCacheSetting(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteWebfilterIpsUrlfilterCacheSetting(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting WebfilterIpsUrlfilterCacheSetting resource: %v", err)
+		return fmt.Errorf("error deleting WebfilterIpsUrlfilterCacheSetting resource: %v", err)
 	}
 
 	d.SetId("")
@@ -122,9 +145,19 @@ func resourceWebfilterIpsUrlfilterCacheSettingRead(d *schema.ResourceData, m int
 		}
 	}
 
-	o, err := c.ReadWebfilterIpsUrlfilterCacheSetting(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadWebfilterIpsUrlfilterCacheSetting(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading WebfilterIpsUrlfilterCacheSetting resource: %v", err)
+		return fmt.Errorf("error reading WebfilterIpsUrlfilterCacheSetting resource: %v", err)
 	}
 
 	if o == nil {
@@ -135,7 +168,7 @@ func resourceWebfilterIpsUrlfilterCacheSettingRead(d *schema.ResourceData, m int
 
 	err = refreshObjectWebfilterIpsUrlfilterCacheSetting(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading WebfilterIpsUrlfilterCacheSetting resource from API: %v", err)
+		return fmt.Errorf("error reading WebfilterIpsUrlfilterCacheSetting resource from API: %v", err)
 	}
 	return nil
 }
@@ -153,13 +186,13 @@ func refreshObjectWebfilterIpsUrlfilterCacheSetting(d *schema.ResourceData, o ma
 
 	if err = d.Set("dns_retry_interval", flattenWebfilterIpsUrlfilterCacheSettingDnsRetryInterval(o["dns-retry-interval"], d, "dns_retry_interval", sv)); err != nil {
 		if !fortiAPIPatch(o["dns-retry-interval"]) {
-			return fmt.Errorf("Error reading dns_retry_interval: %v", err)
+			return fmt.Errorf("error reading dns_retry_interval: %v", err)
 		}
 	}
 
 	if err = d.Set("extended_ttl", flattenWebfilterIpsUrlfilterCacheSettingExtendedTtl(o["extended-ttl"], d, "extended_ttl", sv)); err != nil {
 		if !fortiAPIPatch(o["extended-ttl"]) {
-			return fmt.Errorf("Error reading extended_ttl: %v", err)
+			return fmt.Errorf("error reading extended_ttl: %v", err)
 		}
 	}
 

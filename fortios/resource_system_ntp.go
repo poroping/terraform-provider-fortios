@@ -30,70 +30,70 @@ func resourceSystemNtp() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"ntpsync": &schema.Schema{
+			"ntpsync": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"type": &schema.Schema{
+			"type": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"syncinterval": &schema.Schema{
+			"syncinterval": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 1440),
 				Optional:     true,
 				Computed:     true,
 			},
-			"ntpserver": &schema.Schema{
+			"ntpserver": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"server": &schema.Schema{
+						"server": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 63),
 							Optional:     true,
 							Computed:     true,
 						},
-						"ntpv3": &schema.Schema{
+						"ntpv3": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"authentication": &schema.Schema{
+						"authentication": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"key": &schema.Schema{
+						"key": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 59),
 							Optional:     true,
 							Sensitive:    true,
 						},
-						"key_id": &schema.Schema{
+						"key_id": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"interface_select_method": &schema.Schema{
+						"interface_select_method": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"interface": &schema.Schema{
+						"interface": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 15),
 							Optional:     true,
@@ -102,48 +102,48 @@ func resourceSystemNtp() *schema.Resource {
 					},
 				},
 			},
-			"source_ip": &schema.Schema{
+			"source_ip": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"source_ip6": &schema.Schema{
+			"source_ip6": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"server_mode": &schema.Schema{
+			"server_mode": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"authentication": &schema.Schema{
+			"authentication": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"key_type": &schema.Schema{
+			"key_type": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"key": &schema.Schema{
+			"key": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 59),
 				Optional:     true,
 				Sensitive:    true,
 			},
-			"key_id": &schema.Schema{
+			"key_id": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"interface": &schema.Schema{
+			"interface": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"interface_name": &schema.Schema{
+						"interface_name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 64),
 							Optional:     true,
@@ -152,10 +152,15 @@ func resourceSystemNtp() *schema.Resource {
 					},
 				},
 			},
-			"dynamic_sort_subtable": &schema.Schema{
+			"dynamic_sort_subtable": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Default:  "false",
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -174,14 +179,24 @@ func resourceSystemNtpUpdate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectSystemNtp(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SystemNtp resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSystemNtp(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemNtp(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SystemNtp resource: %v", err)
+		return fmt.Errorf("error updating SystemNtp resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSystemNtp(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SystemNtp resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -208,9 +223,17 @@ func resourceSystemNtpDelete(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	err := c.DeleteSystemNtp(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSystemNtp(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SystemNtp resource: %v", err)
+		return fmt.Errorf("error deleting SystemNtp resource: %v", err)
 	}
 
 	d.SetId("")
@@ -232,9 +255,19 @@ func resourceSystemNtpRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadSystemNtp(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSystemNtp(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemNtp resource: %v", err)
+		return fmt.Errorf("error reading SystemNtp resource: %v", err)
 	}
 
 	if o == nil {
@@ -245,7 +278,7 @@ func resourceSystemNtpRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectSystemNtp(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemNtp resource from API: %v", err)
+		return fmt.Errorf("error reading SystemNtp resource from API: %v", err)
 	}
 	return nil
 }
@@ -445,33 +478,33 @@ func refreshObjectSystemNtp(d *schema.ResourceData, o map[string]interface{}, sv
 
 	if err = d.Set("ntpsync", flattenSystemNtpNtpsync(o["ntpsync"], d, "ntpsync", sv)); err != nil {
 		if !fortiAPIPatch(o["ntpsync"]) {
-			return fmt.Errorf("Error reading ntpsync: %v", err)
+			return fmt.Errorf("error reading ntpsync: %v", err)
 		}
 	}
 
 	if err = d.Set("type", flattenSystemNtpType(o["type"], d, "type", sv)); err != nil {
 		if !fortiAPIPatch(o["type"]) {
-			return fmt.Errorf("Error reading type: %v", err)
+			return fmt.Errorf("error reading type: %v", err)
 		}
 	}
 
 	if err = d.Set("syncinterval", flattenSystemNtpSyncinterval(o["syncinterval"], d, "syncinterval", sv)); err != nil {
 		if !fortiAPIPatch(o["syncinterval"]) {
-			return fmt.Errorf("Error reading syncinterval: %v", err)
+			return fmt.Errorf("error reading syncinterval: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("ntpserver", flattenSystemNtpNtpserver(o["ntpserver"], d, "ntpserver", sv)); err != nil {
 			if !fortiAPIPatch(o["ntpserver"]) {
-				return fmt.Errorf("Error reading ntpserver: %v", err)
+				return fmt.Errorf("error reading ntpserver: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("ntpserver"); ok {
 			if err = d.Set("ntpserver", flattenSystemNtpNtpserver(o["ntpserver"], d, "ntpserver", sv)); err != nil {
 				if !fortiAPIPatch(o["ntpserver"]) {
-					return fmt.Errorf("Error reading ntpserver: %v", err)
+					return fmt.Errorf("error reading ntpserver: %v", err)
 				}
 			}
 		}
@@ -479,51 +512,51 @@ func refreshObjectSystemNtp(d *schema.ResourceData, o map[string]interface{}, sv
 
 	if err = d.Set("source_ip", flattenSystemNtpSourceIp(o["source-ip"], d, "source_ip", sv)); err != nil {
 		if !fortiAPIPatch(o["source-ip"]) {
-			return fmt.Errorf("Error reading source_ip: %v", err)
+			return fmt.Errorf("error reading source_ip: %v", err)
 		}
 	}
 
 	if err = d.Set("source_ip6", flattenSystemNtpSourceIp6(o["source-ip6"], d, "source_ip6", sv)); err != nil {
 		if !fortiAPIPatch(o["source-ip6"]) {
-			return fmt.Errorf("Error reading source_ip6: %v", err)
+			return fmt.Errorf("error reading source_ip6: %v", err)
 		}
 	}
 
 	if err = d.Set("server_mode", flattenSystemNtpServerMode(o["server-mode"], d, "server_mode", sv)); err != nil {
 		if !fortiAPIPatch(o["server-mode"]) {
-			return fmt.Errorf("Error reading server_mode: %v", err)
+			return fmt.Errorf("error reading server_mode: %v", err)
 		}
 	}
 
 	if err = d.Set("authentication", flattenSystemNtpAuthentication(o["authentication"], d, "authentication", sv)); err != nil {
 		if !fortiAPIPatch(o["authentication"]) {
-			return fmt.Errorf("Error reading authentication: %v", err)
+			return fmt.Errorf("error reading authentication: %v", err)
 		}
 	}
 
 	if err = d.Set("key_type", flattenSystemNtpKeyType(o["key-type"], d, "key_type", sv)); err != nil {
 		if !fortiAPIPatch(o["key-type"]) {
-			return fmt.Errorf("Error reading key_type: %v", err)
+			return fmt.Errorf("error reading key_type: %v", err)
 		}
 	}
 
 	if err = d.Set("key_id", flattenSystemNtpKeyId(o["key-id"], d, "key_id", sv)); err != nil {
 		if !fortiAPIPatch(o["key-id"]) {
-			return fmt.Errorf("Error reading key_id: %v", err)
+			return fmt.Errorf("error reading key_id: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("interface", flattenSystemNtpInterface(o["interface"], d, "interface", sv)); err != nil {
 			if !fortiAPIPatch(o["interface"]) {
-				return fmt.Errorf("Error reading interface: %v", err)
+				return fmt.Errorf("error reading interface: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("interface"); ok {
 			if err = d.Set("interface", flattenSystemNtpInterface(o["interface"], d, "interface", sv)); err != nil {
 				if !fortiAPIPatch(o["interface"]) {
-					return fmt.Errorf("Error reading interface: %v", err)
+					return fmt.Errorf("error reading interface: %v", err)
 				}
 			}
 		}

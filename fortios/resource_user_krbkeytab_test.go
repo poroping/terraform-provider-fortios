@@ -54,14 +54,14 @@ func testAccCheckFortiOSUserKrbKeytabExists(n string) resource.TestCheckFunc {
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadUserKrbKeytab(i, "root")
+		o, err := c.ReadUserKrbKeytab(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading UserKrbKeytab: %s", err)
+			return fmt.Errorf("error reading UserKrbKeytab: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating UserKrbKeytab: %s", n)
+			return fmt.Errorf("error creating UserKrbKeytab: %s", n)
 		}
 
 		return nil
@@ -77,11 +77,11 @@ func testAccCheckUserKrbKeytabDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadUserKrbKeytab(i, "root")
+		o, err := c.ReadUserKrbKeytab(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error UserKrbKeytab %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error UserKrbKeytab %s still exists", rs.Primary.ID)
 			}
 		}
 

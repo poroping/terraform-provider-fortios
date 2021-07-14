@@ -30,21 +30,26 @@ func resourceLogWebtrendsSetting() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"status": &schema.Schema{
+			"status": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"server": &schema.Schema{
+			"server": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -63,14 +68,24 @@ func resourceLogWebtrendsSettingUpdate(d *schema.ResourceData, m interface{}) er
 		}
 	}
 
-	obj, err := getObjectLogWebtrendsSetting(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating LogWebtrendsSetting resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateLogWebtrendsSetting(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectLogWebtrendsSetting(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating LogWebtrendsSetting resource: %v", err)
+		return fmt.Errorf("error updating LogWebtrendsSetting resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateLogWebtrendsSetting(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating LogWebtrendsSetting resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -97,9 +112,17 @@ func resourceLogWebtrendsSettingDelete(d *schema.ResourceData, m interface{}) er
 		}
 	}
 
-	err := c.DeleteLogWebtrendsSetting(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteLogWebtrendsSetting(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting LogWebtrendsSetting resource: %v", err)
+		return fmt.Errorf("error deleting LogWebtrendsSetting resource: %v", err)
 	}
 
 	d.SetId("")
@@ -121,9 +144,19 @@ func resourceLogWebtrendsSettingRead(d *schema.ResourceData, m interface{}) erro
 		}
 	}
 
-	o, err := c.ReadLogWebtrendsSetting(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadLogWebtrendsSetting(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading LogWebtrendsSetting resource: %v", err)
+		return fmt.Errorf("error reading LogWebtrendsSetting resource: %v", err)
 	}
 
 	if o == nil {
@@ -134,7 +167,7 @@ func resourceLogWebtrendsSettingRead(d *schema.ResourceData, m interface{}) erro
 
 	err = refreshObjectLogWebtrendsSetting(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading LogWebtrendsSetting resource from API: %v", err)
+		return fmt.Errorf("error reading LogWebtrendsSetting resource from API: %v", err)
 	}
 	return nil
 }
@@ -152,13 +185,13 @@ func refreshObjectLogWebtrendsSetting(d *schema.ResourceData, o map[string]inter
 
 	if err = d.Set("status", flattenLogWebtrendsSettingStatus(o["status"], d, "status", sv)); err != nil {
 		if !fortiAPIPatch(o["status"]) {
-			return fmt.Errorf("Error reading status: %v", err)
+			return fmt.Errorf("error reading status: %v", err)
 		}
 	}
 
 	if err = d.Set("server", flattenLogWebtrendsSettingServer(o["server"], d, "server", sv)); err != nil {
 		if !fortiAPIPatch(o["server"]) {
-			return fmt.Errorf("Error reading server: %v", err)
+			return fmt.Errorf("error reading server: %v", err)
 		}
 	}
 

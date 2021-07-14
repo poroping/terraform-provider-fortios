@@ -30,16 +30,21 @@ func resourceEmailfilterOptions() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"dns_timeout": &schema.Schema{
+			"dns_timeout": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 30),
 				Optional:     true,
 				Computed:     true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -58,14 +63,24 @@ func resourceEmailfilterOptionsUpdate(d *schema.ResourceData, m interface{}) err
 		}
 	}
 
-	obj, err := getObjectEmailfilterOptions(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating EmailfilterOptions resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateEmailfilterOptions(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectEmailfilterOptions(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating EmailfilterOptions resource: %v", err)
+		return fmt.Errorf("error updating EmailfilterOptions resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateEmailfilterOptions(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating EmailfilterOptions resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -92,9 +107,17 @@ func resourceEmailfilterOptionsDelete(d *schema.ResourceData, m interface{}) err
 		}
 	}
 
-	err := c.DeleteEmailfilterOptions(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteEmailfilterOptions(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting EmailfilterOptions resource: %v", err)
+		return fmt.Errorf("error deleting EmailfilterOptions resource: %v", err)
 	}
 
 	d.SetId("")
@@ -116,9 +139,19 @@ func resourceEmailfilterOptionsRead(d *schema.ResourceData, m interface{}) error
 		}
 	}
 
-	o, err := c.ReadEmailfilterOptions(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadEmailfilterOptions(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading EmailfilterOptions resource: %v", err)
+		return fmt.Errorf("error reading EmailfilterOptions resource: %v", err)
 	}
 
 	if o == nil {
@@ -129,7 +162,7 @@ func resourceEmailfilterOptionsRead(d *schema.ResourceData, m interface{}) error
 
 	err = refreshObjectEmailfilterOptions(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading EmailfilterOptions resource from API: %v", err)
+		return fmt.Errorf("error reading EmailfilterOptions resource from API: %v", err)
 	}
 	return nil
 }
@@ -143,7 +176,7 @@ func refreshObjectEmailfilterOptions(d *schema.ResourceData, o map[string]interf
 
 	if err = d.Set("dns_timeout", flattenEmailfilterOptionsDnsTimeout(o["dns-timeout"], d, "dns_timeout", sv)); err != nil {
 		if !fortiAPIPatch(o["dns-timeout"]) {
-			return fmt.Errorf("Error reading dns_timeout: %v", err)
+			return fmt.Errorf("error reading dns_timeout: %v", err)
 		}
 	}
 

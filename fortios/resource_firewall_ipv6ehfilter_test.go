@@ -54,14 +54,14 @@ func testAccCheckFortiOSFirewallIpv6EhFilterExists(n string) resource.TestCheckF
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadFirewallIpv6EhFilter(i, "root")
+		o, err := c.ReadFirewallIpv6EhFilter(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading FirewallIpv6EhFilter: %s", err)
+			return fmt.Errorf("error reading FirewallIpv6EhFilter: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating FirewallIpv6EhFilter: %s", n)
+			return fmt.Errorf("error creating FirewallIpv6EhFilter: %s", n)
 		}
 
 		return nil
@@ -77,11 +77,11 @@ func testAccCheckFirewallIpv6EhFilterDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadFirewallIpv6EhFilter(i, "root")
+		o, err := c.ReadFirewallIpv6EhFilter(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error FirewallIpv6EhFilter %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error FirewallIpv6EhFilter %s still exists", rs.Primary.ID)
 			}
 		}
 

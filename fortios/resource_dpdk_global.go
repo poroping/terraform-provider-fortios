@@ -30,22 +30,22 @@ func resourceDpdkGlobal() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"status": &schema.Schema{
+			"status": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"interface": &schema.Schema{
+			"interface": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"interface_name": &schema.Schema{
+						"interface_name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 31),
 							Optional:     true,
@@ -54,42 +54,47 @@ func resourceDpdkGlobal() *schema.Resource {
 					},
 				},
 			},
-			"multiqueue": &schema.Schema{
+			"multiqueue": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"sleep_on_idle": &schema.Schema{
+			"sleep_on_idle": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"elasticbuffer": &schema.Schema{
+			"elasticbuffer": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"per_session_accounting": &schema.Schema{
+			"per_session_accounting": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"hugepage_percentage": &schema.Schema{
+			"hugepage_percentage": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(10, 50),
 				Optional:     true,
 				Computed:     true,
 			},
-			"mbufpool_percentage": &schema.Schema{
+			"mbufpool_percentage": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(5, 45),
 				Optional:     true,
 				Computed:     true,
 			},
-			"dynamic_sort_subtable": &schema.Schema{
+			"dynamic_sort_subtable": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Default:  "false",
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -108,14 +113,24 @@ func resourceDpdkGlobalUpdate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectDpdkGlobal(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating DpdkGlobal resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateDpdkGlobal(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectDpdkGlobal(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating DpdkGlobal resource: %v", err)
+		return fmt.Errorf("error updating DpdkGlobal resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateDpdkGlobal(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating DpdkGlobal resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -142,9 +157,17 @@ func resourceDpdkGlobalDelete(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	err := c.DeleteDpdkGlobal(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteDpdkGlobal(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting DpdkGlobal resource: %v", err)
+		return fmt.Errorf("error deleting DpdkGlobal resource: %v", err)
 	}
 
 	d.SetId("")
@@ -166,9 +189,19 @@ func resourceDpdkGlobalRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadDpdkGlobal(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadDpdkGlobal(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading DpdkGlobal resource: %v", err)
+		return fmt.Errorf("error reading DpdkGlobal resource: %v", err)
 	}
 
 	if o == nil {
@@ -179,7 +212,7 @@ func resourceDpdkGlobalRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectDpdkGlobal(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading DpdkGlobal resource from API: %v", err)
+		return fmt.Errorf("error reading DpdkGlobal resource from API: %v", err)
 	}
 	return nil
 }
@@ -255,21 +288,21 @@ func refreshObjectDpdkGlobal(d *schema.ResourceData, o map[string]interface{}, s
 
 	if err = d.Set("status", flattenDpdkGlobalStatus(o["status"], d, "status", sv)); err != nil {
 		if !fortiAPIPatch(o["status"]) {
-			return fmt.Errorf("Error reading status: %v", err)
+			return fmt.Errorf("error reading status: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("interface", flattenDpdkGlobalInterface(o["interface"], d, "interface", sv)); err != nil {
 			if !fortiAPIPatch(o["interface"]) {
-				return fmt.Errorf("Error reading interface: %v", err)
+				return fmt.Errorf("error reading interface: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("interface"); ok {
 			if err = d.Set("interface", flattenDpdkGlobalInterface(o["interface"], d, "interface", sv)); err != nil {
 				if !fortiAPIPatch(o["interface"]) {
-					return fmt.Errorf("Error reading interface: %v", err)
+					return fmt.Errorf("error reading interface: %v", err)
 				}
 			}
 		}
@@ -277,37 +310,37 @@ func refreshObjectDpdkGlobal(d *schema.ResourceData, o map[string]interface{}, s
 
 	if err = d.Set("multiqueue", flattenDpdkGlobalMultiqueue(o["multiqueue"], d, "multiqueue", sv)); err != nil {
 		if !fortiAPIPatch(o["multiqueue"]) {
-			return fmt.Errorf("Error reading multiqueue: %v", err)
+			return fmt.Errorf("error reading multiqueue: %v", err)
 		}
 	}
 
 	if err = d.Set("sleep_on_idle", flattenDpdkGlobalSleepOnIdle(o["sleep-on-idle"], d, "sleep_on_idle", sv)); err != nil {
 		if !fortiAPIPatch(o["sleep-on-idle"]) {
-			return fmt.Errorf("Error reading sleep_on_idle: %v", err)
+			return fmt.Errorf("error reading sleep_on_idle: %v", err)
 		}
 	}
 
 	if err = d.Set("elasticbuffer", flattenDpdkGlobalElasticbuffer(o["elasticbuffer"], d, "elasticbuffer", sv)); err != nil {
 		if !fortiAPIPatch(o["elasticbuffer"]) {
-			return fmt.Errorf("Error reading elasticbuffer: %v", err)
+			return fmt.Errorf("error reading elasticbuffer: %v", err)
 		}
 	}
 
 	if err = d.Set("per_session_accounting", flattenDpdkGlobalPerSessionAccounting(o["per-session-accounting"], d, "per_session_accounting", sv)); err != nil {
 		if !fortiAPIPatch(o["per-session-accounting"]) {
-			return fmt.Errorf("Error reading per_session_accounting: %v", err)
+			return fmt.Errorf("error reading per_session_accounting: %v", err)
 		}
 	}
 
 	if err = d.Set("hugepage_percentage", flattenDpdkGlobalHugepagePercentage(o["hugepage-percentage"], d, "hugepage_percentage", sv)); err != nil {
 		if !fortiAPIPatch(o["hugepage-percentage"]) {
-			return fmt.Errorf("Error reading hugepage_percentage: %v", err)
+			return fmt.Errorf("error reading hugepage_percentage: %v", err)
 		}
 	}
 
 	if err = d.Set("mbufpool_percentage", flattenDpdkGlobalMbufpoolPercentage(o["mbufpool-percentage"], d, "mbufpool_percentage", sv)); err != nil {
 		if !fortiAPIPatch(o["mbufpool-percentage"]) {
-			return fmt.Errorf("Error reading mbufpool_percentage: %v", err)
+			return fmt.Errorf("error reading mbufpool_percentage: %v", err)
 		}
 	}
 

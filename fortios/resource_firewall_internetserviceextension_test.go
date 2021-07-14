@@ -50,14 +50,14 @@ func testAccCheckFortiOSFirewallInternetServiceExtensionExists(n string) resourc
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadFirewallInternetServiceExtension(i, "root")
+		o, err := c.ReadFirewallInternetServiceExtension(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading FirewallInternetServiceExtension: %s", err)
+			return fmt.Errorf("error reading FirewallInternetServiceExtension: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating FirewallInternetServiceExtension: %s", n)
+			return fmt.Errorf("error creating FirewallInternetServiceExtension: %s", n)
 		}
 
 		return nil
@@ -73,11 +73,11 @@ func testAccCheckFirewallInternetServiceExtensionDestroy(s *terraform.State) err
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadFirewallInternetServiceExtension(i, "root")
+		o, err := c.ReadFirewallInternetServiceExtension(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error FirewallInternetServiceExtension %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error FirewallInternetServiceExtension %s still exists", rs.Primary.ID)
 			}
 		}
 

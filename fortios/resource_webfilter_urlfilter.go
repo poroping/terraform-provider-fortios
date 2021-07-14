@@ -30,90 +30,90 @@ func resourceWebfilterUrlfilter() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"fosid": &schema.Schema{
+			"fosid": {
 				Type:     schema.TypeInt,
 				ForceNew: true,
 				Required: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Required:     true,
 			},
-			"comment": &schema.Schema{
+			"comment": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
 			},
-			"one_arm_ips_urlfilter": &schema.Schema{
+			"one_arm_ips_urlfilter": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ip_addr_block": &schema.Schema{
+			"ip_addr_block": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"entries": &schema.Schema{
+			"entries": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"url": &schema.Schema{
+						"url": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 511),
 							Optional:     true,
 							Computed:     true,
 						},
-						"type": &schema.Schema{
+						"type": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"action": &schema.Schema{
+						"action": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"antiphish_action": &schema.Schema{
+						"antiphish_action": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"status": &schema.Schema{
+						"status": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"exempt": &schema.Schema{
+						"exempt": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"web_proxy_profile": &schema.Schema{
+						"web_proxy_profile": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 63),
 							Optional:     true,
 							Computed:     true,
 						},
-						"referrer_host": &schema.Schema{
+						"referrer_host": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 255),
 							Optional:     true,
 							Computed:     true,
 						},
-						"dns_address_family": &schema.Schema{
+						"dns_address_family": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -121,10 +121,15 @@ func resourceWebfilterUrlfilter() *schema.Resource {
 					},
 				},
 			},
-			"dynamic_sort_subtable": &schema.Schema{
+			"dynamic_sort_subtable": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Default:  "false",
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -142,15 +147,25 @@ func resourceWebfilterUrlfilterCreate(d *schema.ResourceData, m interface{}) err
 		}
 	}
 
-	obj, err := getObjectWebfilterUrlfilter(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating WebfilterUrlfilter resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateWebfilterUrlfilter(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectWebfilterUrlfilter(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating WebfilterUrlfilter resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateWebfilterUrlfilter(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating WebfilterUrlfilter resource: %v", err)
+		return fmt.Errorf("error creating WebfilterUrlfilter resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -175,14 +190,24 @@ func resourceWebfilterUrlfilterUpdate(d *schema.ResourceData, m interface{}) err
 		}
 	}
 
-	obj, err := getObjectWebfilterUrlfilter(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating WebfilterUrlfilter resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateWebfilterUrlfilter(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectWebfilterUrlfilter(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating WebfilterUrlfilter resource: %v", err)
+		return fmt.Errorf("error updating WebfilterUrlfilter resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateWebfilterUrlfilter(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating WebfilterUrlfilter resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -209,9 +234,17 @@ func resourceWebfilterUrlfilterDelete(d *schema.ResourceData, m interface{}) err
 		}
 	}
 
-	err := c.DeleteWebfilterUrlfilter(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteWebfilterUrlfilter(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting WebfilterUrlfilter resource: %v", err)
+		return fmt.Errorf("error deleting WebfilterUrlfilter resource: %v", err)
 	}
 
 	d.SetId("")
@@ -233,9 +266,19 @@ func resourceWebfilterUrlfilterRead(d *schema.ResourceData, m interface{}) error
 		}
 	}
 
-	o, err := c.ReadWebfilterUrlfilter(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadWebfilterUrlfilter(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading WebfilterUrlfilter resource: %v", err)
+		return fmt.Errorf("error reading WebfilterUrlfilter resource: %v", err)
 	}
 
 	if o == nil {
@@ -246,7 +289,7 @@ func resourceWebfilterUrlfilterRead(d *schema.ResourceData, m interface{}) error
 
 	err = refreshObjectWebfilterUrlfilter(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading WebfilterUrlfilter resource from API: %v", err)
+		return fmt.Errorf("error reading WebfilterUrlfilter resource from API: %v", err)
 	}
 	return nil
 }
@@ -404,45 +447,45 @@ func refreshObjectWebfilterUrlfilter(d *schema.ResourceData, o map[string]interf
 
 	if err = d.Set("fosid", flattenWebfilterUrlfilterId(o["id"], d, "fosid", sv)); err != nil {
 		if !fortiAPIPatch(o["id"]) {
-			return fmt.Errorf("Error reading fosid: %v", err)
+			return fmt.Errorf("error reading fosid: %v", err)
 		}
 	}
 
 	if err = d.Set("name", flattenWebfilterUrlfilterName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("comment", flattenWebfilterUrlfilterComment(o["comment"], d, "comment", sv)); err != nil {
 		if !fortiAPIPatch(o["comment"]) {
-			return fmt.Errorf("Error reading comment: %v", err)
+			return fmt.Errorf("error reading comment: %v", err)
 		}
 	}
 
 	if err = d.Set("one_arm_ips_urlfilter", flattenWebfilterUrlfilterOneArmIpsUrlfilter(o["one-arm-ips-urlfilter"], d, "one_arm_ips_urlfilter", sv)); err != nil {
 		if !fortiAPIPatch(o["one-arm-ips-urlfilter"]) {
-			return fmt.Errorf("Error reading one_arm_ips_urlfilter: %v", err)
+			return fmt.Errorf("error reading one_arm_ips_urlfilter: %v", err)
 		}
 	}
 
 	if err = d.Set("ip_addr_block", flattenWebfilterUrlfilterIpAddrBlock(o["ip-addr-block"], d, "ip_addr_block", sv)); err != nil {
 		if !fortiAPIPatch(o["ip-addr-block"]) {
-			return fmt.Errorf("Error reading ip_addr_block: %v", err)
+			return fmt.Errorf("error reading ip_addr_block: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("entries", flattenWebfilterUrlfilterEntries(o["entries"], d, "entries", sv)); err != nil {
 			if !fortiAPIPatch(o["entries"]) {
-				return fmt.Errorf("Error reading entries: %v", err)
+				return fmt.Errorf("error reading entries: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("entries"); ok {
 			if err = d.Set("entries", flattenWebfilterUrlfilterEntries(o["entries"], d, "entries", sv)); err != nil {
 				if !fortiAPIPatch(o["entries"]) {
-					return fmt.Errorf("Error reading entries: %v", err)
+					return fmt.Errorf("error reading entries: %v", err)
 				}
 			}
 		}

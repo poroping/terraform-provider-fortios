@@ -30,141 +30,146 @@ func resourceVpnCertificateSetting() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"ocsp_status": &schema.Schema{
+			"ocsp_status": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ocsp_option": &schema.Schema{
+			"ocsp_option": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ssl_ocsp_source_ip": &schema.Schema{
+			"ssl_ocsp_source_ip": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ocsp_default_server": &schema.Schema{
+			"ocsp_default_server": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"interface_select_method": &schema.Schema{
+			"interface_select_method": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"interface": &schema.Schema{
+			"interface": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 15),
 				Optional:     true,
 				Computed:     true,
 			},
-			"check_ca_cert": &schema.Schema{
+			"check_ca_cert": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"check_ca_chain": &schema.Schema{
+			"check_ca_chain": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"subject_match": &schema.Schema{
+			"subject_match": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"cn_match": &schema.Schema{
+			"cn_match": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"strict_crl_check": &schema.Schema{
+			"strict_crl_check": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"strict_ocsp_check": &schema.Schema{
+			"strict_ocsp_check": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ssl_min_proto_version": &schema.Schema{
+			"ssl_min_proto_version": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"cmp_save_extra_certs": &schema.Schema{
+			"cmp_save_extra_certs": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"cmp_key_usage_checking": &schema.Schema{
+			"cmp_key_usage_checking": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"certname_rsa1024": &schema.Schema{
+			"certname_rsa1024": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Required:     true,
 			},
-			"certname_rsa2048": &schema.Schema{
+			"certname_rsa2048": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Required:     true,
 			},
-			"certname_rsa4096": &schema.Schema{
+			"certname_rsa4096": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"certname_dsa1024": &schema.Schema{
+			"certname_dsa1024": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Required:     true,
 			},
-			"certname_dsa2048": &schema.Schema{
+			"certname_dsa2048": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Required:     true,
 			},
-			"certname_ecdsa256": &schema.Schema{
+			"certname_ecdsa256": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Required:     true,
 			},
-			"certname_ecdsa384": &schema.Schema{
+			"certname_ecdsa384": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Required:     true,
 			},
-			"certname_ecdsa521": &schema.Schema{
+			"certname_ecdsa521": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"certname_ed25519": &schema.Schema{
+			"certname_ed25519": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"certname_ed448": &schema.Schema{
+			"certname_ed448": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -183,14 +188,24 @@ func resourceVpnCertificateSettingUpdate(d *schema.ResourceData, m interface{}) 
 		}
 	}
 
-	obj, err := getObjectVpnCertificateSetting(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating VpnCertificateSetting resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateVpnCertificateSetting(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectVpnCertificateSetting(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating VpnCertificateSetting resource: %v", err)
+		return fmt.Errorf("error updating VpnCertificateSetting resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateVpnCertificateSetting(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating VpnCertificateSetting resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -217,9 +232,17 @@ func resourceVpnCertificateSettingDelete(d *schema.ResourceData, m interface{}) 
 		}
 	}
 
-	err := c.DeleteVpnCertificateSetting(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteVpnCertificateSetting(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting VpnCertificateSetting resource: %v", err)
+		return fmt.Errorf("error deleting VpnCertificateSetting resource: %v", err)
 	}
 
 	d.SetId("")
@@ -241,9 +264,19 @@ func resourceVpnCertificateSettingRead(d *schema.ResourceData, m interface{}) er
 		}
 	}
 
-	o, err := c.ReadVpnCertificateSetting(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadVpnCertificateSetting(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading VpnCertificateSetting resource: %v", err)
+		return fmt.Errorf("error reading VpnCertificateSetting resource: %v", err)
 	}
 
 	if o == nil {
@@ -254,7 +287,7 @@ func resourceVpnCertificateSettingRead(d *schema.ResourceData, m interface{}) er
 
 	err = refreshObjectVpnCertificateSetting(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading VpnCertificateSetting resource from API: %v", err)
+		return fmt.Errorf("error reading VpnCertificateSetting resource from API: %v", err)
 	}
 	return nil
 }
@@ -364,151 +397,151 @@ func refreshObjectVpnCertificateSetting(d *schema.ResourceData, o map[string]int
 
 	if err = d.Set("ocsp_status", flattenVpnCertificateSettingOcspStatus(o["ocsp-status"], d, "ocsp_status", sv)); err != nil {
 		if !fortiAPIPatch(o["ocsp-status"]) {
-			return fmt.Errorf("Error reading ocsp_status: %v", err)
+			return fmt.Errorf("error reading ocsp_status: %v", err)
 		}
 	}
 
 	if err = d.Set("ocsp_option", flattenVpnCertificateSettingOcspOption(o["ocsp-option"], d, "ocsp_option", sv)); err != nil {
 		if !fortiAPIPatch(o["ocsp-option"]) {
-			return fmt.Errorf("Error reading ocsp_option: %v", err)
+			return fmt.Errorf("error reading ocsp_option: %v", err)
 		}
 	}
 
 	if err = d.Set("ssl_ocsp_source_ip", flattenVpnCertificateSettingSslOcspSourceIp(o["ssl-ocsp-source-ip"], d, "ssl_ocsp_source_ip", sv)); err != nil {
 		if !fortiAPIPatch(o["ssl-ocsp-source-ip"]) {
-			return fmt.Errorf("Error reading ssl_ocsp_source_ip: %v", err)
+			return fmt.Errorf("error reading ssl_ocsp_source_ip: %v", err)
 		}
 	}
 
 	if err = d.Set("ocsp_default_server", flattenVpnCertificateSettingOcspDefaultServer(o["ocsp-default-server"], d, "ocsp_default_server", sv)); err != nil {
 		if !fortiAPIPatch(o["ocsp-default-server"]) {
-			return fmt.Errorf("Error reading ocsp_default_server: %v", err)
+			return fmt.Errorf("error reading ocsp_default_server: %v", err)
 		}
 	}
 
 	if err = d.Set("interface_select_method", flattenVpnCertificateSettingInterfaceSelectMethod(o["interface-select-method"], d, "interface_select_method", sv)); err != nil {
 		if !fortiAPIPatch(o["interface-select-method"]) {
-			return fmt.Errorf("Error reading interface_select_method: %v", err)
+			return fmt.Errorf("error reading interface_select_method: %v", err)
 		}
 	}
 
 	if err = d.Set("interface", flattenVpnCertificateSettingInterface(o["interface"], d, "interface", sv)); err != nil {
 		if !fortiAPIPatch(o["interface"]) {
-			return fmt.Errorf("Error reading interface: %v", err)
+			return fmt.Errorf("error reading interface: %v", err)
 		}
 	}
 
 	if err = d.Set("check_ca_cert", flattenVpnCertificateSettingCheckCaCert(o["check-ca-cert"], d, "check_ca_cert", sv)); err != nil {
 		if !fortiAPIPatch(o["check-ca-cert"]) {
-			return fmt.Errorf("Error reading check_ca_cert: %v", err)
+			return fmt.Errorf("error reading check_ca_cert: %v", err)
 		}
 	}
 
 	if err = d.Set("check_ca_chain", flattenVpnCertificateSettingCheckCaChain(o["check-ca-chain"], d, "check_ca_chain", sv)); err != nil {
 		if !fortiAPIPatch(o["check-ca-chain"]) {
-			return fmt.Errorf("Error reading check_ca_chain: %v", err)
+			return fmt.Errorf("error reading check_ca_chain: %v", err)
 		}
 	}
 
 	if err = d.Set("subject_match", flattenVpnCertificateSettingSubjectMatch(o["subject-match"], d, "subject_match", sv)); err != nil {
 		if !fortiAPIPatch(o["subject-match"]) {
-			return fmt.Errorf("Error reading subject_match: %v", err)
+			return fmt.Errorf("error reading subject_match: %v", err)
 		}
 	}
 
 	if err = d.Set("cn_match", flattenVpnCertificateSettingCnMatch(o["cn-match"], d, "cn_match", sv)); err != nil {
 		if !fortiAPIPatch(o["cn-match"]) {
-			return fmt.Errorf("Error reading cn_match: %v", err)
+			return fmt.Errorf("error reading cn_match: %v", err)
 		}
 	}
 
 	if err = d.Set("strict_crl_check", flattenVpnCertificateSettingStrictCrlCheck(o["strict-crl-check"], d, "strict_crl_check", sv)); err != nil {
 		if !fortiAPIPatch(o["strict-crl-check"]) {
-			return fmt.Errorf("Error reading strict_crl_check: %v", err)
+			return fmt.Errorf("error reading strict_crl_check: %v", err)
 		}
 	}
 
 	if err = d.Set("strict_ocsp_check", flattenVpnCertificateSettingStrictOcspCheck(o["strict-ocsp-check"], d, "strict_ocsp_check", sv)); err != nil {
 		if !fortiAPIPatch(o["strict-ocsp-check"]) {
-			return fmt.Errorf("Error reading strict_ocsp_check: %v", err)
+			return fmt.Errorf("error reading strict_ocsp_check: %v", err)
 		}
 	}
 
 	if err = d.Set("ssl_min_proto_version", flattenVpnCertificateSettingSslMinProtoVersion(o["ssl-min-proto-version"], d, "ssl_min_proto_version", sv)); err != nil {
 		if !fortiAPIPatch(o["ssl-min-proto-version"]) {
-			return fmt.Errorf("Error reading ssl_min_proto_version: %v", err)
+			return fmt.Errorf("error reading ssl_min_proto_version: %v", err)
 		}
 	}
 
 	if err = d.Set("cmp_save_extra_certs", flattenVpnCertificateSettingCmpSaveExtraCerts(o["cmp-save-extra-certs"], d, "cmp_save_extra_certs", sv)); err != nil {
 		if !fortiAPIPatch(o["cmp-save-extra-certs"]) {
-			return fmt.Errorf("Error reading cmp_save_extra_certs: %v", err)
+			return fmt.Errorf("error reading cmp_save_extra_certs: %v", err)
 		}
 	}
 
 	if err = d.Set("cmp_key_usage_checking", flattenVpnCertificateSettingCmpKeyUsageChecking(o["cmp-key-usage-checking"], d, "cmp_key_usage_checking", sv)); err != nil {
 		if !fortiAPIPatch(o["cmp-key-usage-checking"]) {
-			return fmt.Errorf("Error reading cmp_key_usage_checking: %v", err)
+			return fmt.Errorf("error reading cmp_key_usage_checking: %v", err)
 		}
 	}
 
 	if err = d.Set("certname_rsa1024", flattenVpnCertificateSettingCertnameRsa1024(o["certname-rsa1024"], d, "certname_rsa1024", sv)); err != nil {
 		if !fortiAPIPatch(o["certname-rsa1024"]) {
-			return fmt.Errorf("Error reading certname_rsa1024: %v", err)
+			return fmt.Errorf("error reading certname_rsa1024: %v", err)
 		}
 	}
 
 	if err = d.Set("certname_rsa2048", flattenVpnCertificateSettingCertnameRsa2048(o["certname-rsa2048"], d, "certname_rsa2048", sv)); err != nil {
 		if !fortiAPIPatch(o["certname-rsa2048"]) {
-			return fmt.Errorf("Error reading certname_rsa2048: %v", err)
+			return fmt.Errorf("error reading certname_rsa2048: %v", err)
 		}
 	}
 
 	if err = d.Set("certname_rsa4096", flattenVpnCertificateSettingCertnameRsa4096(o["certname-rsa4096"], d, "certname_rsa4096", sv)); err != nil {
 		if !fortiAPIPatch(o["certname-rsa4096"]) {
-			return fmt.Errorf("Error reading certname_rsa4096: %v", err)
+			return fmt.Errorf("error reading certname_rsa4096: %v", err)
 		}
 	}
 
 	if err = d.Set("certname_dsa1024", flattenVpnCertificateSettingCertnameDsa1024(o["certname-dsa1024"], d, "certname_dsa1024", sv)); err != nil {
 		if !fortiAPIPatch(o["certname-dsa1024"]) {
-			return fmt.Errorf("Error reading certname_dsa1024: %v", err)
+			return fmt.Errorf("error reading certname_dsa1024: %v", err)
 		}
 	}
 
 	if err = d.Set("certname_dsa2048", flattenVpnCertificateSettingCertnameDsa2048(o["certname-dsa2048"], d, "certname_dsa2048", sv)); err != nil {
 		if !fortiAPIPatch(o["certname-dsa2048"]) {
-			return fmt.Errorf("Error reading certname_dsa2048: %v", err)
+			return fmt.Errorf("error reading certname_dsa2048: %v", err)
 		}
 	}
 
 	if err = d.Set("certname_ecdsa256", flattenVpnCertificateSettingCertnameEcdsa256(o["certname-ecdsa256"], d, "certname_ecdsa256", sv)); err != nil {
 		if !fortiAPIPatch(o["certname-ecdsa256"]) {
-			return fmt.Errorf("Error reading certname_ecdsa256: %v", err)
+			return fmt.Errorf("error reading certname_ecdsa256: %v", err)
 		}
 	}
 
 	if err = d.Set("certname_ecdsa384", flattenVpnCertificateSettingCertnameEcdsa384(o["certname-ecdsa384"], d, "certname_ecdsa384", sv)); err != nil {
 		if !fortiAPIPatch(o["certname-ecdsa384"]) {
-			return fmt.Errorf("Error reading certname_ecdsa384: %v", err)
+			return fmt.Errorf("error reading certname_ecdsa384: %v", err)
 		}
 	}
 
 	if err = d.Set("certname_ecdsa521", flattenVpnCertificateSettingCertnameEcdsa521(o["certname-ecdsa521"], d, "certname_ecdsa521", sv)); err != nil {
 		if !fortiAPIPatch(o["certname-ecdsa521"]) {
-			return fmt.Errorf("Error reading certname_ecdsa521: %v", err)
+			return fmt.Errorf("error reading certname_ecdsa521: %v", err)
 		}
 	}
 
 	if err = d.Set("certname_ed25519", flattenVpnCertificateSettingCertnameEd25519(o["certname-ed25519"], d, "certname_ed25519", sv)); err != nil {
 		if !fortiAPIPatch(o["certname-ed25519"]) {
-			return fmt.Errorf("Error reading certname_ed25519: %v", err)
+			return fmt.Errorf("error reading certname_ed25519: %v", err)
 		}
 	}
 
 	if err = d.Set("certname_ed448", flattenVpnCertificateSettingCertnameEd448(o["certname-ed448"], d, "certname_ed448", sv)); err != nil {
 		if !fortiAPIPatch(o["certname-ed448"]) {
-			return fmt.Errorf("Error reading certname_ed448: %v", err)
+			return fmt.Errorf("error reading certname_ed448: %v", err)
 		}
 	}
 

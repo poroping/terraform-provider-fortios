@@ -30,85 +30,90 @@ func resourceUserPeer() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"mandatory_ca_verify": &schema.Schema{
+			"mandatory_ca_verify": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ca": &schema.Schema{
+			"ca": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 127),
 				Optional:     true,
 				Computed:     true,
 			},
-			"subject": &schema.Schema{
+			"subject": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
 				Computed:     true,
 			},
-			"cn": &schema.Schema{
+			"cn": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
 				Computed:     true,
 			},
-			"cn_type": &schema.Schema{
+			"cn_type": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ldap_server": &schema.Schema{
+			"ldap_server": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"ldap_username": &schema.Schema{
+			"ldap_username": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"ldap_password": &schema.Schema{
+			"ldap_password": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 128),
 				Optional:     true,
 				Sensitive:    true,
 			},
-			"ldap_mode": &schema.Schema{
+			"ldap_mode": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ocsp_override_server": &schema.Schema{
+			"ocsp_override_server": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"two_factor": &schema.Schema{
+			"two_factor": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"passwd": &schema.Schema{
+			"passwd": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 128),
 				Optional:     true,
 				Sensitive:    true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -126,15 +131,25 @@ func resourceUserPeerCreate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectUserPeer(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating UserPeer resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateUserPeer(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectUserPeer(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating UserPeer resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateUserPeer(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating UserPeer resource: %v", err)
+		return fmt.Errorf("error creating UserPeer resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -159,14 +174,24 @@ func resourceUserPeerUpdate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectUserPeer(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating UserPeer resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateUserPeer(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectUserPeer(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating UserPeer resource: %v", err)
+		return fmt.Errorf("error updating UserPeer resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateUserPeer(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating UserPeer resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -193,9 +218,17 @@ func resourceUserPeerDelete(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	err := c.DeleteUserPeer(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteUserPeer(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting UserPeer resource: %v", err)
+		return fmt.Errorf("error deleting UserPeer resource: %v", err)
 	}
 
 	d.SetId("")
@@ -217,9 +250,19 @@ func resourceUserPeerRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadUserPeer(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadUserPeer(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading UserPeer resource: %v", err)
+		return fmt.Errorf("error reading UserPeer resource: %v", err)
 	}
 
 	if o == nil {
@@ -230,7 +273,7 @@ func resourceUserPeerRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectUserPeer(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading UserPeer resource from API: %v", err)
+		return fmt.Errorf("error reading UserPeer resource from API: %v", err)
 	}
 	return nil
 }
@@ -292,67 +335,67 @@ func refreshObjectUserPeer(d *schema.ResourceData, o map[string]interface{}, sv 
 
 	if err = d.Set("name", flattenUserPeerName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("mandatory_ca_verify", flattenUserPeerMandatoryCaVerify(o["mandatory-ca-verify"], d, "mandatory_ca_verify", sv)); err != nil {
 		if !fortiAPIPatch(o["mandatory-ca-verify"]) {
-			return fmt.Errorf("Error reading mandatory_ca_verify: %v", err)
+			return fmt.Errorf("error reading mandatory_ca_verify: %v", err)
 		}
 	}
 
 	if err = d.Set("ca", flattenUserPeerCa(o["ca"], d, "ca", sv)); err != nil {
 		if !fortiAPIPatch(o["ca"]) {
-			return fmt.Errorf("Error reading ca: %v", err)
+			return fmt.Errorf("error reading ca: %v", err)
 		}
 	}
 
 	if err = d.Set("subject", flattenUserPeerSubject(o["subject"], d, "subject", sv)); err != nil {
 		if !fortiAPIPatch(o["subject"]) {
-			return fmt.Errorf("Error reading subject: %v", err)
+			return fmt.Errorf("error reading subject: %v", err)
 		}
 	}
 
 	if err = d.Set("cn", flattenUserPeerCn(o["cn"], d, "cn", sv)); err != nil {
 		if !fortiAPIPatch(o["cn"]) {
-			return fmt.Errorf("Error reading cn: %v", err)
+			return fmt.Errorf("error reading cn: %v", err)
 		}
 	}
 
 	if err = d.Set("cn_type", flattenUserPeerCnType(o["cn-type"], d, "cn_type", sv)); err != nil {
 		if !fortiAPIPatch(o["cn-type"]) {
-			return fmt.Errorf("Error reading cn_type: %v", err)
+			return fmt.Errorf("error reading cn_type: %v", err)
 		}
 	}
 
 	if err = d.Set("ldap_server", flattenUserPeerLdapServer(o["ldap-server"], d, "ldap_server", sv)); err != nil {
 		if !fortiAPIPatch(o["ldap-server"]) {
-			return fmt.Errorf("Error reading ldap_server: %v", err)
+			return fmt.Errorf("error reading ldap_server: %v", err)
 		}
 	}
 
 	if err = d.Set("ldap_username", flattenUserPeerLdapUsername(o["ldap-username"], d, "ldap_username", sv)); err != nil {
 		if !fortiAPIPatch(o["ldap-username"]) {
-			return fmt.Errorf("Error reading ldap_username: %v", err)
+			return fmt.Errorf("error reading ldap_username: %v", err)
 		}
 	}
 
 	if err = d.Set("ldap_mode", flattenUserPeerLdapMode(o["ldap-mode"], d, "ldap_mode", sv)); err != nil {
 		if !fortiAPIPatch(o["ldap-mode"]) {
-			return fmt.Errorf("Error reading ldap_mode: %v", err)
+			return fmt.Errorf("error reading ldap_mode: %v", err)
 		}
 	}
 
 	if err = d.Set("ocsp_override_server", flattenUserPeerOcspOverrideServer(o["ocsp-override-server"], d, "ocsp_override_server", sv)); err != nil {
 		if !fortiAPIPatch(o["ocsp-override-server"]) {
-			return fmt.Errorf("Error reading ocsp_override_server: %v", err)
+			return fmt.Errorf("error reading ocsp_override_server: %v", err)
 		}
 	}
 
 	if err = d.Set("two_factor", flattenUserPeerTwoFactor(o["two-factor"], d, "two_factor", sv)); err != nil {
 		if !fortiAPIPatch(o["two-factor"]) {
-			return fmt.Errorf("Error reading two_factor: %v", err)
+			return fmt.Errorf("error reading two_factor: %v", err)
 		}
 	}
 

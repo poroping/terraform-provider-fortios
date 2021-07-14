@@ -30,38 +30,43 @@ func resourceDlpSettings() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"storage_device": &schema.Schema{
+			"storage_device": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"size": &schema.Schema{
+			"size": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"db_mode": &schema.Schema{
+			"db_mode": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"cache_mem_percent": &schema.Schema{
+			"cache_mem_percent": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 15),
 				Optional:     true,
 				Computed:     true,
 			},
-			"chunk_size": &schema.Schema{
+			"chunk_size": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(100, 100000),
 				Optional:     true,
 				Computed:     true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -80,14 +85,24 @@ func resourceDlpSettingsUpdate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectDlpSettings(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating DlpSettings resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateDlpSettings(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectDlpSettings(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating DlpSettings resource: %v", err)
+		return fmt.Errorf("error updating DlpSettings resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateDlpSettings(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating DlpSettings resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -114,9 +129,17 @@ func resourceDlpSettingsDelete(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	err := c.DeleteDlpSettings(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteDlpSettings(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting DlpSettings resource: %v", err)
+		return fmt.Errorf("error deleting DlpSettings resource: %v", err)
 	}
 
 	d.SetId("")
@@ -138,9 +161,19 @@ func resourceDlpSettingsRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadDlpSettings(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadDlpSettings(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading DlpSettings resource: %v", err)
+		return fmt.Errorf("error reading DlpSettings resource: %v", err)
 	}
 
 	if o == nil {
@@ -151,7 +184,7 @@ func resourceDlpSettingsRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectDlpSettings(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading DlpSettings resource from API: %v", err)
+		return fmt.Errorf("error reading DlpSettings resource from API: %v", err)
 	}
 	return nil
 }
@@ -181,31 +214,31 @@ func refreshObjectDlpSettings(d *schema.ResourceData, o map[string]interface{}, 
 
 	if err = d.Set("storage_device", flattenDlpSettingsStorageDevice(o["storage-device"], d, "storage_device", sv)); err != nil {
 		if !fortiAPIPatch(o["storage-device"]) {
-			return fmt.Errorf("Error reading storage_device: %v", err)
+			return fmt.Errorf("error reading storage_device: %v", err)
 		}
 	}
 
 	if err = d.Set("size", flattenDlpSettingsSize(o["size"], d, "size", sv)); err != nil {
 		if !fortiAPIPatch(o["size"]) {
-			return fmt.Errorf("Error reading size: %v", err)
+			return fmt.Errorf("error reading size: %v", err)
 		}
 	}
 
 	if err = d.Set("db_mode", flattenDlpSettingsDbMode(o["db-mode"], d, "db_mode", sv)); err != nil {
 		if !fortiAPIPatch(o["db-mode"]) {
-			return fmt.Errorf("Error reading db_mode: %v", err)
+			return fmt.Errorf("error reading db_mode: %v", err)
 		}
 	}
 
 	if err = d.Set("cache_mem_percent", flattenDlpSettingsCacheMemPercent(o["cache-mem-percent"], d, "cache_mem_percent", sv)); err != nil {
 		if !fortiAPIPatch(o["cache-mem-percent"]) {
-			return fmt.Errorf("Error reading cache_mem_percent: %v", err)
+			return fmt.Errorf("error reading cache_mem_percent: %v", err)
 		}
 	}
 
 	if err = d.Set("chunk_size", flattenDlpSettingsChunkSize(o["chunk-size"], d, "chunk_size", sv)); err != nil {
 		if !fortiAPIPatch(o["chunk-size"]) {
-			return fmt.Errorf("Error reading chunk_size: %v", err)
+			return fmt.Errorf("error reading chunk_size: %v", err)
 		}
 	}
 

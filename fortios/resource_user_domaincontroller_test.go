@@ -55,14 +55,14 @@ func testAccCheckFortiOSUserDomainControllerExists(n string) resource.TestCheckF
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadUserDomainController(i, "root")
+		o, err := c.ReadUserDomainController(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading UserDomainController: %s", err)
+			return fmt.Errorf("error reading UserDomainController: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating UserDomainController: %s", n)
+			return fmt.Errorf("error creating UserDomainController: %s", n)
 		}
 
 		return nil
@@ -78,11 +78,11 @@ func testAccCheckUserDomainControllerDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadUserDomainController(i, "root")
+		o, err := c.ReadUserDomainController(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error UserDomainController %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error UserDomainController %s still exists", rs.Primary.ID)
 			}
 		}
 

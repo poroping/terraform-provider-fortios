@@ -30,42 +30,47 @@ func resourceSystemNetworkVisibility() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"destination_visibility": &schema.Schema{
+			"destination_visibility": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"source_location": &schema.Schema{
+			"source_location": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"destination_hostname_visibility": &schema.Schema{
+			"destination_hostname_visibility": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"hostname_ttl": &schema.Schema{
+			"hostname_ttl": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(60, 86400),
 				Optional:     true,
 				Computed:     true,
 			},
-			"hostname_limit": &schema.Schema{
+			"hostname_limit": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 50000),
 				Optional:     true,
 				Computed:     true,
 			},
-			"destination_location": &schema.Schema{
+			"destination_location": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -84,14 +89,24 @@ func resourceSystemNetworkVisibilityUpdate(d *schema.ResourceData, m interface{}
 		}
 	}
 
-	obj, err := getObjectSystemNetworkVisibility(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SystemNetworkVisibility resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSystemNetworkVisibility(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemNetworkVisibility(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SystemNetworkVisibility resource: %v", err)
+		return fmt.Errorf("error updating SystemNetworkVisibility resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSystemNetworkVisibility(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SystemNetworkVisibility resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -118,9 +133,17 @@ func resourceSystemNetworkVisibilityDelete(d *schema.ResourceData, m interface{}
 		}
 	}
 
-	err := c.DeleteSystemNetworkVisibility(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSystemNetworkVisibility(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SystemNetworkVisibility resource: %v", err)
+		return fmt.Errorf("error deleting SystemNetworkVisibility resource: %v", err)
 	}
 
 	d.SetId("")
@@ -142,9 +165,19 @@ func resourceSystemNetworkVisibilityRead(d *schema.ResourceData, m interface{}) 
 		}
 	}
 
-	o, err := c.ReadSystemNetworkVisibility(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSystemNetworkVisibility(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemNetworkVisibility resource: %v", err)
+		return fmt.Errorf("error reading SystemNetworkVisibility resource: %v", err)
 	}
 
 	if o == nil {
@@ -155,7 +188,7 @@ func resourceSystemNetworkVisibilityRead(d *schema.ResourceData, m interface{}) 
 
 	err = refreshObjectSystemNetworkVisibility(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemNetworkVisibility resource from API: %v", err)
+		return fmt.Errorf("error reading SystemNetworkVisibility resource from API: %v", err)
 	}
 	return nil
 }
@@ -189,37 +222,37 @@ func refreshObjectSystemNetworkVisibility(d *schema.ResourceData, o map[string]i
 
 	if err = d.Set("destination_visibility", flattenSystemNetworkVisibilityDestinationVisibility(o["destination-visibility"], d, "destination_visibility", sv)); err != nil {
 		if !fortiAPIPatch(o["destination-visibility"]) {
-			return fmt.Errorf("Error reading destination_visibility: %v", err)
+			return fmt.Errorf("error reading destination_visibility: %v", err)
 		}
 	}
 
 	if err = d.Set("source_location", flattenSystemNetworkVisibilitySourceLocation(o["source-location"], d, "source_location", sv)); err != nil {
 		if !fortiAPIPatch(o["source-location"]) {
-			return fmt.Errorf("Error reading source_location: %v", err)
+			return fmt.Errorf("error reading source_location: %v", err)
 		}
 	}
 
 	if err = d.Set("destination_hostname_visibility", flattenSystemNetworkVisibilityDestinationHostnameVisibility(o["destination-hostname-visibility"], d, "destination_hostname_visibility", sv)); err != nil {
 		if !fortiAPIPatch(o["destination-hostname-visibility"]) {
-			return fmt.Errorf("Error reading destination_hostname_visibility: %v", err)
+			return fmt.Errorf("error reading destination_hostname_visibility: %v", err)
 		}
 	}
 
 	if err = d.Set("hostname_ttl", flattenSystemNetworkVisibilityHostnameTtl(o["hostname-ttl"], d, "hostname_ttl", sv)); err != nil {
 		if !fortiAPIPatch(o["hostname-ttl"]) {
-			return fmt.Errorf("Error reading hostname_ttl: %v", err)
+			return fmt.Errorf("error reading hostname_ttl: %v", err)
 		}
 	}
 
 	if err = d.Set("hostname_limit", flattenSystemNetworkVisibilityHostnameLimit(o["hostname-limit"], d, "hostname_limit", sv)); err != nil {
 		if !fortiAPIPatch(o["hostname-limit"]) {
-			return fmt.Errorf("Error reading hostname_limit: %v", err)
+			return fmt.Errorf("error reading hostname_limit: %v", err)
 		}
 	}
 
 	if err = d.Set("destination_location", flattenSystemNetworkVisibilityDestinationLocation(o["destination-location"], d, "destination_location", sv)); err != nil {
 		if !fortiAPIPatch(o["destination-location"]) {
-			return fmt.Errorf("Error reading destination_location: %v", err)
+			return fmt.Errorf("error reading destination_location: %v", err)
 		}
 	}
 

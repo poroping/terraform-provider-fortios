@@ -30,55 +30,55 @@ func resourceFirewallInternetServiceExtension() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"fosid": &schema.Schema{
+			"fosid": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"comment": &schema.Schema{
+			"comment": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
 			},
-			"entry": &schema.Schema{
+			"entry": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 255),
 							Optional:     true,
 							Computed:     true,
 						},
-						"protocol": &schema.Schema{
+						"protocol": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 255),
 							Optional:     true,
 							Computed:     true,
 						},
-						"port_range": &schema.Schema{
+						"port_range": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"id": &schema.Schema{
+									"id": {
 										Type:     schema.TypeInt,
 										Optional: true,
 										Computed: true,
 									},
-									"start_port": &schema.Schema{
+									"start_port": {
 										Type:         schema.TypeInt,
 										ValidateFunc: validation.IntBetween(1, 65535),
 										Optional:     true,
 										Computed:     true,
 									},
-									"end_port": &schema.Schema{
+									"end_port": {
 										Type:         schema.TypeInt,
 										ValidateFunc: validation.IntBetween(1, 65535),
 										Optional:     true,
@@ -87,12 +87,12 @@ func resourceFirewallInternetServiceExtension() *schema.Resource {
 								},
 							},
 						},
-						"dst": &schema.Schema{
+						"dst": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"name": &schema.Schema{
+									"name": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 64),
 										Optional:     true,
@@ -104,39 +104,39 @@ func resourceFirewallInternetServiceExtension() *schema.Resource {
 					},
 				},
 			},
-			"disable_entry": &schema.Schema{
+			"disable_entry": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"protocol": &schema.Schema{
+						"protocol": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 255),
 							Optional:     true,
 							Computed:     true,
 						},
-						"port_range": &schema.Schema{
+						"port_range": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"id": &schema.Schema{
+									"id": {
 										Type:     schema.TypeInt,
 										Optional: true,
 										Computed: true,
 									},
-									"start_port": &schema.Schema{
+									"start_port": {
 										Type:         schema.TypeInt,
 										ValidateFunc: validation.IntBetween(1, 65535),
 										Optional:     true,
 										Computed:     true,
 									},
-									"end_port": &schema.Schema{
+									"end_port": {
 										Type:         schema.TypeInt,
 										ValidateFunc: validation.IntBetween(1, 65535),
 										Optional:     true,
@@ -145,28 +145,28 @@ func resourceFirewallInternetServiceExtension() *schema.Resource {
 								},
 							},
 						},
-						"port": &schema.Schema{
+						"port": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 65535),
 							Optional:     true,
 							Computed:     true,
 						},
-						"ip_range": &schema.Schema{
+						"ip_range": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"id": &schema.Schema{
+									"id": {
 										Type:     schema.TypeInt,
 										Optional: true,
 										Computed: true,
 									},
-									"start_ip": &schema.Schema{
+									"start_ip": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"end_ip": &schema.Schema{
+									"end_ip": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
@@ -177,10 +177,15 @@ func resourceFirewallInternetServiceExtension() *schema.Resource {
 					},
 				},
 			},
-			"dynamic_sort_subtable": &schema.Schema{
+			"dynamic_sort_subtable": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Default:  "false",
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -198,15 +203,25 @@ func resourceFirewallInternetServiceExtensionCreate(d *schema.ResourceData, m in
 		}
 	}
 
-	obj, err := getObjectFirewallInternetServiceExtension(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating FirewallInternetServiceExtension resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateFirewallInternetServiceExtension(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectFirewallInternetServiceExtension(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating FirewallInternetServiceExtension resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateFirewallInternetServiceExtension(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating FirewallInternetServiceExtension resource: %v", err)
+		return fmt.Errorf("error creating FirewallInternetServiceExtension resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -231,14 +246,24 @@ func resourceFirewallInternetServiceExtensionUpdate(d *schema.ResourceData, m in
 		}
 	}
 
-	obj, err := getObjectFirewallInternetServiceExtension(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating FirewallInternetServiceExtension resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateFirewallInternetServiceExtension(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectFirewallInternetServiceExtension(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating FirewallInternetServiceExtension resource: %v", err)
+		return fmt.Errorf("error updating FirewallInternetServiceExtension resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateFirewallInternetServiceExtension(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating FirewallInternetServiceExtension resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -265,9 +290,17 @@ func resourceFirewallInternetServiceExtensionDelete(d *schema.ResourceData, m in
 		}
 	}
 
-	err := c.DeleteFirewallInternetServiceExtension(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteFirewallInternetServiceExtension(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting FirewallInternetServiceExtension resource: %v", err)
+		return fmt.Errorf("error deleting FirewallInternetServiceExtension resource: %v", err)
 	}
 
 	d.SetId("")
@@ -289,9 +322,19 @@ func resourceFirewallInternetServiceExtensionRead(d *schema.ResourceData, m inte
 		}
 	}
 
-	o, err := c.ReadFirewallInternetServiceExtension(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadFirewallInternetServiceExtension(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading FirewallInternetServiceExtension resource: %v", err)
+		return fmt.Errorf("error reading FirewallInternetServiceExtension resource: %v", err)
 	}
 
 	if o == nil {
@@ -302,7 +345,7 @@ func resourceFirewallInternetServiceExtensionRead(d *schema.ResourceData, m inte
 
 	err = refreshObjectFirewallInternetServiceExtension(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading FirewallInternetServiceExtension resource from API: %v", err)
+		return fmt.Errorf("error reading FirewallInternetServiceExtension resource from API: %v", err)
 	}
 	return nil
 }
@@ -658,27 +701,27 @@ func refreshObjectFirewallInternetServiceExtension(d *schema.ResourceData, o map
 
 	if err = d.Set("fosid", flattenFirewallInternetServiceExtensionId(o["id"], d, "fosid", sv)); err != nil {
 		if !fortiAPIPatch(o["id"]) {
-			return fmt.Errorf("Error reading fosid: %v", err)
+			return fmt.Errorf("error reading fosid: %v", err)
 		}
 	}
 
 	if err = d.Set("comment", flattenFirewallInternetServiceExtensionComment(o["comment"], d, "comment", sv)); err != nil {
 		if !fortiAPIPatch(o["comment"]) {
-			return fmt.Errorf("Error reading comment: %v", err)
+			return fmt.Errorf("error reading comment: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("entry", flattenFirewallInternetServiceExtensionEntry(o["entry"], d, "entry", sv)); err != nil {
 			if !fortiAPIPatch(o["entry"]) {
-				return fmt.Errorf("Error reading entry: %v", err)
+				return fmt.Errorf("error reading entry: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("entry"); ok {
 			if err = d.Set("entry", flattenFirewallInternetServiceExtensionEntry(o["entry"], d, "entry", sv)); err != nil {
 				if !fortiAPIPatch(o["entry"]) {
-					return fmt.Errorf("Error reading entry: %v", err)
+					return fmt.Errorf("error reading entry: %v", err)
 				}
 			}
 		}
@@ -687,14 +730,14 @@ func refreshObjectFirewallInternetServiceExtension(d *schema.ResourceData, o map
 	if isImportTable() {
 		if err = d.Set("disable_entry", flattenFirewallInternetServiceExtensionDisableEntry(o["disable-entry"], d, "disable_entry", sv)); err != nil {
 			if !fortiAPIPatch(o["disable-entry"]) {
-				return fmt.Errorf("Error reading disable_entry: %v", err)
+				return fmt.Errorf("error reading disable_entry: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("disable_entry"); ok {
 			if err = d.Set("disable_entry", flattenFirewallInternetServiceExtensionDisableEntry(o["disable-entry"], d, "disable_entry", sv)); err != nil {
 				if !fortiAPIPatch(o["disable-entry"]) {
-					return fmt.Errorf("Error reading disable_entry: %v", err)
+					return fmt.Errorf("error reading disable_entry: %v", err)
 				}
 			}
 		}

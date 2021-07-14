@@ -30,47 +30,52 @@ func resourceSystemFm() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"status": &schema.Schema{
+			"status": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"fosid": &schema.Schema{
+			"fosid": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"ip": &schema.Schema{
+			"ip": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"vdom": &schema.Schema{
+			"vdom": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 31),
 				Optional:     true,
 				Computed:     true,
 			},
-			"auto_backup": &schema.Schema{
+			"auto_backup": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"scheduled_config_restore": &schema.Schema{
+			"scheduled_config_restore": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ipsec": &schema.Schema{
+			"ipsec": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -89,14 +94,24 @@ func resourceSystemFmUpdate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectSystemFm(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SystemFm resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSystemFm(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemFm(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SystemFm resource: %v", err)
+		return fmt.Errorf("error updating SystemFm resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSystemFm(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SystemFm resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -123,9 +138,17 @@ func resourceSystemFmDelete(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	err := c.DeleteSystemFm(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSystemFm(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SystemFm resource: %v", err)
+		return fmt.Errorf("error deleting SystemFm resource: %v", err)
 	}
 
 	d.SetId("")
@@ -147,9 +170,19 @@ func resourceSystemFmRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadSystemFm(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSystemFm(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemFm resource: %v", err)
+		return fmt.Errorf("error reading SystemFm resource: %v", err)
 	}
 
 	if o == nil {
@@ -160,7 +193,7 @@ func resourceSystemFmRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectSystemFm(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemFm resource from API: %v", err)
+		return fmt.Errorf("error reading SystemFm resource from API: %v", err)
 	}
 	return nil
 }
@@ -198,43 +231,43 @@ func refreshObjectSystemFm(d *schema.ResourceData, o map[string]interface{}, sv 
 
 	if err = d.Set("status", flattenSystemFmStatus(o["status"], d, "status", sv)); err != nil {
 		if !fortiAPIPatch(o["status"]) {
-			return fmt.Errorf("Error reading status: %v", err)
+			return fmt.Errorf("error reading status: %v", err)
 		}
 	}
 
 	if err = d.Set("fosid", flattenSystemFmId(o["id"], d, "fosid", sv)); err != nil {
 		if !fortiAPIPatch(o["id"]) {
-			return fmt.Errorf("Error reading fosid: %v", err)
+			return fmt.Errorf("error reading fosid: %v", err)
 		}
 	}
 
 	if err = d.Set("ip", flattenSystemFmIp(o["ip"], d, "ip", sv)); err != nil {
 		if !fortiAPIPatch(o["ip"]) {
-			return fmt.Errorf("Error reading ip: %v", err)
+			return fmt.Errorf("error reading ip: %v", err)
 		}
 	}
 
 	if err = d.Set("vdom", flattenSystemFmVdom(o["vdom"], d, "vdom", sv)); err != nil {
 		if !fortiAPIPatch(o["vdom"]) {
-			return fmt.Errorf("Error reading vdom: %v", err)
+			return fmt.Errorf("error reading vdom: %v", err)
 		}
 	}
 
 	if err = d.Set("auto_backup", flattenSystemFmAutoBackup(o["auto-backup"], d, "auto_backup", sv)); err != nil {
 		if !fortiAPIPatch(o["auto-backup"]) {
-			return fmt.Errorf("Error reading auto_backup: %v", err)
+			return fmt.Errorf("error reading auto_backup: %v", err)
 		}
 	}
 
 	if err = d.Set("scheduled_config_restore", flattenSystemFmScheduledConfigRestore(o["scheduled-config-restore"], d, "scheduled_config_restore", sv)); err != nil {
 		if !fortiAPIPatch(o["scheduled-config-restore"]) {
-			return fmt.Errorf("Error reading scheduled_config_restore: %v", err)
+			return fmt.Errorf("error reading scheduled_config_restore: %v", err)
 		}
 	}
 
 	if err = d.Set("ipsec", flattenSystemFmIpsec(o["ipsec"], d, "ipsec", sv)); err != nil {
 		if !fortiAPIPatch(o["ipsec"]) {
-			return fmt.Errorf("Error reading ipsec: %v", err)
+			return fmt.Errorf("error reading ipsec: %v", err)
 		}
 	}
 

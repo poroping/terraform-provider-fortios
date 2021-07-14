@@ -60,14 +60,14 @@ func testAccCheckFortiOSLogDiskFilterExists(n string) resource.TestCheckFunc {
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadLogDiskFilter(i, "root")
+		o, err := c.ReadLogDiskFilter(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading LogDiskFilter: %s", err)
+			return fmt.Errorf("error reading LogDiskFilter: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating LogDiskFilter: %s", n)
+			return fmt.Errorf("error creating LogDiskFilter: %s", n)
 		}
 
 		return nil
@@ -83,11 +83,11 @@ func testAccCheckLogDiskFilterDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadLogDiskFilter(i, "root")
+		o, err := c.ReadLogDiskFilter(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error LogDiskFilter %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error LogDiskFilter %s still exists", rs.Primary.ID)
 			}
 		}
 

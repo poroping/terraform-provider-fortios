@@ -30,39 +30,44 @@ func resourceSystemAutoupdateTunneling() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"status": &schema.Schema{
+			"status": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"address": &schema.Schema{
+			"address": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"port": &schema.Schema{
+			"port": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"username": &schema.Schema{
+			"username": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 49),
 				Optional:     true,
 				Computed:     true,
 			},
-			"password": &schema.Schema{
+			"password": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 128),
 				Optional:     true,
 				Sensitive:    true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -81,14 +86,24 @@ func resourceSystemAutoupdateTunnelingUpdate(d *schema.ResourceData, m interface
 		}
 	}
 
-	obj, err := getObjectSystemAutoupdateTunneling(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SystemAutoupdateTunneling resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSystemAutoupdateTunneling(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemAutoupdateTunneling(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SystemAutoupdateTunneling resource: %v", err)
+		return fmt.Errorf("error updating SystemAutoupdateTunneling resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSystemAutoupdateTunneling(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SystemAutoupdateTunneling resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -115,9 +130,17 @@ func resourceSystemAutoupdateTunnelingDelete(d *schema.ResourceData, m interface
 		}
 	}
 
-	err := c.DeleteSystemAutoupdateTunneling(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSystemAutoupdateTunneling(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SystemAutoupdateTunneling resource: %v", err)
+		return fmt.Errorf("error deleting SystemAutoupdateTunneling resource: %v", err)
 	}
 
 	d.SetId("")
@@ -139,9 +162,19 @@ func resourceSystemAutoupdateTunnelingRead(d *schema.ResourceData, m interface{}
 		}
 	}
 
-	o, err := c.ReadSystemAutoupdateTunneling(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSystemAutoupdateTunneling(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemAutoupdateTunneling resource: %v", err)
+		return fmt.Errorf("error reading SystemAutoupdateTunneling resource: %v", err)
 	}
 
 	if o == nil {
@@ -152,7 +185,7 @@ func resourceSystemAutoupdateTunnelingRead(d *schema.ResourceData, m interface{}
 
 	err = refreshObjectSystemAutoupdateTunneling(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemAutoupdateTunneling resource from API: %v", err)
+		return fmt.Errorf("error reading SystemAutoupdateTunneling resource from API: %v", err)
 	}
 	return nil
 }
@@ -182,25 +215,25 @@ func refreshObjectSystemAutoupdateTunneling(d *schema.ResourceData, o map[string
 
 	if err = d.Set("status", flattenSystemAutoupdateTunnelingStatus(o["status"], d, "status", sv)); err != nil {
 		if !fortiAPIPatch(o["status"]) {
-			return fmt.Errorf("Error reading status: %v", err)
+			return fmt.Errorf("error reading status: %v", err)
 		}
 	}
 
 	if err = d.Set("address", flattenSystemAutoupdateTunnelingAddress(o["address"], d, "address", sv)); err != nil {
 		if !fortiAPIPatch(o["address"]) {
-			return fmt.Errorf("Error reading address: %v", err)
+			return fmt.Errorf("error reading address: %v", err)
 		}
 	}
 
 	if err = d.Set("port", flattenSystemAutoupdateTunnelingPort(o["port"], d, "port", sv)); err != nil {
 		if !fortiAPIPatch(o["port"]) {
-			return fmt.Errorf("Error reading port: %v", err)
+			return fmt.Errorf("error reading port: %v", err)
 		}
 	}
 
 	if err = d.Set("username", flattenSystemAutoupdateTunnelingUsername(o["username"], d, "username", sv)); err != nil {
 		if !fortiAPIPatch(o["username"]) {
-			return fmt.Errorf("Error reading username: %v", err)
+			return fmt.Errorf("error reading username: %v", err)
 		}
 	}
 

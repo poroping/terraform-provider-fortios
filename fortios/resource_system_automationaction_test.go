@@ -57,14 +57,14 @@ func testAccCheckFortiOSSystemAutomationActionExists(n string) resource.TestChec
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemAutomationAction(i, "root")
+		o, err := c.ReadSystemAutomationAction(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading SystemAutomationAction: %s", err)
+			return fmt.Errorf("error reading SystemAutomationAction: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating SystemAutomationAction: %s", n)
+			return fmt.Errorf("error creating SystemAutomationAction: %s", n)
 		}
 
 		return nil
@@ -80,11 +80,11 @@ func testAccCheckSystemAutomationActionDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemAutomationAction(i, "root")
+		o, err := c.ReadSystemAutomationAction(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error SystemAutomationAction %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error SystemAutomationAction %s still exists", rs.Primary.ID)
 			}
 		}
 

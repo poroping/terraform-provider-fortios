@@ -30,106 +30,106 @@ func resourceWebfilterProfile() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				ForceNew:     true,
 				Required:     true,
 			},
-			"comment": &schema.Schema{
+			"comment": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
 			},
-			"feature_set": &schema.Schema{
+			"feature_set": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"replacemsg_group": &schema.Schema{
+			"replacemsg_group": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"inspection_mode": &schema.Schema{
+			"inspection_mode": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"options": &schema.Schema{
+			"options": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"file_filter": &schema.Schema{
+			"file_filter": {
 				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"status": &schema.Schema{
+						"status": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"log": &schema.Schema{
+						"log": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"scan_archive_contents": &schema.Schema{
+						"scan_archive_contents": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"entries": &schema.Schema{
+						"entries": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"filter": &schema.Schema{
+									"filter": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 35),
 										Optional:     true,
 										Computed:     true,
 									},
-									"comment": &schema.Schema{
+									"comment": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 255),
 										Optional:     true,
 									},
-									"protocol": &schema.Schema{
+									"protocol": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"action": &schema.Schema{
+									"action": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"direction": &schema.Schema{
+									"direction": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"password_protected": &schema.Schema{
+									"password_protected": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"file_type": &schema.Schema{
+									"file_type": {
 										Type:     schema.TypeList,
 										Optional: true,
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
-												"name": &schema.Schema{
+												"name": {
 													Type:         schema.TypeString,
 													ValidateFunc: validation.StringLenBetween(0, 39),
 													Optional:     true,
@@ -144,63 +144,63 @@ func resourceWebfilterProfile() *schema.Resource {
 					},
 				},
 			},
-			"https_replacemsg": &schema.Schema{
+			"https_replacemsg": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ovrd_perm": &schema.Schema{
+			"ovrd_perm": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"post_action": &schema.Schema{
+			"post_action": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"override": &schema.Schema{
+			"override": {
 				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"ovrd_cookie": &schema.Schema{
+						"ovrd_cookie": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"ovrd_scope": &schema.Schema{
+						"ovrd_scope": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"profile_type": &schema.Schema{
+						"profile_type": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"ovrd_dur_mode": &schema.Schema{
+						"ovrd_dur_mode": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"ovrd_dur": &schema.Schema{
+						"ovrd_dur": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"profile_attribute": &schema.Schema{
+						"profile_attribute": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"ovrd_user_group": &schema.Schema{
+						"ovrd_user_group": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"name": &schema.Schema{
+									"name": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 64),
 										Optional:     true,
@@ -209,12 +209,12 @@ func resourceWebfilterProfile() *schema.Resource {
 								},
 							},
 						},
-						"profile": &schema.Schema{
+						"profile": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"name": &schema.Schema{
+									"name": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 64),
 										Optional:     true,
@@ -226,73 +226,73 @@ func resourceWebfilterProfile() *schema.Resource {
 					},
 				},
 			},
-			"web": &schema.Schema{
+			"web": {
 				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"bword_threshold": &schema.Schema{
+						"bword_threshold": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"bword_table": &schema.Schema{
+						"bword_table": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"urlfilter_table": &schema.Schema{
+						"urlfilter_table": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"content_header_list": &schema.Schema{
+						"content_header_list": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"blocklist": &schema.Schema{
+						"blocklist": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"allowlist": &schema.Schema{
+						"allowlist": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"blacklist": &schema.Schema{
+						"blacklist": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"whitelist": &schema.Schema{
+						"whitelist": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"safe_search": &schema.Schema{
+						"safe_search": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"youtube_restrict": &schema.Schema{
+						"youtube_restrict": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"log_search": &schema.Schema{
+						"log_search": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"keyword_match": &schema.Schema{
+						"keyword_match": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"pattern": &schema.Schema{
+									"pattern": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 64),
 										Optional:     true,
@@ -304,28 +304,28 @@ func resourceWebfilterProfile() *schema.Resource {
 					},
 				},
 			},
-			"youtube_channel_status": &schema.Schema{
+			"youtube_channel_status": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"youtube_channel_filter": &schema.Schema{
+			"youtube_channel_filter": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"channel_id": &schema.Schema{
+						"channel_id": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 255),
 							Optional:     true,
 							Computed:     true,
 						},
-						"comment": &schema.Schema{
+						"comment": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 255),
 							Optional:     true,
@@ -333,60 +333,60 @@ func resourceWebfilterProfile() *schema.Resource {
 					},
 				},
 			},
-			"ftgd_wf": &schema.Schema{
+			"ftgd_wf": {
 				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"options": &schema.Schema{
+						"options": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"exempt_quota": &schema.Schema{
+						"exempt_quota": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"ovrd": &schema.Schema{
+						"ovrd": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"filters": &schema.Schema{
+						"filters": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"id": &schema.Schema{
+									"id": {
 										Type:         schema.TypeInt,
 										ValidateFunc: validation.IntBetween(0, 255),
 										Optional:     true,
 										Computed:     true,
 									},
-									"category": &schema.Schema{
+									"category": {
 										Type:         schema.TypeInt,
 										ValidateFunc: validation.IntBetween(0, 255),
 										Optional:     true,
 										Computed:     true,
 									},
-									"action": &schema.Schema{
+									"action": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"warn_duration": &schema.Schema{
+									"warn_duration": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"auth_usr_grp": &schema.Schema{
+									"auth_usr_grp": {
 										Type:     schema.TypeList,
 										Optional: true,
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
-												"name": &schema.Schema{
+												"name": {
 													Type:         schema.TypeString,
 													ValidateFunc: validation.StringLenBetween(0, 64),
 													Optional:     true,
@@ -395,23 +395,23 @@ func resourceWebfilterProfile() *schema.Resource {
 											},
 										},
 									},
-									"log": &schema.Schema{
+									"log": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"override_replacemsg": &schema.Schema{
+									"override_replacemsg": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 28),
 										Optional:     true,
 										Computed:     true,
 									},
-									"warning_prompt": &schema.Schema{
+									"warning_prompt": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"warning_duration_type": &schema.Schema{
+									"warning_duration_type": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
@@ -419,42 +419,42 @@ func resourceWebfilterProfile() *schema.Resource {
 								},
 							},
 						},
-						"quota": &schema.Schema{
+						"quota": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"id": &schema.Schema{
+									"id": {
 										Type:     schema.TypeInt,
 										Optional: true,
 										Computed: true,
 									},
-									"category": &schema.Schema{
+									"category": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"type": &schema.Schema{
+									"type": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"unit": &schema.Schema{
+									"unit": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"value": &schema.Schema{
+									"value": {
 										Type:     schema.TypeInt,
 										Optional: true,
 										Computed: true,
 									},
-									"duration": &schema.Schema{
+									"duration": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"override_replacemsg": &schema.Schema{
+									"override_replacemsg": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 28),
 										Optional:     true,
@@ -463,28 +463,28 @@ func resourceWebfilterProfile() *schema.Resource {
 								},
 							},
 						},
-						"max_quota_timeout": &schema.Schema{
+						"max_quota_timeout": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 86400),
 							Optional:     true,
 							Computed:     true,
 						},
-						"rate_image_urls": &schema.Schema{
+						"rate_image_urls": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"rate_javascript_urls": &schema.Schema{
+						"rate_javascript_urls": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"rate_css_urls": &schema.Schema{
+						"rate_css_urls": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"rate_crl_urls": &schema.Schema{
+						"rate_crl_urls": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -492,60 +492,60 @@ func resourceWebfilterProfile() *schema.Resource {
 					},
 				},
 			},
-			"antiphish": &schema.Schema{
+			"antiphish": {
 				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"status": &schema.Schema{
+						"status": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"domain_controller": &schema.Schema{
+						"domain_controller": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 63),
 							Optional:     true,
 							Computed:     true,
 						},
-						"default_action": &schema.Schema{
+						"default_action": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"check_uri": &schema.Schema{
+						"check_uri": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"check_basic_auth": &schema.Schema{
+						"check_basic_auth": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"max_body_len": &schema.Schema{
+						"max_body_len": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"inspection_entries": &schema.Schema{
+						"inspection_entries": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"name": &schema.Schema{
+									"name": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 63),
 										Optional:     true,
 										Computed:     true,
 									},
-									"fortiguard_category": &schema.Schema{
+									"fortiguard_category": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"action": &schema.Schema{
+									"action": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
@@ -553,18 +553,18 @@ func resourceWebfilterProfile() *schema.Resource {
 								},
 							},
 						},
-						"custom_patterns": &schema.Schema{
+						"custom_patterns": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"pattern": &schema.Schema{
+									"pattern": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 255),
 										Optional:     true,
 										Computed:     true,
 									},
-									"category": &schema.Schema{
+									"category": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
@@ -575,17 +575,17 @@ func resourceWebfilterProfile() *schema.Resource {
 					},
 				},
 			},
-			"wisp": &schema.Schema{
+			"wisp": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"wisp_servers": &schema.Schema{
+			"wisp_servers": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 64),
 							Optional:     true,
@@ -594,110 +594,115 @@ func resourceWebfilterProfile() *schema.Resource {
 					},
 				},
 			},
-			"wisp_algorithm": &schema.Schema{
+			"wisp_algorithm": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"log_all_url": &schema.Schema{
+			"log_all_url": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"web_content_log": &schema.Schema{
+			"web_content_log": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"web_filter_activex_log": &schema.Schema{
+			"web_filter_activex_log": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"web_filter_command_block_log": &schema.Schema{
+			"web_filter_command_block_log": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"web_filter_cookie_log": &schema.Schema{
+			"web_filter_cookie_log": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"web_filter_applet_log": &schema.Schema{
+			"web_filter_applet_log": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"web_filter_jscript_log": &schema.Schema{
+			"web_filter_jscript_log": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"web_filter_js_log": &schema.Schema{
+			"web_filter_js_log": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"web_filter_vbs_log": &schema.Schema{
+			"web_filter_vbs_log": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"web_filter_unknown_log": &schema.Schema{
+			"web_filter_unknown_log": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"web_filter_referer_log": &schema.Schema{
+			"web_filter_referer_log": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"web_filter_cookie_removal_log": &schema.Schema{
+			"web_filter_cookie_removal_log": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"web_url_log": &schema.Schema{
+			"web_url_log": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"web_invalid_domain_log": &schema.Schema{
+			"web_invalid_domain_log": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"web_ftgd_err_log": &schema.Schema{
+			"web_ftgd_err_log": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"web_ftgd_quota_usage": &schema.Schema{
+			"web_ftgd_quota_usage": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"extended_log": &schema.Schema{
+			"extended_log": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"web_extended_all_action_log": &schema.Schema{
+			"web_extended_all_action_log": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"web_antiphishing_log": &schema.Schema{
+			"web_antiphishing_log": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"dynamic_sort_subtable": &schema.Schema{
+			"dynamic_sort_subtable": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Default:  "false",
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -715,15 +720,25 @@ func resourceWebfilterProfileCreate(d *schema.ResourceData, m interface{}) error
 		}
 	}
 
-	obj, err := getObjectWebfilterProfile(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating WebfilterProfile resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateWebfilterProfile(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectWebfilterProfile(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating WebfilterProfile resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateWebfilterProfile(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating WebfilterProfile resource: %v", err)
+		return fmt.Errorf("error creating WebfilterProfile resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -748,14 +763,24 @@ func resourceWebfilterProfileUpdate(d *schema.ResourceData, m interface{}) error
 		}
 	}
 
-	obj, err := getObjectWebfilterProfile(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating WebfilterProfile resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateWebfilterProfile(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectWebfilterProfile(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating WebfilterProfile resource: %v", err)
+		return fmt.Errorf("error updating WebfilterProfile resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateWebfilterProfile(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating WebfilterProfile resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -782,9 +807,17 @@ func resourceWebfilterProfileDelete(d *schema.ResourceData, m interface{}) error
 		}
 	}
 
-	err := c.DeleteWebfilterProfile(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteWebfilterProfile(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting WebfilterProfile resource: %v", err)
+		return fmt.Errorf("error deleting WebfilterProfile resource: %v", err)
 	}
 
 	d.SetId("")
@@ -806,9 +839,19 @@ func resourceWebfilterProfileRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadWebfilterProfile(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadWebfilterProfile(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading WebfilterProfile resource: %v", err)
+		return fmt.Errorf("error reading WebfilterProfile resource: %v", err)
 	}
 
 	if o == nil {
@@ -819,7 +862,7 @@ func resourceWebfilterProfileRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectWebfilterProfile(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading WebfilterProfile resource from API: %v", err)
+		return fmt.Errorf("error reading WebfilterProfile resource from API: %v", err)
 	}
 	return nil
 }
@@ -2094,51 +2137,51 @@ func refreshObjectWebfilterProfile(d *schema.ResourceData, o map[string]interfac
 
 	if err = d.Set("name", flattenWebfilterProfileName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("comment", flattenWebfilterProfileComment(o["comment"], d, "comment", sv)); err != nil {
 		if !fortiAPIPatch(o["comment"]) {
-			return fmt.Errorf("Error reading comment: %v", err)
+			return fmt.Errorf("error reading comment: %v", err)
 		}
 	}
 
 	if err = d.Set("feature_set", flattenWebfilterProfileFeatureSet(o["feature-set"], d, "feature_set", sv)); err != nil {
 		if !fortiAPIPatch(o["feature-set"]) {
-			return fmt.Errorf("Error reading feature_set: %v", err)
+			return fmt.Errorf("error reading feature_set: %v", err)
 		}
 	}
 
 	if err = d.Set("replacemsg_group", flattenWebfilterProfileReplacemsgGroup(o["replacemsg-group"], d, "replacemsg_group", sv)); err != nil {
 		if !fortiAPIPatch(o["replacemsg-group"]) {
-			return fmt.Errorf("Error reading replacemsg_group: %v", err)
+			return fmt.Errorf("error reading replacemsg_group: %v", err)
 		}
 	}
 
 	if err = d.Set("inspection_mode", flattenWebfilterProfileInspectionMode(o["inspection-mode"], d, "inspection_mode", sv)); err != nil {
 		if !fortiAPIPatch(o["inspection-mode"]) {
-			return fmt.Errorf("Error reading inspection_mode: %v", err)
+			return fmt.Errorf("error reading inspection_mode: %v", err)
 		}
 	}
 
 	if err = d.Set("options", flattenWebfilterProfileOptions(o["options"], d, "options", sv)); err != nil {
 		if !fortiAPIPatch(o["options"]) {
-			return fmt.Errorf("Error reading options: %v", err)
+			return fmt.Errorf("error reading options: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("file_filter", flattenWebfilterProfileFileFilter(o["file-filter"], d, "file_filter", sv)); err != nil {
 			if !fortiAPIPatch(o["file-filter"]) {
-				return fmt.Errorf("Error reading file_filter: %v", err)
+				return fmt.Errorf("error reading file_filter: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("file_filter"); ok {
 			if err = d.Set("file_filter", flattenWebfilterProfileFileFilter(o["file-filter"], d, "file_filter", sv)); err != nil {
 				if !fortiAPIPatch(o["file-filter"]) {
-					return fmt.Errorf("Error reading file_filter: %v", err)
+					return fmt.Errorf("error reading file_filter: %v", err)
 				}
 			}
 		}
@@ -2146,33 +2189,33 @@ func refreshObjectWebfilterProfile(d *schema.ResourceData, o map[string]interfac
 
 	if err = d.Set("https_replacemsg", flattenWebfilterProfileHttpsReplacemsg(o["https-replacemsg"], d, "https_replacemsg", sv)); err != nil {
 		if !fortiAPIPatch(o["https-replacemsg"]) {
-			return fmt.Errorf("Error reading https_replacemsg: %v", err)
+			return fmt.Errorf("error reading https_replacemsg: %v", err)
 		}
 	}
 
 	if err = d.Set("ovrd_perm", flattenWebfilterProfileOvrdPerm(o["ovrd-perm"], d, "ovrd_perm", sv)); err != nil {
 		if !fortiAPIPatch(o["ovrd-perm"]) {
-			return fmt.Errorf("Error reading ovrd_perm: %v", err)
+			return fmt.Errorf("error reading ovrd_perm: %v", err)
 		}
 	}
 
 	if err = d.Set("post_action", flattenWebfilterProfilePostAction(o["post-action"], d, "post_action", sv)); err != nil {
 		if !fortiAPIPatch(o["post-action"]) {
-			return fmt.Errorf("Error reading post_action: %v", err)
+			return fmt.Errorf("error reading post_action: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("override", flattenWebfilterProfileOverride(o["override"], d, "override", sv)); err != nil {
 			if !fortiAPIPatch(o["override"]) {
-				return fmt.Errorf("Error reading override: %v", err)
+				return fmt.Errorf("error reading override: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("override"); ok {
 			if err = d.Set("override", flattenWebfilterProfileOverride(o["override"], d, "override", sv)); err != nil {
 				if !fortiAPIPatch(o["override"]) {
-					return fmt.Errorf("Error reading override: %v", err)
+					return fmt.Errorf("error reading override: %v", err)
 				}
 			}
 		}
@@ -2181,14 +2224,14 @@ func refreshObjectWebfilterProfile(d *schema.ResourceData, o map[string]interfac
 	if isImportTable() {
 		if err = d.Set("web", flattenWebfilterProfileWeb(o["web"], d, "web", sv)); err != nil {
 			if !fortiAPIPatch(o["web"]) {
-				return fmt.Errorf("Error reading web: %v", err)
+				return fmt.Errorf("error reading web: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("web"); ok {
 			if err = d.Set("web", flattenWebfilterProfileWeb(o["web"], d, "web", sv)); err != nil {
 				if !fortiAPIPatch(o["web"]) {
-					return fmt.Errorf("Error reading web: %v", err)
+					return fmt.Errorf("error reading web: %v", err)
 				}
 			}
 		}
@@ -2196,21 +2239,21 @@ func refreshObjectWebfilterProfile(d *schema.ResourceData, o map[string]interfac
 
 	if err = d.Set("youtube_channel_status", flattenWebfilterProfileYoutubeChannelStatus(o["youtube-channel-status"], d, "youtube_channel_status", sv)); err != nil {
 		if !fortiAPIPatch(o["youtube-channel-status"]) {
-			return fmt.Errorf("Error reading youtube_channel_status: %v", err)
+			return fmt.Errorf("error reading youtube_channel_status: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("youtube_channel_filter", flattenWebfilterProfileYoutubeChannelFilter(o["youtube-channel-filter"], d, "youtube_channel_filter", sv)); err != nil {
 			if !fortiAPIPatch(o["youtube-channel-filter"]) {
-				return fmt.Errorf("Error reading youtube_channel_filter: %v", err)
+				return fmt.Errorf("error reading youtube_channel_filter: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("youtube_channel_filter"); ok {
 			if err = d.Set("youtube_channel_filter", flattenWebfilterProfileYoutubeChannelFilter(o["youtube-channel-filter"], d, "youtube_channel_filter", sv)); err != nil {
 				if !fortiAPIPatch(o["youtube-channel-filter"]) {
-					return fmt.Errorf("Error reading youtube_channel_filter: %v", err)
+					return fmt.Errorf("error reading youtube_channel_filter: %v", err)
 				}
 			}
 		}
@@ -2219,14 +2262,14 @@ func refreshObjectWebfilterProfile(d *schema.ResourceData, o map[string]interfac
 	if isImportTable() {
 		if err = d.Set("ftgd_wf", flattenWebfilterProfileFtgdWf(o["ftgd-wf"], d, "ftgd_wf", sv)); err != nil {
 			if !fortiAPIPatch(o["ftgd-wf"]) {
-				return fmt.Errorf("Error reading ftgd_wf: %v", err)
+				return fmt.Errorf("error reading ftgd_wf: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("ftgd_wf"); ok {
 			if err = d.Set("ftgd_wf", flattenWebfilterProfileFtgdWf(o["ftgd-wf"], d, "ftgd_wf", sv)); err != nil {
 				if !fortiAPIPatch(o["ftgd-wf"]) {
-					return fmt.Errorf("Error reading ftgd_wf: %v", err)
+					return fmt.Errorf("error reading ftgd_wf: %v", err)
 				}
 			}
 		}
@@ -2235,14 +2278,14 @@ func refreshObjectWebfilterProfile(d *schema.ResourceData, o map[string]interfac
 	if isImportTable() {
 		if err = d.Set("antiphish", flattenWebfilterProfileAntiphish(o["antiphish"], d, "antiphish", sv)); err != nil {
 			if !fortiAPIPatch(o["antiphish"]) {
-				return fmt.Errorf("Error reading antiphish: %v", err)
+				return fmt.Errorf("error reading antiphish: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("antiphish"); ok {
 			if err = d.Set("antiphish", flattenWebfilterProfileAntiphish(o["antiphish"], d, "antiphish", sv)); err != nil {
 				if !fortiAPIPatch(o["antiphish"]) {
-					return fmt.Errorf("Error reading antiphish: %v", err)
+					return fmt.Errorf("error reading antiphish: %v", err)
 				}
 			}
 		}
@@ -2250,21 +2293,21 @@ func refreshObjectWebfilterProfile(d *schema.ResourceData, o map[string]interfac
 
 	if err = d.Set("wisp", flattenWebfilterProfileWisp(o["wisp"], d, "wisp", sv)); err != nil {
 		if !fortiAPIPatch(o["wisp"]) {
-			return fmt.Errorf("Error reading wisp: %v", err)
+			return fmt.Errorf("error reading wisp: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("wisp_servers", flattenWebfilterProfileWispServers(o["wisp-servers"], d, "wisp_servers", sv)); err != nil {
 			if !fortiAPIPatch(o["wisp-servers"]) {
-				return fmt.Errorf("Error reading wisp_servers: %v", err)
+				return fmt.Errorf("error reading wisp_servers: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("wisp_servers"); ok {
 			if err = d.Set("wisp_servers", flattenWebfilterProfileWispServers(o["wisp-servers"], d, "wisp_servers", sv)); err != nil {
 				if !fortiAPIPatch(o["wisp-servers"]) {
-					return fmt.Errorf("Error reading wisp_servers: %v", err)
+					return fmt.Errorf("error reading wisp_servers: %v", err)
 				}
 			}
 		}
@@ -2272,121 +2315,121 @@ func refreshObjectWebfilterProfile(d *schema.ResourceData, o map[string]interfac
 
 	if err = d.Set("wisp_algorithm", flattenWebfilterProfileWispAlgorithm(o["wisp-algorithm"], d, "wisp_algorithm", sv)); err != nil {
 		if !fortiAPIPatch(o["wisp-algorithm"]) {
-			return fmt.Errorf("Error reading wisp_algorithm: %v", err)
+			return fmt.Errorf("error reading wisp_algorithm: %v", err)
 		}
 	}
 
 	if err = d.Set("log_all_url", flattenWebfilterProfileLogAllUrl(o["log-all-url"], d, "log_all_url", sv)); err != nil {
 		if !fortiAPIPatch(o["log-all-url"]) {
-			return fmt.Errorf("Error reading log_all_url: %v", err)
+			return fmt.Errorf("error reading log_all_url: %v", err)
 		}
 	}
 
 	if err = d.Set("web_content_log", flattenWebfilterProfileWebContentLog(o["web-content-log"], d, "web_content_log", sv)); err != nil {
 		if !fortiAPIPatch(o["web-content-log"]) {
-			return fmt.Errorf("Error reading web_content_log: %v", err)
+			return fmt.Errorf("error reading web_content_log: %v", err)
 		}
 	}
 
 	if err = d.Set("web_filter_activex_log", flattenWebfilterProfileWebFilterActivexLog(o["web-filter-activex-log"], d, "web_filter_activex_log", sv)); err != nil {
 		if !fortiAPIPatch(o["web-filter-activex-log"]) {
-			return fmt.Errorf("Error reading web_filter_activex_log: %v", err)
+			return fmt.Errorf("error reading web_filter_activex_log: %v", err)
 		}
 	}
 
 	if err = d.Set("web_filter_command_block_log", flattenWebfilterProfileWebFilterCommandBlockLog(o["web-filter-command-block-log"], d, "web_filter_command_block_log", sv)); err != nil {
 		if !fortiAPIPatch(o["web-filter-command-block-log"]) {
-			return fmt.Errorf("Error reading web_filter_command_block_log: %v", err)
+			return fmt.Errorf("error reading web_filter_command_block_log: %v", err)
 		}
 	}
 
 	if err = d.Set("web_filter_cookie_log", flattenWebfilterProfileWebFilterCookieLog(o["web-filter-cookie-log"], d, "web_filter_cookie_log", sv)); err != nil {
 		if !fortiAPIPatch(o["web-filter-cookie-log"]) {
-			return fmt.Errorf("Error reading web_filter_cookie_log: %v", err)
+			return fmt.Errorf("error reading web_filter_cookie_log: %v", err)
 		}
 	}
 
 	if err = d.Set("web_filter_applet_log", flattenWebfilterProfileWebFilterAppletLog(o["web-filter-applet-log"], d, "web_filter_applet_log", sv)); err != nil {
 		if !fortiAPIPatch(o["web-filter-applet-log"]) {
-			return fmt.Errorf("Error reading web_filter_applet_log: %v", err)
+			return fmt.Errorf("error reading web_filter_applet_log: %v", err)
 		}
 	}
 
 	if err = d.Set("web_filter_jscript_log", flattenWebfilterProfileWebFilterJscriptLog(o["web-filter-jscript-log"], d, "web_filter_jscript_log", sv)); err != nil {
 		if !fortiAPIPatch(o["web-filter-jscript-log"]) {
-			return fmt.Errorf("Error reading web_filter_jscript_log: %v", err)
+			return fmt.Errorf("error reading web_filter_jscript_log: %v", err)
 		}
 	}
 
 	if err = d.Set("web_filter_js_log", flattenWebfilterProfileWebFilterJsLog(o["web-filter-js-log"], d, "web_filter_js_log", sv)); err != nil {
 		if !fortiAPIPatch(o["web-filter-js-log"]) {
-			return fmt.Errorf("Error reading web_filter_js_log: %v", err)
+			return fmt.Errorf("error reading web_filter_js_log: %v", err)
 		}
 	}
 
 	if err = d.Set("web_filter_vbs_log", flattenWebfilterProfileWebFilterVbsLog(o["web-filter-vbs-log"], d, "web_filter_vbs_log", sv)); err != nil {
 		if !fortiAPIPatch(o["web-filter-vbs-log"]) {
-			return fmt.Errorf("Error reading web_filter_vbs_log: %v", err)
+			return fmt.Errorf("error reading web_filter_vbs_log: %v", err)
 		}
 	}
 
 	if err = d.Set("web_filter_unknown_log", flattenWebfilterProfileWebFilterUnknownLog(o["web-filter-unknown-log"], d, "web_filter_unknown_log", sv)); err != nil {
 		if !fortiAPIPatch(o["web-filter-unknown-log"]) {
-			return fmt.Errorf("Error reading web_filter_unknown_log: %v", err)
+			return fmt.Errorf("error reading web_filter_unknown_log: %v", err)
 		}
 	}
 
 	if err = d.Set("web_filter_referer_log", flattenWebfilterProfileWebFilterRefererLog(o["web-filter-referer-log"], d, "web_filter_referer_log", sv)); err != nil {
 		if !fortiAPIPatch(o["web-filter-referer-log"]) {
-			return fmt.Errorf("Error reading web_filter_referer_log: %v", err)
+			return fmt.Errorf("error reading web_filter_referer_log: %v", err)
 		}
 	}
 
 	if err = d.Set("web_filter_cookie_removal_log", flattenWebfilterProfileWebFilterCookieRemovalLog(o["web-filter-cookie-removal-log"], d, "web_filter_cookie_removal_log", sv)); err != nil {
 		if !fortiAPIPatch(o["web-filter-cookie-removal-log"]) {
-			return fmt.Errorf("Error reading web_filter_cookie_removal_log: %v", err)
+			return fmt.Errorf("error reading web_filter_cookie_removal_log: %v", err)
 		}
 	}
 
 	if err = d.Set("web_url_log", flattenWebfilterProfileWebUrlLog(o["web-url-log"], d, "web_url_log", sv)); err != nil {
 		if !fortiAPIPatch(o["web-url-log"]) {
-			return fmt.Errorf("Error reading web_url_log: %v", err)
+			return fmt.Errorf("error reading web_url_log: %v", err)
 		}
 	}
 
 	if err = d.Set("web_invalid_domain_log", flattenWebfilterProfileWebInvalidDomainLog(o["web-invalid-domain-log"], d, "web_invalid_domain_log", sv)); err != nil {
 		if !fortiAPIPatch(o["web-invalid-domain-log"]) {
-			return fmt.Errorf("Error reading web_invalid_domain_log: %v", err)
+			return fmt.Errorf("error reading web_invalid_domain_log: %v", err)
 		}
 	}
 
 	if err = d.Set("web_ftgd_err_log", flattenWebfilterProfileWebFtgdErrLog(o["web-ftgd-err-log"], d, "web_ftgd_err_log", sv)); err != nil {
 		if !fortiAPIPatch(o["web-ftgd-err-log"]) {
-			return fmt.Errorf("Error reading web_ftgd_err_log: %v", err)
+			return fmt.Errorf("error reading web_ftgd_err_log: %v", err)
 		}
 	}
 
 	if err = d.Set("web_ftgd_quota_usage", flattenWebfilterProfileWebFtgdQuotaUsage(o["web-ftgd-quota-usage"], d, "web_ftgd_quota_usage", sv)); err != nil {
 		if !fortiAPIPatch(o["web-ftgd-quota-usage"]) {
-			return fmt.Errorf("Error reading web_ftgd_quota_usage: %v", err)
+			return fmt.Errorf("error reading web_ftgd_quota_usage: %v", err)
 		}
 	}
 
 	if err = d.Set("extended_log", flattenWebfilterProfileExtendedLog(o["extended-log"], d, "extended_log", sv)); err != nil {
 		if !fortiAPIPatch(o["extended-log"]) {
-			return fmt.Errorf("Error reading extended_log: %v", err)
+			return fmt.Errorf("error reading extended_log: %v", err)
 		}
 	}
 
 	if err = d.Set("web_extended_all_action_log", flattenWebfilterProfileWebExtendedAllActionLog(o["web-extended-all-action-log"], d, "web_extended_all_action_log", sv)); err != nil {
 		if !fortiAPIPatch(o["web-extended-all-action-log"]) {
-			return fmt.Errorf("Error reading web_extended_all_action_log: %v", err)
+			return fmt.Errorf("error reading web_extended_all_action_log: %v", err)
 		}
 	}
 
 	if err = d.Set("web_antiphishing_log", flattenWebfilterProfileWebAntiphishingLog(o["web-antiphishing-log"], d, "web_antiphishing_log", sv)); err != nil {
 		if !fortiAPIPatch(o["web-antiphishing-log"]) {
-			return fmt.Errorf("Error reading web_antiphishing_log: %v", err)
+			return fmt.Errorf("error reading web_antiphishing_log: %v", err)
 		}
 	}
 

@@ -30,49 +30,49 @@ func resourceReportChart() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 71),
 				ForceNew:     true,
 				Required:     true,
 			},
-			"policy": &schema.Schema{
+			"policy": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"type": &schema.Schema{
+			"type": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"period": &schema.Schema{
+			"period": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"drill_down_charts": &schema.Schema{
+			"drill_down_charts": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"chart_name": &schema.Schema{
+						"chart_name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 71),
 							Optional:     true,
 							Computed:     true,
 						},
-						"status": &schema.Schema{
+						"status": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -80,103 +80,103 @@ func resourceReportChart() *schema.Resource {
 					},
 				},
 			},
-			"comments": &schema.Schema{
+			"comments": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 127),
 				Required:     true,
 			},
-			"dataset": &schema.Schema{
+			"dataset": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 71),
 				Required:     true,
 			},
-			"category": &schema.Schema{
+			"category": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"favorite": &schema.Schema{
+			"favorite": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"graph_type": &schema.Schema{
+			"graph_type": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"style": &schema.Schema{
+			"style": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"dimension": &schema.Schema{
+			"dimension": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"x_series": &schema.Schema{
+			"x_series": {
 				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"databind": &schema.Schema{
+						"databind": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 127),
 							Optional:     true,
 							Computed:     true,
 						},
-						"caption": &schema.Schema{
+						"caption": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"caption_font_size": &schema.Schema{
+						"caption_font_size": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(5, 20),
 							Optional:     true,
 							Computed:     true,
 						},
-						"font_size": &schema.Schema{
+						"font_size": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(5, 20),
 							Optional:     true,
 							Computed:     true,
 						},
-						"label_angle": &schema.Schema{
+						"label_angle": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"is_category": &schema.Schema{
+						"is_category": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"scale_unit": &schema.Schema{
+						"scale_unit": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"scale_step": &schema.Schema{
+						"scale_step": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 65535),
 							Optional:     true,
 							Computed:     true,
 						},
-						"scale_direction": &schema.Schema{
+						"scale_direction": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"scale_format": &schema.Schema{
+						"scale_format": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"unit": &schema.Schema{
+						"unit": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
@@ -185,71 +185,71 @@ func resourceReportChart() *schema.Resource {
 					},
 				},
 			},
-			"y_series": &schema.Schema{
+			"y_series": {
 				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"databind": &schema.Schema{
+						"databind": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 127),
 							Optional:     true,
 							Computed:     true,
 						},
-						"caption": &schema.Schema{
+						"caption": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"caption_font_size": &schema.Schema{
+						"caption_font_size": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(5, 20),
 							Optional:     true,
 							Computed:     true,
 						},
-						"font_size": &schema.Schema{
+						"font_size": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(5, 20),
 							Optional:     true,
 							Computed:     true,
 						},
-						"label_angle": &schema.Schema{
+						"label_angle": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"group": &schema.Schema{
+						"group": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 127),
 							Optional:     true,
 							Computed:     true,
 						},
-						"unit": &schema.Schema{
+						"unit": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"extra_y": &schema.Schema{
+						"extra_y": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"extra_databind": &schema.Schema{
+						"extra_databind": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 127),
 							Optional:     true,
 							Computed:     true,
 						},
-						"y_legend": &schema.Schema{
+						"y_legend": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"extra_y_legend": &schema.Schema{
+						"extra_y_legend": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
@@ -258,19 +258,19 @@ func resourceReportChart() *schema.Resource {
 					},
 				},
 			},
-			"category_series": &schema.Schema{
+			"category_series": {
 				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"databind": &schema.Schema{
+						"databind": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 127),
 							Optional:     true,
 							Computed:     true,
 						},
-						"font_size": &schema.Schema{
+						"font_size": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(5, 20),
 							Optional:     true,
@@ -279,13 +279,13 @@ func resourceReportChart() *schema.Resource {
 					},
 				},
 			},
-			"value_series": &schema.Schema{
+			"value_series": {
 				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"databind": &schema.Schema{
+						"databind": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 127),
 							Optional:     true,
@@ -294,112 +294,112 @@ func resourceReportChart() *schema.Resource {
 					},
 				},
 			},
-			"title": &schema.Schema{
+			"title": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"title_font_size": &schema.Schema{
+			"title_font_size": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"background": &schema.Schema{
+			"background": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 11),
 				Optional:     true,
 				Computed:     true,
 			},
-			"color_palette": &schema.Schema{
+			"color_palette": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 11),
 				Optional:     true,
 				Computed:     true,
 			},
-			"legend": &schema.Schema{
+			"legend": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"legend_font_size": &schema.Schema{
+			"legend_font_size": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"column": &schema.Schema{
+			"column": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"header_value": &schema.Schema{
+						"header_value": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 127),
 							Optional:     true,
 							Computed:     true,
 						},
-						"detail_value": &schema.Schema{
+						"detail_value": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 127),
 							Optional:     true,
 							Computed:     true,
 						},
-						"footer_value": &schema.Schema{
+						"footer_value": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 127),
 							Optional:     true,
 							Computed:     true,
 						},
-						"detail_unit": &schema.Schema{
+						"detail_unit": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"footer_unit": &schema.Schema{
+						"footer_unit": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"mapping": &schema.Schema{
+						"mapping": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"id": &schema.Schema{
+									"id": {
 										Type:     schema.TypeInt,
 										Optional: true,
 										Computed: true,
 									},
-									"op": &schema.Schema{
+									"op": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"value_type": &schema.Schema{
+									"value_type": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"value1": &schema.Schema{
+									"value1": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 127),
 										Optional:     true,
 										Computed:     true,
 									},
-									"value2": &schema.Schema{
+									"value2": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 127),
 										Optional:     true,
 										Computed:     true,
 									},
-									"displayname": &schema.Schema{
+									"displayname": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 127),
 										Optional:     true,
@@ -411,10 +411,15 @@ func resourceReportChart() *schema.Resource {
 					},
 				},
 			},
-			"dynamic_sort_subtable": &schema.Schema{
+			"dynamic_sort_subtable": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Default:  "false",
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -432,15 +437,25 @@ func resourceReportChartCreate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectReportChart(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating ReportChart resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateReportChart(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectReportChart(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating ReportChart resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateReportChart(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating ReportChart resource: %v", err)
+		return fmt.Errorf("error creating ReportChart resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -465,14 +480,24 @@ func resourceReportChartUpdate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectReportChart(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating ReportChart resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateReportChart(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectReportChart(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating ReportChart resource: %v", err)
+		return fmt.Errorf("error updating ReportChart resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateReportChart(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating ReportChart resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -499,9 +524,17 @@ func resourceReportChartDelete(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	err := c.DeleteReportChart(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteReportChart(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting ReportChart resource: %v", err)
+		return fmt.Errorf("error deleting ReportChart resource: %v", err)
 	}
 
 	d.SetId("")
@@ -523,9 +556,19 @@ func resourceReportChartRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadReportChart(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadReportChart(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading ReportChart resource: %v", err)
+		return fmt.Errorf("error reading ReportChart resource: %v", err)
 	}
 
 	if o == nil {
@@ -536,7 +579,7 @@ func resourceReportChartRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectReportChart(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading ReportChart resource from API: %v", err)
+		return fmt.Errorf("error reading ReportChart resource from API: %v", err)
 	}
 	return nil
 }
@@ -1155,39 +1198,39 @@ func refreshObjectReportChart(d *schema.ResourceData, o map[string]interface{}, 
 
 	if err = d.Set("name", flattenReportChartName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("policy", flattenReportChartPolicy(o["policy"], d, "policy", sv)); err != nil {
 		if !fortiAPIPatch(o["policy"]) {
-			return fmt.Errorf("Error reading policy: %v", err)
+			return fmt.Errorf("error reading policy: %v", err)
 		}
 	}
 
 	if err = d.Set("type", flattenReportChartType(o["type"], d, "type", sv)); err != nil {
 		if !fortiAPIPatch(o["type"]) {
-			return fmt.Errorf("Error reading type: %v", err)
+			return fmt.Errorf("error reading type: %v", err)
 		}
 	}
 
 	if err = d.Set("period", flattenReportChartPeriod(o["period"], d, "period", sv)); err != nil {
 		if !fortiAPIPatch(o["period"]) {
-			return fmt.Errorf("Error reading period: %v", err)
+			return fmt.Errorf("error reading period: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("drill_down_charts", flattenReportChartDrillDownCharts(o["drill-down-charts"], d, "drill_down_charts", sv)); err != nil {
 			if !fortiAPIPatch(o["drill-down-charts"]) {
-				return fmt.Errorf("Error reading drill_down_charts: %v", err)
+				return fmt.Errorf("error reading drill_down_charts: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("drill_down_charts"); ok {
 			if err = d.Set("drill_down_charts", flattenReportChartDrillDownCharts(o["drill-down-charts"], d, "drill_down_charts", sv)); err != nil {
 				if !fortiAPIPatch(o["drill-down-charts"]) {
-					return fmt.Errorf("Error reading drill_down_charts: %v", err)
+					return fmt.Errorf("error reading drill_down_charts: %v", err)
 				}
 			}
 		}
@@ -1195,57 +1238,57 @@ func refreshObjectReportChart(d *schema.ResourceData, o map[string]interface{}, 
 
 	if err = d.Set("comments", flattenReportChartComments(o["comments"], d, "comments", sv)); err != nil {
 		if !fortiAPIPatch(o["comments"]) {
-			return fmt.Errorf("Error reading comments: %v", err)
+			return fmt.Errorf("error reading comments: %v", err)
 		}
 	}
 
 	if err = d.Set("dataset", flattenReportChartDataset(o["dataset"], d, "dataset", sv)); err != nil {
 		if !fortiAPIPatch(o["dataset"]) {
-			return fmt.Errorf("Error reading dataset: %v", err)
+			return fmt.Errorf("error reading dataset: %v", err)
 		}
 	}
 
 	if err = d.Set("category", flattenReportChartCategory(o["category"], d, "category", sv)); err != nil {
 		if !fortiAPIPatch(o["category"]) {
-			return fmt.Errorf("Error reading category: %v", err)
+			return fmt.Errorf("error reading category: %v", err)
 		}
 	}
 
 	if err = d.Set("favorite", flattenReportChartFavorite(o["favorite"], d, "favorite", sv)); err != nil {
 		if !fortiAPIPatch(o["favorite"]) {
-			return fmt.Errorf("Error reading favorite: %v", err)
+			return fmt.Errorf("error reading favorite: %v", err)
 		}
 	}
 
 	if err = d.Set("graph_type", flattenReportChartGraphType(o["graph-type"], d, "graph_type", sv)); err != nil {
 		if !fortiAPIPatch(o["graph-type"]) {
-			return fmt.Errorf("Error reading graph_type: %v", err)
+			return fmt.Errorf("error reading graph_type: %v", err)
 		}
 	}
 
 	if err = d.Set("style", flattenReportChartStyle(o["style"], d, "style", sv)); err != nil {
 		if !fortiAPIPatch(o["style"]) {
-			return fmt.Errorf("Error reading style: %v", err)
+			return fmt.Errorf("error reading style: %v", err)
 		}
 	}
 
 	if err = d.Set("dimension", flattenReportChartDimension(o["dimension"], d, "dimension", sv)); err != nil {
 		if !fortiAPIPatch(o["dimension"]) {
-			return fmt.Errorf("Error reading dimension: %v", err)
+			return fmt.Errorf("error reading dimension: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("x_series", flattenReportChartXSeries(o["x-series"], d, "x_series", sv)); err != nil {
 			if !fortiAPIPatch(o["x-series"]) {
-				return fmt.Errorf("Error reading x_series: %v", err)
+				return fmt.Errorf("error reading x_series: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("x_series"); ok {
 			if err = d.Set("x_series", flattenReportChartXSeries(o["x-series"], d, "x_series", sv)); err != nil {
 				if !fortiAPIPatch(o["x-series"]) {
-					return fmt.Errorf("Error reading x_series: %v", err)
+					return fmt.Errorf("error reading x_series: %v", err)
 				}
 			}
 		}
@@ -1254,14 +1297,14 @@ func refreshObjectReportChart(d *schema.ResourceData, o map[string]interface{}, 
 	if isImportTable() {
 		if err = d.Set("y_series", flattenReportChartYSeries(o["y-series"], d, "y_series", sv)); err != nil {
 			if !fortiAPIPatch(o["y-series"]) {
-				return fmt.Errorf("Error reading y_series: %v", err)
+				return fmt.Errorf("error reading y_series: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("y_series"); ok {
 			if err = d.Set("y_series", flattenReportChartYSeries(o["y-series"], d, "y_series", sv)); err != nil {
 				if !fortiAPIPatch(o["y-series"]) {
-					return fmt.Errorf("Error reading y_series: %v", err)
+					return fmt.Errorf("error reading y_series: %v", err)
 				}
 			}
 		}
@@ -1270,14 +1313,14 @@ func refreshObjectReportChart(d *schema.ResourceData, o map[string]interface{}, 
 	if isImportTable() {
 		if err = d.Set("category_series", flattenReportChartCategorySeries(o["category-series"], d, "category_series", sv)); err != nil {
 			if !fortiAPIPatch(o["category-series"]) {
-				return fmt.Errorf("Error reading category_series: %v", err)
+				return fmt.Errorf("error reading category_series: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("category_series"); ok {
 			if err = d.Set("category_series", flattenReportChartCategorySeries(o["category-series"], d, "category_series", sv)); err != nil {
 				if !fortiAPIPatch(o["category-series"]) {
-					return fmt.Errorf("Error reading category_series: %v", err)
+					return fmt.Errorf("error reading category_series: %v", err)
 				}
 			}
 		}
@@ -1286,14 +1329,14 @@ func refreshObjectReportChart(d *schema.ResourceData, o map[string]interface{}, 
 	if isImportTable() {
 		if err = d.Set("value_series", flattenReportChartValueSeries(o["value-series"], d, "value_series", sv)); err != nil {
 			if !fortiAPIPatch(o["value-series"]) {
-				return fmt.Errorf("Error reading value_series: %v", err)
+				return fmt.Errorf("error reading value_series: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("value_series"); ok {
 			if err = d.Set("value_series", flattenReportChartValueSeries(o["value-series"], d, "value_series", sv)); err != nil {
 				if !fortiAPIPatch(o["value-series"]) {
-					return fmt.Errorf("Error reading value_series: %v", err)
+					return fmt.Errorf("error reading value_series: %v", err)
 				}
 			}
 		}
@@ -1301,51 +1344,51 @@ func refreshObjectReportChart(d *schema.ResourceData, o map[string]interface{}, 
 
 	if err = d.Set("title", flattenReportChartTitle(o["title"], d, "title", sv)); err != nil {
 		if !fortiAPIPatch(o["title"]) {
-			return fmt.Errorf("Error reading title: %v", err)
+			return fmt.Errorf("error reading title: %v", err)
 		}
 	}
 
 	if err = d.Set("title_font_size", flattenReportChartTitleFontSize(o["title-font-size"], d, "title_font_size", sv)); err != nil {
 		if !fortiAPIPatch(o["title-font-size"]) {
-			return fmt.Errorf("Error reading title_font_size: %v", err)
+			return fmt.Errorf("error reading title_font_size: %v", err)
 		}
 	}
 
 	if err = d.Set("background", flattenReportChartBackground(o["background"], d, "background", sv)); err != nil {
 		if !fortiAPIPatch(o["background"]) {
-			return fmt.Errorf("Error reading background: %v", err)
+			return fmt.Errorf("error reading background: %v", err)
 		}
 	}
 
 	if err = d.Set("color_palette", flattenReportChartColorPalette(o["color-palette"], d, "color_palette", sv)); err != nil {
 		if !fortiAPIPatch(o["color-palette"]) {
-			return fmt.Errorf("Error reading color_palette: %v", err)
+			return fmt.Errorf("error reading color_palette: %v", err)
 		}
 	}
 
 	if err = d.Set("legend", flattenReportChartLegend(o["legend"], d, "legend", sv)); err != nil {
 		if !fortiAPIPatch(o["legend"]) {
-			return fmt.Errorf("Error reading legend: %v", err)
+			return fmt.Errorf("error reading legend: %v", err)
 		}
 	}
 
 	if err = d.Set("legend_font_size", flattenReportChartLegendFontSize(o["legend-font-size"], d, "legend_font_size", sv)); err != nil {
 		if !fortiAPIPatch(o["legend-font-size"]) {
-			return fmt.Errorf("Error reading legend_font_size: %v", err)
+			return fmt.Errorf("error reading legend_font_size: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("column", flattenReportChartColumn(o["column"], d, "column", sv)); err != nil {
 			if !fortiAPIPatch(o["column"]) {
-				return fmt.Errorf("Error reading column: %v", err)
+				return fmt.Errorf("error reading column: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("column"); ok {
 			if err = d.Set("column", flattenReportChartColumn(o["column"], d, "column", sv)); err != nil {
 				if !fortiAPIPatch(o["column"]) {
-					return fmt.Errorf("Error reading column: %v", err)
+					return fmt.Errorf("error reading column: %v", err)
 				}
 			}
 		}

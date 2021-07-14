@@ -30,20 +30,25 @@ func resourceSystemIps() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"signature_hold_time": &schema.Schema{
+			"signature_hold_time": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"override_signature_hold_by_id": &schema.Schema{
+			"override_signature_hold_by_id": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -62,14 +67,24 @@ func resourceSystemIpsUpdate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectSystemIps(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SystemIps resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSystemIps(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemIps(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SystemIps resource: %v", err)
+		return fmt.Errorf("error updating SystemIps resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSystemIps(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SystemIps resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -96,9 +111,17 @@ func resourceSystemIpsDelete(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	err := c.DeleteSystemIps(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSystemIps(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SystemIps resource: %v", err)
+		return fmt.Errorf("error deleting SystemIps resource: %v", err)
 	}
 
 	d.SetId("")
@@ -120,9 +143,19 @@ func resourceSystemIpsRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadSystemIps(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSystemIps(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemIps resource: %v", err)
+		return fmt.Errorf("error reading SystemIps resource: %v", err)
 	}
 
 	if o == nil {
@@ -133,7 +166,7 @@ func resourceSystemIpsRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectSystemIps(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemIps resource from API: %v", err)
+		return fmt.Errorf("error reading SystemIps resource from API: %v", err)
 	}
 	return nil
 }
@@ -151,13 +184,13 @@ func refreshObjectSystemIps(d *schema.ResourceData, o map[string]interface{}, sv
 
 	if err = d.Set("signature_hold_time", flattenSystemIpsSignatureHoldTime(o["signature-hold-time"], d, "signature_hold_time", sv)); err != nil {
 		if !fortiAPIPatch(o["signature-hold-time"]) {
-			return fmt.Errorf("Error reading signature_hold_time: %v", err)
+			return fmt.Errorf("error reading signature_hold_time: %v", err)
 		}
 	}
 
 	if err = d.Set("override_signature_hold_by_id", flattenSystemIpsOverrideSignatureHoldById(o["override-signature-hold-by-id"], d, "override_signature_hold_by_id", sv)); err != nil {
 		if !fortiAPIPatch(o["override-signature-hold-by-id"]) {
-			return fmt.Errorf("Error reading override_signature_hold_by_id: %v", err)
+			return fmt.Errorf("error reading override_signature_hold_by_id: %v", err)
 		}
 	}
 

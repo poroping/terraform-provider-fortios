@@ -30,61 +30,61 @@ func resourceWirelessControllerInterController() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"inter_controller_mode": &schema.Schema{
+			"inter_controller_mode": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"inter_controller_key": &schema.Schema{
+			"inter_controller_key": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 127),
 				Optional:     true,
 				Sensitive:    true,
 			},
-			"inter_controller_pri": &schema.Schema{
+			"inter_controller_pri": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"fast_failover_max": &schema.Schema{
+			"fast_failover_max": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(3, 64),
 				Optional:     true,
 				Computed:     true,
 			},
-			"fast_failover_wait": &schema.Schema{
+			"fast_failover_wait": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(10, 86400),
 				Optional:     true,
 				Computed:     true,
 			},
-			"inter_controller_peer": &schema.Schema{
+			"inter_controller_peer": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"peer_ip": &schema.Schema{
+						"peer_ip": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"peer_port": &schema.Schema{
+						"peer_port": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1024, 49150),
 							Optional:     true,
 							Computed:     true,
 						},
-						"peer_priority": &schema.Schema{
+						"peer_priority": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -92,10 +92,15 @@ func resourceWirelessControllerInterController() *schema.Resource {
 					},
 				},
 			},
-			"dynamic_sort_subtable": &schema.Schema{
+			"dynamic_sort_subtable": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Default:  "false",
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -114,14 +119,24 @@ func resourceWirelessControllerInterControllerUpdate(d *schema.ResourceData, m i
 		}
 	}
 
-	obj, err := getObjectWirelessControllerInterController(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating WirelessControllerInterController resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateWirelessControllerInterController(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectWirelessControllerInterController(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating WirelessControllerInterController resource: %v", err)
+		return fmt.Errorf("error updating WirelessControllerInterController resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateWirelessControllerInterController(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating WirelessControllerInterController resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -148,9 +163,17 @@ func resourceWirelessControllerInterControllerDelete(d *schema.ResourceData, m i
 		}
 	}
 
-	err := c.DeleteWirelessControllerInterController(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteWirelessControllerInterController(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting WirelessControllerInterController resource: %v", err)
+		return fmt.Errorf("error deleting WirelessControllerInterController resource: %v", err)
 	}
 
 	d.SetId("")
@@ -172,9 +195,19 @@ func resourceWirelessControllerInterControllerRead(d *schema.ResourceData, m int
 		}
 	}
 
-	o, err := c.ReadWirelessControllerInterController(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadWirelessControllerInterController(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading WirelessControllerInterController resource: %v", err)
+		return fmt.Errorf("error reading WirelessControllerInterController resource: %v", err)
 	}
 
 	if o == nil {
@@ -185,7 +218,7 @@ func resourceWirelessControllerInterControllerRead(d *schema.ResourceData, m int
 
 	err = refreshObjectWirelessControllerInterController(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading WirelessControllerInterController resource from API: %v", err)
+		return fmt.Errorf("error reading WirelessControllerInterController resource from API: %v", err)
 	}
 	return nil
 }
@@ -283,39 +316,39 @@ func refreshObjectWirelessControllerInterController(d *schema.ResourceData, o ma
 
 	if err = d.Set("inter_controller_mode", flattenWirelessControllerInterControllerInterControllerMode(o["inter-controller-mode"], d, "inter_controller_mode", sv)); err != nil {
 		if !fortiAPIPatch(o["inter-controller-mode"]) {
-			return fmt.Errorf("Error reading inter_controller_mode: %v", err)
+			return fmt.Errorf("error reading inter_controller_mode: %v", err)
 		}
 	}
 
 	if err = d.Set("inter_controller_pri", flattenWirelessControllerInterControllerInterControllerPri(o["inter-controller-pri"], d, "inter_controller_pri", sv)); err != nil {
 		if !fortiAPIPatch(o["inter-controller-pri"]) {
-			return fmt.Errorf("Error reading inter_controller_pri: %v", err)
+			return fmt.Errorf("error reading inter_controller_pri: %v", err)
 		}
 	}
 
 	if err = d.Set("fast_failover_max", flattenWirelessControllerInterControllerFastFailoverMax(o["fast-failover-max"], d, "fast_failover_max", sv)); err != nil {
 		if !fortiAPIPatch(o["fast-failover-max"]) {
-			return fmt.Errorf("Error reading fast_failover_max: %v", err)
+			return fmt.Errorf("error reading fast_failover_max: %v", err)
 		}
 	}
 
 	if err = d.Set("fast_failover_wait", flattenWirelessControllerInterControllerFastFailoverWait(o["fast-failover-wait"], d, "fast_failover_wait", sv)); err != nil {
 		if !fortiAPIPatch(o["fast-failover-wait"]) {
-			return fmt.Errorf("Error reading fast_failover_wait: %v", err)
+			return fmt.Errorf("error reading fast_failover_wait: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("inter_controller_peer", flattenWirelessControllerInterControllerInterControllerPeer(o["inter-controller-peer"], d, "inter_controller_peer", sv)); err != nil {
 			if !fortiAPIPatch(o["inter-controller-peer"]) {
-				return fmt.Errorf("Error reading inter_controller_peer: %v", err)
+				return fmt.Errorf("error reading inter_controller_peer: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("inter_controller_peer"); ok {
 			if err = d.Set("inter_controller_peer", flattenWirelessControllerInterControllerInterControllerPeer(o["inter-controller-peer"], d, "inter_controller_peer", sv)); err != nil {
 				if !fortiAPIPatch(o["inter-controller-peer"]) {
-					return fmt.Errorf("Error reading inter_controller_peer: %v", err)
+					return fmt.Errorf("error reading inter_controller_peer: %v", err)
 				}
 			}
 		}

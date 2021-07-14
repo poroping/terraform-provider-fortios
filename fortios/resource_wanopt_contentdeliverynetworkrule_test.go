@@ -57,14 +57,14 @@ func testAccCheckFortiOSWanoptContentDeliveryNetworkRuleExists(n string) resourc
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadWanoptContentDeliveryNetworkRule(i, "root")
+		o, err := c.ReadWanoptContentDeliveryNetworkRule(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading WanoptContentDeliveryNetworkRule: %s", err)
+			return fmt.Errorf("error reading WanoptContentDeliveryNetworkRule: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating WanoptContentDeliveryNetworkRule: %s", n)
+			return fmt.Errorf("error creating WanoptContentDeliveryNetworkRule: %s", n)
 		}
 
 		return nil
@@ -80,11 +80,11 @@ func testAccCheckWanoptContentDeliveryNetworkRuleDestroy(s *terraform.State) err
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadWanoptContentDeliveryNetworkRule(i, "root")
+		o, err := c.ReadWanoptContentDeliveryNetworkRule(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error WanoptContentDeliveryNetworkRule %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error WanoptContentDeliveryNetworkRule %s still exists", rs.Primary.ID)
 			}
 		}
 

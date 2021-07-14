@@ -30,245 +30,250 @@ func resourceSystemFortiguard() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"protocol": &schema.Schema{
+			"protocol": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"port": &schema.Schema{
+			"port": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"service_account_id": &schema.Schema{
+			"service_account_id": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 50),
 				Optional:     true,
 				Computed:     true,
 			},
-			"load_balance_servers": &schema.Schema{
+			"load_balance_servers": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 266),
 				Optional:     true,
 				Computed:     true,
 			},
-			"auto_join_forticloud": &schema.Schema{
+			"auto_join_forticloud": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"update_server_location": &schema.Schema{
+			"update_server_location": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"sandbox_region": &schema.Schema{
+			"sandbox_region": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"fortiguard_anycast": &schema.Schema{
+			"fortiguard_anycast": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"fortiguard_anycast_source": &schema.Schema{
+			"fortiguard_anycast_source": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"antispam_force_off": &schema.Schema{
+			"antispam_force_off": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"antispam_cache": &schema.Schema{
+			"antispam_cache": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"antispam_cache_ttl": &schema.Schema{
+			"antispam_cache_ttl": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(300, 86400),
 				Optional:     true,
 				Computed:     true,
 			},
-			"antispam_cache_mpercent": &schema.Schema{
+			"antispam_cache_mpercent": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 15),
 				Optional:     true,
 				Computed:     true,
 			},
-			"antispam_license": &schema.Schema{
+			"antispam_license": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"antispam_expiration": &schema.Schema{
+			"antispam_expiration": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"antispam_timeout": &schema.Schema{
+			"antispam_timeout": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 30),
 				Required:     true,
 			},
-			"outbreak_prevention_force_off": &schema.Schema{
+			"outbreak_prevention_force_off": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"outbreak_prevention_cache": &schema.Schema{
+			"outbreak_prevention_cache": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"outbreak_prevention_cache_ttl": &schema.Schema{
+			"outbreak_prevention_cache_ttl": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(300, 86400),
 				Optional:     true,
 				Computed:     true,
 			},
-			"outbreak_prevention_cache_mpercent": &schema.Schema{
+			"outbreak_prevention_cache_mpercent": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 15),
 				Optional:     true,
 				Computed:     true,
 			},
-			"outbreak_prevention_license": &schema.Schema{
+			"outbreak_prevention_license": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"outbreak_prevention_expiration": &schema.Schema{
+			"outbreak_prevention_expiration": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"outbreak_prevention_timeout": &schema.Schema{
+			"outbreak_prevention_timeout": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 30),
 				Required:     true,
 			},
-			"webfilter_force_off": &schema.Schema{
+			"webfilter_force_off": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"webfilter_cache": &schema.Schema{
+			"webfilter_cache": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"webfilter_cache_ttl": &schema.Schema{
+			"webfilter_cache_ttl": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(300, 86400),
 				Optional:     true,
 				Computed:     true,
 			},
-			"webfilter_license": &schema.Schema{
+			"webfilter_license": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"webfilter_expiration": &schema.Schema{
+			"webfilter_expiration": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"webfilter_timeout": &schema.Schema{
+			"webfilter_timeout": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 30),
 				Required:     true,
 			},
-			"sdns_server_ip": &schema.Schema{
+			"sdns_server_ip": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"sdns_server_port": &schema.Schema{
+			"sdns_server_port": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"anycast_sdns_server_ip": &schema.Schema{
+			"anycast_sdns_server_ip": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"anycast_sdns_server_port": &schema.Schema{
+			"anycast_sdns_server_port": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"sdns_options": &schema.Schema{
+			"sdns_options": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"source_ip": &schema.Schema{
+			"source_ip": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"source_ip6": &schema.Schema{
+			"source_ip6": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"proxy_server_ip": &schema.Schema{
+			"proxy_server_ip": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"proxy_server_port": &schema.Schema{
+			"proxy_server_port": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"proxy_username": &schema.Schema{
+			"proxy_username": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 64),
 				Optional:     true,
 				Computed:     true,
 			},
-			"proxy_password": &schema.Schema{
+			"proxy_password": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 128),
 				Optional:     true,
 				Sensitive:    true,
 			},
-			"ddns_server_ip": &schema.Schema{
+			"ddns_server_ip": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ddns_server_port": &schema.Schema{
+			"ddns_server_port": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"interface_select_method": &schema.Schema{
+			"interface_select_method": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"interface": &schema.Schema{
+			"interface": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 15),
 				Optional:     true,
 				Computed:     true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -287,14 +292,24 @@ func resourceSystemFortiguardUpdate(d *schema.ResourceData, m interface{}) error
 		}
 	}
 
-	obj, err := getObjectSystemFortiguard(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SystemFortiguard resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSystemFortiguard(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemFortiguard(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SystemFortiguard resource: %v", err)
+		return fmt.Errorf("error updating SystemFortiguard resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSystemFortiguard(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SystemFortiguard resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -321,9 +336,17 @@ func resourceSystemFortiguardDelete(d *schema.ResourceData, m interface{}) error
 		}
 	}
 
-	err := c.DeleteSystemFortiguard(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSystemFortiguard(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SystemFortiguard resource: %v", err)
+		return fmt.Errorf("error deleting SystemFortiguard resource: %v", err)
 	}
 
 	d.SetId("")
@@ -345,9 +368,19 @@ func resourceSystemFortiguardRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadSystemFortiguard(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSystemFortiguard(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemFortiguard resource: %v", err)
+		return fmt.Errorf("error reading SystemFortiguard resource: %v", err)
 	}
 
 	if o == nil {
@@ -358,7 +391,7 @@ func resourceSystemFortiguardRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectSystemFortiguard(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemFortiguard resource from API: %v", err)
+		return fmt.Errorf("error reading SystemFortiguard resource from API: %v", err)
 	}
 	return nil
 }
@@ -544,259 +577,259 @@ func refreshObjectSystemFortiguard(d *schema.ResourceData, o map[string]interfac
 
 	if err = d.Set("protocol", flattenSystemFortiguardProtocol(o["protocol"], d, "protocol", sv)); err != nil {
 		if !fortiAPIPatch(o["protocol"]) {
-			return fmt.Errorf("Error reading protocol: %v", err)
+			return fmt.Errorf("error reading protocol: %v", err)
 		}
 	}
 
 	if err = d.Set("port", flattenSystemFortiguardPort(o["port"], d, "port", sv)); err != nil {
 		if !fortiAPIPatch(o["port"]) {
-			return fmt.Errorf("Error reading port: %v", err)
+			return fmt.Errorf("error reading port: %v", err)
 		}
 	}
 
 	if err = d.Set("service_account_id", flattenSystemFortiguardServiceAccountId(o["service-account-id"], d, "service_account_id", sv)); err != nil {
 		if !fortiAPIPatch(o["service-account-id"]) {
-			return fmt.Errorf("Error reading service_account_id: %v", err)
+			return fmt.Errorf("error reading service_account_id: %v", err)
 		}
 	}
 
 	if err = d.Set("load_balance_servers", flattenSystemFortiguardLoadBalanceServers(o["load-balance-servers"], d, "load_balance_servers", sv)); err != nil {
 		if !fortiAPIPatch(o["load-balance-servers"]) {
-			return fmt.Errorf("Error reading load_balance_servers: %v", err)
+			return fmt.Errorf("error reading load_balance_servers: %v", err)
 		}
 	}
 
 	if err = d.Set("auto_join_forticloud", flattenSystemFortiguardAutoJoinForticloud(o["auto-join-forticloud"], d, "auto_join_forticloud", sv)); err != nil {
 		if !fortiAPIPatch(o["auto-join-forticloud"]) {
-			return fmt.Errorf("Error reading auto_join_forticloud: %v", err)
+			return fmt.Errorf("error reading auto_join_forticloud: %v", err)
 		}
 	}
 
 	if err = d.Set("update_server_location", flattenSystemFortiguardUpdateServerLocation(o["update-server-location"], d, "update_server_location", sv)); err != nil {
 		if !fortiAPIPatch(o["update-server-location"]) {
-			return fmt.Errorf("Error reading update_server_location: %v", err)
+			return fmt.Errorf("error reading update_server_location: %v", err)
 		}
 	}
 
 	if err = d.Set("sandbox_region", flattenSystemFortiguardSandboxRegion(o["sandbox-region"], d, "sandbox_region", sv)); err != nil {
 		if !fortiAPIPatch(o["sandbox-region"]) {
-			return fmt.Errorf("Error reading sandbox_region: %v", err)
+			return fmt.Errorf("error reading sandbox_region: %v", err)
 		}
 	}
 
 	if err = d.Set("fortiguard_anycast", flattenSystemFortiguardFortiguardAnycast(o["fortiguard-anycast"], d, "fortiguard_anycast", sv)); err != nil {
 		if !fortiAPIPatch(o["fortiguard-anycast"]) {
-			return fmt.Errorf("Error reading fortiguard_anycast: %v", err)
+			return fmt.Errorf("error reading fortiguard_anycast: %v", err)
 		}
 	}
 
 	if err = d.Set("fortiguard_anycast_source", flattenSystemFortiguardFortiguardAnycastSource(o["fortiguard-anycast-source"], d, "fortiguard_anycast_source", sv)); err != nil {
 		if !fortiAPIPatch(o["fortiguard-anycast-source"]) {
-			return fmt.Errorf("Error reading fortiguard_anycast_source: %v", err)
+			return fmt.Errorf("error reading fortiguard_anycast_source: %v", err)
 		}
 	}
 
 	if err = d.Set("antispam_force_off", flattenSystemFortiguardAntispamForceOff(o["antispam-force-off"], d, "antispam_force_off", sv)); err != nil {
 		if !fortiAPIPatch(o["antispam-force-off"]) {
-			return fmt.Errorf("Error reading antispam_force_off: %v", err)
+			return fmt.Errorf("error reading antispam_force_off: %v", err)
 		}
 	}
 
 	if err = d.Set("antispam_cache", flattenSystemFortiguardAntispamCache(o["antispam-cache"], d, "antispam_cache", sv)); err != nil {
 		if !fortiAPIPatch(o["antispam-cache"]) {
-			return fmt.Errorf("Error reading antispam_cache: %v", err)
+			return fmt.Errorf("error reading antispam_cache: %v", err)
 		}
 	}
 
 	if err = d.Set("antispam_cache_ttl", flattenSystemFortiguardAntispamCacheTtl(o["antispam-cache-ttl"], d, "antispam_cache_ttl", sv)); err != nil {
 		if !fortiAPIPatch(o["antispam-cache-ttl"]) {
-			return fmt.Errorf("Error reading antispam_cache_ttl: %v", err)
+			return fmt.Errorf("error reading antispam_cache_ttl: %v", err)
 		}
 	}
 
 	if err = d.Set("antispam_cache_mpercent", flattenSystemFortiguardAntispamCacheMpercent(o["antispam-cache-mpercent"], d, "antispam_cache_mpercent", sv)); err != nil {
 		if !fortiAPIPatch(o["antispam-cache-mpercent"]) {
-			return fmt.Errorf("Error reading antispam_cache_mpercent: %v", err)
+			return fmt.Errorf("error reading antispam_cache_mpercent: %v", err)
 		}
 	}
 
 	if err = d.Set("antispam_license", flattenSystemFortiguardAntispamLicense(o["antispam-license"], d, "antispam_license", sv)); err != nil {
 		if !fortiAPIPatch(o["antispam-license"]) {
-			return fmt.Errorf("Error reading antispam_license: %v", err)
+			return fmt.Errorf("error reading antispam_license: %v", err)
 		}
 	}
 
 	if err = d.Set("antispam_expiration", flattenSystemFortiguardAntispamExpiration(o["antispam-expiration"], d, "antispam_expiration", sv)); err != nil {
 		if !fortiAPIPatch(o["antispam-expiration"]) {
-			return fmt.Errorf("Error reading antispam_expiration: %v", err)
+			return fmt.Errorf("error reading antispam_expiration: %v", err)
 		}
 	}
 
 	if err = d.Set("antispam_timeout", flattenSystemFortiguardAntispamTimeout(o["antispam-timeout"], d, "antispam_timeout", sv)); err != nil {
 		if !fortiAPIPatch(o["antispam-timeout"]) {
-			return fmt.Errorf("Error reading antispam_timeout: %v", err)
+			return fmt.Errorf("error reading antispam_timeout: %v", err)
 		}
 	}
 
 	if err = d.Set("outbreak_prevention_force_off", flattenSystemFortiguardOutbreakPreventionForceOff(o["outbreak-prevention-force-off"], d, "outbreak_prevention_force_off", sv)); err != nil {
 		if !fortiAPIPatch(o["outbreak-prevention-force-off"]) {
-			return fmt.Errorf("Error reading outbreak_prevention_force_off: %v", err)
+			return fmt.Errorf("error reading outbreak_prevention_force_off: %v", err)
 		}
 	}
 
 	if err = d.Set("outbreak_prevention_cache", flattenSystemFortiguardOutbreakPreventionCache(o["outbreak-prevention-cache"], d, "outbreak_prevention_cache", sv)); err != nil {
 		if !fortiAPIPatch(o["outbreak-prevention-cache"]) {
-			return fmt.Errorf("Error reading outbreak_prevention_cache: %v", err)
+			return fmt.Errorf("error reading outbreak_prevention_cache: %v", err)
 		}
 	}
 
 	if err = d.Set("outbreak_prevention_cache_ttl", flattenSystemFortiguardOutbreakPreventionCacheTtl(o["outbreak-prevention-cache-ttl"], d, "outbreak_prevention_cache_ttl", sv)); err != nil {
 		if !fortiAPIPatch(o["outbreak-prevention-cache-ttl"]) {
-			return fmt.Errorf("Error reading outbreak_prevention_cache_ttl: %v", err)
+			return fmt.Errorf("error reading outbreak_prevention_cache_ttl: %v", err)
 		}
 	}
 
 	if err = d.Set("outbreak_prevention_cache_mpercent", flattenSystemFortiguardOutbreakPreventionCacheMpercent(o["outbreak-prevention-cache-mpercent"], d, "outbreak_prevention_cache_mpercent", sv)); err != nil {
 		if !fortiAPIPatch(o["outbreak-prevention-cache-mpercent"]) {
-			return fmt.Errorf("Error reading outbreak_prevention_cache_mpercent: %v", err)
+			return fmt.Errorf("error reading outbreak_prevention_cache_mpercent: %v", err)
 		}
 	}
 
 	if err = d.Set("outbreak_prevention_license", flattenSystemFortiguardOutbreakPreventionLicense(o["outbreak-prevention-license"], d, "outbreak_prevention_license", sv)); err != nil {
 		if !fortiAPIPatch(o["outbreak-prevention-license"]) {
-			return fmt.Errorf("Error reading outbreak_prevention_license: %v", err)
+			return fmt.Errorf("error reading outbreak_prevention_license: %v", err)
 		}
 	}
 
 	if err = d.Set("outbreak_prevention_expiration", flattenSystemFortiguardOutbreakPreventionExpiration(o["outbreak-prevention-expiration"], d, "outbreak_prevention_expiration", sv)); err != nil {
 		if !fortiAPIPatch(o["outbreak-prevention-expiration"]) {
-			return fmt.Errorf("Error reading outbreak_prevention_expiration: %v", err)
+			return fmt.Errorf("error reading outbreak_prevention_expiration: %v", err)
 		}
 	}
 
 	if err = d.Set("outbreak_prevention_timeout", flattenSystemFortiguardOutbreakPreventionTimeout(o["outbreak-prevention-timeout"], d, "outbreak_prevention_timeout", sv)); err != nil {
 		if !fortiAPIPatch(o["outbreak-prevention-timeout"]) {
-			return fmt.Errorf("Error reading outbreak_prevention_timeout: %v", err)
+			return fmt.Errorf("error reading outbreak_prevention_timeout: %v", err)
 		}
 	}
 
 	if err = d.Set("webfilter_force_off", flattenSystemFortiguardWebfilterForceOff(o["webfilter-force-off"], d, "webfilter_force_off", sv)); err != nil {
 		if !fortiAPIPatch(o["webfilter-force-off"]) {
-			return fmt.Errorf("Error reading webfilter_force_off: %v", err)
+			return fmt.Errorf("error reading webfilter_force_off: %v", err)
 		}
 	}
 
 	if err = d.Set("webfilter_cache", flattenSystemFortiguardWebfilterCache(o["webfilter-cache"], d, "webfilter_cache", sv)); err != nil {
 		if !fortiAPIPatch(o["webfilter-cache"]) {
-			return fmt.Errorf("Error reading webfilter_cache: %v", err)
+			return fmt.Errorf("error reading webfilter_cache: %v", err)
 		}
 	}
 
 	if err = d.Set("webfilter_cache_ttl", flattenSystemFortiguardWebfilterCacheTtl(o["webfilter-cache-ttl"], d, "webfilter_cache_ttl", sv)); err != nil {
 		if !fortiAPIPatch(o["webfilter-cache-ttl"]) {
-			return fmt.Errorf("Error reading webfilter_cache_ttl: %v", err)
+			return fmt.Errorf("error reading webfilter_cache_ttl: %v", err)
 		}
 	}
 
 	if err = d.Set("webfilter_license", flattenSystemFortiguardWebfilterLicense(o["webfilter-license"], d, "webfilter_license", sv)); err != nil {
 		if !fortiAPIPatch(o["webfilter-license"]) {
-			return fmt.Errorf("Error reading webfilter_license: %v", err)
+			return fmt.Errorf("error reading webfilter_license: %v", err)
 		}
 	}
 
 	if err = d.Set("webfilter_expiration", flattenSystemFortiguardWebfilterExpiration(o["webfilter-expiration"], d, "webfilter_expiration", sv)); err != nil {
 		if !fortiAPIPatch(o["webfilter-expiration"]) {
-			return fmt.Errorf("Error reading webfilter_expiration: %v", err)
+			return fmt.Errorf("error reading webfilter_expiration: %v", err)
 		}
 	}
 
 	if err = d.Set("webfilter_timeout", flattenSystemFortiguardWebfilterTimeout(o["webfilter-timeout"], d, "webfilter_timeout", sv)); err != nil {
 		if !fortiAPIPatch(o["webfilter-timeout"]) {
-			return fmt.Errorf("Error reading webfilter_timeout: %v", err)
+			return fmt.Errorf("error reading webfilter_timeout: %v", err)
 		}
 	}
 
 	if err = d.Set("sdns_server_ip", flattenSystemFortiguardSdnsServerIp(o["sdns-server-ip"], d, "sdns_server_ip", sv)); err != nil {
 		if !fortiAPIPatch(o["sdns-server-ip"]) {
-			return fmt.Errorf("Error reading sdns_server_ip: %v", err)
+			return fmt.Errorf("error reading sdns_server_ip: %v", err)
 		}
 	}
 
 	if err = d.Set("sdns_server_port", flattenSystemFortiguardSdnsServerPort(o["sdns-server-port"], d, "sdns_server_port", sv)); err != nil {
 		if !fortiAPIPatch(o["sdns-server-port"]) {
-			return fmt.Errorf("Error reading sdns_server_port: %v", err)
+			return fmt.Errorf("error reading sdns_server_port: %v", err)
 		}
 	}
 
 	if err = d.Set("anycast_sdns_server_ip", flattenSystemFortiguardAnycastSdnsServerIp(o["anycast-sdns-server-ip"], d, "anycast_sdns_server_ip", sv)); err != nil {
 		if !fortiAPIPatch(o["anycast-sdns-server-ip"]) {
-			return fmt.Errorf("Error reading anycast_sdns_server_ip: %v", err)
+			return fmt.Errorf("error reading anycast_sdns_server_ip: %v", err)
 		}
 	}
 
 	if err = d.Set("anycast_sdns_server_port", flattenSystemFortiguardAnycastSdnsServerPort(o["anycast-sdns-server-port"], d, "anycast_sdns_server_port", sv)); err != nil {
 		if !fortiAPIPatch(o["anycast-sdns-server-port"]) {
-			return fmt.Errorf("Error reading anycast_sdns_server_port: %v", err)
+			return fmt.Errorf("error reading anycast_sdns_server_port: %v", err)
 		}
 	}
 
 	if err = d.Set("sdns_options", flattenSystemFortiguardSdnsOptions(o["sdns-options"], d, "sdns_options", sv)); err != nil {
 		if !fortiAPIPatch(o["sdns-options"]) {
-			return fmt.Errorf("Error reading sdns_options: %v", err)
+			return fmt.Errorf("error reading sdns_options: %v", err)
 		}
 	}
 
 	if err = d.Set("source_ip", flattenSystemFortiguardSourceIp(o["source-ip"], d, "source_ip", sv)); err != nil {
 		if !fortiAPIPatch(o["source-ip"]) {
-			return fmt.Errorf("Error reading source_ip: %v", err)
+			return fmt.Errorf("error reading source_ip: %v", err)
 		}
 	}
 
 	if err = d.Set("source_ip6", flattenSystemFortiguardSourceIp6(o["source-ip6"], d, "source_ip6", sv)); err != nil {
 		if !fortiAPIPatch(o["source-ip6"]) {
-			return fmt.Errorf("Error reading source_ip6: %v", err)
+			return fmt.Errorf("error reading source_ip6: %v", err)
 		}
 	}
 
 	if err = d.Set("proxy_server_ip", flattenSystemFortiguardProxyServerIp(o["proxy-server-ip"], d, "proxy_server_ip", sv)); err != nil {
 		if !fortiAPIPatch(o["proxy-server-ip"]) {
-			return fmt.Errorf("Error reading proxy_server_ip: %v", err)
+			return fmt.Errorf("error reading proxy_server_ip: %v", err)
 		}
 	}
 
 	if err = d.Set("proxy_server_port", flattenSystemFortiguardProxyServerPort(o["proxy-server-port"], d, "proxy_server_port", sv)); err != nil {
 		if !fortiAPIPatch(o["proxy-server-port"]) {
-			return fmt.Errorf("Error reading proxy_server_port: %v", err)
+			return fmt.Errorf("error reading proxy_server_port: %v", err)
 		}
 	}
 
 	if err = d.Set("proxy_username", flattenSystemFortiguardProxyUsername(o["proxy-username"], d, "proxy_username", sv)); err != nil {
 		if !fortiAPIPatch(o["proxy-username"]) {
-			return fmt.Errorf("Error reading proxy_username: %v", err)
+			return fmt.Errorf("error reading proxy_username: %v", err)
 		}
 	}
 
 	if err = d.Set("ddns_server_ip", flattenSystemFortiguardDdnsServerIp(o["ddns-server-ip"], d, "ddns_server_ip", sv)); err != nil {
 		if !fortiAPIPatch(o["ddns-server-ip"]) {
-			return fmt.Errorf("Error reading ddns_server_ip: %v", err)
+			return fmt.Errorf("error reading ddns_server_ip: %v", err)
 		}
 	}
 
 	if err = d.Set("ddns_server_port", flattenSystemFortiguardDdnsServerPort(o["ddns-server-port"], d, "ddns_server_port", sv)); err != nil {
 		if !fortiAPIPatch(o["ddns-server-port"]) {
-			return fmt.Errorf("Error reading ddns_server_port: %v", err)
+			return fmt.Errorf("error reading ddns_server_port: %v", err)
 		}
 	}
 
 	if err = d.Set("interface_select_method", flattenSystemFortiguardInterfaceSelectMethod(o["interface-select-method"], d, "interface_select_method", sv)); err != nil {
 		if !fortiAPIPatch(o["interface-select-method"]) {
-			return fmt.Errorf("Error reading interface_select_method: %v", err)
+			return fmt.Errorf("error reading interface_select_method: %v", err)
 		}
 	}
 
 	if err = d.Set("interface", flattenSystemFortiguardInterface(o["interface"], d, "interface", sv)); err != nil {
 		if !fortiAPIPatch(o["interface"]) {
-			return fmt.Errorf("Error reading interface: %v", err)
+			return fmt.Errorf("error reading interface: %v", err)
 		}
 	}
 

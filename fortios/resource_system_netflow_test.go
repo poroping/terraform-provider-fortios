@@ -55,14 +55,14 @@ func testAccCheckFortiOSSystemNetflowExists(n string) resource.TestCheckFunc {
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemNetflow(i, "root")
+		o, err := c.ReadSystemNetflow(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading SystemNetflow: %s", err)
+			return fmt.Errorf("error reading SystemNetflow: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating SystemNetflow: %s", n)
+			return fmt.Errorf("error creating SystemNetflow: %s", n)
 		}
 
 		return nil
@@ -78,11 +78,11 @@ func testAccCheckSystemNetflowDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemNetflow(i, "root")
+		o, err := c.ReadSystemNetflow(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error SystemNetflow %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error SystemNetflow %s still exists", rs.Primary.ID)
 			}
 		}
 

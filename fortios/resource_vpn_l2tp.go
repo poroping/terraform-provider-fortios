@@ -30,52 +30,57 @@ func resourceVpnL2Tp() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"eip": &schema.Schema{
+			"eip": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"sip": &schema.Schema{
+			"sip": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"status": &schema.Schema{
+			"status": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"usrgrp": &schema.Schema{
+			"usrgrp": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"enforce_ipsec": &schema.Schema{
+			"enforce_ipsec": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"lcp_echo_interval": &schema.Schema{
+			"lcp_echo_interval": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 32767),
 				Optional:     true,
 				Computed:     true,
 			},
-			"lcp_max_echo_fails": &schema.Schema{
+			"lcp_max_echo_fails": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 32767),
 				Optional:     true,
 				Computed:     true,
 			},
-			"compress": &schema.Schema{
+			"compress": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -94,14 +99,24 @@ func resourceVpnL2TpUpdate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectVpnL2Tp(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating VpnL2Tp resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateVpnL2Tp(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectVpnL2Tp(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating VpnL2Tp resource: %v", err)
+		return fmt.Errorf("error updating VpnL2Tp resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateVpnL2Tp(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating VpnL2Tp resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -128,9 +143,17 @@ func resourceVpnL2TpDelete(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	err := c.DeleteVpnL2Tp(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteVpnL2Tp(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting VpnL2Tp resource: %v", err)
+		return fmt.Errorf("error deleting VpnL2Tp resource: %v", err)
 	}
 
 	d.SetId("")
@@ -152,9 +175,19 @@ func resourceVpnL2TpRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadVpnL2Tp(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadVpnL2Tp(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading VpnL2Tp resource: %v", err)
+		return fmt.Errorf("error reading VpnL2Tp resource: %v", err)
 	}
 
 	if o == nil {
@@ -165,7 +198,7 @@ func resourceVpnL2TpRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectVpnL2Tp(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading VpnL2Tp resource from API: %v", err)
+		return fmt.Errorf("error reading VpnL2Tp resource from API: %v", err)
 	}
 	return nil
 }
@@ -207,49 +240,49 @@ func refreshObjectVpnL2Tp(d *schema.ResourceData, o map[string]interface{}, sv s
 
 	if err = d.Set("eip", flattenVpnL2TpEip(o["eip"], d, "eip", sv)); err != nil {
 		if !fortiAPIPatch(o["eip"]) {
-			return fmt.Errorf("Error reading eip: %v", err)
+			return fmt.Errorf("error reading eip: %v", err)
 		}
 	}
 
 	if err = d.Set("sip", flattenVpnL2TpSip(o["sip"], d, "sip", sv)); err != nil {
 		if !fortiAPIPatch(o["sip"]) {
-			return fmt.Errorf("Error reading sip: %v", err)
+			return fmt.Errorf("error reading sip: %v", err)
 		}
 	}
 
 	if err = d.Set("status", flattenVpnL2TpStatus(o["status"], d, "status", sv)); err != nil {
 		if !fortiAPIPatch(o["status"]) {
-			return fmt.Errorf("Error reading status: %v", err)
+			return fmt.Errorf("error reading status: %v", err)
 		}
 	}
 
 	if err = d.Set("usrgrp", flattenVpnL2TpUsrgrp(o["usrgrp"], d, "usrgrp", sv)); err != nil {
 		if !fortiAPIPatch(o["usrgrp"]) {
-			return fmt.Errorf("Error reading usrgrp: %v", err)
+			return fmt.Errorf("error reading usrgrp: %v", err)
 		}
 	}
 
 	if err = d.Set("enforce_ipsec", flattenVpnL2TpEnforceIpsec(o["enforce-ipsec"], d, "enforce_ipsec", sv)); err != nil {
 		if !fortiAPIPatch(o["enforce-ipsec"]) {
-			return fmt.Errorf("Error reading enforce_ipsec: %v", err)
+			return fmt.Errorf("error reading enforce_ipsec: %v", err)
 		}
 	}
 
 	if err = d.Set("lcp_echo_interval", flattenVpnL2TpLcpEchoInterval(o["lcp-echo-interval"], d, "lcp_echo_interval", sv)); err != nil {
 		if !fortiAPIPatch(o["lcp-echo-interval"]) {
-			return fmt.Errorf("Error reading lcp_echo_interval: %v", err)
+			return fmt.Errorf("error reading lcp_echo_interval: %v", err)
 		}
 	}
 
 	if err = d.Set("lcp_max_echo_fails", flattenVpnL2TpLcpMaxEchoFails(o["lcp-max-echo-fails"], d, "lcp_max_echo_fails", sv)); err != nil {
 		if !fortiAPIPatch(o["lcp-max-echo-fails"]) {
-			return fmt.Errorf("Error reading lcp_max_echo_fails: %v", err)
+			return fmt.Errorf("error reading lcp_max_echo_fails: %v", err)
 		}
 	}
 
 	if err = d.Set("compress", flattenVpnL2TpCompress(o["compress"], d, "compress", sv)); err != nil {
 		if !fortiAPIPatch(o["compress"]) {
-			return fmt.Errorf("Error reading compress: %v", err)
+			return fmt.Errorf("error reading compress: %v", err)
 		}
 	}
 

@@ -30,30 +30,30 @@ func resourceIpsDecoder() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"parameter": &schema.Schema{
+			"parameter": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 31),
 							Optional:     true,
 							Computed:     true,
 						},
-						"value": &schema.Schema{
+						"value": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 199),
 							Optional:     true,
@@ -62,10 +62,15 @@ func resourceIpsDecoder() *schema.Resource {
 					},
 				},
 			},
-			"dynamic_sort_subtable": &schema.Schema{
+			"dynamic_sort_subtable": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Default:  "false",
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -83,15 +88,25 @@ func resourceIpsDecoderCreate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectIpsDecoder(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating IpsDecoder resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateIpsDecoder(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectIpsDecoder(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating IpsDecoder resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateIpsDecoder(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating IpsDecoder resource: %v", err)
+		return fmt.Errorf("error creating IpsDecoder resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -116,14 +131,24 @@ func resourceIpsDecoderUpdate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectIpsDecoder(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating IpsDecoder resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateIpsDecoder(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectIpsDecoder(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating IpsDecoder resource: %v", err)
+		return fmt.Errorf("error updating IpsDecoder resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateIpsDecoder(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating IpsDecoder resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -150,9 +175,17 @@ func resourceIpsDecoderDelete(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	err := c.DeleteIpsDecoder(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteIpsDecoder(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting IpsDecoder resource: %v", err)
+		return fmt.Errorf("error deleting IpsDecoder resource: %v", err)
 	}
 
 	d.SetId("")
@@ -174,9 +207,19 @@ func resourceIpsDecoderRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadIpsDecoder(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadIpsDecoder(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading IpsDecoder resource: %v", err)
+		return fmt.Errorf("error reading IpsDecoder resource: %v", err)
 	}
 
 	if o == nil {
@@ -187,7 +230,7 @@ func resourceIpsDecoderRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectIpsDecoder(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading IpsDecoder resource from API: %v", err)
+		return fmt.Errorf("error reading IpsDecoder resource from API: %v", err)
 	}
 	return nil
 }
@@ -249,21 +292,21 @@ func refreshObjectIpsDecoder(d *schema.ResourceData, o map[string]interface{}, s
 
 	if err = d.Set("name", flattenIpsDecoderName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("parameter", flattenIpsDecoderParameter(o["parameter"], d, "parameter", sv)); err != nil {
 			if !fortiAPIPatch(o["parameter"]) {
-				return fmt.Errorf("Error reading parameter: %v", err)
+				return fmt.Errorf("error reading parameter: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("parameter"); ok {
 			if err = d.Set("parameter", flattenIpsDecoderParameter(o["parameter"], d, "parameter", sv)); err != nil {
 				if !fortiAPIPatch(o["parameter"]) {
-					return fmt.Errorf("Error reading parameter: %v", err)
+					return fmt.Errorf("error reading parameter: %v", err)
 				}
 			}
 		}

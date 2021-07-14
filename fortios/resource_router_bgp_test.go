@@ -96,14 +96,14 @@ func testAccCheckFortiOSRouterBgpExists(n string) resource.TestCheckFunc {
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadRouterBgp(i, "root")
+		o, err := c.ReadRouterBgp(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading RouterBgp: %s", err)
+			return fmt.Errorf("error reading RouterBgp: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating RouterBgp: %s", n)
+			return fmt.Errorf("error creating RouterBgp: %s", n)
 		}
 
 		return nil
@@ -119,11 +119,11 @@ func testAccCheckRouterBgpDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadRouterBgp(i, "root")
+		o, err := c.ReadRouterBgp(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error RouterBgp %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error RouterBgp %s still exists", rs.Primary.ID)
 			}
 		}
 

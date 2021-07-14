@@ -30,25 +30,30 @@ func resourceSystemAffinityInterrupt() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"fosid": &schema.Schema{
+			"fosid": {
 				Type:     schema.TypeInt,
 				ForceNew: true,
 				Required: true,
 			},
-			"interrupt": &schema.Schema{
+			"interrupt": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 127),
 				Required:     true,
 			},
-			"affinity_cpumask": &schema.Schema{
+			"affinity_cpumask": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 127),
 				Required:     true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -66,15 +71,25 @@ func resourceSystemAffinityInterruptCreate(d *schema.ResourceData, m interface{}
 		}
 	}
 
-	obj, err := getObjectSystemAffinityInterrupt(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating SystemAffinityInterrupt resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateSystemAffinityInterrupt(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemAffinityInterrupt(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating SystemAffinityInterrupt resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateSystemAffinityInterrupt(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating SystemAffinityInterrupt resource: %v", err)
+		return fmt.Errorf("error creating SystemAffinityInterrupt resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -99,14 +114,24 @@ func resourceSystemAffinityInterruptUpdate(d *schema.ResourceData, m interface{}
 		}
 	}
 
-	obj, err := getObjectSystemAffinityInterrupt(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SystemAffinityInterrupt resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSystemAffinityInterrupt(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemAffinityInterrupt(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SystemAffinityInterrupt resource: %v", err)
+		return fmt.Errorf("error updating SystemAffinityInterrupt resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSystemAffinityInterrupt(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SystemAffinityInterrupt resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -133,9 +158,17 @@ func resourceSystemAffinityInterruptDelete(d *schema.ResourceData, m interface{}
 		}
 	}
 
-	err := c.DeleteSystemAffinityInterrupt(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSystemAffinityInterrupt(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SystemAffinityInterrupt resource: %v", err)
+		return fmt.Errorf("error deleting SystemAffinityInterrupt resource: %v", err)
 	}
 
 	d.SetId("")
@@ -157,9 +190,19 @@ func resourceSystemAffinityInterruptRead(d *schema.ResourceData, m interface{}) 
 		}
 	}
 
-	o, err := c.ReadSystemAffinityInterrupt(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSystemAffinityInterrupt(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemAffinityInterrupt resource: %v", err)
+		return fmt.Errorf("error reading SystemAffinityInterrupt resource: %v", err)
 	}
 
 	if o == nil {
@@ -170,7 +213,7 @@ func resourceSystemAffinityInterruptRead(d *schema.ResourceData, m interface{}) 
 
 	err = refreshObjectSystemAffinityInterrupt(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemAffinityInterrupt resource from API: %v", err)
+		return fmt.Errorf("error reading SystemAffinityInterrupt resource from API: %v", err)
 	}
 	return nil
 }
@@ -192,19 +235,19 @@ func refreshObjectSystemAffinityInterrupt(d *schema.ResourceData, o map[string]i
 
 	if err = d.Set("fosid", flattenSystemAffinityInterruptId(o["id"], d, "fosid", sv)); err != nil {
 		if !fortiAPIPatch(o["id"]) {
-			return fmt.Errorf("Error reading fosid: %v", err)
+			return fmt.Errorf("error reading fosid: %v", err)
 		}
 	}
 
 	if err = d.Set("interrupt", flattenSystemAffinityInterruptInterrupt(o["interrupt"], d, "interrupt", sv)); err != nil {
 		if !fortiAPIPatch(o["interrupt"]) {
-			return fmt.Errorf("Error reading interrupt: %v", err)
+			return fmt.Errorf("error reading interrupt: %v", err)
 		}
 	}
 
 	if err = d.Set("affinity_cpumask", flattenSystemAffinityInterruptAffinityCpumask(o["affinity-cpumask"], d, "affinity_cpumask", sv)); err != nil {
 		if !fortiAPIPatch(o["affinity-cpumask"]) {
-			return fmt.Errorf("Error reading affinity_cpumask: %v", err)
+			return fmt.Errorf("error reading affinity_cpumask: %v", err)
 		}
 	}
 

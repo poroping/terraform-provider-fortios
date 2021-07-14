@@ -50,14 +50,14 @@ func testAccCheckFortiOSSwitchControllerSwitchLogExists(n string) resource.TestC
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadSwitchControllerSwitchLog(i, "root")
+		o, err := c.ReadSwitchControllerSwitchLog(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading SwitchControllerSwitchLog: %s", err)
+			return fmt.Errorf("error reading SwitchControllerSwitchLog: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating SwitchControllerSwitchLog: %s", n)
+			return fmt.Errorf("error creating SwitchControllerSwitchLog: %s", n)
 		}
 
 		return nil
@@ -73,11 +73,11 @@ func testAccCheckSwitchControllerSwitchLogDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadSwitchControllerSwitchLog(i, "root")
+		o, err := c.ReadSwitchControllerSwitchLog(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error SwitchControllerSwitchLog %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error SwitchControllerSwitchLog %s still exists", rs.Primary.ID)
 			}
 		}
 

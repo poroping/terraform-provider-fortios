@@ -30,67 +30,67 @@ func resourceExtenderControllerExtender1() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 19),
 				ForceNew:     true,
 				Required:     true,
 			},
-			"fosid": &schema.Schema{
+			"fosid": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 19),
 				Optional:     true,
 				Computed:     true,
 			},
-			"authorized": &schema.Schema{
+			"authorized": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"ext_name": &schema.Schema{
+			"ext_name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 31),
 				Optional:     true,
 				Computed:     true,
 			},
-			"description": &schema.Schema{
+			"description": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
 				Computed:     true,
 			},
-			"vdom": &schema.Schema{
+			"vdom": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"login_password": &schema.Schema{
+			"login_password": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 27),
 				Optional:     true,
 				Sensitive:    true,
 			},
-			"controller_report": &schema.Schema{
+			"controller_report": {
 				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"status": &schema.Schema{
+						"status": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"interval": &schema.Schema{
+						"interval": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"signal_threshold": &schema.Schema{
+						"signal_threshold": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
@@ -98,116 +98,116 @@ func resourceExtenderControllerExtender1() *schema.Resource {
 					},
 				},
 			},
-			"modem1": &schema.Schema{
+			"modem1": {
 				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"ifname": &schema.Schema{
+						"ifname": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 15),
 							Optional:     true,
 							Computed:     true,
 						},
-						"redundant_mode": &schema.Schema{
+						"redundant_mode": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"redundant_intf": &schema.Schema{
+						"redundant_intf": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 15),
 							Optional:     true,
 							Computed:     true,
 						},
-						"conn_status": &schema.Schema{
+						"conn_status": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"default_sim": &schema.Schema{
+						"default_sim": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"gps": &schema.Schema{
+						"gps": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"sim1_pin": &schema.Schema{
+						"sim1_pin": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"sim2_pin": &schema.Schema{
+						"sim2_pin": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"sim1_pin_code": &schema.Schema{
+						"sim1_pin_code": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 27),
 							Optional:     true,
 							Sensitive:    true,
 						},
-						"sim2_pin_code": &schema.Schema{
+						"sim2_pin_code": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 27),
 							Optional:     true,
 							Sensitive:    true,
 						},
-						"preferred_carrier": &schema.Schema{
+						"preferred_carrier": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 31),
 							Optional:     true,
 							Computed:     true,
 						},
-						"auto_switch": &schema.Schema{
+						"auto_switch": {
 							Type:     schema.TypeList,
 							Optional: true,
 							MaxItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"disconnect": &schema.Schema{
+									"disconnect": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"disconnect_threshold": &schema.Schema{
+									"disconnect_threshold": {
 										Type:     schema.TypeInt,
 										Optional: true,
 										Computed: true,
 									},
-									"disconnect_period": &schema.Schema{
+									"disconnect_period": {
 										Type:         schema.TypeInt,
 										ValidateFunc: validation.IntBetween(600, 18000),
 										Optional:     true,
 										Computed:     true,
 									},
-									"signal": &schema.Schema{
+									"signal": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"dataplan": &schema.Schema{
+									"dataplan": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"switch_back": &schema.Schema{
+									"switch_back": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"switch_back_time": &schema.Schema{
+									"switch_back_time": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 31),
 										Optional:     true,
 										Computed:     true,
 									},
-									"switch_back_timer": &schema.Schema{
+									"switch_back_timer": {
 										Type:     schema.TypeInt,
 										Optional: true,
 										Computed: true,
@@ -218,116 +218,116 @@ func resourceExtenderControllerExtender1() *schema.Resource {
 					},
 				},
 			},
-			"modem2": &schema.Schema{
+			"modem2": {
 				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"ifname": &schema.Schema{
+						"ifname": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 15),
 							Optional:     true,
 							Computed:     true,
 						},
-						"redundant_mode": &schema.Schema{
+						"redundant_mode": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"redundant_intf": &schema.Schema{
+						"redundant_intf": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 15),
 							Optional:     true,
 							Computed:     true,
 						},
-						"conn_status": &schema.Schema{
+						"conn_status": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"default_sim": &schema.Schema{
+						"default_sim": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"gps": &schema.Schema{
+						"gps": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"sim1_pin": &schema.Schema{
+						"sim1_pin": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"sim2_pin": &schema.Schema{
+						"sim2_pin": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"sim1_pin_code": &schema.Schema{
+						"sim1_pin_code": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 27),
 							Optional:     true,
 							Sensitive:    true,
 						},
-						"sim2_pin_code": &schema.Schema{
+						"sim2_pin_code": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 27),
 							Optional:     true,
 							Sensitive:    true,
 						},
-						"preferred_carrier": &schema.Schema{
+						"preferred_carrier": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 31),
 							Optional:     true,
 							Computed:     true,
 						},
-						"auto_switch": &schema.Schema{
+						"auto_switch": {
 							Type:     schema.TypeList,
 							Optional: true,
 							MaxItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"disconnect": &schema.Schema{
+									"disconnect": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"disconnect_threshold": &schema.Schema{
+									"disconnect_threshold": {
 										Type:     schema.TypeInt,
 										Optional: true,
 										Computed: true,
 									},
-									"disconnect_period": &schema.Schema{
+									"disconnect_period": {
 										Type:         schema.TypeInt,
 										ValidateFunc: validation.IntBetween(600, 18000),
 										Optional:     true,
 										Computed:     true,
 									},
-									"signal": &schema.Schema{
+									"signal": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"dataplan": &schema.Schema{
+									"dataplan": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"switch_back": &schema.Schema{
+									"switch_back": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"switch_back_time": &schema.Schema{
+									"switch_back_time": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 31),
 										Optional:     true,
 										Computed:     true,
 									},
-									"switch_back_timer": &schema.Schema{
+									"switch_back_timer": {
 										Type:     schema.TypeInt,
 										Optional: true,
 										Computed: true,
@@ -337,6 +337,11 @@ func resourceExtenderControllerExtender1() *schema.Resource {
 						},
 					},
 				},
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -354,15 +359,25 @@ func resourceExtenderControllerExtender1Create(d *schema.ResourceData, m interfa
 		}
 	}
 
-	obj, err := getObjectExtenderControllerExtender1(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating ExtenderControllerExtender1 resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateExtenderControllerExtender1(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectExtenderControllerExtender1(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating ExtenderControllerExtender1 resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateExtenderControllerExtender1(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating ExtenderControllerExtender1 resource: %v", err)
+		return fmt.Errorf("error creating ExtenderControllerExtender1 resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -387,14 +402,24 @@ func resourceExtenderControllerExtender1Update(d *schema.ResourceData, m interfa
 		}
 	}
 
-	obj, err := getObjectExtenderControllerExtender1(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating ExtenderControllerExtender1 resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateExtenderControllerExtender1(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectExtenderControllerExtender1(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating ExtenderControllerExtender1 resource: %v", err)
+		return fmt.Errorf("error updating ExtenderControllerExtender1 resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateExtenderControllerExtender1(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating ExtenderControllerExtender1 resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -421,9 +446,17 @@ func resourceExtenderControllerExtender1Delete(d *schema.ResourceData, m interfa
 		}
 	}
 
-	err := c.DeleteExtenderControllerExtender1(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteExtenderControllerExtender1(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting ExtenderControllerExtender1 resource: %v", err)
+		return fmt.Errorf("error deleting ExtenderControllerExtender1 resource: %v", err)
 	}
 
 	d.SetId("")
@@ -445,9 +478,19 @@ func resourceExtenderControllerExtender1Read(d *schema.ResourceData, m interface
 		}
 	}
 
-	o, err := c.ReadExtenderControllerExtender1(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadExtenderControllerExtender1(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading ExtenderControllerExtender1 resource: %v", err)
+		return fmt.Errorf("error reading ExtenderControllerExtender1 resource: %v", err)
 	}
 
 	if o == nil {
@@ -458,7 +501,7 @@ func resourceExtenderControllerExtender1Read(d *schema.ResourceData, m interface
 
 	err = refreshObjectExtenderControllerExtender1(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading ExtenderControllerExtender1 resource from API: %v", err)
+		return fmt.Errorf("error reading ExtenderControllerExtender1 resource from API: %v", err)
 	}
 	return nil
 }
@@ -999,51 +1042,51 @@ func refreshObjectExtenderControllerExtender1(d *schema.ResourceData, o map[stri
 
 	if err = d.Set("name", flattenExtenderControllerExtender1Name(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("fosid", flattenExtenderControllerExtender1Id(o["id"], d, "fosid", sv)); err != nil {
 		if !fortiAPIPatch(o["id"]) {
-			return fmt.Errorf("Error reading fosid: %v", err)
+			return fmt.Errorf("error reading fosid: %v", err)
 		}
 	}
 
 	if err = d.Set("authorized", flattenExtenderControllerExtender1Authorized(o["authorized"], d, "authorized", sv)); err != nil {
 		if !fortiAPIPatch(o["authorized"]) {
-			return fmt.Errorf("Error reading authorized: %v", err)
+			return fmt.Errorf("error reading authorized: %v", err)
 		}
 	}
 
 	if err = d.Set("ext_name", flattenExtenderControllerExtender1ExtName(o["ext-name"], d, "ext_name", sv)); err != nil {
 		if !fortiAPIPatch(o["ext-name"]) {
-			return fmt.Errorf("Error reading ext_name: %v", err)
+			return fmt.Errorf("error reading ext_name: %v", err)
 		}
 	}
 
 	if err = d.Set("description", flattenExtenderControllerExtender1Description(o["description"], d, "description", sv)); err != nil {
 		if !fortiAPIPatch(o["description"]) {
-			return fmt.Errorf("Error reading description: %v", err)
+			return fmt.Errorf("error reading description: %v", err)
 		}
 	}
 
 	if err = d.Set("vdom", flattenExtenderControllerExtender1Vdom(o["vdom"], d, "vdom", sv)); err != nil {
 		if !fortiAPIPatch(o["vdom"]) {
-			return fmt.Errorf("Error reading vdom: %v", err)
+			return fmt.Errorf("error reading vdom: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("controller_report", flattenExtenderControllerExtender1ControllerReport(o["controller-report"], d, "controller_report", sv)); err != nil {
 			if !fortiAPIPatch(o["controller-report"]) {
-				return fmt.Errorf("Error reading controller_report: %v", err)
+				return fmt.Errorf("error reading controller_report: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("controller_report"); ok {
 			if err = d.Set("controller_report", flattenExtenderControllerExtender1ControllerReport(o["controller-report"], d, "controller_report", sv)); err != nil {
 				if !fortiAPIPatch(o["controller-report"]) {
-					return fmt.Errorf("Error reading controller_report: %v", err)
+					return fmt.Errorf("error reading controller_report: %v", err)
 				}
 			}
 		}
@@ -1052,14 +1095,14 @@ func refreshObjectExtenderControllerExtender1(d *schema.ResourceData, o map[stri
 	if isImportTable() {
 		if err = d.Set("modem1", flattenExtenderControllerExtender1Modem1(o["modem1"], d, "modem1", sv)); err != nil {
 			if !fortiAPIPatch(o["modem1"]) {
-				return fmt.Errorf("Error reading modem1: %v", err)
+				return fmt.Errorf("error reading modem1: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("modem1"); ok {
 			if err = d.Set("modem1", flattenExtenderControllerExtender1Modem1(o["modem1"], d, "modem1", sv)); err != nil {
 				if !fortiAPIPatch(o["modem1"]) {
-					return fmt.Errorf("Error reading modem1: %v", err)
+					return fmt.Errorf("error reading modem1: %v", err)
 				}
 			}
 		}
@@ -1068,14 +1111,14 @@ func refreshObjectExtenderControllerExtender1(d *schema.ResourceData, o map[stri
 	if isImportTable() {
 		if err = d.Set("modem2", flattenExtenderControllerExtender1Modem2(o["modem2"], d, "modem2", sv)); err != nil {
 			if !fortiAPIPatch(o["modem2"]) {
-				return fmt.Errorf("Error reading modem2: %v", err)
+				return fmt.Errorf("error reading modem2: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("modem2"); ok {
 			if err = d.Set("modem2", flattenExtenderControllerExtender1Modem2(o["modem2"], d, "modem2", sv)); err != nil {
 				if !fortiAPIPatch(o["modem2"]) {
-					return fmt.Errorf("Error reading modem2: %v", err)
+					return fmt.Errorf("error reading modem2: %v", err)
 				}
 			}
 		}

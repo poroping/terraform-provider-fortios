@@ -30,29 +30,29 @@ func resourceSwitchControllerAutoConfigCustom() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 15),
 				ForceNew:     true,
 				Required:     true,
 			},
-			"switch_binding": &schema.Schema{
+			"switch_binding": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"switch_id": &schema.Schema{
+						"switch_id": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 16),
 							Optional:     true,
 							Computed:     true,
 						},
-						"policy": &schema.Schema{
+						"policy": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 63),
 							Optional:     true,
@@ -61,10 +61,15 @@ func resourceSwitchControllerAutoConfigCustom() *schema.Resource {
 					},
 				},
 			},
-			"dynamic_sort_subtable": &schema.Schema{
+			"dynamic_sort_subtable": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Default:  "false",
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -82,15 +87,25 @@ func resourceSwitchControllerAutoConfigCustomCreate(d *schema.ResourceData, m in
 		}
 	}
 
-	obj, err := getObjectSwitchControllerAutoConfigCustom(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating SwitchControllerAutoConfigCustom resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateSwitchControllerAutoConfigCustom(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSwitchControllerAutoConfigCustom(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating SwitchControllerAutoConfigCustom resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateSwitchControllerAutoConfigCustom(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating SwitchControllerAutoConfigCustom resource: %v", err)
+		return fmt.Errorf("error creating SwitchControllerAutoConfigCustom resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -115,14 +130,24 @@ func resourceSwitchControllerAutoConfigCustomUpdate(d *schema.ResourceData, m in
 		}
 	}
 
-	obj, err := getObjectSwitchControllerAutoConfigCustom(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SwitchControllerAutoConfigCustom resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSwitchControllerAutoConfigCustom(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSwitchControllerAutoConfigCustom(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SwitchControllerAutoConfigCustom resource: %v", err)
+		return fmt.Errorf("error updating SwitchControllerAutoConfigCustom resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSwitchControllerAutoConfigCustom(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SwitchControllerAutoConfigCustom resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -149,9 +174,17 @@ func resourceSwitchControllerAutoConfigCustomDelete(d *schema.ResourceData, m in
 		}
 	}
 
-	err := c.DeleteSwitchControllerAutoConfigCustom(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSwitchControllerAutoConfigCustom(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SwitchControllerAutoConfigCustom resource: %v", err)
+		return fmt.Errorf("error deleting SwitchControllerAutoConfigCustom resource: %v", err)
 	}
 
 	d.SetId("")
@@ -173,9 +206,19 @@ func resourceSwitchControllerAutoConfigCustomRead(d *schema.ResourceData, m inte
 		}
 	}
 
-	o, err := c.ReadSwitchControllerAutoConfigCustom(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSwitchControllerAutoConfigCustom(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SwitchControllerAutoConfigCustom resource: %v", err)
+		return fmt.Errorf("error reading SwitchControllerAutoConfigCustom resource: %v", err)
 	}
 
 	if o == nil {
@@ -186,7 +229,7 @@ func resourceSwitchControllerAutoConfigCustomRead(d *schema.ResourceData, m inte
 
 	err = refreshObjectSwitchControllerAutoConfigCustom(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SwitchControllerAutoConfigCustom resource from API: %v", err)
+		return fmt.Errorf("error reading SwitchControllerAutoConfigCustom resource from API: %v", err)
 	}
 	return nil
 }
@@ -248,21 +291,21 @@ func refreshObjectSwitchControllerAutoConfigCustom(d *schema.ResourceData, o map
 
 	if err = d.Set("name", flattenSwitchControllerAutoConfigCustomName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("switch_binding", flattenSwitchControllerAutoConfigCustomSwitchBinding(o["switch-binding"], d, "switch_binding", sv)); err != nil {
 			if !fortiAPIPatch(o["switch-binding"]) {
-				return fmt.Errorf("Error reading switch_binding: %v", err)
+				return fmt.Errorf("error reading switch_binding: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("switch_binding"); ok {
 			if err = d.Set("switch_binding", flattenSwitchControllerAutoConfigCustomSwitchBinding(o["switch-binding"], d, "switch_binding", sv)); err != nil {
 				if !fortiAPIPatch(o["switch-binding"]) {
-					return fmt.Errorf("Error reading switch_binding: %v", err)
+					return fmt.Errorf("error reading switch_binding: %v", err)
 				}
 			}
 		}

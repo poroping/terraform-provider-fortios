@@ -30,159 +30,159 @@ func resourceRouterOspf6() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"abr_type": &schema.Schema{
+			"abr_type": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"auto_cost_ref_bandwidth": &schema.Schema{
+			"auto_cost_ref_bandwidth": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 1000000),
 				Optional:     true,
 				Computed:     true,
 			},
-			"default_information_originate": &schema.Schema{
+			"default_information_originate": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"log_neighbour_changes": &schema.Schema{
+			"log_neighbour_changes": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"default_information_metric": &schema.Schema{
+			"default_information_metric": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 16777214),
 				Optional:     true,
 				Computed:     true,
 			},
-			"default_information_metric_type": &schema.Schema{
+			"default_information_metric_type": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"default_information_route_map": &schema.Schema{
+			"default_information_route_map": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"default_metric": &schema.Schema{
+			"default_metric": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 16777214),
 				Optional:     true,
 				Computed:     true,
 			},
-			"router_id": &schema.Schema{
+			"router_id": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"spf_timers": &schema.Schema{
+			"spf_timers": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"bfd": &schema.Schema{
+			"bfd": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"area": &schema.Schema{
+			"area": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"default_cost": &schema.Schema{
+						"default_cost": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 16777215),
 							Optional:     true,
 							Computed:     true,
 						},
-						"nssa_translator_role": &schema.Schema{
+						"nssa_translator_role": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"stub_type": &schema.Schema{
+						"stub_type": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"type": &schema.Schema{
+						"type": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"nssa_default_information_originate": &schema.Schema{
+						"nssa_default_information_originate": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"nssa_default_information_originate_metric": &schema.Schema{
+						"nssa_default_information_originate_metric": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 16777214),
 							Optional:     true,
 							Computed:     true,
 						},
-						"nssa_default_information_originate_metric_type": &schema.Schema{
+						"nssa_default_information_originate_metric_type": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"nssa_redistribution": &schema.Schema{
+						"nssa_redistribution": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"authentication": &schema.Schema{
+						"authentication": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"key_rollover_interval": &schema.Schema{
+						"key_rollover_interval": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(300, 216000),
 							Optional:     true,
 							Computed:     true,
 						},
-						"ipsec_auth_alg": &schema.Schema{
+						"ipsec_auth_alg": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"ipsec_enc_alg": &schema.Schema{
+						"ipsec_enc_alg": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"ipsec_keys": &schema.Schema{
+						"ipsec_keys": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"spi": &schema.Schema{
+									"spi": {
 										Type:     schema.TypeInt,
 										Optional: true,
 										Computed: true,
 									},
-									"auth_key": &schema.Schema{
+									"auth_key": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 128),
 										Optional:     true,
 										Sensitive:    true,
 									},
-									"enc_key": &schema.Schema{
+									"enc_key": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 128),
 										Optional:     true,
@@ -191,22 +191,22 @@ func resourceRouterOspf6() *schema.Resource {
 								},
 							},
 						},
-						"range": &schema.Schema{
+						"range": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"id": &schema.Schema{
+									"id": {
 										Type:     schema.TypeInt,
 										Optional: true,
 										Computed: true,
 									},
-									"prefix6": &schema.Schema{
+									"prefix6": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"advertise": &schema.Schema{
+									"advertise": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
@@ -214,84 +214,84 @@ func resourceRouterOspf6() *schema.Resource {
 								},
 							},
 						},
-						"virtual_link": &schema.Schema{
+						"virtual_link": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"name": &schema.Schema{
+									"name": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 35),
 										Optional:     true,
 										Computed:     true,
 									},
-									"dead_interval": &schema.Schema{
+									"dead_interval": {
 										Type:         schema.TypeInt,
 										ValidateFunc: validation.IntBetween(1, 65535),
 										Optional:     true,
 										Computed:     true,
 									},
-									"hello_interval": &schema.Schema{
+									"hello_interval": {
 										Type:         schema.TypeInt,
 										ValidateFunc: validation.IntBetween(1, 65535),
 										Optional:     true,
 										Computed:     true,
 									},
-									"retransmit_interval": &schema.Schema{
+									"retransmit_interval": {
 										Type:         schema.TypeInt,
 										ValidateFunc: validation.IntBetween(1, 65535),
 										Optional:     true,
 										Computed:     true,
 									},
-									"transmit_delay": &schema.Schema{
+									"transmit_delay": {
 										Type:         schema.TypeInt,
 										ValidateFunc: validation.IntBetween(1, 65535),
 										Optional:     true,
 										Computed:     true,
 									},
-									"peer": &schema.Schema{
+									"peer": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"authentication": &schema.Schema{
+									"authentication": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"key_rollover_interval": &schema.Schema{
+									"key_rollover_interval": {
 										Type:         schema.TypeInt,
 										ValidateFunc: validation.IntBetween(300, 216000),
 										Optional:     true,
 										Computed:     true,
 									},
-									"ipsec_auth_alg": &schema.Schema{
+									"ipsec_auth_alg": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"ipsec_enc_alg": &schema.Schema{
+									"ipsec_enc_alg": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"ipsec_keys": &schema.Schema{
+									"ipsec_keys": {
 										Type:     schema.TypeList,
 										Optional: true,
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
-												"spi": &schema.Schema{
+												"spi": {
 													Type:     schema.TypeInt,
 													Optional: true,
 													Computed: true,
 												},
-												"auth_key": &schema.Schema{
+												"auth_key": {
 													Type:         schema.TypeString,
 													ValidateFunc: validation.StringLenBetween(0, 128),
 													Optional:     true,
 													Sensitive:    true,
 												},
-												"enc_key": &schema.Schema{
+												"enc_key": {
 													Type:         schema.TypeString,
 													ValidateFunc: validation.StringLenBetween(0, 128),
 													Optional:     true,
@@ -306,128 +306,128 @@ func resourceRouterOspf6() *schema.Resource {
 					},
 				},
 			},
-			"ospf6_interface": &schema.Schema{
+			"ospf6_interface": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"area_id": &schema.Schema{
+						"area_id": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"interface": &schema.Schema{
+						"interface": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 15),
 							Optional:     true,
 							Computed:     true,
 						},
-						"retransmit_interval": &schema.Schema{
+						"retransmit_interval": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 65535),
 							Optional:     true,
 							Computed:     true,
 						},
-						"transmit_delay": &schema.Schema{
+						"transmit_delay": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 65535),
 							Optional:     true,
 							Computed:     true,
 						},
-						"cost": &schema.Schema{
+						"cost": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 65535),
 							Optional:     true,
 							Computed:     true,
 						},
-						"priority": &schema.Schema{
+						"priority": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 255),
 							Optional:     true,
 							Computed:     true,
 						},
-						"dead_interval": &schema.Schema{
+						"dead_interval": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 65535),
 							Optional:     true,
 							Computed:     true,
 						},
-						"hello_interval": &schema.Schema{
+						"hello_interval": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 65535),
 							Optional:     true,
 							Computed:     true,
 						},
-						"status": &schema.Schema{
+						"status": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"network_type": &schema.Schema{
+						"network_type": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"bfd": &schema.Schema{
+						"bfd": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"mtu": &schema.Schema{
+						"mtu": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(576, 65535),
 							Optional:     true,
 							Computed:     true,
 						},
-						"mtu_ignore": &schema.Schema{
+						"mtu_ignore": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"authentication": &schema.Schema{
+						"authentication": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"key_rollover_interval": &schema.Schema{
+						"key_rollover_interval": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(300, 216000),
 							Optional:     true,
 							Computed:     true,
 						},
-						"ipsec_auth_alg": &schema.Schema{
+						"ipsec_auth_alg": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"ipsec_enc_alg": &schema.Schema{
+						"ipsec_enc_alg": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"ipsec_keys": &schema.Schema{
+						"ipsec_keys": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"spi": &schema.Schema{
+									"spi": {
 										Type:     schema.TypeInt,
 										Optional: true,
 										Computed: true,
 									},
-									"auth_key": &schema.Schema{
+									"auth_key": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 128),
 										Optional:     true,
 										Sensitive:    true,
 									},
-									"enc_key": &schema.Schema{
+									"enc_key": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 128),
 										Optional:     true,
@@ -436,29 +436,29 @@ func resourceRouterOspf6() *schema.Resource {
 								},
 							},
 						},
-						"neighbor": &schema.Schema{
+						"neighbor": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"ip6": &schema.Schema{
+									"ip6": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"poll_interval": &schema.Schema{
+									"poll_interval": {
 										Type:         schema.TypeInt,
 										ValidateFunc: validation.IntBetween(1, 65535),
 										Optional:     true,
 										Computed:     true,
 									},
-									"cost": &schema.Schema{
+									"cost": {
 										Type:         schema.TypeInt,
 										ValidateFunc: validation.IntBetween(0, 65535),
 										Optional:     true,
 										Computed:     true,
 									},
-									"priority": &schema.Schema{
+									"priority": {
 										Type:         schema.TypeInt,
 										ValidateFunc: validation.IntBetween(0, 255),
 										Optional:     true,
@@ -470,35 +470,35 @@ func resourceRouterOspf6() *schema.Resource {
 					},
 				},
 			},
-			"redistribute": &schema.Schema{
+			"redistribute": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"status": &schema.Schema{
+						"status": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"metric": &schema.Schema{
+						"metric": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 16777214),
 							Optional:     true,
 							Computed:     true,
 						},
-						"routemap": &schema.Schema{
+						"routemap": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"metric_type": &schema.Schema{
+						"metric_type": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -506,12 +506,12 @@ func resourceRouterOspf6() *schema.Resource {
 					},
 				},
 			},
-			"passive_interface": &schema.Schema{
+			"passive_interface": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 64),
 							Optional:     true,
@@ -520,27 +520,27 @@ func resourceRouterOspf6() *schema.Resource {
 					},
 				},
 			},
-			"summary_address": &schema.Schema{
+			"summary_address": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"prefix6": &schema.Schema{
+						"prefix6": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"advertise": &schema.Schema{
+						"advertise": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"tag": &schema.Schema{
+						"tag": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
@@ -548,10 +548,15 @@ func resourceRouterOspf6() *schema.Resource {
 					},
 				},
 			},
-			"dynamic_sort_subtable": &schema.Schema{
+			"dynamic_sort_subtable": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Default:  "false",
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -570,14 +575,24 @@ func resourceRouterOspf6Update(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectRouterOspf6(d, false, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating RouterOspf6 resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateRouterOspf6(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectRouterOspf6(d, false, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating RouterOspf6 resource: %v", err)
+		return fmt.Errorf("error updating RouterOspf6 resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateRouterOspf6(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating RouterOspf6 resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -603,15 +618,25 @@ func resourceRouterOspf6Delete(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
 	obj, err := getObjectRouterOspf6(d, true, c.Fv)
 
 	if err != nil {
-		return fmt.Errorf("Error updating RouterOspf6 resource while getting object: %v", err)
+		return fmt.Errorf("error updating RouterOspf6 resource while getting object: %v", err)
 	}
 
-	_, err = c.UpdateRouterOspf6(obj, mkey, vdomparam)
+	_, err = c.UpdateRouterOspf6(obj, mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error clearing RouterOspf6 resource: %v", err)
+		return fmt.Errorf("error clearing RouterOspf6 resource: %v", err)
 	}
 
 	d.SetId("")
@@ -633,9 +658,19 @@ func resourceRouterOspf6Read(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadRouterOspf6(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadRouterOspf6(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading RouterOspf6 resource: %v", err)
+		return fmt.Errorf("error reading RouterOspf6 resource: %v", err)
 	}
 
 	if o == nil {
@@ -646,7 +681,7 @@ func resourceRouterOspf6Read(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectRouterOspf6(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading RouterOspf6 resource from API: %v", err)
+		return fmt.Errorf("error reading RouterOspf6 resource from API: %v", err)
 	}
 	return nil
 }
@@ -1732,81 +1767,81 @@ func refreshObjectRouterOspf6(d *schema.ResourceData, o map[string]interface{}, 
 
 	if err = d.Set("abr_type", flattenRouterOspf6AbrType(o["abr-type"], d, "abr_type", sv)); err != nil {
 		if !fortiAPIPatch(o["abr-type"]) {
-			return fmt.Errorf("Error reading abr_type: %v", err)
+			return fmt.Errorf("error reading abr_type: %v", err)
 		}
 	}
 
 	if err = d.Set("auto_cost_ref_bandwidth", flattenRouterOspf6AutoCostRefBandwidth(o["auto-cost-ref-bandwidth"], d, "auto_cost_ref_bandwidth", sv)); err != nil {
 		if !fortiAPIPatch(o["auto-cost-ref-bandwidth"]) {
-			return fmt.Errorf("Error reading auto_cost_ref_bandwidth: %v", err)
+			return fmt.Errorf("error reading auto_cost_ref_bandwidth: %v", err)
 		}
 	}
 
 	if err = d.Set("default_information_originate", flattenRouterOspf6DefaultInformationOriginate(o["default-information-originate"], d, "default_information_originate", sv)); err != nil {
 		if !fortiAPIPatch(o["default-information-originate"]) {
-			return fmt.Errorf("Error reading default_information_originate: %v", err)
+			return fmt.Errorf("error reading default_information_originate: %v", err)
 		}
 	}
 
 	if err = d.Set("log_neighbour_changes", flattenRouterOspf6LogNeighbourChanges(o["log-neighbour-changes"], d, "log_neighbour_changes", sv)); err != nil {
 		if !fortiAPIPatch(o["log-neighbour-changes"]) {
-			return fmt.Errorf("Error reading log_neighbour_changes: %v", err)
+			return fmt.Errorf("error reading log_neighbour_changes: %v", err)
 		}
 	}
 
 	if err = d.Set("default_information_metric", flattenRouterOspf6DefaultInformationMetric(o["default-information-metric"], d, "default_information_metric", sv)); err != nil {
 		if !fortiAPIPatch(o["default-information-metric"]) {
-			return fmt.Errorf("Error reading default_information_metric: %v", err)
+			return fmt.Errorf("error reading default_information_metric: %v", err)
 		}
 	}
 
 	if err = d.Set("default_information_metric_type", flattenRouterOspf6DefaultInformationMetricType(o["default-information-metric-type"], d, "default_information_metric_type", sv)); err != nil {
 		if !fortiAPIPatch(o["default-information-metric-type"]) {
-			return fmt.Errorf("Error reading default_information_metric_type: %v", err)
+			return fmt.Errorf("error reading default_information_metric_type: %v", err)
 		}
 	}
 
 	if err = d.Set("default_information_route_map", flattenRouterOspf6DefaultInformationRouteMap(o["default-information-route-map"], d, "default_information_route_map", sv)); err != nil {
 		if !fortiAPIPatch(o["default-information-route-map"]) {
-			return fmt.Errorf("Error reading default_information_route_map: %v", err)
+			return fmt.Errorf("error reading default_information_route_map: %v", err)
 		}
 	}
 
 	if err = d.Set("default_metric", flattenRouterOspf6DefaultMetric(o["default-metric"], d, "default_metric", sv)); err != nil {
 		if !fortiAPIPatch(o["default-metric"]) {
-			return fmt.Errorf("Error reading default_metric: %v", err)
+			return fmt.Errorf("error reading default_metric: %v", err)
 		}
 	}
 
 	if err = d.Set("router_id", flattenRouterOspf6RouterId(o["router-id"], d, "router_id", sv)); err != nil {
 		if !fortiAPIPatch(o["router-id"]) {
-			return fmt.Errorf("Error reading router_id: %v", err)
+			return fmt.Errorf("error reading router_id: %v", err)
 		}
 	}
 
 	if err = d.Set("spf_timers", flattenRouterOspf6SpfTimers(o["spf-timers"], d, "spf_timers", sv)); err != nil {
 		if !fortiAPIPatch(o["spf-timers"]) {
-			return fmt.Errorf("Error reading spf_timers: %v", err)
+			return fmt.Errorf("error reading spf_timers: %v", err)
 		}
 	}
 
 	if err = d.Set("bfd", flattenRouterOspf6Bfd(o["bfd"], d, "bfd", sv)); err != nil {
 		if !fortiAPIPatch(o["bfd"]) {
-			return fmt.Errorf("Error reading bfd: %v", err)
+			return fmt.Errorf("error reading bfd: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("area", flattenRouterOspf6Area(o["area"], d, "area", sv)); err != nil {
 			if !fortiAPIPatch(o["area"]) {
-				return fmt.Errorf("Error reading area: %v", err)
+				return fmt.Errorf("error reading area: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("area"); ok {
 			if err = d.Set("area", flattenRouterOspf6Area(o["area"], d, "area", sv)); err != nil {
 				if !fortiAPIPatch(o["area"]) {
-					return fmt.Errorf("Error reading area: %v", err)
+					return fmt.Errorf("error reading area: %v", err)
 				}
 			}
 		}
@@ -1815,14 +1850,14 @@ func refreshObjectRouterOspf6(d *schema.ResourceData, o map[string]interface{}, 
 	if isImportTable() {
 		if err = d.Set("ospf6_interface", flattenRouterOspf6Ospf6Interface(o["ospf6-interface"], d, "ospf6_interface", sv)); err != nil {
 			if !fortiAPIPatch(o["ospf6-interface"]) {
-				return fmt.Errorf("Error reading ospf6_interface: %v", err)
+				return fmt.Errorf("error reading ospf6_interface: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("ospf6_interface"); ok {
 			if err = d.Set("ospf6_interface", flattenRouterOspf6Ospf6Interface(o["ospf6-interface"], d, "ospf6_interface", sv)); err != nil {
 				if !fortiAPIPatch(o["ospf6-interface"]) {
-					return fmt.Errorf("Error reading ospf6_interface: %v", err)
+					return fmt.Errorf("error reading ospf6_interface: %v", err)
 				}
 			}
 		}
@@ -1831,14 +1866,14 @@ func refreshObjectRouterOspf6(d *schema.ResourceData, o map[string]interface{}, 
 	if isImportTable() {
 		if err = d.Set("redistribute", flattenRouterOspf6Redistribute(o["redistribute"], d, "redistribute", sv)); err != nil {
 			if !fortiAPIPatch(o["redistribute"]) {
-				return fmt.Errorf("Error reading redistribute: %v", err)
+				return fmt.Errorf("error reading redistribute: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("redistribute"); ok {
 			if err = d.Set("redistribute", flattenRouterOspf6Redistribute(o["redistribute"], d, "redistribute", sv)); err != nil {
 				if !fortiAPIPatch(o["redistribute"]) {
-					return fmt.Errorf("Error reading redistribute: %v", err)
+					return fmt.Errorf("error reading redistribute: %v", err)
 				}
 			}
 		}
@@ -1847,14 +1882,14 @@ func refreshObjectRouterOspf6(d *schema.ResourceData, o map[string]interface{}, 
 	if isImportTable() {
 		if err = d.Set("passive_interface", flattenRouterOspf6PassiveInterface(o["passive-interface"], d, "passive_interface", sv)); err != nil {
 			if !fortiAPIPatch(o["passive-interface"]) {
-				return fmt.Errorf("Error reading passive_interface: %v", err)
+				return fmt.Errorf("error reading passive_interface: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("passive_interface"); ok {
 			if err = d.Set("passive_interface", flattenRouterOspf6PassiveInterface(o["passive-interface"], d, "passive_interface", sv)); err != nil {
 				if !fortiAPIPatch(o["passive-interface"]) {
-					return fmt.Errorf("Error reading passive_interface: %v", err)
+					return fmt.Errorf("error reading passive_interface: %v", err)
 				}
 			}
 		}
@@ -1863,14 +1898,14 @@ func refreshObjectRouterOspf6(d *schema.ResourceData, o map[string]interface{}, 
 	if isImportTable() {
 		if err = d.Set("summary_address", flattenRouterOspf6SummaryAddress(o["summary-address"], d, "summary_address", sv)); err != nil {
 			if !fortiAPIPatch(o["summary-address"]) {
-				return fmt.Errorf("Error reading summary_address: %v", err)
+				return fmt.Errorf("error reading summary_address: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("summary_address"); ok {
 			if err = d.Set("summary_address", flattenRouterOspf6SummaryAddress(o["summary-address"], d, "summary_address", sv)); err != nil {
 				if !fortiAPIPatch(o["summary-address"]) {
-					return fmt.Errorf("Error reading summary_address: %v", err)
+					return fmt.Errorf("error reading summary_address: %v", err)
 				}
 			}
 		}

@@ -30,49 +30,54 @@ func resourceSwitchControllerStormControlPolicy() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"description": &schema.Schema{
+			"description": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"storm_control_mode": &schema.Schema{
+			"storm_control_mode": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"rate": &schema.Schema{
+			"rate": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 10000000),
 				Optional:     true,
 				Computed:     true,
 			},
-			"unknown_unicast": &schema.Schema{
+			"unknown_unicast": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"unknown_multicast": &schema.Schema{
+			"unknown_multicast": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"broadcast": &schema.Schema{
+			"broadcast": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -90,15 +95,25 @@ func resourceSwitchControllerStormControlPolicyCreate(d *schema.ResourceData, m 
 		}
 	}
 
-	obj, err := getObjectSwitchControllerStormControlPolicy(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating SwitchControllerStormControlPolicy resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateSwitchControllerStormControlPolicy(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSwitchControllerStormControlPolicy(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating SwitchControllerStormControlPolicy resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateSwitchControllerStormControlPolicy(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating SwitchControllerStormControlPolicy resource: %v", err)
+		return fmt.Errorf("error creating SwitchControllerStormControlPolicy resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -123,14 +138,24 @@ func resourceSwitchControllerStormControlPolicyUpdate(d *schema.ResourceData, m 
 		}
 	}
 
-	obj, err := getObjectSwitchControllerStormControlPolicy(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SwitchControllerStormControlPolicy resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSwitchControllerStormControlPolicy(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSwitchControllerStormControlPolicy(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SwitchControllerStormControlPolicy resource: %v", err)
+		return fmt.Errorf("error updating SwitchControllerStormControlPolicy resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSwitchControllerStormControlPolicy(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SwitchControllerStormControlPolicy resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -157,9 +182,17 @@ func resourceSwitchControllerStormControlPolicyDelete(d *schema.ResourceData, m 
 		}
 	}
 
-	err := c.DeleteSwitchControllerStormControlPolicy(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSwitchControllerStormControlPolicy(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SwitchControllerStormControlPolicy resource: %v", err)
+		return fmt.Errorf("error deleting SwitchControllerStormControlPolicy resource: %v", err)
 	}
 
 	d.SetId("")
@@ -181,9 +214,19 @@ func resourceSwitchControllerStormControlPolicyRead(d *schema.ResourceData, m in
 		}
 	}
 
-	o, err := c.ReadSwitchControllerStormControlPolicy(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSwitchControllerStormControlPolicy(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SwitchControllerStormControlPolicy resource: %v", err)
+		return fmt.Errorf("error reading SwitchControllerStormControlPolicy resource: %v", err)
 	}
 
 	if o == nil {
@@ -194,7 +237,7 @@ func resourceSwitchControllerStormControlPolicyRead(d *schema.ResourceData, m in
 
 	err = refreshObjectSwitchControllerStormControlPolicy(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SwitchControllerStormControlPolicy resource from API: %v", err)
+		return fmt.Errorf("error reading SwitchControllerStormControlPolicy resource from API: %v", err)
 	}
 	return nil
 }
@@ -232,43 +275,43 @@ func refreshObjectSwitchControllerStormControlPolicy(d *schema.ResourceData, o m
 
 	if err = d.Set("name", flattenSwitchControllerStormControlPolicyName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("description", flattenSwitchControllerStormControlPolicyDescription(o["description"], d, "description", sv)); err != nil {
 		if !fortiAPIPatch(o["description"]) {
-			return fmt.Errorf("Error reading description: %v", err)
+			return fmt.Errorf("error reading description: %v", err)
 		}
 	}
 
 	if err = d.Set("storm_control_mode", flattenSwitchControllerStormControlPolicyStormControlMode(o["storm-control-mode"], d, "storm_control_mode", sv)); err != nil {
 		if !fortiAPIPatch(o["storm-control-mode"]) {
-			return fmt.Errorf("Error reading storm_control_mode: %v", err)
+			return fmt.Errorf("error reading storm_control_mode: %v", err)
 		}
 	}
 
 	if err = d.Set("rate", flattenSwitchControllerStormControlPolicyRate(o["rate"], d, "rate", sv)); err != nil {
 		if !fortiAPIPatch(o["rate"]) {
-			return fmt.Errorf("Error reading rate: %v", err)
+			return fmt.Errorf("error reading rate: %v", err)
 		}
 	}
 
 	if err = d.Set("unknown_unicast", flattenSwitchControllerStormControlPolicyUnknownUnicast(o["unknown-unicast"], d, "unknown_unicast", sv)); err != nil {
 		if !fortiAPIPatch(o["unknown-unicast"]) {
-			return fmt.Errorf("Error reading unknown_unicast: %v", err)
+			return fmt.Errorf("error reading unknown_unicast: %v", err)
 		}
 	}
 
 	if err = d.Set("unknown_multicast", flattenSwitchControllerStormControlPolicyUnknownMulticast(o["unknown-multicast"], d, "unknown_multicast", sv)); err != nil {
 		if !fortiAPIPatch(o["unknown-multicast"]) {
-			return fmt.Errorf("Error reading unknown_multicast: %v", err)
+			return fmt.Errorf("error reading unknown_multicast: %v", err)
 		}
 	}
 
 	if err = d.Set("broadcast", flattenSwitchControllerStormControlPolicyBroadcast(o["broadcast"], d, "broadcast", sv)); err != nil {
 		if !fortiAPIPatch(o["broadcast"]) {
-			return fmt.Errorf("Error reading broadcast: %v", err)
+			return fmt.Errorf("error reading broadcast: %v", err)
 		}
 	}
 

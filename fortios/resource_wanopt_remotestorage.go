@@ -30,32 +30,37 @@ func resourceWanoptRemoteStorage() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"status": &schema.Schema{
+			"status": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"local_cache_id": &schema.Schema{
+			"local_cache_id": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"remote_cache_id": &schema.Schema{
+			"remote_cache_id": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"remote_cache_ip": &schema.Schema{
+			"remote_cache_ip": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -74,14 +79,24 @@ func resourceWanoptRemoteStorageUpdate(d *schema.ResourceData, m interface{}) er
 		}
 	}
 
-	obj, err := getObjectWanoptRemoteStorage(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating WanoptRemoteStorage resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateWanoptRemoteStorage(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectWanoptRemoteStorage(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating WanoptRemoteStorage resource: %v", err)
+		return fmt.Errorf("error updating WanoptRemoteStorage resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateWanoptRemoteStorage(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating WanoptRemoteStorage resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -108,9 +123,17 @@ func resourceWanoptRemoteStorageDelete(d *schema.ResourceData, m interface{}) er
 		}
 	}
 
-	err := c.DeleteWanoptRemoteStorage(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteWanoptRemoteStorage(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting WanoptRemoteStorage resource: %v", err)
+		return fmt.Errorf("error deleting WanoptRemoteStorage resource: %v", err)
 	}
 
 	d.SetId("")
@@ -132,9 +155,19 @@ func resourceWanoptRemoteStorageRead(d *schema.ResourceData, m interface{}) erro
 		}
 	}
 
-	o, err := c.ReadWanoptRemoteStorage(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadWanoptRemoteStorage(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading WanoptRemoteStorage resource: %v", err)
+		return fmt.Errorf("error reading WanoptRemoteStorage resource: %v", err)
 	}
 
 	if o == nil {
@@ -145,7 +178,7 @@ func resourceWanoptRemoteStorageRead(d *schema.ResourceData, m interface{}) erro
 
 	err = refreshObjectWanoptRemoteStorage(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading WanoptRemoteStorage resource from API: %v", err)
+		return fmt.Errorf("error reading WanoptRemoteStorage resource from API: %v", err)
 	}
 	return nil
 }
@@ -171,25 +204,25 @@ func refreshObjectWanoptRemoteStorage(d *schema.ResourceData, o map[string]inter
 
 	if err = d.Set("status", flattenWanoptRemoteStorageStatus(o["status"], d, "status", sv)); err != nil {
 		if !fortiAPIPatch(o["status"]) {
-			return fmt.Errorf("Error reading status: %v", err)
+			return fmt.Errorf("error reading status: %v", err)
 		}
 	}
 
 	if err = d.Set("local_cache_id", flattenWanoptRemoteStorageLocalCacheId(o["local-cache-id"], d, "local_cache_id", sv)); err != nil {
 		if !fortiAPIPatch(o["local-cache-id"]) {
-			return fmt.Errorf("Error reading local_cache_id: %v", err)
+			return fmt.Errorf("error reading local_cache_id: %v", err)
 		}
 	}
 
 	if err = d.Set("remote_cache_id", flattenWanoptRemoteStorageRemoteCacheId(o["remote-cache-id"], d, "remote_cache_id", sv)); err != nil {
 		if !fortiAPIPatch(o["remote-cache-id"]) {
-			return fmt.Errorf("Error reading remote_cache_id: %v", err)
+			return fmt.Errorf("error reading remote_cache_id: %v", err)
 		}
 	}
 
 	if err = d.Set("remote_cache_ip", flattenWanoptRemoteStorageRemoteCacheIp(o["remote-cache-ip"], d, "remote_cache_ip", sv)); err != nil {
 		if !fortiAPIPatch(o["remote-cache-ip"]) {
-			return fmt.Errorf("Error reading remote_cache_ip: %v", err)
+			return fmt.Errorf("error reading remote_cache_ip: %v", err)
 		}
 	}
 

@@ -51,14 +51,14 @@ func testAccCheckFortiOSRouterAuthPathExists(n string) resource.TestCheckFunc {
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadRouterAuthPath(i, "root")
+		o, err := c.ReadRouterAuthPath(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading RouterAuthPath: %s", err)
+			return fmt.Errorf("error reading RouterAuthPath: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating RouterAuthPath: %s", n)
+			return fmt.Errorf("error creating RouterAuthPath: %s", n)
 		}
 
 		return nil
@@ -74,11 +74,11 @@ func testAccCheckRouterAuthPathDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadRouterAuthPath(i, "root")
+		o, err := c.ReadRouterAuthPath(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error RouterAuthPath %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error RouterAuthPath %s still exists", rs.Primary.ID)
 			}
 		}
 

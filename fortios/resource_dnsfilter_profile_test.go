@@ -74,14 +74,14 @@ func testAccCheckFortiOSDnsfilterProfileExists(n string) resource.TestCheckFunc 
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadDnsfilterProfile(i, "root")
+		o, err := c.ReadDnsfilterProfile(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading DnsfilterProfile: %s", err)
+			return fmt.Errorf("error reading DnsfilterProfile: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating DnsfilterProfile: %s", n)
+			return fmt.Errorf("error creating DnsfilterProfile: %s", n)
 		}
 
 		return nil
@@ -97,11 +97,11 @@ func testAccCheckDnsfilterProfileDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadDnsfilterProfile(i, "root")
+		o, err := c.ReadDnsfilterProfile(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error DnsfilterProfile %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error DnsfilterProfile %s still exists", rs.Primary.ID)
 			}
 		}
 

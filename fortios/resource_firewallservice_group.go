@@ -30,22 +30,22 @@ func resourceFirewallServiceGroup() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Required:     true,
 			},
-			"member": &schema.Schema{
+			"member": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 64),
 							Optional:     true,
@@ -54,26 +54,36 @@ func resourceFirewallServiceGroup() *schema.Resource {
 					},
 				},
 			},
-			"proxy": &schema.Schema{
+			"proxy": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"comment": &schema.Schema{
+			"comment": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
 			},
-			"color": &schema.Schema{
+			"color": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 32),
 				Optional:     true,
 				Computed:     true,
 			},
-			"dynamic_sort_subtable": &schema.Schema{
+			"dynamic_sort_subtable": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Default:  "false",
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
+			},
+			"allow_append": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Default:  false,
 			},
 		},
 	}
@@ -91,15 +101,51 @@ func resourceFirewallServiceGroupCreate(d *schema.ResourceData, m interface{}) e
 		}
 	}
 
-	obj, err := getObjectFirewallServiceGroup(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating FirewallServiceGroup resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateFirewallServiceGroup(obj, vdomparam)
+	allow_append := false
+
+	if v, ok := d.GetOk("allow_append"); ok {
+		if b, ok := v.(bool); ok {
+			allow_append = b
+		}
+	}
+
+	urlparams := make(map[string][]string)
+	urlparams["allow_append"] = []string{strconv.FormatBool(allow_append)}
+
+	key := "name"
+	mkey := ""
+	if v, ok := d.GetOk(key); ok {
+		if s, ok := v.(string); ok {
+			mkey = s
+		}
+	}
+
+	obj, err := getObjectFirewallServiceGroup(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating FirewallServiceGroup resource while getting object: %v", err)
+	}
+
+	if mkey == "" && allow_append {
+		return fmt.Errorf("error creating FirewallServiceGroup resource: %q must be set if \"allow_append\" is true", key)
+	}
+
+	o := make(map[string]interface{})
+	if mkey != "" && allow_append {
+		o, err = c.UpdateFirewallServiceGroup(obj, mkey, vdomparam, urlparams, batchid)
+	} else {
+		o, err = c.CreateFirewallServiceGroup(obj, vdomparam, urlparams, batchid)
+	}
 
 	if err != nil {
-		return fmt.Errorf("Error creating FirewallServiceGroup resource: %v", err)
+		return fmt.Errorf("error creating FirewallServiceGroup resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -124,14 +170,24 @@ func resourceFirewallServiceGroupUpdate(d *schema.ResourceData, m interface{}) e
 		}
 	}
 
-	obj, err := getObjectFirewallServiceGroup(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating FirewallServiceGroup resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateFirewallServiceGroup(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectFirewallServiceGroup(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating FirewallServiceGroup resource: %v", err)
+		return fmt.Errorf("error updating FirewallServiceGroup resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateFirewallServiceGroup(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating FirewallServiceGroup resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -158,9 +214,17 @@ func resourceFirewallServiceGroupDelete(d *schema.ResourceData, m interface{}) e
 		}
 	}
 
-	err := c.DeleteFirewallServiceGroup(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteFirewallServiceGroup(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting FirewallServiceGroup resource: %v", err)
+		return fmt.Errorf("error deleting FirewallServiceGroup resource: %v", err)
 	}
 
 	d.SetId("")
@@ -182,9 +246,19 @@ func resourceFirewallServiceGroupRead(d *schema.ResourceData, m interface{}) err
 		}
 	}
 
-	o, err := c.ReadFirewallServiceGroup(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadFirewallServiceGroup(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading FirewallServiceGroup resource: %v", err)
+		return fmt.Errorf("error reading FirewallServiceGroup resource: %v", err)
 	}
 
 	if o == nil {
@@ -195,7 +269,7 @@ func resourceFirewallServiceGroupRead(d *schema.ResourceData, m interface{}) err
 
 	err = refreshObjectFirewallServiceGroup(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading FirewallServiceGroup resource from API: %v", err)
+		return fmt.Errorf("error reading FirewallServiceGroup resource from API: %v", err)
 	}
 	return nil
 }
@@ -259,21 +333,21 @@ func refreshObjectFirewallServiceGroup(d *schema.ResourceData, o map[string]inte
 
 	if err = d.Set("name", flattenFirewallServiceGroupName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("member", flattenFirewallServiceGroupMember(o["member"], d, "member", sv)); err != nil {
 			if !fortiAPIPatch(o["member"]) {
-				return fmt.Errorf("Error reading member: %v", err)
+				return fmt.Errorf("error reading member: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("member"); ok {
 			if err = d.Set("member", flattenFirewallServiceGroupMember(o["member"], d, "member", sv)); err != nil {
 				if !fortiAPIPatch(o["member"]) {
-					return fmt.Errorf("Error reading member: %v", err)
+					return fmt.Errorf("error reading member: %v", err)
 				}
 			}
 		}
@@ -281,19 +355,19 @@ func refreshObjectFirewallServiceGroup(d *schema.ResourceData, o map[string]inte
 
 	if err = d.Set("proxy", flattenFirewallServiceGroupProxy(o["proxy"], d, "proxy", sv)); err != nil {
 		if !fortiAPIPatch(o["proxy"]) {
-			return fmt.Errorf("Error reading proxy: %v", err)
+			return fmt.Errorf("error reading proxy: %v", err)
 		}
 	}
 
 	if err = d.Set("comment", flattenFirewallServiceGroupComment(o["comment"], d, "comment", sv)); err != nil {
 		if !fortiAPIPatch(o["comment"]) {
-			return fmt.Errorf("Error reading comment: %v", err)
+			return fmt.Errorf("error reading comment: %v", err)
 		}
 	}
 
 	if err = d.Set("color", flattenFirewallServiceGroupColor(o["color"], d, "color", sv)); err != nil {
 		if !fortiAPIPatch(o["color"]) {
-			return fmt.Errorf("Error reading color: %v", err)
+			return fmt.Errorf("error reading color: %v", err)
 		}
 	}
 

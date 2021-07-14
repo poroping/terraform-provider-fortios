@@ -15,9 +15,14 @@ func resourceSystemLicenseVM() *schema.Resource {
 		Delete: resourceSystemLicenseVMDelete,
 
 		Schema: map[string]*schema.Schema{
-			"file_content": &schema.Schema{
+			"file_content": {
 				Type:     schema.TypeString,
 				Required: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -43,7 +48,7 @@ func resourceSystemLicenseVMCreateUpdate(d *schema.ResourceData, m interface{}) 
 	//Call process by sdk
 	_, err := c.CreateSystemLicenseVM(i)
 	if err != nil {
-		return fmt.Errorf("Error creating System License VM: %s", err)
+		return fmt.Errorf("error creating System License VM: %s", err)
 	}
 
 	//Set index for d

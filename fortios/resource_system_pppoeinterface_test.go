@@ -60,14 +60,14 @@ func testAccCheckFortiOSSystemPppoeInterfaceExists(n string) resource.TestCheckF
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemPppoeInterface(i, "root")
+		o, err := c.ReadSystemPppoeInterface(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading SystemPppoeInterface: %s", err)
+			return fmt.Errorf("error reading SystemPppoeInterface: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating SystemPppoeInterface: %s", n)
+			return fmt.Errorf("error creating SystemPppoeInterface: %s", n)
 		}
 
 		return nil
@@ -83,11 +83,11 @@ func testAccCheckSystemPppoeInterfaceDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemPppoeInterface(i, "root")
+		o, err := c.ReadSystemPppoeInterface(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error SystemPppoeInterface %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error SystemPppoeInterface %s still exists", rs.Primary.ID)
 			}
 		}
 

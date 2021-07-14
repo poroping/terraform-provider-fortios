@@ -52,14 +52,14 @@ func testAccCheckFortiOSSystemFipsCcExists(n string) resource.TestCheckFunc {
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemFipsCc(i, "root")
+		o, err := c.ReadSystemFipsCc(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading SystemFipsCc: %s", err)
+			return fmt.Errorf("error reading SystemFipsCc: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating SystemFipsCc: %s", n)
+			return fmt.Errorf("error creating SystemFipsCc: %s", n)
 		}
 
 		return nil
@@ -75,11 +75,11 @@ func testAccCheckSystemFipsCcDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemFipsCc(i, "root")
+		o, err := c.ReadSystemFipsCc(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error SystemFipsCc %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error SystemFipsCc %s still exists", rs.Primary.ID)
 			}
 		}
 

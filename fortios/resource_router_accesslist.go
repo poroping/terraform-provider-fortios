@@ -30,54 +30,54 @@ func resourceRouterAccessList() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				ForceNew:     true,
 				Required:     true,
 			},
-			"comments": &schema.Schema{
+			"comments": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 127),
 				Optional:     true,
 				Computed:     true,
 			},
-			"rule": &schema.Schema{
+			"rule": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"action": &schema.Schema{
+						"action": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"prefix": &schema.Schema{
+						"prefix": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"wildcard": &schema.Schema{
+						"wildcard": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"exact_match": &schema.Schema{
+						"exact_match": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"flags": &schema.Schema{
+						"flags": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
@@ -85,10 +85,15 @@ func resourceRouterAccessList() *schema.Resource {
 					},
 				},
 			},
-			"dynamic_sort_subtable": &schema.Schema{
+			"dynamic_sort_subtable": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Default:  "false",
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -106,15 +111,25 @@ func resourceRouterAccessListCreate(d *schema.ResourceData, m interface{}) error
 		}
 	}
 
-	obj, err := getObjectRouterAccessList(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating RouterAccessList resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateRouterAccessList(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectRouterAccessList(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating RouterAccessList resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateRouterAccessList(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating RouterAccessList resource: %v", err)
+		return fmt.Errorf("error creating RouterAccessList resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -139,14 +154,24 @@ func resourceRouterAccessListUpdate(d *schema.ResourceData, m interface{}) error
 		}
 	}
 
-	obj, err := getObjectRouterAccessList(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating RouterAccessList resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateRouterAccessList(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectRouterAccessList(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating RouterAccessList resource: %v", err)
+		return fmt.Errorf("error updating RouterAccessList resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateRouterAccessList(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating RouterAccessList resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -173,9 +198,17 @@ func resourceRouterAccessListDelete(d *schema.ResourceData, m interface{}) error
 		}
 	}
 
-	err := c.DeleteRouterAccessList(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteRouterAccessList(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting RouterAccessList resource: %v", err)
+		return fmt.Errorf("error deleting RouterAccessList resource: %v", err)
 	}
 
 	d.SetId("")
@@ -197,9 +230,19 @@ func resourceRouterAccessListRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadRouterAccessList(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadRouterAccessList(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading RouterAccessList resource: %v", err)
+		return fmt.Errorf("error reading RouterAccessList resource: %v", err)
 	}
 
 	if o == nil {
@@ -210,7 +253,7 @@ func resourceRouterAccessListRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectRouterAccessList(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading RouterAccessList resource from API: %v", err)
+		return fmt.Errorf("error reading RouterAccessList resource from API: %v", err)
 	}
 	return nil
 }
@@ -316,27 +359,27 @@ func refreshObjectRouterAccessList(d *schema.ResourceData, o map[string]interfac
 
 	if err = d.Set("name", flattenRouterAccessListName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("comments", flattenRouterAccessListComments(o["comments"], d, "comments", sv)); err != nil {
 		if !fortiAPIPatch(o["comments"]) {
-			return fmt.Errorf("Error reading comments: %v", err)
+			return fmt.Errorf("error reading comments: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("rule", flattenRouterAccessListRule(o["rule"], d, "rule", sv)); err != nil {
 			if !fortiAPIPatch(o["rule"]) {
-				return fmt.Errorf("Error reading rule: %v", err)
+				return fmt.Errorf("error reading rule: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("rule"); ok {
 			if err = d.Set("rule", flattenRouterAccessListRule(o["rule"], d, "rule", sv)); err != nil {
 				if !fortiAPIPatch(o["rule"]) {
-					return fmt.Errorf("Error reading rule: %v", err)
+					return fmt.Errorf("error reading rule: %v", err)
 				}
 			}
 		}

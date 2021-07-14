@@ -63,14 +63,14 @@ func testAccCheckFortiOSRouterPolicyExists(n string) resource.TestCheckFunc {
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadRouterPolicy(i, "root")
+		o, err := c.ReadRouterPolicy(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading RouterPolicy: %s", err)
+			return fmt.Errorf("error reading RouterPolicy: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating RouterPolicy: %s", n)
+			return fmt.Errorf("error creating RouterPolicy: %s", n)
 		}
 
 		return nil
@@ -86,11 +86,11 @@ func testAccCheckRouterPolicyDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadRouterPolicy(i, "root")
+		o, err := c.ReadRouterPolicy(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error RouterPolicy %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error RouterPolicy %s still exists", rs.Primary.ID)
 			}
 		}
 

@@ -30,557 +30,557 @@ func resourceRouterbgpNeighbor() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"ip": &schema.Schema{
+			"ip": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.Any(validation.IsIPv4Address, validation.IsIPv6Address),
 				Optional:     true,
 				Computed:     true,
 			},
-			"advertisement_interval": &schema.Schema{
+			"advertisement_interval": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 600),
 				Optional:     true,
 				Computed:     true,
 			},
-			"allowas_in_enable": &schema.Schema{
+			"allowas_in_enable": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
 				Optional:     true,
 				Computed:     true,
 			},
-			"allowas_in_enable6": &schema.Schema{
+			"allowas_in_enable6": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
 				Optional:     true,
 				Computed:     true,
 			},
-			"allowas_in": &schema.Schema{
+			"allowas_in": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 10),
 				Optional:     true,
 				Computed:     true,
 			},
-			"allowas_in6": &schema.Schema{
+			"allowas_in6": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 10),
 				Optional:     true,
 				Computed:     true,
 			},
-			"attribute_unchanged": &schema.Schema{
+			"attribute_unchanged": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"attribute_unchanged6": &schema.Schema{
+			"attribute_unchanged6": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"activate": &schema.Schema{
+			"activate": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
 				Optional:     true,
 				Computed:     true,
 			},
-			"activate6": &schema.Schema{
+			"activate6": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
 				Optional:     true,
 				Computed:     true,
 			},
-			"bfd": &schema.Schema{
+			"bfd": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
 				Optional:     true,
 				Computed:     true,
 			},
-			"capability_dynamic": &schema.Schema{
+			"capability_dynamic": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
 				Optional:     true,
 				Computed:     true,
 			},
-			"capability_orf": &schema.Schema{
+			"capability_orf": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"capability_orf6": &schema.Schema{
+			"capability_orf6": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"capability_graceful_restart": &schema.Schema{
+			"capability_graceful_restart": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
 				Optional:     true,
 				Computed:     true,
 			},
-			"capability_graceful_restart6": &schema.Schema{
+			"capability_graceful_restart6": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
 				Optional:     true,
 				Computed:     true,
 			},
-			"capability_route_refresh": &schema.Schema{
+			"capability_route_refresh": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
 				Optional:     true,
 				Computed:     true,
 			},
-			"capability_default_originate": &schema.Schema{
+			"capability_default_originate": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
 				Optional:     true,
 				Computed:     true,
 			},
-			"capability_default_originate6": &schema.Schema{
+			"capability_default_originate6": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
 				Optional:     true,
 				Computed:     true,
 			},
-			"dont_capability_negotiate": &schema.Schema{
+			"dont_capability_negotiate": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
 				Optional:     true,
 				Computed:     true,
 			},
-			"ebgp_enforce_multihop": &schema.Schema{
+			"ebgp_enforce_multihop": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
 				Optional:     true,
 				Computed:     true,
 			},
-			"link_down_failover": &schema.Schema{
+			"link_down_failover": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
 				Optional:     true,
 				Computed:     true,
 			},
-			"stale_route": &schema.Schema{
+			"stale_route": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
 				Optional:     true,
 				Computed:     true,
 			},
-			"next_hop_self": &schema.Schema{
+			"next_hop_self": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
 				Optional:     true,
 				Computed:     true,
 			},
-			"next_hop_self6": &schema.Schema{
+			"next_hop_self6": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
 				Optional:     true,
 				Computed:     true,
 			},
-			"next_hop_self_rr": &schema.Schema{
+			"next_hop_self_rr": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
 				Optional:     true,
 				Computed:     true,
 			},
-			"next_hop_self_rr6": &schema.Schema{
+			"next_hop_self_rr6": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
 				Optional:     true,
 				Computed:     true,
 			},
-			"override_capability": &schema.Schema{
+			"override_capability": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
 				Optional:     true,
 				Computed:     true,
 			},
-			"passive": &schema.Schema{
+			"passive": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
 				Optional:     true,
 				Computed:     true,
 			},
-			"remove_private_as": &schema.Schema{
+			"remove_private_as": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
 				Optional:     true,
 				Computed:     true,
 			},
-			"remove_private_as6": &schema.Schema{
+			"remove_private_as6": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
 				Optional:     true,
 				Computed:     true,
 			},
-			"route_reflector_client": &schema.Schema{
+			"route_reflector_client": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
 				Optional:     true,
 				Computed:     true,
 			},
-			"route_reflector_client6": &schema.Schema{
+			"route_reflector_client6": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
 				Optional:     true,
 				Computed:     true,
 			},
-			"route_server_client": &schema.Schema{
+			"route_server_client": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
 				Optional:     true,
 				Computed:     true,
 			},
-			"route_server_client6": &schema.Schema{
+			"route_server_client6": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
 				Optional:     true,
 				Computed:     true,
 			},
-			"shutdown": &schema.Schema{
+			"shutdown": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
 				Optional:     true,
 				Computed:     true,
 			},
-			"soft_reconfiguration": &schema.Schema{
+			"soft_reconfiguration": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
 				Optional:     true,
 				Computed:     true,
 			},
-			"soft_reconfiguration6": &schema.Schema{
+			"soft_reconfiguration6": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
 				Optional:     true,
 				Computed:     true,
 			},
-			"as_override": &schema.Schema{
+			"as_override": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
 				Optional:     true,
 				Computed:     true,
 			},
-			"as_override6": &schema.Schema{
+			"as_override6": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
 				Optional:     true,
 				Computed:     true,
 			},
-			"strict_capability_match": &schema.Schema{
+			"strict_capability_match": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
 				Optional:     true,
 				Computed:     true,
 			},
-			"default_originate_routemap": &schema.Schema{
+			"default_originate_routemap": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"default_originate_routemap6": &schema.Schema{
+			"default_originate_routemap6": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"description": &schema.Schema{
+			"description": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"distribute_list_in": &schema.Schema{
+			"distribute_list_in": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"distribute_list_in6": &schema.Schema{
+			"distribute_list_in6": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"distribute_list_out": &schema.Schema{
+			"distribute_list_out": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"distribute_list_out6": &schema.Schema{
+			"distribute_list_out6": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"ebgp_multihop_ttl": &schema.Schema{
+			"ebgp_multihop_ttl": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 255),
 				Optional:     true,
 				Computed:     true,
 			},
-			"filter_list_in": &schema.Schema{
+			"filter_list_in": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"filter_list_in6": &schema.Schema{
+			"filter_list_in6": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"filter_list_out": &schema.Schema{
+			"filter_list_out": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"filter_list_out6": &schema.Schema{
+			"filter_list_out6": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"interface": &schema.Schema{
+			"interface": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 15),
 				Optional:     true,
 				Computed:     true,
 			},
-			"maximum_prefix": &schema.Schema{
+			"maximum_prefix": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"maximum_prefix6": &schema.Schema{
+			"maximum_prefix6": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"maximum_prefix_threshold": &schema.Schema{
+			"maximum_prefix_threshold": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 100),
 				Optional:     true,
 				Computed:     true,
 			},
-			"maximum_prefix_threshold6": &schema.Schema{
+			"maximum_prefix_threshold6": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 100),
 				Optional:     true,
 				Computed:     true,
 			},
-			"maximum_prefix_warning_only": &schema.Schema{
+			"maximum_prefix_warning_only": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
 				Optional:     true,
 				Computed:     true,
 			},
-			"maximum_prefix_warning_only6": &schema.Schema{
+			"maximum_prefix_warning_only6": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
 				Optional:     true,
 				Computed:     true,
 			},
-			"prefix_list_in": &schema.Schema{
+			"prefix_list_in": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"prefix_list_in6": &schema.Schema{
+			"prefix_list_in6": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"prefix_list_out": &schema.Schema{
+			"prefix_list_out": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"prefix_list_out6": &schema.Schema{
+			"prefix_list_out6": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"remote_as": &schema.Schema{
+			"remote_as": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"local_as": &schema.Schema{
+			"local_as": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"local_as_no_prepend": &schema.Schema{
+			"local_as_no_prepend": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
 				Optional:     true,
 				Computed:     true,
 			},
-			"local_as_replace_as": &schema.Schema{
+			"local_as_replace_as": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
 				Optional:     true,
 				Computed:     true,
 			},
-			"retain_stale_time": &schema.Schema{
+			"retain_stale_time": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"route_map_in": &schema.Schema{
+			"route_map_in": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"route_map_in6": &schema.Schema{
+			"route_map_in6": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"route_map_out": &schema.Schema{
+			"route_map_out": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"route_map_out_preferable": &schema.Schema{
+			"route_map_out_preferable": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"route_map_out6": &schema.Schema{
+			"route_map_out6": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"route_map_out6_preferable": &schema.Schema{
+			"route_map_out6_preferable": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"send_community": &schema.Schema{
+			"send_community": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"send_community6": &schema.Schema{
+			"send_community6": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"keep_alive_timer": &schema.Schema{
+			"keep_alive_timer": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"holdtime_timer": &schema.Schema{
+			"holdtime_timer": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(3, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"connect_timer": &schema.Schema{
+			"connect_timer": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"unsuppress_map": &schema.Schema{
+			"unsuppress_map": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"unsuppress_map6": &schema.Schema{
+			"unsuppress_map6": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"update_source": &schema.Schema{
+			"update_source": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 15),
 				Optional:     true,
 				Computed:     true,
 			},
-			"weight": &schema.Schema{
+			"weight": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"restart_time": &schema.Schema{
+			"restart_time": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 3600),
 				Optional:     true,
 				Computed:     true,
 			},
-			"additional_path": &schema.Schema{
+			"additional_path": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"additional_path6": &schema.Schema{
+			"additional_path6": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"adv_additional_path": &schema.Schema{
+			"adv_additional_path": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(2, 3),
 				Optional:     true,
 				Computed:     true,
 			},
-			"adv_additional_path6": &schema.Schema{
+			"adv_additional_path6": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(2, 3),
 				Optional:     true,
 				Computed:     true,
 			},
-			"password": &schema.Schema{
+			"password": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 128),
 				Optional:     true,
 				Sensitive:    true,
 			},
-			"conditional_advertise": &schema.Schema{
+			"conditional_advertise": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"advertise_routemap": &schema.Schema{
+						"advertise_routemap": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"condition_routemap": &schema.Schema{
+						"condition_routemap": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"condition_type": &schema.Schema{
+						"condition_type": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -588,10 +588,15 @@ func resourceRouterbgpNeighbor() *schema.Resource {
 					},
 				},
 			},
-			"dynamic_sort_subtable": &schema.Schema{
+			"dynamic_sort_subtable": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Default:  "false",
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -609,15 +614,25 @@ func resourceRouterbgpNeighborCreate(d *schema.ResourceData, m interface{}) erro
 		}
 	}
 
-	obj, err := getObjectRouterbgpNeighbor(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating RouterbgpNeighbor resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateRouterbgpNeighbor(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectRouterbgpNeighbor(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating RouterbgpNeighbor resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateRouterbgpNeighbor(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating RouterbgpNeighbor resource: %v", err)
+		return fmt.Errorf("error creating RouterbgpNeighbor resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -642,14 +657,24 @@ func resourceRouterbgpNeighborUpdate(d *schema.ResourceData, m interface{}) erro
 		}
 	}
 
-	obj, err := getObjectRouterbgpNeighbor(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating RouterbgpNeighbor resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateRouterbgpNeighbor(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectRouterbgpNeighbor(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating RouterbgpNeighbor resource: %v", err)
+		return fmt.Errorf("error updating RouterbgpNeighbor resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateRouterbgpNeighbor(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating RouterbgpNeighbor resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -676,9 +701,17 @@ func resourceRouterbgpNeighborDelete(d *schema.ResourceData, m interface{}) erro
 		}
 	}
 
-	err := c.DeleteRouterbgpNeighbor(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteRouterbgpNeighbor(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting RouterbgpNeighbor resource: %v", err)
+		return fmt.Errorf("error deleting RouterbgpNeighbor resource: %v", err)
 	}
 
 	d.SetId("")
@@ -700,9 +733,19 @@ func resourceRouterbgpNeighborRead(d *schema.ResourceData, m interface{}) error 
 		}
 	}
 
-	o, err := c.ReadRouterbgpNeighbor(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadRouterbgpNeighbor(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading RouterbgpNeighbor resource: %v", err)
+		return fmt.Errorf("error reading RouterbgpNeighbor resource: %v", err)
 	}
 
 	if o == nil {
@@ -713,7 +756,7 @@ func resourceRouterbgpNeighborRead(d *schema.ResourceData, m interface{}) error 
 
 	err = refreshObjectRouterbgpNeighbor(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading RouterbgpNeighbor resource from API: %v", err)
+		return fmt.Errorf("error reading RouterbgpNeighbor resource from API: %v", err)
 	}
 	return nil
 }
@@ -1141,549 +1184,549 @@ func refreshObjectRouterbgpNeighbor(d *schema.ResourceData, o map[string]interfa
 
 	if err = d.Set("ip", flattenRouterbgpNeighborIp(o["ip"], d, "ip", sv)); err != nil {
 		if !fortiAPIPatch(o["ip"]) {
-			return fmt.Errorf("Error reading ip: %v", err)
+			return fmt.Errorf("error reading ip: %v", err)
 		}
 	}
 
 	if err = d.Set("advertisement_interval", flattenRouterbgpNeighborAdvertisementInterval(o["advertisement-interval"], d, "advertisement_interval", sv)); err != nil {
 		if !fortiAPIPatch(o["advertisement-interval"]) {
-			return fmt.Errorf("Error reading advertisement_interval: %v", err)
+			return fmt.Errorf("error reading advertisement_interval: %v", err)
 		}
 	}
 
 	if err = d.Set("allowas_in_enable", flattenRouterbgpNeighborAllowasInEnable(o["allowas-in-enable"], d, "allowas_in_enable", sv)); err != nil {
 		if !fortiAPIPatch(o["allowas-in-enable"]) {
-			return fmt.Errorf("Error reading allowas_in_enable: %v", err)
+			return fmt.Errorf("error reading allowas_in_enable: %v", err)
 		}
 	}
 
 	if err = d.Set("allowas_in_enable6", flattenRouterbgpNeighborAllowasInEnable6(o["allowas-in-enable6"], d, "allowas_in_enable6", sv)); err != nil {
 		if !fortiAPIPatch(o["allowas-in-enable6"]) {
-			return fmt.Errorf("Error reading allowas_in_enable6: %v", err)
+			return fmt.Errorf("error reading allowas_in_enable6: %v", err)
 		}
 	}
 
 	if err = d.Set("allowas_in", flattenRouterbgpNeighborAllowasIn(o["allowas-in"], d, "allowas_in", sv)); err != nil {
 		if !fortiAPIPatch(o["allowas-in"]) {
-			return fmt.Errorf("Error reading allowas_in: %v", err)
+			return fmt.Errorf("error reading allowas_in: %v", err)
 		}
 	}
 
 	if err = d.Set("allowas_in6", flattenRouterbgpNeighborAllowasIn6(o["allowas-in6"], d, "allowas_in6", sv)); err != nil {
 		if !fortiAPIPatch(o["allowas-in6"]) {
-			return fmt.Errorf("Error reading allowas_in6: %v", err)
+			return fmt.Errorf("error reading allowas_in6: %v", err)
 		}
 	}
 
 	if err = d.Set("attribute_unchanged", flattenRouterbgpNeighborAttributeUnchanged(o["attribute-unchanged"], d, "attribute_unchanged", sv)); err != nil {
 		if !fortiAPIPatch(o["attribute-unchanged"]) {
-			return fmt.Errorf("Error reading attribute_unchanged: %v", err)
+			return fmt.Errorf("error reading attribute_unchanged: %v", err)
 		}
 	}
 
 	if err = d.Set("attribute_unchanged6", flattenRouterbgpNeighborAttributeUnchanged6(o["attribute-unchanged6"], d, "attribute_unchanged6", sv)); err != nil {
 		if !fortiAPIPatch(o["attribute-unchanged6"]) {
-			return fmt.Errorf("Error reading attribute_unchanged6: %v", err)
+			return fmt.Errorf("error reading attribute_unchanged6: %v", err)
 		}
 	}
 
 	if err = d.Set("activate", flattenRouterbgpNeighborActivate(o["activate"], d, "activate", sv)); err != nil {
 		if !fortiAPIPatch(o["activate"]) {
-			return fmt.Errorf("Error reading activate: %v", err)
+			return fmt.Errorf("error reading activate: %v", err)
 		}
 	}
 
 	if err = d.Set("activate6", flattenRouterbgpNeighborActivate6(o["activate6"], d, "activate6", sv)); err != nil {
 		if !fortiAPIPatch(o["activate6"]) {
-			return fmt.Errorf("Error reading activate6: %v", err)
+			return fmt.Errorf("error reading activate6: %v", err)
 		}
 	}
 
 	if err = d.Set("bfd", flattenRouterbgpNeighborBfd(o["bfd"], d, "bfd", sv)); err != nil {
 		if !fortiAPIPatch(o["bfd"]) {
-			return fmt.Errorf("Error reading bfd: %v", err)
+			return fmt.Errorf("error reading bfd: %v", err)
 		}
 	}
 
 	if err = d.Set("capability_dynamic", flattenRouterbgpNeighborCapabilityDynamic(o["capability-dynamic"], d, "capability_dynamic", sv)); err != nil {
 		if !fortiAPIPatch(o["capability-dynamic"]) {
-			return fmt.Errorf("Error reading capability_dynamic: %v", err)
+			return fmt.Errorf("error reading capability_dynamic: %v", err)
 		}
 	}
 
 	if err = d.Set("capability_orf", flattenRouterbgpNeighborCapabilityOrf(o["capability-orf"], d, "capability_orf", sv)); err != nil {
 		if !fortiAPIPatch(o["capability-orf"]) {
-			return fmt.Errorf("Error reading capability_orf: %v", err)
+			return fmt.Errorf("error reading capability_orf: %v", err)
 		}
 	}
 
 	if err = d.Set("capability_orf6", flattenRouterbgpNeighborCapabilityOrf6(o["capability-orf6"], d, "capability_orf6", sv)); err != nil {
 		if !fortiAPIPatch(o["capability-orf6"]) {
-			return fmt.Errorf("Error reading capability_orf6: %v", err)
+			return fmt.Errorf("error reading capability_orf6: %v", err)
 		}
 	}
 
 	if err = d.Set("capability_graceful_restart", flattenRouterbgpNeighborCapabilityGracefulRestart(o["capability-graceful-restart"], d, "capability_graceful_restart", sv)); err != nil {
 		if !fortiAPIPatch(o["capability-graceful-restart"]) {
-			return fmt.Errorf("Error reading capability_graceful_restart: %v", err)
+			return fmt.Errorf("error reading capability_graceful_restart: %v", err)
 		}
 	}
 
 	if err = d.Set("capability_graceful_restart6", flattenRouterbgpNeighborCapabilityGracefulRestart6(o["capability-graceful-restart6"], d, "capability_graceful_restart6", sv)); err != nil {
 		if !fortiAPIPatch(o["capability-graceful-restart6"]) {
-			return fmt.Errorf("Error reading capability_graceful_restart6: %v", err)
+			return fmt.Errorf("error reading capability_graceful_restart6: %v", err)
 		}
 	}
 
 	if err = d.Set("capability_route_refresh", flattenRouterbgpNeighborCapabilityRouteRefresh(o["capability-route-refresh"], d, "capability_route_refresh", sv)); err != nil {
 		if !fortiAPIPatch(o["capability-route-refresh"]) {
-			return fmt.Errorf("Error reading capability_route_refresh: %v", err)
+			return fmt.Errorf("error reading capability_route_refresh: %v", err)
 		}
 	}
 
 	if err = d.Set("capability_default_originate", flattenRouterbgpNeighborCapabilityDefaultOriginate(o["capability-default-originate"], d, "capability_default_originate", sv)); err != nil {
 		if !fortiAPIPatch(o["capability-default-originate"]) {
-			return fmt.Errorf("Error reading capability_default_originate: %v", err)
+			return fmt.Errorf("error reading capability_default_originate: %v", err)
 		}
 	}
 
 	if err = d.Set("capability_default_originate6", flattenRouterbgpNeighborCapabilityDefaultOriginate6(o["capability-default-originate6"], d, "capability_default_originate6", sv)); err != nil {
 		if !fortiAPIPatch(o["capability-default-originate6"]) {
-			return fmt.Errorf("Error reading capability_default_originate6: %v", err)
+			return fmt.Errorf("error reading capability_default_originate6: %v", err)
 		}
 	}
 
 	if err = d.Set("dont_capability_negotiate", flattenRouterbgpNeighborDontCapabilityNegotiate(o["dont-capability-negotiate"], d, "dont_capability_negotiate", sv)); err != nil {
 		if !fortiAPIPatch(o["dont-capability-negotiate"]) {
-			return fmt.Errorf("Error reading dont_capability_negotiate: %v", err)
+			return fmt.Errorf("error reading dont_capability_negotiate: %v", err)
 		}
 	}
 
 	if err = d.Set("ebgp_enforce_multihop", flattenRouterbgpNeighborEbgpEnforceMultihop(o["ebgp-enforce-multihop"], d, "ebgp_enforce_multihop", sv)); err != nil {
 		if !fortiAPIPatch(o["ebgp-enforce-multihop"]) {
-			return fmt.Errorf("Error reading ebgp_enforce_multihop: %v", err)
+			return fmt.Errorf("error reading ebgp_enforce_multihop: %v", err)
 		}
 	}
 
 	if err = d.Set("link_down_failover", flattenRouterbgpNeighborLinkDownFailover(o["link-down-failover"], d, "link_down_failover", sv)); err != nil {
 		if !fortiAPIPatch(o["link-down-failover"]) {
-			return fmt.Errorf("Error reading link_down_failover: %v", err)
+			return fmt.Errorf("error reading link_down_failover: %v", err)
 		}
 	}
 
 	if err = d.Set("stale_route", flattenRouterbgpNeighborStaleRoute(o["stale-route"], d, "stale_route", sv)); err != nil {
 		if !fortiAPIPatch(o["stale-route"]) {
-			return fmt.Errorf("Error reading stale_route: %v", err)
+			return fmt.Errorf("error reading stale_route: %v", err)
 		}
 	}
 
 	if err = d.Set("next_hop_self", flattenRouterbgpNeighborNextHopSelf(o["next-hop-self"], d, "next_hop_self", sv)); err != nil {
 		if !fortiAPIPatch(o["next-hop-self"]) {
-			return fmt.Errorf("Error reading next_hop_self: %v", err)
+			return fmt.Errorf("error reading next_hop_self: %v", err)
 		}
 	}
 
 	if err = d.Set("next_hop_self6", flattenRouterbgpNeighborNextHopSelf6(o["next-hop-self6"], d, "next_hop_self6", sv)); err != nil {
 		if !fortiAPIPatch(o["next-hop-self6"]) {
-			return fmt.Errorf("Error reading next_hop_self6: %v", err)
+			return fmt.Errorf("error reading next_hop_self6: %v", err)
 		}
 	}
 
 	if err = d.Set("next_hop_self_rr", flattenRouterbgpNeighborNextHopSelfRr(o["next-hop-self-rr"], d, "next_hop_self_rr", sv)); err != nil {
 		if !fortiAPIPatch(o["next-hop-self-rr"]) {
-			return fmt.Errorf("Error reading next_hop_self_rr: %v", err)
+			return fmt.Errorf("error reading next_hop_self_rr: %v", err)
 		}
 	}
 
 	if err = d.Set("next_hop_self_rr6", flattenRouterbgpNeighborNextHopSelfRr6(o["next-hop-self-rr6"], d, "next_hop_self_rr6", sv)); err != nil {
 		if !fortiAPIPatch(o["next-hop-self-rr6"]) {
-			return fmt.Errorf("Error reading next_hop_self_rr6: %v", err)
+			return fmt.Errorf("error reading next_hop_self_rr6: %v", err)
 		}
 	}
 
 	if err = d.Set("override_capability", flattenRouterbgpNeighborOverrideCapability(o["override-capability"], d, "override_capability", sv)); err != nil {
 		if !fortiAPIPatch(o["override-capability"]) {
-			return fmt.Errorf("Error reading override_capability: %v", err)
+			return fmt.Errorf("error reading override_capability: %v", err)
 		}
 	}
 
 	if err = d.Set("passive", flattenRouterbgpNeighborPassive(o["passive"], d, "passive", sv)); err != nil {
 		if !fortiAPIPatch(o["passive"]) {
-			return fmt.Errorf("Error reading passive: %v", err)
+			return fmt.Errorf("error reading passive: %v", err)
 		}
 	}
 
 	if err = d.Set("remove_private_as", flattenRouterbgpNeighborRemovePrivateAs(o["remove-private-as"], d, "remove_private_as", sv)); err != nil {
 		if !fortiAPIPatch(o["remove-private-as"]) {
-			return fmt.Errorf("Error reading remove_private_as: %v", err)
+			return fmt.Errorf("error reading remove_private_as: %v", err)
 		}
 	}
 
 	if err = d.Set("remove_private_as6", flattenRouterbgpNeighborRemovePrivateAs6(o["remove-private-as6"], d, "remove_private_as6", sv)); err != nil {
 		if !fortiAPIPatch(o["remove-private-as6"]) {
-			return fmt.Errorf("Error reading remove_private_as6: %v", err)
+			return fmt.Errorf("error reading remove_private_as6: %v", err)
 		}
 	}
 
 	if err = d.Set("route_reflector_client", flattenRouterbgpNeighborRouteReflectorClient(o["route-reflector-client"], d, "route_reflector_client", sv)); err != nil {
 		if !fortiAPIPatch(o["route-reflector-client"]) {
-			return fmt.Errorf("Error reading route_reflector_client: %v", err)
+			return fmt.Errorf("error reading route_reflector_client: %v", err)
 		}
 	}
 
 	if err = d.Set("route_reflector_client6", flattenRouterbgpNeighborRouteReflectorClient6(o["route-reflector-client6"], d, "route_reflector_client6", sv)); err != nil {
 		if !fortiAPIPatch(o["route-reflector-client6"]) {
-			return fmt.Errorf("Error reading route_reflector_client6: %v", err)
+			return fmt.Errorf("error reading route_reflector_client6: %v", err)
 		}
 	}
 
 	if err = d.Set("route_server_client", flattenRouterbgpNeighborRouteServerClient(o["route-server-client"], d, "route_server_client", sv)); err != nil {
 		if !fortiAPIPatch(o["route-server-client"]) {
-			return fmt.Errorf("Error reading route_server_client: %v", err)
+			return fmt.Errorf("error reading route_server_client: %v", err)
 		}
 	}
 
 	if err = d.Set("route_server_client6", flattenRouterbgpNeighborRouteServerClient6(o["route-server-client6"], d, "route_server_client6", sv)); err != nil {
 		if !fortiAPIPatch(o["route-server-client6"]) {
-			return fmt.Errorf("Error reading route_server_client6: %v", err)
+			return fmt.Errorf("error reading route_server_client6: %v", err)
 		}
 	}
 
 	if err = d.Set("shutdown", flattenRouterbgpNeighborShutdown(o["shutdown"], d, "shutdown", sv)); err != nil {
 		if !fortiAPIPatch(o["shutdown"]) {
-			return fmt.Errorf("Error reading shutdown: %v", err)
+			return fmt.Errorf("error reading shutdown: %v", err)
 		}
 	}
 
 	if err = d.Set("soft_reconfiguration", flattenRouterbgpNeighborSoftReconfiguration(o["soft-reconfiguration"], d, "soft_reconfiguration", sv)); err != nil {
 		if !fortiAPIPatch(o["soft-reconfiguration"]) {
-			return fmt.Errorf("Error reading soft_reconfiguration: %v", err)
+			return fmt.Errorf("error reading soft_reconfiguration: %v", err)
 		}
 	}
 
 	if err = d.Set("soft_reconfiguration6", flattenRouterbgpNeighborSoftReconfiguration6(o["soft-reconfiguration6"], d, "soft_reconfiguration6", sv)); err != nil {
 		if !fortiAPIPatch(o["soft-reconfiguration6"]) {
-			return fmt.Errorf("Error reading soft_reconfiguration6: %v", err)
+			return fmt.Errorf("error reading soft_reconfiguration6: %v", err)
 		}
 	}
 
 	if err = d.Set("as_override", flattenRouterbgpNeighborAsOverride(o["as-override"], d, "as_override", sv)); err != nil {
 		if !fortiAPIPatch(o["as-override"]) {
-			return fmt.Errorf("Error reading as_override: %v", err)
+			return fmt.Errorf("error reading as_override: %v", err)
 		}
 	}
 
 	if err = d.Set("as_override6", flattenRouterbgpNeighborAsOverride6(o["as-override6"], d, "as_override6", sv)); err != nil {
 		if !fortiAPIPatch(o["as-override6"]) {
-			return fmt.Errorf("Error reading as_override6: %v", err)
+			return fmt.Errorf("error reading as_override6: %v", err)
 		}
 	}
 
 	if err = d.Set("strict_capability_match", flattenRouterbgpNeighborStrictCapabilityMatch(o["strict-capability-match"], d, "strict_capability_match", sv)); err != nil {
 		if !fortiAPIPatch(o["strict-capability-match"]) {
-			return fmt.Errorf("Error reading strict_capability_match: %v", err)
+			return fmt.Errorf("error reading strict_capability_match: %v", err)
 		}
 	}
 
 	if err = d.Set("default_originate_routemap", flattenRouterbgpNeighborDefaultOriginateRoutemap(o["default-originate-routemap"], d, "default_originate_routemap", sv)); err != nil {
 		if !fortiAPIPatch(o["default-originate-routemap"]) {
-			return fmt.Errorf("Error reading default_originate_routemap: %v", err)
+			return fmt.Errorf("error reading default_originate_routemap: %v", err)
 		}
 	}
 
 	if err = d.Set("default_originate_routemap6", flattenRouterbgpNeighborDefaultOriginateRoutemap6(o["default-originate-routemap6"], d, "default_originate_routemap6", sv)); err != nil {
 		if !fortiAPIPatch(o["default-originate-routemap6"]) {
-			return fmt.Errorf("Error reading default_originate_routemap6: %v", err)
+			return fmt.Errorf("error reading default_originate_routemap6: %v", err)
 		}
 	}
 
 	if err = d.Set("description", flattenRouterbgpNeighborDescription(o["description"], d, "description", sv)); err != nil {
 		if !fortiAPIPatch(o["description"]) {
-			return fmt.Errorf("Error reading description: %v", err)
+			return fmt.Errorf("error reading description: %v", err)
 		}
 	}
 
 	if err = d.Set("distribute_list_in", flattenRouterbgpNeighborDistributeListIn(o["distribute-list-in"], d, "distribute_list_in", sv)); err != nil {
 		if !fortiAPIPatch(o["distribute-list-in"]) {
-			return fmt.Errorf("Error reading distribute_list_in: %v", err)
+			return fmt.Errorf("error reading distribute_list_in: %v", err)
 		}
 	}
 
 	if err = d.Set("distribute_list_in6", flattenRouterbgpNeighborDistributeListIn6(o["distribute-list-in6"], d, "distribute_list_in6", sv)); err != nil {
 		if !fortiAPIPatch(o["distribute-list-in6"]) {
-			return fmt.Errorf("Error reading distribute_list_in6: %v", err)
+			return fmt.Errorf("error reading distribute_list_in6: %v", err)
 		}
 	}
 
 	if err = d.Set("distribute_list_out", flattenRouterbgpNeighborDistributeListOut(o["distribute-list-out"], d, "distribute_list_out", sv)); err != nil {
 		if !fortiAPIPatch(o["distribute-list-out"]) {
-			return fmt.Errorf("Error reading distribute_list_out: %v", err)
+			return fmt.Errorf("error reading distribute_list_out: %v", err)
 		}
 	}
 
 	if err = d.Set("distribute_list_out6", flattenRouterbgpNeighborDistributeListOut6(o["distribute-list-out6"], d, "distribute_list_out6", sv)); err != nil {
 		if !fortiAPIPatch(o["distribute-list-out6"]) {
-			return fmt.Errorf("Error reading distribute_list_out6: %v", err)
+			return fmt.Errorf("error reading distribute_list_out6: %v", err)
 		}
 	}
 
 	if err = d.Set("ebgp_multihop_ttl", flattenRouterbgpNeighborEbgpMultihopTtl(o["ebgp-multihop-ttl"], d, "ebgp_multihop_ttl", sv)); err != nil {
 		if !fortiAPIPatch(o["ebgp-multihop-ttl"]) {
-			return fmt.Errorf("Error reading ebgp_multihop_ttl: %v", err)
+			return fmt.Errorf("error reading ebgp_multihop_ttl: %v", err)
 		}
 	}
 
 	if err = d.Set("filter_list_in", flattenRouterbgpNeighborFilterListIn(o["filter-list-in"], d, "filter_list_in", sv)); err != nil {
 		if !fortiAPIPatch(o["filter-list-in"]) {
-			return fmt.Errorf("Error reading filter_list_in: %v", err)
+			return fmt.Errorf("error reading filter_list_in: %v", err)
 		}
 	}
 
 	if err = d.Set("filter_list_in6", flattenRouterbgpNeighborFilterListIn6(o["filter-list-in6"], d, "filter_list_in6", sv)); err != nil {
 		if !fortiAPIPatch(o["filter-list-in6"]) {
-			return fmt.Errorf("Error reading filter_list_in6: %v", err)
+			return fmt.Errorf("error reading filter_list_in6: %v", err)
 		}
 	}
 
 	if err = d.Set("filter_list_out", flattenRouterbgpNeighborFilterListOut(o["filter-list-out"], d, "filter_list_out", sv)); err != nil {
 		if !fortiAPIPatch(o["filter-list-out"]) {
-			return fmt.Errorf("Error reading filter_list_out: %v", err)
+			return fmt.Errorf("error reading filter_list_out: %v", err)
 		}
 	}
 
 	if err = d.Set("filter_list_out6", flattenRouterbgpNeighborFilterListOut6(o["filter-list-out6"], d, "filter_list_out6", sv)); err != nil {
 		if !fortiAPIPatch(o["filter-list-out6"]) {
-			return fmt.Errorf("Error reading filter_list_out6: %v", err)
+			return fmt.Errorf("error reading filter_list_out6: %v", err)
 		}
 	}
 
 	if err = d.Set("interface", flattenRouterbgpNeighborInterface(o["interface"], d, "interface", sv)); err != nil {
 		if !fortiAPIPatch(o["interface"]) {
-			return fmt.Errorf("Error reading interface: %v", err)
+			return fmt.Errorf("error reading interface: %v", err)
 		}
 	}
 
 	if err = d.Set("maximum_prefix", flattenRouterbgpNeighborMaximumPrefix(o["maximum-prefix"], d, "maximum_prefix", sv)); err != nil {
 		if !fortiAPIPatch(o["maximum-prefix"]) {
-			return fmt.Errorf("Error reading maximum_prefix: %v", err)
+			return fmt.Errorf("error reading maximum_prefix: %v", err)
 		}
 	}
 
 	if err = d.Set("maximum_prefix6", flattenRouterbgpNeighborMaximumPrefix6(o["maximum-prefix6"], d, "maximum_prefix6", sv)); err != nil {
 		if !fortiAPIPatch(o["maximum-prefix6"]) {
-			return fmt.Errorf("Error reading maximum_prefix6: %v", err)
+			return fmt.Errorf("error reading maximum_prefix6: %v", err)
 		}
 	}
 
 	if err = d.Set("maximum_prefix_threshold", flattenRouterbgpNeighborMaximumPrefixThreshold(o["maximum-prefix-threshold"], d, "maximum_prefix_threshold", sv)); err != nil {
 		if !fortiAPIPatch(o["maximum-prefix-threshold"]) {
-			return fmt.Errorf("Error reading maximum_prefix_threshold: %v", err)
+			return fmt.Errorf("error reading maximum_prefix_threshold: %v", err)
 		}
 	}
 
 	if err = d.Set("maximum_prefix_threshold6", flattenRouterbgpNeighborMaximumPrefixThreshold6(o["maximum-prefix-threshold6"], d, "maximum_prefix_threshold6", sv)); err != nil {
 		if !fortiAPIPatch(o["maximum-prefix-threshold6"]) {
-			return fmt.Errorf("Error reading maximum_prefix_threshold6: %v", err)
+			return fmt.Errorf("error reading maximum_prefix_threshold6: %v", err)
 		}
 	}
 
 	if err = d.Set("maximum_prefix_warning_only", flattenRouterbgpNeighborMaximumPrefixWarningOnly(o["maximum-prefix-warning-only"], d, "maximum_prefix_warning_only", sv)); err != nil {
 		if !fortiAPIPatch(o["maximum-prefix-warning-only"]) {
-			return fmt.Errorf("Error reading maximum_prefix_warning_only: %v", err)
+			return fmt.Errorf("error reading maximum_prefix_warning_only: %v", err)
 		}
 	}
 
 	if err = d.Set("maximum_prefix_warning_only6", flattenRouterbgpNeighborMaximumPrefixWarningOnly6(o["maximum-prefix-warning-only6"], d, "maximum_prefix_warning_only6", sv)); err != nil {
 		if !fortiAPIPatch(o["maximum-prefix-warning-only6"]) {
-			return fmt.Errorf("Error reading maximum_prefix_warning_only6: %v", err)
+			return fmt.Errorf("error reading maximum_prefix_warning_only6: %v", err)
 		}
 	}
 
 	if err = d.Set("prefix_list_in", flattenRouterbgpNeighborPrefixListIn(o["prefix-list-in"], d, "prefix_list_in", sv)); err != nil {
 		if !fortiAPIPatch(o["prefix-list-in"]) {
-			return fmt.Errorf("Error reading prefix_list_in: %v", err)
+			return fmt.Errorf("error reading prefix_list_in: %v", err)
 		}
 	}
 
 	if err = d.Set("prefix_list_in6", flattenRouterbgpNeighborPrefixListIn6(o["prefix-list-in6"], d, "prefix_list_in6", sv)); err != nil {
 		if !fortiAPIPatch(o["prefix-list-in6"]) {
-			return fmt.Errorf("Error reading prefix_list_in6: %v", err)
+			return fmt.Errorf("error reading prefix_list_in6: %v", err)
 		}
 	}
 
 	if err = d.Set("prefix_list_out", flattenRouterbgpNeighborPrefixListOut(o["prefix-list-out"], d, "prefix_list_out", sv)); err != nil {
 		if !fortiAPIPatch(o["prefix-list-out"]) {
-			return fmt.Errorf("Error reading prefix_list_out: %v", err)
+			return fmt.Errorf("error reading prefix_list_out: %v", err)
 		}
 	}
 
 	if err = d.Set("prefix_list_out6", flattenRouterbgpNeighborPrefixListOut6(o["prefix-list-out6"], d, "prefix_list_out6", sv)); err != nil {
 		if !fortiAPIPatch(o["prefix-list-out6"]) {
-			return fmt.Errorf("Error reading prefix_list_out6: %v", err)
+			return fmt.Errorf("error reading prefix_list_out6: %v", err)
 		}
 	}
 
 	if err = d.Set("remote_as", flattenRouterbgpNeighborRemoteAs(o["remote-as"], d, "remote_as", sv)); err != nil {
 		if !fortiAPIPatch(o["remote-as"]) {
-			return fmt.Errorf("Error reading remote_as: %v", err)
+			return fmt.Errorf("error reading remote_as: %v", err)
 		}
 	}
 
 	if err = d.Set("local_as", flattenRouterbgpNeighborLocalAs(o["local-as"], d, "local_as", sv)); err != nil {
 		if !fortiAPIPatch(o["local-as"]) {
-			return fmt.Errorf("Error reading local_as: %v", err)
+			return fmt.Errorf("error reading local_as: %v", err)
 		}
 	}
 
 	if err = d.Set("local_as_no_prepend", flattenRouterbgpNeighborLocalAsNoPrepend(o["local-as-no-prepend"], d, "local_as_no_prepend", sv)); err != nil {
 		if !fortiAPIPatch(o["local-as-no-prepend"]) {
-			return fmt.Errorf("Error reading local_as_no_prepend: %v", err)
+			return fmt.Errorf("error reading local_as_no_prepend: %v", err)
 		}
 	}
 
 	if err = d.Set("local_as_replace_as", flattenRouterbgpNeighborLocalAsReplaceAs(o["local-as-replace-as"], d, "local_as_replace_as", sv)); err != nil {
 		if !fortiAPIPatch(o["local-as-replace-as"]) {
-			return fmt.Errorf("Error reading local_as_replace_as: %v", err)
+			return fmt.Errorf("error reading local_as_replace_as: %v", err)
 		}
 	}
 
 	if err = d.Set("retain_stale_time", flattenRouterbgpNeighborRetainStaleTime(o["retain-stale-time"], d, "retain_stale_time", sv)); err != nil {
 		if !fortiAPIPatch(o["retain-stale-time"]) {
-			return fmt.Errorf("Error reading retain_stale_time: %v", err)
+			return fmt.Errorf("error reading retain_stale_time: %v", err)
 		}
 	}
 
 	if err = d.Set("route_map_in", flattenRouterbgpNeighborRouteMapIn(o["route-map-in"], d, "route_map_in", sv)); err != nil {
 		if !fortiAPIPatch(o["route-map-in"]) {
-			return fmt.Errorf("Error reading route_map_in: %v", err)
+			return fmt.Errorf("error reading route_map_in: %v", err)
 		}
 	}
 
 	if err = d.Set("route_map_in6", flattenRouterbgpNeighborRouteMapIn6(o["route-map-in6"], d, "route_map_in6", sv)); err != nil {
 		if !fortiAPIPatch(o["route-map-in6"]) {
-			return fmt.Errorf("Error reading route_map_in6: %v", err)
+			return fmt.Errorf("error reading route_map_in6: %v", err)
 		}
 	}
 
 	if err = d.Set("route_map_out", flattenRouterbgpNeighborRouteMapOut(o["route-map-out"], d, "route_map_out", sv)); err != nil {
 		if !fortiAPIPatch(o["route-map-out"]) {
-			return fmt.Errorf("Error reading route_map_out: %v", err)
+			return fmt.Errorf("error reading route_map_out: %v", err)
 		}
 	}
 
 	if err = d.Set("route_map_out_preferable", flattenRouterbgpNeighborRouteMapOutPreferable(o["route-map-out-preferable"], d, "route_map_out_preferable", sv)); err != nil {
 		if !fortiAPIPatch(o["route-map-out-preferable"]) {
-			return fmt.Errorf("Error reading route_map_out_preferable: %v", err)
+			return fmt.Errorf("error reading route_map_out_preferable: %v", err)
 		}
 	}
 
 	if err = d.Set("route_map_out6", flattenRouterbgpNeighborRouteMapOut6(o["route-map-out6"], d, "route_map_out6", sv)); err != nil {
 		if !fortiAPIPatch(o["route-map-out6"]) {
-			return fmt.Errorf("Error reading route_map_out6: %v", err)
+			return fmt.Errorf("error reading route_map_out6: %v", err)
 		}
 	}
 
 	if err = d.Set("route_map_out6_preferable", flattenRouterbgpNeighborRouteMapOut6Preferable(o["route-map-out6-preferable"], d, "route_map_out6_preferable", sv)); err != nil {
 		if !fortiAPIPatch(o["route-map-out6-preferable"]) {
-			return fmt.Errorf("Error reading route_map_out6_preferable: %v", err)
+			return fmt.Errorf("error reading route_map_out6_preferable: %v", err)
 		}
 	}
 
 	if err = d.Set("send_community", flattenRouterbgpNeighborSendCommunity(o["send-community"], d, "send_community", sv)); err != nil {
 		if !fortiAPIPatch(o["send-community"]) {
-			return fmt.Errorf("Error reading send_community: %v", err)
+			return fmt.Errorf("error reading send_community: %v", err)
 		}
 	}
 
 	if err = d.Set("send_community6", flattenRouterbgpNeighborSendCommunity6(o["send-community6"], d, "send_community6", sv)); err != nil {
 		if !fortiAPIPatch(o["send-community6"]) {
-			return fmt.Errorf("Error reading send_community6: %v", err)
+			return fmt.Errorf("error reading send_community6: %v", err)
 		}
 	}
 
 	if err = d.Set("keep_alive_timer", flattenRouterbgpNeighborKeepAliveTimer(o["keep-alive-timer"], d, "keep_alive_timer", sv)); err != nil {
 		if !fortiAPIPatch(o["keep-alive-timer"]) {
-			return fmt.Errorf("Error reading keep_alive_timer: %v", err)
+			return fmt.Errorf("error reading keep_alive_timer: %v", err)
 		}
 	}
 
 	if err = d.Set("holdtime_timer", flattenRouterbgpNeighborHoldtimeTimer(o["holdtime-timer"], d, "holdtime_timer", sv)); err != nil {
 		if !fortiAPIPatch(o["holdtime-timer"]) {
-			return fmt.Errorf("Error reading holdtime_timer: %v", err)
+			return fmt.Errorf("error reading holdtime_timer: %v", err)
 		}
 	}
 
 	if err = d.Set("connect_timer", flattenRouterbgpNeighborConnectTimer(o["connect-timer"], d, "connect_timer", sv)); err != nil {
 		if !fortiAPIPatch(o["connect-timer"]) {
-			return fmt.Errorf("Error reading connect_timer: %v", err)
+			return fmt.Errorf("error reading connect_timer: %v", err)
 		}
 	}
 
 	if err = d.Set("unsuppress_map", flattenRouterbgpNeighborUnsuppressMap(o["unsuppress-map"], d, "unsuppress_map", sv)); err != nil {
 		if !fortiAPIPatch(o["unsuppress-map"]) {
-			return fmt.Errorf("Error reading unsuppress_map: %v", err)
+			return fmt.Errorf("error reading unsuppress_map: %v", err)
 		}
 	}
 
 	if err = d.Set("unsuppress_map6", flattenRouterbgpNeighborUnsuppressMap6(o["unsuppress-map6"], d, "unsuppress_map6", sv)); err != nil {
 		if !fortiAPIPatch(o["unsuppress-map6"]) {
-			return fmt.Errorf("Error reading unsuppress_map6: %v", err)
+			return fmt.Errorf("error reading unsuppress_map6: %v", err)
 		}
 	}
 
 	if err = d.Set("update_source", flattenRouterbgpNeighborUpdateSource(o["update-source"], d, "update_source", sv)); err != nil {
 		if !fortiAPIPatch(o["update-source"]) {
-			return fmt.Errorf("Error reading update_source: %v", err)
+			return fmt.Errorf("error reading update_source: %v", err)
 		}
 	}
 
 	if err = d.Set("weight", flattenRouterbgpNeighborWeight(o["weight"], d, "weight", sv)); err != nil {
 		if !fortiAPIPatch(o["weight"]) {
-			return fmt.Errorf("Error reading weight: %v", err)
+			return fmt.Errorf("error reading weight: %v", err)
 		}
 	}
 
 	if err = d.Set("restart_time", flattenRouterbgpNeighborRestartTime(o["restart-time"], d, "restart_time", sv)); err != nil {
 		if !fortiAPIPatch(o["restart-time"]) {
-			return fmt.Errorf("Error reading restart_time: %v", err)
+			return fmt.Errorf("error reading restart_time: %v", err)
 		}
 	}
 
 	if err = d.Set("additional_path", flattenRouterbgpNeighborAdditionalPath(o["additional-path"], d, "additional_path", sv)); err != nil {
 		if !fortiAPIPatch(o["additional-path"]) {
-			return fmt.Errorf("Error reading additional_path: %v", err)
+			return fmt.Errorf("error reading additional_path: %v", err)
 		}
 	}
 
 	if err = d.Set("additional_path6", flattenRouterbgpNeighborAdditionalPath6(o["additional-path6"], d, "additional_path6", sv)); err != nil {
 		if !fortiAPIPatch(o["additional-path6"]) {
-			return fmt.Errorf("Error reading additional_path6: %v", err)
+			return fmt.Errorf("error reading additional_path6: %v", err)
 		}
 	}
 
 	if err = d.Set("adv_additional_path", flattenRouterbgpNeighborAdvAdditionalPath(o["adv-additional-path"], d, "adv_additional_path", sv)); err != nil {
 		if !fortiAPIPatch(o["adv-additional-path"]) {
-			return fmt.Errorf("Error reading adv_additional_path: %v", err)
+			return fmt.Errorf("error reading adv_additional_path: %v", err)
 		}
 	}
 
 	if err = d.Set("adv_additional_path6", flattenRouterbgpNeighborAdvAdditionalPath6(o["adv-additional-path6"], d, "adv_additional_path6", sv)); err != nil {
 		if !fortiAPIPatch(o["adv-additional-path6"]) {
-			return fmt.Errorf("Error reading adv_additional_path6: %v", err)
+			return fmt.Errorf("error reading adv_additional_path6: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("conditional_advertise", flattenRouterbgpNeighborConditionalAdvertise(o["conditional-advertise"], d, "conditional_advertise", sv)); err != nil {
 			if !fortiAPIPatch(o["conditional-advertise"]) {
-				return fmt.Errorf("Error reading conditional_advertise: %v", err)
+				return fmt.Errorf("error reading conditional_advertise: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("conditional_advertise"); ok {
 			if err = d.Set("conditional_advertise", flattenRouterbgpNeighborConditionalAdvertise(o["conditional-advertise"], d, "conditional_advertise", sv)); err != nil {
 				if !fortiAPIPatch(o["conditional-advertise"]) {
-					return fmt.Errorf("Error reading conditional_advertise: %v", err)
+					return fmt.Errorf("error reading conditional_advertise: %v", err)
 				}
 			}
 		}

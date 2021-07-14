@@ -52,14 +52,14 @@ func testAccCheckFortiOSReportThemeExists(n string) resource.TestCheckFunc {
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadReportTheme(i, "root")
+		o, err := c.ReadReportTheme(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading ReportTheme: %s", err)
+			return fmt.Errorf("error reading ReportTheme: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating ReportTheme: %s", n)
+			return fmt.Errorf("error creating ReportTheme: %s", n)
 		}
 
 		return nil
@@ -75,11 +75,11 @@ func testAccCheckReportThemeDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadReportTheme(i, "root")
+		o, err := c.ReadReportTheme(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error ReportTheme %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error ReportTheme %s still exists", rs.Primary.ID)
 			}
 		}
 

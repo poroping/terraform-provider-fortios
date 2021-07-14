@@ -52,14 +52,14 @@ func testAccCheckFortiOSWebfilterUrlfilterExists(n string) resource.TestCheckFun
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadWebfilterUrlfilter(i, "root")
+		o, err := c.ReadWebfilterUrlfilter(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading WebfilterUrlfilter: %s", err)
+			return fmt.Errorf("error reading WebfilterUrlfilter: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating WebfilterUrlfilter: %s", n)
+			return fmt.Errorf("error creating WebfilterUrlfilter: %s", n)
 		}
 
 		return nil
@@ -75,11 +75,11 @@ func testAccCheckWebfilterUrlfilterDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadWebfilterUrlfilter(i, "root")
+		o, err := c.ReadWebfilterUrlfilter(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error WebfilterUrlfilter %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error WebfilterUrlfilter %s still exists", rs.Primary.ID)
 			}
 		}
 

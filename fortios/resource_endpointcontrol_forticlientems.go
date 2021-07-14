@@ -30,66 +30,71 @@ func resourceEndpointControlForticlientEms() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"address": &schema.Schema{
+			"address": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Required:     true,
 			},
-			"serial_number": &schema.Schema{
+			"serial_number": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 16),
 				Required:     true,
 			},
-			"listen_port": &schema.Schema{
+			"listen_port": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"upload_port": &schema.Schema{
+			"upload_port": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"rest_api_auth": &schema.Schema{
+			"rest_api_auth": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"https_port": &schema.Schema{
+			"https_port": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"admin_username": &schema.Schema{
+			"admin_username": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 128),
 				Required:     true,
 			},
-			"admin_password": &schema.Schema{
+			"admin_password": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 68),
 				Optional:     true,
 				Sensitive:    true,
 			},
-			"admin_type": &schema.Schema{
+			"admin_type": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -107,15 +112,25 @@ func resourceEndpointControlForticlientEmsCreate(d *schema.ResourceData, m inter
 		}
 	}
 
-	obj, err := getObjectEndpointControlForticlientEms(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating EndpointControlForticlientEms resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateEndpointControlForticlientEms(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectEndpointControlForticlientEms(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating EndpointControlForticlientEms resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateEndpointControlForticlientEms(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating EndpointControlForticlientEms resource: %v", err)
+		return fmt.Errorf("error creating EndpointControlForticlientEms resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -140,14 +155,24 @@ func resourceEndpointControlForticlientEmsUpdate(d *schema.ResourceData, m inter
 		}
 	}
 
-	obj, err := getObjectEndpointControlForticlientEms(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating EndpointControlForticlientEms resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateEndpointControlForticlientEms(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectEndpointControlForticlientEms(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating EndpointControlForticlientEms resource: %v", err)
+		return fmt.Errorf("error updating EndpointControlForticlientEms resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateEndpointControlForticlientEms(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating EndpointControlForticlientEms resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -174,9 +199,17 @@ func resourceEndpointControlForticlientEmsDelete(d *schema.ResourceData, m inter
 		}
 	}
 
-	err := c.DeleteEndpointControlForticlientEms(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteEndpointControlForticlientEms(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting EndpointControlForticlientEms resource: %v", err)
+		return fmt.Errorf("error deleting EndpointControlForticlientEms resource: %v", err)
 	}
 
 	d.SetId("")
@@ -198,9 +231,19 @@ func resourceEndpointControlForticlientEmsRead(d *schema.ResourceData, m interfa
 		}
 	}
 
-	o, err := c.ReadEndpointControlForticlientEms(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadEndpointControlForticlientEms(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading EndpointControlForticlientEms resource: %v", err)
+		return fmt.Errorf("error reading EndpointControlForticlientEms resource: %v", err)
 	}
 
 	if o == nil {
@@ -211,7 +254,7 @@ func resourceEndpointControlForticlientEmsRead(d *schema.ResourceData, m interfa
 
 	err = refreshObjectEndpointControlForticlientEms(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading EndpointControlForticlientEms resource from API: %v", err)
+		return fmt.Errorf("error reading EndpointControlForticlientEms resource from API: %v", err)
 	}
 	return nil
 }
@@ -261,55 +304,55 @@ func refreshObjectEndpointControlForticlientEms(d *schema.ResourceData, o map[st
 
 	if err = d.Set("name", flattenEndpointControlForticlientEmsName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("address", flattenEndpointControlForticlientEmsAddress(o["address"], d, "address", sv)); err != nil {
 		if !fortiAPIPatch(o["address"]) {
-			return fmt.Errorf("Error reading address: %v", err)
+			return fmt.Errorf("error reading address: %v", err)
 		}
 	}
 
 	if err = d.Set("serial_number", flattenEndpointControlForticlientEmsSerialNumber(o["serial-number"], d, "serial_number", sv)); err != nil {
 		if !fortiAPIPatch(o["serial-number"]) {
-			return fmt.Errorf("Error reading serial_number: %v", err)
+			return fmt.Errorf("error reading serial_number: %v", err)
 		}
 	}
 
 	if err = d.Set("listen_port", flattenEndpointControlForticlientEmsListenPort(o["listen-port"], d, "listen_port", sv)); err != nil {
 		if !fortiAPIPatch(o["listen-port"]) {
-			return fmt.Errorf("Error reading listen_port: %v", err)
+			return fmt.Errorf("error reading listen_port: %v", err)
 		}
 	}
 
 	if err = d.Set("upload_port", flattenEndpointControlForticlientEmsUploadPort(o["upload-port"], d, "upload_port", sv)); err != nil {
 		if !fortiAPIPatch(o["upload-port"]) {
-			return fmt.Errorf("Error reading upload_port: %v", err)
+			return fmt.Errorf("error reading upload_port: %v", err)
 		}
 	}
 
 	if err = d.Set("rest_api_auth", flattenEndpointControlForticlientEmsRestApiAuth(o["rest-api-auth"], d, "rest_api_auth", sv)); err != nil {
 		if !fortiAPIPatch(o["rest-api-auth"]) {
-			return fmt.Errorf("Error reading rest_api_auth: %v", err)
+			return fmt.Errorf("error reading rest_api_auth: %v", err)
 		}
 	}
 
 	if err = d.Set("https_port", flattenEndpointControlForticlientEmsHttpsPort(o["https-port"], d, "https_port", sv)); err != nil {
 		if !fortiAPIPatch(o["https-port"]) {
-			return fmt.Errorf("Error reading https_port: %v", err)
+			return fmt.Errorf("error reading https_port: %v", err)
 		}
 	}
 
 	if err = d.Set("admin_username", flattenEndpointControlForticlientEmsAdminUsername(o["admin-username"], d, "admin_username", sv)); err != nil {
 		if !fortiAPIPatch(o["admin-username"]) {
-			return fmt.Errorf("Error reading admin_username: %v", err)
+			return fmt.Errorf("error reading admin_username: %v", err)
 		}
 	}
 
 	if err = d.Set("admin_type", flattenEndpointControlForticlientEmsAdminType(o["admin-type"], d, "admin_type", sv)); err != nil {
 		if !fortiAPIPatch(o["admin-type"]) {
-			return fmt.Errorf("Error reading admin_type: %v", err)
+			return fmt.Errorf("error reading admin_type: %v", err)
 		}
 	}
 

@@ -30,100 +30,100 @@ func resourceIpsRule() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"status": &schema.Schema{
+			"status": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"log": &schema.Schema{
+			"log": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"log_packet": &schema.Schema{
+			"log_packet": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"action": &schema.Schema{
+			"action": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"group": &schema.Schema{
+			"group": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"severity": &schema.Schema{
+			"severity": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"location": &schema.Schema{
+			"location": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"os": &schema.Schema{
+			"os": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"application": &schema.Schema{
+			"application": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"service": &schema.Schema{
+			"service": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"rule_id": &schema.Schema{
+			"rule_id": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"rev": &schema.Schema{
+			"rev": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"date": &schema.Schema{
+			"date": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"metadata": &schema.Schema{
+			"metadata": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"metaid": &schema.Schema{
+						"metaid": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"valueid": &schema.Schema{
+						"valueid": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
@@ -131,10 +131,15 @@ func resourceIpsRule() *schema.Resource {
 					},
 				},
 			},
-			"dynamic_sort_subtable": &schema.Schema{
+			"dynamic_sort_subtable": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Default:  "false",
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -152,15 +157,25 @@ func resourceIpsRuleCreate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectIpsRule(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating IpsRule resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateIpsRule(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectIpsRule(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating IpsRule resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateIpsRule(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating IpsRule resource: %v", err)
+		return fmt.Errorf("error creating IpsRule resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -185,14 +200,24 @@ func resourceIpsRuleUpdate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectIpsRule(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating IpsRule resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateIpsRule(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectIpsRule(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating IpsRule resource: %v", err)
+		return fmt.Errorf("error updating IpsRule resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateIpsRule(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating IpsRule resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -219,9 +244,17 @@ func resourceIpsRuleDelete(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	err := c.DeleteIpsRule(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteIpsRule(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting IpsRule resource: %v", err)
+		return fmt.Errorf("error deleting IpsRule resource: %v", err)
 	}
 
 	d.SetId("")
@@ -243,9 +276,19 @@ func resourceIpsRuleRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadIpsRule(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadIpsRule(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading IpsRule resource: %v", err)
+		return fmt.Errorf("error reading IpsRule resource: %v", err)
 	}
 
 	if o == nil {
@@ -256,7 +299,7 @@ func resourceIpsRuleRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectIpsRule(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading IpsRule resource from API: %v", err)
+		return fmt.Errorf("error reading IpsRule resource from API: %v", err)
 	}
 	return nil
 }
@@ -380,99 +423,99 @@ func refreshObjectIpsRule(d *schema.ResourceData, o map[string]interface{}, sv s
 
 	if err = d.Set("name", flattenIpsRuleName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("status", flattenIpsRuleStatus(o["status"], d, "status", sv)); err != nil {
 		if !fortiAPIPatch(o["status"]) {
-			return fmt.Errorf("Error reading status: %v", err)
+			return fmt.Errorf("error reading status: %v", err)
 		}
 	}
 
 	if err = d.Set("log", flattenIpsRuleLog(o["log"], d, "log", sv)); err != nil {
 		if !fortiAPIPatch(o["log"]) {
-			return fmt.Errorf("Error reading log: %v", err)
+			return fmt.Errorf("error reading log: %v", err)
 		}
 	}
 
 	if err = d.Set("log_packet", flattenIpsRuleLogPacket(o["log-packet"], d, "log_packet", sv)); err != nil {
 		if !fortiAPIPatch(o["log-packet"]) {
-			return fmt.Errorf("Error reading log_packet: %v", err)
+			return fmt.Errorf("error reading log_packet: %v", err)
 		}
 	}
 
 	if err = d.Set("action", flattenIpsRuleAction(o["action"], d, "action", sv)); err != nil {
 		if !fortiAPIPatch(o["action"]) {
-			return fmt.Errorf("Error reading action: %v", err)
+			return fmt.Errorf("error reading action: %v", err)
 		}
 	}
 
 	if err = d.Set("group", flattenIpsRuleGroup(o["group"], d, "group", sv)); err != nil {
 		if !fortiAPIPatch(o["group"]) {
-			return fmt.Errorf("Error reading group: %v", err)
+			return fmt.Errorf("error reading group: %v", err)
 		}
 	}
 
 	if err = d.Set("severity", flattenIpsRuleSeverity(o["severity"], d, "severity", sv)); err != nil {
 		if !fortiAPIPatch(o["severity"]) {
-			return fmt.Errorf("Error reading severity: %v", err)
+			return fmt.Errorf("error reading severity: %v", err)
 		}
 	}
 
 	if err = d.Set("location", flattenIpsRuleLocation(o["location"], d, "location", sv)); err != nil {
 		if !fortiAPIPatch(o["location"]) {
-			return fmt.Errorf("Error reading location: %v", err)
+			return fmt.Errorf("error reading location: %v", err)
 		}
 	}
 
 	if err = d.Set("os", flattenIpsRuleOs(o["os"], d, "os", sv)); err != nil {
 		if !fortiAPIPatch(o["os"]) {
-			return fmt.Errorf("Error reading os: %v", err)
+			return fmt.Errorf("error reading os: %v", err)
 		}
 	}
 
 	if err = d.Set("application", flattenIpsRuleApplication(o["application"], d, "application", sv)); err != nil {
 		if !fortiAPIPatch(o["application"]) {
-			return fmt.Errorf("Error reading application: %v", err)
+			return fmt.Errorf("error reading application: %v", err)
 		}
 	}
 
 	if err = d.Set("service", flattenIpsRuleService(o["service"], d, "service", sv)); err != nil {
 		if !fortiAPIPatch(o["service"]) {
-			return fmt.Errorf("Error reading service: %v", err)
+			return fmt.Errorf("error reading service: %v", err)
 		}
 	}
 
 	if err = d.Set("rule_id", flattenIpsRuleRuleId(o["rule-id"], d, "rule_id", sv)); err != nil {
 		if !fortiAPIPatch(o["rule-id"]) {
-			return fmt.Errorf("Error reading rule_id: %v", err)
+			return fmt.Errorf("error reading rule_id: %v", err)
 		}
 	}
 
 	if err = d.Set("rev", flattenIpsRuleRev(o["rev"], d, "rev", sv)); err != nil {
 		if !fortiAPIPatch(o["rev"]) {
-			return fmt.Errorf("Error reading rev: %v", err)
+			return fmt.Errorf("error reading rev: %v", err)
 		}
 	}
 
 	if err = d.Set("date", flattenIpsRuleDate(o["date"], d, "date", sv)); err != nil {
 		if !fortiAPIPatch(o["date"]) {
-			return fmt.Errorf("Error reading date: %v", err)
+			return fmt.Errorf("error reading date: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("metadata", flattenIpsRuleMetadata(o["metadata"], d, "metadata", sv)); err != nil {
 			if !fortiAPIPatch(o["metadata"]) {
-				return fmt.Errorf("Error reading metadata: %v", err)
+				return fmt.Errorf("error reading metadata: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("metadata"); ok {
 			if err = d.Set("metadata", flattenIpsRuleMetadata(o["metadata"], d, "metadata", sv)); err != nil {
 				if !fortiAPIPatch(o["metadata"]) {
-					return fmt.Errorf("Error reading metadata: %v", err)
+					return fmt.Errorf("error reading metadata: %v", err)
 				}
 			}
 		}

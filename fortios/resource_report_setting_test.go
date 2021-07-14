@@ -53,14 +53,14 @@ func testAccCheckFortiOSReportSettingExists(n string) resource.TestCheckFunc {
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadReportSetting(i, "root")
+		o, err := c.ReadReportSetting(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading ReportSetting: %s", err)
+			return fmt.Errorf("error reading ReportSetting: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating ReportSetting: %s", n)
+			return fmt.Errorf("error creating ReportSetting: %s", n)
 		}
 
 		return nil
@@ -76,11 +76,11 @@ func testAccCheckReportSettingDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadReportSetting(i, "root")
+		o, err := c.ReadReportSetting(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error ReportSetting %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error ReportSetting %s still exists", rs.Primary.ID)
 			}
 		}
 

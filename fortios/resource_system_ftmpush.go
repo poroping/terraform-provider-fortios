@@ -30,32 +30,37 @@ func resourceSystemFtmPush() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"server_port": &schema.Schema{
+			"server_port": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"server_cert": &schema.Schema{
+			"server_cert": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"server_ip": &schema.Schema{
+			"server_ip": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"status": &schema.Schema{
+			"status": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -74,14 +79,24 @@ func resourceSystemFtmPushUpdate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectSystemFtmPush(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SystemFtmPush resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSystemFtmPush(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemFtmPush(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SystemFtmPush resource: %v", err)
+		return fmt.Errorf("error updating SystemFtmPush resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSystemFtmPush(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SystemFtmPush resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -108,9 +123,17 @@ func resourceSystemFtmPushDelete(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	err := c.DeleteSystemFtmPush(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSystemFtmPush(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SystemFtmPush resource: %v", err)
+		return fmt.Errorf("error deleting SystemFtmPush resource: %v", err)
 	}
 
 	d.SetId("")
@@ -132,9 +155,19 @@ func resourceSystemFtmPushRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadSystemFtmPush(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSystemFtmPush(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemFtmPush resource: %v", err)
+		return fmt.Errorf("error reading SystemFtmPush resource: %v", err)
 	}
 
 	if o == nil {
@@ -145,7 +178,7 @@ func resourceSystemFtmPushRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectSystemFtmPush(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemFtmPush resource from API: %v", err)
+		return fmt.Errorf("error reading SystemFtmPush resource from API: %v", err)
 	}
 	return nil
 }
@@ -171,25 +204,25 @@ func refreshObjectSystemFtmPush(d *schema.ResourceData, o map[string]interface{}
 
 	if err = d.Set("server_port", flattenSystemFtmPushServerPort(o["server-port"], d, "server_port", sv)); err != nil {
 		if !fortiAPIPatch(o["server-port"]) {
-			return fmt.Errorf("Error reading server_port: %v", err)
+			return fmt.Errorf("error reading server_port: %v", err)
 		}
 	}
 
 	if err = d.Set("server_cert", flattenSystemFtmPushServerCert(o["server-cert"], d, "server_cert", sv)); err != nil {
 		if !fortiAPIPatch(o["server-cert"]) {
-			return fmt.Errorf("Error reading server_cert: %v", err)
+			return fmt.Errorf("error reading server_cert: %v", err)
 		}
 	}
 
 	if err = d.Set("server_ip", flattenSystemFtmPushServerIp(o["server-ip"], d, "server_ip", sv)); err != nil {
 		if !fortiAPIPatch(o["server-ip"]) {
-			return fmt.Errorf("Error reading server_ip: %v", err)
+			return fmt.Errorf("error reading server_ip: %v", err)
 		}
 	}
 
 	if err = d.Set("status", flattenSystemFtmPushStatus(o["status"], d, "status", sv)); err != nil {
 		if !fortiAPIPatch(o["status"]) {
-			return fmt.Errorf("Error reading status: %v", err)
+			return fmt.Errorf("error reading status: %v", err)
 		}
 	}
 

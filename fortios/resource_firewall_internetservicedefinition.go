@@ -30,60 +30,60 @@ func resourceFirewallInternetServiceDefinition() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"fosid": &schema.Schema{
+			"fosid": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"entry": &schema.Schema{
+			"entry": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"seq_num": &schema.Schema{
+						"seq_num": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"category_id": &schema.Schema{
+						"category_id": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 63),
 							Optional:     true,
 							Computed:     true,
 						},
-						"protocol": &schema.Schema{
+						"protocol": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 255),
 							Optional:     true,
 							Computed:     true,
 						},
-						"port_range": &schema.Schema{
+						"port_range": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"id": &schema.Schema{
+									"id": {
 										Type:     schema.TypeInt,
 										Optional: true,
 										Computed: true,
 									},
-									"start_port": &schema.Schema{
+									"start_port": {
 										Type:         schema.TypeInt,
 										ValidateFunc: validation.IntBetween(1, 65535),
 										Optional:     true,
 										Computed:     true,
 									},
-									"end_port": &schema.Schema{
+									"end_port": {
 										Type:         schema.TypeInt,
 										ValidateFunc: validation.IntBetween(1, 65535),
 										Optional:     true,
@@ -92,7 +92,7 @@ func resourceFirewallInternetServiceDefinition() *schema.Resource {
 								},
 							},
 						},
-						"port": &schema.Schema{
+						"port": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 65535),
 							Optional:     true,
@@ -101,10 +101,15 @@ func resourceFirewallInternetServiceDefinition() *schema.Resource {
 					},
 				},
 			},
-			"dynamic_sort_subtable": &schema.Schema{
+			"dynamic_sort_subtable": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Default:  "false",
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -122,15 +127,25 @@ func resourceFirewallInternetServiceDefinitionCreate(d *schema.ResourceData, m i
 		}
 	}
 
-	obj, err := getObjectFirewallInternetServiceDefinition(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating FirewallInternetServiceDefinition resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateFirewallInternetServiceDefinition(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectFirewallInternetServiceDefinition(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating FirewallInternetServiceDefinition resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateFirewallInternetServiceDefinition(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating FirewallInternetServiceDefinition resource: %v", err)
+		return fmt.Errorf("error creating FirewallInternetServiceDefinition resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -155,14 +170,24 @@ func resourceFirewallInternetServiceDefinitionUpdate(d *schema.ResourceData, m i
 		}
 	}
 
-	obj, err := getObjectFirewallInternetServiceDefinition(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating FirewallInternetServiceDefinition resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateFirewallInternetServiceDefinition(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectFirewallInternetServiceDefinition(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating FirewallInternetServiceDefinition resource: %v", err)
+		return fmt.Errorf("error updating FirewallInternetServiceDefinition resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateFirewallInternetServiceDefinition(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating FirewallInternetServiceDefinition resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -189,9 +214,17 @@ func resourceFirewallInternetServiceDefinitionDelete(d *schema.ResourceData, m i
 		}
 	}
 
-	err := c.DeleteFirewallInternetServiceDefinition(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteFirewallInternetServiceDefinition(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting FirewallInternetServiceDefinition resource: %v", err)
+		return fmt.Errorf("error deleting FirewallInternetServiceDefinition resource: %v", err)
 	}
 
 	d.SetId("")
@@ -213,9 +246,19 @@ func resourceFirewallInternetServiceDefinitionRead(d *schema.ResourceData, m int
 		}
 	}
 
-	o, err := c.ReadFirewallInternetServiceDefinition(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadFirewallInternetServiceDefinition(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading FirewallInternetServiceDefinition resource: %v", err)
+		return fmt.Errorf("error reading FirewallInternetServiceDefinition resource: %v", err)
 	}
 
 	if o == nil {
@@ -226,7 +269,7 @@ func resourceFirewallInternetServiceDefinitionRead(d *schema.ResourceData, m int
 
 	err = refreshObjectFirewallInternetServiceDefinition(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading FirewallInternetServiceDefinition resource from API: %v", err)
+		return fmt.Errorf("error reading FirewallInternetServiceDefinition resource from API: %v", err)
 	}
 	return nil
 }
@@ -381,21 +424,21 @@ func refreshObjectFirewallInternetServiceDefinition(d *schema.ResourceData, o ma
 
 	if err = d.Set("fosid", flattenFirewallInternetServiceDefinitionId(o["id"], d, "fosid", sv)); err != nil {
 		if !fortiAPIPatch(o["id"]) {
-			return fmt.Errorf("Error reading fosid: %v", err)
+			return fmt.Errorf("error reading fosid: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("entry", flattenFirewallInternetServiceDefinitionEntry(o["entry"], d, "entry", sv)); err != nil {
 			if !fortiAPIPatch(o["entry"]) {
-				return fmt.Errorf("Error reading entry: %v", err)
+				return fmt.Errorf("error reading entry: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("entry"); ok {
 			if err = d.Set("entry", flattenFirewallInternetServiceDefinitionEntry(o["entry"], d, "entry", sv)); err != nil {
 				if !fortiAPIPatch(o["entry"]) {
-					return fmt.Errorf("Error reading entry: %v", err)
+					return fmt.Errorf("error reading entry: %v", err)
 				}
 			}
 		}

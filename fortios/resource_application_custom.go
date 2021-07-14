@@ -30,64 +30,69 @@ func resourceApplicationCustom() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"tag": &schema.Schema{
+			"tag": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"fosid": &schema.Schema{
+			"fosid": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"comment": &schema.Schema{
+			"comment": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"signature": &schema.Schema{
+			"signature": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 1023),
 				Optional:     true,
 				Computed:     true,
 			},
-			"category": &schema.Schema{
+			"category": {
 				Type:     schema.TypeInt,
 				Required: true,
 			},
-			"protocol": &schema.Schema{
+			"protocol": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"technology": &schema.Schema{
+			"technology": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"behavior": &schema.Schema{
+			"behavior": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"vendor": &schema.Schema{
+			"vendor": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -105,15 +110,25 @@ func resourceApplicationCustomCreate(d *schema.ResourceData, m interface{}) erro
 		}
 	}
 
-	obj, err := getObjectApplicationCustom(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating ApplicationCustom resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateApplicationCustom(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectApplicationCustom(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating ApplicationCustom resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateApplicationCustom(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating ApplicationCustom resource: %v", err)
+		return fmt.Errorf("error creating ApplicationCustom resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -138,14 +153,24 @@ func resourceApplicationCustomUpdate(d *schema.ResourceData, m interface{}) erro
 		}
 	}
 
-	obj, err := getObjectApplicationCustom(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating ApplicationCustom resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateApplicationCustom(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectApplicationCustom(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating ApplicationCustom resource: %v", err)
+		return fmt.Errorf("error updating ApplicationCustom resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateApplicationCustom(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating ApplicationCustom resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -172,9 +197,17 @@ func resourceApplicationCustomDelete(d *schema.ResourceData, m interface{}) erro
 		}
 	}
 
-	err := c.DeleteApplicationCustom(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteApplicationCustom(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting ApplicationCustom resource: %v", err)
+		return fmt.Errorf("error deleting ApplicationCustom resource: %v", err)
 	}
 
 	d.SetId("")
@@ -196,9 +229,19 @@ func resourceApplicationCustomRead(d *schema.ResourceData, m interface{}) error 
 		}
 	}
 
-	o, err := c.ReadApplicationCustom(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadApplicationCustom(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading ApplicationCustom resource: %v", err)
+		return fmt.Errorf("error reading ApplicationCustom resource: %v", err)
 	}
 
 	if o == nil {
@@ -209,7 +252,7 @@ func resourceApplicationCustomRead(d *schema.ResourceData, m interface{}) error 
 
 	err = refreshObjectApplicationCustom(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading ApplicationCustom resource from API: %v", err)
+		return fmt.Errorf("error reading ApplicationCustom resource from API: %v", err)
 	}
 	return nil
 }
@@ -259,61 +302,61 @@ func refreshObjectApplicationCustom(d *schema.ResourceData, o map[string]interfa
 
 	if err = d.Set("tag", flattenApplicationCustomTag(o["tag"], d, "tag", sv)); err != nil {
 		if !fortiAPIPatch(o["tag"]) {
-			return fmt.Errorf("Error reading tag: %v", err)
+			return fmt.Errorf("error reading tag: %v", err)
 		}
 	}
 
 	if err = d.Set("name", flattenApplicationCustomName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("fosid", flattenApplicationCustomId(o["id"], d, "fosid", sv)); err != nil {
 		if !fortiAPIPatch(o["id"]) {
-			return fmt.Errorf("Error reading fosid: %v", err)
+			return fmt.Errorf("error reading fosid: %v", err)
 		}
 	}
 
 	if err = d.Set("comment", flattenApplicationCustomComment(o["comment"], d, "comment", sv)); err != nil {
 		if !fortiAPIPatch(o["comment"]) {
-			return fmt.Errorf("Error reading comment: %v", err)
+			return fmt.Errorf("error reading comment: %v", err)
 		}
 	}
 
 	if err = d.Set("signature", flattenApplicationCustomSignature(o["signature"], d, "signature", sv)); err != nil {
 		if !fortiAPIPatch(o["signature"]) {
-			return fmt.Errorf("Error reading signature: %v", err)
+			return fmt.Errorf("error reading signature: %v", err)
 		}
 	}
 
 	if err = d.Set("category", flattenApplicationCustomCategory(o["category"], d, "category", sv)); err != nil {
 		if !fortiAPIPatch(o["category"]) {
-			return fmt.Errorf("Error reading category: %v", err)
+			return fmt.Errorf("error reading category: %v", err)
 		}
 	}
 
 	if err = d.Set("protocol", flattenApplicationCustomProtocol(o["protocol"], d, "protocol", sv)); err != nil {
 		if !fortiAPIPatch(o["protocol"]) {
-			return fmt.Errorf("Error reading protocol: %v", err)
+			return fmt.Errorf("error reading protocol: %v", err)
 		}
 	}
 
 	if err = d.Set("technology", flattenApplicationCustomTechnology(o["technology"], d, "technology", sv)); err != nil {
 		if !fortiAPIPatch(o["technology"]) {
-			return fmt.Errorf("Error reading technology: %v", err)
+			return fmt.Errorf("error reading technology: %v", err)
 		}
 	}
 
 	if err = d.Set("behavior", flattenApplicationCustomBehavior(o["behavior"], d, "behavior", sv)); err != nil {
 		if !fortiAPIPatch(o["behavior"]) {
-			return fmt.Errorf("Error reading behavior: %v", err)
+			return fmt.Errorf("error reading behavior: %v", err)
 		}
 	}
 
 	if err = d.Set("vendor", flattenApplicationCustomVendor(o["vendor"], d, "vendor", sv)); err != nil {
 		if !fortiAPIPatch(o["vendor"]) {
-			return fmt.Errorf("Error reading vendor: %v", err)
+			return fmt.Errorf("error reading vendor: %v", err)
 		}
 	}
 

@@ -30,112 +30,112 @@ func resourceSystemDdns() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"ddnsid": &schema.Schema{
+			"ddnsid": {
 				Type:     schema.TypeInt,
 				ForceNew: true,
 				Optional: true,
 				Computed: true,
 			},
-			"ddns_server": &schema.Schema{
+			"ddns_server": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"ddns_server_ip": &schema.Schema{
+			"ddns_server_ip": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ddns_zone": &schema.Schema{
+			"ddns_zone": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 64),
 				Optional:     true,
 				Computed:     true,
 			},
-			"ddns_ttl": &schema.Schema{
+			"ddns_ttl": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(60, 86400),
 				Optional:     true,
 				Computed:     true,
 			},
-			"ddns_auth": &schema.Schema{
+			"ddns_auth": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ddns_keyname": &schema.Schema{
+			"ddns_keyname": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 64),
 				Optional:     true,
 				Computed:     true,
 			},
-			"ddns_key": &schema.Schema{
+			"ddns_key": {
 				Type:      schema.TypeString,
 				Optional:  true,
 				Sensitive: true,
 				Computed:  true,
 			},
-			"ddns_domain": &schema.Schema{
+			"ddns_domain": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 64),
 				Optional:     true,
 				Computed:     true,
 			},
-			"ddns_username": &schema.Schema{
+			"ddns_username": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 64),
 				Optional:     true,
 				Computed:     true,
 			},
-			"ddns_sn": &schema.Schema{
+			"ddns_sn": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 64),
 				Optional:     true,
 				Computed:     true,
 			},
-			"ddns_password": &schema.Schema{
+			"ddns_password": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 128),
 				Optional:     true,
 				Sensitive:    true,
 			},
-			"use_public_ip": &schema.Schema{
+			"use_public_ip": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"update_interval": &schema.Schema{
+			"update_interval": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(60, 2592000),
 				Optional:     true,
 				Computed:     true,
 			},
-			"clear_text": &schema.Schema{
+			"clear_text": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ssl_certificate": &schema.Schema{
+			"ssl_certificate": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"bound_ip": &schema.Schema{
+			"bound_ip": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"monitor_interface": &schema.Schema{
+			"monitor_interface": {
 				Type:     schema.TypeList,
 				Required: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"interface_name": &schema.Schema{
+						"interface_name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 64),
 							Optional:     true,
@@ -144,10 +144,15 @@ func resourceSystemDdns() *schema.Resource {
 					},
 				},
 			},
-			"dynamic_sort_subtable": &schema.Schema{
+			"dynamic_sort_subtable": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Default:  "false",
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -165,15 +170,25 @@ func resourceSystemDdnsCreate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectSystemDdns(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating SystemDdns resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateSystemDdns(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemDdns(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating SystemDdns resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateSystemDdns(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating SystemDdns resource: %v", err)
+		return fmt.Errorf("error creating SystemDdns resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -198,14 +213,24 @@ func resourceSystemDdnsUpdate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectSystemDdns(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SystemDdns resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSystemDdns(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemDdns(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SystemDdns resource: %v", err)
+		return fmt.Errorf("error updating SystemDdns resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSystemDdns(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SystemDdns resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -232,9 +257,17 @@ func resourceSystemDdnsDelete(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	err := c.DeleteSystemDdns(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSystemDdns(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SystemDdns resource: %v", err)
+		return fmt.Errorf("error deleting SystemDdns resource: %v", err)
 	}
 
 	d.SetId("")
@@ -256,9 +289,19 @@ func resourceSystemDdnsRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadSystemDdns(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSystemDdns(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemDdns resource: %v", err)
+		return fmt.Errorf("error reading SystemDdns resource: %v", err)
 	}
 
 	if o == nil {
@@ -269,7 +312,7 @@ func resourceSystemDdnsRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectSystemDdns(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemDdns resource from API: %v", err)
+		return fmt.Errorf("error reading SystemDdns resource from API: %v", err)
 	}
 	return nil
 }
@@ -385,105 +428,105 @@ func refreshObjectSystemDdns(d *schema.ResourceData, o map[string]interface{}, s
 
 	if err = d.Set("ddnsid", flattenSystemDdnsDdnsid(o["ddnsid"], d, "ddnsid", sv)); err != nil {
 		if !fortiAPIPatch(o["ddnsid"]) {
-			return fmt.Errorf("Error reading ddnsid: %v", err)
+			return fmt.Errorf("error reading ddnsid: %v", err)
 		}
 	}
 
 	if err = d.Set("ddns_server", flattenSystemDdnsDdnsServer(o["ddns-server"], d, "ddns_server", sv)); err != nil {
 		if !fortiAPIPatch(o["ddns-server"]) {
-			return fmt.Errorf("Error reading ddns_server: %v", err)
+			return fmt.Errorf("error reading ddns_server: %v", err)
 		}
 	}
 
 	if err = d.Set("ddns_server_ip", flattenSystemDdnsDdnsServerIp(o["ddns-server-ip"], d, "ddns_server_ip", sv)); err != nil {
 		if !fortiAPIPatch(o["ddns-server-ip"]) {
-			return fmt.Errorf("Error reading ddns_server_ip: %v", err)
+			return fmt.Errorf("error reading ddns_server_ip: %v", err)
 		}
 	}
 
 	if err = d.Set("ddns_zone", flattenSystemDdnsDdnsZone(o["ddns-zone"], d, "ddns_zone", sv)); err != nil {
 		if !fortiAPIPatch(o["ddns-zone"]) {
-			return fmt.Errorf("Error reading ddns_zone: %v", err)
+			return fmt.Errorf("error reading ddns_zone: %v", err)
 		}
 	}
 
 	if err = d.Set("ddns_ttl", flattenSystemDdnsDdnsTtl(o["ddns-ttl"], d, "ddns_ttl", sv)); err != nil {
 		if !fortiAPIPatch(o["ddns-ttl"]) {
-			return fmt.Errorf("Error reading ddns_ttl: %v", err)
+			return fmt.Errorf("error reading ddns_ttl: %v", err)
 		}
 	}
 
 	if err = d.Set("ddns_auth", flattenSystemDdnsDdnsAuth(o["ddns-auth"], d, "ddns_auth", sv)); err != nil {
 		if !fortiAPIPatch(o["ddns-auth"]) {
-			return fmt.Errorf("Error reading ddns_auth: %v", err)
+			return fmt.Errorf("error reading ddns_auth: %v", err)
 		}
 	}
 
 	if err = d.Set("ddns_keyname", flattenSystemDdnsDdnsKeyname(o["ddns-keyname"], d, "ddns_keyname", sv)); err != nil {
 		if !fortiAPIPatch(o["ddns-keyname"]) {
-			return fmt.Errorf("Error reading ddns_keyname: %v", err)
+			return fmt.Errorf("error reading ddns_keyname: %v", err)
 		}
 	}
 
 	if err = d.Set("ddns_domain", flattenSystemDdnsDdnsDomain(o["ddns-domain"], d, "ddns_domain", sv)); err != nil {
 		if !fortiAPIPatch(o["ddns-domain"]) {
-			return fmt.Errorf("Error reading ddns_domain: %v", err)
+			return fmt.Errorf("error reading ddns_domain: %v", err)
 		}
 	}
 
 	if err = d.Set("ddns_username", flattenSystemDdnsDdnsUsername(o["ddns-username"], d, "ddns_username", sv)); err != nil {
 		if !fortiAPIPatch(o["ddns-username"]) {
-			return fmt.Errorf("Error reading ddns_username: %v", err)
+			return fmt.Errorf("error reading ddns_username: %v", err)
 		}
 	}
 
 	if err = d.Set("ddns_sn", flattenSystemDdnsDdnsSn(o["ddns-sn"], d, "ddns_sn", sv)); err != nil {
 		if !fortiAPIPatch(o["ddns-sn"]) {
-			return fmt.Errorf("Error reading ddns_sn: %v", err)
+			return fmt.Errorf("error reading ddns_sn: %v", err)
 		}
 	}
 
 	if err = d.Set("use_public_ip", flattenSystemDdnsUsePublicIp(o["use-public-ip"], d, "use_public_ip", sv)); err != nil {
 		if !fortiAPIPatch(o["use-public-ip"]) {
-			return fmt.Errorf("Error reading use_public_ip: %v", err)
+			return fmt.Errorf("error reading use_public_ip: %v", err)
 		}
 	}
 
 	if err = d.Set("update_interval", flattenSystemDdnsUpdateInterval(o["update-interval"], d, "update_interval", sv)); err != nil {
 		if !fortiAPIPatch(o["update-interval"]) {
-			return fmt.Errorf("Error reading update_interval: %v", err)
+			return fmt.Errorf("error reading update_interval: %v", err)
 		}
 	}
 
 	if err = d.Set("clear_text", flattenSystemDdnsClearText(o["clear-text"], d, "clear_text", sv)); err != nil {
 		if !fortiAPIPatch(o["clear-text"]) {
-			return fmt.Errorf("Error reading clear_text: %v", err)
+			return fmt.Errorf("error reading clear_text: %v", err)
 		}
 	}
 
 	if err = d.Set("ssl_certificate", flattenSystemDdnsSslCertificate(o["ssl-certificate"], d, "ssl_certificate", sv)); err != nil {
 		if !fortiAPIPatch(o["ssl-certificate"]) {
-			return fmt.Errorf("Error reading ssl_certificate: %v", err)
+			return fmt.Errorf("error reading ssl_certificate: %v", err)
 		}
 	}
 
 	if err = d.Set("bound_ip", flattenSystemDdnsBoundIp(o["bound-ip"], d, "bound_ip", sv)); err != nil {
 		if !fortiAPIPatch(o["bound-ip"]) {
-			return fmt.Errorf("Error reading bound_ip: %v", err)
+			return fmt.Errorf("error reading bound_ip: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("monitor_interface", flattenSystemDdnsMonitorInterface(o["monitor-interface"], d, "monitor_interface", sv)); err != nil {
 			if !fortiAPIPatch(o["monitor-interface"]) {
-				return fmt.Errorf("Error reading monitor_interface: %v", err)
+				return fmt.Errorf("error reading monitor_interface: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("monitor_interface"); ok {
 			if err = d.Set("monitor_interface", flattenSystemDdnsMonitorInterface(o["monitor-interface"], d, "monitor_interface", sv)); err != nil {
 				if !fortiAPIPatch(o["monitor-interface"]) {
-					return fmt.Errorf("Error reading monitor_interface: %v", err)
+					return fmt.Errorf("error reading monitor_interface: %v", err)
 				}
 			}
 		}

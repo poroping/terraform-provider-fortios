@@ -30,35 +30,40 @@ func resourceFirewallIpmacbindingTable() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"seq_num": &schema.Schema{
+			"seq_num": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"ip": &schema.Schema{
+			"ip": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"mac": &schema.Schema{
+			"mac": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"status": &schema.Schema{
+			"status": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -76,15 +81,25 @@ func resourceFirewallIpmacbindingTableCreate(d *schema.ResourceData, m interface
 		}
 	}
 
-	obj, err := getObjectFirewallIpmacbindingTable(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating FirewallIpmacbindingTable resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateFirewallIpmacbindingTable(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectFirewallIpmacbindingTable(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating FirewallIpmacbindingTable resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateFirewallIpmacbindingTable(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating FirewallIpmacbindingTable resource: %v", err)
+		return fmt.Errorf("error creating FirewallIpmacbindingTable resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -109,14 +124,24 @@ func resourceFirewallIpmacbindingTableUpdate(d *schema.ResourceData, m interface
 		}
 	}
 
-	obj, err := getObjectFirewallIpmacbindingTable(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating FirewallIpmacbindingTable resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateFirewallIpmacbindingTable(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectFirewallIpmacbindingTable(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating FirewallIpmacbindingTable resource: %v", err)
+		return fmt.Errorf("error updating FirewallIpmacbindingTable resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateFirewallIpmacbindingTable(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating FirewallIpmacbindingTable resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -143,9 +168,17 @@ func resourceFirewallIpmacbindingTableDelete(d *schema.ResourceData, m interface
 		}
 	}
 
-	err := c.DeleteFirewallIpmacbindingTable(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteFirewallIpmacbindingTable(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting FirewallIpmacbindingTable resource: %v", err)
+		return fmt.Errorf("error deleting FirewallIpmacbindingTable resource: %v", err)
 	}
 
 	d.SetId("")
@@ -167,9 +200,19 @@ func resourceFirewallIpmacbindingTableRead(d *schema.ResourceData, m interface{}
 		}
 	}
 
-	o, err := c.ReadFirewallIpmacbindingTable(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadFirewallIpmacbindingTable(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading FirewallIpmacbindingTable resource: %v", err)
+		return fmt.Errorf("error reading FirewallIpmacbindingTable resource: %v", err)
 	}
 
 	if o == nil {
@@ -180,7 +223,7 @@ func resourceFirewallIpmacbindingTableRead(d *schema.ResourceData, m interface{}
 
 	err = refreshObjectFirewallIpmacbindingTable(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading FirewallIpmacbindingTable resource from API: %v", err)
+		return fmt.Errorf("error reading FirewallIpmacbindingTable resource from API: %v", err)
 	}
 	return nil
 }
@@ -210,31 +253,31 @@ func refreshObjectFirewallIpmacbindingTable(d *schema.ResourceData, o map[string
 
 	if err = d.Set("seq_num", flattenFirewallIpmacbindingTableSeqNum(o["seq-num"], d, "seq_num", sv)); err != nil {
 		if !fortiAPIPatch(o["seq-num"]) {
-			return fmt.Errorf("Error reading seq_num: %v", err)
+			return fmt.Errorf("error reading seq_num: %v", err)
 		}
 	}
 
 	if err = d.Set("ip", flattenFirewallIpmacbindingTableIp(o["ip"], d, "ip", sv)); err != nil {
 		if !fortiAPIPatch(o["ip"]) {
-			return fmt.Errorf("Error reading ip: %v", err)
+			return fmt.Errorf("error reading ip: %v", err)
 		}
 	}
 
 	if err = d.Set("mac", flattenFirewallIpmacbindingTableMac(o["mac"], d, "mac", sv)); err != nil {
 		if !fortiAPIPatch(o["mac"]) {
-			return fmt.Errorf("Error reading mac: %v", err)
+			return fmt.Errorf("error reading mac: %v", err)
 		}
 	}
 
 	if err = d.Set("name", flattenFirewallIpmacbindingTableName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("status", flattenFirewallIpmacbindingTableStatus(o["status"], d, "status", sv)); err != nil {
 		if !fortiAPIPatch(o["status"]) {
-			return fmt.Errorf("Error reading status: %v", err)
+			return fmt.Errorf("error reading status: %v", err)
 		}
 	}
 

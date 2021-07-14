@@ -30,40 +30,40 @@ func resourceUserSecurityExemptList() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"description": &schema.Schema{
+			"description": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 127),
 				Optional:     true,
 				Computed:     true,
 			},
-			"rule": &schema.Schema{
+			"rule": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"srcaddr": &schema.Schema{
+						"srcaddr": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"name": &schema.Schema{
+									"name": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 64),
 										Optional:     true,
@@ -72,12 +72,12 @@ func resourceUserSecurityExemptList() *schema.Resource {
 								},
 							},
 						},
-						"devices": &schema.Schema{
+						"devices": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"name": &schema.Schema{
+									"name": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 35),
 										Optional:     true,
@@ -86,12 +86,12 @@ func resourceUserSecurityExemptList() *schema.Resource {
 								},
 							},
 						},
-						"dstaddr": &schema.Schema{
+						"dstaddr": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"name": &schema.Schema{
+									"name": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 64),
 										Optional:     true,
@@ -100,12 +100,12 @@ func resourceUserSecurityExemptList() *schema.Resource {
 								},
 							},
 						},
-						"service": &schema.Schema{
+						"service": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"name": &schema.Schema{
+									"name": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 64),
 										Optional:     true,
@@ -117,10 +117,15 @@ func resourceUserSecurityExemptList() *schema.Resource {
 					},
 				},
 			},
-			"dynamic_sort_subtable": &schema.Schema{
+			"dynamic_sort_subtable": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Default:  "false",
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -138,15 +143,25 @@ func resourceUserSecurityExemptListCreate(d *schema.ResourceData, m interface{})
 		}
 	}
 
-	obj, err := getObjectUserSecurityExemptList(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating UserSecurityExemptList resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateUserSecurityExemptList(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectUserSecurityExemptList(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating UserSecurityExemptList resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateUserSecurityExemptList(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating UserSecurityExemptList resource: %v", err)
+		return fmt.Errorf("error creating UserSecurityExemptList resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -171,14 +186,24 @@ func resourceUserSecurityExemptListUpdate(d *schema.ResourceData, m interface{})
 		}
 	}
 
-	obj, err := getObjectUserSecurityExemptList(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating UserSecurityExemptList resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateUserSecurityExemptList(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectUserSecurityExemptList(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating UserSecurityExemptList resource: %v", err)
+		return fmt.Errorf("error updating UserSecurityExemptList resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateUserSecurityExemptList(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating UserSecurityExemptList resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -205,9 +230,17 @@ func resourceUserSecurityExemptListDelete(d *schema.ResourceData, m interface{})
 		}
 	}
 
-	err := c.DeleteUserSecurityExemptList(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteUserSecurityExemptList(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting UserSecurityExemptList resource: %v", err)
+		return fmt.Errorf("error deleting UserSecurityExemptList resource: %v", err)
 	}
 
 	d.SetId("")
@@ -229,9 +262,19 @@ func resourceUserSecurityExemptListRead(d *schema.ResourceData, m interface{}) e
 		}
 	}
 
-	o, err := c.ReadUserSecurityExemptList(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadUserSecurityExemptList(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading UserSecurityExemptList resource: %v", err)
+		return fmt.Errorf("error reading UserSecurityExemptList resource: %v", err)
 	}
 
 	if o == nil {
@@ -242,7 +285,7 @@ func resourceUserSecurityExemptListRead(d *schema.ResourceData, m interface{}) e
 
 	err = refreshObjectUserSecurityExemptList(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading UserSecurityExemptList resource from API: %v", err)
+		return fmt.Errorf("error reading UserSecurityExemptList resource from API: %v", err)
 	}
 	return nil
 }
@@ -470,27 +513,27 @@ func refreshObjectUserSecurityExemptList(d *schema.ResourceData, o map[string]in
 
 	if err = d.Set("name", flattenUserSecurityExemptListName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("description", flattenUserSecurityExemptListDescription(o["description"], d, "description", sv)); err != nil {
 		if !fortiAPIPatch(o["description"]) {
-			return fmt.Errorf("Error reading description: %v", err)
+			return fmt.Errorf("error reading description: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("rule", flattenUserSecurityExemptListRule(o["rule"], d, "rule", sv)); err != nil {
 			if !fortiAPIPatch(o["rule"]) {
-				return fmt.Errorf("Error reading rule: %v", err)
+				return fmt.Errorf("error reading rule: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("rule"); ok {
 			if err = d.Set("rule", flattenUserSecurityExemptListRule(o["rule"], d, "rule", sv)); err != nil {
 				if !fortiAPIPatch(o["rule"]) {
-					return fmt.Errorf("Error reading rule: %v", err)
+					return fmt.Errorf("error reading rule: %v", err)
 				}
 			}
 		}

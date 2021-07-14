@@ -30,88 +30,88 @@ func resourceLogFortianalyzer2OverrideFilter() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"severity": &schema.Schema{
+			"severity": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"forward_traffic": &schema.Schema{
+			"forward_traffic": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"local_traffic": &schema.Schema{
+			"local_traffic": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"multicast_traffic": &schema.Schema{
+			"multicast_traffic": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"sniffer_traffic": &schema.Schema{
+			"sniffer_traffic": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"anomaly": &schema.Schema{
+			"anomaly": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"netscan_discovery": &schema.Schema{
+			"netscan_discovery": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"netscan_vulnerability": &schema.Schema{
+			"netscan_vulnerability": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"voip": &schema.Schema{
+			"voip": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"dlp_archive": &schema.Schema{
+			"dlp_archive": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"gtp": &schema.Schema{
+			"gtp": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"free_style": &schema.Schema{
+			"free_style": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"category": &schema.Schema{
+						"category": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"filter": &schema.Schema{
+						"filter": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 1023),
 							Optional:     true,
 							Computed:     true,
 						},
-						"filter_type": &schema.Schema{
+						"filter_type": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -119,31 +119,36 @@ func resourceLogFortianalyzer2OverrideFilter() *schema.Resource {
 					},
 				},
 			},
-			"dns": &schema.Schema{
+			"dns": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ssh": &schema.Schema{
+			"ssh": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"filter": &schema.Schema{
+			"filter": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 511),
 				Optional:     true,
 				Computed:     true,
 			},
-			"filter_type": &schema.Schema{
+			"filter_type": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"dynamic_sort_subtable": &schema.Schema{
+			"dynamic_sort_subtable": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Default:  "false",
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -162,14 +167,24 @@ func resourceLogFortianalyzer2OverrideFilterUpdate(d *schema.ResourceData, m int
 		}
 	}
 
-	obj, err := getObjectLogFortianalyzer2OverrideFilter(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating LogFortianalyzer2OverrideFilter resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateLogFortianalyzer2OverrideFilter(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectLogFortianalyzer2OverrideFilter(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating LogFortianalyzer2OverrideFilter resource: %v", err)
+		return fmt.Errorf("error updating LogFortianalyzer2OverrideFilter resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateLogFortianalyzer2OverrideFilter(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating LogFortianalyzer2OverrideFilter resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -196,9 +211,17 @@ func resourceLogFortianalyzer2OverrideFilterDelete(d *schema.ResourceData, m int
 		}
 	}
 
-	err := c.DeleteLogFortianalyzer2OverrideFilter(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteLogFortianalyzer2OverrideFilter(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting LogFortianalyzer2OverrideFilter resource: %v", err)
+		return fmt.Errorf("error deleting LogFortianalyzer2OverrideFilter resource: %v", err)
 	}
 
 	d.SetId("")
@@ -220,9 +243,19 @@ func resourceLogFortianalyzer2OverrideFilterRead(d *schema.ResourceData, m inter
 		}
 	}
 
-	o, err := c.ReadLogFortianalyzer2OverrideFilter(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadLogFortianalyzer2OverrideFilter(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading LogFortianalyzer2OverrideFilter resource: %v", err)
+		return fmt.Errorf("error reading LogFortianalyzer2OverrideFilter resource: %v", err)
 	}
 
 	if o == nil {
@@ -233,7 +266,7 @@ func resourceLogFortianalyzer2OverrideFilterRead(d *schema.ResourceData, m inter
 
 	err = refreshObjectLogFortianalyzer2OverrideFilter(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading LogFortianalyzer2OverrideFilter resource from API: %v", err)
+		return fmt.Errorf("error reading LogFortianalyzer2OverrideFilter resource from API: %v", err)
 	}
 	return nil
 }
@@ -371,81 +404,81 @@ func refreshObjectLogFortianalyzer2OverrideFilter(d *schema.ResourceData, o map[
 
 	if err = d.Set("severity", flattenLogFortianalyzer2OverrideFilterSeverity(o["severity"], d, "severity", sv)); err != nil {
 		if !fortiAPIPatch(o["severity"]) {
-			return fmt.Errorf("Error reading severity: %v", err)
+			return fmt.Errorf("error reading severity: %v", err)
 		}
 	}
 
 	if err = d.Set("forward_traffic", flattenLogFortianalyzer2OverrideFilterForwardTraffic(o["forward-traffic"], d, "forward_traffic", sv)); err != nil {
 		if !fortiAPIPatch(o["forward-traffic"]) {
-			return fmt.Errorf("Error reading forward_traffic: %v", err)
+			return fmt.Errorf("error reading forward_traffic: %v", err)
 		}
 	}
 
 	if err = d.Set("local_traffic", flattenLogFortianalyzer2OverrideFilterLocalTraffic(o["local-traffic"], d, "local_traffic", sv)); err != nil {
 		if !fortiAPIPatch(o["local-traffic"]) {
-			return fmt.Errorf("Error reading local_traffic: %v", err)
+			return fmt.Errorf("error reading local_traffic: %v", err)
 		}
 	}
 
 	if err = d.Set("multicast_traffic", flattenLogFortianalyzer2OverrideFilterMulticastTraffic(o["multicast-traffic"], d, "multicast_traffic", sv)); err != nil {
 		if !fortiAPIPatch(o["multicast-traffic"]) {
-			return fmt.Errorf("Error reading multicast_traffic: %v", err)
+			return fmt.Errorf("error reading multicast_traffic: %v", err)
 		}
 	}
 
 	if err = d.Set("sniffer_traffic", flattenLogFortianalyzer2OverrideFilterSnifferTraffic(o["sniffer-traffic"], d, "sniffer_traffic", sv)); err != nil {
 		if !fortiAPIPatch(o["sniffer-traffic"]) {
-			return fmt.Errorf("Error reading sniffer_traffic: %v", err)
+			return fmt.Errorf("error reading sniffer_traffic: %v", err)
 		}
 	}
 
 	if err = d.Set("anomaly", flattenLogFortianalyzer2OverrideFilterAnomaly(o["anomaly"], d, "anomaly", sv)); err != nil {
 		if !fortiAPIPatch(o["anomaly"]) {
-			return fmt.Errorf("Error reading anomaly: %v", err)
+			return fmt.Errorf("error reading anomaly: %v", err)
 		}
 	}
 
 	if err = d.Set("netscan_discovery", flattenLogFortianalyzer2OverrideFilterNetscanDiscovery(o["netscan-discovery"], d, "netscan_discovery", sv)); err != nil {
 		if !fortiAPIPatch(o["netscan-discovery"]) {
-			return fmt.Errorf("Error reading netscan_discovery: %v", err)
+			return fmt.Errorf("error reading netscan_discovery: %v", err)
 		}
 	}
 
 	if err = d.Set("netscan_vulnerability", flattenLogFortianalyzer2OverrideFilterNetscanVulnerability(o["netscan-vulnerability"], d, "netscan_vulnerability", sv)); err != nil {
 		if !fortiAPIPatch(o["netscan-vulnerability"]) {
-			return fmt.Errorf("Error reading netscan_vulnerability: %v", err)
+			return fmt.Errorf("error reading netscan_vulnerability: %v", err)
 		}
 	}
 
 	if err = d.Set("voip", flattenLogFortianalyzer2OverrideFilterVoip(o["voip"], d, "voip", sv)); err != nil {
 		if !fortiAPIPatch(o["voip"]) {
-			return fmt.Errorf("Error reading voip: %v", err)
+			return fmt.Errorf("error reading voip: %v", err)
 		}
 	}
 
 	if err = d.Set("dlp_archive", flattenLogFortianalyzer2OverrideFilterDlpArchive(o["dlp-archive"], d, "dlp_archive", sv)); err != nil {
 		if !fortiAPIPatch(o["dlp-archive"]) {
-			return fmt.Errorf("Error reading dlp_archive: %v", err)
+			return fmt.Errorf("error reading dlp_archive: %v", err)
 		}
 	}
 
 	if err = d.Set("gtp", flattenLogFortianalyzer2OverrideFilterGtp(o["gtp"], d, "gtp", sv)); err != nil {
 		if !fortiAPIPatch(o["gtp"]) {
-			return fmt.Errorf("Error reading gtp: %v", err)
+			return fmt.Errorf("error reading gtp: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("free_style", flattenLogFortianalyzer2OverrideFilterFreeStyle(o["free-style"], d, "free_style", sv)); err != nil {
 			if !fortiAPIPatch(o["free-style"]) {
-				return fmt.Errorf("Error reading free_style: %v", err)
+				return fmt.Errorf("error reading free_style: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("free_style"); ok {
 			if err = d.Set("free_style", flattenLogFortianalyzer2OverrideFilterFreeStyle(o["free-style"], d, "free_style", sv)); err != nil {
 				if !fortiAPIPatch(o["free-style"]) {
-					return fmt.Errorf("Error reading free_style: %v", err)
+					return fmt.Errorf("error reading free_style: %v", err)
 				}
 			}
 		}
@@ -453,25 +486,25 @@ func refreshObjectLogFortianalyzer2OverrideFilter(d *schema.ResourceData, o map[
 
 	if err = d.Set("dns", flattenLogFortianalyzer2OverrideFilterDns(o["dns"], d, "dns", sv)); err != nil {
 		if !fortiAPIPatch(o["dns"]) {
-			return fmt.Errorf("Error reading dns: %v", err)
+			return fmt.Errorf("error reading dns: %v", err)
 		}
 	}
 
 	if err = d.Set("ssh", flattenLogFortianalyzer2OverrideFilterSsh(o["ssh"], d, "ssh", sv)); err != nil {
 		if !fortiAPIPatch(o["ssh"]) {
-			return fmt.Errorf("Error reading ssh: %v", err)
+			return fmt.Errorf("error reading ssh: %v", err)
 		}
 	}
 
 	if err = d.Set("filter", flattenLogFortianalyzer2OverrideFilterFilter(o["filter"], d, "filter", sv)); err != nil {
 		if !fortiAPIPatch(o["filter"]) {
-			return fmt.Errorf("Error reading filter: %v", err)
+			return fmt.Errorf("error reading filter: %v", err)
 		}
 	}
 
 	if err = d.Set("filter_type", flattenLogFortianalyzer2OverrideFilterFilterType(o["filter-type"], d, "filter_type", sv)); err != nil {
 		if !fortiAPIPatch(o["filter-type"]) {
-			return fmt.Errorf("Error reading filter_type: %v", err)
+			return fmt.Errorf("error reading filter_type: %v", err)
 		}
 	}
 

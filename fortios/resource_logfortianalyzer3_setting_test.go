@@ -63,14 +63,14 @@ func testAccCheckFortiOSLogFortianalyzer3SettingExists(n string) resource.TestCh
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadLogFortianalyzer3Setting(i, "root")
+		o, err := c.ReadLogFortianalyzer3Setting(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading LogFortianalyzer3Setting: %s", err)
+			return fmt.Errorf("error reading LogFortianalyzer3Setting: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating LogFortianalyzer3Setting: %s", n)
+			return fmt.Errorf("error creating LogFortianalyzer3Setting: %s", n)
 		}
 
 		return nil
@@ -86,11 +86,11 @@ func testAccCheckLogFortianalyzer3SettingDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadLogFortianalyzer3Setting(i, "root")
+		o, err := c.ReadLogFortianalyzer3Setting(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error LogFortianalyzer3Setting %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error LogFortianalyzer3Setting %s still exists", rs.Primary.ID)
 			}
 		}
 

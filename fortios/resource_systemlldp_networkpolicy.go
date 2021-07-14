@@ -30,51 +30,51 @@ func resourceSystemLldpNetworkPolicy() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				ForceNew:     true,
 				Required:     true,
 			},
-			"comment": &schema.Schema{
+			"comment": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 1023),
 				Optional:     true,
 			},
-			"voice": &schema.Schema{
+			"voice": {
 				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"status": &schema.Schema{
+						"status": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"tag": &schema.Schema{
+						"tag": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"vlan": &schema.Schema{
+						"vlan": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 4094),
 							Optional:     true,
 							Computed:     true,
 						},
-						"priority": &schema.Schema{
+						"priority": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 7),
 							Optional:     true,
 							Computed:     true,
 						},
-						"dscp": &schema.Schema{
+						"dscp": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 63),
 							Optional:     true,
@@ -83,35 +83,35 @@ func resourceSystemLldpNetworkPolicy() *schema.Resource {
 					},
 				},
 			},
-			"voice_signaling": &schema.Schema{
+			"voice_signaling": {
 				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"status": &schema.Schema{
+						"status": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"tag": &schema.Schema{
+						"tag": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"vlan": &schema.Schema{
+						"vlan": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 4094),
 							Optional:     true,
 							Computed:     true,
 						},
-						"priority": &schema.Schema{
+						"priority": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 7),
 							Optional:     true,
 							Computed:     true,
 						},
-						"dscp": &schema.Schema{
+						"dscp": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 63),
 							Optional:     true,
@@ -120,35 +120,35 @@ func resourceSystemLldpNetworkPolicy() *schema.Resource {
 					},
 				},
 			},
-			"guest": &schema.Schema{
+			"guest": {
 				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"status": &schema.Schema{
+						"status": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"tag": &schema.Schema{
+						"tag": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"vlan": &schema.Schema{
+						"vlan": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 4094),
 							Optional:     true,
 							Computed:     true,
 						},
-						"priority": &schema.Schema{
+						"priority": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 7),
 							Optional:     true,
 							Computed:     true,
 						},
-						"dscp": &schema.Schema{
+						"dscp": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 63),
 							Optional:     true,
@@ -157,35 +157,35 @@ func resourceSystemLldpNetworkPolicy() *schema.Resource {
 					},
 				},
 			},
-			"guest_voice_signaling": &schema.Schema{
+			"guest_voice_signaling": {
 				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"status": &schema.Schema{
+						"status": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"tag": &schema.Schema{
+						"tag": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"vlan": &schema.Schema{
+						"vlan": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 4094),
 							Optional:     true,
 							Computed:     true,
 						},
-						"priority": &schema.Schema{
+						"priority": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 7),
 							Optional:     true,
 							Computed:     true,
 						},
-						"dscp": &schema.Schema{
+						"dscp": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 63),
 							Optional:     true,
@@ -194,35 +194,35 @@ func resourceSystemLldpNetworkPolicy() *schema.Resource {
 					},
 				},
 			},
-			"softphone": &schema.Schema{
+			"softphone": {
 				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"status": &schema.Schema{
+						"status": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"tag": &schema.Schema{
+						"tag": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"vlan": &schema.Schema{
+						"vlan": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 4094),
 							Optional:     true,
 							Computed:     true,
 						},
-						"priority": &schema.Schema{
+						"priority": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 7),
 							Optional:     true,
 							Computed:     true,
 						},
-						"dscp": &schema.Schema{
+						"dscp": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 63),
 							Optional:     true,
@@ -231,35 +231,35 @@ func resourceSystemLldpNetworkPolicy() *schema.Resource {
 					},
 				},
 			},
-			"video_conferencing": &schema.Schema{
+			"video_conferencing": {
 				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"status": &schema.Schema{
+						"status": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"tag": &schema.Schema{
+						"tag": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"vlan": &schema.Schema{
+						"vlan": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 4094),
 							Optional:     true,
 							Computed:     true,
 						},
-						"priority": &schema.Schema{
+						"priority": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 7),
 							Optional:     true,
 							Computed:     true,
 						},
-						"dscp": &schema.Schema{
+						"dscp": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 63),
 							Optional:     true,
@@ -268,35 +268,35 @@ func resourceSystemLldpNetworkPolicy() *schema.Resource {
 					},
 				},
 			},
-			"streaming_video": &schema.Schema{
+			"streaming_video": {
 				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"status": &schema.Schema{
+						"status": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"tag": &schema.Schema{
+						"tag": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"vlan": &schema.Schema{
+						"vlan": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 4094),
 							Optional:     true,
 							Computed:     true,
 						},
-						"priority": &schema.Schema{
+						"priority": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 7),
 							Optional:     true,
 							Computed:     true,
 						},
-						"dscp": &schema.Schema{
+						"dscp": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 63),
 							Optional:     true,
@@ -305,35 +305,35 @@ func resourceSystemLldpNetworkPolicy() *schema.Resource {
 					},
 				},
 			},
-			"video_signaling": &schema.Schema{
+			"video_signaling": {
 				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"status": &schema.Schema{
+						"status": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"tag": &schema.Schema{
+						"tag": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"vlan": &schema.Schema{
+						"vlan": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 4094),
 							Optional:     true,
 							Computed:     true,
 						},
-						"priority": &schema.Schema{
+						"priority": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 7),
 							Optional:     true,
 							Computed:     true,
 						},
-						"dscp": &schema.Schema{
+						"dscp": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 63),
 							Optional:     true,
@@ -341,6 +341,11 @@ func resourceSystemLldpNetworkPolicy() *schema.Resource {
 						},
 					},
 				},
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -358,15 +363,25 @@ func resourceSystemLldpNetworkPolicyCreate(d *schema.ResourceData, m interface{}
 		}
 	}
 
-	obj, err := getObjectSystemLldpNetworkPolicy(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating SystemLldpNetworkPolicy resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateSystemLldpNetworkPolicy(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemLldpNetworkPolicy(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating SystemLldpNetworkPolicy resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateSystemLldpNetworkPolicy(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating SystemLldpNetworkPolicy resource: %v", err)
+		return fmt.Errorf("error creating SystemLldpNetworkPolicy resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -391,14 +406,24 @@ func resourceSystemLldpNetworkPolicyUpdate(d *schema.ResourceData, m interface{}
 		}
 	}
 
-	obj, err := getObjectSystemLldpNetworkPolicy(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SystemLldpNetworkPolicy resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSystemLldpNetworkPolicy(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemLldpNetworkPolicy(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SystemLldpNetworkPolicy resource: %v", err)
+		return fmt.Errorf("error updating SystemLldpNetworkPolicy resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSystemLldpNetworkPolicy(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SystemLldpNetworkPolicy resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -425,9 +450,17 @@ func resourceSystemLldpNetworkPolicyDelete(d *schema.ResourceData, m interface{}
 		}
 	}
 
-	err := c.DeleteSystemLldpNetworkPolicy(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSystemLldpNetworkPolicy(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SystemLldpNetworkPolicy resource: %v", err)
+		return fmt.Errorf("error deleting SystemLldpNetworkPolicy resource: %v", err)
 	}
 
 	d.SetId("")
@@ -449,9 +482,19 @@ func resourceSystemLldpNetworkPolicyRead(d *schema.ResourceData, m interface{}) 
 		}
 	}
 
-	o, err := c.ReadSystemLldpNetworkPolicy(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSystemLldpNetworkPolicy(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemLldpNetworkPolicy resource: %v", err)
+		return fmt.Errorf("error reading SystemLldpNetworkPolicy resource: %v", err)
 	}
 
 	if o == nil {
@@ -462,7 +505,7 @@ func resourceSystemLldpNetworkPolicyRead(d *schema.ResourceData, m interface{}) 
 
 	err = refreshObjectSystemLldpNetworkPolicy(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemLldpNetworkPolicy resource from API: %v", err)
+		return fmt.Errorf("error reading SystemLldpNetworkPolicy resource from API: %v", err)
 	}
 	return nil
 }
@@ -984,27 +1027,27 @@ func refreshObjectSystemLldpNetworkPolicy(d *schema.ResourceData, o map[string]i
 
 	if err = d.Set("name", flattenSystemLldpNetworkPolicyName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("comment", flattenSystemLldpNetworkPolicyComment(o["comment"], d, "comment", sv)); err != nil {
 		if !fortiAPIPatch(o["comment"]) {
-			return fmt.Errorf("Error reading comment: %v", err)
+			return fmt.Errorf("error reading comment: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("voice", flattenSystemLldpNetworkPolicyVoice(o["voice"], d, "voice", sv)); err != nil {
 			if !fortiAPIPatch(o["voice"]) {
-				return fmt.Errorf("Error reading voice: %v", err)
+				return fmt.Errorf("error reading voice: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("voice"); ok {
 			if err = d.Set("voice", flattenSystemLldpNetworkPolicyVoice(o["voice"], d, "voice", sv)); err != nil {
 				if !fortiAPIPatch(o["voice"]) {
-					return fmt.Errorf("Error reading voice: %v", err)
+					return fmt.Errorf("error reading voice: %v", err)
 				}
 			}
 		}
@@ -1013,14 +1056,14 @@ func refreshObjectSystemLldpNetworkPolicy(d *schema.ResourceData, o map[string]i
 	if isImportTable() {
 		if err = d.Set("voice_signaling", flattenSystemLldpNetworkPolicyVoiceSignaling(o["voice-signaling"], d, "voice_signaling", sv)); err != nil {
 			if !fortiAPIPatch(o["voice-signaling"]) {
-				return fmt.Errorf("Error reading voice_signaling: %v", err)
+				return fmt.Errorf("error reading voice_signaling: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("voice_signaling"); ok {
 			if err = d.Set("voice_signaling", flattenSystemLldpNetworkPolicyVoiceSignaling(o["voice-signaling"], d, "voice_signaling", sv)); err != nil {
 				if !fortiAPIPatch(o["voice-signaling"]) {
-					return fmt.Errorf("Error reading voice_signaling: %v", err)
+					return fmt.Errorf("error reading voice_signaling: %v", err)
 				}
 			}
 		}
@@ -1029,14 +1072,14 @@ func refreshObjectSystemLldpNetworkPolicy(d *schema.ResourceData, o map[string]i
 	if isImportTable() {
 		if err = d.Set("guest", flattenSystemLldpNetworkPolicyGuest(o["guest"], d, "guest", sv)); err != nil {
 			if !fortiAPIPatch(o["guest"]) {
-				return fmt.Errorf("Error reading guest: %v", err)
+				return fmt.Errorf("error reading guest: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("guest"); ok {
 			if err = d.Set("guest", flattenSystemLldpNetworkPolicyGuest(o["guest"], d, "guest", sv)); err != nil {
 				if !fortiAPIPatch(o["guest"]) {
-					return fmt.Errorf("Error reading guest: %v", err)
+					return fmt.Errorf("error reading guest: %v", err)
 				}
 			}
 		}
@@ -1045,14 +1088,14 @@ func refreshObjectSystemLldpNetworkPolicy(d *schema.ResourceData, o map[string]i
 	if isImportTable() {
 		if err = d.Set("guest_voice_signaling", flattenSystemLldpNetworkPolicyGuestVoiceSignaling(o["guest-voice-signaling"], d, "guest_voice_signaling", sv)); err != nil {
 			if !fortiAPIPatch(o["guest-voice-signaling"]) {
-				return fmt.Errorf("Error reading guest_voice_signaling: %v", err)
+				return fmt.Errorf("error reading guest_voice_signaling: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("guest_voice_signaling"); ok {
 			if err = d.Set("guest_voice_signaling", flattenSystemLldpNetworkPolicyGuestVoiceSignaling(o["guest-voice-signaling"], d, "guest_voice_signaling", sv)); err != nil {
 				if !fortiAPIPatch(o["guest-voice-signaling"]) {
-					return fmt.Errorf("Error reading guest_voice_signaling: %v", err)
+					return fmt.Errorf("error reading guest_voice_signaling: %v", err)
 				}
 			}
 		}
@@ -1061,14 +1104,14 @@ func refreshObjectSystemLldpNetworkPolicy(d *schema.ResourceData, o map[string]i
 	if isImportTable() {
 		if err = d.Set("softphone", flattenSystemLldpNetworkPolicySoftphone(o["softphone"], d, "softphone", sv)); err != nil {
 			if !fortiAPIPatch(o["softphone"]) {
-				return fmt.Errorf("Error reading softphone: %v", err)
+				return fmt.Errorf("error reading softphone: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("softphone"); ok {
 			if err = d.Set("softphone", flattenSystemLldpNetworkPolicySoftphone(o["softphone"], d, "softphone", sv)); err != nil {
 				if !fortiAPIPatch(o["softphone"]) {
-					return fmt.Errorf("Error reading softphone: %v", err)
+					return fmt.Errorf("error reading softphone: %v", err)
 				}
 			}
 		}
@@ -1077,14 +1120,14 @@ func refreshObjectSystemLldpNetworkPolicy(d *schema.ResourceData, o map[string]i
 	if isImportTable() {
 		if err = d.Set("video_conferencing", flattenSystemLldpNetworkPolicyVideoConferencing(o["video-conferencing"], d, "video_conferencing", sv)); err != nil {
 			if !fortiAPIPatch(o["video-conferencing"]) {
-				return fmt.Errorf("Error reading video_conferencing: %v", err)
+				return fmt.Errorf("error reading video_conferencing: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("video_conferencing"); ok {
 			if err = d.Set("video_conferencing", flattenSystemLldpNetworkPolicyVideoConferencing(o["video-conferencing"], d, "video_conferencing", sv)); err != nil {
 				if !fortiAPIPatch(o["video-conferencing"]) {
-					return fmt.Errorf("Error reading video_conferencing: %v", err)
+					return fmt.Errorf("error reading video_conferencing: %v", err)
 				}
 			}
 		}
@@ -1093,14 +1136,14 @@ func refreshObjectSystemLldpNetworkPolicy(d *schema.ResourceData, o map[string]i
 	if isImportTable() {
 		if err = d.Set("streaming_video", flattenSystemLldpNetworkPolicyStreamingVideo(o["streaming-video"], d, "streaming_video", sv)); err != nil {
 			if !fortiAPIPatch(o["streaming-video"]) {
-				return fmt.Errorf("Error reading streaming_video: %v", err)
+				return fmt.Errorf("error reading streaming_video: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("streaming_video"); ok {
 			if err = d.Set("streaming_video", flattenSystemLldpNetworkPolicyStreamingVideo(o["streaming-video"], d, "streaming_video", sv)); err != nil {
 				if !fortiAPIPatch(o["streaming-video"]) {
-					return fmt.Errorf("Error reading streaming_video: %v", err)
+					return fmt.Errorf("error reading streaming_video: %v", err)
 				}
 			}
 		}
@@ -1109,14 +1152,14 @@ func refreshObjectSystemLldpNetworkPolicy(d *schema.ResourceData, o map[string]i
 	if isImportTable() {
 		if err = d.Set("video_signaling", flattenSystemLldpNetworkPolicyVideoSignaling(o["video-signaling"], d, "video_signaling", sv)); err != nil {
 			if !fortiAPIPatch(o["video-signaling"]) {
-				return fmt.Errorf("Error reading video_signaling: %v", err)
+				return fmt.Errorf("error reading video_signaling: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("video_signaling"); ok {
 			if err = d.Set("video_signaling", flattenSystemLldpNetworkPolicyVideoSignaling(o["video-signaling"], d, "video_signaling", sv)); err != nil {
 				if !fortiAPIPatch(o["video-signaling"]) {
-					return fmt.Errorf("Error reading video_signaling: %v", err)
+					return fmt.Errorf("error reading video_signaling: %v", err)
 				}
 			}
 		}

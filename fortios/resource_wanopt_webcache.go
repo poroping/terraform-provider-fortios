@@ -30,100 +30,105 @@ func resourceWanoptWebcache() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"max_object_size": &schema.Schema{
+			"max_object_size": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 2147483),
 				Optional:     true,
 				Computed:     true,
 			},
-			"neg_resp_time": &schema.Schema{
+			"neg_resp_time": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"fresh_factor": &schema.Schema{
+			"fresh_factor": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 100),
 				Optional:     true,
 				Computed:     true,
 			},
-			"max_ttl": &schema.Schema{
+			"max_ttl": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 5256000),
 				Optional:     true,
 				Computed:     true,
 			},
-			"min_ttl": &schema.Schema{
+			"min_ttl": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 5256000),
 				Optional:     true,
 				Computed:     true,
 			},
-			"default_ttl": &schema.Schema{
+			"default_ttl": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 5256000),
 				Optional:     true,
 				Computed:     true,
 			},
-			"ignore_ims": &schema.Schema{
+			"ignore_ims": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ignore_conditional": &schema.Schema{
+			"ignore_conditional": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ignore_pnc": &schema.Schema{
+			"ignore_pnc": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ignore_ie_reload": &schema.Schema{
+			"ignore_ie_reload": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"cache_expired": &schema.Schema{
+			"cache_expired": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"cache_cookie": &schema.Schema{
+			"cache_cookie": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"reval_pnc": &schema.Schema{
+			"reval_pnc": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"always_revalidate": &schema.Schema{
+			"always_revalidate": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"cache_by_default": &schema.Schema{
+			"cache_by_default": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"host_validate": &schema.Schema{
+			"host_validate": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"external": &schema.Schema{
+			"external": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -142,14 +147,24 @@ func resourceWanoptWebcacheUpdate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectWanoptWebcache(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating WanoptWebcache resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateWanoptWebcache(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectWanoptWebcache(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating WanoptWebcache resource: %v", err)
+		return fmt.Errorf("error updating WanoptWebcache resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateWanoptWebcache(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating WanoptWebcache resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -176,9 +191,17 @@ func resourceWanoptWebcacheDelete(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	err := c.DeleteWanoptWebcache(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteWanoptWebcache(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting WanoptWebcache resource: %v", err)
+		return fmt.Errorf("error deleting WanoptWebcache resource: %v", err)
 	}
 
 	d.SetId("")
@@ -200,9 +223,19 @@ func resourceWanoptWebcacheRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadWanoptWebcache(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadWanoptWebcache(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading WanoptWebcache resource: %v", err)
+		return fmt.Errorf("error reading WanoptWebcache resource: %v", err)
 	}
 
 	if o == nil {
@@ -213,7 +246,7 @@ func resourceWanoptWebcacheRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectWanoptWebcache(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading WanoptWebcache resource from API: %v", err)
+		return fmt.Errorf("error reading WanoptWebcache resource from API: %v", err)
 	}
 	return nil
 }
@@ -291,103 +324,103 @@ func refreshObjectWanoptWebcache(d *schema.ResourceData, o map[string]interface{
 
 	if err = d.Set("max_object_size", flattenWanoptWebcacheMaxObjectSize(o["max-object-size"], d, "max_object_size", sv)); err != nil {
 		if !fortiAPIPatch(o["max-object-size"]) {
-			return fmt.Errorf("Error reading max_object_size: %v", err)
+			return fmt.Errorf("error reading max_object_size: %v", err)
 		}
 	}
 
 	if err = d.Set("neg_resp_time", flattenWanoptWebcacheNegRespTime(o["neg-resp-time"], d, "neg_resp_time", sv)); err != nil {
 		if !fortiAPIPatch(o["neg-resp-time"]) {
-			return fmt.Errorf("Error reading neg_resp_time: %v", err)
+			return fmt.Errorf("error reading neg_resp_time: %v", err)
 		}
 	}
 
 	if err = d.Set("fresh_factor", flattenWanoptWebcacheFreshFactor(o["fresh-factor"], d, "fresh_factor", sv)); err != nil {
 		if !fortiAPIPatch(o["fresh-factor"]) {
-			return fmt.Errorf("Error reading fresh_factor: %v", err)
+			return fmt.Errorf("error reading fresh_factor: %v", err)
 		}
 	}
 
 	if err = d.Set("max_ttl", flattenWanoptWebcacheMaxTtl(o["max-ttl"], d, "max_ttl", sv)); err != nil {
 		if !fortiAPIPatch(o["max-ttl"]) {
-			return fmt.Errorf("Error reading max_ttl: %v", err)
+			return fmt.Errorf("error reading max_ttl: %v", err)
 		}
 	}
 
 	if err = d.Set("min_ttl", flattenWanoptWebcacheMinTtl(o["min-ttl"], d, "min_ttl", sv)); err != nil {
 		if !fortiAPIPatch(o["min-ttl"]) {
-			return fmt.Errorf("Error reading min_ttl: %v", err)
+			return fmt.Errorf("error reading min_ttl: %v", err)
 		}
 	}
 
 	if err = d.Set("default_ttl", flattenWanoptWebcacheDefaultTtl(o["default-ttl"], d, "default_ttl", sv)); err != nil {
 		if !fortiAPIPatch(o["default-ttl"]) {
-			return fmt.Errorf("Error reading default_ttl: %v", err)
+			return fmt.Errorf("error reading default_ttl: %v", err)
 		}
 	}
 
 	if err = d.Set("ignore_ims", flattenWanoptWebcacheIgnoreIms(o["ignore-ims"], d, "ignore_ims", sv)); err != nil {
 		if !fortiAPIPatch(o["ignore-ims"]) {
-			return fmt.Errorf("Error reading ignore_ims: %v", err)
+			return fmt.Errorf("error reading ignore_ims: %v", err)
 		}
 	}
 
 	if err = d.Set("ignore_conditional", flattenWanoptWebcacheIgnoreConditional(o["ignore-conditional"], d, "ignore_conditional", sv)); err != nil {
 		if !fortiAPIPatch(o["ignore-conditional"]) {
-			return fmt.Errorf("Error reading ignore_conditional: %v", err)
+			return fmt.Errorf("error reading ignore_conditional: %v", err)
 		}
 	}
 
 	if err = d.Set("ignore_pnc", flattenWanoptWebcacheIgnorePnc(o["ignore-pnc"], d, "ignore_pnc", sv)); err != nil {
 		if !fortiAPIPatch(o["ignore-pnc"]) {
-			return fmt.Errorf("Error reading ignore_pnc: %v", err)
+			return fmt.Errorf("error reading ignore_pnc: %v", err)
 		}
 	}
 
 	if err = d.Set("ignore_ie_reload", flattenWanoptWebcacheIgnoreIeReload(o["ignore-ie-reload"], d, "ignore_ie_reload", sv)); err != nil {
 		if !fortiAPIPatch(o["ignore-ie-reload"]) {
-			return fmt.Errorf("Error reading ignore_ie_reload: %v", err)
+			return fmt.Errorf("error reading ignore_ie_reload: %v", err)
 		}
 	}
 
 	if err = d.Set("cache_expired", flattenWanoptWebcacheCacheExpired(o["cache-expired"], d, "cache_expired", sv)); err != nil {
 		if !fortiAPIPatch(o["cache-expired"]) {
-			return fmt.Errorf("Error reading cache_expired: %v", err)
+			return fmt.Errorf("error reading cache_expired: %v", err)
 		}
 	}
 
 	if err = d.Set("cache_cookie", flattenWanoptWebcacheCacheCookie(o["cache-cookie"], d, "cache_cookie", sv)); err != nil {
 		if !fortiAPIPatch(o["cache-cookie"]) {
-			return fmt.Errorf("Error reading cache_cookie: %v", err)
+			return fmt.Errorf("error reading cache_cookie: %v", err)
 		}
 	}
 
 	if err = d.Set("reval_pnc", flattenWanoptWebcacheRevalPnc(o["reval-pnc"], d, "reval_pnc", sv)); err != nil {
 		if !fortiAPIPatch(o["reval-pnc"]) {
-			return fmt.Errorf("Error reading reval_pnc: %v", err)
+			return fmt.Errorf("error reading reval_pnc: %v", err)
 		}
 	}
 
 	if err = d.Set("always_revalidate", flattenWanoptWebcacheAlwaysRevalidate(o["always-revalidate"], d, "always_revalidate", sv)); err != nil {
 		if !fortiAPIPatch(o["always-revalidate"]) {
-			return fmt.Errorf("Error reading always_revalidate: %v", err)
+			return fmt.Errorf("error reading always_revalidate: %v", err)
 		}
 	}
 
 	if err = d.Set("cache_by_default", flattenWanoptWebcacheCacheByDefault(o["cache-by-default"], d, "cache_by_default", sv)); err != nil {
 		if !fortiAPIPatch(o["cache-by-default"]) {
-			return fmt.Errorf("Error reading cache_by_default: %v", err)
+			return fmt.Errorf("error reading cache_by_default: %v", err)
 		}
 	}
 
 	if err = d.Set("host_validate", flattenWanoptWebcacheHostValidate(o["host-validate"], d, "host_validate", sv)); err != nil {
 		if !fortiAPIPatch(o["host-validate"]) {
-			return fmt.Errorf("Error reading host_validate: %v", err)
+			return fmt.Errorf("error reading host_validate: %v", err)
 		}
 	}
 
 	if err = d.Set("external", flattenWanoptWebcacheExternal(o["external"], d, "external", sv)); err != nil {
 		if !fortiAPIPatch(o["external"]) {
-			return fmt.Errorf("Error reading external: %v", err)
+			return fmt.Errorf("error reading external: %v", err)
 		}
 	}
 

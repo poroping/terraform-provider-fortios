@@ -30,29 +30,29 @@ func resourceWirelessControllerWtpGroup() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"platform_type": &schema.Schema{
+			"platform_type": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"wtps": &schema.Schema{
+			"wtps": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"wtp_id": &schema.Schema{
+						"wtp_id": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
@@ -61,10 +61,15 @@ func resourceWirelessControllerWtpGroup() *schema.Resource {
 					},
 				},
 			},
-			"dynamic_sort_subtable": &schema.Schema{
+			"dynamic_sort_subtable": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Default:  "false",
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -82,15 +87,25 @@ func resourceWirelessControllerWtpGroupCreate(d *schema.ResourceData, m interfac
 		}
 	}
 
-	obj, err := getObjectWirelessControllerWtpGroup(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating WirelessControllerWtpGroup resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateWirelessControllerWtpGroup(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectWirelessControllerWtpGroup(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating WirelessControllerWtpGroup resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateWirelessControllerWtpGroup(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating WirelessControllerWtpGroup resource: %v", err)
+		return fmt.Errorf("error creating WirelessControllerWtpGroup resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -115,14 +130,24 @@ func resourceWirelessControllerWtpGroupUpdate(d *schema.ResourceData, m interfac
 		}
 	}
 
-	obj, err := getObjectWirelessControllerWtpGroup(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating WirelessControllerWtpGroup resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateWirelessControllerWtpGroup(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectWirelessControllerWtpGroup(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating WirelessControllerWtpGroup resource: %v", err)
+		return fmt.Errorf("error updating WirelessControllerWtpGroup resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateWirelessControllerWtpGroup(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating WirelessControllerWtpGroup resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -149,9 +174,17 @@ func resourceWirelessControllerWtpGroupDelete(d *schema.ResourceData, m interfac
 		}
 	}
 
-	err := c.DeleteWirelessControllerWtpGroup(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteWirelessControllerWtpGroup(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting WirelessControllerWtpGroup resource: %v", err)
+		return fmt.Errorf("error deleting WirelessControllerWtpGroup resource: %v", err)
 	}
 
 	d.SetId("")
@@ -173,9 +206,19 @@ func resourceWirelessControllerWtpGroupRead(d *schema.ResourceData, m interface{
 		}
 	}
 
-	o, err := c.ReadWirelessControllerWtpGroup(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadWirelessControllerWtpGroup(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading WirelessControllerWtpGroup resource: %v", err)
+		return fmt.Errorf("error reading WirelessControllerWtpGroup resource: %v", err)
 	}
 
 	if o == nil {
@@ -186,7 +229,7 @@ func resourceWirelessControllerWtpGroupRead(d *schema.ResourceData, m interface{
 
 	err = refreshObjectWirelessControllerWtpGroup(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading WirelessControllerWtpGroup resource from API: %v", err)
+		return fmt.Errorf("error reading WirelessControllerWtpGroup resource from API: %v", err)
 	}
 	return nil
 }
@@ -242,27 +285,27 @@ func refreshObjectWirelessControllerWtpGroup(d *schema.ResourceData, o map[strin
 
 	if err = d.Set("name", flattenWirelessControllerWtpGroupName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("platform_type", flattenWirelessControllerWtpGroupPlatformType(o["platform-type"], d, "platform_type", sv)); err != nil {
 		if !fortiAPIPatch(o["platform-type"]) {
-			return fmt.Errorf("Error reading platform_type: %v", err)
+			return fmt.Errorf("error reading platform_type: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("wtps", flattenWirelessControllerWtpGroupWtps(o["wtps"], d, "wtps", sv)); err != nil {
 			if !fortiAPIPatch(o["wtps"]) {
-				return fmt.Errorf("Error reading wtps: %v", err)
+				return fmt.Errorf("error reading wtps: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("wtps"); ok {
 			if err = d.Set("wtps", flattenWirelessControllerWtpGroupWtps(o["wtps"], d, "wtps", sv)); err != nil {
 				if !fortiAPIPatch(o["wtps"]) {
-					return fmt.Errorf("Error reading wtps: %v", err)
+					return fmt.Errorf("error reading wtps: %v", err)
 				}
 			}
 		}

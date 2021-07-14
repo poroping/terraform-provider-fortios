@@ -30,78 +30,78 @@ func resourceLogFortianalyzerCloudFilter() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"severity": &schema.Schema{
+			"severity": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"forward_traffic": &schema.Schema{
+			"forward_traffic": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"local_traffic": &schema.Schema{
+			"local_traffic": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"multicast_traffic": &schema.Schema{
+			"multicast_traffic": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"sniffer_traffic": &schema.Schema{
+			"sniffer_traffic": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"anomaly": &schema.Schema{
+			"anomaly": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"voip": &schema.Schema{
+			"voip": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"dlp_archive": &schema.Schema{
+			"dlp_archive": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"gtp": &schema.Schema{
+			"gtp": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"free_style": &schema.Schema{
+			"free_style": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"category": &schema.Schema{
+						"category": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"filter": &schema.Schema{
+						"filter": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 1023),
 							Optional:     true,
 							Computed:     true,
 						},
-						"filter_type": &schema.Schema{
+						"filter_type": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -109,21 +109,26 @@ func resourceLogFortianalyzerCloudFilter() *schema.Resource {
 					},
 				},
 			},
-			"filter": &schema.Schema{
+			"filter": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 511),
 				Optional:     true,
 				Computed:     true,
 			},
-			"filter_type": &schema.Schema{
+			"filter_type": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"dynamic_sort_subtable": &schema.Schema{
+			"dynamic_sort_subtable": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Default:  "false",
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -142,14 +147,24 @@ func resourceLogFortianalyzerCloudFilterUpdate(d *schema.ResourceData, m interfa
 		}
 	}
 
-	obj, err := getObjectLogFortianalyzerCloudFilter(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating LogFortianalyzerCloudFilter resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateLogFortianalyzerCloudFilter(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectLogFortianalyzerCloudFilter(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating LogFortianalyzerCloudFilter resource: %v", err)
+		return fmt.Errorf("error updating LogFortianalyzerCloudFilter resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateLogFortianalyzerCloudFilter(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating LogFortianalyzerCloudFilter resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -176,9 +191,17 @@ func resourceLogFortianalyzerCloudFilterDelete(d *schema.ResourceData, m interfa
 		}
 	}
 
-	err := c.DeleteLogFortianalyzerCloudFilter(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteLogFortianalyzerCloudFilter(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting LogFortianalyzerCloudFilter resource: %v", err)
+		return fmt.Errorf("error deleting LogFortianalyzerCloudFilter resource: %v", err)
 	}
 
 	d.SetId("")
@@ -200,9 +223,19 @@ func resourceLogFortianalyzerCloudFilterRead(d *schema.ResourceData, m interface
 		}
 	}
 
-	o, err := c.ReadLogFortianalyzerCloudFilter(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadLogFortianalyzerCloudFilter(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading LogFortianalyzerCloudFilter resource: %v", err)
+		return fmt.Errorf("error reading LogFortianalyzerCloudFilter resource: %v", err)
 	}
 
 	if o == nil {
@@ -213,7 +246,7 @@ func resourceLogFortianalyzerCloudFilterRead(d *schema.ResourceData, m interface
 
 	err = refreshObjectLogFortianalyzerCloudFilter(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading LogFortianalyzerCloudFilter resource from API: %v", err)
+		return fmt.Errorf("error reading LogFortianalyzerCloudFilter resource from API: %v", err)
 	}
 	return nil
 }
@@ -335,69 +368,69 @@ func refreshObjectLogFortianalyzerCloudFilter(d *schema.ResourceData, o map[stri
 
 	if err = d.Set("severity", flattenLogFortianalyzerCloudFilterSeverity(o["severity"], d, "severity", sv)); err != nil {
 		if !fortiAPIPatch(o["severity"]) {
-			return fmt.Errorf("Error reading severity: %v", err)
+			return fmt.Errorf("error reading severity: %v", err)
 		}
 	}
 
 	if err = d.Set("forward_traffic", flattenLogFortianalyzerCloudFilterForwardTraffic(o["forward-traffic"], d, "forward_traffic", sv)); err != nil {
 		if !fortiAPIPatch(o["forward-traffic"]) {
-			return fmt.Errorf("Error reading forward_traffic: %v", err)
+			return fmt.Errorf("error reading forward_traffic: %v", err)
 		}
 	}
 
 	if err = d.Set("local_traffic", flattenLogFortianalyzerCloudFilterLocalTraffic(o["local-traffic"], d, "local_traffic", sv)); err != nil {
 		if !fortiAPIPatch(o["local-traffic"]) {
-			return fmt.Errorf("Error reading local_traffic: %v", err)
+			return fmt.Errorf("error reading local_traffic: %v", err)
 		}
 	}
 
 	if err = d.Set("multicast_traffic", flattenLogFortianalyzerCloudFilterMulticastTraffic(o["multicast-traffic"], d, "multicast_traffic", sv)); err != nil {
 		if !fortiAPIPatch(o["multicast-traffic"]) {
-			return fmt.Errorf("Error reading multicast_traffic: %v", err)
+			return fmt.Errorf("error reading multicast_traffic: %v", err)
 		}
 	}
 
 	if err = d.Set("sniffer_traffic", flattenLogFortianalyzerCloudFilterSnifferTraffic(o["sniffer-traffic"], d, "sniffer_traffic", sv)); err != nil {
 		if !fortiAPIPatch(o["sniffer-traffic"]) {
-			return fmt.Errorf("Error reading sniffer_traffic: %v", err)
+			return fmt.Errorf("error reading sniffer_traffic: %v", err)
 		}
 	}
 
 	if err = d.Set("anomaly", flattenLogFortianalyzerCloudFilterAnomaly(o["anomaly"], d, "anomaly", sv)); err != nil {
 		if !fortiAPIPatch(o["anomaly"]) {
-			return fmt.Errorf("Error reading anomaly: %v", err)
+			return fmt.Errorf("error reading anomaly: %v", err)
 		}
 	}
 
 	if err = d.Set("voip", flattenLogFortianalyzerCloudFilterVoip(o["voip"], d, "voip", sv)); err != nil {
 		if !fortiAPIPatch(o["voip"]) {
-			return fmt.Errorf("Error reading voip: %v", err)
+			return fmt.Errorf("error reading voip: %v", err)
 		}
 	}
 
 	if err = d.Set("dlp_archive", flattenLogFortianalyzerCloudFilterDlpArchive(o["dlp-archive"], d, "dlp_archive", sv)); err != nil {
 		if !fortiAPIPatch(o["dlp-archive"]) {
-			return fmt.Errorf("Error reading dlp_archive: %v", err)
+			return fmt.Errorf("error reading dlp_archive: %v", err)
 		}
 	}
 
 	if err = d.Set("gtp", flattenLogFortianalyzerCloudFilterGtp(o["gtp"], d, "gtp", sv)); err != nil {
 		if !fortiAPIPatch(o["gtp"]) {
-			return fmt.Errorf("Error reading gtp: %v", err)
+			return fmt.Errorf("error reading gtp: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("free_style", flattenLogFortianalyzerCloudFilterFreeStyle(o["free-style"], d, "free_style", sv)); err != nil {
 			if !fortiAPIPatch(o["free-style"]) {
-				return fmt.Errorf("Error reading free_style: %v", err)
+				return fmt.Errorf("error reading free_style: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("free_style"); ok {
 			if err = d.Set("free_style", flattenLogFortianalyzerCloudFilterFreeStyle(o["free-style"], d, "free_style", sv)); err != nil {
 				if !fortiAPIPatch(o["free-style"]) {
-					return fmt.Errorf("Error reading free_style: %v", err)
+					return fmt.Errorf("error reading free_style: %v", err)
 				}
 			}
 		}
@@ -405,13 +438,13 @@ func refreshObjectLogFortianalyzerCloudFilter(d *schema.ResourceData, o map[stri
 
 	if err = d.Set("filter", flattenLogFortianalyzerCloudFilterFilter(o["filter"], d, "filter", sv)); err != nil {
 		if !fortiAPIPatch(o["filter"]) {
-			return fmt.Errorf("Error reading filter: %v", err)
+			return fmt.Errorf("error reading filter: %v", err)
 		}
 	}
 
 	if err = d.Set("filter_type", flattenLogFortianalyzerCloudFilterFilterType(o["filter-type"], d, "filter_type", sv)); err != nil {
 		if !fortiAPIPatch(o["filter-type"]) {
-			return fmt.Errorf("Error reading filter_type: %v", err)
+			return fmt.Errorf("error reading filter_type: %v", err)
 		}
 	}
 

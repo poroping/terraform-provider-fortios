@@ -78,14 +78,14 @@ func testAccCheckFortiOSSystemFortiguardExists(n string) resource.TestCheckFunc 
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemFortiguard(i, "root")
+		o, err := c.ReadSystemFortiguard(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading SystemFortiguard: %s", err)
+			return fmt.Errorf("error reading SystemFortiguard: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating SystemFortiguard: %s", n)
+			return fmt.Errorf("error creating SystemFortiguard: %s", n)
 		}
 
 		return nil
@@ -101,11 +101,11 @@ func testAccCheckSystemFortiguardDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemFortiguard(i, "root")
+		o, err := c.ReadSystemFortiguard(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error SystemFortiguard %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error SystemFortiguard %s still exists", rs.Primary.ID)
 			}
 		}
 

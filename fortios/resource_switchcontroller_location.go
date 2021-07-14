@@ -30,223 +30,223 @@ func resourceSwitchControllerLocation() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"address_civic": &schema.Schema{
+			"address_civic": {
 				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"additional": &schema.Schema{
+						"additional": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 47),
 							Optional:     true,
 							Computed:     true,
 						},
-						"additional_code": &schema.Schema{
+						"additional_code": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 47),
 							Optional:     true,
 							Computed:     true,
 						},
-						"block": &schema.Schema{
+						"block": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 47),
 							Optional:     true,
 							Computed:     true,
 						},
-						"branch_road": &schema.Schema{
+						"branch_road": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 47),
 							Optional:     true,
 							Computed:     true,
 						},
-						"building": &schema.Schema{
+						"building": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 47),
 							Optional:     true,
 							Computed:     true,
 						},
-						"city": &schema.Schema{
+						"city": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 47),
 							Optional:     true,
 							Computed:     true,
 						},
-						"city_division": &schema.Schema{
+						"city_division": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 47),
 							Optional:     true,
 							Computed:     true,
 						},
-						"country": &schema.Schema{
+						"country": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 47),
 							Optional:     true,
 							Computed:     true,
 						},
-						"country_subdivision": &schema.Schema{
+						"country_subdivision": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 47),
 							Optional:     true,
 							Computed:     true,
 						},
-						"county": &schema.Schema{
+						"county": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 47),
 							Optional:     true,
 							Computed:     true,
 						},
-						"direction": &schema.Schema{
+						"direction": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 47),
 							Optional:     true,
 							Computed:     true,
 						},
-						"floor": &schema.Schema{
+						"floor": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 47),
 							Optional:     true,
 							Computed:     true,
 						},
-						"landmark": &schema.Schema{
+						"landmark": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 47),
 							Optional:     true,
 							Computed:     true,
 						},
-						"language": &schema.Schema{
+						"language": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 47),
 							Optional:     true,
 							Computed:     true,
 						},
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 47),
 							Optional:     true,
 							Computed:     true,
 						},
-						"number": &schema.Schema{
+						"number": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 47),
 							Optional:     true,
 							Computed:     true,
 						},
-						"number_suffix": &schema.Schema{
+						"number_suffix": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 47),
 							Optional:     true,
 							Computed:     true,
 						},
-						"place_type": &schema.Schema{
+						"place_type": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 47),
 							Optional:     true,
 							Computed:     true,
 						},
-						"post_office_box": &schema.Schema{
+						"post_office_box": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 47),
 							Optional:     true,
 							Computed:     true,
 						},
-						"postal_community": &schema.Schema{
+						"postal_community": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 47),
 							Optional:     true,
 							Computed:     true,
 						},
-						"primary_road": &schema.Schema{
+						"primary_road": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 47),
 							Optional:     true,
 							Computed:     true,
 						},
-						"road_section": &schema.Schema{
+						"road_section": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 47),
 							Optional:     true,
 							Computed:     true,
 						},
-						"room": &schema.Schema{
+						"room": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 47),
 							Optional:     true,
 							Computed:     true,
 						},
-						"script": &schema.Schema{
+						"script": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 47),
 							Optional:     true,
 							Computed:     true,
 						},
-						"seat": &schema.Schema{
+						"seat": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 47),
 							Optional:     true,
 							Computed:     true,
 						},
-						"street": &schema.Schema{
+						"street": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 47),
 							Optional:     true,
 							Computed:     true,
 						},
-						"street_name_post_mod": &schema.Schema{
+						"street_name_post_mod": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 47),
 							Optional:     true,
 							Computed:     true,
 						},
-						"street_name_pre_mod": &schema.Schema{
+						"street_name_pre_mod": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 47),
 							Optional:     true,
 							Computed:     true,
 						},
-						"street_suffix": &schema.Schema{
+						"street_suffix": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 47),
 							Optional:     true,
 							Computed:     true,
 						},
-						"sub_branch_road": &schema.Schema{
+						"sub_branch_road": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 47),
 							Optional:     true,
 							Computed:     true,
 						},
-						"trailing_str_suffix": &schema.Schema{
+						"trailing_str_suffix": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 47),
 							Optional:     true,
 							Computed:     true,
 						},
-						"unit": &schema.Schema{
+						"unit": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 47),
 							Optional:     true,
 							Computed:     true,
 						},
-						"zip": &schema.Schema{
+						"zip": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 47),
 							Optional:     true,
 							Computed:     true,
 						},
-						"parent_key": &schema.Schema{
+						"parent_key": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 63),
 							Optional:     true,
@@ -255,41 +255,41 @@ func resourceSwitchControllerLocation() *schema.Resource {
 					},
 				},
 			},
-			"coordinates": &schema.Schema{
+			"coordinates": {
 				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"altitude": &schema.Schema{
+						"altitude": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 15),
 							Optional:     true,
 							Computed:     true,
 						},
-						"altitude_unit": &schema.Schema{
+						"altitude_unit": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"datum": &schema.Schema{
+						"datum": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"latitude": &schema.Schema{
+						"latitude": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 15),
 							Optional:     true,
 							Computed:     true,
 						},
-						"longitude": &schema.Schema{
+						"longitude": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 15),
 							Optional:     true,
 							Computed:     true,
 						},
-						"parent_key": &schema.Schema{
+						"parent_key": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 63),
 							Optional:     true,
@@ -298,19 +298,19 @@ func resourceSwitchControllerLocation() *schema.Resource {
 					},
 				},
 			},
-			"elin_number": &schema.Schema{
+			"elin_number": {
 				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"elin_num": &schema.Schema{
+						"elin_num": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 31),
 							Optional:     true,
 							Computed:     true,
 						},
-						"parent_key": &schema.Schema{
+						"parent_key": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 63),
 							Optional:     true,
@@ -318,6 +318,11 @@ func resourceSwitchControllerLocation() *schema.Resource {
 						},
 					},
 				},
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -335,15 +340,25 @@ func resourceSwitchControllerLocationCreate(d *schema.ResourceData, m interface{
 		}
 	}
 
-	obj, err := getObjectSwitchControllerLocation(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating SwitchControllerLocation resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateSwitchControllerLocation(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSwitchControllerLocation(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating SwitchControllerLocation resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateSwitchControllerLocation(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating SwitchControllerLocation resource: %v", err)
+		return fmt.Errorf("error creating SwitchControllerLocation resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -368,14 +383,24 @@ func resourceSwitchControllerLocationUpdate(d *schema.ResourceData, m interface{
 		}
 	}
 
-	obj, err := getObjectSwitchControllerLocation(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SwitchControllerLocation resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSwitchControllerLocation(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSwitchControllerLocation(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SwitchControllerLocation resource: %v", err)
+		return fmt.Errorf("error updating SwitchControllerLocation resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSwitchControllerLocation(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SwitchControllerLocation resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -402,9 +427,17 @@ func resourceSwitchControllerLocationDelete(d *schema.ResourceData, m interface{
 		}
 	}
 
-	err := c.DeleteSwitchControllerLocation(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSwitchControllerLocation(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SwitchControllerLocation resource: %v", err)
+		return fmt.Errorf("error deleting SwitchControllerLocation resource: %v", err)
 	}
 
 	d.SetId("")
@@ -426,9 +459,19 @@ func resourceSwitchControllerLocationRead(d *schema.ResourceData, m interface{})
 		}
 	}
 
-	o, err := c.ReadSwitchControllerLocation(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSwitchControllerLocation(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SwitchControllerLocation resource: %v", err)
+		return fmt.Errorf("error reading SwitchControllerLocation resource: %v", err)
 	}
 
 	if o == nil {
@@ -439,7 +482,7 @@ func resourceSwitchControllerLocationRead(d *schema.ResourceData, m interface{})
 
 	err = refreshObjectSwitchControllerLocation(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SwitchControllerLocation resource from API: %v", err)
+		return fmt.Errorf("error reading SwitchControllerLocation resource from API: %v", err)
 	}
 	return nil
 }
@@ -912,21 +955,21 @@ func refreshObjectSwitchControllerLocation(d *schema.ResourceData, o map[string]
 
 	if err = d.Set("name", flattenSwitchControllerLocationName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("address_civic", flattenSwitchControllerLocationAddressCivic(o["address-civic"], d, "address_civic", sv)); err != nil {
 			if !fortiAPIPatch(o["address-civic"]) {
-				return fmt.Errorf("Error reading address_civic: %v", err)
+				return fmt.Errorf("error reading address_civic: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("address_civic"); ok {
 			if err = d.Set("address_civic", flattenSwitchControllerLocationAddressCivic(o["address-civic"], d, "address_civic", sv)); err != nil {
 				if !fortiAPIPatch(o["address-civic"]) {
-					return fmt.Errorf("Error reading address_civic: %v", err)
+					return fmt.Errorf("error reading address_civic: %v", err)
 				}
 			}
 		}
@@ -935,14 +978,14 @@ func refreshObjectSwitchControllerLocation(d *schema.ResourceData, o map[string]
 	if isImportTable() {
 		if err = d.Set("coordinates", flattenSwitchControllerLocationCoordinates(o["coordinates"], d, "coordinates", sv)); err != nil {
 			if !fortiAPIPatch(o["coordinates"]) {
-				return fmt.Errorf("Error reading coordinates: %v", err)
+				return fmt.Errorf("error reading coordinates: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("coordinates"); ok {
 			if err = d.Set("coordinates", flattenSwitchControllerLocationCoordinates(o["coordinates"], d, "coordinates", sv)); err != nil {
 				if !fortiAPIPatch(o["coordinates"]) {
-					return fmt.Errorf("Error reading coordinates: %v", err)
+					return fmt.Errorf("error reading coordinates: %v", err)
 				}
 			}
 		}
@@ -951,14 +994,14 @@ func refreshObjectSwitchControllerLocation(d *schema.ResourceData, o map[string]
 	if isImportTable() {
 		if err = d.Set("elin_number", flattenSwitchControllerLocationElinNumber(o["elin-number"], d, "elin_number", sv)); err != nil {
 			if !fortiAPIPatch(o["elin-number"]) {
-				return fmt.Errorf("Error reading elin_number: %v", err)
+				return fmt.Errorf("error reading elin_number: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("elin_number"); ok {
 			if err = d.Set("elin_number", flattenSwitchControllerLocationElinNumber(o["elin-number"], d, "elin_number", sv)); err != nil {
 				if !fortiAPIPatch(o["elin-number"]) {
-					return fmt.Errorf("Error reading elin_number: %v", err)
+					return fmt.Errorf("error reading elin_number: %v", err)
 				}
 			}
 		}

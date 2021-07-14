@@ -30,26 +30,31 @@ func resourceFirewallVendorMac() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"fosid": &schema.Schema{
-				Type: schema.TypeInt,
+			"fosid": {
+				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"name": &schema.Schema{
-				Type: schema.TypeString,
+			"name": {
+				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
+				Optional:     true,
+				Computed:     true,
+			},
+			"mac_number": {
+				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"mac_number": &schema.Schema{
-				Type: schema.TypeInt,
+			"batchid": {
+				Type:     schema.TypeInt,
 				Optional: true,
-				Computed: true,
+				Default:  0,
 			},
 		},
 	}
@@ -67,15 +72,25 @@ func resourceFirewallVendorMacCreate(d *schema.ResourceData, m interface{}) erro
 		}
 	}
 
-	obj, err := getObjectFirewallVendorMac(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating FirewallVendorMac resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateFirewallVendorMac(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectFirewallVendorMac(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating FirewallVendorMac resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateFirewallVendorMac(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating FirewallVendorMac resource: %v", err)
+		return fmt.Errorf("error creating FirewallVendorMac resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -100,14 +115,24 @@ func resourceFirewallVendorMacUpdate(d *schema.ResourceData, m interface{}) erro
 		}
 	}
 
-	obj, err := getObjectFirewallVendorMac(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating FirewallVendorMac resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateFirewallVendorMac(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectFirewallVendorMac(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating FirewallVendorMac resource: %v", err)
+		return fmt.Errorf("error updating FirewallVendorMac resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateFirewallVendorMac(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating FirewallVendorMac resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -134,9 +159,17 @@ func resourceFirewallVendorMacDelete(d *schema.ResourceData, m interface{}) erro
 		}
 	}
 
-	err := c.DeleteFirewallVendorMac(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteFirewallVendorMac(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting FirewallVendorMac resource: %v", err)
+		return fmt.Errorf("error deleting FirewallVendorMac resource: %v", err)
 	}
 
 	d.SetId("")
@@ -158,9 +191,19 @@ func resourceFirewallVendorMacRead(d *schema.ResourceData, m interface{}) error 
 		}
 	}
 
-	o, err := c.ReadFirewallVendorMac(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadFirewallVendorMac(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading FirewallVendorMac resource: %v", err)
+		return fmt.Errorf("error reading FirewallVendorMac resource: %v", err)
 	}
 
 	if o == nil {
@@ -171,11 +214,10 @@ func resourceFirewallVendorMacRead(d *schema.ResourceData, m interface{}) error 
 
 	err = refreshObjectFirewallVendorMac(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading FirewallVendorMac resource from API: %v", err)
+		return fmt.Errorf("error reading FirewallVendorMac resource from API: %v", err)
 	}
 	return nil
 }
-
 
 func flattenFirewallVendorMacId(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
 	return v
@@ -189,32 +231,26 @@ func flattenFirewallVendorMacMacNumber(v interface{}, d *schema.ResourceData, pr
 	return v
 }
 
-
 func refreshObjectFirewallVendorMac(d *schema.ResourceData, o map[string]interface{}, sv string) error {
 	var err error
 
-
-
 	if err = d.Set("fosid", flattenFirewallVendorMacId(o["id"], d, "fosid", sv)); err != nil {
 		if !fortiAPIPatch(o["id"]) {
-			return fmt.Errorf("Error reading fosid: %v", err)
+			return fmt.Errorf("error reading fosid: %v", err)
 		}
 	}
-
 
 	if err = d.Set("name", flattenFirewallVendorMacName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
-
 
 	if err = d.Set("mac_number", flattenFirewallVendorMacMacNumber(o["mac-number"], d, "mac_number", sv)); err != nil {
 		if !fortiAPIPatch(o["mac-number"]) {
-			return fmt.Errorf("Error reading mac_number: %v", err)
+			return fmt.Errorf("error reading mac_number: %v", err)
 		}
 	}
-
 
 	return nil
 }
@@ -224,7 +260,6 @@ func flattenFirewallVendorMacFortiTestDebug(d *schema.ResourceData, fosdebugsn i
 	e := validation.IntBetween(fosdebugbeg, fosdebugend)
 	log.Printf("ER List: %v, %v", strings.Split("FortiOS Ver", " "), e)
 }
-
 
 func expandFirewallVendorMacId(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
 	return v, nil
@@ -238,13 +273,11 @@ func expandFirewallVendorMacMacNumber(d *schema.ResourceData, v interface{}, pre
 	return v, nil
 }
 
-
 func getObjectFirewallVendorMac(d *schema.ResourceData, sv string) (*map[string]interface{}, error) {
 	obj := make(map[string]interface{})
 
-
 	if v, ok := d.GetOkExists("fosid"); ok {
-    
+
 		t, err := expandFirewallVendorMacId(d, v, "fosid", sv)
 		if err != nil {
 			return &obj, err
@@ -253,9 +286,8 @@ func getObjectFirewallVendorMac(d *schema.ResourceData, sv string) (*map[string]
 		}
 	}
 
-
 	if v, ok := d.GetOk("name"); ok {
-    
+
 		t, err := expandFirewallVendorMacName(d, v, "name", sv)
 		if err != nil {
 			return &obj, err
@@ -264,9 +296,8 @@ func getObjectFirewallVendorMac(d *schema.ResourceData, sv string) (*map[string]
 		}
 	}
 
-
 	if v, ok := d.GetOkExists("mac_number"); ok {
-    
+
 		t, err := expandFirewallVendorMacMacNumber(d, v, "mac_number", sv)
 		if err != nil {
 			return &obj, err
@@ -275,8 +306,5 @@ func getObjectFirewallVendorMac(d *schema.ResourceData, sv string) (*map[string]
 		}
 	}
 
-
-
 	return &obj, nil
 }
-

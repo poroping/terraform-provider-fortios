@@ -30,43 +30,43 @@ func resourceSystemVdomDns() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"vdom_dns": &schema.Schema{
+			"vdom_dns": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"primary": &schema.Schema{
+			"primary": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"secondary": &schema.Schema{
+			"secondary": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"dns_over_tls": &schema.Schema{
+			"dns_over_tls": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ssl_certificate": &schema.Schema{
+			"ssl_certificate": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"server_hostname": &schema.Schema{
+			"server_hostname": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"hostname": &schema.Schema{
+						"hostname": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 127),
 							Optional:     true,
@@ -75,36 +75,41 @@ func resourceSystemVdomDns() *schema.Resource {
 					},
 				},
 			},
-			"ip6_primary": &schema.Schema{
+			"ip6_primary": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ip6_secondary": &schema.Schema{
+			"ip6_secondary": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"source_ip": &schema.Schema{
+			"source_ip": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"interface_select_method": &schema.Schema{
+			"interface_select_method": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"interface": &schema.Schema{
+			"interface": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 15),
 				Optional:     true,
 				Computed:     true,
 			},
-			"dynamic_sort_subtable": &schema.Schema{
+			"dynamic_sort_subtable": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Default:  "false",
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -123,14 +128,24 @@ func resourceSystemVdomDnsUpdate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectSystemVdomDns(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SystemVdomDns resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSystemVdomDns(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemVdomDns(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SystemVdomDns resource: %v", err)
+		return fmt.Errorf("error updating SystemVdomDns resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSystemVdomDns(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SystemVdomDns resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -157,9 +172,17 @@ func resourceSystemVdomDnsDelete(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	err := c.DeleteSystemVdomDns(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSystemVdomDns(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SystemVdomDns resource: %v", err)
+		return fmt.Errorf("error deleting SystemVdomDns resource: %v", err)
 	}
 
 	d.SetId("")
@@ -181,9 +204,19 @@ func resourceSystemVdomDnsRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadSystemVdomDns(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSystemVdomDns(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemVdomDns resource: %v", err)
+		return fmt.Errorf("error reading SystemVdomDns resource: %v", err)
 	}
 
 	if o == nil {
@@ -194,7 +227,7 @@ func resourceSystemVdomDnsRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectSystemVdomDns(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemVdomDns resource from API: %v", err)
+		return fmt.Errorf("error reading SystemVdomDns resource from API: %v", err)
 	}
 	return nil
 }
@@ -282,45 +315,45 @@ func refreshObjectSystemVdomDns(d *schema.ResourceData, o map[string]interface{}
 
 	if err = d.Set("vdom_dns", flattenSystemVdomDnsVdomDns(o["vdom-dns"], d, "vdom_dns", sv)); err != nil {
 		if !fortiAPIPatch(o["vdom-dns"]) {
-			return fmt.Errorf("Error reading vdom_dns: %v", err)
+			return fmt.Errorf("error reading vdom_dns: %v", err)
 		}
 	}
 
 	if err = d.Set("primary", flattenSystemVdomDnsPrimary(o["primary"], d, "primary", sv)); err != nil {
 		if !fortiAPIPatch(o["primary"]) {
-			return fmt.Errorf("Error reading primary: %v", err)
+			return fmt.Errorf("error reading primary: %v", err)
 		}
 	}
 
 	if err = d.Set("secondary", flattenSystemVdomDnsSecondary(o["secondary"], d, "secondary", sv)); err != nil {
 		if !fortiAPIPatch(o["secondary"]) {
-			return fmt.Errorf("Error reading secondary: %v", err)
+			return fmt.Errorf("error reading secondary: %v", err)
 		}
 	}
 
 	if err = d.Set("dns_over_tls", flattenSystemVdomDnsDnsOverTls(o["dns-over-tls"], d, "dns_over_tls", sv)); err != nil {
 		if !fortiAPIPatch(o["dns-over-tls"]) {
-			return fmt.Errorf("Error reading dns_over_tls: %v", err)
+			return fmt.Errorf("error reading dns_over_tls: %v", err)
 		}
 	}
 
 	if err = d.Set("ssl_certificate", flattenSystemVdomDnsSslCertificate(o["ssl-certificate"], d, "ssl_certificate", sv)); err != nil {
 		if !fortiAPIPatch(o["ssl-certificate"]) {
-			return fmt.Errorf("Error reading ssl_certificate: %v", err)
+			return fmt.Errorf("error reading ssl_certificate: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("server_hostname", flattenSystemVdomDnsServerHostname(o["server-hostname"], d, "server_hostname", sv)); err != nil {
 			if !fortiAPIPatch(o["server-hostname"]) {
-				return fmt.Errorf("Error reading server_hostname: %v", err)
+				return fmt.Errorf("error reading server_hostname: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("server_hostname"); ok {
 			if err = d.Set("server_hostname", flattenSystemVdomDnsServerHostname(o["server-hostname"], d, "server_hostname", sv)); err != nil {
 				if !fortiAPIPatch(o["server-hostname"]) {
-					return fmt.Errorf("Error reading server_hostname: %v", err)
+					return fmt.Errorf("error reading server_hostname: %v", err)
 				}
 			}
 		}
@@ -328,31 +361,31 @@ func refreshObjectSystemVdomDns(d *schema.ResourceData, o map[string]interface{}
 
 	if err = d.Set("ip6_primary", flattenSystemVdomDnsIp6Primary(o["ip6-primary"], d, "ip6_primary", sv)); err != nil {
 		if !fortiAPIPatch(o["ip6-primary"]) {
-			return fmt.Errorf("Error reading ip6_primary: %v", err)
+			return fmt.Errorf("error reading ip6_primary: %v", err)
 		}
 	}
 
 	if err = d.Set("ip6_secondary", flattenSystemVdomDnsIp6Secondary(o["ip6-secondary"], d, "ip6_secondary", sv)); err != nil {
 		if !fortiAPIPatch(o["ip6-secondary"]) {
-			return fmt.Errorf("Error reading ip6_secondary: %v", err)
+			return fmt.Errorf("error reading ip6_secondary: %v", err)
 		}
 	}
 
 	if err = d.Set("source_ip", flattenSystemVdomDnsSourceIp(o["source-ip"], d, "source_ip", sv)); err != nil {
 		if !fortiAPIPatch(o["source-ip"]) {
-			return fmt.Errorf("Error reading source_ip: %v", err)
+			return fmt.Errorf("error reading source_ip: %v", err)
 		}
 	}
 
 	if err = d.Set("interface_select_method", flattenSystemVdomDnsInterfaceSelectMethod(o["interface-select-method"], d, "interface_select_method", sv)); err != nil {
 		if !fortiAPIPatch(o["interface-select-method"]) {
-			return fmt.Errorf("Error reading interface_select_method: %v", err)
+			return fmt.Errorf("error reading interface_select_method: %v", err)
 		}
 	}
 
 	if err = d.Set("interface", flattenSystemVdomDnsInterface(o["interface"], d, "interface", sv)); err != nil {
 		if !fortiAPIPatch(o["interface"]) {
-			return fmt.Errorf("Error reading interface: %v", err)
+			return fmt.Errorf("error reading interface: %v", err)
 		}
 	}
 

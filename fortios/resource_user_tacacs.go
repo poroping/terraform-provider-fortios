@@ -30,86 +30,91 @@ func resourceUserTacacs() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"server": &schema.Schema{
+			"server": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"secondary_server": &schema.Schema{
+			"secondary_server": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"tertiary_server": &schema.Schema{
+			"tertiary_server": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"port": &schema.Schema{
+			"port": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"key": &schema.Schema{
+			"key": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 128),
 				Optional:     true,
 				Sensitive:    true,
 			},
-			"secondary_key": &schema.Schema{
+			"secondary_key": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 128),
 				Optional:     true,
 				Sensitive:    true,
 			},
-			"tertiary_key": &schema.Schema{
+			"tertiary_key": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 128),
 				Optional:     true,
 				Sensitive:    true,
 			},
-			"authen_type": &schema.Schema{
+			"authen_type": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"authorization": &schema.Schema{
+			"authorization": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"source_ip": &schema.Schema{
+			"source_ip": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"interface_select_method": &schema.Schema{
+			"interface_select_method": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"interface": &schema.Schema{
+			"interface": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 15),
 				Optional:     true,
 				Computed:     true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -127,15 +132,25 @@ func resourceUserTacacsCreate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectUserTacacs(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating UserTacacs resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateUserTacacs(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectUserTacacs(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating UserTacacs resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateUserTacacs(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating UserTacacs resource: %v", err)
+		return fmt.Errorf("error creating UserTacacs resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -160,14 +175,24 @@ func resourceUserTacacsUpdate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectUserTacacs(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating UserTacacs resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateUserTacacs(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectUserTacacs(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating UserTacacs resource: %v", err)
+		return fmt.Errorf("error updating UserTacacs resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateUserTacacs(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating UserTacacs resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -194,9 +219,17 @@ func resourceUserTacacsDelete(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	err := c.DeleteUserTacacs(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteUserTacacs(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting UserTacacs resource: %v", err)
+		return fmt.Errorf("error deleting UserTacacs resource: %v", err)
 	}
 
 	d.SetId("")
@@ -218,9 +251,19 @@ func resourceUserTacacsRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadUserTacacs(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadUserTacacs(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading UserTacacs resource: %v", err)
+		return fmt.Errorf("error reading UserTacacs resource: %v", err)
 	}
 
 	if o == nil {
@@ -231,7 +274,7 @@ func resourceUserTacacsRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectUserTacacs(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading UserTacacs resource from API: %v", err)
+		return fmt.Errorf("error reading UserTacacs resource from API: %v", err)
 	}
 	return nil
 }
@@ -293,61 +336,61 @@ func refreshObjectUserTacacs(d *schema.ResourceData, o map[string]interface{}, s
 
 	if err = d.Set("name", flattenUserTacacsName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("server", flattenUserTacacsServer(o["server"], d, "server", sv)); err != nil {
 		if !fortiAPIPatch(o["server"]) {
-			return fmt.Errorf("Error reading server: %v", err)
+			return fmt.Errorf("error reading server: %v", err)
 		}
 	}
 
 	if err = d.Set("secondary_server", flattenUserTacacsSecondaryServer(o["secondary-server"], d, "secondary_server", sv)); err != nil {
 		if !fortiAPIPatch(o["secondary-server"]) {
-			return fmt.Errorf("Error reading secondary_server: %v", err)
+			return fmt.Errorf("error reading secondary_server: %v", err)
 		}
 	}
 
 	if err = d.Set("tertiary_server", flattenUserTacacsTertiaryServer(o["tertiary-server"], d, "tertiary_server", sv)); err != nil {
 		if !fortiAPIPatch(o["tertiary-server"]) {
-			return fmt.Errorf("Error reading tertiary_server: %v", err)
+			return fmt.Errorf("error reading tertiary_server: %v", err)
 		}
 	}
 
 	if err = d.Set("port", flattenUserTacacsPort(o["port"], d, "port", sv)); err != nil {
 		if !fortiAPIPatch(o["port"]) {
-			return fmt.Errorf("Error reading port: %v", err)
+			return fmt.Errorf("error reading port: %v", err)
 		}
 	}
 
 	if err = d.Set("authen_type", flattenUserTacacsAuthenType(o["authen-type"], d, "authen_type", sv)); err != nil {
 		if !fortiAPIPatch(o["authen-type"]) {
-			return fmt.Errorf("Error reading authen_type: %v", err)
+			return fmt.Errorf("error reading authen_type: %v", err)
 		}
 	}
 
 	if err = d.Set("authorization", flattenUserTacacsAuthorization(o["authorization"], d, "authorization", sv)); err != nil {
 		if !fortiAPIPatch(o["authorization"]) {
-			return fmt.Errorf("Error reading authorization: %v", err)
+			return fmt.Errorf("error reading authorization: %v", err)
 		}
 	}
 
 	if err = d.Set("source_ip", flattenUserTacacsSourceIp(o["source-ip"], d, "source_ip", sv)); err != nil {
 		if !fortiAPIPatch(o["source-ip"]) {
-			return fmt.Errorf("Error reading source_ip: %v", err)
+			return fmt.Errorf("error reading source_ip: %v", err)
 		}
 	}
 
 	if err = d.Set("interface_select_method", flattenUserTacacsInterfaceSelectMethod(o["interface-select-method"], d, "interface_select_method", sv)); err != nil {
 		if !fortiAPIPatch(o["interface-select-method"]) {
-			return fmt.Errorf("Error reading interface_select_method: %v", err)
+			return fmt.Errorf("error reading interface_select_method: %v", err)
 		}
 	}
 
 	if err = d.Set("interface", flattenUserTacacsInterface(o["interface"], d, "interface", sv)); err != nil {
 		if !fortiAPIPatch(o["interface"]) {
-			return fmt.Errorf("Error reading interface: %v", err)
+			return fmt.Errorf("error reading interface: %v", err)
 		}
 	}
 

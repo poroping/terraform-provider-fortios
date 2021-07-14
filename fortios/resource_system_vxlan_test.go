@@ -54,14 +54,14 @@ func testAccCheckFortiOSSystemVxlanExists(n string) resource.TestCheckFunc {
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemVxlan(i, "root")
+		o, err := c.ReadSystemVxlan(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading SystemVxlan: %s", err)
+			return fmt.Errorf("error reading SystemVxlan: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating SystemVxlan: %s", n)
+			return fmt.Errorf("error creating SystemVxlan: %s", n)
 		}
 
 		return nil
@@ -77,11 +77,11 @@ func testAccCheckSystemVxlanDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemVxlan(i, "root")
+		o, err := c.ReadSystemVxlan(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error SystemVxlan %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error SystemVxlan %s still exists", rs.Primary.ID)
 			}
 		}
 

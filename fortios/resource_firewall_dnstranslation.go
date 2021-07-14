@@ -30,30 +30,35 @@ func resourceFirewallDnstranslation() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"fosid": &schema.Schema{
+			"fosid": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"src": &schema.Schema{
+			"src": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"dst": &schema.Schema{
+			"dst": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"netmask": &schema.Schema{
+			"netmask": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -71,15 +76,25 @@ func resourceFirewallDnstranslationCreate(d *schema.ResourceData, m interface{})
 		}
 	}
 
-	obj, err := getObjectFirewallDnstranslation(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating FirewallDnstranslation resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateFirewallDnstranslation(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectFirewallDnstranslation(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating FirewallDnstranslation resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateFirewallDnstranslation(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating FirewallDnstranslation resource: %v", err)
+		return fmt.Errorf("error creating FirewallDnstranslation resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -104,14 +119,24 @@ func resourceFirewallDnstranslationUpdate(d *schema.ResourceData, m interface{})
 		}
 	}
 
-	obj, err := getObjectFirewallDnstranslation(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating FirewallDnstranslation resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateFirewallDnstranslation(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectFirewallDnstranslation(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating FirewallDnstranslation resource: %v", err)
+		return fmt.Errorf("error updating FirewallDnstranslation resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateFirewallDnstranslation(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating FirewallDnstranslation resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -138,9 +163,17 @@ func resourceFirewallDnstranslationDelete(d *schema.ResourceData, m interface{})
 		}
 	}
 
-	err := c.DeleteFirewallDnstranslation(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteFirewallDnstranslation(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting FirewallDnstranslation resource: %v", err)
+		return fmt.Errorf("error deleting FirewallDnstranslation resource: %v", err)
 	}
 
 	d.SetId("")
@@ -162,9 +195,19 @@ func resourceFirewallDnstranslationRead(d *schema.ResourceData, m interface{}) e
 		}
 	}
 
-	o, err := c.ReadFirewallDnstranslation(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadFirewallDnstranslation(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading FirewallDnstranslation resource: %v", err)
+		return fmt.Errorf("error reading FirewallDnstranslation resource: %v", err)
 	}
 
 	if o == nil {
@@ -175,7 +218,7 @@ func resourceFirewallDnstranslationRead(d *schema.ResourceData, m interface{}) e
 
 	err = refreshObjectFirewallDnstranslation(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading FirewallDnstranslation resource from API: %v", err)
+		return fmt.Errorf("error reading FirewallDnstranslation resource from API: %v", err)
 	}
 	return nil
 }
@@ -201,25 +244,25 @@ func refreshObjectFirewallDnstranslation(d *schema.ResourceData, o map[string]in
 
 	if err = d.Set("fosid", flattenFirewallDnstranslationId(o["id"], d, "fosid", sv)); err != nil {
 		if !fortiAPIPatch(o["id"]) {
-			return fmt.Errorf("Error reading fosid: %v", err)
+			return fmt.Errorf("error reading fosid: %v", err)
 		}
 	}
 
 	if err = d.Set("src", flattenFirewallDnstranslationSrc(o["src"], d, "src", sv)); err != nil {
 		if !fortiAPIPatch(o["src"]) {
-			return fmt.Errorf("Error reading src: %v", err)
+			return fmt.Errorf("error reading src: %v", err)
 		}
 	}
 
 	if err = d.Set("dst", flattenFirewallDnstranslationDst(o["dst"], d, "dst", sv)); err != nil {
 		if !fortiAPIPatch(o["dst"]) {
-			return fmt.Errorf("Error reading dst: %v", err)
+			return fmt.Errorf("error reading dst: %v", err)
 		}
 	}
 
 	if err = d.Set("netmask", flattenFirewallDnstranslationNetmask(o["netmask"], d, "netmask", sv)); err != nil {
 		if !fortiAPIPatch(o["netmask"]) {
-			return fmt.Errorf("Error reading netmask: %v", err)
+			return fmt.Errorf("error reading netmask: %v", err)
 		}
 	}
 

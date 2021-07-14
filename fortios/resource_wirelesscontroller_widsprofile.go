@@ -30,70 +30,70 @@ func resourceWirelessControllerWidsProfile() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"comment": &schema.Schema{
+			"comment": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"sensor_mode": &schema.Schema{
+			"sensor_mode": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ap_scan": &schema.Schema{
+			"ap_scan": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ap_bgscan_period": &schema.Schema{
+			"ap_bgscan_period": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(60, 3600),
 				Optional:     true,
 				Computed:     true,
 			},
-			"ap_bgscan_intv": &schema.Schema{
+			"ap_bgscan_intv": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 600),
 				Optional:     true,
 				Computed:     true,
 			},
-			"ap_bgscan_duration": &schema.Schema{
+			"ap_bgscan_duration": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(10, 1000),
 				Optional:     true,
 				Computed:     true,
 			},
-			"ap_bgscan_idle": &schema.Schema{
+			"ap_bgscan_idle": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 1000),
 				Optional:     true,
 				Computed:     true,
 			},
-			"ap_bgscan_report_intv": &schema.Schema{
+			"ap_bgscan_report_intv": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(15, 600),
 				Optional:     true,
 				Computed:     true,
 			},
-			"ap_bgscan_disable_schedules": &schema.Schema{
+			"ap_bgscan_disable_schedules": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
@@ -102,235 +102,240 @@ func resourceWirelessControllerWidsProfile() *schema.Resource {
 					},
 				},
 			},
-			"ap_bgscan_disable_day": &schema.Schema{
+			"ap_bgscan_disable_day": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ap_bgscan_disable_start": &schema.Schema{
+			"ap_bgscan_disable_start": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ap_bgscan_disable_end": &schema.Schema{
+			"ap_bgscan_disable_end": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ap_fgscan_report_intv": &schema.Schema{
+			"ap_fgscan_report_intv": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(15, 600),
 				Optional:     true,
 				Computed:     true,
 			},
-			"ap_scan_passive": &schema.Schema{
+			"ap_scan_passive": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ap_scan_threshold": &schema.Schema{
+			"ap_scan_threshold": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 7),
 				Optional:     true,
 				Computed:     true,
 			},
-			"ap_auto_suppress": &schema.Schema{
+			"ap_auto_suppress": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"wireless_bridge": &schema.Schema{
+			"wireless_bridge": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"deauth_broadcast": &schema.Schema{
+			"deauth_broadcast": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"null_ssid_probe_resp": &schema.Schema{
+			"null_ssid_probe_resp": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"long_duration_attack": &schema.Schema{
+			"long_duration_attack": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"long_duration_thresh": &schema.Schema{
+			"long_duration_thresh": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1000, 32767),
 				Optional:     true,
 				Computed:     true,
 			},
-			"invalid_mac_oui": &schema.Schema{
+			"invalid_mac_oui": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"weak_wep_iv": &schema.Schema{
+			"weak_wep_iv": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"auth_frame_flood": &schema.Schema{
+			"auth_frame_flood": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"auth_flood_time": &schema.Schema{
+			"auth_flood_time": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(5, 120),
 				Optional:     true,
 				Computed:     true,
 			},
-			"auth_flood_thresh": &schema.Schema{
+			"auth_flood_thresh": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 100),
 				Optional:     true,
 				Computed:     true,
 			},
-			"assoc_frame_flood": &schema.Schema{
+			"assoc_frame_flood": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"assoc_flood_time": &schema.Schema{
+			"assoc_flood_time": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(5, 120),
 				Optional:     true,
 				Computed:     true,
 			},
-			"assoc_flood_thresh": &schema.Schema{
+			"assoc_flood_thresh": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 100),
 				Optional:     true,
 				Computed:     true,
 			},
-			"spoofed_deauth": &schema.Schema{
+			"spoofed_deauth": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"asleap_attack": &schema.Schema{
+			"asleap_attack": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"eapol_start_flood": &schema.Schema{
+			"eapol_start_flood": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"eapol_start_thresh": &schema.Schema{
+			"eapol_start_thresh": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(2, 100),
 				Optional:     true,
 				Computed:     true,
 			},
-			"eapol_start_intv": &schema.Schema{
+			"eapol_start_intv": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 3600),
 				Optional:     true,
 				Computed:     true,
 			},
-			"eapol_logoff_flood": &schema.Schema{
+			"eapol_logoff_flood": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"eapol_logoff_thresh": &schema.Schema{
+			"eapol_logoff_thresh": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(2, 100),
 				Optional:     true,
 				Computed:     true,
 			},
-			"eapol_logoff_intv": &schema.Schema{
+			"eapol_logoff_intv": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 3600),
 				Optional:     true,
 				Computed:     true,
 			},
-			"eapol_succ_flood": &schema.Schema{
+			"eapol_succ_flood": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"eapol_succ_thresh": &schema.Schema{
+			"eapol_succ_thresh": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(2, 100),
 				Optional:     true,
 				Computed:     true,
 			},
-			"eapol_succ_intv": &schema.Schema{
+			"eapol_succ_intv": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 3600),
 				Optional:     true,
 				Computed:     true,
 			},
-			"eapol_fail_flood": &schema.Schema{
+			"eapol_fail_flood": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"eapol_fail_thresh": &schema.Schema{
+			"eapol_fail_thresh": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(2, 100),
 				Optional:     true,
 				Computed:     true,
 			},
-			"eapol_fail_intv": &schema.Schema{
+			"eapol_fail_intv": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 3600),
 				Optional:     true,
 				Computed:     true,
 			},
-			"eapol_pre_succ_flood": &schema.Schema{
+			"eapol_pre_succ_flood": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"eapol_pre_succ_thresh": &schema.Schema{
+			"eapol_pre_succ_thresh": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(2, 100),
 				Optional:     true,
 				Computed:     true,
 			},
-			"eapol_pre_succ_intv": &schema.Schema{
+			"eapol_pre_succ_intv": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 3600),
 				Optional:     true,
 				Computed:     true,
 			},
-			"eapol_pre_fail_flood": &schema.Schema{
+			"eapol_pre_fail_flood": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"eapol_pre_fail_thresh": &schema.Schema{
+			"eapol_pre_fail_thresh": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(2, 100),
 				Optional:     true,
 				Computed:     true,
 			},
-			"eapol_pre_fail_intv": &schema.Schema{
+			"eapol_pre_fail_intv": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 3600),
 				Optional:     true,
 				Computed:     true,
 			},
-			"deauth_unknown_src_thresh": &schema.Schema{
+			"deauth_unknown_src_thresh": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"dynamic_sort_subtable": &schema.Schema{
+			"dynamic_sort_subtable": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Default:  "false",
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -348,15 +353,25 @@ func resourceWirelessControllerWidsProfileCreate(d *schema.ResourceData, m inter
 		}
 	}
 
-	obj, err := getObjectWirelessControllerWidsProfile(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating WirelessControllerWidsProfile resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateWirelessControllerWidsProfile(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectWirelessControllerWidsProfile(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating WirelessControllerWidsProfile resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateWirelessControllerWidsProfile(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating WirelessControllerWidsProfile resource: %v", err)
+		return fmt.Errorf("error creating WirelessControllerWidsProfile resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -381,14 +396,24 @@ func resourceWirelessControllerWidsProfileUpdate(d *schema.ResourceData, m inter
 		}
 	}
 
-	obj, err := getObjectWirelessControllerWidsProfile(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating WirelessControllerWidsProfile resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateWirelessControllerWidsProfile(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectWirelessControllerWidsProfile(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating WirelessControllerWidsProfile resource: %v", err)
+		return fmt.Errorf("error updating WirelessControllerWidsProfile resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateWirelessControllerWidsProfile(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating WirelessControllerWidsProfile resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -415,9 +440,17 @@ func resourceWirelessControllerWidsProfileDelete(d *schema.ResourceData, m inter
 		}
 	}
 
-	err := c.DeleteWirelessControllerWidsProfile(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteWirelessControllerWidsProfile(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting WirelessControllerWidsProfile resource: %v", err)
+		return fmt.Errorf("error deleting WirelessControllerWidsProfile resource: %v", err)
 	}
 
 	d.SetId("")
@@ -439,9 +472,19 @@ func resourceWirelessControllerWidsProfileRead(d *schema.ResourceData, m interfa
 		}
 	}
 
-	o, err := c.ReadWirelessControllerWidsProfile(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadWirelessControllerWidsProfile(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading WirelessControllerWidsProfile resource: %v", err)
+		return fmt.Errorf("error reading WirelessControllerWidsProfile resource: %v", err)
 	}
 
 	if o == nil {
@@ -452,7 +495,7 @@ func resourceWirelessControllerWidsProfileRead(d *schema.ResourceData, m interfa
 
 	err = refreshObjectWirelessControllerWidsProfile(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading WirelessControllerWidsProfile resource from API: %v", err)
+		return fmt.Errorf("error reading WirelessControllerWidsProfile resource from API: %v", err)
 	}
 	return nil
 }
@@ -700,69 +743,69 @@ func refreshObjectWirelessControllerWidsProfile(d *schema.ResourceData, o map[st
 
 	if err = d.Set("name", flattenWirelessControllerWidsProfileName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("comment", flattenWirelessControllerWidsProfileComment(o["comment"], d, "comment", sv)); err != nil {
 		if !fortiAPIPatch(o["comment"]) {
-			return fmt.Errorf("Error reading comment: %v", err)
+			return fmt.Errorf("error reading comment: %v", err)
 		}
 	}
 
 	if err = d.Set("sensor_mode", flattenWirelessControllerWidsProfileSensorMode(o["sensor-mode"], d, "sensor_mode", sv)); err != nil {
 		if !fortiAPIPatch(o["sensor-mode"]) {
-			return fmt.Errorf("Error reading sensor_mode: %v", err)
+			return fmt.Errorf("error reading sensor_mode: %v", err)
 		}
 	}
 
 	if err = d.Set("ap_scan", flattenWirelessControllerWidsProfileApScan(o["ap-scan"], d, "ap_scan", sv)); err != nil {
 		if !fortiAPIPatch(o["ap-scan"]) {
-			return fmt.Errorf("Error reading ap_scan: %v", err)
+			return fmt.Errorf("error reading ap_scan: %v", err)
 		}
 	}
 
 	if err = d.Set("ap_bgscan_period", flattenWirelessControllerWidsProfileApBgscanPeriod(o["ap-bgscan-period"], d, "ap_bgscan_period", sv)); err != nil {
 		if !fortiAPIPatch(o["ap-bgscan-period"]) {
-			return fmt.Errorf("Error reading ap_bgscan_period: %v", err)
+			return fmt.Errorf("error reading ap_bgscan_period: %v", err)
 		}
 	}
 
 	if err = d.Set("ap_bgscan_intv", flattenWirelessControllerWidsProfileApBgscanIntv(o["ap-bgscan-intv"], d, "ap_bgscan_intv", sv)); err != nil {
 		if !fortiAPIPatch(o["ap-bgscan-intv"]) {
-			return fmt.Errorf("Error reading ap_bgscan_intv: %v", err)
+			return fmt.Errorf("error reading ap_bgscan_intv: %v", err)
 		}
 	}
 
 	if err = d.Set("ap_bgscan_duration", flattenWirelessControllerWidsProfileApBgscanDuration(o["ap-bgscan-duration"], d, "ap_bgscan_duration", sv)); err != nil {
 		if !fortiAPIPatch(o["ap-bgscan-duration"]) {
-			return fmt.Errorf("Error reading ap_bgscan_duration: %v", err)
+			return fmt.Errorf("error reading ap_bgscan_duration: %v", err)
 		}
 	}
 
 	if err = d.Set("ap_bgscan_idle", flattenWirelessControllerWidsProfileApBgscanIdle(o["ap-bgscan-idle"], d, "ap_bgscan_idle", sv)); err != nil {
 		if !fortiAPIPatch(o["ap-bgscan-idle"]) {
-			return fmt.Errorf("Error reading ap_bgscan_idle: %v", err)
+			return fmt.Errorf("error reading ap_bgscan_idle: %v", err)
 		}
 	}
 
 	if err = d.Set("ap_bgscan_report_intv", flattenWirelessControllerWidsProfileApBgscanReportIntv(o["ap-bgscan-report-intv"], d, "ap_bgscan_report_intv", sv)); err != nil {
 		if !fortiAPIPatch(o["ap-bgscan-report-intv"]) {
-			return fmt.Errorf("Error reading ap_bgscan_report_intv: %v", err)
+			return fmt.Errorf("error reading ap_bgscan_report_intv: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("ap_bgscan_disable_schedules", flattenWirelessControllerWidsProfileApBgscanDisableSchedules(o["ap-bgscan-disable-schedules"], d, "ap_bgscan_disable_schedules", sv)); err != nil {
 			if !fortiAPIPatch(o["ap-bgscan-disable-schedules"]) {
-				return fmt.Errorf("Error reading ap_bgscan_disable_schedules: %v", err)
+				return fmt.Errorf("error reading ap_bgscan_disable_schedules: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("ap_bgscan_disable_schedules"); ok {
 			if err = d.Set("ap_bgscan_disable_schedules", flattenWirelessControllerWidsProfileApBgscanDisableSchedules(o["ap-bgscan-disable-schedules"], d, "ap_bgscan_disable_schedules", sv)); err != nil {
 				if !fortiAPIPatch(o["ap-bgscan-disable-schedules"]) {
-					return fmt.Errorf("Error reading ap_bgscan_disable_schedules: %v", err)
+					return fmt.Errorf("error reading ap_bgscan_disable_schedules: %v", err)
 				}
 			}
 		}
@@ -770,247 +813,247 @@ func refreshObjectWirelessControllerWidsProfile(d *schema.ResourceData, o map[st
 
 	if err = d.Set("ap_bgscan_disable_day", flattenWirelessControllerWidsProfileApBgscanDisableDay(o["ap-bgscan-disable-day"], d, "ap_bgscan_disable_day", sv)); err != nil {
 		if !fortiAPIPatch(o["ap-bgscan-disable-day"]) {
-			return fmt.Errorf("Error reading ap_bgscan_disable_day: %v", err)
+			return fmt.Errorf("error reading ap_bgscan_disable_day: %v", err)
 		}
 	}
 
 	if err = d.Set("ap_bgscan_disable_start", flattenWirelessControllerWidsProfileApBgscanDisableStart(o["ap-bgscan-disable-start"], d, "ap_bgscan_disable_start", sv)); err != nil {
 		if !fortiAPIPatch(o["ap-bgscan-disable-start"]) {
-			return fmt.Errorf("Error reading ap_bgscan_disable_start: %v", err)
+			return fmt.Errorf("error reading ap_bgscan_disable_start: %v", err)
 		}
 	}
 
 	if err = d.Set("ap_bgscan_disable_end", flattenWirelessControllerWidsProfileApBgscanDisableEnd(o["ap-bgscan-disable-end"], d, "ap_bgscan_disable_end", sv)); err != nil {
 		if !fortiAPIPatch(o["ap-bgscan-disable-end"]) {
-			return fmt.Errorf("Error reading ap_bgscan_disable_end: %v", err)
+			return fmt.Errorf("error reading ap_bgscan_disable_end: %v", err)
 		}
 	}
 
 	if err = d.Set("ap_fgscan_report_intv", flattenWirelessControllerWidsProfileApFgscanReportIntv(o["ap-fgscan-report-intv"], d, "ap_fgscan_report_intv", sv)); err != nil {
 		if !fortiAPIPatch(o["ap-fgscan-report-intv"]) {
-			return fmt.Errorf("Error reading ap_fgscan_report_intv: %v", err)
+			return fmt.Errorf("error reading ap_fgscan_report_intv: %v", err)
 		}
 	}
 
 	if err = d.Set("ap_scan_passive", flattenWirelessControllerWidsProfileApScanPassive(o["ap-scan-passive"], d, "ap_scan_passive", sv)); err != nil {
 		if !fortiAPIPatch(o["ap-scan-passive"]) {
-			return fmt.Errorf("Error reading ap_scan_passive: %v", err)
+			return fmt.Errorf("error reading ap_scan_passive: %v", err)
 		}
 	}
 
 	if err = d.Set("ap_scan_threshold", flattenWirelessControllerWidsProfileApScanThreshold(o["ap-scan-threshold"], d, "ap_scan_threshold", sv)); err != nil {
 		if !fortiAPIPatch(o["ap-scan-threshold"]) {
-			return fmt.Errorf("Error reading ap_scan_threshold: %v", err)
+			return fmt.Errorf("error reading ap_scan_threshold: %v", err)
 		}
 	}
 
 	if err = d.Set("ap_auto_suppress", flattenWirelessControllerWidsProfileApAutoSuppress(o["ap-auto-suppress"], d, "ap_auto_suppress", sv)); err != nil {
 		if !fortiAPIPatch(o["ap-auto-suppress"]) {
-			return fmt.Errorf("Error reading ap_auto_suppress: %v", err)
+			return fmt.Errorf("error reading ap_auto_suppress: %v", err)
 		}
 	}
 
 	if err = d.Set("wireless_bridge", flattenWirelessControllerWidsProfileWirelessBridge(o["wireless-bridge"], d, "wireless_bridge", sv)); err != nil {
 		if !fortiAPIPatch(o["wireless-bridge"]) {
-			return fmt.Errorf("Error reading wireless_bridge: %v", err)
+			return fmt.Errorf("error reading wireless_bridge: %v", err)
 		}
 	}
 
 	if err = d.Set("deauth_broadcast", flattenWirelessControllerWidsProfileDeauthBroadcast(o["deauth-broadcast"], d, "deauth_broadcast", sv)); err != nil {
 		if !fortiAPIPatch(o["deauth-broadcast"]) {
-			return fmt.Errorf("Error reading deauth_broadcast: %v", err)
+			return fmt.Errorf("error reading deauth_broadcast: %v", err)
 		}
 	}
 
 	if err = d.Set("null_ssid_probe_resp", flattenWirelessControllerWidsProfileNullSsidProbeResp(o["null-ssid-probe-resp"], d, "null_ssid_probe_resp", sv)); err != nil {
 		if !fortiAPIPatch(o["null-ssid-probe-resp"]) {
-			return fmt.Errorf("Error reading null_ssid_probe_resp: %v", err)
+			return fmt.Errorf("error reading null_ssid_probe_resp: %v", err)
 		}
 	}
 
 	if err = d.Set("long_duration_attack", flattenWirelessControllerWidsProfileLongDurationAttack(o["long-duration-attack"], d, "long_duration_attack", sv)); err != nil {
 		if !fortiAPIPatch(o["long-duration-attack"]) {
-			return fmt.Errorf("Error reading long_duration_attack: %v", err)
+			return fmt.Errorf("error reading long_duration_attack: %v", err)
 		}
 	}
 
 	if err = d.Set("long_duration_thresh", flattenWirelessControllerWidsProfileLongDurationThresh(o["long-duration-thresh"], d, "long_duration_thresh", sv)); err != nil {
 		if !fortiAPIPatch(o["long-duration-thresh"]) {
-			return fmt.Errorf("Error reading long_duration_thresh: %v", err)
+			return fmt.Errorf("error reading long_duration_thresh: %v", err)
 		}
 	}
 
 	if err = d.Set("invalid_mac_oui", flattenWirelessControllerWidsProfileInvalidMacOui(o["invalid-mac-oui"], d, "invalid_mac_oui", sv)); err != nil {
 		if !fortiAPIPatch(o["invalid-mac-oui"]) {
-			return fmt.Errorf("Error reading invalid_mac_oui: %v", err)
+			return fmt.Errorf("error reading invalid_mac_oui: %v", err)
 		}
 	}
 
 	if err = d.Set("weak_wep_iv", flattenWirelessControllerWidsProfileWeakWepIv(o["weak-wep-iv"], d, "weak_wep_iv", sv)); err != nil {
 		if !fortiAPIPatch(o["weak-wep-iv"]) {
-			return fmt.Errorf("Error reading weak_wep_iv: %v", err)
+			return fmt.Errorf("error reading weak_wep_iv: %v", err)
 		}
 	}
 
 	if err = d.Set("auth_frame_flood", flattenWirelessControllerWidsProfileAuthFrameFlood(o["auth-frame-flood"], d, "auth_frame_flood", sv)); err != nil {
 		if !fortiAPIPatch(o["auth-frame-flood"]) {
-			return fmt.Errorf("Error reading auth_frame_flood: %v", err)
+			return fmt.Errorf("error reading auth_frame_flood: %v", err)
 		}
 	}
 
 	if err = d.Set("auth_flood_time", flattenWirelessControllerWidsProfileAuthFloodTime(o["auth-flood-time"], d, "auth_flood_time", sv)); err != nil {
 		if !fortiAPIPatch(o["auth-flood-time"]) {
-			return fmt.Errorf("Error reading auth_flood_time: %v", err)
+			return fmt.Errorf("error reading auth_flood_time: %v", err)
 		}
 	}
 
 	if err = d.Set("auth_flood_thresh", flattenWirelessControllerWidsProfileAuthFloodThresh(o["auth-flood-thresh"], d, "auth_flood_thresh", sv)); err != nil {
 		if !fortiAPIPatch(o["auth-flood-thresh"]) {
-			return fmt.Errorf("Error reading auth_flood_thresh: %v", err)
+			return fmt.Errorf("error reading auth_flood_thresh: %v", err)
 		}
 	}
 
 	if err = d.Set("assoc_frame_flood", flattenWirelessControllerWidsProfileAssocFrameFlood(o["assoc-frame-flood"], d, "assoc_frame_flood", sv)); err != nil {
 		if !fortiAPIPatch(o["assoc-frame-flood"]) {
-			return fmt.Errorf("Error reading assoc_frame_flood: %v", err)
+			return fmt.Errorf("error reading assoc_frame_flood: %v", err)
 		}
 	}
 
 	if err = d.Set("assoc_flood_time", flattenWirelessControllerWidsProfileAssocFloodTime(o["assoc-flood-time"], d, "assoc_flood_time", sv)); err != nil {
 		if !fortiAPIPatch(o["assoc-flood-time"]) {
-			return fmt.Errorf("Error reading assoc_flood_time: %v", err)
+			return fmt.Errorf("error reading assoc_flood_time: %v", err)
 		}
 	}
 
 	if err = d.Set("assoc_flood_thresh", flattenWirelessControllerWidsProfileAssocFloodThresh(o["assoc-flood-thresh"], d, "assoc_flood_thresh", sv)); err != nil {
 		if !fortiAPIPatch(o["assoc-flood-thresh"]) {
-			return fmt.Errorf("Error reading assoc_flood_thresh: %v", err)
+			return fmt.Errorf("error reading assoc_flood_thresh: %v", err)
 		}
 	}
 
 	if err = d.Set("spoofed_deauth", flattenWirelessControllerWidsProfileSpoofedDeauth(o["spoofed-deauth"], d, "spoofed_deauth", sv)); err != nil {
 		if !fortiAPIPatch(o["spoofed-deauth"]) {
-			return fmt.Errorf("Error reading spoofed_deauth: %v", err)
+			return fmt.Errorf("error reading spoofed_deauth: %v", err)
 		}
 	}
 
 	if err = d.Set("asleap_attack", flattenWirelessControllerWidsProfileAsleapAttack(o["asleap-attack"], d, "asleap_attack", sv)); err != nil {
 		if !fortiAPIPatch(o["asleap-attack"]) {
-			return fmt.Errorf("Error reading asleap_attack: %v", err)
+			return fmt.Errorf("error reading asleap_attack: %v", err)
 		}
 	}
 
 	if err = d.Set("eapol_start_flood", flattenWirelessControllerWidsProfileEapolStartFlood(o["eapol-start-flood"], d, "eapol_start_flood", sv)); err != nil {
 		if !fortiAPIPatch(o["eapol-start-flood"]) {
-			return fmt.Errorf("Error reading eapol_start_flood: %v", err)
+			return fmt.Errorf("error reading eapol_start_flood: %v", err)
 		}
 	}
 
 	if err = d.Set("eapol_start_thresh", flattenWirelessControllerWidsProfileEapolStartThresh(o["eapol-start-thresh"], d, "eapol_start_thresh", sv)); err != nil {
 		if !fortiAPIPatch(o["eapol-start-thresh"]) {
-			return fmt.Errorf("Error reading eapol_start_thresh: %v", err)
+			return fmt.Errorf("error reading eapol_start_thresh: %v", err)
 		}
 	}
 
 	if err = d.Set("eapol_start_intv", flattenWirelessControllerWidsProfileEapolStartIntv(o["eapol-start-intv"], d, "eapol_start_intv", sv)); err != nil {
 		if !fortiAPIPatch(o["eapol-start-intv"]) {
-			return fmt.Errorf("Error reading eapol_start_intv: %v", err)
+			return fmt.Errorf("error reading eapol_start_intv: %v", err)
 		}
 	}
 
 	if err = d.Set("eapol_logoff_flood", flattenWirelessControllerWidsProfileEapolLogoffFlood(o["eapol-logoff-flood"], d, "eapol_logoff_flood", sv)); err != nil {
 		if !fortiAPIPatch(o["eapol-logoff-flood"]) {
-			return fmt.Errorf("Error reading eapol_logoff_flood: %v", err)
+			return fmt.Errorf("error reading eapol_logoff_flood: %v", err)
 		}
 	}
 
 	if err = d.Set("eapol_logoff_thresh", flattenWirelessControllerWidsProfileEapolLogoffThresh(o["eapol-logoff-thresh"], d, "eapol_logoff_thresh", sv)); err != nil {
 		if !fortiAPIPatch(o["eapol-logoff-thresh"]) {
-			return fmt.Errorf("Error reading eapol_logoff_thresh: %v", err)
+			return fmt.Errorf("error reading eapol_logoff_thresh: %v", err)
 		}
 	}
 
 	if err = d.Set("eapol_logoff_intv", flattenWirelessControllerWidsProfileEapolLogoffIntv(o["eapol-logoff-intv"], d, "eapol_logoff_intv", sv)); err != nil {
 		if !fortiAPIPatch(o["eapol-logoff-intv"]) {
-			return fmt.Errorf("Error reading eapol_logoff_intv: %v", err)
+			return fmt.Errorf("error reading eapol_logoff_intv: %v", err)
 		}
 	}
 
 	if err = d.Set("eapol_succ_flood", flattenWirelessControllerWidsProfileEapolSuccFlood(o["eapol-succ-flood"], d, "eapol_succ_flood", sv)); err != nil {
 		if !fortiAPIPatch(o["eapol-succ-flood"]) {
-			return fmt.Errorf("Error reading eapol_succ_flood: %v", err)
+			return fmt.Errorf("error reading eapol_succ_flood: %v", err)
 		}
 	}
 
 	if err = d.Set("eapol_succ_thresh", flattenWirelessControllerWidsProfileEapolSuccThresh(o["eapol-succ-thresh"], d, "eapol_succ_thresh", sv)); err != nil {
 		if !fortiAPIPatch(o["eapol-succ-thresh"]) {
-			return fmt.Errorf("Error reading eapol_succ_thresh: %v", err)
+			return fmt.Errorf("error reading eapol_succ_thresh: %v", err)
 		}
 	}
 
 	if err = d.Set("eapol_succ_intv", flattenWirelessControllerWidsProfileEapolSuccIntv(o["eapol-succ-intv"], d, "eapol_succ_intv", sv)); err != nil {
 		if !fortiAPIPatch(o["eapol-succ-intv"]) {
-			return fmt.Errorf("Error reading eapol_succ_intv: %v", err)
+			return fmt.Errorf("error reading eapol_succ_intv: %v", err)
 		}
 	}
 
 	if err = d.Set("eapol_fail_flood", flattenWirelessControllerWidsProfileEapolFailFlood(o["eapol-fail-flood"], d, "eapol_fail_flood", sv)); err != nil {
 		if !fortiAPIPatch(o["eapol-fail-flood"]) {
-			return fmt.Errorf("Error reading eapol_fail_flood: %v", err)
+			return fmt.Errorf("error reading eapol_fail_flood: %v", err)
 		}
 	}
 
 	if err = d.Set("eapol_fail_thresh", flattenWirelessControllerWidsProfileEapolFailThresh(o["eapol-fail-thresh"], d, "eapol_fail_thresh", sv)); err != nil {
 		if !fortiAPIPatch(o["eapol-fail-thresh"]) {
-			return fmt.Errorf("Error reading eapol_fail_thresh: %v", err)
+			return fmt.Errorf("error reading eapol_fail_thresh: %v", err)
 		}
 	}
 
 	if err = d.Set("eapol_fail_intv", flattenWirelessControllerWidsProfileEapolFailIntv(o["eapol-fail-intv"], d, "eapol_fail_intv", sv)); err != nil {
 		if !fortiAPIPatch(o["eapol-fail-intv"]) {
-			return fmt.Errorf("Error reading eapol_fail_intv: %v", err)
+			return fmt.Errorf("error reading eapol_fail_intv: %v", err)
 		}
 	}
 
 	if err = d.Set("eapol_pre_succ_flood", flattenWirelessControllerWidsProfileEapolPreSuccFlood(o["eapol-pre-succ-flood"], d, "eapol_pre_succ_flood", sv)); err != nil {
 		if !fortiAPIPatch(o["eapol-pre-succ-flood"]) {
-			return fmt.Errorf("Error reading eapol_pre_succ_flood: %v", err)
+			return fmt.Errorf("error reading eapol_pre_succ_flood: %v", err)
 		}
 	}
 
 	if err = d.Set("eapol_pre_succ_thresh", flattenWirelessControllerWidsProfileEapolPreSuccThresh(o["eapol-pre-succ-thresh"], d, "eapol_pre_succ_thresh", sv)); err != nil {
 		if !fortiAPIPatch(o["eapol-pre-succ-thresh"]) {
-			return fmt.Errorf("Error reading eapol_pre_succ_thresh: %v", err)
+			return fmt.Errorf("error reading eapol_pre_succ_thresh: %v", err)
 		}
 	}
 
 	if err = d.Set("eapol_pre_succ_intv", flattenWirelessControllerWidsProfileEapolPreSuccIntv(o["eapol-pre-succ-intv"], d, "eapol_pre_succ_intv", sv)); err != nil {
 		if !fortiAPIPatch(o["eapol-pre-succ-intv"]) {
-			return fmt.Errorf("Error reading eapol_pre_succ_intv: %v", err)
+			return fmt.Errorf("error reading eapol_pre_succ_intv: %v", err)
 		}
 	}
 
 	if err = d.Set("eapol_pre_fail_flood", flattenWirelessControllerWidsProfileEapolPreFailFlood(o["eapol-pre-fail-flood"], d, "eapol_pre_fail_flood", sv)); err != nil {
 		if !fortiAPIPatch(o["eapol-pre-fail-flood"]) {
-			return fmt.Errorf("Error reading eapol_pre_fail_flood: %v", err)
+			return fmt.Errorf("error reading eapol_pre_fail_flood: %v", err)
 		}
 	}
 
 	if err = d.Set("eapol_pre_fail_thresh", flattenWirelessControllerWidsProfileEapolPreFailThresh(o["eapol-pre-fail-thresh"], d, "eapol_pre_fail_thresh", sv)); err != nil {
 		if !fortiAPIPatch(o["eapol-pre-fail-thresh"]) {
-			return fmt.Errorf("Error reading eapol_pre_fail_thresh: %v", err)
+			return fmt.Errorf("error reading eapol_pre_fail_thresh: %v", err)
 		}
 	}
 
 	if err = d.Set("eapol_pre_fail_intv", flattenWirelessControllerWidsProfileEapolPreFailIntv(o["eapol-pre-fail-intv"], d, "eapol_pre_fail_intv", sv)); err != nil {
 		if !fortiAPIPatch(o["eapol-pre-fail-intv"]) {
-			return fmt.Errorf("Error reading eapol_pre_fail_intv: %v", err)
+			return fmt.Errorf("error reading eapol_pre_fail_intv: %v", err)
 		}
 	}
 
 	if err = d.Set("deauth_unknown_src_thresh", flattenWirelessControllerWidsProfileDeauthUnknownSrcThresh(o["deauth-unknown-src-thresh"], d, "deauth_unknown_src_thresh", sv)); err != nil {
 		if !fortiAPIPatch(o["deauth-unknown-src-thresh"]) {
-			return fmt.Errorf("Error reading deauth_unknown_src_thresh: %v", err)
+			return fmt.Errorf("error reading deauth_unknown_src_thresh: %v", err)
 		}
 	}
 

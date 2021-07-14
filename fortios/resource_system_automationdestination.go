@@ -30,29 +30,29 @@ func resourceSystemAutomationDestination() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"type": &schema.Schema{
+			"type": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"destination": &schema.Schema{
+			"destination": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 31),
 							Optional:     true,
@@ -61,16 +61,21 @@ func resourceSystemAutomationDestination() *schema.Resource {
 					},
 				},
 			},
-			"ha_group_id": &schema.Schema{
+			"ha_group_id": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 255),
 				Optional:     true,
 				Computed:     true,
 			},
-			"dynamic_sort_subtable": &schema.Schema{
+			"dynamic_sort_subtable": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Default:  "false",
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -88,15 +93,25 @@ func resourceSystemAutomationDestinationCreate(d *schema.ResourceData, m interfa
 		}
 	}
 
-	obj, err := getObjectSystemAutomationDestination(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating SystemAutomationDestination resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateSystemAutomationDestination(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemAutomationDestination(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating SystemAutomationDestination resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateSystemAutomationDestination(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating SystemAutomationDestination resource: %v", err)
+		return fmt.Errorf("error creating SystemAutomationDestination resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -121,14 +136,24 @@ func resourceSystemAutomationDestinationUpdate(d *schema.ResourceData, m interfa
 		}
 	}
 
-	obj, err := getObjectSystemAutomationDestination(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SystemAutomationDestination resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSystemAutomationDestination(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemAutomationDestination(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SystemAutomationDestination resource: %v", err)
+		return fmt.Errorf("error updating SystemAutomationDestination resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSystemAutomationDestination(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SystemAutomationDestination resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -155,9 +180,17 @@ func resourceSystemAutomationDestinationDelete(d *schema.ResourceData, m interfa
 		}
 	}
 
-	err := c.DeleteSystemAutomationDestination(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSystemAutomationDestination(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SystemAutomationDestination resource: %v", err)
+		return fmt.Errorf("error deleting SystemAutomationDestination resource: %v", err)
 	}
 
 	d.SetId("")
@@ -179,9 +212,19 @@ func resourceSystemAutomationDestinationRead(d *schema.ResourceData, m interface
 		}
 	}
 
-	o, err := c.ReadSystemAutomationDestination(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSystemAutomationDestination(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemAutomationDestination resource: %v", err)
+		return fmt.Errorf("error reading SystemAutomationDestination resource: %v", err)
 	}
 
 	if o == nil {
@@ -192,7 +235,7 @@ func resourceSystemAutomationDestinationRead(d *schema.ResourceData, m interface
 
 	err = refreshObjectSystemAutomationDestination(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemAutomationDestination resource from API: %v", err)
+		return fmt.Errorf("error reading SystemAutomationDestination resource from API: %v", err)
 	}
 	return nil
 }
@@ -252,27 +295,27 @@ func refreshObjectSystemAutomationDestination(d *schema.ResourceData, o map[stri
 
 	if err = d.Set("name", flattenSystemAutomationDestinationName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("type", flattenSystemAutomationDestinationType(o["type"], d, "type", sv)); err != nil {
 		if !fortiAPIPatch(o["type"]) {
-			return fmt.Errorf("Error reading type: %v", err)
+			return fmt.Errorf("error reading type: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("destination", flattenSystemAutomationDestinationDestination(o["destination"], d, "destination", sv)); err != nil {
 			if !fortiAPIPatch(o["destination"]) {
-				return fmt.Errorf("Error reading destination: %v", err)
+				return fmt.Errorf("error reading destination: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("destination"); ok {
 			if err = d.Set("destination", flattenSystemAutomationDestinationDestination(o["destination"], d, "destination", sv)); err != nil {
 				if !fortiAPIPatch(o["destination"]) {
-					return fmt.Errorf("Error reading destination: %v", err)
+					return fmt.Errorf("error reading destination: %v", err)
 				}
 			}
 		}
@@ -280,7 +323,7 @@ func refreshObjectSystemAutomationDestination(d *schema.ResourceData, o map[stri
 
 	if err = d.Set("ha_group_id", flattenSystemAutomationDestinationHaGroupId(o["ha-group-id"], d, "ha_group_id", sv)); err != nil {
 		if !fortiAPIPatch(o["ha-group-id"]) {
-			return fmt.Errorf("Error reading ha_group_id: %v", err)
+			return fmt.Errorf("error reading ha_group_id: %v", err)
 		}
 	}
 

@@ -30,39 +30,44 @@ func resourceWirelessControllerRegion() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"image_type": &schema.Schema{
+			"image_type": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"comments": &schema.Schema{
+			"comments": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 1027),
 				Optional:     true,
 				Computed:     true,
 			},
-			"grayscale": &schema.Schema{
+			"grayscale": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"opacity": &schema.Schema{
+			"opacity": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 100),
 				Optional:     true,
 				Computed:     true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -80,15 +85,25 @@ func resourceWirelessControllerRegionCreate(d *schema.ResourceData, m interface{
 		}
 	}
 
-	obj, err := getObjectWirelessControllerRegion(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating WirelessControllerRegion resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateWirelessControllerRegion(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectWirelessControllerRegion(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating WirelessControllerRegion resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateWirelessControllerRegion(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating WirelessControllerRegion resource: %v", err)
+		return fmt.Errorf("error creating WirelessControllerRegion resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -113,14 +128,24 @@ func resourceWirelessControllerRegionUpdate(d *schema.ResourceData, m interface{
 		}
 	}
 
-	obj, err := getObjectWirelessControllerRegion(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating WirelessControllerRegion resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateWirelessControllerRegion(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectWirelessControllerRegion(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating WirelessControllerRegion resource: %v", err)
+		return fmt.Errorf("error updating WirelessControllerRegion resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateWirelessControllerRegion(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating WirelessControllerRegion resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -147,9 +172,17 @@ func resourceWirelessControllerRegionDelete(d *schema.ResourceData, m interface{
 		}
 	}
 
-	err := c.DeleteWirelessControllerRegion(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteWirelessControllerRegion(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting WirelessControllerRegion resource: %v", err)
+		return fmt.Errorf("error deleting WirelessControllerRegion resource: %v", err)
 	}
 
 	d.SetId("")
@@ -171,9 +204,19 @@ func resourceWirelessControllerRegionRead(d *schema.ResourceData, m interface{})
 		}
 	}
 
-	o, err := c.ReadWirelessControllerRegion(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadWirelessControllerRegion(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading WirelessControllerRegion resource: %v", err)
+		return fmt.Errorf("error reading WirelessControllerRegion resource: %v", err)
 	}
 
 	if o == nil {
@@ -184,7 +227,7 @@ func resourceWirelessControllerRegionRead(d *schema.ResourceData, m interface{})
 
 	err = refreshObjectWirelessControllerRegion(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading WirelessControllerRegion resource from API: %v", err)
+		return fmt.Errorf("error reading WirelessControllerRegion resource from API: %v", err)
 	}
 	return nil
 }
@@ -214,31 +257,31 @@ func refreshObjectWirelessControllerRegion(d *schema.ResourceData, o map[string]
 
 	if err = d.Set("name", flattenWirelessControllerRegionName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("image_type", flattenWirelessControllerRegionImageType(o["image-type"], d, "image_type", sv)); err != nil {
 		if !fortiAPIPatch(o["image-type"]) {
-			return fmt.Errorf("Error reading image_type: %v", err)
+			return fmt.Errorf("error reading image_type: %v", err)
 		}
 	}
 
 	if err = d.Set("comments", flattenWirelessControllerRegionComments(o["comments"], d, "comments", sv)); err != nil {
 		if !fortiAPIPatch(o["comments"]) {
-			return fmt.Errorf("Error reading comments: %v", err)
+			return fmt.Errorf("error reading comments: %v", err)
 		}
 	}
 
 	if err = d.Set("grayscale", flattenWirelessControllerRegionGrayscale(o["grayscale"], d, "grayscale", sv)); err != nil {
 		if !fortiAPIPatch(o["grayscale"]) {
-			return fmt.Errorf("Error reading grayscale: %v", err)
+			return fmt.Errorf("error reading grayscale: %v", err)
 		}
 	}
 
 	if err = d.Set("opacity", flattenWirelessControllerRegionOpacity(o["opacity"], d, "opacity", sv)); err != nil {
 		if !fortiAPIPatch(o["opacity"]) {
-			return fmt.Errorf("Error reading opacity: %v", err)
+			return fmt.Errorf("error reading opacity: %v", err)
 		}
 	}
 

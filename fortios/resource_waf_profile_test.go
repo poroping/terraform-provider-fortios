@@ -51,14 +51,14 @@ func testAccCheckFortiOSWafProfileExists(n string) resource.TestCheckFunc {
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadWafProfile(i, "root")
+		o, err := c.ReadWafProfile(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading WafProfile: %s", err)
+			return fmt.Errorf("error reading WafProfile: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating WafProfile: %s", n)
+			return fmt.Errorf("error creating WafProfile: %s", n)
 		}
 
 		return nil
@@ -74,11 +74,11 @@ func testAccCheckWafProfileDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadWafProfile(i, "root")
+		o, err := c.ReadWafProfile(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error WafProfile %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error WafProfile %s still exists", rs.Primary.ID)
 			}
 		}
 

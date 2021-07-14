@@ -30,26 +30,31 @@ func resourceUserDeviceCategory() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				ForceNew:     true,
 				Required:     true,
 			},
-			"desc": &schema.Schema{
+			"desc": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
 			},
-			"comment": &schema.Schema{
+			"comment": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -67,15 +72,25 @@ func resourceUserDeviceCategoryCreate(d *schema.ResourceData, m interface{}) err
 		}
 	}
 
-	obj, err := getObjectUserDeviceCategory(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating UserDeviceCategory resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateUserDeviceCategory(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectUserDeviceCategory(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating UserDeviceCategory resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateUserDeviceCategory(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating UserDeviceCategory resource: %v", err)
+		return fmt.Errorf("error creating UserDeviceCategory resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -100,14 +115,24 @@ func resourceUserDeviceCategoryUpdate(d *schema.ResourceData, m interface{}) err
 		}
 	}
 
-	obj, err := getObjectUserDeviceCategory(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating UserDeviceCategory resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateUserDeviceCategory(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectUserDeviceCategory(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating UserDeviceCategory resource: %v", err)
+		return fmt.Errorf("error updating UserDeviceCategory resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateUserDeviceCategory(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating UserDeviceCategory resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -134,9 +159,17 @@ func resourceUserDeviceCategoryDelete(d *schema.ResourceData, m interface{}) err
 		}
 	}
 
-	err := c.DeleteUserDeviceCategory(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteUserDeviceCategory(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting UserDeviceCategory resource: %v", err)
+		return fmt.Errorf("error deleting UserDeviceCategory resource: %v", err)
 	}
 
 	d.SetId("")
@@ -158,9 +191,19 @@ func resourceUserDeviceCategoryRead(d *schema.ResourceData, m interface{}) error
 		}
 	}
 
-	o, err := c.ReadUserDeviceCategory(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadUserDeviceCategory(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading UserDeviceCategory resource: %v", err)
+		return fmt.Errorf("error reading UserDeviceCategory resource: %v", err)
 	}
 
 	if o == nil {
@@ -171,7 +214,7 @@ func resourceUserDeviceCategoryRead(d *schema.ResourceData, m interface{}) error
 
 	err = refreshObjectUserDeviceCategory(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading UserDeviceCategory resource from API: %v", err)
+		return fmt.Errorf("error reading UserDeviceCategory resource from API: %v", err)
 	}
 	return nil
 }
@@ -193,19 +236,19 @@ func refreshObjectUserDeviceCategory(d *schema.ResourceData, o map[string]interf
 
 	if err = d.Set("name", flattenUserDeviceCategoryName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("desc", flattenUserDeviceCategoryDesc(o["desc"], d, "desc", sv)); err != nil {
 		if !fortiAPIPatch(o["desc"]) {
-			return fmt.Errorf("Error reading desc: %v", err)
+			return fmt.Errorf("error reading desc: %v", err)
 		}
 	}
 
 	if err = d.Set("comment", flattenUserDeviceCategoryComment(o["comment"], d, "comment", sv)); err != nil {
 		if !fortiAPIPatch(o["comment"]) {
-			return fmt.Errorf("Error reading comment: %v", err)
+			return fmt.Errorf("error reading comment: %v", err)
 		}
 	}
 

@@ -30,143 +30,143 @@ func resourceFirewallServiceCustom() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"proxy": &schema.Schema{
+			"proxy": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"category": &schema.Schema{
+			"category": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"protocol": &schema.Schema{
+			"protocol": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"helper": &schema.Schema{
+			"helper": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"iprange": &schema.Schema{
+			"iprange": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"fqdn": &schema.Schema{
+			"fqdn": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
 				Computed:     true,
 			},
-			"protocol_number": &schema.Schema{
+			"protocol_number": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 254),
 				Optional:     true,
 				Computed:     true,
 			},
-			"icmptype": &schema.Schema{
+			"icmptype": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"icmpcode": &schema.Schema{
+			"icmpcode": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 255),
 				Optional:     true,
 				Computed:     true,
 			},
-			"tcp_portrange": &schema.Schema{
+			"tcp_portrange": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"udp_portrange": &schema.Schema{
+			"udp_portrange": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"sctp_portrange": &schema.Schema{
+			"sctp_portrange": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"tcp_halfclose_timer": &schema.Schema{
+			"tcp_halfclose_timer": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 86400),
 				Optional:     true,
 				Computed:     true,
 			},
-			"tcp_halfopen_timer": &schema.Schema{
+			"tcp_halfopen_timer": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 86400),
 				Optional:     true,
 				Computed:     true,
 			},
-			"tcp_timewait_timer": &schema.Schema{
+			"tcp_timewait_timer": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 300),
 				Optional:     true,
 				Computed:     true,
 			},
-			"udp_idle_timer": &schema.Schema{
+			"udp_idle_timer": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 86400),
 				Optional:     true,
 				Computed:     true,
 			},
-			"session_ttl": &schema.Schema{
+			"session_ttl": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(300, 604800),
 				Optional:     true,
 				Computed:     true,
 			},
-			"check_reset_range": &schema.Schema{
+			"check_reset_range": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"comment": &schema.Schema{
+			"comment": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
 			},
-			"color": &schema.Schema{
+			"color": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 32),
 				Optional:     true,
 				Computed:     true,
 			},
-			"visibility": &schema.Schema{
+			"visibility": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"app_service_type": &schema.Schema{
+			"app_service_type": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"app_category": &schema.Schema{
+			"app_category": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
@@ -174,12 +174,12 @@ func resourceFirewallServiceCustom() *schema.Resource {
 					},
 				},
 			},
-			"application": &schema.Schema{
+			"application": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
@@ -187,10 +187,21 @@ func resourceFirewallServiceCustom() *schema.Resource {
 					},
 				},
 			},
-			"dynamic_sort_subtable": &schema.Schema{
+			"dynamic_sort_subtable": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Default:  "false",
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
+			},
+			"allow_append": {
+				Type:         schema.TypeBool,
+				Optional:     true,
+				Default:      false,
+				RequiredWith: []string{"name"},
 			},
 		},
 	}
@@ -208,15 +219,51 @@ func resourceFirewallServiceCustomCreate(d *schema.ResourceData, m interface{}) 
 		}
 	}
 
-	obj, err := getObjectFirewallServiceCustom(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating FirewallServiceCustom resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateFirewallServiceCustom(obj, vdomparam)
+	allow_append := false
+
+	if v, ok := d.GetOk("allow_append"); ok {
+		if b, ok := v.(bool); ok {
+			allow_append = b
+		}
+	}
+
+	urlparams := make(map[string][]string)
+	urlparams["allow_append"] = []string{strconv.FormatBool(allow_append)}
+
+	key := "name"
+	mkey := ""
+	if v, ok := d.GetOk(key); ok {
+		if s, ok := v.(string); ok {
+			mkey = s
+		}
+	}
+
+	obj, err := getObjectFirewallServiceCustom(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating FirewallServiceCustom resource while getting object: %v", err)
+	}
+
+	if mkey == "" && allow_append {
+		return fmt.Errorf("error creating FirewallServiceCustom resource: %q must be set if \"allow_append\" is true", key)
+	}
+
+	o := make(map[string]interface{})
+	if mkey != "" && allow_append {
+		o, err = c.UpdateFirewallServiceCustom(obj, mkey, vdomparam, urlparams, batchid)
+	} else {
+		o, err = c.CreateFirewallServiceCustom(obj, vdomparam, urlparams, batchid)
+	}
 
 	if err != nil {
-		return fmt.Errorf("Error creating FirewallServiceCustom resource: %v", err)
+		return fmt.Errorf("error creating FirewallServiceCustom resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -241,14 +288,24 @@ func resourceFirewallServiceCustomUpdate(d *schema.ResourceData, m interface{}) 
 		}
 	}
 
-	obj, err := getObjectFirewallServiceCustom(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating FirewallServiceCustom resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateFirewallServiceCustom(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectFirewallServiceCustom(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating FirewallServiceCustom resource: %v", err)
+		return fmt.Errorf("error updating FirewallServiceCustom resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateFirewallServiceCustom(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating FirewallServiceCustom resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -275,9 +332,17 @@ func resourceFirewallServiceCustomDelete(d *schema.ResourceData, m interface{}) 
 		}
 	}
 
-	err := c.DeleteFirewallServiceCustom(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteFirewallServiceCustom(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting FirewallServiceCustom resource: %v", err)
+		return fmt.Errorf("error deleting FirewallServiceCustom resource: %v", err)
 	}
 
 	d.SetId("")
@@ -299,9 +364,19 @@ func resourceFirewallServiceCustomRead(d *schema.ResourceData, m interface{}) er
 		}
 	}
 
-	o, err := c.ReadFirewallServiceCustom(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadFirewallServiceCustom(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading FirewallServiceCustom resource: %v", err)
+		return fmt.Errorf("error reading FirewallServiceCustom resource: %v", err)
 	}
 
 	if o == nil {
@@ -312,7 +387,7 @@ func resourceFirewallServiceCustomRead(d *schema.ResourceData, m interface{}) er
 
 	err = refreshObjectFirewallServiceCustom(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading FirewallServiceCustom resource from API: %v", err)
+		return fmt.Errorf("error reading FirewallServiceCustom resource from API: %v", err)
 	}
 	return nil
 }
@@ -490,103 +565,103 @@ func refreshObjectFirewallServiceCustom(d *schema.ResourceData, o map[string]int
 
 	if err = d.Set("name", flattenFirewallServiceCustomName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("proxy", flattenFirewallServiceCustomProxy(o["proxy"], d, "proxy", sv)); err != nil {
 		if !fortiAPIPatch(o["proxy"]) {
-			return fmt.Errorf("Error reading proxy: %v", err)
+			return fmt.Errorf("error reading proxy: %v", err)
 		}
 	}
 
 	if err = d.Set("category", flattenFirewallServiceCustomCategory(o["category"], d, "category", sv)); err != nil {
 		if !fortiAPIPatch(o["category"]) {
-			return fmt.Errorf("Error reading category: %v", err)
+			return fmt.Errorf("error reading category: %v", err)
 		}
 	}
 
 	if err = d.Set("protocol", flattenFirewallServiceCustomProtocol(o["protocol"], d, "protocol", sv)); err != nil {
 		if !fortiAPIPatch(o["protocol"]) {
-			return fmt.Errorf("Error reading protocol: %v", err)
+			return fmt.Errorf("error reading protocol: %v", err)
 		}
 	}
 
 	if err = d.Set("helper", flattenFirewallServiceCustomHelper(o["helper"], d, "helper", sv)); err != nil {
 		if !fortiAPIPatch(o["helper"]) {
-			return fmt.Errorf("Error reading helper: %v", err)
+			return fmt.Errorf("error reading helper: %v", err)
 		}
 	}
 
 	if err = d.Set("iprange", flattenFirewallServiceCustomIprange(o["iprange"], d, "iprange", sv)); err != nil {
 		if !fortiAPIPatch(o["iprange"]) {
-			return fmt.Errorf("Error reading iprange: %v", err)
+			return fmt.Errorf("error reading iprange: %v", err)
 		}
 	}
 
 	if err = d.Set("fqdn", flattenFirewallServiceCustomFqdn(o["fqdn"], d, "fqdn", sv)); err != nil {
 		if !fortiAPIPatch(o["fqdn"]) {
-			return fmt.Errorf("Error reading fqdn: %v", err)
+			return fmt.Errorf("error reading fqdn: %v", err)
 		}
 	}
 
 	if err = d.Set("protocol_number", flattenFirewallServiceCustomProtocolNumber(o["protocol-number"], d, "protocol_number", sv)); err != nil {
 		if !fortiAPIPatch(o["protocol-number"]) {
-			return fmt.Errorf("Error reading protocol_number: %v", err)
+			return fmt.Errorf("error reading protocol_number: %v", err)
 		}
 	}
 
 	if err = d.Set("icmptype", flattenFirewallServiceCustomIcmptype(o["icmptype"], d, "icmptype", sv)); err != nil {
 		if !fortiAPIPatch(o["icmptype"]) {
-			return fmt.Errorf("Error reading icmptype: %v", err)
+			return fmt.Errorf("error reading icmptype: %v", err)
 		}
 	}
 
 	if err = d.Set("icmpcode", flattenFirewallServiceCustomIcmpcode(o["icmpcode"], d, "icmpcode", sv)); err != nil {
 		if !fortiAPIPatch(o["icmpcode"]) {
-			return fmt.Errorf("Error reading icmpcode: %v", err)
+			return fmt.Errorf("error reading icmpcode: %v", err)
 		}
 	}
 
 	if err = d.Set("tcp_portrange", flattenFirewallServiceCustomTcpPortrange(o["tcp-portrange"], d, "tcp_portrange", sv)); err != nil {
 		if !fortiAPIPatch(o["tcp-portrange"]) {
-			return fmt.Errorf("Error reading tcp_portrange: %v", err)
+			return fmt.Errorf("error reading tcp_portrange: %v", err)
 		}
 	}
 
 	if err = d.Set("udp_portrange", flattenFirewallServiceCustomUdpPortrange(o["udp-portrange"], d, "udp_portrange", sv)); err != nil {
 		if !fortiAPIPatch(o["udp-portrange"]) {
-			return fmt.Errorf("Error reading udp_portrange: %v", err)
+			return fmt.Errorf("error reading udp_portrange: %v", err)
 		}
 	}
 
 	if err = d.Set("sctp_portrange", flattenFirewallServiceCustomSctpPortrange(o["sctp-portrange"], d, "sctp_portrange", sv)); err != nil {
 		if !fortiAPIPatch(o["sctp-portrange"]) {
-			return fmt.Errorf("Error reading sctp_portrange: %v", err)
+			return fmt.Errorf("error reading sctp_portrange: %v", err)
 		}
 	}
 
 	if err = d.Set("tcp_halfclose_timer", flattenFirewallServiceCustomTcpHalfcloseTimer(o["tcp-halfclose-timer"], d, "tcp_halfclose_timer", sv)); err != nil {
 		if !fortiAPIPatch(o["tcp-halfclose-timer"]) {
-			return fmt.Errorf("Error reading tcp_halfclose_timer: %v", err)
+			return fmt.Errorf("error reading tcp_halfclose_timer: %v", err)
 		}
 	}
 
 	if err = d.Set("tcp_halfopen_timer", flattenFirewallServiceCustomTcpHalfopenTimer(o["tcp-halfopen-timer"], d, "tcp_halfopen_timer", sv)); err != nil {
 		if !fortiAPIPatch(o["tcp-halfopen-timer"]) {
-			return fmt.Errorf("Error reading tcp_halfopen_timer: %v", err)
+			return fmt.Errorf("error reading tcp_halfopen_timer: %v", err)
 		}
 	}
 
 	if err = d.Set("tcp_timewait_timer", flattenFirewallServiceCustomTcpTimewaitTimer(o["tcp-timewait-timer"], d, "tcp_timewait_timer", sv)); err != nil {
 		if !fortiAPIPatch(o["tcp-timewait-timer"]) {
-			return fmt.Errorf("Error reading tcp_timewait_timer: %v", err)
+			return fmt.Errorf("error reading tcp_timewait_timer: %v", err)
 		}
 	}
 
 	if err = d.Set("udp_idle_timer", flattenFirewallServiceCustomUdpIdleTimer(o["udp-idle-timer"], d, "udp_idle_timer", sv)); err != nil {
 		if !fortiAPIPatch(o["udp-idle-timer"]) {
-			return fmt.Errorf("Error reading udp_idle_timer: %v", err)
+			return fmt.Errorf("error reading udp_idle_timer: %v", err)
 		}
 	}
 
@@ -603,52 +678,52 @@ func refreshObjectFirewallServiceCustom(d *schema.ResourceData, o map[string]int
 
 		if err = d.Set("session_ttl", v); err != nil {
 			if !fortiAPIPatch(o["session-ttl"]) {
-				return fmt.Errorf("Error reading session_ttl: %v", err)
+				return fmt.Errorf("error reading session_ttl: %v", err)
 			}
 		}
 	}
 
 	if err = d.Set("check_reset_range", flattenFirewallServiceCustomCheckResetRange(o["check-reset-range"], d, "check_reset_range", sv)); err != nil {
 		if !fortiAPIPatch(o["check-reset-range"]) {
-			return fmt.Errorf("Error reading check_reset_range: %v", err)
+			return fmt.Errorf("error reading check_reset_range: %v", err)
 		}
 	}
 
 	if err = d.Set("comment", flattenFirewallServiceCustomComment(o["comment"], d, "comment", sv)); err != nil {
 		if !fortiAPIPatch(o["comment"]) {
-			return fmt.Errorf("Error reading comment: %v", err)
+			return fmt.Errorf("error reading comment: %v", err)
 		}
 	}
 
 	if err = d.Set("color", flattenFirewallServiceCustomColor(o["color"], d, "color", sv)); err != nil {
 		if !fortiAPIPatch(o["color"]) {
-			return fmt.Errorf("Error reading color: %v", err)
+			return fmt.Errorf("error reading color: %v", err)
 		}
 	}
 
 	if err = d.Set("visibility", flattenFirewallServiceCustomVisibility(o["visibility"], d, "visibility", sv)); err != nil {
 		if !fortiAPIPatch(o["visibility"]) {
-			return fmt.Errorf("Error reading visibility: %v", err)
+			return fmt.Errorf("error reading visibility: %v", err)
 		}
 	}
 
 	if err = d.Set("app_service_type", flattenFirewallServiceCustomAppServiceType(o["app-service-type"], d, "app_service_type", sv)); err != nil {
 		if !fortiAPIPatch(o["app-service-type"]) {
-			return fmt.Errorf("Error reading app_service_type: %v", err)
+			return fmt.Errorf("error reading app_service_type: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("app_category", flattenFirewallServiceCustomAppCategory(o["app-category"], d, "app_category", sv)); err != nil {
 			if !fortiAPIPatch(o["app-category"]) {
-				return fmt.Errorf("Error reading app_category: %v", err)
+				return fmt.Errorf("error reading app_category: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("app_category"); ok {
 			if err = d.Set("app_category", flattenFirewallServiceCustomAppCategory(o["app-category"], d, "app_category", sv)); err != nil {
 				if !fortiAPIPatch(o["app-category"]) {
-					return fmt.Errorf("Error reading app_category: %v", err)
+					return fmt.Errorf("error reading app_category: %v", err)
 				}
 			}
 		}
@@ -657,14 +732,14 @@ func refreshObjectFirewallServiceCustom(d *schema.ResourceData, o map[string]int
 	if isImportTable() {
 		if err = d.Set("application", flattenFirewallServiceCustomApplication(o["application"], d, "application", sv)); err != nil {
 			if !fortiAPIPatch(o["application"]) {
-				return fmt.Errorf("Error reading application: %v", err)
+				return fmt.Errorf("error reading application: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("application"); ok {
 			if err = d.Set("application", flattenFirewallServiceCustomApplication(o["application"], d, "application", sv)); err != nil {
 				if !fortiAPIPatch(o["application"]) {
-					return fmt.Errorf("Error reading application: %v", err)
+					return fmt.Errorf("error reading application: %v", err)
 				}
 			}
 		}

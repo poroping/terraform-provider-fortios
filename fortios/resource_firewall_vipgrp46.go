@@ -30,39 +30,39 @@ func resourceFirewallVipgrp46() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"uuid": &schema.Schema{
+			"uuid": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"color": &schema.Schema{
+			"color": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 32),
 				Optional:     true,
 				Computed:     true,
 			},
-			"comments": &schema.Schema{
+			"comments": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
 			},
-			"member": &schema.Schema{
+			"member": {
 				Type:     schema.TypeList,
 				Required: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 64),
 							Optional:     true,
@@ -71,10 +71,15 @@ func resourceFirewallVipgrp46() *schema.Resource {
 					},
 				},
 			},
-			"dynamic_sort_subtable": &schema.Schema{
+			"dynamic_sort_subtable": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Default:  "false",
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -92,15 +97,25 @@ func resourceFirewallVipgrp46Create(d *schema.ResourceData, m interface{}) error
 		}
 	}
 
-	obj, err := getObjectFirewallVipgrp46(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating FirewallVipgrp46 resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateFirewallVipgrp46(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectFirewallVipgrp46(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating FirewallVipgrp46 resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateFirewallVipgrp46(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating FirewallVipgrp46 resource: %v", err)
+		return fmt.Errorf("error creating FirewallVipgrp46 resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -125,14 +140,24 @@ func resourceFirewallVipgrp46Update(d *schema.ResourceData, m interface{}) error
 		}
 	}
 
-	obj, err := getObjectFirewallVipgrp46(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating FirewallVipgrp46 resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateFirewallVipgrp46(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectFirewallVipgrp46(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating FirewallVipgrp46 resource: %v", err)
+		return fmt.Errorf("error updating FirewallVipgrp46 resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateFirewallVipgrp46(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating FirewallVipgrp46 resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -159,9 +184,17 @@ func resourceFirewallVipgrp46Delete(d *schema.ResourceData, m interface{}) error
 		}
 	}
 
-	err := c.DeleteFirewallVipgrp46(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteFirewallVipgrp46(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting FirewallVipgrp46 resource: %v", err)
+		return fmt.Errorf("error deleting FirewallVipgrp46 resource: %v", err)
 	}
 
 	d.SetId("")
@@ -183,9 +216,19 @@ func resourceFirewallVipgrp46Read(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadFirewallVipgrp46(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadFirewallVipgrp46(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading FirewallVipgrp46 resource: %v", err)
+		return fmt.Errorf("error reading FirewallVipgrp46 resource: %v", err)
 	}
 
 	if o == nil {
@@ -196,7 +239,7 @@ func resourceFirewallVipgrp46Read(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectFirewallVipgrp46(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading FirewallVipgrp46 resource from API: %v", err)
+		return fmt.Errorf("error reading FirewallVipgrp46 resource from API: %v", err)
 	}
 	return nil
 }
@@ -260,39 +303,39 @@ func refreshObjectFirewallVipgrp46(d *schema.ResourceData, o map[string]interfac
 
 	if err = d.Set("name", flattenFirewallVipgrp46Name(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("uuid", flattenFirewallVipgrp46Uuid(o["uuid"], d, "uuid", sv)); err != nil {
 		if !fortiAPIPatch(o["uuid"]) {
-			return fmt.Errorf("Error reading uuid: %v", err)
+			return fmt.Errorf("error reading uuid: %v", err)
 		}
 	}
 
 	if err = d.Set("color", flattenFirewallVipgrp46Color(o["color"], d, "color", sv)); err != nil {
 		if !fortiAPIPatch(o["color"]) {
-			return fmt.Errorf("Error reading color: %v", err)
+			return fmt.Errorf("error reading color: %v", err)
 		}
 	}
 
 	if err = d.Set("comments", flattenFirewallVipgrp46Comments(o["comments"], d, "comments", sv)); err != nil {
 		if !fortiAPIPatch(o["comments"]) {
-			return fmt.Errorf("Error reading comments: %v", err)
+			return fmt.Errorf("error reading comments: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("member", flattenFirewallVipgrp46Member(o["member"], d, "member", sv)); err != nil {
 			if !fortiAPIPatch(o["member"]) {
-				return fmt.Errorf("Error reading member: %v", err)
+				return fmt.Errorf("error reading member: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("member"); ok {
 			if err = d.Set("member", flattenFirewallVipgrp46Member(o["member"], d, "member", sv)); err != nil {
 				if !fortiAPIPatch(o["member"]) {
-					return fmt.Errorf("Error reading member: %v", err)
+					return fmt.Errorf("error reading member: %v", err)
 				}
 			}
 		}

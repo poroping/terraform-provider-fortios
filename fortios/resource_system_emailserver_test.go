@@ -57,14 +57,14 @@ func testAccCheckFortiOSSystemEmailServerExists(n string) resource.TestCheckFunc
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemEmailServer(i, "root")
+		o, err := c.ReadSystemEmailServer(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading SystemEmailServer: %s", err)
+			return fmt.Errorf("error reading SystemEmailServer: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating SystemEmailServer: %s", n)
+			return fmt.Errorf("error creating SystemEmailServer: %s", n)
 		}
 
 		return nil
@@ -80,11 +80,11 @@ func testAccCheckSystemEmailServerDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemEmailServer(i, "root")
+		o, err := c.ReadSystemEmailServer(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error SystemEmailServer %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error SystemEmailServer %s still exists", rs.Primary.ID)
 			}
 		}
 

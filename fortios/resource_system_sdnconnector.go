@@ -30,173 +30,173 @@ func resourceSystemSdnConnector() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"status": &schema.Schema{
+			"status": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"type": &schema.Schema{
+			"type": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"ha_status": &schema.Schema{
+			"ha_status": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"server": &schema.Schema{
+			"server": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 127),
 				Optional:     true,
 				Computed:     true,
 			},
-			"server_port": &schema.Schema{
+			"server_port": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"username": &schema.Schema{
+			"username": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 64),
 				Optional:     true,
 				Computed:     true,
 			},
-			"password": &schema.Schema{
+			"password": {
 				Type:      schema.TypeString,
 				Optional:  true,
 				Sensitive: true,
 				Computed:  true,
 			},
-			"vcenter_server": &schema.Schema{
+			"vcenter_server": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 127),
 				Optional:     true,
 				Computed:     true,
 			},
-			"vcenter_username": &schema.Schema{
+			"vcenter_username": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 64),
 				Optional:     true,
 				Computed:     true,
 			},
-			"vcenter_password": &schema.Schema{
+			"vcenter_password": {
 				Type:      schema.TypeString,
 				Optional:  true,
 				Sensitive: true,
 			},
-			"access_key": &schema.Schema{
+			"access_key": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 31),
 				Optional:     true,
 				Sensitive:    true,
 				Computed:     true,
 			},
-			"secret_key": &schema.Schema{
+			"secret_key": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 59),
 				Optional:     true,
 				Sensitive:    true,
 			},
-			"region": &schema.Schema{
+			"region": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 15),
 				Optional:     true,
 				Computed:     true,
 			},
-			"vpc_id": &schema.Schema{
+			"vpc_id": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 31),
 				Optional:     true,
 				Computed:     true,
 			},
-			"tenant_id": &schema.Schema{
+			"tenant_id": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 127),
 				Optional:     true,
 				Computed:     true,
 			},
-			"subscription_id": &schema.Schema{
+			"subscription_id": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"login_endpoint": &schema.Schema{
+			"login_endpoint": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 127),
 				Optional:     true,
 				Computed:     true,
 			},
-			"resource_url": &schema.Schema{
+			"resource_url": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 127),
 				Optional:     true,
 				Computed:     true,
 			},
-			"client_id": &schema.Schema{
+			"client_id": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"client_secret": &schema.Schema{
+			"client_secret": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 59),
 				Optional:     true,
 				Sensitive:    true,
 			},
-			"resource_group": &schema.Schema{
+			"resource_group": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"azure_region": &schema.Schema{
+			"azure_region": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"nic": &schema.Schema{
+			"nic": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 63),
 							Optional:     true,
 							Computed:     true,
 						},
-						"ip": &schema.Schema{
+						"ip": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"name": &schema.Schema{
+									"name": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 63),
 										Optional:     true,
 										Computed:     true,
 									},
-									"public_ip": &schema.Schema{
+									"public_ip": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 63),
 										Optional:     true,
 										Computed:     true,
 									},
-									"resource_group": &schema.Schema{
+									"resource_group": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 63),
 										Optional:     true,
@@ -208,41 +208,41 @@ func resourceSystemSdnConnector() *schema.Resource {
 					},
 				},
 			},
-			"route_table": &schema.Schema{
+			"route_table": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 63),
 							Optional:     true,
 							Computed:     true,
 						},
-						"subscription_id": &schema.Schema{
+						"subscription_id": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 63),
 							Optional:     true,
 							Computed:     true,
 						},
-						"resource_group": &schema.Schema{
+						"resource_group": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 63),
 							Optional:     true,
 							Computed:     true,
 						},
-						"route": &schema.Schema{
+						"route": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"name": &schema.Schema{
+									"name": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 63),
 										Optional:     true,
 										Computed:     true,
 									},
-									"next_hop": &schema.Schema{
+									"next_hop": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 127),
 										Optional:     true,
@@ -254,46 +254,46 @@ func resourceSystemSdnConnector() *schema.Resource {
 					},
 				},
 			},
-			"user_id": &schema.Schema{
+			"user_id": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 127),
 				Optional:     true,
 				Computed:     true,
 			},
-			"compartment_id": &schema.Schema{
+			"compartment_id": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 127),
 				Optional:     true,
 				Computed:     true,
 			},
-			"oci_region": &schema.Schema{
+			"oci_region": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"oci_region_type": &schema.Schema{
+			"oci_region_type": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"oci_cert": &schema.Schema{
+			"oci_cert": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"oci_fingerprint": &schema.Schema{
+			"oci_fingerprint": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"external_ip": &schema.Schema{
+			"external_ip": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 63),
 							Optional:     true,
@@ -302,12 +302,12 @@ func resourceSystemSdnConnector() *schema.Resource {
 					},
 				},
 			},
-			"route": &schema.Schema{
+			"route": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 63),
 							Optional:     true,
@@ -316,80 +316,85 @@ func resourceSystemSdnConnector() *schema.Resource {
 					},
 				},
 			},
-			"use_metadata_iam": &schema.Schema{
+			"use_metadata_iam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"gcp_project": &schema.Schema{
+			"gcp_project": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 127),
 				Optional:     true,
 				Computed:     true,
 			},
-			"service_account": &schema.Schema{
+			"service_account": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 127),
 				Optional:     true,
 				Computed:     true,
 			},
-			"key_passwd": &schema.Schema{
+			"key_passwd": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 128),
 				Optional:     true,
 				Sensitive:    true,
 			},
-			"private_key": &schema.Schema{
+			"private_key": {
 				Type:      schema.TypeString,
 				Optional:  true,
 				Sensitive: true,
 				Computed:  true,
 			},
-			"secret_token": &schema.Schema{
+			"secret_token": {
 				Type:      schema.TypeString,
 				Optional:  true,
 				Sensitive: true,
 				Computed:  true,
 			},
-			"domain": &schema.Schema{
+			"domain": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 127),
 				Optional:     true,
 				Computed:     true,
 			},
-			"group_name": &schema.Schema{
+			"group_name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 127),
 				Optional:     true,
 				Computed:     true,
 			},
-			"api_key": &schema.Schema{
+			"api_key": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 59),
 				Optional:     true,
 				Sensitive:    true,
 			},
-			"compute_generation": &schema.Schema{
+			"compute_generation": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 2),
 				Optional:     true,
 				Computed:     true,
 			},
-			"ibm_region": &schema.Schema{
+			"ibm_region": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"update_interval": &schema.Schema{
+			"update_interval": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 3600),
 				Optional:     true,
 				Computed:     true,
 			},
-			"dynamic_sort_subtable": &schema.Schema{
+			"dynamic_sort_subtable": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Default:  "false",
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -407,15 +412,25 @@ func resourceSystemSdnConnectorCreate(d *schema.ResourceData, m interface{}) err
 		}
 	}
 
-	obj, err := getObjectSystemSdnConnector(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating SystemSdnConnector resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateSystemSdnConnector(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemSdnConnector(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating SystemSdnConnector resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateSystemSdnConnector(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating SystemSdnConnector resource: %v", err)
+		return fmt.Errorf("error creating SystemSdnConnector resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -440,14 +455,24 @@ func resourceSystemSdnConnectorUpdate(d *schema.ResourceData, m interface{}) err
 		}
 	}
 
-	obj, err := getObjectSystemSdnConnector(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SystemSdnConnector resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSystemSdnConnector(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemSdnConnector(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SystemSdnConnector resource: %v", err)
+		return fmt.Errorf("error updating SystemSdnConnector resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSystemSdnConnector(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SystemSdnConnector resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -474,9 +499,17 @@ func resourceSystemSdnConnectorDelete(d *schema.ResourceData, m interface{}) err
 		}
 	}
 
-	err := c.DeleteSystemSdnConnector(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSystemSdnConnector(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SystemSdnConnector resource: %v", err)
+		return fmt.Errorf("error deleting SystemSdnConnector resource: %v", err)
 	}
 
 	d.SetId("")
@@ -498,9 +531,19 @@ func resourceSystemSdnConnectorRead(d *schema.ResourceData, m interface{}) error
 		}
 	}
 
-	o, err := c.ReadSystemSdnConnector(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSystemSdnConnector(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemSdnConnector resource: %v", err)
+		return fmt.Errorf("error reading SystemSdnConnector resource: %v", err)
 	}
 
 	if o == nil {
@@ -511,7 +554,7 @@ func resourceSystemSdnConnectorRead(d *schema.ResourceData, m interface{}) error
 
 	err = refreshObjectSystemSdnConnector(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemSdnConnector resource from API: %v", err)
+		return fmt.Errorf("error reading SystemSdnConnector resource from API: %v", err)
 	}
 	return nil
 }
@@ -973,123 +1016,123 @@ func refreshObjectSystemSdnConnector(d *schema.ResourceData, o map[string]interf
 
 	if err = d.Set("name", flattenSystemSdnConnectorName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("status", flattenSystemSdnConnectorStatus(o["status"], d, "status", sv)); err != nil {
 		if !fortiAPIPatch(o["status"]) {
-			return fmt.Errorf("Error reading status: %v", err)
+			return fmt.Errorf("error reading status: %v", err)
 		}
 	}
 
 	if err = d.Set("type", flattenSystemSdnConnectorType(o["type"], d, "type", sv)); err != nil {
 		if !fortiAPIPatch(o["type"]) {
-			return fmt.Errorf("Error reading type: %v", err)
+			return fmt.Errorf("error reading type: %v", err)
 		}
 	}
 
 	if err = d.Set("ha_status", flattenSystemSdnConnectorHaStatus(o["ha-status"], d, "ha_status", sv)); err != nil {
 		if !fortiAPIPatch(o["ha-status"]) {
-			return fmt.Errorf("Error reading ha_status: %v", err)
+			return fmt.Errorf("error reading ha_status: %v", err)
 		}
 	}
 
 	if err = d.Set("server", flattenSystemSdnConnectorServer(o["server"], d, "server", sv)); err != nil {
 		if !fortiAPIPatch(o["server"]) {
-			return fmt.Errorf("Error reading server: %v", err)
+			return fmt.Errorf("error reading server: %v", err)
 		}
 	}
 
 	if err = d.Set("server_port", flattenSystemSdnConnectorServerPort(o["server-port"], d, "server_port", sv)); err != nil {
 		if !fortiAPIPatch(o["server-port"]) {
-			return fmt.Errorf("Error reading server_port: %v", err)
+			return fmt.Errorf("error reading server_port: %v", err)
 		}
 	}
 
 	if err = d.Set("username", flattenSystemSdnConnectorUsername(o["username"], d, "username", sv)); err != nil {
 		if !fortiAPIPatch(o["username"]) {
-			return fmt.Errorf("Error reading username: %v", err)
+			return fmt.Errorf("error reading username: %v", err)
 		}
 	}
 
 	if err = d.Set("vcenter_server", flattenSystemSdnConnectorVcenterServer(o["vcenter-server"], d, "vcenter_server", sv)); err != nil {
 		if !fortiAPIPatch(o["vcenter-server"]) {
-			return fmt.Errorf("Error reading vcenter_server: %v", err)
+			return fmt.Errorf("error reading vcenter_server: %v", err)
 		}
 	}
 
 	if err = d.Set("vcenter_username", flattenSystemSdnConnectorVcenterUsername(o["vcenter-username"], d, "vcenter_username", sv)); err != nil {
 		if !fortiAPIPatch(o["vcenter-username"]) {
-			return fmt.Errorf("Error reading vcenter_username: %v", err)
+			return fmt.Errorf("error reading vcenter_username: %v", err)
 		}
 	}
 
 	if err = d.Set("region", flattenSystemSdnConnectorRegion(o["region"], d, "region", sv)); err != nil {
 		if !fortiAPIPatch(o["region"]) {
-			return fmt.Errorf("Error reading region: %v", err)
+			return fmt.Errorf("error reading region: %v", err)
 		}
 	}
 
 	if err = d.Set("vpc_id", flattenSystemSdnConnectorVpcId(o["vpc-id"], d, "vpc_id", sv)); err != nil {
 		if !fortiAPIPatch(o["vpc-id"]) {
-			return fmt.Errorf("Error reading vpc_id: %v", err)
+			return fmt.Errorf("error reading vpc_id: %v", err)
 		}
 	}
 
 	if err = d.Set("tenant_id", flattenSystemSdnConnectorTenantId(o["tenant-id"], d, "tenant_id", sv)); err != nil {
 		if !fortiAPIPatch(o["tenant-id"]) {
-			return fmt.Errorf("Error reading tenant_id: %v", err)
+			return fmt.Errorf("error reading tenant_id: %v", err)
 		}
 	}
 
 	if err = d.Set("subscription_id", flattenSystemSdnConnectorSubscriptionId(o["subscription-id"], d, "subscription_id", sv)); err != nil {
 		if !fortiAPIPatch(o["subscription-id"]) {
-			return fmt.Errorf("Error reading subscription_id: %v", err)
+			return fmt.Errorf("error reading subscription_id: %v", err)
 		}
 	}
 
 	if err = d.Set("login_endpoint", flattenSystemSdnConnectorLoginEndpoint(o["login-endpoint"], d, "login_endpoint", sv)); err != nil {
 		if !fortiAPIPatch(o["login-endpoint"]) {
-			return fmt.Errorf("Error reading login_endpoint: %v", err)
+			return fmt.Errorf("error reading login_endpoint: %v", err)
 		}
 	}
 
 	if err = d.Set("resource_url", flattenSystemSdnConnectorResourceUrl(o["resource-url"], d, "resource_url", sv)); err != nil {
 		if !fortiAPIPatch(o["resource-url"]) {
-			return fmt.Errorf("Error reading resource_url: %v", err)
+			return fmt.Errorf("error reading resource_url: %v", err)
 		}
 	}
 
 	if err = d.Set("client_id", flattenSystemSdnConnectorClientId(o["client-id"], d, "client_id", sv)); err != nil {
 		if !fortiAPIPatch(o["client-id"]) {
-			return fmt.Errorf("Error reading client_id: %v", err)
+			return fmt.Errorf("error reading client_id: %v", err)
 		}
 	}
 
 	if err = d.Set("resource_group", flattenSystemSdnConnectorResourceGroup(o["resource-group"], d, "resource_group", sv)); err != nil {
 		if !fortiAPIPatch(o["resource-group"]) {
-			return fmt.Errorf("Error reading resource_group: %v", err)
+			return fmt.Errorf("error reading resource_group: %v", err)
 		}
 	}
 
 	if err = d.Set("azure_region", flattenSystemSdnConnectorAzureRegion(o["azure-region"], d, "azure_region", sv)); err != nil {
 		if !fortiAPIPatch(o["azure-region"]) {
-			return fmt.Errorf("Error reading azure_region: %v", err)
+			return fmt.Errorf("error reading azure_region: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("nic", flattenSystemSdnConnectorNic(o["nic"], d, "nic", sv)); err != nil {
 			if !fortiAPIPatch(o["nic"]) {
-				return fmt.Errorf("Error reading nic: %v", err)
+				return fmt.Errorf("error reading nic: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("nic"); ok {
 			if err = d.Set("nic", flattenSystemSdnConnectorNic(o["nic"], d, "nic", sv)); err != nil {
 				if !fortiAPIPatch(o["nic"]) {
-					return fmt.Errorf("Error reading nic: %v", err)
+					return fmt.Errorf("error reading nic: %v", err)
 				}
 			}
 		}
@@ -1098,14 +1141,14 @@ func refreshObjectSystemSdnConnector(d *schema.ResourceData, o map[string]interf
 	if isImportTable() {
 		if err = d.Set("route_table", flattenSystemSdnConnectorRouteTable(o["route-table"], d, "route_table", sv)); err != nil {
 			if !fortiAPIPatch(o["route-table"]) {
-				return fmt.Errorf("Error reading route_table: %v", err)
+				return fmt.Errorf("error reading route_table: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("route_table"); ok {
 			if err = d.Set("route_table", flattenSystemSdnConnectorRouteTable(o["route-table"], d, "route_table", sv)); err != nil {
 				if !fortiAPIPatch(o["route-table"]) {
-					return fmt.Errorf("Error reading route_table: %v", err)
+					return fmt.Errorf("error reading route_table: %v", err)
 				}
 			}
 		}
@@ -1113,51 +1156,51 @@ func refreshObjectSystemSdnConnector(d *schema.ResourceData, o map[string]interf
 
 	if err = d.Set("user_id", flattenSystemSdnConnectorUserId(o["user-id"], d, "user_id", sv)); err != nil {
 		if !fortiAPIPatch(o["user-id"]) {
-			return fmt.Errorf("Error reading user_id: %v", err)
+			return fmt.Errorf("error reading user_id: %v", err)
 		}
 	}
 
 	if err = d.Set("compartment_id", flattenSystemSdnConnectorCompartmentId(o["compartment-id"], d, "compartment_id", sv)); err != nil {
 		if !fortiAPIPatch(o["compartment-id"]) {
-			return fmt.Errorf("Error reading compartment_id: %v", err)
+			return fmt.Errorf("error reading compartment_id: %v", err)
 		}
 	}
 
 	if err = d.Set("oci_region", flattenSystemSdnConnectorOciRegion(o["oci-region"], d, "oci_region", sv)); err != nil {
 		if !fortiAPIPatch(o["oci-region"]) {
-			return fmt.Errorf("Error reading oci_region: %v", err)
+			return fmt.Errorf("error reading oci_region: %v", err)
 		}
 	}
 
 	if err = d.Set("oci_region_type", flattenSystemSdnConnectorOciRegionType(o["oci-region-type"], d, "oci_region_type", sv)); err != nil {
 		if !fortiAPIPatch(o["oci-region-type"]) {
-			return fmt.Errorf("Error reading oci_region_type: %v", err)
+			return fmt.Errorf("error reading oci_region_type: %v", err)
 		}
 	}
 
 	if err = d.Set("oci_cert", flattenSystemSdnConnectorOciCert(o["oci-cert"], d, "oci_cert", sv)); err != nil {
 		if !fortiAPIPatch(o["oci-cert"]) {
-			return fmt.Errorf("Error reading oci_cert: %v", err)
+			return fmt.Errorf("error reading oci_cert: %v", err)
 		}
 	}
 
 	if err = d.Set("oci_fingerprint", flattenSystemSdnConnectorOciFingerprint(o["oci-fingerprint"], d, "oci_fingerprint", sv)); err != nil {
 		if !fortiAPIPatch(o["oci-fingerprint"]) {
-			return fmt.Errorf("Error reading oci_fingerprint: %v", err)
+			return fmt.Errorf("error reading oci_fingerprint: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("external_ip", flattenSystemSdnConnectorExternalIp(o["external-ip"], d, "external_ip", sv)); err != nil {
 			if !fortiAPIPatch(o["external-ip"]) {
-				return fmt.Errorf("Error reading external_ip: %v", err)
+				return fmt.Errorf("error reading external_ip: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("external_ip"); ok {
 			if err = d.Set("external_ip", flattenSystemSdnConnectorExternalIp(o["external-ip"], d, "external_ip", sv)); err != nil {
 				if !fortiAPIPatch(o["external-ip"]) {
-					return fmt.Errorf("Error reading external_ip: %v", err)
+					return fmt.Errorf("error reading external_ip: %v", err)
 				}
 			}
 		}
@@ -1166,14 +1209,14 @@ func refreshObjectSystemSdnConnector(d *schema.ResourceData, o map[string]interf
 	if isImportTable() {
 		if err = d.Set("route", flattenSystemSdnConnectorRoute(o["route"], d, "route", sv)); err != nil {
 			if !fortiAPIPatch(o["route"]) {
-				return fmt.Errorf("Error reading route: %v", err)
+				return fmt.Errorf("error reading route: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("route"); ok {
 			if err = d.Set("route", flattenSystemSdnConnectorRoute(o["route"], d, "route", sv)); err != nil {
 				if !fortiAPIPatch(o["route"]) {
-					return fmt.Errorf("Error reading route: %v", err)
+					return fmt.Errorf("error reading route: %v", err)
 				}
 			}
 		}
@@ -1181,49 +1224,49 @@ func refreshObjectSystemSdnConnector(d *schema.ResourceData, o map[string]interf
 
 	if err = d.Set("use_metadata_iam", flattenSystemSdnConnectorUseMetadataIam(o["use-metadata-iam"], d, "use_metadata_iam", sv)); err != nil {
 		if !fortiAPIPatch(o["use-metadata-iam"]) {
-			return fmt.Errorf("Error reading use_metadata_iam: %v", err)
+			return fmt.Errorf("error reading use_metadata_iam: %v", err)
 		}
 	}
 
 	if err = d.Set("gcp_project", flattenSystemSdnConnectorGcpProject(o["gcp-project"], d, "gcp_project", sv)); err != nil {
 		if !fortiAPIPatch(o["gcp-project"]) {
-			return fmt.Errorf("Error reading gcp_project: %v", err)
+			return fmt.Errorf("error reading gcp_project: %v", err)
 		}
 	}
 
 	if err = d.Set("service_account", flattenSystemSdnConnectorServiceAccount(o["service-account"], d, "service_account", sv)); err != nil {
 		if !fortiAPIPatch(o["service-account"]) {
-			return fmt.Errorf("Error reading service_account: %v", err)
+			return fmt.Errorf("error reading service_account: %v", err)
 		}
 	}
 
 	if err = d.Set("domain", flattenSystemSdnConnectorDomain(o["domain"], d, "domain", sv)); err != nil {
 		if !fortiAPIPatch(o["domain"]) {
-			return fmt.Errorf("Error reading domain: %v", err)
+			return fmt.Errorf("error reading domain: %v", err)
 		}
 	}
 
 	if err = d.Set("group_name", flattenSystemSdnConnectorGroupName(o["group-name"], d, "group_name", sv)); err != nil {
 		if !fortiAPIPatch(o["group-name"]) {
-			return fmt.Errorf("Error reading group_name: %v", err)
+			return fmt.Errorf("error reading group_name: %v", err)
 		}
 	}
 
 	if err = d.Set("compute_generation", flattenSystemSdnConnectorComputeGeneration(o["compute-generation"], d, "compute_generation", sv)); err != nil {
 		if !fortiAPIPatch(o["compute-generation"]) {
-			return fmt.Errorf("Error reading compute_generation: %v", err)
+			return fmt.Errorf("error reading compute_generation: %v", err)
 		}
 	}
 
 	if err = d.Set("ibm_region", flattenSystemSdnConnectorIbmRegion(o["ibm-region"], d, "ibm_region", sv)); err != nil {
 		if !fortiAPIPatch(o["ibm-region"]) {
-			return fmt.Errorf("Error reading ibm_region: %v", err)
+			return fmt.Errorf("error reading ibm_region: %v", err)
 		}
 	}
 
 	if err = d.Set("update_interval", flattenSystemSdnConnectorUpdateInterval(o["update-interval"], d, "update_interval", sv)); err != nil {
 		if !fortiAPIPatch(o["update-interval"]) {
-			return fmt.Errorf("Error reading update_interval: %v", err)
+			return fmt.Errorf("error reading update_interval: %v", err)
 		}
 	}
 

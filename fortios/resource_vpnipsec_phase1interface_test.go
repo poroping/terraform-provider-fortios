@@ -145,14 +145,14 @@ func testAccCheckFortiOSVpnIpsecPhase1InterfaceExists(n string) resource.TestChe
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadVpnIpsecPhase1Interface(i, "root")
+		o, err := c.ReadVpnIpsecPhase1Interface(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading VpnIpsecPhase1Interface: %s", err)
+			return fmt.Errorf("error reading VpnIpsecPhase1Interface: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating VpnIpsecPhase1Interface: %s", n)
+			return fmt.Errorf("error creating VpnIpsecPhase1Interface: %s", n)
 		}
 
 		return nil
@@ -168,11 +168,11 @@ func testAccCheckVpnIpsecPhase1InterfaceDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadVpnIpsecPhase1Interface(i, "root")
+		o, err := c.ReadVpnIpsecPhase1Interface(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error VpnIpsecPhase1Interface %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error VpnIpsecPhase1Interface %s still exists", rs.Primary.ID)
 			}
 		}
 

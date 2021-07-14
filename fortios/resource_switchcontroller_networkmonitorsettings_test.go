@@ -49,14 +49,14 @@ func testAccCheckFortiOSSwitchControllerNetworkMonitorSettingsExists(n string) r
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadSwitchControllerNetworkMonitorSettings(i, "root")
+		o, err := c.ReadSwitchControllerNetworkMonitorSettings(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading SwitchControllerNetworkMonitorSettings: %s", err)
+			return fmt.Errorf("error reading SwitchControllerNetworkMonitorSettings: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating SwitchControllerNetworkMonitorSettings: %s", n)
+			return fmt.Errorf("error creating SwitchControllerNetworkMonitorSettings: %s", n)
 		}
 
 		return nil
@@ -72,11 +72,11 @@ func testAccCheckSwitchControllerNetworkMonitorSettingsDestroy(s *terraform.Stat
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadSwitchControllerNetworkMonitorSettings(i, "root")
+		o, err := c.ReadSwitchControllerNetworkMonitorSettings(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error SwitchControllerNetworkMonitorSettings %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error SwitchControllerNetworkMonitorSettings %s still exists", rs.Primary.ID)
 			}
 		}
 

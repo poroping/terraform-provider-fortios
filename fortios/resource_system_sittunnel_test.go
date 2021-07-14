@@ -53,14 +53,14 @@ func testAccCheckFortiOSSystemSitTunnelExists(n string) resource.TestCheckFunc {
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemSitTunnel(i, "root")
+		o, err := c.ReadSystemSitTunnel(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading SystemSitTunnel: %s", err)
+			return fmt.Errorf("error reading SystemSitTunnel: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating SystemSitTunnel: %s", n)
+			return fmt.Errorf("error creating SystemSitTunnel: %s", n)
 		}
 
 		return nil
@@ -76,11 +76,11 @@ func testAccCheckSystemSitTunnelDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemSitTunnel(i, "root")
+		o, err := c.ReadSystemSitTunnel(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error SystemSitTunnel %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error SystemSitTunnel %s still exists", rs.Primary.ID)
 			}
 		}
 

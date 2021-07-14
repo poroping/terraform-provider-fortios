@@ -93,14 +93,14 @@ func testAccCheckFortiOSRouterOspfExists(n string) resource.TestCheckFunc {
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadRouterOspf(i, "root")
+		o, err := c.ReadRouterOspf(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading RouterOspf: %s", err)
+			return fmt.Errorf("error reading RouterOspf: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating RouterOspf: %s", n)
+			return fmt.Errorf("error creating RouterOspf: %s", n)
 		}
 
 		return nil
@@ -116,11 +116,11 @@ func testAccCheckRouterOspfDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadRouterOspf(i, "root")
+		o, err := c.ReadRouterOspf(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error RouterOspf %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error RouterOspf %s still exists", rs.Primary.ID)
 			}
 		}
 

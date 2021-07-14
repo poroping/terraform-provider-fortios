@@ -30,83 +30,83 @@ func resourceUserExchange() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"server_name": &schema.Schema{
+			"server_name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"domain_name": &schema.Schema{
+			"domain_name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 79),
 				Optional:     true,
 				Computed:     true,
 			},
-			"username": &schema.Schema{
+			"username": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 64),
 				Optional:     true,
 				Computed:     true,
 			},
-			"password": &schema.Schema{
+			"password": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 128),
 				Optional:     true,
 				Sensitive:    true,
 			},
-			"ip": &schema.Schema{
+			"ip": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"connect_protocol": &schema.Schema{
+			"connect_protocol": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"auth_type": &schema.Schema{
+			"auth_type": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"auth_level": &schema.Schema{
+			"auth_level": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"http_auth_type": &schema.Schema{
+			"http_auth_type": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ssl_min_proto_version": &schema.Schema{
+			"ssl_min_proto_version": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"auto_discover_kdc": &schema.Schema{
+			"auto_discover_kdc": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"kdc_ip": &schema.Schema{
+			"kdc_ip": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"ipv4": &schema.Schema{
+						"ipv4": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 79),
 							Optional:     true,
@@ -115,10 +115,15 @@ func resourceUserExchange() *schema.Resource {
 					},
 				},
 			},
-			"dynamic_sort_subtable": &schema.Schema{
+			"dynamic_sort_subtable": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Default:  "false",
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -136,15 +141,25 @@ func resourceUserExchangeCreate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectUserExchange(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating UserExchange resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateUserExchange(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectUserExchange(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating UserExchange resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateUserExchange(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating UserExchange resource: %v", err)
+		return fmt.Errorf("error creating UserExchange resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -169,14 +184,24 @@ func resourceUserExchangeUpdate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectUserExchange(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating UserExchange resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateUserExchange(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectUserExchange(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating UserExchange resource: %v", err)
+		return fmt.Errorf("error updating UserExchange resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateUserExchange(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating UserExchange resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -203,9 +228,17 @@ func resourceUserExchangeDelete(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	err := c.DeleteUserExchange(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteUserExchange(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting UserExchange resource: %v", err)
+		return fmt.Errorf("error deleting UserExchange resource: %v", err)
 	}
 
 	d.SetId("")
@@ -227,9 +260,19 @@ func resourceUserExchangeRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadUserExchange(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadUserExchange(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading UserExchange resource: %v", err)
+		return fmt.Errorf("error reading UserExchange resource: %v", err)
 	}
 
 	if o == nil {
@@ -240,7 +283,7 @@ func resourceUserExchangeRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectUserExchange(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading UserExchange resource from API: %v", err)
+		return fmt.Errorf("error reading UserExchange resource from API: %v", err)
 	}
 	return nil
 }
@@ -336,81 +379,81 @@ func refreshObjectUserExchange(d *schema.ResourceData, o map[string]interface{},
 
 	if err = d.Set("name", flattenUserExchangeName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("server_name", flattenUserExchangeServerName(o["server-name"], d, "server_name", sv)); err != nil {
 		if !fortiAPIPatch(o["server-name"]) {
-			return fmt.Errorf("Error reading server_name: %v", err)
+			return fmt.Errorf("error reading server_name: %v", err)
 		}
 	}
 
 	if err = d.Set("domain_name", flattenUserExchangeDomainName(o["domain-name"], d, "domain_name", sv)); err != nil {
 		if !fortiAPIPatch(o["domain-name"]) {
-			return fmt.Errorf("Error reading domain_name: %v", err)
+			return fmt.Errorf("error reading domain_name: %v", err)
 		}
 	}
 
 	if err = d.Set("username", flattenUserExchangeUsername(o["username"], d, "username", sv)); err != nil {
 		if !fortiAPIPatch(o["username"]) {
-			return fmt.Errorf("Error reading username: %v", err)
+			return fmt.Errorf("error reading username: %v", err)
 		}
 	}
 
 	if err = d.Set("ip", flattenUserExchangeIp(o["ip"], d, "ip", sv)); err != nil {
 		if !fortiAPIPatch(o["ip"]) {
-			return fmt.Errorf("Error reading ip: %v", err)
+			return fmt.Errorf("error reading ip: %v", err)
 		}
 	}
 
 	if err = d.Set("connect_protocol", flattenUserExchangeConnectProtocol(o["connect-protocol"], d, "connect_protocol", sv)); err != nil {
 		if !fortiAPIPatch(o["connect-protocol"]) {
-			return fmt.Errorf("Error reading connect_protocol: %v", err)
+			return fmt.Errorf("error reading connect_protocol: %v", err)
 		}
 	}
 
 	if err = d.Set("auth_type", flattenUserExchangeAuthType(o["auth-type"], d, "auth_type", sv)); err != nil {
 		if !fortiAPIPatch(o["auth-type"]) {
-			return fmt.Errorf("Error reading auth_type: %v", err)
+			return fmt.Errorf("error reading auth_type: %v", err)
 		}
 	}
 
 	if err = d.Set("auth_level", flattenUserExchangeAuthLevel(o["auth-level"], d, "auth_level", sv)); err != nil {
 		if !fortiAPIPatch(o["auth-level"]) {
-			return fmt.Errorf("Error reading auth_level: %v", err)
+			return fmt.Errorf("error reading auth_level: %v", err)
 		}
 	}
 
 	if err = d.Set("http_auth_type", flattenUserExchangeHttpAuthType(o["http-auth-type"], d, "http_auth_type", sv)); err != nil {
 		if !fortiAPIPatch(o["http-auth-type"]) {
-			return fmt.Errorf("Error reading http_auth_type: %v", err)
+			return fmt.Errorf("error reading http_auth_type: %v", err)
 		}
 	}
 
 	if err = d.Set("ssl_min_proto_version", flattenUserExchangeSslMinProtoVersion(o["ssl-min-proto-version"], d, "ssl_min_proto_version", sv)); err != nil {
 		if !fortiAPIPatch(o["ssl-min-proto-version"]) {
-			return fmt.Errorf("Error reading ssl_min_proto_version: %v", err)
+			return fmt.Errorf("error reading ssl_min_proto_version: %v", err)
 		}
 	}
 
 	if err = d.Set("auto_discover_kdc", flattenUserExchangeAutoDiscoverKdc(o["auto-discover-kdc"], d, "auto_discover_kdc", sv)); err != nil {
 		if !fortiAPIPatch(o["auto-discover-kdc"]) {
-			return fmt.Errorf("Error reading auto_discover_kdc: %v", err)
+			return fmt.Errorf("error reading auto_discover_kdc: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("kdc_ip", flattenUserExchangeKdcIp(o["kdc-ip"], d, "kdc_ip", sv)); err != nil {
 			if !fortiAPIPatch(o["kdc-ip"]) {
-				return fmt.Errorf("Error reading kdc_ip: %v", err)
+				return fmt.Errorf("error reading kdc_ip: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("kdc_ip"); ok {
 			if err = d.Set("kdc_ip", flattenUserExchangeKdcIp(o["kdc-ip"], d, "kdc_ip", sv)); err != nil {
 				if !fortiAPIPatch(o["kdc-ip"]) {
-					return fmt.Errorf("Error reading kdc_ip: %v", err)
+					return fmt.Errorf("error reading kdc_ip: %v", err)
 				}
 			}
 		}

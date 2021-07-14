@@ -30,16 +30,21 @@ func resourceSwitchControllerSwitchInterfaceTag() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -57,15 +62,25 @@ func resourceSwitchControllerSwitchInterfaceTagCreate(d *schema.ResourceData, m 
 		}
 	}
 
-	obj, err := getObjectSwitchControllerSwitchInterfaceTag(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating SwitchControllerSwitchInterfaceTag resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateSwitchControllerSwitchInterfaceTag(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSwitchControllerSwitchInterfaceTag(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating SwitchControllerSwitchInterfaceTag resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateSwitchControllerSwitchInterfaceTag(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating SwitchControllerSwitchInterfaceTag resource: %v", err)
+		return fmt.Errorf("error creating SwitchControllerSwitchInterfaceTag resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -90,14 +105,24 @@ func resourceSwitchControllerSwitchInterfaceTagUpdate(d *schema.ResourceData, m 
 		}
 	}
 
-	obj, err := getObjectSwitchControllerSwitchInterfaceTag(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SwitchControllerSwitchInterfaceTag resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSwitchControllerSwitchInterfaceTag(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSwitchControllerSwitchInterfaceTag(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SwitchControllerSwitchInterfaceTag resource: %v", err)
+		return fmt.Errorf("error updating SwitchControllerSwitchInterfaceTag resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSwitchControllerSwitchInterfaceTag(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SwitchControllerSwitchInterfaceTag resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -124,9 +149,17 @@ func resourceSwitchControllerSwitchInterfaceTagDelete(d *schema.ResourceData, m 
 		}
 	}
 
-	err := c.DeleteSwitchControllerSwitchInterfaceTag(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSwitchControllerSwitchInterfaceTag(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SwitchControllerSwitchInterfaceTag resource: %v", err)
+		return fmt.Errorf("error deleting SwitchControllerSwitchInterfaceTag resource: %v", err)
 	}
 
 	d.SetId("")
@@ -148,9 +181,19 @@ func resourceSwitchControllerSwitchInterfaceTagRead(d *schema.ResourceData, m in
 		}
 	}
 
-	o, err := c.ReadSwitchControllerSwitchInterfaceTag(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSwitchControllerSwitchInterfaceTag(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SwitchControllerSwitchInterfaceTag resource: %v", err)
+		return fmt.Errorf("error reading SwitchControllerSwitchInterfaceTag resource: %v", err)
 	}
 
 	if o == nil {
@@ -161,7 +204,7 @@ func resourceSwitchControllerSwitchInterfaceTagRead(d *schema.ResourceData, m in
 
 	err = refreshObjectSwitchControllerSwitchInterfaceTag(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SwitchControllerSwitchInterfaceTag resource from API: %v", err)
+		return fmt.Errorf("error reading SwitchControllerSwitchInterfaceTag resource from API: %v", err)
 	}
 	return nil
 }
@@ -175,7 +218,7 @@ func refreshObjectSwitchControllerSwitchInterfaceTag(d *schema.ResourceData, o m
 
 	if err = d.Set("name", flattenSwitchControllerSwitchInterfaceTagName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 

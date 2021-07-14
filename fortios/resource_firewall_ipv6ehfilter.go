@@ -30,52 +30,57 @@ func resourceFirewallIpv6EhFilter() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"hop_opt": &schema.Schema{
+			"hop_opt": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"dest_opt": &schema.Schema{
+			"dest_opt": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"hdopt_type": &schema.Schema{
+			"hdopt_type": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 255),
 				Optional:     true,
 				Computed:     true,
 			},
-			"routing": &schema.Schema{
+			"routing": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"routing_type": &schema.Schema{
+			"routing_type": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 255),
 				Optional:     true,
 				Computed:     true,
 			},
-			"fragment": &schema.Schema{
+			"fragment": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"auth": &schema.Schema{
+			"auth": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"no_next": &schema.Schema{
+			"no_next": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -94,14 +99,24 @@ func resourceFirewallIpv6EhFilterUpdate(d *schema.ResourceData, m interface{}) e
 		}
 	}
 
-	obj, err := getObjectFirewallIpv6EhFilter(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating FirewallIpv6EhFilter resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateFirewallIpv6EhFilter(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectFirewallIpv6EhFilter(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating FirewallIpv6EhFilter resource: %v", err)
+		return fmt.Errorf("error updating FirewallIpv6EhFilter resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateFirewallIpv6EhFilter(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating FirewallIpv6EhFilter resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -128,9 +143,17 @@ func resourceFirewallIpv6EhFilterDelete(d *schema.ResourceData, m interface{}) e
 		}
 	}
 
-	err := c.DeleteFirewallIpv6EhFilter(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteFirewallIpv6EhFilter(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting FirewallIpv6EhFilter resource: %v", err)
+		return fmt.Errorf("error deleting FirewallIpv6EhFilter resource: %v", err)
 	}
 
 	d.SetId("")
@@ -152,9 +175,19 @@ func resourceFirewallIpv6EhFilterRead(d *schema.ResourceData, m interface{}) err
 		}
 	}
 
-	o, err := c.ReadFirewallIpv6EhFilter(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadFirewallIpv6EhFilter(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading FirewallIpv6EhFilter resource: %v", err)
+		return fmt.Errorf("error reading FirewallIpv6EhFilter resource: %v", err)
 	}
 
 	if o == nil {
@@ -165,7 +198,7 @@ func resourceFirewallIpv6EhFilterRead(d *schema.ResourceData, m interface{}) err
 
 	err = refreshObjectFirewallIpv6EhFilter(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading FirewallIpv6EhFilter resource from API: %v", err)
+		return fmt.Errorf("error reading FirewallIpv6EhFilter resource from API: %v", err)
 	}
 	return nil
 }
@@ -207,49 +240,49 @@ func refreshObjectFirewallIpv6EhFilter(d *schema.ResourceData, o map[string]inte
 
 	if err = d.Set("hop_opt", flattenFirewallIpv6EhFilterHopOpt(o["hop-opt"], d, "hop_opt", sv)); err != nil {
 		if !fortiAPIPatch(o["hop-opt"]) {
-			return fmt.Errorf("Error reading hop_opt: %v", err)
+			return fmt.Errorf("error reading hop_opt: %v", err)
 		}
 	}
 
 	if err = d.Set("dest_opt", flattenFirewallIpv6EhFilterDestOpt(o["dest-opt"], d, "dest_opt", sv)); err != nil {
 		if !fortiAPIPatch(o["dest-opt"]) {
-			return fmt.Errorf("Error reading dest_opt: %v", err)
+			return fmt.Errorf("error reading dest_opt: %v", err)
 		}
 	}
 
 	if err = d.Set("hdopt_type", flattenFirewallIpv6EhFilterHdoptType(o["hdopt-type"], d, "hdopt_type", sv)); err != nil {
 		if !fortiAPIPatch(o["hdopt-type"]) {
-			return fmt.Errorf("Error reading hdopt_type: %v", err)
+			return fmt.Errorf("error reading hdopt_type: %v", err)
 		}
 	}
 
 	if err = d.Set("routing", flattenFirewallIpv6EhFilterRouting(o["routing"], d, "routing", sv)); err != nil {
 		if !fortiAPIPatch(o["routing"]) {
-			return fmt.Errorf("Error reading routing: %v", err)
+			return fmt.Errorf("error reading routing: %v", err)
 		}
 	}
 
 	if err = d.Set("routing_type", flattenFirewallIpv6EhFilterRoutingType(o["routing-type"], d, "routing_type", sv)); err != nil {
 		if !fortiAPIPatch(o["routing-type"]) {
-			return fmt.Errorf("Error reading routing_type: %v", err)
+			return fmt.Errorf("error reading routing_type: %v", err)
 		}
 	}
 
 	if err = d.Set("fragment", flattenFirewallIpv6EhFilterFragment(o["fragment"], d, "fragment", sv)); err != nil {
 		if !fortiAPIPatch(o["fragment"]) {
-			return fmt.Errorf("Error reading fragment: %v", err)
+			return fmt.Errorf("error reading fragment: %v", err)
 		}
 	}
 
 	if err = d.Set("auth", flattenFirewallIpv6EhFilterAuth(o["auth"], d, "auth", sv)); err != nil {
 		if !fortiAPIPatch(o["auth"]) {
-			return fmt.Errorf("Error reading auth: %v", err)
+			return fmt.Errorf("error reading auth: %v", err)
 		}
 	}
 
 	if err = d.Set("no_next", flattenFirewallIpv6EhFilterNoNext(o["no-next"], d, "no_next", sv)); err != nil {
 		if !fortiAPIPatch(o["no-next"]) {
-			return fmt.Errorf("Error reading no_next: %v", err)
+			return fmt.Errorf("error reading no_next: %v", err)
 		}
 	}
 

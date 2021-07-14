@@ -30,67 +30,72 @@ func resourceSwitchControllerQosDot1PMap() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				ForceNew:     true,
 				Required:     true,
 			},
-			"description": &schema.Schema{
+			"description": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"egress_pri_tagging": &schema.Schema{
+			"egress_pri_tagging": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"priority_0": &schema.Schema{
+			"priority_0": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"priority_1": &schema.Schema{
+			"priority_1": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"priority_2": &schema.Schema{
+			"priority_2": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"priority_3": &schema.Schema{
+			"priority_3": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"priority_4": &schema.Schema{
+			"priority_4": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"priority_5": &schema.Schema{
+			"priority_5": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"priority_6": &schema.Schema{
+			"priority_6": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"priority_7": &schema.Schema{
+			"priority_7": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -108,15 +113,25 @@ func resourceSwitchControllerQosDot1PMapCreate(d *schema.ResourceData, m interfa
 		}
 	}
 
-	obj, err := getObjectSwitchControllerQosDot1PMap(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating SwitchControllerQosDot1PMap resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateSwitchControllerQosDot1PMap(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSwitchControllerQosDot1PMap(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating SwitchControllerQosDot1PMap resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateSwitchControllerQosDot1PMap(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating SwitchControllerQosDot1PMap resource: %v", err)
+		return fmt.Errorf("error creating SwitchControllerQosDot1PMap resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -141,14 +156,24 @@ func resourceSwitchControllerQosDot1PMapUpdate(d *schema.ResourceData, m interfa
 		}
 	}
 
-	obj, err := getObjectSwitchControllerQosDot1PMap(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SwitchControllerQosDot1PMap resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSwitchControllerQosDot1PMap(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSwitchControllerQosDot1PMap(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SwitchControllerQosDot1PMap resource: %v", err)
+		return fmt.Errorf("error updating SwitchControllerQosDot1PMap resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSwitchControllerQosDot1PMap(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SwitchControllerQosDot1PMap resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -175,9 +200,17 @@ func resourceSwitchControllerQosDot1PMapDelete(d *schema.ResourceData, m interfa
 		}
 	}
 
-	err := c.DeleteSwitchControllerQosDot1PMap(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSwitchControllerQosDot1PMap(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SwitchControllerQosDot1PMap resource: %v", err)
+		return fmt.Errorf("error deleting SwitchControllerQosDot1PMap resource: %v", err)
 	}
 
 	d.SetId("")
@@ -199,9 +232,19 @@ func resourceSwitchControllerQosDot1PMapRead(d *schema.ResourceData, m interface
 		}
 	}
 
-	o, err := c.ReadSwitchControllerQosDot1PMap(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSwitchControllerQosDot1PMap(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SwitchControllerQosDot1PMap resource: %v", err)
+		return fmt.Errorf("error reading SwitchControllerQosDot1PMap resource: %v", err)
 	}
 
 	if o == nil {
@@ -212,7 +255,7 @@ func resourceSwitchControllerQosDot1PMapRead(d *schema.ResourceData, m interface
 
 	err = refreshObjectSwitchControllerQosDot1PMap(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SwitchControllerQosDot1PMap resource from API: %v", err)
+		return fmt.Errorf("error reading SwitchControllerQosDot1PMap resource from API: %v", err)
 	}
 	return nil
 }
@@ -266,67 +309,67 @@ func refreshObjectSwitchControllerQosDot1PMap(d *schema.ResourceData, o map[stri
 
 	if err = d.Set("name", flattenSwitchControllerQosDot1PMapName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("description", flattenSwitchControllerQosDot1PMapDescription(o["description"], d, "description", sv)); err != nil {
 		if !fortiAPIPatch(o["description"]) {
-			return fmt.Errorf("Error reading description: %v", err)
+			return fmt.Errorf("error reading description: %v", err)
 		}
 	}
 
 	if err = d.Set("egress_pri_tagging", flattenSwitchControllerQosDot1PMapEgressPriTagging(o["egress-pri-tagging"], d, "egress_pri_tagging", sv)); err != nil {
 		if !fortiAPIPatch(o["egress-pri-tagging"]) {
-			return fmt.Errorf("Error reading egress_pri_tagging: %v", err)
+			return fmt.Errorf("error reading egress_pri_tagging: %v", err)
 		}
 	}
 
 	if err = d.Set("priority_0", flattenSwitchControllerQosDot1PMapPriority0(o["priority-0"], d, "priority_0", sv)); err != nil {
 		if !fortiAPIPatch(o["priority-0"]) {
-			return fmt.Errorf("Error reading priority_0: %v", err)
+			return fmt.Errorf("error reading priority_0: %v", err)
 		}
 	}
 
 	if err = d.Set("priority_1", flattenSwitchControllerQosDot1PMapPriority1(o["priority-1"], d, "priority_1", sv)); err != nil {
 		if !fortiAPIPatch(o["priority-1"]) {
-			return fmt.Errorf("Error reading priority_1: %v", err)
+			return fmt.Errorf("error reading priority_1: %v", err)
 		}
 	}
 
 	if err = d.Set("priority_2", flattenSwitchControllerQosDot1PMapPriority2(o["priority-2"], d, "priority_2", sv)); err != nil {
 		if !fortiAPIPatch(o["priority-2"]) {
-			return fmt.Errorf("Error reading priority_2: %v", err)
+			return fmt.Errorf("error reading priority_2: %v", err)
 		}
 	}
 
 	if err = d.Set("priority_3", flattenSwitchControllerQosDot1PMapPriority3(o["priority-3"], d, "priority_3", sv)); err != nil {
 		if !fortiAPIPatch(o["priority-3"]) {
-			return fmt.Errorf("Error reading priority_3: %v", err)
+			return fmt.Errorf("error reading priority_3: %v", err)
 		}
 	}
 
 	if err = d.Set("priority_4", flattenSwitchControllerQosDot1PMapPriority4(o["priority-4"], d, "priority_4", sv)); err != nil {
 		if !fortiAPIPatch(o["priority-4"]) {
-			return fmt.Errorf("Error reading priority_4: %v", err)
+			return fmt.Errorf("error reading priority_4: %v", err)
 		}
 	}
 
 	if err = d.Set("priority_5", flattenSwitchControllerQosDot1PMapPriority5(o["priority-5"], d, "priority_5", sv)); err != nil {
 		if !fortiAPIPatch(o["priority-5"]) {
-			return fmt.Errorf("Error reading priority_5: %v", err)
+			return fmt.Errorf("error reading priority_5: %v", err)
 		}
 	}
 
 	if err = d.Set("priority_6", flattenSwitchControllerQosDot1PMapPriority6(o["priority-6"], d, "priority_6", sv)); err != nil {
 		if !fortiAPIPatch(o["priority-6"]) {
-			return fmt.Errorf("Error reading priority_6: %v", err)
+			return fmt.Errorf("error reading priority_6: %v", err)
 		}
 	}
 
 	if err = d.Set("priority_7", flattenSwitchControllerQosDot1PMapPriority7(o["priority-7"], d, "priority_7", sv)); err != nil {
 		if !fortiAPIPatch(o["priority-7"]) {
-			return fmt.Errorf("Error reading priority_7: %v", err)
+			return fmt.Errorf("error reading priority_7: %v", err)
 		}
 	}
 

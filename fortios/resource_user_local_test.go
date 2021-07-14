@@ -60,14 +60,14 @@ func testAccCheckFortiOSUserLocalExists(n string) resource.TestCheckFunc {
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadUserLocal(i, "root")
+		o, err := c.ReadUserLocal(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading UserLocal: %s", err)
+			return fmt.Errorf("error reading UserLocal: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating UserLocal: %s", n)
+			return fmt.Errorf("error creating UserLocal: %s", n)
 		}
 
 		return nil
@@ -83,11 +83,11 @@ func testAccCheckUserLocalDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadUserLocal(i, "root")
+		o, err := c.ReadUserLocal(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error UserLocal %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error UserLocal %s still exists", rs.Primary.ID)
 			}
 		}
 

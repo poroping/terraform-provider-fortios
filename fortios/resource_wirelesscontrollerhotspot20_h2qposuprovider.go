@@ -30,36 +30,36 @@ func resourceWirelessControllerHotspot20H2QpOsuProvider() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"friendly_name": &schema.Schema{
+			"friendly_name": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"index": &schema.Schema{
+						"index": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 10),
 							Optional:     true,
 							Computed:     true,
 						},
-						"lang": &schema.Schema{
+						"lang": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 3),
 							Optional:     true,
 							Computed:     true,
 						},
-						"friendly_name": &schema.Schema{
+						"friendly_name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 252),
 							Optional:     true,
@@ -68,40 +68,40 @@ func resourceWirelessControllerHotspot20H2QpOsuProvider() *schema.Resource {
 					},
 				},
 			},
-			"server_uri": &schema.Schema{
+			"server_uri": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
 				Computed:     true,
 			},
-			"osu_method": &schema.Schema{
+			"osu_method": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"osu_nai": &schema.Schema{
+			"osu_nai": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
 				Computed:     true,
 			},
-			"service_description": &schema.Schema{
+			"service_description": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"service_id": &schema.Schema{
+						"service_id": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"lang": &schema.Schema{
+						"lang": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 3),
 							Optional:     true,
 							Computed:     true,
 						},
-						"service_description": &schema.Schema{
+						"service_description": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 252),
 							Optional:     true,
@@ -110,16 +110,21 @@ func resourceWirelessControllerHotspot20H2QpOsuProvider() *schema.Resource {
 					},
 				},
 			},
-			"icon": &schema.Schema{
+			"icon": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"dynamic_sort_subtable": &schema.Schema{
+			"dynamic_sort_subtable": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Default:  "false",
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -137,15 +142,25 @@ func resourceWirelessControllerHotspot20H2QpOsuProviderCreate(d *schema.Resource
 		}
 	}
 
-	obj, err := getObjectWirelessControllerHotspot20H2QpOsuProvider(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating WirelessControllerHotspot20H2QpOsuProvider resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateWirelessControllerHotspot20H2QpOsuProvider(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectWirelessControllerHotspot20H2QpOsuProvider(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating WirelessControllerHotspot20H2QpOsuProvider resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateWirelessControllerHotspot20H2QpOsuProvider(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating WirelessControllerHotspot20H2QpOsuProvider resource: %v", err)
+		return fmt.Errorf("error creating WirelessControllerHotspot20H2QpOsuProvider resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -170,14 +185,24 @@ func resourceWirelessControllerHotspot20H2QpOsuProviderUpdate(d *schema.Resource
 		}
 	}
 
-	obj, err := getObjectWirelessControllerHotspot20H2QpOsuProvider(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating WirelessControllerHotspot20H2QpOsuProvider resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateWirelessControllerHotspot20H2QpOsuProvider(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectWirelessControllerHotspot20H2QpOsuProvider(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating WirelessControllerHotspot20H2QpOsuProvider resource: %v", err)
+		return fmt.Errorf("error updating WirelessControllerHotspot20H2QpOsuProvider resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateWirelessControllerHotspot20H2QpOsuProvider(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating WirelessControllerHotspot20H2QpOsuProvider resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -204,9 +229,17 @@ func resourceWirelessControllerHotspot20H2QpOsuProviderDelete(d *schema.Resource
 		}
 	}
 
-	err := c.DeleteWirelessControllerHotspot20H2QpOsuProvider(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteWirelessControllerHotspot20H2QpOsuProvider(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting WirelessControllerHotspot20H2QpOsuProvider resource: %v", err)
+		return fmt.Errorf("error deleting WirelessControllerHotspot20H2QpOsuProvider resource: %v", err)
 	}
 
 	d.SetId("")
@@ -228,9 +261,19 @@ func resourceWirelessControllerHotspot20H2QpOsuProviderRead(d *schema.ResourceDa
 		}
 	}
 
-	o, err := c.ReadWirelessControllerHotspot20H2QpOsuProvider(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadWirelessControllerHotspot20H2QpOsuProvider(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading WirelessControllerHotspot20H2QpOsuProvider resource: %v", err)
+		return fmt.Errorf("error reading WirelessControllerHotspot20H2QpOsuProvider resource: %v", err)
 	}
 
 	if o == nil {
@@ -241,7 +284,7 @@ func resourceWirelessControllerHotspot20H2QpOsuProviderRead(d *schema.ResourceDa
 
 	err = refreshObjectWirelessControllerHotspot20H2QpOsuProvider(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading WirelessControllerHotspot20H2QpOsuProvider resource from API: %v", err)
+		return fmt.Errorf("error reading WirelessControllerHotspot20H2QpOsuProvider resource from API: %v", err)
 	}
 	return nil
 }
@@ -387,21 +430,21 @@ func refreshObjectWirelessControllerHotspot20H2QpOsuProvider(d *schema.ResourceD
 
 	if err = d.Set("name", flattenWirelessControllerHotspot20H2QpOsuProviderName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("friendly_name", flattenWirelessControllerHotspot20H2QpOsuProviderFriendlyName(o["friendly-name"], d, "friendly_name", sv)); err != nil {
 			if !fortiAPIPatch(o["friendly-name"]) {
-				return fmt.Errorf("Error reading friendly_name: %v", err)
+				return fmt.Errorf("error reading friendly_name: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("friendly_name"); ok {
 			if err = d.Set("friendly_name", flattenWirelessControllerHotspot20H2QpOsuProviderFriendlyName(o["friendly-name"], d, "friendly_name", sv)); err != nil {
 				if !fortiAPIPatch(o["friendly-name"]) {
-					return fmt.Errorf("Error reading friendly_name: %v", err)
+					return fmt.Errorf("error reading friendly_name: %v", err)
 				}
 			}
 		}
@@ -409,33 +452,33 @@ func refreshObjectWirelessControllerHotspot20H2QpOsuProvider(d *schema.ResourceD
 
 	if err = d.Set("server_uri", flattenWirelessControllerHotspot20H2QpOsuProviderServerUri(o["server-uri"], d, "server_uri", sv)); err != nil {
 		if !fortiAPIPatch(o["server-uri"]) {
-			return fmt.Errorf("Error reading server_uri: %v", err)
+			return fmt.Errorf("error reading server_uri: %v", err)
 		}
 	}
 
 	if err = d.Set("osu_method", flattenWirelessControllerHotspot20H2QpOsuProviderOsuMethod(o["osu-method"], d, "osu_method", sv)); err != nil {
 		if !fortiAPIPatch(o["osu-method"]) {
-			return fmt.Errorf("Error reading osu_method: %v", err)
+			return fmt.Errorf("error reading osu_method: %v", err)
 		}
 	}
 
 	if err = d.Set("osu_nai", flattenWirelessControllerHotspot20H2QpOsuProviderOsuNai(o["osu-nai"], d, "osu_nai", sv)); err != nil {
 		if !fortiAPIPatch(o["osu-nai"]) {
-			return fmt.Errorf("Error reading osu_nai: %v", err)
+			return fmt.Errorf("error reading osu_nai: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("service_description", flattenWirelessControllerHotspot20H2QpOsuProviderServiceDescription(o["service-description"], d, "service_description", sv)); err != nil {
 			if !fortiAPIPatch(o["service-description"]) {
-				return fmt.Errorf("Error reading service_description: %v", err)
+				return fmt.Errorf("error reading service_description: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("service_description"); ok {
 			if err = d.Set("service_description", flattenWirelessControllerHotspot20H2QpOsuProviderServiceDescription(o["service-description"], d, "service_description", sv)); err != nil {
 				if !fortiAPIPatch(o["service-description"]) {
-					return fmt.Errorf("Error reading service_description: %v", err)
+					return fmt.Errorf("error reading service_description: %v", err)
 				}
 			}
 		}
@@ -443,7 +486,7 @@ func refreshObjectWirelessControllerHotspot20H2QpOsuProvider(d *schema.ResourceD
 
 	if err = d.Set("icon", flattenWirelessControllerHotspot20H2QpOsuProviderIcon(o["icon"], d, "icon", sv)); err != nil {
 		if !fortiAPIPatch(o["icon"]) {
-			return fmt.Errorf("Error reading icon: %v", err)
+			return fmt.Errorf("error reading icon: %v", err)
 		}
 	}
 

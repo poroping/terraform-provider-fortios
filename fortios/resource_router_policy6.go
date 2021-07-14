@@ -30,80 +30,85 @@ func resourceRouterPolicy6() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"seq_num": &schema.Schema{
+			"seq_num": {
 				Type:     schema.TypeInt,
 				ForceNew: true,
 				Optional: true,
 				Computed: true,
 			},
-			"input_device": &schema.Schema{
+			"input_device": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Required:     true,
 			},
-			"src": &schema.Schema{
+			"src": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"dst": &schema.Schema{
+			"dst": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"protocol": &schema.Schema{
+			"protocol": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 255),
 				Optional:     true,
 				Computed:     true,
 			},
-			"start_port": &schema.Schema{
+			"start_port": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"end_port": &schema.Schema{
+			"end_port": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"gateway": &schema.Schema{
+			"gateway": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"output_device": &schema.Schema{
+			"output_device": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"tos": &schema.Schema{
+			"tos": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"tos_mask": &schema.Schema{
+			"tos_mask": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"status": &schema.Schema{
+			"status": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"comments": &schema.Schema{
+			"comments": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -121,15 +126,25 @@ func resourceRouterPolicy6Create(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectRouterPolicy6(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating RouterPolicy6 resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateRouterPolicy6(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectRouterPolicy6(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating RouterPolicy6 resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateRouterPolicy6(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating RouterPolicy6 resource: %v", err)
+		return fmt.Errorf("error creating RouterPolicy6 resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -154,14 +169,24 @@ func resourceRouterPolicy6Update(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectRouterPolicy6(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating RouterPolicy6 resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateRouterPolicy6(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectRouterPolicy6(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating RouterPolicy6 resource: %v", err)
+		return fmt.Errorf("error updating RouterPolicy6 resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateRouterPolicy6(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating RouterPolicy6 resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -188,9 +213,17 @@ func resourceRouterPolicy6Delete(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	err := c.DeleteRouterPolicy6(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteRouterPolicy6(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting RouterPolicy6 resource: %v", err)
+		return fmt.Errorf("error deleting RouterPolicy6 resource: %v", err)
 	}
 
 	d.SetId("")
@@ -212,9 +245,19 @@ func resourceRouterPolicy6Read(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadRouterPolicy6(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadRouterPolicy6(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading RouterPolicy6 resource: %v", err)
+		return fmt.Errorf("error reading RouterPolicy6 resource: %v", err)
 	}
 
 	if o == nil {
@@ -225,7 +268,7 @@ func resourceRouterPolicy6Read(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectRouterPolicy6(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading RouterPolicy6 resource from API: %v", err)
+		return fmt.Errorf("error reading RouterPolicy6 resource from API: %v", err)
 	}
 	return nil
 }
@@ -287,7 +330,7 @@ func refreshObjectRouterPolicy6(d *schema.ResourceData, o map[string]interface{}
 
 	if err = d.Set("seq_num", flattenRouterPolicy6SeqNum(o["seq-num"], d, "seq_num", sv)); err != nil {
 		if !fortiAPIPatch(o["seq-num"]) {
-			return fmt.Errorf("Error reading seq_num: %v", err)
+			return fmt.Errorf("error reading seq_num: %v", err)
 		}
 	}
 
@@ -315,13 +358,13 @@ func refreshObjectRouterPolicy6(d *schema.ResourceData, o map[string]interface{}
 		if bstring == true {
 			if err = d.Set("input_device", vx); err != nil {
 				if !fortiAPIPatch(o["input-device"]) {
-					return fmt.Errorf("Error reading input_device: %v", err)
+					return fmt.Errorf("error reading input_device: %v", err)
 				}
 			}
 		} else {
 			if err = d.Set("input_device", v); err != nil {
 				if !fortiAPIPatch(o["input-device"]) {
-					return fmt.Errorf("Error reading input_device: %v", err)
+					return fmt.Errorf("error reading input_device: %v", err)
 				}
 			}
 		}
@@ -329,67 +372,67 @@ func refreshObjectRouterPolicy6(d *schema.ResourceData, o map[string]interface{}
 
 	if err = d.Set("src", flattenRouterPolicy6Src(o["src"], d, "src", sv)); err != nil {
 		if !fortiAPIPatch(o["src"]) {
-			return fmt.Errorf("Error reading src: %v", err)
+			return fmt.Errorf("error reading src: %v", err)
 		}
 	}
 
 	if err = d.Set("dst", flattenRouterPolicy6Dst(o["dst"], d, "dst", sv)); err != nil {
 		if !fortiAPIPatch(o["dst"]) {
-			return fmt.Errorf("Error reading dst: %v", err)
+			return fmt.Errorf("error reading dst: %v", err)
 		}
 	}
 
 	if err = d.Set("protocol", flattenRouterPolicy6Protocol(o["protocol"], d, "protocol", sv)); err != nil {
 		if !fortiAPIPatch(o["protocol"]) {
-			return fmt.Errorf("Error reading protocol: %v", err)
+			return fmt.Errorf("error reading protocol: %v", err)
 		}
 	}
 
 	if err = d.Set("start_port", flattenRouterPolicy6StartPort(o["start-port"], d, "start_port", sv)); err != nil {
 		if !fortiAPIPatch(o["start-port"]) {
-			return fmt.Errorf("Error reading start_port: %v", err)
+			return fmt.Errorf("error reading start_port: %v", err)
 		}
 	}
 
 	if err = d.Set("end_port", flattenRouterPolicy6EndPort(o["end-port"], d, "end_port", sv)); err != nil {
 		if !fortiAPIPatch(o["end-port"]) {
-			return fmt.Errorf("Error reading end_port: %v", err)
+			return fmt.Errorf("error reading end_port: %v", err)
 		}
 	}
 
 	if err = d.Set("gateway", flattenRouterPolicy6Gateway(o["gateway"], d, "gateway", sv)); err != nil {
 		if !fortiAPIPatch(o["gateway"]) {
-			return fmt.Errorf("Error reading gateway: %v", err)
+			return fmt.Errorf("error reading gateway: %v", err)
 		}
 	}
 
 	if err = d.Set("output_device", flattenRouterPolicy6OutputDevice(o["output-device"], d, "output_device", sv)); err != nil {
 		if !fortiAPIPatch(o["output-device"]) {
-			return fmt.Errorf("Error reading output_device: %v", err)
+			return fmt.Errorf("error reading output_device: %v", err)
 		}
 	}
 
 	if err = d.Set("tos", flattenRouterPolicy6Tos(o["tos"], d, "tos", sv)); err != nil {
 		if !fortiAPIPatch(o["tos"]) {
-			return fmt.Errorf("Error reading tos: %v", err)
+			return fmt.Errorf("error reading tos: %v", err)
 		}
 	}
 
 	if err = d.Set("tos_mask", flattenRouterPolicy6TosMask(o["tos-mask"], d, "tos_mask", sv)); err != nil {
 		if !fortiAPIPatch(o["tos-mask"]) {
-			return fmt.Errorf("Error reading tos_mask: %v", err)
+			return fmt.Errorf("error reading tos_mask: %v", err)
 		}
 	}
 
 	if err = d.Set("status", flattenRouterPolicy6Status(o["status"], d, "status", sv)); err != nil {
 		if !fortiAPIPatch(o["status"]) {
-			return fmt.Errorf("Error reading status: %v", err)
+			return fmt.Errorf("error reading status: %v", err)
 		}
 	}
 
 	if err = d.Set("comments", flattenRouterPolicy6Comments(o["comments"], d, "comments", sv)); err != nil {
 		if !fortiAPIPatch(o["comments"]) {
-			return fmt.Errorf("Error reading comments: %v", err)
+			return fmt.Errorf("error reading comments: %v", err)
 		}
 	}
 

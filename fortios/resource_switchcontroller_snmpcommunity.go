@@ -30,39 +30,39 @@ func resourceSwitchControllerSnmpCommunity() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"fosid": &schema.Schema{
+			"fosid": {
 				Type:     schema.TypeInt,
 				ForceNew: true,
 				Optional: true,
 				Computed: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"status": &schema.Schema{
+			"status": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"hosts": &schema.Schema{
+			"hosts": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"ip": &schema.Schema{
+						"ip": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -70,71 +70,76 @@ func resourceSwitchControllerSnmpCommunity() *schema.Resource {
 					},
 				},
 			},
-			"query_v1_status": &schema.Schema{
+			"query_v1_status": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"query_v1_port": &schema.Schema{
+			"query_v1_port": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"query_v2c_status": &schema.Schema{
+			"query_v2c_status": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"query_v2c_port": &schema.Schema{
+			"query_v2c_port": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"trap_v1_status": &schema.Schema{
+			"trap_v1_status": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"trap_v1_lport": &schema.Schema{
+			"trap_v1_lport": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"trap_v1_rport": &schema.Schema{
+			"trap_v1_rport": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"trap_v2c_status": &schema.Schema{
+			"trap_v2c_status": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"trap_v2c_lport": &schema.Schema{
+			"trap_v2c_lport": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"trap_v2c_rport": &schema.Schema{
+			"trap_v2c_rport": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"events": &schema.Schema{
+			"events": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"dynamic_sort_subtable": &schema.Schema{
+			"dynamic_sort_subtable": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Default:  "false",
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -152,15 +157,25 @@ func resourceSwitchControllerSnmpCommunityCreate(d *schema.ResourceData, m inter
 		}
 	}
 
-	obj, err := getObjectSwitchControllerSnmpCommunity(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating SwitchControllerSnmpCommunity resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateSwitchControllerSnmpCommunity(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSwitchControllerSnmpCommunity(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating SwitchControllerSnmpCommunity resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateSwitchControllerSnmpCommunity(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating SwitchControllerSnmpCommunity resource: %v", err)
+		return fmt.Errorf("error creating SwitchControllerSnmpCommunity resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -185,14 +200,24 @@ func resourceSwitchControllerSnmpCommunityUpdate(d *schema.ResourceData, m inter
 		}
 	}
 
-	obj, err := getObjectSwitchControllerSnmpCommunity(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SwitchControllerSnmpCommunity resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSwitchControllerSnmpCommunity(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSwitchControllerSnmpCommunity(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SwitchControllerSnmpCommunity resource: %v", err)
+		return fmt.Errorf("error updating SwitchControllerSnmpCommunity resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSwitchControllerSnmpCommunity(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SwitchControllerSnmpCommunity resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -219,9 +244,17 @@ func resourceSwitchControllerSnmpCommunityDelete(d *schema.ResourceData, m inter
 		}
 	}
 
-	err := c.DeleteSwitchControllerSnmpCommunity(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSwitchControllerSnmpCommunity(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SwitchControllerSnmpCommunity resource: %v", err)
+		return fmt.Errorf("error deleting SwitchControllerSnmpCommunity resource: %v", err)
 	}
 
 	d.SetId("")
@@ -243,9 +276,19 @@ func resourceSwitchControllerSnmpCommunityRead(d *schema.ResourceData, m interfa
 		}
 	}
 
-	o, err := c.ReadSwitchControllerSnmpCommunity(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSwitchControllerSnmpCommunity(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SwitchControllerSnmpCommunity resource: %v", err)
+		return fmt.Errorf("error reading SwitchControllerSnmpCommunity resource: %v", err)
 	}
 
 	if o == nil {
@@ -256,7 +299,7 @@ func resourceSwitchControllerSnmpCommunityRead(d *schema.ResourceData, m interfa
 
 	err = refreshObjectSwitchControllerSnmpCommunity(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SwitchControllerSnmpCommunity resource from API: %v", err)
+		return fmt.Errorf("error reading SwitchControllerSnmpCommunity resource from API: %v", err)
 	}
 	return nil
 }
@@ -370,33 +413,33 @@ func refreshObjectSwitchControllerSnmpCommunity(d *schema.ResourceData, o map[st
 
 	if err = d.Set("fosid", flattenSwitchControllerSnmpCommunityId(o["id"], d, "fosid", sv)); err != nil {
 		if !fortiAPIPatch(o["id"]) {
-			return fmt.Errorf("Error reading fosid: %v", err)
+			return fmt.Errorf("error reading fosid: %v", err)
 		}
 	}
 
 	if err = d.Set("name", flattenSwitchControllerSnmpCommunityName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("status", flattenSwitchControllerSnmpCommunityStatus(o["status"], d, "status", sv)); err != nil {
 		if !fortiAPIPatch(o["status"]) {
-			return fmt.Errorf("Error reading status: %v", err)
+			return fmt.Errorf("error reading status: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("hosts", flattenSwitchControllerSnmpCommunityHosts(o["hosts"], d, "hosts", sv)); err != nil {
 			if !fortiAPIPatch(o["hosts"]) {
-				return fmt.Errorf("Error reading hosts: %v", err)
+				return fmt.Errorf("error reading hosts: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("hosts"); ok {
 			if err = d.Set("hosts", flattenSwitchControllerSnmpCommunityHosts(o["hosts"], d, "hosts", sv)); err != nil {
 				if !fortiAPIPatch(o["hosts"]) {
-					return fmt.Errorf("Error reading hosts: %v", err)
+					return fmt.Errorf("error reading hosts: %v", err)
 				}
 			}
 		}
@@ -404,67 +447,67 @@ func refreshObjectSwitchControllerSnmpCommunity(d *schema.ResourceData, o map[st
 
 	if err = d.Set("query_v1_status", flattenSwitchControllerSnmpCommunityQueryV1Status(o["query-v1-status"], d, "query_v1_status", sv)); err != nil {
 		if !fortiAPIPatch(o["query-v1-status"]) {
-			return fmt.Errorf("Error reading query_v1_status: %v", err)
+			return fmt.Errorf("error reading query_v1_status: %v", err)
 		}
 	}
 
 	if err = d.Set("query_v1_port", flattenSwitchControllerSnmpCommunityQueryV1Port(o["query-v1-port"], d, "query_v1_port", sv)); err != nil {
 		if !fortiAPIPatch(o["query-v1-port"]) {
-			return fmt.Errorf("Error reading query_v1_port: %v", err)
+			return fmt.Errorf("error reading query_v1_port: %v", err)
 		}
 	}
 
 	if err = d.Set("query_v2c_status", flattenSwitchControllerSnmpCommunityQueryV2CStatus(o["query-v2c-status"], d, "query_v2c_status", sv)); err != nil {
 		if !fortiAPIPatch(o["query-v2c-status"]) {
-			return fmt.Errorf("Error reading query_v2c_status: %v", err)
+			return fmt.Errorf("error reading query_v2c_status: %v", err)
 		}
 	}
 
 	if err = d.Set("query_v2c_port", flattenSwitchControllerSnmpCommunityQueryV2CPort(o["query-v2c-port"], d, "query_v2c_port", sv)); err != nil {
 		if !fortiAPIPatch(o["query-v2c-port"]) {
-			return fmt.Errorf("Error reading query_v2c_port: %v", err)
+			return fmt.Errorf("error reading query_v2c_port: %v", err)
 		}
 	}
 
 	if err = d.Set("trap_v1_status", flattenSwitchControllerSnmpCommunityTrapV1Status(o["trap-v1-status"], d, "trap_v1_status", sv)); err != nil {
 		if !fortiAPIPatch(o["trap-v1-status"]) {
-			return fmt.Errorf("Error reading trap_v1_status: %v", err)
+			return fmt.Errorf("error reading trap_v1_status: %v", err)
 		}
 	}
 
 	if err = d.Set("trap_v1_lport", flattenSwitchControllerSnmpCommunityTrapV1Lport(o["trap-v1-lport"], d, "trap_v1_lport", sv)); err != nil {
 		if !fortiAPIPatch(o["trap-v1-lport"]) {
-			return fmt.Errorf("Error reading trap_v1_lport: %v", err)
+			return fmt.Errorf("error reading trap_v1_lport: %v", err)
 		}
 	}
 
 	if err = d.Set("trap_v1_rport", flattenSwitchControllerSnmpCommunityTrapV1Rport(o["trap-v1-rport"], d, "trap_v1_rport", sv)); err != nil {
 		if !fortiAPIPatch(o["trap-v1-rport"]) {
-			return fmt.Errorf("Error reading trap_v1_rport: %v", err)
+			return fmt.Errorf("error reading trap_v1_rport: %v", err)
 		}
 	}
 
 	if err = d.Set("trap_v2c_status", flattenSwitchControllerSnmpCommunityTrapV2CStatus(o["trap-v2c-status"], d, "trap_v2c_status", sv)); err != nil {
 		if !fortiAPIPatch(o["trap-v2c-status"]) {
-			return fmt.Errorf("Error reading trap_v2c_status: %v", err)
+			return fmt.Errorf("error reading trap_v2c_status: %v", err)
 		}
 	}
 
 	if err = d.Set("trap_v2c_lport", flattenSwitchControllerSnmpCommunityTrapV2CLport(o["trap-v2c-lport"], d, "trap_v2c_lport", sv)); err != nil {
 		if !fortiAPIPatch(o["trap-v2c-lport"]) {
-			return fmt.Errorf("Error reading trap_v2c_lport: %v", err)
+			return fmt.Errorf("error reading trap_v2c_lport: %v", err)
 		}
 	}
 
 	if err = d.Set("trap_v2c_rport", flattenSwitchControllerSnmpCommunityTrapV2CRport(o["trap-v2c-rport"], d, "trap_v2c_rport", sv)); err != nil {
 		if !fortiAPIPatch(o["trap-v2c-rport"]) {
-			return fmt.Errorf("Error reading trap_v2c_rport: %v", err)
+			return fmt.Errorf("error reading trap_v2c_rport: %v", err)
 		}
 	}
 
 	if err = d.Set("events", flattenSwitchControllerSnmpCommunityEvents(o["events"], d, "events", sv)); err != nil {
 		if !fortiAPIPatch(o["events"]) {
-			return fmt.Errorf("Error reading events: %v", err)
+			return fmt.Errorf("error reading events: %v", err)
 		}
 	}
 

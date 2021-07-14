@@ -50,14 +50,14 @@ func testAccCheckFortiOSWebfilterIpsUrlfilterCacheSettingExists(n string) resour
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadWebfilterIpsUrlfilterCacheSetting(i, "root")
+		o, err := c.ReadWebfilterIpsUrlfilterCacheSetting(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading WebfilterIpsUrlfilterCacheSetting: %s", err)
+			return fmt.Errorf("error reading WebfilterIpsUrlfilterCacheSetting: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating WebfilterIpsUrlfilterCacheSetting: %s", n)
+			return fmt.Errorf("error creating WebfilterIpsUrlfilterCacheSetting: %s", n)
 		}
 
 		return nil
@@ -73,11 +73,11 @@ func testAccCheckWebfilterIpsUrlfilterCacheSettingDestroy(s *terraform.State) er
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadWebfilterIpsUrlfilterCacheSetting(i, "root")
+		o, err := c.ReadWebfilterIpsUrlfilterCacheSetting(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error WebfilterIpsUrlfilterCacheSetting %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error WebfilterIpsUrlfilterCacheSetting %s still exists", rs.Primary.ID)
 			}
 		}
 

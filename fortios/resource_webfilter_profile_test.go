@@ -106,14 +106,14 @@ func testAccCheckFortiOSWebfilterProfileExists(n string) resource.TestCheckFunc 
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadWebfilterProfile(i, "root")
+		o, err := c.ReadWebfilterProfile(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading WebfilterProfile: %s", err)
+			return fmt.Errorf("error reading WebfilterProfile: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating WebfilterProfile: %s", n)
+			return fmt.Errorf("error creating WebfilterProfile: %s", n)
 		}
 
 		return nil
@@ -129,11 +129,11 @@ func testAccCheckWebfilterProfileDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadWebfilterProfile(i, "root")
+		o, err := c.ReadWebfilterProfile(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error WebfilterProfile %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error WebfilterProfile %s still exists", rs.Primary.ID)
 			}
 		}
 

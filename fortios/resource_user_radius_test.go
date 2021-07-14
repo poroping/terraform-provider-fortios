@@ -75,14 +75,14 @@ func testAccCheckFortiOSUserRadiusExists(n string) resource.TestCheckFunc {
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadUserRadius(i, "root")
+		o, err := c.ReadUserRadius(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading UserRadius: %s", err)
+			return fmt.Errorf("error reading UserRadius: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating UserRadius: %s", n)
+			return fmt.Errorf("error creating UserRadius: %s", n)
 		}
 
 		return nil
@@ -98,11 +98,11 @@ func testAccCheckUserRadiusDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadUserRadius(i, "root")
+		o, err := c.ReadUserRadius(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error UserRadius %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error UserRadius %s still exists", rs.Primary.ID)
 			}
 		}
 

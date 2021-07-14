@@ -30,33 +30,33 @@ func resourceFirewallLocalInPolicy6() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"policyid": &schema.Schema{
+			"policyid": {
 				Type:     schema.TypeInt,
 				ForceNew: true,
 				Optional: true,
 				Computed: true,
 			},
-			"uuid": &schema.Schema{
+			"uuid": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"intf": &schema.Schema{
+			"intf": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Required:     true,
 			},
-			"srcaddr": &schema.Schema{
+			"srcaddr": {
 				Type:     schema.TypeList,
 				Required: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 64),
 							Optional:     true,
@@ -65,12 +65,12 @@ func resourceFirewallLocalInPolicy6() *schema.Resource {
 					},
 				},
 			},
-			"dstaddr": &schema.Schema{
+			"dstaddr": {
 				Type:     schema.TypeList,
 				Required: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 64),
 							Optional:     true,
@@ -79,17 +79,17 @@ func resourceFirewallLocalInPolicy6() *schema.Resource {
 					},
 				},
 			},
-			"action": &schema.Schema{
+			"action": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"service": &schema.Schema{
+			"service": {
 				Type:     schema.TypeList,
 				Required: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 64),
 							Optional:     true,
@@ -98,25 +98,30 @@ func resourceFirewallLocalInPolicy6() *schema.Resource {
 					},
 				},
 			},
-			"schedule": &schema.Schema{
+			"schedule": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Required:     true,
 			},
-			"status": &schema.Schema{
+			"status": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"comments": &schema.Schema{
+			"comments": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 1023),
 				Optional:     true,
 			},
-			"dynamic_sort_subtable": &schema.Schema{
+			"dynamic_sort_subtable": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Default:  "false",
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -134,15 +139,25 @@ func resourceFirewallLocalInPolicy6Create(d *schema.ResourceData, m interface{})
 		}
 	}
 
-	obj, err := getObjectFirewallLocalInPolicy6(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating FirewallLocalInPolicy6 resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateFirewallLocalInPolicy6(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectFirewallLocalInPolicy6(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating FirewallLocalInPolicy6 resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateFirewallLocalInPolicy6(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating FirewallLocalInPolicy6 resource: %v", err)
+		return fmt.Errorf("error creating FirewallLocalInPolicy6 resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -167,14 +182,24 @@ func resourceFirewallLocalInPolicy6Update(d *schema.ResourceData, m interface{})
 		}
 	}
 
-	obj, err := getObjectFirewallLocalInPolicy6(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating FirewallLocalInPolicy6 resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateFirewallLocalInPolicy6(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectFirewallLocalInPolicy6(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating FirewallLocalInPolicy6 resource: %v", err)
+		return fmt.Errorf("error updating FirewallLocalInPolicy6 resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateFirewallLocalInPolicy6(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating FirewallLocalInPolicy6 resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -201,9 +226,17 @@ func resourceFirewallLocalInPolicy6Delete(d *schema.ResourceData, m interface{})
 		}
 	}
 
-	err := c.DeleteFirewallLocalInPolicy6(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteFirewallLocalInPolicy6(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting FirewallLocalInPolicy6 resource: %v", err)
+		return fmt.Errorf("error deleting FirewallLocalInPolicy6 resource: %v", err)
 	}
 
 	d.SetId("")
@@ -225,9 +258,19 @@ func resourceFirewallLocalInPolicy6Read(d *schema.ResourceData, m interface{}) e
 		}
 	}
 
-	o, err := c.ReadFirewallLocalInPolicy6(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadFirewallLocalInPolicy6(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading FirewallLocalInPolicy6 resource: %v", err)
+		return fmt.Errorf("error reading FirewallLocalInPolicy6 resource: %v", err)
 	}
 
 	if o == nil {
@@ -238,7 +281,7 @@ func resourceFirewallLocalInPolicy6Read(d *schema.ResourceData, m interface{}) e
 
 	err = refreshObjectFirewallLocalInPolicy6(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading FirewallLocalInPolicy6 resource from API: %v", err)
+		return fmt.Errorf("error reading FirewallLocalInPolicy6 resource from API: %v", err)
 	}
 	return nil
 }
@@ -390,33 +433,33 @@ func refreshObjectFirewallLocalInPolicy6(d *schema.ResourceData, o map[string]in
 
 	if err = d.Set("policyid", flattenFirewallLocalInPolicy6Policyid(o["policyid"], d, "policyid", sv)); err != nil {
 		if !fortiAPIPatch(o["policyid"]) {
-			return fmt.Errorf("Error reading policyid: %v", err)
+			return fmt.Errorf("error reading policyid: %v", err)
 		}
 	}
 
 	if err = d.Set("uuid", flattenFirewallLocalInPolicy6Uuid(o["uuid"], d, "uuid", sv)); err != nil {
 		if !fortiAPIPatch(o["uuid"]) {
-			return fmt.Errorf("Error reading uuid: %v", err)
+			return fmt.Errorf("error reading uuid: %v", err)
 		}
 	}
 
 	if err = d.Set("intf", flattenFirewallLocalInPolicy6Intf(o["intf"], d, "intf", sv)); err != nil {
 		if !fortiAPIPatch(o["intf"]) {
-			return fmt.Errorf("Error reading intf: %v", err)
+			return fmt.Errorf("error reading intf: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("srcaddr", flattenFirewallLocalInPolicy6Srcaddr(o["srcaddr"], d, "srcaddr", sv)); err != nil {
 			if !fortiAPIPatch(o["srcaddr"]) {
-				return fmt.Errorf("Error reading srcaddr: %v", err)
+				return fmt.Errorf("error reading srcaddr: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("srcaddr"); ok {
 			if err = d.Set("srcaddr", flattenFirewallLocalInPolicy6Srcaddr(o["srcaddr"], d, "srcaddr", sv)); err != nil {
 				if !fortiAPIPatch(o["srcaddr"]) {
-					return fmt.Errorf("Error reading srcaddr: %v", err)
+					return fmt.Errorf("error reading srcaddr: %v", err)
 				}
 			}
 		}
@@ -425,14 +468,14 @@ func refreshObjectFirewallLocalInPolicy6(d *schema.ResourceData, o map[string]in
 	if isImportTable() {
 		if err = d.Set("dstaddr", flattenFirewallLocalInPolicy6Dstaddr(o["dstaddr"], d, "dstaddr", sv)); err != nil {
 			if !fortiAPIPatch(o["dstaddr"]) {
-				return fmt.Errorf("Error reading dstaddr: %v", err)
+				return fmt.Errorf("error reading dstaddr: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("dstaddr"); ok {
 			if err = d.Set("dstaddr", flattenFirewallLocalInPolicy6Dstaddr(o["dstaddr"], d, "dstaddr", sv)); err != nil {
 				if !fortiAPIPatch(o["dstaddr"]) {
-					return fmt.Errorf("Error reading dstaddr: %v", err)
+					return fmt.Errorf("error reading dstaddr: %v", err)
 				}
 			}
 		}
@@ -440,21 +483,21 @@ func refreshObjectFirewallLocalInPolicy6(d *schema.ResourceData, o map[string]in
 
 	if err = d.Set("action", flattenFirewallLocalInPolicy6Action(o["action"], d, "action", sv)); err != nil {
 		if !fortiAPIPatch(o["action"]) {
-			return fmt.Errorf("Error reading action: %v", err)
+			return fmt.Errorf("error reading action: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("service", flattenFirewallLocalInPolicy6Service(o["service"], d, "service", sv)); err != nil {
 			if !fortiAPIPatch(o["service"]) {
-				return fmt.Errorf("Error reading service: %v", err)
+				return fmt.Errorf("error reading service: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("service"); ok {
 			if err = d.Set("service", flattenFirewallLocalInPolicy6Service(o["service"], d, "service", sv)); err != nil {
 				if !fortiAPIPatch(o["service"]) {
-					return fmt.Errorf("Error reading service: %v", err)
+					return fmt.Errorf("error reading service: %v", err)
 				}
 			}
 		}
@@ -462,19 +505,19 @@ func refreshObjectFirewallLocalInPolicy6(d *schema.ResourceData, o map[string]in
 
 	if err = d.Set("schedule", flattenFirewallLocalInPolicy6Schedule(o["schedule"], d, "schedule", sv)); err != nil {
 		if !fortiAPIPatch(o["schedule"]) {
-			return fmt.Errorf("Error reading schedule: %v", err)
+			return fmt.Errorf("error reading schedule: %v", err)
 		}
 	}
 
 	if err = d.Set("status", flattenFirewallLocalInPolicy6Status(o["status"], d, "status", sv)); err != nil {
 		if !fortiAPIPatch(o["status"]) {
-			return fmt.Errorf("Error reading status: %v", err)
+			return fmt.Errorf("error reading status: %v", err)
 		}
 	}
 
 	if err = d.Set("comments", flattenFirewallLocalInPolicy6Comments(o["comments"], d, "comments", sv)); err != nil {
 		if !fortiAPIPatch(o["comments"]) {
-			return fmt.Errorf("Error reading comments: %v", err)
+			return fmt.Errorf("error reading comments: %v", err)
 		}
 	}
 

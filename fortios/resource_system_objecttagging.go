@@ -30,50 +30,50 @@ func resourceSystemObjectTagging() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"category": &schema.Schema{
+			"category": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"address": &schema.Schema{
+			"address": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"device": &schema.Schema{
+			"device": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"interface": &schema.Schema{
+			"interface": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"multiple": &schema.Schema{
+			"multiple": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"color": &schema.Schema{
+			"color": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 32),
 				Optional:     true,
 				Computed:     true,
 			},
-			"tags": &schema.Schema{
+			"tags": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 64),
 							Optional:     true,
@@ -82,10 +82,15 @@ func resourceSystemObjectTagging() *schema.Resource {
 					},
 				},
 			},
-			"dynamic_sort_subtable": &schema.Schema{
+			"dynamic_sort_subtable": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Default:  "false",
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -103,15 +108,25 @@ func resourceSystemObjectTaggingCreate(d *schema.ResourceData, m interface{}) er
 		}
 	}
 
-	obj, err := getObjectSystemObjectTagging(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating SystemObjectTagging resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateSystemObjectTagging(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemObjectTagging(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating SystemObjectTagging resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateSystemObjectTagging(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating SystemObjectTagging resource: %v", err)
+		return fmt.Errorf("error creating SystemObjectTagging resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -136,14 +151,24 @@ func resourceSystemObjectTaggingUpdate(d *schema.ResourceData, m interface{}) er
 		}
 	}
 
-	obj, err := getObjectSystemObjectTagging(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SystemObjectTagging resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSystemObjectTagging(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemObjectTagging(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SystemObjectTagging resource: %v", err)
+		return fmt.Errorf("error updating SystemObjectTagging resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSystemObjectTagging(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SystemObjectTagging resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -170,9 +195,17 @@ func resourceSystemObjectTaggingDelete(d *schema.ResourceData, m interface{}) er
 		}
 	}
 
-	err := c.DeleteSystemObjectTagging(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSystemObjectTagging(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SystemObjectTagging resource: %v", err)
+		return fmt.Errorf("error deleting SystemObjectTagging resource: %v", err)
 	}
 
 	d.SetId("")
@@ -194,9 +227,19 @@ func resourceSystemObjectTaggingRead(d *schema.ResourceData, m interface{}) erro
 		}
 	}
 
-	o, err := c.ReadSystemObjectTagging(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSystemObjectTagging(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemObjectTagging resource: %v", err)
+		return fmt.Errorf("error reading SystemObjectTagging resource: %v", err)
 	}
 
 	if o == nil {
@@ -207,7 +250,7 @@ func resourceSystemObjectTaggingRead(d *schema.ResourceData, m interface{}) erro
 
 	err = refreshObjectSystemObjectTagging(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemObjectTagging resource from API: %v", err)
+		return fmt.Errorf("error reading SystemObjectTagging resource from API: %v", err)
 	}
 	return nil
 }
@@ -279,51 +322,51 @@ func refreshObjectSystemObjectTagging(d *schema.ResourceData, o map[string]inter
 
 	if err = d.Set("category", flattenSystemObjectTaggingCategory(o["category"], d, "category", sv)); err != nil {
 		if !fortiAPIPatch(o["category"]) {
-			return fmt.Errorf("Error reading category: %v", err)
+			return fmt.Errorf("error reading category: %v", err)
 		}
 	}
 
 	if err = d.Set("address", flattenSystemObjectTaggingAddress(o["address"], d, "address", sv)); err != nil {
 		if !fortiAPIPatch(o["address"]) {
-			return fmt.Errorf("Error reading address: %v", err)
+			return fmt.Errorf("error reading address: %v", err)
 		}
 	}
 
 	if err = d.Set("device", flattenSystemObjectTaggingDevice(o["device"], d, "device", sv)); err != nil {
 		if !fortiAPIPatch(o["device"]) {
-			return fmt.Errorf("Error reading device: %v", err)
+			return fmt.Errorf("error reading device: %v", err)
 		}
 	}
 
 	if err = d.Set("interface", flattenSystemObjectTaggingInterface(o["interface"], d, "interface", sv)); err != nil {
 		if !fortiAPIPatch(o["interface"]) {
-			return fmt.Errorf("Error reading interface: %v", err)
+			return fmt.Errorf("error reading interface: %v", err)
 		}
 	}
 
 	if err = d.Set("multiple", flattenSystemObjectTaggingMultiple(o["multiple"], d, "multiple", sv)); err != nil {
 		if !fortiAPIPatch(o["multiple"]) {
-			return fmt.Errorf("Error reading multiple: %v", err)
+			return fmt.Errorf("error reading multiple: %v", err)
 		}
 	}
 
 	if err = d.Set("color", flattenSystemObjectTaggingColor(o["color"], d, "color", sv)); err != nil {
 		if !fortiAPIPatch(o["color"]) {
-			return fmt.Errorf("Error reading color: %v", err)
+			return fmt.Errorf("error reading color: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("tags", flattenSystemObjectTaggingTags(o["tags"], d, "tags", sv)); err != nil {
 			if !fortiAPIPatch(o["tags"]) {
-				return fmt.Errorf("Error reading tags: %v", err)
+				return fmt.Errorf("error reading tags: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("tags"); ok {
 			if err = d.Set("tags", flattenSystemObjectTaggingTags(o["tags"], d, "tags", sv)); err != nil {
 				if !fortiAPIPatch(o["tags"]) {
-					return fmt.Errorf("Error reading tags: %v", err)
+					return fmt.Errorf("error reading tags: %v", err)
 				}
 			}
 		}

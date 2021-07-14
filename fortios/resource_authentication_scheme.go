@@ -30,61 +30,61 @@ func resourceAuthenticationScheme() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"method": &schema.Schema{
+			"method": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"negotiate_ntlm": &schema.Schema{
+			"negotiate_ntlm": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"kerberos_keytab": &schema.Schema{
+			"kerberos_keytab": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"domain_controller": &schema.Schema{
+			"domain_controller": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"fsso_agent_for_ntlm": &schema.Schema{
+			"fsso_agent_for_ntlm": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"require_tfa": &schema.Schema{
+			"require_tfa": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"fsso_guest": &schema.Schema{
+			"fsso_guest": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"user_database": &schema.Schema{
+			"user_database": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 64),
 							Optional:     true,
@@ -93,16 +93,21 @@ func resourceAuthenticationScheme() *schema.Resource {
 					},
 				},
 			},
-			"ssh_ca": &schema.Schema{
+			"ssh_ca": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"dynamic_sort_subtable": &schema.Schema{
+			"dynamic_sort_subtable": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Default:  "false",
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -120,15 +125,25 @@ func resourceAuthenticationSchemeCreate(d *schema.ResourceData, m interface{}) e
 		}
 	}
 
-	obj, err := getObjectAuthenticationScheme(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating AuthenticationScheme resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateAuthenticationScheme(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectAuthenticationScheme(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating AuthenticationScheme resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateAuthenticationScheme(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating AuthenticationScheme resource: %v", err)
+		return fmt.Errorf("error creating AuthenticationScheme resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -153,14 +168,24 @@ func resourceAuthenticationSchemeUpdate(d *schema.ResourceData, m interface{}) e
 		}
 	}
 
-	obj, err := getObjectAuthenticationScheme(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating AuthenticationScheme resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateAuthenticationScheme(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectAuthenticationScheme(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating AuthenticationScheme resource: %v", err)
+		return fmt.Errorf("error updating AuthenticationScheme resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateAuthenticationScheme(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating AuthenticationScheme resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -187,9 +212,17 @@ func resourceAuthenticationSchemeDelete(d *schema.ResourceData, m interface{}) e
 		}
 	}
 
-	err := c.DeleteAuthenticationScheme(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteAuthenticationScheme(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting AuthenticationScheme resource: %v", err)
+		return fmt.Errorf("error deleting AuthenticationScheme resource: %v", err)
 	}
 
 	d.SetId("")
@@ -211,9 +244,19 @@ func resourceAuthenticationSchemeRead(d *schema.ResourceData, m interface{}) err
 		}
 	}
 
-	o, err := c.ReadAuthenticationScheme(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadAuthenticationScheme(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading AuthenticationScheme resource: %v", err)
+		return fmt.Errorf("error reading AuthenticationScheme resource: %v", err)
 	}
 
 	if o == nil {
@@ -224,7 +267,7 @@ func resourceAuthenticationSchemeRead(d *schema.ResourceData, m interface{}) err
 
 	err = refreshObjectAuthenticationScheme(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading AuthenticationScheme resource from API: %v", err)
+		return fmt.Errorf("error reading AuthenticationScheme resource from API: %v", err)
 	}
 	return nil
 }
@@ -308,63 +351,63 @@ func refreshObjectAuthenticationScheme(d *schema.ResourceData, o map[string]inte
 
 	if err = d.Set("name", flattenAuthenticationSchemeName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("method", flattenAuthenticationSchemeMethod(o["method"], d, "method", sv)); err != nil {
 		if !fortiAPIPatch(o["method"]) {
-			return fmt.Errorf("Error reading method: %v", err)
+			return fmt.Errorf("error reading method: %v", err)
 		}
 	}
 
 	if err = d.Set("negotiate_ntlm", flattenAuthenticationSchemeNegotiateNtlm(o["negotiate-ntlm"], d, "negotiate_ntlm", sv)); err != nil {
 		if !fortiAPIPatch(o["negotiate-ntlm"]) {
-			return fmt.Errorf("Error reading negotiate_ntlm: %v", err)
+			return fmt.Errorf("error reading negotiate_ntlm: %v", err)
 		}
 	}
 
 	if err = d.Set("kerberos_keytab", flattenAuthenticationSchemeKerberosKeytab(o["kerberos-keytab"], d, "kerberos_keytab", sv)); err != nil {
 		if !fortiAPIPatch(o["kerberos-keytab"]) {
-			return fmt.Errorf("Error reading kerberos_keytab: %v", err)
+			return fmt.Errorf("error reading kerberos_keytab: %v", err)
 		}
 	}
 
 	if err = d.Set("domain_controller", flattenAuthenticationSchemeDomainController(o["domain-controller"], d, "domain_controller", sv)); err != nil {
 		if !fortiAPIPatch(o["domain-controller"]) {
-			return fmt.Errorf("Error reading domain_controller: %v", err)
+			return fmt.Errorf("error reading domain_controller: %v", err)
 		}
 	}
 
 	if err = d.Set("fsso_agent_for_ntlm", flattenAuthenticationSchemeFssoAgentForNtlm(o["fsso-agent-for-ntlm"], d, "fsso_agent_for_ntlm", sv)); err != nil {
 		if !fortiAPIPatch(o["fsso-agent-for-ntlm"]) {
-			return fmt.Errorf("Error reading fsso_agent_for_ntlm: %v", err)
+			return fmt.Errorf("error reading fsso_agent_for_ntlm: %v", err)
 		}
 	}
 
 	if err = d.Set("require_tfa", flattenAuthenticationSchemeRequireTfa(o["require-tfa"], d, "require_tfa", sv)); err != nil {
 		if !fortiAPIPatch(o["require-tfa"]) {
-			return fmt.Errorf("Error reading require_tfa: %v", err)
+			return fmt.Errorf("error reading require_tfa: %v", err)
 		}
 	}
 
 	if err = d.Set("fsso_guest", flattenAuthenticationSchemeFssoGuest(o["fsso-guest"], d, "fsso_guest", sv)); err != nil {
 		if !fortiAPIPatch(o["fsso-guest"]) {
-			return fmt.Errorf("Error reading fsso_guest: %v", err)
+			return fmt.Errorf("error reading fsso_guest: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("user_database", flattenAuthenticationSchemeUserDatabase(o["user-database"], d, "user_database", sv)); err != nil {
 			if !fortiAPIPatch(o["user-database"]) {
-				return fmt.Errorf("Error reading user_database: %v", err)
+				return fmt.Errorf("error reading user_database: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("user_database"); ok {
 			if err = d.Set("user_database", flattenAuthenticationSchemeUserDatabase(o["user-database"], d, "user_database", sv)); err != nil {
 				if !fortiAPIPatch(o["user-database"]) {
-					return fmt.Errorf("Error reading user_database: %v", err)
+					return fmt.Errorf("error reading user_database: %v", err)
 				}
 			}
 		}
@@ -372,7 +415,7 @@ func refreshObjectAuthenticationScheme(d *schema.ResourceData, o map[string]inte
 
 	if err = d.Set("ssh_ca", flattenAuthenticationSchemeSshCa(o["ssh-ca"], d, "ssh_ca", sv)); err != nil {
 		if !fortiAPIPatch(o["ssh-ca"]) {
-			return fmt.Errorf("Error reading ssh_ca: %v", err)
+			return fmt.Errorf("error reading ssh_ca: %v", err)
 		}
 	}
 

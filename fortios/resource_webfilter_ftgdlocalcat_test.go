@@ -51,14 +51,14 @@ func testAccCheckFortiOSWebfilterFtgdLocalCatExists(n string) resource.TestCheck
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadWebfilterFtgdLocalCat(i, "root")
+		o, err := c.ReadWebfilterFtgdLocalCat(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading WebfilterFtgdLocalCat: %s", err)
+			return fmt.Errorf("error reading WebfilterFtgdLocalCat: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating WebfilterFtgdLocalCat: %s", n)
+			return fmt.Errorf("error creating WebfilterFtgdLocalCat: %s", n)
 		}
 
 		return nil
@@ -74,11 +74,11 @@ func testAccCheckWebfilterFtgdLocalCatDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadWebfilterFtgdLocalCat(i, "root")
+		o, err := c.ReadWebfilterFtgdLocalCat(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error WebfilterFtgdLocalCat %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error WebfilterFtgdLocalCat %s still exists", rs.Primary.ID)
 			}
 		}
 

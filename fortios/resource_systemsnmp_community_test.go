@@ -62,14 +62,14 @@ func testAccCheckFortiOSSystemSnmpCommunityExists(n string) resource.TestCheckFu
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemSnmpCommunity(i, "root")
+		o, err := c.ReadSystemSnmpCommunity(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading SystemSnmpCommunity: %s", err)
+			return fmt.Errorf("error reading SystemSnmpCommunity: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating SystemSnmpCommunity: %s", n)
+			return fmt.Errorf("error creating SystemSnmpCommunity: %s", n)
 		}
 
 		return nil
@@ -85,11 +85,11 @@ func testAccCheckSystemSnmpCommunityDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemSnmpCommunity(i, "root")
+		o, err := c.ReadSystemSnmpCommunity(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error SystemSnmpCommunity %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error SystemSnmpCommunity %s still exists", rs.Primary.ID)
 			}
 		}
 

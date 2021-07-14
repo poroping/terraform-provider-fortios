@@ -30,107 +30,107 @@ func resourceSwitchControllerFlowTracking() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"sample_mode": &schema.Schema{
+			"sample_mode": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"sample_rate": &schema.Schema{
+			"sample_rate": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 99999),
 				Optional:     true,
 				Computed:     true,
 			},
-			"format": &schema.Schema{
+			"format": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"collector_ip": &schema.Schema{
+			"collector_ip": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"collector_port": &schema.Schema{
+			"collector_port": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"transport": &schema.Schema{
+			"transport": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"level": &schema.Schema{
+			"level": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"max_export_pkt_size": &schema.Schema{
+			"max_export_pkt_size": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(512, 9216),
 				Optional:     true,
 				Computed:     true,
 			},
-			"timeout_general": &schema.Schema{
+			"timeout_general": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(60, 604800),
 				Optional:     true,
 				Computed:     true,
 			},
-			"timeout_icmp": &schema.Schema{
+			"timeout_icmp": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(60, 604800),
 				Optional:     true,
 				Computed:     true,
 			},
-			"timeout_max": &schema.Schema{
+			"timeout_max": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(60, 604800),
 				Optional:     true,
 				Computed:     true,
 			},
-			"timeout_tcp": &schema.Schema{
+			"timeout_tcp": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(60, 604800),
 				Optional:     true,
 				Computed:     true,
 			},
-			"timeout_tcp_fin": &schema.Schema{
+			"timeout_tcp_fin": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(60, 604800),
 				Optional:     true,
 				Computed:     true,
 			},
-			"timeout_tcp_rst": &schema.Schema{
+			"timeout_tcp_rst": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(60, 604800),
 				Optional:     true,
 				Computed:     true,
 			},
-			"timeout_udp": &schema.Schema{
+			"timeout_udp": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(60, 604800),
 				Optional:     true,
 				Computed:     true,
 			},
-			"aggregates": &schema.Schema{
+			"aggregates": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"ip": &schema.Schema{
+						"ip": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -138,10 +138,15 @@ func resourceSwitchControllerFlowTracking() *schema.Resource {
 					},
 				},
 			},
-			"dynamic_sort_subtable": &schema.Schema{
+			"dynamic_sort_subtable": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Default:  "false",
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -160,14 +165,24 @@ func resourceSwitchControllerFlowTrackingUpdate(d *schema.ResourceData, m interf
 		}
 	}
 
-	obj, err := getObjectSwitchControllerFlowTracking(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SwitchControllerFlowTracking resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSwitchControllerFlowTracking(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSwitchControllerFlowTracking(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SwitchControllerFlowTracking resource: %v", err)
+		return fmt.Errorf("error updating SwitchControllerFlowTracking resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSwitchControllerFlowTracking(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SwitchControllerFlowTracking resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -194,9 +209,17 @@ func resourceSwitchControllerFlowTrackingDelete(d *schema.ResourceData, m interf
 		}
 	}
 
-	err := c.DeleteSwitchControllerFlowTracking(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSwitchControllerFlowTracking(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SwitchControllerFlowTracking resource: %v", err)
+		return fmt.Errorf("error deleting SwitchControllerFlowTracking resource: %v", err)
 	}
 
 	d.SetId("")
@@ -218,9 +241,19 @@ func resourceSwitchControllerFlowTrackingRead(d *schema.ResourceData, m interfac
 		}
 	}
 
-	o, err := c.ReadSwitchControllerFlowTracking(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSwitchControllerFlowTracking(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SwitchControllerFlowTracking resource: %v", err)
+		return fmt.Errorf("error reading SwitchControllerFlowTracking resource: %v", err)
 	}
 
 	if o == nil {
@@ -231,7 +264,7 @@ func resourceSwitchControllerFlowTrackingRead(d *schema.ResourceData, m interfac
 
 	err = refreshObjectSwitchControllerFlowTracking(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SwitchControllerFlowTracking resource from API: %v", err)
+		return fmt.Errorf("error reading SwitchControllerFlowTracking resource from API: %v", err)
 	}
 	return nil
 }
@@ -356,105 +389,105 @@ func refreshObjectSwitchControllerFlowTracking(d *schema.ResourceData, o map[str
 
 	if err = d.Set("sample_mode", flattenSwitchControllerFlowTrackingSampleMode(o["sample-mode"], d, "sample_mode", sv)); err != nil {
 		if !fortiAPIPatch(o["sample-mode"]) {
-			return fmt.Errorf("Error reading sample_mode: %v", err)
+			return fmt.Errorf("error reading sample_mode: %v", err)
 		}
 	}
 
 	if err = d.Set("sample_rate", flattenSwitchControllerFlowTrackingSampleRate(o["sample-rate"], d, "sample_rate", sv)); err != nil {
 		if !fortiAPIPatch(o["sample-rate"]) {
-			return fmt.Errorf("Error reading sample_rate: %v", err)
+			return fmt.Errorf("error reading sample_rate: %v", err)
 		}
 	}
 
 	if err = d.Set("format", flattenSwitchControllerFlowTrackingFormat(o["format"], d, "format", sv)); err != nil {
 		if !fortiAPIPatch(o["format"]) {
-			return fmt.Errorf("Error reading format: %v", err)
+			return fmt.Errorf("error reading format: %v", err)
 		}
 	}
 
 	if err = d.Set("collector_ip", flattenSwitchControllerFlowTrackingCollectorIp(o["collector-ip"], d, "collector_ip", sv)); err != nil {
 		if !fortiAPIPatch(o["collector-ip"]) {
-			return fmt.Errorf("Error reading collector_ip: %v", err)
+			return fmt.Errorf("error reading collector_ip: %v", err)
 		}
 	}
 
 	if err = d.Set("collector_port", flattenSwitchControllerFlowTrackingCollectorPort(o["collector-port"], d, "collector_port", sv)); err != nil {
 		if !fortiAPIPatch(o["collector-port"]) {
-			return fmt.Errorf("Error reading collector_port: %v", err)
+			return fmt.Errorf("error reading collector_port: %v", err)
 		}
 	}
 
 	if err = d.Set("transport", flattenSwitchControllerFlowTrackingTransport(o["transport"], d, "transport", sv)); err != nil {
 		if !fortiAPIPatch(o["transport"]) {
-			return fmt.Errorf("Error reading transport: %v", err)
+			return fmt.Errorf("error reading transport: %v", err)
 		}
 	}
 
 	if err = d.Set("level", flattenSwitchControllerFlowTrackingLevel(o["level"], d, "level", sv)); err != nil {
 		if !fortiAPIPatch(o["level"]) {
-			return fmt.Errorf("Error reading level: %v", err)
+			return fmt.Errorf("error reading level: %v", err)
 		}
 	}
 
 	if err = d.Set("max_export_pkt_size", flattenSwitchControllerFlowTrackingMaxExportPktSize(o["max-export-pkt-size"], d, "max_export_pkt_size", sv)); err != nil {
 		if !fortiAPIPatch(o["max-export-pkt-size"]) {
-			return fmt.Errorf("Error reading max_export_pkt_size: %v", err)
+			return fmt.Errorf("error reading max_export_pkt_size: %v", err)
 		}
 	}
 
 	if err = d.Set("timeout_general", flattenSwitchControllerFlowTrackingTimeoutGeneral(o["timeout-general"], d, "timeout_general", sv)); err != nil {
 		if !fortiAPIPatch(o["timeout-general"]) {
-			return fmt.Errorf("Error reading timeout_general: %v", err)
+			return fmt.Errorf("error reading timeout_general: %v", err)
 		}
 	}
 
 	if err = d.Set("timeout_icmp", flattenSwitchControllerFlowTrackingTimeoutIcmp(o["timeout-icmp"], d, "timeout_icmp", sv)); err != nil {
 		if !fortiAPIPatch(o["timeout-icmp"]) {
-			return fmt.Errorf("Error reading timeout_icmp: %v", err)
+			return fmt.Errorf("error reading timeout_icmp: %v", err)
 		}
 	}
 
 	if err = d.Set("timeout_max", flattenSwitchControllerFlowTrackingTimeoutMax(o["timeout-max"], d, "timeout_max", sv)); err != nil {
 		if !fortiAPIPatch(o["timeout-max"]) {
-			return fmt.Errorf("Error reading timeout_max: %v", err)
+			return fmt.Errorf("error reading timeout_max: %v", err)
 		}
 	}
 
 	if err = d.Set("timeout_tcp", flattenSwitchControllerFlowTrackingTimeoutTcp(o["timeout-tcp"], d, "timeout_tcp", sv)); err != nil {
 		if !fortiAPIPatch(o["timeout-tcp"]) {
-			return fmt.Errorf("Error reading timeout_tcp: %v", err)
+			return fmt.Errorf("error reading timeout_tcp: %v", err)
 		}
 	}
 
 	if err = d.Set("timeout_tcp_fin", flattenSwitchControllerFlowTrackingTimeoutTcpFin(o["timeout-tcp-fin"], d, "timeout_tcp_fin", sv)); err != nil {
 		if !fortiAPIPatch(o["timeout-tcp-fin"]) {
-			return fmt.Errorf("Error reading timeout_tcp_fin: %v", err)
+			return fmt.Errorf("error reading timeout_tcp_fin: %v", err)
 		}
 	}
 
 	if err = d.Set("timeout_tcp_rst", flattenSwitchControllerFlowTrackingTimeoutTcpRst(o["timeout-tcp-rst"], d, "timeout_tcp_rst", sv)); err != nil {
 		if !fortiAPIPatch(o["timeout-tcp-rst"]) {
-			return fmt.Errorf("Error reading timeout_tcp_rst: %v", err)
+			return fmt.Errorf("error reading timeout_tcp_rst: %v", err)
 		}
 	}
 
 	if err = d.Set("timeout_udp", flattenSwitchControllerFlowTrackingTimeoutUdp(o["timeout-udp"], d, "timeout_udp", sv)); err != nil {
 		if !fortiAPIPatch(o["timeout-udp"]) {
-			return fmt.Errorf("Error reading timeout_udp: %v", err)
+			return fmt.Errorf("error reading timeout_udp: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("aggregates", flattenSwitchControllerFlowTrackingAggregates(o["aggregates"], d, "aggregates", sv)); err != nil {
 			if !fortiAPIPatch(o["aggregates"]) {
-				return fmt.Errorf("Error reading aggregates: %v", err)
+				return fmt.Errorf("error reading aggregates: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("aggregates"); ok {
 			if err = d.Set("aggregates", flattenSwitchControllerFlowTrackingAggregates(o["aggregates"], d, "aggregates", sv)); err != nil {
 				if !fortiAPIPatch(o["aggregates"]) {
-					return fmt.Errorf("Error reading aggregates: %v", err)
+					return fmt.Errorf("error reading aggregates: %v", err)
 				}
 			}
 		}

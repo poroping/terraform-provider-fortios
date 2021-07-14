@@ -30,71 +30,71 @@ func resourceCifsProfile() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"server_credential_type": &schema.Schema{
+			"server_credential_type": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"file_filter": &schema.Schema{
+			"file_filter": {
 				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"status": &schema.Schema{
+						"status": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"log": &schema.Schema{
+						"log": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"entries": &schema.Schema{
+						"entries": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"filter": &schema.Schema{
+									"filter": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 35),
 										Optional:     true,
 										Computed:     true,
 									},
-									"comment": &schema.Schema{
+									"comment": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 255),
 										Optional:     true,
 									},
-									"action": &schema.Schema{
+									"action": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"direction": &schema.Schema{
+									"direction": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"file_type": &schema.Schema{
+									"file_type": {
 										Type:     schema.TypeList,
 										Optional: true,
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
-												"name": &schema.Schema{
+												"name": {
 													Type:         schema.TypeString,
 													ValidateFunc: validation.StringLenBetween(0, 39),
 													Optional:     true,
@@ -109,24 +109,24 @@ func resourceCifsProfile() *schema.Resource {
 					},
 				},
 			},
-			"domain_controller": &schema.Schema{
+			"domain_controller": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"server_keytab": &schema.Schema{
+			"server_keytab": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"principal": &schema.Schema{
+						"principal": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 511),
 							Optional:     true,
 							Computed:     true,
 						},
-						"keytab": &schema.Schema{
+						"keytab": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 8191),
 							Optional:     true,
@@ -135,10 +135,15 @@ func resourceCifsProfile() *schema.Resource {
 					},
 				},
 			},
-			"dynamic_sort_subtable": &schema.Schema{
+			"dynamic_sort_subtable": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Default:  "false",
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -156,15 +161,25 @@ func resourceCifsProfileCreate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectCifsProfile(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating CifsProfile resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateCifsProfile(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectCifsProfile(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating CifsProfile resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateCifsProfile(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating CifsProfile resource: %v", err)
+		return fmt.Errorf("error creating CifsProfile resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -189,14 +204,24 @@ func resourceCifsProfileUpdate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectCifsProfile(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating CifsProfile resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateCifsProfile(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectCifsProfile(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating CifsProfile resource: %v", err)
+		return fmt.Errorf("error updating CifsProfile resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateCifsProfile(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating CifsProfile resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -223,9 +248,17 @@ func resourceCifsProfileDelete(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	err := c.DeleteCifsProfile(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteCifsProfile(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting CifsProfile resource: %v", err)
+		return fmt.Errorf("error deleting CifsProfile resource: %v", err)
 	}
 
 	d.SetId("")
@@ -247,9 +280,19 @@ func resourceCifsProfileRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadCifsProfile(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadCifsProfile(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading CifsProfile resource: %v", err)
+		return fmt.Errorf("error reading CifsProfile resource: %v", err)
 	}
 
 	if o == nil {
@@ -260,7 +303,7 @@ func resourceCifsProfileRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectCifsProfile(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading CifsProfile resource from API: %v", err)
+		return fmt.Errorf("error reading CifsProfile resource from API: %v", err)
 	}
 	return nil
 }
@@ -479,27 +522,27 @@ func refreshObjectCifsProfile(d *schema.ResourceData, o map[string]interface{}, 
 
 	if err = d.Set("name", flattenCifsProfileName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("server_credential_type", flattenCifsProfileServerCredentialType(o["server-credential-type"], d, "server_credential_type", sv)); err != nil {
 		if !fortiAPIPatch(o["server-credential-type"]) {
-			return fmt.Errorf("Error reading server_credential_type: %v", err)
+			return fmt.Errorf("error reading server_credential_type: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("file_filter", flattenCifsProfileFileFilter(o["file-filter"], d, "file_filter", sv)); err != nil {
 			if !fortiAPIPatch(o["file-filter"]) {
-				return fmt.Errorf("Error reading file_filter: %v", err)
+				return fmt.Errorf("error reading file_filter: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("file_filter"); ok {
 			if err = d.Set("file_filter", flattenCifsProfileFileFilter(o["file-filter"], d, "file_filter", sv)); err != nil {
 				if !fortiAPIPatch(o["file-filter"]) {
-					return fmt.Errorf("Error reading file_filter: %v", err)
+					return fmt.Errorf("error reading file_filter: %v", err)
 				}
 			}
 		}
@@ -507,21 +550,21 @@ func refreshObjectCifsProfile(d *schema.ResourceData, o map[string]interface{}, 
 
 	if err = d.Set("domain_controller", flattenCifsProfileDomainController(o["domain-controller"], d, "domain_controller", sv)); err != nil {
 		if !fortiAPIPatch(o["domain-controller"]) {
-			return fmt.Errorf("Error reading domain_controller: %v", err)
+			return fmt.Errorf("error reading domain_controller: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("server_keytab", flattenCifsProfileServerKeytab(o["server-keytab"], d, "server_keytab", sv)); err != nil {
 			if !fortiAPIPatch(o["server-keytab"]) {
-				return fmt.Errorf("Error reading server_keytab: %v", err)
+				return fmt.Errorf("error reading server_keytab: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("server_keytab"); ok {
 			if err = d.Set("server_keytab", flattenCifsProfileServerKeytab(o["server-keytab"], d, "server_keytab", sv)); err != nil {
 				if !fortiAPIPatch(o["server-keytab"]) {
-					return fmt.Errorf("Error reading server_keytab: %v", err)
+					return fmt.Errorf("error reading server_keytab: %v", err)
 				}
 			}
 		}

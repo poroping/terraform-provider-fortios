@@ -51,14 +51,14 @@ func testAccCheckFortiOSFirewallIppool6Exists(n string) resource.TestCheckFunc {
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadFirewallIppool6(i, "root")
+		o, err := c.ReadFirewallIppool6(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading FirewallIppool6: %s", err)
+			return fmt.Errorf("error reading FirewallIppool6: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating FirewallIppool6: %s", n)
+			return fmt.Errorf("error creating FirewallIppool6: %s", n)
 		}
 
 		return nil
@@ -74,11 +74,11 @@ func testAccCheckFirewallIppool6Destroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadFirewallIppool6(i, "root")
+		o, err := c.ReadFirewallIppool6(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error FirewallIppool6 %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error FirewallIppool6 %s still exists", rs.Primary.ID)
 			}
 		}
 

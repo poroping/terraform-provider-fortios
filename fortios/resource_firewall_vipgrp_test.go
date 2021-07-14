@@ -54,14 +54,14 @@ func testAccCheckFortiOSFirewallVipgrpExists(n string) resource.TestCheckFunc {
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadFirewallVipgrp(i, "root")
+		o, err := c.ReadFirewallVipgrp(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading FirewallVipgrp: %s", err)
+			return fmt.Errorf("error reading FirewallVipgrp: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating FirewallVipgrp: %s", n)
+			return fmt.Errorf("error creating FirewallVipgrp: %s", n)
 		}
 
 		return nil
@@ -77,11 +77,11 @@ func testAccCheckFirewallVipgrpDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadFirewallVipgrp(i, "root")
+		o, err := c.ReadFirewallVipgrp(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error FirewallVipgrp %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error FirewallVipgrp %s still exists", rs.Primary.ID)
 			}
 		}
 

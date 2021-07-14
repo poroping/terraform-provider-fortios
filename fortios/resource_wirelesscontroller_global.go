@@ -30,102 +30,107 @@ func resourceWirelessControllerGlobal() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"location": &schema.Schema{
+			"location": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"image_download": &schema.Schema{
+			"image_download": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"max_retransmit": &schema.Schema{
+			"max_retransmit": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 64),
 				Optional:     true,
 				Computed:     true,
 			},
-			"control_message_offload": &schema.Schema{
+			"control_message_offload": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"data_ethernet_ii": &schema.Schema{
+			"data_ethernet_ii": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"link_aggregation": &schema.Schema{
+			"link_aggregation": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"mesh_eth_type": &schema.Schema{
+			"mesh_eth_type": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"fiapp_eth_type": &schema.Schema{
+			"fiapp_eth_type": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"discovery_mc_addr": &schema.Schema{
+			"discovery_mc_addr": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"max_clients": &schema.Schema{
+			"max_clients": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"rogue_scan_mac_adjacency": &schema.Schema{
+			"rogue_scan_mac_adjacency": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 31),
 				Optional:     true,
 				Computed:     true,
 			},
-			"ipsec_base_ip": &schema.Schema{
+			"ipsec_base_ip": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"wtp_share": &schema.Schema{
+			"wtp_share": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ap_log_server": &schema.Schema{
+			"ap_log_server": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ap_log_server_ip": &schema.Schema{
+			"ap_log_server_ip": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ap_log_server_port": &schema.Schema{
+			"ap_log_server_port": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 65535),
 				Optional:     true,
 				Computed:     true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -144,14 +149,24 @@ func resourceWirelessControllerGlobalUpdate(d *schema.ResourceData, m interface{
 		}
 	}
 
-	obj, err := getObjectWirelessControllerGlobal(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating WirelessControllerGlobal resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateWirelessControllerGlobal(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectWirelessControllerGlobal(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating WirelessControllerGlobal resource: %v", err)
+		return fmt.Errorf("error updating WirelessControllerGlobal resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateWirelessControllerGlobal(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating WirelessControllerGlobal resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -178,9 +193,17 @@ func resourceWirelessControllerGlobalDelete(d *schema.ResourceData, m interface{
 		}
 	}
 
-	err := c.DeleteWirelessControllerGlobal(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteWirelessControllerGlobal(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting WirelessControllerGlobal resource: %v", err)
+		return fmt.Errorf("error deleting WirelessControllerGlobal resource: %v", err)
 	}
 
 	d.SetId("")
@@ -202,9 +225,19 @@ func resourceWirelessControllerGlobalRead(d *schema.ResourceData, m interface{})
 		}
 	}
 
-	o, err := c.ReadWirelessControllerGlobal(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadWirelessControllerGlobal(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading WirelessControllerGlobal resource: %v", err)
+		return fmt.Errorf("error reading WirelessControllerGlobal resource: %v", err)
 	}
 
 	if o == nil {
@@ -215,7 +248,7 @@ func resourceWirelessControllerGlobalRead(d *schema.ResourceData, m interface{})
 
 	err = refreshObjectWirelessControllerGlobal(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading WirelessControllerGlobal resource from API: %v", err)
+		return fmt.Errorf("error reading WirelessControllerGlobal resource from API: %v", err)
 	}
 	return nil
 }
@@ -293,103 +326,103 @@ func refreshObjectWirelessControllerGlobal(d *schema.ResourceData, o map[string]
 
 	if err = d.Set("name", flattenWirelessControllerGlobalName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("location", flattenWirelessControllerGlobalLocation(o["location"], d, "location", sv)); err != nil {
 		if !fortiAPIPatch(o["location"]) {
-			return fmt.Errorf("Error reading location: %v", err)
+			return fmt.Errorf("error reading location: %v", err)
 		}
 	}
 
 	if err = d.Set("image_download", flattenWirelessControllerGlobalImageDownload(o["image-download"], d, "image_download", sv)); err != nil {
 		if !fortiAPIPatch(o["image-download"]) {
-			return fmt.Errorf("Error reading image_download: %v", err)
+			return fmt.Errorf("error reading image_download: %v", err)
 		}
 	}
 
 	if err = d.Set("max_retransmit", flattenWirelessControllerGlobalMaxRetransmit(o["max-retransmit"], d, "max_retransmit", sv)); err != nil {
 		if !fortiAPIPatch(o["max-retransmit"]) {
-			return fmt.Errorf("Error reading max_retransmit: %v", err)
+			return fmt.Errorf("error reading max_retransmit: %v", err)
 		}
 	}
 
 	if err = d.Set("control_message_offload", flattenWirelessControllerGlobalControlMessageOffload(o["control-message-offload"], d, "control_message_offload", sv)); err != nil {
 		if !fortiAPIPatch(o["control-message-offload"]) {
-			return fmt.Errorf("Error reading control_message_offload: %v", err)
+			return fmt.Errorf("error reading control_message_offload: %v", err)
 		}
 	}
 
 	if err = d.Set("data_ethernet_ii", flattenWirelessControllerGlobalDataEthernetIi(o["data-ethernet-II"], d, "data_ethernet_ii", sv)); err != nil {
 		if !fortiAPIPatch(o["data-ethernet-II"]) {
-			return fmt.Errorf("Error reading data_ethernet_ii: %v", err)
+			return fmt.Errorf("error reading data_ethernet_ii: %v", err)
 		}
 	}
 
 	if err = d.Set("link_aggregation", flattenWirelessControllerGlobalLinkAggregation(o["link-aggregation"], d, "link_aggregation", sv)); err != nil {
 		if !fortiAPIPatch(o["link-aggregation"]) {
-			return fmt.Errorf("Error reading link_aggregation: %v", err)
+			return fmt.Errorf("error reading link_aggregation: %v", err)
 		}
 	}
 
 	if err = d.Set("mesh_eth_type", flattenWirelessControllerGlobalMeshEthType(o["mesh-eth-type"], d, "mesh_eth_type", sv)); err != nil {
 		if !fortiAPIPatch(o["mesh-eth-type"]) {
-			return fmt.Errorf("Error reading mesh_eth_type: %v", err)
+			return fmt.Errorf("error reading mesh_eth_type: %v", err)
 		}
 	}
 
 	if err = d.Set("fiapp_eth_type", flattenWirelessControllerGlobalFiappEthType(o["fiapp-eth-type"], d, "fiapp_eth_type", sv)); err != nil {
 		if !fortiAPIPatch(o["fiapp-eth-type"]) {
-			return fmt.Errorf("Error reading fiapp_eth_type: %v", err)
+			return fmt.Errorf("error reading fiapp_eth_type: %v", err)
 		}
 	}
 
 	if err = d.Set("discovery_mc_addr", flattenWirelessControllerGlobalDiscoveryMcAddr(o["discovery-mc-addr"], d, "discovery_mc_addr", sv)); err != nil {
 		if !fortiAPIPatch(o["discovery-mc-addr"]) {
-			return fmt.Errorf("Error reading discovery_mc_addr: %v", err)
+			return fmt.Errorf("error reading discovery_mc_addr: %v", err)
 		}
 	}
 
 	if err = d.Set("max_clients", flattenWirelessControllerGlobalMaxClients(o["max-clients"], d, "max_clients", sv)); err != nil {
 		if !fortiAPIPatch(o["max-clients"]) {
-			return fmt.Errorf("Error reading max_clients: %v", err)
+			return fmt.Errorf("error reading max_clients: %v", err)
 		}
 	}
 
 	if err = d.Set("rogue_scan_mac_adjacency", flattenWirelessControllerGlobalRogueScanMacAdjacency(o["rogue-scan-mac-adjacency"], d, "rogue_scan_mac_adjacency", sv)); err != nil {
 		if !fortiAPIPatch(o["rogue-scan-mac-adjacency"]) {
-			return fmt.Errorf("Error reading rogue_scan_mac_adjacency: %v", err)
+			return fmt.Errorf("error reading rogue_scan_mac_adjacency: %v", err)
 		}
 	}
 
 	if err = d.Set("ipsec_base_ip", flattenWirelessControllerGlobalIpsecBaseIp(o["ipsec-base-ip"], d, "ipsec_base_ip", sv)); err != nil {
 		if !fortiAPIPatch(o["ipsec-base-ip"]) {
-			return fmt.Errorf("Error reading ipsec_base_ip: %v", err)
+			return fmt.Errorf("error reading ipsec_base_ip: %v", err)
 		}
 	}
 
 	if err = d.Set("wtp_share", flattenWirelessControllerGlobalWtpShare(o["wtp-share"], d, "wtp_share", sv)); err != nil {
 		if !fortiAPIPatch(o["wtp-share"]) {
-			return fmt.Errorf("Error reading wtp_share: %v", err)
+			return fmt.Errorf("error reading wtp_share: %v", err)
 		}
 	}
 
 	if err = d.Set("ap_log_server", flattenWirelessControllerGlobalApLogServer(o["ap-log-server"], d, "ap_log_server", sv)); err != nil {
 		if !fortiAPIPatch(o["ap-log-server"]) {
-			return fmt.Errorf("Error reading ap_log_server: %v", err)
+			return fmt.Errorf("error reading ap_log_server: %v", err)
 		}
 	}
 
 	if err = d.Set("ap_log_server_ip", flattenWirelessControllerGlobalApLogServerIp(o["ap-log-server-ip"], d, "ap_log_server_ip", sv)); err != nil {
 		if !fortiAPIPatch(o["ap-log-server-ip"]) {
-			return fmt.Errorf("Error reading ap_log_server_ip: %v", err)
+			return fmt.Errorf("error reading ap_log_server_ip: %v", err)
 		}
 	}
 
 	if err = d.Set("ap_log_server_port", flattenWirelessControllerGlobalApLogServerPort(o["ap-log-server-port"], d, "ap_log_server_port", sv)); err != nil {
 		if !fortiAPIPatch(o["ap-log-server-port"]) {
-			return fmt.Errorf("Error reading ap_log_server_port: %v", err)
+			return fmt.Errorf("error reading ap_log_server_port: %v", err)
 		}
 	}
 

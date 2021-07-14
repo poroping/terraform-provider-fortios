@@ -30,122 +30,127 @@ func resourceWirelessControllerArrpProfile() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"comment": &schema.Schema{
+			"comment": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
 			},
-			"selection_period": &schema.Schema{
+			"selection_period": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"monitor_period": &schema.Schema{
+			"monitor_period": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"weight_managed_ap": &schema.Schema{
+			"weight_managed_ap": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 2000),
 				Optional:     true,
 				Computed:     true,
 			},
-			"weight_rogue_ap": &schema.Schema{
+			"weight_rogue_ap": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 2000),
 				Optional:     true,
 				Computed:     true,
 			},
-			"weight_noise_floor": &schema.Schema{
+			"weight_noise_floor": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 2000),
 				Optional:     true,
 				Computed:     true,
 			},
-			"weight_channel_load": &schema.Schema{
+			"weight_channel_load": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 2000),
 				Optional:     true,
 				Computed:     true,
 			},
-			"weight_spectral_rssi": &schema.Schema{
+			"weight_spectral_rssi": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 2000),
 				Optional:     true,
 				Computed:     true,
 			},
-			"weight_weather_channel": &schema.Schema{
+			"weight_weather_channel": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 2000),
 				Optional:     true,
 				Computed:     true,
 			},
-			"weight_dfs_channel": &schema.Schema{
+			"weight_dfs_channel": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 2000),
 				Optional:     true,
 				Computed:     true,
 			},
-			"threshold_ap": &schema.Schema{
+			"threshold_ap": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 500),
 				Optional:     true,
 				Computed:     true,
 			},
-			"threshold_noise_floor": &schema.Schema{
+			"threshold_noise_floor": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 7),
 				Optional:     true,
 				Computed:     true,
 			},
-			"threshold_channel_load": &schema.Schema{
+			"threshold_channel_load": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 100),
 				Optional:     true,
 				Computed:     true,
 			},
-			"threshold_spectral_rssi": &schema.Schema{
+			"threshold_spectral_rssi": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 7),
 				Optional:     true,
 				Computed:     true,
 			},
-			"threshold_tx_retries": &schema.Schema{
+			"threshold_tx_retries": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 1000),
 				Optional:     true,
 				Computed:     true,
 			},
-			"threshold_rx_errors": &schema.Schema{
+			"threshold_rx_errors": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 100),
 				Optional:     true,
 				Computed:     true,
 			},
-			"include_weather_channel": &schema.Schema{
+			"include_weather_channel": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"include_dfs_channel": &schema.Schema{
+			"include_dfs_channel": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -163,15 +168,25 @@ func resourceWirelessControllerArrpProfileCreate(d *schema.ResourceData, m inter
 		}
 	}
 
-	obj, err := getObjectWirelessControllerArrpProfile(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating WirelessControllerArrpProfile resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateWirelessControllerArrpProfile(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectWirelessControllerArrpProfile(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating WirelessControllerArrpProfile resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateWirelessControllerArrpProfile(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating WirelessControllerArrpProfile resource: %v", err)
+		return fmt.Errorf("error creating WirelessControllerArrpProfile resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -196,14 +211,24 @@ func resourceWirelessControllerArrpProfileUpdate(d *schema.ResourceData, m inter
 		}
 	}
 
-	obj, err := getObjectWirelessControllerArrpProfile(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating WirelessControllerArrpProfile resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateWirelessControllerArrpProfile(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectWirelessControllerArrpProfile(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating WirelessControllerArrpProfile resource: %v", err)
+		return fmt.Errorf("error updating WirelessControllerArrpProfile resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateWirelessControllerArrpProfile(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating WirelessControllerArrpProfile resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -230,9 +255,17 @@ func resourceWirelessControllerArrpProfileDelete(d *schema.ResourceData, m inter
 		}
 	}
 
-	err := c.DeleteWirelessControllerArrpProfile(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteWirelessControllerArrpProfile(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting WirelessControllerArrpProfile resource: %v", err)
+		return fmt.Errorf("error deleting WirelessControllerArrpProfile resource: %v", err)
 	}
 
 	d.SetId("")
@@ -254,9 +287,19 @@ func resourceWirelessControllerArrpProfileRead(d *schema.ResourceData, m interfa
 		}
 	}
 
-	o, err := c.ReadWirelessControllerArrpProfile(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadWirelessControllerArrpProfile(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading WirelessControllerArrpProfile resource: %v", err)
+		return fmt.Errorf("error reading WirelessControllerArrpProfile resource: %v", err)
 	}
 
 	if o == nil {
@@ -267,7 +310,7 @@ func resourceWirelessControllerArrpProfileRead(d *schema.ResourceData, m interfa
 
 	err = refreshObjectWirelessControllerArrpProfile(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading WirelessControllerArrpProfile resource from API: %v", err)
+		return fmt.Errorf("error reading WirelessControllerArrpProfile resource from API: %v", err)
 	}
 	return nil
 }
@@ -353,115 +396,115 @@ func refreshObjectWirelessControllerArrpProfile(d *schema.ResourceData, o map[st
 
 	if err = d.Set("name", flattenWirelessControllerArrpProfileName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("comment", flattenWirelessControllerArrpProfileComment(o["comment"], d, "comment", sv)); err != nil {
 		if !fortiAPIPatch(o["comment"]) {
-			return fmt.Errorf("Error reading comment: %v", err)
+			return fmt.Errorf("error reading comment: %v", err)
 		}
 	}
 
 	if err = d.Set("selection_period", flattenWirelessControllerArrpProfileSelectionPeriod(o["selection-period"], d, "selection_period", sv)); err != nil {
 		if !fortiAPIPatch(o["selection-period"]) {
-			return fmt.Errorf("Error reading selection_period: %v", err)
+			return fmt.Errorf("error reading selection_period: %v", err)
 		}
 	}
 
 	if err = d.Set("monitor_period", flattenWirelessControllerArrpProfileMonitorPeriod(o["monitor-period"], d, "monitor_period", sv)); err != nil {
 		if !fortiAPIPatch(o["monitor-period"]) {
-			return fmt.Errorf("Error reading monitor_period: %v", err)
+			return fmt.Errorf("error reading monitor_period: %v", err)
 		}
 	}
 
 	if err = d.Set("weight_managed_ap", flattenWirelessControllerArrpProfileWeightManagedAp(o["weight-managed-ap"], d, "weight_managed_ap", sv)); err != nil {
 		if !fortiAPIPatch(o["weight-managed-ap"]) {
-			return fmt.Errorf("Error reading weight_managed_ap: %v", err)
+			return fmt.Errorf("error reading weight_managed_ap: %v", err)
 		}
 	}
 
 	if err = d.Set("weight_rogue_ap", flattenWirelessControllerArrpProfileWeightRogueAp(o["weight-rogue-ap"], d, "weight_rogue_ap", sv)); err != nil {
 		if !fortiAPIPatch(o["weight-rogue-ap"]) {
-			return fmt.Errorf("Error reading weight_rogue_ap: %v", err)
+			return fmt.Errorf("error reading weight_rogue_ap: %v", err)
 		}
 	}
 
 	if err = d.Set("weight_noise_floor", flattenWirelessControllerArrpProfileWeightNoiseFloor(o["weight-noise-floor"], d, "weight_noise_floor", sv)); err != nil {
 		if !fortiAPIPatch(o["weight-noise-floor"]) {
-			return fmt.Errorf("Error reading weight_noise_floor: %v", err)
+			return fmt.Errorf("error reading weight_noise_floor: %v", err)
 		}
 	}
 
 	if err = d.Set("weight_channel_load", flattenWirelessControllerArrpProfileWeightChannelLoad(o["weight-channel-load"], d, "weight_channel_load", sv)); err != nil {
 		if !fortiAPIPatch(o["weight-channel-load"]) {
-			return fmt.Errorf("Error reading weight_channel_load: %v", err)
+			return fmt.Errorf("error reading weight_channel_load: %v", err)
 		}
 	}
 
 	if err = d.Set("weight_spectral_rssi", flattenWirelessControllerArrpProfileWeightSpectralRssi(o["weight-spectral-rssi"], d, "weight_spectral_rssi", sv)); err != nil {
 		if !fortiAPIPatch(o["weight-spectral-rssi"]) {
-			return fmt.Errorf("Error reading weight_spectral_rssi: %v", err)
+			return fmt.Errorf("error reading weight_spectral_rssi: %v", err)
 		}
 	}
 
 	if err = d.Set("weight_weather_channel", flattenWirelessControllerArrpProfileWeightWeatherChannel(o["weight-weather-channel"], d, "weight_weather_channel", sv)); err != nil {
 		if !fortiAPIPatch(o["weight-weather-channel"]) {
-			return fmt.Errorf("Error reading weight_weather_channel: %v", err)
+			return fmt.Errorf("error reading weight_weather_channel: %v", err)
 		}
 	}
 
 	if err = d.Set("weight_dfs_channel", flattenWirelessControllerArrpProfileWeightDfsChannel(o["weight-dfs-channel"], d, "weight_dfs_channel", sv)); err != nil {
 		if !fortiAPIPatch(o["weight-dfs-channel"]) {
-			return fmt.Errorf("Error reading weight_dfs_channel: %v", err)
+			return fmt.Errorf("error reading weight_dfs_channel: %v", err)
 		}
 	}
 
 	if err = d.Set("threshold_ap", flattenWirelessControllerArrpProfileThresholdAp(o["threshold-ap"], d, "threshold_ap", sv)); err != nil {
 		if !fortiAPIPatch(o["threshold-ap"]) {
-			return fmt.Errorf("Error reading threshold_ap: %v", err)
+			return fmt.Errorf("error reading threshold_ap: %v", err)
 		}
 	}
 
 	if err = d.Set("threshold_noise_floor", flattenWirelessControllerArrpProfileThresholdNoiseFloor(o["threshold-noise-floor"], d, "threshold_noise_floor", sv)); err != nil {
 		if !fortiAPIPatch(o["threshold-noise-floor"]) {
-			return fmt.Errorf("Error reading threshold_noise_floor: %v", err)
+			return fmt.Errorf("error reading threshold_noise_floor: %v", err)
 		}
 	}
 
 	if err = d.Set("threshold_channel_load", flattenWirelessControllerArrpProfileThresholdChannelLoad(o["threshold-channel-load"], d, "threshold_channel_load", sv)); err != nil {
 		if !fortiAPIPatch(o["threshold-channel-load"]) {
-			return fmt.Errorf("Error reading threshold_channel_load: %v", err)
+			return fmt.Errorf("error reading threshold_channel_load: %v", err)
 		}
 	}
 
 	if err = d.Set("threshold_spectral_rssi", flattenWirelessControllerArrpProfileThresholdSpectralRssi(o["threshold-spectral-rssi"], d, "threshold_spectral_rssi", sv)); err != nil {
 		if !fortiAPIPatch(o["threshold-spectral-rssi"]) {
-			return fmt.Errorf("Error reading threshold_spectral_rssi: %v", err)
+			return fmt.Errorf("error reading threshold_spectral_rssi: %v", err)
 		}
 	}
 
 	if err = d.Set("threshold_tx_retries", flattenWirelessControllerArrpProfileThresholdTxRetries(o["threshold-tx-retries"], d, "threshold_tx_retries", sv)); err != nil {
 		if !fortiAPIPatch(o["threshold-tx-retries"]) {
-			return fmt.Errorf("Error reading threshold_tx_retries: %v", err)
+			return fmt.Errorf("error reading threshold_tx_retries: %v", err)
 		}
 	}
 
 	if err = d.Set("threshold_rx_errors", flattenWirelessControllerArrpProfileThresholdRxErrors(o["threshold-rx-errors"], d, "threshold_rx_errors", sv)); err != nil {
 		if !fortiAPIPatch(o["threshold-rx-errors"]) {
-			return fmt.Errorf("Error reading threshold_rx_errors: %v", err)
+			return fmt.Errorf("error reading threshold_rx_errors: %v", err)
 		}
 	}
 
 	if err = d.Set("include_weather_channel", flattenWirelessControllerArrpProfileIncludeWeatherChannel(o["include-weather-channel"], d, "include_weather_channel", sv)); err != nil {
 		if !fortiAPIPatch(o["include-weather-channel"]) {
-			return fmt.Errorf("Error reading include_weather_channel: %v", err)
+			return fmt.Errorf("error reading include_weather_channel: %v", err)
 		}
 	}
 
 	if err = d.Set("include_dfs_channel", flattenWirelessControllerArrpProfileIncludeDfsChannel(o["include-dfs-channel"], d, "include_dfs_channel", sv)); err != nil {
 		if !fortiAPIPatch(o["include-dfs-channel"]) {
-			return fmt.Errorf("Error reading include_dfs_channel: %v", err)
+			return fmt.Errorf("error reading include_dfs_channel: %v", err)
 		}
 	}
 

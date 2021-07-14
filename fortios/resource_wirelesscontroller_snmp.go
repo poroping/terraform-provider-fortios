@@ -30,87 +30,87 @@ func resourceWirelessControllerSnmp() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"engine_id": &schema.Schema{
+			"engine_id": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 23),
 				Optional:     true,
 				Computed:     true,
 			},
-			"contact_info": &schema.Schema{
+			"contact_info": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 31),
 				Optional:     true,
 				Computed:     true,
 			},
-			"trap_high_cpu_threshold": &schema.Schema{
+			"trap_high_cpu_threshold": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(10, 100),
 				Optional:     true,
 				Computed:     true,
 			},
-			"trap_high_mem_threshold": &schema.Schema{
+			"trap_high_mem_threshold": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(10, 100),
 				Optional:     true,
 				Computed:     true,
 			},
-			"community": &schema.Schema{
+			"community": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"status": &schema.Schema{
+						"status": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"query_v1_status": &schema.Schema{
+						"query_v1_status": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"query_v2c_status": &schema.Schema{
+						"query_v2c_status": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"trap_v1_status": &schema.Schema{
+						"trap_v1_status": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"trap_v2c_status": &schema.Schema{
+						"trap_v2c_status": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"hosts": &schema.Schema{
+						"hosts": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"id": &schema.Schema{
+									"id": {
 										Type:     schema.TypeInt,
 										Optional: true,
 										Computed: true,
 									},
-									"ip": &schema.Schema{
+									"ip": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
@@ -121,60 +121,60 @@ func resourceWirelessControllerSnmp() *schema.Resource {
 					},
 				},
 			},
-			"user": &schema.Schema{
+			"user": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 32),
 							Optional:     true,
 							Computed:     true,
 						},
-						"status": &schema.Schema{
+						"status": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"queries": &schema.Schema{
+						"queries": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"trap_status": &schema.Schema{
+						"trap_status": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"security_level": &schema.Schema{
+						"security_level": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"auth_proto": &schema.Schema{
+						"auth_proto": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"auth_pwd": &schema.Schema{
+						"auth_pwd": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 128),
 							Optional:     true,
 							Sensitive:    true,
 						},
-						"priv_proto": &schema.Schema{
+						"priv_proto": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"priv_pwd": &schema.Schema{
+						"priv_pwd": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 128),
 							Optional:     true,
 							Sensitive:    true,
 						},
-						"notify_hosts": &schema.Schema{
+						"notify_hosts": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -182,10 +182,15 @@ func resourceWirelessControllerSnmp() *schema.Resource {
 					},
 				},
 			},
-			"dynamic_sort_subtable": &schema.Schema{
+			"dynamic_sort_subtable": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Default:  "false",
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -204,14 +209,24 @@ func resourceWirelessControllerSnmpUpdate(d *schema.ResourceData, m interface{})
 		}
 	}
 
-	obj, err := getObjectWirelessControllerSnmp(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating WirelessControllerSnmp resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateWirelessControllerSnmp(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectWirelessControllerSnmp(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating WirelessControllerSnmp resource: %v", err)
+		return fmt.Errorf("error updating WirelessControllerSnmp resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateWirelessControllerSnmp(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating WirelessControllerSnmp resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -238,9 +253,17 @@ func resourceWirelessControllerSnmpDelete(d *schema.ResourceData, m interface{})
 		}
 	}
 
-	err := c.DeleteWirelessControllerSnmp(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteWirelessControllerSnmp(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting WirelessControllerSnmp resource: %v", err)
+		return fmt.Errorf("error deleting WirelessControllerSnmp resource: %v", err)
 	}
 
 	d.SetId("")
@@ -262,9 +285,19 @@ func resourceWirelessControllerSnmpRead(d *schema.ResourceData, m interface{}) e
 		}
 	}
 
-	o, err := c.ReadWirelessControllerSnmp(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadWirelessControllerSnmp(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading WirelessControllerSnmp resource: %v", err)
+		return fmt.Errorf("error reading WirelessControllerSnmp resource: %v", err)
 	}
 
 	if o == nil {
@@ -275,7 +308,7 @@ func resourceWirelessControllerSnmpRead(d *schema.ResourceData, m interface{}) e
 
 	err = refreshObjectWirelessControllerSnmp(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading WirelessControllerSnmp resource from API: %v", err)
+		return fmt.Errorf("error reading WirelessControllerSnmp resource from API: %v", err)
 	}
 	return nil
 }
@@ -588,39 +621,39 @@ func refreshObjectWirelessControllerSnmp(d *schema.ResourceData, o map[string]in
 
 	if err = d.Set("engine_id", flattenWirelessControllerSnmpEngineId(o["engine-id"], d, "engine_id", sv)); err != nil {
 		if !fortiAPIPatch(o["engine-id"]) {
-			return fmt.Errorf("Error reading engine_id: %v", err)
+			return fmt.Errorf("error reading engine_id: %v", err)
 		}
 	}
 
 	if err = d.Set("contact_info", flattenWirelessControllerSnmpContactInfo(o["contact-info"], d, "contact_info", sv)); err != nil {
 		if !fortiAPIPatch(o["contact-info"]) {
-			return fmt.Errorf("Error reading contact_info: %v", err)
+			return fmt.Errorf("error reading contact_info: %v", err)
 		}
 	}
 
 	if err = d.Set("trap_high_cpu_threshold", flattenWirelessControllerSnmpTrapHighCpuThreshold(o["trap-high-cpu-threshold"], d, "trap_high_cpu_threshold", sv)); err != nil {
 		if !fortiAPIPatch(o["trap-high-cpu-threshold"]) {
-			return fmt.Errorf("Error reading trap_high_cpu_threshold: %v", err)
+			return fmt.Errorf("error reading trap_high_cpu_threshold: %v", err)
 		}
 	}
 
 	if err = d.Set("trap_high_mem_threshold", flattenWirelessControllerSnmpTrapHighMemThreshold(o["trap-high-mem-threshold"], d, "trap_high_mem_threshold", sv)); err != nil {
 		if !fortiAPIPatch(o["trap-high-mem-threshold"]) {
-			return fmt.Errorf("Error reading trap_high_mem_threshold: %v", err)
+			return fmt.Errorf("error reading trap_high_mem_threshold: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("community", flattenWirelessControllerSnmpCommunity(o["community"], d, "community", sv)); err != nil {
 			if !fortiAPIPatch(o["community"]) {
-				return fmt.Errorf("Error reading community: %v", err)
+				return fmt.Errorf("error reading community: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("community"); ok {
 			if err = d.Set("community", flattenWirelessControllerSnmpCommunity(o["community"], d, "community", sv)); err != nil {
 				if !fortiAPIPatch(o["community"]) {
-					return fmt.Errorf("Error reading community: %v", err)
+					return fmt.Errorf("error reading community: %v", err)
 				}
 			}
 		}
@@ -629,14 +662,14 @@ func refreshObjectWirelessControllerSnmp(d *schema.ResourceData, o map[string]in
 	if isImportTable() {
 		if err = d.Set("user", flattenWirelessControllerSnmpUser(o["user"], d, "user", sv)); err != nil {
 			if !fortiAPIPatch(o["user"]) {
-				return fmt.Errorf("Error reading user: %v", err)
+				return fmt.Errorf("error reading user: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("user"); ok {
 			if err = d.Set("user", flattenWirelessControllerSnmpUser(o["user"], d, "user", sv)); err != nil {
 				if !fortiAPIPatch(o["user"]) {
-					return fmt.Errorf("Error reading user: %v", err)
+					return fmt.Errorf("error reading user: %v", err)
 				}
 			}
 		}

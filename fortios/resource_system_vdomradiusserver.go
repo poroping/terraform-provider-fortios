@@ -30,27 +30,32 @@ func resourceSystemVdomRadiusServer() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 31),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"status": &schema.Schema{
+			"status": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"radius_server_vdom": &schema.Schema{
+			"radius_server_vdom": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 31),
 				Required:     true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -68,15 +73,25 @@ func resourceSystemVdomRadiusServerCreate(d *schema.ResourceData, m interface{})
 		}
 	}
 
-	obj, err := getObjectSystemVdomRadiusServer(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating SystemVdomRadiusServer resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateSystemVdomRadiusServer(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemVdomRadiusServer(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating SystemVdomRadiusServer resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateSystemVdomRadiusServer(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating SystemVdomRadiusServer resource: %v", err)
+		return fmt.Errorf("error creating SystemVdomRadiusServer resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -101,14 +116,24 @@ func resourceSystemVdomRadiusServerUpdate(d *schema.ResourceData, m interface{})
 		}
 	}
 
-	obj, err := getObjectSystemVdomRadiusServer(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SystemVdomRadiusServer resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSystemVdomRadiusServer(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemVdomRadiusServer(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SystemVdomRadiusServer resource: %v", err)
+		return fmt.Errorf("error updating SystemVdomRadiusServer resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSystemVdomRadiusServer(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SystemVdomRadiusServer resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -135,9 +160,17 @@ func resourceSystemVdomRadiusServerDelete(d *schema.ResourceData, m interface{})
 		}
 	}
 
-	err := c.DeleteSystemVdomRadiusServer(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSystemVdomRadiusServer(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SystemVdomRadiusServer resource: %v", err)
+		return fmt.Errorf("error deleting SystemVdomRadiusServer resource: %v", err)
 	}
 
 	d.SetId("")
@@ -159,9 +192,19 @@ func resourceSystemVdomRadiusServerRead(d *schema.ResourceData, m interface{}) e
 		}
 	}
 
-	o, err := c.ReadSystemVdomRadiusServer(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSystemVdomRadiusServer(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemVdomRadiusServer resource: %v", err)
+		return fmt.Errorf("error reading SystemVdomRadiusServer resource: %v", err)
 	}
 
 	if o == nil {
@@ -172,7 +215,7 @@ func resourceSystemVdomRadiusServerRead(d *schema.ResourceData, m interface{}) e
 
 	err = refreshObjectSystemVdomRadiusServer(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemVdomRadiusServer resource from API: %v", err)
+		return fmt.Errorf("error reading SystemVdomRadiusServer resource from API: %v", err)
 	}
 	return nil
 }
@@ -194,19 +237,19 @@ func refreshObjectSystemVdomRadiusServer(d *schema.ResourceData, o map[string]in
 
 	if err = d.Set("name", flattenSystemVdomRadiusServerName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("status", flattenSystemVdomRadiusServerStatus(o["status"], d, "status", sv)); err != nil {
 		if !fortiAPIPatch(o["status"]) {
-			return fmt.Errorf("Error reading status: %v", err)
+			return fmt.Errorf("error reading status: %v", err)
 		}
 	}
 
 	if err = d.Set("radius_server_vdom", flattenSystemVdomRadiusServerRadiusServerVdom(o["radius-server-vdom"], d, "radius_server_vdom", sv)); err != nil {
 		if !fortiAPIPatch(o["radius-server-vdom"]) {
-			return fmt.Errorf("Error reading radius_server_vdom: %v", err)
+			return fmt.Errorf("error reading radius_server_vdom: %v", err)
 		}
 	}
 

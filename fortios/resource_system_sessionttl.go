@@ -30,46 +30,46 @@ func resourceSystemSessionTtl() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"default": &schema.Schema{
+			"default": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"port": &schema.Schema{
+			"port": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 65535),
 							Optional:     true,
 							Computed:     true,
 						},
-						"protocol": &schema.Schema{
+						"protocol": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 255),
 							Optional:     true,
 							Computed:     true,
 						},
-						"start_port": &schema.Schema{
+						"start_port": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 65535),
 							Optional:     true,
 							Computed:     true,
 						},
-						"end_port": &schema.Schema{
+						"end_port": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 65535),
 							Optional:     true,
 							Computed:     true,
 						},
-						"timeout": &schema.Schema{
+						"timeout": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -77,10 +77,15 @@ func resourceSystemSessionTtl() *schema.Resource {
 					},
 				},
 			},
-			"dynamic_sort_subtable": &schema.Schema{
+			"dynamic_sort_subtable": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Default:  "false",
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -99,14 +104,24 @@ func resourceSystemSessionTtlUpdate(d *schema.ResourceData, m interface{}) error
 		}
 	}
 
-	obj, err := getObjectSystemSessionTtl(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SystemSessionTtl resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSystemSessionTtl(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemSessionTtl(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SystemSessionTtl resource: %v", err)
+		return fmt.Errorf("error updating SystemSessionTtl resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSystemSessionTtl(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SystemSessionTtl resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -133,9 +148,17 @@ func resourceSystemSessionTtlDelete(d *schema.ResourceData, m interface{}) error
 		}
 	}
 
-	err := c.DeleteSystemSessionTtl(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSystemSessionTtl(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SystemSessionTtl resource: %v", err)
+		return fmt.Errorf("error deleting SystemSessionTtl resource: %v", err)
 	}
 
 	d.SetId("")
@@ -157,9 +180,19 @@ func resourceSystemSessionTtlRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadSystemSessionTtl(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSystemSessionTtl(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemSessionTtl resource: %v", err)
+		return fmt.Errorf("error reading SystemSessionTtl resource: %v", err)
 	}
 
 	if o == nil {
@@ -170,7 +203,7 @@ func resourceSystemSessionTtlRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectSystemSessionTtl(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemSessionTtl resource from API: %v", err)
+		return fmt.Errorf("error reading SystemSessionTtl resource from API: %v", err)
 	}
 	return nil
 }
@@ -262,21 +295,21 @@ func refreshObjectSystemSessionTtl(d *schema.ResourceData, o map[string]interfac
 
 	if err = d.Set("default", flattenSystemSessionTtlDefault(o["default"], d, "default", sv)); err != nil {
 		if !fortiAPIPatch(o["default"]) {
-			return fmt.Errorf("Error reading default: %v", err)
+			return fmt.Errorf("error reading default: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("port", flattenSystemSessionTtlPort(o["port"], d, "port", sv)); err != nil {
 			if !fortiAPIPatch(o["port"]) {
-				return fmt.Errorf("Error reading port: %v", err)
+				return fmt.Errorf("error reading port: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("port"); ok {
 			if err = d.Set("port", flattenSystemSessionTtlPort(o["port"], d, "port", sv)); err != nil {
 				if !fortiAPIPatch(o["port"]) {
-					return fmt.Errorf("Error reading port: %v", err)
+					return fmt.Errorf("error reading port: %v", err)
 				}
 			}
 		}

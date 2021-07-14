@@ -30,43 +30,43 @@ func resourceRouterCommunityList() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				ForceNew:     true,
 				Required:     true,
 			},
-			"type": &schema.Schema{
+			"type": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"rule": &schema.Schema{
+			"rule": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"action": &schema.Schema{
+						"action": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"regexp": &schema.Schema{
+						"regexp": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 255),
 							Optional:     true,
 							Computed:     true,
 						},
-						"match": &schema.Schema{
+						"match": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 255),
 							Optional:     true,
@@ -75,10 +75,15 @@ func resourceRouterCommunityList() *schema.Resource {
 					},
 				},
 			},
-			"dynamic_sort_subtable": &schema.Schema{
+			"dynamic_sort_subtable": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Default:  "false",
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -96,15 +101,25 @@ func resourceRouterCommunityListCreate(d *schema.ResourceData, m interface{}) er
 		}
 	}
 
-	obj, err := getObjectRouterCommunityList(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating RouterCommunityList resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateRouterCommunityList(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectRouterCommunityList(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating RouterCommunityList resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateRouterCommunityList(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating RouterCommunityList resource: %v", err)
+		return fmt.Errorf("error creating RouterCommunityList resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -129,14 +144,24 @@ func resourceRouterCommunityListUpdate(d *schema.ResourceData, m interface{}) er
 		}
 	}
 
-	obj, err := getObjectRouterCommunityList(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating RouterCommunityList resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateRouterCommunityList(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectRouterCommunityList(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating RouterCommunityList resource: %v", err)
+		return fmt.Errorf("error updating RouterCommunityList resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateRouterCommunityList(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating RouterCommunityList resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -163,9 +188,17 @@ func resourceRouterCommunityListDelete(d *schema.ResourceData, m interface{}) er
 		}
 	}
 
-	err := c.DeleteRouterCommunityList(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteRouterCommunityList(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting RouterCommunityList resource: %v", err)
+		return fmt.Errorf("error deleting RouterCommunityList resource: %v", err)
 	}
 
 	d.SetId("")
@@ -187,9 +220,19 @@ func resourceRouterCommunityListRead(d *schema.ResourceData, m interface{}) erro
 		}
 	}
 
-	o, err := c.ReadRouterCommunityList(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadRouterCommunityList(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading RouterCommunityList resource: %v", err)
+		return fmt.Errorf("error reading RouterCommunityList resource: %v", err)
 	}
 
 	if o == nil {
@@ -200,7 +243,7 @@ func resourceRouterCommunityListRead(d *schema.ResourceData, m interface{}) erro
 
 	err = refreshObjectRouterCommunityList(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading RouterCommunityList resource from API: %v", err)
+		return fmt.Errorf("error reading RouterCommunityList resource from API: %v", err)
 	}
 	return nil
 }
@@ -286,27 +329,27 @@ func refreshObjectRouterCommunityList(d *schema.ResourceData, o map[string]inter
 
 	if err = d.Set("name", flattenRouterCommunityListName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("type", flattenRouterCommunityListType(o["type"], d, "type", sv)); err != nil {
 		if !fortiAPIPatch(o["type"]) {
-			return fmt.Errorf("Error reading type: %v", err)
+			return fmt.Errorf("error reading type: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("rule", flattenRouterCommunityListRule(o["rule"], d, "rule", sv)); err != nil {
 			if !fortiAPIPatch(o["rule"]) {
-				return fmt.Errorf("Error reading rule: %v", err)
+				return fmt.Errorf("error reading rule: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("rule"); ok {
 			if err = d.Set("rule", flattenRouterCommunityListRule(o["rule"], d, "rule", sv)); err != nil {
 				if !fortiAPIPatch(o["rule"]) {
-					return fmt.Errorf("Error reading rule: %v", err)
+					return fmt.Errorf("error reading rule: %v", err)
 				}
 			}
 		}

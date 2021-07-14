@@ -30,28 +30,33 @@ func resourceSwitchControllerSwitchProfile() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"login_passwd_override": &schema.Schema{
+			"login_passwd_override": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"login_passwd": &schema.Schema{
+			"login_passwd": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 64),
 				Optional:     true,
 				Sensitive:    true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -69,15 +74,25 @@ func resourceSwitchControllerSwitchProfileCreate(d *schema.ResourceData, m inter
 		}
 	}
 
-	obj, err := getObjectSwitchControllerSwitchProfile(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating SwitchControllerSwitchProfile resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateSwitchControllerSwitchProfile(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSwitchControllerSwitchProfile(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating SwitchControllerSwitchProfile resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateSwitchControllerSwitchProfile(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating SwitchControllerSwitchProfile resource: %v", err)
+		return fmt.Errorf("error creating SwitchControllerSwitchProfile resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -102,14 +117,24 @@ func resourceSwitchControllerSwitchProfileUpdate(d *schema.ResourceData, m inter
 		}
 	}
 
-	obj, err := getObjectSwitchControllerSwitchProfile(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SwitchControllerSwitchProfile resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSwitchControllerSwitchProfile(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSwitchControllerSwitchProfile(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SwitchControllerSwitchProfile resource: %v", err)
+		return fmt.Errorf("error updating SwitchControllerSwitchProfile resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSwitchControllerSwitchProfile(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SwitchControllerSwitchProfile resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -136,9 +161,17 @@ func resourceSwitchControllerSwitchProfileDelete(d *schema.ResourceData, m inter
 		}
 	}
 
-	err := c.DeleteSwitchControllerSwitchProfile(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSwitchControllerSwitchProfile(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SwitchControllerSwitchProfile resource: %v", err)
+		return fmt.Errorf("error deleting SwitchControllerSwitchProfile resource: %v", err)
 	}
 
 	d.SetId("")
@@ -160,9 +193,19 @@ func resourceSwitchControllerSwitchProfileRead(d *schema.ResourceData, m interfa
 		}
 	}
 
-	o, err := c.ReadSwitchControllerSwitchProfile(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSwitchControllerSwitchProfile(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SwitchControllerSwitchProfile resource: %v", err)
+		return fmt.Errorf("error reading SwitchControllerSwitchProfile resource: %v", err)
 	}
 
 	if o == nil {
@@ -173,7 +216,7 @@ func resourceSwitchControllerSwitchProfileRead(d *schema.ResourceData, m interfa
 
 	err = refreshObjectSwitchControllerSwitchProfile(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SwitchControllerSwitchProfile resource from API: %v", err)
+		return fmt.Errorf("error reading SwitchControllerSwitchProfile resource from API: %v", err)
 	}
 	return nil
 }
@@ -195,13 +238,13 @@ func refreshObjectSwitchControllerSwitchProfile(d *schema.ResourceData, o map[st
 
 	if err = d.Set("name", flattenSwitchControllerSwitchProfileName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("login_passwd_override", flattenSwitchControllerSwitchProfileLoginPasswdOverride(o["login-passwd-override"], d, "login_passwd_override", sv)); err != nil {
 		if !fortiAPIPatch(o["login-passwd-override"]) {
-			return fmt.Errorf("Error reading login_passwd_override: %v", err)
+			return fmt.Errorf("error reading login_passwd_override: %v", err)
 		}
 	}
 

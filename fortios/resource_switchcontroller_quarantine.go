@@ -30,43 +30,43 @@ func resourceSwitchControllerQuarantine() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"quarantine": &schema.Schema{
+			"quarantine": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"targets": &schema.Schema{
+			"targets": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"mac": &schema.Schema{
+						"mac": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"entry_id": &schema.Schema{
+						"entry_id": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"description": &schema.Schema{
+						"description": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 63),
 							Optional:     true,
 							Computed:     true,
 						},
-						"tag": &schema.Schema{
+						"tag": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"tags": &schema.Schema{
+									"tags": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 63),
 										Optional:     true,
@@ -78,10 +78,15 @@ func resourceSwitchControllerQuarantine() *schema.Resource {
 					},
 				},
 			},
-			"dynamic_sort_subtable": &schema.Schema{
+			"dynamic_sort_subtable": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Default:  "false",
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -100,14 +105,24 @@ func resourceSwitchControllerQuarantineUpdate(d *schema.ResourceData, m interfac
 		}
 	}
 
-	obj, err := getObjectSwitchControllerQuarantine(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SwitchControllerQuarantine resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSwitchControllerQuarantine(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSwitchControllerQuarantine(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SwitchControllerQuarantine resource: %v", err)
+		return fmt.Errorf("error updating SwitchControllerQuarantine resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSwitchControllerQuarantine(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SwitchControllerQuarantine resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -134,9 +149,17 @@ func resourceSwitchControllerQuarantineDelete(d *schema.ResourceData, m interfac
 		}
 	}
 
-	err := c.DeleteSwitchControllerQuarantine(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSwitchControllerQuarantine(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SwitchControllerQuarantine resource: %v", err)
+		return fmt.Errorf("error deleting SwitchControllerQuarantine resource: %v", err)
 	}
 
 	d.SetId("")
@@ -158,9 +181,19 @@ func resourceSwitchControllerQuarantineRead(d *schema.ResourceData, m interface{
 		}
 	}
 
-	o, err := c.ReadSwitchControllerQuarantine(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSwitchControllerQuarantine(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SwitchControllerQuarantine resource: %v", err)
+		return fmt.Errorf("error reading SwitchControllerQuarantine resource: %v", err)
 	}
 
 	if o == nil {
@@ -171,7 +204,7 @@ func resourceSwitchControllerQuarantineRead(d *schema.ResourceData, m interface{
 
 	err = refreshObjectSwitchControllerQuarantine(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SwitchControllerQuarantine resource from API: %v", err)
+		return fmt.Errorf("error reading SwitchControllerQuarantine resource from API: %v", err)
 	}
 	return nil
 }
@@ -286,21 +319,21 @@ func refreshObjectSwitchControllerQuarantine(d *schema.ResourceData, o map[strin
 
 	if err = d.Set("quarantine", flattenSwitchControllerQuarantineQuarantine(o["quarantine"], d, "quarantine", sv)); err != nil {
 		if !fortiAPIPatch(o["quarantine"]) {
-			return fmt.Errorf("Error reading quarantine: %v", err)
+			return fmt.Errorf("error reading quarantine: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("targets", flattenSwitchControllerQuarantineTargets(o["targets"], d, "targets", sv)); err != nil {
 			if !fortiAPIPatch(o["targets"]) {
-				return fmt.Errorf("Error reading targets: %v", err)
+				return fmt.Errorf("error reading targets: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("targets"); ok {
 			if err = d.Set("targets", flattenSwitchControllerQuarantineTargets(o["targets"], d, "targets", sv)); err != nil {
 				if !fortiAPIPatch(o["targets"]) {
-					return fmt.Errorf("Error reading targets: %v", err)
+					return fmt.Errorf("error reading targets: %v", err)
 				}
 			}
 		}

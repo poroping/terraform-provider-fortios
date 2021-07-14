@@ -30,68 +30,68 @@ func resourceUserDevice() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"alias": &schema.Schema{
+			"alias": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"mac": &schema.Schema{
+			"mac": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"user": &schema.Schema{
+			"user": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 64),
 				Optional:     true,
 				Computed:     true,
 			},
-			"master_device": &schema.Schema{
+			"master_device": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"comment": &schema.Schema{
+			"comment": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
 			},
-			"avatar": &schema.Schema{
+			"avatar": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 4095),
 				Optional:     true,
 			},
-			"tagging": &schema.Schema{
+			"tagging": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 63),
 							Optional:     true,
 							Computed:     true,
 						},
-						"category": &schema.Schema{
+						"category": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 63),
 							Optional:     true,
 							Computed:     true,
 						},
-						"tags": &schema.Schema{
+						"tags": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"name": &schema.Schema{
+									"name": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 64),
 										Optional:     true,
@@ -103,20 +103,25 @@ func resourceUserDevice() *schema.Resource {
 					},
 				},
 			},
-			"type": &schema.Schema{
+			"type": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"category": &schema.Schema{
+			"category": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"dynamic_sort_subtable": &schema.Schema{
+			"dynamic_sort_subtable": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Default:  "false",
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -134,15 +139,25 @@ func resourceUserDeviceCreate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectUserDevice(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating UserDevice resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateUserDevice(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectUserDevice(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating UserDevice resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateUserDevice(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating UserDevice resource: %v", err)
+		return fmt.Errorf("error creating UserDevice resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -167,14 +182,24 @@ func resourceUserDeviceUpdate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectUserDevice(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating UserDevice resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateUserDevice(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectUserDevice(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating UserDevice resource: %v", err)
+		return fmt.Errorf("error updating UserDevice resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateUserDevice(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating UserDevice resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -201,9 +226,17 @@ func resourceUserDeviceDelete(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	err := c.DeleteUserDevice(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteUserDevice(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting UserDevice resource: %v", err)
+		return fmt.Errorf("error deleting UserDevice resource: %v", err)
 	}
 
 	d.SetId("")
@@ -225,9 +258,19 @@ func resourceUserDeviceRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadUserDevice(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadUserDevice(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading UserDevice resource: %v", err)
+		return fmt.Errorf("error reading UserDevice resource: %v", err)
 	}
 
 	if o == nil {
@@ -238,7 +281,7 @@ func resourceUserDeviceRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectUserDevice(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading UserDevice resource from API: %v", err)
+		return fmt.Errorf("error reading UserDevice resource from API: %v", err)
 	}
 	return nil
 }
@@ -371,51 +414,51 @@ func refreshObjectUserDevice(d *schema.ResourceData, o map[string]interface{}, s
 
 	if err = d.Set("alias", flattenUserDeviceAlias(o["alias"], d, "alias", sv)); err != nil {
 		if !fortiAPIPatch(o["alias"]) {
-			return fmt.Errorf("Error reading alias: %v", err)
+			return fmt.Errorf("error reading alias: %v", err)
 		}
 	}
 
 	if err = d.Set("mac", flattenUserDeviceMac(o["mac"], d, "mac", sv)); err != nil {
 		if !fortiAPIPatch(o["mac"]) {
-			return fmt.Errorf("Error reading mac: %v", err)
+			return fmt.Errorf("error reading mac: %v", err)
 		}
 	}
 
 	if err = d.Set("user", flattenUserDeviceUser(o["user"], d, "user", sv)); err != nil {
 		if !fortiAPIPatch(o["user"]) {
-			return fmt.Errorf("Error reading user: %v", err)
+			return fmt.Errorf("error reading user: %v", err)
 		}
 	}
 
 	if err = d.Set("master_device", flattenUserDeviceMasterDevice(o["master-device"], d, "master_device", sv)); err != nil {
 		if !fortiAPIPatch(o["master-device"]) {
-			return fmt.Errorf("Error reading master_device: %v", err)
+			return fmt.Errorf("error reading master_device: %v", err)
 		}
 	}
 
 	if err = d.Set("comment", flattenUserDeviceComment(o["comment"], d, "comment", sv)); err != nil {
 		if !fortiAPIPatch(o["comment"]) {
-			return fmt.Errorf("Error reading comment: %v", err)
+			return fmt.Errorf("error reading comment: %v", err)
 		}
 	}
 
 	if err = d.Set("avatar", flattenUserDeviceAvatar(o["avatar"], d, "avatar", sv)); err != nil {
 		if !fortiAPIPatch(o["avatar"]) {
-			return fmt.Errorf("Error reading avatar: %v", err)
+			return fmt.Errorf("error reading avatar: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("tagging", flattenUserDeviceTagging(o["tagging"], d, "tagging", sv)); err != nil {
 			if !fortiAPIPatch(o["tagging"]) {
-				return fmt.Errorf("Error reading tagging: %v", err)
+				return fmt.Errorf("error reading tagging: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("tagging"); ok {
 			if err = d.Set("tagging", flattenUserDeviceTagging(o["tagging"], d, "tagging", sv)); err != nil {
 				if !fortiAPIPatch(o["tagging"]) {
-					return fmt.Errorf("Error reading tagging: %v", err)
+					return fmt.Errorf("error reading tagging: %v", err)
 				}
 			}
 		}
@@ -423,13 +466,13 @@ func refreshObjectUserDevice(d *schema.ResourceData, o map[string]interface{}, s
 
 	if err = d.Set("type", flattenUserDeviceType(o["type"], d, "type", sv)); err != nil {
 		if !fortiAPIPatch(o["type"]) {
-			return fmt.Errorf("Error reading type: %v", err)
+			return fmt.Errorf("error reading type: %v", err)
 		}
 	}
 
 	if err = d.Set("category", flattenUserDeviceCategory(o["category"], d, "category", sv)); err != nil {
 		if !fortiAPIPatch(o["category"]) {
-			return fmt.Errorf("Error reading category: %v", err)
+			return fmt.Errorf("error reading category: %v", err)
 		}
 	}
 

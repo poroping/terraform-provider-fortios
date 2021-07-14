@@ -55,14 +55,14 @@ func testAccCheckFortiOSWebProxyUrlMatchExists(n string) resource.TestCheckFunc 
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadWebProxyUrlMatch(i, "root")
+		o, err := c.ReadWebProxyUrlMatch(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading WebProxyUrlMatch: %s", err)
+			return fmt.Errorf("error reading WebProxyUrlMatch: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating WebProxyUrlMatch: %s", n)
+			return fmt.Errorf("error creating WebProxyUrlMatch: %s", n)
 		}
 
 		return nil
@@ -78,11 +78,11 @@ func testAccCheckWebProxyUrlMatchDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadWebProxyUrlMatch(i, "root")
+		o, err := c.ReadWebProxyUrlMatch(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error WebProxyUrlMatch %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error WebProxyUrlMatch %s still exists", rs.Primary.ID)
 			}
 		}
 

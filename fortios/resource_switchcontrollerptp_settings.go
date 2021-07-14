@@ -30,15 +30,20 @@ func resourceSwitchControllerPtpSettings() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"mode": &schema.Schema{
+			"mode": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -57,14 +62,24 @@ func resourceSwitchControllerPtpSettingsUpdate(d *schema.ResourceData, m interfa
 		}
 	}
 
-	obj, err := getObjectSwitchControllerPtpSettings(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SwitchControllerPtpSettings resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSwitchControllerPtpSettings(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSwitchControllerPtpSettings(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SwitchControllerPtpSettings resource: %v", err)
+		return fmt.Errorf("error updating SwitchControllerPtpSettings resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSwitchControllerPtpSettings(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SwitchControllerPtpSettings resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -91,9 +106,17 @@ func resourceSwitchControllerPtpSettingsDelete(d *schema.ResourceData, m interfa
 		}
 	}
 
-	err := c.DeleteSwitchControllerPtpSettings(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSwitchControllerPtpSettings(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SwitchControllerPtpSettings resource: %v", err)
+		return fmt.Errorf("error deleting SwitchControllerPtpSettings resource: %v", err)
 	}
 
 	d.SetId("")
@@ -115,9 +138,19 @@ func resourceSwitchControllerPtpSettingsRead(d *schema.ResourceData, m interface
 		}
 	}
 
-	o, err := c.ReadSwitchControllerPtpSettings(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSwitchControllerPtpSettings(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SwitchControllerPtpSettings resource: %v", err)
+		return fmt.Errorf("error reading SwitchControllerPtpSettings resource: %v", err)
 	}
 
 	if o == nil {
@@ -128,7 +161,7 @@ func resourceSwitchControllerPtpSettingsRead(d *schema.ResourceData, m interface
 
 	err = refreshObjectSwitchControllerPtpSettings(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SwitchControllerPtpSettings resource from API: %v", err)
+		return fmt.Errorf("error reading SwitchControllerPtpSettings resource from API: %v", err)
 	}
 	return nil
 }
@@ -142,7 +175,7 @@ func refreshObjectSwitchControllerPtpSettings(d *schema.ResourceData, o map[stri
 
 	if err = d.Set("mode", flattenSwitchControllerPtpSettingsMode(o["mode"], d, "mode", sv)); err != nil {
 		if !fortiAPIPatch(o["mode"]) {
-			return fmt.Errorf("Error reading mode: %v", err)
+			return fmt.Errorf("error reading mode: %v", err)
 		}
 	}
 

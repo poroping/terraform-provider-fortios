@@ -57,14 +57,14 @@ func testAccCheckFortiOSReportStyleExists(n string) resource.TestCheckFunc {
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadReportStyle(i, "root")
+		o, err := c.ReadReportStyle(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading ReportStyle: %s", err)
+			return fmt.Errorf("error reading ReportStyle: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating ReportStyle: %s", n)
+			return fmt.Errorf("error creating ReportStyle: %s", n)
 		}
 
 		return nil
@@ -80,11 +80,11 @@ func testAccCheckReportStyleDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadReportStyle(i, "root")
+		o, err := c.ReadReportStyle(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error ReportStyle %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error ReportStyle %s still exists", rs.Primary.ID)
 			}
 		}
 

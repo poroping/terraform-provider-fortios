@@ -30,24 +30,24 @@ func resourceSystemIpsecAggregate() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 15),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"member": &schema.Schema{
+			"member": {
 				Type:     schema.TypeList,
 				Required: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"tunnel_name": &schema.Schema{
+						"tunnel_name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 64),
 							Optional:     true,
@@ -56,15 +56,20 @@ func resourceSystemIpsecAggregate() *schema.Resource {
 					},
 				},
 			},
-			"algorithm": &schema.Schema{
+			"algorithm": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"dynamic_sort_subtable": &schema.Schema{
+			"dynamic_sort_subtable": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Default:  "false",
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -82,15 +87,25 @@ func resourceSystemIpsecAggregateCreate(d *schema.ResourceData, m interface{}) e
 		}
 	}
 
-	obj, err := getObjectSystemIpsecAggregate(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating SystemIpsecAggregate resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateSystemIpsecAggregate(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemIpsecAggregate(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating SystemIpsecAggregate resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateSystemIpsecAggregate(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating SystemIpsecAggregate resource: %v", err)
+		return fmt.Errorf("error creating SystemIpsecAggregate resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -115,14 +130,24 @@ func resourceSystemIpsecAggregateUpdate(d *schema.ResourceData, m interface{}) e
 		}
 	}
 
-	obj, err := getObjectSystemIpsecAggregate(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SystemIpsecAggregate resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSystemIpsecAggregate(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemIpsecAggregate(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SystemIpsecAggregate resource: %v", err)
+		return fmt.Errorf("error updating SystemIpsecAggregate resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSystemIpsecAggregate(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SystemIpsecAggregate resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -149,9 +174,17 @@ func resourceSystemIpsecAggregateDelete(d *schema.ResourceData, m interface{}) e
 		}
 	}
 
-	err := c.DeleteSystemIpsecAggregate(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSystemIpsecAggregate(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SystemIpsecAggregate resource: %v", err)
+		return fmt.Errorf("error deleting SystemIpsecAggregate resource: %v", err)
 	}
 
 	d.SetId("")
@@ -173,9 +206,19 @@ func resourceSystemIpsecAggregateRead(d *schema.ResourceData, m interface{}) err
 		}
 	}
 
-	o, err := c.ReadSystemIpsecAggregate(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSystemIpsecAggregate(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemIpsecAggregate resource: %v", err)
+		return fmt.Errorf("error reading SystemIpsecAggregate resource: %v", err)
 	}
 
 	if o == nil {
@@ -186,7 +229,7 @@ func resourceSystemIpsecAggregateRead(d *schema.ResourceData, m interface{}) err
 
 	err = refreshObjectSystemIpsecAggregate(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemIpsecAggregate resource from API: %v", err)
+		return fmt.Errorf("error reading SystemIpsecAggregate resource from API: %v", err)
 	}
 	return nil
 }
@@ -242,21 +285,21 @@ func refreshObjectSystemIpsecAggregate(d *schema.ResourceData, o map[string]inte
 
 	if err = d.Set("name", flattenSystemIpsecAggregateName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("member", flattenSystemIpsecAggregateMember(o["member"], d, "member", sv)); err != nil {
 			if !fortiAPIPatch(o["member"]) {
-				return fmt.Errorf("Error reading member: %v", err)
+				return fmt.Errorf("error reading member: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("member"); ok {
 			if err = d.Set("member", flattenSystemIpsecAggregateMember(o["member"], d, "member", sv)); err != nil {
 				if !fortiAPIPatch(o["member"]) {
-					return fmt.Errorf("Error reading member: %v", err)
+					return fmt.Errorf("error reading member: %v", err)
 				}
 			}
 		}
@@ -264,7 +307,7 @@ func refreshObjectSystemIpsecAggregate(d *schema.ResourceData, o map[string]inte
 
 	if err = d.Set("algorithm", flattenSystemIpsecAggregateAlgorithm(o["algorithm"], d, "algorithm", sv)); err != nil {
 		if !fortiAPIPatch(o["algorithm"]) {
-			return fmt.Errorf("Error reading algorithm: %v", err)
+			return fmt.Errorf("error reading algorithm: %v", err)
 		}
 	}
 

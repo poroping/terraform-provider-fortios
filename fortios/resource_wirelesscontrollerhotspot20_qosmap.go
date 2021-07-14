@@ -30,36 +30,36 @@ func resourceWirelessControllerHotspot20QosMap() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"dscp_except": &schema.Schema{
+			"dscp_except": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"index": &schema.Schema{
+						"index": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 21),
 							Optional:     true,
 							Computed:     true,
 						},
-						"dscp": &schema.Schema{
+						"dscp": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 63),
 							Optional:     true,
 							Computed:     true,
 						},
-						"up": &schema.Schema{
+						"up": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 7),
 							Optional:     true,
@@ -68,30 +68,30 @@ func resourceWirelessControllerHotspot20QosMap() *schema.Resource {
 					},
 				},
 			},
-			"dscp_range": &schema.Schema{
+			"dscp_range": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"index": &schema.Schema{
+						"index": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 8),
 							Optional:     true,
 							Computed:     true,
 						},
-						"up": &schema.Schema{
+						"up": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 7),
 							Optional:     true,
 							Computed:     true,
 						},
-						"low": &schema.Schema{
+						"low": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 63),
 							Optional:     true,
 							Computed:     true,
 						},
-						"high": &schema.Schema{
+						"high": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 63),
 							Optional:     true,
@@ -100,10 +100,15 @@ func resourceWirelessControllerHotspot20QosMap() *schema.Resource {
 					},
 				},
 			},
-			"dynamic_sort_subtable": &schema.Schema{
+			"dynamic_sort_subtable": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Default:  "false",
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -121,15 +126,25 @@ func resourceWirelessControllerHotspot20QosMapCreate(d *schema.ResourceData, m i
 		}
 	}
 
-	obj, err := getObjectWirelessControllerHotspot20QosMap(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating WirelessControllerHotspot20QosMap resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateWirelessControllerHotspot20QosMap(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectWirelessControllerHotspot20QosMap(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating WirelessControllerHotspot20QosMap resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateWirelessControllerHotspot20QosMap(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating WirelessControllerHotspot20QosMap resource: %v", err)
+		return fmt.Errorf("error creating WirelessControllerHotspot20QosMap resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -154,14 +169,24 @@ func resourceWirelessControllerHotspot20QosMapUpdate(d *schema.ResourceData, m i
 		}
 	}
 
-	obj, err := getObjectWirelessControllerHotspot20QosMap(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating WirelessControllerHotspot20QosMap resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateWirelessControllerHotspot20QosMap(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectWirelessControllerHotspot20QosMap(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating WirelessControllerHotspot20QosMap resource: %v", err)
+		return fmt.Errorf("error updating WirelessControllerHotspot20QosMap resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateWirelessControllerHotspot20QosMap(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating WirelessControllerHotspot20QosMap resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -188,9 +213,17 @@ func resourceWirelessControllerHotspot20QosMapDelete(d *schema.ResourceData, m i
 		}
 	}
 
-	err := c.DeleteWirelessControllerHotspot20QosMap(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteWirelessControllerHotspot20QosMap(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting WirelessControllerHotspot20QosMap resource: %v", err)
+		return fmt.Errorf("error deleting WirelessControllerHotspot20QosMap resource: %v", err)
 	}
 
 	d.SetId("")
@@ -212,9 +245,19 @@ func resourceWirelessControllerHotspot20QosMapRead(d *schema.ResourceData, m int
 		}
 	}
 
-	o, err := c.ReadWirelessControllerHotspot20QosMap(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadWirelessControllerHotspot20QosMap(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading WirelessControllerHotspot20QosMap resource: %v", err)
+		return fmt.Errorf("error reading WirelessControllerHotspot20QosMap resource: %v", err)
 	}
 
 	if o == nil {
@@ -225,7 +268,7 @@ func resourceWirelessControllerHotspot20QosMapRead(d *schema.ResourceData, m int
 
 	err = refreshObjectWirelessControllerHotspot20QosMap(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading WirelessControllerHotspot20QosMap resource from API: %v", err)
+		return fmt.Errorf("error reading WirelessControllerHotspot20QosMap resource from API: %v", err)
 	}
 	return nil
 }
@@ -365,21 +408,21 @@ func refreshObjectWirelessControllerHotspot20QosMap(d *schema.ResourceData, o ma
 
 	if err = d.Set("name", flattenWirelessControllerHotspot20QosMapName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("dscp_except", flattenWirelessControllerHotspot20QosMapDscpExcept(o["dscp-except"], d, "dscp_except", sv)); err != nil {
 			if !fortiAPIPatch(o["dscp-except"]) {
-				return fmt.Errorf("Error reading dscp_except: %v", err)
+				return fmt.Errorf("error reading dscp_except: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("dscp_except"); ok {
 			if err = d.Set("dscp_except", flattenWirelessControllerHotspot20QosMapDscpExcept(o["dscp-except"], d, "dscp_except", sv)); err != nil {
 				if !fortiAPIPatch(o["dscp-except"]) {
-					return fmt.Errorf("Error reading dscp_except: %v", err)
+					return fmt.Errorf("error reading dscp_except: %v", err)
 				}
 			}
 		}
@@ -388,14 +431,14 @@ func refreshObjectWirelessControllerHotspot20QosMap(d *schema.ResourceData, o ma
 	if isImportTable() {
 		if err = d.Set("dscp_range", flattenWirelessControllerHotspot20QosMapDscpRange(o["dscp-range"], d, "dscp_range", sv)); err != nil {
 			if !fortiAPIPatch(o["dscp-range"]) {
-				return fmt.Errorf("Error reading dscp_range: %v", err)
+				return fmt.Errorf("error reading dscp_range: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("dscp_range"); ok {
 			if err = d.Set("dscp_range", flattenWirelessControllerHotspot20QosMapDscpRange(o["dscp-range"], d, "dscp_range", sv)); err != nil {
 				if !fortiAPIPatch(o["dscp-range"]) {
-					return fmt.Errorf("Error reading dscp_range: %v", err)
+					return fmt.Errorf("error reading dscp_range: %v", err)
 				}
 			}
 		}

@@ -52,14 +52,14 @@ func testAccCheckFortiOSUserDeviceExists(n string) resource.TestCheckFunc {
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadUserDevice(i, "root")
+		o, err := c.ReadUserDevice(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading UserDevice: %s", err)
+			return fmt.Errorf("error reading UserDevice: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating UserDevice: %s", n)
+			return fmt.Errorf("error creating UserDevice: %s", n)
 		}
 
 		return nil
@@ -75,11 +75,11 @@ func testAccCheckUserDeviceDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadUserDevice(i, "root")
+		o, err := c.ReadUserDevice(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error UserDevice %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error UserDevice %s still exists", rs.Primary.ID)
 			}
 		}
 

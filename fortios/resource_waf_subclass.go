@@ -30,22 +30,27 @@ func resourceWafSubClass() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 127),
 				Optional:     true,
 				Computed:     true,
 			},
-			"fosid": &schema.Schema{
+			"fosid": {
 				Type:     schema.TypeInt,
 				ForceNew: true,
 				Optional: true,
 				Computed: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -63,15 +68,25 @@ func resourceWafSubClassCreate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectWafSubClass(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating WafSubClass resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateWafSubClass(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectWafSubClass(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating WafSubClass resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateWafSubClass(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating WafSubClass resource: %v", err)
+		return fmt.Errorf("error creating WafSubClass resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -96,14 +111,24 @@ func resourceWafSubClassUpdate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectWafSubClass(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating WafSubClass resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateWafSubClass(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectWafSubClass(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating WafSubClass resource: %v", err)
+		return fmt.Errorf("error updating WafSubClass resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateWafSubClass(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating WafSubClass resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -130,9 +155,17 @@ func resourceWafSubClassDelete(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	err := c.DeleteWafSubClass(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteWafSubClass(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting WafSubClass resource: %v", err)
+		return fmt.Errorf("error deleting WafSubClass resource: %v", err)
 	}
 
 	d.SetId("")
@@ -154,9 +187,19 @@ func resourceWafSubClassRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadWafSubClass(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadWafSubClass(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading WafSubClass resource: %v", err)
+		return fmt.Errorf("error reading WafSubClass resource: %v", err)
 	}
 
 	if o == nil {
@@ -167,7 +210,7 @@ func resourceWafSubClassRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectWafSubClass(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading WafSubClass resource from API: %v", err)
+		return fmt.Errorf("error reading WafSubClass resource from API: %v", err)
 	}
 	return nil
 }
@@ -185,13 +228,13 @@ func refreshObjectWafSubClass(d *schema.ResourceData, o map[string]interface{}, 
 
 	if err = d.Set("name", flattenWafSubClassName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("fosid", flattenWafSubClassId(o["id"], d, "fosid", sv)); err != nil {
 		if !fortiAPIPatch(o["id"]) {
-			return fmt.Errorf("Error reading fosid: %v", err)
+			return fmt.Errorf("error reading fosid: %v", err)
 		}
 	}
 

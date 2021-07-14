@@ -30,15 +30,20 @@ func resourceSwitchControllerNetworkMonitorSettings() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"network_monitoring": &schema.Schema{
+			"network_monitoring": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -57,14 +62,24 @@ func resourceSwitchControllerNetworkMonitorSettingsUpdate(d *schema.ResourceData
 		}
 	}
 
-	obj, err := getObjectSwitchControllerNetworkMonitorSettings(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SwitchControllerNetworkMonitorSettings resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSwitchControllerNetworkMonitorSettings(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSwitchControllerNetworkMonitorSettings(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SwitchControllerNetworkMonitorSettings resource: %v", err)
+		return fmt.Errorf("error updating SwitchControllerNetworkMonitorSettings resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSwitchControllerNetworkMonitorSettings(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SwitchControllerNetworkMonitorSettings resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -91,9 +106,17 @@ func resourceSwitchControllerNetworkMonitorSettingsDelete(d *schema.ResourceData
 		}
 	}
 
-	err := c.DeleteSwitchControllerNetworkMonitorSettings(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSwitchControllerNetworkMonitorSettings(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SwitchControllerNetworkMonitorSettings resource: %v", err)
+		return fmt.Errorf("error deleting SwitchControllerNetworkMonitorSettings resource: %v", err)
 	}
 
 	d.SetId("")
@@ -115,9 +138,19 @@ func resourceSwitchControllerNetworkMonitorSettingsRead(d *schema.ResourceData, 
 		}
 	}
 
-	o, err := c.ReadSwitchControllerNetworkMonitorSettings(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSwitchControllerNetworkMonitorSettings(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SwitchControllerNetworkMonitorSettings resource: %v", err)
+		return fmt.Errorf("error reading SwitchControllerNetworkMonitorSettings resource: %v", err)
 	}
 
 	if o == nil {
@@ -128,7 +161,7 @@ func resourceSwitchControllerNetworkMonitorSettingsRead(d *schema.ResourceData, 
 
 	err = refreshObjectSwitchControllerNetworkMonitorSettings(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SwitchControllerNetworkMonitorSettings resource from API: %v", err)
+		return fmt.Errorf("error reading SwitchControllerNetworkMonitorSettings resource from API: %v", err)
 	}
 	return nil
 }
@@ -142,7 +175,7 @@ func refreshObjectSwitchControllerNetworkMonitorSettings(d *schema.ResourceData,
 
 	if err = d.Set("network_monitoring", flattenSwitchControllerNetworkMonitorSettingsNetworkMonitoring(o["network-monitoring"], d, "network_monitoring", sv)); err != nil {
 		if !fortiAPIPatch(o["network-monitoring"]) {
-			return fmt.Errorf("Error reading network_monitoring: %v", err)
+			return fmt.Errorf("error reading network_monitoring: %v", err)
 		}
 	}
 

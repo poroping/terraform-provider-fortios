@@ -30,49 +30,54 @@ func resourceSwitchControllerRemoteLog() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"status": &schema.Schema{
+			"status": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"server": &schema.Schema{
+			"server": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"port": &schema.Schema{
+			"port": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"severity": &schema.Schema{
+			"severity": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"csv": &schema.Schema{
+			"csv": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"facility": &schema.Schema{
+			"facility": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -90,15 +95,25 @@ func resourceSwitchControllerRemoteLogCreate(d *schema.ResourceData, m interface
 		}
 	}
 
-	obj, err := getObjectSwitchControllerRemoteLog(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating SwitchControllerRemoteLog resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateSwitchControllerRemoteLog(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSwitchControllerRemoteLog(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating SwitchControllerRemoteLog resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateSwitchControllerRemoteLog(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating SwitchControllerRemoteLog resource: %v", err)
+		return fmt.Errorf("error creating SwitchControllerRemoteLog resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -123,14 +138,24 @@ func resourceSwitchControllerRemoteLogUpdate(d *schema.ResourceData, m interface
 		}
 	}
 
-	obj, err := getObjectSwitchControllerRemoteLog(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SwitchControllerRemoteLog resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSwitchControllerRemoteLog(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSwitchControllerRemoteLog(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SwitchControllerRemoteLog resource: %v", err)
+		return fmt.Errorf("error updating SwitchControllerRemoteLog resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSwitchControllerRemoteLog(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SwitchControllerRemoteLog resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -157,9 +182,17 @@ func resourceSwitchControllerRemoteLogDelete(d *schema.ResourceData, m interface
 		}
 	}
 
-	err := c.DeleteSwitchControllerRemoteLog(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSwitchControllerRemoteLog(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SwitchControllerRemoteLog resource: %v", err)
+		return fmt.Errorf("error deleting SwitchControllerRemoteLog resource: %v", err)
 	}
 
 	d.SetId("")
@@ -181,9 +214,19 @@ func resourceSwitchControllerRemoteLogRead(d *schema.ResourceData, m interface{}
 		}
 	}
 
-	o, err := c.ReadSwitchControllerRemoteLog(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSwitchControllerRemoteLog(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SwitchControllerRemoteLog resource: %v", err)
+		return fmt.Errorf("error reading SwitchControllerRemoteLog resource: %v", err)
 	}
 
 	if o == nil {
@@ -194,7 +237,7 @@ func resourceSwitchControllerRemoteLogRead(d *schema.ResourceData, m interface{}
 
 	err = refreshObjectSwitchControllerRemoteLog(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SwitchControllerRemoteLog resource from API: %v", err)
+		return fmt.Errorf("error reading SwitchControllerRemoteLog resource from API: %v", err)
 	}
 	return nil
 }
@@ -232,43 +275,43 @@ func refreshObjectSwitchControllerRemoteLog(d *schema.ResourceData, o map[string
 
 	if err = d.Set("name", flattenSwitchControllerRemoteLogName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("status", flattenSwitchControllerRemoteLogStatus(o["status"], d, "status", sv)); err != nil {
 		if !fortiAPIPatch(o["status"]) {
-			return fmt.Errorf("Error reading status: %v", err)
+			return fmt.Errorf("error reading status: %v", err)
 		}
 	}
 
 	if err = d.Set("server", flattenSwitchControllerRemoteLogServer(o["server"], d, "server", sv)); err != nil {
 		if !fortiAPIPatch(o["server"]) {
-			return fmt.Errorf("Error reading server: %v", err)
+			return fmt.Errorf("error reading server: %v", err)
 		}
 	}
 
 	if err = d.Set("port", flattenSwitchControllerRemoteLogPort(o["port"], d, "port", sv)); err != nil {
 		if !fortiAPIPatch(o["port"]) {
-			return fmt.Errorf("Error reading port: %v", err)
+			return fmt.Errorf("error reading port: %v", err)
 		}
 	}
 
 	if err = d.Set("severity", flattenSwitchControllerRemoteLogSeverity(o["severity"], d, "severity", sv)); err != nil {
 		if !fortiAPIPatch(o["severity"]) {
-			return fmt.Errorf("Error reading severity: %v", err)
+			return fmt.Errorf("error reading severity: %v", err)
 		}
 	}
 
 	if err = d.Set("csv", flattenSwitchControllerRemoteLogCsv(o["csv"], d, "csv", sv)); err != nil {
 		if !fortiAPIPatch(o["csv"]) {
-			return fmt.Errorf("Error reading csv: %v", err)
+			return fmt.Errorf("error reading csv: %v", err)
 		}
 	}
 
 	if err = d.Set("facility", flattenSwitchControllerRemoteLogFacility(o["facility"], d, "facility", sv)); err != nil {
 		if !fortiAPIPatch(o["facility"]) {
-			return fmt.Errorf("Error reading facility: %v", err)
+			return fmt.Errorf("error reading facility: %v", err)
 		}
 	}
 

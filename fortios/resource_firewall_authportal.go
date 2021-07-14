@@ -30,17 +30,17 @@ func resourceFirewallAuthPortal() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"groups": &schema.Schema{
+			"groups": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 64),
 							Optional:     true,
@@ -49,28 +49,33 @@ func resourceFirewallAuthPortal() *schema.Resource {
 					},
 				},
 			},
-			"portal_addr": &schema.Schema{
+			"portal_addr": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"portal_addr6": &schema.Schema{
+			"portal_addr6": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"identity_based_route": &schema.Schema{
+			"identity_based_route": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"dynamic_sort_subtable": &schema.Schema{
+			"dynamic_sort_subtable": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Default:  "false",
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -89,14 +94,24 @@ func resourceFirewallAuthPortalUpdate(d *schema.ResourceData, m interface{}) err
 		}
 	}
 
-	obj, err := getObjectFirewallAuthPortal(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating FirewallAuthPortal resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateFirewallAuthPortal(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectFirewallAuthPortal(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating FirewallAuthPortal resource: %v", err)
+		return fmt.Errorf("error updating FirewallAuthPortal resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateFirewallAuthPortal(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating FirewallAuthPortal resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -123,9 +138,17 @@ func resourceFirewallAuthPortalDelete(d *schema.ResourceData, m interface{}) err
 		}
 	}
 
-	err := c.DeleteFirewallAuthPortal(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteFirewallAuthPortal(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting FirewallAuthPortal resource: %v", err)
+		return fmt.Errorf("error deleting FirewallAuthPortal resource: %v", err)
 	}
 
 	d.SetId("")
@@ -147,9 +170,19 @@ func resourceFirewallAuthPortalRead(d *schema.ResourceData, m interface{}) error
 		}
 	}
 
-	o, err := c.ReadFirewallAuthPortal(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadFirewallAuthPortal(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading FirewallAuthPortal resource: %v", err)
+		return fmt.Errorf("error reading FirewallAuthPortal resource: %v", err)
 	}
 
 	if o == nil {
@@ -160,7 +193,7 @@ func resourceFirewallAuthPortalRead(d *schema.ResourceData, m interface{}) error
 
 	err = refreshObjectFirewallAuthPortal(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading FirewallAuthPortal resource from API: %v", err)
+		return fmt.Errorf("error reading FirewallAuthPortal resource from API: %v", err)
 	}
 	return nil
 }
@@ -221,14 +254,14 @@ func refreshObjectFirewallAuthPortal(d *schema.ResourceData, o map[string]interf
 	if isImportTable() {
 		if err = d.Set("groups", flattenFirewallAuthPortalGroups(o["groups"], d, "groups", sv)); err != nil {
 			if !fortiAPIPatch(o["groups"]) {
-				return fmt.Errorf("Error reading groups: %v", err)
+				return fmt.Errorf("error reading groups: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("groups"); ok {
 			if err = d.Set("groups", flattenFirewallAuthPortalGroups(o["groups"], d, "groups", sv)); err != nil {
 				if !fortiAPIPatch(o["groups"]) {
-					return fmt.Errorf("Error reading groups: %v", err)
+					return fmt.Errorf("error reading groups: %v", err)
 				}
 			}
 		}
@@ -236,19 +269,19 @@ func refreshObjectFirewallAuthPortal(d *schema.ResourceData, o map[string]interf
 
 	if err = d.Set("portal_addr", flattenFirewallAuthPortalPortalAddr(o["portal-addr"], d, "portal_addr", sv)); err != nil {
 		if !fortiAPIPatch(o["portal-addr"]) {
-			return fmt.Errorf("Error reading portal_addr: %v", err)
+			return fmt.Errorf("error reading portal_addr: %v", err)
 		}
 	}
 
 	if err = d.Set("portal_addr6", flattenFirewallAuthPortalPortalAddr6(o["portal-addr6"], d, "portal_addr6", sv)); err != nil {
 		if !fortiAPIPatch(o["portal-addr6"]) {
-			return fmt.Errorf("Error reading portal_addr6: %v", err)
+			return fmt.Errorf("error reading portal_addr6: %v", err)
 		}
 	}
 
 	if err = d.Set("identity_based_route", flattenFirewallAuthPortalIdentityBasedRoute(o["identity-based-route"], d, "identity_based_route", sv)); err != nil {
 		if !fortiAPIPatch(o["identity-based-route"]) {
-			return fmt.Errorf("Error reading identity_based_route: %v", err)
+			return fmt.Errorf("error reading identity_based_route: %v", err)
 		}
 	}
 

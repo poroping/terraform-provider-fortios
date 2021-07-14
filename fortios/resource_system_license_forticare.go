@@ -16,9 +16,14 @@ func resourceSystemLicenseFortiCare() *schema.Resource {
 		Delete: resourceSystemLicenseFortiCareDelete,
 
 		Schema: map[string]*schema.Schema{
-			"registration_code": &schema.Schema{
+			"registration_code": {
 				Type:     schema.TypeString,
 				Required: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -44,7 +49,7 @@ func resourceSystemLicenseFortiCareCreateUpdate(d *schema.ResourceData, m interf
 	//Call process by sdk
 	_, err := c.CreateSystemLicenseFortiCare(i)
 	if err != nil {
-		return fmt.Errorf("Error creating System License FortiCare: %s", err)
+		return fmt.Errorf("error creating System License FortiCare: %s", err)
 	}
 
 	// Set index for d
@@ -71,7 +76,7 @@ func resourceSystemLicenseFortiCareRead(d *schema.ResourceData, m interface{}) e
 	//Call process by sdk
 	o, err := c.ReadSystemLicenseFortiCare(mkey)
 	if err != nil {
-		return fmt.Errorf("Error reading System License FortiCare: %s", err)
+		return fmt.Errorf("error reading System License FortiCare: %s", err)
 	}
 
 	if o == nil {

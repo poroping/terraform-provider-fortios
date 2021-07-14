@@ -30,16 +30,21 @@ func resourceSwitchControllerMacSyncSettings() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"mac_sync_interval": &schema.Schema{
+			"mac_sync_interval": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(30, 1800),
 				Optional:     true,
 				Computed:     true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -58,14 +63,24 @@ func resourceSwitchControllerMacSyncSettingsUpdate(d *schema.ResourceData, m int
 		}
 	}
 
-	obj, err := getObjectSwitchControllerMacSyncSettings(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SwitchControllerMacSyncSettings resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSwitchControllerMacSyncSettings(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSwitchControllerMacSyncSettings(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SwitchControllerMacSyncSettings resource: %v", err)
+		return fmt.Errorf("error updating SwitchControllerMacSyncSettings resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSwitchControllerMacSyncSettings(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SwitchControllerMacSyncSettings resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -92,9 +107,17 @@ func resourceSwitchControllerMacSyncSettingsDelete(d *schema.ResourceData, m int
 		}
 	}
 
-	err := c.DeleteSwitchControllerMacSyncSettings(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSwitchControllerMacSyncSettings(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SwitchControllerMacSyncSettings resource: %v", err)
+		return fmt.Errorf("error deleting SwitchControllerMacSyncSettings resource: %v", err)
 	}
 
 	d.SetId("")
@@ -116,9 +139,19 @@ func resourceSwitchControllerMacSyncSettingsRead(d *schema.ResourceData, m inter
 		}
 	}
 
-	o, err := c.ReadSwitchControllerMacSyncSettings(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSwitchControllerMacSyncSettings(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SwitchControllerMacSyncSettings resource: %v", err)
+		return fmt.Errorf("error reading SwitchControllerMacSyncSettings resource: %v", err)
 	}
 
 	if o == nil {
@@ -129,7 +162,7 @@ func resourceSwitchControllerMacSyncSettingsRead(d *schema.ResourceData, m inter
 
 	err = refreshObjectSwitchControllerMacSyncSettings(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SwitchControllerMacSyncSettings resource from API: %v", err)
+		return fmt.Errorf("error reading SwitchControllerMacSyncSettings resource from API: %v", err)
 	}
 	return nil
 }
@@ -143,7 +176,7 @@ func refreshObjectSwitchControllerMacSyncSettings(d *schema.ResourceData, o map[
 
 	if err = d.Set("mac_sync_interval", flattenSwitchControllerMacSyncSettingsMacSyncInterval(o["mac-sync-interval"], d, "mac_sync_interval", sv)); err != nil {
 		if !fortiAPIPatch(o["mac-sync-interval"]) {
-			return fmt.Errorf("Error reading mac_sync_interval: %v", err)
+			return fmt.Errorf("error reading mac_sync_interval: %v", err)
 		}
 	}
 

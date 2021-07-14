@@ -58,14 +58,14 @@ func testAccCheckFortiOSFirewallCentralSnatMapExists(n string) resource.TestChec
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadFirewallCentralSnatMap(i, "root")
+		o, err := c.ReadFirewallCentralSnatMap(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading FirewallCentralSnatMap: %s", err)
+			return fmt.Errorf("error reading FirewallCentralSnatMap: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating FirewallCentralSnatMap: %s", n)
+			return fmt.Errorf("error creating FirewallCentralSnatMap: %s", n)
 		}
 
 		return nil
@@ -81,11 +81,11 @@ func testAccCheckFirewallCentralSnatMapDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadFirewallCentralSnatMap(i, "root")
+		o, err := c.ReadFirewallCentralSnatMap(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error FirewallCentralSnatMap %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error FirewallCentralSnatMap %s still exists", rs.Primary.ID)
 			}
 		}
 

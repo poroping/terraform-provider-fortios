@@ -30,27 +30,32 @@ func resourceSystemAutoupdatePushUpdate() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"status": &schema.Schema{
+			"status": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"override": &schema.Schema{
+			"override": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"address": &schema.Schema{
+			"address": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"port": &schema.Schema{
+			"port": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 65535),
 				Required:     true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -69,14 +74,24 @@ func resourceSystemAutoupdatePushUpdateUpdate(d *schema.ResourceData, m interfac
 		}
 	}
 
-	obj, err := getObjectSystemAutoupdatePushUpdate(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SystemAutoupdatePushUpdate resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSystemAutoupdatePushUpdate(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemAutoupdatePushUpdate(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SystemAutoupdatePushUpdate resource: %v", err)
+		return fmt.Errorf("error updating SystemAutoupdatePushUpdate resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSystemAutoupdatePushUpdate(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SystemAutoupdatePushUpdate resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -103,9 +118,17 @@ func resourceSystemAutoupdatePushUpdateDelete(d *schema.ResourceData, m interfac
 		}
 	}
 
-	err := c.DeleteSystemAutoupdatePushUpdate(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSystemAutoupdatePushUpdate(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SystemAutoupdatePushUpdate resource: %v", err)
+		return fmt.Errorf("error deleting SystemAutoupdatePushUpdate resource: %v", err)
 	}
 
 	d.SetId("")
@@ -127,9 +150,19 @@ func resourceSystemAutoupdatePushUpdateRead(d *schema.ResourceData, m interface{
 		}
 	}
 
-	o, err := c.ReadSystemAutoupdatePushUpdate(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSystemAutoupdatePushUpdate(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemAutoupdatePushUpdate resource: %v", err)
+		return fmt.Errorf("error reading SystemAutoupdatePushUpdate resource: %v", err)
 	}
 
 	if o == nil {
@@ -140,7 +173,7 @@ func resourceSystemAutoupdatePushUpdateRead(d *schema.ResourceData, m interface{
 
 	err = refreshObjectSystemAutoupdatePushUpdate(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemAutoupdatePushUpdate resource from API: %v", err)
+		return fmt.Errorf("error reading SystemAutoupdatePushUpdate resource from API: %v", err)
 	}
 	return nil
 }
@@ -166,25 +199,25 @@ func refreshObjectSystemAutoupdatePushUpdate(d *schema.ResourceData, o map[strin
 
 	if err = d.Set("status", flattenSystemAutoupdatePushUpdateStatus(o["status"], d, "status", sv)); err != nil {
 		if !fortiAPIPatch(o["status"]) {
-			return fmt.Errorf("Error reading status: %v", err)
+			return fmt.Errorf("error reading status: %v", err)
 		}
 	}
 
 	if err = d.Set("override", flattenSystemAutoupdatePushUpdateOverride(o["override"], d, "override", sv)); err != nil {
 		if !fortiAPIPatch(o["override"]) {
-			return fmt.Errorf("Error reading override: %v", err)
+			return fmt.Errorf("error reading override: %v", err)
 		}
 	}
 
 	if err = d.Set("address", flattenSystemAutoupdatePushUpdateAddress(o["address"], d, "address", sv)); err != nil {
 		if !fortiAPIPatch(o["address"]) {
-			return fmt.Errorf("Error reading address: %v", err)
+			return fmt.Errorf("error reading address: %v", err)
 		}
 	}
 
 	if err = d.Set("port", flattenSystemAutoupdatePushUpdatePort(o["port"], d, "port", sv)); err != nil {
 		if !fortiAPIPatch(o["port"]) {
-			return fmt.Errorf("Error reading port: %v", err)
+			return fmt.Errorf("error reading port: %v", err)
 		}
 	}
 

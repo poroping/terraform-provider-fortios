@@ -53,14 +53,14 @@ func testAccCheckFortiOSSystemPtpExists(n string) resource.TestCheckFunc {
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemPtp(i, "root")
+		o, err := c.ReadSystemPtp(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading SystemPtp: %s", err)
+			return fmt.Errorf("error reading SystemPtp: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating SystemPtp: %s", n)
+			return fmt.Errorf("error creating SystemPtp: %s", n)
 		}
 
 		return nil
@@ -76,11 +76,11 @@ func testAccCheckSystemPtpDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemPtp(i, "root")
+		o, err := c.ReadSystemPtp(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error SystemPtp %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error SystemPtp %s still exists", rs.Primary.ID)
 			}
 		}
 

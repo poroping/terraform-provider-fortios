@@ -30,41 +30,41 @@ func resourceSystemZone() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"tagging": &schema.Schema{
+			"tagging": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 63),
 							Optional:     true,
 							Computed:     true,
 						},
-						"category": &schema.Schema{
+						"category": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 63),
 							Optional:     true,
 							Computed:     true,
 						},
-						"tags": &schema.Schema{
+						"tags": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"name": &schema.Schema{
+									"name": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 64),
 										Optional:     true,
@@ -76,23 +76,23 @@ func resourceSystemZone() *schema.Resource {
 					},
 				},
 			},
-			"description": &schema.Schema{
+			"description": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 127),
 				Optional:     true,
 				Computed:     true,
 			},
-			"intrazone": &schema.Schema{
+			"intrazone": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"interface": &schema.Schema{
+			"interface": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"interface_name": &schema.Schema{
+						"interface_name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 64),
 							Optional:     true,
@@ -101,10 +101,15 @@ func resourceSystemZone() *schema.Resource {
 					},
 				},
 			},
-			"dynamic_sort_subtable": &schema.Schema{
+			"dynamic_sort_subtable": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Default:  "false",
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -122,15 +127,25 @@ func resourceSystemZoneCreate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectSystemZone(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating SystemZone resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateSystemZone(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemZone(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating SystemZone resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateSystemZone(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating SystemZone resource: %v", err)
+		return fmt.Errorf("error creating SystemZone resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -155,14 +170,24 @@ func resourceSystemZoneUpdate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectSystemZone(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SystemZone resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSystemZone(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemZone(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SystemZone resource: %v", err)
+		return fmt.Errorf("error updating SystemZone resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSystemZone(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SystemZone resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -189,9 +214,17 @@ func resourceSystemZoneDelete(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	err := c.DeleteSystemZone(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSystemZone(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SystemZone resource: %v", err)
+		return fmt.Errorf("error deleting SystemZone resource: %v", err)
 	}
 
 	d.SetId("")
@@ -213,9 +246,19 @@ func resourceSystemZoneRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadSystemZone(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSystemZone(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemZone resource: %v", err)
+		return fmt.Errorf("error reading SystemZone resource: %v", err)
 	}
 
 	if o == nil {
@@ -226,7 +269,7 @@ func resourceSystemZoneRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectSystemZone(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemZone resource from API: %v", err)
+		return fmt.Errorf("error reading SystemZone resource from API: %v", err)
 	}
 	return nil
 }
@@ -377,21 +420,21 @@ func refreshObjectSystemZone(d *schema.ResourceData, o map[string]interface{}, s
 
 	if err = d.Set("name", flattenSystemZoneName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("tagging", flattenSystemZoneTagging(o["tagging"], d, "tagging", sv)); err != nil {
 			if !fortiAPIPatch(o["tagging"]) {
-				return fmt.Errorf("Error reading tagging: %v", err)
+				return fmt.Errorf("error reading tagging: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("tagging"); ok {
 			if err = d.Set("tagging", flattenSystemZoneTagging(o["tagging"], d, "tagging", sv)); err != nil {
 				if !fortiAPIPatch(o["tagging"]) {
-					return fmt.Errorf("Error reading tagging: %v", err)
+					return fmt.Errorf("error reading tagging: %v", err)
 				}
 			}
 		}
@@ -399,27 +442,27 @@ func refreshObjectSystemZone(d *schema.ResourceData, o map[string]interface{}, s
 
 	if err = d.Set("description", flattenSystemZoneDescription(o["description"], d, "description", sv)); err != nil {
 		if !fortiAPIPatch(o["description"]) {
-			return fmt.Errorf("Error reading description: %v", err)
+			return fmt.Errorf("error reading description: %v", err)
 		}
 	}
 
 	if err = d.Set("intrazone", flattenSystemZoneIntrazone(o["intrazone"], d, "intrazone", sv)); err != nil {
 		if !fortiAPIPatch(o["intrazone"]) {
-			return fmt.Errorf("Error reading intrazone: %v", err)
+			return fmt.Errorf("error reading intrazone: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("interface", flattenSystemZoneInterface(o["interface"], d, "interface", sv)); err != nil {
 			if !fortiAPIPatch(o["interface"]) {
-				return fmt.Errorf("Error reading interface: %v", err)
+				return fmt.Errorf("error reading interface: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("interface"); ok {
 			if err = d.Set("interface", flattenSystemZoneInterface(o["interface"], d, "interface", sv)); err != nil {
 				if !fortiAPIPatch(o["interface"]) {
-					return fmt.Errorf("Error reading interface: %v", err)
+					return fmt.Errorf("error reading interface: %v", err)
 				}
 			}
 		}

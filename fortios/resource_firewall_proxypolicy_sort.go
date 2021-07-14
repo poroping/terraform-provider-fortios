@@ -14,32 +14,37 @@ func resourceFirewallProxypolicySort() *schema.Resource {
 		Delete: schema.Noop,
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"sortby": &schema.Schema{
+			"sortby": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"sortdirection": &schema.Schema{
+			"sortdirection": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"status": &schema.Schema{
+			"status": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Default:  "",
 			},
-			"force_recreate": &schema.Schema{
+			"force_recreate": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"comment": &schema.Schema{
+			"comment": {
 				Type:     schema.TypeString,
 				Optional: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -62,6 +67,14 @@ func resourceFirewallProxypolicySortCreateUpdate(d *schema.ResourceData, m inter
 		}
 	}
 
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
 	sortby := d.Get("sortby").(string)
 	sortdirection := d.Get("sortdirection").(string)
 
@@ -73,9 +86,9 @@ func resourceFirewallProxypolicySortCreateUpdate(d *schema.ResourceData, m inter
 		return fmt.Errorf("Unsupported sort direction: " + sortdirection)
 	}
 
-	err := c.CreateUpdateFirewallProxypolicySort(sortby, sortdirection, vdomparam)
+	err := c.CreateUpdateFirewallProxypolicySort(sortby, sortdirection, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error sorting FirewallProxypolicy: %s", err)
+		return fmt.Errorf("error sorting FirewallProxypolicy: %s", err)
 	}
 
 	d.SetId(sortby + sortdirection)
@@ -102,6 +115,14 @@ func resourceFirewallProxypolicySortRead(d *schema.ResourceData, m interface{}) 
 		}
 	}
 
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
 	sortby := d.Get("sortby").(string)
 	sortdirection := d.Get("sortdirection").(string)
 
@@ -113,9 +134,9 @@ func resourceFirewallProxypolicySortRead(d *schema.ResourceData, m interface{}) 
 		return fmt.Errorf("Unsupported sort direction: " + sortdirection)
 	}
 
-	sorted, err := c.ReadFirewallProxypolicySort(sortby, sortdirection, vdomparam)
+	sorted, err := c.ReadFirewallProxypolicySort(sortby, sortdirection, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading FirewallProxypolicy sort status: %s %s", err, mkey)
+		return fmt.Errorf("error reading FirewallProxypolicy sort status: %s %s", err, mkey)
 	}
 
 	if sorted == false {

@@ -30,170 +30,170 @@ func resourceRouterBgp() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"as": &schema.Schema{
+			"as": {
 				Type:     schema.TypeInt,
 				Required: true,
 			},
-			"router_id": &schema.Schema{
+			"router_id": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.IsIPv4Address,
 				Optional:     true,
 				Computed:     true,
 			},
-			"keepalive_timer": &schema.Schema{
+			"keepalive_timer": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"holdtime_timer": &schema.Schema{
+			"holdtime_timer": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(3, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"always_compare_med": &schema.Schema{
+			"always_compare_med": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
 				Optional:     true,
 				Computed:     true,
 			},
-			"bestpath_as_path_ignore": &schema.Schema{
+			"bestpath_as_path_ignore": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
 				Optional:     true,
 				Computed:     true,
 			},
-			"bestpath_cmp_confed_aspath": &schema.Schema{
+			"bestpath_cmp_confed_aspath": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
 				Optional:     true,
 				Computed:     true,
 			},
-			"bestpath_cmp_routerid": &schema.Schema{
+			"bestpath_cmp_routerid": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
 				Optional:     true,
 				Computed:     true,
 			},
-			"bestpath_med_confed": &schema.Schema{
+			"bestpath_med_confed": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
 				Optional:     true,
 				Computed:     true,
 			},
-			"bestpath_med_missing_as_worst": &schema.Schema{
+			"bestpath_med_missing_as_worst": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
 				Optional:     true,
 				Computed:     true,
 			},
-			"client_to_client_reflection": &schema.Schema{
+			"client_to_client_reflection": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
 				Optional:     true,
 				Computed:     true,
 			},
-			"dampening": &schema.Schema{
+			"dampening": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
 				Optional:     true,
 				Computed:     true,
 			},
-			"deterministic_med": &schema.Schema{
+			"deterministic_med": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
 				Optional:     true,
 				Computed:     true,
 			},
-			"ebgp_multipath": &schema.Schema{
+			"ebgp_multipath": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
 				Optional:     true,
 				Computed:     true,
 			},
-			"ibgp_multipath": &schema.Schema{
+			"ibgp_multipath": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
 				Optional:     true,
 				Computed:     true,
 			},
-			"enforce_first_as": &schema.Schema{
+			"enforce_first_as": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
 				Optional:     true,
 				Computed:     true,
 			},
-			"fast_external_failover": &schema.Schema{
+			"fast_external_failover": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
 				Optional:     true,
 				Computed:     true,
 			},
-			"log_neighbour_changes": &schema.Schema{
+			"log_neighbour_changes": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
 				Optional:     true,
 				Computed:     true,
 			},
-			"network_import_check": &schema.Schema{
+			"network_import_check": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
 				Optional:     true,
 				Computed:     true,
 			},
-			"ignore_optional_capability": &schema.Schema{
+			"ignore_optional_capability": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
 				Optional:     true,
 				Computed:     true,
 			},
-			"additional_path": &schema.Schema{
+			"additional_path": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
 				Optional:     true,
 				Computed:     true,
 			},
-			"additional_path6": &schema.Schema{
+			"additional_path6": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
 				Optional:     true,
 				Computed:     true,
 			},
-			"multipath_recursive_distance": &schema.Schema{
+			"multipath_recursive_distance": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
 				Optional:     true,
 				Computed:     true,
 			},
-			"recursive_next_hop": &schema.Schema{
+			"recursive_next_hop": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
 				Optional:     true,
 				Computed:     true,
 			},
-			"cluster_id": &schema.Schema{
+			"cluster_id": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.IsIPv4Address,
 				Optional:     true,
 				Computed:     true,
 			},
-			"confederation_identifier": &schema.Schema{
+			"confederation_identifier": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"confederation_peers": &schema.Schema{
+			"confederation_peers": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"peer": &schema.Schema{
+						"peer": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 64),
 							Optional:     true,
@@ -202,142 +202,142 @@ func resourceRouterBgp() *schema.Resource {
 					},
 				},
 			},
-			"dampening_route_map": &schema.Schema{
+			"dampening_route_map": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"dampening_reachability_half_life": &schema.Schema{
+			"dampening_reachability_half_life": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 45),
 				Optional:     true,
 				Computed:     true,
 			},
-			"dampening_reuse": &schema.Schema{
+			"dampening_reuse": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 20000),
 				Optional:     true,
 				Computed:     true,
 			},
-			"dampening_suppress": &schema.Schema{
+			"dampening_suppress": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 20000),
 				Optional:     true,
 				Computed:     true,
 			},
-			"dampening_max_suppress_time": &schema.Schema{
+			"dampening_max_suppress_time": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 255),
 				Optional:     true,
 				Computed:     true,
 			},
-			"dampening_unreachability_half_life": &schema.Schema{
+			"dampening_unreachability_half_life": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 45),
 				Optional:     true,
 				Computed:     true,
 			},
-			"default_local_preference": &schema.Schema{
+			"default_local_preference": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"scan_time": &schema.Schema{
+			"scan_time": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(5, 60),
 				Optional:     true,
 				Computed:     true,
 			},
-			"distance_external": &schema.Schema{
+			"distance_external": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 255),
 				Optional:     true,
 				Computed:     true,
 			},
-			"distance_internal": &schema.Schema{
+			"distance_internal": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 255),
 				Optional:     true,
 				Computed:     true,
 			},
-			"distance_local": &schema.Schema{
+			"distance_local": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 255),
 				Optional:     true,
 				Computed:     true,
 			},
-			"synchronization": &schema.Schema{
+			"synchronization": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
 				Optional:     true,
 				Computed:     true,
 			},
-			"graceful_restart": &schema.Schema{
+			"graceful_restart": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
 				Optional:     true,
 				Computed:     true,
 			},
-			"graceful_restart_time": &schema.Schema{
+			"graceful_restart_time": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 3600),
 				Optional:     true,
 				Computed:     true,
 			},
-			"graceful_stalepath_time": &schema.Schema{
+			"graceful_stalepath_time": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 3600),
 				Optional:     true,
 				Computed:     true,
 			},
-			"graceful_update_delay": &schema.Schema{
+			"graceful_update_delay": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 3600),
 				Optional:     true,
 				Computed:     true,
 			},
-			"graceful_end_on_timer": &schema.Schema{
+			"graceful_end_on_timer": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
 				Optional:     true,
 				Computed:     true,
 			},
-			"additional_path_select": &schema.Schema{
+			"additional_path_select": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(2, 3),
 				Optional:     true,
 				Computed:     true,
 			},
-			"additional_path_select6": &schema.Schema{
+			"additional_path_select6": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(2, 3),
 				Optional:     true,
 				Computed:     true,
 			},
-			"aggregate_address": &schema.Schema{
+			"aggregate_address": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"prefix": &schema.Schema{
+						"prefix": {
 							Type:         schema.TypeString,
 							ValidateFunc: fortiValidateIPv4ClassnetAny,
 							Optional:     true,
 							Computed:     true,
 						},
-						"as_set": &schema.Schema{
+						"as_set": {
 							Type:         schema.TypeString,
 							ValidateFunc: fortiValidateEnableDisable(),
 							Optional:     true,
 							Computed:     true,
 						},
-						"summary_only": &schema.Schema{
+						"summary_only": {
 							Type:         schema.TypeString,
 							ValidateFunc: fortiValidateEnableDisable(),
 							Optional:     true,
@@ -346,29 +346,29 @@ func resourceRouterBgp() *schema.Resource {
 					},
 				},
 			},
-			"aggregate_address6": &schema.Schema{
+			"aggregate_address6": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"prefix6": &schema.Schema{
+						"prefix6": {
 							Type:         schema.TypeString,
 							ValidateFunc: fortiValidateIPv6Prefix,
 							Optional:     true,
 							Computed:     true,
 						},
-						"as_set": &schema.Schema{
+						"as_set": {
 							Type:         schema.TypeString,
 							ValidateFunc: fortiValidateEnableDisable(),
 							Optional:     true,
 							Computed:     true,
 						},
-						"summary_only": &schema.Schema{
+						"summary_only": {
 							Type:         schema.TypeString,
 							ValidateFunc: fortiValidateEnableDisable(),
 							Optional:     true,
@@ -377,557 +377,557 @@ func resourceRouterBgp() *schema.Resource {
 					},
 				},
 			},
-			"neighbor": &schema.Schema{
+			"neighbor": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"ip": &schema.Schema{
+						"ip": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.Any(validation.IsIPv4Address, validation.IsIPv6Address),
 							Optional:     true,
 							Computed:     true,
 						},
-						"advertisement_interval": &schema.Schema{
+						"advertisement_interval": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 600),
 							Optional:     true,
 							Computed:     true,
 						},
-						"allowas_in_enable": &schema.Schema{
+						"allowas_in_enable": {
 							Type:         schema.TypeString,
 							ValidateFunc: fortiValidateEnableDisable(),
 							Optional:     true,
 							Computed:     true,
 						},
-						"allowas_in_enable6": &schema.Schema{
+						"allowas_in_enable6": {
 							Type:         schema.TypeString,
 							ValidateFunc: fortiValidateEnableDisable(),
 							Optional:     true,
 							Computed:     true,
 						},
-						"allowas_in": &schema.Schema{
+						"allowas_in": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 10),
 							Optional:     true,
 							Computed:     true,
 						},
-						"allowas_in6": &schema.Schema{
+						"allowas_in6": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 10),
 							Optional:     true,
 							Computed:     true,
 						},
-						"attribute_unchanged": &schema.Schema{
+						"attribute_unchanged": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"attribute_unchanged6": &schema.Schema{
+						"attribute_unchanged6": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"activate": &schema.Schema{
+						"activate": {
 							Type:         schema.TypeString,
 							ValidateFunc: fortiValidateEnableDisable(),
 							Optional:     true,
 							Computed:     true,
 						},
-						"activate6": &schema.Schema{
+						"activate6": {
 							Type:         schema.TypeString,
 							ValidateFunc: fortiValidateEnableDisable(),
 							Optional:     true,
 							Computed:     true,
 						},
-						"bfd": &schema.Schema{
+						"bfd": {
 							Type:         schema.TypeString,
 							ValidateFunc: fortiValidateEnableDisable(),
 							Optional:     true,
 							Computed:     true,
 						},
-						"capability_dynamic": &schema.Schema{
+						"capability_dynamic": {
 							Type:         schema.TypeString,
 							ValidateFunc: fortiValidateEnableDisable(),
 							Optional:     true,
 							Computed:     true,
 						},
-						"capability_orf": &schema.Schema{
+						"capability_orf": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"capability_orf6": &schema.Schema{
+						"capability_orf6": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"capability_graceful_restart": &schema.Schema{
+						"capability_graceful_restart": {
 							Type:         schema.TypeString,
 							ValidateFunc: fortiValidateEnableDisable(),
 							Optional:     true,
 							Computed:     true,
 						},
-						"capability_graceful_restart6": &schema.Schema{
+						"capability_graceful_restart6": {
 							Type:         schema.TypeString,
 							ValidateFunc: fortiValidateEnableDisable(),
 							Optional:     true,
 							Computed:     true,
 						},
-						"capability_route_refresh": &schema.Schema{
+						"capability_route_refresh": {
 							Type:         schema.TypeString,
 							ValidateFunc: fortiValidateEnableDisable(),
 							Optional:     true,
 							Computed:     true,
 						},
-						"capability_default_originate": &schema.Schema{
+						"capability_default_originate": {
 							Type:         schema.TypeString,
 							ValidateFunc: fortiValidateEnableDisable(),
 							Optional:     true,
 							Computed:     true,
 						},
-						"capability_default_originate6": &schema.Schema{
+						"capability_default_originate6": {
 							Type:         schema.TypeString,
 							ValidateFunc: fortiValidateEnableDisable(),
 							Optional:     true,
 							Computed:     true,
 						},
-						"dont_capability_negotiate": &schema.Schema{
+						"dont_capability_negotiate": {
 							Type:         schema.TypeString,
 							ValidateFunc: fortiValidateEnableDisable(),
 							Optional:     true,
 							Computed:     true,
 						},
-						"ebgp_enforce_multihop": &schema.Schema{
+						"ebgp_enforce_multihop": {
 							Type:         schema.TypeString,
 							ValidateFunc: fortiValidateEnableDisable(),
 							Optional:     true,
 							Computed:     true,
 						},
-						"link_down_failover": &schema.Schema{
+						"link_down_failover": {
 							Type:         schema.TypeString,
 							ValidateFunc: fortiValidateEnableDisable(),
 							Optional:     true,
 							Computed:     true,
 						},
-						"stale_route": &schema.Schema{
+						"stale_route": {
 							Type:         schema.TypeString,
 							ValidateFunc: fortiValidateEnableDisable(),
 							Optional:     true,
 							Computed:     true,
 						},
-						"next_hop_self": &schema.Schema{
+						"next_hop_self": {
 							Type:         schema.TypeString,
 							ValidateFunc: fortiValidateEnableDisable(),
 							Optional:     true,
 							Computed:     true,
 						},
-						"next_hop_self6": &schema.Schema{
+						"next_hop_self6": {
 							Type:         schema.TypeString,
 							ValidateFunc: fortiValidateEnableDisable(),
 							Optional:     true,
 							Computed:     true,
 						},
-						"next_hop_self_rr": &schema.Schema{
+						"next_hop_self_rr": {
 							Type:         schema.TypeString,
 							ValidateFunc: fortiValidateEnableDisable(),
 							Optional:     true,
 							Computed:     true,
 						},
-						"next_hop_self_rr6": &schema.Schema{
+						"next_hop_self_rr6": {
 							Type:         schema.TypeString,
 							ValidateFunc: fortiValidateEnableDisable(),
 							Optional:     true,
 							Computed:     true,
 						},
-						"override_capability": &schema.Schema{
+						"override_capability": {
 							Type:         schema.TypeString,
 							ValidateFunc: fortiValidateEnableDisable(),
 							Optional:     true,
 							Computed:     true,
 						},
-						"passive": &schema.Schema{
+						"passive": {
 							Type:         schema.TypeString,
 							ValidateFunc: fortiValidateEnableDisable(),
 							Optional:     true,
 							Computed:     true,
 						},
-						"remove_private_as": &schema.Schema{
+						"remove_private_as": {
 							Type:         schema.TypeString,
 							ValidateFunc: fortiValidateEnableDisable(),
 							Optional:     true,
 							Computed:     true,
 						},
-						"remove_private_as6": &schema.Schema{
+						"remove_private_as6": {
 							Type:         schema.TypeString,
 							ValidateFunc: fortiValidateEnableDisable(),
 							Optional:     true,
 							Computed:     true,
 						},
-						"route_reflector_client": &schema.Schema{
+						"route_reflector_client": {
 							Type:         schema.TypeString,
 							ValidateFunc: fortiValidateEnableDisable(),
 							Optional:     true,
 							Computed:     true,
 						},
-						"route_reflector_client6": &schema.Schema{
+						"route_reflector_client6": {
 							Type:         schema.TypeString,
 							ValidateFunc: fortiValidateEnableDisable(),
 							Optional:     true,
 							Computed:     true,
 						},
-						"route_server_client": &schema.Schema{
+						"route_server_client": {
 							Type:         schema.TypeString,
 							ValidateFunc: fortiValidateEnableDisable(),
 							Optional:     true,
 							Computed:     true,
 						},
-						"route_server_client6": &schema.Schema{
+						"route_server_client6": {
 							Type:         schema.TypeString,
 							ValidateFunc: fortiValidateEnableDisable(),
 							Optional:     true,
 							Computed:     true,
 						},
-						"shutdown": &schema.Schema{
+						"shutdown": {
 							Type:         schema.TypeString,
 							ValidateFunc: fortiValidateEnableDisable(),
 							Optional:     true,
 							Computed:     true,
 						},
-						"soft_reconfiguration": &schema.Schema{
+						"soft_reconfiguration": {
 							Type:         schema.TypeString,
 							ValidateFunc: fortiValidateEnableDisable(),
 							Optional:     true,
 							Computed:     true,
 						},
-						"soft_reconfiguration6": &schema.Schema{
+						"soft_reconfiguration6": {
 							Type:         schema.TypeString,
 							ValidateFunc: fortiValidateEnableDisable(),
 							Optional:     true,
 							Computed:     true,
 						},
-						"as_override": &schema.Schema{
+						"as_override": {
 							Type:         schema.TypeString,
 							ValidateFunc: fortiValidateEnableDisable(),
 							Optional:     true,
 							Computed:     true,
 						},
-						"as_override6": &schema.Schema{
+						"as_override6": {
 							Type:         schema.TypeString,
 							ValidateFunc: fortiValidateEnableDisable(),
 							Optional:     true,
 							Computed:     true,
 						},
-						"strict_capability_match": &schema.Schema{
+						"strict_capability_match": {
 							Type:         schema.TypeString,
 							ValidateFunc: fortiValidateEnableDisable(),
 							Optional:     true,
 							Computed:     true,
 						},
-						"default_originate_routemap": &schema.Schema{
+						"default_originate_routemap": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"default_originate_routemap6": &schema.Schema{
+						"default_originate_routemap6": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"description": &schema.Schema{
+						"description": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 63),
 							Optional:     true,
 							Computed:     true,
 						},
-						"distribute_list_in": &schema.Schema{
+						"distribute_list_in": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"distribute_list_in6": &schema.Schema{
+						"distribute_list_in6": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"distribute_list_out": &schema.Schema{
+						"distribute_list_out": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"distribute_list_out6": &schema.Schema{
+						"distribute_list_out6": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"ebgp_multihop_ttl": &schema.Schema{
+						"ebgp_multihop_ttl": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 255),
 							Optional:     true,
 							Computed:     true,
 						},
-						"filter_list_in": &schema.Schema{
+						"filter_list_in": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"filter_list_in6": &schema.Schema{
+						"filter_list_in6": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"filter_list_out": &schema.Schema{
+						"filter_list_out": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"filter_list_out6": &schema.Schema{
+						"filter_list_out6": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"interface": &schema.Schema{
+						"interface": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 15),
 							Optional:     true,
 							Computed:     true,
 						},
-						"maximum_prefix": &schema.Schema{
+						"maximum_prefix": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"maximum_prefix6": &schema.Schema{
+						"maximum_prefix6": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"maximum_prefix_threshold": &schema.Schema{
+						"maximum_prefix_threshold": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 100),
 							Optional:     true,
 							Computed:     true,
 						},
-						"maximum_prefix_threshold6": &schema.Schema{
+						"maximum_prefix_threshold6": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 100),
 							Optional:     true,
 							Computed:     true,
 						},
-						"maximum_prefix_warning_only": &schema.Schema{
+						"maximum_prefix_warning_only": {
 							Type:         schema.TypeString,
 							ValidateFunc: fortiValidateEnableDisable(),
 							Optional:     true,
 							Computed:     true,
 						},
-						"maximum_prefix_warning_only6": &schema.Schema{
+						"maximum_prefix_warning_only6": {
 							Type:         schema.TypeString,
 							ValidateFunc: fortiValidateEnableDisable(),
 							Optional:     true,
 							Computed:     true,
 						},
-						"prefix_list_in": &schema.Schema{
+						"prefix_list_in": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"prefix_list_in6": &schema.Schema{
+						"prefix_list_in6": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"prefix_list_out": &schema.Schema{
+						"prefix_list_out": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"prefix_list_out6": &schema.Schema{
+						"prefix_list_out6": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"remote_as": &schema.Schema{
+						"remote_as": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"local_as": &schema.Schema{
+						"local_as": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"local_as_no_prepend": &schema.Schema{
+						"local_as_no_prepend": {
 							Type:         schema.TypeString,
 							ValidateFunc: fortiValidateEnableDisable(),
 							Optional:     true,
 							Computed:     true,
 						},
-						"local_as_replace_as": &schema.Schema{
+						"local_as_replace_as": {
 							Type:         schema.TypeString,
 							ValidateFunc: fortiValidateEnableDisable(),
 							Optional:     true,
 							Computed:     true,
 						},
-						"retain_stale_time": &schema.Schema{
+						"retain_stale_time": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 65535),
 							Optional:     true,
 							Computed:     true,
 						},
-						"route_map_in": &schema.Schema{
+						"route_map_in": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"route_map_in6": &schema.Schema{
+						"route_map_in6": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"route_map_out": &schema.Schema{
+						"route_map_out": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"route_map_out_preferable": &schema.Schema{
+						"route_map_out_preferable": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"route_map_out6": &schema.Schema{
+						"route_map_out6": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"route_map_out6_preferable": &schema.Schema{
+						"route_map_out6_preferable": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"send_community": &schema.Schema{
+						"send_community": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"send_community6": &schema.Schema{
+						"send_community6": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"keep_alive_timer": &schema.Schema{
+						"keep_alive_timer": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 65535),
 							Optional:     true,
 							Computed:     true,
 						},
-						"holdtime_timer": &schema.Schema{
+						"holdtime_timer": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(3, 65535),
 							Optional:     true,
 							Computed:     true,
 						},
-						"connect_timer": &schema.Schema{
+						"connect_timer": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 65535),
 							Optional:     true,
 							Computed:     true,
 						},
-						"unsuppress_map": &schema.Schema{
+						"unsuppress_map": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"unsuppress_map6": &schema.Schema{
+						"unsuppress_map6": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"update_source": &schema.Schema{
+						"update_source": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 15),
 							Optional:     true,
 							Computed:     true,
 						},
-						"weight": &schema.Schema{
+						"weight": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 65535),
 							Optional:     true,
 							Computed:     true,
 						},
-						"restart_time": &schema.Schema{
+						"restart_time": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 3600),
 							Optional:     true,
 							Computed:     true,
 						},
-						"additional_path": &schema.Schema{
+						"additional_path": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"additional_path6": &schema.Schema{
+						"additional_path6": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"adv_additional_path": &schema.Schema{
+						"adv_additional_path": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(2, 3),
 							Optional:     true,
 							Computed:     true,
 						},
-						"adv_additional_path6": &schema.Schema{
+						"adv_additional_path6": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(2, 3),
 							Optional:     true,
 							Computed:     true,
 						},
-						"password": &schema.Schema{
+						"password": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 128),
 							Optional:     true,
 							Sensitive:    true,
 						},
-						"conditional_advertise": &schema.Schema{
+						"conditional_advertise": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"advertise_routemap": &schema.Schema{
+									"advertise_routemap": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 35),
 										Optional:     true,
 										Computed:     true,
 									},
-									"condition_routemap": &schema.Schema{
+									"condition_routemap": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 35),
 										Optional:     true,
 										Computed:     true,
 									},
-									"condition_type": &schema.Schema{
+									"condition_type": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
@@ -938,528 +938,528 @@ func resourceRouterBgp() *schema.Resource {
 					},
 				},
 			},
-			"neighbor_group": &schema.Schema{
+			"neighbor_group": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 45),
 							Optional:     true,
 							Computed:     true,
 						},
-						"advertisement_interval": &schema.Schema{
+						"advertisement_interval": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 600),
 							Optional:     true,
 							Computed:     true,
 						},
-						"allowas_in_enable": &schema.Schema{
+						"allowas_in_enable": {
 							Type:         schema.TypeString,
 							ValidateFunc: fortiValidateEnableDisable(),
 							Optional:     true,
 							Computed:     true,
 						},
-						"allowas_in_enable6": &schema.Schema{
+						"allowas_in_enable6": {
 							Type:         schema.TypeString,
 							ValidateFunc: fortiValidateEnableDisable(),
 							Optional:     true,
 							Computed:     true,
 						},
-						"allowas_in": &schema.Schema{
+						"allowas_in": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 10),
 							Optional:     true,
 							Computed:     true,
 						},
-						"allowas_in6": &schema.Schema{
+						"allowas_in6": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 10),
 							Optional:     true,
 							Computed:     true,
 						},
-						"attribute_unchanged": &schema.Schema{
+						"attribute_unchanged": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"attribute_unchanged6": &schema.Schema{
+						"attribute_unchanged6": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"activate": &schema.Schema{
+						"activate": {
 							Type:         schema.TypeString,
 							ValidateFunc: fortiValidateEnableDisable(),
 							Optional:     true,
 							Computed:     true,
 						},
-						"activate6": &schema.Schema{
+						"activate6": {
 							Type:         schema.TypeString,
 							ValidateFunc: fortiValidateEnableDisable(),
 							Optional:     true,
 							Computed:     true,
 						},
-						"bfd": &schema.Schema{
+						"bfd": {
 							Type:         schema.TypeString,
 							ValidateFunc: fortiValidateEnableDisable(),
 							Optional:     true,
 							Computed:     true,
 						},
-						"capability_dynamic": &schema.Schema{
+						"capability_dynamic": {
 							Type:         schema.TypeString,
 							ValidateFunc: fortiValidateEnableDisable(),
 							Optional:     true,
 							Computed:     true,
 						},
-						"capability_orf": &schema.Schema{
+						"capability_orf": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"capability_orf6": &schema.Schema{
+						"capability_orf6": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"capability_graceful_restart": &schema.Schema{
+						"capability_graceful_restart": {
 							Type:         schema.TypeString,
 							ValidateFunc: fortiValidateEnableDisable(),
 							Optional:     true,
 							Computed:     true,
 						},
-						"capability_graceful_restart6": &schema.Schema{
+						"capability_graceful_restart6": {
 							Type:         schema.TypeString,
 							ValidateFunc: fortiValidateEnableDisable(),
 							Optional:     true,
 							Computed:     true,
 						},
-						"capability_route_refresh": &schema.Schema{
+						"capability_route_refresh": {
 							Type:         schema.TypeString,
 							ValidateFunc: fortiValidateEnableDisable(),
 							Optional:     true,
 							Computed:     true,
 						},
-						"capability_default_originate": &schema.Schema{
+						"capability_default_originate": {
 							Type:         schema.TypeString,
 							ValidateFunc: fortiValidateEnableDisable(),
 							Optional:     true,
 							Computed:     true,
 						},
-						"capability_default_originate6": &schema.Schema{
+						"capability_default_originate6": {
 							Type:         schema.TypeString,
 							ValidateFunc: fortiValidateEnableDisable(),
 							Optional:     true,
 							Computed:     true,
 						},
-						"dont_capability_negotiate": &schema.Schema{
+						"dont_capability_negotiate": {
 							Type:         schema.TypeString,
 							ValidateFunc: fortiValidateEnableDisable(),
 							Optional:     true,
 							Computed:     true,
 						},
-						"ebgp_enforce_multihop": &schema.Schema{
+						"ebgp_enforce_multihop": {
 							Type:         schema.TypeString,
 							ValidateFunc: fortiValidateEnableDisable(),
 							Optional:     true,
 							Computed:     true,
 						},
-						"link_down_failover": &schema.Schema{
+						"link_down_failover": {
 							Type:         schema.TypeString,
 							ValidateFunc: fortiValidateEnableDisable(),
 							Optional:     true,
 							Computed:     true,
 						},
-						"stale_route": &schema.Schema{
+						"stale_route": {
 							Type:         schema.TypeString,
 							ValidateFunc: fortiValidateEnableDisable(),
 							Optional:     true,
 							Computed:     true,
 						},
-						"next_hop_self": &schema.Schema{
+						"next_hop_self": {
 							Type:         schema.TypeString,
 							ValidateFunc: fortiValidateEnableDisable(),
 							Optional:     true,
 							Computed:     true,
 						},
-						"next_hop_self6": &schema.Schema{
+						"next_hop_self6": {
 							Type:         schema.TypeString,
 							ValidateFunc: fortiValidateEnableDisable(),
 							Optional:     true,
 							Computed:     true,
 						},
-						"next_hop_self_rr": &schema.Schema{
+						"next_hop_self_rr": {
 							Type:         schema.TypeString,
 							ValidateFunc: fortiValidateEnableDisable(),
 							Optional:     true,
 							Computed:     true,
 						},
-						"next_hop_self_rr6": &schema.Schema{
+						"next_hop_self_rr6": {
 							Type:         schema.TypeString,
 							ValidateFunc: fortiValidateEnableDisable(),
 							Optional:     true,
 							Computed:     true,
 						},
-						"override_capability": &schema.Schema{
+						"override_capability": {
 							Type:         schema.TypeString,
 							ValidateFunc: fortiValidateEnableDisable(),
 							Optional:     true,
 							Computed:     true,
 						},
-						"passive": &schema.Schema{
+						"passive": {
 							Type:         schema.TypeString,
 							ValidateFunc: fortiValidateEnableDisable(),
 							Optional:     true,
 							Computed:     true,
 						},
-						"remove_private_as": &schema.Schema{
+						"remove_private_as": {
 							Type:         schema.TypeString,
 							ValidateFunc: fortiValidateEnableDisable(),
 							Optional:     true,
 							Computed:     true,
 						},
-						"remove_private_as6": &schema.Schema{
+						"remove_private_as6": {
 							Type:         schema.TypeString,
 							ValidateFunc: fortiValidateEnableDisable(),
 							Optional:     true,
 							Computed:     true,
 						},
-						"route_reflector_client": &schema.Schema{
+						"route_reflector_client": {
 							Type:         schema.TypeString,
 							ValidateFunc: fortiValidateEnableDisable(),
 							Optional:     true,
 							Computed:     true,
 						},
-						"route_reflector_client6": &schema.Schema{
+						"route_reflector_client6": {
 							Type:         schema.TypeString,
 							ValidateFunc: fortiValidateEnableDisable(),
 							Optional:     true,
 							Computed:     true,
 						},
-						"route_server_client": &schema.Schema{
+						"route_server_client": {
 							Type:         schema.TypeString,
 							ValidateFunc: fortiValidateEnableDisable(),
 							Optional:     true,
 							Computed:     true,
 						},
-						"route_server_client6": &schema.Schema{
+						"route_server_client6": {
 							Type:         schema.TypeString,
 							ValidateFunc: fortiValidateEnableDisable(),
 							Optional:     true,
 							Computed:     true,
 						},
-						"shutdown": &schema.Schema{
+						"shutdown": {
 							Type:         schema.TypeString,
 							ValidateFunc: fortiValidateEnableDisable(),
 							Optional:     true,
 							Computed:     true,
 						},
-						"soft_reconfiguration": &schema.Schema{
+						"soft_reconfiguration": {
 							Type:         schema.TypeString,
 							ValidateFunc: fortiValidateEnableDisable(),
 							Optional:     true,
 							Computed:     true,
 						},
-						"soft_reconfiguration6": &schema.Schema{
+						"soft_reconfiguration6": {
 							Type:         schema.TypeString,
 							ValidateFunc: fortiValidateEnableDisable(),
 							Optional:     true,
 							Computed:     true,
 						},
-						"as_override": &schema.Schema{
+						"as_override": {
 							Type:         schema.TypeString,
 							ValidateFunc: fortiValidateEnableDisable(),
 							Optional:     true,
 							Computed:     true,
 						},
-						"as_override6": &schema.Schema{
+						"as_override6": {
 							Type:         schema.TypeString,
 							ValidateFunc: fortiValidateEnableDisable(),
 							Optional:     true,
 							Computed:     true,
 						},
-						"strict_capability_match": &schema.Schema{
+						"strict_capability_match": {
 							Type:         schema.TypeString,
 							ValidateFunc: fortiValidateEnableDisable(),
 							Optional:     true,
 							Computed:     true,
 						},
-						"default_originate_routemap": &schema.Schema{
+						"default_originate_routemap": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"default_originate_routemap6": &schema.Schema{
+						"default_originate_routemap6": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"description": &schema.Schema{
+						"description": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 63),
 							Optional:     true,
 							Computed:     true,
 						},
-						"distribute_list_in": &schema.Schema{
+						"distribute_list_in": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"distribute_list_in6": &schema.Schema{
+						"distribute_list_in6": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"distribute_list_out": &schema.Schema{
+						"distribute_list_out": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"distribute_list_out6": &schema.Schema{
+						"distribute_list_out6": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"ebgp_multihop_ttl": &schema.Schema{
+						"ebgp_multihop_ttl": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 255),
 							Optional:     true,
 							Computed:     true,
 						},
-						"filter_list_in": &schema.Schema{
+						"filter_list_in": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"filter_list_in6": &schema.Schema{
+						"filter_list_in6": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"filter_list_out": &schema.Schema{
+						"filter_list_out": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"filter_list_out6": &schema.Schema{
+						"filter_list_out6": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"interface": &schema.Schema{
+						"interface": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 15),
 							Optional:     true,
 							Computed:     true,
 						},
-						"maximum_prefix": &schema.Schema{
+						"maximum_prefix": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"maximum_prefix6": &schema.Schema{
+						"maximum_prefix6": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"maximum_prefix_threshold": &schema.Schema{
+						"maximum_prefix_threshold": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 100),
 							Optional:     true,
 							Computed:     true,
 						},
-						"maximum_prefix_threshold6": &schema.Schema{
+						"maximum_prefix_threshold6": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 100),
 							Optional:     true,
 							Computed:     true,
 						},
-						"maximum_prefix_warning_only": &schema.Schema{
+						"maximum_prefix_warning_only": {
 							Type:         schema.TypeString,
 							ValidateFunc: fortiValidateEnableDisable(),
 							Optional:     true,
 							Computed:     true,
 						},
-						"maximum_prefix_warning_only6": &schema.Schema{
+						"maximum_prefix_warning_only6": {
 							Type:         schema.TypeString,
 							ValidateFunc: fortiValidateEnableDisable(),
 							Optional:     true,
 							Computed:     true,
 						},
-						"prefix_list_in": &schema.Schema{
+						"prefix_list_in": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"prefix_list_in6": &schema.Schema{
+						"prefix_list_in6": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"prefix_list_out": &schema.Schema{
+						"prefix_list_out": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"prefix_list_out6": &schema.Schema{
+						"prefix_list_out6": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"remote_as": &schema.Schema{
+						"remote_as": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"local_as": &schema.Schema{
+						"local_as": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"local_as_no_prepend": &schema.Schema{
+						"local_as_no_prepend": {
 							Type:         schema.TypeString,
 							ValidateFunc: fortiValidateEnableDisable(),
 							Optional:     true,
 							Computed:     true,
 						},
-						"local_as_replace_as": &schema.Schema{
+						"local_as_replace_as": {
 							Type:         schema.TypeString,
 							ValidateFunc: fortiValidateEnableDisable(),
 							Optional:     true,
 							Computed:     true,
 						},
-						"retain_stale_time": &schema.Schema{
+						"retain_stale_time": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 65535),
 							Optional:     true,
 							Computed:     true,
 						},
-						"route_map_in": &schema.Schema{
+						"route_map_in": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"route_map_in6": &schema.Schema{
+						"route_map_in6": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"route_map_out": &schema.Schema{
+						"route_map_out": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"route_map_out_preferable": &schema.Schema{
+						"route_map_out_preferable": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"route_map_out6": &schema.Schema{
+						"route_map_out6": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"route_map_out6_preferable": &schema.Schema{
+						"route_map_out6_preferable": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"send_community": &schema.Schema{
+						"send_community": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"send_community6": &schema.Schema{
+						"send_community6": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"keep_alive_timer": &schema.Schema{
+						"keep_alive_timer": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 65535),
 							Optional:     true,
 							Computed:     true,
 						},
-						"holdtime_timer": &schema.Schema{
+						"holdtime_timer": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(3, 65535),
 							Optional:     true,
 							Computed:     true,
 						},
-						"connect_timer": &schema.Schema{
+						"connect_timer": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 65535),
 							Optional:     true,
 							Computed:     true,
 						},
-						"unsuppress_map": &schema.Schema{
+						"unsuppress_map": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"unsuppress_map6": &schema.Schema{
+						"unsuppress_map6": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"update_source": &schema.Schema{
+						"update_source": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 15),
 							Optional:     true,
 							Computed:     true,
 						},
-						"weight": &schema.Schema{
+						"weight": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 65535),
 							Optional:     true,
 							Computed:     true,
 						},
-						"restart_time": &schema.Schema{
+						"restart_time": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 3600),
 							Optional:     true,
 							Computed:     true,
 						},
-						"additional_path": &schema.Schema{
+						"additional_path": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"additional_path6": &schema.Schema{
+						"additional_path6": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"adv_additional_path": &schema.Schema{
+						"adv_additional_path": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(2, 3),
 							Optional:     true,
 							Computed:     true,
 						},
-						"adv_additional_path6": &schema.Schema{
+						"adv_additional_path6": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(2, 3),
 							Optional:     true,
@@ -1468,29 +1468,29 @@ func resourceRouterBgp() *schema.Resource {
 					},
 				},
 			},
-			"neighbor_range": &schema.Schema{
+			"neighbor_range": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"prefix": &schema.Schema{
+						"prefix": {
 							Type:         schema.TypeString,
 							ValidateFunc: fortiValidateIPv4Classnet,
 							Optional:     true,
 							Computed:     true,
 						},
-						"max_neighbor_num": &schema.Schema{
+						"max_neighbor_num": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 1000),
 							Optional:     true,
 							Computed:     true,
 						},
-						"neighbor_group": &schema.Schema{
+						"neighbor_group": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 63),
 							Optional:     true,
@@ -1499,28 +1499,28 @@ func resourceRouterBgp() *schema.Resource {
 					},
 				},
 			},
-			"neighbor_range6": &schema.Schema{
+			"neighbor_range6": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"prefix6": &schema.Schema{
+						"prefix6": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"max_neighbor_num": &schema.Schema{
+						"max_neighbor_num": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 1000),
 							Optional:     true,
 							Computed:     true,
 						},
-						"neighbor_group": &schema.Schema{
+						"neighbor_group": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 63),
 							Optional:     true,
@@ -1529,29 +1529,29 @@ func resourceRouterBgp() *schema.Resource {
 					},
 				},
 			},
-			"network": &schema.Schema{
+			"network": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"prefix": &schema.Schema{
+						"prefix": {
 							Type:         schema.TypeString,
 							ValidateFunc: fortiValidateIPv4Classnet,
 							Optional:     true,
 							Computed:     true,
 						},
-						"backdoor": &schema.Schema{
+						"backdoor": {
 							Type:         schema.TypeString,
 							ValidateFunc: fortiValidateEnableDisable(),
 							Optional:     true,
 							Computed:     true,
 						},
-						"route_map": &schema.Schema{
+						"route_map": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
@@ -1560,29 +1560,29 @@ func resourceRouterBgp() *schema.Resource {
 					},
 				},
 			},
-			"network6": &schema.Schema{
+			"network6": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"prefix6": &schema.Schema{
+						"prefix6": {
 							Type:         schema.TypeString,
 							ValidateFunc: fortiValidateIPv6Network,
 							Optional:     true,
 							Computed:     true,
 						},
-						"backdoor": &schema.Schema{
+						"backdoor": {
 							Type:         schema.TypeString,
 							ValidateFunc: fortiValidateEnableDisable(),
 							Optional:     true,
 							Computed:     true,
 						},
-						"route_map": &schema.Schema{
+						"route_map": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
@@ -1591,24 +1591,24 @@ func resourceRouterBgp() *schema.Resource {
 					},
 				},
 			},
-			"redistribute": &schema.Schema{
+			"redistribute": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"status": &schema.Schema{
+						"status": {
 							Type:         schema.TypeString,
 							ValidateFunc: fortiValidateEnableDisable(),
 							Optional:     true,
 							Computed:     true,
 						},
-						"route_map": &schema.Schema{
+						"route_map": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
@@ -1617,24 +1617,24 @@ func resourceRouterBgp() *schema.Resource {
 					},
 				},
 			},
-			"redistribute6": &schema.Schema{
+			"redistribute6": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"status": &schema.Schema{
+						"status": {
 							Type:         schema.TypeString,
 							ValidateFunc: fortiValidateEnableDisable(),
 							Optional:     true,
 							Computed:     true,
 						},
-						"route_map": &schema.Schema{
+						"route_map": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
@@ -1643,29 +1643,29 @@ func resourceRouterBgp() *schema.Resource {
 					},
 				},
 			},
-			"admin_distance": &schema.Schema{
+			"admin_distance": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"neighbour_prefix": &schema.Schema{
+						"neighbour_prefix": {
 							Type:         schema.TypeString,
 							ValidateFunc: fortiValidateIPv4Classnet,
 							Optional:     true,
 							Computed:     true,
 						},
-						"route_list": &schema.Schema{
+						"route_list": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"distance": &schema.Schema{
+						"distance": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 255),
 							Optional:     true,
@@ -1674,35 +1674,35 @@ func resourceRouterBgp() *schema.Resource {
 					},
 				},
 			},
-			"vrf_leak": &schema.Schema{
+			"vrf_leak": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"vrf": &schema.Schema{
+						"vrf": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 7),
 							Optional:     true,
 							Computed:     true,
 						},
-						"target": &schema.Schema{
+						"target": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"vrf": &schema.Schema{
+									"vrf": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 7),
 										Optional:     true,
 										Computed:     true,
 									},
-									"route_map": &schema.Schema{
+									"route_map": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 35),
 										Optional:     true,
 										Computed:     true,
 									},
-									"interface": &schema.Schema{
+									"interface": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 15),
 										Optional:     true,
@@ -1714,10 +1714,15 @@ func resourceRouterBgp() *schema.Resource {
 					},
 				},
 			},
-			"dynamic_sort_subtable": &schema.Schema{
+			"dynamic_sort_subtable": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Default:  "false",
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -1736,14 +1741,24 @@ func resourceRouterBgpUpdate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectRouterBgp(d, false, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating RouterBgp resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateRouterBgp(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectRouterBgp(d, false, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating RouterBgp resource: %v", err)
+		return fmt.Errorf("error updating RouterBgp resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateRouterBgp(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating RouterBgp resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -1769,15 +1784,25 @@ func resourceRouterBgpDelete(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
 	obj, err := getObjectRouterBgp(d, true, c.Fv)
 
 	if err != nil {
-		return fmt.Errorf("Error updating RouterBgp resource while getting object: %v", err)
+		return fmt.Errorf("error updating RouterBgp resource while getting object: %v", err)
 	}
 
-	_, err = c.UpdateRouterBgp(obj, mkey, vdomparam)
+	_, err = c.UpdateRouterBgp(obj, mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error clearing RouterBgp resource: %v", err)
+		return fmt.Errorf("error clearing RouterBgp resource: %v", err)
 	}
 
 	d.SetId("")
@@ -1799,9 +1824,19 @@ func resourceRouterBgpRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadRouterBgp(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadRouterBgp(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading RouterBgp resource: %v", err)
+		return fmt.Errorf("error reading RouterBgp resource: %v", err)
 	}
 
 	if o == nil {
@@ -1812,7 +1847,7 @@ func resourceRouterBgpRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectRouterBgp(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading RouterBgp resource from API: %v", err)
+		return fmt.Errorf("error reading RouterBgp resource from API: %v", err)
 	}
 	return nil
 }
@@ -4674,171 +4709,171 @@ func refreshObjectRouterBgp(d *schema.ResourceData, o map[string]interface{}, sv
 
 	if err = d.Set("as", flattenRouterBgpAs(o["as"], d, "as", sv)); err != nil {
 		if !fortiAPIPatch(o["as"]) {
-			return fmt.Errorf("Error reading as: %v", err)
+			return fmt.Errorf("error reading as: %v", err)
 		}
 	}
 
 	if err = d.Set("router_id", flattenRouterBgpRouterId(o["router-id"], d, "router_id", sv)); err != nil {
 		if !fortiAPIPatch(o["router-id"]) {
-			return fmt.Errorf("Error reading router_id: %v", err)
+			return fmt.Errorf("error reading router_id: %v", err)
 		}
 	}
 
 	if err = d.Set("keepalive_timer", flattenRouterBgpKeepaliveTimer(o["keepalive-timer"], d, "keepalive_timer", sv)); err != nil {
 		if !fortiAPIPatch(o["keepalive-timer"]) {
-			return fmt.Errorf("Error reading keepalive_timer: %v", err)
+			return fmt.Errorf("error reading keepalive_timer: %v", err)
 		}
 	}
 
 	if err = d.Set("holdtime_timer", flattenRouterBgpHoldtimeTimer(o["holdtime-timer"], d, "holdtime_timer", sv)); err != nil {
 		if !fortiAPIPatch(o["holdtime-timer"]) {
-			return fmt.Errorf("Error reading holdtime_timer: %v", err)
+			return fmt.Errorf("error reading holdtime_timer: %v", err)
 		}
 	}
 
 	if err = d.Set("always_compare_med", flattenRouterBgpAlwaysCompareMed(o["always-compare-med"], d, "always_compare_med", sv)); err != nil {
 		if !fortiAPIPatch(o["always-compare-med"]) {
-			return fmt.Errorf("Error reading always_compare_med: %v", err)
+			return fmt.Errorf("error reading always_compare_med: %v", err)
 		}
 	}
 
 	if err = d.Set("bestpath_as_path_ignore", flattenRouterBgpBestpathAsPathIgnore(o["bestpath-as-path-ignore"], d, "bestpath_as_path_ignore", sv)); err != nil {
 		if !fortiAPIPatch(o["bestpath-as-path-ignore"]) {
-			return fmt.Errorf("Error reading bestpath_as_path_ignore: %v", err)
+			return fmt.Errorf("error reading bestpath_as_path_ignore: %v", err)
 		}
 	}
 
 	if err = d.Set("bestpath_cmp_confed_aspath", flattenRouterBgpBestpathCmpConfedAspath(o["bestpath-cmp-confed-aspath"], d, "bestpath_cmp_confed_aspath", sv)); err != nil {
 		if !fortiAPIPatch(o["bestpath-cmp-confed-aspath"]) {
-			return fmt.Errorf("Error reading bestpath_cmp_confed_aspath: %v", err)
+			return fmt.Errorf("error reading bestpath_cmp_confed_aspath: %v", err)
 		}
 	}
 
 	if err = d.Set("bestpath_cmp_routerid", flattenRouterBgpBestpathCmpRouterid(o["bestpath-cmp-routerid"], d, "bestpath_cmp_routerid", sv)); err != nil {
 		if !fortiAPIPatch(o["bestpath-cmp-routerid"]) {
-			return fmt.Errorf("Error reading bestpath_cmp_routerid: %v", err)
+			return fmt.Errorf("error reading bestpath_cmp_routerid: %v", err)
 		}
 	}
 
 	if err = d.Set("bestpath_med_confed", flattenRouterBgpBestpathMedConfed(o["bestpath-med-confed"], d, "bestpath_med_confed", sv)); err != nil {
 		if !fortiAPIPatch(o["bestpath-med-confed"]) {
-			return fmt.Errorf("Error reading bestpath_med_confed: %v", err)
+			return fmt.Errorf("error reading bestpath_med_confed: %v", err)
 		}
 	}
 
 	if err = d.Set("bestpath_med_missing_as_worst", flattenRouterBgpBestpathMedMissingAsWorst(o["bestpath-med-missing-as-worst"], d, "bestpath_med_missing_as_worst", sv)); err != nil {
 		if !fortiAPIPatch(o["bestpath-med-missing-as-worst"]) {
-			return fmt.Errorf("Error reading bestpath_med_missing_as_worst: %v", err)
+			return fmt.Errorf("error reading bestpath_med_missing_as_worst: %v", err)
 		}
 	}
 
 	if err = d.Set("client_to_client_reflection", flattenRouterBgpClientToClientReflection(o["client-to-client-reflection"], d, "client_to_client_reflection", sv)); err != nil {
 		if !fortiAPIPatch(o["client-to-client-reflection"]) {
-			return fmt.Errorf("Error reading client_to_client_reflection: %v", err)
+			return fmt.Errorf("error reading client_to_client_reflection: %v", err)
 		}
 	}
 
 	if err = d.Set("dampening", flattenRouterBgpDampening(o["dampening"], d, "dampening", sv)); err != nil {
 		if !fortiAPIPatch(o["dampening"]) {
-			return fmt.Errorf("Error reading dampening: %v", err)
+			return fmt.Errorf("error reading dampening: %v", err)
 		}
 	}
 
 	if err = d.Set("deterministic_med", flattenRouterBgpDeterministicMed(o["deterministic-med"], d, "deterministic_med", sv)); err != nil {
 		if !fortiAPIPatch(o["deterministic-med"]) {
-			return fmt.Errorf("Error reading deterministic_med: %v", err)
+			return fmt.Errorf("error reading deterministic_med: %v", err)
 		}
 	}
 
 	if err = d.Set("ebgp_multipath", flattenRouterBgpEbgpMultipath(o["ebgp-multipath"], d, "ebgp_multipath", sv)); err != nil {
 		if !fortiAPIPatch(o["ebgp-multipath"]) {
-			return fmt.Errorf("Error reading ebgp_multipath: %v", err)
+			return fmt.Errorf("error reading ebgp_multipath: %v", err)
 		}
 	}
 
 	if err = d.Set("ibgp_multipath", flattenRouterBgpIbgpMultipath(o["ibgp-multipath"], d, "ibgp_multipath", sv)); err != nil {
 		if !fortiAPIPatch(o["ibgp-multipath"]) {
-			return fmt.Errorf("Error reading ibgp_multipath: %v", err)
+			return fmt.Errorf("error reading ibgp_multipath: %v", err)
 		}
 	}
 
 	if err = d.Set("enforce_first_as", flattenRouterBgpEnforceFirstAs(o["enforce-first-as"], d, "enforce_first_as", sv)); err != nil {
 		if !fortiAPIPatch(o["enforce-first-as"]) {
-			return fmt.Errorf("Error reading enforce_first_as: %v", err)
+			return fmt.Errorf("error reading enforce_first_as: %v", err)
 		}
 	}
 
 	if err = d.Set("fast_external_failover", flattenRouterBgpFastExternalFailover(o["fast-external-failover"], d, "fast_external_failover", sv)); err != nil {
 		if !fortiAPIPatch(o["fast-external-failover"]) {
-			return fmt.Errorf("Error reading fast_external_failover: %v", err)
+			return fmt.Errorf("error reading fast_external_failover: %v", err)
 		}
 	}
 
 	if err = d.Set("log_neighbour_changes", flattenRouterBgpLogNeighbourChanges(o["log-neighbour-changes"], d, "log_neighbour_changes", sv)); err != nil {
 		if !fortiAPIPatch(o["log-neighbour-changes"]) {
-			return fmt.Errorf("Error reading log_neighbour_changes: %v", err)
+			return fmt.Errorf("error reading log_neighbour_changes: %v", err)
 		}
 	}
 
 	if err = d.Set("network_import_check", flattenRouterBgpNetworkImportCheck(o["network-import-check"], d, "network_import_check", sv)); err != nil {
 		if !fortiAPIPatch(o["network-import-check"]) {
-			return fmt.Errorf("Error reading network_import_check: %v", err)
+			return fmt.Errorf("error reading network_import_check: %v", err)
 		}
 	}
 
 	if err = d.Set("ignore_optional_capability", flattenRouterBgpIgnoreOptionalCapability(o["ignore-optional-capability"], d, "ignore_optional_capability", sv)); err != nil {
 		if !fortiAPIPatch(o["ignore-optional-capability"]) {
-			return fmt.Errorf("Error reading ignore_optional_capability: %v", err)
+			return fmt.Errorf("error reading ignore_optional_capability: %v", err)
 		}
 	}
 
 	if err = d.Set("additional_path", flattenRouterBgpAdditionalPath(o["additional-path"], d, "additional_path", sv)); err != nil {
 		if !fortiAPIPatch(o["additional-path"]) {
-			return fmt.Errorf("Error reading additional_path: %v", err)
+			return fmt.Errorf("error reading additional_path: %v", err)
 		}
 	}
 
 	if err = d.Set("additional_path6", flattenRouterBgpAdditionalPath6(o["additional-path6"], d, "additional_path6", sv)); err != nil {
 		if !fortiAPIPatch(o["additional-path6"]) {
-			return fmt.Errorf("Error reading additional_path6: %v", err)
+			return fmt.Errorf("error reading additional_path6: %v", err)
 		}
 	}
 
 	if err = d.Set("multipath_recursive_distance", flattenRouterBgpMultipathRecursiveDistance(o["multipath-recursive-distance"], d, "multipath_recursive_distance", sv)); err != nil {
 		if !fortiAPIPatch(o["multipath-recursive-distance"]) {
-			return fmt.Errorf("Error reading multipath_recursive_distance: %v", err)
+			return fmt.Errorf("error reading multipath_recursive_distance: %v", err)
 		}
 	}
 
 	if err = d.Set("recursive_next_hop", flattenRouterBgpRecursiveNextHop(o["recursive-next-hop"], d, "recursive_next_hop", sv)); err != nil {
 		if !fortiAPIPatch(o["recursive-next-hop"]) {
-			return fmt.Errorf("Error reading recursive_next_hop: %v", err)
+			return fmt.Errorf("error reading recursive_next_hop: %v", err)
 		}
 	}
 
 	if err = d.Set("cluster_id", flattenRouterBgpClusterId(o["cluster-id"], d, "cluster_id", sv)); err != nil {
 		if !fortiAPIPatch(o["cluster-id"]) {
-			return fmt.Errorf("Error reading cluster_id: %v", err)
+			return fmt.Errorf("error reading cluster_id: %v", err)
 		}
 	}
 
 	if err = d.Set("confederation_identifier", flattenRouterBgpConfederationIdentifier(o["confederation-identifier"], d, "confederation_identifier", sv)); err != nil {
 		if !fortiAPIPatch(o["confederation-identifier"]) {
-			return fmt.Errorf("Error reading confederation_identifier: %v", err)
+			return fmt.Errorf("error reading confederation_identifier: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("confederation_peers", flattenRouterBgpConfederationPeers(o["confederation-peers"], d, "confederation_peers", sv)); err != nil {
 			if !fortiAPIPatch(o["confederation-peers"]) {
-				return fmt.Errorf("Error reading confederation_peers: %v", err)
+				return fmt.Errorf("error reading confederation_peers: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("confederation_peers"); ok {
 			if err = d.Set("confederation_peers", flattenRouterBgpConfederationPeers(o["confederation-peers"], d, "confederation_peers", sv)); err != nil {
 				if !fortiAPIPatch(o["confederation-peers"]) {
-					return fmt.Errorf("Error reading confederation_peers: %v", err)
+					return fmt.Errorf("error reading confederation_peers: %v", err)
 				}
 			}
 		}
@@ -4846,129 +4881,129 @@ func refreshObjectRouterBgp(d *schema.ResourceData, o map[string]interface{}, sv
 
 	if err = d.Set("dampening_route_map", flattenRouterBgpDampeningRouteMap(o["dampening-route-map"], d, "dampening_route_map", sv)); err != nil {
 		if !fortiAPIPatch(o["dampening-route-map"]) {
-			return fmt.Errorf("Error reading dampening_route_map: %v", err)
+			return fmt.Errorf("error reading dampening_route_map: %v", err)
 		}
 	}
 
 	if err = d.Set("dampening_reachability_half_life", flattenRouterBgpDampeningReachabilityHalfLife(o["dampening-reachability-half-life"], d, "dampening_reachability_half_life", sv)); err != nil {
 		if !fortiAPIPatch(o["dampening-reachability-half-life"]) {
-			return fmt.Errorf("Error reading dampening_reachability_half_life: %v", err)
+			return fmt.Errorf("error reading dampening_reachability_half_life: %v", err)
 		}
 	}
 
 	if err = d.Set("dampening_reuse", flattenRouterBgpDampeningReuse(o["dampening-reuse"], d, "dampening_reuse", sv)); err != nil {
 		if !fortiAPIPatch(o["dampening-reuse"]) {
-			return fmt.Errorf("Error reading dampening_reuse: %v", err)
+			return fmt.Errorf("error reading dampening_reuse: %v", err)
 		}
 	}
 
 	if err = d.Set("dampening_suppress", flattenRouterBgpDampeningSuppress(o["dampening-suppress"], d, "dampening_suppress", sv)); err != nil {
 		if !fortiAPIPatch(o["dampening-suppress"]) {
-			return fmt.Errorf("Error reading dampening_suppress: %v", err)
+			return fmt.Errorf("error reading dampening_suppress: %v", err)
 		}
 	}
 
 	if err = d.Set("dampening_max_suppress_time", flattenRouterBgpDampeningMaxSuppressTime(o["dampening-max-suppress-time"], d, "dampening_max_suppress_time", sv)); err != nil {
 		if !fortiAPIPatch(o["dampening-max-suppress-time"]) {
-			return fmt.Errorf("Error reading dampening_max_suppress_time: %v", err)
+			return fmt.Errorf("error reading dampening_max_suppress_time: %v", err)
 		}
 	}
 
 	if err = d.Set("dampening_unreachability_half_life", flattenRouterBgpDampeningUnreachabilityHalfLife(o["dampening-unreachability-half-life"], d, "dampening_unreachability_half_life", sv)); err != nil {
 		if !fortiAPIPatch(o["dampening-unreachability-half-life"]) {
-			return fmt.Errorf("Error reading dampening_unreachability_half_life: %v", err)
+			return fmt.Errorf("error reading dampening_unreachability_half_life: %v", err)
 		}
 	}
 
 	if err = d.Set("default_local_preference", flattenRouterBgpDefaultLocalPreference(o["default-local-preference"], d, "default_local_preference", sv)); err != nil {
 		if !fortiAPIPatch(o["default-local-preference"]) {
-			return fmt.Errorf("Error reading default_local_preference: %v", err)
+			return fmt.Errorf("error reading default_local_preference: %v", err)
 		}
 	}
 
 	if err = d.Set("scan_time", flattenRouterBgpScanTime(o["scan-time"], d, "scan_time", sv)); err != nil {
 		if !fortiAPIPatch(o["scan-time"]) {
-			return fmt.Errorf("Error reading scan_time: %v", err)
+			return fmt.Errorf("error reading scan_time: %v", err)
 		}
 	}
 
 	if err = d.Set("distance_external", flattenRouterBgpDistanceExternal(o["distance-external"], d, "distance_external", sv)); err != nil {
 		if !fortiAPIPatch(o["distance-external"]) {
-			return fmt.Errorf("Error reading distance_external: %v", err)
+			return fmt.Errorf("error reading distance_external: %v", err)
 		}
 	}
 
 	if err = d.Set("distance_internal", flattenRouterBgpDistanceInternal(o["distance-internal"], d, "distance_internal", sv)); err != nil {
 		if !fortiAPIPatch(o["distance-internal"]) {
-			return fmt.Errorf("Error reading distance_internal: %v", err)
+			return fmt.Errorf("error reading distance_internal: %v", err)
 		}
 	}
 
 	if err = d.Set("distance_local", flattenRouterBgpDistanceLocal(o["distance-local"], d, "distance_local", sv)); err != nil {
 		if !fortiAPIPatch(o["distance-local"]) {
-			return fmt.Errorf("Error reading distance_local: %v", err)
+			return fmt.Errorf("error reading distance_local: %v", err)
 		}
 	}
 
 	if err = d.Set("synchronization", flattenRouterBgpSynchronization(o["synchronization"], d, "synchronization", sv)); err != nil {
 		if !fortiAPIPatch(o["synchronization"]) {
-			return fmt.Errorf("Error reading synchronization: %v", err)
+			return fmt.Errorf("error reading synchronization: %v", err)
 		}
 	}
 
 	if err = d.Set("graceful_restart", flattenRouterBgpGracefulRestart(o["graceful-restart"], d, "graceful_restart", sv)); err != nil {
 		if !fortiAPIPatch(o["graceful-restart"]) {
-			return fmt.Errorf("Error reading graceful_restart: %v", err)
+			return fmt.Errorf("error reading graceful_restart: %v", err)
 		}
 	}
 
 	if err = d.Set("graceful_restart_time", flattenRouterBgpGracefulRestartTime(o["graceful-restart-time"], d, "graceful_restart_time", sv)); err != nil {
 		if !fortiAPIPatch(o["graceful-restart-time"]) {
-			return fmt.Errorf("Error reading graceful_restart_time: %v", err)
+			return fmt.Errorf("error reading graceful_restart_time: %v", err)
 		}
 	}
 
 	if err = d.Set("graceful_stalepath_time", flattenRouterBgpGracefulStalepathTime(o["graceful-stalepath-time"], d, "graceful_stalepath_time", sv)); err != nil {
 		if !fortiAPIPatch(o["graceful-stalepath-time"]) {
-			return fmt.Errorf("Error reading graceful_stalepath_time: %v", err)
+			return fmt.Errorf("error reading graceful_stalepath_time: %v", err)
 		}
 	}
 
 	if err = d.Set("graceful_update_delay", flattenRouterBgpGracefulUpdateDelay(o["graceful-update-delay"], d, "graceful_update_delay", sv)); err != nil {
 		if !fortiAPIPatch(o["graceful-update-delay"]) {
-			return fmt.Errorf("Error reading graceful_update_delay: %v", err)
+			return fmt.Errorf("error reading graceful_update_delay: %v", err)
 		}
 	}
 
 	if err = d.Set("graceful_end_on_timer", flattenRouterBgpGracefulEndOnTimer(o["graceful-end-on-timer"], d, "graceful_end_on_timer", sv)); err != nil {
 		if !fortiAPIPatch(o["graceful-end-on-timer"]) {
-			return fmt.Errorf("Error reading graceful_end_on_timer: %v", err)
+			return fmt.Errorf("error reading graceful_end_on_timer: %v", err)
 		}
 	}
 
 	if err = d.Set("additional_path_select", flattenRouterBgpAdditionalPathSelect(o["additional-path-select"], d, "additional_path_select", sv)); err != nil {
 		if !fortiAPIPatch(o["additional-path-select"]) {
-			return fmt.Errorf("Error reading additional_path_select: %v", err)
+			return fmt.Errorf("error reading additional_path_select: %v", err)
 		}
 	}
 
 	if err = d.Set("additional_path_select6", flattenRouterBgpAdditionalPathSelect6(o["additional-path-select6"], d, "additional_path_select6", sv)); err != nil {
 		if !fortiAPIPatch(o["additional-path-select6"]) {
-			return fmt.Errorf("Error reading additional_path_select6: %v", err)
+			return fmt.Errorf("error reading additional_path_select6: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("aggregate_address", flattenRouterBgpAggregateAddress(o["aggregate-address"], d, "aggregate_address", sv)); err != nil {
 			if !fortiAPIPatch(o["aggregate-address"]) {
-				return fmt.Errorf("Error reading aggregate_address: %v", err)
+				return fmt.Errorf("error reading aggregate_address: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("aggregate_address"); ok {
 			if err = d.Set("aggregate_address", flattenRouterBgpAggregateAddress(o["aggregate-address"], d, "aggregate_address", sv)); err != nil {
 				if !fortiAPIPatch(o["aggregate-address"]) {
-					return fmt.Errorf("Error reading aggregate_address: %v", err)
+					return fmt.Errorf("error reading aggregate_address: %v", err)
 				}
 			}
 		}
@@ -4977,14 +5012,14 @@ func refreshObjectRouterBgp(d *schema.ResourceData, o map[string]interface{}, sv
 	if isImportTable() {
 		if err = d.Set("aggregate_address6", flattenRouterBgpAggregateAddress6(o["aggregate-address6"], d, "aggregate_address6", sv)); err != nil {
 			if !fortiAPIPatch(o["aggregate-address6"]) {
-				return fmt.Errorf("Error reading aggregate_address6: %v", err)
+				return fmt.Errorf("error reading aggregate_address6: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("aggregate_address6"); ok {
 			if err = d.Set("aggregate_address6", flattenRouterBgpAggregateAddress6(o["aggregate-address6"], d, "aggregate_address6", sv)); err != nil {
 				if !fortiAPIPatch(o["aggregate-address6"]) {
-					return fmt.Errorf("Error reading aggregate_address6: %v", err)
+					return fmt.Errorf("error reading aggregate_address6: %v", err)
 				}
 			}
 		}
@@ -4993,14 +5028,14 @@ func refreshObjectRouterBgp(d *schema.ResourceData, o map[string]interface{}, sv
 	if isImportTable() {
 		if err = d.Set("neighbor", flattenRouterBgpNeighbor(o["neighbor"], d, "neighbor", sv)); err != nil {
 			if !fortiAPIPatch(o["neighbor"]) {
-				return fmt.Errorf("Error reading neighbor: %v", err)
+				return fmt.Errorf("error reading neighbor: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("neighbor"); ok {
 			if err = d.Set("neighbor", flattenRouterBgpNeighbor(o["neighbor"], d, "neighbor", sv)); err != nil {
 				if !fortiAPIPatch(o["neighbor"]) {
-					return fmt.Errorf("Error reading neighbor: %v", err)
+					return fmt.Errorf("error reading neighbor: %v", err)
 				}
 			}
 		}
@@ -5009,14 +5044,14 @@ func refreshObjectRouterBgp(d *schema.ResourceData, o map[string]interface{}, sv
 	if isImportTable() {
 		if err = d.Set("neighbor_group", flattenRouterBgpNeighborGroup(o["neighbor-group"], d, "neighbor_group", sv)); err != nil {
 			if !fortiAPIPatch(o["neighbor-group"]) {
-				return fmt.Errorf("Error reading neighbor_group: %v", err)
+				return fmt.Errorf("error reading neighbor_group: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("neighbor_group"); ok {
 			if err = d.Set("neighbor_group", flattenRouterBgpNeighborGroup(o["neighbor-group"], d, "neighbor_group", sv)); err != nil {
 				if !fortiAPIPatch(o["neighbor-group"]) {
-					return fmt.Errorf("Error reading neighbor_group: %v", err)
+					return fmt.Errorf("error reading neighbor_group: %v", err)
 				}
 			}
 		}
@@ -5025,14 +5060,14 @@ func refreshObjectRouterBgp(d *schema.ResourceData, o map[string]interface{}, sv
 	if isImportTable() {
 		if err = d.Set("neighbor_range", flattenRouterBgpNeighborRange(o["neighbor-range"], d, "neighbor_range", sv)); err != nil {
 			if !fortiAPIPatch(o["neighbor-range"]) {
-				return fmt.Errorf("Error reading neighbor_range: %v", err)
+				return fmt.Errorf("error reading neighbor_range: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("neighbor_range"); ok {
 			if err = d.Set("neighbor_range", flattenRouterBgpNeighborRange(o["neighbor-range"], d, "neighbor_range", sv)); err != nil {
 				if !fortiAPIPatch(o["neighbor-range"]) {
-					return fmt.Errorf("Error reading neighbor_range: %v", err)
+					return fmt.Errorf("error reading neighbor_range: %v", err)
 				}
 			}
 		}
@@ -5041,14 +5076,14 @@ func refreshObjectRouterBgp(d *schema.ResourceData, o map[string]interface{}, sv
 	if isImportTable() {
 		if err = d.Set("neighbor_range6", flattenRouterBgpNeighborRange6(o["neighbor-range6"], d, "neighbor_range6", sv)); err != nil {
 			if !fortiAPIPatch(o["neighbor-range6"]) {
-				return fmt.Errorf("Error reading neighbor_range6: %v", err)
+				return fmt.Errorf("error reading neighbor_range6: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("neighbor_range6"); ok {
 			if err = d.Set("neighbor_range6", flattenRouterBgpNeighborRange6(o["neighbor-range6"], d, "neighbor_range6", sv)); err != nil {
 				if !fortiAPIPatch(o["neighbor-range6"]) {
-					return fmt.Errorf("Error reading neighbor_range6: %v", err)
+					return fmt.Errorf("error reading neighbor_range6: %v", err)
 				}
 			}
 		}
@@ -5057,14 +5092,14 @@ func refreshObjectRouterBgp(d *schema.ResourceData, o map[string]interface{}, sv
 	if isImportTable() {
 		if err = d.Set("network", flattenRouterBgpNetwork(o["network"], d, "network", sv)); err != nil {
 			if !fortiAPIPatch(o["network"]) {
-				return fmt.Errorf("Error reading network: %v", err)
+				return fmt.Errorf("error reading network: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("network"); ok {
 			if err = d.Set("network", flattenRouterBgpNetwork(o["network"], d, "network", sv)); err != nil {
 				if !fortiAPIPatch(o["network"]) {
-					return fmt.Errorf("Error reading network: %v", err)
+					return fmt.Errorf("error reading network: %v", err)
 				}
 			}
 		}
@@ -5073,14 +5108,14 @@ func refreshObjectRouterBgp(d *schema.ResourceData, o map[string]interface{}, sv
 	if isImportTable() {
 		if err = d.Set("network6", flattenRouterBgpNetwork6(o["network6"], d, "network6", sv)); err != nil {
 			if !fortiAPIPatch(o["network6"]) {
-				return fmt.Errorf("Error reading network6: %v", err)
+				return fmt.Errorf("error reading network6: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("network6"); ok {
 			if err = d.Set("network6", flattenRouterBgpNetwork6(o["network6"], d, "network6", sv)); err != nil {
 				if !fortiAPIPatch(o["network6"]) {
-					return fmt.Errorf("Error reading network6: %v", err)
+					return fmt.Errorf("error reading network6: %v", err)
 				}
 			}
 		}
@@ -5089,14 +5124,14 @@ func refreshObjectRouterBgp(d *schema.ResourceData, o map[string]interface{}, sv
 	if isImportTable() {
 		if err = d.Set("redistribute", flattenRouterBgpRedistribute(o["redistribute"], d, "redistribute", sv)); err != nil {
 			if !fortiAPIPatch(o["redistribute"]) {
-				return fmt.Errorf("Error reading redistribute: %v", err)
+				return fmt.Errorf("error reading redistribute: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("redistribute"); ok {
 			if err = d.Set("redistribute", flattenRouterBgpRedistribute(o["redistribute"], d, "redistribute", sv)); err != nil {
 				if !fortiAPIPatch(o["redistribute"]) {
-					return fmt.Errorf("Error reading redistribute: %v", err)
+					return fmt.Errorf("error reading redistribute: %v", err)
 				}
 			}
 		}
@@ -5105,14 +5140,14 @@ func refreshObjectRouterBgp(d *schema.ResourceData, o map[string]interface{}, sv
 	if isImportTable() {
 		if err = d.Set("redistribute6", flattenRouterBgpRedistribute6(o["redistribute6"], d, "redistribute6", sv)); err != nil {
 			if !fortiAPIPatch(o["redistribute6"]) {
-				return fmt.Errorf("Error reading redistribute6: %v", err)
+				return fmt.Errorf("error reading redistribute6: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("redistribute6"); ok {
 			if err = d.Set("redistribute6", flattenRouterBgpRedistribute6(o["redistribute6"], d, "redistribute6", sv)); err != nil {
 				if !fortiAPIPatch(o["redistribute6"]) {
-					return fmt.Errorf("Error reading redistribute6: %v", err)
+					return fmt.Errorf("error reading redistribute6: %v", err)
 				}
 			}
 		}
@@ -5121,14 +5156,14 @@ func refreshObjectRouterBgp(d *schema.ResourceData, o map[string]interface{}, sv
 	if isImportTable() {
 		if err = d.Set("admin_distance", flattenRouterBgpAdminDistance(o["admin-distance"], d, "admin_distance", sv)); err != nil {
 			if !fortiAPIPatch(o["admin-distance"]) {
-				return fmt.Errorf("Error reading admin_distance: %v", err)
+				return fmt.Errorf("error reading admin_distance: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("admin_distance"); ok {
 			if err = d.Set("admin_distance", flattenRouterBgpAdminDistance(o["admin-distance"], d, "admin_distance", sv)); err != nil {
 				if !fortiAPIPatch(o["admin-distance"]) {
-					return fmt.Errorf("Error reading admin_distance: %v", err)
+					return fmt.Errorf("error reading admin_distance: %v", err)
 				}
 			}
 		}
@@ -5137,14 +5172,14 @@ func refreshObjectRouterBgp(d *schema.ResourceData, o map[string]interface{}, sv
 	if isImportTable() {
 		if err = d.Set("vrf_leak", flattenRouterBgpVrfLeak(o["vrf-leak"], d, "vrf_leak", sv)); err != nil {
 			if !fortiAPIPatch(o["vrf-leak"]) {
-				return fmt.Errorf("Error reading vrf_leak: %v", err)
+				return fmt.Errorf("error reading vrf_leak: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("vrf_leak"); ok {
 			if err = d.Set("vrf_leak", flattenRouterBgpVrfLeak(o["vrf-leak"], d, "vrf_leak", sv)); err != nil {
 				if !fortiAPIPatch(o["vrf-leak"]) {
-					return fmt.Errorf("Error reading vrf_leak: %v", err)
+					return fmt.Errorf("error reading vrf_leak: %v", err)
 				}
 			}
 		}

@@ -30,153 +30,158 @@ func resourceUserLocal() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 64),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"fosid": &schema.Schema{
+			"fosid": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"status": &schema.Schema{
+			"status": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"type": &schema.Schema{
+			"type": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"passwd": &schema.Schema{
+			"passwd": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 128),
 				Optional:     true,
 				Sensitive:    true,
 			},
-			"ldap_server": &schema.Schema{
+			"ldap_server": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"radius_server": &schema.Schema{
+			"radius_server": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"tacacs_server": &schema.Schema{
+			"tacacs_server": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"two_factor": &schema.Schema{
+			"two_factor": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"two_factor_authentication": &schema.Schema{
+			"two_factor_authentication": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"two_factor_notification": &schema.Schema{
+			"two_factor_notification": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"fortitoken": &schema.Schema{
+			"fortitoken": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 16),
 				Optional:     true,
 				Computed:     true,
 			},
-			"email_to": &schema.Schema{
+			"email_to": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"sms_server": &schema.Schema{
+			"sms_server": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"sms_custom_server": &schema.Schema{
+			"sms_custom_server": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"sms_phone": &schema.Schema{
+			"sms_phone": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 15),
 				Optional:     true,
 				Computed:     true,
 			},
-			"passwd_policy": &schema.Schema{
+			"passwd_policy": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"passwd_time": &schema.Schema{
+			"passwd_time": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"authtimeout": &schema.Schema{
+			"authtimeout": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 1440),
 				Optional:     true,
 				Computed:     true,
 			},
-			"workstation": &schema.Schema{
+			"workstation": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"auth_concurrent_override": &schema.Schema{
+			"auth_concurrent_override": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"auth_concurrent_value": &schema.Schema{
+			"auth_concurrent_value": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 100),
 				Optional:     true,
 				Computed:     true,
 			},
-			"ppk_secret": &schema.Schema{
+			"ppk_secret": {
 				Type:      schema.TypeString,
 				Optional:  true,
 				Sensitive: true,
 			},
-			"ppk_identity": &schema.Schema{
+			"ppk_identity": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"username_case_insensitivity": &schema.Schema{
+			"username_case_insensitivity": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"username_case_sensitivity": &schema.Schema{
+			"username_case_sensitivity": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -194,15 +199,25 @@ func resourceUserLocalCreate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectUserLocal(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating UserLocal resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateUserLocal(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectUserLocal(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating UserLocal resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateUserLocal(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating UserLocal resource: %v", err)
+		return fmt.Errorf("error creating UserLocal resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -227,14 +242,24 @@ func resourceUserLocalUpdate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectUserLocal(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating UserLocal resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateUserLocal(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectUserLocal(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating UserLocal resource: %v", err)
+		return fmt.Errorf("error updating UserLocal resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateUserLocal(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating UserLocal resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -261,9 +286,17 @@ func resourceUserLocalDelete(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	err := c.DeleteUserLocal(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteUserLocal(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting UserLocal resource: %v", err)
+		return fmt.Errorf("error deleting UserLocal resource: %v", err)
 	}
 
 	d.SetId("")
@@ -285,9 +318,19 @@ func resourceUserLocalRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadUserLocal(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadUserLocal(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading UserLocal resource: %v", err)
+		return fmt.Errorf("error reading UserLocal resource: %v", err)
 	}
 
 	if o == nil {
@@ -298,7 +341,7 @@ func resourceUserLocalRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectUserLocal(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading UserLocal resource from API: %v", err)
+		return fmt.Errorf("error reading UserLocal resource from API: %v", err)
 	}
 	return nil
 }
@@ -412,145 +455,145 @@ func refreshObjectUserLocal(d *schema.ResourceData, o map[string]interface{}, sv
 
 	if err = d.Set("name", flattenUserLocalName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("fosid", flattenUserLocalId(o["id"], d, "fosid", sv)); err != nil {
 		if !fortiAPIPatch(o["id"]) {
-			return fmt.Errorf("Error reading fosid: %v", err)
+			return fmt.Errorf("error reading fosid: %v", err)
 		}
 	}
 
 	if err = d.Set("status", flattenUserLocalStatus(o["status"], d, "status", sv)); err != nil {
 		if !fortiAPIPatch(o["status"]) {
-			return fmt.Errorf("Error reading status: %v", err)
+			return fmt.Errorf("error reading status: %v", err)
 		}
 	}
 
 	if err = d.Set("type", flattenUserLocalType(o["type"], d, "type", sv)); err != nil {
 		if !fortiAPIPatch(o["type"]) {
-			return fmt.Errorf("Error reading type: %v", err)
+			return fmt.Errorf("error reading type: %v", err)
 		}
 	}
 
 	if err = d.Set("ldap_server", flattenUserLocalLdapServer(o["ldap-server"], d, "ldap_server", sv)); err != nil {
 		if !fortiAPIPatch(o["ldap-server"]) {
-			return fmt.Errorf("Error reading ldap_server: %v", err)
+			return fmt.Errorf("error reading ldap_server: %v", err)
 		}
 	}
 
 	if err = d.Set("radius_server", flattenUserLocalRadiusServer(o["radius-server"], d, "radius_server", sv)); err != nil {
 		if !fortiAPIPatch(o["radius-server"]) {
-			return fmt.Errorf("Error reading radius_server: %v", err)
+			return fmt.Errorf("error reading radius_server: %v", err)
 		}
 	}
 
 	if err = d.Set("tacacs_server", flattenUserLocalTacacsServer(o["tacacs+-server"], d, "tacacs_server", sv)); err != nil {
 		if !fortiAPIPatch(o["tacacs+-server"]) {
-			return fmt.Errorf("Error reading tacacs_server: %v", err)
+			return fmt.Errorf("error reading tacacs_server: %v", err)
 		}
 	}
 
 	if err = d.Set("two_factor", flattenUserLocalTwoFactor(o["two-factor"], d, "two_factor", sv)); err != nil {
 		if !fortiAPIPatch(o["two-factor"]) {
-			return fmt.Errorf("Error reading two_factor: %v", err)
+			return fmt.Errorf("error reading two_factor: %v", err)
 		}
 	}
 
 	if err = d.Set("two_factor_authentication", flattenUserLocalTwoFactorAuthentication(o["two-factor-authentication"], d, "two_factor_authentication", sv)); err != nil {
 		if !fortiAPIPatch(o["two-factor-authentication"]) {
-			return fmt.Errorf("Error reading two_factor_authentication: %v", err)
+			return fmt.Errorf("error reading two_factor_authentication: %v", err)
 		}
 	}
 
 	if err = d.Set("two_factor_notification", flattenUserLocalTwoFactorNotification(o["two-factor-notification"], d, "two_factor_notification", sv)); err != nil {
 		if !fortiAPIPatch(o["two-factor-notification"]) {
-			return fmt.Errorf("Error reading two_factor_notification: %v", err)
+			return fmt.Errorf("error reading two_factor_notification: %v", err)
 		}
 	}
 
 	if err = d.Set("fortitoken", flattenUserLocalFortitoken(o["fortitoken"], d, "fortitoken", sv)); err != nil {
 		if !fortiAPIPatch(o["fortitoken"]) {
-			return fmt.Errorf("Error reading fortitoken: %v", err)
+			return fmt.Errorf("error reading fortitoken: %v", err)
 		}
 	}
 
 	if err = d.Set("email_to", flattenUserLocalEmailTo(o["email-to"], d, "email_to", sv)); err != nil {
 		if !fortiAPIPatch(o["email-to"]) {
-			return fmt.Errorf("Error reading email_to: %v", err)
+			return fmt.Errorf("error reading email_to: %v", err)
 		}
 	}
 
 	if err = d.Set("sms_server", flattenUserLocalSmsServer(o["sms-server"], d, "sms_server", sv)); err != nil {
 		if !fortiAPIPatch(o["sms-server"]) {
-			return fmt.Errorf("Error reading sms_server: %v", err)
+			return fmt.Errorf("error reading sms_server: %v", err)
 		}
 	}
 
 	if err = d.Set("sms_custom_server", flattenUserLocalSmsCustomServer(o["sms-custom-server"], d, "sms_custom_server", sv)); err != nil {
 		if !fortiAPIPatch(o["sms-custom-server"]) {
-			return fmt.Errorf("Error reading sms_custom_server: %v", err)
+			return fmt.Errorf("error reading sms_custom_server: %v", err)
 		}
 	}
 
 	if err = d.Set("sms_phone", flattenUserLocalSmsPhone(o["sms-phone"], d, "sms_phone", sv)); err != nil {
 		if !fortiAPIPatch(o["sms-phone"]) {
-			return fmt.Errorf("Error reading sms_phone: %v", err)
+			return fmt.Errorf("error reading sms_phone: %v", err)
 		}
 	}
 
 	if err = d.Set("passwd_policy", flattenUserLocalPasswdPolicy(o["passwd-policy"], d, "passwd_policy", sv)); err != nil {
 		if !fortiAPIPatch(o["passwd-policy"]) {
-			return fmt.Errorf("Error reading passwd_policy: %v", err)
+			return fmt.Errorf("error reading passwd_policy: %v", err)
 		}
 	}
 
 	if err = d.Set("passwd_time", flattenUserLocalPasswdTime(o["passwd-time"], d, "passwd_time", sv)); err != nil {
 		if !fortiAPIPatch(o["passwd-time"]) {
-			return fmt.Errorf("Error reading passwd_time: %v", err)
+			return fmt.Errorf("error reading passwd_time: %v", err)
 		}
 	}
 
 	if err = d.Set("authtimeout", flattenUserLocalAuthtimeout(o["authtimeout"], d, "authtimeout", sv)); err != nil {
 		if !fortiAPIPatch(o["authtimeout"]) {
-			return fmt.Errorf("Error reading authtimeout: %v", err)
+			return fmt.Errorf("error reading authtimeout: %v", err)
 		}
 	}
 
 	if err = d.Set("workstation", flattenUserLocalWorkstation(o["workstation"], d, "workstation", sv)); err != nil {
 		if !fortiAPIPatch(o["workstation"]) {
-			return fmt.Errorf("Error reading workstation: %v", err)
+			return fmt.Errorf("error reading workstation: %v", err)
 		}
 	}
 
 	if err = d.Set("auth_concurrent_override", flattenUserLocalAuthConcurrentOverride(o["auth-concurrent-override"], d, "auth_concurrent_override", sv)); err != nil {
 		if !fortiAPIPatch(o["auth-concurrent-override"]) {
-			return fmt.Errorf("Error reading auth_concurrent_override: %v", err)
+			return fmt.Errorf("error reading auth_concurrent_override: %v", err)
 		}
 	}
 
 	if err = d.Set("auth_concurrent_value", flattenUserLocalAuthConcurrentValue(o["auth-concurrent-value"], d, "auth_concurrent_value", sv)); err != nil {
 		if !fortiAPIPatch(o["auth-concurrent-value"]) {
-			return fmt.Errorf("Error reading auth_concurrent_value: %v", err)
+			return fmt.Errorf("error reading auth_concurrent_value: %v", err)
 		}
 	}
 
 	if err = d.Set("ppk_identity", flattenUserLocalPpkIdentity(o["ppk-identity"], d, "ppk_identity", sv)); err != nil {
 		if !fortiAPIPatch(o["ppk-identity"]) {
-			return fmt.Errorf("Error reading ppk_identity: %v", err)
+			return fmt.Errorf("error reading ppk_identity: %v", err)
 		}
 	}
 
 	if err = d.Set("username_case_insensitivity", flattenUserLocalUsernameCaseInsensitivity(o["username-case-insensitivity"], d, "username_case_insensitivity", sv)); err != nil {
 		if !fortiAPIPatch(o["username-case-insensitivity"]) {
-			return fmt.Errorf("Error reading username_case_insensitivity: %v", err)
+			return fmt.Errorf("error reading username_case_insensitivity: %v", err)
 		}
 	}
 
 	if err = d.Set("username_case_sensitivity", flattenUserLocalUsernameCaseSensitivity(o["username-case-sensitivity"], d, "username_case_sensitivity", sv)); err != nil {
 		if !fortiAPIPatch(o["username-case-sensitivity"]) {
-			return fmt.Errorf("Error reading username_case_sensitivity: %v", err)
+			return fmt.Errorf("error reading username_case_sensitivity: %v", err)
 		}
 	}
 

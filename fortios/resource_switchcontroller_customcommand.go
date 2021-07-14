@@ -30,28 +30,33 @@ func resourceSwitchControllerCustomCommand() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"command_name": &schema.Schema{
+			"command_name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"description": &schema.Schema{
+			"description": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"command": &schema.Schema{
+			"command": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 4095),
 				Required:     true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -69,15 +74,25 @@ func resourceSwitchControllerCustomCommandCreate(d *schema.ResourceData, m inter
 		}
 	}
 
-	obj, err := getObjectSwitchControllerCustomCommand(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating SwitchControllerCustomCommand resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateSwitchControllerCustomCommand(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSwitchControllerCustomCommand(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating SwitchControllerCustomCommand resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateSwitchControllerCustomCommand(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating SwitchControllerCustomCommand resource: %v", err)
+		return fmt.Errorf("error creating SwitchControllerCustomCommand resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -102,14 +117,24 @@ func resourceSwitchControllerCustomCommandUpdate(d *schema.ResourceData, m inter
 		}
 	}
 
-	obj, err := getObjectSwitchControllerCustomCommand(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SwitchControllerCustomCommand resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSwitchControllerCustomCommand(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSwitchControllerCustomCommand(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SwitchControllerCustomCommand resource: %v", err)
+		return fmt.Errorf("error updating SwitchControllerCustomCommand resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSwitchControllerCustomCommand(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SwitchControllerCustomCommand resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -136,9 +161,17 @@ func resourceSwitchControllerCustomCommandDelete(d *schema.ResourceData, m inter
 		}
 	}
 
-	err := c.DeleteSwitchControllerCustomCommand(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSwitchControllerCustomCommand(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SwitchControllerCustomCommand resource: %v", err)
+		return fmt.Errorf("error deleting SwitchControllerCustomCommand resource: %v", err)
 	}
 
 	d.SetId("")
@@ -160,9 +193,19 @@ func resourceSwitchControllerCustomCommandRead(d *schema.ResourceData, m interfa
 		}
 	}
 
-	o, err := c.ReadSwitchControllerCustomCommand(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSwitchControllerCustomCommand(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SwitchControllerCustomCommand resource: %v", err)
+		return fmt.Errorf("error reading SwitchControllerCustomCommand resource: %v", err)
 	}
 
 	if o == nil {
@@ -173,7 +216,7 @@ func resourceSwitchControllerCustomCommandRead(d *schema.ResourceData, m interfa
 
 	err = refreshObjectSwitchControllerCustomCommand(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SwitchControllerCustomCommand resource from API: %v", err)
+		return fmt.Errorf("error reading SwitchControllerCustomCommand resource from API: %v", err)
 	}
 	return nil
 }
@@ -195,19 +238,19 @@ func refreshObjectSwitchControllerCustomCommand(d *schema.ResourceData, o map[st
 
 	if err = d.Set("command_name", flattenSwitchControllerCustomCommandCommandName(o["command-name"], d, "command_name", sv)); err != nil {
 		if !fortiAPIPatch(o["command-name"]) {
-			return fmt.Errorf("Error reading command_name: %v", err)
+			return fmt.Errorf("error reading command_name: %v", err)
 		}
 	}
 
 	if err = d.Set("description", flattenSwitchControllerCustomCommandDescription(o["description"], d, "description", sv)); err != nil {
 		if !fortiAPIPatch(o["description"]) {
-			return fmt.Errorf("Error reading description: %v", err)
+			return fmt.Errorf("error reading description: %v", err)
 		}
 	}
 
 	if err = d.Set("command", flattenSwitchControllerCustomCommandCommand(o["command"], d, "command", sv)); err != nil {
 		if !fortiAPIPatch(o["command"]) {
-			return fmt.Errorf("Error reading command: %v", err)
+			return fmt.Errorf("error reading command: %v", err)
 		}
 	}
 

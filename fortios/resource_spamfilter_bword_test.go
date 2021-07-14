@@ -58,14 +58,14 @@ func testAccCheckFortiOSSpamfilterBwordExists(n string) resource.TestCheckFunc {
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadSpamfilterBword(i, "root")
+		o, err := c.ReadSpamfilterBword(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading SpamfilterBword: %s", err)
+			return fmt.Errorf("error reading SpamfilterBword: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating SpamfilterBword: %s", n)
+			return fmt.Errorf("error creating SpamfilterBword: %s", n)
 		}
 
 		return nil
@@ -81,11 +81,11 @@ func testAccCheckSpamfilterBwordDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadSpamfilterBword(i, "root")
+		o, err := c.ReadSpamfilterBword(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error SpamfilterBword %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error SpamfilterBword %s still exists", rs.Primary.ID)
 			}
 		}
 

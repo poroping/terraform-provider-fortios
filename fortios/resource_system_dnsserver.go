@@ -30,28 +30,33 @@ func resourceSystemDnsServer() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 15),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"mode": &schema.Schema{
+			"mode": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"dnsfilter_profile": &schema.Schema{
+			"dnsfilter_profile": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -69,15 +74,25 @@ func resourceSystemDnsServerCreate(d *schema.ResourceData, m interface{}) error 
 		}
 	}
 
-	obj, err := getObjectSystemDnsServer(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating SystemDnsServer resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateSystemDnsServer(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemDnsServer(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating SystemDnsServer resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateSystemDnsServer(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating SystemDnsServer resource: %v", err)
+		return fmt.Errorf("error creating SystemDnsServer resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -102,14 +117,24 @@ func resourceSystemDnsServerUpdate(d *schema.ResourceData, m interface{}) error 
 		}
 	}
 
-	obj, err := getObjectSystemDnsServer(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SystemDnsServer resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSystemDnsServer(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemDnsServer(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SystemDnsServer resource: %v", err)
+		return fmt.Errorf("error updating SystemDnsServer resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSystemDnsServer(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SystemDnsServer resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -136,9 +161,17 @@ func resourceSystemDnsServerDelete(d *schema.ResourceData, m interface{}) error 
 		}
 	}
 
-	err := c.DeleteSystemDnsServer(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSystemDnsServer(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SystemDnsServer resource: %v", err)
+		return fmt.Errorf("error deleting SystemDnsServer resource: %v", err)
 	}
 
 	d.SetId("")
@@ -160,9 +193,19 @@ func resourceSystemDnsServerRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadSystemDnsServer(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSystemDnsServer(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemDnsServer resource: %v", err)
+		return fmt.Errorf("error reading SystemDnsServer resource: %v", err)
 	}
 
 	if o == nil {
@@ -173,7 +216,7 @@ func resourceSystemDnsServerRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectSystemDnsServer(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemDnsServer resource from API: %v", err)
+		return fmt.Errorf("error reading SystemDnsServer resource from API: %v", err)
 	}
 	return nil
 }
@@ -195,19 +238,19 @@ func refreshObjectSystemDnsServer(d *schema.ResourceData, o map[string]interface
 
 	if err = d.Set("name", flattenSystemDnsServerName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("mode", flattenSystemDnsServerMode(o["mode"], d, "mode", sv)); err != nil {
 		if !fortiAPIPatch(o["mode"]) {
-			return fmt.Errorf("Error reading mode: %v", err)
+			return fmt.Errorf("error reading mode: %v", err)
 		}
 	}
 
 	if err = d.Set("dnsfilter_profile", flattenSystemDnsServerDnsfilterProfile(o["dnsfilter-profile"], d, "dnsfilter_profile", sv)); err != nil {
 		if !fortiAPIPatch(o["dnsfilter-profile"]) {
-			return fmt.Errorf("Error reading dnsfilter_profile: %v", err)
+			return fmt.Errorf("error reading dnsfilter_profile: %v", err)
 		}
 	}
 

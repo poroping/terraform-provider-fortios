@@ -30,28 +30,33 @@ func resourceSwitchControllerSecurityPolicyCaptivePortal() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 31),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"vlan": &schema.Schema{
+			"vlan": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 15),
 				Optional:     true,
 				Computed:     true,
 			},
-			"policy_type": &schema.Schema{
+			"policy_type": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -69,15 +74,25 @@ func resourceSwitchControllerSecurityPolicyCaptivePortalCreate(d *schema.Resourc
 		}
 	}
 
-	obj, err := getObjectSwitchControllerSecurityPolicyCaptivePortal(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating SwitchControllerSecurityPolicyCaptivePortal resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateSwitchControllerSecurityPolicyCaptivePortal(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSwitchControllerSecurityPolicyCaptivePortal(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating SwitchControllerSecurityPolicyCaptivePortal resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateSwitchControllerSecurityPolicyCaptivePortal(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating SwitchControllerSecurityPolicyCaptivePortal resource: %v", err)
+		return fmt.Errorf("error creating SwitchControllerSecurityPolicyCaptivePortal resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -102,14 +117,24 @@ func resourceSwitchControllerSecurityPolicyCaptivePortalUpdate(d *schema.Resourc
 		}
 	}
 
-	obj, err := getObjectSwitchControllerSecurityPolicyCaptivePortal(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SwitchControllerSecurityPolicyCaptivePortal resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSwitchControllerSecurityPolicyCaptivePortal(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSwitchControllerSecurityPolicyCaptivePortal(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SwitchControllerSecurityPolicyCaptivePortal resource: %v", err)
+		return fmt.Errorf("error updating SwitchControllerSecurityPolicyCaptivePortal resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSwitchControllerSecurityPolicyCaptivePortal(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SwitchControllerSecurityPolicyCaptivePortal resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -136,9 +161,17 @@ func resourceSwitchControllerSecurityPolicyCaptivePortalDelete(d *schema.Resourc
 		}
 	}
 
-	err := c.DeleteSwitchControllerSecurityPolicyCaptivePortal(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSwitchControllerSecurityPolicyCaptivePortal(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SwitchControllerSecurityPolicyCaptivePortal resource: %v", err)
+		return fmt.Errorf("error deleting SwitchControllerSecurityPolicyCaptivePortal resource: %v", err)
 	}
 
 	d.SetId("")
@@ -160,9 +193,19 @@ func resourceSwitchControllerSecurityPolicyCaptivePortalRead(d *schema.ResourceD
 		}
 	}
 
-	o, err := c.ReadSwitchControllerSecurityPolicyCaptivePortal(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSwitchControllerSecurityPolicyCaptivePortal(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SwitchControllerSecurityPolicyCaptivePortal resource: %v", err)
+		return fmt.Errorf("error reading SwitchControllerSecurityPolicyCaptivePortal resource: %v", err)
 	}
 
 	if o == nil {
@@ -173,7 +216,7 @@ func resourceSwitchControllerSecurityPolicyCaptivePortalRead(d *schema.ResourceD
 
 	err = refreshObjectSwitchControllerSecurityPolicyCaptivePortal(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SwitchControllerSecurityPolicyCaptivePortal resource from API: %v", err)
+		return fmt.Errorf("error reading SwitchControllerSecurityPolicyCaptivePortal resource from API: %v", err)
 	}
 	return nil
 }
@@ -195,19 +238,19 @@ func refreshObjectSwitchControllerSecurityPolicyCaptivePortal(d *schema.Resource
 
 	if err = d.Set("name", flattenSwitchControllerSecurityPolicyCaptivePortalName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("vlan", flattenSwitchControllerSecurityPolicyCaptivePortalVlan(o["vlan"], d, "vlan", sv)); err != nil {
 		if !fortiAPIPatch(o["vlan"]) {
-			return fmt.Errorf("Error reading vlan: %v", err)
+			return fmt.Errorf("error reading vlan: %v", err)
 		}
 	}
 
 	if err = d.Set("policy_type", flattenSwitchControllerSecurityPolicyCaptivePortalPolicyType(o["policy-type"], d, "policy_type", sv)); err != nil {
 		if !fortiAPIPatch(o["policy-type"]) {
-			return fmt.Errorf("Error reading policy_type: %v", err)
+			return fmt.Errorf("error reading policy_type: %v", err)
 		}
 	}
 

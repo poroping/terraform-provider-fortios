@@ -120,14 +120,14 @@ func testAccCheckFortiOSLogThreatWeightExists(n string) resource.TestCheckFunc {
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadLogThreatWeight(i, "root")
+		o, err := c.ReadLogThreatWeight(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading LogThreatWeight: %s", err)
+			return fmt.Errorf("error reading LogThreatWeight: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating LogThreatWeight: %s", n)
+			return fmt.Errorf("error creating LogThreatWeight: %s", n)
 		}
 
 		return nil
@@ -143,11 +143,11 @@ func testAccCheckLogThreatWeightDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadLogThreatWeight(i, "root")
+		o, err := c.ReadLogThreatWeight(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error LogThreatWeight %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error LogThreatWeight %s still exists", rs.Primary.ID)
 			}
 		}
 

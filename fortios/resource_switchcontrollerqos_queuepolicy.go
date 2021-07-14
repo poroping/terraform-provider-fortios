@@ -30,73 +30,73 @@ func resourceSwitchControllerQosQueuePolicy() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				ForceNew:     true,
 				Required:     true,
 			},
-			"schedule": &schema.Schema{
+			"schedule": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"rate_by": &schema.Schema{
+			"rate_by": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"cos_queue": &schema.Schema{
+			"cos_queue": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 63),
 							Optional:     true,
 							Computed:     true,
 						},
-						"description": &schema.Schema{
+						"description": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 63),
 							Optional:     true,
 							Computed:     true,
 						},
-						"min_rate": &schema.Schema{
+						"min_rate": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"max_rate": &schema.Schema{
+						"max_rate": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"min_rate_percent": &schema.Schema{
+						"min_rate_percent": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"max_rate_percent": &schema.Schema{
+						"max_rate_percent": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"drop_policy": &schema.Schema{
+						"drop_policy": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"ecn": &schema.Schema{
+						"ecn": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"weight": &schema.Schema{
+						"weight": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
@@ -104,10 +104,15 @@ func resourceSwitchControllerQosQueuePolicy() *schema.Resource {
 					},
 				},
 			},
-			"dynamic_sort_subtable": &schema.Schema{
+			"dynamic_sort_subtable": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Default:  "false",
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -125,15 +130,25 @@ func resourceSwitchControllerQosQueuePolicyCreate(d *schema.ResourceData, m inte
 		}
 	}
 
-	obj, err := getObjectSwitchControllerQosQueuePolicy(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating SwitchControllerQosQueuePolicy resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateSwitchControllerQosQueuePolicy(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSwitchControllerQosQueuePolicy(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating SwitchControllerQosQueuePolicy resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateSwitchControllerQosQueuePolicy(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating SwitchControllerQosQueuePolicy resource: %v", err)
+		return fmt.Errorf("error creating SwitchControllerQosQueuePolicy resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -158,14 +173,24 @@ func resourceSwitchControllerQosQueuePolicyUpdate(d *schema.ResourceData, m inte
 		}
 	}
 
-	obj, err := getObjectSwitchControllerQosQueuePolicy(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SwitchControllerQosQueuePolicy resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSwitchControllerQosQueuePolicy(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSwitchControllerQosQueuePolicy(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SwitchControllerQosQueuePolicy resource: %v", err)
+		return fmt.Errorf("error updating SwitchControllerQosQueuePolicy resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSwitchControllerQosQueuePolicy(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SwitchControllerQosQueuePolicy resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -192,9 +217,17 @@ func resourceSwitchControllerQosQueuePolicyDelete(d *schema.ResourceData, m inte
 		}
 	}
 
-	err := c.DeleteSwitchControllerQosQueuePolicy(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSwitchControllerQosQueuePolicy(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SwitchControllerQosQueuePolicy resource: %v", err)
+		return fmt.Errorf("error deleting SwitchControllerQosQueuePolicy resource: %v", err)
 	}
 
 	d.SetId("")
@@ -216,9 +249,19 @@ func resourceSwitchControllerQosQueuePolicyRead(d *schema.ResourceData, m interf
 		}
 	}
 
-	o, err := c.ReadSwitchControllerQosQueuePolicy(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSwitchControllerQosQueuePolicy(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SwitchControllerQosQueuePolicy resource: %v", err)
+		return fmt.Errorf("error reading SwitchControllerQosQueuePolicy resource: %v", err)
 	}
 
 	if o == nil {
@@ -229,7 +272,7 @@ func resourceSwitchControllerQosQueuePolicyRead(d *schema.ResourceData, m interf
 
 	err = refreshObjectSwitchControllerQosQueuePolicy(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SwitchControllerQosQueuePolicy resource from API: %v", err)
+		return fmt.Errorf("error reading SwitchControllerQosQueuePolicy resource from API: %v", err)
 	}
 	return nil
 }
@@ -369,33 +412,33 @@ func refreshObjectSwitchControllerQosQueuePolicy(d *schema.ResourceData, o map[s
 
 	if err = d.Set("name", flattenSwitchControllerQosQueuePolicyName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("schedule", flattenSwitchControllerQosQueuePolicySchedule(o["schedule"], d, "schedule", sv)); err != nil {
 		if !fortiAPIPatch(o["schedule"]) {
-			return fmt.Errorf("Error reading schedule: %v", err)
+			return fmt.Errorf("error reading schedule: %v", err)
 		}
 	}
 
 	if err = d.Set("rate_by", flattenSwitchControllerQosQueuePolicyRateBy(o["rate-by"], d, "rate_by", sv)); err != nil {
 		if !fortiAPIPatch(o["rate-by"]) {
-			return fmt.Errorf("Error reading rate_by: %v", err)
+			return fmt.Errorf("error reading rate_by: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("cos_queue", flattenSwitchControllerQosQueuePolicyCosQueue(o["cos-queue"], d, "cos_queue", sv)); err != nil {
 			if !fortiAPIPatch(o["cos-queue"]) {
-				return fmt.Errorf("Error reading cos_queue: %v", err)
+				return fmt.Errorf("error reading cos_queue: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("cos_queue"); ok {
 			if err = d.Set("cos_queue", flattenSwitchControllerQosQueuePolicyCosQueue(o["cos-queue"], d, "cos_queue", sv)); err != nil {
 				if !fortiAPIPatch(o["cos-queue"]) {
-					return fmt.Errorf("Error reading cos_queue: %v", err)
+					return fmt.Errorf("error reading cos_queue: %v", err)
 				}
 			}
 		}

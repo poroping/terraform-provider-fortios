@@ -30,27 +30,32 @@ func resourceSystemDscpBasedPriority() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"fosid": &schema.Schema{
+			"fosid": {
 				Type:     schema.TypeInt,
 				ForceNew: true,
 				Optional: true,
 				Computed: true,
 			},
-			"ds": &schema.Schema{
+			"ds": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"priority": &schema.Schema{
+			"priority": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -68,15 +73,25 @@ func resourceSystemDscpBasedPriorityCreate(d *schema.ResourceData, m interface{}
 		}
 	}
 
-	obj, err := getObjectSystemDscpBasedPriority(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating SystemDscpBasedPriority resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateSystemDscpBasedPriority(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemDscpBasedPriority(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating SystemDscpBasedPriority resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateSystemDscpBasedPriority(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating SystemDscpBasedPriority resource: %v", err)
+		return fmt.Errorf("error creating SystemDscpBasedPriority resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -101,14 +116,24 @@ func resourceSystemDscpBasedPriorityUpdate(d *schema.ResourceData, m interface{}
 		}
 	}
 
-	obj, err := getObjectSystemDscpBasedPriority(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SystemDscpBasedPriority resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSystemDscpBasedPriority(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemDscpBasedPriority(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SystemDscpBasedPriority resource: %v", err)
+		return fmt.Errorf("error updating SystemDscpBasedPriority resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSystemDscpBasedPriority(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SystemDscpBasedPriority resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -135,9 +160,17 @@ func resourceSystemDscpBasedPriorityDelete(d *schema.ResourceData, m interface{}
 		}
 	}
 
-	err := c.DeleteSystemDscpBasedPriority(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSystemDscpBasedPriority(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SystemDscpBasedPriority resource: %v", err)
+		return fmt.Errorf("error deleting SystemDscpBasedPriority resource: %v", err)
 	}
 
 	d.SetId("")
@@ -159,9 +192,19 @@ func resourceSystemDscpBasedPriorityRead(d *schema.ResourceData, m interface{}) 
 		}
 	}
 
-	o, err := c.ReadSystemDscpBasedPriority(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSystemDscpBasedPriority(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemDscpBasedPriority resource: %v", err)
+		return fmt.Errorf("error reading SystemDscpBasedPriority resource: %v", err)
 	}
 
 	if o == nil {
@@ -172,7 +215,7 @@ func resourceSystemDscpBasedPriorityRead(d *schema.ResourceData, m interface{}) 
 
 	err = refreshObjectSystemDscpBasedPriority(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemDscpBasedPriority resource from API: %v", err)
+		return fmt.Errorf("error reading SystemDscpBasedPriority resource from API: %v", err)
 	}
 	return nil
 }
@@ -194,19 +237,19 @@ func refreshObjectSystemDscpBasedPriority(d *schema.ResourceData, o map[string]i
 
 	if err = d.Set("fosid", flattenSystemDscpBasedPriorityId(o["id"], d, "fosid", sv)); err != nil {
 		if !fortiAPIPatch(o["id"]) {
-			return fmt.Errorf("Error reading fosid: %v", err)
+			return fmt.Errorf("error reading fosid: %v", err)
 		}
 	}
 
 	if err = d.Set("ds", flattenSystemDscpBasedPriorityDs(o["ds"], d, "ds", sv)); err != nil {
 		if !fortiAPIPatch(o["ds"]) {
-			return fmt.Errorf("Error reading ds: %v", err)
+			return fmt.Errorf("error reading ds: %v", err)
 		}
 	}
 
 	if err = d.Set("priority", flattenSystemDscpBasedPriorityPriority(o["priority"], d, "priority", sv)); err != nil {
 		if !fortiAPIPatch(o["priority"]) {
-			return fmt.Errorf("Error reading priority: %v", err)
+			return fmt.Errorf("error reading priority: %v", err)
 		}
 	}
 

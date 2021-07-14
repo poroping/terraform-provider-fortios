@@ -54,14 +54,14 @@ func testAccCheckFortiOSSystemNat64Exists(n string) resource.TestCheckFunc {
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemNat64(i, "root")
+		o, err := c.ReadSystemNat64(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading SystemNat64: %s", err)
+			return fmt.Errorf("error reading SystemNat64: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating SystemNat64: %s", n)
+			return fmt.Errorf("error creating SystemNat64: %s", n)
 		}
 
 		return nil
@@ -77,11 +77,11 @@ func testAccCheckSystemNat64Destroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemNat64(i, "root")
+		o, err := c.ReadSystemNat64(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error SystemNat64 %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error SystemNat64 %s still exists", rs.Primary.ID)
 			}
 		}
 

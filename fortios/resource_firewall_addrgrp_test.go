@@ -56,14 +56,14 @@ func testAccCheckFortiOSFirewallAddrgrpExists(n string) resource.TestCheckFunc {
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadFirewallAddrgrp(i, "root")
+		o, err := c.ReadFirewallAddrgrp(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading FirewallAddrgrp: %s", err)
+			return fmt.Errorf("error reading FirewallAddrgrp: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating FirewallAddrgrp: %s", n)
+			return fmt.Errorf("error creating FirewallAddrgrp: %s", n)
 		}
 
 		return nil
@@ -79,11 +79,11 @@ func testAccCheckFirewallAddrgrpDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadFirewallAddrgrp(i, "root")
+		o, err := c.ReadFirewallAddrgrp(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error FirewallAddrgrp %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error FirewallAddrgrp %s still exists", rs.Primary.ID)
 			}
 		}
 

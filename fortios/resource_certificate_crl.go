@@ -30,88 +30,93 @@ func resourceCertificateCrl() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				ForceNew:     true,
 				Required:     true,
 			},
-			"crl": &schema.Schema{
+			"crl": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"range": &schema.Schema{
+			"range": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"source": &schema.Schema{
+			"source": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"update_vdom": &schema.Schema{
+			"update_vdom": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 31),
 				Optional:     true,
 				Computed:     true,
 			},
-			"ldap_server": &schema.Schema{
+			"ldap_server": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"ldap_username": &schema.Schema{
+			"ldap_username": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"ldap_password": &schema.Schema{
+			"ldap_password": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 128),
 				Optional:     true,
 				Sensitive:    true,
 			},
-			"http_url": &schema.Schema{
+			"http_url": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
 				Computed:     true,
 			},
-			"scep_url": &schema.Schema{
+			"scep_url": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
 				Computed:     true,
 			},
-			"scep_cert": &schema.Schema{
+			"scep_cert": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"update_interval": &schema.Schema{
+			"update_interval": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"source_ip": &schema.Schema{
+			"source_ip": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"last_updated": &schema.Schema{
+			"last_updated": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -129,15 +134,25 @@ func resourceCertificateCrlCreate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectCertificateCrl(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating CertificateCrl resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateCertificateCrl(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectCertificateCrl(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating CertificateCrl resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateCertificateCrl(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating CertificateCrl resource: %v", err)
+		return fmt.Errorf("error creating CertificateCrl resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -162,14 +177,24 @@ func resourceCertificateCrlUpdate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectCertificateCrl(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating CertificateCrl resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateCertificateCrl(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectCertificateCrl(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating CertificateCrl resource: %v", err)
+		return fmt.Errorf("error updating CertificateCrl resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateCertificateCrl(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating CertificateCrl resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -196,9 +221,17 @@ func resourceCertificateCrlDelete(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	err := c.DeleteCertificateCrl(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteCertificateCrl(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting CertificateCrl resource: %v", err)
+		return fmt.Errorf("error deleting CertificateCrl resource: %v", err)
 	}
 
 	d.SetId("")
@@ -220,9 +253,19 @@ func resourceCertificateCrlRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadCertificateCrl(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadCertificateCrl(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading CertificateCrl resource: %v", err)
+		return fmt.Errorf("error reading CertificateCrl resource: %v", err)
 	}
 
 	if o == nil {
@@ -233,7 +276,7 @@ func resourceCertificateCrlRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectCertificateCrl(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading CertificateCrl resource from API: %v", err)
+		return fmt.Errorf("error reading CertificateCrl resource from API: %v", err)
 	}
 	return nil
 }
@@ -299,79 +342,79 @@ func refreshObjectCertificateCrl(d *schema.ResourceData, o map[string]interface{
 
 	if err = d.Set("name", flattenCertificateCrlName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("crl", flattenCertificateCrlCrl(o["crl"], d, "crl", sv)); err != nil {
 		if !fortiAPIPatch(o["crl"]) {
-			return fmt.Errorf("Error reading crl: %v", err)
+			return fmt.Errorf("error reading crl: %v", err)
 		}
 	}
 
 	if err = d.Set("range", flattenCertificateCrlRange(o["range"], d, "range", sv)); err != nil {
 		if !fortiAPIPatch(o["range"]) {
-			return fmt.Errorf("Error reading range: %v", err)
+			return fmt.Errorf("error reading range: %v", err)
 		}
 	}
 
 	if err = d.Set("source", flattenCertificateCrlSource(o["source"], d, "source", sv)); err != nil {
 		if !fortiAPIPatch(o["source"]) {
-			return fmt.Errorf("Error reading source: %v", err)
+			return fmt.Errorf("error reading source: %v", err)
 		}
 	}
 
 	if err = d.Set("update_vdom", flattenCertificateCrlUpdateVdom(o["update-vdom"], d, "update_vdom", sv)); err != nil {
 		if !fortiAPIPatch(o["update-vdom"]) {
-			return fmt.Errorf("Error reading update_vdom: %v", err)
+			return fmt.Errorf("error reading update_vdom: %v", err)
 		}
 	}
 
 	if err = d.Set("ldap_server", flattenCertificateCrlLdapServer(o["ldap-server"], d, "ldap_server", sv)); err != nil {
 		if !fortiAPIPatch(o["ldap-server"]) {
-			return fmt.Errorf("Error reading ldap_server: %v", err)
+			return fmt.Errorf("error reading ldap_server: %v", err)
 		}
 	}
 
 	if err = d.Set("ldap_username", flattenCertificateCrlLdapUsername(o["ldap-username"], d, "ldap_username", sv)); err != nil {
 		if !fortiAPIPatch(o["ldap-username"]) {
-			return fmt.Errorf("Error reading ldap_username: %v", err)
+			return fmt.Errorf("error reading ldap_username: %v", err)
 		}
 	}
 
 	if err = d.Set("http_url", flattenCertificateCrlHttpUrl(o["http-url"], d, "http_url", sv)); err != nil {
 		if !fortiAPIPatch(o["http-url"]) {
-			return fmt.Errorf("Error reading http_url: %v", err)
+			return fmt.Errorf("error reading http_url: %v", err)
 		}
 	}
 
 	if err = d.Set("scep_url", flattenCertificateCrlScepUrl(o["scep-url"], d, "scep_url", sv)); err != nil {
 		if !fortiAPIPatch(o["scep-url"]) {
-			return fmt.Errorf("Error reading scep_url: %v", err)
+			return fmt.Errorf("error reading scep_url: %v", err)
 		}
 	}
 
 	if err = d.Set("scep_cert", flattenCertificateCrlScepCert(o["scep-cert"], d, "scep_cert", sv)); err != nil {
 		if !fortiAPIPatch(o["scep-cert"]) {
-			return fmt.Errorf("Error reading scep_cert: %v", err)
+			return fmt.Errorf("error reading scep_cert: %v", err)
 		}
 	}
 
 	if err = d.Set("update_interval", flattenCertificateCrlUpdateInterval(o["update-interval"], d, "update_interval", sv)); err != nil {
 		if !fortiAPIPatch(o["update-interval"]) {
-			return fmt.Errorf("Error reading update_interval: %v", err)
+			return fmt.Errorf("error reading update_interval: %v", err)
 		}
 	}
 
 	if err = d.Set("source_ip", flattenCertificateCrlSourceIp(o["source-ip"], d, "source_ip", sv)); err != nil {
 		if !fortiAPIPatch(o["source-ip"]) {
-			return fmt.Errorf("Error reading source_ip: %v", err)
+			return fmt.Errorf("error reading source_ip: %v", err)
 		}
 	}
 
 	if err = d.Set("last_updated", flattenCertificateCrlLastUpdated(o["last-updated"], d, "last_updated", sv)); err != nil {
 		if !fortiAPIPatch(o["last-updated"]) {
-			return fmt.Errorf("Error reading last_updated: %v", err)
+			return fmt.Errorf("error reading last_updated: %v", err)
 		}
 	}
 

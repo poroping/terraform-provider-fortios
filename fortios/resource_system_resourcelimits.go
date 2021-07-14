@@ -30,100 +30,105 @@ func resourceSystemResourceLimits() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"session": &schema.Schema{
+			"session": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"ipsec_phase1": &schema.Schema{
+			"ipsec_phase1": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"ipsec_phase2": &schema.Schema{
+			"ipsec_phase2": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"ipsec_phase1_interface": &schema.Schema{
+			"ipsec_phase1_interface": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"ipsec_phase2_interface": &schema.Schema{
+			"ipsec_phase2_interface": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"dialup_tunnel": &schema.Schema{
+			"dialup_tunnel": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"firewall_policy": &schema.Schema{
+			"firewall_policy": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"firewall_address": &schema.Schema{
+			"firewall_address": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"firewall_addrgrp": &schema.Schema{
+			"firewall_addrgrp": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"custom_service": &schema.Schema{
+			"custom_service": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"service_group": &schema.Schema{
+			"service_group": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"onetime_schedule": &schema.Schema{
+			"onetime_schedule": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"recurring_schedule": &schema.Schema{
+			"recurring_schedule": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"user": &schema.Schema{
+			"user": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"user_group": &schema.Schema{
+			"user_group": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"sslvpn": &schema.Schema{
+			"sslvpn": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"proxy": &schema.Schema{
+			"proxy": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"log_disk_quota": &schema.Schema{
+			"log_disk_quota": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -142,14 +147,24 @@ func resourceSystemResourceLimitsUpdate(d *schema.ResourceData, m interface{}) e
 		}
 	}
 
-	obj, err := getObjectSystemResourceLimits(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SystemResourceLimits resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSystemResourceLimits(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemResourceLimits(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SystemResourceLimits resource: %v", err)
+		return fmt.Errorf("error updating SystemResourceLimits resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSystemResourceLimits(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SystemResourceLimits resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -176,9 +191,17 @@ func resourceSystemResourceLimitsDelete(d *schema.ResourceData, m interface{}) e
 		}
 	}
 
-	err := c.DeleteSystemResourceLimits(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSystemResourceLimits(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SystemResourceLimits resource: %v", err)
+		return fmt.Errorf("error deleting SystemResourceLimits resource: %v", err)
 	}
 
 	d.SetId("")
@@ -200,9 +223,19 @@ func resourceSystemResourceLimitsRead(d *schema.ResourceData, m interface{}) err
 		}
 	}
 
-	o, err := c.ReadSystemResourceLimits(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSystemResourceLimits(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemResourceLimits resource: %v", err)
+		return fmt.Errorf("error reading SystemResourceLimits resource: %v", err)
 	}
 
 	if o == nil {
@@ -213,7 +246,7 @@ func resourceSystemResourceLimitsRead(d *schema.ResourceData, m interface{}) err
 
 	err = refreshObjectSystemResourceLimits(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemResourceLimits resource from API: %v", err)
+		return fmt.Errorf("error reading SystemResourceLimits resource from API: %v", err)
 	}
 	return nil
 }
@@ -295,109 +328,109 @@ func refreshObjectSystemResourceLimits(d *schema.ResourceData, o map[string]inte
 
 	if err = d.Set("session", flattenSystemResourceLimitsSession(o["session"], d, "session", sv)); err != nil {
 		if !fortiAPIPatch(o["session"]) {
-			return fmt.Errorf("Error reading session: %v", err)
+			return fmt.Errorf("error reading session: %v", err)
 		}
 	}
 
 	if err = d.Set("ipsec_phase1", flattenSystemResourceLimitsIpsecPhase1(o["ipsec-phase1"], d, "ipsec_phase1", sv)); err != nil {
 		if !fortiAPIPatch(o["ipsec-phase1"]) {
-			return fmt.Errorf("Error reading ipsec_phase1: %v", err)
+			return fmt.Errorf("error reading ipsec_phase1: %v", err)
 		}
 	}
 
 	if err = d.Set("ipsec_phase2", flattenSystemResourceLimitsIpsecPhase2(o["ipsec-phase2"], d, "ipsec_phase2", sv)); err != nil {
 		if !fortiAPIPatch(o["ipsec-phase2"]) {
-			return fmt.Errorf("Error reading ipsec_phase2: %v", err)
+			return fmt.Errorf("error reading ipsec_phase2: %v", err)
 		}
 	}
 
 	if err = d.Set("ipsec_phase1_interface", flattenSystemResourceLimitsIpsecPhase1Interface(o["ipsec-phase1-interface"], d, "ipsec_phase1_interface", sv)); err != nil {
 		if !fortiAPIPatch(o["ipsec-phase1-interface"]) {
-			return fmt.Errorf("Error reading ipsec_phase1_interface: %v", err)
+			return fmt.Errorf("error reading ipsec_phase1_interface: %v", err)
 		}
 	}
 
 	if err = d.Set("ipsec_phase2_interface", flattenSystemResourceLimitsIpsecPhase2Interface(o["ipsec-phase2-interface"], d, "ipsec_phase2_interface", sv)); err != nil {
 		if !fortiAPIPatch(o["ipsec-phase2-interface"]) {
-			return fmt.Errorf("Error reading ipsec_phase2_interface: %v", err)
+			return fmt.Errorf("error reading ipsec_phase2_interface: %v", err)
 		}
 	}
 
 	if err = d.Set("dialup_tunnel", flattenSystemResourceLimitsDialupTunnel(o["dialup-tunnel"], d, "dialup_tunnel", sv)); err != nil {
 		if !fortiAPIPatch(o["dialup-tunnel"]) {
-			return fmt.Errorf("Error reading dialup_tunnel: %v", err)
+			return fmt.Errorf("error reading dialup_tunnel: %v", err)
 		}
 	}
 
 	if err = d.Set("firewall_policy", flattenSystemResourceLimitsFirewallPolicy(o["firewall-policy"], d, "firewall_policy", sv)); err != nil {
 		if !fortiAPIPatch(o["firewall-policy"]) {
-			return fmt.Errorf("Error reading firewall_policy: %v", err)
+			return fmt.Errorf("error reading firewall_policy: %v", err)
 		}
 	}
 
 	if err = d.Set("firewall_address", flattenSystemResourceLimitsFirewallAddress(o["firewall-address"], d, "firewall_address", sv)); err != nil {
 		if !fortiAPIPatch(o["firewall-address"]) {
-			return fmt.Errorf("Error reading firewall_address: %v", err)
+			return fmt.Errorf("error reading firewall_address: %v", err)
 		}
 	}
 
 	if err = d.Set("firewall_addrgrp", flattenSystemResourceLimitsFirewallAddrgrp(o["firewall-addrgrp"], d, "firewall_addrgrp", sv)); err != nil {
 		if !fortiAPIPatch(o["firewall-addrgrp"]) {
-			return fmt.Errorf("Error reading firewall_addrgrp: %v", err)
+			return fmt.Errorf("error reading firewall_addrgrp: %v", err)
 		}
 	}
 
 	if err = d.Set("custom_service", flattenSystemResourceLimitsCustomService(o["custom-service"], d, "custom_service", sv)); err != nil {
 		if !fortiAPIPatch(o["custom-service"]) {
-			return fmt.Errorf("Error reading custom_service: %v", err)
+			return fmt.Errorf("error reading custom_service: %v", err)
 		}
 	}
 
 	if err = d.Set("service_group", flattenSystemResourceLimitsServiceGroup(o["service-group"], d, "service_group", sv)); err != nil {
 		if !fortiAPIPatch(o["service-group"]) {
-			return fmt.Errorf("Error reading service_group: %v", err)
+			return fmt.Errorf("error reading service_group: %v", err)
 		}
 	}
 
 	if err = d.Set("onetime_schedule", flattenSystemResourceLimitsOnetimeSchedule(o["onetime-schedule"], d, "onetime_schedule", sv)); err != nil {
 		if !fortiAPIPatch(o["onetime-schedule"]) {
-			return fmt.Errorf("Error reading onetime_schedule: %v", err)
+			return fmt.Errorf("error reading onetime_schedule: %v", err)
 		}
 	}
 
 	if err = d.Set("recurring_schedule", flattenSystemResourceLimitsRecurringSchedule(o["recurring-schedule"], d, "recurring_schedule", sv)); err != nil {
 		if !fortiAPIPatch(o["recurring-schedule"]) {
-			return fmt.Errorf("Error reading recurring_schedule: %v", err)
+			return fmt.Errorf("error reading recurring_schedule: %v", err)
 		}
 	}
 
 	if err = d.Set("user", flattenSystemResourceLimitsUser(o["user"], d, "user", sv)); err != nil {
 		if !fortiAPIPatch(o["user"]) {
-			return fmt.Errorf("Error reading user: %v", err)
+			return fmt.Errorf("error reading user: %v", err)
 		}
 	}
 
 	if err = d.Set("user_group", flattenSystemResourceLimitsUserGroup(o["user-group"], d, "user_group", sv)); err != nil {
 		if !fortiAPIPatch(o["user-group"]) {
-			return fmt.Errorf("Error reading user_group: %v", err)
+			return fmt.Errorf("error reading user_group: %v", err)
 		}
 	}
 
 	if err = d.Set("sslvpn", flattenSystemResourceLimitsSslvpn(o["sslvpn"], d, "sslvpn", sv)); err != nil {
 		if !fortiAPIPatch(o["sslvpn"]) {
-			return fmt.Errorf("Error reading sslvpn: %v", err)
+			return fmt.Errorf("error reading sslvpn: %v", err)
 		}
 	}
 
 	if err = d.Set("proxy", flattenSystemResourceLimitsProxy(o["proxy"], d, "proxy", sv)); err != nil {
 		if !fortiAPIPatch(o["proxy"]) {
-			return fmt.Errorf("Error reading proxy: %v", err)
+			return fmt.Errorf("error reading proxy: %v", err)
 		}
 	}
 
 	if err = d.Set("log_disk_quota", flattenSystemResourceLimitsLogDiskQuota(o["log-disk-quota"], d, "log_disk_quota", sv)); err != nil {
 		if !fortiAPIPatch(o["log-disk-quota"]) {
-			return fmt.Errorf("Error reading log_disk_quota: %v", err)
+			return fmt.Errorf("error reading log_disk_quota: %v", err)
 		}
 	}
 

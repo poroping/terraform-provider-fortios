@@ -30,103 +30,103 @@ func resourceFirewallAddress() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"uuid": &schema.Schema{
+			"uuid": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"subnet": &schema.Schema{
+			"subnet": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"type": &schema.Schema{
+			"type": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"sub_type": &schema.Schema{
+			"sub_type": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"clearpass_spt": &schema.Schema{
+			"clearpass_spt": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"start_mac": &schema.Schema{
+			"start_mac": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"end_mac": &schema.Schema{
+			"end_mac": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"start_ip": &schema.Schema{
+			"start_ip": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"end_ip": &schema.Schema{
+			"end_ip": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"fqdn": &schema.Schema{
+			"fqdn": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
 				Computed:     true,
 			},
-			"country": &schema.Schema{
+			"country": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 2),
 				Optional:     true,
 				Computed:     true,
 			},
-			"wildcard_fqdn": &schema.Schema{
+			"wildcard_fqdn": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
 				Computed:     true,
 			},
-			"cache_ttl": &schema.Schema{
+			"cache_ttl": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 86400),
 				Optional:     true,
 				Computed:     true,
 			},
-			"wildcard": &schema.Schema{
+			"wildcard": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"sdn": &schema.Schema{
+			"sdn": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"fsso_group": &schema.Schema{
+			"fsso_group": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 511),
 							Optional:     true,
@@ -135,107 +135,107 @@ func resourceFirewallAddress() *schema.Resource {
 					},
 				},
 			},
-			"interface": &schema.Schema{
+			"interface": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"tenant": &schema.Schema{
+			"tenant": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"organization": &schema.Schema{
+			"organization": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"epg_name": &schema.Schema{
+			"epg_name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
 				Computed:     true,
 			},
-			"subnet_name": &schema.Schema{
+			"subnet_name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
 				Computed:     true,
 			},
-			"sdn_tag": &schema.Schema{
+			"sdn_tag": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 15),
 				Optional:     true,
 				Computed:     true,
 			},
-			"policy_group": &schema.Schema{
+			"policy_group": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 15),
 				Optional:     true,
 				Computed:     true,
 			},
-			"obj_tag": &schema.Schema{
+			"obj_tag": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
 				Computed:     true,
 			},
-			"obj_type": &schema.Schema{
+			"obj_type": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"comment": &schema.Schema{
+			"comment": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
 			},
-			"visibility": &schema.Schema{
+			"visibility": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"associated_interface": &schema.Schema{
+			"associated_interface": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"color": &schema.Schema{
+			"color": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 32),
 				Optional:     true,
 				Computed:     true,
 			},
-			"filter": &schema.Schema{
+			"filter": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
 			},
-			"sdn_addr_type": &schema.Schema{
+			"sdn_addr_type": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"node_ip_only": &schema.Schema{
+			"node_ip_only": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"obj_id": &schema.Schema{
+			"obj_id": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
 			},
-			"list": &schema.Schema{
+			"list": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"ip": &schema.Schema{
+						"ip": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
@@ -244,29 +244,29 @@ func resourceFirewallAddress() *schema.Resource {
 					},
 				},
 			},
-			"tagging": &schema.Schema{
+			"tagging": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 63),
 							Optional:     true,
 							Computed:     true,
 						},
-						"category": &schema.Schema{
+						"category": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 63),
 							Optional:     true,
 							Computed:     true,
 						},
-						"tags": &schema.Schema{
+						"tags": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"name": &schema.Schema{
+									"name": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 64),
 										Optional:     true,
@@ -278,15 +278,26 @@ func resourceFirewallAddress() *schema.Resource {
 					},
 				},
 			},
-			"allow_routing": &schema.Schema{
+			"allow_routing": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"dynamic_sort_subtable": &schema.Schema{
+			"dynamic_sort_subtable": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Default:  "false",
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
+			},
+			"allow_append": {
+				Type:         schema.TypeBool,
+				Optional:     true,
+				Default:      false,
+				RequiredWith: []string{"name"},
 			},
 		},
 	}
@@ -304,15 +315,51 @@ func resourceFirewallAddressCreate(d *schema.ResourceData, m interface{}) error 
 		}
 	}
 
-	obj, err := getObjectFirewallAddress(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating FirewallAddress resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateFirewallAddress(obj, vdomparam)
+	allow_append := false
+
+	if v, ok := d.GetOk("allow_append"); ok {
+		if b, ok := v.(bool); ok {
+			allow_append = b
+		}
+	}
+
+	urlparams := make(map[string][]string)
+	urlparams["allow_append"] = []string{strconv.FormatBool(allow_append)}
+
+	key := "name"
+	mkey := ""
+	if v, ok := d.GetOk(key); ok {
+		if s, ok := v.(string); ok {
+			mkey = s
+		}
+	}
+
+	obj, err := getObjectFirewallAddress(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating FirewallAddress resource while getting object: %v", err)
+	}
+
+	if mkey == "" && allow_append {
+		return fmt.Errorf("error creating FirewallAddress resource: %q must be set if \"allow_append\" is true", key)
+	}
+
+	o := make(map[string]interface{})
+	if mkey != "" && allow_append {
+		o, err = c.UpdateFirewallAddress(obj, mkey, vdomparam, urlparams, batchid)
+	} else {
+		o, err = c.CreateFirewallAddress(obj, vdomparam, urlparams, batchid)
+	}
 
 	if err != nil {
-		return fmt.Errorf("Error creating FirewallAddress resource: %v", err)
+		return fmt.Errorf("error creating FirewallAddress resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -337,14 +384,24 @@ func resourceFirewallAddressUpdate(d *schema.ResourceData, m interface{}) error 
 		}
 	}
 
-	obj, err := getObjectFirewallAddress(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating FirewallAddress resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateFirewallAddress(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectFirewallAddress(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating FirewallAddress resource: %v", err)
+		return fmt.Errorf("error updating FirewallAddress resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateFirewallAddress(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating FirewallAddress resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -371,9 +428,17 @@ func resourceFirewallAddressDelete(d *schema.ResourceData, m interface{}) error 
 		}
 	}
 
-	err := c.DeleteFirewallAddress(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteFirewallAddress(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting FirewallAddress resource: %v", err)
+		return fmt.Errorf("error deleting FirewallAddress resource: %v", err)
 	}
 
 	d.SetId("")
@@ -395,9 +460,19 @@ func resourceFirewallAddressRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadFirewallAddress(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadFirewallAddress(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading FirewallAddress resource: %v", err)
+		return fmt.Errorf("error reading FirewallAddress resource: %v", err)
 	}
 
 	if o == nil {
@@ -408,7 +483,7 @@ func resourceFirewallAddressRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectFirewallAddress(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading FirewallAddress resource from API: %v", err)
+		return fmt.Errorf("error reading FirewallAddress resource from API: %v", err)
 	}
 	return nil
 }
@@ -735,111 +810,111 @@ func refreshObjectFirewallAddress(d *schema.ResourceData, o map[string]interface
 
 	if err = d.Set("name", flattenFirewallAddressName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("uuid", flattenFirewallAddressUuid(o["uuid"], d, "uuid", sv)); err != nil {
 		if !fortiAPIPatch(o["uuid"]) {
-			return fmt.Errorf("Error reading uuid: %v", err)
+			return fmt.Errorf("error reading uuid: %v", err)
 		}
 	}
 
 	if err = d.Set("subnet", flattenFirewallAddressSubnet(o["subnet"], d, "subnet", sv)); err != nil {
 		if !fortiAPIPatch(o["subnet"]) {
-			return fmt.Errorf("Error reading subnet: %v", err)
+			return fmt.Errorf("error reading subnet: %v", err)
 		}
 	}
 
 	if err = d.Set("type", flattenFirewallAddressType(o["type"], d, "type", sv)); err != nil {
 		if !fortiAPIPatch(o["type"]) {
-			return fmt.Errorf("Error reading type: %v", err)
+			return fmt.Errorf("error reading type: %v", err)
 		}
 	}
 
 	if err = d.Set("sub_type", flattenFirewallAddressSubType(o["sub-type"], d, "sub_type", sv)); err != nil {
 		if !fortiAPIPatch(o["sub-type"]) {
-			return fmt.Errorf("Error reading sub_type: %v", err)
+			return fmt.Errorf("error reading sub_type: %v", err)
 		}
 	}
 
 	if err = d.Set("clearpass_spt", flattenFirewallAddressClearpassSpt(o["clearpass-spt"], d, "clearpass_spt", sv)); err != nil {
 		if !fortiAPIPatch(o["clearpass-spt"]) {
-			return fmt.Errorf("Error reading clearpass_spt: %v", err)
+			return fmt.Errorf("error reading clearpass_spt: %v", err)
 		}
 	}
 
 	if err = d.Set("start_mac", flattenFirewallAddressStartMac(o["start-mac"], d, "start_mac", sv)); err != nil {
 		if !fortiAPIPatch(o["start-mac"]) {
-			return fmt.Errorf("Error reading start_mac: %v", err)
+			return fmt.Errorf("error reading start_mac: %v", err)
 		}
 	}
 
 	if err = d.Set("end_mac", flattenFirewallAddressEndMac(o["end-mac"], d, "end_mac", sv)); err != nil {
 		if !fortiAPIPatch(o["end-mac"]) {
-			return fmt.Errorf("Error reading end_mac: %v", err)
+			return fmt.Errorf("error reading end_mac: %v", err)
 		}
 	}
 
 	if err = d.Set("start_ip", flattenFirewallAddressStartIp(o["start-ip"], d, "start_ip", sv)); err != nil {
 		if !fortiAPIPatch(o["start-ip"]) {
-			return fmt.Errorf("Error reading start_ip: %v", err)
+			return fmt.Errorf("error reading start_ip: %v", err)
 		}
 	}
 
 	if err = d.Set("end_ip", flattenFirewallAddressEndIp(o["end-ip"], d, "end_ip", sv)); err != nil {
 		if !fortiAPIPatch(o["end-ip"]) {
-			return fmt.Errorf("Error reading end_ip: %v", err)
+			return fmt.Errorf("error reading end_ip: %v", err)
 		}
 	}
 
 	if err = d.Set("fqdn", flattenFirewallAddressFqdn(o["fqdn"], d, "fqdn", sv)); err != nil {
 		if !fortiAPIPatch(o["fqdn"]) {
-			return fmt.Errorf("Error reading fqdn: %v", err)
+			return fmt.Errorf("error reading fqdn: %v", err)
 		}
 	}
 
 	if err = d.Set("country", flattenFirewallAddressCountry(o["country"], d, "country", sv)); err != nil {
 		if !fortiAPIPatch(o["country"]) {
-			return fmt.Errorf("Error reading country: %v", err)
+			return fmt.Errorf("error reading country: %v", err)
 		}
 	}
 
 	if err = d.Set("wildcard_fqdn", flattenFirewallAddressWildcardFqdn(o["wildcard-fqdn"], d, "wildcard_fqdn", sv)); err != nil {
 		if !fortiAPIPatch(o["wildcard-fqdn"]) {
-			return fmt.Errorf("Error reading wildcard_fqdn: %v", err)
+			return fmt.Errorf("error reading wildcard_fqdn: %v", err)
 		}
 	}
 
 	if err = d.Set("cache_ttl", flattenFirewallAddressCacheTtl(o["cache-ttl"], d, "cache_ttl", sv)); err != nil {
 		if !fortiAPIPatch(o["cache-ttl"]) {
-			return fmt.Errorf("Error reading cache_ttl: %v", err)
+			return fmt.Errorf("error reading cache_ttl: %v", err)
 		}
 	}
 
 	if err = d.Set("wildcard", flattenFirewallAddressWildcard(o["wildcard"], d, "wildcard", sv)); err != nil {
 		if !fortiAPIPatch(o["wildcard"]) {
-			return fmt.Errorf("Error reading wildcard: %v", err)
+			return fmt.Errorf("error reading wildcard: %v", err)
 		}
 	}
 
 	if err = d.Set("sdn", flattenFirewallAddressSdn(o["sdn"], d, "sdn", sv)); err != nil {
 		if !fortiAPIPatch(o["sdn"]) {
-			return fmt.Errorf("Error reading sdn: %v", err)
+			return fmt.Errorf("error reading sdn: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("fsso_group", flattenFirewallAddressFssoGroup(o["fsso-group"], d, "fsso_group", sv)); err != nil {
 			if !fortiAPIPatch(o["fsso-group"]) {
-				return fmt.Errorf("Error reading fsso_group: %v", err)
+				return fmt.Errorf("error reading fsso_group: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("fsso_group"); ok {
 			if err = d.Set("fsso_group", flattenFirewallAddressFssoGroup(o["fsso-group"], d, "fsso_group", sv)); err != nil {
 				if !fortiAPIPatch(o["fsso-group"]) {
-					return fmt.Errorf("Error reading fsso_group: %v", err)
+					return fmt.Errorf("error reading fsso_group: %v", err)
 				}
 			}
 		}
@@ -847,117 +922,117 @@ func refreshObjectFirewallAddress(d *schema.ResourceData, o map[string]interface
 
 	if err = d.Set("interface", flattenFirewallAddressInterface(o["interface"], d, "interface", sv)); err != nil {
 		if !fortiAPIPatch(o["interface"]) {
-			return fmt.Errorf("Error reading interface: %v", err)
+			return fmt.Errorf("error reading interface: %v", err)
 		}
 	}
 
 	if err = d.Set("tenant", flattenFirewallAddressTenant(o["tenant"], d, "tenant", sv)); err != nil {
 		if !fortiAPIPatch(o["tenant"]) {
-			return fmt.Errorf("Error reading tenant: %v", err)
+			return fmt.Errorf("error reading tenant: %v", err)
 		}
 	}
 
 	if err = d.Set("organization", flattenFirewallAddressOrganization(o["organization"], d, "organization", sv)); err != nil {
 		if !fortiAPIPatch(o["organization"]) {
-			return fmt.Errorf("Error reading organization: %v", err)
+			return fmt.Errorf("error reading organization: %v", err)
 		}
 	}
 
 	if err = d.Set("epg_name", flattenFirewallAddressEpgName(o["epg-name"], d, "epg_name", sv)); err != nil {
 		if !fortiAPIPatch(o["epg-name"]) {
-			return fmt.Errorf("Error reading epg_name: %v", err)
+			return fmt.Errorf("error reading epg_name: %v", err)
 		}
 	}
 
 	if err = d.Set("subnet_name", flattenFirewallAddressSubnetName(o["subnet-name"], d, "subnet_name", sv)); err != nil {
 		if !fortiAPIPatch(o["subnet-name"]) {
-			return fmt.Errorf("Error reading subnet_name: %v", err)
+			return fmt.Errorf("error reading subnet_name: %v", err)
 		}
 	}
 
 	if err = d.Set("sdn_tag", flattenFirewallAddressSdnTag(o["sdn-tag"], d, "sdn_tag", sv)); err != nil {
 		if !fortiAPIPatch(o["sdn-tag"]) {
-			return fmt.Errorf("Error reading sdn_tag: %v", err)
+			return fmt.Errorf("error reading sdn_tag: %v", err)
 		}
 	}
 
 	if err = d.Set("policy_group", flattenFirewallAddressPolicyGroup(o["policy-group"], d, "policy_group", sv)); err != nil {
 		if !fortiAPIPatch(o["policy-group"]) {
-			return fmt.Errorf("Error reading policy_group: %v", err)
+			return fmt.Errorf("error reading policy_group: %v", err)
 		}
 	}
 
 	if err = d.Set("obj_tag", flattenFirewallAddressObjTag(o["obj-tag"], d, "obj_tag", sv)); err != nil {
 		if !fortiAPIPatch(o["obj-tag"]) {
-			return fmt.Errorf("Error reading obj_tag: %v", err)
+			return fmt.Errorf("error reading obj_tag: %v", err)
 		}
 	}
 
 	if err = d.Set("obj_type", flattenFirewallAddressObjType(o["obj-type"], d, "obj_type", sv)); err != nil {
 		if !fortiAPIPatch(o["obj-type"]) {
-			return fmt.Errorf("Error reading obj_type: %v", err)
+			return fmt.Errorf("error reading obj_type: %v", err)
 		}
 	}
 
 	if err = d.Set("comment", flattenFirewallAddressComment(o["comment"], d, "comment", sv)); err != nil {
 		if !fortiAPIPatch(o["comment"]) {
-			return fmt.Errorf("Error reading comment: %v", err)
+			return fmt.Errorf("error reading comment: %v", err)
 		}
 	}
 
 	if err = d.Set("visibility", flattenFirewallAddressVisibility(o["visibility"], d, "visibility", sv)); err != nil {
 		if !fortiAPIPatch(o["visibility"]) {
-			return fmt.Errorf("Error reading visibility: %v", err)
+			return fmt.Errorf("error reading visibility: %v", err)
 		}
 	}
 
 	if err = d.Set("associated_interface", flattenFirewallAddressAssociatedInterface(o["associated-interface"], d, "associated_interface", sv)); err != nil {
 		if !fortiAPIPatch(o["associated-interface"]) {
-			return fmt.Errorf("Error reading associated_interface: %v", err)
+			return fmt.Errorf("error reading associated_interface: %v", err)
 		}
 	}
 
 	if err = d.Set("color", flattenFirewallAddressColor(o["color"], d, "color", sv)); err != nil {
 		if !fortiAPIPatch(o["color"]) {
-			return fmt.Errorf("Error reading color: %v", err)
+			return fmt.Errorf("error reading color: %v", err)
 		}
 	}
 
 	if err = d.Set("filter", flattenFirewallAddressFilter(o["filter"], d, "filter", sv)); err != nil {
 		if !fortiAPIPatch(o["filter"]) {
-			return fmt.Errorf("Error reading filter: %v", err)
+			return fmt.Errorf("error reading filter: %v", err)
 		}
 	}
 
 	if err = d.Set("sdn_addr_type", flattenFirewallAddressSdnAddrType(o["sdn-addr-type"], d, "sdn_addr_type", sv)); err != nil {
 		if !fortiAPIPatch(o["sdn-addr-type"]) {
-			return fmt.Errorf("Error reading sdn_addr_type: %v", err)
+			return fmt.Errorf("error reading sdn_addr_type: %v", err)
 		}
 	}
 
 	if err = d.Set("node_ip_only", flattenFirewallAddressNodeIpOnly(o["node-ip-only"], d, "node_ip_only", sv)); err != nil {
 		if !fortiAPIPatch(o["node-ip-only"]) {
-			return fmt.Errorf("Error reading node_ip_only: %v", err)
+			return fmt.Errorf("error reading node_ip_only: %v", err)
 		}
 	}
 
 	if err = d.Set("obj_id", flattenFirewallAddressObjId(o["obj-id"], d, "obj_id", sv)); err != nil {
 		if !fortiAPIPatch(o["obj-id"]) {
-			return fmt.Errorf("Error reading obj_id: %v", err)
+			return fmt.Errorf("error reading obj_id: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("list", flattenFirewallAddressList(o["list"], d, "list", sv)); err != nil {
 			if !fortiAPIPatch(o["list"]) {
-				return fmt.Errorf("Error reading list: %v", err)
+				return fmt.Errorf("error reading list: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("list"); ok {
 			if err = d.Set("list", flattenFirewallAddressList(o["list"], d, "list", sv)); err != nil {
 				if !fortiAPIPatch(o["list"]) {
-					return fmt.Errorf("Error reading list: %v", err)
+					return fmt.Errorf("error reading list: %v", err)
 				}
 			}
 		}
@@ -966,14 +1041,14 @@ func refreshObjectFirewallAddress(d *schema.ResourceData, o map[string]interface
 	if isImportTable() {
 		if err = d.Set("tagging", flattenFirewallAddressTagging(o["tagging"], d, "tagging", sv)); err != nil {
 			if !fortiAPIPatch(o["tagging"]) {
-				return fmt.Errorf("Error reading tagging: %v", err)
+				return fmt.Errorf("error reading tagging: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("tagging"); ok {
 			if err = d.Set("tagging", flattenFirewallAddressTagging(o["tagging"], d, "tagging", sv)); err != nil {
 				if !fortiAPIPatch(o["tagging"]) {
-					return fmt.Errorf("Error reading tagging: %v", err)
+					return fmt.Errorf("error reading tagging: %v", err)
 				}
 			}
 		}
@@ -981,7 +1056,7 @@ func refreshObjectFirewallAddress(d *schema.ResourceData, o map[string]interface
 
 	if err = d.Set("allow_routing", flattenFirewallAddressAllowRouting(o["allow-routing"], d, "allow_routing", sv)); err != nil {
 		if !fortiAPIPatch(o["allow-routing"]) {
-			return fmt.Errorf("Error reading allow_routing: %v", err)
+			return fmt.Errorf("error reading allow_routing: %v", err)
 		}
 	}
 

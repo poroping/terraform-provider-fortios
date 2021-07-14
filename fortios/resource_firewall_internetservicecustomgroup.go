@@ -30,28 +30,28 @@ func resourceFirewallInternetServiceCustomGroup() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"comment": &schema.Schema{
+			"comment": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
 			},
-			"member": &schema.Schema{
+			"member": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 64),
 							Optional:     true,
@@ -60,10 +60,15 @@ func resourceFirewallInternetServiceCustomGroup() *schema.Resource {
 					},
 				},
 			},
-			"dynamic_sort_subtable": &schema.Schema{
+			"dynamic_sort_subtable": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Default:  "false",
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -81,15 +86,25 @@ func resourceFirewallInternetServiceCustomGroupCreate(d *schema.ResourceData, m 
 		}
 	}
 
-	obj, err := getObjectFirewallInternetServiceCustomGroup(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating FirewallInternetServiceCustomGroup resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateFirewallInternetServiceCustomGroup(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectFirewallInternetServiceCustomGroup(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating FirewallInternetServiceCustomGroup resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateFirewallInternetServiceCustomGroup(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating FirewallInternetServiceCustomGroup resource: %v", err)
+		return fmt.Errorf("error creating FirewallInternetServiceCustomGroup resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -114,14 +129,24 @@ func resourceFirewallInternetServiceCustomGroupUpdate(d *schema.ResourceData, m 
 		}
 	}
 
-	obj, err := getObjectFirewallInternetServiceCustomGroup(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating FirewallInternetServiceCustomGroup resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateFirewallInternetServiceCustomGroup(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectFirewallInternetServiceCustomGroup(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating FirewallInternetServiceCustomGroup resource: %v", err)
+		return fmt.Errorf("error updating FirewallInternetServiceCustomGroup resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateFirewallInternetServiceCustomGroup(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating FirewallInternetServiceCustomGroup resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -148,9 +173,17 @@ func resourceFirewallInternetServiceCustomGroupDelete(d *schema.ResourceData, m 
 		}
 	}
 
-	err := c.DeleteFirewallInternetServiceCustomGroup(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteFirewallInternetServiceCustomGroup(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting FirewallInternetServiceCustomGroup resource: %v", err)
+		return fmt.Errorf("error deleting FirewallInternetServiceCustomGroup resource: %v", err)
 	}
 
 	d.SetId("")
@@ -172,9 +205,19 @@ func resourceFirewallInternetServiceCustomGroupRead(d *schema.ResourceData, m in
 		}
 	}
 
-	o, err := c.ReadFirewallInternetServiceCustomGroup(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadFirewallInternetServiceCustomGroup(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading FirewallInternetServiceCustomGroup resource: %v", err)
+		return fmt.Errorf("error reading FirewallInternetServiceCustomGroup resource: %v", err)
 	}
 
 	if o == nil {
@@ -185,7 +228,7 @@ func resourceFirewallInternetServiceCustomGroupRead(d *schema.ResourceData, m in
 
 	err = refreshObjectFirewallInternetServiceCustomGroup(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading FirewallInternetServiceCustomGroup resource from API: %v", err)
+		return fmt.Errorf("error reading FirewallInternetServiceCustomGroup resource from API: %v", err)
 	}
 	return nil
 }
@@ -241,27 +284,27 @@ func refreshObjectFirewallInternetServiceCustomGroup(d *schema.ResourceData, o m
 
 	if err = d.Set("name", flattenFirewallInternetServiceCustomGroupName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("comment", flattenFirewallInternetServiceCustomGroupComment(o["comment"], d, "comment", sv)); err != nil {
 		if !fortiAPIPatch(o["comment"]) {
-			return fmt.Errorf("Error reading comment: %v", err)
+			return fmt.Errorf("error reading comment: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("member", flattenFirewallInternetServiceCustomGroupMember(o["member"], d, "member", sv)); err != nil {
 			if !fortiAPIPatch(o["member"]) {
-				return fmt.Errorf("Error reading member: %v", err)
+				return fmt.Errorf("error reading member: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("member"); ok {
 			if err = d.Set("member", flattenFirewallInternetServiceCustomGroupMember(o["member"], d, "member", sv)); err != nil {
 				if !fortiAPIPatch(o["member"]) {
-					return fmt.Errorf("Error reading member: %v", err)
+					return fmt.Errorf("error reading member: %v", err)
 				}
 			}
 		}

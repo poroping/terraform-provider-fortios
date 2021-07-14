@@ -78,14 +78,14 @@ func testAccCheckFortiOSRouterRouteMapExists(n string) resource.TestCheckFunc {
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadRouterRouteMap(i, "root")
+		o, err := c.ReadRouterRouteMap(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading RouterRouteMap: %s", err)
+			return fmt.Errorf("error reading RouterRouteMap: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating RouterRouteMap: %s", n)
+			return fmt.Errorf("error creating RouterRouteMap: %s", n)
 		}
 
 		return nil
@@ -101,11 +101,11 @@ func testAccCheckRouterRouteMapDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadRouterRouteMap(i, "root")
+		o, err := c.ReadRouterRouteMap(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error RouterRouteMap %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error RouterRouteMap %s still exists", rs.Primary.ID)
 			}
 		}
 

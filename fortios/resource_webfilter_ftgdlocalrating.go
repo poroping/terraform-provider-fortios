@@ -30,31 +30,36 @@ func resourceWebfilterFtgdLocalRating() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"url": &schema.Schema{
+			"url": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 511),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"status": &schema.Schema{
+			"status": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"comment": &schema.Schema{
+			"comment": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
 			},
-			"rating": &schema.Schema{
+			"rating": {
 				Type:     schema.TypeString,
 				Required: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -72,15 +77,25 @@ func resourceWebfilterFtgdLocalRatingCreate(d *schema.ResourceData, m interface{
 		}
 	}
 
-	obj, err := getObjectWebfilterFtgdLocalRating(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating WebfilterFtgdLocalRating resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateWebfilterFtgdLocalRating(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectWebfilterFtgdLocalRating(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating WebfilterFtgdLocalRating resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateWebfilterFtgdLocalRating(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating WebfilterFtgdLocalRating resource: %v", err)
+		return fmt.Errorf("error creating WebfilterFtgdLocalRating resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -105,14 +120,24 @@ func resourceWebfilterFtgdLocalRatingUpdate(d *schema.ResourceData, m interface{
 		}
 	}
 
-	obj, err := getObjectWebfilterFtgdLocalRating(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating WebfilterFtgdLocalRating resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateWebfilterFtgdLocalRating(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectWebfilterFtgdLocalRating(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating WebfilterFtgdLocalRating resource: %v", err)
+		return fmt.Errorf("error updating WebfilterFtgdLocalRating resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateWebfilterFtgdLocalRating(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating WebfilterFtgdLocalRating resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -139,9 +164,17 @@ func resourceWebfilterFtgdLocalRatingDelete(d *schema.ResourceData, m interface{
 		}
 	}
 
-	err := c.DeleteWebfilterFtgdLocalRating(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteWebfilterFtgdLocalRating(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting WebfilterFtgdLocalRating resource: %v", err)
+		return fmt.Errorf("error deleting WebfilterFtgdLocalRating resource: %v", err)
 	}
 
 	d.SetId("")
@@ -163,9 +196,19 @@ func resourceWebfilterFtgdLocalRatingRead(d *schema.ResourceData, m interface{})
 		}
 	}
 
-	o, err := c.ReadWebfilterFtgdLocalRating(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadWebfilterFtgdLocalRating(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading WebfilterFtgdLocalRating resource: %v", err)
+		return fmt.Errorf("error reading WebfilterFtgdLocalRating resource: %v", err)
 	}
 
 	if o == nil {
@@ -176,7 +219,7 @@ func resourceWebfilterFtgdLocalRatingRead(d *schema.ResourceData, m interface{})
 
 	err = refreshObjectWebfilterFtgdLocalRating(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading WebfilterFtgdLocalRating resource from API: %v", err)
+		return fmt.Errorf("error reading WebfilterFtgdLocalRating resource from API: %v", err)
 	}
 	return nil
 }
@@ -202,25 +245,25 @@ func refreshObjectWebfilterFtgdLocalRating(d *schema.ResourceData, o map[string]
 
 	if err = d.Set("url", flattenWebfilterFtgdLocalRatingUrl(o["url"], d, "url", sv)); err != nil {
 		if !fortiAPIPatch(o["url"]) {
-			return fmt.Errorf("Error reading url: %v", err)
+			return fmt.Errorf("error reading url: %v", err)
 		}
 	}
 
 	if err = d.Set("status", flattenWebfilterFtgdLocalRatingStatus(o["status"], d, "status", sv)); err != nil {
 		if !fortiAPIPatch(o["status"]) {
-			return fmt.Errorf("Error reading status: %v", err)
+			return fmt.Errorf("error reading status: %v", err)
 		}
 	}
 
 	if err = d.Set("comment", flattenWebfilterFtgdLocalRatingComment(o["comment"], d, "comment", sv)); err != nil {
 		if !fortiAPIPatch(o["comment"]) {
-			return fmt.Errorf("Error reading comment: %v", err)
+			return fmt.Errorf("error reading comment: %v", err)
 		}
 	}
 
 	if err = d.Set("rating", flattenWebfilterFtgdLocalRatingRating(o["rating"], d, "rating", sv)); err != nil {
 		if !fortiAPIPatch(o["rating"]) {
-			return fmt.Errorf("Error reading rating: %v", err)
+			return fmt.Errorf("error reading rating: %v", err)
 		}
 	}
 

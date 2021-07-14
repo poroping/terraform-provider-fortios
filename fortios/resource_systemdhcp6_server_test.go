@@ -54,14 +54,14 @@ func testAccCheckFortiOSSystemDhcp6ServerExists(n string) resource.TestCheckFunc
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemDhcp6Server(i, "root")
+		o, err := c.ReadSystemDhcp6Server(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading SystemDhcp6Server: %s", err)
+			return fmt.Errorf("error reading SystemDhcp6Server: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating SystemDhcp6Server: %s", n)
+			return fmt.Errorf("error creating SystemDhcp6Server: %s", n)
 		}
 
 		return nil
@@ -77,11 +77,11 @@ func testAccCheckSystemDhcp6ServerDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemDhcp6Server(i, "root")
+		o, err := c.ReadSystemDhcp6Server(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error SystemDhcp6Server %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error SystemDhcp6Server %s still exists", rs.Primary.ID)
 			}
 		}
 

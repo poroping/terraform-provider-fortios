@@ -66,14 +66,14 @@ func testAccCheckFortiOSSystemResourceLimitsExists(n string) resource.TestCheckF
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemResourceLimits(i, "root")
+		o, err := c.ReadSystemResourceLimits(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading SystemResourceLimits: %s", err)
+			return fmt.Errorf("error reading SystemResourceLimits: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating SystemResourceLimits: %s", n)
+			return fmt.Errorf("error creating SystemResourceLimits: %s", n)
 		}
 
 		return nil
@@ -89,11 +89,11 @@ func testAccCheckSystemResourceLimitsDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemResourceLimits(i, "root")
+		o, err := c.ReadSystemResourceLimits(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error SystemResourceLimits %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error SystemResourceLimits %s still exists", rs.Primary.ID)
 			}
 		}
 

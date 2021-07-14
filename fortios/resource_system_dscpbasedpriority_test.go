@@ -51,14 +51,14 @@ func testAccCheckFortiOSSystemDscpBasedPriorityExists(n string) resource.TestChe
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemDscpBasedPriority(i, "root")
+		o, err := c.ReadSystemDscpBasedPriority(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading SystemDscpBasedPriority: %s", err)
+			return fmt.Errorf("error reading SystemDscpBasedPriority: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating SystemDscpBasedPriority: %s", n)
+			return fmt.Errorf("error creating SystemDscpBasedPriority: %s", n)
 		}
 
 		return nil
@@ -74,11 +74,11 @@ func testAccCheckSystemDscpBasedPriorityDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemDscpBasedPriority(i, "root")
+		o, err := c.ReadSystemDscpBasedPriority(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error SystemDscpBasedPriority %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error SystemDscpBasedPriority %s still exists", rs.Primary.ID)
 			}
 		}
 

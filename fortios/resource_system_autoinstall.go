@@ -30,32 +30,37 @@ func resourceSystemAutoInstall() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"auto_install_config": &schema.Schema{
+			"auto_install_config": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"auto_install_image": &schema.Schema{
+			"auto_install_image": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"default_config_file": &schema.Schema{
+			"default_config_file": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 127),
 				Optional:     true,
 				Computed:     true,
 			},
-			"default_image_file": &schema.Schema{
+			"default_image_file": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 127),
 				Optional:     true,
 				Computed:     true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -74,14 +79,24 @@ func resourceSystemAutoInstallUpdate(d *schema.ResourceData, m interface{}) erro
 		}
 	}
 
-	obj, err := getObjectSystemAutoInstall(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SystemAutoInstall resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSystemAutoInstall(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemAutoInstall(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SystemAutoInstall resource: %v", err)
+		return fmt.Errorf("error updating SystemAutoInstall resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSystemAutoInstall(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SystemAutoInstall resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -108,9 +123,17 @@ func resourceSystemAutoInstallDelete(d *schema.ResourceData, m interface{}) erro
 		}
 	}
 
-	err := c.DeleteSystemAutoInstall(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSystemAutoInstall(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SystemAutoInstall resource: %v", err)
+		return fmt.Errorf("error deleting SystemAutoInstall resource: %v", err)
 	}
 
 	d.SetId("")
@@ -132,9 +155,19 @@ func resourceSystemAutoInstallRead(d *schema.ResourceData, m interface{}) error 
 		}
 	}
 
-	o, err := c.ReadSystemAutoInstall(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSystemAutoInstall(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemAutoInstall resource: %v", err)
+		return fmt.Errorf("error reading SystemAutoInstall resource: %v", err)
 	}
 
 	if o == nil {
@@ -145,7 +178,7 @@ func resourceSystemAutoInstallRead(d *schema.ResourceData, m interface{}) error 
 
 	err = refreshObjectSystemAutoInstall(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemAutoInstall resource from API: %v", err)
+		return fmt.Errorf("error reading SystemAutoInstall resource from API: %v", err)
 	}
 	return nil
 }
@@ -171,25 +204,25 @@ func refreshObjectSystemAutoInstall(d *schema.ResourceData, o map[string]interfa
 
 	if err = d.Set("auto_install_config", flattenSystemAutoInstallAutoInstallConfig(o["auto-install-config"], d, "auto_install_config", sv)); err != nil {
 		if !fortiAPIPatch(o["auto-install-config"]) {
-			return fmt.Errorf("Error reading auto_install_config: %v", err)
+			return fmt.Errorf("error reading auto_install_config: %v", err)
 		}
 	}
 
 	if err = d.Set("auto_install_image", flattenSystemAutoInstallAutoInstallImage(o["auto-install-image"], d, "auto_install_image", sv)); err != nil {
 		if !fortiAPIPatch(o["auto-install-image"]) {
-			return fmt.Errorf("Error reading auto_install_image: %v", err)
+			return fmt.Errorf("error reading auto_install_image: %v", err)
 		}
 	}
 
 	if err = d.Set("default_config_file", flattenSystemAutoInstallDefaultConfigFile(o["default-config-file"], d, "default_config_file", sv)); err != nil {
 		if !fortiAPIPatch(o["default-config-file"]) {
-			return fmt.Errorf("Error reading default_config_file: %v", err)
+			return fmt.Errorf("error reading default_config_file: %v", err)
 		}
 	}
 
 	if err = d.Set("default_image_file", flattenSystemAutoInstallDefaultImageFile(o["default-image-file"], d, "default_image_file", sv)); err != nil {
 		if !fortiAPIPatch(o["default-image-file"]) {
-			return fmt.Errorf("Error reading default_image_file: %v", err)
+			return fmt.Errorf("error reading default_image_file: %v", err)
 		}
 	}
 

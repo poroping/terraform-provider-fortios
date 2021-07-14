@@ -59,14 +59,14 @@ func testAccCheckFortiOSIcapProfileExists(n string) resource.TestCheckFunc {
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadIcapProfile(i, "root")
+		o, err := c.ReadIcapProfile(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading IcapProfile: %s", err)
+			return fmt.Errorf("error reading IcapProfile: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating IcapProfile: %s", n)
+			return fmt.Errorf("error creating IcapProfile: %s", n)
 		}
 
 		return nil
@@ -82,11 +82,11 @@ func testAccCheckIcapProfileDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadIcapProfile(i, "root")
+		o, err := c.ReadIcapProfile(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error IcapProfile %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error IcapProfile %s still exists", rs.Primary.ID)
 			}
 		}
 

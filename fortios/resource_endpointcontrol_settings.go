@@ -30,94 +30,99 @@ func resourceEndpointControlSettings() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"forticlient_reg_key_enforce": &schema.Schema{
+			"forticlient_reg_key_enforce": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"forticlient_reg_key": &schema.Schema{
+			"forticlient_reg_key": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 128),
 				Optional:     true,
 				Sensitive:    true,
 			},
-			"forticlient_reg_timeout": &schema.Schema{
+			"forticlient_reg_timeout": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 180),
 				Optional:     true,
 				Computed:     true,
 			},
-			"download_custom_link": &schema.Schema{
+			"download_custom_link": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 127),
 				Optional:     true,
 				Computed:     true,
 			},
-			"download_location": &schema.Schema{
+			"download_location": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"forticlient_offline_grace": &schema.Schema{
+			"forticlient_offline_grace": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"forticlient_offline_grace_interval": &schema.Schema{
+			"forticlient_offline_grace_interval": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(60, 600),
 				Optional:     true,
 				Computed:     true,
 			},
-			"forticlient_keepalive_interval": &schema.Schema{
+			"forticlient_keepalive_interval": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(20, 300),
 				Optional:     true,
 				Computed:     true,
 			},
-			"forticlient_sys_update_interval": &schema.Schema{
+			"forticlient_sys_update_interval": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(30, 1440),
 				Optional:     true,
 				Computed:     true,
 			},
-			"forticlient_avdb_update_interval": &schema.Schema{
+			"forticlient_avdb_update_interval": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 24),
 				Optional:     true,
 				Computed:     true,
 			},
-			"forticlient_warning_interval": &schema.Schema{
+			"forticlient_warning_interval": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 24),
 				Optional:     true,
 				Computed:     true,
 			},
-			"forticlient_user_avatar": &schema.Schema{
+			"forticlient_user_avatar": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"forticlient_disconnect_unsupported_client": &schema.Schema{
+			"forticlient_disconnect_unsupported_client": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"forticlient_dereg_unsupported_client": &schema.Schema{
+			"forticlient_dereg_unsupported_client": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"forticlient_ems_rest_api_call_timeout": &schema.Schema{
+			"forticlient_ems_rest_api_call_timeout": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(500, 30000),
 				Optional:     true,
 				Computed:     true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -136,14 +141,24 @@ func resourceEndpointControlSettingsUpdate(d *schema.ResourceData, m interface{}
 		}
 	}
 
-	obj, err := getObjectEndpointControlSettings(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating EndpointControlSettings resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateEndpointControlSettings(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectEndpointControlSettings(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating EndpointControlSettings resource: %v", err)
+		return fmt.Errorf("error updating EndpointControlSettings resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateEndpointControlSettings(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating EndpointControlSettings resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -170,9 +185,17 @@ func resourceEndpointControlSettingsDelete(d *schema.ResourceData, m interface{}
 		}
 	}
 
-	err := c.DeleteEndpointControlSettings(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteEndpointControlSettings(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting EndpointControlSettings resource: %v", err)
+		return fmt.Errorf("error deleting EndpointControlSettings resource: %v", err)
 	}
 
 	d.SetId("")
@@ -194,9 +217,19 @@ func resourceEndpointControlSettingsRead(d *schema.ResourceData, m interface{}) 
 		}
 	}
 
-	o, err := c.ReadEndpointControlSettings(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadEndpointControlSettings(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading EndpointControlSettings resource: %v", err)
+		return fmt.Errorf("error reading EndpointControlSettings resource: %v", err)
 	}
 
 	if o == nil {
@@ -207,7 +240,7 @@ func resourceEndpointControlSettingsRead(d *schema.ResourceData, m interface{}) 
 
 	err = refreshObjectEndpointControlSettings(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading EndpointControlSettings resource from API: %v", err)
+		return fmt.Errorf("error reading EndpointControlSettings resource from API: %v", err)
 	}
 	return nil
 }
@@ -277,85 +310,85 @@ func refreshObjectEndpointControlSettings(d *schema.ResourceData, o map[string]i
 
 	if err = d.Set("forticlient_reg_key_enforce", flattenEndpointControlSettingsForticlientRegKeyEnforce(o["forticlient-reg-key-enforce"], d, "forticlient_reg_key_enforce", sv)); err != nil {
 		if !fortiAPIPatch(o["forticlient-reg-key-enforce"]) {
-			return fmt.Errorf("Error reading forticlient_reg_key_enforce: %v", err)
+			return fmt.Errorf("error reading forticlient_reg_key_enforce: %v", err)
 		}
 	}
 
 	if err = d.Set("forticlient_reg_timeout", flattenEndpointControlSettingsForticlientRegTimeout(o["forticlient-reg-timeout"], d, "forticlient_reg_timeout", sv)); err != nil {
 		if !fortiAPIPatch(o["forticlient-reg-timeout"]) {
-			return fmt.Errorf("Error reading forticlient_reg_timeout: %v", err)
+			return fmt.Errorf("error reading forticlient_reg_timeout: %v", err)
 		}
 	}
 
 	if err = d.Set("download_custom_link", flattenEndpointControlSettingsDownloadCustomLink(o["download-custom-link"], d, "download_custom_link", sv)); err != nil {
 		if !fortiAPIPatch(o["download-custom-link"]) {
-			return fmt.Errorf("Error reading download_custom_link: %v", err)
+			return fmt.Errorf("error reading download_custom_link: %v", err)
 		}
 	}
 
 	if err = d.Set("download_location", flattenEndpointControlSettingsDownloadLocation(o["download-location"], d, "download_location", sv)); err != nil {
 		if !fortiAPIPatch(o["download-location"]) {
-			return fmt.Errorf("Error reading download_location: %v", err)
+			return fmt.Errorf("error reading download_location: %v", err)
 		}
 	}
 
 	if err = d.Set("forticlient_offline_grace", flattenEndpointControlSettingsForticlientOfflineGrace(o["forticlient-offline-grace"], d, "forticlient_offline_grace", sv)); err != nil {
 		if !fortiAPIPatch(o["forticlient-offline-grace"]) {
-			return fmt.Errorf("Error reading forticlient_offline_grace: %v", err)
+			return fmt.Errorf("error reading forticlient_offline_grace: %v", err)
 		}
 	}
 
 	if err = d.Set("forticlient_offline_grace_interval", flattenEndpointControlSettingsForticlientOfflineGraceInterval(o["forticlient-offline-grace-interval"], d, "forticlient_offline_grace_interval", sv)); err != nil {
 		if !fortiAPIPatch(o["forticlient-offline-grace-interval"]) {
-			return fmt.Errorf("Error reading forticlient_offline_grace_interval: %v", err)
+			return fmt.Errorf("error reading forticlient_offline_grace_interval: %v", err)
 		}
 	}
 
 	if err = d.Set("forticlient_keepalive_interval", flattenEndpointControlSettingsForticlientKeepaliveInterval(o["forticlient-keepalive-interval"], d, "forticlient_keepalive_interval", sv)); err != nil {
 		if !fortiAPIPatch(o["forticlient-keepalive-interval"]) {
-			return fmt.Errorf("Error reading forticlient_keepalive_interval: %v", err)
+			return fmt.Errorf("error reading forticlient_keepalive_interval: %v", err)
 		}
 	}
 
 	if err = d.Set("forticlient_sys_update_interval", flattenEndpointControlSettingsForticlientSysUpdateInterval(o["forticlient-sys-update-interval"], d, "forticlient_sys_update_interval", sv)); err != nil {
 		if !fortiAPIPatch(o["forticlient-sys-update-interval"]) {
-			return fmt.Errorf("Error reading forticlient_sys_update_interval: %v", err)
+			return fmt.Errorf("error reading forticlient_sys_update_interval: %v", err)
 		}
 	}
 
 	if err = d.Set("forticlient_avdb_update_interval", flattenEndpointControlSettingsForticlientAvdbUpdateInterval(o["forticlient-avdb-update-interval"], d, "forticlient_avdb_update_interval", sv)); err != nil {
 		if !fortiAPIPatch(o["forticlient-avdb-update-interval"]) {
-			return fmt.Errorf("Error reading forticlient_avdb_update_interval: %v", err)
+			return fmt.Errorf("error reading forticlient_avdb_update_interval: %v", err)
 		}
 	}
 
 	if err = d.Set("forticlient_warning_interval", flattenEndpointControlSettingsForticlientWarningInterval(o["forticlient-warning-interval"], d, "forticlient_warning_interval", sv)); err != nil {
 		if !fortiAPIPatch(o["forticlient-warning-interval"]) {
-			return fmt.Errorf("Error reading forticlient_warning_interval: %v", err)
+			return fmt.Errorf("error reading forticlient_warning_interval: %v", err)
 		}
 	}
 
 	if err = d.Set("forticlient_user_avatar", flattenEndpointControlSettingsForticlientUserAvatar(o["forticlient-user-avatar"], d, "forticlient_user_avatar", sv)); err != nil {
 		if !fortiAPIPatch(o["forticlient-user-avatar"]) {
-			return fmt.Errorf("Error reading forticlient_user_avatar: %v", err)
+			return fmt.Errorf("error reading forticlient_user_avatar: %v", err)
 		}
 	}
 
 	if err = d.Set("forticlient_disconnect_unsupported_client", flattenEndpointControlSettingsForticlientDisconnectUnsupportedClient(o["forticlient-disconnect-unsupported-client"], d, "forticlient_disconnect_unsupported_client", sv)); err != nil {
 		if !fortiAPIPatch(o["forticlient-disconnect-unsupported-client"]) {
-			return fmt.Errorf("Error reading forticlient_disconnect_unsupported_client: %v", err)
+			return fmt.Errorf("error reading forticlient_disconnect_unsupported_client: %v", err)
 		}
 	}
 
 	if err = d.Set("forticlient_dereg_unsupported_client", flattenEndpointControlSettingsForticlientDeregUnsupportedClient(o["forticlient-dereg-unsupported-client"], d, "forticlient_dereg_unsupported_client", sv)); err != nil {
 		if !fortiAPIPatch(o["forticlient-dereg-unsupported-client"]) {
-			return fmt.Errorf("Error reading forticlient_dereg_unsupported_client: %v", err)
+			return fmt.Errorf("error reading forticlient_dereg_unsupported_client: %v", err)
 		}
 	}
 
 	if err = d.Set("forticlient_ems_rest_api_call_timeout", flattenEndpointControlSettingsForticlientEmsRestApiCallTimeout(o["forticlient-ems-rest-api-call-timeout"], d, "forticlient_ems_rest_api_call_timeout", sv)); err != nil {
 		if !fortiAPIPatch(o["forticlient-ems-rest-api-call-timeout"]) {
-			return fmt.Errorf("Error reading forticlient_ems_rest_api_call_timeout: %v", err)
+			return fmt.Errorf("error reading forticlient_ems_rest_api_call_timeout: %v", err)
 		}
 	}
 

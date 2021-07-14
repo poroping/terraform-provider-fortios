@@ -52,14 +52,14 @@ func testAccCheckFortiOSSystemIpv6TunnelExists(n string) resource.TestCheckFunc 
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemIpv6Tunnel(i, "root")
+		o, err := c.ReadSystemIpv6Tunnel(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading SystemIpv6Tunnel: %s", err)
+			return fmt.Errorf("error reading SystemIpv6Tunnel: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating SystemIpv6Tunnel: %s", n)
+			return fmt.Errorf("error creating SystemIpv6Tunnel: %s", n)
 		}
 
 		return nil
@@ -75,11 +75,11 @@ func testAccCheckSystemIpv6TunnelDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemIpv6Tunnel(i, "root")
+		o, err := c.ReadSystemIpv6Tunnel(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error SystemIpv6Tunnel %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error SystemIpv6Tunnel %s still exists", rs.Primary.ID)
 			}
 		}
 

@@ -62,14 +62,14 @@ func testAccCheckFortiOSSystemSnmpUserExists(n string) resource.TestCheckFunc {
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemSnmpUser(i, "root")
+		o, err := c.ReadSystemSnmpUser(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading SystemSnmpUser: %s", err)
+			return fmt.Errorf("error reading SystemSnmpUser: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating SystemSnmpUser: %s", n)
+			return fmt.Errorf("error creating SystemSnmpUser: %s", n)
 		}
 
 		return nil
@@ -85,11 +85,11 @@ func testAccCheckSystemSnmpUserDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemSnmpUser(i, "root")
+		o, err := c.ReadSystemSnmpUser(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error SystemSnmpUser %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error SystemSnmpUser %s still exists", rs.Primary.ID)
 			}
 		}
 

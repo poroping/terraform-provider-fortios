@@ -30,33 +30,38 @@ func resourceSwitchController8021XSettings() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"link_down_auth": &schema.Schema{
+			"link_down_auth": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"reauth_period": &schema.Schema{
+			"reauth_period": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 1440),
 				Optional:     true,
 				Computed:     true,
 			},
-			"max_reauth_attempt": &schema.Schema{
+			"max_reauth_attempt": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 15),
 				Optional:     true,
 				Computed:     true,
 			},
-			"tx_period": &schema.Schema{
+			"tx_period": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(4, 60),
 				Optional:     true,
 				Computed:     true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -75,14 +80,24 @@ func resourceSwitchController8021XSettingsUpdate(d *schema.ResourceData, m inter
 		}
 	}
 
-	obj, err := getObjectSwitchController8021XSettings(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SwitchController8021XSettings resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSwitchController8021XSettings(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSwitchController8021XSettings(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SwitchController8021XSettings resource: %v", err)
+		return fmt.Errorf("error updating SwitchController8021XSettings resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSwitchController8021XSettings(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SwitchController8021XSettings resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -109,9 +124,17 @@ func resourceSwitchController8021XSettingsDelete(d *schema.ResourceData, m inter
 		}
 	}
 
-	err := c.DeleteSwitchController8021XSettings(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSwitchController8021XSettings(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SwitchController8021XSettings resource: %v", err)
+		return fmt.Errorf("error deleting SwitchController8021XSettings resource: %v", err)
 	}
 
 	d.SetId("")
@@ -133,9 +156,19 @@ func resourceSwitchController8021XSettingsRead(d *schema.ResourceData, m interfa
 		}
 	}
 
-	o, err := c.ReadSwitchController8021XSettings(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSwitchController8021XSettings(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SwitchController8021XSettings resource: %v", err)
+		return fmt.Errorf("error reading SwitchController8021XSettings resource: %v", err)
 	}
 
 	if o == nil {
@@ -146,7 +179,7 @@ func resourceSwitchController8021XSettingsRead(d *schema.ResourceData, m interfa
 
 	err = refreshObjectSwitchController8021XSettings(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SwitchController8021XSettings resource from API: %v", err)
+		return fmt.Errorf("error reading SwitchController8021XSettings resource from API: %v", err)
 	}
 	return nil
 }
@@ -172,25 +205,25 @@ func refreshObjectSwitchController8021XSettings(d *schema.ResourceData, o map[st
 
 	if err = d.Set("link_down_auth", flattenSwitchController8021XSettingsLinkDownAuth(o["link-down-auth"], d, "link_down_auth", sv)); err != nil {
 		if !fortiAPIPatch(o["link-down-auth"]) {
-			return fmt.Errorf("Error reading link_down_auth: %v", err)
+			return fmt.Errorf("error reading link_down_auth: %v", err)
 		}
 	}
 
 	if err = d.Set("reauth_period", flattenSwitchController8021XSettingsReauthPeriod(o["reauth-period"], d, "reauth_period", sv)); err != nil {
 		if !fortiAPIPatch(o["reauth-period"]) {
-			return fmt.Errorf("Error reading reauth_period: %v", err)
+			return fmt.Errorf("error reading reauth_period: %v", err)
 		}
 	}
 
 	if err = d.Set("max_reauth_attempt", flattenSwitchController8021XSettingsMaxReauthAttempt(o["max-reauth-attempt"], d, "max_reauth_attempt", sv)); err != nil {
 		if !fortiAPIPatch(o["max-reauth-attempt"]) {
-			return fmt.Errorf("Error reading max_reauth_attempt: %v", err)
+			return fmt.Errorf("error reading max_reauth_attempt: %v", err)
 		}
 	}
 
 	if err = d.Set("tx_period", flattenSwitchController8021XSettingsTxPeriod(o["tx-period"], d, "tx_period", sv)); err != nil {
 		if !fortiAPIPatch(o["tx-period"]) {
-			return fmt.Errorf("Error reading tx_period: %v", err)
+			return fmt.Errorf("error reading tx_period: %v", err)
 		}
 	}
 

@@ -58,14 +58,14 @@ func testAccCheckFortiOSVpnIpsecManualkeyExists(n string) resource.TestCheckFunc
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadVpnIpsecManualkey(i, "root")
+		o, err := c.ReadVpnIpsecManualkey(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading VpnIpsecManualkey: %s", err)
+			return fmt.Errorf("error reading VpnIpsecManualkey: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating VpnIpsecManualkey: %s", n)
+			return fmt.Errorf("error creating VpnIpsecManualkey: %s", n)
 		}
 
 		return nil
@@ -81,11 +81,11 @@ func testAccCheckVpnIpsecManualkeyDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadVpnIpsecManualkey(i, "root")
+		o, err := c.ReadVpnIpsecManualkey(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error VpnIpsecManualkey %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error VpnIpsecManualkey %s still exists", rs.Primary.ID)
 			}
 		}
 

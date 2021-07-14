@@ -30,134 +30,134 @@ func resourceSystemDnsDatabase() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				ForceNew:     true,
 				Required:     true,
 			},
-			"status": &schema.Schema{
+			"status": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"domain": &schema.Schema{
+			"domain": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Required:     true,
 			},
-			"allow_transfer": &schema.Schema{
+			"allow_transfer": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"type": &schema.Schema{
+			"type": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"view": &schema.Schema{
+			"view": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"ip_primary": &schema.Schema{
+			"ip_primary": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ip_master": &schema.Schema{
+			"ip_master": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"primary_name": &schema.Schema{
+			"primary_name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
 				Computed:     true,
 			},
-			"contact": &schema.Schema{
+			"contact": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
 				Computed:     true,
 			},
-			"ttl": &schema.Schema{
+			"ttl": {
 				Type:     schema.TypeInt,
 				Required: true,
 			},
-			"authoritative": &schema.Schema{
+			"authoritative": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"forwarder": &schema.Schema{
+			"forwarder": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"source_ip": &schema.Schema{
+			"source_ip": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"rr_max": &schema.Schema{
+			"rr_max": {
 				Type:         schema.TypeInt,
 				ValidateFunc: intBetweenWithZero(10, 65536),
 				Optional:     true,
 				Computed:     true,
 			},
-			"dns_entry": &schema.Schema{
+			"dns_entry": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"status": &schema.Schema{
+						"status": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"type": &schema.Schema{
+						"type": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"ttl": &schema.Schema{
+						"ttl": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"preference": &schema.Schema{
+						"preference": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 65535),
 							Optional:     true,
 							Computed:     true,
 						},
-						"ip": &schema.Schema{
+						"ip": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"ipv6": &schema.Schema{
+						"ipv6": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"hostname": &schema.Schema{
+						"hostname": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 255),
 							Optional:     true,
 							Computed:     true,
 						},
-						"canonical_name": &schema.Schema{
+						"canonical_name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 255),
 							Optional:     true,
@@ -166,10 +166,15 @@ func resourceSystemDnsDatabase() *schema.Resource {
 					},
 				},
 			},
-			"dynamic_sort_subtable": &schema.Schema{
+			"dynamic_sort_subtable": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Default:  "false",
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -187,15 +192,25 @@ func resourceSystemDnsDatabaseCreate(d *schema.ResourceData, m interface{}) erro
 		}
 	}
 
-	obj, err := getObjectSystemDnsDatabase(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating SystemDnsDatabase resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateSystemDnsDatabase(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemDnsDatabase(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating SystemDnsDatabase resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateSystemDnsDatabase(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating SystemDnsDatabase resource: %v", err)
+		return fmt.Errorf("error creating SystemDnsDatabase resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -220,14 +235,24 @@ func resourceSystemDnsDatabaseUpdate(d *schema.ResourceData, m interface{}) erro
 		}
 	}
 
-	obj, err := getObjectSystemDnsDatabase(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SystemDnsDatabase resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSystemDnsDatabase(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemDnsDatabase(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SystemDnsDatabase resource: %v", err)
+		return fmt.Errorf("error updating SystemDnsDatabase resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSystemDnsDatabase(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SystemDnsDatabase resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -254,9 +279,17 @@ func resourceSystemDnsDatabaseDelete(d *schema.ResourceData, m interface{}) erro
 		}
 	}
 
-	err := c.DeleteSystemDnsDatabase(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSystemDnsDatabase(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SystemDnsDatabase resource: %v", err)
+		return fmt.Errorf("error deleting SystemDnsDatabase resource: %v", err)
 	}
 
 	d.SetId("")
@@ -278,9 +311,19 @@ func resourceSystemDnsDatabaseRead(d *schema.ResourceData, m interface{}) error 
 		}
 	}
 
-	o, err := c.ReadSystemDnsDatabase(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSystemDnsDatabase(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemDnsDatabase resource: %v", err)
+		return fmt.Errorf("error reading SystemDnsDatabase resource: %v", err)
 	}
 
 	if o == nil {
@@ -291,7 +334,7 @@ func resourceSystemDnsDatabaseRead(d *schema.ResourceData, m interface{}) error 
 
 	err = refreshObjectSystemDnsDatabase(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemDnsDatabase resource from API: %v", err)
+		return fmt.Errorf("error reading SystemDnsDatabase resource from API: %v", err)
 	}
 	return nil
 }
@@ -479,105 +522,105 @@ func refreshObjectSystemDnsDatabase(d *schema.ResourceData, o map[string]interfa
 
 	if err = d.Set("name", flattenSystemDnsDatabaseName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("status", flattenSystemDnsDatabaseStatus(o["status"], d, "status", sv)); err != nil {
 		if !fortiAPIPatch(o["status"]) {
-			return fmt.Errorf("Error reading status: %v", err)
+			return fmt.Errorf("error reading status: %v", err)
 		}
 	}
 
 	if err = d.Set("domain", flattenSystemDnsDatabaseDomain(o["domain"], d, "domain", sv)); err != nil {
 		if !fortiAPIPatch(o["domain"]) {
-			return fmt.Errorf("Error reading domain: %v", err)
+			return fmt.Errorf("error reading domain: %v", err)
 		}
 	}
 
 	if err = d.Set("allow_transfer", flattenSystemDnsDatabaseAllowTransfer(o["allow-transfer"], d, "allow_transfer", sv)); err != nil {
 		if !fortiAPIPatch(o["allow-transfer"]) {
-			return fmt.Errorf("Error reading allow_transfer: %v", err)
+			return fmt.Errorf("error reading allow_transfer: %v", err)
 		}
 	}
 
 	if err = d.Set("type", flattenSystemDnsDatabaseType(o["type"], d, "type", sv)); err != nil {
 		if !fortiAPIPatch(o["type"]) {
-			return fmt.Errorf("Error reading type: %v", err)
+			return fmt.Errorf("error reading type: %v", err)
 		}
 	}
 
 	if err = d.Set("view", flattenSystemDnsDatabaseView(o["view"], d, "view", sv)); err != nil {
 		if !fortiAPIPatch(o["view"]) {
-			return fmt.Errorf("Error reading view: %v", err)
+			return fmt.Errorf("error reading view: %v", err)
 		}
 	}
 
 	if err = d.Set("ip_primary", flattenSystemDnsDatabaseIpPrimary(o["ip-primary"], d, "ip_primary", sv)); err != nil {
 		if !fortiAPIPatch(o["ip-primary"]) {
-			return fmt.Errorf("Error reading ip_primary: %v", err)
+			return fmt.Errorf("error reading ip_primary: %v", err)
 		}
 	}
 
 	if err = d.Set("ip_master", flattenSystemDnsDatabaseIpMaster(o["ip-master"], d, "ip_master", sv)); err != nil {
 		if !fortiAPIPatch(o["ip-master"]) {
-			return fmt.Errorf("Error reading ip_master: %v", err)
+			return fmt.Errorf("error reading ip_master: %v", err)
 		}
 	}
 
 	if err = d.Set("primary_name", flattenSystemDnsDatabasePrimaryName(o["primary-name"], d, "primary_name", sv)); err != nil {
 		if !fortiAPIPatch(o["primary-name"]) {
-			return fmt.Errorf("Error reading primary_name: %v", err)
+			return fmt.Errorf("error reading primary_name: %v", err)
 		}
 	}
 
 	if err = d.Set("contact", flattenSystemDnsDatabaseContact(o["contact"], d, "contact", sv)); err != nil {
 		if !fortiAPIPatch(o["contact"]) {
-			return fmt.Errorf("Error reading contact: %v", err)
+			return fmt.Errorf("error reading contact: %v", err)
 		}
 	}
 
 	if err = d.Set("ttl", flattenSystemDnsDatabaseTtl(o["ttl"], d, "ttl", sv)); err != nil {
 		if !fortiAPIPatch(o["ttl"]) {
-			return fmt.Errorf("Error reading ttl: %v", err)
+			return fmt.Errorf("error reading ttl: %v", err)
 		}
 	}
 
 	if err = d.Set("authoritative", flattenSystemDnsDatabaseAuthoritative(o["authoritative"], d, "authoritative", sv)); err != nil {
 		if !fortiAPIPatch(o["authoritative"]) {
-			return fmt.Errorf("Error reading authoritative: %v", err)
+			return fmt.Errorf("error reading authoritative: %v", err)
 		}
 	}
 
 	if err = d.Set("forwarder", flattenSystemDnsDatabaseForwarder(o["forwarder"], d, "forwarder", sv)); err != nil {
 		if !fortiAPIPatch(o["forwarder"]) {
-			return fmt.Errorf("Error reading forwarder: %v", err)
+			return fmt.Errorf("error reading forwarder: %v", err)
 		}
 	}
 
 	if err = d.Set("source_ip", flattenSystemDnsDatabaseSourceIp(o["source-ip"], d, "source_ip", sv)); err != nil {
 		if !fortiAPIPatch(o["source-ip"]) {
-			return fmt.Errorf("Error reading source_ip: %v", err)
+			return fmt.Errorf("error reading source_ip: %v", err)
 		}
 	}
 
 	if err = d.Set("rr_max", flattenSystemDnsDatabaseRrMax(o["rr-max"], d, "rr_max", sv)); err != nil {
 		if !fortiAPIPatch(o["rr-max"]) {
-			return fmt.Errorf("Error reading rr_max: %v", err)
+			return fmt.Errorf("error reading rr_max: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("dns_entry", flattenSystemDnsDatabaseDnsEntry(o["dns-entry"], d, "dns_entry", sv)); err != nil {
 			if !fortiAPIPatch(o["dns-entry"]) {
-				return fmt.Errorf("Error reading dns_entry: %v", err)
+				return fmt.Errorf("error reading dns_entry: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("dns_entry"); ok {
 			if err = d.Set("dns_entry", flattenSystemDnsDatabaseDnsEntry(o["dns-entry"], d, "dns_entry", sv)); err != nil {
 				if !fortiAPIPatch(o["dns-entry"]) {
-					return fmt.Errorf("Error reading dns_entry: %v", err)
+					return fmt.Errorf("error reading dns_entry: %v", err)
 				}
 			}
 		}

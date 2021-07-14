@@ -30,86 +30,86 @@ func resourceDlpSensor() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				ForceNew:     true,
 				Required:     true,
 			},
-			"comment": &schema.Schema{
+			"comment": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
 			},
-			"feature_set": &schema.Schema{
+			"feature_set": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"replacemsg_group": &schema.Schema{
+			"replacemsg_group": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"filter": &schema.Schema{
+			"filter": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"severity": &schema.Schema{
+						"severity": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"type": &schema.Schema{
+						"type": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"proto": &schema.Schema{
+						"proto": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"filter_by": &schema.Schema{
+						"filter_by": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"file_size": &schema.Schema{
+						"file_size": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"company_identifier": &schema.Schema{
+						"company_identifier": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"sensitivity": &schema.Schema{
+						"sensitivity": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"name": &schema.Schema{
+									"name": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 35),
 										Optional:     true,
@@ -118,12 +118,12 @@ func resourceDlpSensor() *schema.Resource {
 								},
 							},
 						},
-						"fp_sensitivity": &schema.Schema{
+						"fp_sensitivity": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"name": &schema.Schema{
+									"name": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 35),
 										Optional:     true,
@@ -132,34 +132,34 @@ func resourceDlpSensor() *schema.Resource {
 								},
 							},
 						},
-						"match_percentage": &schema.Schema{
+						"match_percentage": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 100),
 							Optional:     true,
 							Computed:     true,
 						},
-						"file_type": &schema.Schema{
+						"file_type": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"regexp": &schema.Schema{
+						"regexp": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 255),
 							Optional:     true,
 							Computed:     true,
 						},
-						"archive": &schema.Schema{
+						"archive": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"action": &schema.Schema{
+						"action": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"expiry": &schema.Schema{
+						"expiry": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -167,45 +167,50 @@ func resourceDlpSensor() *schema.Resource {
 					},
 				},
 			},
-			"dlp_log": &schema.Schema{
+			"dlp_log": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"extended_log": &schema.Schema{
+			"extended_log": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"nac_quar_log": &schema.Schema{
+			"nac_quar_log": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"flow_based": &schema.Schema{
+			"flow_based": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"options": &schema.Schema{
+			"options": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"full_archive_proto": &schema.Schema{
+			"full_archive_proto": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"summary_proto": &schema.Schema{
+			"summary_proto": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"dynamic_sort_subtable": &schema.Schema{
+			"dynamic_sort_subtable": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Default:  "false",
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -223,15 +228,25 @@ func resourceDlpSensorCreate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectDlpSensor(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating DlpSensor resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateDlpSensor(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectDlpSensor(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating DlpSensor resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateDlpSensor(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating DlpSensor resource: %v", err)
+		return fmt.Errorf("error creating DlpSensor resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -256,14 +271,24 @@ func resourceDlpSensorUpdate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectDlpSensor(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating DlpSensor resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateDlpSensor(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectDlpSensor(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating DlpSensor resource: %v", err)
+		return fmt.Errorf("error updating DlpSensor resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateDlpSensor(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating DlpSensor resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -290,9 +315,17 @@ func resourceDlpSensorDelete(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	err := c.DeleteDlpSensor(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteDlpSensor(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting DlpSensor resource: %v", err)
+		return fmt.Errorf("error deleting DlpSensor resource: %v", err)
 	}
 
 	d.SetId("")
@@ -314,9 +347,19 @@ func resourceDlpSensorRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadDlpSensor(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadDlpSensor(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading DlpSensor resource: %v", err)
+		return fmt.Errorf("error reading DlpSensor resource: %v", err)
 	}
 
 	if o == nil {
@@ -327,7 +370,7 @@ func resourceDlpSensorRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectDlpSensor(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading DlpSensor resource from API: %v", err)
+		return fmt.Errorf("error reading DlpSensor resource from API: %v", err)
 	}
 	return nil
 }
@@ -635,39 +678,39 @@ func refreshObjectDlpSensor(d *schema.ResourceData, o map[string]interface{}, sv
 
 	if err = d.Set("name", flattenDlpSensorName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("comment", flattenDlpSensorComment(o["comment"], d, "comment", sv)); err != nil {
 		if !fortiAPIPatch(o["comment"]) {
-			return fmt.Errorf("Error reading comment: %v", err)
+			return fmt.Errorf("error reading comment: %v", err)
 		}
 	}
 
 	if err = d.Set("feature_set", flattenDlpSensorFeatureSet(o["feature-set"], d, "feature_set", sv)); err != nil {
 		if !fortiAPIPatch(o["feature-set"]) {
-			return fmt.Errorf("Error reading feature_set: %v", err)
+			return fmt.Errorf("error reading feature_set: %v", err)
 		}
 	}
 
 	if err = d.Set("replacemsg_group", flattenDlpSensorReplacemsgGroup(o["replacemsg-group"], d, "replacemsg_group", sv)); err != nil {
 		if !fortiAPIPatch(o["replacemsg-group"]) {
-			return fmt.Errorf("Error reading replacemsg_group: %v", err)
+			return fmt.Errorf("error reading replacemsg_group: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("filter", flattenDlpSensorFilter(o["filter"], d, "filter", sv)); err != nil {
 			if !fortiAPIPatch(o["filter"]) {
-				return fmt.Errorf("Error reading filter: %v", err)
+				return fmt.Errorf("error reading filter: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("filter"); ok {
 			if err = d.Set("filter", flattenDlpSensorFilter(o["filter"], d, "filter", sv)); err != nil {
 				if !fortiAPIPatch(o["filter"]) {
-					return fmt.Errorf("Error reading filter: %v", err)
+					return fmt.Errorf("error reading filter: %v", err)
 				}
 			}
 		}
@@ -675,43 +718,43 @@ func refreshObjectDlpSensor(d *schema.ResourceData, o map[string]interface{}, sv
 
 	if err = d.Set("dlp_log", flattenDlpSensorDlpLog(o["dlp-log"], d, "dlp_log", sv)); err != nil {
 		if !fortiAPIPatch(o["dlp-log"]) {
-			return fmt.Errorf("Error reading dlp_log: %v", err)
+			return fmt.Errorf("error reading dlp_log: %v", err)
 		}
 	}
 
 	if err = d.Set("extended_log", flattenDlpSensorExtendedLog(o["extended-log"], d, "extended_log", sv)); err != nil {
 		if !fortiAPIPatch(o["extended-log"]) {
-			return fmt.Errorf("Error reading extended_log: %v", err)
+			return fmt.Errorf("error reading extended_log: %v", err)
 		}
 	}
 
 	if err = d.Set("nac_quar_log", flattenDlpSensorNacQuarLog(o["nac-quar-log"], d, "nac_quar_log", sv)); err != nil {
 		if !fortiAPIPatch(o["nac-quar-log"]) {
-			return fmt.Errorf("Error reading nac_quar_log: %v", err)
+			return fmt.Errorf("error reading nac_quar_log: %v", err)
 		}
 	}
 
 	if err = d.Set("flow_based", flattenDlpSensorFlowBased(o["flow-based"], d, "flow_based", sv)); err != nil {
 		if !fortiAPIPatch(o["flow-based"]) {
-			return fmt.Errorf("Error reading flow_based: %v", err)
+			return fmt.Errorf("error reading flow_based: %v", err)
 		}
 	}
 
 	if err = d.Set("options", flattenDlpSensorOptions(o["options"], d, "options", sv)); err != nil {
 		if !fortiAPIPatch(o["options"]) {
-			return fmt.Errorf("Error reading options: %v", err)
+			return fmt.Errorf("error reading options: %v", err)
 		}
 	}
 
 	if err = d.Set("full_archive_proto", flattenDlpSensorFullArchiveProto(o["full-archive-proto"], d, "full_archive_proto", sv)); err != nil {
 		if !fortiAPIPatch(o["full-archive-proto"]) {
-			return fmt.Errorf("Error reading full_archive_proto: %v", err)
+			return fmt.Errorf("error reading full_archive_proto: %v", err)
 		}
 	}
 
 	if err = d.Set("summary_proto", flattenDlpSensorSummaryProto(o["summary-proto"], d, "summary_proto", sv)); err != nil {
 		if !fortiAPIPatch(o["summary-proto"]) {
-			return fmt.Errorf("Error reading summary_proto: %v", err)
+			return fmt.Errorf("error reading summary_proto: %v", err)
 		}
 	}
 

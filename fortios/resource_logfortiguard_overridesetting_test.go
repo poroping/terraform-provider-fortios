@@ -53,14 +53,14 @@ func testAccCheckFortiOSLogFortiguardOverrideSettingExists(n string) resource.Te
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadLogFortiguardOverrideSetting(i, "root")
+		o, err := c.ReadLogFortiguardOverrideSetting(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading LogFortiguardOverrideSetting: %s", err)
+			return fmt.Errorf("error reading LogFortiguardOverrideSetting: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating LogFortiguardOverrideSetting: %s", n)
+			return fmt.Errorf("error creating LogFortiguardOverrideSetting: %s", n)
 		}
 
 		return nil
@@ -76,11 +76,11 @@ func testAccCheckLogFortiguardOverrideSettingDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadLogFortiguardOverrideSetting(i, "root")
+		o, err := c.ReadLogFortiguardOverrideSetting(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error LogFortiguardOverrideSetting %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error LogFortiguardOverrideSetting %s still exists", rs.Primary.ID)
 			}
 		}
 

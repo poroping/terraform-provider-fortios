@@ -53,14 +53,14 @@ func testAccCheckFortiOSFirewallScheduleRecurringExists(n string) resource.TestC
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadFirewallScheduleRecurring(i, "root")
+		o, err := c.ReadFirewallScheduleRecurring(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading FirewallScheduleRecurring: %s", err)
+			return fmt.Errorf("error reading FirewallScheduleRecurring: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating FirewallScheduleRecurring: %s", n)
+			return fmt.Errorf("error creating FirewallScheduleRecurring: %s", n)
 		}
 
 		return nil
@@ -76,11 +76,11 @@ func testAccCheckFirewallScheduleRecurringDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadFirewallScheduleRecurring(i, "root")
+		o, err := c.ReadFirewallScheduleRecurring(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error FirewallScheduleRecurring %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error FirewallScheduleRecurring %s still exists", rs.Primary.ID)
 			}
 		}
 

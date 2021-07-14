@@ -30,64 +30,69 @@ func resourceFirewallSslSetting() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"proxy_connect_timeout": &schema.Schema{
+			"proxy_connect_timeout": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 60),
 				Required:     true,
 			},
-			"ssl_dh_bits": &schema.Schema{
+			"ssl_dh_bits": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"ssl_send_empty_frags": &schema.Schema{
+			"ssl_send_empty_frags": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"no_matching_cipher_action": &schema.Schema{
+			"no_matching_cipher_action": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"cert_cache_capacity": &schema.Schema{
+			"cert_cache_capacity": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 500),
 				Required:     true,
 			},
-			"cert_cache_timeout": &schema.Schema{
+			"cert_cache_timeout": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 120),
 				Required:     true,
 			},
-			"session_cache_capacity": &schema.Schema{
+			"session_cache_capacity": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 1000),
 				Required:     true,
 			},
-			"session_cache_timeout": &schema.Schema{
+			"session_cache_timeout": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 60),
 				Required:     true,
 			},
-			"kxp_queue_threshold": &schema.Schema{
+			"kxp_queue_threshold": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 512),
 				Optional:     true,
 				Computed:     true,
 			},
-			"ssl_queue_threshold": &schema.Schema{
+			"ssl_queue_threshold": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 512),
 				Optional:     true,
 				Computed:     true,
 			},
-			"abbreviate_handshake": &schema.Schema{
+			"abbreviate_handshake": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -106,14 +111,24 @@ func resourceFirewallSslSettingUpdate(d *schema.ResourceData, m interface{}) err
 		}
 	}
 
-	obj, err := getObjectFirewallSslSetting(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating FirewallSslSetting resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateFirewallSslSetting(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectFirewallSslSetting(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating FirewallSslSetting resource: %v", err)
+		return fmt.Errorf("error updating FirewallSslSetting resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateFirewallSslSetting(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating FirewallSslSetting resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -140,9 +155,17 @@ func resourceFirewallSslSettingDelete(d *schema.ResourceData, m interface{}) err
 		}
 	}
 
-	err := c.DeleteFirewallSslSetting(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteFirewallSslSetting(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting FirewallSslSetting resource: %v", err)
+		return fmt.Errorf("error deleting FirewallSslSetting resource: %v", err)
 	}
 
 	d.SetId("")
@@ -164,9 +187,19 @@ func resourceFirewallSslSettingRead(d *schema.ResourceData, m interface{}) error
 		}
 	}
 
-	o, err := c.ReadFirewallSslSetting(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadFirewallSslSetting(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading FirewallSslSetting resource: %v", err)
+		return fmt.Errorf("error reading FirewallSslSetting resource: %v", err)
 	}
 
 	if o == nil {
@@ -177,7 +210,7 @@ func resourceFirewallSslSettingRead(d *schema.ResourceData, m interface{}) error
 
 	err = refreshObjectFirewallSslSetting(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading FirewallSslSetting resource from API: %v", err)
+		return fmt.Errorf("error reading FirewallSslSetting resource from API: %v", err)
 	}
 	return nil
 }
@@ -231,67 +264,67 @@ func refreshObjectFirewallSslSetting(d *schema.ResourceData, o map[string]interf
 
 	if err = d.Set("proxy_connect_timeout", flattenFirewallSslSettingProxyConnectTimeout(o["proxy-connect-timeout"], d, "proxy_connect_timeout", sv)); err != nil {
 		if !fortiAPIPatch(o["proxy-connect-timeout"]) {
-			return fmt.Errorf("Error reading proxy_connect_timeout: %v", err)
+			return fmt.Errorf("error reading proxy_connect_timeout: %v", err)
 		}
 	}
 
 	if err = d.Set("ssl_dh_bits", flattenFirewallSslSettingSslDhBits(o["ssl-dh-bits"], d, "ssl_dh_bits", sv)); err != nil {
 		if !fortiAPIPatch(o["ssl-dh-bits"]) {
-			return fmt.Errorf("Error reading ssl_dh_bits: %v", err)
+			return fmt.Errorf("error reading ssl_dh_bits: %v", err)
 		}
 	}
 
 	if err = d.Set("ssl_send_empty_frags", flattenFirewallSslSettingSslSendEmptyFrags(o["ssl-send-empty-frags"], d, "ssl_send_empty_frags", sv)); err != nil {
 		if !fortiAPIPatch(o["ssl-send-empty-frags"]) {
-			return fmt.Errorf("Error reading ssl_send_empty_frags: %v", err)
+			return fmt.Errorf("error reading ssl_send_empty_frags: %v", err)
 		}
 	}
 
 	if err = d.Set("no_matching_cipher_action", flattenFirewallSslSettingNoMatchingCipherAction(o["no-matching-cipher-action"], d, "no_matching_cipher_action", sv)); err != nil {
 		if !fortiAPIPatch(o["no-matching-cipher-action"]) {
-			return fmt.Errorf("Error reading no_matching_cipher_action: %v", err)
+			return fmt.Errorf("error reading no_matching_cipher_action: %v", err)
 		}
 	}
 
 	if err = d.Set("cert_cache_capacity", flattenFirewallSslSettingCertCacheCapacity(o["cert-cache-capacity"], d, "cert_cache_capacity", sv)); err != nil {
 		if !fortiAPIPatch(o["cert-cache-capacity"]) {
-			return fmt.Errorf("Error reading cert_cache_capacity: %v", err)
+			return fmt.Errorf("error reading cert_cache_capacity: %v", err)
 		}
 	}
 
 	if err = d.Set("cert_cache_timeout", flattenFirewallSslSettingCertCacheTimeout(o["cert-cache-timeout"], d, "cert_cache_timeout", sv)); err != nil {
 		if !fortiAPIPatch(o["cert-cache-timeout"]) {
-			return fmt.Errorf("Error reading cert_cache_timeout: %v", err)
+			return fmt.Errorf("error reading cert_cache_timeout: %v", err)
 		}
 	}
 
 	if err = d.Set("session_cache_capacity", flattenFirewallSslSettingSessionCacheCapacity(o["session-cache-capacity"], d, "session_cache_capacity", sv)); err != nil {
 		if !fortiAPIPatch(o["session-cache-capacity"]) {
-			return fmt.Errorf("Error reading session_cache_capacity: %v", err)
+			return fmt.Errorf("error reading session_cache_capacity: %v", err)
 		}
 	}
 
 	if err = d.Set("session_cache_timeout", flattenFirewallSslSettingSessionCacheTimeout(o["session-cache-timeout"], d, "session_cache_timeout", sv)); err != nil {
 		if !fortiAPIPatch(o["session-cache-timeout"]) {
-			return fmt.Errorf("Error reading session_cache_timeout: %v", err)
+			return fmt.Errorf("error reading session_cache_timeout: %v", err)
 		}
 	}
 
 	if err = d.Set("kxp_queue_threshold", flattenFirewallSslSettingKxpQueueThreshold(o["kxp-queue-threshold"], d, "kxp_queue_threshold", sv)); err != nil {
 		if !fortiAPIPatch(o["kxp-queue-threshold"]) {
-			return fmt.Errorf("Error reading kxp_queue_threshold: %v", err)
+			return fmt.Errorf("error reading kxp_queue_threshold: %v", err)
 		}
 	}
 
 	if err = d.Set("ssl_queue_threshold", flattenFirewallSslSettingSslQueueThreshold(o["ssl-queue-threshold"], d, "ssl_queue_threshold", sv)); err != nil {
 		if !fortiAPIPatch(o["ssl-queue-threshold"]) {
-			return fmt.Errorf("Error reading ssl_queue_threshold: %v", err)
+			return fmt.Errorf("error reading ssl_queue_threshold: %v", err)
 		}
 	}
 
 	if err = d.Set("abbreviate_handshake", flattenFirewallSslSettingAbbreviateHandshake(o["abbreviate-handshake"], d, "abbreviate_handshake", sv)); err != nil {
 		if !fortiAPIPatch(o["abbreviate-handshake"]) {
-			return fmt.Errorf("Error reading abbreviate_handshake: %v", err)
+			return fmt.Errorf("error reading abbreviate_handshake: %v", err)
 		}
 	}
 

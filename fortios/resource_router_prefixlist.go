@@ -30,56 +30,56 @@ func resourceRouterPrefixList() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				ForceNew:     true,
 				Required:     true,
 			},
-			"comments": &schema.Schema{
+			"comments": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 127),
 				Optional:     true,
 				Computed:     true,
 			},
-			"rule": &schema.Schema{
+			"rule": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"action": &schema.Schema{
+						"action": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"prefix": &schema.Schema{
+						"prefix": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"ge": &schema.Schema{
+						"ge": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 32),
 							Optional:     true,
 							Computed:     true,
 						},
-						"le": &schema.Schema{
+						"le": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 32),
 							Optional:     true,
 							Computed:     true,
 						},
-						"flags": &schema.Schema{
+						"flags": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
@@ -87,10 +87,15 @@ func resourceRouterPrefixList() *schema.Resource {
 					},
 				},
 			},
-			"dynamic_sort_subtable": &schema.Schema{
+			"dynamic_sort_subtable": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Default:  "false",
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -108,15 +113,25 @@ func resourceRouterPrefixListCreate(d *schema.ResourceData, m interface{}) error
 		}
 	}
 
-	obj, err := getObjectRouterPrefixList(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating RouterPrefixList resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateRouterPrefixList(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectRouterPrefixList(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating RouterPrefixList resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateRouterPrefixList(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating RouterPrefixList resource: %v", err)
+		return fmt.Errorf("error creating RouterPrefixList resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -141,14 +156,24 @@ func resourceRouterPrefixListUpdate(d *schema.ResourceData, m interface{}) error
 		}
 	}
 
-	obj, err := getObjectRouterPrefixList(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating RouterPrefixList resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateRouterPrefixList(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectRouterPrefixList(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating RouterPrefixList resource: %v", err)
+		return fmt.Errorf("error updating RouterPrefixList resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateRouterPrefixList(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating RouterPrefixList resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -175,9 +200,17 @@ func resourceRouterPrefixListDelete(d *schema.ResourceData, m interface{}) error
 		}
 	}
 
-	err := c.DeleteRouterPrefixList(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteRouterPrefixList(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting RouterPrefixList resource: %v", err)
+		return fmt.Errorf("error deleting RouterPrefixList resource: %v", err)
 	}
 
 	d.SetId("")
@@ -199,9 +232,19 @@ func resourceRouterPrefixListRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadRouterPrefixList(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadRouterPrefixList(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading RouterPrefixList resource: %v", err)
+		return fmt.Errorf("error reading RouterPrefixList resource: %v", err)
 	}
 
 	if o == nil {
@@ -212,7 +255,7 @@ func resourceRouterPrefixListRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectRouterPrefixList(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading RouterPrefixList resource from API: %v", err)
+		return fmt.Errorf("error reading RouterPrefixList resource from API: %v", err)
 	}
 	return nil
 }
@@ -318,27 +361,27 @@ func refreshObjectRouterPrefixList(d *schema.ResourceData, o map[string]interfac
 
 	if err = d.Set("name", flattenRouterPrefixListName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("comments", flattenRouterPrefixListComments(o["comments"], d, "comments", sv)); err != nil {
 		if !fortiAPIPatch(o["comments"]) {
-			return fmt.Errorf("Error reading comments: %v", err)
+			return fmt.Errorf("error reading comments: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("rule", flattenRouterPrefixListRule(o["rule"], d, "rule", sv)); err != nil {
 			if !fortiAPIPatch(o["rule"]) {
-				return fmt.Errorf("Error reading rule: %v", err)
+				return fmt.Errorf("error reading rule: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("rule"); ok {
 			if err = d.Set("rule", flattenRouterPrefixListRule(o["rule"], d, "rule", sv)); err != nil {
 				if !fortiAPIPatch(o["rule"]) {
-					return fmt.Errorf("Error reading rule: %v", err)
+					return fmt.Errorf("error reading rule: %v", err)
 				}
 			}
 		}

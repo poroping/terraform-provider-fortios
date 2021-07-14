@@ -30,221 +30,221 @@ func resourceSystemHa() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"group_id": &schema.Schema{
+			"group_id": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 255),
 				Optional:     true,
 				Computed:     true,
 			},
-			"group_name": &schema.Schema{
+			"group_name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 32),
 				Optional:     true,
 				Computed:     true,
 			},
-			"mode": &schema.Schema{
+			"mode": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"sync_packet_balance": &schema.Schema{
+			"sync_packet_balance": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"password": &schema.Schema{
+			"password": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 128),
 				Optional:     true,
 				Sensitive:    true,
 			},
-			"key": &schema.Schema{
+			"key": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 16),
 				Optional:     true,
 				Sensitive:    true,
 			},
-			"hbdev": &schema.Schema{
+			"hbdev": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"unicast_hb": &schema.Schema{
+			"unicast_hb": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"unicast_hb_peerip": &schema.Schema{
+			"unicast_hb_peerip": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"unicast_hb_netmask": &schema.Schema{
+			"unicast_hb_netmask": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"session_sync_dev": &schema.Schema{
+			"session_sync_dev": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"route_ttl": &schema.Schema{
+			"route_ttl": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(5, 3600),
 				Optional:     true,
 				Computed:     true,
 			},
-			"route_wait": &schema.Schema{
+			"route_wait": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 3600),
 				Optional:     true,
 				Computed:     true,
 			},
-			"route_hold": &schema.Schema{
+			"route_hold": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 3600),
 				Optional:     true,
 				Computed:     true,
 			},
-			"multicast_ttl": &schema.Schema{
+			"multicast_ttl": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(5, 3600),
 				Optional:     true,
 				Computed:     true,
 			},
-			"load_balance_all": &schema.Schema{
+			"load_balance_all": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"sync_config": &schema.Schema{
+			"sync_config": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"encryption": &schema.Schema{
+			"encryption": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"authentication": &schema.Schema{
+			"authentication": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"hb_interval": &schema.Schema{
+			"hb_interval": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 20),
 				Optional:     true,
 				Computed:     true,
 			},
-			"hb_lost_threshold": &schema.Schema{
+			"hb_lost_threshold": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 60),
 				Optional:     true,
 				Computed:     true,
 			},
-			"hello_holddown": &schema.Schema{
+			"hello_holddown": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(5, 300),
 				Optional:     true,
 				Computed:     true,
 			},
-			"gratuitous_arps": &schema.Schema{
+			"gratuitous_arps": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"arps": &schema.Schema{
+			"arps": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 60),
 				Optional:     true,
 				Computed:     true,
 			},
-			"arps_interval": &schema.Schema{
+			"arps_interval": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 20),
 				Optional:     true,
 				Computed:     true,
 			},
-			"session_pickup": &schema.Schema{
+			"session_pickup": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"session_pickup_connectionless": &schema.Schema{
+			"session_pickup_connectionless": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"session_pickup_expectation": &schema.Schema{
+			"session_pickup_expectation": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"session_pickup_nat": &schema.Schema{
+			"session_pickup_nat": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"session_pickup_delay": &schema.Schema{
+			"session_pickup_delay": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"link_failed_signal": &schema.Schema{
+			"link_failed_signal": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"uninterruptible_upgrade": &schema.Schema{
+			"uninterruptible_upgrade": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"standalone_mgmt_vdom": &schema.Schema{
+			"standalone_mgmt_vdom": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ha_mgmt_status": &schema.Schema{
+			"ha_mgmt_status": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ha_mgmt_interfaces": &schema.Schema{
+			"ha_mgmt_interfaces": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"interface": &schema.Schema{
+						"interface": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 15),
 							Optional:     true,
 							Computed:     true,
 						},
-						"dst": &schema.Schema{
+						"dst": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"gateway": &schema.Schema{
+						"gateway": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"gateway6": &schema.Schema{
+						"gateway6": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -252,210 +252,210 @@ func resourceSystemHa() *schema.Resource {
 					},
 				},
 			},
-			"ha_eth_type": &schema.Schema{
+			"ha_eth_type": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 4),
 				Optional:     true,
 				Computed:     true,
 			},
-			"hc_eth_type": &schema.Schema{
+			"hc_eth_type": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 4),
 				Optional:     true,
 				Computed:     true,
 			},
-			"l2ep_eth_type": &schema.Schema{
+			"l2ep_eth_type": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 4),
 				Optional:     true,
 				Computed:     true,
 			},
-			"ha_uptime_diff_margin": &schema.Schema{
+			"ha_uptime_diff_margin": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"standalone_config_sync": &schema.Schema{
+			"standalone_config_sync": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"logical_sn": &schema.Schema{
+			"logical_sn": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"vcluster2": &schema.Schema{
+			"vcluster2": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"vcluster_id": &schema.Schema{
+			"vcluster_id": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 255),
 				Optional:     true,
 				Computed:     true,
 			},
-			"override": &schema.Schema{
+			"override": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"priority": &schema.Schema{
+			"priority": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 255),
 				Optional:     true,
 				Computed:     true,
 			},
-			"override_wait_time": &schema.Schema{
+			"override_wait_time": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 3600),
 				Optional:     true,
 				Computed:     true,
 			},
-			"schedule": &schema.Schema{
+			"schedule": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"weight": &schema.Schema{
+			"weight": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"cpu_threshold": &schema.Schema{
+			"cpu_threshold": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"memory_threshold": &schema.Schema{
+			"memory_threshold": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"http_proxy_threshold": &schema.Schema{
+			"http_proxy_threshold": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ftp_proxy_threshold": &schema.Schema{
+			"ftp_proxy_threshold": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"imap_proxy_threshold": &schema.Schema{
+			"imap_proxy_threshold": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"nntp_proxy_threshold": &schema.Schema{
+			"nntp_proxy_threshold": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"pop3_proxy_threshold": &schema.Schema{
+			"pop3_proxy_threshold": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"smtp_proxy_threshold": &schema.Schema{
+			"smtp_proxy_threshold": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"monitor": &schema.Schema{
+			"monitor": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"pingserver_monitor_interface": &schema.Schema{
+			"pingserver_monitor_interface": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"pingserver_failover_threshold": &schema.Schema{
+			"pingserver_failover_threshold": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 50),
 				Optional:     true,
 				Computed:     true,
 			},
-			"pingserver_secondary_force_reset": &schema.Schema{
+			"pingserver_secondary_force_reset": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"pingserver_slave_force_reset": &schema.Schema{
+			"pingserver_slave_force_reset": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"pingserver_flip_timeout": &schema.Schema{
+			"pingserver_flip_timeout": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"vdom": &schema.Schema{
+			"vdom": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"secondary_vcluster": &schema.Schema{
+			"secondary_vcluster": {
 				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"vcluster_id": &schema.Schema{
+						"vcluster_id": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 255),
 							Optional:     true,
 							Computed:     true,
 						},
-						"override": &schema.Schema{
+						"override": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"priority": &schema.Schema{
+						"priority": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 255),
 							Optional:     true,
 							Computed:     true,
 						},
-						"override_wait_time": &schema.Schema{
+						"override_wait_time": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 3600),
 							Optional:     true,
 							Computed:     true,
 						},
-						"monitor": &schema.Schema{
+						"monitor": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"pingserver_monitor_interface": &schema.Schema{
+						"pingserver_monitor_interface": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"pingserver_failover_threshold": &schema.Schema{
+						"pingserver_failover_threshold": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 50),
 							Optional:     true,
 							Computed:     true,
 						},
-						"pingserver_secondary_force_reset": &schema.Schema{
+						"pingserver_secondary_force_reset": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"pingserver_slave_force_reset": &schema.Schema{
+						"pingserver_slave_force_reset": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"vdom": &schema.Schema{
+						"vdom": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -463,30 +463,35 @@ func resourceSystemHa() *schema.Resource {
 					},
 				},
 			},
-			"ha_direct": &schema.Schema{
+			"ha_direct": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ssd_failover": &schema.Schema{
+			"ssd_failover": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"memory_compatible_mode": &schema.Schema{
+			"memory_compatible_mode": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"inter_cluster_session_sync": &schema.Schema{
+			"inter_cluster_session_sync": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"dynamic_sort_subtable": &schema.Schema{
+			"dynamic_sort_subtable": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Default:  "false",
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -505,14 +510,24 @@ func resourceSystemHaUpdate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectSystemHa(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SystemHa resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSystemHa(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemHa(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SystemHa resource: %v", err)
+		return fmt.Errorf("error updating SystemHa resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSystemHa(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SystemHa resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -539,9 +554,17 @@ func resourceSystemHaDelete(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	err := c.DeleteSystemHa(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSystemHa(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SystemHa resource: %v", err)
+		return fmt.Errorf("error deleting SystemHa resource: %v", err)
 	}
 
 	d.SetId("")
@@ -563,9 +586,19 @@ func resourceSystemHaRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadSystemHa(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSystemHa(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemHa resource: %v", err)
+		return fmt.Errorf("error reading SystemHa resource: %v", err)
 	}
 
 	if o == nil {
@@ -576,7 +609,7 @@ func resourceSystemHaRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectSystemHa(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemHa resource from API: %v", err)
+		return fmt.Errorf("error reading SystemHa resource from API: %v", err)
 	}
 	return nil
 }
@@ -1048,207 +1081,207 @@ func refreshObjectSystemHa(d *schema.ResourceData, o map[string]interface{}, sv 
 
 	if err = d.Set("group_id", flattenSystemHaGroupId(o["group-id"], d, "group_id", sv)); err != nil {
 		if !fortiAPIPatch(o["group-id"]) {
-			return fmt.Errorf("Error reading group_id: %v", err)
+			return fmt.Errorf("error reading group_id: %v", err)
 		}
 	}
 
 	if err = d.Set("group_name", flattenSystemHaGroupName(o["group-name"], d, "group_name", sv)); err != nil {
 		if !fortiAPIPatch(o["group-name"]) {
-			return fmt.Errorf("Error reading group_name: %v", err)
+			return fmt.Errorf("error reading group_name: %v", err)
 		}
 	}
 
 	if err = d.Set("mode", flattenSystemHaMode(o["mode"], d, "mode", sv)); err != nil {
 		if !fortiAPIPatch(o["mode"]) {
-			return fmt.Errorf("Error reading mode: %v", err)
+			return fmt.Errorf("error reading mode: %v", err)
 		}
 	}
 
 	if err = d.Set("sync_packet_balance", flattenSystemHaSyncPacketBalance(o["sync-packet-balance"], d, "sync_packet_balance", sv)); err != nil {
 		if !fortiAPIPatch(o["sync-packet-balance"]) {
-			return fmt.Errorf("Error reading sync_packet_balance: %v", err)
+			return fmt.Errorf("error reading sync_packet_balance: %v", err)
 		}
 	}
 
 	if err = d.Set("hbdev", flattenSystemHaHbdev(o["hbdev"], d, "hbdev", sv)); err != nil {
 		if !fortiAPIPatch(o["hbdev"]) {
-			return fmt.Errorf("Error reading hbdev: %v", err)
+			return fmt.Errorf("error reading hbdev: %v", err)
 		}
 	}
 
 	if err = d.Set("unicast_hb", flattenSystemHaUnicastHb(o["unicast-hb"], d, "unicast_hb", sv)); err != nil {
 		if !fortiAPIPatch(o["unicast-hb"]) {
-			return fmt.Errorf("Error reading unicast_hb: %v", err)
+			return fmt.Errorf("error reading unicast_hb: %v", err)
 		}
 	}
 
 	if err = d.Set("unicast_hb_peerip", flattenSystemHaUnicastHbPeerip(o["unicast-hb-peerip"], d, "unicast_hb_peerip", sv)); err != nil {
 		if !fortiAPIPatch(o["unicast-hb-peerip"]) {
-			return fmt.Errorf("Error reading unicast_hb_peerip: %v", err)
+			return fmt.Errorf("error reading unicast_hb_peerip: %v", err)
 		}
 	}
 
 	if err = d.Set("unicast_hb_netmask", flattenSystemHaUnicastHbNetmask(o["unicast-hb-netmask"], d, "unicast_hb_netmask", sv)); err != nil {
 		if !fortiAPIPatch(o["unicast-hb-netmask"]) {
-			return fmt.Errorf("Error reading unicast_hb_netmask: %v", err)
+			return fmt.Errorf("error reading unicast_hb_netmask: %v", err)
 		}
 	}
 
 	if err = d.Set("session_sync_dev", flattenSystemHaSessionSyncDev(o["session-sync-dev"], d, "session_sync_dev", sv)); err != nil {
 		if !fortiAPIPatch(o["session-sync-dev"]) {
-			return fmt.Errorf("Error reading session_sync_dev: %v", err)
+			return fmt.Errorf("error reading session_sync_dev: %v", err)
 		}
 	}
 
 	if err = d.Set("route_ttl", flattenSystemHaRouteTtl(o["route-ttl"], d, "route_ttl", sv)); err != nil {
 		if !fortiAPIPatch(o["route-ttl"]) {
-			return fmt.Errorf("Error reading route_ttl: %v", err)
+			return fmt.Errorf("error reading route_ttl: %v", err)
 		}
 	}
 
 	if err = d.Set("route_wait", flattenSystemHaRouteWait(o["route-wait"], d, "route_wait", sv)); err != nil {
 		if !fortiAPIPatch(o["route-wait"]) {
-			return fmt.Errorf("Error reading route_wait: %v", err)
+			return fmt.Errorf("error reading route_wait: %v", err)
 		}
 	}
 
 	if err = d.Set("route_hold", flattenSystemHaRouteHold(o["route-hold"], d, "route_hold", sv)); err != nil {
 		if !fortiAPIPatch(o["route-hold"]) {
-			return fmt.Errorf("Error reading route_hold: %v", err)
+			return fmt.Errorf("error reading route_hold: %v", err)
 		}
 	}
 
 	if err = d.Set("multicast_ttl", flattenSystemHaMulticastTtl(o["multicast-ttl"], d, "multicast_ttl", sv)); err != nil {
 		if !fortiAPIPatch(o["multicast-ttl"]) {
-			return fmt.Errorf("Error reading multicast_ttl: %v", err)
+			return fmt.Errorf("error reading multicast_ttl: %v", err)
 		}
 	}
 
 	if err = d.Set("load_balance_all", flattenSystemHaLoadBalanceAll(o["load-balance-all"], d, "load_balance_all", sv)); err != nil {
 		if !fortiAPIPatch(o["load-balance-all"]) {
-			return fmt.Errorf("Error reading load_balance_all: %v", err)
+			return fmt.Errorf("error reading load_balance_all: %v", err)
 		}
 	}
 
 	if err = d.Set("sync_config", flattenSystemHaSyncConfig(o["sync-config"], d, "sync_config", sv)); err != nil {
 		if !fortiAPIPatch(o["sync-config"]) {
-			return fmt.Errorf("Error reading sync_config: %v", err)
+			return fmt.Errorf("error reading sync_config: %v", err)
 		}
 	}
 
 	if err = d.Set("encryption", flattenSystemHaEncryption(o["encryption"], d, "encryption", sv)); err != nil {
 		if !fortiAPIPatch(o["encryption"]) {
-			return fmt.Errorf("Error reading encryption: %v", err)
+			return fmt.Errorf("error reading encryption: %v", err)
 		}
 	}
 
 	if err = d.Set("authentication", flattenSystemHaAuthentication(o["authentication"], d, "authentication", sv)); err != nil {
 		if !fortiAPIPatch(o["authentication"]) {
-			return fmt.Errorf("Error reading authentication: %v", err)
+			return fmt.Errorf("error reading authentication: %v", err)
 		}
 	}
 
 	if err = d.Set("hb_interval", flattenSystemHaHbInterval(o["hb-interval"], d, "hb_interval", sv)); err != nil {
 		if !fortiAPIPatch(o["hb-interval"]) {
-			return fmt.Errorf("Error reading hb_interval: %v", err)
+			return fmt.Errorf("error reading hb_interval: %v", err)
 		}
 	}
 
 	if err = d.Set("hb_lost_threshold", flattenSystemHaHbLostThreshold(o["hb-lost-threshold"], d, "hb_lost_threshold", sv)); err != nil {
 		if !fortiAPIPatch(o["hb-lost-threshold"]) {
-			return fmt.Errorf("Error reading hb_lost_threshold: %v", err)
+			return fmt.Errorf("error reading hb_lost_threshold: %v", err)
 		}
 	}
 
 	if err = d.Set("hello_holddown", flattenSystemHaHelloHolddown(o["hello-holddown"], d, "hello_holddown", sv)); err != nil {
 		if !fortiAPIPatch(o["hello-holddown"]) {
-			return fmt.Errorf("Error reading hello_holddown: %v", err)
+			return fmt.Errorf("error reading hello_holddown: %v", err)
 		}
 	}
 
 	if err = d.Set("gratuitous_arps", flattenSystemHaGratuitousArps(o["gratuitous-arps"], d, "gratuitous_arps", sv)); err != nil {
 		if !fortiAPIPatch(o["gratuitous-arps"]) {
-			return fmt.Errorf("Error reading gratuitous_arps: %v", err)
+			return fmt.Errorf("error reading gratuitous_arps: %v", err)
 		}
 	}
 
 	if err = d.Set("arps", flattenSystemHaArps(o["arps"], d, "arps", sv)); err != nil {
 		if !fortiAPIPatch(o["arps"]) {
-			return fmt.Errorf("Error reading arps: %v", err)
+			return fmt.Errorf("error reading arps: %v", err)
 		}
 	}
 
 	if err = d.Set("arps_interval", flattenSystemHaArpsInterval(o["arps-interval"], d, "arps_interval", sv)); err != nil {
 		if !fortiAPIPatch(o["arps-interval"]) {
-			return fmt.Errorf("Error reading arps_interval: %v", err)
+			return fmt.Errorf("error reading arps_interval: %v", err)
 		}
 	}
 
 	if err = d.Set("session_pickup", flattenSystemHaSessionPickup(o["session-pickup"], d, "session_pickup", sv)); err != nil {
 		if !fortiAPIPatch(o["session-pickup"]) {
-			return fmt.Errorf("Error reading session_pickup: %v", err)
+			return fmt.Errorf("error reading session_pickup: %v", err)
 		}
 	}
 
 	if err = d.Set("session_pickup_connectionless", flattenSystemHaSessionPickupConnectionless(o["session-pickup-connectionless"], d, "session_pickup_connectionless", sv)); err != nil {
 		if !fortiAPIPatch(o["session-pickup-connectionless"]) {
-			return fmt.Errorf("Error reading session_pickup_connectionless: %v", err)
+			return fmt.Errorf("error reading session_pickup_connectionless: %v", err)
 		}
 	}
 
 	if err = d.Set("session_pickup_expectation", flattenSystemHaSessionPickupExpectation(o["session-pickup-expectation"], d, "session_pickup_expectation", sv)); err != nil {
 		if !fortiAPIPatch(o["session-pickup-expectation"]) {
-			return fmt.Errorf("Error reading session_pickup_expectation: %v", err)
+			return fmt.Errorf("error reading session_pickup_expectation: %v", err)
 		}
 	}
 
 	if err = d.Set("session_pickup_nat", flattenSystemHaSessionPickupNat(o["session-pickup-nat"], d, "session_pickup_nat", sv)); err != nil {
 		if !fortiAPIPatch(o["session-pickup-nat"]) {
-			return fmt.Errorf("Error reading session_pickup_nat: %v", err)
+			return fmt.Errorf("error reading session_pickup_nat: %v", err)
 		}
 	}
 
 	if err = d.Set("session_pickup_delay", flattenSystemHaSessionPickupDelay(o["session-pickup-delay"], d, "session_pickup_delay", sv)); err != nil {
 		if !fortiAPIPatch(o["session-pickup-delay"]) {
-			return fmt.Errorf("Error reading session_pickup_delay: %v", err)
+			return fmt.Errorf("error reading session_pickup_delay: %v", err)
 		}
 	}
 
 	if err = d.Set("link_failed_signal", flattenSystemHaLinkFailedSignal(o["link-failed-signal"], d, "link_failed_signal", sv)); err != nil {
 		if !fortiAPIPatch(o["link-failed-signal"]) {
-			return fmt.Errorf("Error reading link_failed_signal: %v", err)
+			return fmt.Errorf("error reading link_failed_signal: %v", err)
 		}
 	}
 
 	if err = d.Set("uninterruptible_upgrade", flattenSystemHaUninterruptibleUpgrade(o["uninterruptible-upgrade"], d, "uninterruptible_upgrade", sv)); err != nil {
 		if !fortiAPIPatch(o["uninterruptible-upgrade"]) {
-			return fmt.Errorf("Error reading uninterruptible_upgrade: %v", err)
+			return fmt.Errorf("error reading uninterruptible_upgrade: %v", err)
 		}
 	}
 
 	if err = d.Set("standalone_mgmt_vdom", flattenSystemHaStandaloneMgmtVdom(o["standalone-mgmt-vdom"], d, "standalone_mgmt_vdom", sv)); err != nil {
 		if !fortiAPIPatch(o["standalone-mgmt-vdom"]) {
-			return fmt.Errorf("Error reading standalone_mgmt_vdom: %v", err)
+			return fmt.Errorf("error reading standalone_mgmt_vdom: %v", err)
 		}
 	}
 
 	if err = d.Set("ha_mgmt_status", flattenSystemHaHaMgmtStatus(o["ha-mgmt-status"], d, "ha_mgmt_status", sv)); err != nil {
 		if !fortiAPIPatch(o["ha-mgmt-status"]) {
-			return fmt.Errorf("Error reading ha_mgmt_status: %v", err)
+			return fmt.Errorf("error reading ha_mgmt_status: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("ha_mgmt_interfaces", flattenSystemHaHaMgmtInterfaces(o["ha-mgmt-interfaces"], d, "ha_mgmt_interfaces", sv)); err != nil {
 			if !fortiAPIPatch(o["ha-mgmt-interfaces"]) {
-				return fmt.Errorf("Error reading ha_mgmt_interfaces: %v", err)
+				return fmt.Errorf("error reading ha_mgmt_interfaces: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("ha_mgmt_interfaces"); ok {
 			if err = d.Set("ha_mgmt_interfaces", flattenSystemHaHaMgmtInterfaces(o["ha-mgmt-interfaces"], d, "ha_mgmt_interfaces", sv)); err != nil {
 				if !fortiAPIPatch(o["ha-mgmt-interfaces"]) {
-					return fmt.Errorf("Error reading ha_mgmt_interfaces: %v", err)
+					return fmt.Errorf("error reading ha_mgmt_interfaces: %v", err)
 				}
 			}
 		}
@@ -1256,183 +1289,183 @@ func refreshObjectSystemHa(d *schema.ResourceData, o map[string]interface{}, sv 
 
 	if err = d.Set("ha_eth_type", flattenSystemHaHaEthType(o["ha-eth-type"], d, "ha_eth_type", sv)); err != nil {
 		if !fortiAPIPatch(o["ha-eth-type"]) {
-			return fmt.Errorf("Error reading ha_eth_type: %v", err)
+			return fmt.Errorf("error reading ha_eth_type: %v", err)
 		}
 	}
 
 	if err = d.Set("hc_eth_type", flattenSystemHaHcEthType(o["hc-eth-type"], d, "hc_eth_type", sv)); err != nil {
 		if !fortiAPIPatch(o["hc-eth-type"]) {
-			return fmt.Errorf("Error reading hc_eth_type: %v", err)
+			return fmt.Errorf("error reading hc_eth_type: %v", err)
 		}
 	}
 
 	if err = d.Set("l2ep_eth_type", flattenSystemHaL2EpEthType(o["l2ep-eth-type"], d, "l2ep_eth_type", sv)); err != nil {
 		if !fortiAPIPatch(o["l2ep-eth-type"]) {
-			return fmt.Errorf("Error reading l2ep_eth_type: %v", err)
+			return fmt.Errorf("error reading l2ep_eth_type: %v", err)
 		}
 	}
 
 	if err = d.Set("ha_uptime_diff_margin", flattenSystemHaHaUptimeDiffMargin(o["ha-uptime-diff-margin"], d, "ha_uptime_diff_margin", sv)); err != nil {
 		if !fortiAPIPatch(o["ha-uptime-diff-margin"]) {
-			return fmt.Errorf("Error reading ha_uptime_diff_margin: %v", err)
+			return fmt.Errorf("error reading ha_uptime_diff_margin: %v", err)
 		}
 	}
 
 	if err = d.Set("standalone_config_sync", flattenSystemHaStandaloneConfigSync(o["standalone-config-sync"], d, "standalone_config_sync", sv)); err != nil {
 		if !fortiAPIPatch(o["standalone-config-sync"]) {
-			return fmt.Errorf("Error reading standalone_config_sync: %v", err)
+			return fmt.Errorf("error reading standalone_config_sync: %v", err)
 		}
 	}
 
 	if err = d.Set("logical_sn", flattenSystemHaLogicalSn(o["logical-sn"], d, "logical_sn", sv)); err != nil {
 		if !fortiAPIPatch(o["logical-sn"]) {
-			return fmt.Errorf("Error reading logical_sn: %v", err)
+			return fmt.Errorf("error reading logical_sn: %v", err)
 		}
 	}
 
 	if err = d.Set("vcluster2", flattenSystemHaVcluster2(o["vcluster2"], d, "vcluster2", sv)); err != nil {
 		if !fortiAPIPatch(o["vcluster2"]) {
-			return fmt.Errorf("Error reading vcluster2: %v", err)
+			return fmt.Errorf("error reading vcluster2: %v", err)
 		}
 	}
 
 	if err = d.Set("vcluster_id", flattenSystemHaVclusterId(o["vcluster-id"], d, "vcluster_id", sv)); err != nil {
 		if !fortiAPIPatch(o["vcluster-id"]) {
-			return fmt.Errorf("Error reading vcluster_id: %v", err)
+			return fmt.Errorf("error reading vcluster_id: %v", err)
 		}
 	}
 
 	if err = d.Set("override", flattenSystemHaOverride(o["override"], d, "override", sv)); err != nil {
 		if !fortiAPIPatch(o["override"]) {
-			return fmt.Errorf("Error reading override: %v", err)
+			return fmt.Errorf("error reading override: %v", err)
 		}
 	}
 
 	if err = d.Set("priority", flattenSystemHaPriority(o["priority"], d, "priority", sv)); err != nil {
 		if !fortiAPIPatch(o["priority"]) {
-			return fmt.Errorf("Error reading priority: %v", err)
+			return fmt.Errorf("error reading priority: %v", err)
 		}
 	}
 
 	if err = d.Set("override_wait_time", flattenSystemHaOverrideWaitTime(o["override-wait-time"], d, "override_wait_time", sv)); err != nil {
 		if !fortiAPIPatch(o["override-wait-time"]) {
-			return fmt.Errorf("Error reading override_wait_time: %v", err)
+			return fmt.Errorf("error reading override_wait_time: %v", err)
 		}
 	}
 
 	if err = d.Set("schedule", flattenSystemHaSchedule(o["schedule"], d, "schedule", sv)); err != nil {
 		if !fortiAPIPatch(o["schedule"]) {
-			return fmt.Errorf("Error reading schedule: %v", err)
+			return fmt.Errorf("error reading schedule: %v", err)
 		}
 	}
 
 	if err = d.Set("weight", flattenSystemHaWeight(o["weight"], d, "weight", sv)); err != nil {
 		if !fortiAPIPatch(o["weight"]) {
-			return fmt.Errorf("Error reading weight: %v", err)
+			return fmt.Errorf("error reading weight: %v", err)
 		}
 	}
 
 	if err = d.Set("cpu_threshold", flattenSystemHaCpuThreshold(o["cpu-threshold"], d, "cpu_threshold", sv)); err != nil {
 		if !fortiAPIPatch(o["cpu-threshold"]) {
-			return fmt.Errorf("Error reading cpu_threshold: %v", err)
+			return fmt.Errorf("error reading cpu_threshold: %v", err)
 		}
 	}
 
 	if err = d.Set("memory_threshold", flattenSystemHaMemoryThreshold(o["memory-threshold"], d, "memory_threshold", sv)); err != nil {
 		if !fortiAPIPatch(o["memory-threshold"]) {
-			return fmt.Errorf("Error reading memory_threshold: %v", err)
+			return fmt.Errorf("error reading memory_threshold: %v", err)
 		}
 	}
 
 	if err = d.Set("http_proxy_threshold", flattenSystemHaHttpProxyThreshold(o["http-proxy-threshold"], d, "http_proxy_threshold", sv)); err != nil {
 		if !fortiAPIPatch(o["http-proxy-threshold"]) {
-			return fmt.Errorf("Error reading http_proxy_threshold: %v", err)
+			return fmt.Errorf("error reading http_proxy_threshold: %v", err)
 		}
 	}
 
 	if err = d.Set("ftp_proxy_threshold", flattenSystemHaFtpProxyThreshold(o["ftp-proxy-threshold"], d, "ftp_proxy_threshold", sv)); err != nil {
 		if !fortiAPIPatch(o["ftp-proxy-threshold"]) {
-			return fmt.Errorf("Error reading ftp_proxy_threshold: %v", err)
+			return fmt.Errorf("error reading ftp_proxy_threshold: %v", err)
 		}
 	}
 
 	if err = d.Set("imap_proxy_threshold", flattenSystemHaImapProxyThreshold(o["imap-proxy-threshold"], d, "imap_proxy_threshold", sv)); err != nil {
 		if !fortiAPIPatch(o["imap-proxy-threshold"]) {
-			return fmt.Errorf("Error reading imap_proxy_threshold: %v", err)
+			return fmt.Errorf("error reading imap_proxy_threshold: %v", err)
 		}
 	}
 
 	if err = d.Set("nntp_proxy_threshold", flattenSystemHaNntpProxyThreshold(o["nntp-proxy-threshold"], d, "nntp_proxy_threshold", sv)); err != nil {
 		if !fortiAPIPatch(o["nntp-proxy-threshold"]) {
-			return fmt.Errorf("Error reading nntp_proxy_threshold: %v", err)
+			return fmt.Errorf("error reading nntp_proxy_threshold: %v", err)
 		}
 	}
 
 	if err = d.Set("pop3_proxy_threshold", flattenSystemHaPop3ProxyThreshold(o["pop3-proxy-threshold"], d, "pop3_proxy_threshold", sv)); err != nil {
 		if !fortiAPIPatch(o["pop3-proxy-threshold"]) {
-			return fmt.Errorf("Error reading pop3_proxy_threshold: %v", err)
+			return fmt.Errorf("error reading pop3_proxy_threshold: %v", err)
 		}
 	}
 
 	if err = d.Set("smtp_proxy_threshold", flattenSystemHaSmtpProxyThreshold(o["smtp-proxy-threshold"], d, "smtp_proxy_threshold", sv)); err != nil {
 		if !fortiAPIPatch(o["smtp-proxy-threshold"]) {
-			return fmt.Errorf("Error reading smtp_proxy_threshold: %v", err)
+			return fmt.Errorf("error reading smtp_proxy_threshold: %v", err)
 		}
 	}
 
 	if err = d.Set("monitor", flattenSystemHaMonitor(o["monitor"], d, "monitor", sv)); err != nil {
 		if !fortiAPIPatch(o["monitor"]) {
-			return fmt.Errorf("Error reading monitor: %v", err)
+			return fmt.Errorf("error reading monitor: %v", err)
 		}
 	}
 
 	if err = d.Set("pingserver_monitor_interface", flattenSystemHaPingserverMonitorInterface(o["pingserver-monitor-interface"], d, "pingserver_monitor_interface", sv)); err != nil {
 		if !fortiAPIPatch(o["pingserver-monitor-interface"]) {
-			return fmt.Errorf("Error reading pingserver_monitor_interface: %v", err)
+			return fmt.Errorf("error reading pingserver_monitor_interface: %v", err)
 		}
 	}
 
 	if err = d.Set("pingserver_failover_threshold", flattenSystemHaPingserverFailoverThreshold(o["pingserver-failover-threshold"], d, "pingserver_failover_threshold", sv)); err != nil {
 		if !fortiAPIPatch(o["pingserver-failover-threshold"]) {
-			return fmt.Errorf("Error reading pingserver_failover_threshold: %v", err)
+			return fmt.Errorf("error reading pingserver_failover_threshold: %v", err)
 		}
 	}
 
 	if err = d.Set("pingserver_secondary_force_reset", flattenSystemHaPingserverSecondaryForceReset(o["pingserver-secondary-force-reset"], d, "pingserver_secondary_force_reset", sv)); err != nil {
 		if !fortiAPIPatch(o["pingserver-secondary-force-reset"]) {
-			return fmt.Errorf("Error reading pingserver_secondary_force_reset: %v", err)
+			return fmt.Errorf("error reading pingserver_secondary_force_reset: %v", err)
 		}
 	}
 
 	if err = d.Set("pingserver_slave_force_reset", flattenSystemHaPingserverSlaveForceReset(o["pingserver-slave-force-reset"], d, "pingserver_slave_force_reset", sv)); err != nil {
 		if !fortiAPIPatch(o["pingserver-slave-force-reset"]) {
-			return fmt.Errorf("Error reading pingserver_slave_force_reset: %v", err)
+			return fmt.Errorf("error reading pingserver_slave_force_reset: %v", err)
 		}
 	}
 
 	if err = d.Set("pingserver_flip_timeout", flattenSystemHaPingserverFlipTimeout(o["pingserver-flip-timeout"], d, "pingserver_flip_timeout", sv)); err != nil {
 		if !fortiAPIPatch(o["pingserver-flip-timeout"]) {
-			return fmt.Errorf("Error reading pingserver_flip_timeout: %v", err)
+			return fmt.Errorf("error reading pingserver_flip_timeout: %v", err)
 		}
 	}
 
 	if err = d.Set("vdom", flattenSystemHaVdom(o["vdom"], d, "vdom", sv)); err != nil {
 		if !fortiAPIPatch(o["vdom"]) {
-			return fmt.Errorf("Error reading vdom: %v", err)
+			return fmt.Errorf("error reading vdom: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("secondary_vcluster", flattenSystemHaSecondaryVcluster(o["secondary-vcluster"], d, "secondary_vcluster", sv)); err != nil {
 			if !fortiAPIPatch(o["secondary-vcluster"]) {
-				return fmt.Errorf("Error reading secondary_vcluster: %v", err)
+				return fmt.Errorf("error reading secondary_vcluster: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("secondary_vcluster"); ok {
 			if err = d.Set("secondary_vcluster", flattenSystemHaSecondaryVcluster(o["secondary-vcluster"], d, "secondary_vcluster", sv)); err != nil {
 				if !fortiAPIPatch(o["secondary-vcluster"]) {
-					return fmt.Errorf("Error reading secondary_vcluster: %v", err)
+					return fmt.Errorf("error reading secondary_vcluster: %v", err)
 				}
 			}
 		}
@@ -1440,25 +1473,25 @@ func refreshObjectSystemHa(d *schema.ResourceData, o map[string]interface{}, sv 
 
 	if err = d.Set("ha_direct", flattenSystemHaHaDirect(o["ha-direct"], d, "ha_direct", sv)); err != nil {
 		if !fortiAPIPatch(o["ha-direct"]) {
-			return fmt.Errorf("Error reading ha_direct: %v", err)
+			return fmt.Errorf("error reading ha_direct: %v", err)
 		}
 	}
 
 	if err = d.Set("ssd_failover", flattenSystemHaSsdFailover(o["ssd-failover"], d, "ssd_failover", sv)); err != nil {
 		if !fortiAPIPatch(o["ssd-failover"]) {
-			return fmt.Errorf("Error reading ssd_failover: %v", err)
+			return fmt.Errorf("error reading ssd_failover: %v", err)
 		}
 	}
 
 	if err = d.Set("memory_compatible_mode", flattenSystemHaMemoryCompatibleMode(o["memory-compatible-mode"], d, "memory_compatible_mode", sv)); err != nil {
 		if !fortiAPIPatch(o["memory-compatible-mode"]) {
-			return fmt.Errorf("Error reading memory_compatible_mode: %v", err)
+			return fmt.Errorf("error reading memory_compatible_mode: %v", err)
 		}
 	}
 
 	if err = d.Set("inter_cluster_session_sync", flattenSystemHaInterClusterSessionSync(o["inter-cluster-session-sync"], d, "inter_cluster_session_sync", sv)); err != nil {
 		if !fortiAPIPatch(o["inter-cluster-session-sync"]) {
-			return fmt.Errorf("Error reading inter_cluster_session_sync: %v", err)
+			return fmt.Errorf("error reading inter_cluster_session_sync: %v", err)
 		}
 	}
 

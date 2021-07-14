@@ -30,67 +30,72 @@ func resourceWebfilterOverride() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"fosid": &schema.Schema{
+			"fosid": {
 				Type:     schema.TypeInt,
 				ForceNew: true,
 				Optional: true,
 				Computed: true,
 			},
-			"status": &schema.Schema{
+			"status": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"scope": &schema.Schema{
+			"scope": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ip": &schema.Schema{
+			"ip": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"user": &schema.Schema{
+			"user": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 64),
 				Required:     true,
 			},
-			"user_group": &schema.Schema{
+			"user_group": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"old_profile": &schema.Schema{
+			"old_profile": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Required:     true,
 			},
-			"new_profile": &schema.Schema{
+			"new_profile": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Required:     true,
 			},
-			"ip6": &schema.Schema{
+			"ip6": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"expires": &schema.Schema{
+			"expires": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"initiator": &schema.Schema{
+			"initiator": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 64),
 				Optional:     true,
 				Computed:     true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -108,15 +113,25 @@ func resourceWebfilterOverrideCreate(d *schema.ResourceData, m interface{}) erro
 		}
 	}
 
-	obj, err := getObjectWebfilterOverride(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating WebfilterOverride resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateWebfilterOverride(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectWebfilterOverride(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating WebfilterOverride resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateWebfilterOverride(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating WebfilterOverride resource: %v", err)
+		return fmt.Errorf("error creating WebfilterOverride resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -141,14 +156,24 @@ func resourceWebfilterOverrideUpdate(d *schema.ResourceData, m interface{}) erro
 		}
 	}
 
-	obj, err := getObjectWebfilterOverride(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating WebfilterOverride resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateWebfilterOverride(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectWebfilterOverride(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating WebfilterOverride resource: %v", err)
+		return fmt.Errorf("error updating WebfilterOverride resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateWebfilterOverride(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating WebfilterOverride resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -175,9 +200,17 @@ func resourceWebfilterOverrideDelete(d *schema.ResourceData, m interface{}) erro
 		}
 	}
 
-	err := c.DeleteWebfilterOverride(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteWebfilterOverride(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting WebfilterOverride resource: %v", err)
+		return fmt.Errorf("error deleting WebfilterOverride resource: %v", err)
 	}
 
 	d.SetId("")
@@ -199,9 +232,19 @@ func resourceWebfilterOverrideRead(d *schema.ResourceData, m interface{}) error 
 		}
 	}
 
-	o, err := c.ReadWebfilterOverride(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadWebfilterOverride(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading WebfilterOverride resource: %v", err)
+		return fmt.Errorf("error reading WebfilterOverride resource: %v", err)
 	}
 
 	if o == nil {
@@ -212,7 +255,7 @@ func resourceWebfilterOverrideRead(d *schema.ResourceData, m interface{}) error 
 
 	err = refreshObjectWebfilterOverride(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading WebfilterOverride resource from API: %v", err)
+		return fmt.Errorf("error reading WebfilterOverride resource from API: %v", err)
 	}
 	return nil
 }
@@ -266,67 +309,67 @@ func refreshObjectWebfilterOverride(d *schema.ResourceData, o map[string]interfa
 
 	if err = d.Set("fosid", flattenWebfilterOverrideId(o["id"], d, "fosid", sv)); err != nil {
 		if !fortiAPIPatch(o["id"]) {
-			return fmt.Errorf("Error reading fosid: %v", err)
+			return fmt.Errorf("error reading fosid: %v", err)
 		}
 	}
 
 	if err = d.Set("status", flattenWebfilterOverrideStatus(o["status"], d, "status", sv)); err != nil {
 		if !fortiAPIPatch(o["status"]) {
-			return fmt.Errorf("Error reading status: %v", err)
+			return fmt.Errorf("error reading status: %v", err)
 		}
 	}
 
 	if err = d.Set("scope", flattenWebfilterOverrideScope(o["scope"], d, "scope", sv)); err != nil {
 		if !fortiAPIPatch(o["scope"]) {
-			return fmt.Errorf("Error reading scope: %v", err)
+			return fmt.Errorf("error reading scope: %v", err)
 		}
 	}
 
 	if err = d.Set("ip", flattenWebfilterOverrideIp(o["ip"], d, "ip", sv)); err != nil {
 		if !fortiAPIPatch(o["ip"]) {
-			return fmt.Errorf("Error reading ip: %v", err)
+			return fmt.Errorf("error reading ip: %v", err)
 		}
 	}
 
 	if err = d.Set("user", flattenWebfilterOverrideUser(o["user"], d, "user", sv)); err != nil {
 		if !fortiAPIPatch(o["user"]) {
-			return fmt.Errorf("Error reading user: %v", err)
+			return fmt.Errorf("error reading user: %v", err)
 		}
 	}
 
 	if err = d.Set("user_group", flattenWebfilterOverrideUserGroup(o["user-group"], d, "user_group", sv)); err != nil {
 		if !fortiAPIPatch(o["user-group"]) {
-			return fmt.Errorf("Error reading user_group: %v", err)
+			return fmt.Errorf("error reading user_group: %v", err)
 		}
 	}
 
 	if err = d.Set("old_profile", flattenWebfilterOverrideOldProfile(o["old-profile"], d, "old_profile", sv)); err != nil {
 		if !fortiAPIPatch(o["old-profile"]) {
-			return fmt.Errorf("Error reading old_profile: %v", err)
+			return fmt.Errorf("error reading old_profile: %v", err)
 		}
 	}
 
 	if err = d.Set("new_profile", flattenWebfilterOverrideNewProfile(o["new-profile"], d, "new_profile", sv)); err != nil {
 		if !fortiAPIPatch(o["new-profile"]) {
-			return fmt.Errorf("Error reading new_profile: %v", err)
+			return fmt.Errorf("error reading new_profile: %v", err)
 		}
 	}
 
 	if err = d.Set("ip6", flattenWebfilterOverrideIp6(o["ip6"], d, "ip6", sv)); err != nil {
 		if !fortiAPIPatch(o["ip6"]) {
-			return fmt.Errorf("Error reading ip6: %v", err)
+			return fmt.Errorf("error reading ip6: %v", err)
 		}
 	}
 
 	if err = d.Set("expires", flattenWebfilterOverrideExpires(o["expires"], d, "expires", sv)); err != nil {
 		if !fortiAPIPatch(o["expires"]) {
-			return fmt.Errorf("Error reading expires: %v", err)
+			return fmt.Errorf("error reading expires: %v", err)
 		}
 	}
 
 	if err = d.Set("initiator", flattenWebfilterOverrideInitiator(o["initiator"], d, "initiator", sv)); err != nil {
 		if !fortiAPIPatch(o["initiator"]) {
-			return fmt.Errorf("Error reading initiator: %v", err)
+			return fmt.Errorf("error reading initiator: %v", err)
 		}
 	}
 

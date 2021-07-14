@@ -30,153 +30,153 @@ func resourceSystemDhcpServer() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"fosid": &schema.Schema{
+			"fosid": {
 				Type:     schema.TypeInt,
 				ForceNew: true,
 				Required: true,
 			},
-			"status": &schema.Schema{
+			"status": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"lease_time": &schema.Schema{
+			"lease_time": {
 				Type:         schema.TypeInt,
 				ValidateFunc: intBetweenWithZero(300, 8640000),
 				Optional:     true,
 				Computed:     true,
 			},
-			"mac_acl_default_action": &schema.Schema{
+			"mac_acl_default_action": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"forticlient_on_net_status": &schema.Schema{
+			"forticlient_on_net_status": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"dns_service": &schema.Schema{
+			"dns_service": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"dns_server1": &schema.Schema{
+			"dns_server1": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"dns_server2": &schema.Schema{
+			"dns_server2": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"dns_server3": &schema.Schema{
+			"dns_server3": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"dns_server4": &schema.Schema{
+			"dns_server4": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"wifi_ac_service": &schema.Schema{
+			"wifi_ac_service": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"wifi_ac1": &schema.Schema{
+			"wifi_ac1": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"wifi_ac2": &schema.Schema{
+			"wifi_ac2": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"wifi_ac3": &schema.Schema{
+			"wifi_ac3": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ntp_service": &schema.Schema{
+			"ntp_service": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ntp_server1": &schema.Schema{
+			"ntp_server1": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ntp_server2": &schema.Schema{
+			"ntp_server2": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ntp_server3": &schema.Schema{
+			"ntp_server3": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"domain": &schema.Schema{
+			"domain": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"wins_server1": &schema.Schema{
+			"wins_server1": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"wins_server2": &schema.Schema{
+			"wins_server2": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"default_gateway": &schema.Schema{
+			"default_gateway": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"next_server": &schema.Schema{
+			"next_server": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"netmask": &schema.Schema{
+			"netmask": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"interface": &schema.Schema{
+			"interface": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 15),
 				Required:     true,
 			},
-			"ip_range": &schema.Schema{
+			"ip_range": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"start_ip": &schema.Schema{
+						"start_ip": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"end_ip": &schema.Schema{
+						"end_ip": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -184,22 +184,22 @@ func resourceSystemDhcpServer() *schema.Resource {
 					},
 				},
 			},
-			"timezone_option": &schema.Schema{
+			"timezone_option": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"timezone": &schema.Schema{
+			"timezone": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"tftp_server": &schema.Schema{
+			"tftp_server": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"tftp_server": &schema.Schema{
+						"tftp_server": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 63),
 							Optional:     true,
@@ -208,40 +208,40 @@ func resourceSystemDhcpServer() *schema.Resource {
 					},
 				},
 			},
-			"filename": &schema.Schema{
+			"filename": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 127),
 				Optional:     true,
 				Computed:     true,
 			},
-			"options": &schema.Schema{
+			"options": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"code": &schema.Schema{
+						"code": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 255),
 							Optional:     true,
 							Computed:     true,
 						},
-						"type": &schema.Schema{
+						"type": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"value": &schema.Schema{
+						"value": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 312),
 							Optional:     true,
 							Computed:     true,
 						},
-						"ip": &schema.Schema{
+						"ip": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -249,98 +249,98 @@ func resourceSystemDhcpServer() *schema.Resource {
 					},
 				},
 			},
-			"server_type": &schema.Schema{
+			"server_type": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ip_mode": &schema.Schema{
+			"ip_mode": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"conflicted_ip_timeout": &schema.Schema{
+			"conflicted_ip_timeout": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(60, 8640000),
 				Optional:     true,
 				Computed:     true,
 			},
-			"ipsec_lease_hold": &schema.Schema{
+			"ipsec_lease_hold": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 8640000),
 				Optional:     true,
 				Computed:     true,
 			},
-			"auto_configuration": &schema.Schema{
+			"auto_configuration": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"dhcp_settings_from_fortiipam": &schema.Schema{
+			"dhcp_settings_from_fortiipam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"auto_managed_status": &schema.Schema{
+			"auto_managed_status": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ddns_update": &schema.Schema{
+			"ddns_update": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ddns_update_override": &schema.Schema{
+			"ddns_update_override": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ddns_server_ip": &schema.Schema{
+			"ddns_server_ip": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ddns_zone": &schema.Schema{
+			"ddns_zone": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 64),
 				Optional:     true,
 				Computed:     true,
 			},
-			"ddns_auth": &schema.Schema{
+			"ddns_auth": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ddns_keyname": &schema.Schema{
+			"ddns_keyname": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 64),
 				Optional:     true,
 				Computed:     true,
 			},
-			"ddns_key": &schema.Schema{
+			"ddns_key": {
 				Type:      schema.TypeString,
 				Optional:  true,
 				Sensitive: true,
 				Computed:  true,
 			},
-			"ddns_ttl": &schema.Schema{
+			"ddns_ttl": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(60, 86400),
 				Optional:     true,
 				Computed:     true,
 			},
-			"vci_match": &schema.Schema{
+			"vci_match": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"vci_string": &schema.Schema{
+			"vci_string": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"vci_string": &schema.Schema{
+						"vci_string": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 255),
 							Optional:     true,
@@ -349,22 +349,22 @@ func resourceSystemDhcpServer() *schema.Resource {
 					},
 				},
 			},
-			"exclude_range": &schema.Schema{
+			"exclude_range": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"start_ip": &schema.Schema{
+						"start_ip": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"end_ip": &schema.Schema{
+						"end_ip": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -372,59 +372,59 @@ func resourceSystemDhcpServer() *schema.Resource {
 					},
 				},
 			},
-			"reserved_address": &schema.Schema{
+			"reserved_address": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"type": &schema.Schema{
+						"type": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"ip": &schema.Schema{
+						"ip": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"mac": &schema.Schema{
+						"mac": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"action": &schema.Schema{
+						"action": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"circuit_id_type": &schema.Schema{
+						"circuit_id_type": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"circuit_id": &schema.Schema{
+						"circuit_id": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 312),
 							Optional:     true,
 							Computed:     true,
 						},
-						"remote_id_type": &schema.Schema{
+						"remote_id_type": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"remote_id": &schema.Schema{
+						"remote_id": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 312),
 							Optional:     true,
 							Computed:     true,
 						},
-						"description": &schema.Schema{
+						"description": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 255),
 							Optional:     true,
@@ -432,10 +432,15 @@ func resourceSystemDhcpServer() *schema.Resource {
 					},
 				},
 			},
-			"dynamic_sort_subtable": &schema.Schema{
+			"dynamic_sort_subtable": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Default:  "false",
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -453,15 +458,25 @@ func resourceSystemDhcpServerCreate(d *schema.ResourceData, m interface{}) error
 		}
 	}
 
-	obj, err := getObjectSystemDhcpServer(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating SystemDhcpServer resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateSystemDhcpServer(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemDhcpServer(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating SystemDhcpServer resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateSystemDhcpServer(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating SystemDhcpServer resource: %v", err)
+		return fmt.Errorf("error creating SystemDhcpServer resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -486,14 +501,24 @@ func resourceSystemDhcpServerUpdate(d *schema.ResourceData, m interface{}) error
 		}
 	}
 
-	obj, err := getObjectSystemDhcpServer(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SystemDhcpServer resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSystemDhcpServer(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemDhcpServer(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SystemDhcpServer resource: %v", err)
+		return fmt.Errorf("error updating SystemDhcpServer resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSystemDhcpServer(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SystemDhcpServer resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -520,9 +545,17 @@ func resourceSystemDhcpServerDelete(d *schema.ResourceData, m interface{}) error
 		}
 	}
 
-	err := c.DeleteSystemDhcpServer(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSystemDhcpServer(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SystemDhcpServer resource: %v", err)
+		return fmt.Errorf("error deleting SystemDhcpServer resource: %v", err)
 	}
 
 	d.SetId("")
@@ -544,9 +577,19 @@ func resourceSystemDhcpServerRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadSystemDhcpServer(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSystemDhcpServer(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemDhcpServer resource: %v", err)
+		return fmt.Errorf("error reading SystemDhcpServer resource: %v", err)
 	}
 
 	if o == nil {
@@ -557,7 +600,7 @@ func resourceSystemDhcpServerRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectSystemDhcpServer(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemDhcpServer resource from API: %v", err)
+		return fmt.Errorf("error reading SystemDhcpServer resource from API: %v", err)
 	}
 	return nil
 }
@@ -1141,165 +1184,165 @@ func refreshObjectSystemDhcpServer(d *schema.ResourceData, o map[string]interfac
 
 	if err = d.Set("fosid", flattenSystemDhcpServerId(o["id"], d, "fosid", sv)); err != nil {
 		if !fortiAPIPatch(o["id"]) {
-			return fmt.Errorf("Error reading fosid: %v", err)
+			return fmt.Errorf("error reading fosid: %v", err)
 		}
 	}
 
 	if err = d.Set("status", flattenSystemDhcpServerStatus(o["status"], d, "status", sv)); err != nil {
 		if !fortiAPIPatch(o["status"]) {
-			return fmt.Errorf("Error reading status: %v", err)
+			return fmt.Errorf("error reading status: %v", err)
 		}
 	}
 
 	if err = d.Set("lease_time", flattenSystemDhcpServerLeaseTime(o["lease-time"], d, "lease_time", sv)); err != nil {
 		if !fortiAPIPatch(o["lease-time"]) {
-			return fmt.Errorf("Error reading lease_time: %v", err)
+			return fmt.Errorf("error reading lease_time: %v", err)
 		}
 	}
 
 	if err = d.Set("mac_acl_default_action", flattenSystemDhcpServerMacAclDefaultAction(o["mac-acl-default-action"], d, "mac_acl_default_action", sv)); err != nil {
 		if !fortiAPIPatch(o["mac-acl-default-action"]) {
-			return fmt.Errorf("Error reading mac_acl_default_action: %v", err)
+			return fmt.Errorf("error reading mac_acl_default_action: %v", err)
 		}
 	}
 
 	if err = d.Set("forticlient_on_net_status", flattenSystemDhcpServerForticlientOnNetStatus(o["forticlient-on-net-status"], d, "forticlient_on_net_status", sv)); err != nil {
 		if !fortiAPIPatch(o["forticlient-on-net-status"]) {
-			return fmt.Errorf("Error reading forticlient_on_net_status: %v", err)
+			return fmt.Errorf("error reading forticlient_on_net_status: %v", err)
 		}
 	}
 
 	if err = d.Set("dns_service", flattenSystemDhcpServerDnsService(o["dns-service"], d, "dns_service", sv)); err != nil {
 		if !fortiAPIPatch(o["dns-service"]) {
-			return fmt.Errorf("Error reading dns_service: %v", err)
+			return fmt.Errorf("error reading dns_service: %v", err)
 		}
 	}
 
 	if err = d.Set("dns_server1", flattenSystemDhcpServerDnsServer1(o["dns-server1"], d, "dns_server1", sv)); err != nil {
 		if !fortiAPIPatch(o["dns-server1"]) {
-			return fmt.Errorf("Error reading dns_server1: %v", err)
+			return fmt.Errorf("error reading dns_server1: %v", err)
 		}
 	}
 
 	if err = d.Set("dns_server2", flattenSystemDhcpServerDnsServer2(o["dns-server2"], d, "dns_server2", sv)); err != nil {
 		if !fortiAPIPatch(o["dns-server2"]) {
-			return fmt.Errorf("Error reading dns_server2: %v", err)
+			return fmt.Errorf("error reading dns_server2: %v", err)
 		}
 	}
 
 	if err = d.Set("dns_server3", flattenSystemDhcpServerDnsServer3(o["dns-server3"], d, "dns_server3", sv)); err != nil {
 		if !fortiAPIPatch(o["dns-server3"]) {
-			return fmt.Errorf("Error reading dns_server3: %v", err)
+			return fmt.Errorf("error reading dns_server3: %v", err)
 		}
 	}
 
 	if err = d.Set("dns_server4", flattenSystemDhcpServerDnsServer4(o["dns-server4"], d, "dns_server4", sv)); err != nil {
 		if !fortiAPIPatch(o["dns-server4"]) {
-			return fmt.Errorf("Error reading dns_server4: %v", err)
+			return fmt.Errorf("error reading dns_server4: %v", err)
 		}
 	}
 
 	if err = d.Set("wifi_ac_service", flattenSystemDhcpServerWifiAcService(o["wifi-ac-service"], d, "wifi_ac_service", sv)); err != nil {
 		if !fortiAPIPatch(o["wifi-ac-service"]) {
-			return fmt.Errorf("Error reading wifi_ac_service: %v", err)
+			return fmt.Errorf("error reading wifi_ac_service: %v", err)
 		}
 	}
 
 	if err = d.Set("wifi_ac1", flattenSystemDhcpServerWifiAc1(o["wifi-ac1"], d, "wifi_ac1", sv)); err != nil {
 		if !fortiAPIPatch(o["wifi-ac1"]) {
-			return fmt.Errorf("Error reading wifi_ac1: %v", err)
+			return fmt.Errorf("error reading wifi_ac1: %v", err)
 		}
 	}
 
 	if err = d.Set("wifi_ac2", flattenSystemDhcpServerWifiAc2(o["wifi-ac2"], d, "wifi_ac2", sv)); err != nil {
 		if !fortiAPIPatch(o["wifi-ac2"]) {
-			return fmt.Errorf("Error reading wifi_ac2: %v", err)
+			return fmt.Errorf("error reading wifi_ac2: %v", err)
 		}
 	}
 
 	if err = d.Set("wifi_ac3", flattenSystemDhcpServerWifiAc3(o["wifi-ac3"], d, "wifi_ac3", sv)); err != nil {
 		if !fortiAPIPatch(o["wifi-ac3"]) {
-			return fmt.Errorf("Error reading wifi_ac3: %v", err)
+			return fmt.Errorf("error reading wifi_ac3: %v", err)
 		}
 	}
 
 	if err = d.Set("ntp_service", flattenSystemDhcpServerNtpService(o["ntp-service"], d, "ntp_service", sv)); err != nil {
 		if !fortiAPIPatch(o["ntp-service"]) {
-			return fmt.Errorf("Error reading ntp_service: %v", err)
+			return fmt.Errorf("error reading ntp_service: %v", err)
 		}
 	}
 
 	if err = d.Set("ntp_server1", flattenSystemDhcpServerNtpServer1(o["ntp-server1"], d, "ntp_server1", sv)); err != nil {
 		if !fortiAPIPatch(o["ntp-server1"]) {
-			return fmt.Errorf("Error reading ntp_server1: %v", err)
+			return fmt.Errorf("error reading ntp_server1: %v", err)
 		}
 	}
 
 	if err = d.Set("ntp_server2", flattenSystemDhcpServerNtpServer2(o["ntp-server2"], d, "ntp_server2", sv)); err != nil {
 		if !fortiAPIPatch(o["ntp-server2"]) {
-			return fmt.Errorf("Error reading ntp_server2: %v", err)
+			return fmt.Errorf("error reading ntp_server2: %v", err)
 		}
 	}
 
 	if err = d.Set("ntp_server3", flattenSystemDhcpServerNtpServer3(o["ntp-server3"], d, "ntp_server3", sv)); err != nil {
 		if !fortiAPIPatch(o["ntp-server3"]) {
-			return fmt.Errorf("Error reading ntp_server3: %v", err)
+			return fmt.Errorf("error reading ntp_server3: %v", err)
 		}
 	}
 
 	if err = d.Set("domain", flattenSystemDhcpServerDomain(o["domain"], d, "domain", sv)); err != nil {
 		if !fortiAPIPatch(o["domain"]) {
-			return fmt.Errorf("Error reading domain: %v", err)
+			return fmt.Errorf("error reading domain: %v", err)
 		}
 	}
 
 	if err = d.Set("wins_server1", flattenSystemDhcpServerWinsServer1(o["wins-server1"], d, "wins_server1", sv)); err != nil {
 		if !fortiAPIPatch(o["wins-server1"]) {
-			return fmt.Errorf("Error reading wins_server1: %v", err)
+			return fmt.Errorf("error reading wins_server1: %v", err)
 		}
 	}
 
 	if err = d.Set("wins_server2", flattenSystemDhcpServerWinsServer2(o["wins-server2"], d, "wins_server2", sv)); err != nil {
 		if !fortiAPIPatch(o["wins-server2"]) {
-			return fmt.Errorf("Error reading wins_server2: %v", err)
+			return fmt.Errorf("error reading wins_server2: %v", err)
 		}
 	}
 
 	if err = d.Set("default_gateway", flattenSystemDhcpServerDefaultGateway(o["default-gateway"], d, "default_gateway", sv)); err != nil {
 		if !fortiAPIPatch(o["default-gateway"]) {
-			return fmt.Errorf("Error reading default_gateway: %v", err)
+			return fmt.Errorf("error reading default_gateway: %v", err)
 		}
 	}
 
 	if err = d.Set("next_server", flattenSystemDhcpServerNextServer(o["next-server"], d, "next_server", sv)); err != nil {
 		if !fortiAPIPatch(o["next-server"]) {
-			return fmt.Errorf("Error reading next_server: %v", err)
+			return fmt.Errorf("error reading next_server: %v", err)
 		}
 	}
 
 	if err = d.Set("netmask", flattenSystemDhcpServerNetmask(o["netmask"], d, "netmask", sv)); err != nil {
 		if !fortiAPIPatch(o["netmask"]) {
-			return fmt.Errorf("Error reading netmask: %v", err)
+			return fmt.Errorf("error reading netmask: %v", err)
 		}
 	}
 
 	if err = d.Set("interface", flattenSystemDhcpServerInterface(o["interface"], d, "interface", sv)); err != nil {
 		if !fortiAPIPatch(o["interface"]) {
-			return fmt.Errorf("Error reading interface: %v", err)
+			return fmt.Errorf("error reading interface: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("ip_range", flattenSystemDhcpServerIpRange(o["ip-range"], d, "ip_range", sv)); err != nil {
 			if !fortiAPIPatch(o["ip-range"]) {
-				return fmt.Errorf("Error reading ip_range: %v", err)
+				return fmt.Errorf("error reading ip_range: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("ip_range"); ok {
 			if err = d.Set("ip_range", flattenSystemDhcpServerIpRange(o["ip-range"], d, "ip_range", sv)); err != nil {
 				if !fortiAPIPatch(o["ip-range"]) {
-					return fmt.Errorf("Error reading ip_range: %v", err)
+					return fmt.Errorf("error reading ip_range: %v", err)
 				}
 			}
 		}
@@ -1307,27 +1350,27 @@ func refreshObjectSystemDhcpServer(d *schema.ResourceData, o map[string]interfac
 
 	if err = d.Set("timezone_option", flattenSystemDhcpServerTimezoneOption(o["timezone-option"], d, "timezone_option", sv)); err != nil {
 		if !fortiAPIPatch(o["timezone-option"]) {
-			return fmt.Errorf("Error reading timezone_option: %v", err)
+			return fmt.Errorf("error reading timezone_option: %v", err)
 		}
 	}
 
 	if err = d.Set("timezone", flattenSystemDhcpServerTimezone(o["timezone"], d, "timezone", sv)); err != nil {
 		if !fortiAPIPatch(o["timezone"]) {
-			return fmt.Errorf("Error reading timezone: %v", err)
+			return fmt.Errorf("error reading timezone: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("tftp_server", flattenSystemDhcpServerTftpServer(o["tftp-server"], d, "tftp_server", sv)); err != nil {
 			if !fortiAPIPatch(o["tftp-server"]) {
-				return fmt.Errorf("Error reading tftp_server: %v", err)
+				return fmt.Errorf("error reading tftp_server: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("tftp_server"); ok {
 			if err = d.Set("tftp_server", flattenSystemDhcpServerTftpServer(o["tftp-server"], d, "tftp_server", sv)); err != nil {
 				if !fortiAPIPatch(o["tftp-server"]) {
-					return fmt.Errorf("Error reading tftp_server: %v", err)
+					return fmt.Errorf("error reading tftp_server: %v", err)
 				}
 			}
 		}
@@ -1335,21 +1378,21 @@ func refreshObjectSystemDhcpServer(d *schema.ResourceData, o map[string]interfac
 
 	if err = d.Set("filename", flattenSystemDhcpServerFilename(o["filename"], d, "filename", sv)); err != nil {
 		if !fortiAPIPatch(o["filename"]) {
-			return fmt.Errorf("Error reading filename: %v", err)
+			return fmt.Errorf("error reading filename: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("options", flattenSystemDhcpServerOptions(o["options"], d, "options", sv)); err != nil {
 			if !fortiAPIPatch(o["options"]) {
-				return fmt.Errorf("Error reading options: %v", err)
+				return fmt.Errorf("error reading options: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("options"); ok {
 			if err = d.Set("options", flattenSystemDhcpServerOptions(o["options"], d, "options", sv)); err != nil {
 				if !fortiAPIPatch(o["options"]) {
-					return fmt.Errorf("Error reading options: %v", err)
+					return fmt.Errorf("error reading options: %v", err)
 				}
 			}
 		}
@@ -1357,105 +1400,105 @@ func refreshObjectSystemDhcpServer(d *schema.ResourceData, o map[string]interfac
 
 	if err = d.Set("server_type", flattenSystemDhcpServerServerType(o["server-type"], d, "server_type", sv)); err != nil {
 		if !fortiAPIPatch(o["server-type"]) {
-			return fmt.Errorf("Error reading server_type: %v", err)
+			return fmt.Errorf("error reading server_type: %v", err)
 		}
 	}
 
 	if err = d.Set("ip_mode", flattenSystemDhcpServerIpMode(o["ip-mode"], d, "ip_mode", sv)); err != nil {
 		if !fortiAPIPatch(o["ip-mode"]) {
-			return fmt.Errorf("Error reading ip_mode: %v", err)
+			return fmt.Errorf("error reading ip_mode: %v", err)
 		}
 	}
 
 	if err = d.Set("conflicted_ip_timeout", flattenSystemDhcpServerConflictedIpTimeout(o["conflicted-ip-timeout"], d, "conflicted_ip_timeout", sv)); err != nil {
 		if !fortiAPIPatch(o["conflicted-ip-timeout"]) {
-			return fmt.Errorf("Error reading conflicted_ip_timeout: %v", err)
+			return fmt.Errorf("error reading conflicted_ip_timeout: %v", err)
 		}
 	}
 
 	if err = d.Set("ipsec_lease_hold", flattenSystemDhcpServerIpsecLeaseHold(o["ipsec-lease-hold"], d, "ipsec_lease_hold", sv)); err != nil {
 		if !fortiAPIPatch(o["ipsec-lease-hold"]) {
-			return fmt.Errorf("Error reading ipsec_lease_hold: %v", err)
+			return fmt.Errorf("error reading ipsec_lease_hold: %v", err)
 		}
 	}
 
 	if err = d.Set("auto_configuration", flattenSystemDhcpServerAutoConfiguration(o["auto-configuration"], d, "auto_configuration", sv)); err != nil {
 		if !fortiAPIPatch(o["auto-configuration"]) {
-			return fmt.Errorf("Error reading auto_configuration: %v", err)
+			return fmt.Errorf("error reading auto_configuration: %v", err)
 		}
 	}
 
 	if err = d.Set("dhcp_settings_from_fortiipam", flattenSystemDhcpServerDhcpSettingsFromFortiipam(o["dhcp-settings-from-fortiipam"], d, "dhcp_settings_from_fortiipam", sv)); err != nil {
 		if !fortiAPIPatch(o["dhcp-settings-from-fortiipam"]) {
-			return fmt.Errorf("Error reading dhcp_settings_from_fortiipam: %v", err)
+			return fmt.Errorf("error reading dhcp_settings_from_fortiipam: %v", err)
 		}
 	}
 
 	if err = d.Set("auto_managed_status", flattenSystemDhcpServerAutoManagedStatus(o["auto-managed-status"], d, "auto_managed_status", sv)); err != nil {
 		if !fortiAPIPatch(o["auto-managed-status"]) {
-			return fmt.Errorf("Error reading auto_managed_status: %v", err)
+			return fmt.Errorf("error reading auto_managed_status: %v", err)
 		}
 	}
 
 	if err = d.Set("ddns_update", flattenSystemDhcpServerDdnsUpdate(o["ddns-update"], d, "ddns_update", sv)); err != nil {
 		if !fortiAPIPatch(o["ddns-update"]) {
-			return fmt.Errorf("Error reading ddns_update: %v", err)
+			return fmt.Errorf("error reading ddns_update: %v", err)
 		}
 	}
 
 	if err = d.Set("ddns_update_override", flattenSystemDhcpServerDdnsUpdateOverride(o["ddns-update-override"], d, "ddns_update_override", sv)); err != nil {
 		if !fortiAPIPatch(o["ddns-update-override"]) {
-			return fmt.Errorf("Error reading ddns_update_override: %v", err)
+			return fmt.Errorf("error reading ddns_update_override: %v", err)
 		}
 	}
 
 	if err = d.Set("ddns_server_ip", flattenSystemDhcpServerDdnsServerIp(o["ddns-server-ip"], d, "ddns_server_ip", sv)); err != nil {
 		if !fortiAPIPatch(o["ddns-server-ip"]) {
-			return fmt.Errorf("Error reading ddns_server_ip: %v", err)
+			return fmt.Errorf("error reading ddns_server_ip: %v", err)
 		}
 	}
 
 	if err = d.Set("ddns_zone", flattenSystemDhcpServerDdnsZone(o["ddns-zone"], d, "ddns_zone", sv)); err != nil {
 		if !fortiAPIPatch(o["ddns-zone"]) {
-			return fmt.Errorf("Error reading ddns_zone: %v", err)
+			return fmt.Errorf("error reading ddns_zone: %v", err)
 		}
 	}
 
 	if err = d.Set("ddns_auth", flattenSystemDhcpServerDdnsAuth(o["ddns-auth"], d, "ddns_auth", sv)); err != nil {
 		if !fortiAPIPatch(o["ddns-auth"]) {
-			return fmt.Errorf("Error reading ddns_auth: %v", err)
+			return fmt.Errorf("error reading ddns_auth: %v", err)
 		}
 	}
 
 	if err = d.Set("ddns_keyname", flattenSystemDhcpServerDdnsKeyname(o["ddns-keyname"], d, "ddns_keyname", sv)); err != nil {
 		if !fortiAPIPatch(o["ddns-keyname"]) {
-			return fmt.Errorf("Error reading ddns_keyname: %v", err)
+			return fmt.Errorf("error reading ddns_keyname: %v", err)
 		}
 	}
 
 	if err = d.Set("ddns_ttl", flattenSystemDhcpServerDdnsTtl(o["ddns-ttl"], d, "ddns_ttl", sv)); err != nil {
 		if !fortiAPIPatch(o["ddns-ttl"]) {
-			return fmt.Errorf("Error reading ddns_ttl: %v", err)
+			return fmt.Errorf("error reading ddns_ttl: %v", err)
 		}
 	}
 
 	if err = d.Set("vci_match", flattenSystemDhcpServerVciMatch(o["vci-match"], d, "vci_match", sv)); err != nil {
 		if !fortiAPIPatch(o["vci-match"]) {
-			return fmt.Errorf("Error reading vci_match: %v", err)
+			return fmt.Errorf("error reading vci_match: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("vci_string", flattenSystemDhcpServerVciString(o["vci-string"], d, "vci_string", sv)); err != nil {
 			if !fortiAPIPatch(o["vci-string"]) {
-				return fmt.Errorf("Error reading vci_string: %v", err)
+				return fmt.Errorf("error reading vci_string: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("vci_string"); ok {
 			if err = d.Set("vci_string", flattenSystemDhcpServerVciString(o["vci-string"], d, "vci_string", sv)); err != nil {
 				if !fortiAPIPatch(o["vci-string"]) {
-					return fmt.Errorf("Error reading vci_string: %v", err)
+					return fmt.Errorf("error reading vci_string: %v", err)
 				}
 			}
 		}
@@ -1464,14 +1507,14 @@ func refreshObjectSystemDhcpServer(d *schema.ResourceData, o map[string]interfac
 	if isImportTable() {
 		if err = d.Set("exclude_range", flattenSystemDhcpServerExcludeRange(o["exclude-range"], d, "exclude_range", sv)); err != nil {
 			if !fortiAPIPatch(o["exclude-range"]) {
-				return fmt.Errorf("Error reading exclude_range: %v", err)
+				return fmt.Errorf("error reading exclude_range: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("exclude_range"); ok {
 			if err = d.Set("exclude_range", flattenSystemDhcpServerExcludeRange(o["exclude-range"], d, "exclude_range", sv)); err != nil {
 				if !fortiAPIPatch(o["exclude-range"]) {
-					return fmt.Errorf("Error reading exclude_range: %v", err)
+					return fmt.Errorf("error reading exclude_range: %v", err)
 				}
 			}
 		}
@@ -1480,14 +1523,14 @@ func refreshObjectSystemDhcpServer(d *schema.ResourceData, o map[string]interfac
 	if isImportTable() {
 		if err = d.Set("reserved_address", flattenSystemDhcpServerReservedAddress(o["reserved-address"], d, "reserved_address", sv)); err != nil {
 			if !fortiAPIPatch(o["reserved-address"]) {
-				return fmt.Errorf("Error reading reserved_address: %v", err)
+				return fmt.Errorf("error reading reserved_address: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("reserved_address"); ok {
 			if err = d.Set("reserved_address", flattenSystemDhcpServerReservedAddress(o["reserved-address"], d, "reserved_address", sv)); err != nil {
 				if !fortiAPIPatch(o["reserved-address"]) {
-					return fmt.Errorf("Error reading reserved_address: %v", err)
+					return fmt.Errorf("error reading reserved_address: %v", err)
 				}
 			}
 		}

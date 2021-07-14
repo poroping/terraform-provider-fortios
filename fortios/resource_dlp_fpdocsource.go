@@ -30,108 +30,113 @@ func resourceDlpFpDocSource() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"server_type": &schema.Schema{
+			"server_type": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"server": &schema.Schema{
+			"server": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Required:     true,
 			},
-			"period": &schema.Schema{
+			"period": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"vdom": &schema.Schema{
+			"vdom": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"scan_subdirectories": &schema.Schema{
+			"scan_subdirectories": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"scan_on_creation": &schema.Schema{
+			"scan_on_creation": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"remove_deleted": &schema.Schema{
+			"remove_deleted": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"keep_modified": &schema.Schema{
+			"keep_modified": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"username": &schema.Schema{
+			"username": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Required:     true,
 			},
-			"password": &schema.Schema{
+			"password": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 128),
 				Optional:     true,
 				Sensitive:    true,
 			},
-			"file_path": &schema.Schema{
+			"file_path": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 119),
 				Optional:     true,
 				Computed:     true,
 			},
-			"file_pattern": &schema.Schema{
+			"file_pattern": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"sensitivity": &schema.Schema{
+			"sensitivity": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"tod_hour": &schema.Schema{
+			"tod_hour": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 23),
 				Optional:     true,
 				Computed:     true,
 			},
-			"tod_min": &schema.Schema{
+			"tod_min": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 59),
 				Optional:     true,
 				Computed:     true,
 			},
-			"weekday": &schema.Schema{
+			"weekday": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"date": &schema.Schema{
+			"date": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 31),
 				Optional:     true,
 				Computed:     true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -149,15 +154,25 @@ func resourceDlpFpDocSourceCreate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectDlpFpDocSource(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating DlpFpDocSource resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateDlpFpDocSource(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectDlpFpDocSource(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating DlpFpDocSource resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateDlpFpDocSource(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating DlpFpDocSource resource: %v", err)
+		return fmt.Errorf("error creating DlpFpDocSource resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -182,14 +197,24 @@ func resourceDlpFpDocSourceUpdate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectDlpFpDocSource(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating DlpFpDocSource resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateDlpFpDocSource(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectDlpFpDocSource(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating DlpFpDocSource resource: %v", err)
+		return fmt.Errorf("error updating DlpFpDocSource resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateDlpFpDocSource(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating DlpFpDocSource resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -216,9 +241,17 @@ func resourceDlpFpDocSourceDelete(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	err := c.DeleteDlpFpDocSource(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteDlpFpDocSource(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting DlpFpDocSource resource: %v", err)
+		return fmt.Errorf("error deleting DlpFpDocSource resource: %v", err)
 	}
 
 	d.SetId("")
@@ -240,9 +273,19 @@ func resourceDlpFpDocSourceRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadDlpFpDocSource(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadDlpFpDocSource(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading DlpFpDocSource resource: %v", err)
+		return fmt.Errorf("error reading DlpFpDocSource resource: %v", err)
 	}
 
 	if o == nil {
@@ -253,7 +296,7 @@ func resourceDlpFpDocSourceRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectDlpFpDocSource(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading DlpFpDocSource resource from API: %v", err)
+		return fmt.Errorf("error reading DlpFpDocSource resource from API: %v", err)
 	}
 	return nil
 }
@@ -335,103 +378,103 @@ func refreshObjectDlpFpDocSource(d *schema.ResourceData, o map[string]interface{
 
 	if err = d.Set("name", flattenDlpFpDocSourceName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("server_type", flattenDlpFpDocSourceServerType(o["server-type"], d, "server_type", sv)); err != nil {
 		if !fortiAPIPatch(o["server-type"]) {
-			return fmt.Errorf("Error reading server_type: %v", err)
+			return fmt.Errorf("error reading server_type: %v", err)
 		}
 	}
 
 	if err = d.Set("server", flattenDlpFpDocSourceServer(o["server"], d, "server", sv)); err != nil {
 		if !fortiAPIPatch(o["server"]) {
-			return fmt.Errorf("Error reading server: %v", err)
+			return fmt.Errorf("error reading server: %v", err)
 		}
 	}
 
 	if err = d.Set("period", flattenDlpFpDocSourcePeriod(o["period"], d, "period", sv)); err != nil {
 		if !fortiAPIPatch(o["period"]) {
-			return fmt.Errorf("Error reading period: %v", err)
+			return fmt.Errorf("error reading period: %v", err)
 		}
 	}
 
 	if err = d.Set("vdom", flattenDlpFpDocSourceVdom(o["vdom"], d, "vdom", sv)); err != nil {
 		if !fortiAPIPatch(o["vdom"]) {
-			return fmt.Errorf("Error reading vdom: %v", err)
+			return fmt.Errorf("error reading vdom: %v", err)
 		}
 	}
 
 	if err = d.Set("scan_subdirectories", flattenDlpFpDocSourceScanSubdirectories(o["scan-subdirectories"], d, "scan_subdirectories", sv)); err != nil {
 		if !fortiAPIPatch(o["scan-subdirectories"]) {
-			return fmt.Errorf("Error reading scan_subdirectories: %v", err)
+			return fmt.Errorf("error reading scan_subdirectories: %v", err)
 		}
 	}
 
 	if err = d.Set("scan_on_creation", flattenDlpFpDocSourceScanOnCreation(o["scan-on-creation"], d, "scan_on_creation", sv)); err != nil {
 		if !fortiAPIPatch(o["scan-on-creation"]) {
-			return fmt.Errorf("Error reading scan_on_creation: %v", err)
+			return fmt.Errorf("error reading scan_on_creation: %v", err)
 		}
 	}
 
 	if err = d.Set("remove_deleted", flattenDlpFpDocSourceRemoveDeleted(o["remove-deleted"], d, "remove_deleted", sv)); err != nil {
 		if !fortiAPIPatch(o["remove-deleted"]) {
-			return fmt.Errorf("Error reading remove_deleted: %v", err)
+			return fmt.Errorf("error reading remove_deleted: %v", err)
 		}
 	}
 
 	if err = d.Set("keep_modified", flattenDlpFpDocSourceKeepModified(o["keep-modified"], d, "keep_modified", sv)); err != nil {
 		if !fortiAPIPatch(o["keep-modified"]) {
-			return fmt.Errorf("Error reading keep_modified: %v", err)
+			return fmt.Errorf("error reading keep_modified: %v", err)
 		}
 	}
 
 	if err = d.Set("username", flattenDlpFpDocSourceUsername(o["username"], d, "username", sv)); err != nil {
 		if !fortiAPIPatch(o["username"]) {
-			return fmt.Errorf("Error reading username: %v", err)
+			return fmt.Errorf("error reading username: %v", err)
 		}
 	}
 
 	if err = d.Set("file_path", flattenDlpFpDocSourceFilePath(o["file-path"], d, "file_path", sv)); err != nil {
 		if !fortiAPIPatch(o["file-path"]) {
-			return fmt.Errorf("Error reading file_path: %v", err)
+			return fmt.Errorf("error reading file_path: %v", err)
 		}
 	}
 
 	if err = d.Set("file_pattern", flattenDlpFpDocSourceFilePattern(o["file-pattern"], d, "file_pattern", sv)); err != nil {
 		if !fortiAPIPatch(o["file-pattern"]) {
-			return fmt.Errorf("Error reading file_pattern: %v", err)
+			return fmt.Errorf("error reading file_pattern: %v", err)
 		}
 	}
 
 	if err = d.Set("sensitivity", flattenDlpFpDocSourceSensitivity(o["sensitivity"], d, "sensitivity", sv)); err != nil {
 		if !fortiAPIPatch(o["sensitivity"]) {
-			return fmt.Errorf("Error reading sensitivity: %v", err)
+			return fmt.Errorf("error reading sensitivity: %v", err)
 		}
 	}
 
 	if err = d.Set("tod_hour", flattenDlpFpDocSourceTodHour(o["tod-hour"], d, "tod_hour", sv)); err != nil {
 		if !fortiAPIPatch(o["tod-hour"]) {
-			return fmt.Errorf("Error reading tod_hour: %v", err)
+			return fmt.Errorf("error reading tod_hour: %v", err)
 		}
 	}
 
 	if err = d.Set("tod_min", flattenDlpFpDocSourceTodMin(o["tod-min"], d, "tod_min", sv)); err != nil {
 		if !fortiAPIPatch(o["tod-min"]) {
-			return fmt.Errorf("Error reading tod_min: %v", err)
+			return fmt.Errorf("error reading tod_min: %v", err)
 		}
 	}
 
 	if err = d.Set("weekday", flattenDlpFpDocSourceWeekday(o["weekday"], d, "weekday", sv)); err != nil {
 		if !fortiAPIPatch(o["weekday"]) {
-			return fmt.Errorf("Error reading weekday: %v", err)
+			return fmt.Errorf("error reading weekday: %v", err)
 		}
 	}
 
 	if err = d.Set("date", flattenDlpFpDocSourceDate(o["date"], d, "date", sv)); err != nil {
 		if !fortiAPIPatch(o["date"]) {
-			return fmt.Errorf("Error reading date: %v", err)
+			return fmt.Errorf("error reading date: %v", err)
 		}
 	}
 

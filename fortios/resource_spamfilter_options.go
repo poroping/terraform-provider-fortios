@@ -30,16 +30,21 @@ func resourceSpamfilterOptions() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"dns_timeout": &schema.Schema{
+			"dns_timeout": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 30),
 				Optional:     true,
 				Computed:     true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -58,14 +63,24 @@ func resourceSpamfilterOptionsUpdate(d *schema.ResourceData, m interface{}) erro
 		}
 	}
 
-	obj, err := getObjectSpamfilterOptions(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SpamfilterOptions resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSpamfilterOptions(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSpamfilterOptions(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SpamfilterOptions resource: %v", err)
+		return fmt.Errorf("error updating SpamfilterOptions resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSpamfilterOptions(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SpamfilterOptions resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -92,9 +107,17 @@ func resourceSpamfilterOptionsDelete(d *schema.ResourceData, m interface{}) erro
 		}
 	}
 
-	err := c.DeleteSpamfilterOptions(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSpamfilterOptions(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SpamfilterOptions resource: %v", err)
+		return fmt.Errorf("error deleting SpamfilterOptions resource: %v", err)
 	}
 
 	d.SetId("")
@@ -116,9 +139,19 @@ func resourceSpamfilterOptionsRead(d *schema.ResourceData, m interface{}) error 
 		}
 	}
 
-	o, err := c.ReadSpamfilterOptions(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSpamfilterOptions(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SpamfilterOptions resource: %v", err)
+		return fmt.Errorf("error reading SpamfilterOptions resource: %v", err)
 	}
 
 	if o == nil {
@@ -129,7 +162,7 @@ func resourceSpamfilterOptionsRead(d *schema.ResourceData, m interface{}) error 
 
 	err = refreshObjectSpamfilterOptions(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SpamfilterOptions resource from API: %v", err)
+		return fmt.Errorf("error reading SpamfilterOptions resource from API: %v", err)
 	}
 	return nil
 }
@@ -143,7 +176,7 @@ func refreshObjectSpamfilterOptions(d *schema.ResourceData, o map[string]interfa
 
 	if err = d.Set("dns_timeout", flattenSpamfilterOptionsDnsTimeout(o["dns-timeout"], d, "dns_timeout", sv)); err != nil {
 		if !fortiAPIPatch(o["dns-timeout"]) {
-			return fmt.Errorf("Error reading dns_timeout: %v", err)
+			return fmt.Errorf("error reading dns_timeout: %v", err)
 		}
 	}
 

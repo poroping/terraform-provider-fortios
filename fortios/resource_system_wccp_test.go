@@ -67,14 +67,14 @@ func testAccCheckFortiOSSystemWccpExists(n string) resource.TestCheckFunc {
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemWccp(i, "root")
+		o, err := c.ReadSystemWccp(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading SystemWccp: %s", err)
+			return fmt.Errorf("error reading SystemWccp: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating SystemWccp: %s", n)
+			return fmt.Errorf("error creating SystemWccp: %s", n)
 		}
 
 		return nil
@@ -90,11 +90,11 @@ func testAccCheckSystemWccpDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemWccp(i, "root")
+		o, err := c.ReadSystemWccp(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error SystemWccp %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error SystemWccp %s still exists", rs.Primary.ID)
 			}
 		}
 

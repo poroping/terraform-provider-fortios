@@ -30,34 +30,34 @@ func resourceFirewallPolicy6() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"policyid": &schema.Schema{
+			"policyid": {
 				Type:     schema.TypeInt,
 				ForceNew: true,
 				Optional: true,
 				Computed: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"uuid": &schema.Schema{
+			"uuid": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"srcintf": &schema.Schema{
+			"srcintf": {
 				Type:     schema.TypeList,
 				Required: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 64),
 							Optional:     true,
@@ -66,12 +66,12 @@ func resourceFirewallPolicy6() *schema.Resource {
 					},
 				},
 			},
-			"dstintf": &schema.Schema{
+			"dstintf": {
 				Type:     schema.TypeList,
 				Required: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 64),
 							Optional:     true,
@@ -80,12 +80,12 @@ func resourceFirewallPolicy6() *schema.Resource {
 					},
 				},
 			},
-			"srcaddr": &schema.Schema{
+			"srcaddr": {
 				Type:     schema.TypeList,
 				Required: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 64),
 							Optional:     true,
@@ -94,12 +94,12 @@ func resourceFirewallPolicy6() *schema.Resource {
 					},
 				},
 			},
-			"dstaddr": &schema.Schema{
+			"dstaddr": {
 				Type:     schema.TypeList,
 				Required: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 64),
 							Optional:     true,
@@ -108,44 +108,44 @@ func resourceFirewallPolicy6() *schema.Resource {
 					},
 				},
 			},
-			"action": &schema.Schema{
+			"action": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"firewall_session_dirty": &schema.Schema{
+			"firewall_session_dirty": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"status": &schema.Schema{
+			"status": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"vlan_cos_fwd": &schema.Schema{
+			"vlan_cos_fwd": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 7),
 				Optional:     true,
 				Computed:     true,
 			},
-			"vlan_cos_rev": &schema.Schema{
+			"vlan_cos_rev": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 7),
 				Optional:     true,
 				Computed:     true,
 			},
-			"schedule": &schema.Schema{
+			"schedule": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Required:     true,
 			},
-			"service": &schema.Schema{
+			"service": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 64),
 							Optional:     true,
@@ -154,213 +154,213 @@ func resourceFirewallPolicy6() *schema.Resource {
 					},
 				},
 			},
-			"tos": &schema.Schema{
+			"tos": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"tos_mask": &schema.Schema{
+			"tos_mask": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"tos_negate": &schema.Schema{
+			"tos_negate": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"tcp_session_without_syn": &schema.Schema{
+			"tcp_session_without_syn": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"anti_replay": &schema.Schema{
+			"anti_replay": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"utm_status": &schema.Schema{
+			"utm_status": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"inspection_mode": &schema.Schema{
+			"inspection_mode": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"webcache": &schema.Schema{
+			"webcache": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"webcache_https": &schema.Schema{
+			"webcache_https": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"http_policy_redirect": &schema.Schema{
+			"http_policy_redirect": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ssh_policy_redirect": &schema.Schema{
+			"ssh_policy_redirect": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"webproxy_profile": &schema.Schema{
+			"webproxy_profile": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"profile_type": &schema.Schema{
+			"profile_type": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"profile_group": &schema.Schema{
+			"profile_group": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"av_profile": &schema.Schema{
+			"av_profile": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"webfilter_profile": &schema.Schema{
+			"webfilter_profile": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"dnsfilter_profile": &schema.Schema{
+			"dnsfilter_profile": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"emailfilter_profile": &schema.Schema{
+			"emailfilter_profile": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"spamfilter_profile": &schema.Schema{
+			"spamfilter_profile": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"dlp_sensor": &schema.Schema{
+			"dlp_sensor": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"ips_sensor": &schema.Schema{
+			"ips_sensor": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"application_list": &schema.Schema{
+			"application_list": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"voip_profile": &schema.Schema{
+			"voip_profile": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"icap_profile": &schema.Schema{
+			"icap_profile": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"cifs_profile": &schema.Schema{
+			"cifs_profile": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"waf_profile": &schema.Schema{
+			"waf_profile": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"ssh_filter_profile": &schema.Schema{
+			"ssh_filter_profile": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"profile_protocol_options": &schema.Schema{
+			"profile_protocol_options": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"ssl_ssh_profile": &schema.Schema{
+			"ssl_ssh_profile": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"logtraffic": &schema.Schema{
+			"logtraffic": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"logtraffic_start": &schema.Schema{
+			"logtraffic_start": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"auto_asic_offload": &schema.Schema{
+			"auto_asic_offload": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"webproxy_forward_server": &schema.Schema{
+			"webproxy_forward_server": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"traffic_shaper": &schema.Schema{
+			"traffic_shaper": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"traffic_shaper_reverse": &schema.Schema{
+			"traffic_shaper_reverse": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"per_ip_shaper": &schema.Schema{
+			"per_ip_shaper": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"application": &schema.Schema{
+			"application": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
@@ -368,12 +368,12 @@ func resourceFirewallPolicy6() *schema.Resource {
 					},
 				},
 			},
-			"app_category": &schema.Schema{
+			"app_category": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
@@ -381,12 +381,12 @@ func resourceFirewallPolicy6() *schema.Resource {
 					},
 				},
 			},
-			"url_category": &schema.Schema{
+			"url_category": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
@@ -394,12 +394,12 @@ func resourceFirewallPolicy6() *schema.Resource {
 					},
 				},
 			},
-			"app_group": &schema.Schema{
+			"app_group": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 64),
 							Optional:     true,
@@ -408,27 +408,27 @@ func resourceFirewallPolicy6() *schema.Resource {
 					},
 				},
 			},
-			"nat": &schema.Schema{
+			"nat": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"fixedport": &schema.Schema{
+			"fixedport": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ippool": &schema.Schema{
+			"ippool": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"poolname": &schema.Schema{
+			"poolname": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 64),
 							Optional:     true,
@@ -437,103 +437,103 @@ func resourceFirewallPolicy6() *schema.Resource {
 					},
 				},
 			},
-			"session_ttl": &schema.Schema{
+			"session_ttl": {
 				Type:         schema.TypeInt,
 				ValidateFunc: intBetweenWithZero(300, 604800),
 				Optional:     true,
 				Computed:     true,
 			},
-			"inbound": &schema.Schema{
+			"inbound": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"outbound": &schema.Schema{
+			"outbound": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"natinbound": &schema.Schema{
+			"natinbound": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"natoutbound": &schema.Schema{
+			"natoutbound": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"send_deny_packet": &schema.Schema{
+			"send_deny_packet": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"vpntunnel": &schema.Schema{
+			"vpntunnel": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"diffserv_forward": &schema.Schema{
+			"diffserv_forward": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"diffserv_reverse": &schema.Schema{
+			"diffserv_reverse": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"diffservcode_forward": &schema.Schema{
+			"diffservcode_forward": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"diffservcode_rev": &schema.Schema{
+			"diffservcode_rev": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"tcp_mss_sender": &schema.Schema{
+			"tcp_mss_sender": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"tcp_mss_receiver": &schema.Schema{
+			"tcp_mss_receiver": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"comments": &schema.Schema{
+			"comments": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 1023),
 				Optional:     true,
 			},
-			"label": &schema.Schema{
+			"label": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"global_label": &schema.Schema{
+			"global_label": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"rsso": &schema.Schema{
+			"rsso": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"custom_log_fields": &schema.Schema{
+			"custom_log_fields": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"field_id": &schema.Schema{
+						"field_id": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
@@ -542,33 +542,33 @@ func resourceFirewallPolicy6() *schema.Resource {
 					},
 				},
 			},
-			"replacemsg_override_group": &schema.Schema{
+			"replacemsg_override_group": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"srcaddr_negate": &schema.Schema{
+			"srcaddr_negate": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"dstaddr_negate": &schema.Schema{
+			"dstaddr_negate": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"service_negate": &schema.Schema{
+			"service_negate": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"groups": &schema.Schema{
+			"groups": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 64),
 							Optional:     true,
@@ -577,12 +577,12 @@ func resourceFirewallPolicy6() *schema.Resource {
 					},
 				},
 			},
-			"users": &schema.Schema{
+			"users": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 64),
 							Optional:     true,
@@ -591,12 +591,12 @@ func resourceFirewallPolicy6() *schema.Resource {
 					},
 				},
 			},
-			"devices": &schema.Schema{
+			"devices": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
@@ -605,28 +605,28 @@ func resourceFirewallPolicy6() *schema.Resource {
 					},
 				},
 			},
-			"timeout_send_rst": &schema.Schema{
+			"timeout_send_rst": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"decrypted_traffic_mirror": &schema.Schema{
+			"decrypted_traffic_mirror": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"ssl_mirror": &schema.Schema{
+			"ssl_mirror": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ssl_mirror_intf": &schema.Schema{
+			"ssl_mirror_intf": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 64),
 							Optional:     true,
@@ -635,22 +635,22 @@ func resourceFirewallPolicy6() *schema.Resource {
 					},
 				},
 			},
-			"dsri": &schema.Schema{
+			"dsri": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"vlan_filter": &schema.Schema{
+			"vlan_filter": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"fsso_groups": &schema.Schema{
+			"fsso_groups": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 511),
 							Optional:     true,
@@ -659,10 +659,15 @@ func resourceFirewallPolicy6() *schema.Resource {
 					},
 				},
 			},
-			"dynamic_sort_subtable": &schema.Schema{
+			"dynamic_sort_subtable": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Default:  "false",
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -680,15 +685,25 @@ func resourceFirewallPolicy6Create(d *schema.ResourceData, m interface{}) error 
 		}
 	}
 
-	obj, err := getObjectFirewallPolicy6(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating FirewallPolicy6 resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateFirewallPolicy6(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectFirewallPolicy6(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating FirewallPolicy6 resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateFirewallPolicy6(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating FirewallPolicy6 resource: %v", err)
+		return fmt.Errorf("error creating FirewallPolicy6 resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -713,14 +728,24 @@ func resourceFirewallPolicy6Update(d *schema.ResourceData, m interface{}) error 
 		}
 	}
 
-	obj, err := getObjectFirewallPolicy6(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating FirewallPolicy6 resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateFirewallPolicy6(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectFirewallPolicy6(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating FirewallPolicy6 resource: %v", err)
+		return fmt.Errorf("error updating FirewallPolicy6 resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateFirewallPolicy6(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating FirewallPolicy6 resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -747,9 +772,17 @@ func resourceFirewallPolicy6Delete(d *schema.ResourceData, m interface{}) error 
 		}
 	}
 
-	err := c.DeleteFirewallPolicy6(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteFirewallPolicy6(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting FirewallPolicy6 resource: %v", err)
+		return fmt.Errorf("error deleting FirewallPolicy6 resource: %v", err)
 	}
 
 	d.SetId("")
@@ -771,9 +804,19 @@ func resourceFirewallPolicy6Read(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadFirewallPolicy6(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadFirewallPolicy6(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading FirewallPolicy6 resource: %v", err)
+		return fmt.Errorf("error reading FirewallPolicy6 resource: %v", err)
 	}
 
 	if o == nil {
@@ -784,7 +827,7 @@ func resourceFirewallPolicy6Read(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectFirewallPolicy6(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading FirewallPolicy6 resource from API: %v", err)
+		return fmt.Errorf("error reading FirewallPolicy6 resource from API: %v", err)
 	}
 	return nil
 }
@@ -1698,33 +1741,33 @@ func refreshObjectFirewallPolicy6(d *schema.ResourceData, o map[string]interface
 
 	if err = d.Set("policyid", flattenFirewallPolicy6Policyid(o["policyid"], d, "policyid", sv)); err != nil {
 		if !fortiAPIPatch(o["policyid"]) {
-			return fmt.Errorf("Error reading policyid: %v", err)
+			return fmt.Errorf("error reading policyid: %v", err)
 		}
 	}
 
 	if err = d.Set("name", flattenFirewallPolicy6Name(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("uuid", flattenFirewallPolicy6Uuid(o["uuid"], d, "uuid", sv)); err != nil {
 		if !fortiAPIPatch(o["uuid"]) {
-			return fmt.Errorf("Error reading uuid: %v", err)
+			return fmt.Errorf("error reading uuid: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("srcintf", flattenFirewallPolicy6Srcintf(o["srcintf"], d, "srcintf", sv)); err != nil {
 			if !fortiAPIPatch(o["srcintf"]) {
-				return fmt.Errorf("Error reading srcintf: %v", err)
+				return fmt.Errorf("error reading srcintf: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("srcintf"); ok {
 			if err = d.Set("srcintf", flattenFirewallPolicy6Srcintf(o["srcintf"], d, "srcintf", sv)); err != nil {
 				if !fortiAPIPatch(o["srcintf"]) {
-					return fmt.Errorf("Error reading srcintf: %v", err)
+					return fmt.Errorf("error reading srcintf: %v", err)
 				}
 			}
 		}
@@ -1733,14 +1776,14 @@ func refreshObjectFirewallPolicy6(d *schema.ResourceData, o map[string]interface
 	if isImportTable() {
 		if err = d.Set("dstintf", flattenFirewallPolicy6Dstintf(o["dstintf"], d, "dstintf", sv)); err != nil {
 			if !fortiAPIPatch(o["dstintf"]) {
-				return fmt.Errorf("Error reading dstintf: %v", err)
+				return fmt.Errorf("error reading dstintf: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("dstintf"); ok {
 			if err = d.Set("dstintf", flattenFirewallPolicy6Dstintf(o["dstintf"], d, "dstintf", sv)); err != nil {
 				if !fortiAPIPatch(o["dstintf"]) {
-					return fmt.Errorf("Error reading dstintf: %v", err)
+					return fmt.Errorf("error reading dstintf: %v", err)
 				}
 			}
 		}
@@ -1749,14 +1792,14 @@ func refreshObjectFirewallPolicy6(d *schema.ResourceData, o map[string]interface
 	if isImportTable() {
 		if err = d.Set("srcaddr", flattenFirewallPolicy6Srcaddr(o["srcaddr"], d, "srcaddr", sv)); err != nil {
 			if !fortiAPIPatch(o["srcaddr"]) {
-				return fmt.Errorf("Error reading srcaddr: %v", err)
+				return fmt.Errorf("error reading srcaddr: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("srcaddr"); ok {
 			if err = d.Set("srcaddr", flattenFirewallPolicy6Srcaddr(o["srcaddr"], d, "srcaddr", sv)); err != nil {
 				if !fortiAPIPatch(o["srcaddr"]) {
-					return fmt.Errorf("Error reading srcaddr: %v", err)
+					return fmt.Errorf("error reading srcaddr: %v", err)
 				}
 			}
 		}
@@ -1765,14 +1808,14 @@ func refreshObjectFirewallPolicy6(d *schema.ResourceData, o map[string]interface
 	if isImportTable() {
 		if err = d.Set("dstaddr", flattenFirewallPolicy6Dstaddr(o["dstaddr"], d, "dstaddr", sv)); err != nil {
 			if !fortiAPIPatch(o["dstaddr"]) {
-				return fmt.Errorf("Error reading dstaddr: %v", err)
+				return fmt.Errorf("error reading dstaddr: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("dstaddr"); ok {
 			if err = d.Set("dstaddr", flattenFirewallPolicy6Dstaddr(o["dstaddr"], d, "dstaddr", sv)); err != nil {
 				if !fortiAPIPatch(o["dstaddr"]) {
-					return fmt.Errorf("Error reading dstaddr: %v", err)
+					return fmt.Errorf("error reading dstaddr: %v", err)
 				}
 			}
 		}
@@ -1780,51 +1823,51 @@ func refreshObjectFirewallPolicy6(d *schema.ResourceData, o map[string]interface
 
 	if err = d.Set("action", flattenFirewallPolicy6Action(o["action"], d, "action", sv)); err != nil {
 		if !fortiAPIPatch(o["action"]) {
-			return fmt.Errorf("Error reading action: %v", err)
+			return fmt.Errorf("error reading action: %v", err)
 		}
 	}
 
 	if err = d.Set("firewall_session_dirty", flattenFirewallPolicy6FirewallSessionDirty(o["firewall-session-dirty"], d, "firewall_session_dirty", sv)); err != nil {
 		if !fortiAPIPatch(o["firewall-session-dirty"]) {
-			return fmt.Errorf("Error reading firewall_session_dirty: %v", err)
+			return fmt.Errorf("error reading firewall_session_dirty: %v", err)
 		}
 	}
 
 	if err = d.Set("status", flattenFirewallPolicy6Status(o["status"], d, "status", sv)); err != nil {
 		if !fortiAPIPatch(o["status"]) {
-			return fmt.Errorf("Error reading status: %v", err)
+			return fmt.Errorf("error reading status: %v", err)
 		}
 	}
 
 	if err = d.Set("vlan_cos_fwd", flattenFirewallPolicy6VlanCosFwd(o["vlan-cos-fwd"], d, "vlan_cos_fwd", sv)); err != nil {
 		if !fortiAPIPatch(o["vlan-cos-fwd"]) {
-			return fmt.Errorf("Error reading vlan_cos_fwd: %v", err)
+			return fmt.Errorf("error reading vlan_cos_fwd: %v", err)
 		}
 	}
 
 	if err = d.Set("vlan_cos_rev", flattenFirewallPolicy6VlanCosRev(o["vlan-cos-rev"], d, "vlan_cos_rev", sv)); err != nil {
 		if !fortiAPIPatch(o["vlan-cos-rev"]) {
-			return fmt.Errorf("Error reading vlan_cos_rev: %v", err)
+			return fmt.Errorf("error reading vlan_cos_rev: %v", err)
 		}
 	}
 
 	if err = d.Set("schedule", flattenFirewallPolicy6Schedule(o["schedule"], d, "schedule", sv)); err != nil {
 		if !fortiAPIPatch(o["schedule"]) {
-			return fmt.Errorf("Error reading schedule: %v", err)
+			return fmt.Errorf("error reading schedule: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("service", flattenFirewallPolicy6Service(o["service"], d, "service", sv)); err != nil {
 			if !fortiAPIPatch(o["service"]) {
-				return fmt.Errorf("Error reading service: %v", err)
+				return fmt.Errorf("error reading service: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("service"); ok {
 			if err = d.Set("service", flattenFirewallPolicy6Service(o["service"], d, "service", sv)); err != nil {
 				if !fortiAPIPatch(o["service"]) {
-					return fmt.Errorf("Error reading service: %v", err)
+					return fmt.Errorf("error reading service: %v", err)
 				}
 			}
 		}
@@ -1832,231 +1875,231 @@ func refreshObjectFirewallPolicy6(d *schema.ResourceData, o map[string]interface
 
 	if err = d.Set("tos", flattenFirewallPolicy6Tos(o["tos"], d, "tos", sv)); err != nil {
 		if !fortiAPIPatch(o["tos"]) {
-			return fmt.Errorf("Error reading tos: %v", err)
+			return fmt.Errorf("error reading tos: %v", err)
 		}
 	}
 
 	if err = d.Set("tos_mask", flattenFirewallPolicy6TosMask(o["tos-mask"], d, "tos_mask", sv)); err != nil {
 		if !fortiAPIPatch(o["tos-mask"]) {
-			return fmt.Errorf("Error reading tos_mask: %v", err)
+			return fmt.Errorf("error reading tos_mask: %v", err)
 		}
 	}
 
 	if err = d.Set("tos_negate", flattenFirewallPolicy6TosNegate(o["tos-negate"], d, "tos_negate", sv)); err != nil {
 		if !fortiAPIPatch(o["tos-negate"]) {
-			return fmt.Errorf("Error reading tos_negate: %v", err)
+			return fmt.Errorf("error reading tos_negate: %v", err)
 		}
 	}
 
 	if err = d.Set("tcp_session_without_syn", flattenFirewallPolicy6TcpSessionWithoutSyn(o["tcp-session-without-syn"], d, "tcp_session_without_syn", sv)); err != nil {
 		if !fortiAPIPatch(o["tcp-session-without-syn"]) {
-			return fmt.Errorf("Error reading tcp_session_without_syn: %v", err)
+			return fmt.Errorf("error reading tcp_session_without_syn: %v", err)
 		}
 	}
 
 	if err = d.Set("anti_replay", flattenFirewallPolicy6AntiReplay(o["anti-replay"], d, "anti_replay", sv)); err != nil {
 		if !fortiAPIPatch(o["anti-replay"]) {
-			return fmt.Errorf("Error reading anti_replay: %v", err)
+			return fmt.Errorf("error reading anti_replay: %v", err)
 		}
 	}
 
 	if err = d.Set("utm_status", flattenFirewallPolicy6UtmStatus(o["utm-status"], d, "utm_status", sv)); err != nil {
 		if !fortiAPIPatch(o["utm-status"]) {
-			return fmt.Errorf("Error reading utm_status: %v", err)
+			return fmt.Errorf("error reading utm_status: %v", err)
 		}
 	}
 
 	if err = d.Set("inspection_mode", flattenFirewallPolicy6InspectionMode(o["inspection-mode"], d, "inspection_mode", sv)); err != nil {
 		if !fortiAPIPatch(o["inspection-mode"]) {
-			return fmt.Errorf("Error reading inspection_mode: %v", err)
+			return fmt.Errorf("error reading inspection_mode: %v", err)
 		}
 	}
 
 	if err = d.Set("webcache", flattenFirewallPolicy6Webcache(o["webcache"], d, "webcache", sv)); err != nil {
 		if !fortiAPIPatch(o["webcache"]) {
-			return fmt.Errorf("Error reading webcache: %v", err)
+			return fmt.Errorf("error reading webcache: %v", err)
 		}
 	}
 
 	if err = d.Set("webcache_https", flattenFirewallPolicy6WebcacheHttps(o["webcache-https"], d, "webcache_https", sv)); err != nil {
 		if !fortiAPIPatch(o["webcache-https"]) {
-			return fmt.Errorf("Error reading webcache_https: %v", err)
+			return fmt.Errorf("error reading webcache_https: %v", err)
 		}
 	}
 
 	if err = d.Set("http_policy_redirect", flattenFirewallPolicy6HttpPolicyRedirect(o["http-policy-redirect"], d, "http_policy_redirect", sv)); err != nil {
 		if !fortiAPIPatch(o["http-policy-redirect"]) {
-			return fmt.Errorf("Error reading http_policy_redirect: %v", err)
+			return fmt.Errorf("error reading http_policy_redirect: %v", err)
 		}
 	}
 
 	if err = d.Set("ssh_policy_redirect", flattenFirewallPolicy6SshPolicyRedirect(o["ssh-policy-redirect"], d, "ssh_policy_redirect", sv)); err != nil {
 		if !fortiAPIPatch(o["ssh-policy-redirect"]) {
-			return fmt.Errorf("Error reading ssh_policy_redirect: %v", err)
+			return fmt.Errorf("error reading ssh_policy_redirect: %v", err)
 		}
 	}
 
 	if err = d.Set("webproxy_profile", flattenFirewallPolicy6WebproxyProfile(o["webproxy-profile"], d, "webproxy_profile", sv)); err != nil {
 		if !fortiAPIPatch(o["webproxy-profile"]) {
-			return fmt.Errorf("Error reading webproxy_profile: %v", err)
+			return fmt.Errorf("error reading webproxy_profile: %v", err)
 		}
 	}
 
 	if err = d.Set("profile_type", flattenFirewallPolicy6ProfileType(o["profile-type"], d, "profile_type", sv)); err != nil {
 		if !fortiAPIPatch(o["profile-type"]) {
-			return fmt.Errorf("Error reading profile_type: %v", err)
+			return fmt.Errorf("error reading profile_type: %v", err)
 		}
 	}
 
 	if err = d.Set("profile_group", flattenFirewallPolicy6ProfileGroup(o["profile-group"], d, "profile_group", sv)); err != nil {
 		if !fortiAPIPatch(o["profile-group"]) {
-			return fmt.Errorf("Error reading profile_group: %v", err)
+			return fmt.Errorf("error reading profile_group: %v", err)
 		}
 	}
 
 	if err = d.Set("av_profile", flattenFirewallPolicy6AvProfile(o["av-profile"], d, "av_profile", sv)); err != nil {
 		if !fortiAPIPatch(o["av-profile"]) {
-			return fmt.Errorf("Error reading av_profile: %v", err)
+			return fmt.Errorf("error reading av_profile: %v", err)
 		}
 	}
 
 	if err = d.Set("webfilter_profile", flattenFirewallPolicy6WebfilterProfile(o["webfilter-profile"], d, "webfilter_profile", sv)); err != nil {
 		if !fortiAPIPatch(o["webfilter-profile"]) {
-			return fmt.Errorf("Error reading webfilter_profile: %v", err)
+			return fmt.Errorf("error reading webfilter_profile: %v", err)
 		}
 	}
 
 	if err = d.Set("dnsfilter_profile", flattenFirewallPolicy6DnsfilterProfile(o["dnsfilter-profile"], d, "dnsfilter_profile", sv)); err != nil {
 		if !fortiAPIPatch(o["dnsfilter-profile"]) {
-			return fmt.Errorf("Error reading dnsfilter_profile: %v", err)
+			return fmt.Errorf("error reading dnsfilter_profile: %v", err)
 		}
 	}
 
 	if err = d.Set("emailfilter_profile", flattenFirewallPolicy6EmailfilterProfile(o["emailfilter-profile"], d, "emailfilter_profile", sv)); err != nil {
 		if !fortiAPIPatch(o["emailfilter-profile"]) {
-			return fmt.Errorf("Error reading emailfilter_profile: %v", err)
+			return fmt.Errorf("error reading emailfilter_profile: %v", err)
 		}
 	}
 
 	if err = d.Set("spamfilter_profile", flattenFirewallPolicy6SpamfilterProfile(o["spamfilter-profile"], d, "spamfilter_profile", sv)); err != nil {
 		if !fortiAPIPatch(o["spamfilter-profile"]) {
-			return fmt.Errorf("Error reading spamfilter_profile: %v", err)
+			return fmt.Errorf("error reading spamfilter_profile: %v", err)
 		}
 	}
 
 	if err = d.Set("dlp_sensor", flattenFirewallPolicy6DlpSensor(o["dlp-sensor"], d, "dlp_sensor", sv)); err != nil {
 		if !fortiAPIPatch(o["dlp-sensor"]) {
-			return fmt.Errorf("Error reading dlp_sensor: %v", err)
+			return fmt.Errorf("error reading dlp_sensor: %v", err)
 		}
 	}
 
 	if err = d.Set("ips_sensor", flattenFirewallPolicy6IpsSensor(o["ips-sensor"], d, "ips_sensor", sv)); err != nil {
 		if !fortiAPIPatch(o["ips-sensor"]) {
-			return fmt.Errorf("Error reading ips_sensor: %v", err)
+			return fmt.Errorf("error reading ips_sensor: %v", err)
 		}
 	}
 
 	if err = d.Set("application_list", flattenFirewallPolicy6ApplicationList(o["application-list"], d, "application_list", sv)); err != nil {
 		if !fortiAPIPatch(o["application-list"]) {
-			return fmt.Errorf("Error reading application_list: %v", err)
+			return fmt.Errorf("error reading application_list: %v", err)
 		}
 	}
 
 	if err = d.Set("voip_profile", flattenFirewallPolicy6VoipProfile(o["voip-profile"], d, "voip_profile", sv)); err != nil {
 		if !fortiAPIPatch(o["voip-profile"]) {
-			return fmt.Errorf("Error reading voip_profile: %v", err)
+			return fmt.Errorf("error reading voip_profile: %v", err)
 		}
 	}
 
 	if err = d.Set("icap_profile", flattenFirewallPolicy6IcapProfile(o["icap-profile"], d, "icap_profile", sv)); err != nil {
 		if !fortiAPIPatch(o["icap-profile"]) {
-			return fmt.Errorf("Error reading icap_profile: %v", err)
+			return fmt.Errorf("error reading icap_profile: %v", err)
 		}
 	}
 
 	if err = d.Set("cifs_profile", flattenFirewallPolicy6CifsProfile(o["cifs-profile"], d, "cifs_profile", sv)); err != nil {
 		if !fortiAPIPatch(o["cifs-profile"]) {
-			return fmt.Errorf("Error reading cifs_profile: %v", err)
+			return fmt.Errorf("error reading cifs_profile: %v", err)
 		}
 	}
 
 	if err = d.Set("waf_profile", flattenFirewallPolicy6WafProfile(o["waf-profile"], d, "waf_profile", sv)); err != nil {
 		if !fortiAPIPatch(o["waf-profile"]) {
-			return fmt.Errorf("Error reading waf_profile: %v", err)
+			return fmt.Errorf("error reading waf_profile: %v", err)
 		}
 	}
 
 	if err = d.Set("ssh_filter_profile", flattenFirewallPolicy6SshFilterProfile(o["ssh-filter-profile"], d, "ssh_filter_profile", sv)); err != nil {
 		if !fortiAPIPatch(o["ssh-filter-profile"]) {
-			return fmt.Errorf("Error reading ssh_filter_profile: %v", err)
+			return fmt.Errorf("error reading ssh_filter_profile: %v", err)
 		}
 	}
 
 	if err = d.Set("profile_protocol_options", flattenFirewallPolicy6ProfileProtocolOptions(o["profile-protocol-options"], d, "profile_protocol_options", sv)); err != nil {
 		if !fortiAPIPatch(o["profile-protocol-options"]) {
-			return fmt.Errorf("Error reading profile_protocol_options: %v", err)
+			return fmt.Errorf("error reading profile_protocol_options: %v", err)
 		}
 	}
 
 	if err = d.Set("ssl_ssh_profile", flattenFirewallPolicy6SslSshProfile(o["ssl-ssh-profile"], d, "ssl_ssh_profile", sv)); err != nil {
 		if !fortiAPIPatch(o["ssl-ssh-profile"]) {
-			return fmt.Errorf("Error reading ssl_ssh_profile: %v", err)
+			return fmt.Errorf("error reading ssl_ssh_profile: %v", err)
 		}
 	}
 
 	if err = d.Set("logtraffic", flattenFirewallPolicy6Logtraffic(o["logtraffic"], d, "logtraffic", sv)); err != nil {
 		if !fortiAPIPatch(o["logtraffic"]) {
-			return fmt.Errorf("Error reading logtraffic: %v", err)
+			return fmt.Errorf("error reading logtraffic: %v", err)
 		}
 	}
 
 	if err = d.Set("logtraffic_start", flattenFirewallPolicy6LogtrafficStart(o["logtraffic-start"], d, "logtraffic_start", sv)); err != nil {
 		if !fortiAPIPatch(o["logtraffic-start"]) {
-			return fmt.Errorf("Error reading logtraffic_start: %v", err)
+			return fmt.Errorf("error reading logtraffic_start: %v", err)
 		}
 	}
 
 	if err = d.Set("auto_asic_offload", flattenFirewallPolicy6AutoAsicOffload(o["auto-asic-offload"], d, "auto_asic_offload", sv)); err != nil {
 		if !fortiAPIPatch(o["auto-asic-offload"]) {
-			return fmt.Errorf("Error reading auto_asic_offload: %v", err)
+			return fmt.Errorf("error reading auto_asic_offload: %v", err)
 		}
 	}
 
 	if err = d.Set("webproxy_forward_server", flattenFirewallPolicy6WebproxyForwardServer(o["webproxy-forward-server"], d, "webproxy_forward_server", sv)); err != nil {
 		if !fortiAPIPatch(o["webproxy-forward-server"]) {
-			return fmt.Errorf("Error reading webproxy_forward_server: %v", err)
+			return fmt.Errorf("error reading webproxy_forward_server: %v", err)
 		}
 	}
 
 	if err = d.Set("traffic_shaper", flattenFirewallPolicy6TrafficShaper(o["traffic-shaper"], d, "traffic_shaper", sv)); err != nil {
 		if !fortiAPIPatch(o["traffic-shaper"]) {
-			return fmt.Errorf("Error reading traffic_shaper: %v", err)
+			return fmt.Errorf("error reading traffic_shaper: %v", err)
 		}
 	}
 
 	if err = d.Set("traffic_shaper_reverse", flattenFirewallPolicy6TrafficShaperReverse(o["traffic-shaper-reverse"], d, "traffic_shaper_reverse", sv)); err != nil {
 		if !fortiAPIPatch(o["traffic-shaper-reverse"]) {
-			return fmt.Errorf("Error reading traffic_shaper_reverse: %v", err)
+			return fmt.Errorf("error reading traffic_shaper_reverse: %v", err)
 		}
 	}
 
 	if err = d.Set("per_ip_shaper", flattenFirewallPolicy6PerIpShaper(o["per-ip-shaper"], d, "per_ip_shaper", sv)); err != nil {
 		if !fortiAPIPatch(o["per-ip-shaper"]) {
-			return fmt.Errorf("Error reading per_ip_shaper: %v", err)
+			return fmt.Errorf("error reading per_ip_shaper: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("application", flattenFirewallPolicy6Application(o["application"], d, "application", sv)); err != nil {
 			if !fortiAPIPatch(o["application"]) {
-				return fmt.Errorf("Error reading application: %v", err)
+				return fmt.Errorf("error reading application: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("application"); ok {
 			if err = d.Set("application", flattenFirewallPolicy6Application(o["application"], d, "application", sv)); err != nil {
 				if !fortiAPIPatch(o["application"]) {
-					return fmt.Errorf("Error reading application: %v", err)
+					return fmt.Errorf("error reading application: %v", err)
 				}
 			}
 		}
@@ -2065,14 +2108,14 @@ func refreshObjectFirewallPolicy6(d *schema.ResourceData, o map[string]interface
 	if isImportTable() {
 		if err = d.Set("app_category", flattenFirewallPolicy6AppCategory(o["app-category"], d, "app_category", sv)); err != nil {
 			if !fortiAPIPatch(o["app-category"]) {
-				return fmt.Errorf("Error reading app_category: %v", err)
+				return fmt.Errorf("error reading app_category: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("app_category"); ok {
 			if err = d.Set("app_category", flattenFirewallPolicy6AppCategory(o["app-category"], d, "app_category", sv)); err != nil {
 				if !fortiAPIPatch(o["app-category"]) {
-					return fmt.Errorf("Error reading app_category: %v", err)
+					return fmt.Errorf("error reading app_category: %v", err)
 				}
 			}
 		}
@@ -2081,14 +2124,14 @@ func refreshObjectFirewallPolicy6(d *schema.ResourceData, o map[string]interface
 	if isImportTable() {
 		if err = d.Set("url_category", flattenFirewallPolicy6UrlCategory(o["url-category"], d, "url_category", sv)); err != nil {
 			if !fortiAPIPatch(o["url-category"]) {
-				return fmt.Errorf("Error reading url_category: %v", err)
+				return fmt.Errorf("error reading url_category: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("url_category"); ok {
 			if err = d.Set("url_category", flattenFirewallPolicy6UrlCategory(o["url-category"], d, "url_category", sv)); err != nil {
 				if !fortiAPIPatch(o["url-category"]) {
-					return fmt.Errorf("Error reading url_category: %v", err)
+					return fmt.Errorf("error reading url_category: %v", err)
 				}
 			}
 		}
@@ -2097,14 +2140,14 @@ func refreshObjectFirewallPolicy6(d *schema.ResourceData, o map[string]interface
 	if isImportTable() {
 		if err = d.Set("app_group", flattenFirewallPolicy6AppGroup(o["app-group"], d, "app_group", sv)); err != nil {
 			if !fortiAPIPatch(o["app-group"]) {
-				return fmt.Errorf("Error reading app_group: %v", err)
+				return fmt.Errorf("error reading app_group: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("app_group"); ok {
 			if err = d.Set("app_group", flattenFirewallPolicy6AppGroup(o["app-group"], d, "app_group", sv)); err != nil {
 				if !fortiAPIPatch(o["app-group"]) {
-					return fmt.Errorf("Error reading app_group: %v", err)
+					return fmt.Errorf("error reading app_group: %v", err)
 				}
 			}
 		}
@@ -2112,33 +2155,33 @@ func refreshObjectFirewallPolicy6(d *schema.ResourceData, o map[string]interface
 
 	if err = d.Set("nat", flattenFirewallPolicy6Nat(o["nat"], d, "nat", sv)); err != nil {
 		if !fortiAPIPatch(o["nat"]) {
-			return fmt.Errorf("Error reading nat: %v", err)
+			return fmt.Errorf("error reading nat: %v", err)
 		}
 	}
 
 	if err = d.Set("fixedport", flattenFirewallPolicy6Fixedport(o["fixedport"], d, "fixedport", sv)); err != nil {
 		if !fortiAPIPatch(o["fixedport"]) {
-			return fmt.Errorf("Error reading fixedport: %v", err)
+			return fmt.Errorf("error reading fixedport: %v", err)
 		}
 	}
 
 	if err = d.Set("ippool", flattenFirewallPolicy6Ippool(o["ippool"], d, "ippool", sv)); err != nil {
 		if !fortiAPIPatch(o["ippool"]) {
-			return fmt.Errorf("Error reading ippool: %v", err)
+			return fmt.Errorf("error reading ippool: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("poolname", flattenFirewallPolicy6Poolname(o["poolname"], d, "poolname", sv)); err != nil {
 			if !fortiAPIPatch(o["poolname"]) {
-				return fmt.Errorf("Error reading poolname: %v", err)
+				return fmt.Errorf("error reading poolname: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("poolname"); ok {
 			if err = d.Set("poolname", flattenFirewallPolicy6Poolname(o["poolname"], d, "poolname", sv)); err != nil {
 				if !fortiAPIPatch(o["poolname"]) {
-					return fmt.Errorf("Error reading poolname: %v", err)
+					return fmt.Errorf("error reading poolname: %v", err)
 				}
 			}
 		}
@@ -2157,118 +2200,118 @@ func refreshObjectFirewallPolicy6(d *schema.ResourceData, o map[string]interface
 
 		if err = d.Set("session_ttl", v); err != nil {
 			if !fortiAPIPatch(o["session-ttl"]) {
-				return fmt.Errorf("Error reading session_ttl: %v", err)
+				return fmt.Errorf("error reading session_ttl: %v", err)
 			}
 		}
 	}
 
 	if err = d.Set("inbound", flattenFirewallPolicy6Inbound(o["inbound"], d, "inbound", sv)); err != nil {
 		if !fortiAPIPatch(o["inbound"]) {
-			return fmt.Errorf("Error reading inbound: %v", err)
+			return fmt.Errorf("error reading inbound: %v", err)
 		}
 	}
 
 	if err = d.Set("outbound", flattenFirewallPolicy6Outbound(o["outbound"], d, "outbound", sv)); err != nil {
 		if !fortiAPIPatch(o["outbound"]) {
-			return fmt.Errorf("Error reading outbound: %v", err)
+			return fmt.Errorf("error reading outbound: %v", err)
 		}
 	}
 
 	if err = d.Set("natinbound", flattenFirewallPolicy6Natinbound(o["natinbound"], d, "natinbound", sv)); err != nil {
 		if !fortiAPIPatch(o["natinbound"]) {
-			return fmt.Errorf("Error reading natinbound: %v", err)
+			return fmt.Errorf("error reading natinbound: %v", err)
 		}
 	}
 
 	if err = d.Set("natoutbound", flattenFirewallPolicy6Natoutbound(o["natoutbound"], d, "natoutbound", sv)); err != nil {
 		if !fortiAPIPatch(o["natoutbound"]) {
-			return fmt.Errorf("Error reading natoutbound: %v", err)
+			return fmt.Errorf("error reading natoutbound: %v", err)
 		}
 	}
 
 	if err = d.Set("send_deny_packet", flattenFirewallPolicy6SendDenyPacket(o["send-deny-packet"], d, "send_deny_packet", sv)); err != nil {
 		if !fortiAPIPatch(o["send-deny-packet"]) {
-			return fmt.Errorf("Error reading send_deny_packet: %v", err)
+			return fmt.Errorf("error reading send_deny_packet: %v", err)
 		}
 	}
 
 	if err = d.Set("vpntunnel", flattenFirewallPolicy6Vpntunnel(o["vpntunnel"], d, "vpntunnel", sv)); err != nil {
 		if !fortiAPIPatch(o["vpntunnel"]) {
-			return fmt.Errorf("Error reading vpntunnel: %v", err)
+			return fmt.Errorf("error reading vpntunnel: %v", err)
 		}
 	}
 
 	if err = d.Set("diffserv_forward", flattenFirewallPolicy6DiffservForward(o["diffserv-forward"], d, "diffserv_forward", sv)); err != nil {
 		if !fortiAPIPatch(o["diffserv-forward"]) {
-			return fmt.Errorf("Error reading diffserv_forward: %v", err)
+			return fmt.Errorf("error reading diffserv_forward: %v", err)
 		}
 	}
 
 	if err = d.Set("diffserv_reverse", flattenFirewallPolicy6DiffservReverse(o["diffserv-reverse"], d, "diffserv_reverse", sv)); err != nil {
 		if !fortiAPIPatch(o["diffserv-reverse"]) {
-			return fmt.Errorf("Error reading diffserv_reverse: %v", err)
+			return fmt.Errorf("error reading diffserv_reverse: %v", err)
 		}
 	}
 
 	if err = d.Set("diffservcode_forward", flattenFirewallPolicy6DiffservcodeForward(o["diffservcode-forward"], d, "diffservcode_forward", sv)); err != nil {
 		if !fortiAPIPatch(o["diffservcode-forward"]) {
-			return fmt.Errorf("Error reading diffservcode_forward: %v", err)
+			return fmt.Errorf("error reading diffservcode_forward: %v", err)
 		}
 	}
 
 	if err = d.Set("diffservcode_rev", flattenFirewallPolicy6DiffservcodeRev(o["diffservcode-rev"], d, "diffservcode_rev", sv)); err != nil {
 		if !fortiAPIPatch(o["diffservcode-rev"]) {
-			return fmt.Errorf("Error reading diffservcode_rev: %v", err)
+			return fmt.Errorf("error reading diffservcode_rev: %v", err)
 		}
 	}
 
 	if err = d.Set("tcp_mss_sender", flattenFirewallPolicy6TcpMssSender(o["tcp-mss-sender"], d, "tcp_mss_sender", sv)); err != nil {
 		if !fortiAPIPatch(o["tcp-mss-sender"]) {
-			return fmt.Errorf("Error reading tcp_mss_sender: %v", err)
+			return fmt.Errorf("error reading tcp_mss_sender: %v", err)
 		}
 	}
 
 	if err = d.Set("tcp_mss_receiver", flattenFirewallPolicy6TcpMssReceiver(o["tcp-mss-receiver"], d, "tcp_mss_receiver", sv)); err != nil {
 		if !fortiAPIPatch(o["tcp-mss-receiver"]) {
-			return fmt.Errorf("Error reading tcp_mss_receiver: %v", err)
+			return fmt.Errorf("error reading tcp_mss_receiver: %v", err)
 		}
 	}
 
 	if err = d.Set("comments", flattenFirewallPolicy6Comments(o["comments"], d, "comments", sv)); err != nil {
 		if !fortiAPIPatch(o["comments"]) {
-			return fmt.Errorf("Error reading comments: %v", err)
+			return fmt.Errorf("error reading comments: %v", err)
 		}
 	}
 
 	if err = d.Set("label", flattenFirewallPolicy6Label(o["label"], d, "label", sv)); err != nil {
 		if !fortiAPIPatch(o["label"]) {
-			return fmt.Errorf("Error reading label: %v", err)
+			return fmt.Errorf("error reading label: %v", err)
 		}
 	}
 
 	if err = d.Set("global_label", flattenFirewallPolicy6GlobalLabel(o["global-label"], d, "global_label", sv)); err != nil {
 		if !fortiAPIPatch(o["global-label"]) {
-			return fmt.Errorf("Error reading global_label: %v", err)
+			return fmt.Errorf("error reading global_label: %v", err)
 		}
 	}
 
 	if err = d.Set("rsso", flattenFirewallPolicy6Rsso(o["rsso"], d, "rsso", sv)); err != nil {
 		if !fortiAPIPatch(o["rsso"]) {
-			return fmt.Errorf("Error reading rsso: %v", err)
+			return fmt.Errorf("error reading rsso: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("custom_log_fields", flattenFirewallPolicy6CustomLogFields(o["custom-log-fields"], d, "custom_log_fields", sv)); err != nil {
 			if !fortiAPIPatch(o["custom-log-fields"]) {
-				return fmt.Errorf("Error reading custom_log_fields: %v", err)
+				return fmt.Errorf("error reading custom_log_fields: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("custom_log_fields"); ok {
 			if err = d.Set("custom_log_fields", flattenFirewallPolicy6CustomLogFields(o["custom-log-fields"], d, "custom_log_fields", sv)); err != nil {
 				if !fortiAPIPatch(o["custom-log-fields"]) {
-					return fmt.Errorf("Error reading custom_log_fields: %v", err)
+					return fmt.Errorf("error reading custom_log_fields: %v", err)
 				}
 			}
 		}
@@ -2276,39 +2319,39 @@ func refreshObjectFirewallPolicy6(d *schema.ResourceData, o map[string]interface
 
 	if err = d.Set("replacemsg_override_group", flattenFirewallPolicy6ReplacemsgOverrideGroup(o["replacemsg-override-group"], d, "replacemsg_override_group", sv)); err != nil {
 		if !fortiAPIPatch(o["replacemsg-override-group"]) {
-			return fmt.Errorf("Error reading replacemsg_override_group: %v", err)
+			return fmt.Errorf("error reading replacemsg_override_group: %v", err)
 		}
 	}
 
 	if err = d.Set("srcaddr_negate", flattenFirewallPolicy6SrcaddrNegate(o["srcaddr-negate"], d, "srcaddr_negate", sv)); err != nil {
 		if !fortiAPIPatch(o["srcaddr-negate"]) {
-			return fmt.Errorf("Error reading srcaddr_negate: %v", err)
+			return fmt.Errorf("error reading srcaddr_negate: %v", err)
 		}
 	}
 
 	if err = d.Set("dstaddr_negate", flattenFirewallPolicy6DstaddrNegate(o["dstaddr-negate"], d, "dstaddr_negate", sv)); err != nil {
 		if !fortiAPIPatch(o["dstaddr-negate"]) {
-			return fmt.Errorf("Error reading dstaddr_negate: %v", err)
+			return fmt.Errorf("error reading dstaddr_negate: %v", err)
 		}
 	}
 
 	if err = d.Set("service_negate", flattenFirewallPolicy6ServiceNegate(o["service-negate"], d, "service_negate", sv)); err != nil {
 		if !fortiAPIPatch(o["service-negate"]) {
-			return fmt.Errorf("Error reading service_negate: %v", err)
+			return fmt.Errorf("error reading service_negate: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("groups", flattenFirewallPolicy6Groups(o["groups"], d, "groups", sv)); err != nil {
 			if !fortiAPIPatch(o["groups"]) {
-				return fmt.Errorf("Error reading groups: %v", err)
+				return fmt.Errorf("error reading groups: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("groups"); ok {
 			if err = d.Set("groups", flattenFirewallPolicy6Groups(o["groups"], d, "groups", sv)); err != nil {
 				if !fortiAPIPatch(o["groups"]) {
-					return fmt.Errorf("Error reading groups: %v", err)
+					return fmt.Errorf("error reading groups: %v", err)
 				}
 			}
 		}
@@ -2317,14 +2360,14 @@ func refreshObjectFirewallPolicy6(d *schema.ResourceData, o map[string]interface
 	if isImportTable() {
 		if err = d.Set("users", flattenFirewallPolicy6Users(o["users"], d, "users", sv)); err != nil {
 			if !fortiAPIPatch(o["users"]) {
-				return fmt.Errorf("Error reading users: %v", err)
+				return fmt.Errorf("error reading users: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("users"); ok {
 			if err = d.Set("users", flattenFirewallPolicy6Users(o["users"], d, "users", sv)); err != nil {
 				if !fortiAPIPatch(o["users"]) {
-					return fmt.Errorf("Error reading users: %v", err)
+					return fmt.Errorf("error reading users: %v", err)
 				}
 			}
 		}
@@ -2333,14 +2376,14 @@ func refreshObjectFirewallPolicy6(d *schema.ResourceData, o map[string]interface
 	if isImportTable() {
 		if err = d.Set("devices", flattenFirewallPolicy6Devices(o["devices"], d, "devices", sv)); err != nil {
 			if !fortiAPIPatch(o["devices"]) {
-				return fmt.Errorf("Error reading devices: %v", err)
+				return fmt.Errorf("error reading devices: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("devices"); ok {
 			if err = d.Set("devices", flattenFirewallPolicy6Devices(o["devices"], d, "devices", sv)); err != nil {
 				if !fortiAPIPatch(o["devices"]) {
-					return fmt.Errorf("Error reading devices: %v", err)
+					return fmt.Errorf("error reading devices: %v", err)
 				}
 			}
 		}
@@ -2348,33 +2391,33 @@ func refreshObjectFirewallPolicy6(d *schema.ResourceData, o map[string]interface
 
 	if err = d.Set("timeout_send_rst", flattenFirewallPolicy6TimeoutSendRst(o["timeout-send-rst"], d, "timeout_send_rst", sv)); err != nil {
 		if !fortiAPIPatch(o["timeout-send-rst"]) {
-			return fmt.Errorf("Error reading timeout_send_rst: %v", err)
+			return fmt.Errorf("error reading timeout_send_rst: %v", err)
 		}
 	}
 
 	if err = d.Set("decrypted_traffic_mirror", flattenFirewallPolicy6DecryptedTrafficMirror(o["decrypted-traffic-mirror"], d, "decrypted_traffic_mirror", sv)); err != nil {
 		if !fortiAPIPatch(o["decrypted-traffic-mirror"]) {
-			return fmt.Errorf("Error reading decrypted_traffic_mirror: %v", err)
+			return fmt.Errorf("error reading decrypted_traffic_mirror: %v", err)
 		}
 	}
 
 	if err = d.Set("ssl_mirror", flattenFirewallPolicy6SslMirror(o["ssl-mirror"], d, "ssl_mirror", sv)); err != nil {
 		if !fortiAPIPatch(o["ssl-mirror"]) {
-			return fmt.Errorf("Error reading ssl_mirror: %v", err)
+			return fmt.Errorf("error reading ssl_mirror: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("ssl_mirror_intf", flattenFirewallPolicy6SslMirrorIntf(o["ssl-mirror-intf"], d, "ssl_mirror_intf", sv)); err != nil {
 			if !fortiAPIPatch(o["ssl-mirror-intf"]) {
-				return fmt.Errorf("Error reading ssl_mirror_intf: %v", err)
+				return fmt.Errorf("error reading ssl_mirror_intf: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("ssl_mirror_intf"); ok {
 			if err = d.Set("ssl_mirror_intf", flattenFirewallPolicy6SslMirrorIntf(o["ssl-mirror-intf"], d, "ssl_mirror_intf", sv)); err != nil {
 				if !fortiAPIPatch(o["ssl-mirror-intf"]) {
-					return fmt.Errorf("Error reading ssl_mirror_intf: %v", err)
+					return fmt.Errorf("error reading ssl_mirror_intf: %v", err)
 				}
 			}
 		}
@@ -2382,27 +2425,27 @@ func refreshObjectFirewallPolicy6(d *schema.ResourceData, o map[string]interface
 
 	if err = d.Set("dsri", flattenFirewallPolicy6Dsri(o["dsri"], d, "dsri", sv)); err != nil {
 		if !fortiAPIPatch(o["dsri"]) {
-			return fmt.Errorf("Error reading dsri: %v", err)
+			return fmt.Errorf("error reading dsri: %v", err)
 		}
 	}
 
 	if err = d.Set("vlan_filter", flattenFirewallPolicy6VlanFilter(o["vlan-filter"], d, "vlan_filter", sv)); err != nil {
 		if !fortiAPIPatch(o["vlan-filter"]) {
-			return fmt.Errorf("Error reading vlan_filter: %v", err)
+			return fmt.Errorf("error reading vlan_filter: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("fsso_groups", flattenFirewallPolicy6FssoGroups(o["fsso-groups"], d, "fsso_groups", sv)); err != nil {
 			if !fortiAPIPatch(o["fsso-groups"]) {
-				return fmt.Errorf("Error reading fsso_groups: %v", err)
+				return fmt.Errorf("error reading fsso_groups: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("fsso_groups"); ok {
 			if err = d.Set("fsso_groups", flattenFirewallPolicy6FssoGroups(o["fsso-groups"], d, "fsso_groups", sv)); err != nil {
 				if !fortiAPIPatch(o["fsso-groups"]) {
-					return fmt.Errorf("Error reading fsso_groups: %v", err)
+					return fmt.Errorf("error reading fsso_groups: %v", err)
 				}
 			}
 		}

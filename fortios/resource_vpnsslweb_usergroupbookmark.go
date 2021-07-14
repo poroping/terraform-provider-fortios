@@ -30,140 +30,140 @@ func resourceVpnSslWebUserGroupBookmark() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 64),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"bookmarks": &schema.Schema{
+			"bookmarks": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"apptype": &schema.Schema{
+						"apptype": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"url": &schema.Schema{
+						"url": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 128),
 							Optional:     true,
 						},
-						"host": &schema.Schema{
+						"host": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 128),
 							Optional:     true,
 						},
-						"folder": &schema.Schema{
+						"folder": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 128),
 							Optional:     true,
 						},
-						"domain": &schema.Schema{
+						"domain": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 128),
 							Optional:     true,
 						},
-						"additional_params": &schema.Schema{
+						"additional_params": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 128),
 							Optional:     true,
 						},
-						"listening_port": &schema.Schema{
+						"listening_port": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 65535),
 							Optional:     true,
 							Computed:     true,
 						},
-						"remote_port": &schema.Schema{
+						"remote_port": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 65535),
 							Optional:     true,
 							Computed:     true,
 						},
-						"show_status_window": &schema.Schema{
+						"show_status_window": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"description": &schema.Schema{
+						"description": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 128),
 							Optional:     true,
 						},
-						"server_layout": &schema.Schema{
+						"server_layout": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"security": &schema.Schema{
+						"security": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"preconnection_id": &schema.Schema{
+						"preconnection_id": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"preconnection_blob": &schema.Schema{
+						"preconnection_blob": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 511),
 							Optional:     true,
 						},
-						"load_balancing_info": &schema.Schema{
+						"load_balancing_info": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 511),
 							Optional:     true,
 						},
-						"port": &schema.Schema{
+						"port": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 65535),
 							Optional:     true,
 							Computed:     true,
 						},
-						"logon_user": &schema.Schema{
+						"logon_user": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 						},
-						"logon_password": &schema.Schema{
+						"logon_password": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 128),
 							Optional:     true,
 							Sensitive:    true,
 						},
-						"sso": &schema.Schema{
+						"sso": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"form_data": &schema.Schema{
+						"form_data": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"name": &schema.Schema{
+									"name": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 35),
 										Optional:     true,
 										Computed:     true,
 									},
-									"value": &schema.Schema{
+									"value": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 63),
 										Optional:     true,
@@ -171,23 +171,23 @@ func resourceVpnSslWebUserGroupBookmark() *schema.Resource {
 								},
 							},
 						},
-						"sso_credential": &schema.Schema{
+						"sso_credential": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"sso_username": &schema.Schema{
+						"sso_username": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 						},
-						"sso_password": &schema.Schema{
+						"sso_password": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 128),
 							Optional:     true,
 							Sensitive:    true,
 						},
-						"sso_credential_sent_once": &schema.Schema{
+						"sso_credential_sent_once": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -195,10 +195,15 @@ func resourceVpnSslWebUserGroupBookmark() *schema.Resource {
 					},
 				},
 			},
-			"dynamic_sort_subtable": &schema.Schema{
+			"dynamic_sort_subtable": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Default:  "false",
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -216,15 +221,25 @@ func resourceVpnSslWebUserGroupBookmarkCreate(d *schema.ResourceData, m interfac
 		}
 	}
 
-	obj, err := getObjectVpnSslWebUserGroupBookmark(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating VpnSslWebUserGroupBookmark resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateVpnSslWebUserGroupBookmark(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectVpnSslWebUserGroupBookmark(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating VpnSslWebUserGroupBookmark resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateVpnSslWebUserGroupBookmark(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating VpnSslWebUserGroupBookmark resource: %v", err)
+		return fmt.Errorf("error creating VpnSslWebUserGroupBookmark resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -249,14 +264,24 @@ func resourceVpnSslWebUserGroupBookmarkUpdate(d *schema.ResourceData, m interfac
 		}
 	}
 
-	obj, err := getObjectVpnSslWebUserGroupBookmark(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating VpnSslWebUserGroupBookmark resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateVpnSslWebUserGroupBookmark(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectVpnSslWebUserGroupBookmark(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating VpnSslWebUserGroupBookmark resource: %v", err)
+		return fmt.Errorf("error updating VpnSslWebUserGroupBookmark resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateVpnSslWebUserGroupBookmark(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating VpnSslWebUserGroupBookmark resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -283,9 +308,17 @@ func resourceVpnSslWebUserGroupBookmarkDelete(d *schema.ResourceData, m interfac
 		}
 	}
 
-	err := c.DeleteVpnSslWebUserGroupBookmark(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteVpnSslWebUserGroupBookmark(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting VpnSslWebUserGroupBookmark resource: %v", err)
+		return fmt.Errorf("error deleting VpnSslWebUserGroupBookmark resource: %v", err)
 	}
 
 	d.SetId("")
@@ -307,9 +340,19 @@ func resourceVpnSslWebUserGroupBookmarkRead(d *schema.ResourceData, m interface{
 		}
 	}
 
-	o, err := c.ReadVpnSslWebUserGroupBookmark(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadVpnSslWebUserGroupBookmark(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading VpnSslWebUserGroupBookmark resource: %v", err)
+		return fmt.Errorf("error reading VpnSslWebUserGroupBookmark resource: %v", err)
 	}
 
 	if o == nil {
@@ -320,7 +363,7 @@ func resourceVpnSslWebUserGroupBookmarkRead(d *schema.ResourceData, m interface{
 
 	err = refreshObjectVpnSslWebUserGroupBookmark(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading VpnSslWebUserGroupBookmark resource from API: %v", err)
+		return fmt.Errorf("error reading VpnSslWebUserGroupBookmark resource from API: %v", err)
 	}
 	return nil
 }
@@ -663,21 +706,21 @@ func refreshObjectVpnSslWebUserGroupBookmark(d *schema.ResourceData, o map[strin
 
 	if err = d.Set("name", flattenVpnSslWebUserGroupBookmarkName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("bookmarks", flattenVpnSslWebUserGroupBookmarkBookmarks(o["bookmarks"], d, "bookmarks", sv)); err != nil {
 			if !fortiAPIPatch(o["bookmarks"]) {
-				return fmt.Errorf("Error reading bookmarks: %v", err)
+				return fmt.Errorf("error reading bookmarks: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("bookmarks"); ok {
 			if err = d.Set("bookmarks", flattenVpnSslWebUserGroupBookmarkBookmarks(o["bookmarks"], d, "bookmarks", sv)); err != nil {
 				if !fortiAPIPatch(o["bookmarks"]) {
-					return fmt.Errorf("Error reading bookmarks: %v", err)
+					return fmt.Errorf("error reading bookmarks: %v", err)
 				}
 			}
 		}

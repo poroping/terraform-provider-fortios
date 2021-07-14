@@ -57,14 +57,14 @@ func testAccCheckFortiOSWirelessControllerHotspot20H2QpWanMetricExists(n string)
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadWirelessControllerHotspot20H2QpWanMetric(i, "root")
+		o, err := c.ReadWirelessControllerHotspot20H2QpWanMetric(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading WirelessControllerHotspot20H2QpWanMetric: %s", err)
+			return fmt.Errorf("error reading WirelessControllerHotspot20H2QpWanMetric: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating WirelessControllerHotspot20H2QpWanMetric: %s", n)
+			return fmt.Errorf("error creating WirelessControllerHotspot20H2QpWanMetric: %s", n)
 		}
 
 		return nil
@@ -80,11 +80,11 @@ func testAccCheckWirelessControllerHotspot20H2QpWanMetricDestroy(s *terraform.St
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadWirelessControllerHotspot20H2QpWanMetric(i, "root")
+		o, err := c.ReadWirelessControllerHotspot20H2QpWanMetric(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error WirelessControllerHotspot20H2QpWanMetric %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error WirelessControllerHotspot20H2QpWanMetric %s still exists", rs.Primary.ID)
 			}
 		}
 

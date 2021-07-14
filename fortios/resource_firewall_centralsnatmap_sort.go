@@ -14,32 +14,37 @@ func resourceFirewallCentralsnatmapSort() *schema.Resource {
 		Delete: schema.Noop,
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"sortby": &schema.Schema{
+			"sortby": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"sortdirection": &schema.Schema{
+			"sortdirection": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"status": &schema.Schema{
+			"status": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Default:  "",
 			},
-			"force_recreate": &schema.Schema{
+			"force_recreate": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"comment": &schema.Schema{
+			"comment": {
 				Type:     schema.TypeString,
 				Optional: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -62,6 +67,14 @@ func resourceFirewallCentralsnatmapSortCreateUpdate(d *schema.ResourceData, m in
 		}
 	}
 
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
 	sortby := d.Get("sortby").(string)
 	sortdirection := d.Get("sortdirection").(string)
 
@@ -73,9 +86,9 @@ func resourceFirewallCentralsnatmapSortCreateUpdate(d *schema.ResourceData, m in
 		return fmt.Errorf("Unsupported sort direction: " + sortdirection)
 	}
 
-	err := c.CreateUpdateFirewallCentralsnatmapSort(sortby, sortdirection, vdomparam)
+	err := c.CreateUpdateFirewallCentralsnatmapSort(sortby, sortdirection, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error sorting FirewallCentralsnatmap: %s", err)
+		return fmt.Errorf("error sorting FirewallCentralsnatmap: %s", err)
 	}
 
 	d.SetId(sortby + sortdirection)
@@ -102,6 +115,14 @@ func resourceFirewallCentralsnatmapSortRead(d *schema.ResourceData, m interface{
 		}
 	}
 
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
 	sortby := d.Get("sortby").(string)
 	sortdirection := d.Get("sortdirection").(string)
 
@@ -113,9 +134,9 @@ func resourceFirewallCentralsnatmapSortRead(d *schema.ResourceData, m interface{
 		return fmt.Errorf("Unsupported sort direction: " + sortdirection)
 	}
 
-	sorted, err := c.ReadFirewallCentralsnatmapSort(sortby, sortdirection, vdomparam)
+	sorted, err := c.ReadFirewallCentralsnatmapSort(sortby, sortdirection, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading FirewallCentralsnatmap sort status: %s %s", err, mkey)
+		return fmt.Errorf("error reading FirewallCentralsnatmap sort status: %s %s", err, mkey)
 	}
 
 	if sorted == false {

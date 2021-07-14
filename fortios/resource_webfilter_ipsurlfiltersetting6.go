@@ -30,32 +30,37 @@ func resourceWebfilterIpsUrlfilterSetting6() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"device": &schema.Schema{
+			"device": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"distance": &schema.Schema{
+			"distance": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 255),
 				Optional:     true,
 				Computed:     true,
 			},
-			"gateway6": &schema.Schema{
+			"gateway6": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"geo_filter": &schema.Schema{
+			"geo_filter": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -74,14 +79,24 @@ func resourceWebfilterIpsUrlfilterSetting6Update(d *schema.ResourceData, m inter
 		}
 	}
 
-	obj, err := getObjectWebfilterIpsUrlfilterSetting6(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating WebfilterIpsUrlfilterSetting6 resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateWebfilterIpsUrlfilterSetting6(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectWebfilterIpsUrlfilterSetting6(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating WebfilterIpsUrlfilterSetting6 resource: %v", err)
+		return fmt.Errorf("error updating WebfilterIpsUrlfilterSetting6 resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateWebfilterIpsUrlfilterSetting6(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating WebfilterIpsUrlfilterSetting6 resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -108,9 +123,17 @@ func resourceWebfilterIpsUrlfilterSetting6Delete(d *schema.ResourceData, m inter
 		}
 	}
 
-	err := c.DeleteWebfilterIpsUrlfilterSetting6(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteWebfilterIpsUrlfilterSetting6(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting WebfilterIpsUrlfilterSetting6 resource: %v", err)
+		return fmt.Errorf("error deleting WebfilterIpsUrlfilterSetting6 resource: %v", err)
 	}
 
 	d.SetId("")
@@ -132,9 +155,19 @@ func resourceWebfilterIpsUrlfilterSetting6Read(d *schema.ResourceData, m interfa
 		}
 	}
 
-	o, err := c.ReadWebfilterIpsUrlfilterSetting6(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadWebfilterIpsUrlfilterSetting6(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading WebfilterIpsUrlfilterSetting6 resource: %v", err)
+		return fmt.Errorf("error reading WebfilterIpsUrlfilterSetting6 resource: %v", err)
 	}
 
 	if o == nil {
@@ -145,7 +178,7 @@ func resourceWebfilterIpsUrlfilterSetting6Read(d *schema.ResourceData, m interfa
 
 	err = refreshObjectWebfilterIpsUrlfilterSetting6(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading WebfilterIpsUrlfilterSetting6 resource from API: %v", err)
+		return fmt.Errorf("error reading WebfilterIpsUrlfilterSetting6 resource from API: %v", err)
 	}
 	return nil
 }
@@ -171,25 +204,25 @@ func refreshObjectWebfilterIpsUrlfilterSetting6(d *schema.ResourceData, o map[st
 
 	if err = d.Set("device", flattenWebfilterIpsUrlfilterSetting6Device(o["device"], d, "device", sv)); err != nil {
 		if !fortiAPIPatch(o["device"]) {
-			return fmt.Errorf("Error reading device: %v", err)
+			return fmt.Errorf("error reading device: %v", err)
 		}
 	}
 
 	if err = d.Set("distance", flattenWebfilterIpsUrlfilterSetting6Distance(o["distance"], d, "distance", sv)); err != nil {
 		if !fortiAPIPatch(o["distance"]) {
-			return fmt.Errorf("Error reading distance: %v", err)
+			return fmt.Errorf("error reading distance: %v", err)
 		}
 	}
 
 	if err = d.Set("gateway6", flattenWebfilterIpsUrlfilterSetting6Gateway6(o["gateway6"], d, "gateway6", sv)); err != nil {
 		if !fortiAPIPatch(o["gateway6"]) {
-			return fmt.Errorf("Error reading gateway6: %v", err)
+			return fmt.Errorf("error reading gateway6: %v", err)
 		}
 	}
 
 	if err = d.Set("geo_filter", flattenWebfilterIpsUrlfilterSetting6GeoFilter(o["geo-filter"], d, "geo_filter", sv)); err != nil {
 		if !fortiAPIPatch(o["geo-filter"]) {
-			return fmt.Errorf("Error reading geo_filter: %v", err)
+			return fmt.Errorf("error reading geo_filter: %v", err)
 		}
 	}
 

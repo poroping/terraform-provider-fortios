@@ -59,14 +59,14 @@ func testAccCheckFortiOSLogMemoryFilterExists(n string) resource.TestCheckFunc {
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadLogMemoryFilter(i, "root")
+		o, err := c.ReadLogMemoryFilter(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading LogMemoryFilter: %s", err)
+			return fmt.Errorf("error reading LogMemoryFilter: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating LogMemoryFilter: %s", n)
+			return fmt.Errorf("error creating LogMemoryFilter: %s", n)
 		}
 
 		return nil
@@ -82,11 +82,11 @@ func testAccCheckLogMemoryFilterDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadLogMemoryFilter(i, "root")
+		o, err := c.ReadLogMemoryFilter(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error LogMemoryFilter %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error LogMemoryFilter %s still exists", rs.Primary.ID)
 			}
 		}
 

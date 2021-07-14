@@ -30,28 +30,33 @@ func resourceSwitchControllerAutoConfigDefault() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"fgt_policy": &schema.Schema{
+			"fgt_policy": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"isl_policy": &schema.Schema{
+			"isl_policy": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"icl_policy": &schema.Schema{
+			"icl_policy": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -70,14 +75,24 @@ func resourceSwitchControllerAutoConfigDefaultUpdate(d *schema.ResourceData, m i
 		}
 	}
 
-	obj, err := getObjectSwitchControllerAutoConfigDefault(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SwitchControllerAutoConfigDefault resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSwitchControllerAutoConfigDefault(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSwitchControllerAutoConfigDefault(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SwitchControllerAutoConfigDefault resource: %v", err)
+		return fmt.Errorf("error updating SwitchControllerAutoConfigDefault resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSwitchControllerAutoConfigDefault(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SwitchControllerAutoConfigDefault resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -104,9 +119,17 @@ func resourceSwitchControllerAutoConfigDefaultDelete(d *schema.ResourceData, m i
 		}
 	}
 
-	err := c.DeleteSwitchControllerAutoConfigDefault(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSwitchControllerAutoConfigDefault(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SwitchControllerAutoConfigDefault resource: %v", err)
+		return fmt.Errorf("error deleting SwitchControllerAutoConfigDefault resource: %v", err)
 	}
 
 	d.SetId("")
@@ -128,9 +151,19 @@ func resourceSwitchControllerAutoConfigDefaultRead(d *schema.ResourceData, m int
 		}
 	}
 
-	o, err := c.ReadSwitchControllerAutoConfigDefault(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSwitchControllerAutoConfigDefault(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SwitchControllerAutoConfigDefault resource: %v", err)
+		return fmt.Errorf("error reading SwitchControllerAutoConfigDefault resource: %v", err)
 	}
 
 	if o == nil {
@@ -141,7 +174,7 @@ func resourceSwitchControllerAutoConfigDefaultRead(d *schema.ResourceData, m int
 
 	err = refreshObjectSwitchControllerAutoConfigDefault(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SwitchControllerAutoConfigDefault resource from API: %v", err)
+		return fmt.Errorf("error reading SwitchControllerAutoConfigDefault resource from API: %v", err)
 	}
 	return nil
 }
@@ -163,19 +196,19 @@ func refreshObjectSwitchControllerAutoConfigDefault(d *schema.ResourceData, o ma
 
 	if err = d.Set("fgt_policy", flattenSwitchControllerAutoConfigDefaultFgtPolicy(o["fgt-policy"], d, "fgt_policy", sv)); err != nil {
 		if !fortiAPIPatch(o["fgt-policy"]) {
-			return fmt.Errorf("Error reading fgt_policy: %v", err)
+			return fmt.Errorf("error reading fgt_policy: %v", err)
 		}
 	}
 
 	if err = d.Set("isl_policy", flattenSwitchControllerAutoConfigDefaultIslPolicy(o["isl-policy"], d, "isl_policy", sv)); err != nil {
 		if !fortiAPIPatch(o["isl-policy"]) {
-			return fmt.Errorf("Error reading isl_policy: %v", err)
+			return fmt.Errorf("error reading isl_policy: %v", err)
 		}
 	}
 
 	if err = d.Set("icl_policy", flattenSwitchControllerAutoConfigDefaultIclPolicy(o["icl-policy"], d, "icl_policy", sv)); err != nil {
 		if !fortiAPIPatch(o["icl-policy"]) {
-			return fmt.Errorf("Error reading icl_policy: %v", err)
+			return fmt.Errorf("error reading icl_policy: %v", err)
 		}
 	}
 

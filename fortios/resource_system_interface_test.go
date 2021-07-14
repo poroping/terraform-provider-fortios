@@ -61,14 +61,14 @@ func testAccCheckFortiOSSystemInterfaceExists(n string) resource.TestCheckFunc {
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemInterface(i, "root")
+		o, err := c.ReadSystemInterface(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading SystemInterface: %s", err)
+			return fmt.Errorf("error reading SystemInterface: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating SystemInterface: %s", n)
+			return fmt.Errorf("error creating SystemInterface: %s", n)
 		}
 
 		return nil
@@ -84,11 +84,11 @@ func testAccCheckSystemInterfaceDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemInterface(i, "root")
+		o, err := c.ReadSystemInterface(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error SystemInterface %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error SystemInterface %s still exists", rs.Primary.ID)
 			}
 		}
 

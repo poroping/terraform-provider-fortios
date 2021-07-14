@@ -30,74 +30,74 @@ func resourceWirelessControllerApcfgProfile() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"comment": &schema.Schema{
+			"comment": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
 			},
-			"ac_type": &schema.Schema{
+			"ac_type": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ac_timer": &schema.Schema{
+			"ac_timer": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(3, 30),
 				Optional:     true,
 				Computed:     true,
 			},
-			"ac_ip": &schema.Schema{
+			"ac_ip": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ac_port": &schema.Schema{
+			"ac_port": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1024, 49150),
 				Optional:     true,
 				Computed:     true,
 			},
-			"command_list": &schema.Schema{
+			"command_list": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 255),
 							Optional:     true,
 							Computed:     true,
 						},
-						"type": &schema.Schema{
+						"type": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 63),
 							Optional:     true,
 							Computed:     true,
 						},
-						"value": &schema.Schema{
+						"value": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 127),
 							Optional:     true,
 							Computed:     true,
 						},
-						"passwd_value": &schema.Schema{
+						"passwd_value": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 123),
 							Optional:     true,
@@ -106,10 +106,15 @@ func resourceWirelessControllerApcfgProfile() *schema.Resource {
 					},
 				},
 			},
-			"dynamic_sort_subtable": &schema.Schema{
+			"dynamic_sort_subtable": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Default:  "false",
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -127,15 +132,25 @@ func resourceWirelessControllerApcfgProfileCreate(d *schema.ResourceData, m inte
 		}
 	}
 
-	obj, err := getObjectWirelessControllerApcfgProfile(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating WirelessControllerApcfgProfile resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateWirelessControllerApcfgProfile(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectWirelessControllerApcfgProfile(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating WirelessControllerApcfgProfile resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateWirelessControllerApcfgProfile(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating WirelessControllerApcfgProfile resource: %v", err)
+		return fmt.Errorf("error creating WirelessControllerApcfgProfile resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -160,14 +175,24 @@ func resourceWirelessControllerApcfgProfileUpdate(d *schema.ResourceData, m inte
 		}
 	}
 
-	obj, err := getObjectWirelessControllerApcfgProfile(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating WirelessControllerApcfgProfile resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateWirelessControllerApcfgProfile(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectWirelessControllerApcfgProfile(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating WirelessControllerApcfgProfile resource: %v", err)
+		return fmt.Errorf("error updating WirelessControllerApcfgProfile resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateWirelessControllerApcfgProfile(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating WirelessControllerApcfgProfile resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -194,9 +219,17 @@ func resourceWirelessControllerApcfgProfileDelete(d *schema.ResourceData, m inte
 		}
 	}
 
-	err := c.DeleteWirelessControllerApcfgProfile(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteWirelessControllerApcfgProfile(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting WirelessControllerApcfgProfile resource: %v", err)
+		return fmt.Errorf("error deleting WirelessControllerApcfgProfile resource: %v", err)
 	}
 
 	d.SetId("")
@@ -218,9 +251,19 @@ func resourceWirelessControllerApcfgProfileRead(d *schema.ResourceData, m interf
 		}
 	}
 
-	o, err := c.ReadWirelessControllerApcfgProfile(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadWirelessControllerApcfgProfile(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading WirelessControllerApcfgProfile resource: %v", err)
+		return fmt.Errorf("error reading WirelessControllerApcfgProfile resource: %v", err)
 	}
 
 	if o == nil {
@@ -231,7 +274,7 @@ func resourceWirelessControllerApcfgProfileRead(d *schema.ResourceData, m interf
 
 	err = refreshObjectWirelessControllerApcfgProfile(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading WirelessControllerApcfgProfile resource from API: %v", err)
+		return fmt.Errorf("error reading WirelessControllerApcfgProfile resource from API: %v", err)
 	}
 	return nil
 }
@@ -347,51 +390,51 @@ func refreshObjectWirelessControllerApcfgProfile(d *schema.ResourceData, o map[s
 
 	if err = d.Set("name", flattenWirelessControllerApcfgProfileName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("comment", flattenWirelessControllerApcfgProfileComment(o["comment"], d, "comment", sv)); err != nil {
 		if !fortiAPIPatch(o["comment"]) {
-			return fmt.Errorf("Error reading comment: %v", err)
+			return fmt.Errorf("error reading comment: %v", err)
 		}
 	}
 
 	if err = d.Set("ac_type", flattenWirelessControllerApcfgProfileAcType(o["ac-type"], d, "ac_type", sv)); err != nil {
 		if !fortiAPIPatch(o["ac-type"]) {
-			return fmt.Errorf("Error reading ac_type: %v", err)
+			return fmt.Errorf("error reading ac_type: %v", err)
 		}
 	}
 
 	if err = d.Set("ac_timer", flattenWirelessControllerApcfgProfileAcTimer(o["ac-timer"], d, "ac_timer", sv)); err != nil {
 		if !fortiAPIPatch(o["ac-timer"]) {
-			return fmt.Errorf("Error reading ac_timer: %v", err)
+			return fmt.Errorf("error reading ac_timer: %v", err)
 		}
 	}
 
 	if err = d.Set("ac_ip", flattenWirelessControllerApcfgProfileAcIp(o["ac-ip"], d, "ac_ip", sv)); err != nil {
 		if !fortiAPIPatch(o["ac-ip"]) {
-			return fmt.Errorf("Error reading ac_ip: %v", err)
+			return fmt.Errorf("error reading ac_ip: %v", err)
 		}
 	}
 
 	if err = d.Set("ac_port", flattenWirelessControllerApcfgProfileAcPort(o["ac-port"], d, "ac_port", sv)); err != nil {
 		if !fortiAPIPatch(o["ac-port"]) {
-			return fmt.Errorf("Error reading ac_port: %v", err)
+			return fmt.Errorf("error reading ac_port: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("command_list", flattenWirelessControllerApcfgProfileCommandList(o["command-list"], d, "command_list", sv)); err != nil {
 			if !fortiAPIPatch(o["command-list"]) {
-				return fmt.Errorf("Error reading command_list: %v", err)
+				return fmt.Errorf("error reading command_list: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("command_list"); ok {
 			if err = d.Set("command_list", flattenWirelessControllerApcfgProfileCommandList(o["command-list"], d, "command_list", sv)); err != nil {
 				if !fortiAPIPatch(o["command-list"]) {
-					return fmt.Errorf("Error reading command_list: %v", err)
+					return fmt.Errorf("error reading command_list: %v", err)
 				}
 			}
 		}

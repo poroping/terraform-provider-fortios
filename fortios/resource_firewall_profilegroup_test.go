@@ -51,14 +51,14 @@ func testAccCheckFortiOSFirewallProfileGroupExists(n string) resource.TestCheckF
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadFirewallProfileGroup(i, "root")
+		o, err := c.ReadFirewallProfileGroup(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading FirewallProfileGroup: %s", err)
+			return fmt.Errorf("error reading FirewallProfileGroup: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating FirewallProfileGroup: %s", n)
+			return fmt.Errorf("error creating FirewallProfileGroup: %s", n)
 		}
 
 		return nil
@@ -74,11 +74,11 @@ func testAccCheckFirewallProfileGroupDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadFirewallProfileGroup(i, "root")
+		o, err := c.ReadFirewallProfileGroup(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error FirewallProfileGroup %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error FirewallProfileGroup %s still exists", rs.Primary.ID)
 			}
 		}
 

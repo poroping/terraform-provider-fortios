@@ -30,35 +30,40 @@ func resourceFirewallScheduleOnetime() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 31),
 				Required:     true,
 			},
-			"start": &schema.Schema{
+			"start": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"end": &schema.Schema{
+			"end": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"color": &schema.Schema{
+			"color": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 32),
 				Optional:     true,
 				Computed:     true,
 			},
-			"expiration_days": &schema.Schema{
+			"expiration_days": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 100),
 				Optional:     true,
 				Computed:     true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -76,15 +81,25 @@ func resourceFirewallScheduleOnetimeCreate(d *schema.ResourceData, m interface{}
 		}
 	}
 
-	obj, err := getObjectFirewallScheduleOnetime(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating FirewallScheduleOnetime resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateFirewallScheduleOnetime(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectFirewallScheduleOnetime(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating FirewallScheduleOnetime resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateFirewallScheduleOnetime(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating FirewallScheduleOnetime resource: %v", err)
+		return fmt.Errorf("error creating FirewallScheduleOnetime resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -109,14 +124,24 @@ func resourceFirewallScheduleOnetimeUpdate(d *schema.ResourceData, m interface{}
 		}
 	}
 
-	obj, err := getObjectFirewallScheduleOnetime(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating FirewallScheduleOnetime resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateFirewallScheduleOnetime(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectFirewallScheduleOnetime(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating FirewallScheduleOnetime resource: %v", err)
+		return fmt.Errorf("error updating FirewallScheduleOnetime resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateFirewallScheduleOnetime(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating FirewallScheduleOnetime resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -143,9 +168,17 @@ func resourceFirewallScheduleOnetimeDelete(d *schema.ResourceData, m interface{}
 		}
 	}
 
-	err := c.DeleteFirewallScheduleOnetime(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteFirewallScheduleOnetime(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting FirewallScheduleOnetime resource: %v", err)
+		return fmt.Errorf("error deleting FirewallScheduleOnetime resource: %v", err)
 	}
 
 	d.SetId("")
@@ -167,9 +200,19 @@ func resourceFirewallScheduleOnetimeRead(d *schema.ResourceData, m interface{}) 
 		}
 	}
 
-	o, err := c.ReadFirewallScheduleOnetime(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadFirewallScheduleOnetime(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading FirewallScheduleOnetime resource: %v", err)
+		return fmt.Errorf("error reading FirewallScheduleOnetime resource: %v", err)
 	}
 
 	if o == nil {
@@ -180,7 +223,7 @@ func resourceFirewallScheduleOnetimeRead(d *schema.ResourceData, m interface{}) 
 
 	err = refreshObjectFirewallScheduleOnetime(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading FirewallScheduleOnetime resource from API: %v", err)
+		return fmt.Errorf("error reading FirewallScheduleOnetime resource from API: %v", err)
 	}
 	return nil
 }
@@ -210,31 +253,31 @@ func refreshObjectFirewallScheduleOnetime(d *schema.ResourceData, o map[string]i
 
 	if err = d.Set("name", flattenFirewallScheduleOnetimeName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("start", flattenFirewallScheduleOnetimeStart(o["start"], d, "start", sv)); err != nil {
 		if !fortiAPIPatch(o["start"]) {
-			return fmt.Errorf("Error reading start: %v", err)
+			return fmt.Errorf("error reading start: %v", err)
 		}
 	}
 
 	if err = d.Set("end", flattenFirewallScheduleOnetimeEnd(o["end"], d, "end", sv)); err != nil {
 		if !fortiAPIPatch(o["end"]) {
-			return fmt.Errorf("Error reading end: %v", err)
+			return fmt.Errorf("error reading end: %v", err)
 		}
 	}
 
 	if err = d.Set("color", flattenFirewallScheduleOnetimeColor(o["color"], d, "color", sv)); err != nil {
 		if !fortiAPIPatch(o["color"]) {
-			return fmt.Errorf("Error reading color: %v", err)
+			return fmt.Errorf("error reading color: %v", err)
 		}
 	}
 
 	if err = d.Set("expiration_days", flattenFirewallScheduleOnetimeExpirationDays(o["expiration-days"], d, "expiration_days", sv)); err != nil {
 		if !fortiAPIPatch(o["expiration-days"]) {
-			return fmt.Errorf("Error reading expiration_days: %v", err)
+			return fmt.Errorf("error reading expiration_days: %v", err)
 		}
 	}
 

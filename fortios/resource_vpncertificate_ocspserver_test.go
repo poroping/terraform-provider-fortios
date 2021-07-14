@@ -53,14 +53,14 @@ func testAccCheckFortiOSVpnCertificateOcspServerExists(n string) resource.TestCh
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadVpnCertificateOcspServer(i, "root")
+		o, err := c.ReadVpnCertificateOcspServer(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading VpnCertificateOcspServer: %s", err)
+			return fmt.Errorf("error reading VpnCertificateOcspServer: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating VpnCertificateOcspServer: %s", n)
+			return fmt.Errorf("error creating VpnCertificateOcspServer: %s", n)
 		}
 
 		return nil
@@ -76,11 +76,11 @@ func testAccCheckVpnCertificateOcspServerDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadVpnCertificateOcspServer(i, "root")
+		o, err := c.ReadVpnCertificateOcspServer(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error VpnCertificateOcspServer %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error VpnCertificateOcspServer %s still exists", rs.Primary.ID)
 			}
 		}
 

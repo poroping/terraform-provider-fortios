@@ -30,26 +30,31 @@ func resourceSystemIpsUrlfilterDns() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"address": &schema.Schema{
+			"address": {
 				Type:     schema.TypeString,
 				ForceNew: true,
 				Optional: true,
 				Computed: true,
 			},
-			"status": &schema.Schema{
+			"status": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ipv6_capability": &schema.Schema{
+			"ipv6_capability": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -67,15 +72,25 @@ func resourceSystemIpsUrlfilterDnsCreate(d *schema.ResourceData, m interface{}) 
 		}
 	}
 
-	obj, err := getObjectSystemIpsUrlfilterDns(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating SystemIpsUrlfilterDns resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateSystemIpsUrlfilterDns(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemIpsUrlfilterDns(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating SystemIpsUrlfilterDns resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateSystemIpsUrlfilterDns(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating SystemIpsUrlfilterDns resource: %v", err)
+		return fmt.Errorf("error creating SystemIpsUrlfilterDns resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -100,14 +115,24 @@ func resourceSystemIpsUrlfilterDnsUpdate(d *schema.ResourceData, m interface{}) 
 		}
 	}
 
-	obj, err := getObjectSystemIpsUrlfilterDns(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SystemIpsUrlfilterDns resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSystemIpsUrlfilterDns(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemIpsUrlfilterDns(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SystemIpsUrlfilterDns resource: %v", err)
+		return fmt.Errorf("error updating SystemIpsUrlfilterDns resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSystemIpsUrlfilterDns(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SystemIpsUrlfilterDns resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -134,9 +159,17 @@ func resourceSystemIpsUrlfilterDnsDelete(d *schema.ResourceData, m interface{}) 
 		}
 	}
 
-	err := c.DeleteSystemIpsUrlfilterDns(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSystemIpsUrlfilterDns(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SystemIpsUrlfilterDns resource: %v", err)
+		return fmt.Errorf("error deleting SystemIpsUrlfilterDns resource: %v", err)
 	}
 
 	d.SetId("")
@@ -158,9 +191,19 @@ func resourceSystemIpsUrlfilterDnsRead(d *schema.ResourceData, m interface{}) er
 		}
 	}
 
-	o, err := c.ReadSystemIpsUrlfilterDns(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSystemIpsUrlfilterDns(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemIpsUrlfilterDns resource: %v", err)
+		return fmt.Errorf("error reading SystemIpsUrlfilterDns resource: %v", err)
 	}
 
 	if o == nil {
@@ -171,7 +214,7 @@ func resourceSystemIpsUrlfilterDnsRead(d *schema.ResourceData, m interface{}) er
 
 	err = refreshObjectSystemIpsUrlfilterDns(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemIpsUrlfilterDns resource from API: %v", err)
+		return fmt.Errorf("error reading SystemIpsUrlfilterDns resource from API: %v", err)
 	}
 	return nil
 }
@@ -193,19 +236,19 @@ func refreshObjectSystemIpsUrlfilterDns(d *schema.ResourceData, o map[string]int
 
 	if err = d.Set("address", flattenSystemIpsUrlfilterDnsAddress(o["address"], d, "address", sv)); err != nil {
 		if !fortiAPIPatch(o["address"]) {
-			return fmt.Errorf("Error reading address: %v", err)
+			return fmt.Errorf("error reading address: %v", err)
 		}
 	}
 
 	if err = d.Set("status", flattenSystemIpsUrlfilterDnsStatus(o["status"], d, "status", sv)); err != nil {
 		if !fortiAPIPatch(o["status"]) {
-			return fmt.Errorf("Error reading status: %v", err)
+			return fmt.Errorf("error reading status: %v", err)
 		}
 	}
 
 	if err = d.Set("ipv6_capability", flattenSystemIpsUrlfilterDnsIpv6Capability(o["ipv6-capability"], d, "ipv6_capability", sv)); err != nil {
 		if !fortiAPIPatch(o["ipv6-capability"]) {
-			return fmt.Errorf("Error reading ipv6_capability: %v", err)
+			return fmt.Errorf("error reading ipv6_capability: %v", err)
 		}
 	}
 

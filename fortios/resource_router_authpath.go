@@ -30,26 +30,31 @@ func resourceRouterAuthPath() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 15),
 				ForceNew:     true,
 				Required:     true,
 			},
-			"device": &schema.Schema{
+			"device": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Required:     true,
 			},
-			"gateway": &schema.Schema{
+			"gateway": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -67,15 +72,25 @@ func resourceRouterAuthPathCreate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectRouterAuthPath(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating RouterAuthPath resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateRouterAuthPath(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectRouterAuthPath(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating RouterAuthPath resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateRouterAuthPath(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating RouterAuthPath resource: %v", err)
+		return fmt.Errorf("error creating RouterAuthPath resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -100,14 +115,24 @@ func resourceRouterAuthPathUpdate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectRouterAuthPath(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating RouterAuthPath resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateRouterAuthPath(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectRouterAuthPath(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating RouterAuthPath resource: %v", err)
+		return fmt.Errorf("error updating RouterAuthPath resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateRouterAuthPath(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating RouterAuthPath resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -134,9 +159,17 @@ func resourceRouterAuthPathDelete(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	err := c.DeleteRouterAuthPath(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteRouterAuthPath(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting RouterAuthPath resource: %v", err)
+		return fmt.Errorf("error deleting RouterAuthPath resource: %v", err)
 	}
 
 	d.SetId("")
@@ -158,9 +191,19 @@ func resourceRouterAuthPathRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadRouterAuthPath(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadRouterAuthPath(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading RouterAuthPath resource: %v", err)
+		return fmt.Errorf("error reading RouterAuthPath resource: %v", err)
 	}
 
 	if o == nil {
@@ -171,7 +214,7 @@ func resourceRouterAuthPathRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectRouterAuthPath(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading RouterAuthPath resource from API: %v", err)
+		return fmt.Errorf("error reading RouterAuthPath resource from API: %v", err)
 	}
 	return nil
 }
@@ -193,19 +236,19 @@ func refreshObjectRouterAuthPath(d *schema.ResourceData, o map[string]interface{
 
 	if err = d.Set("name", flattenRouterAuthPathName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("device", flattenRouterAuthPathDevice(o["device"], d, "device", sv)); err != nil {
 		if !fortiAPIPatch(o["device"]) {
-			return fmt.Errorf("Error reading device: %v", err)
+			return fmt.Errorf("error reading device: %v", err)
 		}
 	}
 
 	if err = d.Set("gateway", flattenRouterAuthPathGateway(o["gateway"], d, "gateway", sv)); err != nil {
 		if !fortiAPIPatch(o["gateway"]) {
-			return fmt.Errorf("Error reading gateway: %v", err)
+			return fmt.Errorf("error reading gateway: %v", err)
 		}
 	}
 

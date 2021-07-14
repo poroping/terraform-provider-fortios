@@ -30,34 +30,34 @@ func resourceApplicationGroup() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"comment": &schema.Schema{
+			"comment": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
 			},
-			"type": &schema.Schema{
+			"type": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"application": &schema.Schema{
+			"application": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
@@ -65,12 +65,12 @@ func resourceApplicationGroup() *schema.Resource {
 					},
 				},
 			},
-			"category": &schema.Schema{
+			"category": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
@@ -78,12 +78,12 @@ func resourceApplicationGroup() *schema.Resource {
 					},
 				},
 			},
-			"risk": &schema.Schema{
+			"risk": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"level": &schema.Schema{
+						"level": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
@@ -91,35 +91,40 @@ func resourceApplicationGroup() *schema.Resource {
 					},
 				},
 			},
-			"protocols": &schema.Schema{
+			"protocols": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"vendor": &schema.Schema{
+			"vendor": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"technology": &schema.Schema{
+			"technology": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"behavior": &schema.Schema{
+			"behavior": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"popularity": &schema.Schema{
+			"popularity": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"dynamic_sort_subtable": &schema.Schema{
+			"dynamic_sort_subtable": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Default:  "false",
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -137,15 +142,25 @@ func resourceApplicationGroupCreate(d *schema.ResourceData, m interface{}) error
 		}
 	}
 
-	obj, err := getObjectApplicationGroup(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating ApplicationGroup resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateApplicationGroup(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectApplicationGroup(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating ApplicationGroup resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateApplicationGroup(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating ApplicationGroup resource: %v", err)
+		return fmt.Errorf("error creating ApplicationGroup resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -170,14 +185,24 @@ func resourceApplicationGroupUpdate(d *schema.ResourceData, m interface{}) error
 		}
 	}
 
-	obj, err := getObjectApplicationGroup(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating ApplicationGroup resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateApplicationGroup(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectApplicationGroup(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating ApplicationGroup resource: %v", err)
+		return fmt.Errorf("error updating ApplicationGroup resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateApplicationGroup(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating ApplicationGroup resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -204,9 +229,17 @@ func resourceApplicationGroupDelete(d *schema.ResourceData, m interface{}) error
 		}
 	}
 
-	err := c.DeleteApplicationGroup(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteApplicationGroup(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting ApplicationGroup resource: %v", err)
+		return fmt.Errorf("error deleting ApplicationGroup resource: %v", err)
 	}
 
 	d.SetId("")
@@ -228,9 +261,19 @@ func resourceApplicationGroupRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadApplicationGroup(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadApplicationGroup(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading ApplicationGroup resource: %v", err)
+		return fmt.Errorf("error reading ApplicationGroup resource: %v", err)
 	}
 
 	if o == nil {
@@ -241,7 +284,7 @@ func resourceApplicationGroupRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectApplicationGroup(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading ApplicationGroup resource from API: %v", err)
+		return fmt.Errorf("error reading ApplicationGroup resource from API: %v", err)
 	}
 	return nil
 }
@@ -397,33 +440,33 @@ func refreshObjectApplicationGroup(d *schema.ResourceData, o map[string]interfac
 
 	if err = d.Set("name", flattenApplicationGroupName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("comment", flattenApplicationGroupComment(o["comment"], d, "comment", sv)); err != nil {
 		if !fortiAPIPatch(o["comment"]) {
-			return fmt.Errorf("Error reading comment: %v", err)
+			return fmt.Errorf("error reading comment: %v", err)
 		}
 	}
 
 	if err = d.Set("type", flattenApplicationGroupType(o["type"], d, "type", sv)); err != nil {
 		if !fortiAPIPatch(o["type"]) {
-			return fmt.Errorf("Error reading type: %v", err)
+			return fmt.Errorf("error reading type: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("application", flattenApplicationGroupApplication(o["application"], d, "application", sv)); err != nil {
 			if !fortiAPIPatch(o["application"]) {
-				return fmt.Errorf("Error reading application: %v", err)
+				return fmt.Errorf("error reading application: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("application"); ok {
 			if err = d.Set("application", flattenApplicationGroupApplication(o["application"], d, "application", sv)); err != nil {
 				if !fortiAPIPatch(o["application"]) {
-					return fmt.Errorf("Error reading application: %v", err)
+					return fmt.Errorf("error reading application: %v", err)
 				}
 			}
 		}
@@ -432,14 +475,14 @@ func refreshObjectApplicationGroup(d *schema.ResourceData, o map[string]interfac
 	if isImportTable() {
 		if err = d.Set("category", flattenApplicationGroupCategory(o["category"], d, "category", sv)); err != nil {
 			if !fortiAPIPatch(o["category"]) {
-				return fmt.Errorf("Error reading category: %v", err)
+				return fmt.Errorf("error reading category: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("category"); ok {
 			if err = d.Set("category", flattenApplicationGroupCategory(o["category"], d, "category", sv)); err != nil {
 				if !fortiAPIPatch(o["category"]) {
-					return fmt.Errorf("Error reading category: %v", err)
+					return fmt.Errorf("error reading category: %v", err)
 				}
 			}
 		}
@@ -448,14 +491,14 @@ func refreshObjectApplicationGroup(d *schema.ResourceData, o map[string]interfac
 	if isImportTable() {
 		if err = d.Set("risk", flattenApplicationGroupRisk(o["risk"], d, "risk", sv)); err != nil {
 			if !fortiAPIPatch(o["risk"]) {
-				return fmt.Errorf("Error reading risk: %v", err)
+				return fmt.Errorf("error reading risk: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("risk"); ok {
 			if err = d.Set("risk", flattenApplicationGroupRisk(o["risk"], d, "risk", sv)); err != nil {
 				if !fortiAPIPatch(o["risk"]) {
-					return fmt.Errorf("Error reading risk: %v", err)
+					return fmt.Errorf("error reading risk: %v", err)
 				}
 			}
 		}
@@ -463,31 +506,31 @@ func refreshObjectApplicationGroup(d *schema.ResourceData, o map[string]interfac
 
 	if err = d.Set("protocols", flattenApplicationGroupProtocols(o["protocols"], d, "protocols", sv)); err != nil {
 		if !fortiAPIPatch(o["protocols"]) {
-			return fmt.Errorf("Error reading protocols: %v", err)
+			return fmt.Errorf("error reading protocols: %v", err)
 		}
 	}
 
 	if err = d.Set("vendor", flattenApplicationGroupVendor(o["vendor"], d, "vendor", sv)); err != nil {
 		if !fortiAPIPatch(o["vendor"]) {
-			return fmt.Errorf("Error reading vendor: %v", err)
+			return fmt.Errorf("error reading vendor: %v", err)
 		}
 	}
 
 	if err = d.Set("technology", flattenApplicationGroupTechnology(o["technology"], d, "technology", sv)); err != nil {
 		if !fortiAPIPatch(o["technology"]) {
-			return fmt.Errorf("Error reading technology: %v", err)
+			return fmt.Errorf("error reading technology: %v", err)
 		}
 	}
 
 	if err = d.Set("behavior", flattenApplicationGroupBehavior(o["behavior"], d, "behavior", sv)); err != nil {
 		if !fortiAPIPatch(o["behavior"]) {
-			return fmt.Errorf("Error reading behavior: %v", err)
+			return fmt.Errorf("error reading behavior: %v", err)
 		}
 	}
 
 	if err = d.Set("popularity", flattenApplicationGroupPopularity(o["popularity"], d, "popularity", sv)); err != nil {
 		if !fortiAPIPatch(o["popularity"]) {
-			return fmt.Errorf("Error reading popularity: %v", err)
+			return fmt.Errorf("error reading popularity: %v", err)
 		}
 	}
 

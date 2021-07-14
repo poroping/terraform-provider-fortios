@@ -64,14 +64,14 @@ func testAccCheckFortiOSFirewallServiceCustomExists(n string) resource.TestCheck
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadFirewallServiceCustom(i, "root")
+		o, err := c.ReadFirewallServiceCustom(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading FirewallServiceCustom: %s", err)
+			return fmt.Errorf("error reading FirewallServiceCustom: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating FirewallServiceCustom: %s", n)
+			return fmt.Errorf("error creating FirewallServiceCustom: %s", n)
 		}
 
 		return nil
@@ -87,11 +87,11 @@ func testAccCheckFirewallServiceCustomDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadFirewallServiceCustom(i, "root")
+		o, err := c.ReadFirewallServiceCustom(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error FirewallServiceCustom %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error FirewallServiceCustom %s still exists", rs.Primary.ID)
 			}
 		}
 

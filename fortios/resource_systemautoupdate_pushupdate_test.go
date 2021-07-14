@@ -52,14 +52,14 @@ func testAccCheckFortiOSSystemAutoupdatePushUpdateExists(n string) resource.Test
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemAutoupdatePushUpdate(i, "root")
+		o, err := c.ReadSystemAutoupdatePushUpdate(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading SystemAutoupdatePushUpdate: %s", err)
+			return fmt.Errorf("error reading SystemAutoupdatePushUpdate: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating SystemAutoupdatePushUpdate: %s", n)
+			return fmt.Errorf("error creating SystemAutoupdatePushUpdate: %s", n)
 		}
 
 		return nil
@@ -75,11 +75,11 @@ func testAccCheckSystemAutoupdatePushUpdateDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemAutoupdatePushUpdate(i, "root")
+		o, err := c.ReadSystemAutoupdatePushUpdate(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error SystemAutoupdatePushUpdate %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error SystemAutoupdatePushUpdate %s still exists", rs.Primary.ID)
 			}
 		}
 

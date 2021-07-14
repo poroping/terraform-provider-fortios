@@ -30,95 +30,95 @@ func resourceFirewallShapingProfile() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"profile_name": &schema.Schema{
+			"profile_name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Required:     true,
 			},
-			"comment": &schema.Schema{
+			"comment": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 1023),
 				Optional:     true,
 			},
-			"type": &schema.Schema{
+			"type": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"default_class_id": &schema.Schema{
+			"default_class_id": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(2, 31),
 				Required:     true,
 			},
-			"shaping_entries": &schema.Schema{
+			"shaping_entries": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"class_id": &schema.Schema{
+						"class_id": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(2, 31),
 							Optional:     true,
 							Computed:     true,
 						},
-						"priority": &schema.Schema{
+						"priority": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"guaranteed_bandwidth_percentage": &schema.Schema{
+						"guaranteed_bandwidth_percentage": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 100),
 							Optional:     true,
 							Computed:     true,
 						},
-						"maximum_bandwidth_percentage": &schema.Schema{
+						"maximum_bandwidth_percentage": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 100),
 							Optional:     true,
 							Computed:     true,
 						},
-						"limit": &schema.Schema{
+						"limit": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(5, 10000),
 							Optional:     true,
 							Computed:     true,
 						},
-						"burst_in_msec": &schema.Schema{
+						"burst_in_msec": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 2000),
 							Optional:     true,
 							Computed:     true,
 						},
-						"cburst_in_msec": &schema.Schema{
+						"cburst_in_msec": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 2000),
 							Optional:     true,
 							Computed:     true,
 						},
-						"red_probability": &schema.Schema{
+						"red_probability": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 20),
 							Optional:     true,
 							Computed:     true,
 						},
-						"min": &schema.Schema{
+						"min": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(3, 3000),
 							Optional:     true,
 							Computed:     true,
 						},
-						"max": &schema.Schema{
+						"max": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(3, 3000),
 							Optional:     true,
@@ -127,10 +127,15 @@ func resourceFirewallShapingProfile() *schema.Resource {
 					},
 				},
 			},
-			"dynamic_sort_subtable": &schema.Schema{
+			"dynamic_sort_subtable": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Default:  "false",
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -148,15 +153,25 @@ func resourceFirewallShapingProfileCreate(d *schema.ResourceData, m interface{})
 		}
 	}
 
-	obj, err := getObjectFirewallShapingProfile(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating FirewallShapingProfile resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateFirewallShapingProfile(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectFirewallShapingProfile(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating FirewallShapingProfile resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateFirewallShapingProfile(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating FirewallShapingProfile resource: %v", err)
+		return fmt.Errorf("error creating FirewallShapingProfile resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -181,14 +196,24 @@ func resourceFirewallShapingProfileUpdate(d *schema.ResourceData, m interface{})
 		}
 	}
 
-	obj, err := getObjectFirewallShapingProfile(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating FirewallShapingProfile resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateFirewallShapingProfile(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectFirewallShapingProfile(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating FirewallShapingProfile resource: %v", err)
+		return fmt.Errorf("error updating FirewallShapingProfile resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateFirewallShapingProfile(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating FirewallShapingProfile resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -215,9 +240,17 @@ func resourceFirewallShapingProfileDelete(d *schema.ResourceData, m interface{})
 		}
 	}
 
-	err := c.DeleteFirewallShapingProfile(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteFirewallShapingProfile(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting FirewallShapingProfile resource: %v", err)
+		return fmt.Errorf("error deleting FirewallShapingProfile resource: %v", err)
 	}
 
 	d.SetId("")
@@ -239,9 +272,19 @@ func resourceFirewallShapingProfileRead(d *schema.ResourceData, m interface{}) e
 		}
 	}
 
-	o, err := c.ReadFirewallShapingProfile(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadFirewallShapingProfile(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading FirewallShapingProfile resource: %v", err)
+		return fmt.Errorf("error reading FirewallShapingProfile resource: %v", err)
 	}
 
 	if o == nil {
@@ -252,7 +295,7 @@ func resourceFirewallShapingProfileRead(d *schema.ResourceData, m interface{}) e
 
 	err = refreshObjectFirewallShapingProfile(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading FirewallShapingProfile resource from API: %v", err)
+		return fmt.Errorf("error reading FirewallShapingProfile resource from API: %v", err)
 	}
 	return nil
 }
@@ -416,39 +459,39 @@ func refreshObjectFirewallShapingProfile(d *schema.ResourceData, o map[string]in
 
 	if err = d.Set("profile_name", flattenFirewallShapingProfileProfileName(o["profile-name"], d, "profile_name", sv)); err != nil {
 		if !fortiAPIPatch(o["profile-name"]) {
-			return fmt.Errorf("Error reading profile_name: %v", err)
+			return fmt.Errorf("error reading profile_name: %v", err)
 		}
 	}
 
 	if err = d.Set("comment", flattenFirewallShapingProfileComment(o["comment"], d, "comment", sv)); err != nil {
 		if !fortiAPIPatch(o["comment"]) {
-			return fmt.Errorf("Error reading comment: %v", err)
+			return fmt.Errorf("error reading comment: %v", err)
 		}
 	}
 
 	if err = d.Set("type", flattenFirewallShapingProfileType(o["type"], d, "type", sv)); err != nil {
 		if !fortiAPIPatch(o["type"]) {
-			return fmt.Errorf("Error reading type: %v", err)
+			return fmt.Errorf("error reading type: %v", err)
 		}
 	}
 
 	if err = d.Set("default_class_id", flattenFirewallShapingProfileDefaultClassId(o["default-class-id"], d, "default_class_id", sv)); err != nil {
 		if !fortiAPIPatch(o["default-class-id"]) {
-			return fmt.Errorf("Error reading default_class_id: %v", err)
+			return fmt.Errorf("error reading default_class_id: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("shaping_entries", flattenFirewallShapingProfileShapingEntries(o["shaping-entries"], d, "shaping_entries", sv)); err != nil {
 			if !fortiAPIPatch(o["shaping-entries"]) {
-				return fmt.Errorf("Error reading shaping_entries: %v", err)
+				return fmt.Errorf("error reading shaping_entries: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("shaping_entries"); ok {
 			if err = d.Set("shaping_entries", flattenFirewallShapingProfileShapingEntries(o["shaping-entries"], d, "shaping_entries", sv)); err != nil {
 				if !fortiAPIPatch(o["shaping-entries"]) {
-					return fmt.Errorf("Error reading shaping_entries: %v", err)
+					return fmt.Errorf("error reading shaping_entries: %v", err)
 				}
 			}
 		}

@@ -15,31 +15,36 @@ func resourceFirewallProxypolicyMove() *schema.Resource {
 		Delete: schema.Noop,
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"policyid_src": &schema.Schema{
+			"policyid_src": {
 				Type:     schema.TypeInt,
 				Required: true,
 			},
-			"policyid_dst": &schema.Schema{
+			"policyid_dst": {
 				Type:     schema.TypeInt,
 				Required: true,
 			},
-			"move": &schema.Schema{
+			"move": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"state_policy_srcdst_pos": &schema.Schema{
+			"state_policy_srcdst_pos": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Default:  "",
 			},
-			"comment": &schema.Schema{
+			"comment": {
 				Type:     schema.TypeString,
 				Optional: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -62,6 +67,14 @@ func resourceFirewallProxypolicyMoveCreateUpdate(d *schema.ResourceData, m inter
 		}
 	}
 
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
 	srcIdPatch := d.Get("policyid_src").(int)
 	dstIdPatch := d.Get("policyid_dst").(int)
 	mv := d.Get("move").(string)
@@ -73,9 +86,9 @@ func resourceFirewallProxypolicyMoveCreateUpdate(d *schema.ResourceData, m inter
 		return fmt.Errorf("<move> param should be only 'after' or 'before'")
 	}
 
-	err := c.CreateUpdateFirewallProxypolicyMove(srcId, dstId, mv, vdomparam)
+	err := c.CreateUpdateFirewallProxypolicyMove(srcId, dstId, mv, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error Altering FirewallProxypolicy Moveuence: %s", err)
+		return fmt.Errorf("error Altering FirewallProxypolicy Moveuence: %s", err)
 	}
 
 	d.SetId(srcId)
@@ -100,13 +113,21 @@ func resourceFirewallProxypolicyMoveRead(d *schema.ResourceData, m interface{}) 
 		}
 	}
 
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
 	sid := d.Get("policyid_src").(int)
 	did := d.Get("policyid_dst").(int)
 	action := d.Get("move").(string)
 
-	o, err := c.GetFirewallProxypolicyList(vdomparam)
+	o, err := c.GetFirewallProxypolicyList(vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading FirewallProxypolicy List: %s", err)
+		return fmt.Errorf("error reading FirewallProxypolicy List: %s", err)
 	}
 
 	if o != nil {

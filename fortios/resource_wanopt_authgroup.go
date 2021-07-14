@@ -30,44 +30,49 @@ func resourceWanoptAuthGroup() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"auth_method": &schema.Schema{
+			"auth_method": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"psk": &schema.Schema{
+			"psk": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 128),
 				Optional:     true,
 				Sensitive:    true,
 			},
-			"cert": &schema.Schema{
+			"cert": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Required:     true,
 			},
-			"peer_accept": &schema.Schema{
+			"peer_accept": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"peer": &schema.Schema{
+			"peer": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -85,15 +90,25 @@ func resourceWanoptAuthGroupCreate(d *schema.ResourceData, m interface{}) error 
 		}
 	}
 
-	obj, err := getObjectWanoptAuthGroup(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating WanoptAuthGroup resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateWanoptAuthGroup(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectWanoptAuthGroup(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating WanoptAuthGroup resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateWanoptAuthGroup(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating WanoptAuthGroup resource: %v", err)
+		return fmt.Errorf("error creating WanoptAuthGroup resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -118,14 +133,24 @@ func resourceWanoptAuthGroupUpdate(d *schema.ResourceData, m interface{}) error 
 		}
 	}
 
-	obj, err := getObjectWanoptAuthGroup(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating WanoptAuthGroup resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateWanoptAuthGroup(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectWanoptAuthGroup(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating WanoptAuthGroup resource: %v", err)
+		return fmt.Errorf("error updating WanoptAuthGroup resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateWanoptAuthGroup(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating WanoptAuthGroup resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -152,9 +177,17 @@ func resourceWanoptAuthGroupDelete(d *schema.ResourceData, m interface{}) error 
 		}
 	}
 
-	err := c.DeleteWanoptAuthGroup(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteWanoptAuthGroup(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting WanoptAuthGroup resource: %v", err)
+		return fmt.Errorf("error deleting WanoptAuthGroup resource: %v", err)
 	}
 
 	d.SetId("")
@@ -176,9 +209,19 @@ func resourceWanoptAuthGroupRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadWanoptAuthGroup(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadWanoptAuthGroup(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading WanoptAuthGroup resource: %v", err)
+		return fmt.Errorf("error reading WanoptAuthGroup resource: %v", err)
 	}
 
 	if o == nil {
@@ -189,7 +232,7 @@ func resourceWanoptAuthGroupRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectWanoptAuthGroup(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading WanoptAuthGroup resource from API: %v", err)
+		return fmt.Errorf("error reading WanoptAuthGroup resource from API: %v", err)
 	}
 	return nil
 }
@@ -223,31 +266,31 @@ func refreshObjectWanoptAuthGroup(d *schema.ResourceData, o map[string]interface
 
 	if err = d.Set("name", flattenWanoptAuthGroupName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("auth_method", flattenWanoptAuthGroupAuthMethod(o["auth-method"], d, "auth_method", sv)); err != nil {
 		if !fortiAPIPatch(o["auth-method"]) {
-			return fmt.Errorf("Error reading auth_method: %v", err)
+			return fmt.Errorf("error reading auth_method: %v", err)
 		}
 	}
 
 	if err = d.Set("cert", flattenWanoptAuthGroupCert(o["cert"], d, "cert", sv)); err != nil {
 		if !fortiAPIPatch(o["cert"]) {
-			return fmt.Errorf("Error reading cert: %v", err)
+			return fmt.Errorf("error reading cert: %v", err)
 		}
 	}
 
 	if err = d.Set("peer_accept", flattenWanoptAuthGroupPeerAccept(o["peer-accept"], d, "peer_accept", sv)); err != nil {
 		if !fortiAPIPatch(o["peer-accept"]) {
-			return fmt.Errorf("Error reading peer_accept: %v", err)
+			return fmt.Errorf("error reading peer_accept: %v", err)
 		}
 	}
 
 	if err = d.Set("peer", flattenWanoptAuthGroupPeer(o["peer"], d, "peer", sv)); err != nil {
 		if !fortiAPIPatch(o["peer"]) {
-			return fmt.Errorf("Error reading peer: %v", err)
+			return fmt.Errorf("error reading peer: %v", err)
 		}
 	}
 

@@ -50,14 +50,14 @@ func testAccCheckFortiOSVpnSslWebUserBookmarkExists(n string) resource.TestCheck
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadVpnSslWebUserBookmark(i, "root")
+		o, err := c.ReadVpnSslWebUserBookmark(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading VpnSslWebUserBookmark: %s", err)
+			return fmt.Errorf("error reading VpnSslWebUserBookmark: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating VpnSslWebUserBookmark: %s", n)
+			return fmt.Errorf("error creating VpnSslWebUserBookmark: %s", n)
 		}
 
 		return nil
@@ -73,11 +73,11 @@ func testAccCheckVpnSslWebUserBookmarkDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadVpnSslWebUserBookmark(i, "root")
+		o, err := c.ReadVpnSslWebUserBookmark(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error VpnSslWebUserBookmark %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error VpnSslWebUserBookmark %s still exists", rs.Primary.ID)
 			}
 		}
 

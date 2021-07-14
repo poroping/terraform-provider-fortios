@@ -55,14 +55,14 @@ func testAccCheckFortiOSFirewallShapingProfileExists(n string) resource.TestChec
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadFirewallShapingProfile(i, "root")
+		o, err := c.ReadFirewallShapingProfile(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading FirewallShapingProfile: %s", err)
+			return fmt.Errorf("error reading FirewallShapingProfile: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating FirewallShapingProfile: %s", n)
+			return fmt.Errorf("error creating FirewallShapingProfile: %s", n)
 		}
 
 		return nil
@@ -78,11 +78,11 @@ func testAccCheckFirewallShapingProfileDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadFirewallShapingProfile(i, "root")
+		o, err := c.ReadFirewallShapingProfile(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error FirewallShapingProfile %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error FirewallShapingProfile %s still exists", rs.Primary.ID)
 			}
 		}
 

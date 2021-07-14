@@ -65,14 +65,14 @@ func testAccCheckFortiOSUserLdapExists(n string) resource.TestCheckFunc {
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadUserLdap(i, "root")
+		o, err := c.ReadUserLdap(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading UserLdap: %s", err)
+			return fmt.Errorf("error reading UserLdap: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating UserLdap: %s", n)
+			return fmt.Errorf("error creating UserLdap: %s", n)
 		}
 
 		return nil
@@ -88,11 +88,11 @@ func testAccCheckUserLdapDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadUserLdap(i, "root")
+		o, err := c.ReadUserLdap(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error UserLdap %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error UserLdap %s still exists", rs.Primary.ID)
 			}
 		}
 

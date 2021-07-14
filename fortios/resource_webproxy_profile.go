@@ -30,85 +30,85 @@ func resourceWebProxyProfile() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"header_client_ip": &schema.Schema{
+			"header_client_ip": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"header_via_request": &schema.Schema{
+			"header_via_request": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"header_via_response": &schema.Schema{
+			"header_via_response": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"header_x_forwarded_for": &schema.Schema{
+			"header_x_forwarded_for": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"header_front_end_https": &schema.Schema{
+			"header_front_end_https": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"header_x_authenticated_user": &schema.Schema{
+			"header_x_authenticated_user": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"header_x_authenticated_groups": &schema.Schema{
+			"header_x_authenticated_groups": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"strip_encoding": &schema.Schema{
+			"strip_encoding": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"log_header_change": &schema.Schema{
+			"log_header_change": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"headers": &schema.Schema{
+			"headers": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 79),
 							Optional:     true,
 							Computed:     true,
 						},
-						"dstaddr": &schema.Schema{
+						"dstaddr": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"name": &schema.Schema{
+									"name": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 79),
 										Optional:     true,
@@ -117,12 +117,12 @@ func resourceWebProxyProfile() *schema.Resource {
 								},
 							},
 						},
-						"dstaddr6": &schema.Schema{
+						"dstaddr6": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"name": &schema.Schema{
+									"name": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 79),
 										Optional:     true,
@@ -131,28 +131,28 @@ func resourceWebProxyProfile() *schema.Resource {
 								},
 							},
 						},
-						"action": &schema.Schema{
+						"action": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"content": &schema.Schema{
+						"content": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 255),
 							Optional:     true,
 							Computed:     true,
 						},
-						"base64_encoding": &schema.Schema{
+						"base64_encoding": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"add_option": &schema.Schema{
+						"add_option": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"protocol": &schema.Schema{
+						"protocol": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -160,10 +160,15 @@ func resourceWebProxyProfile() *schema.Resource {
 					},
 				},
 			},
-			"dynamic_sort_subtable": &schema.Schema{
+			"dynamic_sort_subtable": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Default:  "false",
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -181,15 +186,25 @@ func resourceWebProxyProfileCreate(d *schema.ResourceData, m interface{}) error 
 		}
 	}
 
-	obj, err := getObjectWebProxyProfile(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating WebProxyProfile resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateWebProxyProfile(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectWebProxyProfile(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating WebProxyProfile resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateWebProxyProfile(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating WebProxyProfile resource: %v", err)
+		return fmt.Errorf("error creating WebProxyProfile resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -214,14 +229,24 @@ func resourceWebProxyProfileUpdate(d *schema.ResourceData, m interface{}) error 
 		}
 	}
 
-	obj, err := getObjectWebProxyProfile(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating WebProxyProfile resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateWebProxyProfile(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectWebProxyProfile(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating WebProxyProfile resource: %v", err)
+		return fmt.Errorf("error updating WebProxyProfile resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateWebProxyProfile(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating WebProxyProfile resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -248,9 +273,17 @@ func resourceWebProxyProfileDelete(d *schema.ResourceData, m interface{}) error 
 		}
 	}
 
-	err := c.DeleteWebProxyProfile(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteWebProxyProfile(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting WebProxyProfile resource: %v", err)
+		return fmt.Errorf("error deleting WebProxyProfile resource: %v", err)
 	}
 
 	d.SetId("")
@@ -272,9 +305,19 @@ func resourceWebProxyProfileRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadWebProxyProfile(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadWebProxyProfile(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading WebProxyProfile resource: %v", err)
+		return fmt.Errorf("error reading WebProxyProfile resource: %v", err)
 	}
 
 	if o == nil {
@@ -285,7 +328,7 @@ func resourceWebProxyProfileRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectWebProxyProfile(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading WebProxyProfile resource from API: %v", err)
+		return fmt.Errorf("error reading WebProxyProfile resource from API: %v", err)
 	}
 	return nil
 }
@@ -519,75 +562,75 @@ func refreshObjectWebProxyProfile(d *schema.ResourceData, o map[string]interface
 
 	if err = d.Set("name", flattenWebProxyProfileName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("header_client_ip", flattenWebProxyProfileHeaderClientIp(o["header-client-ip"], d, "header_client_ip", sv)); err != nil {
 		if !fortiAPIPatch(o["header-client-ip"]) {
-			return fmt.Errorf("Error reading header_client_ip: %v", err)
+			return fmt.Errorf("error reading header_client_ip: %v", err)
 		}
 	}
 
 	if err = d.Set("header_via_request", flattenWebProxyProfileHeaderViaRequest(o["header-via-request"], d, "header_via_request", sv)); err != nil {
 		if !fortiAPIPatch(o["header-via-request"]) {
-			return fmt.Errorf("Error reading header_via_request: %v", err)
+			return fmt.Errorf("error reading header_via_request: %v", err)
 		}
 	}
 
 	if err = d.Set("header_via_response", flattenWebProxyProfileHeaderViaResponse(o["header-via-response"], d, "header_via_response", sv)); err != nil {
 		if !fortiAPIPatch(o["header-via-response"]) {
-			return fmt.Errorf("Error reading header_via_response: %v", err)
+			return fmt.Errorf("error reading header_via_response: %v", err)
 		}
 	}
 
 	if err = d.Set("header_x_forwarded_for", flattenWebProxyProfileHeaderXForwardedFor(o["header-x-forwarded-for"], d, "header_x_forwarded_for", sv)); err != nil {
 		if !fortiAPIPatch(o["header-x-forwarded-for"]) {
-			return fmt.Errorf("Error reading header_x_forwarded_for: %v", err)
+			return fmt.Errorf("error reading header_x_forwarded_for: %v", err)
 		}
 	}
 
 	if err = d.Set("header_front_end_https", flattenWebProxyProfileHeaderFrontEndHttps(o["header-front-end-https"], d, "header_front_end_https", sv)); err != nil {
 		if !fortiAPIPatch(o["header-front-end-https"]) {
-			return fmt.Errorf("Error reading header_front_end_https: %v", err)
+			return fmt.Errorf("error reading header_front_end_https: %v", err)
 		}
 	}
 
 	if err = d.Set("header_x_authenticated_user", flattenWebProxyProfileHeaderXAuthenticatedUser(o["header-x-authenticated-user"], d, "header_x_authenticated_user", sv)); err != nil {
 		if !fortiAPIPatch(o["header-x-authenticated-user"]) {
-			return fmt.Errorf("Error reading header_x_authenticated_user: %v", err)
+			return fmt.Errorf("error reading header_x_authenticated_user: %v", err)
 		}
 	}
 
 	if err = d.Set("header_x_authenticated_groups", flattenWebProxyProfileHeaderXAuthenticatedGroups(o["header-x-authenticated-groups"], d, "header_x_authenticated_groups", sv)); err != nil {
 		if !fortiAPIPatch(o["header-x-authenticated-groups"]) {
-			return fmt.Errorf("Error reading header_x_authenticated_groups: %v", err)
+			return fmt.Errorf("error reading header_x_authenticated_groups: %v", err)
 		}
 	}
 
 	if err = d.Set("strip_encoding", flattenWebProxyProfileStripEncoding(o["strip-encoding"], d, "strip_encoding", sv)); err != nil {
 		if !fortiAPIPatch(o["strip-encoding"]) {
-			return fmt.Errorf("Error reading strip_encoding: %v", err)
+			return fmt.Errorf("error reading strip_encoding: %v", err)
 		}
 	}
 
 	if err = d.Set("log_header_change", flattenWebProxyProfileLogHeaderChange(o["log-header-change"], d, "log_header_change", sv)); err != nil {
 		if !fortiAPIPatch(o["log-header-change"]) {
-			return fmt.Errorf("Error reading log_header_change: %v", err)
+			return fmt.Errorf("error reading log_header_change: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("headers", flattenWebProxyProfileHeaders(o["headers"], d, "headers", sv)); err != nil {
 			if !fortiAPIPatch(o["headers"]) {
-				return fmt.Errorf("Error reading headers: %v", err)
+				return fmt.Errorf("error reading headers: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("headers"); ok {
 			if err = d.Set("headers", flattenWebProxyProfileHeaders(o["headers"], d, "headers", sv)); err != nil {
 				if !fortiAPIPatch(o["headers"]) {
-					return fmt.Errorf("Error reading headers: %v", err)
+					return fmt.Errorf("error reading headers: %v", err)
 				}
 			}
 		}

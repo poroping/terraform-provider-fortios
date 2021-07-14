@@ -30,37 +30,37 @@ func resourceVpnOcvpn() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"status": &schema.Schema{
+			"status": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"role": &schema.Schema{
+			"role": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"multipath": &schema.Schema{
+			"multipath": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"sdwan": &schema.Schema{
+			"sdwan": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"wan_interface": &schema.Schema{
+			"wan_interface": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 79),
 							Optional:     true,
@@ -69,101 +69,101 @@ func resourceVpnOcvpn() *schema.Resource {
 					},
 				},
 			},
-			"ip_allocation_block": &schema.Schema{
+			"ip_allocation_block": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"poll_interval": &schema.Schema{
+			"poll_interval": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(30, 120),
 				Optional:     true,
 				Computed:     true,
 			},
-			"auto_discovery": &schema.Schema{
+			"auto_discovery": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"eap": &schema.Schema{
+			"eap": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"eap_users": &schema.Schema{
+			"eap_users": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"nat": &schema.Schema{
+			"nat": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"overlays": &schema.Schema{
+			"overlays": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"overlay_name": &schema.Schema{
+						"overlay_name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 63),
 							Optional:     true,
 							Computed:     true,
 						},
-						"inter_overlay": &schema.Schema{
+						"inter_overlay": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 63),
 							Optional:     true,
 							Computed:     true,
 						},
-						"assign_ip": &schema.Schema{
+						"assign_ip": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"ipv4_start_ip": &schema.Schema{
+						"ipv4_start_ip": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"ipv4_end_ip": &schema.Schema{
+						"ipv4_end_ip": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"subnets": &schema.Schema{
+						"subnets": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"id": &schema.Schema{
+									"id": {
 										Type:     schema.TypeInt,
 										Optional: true,
 										Computed: true,
 									},
-									"type": &schema.Schema{
+									"type": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"subnet": &schema.Schema{
+									"subnet": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"interface": &schema.Schema{
+									"interface": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 15),
 										Optional:     true,
@@ -175,45 +175,45 @@ func resourceVpnOcvpn() *schema.Resource {
 					},
 				},
 			},
-			"forticlient_access": &schema.Schema{
+			"forticlient_access": {
 				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"status": &schema.Schema{
+						"status": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"psksecret": &schema.Schema{
+						"psksecret": {
 							Type:      schema.TypeString,
 							Optional:  true,
 							Sensitive: true,
 						},
-						"auth_groups": &schema.Schema{
+						"auth_groups": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"name": &schema.Schema{
+									"name": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 35),
 										Optional:     true,
 										Computed:     true,
 									},
-									"auth_group": &schema.Schema{
+									"auth_group": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 35),
 										Optional:     true,
 										Computed:     true,
 									},
-									"overlays": &schema.Schema{
+									"overlays": {
 										Type:     schema.TypeList,
 										Optional: true,
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
-												"overlay_name": &schema.Schema{
+												"overlay_name": {
 													Type:         schema.TypeString,
 													ValidateFunc: validation.StringLenBetween(0, 79),
 													Optional:     true,
@@ -228,10 +228,15 @@ func resourceVpnOcvpn() *schema.Resource {
 					},
 				},
 			},
-			"dynamic_sort_subtable": &schema.Schema{
+			"dynamic_sort_subtable": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Default:  "false",
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -250,14 +255,24 @@ func resourceVpnOcvpnUpdate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectVpnOcvpn(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating VpnOcvpn resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateVpnOcvpn(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectVpnOcvpn(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating VpnOcvpn resource: %v", err)
+		return fmt.Errorf("error updating VpnOcvpn resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateVpnOcvpn(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating VpnOcvpn resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -284,9 +299,17 @@ func resourceVpnOcvpnDelete(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	err := c.DeleteVpnOcvpn(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteVpnOcvpn(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting VpnOcvpn resource: %v", err)
+		return fmt.Errorf("error deleting VpnOcvpn resource: %v", err)
 	}
 
 	d.SetId("")
@@ -308,9 +331,19 @@ func resourceVpnOcvpnRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadVpnOcvpn(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadVpnOcvpn(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading VpnOcvpn resource: %v", err)
+		return fmt.Errorf("error reading VpnOcvpn resource: %v", err)
 	}
 
 	if o == nil {
@@ -321,7 +354,7 @@ func resourceVpnOcvpnRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectVpnOcvpn(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading VpnOcvpn resource from API: %v", err)
+		return fmt.Errorf("error reading VpnOcvpn resource from API: %v", err)
 	}
 	return nil
 }
@@ -727,39 +760,39 @@ func refreshObjectVpnOcvpn(d *schema.ResourceData, o map[string]interface{}, sv 
 
 	if err = d.Set("status", flattenVpnOcvpnStatus(o["status"], d, "status", sv)); err != nil {
 		if !fortiAPIPatch(o["status"]) {
-			return fmt.Errorf("Error reading status: %v", err)
+			return fmt.Errorf("error reading status: %v", err)
 		}
 	}
 
 	if err = d.Set("role", flattenVpnOcvpnRole(o["role"], d, "role", sv)); err != nil {
 		if !fortiAPIPatch(o["role"]) {
-			return fmt.Errorf("Error reading role: %v", err)
+			return fmt.Errorf("error reading role: %v", err)
 		}
 	}
 
 	if err = d.Set("multipath", flattenVpnOcvpnMultipath(o["multipath"], d, "multipath", sv)); err != nil {
 		if !fortiAPIPatch(o["multipath"]) {
-			return fmt.Errorf("Error reading multipath: %v", err)
+			return fmt.Errorf("error reading multipath: %v", err)
 		}
 	}
 
 	if err = d.Set("sdwan", flattenVpnOcvpnSdwan(o["sdwan"], d, "sdwan", sv)); err != nil {
 		if !fortiAPIPatch(o["sdwan"]) {
-			return fmt.Errorf("Error reading sdwan: %v", err)
+			return fmt.Errorf("error reading sdwan: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("wan_interface", flattenVpnOcvpnWanInterface(o["wan-interface"], d, "wan_interface", sv)); err != nil {
 			if !fortiAPIPatch(o["wan-interface"]) {
-				return fmt.Errorf("Error reading wan_interface: %v", err)
+				return fmt.Errorf("error reading wan_interface: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("wan_interface"); ok {
 			if err = d.Set("wan_interface", flattenVpnOcvpnWanInterface(o["wan-interface"], d, "wan_interface", sv)); err != nil {
 				if !fortiAPIPatch(o["wan-interface"]) {
-					return fmt.Errorf("Error reading wan_interface: %v", err)
+					return fmt.Errorf("error reading wan_interface: %v", err)
 				}
 			}
 		}
@@ -767,51 +800,51 @@ func refreshObjectVpnOcvpn(d *schema.ResourceData, o map[string]interface{}, sv 
 
 	if err = d.Set("ip_allocation_block", flattenVpnOcvpnIpAllocationBlock(o["ip-allocation-block"], d, "ip_allocation_block", sv)); err != nil {
 		if !fortiAPIPatch(o["ip-allocation-block"]) {
-			return fmt.Errorf("Error reading ip_allocation_block: %v", err)
+			return fmt.Errorf("error reading ip_allocation_block: %v", err)
 		}
 	}
 
 	if err = d.Set("poll_interval", flattenVpnOcvpnPollInterval(o["poll-interval"], d, "poll_interval", sv)); err != nil {
 		if !fortiAPIPatch(o["poll-interval"]) {
-			return fmt.Errorf("Error reading poll_interval: %v", err)
+			return fmt.Errorf("error reading poll_interval: %v", err)
 		}
 	}
 
 	if err = d.Set("auto_discovery", flattenVpnOcvpnAutoDiscovery(o["auto-discovery"], d, "auto_discovery", sv)); err != nil {
 		if !fortiAPIPatch(o["auto-discovery"]) {
-			return fmt.Errorf("Error reading auto_discovery: %v", err)
+			return fmt.Errorf("error reading auto_discovery: %v", err)
 		}
 	}
 
 	if err = d.Set("eap", flattenVpnOcvpnEap(o["eap"], d, "eap", sv)); err != nil {
 		if !fortiAPIPatch(o["eap"]) {
-			return fmt.Errorf("Error reading eap: %v", err)
+			return fmt.Errorf("error reading eap: %v", err)
 		}
 	}
 
 	if err = d.Set("eap_users", flattenVpnOcvpnEapUsers(o["eap-users"], d, "eap_users", sv)); err != nil {
 		if !fortiAPIPatch(o["eap-users"]) {
-			return fmt.Errorf("Error reading eap_users: %v", err)
+			return fmt.Errorf("error reading eap_users: %v", err)
 		}
 	}
 
 	if err = d.Set("nat", flattenVpnOcvpnNat(o["nat"], d, "nat", sv)); err != nil {
 		if !fortiAPIPatch(o["nat"]) {
-			return fmt.Errorf("Error reading nat: %v", err)
+			return fmt.Errorf("error reading nat: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("overlays", flattenVpnOcvpnOverlays(o["overlays"], d, "overlays", sv)); err != nil {
 			if !fortiAPIPatch(o["overlays"]) {
-				return fmt.Errorf("Error reading overlays: %v", err)
+				return fmt.Errorf("error reading overlays: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("overlays"); ok {
 			if err = d.Set("overlays", flattenVpnOcvpnOverlays(o["overlays"], d, "overlays", sv)); err != nil {
 				if !fortiAPIPatch(o["overlays"]) {
-					return fmt.Errorf("Error reading overlays: %v", err)
+					return fmt.Errorf("error reading overlays: %v", err)
 				}
 			}
 		}
@@ -820,14 +853,14 @@ func refreshObjectVpnOcvpn(d *schema.ResourceData, o map[string]interface{}, sv 
 	if isImportTable() {
 		if err = d.Set("forticlient_access", flattenVpnOcvpnForticlientAccess(o["forticlient-access"], d, "forticlient_access", sv)); err != nil {
 			if !fortiAPIPatch(o["forticlient-access"]) {
-				return fmt.Errorf("Error reading forticlient_access: %v", err)
+				return fmt.Errorf("error reading forticlient_access: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("forticlient_access"); ok {
 			if err = d.Set("forticlient_access", flattenVpnOcvpnForticlientAccess(o["forticlient-access"], d, "forticlient_access", sv)); err != nil {
 				if !fortiAPIPatch(o["forticlient-access"]) {
-					return fmt.Errorf("Error reading forticlient_access: %v", err)
+					return fmt.Errorf("error reading forticlient_access: %v", err)
 				}
 			}
 		}

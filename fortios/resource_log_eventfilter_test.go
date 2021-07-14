@@ -59,14 +59,14 @@ func testAccCheckFortiOSLogEventfilterExists(n string) resource.TestCheckFunc {
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadLogEventfilter(i, "root")
+		o, err := c.ReadLogEventfilter(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading LogEventfilter: %s", err)
+			return fmt.Errorf("error reading LogEventfilter: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating LogEventfilter: %s", n)
+			return fmt.Errorf("error creating LogEventfilter: %s", n)
 		}
 
 		return nil
@@ -82,11 +82,11 @@ func testAccCheckLogEventfilterDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadLogEventfilter(i, "root")
+		o, err := c.ReadLogEventfilter(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error LogEventfilter %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error LogEventfilter %s still exists", rs.Primary.ID)
 			}
 		}
 

@@ -30,58 +30,58 @@ func resourceWirelessControllerTimers() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"echo_interval": &schema.Schema{
+			"echo_interval": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 255),
 				Optional:     true,
 				Computed:     true,
 			},
-			"discovery_interval": &schema.Schema{
+			"discovery_interval": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(2, 180),
 				Optional:     true,
 				Computed:     true,
 			},
-			"client_idle_timeout": &schema.Schema{
+			"client_idle_timeout": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(20, 3600),
 				Optional:     true,
 				Computed:     true,
 			},
-			"rogue_ap_log": &schema.Schema{
+			"rogue_ap_log": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 1440),
 				Optional:     true,
 				Computed:     true,
 			},
-			"fake_ap_log": &schema.Schema{
+			"fake_ap_log": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 1440),
 				Optional:     true,
 				Computed:     true,
 			},
-			"darrp_optimize": &schema.Schema{
+			"darrp_optimize": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 86400),
 				Optional:     true,
 				Computed:     true,
 			},
-			"darrp_day": &schema.Schema{
+			"darrp_day": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"darrp_time": &schema.Schema{
+			"darrp_time": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"time": &schema.Schema{
+						"time": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 5),
 							Optional:     true,
@@ -90,58 +90,63 @@ func resourceWirelessControllerTimers() *schema.Resource {
 					},
 				},
 			},
-			"sta_stats_interval": &schema.Schema{
+			"sta_stats_interval": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 255),
 				Optional:     true,
 				Computed:     true,
 			},
-			"vap_stats_interval": &schema.Schema{
+			"vap_stats_interval": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 255),
 				Optional:     true,
 				Computed:     true,
 			},
-			"radio_stats_interval": &schema.Schema{
+			"radio_stats_interval": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 255),
 				Optional:     true,
 				Computed:     true,
 			},
-			"sta_capability_interval": &schema.Schema{
+			"sta_capability_interval": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 255),
 				Optional:     true,
 				Computed:     true,
 			},
-			"sta_locate_timer": &schema.Schema{
+			"sta_locate_timer": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 86400),
 				Optional:     true,
 				Computed:     true,
 			},
-			"ipsec_intf_cleanup": &schema.Schema{
+			"ipsec_intf_cleanup": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(30, 3600),
 				Optional:     true,
 				Computed:     true,
 			},
-			"ble_scan_report_intv": &schema.Schema{
+			"ble_scan_report_intv": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(10, 3600),
 				Optional:     true,
 				Computed:     true,
 			},
-			"drma_interval": &schema.Schema{
+			"drma_interval": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 1440),
 				Optional:     true,
 				Computed:     true,
 			},
-			"dynamic_sort_subtable": &schema.Schema{
+			"dynamic_sort_subtable": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Default:  "false",
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -160,14 +165,24 @@ func resourceWirelessControllerTimersUpdate(d *schema.ResourceData, m interface{
 		}
 	}
 
-	obj, err := getObjectWirelessControllerTimers(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating WirelessControllerTimers resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateWirelessControllerTimers(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectWirelessControllerTimers(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating WirelessControllerTimers resource: %v", err)
+		return fmt.Errorf("error updating WirelessControllerTimers resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateWirelessControllerTimers(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating WirelessControllerTimers resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -194,9 +209,17 @@ func resourceWirelessControllerTimersDelete(d *schema.ResourceData, m interface{
 		}
 	}
 
-	err := c.DeleteWirelessControllerTimers(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteWirelessControllerTimers(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting WirelessControllerTimers resource: %v", err)
+		return fmt.Errorf("error deleting WirelessControllerTimers resource: %v", err)
 	}
 
 	d.SetId("")
@@ -218,9 +241,19 @@ func resourceWirelessControllerTimersRead(d *schema.ResourceData, m interface{})
 		}
 	}
 
-	o, err := c.ReadWirelessControllerTimers(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadWirelessControllerTimers(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading WirelessControllerTimers resource: %v", err)
+		return fmt.Errorf("error reading WirelessControllerTimers resource: %v", err)
 	}
 
 	if o == nil {
@@ -231,7 +264,7 @@ func resourceWirelessControllerTimersRead(d *schema.ResourceData, m interface{})
 
 	err = refreshObjectWirelessControllerTimers(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading WirelessControllerTimers resource from API: %v", err)
+		return fmt.Errorf("error reading WirelessControllerTimers resource from API: %v", err)
 	}
 	return nil
 }
@@ -339,57 +372,57 @@ func refreshObjectWirelessControllerTimers(d *schema.ResourceData, o map[string]
 
 	if err = d.Set("echo_interval", flattenWirelessControllerTimersEchoInterval(o["echo-interval"], d, "echo_interval", sv)); err != nil {
 		if !fortiAPIPatch(o["echo-interval"]) {
-			return fmt.Errorf("Error reading echo_interval: %v", err)
+			return fmt.Errorf("error reading echo_interval: %v", err)
 		}
 	}
 
 	if err = d.Set("discovery_interval", flattenWirelessControllerTimersDiscoveryInterval(o["discovery-interval"], d, "discovery_interval", sv)); err != nil {
 		if !fortiAPIPatch(o["discovery-interval"]) {
-			return fmt.Errorf("Error reading discovery_interval: %v", err)
+			return fmt.Errorf("error reading discovery_interval: %v", err)
 		}
 	}
 
 	if err = d.Set("client_idle_timeout", flattenWirelessControllerTimersClientIdleTimeout(o["client-idle-timeout"], d, "client_idle_timeout", sv)); err != nil {
 		if !fortiAPIPatch(o["client-idle-timeout"]) {
-			return fmt.Errorf("Error reading client_idle_timeout: %v", err)
+			return fmt.Errorf("error reading client_idle_timeout: %v", err)
 		}
 	}
 
 	if err = d.Set("rogue_ap_log", flattenWirelessControllerTimersRogueApLog(o["rogue-ap-log"], d, "rogue_ap_log", sv)); err != nil {
 		if !fortiAPIPatch(o["rogue-ap-log"]) {
-			return fmt.Errorf("Error reading rogue_ap_log: %v", err)
+			return fmt.Errorf("error reading rogue_ap_log: %v", err)
 		}
 	}
 
 	if err = d.Set("fake_ap_log", flattenWirelessControllerTimersFakeApLog(o["fake-ap-log"], d, "fake_ap_log", sv)); err != nil {
 		if !fortiAPIPatch(o["fake-ap-log"]) {
-			return fmt.Errorf("Error reading fake_ap_log: %v", err)
+			return fmt.Errorf("error reading fake_ap_log: %v", err)
 		}
 	}
 
 	if err = d.Set("darrp_optimize", flattenWirelessControllerTimersDarrpOptimize(o["darrp-optimize"], d, "darrp_optimize", sv)); err != nil {
 		if !fortiAPIPatch(o["darrp-optimize"]) {
-			return fmt.Errorf("Error reading darrp_optimize: %v", err)
+			return fmt.Errorf("error reading darrp_optimize: %v", err)
 		}
 	}
 
 	if err = d.Set("darrp_day", flattenWirelessControllerTimersDarrpDay(o["darrp-day"], d, "darrp_day", sv)); err != nil {
 		if !fortiAPIPatch(o["darrp-day"]) {
-			return fmt.Errorf("Error reading darrp_day: %v", err)
+			return fmt.Errorf("error reading darrp_day: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("darrp_time", flattenWirelessControllerTimersDarrpTime(o["darrp-time"], d, "darrp_time", sv)); err != nil {
 			if !fortiAPIPatch(o["darrp-time"]) {
-				return fmt.Errorf("Error reading darrp_time: %v", err)
+				return fmt.Errorf("error reading darrp_time: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("darrp_time"); ok {
 			if err = d.Set("darrp_time", flattenWirelessControllerTimersDarrpTime(o["darrp-time"], d, "darrp_time", sv)); err != nil {
 				if !fortiAPIPatch(o["darrp-time"]) {
-					return fmt.Errorf("Error reading darrp_time: %v", err)
+					return fmt.Errorf("error reading darrp_time: %v", err)
 				}
 			}
 		}
@@ -397,49 +430,49 @@ func refreshObjectWirelessControllerTimers(d *schema.ResourceData, o map[string]
 
 	if err = d.Set("sta_stats_interval", flattenWirelessControllerTimersStaStatsInterval(o["sta-stats-interval"], d, "sta_stats_interval", sv)); err != nil {
 		if !fortiAPIPatch(o["sta-stats-interval"]) {
-			return fmt.Errorf("Error reading sta_stats_interval: %v", err)
+			return fmt.Errorf("error reading sta_stats_interval: %v", err)
 		}
 	}
 
 	if err = d.Set("vap_stats_interval", flattenWirelessControllerTimersVapStatsInterval(o["vap-stats-interval"], d, "vap_stats_interval", sv)); err != nil {
 		if !fortiAPIPatch(o["vap-stats-interval"]) {
-			return fmt.Errorf("Error reading vap_stats_interval: %v", err)
+			return fmt.Errorf("error reading vap_stats_interval: %v", err)
 		}
 	}
 
 	if err = d.Set("radio_stats_interval", flattenWirelessControllerTimersRadioStatsInterval(o["radio-stats-interval"], d, "radio_stats_interval", sv)); err != nil {
 		if !fortiAPIPatch(o["radio-stats-interval"]) {
-			return fmt.Errorf("Error reading radio_stats_interval: %v", err)
+			return fmt.Errorf("error reading radio_stats_interval: %v", err)
 		}
 	}
 
 	if err = d.Set("sta_capability_interval", flattenWirelessControllerTimersStaCapabilityInterval(o["sta-capability-interval"], d, "sta_capability_interval", sv)); err != nil {
 		if !fortiAPIPatch(o["sta-capability-interval"]) {
-			return fmt.Errorf("Error reading sta_capability_interval: %v", err)
+			return fmt.Errorf("error reading sta_capability_interval: %v", err)
 		}
 	}
 
 	if err = d.Set("sta_locate_timer", flattenWirelessControllerTimersStaLocateTimer(o["sta-locate-timer"], d, "sta_locate_timer", sv)); err != nil {
 		if !fortiAPIPatch(o["sta-locate-timer"]) {
-			return fmt.Errorf("Error reading sta_locate_timer: %v", err)
+			return fmt.Errorf("error reading sta_locate_timer: %v", err)
 		}
 	}
 
 	if err = d.Set("ipsec_intf_cleanup", flattenWirelessControllerTimersIpsecIntfCleanup(o["ipsec-intf-cleanup"], d, "ipsec_intf_cleanup", sv)); err != nil {
 		if !fortiAPIPatch(o["ipsec-intf-cleanup"]) {
-			return fmt.Errorf("Error reading ipsec_intf_cleanup: %v", err)
+			return fmt.Errorf("error reading ipsec_intf_cleanup: %v", err)
 		}
 	}
 
 	if err = d.Set("ble_scan_report_intv", flattenWirelessControllerTimersBleScanReportIntv(o["ble-scan-report-intv"], d, "ble_scan_report_intv", sv)); err != nil {
 		if !fortiAPIPatch(o["ble-scan-report-intv"]) {
-			return fmt.Errorf("Error reading ble_scan_report_intv: %v", err)
+			return fmt.Errorf("error reading ble_scan_report_intv: %v", err)
 		}
 	}
 
 	if err = d.Set("drma_interval", flattenWirelessControllerTimersDrmaInterval(o["drma-interval"], d, "drma_interval", sv)); err != nil {
 		if !fortiAPIPatch(o["drma-interval"]) {
-			return fmt.Errorf("Error reading drma_interval: %v", err)
+			return fmt.Errorf("error reading drma_interval: %v", err)
 		}
 	}
 

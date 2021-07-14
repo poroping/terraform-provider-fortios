@@ -30,125 +30,125 @@ func resourceSystemCsf() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"status": &schema.Schema{
+			"status": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"upstream_ip": &schema.Schema{
+			"upstream_ip": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"upstream_port": &schema.Schema{
+			"upstream_port": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"group_name": &schema.Schema{
+			"group_name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"group_password": &schema.Schema{
+			"group_password": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 128),
 				Optional:     true,
 				Sensitive:    true,
 			},
-			"accept_auth_by_cert": &schema.Schema{
+			"accept_auth_by_cert": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"configuration_sync": &schema.Schema{
+			"configuration_sync": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"fabric_object_unification": &schema.Schema{
+			"fabric_object_unification": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"saml_configuration_sync": &schema.Schema{
+			"saml_configuration_sync": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"management_ip": &schema.Schema{
+			"management_ip": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"management_port": &schema.Schema{
+			"management_port": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"authorization_request_type": &schema.Schema{
+			"authorization_request_type": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"certificate": &schema.Schema{
+			"certificate": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"fixed_key": &schema.Schema{
+			"fixed_key": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 128),
 				Optional:     true,
 				Sensitive:    true,
 			},
-			"trusted_list": &schema.Schema{
+			"trusted_list": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"authorization_type": &schema.Schema{
+						"authorization_type": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"serial": &schema.Schema{
+						"serial": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 19),
 							Optional:     true,
 							Computed:     true,
 						},
-						"certificate": &schema.Schema{
+						"certificate": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 32767),
 							Optional:     true,
 						},
-						"action": &schema.Schema{
+						"action": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"ha_members": &schema.Schema{
+						"ha_members": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 19),
 							Optional:     true,
 							Computed:     true,
 						},
-						"downstream_authorization": &schema.Schema{
+						"downstream_authorization": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -156,45 +156,45 @@ func resourceSystemCsf() *schema.Resource {
 					},
 				},
 			},
-			"fabric_device": &schema.Schema{
+			"fabric_device": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"device_ip": &schema.Schema{
+						"device_ip": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"https_port": &schema.Schema{
+						"https_port": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 65535),
 							Optional:     true,
 							Computed:     true,
 						},
-						"access_token": &schema.Schema{
+						"access_token": {
 							Type:      schema.TypeString,
 							Optional:  true,
 							Sensitive: true,
 						},
-						"device_type": &schema.Schema{
+						"device_type": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"login": &schema.Schema{
+						"login": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 64),
 							Optional:     true,
 							Computed:     true,
 						},
-						"password": &schema.Schema{
+						"password": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 128),
 							Optional:     true,
@@ -203,10 +203,15 @@ func resourceSystemCsf() *schema.Resource {
 					},
 				},
 			},
-			"dynamic_sort_subtable": &schema.Schema{
+			"dynamic_sort_subtable": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Default:  "false",
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -225,14 +230,24 @@ func resourceSystemCsfUpdate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectSystemCsf(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SystemCsf resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSystemCsf(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemCsf(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SystemCsf resource: %v", err)
+		return fmt.Errorf("error updating SystemCsf resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSystemCsf(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SystemCsf resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -259,9 +274,17 @@ func resourceSystemCsfDelete(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	err := c.DeleteSystemCsf(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSystemCsf(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SystemCsf resource: %v", err)
+		return fmt.Errorf("error deleting SystemCsf resource: %v", err)
 	}
 
 	d.SetId("")
@@ -283,9 +306,19 @@ func resourceSystemCsfRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadSystemCsf(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSystemCsf(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemCsf resource: %v", err)
+		return fmt.Errorf("error reading SystemCsf resource: %v", err)
 	}
 
 	if o == nil {
@@ -296,7 +329,7 @@ func resourceSystemCsfRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectSystemCsf(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemCsf resource from API: %v", err)
+		return fmt.Errorf("error reading SystemCsf resource from API: %v", err)
 	}
 	return nil
 }
@@ -566,87 +599,87 @@ func refreshObjectSystemCsf(d *schema.ResourceData, o map[string]interface{}, sv
 
 	if err = d.Set("status", flattenSystemCsfStatus(o["status"], d, "status", sv)); err != nil {
 		if !fortiAPIPatch(o["status"]) {
-			return fmt.Errorf("Error reading status: %v", err)
+			return fmt.Errorf("error reading status: %v", err)
 		}
 	}
 
 	if err = d.Set("upstream_ip", flattenSystemCsfUpstreamIp(o["upstream-ip"], d, "upstream_ip", sv)); err != nil {
 		if !fortiAPIPatch(o["upstream-ip"]) {
-			return fmt.Errorf("Error reading upstream_ip: %v", err)
+			return fmt.Errorf("error reading upstream_ip: %v", err)
 		}
 	}
 
 	if err = d.Set("upstream_port", flattenSystemCsfUpstreamPort(o["upstream-port"], d, "upstream_port", sv)); err != nil {
 		if !fortiAPIPatch(o["upstream-port"]) {
-			return fmt.Errorf("Error reading upstream_port: %v", err)
+			return fmt.Errorf("error reading upstream_port: %v", err)
 		}
 	}
 
 	if err = d.Set("group_name", flattenSystemCsfGroupName(o["group-name"], d, "group_name", sv)); err != nil {
 		if !fortiAPIPatch(o["group-name"]) {
-			return fmt.Errorf("Error reading group_name: %v", err)
+			return fmt.Errorf("error reading group_name: %v", err)
 		}
 	}
 
 	if err = d.Set("accept_auth_by_cert", flattenSystemCsfAcceptAuthByCert(o["accept-auth-by-cert"], d, "accept_auth_by_cert", sv)); err != nil {
 		if !fortiAPIPatch(o["accept-auth-by-cert"]) {
-			return fmt.Errorf("Error reading accept_auth_by_cert: %v", err)
+			return fmt.Errorf("error reading accept_auth_by_cert: %v", err)
 		}
 	}
 
 	if err = d.Set("configuration_sync", flattenSystemCsfConfigurationSync(o["configuration-sync"], d, "configuration_sync", sv)); err != nil {
 		if !fortiAPIPatch(o["configuration-sync"]) {
-			return fmt.Errorf("Error reading configuration_sync: %v", err)
+			return fmt.Errorf("error reading configuration_sync: %v", err)
 		}
 	}
 
 	if err = d.Set("fabric_object_unification", flattenSystemCsfFabricObjectUnification(o["fabric-object-unification"], d, "fabric_object_unification", sv)); err != nil {
 		if !fortiAPIPatch(o["fabric-object-unification"]) {
-			return fmt.Errorf("Error reading fabric_object_unification: %v", err)
+			return fmt.Errorf("error reading fabric_object_unification: %v", err)
 		}
 	}
 
 	if err = d.Set("saml_configuration_sync", flattenSystemCsfSamlConfigurationSync(o["saml-configuration-sync"], d, "saml_configuration_sync", sv)); err != nil {
 		if !fortiAPIPatch(o["saml-configuration-sync"]) {
-			return fmt.Errorf("Error reading saml_configuration_sync: %v", err)
+			return fmt.Errorf("error reading saml_configuration_sync: %v", err)
 		}
 	}
 
 	if err = d.Set("management_ip", flattenSystemCsfManagementIp(o["management-ip"], d, "management_ip", sv)); err != nil {
 		if !fortiAPIPatch(o["management-ip"]) {
-			return fmt.Errorf("Error reading management_ip: %v", err)
+			return fmt.Errorf("error reading management_ip: %v", err)
 		}
 	}
 
 	if err = d.Set("management_port", flattenSystemCsfManagementPort(o["management-port"], d, "management_port", sv)); err != nil {
 		if !fortiAPIPatch(o["management-port"]) {
-			return fmt.Errorf("Error reading management_port: %v", err)
+			return fmt.Errorf("error reading management_port: %v", err)
 		}
 	}
 
 	if err = d.Set("authorization_request_type", flattenSystemCsfAuthorizationRequestType(o["authorization-request-type"], d, "authorization_request_type", sv)); err != nil {
 		if !fortiAPIPatch(o["authorization-request-type"]) {
-			return fmt.Errorf("Error reading authorization_request_type: %v", err)
+			return fmt.Errorf("error reading authorization_request_type: %v", err)
 		}
 	}
 
 	if err = d.Set("certificate", flattenSystemCsfCertificate(o["certificate"], d, "certificate", sv)); err != nil {
 		if !fortiAPIPatch(o["certificate"]) {
-			return fmt.Errorf("Error reading certificate: %v", err)
+			return fmt.Errorf("error reading certificate: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("trusted_list", flattenSystemCsfTrustedList(o["trusted-list"], d, "trusted_list", sv)); err != nil {
 			if !fortiAPIPatch(o["trusted-list"]) {
-				return fmt.Errorf("Error reading trusted_list: %v", err)
+				return fmt.Errorf("error reading trusted_list: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("trusted_list"); ok {
 			if err = d.Set("trusted_list", flattenSystemCsfTrustedList(o["trusted-list"], d, "trusted_list", sv)); err != nil {
 				if !fortiAPIPatch(o["trusted-list"]) {
-					return fmt.Errorf("Error reading trusted_list: %v", err)
+					return fmt.Errorf("error reading trusted_list: %v", err)
 				}
 			}
 		}
@@ -655,14 +688,14 @@ func refreshObjectSystemCsf(d *schema.ResourceData, o map[string]interface{}, sv
 	if isImportTable() {
 		if err = d.Set("fabric_device", flattenSystemCsfFabricDevice(o["fabric-device"], d, "fabric_device", sv)); err != nil {
 			if !fortiAPIPatch(o["fabric-device"]) {
-				return fmt.Errorf("Error reading fabric_device: %v", err)
+				return fmt.Errorf("error reading fabric_device: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("fabric_device"); ok {
 			if err = d.Set("fabric_device", flattenSystemCsfFabricDevice(o["fabric-device"], d, "fabric_device", sv)); err != nil {
 				if !fortiAPIPatch(o["fabric-device"]) {
-					return fmt.Errorf("Error reading fabric_device: %v", err)
+					return fmt.Errorf("error reading fabric_device: %v", err)
 				}
 			}
 		}

@@ -30,31 +30,36 @@ func resourceSystemFipsCc() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"status": &schema.Schema{
+			"status": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"entropy_token": &schema.Schema{
+			"entropy_token": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"self_test_period": &schema.Schema{
+			"self_test_period": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 1440),
 				Optional:     true,
 				Computed:     true,
 			},
-			"key_generation_self_test": &schema.Schema{
+			"key_generation_self_test": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -73,14 +78,24 @@ func resourceSystemFipsCcUpdate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectSystemFipsCc(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SystemFipsCc resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSystemFipsCc(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemFipsCc(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SystemFipsCc resource: %v", err)
+		return fmt.Errorf("error updating SystemFipsCc resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSystemFipsCc(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SystemFipsCc resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -107,9 +122,17 @@ func resourceSystemFipsCcDelete(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	err := c.DeleteSystemFipsCc(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSystemFipsCc(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SystemFipsCc resource: %v", err)
+		return fmt.Errorf("error deleting SystemFipsCc resource: %v", err)
 	}
 
 	d.SetId("")
@@ -131,9 +154,19 @@ func resourceSystemFipsCcRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadSystemFipsCc(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSystemFipsCc(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemFipsCc resource: %v", err)
+		return fmt.Errorf("error reading SystemFipsCc resource: %v", err)
 	}
 
 	if o == nil {
@@ -144,7 +177,7 @@ func resourceSystemFipsCcRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectSystemFipsCc(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemFipsCc resource from API: %v", err)
+		return fmt.Errorf("error reading SystemFipsCc resource from API: %v", err)
 	}
 	return nil
 }
@@ -170,25 +203,25 @@ func refreshObjectSystemFipsCc(d *schema.ResourceData, o map[string]interface{},
 
 	if err = d.Set("status", flattenSystemFipsCcStatus(o["status"], d, "status", sv)); err != nil {
 		if !fortiAPIPatch(o["status"]) {
-			return fmt.Errorf("Error reading status: %v", err)
+			return fmt.Errorf("error reading status: %v", err)
 		}
 	}
 
 	if err = d.Set("entropy_token", flattenSystemFipsCcEntropyToken(o["entropy-token"], d, "entropy_token", sv)); err != nil {
 		if !fortiAPIPatch(o["entropy-token"]) {
-			return fmt.Errorf("Error reading entropy_token: %v", err)
+			return fmt.Errorf("error reading entropy_token: %v", err)
 		}
 	}
 
 	if err = d.Set("self_test_period", flattenSystemFipsCcSelfTestPeriod(o["self-test-period"], d, "self_test_period", sv)); err != nil {
 		if !fortiAPIPatch(o["self-test-period"]) {
-			return fmt.Errorf("Error reading self_test_period: %v", err)
+			return fmt.Errorf("error reading self_test_period: %v", err)
 		}
 	}
 
 	if err = d.Set("key_generation_self_test", flattenSystemFipsCcKeyGenerationSelfTest(o["key-generation-self-test"], d, "key_generation_self_test", sv)); err != nil {
 		if !fortiAPIPatch(o["key-generation-self-test"]) {
-			return fmt.Errorf("Error reading key_generation_self_test: %v", err)
+			return fmt.Errorf("error reading key_generation_self_test: %v", err)
 		}
 	}
 

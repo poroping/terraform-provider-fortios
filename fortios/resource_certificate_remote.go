@@ -30,32 +30,37 @@ func resourceCertificateRemote() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"remote": &schema.Schema{
+			"remote": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"range": &schema.Schema{
+			"range": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"source": &schema.Schema{
+			"source": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -73,15 +78,25 @@ func resourceCertificateRemoteCreate(d *schema.ResourceData, m interface{}) erro
 		}
 	}
 
-	obj, err := getObjectCertificateRemote(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating CertificateRemote resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateCertificateRemote(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectCertificateRemote(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating CertificateRemote resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateCertificateRemote(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating CertificateRemote resource: %v", err)
+		return fmt.Errorf("error creating CertificateRemote resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -106,14 +121,24 @@ func resourceCertificateRemoteUpdate(d *schema.ResourceData, m interface{}) erro
 		}
 	}
 
-	obj, err := getObjectCertificateRemote(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating CertificateRemote resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateCertificateRemote(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectCertificateRemote(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating CertificateRemote resource: %v", err)
+		return fmt.Errorf("error updating CertificateRemote resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateCertificateRemote(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating CertificateRemote resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -140,9 +165,17 @@ func resourceCertificateRemoteDelete(d *schema.ResourceData, m interface{}) erro
 		}
 	}
 
-	err := c.DeleteCertificateRemote(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteCertificateRemote(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting CertificateRemote resource: %v", err)
+		return fmt.Errorf("error deleting CertificateRemote resource: %v", err)
 	}
 
 	d.SetId("")
@@ -164,9 +197,19 @@ func resourceCertificateRemoteRead(d *schema.ResourceData, m interface{}) error 
 		}
 	}
 
-	o, err := c.ReadCertificateRemote(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadCertificateRemote(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading CertificateRemote resource: %v", err)
+		return fmt.Errorf("error reading CertificateRemote resource: %v", err)
 	}
 
 	if o == nil {
@@ -177,7 +220,7 @@ func resourceCertificateRemoteRead(d *schema.ResourceData, m interface{}) error 
 
 	err = refreshObjectCertificateRemote(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading CertificateRemote resource from API: %v", err)
+		return fmt.Errorf("error reading CertificateRemote resource from API: %v", err)
 	}
 	return nil
 }
@@ -203,25 +246,25 @@ func refreshObjectCertificateRemote(d *schema.ResourceData, o map[string]interfa
 
 	if err = d.Set("name", flattenCertificateRemoteName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("remote", flattenCertificateRemoteRemote(o["remote"], d, "remote", sv)); err != nil {
 		if !fortiAPIPatch(o["remote"]) {
-			return fmt.Errorf("Error reading remote: %v", err)
+			return fmt.Errorf("error reading remote: %v", err)
 		}
 	}
 
 	if err = d.Set("range", flattenCertificateRemoteRange(o["range"], d, "range", sv)); err != nil {
 		if !fortiAPIPatch(o["range"]) {
-			return fmt.Errorf("Error reading range: %v", err)
+			return fmt.Errorf("error reading range: %v", err)
 		}
 	}
 
 	if err = d.Set("source", flattenCertificateRemoteSource(o["source"], d, "source", sv)); err != nil {
 		if !fortiAPIPatch(o["source"]) {
-			return fmt.Errorf("Error reading source: %v", err)
+			return fmt.Errorf("error reading source: %v", err)
 		}
 	}
 

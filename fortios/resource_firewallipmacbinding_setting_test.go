@@ -51,14 +51,14 @@ func testAccCheckFortiOSFirewallIpmacbindingSettingExists(n string) resource.Tes
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadFirewallIpmacbindingSetting(i, "root")
+		o, err := c.ReadFirewallIpmacbindingSetting(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading FirewallIpmacbindingSetting: %s", err)
+			return fmt.Errorf("error reading FirewallIpmacbindingSetting: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating FirewallIpmacbindingSetting: %s", n)
+			return fmt.Errorf("error creating FirewallIpmacbindingSetting: %s", n)
 		}
 
 		return nil
@@ -74,11 +74,11 @@ func testAccCheckFirewallIpmacbindingSettingDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadFirewallIpmacbindingSetting(i, "root")
+		o, err := c.ReadFirewallIpmacbindingSetting(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error FirewallIpmacbindingSetting %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error FirewallIpmacbindingSetting %s still exists", rs.Primary.ID)
 			}
 		}
 

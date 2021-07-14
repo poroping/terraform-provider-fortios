@@ -30,98 +30,98 @@ func resourceFirewallAddress6() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"uuid": &schema.Schema{
+			"uuid": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"type": &schema.Schema{
+			"type": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"start_mac": &schema.Schema{
+			"start_mac": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"end_mac": &schema.Schema{
+			"end_mac": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"sdn": &schema.Schema{
+			"sdn": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"ip6": &schema.Schema{
+			"ip6": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"start_ip": &schema.Schema{
+			"start_ip": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"end_ip": &schema.Schema{
+			"end_ip": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"fqdn": &schema.Schema{
+			"fqdn": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
 				Computed:     true,
 			},
-			"country": &schema.Schema{
+			"country": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 2),
 				Optional:     true,
 				Computed:     true,
 			},
-			"cache_ttl": &schema.Schema{
+			"cache_ttl": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 86400),
 				Optional:     true,
 				Computed:     true,
 			},
-			"visibility": &schema.Schema{
+			"visibility": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"color": &schema.Schema{
+			"color": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 32),
 				Optional:     true,
 				Computed:     true,
 			},
-			"obj_id": &schema.Schema{
+			"obj_id": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
 			},
-			"list": &schema.Schema{
+			"list": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"ip": &schema.Schema{
+						"ip": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 89),
 							Optional:     true,
@@ -130,29 +130,29 @@ func resourceFirewallAddress6() *schema.Resource {
 					},
 				},
 			},
-			"tagging": &schema.Schema{
+			"tagging": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 63),
 							Optional:     true,
 							Computed:     true,
 						},
-						"category": &schema.Schema{
+						"category": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 63),
 							Optional:     true,
 							Computed:     true,
 						},
-						"tags": &schema.Schema{
+						"tags": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"name": &schema.Schema{
+									"name": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 64),
 										Optional:     true,
@@ -164,34 +164,34 @@ func resourceFirewallAddress6() *schema.Resource {
 					},
 				},
 			},
-			"comment": &schema.Schema{
+			"comment": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
 			},
-			"template": &schema.Schema{
+			"template": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"subnet_segment": &schema.Schema{
+			"subnet_segment": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 63),
 							Optional:     true,
 							Computed:     true,
 						},
-						"type": &schema.Schema{
+						"type": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"value": &schema.Schema{
+						"value": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
@@ -200,20 +200,31 @@ func resourceFirewallAddress6() *schema.Resource {
 					},
 				},
 			},
-			"host_type": &schema.Schema{
+			"host_type": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"host": &schema.Schema{
+			"host": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"dynamic_sort_subtable": &schema.Schema{
+			"dynamic_sort_subtable": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Default:  "false",
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
+			},
+			"allow_append": {
+				Type:         schema.TypeBool,
+				Optional:     true,
+				Default:      false,
+				RequiredWith: []string{"name"},
 			},
 		},
 	}
@@ -231,15 +242,51 @@ func resourceFirewallAddress6Create(d *schema.ResourceData, m interface{}) error
 		}
 	}
 
-	obj, err := getObjectFirewallAddress6(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating FirewallAddress6 resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateFirewallAddress6(obj, vdomparam)
+	allow_append := false
+
+	if v, ok := d.GetOk("allow_append"); ok {
+		if b, ok := v.(bool); ok {
+			allow_append = b
+		}
+	}
+
+	urlparams := make(map[string][]string)
+	urlparams["allow_append"] = []string{strconv.FormatBool(allow_append)}
+
+	key := "name"
+	mkey := ""
+	if v, ok := d.GetOk(key); ok {
+		if s, ok := v.(string); ok {
+			mkey = s
+		}
+	}
+
+	obj, err := getObjectFirewallAddress6(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating FirewallAddress6 resource while getting object: %v", err)
+	}
+
+	if mkey == "" && allow_append {
+		return fmt.Errorf("error creating FirewallAddress6 resource: %q must be set if \"allow_append\" is true", key)
+	}
+
+	o := make(map[string]interface{})
+	if mkey != "" && allow_append {
+		o, err = c.UpdateFirewallAddress6(obj, mkey, vdomparam, urlparams, batchid)
+	} else {
+		o, err = c.CreateFirewallAddress6(obj, vdomparam, urlparams, batchid)
+	}
 
 	if err != nil {
-		return fmt.Errorf("Error creating FirewallAddress6 resource: %v", err)
+		return fmt.Errorf("error creating FirewallAddress6 resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -264,14 +311,24 @@ func resourceFirewallAddress6Update(d *schema.ResourceData, m interface{}) error
 		}
 	}
 
-	obj, err := getObjectFirewallAddress6(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating FirewallAddress6 resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateFirewallAddress6(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectFirewallAddress6(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating FirewallAddress6 resource: %v", err)
+		return fmt.Errorf("error updating FirewallAddress6 resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateFirewallAddress6(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating FirewallAddress6 resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -298,9 +355,17 @@ func resourceFirewallAddress6Delete(d *schema.ResourceData, m interface{}) error
 		}
 	}
 
-	err := c.DeleteFirewallAddress6(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteFirewallAddress6(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting FirewallAddress6 resource: %v", err)
+		return fmt.Errorf("error deleting FirewallAddress6 resource: %v", err)
 	}
 
 	d.SetId("")
@@ -322,9 +387,19 @@ func resourceFirewallAddress6Read(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadFirewallAddress6(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadFirewallAddress6(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading FirewallAddress6 resource: %v", err)
+		return fmt.Errorf("error reading FirewallAddress6 resource: %v", err)
 	}
 
 	if o == nil {
@@ -335,7 +410,7 @@ func resourceFirewallAddress6Read(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectFirewallAddress6(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading FirewallAddress6 resource from API: %v", err)
+		return fmt.Errorf("error reading FirewallAddress6 resource from API: %v", err)
 	}
 	return nil
 }
@@ -608,105 +683,105 @@ func refreshObjectFirewallAddress6(d *schema.ResourceData, o map[string]interfac
 
 	if err = d.Set("name", flattenFirewallAddress6Name(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("uuid", flattenFirewallAddress6Uuid(o["uuid"], d, "uuid", sv)); err != nil {
 		if !fortiAPIPatch(o["uuid"]) {
-			return fmt.Errorf("Error reading uuid: %v", err)
+			return fmt.Errorf("error reading uuid: %v", err)
 		}
 	}
 
 	if err = d.Set("type", flattenFirewallAddress6Type(o["type"], d, "type", sv)); err != nil {
 		if !fortiAPIPatch(o["type"]) {
-			return fmt.Errorf("Error reading type: %v", err)
+			return fmt.Errorf("error reading type: %v", err)
 		}
 	}
 
 	if err = d.Set("start_mac", flattenFirewallAddress6StartMac(o["start-mac"], d, "start_mac", sv)); err != nil {
 		if !fortiAPIPatch(o["start-mac"]) {
-			return fmt.Errorf("Error reading start_mac: %v", err)
+			return fmt.Errorf("error reading start_mac: %v", err)
 		}
 	}
 
 	if err = d.Set("end_mac", flattenFirewallAddress6EndMac(o["end-mac"], d, "end_mac", sv)); err != nil {
 		if !fortiAPIPatch(o["end-mac"]) {
-			return fmt.Errorf("Error reading end_mac: %v", err)
+			return fmt.Errorf("error reading end_mac: %v", err)
 		}
 	}
 
 	if err = d.Set("sdn", flattenFirewallAddress6Sdn(o["sdn"], d, "sdn", sv)); err != nil {
 		if !fortiAPIPatch(o["sdn"]) {
-			return fmt.Errorf("Error reading sdn: %v", err)
+			return fmt.Errorf("error reading sdn: %v", err)
 		}
 	}
 
 	if err = d.Set("ip6", flattenFirewallAddress6Ip6(o["ip6"], d, "ip6", sv)); err != nil {
 		if !fortiAPIPatch(o["ip6"]) {
-			return fmt.Errorf("Error reading ip6: %v", err)
+			return fmt.Errorf("error reading ip6: %v", err)
 		}
 	}
 
 	if err = d.Set("start_ip", flattenFirewallAddress6StartIp(o["start-ip"], d, "start_ip", sv)); err != nil {
 		if !fortiAPIPatch(o["start-ip"]) {
-			return fmt.Errorf("Error reading start_ip: %v", err)
+			return fmt.Errorf("error reading start_ip: %v", err)
 		}
 	}
 
 	if err = d.Set("end_ip", flattenFirewallAddress6EndIp(o["end-ip"], d, "end_ip", sv)); err != nil {
 		if !fortiAPIPatch(o["end-ip"]) {
-			return fmt.Errorf("Error reading end_ip: %v", err)
+			return fmt.Errorf("error reading end_ip: %v", err)
 		}
 	}
 
 	if err = d.Set("fqdn", flattenFirewallAddress6Fqdn(o["fqdn"], d, "fqdn", sv)); err != nil {
 		if !fortiAPIPatch(o["fqdn"]) {
-			return fmt.Errorf("Error reading fqdn: %v", err)
+			return fmt.Errorf("error reading fqdn: %v", err)
 		}
 	}
 
 	if err = d.Set("country", flattenFirewallAddress6Country(o["country"], d, "country", sv)); err != nil {
 		if !fortiAPIPatch(o["country"]) {
-			return fmt.Errorf("Error reading country: %v", err)
+			return fmt.Errorf("error reading country: %v", err)
 		}
 	}
 
 	if err = d.Set("cache_ttl", flattenFirewallAddress6CacheTtl(o["cache-ttl"], d, "cache_ttl", sv)); err != nil {
 		if !fortiAPIPatch(o["cache-ttl"]) {
-			return fmt.Errorf("Error reading cache_ttl: %v", err)
+			return fmt.Errorf("error reading cache_ttl: %v", err)
 		}
 	}
 
 	if err = d.Set("visibility", flattenFirewallAddress6Visibility(o["visibility"], d, "visibility", sv)); err != nil {
 		if !fortiAPIPatch(o["visibility"]) {
-			return fmt.Errorf("Error reading visibility: %v", err)
+			return fmt.Errorf("error reading visibility: %v", err)
 		}
 	}
 
 	if err = d.Set("color", flattenFirewallAddress6Color(o["color"], d, "color", sv)); err != nil {
 		if !fortiAPIPatch(o["color"]) {
-			return fmt.Errorf("Error reading color: %v", err)
+			return fmt.Errorf("error reading color: %v", err)
 		}
 	}
 
 	if err = d.Set("obj_id", flattenFirewallAddress6ObjId(o["obj-id"], d, "obj_id", sv)); err != nil {
 		if !fortiAPIPatch(o["obj-id"]) {
-			return fmt.Errorf("Error reading obj_id: %v", err)
+			return fmt.Errorf("error reading obj_id: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("list", flattenFirewallAddress6List(o["list"], d, "list", sv)); err != nil {
 			if !fortiAPIPatch(o["list"]) {
-				return fmt.Errorf("Error reading list: %v", err)
+				return fmt.Errorf("error reading list: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("list"); ok {
 			if err = d.Set("list", flattenFirewallAddress6List(o["list"], d, "list", sv)); err != nil {
 				if !fortiAPIPatch(o["list"]) {
-					return fmt.Errorf("Error reading list: %v", err)
+					return fmt.Errorf("error reading list: %v", err)
 				}
 			}
 		}
@@ -715,14 +790,14 @@ func refreshObjectFirewallAddress6(d *schema.ResourceData, o map[string]interfac
 	if isImportTable() {
 		if err = d.Set("tagging", flattenFirewallAddress6Tagging(o["tagging"], d, "tagging", sv)); err != nil {
 			if !fortiAPIPatch(o["tagging"]) {
-				return fmt.Errorf("Error reading tagging: %v", err)
+				return fmt.Errorf("error reading tagging: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("tagging"); ok {
 			if err = d.Set("tagging", flattenFirewallAddress6Tagging(o["tagging"], d, "tagging", sv)); err != nil {
 				if !fortiAPIPatch(o["tagging"]) {
-					return fmt.Errorf("Error reading tagging: %v", err)
+					return fmt.Errorf("error reading tagging: %v", err)
 				}
 			}
 		}
@@ -730,27 +805,27 @@ func refreshObjectFirewallAddress6(d *schema.ResourceData, o map[string]interfac
 
 	if err = d.Set("comment", flattenFirewallAddress6Comment(o["comment"], d, "comment", sv)); err != nil {
 		if !fortiAPIPatch(o["comment"]) {
-			return fmt.Errorf("Error reading comment: %v", err)
+			return fmt.Errorf("error reading comment: %v", err)
 		}
 	}
 
 	if err = d.Set("template", flattenFirewallAddress6Template(o["template"], d, "template", sv)); err != nil {
 		if !fortiAPIPatch(o["template"]) {
-			return fmt.Errorf("Error reading template: %v", err)
+			return fmt.Errorf("error reading template: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("subnet_segment", flattenFirewallAddress6SubnetSegment(o["subnet-segment"], d, "subnet_segment", sv)); err != nil {
 			if !fortiAPIPatch(o["subnet-segment"]) {
-				return fmt.Errorf("Error reading subnet_segment: %v", err)
+				return fmt.Errorf("error reading subnet_segment: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("subnet_segment"); ok {
 			if err = d.Set("subnet_segment", flattenFirewallAddress6SubnetSegment(o["subnet-segment"], d, "subnet_segment", sv)); err != nil {
 				if !fortiAPIPatch(o["subnet-segment"]) {
-					return fmt.Errorf("Error reading subnet_segment: %v", err)
+					return fmt.Errorf("error reading subnet_segment: %v", err)
 				}
 			}
 		}
@@ -758,13 +833,13 @@ func refreshObjectFirewallAddress6(d *schema.ResourceData, o map[string]interfac
 
 	if err = d.Set("host_type", flattenFirewallAddress6HostType(o["host-type"], d, "host_type", sv)); err != nil {
 		if !fortiAPIPatch(o["host-type"]) {
-			return fmt.Errorf("Error reading host_type: %v", err)
+			return fmt.Errorf("error reading host_type: %v", err)
 		}
 	}
 
 	if err = d.Set("host", flattenFirewallAddress6Host(o["host"], d, "host", sv)); err != nil {
 		if !fortiAPIPatch(o["host"]) {
-			return fmt.Errorf("Error reading host: %v", err)
+			return fmt.Errorf("error reading host: %v", err)
 		}
 	}
 

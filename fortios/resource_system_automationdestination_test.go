@@ -51,14 +51,14 @@ func testAccCheckFortiOSSystemAutomationDestinationExists(n string) resource.Tes
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemAutomationDestination(i, "root")
+		o, err := c.ReadSystemAutomationDestination(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading SystemAutomationDestination: %s", err)
+			return fmt.Errorf("error reading SystemAutomationDestination: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating SystemAutomationDestination: %s", n)
+			return fmt.Errorf("error creating SystemAutomationDestination: %s", n)
 		}
 
 		return nil
@@ -74,11 +74,11 @@ func testAccCheckSystemAutomationDestinationDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemAutomationDestination(i, "root")
+		o, err := c.ReadSystemAutomationDestination(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error SystemAutomationDestination %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error SystemAutomationDestination %s still exists", rs.Primary.ID)
 			}
 		}
 

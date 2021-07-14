@@ -30,54 +30,54 @@ func resourceWirelessControllerBonjourProfile() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"comment": &schema.Schema{
+			"comment": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"policy_list": &schema.Schema{
+			"policy_list": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"policy_id": &schema.Schema{
+						"policy_id": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 65535),
 							Optional:     true,
 							Computed:     true,
 						},
-						"description": &schema.Schema{
+						"description": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 63),
 							Optional:     true,
 							Computed:     true,
 						},
-						"from_vlan": &schema.Schema{
+						"from_vlan": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 63),
 							Optional:     true,
 							Computed:     true,
 						},
-						"to_vlan": &schema.Schema{
+						"to_vlan": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 63),
 							Optional:     true,
 							Computed:     true,
 						},
-						"services": &schema.Schema{
+						"services": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -85,10 +85,15 @@ func resourceWirelessControllerBonjourProfile() *schema.Resource {
 					},
 				},
 			},
-			"dynamic_sort_subtable": &schema.Schema{
+			"dynamic_sort_subtable": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Default:  "false",
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -106,15 +111,25 @@ func resourceWirelessControllerBonjourProfileCreate(d *schema.ResourceData, m in
 		}
 	}
 
-	obj, err := getObjectWirelessControllerBonjourProfile(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating WirelessControllerBonjourProfile resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateWirelessControllerBonjourProfile(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectWirelessControllerBonjourProfile(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating WirelessControllerBonjourProfile resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateWirelessControllerBonjourProfile(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating WirelessControllerBonjourProfile resource: %v", err)
+		return fmt.Errorf("error creating WirelessControllerBonjourProfile resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -139,14 +154,24 @@ func resourceWirelessControllerBonjourProfileUpdate(d *schema.ResourceData, m in
 		}
 	}
 
-	obj, err := getObjectWirelessControllerBonjourProfile(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating WirelessControllerBonjourProfile resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateWirelessControllerBonjourProfile(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectWirelessControllerBonjourProfile(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating WirelessControllerBonjourProfile resource: %v", err)
+		return fmt.Errorf("error updating WirelessControllerBonjourProfile resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateWirelessControllerBonjourProfile(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating WirelessControllerBonjourProfile resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -173,9 +198,17 @@ func resourceWirelessControllerBonjourProfileDelete(d *schema.ResourceData, m in
 		}
 	}
 
-	err := c.DeleteWirelessControllerBonjourProfile(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteWirelessControllerBonjourProfile(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting WirelessControllerBonjourProfile resource: %v", err)
+		return fmt.Errorf("error deleting WirelessControllerBonjourProfile resource: %v", err)
 	}
 
 	d.SetId("")
@@ -197,9 +230,19 @@ func resourceWirelessControllerBonjourProfileRead(d *schema.ResourceData, m inte
 		}
 	}
 
-	o, err := c.ReadWirelessControllerBonjourProfile(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadWirelessControllerBonjourProfile(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading WirelessControllerBonjourProfile resource: %v", err)
+		return fmt.Errorf("error reading WirelessControllerBonjourProfile resource: %v", err)
 	}
 
 	if o == nil {
@@ -210,7 +253,7 @@ func resourceWirelessControllerBonjourProfileRead(d *schema.ResourceData, m inte
 
 	err = refreshObjectWirelessControllerBonjourProfile(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading WirelessControllerBonjourProfile resource from API: %v", err)
+		return fmt.Errorf("error reading WirelessControllerBonjourProfile resource from API: %v", err)
 	}
 	return nil
 }
@@ -306,27 +349,27 @@ func refreshObjectWirelessControllerBonjourProfile(d *schema.ResourceData, o map
 
 	if err = d.Set("name", flattenWirelessControllerBonjourProfileName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("comment", flattenWirelessControllerBonjourProfileComment(o["comment"], d, "comment", sv)); err != nil {
 		if !fortiAPIPatch(o["comment"]) {
-			return fmt.Errorf("Error reading comment: %v", err)
+			return fmt.Errorf("error reading comment: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("policy_list", flattenWirelessControllerBonjourProfilePolicyList(o["policy-list"], d, "policy_list", sv)); err != nil {
 			if !fortiAPIPatch(o["policy-list"]) {
-				return fmt.Errorf("Error reading policy_list: %v", err)
+				return fmt.Errorf("error reading policy_list: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("policy_list"); ok {
 			if err = d.Set("policy_list", flattenWirelessControllerBonjourProfilePolicyList(o["policy-list"], d, "policy_list", sv)); err != nil {
 				if !fortiAPIPatch(o["policy-list"]) {
-					return fmt.Errorf("Error reading policy_list: %v", err)
+					return fmt.Errorf("error reading policy_list: %v", err)
 				}
 			}
 		}

@@ -91,14 +91,14 @@ func testAccCheckFortiOSWanoptProfileExists(n string) resource.TestCheckFunc {
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadWanoptProfile(i, "root")
+		o, err := c.ReadWanoptProfile(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading WanoptProfile: %s", err)
+			return fmt.Errorf("error reading WanoptProfile: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating WanoptProfile: %s", n)
+			return fmt.Errorf("error creating WanoptProfile: %s", n)
 		}
 
 		return nil
@@ -114,11 +114,11 @@ func testAccCheckWanoptProfileDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadWanoptProfile(i, "root")
+		o, err := c.ReadWanoptProfile(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error WanoptProfile %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error WanoptProfile %s still exists", rs.Primary.ID)
 			}
 		}
 

@@ -30,22 +30,27 @@ func resourceSwitchControllerPtpPolicy() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"status": &schema.Schema{
+			"status": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -63,15 +68,25 @@ func resourceSwitchControllerPtpPolicyCreate(d *schema.ResourceData, m interface
 		}
 	}
 
-	obj, err := getObjectSwitchControllerPtpPolicy(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating SwitchControllerPtpPolicy resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateSwitchControllerPtpPolicy(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSwitchControllerPtpPolicy(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating SwitchControllerPtpPolicy resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateSwitchControllerPtpPolicy(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating SwitchControllerPtpPolicy resource: %v", err)
+		return fmt.Errorf("error creating SwitchControllerPtpPolicy resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -96,14 +111,24 @@ func resourceSwitchControllerPtpPolicyUpdate(d *schema.ResourceData, m interface
 		}
 	}
 
-	obj, err := getObjectSwitchControllerPtpPolicy(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SwitchControllerPtpPolicy resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSwitchControllerPtpPolicy(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSwitchControllerPtpPolicy(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SwitchControllerPtpPolicy resource: %v", err)
+		return fmt.Errorf("error updating SwitchControllerPtpPolicy resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSwitchControllerPtpPolicy(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SwitchControllerPtpPolicy resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -130,9 +155,17 @@ func resourceSwitchControllerPtpPolicyDelete(d *schema.ResourceData, m interface
 		}
 	}
 
-	err := c.DeleteSwitchControllerPtpPolicy(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSwitchControllerPtpPolicy(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SwitchControllerPtpPolicy resource: %v", err)
+		return fmt.Errorf("error deleting SwitchControllerPtpPolicy resource: %v", err)
 	}
 
 	d.SetId("")
@@ -154,9 +187,19 @@ func resourceSwitchControllerPtpPolicyRead(d *schema.ResourceData, m interface{}
 		}
 	}
 
-	o, err := c.ReadSwitchControllerPtpPolicy(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSwitchControllerPtpPolicy(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SwitchControllerPtpPolicy resource: %v", err)
+		return fmt.Errorf("error reading SwitchControllerPtpPolicy resource: %v", err)
 	}
 
 	if o == nil {
@@ -167,7 +210,7 @@ func resourceSwitchControllerPtpPolicyRead(d *schema.ResourceData, m interface{}
 
 	err = refreshObjectSwitchControllerPtpPolicy(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SwitchControllerPtpPolicy resource from API: %v", err)
+		return fmt.Errorf("error reading SwitchControllerPtpPolicy resource from API: %v", err)
 	}
 	return nil
 }
@@ -185,13 +228,13 @@ func refreshObjectSwitchControllerPtpPolicy(d *schema.ResourceData, o map[string
 
 	if err = d.Set("name", flattenSwitchControllerPtpPolicyName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("status", flattenSwitchControllerPtpPolicyStatus(o["status"], d, "status", sv)); err != nil {
 		if !fortiAPIPatch(o["status"]) {
-			return fmt.Errorf("Error reading status: %v", err)
+			return fmt.Errorf("error reading status: %v", err)
 		}
 	}
 

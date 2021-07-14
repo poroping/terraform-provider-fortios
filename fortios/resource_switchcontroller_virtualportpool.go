@@ -30,23 +30,28 @@ func resourceSwitchControllerVirtualPortPool() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"description": &schema.Schema{
+			"description": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -64,15 +69,25 @@ func resourceSwitchControllerVirtualPortPoolCreate(d *schema.ResourceData, m int
 		}
 	}
 
-	obj, err := getObjectSwitchControllerVirtualPortPool(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating SwitchControllerVirtualPortPool resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateSwitchControllerVirtualPortPool(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSwitchControllerVirtualPortPool(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating SwitchControllerVirtualPortPool resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateSwitchControllerVirtualPortPool(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating SwitchControllerVirtualPortPool resource: %v", err)
+		return fmt.Errorf("error creating SwitchControllerVirtualPortPool resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -97,14 +112,24 @@ func resourceSwitchControllerVirtualPortPoolUpdate(d *schema.ResourceData, m int
 		}
 	}
 
-	obj, err := getObjectSwitchControllerVirtualPortPool(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SwitchControllerVirtualPortPool resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSwitchControllerVirtualPortPool(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSwitchControllerVirtualPortPool(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SwitchControllerVirtualPortPool resource: %v", err)
+		return fmt.Errorf("error updating SwitchControllerVirtualPortPool resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSwitchControllerVirtualPortPool(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SwitchControllerVirtualPortPool resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -131,9 +156,17 @@ func resourceSwitchControllerVirtualPortPoolDelete(d *schema.ResourceData, m int
 		}
 	}
 
-	err := c.DeleteSwitchControllerVirtualPortPool(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSwitchControllerVirtualPortPool(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SwitchControllerVirtualPortPool resource: %v", err)
+		return fmt.Errorf("error deleting SwitchControllerVirtualPortPool resource: %v", err)
 	}
 
 	d.SetId("")
@@ -155,9 +188,19 @@ func resourceSwitchControllerVirtualPortPoolRead(d *schema.ResourceData, m inter
 		}
 	}
 
-	o, err := c.ReadSwitchControllerVirtualPortPool(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSwitchControllerVirtualPortPool(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SwitchControllerVirtualPortPool resource: %v", err)
+		return fmt.Errorf("error reading SwitchControllerVirtualPortPool resource: %v", err)
 	}
 
 	if o == nil {
@@ -168,7 +211,7 @@ func resourceSwitchControllerVirtualPortPoolRead(d *schema.ResourceData, m inter
 
 	err = refreshObjectSwitchControllerVirtualPortPool(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SwitchControllerVirtualPortPool resource from API: %v", err)
+		return fmt.Errorf("error reading SwitchControllerVirtualPortPool resource from API: %v", err)
 	}
 	return nil
 }
@@ -186,13 +229,13 @@ func refreshObjectSwitchControllerVirtualPortPool(d *schema.ResourceData, o map[
 
 	if err = d.Set("name", flattenSwitchControllerVirtualPortPoolName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("description", flattenSwitchControllerVirtualPortPoolDescription(o["description"], d, "description", sv)); err != nil {
 		if !fortiAPIPatch(o["description"]) {
-			return fmt.Errorf("Error reading description: %v", err)
+			return fmt.Errorf("error reading description: %v", err)
 		}
 	}
 

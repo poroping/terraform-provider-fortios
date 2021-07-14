@@ -30,30 +30,35 @@ func resourceSystemIpipTunnel() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 15),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"interface": &schema.Schema{
+			"interface": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 15),
 				Required:     true,
 			},
-			"remote_gw": &schema.Schema{
+			"remote_gw": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"local_gw": &schema.Schema{
+			"local_gw": {
 				Type:     schema.TypeString,
 				Required: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -71,15 +76,25 @@ func resourceSystemIpipTunnelCreate(d *schema.ResourceData, m interface{}) error
 		}
 	}
 
-	obj, err := getObjectSystemIpipTunnel(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating SystemIpipTunnel resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateSystemIpipTunnel(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemIpipTunnel(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating SystemIpipTunnel resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateSystemIpipTunnel(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating SystemIpipTunnel resource: %v", err)
+		return fmt.Errorf("error creating SystemIpipTunnel resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -104,14 +119,24 @@ func resourceSystemIpipTunnelUpdate(d *schema.ResourceData, m interface{}) error
 		}
 	}
 
-	obj, err := getObjectSystemIpipTunnel(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SystemIpipTunnel resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSystemIpipTunnel(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemIpipTunnel(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SystemIpipTunnel resource: %v", err)
+		return fmt.Errorf("error updating SystemIpipTunnel resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSystemIpipTunnel(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SystemIpipTunnel resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -138,9 +163,17 @@ func resourceSystemIpipTunnelDelete(d *schema.ResourceData, m interface{}) error
 		}
 	}
 
-	err := c.DeleteSystemIpipTunnel(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSystemIpipTunnel(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SystemIpipTunnel resource: %v", err)
+		return fmt.Errorf("error deleting SystemIpipTunnel resource: %v", err)
 	}
 
 	d.SetId("")
@@ -162,9 +195,19 @@ func resourceSystemIpipTunnelRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadSystemIpipTunnel(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSystemIpipTunnel(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemIpipTunnel resource: %v", err)
+		return fmt.Errorf("error reading SystemIpipTunnel resource: %v", err)
 	}
 
 	if o == nil {
@@ -175,7 +218,7 @@ func resourceSystemIpipTunnelRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectSystemIpipTunnel(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemIpipTunnel resource from API: %v", err)
+		return fmt.Errorf("error reading SystemIpipTunnel resource from API: %v", err)
 	}
 	return nil
 }
@@ -201,25 +244,25 @@ func refreshObjectSystemIpipTunnel(d *schema.ResourceData, o map[string]interfac
 
 	if err = d.Set("name", flattenSystemIpipTunnelName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("interface", flattenSystemIpipTunnelInterface(o["interface"], d, "interface", sv)); err != nil {
 		if !fortiAPIPatch(o["interface"]) {
-			return fmt.Errorf("Error reading interface: %v", err)
+			return fmt.Errorf("error reading interface: %v", err)
 		}
 	}
 
 	if err = d.Set("remote_gw", flattenSystemIpipTunnelRemoteGw(o["remote-gw"], d, "remote_gw", sv)); err != nil {
 		if !fortiAPIPatch(o["remote-gw"]) {
-			return fmt.Errorf("Error reading remote_gw: %v", err)
+			return fmt.Errorf("error reading remote_gw: %v", err)
 		}
 	}
 
 	if err = d.Set("local_gw", flattenSystemIpipTunnelLocalGw(o["local-gw"], d, "local_gw", sv)); err != nil {
 		if !fortiAPIPatch(o["local-gw"]) {
-			return fmt.Errorf("Error reading local_gw: %v", err)
+			return fmt.Errorf("error reading local_gw: %v", err)
 		}
 	}
 

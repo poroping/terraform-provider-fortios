@@ -53,14 +53,14 @@ func testAccCheckFortiOSRouterCommunityListExists(n string) resource.TestCheckFu
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadRouterCommunityList(i, "root")
+		o, err := c.ReadRouterCommunityList(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading RouterCommunityList: %s", err)
+			return fmt.Errorf("error reading RouterCommunityList: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating RouterCommunityList: %s", n)
+			return fmt.Errorf("error creating RouterCommunityList: %s", n)
 		}
 
 		return nil
@@ -76,11 +76,11 @@ func testAccCheckRouterCommunityListDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadRouterCommunityList(i, "root")
+		o, err := c.ReadRouterCommunityList(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error RouterCommunityList %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error RouterCommunityList %s still exists", rs.Primary.ID)
 			}
 		}
 

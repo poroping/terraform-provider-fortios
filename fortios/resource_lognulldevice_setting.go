@@ -30,14 +30,19 @@ func resourceLogNullDeviceSetting() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"status": &schema.Schema{
+			"status": {
 				Type:     schema.TypeString,
 				Required: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -56,14 +61,24 @@ func resourceLogNullDeviceSettingUpdate(d *schema.ResourceData, m interface{}) e
 		}
 	}
 
-	obj, err := getObjectLogNullDeviceSetting(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating LogNullDeviceSetting resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateLogNullDeviceSetting(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectLogNullDeviceSetting(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating LogNullDeviceSetting resource: %v", err)
+		return fmt.Errorf("error updating LogNullDeviceSetting resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateLogNullDeviceSetting(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating LogNullDeviceSetting resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -90,9 +105,17 @@ func resourceLogNullDeviceSettingDelete(d *schema.ResourceData, m interface{}) e
 		}
 	}
 
-	err := c.DeleteLogNullDeviceSetting(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteLogNullDeviceSetting(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting LogNullDeviceSetting resource: %v", err)
+		return fmt.Errorf("error deleting LogNullDeviceSetting resource: %v", err)
 	}
 
 	d.SetId("")
@@ -114,9 +137,19 @@ func resourceLogNullDeviceSettingRead(d *schema.ResourceData, m interface{}) err
 		}
 	}
 
-	o, err := c.ReadLogNullDeviceSetting(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadLogNullDeviceSetting(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading LogNullDeviceSetting resource: %v", err)
+		return fmt.Errorf("error reading LogNullDeviceSetting resource: %v", err)
 	}
 
 	if o == nil {
@@ -127,7 +160,7 @@ func resourceLogNullDeviceSettingRead(d *schema.ResourceData, m interface{}) err
 
 	err = refreshObjectLogNullDeviceSetting(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading LogNullDeviceSetting resource from API: %v", err)
+		return fmt.Errorf("error reading LogNullDeviceSetting resource from API: %v", err)
 	}
 	return nil
 }
@@ -141,7 +174,7 @@ func refreshObjectLogNullDeviceSetting(d *schema.ResourceData, o map[string]inte
 
 	if err = d.Set("status", flattenLogNullDeviceSettingStatus(o["status"], d, "status", sv)); err != nil {
 		if !fortiAPIPatch(o["status"]) {
-			return fmt.Errorf("Error reading status: %v", err)
+			return fmt.Errorf("error reading status: %v", err)
 		}
 	}
 

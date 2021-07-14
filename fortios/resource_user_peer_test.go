@@ -54,14 +54,14 @@ func testAccCheckFortiOSUserPeerExists(n string) resource.TestCheckFunc {
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadUserPeer(i, "root")
+		o, err := c.ReadUserPeer(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading UserPeer: %s", err)
+			return fmt.Errorf("error reading UserPeer: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating UserPeer: %s", n)
+			return fmt.Errorf("error creating UserPeer: %s", n)
 		}
 
 		return nil
@@ -77,11 +77,11 @@ func testAccCheckUserPeerDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadUserPeer(i, "root")
+		o, err := c.ReadUserPeer(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error UserPeer %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error UserPeer %s still exists", rs.Primary.ID)
 			}
 		}
 

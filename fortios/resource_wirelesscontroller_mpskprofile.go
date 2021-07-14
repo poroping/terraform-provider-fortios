@@ -30,90 +30,90 @@ func resourceWirelessControllerMpskProfile() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"mpsk_concurrent_clients": &schema.Schema{
+			"mpsk_concurrent_clients": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"mpsk_group": &schema.Schema{
+			"mpsk_group": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"vlan_type": &schema.Schema{
+						"vlan_type": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"vlan_id": &schema.Schema{
+						"vlan_id": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 4094),
 							Optional:     true,
 							Computed:     true,
 						},
-						"mpsk_key": &schema.Schema{
+						"mpsk_key": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"name": &schema.Schema{
+									"name": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 35),
 										Optional:     true,
 										Computed:     true,
 									},
-									"mac": &schema.Schema{
+									"mac": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"passphrase": &schema.Schema{
+									"passphrase": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 128),
 										Optional:     true,
 										Sensitive:    true,
 									},
-									"concurrent_client_limit_type": &schema.Schema{
+									"concurrent_client_limit_type": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"concurrent_clients": &schema.Schema{
+									"concurrent_clients": {
 										Type:         schema.TypeInt,
 										ValidateFunc: validation.IntBetween(1, 65535),
 										Optional:     true,
 										Computed:     true,
 									},
-									"comment": &schema.Schema{
+									"comment": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 255),
 										Optional:     true,
 									},
-									"mpsk_schedules": &schema.Schema{
+									"mpsk_schedules": {
 										Type:     schema.TypeList,
 										Optional: true,
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
-												"name": &schema.Schema{
+												"name": {
 													Type:         schema.TypeString,
 													ValidateFunc: validation.StringLenBetween(0, 35),
 													Optional:     true,
@@ -128,10 +128,15 @@ func resourceWirelessControllerMpskProfile() *schema.Resource {
 					},
 				},
 			},
-			"dynamic_sort_subtable": &schema.Schema{
+			"dynamic_sort_subtable": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Default:  "false",
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -149,15 +154,25 @@ func resourceWirelessControllerMpskProfileCreate(d *schema.ResourceData, m inter
 		}
 	}
 
-	obj, err := getObjectWirelessControllerMpskProfile(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating WirelessControllerMpskProfile resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateWirelessControllerMpskProfile(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectWirelessControllerMpskProfile(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating WirelessControllerMpskProfile resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateWirelessControllerMpskProfile(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating WirelessControllerMpskProfile resource: %v", err)
+		return fmt.Errorf("error creating WirelessControllerMpskProfile resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -182,14 +197,24 @@ func resourceWirelessControllerMpskProfileUpdate(d *schema.ResourceData, m inter
 		}
 	}
 
-	obj, err := getObjectWirelessControllerMpskProfile(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating WirelessControllerMpskProfile resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateWirelessControllerMpskProfile(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectWirelessControllerMpskProfile(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating WirelessControllerMpskProfile resource: %v", err)
+		return fmt.Errorf("error updating WirelessControllerMpskProfile resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateWirelessControllerMpskProfile(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating WirelessControllerMpskProfile resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -216,9 +241,17 @@ func resourceWirelessControllerMpskProfileDelete(d *schema.ResourceData, m inter
 		}
 	}
 
-	err := c.DeleteWirelessControllerMpskProfile(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteWirelessControllerMpskProfile(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting WirelessControllerMpskProfile resource: %v", err)
+		return fmt.Errorf("error deleting WirelessControllerMpskProfile resource: %v", err)
 	}
 
 	d.SetId("")
@@ -240,9 +273,19 @@ func resourceWirelessControllerMpskProfileRead(d *schema.ResourceData, m interfa
 		}
 	}
 
-	o, err := c.ReadWirelessControllerMpskProfile(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadWirelessControllerMpskProfile(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading WirelessControllerMpskProfile resource: %v", err)
+		return fmt.Errorf("error reading WirelessControllerMpskProfile resource: %v", err)
 	}
 
 	if o == nil {
@@ -253,7 +296,7 @@ func resourceWirelessControllerMpskProfileRead(d *schema.ResourceData, m interfa
 
 	err = refreshObjectWirelessControllerMpskProfile(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading WirelessControllerMpskProfile resource from API: %v", err)
+		return fmt.Errorf("error reading WirelessControllerMpskProfile resource from API: %v", err)
 	}
 	return nil
 }
@@ -469,27 +512,27 @@ func refreshObjectWirelessControllerMpskProfile(d *schema.ResourceData, o map[st
 
 	if err = d.Set("name", flattenWirelessControllerMpskProfileName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("mpsk_concurrent_clients", flattenWirelessControllerMpskProfileMpskConcurrentClients(o["mpsk-concurrent-clients"], d, "mpsk_concurrent_clients", sv)); err != nil {
 		if !fortiAPIPatch(o["mpsk-concurrent-clients"]) {
-			return fmt.Errorf("Error reading mpsk_concurrent_clients: %v", err)
+			return fmt.Errorf("error reading mpsk_concurrent_clients: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("mpsk_group", flattenWirelessControllerMpskProfileMpskGroup(o["mpsk-group"], d, "mpsk_group", sv)); err != nil {
 			if !fortiAPIPatch(o["mpsk-group"]) {
-				return fmt.Errorf("Error reading mpsk_group: %v", err)
+				return fmt.Errorf("error reading mpsk_group: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("mpsk_group"); ok {
 			if err = d.Set("mpsk_group", flattenWirelessControllerMpskProfileMpskGroup(o["mpsk-group"], d, "mpsk_group", sv)); err != nil {
 				if !fortiAPIPatch(o["mpsk-group"]) {
-					return fmt.Errorf("Error reading mpsk_group: %v", err)
+					return fmt.Errorf("error reading mpsk_group: %v", err)
 				}
 			}
 		}

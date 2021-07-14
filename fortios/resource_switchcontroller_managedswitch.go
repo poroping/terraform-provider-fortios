@@ -30,362 +30,362 @@ func resourceSwitchControllerManagedSwitch() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"switch_id": &schema.Schema{
+			"switch_id": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 16),
 				ForceNew:     true,
 				Required:     true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"description": &schema.Schema{
+			"description": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"switch_profile": &schema.Schema{
+			"switch_profile": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"access_profile": &schema.Schema{
+			"access_profile": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 31),
 				Optional:     true,
 				Computed:     true,
 			},
-			"fsw_wan1_peer": &schema.Schema{
+			"fsw_wan1_peer": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Required:     true,
 			},
-			"fsw_wan1_admin": &schema.Schema{
+			"fsw_wan1_admin": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"fsw_wan2_peer": &schema.Schema{
+			"fsw_wan2_peer": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"fsw_wan2_admin": &schema.Schema{
+			"fsw_wan2_admin": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"poe_pre_standard_detection": &schema.Schema{
+			"poe_pre_standard_detection": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"poe_detection_type": &schema.Schema{
+			"poe_detection_type": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 255),
 				Optional:     true,
 				Computed:     true,
 			},
-			"poe_lldp_detection": &schema.Schema{
+			"poe_lldp_detection": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"directly_connected": &schema.Schema{
+			"directly_connected": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 1),
 				Optional:     true,
 				Computed:     true,
 			},
-			"version": &schema.Schema{
+			"version": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 255),
 				Optional:     true,
 				Computed:     true,
 			},
-			"max_allowed_trunk_members": &schema.Schema{
+			"max_allowed_trunk_members": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 255),
 				Optional:     true,
 				Computed:     true,
 			},
-			"pre_provisioned": &schema.Schema{
+			"pre_provisioned": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 255),
 				Optional:     true,
 				Computed:     true,
 			},
-			"l3_discovered": &schema.Schema{
+			"l3_discovered": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 1),
 				Optional:     true,
 				Computed:     true,
 			},
-			"tdr_supported": &schema.Schema{
+			"tdr_supported": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 31),
 				Optional:     true,
 				Computed:     true,
 			},
-			"dynamic_capability": &schema.Schema{
+			"dynamic_capability": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"switch_device_tag": &schema.Schema{
+			"switch_device_tag": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 32),
 				Optional:     true,
 				Computed:     true,
 			},
-			"switch_dhcp_opt43_key": &schema.Schema{
+			"switch_dhcp_opt43_key": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"mclag_igmp_snooping_aware": &schema.Schema{
+			"mclag_igmp_snooping_aware": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"dynamically_discovered": &schema.Schema{
+			"dynamically_discovered": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 1),
 				Optional:     true,
 				Computed:     true,
 			},
-			"type": &schema.Schema{
+			"type": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"owner_vdom": &schema.Schema{
+			"owner_vdom": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 31),
 				Optional:     true,
 				Computed:     true,
 			},
-			"flow_identity": &schema.Schema{
+			"flow_identity": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"staged_image_version": &schema.Schema{
+			"staged_image_version": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 127),
 				Optional:     true,
 				Computed:     true,
 			},
-			"delayed_restart_trigger": &schema.Schema{
+			"delayed_restart_trigger": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 255),
 				Optional:     true,
 				Computed:     true,
 			},
-			"firmware_provision": &schema.Schema{
+			"firmware_provision": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"firmware_provision_version": &schema.Schema{
+			"firmware_provision_version": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"ports": &schema.Schema{
+			"ports": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"port_name": &schema.Schema{
+						"port_name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 15),
 							Optional:     true,
 							Computed:     true,
 						},
-						"port_owner": &schema.Schema{
+						"port_owner": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 15),
 							Optional:     true,
 							Computed:     true,
 						},
-						"switch_id": &schema.Schema{
+						"switch_id": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 16),
 							Optional:     true,
 							Computed:     true,
 						},
-						"speed": &schema.Schema{
+						"speed": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"speed_mask": &schema.Schema{
+						"speed_mask": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"status": &schema.Schema{
+						"status": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"poe_status": &schema.Schema{
+						"poe_status": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"ip_source_guard": &schema.Schema{
+						"ip_source_guard": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"ptp_policy": &schema.Schema{
+						"ptp_policy": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 63),
 							Optional:     true,
 							Computed:     true,
 						},
-						"aggregator_mode": &schema.Schema{
+						"aggregator_mode": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"rpvst_port": &schema.Schema{
+						"rpvst_port": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"poe_pre_standard_detection": &schema.Schema{
+						"poe_pre_standard_detection": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"port_number": &schema.Schema{
+						"port_number": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 64),
 							Optional:     true,
 							Computed:     true,
 						},
-						"port_prefix_type": &schema.Schema{
+						"port_prefix_type": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 1),
 							Optional:     true,
 							Computed:     true,
 						},
-						"fortilink_port": &schema.Schema{
+						"fortilink_port": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 1),
 							Optional:     true,
 							Computed:     true,
 						},
-						"poe_capable": &schema.Schema{
+						"poe_capable": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 1),
 							Optional:     true,
 							Computed:     true,
 						},
-						"stacking_port": &schema.Schema{
+						"stacking_port": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 1),
 							Optional:     true,
 							Computed:     true,
 						},
-						"p2p_port": &schema.Schema{
+						"p2p_port": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 1),
 							Optional:     true,
 							Computed:     true,
 						},
-						"mclag_icl_port": &schema.Schema{
+						"mclag_icl_port": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 1),
 							Optional:     true,
 							Computed:     true,
 						},
-						"fiber_port": &schema.Schema{
+						"fiber_port": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 1),
 							Optional:     true,
 							Computed:     true,
 						},
-						"media_type": &schema.Schema{
+						"media_type": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 31),
 							Optional:     true,
 							Computed:     true,
 						},
-						"flags": &schema.Schema{
+						"flags": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"virtual_port": &schema.Schema{
+						"virtual_port": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 1),
 							Optional:     true,
 							Computed:     true,
 						},
-						"isl_local_trunk_name": &schema.Schema{
+						"isl_local_trunk_name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 15),
 							Optional:     true,
 							Computed:     true,
 						},
-						"isl_peer_port_name": &schema.Schema{
+						"isl_peer_port_name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 15),
 							Optional:     true,
 							Computed:     true,
 						},
-						"isl_peer_device_name": &schema.Schema{
+						"isl_peer_device_name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 16),
 							Optional:     true,
 							Computed:     true,
 						},
-						"fgt_peer_port_name": &schema.Schema{
+						"fgt_peer_port_name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 15),
 							Optional:     true,
 							Computed:     true,
 						},
-						"fgt_peer_device_name": &schema.Schema{
+						"fgt_peer_device_name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 16),
 							Optional:     true,
 							Computed:     true,
 						},
-						"vlan": &schema.Schema{
+						"vlan": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 15),
 							Optional:     true,
 							Computed:     true,
 						},
-						"allowed_vlans_all": &schema.Schema{
+						"allowed_vlans_all": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"allowed_vlans": &schema.Schema{
+						"allowed_vlans": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"vlan_name": &schema.Schema{
+									"vlan_name": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 79),
 										Optional:     true,
@@ -394,12 +394,12 @@ func resourceSwitchControllerManagedSwitch() *schema.Resource {
 								},
 							},
 						},
-						"untagged_vlans": &schema.Schema{
+						"untagged_vlans": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"vlan_name": &schema.Schema{
+									"vlan_name": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 79),
 										Optional:     true,
@@ -408,177 +408,177 @@ func resourceSwitchControllerManagedSwitch() *schema.Resource {
 								},
 							},
 						},
-						"type": &schema.Schema{
+						"type": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"access_mode": &schema.Schema{
+						"access_mode": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"dhcp_snooping": &schema.Schema{
+						"dhcp_snooping": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"dhcp_snoop_option82_trust": &schema.Schema{
+						"dhcp_snoop_option82_trust": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"arp_inspection_trust": &schema.Schema{
+						"arp_inspection_trust": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"igmp_snooping": &schema.Schema{
+						"igmp_snooping": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"igmps_flood_reports": &schema.Schema{
+						"igmps_flood_reports": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"igmps_flood_traffic": &schema.Schema{
+						"igmps_flood_traffic": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"stp_state": &schema.Schema{
+						"stp_state": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"stp_root_guard": &schema.Schema{
+						"stp_root_guard": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"stp_bpdu_guard": &schema.Schema{
+						"stp_bpdu_guard": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"stp_bpdu_guard_timeout": &schema.Schema{
+						"stp_bpdu_guard_timeout": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 120),
 							Optional:     true,
 							Computed:     true,
 						},
-						"edge_port": &schema.Schema{
+						"edge_port": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"discard_mode": &schema.Schema{
+						"discard_mode": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"packet_sampler": &schema.Schema{
+						"packet_sampler": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"packet_sample_rate": &schema.Schema{
+						"packet_sample_rate": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 99999),
 							Optional:     true,
 							Computed:     true,
 						},
-						"sflow_sampler": &schema.Schema{
+						"sflow_sampler": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"sflow_sample_rate": &schema.Schema{
+						"sflow_sample_rate": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 99999),
 							Optional:     true,
 							Computed:     true,
 						},
-						"sflow_counter_interval": &schema.Schema{
+						"sflow_counter_interval": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 255),
 							Optional:     true,
 							Computed:     true,
 						},
-						"sample_direction": &schema.Schema{
+						"sample_direction": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"fec_capable": &schema.Schema{
+						"fec_capable": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 1),
 							Optional:     true,
 							Computed:     true,
 						},
-						"fec_state": &schema.Schema{
+						"fec_state": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"flow_control": &schema.Schema{
+						"flow_control": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"pause_meter": &schema.Schema{
+						"pause_meter": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"pause_meter_resume": &schema.Schema{
+						"pause_meter_resume": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"loop_guard": &schema.Schema{
+						"loop_guard": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"loop_guard_timeout": &schema.Schema{
+						"loop_guard_timeout": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 120),
 							Optional:     true,
 							Computed:     true,
 						},
-						"qos_policy": &schema.Schema{
+						"qos_policy": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 63),
 							Optional:     true,
 							Computed:     true,
 						},
-						"storm_control_policy": &schema.Schema{
+						"storm_control_policy": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 63),
 							Optional:     true,
 							Computed:     true,
 						},
-						"port_security_policy": &schema.Schema{
+						"port_security_policy": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 31),
 							Optional:     true,
 							Computed:     true,
 						},
-						"export_to_pool": &schema.Schema{
+						"export_to_pool": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"export_tags": &schema.Schema{
+						"export_tags": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"tag_name": &schema.Schema{
+									"tag_name": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 63),
 										Optional:     true,
@@ -587,99 +587,99 @@ func resourceSwitchControllerManagedSwitch() *schema.Resource {
 								},
 							},
 						},
-						"export_to_pool_flag": &schema.Schema{
+						"export_to_pool_flag": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 1),
 							Optional:     true,
 							Computed:     true,
 						},
-						"learning_limit": &schema.Schema{
+						"learning_limit": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 128),
 							Optional:     true,
 							Computed:     true,
 						},
-						"sticky_mac": &schema.Schema{
+						"sticky_mac": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"lldp_status": &schema.Schema{
+						"lldp_status": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"lldp_profile": &schema.Schema{
+						"lldp_profile": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 63),
 							Optional:     true,
 							Computed:     true,
 						},
-						"export_to": &schema.Schema{
+						"export_to": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 31),
 							Optional:     true,
 							Computed:     true,
 						},
-						"mac_addr": &schema.Schema{
+						"mac_addr": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"port_selection_criteria": &schema.Schema{
+						"port_selection_criteria": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"description": &schema.Schema{
+						"description": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 63),
 							Optional:     true,
 							Computed:     true,
 						},
-						"lacp_speed": &schema.Schema{
+						"lacp_speed": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"mode": &schema.Schema{
+						"mode": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"bundle": &schema.Schema{
+						"bundle": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"member_withdrawal_behavior": &schema.Schema{
+						"member_withdrawal_behavior": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"mclag": &schema.Schema{
+						"mclag": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"min_bundle": &schema.Schema{
+						"min_bundle": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 24),
 							Optional:     true,
 							Computed:     true,
 						},
-						"max_bundle": &schema.Schema{
+						"max_bundle": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 24),
 							Optional:     true,
 							Computed:     true,
 						},
-						"members": &schema.Schema{
+						"members": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"member_name": &schema.Schema{
+									"member_name": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 64),
 										Optional:     true,
@@ -691,40 +691,40 @@ func resourceSwitchControllerManagedSwitch() *schema.Resource {
 					},
 				},
 			},
-			"ip_source_guard": &schema.Schema{
+			"ip_source_guard": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"port": &schema.Schema{
+						"port": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 15),
 							Optional:     true,
 							Computed:     true,
 						},
-						"description": &schema.Schema{
+						"description": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 63),
 							Optional:     true,
 							Computed:     true,
 						},
-						"binding_entry": &schema.Schema{
+						"binding_entry": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"entry_name": &schema.Schema{
+									"entry_name": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 16),
 										Optional:     true,
 										Computed:     true,
 									},
-									"ip": &schema.Schema{
+									"ip": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"mac": &schema.Schema{
+									"mac": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
@@ -735,59 +735,59 @@ func resourceSwitchControllerManagedSwitch() *schema.Resource {
 					},
 				},
 			},
-			"stp_settings": &schema.Schema{
+			"stp_settings": {
 				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"local_override": &schema.Schema{
+						"local_override": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 31),
 							Optional:     true,
 							Computed:     true,
 						},
-						"status": &schema.Schema{
+						"status": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"revision": &schema.Schema{
+						"revision": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 65535),
 							Optional:     true,
 							Computed:     true,
 						},
-						"hello_time": &schema.Schema{
+						"hello_time": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 10),
 							Optional:     true,
 							Computed:     true,
 						},
-						"forward_time": &schema.Schema{
+						"forward_time": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(4, 30),
 							Optional:     true,
 							Computed:     true,
 						},
-						"max_age": &schema.Schema{
+						"max_age": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(6, 40),
 							Optional:     true,
 							Computed:     true,
 						},
-						"max_hops": &schema.Schema{
+						"max_hops": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 40),
 							Optional:     true,
 							Computed:     true,
 						},
-						"pending_timer": &schema.Schema{
+						"pending_timer": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 15),
 							Optional:     true,
@@ -796,18 +796,18 @@ func resourceSwitchControllerManagedSwitch() *schema.Resource {
 					},
 				},
 			},
-			"stp_instance": &schema.Schema{
+			"stp_instance": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 2),
 							Optional:     true,
 							Computed:     true,
 						},
-						"priority": &schema.Schema{
+						"priority": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -815,41 +815,41 @@ func resourceSwitchControllerManagedSwitch() *schema.Resource {
 					},
 				},
 			},
-			"override_snmp_sysinfo": &schema.Schema{
+			"override_snmp_sysinfo": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"snmp_sysinfo": &schema.Schema{
+			"snmp_sysinfo": {
 				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"status": &schema.Schema{
+						"status": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"engine_id": &schema.Schema{
+						"engine_id": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 24),
 							Optional:     true,
 							Computed:     true,
 						},
-						"description": &schema.Schema{
+						"description": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"contact_info": &schema.Schema{
+						"contact_info": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"location": &schema.Schema{
+						"location": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
@@ -858,28 +858,28 @@ func resourceSwitchControllerManagedSwitch() *schema.Resource {
 					},
 				},
 			},
-			"override_snmp_trap_threshold": &schema.Schema{
+			"override_snmp_trap_threshold": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"snmp_trap_threshold": &schema.Schema{
+			"snmp_trap_threshold": {
 				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"trap_high_cpu_threshold": &schema.Schema{
+						"trap_high_cpu_threshold": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"trap_low_memory_threshold": &schema.Schema{
+						"trap_low_memory_threshold": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"trap_log_full_threshold": &schema.Schema{
+						"trap_log_full_threshold": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
@@ -887,43 +887,43 @@ func resourceSwitchControllerManagedSwitch() *schema.Resource {
 					},
 				},
 			},
-			"override_snmp_community": &schema.Schema{
+			"override_snmp_community": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"snmp_community": &schema.Schema{
+			"snmp_community": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"status": &schema.Schema{
+						"status": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"hosts": &schema.Schema{
+						"hosts": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"id": &schema.Schema{
+									"id": {
 										Type:     schema.TypeInt,
 										Optional: true,
 										Computed: true,
 									},
-									"ip": &schema.Schema{
+									"ip": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
@@ -931,63 +931,63 @@ func resourceSwitchControllerManagedSwitch() *schema.Resource {
 								},
 							},
 						},
-						"query_v1_status": &schema.Schema{
+						"query_v1_status": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"query_v1_port": &schema.Schema{
+						"query_v1_port": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 65535),
 							Optional:     true,
 							Computed:     true,
 						},
-						"query_v2c_status": &schema.Schema{
+						"query_v2c_status": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"query_v2c_port": &schema.Schema{
+						"query_v2c_port": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 65535),
 							Optional:     true,
 							Computed:     true,
 						},
-						"trap_v1_status": &schema.Schema{
+						"trap_v1_status": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"trap_v1_lport": &schema.Schema{
+						"trap_v1_lport": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 65535),
 							Optional:     true,
 							Computed:     true,
 						},
-						"trap_v1_rport": &schema.Schema{
+						"trap_v1_rport": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 65535),
 							Optional:     true,
 							Computed:     true,
 						},
-						"trap_v2c_status": &schema.Schema{
+						"trap_v2c_status": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"trap_v2c_lport": &schema.Schema{
+						"trap_v2c_lport": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 65535),
 							Optional:     true,
 							Computed:     true,
 						},
-						"trap_v2c_rport": &schema.Schema{
+						"trap_v2c_rport": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 65535),
 							Optional:     true,
 							Computed:     true,
 						},
-						"events": &schema.Schema{
+						"events": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -995,55 +995,55 @@ func resourceSwitchControllerManagedSwitch() *schema.Resource {
 					},
 				},
 			},
-			"override_snmp_user": &schema.Schema{
+			"override_snmp_user": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"snmp_user": &schema.Schema{
+			"snmp_user": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 32),
 							Optional:     true,
 							Computed:     true,
 						},
-						"queries": &schema.Schema{
+						"queries": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"query_port": &schema.Schema{
+						"query_port": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 65535),
 							Optional:     true,
 							Computed:     true,
 						},
-						"security_level": &schema.Schema{
+						"security_level": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"auth_proto": &schema.Schema{
+						"auth_proto": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"auth_pwd": &schema.Schema{
+						"auth_pwd": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 128),
 							Optional:     true,
 							Sensitive:    true,
 						},
-						"priv_proto": &schema.Schema{
+						"priv_proto": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"priv_pwd": &schema.Schema{
+						"priv_pwd": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 128),
 							Optional:     true,
@@ -1052,24 +1052,24 @@ func resourceSwitchControllerManagedSwitch() *schema.Resource {
 					},
 				},
 			},
-			"qos_drop_policy": &schema.Schema{
+			"qos_drop_policy": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"qos_red_probability": &schema.Schema{
+			"qos_red_probability": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 100),
 				Optional:     true,
 				Computed:     true,
 			},
-			"switch_stp_settings": &schema.Schema{
+			"switch_stp_settings": {
 				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"status": &schema.Schema{
+						"status": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -1077,23 +1077,23 @@ func resourceSwitchControllerManagedSwitch() *schema.Resource {
 					},
 				},
 			},
-			"switch_log": &schema.Schema{
+			"switch_log": {
 				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"local_override": &schema.Schema{
+						"local_override": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"status": &schema.Schema{
+						"status": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"severity": &schema.Schema{
+						"severity": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -1101,45 +1101,45 @@ func resourceSwitchControllerManagedSwitch() *schema.Resource {
 					},
 				},
 			},
-			"remote_log": &schema.Schema{
+			"remote_log": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"status": &schema.Schema{
+						"status": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"server": &schema.Schema{
+						"server": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 63),
 							Optional:     true,
 							Computed:     true,
 						},
-						"port": &schema.Schema{
+						"port": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 65535),
 							Optional:     true,
 							Computed:     true,
 						},
-						"severity": &schema.Schema{
+						"severity": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"csv": &schema.Schema{
+						"csv": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"facility": &schema.Schema{
+						"facility": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -1147,34 +1147,34 @@ func resourceSwitchControllerManagedSwitch() *schema.Resource {
 					},
 				},
 			},
-			"storm_control": &schema.Schema{
+			"storm_control": {
 				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"local_override": &schema.Schema{
+						"local_override": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"rate": &schema.Schema{
+						"rate": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 10000000),
 							Optional:     true,
 							Computed:     true,
 						},
-						"unknown_unicast": &schema.Schema{
+						"unknown_unicast": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"unknown_multicast": &schema.Schema{
+						"unknown_multicast": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"broadcast": &schema.Schema{
+						"broadcast": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -1182,39 +1182,39 @@ func resourceSwitchControllerManagedSwitch() *schema.Resource {
 					},
 				},
 			},
-			"mirror": &schema.Schema{
+			"mirror": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 63),
 							Optional:     true,
 							Computed:     true,
 						},
-						"status": &schema.Schema{
+						"status": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"switching_packet": &schema.Schema{
+						"switching_packet": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"dst": &schema.Schema{
+						"dst": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 63),
 							Optional:     true,
 							Computed:     true,
 						},
-						"src_ingress": &schema.Schema{
+						"src_ingress": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"name": &schema.Schema{
+									"name": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 64),
 										Optional:     true,
@@ -1223,12 +1223,12 @@ func resourceSwitchControllerManagedSwitch() *schema.Resource {
 								},
 							},
 						},
-						"src_egress": &schema.Schema{
+						"src_egress": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"name": &schema.Schema{
+									"name": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 64),
 										Optional:     true,
@@ -1240,39 +1240,39 @@ func resourceSwitchControllerManagedSwitch() *schema.Resource {
 					},
 				},
 			},
-			"static_mac": &schema.Schema{
+			"static_mac": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"type": &schema.Schema{
+						"type": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"vlan": &schema.Schema{
+						"vlan": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 15),
 							Optional:     true,
 							Computed:     true,
 						},
-						"mac": &schema.Schema{
+						"mac": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"interface": &schema.Schema{
+						"interface": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"description": &schema.Schema{
+						"description": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 63),
 							Optional:     true,
@@ -1281,18 +1281,18 @@ func resourceSwitchControllerManagedSwitch() *schema.Resource {
 					},
 				},
 			},
-			"custom_command": &schema.Schema{
+			"custom_command": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"command_entry": &schema.Schema{
+						"command_entry": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"command_name": &schema.Schema{
+						"command_name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
@@ -1301,24 +1301,24 @@ func resourceSwitchControllerManagedSwitch() *schema.Resource {
 					},
 				},
 			},
-			"igmp_snooping": &schema.Schema{
+			"igmp_snooping": {
 				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"local_override": &schema.Schema{
+						"local_override": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"aging_time": &schema.Schema{
+						"aging_time": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(15, 3600),
 							Optional:     true,
 							Computed:     true,
 						},
-						"flood_unknown_multicast": &schema.Schema{
+						"flood_unknown_multicast": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -1326,35 +1326,35 @@ func resourceSwitchControllerManagedSwitch() *schema.Resource {
 					},
 				},
 			},
-			"n802_1x_settings": &schema.Schema{
+			"n802_1x_settings": {
 				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"local_override": &schema.Schema{
+						"local_override": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"link_down_auth": &schema.Schema{
+						"link_down_auth": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"reauth_period": &schema.Schema{
+						"reauth_period": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 1440),
 							Optional:     true,
 							Computed:     true,
 						},
-						"max_reauth_attempt": &schema.Schema{
+						"max_reauth_attempt": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 15),
 							Optional:     true,
 							Computed:     true,
 						},
-						"tx_period": &schema.Schema{
+						"tx_period": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(4, 60),
 							Optional:     true,
@@ -1363,10 +1363,15 @@ func resourceSwitchControllerManagedSwitch() *schema.Resource {
 					},
 				},
 			},
-			"dynamic_sort_subtable": &schema.Schema{
+			"dynamic_sort_subtable": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Default:  "false",
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -1384,15 +1389,25 @@ func resourceSwitchControllerManagedSwitchCreate(d *schema.ResourceData, m inter
 		}
 	}
 
-	obj, err := getObjectSwitchControllerManagedSwitch(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating SwitchControllerManagedSwitch resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateSwitchControllerManagedSwitch(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSwitchControllerManagedSwitch(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating SwitchControllerManagedSwitch resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateSwitchControllerManagedSwitch(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating SwitchControllerManagedSwitch resource: %v", err)
+		return fmt.Errorf("error creating SwitchControllerManagedSwitch resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -1417,14 +1432,24 @@ func resourceSwitchControllerManagedSwitchUpdate(d *schema.ResourceData, m inter
 		}
 	}
 
-	obj, err := getObjectSwitchControllerManagedSwitch(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SwitchControllerManagedSwitch resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSwitchControllerManagedSwitch(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSwitchControllerManagedSwitch(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SwitchControllerManagedSwitch resource: %v", err)
+		return fmt.Errorf("error updating SwitchControllerManagedSwitch resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSwitchControllerManagedSwitch(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SwitchControllerManagedSwitch resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -1451,9 +1476,17 @@ func resourceSwitchControllerManagedSwitchDelete(d *schema.ResourceData, m inter
 		}
 	}
 
-	err := c.DeleteSwitchControllerManagedSwitch(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSwitchControllerManagedSwitch(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SwitchControllerManagedSwitch resource: %v", err)
+		return fmt.Errorf("error deleting SwitchControllerManagedSwitch resource: %v", err)
 	}
 
 	d.SetId("")
@@ -1475,9 +1508,19 @@ func resourceSwitchControllerManagedSwitchRead(d *schema.ResourceData, m interfa
 		}
 	}
 
-	o, err := c.ReadSwitchControllerManagedSwitch(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSwitchControllerManagedSwitch(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SwitchControllerManagedSwitch resource: %v", err)
+		return fmt.Errorf("error reading SwitchControllerManagedSwitch resource: %v", err)
 	}
 
 	if o == nil {
@@ -1488,7 +1531,7 @@ func resourceSwitchControllerManagedSwitchRead(d *schema.ResourceData, m interfa
 
 	err = refreshObjectSwitchControllerManagedSwitch(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SwitchControllerManagedSwitch resource from API: %v", err)
+		return fmt.Errorf("error reading SwitchControllerManagedSwitch resource from API: %v", err)
 	}
 	return nil
 }
@@ -3940,109 +3983,109 @@ func refreshObjectSwitchControllerManagedSwitch(d *schema.ResourceData, o map[st
 
 	if err = d.Set("switch_id", flattenSwitchControllerManagedSwitchSwitchId(o["switch-id"], d, "switch_id", sv)); err != nil {
 		if !fortiAPIPatch(o["switch-id"]) {
-			return fmt.Errorf("Error reading switch_id: %v", err)
+			return fmt.Errorf("error reading switch_id: %v", err)
 		}
 	}
 
 	if err = d.Set("name", flattenSwitchControllerManagedSwitchName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("description", flattenSwitchControllerManagedSwitchDescription(o["description"], d, "description", sv)); err != nil {
 		if !fortiAPIPatch(o["description"]) {
-			return fmt.Errorf("Error reading description: %v", err)
+			return fmt.Errorf("error reading description: %v", err)
 		}
 	}
 
 	if err = d.Set("switch_profile", flattenSwitchControllerManagedSwitchSwitchProfile(o["switch-profile"], d, "switch_profile", sv)); err != nil {
 		if !fortiAPIPatch(o["switch-profile"]) {
-			return fmt.Errorf("Error reading switch_profile: %v", err)
+			return fmt.Errorf("error reading switch_profile: %v", err)
 		}
 	}
 
 	if err = d.Set("access_profile", flattenSwitchControllerManagedSwitchAccessProfile(o["access-profile"], d, "access_profile", sv)); err != nil {
 		if !fortiAPIPatch(o["access-profile"]) {
-			return fmt.Errorf("Error reading access_profile: %v", err)
+			return fmt.Errorf("error reading access_profile: %v", err)
 		}
 	}
 
 	if err = d.Set("fsw_wan1_peer", flattenSwitchControllerManagedSwitchFswWan1Peer(o["fsw-wan1-peer"], d, "fsw_wan1_peer", sv)); err != nil {
 		if !fortiAPIPatch(o["fsw-wan1-peer"]) {
-			return fmt.Errorf("Error reading fsw_wan1_peer: %v", err)
+			return fmt.Errorf("error reading fsw_wan1_peer: %v", err)
 		}
 	}
 
 	if err = d.Set("fsw_wan1_admin", flattenSwitchControllerManagedSwitchFswWan1Admin(o["fsw-wan1-admin"], d, "fsw_wan1_admin", sv)); err != nil {
 		if !fortiAPIPatch(o["fsw-wan1-admin"]) {
-			return fmt.Errorf("Error reading fsw_wan1_admin: %v", err)
+			return fmt.Errorf("error reading fsw_wan1_admin: %v", err)
 		}
 	}
 
 	if err = d.Set("fsw_wan2_peer", flattenSwitchControllerManagedSwitchFswWan2Peer(o["fsw-wan2-peer"], d, "fsw_wan2_peer", sv)); err != nil {
 		if !fortiAPIPatch(o["fsw-wan2-peer"]) {
-			return fmt.Errorf("Error reading fsw_wan2_peer: %v", err)
+			return fmt.Errorf("error reading fsw_wan2_peer: %v", err)
 		}
 	}
 
 	if err = d.Set("fsw_wan2_admin", flattenSwitchControllerManagedSwitchFswWan2Admin(o["fsw-wan2-admin"], d, "fsw_wan2_admin", sv)); err != nil {
 		if !fortiAPIPatch(o["fsw-wan2-admin"]) {
-			return fmt.Errorf("Error reading fsw_wan2_admin: %v", err)
+			return fmt.Errorf("error reading fsw_wan2_admin: %v", err)
 		}
 	}
 
 	if err = d.Set("poe_pre_standard_detection", flattenSwitchControllerManagedSwitchPoePreStandardDetection(o["poe-pre-standard-detection"], d, "poe_pre_standard_detection", sv)); err != nil {
 		if !fortiAPIPatch(o["poe-pre-standard-detection"]) {
-			return fmt.Errorf("Error reading poe_pre_standard_detection: %v", err)
+			return fmt.Errorf("error reading poe_pre_standard_detection: %v", err)
 		}
 	}
 
 	if err = d.Set("poe_detection_type", flattenSwitchControllerManagedSwitchPoeDetectionType(o["poe-detection-type"], d, "poe_detection_type", sv)); err != nil {
 		if !fortiAPIPatch(o["poe-detection-type"]) {
-			return fmt.Errorf("Error reading poe_detection_type: %v", err)
+			return fmt.Errorf("error reading poe_detection_type: %v", err)
 		}
 	}
 
 	if err = d.Set("poe_lldp_detection", flattenSwitchControllerManagedSwitchPoeLldpDetection(o["poe-lldp-detection"], d, "poe_lldp_detection", sv)); err != nil {
 		if !fortiAPIPatch(o["poe-lldp-detection"]) {
-			return fmt.Errorf("Error reading poe_lldp_detection: %v", err)
+			return fmt.Errorf("error reading poe_lldp_detection: %v", err)
 		}
 	}
 
 	if err = d.Set("directly_connected", flattenSwitchControllerManagedSwitchDirectlyConnected(o["directly-connected"], d, "directly_connected", sv)); err != nil {
 		if !fortiAPIPatch(o["directly-connected"]) {
-			return fmt.Errorf("Error reading directly_connected: %v", err)
+			return fmt.Errorf("error reading directly_connected: %v", err)
 		}
 	}
 
 	if err = d.Set("version", flattenSwitchControllerManagedSwitchVersion(o["version"], d, "version", sv)); err != nil {
 		if !fortiAPIPatch(o["version"]) {
-			return fmt.Errorf("Error reading version: %v", err)
+			return fmt.Errorf("error reading version: %v", err)
 		}
 	}
 
 	if err = d.Set("max_allowed_trunk_members", flattenSwitchControllerManagedSwitchMaxAllowedTrunkMembers(o["max-allowed-trunk-members"], d, "max_allowed_trunk_members", sv)); err != nil {
 		if !fortiAPIPatch(o["max-allowed-trunk-members"]) {
-			return fmt.Errorf("Error reading max_allowed_trunk_members: %v", err)
+			return fmt.Errorf("error reading max_allowed_trunk_members: %v", err)
 		}
 	}
 
 	if err = d.Set("pre_provisioned", flattenSwitchControllerManagedSwitchPreProvisioned(o["pre-provisioned"], d, "pre_provisioned", sv)); err != nil {
 		if !fortiAPIPatch(o["pre-provisioned"]) {
-			return fmt.Errorf("Error reading pre_provisioned: %v", err)
+			return fmt.Errorf("error reading pre_provisioned: %v", err)
 		}
 	}
 
 	if err = d.Set("l3_discovered", flattenSwitchControllerManagedSwitchL3Discovered(o["l3-discovered"], d, "l3_discovered", sv)); err != nil {
 		if !fortiAPIPatch(o["l3-discovered"]) {
-			return fmt.Errorf("Error reading l3_discovered: %v", err)
+			return fmt.Errorf("error reading l3_discovered: %v", err)
 		}
 	}
 
 	if err = d.Set("tdr_supported", flattenSwitchControllerManagedSwitchTdrSupported(o["tdr-supported"], d, "tdr_supported", sv)); err != nil {
 		if !fortiAPIPatch(o["tdr-supported"]) {
-			return fmt.Errorf("Error reading tdr_supported: %v", err)
+			return fmt.Errorf("error reading tdr_supported: %v", err)
 		}
 	}
 
@@ -4059,88 +4102,88 @@ func refreshObjectSwitchControllerManagedSwitch(d *schema.ResourceData, o map[st
 
 		if err = d.Set("dynamic_capability", v); err != nil {
 			if !fortiAPIPatch(o["dynamic-capability"]) {
-				return fmt.Errorf("Error reading dynamic_capability: %v", err)
+				return fmt.Errorf("error reading dynamic_capability: %v", err)
 			}
 		}
 	}
 
 	if err = d.Set("switch_device_tag", flattenSwitchControllerManagedSwitchSwitchDeviceTag(o["switch-device-tag"], d, "switch_device_tag", sv)); err != nil {
 		if !fortiAPIPatch(o["switch-device-tag"]) {
-			return fmt.Errorf("Error reading switch_device_tag: %v", err)
+			return fmt.Errorf("error reading switch_device_tag: %v", err)
 		}
 	}
 
 	if err = d.Set("switch_dhcp_opt43_key", flattenSwitchControllerManagedSwitchSwitchDhcp_Opt43_Key(o["switch-dhcp_opt43_key"], d, "switch_dhcp_opt43_key", sv)); err != nil {
 		if !fortiAPIPatch(o["switch-dhcp_opt43_key"]) {
-			return fmt.Errorf("Error reading switch_dhcp_opt43_key: %v", err)
+			return fmt.Errorf("error reading switch_dhcp_opt43_key: %v", err)
 		}
 	}
 
 	if err = d.Set("mclag_igmp_snooping_aware", flattenSwitchControllerManagedSwitchMclagIgmpSnoopingAware(o["mclag-igmp-snooping-aware"], d, "mclag_igmp_snooping_aware", sv)); err != nil {
 		if !fortiAPIPatch(o["mclag-igmp-snooping-aware"]) {
-			return fmt.Errorf("Error reading mclag_igmp_snooping_aware: %v", err)
+			return fmt.Errorf("error reading mclag_igmp_snooping_aware: %v", err)
 		}
 	}
 
 	if err = d.Set("dynamically_discovered", flattenSwitchControllerManagedSwitchDynamicallyDiscovered(o["dynamically-discovered"], d, "dynamically_discovered", sv)); err != nil {
 		if !fortiAPIPatch(o["dynamically-discovered"]) {
-			return fmt.Errorf("Error reading dynamically_discovered: %v", err)
+			return fmt.Errorf("error reading dynamically_discovered: %v", err)
 		}
 	}
 
 	if err = d.Set("type", flattenSwitchControllerManagedSwitchType(o["type"], d, "type", sv)); err != nil {
 		if !fortiAPIPatch(o["type"]) {
-			return fmt.Errorf("Error reading type: %v", err)
+			return fmt.Errorf("error reading type: %v", err)
 		}
 	}
 
 	if err = d.Set("owner_vdom", flattenSwitchControllerManagedSwitchOwnerVdom(o["owner-vdom"], d, "owner_vdom", sv)); err != nil {
 		if !fortiAPIPatch(o["owner-vdom"]) {
-			return fmt.Errorf("Error reading owner_vdom: %v", err)
+			return fmt.Errorf("error reading owner_vdom: %v", err)
 		}
 	}
 
 	if err = d.Set("flow_identity", flattenSwitchControllerManagedSwitchFlowIdentity(o["flow-identity"], d, "flow_identity", sv)); err != nil {
 		if !fortiAPIPatch(o["flow-identity"]) {
-			return fmt.Errorf("Error reading flow_identity: %v", err)
+			return fmt.Errorf("error reading flow_identity: %v", err)
 		}
 	}
 
 	if err = d.Set("staged_image_version", flattenSwitchControllerManagedSwitchStagedImageVersion(o["staged-image-version"], d, "staged_image_version", sv)); err != nil {
 		if !fortiAPIPatch(o["staged-image-version"]) {
-			return fmt.Errorf("Error reading staged_image_version: %v", err)
+			return fmt.Errorf("error reading staged_image_version: %v", err)
 		}
 	}
 
 	if err = d.Set("delayed_restart_trigger", flattenSwitchControllerManagedSwitchDelayedRestartTrigger(o["delayed-restart-trigger"], d, "delayed_restart_trigger", sv)); err != nil {
 		if !fortiAPIPatch(o["delayed-restart-trigger"]) {
-			return fmt.Errorf("Error reading delayed_restart_trigger: %v", err)
+			return fmt.Errorf("error reading delayed_restart_trigger: %v", err)
 		}
 	}
 
 	if err = d.Set("firmware_provision", flattenSwitchControllerManagedSwitchFirmwareProvision(o["firmware-provision"], d, "firmware_provision", sv)); err != nil {
 		if !fortiAPIPatch(o["firmware-provision"]) {
-			return fmt.Errorf("Error reading firmware_provision: %v", err)
+			return fmt.Errorf("error reading firmware_provision: %v", err)
 		}
 	}
 
 	if err = d.Set("firmware_provision_version", flattenSwitchControllerManagedSwitchFirmwareProvisionVersion(o["firmware-provision-version"], d, "firmware_provision_version", sv)); err != nil {
 		if !fortiAPIPatch(o["firmware-provision-version"]) {
-			return fmt.Errorf("Error reading firmware_provision_version: %v", err)
+			return fmt.Errorf("error reading firmware_provision_version: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("ports", flattenSwitchControllerManagedSwitchPorts(o["ports"], d, "ports", sv)); err != nil {
 			if !fortiAPIPatch(o["ports"]) {
-				return fmt.Errorf("Error reading ports: %v", err)
+				return fmt.Errorf("error reading ports: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("ports"); ok {
 			if err = d.Set("ports", flattenSwitchControllerManagedSwitchPorts(o["ports"], d, "ports", sv)); err != nil {
 				if !fortiAPIPatch(o["ports"]) {
-					return fmt.Errorf("Error reading ports: %v", err)
+					return fmt.Errorf("error reading ports: %v", err)
 				}
 			}
 		}
@@ -4149,14 +4192,14 @@ func refreshObjectSwitchControllerManagedSwitch(d *schema.ResourceData, o map[st
 	if isImportTable() {
 		if err = d.Set("ip_source_guard", flattenSwitchControllerManagedSwitchIpSourceGuard(o["ip-source-guard"], d, "ip_source_guard", sv)); err != nil {
 			if !fortiAPIPatch(o["ip-source-guard"]) {
-				return fmt.Errorf("Error reading ip_source_guard: %v", err)
+				return fmt.Errorf("error reading ip_source_guard: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("ip_source_guard"); ok {
 			if err = d.Set("ip_source_guard", flattenSwitchControllerManagedSwitchIpSourceGuard(o["ip-source-guard"], d, "ip_source_guard", sv)); err != nil {
 				if !fortiAPIPatch(o["ip-source-guard"]) {
-					return fmt.Errorf("Error reading ip_source_guard: %v", err)
+					return fmt.Errorf("error reading ip_source_guard: %v", err)
 				}
 			}
 		}
@@ -4165,14 +4208,14 @@ func refreshObjectSwitchControllerManagedSwitch(d *schema.ResourceData, o map[st
 	if isImportTable() {
 		if err = d.Set("stp_settings", flattenSwitchControllerManagedSwitchStpSettings(o["stp-settings"], d, "stp_settings", sv)); err != nil {
 			if !fortiAPIPatch(o["stp-settings"]) {
-				return fmt.Errorf("Error reading stp_settings: %v", err)
+				return fmt.Errorf("error reading stp_settings: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("stp_settings"); ok {
 			if err = d.Set("stp_settings", flattenSwitchControllerManagedSwitchStpSettings(o["stp-settings"], d, "stp_settings", sv)); err != nil {
 				if !fortiAPIPatch(o["stp-settings"]) {
-					return fmt.Errorf("Error reading stp_settings: %v", err)
+					return fmt.Errorf("error reading stp_settings: %v", err)
 				}
 			}
 		}
@@ -4181,14 +4224,14 @@ func refreshObjectSwitchControllerManagedSwitch(d *schema.ResourceData, o map[st
 	if isImportTable() {
 		if err = d.Set("stp_instance", flattenSwitchControllerManagedSwitchStpInstance(o["stp-instance"], d, "stp_instance", sv)); err != nil {
 			if !fortiAPIPatch(o["stp-instance"]) {
-				return fmt.Errorf("Error reading stp_instance: %v", err)
+				return fmt.Errorf("error reading stp_instance: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("stp_instance"); ok {
 			if err = d.Set("stp_instance", flattenSwitchControllerManagedSwitchStpInstance(o["stp-instance"], d, "stp_instance", sv)); err != nil {
 				if !fortiAPIPatch(o["stp-instance"]) {
-					return fmt.Errorf("Error reading stp_instance: %v", err)
+					return fmt.Errorf("error reading stp_instance: %v", err)
 				}
 			}
 		}
@@ -4196,21 +4239,21 @@ func refreshObjectSwitchControllerManagedSwitch(d *schema.ResourceData, o map[st
 
 	if err = d.Set("override_snmp_sysinfo", flattenSwitchControllerManagedSwitchOverrideSnmpSysinfo(o["override-snmp-sysinfo"], d, "override_snmp_sysinfo", sv)); err != nil {
 		if !fortiAPIPatch(o["override-snmp-sysinfo"]) {
-			return fmt.Errorf("Error reading override_snmp_sysinfo: %v", err)
+			return fmt.Errorf("error reading override_snmp_sysinfo: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("snmp_sysinfo", flattenSwitchControllerManagedSwitchSnmpSysinfo(o["snmp-sysinfo"], d, "snmp_sysinfo", sv)); err != nil {
 			if !fortiAPIPatch(o["snmp-sysinfo"]) {
-				return fmt.Errorf("Error reading snmp_sysinfo: %v", err)
+				return fmt.Errorf("error reading snmp_sysinfo: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("snmp_sysinfo"); ok {
 			if err = d.Set("snmp_sysinfo", flattenSwitchControllerManagedSwitchSnmpSysinfo(o["snmp-sysinfo"], d, "snmp_sysinfo", sv)); err != nil {
 				if !fortiAPIPatch(o["snmp-sysinfo"]) {
-					return fmt.Errorf("Error reading snmp_sysinfo: %v", err)
+					return fmt.Errorf("error reading snmp_sysinfo: %v", err)
 				}
 			}
 		}
@@ -4218,21 +4261,21 @@ func refreshObjectSwitchControllerManagedSwitch(d *schema.ResourceData, o map[st
 
 	if err = d.Set("override_snmp_trap_threshold", flattenSwitchControllerManagedSwitchOverrideSnmpTrapThreshold(o["override-snmp-trap-threshold"], d, "override_snmp_trap_threshold", sv)); err != nil {
 		if !fortiAPIPatch(o["override-snmp-trap-threshold"]) {
-			return fmt.Errorf("Error reading override_snmp_trap_threshold: %v", err)
+			return fmt.Errorf("error reading override_snmp_trap_threshold: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("snmp_trap_threshold", flattenSwitchControllerManagedSwitchSnmpTrapThreshold(o["snmp-trap-threshold"], d, "snmp_trap_threshold", sv)); err != nil {
 			if !fortiAPIPatch(o["snmp-trap-threshold"]) {
-				return fmt.Errorf("Error reading snmp_trap_threshold: %v", err)
+				return fmt.Errorf("error reading snmp_trap_threshold: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("snmp_trap_threshold"); ok {
 			if err = d.Set("snmp_trap_threshold", flattenSwitchControllerManagedSwitchSnmpTrapThreshold(o["snmp-trap-threshold"], d, "snmp_trap_threshold", sv)); err != nil {
 				if !fortiAPIPatch(o["snmp-trap-threshold"]) {
-					return fmt.Errorf("Error reading snmp_trap_threshold: %v", err)
+					return fmt.Errorf("error reading snmp_trap_threshold: %v", err)
 				}
 			}
 		}
@@ -4240,21 +4283,21 @@ func refreshObjectSwitchControllerManagedSwitch(d *schema.ResourceData, o map[st
 
 	if err = d.Set("override_snmp_community", flattenSwitchControllerManagedSwitchOverrideSnmpCommunity(o["override-snmp-community"], d, "override_snmp_community", sv)); err != nil {
 		if !fortiAPIPatch(o["override-snmp-community"]) {
-			return fmt.Errorf("Error reading override_snmp_community: %v", err)
+			return fmt.Errorf("error reading override_snmp_community: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("snmp_community", flattenSwitchControllerManagedSwitchSnmpCommunity(o["snmp-community"], d, "snmp_community", sv)); err != nil {
 			if !fortiAPIPatch(o["snmp-community"]) {
-				return fmt.Errorf("Error reading snmp_community: %v", err)
+				return fmt.Errorf("error reading snmp_community: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("snmp_community"); ok {
 			if err = d.Set("snmp_community", flattenSwitchControllerManagedSwitchSnmpCommunity(o["snmp-community"], d, "snmp_community", sv)); err != nil {
 				if !fortiAPIPatch(o["snmp-community"]) {
-					return fmt.Errorf("Error reading snmp_community: %v", err)
+					return fmt.Errorf("error reading snmp_community: %v", err)
 				}
 			}
 		}
@@ -4262,21 +4305,21 @@ func refreshObjectSwitchControllerManagedSwitch(d *schema.ResourceData, o map[st
 
 	if err = d.Set("override_snmp_user", flattenSwitchControllerManagedSwitchOverrideSnmpUser(o["override-snmp-user"], d, "override_snmp_user", sv)); err != nil {
 		if !fortiAPIPatch(o["override-snmp-user"]) {
-			return fmt.Errorf("Error reading override_snmp_user: %v", err)
+			return fmt.Errorf("error reading override_snmp_user: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("snmp_user", flattenSwitchControllerManagedSwitchSnmpUser(o["snmp-user"], d, "snmp_user", sv)); err != nil {
 			if !fortiAPIPatch(o["snmp-user"]) {
-				return fmt.Errorf("Error reading snmp_user: %v", err)
+				return fmt.Errorf("error reading snmp_user: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("snmp_user"); ok {
 			if err = d.Set("snmp_user", flattenSwitchControllerManagedSwitchSnmpUser(o["snmp-user"], d, "snmp_user", sv)); err != nil {
 				if !fortiAPIPatch(o["snmp-user"]) {
-					return fmt.Errorf("Error reading snmp_user: %v", err)
+					return fmt.Errorf("error reading snmp_user: %v", err)
 				}
 			}
 		}
@@ -4284,27 +4327,27 @@ func refreshObjectSwitchControllerManagedSwitch(d *schema.ResourceData, o map[st
 
 	if err = d.Set("qos_drop_policy", flattenSwitchControllerManagedSwitchQosDropPolicy(o["qos-drop-policy"], d, "qos_drop_policy", sv)); err != nil {
 		if !fortiAPIPatch(o["qos-drop-policy"]) {
-			return fmt.Errorf("Error reading qos_drop_policy: %v", err)
+			return fmt.Errorf("error reading qos_drop_policy: %v", err)
 		}
 	}
 
 	if err = d.Set("qos_red_probability", flattenSwitchControllerManagedSwitchQosRedProbability(o["qos-red-probability"], d, "qos_red_probability", sv)); err != nil {
 		if !fortiAPIPatch(o["qos-red-probability"]) {
-			return fmt.Errorf("Error reading qos_red_probability: %v", err)
+			return fmt.Errorf("error reading qos_red_probability: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("switch_stp_settings", flattenSwitchControllerManagedSwitchSwitchStpSettings(o["switch-stp-settings"], d, "switch_stp_settings", sv)); err != nil {
 			if !fortiAPIPatch(o["switch-stp-settings"]) {
-				return fmt.Errorf("Error reading switch_stp_settings: %v", err)
+				return fmt.Errorf("error reading switch_stp_settings: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("switch_stp_settings"); ok {
 			if err = d.Set("switch_stp_settings", flattenSwitchControllerManagedSwitchSwitchStpSettings(o["switch-stp-settings"], d, "switch_stp_settings", sv)); err != nil {
 				if !fortiAPIPatch(o["switch-stp-settings"]) {
-					return fmt.Errorf("Error reading switch_stp_settings: %v", err)
+					return fmt.Errorf("error reading switch_stp_settings: %v", err)
 				}
 			}
 		}
@@ -4313,14 +4356,14 @@ func refreshObjectSwitchControllerManagedSwitch(d *schema.ResourceData, o map[st
 	if isImportTable() {
 		if err = d.Set("switch_log", flattenSwitchControllerManagedSwitchSwitchLog(o["switch-log"], d, "switch_log", sv)); err != nil {
 			if !fortiAPIPatch(o["switch-log"]) {
-				return fmt.Errorf("Error reading switch_log: %v", err)
+				return fmt.Errorf("error reading switch_log: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("switch_log"); ok {
 			if err = d.Set("switch_log", flattenSwitchControllerManagedSwitchSwitchLog(o["switch-log"], d, "switch_log", sv)); err != nil {
 				if !fortiAPIPatch(o["switch-log"]) {
-					return fmt.Errorf("Error reading switch_log: %v", err)
+					return fmt.Errorf("error reading switch_log: %v", err)
 				}
 			}
 		}
@@ -4329,14 +4372,14 @@ func refreshObjectSwitchControllerManagedSwitch(d *schema.ResourceData, o map[st
 	if isImportTable() {
 		if err = d.Set("remote_log", flattenSwitchControllerManagedSwitchRemoteLog(o["remote-log"], d, "remote_log", sv)); err != nil {
 			if !fortiAPIPatch(o["remote-log"]) {
-				return fmt.Errorf("Error reading remote_log: %v", err)
+				return fmt.Errorf("error reading remote_log: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("remote_log"); ok {
 			if err = d.Set("remote_log", flattenSwitchControllerManagedSwitchRemoteLog(o["remote-log"], d, "remote_log", sv)); err != nil {
 				if !fortiAPIPatch(o["remote-log"]) {
-					return fmt.Errorf("Error reading remote_log: %v", err)
+					return fmt.Errorf("error reading remote_log: %v", err)
 				}
 			}
 		}
@@ -4345,14 +4388,14 @@ func refreshObjectSwitchControllerManagedSwitch(d *schema.ResourceData, o map[st
 	if isImportTable() {
 		if err = d.Set("storm_control", flattenSwitchControllerManagedSwitchStormControl(o["storm-control"], d, "storm_control", sv)); err != nil {
 			if !fortiAPIPatch(o["storm-control"]) {
-				return fmt.Errorf("Error reading storm_control: %v", err)
+				return fmt.Errorf("error reading storm_control: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("storm_control"); ok {
 			if err = d.Set("storm_control", flattenSwitchControllerManagedSwitchStormControl(o["storm-control"], d, "storm_control", sv)); err != nil {
 				if !fortiAPIPatch(o["storm-control"]) {
-					return fmt.Errorf("Error reading storm_control: %v", err)
+					return fmt.Errorf("error reading storm_control: %v", err)
 				}
 			}
 		}
@@ -4361,14 +4404,14 @@ func refreshObjectSwitchControllerManagedSwitch(d *schema.ResourceData, o map[st
 	if isImportTable() {
 		if err = d.Set("mirror", flattenSwitchControllerManagedSwitchMirror(o["mirror"], d, "mirror", sv)); err != nil {
 			if !fortiAPIPatch(o["mirror"]) {
-				return fmt.Errorf("Error reading mirror: %v", err)
+				return fmt.Errorf("error reading mirror: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("mirror"); ok {
 			if err = d.Set("mirror", flattenSwitchControllerManagedSwitchMirror(o["mirror"], d, "mirror", sv)); err != nil {
 				if !fortiAPIPatch(o["mirror"]) {
-					return fmt.Errorf("Error reading mirror: %v", err)
+					return fmt.Errorf("error reading mirror: %v", err)
 				}
 			}
 		}
@@ -4377,14 +4420,14 @@ func refreshObjectSwitchControllerManagedSwitch(d *schema.ResourceData, o map[st
 	if isImportTable() {
 		if err = d.Set("static_mac", flattenSwitchControllerManagedSwitchStaticMac(o["static-mac"], d, "static_mac", sv)); err != nil {
 			if !fortiAPIPatch(o["static-mac"]) {
-				return fmt.Errorf("Error reading static_mac: %v", err)
+				return fmt.Errorf("error reading static_mac: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("static_mac"); ok {
 			if err = d.Set("static_mac", flattenSwitchControllerManagedSwitchStaticMac(o["static-mac"], d, "static_mac", sv)); err != nil {
 				if !fortiAPIPatch(o["static-mac"]) {
-					return fmt.Errorf("Error reading static_mac: %v", err)
+					return fmt.Errorf("error reading static_mac: %v", err)
 				}
 			}
 		}
@@ -4393,14 +4436,14 @@ func refreshObjectSwitchControllerManagedSwitch(d *schema.ResourceData, o map[st
 	if isImportTable() {
 		if err = d.Set("custom_command", flattenSwitchControllerManagedSwitchCustomCommand(o["custom-command"], d, "custom_command", sv)); err != nil {
 			if !fortiAPIPatch(o["custom-command"]) {
-				return fmt.Errorf("Error reading custom_command: %v", err)
+				return fmt.Errorf("error reading custom_command: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("custom_command"); ok {
 			if err = d.Set("custom_command", flattenSwitchControllerManagedSwitchCustomCommand(o["custom-command"], d, "custom_command", sv)); err != nil {
 				if !fortiAPIPatch(o["custom-command"]) {
-					return fmt.Errorf("Error reading custom_command: %v", err)
+					return fmt.Errorf("error reading custom_command: %v", err)
 				}
 			}
 		}
@@ -4409,14 +4452,14 @@ func refreshObjectSwitchControllerManagedSwitch(d *schema.ResourceData, o map[st
 	if isImportTable() {
 		if err = d.Set("igmp_snooping", flattenSwitchControllerManagedSwitchIgmpSnooping(o["igmp-snooping"], d, "igmp_snooping", sv)); err != nil {
 			if !fortiAPIPatch(o["igmp-snooping"]) {
-				return fmt.Errorf("Error reading igmp_snooping: %v", err)
+				return fmt.Errorf("error reading igmp_snooping: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("igmp_snooping"); ok {
 			if err = d.Set("igmp_snooping", flattenSwitchControllerManagedSwitchIgmpSnooping(o["igmp-snooping"], d, "igmp_snooping", sv)); err != nil {
 				if !fortiAPIPatch(o["igmp-snooping"]) {
-					return fmt.Errorf("Error reading igmp_snooping: %v", err)
+					return fmt.Errorf("error reading igmp_snooping: %v", err)
 				}
 			}
 		}
@@ -4425,14 +4468,14 @@ func refreshObjectSwitchControllerManagedSwitch(d *schema.ResourceData, o map[st
 	if isImportTable() {
 		if err = d.Set("n802_1x_settings", flattenSwitchControllerManagedSwitch8021XSettings(o["802-1X-settings"], d, "n802_1x_settings", sv)); err != nil {
 			if !fortiAPIPatch(o["802-1X-settings"]) {
-				return fmt.Errorf("Error reading n802_1x_settings: %v", err)
+				return fmt.Errorf("error reading n802_1x_settings: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("n802_1x_settings"); ok {
 			if err = d.Set("n802_1x_settings", flattenSwitchControllerManagedSwitch8021XSettings(o["802-1X-settings"], d, "n802_1x_settings", sv)); err != nil {
 				if !fortiAPIPatch(o["802-1X-settings"]) {
-					return fmt.Errorf("Error reading n802_1x_settings: %v", err)
+					return fmt.Errorf("error reading n802_1x_settings: %v", err)
 				}
 			}
 		}

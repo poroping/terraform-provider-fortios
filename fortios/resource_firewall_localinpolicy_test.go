@@ -57,14 +57,14 @@ func testAccCheckFortiOSFirewallLocalInPolicyExists(n string) resource.TestCheck
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadFirewallLocalInPolicy(i, "root")
+		o, err := c.ReadFirewallLocalInPolicy(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading FirewallLocalInPolicy: %s", err)
+			return fmt.Errorf("error reading FirewallLocalInPolicy: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating FirewallLocalInPolicy: %s", n)
+			return fmt.Errorf("error creating FirewallLocalInPolicy: %s", n)
 		}
 
 		return nil
@@ -80,11 +80,11 @@ func testAccCheckFirewallLocalInPolicyDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadFirewallLocalInPolicy(i, "root")
+		o, err := c.ReadFirewallLocalInPolicy(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error FirewallLocalInPolicy %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error FirewallLocalInPolicy %s still exists", rs.Primary.ID)
 			}
 		}
 

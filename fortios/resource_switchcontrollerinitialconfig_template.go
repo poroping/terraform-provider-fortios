@@ -30,43 +30,48 @@ func resourceSwitchControllerInitialConfigTemplate() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"vlanid": &schema.Schema{
+			"vlanid": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 4094),
 				Optional:     true,
 				Computed:     true,
 			},
-			"ip": &schema.Schema{
+			"ip": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"allowaccess": &schema.Schema{
+			"allowaccess": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"auto_ip": &schema.Schema{
+			"auto_ip": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"dhcp_server": &schema.Schema{
+			"dhcp_server": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -84,15 +89,25 @@ func resourceSwitchControllerInitialConfigTemplateCreate(d *schema.ResourceData,
 		}
 	}
 
-	obj, err := getObjectSwitchControllerInitialConfigTemplate(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating SwitchControllerInitialConfigTemplate resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateSwitchControllerInitialConfigTemplate(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSwitchControllerInitialConfigTemplate(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating SwitchControllerInitialConfigTemplate resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateSwitchControllerInitialConfigTemplate(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating SwitchControllerInitialConfigTemplate resource: %v", err)
+		return fmt.Errorf("error creating SwitchControllerInitialConfigTemplate resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -117,14 +132,24 @@ func resourceSwitchControllerInitialConfigTemplateUpdate(d *schema.ResourceData,
 		}
 	}
 
-	obj, err := getObjectSwitchControllerInitialConfigTemplate(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SwitchControllerInitialConfigTemplate resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSwitchControllerInitialConfigTemplate(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSwitchControllerInitialConfigTemplate(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SwitchControllerInitialConfigTemplate resource: %v", err)
+		return fmt.Errorf("error updating SwitchControllerInitialConfigTemplate resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSwitchControllerInitialConfigTemplate(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SwitchControllerInitialConfigTemplate resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -151,9 +176,17 @@ func resourceSwitchControllerInitialConfigTemplateDelete(d *schema.ResourceData,
 		}
 	}
 
-	err := c.DeleteSwitchControllerInitialConfigTemplate(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSwitchControllerInitialConfigTemplate(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SwitchControllerInitialConfigTemplate resource: %v", err)
+		return fmt.Errorf("error deleting SwitchControllerInitialConfigTemplate resource: %v", err)
 	}
 
 	d.SetId("")
@@ -175,9 +208,19 @@ func resourceSwitchControllerInitialConfigTemplateRead(d *schema.ResourceData, m
 		}
 	}
 
-	o, err := c.ReadSwitchControllerInitialConfigTemplate(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSwitchControllerInitialConfigTemplate(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SwitchControllerInitialConfigTemplate resource: %v", err)
+		return fmt.Errorf("error reading SwitchControllerInitialConfigTemplate resource: %v", err)
 	}
 
 	if o == nil {
@@ -188,7 +231,7 @@ func resourceSwitchControllerInitialConfigTemplateRead(d *schema.ResourceData, m
 
 	err = refreshObjectSwitchControllerInitialConfigTemplate(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SwitchControllerInitialConfigTemplate resource from API: %v", err)
+		return fmt.Errorf("error reading SwitchControllerInitialConfigTemplate resource from API: %v", err)
 	}
 	return nil
 }
@@ -222,37 +265,37 @@ func refreshObjectSwitchControllerInitialConfigTemplate(d *schema.ResourceData, 
 
 	if err = d.Set("name", flattenSwitchControllerInitialConfigTemplateName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("vlanid", flattenSwitchControllerInitialConfigTemplateVlanid(o["vlanid"], d, "vlanid", sv)); err != nil {
 		if !fortiAPIPatch(o["vlanid"]) {
-			return fmt.Errorf("Error reading vlanid: %v", err)
+			return fmt.Errorf("error reading vlanid: %v", err)
 		}
 	}
 
 	if err = d.Set("ip", flattenSwitchControllerInitialConfigTemplateIp(o["ip"], d, "ip", sv)); err != nil {
 		if !fortiAPIPatch(o["ip"]) {
-			return fmt.Errorf("Error reading ip: %v", err)
+			return fmt.Errorf("error reading ip: %v", err)
 		}
 	}
 
 	if err = d.Set("allowaccess", flattenSwitchControllerInitialConfigTemplateAllowaccess(o["allowaccess"], d, "allowaccess", sv)); err != nil {
 		if !fortiAPIPatch(o["allowaccess"]) {
-			return fmt.Errorf("Error reading allowaccess: %v", err)
+			return fmt.Errorf("error reading allowaccess: %v", err)
 		}
 	}
 
 	if err = d.Set("auto_ip", flattenSwitchControllerInitialConfigTemplateAutoIp(o["auto-ip"], d, "auto_ip", sv)); err != nil {
 		if !fortiAPIPatch(o["auto-ip"]) {
-			return fmt.Errorf("Error reading auto_ip: %v", err)
+			return fmt.Errorf("error reading auto_ip: %v", err)
 		}
 	}
 
 	if err = d.Set("dhcp_server", flattenSwitchControllerInitialConfigTemplateDhcpServer(o["dhcp-server"], d, "dhcp_server", sv)); err != nil {
 		if !fortiAPIPatch(o["dhcp-server"]) {
-			return fmt.Errorf("Error reading dhcp_server: %v", err)
+			return fmt.Errorf("error reading dhcp_server: %v", err)
 		}
 	}
 

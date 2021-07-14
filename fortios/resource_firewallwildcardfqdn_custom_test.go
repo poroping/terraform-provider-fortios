@@ -52,14 +52,14 @@ func testAccCheckFortiOSFirewallWildcardFqdnCustomExists(n string) resource.Test
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadFirewallWildcardFqdnCustom(i, "root")
+		o, err := c.ReadFirewallWildcardFqdnCustom(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading FirewallWildcardFqdnCustom: %s", err)
+			return fmt.Errorf("error reading FirewallWildcardFqdnCustom: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating FirewallWildcardFqdnCustom: %s", n)
+			return fmt.Errorf("error creating FirewallWildcardFqdnCustom: %s", n)
 		}
 
 		return nil
@@ -75,11 +75,11 @@ func testAccCheckFirewallWildcardFqdnCustomDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadFirewallWildcardFqdnCustom(i, "root")
+		o, err := c.ReadFirewallWildcardFqdnCustom(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error FirewallWildcardFqdnCustom %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error FirewallWildcardFqdnCustom %s still exists", rs.Primary.ID)
 			}
 		}
 

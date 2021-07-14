@@ -30,15 +30,20 @@ func resourceApplicationRuleSettings() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"fosid": &schema.Schema{
+			"fosid": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -56,15 +61,25 @@ func resourceApplicationRuleSettingsCreate(d *schema.ResourceData, m interface{}
 		}
 	}
 
-	obj, err := getObjectApplicationRuleSettings(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating ApplicationRuleSettings resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateApplicationRuleSettings(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectApplicationRuleSettings(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating ApplicationRuleSettings resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateApplicationRuleSettings(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating ApplicationRuleSettings resource: %v", err)
+		return fmt.Errorf("error creating ApplicationRuleSettings resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -89,14 +104,24 @@ func resourceApplicationRuleSettingsUpdate(d *schema.ResourceData, m interface{}
 		}
 	}
 
-	obj, err := getObjectApplicationRuleSettings(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating ApplicationRuleSettings resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateApplicationRuleSettings(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectApplicationRuleSettings(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating ApplicationRuleSettings resource: %v", err)
+		return fmt.Errorf("error updating ApplicationRuleSettings resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateApplicationRuleSettings(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating ApplicationRuleSettings resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -123,9 +148,17 @@ func resourceApplicationRuleSettingsDelete(d *schema.ResourceData, m interface{}
 		}
 	}
 
-	err := c.DeleteApplicationRuleSettings(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteApplicationRuleSettings(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting ApplicationRuleSettings resource: %v", err)
+		return fmt.Errorf("error deleting ApplicationRuleSettings resource: %v", err)
 	}
 
 	d.SetId("")
@@ -147,9 +180,19 @@ func resourceApplicationRuleSettingsRead(d *schema.ResourceData, m interface{}) 
 		}
 	}
 
-	o, err := c.ReadApplicationRuleSettings(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadApplicationRuleSettings(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading ApplicationRuleSettings resource: %v", err)
+		return fmt.Errorf("error reading ApplicationRuleSettings resource: %v", err)
 	}
 
 	if o == nil {
@@ -160,7 +203,7 @@ func resourceApplicationRuleSettingsRead(d *schema.ResourceData, m interface{}) 
 
 	err = refreshObjectApplicationRuleSettings(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading ApplicationRuleSettings resource from API: %v", err)
+		return fmt.Errorf("error reading ApplicationRuleSettings resource from API: %v", err)
 	}
 	return nil
 }
@@ -174,7 +217,7 @@ func refreshObjectApplicationRuleSettings(d *schema.ResourceData, o map[string]i
 
 	if err = d.Set("fosid", flattenApplicationRuleSettingsId(o["id"], d, "fosid", sv)); err != nil {
 		if !fortiAPIPatch(o["id"]) {
-			return fmt.Errorf("Error reading fosid: %v", err)
+			return fmt.Errorf("error reading fosid: %v", err)
 		}
 	}
 

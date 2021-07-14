@@ -54,14 +54,14 @@ func testAccCheckFortiOSSystemExternalResourceExists(n string) resource.TestChec
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemExternalResource(i, "root")
+		o, err := c.ReadSystemExternalResource(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading SystemExternalResource: %s", err)
+			return fmt.Errorf("error reading SystemExternalResource: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating SystemExternalResource: %s", n)
+			return fmt.Errorf("error creating SystemExternalResource: %s", n)
 		}
 
 		return nil
@@ -77,11 +77,11 @@ func testAccCheckSystemExternalResourceDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemExternalResource(i, "root")
+		o, err := c.ReadSystemExternalResource(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error SystemExternalResource %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error SystemExternalResource %s still exists", rs.Primary.ID)
 			}
 		}
 

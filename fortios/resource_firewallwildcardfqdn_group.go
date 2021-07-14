@@ -30,28 +30,28 @@ func resourceFirewallWildcardFqdnGroup() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"uuid": &schema.Schema{
+			"uuid": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"member": &schema.Schema{
+			"member": {
 				Type:     schema.TypeList,
 				Required: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 64),
 							Optional:     true,
@@ -60,26 +60,31 @@ func resourceFirewallWildcardFqdnGroup() *schema.Resource {
 					},
 				},
 			},
-			"color": &schema.Schema{
+			"color": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 32),
 				Optional:     true,
 				Computed:     true,
 			},
-			"comment": &schema.Schema{
+			"comment": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
 			},
-			"visibility": &schema.Schema{
+			"visibility": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"dynamic_sort_subtable": &schema.Schema{
+			"dynamic_sort_subtable": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Default:  "false",
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -97,15 +102,25 @@ func resourceFirewallWildcardFqdnGroupCreate(d *schema.ResourceData, m interface
 		}
 	}
 
-	obj, err := getObjectFirewallWildcardFqdnGroup(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating FirewallWildcardFqdnGroup resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateFirewallWildcardFqdnGroup(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectFirewallWildcardFqdnGroup(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating FirewallWildcardFqdnGroup resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateFirewallWildcardFqdnGroup(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating FirewallWildcardFqdnGroup resource: %v", err)
+		return fmt.Errorf("error creating FirewallWildcardFqdnGroup resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -130,14 +145,24 @@ func resourceFirewallWildcardFqdnGroupUpdate(d *schema.ResourceData, m interface
 		}
 	}
 
-	obj, err := getObjectFirewallWildcardFqdnGroup(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating FirewallWildcardFqdnGroup resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateFirewallWildcardFqdnGroup(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectFirewallWildcardFqdnGroup(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating FirewallWildcardFqdnGroup resource: %v", err)
+		return fmt.Errorf("error updating FirewallWildcardFqdnGroup resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateFirewallWildcardFqdnGroup(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating FirewallWildcardFqdnGroup resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -164,9 +189,17 @@ func resourceFirewallWildcardFqdnGroupDelete(d *schema.ResourceData, m interface
 		}
 	}
 
-	err := c.DeleteFirewallWildcardFqdnGroup(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteFirewallWildcardFqdnGroup(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting FirewallWildcardFqdnGroup resource: %v", err)
+		return fmt.Errorf("error deleting FirewallWildcardFqdnGroup resource: %v", err)
 	}
 
 	d.SetId("")
@@ -188,9 +221,19 @@ func resourceFirewallWildcardFqdnGroupRead(d *schema.ResourceData, m interface{}
 		}
 	}
 
-	o, err := c.ReadFirewallWildcardFqdnGroup(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadFirewallWildcardFqdnGroup(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading FirewallWildcardFqdnGroup resource: %v", err)
+		return fmt.Errorf("error reading FirewallWildcardFqdnGroup resource: %v", err)
 	}
 
 	if o == nil {
@@ -201,7 +244,7 @@ func resourceFirewallWildcardFqdnGroupRead(d *schema.ResourceData, m interface{}
 
 	err = refreshObjectFirewallWildcardFqdnGroup(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading FirewallWildcardFqdnGroup resource from API: %v", err)
+		return fmt.Errorf("error reading FirewallWildcardFqdnGroup resource from API: %v", err)
 	}
 	return nil
 }
@@ -269,27 +312,27 @@ func refreshObjectFirewallWildcardFqdnGroup(d *schema.ResourceData, o map[string
 
 	if err = d.Set("name", flattenFirewallWildcardFqdnGroupName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("uuid", flattenFirewallWildcardFqdnGroupUuid(o["uuid"], d, "uuid", sv)); err != nil {
 		if !fortiAPIPatch(o["uuid"]) {
-			return fmt.Errorf("Error reading uuid: %v", err)
+			return fmt.Errorf("error reading uuid: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("member", flattenFirewallWildcardFqdnGroupMember(o["member"], d, "member", sv)); err != nil {
 			if !fortiAPIPatch(o["member"]) {
-				return fmt.Errorf("Error reading member: %v", err)
+				return fmt.Errorf("error reading member: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("member"); ok {
 			if err = d.Set("member", flattenFirewallWildcardFqdnGroupMember(o["member"], d, "member", sv)); err != nil {
 				if !fortiAPIPatch(o["member"]) {
-					return fmt.Errorf("Error reading member: %v", err)
+					return fmt.Errorf("error reading member: %v", err)
 				}
 			}
 		}
@@ -297,19 +340,19 @@ func refreshObjectFirewallWildcardFqdnGroup(d *schema.ResourceData, o map[string
 
 	if err = d.Set("color", flattenFirewallWildcardFqdnGroupColor(o["color"], d, "color", sv)); err != nil {
 		if !fortiAPIPatch(o["color"]) {
-			return fmt.Errorf("Error reading color: %v", err)
+			return fmt.Errorf("error reading color: %v", err)
 		}
 	}
 
 	if err = d.Set("comment", flattenFirewallWildcardFqdnGroupComment(o["comment"], d, "comment", sv)); err != nil {
 		if !fortiAPIPatch(o["comment"]) {
-			return fmt.Errorf("Error reading comment: %v", err)
+			return fmt.Errorf("error reading comment: %v", err)
 		}
 	}
 
 	if err = d.Set("visibility", flattenFirewallWildcardFqdnGroupVisibility(o["visibility"], d, "visibility", sv)); err != nil {
 		if !fortiAPIPatch(o["visibility"]) {
-			return fmt.Errorf("Error reading visibility: %v", err)
+			return fmt.Errorf("error reading visibility: %v", err)
 		}
 	}
 

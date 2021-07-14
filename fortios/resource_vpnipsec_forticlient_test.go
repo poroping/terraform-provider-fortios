@@ -56,14 +56,14 @@ func testAccCheckFortiOSVpnIpsecForticlientExists(n string) resource.TestCheckFu
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadVpnIpsecForticlient(i, "root")
+		o, err := c.ReadVpnIpsecForticlient(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading VpnIpsecForticlient: %s", err)
+			return fmt.Errorf("error reading VpnIpsecForticlient: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating VpnIpsecForticlient: %s", n)
+			return fmt.Errorf("error creating VpnIpsecForticlient: %s", n)
 		}
 
 		return nil
@@ -79,11 +79,11 @@ func testAccCheckVpnIpsecForticlientDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadVpnIpsecForticlient(i, "root")
+		o, err := c.ReadVpnIpsecForticlient(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error VpnIpsecForticlient %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error VpnIpsecForticlient %s still exists", rs.Primary.ID)
 			}
 		}
 

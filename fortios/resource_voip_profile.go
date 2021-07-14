@@ -30,515 +30,515 @@ func resourceVoipProfile() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				ForceNew:     true,
 				Required:     true,
 			},
-			"comment": &schema.Schema{
+			"comment": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
 			},
-			"sip": &schema.Schema{
+			"sip": {
 				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"status": &schema.Schema{
+						"status": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"rtp": &schema.Schema{
+						"rtp": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"nat_port_range": &schema.Schema{
+						"nat_port_range": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"open_register_pinhole": &schema.Schema{
+						"open_register_pinhole": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"open_contact_pinhole": &schema.Schema{
+						"open_contact_pinhole": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"strict_register": &schema.Schema{
+						"strict_register": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"register_rate": &schema.Schema{
+						"register_rate": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"invite_rate": &schema.Schema{
+						"invite_rate": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"max_dialogs": &schema.Schema{
+						"max_dialogs": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"max_line_length": &schema.Schema{
+						"max_line_length": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(78, 4096),
 							Optional:     true,
 							Computed:     true,
 						},
-						"block_long_lines": &schema.Schema{
+						"block_long_lines": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"block_unknown": &schema.Schema{
+						"block_unknown": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"call_keepalive": &schema.Schema{
+						"call_keepalive": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 10080),
 							Optional:     true,
 							Computed:     true,
 						},
-						"block_ack": &schema.Schema{
+						"block_ack": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"block_bye": &schema.Schema{
+						"block_bye": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"block_cancel": &schema.Schema{
+						"block_cancel": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"block_info": &schema.Schema{
+						"block_info": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"block_invite": &schema.Schema{
+						"block_invite": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"block_message": &schema.Schema{
+						"block_message": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"block_notify": &schema.Schema{
+						"block_notify": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"block_options": &schema.Schema{
+						"block_options": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"block_prack": &schema.Schema{
+						"block_prack": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"block_publish": &schema.Schema{
+						"block_publish": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"block_refer": &schema.Schema{
+						"block_refer": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"block_register": &schema.Schema{
+						"block_register": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"block_subscribe": &schema.Schema{
+						"block_subscribe": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"block_update": &schema.Schema{
+						"block_update": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"register_contact_trace": &schema.Schema{
+						"register_contact_trace": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"open_via_pinhole": &schema.Schema{
+						"open_via_pinhole": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"open_record_route_pinhole": &schema.Schema{
+						"open_record_route_pinhole": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"rfc2543_branch": &schema.Schema{
+						"rfc2543_branch": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"log_violations": &schema.Schema{
+						"log_violations": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"log_call_summary": &schema.Schema{
+						"log_call_summary": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"nat_trace": &schema.Schema{
+						"nat_trace": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"subscribe_rate": &schema.Schema{
+						"subscribe_rate": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"message_rate": &schema.Schema{
+						"message_rate": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"notify_rate": &schema.Schema{
+						"notify_rate": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"refer_rate": &schema.Schema{
+						"refer_rate": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"update_rate": &schema.Schema{
+						"update_rate": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"options_rate": &schema.Schema{
+						"options_rate": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"ack_rate": &schema.Schema{
+						"ack_rate": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"prack_rate": &schema.Schema{
+						"prack_rate": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"info_rate": &schema.Schema{
+						"info_rate": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"publish_rate": &schema.Schema{
+						"publish_rate": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"bye_rate": &schema.Schema{
+						"bye_rate": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"cancel_rate": &schema.Schema{
+						"cancel_rate": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"preserve_override": &schema.Schema{
+						"preserve_override": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"no_sdp_fixup": &schema.Schema{
+						"no_sdp_fixup": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"contact_fixup": &schema.Schema{
+						"contact_fixup": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"max_idle_dialogs": &schema.Schema{
+						"max_idle_dialogs": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"block_geo_red_options": &schema.Schema{
+						"block_geo_red_options": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"hosted_nat_traversal": &schema.Schema{
+						"hosted_nat_traversal": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"hnt_restrict_source_ip": &schema.Schema{
+						"hnt_restrict_source_ip": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"max_body_length": &schema.Schema{
+						"max_body_length": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"unknown_header": &schema.Schema{
+						"unknown_header": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"malformed_request_line": &schema.Schema{
+						"malformed_request_line": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"malformed_header_via": &schema.Schema{
+						"malformed_header_via": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"malformed_header_from": &schema.Schema{
+						"malformed_header_from": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"malformed_header_to": &schema.Schema{
+						"malformed_header_to": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"malformed_header_call_id": &schema.Schema{
+						"malformed_header_call_id": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"malformed_header_cseq": &schema.Schema{
+						"malformed_header_cseq": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"malformed_header_rack": &schema.Schema{
+						"malformed_header_rack": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"malformed_header_rseq": &schema.Schema{
+						"malformed_header_rseq": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"malformed_header_contact": &schema.Schema{
+						"malformed_header_contact": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"malformed_header_record_route": &schema.Schema{
+						"malformed_header_record_route": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"malformed_header_route": &schema.Schema{
+						"malformed_header_route": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"malformed_header_expires": &schema.Schema{
+						"malformed_header_expires": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"malformed_header_content_type": &schema.Schema{
+						"malformed_header_content_type": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"malformed_header_content_length": &schema.Schema{
+						"malformed_header_content_length": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"malformed_header_max_forwards": &schema.Schema{
+						"malformed_header_max_forwards": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"malformed_header_allow": &schema.Schema{
+						"malformed_header_allow": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"malformed_header_p_asserted_identity": &schema.Schema{
+						"malformed_header_p_asserted_identity": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"malformed_header_sdp_v": &schema.Schema{
+						"malformed_header_sdp_v": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"malformed_header_sdp_o": &schema.Schema{
+						"malformed_header_sdp_o": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"malformed_header_sdp_s": &schema.Schema{
+						"malformed_header_sdp_s": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"malformed_header_sdp_i": &schema.Schema{
+						"malformed_header_sdp_i": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"malformed_header_sdp_c": &schema.Schema{
+						"malformed_header_sdp_c": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"malformed_header_sdp_b": &schema.Schema{
+						"malformed_header_sdp_b": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"malformed_header_sdp_z": &schema.Schema{
+						"malformed_header_sdp_z": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"malformed_header_sdp_k": &schema.Schema{
+						"malformed_header_sdp_k": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"malformed_header_sdp_a": &schema.Schema{
+						"malformed_header_sdp_a": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"malformed_header_sdp_t": &schema.Schema{
+						"malformed_header_sdp_t": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"malformed_header_sdp_r": &schema.Schema{
+						"malformed_header_sdp_r": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"malformed_header_sdp_m": &schema.Schema{
+						"malformed_header_sdp_m": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"provisional_invite_expiry_time": &schema.Schema{
+						"provisional_invite_expiry_time": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(10, 3600),
 							Optional:     true,
 							Computed:     true,
 						},
-						"ips_rtp": &schema.Schema{
+						"ips_rtp": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"ssl_mode": &schema.Schema{
+						"ssl_mode": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"ssl_send_empty_frags": &schema.Schema{
+						"ssl_send_empty_frags": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"ssl_client_renegotiation": &schema.Schema{
+						"ssl_client_renegotiation": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"ssl_algorithm": &schema.Schema{
+						"ssl_algorithm": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"ssl_pfs": &schema.Schema{
+						"ssl_pfs": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"ssl_min_version": &schema.Schema{
+						"ssl_min_version": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"ssl_max_version": &schema.Schema{
+						"ssl_max_version": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"ssl_client_certificate": &schema.Schema{
+						"ssl_client_certificate": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"ssl_server_certificate": &schema.Schema{
+						"ssl_server_certificate": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"ssl_auth_client": &schema.Schema{
+						"ssl_auth_client": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"ssl_auth_server": &schema.Schema{
+						"ssl_auth_server": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
@@ -547,38 +547,38 @@ func resourceVoipProfile() *schema.Resource {
 					},
 				},
 			},
-			"sccp": &schema.Schema{
+			"sccp": {
 				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"status": &schema.Schema{
+						"status": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"block_mcast": &schema.Schema{
+						"block_mcast": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"verify_header": &schema.Schema{
+						"verify_header": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"log_call_summary": &schema.Schema{
+						"log_call_summary": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"log_violations": &schema.Schema{
+						"log_violations": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"max_calls": &schema.Schema{
+						"max_calls": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 65535),
 							Optional:     true,
@@ -586,6 +586,11 @@ func resourceVoipProfile() *schema.Resource {
 						},
 					},
 				},
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -603,15 +608,25 @@ func resourceVoipProfileCreate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectVoipProfile(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating VoipProfile resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateVoipProfile(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectVoipProfile(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating VoipProfile resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateVoipProfile(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating VoipProfile resource: %v", err)
+		return fmt.Errorf("error creating VoipProfile resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -636,14 +651,24 @@ func resourceVoipProfileUpdate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectVoipProfile(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating VoipProfile resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateVoipProfile(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectVoipProfile(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating VoipProfile resource: %v", err)
+		return fmt.Errorf("error updating VoipProfile resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateVoipProfile(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating VoipProfile resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -670,9 +695,17 @@ func resourceVoipProfileDelete(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	err := c.DeleteVoipProfile(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteVoipProfile(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting VoipProfile resource: %v", err)
+		return fmt.Errorf("error deleting VoipProfile resource: %v", err)
 	}
 
 	d.SetId("")
@@ -694,9 +727,19 @@ func resourceVoipProfileRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadVoipProfile(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadVoipProfile(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading VoipProfile resource: %v", err)
+		return fmt.Errorf("error reading VoipProfile resource: %v", err)
 	}
 
 	if o == nil {
@@ -707,7 +750,7 @@ func resourceVoipProfileRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectVoipProfile(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading VoipProfile resource from API: %v", err)
+		return fmt.Errorf("error reading VoipProfile resource from API: %v", err)
 	}
 	return nil
 }
@@ -1781,27 +1824,27 @@ func refreshObjectVoipProfile(d *schema.ResourceData, o map[string]interface{}, 
 
 	if err = d.Set("name", flattenVoipProfileName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("comment", flattenVoipProfileComment(o["comment"], d, "comment", sv)); err != nil {
 		if !fortiAPIPatch(o["comment"]) {
-			return fmt.Errorf("Error reading comment: %v", err)
+			return fmt.Errorf("error reading comment: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("sip", flattenVoipProfileSip(o["sip"], d, "sip", sv)); err != nil {
 			if !fortiAPIPatch(o["sip"]) {
-				return fmt.Errorf("Error reading sip: %v", err)
+				return fmt.Errorf("error reading sip: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("sip"); ok {
 			if err = d.Set("sip", flattenVoipProfileSip(o["sip"], d, "sip", sv)); err != nil {
 				if !fortiAPIPatch(o["sip"]) {
-					return fmt.Errorf("Error reading sip: %v", err)
+					return fmt.Errorf("error reading sip: %v", err)
 				}
 			}
 		}
@@ -1810,14 +1853,14 @@ func refreshObjectVoipProfile(d *schema.ResourceData, o map[string]interface{}, 
 	if isImportTable() {
 		if err = d.Set("sccp", flattenVoipProfileSccp(o["sccp"], d, "sccp", sv)); err != nil {
 			if !fortiAPIPatch(o["sccp"]) {
-				return fmt.Errorf("Error reading sccp: %v", err)
+				return fmt.Errorf("error reading sccp: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("sccp"); ok {
 			if err = d.Set("sccp", flattenVoipProfileSccp(o["sccp"], d, "sccp", sv)); err != nil {
 				if !fortiAPIPatch(o["sccp"]) {
-					return fmt.Errorf("Error reading sccp: %v", err)
+					return fmt.Errorf("error reading sccp: %v", err)
 				}
 			}
 		}

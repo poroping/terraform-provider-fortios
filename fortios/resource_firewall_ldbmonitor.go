@@ -30,67 +30,72 @@ func resourceFirewallLdbMonitor() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"type": &schema.Schema{
+			"type": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"interval": &schema.Schema{
+			"interval": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(5, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"timeout": &schema.Schema{
+			"timeout": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 255),
 				Optional:     true,
 				Computed:     true,
 			},
-			"retry": &schema.Schema{
+			"retry": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 255),
 				Optional:     true,
 				Computed:     true,
 			},
-			"port": &schema.Schema{
+			"port": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"src_ip": &schema.Schema{
+			"src_ip": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"http_get": &schema.Schema{
+			"http_get": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
 				Computed:     true,
 			},
-			"http_match": &schema.Schema{
+			"http_match": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
 				Computed:     true,
 			},
-			"http_max_redirects": &schema.Schema{
+			"http_max_redirects": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 5),
 				Optional:     true,
 				Computed:     true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -108,15 +113,25 @@ func resourceFirewallLdbMonitorCreate(d *schema.ResourceData, m interface{}) err
 		}
 	}
 
-	obj, err := getObjectFirewallLdbMonitor(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating FirewallLdbMonitor resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateFirewallLdbMonitor(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectFirewallLdbMonitor(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating FirewallLdbMonitor resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateFirewallLdbMonitor(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating FirewallLdbMonitor resource: %v", err)
+		return fmt.Errorf("error creating FirewallLdbMonitor resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -141,14 +156,24 @@ func resourceFirewallLdbMonitorUpdate(d *schema.ResourceData, m interface{}) err
 		}
 	}
 
-	obj, err := getObjectFirewallLdbMonitor(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating FirewallLdbMonitor resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateFirewallLdbMonitor(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectFirewallLdbMonitor(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating FirewallLdbMonitor resource: %v", err)
+		return fmt.Errorf("error updating FirewallLdbMonitor resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateFirewallLdbMonitor(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating FirewallLdbMonitor resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -175,9 +200,17 @@ func resourceFirewallLdbMonitorDelete(d *schema.ResourceData, m interface{}) err
 		}
 	}
 
-	err := c.DeleteFirewallLdbMonitor(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteFirewallLdbMonitor(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting FirewallLdbMonitor resource: %v", err)
+		return fmt.Errorf("error deleting FirewallLdbMonitor resource: %v", err)
 	}
 
 	d.SetId("")
@@ -199,9 +232,19 @@ func resourceFirewallLdbMonitorRead(d *schema.ResourceData, m interface{}) error
 		}
 	}
 
-	o, err := c.ReadFirewallLdbMonitor(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadFirewallLdbMonitor(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading FirewallLdbMonitor resource: %v", err)
+		return fmt.Errorf("error reading FirewallLdbMonitor resource: %v", err)
 	}
 
 	if o == nil {
@@ -212,7 +255,7 @@ func resourceFirewallLdbMonitorRead(d *schema.ResourceData, m interface{}) error
 
 	err = refreshObjectFirewallLdbMonitor(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading FirewallLdbMonitor resource from API: %v", err)
+		return fmt.Errorf("error reading FirewallLdbMonitor resource from API: %v", err)
 	}
 	return nil
 }
@@ -262,61 +305,61 @@ func refreshObjectFirewallLdbMonitor(d *schema.ResourceData, o map[string]interf
 
 	if err = d.Set("name", flattenFirewallLdbMonitorName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("type", flattenFirewallLdbMonitorType(o["type"], d, "type", sv)); err != nil {
 		if !fortiAPIPatch(o["type"]) {
-			return fmt.Errorf("Error reading type: %v", err)
+			return fmt.Errorf("error reading type: %v", err)
 		}
 	}
 
 	if err = d.Set("interval", flattenFirewallLdbMonitorInterval(o["interval"], d, "interval", sv)); err != nil {
 		if !fortiAPIPatch(o["interval"]) {
-			return fmt.Errorf("Error reading interval: %v", err)
+			return fmt.Errorf("error reading interval: %v", err)
 		}
 	}
 
 	if err = d.Set("timeout", flattenFirewallLdbMonitorTimeout(o["timeout"], d, "timeout", sv)); err != nil {
 		if !fortiAPIPatch(o["timeout"]) {
-			return fmt.Errorf("Error reading timeout: %v", err)
+			return fmt.Errorf("error reading timeout: %v", err)
 		}
 	}
 
 	if err = d.Set("retry", flattenFirewallLdbMonitorRetry(o["retry"], d, "retry", sv)); err != nil {
 		if !fortiAPIPatch(o["retry"]) {
-			return fmt.Errorf("Error reading retry: %v", err)
+			return fmt.Errorf("error reading retry: %v", err)
 		}
 	}
 
 	if err = d.Set("port", flattenFirewallLdbMonitorPort(o["port"], d, "port", sv)); err != nil {
 		if !fortiAPIPatch(o["port"]) {
-			return fmt.Errorf("Error reading port: %v", err)
+			return fmt.Errorf("error reading port: %v", err)
 		}
 	}
 
 	if err = d.Set("src_ip", flattenFirewallLdbMonitorSrcIp(o["src-ip"], d, "src_ip", sv)); err != nil {
 		if !fortiAPIPatch(o["src-ip"]) {
-			return fmt.Errorf("Error reading src_ip: %v", err)
+			return fmt.Errorf("error reading src_ip: %v", err)
 		}
 	}
 
 	if err = d.Set("http_get", flattenFirewallLdbMonitorHttpGet(o["http-get"], d, "http_get", sv)); err != nil {
 		if !fortiAPIPatch(o["http-get"]) {
-			return fmt.Errorf("Error reading http_get: %v", err)
+			return fmt.Errorf("error reading http_get: %v", err)
 		}
 	}
 
 	if err = d.Set("http_match", flattenFirewallLdbMonitorHttpMatch(o["http-match"], d, "http_match", sv)); err != nil {
 		if !fortiAPIPatch(o["http-match"]) {
-			return fmt.Errorf("Error reading http_match: %v", err)
+			return fmt.Errorf("error reading http_match: %v", err)
 		}
 	}
 
 	if err = d.Set("http_max_redirects", flattenFirewallLdbMonitorHttpMaxRedirects(o["http-max-redirects"], d, "http_max_redirects", sv)); err != nil {
 		if !fortiAPIPatch(o["http-max-redirects"]) {
-			return fmt.Errorf("Error reading http_max_redirects: %v", err)
+			return fmt.Errorf("error reading http_max_redirects: %v", err)
 		}
 	}
 

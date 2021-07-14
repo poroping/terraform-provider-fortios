@@ -30,124 +30,124 @@ func resourceUserRadius() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"server": &schema.Schema{
+			"server": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"secret": &schema.Schema{
+			"secret": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 128),
 				Optional:     true,
 				Sensitive:    true,
 			},
-			"secondary_server": &schema.Schema{
+			"secondary_server": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"secondary_secret": &schema.Schema{
+			"secondary_secret": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 128),
 				Optional:     true,
 				Sensitive:    true,
 			},
-			"tertiary_server": &schema.Schema{
+			"tertiary_server": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"tertiary_secret": &schema.Schema{
+			"tertiary_secret": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 128),
 				Optional:     true,
 				Sensitive:    true,
 			},
-			"timeout": &schema.Schema{
+			"timeout": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 300),
 				Optional:     true,
 				Computed:     true,
 			},
-			"all_usergroup": &schema.Schema{
+			"all_usergroup": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"use_management_vdom": &schema.Schema{
+			"use_management_vdom": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"nas_ip": &schema.Schema{
+			"nas_ip": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"acct_interim_interval": &schema.Schema{
+			"acct_interim_interval": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(600, 86400),
 				Optional:     true,
 				Computed:     true,
 			},
-			"radius_coa": &schema.Schema{
+			"radius_coa": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"radius_port": &schema.Schema{
+			"radius_port": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"h3c_compatibility": &schema.Schema{
+			"h3c_compatibility": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"auth_type": &schema.Schema{
+			"auth_type": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"source_ip": &schema.Schema{
+			"source_ip": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"username_case_sensitive": &schema.Schema{
+			"username_case_sensitive": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"group_override_attr_type": &schema.Schema{
+			"group_override_attr_type": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"class": &schema.Schema{
+			"class": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 64),
 							Optional:     true,
@@ -156,167 +156,167 @@ func resourceUserRadius() *schema.Resource {
 					},
 				},
 			},
-			"password_renewal": &schema.Schema{
+			"password_renewal": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"password_encoding": &schema.Schema{
+			"password_encoding": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"acct_all_servers": &schema.Schema{
+			"acct_all_servers": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"switch_controller_acct_fast_framedip_detect": &schema.Schema{
+			"switch_controller_acct_fast_framedip_detect": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(2, 600),
 				Optional:     true,
 				Computed:     true,
 			},
-			"interface_select_method": &schema.Schema{
+			"interface_select_method": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"interface": &schema.Schema{
+			"interface": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 15),
 				Optional:     true,
 				Computed:     true,
 			},
-			"switch_controller_service_type": &schema.Schema{
+			"switch_controller_service_type": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"rsso": &schema.Schema{
+			"rsso": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"rsso_radius_server_port": &schema.Schema{
+			"rsso_radius_server_port": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"rsso_radius_response": &schema.Schema{
+			"rsso_radius_response": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"rsso_validate_request_secret": &schema.Schema{
+			"rsso_validate_request_secret": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"rsso_secret": &schema.Schema{
+			"rsso_secret": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 31),
 				Optional:     true,
 				Sensitive:    true,
 			},
-			"rsso_endpoint_attribute": &schema.Schema{
+			"rsso_endpoint_attribute": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"rsso_endpoint_block_attribute": &schema.Schema{
+			"rsso_endpoint_block_attribute": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"sso_attribute": &schema.Schema{
+			"sso_attribute": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"sso_attribute_key": &schema.Schema{
+			"sso_attribute_key": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Sensitive:    true,
 				Computed:     true,
 			},
-			"sso_attribute_value_override": &schema.Schema{
+			"sso_attribute_value_override": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"rsso_context_timeout": &schema.Schema{
+			"rsso_context_timeout": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"rsso_log_period": &schema.Schema{
+			"rsso_log_period": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"rsso_log_flags": &schema.Schema{
+			"rsso_log_flags": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"rsso_flush_ip_session": &schema.Schema{
+			"rsso_flush_ip_session": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"rsso_ep_one_ip_only": &schema.Schema{
+			"rsso_ep_one_ip_only": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"accounting_server": &schema.Schema{
+			"accounting_server": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"status": &schema.Schema{
+						"status": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"server": &schema.Schema{
+						"server": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 63),
 							Optional:     true,
 							Computed:     true,
 						},
-						"secret": &schema.Schema{
+						"secret": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 128),
 							Optional:     true,
 							Sensitive:    true,
 						},
-						"port": &schema.Schema{
+						"port": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 65535),
 							Optional:     true,
 							Computed:     true,
 						},
-						"source_ip": &schema.Schema{
+						"source_ip": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 63),
 							Optional:     true,
 							Computed:     true,
 						},
-						"interface_select_method": &schema.Schema{
+						"interface_select_method": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"interface": &schema.Schema{
+						"interface": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 15),
 							Optional:     true,
@@ -325,10 +325,15 @@ func resourceUserRadius() *schema.Resource {
 					},
 				},
 			},
-			"dynamic_sort_subtable": &schema.Schema{
+			"dynamic_sort_subtable": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Default:  "false",
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -346,15 +351,25 @@ func resourceUserRadiusCreate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectUserRadius(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating UserRadius resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateUserRadius(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectUserRadius(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating UserRadius resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateUserRadius(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating UserRadius resource: %v", err)
+		return fmt.Errorf("error creating UserRadius resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -379,14 +394,24 @@ func resourceUserRadiusUpdate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectUserRadius(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating UserRadius resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateUserRadius(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectUserRadius(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating UserRadius resource: %v", err)
+		return fmt.Errorf("error updating UserRadius resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateUserRadius(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating UserRadius resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -413,9 +438,17 @@ func resourceUserRadiusDelete(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	err := c.DeleteUserRadius(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteUserRadius(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting UserRadius resource: %v", err)
+		return fmt.Errorf("error deleting UserRadius resource: %v", err)
 	}
 
 	d.SetId("")
@@ -437,9 +470,19 @@ func resourceUserRadiusRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadUserRadius(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadUserRadius(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading UserRadius resource: %v", err)
+		return fmt.Errorf("error reading UserRadius resource: %v", err)
 	}
 
 	if o == nil {
@@ -450,7 +493,7 @@ func resourceUserRadiusRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectUserRadius(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading UserRadius resource from API: %v", err)
+		return fmt.Errorf("error reading UserRadius resource from API: %v", err)
 	}
 	return nil
 }
@@ -774,111 +817,111 @@ func refreshObjectUserRadius(d *schema.ResourceData, o map[string]interface{}, s
 
 	if err = d.Set("name", flattenUserRadiusName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("server", flattenUserRadiusServer(o["server"], d, "server", sv)); err != nil {
 		if !fortiAPIPatch(o["server"]) {
-			return fmt.Errorf("Error reading server: %v", err)
+			return fmt.Errorf("error reading server: %v", err)
 		}
 	}
 
 	if err = d.Set("secondary_server", flattenUserRadiusSecondaryServer(o["secondary-server"], d, "secondary_server", sv)); err != nil {
 		if !fortiAPIPatch(o["secondary-server"]) {
-			return fmt.Errorf("Error reading secondary_server: %v", err)
+			return fmt.Errorf("error reading secondary_server: %v", err)
 		}
 	}
 
 	if err = d.Set("tertiary_server", flattenUserRadiusTertiaryServer(o["tertiary-server"], d, "tertiary_server", sv)); err != nil {
 		if !fortiAPIPatch(o["tertiary-server"]) {
-			return fmt.Errorf("Error reading tertiary_server: %v", err)
+			return fmt.Errorf("error reading tertiary_server: %v", err)
 		}
 	}
 
 	if err = d.Set("timeout", flattenUserRadiusTimeout(o["timeout"], d, "timeout", sv)); err != nil {
 		if !fortiAPIPatch(o["timeout"]) {
-			return fmt.Errorf("Error reading timeout: %v", err)
+			return fmt.Errorf("error reading timeout: %v", err)
 		}
 	}
 
 	if err = d.Set("all_usergroup", flattenUserRadiusAllUsergroup(o["all-usergroup"], d, "all_usergroup", sv)); err != nil {
 		if !fortiAPIPatch(o["all-usergroup"]) {
-			return fmt.Errorf("Error reading all_usergroup: %v", err)
+			return fmt.Errorf("error reading all_usergroup: %v", err)
 		}
 	}
 
 	if err = d.Set("use_management_vdom", flattenUserRadiusUseManagementVdom(o["use-management-vdom"], d, "use_management_vdom", sv)); err != nil {
 		if !fortiAPIPatch(o["use-management-vdom"]) {
-			return fmt.Errorf("Error reading use_management_vdom: %v", err)
+			return fmt.Errorf("error reading use_management_vdom: %v", err)
 		}
 	}
 
 	if err = d.Set("nas_ip", flattenUserRadiusNasIp(o["nas-ip"], d, "nas_ip", sv)); err != nil {
 		if !fortiAPIPatch(o["nas-ip"]) {
-			return fmt.Errorf("Error reading nas_ip: %v", err)
+			return fmt.Errorf("error reading nas_ip: %v", err)
 		}
 	}
 
 	if err = d.Set("acct_interim_interval", flattenUserRadiusAcctInterimInterval(o["acct-interim-interval"], d, "acct_interim_interval", sv)); err != nil {
 		if !fortiAPIPatch(o["acct-interim-interval"]) {
-			return fmt.Errorf("Error reading acct_interim_interval: %v", err)
+			return fmt.Errorf("error reading acct_interim_interval: %v", err)
 		}
 	}
 
 	if err = d.Set("radius_coa", flattenUserRadiusRadiusCoa(o["radius-coa"], d, "radius_coa", sv)); err != nil {
 		if !fortiAPIPatch(o["radius-coa"]) {
-			return fmt.Errorf("Error reading radius_coa: %v", err)
+			return fmt.Errorf("error reading radius_coa: %v", err)
 		}
 	}
 
 	if err = d.Set("radius_port", flattenUserRadiusRadiusPort(o["radius-port"], d, "radius_port", sv)); err != nil {
 		if !fortiAPIPatch(o["radius-port"]) {
-			return fmt.Errorf("Error reading radius_port: %v", err)
+			return fmt.Errorf("error reading radius_port: %v", err)
 		}
 	}
 
 	if err = d.Set("h3c_compatibility", flattenUserRadiusH3CCompatibility(o["h3c-compatibility"], d, "h3c_compatibility", sv)); err != nil {
 		if !fortiAPIPatch(o["h3c-compatibility"]) {
-			return fmt.Errorf("Error reading h3c_compatibility: %v", err)
+			return fmt.Errorf("error reading h3c_compatibility: %v", err)
 		}
 	}
 
 	if err = d.Set("auth_type", flattenUserRadiusAuthType(o["auth-type"], d, "auth_type", sv)); err != nil {
 		if !fortiAPIPatch(o["auth-type"]) {
-			return fmt.Errorf("Error reading auth_type: %v", err)
+			return fmt.Errorf("error reading auth_type: %v", err)
 		}
 	}
 
 	if err = d.Set("source_ip", flattenUserRadiusSourceIp(o["source-ip"], d, "source_ip", sv)); err != nil {
 		if !fortiAPIPatch(o["source-ip"]) {
-			return fmt.Errorf("Error reading source_ip: %v", err)
+			return fmt.Errorf("error reading source_ip: %v", err)
 		}
 	}
 
 	if err = d.Set("username_case_sensitive", flattenUserRadiusUsernameCaseSensitive(o["username-case-sensitive"], d, "username_case_sensitive", sv)); err != nil {
 		if !fortiAPIPatch(o["username-case-sensitive"]) {
-			return fmt.Errorf("Error reading username_case_sensitive: %v", err)
+			return fmt.Errorf("error reading username_case_sensitive: %v", err)
 		}
 	}
 
 	if err = d.Set("group_override_attr_type", flattenUserRadiusGroupOverrideAttrType(o["group-override-attr-type"], d, "group_override_attr_type", sv)); err != nil {
 		if !fortiAPIPatch(o["group-override-attr-type"]) {
-			return fmt.Errorf("Error reading group_override_attr_type: %v", err)
+			return fmt.Errorf("error reading group_override_attr_type: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("class", flattenUserRadiusClass(o["class"], d, "class", sv)); err != nil {
 			if !fortiAPIPatch(o["class"]) {
-				return fmt.Errorf("Error reading class: %v", err)
+				return fmt.Errorf("error reading class: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("class"); ok {
 			if err = d.Set("class", flattenUserRadiusClass(o["class"], d, "class", sv)); err != nil {
 				if !fortiAPIPatch(o["class"]) {
-					return fmt.Errorf("Error reading class: %v", err)
+					return fmt.Errorf("error reading class: %v", err)
 				}
 			}
 		}
@@ -886,135 +929,135 @@ func refreshObjectUserRadius(d *schema.ResourceData, o map[string]interface{}, s
 
 	if err = d.Set("password_renewal", flattenUserRadiusPasswordRenewal(o["password-renewal"], d, "password_renewal", sv)); err != nil {
 		if !fortiAPIPatch(o["password-renewal"]) {
-			return fmt.Errorf("Error reading password_renewal: %v", err)
+			return fmt.Errorf("error reading password_renewal: %v", err)
 		}
 	}
 
 	if err = d.Set("password_encoding", flattenUserRadiusPasswordEncoding(o["password-encoding"], d, "password_encoding", sv)); err != nil {
 		if !fortiAPIPatch(o["password-encoding"]) {
-			return fmt.Errorf("Error reading password_encoding: %v", err)
+			return fmt.Errorf("error reading password_encoding: %v", err)
 		}
 	}
 
 	if err = d.Set("acct_all_servers", flattenUserRadiusAcctAllServers(o["acct-all-servers"], d, "acct_all_servers", sv)); err != nil {
 		if !fortiAPIPatch(o["acct-all-servers"]) {
-			return fmt.Errorf("Error reading acct_all_servers: %v", err)
+			return fmt.Errorf("error reading acct_all_servers: %v", err)
 		}
 	}
 
 	if err = d.Set("switch_controller_acct_fast_framedip_detect", flattenUserRadiusSwitchControllerAcctFastFramedipDetect(o["switch-controller-acct-fast-framedip-detect"], d, "switch_controller_acct_fast_framedip_detect", sv)); err != nil {
 		if !fortiAPIPatch(o["switch-controller-acct-fast-framedip-detect"]) {
-			return fmt.Errorf("Error reading switch_controller_acct_fast_framedip_detect: %v", err)
+			return fmt.Errorf("error reading switch_controller_acct_fast_framedip_detect: %v", err)
 		}
 	}
 
 	if err = d.Set("interface_select_method", flattenUserRadiusInterfaceSelectMethod(o["interface-select-method"], d, "interface_select_method", sv)); err != nil {
 		if !fortiAPIPatch(o["interface-select-method"]) {
-			return fmt.Errorf("Error reading interface_select_method: %v", err)
+			return fmt.Errorf("error reading interface_select_method: %v", err)
 		}
 	}
 
 	if err = d.Set("interface", flattenUserRadiusInterface(o["interface"], d, "interface", sv)); err != nil {
 		if !fortiAPIPatch(o["interface"]) {
-			return fmt.Errorf("Error reading interface: %v", err)
+			return fmt.Errorf("error reading interface: %v", err)
 		}
 	}
 
 	if err = d.Set("switch_controller_service_type", flattenUserRadiusSwitchControllerServiceType(o["switch-controller-service-type"], d, "switch_controller_service_type", sv)); err != nil {
 		if !fortiAPIPatch(o["switch-controller-service-type"]) {
-			return fmt.Errorf("Error reading switch_controller_service_type: %v", err)
+			return fmt.Errorf("error reading switch_controller_service_type: %v", err)
 		}
 	}
 
 	if err = d.Set("rsso", flattenUserRadiusRsso(o["rsso"], d, "rsso", sv)); err != nil {
 		if !fortiAPIPatch(o["rsso"]) {
-			return fmt.Errorf("Error reading rsso: %v", err)
+			return fmt.Errorf("error reading rsso: %v", err)
 		}
 	}
 
 	if err = d.Set("rsso_radius_server_port", flattenUserRadiusRssoRadiusServerPort(o["rsso-radius-server-port"], d, "rsso_radius_server_port", sv)); err != nil {
 		if !fortiAPIPatch(o["rsso-radius-server-port"]) {
-			return fmt.Errorf("Error reading rsso_radius_server_port: %v", err)
+			return fmt.Errorf("error reading rsso_radius_server_port: %v", err)
 		}
 	}
 
 	if err = d.Set("rsso_radius_response", flattenUserRadiusRssoRadiusResponse(o["rsso-radius-response"], d, "rsso_radius_response", sv)); err != nil {
 		if !fortiAPIPatch(o["rsso-radius-response"]) {
-			return fmt.Errorf("Error reading rsso_radius_response: %v", err)
+			return fmt.Errorf("error reading rsso_radius_response: %v", err)
 		}
 	}
 
 	if err = d.Set("rsso_validate_request_secret", flattenUserRadiusRssoValidateRequestSecret(o["rsso-validate-request-secret"], d, "rsso_validate_request_secret", sv)); err != nil {
 		if !fortiAPIPatch(o["rsso-validate-request-secret"]) {
-			return fmt.Errorf("Error reading rsso_validate_request_secret: %v", err)
+			return fmt.Errorf("error reading rsso_validate_request_secret: %v", err)
 		}
 	}
 
 	if err = d.Set("rsso_endpoint_attribute", flattenUserRadiusRssoEndpointAttribute(o["rsso-endpoint-attribute"], d, "rsso_endpoint_attribute", sv)); err != nil {
 		if !fortiAPIPatch(o["rsso-endpoint-attribute"]) {
-			return fmt.Errorf("Error reading rsso_endpoint_attribute: %v", err)
+			return fmt.Errorf("error reading rsso_endpoint_attribute: %v", err)
 		}
 	}
 
 	if err = d.Set("rsso_endpoint_block_attribute", flattenUserRadiusRssoEndpointBlockAttribute(o["rsso-endpoint-block-attribute"], d, "rsso_endpoint_block_attribute", sv)); err != nil {
 		if !fortiAPIPatch(o["rsso-endpoint-block-attribute"]) {
-			return fmt.Errorf("Error reading rsso_endpoint_block_attribute: %v", err)
+			return fmt.Errorf("error reading rsso_endpoint_block_attribute: %v", err)
 		}
 	}
 
 	if err = d.Set("sso_attribute", flattenUserRadiusSsoAttribute(o["sso-attribute"], d, "sso_attribute", sv)); err != nil {
 		if !fortiAPIPatch(o["sso-attribute"]) {
-			return fmt.Errorf("Error reading sso_attribute: %v", err)
+			return fmt.Errorf("error reading sso_attribute: %v", err)
 		}
 	}
 
 	if err = d.Set("sso_attribute_value_override", flattenUserRadiusSsoAttributeValueOverride(o["sso-attribute-value-override"], d, "sso_attribute_value_override", sv)); err != nil {
 		if !fortiAPIPatch(o["sso-attribute-value-override"]) {
-			return fmt.Errorf("Error reading sso_attribute_value_override: %v", err)
+			return fmt.Errorf("error reading sso_attribute_value_override: %v", err)
 		}
 	}
 
 	if err = d.Set("rsso_context_timeout", flattenUserRadiusRssoContextTimeout(o["rsso-context-timeout"], d, "rsso_context_timeout", sv)); err != nil {
 		if !fortiAPIPatch(o["rsso-context-timeout"]) {
-			return fmt.Errorf("Error reading rsso_context_timeout: %v", err)
+			return fmt.Errorf("error reading rsso_context_timeout: %v", err)
 		}
 	}
 
 	if err = d.Set("rsso_log_period", flattenUserRadiusRssoLogPeriod(o["rsso-log-period"], d, "rsso_log_period", sv)); err != nil {
 		if !fortiAPIPatch(o["rsso-log-period"]) {
-			return fmt.Errorf("Error reading rsso_log_period: %v", err)
+			return fmt.Errorf("error reading rsso_log_period: %v", err)
 		}
 	}
 
 	if err = d.Set("rsso_log_flags", flattenUserRadiusRssoLogFlags(o["rsso-log-flags"], d, "rsso_log_flags", sv)); err != nil {
 		if !fortiAPIPatch(o["rsso-log-flags"]) {
-			return fmt.Errorf("Error reading rsso_log_flags: %v", err)
+			return fmt.Errorf("error reading rsso_log_flags: %v", err)
 		}
 	}
 
 	if err = d.Set("rsso_flush_ip_session", flattenUserRadiusRssoFlushIpSession(o["rsso-flush-ip-session"], d, "rsso_flush_ip_session", sv)); err != nil {
 		if !fortiAPIPatch(o["rsso-flush-ip-session"]) {
-			return fmt.Errorf("Error reading rsso_flush_ip_session: %v", err)
+			return fmt.Errorf("error reading rsso_flush_ip_session: %v", err)
 		}
 	}
 
 	if err = d.Set("rsso_ep_one_ip_only", flattenUserRadiusRssoEpOneIpOnly(o["rsso-ep-one-ip-only"], d, "rsso_ep_one_ip_only", sv)); err != nil {
 		if !fortiAPIPatch(o["rsso-ep-one-ip-only"]) {
-			return fmt.Errorf("Error reading rsso_ep_one_ip_only: %v", err)
+			return fmt.Errorf("error reading rsso_ep_one_ip_only: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("accounting_server", flattenUserRadiusAccountingServer(o["accounting-server"], d, "accounting_server", sv)); err != nil {
 			if !fortiAPIPatch(o["accounting-server"]) {
-				return fmt.Errorf("Error reading accounting_server: %v", err)
+				return fmt.Errorf("error reading accounting_server: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("accounting_server"); ok {
 			if err = d.Set("accounting_server", flattenUserRadiusAccountingServer(o["accounting-server"], d, "accounting_server", sv)); err != nil {
 				if !fortiAPIPatch(o["accounting-server"]) {
-					return fmt.Errorf("Error reading accounting_server: %v", err)
+					return fmt.Errorf("error reading accounting_server: %v", err)
 				}
 			}
 		}

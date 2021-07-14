@@ -30,22 +30,27 @@ func resourceFirewallCity() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"fosid": &schema.Schema{
+			"fosid": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -63,15 +68,25 @@ func resourceFirewallCityCreate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectFirewallCity(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating FirewallCity resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateFirewallCity(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectFirewallCity(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating FirewallCity resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateFirewallCity(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating FirewallCity resource: %v", err)
+		return fmt.Errorf("error creating FirewallCity resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -96,14 +111,24 @@ func resourceFirewallCityUpdate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectFirewallCity(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating FirewallCity resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateFirewallCity(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectFirewallCity(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating FirewallCity resource: %v", err)
+		return fmt.Errorf("error updating FirewallCity resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateFirewallCity(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating FirewallCity resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -130,9 +155,17 @@ func resourceFirewallCityDelete(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	err := c.DeleteFirewallCity(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteFirewallCity(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting FirewallCity resource: %v", err)
+		return fmt.Errorf("error deleting FirewallCity resource: %v", err)
 	}
 
 	d.SetId("")
@@ -154,9 +187,19 @@ func resourceFirewallCityRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadFirewallCity(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadFirewallCity(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading FirewallCity resource: %v", err)
+		return fmt.Errorf("error reading FirewallCity resource: %v", err)
 	}
 
 	if o == nil {
@@ -167,7 +210,7 @@ func resourceFirewallCityRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectFirewallCity(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading FirewallCity resource from API: %v", err)
+		return fmt.Errorf("error reading FirewallCity resource from API: %v", err)
 	}
 	return nil
 }
@@ -185,13 +228,13 @@ func refreshObjectFirewallCity(d *schema.ResourceData, o map[string]interface{},
 
 	if err = d.Set("fosid", flattenFirewallCityId(o["id"], d, "fosid", sv)); err != nil {
 		if !fortiAPIPatch(o["id"]) {
-			return fmt.Errorf("Error reading fosid: %v", err)
+			return fmt.Errorf("error reading fosid: %v", err)
 		}
 	}
 
 	if err = d.Set("name", flattenFirewallCityName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 

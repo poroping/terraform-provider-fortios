@@ -30,99 +30,99 @@ func resourceSystemAccprofile() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				ForceNew:     true,
 				Required:     true,
 			},
-			"scope": &schema.Schema{
+			"scope": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"comments": &schema.Schema{
+			"comments": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
 			},
-			"secfabgrp": &schema.Schema{
+			"secfabgrp": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ftviewgrp": &schema.Schema{
+			"ftviewgrp": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"authgrp": &schema.Schema{
+			"authgrp": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"sysgrp": &schema.Schema{
+			"sysgrp": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"netgrp": &schema.Schema{
+			"netgrp": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"loggrp": &schema.Schema{
+			"loggrp": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"fwgrp": &schema.Schema{
+			"fwgrp": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"vpngrp": &schema.Schema{
+			"vpngrp": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"utmgrp": &schema.Schema{
+			"utmgrp": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"wanoptgrp": &schema.Schema{
+			"wanoptgrp": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"wifi": &schema.Schema{
+			"wifi": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"netgrp_permission": &schema.Schema{
+			"netgrp_permission": {
 				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"cfg": &schema.Schema{
+						"cfg": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"packet_capture": &schema.Schema{
+						"packet_capture": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"route_cfg": &schema.Schema{
+						"route_cfg": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -130,28 +130,28 @@ func resourceSystemAccprofile() *schema.Resource {
 					},
 				},
 			},
-			"sysgrp_permission": &schema.Schema{
+			"sysgrp_permission": {
 				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"admin": &schema.Schema{
+						"admin": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"upd": &schema.Schema{
+						"upd": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"cfg": &schema.Schema{
+						"cfg": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"mnt": &schema.Schema{
+						"mnt": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -159,28 +159,28 @@ func resourceSystemAccprofile() *schema.Resource {
 					},
 				},
 			},
-			"fwgrp_permission": &schema.Schema{
+			"fwgrp_permission": {
 				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"policy": &schema.Schema{
+						"policy": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"address": &schema.Schema{
+						"address": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"service": &schema.Schema{
+						"service": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"schedule": &schema.Schema{
+						"schedule": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -188,28 +188,28 @@ func resourceSystemAccprofile() *schema.Resource {
 					},
 				},
 			},
-			"loggrp_permission": &schema.Schema{
+			"loggrp_permission": {
 				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"config": &schema.Schema{
+						"config": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"data_access": &schema.Schema{
+						"data_access": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"report_access": &schema.Schema{
+						"report_access": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"threat_weight": &schema.Schema{
+						"threat_weight": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -217,73 +217,73 @@ func resourceSystemAccprofile() *schema.Resource {
 					},
 				},
 			},
-			"utmgrp_permission": &schema.Schema{
+			"utmgrp_permission": {
 				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"antivirus": &schema.Schema{
+						"antivirus": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"ips": &schema.Schema{
+						"ips": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"webfilter": &schema.Schema{
+						"webfilter": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"emailfilter": &schema.Schema{
+						"emailfilter": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"spamfilter": &schema.Schema{
+						"spamfilter": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"data_loss_prevention": &schema.Schema{
+						"data_loss_prevention": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"file_filter": &schema.Schema{
+						"file_filter": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"application_control": &schema.Schema{
+						"application_control": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"icap": &schema.Schema{
+						"icap": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"voip": &schema.Schema{
+						"voip": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"waf": &schema.Schema{
+						"waf": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"dnsfilter": &schema.Schema{
+						"dnsfilter": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"endpoint_control": &schema.Schema{
+						"endpoint_control": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -291,21 +291,26 @@ func resourceSystemAccprofile() *schema.Resource {
 					},
 				},
 			},
-			"admintimeout_override": &schema.Schema{
+			"admintimeout_override": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"admintimeout": &schema.Schema{
+			"admintimeout": {
 				Type:         schema.TypeInt,
 				ValidateFunc: intBetweenWithZero(1, 480),
 				Optional:     true,
 				Computed:     true,
 			},
-			"system_diagnostics": &schema.Schema{
+			"system_diagnostics": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -323,15 +328,25 @@ func resourceSystemAccprofileCreate(d *schema.ResourceData, m interface{}) error
 		}
 	}
 
-	obj, err := getObjectSystemAccprofile(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating SystemAccprofile resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateSystemAccprofile(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemAccprofile(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating SystemAccprofile resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateSystemAccprofile(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating SystemAccprofile resource: %v", err)
+		return fmt.Errorf("error creating SystemAccprofile resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -356,14 +371,24 @@ func resourceSystemAccprofileUpdate(d *schema.ResourceData, m interface{}) error
 		}
 	}
 
-	obj, err := getObjectSystemAccprofile(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SystemAccprofile resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSystemAccprofile(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemAccprofile(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SystemAccprofile resource: %v", err)
+		return fmt.Errorf("error updating SystemAccprofile resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSystemAccprofile(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SystemAccprofile resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -390,9 +415,17 @@ func resourceSystemAccprofileDelete(d *schema.ResourceData, m interface{}) error
 		}
 	}
 
-	err := c.DeleteSystemAccprofile(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSystemAccprofile(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SystemAccprofile resource: %v", err)
+		return fmt.Errorf("error deleting SystemAccprofile resource: %v", err)
 	}
 
 	d.SetId("")
@@ -414,9 +447,19 @@ func resourceSystemAccprofileRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadSystemAccprofile(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSystemAccprofile(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemAccprofile resource: %v", err)
+		return fmt.Errorf("error reading SystemAccprofile resource: %v", err)
 	}
 
 	if o == nil {
@@ -427,7 +470,7 @@ func resourceSystemAccprofileRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectSystemAccprofile(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemAccprofile resource from API: %v", err)
+		return fmt.Errorf("error reading SystemAccprofile resource from API: %v", err)
 	}
 	return nil
 }
@@ -850,99 +893,99 @@ func refreshObjectSystemAccprofile(d *schema.ResourceData, o map[string]interfac
 
 	if err = d.Set("name", flattenSystemAccprofileName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("scope", flattenSystemAccprofileScope(o["scope"], d, "scope", sv)); err != nil {
 		if !fortiAPIPatch(o["scope"]) {
-			return fmt.Errorf("Error reading scope: %v", err)
+			return fmt.Errorf("error reading scope: %v", err)
 		}
 	}
 
 	if err = d.Set("comments", flattenSystemAccprofileComments(o["comments"], d, "comments", sv)); err != nil {
 		if !fortiAPIPatch(o["comments"]) {
-			return fmt.Errorf("Error reading comments: %v", err)
+			return fmt.Errorf("error reading comments: %v", err)
 		}
 	}
 
 	if err = d.Set("secfabgrp", flattenSystemAccprofileSecfabgrp(o["secfabgrp"], d, "secfabgrp", sv)); err != nil {
 		if !fortiAPIPatch(o["secfabgrp"]) {
-			return fmt.Errorf("Error reading secfabgrp: %v", err)
+			return fmt.Errorf("error reading secfabgrp: %v", err)
 		}
 	}
 
 	if err = d.Set("ftviewgrp", flattenSystemAccprofileFtviewgrp(o["ftviewgrp"], d, "ftviewgrp", sv)); err != nil {
 		if !fortiAPIPatch(o["ftviewgrp"]) {
-			return fmt.Errorf("Error reading ftviewgrp: %v", err)
+			return fmt.Errorf("error reading ftviewgrp: %v", err)
 		}
 	}
 
 	if err = d.Set("authgrp", flattenSystemAccprofileAuthgrp(o["authgrp"], d, "authgrp", sv)); err != nil {
 		if !fortiAPIPatch(o["authgrp"]) {
-			return fmt.Errorf("Error reading authgrp: %v", err)
+			return fmt.Errorf("error reading authgrp: %v", err)
 		}
 	}
 
 	if err = d.Set("sysgrp", flattenSystemAccprofileSysgrp(o["sysgrp"], d, "sysgrp", sv)); err != nil {
 		if !fortiAPIPatch(o["sysgrp"]) {
-			return fmt.Errorf("Error reading sysgrp: %v", err)
+			return fmt.Errorf("error reading sysgrp: %v", err)
 		}
 	}
 
 	if err = d.Set("netgrp", flattenSystemAccprofileNetgrp(o["netgrp"], d, "netgrp", sv)); err != nil {
 		if !fortiAPIPatch(o["netgrp"]) {
-			return fmt.Errorf("Error reading netgrp: %v", err)
+			return fmt.Errorf("error reading netgrp: %v", err)
 		}
 	}
 
 	if err = d.Set("loggrp", flattenSystemAccprofileLoggrp(o["loggrp"], d, "loggrp", sv)); err != nil {
 		if !fortiAPIPatch(o["loggrp"]) {
-			return fmt.Errorf("Error reading loggrp: %v", err)
+			return fmt.Errorf("error reading loggrp: %v", err)
 		}
 	}
 
 	if err = d.Set("fwgrp", flattenSystemAccprofileFwgrp(o["fwgrp"], d, "fwgrp", sv)); err != nil {
 		if !fortiAPIPatch(o["fwgrp"]) {
-			return fmt.Errorf("Error reading fwgrp: %v", err)
+			return fmt.Errorf("error reading fwgrp: %v", err)
 		}
 	}
 
 	if err = d.Set("vpngrp", flattenSystemAccprofileVpngrp(o["vpngrp"], d, "vpngrp", sv)); err != nil {
 		if !fortiAPIPatch(o["vpngrp"]) {
-			return fmt.Errorf("Error reading vpngrp: %v", err)
+			return fmt.Errorf("error reading vpngrp: %v", err)
 		}
 	}
 
 	if err = d.Set("utmgrp", flattenSystemAccprofileUtmgrp(o["utmgrp"], d, "utmgrp", sv)); err != nil {
 		if !fortiAPIPatch(o["utmgrp"]) {
-			return fmt.Errorf("Error reading utmgrp: %v", err)
+			return fmt.Errorf("error reading utmgrp: %v", err)
 		}
 	}
 
 	if err = d.Set("wanoptgrp", flattenSystemAccprofileWanoptgrp(o["wanoptgrp"], d, "wanoptgrp", sv)); err != nil {
 		if !fortiAPIPatch(o["wanoptgrp"]) {
-			return fmt.Errorf("Error reading wanoptgrp: %v", err)
+			return fmt.Errorf("error reading wanoptgrp: %v", err)
 		}
 	}
 
 	if err = d.Set("wifi", flattenSystemAccprofileWifi(o["wifi"], d, "wifi", sv)); err != nil {
 		if !fortiAPIPatch(o["wifi"]) {
-			return fmt.Errorf("Error reading wifi: %v", err)
+			return fmt.Errorf("error reading wifi: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("netgrp_permission", flattenSystemAccprofileNetgrpPermission(o["netgrp-permission"], d, "netgrp_permission", sv)); err != nil {
 			if !fortiAPIPatch(o["netgrp-permission"]) {
-				return fmt.Errorf("Error reading netgrp_permission: %v", err)
+				return fmt.Errorf("error reading netgrp_permission: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("netgrp_permission"); ok {
 			if err = d.Set("netgrp_permission", flattenSystemAccprofileNetgrpPermission(o["netgrp-permission"], d, "netgrp_permission", sv)); err != nil {
 				if !fortiAPIPatch(o["netgrp-permission"]) {
-					return fmt.Errorf("Error reading netgrp_permission: %v", err)
+					return fmt.Errorf("error reading netgrp_permission: %v", err)
 				}
 			}
 		}
@@ -951,14 +994,14 @@ func refreshObjectSystemAccprofile(d *schema.ResourceData, o map[string]interfac
 	if isImportTable() {
 		if err = d.Set("sysgrp_permission", flattenSystemAccprofileSysgrpPermission(o["sysgrp-permission"], d, "sysgrp_permission", sv)); err != nil {
 			if !fortiAPIPatch(o["sysgrp-permission"]) {
-				return fmt.Errorf("Error reading sysgrp_permission: %v", err)
+				return fmt.Errorf("error reading sysgrp_permission: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("sysgrp_permission"); ok {
 			if err = d.Set("sysgrp_permission", flattenSystemAccprofileSysgrpPermission(o["sysgrp-permission"], d, "sysgrp_permission", sv)); err != nil {
 				if !fortiAPIPatch(o["sysgrp-permission"]) {
-					return fmt.Errorf("Error reading sysgrp_permission: %v", err)
+					return fmt.Errorf("error reading sysgrp_permission: %v", err)
 				}
 			}
 		}
@@ -967,14 +1010,14 @@ func refreshObjectSystemAccprofile(d *schema.ResourceData, o map[string]interfac
 	if isImportTable() {
 		if err = d.Set("fwgrp_permission", flattenSystemAccprofileFwgrpPermission(o["fwgrp-permission"], d, "fwgrp_permission", sv)); err != nil {
 			if !fortiAPIPatch(o["fwgrp-permission"]) {
-				return fmt.Errorf("Error reading fwgrp_permission: %v", err)
+				return fmt.Errorf("error reading fwgrp_permission: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("fwgrp_permission"); ok {
 			if err = d.Set("fwgrp_permission", flattenSystemAccprofileFwgrpPermission(o["fwgrp-permission"], d, "fwgrp_permission", sv)); err != nil {
 				if !fortiAPIPatch(o["fwgrp-permission"]) {
-					return fmt.Errorf("Error reading fwgrp_permission: %v", err)
+					return fmt.Errorf("error reading fwgrp_permission: %v", err)
 				}
 			}
 		}
@@ -983,14 +1026,14 @@ func refreshObjectSystemAccprofile(d *schema.ResourceData, o map[string]interfac
 	if isImportTable() {
 		if err = d.Set("loggrp_permission", flattenSystemAccprofileLoggrpPermission(o["loggrp-permission"], d, "loggrp_permission", sv)); err != nil {
 			if !fortiAPIPatch(o["loggrp-permission"]) {
-				return fmt.Errorf("Error reading loggrp_permission: %v", err)
+				return fmt.Errorf("error reading loggrp_permission: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("loggrp_permission"); ok {
 			if err = d.Set("loggrp_permission", flattenSystemAccprofileLoggrpPermission(o["loggrp-permission"], d, "loggrp_permission", sv)); err != nil {
 				if !fortiAPIPatch(o["loggrp-permission"]) {
-					return fmt.Errorf("Error reading loggrp_permission: %v", err)
+					return fmt.Errorf("error reading loggrp_permission: %v", err)
 				}
 			}
 		}
@@ -999,14 +1042,14 @@ func refreshObjectSystemAccprofile(d *schema.ResourceData, o map[string]interfac
 	if isImportTable() {
 		if err = d.Set("utmgrp_permission", flattenSystemAccprofileUtmgrpPermission(o["utmgrp-permission"], d, "utmgrp_permission", sv)); err != nil {
 			if !fortiAPIPatch(o["utmgrp-permission"]) {
-				return fmt.Errorf("Error reading utmgrp_permission: %v", err)
+				return fmt.Errorf("error reading utmgrp_permission: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("utmgrp_permission"); ok {
 			if err = d.Set("utmgrp_permission", flattenSystemAccprofileUtmgrpPermission(o["utmgrp-permission"], d, "utmgrp_permission", sv)); err != nil {
 				if !fortiAPIPatch(o["utmgrp-permission"]) {
-					return fmt.Errorf("Error reading utmgrp_permission: %v", err)
+					return fmt.Errorf("error reading utmgrp_permission: %v", err)
 				}
 			}
 		}
@@ -1014,19 +1057,19 @@ func refreshObjectSystemAccprofile(d *schema.ResourceData, o map[string]interfac
 
 	if err = d.Set("admintimeout_override", flattenSystemAccprofileAdmintimeoutOverride(o["admintimeout-override"], d, "admintimeout_override", sv)); err != nil {
 		if !fortiAPIPatch(o["admintimeout-override"]) {
-			return fmt.Errorf("Error reading admintimeout_override: %v", err)
+			return fmt.Errorf("error reading admintimeout_override: %v", err)
 		}
 	}
 
 	if err = d.Set("admintimeout", flattenSystemAccprofileAdmintimeout(o["admintimeout"], d, "admintimeout", sv)); err != nil {
 		if !fortiAPIPatch(o["admintimeout"]) {
-			return fmt.Errorf("Error reading admintimeout: %v", err)
+			return fmt.Errorf("error reading admintimeout: %v", err)
 		}
 	}
 
 	if err = d.Set("system_diagnostics", flattenSystemAccprofileSystemDiagnostics(o["system-diagnostics"], d, "system_diagnostics", sv)); err != nil {
 		if !fortiAPIPatch(o["system-diagnostics"]) {
-			return fmt.Errorf("Error reading system_diagnostics: %v", err)
+			return fmt.Errorf("error reading system_diagnostics: %v", err)
 		}
 	}
 

@@ -30,43 +30,43 @@ func resourceSystemFederatedUpgrade() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"status": &schema.Schema{
+			"status": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"node_list": &schema.Schema{
+			"node_list": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"serial": &schema.Schema{
+						"serial": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 79),
 							Optional:     true,
 							Computed:     true,
 						},
-						"timing": &schema.Schema{
+						"timing": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"time": &schema.Schema{
+						"time": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"setup_time": &schema.Schema{
+						"setup_time": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"upgrade_path": &schema.Schema{
+						"upgrade_path": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -74,10 +74,15 @@ func resourceSystemFederatedUpgrade() *schema.Resource {
 					},
 				},
 			},
-			"dynamic_sort_subtable": &schema.Schema{
+			"dynamic_sort_subtable": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Default:  "false",
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -96,14 +101,24 @@ func resourceSystemFederatedUpgradeUpdate(d *schema.ResourceData, m interface{})
 		}
 	}
 
-	obj, err := getObjectSystemFederatedUpgrade(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SystemFederatedUpgrade resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSystemFederatedUpgrade(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemFederatedUpgrade(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SystemFederatedUpgrade resource: %v", err)
+		return fmt.Errorf("error updating SystemFederatedUpgrade resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSystemFederatedUpgrade(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SystemFederatedUpgrade resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -130,9 +145,17 @@ func resourceSystemFederatedUpgradeDelete(d *schema.ResourceData, m interface{})
 		}
 	}
 
-	err := c.DeleteSystemFederatedUpgrade(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSystemFederatedUpgrade(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SystemFederatedUpgrade resource: %v", err)
+		return fmt.Errorf("error deleting SystemFederatedUpgrade resource: %v", err)
 	}
 
 	d.SetId("")
@@ -154,9 +177,19 @@ func resourceSystemFederatedUpgradeRead(d *schema.ResourceData, m interface{}) e
 		}
 	}
 
-	o, err := c.ReadSystemFederatedUpgrade(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSystemFederatedUpgrade(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemFederatedUpgrade resource: %v", err)
+		return fmt.Errorf("error reading SystemFederatedUpgrade resource: %v", err)
 	}
 
 	if o == nil {
@@ -167,7 +200,7 @@ func resourceSystemFederatedUpgradeRead(d *schema.ResourceData, m interface{}) e
 
 	err = refreshObjectSystemFederatedUpgrade(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemFederatedUpgrade resource from API: %v", err)
+		return fmt.Errorf("error reading SystemFederatedUpgrade resource from API: %v", err)
 	}
 	return nil
 }
@@ -259,21 +292,21 @@ func refreshObjectSystemFederatedUpgrade(d *schema.ResourceData, o map[string]in
 
 	if err = d.Set("status", flattenSystemFederatedUpgradeStatus(o["status"], d, "status", sv)); err != nil {
 		if !fortiAPIPatch(o["status"]) {
-			return fmt.Errorf("Error reading status: %v", err)
+			return fmt.Errorf("error reading status: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("node_list", flattenSystemFederatedUpgradeNodeList(o["node-list"], d, "node_list", sv)); err != nil {
 			if !fortiAPIPatch(o["node-list"]) {
-				return fmt.Errorf("Error reading node_list: %v", err)
+				return fmt.Errorf("error reading node_list: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("node_list"); ok {
 			if err = d.Set("node_list", flattenSystemFederatedUpgradeNodeList(o["node-list"], d, "node_list", sv)); err != nil {
 				if !fortiAPIPatch(o["node-list"]) {
-					return fmt.Errorf("Error reading node_list: %v", err)
+					return fmt.Errorf("error reading node_list: %v", err)
 				}
 			}
 		}

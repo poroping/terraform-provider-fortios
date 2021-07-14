@@ -30,33 +30,38 @@ func resourceIpsSettings() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"packet_log_history": &schema.Schema{
+			"packet_log_history": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 255),
 				Optional:     true,
 				Computed:     true,
 			},
-			"packet_log_post_attack": &schema.Schema{
+			"packet_log_post_attack": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 255),
 				Optional:     true,
 				Computed:     true,
 			},
-			"packet_log_memory": &schema.Schema{
+			"packet_log_memory": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(64, 8192),
 				Optional:     true,
 				Computed:     true,
 			},
-			"ips_packet_quota": &schema.Schema{
+			"ips_packet_quota": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -75,14 +80,24 @@ func resourceIpsSettingsUpdate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectIpsSettings(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating IpsSettings resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateIpsSettings(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectIpsSettings(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating IpsSettings resource: %v", err)
+		return fmt.Errorf("error updating IpsSettings resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateIpsSettings(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating IpsSettings resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -109,9 +124,17 @@ func resourceIpsSettingsDelete(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	err := c.DeleteIpsSettings(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteIpsSettings(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting IpsSettings resource: %v", err)
+		return fmt.Errorf("error deleting IpsSettings resource: %v", err)
 	}
 
 	d.SetId("")
@@ -133,9 +156,19 @@ func resourceIpsSettingsRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadIpsSettings(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadIpsSettings(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading IpsSettings resource: %v", err)
+		return fmt.Errorf("error reading IpsSettings resource: %v", err)
 	}
 
 	if o == nil {
@@ -146,7 +179,7 @@ func resourceIpsSettingsRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectIpsSettings(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading IpsSettings resource from API: %v", err)
+		return fmt.Errorf("error reading IpsSettings resource from API: %v", err)
 	}
 	return nil
 }
@@ -172,25 +205,25 @@ func refreshObjectIpsSettings(d *schema.ResourceData, o map[string]interface{}, 
 
 	if err = d.Set("packet_log_history", flattenIpsSettingsPacketLogHistory(o["packet-log-history"], d, "packet_log_history", sv)); err != nil {
 		if !fortiAPIPatch(o["packet-log-history"]) {
-			return fmt.Errorf("Error reading packet_log_history: %v", err)
+			return fmt.Errorf("error reading packet_log_history: %v", err)
 		}
 	}
 
 	if err = d.Set("packet_log_post_attack", flattenIpsSettingsPacketLogPostAttack(o["packet-log-post-attack"], d, "packet_log_post_attack", sv)); err != nil {
 		if !fortiAPIPatch(o["packet-log-post-attack"]) {
-			return fmt.Errorf("Error reading packet_log_post_attack: %v", err)
+			return fmt.Errorf("error reading packet_log_post_attack: %v", err)
 		}
 	}
 
 	if err = d.Set("packet_log_memory", flattenIpsSettingsPacketLogMemory(o["packet-log-memory"], d, "packet_log_memory", sv)); err != nil {
 		if !fortiAPIPatch(o["packet-log-memory"]) {
-			return fmt.Errorf("Error reading packet_log_memory: %v", err)
+			return fmt.Errorf("error reading packet_log_memory: %v", err)
 		}
 	}
 
 	if err = d.Set("ips_packet_quota", flattenIpsSettingsIpsPacketQuota(o["ips-packet-quota"], d, "ips_packet_quota", sv)); err != nil {
 		if !fortiAPIPatch(o["ips-packet-quota"]) {
-			return fmt.Errorf("Error reading ips_packet_quota: %v", err)
+			return fmt.Errorf("error reading ips_packet_quota: %v", err)
 		}
 	}
 

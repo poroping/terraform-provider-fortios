@@ -50,14 +50,14 @@ func testAccCheckFortiOSSystemLldpNetworkPolicyExists(n string) resource.TestChe
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemLldpNetworkPolicy(i, "root")
+		o, err := c.ReadSystemLldpNetworkPolicy(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading SystemLldpNetworkPolicy: %s", err)
+			return fmt.Errorf("error reading SystemLldpNetworkPolicy: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating SystemLldpNetworkPolicy: %s", n)
+			return fmt.Errorf("error creating SystemLldpNetworkPolicy: %s", n)
 		}
 
 		return nil
@@ -73,11 +73,11 @@ func testAccCheckSystemLldpNetworkPolicyDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemLldpNetworkPolicy(i, "root")
+		o, err := c.ReadSystemLldpNetworkPolicy(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error SystemLldpNetworkPolicy %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error SystemLldpNetworkPolicy %s still exists", rs.Primary.ID)
 			}
 		}
 

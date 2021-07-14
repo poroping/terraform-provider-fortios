@@ -30,49 +30,49 @@ func resourceFirewallIdentityBasedRoute() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Required:     true,
 			},
-			"comments": &schema.Schema{
+			"comments": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 127),
 				Optional:     true,
 				Computed:     true,
 			},
-			"rule": &schema.Schema{
+			"rule": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"gateway": &schema.Schema{
+						"gateway": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"device": &schema.Schema{
+						"device": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"groups": &schema.Schema{
+						"groups": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"name": &schema.Schema{
+									"name": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 64),
 										Optional:     true,
@@ -84,10 +84,15 @@ func resourceFirewallIdentityBasedRoute() *schema.Resource {
 					},
 				},
 			},
-			"dynamic_sort_subtable": &schema.Schema{
+			"dynamic_sort_subtable": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Default:  "false",
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -105,15 +110,25 @@ func resourceFirewallIdentityBasedRouteCreate(d *schema.ResourceData, m interfac
 		}
 	}
 
-	obj, err := getObjectFirewallIdentityBasedRoute(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating FirewallIdentityBasedRoute resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateFirewallIdentityBasedRoute(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectFirewallIdentityBasedRoute(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating FirewallIdentityBasedRoute resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateFirewallIdentityBasedRoute(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating FirewallIdentityBasedRoute resource: %v", err)
+		return fmt.Errorf("error creating FirewallIdentityBasedRoute resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -138,14 +153,24 @@ func resourceFirewallIdentityBasedRouteUpdate(d *schema.ResourceData, m interfac
 		}
 	}
 
-	obj, err := getObjectFirewallIdentityBasedRoute(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating FirewallIdentityBasedRoute resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateFirewallIdentityBasedRoute(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectFirewallIdentityBasedRoute(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating FirewallIdentityBasedRoute resource: %v", err)
+		return fmt.Errorf("error updating FirewallIdentityBasedRoute resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateFirewallIdentityBasedRoute(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating FirewallIdentityBasedRoute resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -172,9 +197,17 @@ func resourceFirewallIdentityBasedRouteDelete(d *schema.ResourceData, m interfac
 		}
 	}
 
-	err := c.DeleteFirewallIdentityBasedRoute(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteFirewallIdentityBasedRoute(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting FirewallIdentityBasedRoute resource: %v", err)
+		return fmt.Errorf("error deleting FirewallIdentityBasedRoute resource: %v", err)
 	}
 
 	d.SetId("")
@@ -196,9 +229,19 @@ func resourceFirewallIdentityBasedRouteRead(d *schema.ResourceData, m interface{
 		}
 	}
 
-	o, err := c.ReadFirewallIdentityBasedRoute(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadFirewallIdentityBasedRoute(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading FirewallIdentityBasedRoute resource: %v", err)
+		return fmt.Errorf("error reading FirewallIdentityBasedRoute resource: %v", err)
 	}
 
 	if o == nil {
@@ -209,7 +252,7 @@ func resourceFirewallIdentityBasedRouteRead(d *schema.ResourceData, m interface{
 
 	err = refreshObjectFirewallIdentityBasedRoute(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading FirewallIdentityBasedRoute resource from API: %v", err)
+		return fmt.Errorf("error reading FirewallIdentityBasedRoute resource from API: %v", err)
 	}
 	return nil
 }
@@ -328,27 +371,27 @@ func refreshObjectFirewallIdentityBasedRoute(d *schema.ResourceData, o map[strin
 
 	if err = d.Set("name", flattenFirewallIdentityBasedRouteName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("comments", flattenFirewallIdentityBasedRouteComments(o["comments"], d, "comments", sv)); err != nil {
 		if !fortiAPIPatch(o["comments"]) {
-			return fmt.Errorf("Error reading comments: %v", err)
+			return fmt.Errorf("error reading comments: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("rule", flattenFirewallIdentityBasedRouteRule(o["rule"], d, "rule", sv)); err != nil {
 			if !fortiAPIPatch(o["rule"]) {
-				return fmt.Errorf("Error reading rule: %v", err)
+				return fmt.Errorf("error reading rule: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("rule"); ok {
 			if err = d.Set("rule", flattenFirewallIdentityBasedRouteRule(o["rule"], d, "rule", sv)); err != nil {
 				if !fortiAPIPatch(o["rule"]) {
-					return fmt.Errorf("Error reading rule: %v", err)
+					return fmt.Errorf("error reading rule: %v", err)
 				}
 			}
 		}

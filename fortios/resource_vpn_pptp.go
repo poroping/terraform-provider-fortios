@@ -30,40 +30,45 @@ func resourceVpnPptp() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"status": &schema.Schema{
+			"status": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"ip_mode": &schema.Schema{
+			"ip_mode": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"eip": &schema.Schema{
+			"eip": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"sip": &schema.Schema{
+			"sip": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"local_ip": &schema.Schema{
+			"local_ip": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"usrgrp": &schema.Schema{
+			"usrgrp": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -82,14 +87,24 @@ func resourceVpnPptpUpdate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectVpnPptp(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating VpnPptp resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateVpnPptp(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectVpnPptp(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating VpnPptp resource: %v", err)
+		return fmt.Errorf("error updating VpnPptp resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateVpnPptp(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating VpnPptp resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -116,9 +131,17 @@ func resourceVpnPptpDelete(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	err := c.DeleteVpnPptp(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteVpnPptp(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting VpnPptp resource: %v", err)
+		return fmt.Errorf("error deleting VpnPptp resource: %v", err)
 	}
 
 	d.SetId("")
@@ -140,9 +163,19 @@ func resourceVpnPptpRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadVpnPptp(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadVpnPptp(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading VpnPptp resource: %v", err)
+		return fmt.Errorf("error reading VpnPptp resource: %v", err)
 	}
 
 	if o == nil {
@@ -153,7 +186,7 @@ func resourceVpnPptpRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectVpnPptp(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading VpnPptp resource from API: %v", err)
+		return fmt.Errorf("error reading VpnPptp resource from API: %v", err)
 	}
 	return nil
 }
@@ -187,37 +220,37 @@ func refreshObjectVpnPptp(d *schema.ResourceData, o map[string]interface{}, sv s
 
 	if err = d.Set("status", flattenVpnPptpStatus(o["status"], d, "status", sv)); err != nil {
 		if !fortiAPIPatch(o["status"]) {
-			return fmt.Errorf("Error reading status: %v", err)
+			return fmt.Errorf("error reading status: %v", err)
 		}
 	}
 
 	if err = d.Set("ip_mode", flattenVpnPptpIpMode(o["ip-mode"], d, "ip_mode", sv)); err != nil {
 		if !fortiAPIPatch(o["ip-mode"]) {
-			return fmt.Errorf("Error reading ip_mode: %v", err)
+			return fmt.Errorf("error reading ip_mode: %v", err)
 		}
 	}
 
 	if err = d.Set("eip", flattenVpnPptpEip(o["eip"], d, "eip", sv)); err != nil {
 		if !fortiAPIPatch(o["eip"]) {
-			return fmt.Errorf("Error reading eip: %v", err)
+			return fmt.Errorf("error reading eip: %v", err)
 		}
 	}
 
 	if err = d.Set("sip", flattenVpnPptpSip(o["sip"], d, "sip", sv)); err != nil {
 		if !fortiAPIPatch(o["sip"]) {
-			return fmt.Errorf("Error reading sip: %v", err)
+			return fmt.Errorf("error reading sip: %v", err)
 		}
 	}
 
 	if err = d.Set("local_ip", flattenVpnPptpLocalIp(o["local-ip"], d, "local_ip", sv)); err != nil {
 		if !fortiAPIPatch(o["local-ip"]) {
-			return fmt.Errorf("Error reading local_ip: %v", err)
+			return fmt.Errorf("error reading local_ip: %v", err)
 		}
 	}
 
 	if err = d.Set("usrgrp", flattenVpnPptpUsrgrp(o["usrgrp"], d, "usrgrp", sv)); err != nil {
 		if !fortiAPIPatch(o["usrgrp"]) {
-			return fmt.Errorf("Error reading usrgrp: %v", err)
+			return fmt.Errorf("error reading usrgrp: %v", err)
 		}
 	}
 

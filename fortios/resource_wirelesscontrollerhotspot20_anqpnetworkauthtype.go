@@ -30,28 +30,33 @@ func resourceWirelessControllerHotspot20AnqpNetworkAuthType() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"auth_type": &schema.Schema{
+			"auth_type": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"url": &schema.Schema{
+			"url": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
 				Computed:     true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -69,15 +74,25 @@ func resourceWirelessControllerHotspot20AnqpNetworkAuthTypeCreate(d *schema.Reso
 		}
 	}
 
-	obj, err := getObjectWirelessControllerHotspot20AnqpNetworkAuthType(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating WirelessControllerHotspot20AnqpNetworkAuthType resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateWirelessControllerHotspot20AnqpNetworkAuthType(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectWirelessControllerHotspot20AnqpNetworkAuthType(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating WirelessControllerHotspot20AnqpNetworkAuthType resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateWirelessControllerHotspot20AnqpNetworkAuthType(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating WirelessControllerHotspot20AnqpNetworkAuthType resource: %v", err)
+		return fmt.Errorf("error creating WirelessControllerHotspot20AnqpNetworkAuthType resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -102,14 +117,24 @@ func resourceWirelessControllerHotspot20AnqpNetworkAuthTypeUpdate(d *schema.Reso
 		}
 	}
 
-	obj, err := getObjectWirelessControllerHotspot20AnqpNetworkAuthType(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating WirelessControllerHotspot20AnqpNetworkAuthType resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateWirelessControllerHotspot20AnqpNetworkAuthType(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectWirelessControllerHotspot20AnqpNetworkAuthType(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating WirelessControllerHotspot20AnqpNetworkAuthType resource: %v", err)
+		return fmt.Errorf("error updating WirelessControllerHotspot20AnqpNetworkAuthType resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateWirelessControllerHotspot20AnqpNetworkAuthType(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating WirelessControllerHotspot20AnqpNetworkAuthType resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -136,9 +161,17 @@ func resourceWirelessControllerHotspot20AnqpNetworkAuthTypeDelete(d *schema.Reso
 		}
 	}
 
-	err := c.DeleteWirelessControllerHotspot20AnqpNetworkAuthType(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteWirelessControllerHotspot20AnqpNetworkAuthType(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting WirelessControllerHotspot20AnqpNetworkAuthType resource: %v", err)
+		return fmt.Errorf("error deleting WirelessControllerHotspot20AnqpNetworkAuthType resource: %v", err)
 	}
 
 	d.SetId("")
@@ -160,9 +193,19 @@ func resourceWirelessControllerHotspot20AnqpNetworkAuthTypeRead(d *schema.Resour
 		}
 	}
 
-	o, err := c.ReadWirelessControllerHotspot20AnqpNetworkAuthType(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadWirelessControllerHotspot20AnqpNetworkAuthType(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading WirelessControllerHotspot20AnqpNetworkAuthType resource: %v", err)
+		return fmt.Errorf("error reading WirelessControllerHotspot20AnqpNetworkAuthType resource: %v", err)
 	}
 
 	if o == nil {
@@ -173,7 +216,7 @@ func resourceWirelessControllerHotspot20AnqpNetworkAuthTypeRead(d *schema.Resour
 
 	err = refreshObjectWirelessControllerHotspot20AnqpNetworkAuthType(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading WirelessControllerHotspot20AnqpNetworkAuthType resource from API: %v", err)
+		return fmt.Errorf("error reading WirelessControllerHotspot20AnqpNetworkAuthType resource from API: %v", err)
 	}
 	return nil
 }
@@ -195,19 +238,19 @@ func refreshObjectWirelessControllerHotspot20AnqpNetworkAuthType(d *schema.Resou
 
 	if err = d.Set("name", flattenWirelessControllerHotspot20AnqpNetworkAuthTypeName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("auth_type", flattenWirelessControllerHotspot20AnqpNetworkAuthTypeAuthType(o["auth-type"], d, "auth_type", sv)); err != nil {
 		if !fortiAPIPatch(o["auth-type"]) {
-			return fmt.Errorf("Error reading auth_type: %v", err)
+			return fmt.Errorf("error reading auth_type: %v", err)
 		}
 	}
 
 	if err = d.Set("url", flattenWirelessControllerHotspot20AnqpNetworkAuthTypeUrl(o["url"], d, "url", sv)); err != nil {
 		if !fortiAPIPatch(o["url"]) {
-			return fmt.Errorf("Error reading url: %v", err)
+			return fmt.Errorf("error reading url: %v", err)
 		}
 	}
 

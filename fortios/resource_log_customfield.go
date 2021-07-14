@@ -30,27 +30,32 @@ func resourceLogCustomField() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"fosid": &schema.Schema{
+			"fosid": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 15),
 				Required:     true,
 			},
-			"value": &schema.Schema{
+			"value": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 15),
 				Required:     true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -68,15 +73,25 @@ func resourceLogCustomFieldCreate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectLogCustomField(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating LogCustomField resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateLogCustomField(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectLogCustomField(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating LogCustomField resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateLogCustomField(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating LogCustomField resource: %v", err)
+		return fmt.Errorf("error creating LogCustomField resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -101,14 +116,24 @@ func resourceLogCustomFieldUpdate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectLogCustomField(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating LogCustomField resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateLogCustomField(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectLogCustomField(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating LogCustomField resource: %v", err)
+		return fmt.Errorf("error updating LogCustomField resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateLogCustomField(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating LogCustomField resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -135,9 +160,17 @@ func resourceLogCustomFieldDelete(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	err := c.DeleteLogCustomField(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteLogCustomField(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting LogCustomField resource: %v", err)
+		return fmt.Errorf("error deleting LogCustomField resource: %v", err)
 	}
 
 	d.SetId("")
@@ -159,9 +192,19 @@ func resourceLogCustomFieldRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadLogCustomField(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadLogCustomField(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading LogCustomField resource: %v", err)
+		return fmt.Errorf("error reading LogCustomField resource: %v", err)
 	}
 
 	if o == nil {
@@ -172,7 +215,7 @@ func resourceLogCustomFieldRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectLogCustomField(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading LogCustomField resource from API: %v", err)
+		return fmt.Errorf("error reading LogCustomField resource from API: %v", err)
 	}
 	return nil
 }
@@ -194,19 +237,19 @@ func refreshObjectLogCustomField(d *schema.ResourceData, o map[string]interface{
 
 	if err = d.Set("fosid", flattenLogCustomFieldId(o["id"], d, "fosid", sv)); err != nil {
 		if !fortiAPIPatch(o["id"]) {
-			return fmt.Errorf("Error reading fosid: %v", err)
+			return fmt.Errorf("error reading fosid: %v", err)
 		}
 	}
 
 	if err = d.Set("name", flattenLogCustomFieldName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("value", flattenLogCustomFieldValue(o["value"], d, "value", sv)); err != nil {
 		if !fortiAPIPatch(o["value"]) {
-			return fmt.Errorf("Error reading value: %v", err)
+			return fmt.Errorf("error reading value: %v", err)
 		}
 	}
 

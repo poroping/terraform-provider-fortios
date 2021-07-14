@@ -30,29 +30,29 @@ func resourceSystemSsoAdmin() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 64),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"accprofile": &schema.Schema{
+			"accprofile": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Required:     true,
 			},
-			"vdom": &schema.Schema{
+			"vdom": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 79),
 							Optional:     true,
@@ -61,10 +61,15 @@ func resourceSystemSsoAdmin() *schema.Resource {
 					},
 				},
 			},
-			"dynamic_sort_subtable": &schema.Schema{
+			"dynamic_sort_subtable": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Default:  "false",
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -82,15 +87,25 @@ func resourceSystemSsoAdminCreate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectSystemSsoAdmin(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating SystemSsoAdmin resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateSystemSsoAdmin(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemSsoAdmin(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating SystemSsoAdmin resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateSystemSsoAdmin(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating SystemSsoAdmin resource: %v", err)
+		return fmt.Errorf("error creating SystemSsoAdmin resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -115,14 +130,24 @@ func resourceSystemSsoAdminUpdate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectSystemSsoAdmin(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SystemSsoAdmin resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSystemSsoAdmin(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemSsoAdmin(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SystemSsoAdmin resource: %v", err)
+		return fmt.Errorf("error updating SystemSsoAdmin resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSystemSsoAdmin(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SystemSsoAdmin resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -149,9 +174,17 @@ func resourceSystemSsoAdminDelete(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	err := c.DeleteSystemSsoAdmin(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSystemSsoAdmin(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SystemSsoAdmin resource: %v", err)
+		return fmt.Errorf("error deleting SystemSsoAdmin resource: %v", err)
 	}
 
 	d.SetId("")
@@ -173,9 +206,19 @@ func resourceSystemSsoAdminRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadSystemSsoAdmin(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSystemSsoAdmin(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemSsoAdmin resource: %v", err)
+		return fmt.Errorf("error reading SystemSsoAdmin resource: %v", err)
 	}
 
 	if o == nil {
@@ -186,7 +229,7 @@ func resourceSystemSsoAdminRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectSystemSsoAdmin(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemSsoAdmin resource from API: %v", err)
+		return fmt.Errorf("error reading SystemSsoAdmin resource from API: %v", err)
 	}
 	return nil
 }
@@ -242,27 +285,27 @@ func refreshObjectSystemSsoAdmin(d *schema.ResourceData, o map[string]interface{
 
 	if err = d.Set("name", flattenSystemSsoAdminName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("accprofile", flattenSystemSsoAdminAccprofile(o["accprofile"], d, "accprofile", sv)); err != nil {
 		if !fortiAPIPatch(o["accprofile"]) {
-			return fmt.Errorf("Error reading accprofile: %v", err)
+			return fmt.Errorf("error reading accprofile: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("vdom", flattenSystemSsoAdminVdom(o["vdom"], d, "vdom", sv)); err != nil {
 			if !fortiAPIPatch(o["vdom"]) {
-				return fmt.Errorf("Error reading vdom: %v", err)
+				return fmt.Errorf("error reading vdom: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("vdom"); ok {
 			if err = d.Set("vdom", flattenSystemSsoAdminVdom(o["vdom"], d, "vdom", sv)); err != nil {
 				if !fortiAPIPatch(o["vdom"]) {
-					return fmt.Errorf("Error reading vdom: %v", err)
+					return fmt.Errorf("error reading vdom: %v", err)
 				}
 			}
 		}

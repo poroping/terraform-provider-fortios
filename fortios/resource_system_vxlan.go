@@ -30,38 +30,38 @@ func resourceSystemVxlan() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 15),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"interface": &schema.Schema{
+			"interface": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 15),
 				Required:     true,
 			},
-			"vni": &schema.Schema{
+			"vni": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 16777215),
 				Required:     true,
 			},
-			"ip_version": &schema.Schema{
+			"ip_version": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"remote_ip": &schema.Schema{
+			"remote_ip": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"ip": &schema.Schema{
+						"ip": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 15),
 							Optional:     true,
@@ -70,12 +70,12 @@ func resourceSystemVxlan() *schema.Resource {
 					},
 				},
 			},
-			"remote_ip6": &schema.Schema{
+			"remote_ip6": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"ip6": &schema.Schema{
+						"ip6": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 45),
 							Optional:     true,
@@ -84,22 +84,27 @@ func resourceSystemVxlan() *schema.Resource {
 					},
 				},
 			},
-			"dstport": &schema.Schema{
+			"dstport": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"multicast_ttl": &schema.Schema{
+			"multicast_ttl": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 255),
 				Optional:     true,
 				Computed:     true,
 			},
-			"dynamic_sort_subtable": &schema.Schema{
+			"dynamic_sort_subtable": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Default:  "false",
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -117,15 +122,25 @@ func resourceSystemVxlanCreate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectSystemVxlan(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating SystemVxlan resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateSystemVxlan(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemVxlan(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating SystemVxlan resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateSystemVxlan(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating SystemVxlan resource: %v", err)
+		return fmt.Errorf("error creating SystemVxlan resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -150,14 +165,24 @@ func resourceSystemVxlanUpdate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectSystemVxlan(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SystemVxlan resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSystemVxlan(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemVxlan(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SystemVxlan resource: %v", err)
+		return fmt.Errorf("error updating SystemVxlan resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSystemVxlan(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SystemVxlan resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -184,9 +209,17 @@ func resourceSystemVxlanDelete(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	err := c.DeleteSystemVxlan(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSystemVxlan(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SystemVxlan resource: %v", err)
+		return fmt.Errorf("error deleting SystemVxlan resource: %v", err)
 	}
 
 	d.SetId("")
@@ -208,9 +241,19 @@ func resourceSystemVxlanRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadSystemVxlan(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSystemVxlan(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemVxlan resource: %v", err)
+		return fmt.Errorf("error reading SystemVxlan resource: %v", err)
 	}
 
 	if o == nil {
@@ -221,7 +264,7 @@ func resourceSystemVxlanRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectSystemVxlan(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemVxlan resource from API: %v", err)
+		return fmt.Errorf("error reading SystemVxlan resource from API: %v", err)
 	}
 	return nil
 }
@@ -331,39 +374,39 @@ func refreshObjectSystemVxlan(d *schema.ResourceData, o map[string]interface{}, 
 
 	if err = d.Set("name", flattenSystemVxlanName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("interface", flattenSystemVxlanInterface(o["interface"], d, "interface", sv)); err != nil {
 		if !fortiAPIPatch(o["interface"]) {
-			return fmt.Errorf("Error reading interface: %v", err)
+			return fmt.Errorf("error reading interface: %v", err)
 		}
 	}
 
 	if err = d.Set("vni", flattenSystemVxlanVni(o["vni"], d, "vni", sv)); err != nil {
 		if !fortiAPIPatch(o["vni"]) {
-			return fmt.Errorf("Error reading vni: %v", err)
+			return fmt.Errorf("error reading vni: %v", err)
 		}
 	}
 
 	if err = d.Set("ip_version", flattenSystemVxlanIpVersion(o["ip-version"], d, "ip_version", sv)); err != nil {
 		if !fortiAPIPatch(o["ip-version"]) {
-			return fmt.Errorf("Error reading ip_version: %v", err)
+			return fmt.Errorf("error reading ip_version: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("remote_ip", flattenSystemVxlanRemoteIp(o["remote-ip"], d, "remote_ip", sv)); err != nil {
 			if !fortiAPIPatch(o["remote-ip"]) {
-				return fmt.Errorf("Error reading remote_ip: %v", err)
+				return fmt.Errorf("error reading remote_ip: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("remote_ip"); ok {
 			if err = d.Set("remote_ip", flattenSystemVxlanRemoteIp(o["remote-ip"], d, "remote_ip", sv)); err != nil {
 				if !fortiAPIPatch(o["remote-ip"]) {
-					return fmt.Errorf("Error reading remote_ip: %v", err)
+					return fmt.Errorf("error reading remote_ip: %v", err)
 				}
 			}
 		}
@@ -372,14 +415,14 @@ func refreshObjectSystemVxlan(d *schema.ResourceData, o map[string]interface{}, 
 	if isImportTable() {
 		if err = d.Set("remote_ip6", flattenSystemVxlanRemoteIp6(o["remote-ip6"], d, "remote_ip6", sv)); err != nil {
 			if !fortiAPIPatch(o["remote-ip6"]) {
-				return fmt.Errorf("Error reading remote_ip6: %v", err)
+				return fmt.Errorf("error reading remote_ip6: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("remote_ip6"); ok {
 			if err = d.Set("remote_ip6", flattenSystemVxlanRemoteIp6(o["remote-ip6"], d, "remote_ip6", sv)); err != nil {
 				if !fortiAPIPatch(o["remote-ip6"]) {
-					return fmt.Errorf("Error reading remote_ip6: %v", err)
+					return fmt.Errorf("error reading remote_ip6: %v", err)
 				}
 			}
 		}
@@ -387,13 +430,13 @@ func refreshObjectSystemVxlan(d *schema.ResourceData, o map[string]interface{}, 
 
 	if err = d.Set("dstport", flattenSystemVxlanDstport(o["dstport"], d, "dstport", sv)); err != nil {
 		if !fortiAPIPatch(o["dstport"]) {
-			return fmt.Errorf("Error reading dstport: %v", err)
+			return fmt.Errorf("error reading dstport: %v", err)
 		}
 	}
 
 	if err = d.Set("multicast_ttl", flattenSystemVxlanMulticastTtl(o["multicast-ttl"], d, "multicast_ttl", sv)); err != nil {
 		if !fortiAPIPatch(o["multicast-ttl"]) {
-			return fmt.Errorf("Error reading multicast_ttl: %v", err)
+			return fmt.Errorf("error reading multicast_ttl: %v", err)
 		}
 	}
 

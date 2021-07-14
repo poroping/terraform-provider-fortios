@@ -30,49 +30,54 @@ func resourceSystemProbeResponse() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"port": &schema.Schema{
+			"port": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"http_probe_value": &schema.Schema{
+			"http_probe_value": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 1024),
 				Optional:     true,
 				Computed:     true,
 			},
-			"ttl_mode": &schema.Schema{
+			"ttl_mode": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"mode": &schema.Schema{
+			"mode": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"security_mode": &schema.Schema{
+			"security_mode": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"password": &schema.Schema{
+			"password": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 128),
 				Optional:     true,
 				Sensitive:    true,
 			},
-			"timeout": &schema.Schema{
+			"timeout": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(10, 3600),
 				Optional:     true,
 				Computed:     true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -91,14 +96,24 @@ func resourceSystemProbeResponseUpdate(d *schema.ResourceData, m interface{}) er
 		}
 	}
 
-	obj, err := getObjectSystemProbeResponse(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SystemProbeResponse resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSystemProbeResponse(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemProbeResponse(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SystemProbeResponse resource: %v", err)
+		return fmt.Errorf("error updating SystemProbeResponse resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSystemProbeResponse(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SystemProbeResponse resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -125,9 +140,17 @@ func resourceSystemProbeResponseDelete(d *schema.ResourceData, m interface{}) er
 		}
 	}
 
-	err := c.DeleteSystemProbeResponse(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSystemProbeResponse(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SystemProbeResponse resource: %v", err)
+		return fmt.Errorf("error deleting SystemProbeResponse resource: %v", err)
 	}
 
 	d.SetId("")
@@ -149,9 +172,19 @@ func resourceSystemProbeResponseRead(d *schema.ResourceData, m interface{}) erro
 		}
 	}
 
-	o, err := c.ReadSystemProbeResponse(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSystemProbeResponse(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemProbeResponse resource: %v", err)
+		return fmt.Errorf("error reading SystemProbeResponse resource: %v", err)
 	}
 
 	if o == nil {
@@ -162,7 +195,7 @@ func resourceSystemProbeResponseRead(d *schema.ResourceData, m interface{}) erro
 
 	err = refreshObjectSystemProbeResponse(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemProbeResponse resource from API: %v", err)
+		return fmt.Errorf("error reading SystemProbeResponse resource from API: %v", err)
 	}
 	return nil
 }
@@ -200,37 +233,37 @@ func refreshObjectSystemProbeResponse(d *schema.ResourceData, o map[string]inter
 
 	if err = d.Set("port", flattenSystemProbeResponsePort(o["port"], d, "port", sv)); err != nil {
 		if !fortiAPIPatch(o["port"]) {
-			return fmt.Errorf("Error reading port: %v", err)
+			return fmt.Errorf("error reading port: %v", err)
 		}
 	}
 
 	if err = d.Set("http_probe_value", flattenSystemProbeResponseHttpProbeValue(o["http-probe-value"], d, "http_probe_value", sv)); err != nil {
 		if !fortiAPIPatch(o["http-probe-value"]) {
-			return fmt.Errorf("Error reading http_probe_value: %v", err)
+			return fmt.Errorf("error reading http_probe_value: %v", err)
 		}
 	}
 
 	if err = d.Set("ttl_mode", flattenSystemProbeResponseTtlMode(o["ttl-mode"], d, "ttl_mode", sv)); err != nil {
 		if !fortiAPIPatch(o["ttl-mode"]) {
-			return fmt.Errorf("Error reading ttl_mode: %v", err)
+			return fmt.Errorf("error reading ttl_mode: %v", err)
 		}
 	}
 
 	if err = d.Set("mode", flattenSystemProbeResponseMode(o["mode"], d, "mode", sv)); err != nil {
 		if !fortiAPIPatch(o["mode"]) {
-			return fmt.Errorf("Error reading mode: %v", err)
+			return fmt.Errorf("error reading mode: %v", err)
 		}
 	}
 
 	if err = d.Set("security_mode", flattenSystemProbeResponseSecurityMode(o["security-mode"], d, "security_mode", sv)); err != nil {
 		if !fortiAPIPatch(o["security-mode"]) {
-			return fmt.Errorf("Error reading security_mode: %v", err)
+			return fmt.Errorf("error reading security_mode: %v", err)
 		}
 	}
 
 	if err = d.Set("timeout", flattenSystemProbeResponseTimeout(o["timeout"], d, "timeout", sv)); err != nil {
 		if !fortiAPIPatch(o["timeout"]) {
-			return fmt.Errorf("Error reading timeout: %v", err)
+			return fmt.Errorf("error reading timeout: %v", err)
 		}
 	}
 

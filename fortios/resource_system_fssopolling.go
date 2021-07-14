@@ -30,32 +30,37 @@ func resourceSystemFssoPolling() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"status": &schema.Schema{
+			"status": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"listening_port": &schema.Schema{
+			"listening_port": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"authentication": &schema.Schema{
+			"authentication": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"auth_password": &schema.Schema{
+			"auth_password": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 128),
 				Optional:     true,
 				Sensitive:    true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -74,14 +79,24 @@ func resourceSystemFssoPollingUpdate(d *schema.ResourceData, m interface{}) erro
 		}
 	}
 
-	obj, err := getObjectSystemFssoPolling(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SystemFssoPolling resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSystemFssoPolling(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemFssoPolling(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SystemFssoPolling resource: %v", err)
+		return fmt.Errorf("error updating SystemFssoPolling resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSystemFssoPolling(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SystemFssoPolling resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -108,9 +123,17 @@ func resourceSystemFssoPollingDelete(d *schema.ResourceData, m interface{}) erro
 		}
 	}
 
-	err := c.DeleteSystemFssoPolling(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSystemFssoPolling(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SystemFssoPolling resource: %v", err)
+		return fmt.Errorf("error deleting SystemFssoPolling resource: %v", err)
 	}
 
 	d.SetId("")
@@ -132,9 +155,19 @@ func resourceSystemFssoPollingRead(d *schema.ResourceData, m interface{}) error 
 		}
 	}
 
-	o, err := c.ReadSystemFssoPolling(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSystemFssoPolling(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemFssoPolling resource: %v", err)
+		return fmt.Errorf("error reading SystemFssoPolling resource: %v", err)
 	}
 
 	if o == nil {
@@ -145,7 +178,7 @@ func resourceSystemFssoPollingRead(d *schema.ResourceData, m interface{}) error 
 
 	err = refreshObjectSystemFssoPolling(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemFssoPolling resource from API: %v", err)
+		return fmt.Errorf("error reading SystemFssoPolling resource from API: %v", err)
 	}
 	return nil
 }
@@ -171,19 +204,19 @@ func refreshObjectSystemFssoPolling(d *schema.ResourceData, o map[string]interfa
 
 	if err = d.Set("status", flattenSystemFssoPollingStatus(o["status"], d, "status", sv)); err != nil {
 		if !fortiAPIPatch(o["status"]) {
-			return fmt.Errorf("Error reading status: %v", err)
+			return fmt.Errorf("error reading status: %v", err)
 		}
 	}
 
 	if err = d.Set("listening_port", flattenSystemFssoPollingListeningPort(o["listening-port"], d, "listening_port", sv)); err != nil {
 		if !fortiAPIPatch(o["listening-port"]) {
-			return fmt.Errorf("Error reading listening_port: %v", err)
+			return fmt.Errorf("error reading listening_port: %v", err)
 		}
 	}
 
 	if err = d.Set("authentication", flattenSystemFssoPollingAuthentication(o["authentication"], d, "authentication", sv)); err != nil {
 		if !fortiAPIPatch(o["authentication"]) {
-			return fmt.Errorf("Error reading authentication: %v", err)
+			return fmt.Errorf("error reading authentication: %v", err)
 		}
 	}
 

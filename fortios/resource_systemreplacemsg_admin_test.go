@@ -52,14 +52,14 @@ func testAccCheckFortiOSSystemReplacemsgAdminExists(n string) resource.TestCheck
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemReplacemsgAdmin(i, "root")
+		o, err := c.ReadSystemReplacemsgAdmin(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading SystemReplacemsgAdmin: %s", err)
+			return fmt.Errorf("error reading SystemReplacemsgAdmin: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating SystemReplacemsgAdmin: %s", n)
+			return fmt.Errorf("error creating SystemReplacemsgAdmin: %s", n)
 		}
 
 		return nil
@@ -75,11 +75,11 @@ func testAccCheckSystemReplacemsgAdminDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemReplacemsgAdmin(i, "root")
+		o, err := c.ReadSystemReplacemsgAdmin(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error SystemReplacemsgAdmin %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error SystemReplacemsgAdmin %s still exists", rs.Primary.ID)
 			}
 		}
 

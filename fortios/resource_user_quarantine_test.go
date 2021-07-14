@@ -49,14 +49,14 @@ func testAccCheckFortiOSUserQuarantineExists(n string) resource.TestCheckFunc {
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadUserQuarantine(i, "root")
+		o, err := c.ReadUserQuarantine(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading UserQuarantine: %s", err)
+			return fmt.Errorf("error reading UserQuarantine: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating UserQuarantine: %s", n)
+			return fmt.Errorf("error creating UserQuarantine: %s", n)
 		}
 
 		return nil
@@ -72,11 +72,11 @@ func testAccCheckUserQuarantineDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadUserQuarantine(i, "root")
+		o, err := c.ReadUserQuarantine(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error UserQuarantine %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error UserQuarantine %s still exists", rs.Primary.ID)
 			}
 		}
 

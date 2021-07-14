@@ -51,14 +51,14 @@ func testAccCheckFortiOSSystemTosBasedPriorityExists(n string) resource.TestChec
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemTosBasedPriority(i, "root")
+		o, err := c.ReadSystemTosBasedPriority(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading SystemTosBasedPriority: %s", err)
+			return fmt.Errorf("error reading SystemTosBasedPriority: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating SystemTosBasedPriority: %s", n)
+			return fmt.Errorf("error creating SystemTosBasedPriority: %s", n)
 		}
 
 		return nil
@@ -74,11 +74,11 @@ func testAccCheckSystemTosBasedPriorityDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemTosBasedPriority(i, "root")
+		o, err := c.ReadSystemTosBasedPriority(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error SystemTosBasedPriority %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error SystemTosBasedPriority %s still exists", rs.Primary.ID)
 			}
 		}
 

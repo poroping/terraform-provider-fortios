@@ -51,14 +51,14 @@ func testAccCheckFortiOSSystemSflowExists(n string) resource.TestCheckFunc {
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemSflow(i, "root")
+		o, err := c.ReadSystemSflow(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading SystemSflow: %s", err)
+			return fmt.Errorf("error reading SystemSflow: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating SystemSflow: %s", n)
+			return fmt.Errorf("error creating SystemSflow: %s", n)
 		}
 
 		return nil
@@ -74,11 +74,11 @@ func testAccCheckSystemSflowDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemSflow(i, "root")
+		o, err := c.ReadSystemSflow(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error SystemSflow %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error SystemSflow %s still exists", rs.Primary.ID)
 			}
 		}
 

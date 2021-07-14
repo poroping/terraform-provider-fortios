@@ -30,80 +30,80 @@ func resourceSpamfilterProfile() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				ForceNew:     true,
 				Required:     true,
 			},
-			"comment": &schema.Schema{
+			"comment": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
 			},
-			"flow_based": &schema.Schema{
+			"flow_based": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"replacemsg_group": &schema.Schema{
+			"replacemsg_group": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"spam_log": &schema.Schema{
+			"spam_log": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"spam_log_fortiguard_response": &schema.Schema{
+			"spam_log_fortiguard_response": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"spam_filtering": &schema.Schema{
+			"spam_filtering": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"external": &schema.Schema{
+			"external": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"options": &schema.Schema{
+			"options": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"imap": &schema.Schema{
+			"imap": {
 				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"log": &schema.Schema{
+						"log": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"action": &schema.Schema{
+						"action": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"tag_type": &schema.Schema{
+						"tag_type": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"tag_msg": &schema.Schema{
+						"tag_msg": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 63),
 							Optional:     true,
@@ -112,28 +112,28 @@ func resourceSpamfilterProfile() *schema.Resource {
 					},
 				},
 			},
-			"pop3": &schema.Schema{
+			"pop3": {
 				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"log": &schema.Schema{
+						"log": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"action": &schema.Schema{
+						"action": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"tag_type": &schema.Schema{
+						"tag_type": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"tag_msg": &schema.Schema{
+						"tag_msg": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 63),
 							Optional:     true,
@@ -142,39 +142,39 @@ func resourceSpamfilterProfile() *schema.Resource {
 					},
 				},
 			},
-			"smtp": &schema.Schema{
+			"smtp": {
 				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"log": &schema.Schema{
+						"log": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"action": &schema.Schema{
+						"action": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"tag_type": &schema.Schema{
+						"tag_type": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"tag_msg": &schema.Schema{
+						"tag_msg": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 63),
 							Optional:     true,
 							Computed:     true,
 						},
-						"hdrip": &schema.Schema{
+						"hdrip": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"local_override": &schema.Schema{
+						"local_override": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -182,18 +182,18 @@ func resourceSpamfilterProfile() *schema.Resource {
 					},
 				},
 			},
-			"mapi": &schema.Schema{
+			"mapi": {
 				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"log": &schema.Schema{
+						"log": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"action": &schema.Schema{
+						"action": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -201,13 +201,13 @@ func resourceSpamfilterProfile() *schema.Resource {
 					},
 				},
 			},
-			"msn_hotmail": &schema.Schema{
+			"msn_hotmail": {
 				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"log": &schema.Schema{
+						"log": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -215,13 +215,13 @@ func resourceSpamfilterProfile() *schema.Resource {
 					},
 				},
 			},
-			"yahoo_mail": &schema.Schema{
+			"yahoo_mail": {
 				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"log": &schema.Schema{
+						"log": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -229,13 +229,13 @@ func resourceSpamfilterProfile() *schema.Resource {
 					},
 				},
 			},
-			"gmail": &schema.Schema{
+			"gmail": {
 				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"log": &schema.Schema{
+						"log": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -243,35 +243,40 @@ func resourceSpamfilterProfile() *schema.Resource {
 					},
 				},
 			},
-			"spam_bword_threshold": &schema.Schema{
+			"spam_bword_threshold": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"spam_bword_table": &schema.Schema{
+			"spam_bword_table": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"spam_bwl_table": &schema.Schema{
+			"spam_bwl_table": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"spam_mheader_table": &schema.Schema{
+			"spam_mheader_table": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"spam_rbl_table": &schema.Schema{
+			"spam_rbl_table": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"spam_iptrust_table": &schema.Schema{
+			"spam_iptrust_table": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -289,15 +294,25 @@ func resourceSpamfilterProfileCreate(d *schema.ResourceData, m interface{}) erro
 		}
 	}
 
-	obj, err := getObjectSpamfilterProfile(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating SpamfilterProfile resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateSpamfilterProfile(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSpamfilterProfile(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating SpamfilterProfile resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateSpamfilterProfile(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating SpamfilterProfile resource: %v", err)
+		return fmt.Errorf("error creating SpamfilterProfile resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -322,14 +337,24 @@ func resourceSpamfilterProfileUpdate(d *schema.ResourceData, m interface{}) erro
 		}
 	}
 
-	obj, err := getObjectSpamfilterProfile(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SpamfilterProfile resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSpamfilterProfile(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSpamfilterProfile(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SpamfilterProfile resource: %v", err)
+		return fmt.Errorf("error updating SpamfilterProfile resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSpamfilterProfile(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SpamfilterProfile resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -356,9 +381,17 @@ func resourceSpamfilterProfileDelete(d *schema.ResourceData, m interface{}) erro
 		}
 	}
 
-	err := c.DeleteSpamfilterProfile(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSpamfilterProfile(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SpamfilterProfile resource: %v", err)
+		return fmt.Errorf("error deleting SpamfilterProfile resource: %v", err)
 	}
 
 	d.SetId("")
@@ -380,9 +413,19 @@ func resourceSpamfilterProfileRead(d *schema.ResourceData, m interface{}) error 
 		}
 	}
 
-	o, err := c.ReadSpamfilterProfile(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSpamfilterProfile(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SpamfilterProfile resource: %v", err)
+		return fmt.Errorf("error reading SpamfilterProfile resource: %v", err)
 	}
 
 	if o == nil {
@@ -393,7 +436,7 @@ func resourceSpamfilterProfileRead(d *schema.ResourceData, m interface{}) error 
 
 	err = refreshObjectSpamfilterProfile(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SpamfilterProfile resource from API: %v", err)
+		return fmt.Errorf("error reading SpamfilterProfile resource from API: %v", err)
 	}
 	return nil
 }
@@ -744,69 +787,69 @@ func refreshObjectSpamfilterProfile(d *schema.ResourceData, o map[string]interfa
 
 	if err = d.Set("name", flattenSpamfilterProfileName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("comment", flattenSpamfilterProfileComment(o["comment"], d, "comment", sv)); err != nil {
 		if !fortiAPIPatch(o["comment"]) {
-			return fmt.Errorf("Error reading comment: %v", err)
+			return fmt.Errorf("error reading comment: %v", err)
 		}
 	}
 
 	if err = d.Set("flow_based", flattenSpamfilterProfileFlowBased(o["flow-based"], d, "flow_based", sv)); err != nil {
 		if !fortiAPIPatch(o["flow-based"]) {
-			return fmt.Errorf("Error reading flow_based: %v", err)
+			return fmt.Errorf("error reading flow_based: %v", err)
 		}
 	}
 
 	if err = d.Set("replacemsg_group", flattenSpamfilterProfileReplacemsgGroup(o["replacemsg-group"], d, "replacemsg_group", sv)); err != nil {
 		if !fortiAPIPatch(o["replacemsg-group"]) {
-			return fmt.Errorf("Error reading replacemsg_group: %v", err)
+			return fmt.Errorf("error reading replacemsg_group: %v", err)
 		}
 	}
 
 	if err = d.Set("spam_log", flattenSpamfilterProfileSpamLog(o["spam-log"], d, "spam_log", sv)); err != nil {
 		if !fortiAPIPatch(o["spam-log"]) {
-			return fmt.Errorf("Error reading spam_log: %v", err)
+			return fmt.Errorf("error reading spam_log: %v", err)
 		}
 	}
 
 	if err = d.Set("spam_log_fortiguard_response", flattenSpamfilterProfileSpamLogFortiguardResponse(o["spam-log-fortiguard-response"], d, "spam_log_fortiguard_response", sv)); err != nil {
 		if !fortiAPIPatch(o["spam-log-fortiguard-response"]) {
-			return fmt.Errorf("Error reading spam_log_fortiguard_response: %v", err)
+			return fmt.Errorf("error reading spam_log_fortiguard_response: %v", err)
 		}
 	}
 
 	if err = d.Set("spam_filtering", flattenSpamfilterProfileSpamFiltering(o["spam-filtering"], d, "spam_filtering", sv)); err != nil {
 		if !fortiAPIPatch(o["spam-filtering"]) {
-			return fmt.Errorf("Error reading spam_filtering: %v", err)
+			return fmt.Errorf("error reading spam_filtering: %v", err)
 		}
 	}
 
 	if err = d.Set("external", flattenSpamfilterProfileExternal(o["external"], d, "external", sv)); err != nil {
 		if !fortiAPIPatch(o["external"]) {
-			return fmt.Errorf("Error reading external: %v", err)
+			return fmt.Errorf("error reading external: %v", err)
 		}
 	}
 
 	if err = d.Set("options", flattenSpamfilterProfileOptions(o["options"], d, "options", sv)); err != nil {
 		if !fortiAPIPatch(o["options"]) {
-			return fmt.Errorf("Error reading options: %v", err)
+			return fmt.Errorf("error reading options: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("imap", flattenSpamfilterProfileImap(o["imap"], d, "imap", sv)); err != nil {
 			if !fortiAPIPatch(o["imap"]) {
-				return fmt.Errorf("Error reading imap: %v", err)
+				return fmt.Errorf("error reading imap: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("imap"); ok {
 			if err = d.Set("imap", flattenSpamfilterProfileImap(o["imap"], d, "imap", sv)); err != nil {
 				if !fortiAPIPatch(o["imap"]) {
-					return fmt.Errorf("Error reading imap: %v", err)
+					return fmt.Errorf("error reading imap: %v", err)
 				}
 			}
 		}
@@ -815,14 +858,14 @@ func refreshObjectSpamfilterProfile(d *schema.ResourceData, o map[string]interfa
 	if isImportTable() {
 		if err = d.Set("pop3", flattenSpamfilterProfilePop3(o["pop3"], d, "pop3", sv)); err != nil {
 			if !fortiAPIPatch(o["pop3"]) {
-				return fmt.Errorf("Error reading pop3: %v", err)
+				return fmt.Errorf("error reading pop3: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("pop3"); ok {
 			if err = d.Set("pop3", flattenSpamfilterProfilePop3(o["pop3"], d, "pop3", sv)); err != nil {
 				if !fortiAPIPatch(o["pop3"]) {
-					return fmt.Errorf("Error reading pop3: %v", err)
+					return fmt.Errorf("error reading pop3: %v", err)
 				}
 			}
 		}
@@ -831,14 +874,14 @@ func refreshObjectSpamfilterProfile(d *schema.ResourceData, o map[string]interfa
 	if isImportTable() {
 		if err = d.Set("smtp", flattenSpamfilterProfileSmtp(o["smtp"], d, "smtp", sv)); err != nil {
 			if !fortiAPIPatch(o["smtp"]) {
-				return fmt.Errorf("Error reading smtp: %v", err)
+				return fmt.Errorf("error reading smtp: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("smtp"); ok {
 			if err = d.Set("smtp", flattenSpamfilterProfileSmtp(o["smtp"], d, "smtp", sv)); err != nil {
 				if !fortiAPIPatch(o["smtp"]) {
-					return fmt.Errorf("Error reading smtp: %v", err)
+					return fmt.Errorf("error reading smtp: %v", err)
 				}
 			}
 		}
@@ -847,14 +890,14 @@ func refreshObjectSpamfilterProfile(d *schema.ResourceData, o map[string]interfa
 	if isImportTable() {
 		if err = d.Set("mapi", flattenSpamfilterProfileMapi(o["mapi"], d, "mapi", sv)); err != nil {
 			if !fortiAPIPatch(o["mapi"]) {
-				return fmt.Errorf("Error reading mapi: %v", err)
+				return fmt.Errorf("error reading mapi: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("mapi"); ok {
 			if err = d.Set("mapi", flattenSpamfilterProfileMapi(o["mapi"], d, "mapi", sv)); err != nil {
 				if !fortiAPIPatch(o["mapi"]) {
-					return fmt.Errorf("Error reading mapi: %v", err)
+					return fmt.Errorf("error reading mapi: %v", err)
 				}
 			}
 		}
@@ -863,14 +906,14 @@ func refreshObjectSpamfilterProfile(d *schema.ResourceData, o map[string]interfa
 	if isImportTable() {
 		if err = d.Set("msn_hotmail", flattenSpamfilterProfileMsnHotmail(o["msn-hotmail"], d, "msn_hotmail", sv)); err != nil {
 			if !fortiAPIPatch(o["msn-hotmail"]) {
-				return fmt.Errorf("Error reading msn_hotmail: %v", err)
+				return fmt.Errorf("error reading msn_hotmail: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("msn_hotmail"); ok {
 			if err = d.Set("msn_hotmail", flattenSpamfilterProfileMsnHotmail(o["msn-hotmail"], d, "msn_hotmail", sv)); err != nil {
 				if !fortiAPIPatch(o["msn-hotmail"]) {
-					return fmt.Errorf("Error reading msn_hotmail: %v", err)
+					return fmt.Errorf("error reading msn_hotmail: %v", err)
 				}
 			}
 		}
@@ -879,14 +922,14 @@ func refreshObjectSpamfilterProfile(d *schema.ResourceData, o map[string]interfa
 	if isImportTable() {
 		if err = d.Set("yahoo_mail", flattenSpamfilterProfileYahooMail(o["yahoo-mail"], d, "yahoo_mail", sv)); err != nil {
 			if !fortiAPIPatch(o["yahoo-mail"]) {
-				return fmt.Errorf("Error reading yahoo_mail: %v", err)
+				return fmt.Errorf("error reading yahoo_mail: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("yahoo_mail"); ok {
 			if err = d.Set("yahoo_mail", flattenSpamfilterProfileYahooMail(o["yahoo-mail"], d, "yahoo_mail", sv)); err != nil {
 				if !fortiAPIPatch(o["yahoo-mail"]) {
-					return fmt.Errorf("Error reading yahoo_mail: %v", err)
+					return fmt.Errorf("error reading yahoo_mail: %v", err)
 				}
 			}
 		}
@@ -895,14 +938,14 @@ func refreshObjectSpamfilterProfile(d *schema.ResourceData, o map[string]interfa
 	if isImportTable() {
 		if err = d.Set("gmail", flattenSpamfilterProfileGmail(o["gmail"], d, "gmail", sv)); err != nil {
 			if !fortiAPIPatch(o["gmail"]) {
-				return fmt.Errorf("Error reading gmail: %v", err)
+				return fmt.Errorf("error reading gmail: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("gmail"); ok {
 			if err = d.Set("gmail", flattenSpamfilterProfileGmail(o["gmail"], d, "gmail", sv)); err != nil {
 				if !fortiAPIPatch(o["gmail"]) {
-					return fmt.Errorf("Error reading gmail: %v", err)
+					return fmt.Errorf("error reading gmail: %v", err)
 				}
 			}
 		}
@@ -910,37 +953,37 @@ func refreshObjectSpamfilterProfile(d *schema.ResourceData, o map[string]interfa
 
 	if err = d.Set("spam_bword_threshold", flattenSpamfilterProfileSpamBwordThreshold(o["spam-bword-threshold"], d, "spam_bword_threshold", sv)); err != nil {
 		if !fortiAPIPatch(o["spam-bword-threshold"]) {
-			return fmt.Errorf("Error reading spam_bword_threshold: %v", err)
+			return fmt.Errorf("error reading spam_bword_threshold: %v", err)
 		}
 	}
 
 	if err = d.Set("spam_bword_table", flattenSpamfilterProfileSpamBwordTable(o["spam-bword-table"], d, "spam_bword_table", sv)); err != nil {
 		if !fortiAPIPatch(o["spam-bword-table"]) {
-			return fmt.Errorf("Error reading spam_bword_table: %v", err)
+			return fmt.Errorf("error reading spam_bword_table: %v", err)
 		}
 	}
 
 	if err = d.Set("spam_bwl_table", flattenSpamfilterProfileSpamBwlTable(o["spam-bwl-table"], d, "spam_bwl_table", sv)); err != nil {
 		if !fortiAPIPatch(o["spam-bwl-table"]) {
-			return fmt.Errorf("Error reading spam_bwl_table: %v", err)
+			return fmt.Errorf("error reading spam_bwl_table: %v", err)
 		}
 	}
 
 	if err = d.Set("spam_mheader_table", flattenSpamfilterProfileSpamMheaderTable(o["spam-mheader-table"], d, "spam_mheader_table", sv)); err != nil {
 		if !fortiAPIPatch(o["spam-mheader-table"]) {
-			return fmt.Errorf("Error reading spam_mheader_table: %v", err)
+			return fmt.Errorf("error reading spam_mheader_table: %v", err)
 		}
 	}
 
 	if err = d.Set("spam_rbl_table", flattenSpamfilterProfileSpamRblTable(o["spam-rbl-table"], d, "spam_rbl_table", sv)); err != nil {
 		if !fortiAPIPatch(o["spam-rbl-table"]) {
-			return fmt.Errorf("Error reading spam_rbl_table: %v", err)
+			return fmt.Errorf("error reading spam_rbl_table: %v", err)
 		}
 	}
 
 	if err = d.Set("spam_iptrust_table", flattenSpamfilterProfileSpamIptrustTable(o["spam-iptrust-table"], d, "spam_iptrust_table", sv)); err != nil {
 		if !fortiAPIPatch(o["spam-iptrust-table"]) {
-			return fmt.Errorf("Error reading spam_iptrust_table: %v", err)
+			return fmt.Errorf("error reading spam_iptrust_table: %v", err)
 		}
 	}
 

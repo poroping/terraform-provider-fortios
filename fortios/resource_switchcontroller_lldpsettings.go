@@ -30,43 +30,48 @@ func resourceSwitchControllerLldpSettings() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"status": &schema.Schema{
+			"status": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"tx_hold": &schema.Schema{
+			"tx_hold": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 16),
 				Optional:     true,
 				Computed:     true,
 			},
-			"tx_interval": &schema.Schema{
+			"tx_interval": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(5, 4095),
 				Optional:     true,
 				Computed:     true,
 			},
-			"fast_start_interval": &schema.Schema{
+			"fast_start_interval": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 255),
 				Optional:     true,
 				Computed:     true,
 			},
-			"management_interface": &schema.Schema{
+			"management_interface": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"device_detection": &schema.Schema{
+			"device_detection": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -85,14 +90,24 @@ func resourceSwitchControllerLldpSettingsUpdate(d *schema.ResourceData, m interf
 		}
 	}
 
-	obj, err := getObjectSwitchControllerLldpSettings(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SwitchControllerLldpSettings resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSwitchControllerLldpSettings(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSwitchControllerLldpSettings(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SwitchControllerLldpSettings resource: %v", err)
+		return fmt.Errorf("error updating SwitchControllerLldpSettings resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSwitchControllerLldpSettings(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SwitchControllerLldpSettings resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -119,9 +134,17 @@ func resourceSwitchControllerLldpSettingsDelete(d *schema.ResourceData, m interf
 		}
 	}
 
-	err := c.DeleteSwitchControllerLldpSettings(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSwitchControllerLldpSettings(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SwitchControllerLldpSettings resource: %v", err)
+		return fmt.Errorf("error deleting SwitchControllerLldpSettings resource: %v", err)
 	}
 
 	d.SetId("")
@@ -143,9 +166,19 @@ func resourceSwitchControllerLldpSettingsRead(d *schema.ResourceData, m interfac
 		}
 	}
 
-	o, err := c.ReadSwitchControllerLldpSettings(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSwitchControllerLldpSettings(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SwitchControllerLldpSettings resource: %v", err)
+		return fmt.Errorf("error reading SwitchControllerLldpSettings resource: %v", err)
 	}
 
 	if o == nil {
@@ -156,7 +189,7 @@ func resourceSwitchControllerLldpSettingsRead(d *schema.ResourceData, m interfac
 
 	err = refreshObjectSwitchControllerLldpSettings(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SwitchControllerLldpSettings resource from API: %v", err)
+		return fmt.Errorf("error reading SwitchControllerLldpSettings resource from API: %v", err)
 	}
 	return nil
 }
@@ -190,37 +223,37 @@ func refreshObjectSwitchControllerLldpSettings(d *schema.ResourceData, o map[str
 
 	if err = d.Set("status", flattenSwitchControllerLldpSettingsStatus(o["status"], d, "status", sv)); err != nil {
 		if !fortiAPIPatch(o["status"]) {
-			return fmt.Errorf("Error reading status: %v", err)
+			return fmt.Errorf("error reading status: %v", err)
 		}
 	}
 
 	if err = d.Set("tx_hold", flattenSwitchControllerLldpSettingsTxHold(o["tx-hold"], d, "tx_hold", sv)); err != nil {
 		if !fortiAPIPatch(o["tx-hold"]) {
-			return fmt.Errorf("Error reading tx_hold: %v", err)
+			return fmt.Errorf("error reading tx_hold: %v", err)
 		}
 	}
 
 	if err = d.Set("tx_interval", flattenSwitchControllerLldpSettingsTxInterval(o["tx-interval"], d, "tx_interval", sv)); err != nil {
 		if !fortiAPIPatch(o["tx-interval"]) {
-			return fmt.Errorf("Error reading tx_interval: %v", err)
+			return fmt.Errorf("error reading tx_interval: %v", err)
 		}
 	}
 
 	if err = d.Set("fast_start_interval", flattenSwitchControllerLldpSettingsFastStartInterval(o["fast-start-interval"], d, "fast_start_interval", sv)); err != nil {
 		if !fortiAPIPatch(o["fast-start-interval"]) {
-			return fmt.Errorf("Error reading fast_start_interval: %v", err)
+			return fmt.Errorf("error reading fast_start_interval: %v", err)
 		}
 	}
 
 	if err = d.Set("management_interface", flattenSwitchControllerLldpSettingsManagementInterface(o["management-interface"], d, "management_interface", sv)); err != nil {
 		if !fortiAPIPatch(o["management-interface"]) {
-			return fmt.Errorf("Error reading management_interface: %v", err)
+			return fmt.Errorf("error reading management_interface: %v", err)
 		}
 	}
 
 	if err = d.Set("device_detection", flattenSwitchControllerLldpSettingsDeviceDetection(o["device-detection"], d, "device_detection", sv)); err != nil {
 		if !fortiAPIPatch(o["device-detection"]) {
-			return fmt.Errorf("Error reading device_detection: %v", err)
+			return fmt.Errorf("error reading device_detection: %v", err)
 		}
 	}
 

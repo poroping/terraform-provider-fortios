@@ -30,85 +30,90 @@ func resourceIpsCustom() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"tag": &schema.Schema{
+			"tag": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"signature": &schema.Schema{
+			"signature": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 1023),
 				Optional:     true,
 				Computed:     true,
 			},
-			"sig_name": &schema.Schema{
+			"sig_name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"rule_id": &schema.Schema{
+			"rule_id": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"severity": &schema.Schema{
+			"severity": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"location": &schema.Schema{
+			"location": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"os": &schema.Schema{
+			"os": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"application": &schema.Schema{
+			"application": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"protocol": &schema.Schema{
+			"protocol": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"status": &schema.Schema{
+			"status": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"log": &schema.Schema{
+			"log": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"log_packet": &schema.Schema{
+			"log_packet": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"action": &schema.Schema{
+			"action": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"comment": &schema.Schema{
+			"comment": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -126,15 +131,25 @@ func resourceIpsCustomCreate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectIpsCustom(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating IpsCustom resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateIpsCustom(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectIpsCustom(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating IpsCustom resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateIpsCustom(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating IpsCustom resource: %v", err)
+		return fmt.Errorf("error creating IpsCustom resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -159,14 +174,24 @@ func resourceIpsCustomUpdate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectIpsCustom(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating IpsCustom resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateIpsCustom(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectIpsCustom(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating IpsCustom resource: %v", err)
+		return fmt.Errorf("error updating IpsCustom resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateIpsCustom(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating IpsCustom resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -193,9 +218,17 @@ func resourceIpsCustomDelete(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	err := c.DeleteIpsCustom(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteIpsCustom(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting IpsCustom resource: %v", err)
+		return fmt.Errorf("error deleting IpsCustom resource: %v", err)
 	}
 
 	d.SetId("")
@@ -217,9 +250,19 @@ func resourceIpsCustomRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadIpsCustom(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadIpsCustom(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading IpsCustom resource: %v", err)
+		return fmt.Errorf("error reading IpsCustom resource: %v", err)
 	}
 
 	if o == nil {
@@ -230,7 +273,7 @@ func resourceIpsCustomRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectIpsCustom(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading IpsCustom resource from API: %v", err)
+		return fmt.Errorf("error reading IpsCustom resource from API: %v", err)
 	}
 	return nil
 }
@@ -296,85 +339,85 @@ func refreshObjectIpsCustom(d *schema.ResourceData, o map[string]interface{}, sv
 
 	if err = d.Set("tag", flattenIpsCustomTag(o["tag"], d, "tag", sv)); err != nil {
 		if !fortiAPIPatch(o["tag"]) {
-			return fmt.Errorf("Error reading tag: %v", err)
+			return fmt.Errorf("error reading tag: %v", err)
 		}
 	}
 
 	if err = d.Set("signature", flattenIpsCustomSignature(o["signature"], d, "signature", sv)); err != nil {
 		if !fortiAPIPatch(o["signature"]) {
-			return fmt.Errorf("Error reading signature: %v", err)
+			return fmt.Errorf("error reading signature: %v", err)
 		}
 	}
 
 	if err = d.Set("sig_name", flattenIpsCustomSigName(o["sig-name"], d, "sig_name", sv)); err != nil {
 		if !fortiAPIPatch(o["sig-name"]) {
-			return fmt.Errorf("Error reading sig_name: %v", err)
+			return fmt.Errorf("error reading sig_name: %v", err)
 		}
 	}
 
 	if err = d.Set("rule_id", flattenIpsCustomRuleId(o["rule-id"], d, "rule_id", sv)); err != nil {
 		if !fortiAPIPatch(o["rule-id"]) {
-			return fmt.Errorf("Error reading rule_id: %v", err)
+			return fmt.Errorf("error reading rule_id: %v", err)
 		}
 	}
 
 	if err = d.Set("severity", flattenIpsCustomSeverity(o["severity"], d, "severity", sv)); err != nil {
 		if !fortiAPIPatch(o["severity"]) {
-			return fmt.Errorf("Error reading severity: %v", err)
+			return fmt.Errorf("error reading severity: %v", err)
 		}
 	}
 
 	if err = d.Set("location", flattenIpsCustomLocation(o["location"], d, "location", sv)); err != nil {
 		if !fortiAPIPatch(o["location"]) {
-			return fmt.Errorf("Error reading location: %v", err)
+			return fmt.Errorf("error reading location: %v", err)
 		}
 	}
 
 	if err = d.Set("os", flattenIpsCustomOs(o["os"], d, "os", sv)); err != nil {
 		if !fortiAPIPatch(o["os"]) {
-			return fmt.Errorf("Error reading os: %v", err)
+			return fmt.Errorf("error reading os: %v", err)
 		}
 	}
 
 	if err = d.Set("application", flattenIpsCustomApplication(o["application"], d, "application", sv)); err != nil {
 		if !fortiAPIPatch(o["application"]) {
-			return fmt.Errorf("Error reading application: %v", err)
+			return fmt.Errorf("error reading application: %v", err)
 		}
 	}
 
 	if err = d.Set("protocol", flattenIpsCustomProtocol(o["protocol"], d, "protocol", sv)); err != nil {
 		if !fortiAPIPatch(o["protocol"]) {
-			return fmt.Errorf("Error reading protocol: %v", err)
+			return fmt.Errorf("error reading protocol: %v", err)
 		}
 	}
 
 	if err = d.Set("status", flattenIpsCustomStatus(o["status"], d, "status", sv)); err != nil {
 		if !fortiAPIPatch(o["status"]) {
-			return fmt.Errorf("Error reading status: %v", err)
+			return fmt.Errorf("error reading status: %v", err)
 		}
 	}
 
 	if err = d.Set("log", flattenIpsCustomLog(o["log"], d, "log", sv)); err != nil {
 		if !fortiAPIPatch(o["log"]) {
-			return fmt.Errorf("Error reading log: %v", err)
+			return fmt.Errorf("error reading log: %v", err)
 		}
 	}
 
 	if err = d.Set("log_packet", flattenIpsCustomLogPacket(o["log-packet"], d, "log_packet", sv)); err != nil {
 		if !fortiAPIPatch(o["log-packet"]) {
-			return fmt.Errorf("Error reading log_packet: %v", err)
+			return fmt.Errorf("error reading log_packet: %v", err)
 		}
 	}
 
 	if err = d.Set("action", flattenIpsCustomAction(o["action"], d, "action", sv)); err != nil {
 		if !fortiAPIPatch(o["action"]) {
-			return fmt.Errorf("Error reading action: %v", err)
+			return fmt.Errorf("error reading action: %v", err)
 		}
 	}
 
 	if err = d.Set("comment", flattenIpsCustomComment(o["comment"], d, "comment", sv)); err != nil {
 		if !fortiAPIPatch(o["comment"]) {
-			return fmt.Errorf("Error reading comment: %v", err)
+			return fmt.Errorf("error reading comment: %v", err)
 		}
 	}
 

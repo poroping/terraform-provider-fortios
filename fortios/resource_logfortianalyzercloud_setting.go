@@ -30,112 +30,117 @@ func resourceLogFortianalyzerCloudSetting() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"status": &schema.Schema{
+			"status": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ips_archive": &schema.Schema{
+			"ips_archive": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"access_config": &schema.Schema{
+			"access_config": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"hmac_algorithm": &schema.Schema{
+			"hmac_algorithm": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"enc_algorithm": &schema.Schema{
+			"enc_algorithm": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ssl_min_proto_version": &schema.Schema{
+			"ssl_min_proto_version": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"conn_timeout": &schema.Schema{
+			"conn_timeout": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 3600),
 				Optional:     true,
 				Computed:     true,
 			},
-			"monitor_keepalive_period": &schema.Schema{
+			"monitor_keepalive_period": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 120),
 				Optional:     true,
 				Computed:     true,
 			},
-			"monitor_failure_retry_period": &schema.Schema{
+			"monitor_failure_retry_period": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 86400),
 				Optional:     true,
 				Computed:     true,
 			},
-			"certificate": &schema.Schema{
+			"certificate": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"source_ip": &schema.Schema{
+			"source_ip": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"upload_option": &schema.Schema{
+			"upload_option": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"upload_interval": &schema.Schema{
+			"upload_interval": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"upload_day": &schema.Schema{
+			"upload_day": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"upload_time": &schema.Schema{
+			"upload_time": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"priority": &schema.Schema{
+			"priority": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"max_log_rate": &schema.Schema{
+			"max_log_rate": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 100000),
 				Optional:     true,
 				Computed:     true,
 			},
-			"interface_select_method": &schema.Schema{
+			"interface_select_method": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"interface": &schema.Schema{
+			"interface": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 15),
 				Optional:     true,
 				Computed:     true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -154,14 +159,24 @@ func resourceLogFortianalyzerCloudSettingUpdate(d *schema.ResourceData, m interf
 		}
 	}
 
-	obj, err := getObjectLogFortianalyzerCloudSetting(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating LogFortianalyzerCloudSetting resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateLogFortianalyzerCloudSetting(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectLogFortianalyzerCloudSetting(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating LogFortianalyzerCloudSetting resource: %v", err)
+		return fmt.Errorf("error updating LogFortianalyzerCloudSetting resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateLogFortianalyzerCloudSetting(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating LogFortianalyzerCloudSetting resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -188,9 +203,17 @@ func resourceLogFortianalyzerCloudSettingDelete(d *schema.ResourceData, m interf
 		}
 	}
 
-	err := c.DeleteLogFortianalyzerCloudSetting(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteLogFortianalyzerCloudSetting(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting LogFortianalyzerCloudSetting resource: %v", err)
+		return fmt.Errorf("error deleting LogFortianalyzerCloudSetting resource: %v", err)
 	}
 
 	d.SetId("")
@@ -212,9 +235,19 @@ func resourceLogFortianalyzerCloudSettingRead(d *schema.ResourceData, m interfac
 		}
 	}
 
-	o, err := c.ReadLogFortianalyzerCloudSetting(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadLogFortianalyzerCloudSetting(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading LogFortianalyzerCloudSetting resource: %v", err)
+		return fmt.Errorf("error reading LogFortianalyzerCloudSetting resource: %v", err)
 	}
 
 	if o == nil {
@@ -225,7 +258,7 @@ func resourceLogFortianalyzerCloudSettingRead(d *schema.ResourceData, m interfac
 
 	err = refreshObjectLogFortianalyzerCloudSetting(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading LogFortianalyzerCloudSetting resource from API: %v", err)
+		return fmt.Errorf("error reading LogFortianalyzerCloudSetting resource from API: %v", err)
 	}
 	return nil
 }
@@ -311,115 +344,115 @@ func refreshObjectLogFortianalyzerCloudSetting(d *schema.ResourceData, o map[str
 
 	if err = d.Set("status", flattenLogFortianalyzerCloudSettingStatus(o["status"], d, "status", sv)); err != nil {
 		if !fortiAPIPatch(o["status"]) {
-			return fmt.Errorf("Error reading status: %v", err)
+			return fmt.Errorf("error reading status: %v", err)
 		}
 	}
 
 	if err = d.Set("ips_archive", flattenLogFortianalyzerCloudSettingIpsArchive(o["ips-archive"], d, "ips_archive", sv)); err != nil {
 		if !fortiAPIPatch(o["ips-archive"]) {
-			return fmt.Errorf("Error reading ips_archive: %v", err)
+			return fmt.Errorf("error reading ips_archive: %v", err)
 		}
 	}
 
 	if err = d.Set("access_config", flattenLogFortianalyzerCloudSettingAccessConfig(o["access-config"], d, "access_config", sv)); err != nil {
 		if !fortiAPIPatch(o["access-config"]) {
-			return fmt.Errorf("Error reading access_config: %v", err)
+			return fmt.Errorf("error reading access_config: %v", err)
 		}
 	}
 
 	if err = d.Set("hmac_algorithm", flattenLogFortianalyzerCloudSettingHmacAlgorithm(o["hmac-algorithm"], d, "hmac_algorithm", sv)); err != nil {
 		if !fortiAPIPatch(o["hmac-algorithm"]) {
-			return fmt.Errorf("Error reading hmac_algorithm: %v", err)
+			return fmt.Errorf("error reading hmac_algorithm: %v", err)
 		}
 	}
 
 	if err = d.Set("enc_algorithm", flattenLogFortianalyzerCloudSettingEncAlgorithm(o["enc-algorithm"], d, "enc_algorithm", sv)); err != nil {
 		if !fortiAPIPatch(o["enc-algorithm"]) {
-			return fmt.Errorf("Error reading enc_algorithm: %v", err)
+			return fmt.Errorf("error reading enc_algorithm: %v", err)
 		}
 	}
 
 	if err = d.Set("ssl_min_proto_version", flattenLogFortianalyzerCloudSettingSslMinProtoVersion(o["ssl-min-proto-version"], d, "ssl_min_proto_version", sv)); err != nil {
 		if !fortiAPIPatch(o["ssl-min-proto-version"]) {
-			return fmt.Errorf("Error reading ssl_min_proto_version: %v", err)
+			return fmt.Errorf("error reading ssl_min_proto_version: %v", err)
 		}
 	}
 
 	if err = d.Set("conn_timeout", flattenLogFortianalyzerCloudSettingConnTimeout(o["conn-timeout"], d, "conn_timeout", sv)); err != nil {
 		if !fortiAPIPatch(o["conn-timeout"]) {
-			return fmt.Errorf("Error reading conn_timeout: %v", err)
+			return fmt.Errorf("error reading conn_timeout: %v", err)
 		}
 	}
 
 	if err = d.Set("monitor_keepalive_period", flattenLogFortianalyzerCloudSettingMonitorKeepalivePeriod(o["monitor-keepalive-period"], d, "monitor_keepalive_period", sv)); err != nil {
 		if !fortiAPIPatch(o["monitor-keepalive-period"]) {
-			return fmt.Errorf("Error reading monitor_keepalive_period: %v", err)
+			return fmt.Errorf("error reading monitor_keepalive_period: %v", err)
 		}
 	}
 
 	if err = d.Set("monitor_failure_retry_period", flattenLogFortianalyzerCloudSettingMonitorFailureRetryPeriod(o["monitor-failure-retry-period"], d, "monitor_failure_retry_period", sv)); err != nil {
 		if !fortiAPIPatch(o["monitor-failure-retry-period"]) {
-			return fmt.Errorf("Error reading monitor_failure_retry_period: %v", err)
+			return fmt.Errorf("error reading monitor_failure_retry_period: %v", err)
 		}
 	}
 
 	if err = d.Set("certificate", flattenLogFortianalyzerCloudSettingCertificate(o["certificate"], d, "certificate", sv)); err != nil {
 		if !fortiAPIPatch(o["certificate"]) {
-			return fmt.Errorf("Error reading certificate: %v", err)
+			return fmt.Errorf("error reading certificate: %v", err)
 		}
 	}
 
 	if err = d.Set("source_ip", flattenLogFortianalyzerCloudSettingSourceIp(o["source-ip"], d, "source_ip", sv)); err != nil {
 		if !fortiAPIPatch(o["source-ip"]) {
-			return fmt.Errorf("Error reading source_ip: %v", err)
+			return fmt.Errorf("error reading source_ip: %v", err)
 		}
 	}
 
 	if err = d.Set("upload_option", flattenLogFortianalyzerCloudSettingUploadOption(o["upload-option"], d, "upload_option", sv)); err != nil {
 		if !fortiAPIPatch(o["upload-option"]) {
-			return fmt.Errorf("Error reading upload_option: %v", err)
+			return fmt.Errorf("error reading upload_option: %v", err)
 		}
 	}
 
 	if err = d.Set("upload_interval", flattenLogFortianalyzerCloudSettingUploadInterval(o["upload-interval"], d, "upload_interval", sv)); err != nil {
 		if !fortiAPIPatch(o["upload-interval"]) {
-			return fmt.Errorf("Error reading upload_interval: %v", err)
+			return fmt.Errorf("error reading upload_interval: %v", err)
 		}
 	}
 
 	if err = d.Set("upload_day", flattenLogFortianalyzerCloudSettingUploadDay(o["upload-day"], d, "upload_day", sv)); err != nil {
 		if !fortiAPIPatch(o["upload-day"]) {
-			return fmt.Errorf("Error reading upload_day: %v", err)
+			return fmt.Errorf("error reading upload_day: %v", err)
 		}
 	}
 
 	if err = d.Set("upload_time", flattenLogFortianalyzerCloudSettingUploadTime(o["upload-time"], d, "upload_time", sv)); err != nil {
 		if !fortiAPIPatch(o["upload-time"]) {
-			return fmt.Errorf("Error reading upload_time: %v", err)
+			return fmt.Errorf("error reading upload_time: %v", err)
 		}
 	}
 
 	if err = d.Set("priority", flattenLogFortianalyzerCloudSettingPriority(o["priority"], d, "priority", sv)); err != nil {
 		if !fortiAPIPatch(o["priority"]) {
-			return fmt.Errorf("Error reading priority: %v", err)
+			return fmt.Errorf("error reading priority: %v", err)
 		}
 	}
 
 	if err = d.Set("max_log_rate", flattenLogFortianalyzerCloudSettingMaxLogRate(o["max-log-rate"], d, "max_log_rate", sv)); err != nil {
 		if !fortiAPIPatch(o["max-log-rate"]) {
-			return fmt.Errorf("Error reading max_log_rate: %v", err)
+			return fmt.Errorf("error reading max_log_rate: %v", err)
 		}
 	}
 
 	if err = d.Set("interface_select_method", flattenLogFortianalyzerCloudSettingInterfaceSelectMethod(o["interface-select-method"], d, "interface_select_method", sv)); err != nil {
 		if !fortiAPIPatch(o["interface-select-method"]) {
-			return fmt.Errorf("Error reading interface_select_method: %v", err)
+			return fmt.Errorf("error reading interface_select_method: %v", err)
 		}
 	}
 
 	if err = d.Set("interface", flattenLogFortianalyzerCloudSettingInterface(o["interface"], d, "interface", sv)); err != nil {
 		if !fortiAPIPatch(o["interface"]) {
-			return fmt.Errorf("Error reading interface: %v", err)
+			return fmt.Errorf("error reading interface: %v", err)
 		}
 	}
 

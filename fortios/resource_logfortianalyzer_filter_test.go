@@ -60,14 +60,14 @@ func testAccCheckFortiOSLogFortianalyzerFilterExists(n string) resource.TestChec
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadLogFortianalyzerFilter(i, "root")
+		o, err := c.ReadLogFortianalyzerFilter(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading LogFortianalyzerFilter: %s", err)
+			return fmt.Errorf("error reading LogFortianalyzerFilter: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating LogFortianalyzerFilter: %s", n)
+			return fmt.Errorf("error creating LogFortianalyzerFilter: %s", n)
 		}
 
 		return nil
@@ -83,11 +83,11 @@ func testAccCheckLogFortianalyzerFilterDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadLogFortianalyzerFilter(i, "root")
+		o, err := c.ReadLogFortianalyzerFilter(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error LogFortianalyzerFilter %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error LogFortianalyzerFilter %s still exists", rs.Primary.ID)
 			}
 		}
 

@@ -54,14 +54,14 @@ func testAccCheckFortiOSAuthenticationRuleExists(n string) resource.TestCheckFun
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadAuthenticationRule(i, "root")
+		o, err := c.ReadAuthenticationRule(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading AuthenticationRule: %s", err)
+			return fmt.Errorf("error reading AuthenticationRule: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating AuthenticationRule: %s", n)
+			return fmt.Errorf("error creating AuthenticationRule: %s", n)
 		}
 
 		return nil
@@ -77,11 +77,11 @@ func testAccCheckAuthenticationRuleDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadAuthenticationRule(i, "root")
+		o, err := c.ReadAuthenticationRule(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error AuthenticationRule %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error AuthenticationRule %s still exists", rs.Primary.ID)
 			}
 		}
 

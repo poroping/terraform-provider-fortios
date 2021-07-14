@@ -30,22 +30,27 @@ func resourceWafSignature() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"desc": &schema.Schema{
+			"desc": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 511),
 				Optional:     true,
 				Computed:     true,
 			},
-			"fosid": &schema.Schema{
+			"fosid": {
 				Type:     schema.TypeInt,
 				ForceNew: true,
 				Optional: true,
 				Computed: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -63,15 +68,25 @@ func resourceWafSignatureCreate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectWafSignature(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating WafSignature resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateWafSignature(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectWafSignature(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating WafSignature resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateWafSignature(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating WafSignature resource: %v", err)
+		return fmt.Errorf("error creating WafSignature resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -96,14 +111,24 @@ func resourceWafSignatureUpdate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectWafSignature(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating WafSignature resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateWafSignature(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectWafSignature(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating WafSignature resource: %v", err)
+		return fmt.Errorf("error updating WafSignature resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateWafSignature(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating WafSignature resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -130,9 +155,17 @@ func resourceWafSignatureDelete(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	err := c.DeleteWafSignature(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteWafSignature(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting WafSignature resource: %v", err)
+		return fmt.Errorf("error deleting WafSignature resource: %v", err)
 	}
 
 	d.SetId("")
@@ -154,9 +187,19 @@ func resourceWafSignatureRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadWafSignature(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadWafSignature(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading WafSignature resource: %v", err)
+		return fmt.Errorf("error reading WafSignature resource: %v", err)
 	}
 
 	if o == nil {
@@ -167,7 +210,7 @@ func resourceWafSignatureRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectWafSignature(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading WafSignature resource from API: %v", err)
+		return fmt.Errorf("error reading WafSignature resource from API: %v", err)
 	}
 	return nil
 }
@@ -185,13 +228,13 @@ func refreshObjectWafSignature(d *schema.ResourceData, o map[string]interface{},
 
 	if err = d.Set("desc", flattenWafSignatureDesc(o["desc"], d, "desc", sv)); err != nil {
 		if !fortiAPIPatch(o["desc"]) {
-			return fmt.Errorf("Error reading desc: %v", err)
+			return fmt.Errorf("error reading desc: %v", err)
 		}
 	}
 
 	if err = d.Set("fosid", flattenWafSignatureId(o["id"], d, "fosid", sv)); err != nil {
 		if !fortiAPIPatch(o["id"]) {
-			return fmt.Errorf("Error reading fosid: %v", err)
+			return fmt.Errorf("error reading fosid: %v", err)
 		}
 	}
 

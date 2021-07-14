@@ -30,45 +30,45 @@ func resourceWebProxyForwardServerGroup() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"affinity": &schema.Schema{
+			"affinity": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ldb_method": &schema.Schema{
+			"ldb_method": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"group_down_option": &schema.Schema{
+			"group_down_option": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"server_list": &schema.Schema{
+			"server_list": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 63),
 							Optional:     true,
 							Computed:     true,
 						},
-						"weight": &schema.Schema{
+						"weight": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 100),
 							Optional:     true,
@@ -77,10 +77,15 @@ func resourceWebProxyForwardServerGroup() *schema.Resource {
 					},
 				},
 			},
-			"dynamic_sort_subtable": &schema.Schema{
+			"dynamic_sort_subtable": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Default:  "false",
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -98,15 +103,25 @@ func resourceWebProxyForwardServerGroupCreate(d *schema.ResourceData, m interfac
 		}
 	}
 
-	obj, err := getObjectWebProxyForwardServerGroup(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating WebProxyForwardServerGroup resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateWebProxyForwardServerGroup(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectWebProxyForwardServerGroup(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating WebProxyForwardServerGroup resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateWebProxyForwardServerGroup(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating WebProxyForwardServerGroup resource: %v", err)
+		return fmt.Errorf("error creating WebProxyForwardServerGroup resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -131,14 +146,24 @@ func resourceWebProxyForwardServerGroupUpdate(d *schema.ResourceData, m interfac
 		}
 	}
 
-	obj, err := getObjectWebProxyForwardServerGroup(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating WebProxyForwardServerGroup resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateWebProxyForwardServerGroup(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectWebProxyForwardServerGroup(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating WebProxyForwardServerGroup resource: %v", err)
+		return fmt.Errorf("error updating WebProxyForwardServerGroup resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateWebProxyForwardServerGroup(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating WebProxyForwardServerGroup resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -165,9 +190,17 @@ func resourceWebProxyForwardServerGroupDelete(d *schema.ResourceData, m interfac
 		}
 	}
 
-	err := c.DeleteWebProxyForwardServerGroup(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteWebProxyForwardServerGroup(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting WebProxyForwardServerGroup resource: %v", err)
+		return fmt.Errorf("error deleting WebProxyForwardServerGroup resource: %v", err)
 	}
 
 	d.SetId("")
@@ -189,9 +222,19 @@ func resourceWebProxyForwardServerGroupRead(d *schema.ResourceData, m interface{
 		}
 	}
 
-	o, err := c.ReadWebProxyForwardServerGroup(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadWebProxyForwardServerGroup(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading WebProxyForwardServerGroup resource: %v", err)
+		return fmt.Errorf("error reading WebProxyForwardServerGroup resource: %v", err)
 	}
 
 	if o == nil {
@@ -202,7 +245,7 @@ func resourceWebProxyForwardServerGroupRead(d *schema.ResourceData, m interface{
 
 	err = refreshObjectWebProxyForwardServerGroup(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading WebProxyForwardServerGroup resource from API: %v", err)
+		return fmt.Errorf("error reading WebProxyForwardServerGroup resource from API: %v", err)
 	}
 	return nil
 }
@@ -276,39 +319,39 @@ func refreshObjectWebProxyForwardServerGroup(d *schema.ResourceData, o map[strin
 
 	if err = d.Set("name", flattenWebProxyForwardServerGroupName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("affinity", flattenWebProxyForwardServerGroupAffinity(o["affinity"], d, "affinity", sv)); err != nil {
 		if !fortiAPIPatch(o["affinity"]) {
-			return fmt.Errorf("Error reading affinity: %v", err)
+			return fmt.Errorf("error reading affinity: %v", err)
 		}
 	}
 
 	if err = d.Set("ldb_method", flattenWebProxyForwardServerGroupLdbMethod(o["ldb-method"], d, "ldb_method", sv)); err != nil {
 		if !fortiAPIPatch(o["ldb-method"]) {
-			return fmt.Errorf("Error reading ldb_method: %v", err)
+			return fmt.Errorf("error reading ldb_method: %v", err)
 		}
 	}
 
 	if err = d.Set("group_down_option", flattenWebProxyForwardServerGroupGroupDownOption(o["group-down-option"], d, "group_down_option", sv)); err != nil {
 		if !fortiAPIPatch(o["group-down-option"]) {
-			return fmt.Errorf("Error reading group_down_option: %v", err)
+			return fmt.Errorf("error reading group_down_option: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("server_list", flattenWebProxyForwardServerGroupServerList(o["server-list"], d, "server_list", sv)); err != nil {
 			if !fortiAPIPatch(o["server-list"]) {
-				return fmt.Errorf("Error reading server_list: %v", err)
+				return fmt.Errorf("error reading server_list: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("server_list"); ok {
 			if err = d.Set("server_list", flattenWebProxyForwardServerGroupServerList(o["server-list"], d, "server_list", sv)); err != nil {
 				if !fortiAPIPatch(o["server-list"]) {
-					return fmt.Errorf("Error reading server_list: %v", err)
+					return fmt.Errorf("error reading server_list: %v", err)
 				}
 			}
 		}

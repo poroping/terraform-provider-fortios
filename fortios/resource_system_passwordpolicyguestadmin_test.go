@@ -59,14 +59,14 @@ func testAccCheckFortiOSSystemPasswordPolicyGuestAdminExists(n string) resource.
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemPasswordPolicyGuestAdmin(i, "root")
+		o, err := c.ReadSystemPasswordPolicyGuestAdmin(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading SystemPasswordPolicyGuestAdmin: %s", err)
+			return fmt.Errorf("error reading SystemPasswordPolicyGuestAdmin: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating SystemPasswordPolicyGuestAdmin: %s", n)
+			return fmt.Errorf("error creating SystemPasswordPolicyGuestAdmin: %s", n)
 		}
 
 		return nil
@@ -82,11 +82,11 @@ func testAccCheckSystemPasswordPolicyGuestAdminDestroy(s *terraform.State) error
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemPasswordPolicyGuestAdmin(i, "root")
+		o, err := c.ReadSystemPasswordPolicyGuestAdmin(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error SystemPasswordPolicyGuestAdmin %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error SystemPasswordPolicyGuestAdmin %s still exists", rs.Primary.ID)
 			}
 		}
 

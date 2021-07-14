@@ -30,215 +30,220 @@ func resourceExtenderControllerExtender() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"fosid": &schema.Schema{
+			"fosid": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 19),
 				ForceNew:     true,
 				Required:     true,
 			},
-			"admin": &schema.Schema{
+			"admin": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"ifname": &schema.Schema{
+			"ifname": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 15),
 				Optional:     true,
 				Computed:     true,
 			},
-			"vdom": &schema.Schema{
+			"vdom": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"role": &schema.Schema{
+			"role": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"mode": &schema.Schema{
+			"mode": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"dial_mode": &schema.Schema{
+			"dial_mode": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"redial": &schema.Schema{
+			"redial": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"redundant_intf": &schema.Schema{
+			"redundant_intf": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 15),
 				Optional:     true,
 				Computed:     true,
 			},
-			"dial_status": &schema.Schema{
+			"dial_status": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"conn_status": &schema.Schema{
+			"conn_status": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"ext_name": &schema.Schema{
+			"ext_name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 31),
 				Optional:     true,
 				Computed:     true,
 			},
-			"description": &schema.Schema{
+			"description": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 31),
 				Optional:     true,
 				Computed:     true,
 			},
-			"quota_limit_mb": &schema.Schema{
+			"quota_limit_mb": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 10485760),
 				Optional:     true,
 				Computed:     true,
 			},
-			"billing_start_day": &schema.Schema{
+			"billing_start_day": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 28),
 				Optional:     true,
 				Computed:     true,
 			},
-			"at_dial_script": &schema.Schema{
+			"at_dial_script": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 127),
 				Optional:     true,
 				Computed:     true,
 			},
-			"modem_passwd": &schema.Schema{
+			"modem_passwd": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 27),
 				Optional:     true,
 				Sensitive:    true,
 			},
-			"initiated_update": &schema.Schema{
+			"initiated_update": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"modem_type": &schema.Schema{
+			"modem_type": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ppp_username": &schema.Schema{
+			"ppp_username": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 31),
 				Optional:     true,
 				Computed:     true,
 			},
-			"ppp_password": &schema.Schema{
+			"ppp_password": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 27),
 				Optional:     true,
 				Sensitive:    true,
 			},
-			"ppp_auth_protocol": &schema.Schema{
+			"ppp_auth_protocol": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ppp_echo_request": &schema.Schema{
+			"ppp_echo_request": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"wimax_carrier": &schema.Schema{
+			"wimax_carrier": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 31),
 				Optional:     true,
 				Computed:     true,
 			},
-			"wimax_realm": &schema.Schema{
+			"wimax_realm": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 31),
 				Optional:     true,
 				Computed:     true,
 			},
-			"wimax_auth_protocol": &schema.Schema{
+			"wimax_auth_protocol": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"sim_pin": &schema.Schema{
+			"sim_pin": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 27),
 				Optional:     true,
 				Sensitive:    true,
 			},
-			"access_point_name": &schema.Schema{
+			"access_point_name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"multi_mode": &schema.Schema{
+			"multi_mode": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"roaming": &schema.Schema{
+			"roaming": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"cdma_nai": &schema.Schema{
+			"cdma_nai": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 31),
 				Optional:     true,
 				Computed:     true,
 			},
-			"aaa_shared_secret": &schema.Schema{
+			"aaa_shared_secret": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 27),
 				Optional:     true,
 				Sensitive:    true,
 			},
-			"ha_shared_secret": &schema.Schema{
+			"ha_shared_secret": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 27),
 				Optional:     true,
 				Sensitive:    true,
 			},
-			"primary_ha": &schema.Schema{
+			"primary_ha": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 31),
 				Optional:     true,
 				Computed:     true,
 			},
-			"secondary_ha": &schema.Schema{
+			"secondary_ha": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 31),
 				Optional:     true,
 				Computed:     true,
 			},
-			"cdma_aaa_spi": &schema.Schema{
+			"cdma_aaa_spi": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 31),
 				Optional:     true,
 				Computed:     true,
 			},
-			"cdma_ha_spi": &schema.Schema{
+			"cdma_ha_spi": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 31),
 				Optional:     true,
 				Computed:     true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -256,15 +261,25 @@ func resourceExtenderControllerExtenderCreate(d *schema.ResourceData, m interfac
 		}
 	}
 
-	obj, err := getObjectExtenderControllerExtender(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating ExtenderControllerExtender resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateExtenderControllerExtender(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectExtenderControllerExtender(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating ExtenderControllerExtender resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateExtenderControllerExtender(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating ExtenderControllerExtender resource: %v", err)
+		return fmt.Errorf("error creating ExtenderControllerExtender resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -289,14 +304,24 @@ func resourceExtenderControllerExtenderUpdate(d *schema.ResourceData, m interfac
 		}
 	}
 
-	obj, err := getObjectExtenderControllerExtender(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating ExtenderControllerExtender resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateExtenderControllerExtender(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectExtenderControllerExtender(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating ExtenderControllerExtender resource: %v", err)
+		return fmt.Errorf("error updating ExtenderControllerExtender resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateExtenderControllerExtender(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating ExtenderControllerExtender resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -323,9 +348,17 @@ func resourceExtenderControllerExtenderDelete(d *schema.ResourceData, m interfac
 		}
 	}
 
-	err := c.DeleteExtenderControllerExtender(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteExtenderControllerExtender(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting ExtenderControllerExtender resource: %v", err)
+		return fmt.Errorf("error deleting ExtenderControllerExtender resource: %v", err)
 	}
 
 	d.SetId("")
@@ -347,9 +380,19 @@ func resourceExtenderControllerExtenderRead(d *schema.ResourceData, m interface{
 		}
 	}
 
-	o, err := c.ReadExtenderControllerExtender(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadExtenderControllerExtender(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading ExtenderControllerExtender resource: %v", err)
+		return fmt.Errorf("error reading ExtenderControllerExtender resource: %v", err)
 	}
 
 	if o == nil {
@@ -360,7 +403,7 @@ func resourceExtenderControllerExtenderRead(d *schema.ResourceData, m interface{
 
 	err = refreshObjectExtenderControllerExtender(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading ExtenderControllerExtender resource from API: %v", err)
+		return fmt.Errorf("error reading ExtenderControllerExtender resource from API: %v", err)
 	}
 	return nil
 }
@@ -518,193 +561,193 @@ func refreshObjectExtenderControllerExtender(d *schema.ResourceData, o map[strin
 
 	if err = d.Set("fosid", flattenExtenderControllerExtenderId(o["id"], d, "fosid", sv)); err != nil {
 		if !fortiAPIPatch(o["id"]) {
-			return fmt.Errorf("Error reading fosid: %v", err)
+			return fmt.Errorf("error reading fosid: %v", err)
 		}
 	}
 
 	if err = d.Set("admin", flattenExtenderControllerExtenderAdmin(o["admin"], d, "admin", sv)); err != nil {
 		if !fortiAPIPatch(o["admin"]) {
-			return fmt.Errorf("Error reading admin: %v", err)
+			return fmt.Errorf("error reading admin: %v", err)
 		}
 	}
 
 	if err = d.Set("ifname", flattenExtenderControllerExtenderIfname(o["ifname"], d, "ifname", sv)); err != nil {
 		if !fortiAPIPatch(o["ifname"]) {
-			return fmt.Errorf("Error reading ifname: %v", err)
+			return fmt.Errorf("error reading ifname: %v", err)
 		}
 	}
 
 	if err = d.Set("vdom", flattenExtenderControllerExtenderVdom(o["vdom"], d, "vdom", sv)); err != nil {
 		if !fortiAPIPatch(o["vdom"]) {
-			return fmt.Errorf("Error reading vdom: %v", err)
+			return fmt.Errorf("error reading vdom: %v", err)
 		}
 	}
 
 	if err = d.Set("role", flattenExtenderControllerExtenderRole(o["role"], d, "role", sv)); err != nil {
 		if !fortiAPIPatch(o["role"]) {
-			return fmt.Errorf("Error reading role: %v", err)
+			return fmt.Errorf("error reading role: %v", err)
 		}
 	}
 
 	if err = d.Set("mode", flattenExtenderControllerExtenderMode(o["mode"], d, "mode", sv)); err != nil {
 		if !fortiAPIPatch(o["mode"]) {
-			return fmt.Errorf("Error reading mode: %v", err)
+			return fmt.Errorf("error reading mode: %v", err)
 		}
 	}
 
 	if err = d.Set("dial_mode", flattenExtenderControllerExtenderDialMode(o["dial-mode"], d, "dial_mode", sv)); err != nil {
 		if !fortiAPIPatch(o["dial-mode"]) {
-			return fmt.Errorf("Error reading dial_mode: %v", err)
+			return fmt.Errorf("error reading dial_mode: %v", err)
 		}
 	}
 
 	if err = d.Set("redial", flattenExtenderControllerExtenderRedial(o["redial"], d, "redial", sv)); err != nil {
 		if !fortiAPIPatch(o["redial"]) {
-			return fmt.Errorf("Error reading redial: %v", err)
+			return fmt.Errorf("error reading redial: %v", err)
 		}
 	}
 
 	if err = d.Set("redundant_intf", flattenExtenderControllerExtenderRedundantIntf(o["redundant-intf"], d, "redundant_intf", sv)); err != nil {
 		if !fortiAPIPatch(o["redundant-intf"]) {
-			return fmt.Errorf("Error reading redundant_intf: %v", err)
+			return fmt.Errorf("error reading redundant_intf: %v", err)
 		}
 	}
 
 	if err = d.Set("dial_status", flattenExtenderControllerExtenderDialStatus(o["dial-status"], d, "dial_status", sv)); err != nil {
 		if !fortiAPIPatch(o["dial-status"]) {
-			return fmt.Errorf("Error reading dial_status: %v", err)
+			return fmt.Errorf("error reading dial_status: %v", err)
 		}
 	}
 
 	if err = d.Set("conn_status", flattenExtenderControllerExtenderConnStatus(o["conn-status"], d, "conn_status", sv)); err != nil {
 		if !fortiAPIPatch(o["conn-status"]) {
-			return fmt.Errorf("Error reading conn_status: %v", err)
+			return fmt.Errorf("error reading conn_status: %v", err)
 		}
 	}
 
 	if err = d.Set("ext_name", flattenExtenderControllerExtenderExtName(o["ext-name"], d, "ext_name", sv)); err != nil {
 		if !fortiAPIPatch(o["ext-name"]) {
-			return fmt.Errorf("Error reading ext_name: %v", err)
+			return fmt.Errorf("error reading ext_name: %v", err)
 		}
 	}
 
 	if err = d.Set("description", flattenExtenderControllerExtenderDescription(o["description"], d, "description", sv)); err != nil {
 		if !fortiAPIPatch(o["description"]) {
-			return fmt.Errorf("Error reading description: %v", err)
+			return fmt.Errorf("error reading description: %v", err)
 		}
 	}
 
 	if err = d.Set("quota_limit_mb", flattenExtenderControllerExtenderQuotaLimitMb(o["quota-limit-mb"], d, "quota_limit_mb", sv)); err != nil {
 		if !fortiAPIPatch(o["quota-limit-mb"]) {
-			return fmt.Errorf("Error reading quota_limit_mb: %v", err)
+			return fmt.Errorf("error reading quota_limit_mb: %v", err)
 		}
 	}
 
 	if err = d.Set("billing_start_day", flattenExtenderControllerExtenderBillingStartDay(o["billing-start-day"], d, "billing_start_day", sv)); err != nil {
 		if !fortiAPIPatch(o["billing-start-day"]) {
-			return fmt.Errorf("Error reading billing_start_day: %v", err)
+			return fmt.Errorf("error reading billing_start_day: %v", err)
 		}
 	}
 
 	if err = d.Set("at_dial_script", flattenExtenderControllerExtenderAtDialScript(o["at-dial-script"], d, "at_dial_script", sv)); err != nil {
 		if !fortiAPIPatch(o["at-dial-script"]) {
-			return fmt.Errorf("Error reading at_dial_script: %v", err)
+			return fmt.Errorf("error reading at_dial_script: %v", err)
 		}
 	}
 
 	if err = d.Set("initiated_update", flattenExtenderControllerExtenderInitiatedUpdate(o["initiated-update"], d, "initiated_update", sv)); err != nil {
 		if !fortiAPIPatch(o["initiated-update"]) {
-			return fmt.Errorf("Error reading initiated_update: %v", err)
+			return fmt.Errorf("error reading initiated_update: %v", err)
 		}
 	}
 
 	if err = d.Set("modem_type", flattenExtenderControllerExtenderModemType(o["modem-type"], d, "modem_type", sv)); err != nil {
 		if !fortiAPIPatch(o["modem-type"]) {
-			return fmt.Errorf("Error reading modem_type: %v", err)
+			return fmt.Errorf("error reading modem_type: %v", err)
 		}
 	}
 
 	if err = d.Set("ppp_username", flattenExtenderControllerExtenderPppUsername(o["ppp-username"], d, "ppp_username", sv)); err != nil {
 		if !fortiAPIPatch(o["ppp-username"]) {
-			return fmt.Errorf("Error reading ppp_username: %v", err)
+			return fmt.Errorf("error reading ppp_username: %v", err)
 		}
 	}
 
 	if err = d.Set("ppp_auth_protocol", flattenExtenderControllerExtenderPppAuthProtocol(o["ppp-auth-protocol"], d, "ppp_auth_protocol", sv)); err != nil {
 		if !fortiAPIPatch(o["ppp-auth-protocol"]) {
-			return fmt.Errorf("Error reading ppp_auth_protocol: %v", err)
+			return fmt.Errorf("error reading ppp_auth_protocol: %v", err)
 		}
 	}
 
 	if err = d.Set("ppp_echo_request", flattenExtenderControllerExtenderPppEchoRequest(o["ppp-echo-request"], d, "ppp_echo_request", sv)); err != nil {
 		if !fortiAPIPatch(o["ppp-echo-request"]) {
-			return fmt.Errorf("Error reading ppp_echo_request: %v", err)
+			return fmt.Errorf("error reading ppp_echo_request: %v", err)
 		}
 	}
 
 	if err = d.Set("wimax_carrier", flattenExtenderControllerExtenderWimaxCarrier(o["wimax-carrier"], d, "wimax_carrier", sv)); err != nil {
 		if !fortiAPIPatch(o["wimax-carrier"]) {
-			return fmt.Errorf("Error reading wimax_carrier: %v", err)
+			return fmt.Errorf("error reading wimax_carrier: %v", err)
 		}
 	}
 
 	if err = d.Set("wimax_realm", flattenExtenderControllerExtenderWimaxRealm(o["wimax-realm"], d, "wimax_realm", sv)); err != nil {
 		if !fortiAPIPatch(o["wimax-realm"]) {
-			return fmt.Errorf("Error reading wimax_realm: %v", err)
+			return fmt.Errorf("error reading wimax_realm: %v", err)
 		}
 	}
 
 	if err = d.Set("wimax_auth_protocol", flattenExtenderControllerExtenderWimaxAuthProtocol(o["wimax-auth-protocol"], d, "wimax_auth_protocol", sv)); err != nil {
 		if !fortiAPIPatch(o["wimax-auth-protocol"]) {
-			return fmt.Errorf("Error reading wimax_auth_protocol: %v", err)
+			return fmt.Errorf("error reading wimax_auth_protocol: %v", err)
 		}
 	}
 
 	if err = d.Set("access_point_name", flattenExtenderControllerExtenderAccessPointName(o["access-point-name"], d, "access_point_name", sv)); err != nil {
 		if !fortiAPIPatch(o["access-point-name"]) {
-			return fmt.Errorf("Error reading access_point_name: %v", err)
+			return fmt.Errorf("error reading access_point_name: %v", err)
 		}
 	}
 
 	if err = d.Set("multi_mode", flattenExtenderControllerExtenderMultiMode(o["multi-mode"], d, "multi_mode", sv)); err != nil {
 		if !fortiAPIPatch(o["multi-mode"]) {
-			return fmt.Errorf("Error reading multi_mode: %v", err)
+			return fmt.Errorf("error reading multi_mode: %v", err)
 		}
 	}
 
 	if err = d.Set("roaming", flattenExtenderControllerExtenderRoaming(o["roaming"], d, "roaming", sv)); err != nil {
 		if !fortiAPIPatch(o["roaming"]) {
-			return fmt.Errorf("Error reading roaming: %v", err)
+			return fmt.Errorf("error reading roaming: %v", err)
 		}
 	}
 
 	if err = d.Set("cdma_nai", flattenExtenderControllerExtenderCdmaNai(o["cdma-nai"], d, "cdma_nai", sv)); err != nil {
 		if !fortiAPIPatch(o["cdma-nai"]) {
-			return fmt.Errorf("Error reading cdma_nai: %v", err)
+			return fmt.Errorf("error reading cdma_nai: %v", err)
 		}
 	}
 
 	if err = d.Set("primary_ha", flattenExtenderControllerExtenderPrimaryHa(o["primary-ha"], d, "primary_ha", sv)); err != nil {
 		if !fortiAPIPatch(o["primary-ha"]) {
-			return fmt.Errorf("Error reading primary_ha: %v", err)
+			return fmt.Errorf("error reading primary_ha: %v", err)
 		}
 	}
 
 	if err = d.Set("secondary_ha", flattenExtenderControllerExtenderSecondaryHa(o["secondary-ha"], d, "secondary_ha", sv)); err != nil {
 		if !fortiAPIPatch(o["secondary-ha"]) {
-			return fmt.Errorf("Error reading secondary_ha: %v", err)
+			return fmt.Errorf("error reading secondary_ha: %v", err)
 		}
 	}
 
 	if err = d.Set("cdma_aaa_spi", flattenExtenderControllerExtenderCdmaAaaSpi(o["cdma-aaa-spi"], d, "cdma_aaa_spi", sv)); err != nil {
 		if !fortiAPIPatch(o["cdma-aaa-spi"]) {
-			return fmt.Errorf("Error reading cdma_aaa_spi: %v", err)
+			return fmt.Errorf("error reading cdma_aaa_spi: %v", err)
 		}
 	}
 
 	if err = d.Set("cdma_ha_spi", flattenExtenderControllerExtenderCdmaHaSpi(o["cdma-ha-spi"], d, "cdma_ha_spi", sv)); err != nil {
 		if !fortiAPIPatch(o["cdma-ha-spi"]) {
-			return fmt.Errorf("Error reading cdma_ha_spi: %v", err)
+			return fmt.Errorf("error reading cdma_ha_spi: %v", err)
 		}
 	}
 

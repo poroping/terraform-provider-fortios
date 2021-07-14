@@ -49,14 +49,14 @@ func testAccCheckFortiOSSpamfilterOptionsExists(n string) resource.TestCheckFunc
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadSpamfilterOptions(i, "root")
+		o, err := c.ReadSpamfilterOptions(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading SpamfilterOptions: %s", err)
+			return fmt.Errorf("error reading SpamfilterOptions: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating SpamfilterOptions: %s", n)
+			return fmt.Errorf("error creating SpamfilterOptions: %s", n)
 		}
 
 		return nil
@@ -72,11 +72,11 @@ func testAccCheckSpamfilterOptionsDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadSpamfilterOptions(i, "root")
+		o, err := c.ReadSpamfilterOptions(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error SpamfilterOptions %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error SpamfilterOptions %s still exists", rs.Primary.ID)
 			}
 		}
 

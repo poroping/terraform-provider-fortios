@@ -16,49 +16,49 @@ func resourceFirewallSecurityPolicySeq() *schema.Resource {
 		Delete: resourceFirewallSecurityPolicySeqDel,
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"policy_src_id": &schema.Schema{
+			"policy_src_id": {
 				Type:     schema.TypeInt,
 				Required: true,
 			},
-			"policy_dst_id": &schema.Schema{
+			"policy_dst_id": {
 				Type:     schema.TypeInt,
 				Required: true,
 			},
-			"alter_position": &schema.Schema{
+			"alter_position": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"enable_state_checking": &schema.Schema{
+			"enable_state_checking": {
 				Type:     schema.TypeBool,
 				Optional: true,
 				Default:  false,
 			},
-			"state_policy_srcdst_pos": &schema.Schema{
+			"state_policy_srcdst_pos": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Default:  "",
 			},
-			"state_policy_list": &schema.Schema{
+			"state_policy_list": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"policyid": &schema.Schema{
+						"policyid": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"name": &schema.Schema{
+						"name": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"action": &schema.Schema{
+						"action": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -66,9 +66,14 @@ func resourceFirewallSecurityPolicySeq() *schema.Resource {
 					},
 				},
 			},
-			"comment": &schema.Schema{
+			"comment": {
 				Type:     schema.TypeString,
 				Optional: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -91,6 +96,14 @@ func resourceFirewallSecurityPolicySeqCreateUpdate(d *schema.ResourceData, m int
 		}
 	}
 
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
 	srcIdPatch := d.Get("policy_src_id").(int)
 	dstIdPatch := d.Get("policy_dst_id").(int)
 	alterPos := d.Get("alter_position").(string)
@@ -102,9 +115,9 @@ func resourceFirewallSecurityPolicySeqCreateUpdate(d *schema.ResourceData, m int
 		return fmt.Errorf("<alter_position> param should be only 'after' or 'before'")
 	}
 
-	err := c.CreateUpdateFirewallSecurityPolicySeq(srcId, dstId, alterPos, vdomparam)
+	err := c.CreateUpdateFirewallSecurityPolicySeq(srcId, dstId, alterPos, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error Altering Firewall Security Policy Sequence: %s", err)
+		return fmt.Errorf("error Altering Firewall Security Policy Sequence: %s", err)
 	}
 
 	d.SetId(srcId)
@@ -147,13 +160,21 @@ func resourceFirewallSecurityPolicySeqRead(d *schema.ResourceData, m interface{}
 		}
 	}
 
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
 	sid := d.Get("policy_src_id").(int)
 	did := d.Get("policy_dst_id").(int)
 	action := d.Get("alter_position").(string)
 
-	o, err := c.GetSecurityPolicyList(vdomparam)
+	o, err := c.GetSecurityPolicyList(vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading Firewall Security Policy List: %s", err)
+		return fmt.Errorf("error reading Firewall Security Policy List: %s", err)
 	}
 
 	if o != nil {

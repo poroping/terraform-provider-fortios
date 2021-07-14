@@ -30,20 +30,25 @@ func resourceSwitchControllerSflow() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"collector_ip": &schema.Schema{
+			"collector_ip": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"collector_port": &schema.Schema{
+			"collector_port": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 65535),
 				Optional:     true,
 				Computed:     true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -62,14 +67,24 @@ func resourceSwitchControllerSflowUpdate(d *schema.ResourceData, m interface{}) 
 		}
 	}
 
-	obj, err := getObjectSwitchControllerSflow(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SwitchControllerSflow resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSwitchControllerSflow(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSwitchControllerSflow(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SwitchControllerSflow resource: %v", err)
+		return fmt.Errorf("error updating SwitchControllerSflow resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSwitchControllerSflow(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SwitchControllerSflow resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -96,9 +111,17 @@ func resourceSwitchControllerSflowDelete(d *schema.ResourceData, m interface{}) 
 		}
 	}
 
-	err := c.DeleteSwitchControllerSflow(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSwitchControllerSflow(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SwitchControllerSflow resource: %v", err)
+		return fmt.Errorf("error deleting SwitchControllerSflow resource: %v", err)
 	}
 
 	d.SetId("")
@@ -120,9 +143,19 @@ func resourceSwitchControllerSflowRead(d *schema.ResourceData, m interface{}) er
 		}
 	}
 
-	o, err := c.ReadSwitchControllerSflow(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSwitchControllerSflow(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SwitchControllerSflow resource: %v", err)
+		return fmt.Errorf("error reading SwitchControllerSflow resource: %v", err)
 	}
 
 	if o == nil {
@@ -133,7 +166,7 @@ func resourceSwitchControllerSflowRead(d *schema.ResourceData, m interface{}) er
 
 	err = refreshObjectSwitchControllerSflow(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SwitchControllerSflow resource from API: %v", err)
+		return fmt.Errorf("error reading SwitchControllerSflow resource from API: %v", err)
 	}
 	return nil
 }
@@ -151,13 +184,13 @@ func refreshObjectSwitchControllerSflow(d *schema.ResourceData, o map[string]int
 
 	if err = d.Set("collector_ip", flattenSwitchControllerSflowCollectorIp(o["collector-ip"], d, "collector_ip", sv)); err != nil {
 		if !fortiAPIPatch(o["collector-ip"]) {
-			return fmt.Errorf("Error reading collector_ip: %v", err)
+			return fmt.Errorf("error reading collector_ip: %v", err)
 		}
 	}
 
 	if err = d.Set("collector_port", flattenSwitchControllerSflowCollectorPort(o["collector-port"], d, "collector_port", sv)); err != nil {
 		if !fortiAPIPatch(o["collector-port"]) {
-			return fmt.Errorf("Error reading collector_port: %v", err)
+			return fmt.Errorf("error reading collector_port: %v", err)
 		}
 	}
 

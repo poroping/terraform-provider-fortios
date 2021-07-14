@@ -16,9 +16,14 @@ func resourceSystemLicenseVDOM() *schema.Resource {
 		Delete: resourceSystemLicenseVDOMDelete,
 
 		Schema: map[string]*schema.Schema{
-			"license": &schema.Schema{
+			"license": {
 				Type:     schema.TypeString,
 				Required: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -44,7 +49,7 @@ func resourceSystemLicenseVDOMCreateUpdate(d *schema.ResourceData, m interface{}
 	//Call process by sdk
 	_, err := c.CreateSystemLicenseVDOM(i)
 	if err != nil {
-		return fmt.Errorf("Error creating System License VDOM: %s", err)
+		return fmt.Errorf("error creating System License VDOM: %s", err)
 	}
 
 	//Set index for d
@@ -72,7 +77,7 @@ func resourceSystemLicenseVDOMRead(d *schema.ResourceData, m interface{}) error 
 	//Call process by sdk
 	o, err := c.ReadSystemLicenseVDOM(mkey)
 	if err != nil {
-		return fmt.Errorf("Error reading System License VDOM: %s", err)
+		return fmt.Errorf("error reading System License VDOM: %s", err)
 	}
 
 	if o == nil {

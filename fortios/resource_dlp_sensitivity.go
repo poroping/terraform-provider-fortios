@@ -30,16 +30,21 @@ func resourceDlpSensitivity() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -57,15 +62,25 @@ func resourceDlpSensitivityCreate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectDlpSensitivity(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating DlpSensitivity resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateDlpSensitivity(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectDlpSensitivity(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating DlpSensitivity resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateDlpSensitivity(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating DlpSensitivity resource: %v", err)
+		return fmt.Errorf("error creating DlpSensitivity resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -90,14 +105,24 @@ func resourceDlpSensitivityUpdate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectDlpSensitivity(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating DlpSensitivity resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateDlpSensitivity(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectDlpSensitivity(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating DlpSensitivity resource: %v", err)
+		return fmt.Errorf("error updating DlpSensitivity resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateDlpSensitivity(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating DlpSensitivity resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -124,9 +149,17 @@ func resourceDlpSensitivityDelete(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	err := c.DeleteDlpSensitivity(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteDlpSensitivity(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting DlpSensitivity resource: %v", err)
+		return fmt.Errorf("error deleting DlpSensitivity resource: %v", err)
 	}
 
 	d.SetId("")
@@ -148,9 +181,19 @@ func resourceDlpSensitivityRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadDlpSensitivity(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadDlpSensitivity(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading DlpSensitivity resource: %v", err)
+		return fmt.Errorf("error reading DlpSensitivity resource: %v", err)
 	}
 
 	if o == nil {
@@ -161,7 +204,7 @@ func resourceDlpSensitivityRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectDlpSensitivity(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading DlpSensitivity resource from API: %v", err)
+		return fmt.Errorf("error reading DlpSensitivity resource from API: %v", err)
 	}
 	return nil
 }
@@ -175,7 +218,7 @@ func refreshObjectDlpSensitivity(d *schema.ResourceData, o map[string]interface{
 
 	if err = d.Set("name", flattenDlpSensitivityName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 

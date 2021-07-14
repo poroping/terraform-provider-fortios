@@ -30,60 +30,65 @@ func resourceWirelessControllerHotspot20H2QpWanMetric() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"link_status": &schema.Schema{
+			"link_status": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"symmetric_wan_link": &schema.Schema{
+			"symmetric_wan_link": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"link_at_capacity": &schema.Schema{
+			"link_at_capacity": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"uplink_speed": &schema.Schema{
+			"uplink_speed": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"downlink_speed": &schema.Schema{
+			"downlink_speed": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"uplink_load": &schema.Schema{
+			"uplink_load": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 255),
 				Optional:     true,
 				Computed:     true,
 			},
-			"downlink_load": &schema.Schema{
+			"downlink_load": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 255),
 				Optional:     true,
 				Computed:     true,
 			},
-			"load_measurement_duration": &schema.Schema{
+			"load_measurement_duration": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 65535),
 				Optional:     true,
 				Computed:     true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -101,15 +106,25 @@ func resourceWirelessControllerHotspot20H2QpWanMetricCreate(d *schema.ResourceDa
 		}
 	}
 
-	obj, err := getObjectWirelessControllerHotspot20H2QpWanMetric(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating WirelessControllerHotspot20H2QpWanMetric resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateWirelessControllerHotspot20H2QpWanMetric(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectWirelessControllerHotspot20H2QpWanMetric(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating WirelessControllerHotspot20H2QpWanMetric resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateWirelessControllerHotspot20H2QpWanMetric(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating WirelessControllerHotspot20H2QpWanMetric resource: %v", err)
+		return fmt.Errorf("error creating WirelessControllerHotspot20H2QpWanMetric resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -134,14 +149,24 @@ func resourceWirelessControllerHotspot20H2QpWanMetricUpdate(d *schema.ResourceDa
 		}
 	}
 
-	obj, err := getObjectWirelessControllerHotspot20H2QpWanMetric(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating WirelessControllerHotspot20H2QpWanMetric resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateWirelessControllerHotspot20H2QpWanMetric(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectWirelessControllerHotspot20H2QpWanMetric(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating WirelessControllerHotspot20H2QpWanMetric resource: %v", err)
+		return fmt.Errorf("error updating WirelessControllerHotspot20H2QpWanMetric resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateWirelessControllerHotspot20H2QpWanMetric(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating WirelessControllerHotspot20H2QpWanMetric resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -168,9 +193,17 @@ func resourceWirelessControllerHotspot20H2QpWanMetricDelete(d *schema.ResourceDa
 		}
 	}
 
-	err := c.DeleteWirelessControllerHotspot20H2QpWanMetric(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteWirelessControllerHotspot20H2QpWanMetric(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting WirelessControllerHotspot20H2QpWanMetric resource: %v", err)
+		return fmt.Errorf("error deleting WirelessControllerHotspot20H2QpWanMetric resource: %v", err)
 	}
 
 	d.SetId("")
@@ -192,9 +225,19 @@ func resourceWirelessControllerHotspot20H2QpWanMetricRead(d *schema.ResourceData
 		}
 	}
 
-	o, err := c.ReadWirelessControllerHotspot20H2QpWanMetric(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadWirelessControllerHotspot20H2QpWanMetric(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading WirelessControllerHotspot20H2QpWanMetric resource: %v", err)
+		return fmt.Errorf("error reading WirelessControllerHotspot20H2QpWanMetric resource: %v", err)
 	}
 
 	if o == nil {
@@ -205,7 +248,7 @@ func resourceWirelessControllerHotspot20H2QpWanMetricRead(d *schema.ResourceData
 
 	err = refreshObjectWirelessControllerHotspot20H2QpWanMetric(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading WirelessControllerHotspot20H2QpWanMetric resource from API: %v", err)
+		return fmt.Errorf("error reading WirelessControllerHotspot20H2QpWanMetric resource from API: %v", err)
 	}
 	return nil
 }
@@ -251,55 +294,55 @@ func refreshObjectWirelessControllerHotspot20H2QpWanMetric(d *schema.ResourceDat
 
 	if err = d.Set("name", flattenWirelessControllerHotspot20H2QpWanMetricName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("link_status", flattenWirelessControllerHotspot20H2QpWanMetricLinkStatus(o["link-status"], d, "link_status", sv)); err != nil {
 		if !fortiAPIPatch(o["link-status"]) {
-			return fmt.Errorf("Error reading link_status: %v", err)
+			return fmt.Errorf("error reading link_status: %v", err)
 		}
 	}
 
 	if err = d.Set("symmetric_wan_link", flattenWirelessControllerHotspot20H2QpWanMetricSymmetricWanLink(o["symmetric-wan-link"], d, "symmetric_wan_link", sv)); err != nil {
 		if !fortiAPIPatch(o["symmetric-wan-link"]) {
-			return fmt.Errorf("Error reading symmetric_wan_link: %v", err)
+			return fmt.Errorf("error reading symmetric_wan_link: %v", err)
 		}
 	}
 
 	if err = d.Set("link_at_capacity", flattenWirelessControllerHotspot20H2QpWanMetricLinkAtCapacity(o["link-at-capacity"], d, "link_at_capacity", sv)); err != nil {
 		if !fortiAPIPatch(o["link-at-capacity"]) {
-			return fmt.Errorf("Error reading link_at_capacity: %v", err)
+			return fmt.Errorf("error reading link_at_capacity: %v", err)
 		}
 	}
 
 	if err = d.Set("uplink_speed", flattenWirelessControllerHotspot20H2QpWanMetricUplinkSpeed(o["uplink-speed"], d, "uplink_speed", sv)); err != nil {
 		if !fortiAPIPatch(o["uplink-speed"]) {
-			return fmt.Errorf("Error reading uplink_speed: %v", err)
+			return fmt.Errorf("error reading uplink_speed: %v", err)
 		}
 	}
 
 	if err = d.Set("downlink_speed", flattenWirelessControllerHotspot20H2QpWanMetricDownlinkSpeed(o["downlink-speed"], d, "downlink_speed", sv)); err != nil {
 		if !fortiAPIPatch(o["downlink-speed"]) {
-			return fmt.Errorf("Error reading downlink_speed: %v", err)
+			return fmt.Errorf("error reading downlink_speed: %v", err)
 		}
 	}
 
 	if err = d.Set("uplink_load", flattenWirelessControllerHotspot20H2QpWanMetricUplinkLoad(o["uplink-load"], d, "uplink_load", sv)); err != nil {
 		if !fortiAPIPatch(o["uplink-load"]) {
-			return fmt.Errorf("Error reading uplink_load: %v", err)
+			return fmt.Errorf("error reading uplink_load: %v", err)
 		}
 	}
 
 	if err = d.Set("downlink_load", flattenWirelessControllerHotspot20H2QpWanMetricDownlinkLoad(o["downlink-load"], d, "downlink_load", sv)); err != nil {
 		if !fortiAPIPatch(o["downlink-load"]) {
-			return fmt.Errorf("Error reading downlink_load: %v", err)
+			return fmt.Errorf("error reading downlink_load: %v", err)
 		}
 	}
 
 	if err = d.Set("load_measurement_duration", flattenWirelessControllerHotspot20H2QpWanMetricLoadMeasurementDuration(o["load-measurement-duration"], d, "load_measurement_duration", sv)); err != nil {
 		if !fortiAPIPatch(o["load-measurement-duration"]) {
-			return fmt.Errorf("Error reading load_measurement_duration: %v", err)
+			return fmt.Errorf("error reading load_measurement_duration: %v", err)
 		}
 	}
 

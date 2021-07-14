@@ -30,31 +30,36 @@ func resourceAntivirusSettings() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"use_extreme_db": &schema.Schema{
+			"use_extreme_db": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"default_db": &schema.Schema{
+			"default_db": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"grayware": &schema.Schema{
+			"grayware": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"override_timeout": &schema.Schema{
+			"override_timeout": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(30, 3600),
 				Optional:     true,
 				Computed:     true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -73,14 +78,24 @@ func resourceAntivirusSettingsUpdate(d *schema.ResourceData, m interface{}) erro
 		}
 	}
 
-	obj, err := getObjectAntivirusSettings(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating AntivirusSettings resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateAntivirusSettings(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectAntivirusSettings(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating AntivirusSettings resource: %v", err)
+		return fmt.Errorf("error updating AntivirusSettings resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateAntivirusSettings(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating AntivirusSettings resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -107,9 +122,17 @@ func resourceAntivirusSettingsDelete(d *schema.ResourceData, m interface{}) erro
 		}
 	}
 
-	err := c.DeleteAntivirusSettings(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteAntivirusSettings(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting AntivirusSettings resource: %v", err)
+		return fmt.Errorf("error deleting AntivirusSettings resource: %v", err)
 	}
 
 	d.SetId("")
@@ -131,9 +154,19 @@ func resourceAntivirusSettingsRead(d *schema.ResourceData, m interface{}) error 
 		}
 	}
 
-	o, err := c.ReadAntivirusSettings(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadAntivirusSettings(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading AntivirusSettings resource: %v", err)
+		return fmt.Errorf("error reading AntivirusSettings resource: %v", err)
 	}
 
 	if o == nil {
@@ -144,7 +177,7 @@ func resourceAntivirusSettingsRead(d *schema.ResourceData, m interface{}) error 
 
 	err = refreshObjectAntivirusSettings(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading AntivirusSettings resource from API: %v", err)
+		return fmt.Errorf("error reading AntivirusSettings resource from API: %v", err)
 	}
 	return nil
 }
@@ -170,25 +203,25 @@ func refreshObjectAntivirusSettings(d *schema.ResourceData, o map[string]interfa
 
 	if err = d.Set("use_extreme_db", flattenAntivirusSettingsUseExtremeDb(o["use-extreme-db"], d, "use_extreme_db", sv)); err != nil {
 		if !fortiAPIPatch(o["use-extreme-db"]) {
-			return fmt.Errorf("Error reading use_extreme_db: %v", err)
+			return fmt.Errorf("error reading use_extreme_db: %v", err)
 		}
 	}
 
 	if err = d.Set("default_db", flattenAntivirusSettingsDefaultDb(o["default-db"], d, "default_db", sv)); err != nil {
 		if !fortiAPIPatch(o["default-db"]) {
-			return fmt.Errorf("Error reading default_db: %v", err)
+			return fmt.Errorf("error reading default_db: %v", err)
 		}
 	}
 
 	if err = d.Set("grayware", flattenAntivirusSettingsGrayware(o["grayware"], d, "grayware", sv)); err != nil {
 		if !fortiAPIPatch(o["grayware"]) {
-			return fmt.Errorf("Error reading grayware: %v", err)
+			return fmt.Errorf("error reading grayware: %v", err)
 		}
 	}
 
 	if err = d.Set("override_timeout", flattenAntivirusSettingsOverrideTimeout(o["override-timeout"], d, "override_timeout", sv)); err != nil {
 		if !fortiAPIPatch(o["override-timeout"]) {
-			return fmt.Errorf("Error reading override_timeout: %v", err)
+			return fmt.Errorf("error reading override_timeout: %v", err)
 		}
 	}
 

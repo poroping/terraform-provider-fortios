@@ -30,22 +30,27 @@ func resourceFirewallInternetServiceAppend() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"match_port": &schema.Schema{
+			"match_port": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"append_port": &schema.Schema{
+			"append_port": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 65535),
 				Optional:     true,
 				Computed:     true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -64,14 +69,24 @@ func resourceFirewallInternetServiceAppendUpdate(d *schema.ResourceData, m inter
 		}
 	}
 
-	obj, err := getObjectFirewallInternetServiceAppend(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating FirewallInternetServiceAppend resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateFirewallInternetServiceAppend(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectFirewallInternetServiceAppend(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating FirewallInternetServiceAppend resource: %v", err)
+		return fmt.Errorf("error updating FirewallInternetServiceAppend resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateFirewallInternetServiceAppend(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating FirewallInternetServiceAppend resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -98,9 +113,17 @@ func resourceFirewallInternetServiceAppendDelete(d *schema.ResourceData, m inter
 		}
 	}
 
-	err := c.DeleteFirewallInternetServiceAppend(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteFirewallInternetServiceAppend(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting FirewallInternetServiceAppend resource: %v", err)
+		return fmt.Errorf("error deleting FirewallInternetServiceAppend resource: %v", err)
 	}
 
 	d.SetId("")
@@ -122,9 +145,19 @@ func resourceFirewallInternetServiceAppendRead(d *schema.ResourceData, m interfa
 		}
 	}
 
-	o, err := c.ReadFirewallInternetServiceAppend(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadFirewallInternetServiceAppend(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading FirewallInternetServiceAppend resource: %v", err)
+		return fmt.Errorf("error reading FirewallInternetServiceAppend resource: %v", err)
 	}
 
 	if o == nil {
@@ -135,7 +168,7 @@ func resourceFirewallInternetServiceAppendRead(d *schema.ResourceData, m interfa
 
 	err = refreshObjectFirewallInternetServiceAppend(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading FirewallInternetServiceAppend resource from API: %v", err)
+		return fmt.Errorf("error reading FirewallInternetServiceAppend resource from API: %v", err)
 	}
 	return nil
 }
@@ -153,13 +186,13 @@ func refreshObjectFirewallInternetServiceAppend(d *schema.ResourceData, o map[st
 
 	if err = d.Set("match_port", flattenFirewallInternetServiceAppendMatchPort(o["match-port"], d, "match_port", sv)); err != nil {
 		if !fortiAPIPatch(o["match-port"]) {
-			return fmt.Errorf("Error reading match_port: %v", err)
+			return fmt.Errorf("error reading match_port: %v", err)
 		}
 	}
 
 	if err = d.Set("append_port", flattenFirewallInternetServiceAppendAppendPort(o["append-port"], d, "append_port", sv)); err != nil {
 		if !fortiAPIPatch(o["append-port"]) {
-			return fmt.Errorf("Error reading append_port: %v", err)
+			return fmt.Errorf("error reading append_port: %v", err)
 		}
 	}
 

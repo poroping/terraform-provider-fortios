@@ -30,27 +30,32 @@ func resourceSwitchControllerSecurityPolicyLocalAccess() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 31),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"mgmt_allowaccess": &schema.Schema{
+			"mgmt_allowaccess": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"internal_allowaccess": &schema.Schema{
+			"internal_allowaccess": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -68,15 +73,25 @@ func resourceSwitchControllerSecurityPolicyLocalAccessCreate(d *schema.ResourceD
 		}
 	}
 
-	obj, err := getObjectSwitchControllerSecurityPolicyLocalAccess(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating SwitchControllerSecurityPolicyLocalAccess resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateSwitchControllerSecurityPolicyLocalAccess(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSwitchControllerSecurityPolicyLocalAccess(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating SwitchControllerSecurityPolicyLocalAccess resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateSwitchControllerSecurityPolicyLocalAccess(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating SwitchControllerSecurityPolicyLocalAccess resource: %v", err)
+		return fmt.Errorf("error creating SwitchControllerSecurityPolicyLocalAccess resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -101,14 +116,24 @@ func resourceSwitchControllerSecurityPolicyLocalAccessUpdate(d *schema.ResourceD
 		}
 	}
 
-	obj, err := getObjectSwitchControllerSecurityPolicyLocalAccess(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SwitchControllerSecurityPolicyLocalAccess resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSwitchControllerSecurityPolicyLocalAccess(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSwitchControllerSecurityPolicyLocalAccess(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SwitchControllerSecurityPolicyLocalAccess resource: %v", err)
+		return fmt.Errorf("error updating SwitchControllerSecurityPolicyLocalAccess resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSwitchControllerSecurityPolicyLocalAccess(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SwitchControllerSecurityPolicyLocalAccess resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -135,9 +160,17 @@ func resourceSwitchControllerSecurityPolicyLocalAccessDelete(d *schema.ResourceD
 		}
 	}
 
-	err := c.DeleteSwitchControllerSecurityPolicyLocalAccess(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSwitchControllerSecurityPolicyLocalAccess(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SwitchControllerSecurityPolicyLocalAccess resource: %v", err)
+		return fmt.Errorf("error deleting SwitchControllerSecurityPolicyLocalAccess resource: %v", err)
 	}
 
 	d.SetId("")
@@ -159,9 +192,19 @@ func resourceSwitchControllerSecurityPolicyLocalAccessRead(d *schema.ResourceDat
 		}
 	}
 
-	o, err := c.ReadSwitchControllerSecurityPolicyLocalAccess(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSwitchControllerSecurityPolicyLocalAccess(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SwitchControllerSecurityPolicyLocalAccess resource: %v", err)
+		return fmt.Errorf("error reading SwitchControllerSecurityPolicyLocalAccess resource: %v", err)
 	}
 
 	if o == nil {
@@ -172,7 +215,7 @@ func resourceSwitchControllerSecurityPolicyLocalAccessRead(d *schema.ResourceDat
 
 	err = refreshObjectSwitchControllerSecurityPolicyLocalAccess(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SwitchControllerSecurityPolicyLocalAccess resource from API: %v", err)
+		return fmt.Errorf("error reading SwitchControllerSecurityPolicyLocalAccess resource from API: %v", err)
 	}
 	return nil
 }
@@ -194,19 +237,19 @@ func refreshObjectSwitchControllerSecurityPolicyLocalAccess(d *schema.ResourceDa
 
 	if err = d.Set("name", flattenSwitchControllerSecurityPolicyLocalAccessName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("mgmt_allowaccess", flattenSwitchControllerSecurityPolicyLocalAccessMgmtAllowaccess(o["mgmt-allowaccess"], d, "mgmt_allowaccess", sv)); err != nil {
 		if !fortiAPIPatch(o["mgmt-allowaccess"]) {
-			return fmt.Errorf("Error reading mgmt_allowaccess: %v", err)
+			return fmt.Errorf("error reading mgmt_allowaccess: %v", err)
 		}
 	}
 
 	if err = d.Set("internal_allowaccess", flattenSwitchControllerSecurityPolicyLocalAccessInternalAllowaccess(o["internal-allowaccess"], d, "internal_allowaccess", sv)); err != nil {
 		if !fortiAPIPatch(o["internal-allowaccess"]) {
-			return fmt.Errorf("Error reading internal_allowaccess: %v", err)
+			return fmt.Errorf("error reading internal_allowaccess: %v", err)
 		}
 	}
 

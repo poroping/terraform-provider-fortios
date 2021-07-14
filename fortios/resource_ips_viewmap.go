@@ -30,36 +30,41 @@ func resourceIpsViewMap() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"fosid": &schema.Schema{
+			"fosid": {
 				Type:     schema.TypeInt,
 				ForceNew: true,
 				Optional: true,
 				Computed: true,
 			},
-			"vdom_id": &schema.Schema{
+			"vdom_id": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"policy_id": &schema.Schema{
+			"policy_id": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"id_policy_id": &schema.Schema{
+			"id_policy_id": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"which": &schema.Schema{
+			"which": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -77,15 +82,25 @@ func resourceIpsViewMapCreate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectIpsViewMap(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating IpsViewMap resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateIpsViewMap(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectIpsViewMap(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating IpsViewMap resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateIpsViewMap(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating IpsViewMap resource: %v", err)
+		return fmt.Errorf("error creating IpsViewMap resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -110,14 +125,24 @@ func resourceIpsViewMapUpdate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectIpsViewMap(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating IpsViewMap resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateIpsViewMap(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectIpsViewMap(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating IpsViewMap resource: %v", err)
+		return fmt.Errorf("error updating IpsViewMap resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateIpsViewMap(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating IpsViewMap resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -144,9 +169,17 @@ func resourceIpsViewMapDelete(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	err := c.DeleteIpsViewMap(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteIpsViewMap(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting IpsViewMap resource: %v", err)
+		return fmt.Errorf("error deleting IpsViewMap resource: %v", err)
 	}
 
 	d.SetId("")
@@ -168,9 +201,19 @@ func resourceIpsViewMapRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadIpsViewMap(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadIpsViewMap(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading IpsViewMap resource: %v", err)
+		return fmt.Errorf("error reading IpsViewMap resource: %v", err)
 	}
 
 	if o == nil {
@@ -181,7 +224,7 @@ func resourceIpsViewMapRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectIpsViewMap(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading IpsViewMap resource from API: %v", err)
+		return fmt.Errorf("error reading IpsViewMap resource from API: %v", err)
 	}
 	return nil
 }
@@ -211,31 +254,31 @@ func refreshObjectIpsViewMap(d *schema.ResourceData, o map[string]interface{}, s
 
 	if err = d.Set("fosid", flattenIpsViewMapId(o["id"], d, "fosid", sv)); err != nil {
 		if !fortiAPIPatch(o["id"]) {
-			return fmt.Errorf("Error reading fosid: %v", err)
+			return fmt.Errorf("error reading fosid: %v", err)
 		}
 	}
 
 	if err = d.Set("vdom_id", flattenIpsViewMapVdomId(o["vdom-id"], d, "vdom_id", sv)); err != nil {
 		if !fortiAPIPatch(o["vdom-id"]) {
-			return fmt.Errorf("Error reading vdom_id: %v", err)
+			return fmt.Errorf("error reading vdom_id: %v", err)
 		}
 	}
 
 	if err = d.Set("policy_id", flattenIpsViewMapPolicyId(o["policy-id"], d, "policy_id", sv)); err != nil {
 		if !fortiAPIPatch(o["policy-id"]) {
-			return fmt.Errorf("Error reading policy_id: %v", err)
+			return fmt.Errorf("error reading policy_id: %v", err)
 		}
 	}
 
 	if err = d.Set("id_policy_id", flattenIpsViewMapIdPolicyId(o["id-policy-id"], d, "id_policy_id", sv)); err != nil {
 		if !fortiAPIPatch(o["id-policy-id"]) {
-			return fmt.Errorf("Error reading id_policy_id: %v", err)
+			return fmt.Errorf("error reading id_policy_id: %v", err)
 		}
 	}
 
 	if err = d.Set("which", flattenIpsViewMapWhich(o["which"], d, "which", sv)); err != nil {
 		if !fortiAPIPatch(o["which"]) {
-			return fmt.Errorf("Error reading which: %v", err)
+			return fmt.Errorf("error reading which: %v", err)
 		}
 	}
 

@@ -30,48 +30,48 @@ func resourceNsxtServiceChain() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"fosid": &schema.Schema{
+			"fosid": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 1023),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"service_index": &schema.Schema{
+			"service_index": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 255),
 							Optional:     true,
 							Computed:     true,
 						},
-						"reverse_index": &schema.Schema{
+						"reverse_index": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 255),
 							Optional:     true,
 							Computed:     true,
 						},
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 63),
 							Optional:     true,
 							Computed:     true,
 						},
-						"vd": &schema.Schema{
+						"vd": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 31),
 							Optional:     true,
@@ -80,10 +80,15 @@ func resourceNsxtServiceChain() *schema.Resource {
 					},
 				},
 			},
-			"dynamic_sort_subtable": &schema.Schema{
+			"dynamic_sort_subtable": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Default:  "false",
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -101,15 +106,25 @@ func resourceNsxtServiceChainCreate(d *schema.ResourceData, m interface{}) error
 		}
 	}
 
-	obj, err := getObjectNsxtServiceChain(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating NsxtServiceChain resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateNsxtServiceChain(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectNsxtServiceChain(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating NsxtServiceChain resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateNsxtServiceChain(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating NsxtServiceChain resource: %v", err)
+		return fmt.Errorf("error creating NsxtServiceChain resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -134,14 +149,24 @@ func resourceNsxtServiceChainUpdate(d *schema.ResourceData, m interface{}) error
 		}
 	}
 
-	obj, err := getObjectNsxtServiceChain(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating NsxtServiceChain resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateNsxtServiceChain(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectNsxtServiceChain(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating NsxtServiceChain resource: %v", err)
+		return fmt.Errorf("error updating NsxtServiceChain resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateNsxtServiceChain(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating NsxtServiceChain resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -168,9 +193,17 @@ func resourceNsxtServiceChainDelete(d *schema.ResourceData, m interface{}) error
 		}
 	}
 
-	err := c.DeleteNsxtServiceChain(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteNsxtServiceChain(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting NsxtServiceChain resource: %v", err)
+		return fmt.Errorf("error deleting NsxtServiceChain resource: %v", err)
 	}
 
 	d.SetId("")
@@ -192,9 +225,19 @@ func resourceNsxtServiceChainRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadNsxtServiceChain(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadNsxtServiceChain(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading NsxtServiceChain resource: %v", err)
+		return fmt.Errorf("error reading NsxtServiceChain resource: %v", err)
 	}
 
 	if o == nil {
@@ -205,7 +248,7 @@ func resourceNsxtServiceChainRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectNsxtServiceChain(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading NsxtServiceChain resource from API: %v", err)
+		return fmt.Errorf("error reading NsxtServiceChain resource from API: %v", err)
 	}
 	return nil
 }
@@ -291,27 +334,27 @@ func refreshObjectNsxtServiceChain(d *schema.ResourceData, o map[string]interfac
 
 	if err = d.Set("fosid", flattenNsxtServiceChainId(o["id"], d, "fosid", sv)); err != nil {
 		if !fortiAPIPatch(o["id"]) {
-			return fmt.Errorf("Error reading fosid: %v", err)
+			return fmt.Errorf("error reading fosid: %v", err)
 		}
 	}
 
 	if err = d.Set("name", flattenNsxtServiceChainName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("service_index", flattenNsxtServiceChainServiceIndex(o["service-index"], d, "service_index", sv)); err != nil {
 			if !fortiAPIPatch(o["service-index"]) {
-				return fmt.Errorf("Error reading service_index: %v", err)
+				return fmt.Errorf("error reading service_index: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("service_index"); ok {
 			if err = d.Set("service_index", flattenNsxtServiceChainServiceIndex(o["service-index"], d, "service_index", sv)); err != nil {
 				if !fortiAPIPatch(o["service-index"]) {
-					return fmt.Errorf("Error reading service_index: %v", err)
+					return fmt.Errorf("error reading service_index: %v", err)
 				}
 			}
 		}

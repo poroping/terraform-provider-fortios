@@ -50,14 +50,14 @@ func testAccCheckFortiOSSwitchControllerVirtualPortPoolExists(n string) resource
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadSwitchControllerVirtualPortPool(i, "root")
+		o, err := c.ReadSwitchControllerVirtualPortPool(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading SwitchControllerVirtualPortPool: %s", err)
+			return fmt.Errorf("error reading SwitchControllerVirtualPortPool: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating SwitchControllerVirtualPortPool: %s", n)
+			return fmt.Errorf("error creating SwitchControllerVirtualPortPool: %s", n)
 		}
 
 		return nil
@@ -73,11 +73,11 @@ func testAccCheckSwitchControllerVirtualPortPoolDestroy(s *terraform.State) erro
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadSwitchControllerVirtualPortPool(i, "root")
+		o, err := c.ReadSwitchControllerVirtualPortPool(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error SwitchControllerVirtualPortPool %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error SwitchControllerVirtualPortPool %s still exists", rs.Primary.ID)
 			}
 		}
 

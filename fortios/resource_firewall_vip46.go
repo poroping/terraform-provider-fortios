@@ -30,34 +30,34 @@ func resourceFirewallVip46() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"fosid": &schema.Schema{
+			"fosid": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"uuid": &schema.Schema{
+			"uuid": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"srcintf_filter": &schema.Schema{
+			"srcintf_filter": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"interface_name": &schema.Schema{
+						"interface_name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 79),
 							Optional:     true,
@@ -66,22 +66,22 @@ func resourceFirewallVip46() *schema.Resource {
 					},
 				},
 			},
-			"comment": &schema.Schema{
+			"comment": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
 			},
-			"type": &schema.Schema{
+			"type": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"src_filter": &schema.Schema{
+			"src_filter": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"range": &schema.Schema{
+						"range": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 79),
 							Optional:     true,
@@ -90,110 +90,110 @@ func resourceFirewallVip46() *schema.Resource {
 					},
 				},
 			},
-			"extip": &schema.Schema{
+			"extip": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"mappedip": &schema.Schema{
+			"mappedip": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"arp_reply": &schema.Schema{
+			"arp_reply": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"portforward": &schema.Schema{
+			"portforward": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"protocol": &schema.Schema{
+			"protocol": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"extport": &schema.Schema{
+			"extport": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"mappedport": &schema.Schema{
+			"mappedport": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"color": &schema.Schema{
+			"color": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 32),
 				Optional:     true,
 				Computed:     true,
 			},
-			"ldb_method": &schema.Schema{
+			"ldb_method": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"server_type": &schema.Schema{
+			"server_type": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"realservers": &schema.Schema{
+			"realservers": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"ip": &schema.Schema{
+						"ip": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"port": &schema.Schema{
+						"port": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 65535),
 							Optional:     true,
 							Computed:     true,
 						},
-						"status": &schema.Schema{
+						"status": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"weight": &schema.Schema{
+						"weight": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 255),
 							Optional:     true,
 							Computed:     true,
 						},
-						"holddown_interval": &schema.Schema{
+						"holddown_interval": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(30, 65535),
 							Optional:     true,
 							Computed:     true,
 						},
-						"healthcheck": &schema.Schema{
+						"healthcheck": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"max_connections": &schema.Schema{
+						"max_connections": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"monitor": &schema.Schema{
+						"monitor": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 64),
 							Optional:     true,
 							Computed:     true,
 						},
-						"client_ip": &schema.Schema{
+						"client_ip": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -201,12 +201,12 @@ func resourceFirewallVip46() *schema.Resource {
 					},
 				},
 			},
-			"monitor": &schema.Schema{
+			"monitor": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 64),
 							Optional:     true,
@@ -215,10 +215,15 @@ func resourceFirewallVip46() *schema.Resource {
 					},
 				},
 			},
-			"dynamic_sort_subtable": &schema.Schema{
+			"dynamic_sort_subtable": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Default:  "false",
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -236,15 +241,25 @@ func resourceFirewallVip46Create(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectFirewallVip46(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating FirewallVip46 resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateFirewallVip46(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectFirewallVip46(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating FirewallVip46 resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateFirewallVip46(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating FirewallVip46 resource: %v", err)
+		return fmt.Errorf("error creating FirewallVip46 resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -269,14 +284,24 @@ func resourceFirewallVip46Update(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectFirewallVip46(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating FirewallVip46 resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateFirewallVip46(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectFirewallVip46(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating FirewallVip46 resource: %v", err)
+		return fmt.Errorf("error updating FirewallVip46 resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateFirewallVip46(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating FirewallVip46 resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -303,9 +328,17 @@ func resourceFirewallVip46Delete(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	err := c.DeleteFirewallVip46(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteFirewallVip46(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting FirewallVip46 resource: %v", err)
+		return fmt.Errorf("error deleting FirewallVip46 resource: %v", err)
 	}
 
 	d.SetId("")
@@ -327,9 +360,19 @@ func resourceFirewallVip46Read(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadFirewallVip46(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadFirewallVip46(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading FirewallVip46 resource: %v", err)
+		return fmt.Errorf("error reading FirewallVip46 resource: %v", err)
 	}
 
 	if o == nil {
@@ -340,7 +383,7 @@ func resourceFirewallVip46Read(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectFirewallVip46(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading FirewallVip46 resource from API: %v", err)
+		return fmt.Errorf("error reading FirewallVip46 resource from API: %v", err)
 	}
 	return nil
 }
@@ -676,33 +719,33 @@ func refreshObjectFirewallVip46(d *schema.ResourceData, o map[string]interface{}
 
 	if err = d.Set("name", flattenFirewallVip46Name(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("fosid", flattenFirewallVip46Id(o["id"], d, "fosid", sv)); err != nil {
 		if !fortiAPIPatch(o["id"]) {
-			return fmt.Errorf("Error reading fosid: %v", err)
+			return fmt.Errorf("error reading fosid: %v", err)
 		}
 	}
 
 	if err = d.Set("uuid", flattenFirewallVip46Uuid(o["uuid"], d, "uuid", sv)); err != nil {
 		if !fortiAPIPatch(o["uuid"]) {
-			return fmt.Errorf("Error reading uuid: %v", err)
+			return fmt.Errorf("error reading uuid: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("srcintf_filter", flattenFirewallVip46SrcintfFilter(o["srcintf-filter"], d, "srcintf_filter", sv)); err != nil {
 			if !fortiAPIPatch(o["srcintf-filter"]) {
-				return fmt.Errorf("Error reading srcintf_filter: %v", err)
+				return fmt.Errorf("error reading srcintf_filter: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("srcintf_filter"); ok {
 			if err = d.Set("srcintf_filter", flattenFirewallVip46SrcintfFilter(o["srcintf-filter"], d, "srcintf_filter", sv)); err != nil {
 				if !fortiAPIPatch(o["srcintf-filter"]) {
-					return fmt.Errorf("Error reading srcintf_filter: %v", err)
+					return fmt.Errorf("error reading srcintf_filter: %v", err)
 				}
 			}
 		}
@@ -710,27 +753,27 @@ func refreshObjectFirewallVip46(d *schema.ResourceData, o map[string]interface{}
 
 	if err = d.Set("comment", flattenFirewallVip46Comment(o["comment"], d, "comment", sv)); err != nil {
 		if !fortiAPIPatch(o["comment"]) {
-			return fmt.Errorf("Error reading comment: %v", err)
+			return fmt.Errorf("error reading comment: %v", err)
 		}
 	}
 
 	if err = d.Set("type", flattenFirewallVip46Type(o["type"], d, "type", sv)); err != nil {
 		if !fortiAPIPatch(o["type"]) {
-			return fmt.Errorf("Error reading type: %v", err)
+			return fmt.Errorf("error reading type: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("src_filter", flattenFirewallVip46SrcFilter(o["src-filter"], d, "src_filter", sv)); err != nil {
 			if !fortiAPIPatch(o["src-filter"]) {
-				return fmt.Errorf("Error reading src_filter: %v", err)
+				return fmt.Errorf("error reading src_filter: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("src_filter"); ok {
 			if err = d.Set("src_filter", flattenFirewallVip46SrcFilter(o["src-filter"], d, "src_filter", sv)); err != nil {
 				if !fortiAPIPatch(o["src-filter"]) {
-					return fmt.Errorf("Error reading src_filter: %v", err)
+					return fmt.Errorf("error reading src_filter: %v", err)
 				}
 			}
 		}
@@ -738,75 +781,75 @@ func refreshObjectFirewallVip46(d *schema.ResourceData, o map[string]interface{}
 
 	if err = d.Set("extip", flattenFirewallVip46Extip(o["extip"], d, "extip", sv)); err != nil {
 		if !fortiAPIPatch(o["extip"]) {
-			return fmt.Errorf("Error reading extip: %v", err)
+			return fmt.Errorf("error reading extip: %v", err)
 		}
 	}
 
 	if err = d.Set("mappedip", flattenFirewallVip46Mappedip(o["mappedip"], d, "mappedip", sv)); err != nil {
 		if !fortiAPIPatch(o["mappedip"]) {
-			return fmt.Errorf("Error reading mappedip: %v", err)
+			return fmt.Errorf("error reading mappedip: %v", err)
 		}
 	}
 
 	if err = d.Set("arp_reply", flattenFirewallVip46ArpReply(o["arp-reply"], d, "arp_reply", sv)); err != nil {
 		if !fortiAPIPatch(o["arp-reply"]) {
-			return fmt.Errorf("Error reading arp_reply: %v", err)
+			return fmt.Errorf("error reading arp_reply: %v", err)
 		}
 	}
 
 	if err = d.Set("portforward", flattenFirewallVip46Portforward(o["portforward"], d, "portforward", sv)); err != nil {
 		if !fortiAPIPatch(o["portforward"]) {
-			return fmt.Errorf("Error reading portforward: %v", err)
+			return fmt.Errorf("error reading portforward: %v", err)
 		}
 	}
 
 	if err = d.Set("protocol", flattenFirewallVip46Protocol(o["protocol"], d, "protocol", sv)); err != nil {
 		if !fortiAPIPatch(o["protocol"]) {
-			return fmt.Errorf("Error reading protocol: %v", err)
+			return fmt.Errorf("error reading protocol: %v", err)
 		}
 	}
 
 	if err = d.Set("extport", flattenFirewallVip46Extport(o["extport"], d, "extport", sv)); err != nil {
 		if !fortiAPIPatch(o["extport"]) {
-			return fmt.Errorf("Error reading extport: %v", err)
+			return fmt.Errorf("error reading extport: %v", err)
 		}
 	}
 
 	if err = d.Set("mappedport", flattenFirewallVip46Mappedport(o["mappedport"], d, "mappedport", sv)); err != nil {
 		if !fortiAPIPatch(o["mappedport"]) {
-			return fmt.Errorf("Error reading mappedport: %v", err)
+			return fmt.Errorf("error reading mappedport: %v", err)
 		}
 	}
 
 	if err = d.Set("color", flattenFirewallVip46Color(o["color"], d, "color", sv)); err != nil {
 		if !fortiAPIPatch(o["color"]) {
-			return fmt.Errorf("Error reading color: %v", err)
+			return fmt.Errorf("error reading color: %v", err)
 		}
 	}
 
 	if err = d.Set("ldb_method", flattenFirewallVip46LdbMethod(o["ldb-method"], d, "ldb_method", sv)); err != nil {
 		if !fortiAPIPatch(o["ldb-method"]) {
-			return fmt.Errorf("Error reading ldb_method: %v", err)
+			return fmt.Errorf("error reading ldb_method: %v", err)
 		}
 	}
 
 	if err = d.Set("server_type", flattenFirewallVip46ServerType(o["server-type"], d, "server_type", sv)); err != nil {
 		if !fortiAPIPatch(o["server-type"]) {
-			return fmt.Errorf("Error reading server_type: %v", err)
+			return fmt.Errorf("error reading server_type: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("realservers", flattenFirewallVip46Realservers(o["realservers"], d, "realservers", sv)); err != nil {
 			if !fortiAPIPatch(o["realservers"]) {
-				return fmt.Errorf("Error reading realservers: %v", err)
+				return fmt.Errorf("error reading realservers: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("realservers"); ok {
 			if err = d.Set("realservers", flattenFirewallVip46Realservers(o["realservers"], d, "realservers", sv)); err != nil {
 				if !fortiAPIPatch(o["realservers"]) {
-					return fmt.Errorf("Error reading realservers: %v", err)
+					return fmt.Errorf("error reading realservers: %v", err)
 				}
 			}
 		}
@@ -815,14 +858,14 @@ func refreshObjectFirewallVip46(d *schema.ResourceData, o map[string]interface{}
 	if isImportTable() {
 		if err = d.Set("monitor", flattenFirewallVip46Monitor(o["monitor"], d, "monitor", sv)); err != nil {
 			if !fortiAPIPatch(o["monitor"]) {
-				return fmt.Errorf("Error reading monitor: %v", err)
+				return fmt.Errorf("error reading monitor: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("monitor"); ok {
 			if err = d.Set("monitor", flattenFirewallVip46Monitor(o["monitor"], d, "monitor", sv)); err != nil {
 				if !fortiAPIPatch(o["monitor"]) {
-					return fmt.Errorf("Error reading monitor: %v", err)
+					return fmt.Errorf("error reading monitor: %v", err)
 				}
 			}
 		}

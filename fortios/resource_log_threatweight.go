@@ -30,41 +30,41 @@ func resourceLogThreatWeight() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"status": &schema.Schema{
+			"status": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"level": &schema.Schema{
+			"level": {
 				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"low": &schema.Schema{
+						"low": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 100),
 							Optional:     true,
 							Computed:     true,
 						},
-						"medium": &schema.Schema{
+						"medium": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 100),
 							Optional:     true,
 							Computed:     true,
 						},
-						"high": &schema.Schema{
+						"high": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 100),
 							Optional:     true,
 							Computed:     true,
 						},
-						"critical": &schema.Schema{
+						"critical": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 100),
 							Optional:     true,
@@ -73,103 +73,103 @@ func resourceLogThreatWeight() *schema.Resource {
 					},
 				},
 			},
-			"blocked_connection": &schema.Schema{
+			"blocked_connection": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"failed_connection": &schema.Schema{
+			"failed_connection": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"url_block_detected": &schema.Schema{
+			"url_block_detected": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"botnet_connection_detected": &schema.Schema{
+			"botnet_connection_detected": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"malware": &schema.Schema{
+			"malware": {
 				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"virus_infected": &schema.Schema{
+						"virus_infected": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"file_blocked": &schema.Schema{
+						"file_blocked": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"command_blocked": &schema.Schema{
+						"command_blocked": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"oversized": &schema.Schema{
+						"oversized": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"virus_scan_error": &schema.Schema{
+						"virus_scan_error": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"switch_proto": &schema.Schema{
+						"switch_proto": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"mimefragmented": &schema.Schema{
+						"mimefragmented": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"virus_file_type_executable": &schema.Schema{
+						"virus_file_type_executable": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"virus_outbreak_prevention": &schema.Schema{
+						"virus_outbreak_prevention": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"botnet_connection": &schema.Schema{
+						"botnet_connection": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"content_disarm": &schema.Schema{
+						"content_disarm": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"malware_list": &schema.Schema{
+						"malware_list": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"fsa_malicious": &schema.Schema{
+						"fsa_malicious": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"fsa_high_risk": &schema.Schema{
+						"fsa_high_risk": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"fsa_medium_risk": &schema.Schema{
+						"fsa_medium_risk": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -177,58 +177,33 @@ func resourceLogThreatWeight() *schema.Resource {
 					},
 				},
 			},
-			"ips": &schema.Schema{
+			"ips": {
 				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"info_severity": &schema.Schema{
+						"info_severity": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"low_severity": &schema.Schema{
+						"low_severity": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"medium_severity": &schema.Schema{
+						"medium_severity": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"high_severity": &schema.Schema{
+						"high_severity": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"critical_severity": &schema.Schema{
-							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
-						},
-					},
-				},
-			},
-			"web": &schema.Schema{
-				Type:     schema.TypeList,
-				Optional: true,
-				Elem: &schema.Resource{
-					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
-							Type:         schema.TypeInt,
-							ValidateFunc: validation.IntBetween(0, 255),
-							Optional:     true,
-							Computed:     true,
-						},
-						"category": &schema.Schema{
-							Type:         schema.TypeInt,
-							ValidateFunc: validation.IntBetween(0, 255),
-							Optional:     true,
-							Computed:     true,
-						},
-						"level": &schema.Schema{
+						"critical_severity": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -236,24 +211,49 @@ func resourceLogThreatWeight() *schema.Resource {
 					},
 				},
 			},
-			"geolocation": &schema.Schema{
+			"web": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 255),
 							Optional:     true,
 							Computed:     true,
 						},
-						"country": &schema.Schema{
+						"category": {
+							Type:         schema.TypeInt,
+							ValidateFunc: validation.IntBetween(0, 255),
+							Optional:     true,
+							Computed:     true,
+						},
+						"level": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+					},
+				},
+			},
+			"geolocation": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"id": {
+							Type:         schema.TypeInt,
+							ValidateFunc: validation.IntBetween(0, 255),
+							Optional:     true,
+							Computed:     true,
+						},
+						"country": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 2),
 							Optional:     true,
 							Computed:     true,
 						},
-						"level": &schema.Schema{
+						"level": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -261,24 +261,24 @@ func resourceLogThreatWeight() *schema.Resource {
 					},
 				},
 			},
-			"application": &schema.Schema{
+			"application": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 255),
 							Optional:     true,
 							Computed:     true,
 						},
-						"category": &schema.Schema{
+						"category": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 65535),
 							Optional:     true,
 							Computed:     true,
 						},
-						"level": &schema.Schema{
+						"level": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -286,10 +286,15 @@ func resourceLogThreatWeight() *schema.Resource {
 					},
 				},
 			},
-			"dynamic_sort_subtable": &schema.Schema{
+			"dynamic_sort_subtable": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Default:  "false",
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -308,14 +313,24 @@ func resourceLogThreatWeightUpdate(d *schema.ResourceData, m interface{}) error 
 		}
 	}
 
-	obj, err := getObjectLogThreatWeight(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating LogThreatWeight resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateLogThreatWeight(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectLogThreatWeight(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating LogThreatWeight resource: %v", err)
+		return fmt.Errorf("error updating LogThreatWeight resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateLogThreatWeight(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating LogThreatWeight resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -342,9 +357,17 @@ func resourceLogThreatWeightDelete(d *schema.ResourceData, m interface{}) error 
 		}
 	}
 
-	err := c.DeleteLogThreatWeight(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteLogThreatWeight(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting LogThreatWeight resource: %v", err)
+		return fmt.Errorf("error deleting LogThreatWeight resource: %v", err)
 	}
 
 	d.SetId("")
@@ -366,9 +389,19 @@ func resourceLogThreatWeightRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadLogThreatWeight(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadLogThreatWeight(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading LogThreatWeight resource: %v", err)
+		return fmt.Errorf("error reading LogThreatWeight resource: %v", err)
 	}
 
 	if o == nil {
@@ -379,7 +412,7 @@ func resourceLogThreatWeightRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectLogThreatWeight(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading LogThreatWeight resource from API: %v", err)
+		return fmt.Errorf("error reading LogThreatWeight resource from API: %v", err)
 	}
 	return nil
 }
@@ -862,21 +895,21 @@ func refreshObjectLogThreatWeight(d *schema.ResourceData, o map[string]interface
 
 	if err = d.Set("status", flattenLogThreatWeightStatus(o["status"], d, "status", sv)); err != nil {
 		if !fortiAPIPatch(o["status"]) {
-			return fmt.Errorf("Error reading status: %v", err)
+			return fmt.Errorf("error reading status: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("level", flattenLogThreatWeightLevel(o["level"], d, "level", sv)); err != nil {
 			if !fortiAPIPatch(o["level"]) {
-				return fmt.Errorf("Error reading level: %v", err)
+				return fmt.Errorf("error reading level: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("level"); ok {
 			if err = d.Set("level", flattenLogThreatWeightLevel(o["level"], d, "level", sv)); err != nil {
 				if !fortiAPIPatch(o["level"]) {
-					return fmt.Errorf("Error reading level: %v", err)
+					return fmt.Errorf("error reading level: %v", err)
 				}
 			}
 		}
@@ -884,39 +917,39 @@ func refreshObjectLogThreatWeight(d *schema.ResourceData, o map[string]interface
 
 	if err = d.Set("blocked_connection", flattenLogThreatWeightBlockedConnection(o["blocked-connection"], d, "blocked_connection", sv)); err != nil {
 		if !fortiAPIPatch(o["blocked-connection"]) {
-			return fmt.Errorf("Error reading blocked_connection: %v", err)
+			return fmt.Errorf("error reading blocked_connection: %v", err)
 		}
 	}
 
 	if err = d.Set("failed_connection", flattenLogThreatWeightFailedConnection(o["failed-connection"], d, "failed_connection", sv)); err != nil {
 		if !fortiAPIPatch(o["failed-connection"]) {
-			return fmt.Errorf("Error reading failed_connection: %v", err)
+			return fmt.Errorf("error reading failed_connection: %v", err)
 		}
 	}
 
 	if err = d.Set("url_block_detected", flattenLogThreatWeightUrlBlockDetected(o["url-block-detected"], d, "url_block_detected", sv)); err != nil {
 		if !fortiAPIPatch(o["url-block-detected"]) {
-			return fmt.Errorf("Error reading url_block_detected: %v", err)
+			return fmt.Errorf("error reading url_block_detected: %v", err)
 		}
 	}
 
 	if err = d.Set("botnet_connection_detected", flattenLogThreatWeightBotnetConnectionDetected(o["botnet-connection-detected"], d, "botnet_connection_detected", sv)); err != nil {
 		if !fortiAPIPatch(o["botnet-connection-detected"]) {
-			return fmt.Errorf("Error reading botnet_connection_detected: %v", err)
+			return fmt.Errorf("error reading botnet_connection_detected: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("malware", flattenLogThreatWeightMalware(o["malware"], d, "malware", sv)); err != nil {
 			if !fortiAPIPatch(o["malware"]) {
-				return fmt.Errorf("Error reading malware: %v", err)
+				return fmt.Errorf("error reading malware: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("malware"); ok {
 			if err = d.Set("malware", flattenLogThreatWeightMalware(o["malware"], d, "malware", sv)); err != nil {
 				if !fortiAPIPatch(o["malware"]) {
-					return fmt.Errorf("Error reading malware: %v", err)
+					return fmt.Errorf("error reading malware: %v", err)
 				}
 			}
 		}
@@ -925,14 +958,14 @@ func refreshObjectLogThreatWeight(d *schema.ResourceData, o map[string]interface
 	if isImportTable() {
 		if err = d.Set("ips", flattenLogThreatWeightIps(o["ips"], d, "ips", sv)); err != nil {
 			if !fortiAPIPatch(o["ips"]) {
-				return fmt.Errorf("Error reading ips: %v", err)
+				return fmt.Errorf("error reading ips: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("ips"); ok {
 			if err = d.Set("ips", flattenLogThreatWeightIps(o["ips"], d, "ips", sv)); err != nil {
 				if !fortiAPIPatch(o["ips"]) {
-					return fmt.Errorf("Error reading ips: %v", err)
+					return fmt.Errorf("error reading ips: %v", err)
 				}
 			}
 		}
@@ -941,14 +974,14 @@ func refreshObjectLogThreatWeight(d *schema.ResourceData, o map[string]interface
 	if isImportTable() {
 		if err = d.Set("web", flattenLogThreatWeightWeb(o["web"], d, "web", sv)); err != nil {
 			if !fortiAPIPatch(o["web"]) {
-				return fmt.Errorf("Error reading web: %v", err)
+				return fmt.Errorf("error reading web: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("web"); ok {
 			if err = d.Set("web", flattenLogThreatWeightWeb(o["web"], d, "web", sv)); err != nil {
 				if !fortiAPIPatch(o["web"]) {
-					return fmt.Errorf("Error reading web: %v", err)
+					return fmt.Errorf("error reading web: %v", err)
 				}
 			}
 		}
@@ -957,14 +990,14 @@ func refreshObjectLogThreatWeight(d *schema.ResourceData, o map[string]interface
 	if isImportTable() {
 		if err = d.Set("geolocation", flattenLogThreatWeightGeolocation(o["geolocation"], d, "geolocation", sv)); err != nil {
 			if !fortiAPIPatch(o["geolocation"]) {
-				return fmt.Errorf("Error reading geolocation: %v", err)
+				return fmt.Errorf("error reading geolocation: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("geolocation"); ok {
 			if err = d.Set("geolocation", flattenLogThreatWeightGeolocation(o["geolocation"], d, "geolocation", sv)); err != nil {
 				if !fortiAPIPatch(o["geolocation"]) {
-					return fmt.Errorf("Error reading geolocation: %v", err)
+					return fmt.Errorf("error reading geolocation: %v", err)
 				}
 			}
 		}
@@ -973,14 +1006,14 @@ func refreshObjectLogThreatWeight(d *schema.ResourceData, o map[string]interface
 	if isImportTable() {
 		if err = d.Set("application", flattenLogThreatWeightApplication(o["application"], d, "application", sv)); err != nil {
 			if !fortiAPIPatch(o["application"]) {
-				return fmt.Errorf("Error reading application: %v", err)
+				return fmt.Errorf("error reading application: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("application"); ok {
 			if err = d.Set("application", flattenLogThreatWeightApplication(o["application"], d, "application", sv)); err != nil {
 				if !fortiAPIPatch(o["application"]) {
-					return fmt.Errorf("Error reading application: %v", err)
+					return fmt.Errorf("error reading application: %v", err)
 				}
 			}
 		}

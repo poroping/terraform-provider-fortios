@@ -30,98 +30,98 @@ func resourceWanoptProfile() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"transparent": &schema.Schema{
+			"transparent": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"comments": &schema.Schema{
+			"comments": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 				Optional:     true,
 			},
-			"auth_group": &schema.Schema{
+			"auth_group": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"http": &schema.Schema{
+			"http": {
 				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"status": &schema.Schema{
+						"status": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"secure_tunnel": &schema.Schema{
+						"secure_tunnel": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"byte_caching": &schema.Schema{
+						"byte_caching": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"prefer_chunking": &schema.Schema{
+						"prefer_chunking": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"protocol_opt": &schema.Schema{
+						"protocol_opt": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"tunnel_sharing": &schema.Schema{
+						"tunnel_sharing": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"log_traffic": &schema.Schema{
+						"log_traffic": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"port": &schema.Schema{
+						"port": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 65535),
 							Optional:     true,
 							Computed:     true,
 						},
-						"ssl": &schema.Schema{
+						"ssl": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"ssl_port": &schema.Schema{
+						"ssl_port": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 65535),
 							Optional:     true,
 							Computed:     true,
 						},
-						"unknown_http_version": &schema.Schema{
+						"unknown_http_version": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"tunnel_non_http": &schema.Schema{
+						"tunnel_non_http": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -129,88 +129,48 @@ func resourceWanoptProfile() *schema.Resource {
 					},
 				},
 			},
-			"cifs": &schema.Schema{
+			"cifs": {
 				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"status": &schema.Schema{
+						"status": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"secure_tunnel": &schema.Schema{
+						"secure_tunnel": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"byte_caching": &schema.Schema{
+						"byte_caching": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"prefer_chunking": &schema.Schema{
+						"prefer_chunking": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"protocol_opt": &schema.Schema{
+						"protocol_opt": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"tunnel_sharing": &schema.Schema{
+						"tunnel_sharing": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"log_traffic": &schema.Schema{
+						"log_traffic": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"port": &schema.Schema{
-							Type:         schema.TypeInt,
-							ValidateFunc: validation.IntBetween(1, 65535),
-							Optional:     true,
-							Computed:     true,
-						},
-					},
-				},
-			},
-			"mapi": &schema.Schema{
-				Type:     schema.TypeList,
-				Optional: true,
-				MaxItems: 1,
-				Elem: &schema.Resource{
-					Schema: map[string]*schema.Schema{
-						"status": &schema.Schema{
-							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
-						},
-						"secure_tunnel": &schema.Schema{
-							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
-						},
-						"byte_caching": &schema.Schema{
-							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
-						},
-						"tunnel_sharing": &schema.Schema{
-							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
-						},
-						"log_traffic": &schema.Schema{
-							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
-						},
-						"port": &schema.Schema{
+						"port": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 65535),
 							Optional:     true,
@@ -219,53 +179,38 @@ func resourceWanoptProfile() *schema.Resource {
 					},
 				},
 			},
-			"ftp": &schema.Schema{
+			"mapi": {
 				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"status": &schema.Schema{
+						"status": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"secure_tunnel": &schema.Schema{
+						"secure_tunnel": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"byte_caching": &schema.Schema{
+						"byte_caching": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"ssl": &schema.Schema{
+						"tunnel_sharing": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"prefer_chunking": &schema.Schema{
+						"log_traffic": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"protocol_opt": &schema.Schema{
-							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
-						},
-						"tunnel_sharing": &schema.Schema{
-							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
-						},
-						"log_traffic": &schema.Schema{
-							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
-						},
-						"port": &schema.Schema{
+						"port": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 65535),
 							Optional:     true,
@@ -274,53 +219,53 @@ func resourceWanoptProfile() *schema.Resource {
 					},
 				},
 			},
-			"tcp": &schema.Schema{
+			"ftp": {
 				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"status": &schema.Schema{
+						"status": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"secure_tunnel": &schema.Schema{
+						"secure_tunnel": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"byte_caching": &schema.Schema{
+						"byte_caching": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"byte_caching_opt": &schema.Schema{
+						"ssl": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"tunnel_sharing": &schema.Schema{
+						"prefer_chunking": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"log_traffic": &schema.Schema{
+						"protocol_opt": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"port": &schema.Schema{
+						"tunnel_sharing": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"ssl": &schema.Schema{
+						"log_traffic": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"ssl_port": &schema.Schema{
+						"port": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 65535),
 							Optional:     true,
@@ -328,6 +273,66 @@ func resourceWanoptProfile() *schema.Resource {
 						},
 					},
 				},
+			},
+			"tcp": {
+				Type:     schema.TypeList,
+				Optional: true,
+				MaxItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"status": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"secure_tunnel": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"byte_caching": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"byte_caching_opt": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"tunnel_sharing": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"log_traffic": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"port": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"ssl": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"ssl_port": {
+							Type:         schema.TypeInt,
+							ValidateFunc: validation.IntBetween(1, 65535),
+							Optional:     true,
+							Computed:     true,
+						},
+					},
+				},
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -345,15 +350,25 @@ func resourceWanoptProfileCreate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectWanoptProfile(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating WanoptProfile resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateWanoptProfile(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectWanoptProfile(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating WanoptProfile resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateWanoptProfile(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating WanoptProfile resource: %v", err)
+		return fmt.Errorf("error creating WanoptProfile resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -378,14 +393,24 @@ func resourceWanoptProfileUpdate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectWanoptProfile(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating WanoptProfile resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateWanoptProfile(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectWanoptProfile(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating WanoptProfile resource: %v", err)
+		return fmt.Errorf("error updating WanoptProfile resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateWanoptProfile(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating WanoptProfile resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -412,9 +437,17 @@ func resourceWanoptProfileDelete(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	err := c.DeleteWanoptProfile(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteWanoptProfile(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting WanoptProfile resource: %v", err)
+		return fmt.Errorf("error deleting WanoptProfile resource: %v", err)
 	}
 
 	d.SetId("")
@@ -436,9 +469,19 @@ func resourceWanoptProfileRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadWanoptProfile(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadWanoptProfile(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading WanoptProfile resource: %v", err)
+		return fmt.Errorf("error reading WanoptProfile resource: %v", err)
 	}
 
 	if o == nil {
@@ -449,7 +492,7 @@ func resourceWanoptProfileRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectWanoptProfile(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading WanoptProfile resource from API: %v", err)
+		return fmt.Errorf("error reading WanoptProfile resource from API: %v", err)
 	}
 	return nil
 }
@@ -996,39 +1039,39 @@ func refreshObjectWanoptProfile(d *schema.ResourceData, o map[string]interface{}
 
 	if err = d.Set("name", flattenWanoptProfileName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if err = d.Set("transparent", flattenWanoptProfileTransparent(o["transparent"], d, "transparent", sv)); err != nil {
 		if !fortiAPIPatch(o["transparent"]) {
-			return fmt.Errorf("Error reading transparent: %v", err)
+			return fmt.Errorf("error reading transparent: %v", err)
 		}
 	}
 
 	if err = d.Set("comments", flattenWanoptProfileComments(o["comments"], d, "comments", sv)); err != nil {
 		if !fortiAPIPatch(o["comments"]) {
-			return fmt.Errorf("Error reading comments: %v", err)
+			return fmt.Errorf("error reading comments: %v", err)
 		}
 	}
 
 	if err = d.Set("auth_group", flattenWanoptProfileAuthGroup(o["auth-group"], d, "auth_group", sv)); err != nil {
 		if !fortiAPIPatch(o["auth-group"]) {
-			return fmt.Errorf("Error reading auth_group: %v", err)
+			return fmt.Errorf("error reading auth_group: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("http", flattenWanoptProfileHttp(o["http"], d, "http", sv)); err != nil {
 			if !fortiAPIPatch(o["http"]) {
-				return fmt.Errorf("Error reading http: %v", err)
+				return fmt.Errorf("error reading http: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("http"); ok {
 			if err = d.Set("http", flattenWanoptProfileHttp(o["http"], d, "http", sv)); err != nil {
 				if !fortiAPIPatch(o["http"]) {
-					return fmt.Errorf("Error reading http: %v", err)
+					return fmt.Errorf("error reading http: %v", err)
 				}
 			}
 		}
@@ -1037,14 +1080,14 @@ func refreshObjectWanoptProfile(d *schema.ResourceData, o map[string]interface{}
 	if isImportTable() {
 		if err = d.Set("cifs", flattenWanoptProfileCifs(o["cifs"], d, "cifs", sv)); err != nil {
 			if !fortiAPIPatch(o["cifs"]) {
-				return fmt.Errorf("Error reading cifs: %v", err)
+				return fmt.Errorf("error reading cifs: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("cifs"); ok {
 			if err = d.Set("cifs", flattenWanoptProfileCifs(o["cifs"], d, "cifs", sv)); err != nil {
 				if !fortiAPIPatch(o["cifs"]) {
-					return fmt.Errorf("Error reading cifs: %v", err)
+					return fmt.Errorf("error reading cifs: %v", err)
 				}
 			}
 		}
@@ -1053,14 +1096,14 @@ func refreshObjectWanoptProfile(d *schema.ResourceData, o map[string]interface{}
 	if isImportTable() {
 		if err = d.Set("mapi", flattenWanoptProfileMapi(o["mapi"], d, "mapi", sv)); err != nil {
 			if !fortiAPIPatch(o["mapi"]) {
-				return fmt.Errorf("Error reading mapi: %v", err)
+				return fmt.Errorf("error reading mapi: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("mapi"); ok {
 			if err = d.Set("mapi", flattenWanoptProfileMapi(o["mapi"], d, "mapi", sv)); err != nil {
 				if !fortiAPIPatch(o["mapi"]) {
-					return fmt.Errorf("Error reading mapi: %v", err)
+					return fmt.Errorf("error reading mapi: %v", err)
 				}
 			}
 		}
@@ -1069,14 +1112,14 @@ func refreshObjectWanoptProfile(d *schema.ResourceData, o map[string]interface{}
 	if isImportTable() {
 		if err = d.Set("ftp", flattenWanoptProfileFtp(o["ftp"], d, "ftp", sv)); err != nil {
 			if !fortiAPIPatch(o["ftp"]) {
-				return fmt.Errorf("Error reading ftp: %v", err)
+				return fmt.Errorf("error reading ftp: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("ftp"); ok {
 			if err = d.Set("ftp", flattenWanoptProfileFtp(o["ftp"], d, "ftp", sv)); err != nil {
 				if !fortiAPIPatch(o["ftp"]) {
-					return fmt.Errorf("Error reading ftp: %v", err)
+					return fmt.Errorf("error reading ftp: %v", err)
 				}
 			}
 		}
@@ -1085,14 +1128,14 @@ func refreshObjectWanoptProfile(d *schema.ResourceData, o map[string]interface{}
 	if isImportTable() {
 		if err = d.Set("tcp", flattenWanoptProfileTcp(o["tcp"], d, "tcp", sv)); err != nil {
 			if !fortiAPIPatch(o["tcp"]) {
-				return fmt.Errorf("Error reading tcp: %v", err)
+				return fmt.Errorf("error reading tcp: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("tcp"); ok {
 			if err = d.Set("tcp", flattenWanoptProfileTcp(o["tcp"], d, "tcp", sv)); err != nil {
 				if !fortiAPIPatch(o["tcp"]) {
-					return fmt.Errorf("Error reading tcp: %v", err)
+					return fmt.Errorf("error reading tcp: %v", err)
 				}
 			}
 		}

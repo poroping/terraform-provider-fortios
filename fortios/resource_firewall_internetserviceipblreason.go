@@ -30,21 +30,26 @@ func resourceFirewallInternetServiceIpblReason() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"fosid": &schema.Schema{
+			"fosid": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -62,15 +67,25 @@ func resourceFirewallInternetServiceIpblReasonCreate(d *schema.ResourceData, m i
 		}
 	}
 
-	obj, err := getObjectFirewallInternetServiceIpblReason(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating FirewallInternetServiceIpblReason resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateFirewallInternetServiceIpblReason(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectFirewallInternetServiceIpblReason(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating FirewallInternetServiceIpblReason resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateFirewallInternetServiceIpblReason(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating FirewallInternetServiceIpblReason resource: %v", err)
+		return fmt.Errorf("error creating FirewallInternetServiceIpblReason resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -95,14 +110,24 @@ func resourceFirewallInternetServiceIpblReasonUpdate(d *schema.ResourceData, m i
 		}
 	}
 
-	obj, err := getObjectFirewallInternetServiceIpblReason(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating FirewallInternetServiceIpblReason resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateFirewallInternetServiceIpblReason(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectFirewallInternetServiceIpblReason(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating FirewallInternetServiceIpblReason resource: %v", err)
+		return fmt.Errorf("error updating FirewallInternetServiceIpblReason resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateFirewallInternetServiceIpblReason(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating FirewallInternetServiceIpblReason resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -129,9 +154,17 @@ func resourceFirewallInternetServiceIpblReasonDelete(d *schema.ResourceData, m i
 		}
 	}
 
-	err := c.DeleteFirewallInternetServiceIpblReason(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteFirewallInternetServiceIpblReason(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting FirewallInternetServiceIpblReason resource: %v", err)
+		return fmt.Errorf("error deleting FirewallInternetServiceIpblReason resource: %v", err)
 	}
 
 	d.SetId("")
@@ -153,9 +186,19 @@ func resourceFirewallInternetServiceIpblReasonRead(d *schema.ResourceData, m int
 		}
 	}
 
-	o, err := c.ReadFirewallInternetServiceIpblReason(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadFirewallInternetServiceIpblReason(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading FirewallInternetServiceIpblReason resource: %v", err)
+		return fmt.Errorf("error reading FirewallInternetServiceIpblReason resource: %v", err)
 	}
 
 	if o == nil {
@@ -166,7 +209,7 @@ func resourceFirewallInternetServiceIpblReasonRead(d *schema.ResourceData, m int
 
 	err = refreshObjectFirewallInternetServiceIpblReason(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading FirewallInternetServiceIpblReason resource from API: %v", err)
+		return fmt.Errorf("error reading FirewallInternetServiceIpblReason resource from API: %v", err)
 	}
 	return nil
 }
@@ -184,13 +227,13 @@ func refreshObjectFirewallInternetServiceIpblReason(d *schema.ResourceData, o ma
 
 	if err = d.Set("fosid", flattenFirewallInternetServiceIpblReasonId(o["id"], d, "fosid", sv)); err != nil {
 		if !fortiAPIPatch(o["id"]) {
-			return fmt.Errorf("Error reading fosid: %v", err)
+			return fmt.Errorf("error reading fosid: %v", err)
 		}
 	}
 
 	if err = d.Set("name", flattenFirewallInternetServiceIpblReasonName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 

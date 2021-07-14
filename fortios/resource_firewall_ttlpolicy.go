@@ -30,37 +30,37 @@ func resourceFirewallTtlPolicy() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"fosid": &schema.Schema{
+			"fosid": {
 				Type:     schema.TypeInt,
 				ForceNew: true,
 				Required: true,
 			},
-			"status": &schema.Schema{
+			"status": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"action": &schema.Schema{
+			"action": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"srcintf": &schema.Schema{
+			"srcintf": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Required:     true,
 			},
-			"srcaddr": &schema.Schema{
+			"srcaddr": {
 				Type:     schema.TypeList,
 				Required: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 64),
 							Optional:     true,
@@ -69,12 +69,12 @@ func resourceFirewallTtlPolicy() *schema.Resource {
 					},
 				},
 			},
-			"service": &schema.Schema{
+			"service": {
 				Type:     schema.TypeList,
 				Required: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 64),
 							Optional:     true,
@@ -83,19 +83,24 @@ func resourceFirewallTtlPolicy() *schema.Resource {
 					},
 				},
 			},
-			"schedule": &schema.Schema{
+			"schedule": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Required:     true,
 			},
-			"ttl": &schema.Schema{
+			"ttl": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"dynamic_sort_subtable": &schema.Schema{
+			"dynamic_sort_subtable": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Default:  "false",
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -113,15 +118,25 @@ func resourceFirewallTtlPolicyCreate(d *schema.ResourceData, m interface{}) erro
 		}
 	}
 
-	obj, err := getObjectFirewallTtlPolicy(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating FirewallTtlPolicy resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateFirewallTtlPolicy(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectFirewallTtlPolicy(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating FirewallTtlPolicy resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateFirewallTtlPolicy(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating FirewallTtlPolicy resource: %v", err)
+		return fmt.Errorf("error creating FirewallTtlPolicy resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -146,14 +161,24 @@ func resourceFirewallTtlPolicyUpdate(d *schema.ResourceData, m interface{}) erro
 		}
 	}
 
-	obj, err := getObjectFirewallTtlPolicy(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating FirewallTtlPolicy resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateFirewallTtlPolicy(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectFirewallTtlPolicy(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating FirewallTtlPolicy resource: %v", err)
+		return fmt.Errorf("error updating FirewallTtlPolicy resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateFirewallTtlPolicy(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating FirewallTtlPolicy resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -180,9 +205,17 @@ func resourceFirewallTtlPolicyDelete(d *schema.ResourceData, m interface{}) erro
 		}
 	}
 
-	err := c.DeleteFirewallTtlPolicy(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteFirewallTtlPolicy(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting FirewallTtlPolicy resource: %v", err)
+		return fmt.Errorf("error deleting FirewallTtlPolicy resource: %v", err)
 	}
 
 	d.SetId("")
@@ -204,9 +237,19 @@ func resourceFirewallTtlPolicyRead(d *schema.ResourceData, m interface{}) error 
 		}
 	}
 
-	o, err := c.ReadFirewallTtlPolicy(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadFirewallTtlPolicy(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading FirewallTtlPolicy resource: %v", err)
+		return fmt.Errorf("error reading FirewallTtlPolicy resource: %v", err)
 	}
 
 	if o == nil {
@@ -217,7 +260,7 @@ func resourceFirewallTtlPolicyRead(d *schema.ResourceData, m interface{}) error 
 
 	err = refreshObjectFirewallTtlPolicy(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading FirewallTtlPolicy resource from API: %v", err)
+		return fmt.Errorf("error reading FirewallTtlPolicy resource from API: %v", err)
 	}
 	return nil
 }
@@ -327,39 +370,39 @@ func refreshObjectFirewallTtlPolicy(d *schema.ResourceData, o map[string]interfa
 
 	if err = d.Set("fosid", flattenFirewallTtlPolicyId(o["id"], d, "fosid", sv)); err != nil {
 		if !fortiAPIPatch(o["id"]) {
-			return fmt.Errorf("Error reading fosid: %v", err)
+			return fmt.Errorf("error reading fosid: %v", err)
 		}
 	}
 
 	if err = d.Set("status", flattenFirewallTtlPolicyStatus(o["status"], d, "status", sv)); err != nil {
 		if !fortiAPIPatch(o["status"]) {
-			return fmt.Errorf("Error reading status: %v", err)
+			return fmt.Errorf("error reading status: %v", err)
 		}
 	}
 
 	if err = d.Set("action", flattenFirewallTtlPolicyAction(o["action"], d, "action", sv)); err != nil {
 		if !fortiAPIPatch(o["action"]) {
-			return fmt.Errorf("Error reading action: %v", err)
+			return fmt.Errorf("error reading action: %v", err)
 		}
 	}
 
 	if err = d.Set("srcintf", flattenFirewallTtlPolicySrcintf(o["srcintf"], d, "srcintf", sv)); err != nil {
 		if !fortiAPIPatch(o["srcintf"]) {
-			return fmt.Errorf("Error reading srcintf: %v", err)
+			return fmt.Errorf("error reading srcintf: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("srcaddr", flattenFirewallTtlPolicySrcaddr(o["srcaddr"], d, "srcaddr", sv)); err != nil {
 			if !fortiAPIPatch(o["srcaddr"]) {
-				return fmt.Errorf("Error reading srcaddr: %v", err)
+				return fmt.Errorf("error reading srcaddr: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("srcaddr"); ok {
 			if err = d.Set("srcaddr", flattenFirewallTtlPolicySrcaddr(o["srcaddr"], d, "srcaddr", sv)); err != nil {
 				if !fortiAPIPatch(o["srcaddr"]) {
-					return fmt.Errorf("Error reading srcaddr: %v", err)
+					return fmt.Errorf("error reading srcaddr: %v", err)
 				}
 			}
 		}
@@ -368,14 +411,14 @@ func refreshObjectFirewallTtlPolicy(d *schema.ResourceData, o map[string]interfa
 	if isImportTable() {
 		if err = d.Set("service", flattenFirewallTtlPolicyService(o["service"], d, "service", sv)); err != nil {
 			if !fortiAPIPatch(o["service"]) {
-				return fmt.Errorf("Error reading service: %v", err)
+				return fmt.Errorf("error reading service: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("service"); ok {
 			if err = d.Set("service", flattenFirewallTtlPolicyService(o["service"], d, "service", sv)); err != nil {
 				if !fortiAPIPatch(o["service"]) {
-					return fmt.Errorf("Error reading service: %v", err)
+					return fmt.Errorf("error reading service: %v", err)
 				}
 			}
 		}
@@ -383,13 +426,13 @@ func refreshObjectFirewallTtlPolicy(d *schema.ResourceData, o map[string]interfa
 
 	if err = d.Set("schedule", flattenFirewallTtlPolicySchedule(o["schedule"], d, "schedule", sv)); err != nil {
 		if !fortiAPIPatch(o["schedule"]) {
-			return fmt.Errorf("Error reading schedule: %v", err)
+			return fmt.Errorf("error reading schedule: %v", err)
 		}
 	}
 
 	if err = d.Set("ttl", flattenFirewallTtlPolicyTtl(o["ttl"], d, "ttl", sv)); err != nil {
 		if !fortiAPIPatch(o["ttl"]) {
-			return fmt.Errorf("Error reading ttl: %v", err)
+			return fmt.Errorf("error reading ttl: %v", err)
 		}
 	}
 

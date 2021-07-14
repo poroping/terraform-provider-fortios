@@ -54,14 +54,14 @@ func testAccCheckFortiOSFirewallSshHostKeyExists(n string) resource.TestCheckFun
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadFirewallSshHostKey(i, "root")
+		o, err := c.ReadFirewallSshHostKey(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading FirewallSshHostKey: %s", err)
+			return fmt.Errorf("error reading FirewallSshHostKey: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating FirewallSshHostKey: %s", n)
+			return fmt.Errorf("error creating FirewallSshHostKey: %s", n)
 		}
 
 		return nil
@@ -77,11 +77,11 @@ func testAccCheckFirewallSshHostKeyDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadFirewallSshHostKey(i, "root")
+		o, err := c.ReadFirewallSshHostKey(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error FirewallSshHostKey %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error FirewallSshHostKey %s still exists", rs.Primary.ID)
 			}
 		}
 

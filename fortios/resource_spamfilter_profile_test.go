@@ -80,14 +80,14 @@ func testAccCheckFortiOSSpamfilterProfileExists(n string) resource.TestCheckFunc
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadSpamfilterProfile(i, "root")
+		o, err := c.ReadSpamfilterProfile(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading SpamfilterProfile: %s", err)
+			return fmt.Errorf("error reading SpamfilterProfile: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating SpamfilterProfile: %s", n)
+			return fmt.Errorf("error creating SpamfilterProfile: %s", n)
 		}
 
 		return nil
@@ -103,11 +103,11 @@ func testAccCheckSpamfilterProfileDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadSpamfilterProfile(i, "root")
+		o, err := c.ReadSpamfilterProfile(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error SpamfilterProfile %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error SpamfilterProfile %s still exists", rs.Primary.ID)
 			}
 		}
 

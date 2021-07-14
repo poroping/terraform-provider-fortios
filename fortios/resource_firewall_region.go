@@ -30,29 +30,29 @@ func resourceFirewallRegion() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"fosid": &schema.Schema{
+			"fosid": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 65535),
 				Optional:     true,
 				Computed:     true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"city": &schema.Schema{
+			"city": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 65535),
 							Optional:     true,
@@ -61,10 +61,15 @@ func resourceFirewallRegion() *schema.Resource {
 					},
 				},
 			},
-			"dynamic_sort_subtable": &schema.Schema{
+			"dynamic_sort_subtable": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Default:  "false",
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -82,15 +87,25 @@ func resourceFirewallRegionCreate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectFirewallRegion(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating FirewallRegion resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateFirewallRegion(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectFirewallRegion(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating FirewallRegion resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateFirewallRegion(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating FirewallRegion resource: %v", err)
+		return fmt.Errorf("error creating FirewallRegion resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -115,14 +130,24 @@ func resourceFirewallRegionUpdate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectFirewallRegion(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating FirewallRegion resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateFirewallRegion(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectFirewallRegion(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating FirewallRegion resource: %v", err)
+		return fmt.Errorf("error updating FirewallRegion resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateFirewallRegion(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating FirewallRegion resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -149,9 +174,17 @@ func resourceFirewallRegionDelete(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	err := c.DeleteFirewallRegion(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteFirewallRegion(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting FirewallRegion resource: %v", err)
+		return fmt.Errorf("error deleting FirewallRegion resource: %v", err)
 	}
 
 	d.SetId("")
@@ -173,9 +206,19 @@ func resourceFirewallRegionRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadFirewallRegion(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadFirewallRegion(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading FirewallRegion resource: %v", err)
+		return fmt.Errorf("error reading FirewallRegion resource: %v", err)
 	}
 
 	if o == nil {
@@ -186,7 +229,7 @@ func resourceFirewallRegionRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectFirewallRegion(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading FirewallRegion resource from API: %v", err)
+		return fmt.Errorf("error reading FirewallRegion resource from API: %v", err)
 	}
 	return nil
 }
@@ -242,27 +285,27 @@ func refreshObjectFirewallRegion(d *schema.ResourceData, o map[string]interface{
 
 	if err = d.Set("fosid", flattenFirewallRegionId(o["id"], d, "fosid", sv)); err != nil {
 		if !fortiAPIPatch(o["id"]) {
-			return fmt.Errorf("Error reading fosid: %v", err)
+			return fmt.Errorf("error reading fosid: %v", err)
 		}
 	}
 
 	if err = d.Set("name", flattenFirewallRegionName(o["name"], d, "name", sv)); err != nil {
 		if !fortiAPIPatch(o["name"]) {
-			return fmt.Errorf("Error reading name: %v", err)
+			return fmt.Errorf("error reading name: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("city", flattenFirewallRegionCity(o["city"], d, "city", sv)); err != nil {
 			if !fortiAPIPatch(o["city"]) {
-				return fmt.Errorf("Error reading city: %v", err)
+				return fmt.Errorf("error reading city: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("city"); ok {
 			if err = d.Set("city", flattenFirewallRegionCity(o["city"], d, "city", sv)); err != nil {
 				if !fortiAPIPatch(o["city"]) {
-					return fmt.Errorf("Error reading city: %v", err)
+					return fmt.Errorf("error reading city: %v", err)
 				}
 			}
 		}

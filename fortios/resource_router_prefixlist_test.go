@@ -49,14 +49,14 @@ func testAccCheckFortiOSRouterPrefixListExists(n string) resource.TestCheckFunc 
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadRouterPrefixList(i, "root")
+		o, err := c.ReadRouterPrefixList(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading RouterPrefixList: %s", err)
+			return fmt.Errorf("error reading RouterPrefixList: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating RouterPrefixList: %s", n)
+			return fmt.Errorf("error creating RouterPrefixList: %s", n)
 		}
 
 		return nil
@@ -72,11 +72,11 @@ func testAccCheckRouterPrefixListDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadRouterPrefixList(i, "root")
+		o, err := c.ReadRouterPrefixList(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error RouterPrefixList %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error RouterPrefixList %s still exists", rs.Primary.ID)
 			}
 		}
 

@@ -50,14 +50,14 @@ func testAccCheckFortiOSSystemSmsServerExists(n string) resource.TestCheckFunc {
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemSmsServer(i, "root")
+		o, err := c.ReadSystemSmsServer(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading SystemSmsServer: %s", err)
+			return fmt.Errorf("error reading SystemSmsServer: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating SystemSmsServer: %s", n)
+			return fmt.Errorf("error creating SystemSmsServer: %s", n)
 		}
 
 		return nil
@@ -73,11 +73,11 @@ func testAccCheckSystemSmsServerDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemSmsServer(i, "root")
+		o, err := c.ReadSystemSmsServer(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error SystemSmsServer %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error SystemSmsServer %s still exists", rs.Primary.ID)
 			}
 		}
 

@@ -59,14 +59,14 @@ func testAccCheckFortiOSWebfilterFortiguardExists(n string) resource.TestCheckFu
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadWebfilterFortiguard(i, "root")
+		o, err := c.ReadWebfilterFortiguard(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading WebfilterFortiguard: %s", err)
+			return fmt.Errorf("error reading WebfilterFortiguard: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating WebfilterFortiguard: %s", n)
+			return fmt.Errorf("error creating WebfilterFortiguard: %s", n)
 		}
 
 		return nil
@@ -82,11 +82,11 @@ func testAccCheckWebfilterFortiguardDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadWebfilterFortiguard(i, "root")
+		o, err := c.ReadWebfilterFortiguard(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error WebfilterFortiguard %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error WebfilterFortiguard %s still exists", rs.Primary.ID)
 			}
 		}
 

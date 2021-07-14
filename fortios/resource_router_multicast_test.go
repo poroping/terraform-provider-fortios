@@ -69,14 +69,14 @@ func testAccCheckFortiOSRouterMulticastExists(n string) resource.TestCheckFunc {
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadRouterMulticast(i, "root")
+		o, err := c.ReadRouterMulticast(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading RouterMulticast: %s", err)
+			return fmt.Errorf("error reading RouterMulticast: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating RouterMulticast: %s", n)
+			return fmt.Errorf("error creating RouterMulticast: %s", n)
 		}
 
 		return nil
@@ -92,11 +92,11 @@ func testAccCheckRouterMulticastDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadRouterMulticast(i, "root")
+		o, err := c.ReadRouterMulticast(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error RouterMulticast %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error RouterMulticast %s still exists", rs.Primary.ID)
 			}
 		}
 

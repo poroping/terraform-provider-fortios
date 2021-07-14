@@ -52,14 +52,14 @@ func testAccCheckFortiOSWanoptCacheServiceExists(n string) resource.TestCheckFun
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadWanoptCacheService(i, "root")
+		o, err := c.ReadWanoptCacheService(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading WanoptCacheService: %s", err)
+			return fmt.Errorf("error reading WanoptCacheService: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating WanoptCacheService: %s", n)
+			return fmt.Errorf("error creating WanoptCacheService: %s", n)
 		}
 
 		return nil
@@ -75,11 +75,11 @@ func testAccCheckWanoptCacheServiceDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadWanoptCacheService(i, "root")
+		o, err := c.ReadWanoptCacheService(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error WanoptCacheService %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error WanoptCacheService %s still exists", rs.Primary.ID)
 			}
 		}
 

@@ -30,24 +30,24 @@ func resourceSwitchControllerStpInstance() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"fosid": &schema.Schema{
+			"fosid": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 2),
 				ForceNew:     true,
 				Optional:     true,
 				Computed:     true,
 			},
-			"vlan_range": &schema.Schema{
+			"vlan_range": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"vlan_name": &schema.Schema{
+						"vlan_name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 79),
 							Optional:     true,
@@ -56,10 +56,15 @@ func resourceSwitchControllerStpInstance() *schema.Resource {
 					},
 				},
 			},
-			"dynamic_sort_subtable": &schema.Schema{
+			"dynamic_sort_subtable": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Default:  "false",
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -77,15 +82,25 @@ func resourceSwitchControllerStpInstanceCreate(d *schema.ResourceData, m interfa
 		}
 	}
 
-	obj, err := getObjectSwitchControllerStpInstance(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error creating SwitchControllerStpInstance resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.CreateSwitchControllerStpInstance(obj, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSwitchControllerStpInstance(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating SwitchControllerStpInstance resource while getting object: %v", err)
+	}
+
+	o, err := c.CreateSwitchControllerStpInstance(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("Error creating SwitchControllerStpInstance resource: %v", err)
+		return fmt.Errorf("error creating SwitchControllerStpInstance resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
@@ -110,14 +125,24 @@ func resourceSwitchControllerStpInstanceUpdate(d *schema.ResourceData, m interfa
 		}
 	}
 
-	obj, err := getObjectSwitchControllerStpInstance(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SwitchControllerStpInstance resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSwitchControllerStpInstance(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSwitchControllerStpInstance(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SwitchControllerStpInstance resource: %v", err)
+		return fmt.Errorf("error updating SwitchControllerStpInstance resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSwitchControllerStpInstance(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SwitchControllerStpInstance resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -144,9 +169,17 @@ func resourceSwitchControllerStpInstanceDelete(d *schema.ResourceData, m interfa
 		}
 	}
 
-	err := c.DeleteSwitchControllerStpInstance(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSwitchControllerStpInstance(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SwitchControllerStpInstance resource: %v", err)
+		return fmt.Errorf("error deleting SwitchControllerStpInstance resource: %v", err)
 	}
 
 	d.SetId("")
@@ -168,9 +201,19 @@ func resourceSwitchControllerStpInstanceRead(d *schema.ResourceData, m interface
 		}
 	}
 
-	o, err := c.ReadSwitchControllerStpInstance(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSwitchControllerStpInstance(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SwitchControllerStpInstance resource: %v", err)
+		return fmt.Errorf("error reading SwitchControllerStpInstance resource: %v", err)
 	}
 
 	if o == nil {
@@ -181,7 +224,7 @@ func resourceSwitchControllerStpInstanceRead(d *schema.ResourceData, m interface
 
 	err = refreshObjectSwitchControllerStpInstance(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SwitchControllerStpInstance resource from API: %v", err)
+		return fmt.Errorf("error reading SwitchControllerStpInstance resource from API: %v", err)
 	}
 	return nil
 }
@@ -233,21 +276,21 @@ func refreshObjectSwitchControllerStpInstance(d *schema.ResourceData, o map[stri
 
 	if err = d.Set("fosid", flattenSwitchControllerStpInstanceId(o["id"], d, "fosid", sv)); err != nil {
 		if !fortiAPIPatch(o["id"]) {
-			return fmt.Errorf("Error reading fosid: %v", err)
+			return fmt.Errorf("error reading fosid: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("vlan_range", flattenSwitchControllerStpInstanceVlanRange(o["vlan-range"], d, "vlan_range", sv)); err != nil {
 			if !fortiAPIPatch(o["vlan-range"]) {
-				return fmt.Errorf("Error reading vlan_range: %v", err)
+				return fmt.Errorf("error reading vlan_range: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("vlan_range"); ok {
 			if err = d.Set("vlan_range", flattenSwitchControllerStpInstanceVlanRange(o["vlan-range"], d, "vlan_range", sv)); err != nil {
 				if !fortiAPIPatch(o["vlan-range"]) {
-					return fmt.Errorf("Error reading vlan_range: %v", err)
+					return fmt.Errorf("error reading vlan_range: %v", err)
 				}
 			}
 		}

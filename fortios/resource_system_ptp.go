@@ -30,36 +30,41 @@ func resourceSystemPtp() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"status": &schema.Schema{
+			"status": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"mode": &schema.Schema{
+			"mode": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"delay_mechanism": &schema.Schema{
+			"delay_mechanism": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"request_interval": &schema.Schema{
+			"request_interval": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 6),
 				Optional:     true,
 				Computed:     true,
 			},
-			"interface": &schema.Schema{
+			"interface": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 15),
 				Required:     true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -78,14 +83,24 @@ func resourceSystemPtpUpdate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	obj, err := getObjectSystemPtp(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SystemPtp resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSystemPtp(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemPtp(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SystemPtp resource: %v", err)
+		return fmt.Errorf("error updating SystemPtp resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSystemPtp(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SystemPtp resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -112,9 +127,17 @@ func resourceSystemPtpDelete(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	err := c.DeleteSystemPtp(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSystemPtp(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SystemPtp resource: %v", err)
+		return fmt.Errorf("error deleting SystemPtp resource: %v", err)
 	}
 
 	d.SetId("")
@@ -136,9 +159,19 @@ func resourceSystemPtpRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadSystemPtp(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSystemPtp(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemPtp resource: %v", err)
+		return fmt.Errorf("error reading SystemPtp resource: %v", err)
 	}
 
 	if o == nil {
@@ -149,7 +182,7 @@ func resourceSystemPtpRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectSystemPtp(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemPtp resource from API: %v", err)
+		return fmt.Errorf("error reading SystemPtp resource from API: %v", err)
 	}
 	return nil
 }
@@ -179,31 +212,31 @@ func refreshObjectSystemPtp(d *schema.ResourceData, o map[string]interface{}, sv
 
 	if err = d.Set("status", flattenSystemPtpStatus(o["status"], d, "status", sv)); err != nil {
 		if !fortiAPIPatch(o["status"]) {
-			return fmt.Errorf("Error reading status: %v", err)
+			return fmt.Errorf("error reading status: %v", err)
 		}
 	}
 
 	if err = d.Set("mode", flattenSystemPtpMode(o["mode"], d, "mode", sv)); err != nil {
 		if !fortiAPIPatch(o["mode"]) {
-			return fmt.Errorf("Error reading mode: %v", err)
+			return fmt.Errorf("error reading mode: %v", err)
 		}
 	}
 
 	if err = d.Set("delay_mechanism", flattenSystemPtpDelayMechanism(o["delay-mechanism"], d, "delay_mechanism", sv)); err != nil {
 		if !fortiAPIPatch(o["delay-mechanism"]) {
-			return fmt.Errorf("Error reading delay_mechanism: %v", err)
+			return fmt.Errorf("error reading delay_mechanism: %v", err)
 		}
 	}
 
 	if err = d.Set("request_interval", flattenSystemPtpRequestInterval(o["request-interval"], d, "request_interval", sv)); err != nil {
 		if !fortiAPIPatch(o["request-interval"]) {
-			return fmt.Errorf("Error reading request_interval: %v", err)
+			return fmt.Errorf("error reading request_interval: %v", err)
 		}
 	}
 
 	if err = d.Set("interface", flattenSystemPtpInterface(o["interface"], d, "interface", sv)); err != nil {
 		if !fortiAPIPatch(o["interface"]) {
-			return fmt.Errorf("Error reading interface: %v", err)
+			return fmt.Errorf("error reading interface: %v", err)
 		}
 	}
 

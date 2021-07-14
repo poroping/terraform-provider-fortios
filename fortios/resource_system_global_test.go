@@ -52,14 +52,14 @@ func testAccCheckFortiOSSystemGlobalExists(n string) resource.TestCheckFunc {
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemGlobal(i, "root")
+		o, err := c.ReadSystemGlobal(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading SystemGlobal: %s", err)
+			return fmt.Errorf("error reading SystemGlobal: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating SystemGlobal: %s", n)
+			return fmt.Errorf("error creating SystemGlobal: %s", n)
 		}
 
 		return nil
@@ -75,11 +75,11 @@ func testAccCheckSystemGlobalDestroy(s *terraform.State) error {
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadSystemGlobal(i, "root")
+		o, err := c.ReadSystemGlobal(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error SystemGlobal %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error SystemGlobal %s still exists", rs.Primary.ID)
 			}
 		}
 

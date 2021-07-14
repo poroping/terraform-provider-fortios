@@ -30,63 +30,68 @@ func resourceFirewallSshSetting() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"caname": &schema.Schema{
+			"caname": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"untrusted_caname": &schema.Schema{
+			"untrusted_caname": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"hostkey_rsa2048": &schema.Schema{
+			"hostkey_rsa2048": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"hostkey_dsa1024": &schema.Schema{
+			"hostkey_dsa1024": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"hostkey_ecdsa256": &schema.Schema{
+			"hostkey_ecdsa256": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"hostkey_ecdsa384": &schema.Schema{
+			"hostkey_ecdsa384": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"hostkey_ecdsa521": &schema.Schema{
+			"hostkey_ecdsa521": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"hostkey_ed25519": &schema.Schema{
+			"hostkey_ed25519": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				Optional:     true,
 				Computed:     true,
 			},
-			"host_trusted_checking": &schema.Schema{
+			"host_trusted_checking": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -105,14 +110,24 @@ func resourceFirewallSshSettingUpdate(d *schema.ResourceData, m interface{}) err
 		}
 	}
 
-	obj, err := getObjectFirewallSshSetting(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating FirewallSshSetting resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateFirewallSshSetting(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectFirewallSshSetting(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating FirewallSshSetting resource: %v", err)
+		return fmt.Errorf("error updating FirewallSshSetting resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateFirewallSshSetting(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating FirewallSshSetting resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -139,9 +154,17 @@ func resourceFirewallSshSettingDelete(d *schema.ResourceData, m interface{}) err
 		}
 	}
 
-	err := c.DeleteFirewallSshSetting(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteFirewallSshSetting(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting FirewallSshSetting resource: %v", err)
+		return fmt.Errorf("error deleting FirewallSshSetting resource: %v", err)
 	}
 
 	d.SetId("")
@@ -163,9 +186,19 @@ func resourceFirewallSshSettingRead(d *schema.ResourceData, m interface{}) error
 		}
 	}
 
-	o, err := c.ReadFirewallSshSetting(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadFirewallSshSetting(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading FirewallSshSetting resource: %v", err)
+		return fmt.Errorf("error reading FirewallSshSetting resource: %v", err)
 	}
 
 	if o == nil {
@@ -176,7 +209,7 @@ func resourceFirewallSshSettingRead(d *schema.ResourceData, m interface{}) error
 
 	err = refreshObjectFirewallSshSetting(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading FirewallSshSetting resource from API: %v", err)
+		return fmt.Errorf("error reading FirewallSshSetting resource from API: %v", err)
 	}
 	return nil
 }
@@ -222,55 +255,55 @@ func refreshObjectFirewallSshSetting(d *schema.ResourceData, o map[string]interf
 
 	if err = d.Set("caname", flattenFirewallSshSettingCaname(o["caname"], d, "caname", sv)); err != nil {
 		if !fortiAPIPatch(o["caname"]) {
-			return fmt.Errorf("Error reading caname: %v", err)
+			return fmt.Errorf("error reading caname: %v", err)
 		}
 	}
 
 	if err = d.Set("untrusted_caname", flattenFirewallSshSettingUntrustedCaname(o["untrusted-caname"], d, "untrusted_caname", sv)); err != nil {
 		if !fortiAPIPatch(o["untrusted-caname"]) {
-			return fmt.Errorf("Error reading untrusted_caname: %v", err)
+			return fmt.Errorf("error reading untrusted_caname: %v", err)
 		}
 	}
 
 	if err = d.Set("hostkey_rsa2048", flattenFirewallSshSettingHostkeyRsa2048(o["hostkey-rsa2048"], d, "hostkey_rsa2048", sv)); err != nil {
 		if !fortiAPIPatch(o["hostkey-rsa2048"]) {
-			return fmt.Errorf("Error reading hostkey_rsa2048: %v", err)
+			return fmt.Errorf("error reading hostkey_rsa2048: %v", err)
 		}
 	}
 
 	if err = d.Set("hostkey_dsa1024", flattenFirewallSshSettingHostkeyDsa1024(o["hostkey-dsa1024"], d, "hostkey_dsa1024", sv)); err != nil {
 		if !fortiAPIPatch(o["hostkey-dsa1024"]) {
-			return fmt.Errorf("Error reading hostkey_dsa1024: %v", err)
+			return fmt.Errorf("error reading hostkey_dsa1024: %v", err)
 		}
 	}
 
 	if err = d.Set("hostkey_ecdsa256", flattenFirewallSshSettingHostkeyEcdsa256(o["hostkey-ecdsa256"], d, "hostkey_ecdsa256", sv)); err != nil {
 		if !fortiAPIPatch(o["hostkey-ecdsa256"]) {
-			return fmt.Errorf("Error reading hostkey_ecdsa256: %v", err)
+			return fmt.Errorf("error reading hostkey_ecdsa256: %v", err)
 		}
 	}
 
 	if err = d.Set("hostkey_ecdsa384", flattenFirewallSshSettingHostkeyEcdsa384(o["hostkey-ecdsa384"], d, "hostkey_ecdsa384", sv)); err != nil {
 		if !fortiAPIPatch(o["hostkey-ecdsa384"]) {
-			return fmt.Errorf("Error reading hostkey_ecdsa384: %v", err)
+			return fmt.Errorf("error reading hostkey_ecdsa384: %v", err)
 		}
 	}
 
 	if err = d.Set("hostkey_ecdsa521", flattenFirewallSshSettingHostkeyEcdsa521(o["hostkey-ecdsa521"], d, "hostkey_ecdsa521", sv)); err != nil {
 		if !fortiAPIPatch(o["hostkey-ecdsa521"]) {
-			return fmt.Errorf("Error reading hostkey_ecdsa521: %v", err)
+			return fmt.Errorf("error reading hostkey_ecdsa521: %v", err)
 		}
 	}
 
 	if err = d.Set("hostkey_ed25519", flattenFirewallSshSettingHostkeyEd25519(o["hostkey-ed25519"], d, "hostkey_ed25519", sv)); err != nil {
 		if !fortiAPIPatch(o["hostkey-ed25519"]) {
-			return fmt.Errorf("Error reading hostkey_ed25519: %v", err)
+			return fmt.Errorf("error reading hostkey_ed25519: %v", err)
 		}
 	}
 
 	if err = d.Set("host_trusted_checking", flattenFirewallSshSettingHostTrustedChecking(o["host-trusted-checking"], d, "host_trusted_checking", sv)); err != nil {
 		if !fortiAPIPatch(o["host-trusted-checking"]) {
-			return fmt.Errorf("Error reading host_trusted_checking: %v", err)
+			return fmt.Errorf("error reading host_trusted_checking: %v", err)
 		}
 	}
 

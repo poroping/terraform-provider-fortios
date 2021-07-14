@@ -30,155 +30,155 @@ func resourceWebProxyExplicit() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"status": &schema.Schema{
+			"status": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ftp_over_http": &schema.Schema{
+			"ftp_over_http": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"socks": &schema.Schema{
+			"socks": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"http_incoming_port": &schema.Schema{
+			"http_incoming_port": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"https_incoming_port": &schema.Schema{
+			"https_incoming_port": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ftp_incoming_port": &schema.Schema{
+			"ftp_incoming_port": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"socks_incoming_port": &schema.Schema{
+			"socks_incoming_port": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"incoming_ip": &schema.Schema{
+			"incoming_ip": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"outgoing_ip": &schema.Schema{
+			"outgoing_ip": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"ipv6_status": &schema.Schema{
+			"ipv6_status": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"incoming_ip6": &schema.Schema{
+			"incoming_ip6": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"outgoing_ip6": &schema.Schema{
+			"outgoing_ip6": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"strict_guest": &schema.Schema{
+			"strict_guest": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"pref_dns_result": &schema.Schema{
+			"pref_dns_result": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"unknown_http_version": &schema.Schema{
+			"unknown_http_version": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"realm": &schema.Schema{
+			"realm": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"sec_default_action": &schema.Schema{
+			"sec_default_action": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"https_replacement_message": &schema.Schema{
+			"https_replacement_message": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"message_upon_server_error": &schema.Schema{
+			"message_upon_server_error": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"pac_file_server_status": &schema.Schema{
+			"pac_file_server_status": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"pac_file_url": &schema.Schema{
+			"pac_file_url": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"pac_file_server_port": &schema.Schema{
+			"pac_file_server_port": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"pac_file_name": &schema.Schema{
+			"pac_file_name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 				Optional:     true,
 				Computed:     true,
 			},
-			"pac_file_data": &schema.Schema{
+			"pac_file_data": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"pac_policy": &schema.Schema{
+			"pac_policy": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"policyid": &schema.Schema{
+						"policyid": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 100),
 							Optional:     true,
 							Computed:     true,
 						},
-						"status": &schema.Schema{
+						"status": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"srcaddr": &schema.Schema{
+						"srcaddr": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"name": &schema.Schema{
+									"name": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 64),
 										Optional:     true,
@@ -187,12 +187,12 @@ func resourceWebProxyExplicit() *schema.Resource {
 								},
 							},
 						},
-						"srcaddr6": &schema.Schema{
+						"srcaddr6": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"name": &schema.Schema{
+									"name": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 64),
 										Optional:     true,
@@ -201,12 +201,12 @@ func resourceWebProxyExplicit() *schema.Resource {
 								},
 							},
 						},
-						"dstaddr": &schema.Schema{
+						"dstaddr": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"name": &schema.Schema{
+									"name": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 64),
 										Optional:     true,
@@ -215,18 +215,18 @@ func resourceWebProxyExplicit() *schema.Resource {
 								},
 							},
 						},
-						"pac_file_name": &schema.Schema{
+						"pac_file_name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 63),
 							Optional:     true,
 							Computed:     true,
 						},
-						"pac_file_data": &schema.Schema{
+						"pac_file_data": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"comments": &schema.Schema{
+						"comments": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 1023),
 							Optional:     true,
@@ -234,20 +234,25 @@ func resourceWebProxyExplicit() *schema.Resource {
 					},
 				},
 			},
-			"ssl_algorithm": &schema.Schema{
+			"ssl_algorithm": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"trace_auth_no_rsp": &schema.Schema{
+			"trace_auth_no_rsp": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"dynamic_sort_subtable": &schema.Schema{
+			"dynamic_sort_subtable": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Default:  "false",
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -266,14 +271,24 @@ func resourceWebProxyExplicitUpdate(d *schema.ResourceData, m interface{}) error
 		}
 	}
 
-	obj, err := getObjectWebProxyExplicit(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating WebProxyExplicit resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateWebProxyExplicit(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectWebProxyExplicit(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating WebProxyExplicit resource: %v", err)
+		return fmt.Errorf("error updating WebProxyExplicit resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateWebProxyExplicit(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating WebProxyExplicit resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -300,9 +315,17 @@ func resourceWebProxyExplicitDelete(d *schema.ResourceData, m interface{}) error
 		}
 	}
 
-	err := c.DeleteWebProxyExplicit(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteWebProxyExplicit(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting WebProxyExplicit resource: %v", err)
+		return fmt.Errorf("error deleting WebProxyExplicit resource: %v", err)
 	}
 
 	d.SetId("")
@@ -324,9 +347,19 @@ func resourceWebProxyExplicitRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	o, err := c.ReadWebProxyExplicit(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadWebProxyExplicit(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading WebProxyExplicit resource: %v", err)
+		return fmt.Errorf("error reading WebProxyExplicit resource: %v", err)
 	}
 
 	if o == nil {
@@ -337,7 +370,7 @@ func resourceWebProxyExplicitRead(d *schema.ResourceData, m interface{}) error {
 
 	err = refreshObjectWebProxyExplicit(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading WebProxyExplicit resource from API: %v", err)
+		return fmt.Errorf("error reading WebProxyExplicit resource from API: %v", err)
 	}
 	return nil
 }
@@ -658,159 +691,159 @@ func refreshObjectWebProxyExplicit(d *schema.ResourceData, o map[string]interfac
 
 	if err = d.Set("status", flattenWebProxyExplicitStatus(o["status"], d, "status", sv)); err != nil {
 		if !fortiAPIPatch(o["status"]) {
-			return fmt.Errorf("Error reading status: %v", err)
+			return fmt.Errorf("error reading status: %v", err)
 		}
 	}
 
 	if err = d.Set("ftp_over_http", flattenWebProxyExplicitFtpOverHttp(o["ftp-over-http"], d, "ftp_over_http", sv)); err != nil {
 		if !fortiAPIPatch(o["ftp-over-http"]) {
-			return fmt.Errorf("Error reading ftp_over_http: %v", err)
+			return fmt.Errorf("error reading ftp_over_http: %v", err)
 		}
 	}
 
 	if err = d.Set("socks", flattenWebProxyExplicitSocks(o["socks"], d, "socks", sv)); err != nil {
 		if !fortiAPIPatch(o["socks"]) {
-			return fmt.Errorf("Error reading socks: %v", err)
+			return fmt.Errorf("error reading socks: %v", err)
 		}
 	}
 
 	if err = d.Set("http_incoming_port", flattenWebProxyExplicitHttpIncomingPort(o["http-incoming-port"], d, "http_incoming_port", sv)); err != nil {
 		if !fortiAPIPatch(o["http-incoming-port"]) {
-			return fmt.Errorf("Error reading http_incoming_port: %v", err)
+			return fmt.Errorf("error reading http_incoming_port: %v", err)
 		}
 	}
 
 	if err = d.Set("https_incoming_port", flattenWebProxyExplicitHttpsIncomingPort(o["https-incoming-port"], d, "https_incoming_port", sv)); err != nil {
 		if !fortiAPIPatch(o["https-incoming-port"]) {
-			return fmt.Errorf("Error reading https_incoming_port: %v", err)
+			return fmt.Errorf("error reading https_incoming_port: %v", err)
 		}
 	}
 
 	if err = d.Set("ftp_incoming_port", flattenWebProxyExplicitFtpIncomingPort(o["ftp-incoming-port"], d, "ftp_incoming_port", sv)); err != nil {
 		if !fortiAPIPatch(o["ftp-incoming-port"]) {
-			return fmt.Errorf("Error reading ftp_incoming_port: %v", err)
+			return fmt.Errorf("error reading ftp_incoming_port: %v", err)
 		}
 	}
 
 	if err = d.Set("socks_incoming_port", flattenWebProxyExplicitSocksIncomingPort(o["socks-incoming-port"], d, "socks_incoming_port", sv)); err != nil {
 		if !fortiAPIPatch(o["socks-incoming-port"]) {
-			return fmt.Errorf("Error reading socks_incoming_port: %v", err)
+			return fmt.Errorf("error reading socks_incoming_port: %v", err)
 		}
 	}
 
 	if err = d.Set("incoming_ip", flattenWebProxyExplicitIncomingIp(o["incoming-ip"], d, "incoming_ip", sv)); err != nil {
 		if !fortiAPIPatch(o["incoming-ip"]) {
-			return fmt.Errorf("Error reading incoming_ip: %v", err)
+			return fmt.Errorf("error reading incoming_ip: %v", err)
 		}
 	}
 
 	if err = d.Set("outgoing_ip", flattenWebProxyExplicitOutgoingIp(o["outgoing-ip"], d, "outgoing_ip", sv)); err != nil {
 		if !fortiAPIPatch(o["outgoing-ip"]) {
-			return fmt.Errorf("Error reading outgoing_ip: %v", err)
+			return fmt.Errorf("error reading outgoing_ip: %v", err)
 		}
 	}
 
 	if err = d.Set("ipv6_status", flattenWebProxyExplicitIpv6Status(o["ipv6-status"], d, "ipv6_status", sv)); err != nil {
 		if !fortiAPIPatch(o["ipv6-status"]) {
-			return fmt.Errorf("Error reading ipv6_status: %v", err)
+			return fmt.Errorf("error reading ipv6_status: %v", err)
 		}
 	}
 
 	if err = d.Set("incoming_ip6", flattenWebProxyExplicitIncomingIp6(o["incoming-ip6"], d, "incoming_ip6", sv)); err != nil {
 		if !fortiAPIPatch(o["incoming-ip6"]) {
-			return fmt.Errorf("Error reading incoming_ip6: %v", err)
+			return fmt.Errorf("error reading incoming_ip6: %v", err)
 		}
 	}
 
 	if err = d.Set("outgoing_ip6", flattenWebProxyExplicitOutgoingIp6(o["outgoing-ip6"], d, "outgoing_ip6", sv)); err != nil {
 		if !fortiAPIPatch(o["outgoing-ip6"]) {
-			return fmt.Errorf("Error reading outgoing_ip6: %v", err)
+			return fmt.Errorf("error reading outgoing_ip6: %v", err)
 		}
 	}
 
 	if err = d.Set("strict_guest", flattenWebProxyExplicitStrictGuest(o["strict-guest"], d, "strict_guest", sv)); err != nil {
 		if !fortiAPIPatch(o["strict-guest"]) {
-			return fmt.Errorf("Error reading strict_guest: %v", err)
+			return fmt.Errorf("error reading strict_guest: %v", err)
 		}
 	}
 
 	if err = d.Set("pref_dns_result", flattenWebProxyExplicitPrefDnsResult(o["pref-dns-result"], d, "pref_dns_result", sv)); err != nil {
 		if !fortiAPIPatch(o["pref-dns-result"]) {
-			return fmt.Errorf("Error reading pref_dns_result: %v", err)
+			return fmt.Errorf("error reading pref_dns_result: %v", err)
 		}
 	}
 
 	if err = d.Set("unknown_http_version", flattenWebProxyExplicitUnknownHttpVersion(o["unknown-http-version"], d, "unknown_http_version", sv)); err != nil {
 		if !fortiAPIPatch(o["unknown-http-version"]) {
-			return fmt.Errorf("Error reading unknown_http_version: %v", err)
+			return fmt.Errorf("error reading unknown_http_version: %v", err)
 		}
 	}
 
 	if err = d.Set("realm", flattenWebProxyExplicitRealm(o["realm"], d, "realm", sv)); err != nil {
 		if !fortiAPIPatch(o["realm"]) {
-			return fmt.Errorf("Error reading realm: %v", err)
+			return fmt.Errorf("error reading realm: %v", err)
 		}
 	}
 
 	if err = d.Set("sec_default_action", flattenWebProxyExplicitSecDefaultAction(o["sec-default-action"], d, "sec_default_action", sv)); err != nil {
 		if !fortiAPIPatch(o["sec-default-action"]) {
-			return fmt.Errorf("Error reading sec_default_action: %v", err)
+			return fmt.Errorf("error reading sec_default_action: %v", err)
 		}
 	}
 
 	if err = d.Set("https_replacement_message", flattenWebProxyExplicitHttpsReplacementMessage(o["https-replacement-message"], d, "https_replacement_message", sv)); err != nil {
 		if !fortiAPIPatch(o["https-replacement-message"]) {
-			return fmt.Errorf("Error reading https_replacement_message: %v", err)
+			return fmt.Errorf("error reading https_replacement_message: %v", err)
 		}
 	}
 
 	if err = d.Set("message_upon_server_error", flattenWebProxyExplicitMessageUponServerError(o["message-upon-server-error"], d, "message_upon_server_error", sv)); err != nil {
 		if !fortiAPIPatch(o["message-upon-server-error"]) {
-			return fmt.Errorf("Error reading message_upon_server_error: %v", err)
+			return fmt.Errorf("error reading message_upon_server_error: %v", err)
 		}
 	}
 
 	if err = d.Set("pac_file_server_status", flattenWebProxyExplicitPacFileServerStatus(o["pac-file-server-status"], d, "pac_file_server_status", sv)); err != nil {
 		if !fortiAPIPatch(o["pac-file-server-status"]) {
-			return fmt.Errorf("Error reading pac_file_server_status: %v", err)
+			return fmt.Errorf("error reading pac_file_server_status: %v", err)
 		}
 	}
 
 	if err = d.Set("pac_file_url", flattenWebProxyExplicitPacFileUrl(o["pac-file-url"], d, "pac_file_url", sv)); err != nil {
 		if !fortiAPIPatch(o["pac-file-url"]) {
-			return fmt.Errorf("Error reading pac_file_url: %v", err)
+			return fmt.Errorf("error reading pac_file_url: %v", err)
 		}
 	}
 
 	if err = d.Set("pac_file_server_port", flattenWebProxyExplicitPacFileServerPort(o["pac-file-server-port"], d, "pac_file_server_port", sv)); err != nil {
 		if !fortiAPIPatch(o["pac-file-server-port"]) {
-			return fmt.Errorf("Error reading pac_file_server_port: %v", err)
+			return fmt.Errorf("error reading pac_file_server_port: %v", err)
 		}
 	}
 
 	if err = d.Set("pac_file_name", flattenWebProxyExplicitPacFileName(o["pac-file-name"], d, "pac_file_name", sv)); err != nil {
 		if !fortiAPIPatch(o["pac-file-name"]) {
-			return fmt.Errorf("Error reading pac_file_name: %v", err)
+			return fmt.Errorf("error reading pac_file_name: %v", err)
 		}
 	}
 
 	if err = d.Set("pac_file_data", flattenWebProxyExplicitPacFileData(o["pac-file-data"], d, "pac_file_data", sv)); err != nil {
 		if !fortiAPIPatch(o["pac-file-data"]) {
-			return fmt.Errorf("Error reading pac_file_data: %v", err)
+			return fmt.Errorf("error reading pac_file_data: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("pac_policy", flattenWebProxyExplicitPacPolicy(o["pac-policy"], d, "pac_policy", sv)); err != nil {
 			if !fortiAPIPatch(o["pac-policy"]) {
-				return fmt.Errorf("Error reading pac_policy: %v", err)
+				return fmt.Errorf("error reading pac_policy: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("pac_policy"); ok {
 			if err = d.Set("pac_policy", flattenWebProxyExplicitPacPolicy(o["pac-policy"], d, "pac_policy", sv)); err != nil {
 				if !fortiAPIPatch(o["pac-policy"]) {
-					return fmt.Errorf("Error reading pac_policy: %v", err)
+					return fmt.Errorf("error reading pac_policy: %v", err)
 				}
 			}
 		}
@@ -818,13 +851,13 @@ func refreshObjectWebProxyExplicit(d *schema.ResourceData, o map[string]interfac
 
 	if err = d.Set("ssl_algorithm", flattenWebProxyExplicitSslAlgorithm(o["ssl-algorithm"], d, "ssl_algorithm", sv)); err != nil {
 		if !fortiAPIPatch(o["ssl-algorithm"]) {
-			return fmt.Errorf("Error reading ssl_algorithm: %v", err)
+			return fmt.Errorf("error reading ssl_algorithm: %v", err)
 		}
 	}
 
 	if err = d.Set("trace_auth_no_rsp", flattenWebProxyExplicitTraceAuthNoRsp(o["trace-auth-no-rsp"], d, "trace_auth_no_rsp", sv)); err != nil {
 		if !fortiAPIPatch(o["trace-auth-no-rsp"]) {
-			return fmt.Errorf("Error reading trace_auth_no_rsp: %v", err)
+			return fmt.Errorf("error reading trace_auth_no_rsp: %v", err)
 		}
 	}
 

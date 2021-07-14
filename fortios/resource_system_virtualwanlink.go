@@ -30,49 +30,49 @@ func resourceSystemVirtualWanLink() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"vdomparam": &schema.Schema{
+			"vdomparam": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 			},
-			"status": &schema.Schema{
+			"status": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"load_balance_mode": &schema.Schema{
+			"load_balance_mode": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"neighbor_hold_down": &schema.Schema{
+			"neighbor_hold_down": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"neighbor_hold_down_time": &schema.Schema{
+			"neighbor_hold_down_time": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 10000000),
 				Optional:     true,
 				Computed:     true,
 			},
-			"neighbor_hold_boot_time": &schema.Schema{
+			"neighbor_hold_boot_time": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 10000000),
 				Optional:     true,
 				Computed:     true,
 			},
-			"fail_detect": &schema.Schema{
+			"fail_detect": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"fail_alert_interfaces": &schema.Schema{
+			"fail_alert_interfaces": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 64),
 							Optional:     true,
@@ -81,12 +81,12 @@ func resourceSystemVirtualWanLink() *schema.Resource {
 					},
 				},
 			},
-			"zone": &schema.Schema{
+			"zone": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
@@ -95,83 +95,83 @@ func resourceSystemVirtualWanLink() *schema.Resource {
 					},
 				},
 			},
-			"members": &schema.Schema{
+			"members": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"seq_num": &schema.Schema{
+						"seq_num": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 255),
 							Optional:     true,
 							Computed:     true,
 						},
-						"interface": &schema.Schema{
+						"interface": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 15),
 							Optional:     true,
 							Computed:     true,
 						},
-						"gateway": &schema.Schema{
+						"gateway": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"source": &schema.Schema{
+						"source": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"gateway6": &schema.Schema{
+						"gateway6": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"source6": &schema.Schema{
+						"source6": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"cost": &schema.Schema{
+						"cost": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"weight": &schema.Schema{
+						"weight": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 255),
 							Optional:     true,
 							Computed:     true,
 						},
-						"priority": &schema.Schema{
+						"priority": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"spillover_threshold": &schema.Schema{
+						"spillover_threshold": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 16776000),
 							Optional:     true,
 							Computed:     true,
 						},
-						"ingress_spillover_threshold": &schema.Schema{
+						"ingress_spillover_threshold": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 16776000),
 							Optional:     true,
 							Computed:     true,
 						},
-						"volume_ratio": &schema.Schema{
+						"volume_ratio": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 255),
 							Optional:     true,
 							Computed:     true,
 						},
-						"status": &schema.Schema{
+						"status": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"comment": &schema.Schema{
+						"comment": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 255),
 							Optional:     true,
@@ -179,191 +179,191 @@ func resourceSystemVirtualWanLink() *schema.Resource {
 					},
 				},
 			},
-			"health_check": &schema.Schema{
+			"health_check": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"probe_packets": &schema.Schema{
+						"probe_packets": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"addr_mode": &schema.Schema{
+						"addr_mode": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"system_dns": &schema.Schema{
+						"system_dns": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"server": &schema.Schema{
+						"server": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 64),
 							Optional:     true,
 							Computed:     true,
 						},
-						"protocol": &schema.Schema{
+						"protocol": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"port": &schema.Schema{
+						"port": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 65535),
 							Optional:     true,
 							Computed:     true,
 						},
-						"security_mode": &schema.Schema{
+						"security_mode": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"password": &schema.Schema{
+						"password": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 128),
 							Optional:     true,
 							Sensitive:    true,
 						},
-						"packet_size": &schema.Schema{
+						"packet_size": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(64, 1024),
 							Optional:     true,
 							Computed:     true,
 						},
-						"ha_priority": &schema.Schema{
+						"ha_priority": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 50),
 							Optional:     true,
 							Computed:     true,
 						},
-						"http_get": &schema.Schema{
+						"http_get": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 1024),
 							Optional:     true,
 							Computed:     true,
 						},
-						"http_agent": &schema.Schema{
+						"http_agent": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 1024),
 							Optional:     true,
 							Computed:     true,
 						},
-						"http_match": &schema.Schema{
+						"http_match": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 1024),
 							Optional:     true,
 							Computed:     true,
 						},
-						"dns_request_domain": &schema.Schema{
+						"dns_request_domain": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 255),
 							Optional:     true,
 							Computed:     true,
 						},
-						"interval": &schema.Schema{
+						"interval": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 3600),
 							Optional:     true,
 							Computed:     true,
 						},
-						"probe_timeout": &schema.Schema{
+						"probe_timeout": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(500, 5000),
 							Optional:     true,
 							Computed:     true,
 						},
-						"failtime": &schema.Schema{
+						"failtime": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 3600),
 							Optional:     true,
 							Computed:     true,
 						},
-						"recoverytime": &schema.Schema{
+						"recoverytime": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 3600),
 							Optional:     true,
 							Computed:     true,
 						},
-						"probe_count": &schema.Schema{
+						"probe_count": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(5, 30),
 							Optional:     true,
 							Computed:     true,
 						},
-						"diffservcode": &schema.Schema{
+						"diffservcode": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"update_cascade_interface": &schema.Schema{
+						"update_cascade_interface": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"update_static_route": &schema.Schema{
+						"update_static_route": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"sla_fail_log_period": &schema.Schema{
+						"sla_fail_log_period": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 3600),
 							Optional:     true,
 							Computed:     true,
 						},
-						"sla_pass_log_period": &schema.Schema{
+						"sla_pass_log_period": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 3600),
 							Optional:     true,
 							Computed:     true,
 						},
-						"threshold_warning_packetloss": &schema.Schema{
+						"threshold_warning_packetloss": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 100),
 							Optional:     true,
 							Computed:     true,
 						},
-						"threshold_alert_packetloss": &schema.Schema{
+						"threshold_alert_packetloss": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 100),
 							Optional:     true,
 							Computed:     true,
 						},
-						"threshold_warning_latency": &schema.Schema{
+						"threshold_warning_latency": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"threshold_alert_latency": &schema.Schema{
+						"threshold_alert_latency": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"threshold_warning_jitter": &schema.Schema{
+						"threshold_warning_jitter": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"threshold_alert_jitter": &schema.Schema{
+						"threshold_alert_jitter": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"members": &schema.Schema{
+						"members": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"seq_num": &schema.Schema{
+									"seq_num": {
 										Type:     schema.TypeInt,
 										Optional: true,
 										Computed: true,
@@ -371,35 +371,35 @@ func resourceSystemVirtualWanLink() *schema.Resource {
 								},
 							},
 						},
-						"sla": &schema.Schema{
+						"sla": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"id": &schema.Schema{
+									"id": {
 										Type:         schema.TypeInt,
 										ValidateFunc: validation.IntBetween(1, 32),
 										Optional:     true,
 										Computed:     true,
 									},
-									"link_cost_factor": &schema.Schema{
+									"link_cost_factor": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"latency_threshold": &schema.Schema{
+									"latency_threshold": {
 										Type:         schema.TypeInt,
 										ValidateFunc: validation.IntBetween(0, 10000000),
 										Optional:     true,
 										Computed:     true,
 									},
-									"jitter_threshold": &schema.Schema{
+									"jitter_threshold": {
 										Type:         schema.TypeInt,
 										ValidateFunc: validation.IntBetween(0, 10000000),
 										Optional:     true,
 										Computed:     true,
 									},
-									"packetloss_threshold": &schema.Schema{
+									"packetloss_threshold": {
 										Type:         schema.TypeInt,
 										ValidateFunc: validation.IntBetween(0, 100),
 										Optional:     true,
@@ -411,34 +411,34 @@ func resourceSystemVirtualWanLink() *schema.Resource {
 					},
 				},
 			},
-			"neighbor": &schema.Schema{
+			"neighbor": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"ip": &schema.Schema{
+						"ip": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 45),
 							Optional:     true,
 							Computed:     true,
 						},
-						"member": &schema.Schema{
+						"member": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"role": &schema.Schema{
+						"role": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"health_check": &schema.Schema{
+						"health_check": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"sla_id": &schema.Schema{
+						"sla_id": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
@@ -446,34 +446,34 @@ func resourceSystemVirtualWanLink() *schema.Resource {
 					},
 				},
 			},
-			"service": &schema.Schema{
+			"service": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": &schema.Schema{
+						"id": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 4000),
 							Optional:     true,
 							Computed:     true,
 						},
-						"name": &schema.Schema{
+						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"addr_mode": &schema.Schema{
+						"addr_mode": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"input_device": &schema.Schema{
+						"input_device": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"name": &schema.Schema{
+									"name": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 64),
 										Optional:     true,
@@ -482,76 +482,76 @@ func resourceSystemVirtualWanLink() *schema.Resource {
 								},
 							},
 						},
-						"input_device_negate": &schema.Schema{
+						"input_device_negate": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"mode": &schema.Schema{
+						"mode": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"role": &schema.Schema{
+						"role": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"standalone_action": &schema.Schema{
+						"standalone_action": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"quality_link": &schema.Schema{
+						"quality_link": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 255),
 							Optional:     true,
 							Computed:     true,
 						},
-						"member": &schema.Schema{
+						"member": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"tos": &schema.Schema{
+						"tos": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"tos_mask": &schema.Schema{
+						"tos_mask": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"protocol": &schema.Schema{
+						"protocol": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 255),
 							Optional:     true,
 							Computed:     true,
 						},
-						"start_port": &schema.Schema{
+						"start_port": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 65535),
 							Optional:     true,
 							Computed:     true,
 						},
-						"end_port": &schema.Schema{
+						"end_port": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 65535),
 							Optional:     true,
 							Computed:     true,
 						},
-						"route_tag": &schema.Schema{
+						"route_tag": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						"dst": &schema.Schema{
+						"dst": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"name": &schema.Schema{
+									"name": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 64),
 										Optional:     true,
@@ -560,17 +560,17 @@ func resourceSystemVirtualWanLink() *schema.Resource {
 								},
 							},
 						},
-						"dst_negate": &schema.Schema{
+						"dst_negate": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"src": &schema.Schema{
+						"src": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"name": &schema.Schema{
+									"name": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 64),
 										Optional:     true,
@@ -579,12 +579,12 @@ func resourceSystemVirtualWanLink() *schema.Resource {
 								},
 							},
 						},
-						"dst6": &schema.Schema{
+						"dst6": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"name": &schema.Schema{
+									"name": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 64),
 										Optional:     true,
@@ -593,12 +593,12 @@ func resourceSystemVirtualWanLink() *schema.Resource {
 								},
 							},
 						},
-						"src6": &schema.Schema{
+						"src6": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"name": &schema.Schema{
+									"name": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 64),
 										Optional:     true,
@@ -607,17 +607,17 @@ func resourceSystemVirtualWanLink() *schema.Resource {
 								},
 							},
 						},
-						"src_negate": &schema.Schema{
+						"src_negate": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"users": &schema.Schema{
+						"users": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"name": &schema.Schema{
+									"name": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 64),
 										Optional:     true,
@@ -626,12 +626,12 @@ func resourceSystemVirtualWanLink() *schema.Resource {
 								},
 							},
 						},
-						"groups": &schema.Schema{
+						"groups": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"name": &schema.Schema{
+									"name": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 64),
 										Optional:     true,
@@ -640,17 +640,17 @@ func resourceSystemVirtualWanLink() *schema.Resource {
 								},
 							},
 						},
-						"internet_service": &schema.Schema{
+						"internet_service": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"internet_service_custom": &schema.Schema{
+						"internet_service_custom": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"name": &schema.Schema{
+									"name": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 64),
 										Optional:     true,
@@ -659,12 +659,12 @@ func resourceSystemVirtualWanLink() *schema.Resource {
 								},
 							},
 						},
-						"internet_service_custom_group": &schema.Schema{
+						"internet_service_custom_group": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"name": &schema.Schema{
+									"name": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 64),
 										Optional:     true,
@@ -673,12 +673,12 @@ func resourceSystemVirtualWanLink() *schema.Resource {
 								},
 							},
 						},
-						"internet_service_name": &schema.Schema{
+						"internet_service_name": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"name": &schema.Schema{
+									"name": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 79),
 										Optional:     true,
@@ -687,12 +687,12 @@ func resourceSystemVirtualWanLink() *schema.Resource {
 								},
 							},
 						},
-						"internet_service_id": &schema.Schema{
+						"internet_service_id": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"id": &schema.Schema{
+									"id": {
 										Type:     schema.TypeInt,
 										Optional: true,
 										Computed: true,
@@ -700,12 +700,12 @@ func resourceSystemVirtualWanLink() *schema.Resource {
 								},
 							},
 						},
-						"internet_service_group": &schema.Schema{
+						"internet_service_group": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"name": &schema.Schema{
+									"name": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 64),
 										Optional:     true,
@@ -714,12 +714,12 @@ func resourceSystemVirtualWanLink() *schema.Resource {
 								},
 							},
 						},
-						"internet_service_app_ctrl": &schema.Schema{
+						"internet_service_app_ctrl": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"id": &schema.Schema{
+									"id": {
 										Type:     schema.TypeInt,
 										Optional: true,
 										Computed: true,
@@ -727,12 +727,12 @@ func resourceSystemVirtualWanLink() *schema.Resource {
 								},
 							},
 						},
-						"internet_service_app_ctrl_group": &schema.Schema{
+						"internet_service_app_ctrl_group": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"name": &schema.Schema{
+									"name": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 79),
 										Optional:     true,
@@ -741,12 +741,12 @@ func resourceSystemVirtualWanLink() *schema.Resource {
 								},
 							},
 						},
-						"internet_service_ctrl": &schema.Schema{
+						"internet_service_ctrl": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"id": &schema.Schema{
+									"id": {
 										Type:     schema.TypeInt,
 										Optional: true,
 										Computed: true,
@@ -754,12 +754,12 @@ func resourceSystemVirtualWanLink() *schema.Resource {
 								},
 							},
 						},
-						"internet_service_ctrl_group": &schema.Schema{
+						"internet_service_ctrl_group": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"name": &schema.Schema{
+									"name": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 64),
 										Optional:     true,
@@ -768,85 +768,85 @@ func resourceSystemVirtualWanLink() *schema.Resource {
 								},
 							},
 						},
-						"health_check": &schema.Schema{
+						"health_check": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
 							Optional:     true,
 							Computed:     true,
 						},
-						"link_cost_factor": &schema.Schema{
+						"link_cost_factor": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"packet_loss_weight": &schema.Schema{
+						"packet_loss_weight": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 10000000),
 							Optional:     true,
 							Computed:     true,
 						},
-						"latency_weight": &schema.Schema{
+						"latency_weight": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 10000000),
 							Optional:     true,
 							Computed:     true,
 						},
-						"jitter_weight": &schema.Schema{
+						"jitter_weight": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 10000000),
 							Optional:     true,
 							Computed:     true,
 						},
-						"bandwidth_weight": &schema.Schema{
+						"bandwidth_weight": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 10000000),
 							Optional:     true,
 							Computed:     true,
 						},
-						"link_cost_threshold": &schema.Schema{
+						"link_cost_threshold": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 10000000),
 							Optional:     true,
 							Computed:     true,
 						},
-						"hold_down_time": &schema.Schema{
+						"hold_down_time": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 10000000),
 							Optional:     true,
 							Computed:     true,
 						},
-						"dscp_forward": &schema.Schema{
+						"dscp_forward": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"dscp_reverse": &schema.Schema{
+						"dscp_reverse": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"dscp_forward_tag": &schema.Schema{
+						"dscp_forward_tag": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"dscp_reverse_tag": &schema.Schema{
+						"dscp_reverse_tag": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"sla": &schema.Schema{
+						"sla": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"health_check": &schema.Schema{
+									"health_check": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 35),
 										Optional:     true,
 										Computed:     true,
 									},
-									"id": &schema.Schema{
+									"id": {
 										Type:     schema.TypeInt,
 										Optional: true,
 										Computed: true,
@@ -854,12 +854,12 @@ func resourceSystemVirtualWanLink() *schema.Resource {
 								},
 							},
 						},
-						"priority_members": &schema.Schema{
+						"priority_members": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									"seq_num": &schema.Schema{
+									"seq_num": {
 										Type:     schema.TypeInt,
 										Optional: true,
 										Computed: true,
@@ -867,22 +867,22 @@ func resourceSystemVirtualWanLink() *schema.Resource {
 								},
 							},
 						},
-						"status": &schema.Schema{
+						"status": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"gateway": &schema.Schema{
+						"gateway": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"default": &schema.Schema{
+						"default": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"sla_compare_method": &schema.Schema{
+						"sla_compare_method": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -890,10 +890,15 @@ func resourceSystemVirtualWanLink() *schema.Resource {
 					},
 				},
 			},
-			"dynamic_sort_subtable": &schema.Schema{
+			"dynamic_sort_subtable": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Default:  "false",
+			},
+			"batchid": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default:  0,
 			},
 		},
 	}
@@ -912,14 +917,24 @@ func resourceSystemVirtualWanLinkUpdate(d *schema.ResourceData, m interface{}) e
 		}
 	}
 
-	obj, err := getObjectSystemVirtualWanLink(d, c.Fv)
-	if err != nil {
-		return fmt.Errorf("Error updating SystemVirtualWanLink resource while getting object: %v", err)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
 	}
 
-	o, err := c.UpdateSystemVirtualWanLink(obj, mkey, vdomparam)
+	urlparams := make(map[string][]string)
+
+	obj, err := getObjectSystemVirtualWanLink(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error updating SystemVirtualWanLink resource: %v", err)
+		return fmt.Errorf("error updating SystemVirtualWanLink resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateSystemVirtualWanLink(obj, mkey, vdomparam, urlparams, batchid)
+	if err != nil {
+		return fmt.Errorf("error updating SystemVirtualWanLink resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
@@ -946,9 +961,17 @@ func resourceSystemVirtualWanLinkDelete(d *schema.ResourceData, m interface{}) e
 		}
 	}
 
-	err := c.DeleteSystemVirtualWanLink(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	err := c.DeleteSystemVirtualWanLink(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("Error deleting SystemVirtualWanLink resource: %v", err)
+		return fmt.Errorf("error deleting SystemVirtualWanLink resource: %v", err)
 	}
 
 	d.SetId("")
@@ -970,9 +993,19 @@ func resourceSystemVirtualWanLinkRead(d *schema.ResourceData, m interface{}) err
 		}
 	}
 
-	o, err := c.ReadSystemVirtualWanLink(mkey, vdomparam)
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	urlparams := make(map[string][]string)
+
+	o, err := c.ReadSystemVirtualWanLink(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemVirtualWanLink resource: %v", err)
+		return fmt.Errorf("error reading SystemVirtualWanLink resource: %v", err)
 	}
 
 	if o == nil {
@@ -983,7 +1016,7 @@ func resourceSystemVirtualWanLinkRead(d *schema.ResourceData, m interface{}) err
 
 	err = refreshObjectSystemVirtualWanLink(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("Error reading SystemVirtualWanLink resource from API: %v", err)
+		return fmt.Errorf("error reading SystemVirtualWanLink resource from API: %v", err)
 	}
 	return nil
 }
@@ -2983,51 +3016,51 @@ func refreshObjectSystemVirtualWanLink(d *schema.ResourceData, o map[string]inte
 
 	if err = d.Set("status", flattenSystemVirtualWanLinkStatus(o["status"], d, "status", sv)); err != nil {
 		if !fortiAPIPatch(o["status"]) {
-			return fmt.Errorf("Error reading status: %v", err)
+			return fmt.Errorf("error reading status: %v", err)
 		}
 	}
 
 	if err = d.Set("load_balance_mode", flattenSystemVirtualWanLinkLoadBalanceMode(o["load-balance-mode"], d, "load_balance_mode", sv)); err != nil {
 		if !fortiAPIPatch(o["load-balance-mode"]) {
-			return fmt.Errorf("Error reading load_balance_mode: %v", err)
+			return fmt.Errorf("error reading load_balance_mode: %v", err)
 		}
 	}
 
 	if err = d.Set("neighbor_hold_down", flattenSystemVirtualWanLinkNeighborHoldDown(o["neighbor-hold-down"], d, "neighbor_hold_down", sv)); err != nil {
 		if !fortiAPIPatch(o["neighbor-hold-down"]) {
-			return fmt.Errorf("Error reading neighbor_hold_down: %v", err)
+			return fmt.Errorf("error reading neighbor_hold_down: %v", err)
 		}
 	}
 
 	if err = d.Set("neighbor_hold_down_time", flattenSystemVirtualWanLinkNeighborHoldDownTime(o["neighbor-hold-down-time"], d, "neighbor_hold_down_time", sv)); err != nil {
 		if !fortiAPIPatch(o["neighbor-hold-down-time"]) {
-			return fmt.Errorf("Error reading neighbor_hold_down_time: %v", err)
+			return fmt.Errorf("error reading neighbor_hold_down_time: %v", err)
 		}
 	}
 
 	if err = d.Set("neighbor_hold_boot_time", flattenSystemVirtualWanLinkNeighborHoldBootTime(o["neighbor-hold-boot-time"], d, "neighbor_hold_boot_time", sv)); err != nil {
 		if !fortiAPIPatch(o["neighbor-hold-boot-time"]) {
-			return fmt.Errorf("Error reading neighbor_hold_boot_time: %v", err)
+			return fmt.Errorf("error reading neighbor_hold_boot_time: %v", err)
 		}
 	}
 
 	if err = d.Set("fail_detect", flattenSystemVirtualWanLinkFailDetect(o["fail-detect"], d, "fail_detect", sv)); err != nil {
 		if !fortiAPIPatch(o["fail-detect"]) {
-			return fmt.Errorf("Error reading fail_detect: %v", err)
+			return fmt.Errorf("error reading fail_detect: %v", err)
 		}
 	}
 
 	if isImportTable() {
 		if err = d.Set("fail_alert_interfaces", flattenSystemVirtualWanLinkFailAlertInterfaces(o["fail-alert-interfaces"], d, "fail_alert_interfaces", sv)); err != nil {
 			if !fortiAPIPatch(o["fail-alert-interfaces"]) {
-				return fmt.Errorf("Error reading fail_alert_interfaces: %v", err)
+				return fmt.Errorf("error reading fail_alert_interfaces: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("fail_alert_interfaces"); ok {
 			if err = d.Set("fail_alert_interfaces", flattenSystemVirtualWanLinkFailAlertInterfaces(o["fail-alert-interfaces"], d, "fail_alert_interfaces", sv)); err != nil {
 				if !fortiAPIPatch(o["fail-alert-interfaces"]) {
-					return fmt.Errorf("Error reading fail_alert_interfaces: %v", err)
+					return fmt.Errorf("error reading fail_alert_interfaces: %v", err)
 				}
 			}
 		}
@@ -3036,14 +3069,14 @@ func refreshObjectSystemVirtualWanLink(d *schema.ResourceData, o map[string]inte
 	if isImportTable() {
 		if err = d.Set("zone", flattenSystemVirtualWanLinkZone(o["zone"], d, "zone", sv)); err != nil {
 			if !fortiAPIPatch(o["zone"]) {
-				return fmt.Errorf("Error reading zone: %v", err)
+				return fmt.Errorf("error reading zone: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("zone"); ok {
 			if err = d.Set("zone", flattenSystemVirtualWanLinkZone(o["zone"], d, "zone", sv)); err != nil {
 				if !fortiAPIPatch(o["zone"]) {
-					return fmt.Errorf("Error reading zone: %v", err)
+					return fmt.Errorf("error reading zone: %v", err)
 				}
 			}
 		}
@@ -3052,14 +3085,14 @@ func refreshObjectSystemVirtualWanLink(d *schema.ResourceData, o map[string]inte
 	if isImportTable() {
 		if err = d.Set("members", flattenSystemVirtualWanLinkMembers(o["members"], d, "members", sv)); err != nil {
 			if !fortiAPIPatch(o["members"]) {
-				return fmt.Errorf("Error reading members: %v", err)
+				return fmt.Errorf("error reading members: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("members"); ok {
 			if err = d.Set("members", flattenSystemVirtualWanLinkMembers(o["members"], d, "members", sv)); err != nil {
 				if !fortiAPIPatch(o["members"]) {
-					return fmt.Errorf("Error reading members: %v", err)
+					return fmt.Errorf("error reading members: %v", err)
 				}
 			}
 		}
@@ -3068,14 +3101,14 @@ func refreshObjectSystemVirtualWanLink(d *schema.ResourceData, o map[string]inte
 	if isImportTable() {
 		if err = d.Set("health_check", flattenSystemVirtualWanLinkHealthCheck(o["health-check"], d, "health_check", sv)); err != nil {
 			if !fortiAPIPatch(o["health-check"]) {
-				return fmt.Errorf("Error reading health_check: %v", err)
+				return fmt.Errorf("error reading health_check: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("health_check"); ok {
 			if err = d.Set("health_check", flattenSystemVirtualWanLinkHealthCheck(o["health-check"], d, "health_check", sv)); err != nil {
 				if !fortiAPIPatch(o["health-check"]) {
-					return fmt.Errorf("Error reading health_check: %v", err)
+					return fmt.Errorf("error reading health_check: %v", err)
 				}
 			}
 		}
@@ -3084,14 +3117,14 @@ func refreshObjectSystemVirtualWanLink(d *schema.ResourceData, o map[string]inte
 	if isImportTable() {
 		if err = d.Set("neighbor", flattenSystemVirtualWanLinkNeighbor(o["neighbor"], d, "neighbor", sv)); err != nil {
 			if !fortiAPIPatch(o["neighbor"]) {
-				return fmt.Errorf("Error reading neighbor: %v", err)
+				return fmt.Errorf("error reading neighbor: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("neighbor"); ok {
 			if err = d.Set("neighbor", flattenSystemVirtualWanLinkNeighbor(o["neighbor"], d, "neighbor", sv)); err != nil {
 				if !fortiAPIPatch(o["neighbor"]) {
-					return fmt.Errorf("Error reading neighbor: %v", err)
+					return fmt.Errorf("error reading neighbor: %v", err)
 				}
 			}
 		}
@@ -3100,14 +3133,14 @@ func refreshObjectSystemVirtualWanLink(d *schema.ResourceData, o map[string]inte
 	if isImportTable() {
 		if err = d.Set("service", flattenSystemVirtualWanLinkService(o["service"], d, "service", sv)); err != nil {
 			if !fortiAPIPatch(o["service"]) {
-				return fmt.Errorf("Error reading service: %v", err)
+				return fmt.Errorf("error reading service: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("service"); ok {
 			if err = d.Set("service", flattenSystemVirtualWanLinkService(o["service"], d, "service", sv)); err != nil {
 				if !fortiAPIPatch(o["service"]) {
-					return fmt.Errorf("Error reading service: %v", err)
+					return fmt.Errorf("error reading service: %v", err)
 				}
 			}
 		}

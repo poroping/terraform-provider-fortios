@@ -51,14 +51,14 @@ func testAccCheckFortiOSSwitchControllerQosQueuePolicyExists(n string) resource.
 		c := testAccProvider.Meta().(*FortiClient).Client
 
 		i := rs.Primary.ID
-		o, err := c.ReadSwitchControllerQosQueuePolicy(i, "root")
+		o, err := c.ReadSwitchControllerQosQueuePolicy(i, "root", make(map[string][]string), 0)
 
 		if err != nil {
-			return fmt.Errorf("Error reading SwitchControllerQosQueuePolicy: %s", err)
+			return fmt.Errorf("error reading SwitchControllerQosQueuePolicy: %s", err)
 		}
 
 		if o == nil {
-			return fmt.Errorf("Error creating SwitchControllerQosQueuePolicy: %s", n)
+			return fmt.Errorf("error creating SwitchControllerQosQueuePolicy: %s", n)
 		}
 
 		return nil
@@ -74,11 +74,11 @@ func testAccCheckSwitchControllerQosQueuePolicyDestroy(s *terraform.State) error
 		}
 
 		i := rs.Primary.ID
-		o, err := c.ReadSwitchControllerQosQueuePolicy(i, "root")
+		o, err := c.ReadSwitchControllerQosQueuePolicy(i, "root", make(map[string][]string), 0)
 
 		if err == nil {
 			if o != nil {
-				return fmt.Errorf("Error SwitchControllerQosQueuePolicy %s still exists", rs.Primary.ID)
+				return fmt.Errorf("error SwitchControllerQosQueuePolicy %s still exists", rs.Primary.ID)
 			}
 		}
 
