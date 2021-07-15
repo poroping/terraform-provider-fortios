@@ -1,6 +1,6 @@
 // Inspired by Official Fortinet Provider https://github.com/fortinetdev/terraform-provider-fortios
 // Shout out to: Frank Shen (@frankshen01), Hongbin Lu (@fgtdev-hblu)
-// Generated from template using FortiOS v7.0.0
+// Generated from template using FortiOS v7.0.0 schema
 // Template Authors:
 // Justin Roberts (@poroping)
 
@@ -48,9 +48,9 @@ func resourceFirewallAccessProxy() *schema.Resource {
 				Default:     false,
 			},
 			"dynamic_sort_table": {
-				Type:     schema.TypeString,
+				Type:     schema.TypeBool,
 				Optional: true,
-				Default:  "false",
+				Default:  false,
 			},
 			"api_gateway": {
 				Type:        schema.TypeList,
@@ -80,11 +80,11 @@ func resourceFirewallAccessProxy() *schema.Resource {
 							Computed:     true,
 						},
 						"http_cookie_generation": {
-							Type:         schema.TypeInt,
-							ValidateFunc: validation.IntBetween(0, 4294967295),
-							Description:  "Generation of HTTP cookie to be accepted. Changing invalidates all existing cookies.",
-							Optional:     true,
-							Computed:     true,
+							Type: schema.TypeInt,
+
+							Description: "Generation of HTTP cookie to be accepted. Changing invalidates all existing cookies.",
+							Optional:    true,
+							Computed:    true,
 						},
 						"http_cookie_path": {
 							Type:         schema.TypeString,
@@ -108,11 +108,11 @@ func resourceFirewallAccessProxy() *schema.Resource {
 							Computed:     true,
 						},
 						"id": {
-							Type:         schema.TypeInt,
-							ValidateFunc: validation.IntBetween(0, 4294967295),
-							Description:  "API Gateway ID.",
-							Optional:     true,
-							Computed:     true,
+							Type: schema.TypeInt,
+
+							Description: "API Gateway ID.",
+							Optional:    true,
+							Computed:    true,
 						},
 						"ldb_method": {
 							Type:         schema.TypeString,
@@ -163,11 +163,11 @@ func resourceFirewallAccessProxy() *schema.Resource {
 										Computed:     true,
 									},
 									"id": {
-										Type:         schema.TypeInt,
-										ValidateFunc: validation.IntBetween(0, 4294967295),
-										Description:  "Real server ID.",
-										Optional:     true,
-										Computed:     true,
+										Type: schema.TypeInt,
+
+										Description: "Real server ID.",
+										Optional:    true,
+										Computed:    true,
 									},
 									"ip": {
 										Type:         schema.TypeString,
@@ -242,11 +242,11 @@ func resourceFirewallAccessProxy() *schema.Resource {
 										Computed:     true,
 									},
 									"priority": {
-										Type:         schema.TypeInt,
-										ValidateFunc: validation.IntBetween(0, 4294967295),
-										Description:  "SSL/TLS cipher suites priority.",
-										Optional:     true,
-										Computed:     true,
+										Type: schema.TypeInt,
+
+										Description: "SSL/TLS cipher suites priority.",
+										Optional:    true,
+										Computed:    true,
 									},
 									"versions": {
 										Type: schema.TypeString,
@@ -338,11 +338,11 @@ func resourceFirewallAccessProxy() *schema.Resource {
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"id": {
-							Type:         schema.TypeInt,
-							ValidateFunc: validation.IntBetween(0, 4294967295),
-							Description:  "Real server ID.",
-							Optional:     true,
-							Computed:     true,
+							Type: schema.TypeInt,
+
+							Description: "Real server ID.",
+							Optional:    true,
+							Computed:    true,
 						},
 						"ip": {
 							Type:         schema.TypeString,

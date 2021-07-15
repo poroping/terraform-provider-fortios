@@ -250,6 +250,9 @@ func valiStringLen(v float64) string {
 }
 
 func valiInt(min, max int) string {
+	if max > 2147483647 {
+		return ""
+	}
 	return fmt.Sprintf("validation.IntBetween(%d, %d)", min, max)
 }
 
