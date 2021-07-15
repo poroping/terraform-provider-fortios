@@ -16,18 +16,13 @@
 {{- if eq $value.category "unitary" }}
 * `{{(flatten $value.name)}}` - {{$value.help -}}
 {{- if eq $value.type "option" }} Valid values: {{ range $value.options }}`{{.name}}` {{ end -}}.{{- end -}}
-{{- if $value.resrequired -}} Changing this attribute forces a new resource to be created.{{- end -}}
-{{- if $value.datasource -}} This attribute must reference one of the following datasources: {{ range $value.datasource }}`{{.}}` {{ end -}}.{{- end -}}
+{{- if $value.resrequired }} Changing this attribute forces a new resource to be created.{{ end }}
+{{- if $value.datasource }} This attribute must reference one of the following datasources: {{ range $value.datasource }}`{{.}}` {{ end -}}.{{- end -}}
 {{- end }}
 {{- end -}}
 {{- range $key, $value := .children }}
-{{- if eq $value.category "table" }}
-* `{{(flatten $value.name)}}` - {{$value.help -}} The structure of `{{(flatten $value.name)}}` block is documented below.
-
-The `{{(flatten $value.name)}}` block contains:
-{{ template "RESARG" $value }}
-{{- else if eq $value.category "complex" }}
-* `{{(flatten $value.name)}}` - {{$value.help -}} The structure of `{{(flatten $value.name)}}` block is documented below.
+{{- if or (eq $value.category "table") ( eq $value.category "complex") }}
+* `{{(flatten $value.name)}}` - {{$value.help }} The structure of `{{(flatten $value.name)}}` block is documented below.
 
 The `{{(flatten $value.name)}}` block contains:
 {{ template "RESARG" $value }}
