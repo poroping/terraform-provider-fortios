@@ -41,13 +41,12 @@ func resourceCertificateManagementRemote() *schema.Resource {
 				Required:     true,
 			},
 			"certificate": {
-				Type:     schema.TypeString,
-				ForceNew: true,
-				Optional: true,
-				Computed: true,
-				DiffSuppressFunc: func(k, old, new string, d *schema.ResourceData) bool {
-					return old == strings.TrimSuffix(new, "\n")
-				}, // required due to api stripping trailing \n on import
+				Type:             schema.TypeString,
+				ForceNew:         true,
+				Optional:         true,
+				Computed:         true,
+				DiffSuppressFunc: diffSuppCertificates,
+				// parse and check equality cause PEM can be formatted differently
 			},
 			"certificate_details": {
 				Type:     schema.TypeList,
