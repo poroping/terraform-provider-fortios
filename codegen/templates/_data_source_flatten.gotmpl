@@ -2,25 +2,7 @@
 {{- range $key, $value := .children }}
 {{- if eq $value.category "unitary" }}
 func dataSourceFlatten{{.fpath}}(v interface{}, d *schema.ResourceData, pre string) interface{} {
-{{- if eq $value.type "ipv4-classnet-any" }}
-	if v1, ok := d.GetOkExists(pre); ok && v != nil {
-		if s, ok := v1.(string); ok {
-			v = validateConvIPMask2CIDR(s, v.(string))
-			return v
-		}
-	}
-	return v
-}
-{{- else if eq $value.type "ipv4-classnet-host" }}
-	if v1, ok := d.GetOkExists(pre); ok && v != nil {
-		if s, ok := v1.(string); ok {
-			v = validateConvIPMask2CIDR(s, v.(string))
-			return v
-		}
-	}
-	return v
-}
-{{- else if eq $value.type "ipv4-classnet" }}
+{{- if or (eq $value.type "ipv4-classnet-any") (eq $value.type "ipv4-classnet-host") (eq $value.type "ipv4-classnet") }}
 	if v1, ok := d.GetOkExists(pre); ok && v != nil {
 		if s, ok := v1.(string); ok {
 			v = validateConvIPMask2CIDR(s, v.(string))
@@ -67,8 +49,8 @@ func dataSourceFlatten{{.fpath}}(v interface{}, d *schema.ResourceData, pre stri
 
 	return result
 }
-{{- template "DSFLATTEN" $value }}
 
+{{ template "DSFLATTEN" $value }}
 {{- end }}
 {{- if eq $value.category "complex" }}
 func dataSourceFlatten{{.fpath}}(v interface{}, d *schema.ResourceData, pre string) []map[string]interface{} {
@@ -103,8 +85,8 @@ func dataSourceFlatten{{.fpath}}(v interface{}, d *schema.ResourceData, pre stri
 
 	return result
 }
-{{- template "DSFLATTEN" $value }}
 
+{{ template "DSFLATTEN" $value }}
 {{- end }}
 {{- end }}
 {{- end }}

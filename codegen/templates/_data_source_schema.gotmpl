@@ -4,7 +4,7 @@
             {{(flatten $value.name) | printf "%q" }}:{
             	{{ (typelookup $value.type) }}
                 Description: {{ $value.help | printf "%q" }},
-				{{- if $value.dsrequired }}
+				{{- if $value.schema_required }}
                 Required:     true,
 				{{- else }}
                 Computed:     true,

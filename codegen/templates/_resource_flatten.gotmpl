@@ -2,25 +2,7 @@
 {{- range $key, $value := .children }}
 {{- if eq $value.category "unitary" }}
 func flatten{{.fpath}}(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
-{{- if eq $value.type "ipv4-classnet-any" }}
-	if v1, ok := d.GetOkExists(pre); ok && v != nil {
-		if s, ok := v1.(string); ok {
-			v = validateConvIPMask2CIDR(s, v.(string))
-			return v
-		}
-	}
-	return v
-}
-{{- else if eq $value.type "ipv4-classnet-host" }}
-	if v1, ok := d.GetOkExists(pre); ok && v != nil {
-		if s, ok := v1.(string); ok {
-			v = validateConvIPMask2CIDR(s, v.(string))
-			return v
-		}
-	}
-	return v
-}
-{{- else if eq $value.type "ipv4-classnet" }}
+{{- if or (eq $value.type "ipv4-classnet-any") (eq $value.type "ipv4-classnet-host") (eq $value.type "ipv4-classnet")}}
 	if v1, ok := d.GetOkExists(pre); ok && v != nil {
 		if s, ok := v1.(string); ok {
 			v = validateConvIPMask2CIDR(s, v.(string))
@@ -68,7 +50,8 @@ func flatten{{.fpath}}(v interface{}, d *schema.ResourceData, pre string, sv str
 	dynamic_sort_subtable(result, "{{ $value.mkey }}", d)
 	return result
 }
-{{- template "FLATTEN" $value }}
+
+{{ template "FLATTEN" $value }}
 
 {{- end }}
 {{- if eq $value.category "complex" }}
@@ -104,7 +87,8 @@ func flatten{{.fpath}}(v interface{}, d *schema.ResourceData, pre string, sv str
 
 	return result
 }
-{{- template "FLATTEN" $value }}
+
+{{ template "FLATTEN" $value }}
 
 {{- end }}
 {{- end }}
