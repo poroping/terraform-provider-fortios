@@ -5,7 +5,7 @@
             	{{ (typelookup $value.type) }}
 				{{ (valilookup $value) }}
                 Description: {{ $value.help | printf "%q" }},
-                {{- if $value.dsrequired }}
+                {{- if $value.schema_required }}
                 ForceNew: true,
                 Required: true,
                 {{- else }}

@@ -1,5 +1,5 @@
-{{define "data_source"}}
-{{template "HEADER" .}}
+{{ define "data_source" }}
+{{ template "HEADER" . }}
 
 
 package fortios
@@ -30,11 +30,6 @@ func dataSource{{.fpath}}() *schema.Resource {
 
 {{ template "DSFLATTEN" .results }}
 
-func dataSourceRefreshObject{{.fpath}}(d *schema.ResourceData, o map[string]interface{}) error {
-	var err error
-{{ template "DSREFRESHOBJECT" .results }}
+{{ template "DSREFRESHOBJECT" . }}
 
-	return nil
-}
-
-{{end}}
+{{ end }}

@@ -6,10 +6,10 @@ In addition to all the above arguments, the following attributes are exported:
 
 ## Import
 
-Firewall Address can be imported using any of these accepted formats:
+{{ (title .path) }} can be imported using any of these accepted formats:
 ```
 $ export "FORTIOS_IMPORT_TABLE"="true"
-$ terraform import fortios_firewall_address.labelname {{`{{name}}`}}
+$ terraform import fortios_{{(flatten .path)}}_{{(flatten .name)}}.labelname {{`{{name}}`}}
 $ unset "FORTIOS_IMPORT_TABLE"
 ```
 {{ end }}

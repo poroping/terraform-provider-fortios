@@ -17,11 +17,12 @@ func main() {
 	for _, schema := range schemas {
 		fname := schema.Name()
 		funcMap := template.FuncMap{
-			"replace":    replace,
-			"typelookup": typelookup,
-			"flatten":    flatten,
-			"valilookup": valilookup,
-			"title":      title,
+			"replace":     replace,
+			"typelookup":  typelookup,
+			"flatten":     flatten,
+			"valilookup":  valilookup,
+			"title":       title,
+			"subcategory": subcategory,
 		}
 		t := template.Must(template.New("main").Funcs(funcMap).ParseGlob("./templates/*.gotmpl"))
 
@@ -34,7 +35,7 @@ func main() {
 		// Add relative path to json struct for use in templates
 		n := addPaths(m)
 
-		r := addResourceRequired(n)
+		r := addResourceInfo(n)
 
 		var buf bytes.Buffer
 		sname := "resource"
@@ -57,7 +58,7 @@ func main() {
 		resname += ".go"
 		os.WriteFile("./output/"+resname, f, os.FileMode(perm))
 
-		d := addDataSourceRequired(n)
+		d := addDataSourceInfo(n)
 
 		var buf2 bytes.Buffer
 		sname = "data_source"
@@ -106,6 +107,7 @@ func main() {
 		os.WriteFile("./output/r/"+resdocsname, f, os.FileMode(perm))
 	}
 }
+
 func addPaths(m map[string]interface{}) map[string]interface{} {
 	path := flattenTitle(m["path"].(string))
 	resource := flattenTitle(m["results"].(map[string]interface{})["name"].(string))
@@ -129,14 +131,44 @@ func recursePaths(v interface{}, pre string) interface{} {
 	return v
 }
 
-func addDataSourceRequired(m map[string]interface{}) map[string]interface{} {
+func addSensitive(m map[string]interface{}) map[string]interface{} {
+	tmp := m["results"].(map[string]interface{})
+	recurseSensitive(tmp)
+	return m
+}
+
+func recurseSensitive(m map[string]interface{}) map[string]interface{} {
+	child, ok := m["children"].(map[string]interface{})
+	if ok {
+		for _, v := range child {
+			if s, ok := v.(map[string]interface{})["type"].(string); ok {
+				if strings.Contains(s, "password") {
+					v.(map[string]interface{})["sensitive"] = true
+				}
+			}
+			recurseSensitive(v.(map[string]interface{}))
+		}
+	} else {
+		return m
+	}
+	return m
+}
+
+func addDataSourceInfo(m map[string]interface{}) map[string]interface{} {
+	m = replaceTopLevelId(m)
+	m = addSchemaRequired(m)
+	m = addSensitive(m)
+	return m
+}
+
+func addSchemaRequired(m map[string]interface{}) map[string]interface{} {
 	mkey := m["results"].(map[string]interface{})["mkey"].(string)
 	child, ok := m["results"].(map[string]interface{})["children"].(map[string]interface{})
 	if ok {
 		for _, v := range child {
 			name := v.(map[string]interface{})["name"].(string)
 			if name == mkey {
-				v.(map[string]interface{})["dsrequired"] = true
+				v.(map[string]interface{})["schema_required"] = true
 			}
 
 		}
@@ -144,9 +176,27 @@ func addDataSourceRequired(m map[string]interface{}) map[string]interface{} {
 	return m
 }
 
-func addResourceRequired(m map[string]interface{}) map[string]interface{} {
+func addResourceInfo(m map[string]interface{}) map[string]interface{} {
 	m = addDynSortTable(m)
-	return addDataSourceRequired(m)
+	m = replaceTopLevelId(m)
+	m = addSchemaRequired(m)
+	m = addSensitive(m)
+	return m
+}
+
+func replaceTopLevelId(m map[string]interface{}) map[string]interface{} {
+	child, ok := m["results"].(map[string]interface{})["children"].(map[string]interface{})
+	if ok {
+		for _, v := range child {
+			name := v.(map[string]interface{})["name"].(string)
+			if name == "id" {
+				v.(map[string]interface{})["fosid"] = true
+				v.(map[string]interface{})["name"] = "fosid"
+			}
+
+		}
+	}
+	return m
 }
 
 func addDynSortTable(m map[string]interface{}) map[string]interface{} {
@@ -154,12 +204,13 @@ func addDynSortTable(m map[string]interface{}) map[string]interface{} {
 	if ok {
 		dyn := false
 		for _, v := range child {
-			category := v.(map[string]interface{})["category"].(string)
-			if category == "table" {
-				dyn = true
+			if category, ok := v.(map[string]interface{})["category"].(string); ok {
+				if category == "table" {
+					dyn = true
+				}
 			}
+			m["results"].(map[string]interface{})["dynamic_sort_table"] = dyn
 		}
-		m["results"].(map[string]interface{})["dynamic_sort_table"] = dyn
 	}
 	return m
 }
@@ -178,11 +229,13 @@ func replace(input, from, to string) string {
 	return strings.Replace(input, from, to, -1)
 }
 
-func flatten(input string) string {
-	return strings.ReplaceAll(input, "-", "_")
+func flatten(s string) string {
+	s = strings.ReplaceAll(s, "-", "_")
+	s = strings.ReplaceAll(s, ".", "")
+	return s
 }
 
-func typelookup(input string) string {
+func typelookup(s string) string {
 	m := map[string]string{
 		"string":             "TypeString",
 		"option":             "TypeString",
@@ -201,7 +254,7 @@ func typelookup(input string) string {
 		"user":               "TypeString",
 		"password-3":         "TypeString",
 	}
-	s, ok := m[input]
+	s, ok := m[s]
 	if !ok {
 		s = "TYPE-ERROR"
 	}
@@ -272,9 +325,16 @@ func valiOptions(opts []interface{}, multi_val bool) string {
 }
 
 func flattenTitle(v string) string {
-	return strings.ReplaceAll(strings.Title(strings.ReplaceAll(v, "-", " ")), " ", "")
+	v = strings.ReplaceAll(v, ".", "")
+	v = strings.ReplaceAll(v, "-", " ")
+	return strings.ReplaceAll(strings.Title(v), " ", "")
 }
 
 func title(v string) string {
 	return strings.Title(v)
+}
+
+func subcategory(input string) string {
+	s := strings.Split(input, ".")
+	return s[0]
 }

@@ -1,12 +1,29 @@
-{{define "REFRESHOBJECT" }}
+{{ define "REFRESHOBJECT" }}
+func refreshObject{{.fpath}}(d *schema.ResourceData, o map[string]interface{}, sv string) error {
+	var err error
+{{ template "REFRESHOBJECTS" .results }}
+
+	return nil
+}
+{{ end }}
+
+
+{{define "REFRESHOBJECTS" }}
 {{- range $key, $value := .children }}
-{{- if eq $value.category "unitary" }}
+{{- if and (eq $value.category "unitary") ($value.fosid) }}
+	if err = d.Set({{(flatten $value.name) | printf "%q" }}, flatten{{.fpath}}(o[{{"id" | printf "%q" }}], d, {{(flatten $value.name) | printf "%q" }}, sv)); err != nil {
+		if !fortiAPIPatch(o[{{"id" | printf "%q" }}]) {
+			return fmt.Errorf("error reading {{(flatten $value.name)}}: %v", err)
+		}
+	}
+{{ end }}
+{{- if and (eq $value.category "unitary") (not $value.fosid) }}
 	if err = d.Set({{(flatten $value.name) | printf "%q" }}, flatten{{.fpath}}(o[{{$value.name | printf "%q" }}], d, {{(flatten $value.name) | printf "%q" }}, sv)); err != nil {
 		if !fortiAPIPatch(o[{{$value.name | printf "%q" }}]) {
 			return fmt.Errorf("error reading {{(flatten $value.name)}}: %v", err)
 		}
 	}
-{{- end }}
+{{ end }}
 {{- if eq $value.category "table" }}
 	if isImportTable() {
 		if err = d.Set({{(flatten $value.name) | printf "%q" }}, flatten{{.fpath}}(o[{{$value.name | printf "%q" }}], d, {{(flatten $value.name) | printf "%q" }}, sv)); err != nil {

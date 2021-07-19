@@ -1,7 +1,23 @@
-{{define "GETOBJECT" }}
+{{ define "GETOBJECT" }}
+func getObject{{.fpath}}(d *schema.ResourceData, sv string) (*map[string]interface{}, error) {
+	obj := make(map[string]interface{})
+{{ template "GETOBJECTS" .results}}
+	return &obj, nil
+}
+{{ end }}
+{{ define "GETOBJECTS" }}
 {{- range $key, $value := .children }}
+{{ if $value.fosid }}
 	if v, ok := d.GetOk({{(flatten $value.name) | printf "%q" }}); ok {
-
+		t, err := expand{{.fpath}}(d, v, {{(flatten $value.name) | printf "%q" }}, sv)
+		if err != nil {
+			return &obj, err
+		} else if t != nil {
+			obj[{{"id" | printf "%q" }}] = t
+		}
+	}
+{{- else }}
+	if v, ok := d.GetOk({{(flatten $value.name) | printf "%q" }}); ok {
 		t, err := expand{{.fpath}}(d, v, {{(flatten $value.name) | printf "%q" }}, sv)
 		if err != nil {
 			return &obj, err
@@ -9,5 +25,6 @@
 			obj[{{$value.name | printf "%q" }}] = t
 		}
 	}
-{{- end}}
-{{end}}
+{{ end }}
+{{- end }}
+{{ end }}

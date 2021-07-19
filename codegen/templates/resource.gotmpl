@@ -67,21 +67,11 @@ func resource{{.fpath}}() *schema.Resource {
 
 {{ template "FLATTEN" .results }}
 
-func refreshObject{{.fpath}}(d *schema.ResourceData, o map[string]interface{}, sv string) error {
-	var err error
-{{ template "REFRESHOBJECT" .results }}
-
-	return nil
-}
+{{ template "REFRESHOBJECT" . }}
 
 {{ template "EXPAND" .results }}
 
-func getObject{{.fpath}}(d *schema.ResourceData, sv string) (*map[string]interface{}, error) {
-	obj := make(map[string]interface{})
-{{ template "GETOBJECT" .results }}
-	return &obj, nil
-}
-
+{{ template "GETOBJECT" . }}
 
 
 
