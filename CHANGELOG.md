@@ -8,6 +8,12 @@ FEATURES:
 * **New Resource** `fortios_vpnssl_settings_authentication_rule`
 * **Data Source** `fortios_vpnssl_settings_authentication_rule`
 
+IMPROVEMENTS:
+* Codegen templates tidied
+* Codegen support for childtables
+* Codegen support for resources with parent attribute ID. ID is reserved attribute in TF, FOSID is used instead.
+* Codegen support for Sensitive attributes (based on attribute type containing "password")
+
 ## 2.0.1
 
 * Signed and deployed to Terraform registry.
