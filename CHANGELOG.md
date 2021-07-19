@@ -1,4 +1,13 @@
-## 2.0.0 (Unreleased)
+## 2.0.2 (Unreleased)
+
+BUGFIXES:
+* `fortios_certificate_management_local` and `fortios_certificate_management_remote` will now parse the certificate and check for equality instead of checking strings match. Fixes [#4](https://github.com/poroping/terraform-provider-fortios/issues/4)
+
+## 2.0.1
+
+* Signed and deployed to Terraform registry.
+
+## 2.0.0
 
 **BREAKING CHANGES:**
 
