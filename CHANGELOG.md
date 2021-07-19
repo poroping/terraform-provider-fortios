@@ -3,6 +3,11 @@
 BUGFIXES:
 * `fortios_certificate_management_local` and `fortios_certificate_management_remote` will now parse the certificate and check for equality instead of checking strings match. Fixes [#4](https://github.com/poroping/terraform-provider-fortios/issues/4)
 
+FEATURES:
+
+* **New Resource** `fortios_vpnssl_settings_authentication_rule`
+* **Data Source** `fortios_vpnssl_settings_authentication_rule`
+
 ## 2.0.1
 
 * Signed and deployed to Terraform registry.
@@ -27,8 +32,8 @@ FEATURES:
 * **New Resource** `fortios_firewall_access_proxy_virtual_host`
 * **New Resource** `fortios_certificate_management_local`
 * **New Resource** `fortios_certificate_management_remote`
-* **New Data Source** `fortios_system_access_proxy`
-* **New Data Source** `fortios_system_access_proxy_virtual_host`
+* **New Data Source** `fortios_firewall_access_proxy`
+* **New Data Source** `fortios_firewall_access_proxy_virtual_host`
 * **New Data Source** `fortios_system_certificate_download`
 
 
