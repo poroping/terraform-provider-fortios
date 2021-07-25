@@ -6,7 +6,7 @@ In addition to all the above arguments, the following attributes are exported:
 
 ## Import
 
-{{ (title .path) }} can be imported using any of these accepted formats:
+{{(flatten .path)}}_{{(flatten .name)}} can be imported using any of these accepted formats:
 ```
 $ export "FORTIOS_IMPORT_TABLE"="true"
 $ terraform import fortios_{{(flatten .path)}}_{{(flatten .name)}}.labelname {{`{{name}}`}}
