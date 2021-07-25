@@ -110,6 +110,10 @@ func main() {
 
 func addPaths(m map[string]interface{}) map[string]interface{} {
 	path := flattenTitle(m["path"].(string))
+	if _, ok := m["child_path"].(string); ok {
+		name, _ := m["name"].(string)
+		path += name
+	}
 	resource := flattenTitle(m["results"].(map[string]interface{})["name"].(string))
 	tmp := m["results"]
 	m["fpath"] = path + resource
