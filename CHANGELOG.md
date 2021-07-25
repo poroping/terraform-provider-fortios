@@ -1,4 +1,17 @@
-## 2.0.2 (Unreleased)
+## 2.1.0 
+
+FEATURES:
+
+* **New Resource** `fortios_routerbgp_neighbor_range`
+* **New Resource** `fortios_routerbgp_neighbor_group`
+* **Data Source** `fortios_routerbgp_neighbor_range`
+* **Data Source** `fortios_routerbgp_neighbor_group`
+
+BUGFIXES:
+* Fixed func name for child-table resources in codegen.
+* Fixed resource name for `fortios_vpnssl_settings_authentication_rule`.
+
+## 2.0.2
 
 BUGFIXES:
 * `fortios_certificate_management_local` and `fortios_certificate_management_remote` will now parse the certificate and check for equality instead of checking strings match. Fixes [#4](https://github.com/poroping/terraform-provider-fortios/issues/4)
