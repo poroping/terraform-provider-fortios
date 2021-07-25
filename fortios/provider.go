@@ -315,7 +315,7 @@ func Provider() terraform.ResourceProvider {
 			"fortios_system_certificate_download":             dataSourceSystemCertificateDownload(),
 			"fortios_firewall_access_proxy":                   dataSourceFirewallAccessProxy(),
 			"fortios_firewall_access_proxy_virtual_host":      dataSourceFirewallAccessProxyVirtualHost(),
-			"data_source_vpnssl_settings_authentication_rule": dataSourceVpnsslAuthenticationRule(),
+			"fortios_vpnssl_settings_authentication_rule":     dataSourceVpnsslsettingsAuthenticationRule(),
 		},
 
 		ResourcesMap: map[string]*schema.Resource{
@@ -877,7 +877,7 @@ func Provider() terraform.ResourceProvider {
 			"fortios_system_batch_commit":                               resourceSystemBatchCommit(),
 			"fortios_firewall_access_proxy":                             resourceFirewallAccessProxy(),
 			"fortios_firewall_access_proxy_virtual_host":                resourceFirewallAccessProxyVirtualHost(),
-			"fortios_vpnssl_settings_authentication_rule":               resourceVpnsslAuthenticationRule(),
+			"fortios_vpnssl_settings_authentication_rule":               resourceVpnsslsettingsAuthenticationRule(),
 		},
 
 		ConfigureFunc: providerConfigure,
