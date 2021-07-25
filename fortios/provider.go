@@ -316,6 +316,8 @@ func Provider() terraform.ResourceProvider {
 			"fortios_firewall_access_proxy":                   dataSourceFirewallAccessProxy(),
 			"fortios_firewall_access_proxy_virtual_host":      dataSourceFirewallAccessProxyVirtualHost(),
 			"fortios_vpnssl_settings_authentication_rule":     dataSourceVpnsslsettingsAuthenticationRule(),
+			"fortios_routerbgp_neighbor_range":                dataSourceRouterbgpNeighborRange(),
+			"fortios_routerbgp_neighbor_group":                dataSourceRouterbgpNeighborGroup(),
 		},
 
 		ResourcesMap: map[string]*schema.Resource{
@@ -878,6 +880,8 @@ func Provider() terraform.ResourceProvider {
 			"fortios_firewall_access_proxy":                             resourceFirewallAccessProxy(),
 			"fortios_firewall_access_proxy_virtual_host":                resourceFirewallAccessProxyVirtualHost(),
 			"fortios_vpnssl_settings_authentication_rule":               resourceVpnsslsettingsAuthenticationRule(),
+			"fortios_routerbgp_neighbor_range":                          resourceRouterbgpNeighborRange(),
+			"fortios_routerbgp_neighbor_group":                          resourceRouterbgpNeighborGroup(),
 		},
 
 		ConfigureFunc: providerConfigure,
