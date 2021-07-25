@@ -17,12 +17,12 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 )
 
-func resourceVpnsslAuthenticationRule() *schema.Resource {
+func resourceVpnsslsettingsAuthenticationRule() *schema.Resource {
 	return &schema.Resource{
-		Create: resourceVpnsslAuthenticationRuleCreate,
-		Read:   resourceVpnsslAuthenticationRuleRead,
-		Update: resourceVpnsslAuthenticationRuleUpdate,
-		Delete: resourceVpnsslAuthenticationRuleDelete,
+		Create: resourceVpnsslsettingsAuthenticationRuleCreate,
+		Read:   resourceVpnsslsettingsAuthenticationRuleRead,
+		Update: resourceVpnsslsettingsAuthenticationRuleUpdate,
+		Delete: resourceVpnsslsettingsAuthenticationRuleDelete,
 
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
@@ -193,7 +193,7 @@ func resourceVpnsslAuthenticationRule() *schema.Resource {
 	}
 }
 
-func resourceVpnsslAuthenticationRuleCreate(d *schema.ResourceData, m interface{}) error {
+func resourceVpnsslsettingsAuthenticationRuleCreate(d *schema.ResourceData, m interface{}) error {
 	c := m.(*FortiClient).Client
 	c.Retries = 1
 	urlparams := make(map[string][]string)
@@ -214,27 +214,27 @@ func resourceVpnsslAuthenticationRuleCreate(d *schema.ResourceData, m interface{
 		}
 	}
 
-	obj, err := getObjectVpnsslAuthenticationRule(d, c.Fv)
+	obj, err := getObjectVpnsslsettingsAuthenticationRule(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("error creating VpnsslAuthenticationRule resource while getting object: %v", err)
+		return fmt.Errorf("error creating VpnsslsettingsAuthenticationRule resource while getting object: %v", err)
 	}
 
-	o, err := c.CreateVpnsslAuthenticationRule(obj, vdomparam, urlparams, batchid)
+	o, err := c.CreateVpnsslsettingsAuthenticationRule(obj, vdomparam, urlparams, batchid)
 
 	if err != nil {
-		return fmt.Errorf("error creating VpnsslAuthenticationRule resource: %v", err)
+		return fmt.Errorf("error creating VpnsslsettingsAuthenticationRule resource: %v", err)
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
 		d.SetId(strconv.Itoa(int(o["mkey"].(float64))))
 	} else {
-		d.SetId("VpnsslAuthenticationRule")
+		d.SetId("VpnsslsettingsAuthenticationRule")
 	}
 
-	return resourceVpnsslAuthenticationRuleRead(d, m)
+	return resourceVpnsslsettingsAuthenticationRuleRead(d, m)
 }
 
-func resourceVpnsslAuthenticationRuleUpdate(d *schema.ResourceData, m interface{}) error {
+func resourceVpnsslsettingsAuthenticationRuleUpdate(d *schema.ResourceData, m interface{}) error {
 	mkey := d.Id()
 	c := m.(*FortiClient).Client
 	c.Retries = 1
@@ -256,27 +256,27 @@ func resourceVpnsslAuthenticationRuleUpdate(d *schema.ResourceData, m interface{
 		}
 	}
 
-	obj, err := getObjectVpnsslAuthenticationRule(d, c.Fv)
+	obj, err := getObjectVpnsslsettingsAuthenticationRule(d, c.Fv)
 	if err != nil {
-		return fmt.Errorf("error updating VpnsslAuthenticationRule resource while getting object: %v", err)
+		return fmt.Errorf("error updating VpnsslsettingsAuthenticationRule resource while getting object: %v", err)
 	}
 
-	o, err := c.UpdateVpnsslAuthenticationRule(obj, mkey, vdomparam, urlparams, batchid)
+	o, err := c.UpdateVpnsslsettingsAuthenticationRule(obj, mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("error updating VpnsslAuthenticationRule resource: %v", err)
+		return fmt.Errorf("error updating VpnsslsettingsAuthenticationRule resource: %v", err)
 	}
 
 	log.Printf(strconv.Itoa(c.Retries))
 	if o["mkey"] != nil && o["mkey"] != "" {
 		d.SetId(strconv.Itoa(int(o["mkey"].(float64))))
 	} else {
-		d.SetId("VpnsslAuthenticationRule")
+		d.SetId("VpnsslsettingsAuthenticationRule")
 	}
 
-	return resourceVpnsslAuthenticationRuleRead(d, m)
+	return resourceVpnsslsettingsAuthenticationRuleRead(d, m)
 }
 
-func resourceVpnsslAuthenticationRuleDelete(d *schema.ResourceData, m interface{}) error {
+func resourceVpnsslsettingsAuthenticationRuleDelete(d *schema.ResourceData, m interface{}) error {
 	mkey := d.Id()
 
 	c := m.(*FortiClient).Client
@@ -298,9 +298,9 @@ func resourceVpnsslAuthenticationRuleDelete(d *schema.ResourceData, m interface{
 		}
 	}
 
-	err := c.DeleteVpnsslAuthenticationRule(mkey, vdomparam, batchid)
+	err := c.DeleteVpnsslsettingsAuthenticationRule(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("error deleting VpnsslAuthenticationRule resource: %v", err)
+		return fmt.Errorf("error deleting VpnsslsettingsAuthenticationRule resource: %v", err)
 	}
 
 	d.SetId("")
@@ -308,7 +308,7 @@ func resourceVpnsslAuthenticationRuleDelete(d *schema.ResourceData, m interface{
 	return nil
 }
 
-func resourceVpnsslAuthenticationRuleRead(d *schema.ResourceData, m interface{}) error {
+func resourceVpnsslsettingsAuthenticationRuleRead(d *schema.ResourceData, m interface{}) error {
 	mkey := d.Id()
 
 	c := m.(*FortiClient).Client
@@ -331,9 +331,9 @@ func resourceVpnsslAuthenticationRuleRead(d *schema.ResourceData, m interface{})
 		}
 	}
 
-	o, err := c.ReadVpnsslAuthenticationRule(mkey, vdomparam, urlparams, batchid)
+	o, err := c.ReadVpnsslsettingsAuthenticationRule(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
-		return fmt.Errorf("error reading VpnsslAuthenticationRule resource: %v", err)
+		return fmt.Errorf("error reading VpnsslsettingsAuthenticationRule resource: %v", err)
 	}
 
 	if o == nil {
@@ -342,26 +342,26 @@ func resourceVpnsslAuthenticationRuleRead(d *schema.ResourceData, m interface{})
 		return nil
 	}
 
-	err = refreshObjectVpnsslAuthenticationRule(d, o, c.Fv)
+	err = refreshObjectVpnsslsettingsAuthenticationRule(d, o, c.Fv)
 	if err != nil {
-		return fmt.Errorf("error reading VpnsslAuthenticationRule resource from API: %v", err)
+		return fmt.Errorf("error reading VpnsslsettingsAuthenticationRule resource from API: %v", err)
 	}
 	return nil
 }
 
-func flattenVpnsslAuthenticationRuleAuth(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+func flattenVpnsslsettingsAuthenticationRuleAuth(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
 	return v
 }
 
-func flattenVpnsslAuthenticationRuleCipher(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+func flattenVpnsslsettingsAuthenticationRuleCipher(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
 	return v
 }
 
-func flattenVpnsslAuthenticationRuleClientCert(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+func flattenVpnsslsettingsAuthenticationRuleClientCert(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
 	return v
 }
 
-func flattenVpnsslAuthenticationRuleGroups(v interface{}, d *schema.ResourceData, pre string, sv string) []map[string]interface{} {
+func flattenVpnsslsettingsAuthenticationRuleGroups(v interface{}, d *schema.ResourceData, pre string, sv string) []map[string]interface{} {
 	if v == nil {
 		return nil
 	}
@@ -382,7 +382,7 @@ func flattenVpnsslAuthenticationRuleGroups(v interface{}, d *schema.ResourceData
 		pre_append = pre + "." + strconv.Itoa(con) + "." + "name"
 		if _, ok := i["name"]; ok {
 
-			tmp["name"] = flattenVpnsslAuthenticationRuleGroupsName(i["name"], d, pre_append, sv)
+			tmp["name"] = flattenVpnsslsettingsAuthenticationRuleGroupsName(i["name"], d, pre_append, sv)
 		}
 
 		result = append(result, tmp)
@@ -394,23 +394,23 @@ func flattenVpnsslAuthenticationRuleGroups(v interface{}, d *schema.ResourceData
 	return result
 }
 
-func flattenVpnsslAuthenticationRuleGroupsName(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+func flattenVpnsslsettingsAuthenticationRuleGroupsName(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
 	return v
 }
 
-func flattenVpnsslAuthenticationRuleId(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+func flattenVpnsslsettingsAuthenticationRuleId(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
 	return v
 }
 
-func flattenVpnsslAuthenticationRulePortal(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+func flattenVpnsslsettingsAuthenticationRulePortal(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
 	return v
 }
 
-func flattenVpnsslAuthenticationRuleRealm(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+func flattenVpnsslsettingsAuthenticationRuleRealm(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
 	return v
 }
 
-func flattenVpnsslAuthenticationRuleSourceAddress(v interface{}, d *schema.ResourceData, pre string, sv string) []map[string]interface{} {
+func flattenVpnsslsettingsAuthenticationRuleSourceAddress(v interface{}, d *schema.ResourceData, pre string, sv string) []map[string]interface{} {
 	if v == nil {
 		return nil
 	}
@@ -431,7 +431,7 @@ func flattenVpnsslAuthenticationRuleSourceAddress(v interface{}, d *schema.Resou
 		pre_append = pre + "." + strconv.Itoa(con) + "." + "name"
 		if _, ok := i["name"]; ok {
 
-			tmp["name"] = flattenVpnsslAuthenticationRuleSourceAddressName(i["name"], d, pre_append, sv)
+			tmp["name"] = flattenVpnsslsettingsAuthenticationRuleSourceAddressName(i["name"], d, pre_append, sv)
 		}
 
 		result = append(result, tmp)
@@ -443,15 +443,15 @@ func flattenVpnsslAuthenticationRuleSourceAddress(v interface{}, d *schema.Resou
 	return result
 }
 
-func flattenVpnsslAuthenticationRuleSourceAddressName(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+func flattenVpnsslsettingsAuthenticationRuleSourceAddressName(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
 	return v
 }
 
-func flattenVpnsslAuthenticationRuleSourceAddressNegate(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+func flattenVpnsslsettingsAuthenticationRuleSourceAddressNegate(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
 	return v
 }
 
-func flattenVpnsslAuthenticationRuleSourceAddress6(v interface{}, d *schema.ResourceData, pre string, sv string) []map[string]interface{} {
+func flattenVpnsslsettingsAuthenticationRuleSourceAddress6(v interface{}, d *schema.ResourceData, pre string, sv string) []map[string]interface{} {
 	if v == nil {
 		return nil
 	}
@@ -472,7 +472,7 @@ func flattenVpnsslAuthenticationRuleSourceAddress6(v interface{}, d *schema.Reso
 		pre_append = pre + "." + strconv.Itoa(con) + "." + "name"
 		if _, ok := i["name"]; ok {
 
-			tmp["name"] = flattenVpnsslAuthenticationRuleSourceAddress6Name(i["name"], d, pre_append, sv)
+			tmp["name"] = flattenVpnsslsettingsAuthenticationRuleSourceAddress6Name(i["name"], d, pre_append, sv)
 		}
 
 		result = append(result, tmp)
@@ -484,15 +484,15 @@ func flattenVpnsslAuthenticationRuleSourceAddress6(v interface{}, d *schema.Reso
 	return result
 }
 
-func flattenVpnsslAuthenticationRuleSourceAddress6Name(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+func flattenVpnsslsettingsAuthenticationRuleSourceAddress6Name(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
 	return v
 }
 
-func flattenVpnsslAuthenticationRuleSourceAddress6Negate(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+func flattenVpnsslsettingsAuthenticationRuleSourceAddress6Negate(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
 	return v
 }
 
-func flattenVpnsslAuthenticationRuleSourceInterface(v interface{}, d *schema.ResourceData, pre string, sv string) []map[string]interface{} {
+func flattenVpnsslsettingsAuthenticationRuleSourceInterface(v interface{}, d *schema.ResourceData, pre string, sv string) []map[string]interface{} {
 	if v == nil {
 		return nil
 	}
@@ -513,7 +513,7 @@ func flattenVpnsslAuthenticationRuleSourceInterface(v interface{}, d *schema.Res
 		pre_append = pre + "." + strconv.Itoa(con) + "." + "name"
 		if _, ok := i["name"]; ok {
 
-			tmp["name"] = flattenVpnsslAuthenticationRuleSourceInterfaceName(i["name"], d, pre_append, sv)
+			tmp["name"] = flattenVpnsslsettingsAuthenticationRuleSourceInterfaceName(i["name"], d, pre_append, sv)
 		}
 
 		result = append(result, tmp)
@@ -525,15 +525,15 @@ func flattenVpnsslAuthenticationRuleSourceInterface(v interface{}, d *schema.Res
 	return result
 }
 
-func flattenVpnsslAuthenticationRuleSourceInterfaceName(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+func flattenVpnsslsettingsAuthenticationRuleSourceInterfaceName(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
 	return v
 }
 
-func flattenVpnsslAuthenticationRuleUserPeer(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+func flattenVpnsslsettingsAuthenticationRuleUserPeer(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
 	return v
 }
 
-func flattenVpnsslAuthenticationRuleUsers(v interface{}, d *schema.ResourceData, pre string, sv string) []map[string]interface{} {
+func flattenVpnsslsettingsAuthenticationRuleUsers(v interface{}, d *schema.ResourceData, pre string, sv string) []map[string]interface{} {
 	if v == nil {
 		return nil
 	}
@@ -554,7 +554,7 @@ func flattenVpnsslAuthenticationRuleUsers(v interface{}, d *schema.ResourceData,
 		pre_append = pre + "." + strconv.Itoa(con) + "." + "name"
 		if _, ok := i["name"]; ok {
 
-			tmp["name"] = flattenVpnsslAuthenticationRuleUsersName(i["name"], d, pre_append, sv)
+			tmp["name"] = flattenVpnsslsettingsAuthenticationRuleUsersName(i["name"], d, pre_append, sv)
 		}
 
 		result = append(result, tmp)
@@ -566,40 +566,40 @@ func flattenVpnsslAuthenticationRuleUsers(v interface{}, d *schema.ResourceData,
 	return result
 }
 
-func flattenVpnsslAuthenticationRuleUsersName(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+func flattenVpnsslsettingsAuthenticationRuleUsersName(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
 	return v
 }
 
-func refreshObjectVpnsslAuthenticationRule(d *schema.ResourceData, o map[string]interface{}, sv string) error {
+func refreshObjectVpnsslsettingsAuthenticationRule(d *schema.ResourceData, o map[string]interface{}, sv string) error {
 	var err error
 
-	if err = d.Set("auth", flattenVpnsslAuthenticationRuleAuth(o["auth"], d, "auth", sv)); err != nil {
+	if err = d.Set("auth", flattenVpnsslsettingsAuthenticationRuleAuth(o["auth"], d, "auth", sv)); err != nil {
 		if !fortiAPIPatch(o["auth"]) {
 			return fmt.Errorf("error reading auth: %v", err)
 		}
 	}
 
-	if err = d.Set("cipher", flattenVpnsslAuthenticationRuleCipher(o["cipher"], d, "cipher", sv)); err != nil {
+	if err = d.Set("cipher", flattenVpnsslsettingsAuthenticationRuleCipher(o["cipher"], d, "cipher", sv)); err != nil {
 		if !fortiAPIPatch(o["cipher"]) {
 			return fmt.Errorf("error reading cipher: %v", err)
 		}
 	}
 
-	if err = d.Set("client_cert", flattenVpnsslAuthenticationRuleClientCert(o["client-cert"], d, "client_cert", sv)); err != nil {
+	if err = d.Set("client_cert", flattenVpnsslsettingsAuthenticationRuleClientCert(o["client-cert"], d, "client_cert", sv)); err != nil {
 		if !fortiAPIPatch(o["client-cert"]) {
 			return fmt.Errorf("error reading client_cert: %v", err)
 		}
 	}
 
 	if isImportTable() {
-		if err = d.Set("groups", flattenVpnsslAuthenticationRuleGroups(o["groups"], d, "groups", sv)); err != nil {
+		if err = d.Set("groups", flattenVpnsslsettingsAuthenticationRuleGroups(o["groups"], d, "groups", sv)); err != nil {
 			if !fortiAPIPatch(o["groups"]) {
 				return fmt.Errorf("error reading groups: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("groups"); ok {
-			if err = d.Set("groups", flattenVpnsslAuthenticationRuleGroups(o["groups"], d, "groups", sv)); err != nil {
+			if err = d.Set("groups", flattenVpnsslsettingsAuthenticationRuleGroups(o["groups"], d, "groups", sv)); err != nil {
 				if !fortiAPIPatch(o["groups"]) {
 					return fmt.Errorf("error reading groups: %v", err)
 				}
@@ -607,33 +607,33 @@ func refreshObjectVpnsslAuthenticationRule(d *schema.ResourceData, o map[string]
 		}
 	}
 
-	if err = d.Set("fosid", flattenVpnsslAuthenticationRuleId(o["id"], d, "fosid", sv)); err != nil {
+	if err = d.Set("fosid", flattenVpnsslsettingsAuthenticationRuleId(o["id"], d, "fosid", sv)); err != nil {
 		if !fortiAPIPatch(o["id"]) {
 			return fmt.Errorf("error reading fosid: %v", err)
 		}
 	}
 
-	if err = d.Set("portal", flattenVpnsslAuthenticationRulePortal(o["portal"], d, "portal", sv)); err != nil {
+	if err = d.Set("portal", flattenVpnsslsettingsAuthenticationRulePortal(o["portal"], d, "portal", sv)); err != nil {
 		if !fortiAPIPatch(o["portal"]) {
 			return fmt.Errorf("error reading portal: %v", err)
 		}
 	}
 
-	if err = d.Set("realm", flattenVpnsslAuthenticationRuleRealm(o["realm"], d, "realm", sv)); err != nil {
+	if err = d.Set("realm", flattenVpnsslsettingsAuthenticationRuleRealm(o["realm"], d, "realm", sv)); err != nil {
 		if !fortiAPIPatch(o["realm"]) {
 			return fmt.Errorf("error reading realm: %v", err)
 		}
 	}
 
 	if isImportTable() {
-		if err = d.Set("source_address", flattenVpnsslAuthenticationRuleSourceAddress(o["source-address"], d, "source_address", sv)); err != nil {
+		if err = d.Set("source_address", flattenVpnsslsettingsAuthenticationRuleSourceAddress(o["source-address"], d, "source_address", sv)); err != nil {
 			if !fortiAPIPatch(o["source-address"]) {
 				return fmt.Errorf("error reading source_address: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("source_address"); ok {
-			if err = d.Set("source_address", flattenVpnsslAuthenticationRuleSourceAddress(o["source-address"], d, "source_address", sv)); err != nil {
+			if err = d.Set("source_address", flattenVpnsslsettingsAuthenticationRuleSourceAddress(o["source-address"], d, "source_address", sv)); err != nil {
 				if !fortiAPIPatch(o["source-address"]) {
 					return fmt.Errorf("error reading source_address: %v", err)
 				}
@@ -641,21 +641,21 @@ func refreshObjectVpnsslAuthenticationRule(d *schema.ResourceData, o map[string]
 		}
 	}
 
-	if err = d.Set("source_address_negate", flattenVpnsslAuthenticationRuleSourceAddressNegate(o["source-address-negate"], d, "source_address_negate", sv)); err != nil {
+	if err = d.Set("source_address_negate", flattenVpnsslsettingsAuthenticationRuleSourceAddressNegate(o["source-address-negate"], d, "source_address_negate", sv)); err != nil {
 		if !fortiAPIPatch(o["source-address-negate"]) {
 			return fmt.Errorf("error reading source_address_negate: %v", err)
 		}
 	}
 
 	if isImportTable() {
-		if err = d.Set("source_address6", flattenVpnsslAuthenticationRuleSourceAddress6(o["source-address6"], d, "source_address6", sv)); err != nil {
+		if err = d.Set("source_address6", flattenVpnsslsettingsAuthenticationRuleSourceAddress6(o["source-address6"], d, "source_address6", sv)); err != nil {
 			if !fortiAPIPatch(o["source-address6"]) {
 				return fmt.Errorf("error reading source_address6: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("source_address6"); ok {
-			if err = d.Set("source_address6", flattenVpnsslAuthenticationRuleSourceAddress6(o["source-address6"], d, "source_address6", sv)); err != nil {
+			if err = d.Set("source_address6", flattenVpnsslsettingsAuthenticationRuleSourceAddress6(o["source-address6"], d, "source_address6", sv)); err != nil {
 				if !fortiAPIPatch(o["source-address6"]) {
 					return fmt.Errorf("error reading source_address6: %v", err)
 				}
@@ -663,21 +663,21 @@ func refreshObjectVpnsslAuthenticationRule(d *schema.ResourceData, o map[string]
 		}
 	}
 
-	if err = d.Set("source_address6_negate", flattenVpnsslAuthenticationRuleSourceAddress6Negate(o["source-address6-negate"], d, "source_address6_negate", sv)); err != nil {
+	if err = d.Set("source_address6_negate", flattenVpnsslsettingsAuthenticationRuleSourceAddress6Negate(o["source-address6-negate"], d, "source_address6_negate", sv)); err != nil {
 		if !fortiAPIPatch(o["source-address6-negate"]) {
 			return fmt.Errorf("error reading source_address6_negate: %v", err)
 		}
 	}
 
 	if isImportTable() {
-		if err = d.Set("source_interface", flattenVpnsslAuthenticationRuleSourceInterface(o["source-interface"], d, "source_interface", sv)); err != nil {
+		if err = d.Set("source_interface", flattenVpnsslsettingsAuthenticationRuleSourceInterface(o["source-interface"], d, "source_interface", sv)); err != nil {
 			if !fortiAPIPatch(o["source-interface"]) {
 				return fmt.Errorf("error reading source_interface: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("source_interface"); ok {
-			if err = d.Set("source_interface", flattenVpnsslAuthenticationRuleSourceInterface(o["source-interface"], d, "source_interface", sv)); err != nil {
+			if err = d.Set("source_interface", flattenVpnsslsettingsAuthenticationRuleSourceInterface(o["source-interface"], d, "source_interface", sv)); err != nil {
 				if !fortiAPIPatch(o["source-interface"]) {
 					return fmt.Errorf("error reading source_interface: %v", err)
 				}
@@ -685,21 +685,21 @@ func refreshObjectVpnsslAuthenticationRule(d *schema.ResourceData, o map[string]
 		}
 	}
 
-	if err = d.Set("user_peer", flattenVpnsslAuthenticationRuleUserPeer(o["user-peer"], d, "user_peer", sv)); err != nil {
+	if err = d.Set("user_peer", flattenVpnsslsettingsAuthenticationRuleUserPeer(o["user-peer"], d, "user_peer", sv)); err != nil {
 		if !fortiAPIPatch(o["user-peer"]) {
 			return fmt.Errorf("error reading user_peer: %v", err)
 		}
 	}
 
 	if isImportTable() {
-		if err = d.Set("users", flattenVpnsslAuthenticationRuleUsers(o["users"], d, "users", sv)); err != nil {
+		if err = d.Set("users", flattenVpnsslsettingsAuthenticationRuleUsers(o["users"], d, "users", sv)); err != nil {
 			if !fortiAPIPatch(o["users"]) {
 				return fmt.Errorf("error reading users: %v", err)
 			}
 		}
 	} else {
 		if _, ok := d.GetOk("users"); ok {
-			if err = d.Set("users", flattenVpnsslAuthenticationRuleUsers(o["users"], d, "users", sv)); err != nil {
+			if err = d.Set("users", flattenVpnsslsettingsAuthenticationRuleUsers(o["users"], d, "users", sv)); err != nil {
 				if !fortiAPIPatch(o["users"]) {
 					return fmt.Errorf("error reading users: %v", err)
 				}
@@ -710,19 +710,19 @@ func refreshObjectVpnsslAuthenticationRule(d *schema.ResourceData, o map[string]
 	return nil
 }
 
-func expandVpnsslAuthenticationRuleAuth(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+func expandVpnsslsettingsAuthenticationRuleAuth(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
 	return v, nil
 }
 
-func expandVpnsslAuthenticationRuleCipher(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+func expandVpnsslsettingsAuthenticationRuleCipher(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
 	return v, nil
 }
 
-func expandVpnsslAuthenticationRuleClientCert(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+func expandVpnsslsettingsAuthenticationRuleClientCert(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
 	return v, nil
 }
 
-func expandVpnsslAuthenticationRuleGroups(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+func expandVpnsslsettingsAuthenticationRuleGroups(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -739,7 +739,7 @@ func expandVpnsslAuthenticationRuleGroups(d *schema.ResourceData, v interface{},
 		pre_append = pre + "." + strconv.Itoa(con) + "." + "name"
 		if _, ok := d.GetOk(pre_append); ok {
 
-			tmp["name"], _ = expandVpnsslAuthenticationRuleGroupsName(d, i["name"], pre_append, sv)
+			tmp["name"], _ = expandVpnsslsettingsAuthenticationRuleGroupsName(d, i["name"], pre_append, sv)
 		}
 
 		result = append(result, tmp)
@@ -750,23 +750,23 @@ func expandVpnsslAuthenticationRuleGroups(d *schema.ResourceData, v interface{},
 	return result, nil
 }
 
-func expandVpnsslAuthenticationRuleGroupsName(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+func expandVpnsslsettingsAuthenticationRuleGroupsName(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
 	return v, nil
 }
 
-func expandVpnsslAuthenticationRuleId(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+func expandVpnsslsettingsAuthenticationRuleId(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
 	return v, nil
 }
 
-func expandVpnsslAuthenticationRulePortal(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+func expandVpnsslsettingsAuthenticationRulePortal(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
 	return v, nil
 }
 
-func expandVpnsslAuthenticationRuleRealm(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+func expandVpnsslsettingsAuthenticationRuleRealm(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
 	return v, nil
 }
 
-func expandVpnsslAuthenticationRuleSourceAddress(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+func expandVpnsslsettingsAuthenticationRuleSourceAddress(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -783,7 +783,7 @@ func expandVpnsslAuthenticationRuleSourceAddress(d *schema.ResourceData, v inter
 		pre_append = pre + "." + strconv.Itoa(con) + "." + "name"
 		if _, ok := d.GetOk(pre_append); ok {
 
-			tmp["name"], _ = expandVpnsslAuthenticationRuleSourceAddressName(d, i["name"], pre_append, sv)
+			tmp["name"], _ = expandVpnsslsettingsAuthenticationRuleSourceAddressName(d, i["name"], pre_append, sv)
 		}
 
 		result = append(result, tmp)
@@ -794,15 +794,15 @@ func expandVpnsslAuthenticationRuleSourceAddress(d *schema.ResourceData, v inter
 	return result, nil
 }
 
-func expandVpnsslAuthenticationRuleSourceAddressName(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+func expandVpnsslsettingsAuthenticationRuleSourceAddressName(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
 	return v, nil
 }
 
-func expandVpnsslAuthenticationRuleSourceAddressNegate(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+func expandVpnsslsettingsAuthenticationRuleSourceAddressNegate(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
 	return v, nil
 }
 
-func expandVpnsslAuthenticationRuleSourceAddress6(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+func expandVpnsslsettingsAuthenticationRuleSourceAddress6(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -819,7 +819,7 @@ func expandVpnsslAuthenticationRuleSourceAddress6(d *schema.ResourceData, v inte
 		pre_append = pre + "." + strconv.Itoa(con) + "." + "name"
 		if _, ok := d.GetOk(pre_append); ok {
 
-			tmp["name"], _ = expandVpnsslAuthenticationRuleSourceAddress6Name(d, i["name"], pre_append, sv)
+			tmp["name"], _ = expandVpnsslsettingsAuthenticationRuleSourceAddress6Name(d, i["name"], pre_append, sv)
 		}
 
 		result = append(result, tmp)
@@ -830,15 +830,15 @@ func expandVpnsslAuthenticationRuleSourceAddress6(d *schema.ResourceData, v inte
 	return result, nil
 }
 
-func expandVpnsslAuthenticationRuleSourceAddress6Name(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+func expandVpnsslsettingsAuthenticationRuleSourceAddress6Name(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
 	return v, nil
 }
 
-func expandVpnsslAuthenticationRuleSourceAddress6Negate(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+func expandVpnsslsettingsAuthenticationRuleSourceAddress6Negate(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
 	return v, nil
 }
 
-func expandVpnsslAuthenticationRuleSourceInterface(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+func expandVpnsslsettingsAuthenticationRuleSourceInterface(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -855,7 +855,7 @@ func expandVpnsslAuthenticationRuleSourceInterface(d *schema.ResourceData, v int
 		pre_append = pre + "." + strconv.Itoa(con) + "." + "name"
 		if _, ok := d.GetOk(pre_append); ok {
 
-			tmp["name"], _ = expandVpnsslAuthenticationRuleSourceInterfaceName(d, i["name"], pre_append, sv)
+			tmp["name"], _ = expandVpnsslsettingsAuthenticationRuleSourceInterfaceName(d, i["name"], pre_append, sv)
 		}
 
 		result = append(result, tmp)
@@ -866,15 +866,15 @@ func expandVpnsslAuthenticationRuleSourceInterface(d *schema.ResourceData, v int
 	return result, nil
 }
 
-func expandVpnsslAuthenticationRuleSourceInterfaceName(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+func expandVpnsslsettingsAuthenticationRuleSourceInterfaceName(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
 	return v, nil
 }
 
-func expandVpnsslAuthenticationRuleUserPeer(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+func expandVpnsslsettingsAuthenticationRuleUserPeer(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
 	return v, nil
 }
 
-func expandVpnsslAuthenticationRuleUsers(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+func expandVpnsslsettingsAuthenticationRuleUsers(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -891,7 +891,7 @@ func expandVpnsslAuthenticationRuleUsers(d *schema.ResourceData, v interface{}, 
 		pre_append = pre + "." + strconv.Itoa(con) + "." + "name"
 		if _, ok := d.GetOk(pre_append); ok {
 
-			tmp["name"], _ = expandVpnsslAuthenticationRuleUsersName(d, i["name"], pre_append, sv)
+			tmp["name"], _ = expandVpnsslsettingsAuthenticationRuleUsersName(d, i["name"], pre_append, sv)
 		}
 
 		result = append(result, tmp)
@@ -902,15 +902,15 @@ func expandVpnsslAuthenticationRuleUsers(d *schema.ResourceData, v interface{}, 
 	return result, nil
 }
 
-func expandVpnsslAuthenticationRuleUsersName(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+func expandVpnsslsettingsAuthenticationRuleUsersName(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
 	return v, nil
 }
 
-func getObjectVpnsslAuthenticationRule(d *schema.ResourceData, sv string) (*map[string]interface{}, error) {
+func getObjectVpnsslsettingsAuthenticationRule(d *schema.ResourceData, sv string) (*map[string]interface{}, error) {
 	obj := make(map[string]interface{})
 
 	if v, ok := d.GetOk("auth"); ok {
-		t, err := expandVpnsslAuthenticationRuleAuth(d, v, "auth", sv)
+		t, err := expandVpnsslsettingsAuthenticationRuleAuth(d, v, "auth", sv)
 		if err != nil {
 			return &obj, err
 		} else if t != nil {
@@ -919,7 +919,7 @@ func getObjectVpnsslAuthenticationRule(d *schema.ResourceData, sv string) (*map[
 	}
 
 	if v, ok := d.GetOk("cipher"); ok {
-		t, err := expandVpnsslAuthenticationRuleCipher(d, v, "cipher", sv)
+		t, err := expandVpnsslsettingsAuthenticationRuleCipher(d, v, "cipher", sv)
 		if err != nil {
 			return &obj, err
 		} else if t != nil {
@@ -928,7 +928,7 @@ func getObjectVpnsslAuthenticationRule(d *schema.ResourceData, sv string) (*map[
 	}
 
 	if v, ok := d.GetOk("client_cert"); ok {
-		t, err := expandVpnsslAuthenticationRuleClientCert(d, v, "client_cert", sv)
+		t, err := expandVpnsslsettingsAuthenticationRuleClientCert(d, v, "client_cert", sv)
 		if err != nil {
 			return &obj, err
 		} else if t != nil {
@@ -937,7 +937,7 @@ func getObjectVpnsslAuthenticationRule(d *schema.ResourceData, sv string) (*map[
 	}
 
 	if v, ok := d.GetOk("groups"); ok {
-		t, err := expandVpnsslAuthenticationRuleGroups(d, v, "groups", sv)
+		t, err := expandVpnsslsettingsAuthenticationRuleGroups(d, v, "groups", sv)
 		if err != nil {
 			return &obj, err
 		} else if t != nil {
@@ -946,7 +946,7 @@ func getObjectVpnsslAuthenticationRule(d *schema.ResourceData, sv string) (*map[
 	}
 
 	if v, ok := d.GetOk("fosid"); ok {
-		t, err := expandVpnsslAuthenticationRuleId(d, v, "fosid", sv)
+		t, err := expandVpnsslsettingsAuthenticationRuleId(d, v, "fosid", sv)
 		if err != nil {
 			return &obj, err
 		} else if t != nil {
@@ -955,7 +955,7 @@ func getObjectVpnsslAuthenticationRule(d *schema.ResourceData, sv string) (*map[
 	}
 
 	if v, ok := d.GetOk("portal"); ok {
-		t, err := expandVpnsslAuthenticationRulePortal(d, v, "portal", sv)
+		t, err := expandVpnsslsettingsAuthenticationRulePortal(d, v, "portal", sv)
 		if err != nil {
 			return &obj, err
 		} else if t != nil {
@@ -964,7 +964,7 @@ func getObjectVpnsslAuthenticationRule(d *schema.ResourceData, sv string) (*map[
 	}
 
 	if v, ok := d.GetOk("realm"); ok {
-		t, err := expandVpnsslAuthenticationRuleRealm(d, v, "realm", sv)
+		t, err := expandVpnsslsettingsAuthenticationRuleRealm(d, v, "realm", sv)
 		if err != nil {
 			return &obj, err
 		} else if t != nil {
@@ -973,7 +973,7 @@ func getObjectVpnsslAuthenticationRule(d *schema.ResourceData, sv string) (*map[
 	}
 
 	if v, ok := d.GetOk("source_address"); ok {
-		t, err := expandVpnsslAuthenticationRuleSourceAddress(d, v, "source_address", sv)
+		t, err := expandVpnsslsettingsAuthenticationRuleSourceAddress(d, v, "source_address", sv)
 		if err != nil {
 			return &obj, err
 		} else if t != nil {
@@ -982,7 +982,7 @@ func getObjectVpnsslAuthenticationRule(d *schema.ResourceData, sv string) (*map[
 	}
 
 	if v, ok := d.GetOk("source_address_negate"); ok {
-		t, err := expandVpnsslAuthenticationRuleSourceAddressNegate(d, v, "source_address_negate", sv)
+		t, err := expandVpnsslsettingsAuthenticationRuleSourceAddressNegate(d, v, "source_address_negate", sv)
 		if err != nil {
 			return &obj, err
 		} else if t != nil {
@@ -991,7 +991,7 @@ func getObjectVpnsslAuthenticationRule(d *schema.ResourceData, sv string) (*map[
 	}
 
 	if v, ok := d.GetOk("source_address6"); ok {
-		t, err := expandVpnsslAuthenticationRuleSourceAddress6(d, v, "source_address6", sv)
+		t, err := expandVpnsslsettingsAuthenticationRuleSourceAddress6(d, v, "source_address6", sv)
 		if err != nil {
 			return &obj, err
 		} else if t != nil {
@@ -1000,7 +1000,7 @@ func getObjectVpnsslAuthenticationRule(d *schema.ResourceData, sv string) (*map[
 	}
 
 	if v, ok := d.GetOk("source_address6_negate"); ok {
-		t, err := expandVpnsslAuthenticationRuleSourceAddress6Negate(d, v, "source_address6_negate", sv)
+		t, err := expandVpnsslsettingsAuthenticationRuleSourceAddress6Negate(d, v, "source_address6_negate", sv)
 		if err != nil {
 			return &obj, err
 		} else if t != nil {
@@ -1009,7 +1009,7 @@ func getObjectVpnsslAuthenticationRule(d *schema.ResourceData, sv string) (*map[
 	}
 
 	if v, ok := d.GetOk("source_interface"); ok {
-		t, err := expandVpnsslAuthenticationRuleSourceInterface(d, v, "source_interface", sv)
+		t, err := expandVpnsslsettingsAuthenticationRuleSourceInterface(d, v, "source_interface", sv)
 		if err != nil {
 			return &obj, err
 		} else if t != nil {
@@ -1018,7 +1018,7 @@ func getObjectVpnsslAuthenticationRule(d *schema.ResourceData, sv string) (*map[
 	}
 
 	if v, ok := d.GetOk("user_peer"); ok {
-		t, err := expandVpnsslAuthenticationRuleUserPeer(d, v, "user_peer", sv)
+		t, err := expandVpnsslsettingsAuthenticationRuleUserPeer(d, v, "user_peer", sv)
 		if err != nil {
 			return &obj, err
 		} else if t != nil {
@@ -1027,7 +1027,7 @@ func getObjectVpnsslAuthenticationRule(d *schema.ResourceData, sv string) (*map[
 	}
 
 	if v, ok := d.GetOk("users"); ok {
-		t, err := expandVpnsslAuthenticationRuleUsers(d, v, "users", sv)
+		t, err := expandVpnsslsettingsAuthenticationRuleUsers(d, v, "users", sv)
 		if err != nil {
 			return &obj, err
 		} else if t != nil {
