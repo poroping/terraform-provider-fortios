@@ -1,3 +1,9 @@
+## 2.2.1
+
+BUGFIXES:
+* Fixed fatal panic within `fortios_system_sdwan_members`.
+* Fixed issue with codegen performing wrong interface assertion on interger mkey_type.
+
 ## 2.2.0
 
 FEATURES:
