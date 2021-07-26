@@ -190,7 +190,7 @@ func resourceSystemsdwanMembersCreate(d *schema.ResourceData, m interface{}) err
 	}
 
 	if o["mkey"] != nil && o["mkey"] != "" {
-		d.SetId(o["mkey"].(string))
+		d.SetId(strconv.Itoa(int(o["mkey"].(float64))))
 	} else {
 		d.SetId("SystemsdwanMembers")
 	}
@@ -232,7 +232,7 @@ func resourceSystemsdwanMembersUpdate(d *schema.ResourceData, m interface{}) err
 
 	log.Printf(strconv.Itoa(c.Retries))
 	if o["mkey"] != nil && o["mkey"] != "" {
-		d.SetId(o["mkey"].(string))
+		d.SetId(strconv.Itoa(int(o["mkey"].(float64))))
 	} else {
 		d.SetId("SystemsdwanMembers")
 	}
