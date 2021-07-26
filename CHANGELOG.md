@@ -1,11 +1,28 @@
+## 2.2.0
+
+FEATURES:
+
+* **New Resource** `fortios_system_sdwan_duplication`
+* **New Resource** `fortios_system_sdwan_health_check`
+* **New Resource** `fortios_system_sdwan_members`
+* **New Resource** `fortios_system_sdwan_neighbor`
+* **New Resource** `fortios_system_sdwan_service`
+* **New Resource** `fortios_system_sdwan_zone`
+* **New Data Source** `fortios_system_sdwan_duplication`
+* **New Data Source** `fortios_system_sdwan_health_check`
+* **New Data Source** `fortios_system_sdwan_members`
+* **New Data Source** `fortios_system_sdwan_neighbor`
+* **New Data Source** `fortios_system_sdwan_service`
+* **New Data Source** `fortios_system_sdwan_zone`
+
 ## 2.1.0 
 
 FEATURES:
 
 * **New Resource** `fortios_routerbgp_neighbor_range`
 * **New Resource** `fortios_routerbgp_neighbor_group`
-* **Data Source** `fortios_routerbgp_neighbor_range`
-* **Data Source** `fortios_routerbgp_neighbor_group`
+* **New Data Source** `fortios_routerbgp_neighbor_range`
+* **New Data Source** `fortios_routerbgp_neighbor_group`
 
 BUGFIXES:
 * Fixed func name for child-table resources in codegen.
@@ -19,7 +36,7 @@ BUGFIXES:
 FEATURES:
 
 * **New Resource** `fortios_vpnssl_settings_authentication_rule`
-* **Data Source** `fortios_vpnssl_settings_authentication_rule`
+* **New Data Source** `fortios_vpnssl_settings_authentication_rule`
 
 IMPROVEMENTS:
 * Codegen templates tidied

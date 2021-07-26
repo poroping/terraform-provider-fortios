@@ -318,6 +318,12 @@ func Provider() terraform.ResourceProvider {
 			"fortios_vpnssl_settings_authentication_rule":     dataSourceVpnsslsettingsAuthenticationRule(),
 			"fortios_routerbgp_neighbor_range":                dataSourceRouterbgpNeighborRange(),
 			"fortios_routerbgp_neighbor_group":                dataSourceRouterbgpNeighborGroup(),
+			"fortios_system_sdwan_duplication":                dataSourceSystemsdwanDuplication(),
+			"fortios_system_sdwan_health_check":               dataSourceSystemsdwanHealthCheck(),
+			"fortios_system_sdwan_members":                    dataSourceSystemsdwanMembers(),
+			"fortios_system_sdwan_neighbor":                   dataSourceSystemsdwanNeighbor(),
+			"fortios_system_sdwan_service":                    dataSourceSystemsdwanService(),
+			"fortios_system_sdwan_zone":                       dataSourceSystemsdwanZone(),
 		},
 
 		ResourcesMap: map[string]*schema.Resource{
@@ -882,6 +888,12 @@ func Provider() terraform.ResourceProvider {
 			"fortios_vpnssl_settings_authentication_rule":               resourceVpnsslsettingsAuthenticationRule(),
 			"fortios_routerbgp_neighbor_range":                          resourceRouterbgpNeighborRange(),
 			"fortios_routerbgp_neighbor_group":                          resourceRouterbgpNeighborGroup(),
+			"fortios_system_sdwan_duplication":                          resourceSystemsdwanDuplication(),
+			"fortios_system_sdwan_health_check":                         resourceSystemsdwanHealthCheck(),
+			"fortios_system_sdwan_members":                              resourceSystemsdwanMembers(),
+			"fortios_system_sdwan_neighbor":                             resourceSystemsdwanNeighbor(),
+			"fortios_system_sdwan_service":                              resourceSystemsdwanService(),
+			"fortios_system_sdwan_zone":                                 resourceSystemsdwanZone(),
 		},
 
 		ConfigureFunc: providerConfigure,
