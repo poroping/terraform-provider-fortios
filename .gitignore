@@ -23,6 +23,7 @@
 /test/ddeeff.sh
 /test/example_testacc.sh
 /dist
+/codegen/apischema
 /codegen/output
 /codegen/testing
 
