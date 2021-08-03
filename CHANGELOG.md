@@ -1,3 +1,13 @@
+## 2.3.0
+
+FEATURES:
+
+* **New Resource** `fortios_routerospf_area`
+* **New Data Source** `fortios_routerospf_area`
+
+IMPROVEMENTS:
+* Some old docs cleaned up.
+
 ## 2.2.1
 
 BUGFIXES:
