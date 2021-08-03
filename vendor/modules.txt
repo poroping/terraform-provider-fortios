@@ -257,7 +257,7 @@ github.com/mitchellh/mapstructure
 github.com/mitchellh/reflectwalk
 # github.com/oklog/run v1.0.0
 github.com/oklog/run
-# github.com/poroping/forti-sdk-go v1.8.0
+# github.com/poroping/forti-sdk-go v1.8.1
 ## explicit
 github.com/poroping/forti-sdk-go/fortios/auth
 github.com/poroping/forti-sdk-go/fortios/config
