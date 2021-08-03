@@ -324,6 +324,7 @@ func Provider() terraform.ResourceProvider {
 			"fortios_system_sdwan_neighbor":                   dataSourceSystemsdwanNeighbor(),
 			"fortios_system_sdwan_service":                    dataSourceSystemsdwanService(),
 			"fortios_system_sdwan_zone":                       dataSourceSystemsdwanZone(),
+			"fortios_routerospf_area":                         dataSourceRouterospfArea(),
 		},
 
 		ResourcesMap: map[string]*schema.Resource{
@@ -894,6 +895,7 @@ func Provider() terraform.ResourceProvider {
 			"fortios_system_sdwan_neighbor":                             resourceSystemsdwanNeighbor(),
 			"fortios_system_sdwan_service":                              resourceSystemsdwanService(),
 			"fortios_system_sdwan_zone":                                 resourceSystemsdwanZone(),
+			"fortios_routerospf_area":                                   resourceRouterospfArea(),
 		},
 
 		ConfigureFunc: providerConfigure,
