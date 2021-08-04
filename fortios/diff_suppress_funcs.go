@@ -4,6 +4,10 @@ import (
 	"crypto/x509"
 	"encoding/pem"
 	"log"
+	"net"
+	"reflect"
+	"sort"
+	"strings"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 )
@@ -41,3 +45,69 @@ func isCertEqual(c1, c2 string) bool {
 
 	return cert1.Equal(cert2)
 }
+
+func diffIPEqual(k, old, new string, d *schema.ResourceData) bool {
+	if old == "" && new == "" {
+		return true
+	}
+	return isIPEqual(old, new)
+}
+
+func isIPEqual(s1, s2 string) bool {
+	ip1 := net.ParseIP(s1)
+	ip2 := net.ParseIP(s2)
+
+	if ip1 == nil || ip2 == nil {
+		log.Printf("Error parsing IP %s %s", s1, s2)
+		return false
+	}
+
+	return ip1.Equal(ip2)
+}
+
+func diffCidrEqual(k, old, new string, d *schema.ResourceData) bool {
+	if old == "" && new == "" {
+		return true
+	}
+	return isCidrEqual(old, new)
+}
+
+func isCidrEqual(s1, s2 string) bool {
+	ip1, _, err := net.ParseCIDR(s1)
+	if err != nil {
+		log.Printf("Error parsing CIDR %s", s1)
+		return false
+	}
+	ip2, _, err := net.ParseCIDR(s2)
+	if err != nil {
+		log.Printf("Error parsing CIDR %s", s2)
+		return false
+	}
+
+	return ip1.Equal(ip2)
+}
+
+func diffFakeListEqual(k, old, new string, d *schema.ResourceData) bool {
+	if old == "" && new == "" {
+		return true
+	}
+	return isFakeListEqual(old, new)
+}
+
+func isFakeListEqual(s1, s2 string) bool {
+	l1 := strings.Split(s1, " ")
+	l2 := strings.Split(s2, " ")
+	sort.Strings(l1)
+	sort.Strings(l2)
+
+	return reflect.DeepEqual(l1, l2)
+}
+
+// func isSubtableEqual(v1, v2 []map[string]interface{}) bool {
+// 	l1 := strings.Split(s1, " ")
+// 	l2 := strings.Split(s2, " ")
+// 	sort.Strings(l1)
+// 	sort.Strings(l2)
+
+// 	return reflect.DeepEqual(l1, l2)
+// }

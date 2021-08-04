@@ -152,3 +152,69 @@ INVALID
 		})
 	}
 }
+
+func TestIsIPEqual(t *testing.T) {
+	var tests = []struct {
+		s1, s2 string
+		equal  bool
+	}{
+		{"2a02:03c8::0", "2a02:3c8::0", true},
+		{"notip", "2a02:3c8::0", false},
+		{"", "2a02:3c8::0", false},
+	}
+
+	for i, tt := range tests {
+		testname := fmt.Sprintf("Testing IP equality, %v", i)
+		t.Run(testname, func(t *testing.T) {
+			ans := isIPEqual(tt.s1, tt.s2)
+			if ans != tt.equal {
+				t.Errorf("got %v, want %v", ans, tt.equal)
+			}
+		})
+	}
+}
+
+func TestIsCidrEqual(t *testing.T) {
+	var tests = []struct {
+		s1, s2 string
+		equal  bool
+	}{
+		{"2a02:03c8::0/128", "2a02:3c8::0/128", true},
+		{"notip", "2a02:3c8::0/128", false},
+		{"", "2a02:3c8::0/128", false},
+	}
+
+	for i, tt := range tests {
+		testname := fmt.Sprintf("Testing CIDR equality, %v", i)
+		t.Run(testname, func(t *testing.T) {
+			ans := isCidrEqual(tt.s1, tt.s2)
+			if ans != tt.equal {
+				t.Errorf("got %v, want %v", ans, tt.equal)
+			}
+		})
+	}
+}
+
+func TestIsFakeListEqual(t *testing.T) {
+	var tests = []struct {
+		s1, s2 string
+		equal  bool
+	}{
+		{"21 14 5", "21 5 14", true},
+		{"21 14 5", "5 14", false},
+		{"21 14 5", "20 5 14", false},
+		{"a b c", "a c b", true},
+		{"a b c", "d e f", false},
+		{"a b c", "", false},
+		{"certificate_01 certificate_02 certificate_03", "certificate_03 certificate_01 certificate_02", true}}
+
+	for i, tt := range tests {
+		testname := fmt.Sprintf("Testing FortiOS shitty 'list' equality, %v", i)
+		t.Run(testname, func(t *testing.T) {
+			ans := isFakeListEqual(tt.s1, tt.s2)
+			if ans != tt.equal {
+				t.Errorf("got %v, want %v", ans, tt.equal)
+			}
+		})
+	}
+}
