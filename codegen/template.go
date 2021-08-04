@@ -23,6 +23,7 @@ func main() {
 			"valilookup":  valilookup,
 			"title":       title,
 			"subcategory": subcategory,
+			"difflookup":  diffLookup,
 		}
 		t := template.Must(template.New("main").Funcs(funcMap).ParseGlob("./templates/*.gotmpl"))
 
@@ -160,12 +161,12 @@ func recurseSensitive(m map[string]interface{}) map[string]interface{} {
 
 func addDataSourceInfo(m map[string]interface{}) map[string]interface{} {
 	m = replaceTopLevelId(m)
-	m = addSchemaRequired(m)
+	m = addDataSourceSchemaRequired(m)
 	m = addSensitive(m)
 	return m
 }
 
-func addSchemaRequired(m map[string]interface{}) map[string]interface{} {
+func addDataSourceSchemaRequired(m map[string]interface{}) map[string]interface{} {
 	mkey := m["results"].(map[string]interface{})["mkey"].(string)
 	child, ok := m["results"].(map[string]interface{})["children"].(map[string]interface{})
 	if ok {
@@ -180,10 +181,27 @@ func addSchemaRequired(m map[string]interface{}) map[string]interface{} {
 	return m
 }
 
+func addResourceSchemaRequired(m map[string]interface{}) map[string]interface{} {
+	mkey := m["results"].(map[string]interface{})["mkey"].(string)
+	child, ok := m["results"].(map[string]interface{})["children"].(map[string]interface{})
+	if ok {
+		for _, v := range child {
+			name := v.(map[string]interface{})["name"].(string)
+			if mkey == "seq-num" || mkey == "id" {
+				v.(map[string]interface{})["schema_opt_force"] = true
+			} else if name == mkey {
+				v.(map[string]interface{})["schema_required"] = true
+			}
+
+		}
+	}
+	return m
+}
+
 func addResourceInfo(m map[string]interface{}) map[string]interface{} {
 	m = addDynSortTable(m)
 	m = replaceTopLevelId(m)
-	m = addSchemaRequired(m)
+	m = addResourceSchemaRequired(m)
 	m = addSensitive(m)
 	return m
 }
@@ -298,6 +316,38 @@ func valilookup(values map[string]interface{}) string {
 		return ""
 	} else {
 		return fmt.Sprintf("ValidateFunc: %s,", s)
+	}
+}
+
+func diffLookup(values map[string]interface{}) string {
+	vtype := values["type"].(string)
+	// multi_val, _ := values["multiple_values"].(bool)
+	m := map[string]string{
+		"string":             "",
+		"option":             "",
+		"ipv4-address":       "",
+		"ipv4-address-any":   "",
+		"ipv4-classnet":      "",
+		"ipv4-classnet-host": "",
+		"ipv4-classnet-any":  "",
+		"ipv4-netmask":       "",
+		"ipv6-address":       "diffIPEqual",
+		"ipv6-prefix":        "diffCidrEqual",
+		"ipv6-network":       "diffCidrEqual",
+		"var-string":         "",
+		"password":           "",
+		"integer":            "",
+		"user":               "",
+		"password-3":         "",
+	}
+	s, ok := m[vtype]
+	if !ok {
+		s = "DIFF-LOOKUP-ERROR"
+	}
+	if s == "" {
+		return ""
+	} else {
+		return fmt.Sprintf("DiffSuppressFunc: %s,", s)
 	}
 }
 

@@ -4,10 +4,15 @@
             {{(flatten $value.name) | printf "%q" }}:{
             	{{ (typelookup $value.type) }}
 				{{ (valilookup $value) }}
-                Description: {{ $value.help | printf "%q" }},
+                {{ (difflookup $value) }}
+                {{ $value.help | printf "Description: %q" }},
                 {{- if $value.schema_required }}
                 ForceNew: true,
                 Required: true,
+                {{- else if $value.schema_opt_force }}
+                ForceNew: true,
+                Optional: true,
+                Computed: true,
                 {{- else }}
                 Optional: true,
                 Computed: true,
