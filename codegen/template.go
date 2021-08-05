@@ -187,7 +187,7 @@ func addResourceSchemaRequired(m map[string]interface{}) map[string]interface{} 
 	if ok {
 		for _, v := range child {
 			name := v.(map[string]interface{})["name"].(string)
-			if mkey == "seq-num" || mkey == "id" {
+			if name == "seq-num" || name == "id" {
 				v.(map[string]interface{})["schema_opt_force"] = true
 			} else if name == mkey {
 				v.(map[string]interface{})["schema_required"] = true
