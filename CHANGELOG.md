@@ -1,12 +1,25 @@
+## 2.3.2
+
+IMPROVEMENTS:
+* Support input validation for `fortios_router_static` resource.
+* Add examples to `fortios_router_static` documentation.
+* Add examples to `fortios_router_static6` documentation.
+
+BUGFIXES:
+* Fixed bug in codegen causing all fields to be marked ForceNew
+* Rerolled `fortios_router_static6`
+
 ## 2.3.1
 
 IMPROVEMENTS:
 * Add IPv6 DiffSupp functions.
 * Add IPv6 DiffSupp to codegen.
-* Fix Codegen resource with optional mkey (id, seq_num).
-* Fix required attributes within `fortios_router_static6` resource.
 * Support for 6.2.0-7.0.1 added to `fortios_router_static6` resource.
 * Support input validation for `fortios_router_static6` resource.
+
+BUGFIXES:
+* Fix Codegen resource with optional mkey (id, seq_num).
+* Fix required attributes within `fortios_router_static6` resource.
 
 ## 2.3.0
 
