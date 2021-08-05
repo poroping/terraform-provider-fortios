@@ -11,7 +11,15 @@ Use this data source to get information on a fortios Configure IPv6 static routi
 
 ## Example Usage
 
-WIP
+```hcl
+data "fortios_router_static6" sample1 {
+  seq_num = 1
+}
+
+output output1 {
+  value = data.fortios_router_static6.sample1
+}
+```
 
 ## Argument Reference
 

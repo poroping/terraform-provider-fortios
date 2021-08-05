@@ -10,7 +10,15 @@ description: |-
 Configure IPv6 static routing tables.
 ## Example Usage
 
-WIP
+```hcl
+resource "fortios_router_static6" "trname" {
+  vdomparam = "root"
+
+  device = "wan1"
+  gateway = "2a01::1"
+  dst = "2a08:0000::0/64"
+}
+```
 
 ## Argument Reference
 * `vdomparam` - Specifies the vdom to which the data source will be applied when the FortiGate unit is running in VDOM mode. Only one vdom can be specified. If you want to inherit the vdom configuration of the provider, please do not set this parameter.

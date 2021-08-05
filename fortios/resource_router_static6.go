@@ -51,7 +51,6 @@ func resourceRouterStatic6() *schema.Resource {
 				ValidateFunc: fortiValidateEnableDisable(),
 
 				Description: "Enable/disable Bidirectional Forwarding Detection (BFD).",
-				ForceNew:    true,
 				Optional:    true,
 				Computed:    true,
 			},
@@ -60,7 +59,6 @@ func resourceRouterStatic6() *schema.Resource {
 				ValidateFunc: fortiValidateEnableDisable(),
 
 				Description: "Enable/disable black hole.",
-				ForceNew:    true,
 				Optional:    true,
 				Computed:    true,
 			},
@@ -69,7 +67,6 @@ func resourceRouterStatic6() *schema.Resource {
 				ValidateFunc: validation.StringLenBetween(0, 255),
 
 				Description: "Optional comments.",
-				ForceNew:    true,
 				Optional:    true,
 				Computed:    true,
 			},
@@ -78,7 +75,6 @@ func resourceRouterStatic6() *schema.Resource {
 				ValidateFunc: validation.StringLenBetween(0, 35),
 
 				Description: "Gateway out interface or tunnel.",
-				ForceNew:    true,
 				Optional:    true,
 				Computed:    true,
 			},
@@ -86,7 +82,6 @@ func resourceRouterStatic6() *schema.Resource {
 				Type: schema.TypeInt,
 
 				Description: "Device index (0 - 4294967295).",
-				ForceNew:    true,
 				Optional:    true,
 				Computed:    true,
 			},
@@ -95,7 +90,6 @@ func resourceRouterStatic6() *schema.Resource {
 				ValidateFunc: validation.IntBetween(1, 255),
 
 				Description: "Administrative distance (1 - 255).",
-				ForceNew:    true,
 				Optional:    true,
 				Computed:    true,
 			},
@@ -104,7 +98,6 @@ func resourceRouterStatic6() *schema.Resource {
 				ValidateFunc:     fortiValidateIPv6Network,
 				DiffSuppressFunc: diffCidrEqual,
 				Description:      "Destination IPv6 prefix.",
-				ForceNew:         true,
 				Optional:         true,
 				Computed:         true,
 			},
@@ -113,7 +106,6 @@ func resourceRouterStatic6() *schema.Resource {
 				ValidateFunc: fortiValidateEnableDisable(),
 
 				Description: "Enable use of dynamic gateway retrieved from Router Advertisement (RA).",
-				ForceNew:    true,
 				Optional:    true,
 				Computed:    true,
 			},
@@ -122,7 +114,6 @@ func resourceRouterStatic6() *schema.Resource {
 				ValidateFunc:     validation.IsIPv6Address,
 				DiffSuppressFunc: diffIPEqual,
 				Description:      "IPv6 address of the gateway.",
-				ForceNew:         true,
 				Optional:         true,
 				Computed:         true,
 			},
@@ -131,7 +122,6 @@ func resourceRouterStatic6() *schema.Resource {
 				ValidateFunc: fortiValidateEnableDisable(),
 
 				Description: "Enable/disable withdrawal of this static route when link monitor or health check is down.",
-				ForceNew:    true,
 				Optional:    true,
 				Computed:    true,
 			},
@@ -140,7 +130,6 @@ func resourceRouterStatic6() *schema.Resource {
 				ValidateFunc: validation.IntBetween(1, 65535),
 
 				Description: "Administrative priority (1 - 65535).",
-				ForceNew:    true,
 				Optional:    true,
 				Computed:    true,
 			},
@@ -149,7 +138,6 @@ func resourceRouterStatic6() *schema.Resource {
 				ValidateFunc: fortiValidateEnableDisable(),
 
 				Description: "Enable/disable egress through the SD-WAN.",
-				ForceNew:    true,
 				Optional:    true,
 				Computed:    true,
 			},
@@ -183,7 +171,6 @@ func resourceRouterStatic6() *schema.Resource {
 				ValidateFunc: fortiValidateEnableDisable(),
 
 				Description: "Enable/disable this static route.",
-				ForceNew:    true,
 				Optional:    true,
 				Computed:    true,
 			},
@@ -192,7 +179,6 @@ func resourceRouterStatic6() *schema.Resource {
 				ValidateFunc: fortiValidateEnableDisable(),
 
 				Description: "Enable/disable egress through the virtual-wan-link.",
-				ForceNew:    true,
 				Optional:    true,
 				Computed:    true,
 			},
@@ -201,7 +187,6 @@ func resourceRouterStatic6() *schema.Resource {
 				ValidateFunc: validation.IntBetween(0, 31),
 
 				Description: "Virtual Routing Forwarding ID.",
-				ForceNew:    true,
 				Optional:    true,
 				Computed:    true,
 			},
