@@ -89,7 +89,7 @@ func dynamic_sort_subtable(result []map[string]interface{}, fieldname string, d 
 				} else if reflect.TypeOf(v1).Name() == "float64" {
 					return int(v1.(float64)) < int(v2.(float64))
 				} else {
-					println("error")
+					println("error") // TODO: make this error less crap
 					return true
 				}
 			})
