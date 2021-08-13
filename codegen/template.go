@@ -203,6 +203,7 @@ func addResourceInfo(m map[string]interface{}) map[string]interface{} {
 	m = replaceTopLevelId(m)
 	m = addResourceSchemaRequired(m)
 	m = addSensitive(m)
+	m = complexEmptyOnDestroy(m)
 	return m
 }
 
@@ -232,6 +233,24 @@ func addDynSortTable(m map[string]interface{}) map[string]interface{} {
 				}
 			}
 			m["results"].(map[string]interface{})["dynamic_sort_table"] = dyn
+		}
+	}
+	return m
+}
+
+func complexEmptyOnDestroy(m map[string]interface{}) map[string]interface{} {
+	category := m["results"].(map[string]interface{})["category"].(string)
+	if category == "complex" {
+		if child, ok := m["results"].(map[string]interface{})["children"].(map[string]interface{}); ok {
+			complex_parent := false
+			for _, v := range child {
+				if category, ok := v.(map[string]interface{})["category"].(string); ok {
+					if category == "table" {
+						complex_parent = true
+					}
+				}
+				m["results"].(map[string]interface{})["complex_parent"] = complex_parent
+			}
 		}
 	}
 	return m
