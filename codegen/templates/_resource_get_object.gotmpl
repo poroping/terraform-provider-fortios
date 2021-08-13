@@ -7,24 +7,24 @@ func getObject{{.fpath}}(d *schema.ResourceData, sv string) (*map[string]interfa
 {{ end }}
 {{ define "GETOBJECTS" }}
 {{- range $key, $value := .children }}
-{{ if $value.fosid }}
+{{ if $value.complex_parent }}
+	if bemptysontable {
+		obj[{{$value.name | printf "%q" }}] = make([]struct{}, 0)
+	} else {{ end }}
 	if v, ok := d.GetOk({{(flatten $value.name) | printf "%q" }}); ok {
 		t, err := expand{{.fpath}}(d, v, {{(flatten $value.name) | printf "%q" }}, sv)
 		if err != nil {
 			return &obj, err
 		} else if t != nil {
-			obj[{{"id" | printf "%q" }}] = t
+			obj[{{- if $value.fosid -}}"id"{{- else -}}{{$value.name | printf "%q" }}{{- end -}}] = t
 		}
-	}
-{{- else }}
-	if v, ok := d.GetOk({{(flatten $value.name) | printf "%q" }}); ok {
-		t, err := expand{{.fpath}}(d, v, {{(flatten $value.name) | printf "%q" }}, sv)
-		if err != nil {
-			return &obj, err
-		} else if t != nil {
-			obj[{{$value.name | printf "%q" }}] = t
+	}{{- if eq $value.category "table" }} else if d.HasChange({{(flatten $value.name) | printf "%q" }}) {
+		old, new := d.GetChange({{(flatten $value.name) | printf "%q" }})
+		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
+			obj[{{$value.name | printf "%q" }}] = make([]struct{}, 0)
 		}
-	}
+	}{{- end }}
+	{{ if $value.complex_parent }}}{{ end }}
+
 {{ end }}
-{{- end }}
 {{ end }}
