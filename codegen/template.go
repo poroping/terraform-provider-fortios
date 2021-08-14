@@ -167,7 +167,10 @@ func addDataSourceInfo(m map[string]interface{}) map[string]interface{} {
 }
 
 func addDataSourceSchemaRequired(m map[string]interface{}) map[string]interface{} {
-	mkey := m["results"].(map[string]interface{})["mkey"].(string)
+	mkey, ok := m["results"].(map[string]interface{})["mkey"].(string)
+	if !ok {
+		return m
+	}
 	child, ok := m["results"].(map[string]interface{})["children"].(map[string]interface{})
 	if ok {
 		for _, v := range child {
@@ -182,7 +185,10 @@ func addDataSourceSchemaRequired(m map[string]interface{}) map[string]interface{
 }
 
 func addResourceSchemaRequired(m map[string]interface{}) map[string]interface{} {
-	mkey := m["results"].(map[string]interface{})["mkey"].(string)
+	mkey, ok := m["results"].(map[string]interface{})["mkey"].(string)
+	if !ok {
+		return m
+	}
 	child, ok := m["results"].(map[string]interface{})["children"].(map[string]interface{})
 	if ok {
 		for _, v := range child {
@@ -340,10 +346,10 @@ func valilookup(values map[string]interface{}) string {
 
 func diffLookup(values map[string]interface{}) string {
 	vtype := values["type"].(string)
-	// multi_val, _ := values["multiple_values"].(bool)
+	multi_val, _ := values["multiple_values"].(bool)
 	m := map[string]string{
 		"string":             "",
-		"option":             "",
+		"option":             diffOptions(multi_val),
 		"ipv4-address":       "",
 		"ipv4-address-any":   "",
 		"ipv4-classnet":      "",
@@ -367,6 +373,14 @@ func diffLookup(values map[string]interface{}) string {
 		return ""
 	} else {
 		return fmt.Sprintf("DiffSuppressFunc: %s,", s)
+	}
+}
+
+func diffOptions(multi_val bool) string {
+	if multi_val {
+		return "diffFakeListEqual"
+	} else {
+		return ""
 	}
 }
 
