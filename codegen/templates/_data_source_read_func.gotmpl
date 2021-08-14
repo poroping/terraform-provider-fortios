@@ -1,5 +1,5 @@
-{{define "READDSFUNC" }}
-func dataSource{{.fpath}}Read(d *schema.ResourceData, m interface{}) error {
+{{ define "READDSFUNC" }}
+func dataSource{{ .fpath }}Read(d *schema.ResourceData, m interface{}) error {
 	c := m.(*FortiClient).Client
 	c.Retries = 1
 	urlparams := make(map[string][]string)
@@ -13,19 +13,21 @@ func dataSource{{.fpath}}Read(d *schema.ResourceData, m interface{}) error {
 	}
 
 	mkey := ""
-	key := {{.results.mkey | printf "%q"}}
+	{{ if .results.mkey }}key := {{ (flatten .results.mkey) | printf "%q" }}
 	t := d.Get(key)
 	if v, ok := t.(string); ok {
 		mkey = v
 	} else if v, ok := t.(int); ok {
 		mkey = strconv.Itoa(v)
 	} else {
-		return fmt.Errorf("error describing {{.fpath}}: type error")
+		return fmt.Errorf("error describing {{ .fpath }}: type error")
 	}
 
-	o, err := c.Read{{.fpath}}(mkey, vdomparam, urlparams, 0)
+	{{ else }}mkey = {{ .fpath | printf "%q" }}{{ end }}
+
+	o, err := c.Read{{ .fpath }}(mkey, vdomparam, urlparams, 0)
 	if err != nil {
-		return fmt.Errorf("error describing {{.fpath}}: %v", err)
+		return fmt.Errorf("error describing {{ .fpath }}: %v", err)
 	}
 
 	if o == nil {
@@ -33,9 +35,9 @@ func dataSource{{.fpath}}Read(d *schema.ResourceData, m interface{}) error {
 		return nil
 	}
 
-	err = dataSourceRefreshObject{{.fpath}}(d, o)
+	err = dataSourceRefreshObject{{ .fpath }}(d, o)
 	if err != nil {
-		return fmt.Errorf("error describing {{.fpath}} from API: %v", err)
+		return fmt.Errorf("error describing {{ .fpath }} from API: %v", err)
 	}
 
 	d.SetId(mkey)

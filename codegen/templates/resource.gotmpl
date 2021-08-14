@@ -37,12 +37,13 @@ func resource{{.fpath}}() *schema.Resource {
 				Optional: true,
 				Default:  0,
 			},
-			{{- if eq .results.mkey "name" }}
+			{{- if .results.mkey }}
 			"allow_append": {
 				Type:         schema.TypeBool,
 				Description: "If set to true allows provider to overwrite existing resources instead of erroring. Useful for brownfield implementations. Use with caution!",
 				Optional:     true,
 				Default:      false,
+				{{ if or (eq .results.mkey "id") (eq .results.mkey "seq-num") }}RequiredWith: []string{ {{- (flatten .results.mkey) | printf "%q" -}} },{{ end }}
 			},
 			{{- end }}
 			{{- if .results.dynamic_sort_table }}
