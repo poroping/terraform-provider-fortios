@@ -17,7 +17,7 @@ func refreshObject{{.fpath}}(d *schema.ResourceData, o map[string]interface{}, s
 		}
 	}
 {{ end }}
-{{- if and (eq $value.category "unitary") (not $value.fosid) }}
+{{- if and (eq $value.category "unitary") (not $value.fosid) (not $value.sensitive )}}
 	if err = d.Set({{(flatten $value.name) | printf "%q" }}, flatten{{.fpath}}(o[{{$value.name | printf "%q" }}], d, {{(flatten $value.name) | printf "%q" }}, sv)); err != nil {
 		if !fortiAPIPatch(o[{{$value.name | printf "%q" }}]) {
 			return fmt.Errorf("error reading {{(flatten $value.name)}}: %v", err)

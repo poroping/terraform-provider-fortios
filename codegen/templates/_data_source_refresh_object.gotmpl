@@ -8,14 +8,14 @@ func dataSourceRefreshObject{{.fpath}}(d *schema.ResourceData, o map[string]inte
 {{ end }}
 {{ define "DSREFRESHOBJECTS" }}
 {{- range $key, $value := .children }}
-{{- if and ($value.category) ($value.fosid) }}
+{{- if and ($value.category) ($value.fosid) (not $value.sensitive) }}
 	if err = d.Set({{(flatten $value.name) | printf "%q" }}, dataSourceFlatten{{.fpath}}(o[{{"id" | printf "%q" }}], d, {{(flatten $value.name) | printf "%q" }})); err != nil {
 		if !fortiAPIPatch(o[{{"id" | printf "%q" }}]) {
 			return fmt.Errorf("error reading {{(flatten $value.name)}}: %v", err)
 		}
 	}
 {{ end }}
-{{- if and ($value.category) (not $value.fosid) }}
+{{- if and ($value.category) (not $value.fosid) (not $value.sensitive) }}
 	if err = d.Set({{(flatten $value.name) | printf "%q" }}, dataSourceFlatten{{.fpath}}(o[{{$value.name | printf "%q" }}], d, {{(flatten $value.name) | printf "%q" }})); err != nil {
 		if !fortiAPIPatch(o[{{$value.name | printf "%q" }}]) {
 			return fmt.Errorf("error reading {{(flatten $value.name)}}: %v", err)

@@ -1,6 +1,6 @@
 {{ define "DSFLATTEN" }}
 {{- range $key, $value := .children }}
-{{- if eq $value.category "unitary" }}
+{{- if and (eq $value.category "unitary") (not $value.sensitive) }}
 func dataSourceFlatten{{.fpath}}(v interface{}, d *schema.ResourceData, pre string) interface{} {
 {{- if or (eq $value.type "ipv4-classnet-any") (eq $value.type "ipv4-classnet-host") (eq $value.type "ipv4-classnet") }}
 	if v1, ok := d.GetOkExists(pre); ok && v != nil {
@@ -35,13 +35,13 @@ func dataSourceFlatten{{.fpath}}(v interface{}, d *schema.ResourceData, pre stri
 		i := r.(map[string]interface{})
 
 		pre_append := "" // table
-{{- range $key, $value := $value.children }}
+{{- range $key, $value := $value.children }}{{ if not $value.sensitive }}
 		pre_append = pre + "." + strconv.Itoa(con) + "." + {{(flatten $value.name) | printf "%q" }}
 		if _, ok := i[{{$value.name | printf "%q" }}]; ok {
 
 			tmp[{{(flatten $value.name) | printf "%q" }}] = dataSourceFlatten{{.fpath}}(i[{{$value.name | printf "%q" }}], d, pre_append)
 		}
-{{ end }}
+{{ end }}{{ end }}
 		result = append(result, tmp)
 
 		con += 1
@@ -71,13 +71,13 @@ func dataSourceFlatten{{.fpath}}(v interface{}, d *schema.ResourceData, pre stri
 		i := r.(map[string]interface{})
 
 		pre_append := "" // table
-{{- range $key, $value := $value.children }}
+{{- range $key, $value := $value.children }}{{ if not $value.sensitive }}
 		pre_append = pre + "." + strconv.Itoa(con) + "." + {{(flatten $value.name) | printf "%q" }}
 		if _, ok := i[{{$value.name | printf "%q" }}]; ok {
 
 			tmp[{{(flatten $value.name) | printf "%q" }}] = dataSourceFlatten{{.fpath}}(i[{{$value.name | printf "%q" }}], d, pre_append)
 		}
-{{ end }}
+{{ end }}{{ end }}
 		result = append(result, tmp)
 
 		con += 1
