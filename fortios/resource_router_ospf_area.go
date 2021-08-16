@@ -41,6 +41,13 @@ func resourceRouterospfArea() *schema.Resource {
 				Optional:    true,
 				Default:     0,
 			},
+			"allow_append": {
+				Type:         schema.TypeBool,
+				Description:  "If set to true allows provider to overwrite existing resources instead of erroring. Useful for brownfield implementations. Use with caution!",
+				Optional:     true,
+				Default:      false,
+				RequiredWith: []string{"id"},
+			},
 			"dynamic_sort_table": {
 				Type:     schema.TypeBool,
 				Optional: true,
@@ -49,16 +56,18 @@ func resourceRouterospfArea() *schema.Resource {
 			"authentication": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnum([]string{"none", "text", "message-digest"}),
-				Description:  "Authentication type.",
-				Optional:     true,
-				Computed:     true,
+
+				Description: "Authentication type.",
+				Optional:    true,
+				Computed:    true,
 			},
 			"comments": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
-				Description:  "Comment.",
-				Optional:     true,
-				Computed:     true,
+
+				Description: "Comment.",
+				Optional:    true,
+				Computed:    true,
 			},
 			"default_cost": {
 				Type: schema.TypeInt,
@@ -76,9 +85,10 @@ func resourceRouterospfArea() *schema.Resource {
 						"direction": {
 							Type:         schema.TypeString,
 							ValidateFunc: fortiValidateEnum([]string{"in", "out"}),
-							Description:  "Direction.",
-							Optional:     true,
-							Computed:     true,
+
+							Description: "Direction.",
+							Optional:    true,
+							Computed:    true,
 						},
 						"id": {
 							Type: schema.TypeInt,
@@ -90,9 +100,10 @@ func resourceRouterospfArea() *schema.Resource {
 						"list": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
-							Description:  "Access-list or prefix-list name.",
-							Optional:     true,
-							Computed:     true,
+
+							Description: "Access-list or prefix-list name.",
+							Optional:    true,
+							Computed:    true,
 						},
 					},
 				},
@@ -100,44 +111,50 @@ func resourceRouterospfArea() *schema.Resource {
 			"fosid": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.IsIPv4Address,
-				Description:  "Area entry IP address.",
-				Optional:     true,
-				Computed:     true,
+
+				Description: "Area entry IP address.",
+				Optional:    true,
+				Computed:    true,
 			},
 			"nssa_default_information_originate": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnum([]string{"enable", "always", "disable"}),
-				Description:  "Redistribute, advertise, or do not originate Type-7 default route into NSSA area.",
-				Optional:     true,
-				Computed:     true,
+
+				Description: "Redistribute, advertise, or do not originate Type-7 default route into NSSA area.",
+				Optional:    true,
+				Computed:    true,
 			},
 			"nssa_default_information_originate_metric": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 16777214),
-				Description:  "OSPF default metric.",
-				Optional:     true,
-				Computed:     true,
+
+				Description: "OSPF default metric.",
+				Optional:    true,
+				Computed:    true,
 			},
 			"nssa_default_information_originate_metric_type": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnum([]string{"1", "2"}),
-				Description:  "OSPF metric type for default routes.",
-				Optional:     true,
-				Computed:     true,
+
+				Description: "OSPF metric type for default routes.",
+				Optional:    true,
+				Computed:    true,
 			},
 			"nssa_redistribution": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
-				Description:  "Enable/disable redistribute into NSSA area.",
-				Optional:     true,
-				Computed:     true,
+
+				Description: "Enable/disable redistribute into NSSA area.",
+				Optional:    true,
+				Computed:    true,
 			},
 			"nssa_translator_role": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnum([]string{"candidate", "never", "always"}),
-				Description:  "NSSA translator role type.",
-				Optional:     true,
-				Computed:     true,
+
+				Description: "NSSA translator role type.",
+				Optional:    true,
+				Computed:    true,
 			},
 			"range": {
 				Type:        schema.TypeList,
@@ -148,9 +165,10 @@ func resourceRouterospfArea() *schema.Resource {
 						"advertise": {
 							Type:         schema.TypeString,
 							ValidateFunc: fortiValidateEnableDisable(),
-							Description:  "Enable/disable advertise status.",
-							Optional:     true,
-							Computed:     true,
+
+							Description: "Enable/disable advertise status.",
+							Optional:    true,
+							Computed:    true,
 						},
 						"id": {
 							Type: schema.TypeInt,
@@ -162,23 +180,26 @@ func resourceRouterospfArea() *schema.Resource {
 						"prefix": {
 							Type:         schema.TypeString,
 							ValidateFunc: fortiValidateIPv4ClassnetAny,
-							Description:  "Prefix.",
-							Optional:     true,
-							Computed:     true,
+
+							Description: "Prefix.",
+							Optional:    true,
+							Computed:    true,
 						},
 						"substitute": {
 							Type:         schema.TypeString,
 							ValidateFunc: fortiValidateIPv4ClassnetAny,
-							Description:  "Substitute prefix.",
-							Optional:     true,
-							Computed:     true,
+
+							Description: "Substitute prefix.",
+							Optional:    true,
+							Computed:    true,
 						},
 						"substitute_status": {
 							Type:         schema.TypeString,
 							ValidateFunc: fortiValidateEnableDisable(),
-							Description:  "Enable/disable substitute status.",
-							Optional:     true,
-							Computed:     true,
+
+							Description: "Enable/disable substitute status.",
+							Optional:    true,
+							Computed:    true,
 						},
 					},
 				},
@@ -186,23 +207,26 @@ func resourceRouterospfArea() *schema.Resource {
 			"shortcut": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnum([]string{"disable", "enable", "default"}),
-				Description:  "Enable/disable shortcut option.",
-				Optional:     true,
-				Computed:     true,
+
+				Description: "Enable/disable shortcut option.",
+				Optional:    true,
+				Computed:    true,
 			},
 			"stub_type": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnum([]string{"no-summary", "summary"}),
-				Description:  "Stub summary setting.",
-				Optional:     true,
-				Computed:     true,
+
+				Description: "Stub summary setting.",
+				Optional:    true,
+				Computed:    true,
 			},
 			"type": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnum([]string{"regular", "nssa", "stub"}),
-				Description:  "Area type setting.",
-				Optional:     true,
-				Computed:     true,
+
+				Description: "Area type setting.",
+				Optional:    true,
+				Computed:    true,
 			},
 			"virtual_link": {
 				Type:        schema.TypeList,
@@ -213,9 +237,10 @@ func resourceRouterospfArea() *schema.Resource {
 						"authentication": {
 							Type:         schema.TypeString,
 							ValidateFunc: fortiValidateEnum([]string{"none", "text", "message-digest"}),
-							Description:  "Authentication type.",
-							Optional:     true,
-							Computed:     true,
+
+							Description: "Authentication type.",
+							Optional:    true,
+							Computed:    true,
 						},
 						"authentication_key": {
 							Type: schema.TypeString,
@@ -223,27 +248,31 @@ func resourceRouterospfArea() *schema.Resource {
 							Description: "Authentication key.",
 							Optional:    true,
 							Computed:    true,
+							Sensitive:   true,
 						},
 						"dead_interval": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 65535),
-							Description:  "Dead interval.",
-							Optional:     true,
-							Computed:     true,
+
+							Description: "Dead interval.",
+							Optional:    true,
+							Computed:    true,
 						},
 						"hello_interval": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 65535),
-							Description:  "Hello interval.",
-							Optional:     true,
-							Computed:     true,
+
+							Description: "Hello interval.",
+							Optional:    true,
+							Computed:    true,
 						},
 						"keychain": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
-							Description:  "Message-digest key-chain name.",
-							Optional:     true,
-							Computed:     true,
+
+							Description: "Message-digest key-chain name.",
+							Optional:    true,
+							Computed:    true,
 						},
 						"md5_keys": {
 							Type:        schema.TypeList,
@@ -254,9 +283,10 @@ func resourceRouterospfArea() *schema.Resource {
 									"id": {
 										Type:         schema.TypeInt,
 										ValidateFunc: validation.IntBetween(1, 255),
-										Description:  "Key ID (1 - 255).",
-										Optional:     true,
-										Computed:     true,
+
+										Description: "Key ID (1 - 255).",
+										Optional:    true,
+										Computed:    true,
 									},
 									"key_string": {
 										Type: schema.TypeString,
@@ -264,6 +294,7 @@ func resourceRouterospfArea() *schema.Resource {
 										Description: "Password for the key.",
 										Optional:    true,
 										Computed:    true,
+										Sensitive:   true,
 									},
 								},
 							},
@@ -271,30 +302,34 @@ func resourceRouterospfArea() *schema.Resource {
 						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
-							Description:  "Virtual link entry name.",
-							Optional:     true,
-							Computed:     true,
+
+							Description: "Virtual link entry name.",
+							Optional:    true,
+							Computed:    true,
 						},
 						"peer": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.IsIPv4Address,
-							Description:  "Peer IP.",
-							Optional:     true,
-							Computed:     true,
+
+							Description: "Peer IP.",
+							Optional:    true,
+							Computed:    true,
 						},
 						"retransmit_interval": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 65535),
-							Description:  "Retransmit interval.",
-							Optional:     true,
-							Computed:     true,
+
+							Description: "Retransmit interval.",
+							Optional:    true,
+							Computed:    true,
 						},
 						"transmit_delay": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 65535),
-							Description:  "Transmit delay.",
-							Optional:     true,
-							Computed:     true,
+
+							Description: "Transmit delay.",
+							Optional:    true,
+							Computed:    true,
 						},
 					},
 				},
@@ -324,12 +359,39 @@ func resourceRouterospfAreaCreate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
+	allow_append := false
+
+	if v, ok := d.GetOk("allow_append"); ok {
+		if b, ok := v.(bool); ok {
+			allow_append = b
+		}
+	}
+
+	urlparams["allow_append"] = []string{strconv.FormatBool(allow_append)}
+
+	key := "id"
+	mkey := ""
+	if v, ok := d.GetOk(key); ok {
+		if s, ok := v.(string); ok {
+			mkey = s
+		}
+	}
+
 	obj, err := getObjectRouterospfArea(d, c.Fv)
 	if err != nil {
 		return fmt.Errorf("error creating RouterospfArea resource while getting object: %v", err)
 	}
 
-	o, err := c.CreateRouterospfArea(obj, vdomparam, urlparams, batchid)
+	if mkey == "" && allow_append {
+		return fmt.Errorf("error creating RouterospfArea resource: %q must be set if \"allow_append\" is true", key)
+	}
+
+	o := make(map[string]interface{})
+	if mkey != "" && allow_append {
+		o, err = c.UpdateRouterospfArea(obj, mkey, vdomparam, urlparams, batchid)
+	} else {
+		o, err = c.CreateRouterospfArea(obj, vdomparam, urlparams, batchid)
+	}
 
 	if err != nil {
 		return fmt.Errorf("error creating RouterospfArea resource: %v", err)
@@ -677,12 +739,6 @@ func flattenRouterospfAreaVirtualLink(v interface{}, d *schema.ResourceData, pre
 			tmp["authentication"] = flattenRouterospfAreaVirtualLinkAuthentication(i["authentication"], d, pre_append, sv)
 		}
 
-		pre_append = pre + "." + strconv.Itoa(con) + "." + "authentication_key"
-		if _, ok := i["authentication-key"]; ok {
-
-			tmp["authentication_key"] = flattenRouterospfAreaVirtualLinkAuthenticationKey(i["authentication-key"], d, pre_append, sv)
-		}
-
 		pre_append = pre + "." + strconv.Itoa(con) + "." + "dead_interval"
 		if _, ok := i["dead-interval"]; ok {
 
@@ -744,10 +800,6 @@ func flattenRouterospfAreaVirtualLinkAuthentication(v interface{}, d *schema.Res
 	return v
 }
 
-func flattenRouterospfAreaVirtualLinkAuthenticationKey(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
-	return v
-}
-
 func flattenRouterospfAreaVirtualLinkDeadInterval(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
 	return v
 }
@@ -784,12 +836,6 @@ func flattenRouterospfAreaVirtualLinkMd5Keys(v interface{}, d *schema.ResourceDa
 			tmp["id"] = flattenRouterospfAreaVirtualLinkMd5KeysId(i["id"], d, pre_append, sv)
 		}
 
-		pre_append = pre + "." + strconv.Itoa(con) + "." + "key_string"
-		if _, ok := i["key-string"]; ok {
-
-			tmp["key_string"] = flattenRouterospfAreaVirtualLinkMd5KeysKeyString(i["key-string"], d, pre_append, sv)
-		}
-
 		result = append(result, tmp)
 
 		con += 1
@@ -800,10 +846,6 @@ func flattenRouterospfAreaVirtualLinkMd5Keys(v interface{}, d *schema.ResourceDa
 }
 
 func flattenRouterospfAreaVirtualLinkMd5KeysId(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
-	return v
-}
-
-func flattenRouterospfAreaVirtualLinkMd5KeysKeyString(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
 	return v
 }
 
@@ -1320,6 +1362,11 @@ func getObjectRouterospfArea(d *schema.ResourceData, sv string) (*map[string]int
 		} else if t != nil {
 			obj["filter-list"] = t
 		}
+	} else if d.HasChange("filter_list") {
+		old, new := d.GetChange("filter_list")
+		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
+			obj["filter-list"] = make([]struct{}, 0)
+		}
 	}
 
 	if v, ok := d.GetOk("fosid"); ok {
@@ -1383,6 +1430,11 @@ func getObjectRouterospfArea(d *schema.ResourceData, sv string) (*map[string]int
 		} else if t != nil {
 			obj["range"] = t
 		}
+	} else if d.HasChange("range") {
+		old, new := d.GetChange("range")
+		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
+			obj["range"] = make([]struct{}, 0)
+		}
 	}
 
 	if v, ok := d.GetOk("shortcut"); ok {
@@ -1418,6 +1470,11 @@ func getObjectRouterospfArea(d *schema.ResourceData, sv string) (*map[string]int
 			return &obj, err
 		} else if t != nil {
 			obj["virtual-link"] = t
+		}
+	} else if d.HasChange("virtual_link") {
+		old, new := d.GetChange("virtual_link")
+		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
+			obj["virtual-link"] = make([]struct{}, 0)
 		}
 	}
 

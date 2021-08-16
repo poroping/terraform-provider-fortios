@@ -50,16 +50,18 @@ func resourceSystemsdwanZone() *schema.Resource {
 			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
-				Description:  "Zone name.",
-				ForceNew:     true,
-				Required:     true,
+
+				Description: "Zone name.",
+				ForceNew:    true,
+				Required:    true,
 			},
 			"service_sla_tie_break": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnum([]string{"cfg-order", "fib-best-match"}),
-				Description:  "Method of selecting member if more than one meets the SLA.",
-				Optional:     true,
-				Computed:     true,
+
+				Description: "Method of selecting member if more than one meets the SLA.",
+				Optional:    true,
+				Computed:    true,
 			},
 		},
 	}

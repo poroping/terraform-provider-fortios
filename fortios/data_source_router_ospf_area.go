@@ -158,6 +158,7 @@ func dataSourceRouterospfArea() *schema.Resource {
 							Type:        schema.TypeString,
 							Description: "Authentication key.",
 							Computed:    true,
+							Sensitive:   true,
 						},
 						"dead_interval": {
 							Type:        schema.TypeInt,
@@ -189,6 +190,7 @@ func dataSourceRouterospfArea() *schema.Resource {
 										Type:        schema.TypeString,
 										Description: "Password for the key.",
 										Computed:    true,
+										Sensitive:   true,
 									},
 								},
 							},
@@ -480,12 +482,6 @@ func dataSourceFlattenRouterospfAreaVirtualLink(v interface{}, d *schema.Resourc
 			tmp["authentication"] = dataSourceFlattenRouterospfAreaVirtualLinkAuthentication(i["authentication"], d, pre_append)
 		}
 
-		pre_append = pre + "." + strconv.Itoa(con) + "." + "authentication_key"
-		if _, ok := i["authentication-key"]; ok {
-
-			tmp["authentication_key"] = dataSourceFlattenRouterospfAreaVirtualLinkAuthenticationKey(i["authentication-key"], d, pre_append)
-		}
-
 		pre_append = pre + "." + strconv.Itoa(con) + "." + "dead_interval"
 		if _, ok := i["dead-interval"]; ok {
 
@@ -546,10 +542,6 @@ func dataSourceFlattenRouterospfAreaVirtualLinkAuthentication(v interface{}, d *
 	return v
 }
 
-func dataSourceFlattenRouterospfAreaVirtualLinkAuthenticationKey(v interface{}, d *schema.ResourceData, pre string) interface{} {
-	return v
-}
-
 func dataSourceFlattenRouterospfAreaVirtualLinkDeadInterval(v interface{}, d *schema.ResourceData, pre string) interface{} {
 	return v
 }
@@ -586,12 +578,6 @@ func dataSourceFlattenRouterospfAreaVirtualLinkMd5Keys(v interface{}, d *schema.
 			tmp["id"] = dataSourceFlattenRouterospfAreaVirtualLinkMd5KeysId(i["id"], d, pre_append)
 		}
 
-		pre_append = pre + "." + strconv.Itoa(con) + "." + "key_string"
-		if _, ok := i["key-string"]; ok {
-
-			tmp["key_string"] = dataSourceFlattenRouterospfAreaVirtualLinkMd5KeysKeyString(i["key-string"], d, pre_append)
-		}
-
 		result = append(result, tmp)
 
 		con += 1
@@ -601,10 +587,6 @@ func dataSourceFlattenRouterospfAreaVirtualLinkMd5Keys(v interface{}, d *schema.
 }
 
 func dataSourceFlattenRouterospfAreaVirtualLinkMd5KeysId(v interface{}, d *schema.ResourceData, pre string) interface{} {
-	return v
-}
-
-func dataSourceFlattenRouterospfAreaVirtualLinkMd5KeysKeyString(v interface{}, d *schema.ResourceData, pre string) interface{} {
 	return v
 }
 

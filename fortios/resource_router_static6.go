@@ -41,6 +41,13 @@ func resourceRouterStatic6() *schema.Resource {
 				Optional:    true,
 				Default:     0,
 			},
+			"allow_append": {
+				Type:         schema.TypeBool,
+				Description:  "If set to true allows provider to overwrite existing resources instead of erroring. Useful for brownfield implementations. Use with caution!",
+				Optional:     true,
+				Default:      false,
+				RequiredWith: []string{"seq_num"},
+			},
 			"dynamic_sort_table": {
 				Type:     schema.TypeBool,
 				Optional: true,
@@ -215,12 +222,39 @@ func resourceRouterStatic6Create(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
+	allow_append := false
+
+	if v, ok := d.GetOk("allow_append"); ok {
+		if b, ok := v.(bool); ok {
+			allow_append = b
+		}
+	}
+
+	urlparams["allow_append"] = []string{strconv.FormatBool(allow_append)}
+
+	key := "seq_num"
+	mkey := ""
+	if v, ok := d.GetOk(key); ok {
+		if s, ok := v.(string); ok {
+			mkey = s
+		}
+	}
+
 	obj, err := getObjectRouterStatic6(d, c.Fv)
 	if err != nil {
 		return fmt.Errorf("error creating RouterStatic6 resource while getting object: %v", err)
 	}
 
-	o, err := c.CreateRouterStatic6(obj, vdomparam, urlparams, batchid)
+	if mkey == "" && allow_append {
+		return fmt.Errorf("error creating RouterStatic6 resource: %q must be set if \"allow_append\" is true", key)
+	}
+
+	o := make(map[string]interface{})
+	if mkey != "" && allow_append {
+		o, err = c.UpdateRouterStatic6(obj, mkey, vdomparam, urlparams, batchid)
+	} else {
+		o, err = c.CreateRouterStatic6(obj, vdomparam, urlparams, batchid)
+	}
 
 	if err != nil {
 		return fmt.Errorf("error creating RouterStatic6 resource: %v", err)
@@ -782,6 +816,11 @@ func getObjectRouterStatic6(d *schema.ResourceData, sv string) (*map[string]inte
 			return &obj, err
 		} else if t != nil {
 			obj["sdwan-zone"] = t
+		}
+	} else if d.HasChange("sdwan_zone") {
+		old, new := d.GetChange("sdwan_zone")
+		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
+			obj["sdwan-zone"] = make([]struct{}, 0)
 		}
 	}
 

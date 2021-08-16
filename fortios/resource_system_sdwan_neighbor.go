@@ -41,19 +41,27 @@ func resourceSystemsdwanNeighbor() *schema.Resource {
 				Optional:    true,
 				Default:     0,
 			},
+			"allow_append": {
+				Type:        schema.TypeBool,
+				Description: "If set to true allows provider to overwrite existing resources instead of erroring. Useful for brownfield implementations. Use with caution!",
+				Optional:    true,
+				Default:     false,
+			},
 			"health_check": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
-				Description:  "SD-WAN health-check name.",
-				Optional:     true,
-				Computed:     true,
+
+				Description: "SD-WAN health-check name.",
+				Optional:    true,
+				Computed:    true,
 			},
 			"ip": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 45),
-				Description:  "IP/IPv6 address of neighbor.",
-				ForceNew:     true,
-				Required:     true,
+
+				Description: "IP/IPv6 address of neighbor.",
+				ForceNew:    true,
+				Required:    true,
 			},
 			"member": {
 				Type: schema.TypeInt,
@@ -65,16 +73,18 @@ func resourceSystemsdwanNeighbor() *schema.Resource {
 			"mode": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnum([]string{"sla", "speedtest"}),
-				Description:  "What metric to select the neighbor.",
-				Optional:     true,
-				Computed:     true,
+
+				Description: "What metric to select the neighbor.",
+				Optional:    true,
+				Computed:    true,
 			},
 			"role": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnum([]string{"standalone", "primary", "secondary"}),
-				Description:  "Role of neighbor.",
-				Optional:     true,
-				Computed:     true,
+
+				Description: "Role of neighbor.",
+				Optional:    true,
+				Computed:    true,
 			},
 			"sla_id": {
 				Type: schema.TypeInt,
@@ -108,12 +118,39 @@ func resourceSystemsdwanNeighborCreate(d *schema.ResourceData, m interface{}) er
 		}
 	}
 
+	allow_append := false
+
+	if v, ok := d.GetOk("allow_append"); ok {
+		if b, ok := v.(bool); ok {
+			allow_append = b
+		}
+	}
+
+	urlparams["allow_append"] = []string{strconv.FormatBool(allow_append)}
+
+	key := "ip"
+	mkey := ""
+	if v, ok := d.GetOk(key); ok {
+		if s, ok := v.(string); ok {
+			mkey = s
+		}
+	}
+
 	obj, err := getObjectSystemsdwanNeighbor(d, c.Fv)
 	if err != nil {
 		return fmt.Errorf("error creating SystemsdwanNeighbor resource while getting object: %v", err)
 	}
 
-	o, err := c.CreateSystemsdwanNeighbor(obj, vdomparam, urlparams, batchid)
+	if mkey == "" && allow_append {
+		return fmt.Errorf("error creating SystemsdwanNeighbor resource: %q must be set if \"allow_append\" is true", key)
+	}
+
+	o := make(map[string]interface{})
+	if mkey != "" && allow_append {
+		o, err = c.UpdateSystemsdwanNeighbor(obj, mkey, vdomparam, urlparams, batchid)
+	} else {
+		o, err = c.CreateSystemsdwanNeighbor(obj, vdomparam, urlparams, batchid)
+	}
 
 	if err != nil {
 		return fmt.Errorf("error creating SystemsdwanNeighbor resource: %v", err)

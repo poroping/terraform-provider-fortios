@@ -55,16 +55,18 @@ func resourceSystemsdwanHealthCheck() *schema.Resource {
 			"addr_mode": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnum([]string{"ipv4", "ipv6"}),
-				Description:  "Address mode (IPv4 or IPv6).",
-				Optional:     true,
-				Computed:     true,
+
+				Description: "Address mode (IPv4 or IPv6).",
+				Optional:    true,
+				Computed:    true,
 			},
 			"detect_mode": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnum([]string{"active", "passive", "prefer-passive"}),
-				Description:  "The mode determining how to detect the server.",
-				Optional:     true,
-				Computed:     true,
+
+				Description: "The mode determining how to detect the server.",
+				Optional:    true,
+				Computed:    true,
 			},
 			"diffservcode": {
 				Type: schema.TypeString,
@@ -76,72 +78,82 @@ func resourceSystemsdwanHealthCheck() *schema.Resource {
 			"dns_match_ip": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.IsIPv4Address,
-				Description:  "Response IP expected from DNS server if the protocol is DNS.",
-				Optional:     true,
-				Computed:     true,
+
+				Description: "Response IP expected from DNS server if the protocol is DNS.",
+				Optional:    true,
+				Computed:    true,
 			},
 			"dns_request_domain": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
-				Description:  "Fully qualified domain name to resolve for the DNS probe.",
-				Optional:     true,
-				Computed:     true,
+
+				Description: "Fully qualified domain name to resolve for the DNS probe.",
+				Optional:    true,
+				Computed:    true,
 			},
 			"failtime": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 3600),
-				Description:  "Number of failures before server is considered lost (1 - 3600, default = 5).",
-				Optional:     true,
-				Computed:     true,
+
+				Description: "Number of failures before server is considered lost (1 - 3600, default = 5).",
+				Optional:    true,
+				Computed:    true,
 			},
 			"ftp_file": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 254),
-				Description:  "Full path and file name on the FTP server to download for FTP health-check to probe.",
-				Optional:     true,
-				Computed:     true,
+
+				Description: "Full path and file name on the FTP server to download for FTP health-check to probe.",
+				Optional:    true,
+				Computed:    true,
 			},
 			"ftp_mode": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnum([]string{"passive", "port"}),
-				Description:  "FTP mode.",
-				Optional:     true,
-				Computed:     true,
+
+				Description: "FTP mode.",
+				Optional:    true,
+				Computed:    true,
 			},
 			"ha_priority": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 50),
-				Description:  "HA election priority (1 - 50).",
-				Optional:     true,
-				Computed:     true,
+
+				Description: "HA election priority (1 - 50).",
+				Optional:    true,
+				Computed:    true,
 			},
 			"http_agent": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 1024),
-				Description:  "String in the http-agent field in the HTTP header.",
-				Optional:     true,
-				Computed:     true,
+
+				Description: "String in the http-agent field in the HTTP header.",
+				Optional:    true,
+				Computed:    true,
 			},
 			"http_get": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 1024),
-				Description:  "URL used to communicate with the server if the protocol if the protocol is HTTP.",
-				Optional:     true,
-				Computed:     true,
+
+				Description: "URL used to communicate with the server if the protocol if the protocol is HTTP.",
+				Optional:    true,
+				Computed:    true,
 			},
 			"http_match": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 1024),
-				Description:  "Response string expected from the server if the protocol is HTTP.",
-				Optional:     true,
-				Computed:     true,
+
+				Description: "Response string expected from the server if the protocol is HTTP.",
+				Optional:    true,
+				Computed:    true,
 			},
 			"interval": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(500, 3600000),
-				Description:  "Status check interval in milliseconds, or the time between attempting to connect to the server (500 - 3600*1000 msec, default = 500).",
-				Optional:     true,
-				Computed:     true,
+
+				Description: "Status check interval in milliseconds, or the time between attempting to connect to the server (500 - 3600*1000 msec, default = 500).",
+				Optional:    true,
+				Computed:    true,
 			},
 			"members": {
 				Type:        schema.TypeList,
@@ -162,16 +174,18 @@ func resourceSystemsdwanHealthCheck() *schema.Resource {
 			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
-				Description:  "Status check or health check name.",
-				ForceNew:     true,
-				Required:     true,
+
+				Description: "Status check or health check name.",
+				ForceNew:    true,
+				Required:    true,
 			},
 			"packet_size": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(64, 1024),
-				Description:  "Packet size of a twamp test session,",
-				Optional:     true,
-				Computed:     true,
+
+				Description: "Packet size of a twamp test session,",
+				Optional:    true,
+				Computed:    true,
 			},
 			"password": {
 				Type: schema.TypeString,
@@ -179,69 +193,79 @@ func resourceSystemsdwanHealthCheck() *schema.Resource {
 				Description: "Twamp controller password in authentication mode",
 				Optional:    true,
 				Computed:    true,
+				Sensitive:   true,
 			},
 			"port": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 65535),
-				Description:  "Port number used to communicate with the server over the selected protocol (0-65535, default = 0, auto select. http, twamp: 80, udp-echo, tcp-echo: 7, dns: 53, ftp: 21).",
-				Optional:     true,
-				Computed:     true,
+
+				Description: "Port number used to communicate with the server over the selected protocol (0-65535, default = 0, auto select. http, twamp: 80, udp-echo, tcp-echo: 7, dns: 53, ftp: 21).",
+				Optional:    true,
+				Computed:    true,
 			},
 			"probe_count": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(5, 30),
-				Description:  "Number of most recent probes that should be used to calculate latency and jitter (5 - 30, default = 30).",
-				Optional:     true,
-				Computed:     true,
+
+				Description: "Number of most recent probes that should be used to calculate latency and jitter (5 - 30, default = 30).",
+				Optional:    true,
+				Computed:    true,
 			},
 			"probe_packets": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
-				Description:  "Enable/disable transmission of probe packets.",
-				Optional:     true,
-				Computed:     true,
+
+				Description: "Enable/disable transmission of probe packets.",
+				Optional:    true,
+				Computed:    true,
 			},
 			"probe_timeout": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(500, 3600000),
-				Description:  "Time to wait before a probe packet is considered lost (500 - 3600*1000 msec, default = 500).",
-				Optional:     true,
-				Computed:     true,
+
+				Description: "Time to wait before a probe packet is considered lost (500 - 3600*1000 msec, default = 500).",
+				Optional:    true,
+				Computed:    true,
 			},
 			"protocol": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnum([]string{"ping", "tcp-echo", "udp-echo", "http", "twamp", "dns", "tcp-connect", "ftp"}),
-				Description:  "Protocol used to determine if the FortiGate can communicate with the server.",
-				Optional:     true,
-				Computed:     true,
+
+				Description: "Protocol used to determine if the FortiGate can communicate with the server.",
+				Optional:    true,
+				Computed:    true,
 			},
 			"quality_measured_method": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnum([]string{"half-open", "half-close"}),
-				Description:  "Method to measure the quality of tcp-connect.",
-				Optional:     true,
-				Computed:     true,
+
+				Description: "Method to measure the quality of tcp-connect.",
+				Optional:    true,
+				Computed:    true,
 			},
 			"recoverytime": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 3600),
-				Description:  "Number of successful responses received before server is considered recovered (1 - 3600, default = 5).",
-				Optional:     true,
-				Computed:     true,
+
+				Description: "Number of successful responses received before server is considered recovered (1 - 3600, default = 5).",
+				Optional:    true,
+				Computed:    true,
 			},
 			"security_mode": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnum([]string{"none", "authentication"}),
-				Description:  "Twamp controller security mode.",
-				Optional:     true,
-				Computed:     true,
+
+				Description: "Twamp controller security mode.",
+				Optional:    true,
+				Computed:    true,
 			},
 			"server": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 79),
-				Description:  "IP address or FQDN name of the server.",
-				Optional:     true,
-				Computed:     true,
+
+				Description: "IP address or FQDN name of the server.",
+				Optional:    true,
+				Computed:    true,
 			},
 			"sla": {
 				Type:        schema.TypeList,
@@ -252,37 +276,42 @@ func resourceSystemsdwanHealthCheck() *schema.Resource {
 						"id": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 32),
-							Description:  "SLA ID.",
-							Optional:     true,
-							Computed:     true,
+
+							Description: "SLA ID.",
+							Optional:    true,
+							Computed:    true,
 						},
 						"jitter_threshold": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 10000000),
-							Description:  "Jitter for SLA to make decision in milliseconds. (0 - 10000000, default = 5).",
-							Optional:     true,
-							Computed:     true,
+
+							Description: "Jitter for SLA to make decision in milliseconds. (0 - 10000000, default = 5).",
+							Optional:    true,
+							Computed:    true,
 						},
 						"latency_threshold": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 10000000),
-							Description:  "Latency for SLA to make decision in milliseconds. (0 - 10000000, default = 5).",
-							Optional:     true,
-							Computed:     true,
+
+							Description: "Latency for SLA to make decision in milliseconds. (0 - 10000000, default = 5).",
+							Optional:    true,
+							Computed:    true,
 						},
 						"link_cost_factor": {
 							Type: schema.TypeString,
 
-							Description: "Criteria on which to base link selection.",
-							Optional:    true,
-							Computed:    true,
+							DiffSuppressFunc: diffFakeListEqual,
+							Description:      "Criteria on which to base link selection.",
+							Optional:         true,
+							Computed:         true,
 						},
 						"packetloss_threshold": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 100),
-							Description:  "Packet loss for SLA to make decision in percentage. (0 - 100, default = 0).",
-							Optional:     true,
-							Computed:     true,
+
+							Description: "Packet loss for SLA to make decision in percentage. (0 - 100, default = 0).",
+							Optional:    true,
+							Computed:    true,
 						},
 					},
 				},
@@ -290,23 +319,26 @@ func resourceSystemsdwanHealthCheck() *schema.Resource {
 			"sla_fail_log_period": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 3600),
-				Description:  "Time interval in seconds that SLA fail log messages will be generated (0 - 3600, default = 0).",
-				Optional:     true,
-				Computed:     true,
+
+				Description: "Time interval in seconds that SLA fail log messages will be generated (0 - 3600, default = 0).",
+				Optional:    true,
+				Computed:    true,
 			},
 			"sla_pass_log_period": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 3600),
-				Description:  "Time interval in seconds that SLA pass log messages will be generated (0 - 3600, default = 0).",
-				Optional:     true,
-				Computed:     true,
+
+				Description: "Time interval in seconds that SLA pass log messages will be generated (0 - 3600, default = 0).",
+				Optional:    true,
+				Computed:    true,
 			},
 			"system_dns": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
-				Description:  "Enable/disable system DNS as the probe server.",
-				Optional:     true,
-				Computed:     true,
+
+				Description: "Enable/disable system DNS as the probe server.",
+				Optional:    true,
+				Computed:    true,
 			},
 			"threshold_alert_jitter": {
 				Type: schema.TypeInt,
@@ -325,9 +357,10 @@ func resourceSystemsdwanHealthCheck() *schema.Resource {
 			"threshold_alert_packetloss": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 100),
-				Description:  "Alert threshold for packet loss (percentage, default = 0).",
-				Optional:     true,
-				Computed:     true,
+
+				Description: "Alert threshold for packet loss (percentage, default = 0).",
+				Optional:    true,
+				Computed:    true,
 			},
 			"threshold_warning_jitter": {
 				Type: schema.TypeInt,
@@ -346,30 +379,34 @@ func resourceSystemsdwanHealthCheck() *schema.Resource {
 			"threshold_warning_packetloss": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 100),
-				Description:  "Warning threshold for packet loss (percentage, default = 0).",
-				Optional:     true,
-				Computed:     true,
+
+				Description: "Warning threshold for packet loss (percentage, default = 0).",
+				Optional:    true,
+				Computed:    true,
 			},
 			"update_cascade_interface": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
-				Description:  "Enable/disable update cascade interface.",
-				Optional:     true,
-				Computed:     true,
+
+				Description: "Enable/disable update cascade interface.",
+				Optional:    true,
+				Computed:    true,
 			},
 			"update_static_route": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
-				Description:  "Enable/disable updating the static route.",
-				Optional:     true,
-				Computed:     true,
+
+				Description: "Enable/disable updating the static route.",
+				Optional:    true,
+				Computed:    true,
 			},
 			"user": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 64),
-				Description:  "The user name to access probe server.",
-				Optional:     true,
-				Computed:     true,
+
+				Description: "The user name to access probe server.",
+				Optional:    true,
+				Computed:    true,
 			},
 		},
 	}
@@ -655,10 +692,6 @@ func flattenSystemsdwanHealthCheckPacketSize(v interface{}, d *schema.ResourceDa
 	return v
 }
 
-func flattenSystemsdwanHealthCheckPassword(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
-	return v
-}
-
 func flattenSystemsdwanHealthCheckPort(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
 	return v
 }
@@ -926,12 +959,6 @@ func refreshObjectSystemsdwanHealthCheck(d *schema.ResourceData, o map[string]in
 	if err = d.Set("packet_size", flattenSystemsdwanHealthCheckPacketSize(o["packet-size"], d, "packet_size", sv)); err != nil {
 		if !fortiAPIPatch(o["packet-size"]) {
 			return fmt.Errorf("error reading packet_size: %v", err)
-		}
-	}
-
-	if err = d.Set("password", flattenSystemsdwanHealthCheckPassword(o["password"], d, "password", sv)); err != nil {
-		if !fortiAPIPatch(o["password"]) {
-			return fmt.Errorf("error reading password: %v", err)
 		}
 	}
 
@@ -1459,6 +1486,11 @@ func getObjectSystemsdwanHealthCheck(d *schema.ResourceData, sv string) (*map[st
 		} else if t != nil {
 			obj["members"] = t
 		}
+	} else if d.HasChange("members") {
+		old, new := d.GetChange("members")
+		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
+			obj["members"] = make([]struct{}, 0)
+		}
 	}
 
 	if v, ok := d.GetOk("name"); ok {
@@ -1575,6 +1607,11 @@ func getObjectSystemsdwanHealthCheck(d *schema.ResourceData, sv string) (*map[st
 			return &obj, err
 		} else if t != nil {
 			obj["sla"] = t
+		}
+	} else if d.HasChange("sla") {
+		old, new := d.GetChange("sla")
+		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
+			obj["sla"] = make([]struct{}, 0)
 		}
 	}
 

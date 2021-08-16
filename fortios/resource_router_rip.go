@@ -1,8 +1,8 @@
-// Copyright 2020 Fortinet, Inc. All rights reserved.
-// Author: Frank Shen (@frankshen01), Hongbin Lu (@fgtdev-hblu)
-// Documentation:
-// Frank Shen (@frankshen01), Hongbin Lu (@fgtdev-hblu),
-// Xing Li (@lix-fortinet), Yue Wang (@yuew-ftnt), Yuffie Zhu (@yuffiezhu)
+// Inspired by Official Fortinet Provider https://github.com/fortinetdev/terraform-provider-fortios
+// Shout out to: Frank Shen (@frankshen01), Hongbin Lu (@fgtdev-hblu)
+// Generated from template using FortiOS v7.0.1 schema
+// Template Authors:
+// Justin Roberts (@poroping)
 
 // Description: Configure RIP.
 
@@ -12,7 +12,6 @@ import (
 	"fmt"
 	"log"
 	"strconv"
-	"strings"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
@@ -20,7 +19,7 @@ import (
 
 func resourceRouterRip() *schema.Resource {
 	return &schema.Resource{
-		Create: resourceRouterRipUpdate,
+		Create: resourceRouterRipCreate,
 		Read:   resourceRouterRipRead,
 		Update: resourceRouterRipUpdate,
 		Delete: resourceRouterRipDelete,
@@ -31,319 +30,433 @@ func resourceRouterRip() *schema.Resource {
 
 		Schema: map[string]*schema.Schema{
 			"vdomparam": {
-				Type:     schema.TypeString,
+				Type:        schema.TypeString,
+				Description: "Specifies the vdom to which the resource will be applied when the FortiGate unit is running in VDOM mode. Only one vdom can be specified. If you want to inherit the vdom configuration of the provider, please do not set this parameter.",
+				Optional:    true,
+				ForceNew:    true,
+			},
+			"batchid": {
+				Type:        schema.TypeInt,
+				Description: "Associate with batch. From 6.4.x+. Currently a WIP and broken.",
+				Optional:    true,
+				Default:     0,
+			},
+			"dynamic_sort_table": {
+				Type:     schema.TypeBool,
 				Optional: true,
-				ForceNew: true,
+				Default:  false,
 			},
 			"default_information_originate": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
+				Type:         schema.TypeString,
+				ValidateFunc: fortiValidateEnableDisable(),
+
+				Description: "Enable/disable generation of default route.",
+				Optional:    true,
+				Computed:    true,
 			},
 			"default_metric": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 16),
-				Optional:     true,
-				Computed:     true,
-			},
-			"max_out_metric": {
-				Type:         schema.TypeInt,
-				ValidateFunc: validation.IntBetween(0, 15),
-				Optional:     true,
-				Computed:     true,
-			},
-			"recv_buffer_size": {
-				Type:     schema.TypeInt,
-				Optional: true,
-				Computed: true,
+
+				Description: "Default metric.",
+				Optional:    true,
+				Computed:    true,
 			},
 			"distance": {
-				Type:     schema.TypeList,
-				Optional: true,
+				Type:        schema.TypeList,
+				Description: "distance",
+				Optional:    true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": {
-							Type:     schema.TypeInt,
-							Optional: true,
-							Computed: true,
-						},
-						"prefix": {
-							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
+						"access_list": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringLenBetween(0, 35),
+
+							Description: "Access list for route destination.",
+							Optional:    true,
+							Computed:    true,
 						},
 						"distance": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 255),
-							Optional:     true,
-							Computed:     true,
+
+							Description: "Distance (1 - 255).",
+							Optional:    true,
+							Computed:    true,
 						},
-						"access_list": {
+						"id": {
+							Type: schema.TypeInt,
+
+							Description: "Distance ID.",
+							Optional:    true,
+							Computed:    true,
+						},
+						"prefix": {
 							Type:         schema.TypeString,
-							ValidateFunc: validation.StringLenBetween(0, 35),
-							Optional:     true,
-							Computed:     true,
+							ValidateFunc: fortiValidateIPv4ClassnetAny,
+
+							Description: "Distance prefix.",
+							Optional:    true,
+							Computed:    true,
 						},
 					},
 				},
 			},
 			"distribute_list": {
-				Type:     schema.TypeList,
-				Optional: true,
+				Type:        schema.TypeList,
+				Description: "Distribute list.",
+				Optional:    true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": {
-							Type:     schema.TypeInt,
-							Optional: true,
-							Computed: true,
-						},
-						"status": {
-							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
-						},
 						"direction": {
-							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
-						},
-						"listname": {
 							Type:         schema.TypeString,
-							ValidateFunc: validation.StringLenBetween(0, 35),
-							Optional:     true,
-							Computed:     true,
+							ValidateFunc: fortiValidateEnum([]string{"in", "out"}),
+
+							Description: "Distribute list direction.",
+							Optional:    true,
+							Computed:    true,
+						},
+						"id": {
+							Type: schema.TypeInt,
+
+							Description: "Distribute list ID.",
+							Optional:    true,
+							Computed:    true,
 						},
 						"interface": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 15),
-							Optional:     true,
-							Computed:     true,
+
+							Description: "Distribute list interface name.",
+							Optional:    true,
+							Computed:    true,
+						},
+						"listname": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringLenBetween(0, 35),
+
+							Description: "Distribute access/prefix list name.",
+							Optional:    true,
+							Computed:    true,
+						},
+						"status": {
+							Type:         schema.TypeString,
+							ValidateFunc: fortiValidateEnableDisable(),
+
+							Description: "status",
+							Optional:    true,
+							Computed:    true,
 						},
 					},
 				},
 			},
+			"garbage_timer": {
+				Type:         schema.TypeInt,
+				ValidateFunc: validation.IntBetween(5, 2147483647),
+
+				Description: "Garbage timer in seconds.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"interface": {
+				Type:        schema.TypeList,
+				Description: "RIP interface configuration.",
+				Optional:    true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"auth_keychain": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringLenBetween(0, 35),
+
+							Description: "Authentication key-chain name.",
+							Optional:    true,
+							Computed:    true,
+						},
+						"auth_mode": {
+							Type:         schema.TypeString,
+							ValidateFunc: fortiValidateEnum([]string{"none", "text", "md5"}),
+
+							Description: "Authentication mode.",
+							Optional:    true,
+							Computed:    true,
+						},
+						"auth_string": {
+							Type: schema.TypeString,
+
+							Description: "Authentication string/password.",
+							Optional:    true,
+							Computed:    true,
+							Sensitive:   true,
+						},
+						"flags": {
+							Type:         schema.TypeInt,
+							ValidateFunc: validation.IntBetween(0, 255),
+
+							Description: "flags",
+							Optional:    true,
+							Computed:    true,
+						},
+						"name": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringLenBetween(0, 35),
+
+							Description: "Interface name.",
+							Optional:    true,
+							Computed:    true,
+						},
+						"receive_version": {
+							Type: schema.TypeString,
+
+							DiffSuppressFunc: diffFakeListEqual,
+							Description:      "Receive version.",
+							Optional:         true,
+							Computed:         true,
+						},
+						"send_version": {
+							Type: schema.TypeString,
+
+							DiffSuppressFunc: diffFakeListEqual,
+							Description:      "Send version.",
+							Optional:         true,
+							Computed:         true,
+						},
+						"send_version2_broadcast": {
+							Type:         schema.TypeString,
+							ValidateFunc: fortiValidateEnableDisable(),
+
+							Description: "Enable/disable broadcast version 1 compatible packets.",
+							Optional:    true,
+							Computed:    true,
+						},
+						"split_horizon": {
+							Type:         schema.TypeString,
+							ValidateFunc: fortiValidateEnum([]string{"poisoned", "regular"}),
+
+							Description: "Enable/disable split horizon.",
+							Optional:    true,
+							Computed:    true,
+						},
+						"split_horizon_status": {
+							Type:         schema.TypeString,
+							ValidateFunc: fortiValidateEnableDisable(),
+
+							Description: "Enable/disable split horizon.",
+							Optional:    true,
+							Computed:    true,
+						},
+					},
+				},
+			},
+			"max_out_metric": {
+				Type:         schema.TypeInt,
+				ValidateFunc: validation.IntBetween(0, 15),
+
+				Description: "Maximum metric allowed to output(0 means 'not set').",
+				Optional:    true,
+				Computed:    true,
+			},
 			"neighbor": {
-				Type:     schema.TypeList,
-				Optional: true,
+				Type:        schema.TypeList,
+				Description: "neighbor",
+				Optional:    true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"id": {
-							Type:     schema.TypeInt,
-							Optional: true,
-							Computed: true,
+							Type: schema.TypeInt,
+
+							Description: "Neighbor entry ID.",
+							Optional:    true,
+							Computed:    true,
 						},
 						"ip": {
-							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
+							Type:         schema.TypeString,
+							ValidateFunc: validation.IsIPv4Address,
+
+							Description: "IP address.",
+							Optional:    true,
+							Computed:    true,
 						},
 					},
 				},
 			},
 			"network": {
-				Type:     schema.TypeList,
-				Optional: true,
+				Type:        schema.TypeList,
+				Description: "network",
+				Optional:    true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"id": {
-							Type:     schema.TypeInt,
-							Optional: true,
-							Computed: true,
+							Type: schema.TypeInt,
+
+							Description: "Network entry ID.",
+							Optional:    true,
+							Computed:    true,
 						},
 						"prefix": {
-							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
+							Type:         schema.TypeString,
+							ValidateFunc: fortiValidateIPv4Classnet,
+
+							Description: "Network prefix.",
+							Optional:    true,
+							Computed:    true,
 						},
 					},
 				},
 			},
 			"offset_list": {
-				Type:     schema.TypeList,
-				Optional: true,
+				Type:        schema.TypeList,
+				Description: "Offset list.",
+				Optional:    true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"id": {
-							Type:     schema.TypeInt,
-							Optional: true,
-							Computed: true,
-						},
-						"status": {
-							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
-						},
-						"direction": {
-							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
-						},
 						"access_list": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
-							Optional:     true,
-							Computed:     true,
+
+							Description: "Access list name.",
+							Optional:    true,
+							Computed:    true,
 						},
-						"offset": {
-							Type:         schema.TypeInt,
-							ValidateFunc: validation.IntBetween(1, 16),
-							Optional:     true,
-							Computed:     true,
+						"direction": {
+							Type:         schema.TypeString,
+							ValidateFunc: fortiValidateEnum([]string{"in", "out"}),
+
+							Description: "Offset list direction.",
+							Optional:    true,
+							Computed:    true,
+						},
+						"id": {
+							Type: schema.TypeInt,
+
+							Description: "Offset-list ID.",
+							Optional:    true,
+							Computed:    true,
 						},
 						"interface": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 15),
-							Optional:     true,
-							Computed:     true,
+
+							Description: "Interface name.",
+							Optional:    true,
+							Computed:    true,
+						},
+						"offset": {
+							Type:         schema.TypeInt,
+							ValidateFunc: validation.IntBetween(1, 16),
+
+							Description: "offset",
+							Optional:    true,
+							Computed:    true,
+						},
+						"status": {
+							Type:         schema.TypeString,
+							ValidateFunc: fortiValidateEnableDisable(),
+
+							Description: "status",
+							Optional:    true,
+							Computed:    true,
 						},
 					},
 				},
 			},
 			"passive_interface": {
-				Type:     schema.TypeList,
-				Optional: true,
+				Type:        schema.TypeList,
+				Description: "Passive interface configuration.",
+				Optional:    true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"name": {
 							Type:         schema.TypeString,
-							ValidateFunc: validation.StringLenBetween(0, 64),
-							Optional:     true,
-							Computed:     true,
+							ValidateFunc: validation.StringLenBetween(0, 79),
+
+							Description: "Passive interface name.",
+							Optional:    true,
+							Computed:    true,
 						},
 					},
 				},
 			},
+			"recv_buffer_size": {
+				Type:         schema.TypeInt,
+				ValidateFunc: validation.IntBetween(8129, 2147483647),
+
+				Description: "Receiving buffer size.",
+				Optional:    true,
+				Computed:    true,
+			},
 			"redistribute": {
-				Type:     schema.TypeList,
-				Optional: true,
+				Type:        schema.TypeList,
+				Description: "Redistribute configuration.",
+				Optional:    true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						"name": {
-							Type:         schema.TypeString,
-							ValidateFunc: validation.StringLenBetween(0, 35),
-							Optional:     true,
-							Computed:     true,
-						},
-						"status": {
-							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
-						},
 						"metric": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 16),
-							Optional:     true,
-							Computed:     true,
+
+							Description: "Redistribute metric setting.",
+							Optional:    true,
+							Computed:    true,
+						},
+						"name": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringLenBetween(0, 35),
+
+							Description: "Redistribute name.",
+							Optional:    true,
+							Computed:    true,
 						},
 						"routemap": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
-							Optional:     true,
-							Computed:     true,
+
+							Description: "Route map name.",
+							Optional:    true,
+							Computed:    true,
+						},
+						"status": {
+							Type:         schema.TypeString,
+							ValidateFunc: fortiValidateEnableDisable(),
+
+							Description: "status",
+							Optional:    true,
+							Computed:    true,
 						},
 					},
 				},
-			},
-			"update_timer": {
-				Type:     schema.TypeInt,
-				Optional: true,
-				Computed: true,
 			},
 			"timeout_timer": {
-				Type:     schema.TypeInt,
-				Optional: true,
-				Computed: true,
+				Type:         schema.TypeInt,
+				ValidateFunc: validation.IntBetween(5, 2147483647),
+
+				Description: "Timeout timer in seconds.",
+				Optional:    true,
+				Computed:    true,
 			},
-			"garbage_timer": {
-				Type:     schema.TypeInt,
-				Optional: true,
-				Computed: true,
+			"update_timer": {
+				Type:         schema.TypeInt,
+				ValidateFunc: validation.IntBetween(1, 2147483647),
+
+				Description: "Update timer in seconds.",
+				Optional:    true,
+				Computed:    true,
 			},
 			"version": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-			},
-			"interface": {
-				Type:     schema.TypeList,
-				Optional: true,
-				Elem: &schema.Resource{
-					Schema: map[string]*schema.Schema{
-						"name": {
-							Type:         schema.TypeString,
-							ValidateFunc: validation.StringLenBetween(0, 35),
-							Optional:     true,
-							Computed:     true,
-						},
-						"auth_keychain": {
-							Type:         schema.TypeString,
-							ValidateFunc: validation.StringLenBetween(0, 35),
-							Optional:     true,
-							Computed:     true,
-						},
-						"auth_mode": {
-							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
-						},
-						"auth_string": {
-							Type:         schema.TypeString,
-							ValidateFunc: validation.StringLenBetween(0, 16),
-							Optional:     true,
-							Sensitive:    true,
-						},
-						"receive_version": {
-							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
-						},
-						"send_version": {
-							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
-						},
-						"send_version2_broadcast": {
-							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
-						},
-						"split_horizon_status": {
-							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
-						},
-						"split_horizon": {
-							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
-						},
-						"flags": {
-							Type:         schema.TypeInt,
-							ValidateFunc: validation.IntBetween(0, 255),
-							Optional:     true,
-							Computed:     true,
-						},
-					},
-				},
-			},
-			"dynamic_sort_subtable": {
-				Type:     schema.TypeBool,
-				Optional: true,
-				Default:  false,
-			},
-			"batchid": {
-				Type:     schema.TypeInt,
-				Optional: true,
-				Default:  0,
+				Type:         schema.TypeString,
+				ValidateFunc: fortiValidateEnum([]string{"1", "2"}),
+
+				Description: "RIP version.",
+				Optional:    true,
+				Computed:    true,
 			},
 		},
 	}
 }
 
-func resourceRouterRipUpdate(d *schema.ResourceData, m interface{}) error {
-	mkey := d.Id()
+func resourceRouterRipCreate(d *schema.ResourceData, m interface{}) error {
 	c := m.(*FortiClient).Client
 	c.Retries = 1
+	urlparams := make(map[string][]string)
 
 	vdomparam := ""
 
@@ -361,9 +474,49 @@ func resourceRouterRipUpdate(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
+	obj, err := getObjectRouterRip(d, c.Fv)
+	if err != nil {
+		return fmt.Errorf("error creating RouterRip resource while getting object: %v", err)
+	}
+
+	o, err := c.UpdateRouterRip(obj, "RouterRip", vdomparam, urlparams, batchid)
+
+	if err != nil {
+		return fmt.Errorf("error creating RouterRip resource: %v", err)
+	}
+
+	if o["mkey"] != nil && o["mkey"] != "" {
+
+	} else {
+		d.SetId("RouterRip")
+	}
+
+	return resourceRouterRipRead(d, m)
+}
+
+func resourceRouterRipUpdate(d *schema.ResourceData, m interface{}) error {
+	mkey := d.Id()
+	c := m.(*FortiClient).Client
+	c.Retries = 1
 	urlparams := make(map[string][]string)
 
-	obj, err := getObjectRouterRip(d, false, c.Fv)
+	vdomparam := ""
+
+	if v, ok := d.GetOk("vdomparam"); ok {
+		if s, ok := v.(string); ok {
+			vdomparam = s
+		}
+	}
+
+	batchid := 0
+
+	if v, ok := d.GetOk("batchid"); ok {
+		if i, ok := v.(int); ok {
+			batchid = i
+		}
+	}
+
+	obj, err := getObjectRouterRip(d, c.Fv)
 	if err != nil {
 		return fmt.Errorf("error updating RouterRip resource while getting object: %v", err)
 	}
@@ -375,7 +528,7 @@ func resourceRouterRipUpdate(d *schema.ResourceData, m interface{}) error {
 
 	log.Printf(strconv.Itoa(c.Retries))
 	if o["mkey"] != nil && o["mkey"] != "" {
-		d.SetId(o["mkey"].(string))
+
 	} else {
 		d.SetId("RouterRip")
 	}
@@ -385,6 +538,7 @@ func resourceRouterRipUpdate(d *schema.ResourceData, m interface{}) error {
 
 func resourceRouterRipDelete(d *schema.ResourceData, m interface{}) error {
 	mkey := d.Id()
+
 	c := m.(*FortiClient).Client
 	c.Retries = 1
 
@@ -404,17 +558,9 @@ func resourceRouterRipDelete(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	urlparams := make(map[string][]string)
-
-	obj, err := getObjectRouterRip(d, true, c.Fv)
-
+	err := c.DeleteRouterRip(mkey, vdomparam, batchid)
 	if err != nil {
-		return fmt.Errorf("error updating RouterRip resource while getting object: %v", err)
-	}
-
-	_, err = c.UpdateRouterRip(obj, mkey, vdomparam, urlparams, batchid)
-	if err != nil {
-		return fmt.Errorf("error clearing RouterRip resource: %v", err)
+		return fmt.Errorf("error deleting RouterRip resource: %v", err)
 	}
 
 	d.SetId("")
@@ -427,6 +573,7 @@ func resourceRouterRipRead(d *schema.ResourceData, m interface{}) error {
 
 	c := m.(*FortiClient).Client
 	c.Retries = 1
+	urlparams := make(map[string][]string)
 
 	vdomparam := ""
 
@@ -443,8 +590,6 @@ func resourceRouterRipRead(d *schema.ResourceData, m interface{}) error {
 			batchid = i
 		}
 	}
-
-	urlparams := make(map[string][]string)
 
 	o, err := c.ReadRouterRip(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
@@ -472,14 +617,6 @@ func flattenRouterRipDefaultMetric(v interface{}, d *schema.ResourceData, pre st
 	return v
 }
 
-func flattenRouterRipMaxOutMetric(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
-	return v
-}
-
-func flattenRouterRipRecvBufferSize(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
-	return v
-}
-
 func flattenRouterRipDistance(v interface{}, d *schema.ResourceData, pre string, sv string) []map[string]interface{} {
 	if v == nil {
 		return nil
@@ -498,6 +635,17 @@ func flattenRouterRipDistance(v interface{}, d *schema.ResourceData, pre string,
 		i := r.(map[string]interface{})
 
 		pre_append := "" // table
+		pre_append = pre + "." + strconv.Itoa(con) + "." + "access_list"
+		if _, ok := i["access-list"]; ok {
+
+			tmp["access_list"] = flattenRouterRipDistanceAccessList(i["access-list"], d, pre_append, sv)
+		}
+
+		pre_append = pre + "." + strconv.Itoa(con) + "." + "distance"
+		if _, ok := i["distance"]; ok {
+
+			tmp["distance"] = flattenRouterRipDistanceDistance(i["distance"], d, pre_append, sv)
+		}
 
 		pre_append = pre + "." + strconv.Itoa(con) + "." + "id"
 		if _, ok := i["id"]; ok {
@@ -511,18 +659,6 @@ func flattenRouterRipDistance(v interface{}, d *schema.ResourceData, pre string,
 			tmp["prefix"] = flattenRouterRipDistancePrefix(i["prefix"], d, pre_append, sv)
 		}
 
-		pre_append = pre + "." + strconv.Itoa(con) + "." + "distance"
-		if _, ok := i["distance"]; ok {
-
-			tmp["distance"] = flattenRouterRipDistanceDistance(i["distance"], d, pre_append, sv)
-		}
-
-		pre_append = pre + "." + strconv.Itoa(con) + "." + "access_list"
-		if _, ok := i["access-list"]; ok {
-
-			tmp["access_list"] = flattenRouterRipDistanceAccessList(i["access-list"], d, pre_append, sv)
-		}
-
 		result = append(result, tmp)
 
 		con += 1
@@ -530,6 +666,14 @@ func flattenRouterRipDistance(v interface{}, d *schema.ResourceData, pre string,
 
 	dynamic_sort_subtable(result, "id", d)
 	return result
+}
+
+func flattenRouterRipDistanceAccessList(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
+func flattenRouterRipDistanceDistance(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
 }
 
 func flattenRouterRipDistanceId(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
@@ -543,15 +687,6 @@ func flattenRouterRipDistancePrefix(v interface{}, d *schema.ResourceData, pre s
 			return v
 		}
 	}
-
-	return v
-}
-
-func flattenRouterRipDistanceDistance(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
-	return v
-}
-
-func flattenRouterRipDistanceAccessList(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
 	return v
 }
 
@@ -573,6 +708,11 @@ func flattenRouterRipDistributeList(v interface{}, d *schema.ResourceData, pre s
 		i := r.(map[string]interface{})
 
 		pre_append := "" // table
+		pre_append = pre + "." + strconv.Itoa(con) + "." + "direction"
+		if _, ok := i["direction"]; ok {
+
+			tmp["direction"] = flattenRouterRipDistributeListDirection(i["direction"], d, pre_append, sv)
+		}
 
 		pre_append = pre + "." + strconv.Itoa(con) + "." + "id"
 		if _, ok := i["id"]; ok {
@@ -580,16 +720,10 @@ func flattenRouterRipDistributeList(v interface{}, d *schema.ResourceData, pre s
 			tmp["id"] = flattenRouterRipDistributeListId(i["id"], d, pre_append, sv)
 		}
 
-		pre_append = pre + "." + strconv.Itoa(con) + "." + "status"
-		if _, ok := i["status"]; ok {
+		pre_append = pre + "." + strconv.Itoa(con) + "." + "interface"
+		if _, ok := i["interface"]; ok {
 
-			tmp["status"] = flattenRouterRipDistributeListStatus(i["status"], d, pre_append, sv)
-		}
-
-		pre_append = pre + "." + strconv.Itoa(con) + "." + "direction"
-		if _, ok := i["direction"]; ok {
-
-			tmp["direction"] = flattenRouterRipDistributeListDirection(i["direction"], d, pre_append, sv)
+			tmp["interface"] = flattenRouterRipDistributeListInterface(i["interface"], d, pre_append, sv)
 		}
 
 		pre_append = pre + "." + strconv.Itoa(con) + "." + "listname"
@@ -598,10 +732,10 @@ func flattenRouterRipDistributeList(v interface{}, d *schema.ResourceData, pre s
 			tmp["listname"] = flattenRouterRipDistributeListListname(i["listname"], d, pre_append, sv)
 		}
 
-		pre_append = pre + "." + strconv.Itoa(con) + "." + "interface"
-		if _, ok := i["interface"]; ok {
+		pre_append = pre + "." + strconv.Itoa(con) + "." + "status"
+		if _, ok := i["status"]; ok {
 
-			tmp["interface"] = flattenRouterRipDistributeListInterface(i["interface"], d, pre_append, sv)
+			tmp["status"] = flattenRouterRipDistributeListStatus(i["status"], d, pre_append, sv)
 		}
 
 		result = append(result, tmp)
@@ -613,15 +747,15 @@ func flattenRouterRipDistributeList(v interface{}, d *schema.ResourceData, pre s
 	return result
 }
 
+func flattenRouterRipDistributeListDirection(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
 func flattenRouterRipDistributeListId(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
 	return v
 }
 
-func flattenRouterRipDistributeListStatus(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
-	return v
-}
-
-func flattenRouterRipDistributeListDirection(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+func flattenRouterRipDistributeListInterface(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
 	return v
 }
 
@@ -629,7 +763,132 @@ func flattenRouterRipDistributeListListname(v interface{}, d *schema.ResourceDat
 	return v
 }
 
-func flattenRouterRipDistributeListInterface(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+func flattenRouterRipDistributeListStatus(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
+func flattenRouterRipGarbageTimer(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
+func flattenRouterRipInterface(v interface{}, d *schema.ResourceData, pre string, sv string) []map[string]interface{} {
+	if v == nil {
+		return nil
+	}
+
+	l := v.([]interface{})
+	if len(l) == 0 || l[0] == nil {
+		return nil
+	}
+
+	result := make([]map[string]interface{}, 0, len(l))
+
+	con := 0
+	for _, r := range l {
+		tmp := make(map[string]interface{})
+		i := r.(map[string]interface{})
+
+		pre_append := "" // table
+		pre_append = pre + "." + strconv.Itoa(con) + "." + "auth_keychain"
+		if _, ok := i["auth-keychain"]; ok {
+
+			tmp["auth_keychain"] = flattenRouterRipInterfaceAuthKeychain(i["auth-keychain"], d, pre_append, sv)
+		}
+
+		pre_append = pre + "." + strconv.Itoa(con) + "." + "auth_mode"
+		if _, ok := i["auth-mode"]; ok {
+
+			tmp["auth_mode"] = flattenRouterRipInterfaceAuthMode(i["auth-mode"], d, pre_append, sv)
+		}
+
+		pre_append = pre + "." + strconv.Itoa(con) + "." + "flags"
+		if _, ok := i["flags"]; ok {
+
+			tmp["flags"] = flattenRouterRipInterfaceFlags(i["flags"], d, pre_append, sv)
+		}
+
+		pre_append = pre + "." + strconv.Itoa(con) + "." + "name"
+		if _, ok := i["name"]; ok {
+
+			tmp["name"] = flattenRouterRipInterfaceName(i["name"], d, pre_append, sv)
+		}
+
+		pre_append = pre + "." + strconv.Itoa(con) + "." + "receive_version"
+		if _, ok := i["receive-version"]; ok {
+
+			tmp["receive_version"] = flattenRouterRipInterfaceReceiveVersion(i["receive-version"], d, pre_append, sv)
+		}
+
+		pre_append = pre + "." + strconv.Itoa(con) + "." + "send_version"
+		if _, ok := i["send-version"]; ok {
+
+			tmp["send_version"] = flattenRouterRipInterfaceSendVersion(i["send-version"], d, pre_append, sv)
+		}
+
+		pre_append = pre + "." + strconv.Itoa(con) + "." + "send_version2_broadcast"
+		if _, ok := i["send-version2-broadcast"]; ok {
+
+			tmp["send_version2_broadcast"] = flattenRouterRipInterfaceSendVersion2Broadcast(i["send-version2-broadcast"], d, pre_append, sv)
+		}
+
+		pre_append = pre + "." + strconv.Itoa(con) + "." + "split_horizon"
+		if _, ok := i["split-horizon"]; ok {
+
+			tmp["split_horizon"] = flattenRouterRipInterfaceSplitHorizon(i["split-horizon"], d, pre_append, sv)
+		}
+
+		pre_append = pre + "." + strconv.Itoa(con) + "." + "split_horizon_status"
+		if _, ok := i["split-horizon-status"]; ok {
+
+			tmp["split_horizon_status"] = flattenRouterRipInterfaceSplitHorizonStatus(i["split-horizon-status"], d, pre_append, sv)
+		}
+
+		result = append(result, tmp)
+
+		con += 1
+	}
+
+	dynamic_sort_subtable(result, "name", d)
+	return result
+}
+
+func flattenRouterRipInterfaceAuthKeychain(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
+func flattenRouterRipInterfaceAuthMode(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
+func flattenRouterRipInterfaceFlags(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
+func flattenRouterRipInterfaceName(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
+func flattenRouterRipInterfaceReceiveVersion(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
+func flattenRouterRipInterfaceSendVersion(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
+func flattenRouterRipInterfaceSendVersion2Broadcast(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
+func flattenRouterRipInterfaceSplitHorizon(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
+func flattenRouterRipInterfaceSplitHorizonStatus(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
+func flattenRouterRipMaxOutMetric(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
 	return v
 }
 
@@ -651,7 +910,6 @@ func flattenRouterRipNeighbor(v interface{}, d *schema.ResourceData, pre string,
 		i := r.(map[string]interface{})
 
 		pre_append := "" // table
-
 		pre_append = pre + "." + strconv.Itoa(con) + "." + "id"
 		if _, ok := i["id"]; ok {
 
@@ -699,7 +957,6 @@ func flattenRouterRipNetwork(v interface{}, d *schema.ResourceData, pre string, 
 		i := r.(map[string]interface{})
 
 		pre_append := "" // table
-
 		pre_append = pre + "." + strconv.Itoa(con) + "." + "id"
 		if _, ok := i["id"]; ok {
 
@@ -732,7 +989,6 @@ func flattenRouterRipNetworkPrefix(v interface{}, d *schema.ResourceData, pre st
 			return v
 		}
 	}
-
 	return v
 }
 
@@ -754,17 +1010,10 @@ func flattenRouterRipOffsetList(v interface{}, d *schema.ResourceData, pre strin
 		i := r.(map[string]interface{})
 
 		pre_append := "" // table
+		pre_append = pre + "." + strconv.Itoa(con) + "." + "access_list"
+		if _, ok := i["access-list"]; ok {
 
-		pre_append = pre + "." + strconv.Itoa(con) + "." + "id"
-		if _, ok := i["id"]; ok {
-
-			tmp["id"] = flattenRouterRipOffsetListId(i["id"], d, pre_append, sv)
-		}
-
-		pre_append = pre + "." + strconv.Itoa(con) + "." + "status"
-		if _, ok := i["status"]; ok {
-
-			tmp["status"] = flattenRouterRipOffsetListStatus(i["status"], d, pre_append, sv)
+			tmp["access_list"] = flattenRouterRipOffsetListAccessList(i["access-list"], d, pre_append, sv)
 		}
 
 		pre_append = pre + "." + strconv.Itoa(con) + "." + "direction"
@@ -773,10 +1022,16 @@ func flattenRouterRipOffsetList(v interface{}, d *schema.ResourceData, pre strin
 			tmp["direction"] = flattenRouterRipOffsetListDirection(i["direction"], d, pre_append, sv)
 		}
 
-		pre_append = pre + "." + strconv.Itoa(con) + "." + "access_list"
-		if _, ok := i["access-list"]; ok {
+		pre_append = pre + "." + strconv.Itoa(con) + "." + "id"
+		if _, ok := i["id"]; ok {
 
-			tmp["access_list"] = flattenRouterRipOffsetListAccessList(i["access-list"], d, pre_append, sv)
+			tmp["id"] = flattenRouterRipOffsetListId(i["id"], d, pre_append, sv)
+		}
+
+		pre_append = pre + "." + strconv.Itoa(con) + "." + "interface"
+		if _, ok := i["interface"]; ok {
+
+			tmp["interface"] = flattenRouterRipOffsetListInterface(i["interface"], d, pre_append, sv)
 		}
 
 		pre_append = pre + "." + strconv.Itoa(con) + "." + "offset"
@@ -785,10 +1040,10 @@ func flattenRouterRipOffsetList(v interface{}, d *schema.ResourceData, pre strin
 			tmp["offset"] = flattenRouterRipOffsetListOffset(i["offset"], d, pre_append, sv)
 		}
 
-		pre_append = pre + "." + strconv.Itoa(con) + "." + "interface"
-		if _, ok := i["interface"]; ok {
+		pre_append = pre + "." + strconv.Itoa(con) + "." + "status"
+		if _, ok := i["status"]; ok {
 
-			tmp["interface"] = flattenRouterRipOffsetListInterface(i["interface"], d, pre_append, sv)
+			tmp["status"] = flattenRouterRipOffsetListStatus(i["status"], d, pre_append, sv)
 		}
 
 		result = append(result, tmp)
@@ -800,11 +1055,7 @@ func flattenRouterRipOffsetList(v interface{}, d *schema.ResourceData, pre strin
 	return result
 }
 
-func flattenRouterRipOffsetListId(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
-	return v
-}
-
-func flattenRouterRipOffsetListStatus(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+func flattenRouterRipOffsetListAccessList(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
 	return v
 }
 
@@ -812,7 +1063,11 @@ func flattenRouterRipOffsetListDirection(v interface{}, d *schema.ResourceData, 
 	return v
 }
 
-func flattenRouterRipOffsetListAccessList(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+func flattenRouterRipOffsetListId(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
+func flattenRouterRipOffsetListInterface(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
 	return v
 }
 
@@ -820,7 +1075,7 @@ func flattenRouterRipOffsetListOffset(v interface{}, d *schema.ResourceData, pre
 	return v
 }
 
-func flattenRouterRipOffsetListInterface(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+func flattenRouterRipOffsetListStatus(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
 	return v
 }
 
@@ -842,7 +1097,6 @@ func flattenRouterRipPassiveInterface(v interface{}, d *schema.ResourceData, pre
 		i := r.(map[string]interface{})
 
 		pre_append := "" // table
-
 		pre_append = pre + "." + strconv.Itoa(con) + "." + "name"
 		if _, ok := i["name"]; ok {
 
@@ -859,6 +1113,10 @@ func flattenRouterRipPassiveInterface(v interface{}, d *schema.ResourceData, pre
 }
 
 func flattenRouterRipPassiveInterfaceName(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
+func flattenRouterRipRecvBufferSize(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
 	return v
 }
 
@@ -880,23 +1138,16 @@ func flattenRouterRipRedistribute(v interface{}, d *schema.ResourceData, pre str
 		i := r.(map[string]interface{})
 
 		pre_append := "" // table
+		pre_append = pre + "." + strconv.Itoa(con) + "." + "metric"
+		if _, ok := i["metric"]; ok {
+
+			tmp["metric"] = flattenRouterRipRedistributeMetric(i["metric"], d, pre_append, sv)
+		}
 
 		pre_append = pre + "." + strconv.Itoa(con) + "." + "name"
 		if _, ok := i["name"]; ok {
 
 			tmp["name"] = flattenRouterRipRedistributeName(i["name"], d, pre_append, sv)
-		}
-
-		pre_append = pre + "." + strconv.Itoa(con) + "." + "status"
-		if _, ok := i["status"]; ok {
-
-			tmp["status"] = flattenRouterRipRedistributeStatus(i["status"], d, pre_append, sv)
-		}
-
-		pre_append = pre + "." + strconv.Itoa(con) + "." + "metric"
-		if _, ok := i["metric"]; ok {
-
-			tmp["metric"] = flattenRouterRipRedistributeMetric(i["metric"], d, pre_append, sv)
 		}
 
 		pre_append = pre + "." + strconv.Itoa(con) + "." + "routemap"
@@ -905,6 +1156,12 @@ func flattenRouterRipRedistribute(v interface{}, d *schema.ResourceData, pre str
 			tmp["routemap"] = flattenRouterRipRedistributeRoutemap(i["routemap"], d, pre_append, sv)
 		}
 
+		pre_append = pre + "." + strconv.Itoa(con) + "." + "status"
+		if _, ok := i["status"]; ok {
+
+			tmp["status"] = flattenRouterRipRedistributeStatus(i["status"], d, pre_append, sv)
+		}
+
 		result = append(result, tmp)
 
 		con += 1
@@ -914,15 +1171,11 @@ func flattenRouterRipRedistribute(v interface{}, d *schema.ResourceData, pre str
 	return result
 }
 
-func flattenRouterRipRedistributeName(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
-	return v
-}
-
-func flattenRouterRipRedistributeStatus(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
-	return v
-}
-
 func flattenRouterRipRedistributeMetric(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
+func flattenRouterRipRedistributeName(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
 	return v
 }
 
@@ -930,7 +1183,7 @@ func flattenRouterRipRedistributeRoutemap(v interface{}, d *schema.ResourceData,
 	return v
 }
 
-func flattenRouterRipUpdateTimer(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+func flattenRouterRipRedistributeStatus(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
 	return v
 }
 
@@ -938,143 +1191,11 @@ func flattenRouterRipTimeoutTimer(v interface{}, d *schema.ResourceData, pre str
 	return v
 }
 
-func flattenRouterRipGarbageTimer(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+func flattenRouterRipUpdateTimer(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
 	return v
 }
 
 func flattenRouterRipVersion(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
-	return v
-}
-
-func flattenRouterRipInterface(v interface{}, d *schema.ResourceData, pre string, sv string) []map[string]interface{} {
-	if v == nil {
-		return nil
-	}
-
-	l := v.([]interface{})
-	if len(l) == 0 || l[0] == nil {
-		return nil
-	}
-
-	result := make([]map[string]interface{}, 0, len(l))
-
-	con := 0
-	for _, r := range l {
-		tmp := make(map[string]interface{})
-		i := r.(map[string]interface{})
-
-		pre_append := "" // table
-
-		pre_append = pre + "." + strconv.Itoa(con) + "." + "name"
-		if _, ok := i["name"]; ok {
-
-			tmp["name"] = flattenRouterRipInterfaceName(i["name"], d, pre_append, sv)
-		}
-
-		pre_append = pre + "." + strconv.Itoa(con) + "." + "auth_keychain"
-		if _, ok := i["auth-keychain"]; ok {
-
-			tmp["auth_keychain"] = flattenRouterRipInterfaceAuthKeychain(i["auth-keychain"], d, pre_append, sv)
-		}
-
-		pre_append = pre + "." + strconv.Itoa(con) + "." + "auth_mode"
-		if _, ok := i["auth-mode"]; ok {
-
-			tmp["auth_mode"] = flattenRouterRipInterfaceAuthMode(i["auth-mode"], d, pre_append, sv)
-		}
-
-		pre_append = pre + "." + strconv.Itoa(con) + "." + "auth_string"
-		if _, ok := i["auth-string"]; ok {
-
-			tmp["auth_string"] = flattenRouterRipInterfaceAuthString(i["auth-string"], d, pre_append, sv)
-			c := d.Get(pre_append).(string)
-			if c != "" {
-				tmp["auth_string"] = c
-			}
-		}
-
-		pre_append = pre + "." + strconv.Itoa(con) + "." + "receive_version"
-		if _, ok := i["receive-version"]; ok {
-
-			tmp["receive_version"] = flattenRouterRipInterfaceReceiveVersion(i["receive-version"], d, pre_append, sv)
-		}
-
-		pre_append = pre + "." + strconv.Itoa(con) + "." + "send_version"
-		if _, ok := i["send-version"]; ok {
-
-			tmp["send_version"] = flattenRouterRipInterfaceSendVersion(i["send-version"], d, pre_append, sv)
-		}
-
-		pre_append = pre + "." + strconv.Itoa(con) + "." + "send_version2_broadcast"
-		if _, ok := i["send-version2-broadcast"]; ok {
-
-			tmp["send_version2_broadcast"] = flattenRouterRipInterfaceSendVersion2Broadcast(i["send-version2-broadcast"], d, pre_append, sv)
-		}
-
-		pre_append = pre + "." + strconv.Itoa(con) + "." + "split_horizon_status"
-		if _, ok := i["split-horizon-status"]; ok {
-
-			tmp["split_horizon_status"] = flattenRouterRipInterfaceSplitHorizonStatus(i["split-horizon-status"], d, pre_append, sv)
-		}
-
-		pre_append = pre + "." + strconv.Itoa(con) + "." + "split_horizon"
-		if _, ok := i["split-horizon"]; ok {
-
-			tmp["split_horizon"] = flattenRouterRipInterfaceSplitHorizon(i["split-horizon"], d, pre_append, sv)
-		}
-
-		pre_append = pre + "." + strconv.Itoa(con) + "." + "flags"
-		if _, ok := i["flags"]; ok {
-
-			tmp["flags"] = flattenRouterRipInterfaceFlags(i["flags"], d, pre_append, sv)
-		}
-
-		result = append(result, tmp)
-
-		con += 1
-	}
-
-	dynamic_sort_subtable(result, "name", d)
-	return result
-}
-
-func flattenRouterRipInterfaceName(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
-	return v
-}
-
-func flattenRouterRipInterfaceAuthKeychain(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
-	return v
-}
-
-func flattenRouterRipInterfaceAuthMode(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
-	return v
-}
-
-func flattenRouterRipInterfaceAuthString(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
-	return v
-}
-
-func flattenRouterRipInterfaceReceiveVersion(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
-	return v
-}
-
-func flattenRouterRipInterfaceSendVersion(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
-	return v
-}
-
-func flattenRouterRipInterfaceSendVersion2Broadcast(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
-	return v
-}
-
-func flattenRouterRipInterfaceSplitHorizonStatus(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
-	return v
-}
-
-func flattenRouterRipInterfaceSplitHorizon(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
-	return v
-}
-
-func flattenRouterRipInterfaceFlags(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
 	return v
 }
 
@@ -1090,18 +1211,6 @@ func refreshObjectRouterRip(d *schema.ResourceData, o map[string]interface{}, sv
 	if err = d.Set("default_metric", flattenRouterRipDefaultMetric(o["default-metric"], d, "default_metric", sv)); err != nil {
 		if !fortiAPIPatch(o["default-metric"]) {
 			return fmt.Errorf("error reading default_metric: %v", err)
-		}
-	}
-
-	if err = d.Set("max_out_metric", flattenRouterRipMaxOutMetric(o["max-out-metric"], d, "max_out_metric", sv)); err != nil {
-		if !fortiAPIPatch(o["max-out-metric"]) {
-			return fmt.Errorf("error reading max_out_metric: %v", err)
-		}
-	}
-
-	if err = d.Set("recv_buffer_size", flattenRouterRipRecvBufferSize(o["recv-buffer-size"], d, "recv_buffer_size", sv)); err != nil {
-		if !fortiAPIPatch(o["recv-buffer-size"]) {
-			return fmt.Errorf("error reading recv_buffer_size: %v", err)
 		}
 	}
 
@@ -1134,6 +1243,34 @@ func refreshObjectRouterRip(d *schema.ResourceData, o map[string]interface{}, sv
 					return fmt.Errorf("error reading distribute_list: %v", err)
 				}
 			}
+		}
+	}
+
+	if err = d.Set("garbage_timer", flattenRouterRipGarbageTimer(o["garbage-timer"], d, "garbage_timer", sv)); err != nil {
+		if !fortiAPIPatch(o["garbage-timer"]) {
+			return fmt.Errorf("error reading garbage_timer: %v", err)
+		}
+	}
+
+	if isImportTable() {
+		if err = d.Set("interface", flattenRouterRipInterface(o["interface"], d, "interface", sv)); err != nil {
+			if !fortiAPIPatch(o["interface"]) {
+				return fmt.Errorf("error reading interface: %v", err)
+			}
+		}
+	} else {
+		if _, ok := d.GetOk("interface"); ok {
+			if err = d.Set("interface", flattenRouterRipInterface(o["interface"], d, "interface", sv)); err != nil {
+				if !fortiAPIPatch(o["interface"]) {
+					return fmt.Errorf("error reading interface: %v", err)
+				}
+			}
+		}
+	}
+
+	if err = d.Set("max_out_metric", flattenRouterRipMaxOutMetric(o["max-out-metric"], d, "max_out_metric", sv)); err != nil {
+		if !fortiAPIPatch(o["max-out-metric"]) {
+			return fmt.Errorf("error reading max_out_metric: %v", err)
 		}
 	}
 
@@ -1201,6 +1338,12 @@ func refreshObjectRouterRip(d *schema.ResourceData, o map[string]interface{}, sv
 		}
 	}
 
+	if err = d.Set("recv_buffer_size", flattenRouterRipRecvBufferSize(o["recv-buffer-size"], d, "recv_buffer_size", sv)); err != nil {
+		if !fortiAPIPatch(o["recv-buffer-size"]) {
+			return fmt.Errorf("error reading recv_buffer_size: %v", err)
+		}
+	}
+
 	if isImportTable() {
 		if err = d.Set("redistribute", flattenRouterRipRedistribute(o["redistribute"], d, "redistribute", sv)); err != nil {
 			if !fortiAPIPatch(o["redistribute"]) {
@@ -1217,21 +1360,15 @@ func refreshObjectRouterRip(d *schema.ResourceData, o map[string]interface{}, sv
 		}
 	}
 
-	if err = d.Set("update_timer", flattenRouterRipUpdateTimer(o["update-timer"], d, "update_timer", sv)); err != nil {
-		if !fortiAPIPatch(o["update-timer"]) {
-			return fmt.Errorf("error reading update_timer: %v", err)
-		}
-	}
-
 	if err = d.Set("timeout_timer", flattenRouterRipTimeoutTimer(o["timeout-timer"], d, "timeout_timer", sv)); err != nil {
 		if !fortiAPIPatch(o["timeout-timer"]) {
 			return fmt.Errorf("error reading timeout_timer: %v", err)
 		}
 	}
 
-	if err = d.Set("garbage_timer", flattenRouterRipGarbageTimer(o["garbage-timer"], d, "garbage_timer", sv)); err != nil {
-		if !fortiAPIPatch(o["garbage-timer"]) {
-			return fmt.Errorf("error reading garbage_timer: %v", err)
+	if err = d.Set("update_timer", flattenRouterRipUpdateTimer(o["update-timer"], d, "update_timer", sv)); err != nil {
+		if !fortiAPIPatch(o["update-timer"]) {
+			return fmt.Errorf("error reading update_timer: %v", err)
 		}
 	}
 
@@ -1241,29 +1378,7 @@ func refreshObjectRouterRip(d *schema.ResourceData, o map[string]interface{}, sv
 		}
 	}
 
-	if isImportTable() {
-		if err = d.Set("interface", flattenRouterRipInterface(o["interface"], d, "interface", sv)); err != nil {
-			if !fortiAPIPatch(o["interface"]) {
-				return fmt.Errorf("error reading interface: %v", err)
-			}
-		}
-	} else {
-		if _, ok := d.GetOk("interface"); ok {
-			if err = d.Set("interface", flattenRouterRipInterface(o["interface"], d, "interface", sv)); err != nil {
-				if !fortiAPIPatch(o["interface"]) {
-					return fmt.Errorf("error reading interface: %v", err)
-				}
-			}
-		}
-	}
-
 	return nil
-}
-
-func flattenRouterRipFortiTestDebug(d *schema.ResourceData, fosdebugsn int, fosdebugbeg int, fosdebugend int) {
-	log.Printf(strconv.Itoa(fosdebugsn))
-	e := validation.IntBetween(fosdebugbeg, fosdebugend)
-	log.Printf("ER List: %v, %v", strings.Split("FortiOS Ver", " "), e)
 }
 
 func expandRouterRipDefaultInformationOriginate(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
@@ -1271,14 +1386,6 @@ func expandRouterRipDefaultInformationOriginate(d *schema.ResourceData, v interf
 }
 
 func expandRouterRipDefaultMetric(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
-	return v, nil
-}
-
-func expandRouterRipMaxOutMetric(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
-	return v, nil
-}
-
-func expandRouterRipRecvBufferSize(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
 	return v, nil
 }
 
@@ -1296,6 +1403,18 @@ func expandRouterRipDistance(d *schema.ResourceData, v interface{}, pre string, 
 		i := r.(map[string]interface{})
 		pre_append := "" // table
 
+		pre_append = pre + "." + strconv.Itoa(con) + "." + "access_list"
+		if _, ok := d.GetOk(pre_append); ok {
+
+			tmp["access-list"], _ = expandRouterRipDistanceAccessList(d, i["access_list"], pre_append, sv)
+		}
+
+		pre_append = pre + "." + strconv.Itoa(con) + "." + "distance"
+		if _, ok := d.GetOk(pre_append); ok {
+
+			tmp["distance"], _ = expandRouterRipDistanceDistance(d, i["distance"], pre_append, sv)
+		}
+
 		pre_append = pre + "." + strconv.Itoa(con) + "." + "id"
 		if _, ok := d.GetOk(pre_append); ok {
 
@@ -1308,18 +1427,6 @@ func expandRouterRipDistance(d *schema.ResourceData, v interface{}, pre string, 
 			tmp["prefix"], _ = expandRouterRipDistancePrefix(d, i["prefix"], pre_append, sv)
 		}
 
-		pre_append = pre + "." + strconv.Itoa(con) + "." + "distance"
-		if _, ok := d.GetOk(pre_append); ok {
-
-			tmp["distance"], _ = expandRouterRipDistanceDistance(d, i["distance"], pre_append, sv)
-		}
-
-		pre_append = pre + "." + strconv.Itoa(con) + "." + "access_list"
-		if _, ok := d.GetOk(pre_append); ok {
-
-			tmp["access-list"], _ = expandRouterRipDistanceAccessList(d, i["access_list"], pre_append, sv)
-		}
-
 		result = append(result, tmp)
 
 		con += 1
@@ -1328,11 +1435,7 @@ func expandRouterRipDistance(d *schema.ResourceData, v interface{}, pre string, 
 	return result, nil
 }
 
-func expandRouterRipDistanceId(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
-	return v, nil
-}
-
-func expandRouterRipDistancePrefix(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+func expandRouterRipDistanceAccessList(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
 	return v, nil
 }
 
@@ -1340,7 +1443,11 @@ func expandRouterRipDistanceDistance(d *schema.ResourceData, v interface{}, pre 
 	return v, nil
 }
 
-func expandRouterRipDistanceAccessList(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+func expandRouterRipDistanceId(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+	return v, nil
+}
+
+func expandRouterRipDistancePrefix(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
 	return v, nil
 }
 
@@ -1358,22 +1465,22 @@ func expandRouterRipDistributeList(d *schema.ResourceData, v interface{}, pre st
 		i := r.(map[string]interface{})
 		pre_append := "" // table
 
+		pre_append = pre + "." + strconv.Itoa(con) + "." + "direction"
+		if _, ok := d.GetOk(pre_append); ok {
+
+			tmp["direction"], _ = expandRouterRipDistributeListDirection(d, i["direction"], pre_append, sv)
+		}
+
 		pre_append = pre + "." + strconv.Itoa(con) + "." + "id"
 		if _, ok := d.GetOk(pre_append); ok {
 
 			tmp["id"], _ = expandRouterRipDistributeListId(d, i["id"], pre_append, sv)
 		}
 
-		pre_append = pre + "." + strconv.Itoa(con) + "." + "status"
+		pre_append = pre + "." + strconv.Itoa(con) + "." + "interface"
 		if _, ok := d.GetOk(pre_append); ok {
 
-			tmp["status"], _ = expandRouterRipDistributeListStatus(d, i["status"], pre_append, sv)
-		}
-
-		pre_append = pre + "." + strconv.Itoa(con) + "." + "direction"
-		if _, ok := d.GetOk(pre_append); ok {
-
-			tmp["direction"], _ = expandRouterRipDistributeListDirection(d, i["direction"], pre_append, sv)
+			tmp["interface"], _ = expandRouterRipDistributeListInterface(d, i["interface"], pre_append, sv)
 		}
 
 		pre_append = pre + "." + strconv.Itoa(con) + "." + "listname"
@@ -1382,10 +1489,10 @@ func expandRouterRipDistributeList(d *schema.ResourceData, v interface{}, pre st
 			tmp["listname"], _ = expandRouterRipDistributeListListname(d, i["listname"], pre_append, sv)
 		}
 
-		pre_append = pre + "." + strconv.Itoa(con) + "." + "interface"
+		pre_append = pre + "." + strconv.Itoa(con) + "." + "status"
 		if _, ok := d.GetOk(pre_append); ok {
 
-			tmp["interface"], _ = expandRouterRipDistributeListInterface(d, i["interface"], pre_append, sv)
+			tmp["status"], _ = expandRouterRipDistributeListStatus(d, i["status"], pre_append, sv)
 		}
 
 		result = append(result, tmp)
@@ -1396,15 +1503,15 @@ func expandRouterRipDistributeList(d *schema.ResourceData, v interface{}, pre st
 	return result, nil
 }
 
+func expandRouterRipDistributeListDirection(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+	return v, nil
+}
+
 func expandRouterRipDistributeListId(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
 	return v, nil
 }
 
-func expandRouterRipDistributeListStatus(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
-	return v, nil
-}
-
-func expandRouterRipDistributeListDirection(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+func expandRouterRipDistributeListInterface(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
 	return v, nil
 }
 
@@ -1412,7 +1519,137 @@ func expandRouterRipDistributeListListname(d *schema.ResourceData, v interface{}
 	return v, nil
 }
 
-func expandRouterRipDistributeListInterface(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+func expandRouterRipDistributeListStatus(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+	return v, nil
+}
+
+func expandRouterRipGarbageTimer(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+	return v, nil
+}
+
+func expandRouterRipInterface(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+	l := v.([]interface{})
+	if len(l) == 0 || l[0] == nil {
+		return nil, nil
+	}
+
+	result := make([]map[string]interface{}, 0, len(l))
+
+	con := 0
+	for _, r := range l {
+		tmp := make(map[string]interface{})
+		i := r.(map[string]interface{})
+		pre_append := "" // table
+
+		pre_append = pre + "." + strconv.Itoa(con) + "." + "auth_keychain"
+		if _, ok := d.GetOk(pre_append); ok {
+
+			tmp["auth-keychain"], _ = expandRouterRipInterfaceAuthKeychain(d, i["auth_keychain"], pre_append, sv)
+		}
+
+		pre_append = pre + "." + strconv.Itoa(con) + "." + "auth_mode"
+		if _, ok := d.GetOk(pre_append); ok {
+
+			tmp["auth-mode"], _ = expandRouterRipInterfaceAuthMode(d, i["auth_mode"], pre_append, sv)
+		}
+
+		pre_append = pre + "." + strconv.Itoa(con) + "." + "auth_string"
+		if _, ok := d.GetOk(pre_append); ok {
+
+			tmp["auth-string"], _ = expandRouterRipInterfaceAuthString(d, i["auth_string"], pre_append, sv)
+		}
+
+		pre_append = pre + "." + strconv.Itoa(con) + "." + "flags"
+		if _, ok := d.GetOk(pre_append); ok {
+
+			tmp["flags"], _ = expandRouterRipInterfaceFlags(d, i["flags"], pre_append, sv)
+		}
+
+		pre_append = pre + "." + strconv.Itoa(con) + "." + "name"
+		if _, ok := d.GetOk(pre_append); ok {
+
+			tmp["name"], _ = expandRouterRipInterfaceName(d, i["name"], pre_append, sv)
+		}
+
+		pre_append = pre + "." + strconv.Itoa(con) + "." + "receive_version"
+		if _, ok := d.GetOk(pre_append); ok {
+
+			tmp["receive-version"], _ = expandRouterRipInterfaceReceiveVersion(d, i["receive_version"], pre_append, sv)
+		}
+
+		pre_append = pre + "." + strconv.Itoa(con) + "." + "send_version"
+		if _, ok := d.GetOk(pre_append); ok {
+
+			tmp["send-version"], _ = expandRouterRipInterfaceSendVersion(d, i["send_version"], pre_append, sv)
+		}
+
+		pre_append = pre + "." + strconv.Itoa(con) + "." + "send_version2_broadcast"
+		if _, ok := d.GetOk(pre_append); ok {
+
+			tmp["send-version2-broadcast"], _ = expandRouterRipInterfaceSendVersion2Broadcast(d, i["send_version2_broadcast"], pre_append, sv)
+		}
+
+		pre_append = pre + "." + strconv.Itoa(con) + "." + "split_horizon"
+		if _, ok := d.GetOk(pre_append); ok {
+
+			tmp["split-horizon"], _ = expandRouterRipInterfaceSplitHorizon(d, i["split_horizon"], pre_append, sv)
+		}
+
+		pre_append = pre + "." + strconv.Itoa(con) + "." + "split_horizon_status"
+		if _, ok := d.GetOk(pre_append); ok {
+
+			tmp["split-horizon-status"], _ = expandRouterRipInterfaceSplitHorizonStatus(d, i["split_horizon_status"], pre_append, sv)
+		}
+
+		result = append(result, tmp)
+
+		con += 1
+	}
+
+	return result, nil
+}
+
+func expandRouterRipInterfaceAuthKeychain(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+	return v, nil
+}
+
+func expandRouterRipInterfaceAuthMode(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+	return v, nil
+}
+
+func expandRouterRipInterfaceAuthString(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+	return v, nil
+}
+
+func expandRouterRipInterfaceFlags(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+	return v, nil
+}
+
+func expandRouterRipInterfaceName(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+	return v, nil
+}
+
+func expandRouterRipInterfaceReceiveVersion(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+	return v, nil
+}
+
+func expandRouterRipInterfaceSendVersion(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+	return v, nil
+}
+
+func expandRouterRipInterfaceSendVersion2Broadcast(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+	return v, nil
+}
+
+func expandRouterRipInterfaceSplitHorizon(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+	return v, nil
+}
+
+func expandRouterRipInterfaceSplitHorizonStatus(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+	return v, nil
+}
+
+func expandRouterRipMaxOutMetric(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
 	return v, nil
 }
 
@@ -1514,16 +1751,10 @@ func expandRouterRipOffsetList(d *schema.ResourceData, v interface{}, pre string
 		i := r.(map[string]interface{})
 		pre_append := "" // table
 
-		pre_append = pre + "." + strconv.Itoa(con) + "." + "id"
+		pre_append = pre + "." + strconv.Itoa(con) + "." + "access_list"
 		if _, ok := d.GetOk(pre_append); ok {
 
-			tmp["id"], _ = expandRouterRipOffsetListId(d, i["id"], pre_append, sv)
-		}
-
-		pre_append = pre + "." + strconv.Itoa(con) + "." + "status"
-		if _, ok := d.GetOk(pre_append); ok {
-
-			tmp["status"], _ = expandRouterRipOffsetListStatus(d, i["status"], pre_append, sv)
+			tmp["access-list"], _ = expandRouterRipOffsetListAccessList(d, i["access_list"], pre_append, sv)
 		}
 
 		pre_append = pre + "." + strconv.Itoa(con) + "." + "direction"
@@ -1532,10 +1763,16 @@ func expandRouterRipOffsetList(d *schema.ResourceData, v interface{}, pre string
 			tmp["direction"], _ = expandRouterRipOffsetListDirection(d, i["direction"], pre_append, sv)
 		}
 
-		pre_append = pre + "." + strconv.Itoa(con) + "." + "access_list"
+		pre_append = pre + "." + strconv.Itoa(con) + "." + "id"
 		if _, ok := d.GetOk(pre_append); ok {
 
-			tmp["access-list"], _ = expandRouterRipOffsetListAccessList(d, i["access_list"], pre_append, sv)
+			tmp["id"], _ = expandRouterRipOffsetListId(d, i["id"], pre_append, sv)
+		}
+
+		pre_append = pre + "." + strconv.Itoa(con) + "." + "interface"
+		if _, ok := d.GetOk(pre_append); ok {
+
+			tmp["interface"], _ = expandRouterRipOffsetListInterface(d, i["interface"], pre_append, sv)
 		}
 
 		pre_append = pre + "." + strconv.Itoa(con) + "." + "offset"
@@ -1544,10 +1781,10 @@ func expandRouterRipOffsetList(d *schema.ResourceData, v interface{}, pre string
 			tmp["offset"], _ = expandRouterRipOffsetListOffset(d, i["offset"], pre_append, sv)
 		}
 
-		pre_append = pre + "." + strconv.Itoa(con) + "." + "interface"
+		pre_append = pre + "." + strconv.Itoa(con) + "." + "status"
 		if _, ok := d.GetOk(pre_append); ok {
 
-			tmp["interface"], _ = expandRouterRipOffsetListInterface(d, i["interface"], pre_append, sv)
+			tmp["status"], _ = expandRouterRipOffsetListStatus(d, i["status"], pre_append, sv)
 		}
 
 		result = append(result, tmp)
@@ -1558,11 +1795,7 @@ func expandRouterRipOffsetList(d *schema.ResourceData, v interface{}, pre string
 	return result, nil
 }
 
-func expandRouterRipOffsetListId(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
-	return v, nil
-}
-
-func expandRouterRipOffsetListStatus(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+func expandRouterRipOffsetListAccessList(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
 	return v, nil
 }
 
@@ -1570,7 +1803,11 @@ func expandRouterRipOffsetListDirection(d *schema.ResourceData, v interface{}, p
 	return v, nil
 }
 
-func expandRouterRipOffsetListAccessList(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+func expandRouterRipOffsetListId(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+	return v, nil
+}
+
+func expandRouterRipOffsetListInterface(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
 	return v, nil
 }
 
@@ -1578,7 +1815,7 @@ func expandRouterRipOffsetListOffset(d *schema.ResourceData, v interface{}, pre 
 	return v, nil
 }
 
-func expandRouterRipOffsetListInterface(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+func expandRouterRipOffsetListStatus(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
 	return v, nil
 }
 
@@ -1614,6 +1851,10 @@ func expandRouterRipPassiveInterfaceName(d *schema.ResourceData, v interface{}, 
 	return v, nil
 }
 
+func expandRouterRipRecvBufferSize(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+	return v, nil
+}
+
 func expandRouterRipRedistribute(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
@@ -1628,22 +1869,16 @@ func expandRouterRipRedistribute(d *schema.ResourceData, v interface{}, pre stri
 		i := r.(map[string]interface{})
 		pre_append := "" // table
 
-		pre_append = pre + "." + strconv.Itoa(con) + "." + "name"
-		if _, ok := d.GetOk(pre_append); ok {
-
-			tmp["name"], _ = expandRouterRipRedistributeName(d, i["name"], pre_append, sv)
-		}
-
-		pre_append = pre + "." + strconv.Itoa(con) + "." + "status"
-		if _, ok := d.GetOk(pre_append); ok {
-
-			tmp["status"], _ = expandRouterRipRedistributeStatus(d, i["status"], pre_append, sv)
-		}
-
 		pre_append = pre + "." + strconv.Itoa(con) + "." + "metric"
 		if _, ok := d.GetOk(pre_append); ok {
 
 			tmp["metric"], _ = expandRouterRipRedistributeMetric(d, i["metric"], pre_append, sv)
+		}
+
+		pre_append = pre + "." + strconv.Itoa(con) + "." + "name"
+		if _, ok := d.GetOk(pre_append); ok {
+
+			tmp["name"], _ = expandRouterRipRedistributeName(d, i["name"], pre_append, sv)
 		}
 
 		pre_append = pre + "." + strconv.Itoa(con) + "." + "routemap"
@@ -1652,6 +1887,12 @@ func expandRouterRipRedistribute(d *schema.ResourceData, v interface{}, pre stri
 			tmp["routemap"], _ = expandRouterRipRedistributeRoutemap(d, i["routemap"], pre_append, sv)
 		}
 
+		pre_append = pre + "." + strconv.Itoa(con) + "." + "status"
+		if _, ok := d.GetOk(pre_append); ok {
+
+			tmp["status"], _ = expandRouterRipRedistributeStatus(d, i["status"], pre_append, sv)
+		}
+
 		result = append(result, tmp)
 
 		con += 1
@@ -1660,15 +1901,11 @@ func expandRouterRipRedistribute(d *schema.ResourceData, v interface{}, pre stri
 	return result, nil
 }
 
-func expandRouterRipRedistributeName(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
-	return v, nil
-}
-
-func expandRouterRipRedistributeStatus(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
-	return v, nil
-}
-
 func expandRouterRipRedistributeMetric(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+	return v, nil
+}
+
+func expandRouterRipRedistributeName(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
 	return v, nil
 }
 
@@ -1676,7 +1913,7 @@ func expandRouterRipRedistributeRoutemap(d *schema.ResourceData, v interface{}, 
 	return v, nil
 }
 
-func expandRouterRipUpdateTimer(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+func expandRouterRipRedistributeStatus(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
 	return v, nil
 }
 
@@ -1684,7 +1921,7 @@ func expandRouterRipTimeoutTimer(d *schema.ResourceData, v interface{}, pre stri
 	return v, nil
 }
 
-func expandRouterRipGarbageTimer(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+func expandRouterRipUpdateTimer(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
 	return v, nil
 }
 
@@ -1692,133 +1929,10 @@ func expandRouterRipVersion(d *schema.ResourceData, v interface{}, pre string, s
 	return v, nil
 }
 
-func expandRouterRipInterface(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
-	l := v.([]interface{})
-	if len(l) == 0 || l[0] == nil {
-		return nil, nil
-	}
-
-	result := make([]map[string]interface{}, 0, len(l))
-
-	con := 0
-	for _, r := range l {
-		tmp := make(map[string]interface{})
-		i := r.(map[string]interface{})
-		pre_append := "" // table
-
-		pre_append = pre + "." + strconv.Itoa(con) + "." + "name"
-		if _, ok := d.GetOk(pre_append); ok {
-
-			tmp["name"], _ = expandRouterRipInterfaceName(d, i["name"], pre_append, sv)
-		}
-
-		pre_append = pre + "." + strconv.Itoa(con) + "." + "auth_keychain"
-		if _, ok := d.GetOk(pre_append); ok {
-
-			tmp["auth-keychain"], _ = expandRouterRipInterfaceAuthKeychain(d, i["auth_keychain"], pre_append, sv)
-		}
-
-		pre_append = pre + "." + strconv.Itoa(con) + "." + "auth_mode"
-		if _, ok := d.GetOk(pre_append); ok {
-
-			tmp["auth-mode"], _ = expandRouterRipInterfaceAuthMode(d, i["auth_mode"], pre_append, sv)
-		}
-
-		pre_append = pre + "." + strconv.Itoa(con) + "." + "auth_string"
-		if _, ok := d.GetOk(pre_append); ok {
-
-			tmp["auth-string"], _ = expandRouterRipInterfaceAuthString(d, i["auth_string"], pre_append, sv)
-		}
-
-		pre_append = pre + "." + strconv.Itoa(con) + "." + "receive_version"
-		if _, ok := d.GetOk(pre_append); ok {
-
-			tmp["receive-version"], _ = expandRouterRipInterfaceReceiveVersion(d, i["receive_version"], pre_append, sv)
-		}
-
-		pre_append = pre + "." + strconv.Itoa(con) + "." + "send_version"
-		if _, ok := d.GetOk(pre_append); ok {
-
-			tmp["send-version"], _ = expandRouterRipInterfaceSendVersion(d, i["send_version"], pre_append, sv)
-		}
-
-		pre_append = pre + "." + strconv.Itoa(con) + "." + "send_version2_broadcast"
-		if _, ok := d.GetOk(pre_append); ok {
-
-			tmp["send-version2-broadcast"], _ = expandRouterRipInterfaceSendVersion2Broadcast(d, i["send_version2_broadcast"], pre_append, sv)
-		}
-
-		pre_append = pre + "." + strconv.Itoa(con) + "." + "split_horizon_status"
-		if _, ok := d.GetOk(pre_append); ok {
-
-			tmp["split-horizon-status"], _ = expandRouterRipInterfaceSplitHorizonStatus(d, i["split_horizon_status"], pre_append, sv)
-		}
-
-		pre_append = pre + "." + strconv.Itoa(con) + "." + "split_horizon"
-		if _, ok := d.GetOk(pre_append); ok {
-
-			tmp["split-horizon"], _ = expandRouterRipInterfaceSplitHorizon(d, i["split_horizon"], pre_append, sv)
-		}
-
-		pre_append = pre + "." + strconv.Itoa(con) + "." + "flags"
-		if _, ok := d.GetOk(pre_append); ok {
-
-			tmp["flags"], _ = expandRouterRipInterfaceFlags(d, i["flags"], pre_append, sv)
-		}
-
-		result = append(result, tmp)
-
-		con += 1
-	}
-
-	return result, nil
-}
-
-func expandRouterRipInterfaceName(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
-	return v, nil
-}
-
-func expandRouterRipInterfaceAuthKeychain(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
-	return v, nil
-}
-
-func expandRouterRipInterfaceAuthMode(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
-	return v, nil
-}
-
-func expandRouterRipInterfaceAuthString(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
-	return v, nil
-}
-
-func expandRouterRipInterfaceReceiveVersion(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
-	return v, nil
-}
-
-func expandRouterRipInterfaceSendVersion(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
-	return v, nil
-}
-
-func expandRouterRipInterfaceSendVersion2Broadcast(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
-	return v, nil
-}
-
-func expandRouterRipInterfaceSplitHorizonStatus(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
-	return v, nil
-}
-
-func expandRouterRipInterfaceSplitHorizon(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
-	return v, nil
-}
-
-func expandRouterRipInterfaceFlags(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
-	return v, nil
-}
-
-func getObjectRouterRip(d *schema.ResourceData, bemptysontable bool, sv string) (*map[string]interface{}, error) {
+func getObjectRouterRip(d *schema.ResourceData, sv string) (*map[string]interface{}, error) {
 	obj := make(map[string]interface{})
 
 	if v, ok := d.GetOk("default_information_originate"); ok {
-
 		t, err := expandRouterRipDefaultInformationOriginate(d, v, "default_information_originate", sv)
 		if err != nil {
 			return &obj, err
@@ -1828,7 +1942,6 @@ func getObjectRouterRip(d *schema.ResourceData, bemptysontable bool, sv string) 
 	}
 
 	if v, ok := d.GetOk("default_metric"); ok {
-
 		t, err := expandRouterRipDefaultMetric(d, v, "default_metric", sv)
 		if err != nil {
 			return &obj, err
@@ -1837,146 +1950,35 @@ func getObjectRouterRip(d *schema.ResourceData, bemptysontable bool, sv string) 
 		}
 	}
 
-	if v, ok := d.GetOkExists("max_out_metric"); ok {
-
-		t, err := expandRouterRipMaxOutMetric(d, v, "max_out_metric", sv)
+	if v, ok := d.GetOk("distance"); ok {
+		t, err := expandRouterRipDistance(d, v, "distance", sv)
 		if err != nil {
 			return &obj, err
 		} else if t != nil {
-			obj["max-out-metric"] = t
+			obj["distance"] = t
+		}
+	} else if d.HasChange("distance") {
+		old, new := d.GetChange("distance")
+		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
+			obj["distance"] = make([]struct{}, 0)
 		}
 	}
 
-	if v, ok := d.GetOk("recv_buffer_size"); ok {
-
-		t, err := expandRouterRipRecvBufferSize(d, v, "recv_buffer_size", sv)
+	if v, ok := d.GetOk("distribute_list"); ok {
+		t, err := expandRouterRipDistributeList(d, v, "distribute_list", sv)
 		if err != nil {
 			return &obj, err
 		} else if t != nil {
-			obj["recv-buffer-size"] = t
+			obj["distribute-list"] = t
 		}
-	}
-
-	if bemptysontable {
-		obj["distance"] = make([]struct{}, 0)
-	} else {
-		if v, ok := d.GetOk("distance"); ok {
-
-			t, err := expandRouterRipDistance(d, v, "distance", sv)
-			if err != nil {
-				return &obj, err
-			} else if t != nil {
-				obj["distance"] = t
-			}
-		}
-	}
-
-	if bemptysontable {
-		obj["distribute-list"] = make([]struct{}, 0)
-	} else {
-		if v, ok := d.GetOk("distribute_list"); ok {
-
-			t, err := expandRouterRipDistributeList(d, v, "distribute_list", sv)
-			if err != nil {
-				return &obj, err
-			} else if t != nil {
-				obj["distribute-list"] = t
-			}
-		}
-	}
-
-	if bemptysontable {
-		obj["neighbor"] = make([]struct{}, 0)
-	} else {
-		if v, ok := d.GetOk("neighbor"); ok {
-
-			t, err := expandRouterRipNeighbor(d, v, "neighbor", sv)
-			if err != nil {
-				return &obj, err
-			} else if t != nil {
-				obj["neighbor"] = t
-			}
-		}
-	}
-
-	if bemptysontable {
-		obj["network"] = make([]struct{}, 0)
-	} else {
-		if v, ok := d.GetOk("network"); ok {
-
-			t, err := expandRouterRipNetwork(d, v, "network", sv)
-			if err != nil {
-				return &obj, err
-			} else if t != nil {
-				obj["network"] = t
-			}
-		}
-	}
-
-	if bemptysontable {
-		obj["offset-list"] = make([]struct{}, 0)
-	} else {
-		if v, ok := d.GetOk("offset_list"); ok {
-
-			t, err := expandRouterRipOffsetList(d, v, "offset_list", sv)
-			if err != nil {
-				return &obj, err
-			} else if t != nil {
-				obj["offset-list"] = t
-			}
-		}
-	}
-
-	if bemptysontable {
-		obj["passive-interface"] = make([]struct{}, 0)
-	} else {
-		if v, ok := d.GetOk("passive_interface"); ok {
-
-			t, err := expandRouterRipPassiveInterface(d, v, "passive_interface", sv)
-			if err != nil {
-				return &obj, err
-			} else if t != nil {
-				obj["passive-interface"] = t
-			}
-		}
-	}
-
-	if bemptysontable {
-		obj["redistribute"] = make([]struct{}, 0)
-	} else {
-		if v, ok := d.GetOk("redistribute"); ok {
-
-			t, err := expandRouterRipRedistribute(d, v, "redistribute", sv)
-			if err != nil {
-				return &obj, err
-			} else if t != nil {
-				obj["redistribute"] = t
-			}
-		}
-	}
-
-	if v, ok := d.GetOk("update_timer"); ok {
-
-		t, err := expandRouterRipUpdateTimer(d, v, "update_timer", sv)
-		if err != nil {
-			return &obj, err
-		} else if t != nil {
-			obj["update-timer"] = t
-		}
-	}
-
-	if v, ok := d.GetOk("timeout_timer"); ok {
-
-		t, err := expandRouterRipTimeoutTimer(d, v, "timeout_timer", sv)
-		if err != nil {
-			return &obj, err
-		} else if t != nil {
-			obj["timeout-timer"] = t
+	} else if d.HasChange("distribute_list") {
+		old, new := d.GetChange("distribute_list")
+		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
+			obj["distribute-list"] = make([]struct{}, 0)
 		}
 	}
 
 	if v, ok := d.GetOk("garbage_timer"); ok {
-
 		t, err := expandRouterRipGarbageTimer(d, v, "garbage_timer", sv)
 		if err != nil {
 			return &obj, err
@@ -1985,27 +1987,132 @@ func getObjectRouterRip(d *schema.ResourceData, bemptysontable bool, sv string) 
 		}
 	}
 
-	if v, ok := d.GetOk("version"); ok {
+	if v, ok := d.GetOk("interface"); ok {
+		t, err := expandRouterRipInterface(d, v, "interface", sv)
+		if err != nil {
+			return &obj, err
+		} else if t != nil {
+			obj["interface"] = t
+		}
+	} else if d.HasChange("interface") {
+		old, new := d.GetChange("interface")
+		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
+			obj["interface"] = make([]struct{}, 0)
+		}
+	}
 
+	if v, ok := d.GetOk("max_out_metric"); ok {
+		t, err := expandRouterRipMaxOutMetric(d, v, "max_out_metric", sv)
+		if err != nil {
+			return &obj, err
+		} else if t != nil {
+			obj["max-out-metric"] = t
+		}
+	}
+
+	if v, ok := d.GetOk("neighbor"); ok {
+		t, err := expandRouterRipNeighbor(d, v, "neighbor", sv)
+		if err != nil {
+			return &obj, err
+		} else if t != nil {
+			obj["neighbor"] = t
+		}
+	} else if d.HasChange("neighbor") {
+		old, new := d.GetChange("neighbor")
+		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
+			obj["neighbor"] = make([]struct{}, 0)
+		}
+	}
+
+	if v, ok := d.GetOk("network"); ok {
+		t, err := expandRouterRipNetwork(d, v, "network", sv)
+		if err != nil {
+			return &obj, err
+		} else if t != nil {
+			obj["network"] = t
+		}
+	} else if d.HasChange("network") {
+		old, new := d.GetChange("network")
+		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
+			obj["network"] = make([]struct{}, 0)
+		}
+	}
+
+	if v, ok := d.GetOk("offset_list"); ok {
+		t, err := expandRouterRipOffsetList(d, v, "offset_list", sv)
+		if err != nil {
+			return &obj, err
+		} else if t != nil {
+			obj["offset-list"] = t
+		}
+	} else if d.HasChange("offset_list") {
+		old, new := d.GetChange("offset_list")
+		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
+			obj["offset-list"] = make([]struct{}, 0)
+		}
+	}
+
+	if v, ok := d.GetOk("passive_interface"); ok {
+		t, err := expandRouterRipPassiveInterface(d, v, "passive_interface", sv)
+		if err != nil {
+			return &obj, err
+		} else if t != nil {
+			obj["passive-interface"] = t
+		}
+	} else if d.HasChange("passive_interface") {
+		old, new := d.GetChange("passive_interface")
+		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
+			obj["passive-interface"] = make([]struct{}, 0)
+		}
+	}
+
+	if v, ok := d.GetOk("recv_buffer_size"); ok {
+		t, err := expandRouterRipRecvBufferSize(d, v, "recv_buffer_size", sv)
+		if err != nil {
+			return &obj, err
+		} else if t != nil {
+			obj["recv-buffer-size"] = t
+		}
+	}
+
+	if v, ok := d.GetOk("redistribute"); ok {
+		t, err := expandRouterRipRedistribute(d, v, "redistribute", sv)
+		if err != nil {
+			return &obj, err
+		} else if t != nil {
+			obj["redistribute"] = t
+		}
+	} else if d.HasChange("redistribute") {
+		old, new := d.GetChange("redistribute")
+		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
+			obj["redistribute"] = make([]struct{}, 0)
+		}
+	}
+
+	if v, ok := d.GetOk("timeout_timer"); ok {
+		t, err := expandRouterRipTimeoutTimer(d, v, "timeout_timer", sv)
+		if err != nil {
+			return &obj, err
+		} else if t != nil {
+			obj["timeout-timer"] = t
+		}
+	}
+
+	if v, ok := d.GetOk("update_timer"); ok {
+		t, err := expandRouterRipUpdateTimer(d, v, "update_timer", sv)
+		if err != nil {
+			return &obj, err
+		} else if t != nil {
+			obj["update-timer"] = t
+		}
+	}
+
+	if v, ok := d.GetOk("version"); ok {
 		t, err := expandRouterRipVersion(d, v, "version", sv)
 		if err != nil {
 			return &obj, err
 		} else if t != nil {
 			obj["version"] = t
-		}
-	}
-
-	if bemptysontable {
-		obj["interface"] = make([]struct{}, 0)
-	} else {
-		if v, ok := d.GetOk("interface"); ok {
-
-			t, err := expandRouterRipInterface(d, v, "interface", sv)
-			if err != nil {
-				return &obj, err
-			} else if t != nil {
-				obj["interface"] = t
-			}
 		}
 	}
 

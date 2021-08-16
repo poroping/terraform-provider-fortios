@@ -41,6 +41,13 @@ func resourceSystemsdwanDuplication() *schema.Resource {
 				Optional:    true,
 				Default:     0,
 			},
+			"allow_append": {
+				Type:         schema.TypeBool,
+				Description:  "If set to true allows provider to overwrite existing resources instead of erroring. Useful for brownfield implementations. Use with caution!",
+				Optional:     true,
+				Default:      false,
+				RequiredWith: []string{"id"},
+			},
 			"dynamic_sort_table": {
 				Type:     schema.TypeBool,
 				Optional: true,
@@ -55,9 +62,10 @@ func resourceSystemsdwanDuplication() *schema.Resource {
 						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 79),
-							Description:  "Address or address group name.",
-							Optional:     true,
-							Computed:     true,
+
+							Description: "Address or address group name.",
+							Optional:    true,
+							Computed:    true,
 						},
 					},
 				},
@@ -71,9 +79,10 @@ func resourceSystemsdwanDuplication() *schema.Resource {
 						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 79),
-							Description:  "Address6 or address6 group name.",
-							Optional:     true,
-							Computed:     true,
+
+							Description: "Address6 or address6 group name.",
+							Optional:    true,
+							Computed:    true,
 						},
 					},
 				},
@@ -87,9 +96,10 @@ func resourceSystemsdwanDuplication() *schema.Resource {
 						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 79),
-							Description:  "Interface, zone or SDWAN zone name.",
-							Optional:     true,
-							Computed:     true,
+
+							Description: "Interface, zone or SDWAN zone name.",
+							Optional:    true,
+							Computed:    true,
 						},
 					},
 				},
@@ -97,23 +107,26 @@ func resourceSystemsdwanDuplication() *schema.Resource {
 			"fosid": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 255),
-				Description:  "Duplication rule ID (1 - 255).",
-				Optional:     true,
-				Computed:     true,
+
+				Description: "Duplication rule ID (1 - 255).",
+				Optional:    true,
+				Computed:    true,
 			},
 			"packet_de_duplication": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
-				Description:  "Enable/disable discarding of packets that have been duplicated.",
-				Optional:     true,
-				Computed:     true,
+
+				Description: "Enable/disable discarding of packets that have been duplicated.",
+				Optional:    true,
+				Computed:    true,
 			},
 			"packet_duplication": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnum([]string{"disable", "force", "on-demand"}),
-				Description:  "Configure packet duplication method.",
-				Optional:     true,
-				Computed:     true,
+
+				Description: "Configure packet duplication method.",
+				Optional:    true,
+				Computed:    true,
 			},
 			"service": {
 				Type:        schema.TypeList,
@@ -124,9 +137,10 @@ func resourceSystemsdwanDuplication() *schema.Resource {
 						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 79),
-							Description:  "Service and service group name.",
-							Optional:     true,
-							Computed:     true,
+
+							Description: "Service and service group name.",
+							Optional:    true,
+							Computed:    true,
 						},
 					},
 				},
@@ -156,9 +170,10 @@ func resourceSystemsdwanDuplication() *schema.Resource {
 						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 79),
-							Description:  "Address or address group name.",
-							Optional:     true,
-							Computed:     true,
+
+							Description: "Address or address group name.",
+							Optional:    true,
+							Computed:    true,
 						},
 					},
 				},
@@ -172,9 +187,10 @@ func resourceSystemsdwanDuplication() *schema.Resource {
 						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 79),
-							Description:  "Address6 or address6 group name.",
-							Optional:     true,
-							Computed:     true,
+
+							Description: "Address6 or address6 group name.",
+							Optional:    true,
+							Computed:    true,
 						},
 					},
 				},
@@ -188,9 +204,10 @@ func resourceSystemsdwanDuplication() *schema.Resource {
 						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 79),
-							Description:  "Interface, zone or SDWAN zone name.",
-							Optional:     true,
-							Computed:     true,
+
+							Description: "Interface, zone or SDWAN zone name.",
+							Optional:    true,
+							Computed:    true,
 						},
 					},
 				},
@@ -220,12 +237,39 @@ func resourceSystemsdwanDuplicationCreate(d *schema.ResourceData, m interface{})
 		}
 	}
 
+	allow_append := false
+
+	if v, ok := d.GetOk("allow_append"); ok {
+		if b, ok := v.(bool); ok {
+			allow_append = b
+		}
+	}
+
+	urlparams["allow_append"] = []string{strconv.FormatBool(allow_append)}
+
+	key := "id"
+	mkey := ""
+	if v, ok := d.GetOk(key); ok {
+		if s, ok := v.(string); ok {
+			mkey = s
+		}
+	}
+
 	obj, err := getObjectSystemsdwanDuplication(d, c.Fv)
 	if err != nil {
 		return fmt.Errorf("error creating SystemsdwanDuplication resource while getting object: %v", err)
 	}
 
-	o, err := c.CreateSystemsdwanDuplication(obj, vdomparam, urlparams, batchid)
+	if mkey == "" && allow_append {
+		return fmt.Errorf("error creating SystemsdwanDuplication resource: %q must be set if \"allow_append\" is true", key)
+	}
+
+	o := make(map[string]interface{})
+	if mkey != "" && allow_append {
+		o, err = c.UpdateSystemsdwanDuplication(obj, mkey, vdomparam, urlparams, batchid)
+	} else {
+		o, err = c.CreateSystemsdwanDuplication(obj, vdomparam, urlparams, batchid)
+	}
 
 	if err != nil {
 		return fmt.Errorf("error creating SystemsdwanDuplication resource: %v", err)
@@ -1093,6 +1137,11 @@ func getObjectSystemsdwanDuplication(d *schema.ResourceData, sv string) (*map[st
 		} else if t != nil {
 			obj["dstaddr"] = t
 		}
+	} else if d.HasChange("dstaddr") {
+		old, new := d.GetChange("dstaddr")
+		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
+			obj["dstaddr"] = make([]struct{}, 0)
+		}
 	}
 
 	if v, ok := d.GetOk("dstaddr6"); ok {
@@ -1102,6 +1151,11 @@ func getObjectSystemsdwanDuplication(d *schema.ResourceData, sv string) (*map[st
 		} else if t != nil {
 			obj["dstaddr6"] = t
 		}
+	} else if d.HasChange("dstaddr6") {
+		old, new := d.GetChange("dstaddr6")
+		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
+			obj["dstaddr6"] = make([]struct{}, 0)
+		}
 	}
 
 	if v, ok := d.GetOk("dstintf"); ok {
@@ -1110,6 +1164,11 @@ func getObjectSystemsdwanDuplication(d *schema.ResourceData, sv string) (*map[st
 			return &obj, err
 		} else if t != nil {
 			obj["dstintf"] = t
+		}
+	} else if d.HasChange("dstintf") {
+		old, new := d.GetChange("dstintf")
+		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
+			obj["dstintf"] = make([]struct{}, 0)
 		}
 	}
 
@@ -1147,6 +1206,11 @@ func getObjectSystemsdwanDuplication(d *schema.ResourceData, sv string) (*map[st
 		} else if t != nil {
 			obj["service"] = t
 		}
+	} else if d.HasChange("service") {
+		old, new := d.GetChange("service")
+		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
+			obj["service"] = make([]struct{}, 0)
+		}
 	}
 
 	if v, ok := d.GetOk("service_id"); ok {
@@ -1155,6 +1219,11 @@ func getObjectSystemsdwanDuplication(d *schema.ResourceData, sv string) (*map[st
 			return &obj, err
 		} else if t != nil {
 			obj["service-id"] = t
+		}
+	} else if d.HasChange("service_id") {
+		old, new := d.GetChange("service_id")
+		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
+			obj["service-id"] = make([]struct{}, 0)
 		}
 	}
 
@@ -1165,6 +1234,11 @@ func getObjectSystemsdwanDuplication(d *schema.ResourceData, sv string) (*map[st
 		} else if t != nil {
 			obj["srcaddr"] = t
 		}
+	} else if d.HasChange("srcaddr") {
+		old, new := d.GetChange("srcaddr")
+		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
+			obj["srcaddr"] = make([]struct{}, 0)
+		}
 	}
 
 	if v, ok := d.GetOk("srcaddr6"); ok {
@@ -1174,6 +1248,11 @@ func getObjectSystemsdwanDuplication(d *schema.ResourceData, sv string) (*map[st
 		} else if t != nil {
 			obj["srcaddr6"] = t
 		}
+	} else if d.HasChange("srcaddr6") {
+		old, new := d.GetChange("srcaddr6")
+		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
+			obj["srcaddr6"] = make([]struct{}, 0)
+		}
 	}
 
 	if v, ok := d.GetOk("srcintf"); ok {
@@ -1182,6 +1261,11 @@ func getObjectSystemsdwanDuplication(d *schema.ResourceData, sv string) (*map[st
 			return &obj, err
 		} else if t != nil {
 			obj["srcintf"] = t
+		}
+	} else if d.HasChange("srcintf") {
+		old, new := d.GetChange("srcintf")
+		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
+			obj["srcintf"] = make([]struct{}, 0)
 		}
 	}
 

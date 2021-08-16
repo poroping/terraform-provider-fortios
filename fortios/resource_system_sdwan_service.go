@@ -41,6 +41,13 @@ func resourceSystemsdwanService() *schema.Resource {
 				Optional:    true,
 				Default:     0,
 			},
+			"allow_append": {
+				Type:         schema.TypeBool,
+				Description:  "If set to true allows provider to overwrite existing resources instead of erroring. Useful for brownfield implementations. Use with caution!",
+				Optional:     true,
+				Default:      false,
+				RequiredWith: []string{"id"},
+			},
 			"dynamic_sort_table": {
 				Type:     schema.TypeBool,
 				Optional: true,
@@ -49,30 +56,34 @@ func resourceSystemsdwanService() *schema.Resource {
 			"addr_mode": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnum([]string{"ipv4", "ipv6"}),
-				Description:  "Address mode (IPv4 or IPv6).",
-				Optional:     true,
-				Computed:     true,
+
+				Description: "Address mode (IPv4 or IPv6).",
+				Optional:    true,
+				Computed:    true,
 			},
 			"bandwidth_weight": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 10000000),
-				Description:  "Coefficient of reciprocal of available bidirectional bandwidth in the formula of custom-profile-1.",
-				Optional:     true,
-				Computed:     true,
+
+				Description: "Coefficient of reciprocal of available bidirectional bandwidth in the formula of custom-profile-1.",
+				Optional:    true,
+				Computed:    true,
 			},
 			"default": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
-				Description:  "Enable/disable use of SD-WAN as default service.",
-				Optional:     true,
-				Computed:     true,
+
+				Description: "Enable/disable use of SD-WAN as default service.",
+				Optional:    true,
+				Computed:    true,
 			},
 			"dscp_forward": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
-				Description:  "Enable/disable forward traffic DSCP tag.",
-				Optional:     true,
-				Computed:     true,
+
+				Description: "Enable/disable forward traffic DSCP tag.",
+				Optional:    true,
+				Computed:    true,
 			},
 			"dscp_forward_tag": {
 				Type: schema.TypeString,
@@ -84,9 +95,10 @@ func resourceSystemsdwanService() *schema.Resource {
 			"dscp_reverse": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
-				Description:  "Enable/disable reverse traffic DSCP tag.",
-				Optional:     true,
-				Computed:     true,
+
+				Description: "Enable/disable reverse traffic DSCP tag.",
+				Optional:    true,
+				Computed:    true,
 			},
 			"dscp_reverse_tag": {
 				Type: schema.TypeString,
@@ -104,9 +116,10 @@ func resourceSystemsdwanService() *schema.Resource {
 						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 79),
-							Description:  "Address or address group name.",
-							Optional:     true,
-							Computed:     true,
+
+							Description: "Address or address group name.",
+							Optional:    true,
+							Computed:    true,
 						},
 					},
 				},
@@ -114,9 +127,10 @@ func resourceSystemsdwanService() *schema.Resource {
 			"dst_negate": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
-				Description:  "Enable/disable negation of destination address match.",
-				Optional:     true,
-				Computed:     true,
+
+				Description: "Enable/disable negation of destination address match.",
+				Optional:    true,
+				Computed:    true,
 			},
 			"dst6": {
 				Type:        schema.TypeList,
@@ -127,9 +141,10 @@ func resourceSystemsdwanService() *schema.Resource {
 						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 79),
-							Description:  "Address6 or address6 group name.",
-							Optional:     true,
-							Computed:     true,
+
+							Description: "Address6 or address6 group name.",
+							Optional:    true,
+							Computed:    true,
 						},
 					},
 				},
@@ -137,16 +152,18 @@ func resourceSystemsdwanService() *schema.Resource {
 			"end_port": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 65535),
-				Description:  "End destination port number.",
-				Optional:     true,
-				Computed:     true,
+
+				Description: "End destination port number.",
+				Optional:    true,
+				Computed:    true,
 			},
 			"gateway": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
-				Description:  "Enable/disable SD-WAN service gateway.",
-				Optional:     true,
-				Computed:     true,
+
+				Description: "Enable/disable SD-WAN service gateway.",
+				Optional:    true,
+				Computed:    true,
 			},
 			"groups": {
 				Type:        schema.TypeList,
@@ -157,9 +174,10 @@ func resourceSystemsdwanService() *schema.Resource {
 						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 79),
-							Description:  "Group name.",
-							Optional:     true,
-							Computed:     true,
+
+							Description: "Group name.",
+							Optional:    true,
+							Computed:    true,
 						},
 					},
 				},
@@ -167,9 +185,10 @@ func resourceSystemsdwanService() *schema.Resource {
 			"hash_mode": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnum([]string{"round-robin", "source-ip-based", "source-dest-ip-based", "inbandwidth", "outbandwidth", "bibandwidth"}),
-				Description:  "Hash algorithm for selected priority members for load balance mode.",
-				Optional:     true,
-				Computed:     true,
+
+				Description: "Hash algorithm for selected priority members for load balance mode.",
+				Optional:    true,
+				Computed:    true,
 			},
 			"health_check": {
 				Type:        schema.TypeList,
@@ -180,9 +199,10 @@ func resourceSystemsdwanService() *schema.Resource {
 						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 79),
-							Description:  "Health check name.",
-							Optional:     true,
-							Computed:     true,
+
+							Description: "Health check name.",
+							Optional:    true,
+							Computed:    true,
 						},
 					},
 				},
@@ -190,16 +210,18 @@ func resourceSystemsdwanService() *schema.Resource {
 			"hold_down_time": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 10000000),
-				Description:  "Waiting period in seconds when switching from the back-up member to the primary member (0 - 10000000, default = 0).",
-				Optional:     true,
-				Computed:     true,
+
+				Description: "Waiting period in seconds when switching from the back-up member to the primary member (0 - 10000000, default = 0).",
+				Optional:    true,
+				Computed:    true,
 			},
 			"fosid": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 4000),
-				Description:  "SD-WAN rule ID (1 - 4000).",
-				Optional:     true,
-				Computed:     true,
+
+				Description: "SD-WAN rule ID (1 - 4000).",
+				Optional:    true,
+				Computed:    true,
 			},
 			"input_device": {
 				Type:        schema.TypeList,
@@ -210,9 +232,10 @@ func resourceSystemsdwanService() *schema.Resource {
 						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 79),
-							Description:  "Interface name.",
-							Optional:     true,
-							Computed:     true,
+
+							Description: "Interface name.",
+							Optional:    true,
+							Computed:    true,
 						},
 					},
 				},
@@ -220,16 +243,18 @@ func resourceSystemsdwanService() *schema.Resource {
 			"input_device_negate": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
-				Description:  "Enable/disable negation of input device match.",
-				Optional:     true,
-				Computed:     true,
+
+				Description: "Enable/disable negation of input device match.",
+				Optional:    true,
+				Computed:    true,
 			},
 			"internet_service": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
-				Description:  "Enable/disable use of Internet service for application-based load balancing.",
-				Optional:     true,
-				Computed:     true,
+
+				Description: "Enable/disable use of Internet service for application-based load balancing.",
+				Optional:    true,
+				Computed:    true,
 			},
 			"internet_service_app_ctrl": {
 				Type:        schema.TypeList,
@@ -256,9 +281,10 @@ func resourceSystemsdwanService() *schema.Resource {
 						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 79),
-							Description:  "Application control based Internet Service group name.",
-							Optional:     true,
-							Computed:     true,
+
+							Description: "Application control based Internet Service group name.",
+							Optional:    true,
+							Computed:    true,
 						},
 					},
 				},
@@ -272,9 +298,10 @@ func resourceSystemsdwanService() *schema.Resource {
 						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 79),
-							Description:  "Custom Internet service name.",
-							Optional:     true,
-							Computed:     true,
+
+							Description: "Custom Internet service name.",
+							Optional:    true,
+							Computed:    true,
 						},
 					},
 				},
@@ -288,9 +315,10 @@ func resourceSystemsdwanService() *schema.Resource {
 						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 79),
-							Description:  "Custom Internet Service group name.",
-							Optional:     true,
-							Computed:     true,
+
+							Description: "Custom Internet Service group name.",
+							Optional:    true,
+							Computed:    true,
 						},
 					},
 				},
@@ -304,9 +332,10 @@ func resourceSystemsdwanService() *schema.Resource {
 						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 79),
-							Description:  "Internet Service group name.",
-							Optional:     true,
-							Computed:     true,
+
+							Description: "Internet Service group name.",
+							Optional:    true,
+							Computed:    true,
 						},
 					},
 				},
@@ -320,9 +349,10 @@ func resourceSystemsdwanService() *schema.Resource {
 						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 79),
-							Description:  "Internet service name.",
-							Optional:     true,
-							Computed:     true,
+
+							Description: "Internet service name.",
+							Optional:    true,
+							Computed:    true,
 						},
 					},
 				},
@@ -330,58 +360,66 @@ func resourceSystemsdwanService() *schema.Resource {
 			"jitter_weight": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 10000000),
-				Description:  "Coefficient of jitter in the formula of custom-profile-1.",
-				Optional:     true,
-				Computed:     true,
+
+				Description: "Coefficient of jitter in the formula of custom-profile-1.",
+				Optional:    true,
+				Computed:    true,
 			},
 			"latency_weight": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 10000000),
-				Description:  "Coefficient of latency in the formula of custom-profile-1.",
-				Optional:     true,
-				Computed:     true,
+
+				Description: "Coefficient of latency in the formula of custom-profile-1.",
+				Optional:    true,
+				Computed:    true,
 			},
 			"link_cost_factor": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnum([]string{"latency", "jitter", "packet-loss", "inbandwidth", "outbandwidth", "bibandwidth", "custom-profile-1"}),
-				Description:  "Link cost factor.",
-				Optional:     true,
-				Computed:     true,
+
+				Description: "Link cost factor.",
+				Optional:    true,
+				Computed:    true,
 			},
 			"link_cost_threshold": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 10000000),
-				Description:  "Percentage threshold change of link cost values that will result in policy route regeneration (0 - 10000000, default = 10).",
-				Optional:     true,
-				Computed:     true,
+
+				Description: "Percentage threshold change of link cost values that will result in policy route regeneration (0 - 10000000, default = 10).",
+				Optional:    true,
+				Computed:    true,
 			},
 			"minimum_sla_meet_members": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 255),
-				Description:  "Minimum number of members which meet SLA.",
-				Optional:     true,
-				Computed:     true,
+
+				Description: "Minimum number of members which meet SLA.",
+				Optional:    true,
+				Computed:    true,
 			},
 			"mode": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnum([]string{"auto", "manual", "priority", "sla", "load-balance"}),
-				Description:  "Control how the SD-WAN rule sets the priority of interfaces in the SD-WAN.",
-				Optional:     true,
-				Computed:     true,
+
+				Description: "Control how the SD-WAN rule sets the priority of interfaces in the SD-WAN.",
+				Optional:    true,
+				Computed:    true,
 			},
 			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
-				Description:  "SD-WAN rule name.",
-				Optional:     true,
-				Computed:     true,
+
+				Description: "SD-WAN rule name.",
+				Optional:    true,
+				Computed:    true,
 			},
 			"packet_loss_weight": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 10000000),
-				Description:  "Coefficient of packet-loss in the formula of custom-profile-1.",
-				Optional:     true,
-				Computed:     true,
+
+				Description: "Coefficient of packet-loss in the formula of custom-profile-1.",
+				Optional:    true,
+				Computed:    true,
 			},
 			"priority_members": {
 				Type:        schema.TypeList,
@@ -408,9 +446,10 @@ func resourceSystemsdwanService() *schema.Resource {
 						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 79),
-							Description:  "Priority zone name.",
-							Optional:     true,
-							Computed:     true,
+
+							Description: "Priority zone name.",
+							Optional:    true,
+							Computed:    true,
 						},
 					},
 				},
@@ -418,23 +457,26 @@ func resourceSystemsdwanService() *schema.Resource {
 			"protocol": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 255),
-				Description:  "Protocol number.",
-				Optional:     true,
-				Computed:     true,
+
+				Description: "Protocol number.",
+				Optional:    true,
+				Computed:    true,
 			},
 			"quality_link": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 255),
-				Description:  "Quality grade.",
-				Optional:     true,
-				Computed:     true,
+
+				Description: "Quality grade.",
+				Optional:    true,
+				Computed:    true,
 			},
 			"role": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnum([]string{"standalone", "primary", "secondary"}),
-				Description:  "Service role to work with neighbor.",
-				Optional:     true,
-				Computed:     true,
+
+				Description: "Service role to work with neighbor.",
+				Optional:    true,
+				Computed:    true,
 			},
 			"route_tag": {
 				Type: schema.TypeInt,
@@ -452,9 +494,10 @@ func resourceSystemsdwanService() *schema.Resource {
 						"health_check": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
-							Description:  "SD-WAN health-check.",
-							Optional:     true,
-							Computed:     true,
+
+							Description: "SD-WAN health-check.",
+							Optional:    true,
+							Computed:    true,
 						},
 						"id": {
 							Type: schema.TypeInt,
@@ -469,9 +512,10 @@ func resourceSystemsdwanService() *schema.Resource {
 			"sla_compare_method": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnum([]string{"order", "number"}),
-				Description:  "Method to compare SLA value for SLA mode.",
-				Optional:     true,
-				Computed:     true,
+
+				Description: "Method to compare SLA value for SLA mode.",
+				Optional:    true,
+				Computed:    true,
 			},
 			"src": {
 				Type:        schema.TypeList,
@@ -482,9 +526,10 @@ func resourceSystemsdwanService() *schema.Resource {
 						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 79),
-							Description:  "Address or address group name.",
-							Optional:     true,
-							Computed:     true,
+
+							Description: "Address or address group name.",
+							Optional:    true,
+							Computed:    true,
 						},
 					},
 				},
@@ -492,9 +537,10 @@ func resourceSystemsdwanService() *schema.Resource {
 			"src_negate": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
-				Description:  "Enable/disable negation of source address match.",
-				Optional:     true,
-				Computed:     true,
+
+				Description: "Enable/disable negation of source address match.",
+				Optional:    true,
+				Computed:    true,
 			},
 			"src6": {
 				Type:        schema.TypeList,
@@ -505,9 +551,10 @@ func resourceSystemsdwanService() *schema.Resource {
 						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 79),
-							Description:  "Address6 or address6 group name.",
-							Optional:     true,
-							Computed:     true,
+
+							Description: "Address6 or address6 group name.",
+							Optional:    true,
+							Computed:    true,
 						},
 					},
 				},
@@ -515,30 +562,34 @@ func resourceSystemsdwanService() *schema.Resource {
 			"standalone_action": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
-				Description:  "Enable/disable service when selected neighbor role is standalone while service role is not standalone.",
-				Optional:     true,
-				Computed:     true,
+
+				Description: "Enable/disable service when selected neighbor role is standalone while service role is not standalone.",
+				Optional:    true,
+				Computed:    true,
 			},
 			"start_port": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 65535),
-				Description:  "Start destination port number.",
-				Optional:     true,
-				Computed:     true,
+
+				Description: "Start destination port number.",
+				Optional:    true,
+				Computed:    true,
 			},
 			"status": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
-				Description:  "Enable/disable SD-WAN service.",
-				Optional:     true,
-				Computed:     true,
+
+				Description: "Enable/disable SD-WAN service.",
+				Optional:    true,
+				Computed:    true,
 			},
 			"tie_break": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnum([]string{"zone", "cfg-order", "fib-best-match"}),
-				Description:  "Method of selecting member if more than one meets the SLA.",
-				Optional:     true,
-				Computed:     true,
+
+				Description: "Method of selecting member if more than one meets the SLA.",
+				Optional:    true,
+				Computed:    true,
 			},
 			"tos": {
 				Type: schema.TypeString,
@@ -557,9 +608,10 @@ func resourceSystemsdwanService() *schema.Resource {
 			"use_shortcut_sla": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
-				Description:  "Enable/disable use of ADVPN shortcut for quality comparison.",
-				Optional:     true,
-				Computed:     true,
+
+				Description: "Enable/disable use of ADVPN shortcut for quality comparison.",
+				Optional:    true,
+				Computed:    true,
 			},
 			"users": {
 				Type:        schema.TypeList,
@@ -570,9 +622,10 @@ func resourceSystemsdwanService() *schema.Resource {
 						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 79),
-							Description:  "User name.",
-							Optional:     true,
-							Computed:     true,
+
+							Description: "User name.",
+							Optional:    true,
+							Computed:    true,
 						},
 					},
 				},
@@ -602,12 +655,39 @@ func resourceSystemsdwanServiceCreate(d *schema.ResourceData, m interface{}) err
 		}
 	}
 
+	allow_append := false
+
+	if v, ok := d.GetOk("allow_append"); ok {
+		if b, ok := v.(bool); ok {
+			allow_append = b
+		}
+	}
+
+	urlparams["allow_append"] = []string{strconv.FormatBool(allow_append)}
+
+	key := "id"
+	mkey := ""
+	if v, ok := d.GetOk(key); ok {
+		if s, ok := v.(string); ok {
+			mkey = s
+		}
+	}
+
 	obj, err := getObjectSystemsdwanService(d, c.Fv)
 	if err != nil {
 		return fmt.Errorf("error creating SystemsdwanService resource while getting object: %v", err)
 	}
 
-	o, err := c.CreateSystemsdwanService(obj, vdomparam, urlparams, batchid)
+	if mkey == "" && allow_append {
+		return fmt.Errorf("error creating SystemsdwanService resource: %q must be set if \"allow_append\" is true", key)
+	}
+
+	o := make(map[string]interface{})
+	if mkey != "" && allow_append {
+		o, err = c.UpdateSystemsdwanService(obj, mkey, vdomparam, urlparams, batchid)
+	} else {
+		o, err = c.CreateSystemsdwanService(obj, vdomparam, urlparams, batchid)
+	}
 
 	if err != nil {
 		return fmt.Errorf("error creating SystemsdwanService resource: %v", err)
@@ -2785,6 +2865,11 @@ func getObjectSystemsdwanService(d *schema.ResourceData, sv string) (*map[string
 		} else if t != nil {
 			obj["dst"] = t
 		}
+	} else if d.HasChange("dst") {
+		old, new := d.GetChange("dst")
+		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
+			obj["dst"] = make([]struct{}, 0)
+		}
 	}
 
 	if v, ok := d.GetOk("dst_negate"); ok {
@@ -2802,6 +2887,11 @@ func getObjectSystemsdwanService(d *schema.ResourceData, sv string) (*map[string
 			return &obj, err
 		} else if t != nil {
 			obj["dst6"] = t
+		}
+	} else if d.HasChange("dst6") {
+		old, new := d.GetChange("dst6")
+		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
+			obj["dst6"] = make([]struct{}, 0)
 		}
 	}
 
@@ -2830,6 +2920,11 @@ func getObjectSystemsdwanService(d *schema.ResourceData, sv string) (*map[string
 		} else if t != nil {
 			obj["groups"] = t
 		}
+	} else if d.HasChange("groups") {
+		old, new := d.GetChange("groups")
+		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
+			obj["groups"] = make([]struct{}, 0)
+		}
 	}
 
 	if v, ok := d.GetOk("hash_mode"); ok {
@@ -2847,6 +2942,11 @@ func getObjectSystemsdwanService(d *schema.ResourceData, sv string) (*map[string
 			return &obj, err
 		} else if t != nil {
 			obj["health-check"] = t
+		}
+	} else if d.HasChange("health_check") {
+		old, new := d.GetChange("health_check")
+		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
+			obj["health-check"] = make([]struct{}, 0)
 		}
 	}
 
@@ -2875,6 +2975,11 @@ func getObjectSystemsdwanService(d *schema.ResourceData, sv string) (*map[string
 		} else if t != nil {
 			obj["input-device"] = t
 		}
+	} else if d.HasChange("input_device") {
+		old, new := d.GetChange("input_device")
+		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
+			obj["input-device"] = make([]struct{}, 0)
+		}
 	}
 
 	if v, ok := d.GetOk("input_device_negate"); ok {
@@ -2902,6 +3007,11 @@ func getObjectSystemsdwanService(d *schema.ResourceData, sv string) (*map[string
 		} else if t != nil {
 			obj["internet-service-app-ctrl"] = t
 		}
+	} else if d.HasChange("internet_service_app_ctrl") {
+		old, new := d.GetChange("internet_service_app_ctrl")
+		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
+			obj["internet-service-app-ctrl"] = make([]struct{}, 0)
+		}
 	}
 
 	if v, ok := d.GetOk("internet_service_app_ctrl_group"); ok {
@@ -2910,6 +3020,11 @@ func getObjectSystemsdwanService(d *schema.ResourceData, sv string) (*map[string
 			return &obj, err
 		} else if t != nil {
 			obj["internet-service-app-ctrl-group"] = t
+		}
+	} else if d.HasChange("internet_service_app_ctrl_group") {
+		old, new := d.GetChange("internet_service_app_ctrl_group")
+		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
+			obj["internet-service-app-ctrl-group"] = make([]struct{}, 0)
 		}
 	}
 
@@ -2920,6 +3035,11 @@ func getObjectSystemsdwanService(d *schema.ResourceData, sv string) (*map[string
 		} else if t != nil {
 			obj["internet-service-custom"] = t
 		}
+	} else if d.HasChange("internet_service_custom") {
+		old, new := d.GetChange("internet_service_custom")
+		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
+			obj["internet-service-custom"] = make([]struct{}, 0)
+		}
 	}
 
 	if v, ok := d.GetOk("internet_service_custom_group"); ok {
@@ -2928,6 +3048,11 @@ func getObjectSystemsdwanService(d *schema.ResourceData, sv string) (*map[string
 			return &obj, err
 		} else if t != nil {
 			obj["internet-service-custom-group"] = t
+		}
+	} else if d.HasChange("internet_service_custom_group") {
+		old, new := d.GetChange("internet_service_custom_group")
+		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
+			obj["internet-service-custom-group"] = make([]struct{}, 0)
 		}
 	}
 
@@ -2938,6 +3063,11 @@ func getObjectSystemsdwanService(d *schema.ResourceData, sv string) (*map[string
 		} else if t != nil {
 			obj["internet-service-group"] = t
 		}
+	} else if d.HasChange("internet_service_group") {
+		old, new := d.GetChange("internet_service_group")
+		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
+			obj["internet-service-group"] = make([]struct{}, 0)
+		}
 	}
 
 	if v, ok := d.GetOk("internet_service_name"); ok {
@@ -2946,6 +3076,11 @@ func getObjectSystemsdwanService(d *schema.ResourceData, sv string) (*map[string
 			return &obj, err
 		} else if t != nil {
 			obj["internet-service-name"] = t
+		}
+	} else if d.HasChange("internet_service_name") {
+		old, new := d.GetChange("internet_service_name")
+		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
+			obj["internet-service-name"] = make([]struct{}, 0)
 		}
 	}
 
@@ -3028,6 +3163,11 @@ func getObjectSystemsdwanService(d *schema.ResourceData, sv string) (*map[string
 		} else if t != nil {
 			obj["priority-members"] = t
 		}
+	} else if d.HasChange("priority_members") {
+		old, new := d.GetChange("priority_members")
+		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
+			obj["priority-members"] = make([]struct{}, 0)
+		}
 	}
 
 	if v, ok := d.GetOk("priority_zone"); ok {
@@ -3036,6 +3176,11 @@ func getObjectSystemsdwanService(d *schema.ResourceData, sv string) (*map[string
 			return &obj, err
 		} else if t != nil {
 			obj["priority-zone"] = t
+		}
+	} else if d.HasChange("priority_zone") {
+		old, new := d.GetChange("priority_zone")
+		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
+			obj["priority-zone"] = make([]struct{}, 0)
 		}
 	}
 
@@ -3082,6 +3227,11 @@ func getObjectSystemsdwanService(d *schema.ResourceData, sv string) (*map[string
 		} else if t != nil {
 			obj["sla"] = t
 		}
+	} else if d.HasChange("sla") {
+		old, new := d.GetChange("sla")
+		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
+			obj["sla"] = make([]struct{}, 0)
+		}
 	}
 
 	if v, ok := d.GetOk("sla_compare_method"); ok {
@@ -3100,6 +3250,11 @@ func getObjectSystemsdwanService(d *schema.ResourceData, sv string) (*map[string
 		} else if t != nil {
 			obj["src"] = t
 		}
+	} else if d.HasChange("src") {
+		old, new := d.GetChange("src")
+		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
+			obj["src"] = make([]struct{}, 0)
+		}
 	}
 
 	if v, ok := d.GetOk("src_negate"); ok {
@@ -3117,6 +3272,11 @@ func getObjectSystemsdwanService(d *schema.ResourceData, sv string) (*map[string
 			return &obj, err
 		} else if t != nil {
 			obj["src6"] = t
+		}
+	} else if d.HasChange("src6") {
+		old, new := d.GetChange("src6")
+		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
+			obj["src6"] = make([]struct{}, 0)
 		}
 	}
 
@@ -3189,6 +3349,11 @@ func getObjectSystemsdwanService(d *schema.ResourceData, sv string) (*map[string
 			return &obj, err
 		} else if t != nil {
 			obj["users"] = t
+		}
+	} else if d.HasChange("users") {
+		old, new := d.GetChange("users")
+		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
+			obj["users"] = make([]struct{}, 0)
 		}
 	}
 

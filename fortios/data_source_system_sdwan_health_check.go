@@ -118,6 +118,7 @@ func dataSourceSystemsdwanHealthCheck() *schema.Resource {
 				Type:        schema.TypeString,
 				Description: "Twamp controller password in authentication mode",
 				Computed:    true,
+				Sensitive:   true,
 			},
 			"port": {
 				Type:        schema.TypeInt,
@@ -402,10 +403,6 @@ func dataSourceFlattenSystemsdwanHealthCheckPacketSize(v interface{}, d *schema.
 	return v
 }
 
-func dataSourceFlattenSystemsdwanHealthCheckPassword(v interface{}, d *schema.ResourceData, pre string) interface{} {
-	return v
-}
-
 func dataSourceFlattenSystemsdwanHealthCheckPort(v interface{}, d *schema.ResourceData, pre string) interface{} {
 	return v
 }
@@ -662,12 +659,6 @@ func dataSourceRefreshObjectSystemsdwanHealthCheck(d *schema.ResourceData, o map
 	if err = d.Set("packet_size", dataSourceFlattenSystemsdwanHealthCheckPacketSize(o["packet-size"], d, "packet_size")); err != nil {
 		if !fortiAPIPatch(o["packet-size"]) {
 			return fmt.Errorf("error reading packet_size: %v", err)
-		}
-	}
-
-	if err = d.Set("password", dataSourceFlattenSystemsdwanHealthCheckPassword(o["password"], d, "password")); err != nil {
-		if !fortiAPIPatch(o["password"]) {
-			return fmt.Errorf("error reading password: %v", err)
 		}
 	}
 

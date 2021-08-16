@@ -41,12 +41,20 @@ func resourceSystemsdwanMembers() *schema.Resource {
 				Optional:    true,
 				Default:     0,
 			},
+			"allow_append": {
+				Type:         schema.TypeBool,
+				Description:  "If set to true allows provider to overwrite existing resources instead of erroring. Useful for brownfield implementations. Use with caution!",
+				Optional:     true,
+				Default:      false,
+				RequiredWith: []string{"seq_num"},
+			},
 			"comment": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
-				Description:  "Comments.",
-				Optional:     true,
-				Computed:     true,
+
+				Description: "Comments.",
+				Optional:    true,
+				Computed:    true,
 			},
 			"cost": {
 				Type: schema.TypeInt,
@@ -58,100 +66,115 @@ func resourceSystemsdwanMembers() *schema.Resource {
 			"gateway": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.IsIPv4Address,
-				Description:  "The default gateway for this interface. Usually the default gateway of the Internet service provider that this interface is connected to.",
-				Optional:     true,
-				Computed:     true,
+
+				Description: "The default gateway for this interface. Usually the default gateway of the Internet service provider that this interface is connected to.",
+				Optional:    true,
+				Computed:    true,
 			},
 			"gateway6": {
-				Type:         schema.TypeString,
-				ValidateFunc: validation.IsIPv6Address,
-				Description:  "IPv6 gateway.",
-				Optional:     true,
-				Computed:     true,
+				Type:             schema.TypeString,
+				ValidateFunc:     validation.IsIPv6Address,
+				DiffSuppressFunc: diffIPEqual,
+				Description:      "IPv6 gateway.",
+				Optional:         true,
+				Computed:         true,
 			},
 			"ingress_spillover_threshold": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 16776000),
-				Description:  "Ingress spillover threshold for this interface (0 - 16776000 kbit/s). When this traffic volume threshold is reached, new sessions spill over to other interfaces in the SD-WAN.",
-				Optional:     true,
-				Computed:     true,
+
+				Description: "Ingress spillover threshold for this interface (0 - 16776000 kbit/s). When this traffic volume threshold is reached, new sessions spill over to other interfaces in the SD-WAN.",
+				Optional:    true,
+				Computed:    true,
 			},
 			"interface": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 15),
-				Description:  "Interface name.",
-				Optional:     true,
-				Computed:     true,
+
+				Description: "Interface name.",
+				Optional:    true,
+				Computed:    true,
 			},
 			"priority": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 65535),
-				Description:  "Priority of the interface for IPv4 (0 - 65535, default = 0). Used for SD-WAN rules or priority rules.",
-				Optional:     true,
-				Computed:     true,
+
+				Description: "Priority of the interface for IPv4 (0 - 65535, default = 0). Used for SD-WAN rules or priority rules.",
+				Optional:    true,
+				Computed:    true,
 			},
 			"priority6": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 65535),
-				Description:  "Priority of the interface for IPv6 (1 - 65535, default = 1024). Used for SD-WAN rules or priority rules.",
-				Optional:     true,
-				Computed:     true,
+
+				Description: "Priority of the interface for IPv6 (1 - 65535, default = 1024). Used for SD-WAN rules or priority rules.",
+				Optional:    true,
+				Computed:    true,
 			},
 			"seq_num": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 512),
-				Description:  "Sequence number(1-512).",
-				ForceNew:     true,
-				Required:     true,
+
+				Description: "Sequence number(1-512).",
+				ForceNew:    true,
+				Optional:    true,
+				Computed:    true,
 			},
 			"source": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.IsIPv4Address,
-				Description:  "Source IP address used in the health-check packet to the server.",
-				Optional:     true,
-				Computed:     true,
+
+				Description: "Source IP address used in the health-check packet to the server.",
+				Optional:    true,
+				Computed:    true,
 			},
 			"source6": {
-				Type:         schema.TypeString,
-				ValidateFunc: validation.IsIPv6Address,
-				Description:  "Source IPv6 address used in the health-check packet to the server.",
-				Optional:     true,
-				Computed:     true,
+				Type:             schema.TypeString,
+				ValidateFunc:     validation.IsIPv6Address,
+				DiffSuppressFunc: diffIPEqual,
+				Description:      "Source IPv6 address used in the health-check packet to the server.",
+				Optional:         true,
+				Computed:         true,
 			},
 			"spillover_threshold": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 16776000),
-				Description:  "Egress spillover threshold for this interface (0 - 16776000 kbit/s). When this traffic volume threshold is reached, new sessions spill over to other interfaces in the SD-WAN.",
-				Optional:     true,
-				Computed:     true,
+
+				Description: "Egress spillover threshold for this interface (0 - 16776000 kbit/s). When this traffic volume threshold is reached, new sessions spill over to other interfaces in the SD-WAN.",
+				Optional:    true,
+				Computed:    true,
 			},
 			"status": {
 				Type:         schema.TypeString,
 				ValidateFunc: fortiValidateEnableDisable(),
-				Description:  "Enable/disable this interface in the SD-WAN.",
-				Optional:     true,
-				Computed:     true,
+
+				Description: "Enable/disable this interface in the SD-WAN.",
+				Optional:    true,
+				Computed:    true,
 			},
 			"volume_ratio": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 255),
-				Description:  "Measured volume ratio (this value / sum of all values = percentage of link volume, 1 - 255).",
-				Optional:     true,
-				Computed:     true,
+
+				Description: "Measured volume ratio (this value / sum of all values = percentage of link volume, 1 - 255).",
+				Optional:    true,
+				Computed:    true,
 			},
 			"weight": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 255),
-				Description:  "Weight of this interface for weighted load balancing. (1 - 255) More traffic is directed to interfaces with higher weights.",
-				Optional:     true,
-				Computed:     true,
+
+				Description: "Weight of this interface for weighted load balancing. (1 - 255) More traffic is directed to interfaces with higher weights.",
+				Optional:    true,
+				Computed:    true,
 			},
 			"zone": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
-				Description:  "Zone name.",
-				Optional:     true,
-				Computed:     true,
+
+				Description: "Zone name.",
+				Optional:    true,
+				Computed:    true,
 			},
 		},
 	}
@@ -178,12 +201,39 @@ func resourceSystemsdwanMembersCreate(d *schema.ResourceData, m interface{}) err
 		}
 	}
 
+	allow_append := false
+
+	if v, ok := d.GetOk("allow_append"); ok {
+		if b, ok := v.(bool); ok {
+			allow_append = b
+		}
+	}
+
+	urlparams["allow_append"] = []string{strconv.FormatBool(allow_append)}
+
+	key := "seq_num"
+	mkey := ""
+	if v, ok := d.GetOk(key); ok {
+		if s, ok := v.(string); ok {
+			mkey = s
+		}
+	}
+
 	obj, err := getObjectSystemsdwanMembers(d, c.Fv)
 	if err != nil {
 		return fmt.Errorf("error creating SystemsdwanMembers resource while getting object: %v", err)
 	}
 
-	o, err := c.CreateSystemsdwanMembers(obj, vdomparam, urlparams, batchid)
+	if mkey == "" && allow_append {
+		return fmt.Errorf("error creating SystemsdwanMembers resource: %q must be set if \"allow_append\" is true", key)
+	}
+
+	o := make(map[string]interface{})
+	if mkey != "" && allow_append {
+		o, err = c.UpdateSystemsdwanMembers(obj, mkey, vdomparam, urlparams, batchid)
+	} else {
+		o, err = c.CreateSystemsdwanMembers(obj, vdomparam, urlparams, batchid)
+	}
 
 	if err != nil {
 		return fmt.Errorf("error creating SystemsdwanMembers resource: %v", err)
