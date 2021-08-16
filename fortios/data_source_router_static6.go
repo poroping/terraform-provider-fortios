@@ -137,7 +137,7 @@ func dataSourceRouterStatic6Read(d *schema.ResourceData, m interface{}) error {
 	}
 
 	mkey := ""
-	key := "seq-num"
+	key := "seq_num"
 	t := d.Get(key)
 	if v, ok := t.(string); ok {
 		mkey = v
