@@ -6,9 +6,8 @@ description: |-
   Configure RIPng.
 ---
 
-# fortios_router_ripng
+## fortios_router_ripng
 Configure RIPng.
-
 ## Example Usage
 
 ```hcl
@@ -49,96 +48,93 @@ resource "fortios_router_ripng" "trname" {
 ```
 
 ## Argument Reference
+* `vdomparam` - Specifies the vdom to which the data source will be applied when the FortiGate unit is running in VDOM mode. Only one vdom can be specified. If you want to inherit the vdom configuration of the provider, please do not set this parameter.
+* `dynamic_sort_table` - `true` or `false`, set this parameter to `true` when using dynamic for_each + toset to configure and sort sub-tables, if set to `true` static sub-tables must be ordered.
 
-The following arguments are supported:
-
-* `default_information_originate` - Enable/disable generation of default route. Valid values: `enable`, `disable`.
+* `default_information_originate` - Enable/disable generation of default route. Valid values: `enable` `disable` .
 * `default_metric` - Default metric.
-* `max_out_metric` - Maximum metric allowed to output(0 means 'not set').
-* `distance` - distance The structure of `distance` block is documented below.
-* `distribute_list` - Distribute list. The structure of `distribute_list` block is documented below.
-* `neighbor` - neighbor The structure of `neighbor` block is documented below.
-* `network` - Network. The structure of `network` block is documented below.
-* `aggregate_address` - Aggregate address. The structure of `aggregate_address` block is documented below.
-* `offset_list` - Offset list. The structure of `offset_list` block is documented below.
-* `passive_interface` - Passive interface configuration. The structure of `passive_interface` block is documented below.
-* `redistribute` - Redistribute configuration. The structure of `redistribute` block is documented below.
-* `update_timer` - Update timer.
-* `timeout_timer` - Timeout timer.
 * `garbage_timer` - Garbage timer.
-* `interface` - RIPng interface configuration. The structure of `interface` block is documented below.
-* `dynamic_sort_subtable` - true or false, set this parameter to true when using dynamic for_each + toset to configure and sort sub-tables, please do not set this parameter when configuring static sub-tables.
-* `vdomparam` - Specifies the vdom to which the resource will be applied when the FortiGate unit is running in VDOM mode. Only one vdom can be specified. If you want to inherit the vdom configuration of the provider, please do not set this parameter.
+* `max_out_metric` - Maximum metric allowed to output(0 means 'not set').
+* `timeout_timer` - Timeout timer.
+* `update_timer` - Update timer.
+* `aggregate_address` - Aggregate address. The structure of `aggregate_address` block is documented below.
 
-The `distance` block supports:
-
-* `id` - Distance ID.
-* `distance` - Distance (1 - 255).
-* `prefix6` - Distance prefix6.
-* `access_list6` - Access list for route destination.
-
-The `distribute_list` block supports:
-
-* `id` - Distribute list ID.
-* `status` - status Valid values: `enable`, `disable`.
-* `direction` - Distribute list direction. Valid values: `in`, `out`.
-* `listname` - Distribute access/prefix list name.
-* `interface` - Distribute list interface name.
-
-The `neighbor` block supports:
-
-* `id` - Neighbor entry ID.
-* `ip6` - IPv6 link-local address.
-* `interface` - Interface name.
-
-The `network` block supports:
-
-* `id` - Network entry ID.
-* `prefix` - Network IPv6 link-local prefix.
-
-The `aggregate_address` block supports:
+The `aggregate_address` block contains:
 
 * `id` - Aggregate address entry ID.
 * `prefix6` - Aggregate address prefix.
+* `distance` - distance The structure of `distance` block is documented below.
 
-The `offset_list` block supports:
+The `distance` block contains:
 
-* `id` - Offset-list ID.
-* `status` - status Valid values: `enable`, `disable`.
-* `direction` - Offset list direction. Valid values: `in`, `out`.
-* `access_list6` - IPv6 access list name.
-* `offset` - offset
-* `interface` - Interface name.
+* `access_list6` - Access list for route destination. This attribute must reference one of the following datasources: `router.access-list6.name` .
+* `distance` - Distance (1 - 255).
+* `id` - Distance ID.
+* `prefix6` - Distance prefix6.
+* `distribute_list` - Distribute list. The structure of `distribute_list` block is documented below.
 
-The `passive_interface` block supports:
+The `distribute_list` block contains:
 
-* `name` - Passive interface name.
+* `direction` - Distribute list direction. Valid values: `in` `out` .
+* `id` - Distribute list ID.
+* `interface` - Distribute list interface name. This attribute must reference one of the following datasources: `system.interface.name` .
+* `listname` - Distribute access/prefix list name. This attribute must reference one of the following datasources: `router.access-list6.name` `router.prefix-list6.name` .
+* `status` - status Valid values: `enable` `disable` .
+* `interface` - RIPng interface configuration. The structure of `interface` block is documented below.
 
-The `redistribute` block supports:
+The `interface` block contains:
 
-* `name` - Redistribute name.
-* `status` - status Valid values: `enable`, `disable`.
-* `metric` - Redistribute metric setting.
-* `routemap` - Route map name.
-
-The `interface` block supports:
-
-* `name` - Interface name.
-* `split_horizon_status` - Enable/disable split horizon. Valid values: `enable`, `disable`.
-* `split_horizon` - Enable/disable split horizon. Valid values: `poisoned`, `regular`.
 * `flags` - Flags.
+* `name` - Interface name. This attribute must reference one of the following datasources: `system.interface.name` .
+* `split_horizon` - Enable/disable split horizon. Valid values: `poisoned` `regular` .
+* `split_horizon_status` - Enable/disable split horizon. Valid values: `enable` `disable` .
+* `neighbor` - neighbor The structure of `neighbor` block is documented below.
 
+The `neighbor` block contains:
+
+* `id` - Neighbor entry ID.
+* `interface` - Interface name. This attribute must reference one of the following datasources: `system.interface.name` .
+* `ip6` - IPv6 link-local address.
+* `network` - Network. The structure of `network` block is documented below.
+
+The `network` block contains:
+
+* `id` - Network entry ID.
+* `prefix` - Network IPv6 link-local prefix.
+* `offset_list` - Offset list. The structure of `offset_list` block is documented below.
+
+The `offset_list` block contains:
+
+* `access_list6` - IPv6 access list name. This attribute must reference one of the following datasources: `router.access-list6.name` .
+* `direction` - Offset list direction. Valid values: `in` `out` .
+* `id` - Offset-list ID.
+* `interface` - Interface name. This attribute must reference one of the following datasources: `system.interface.name` .
+* `offset` - offset
+* `status` - status Valid values: `enable` `disable` .
+* `passive_interface` - Passive interface configuration. The structure of `passive_interface` block is documented below.
+
+The `passive_interface` block contains:
+
+* `name` - Passive interface name. This attribute must reference one of the following datasources: `system.interface.name` .
+* `redistribute` - Redistribute configuration. The structure of `redistribute` block is documented below.
+
+The `redistribute` block contains:
+
+* `metric` - Redistribute metric setting.
+* `name` - Redistribute name.
+* `routemap` - Route map name. This attribute must reference one of the following datasources: `router.route-map.name` .
+* `status` - status Valid values: `enable` `disable` .
 
 ## Attribute Reference
 
 In addition to all the above arguments, the following attributes are exported:
-* `id` - an identifier for the resource.
+* `id` - an identifier for the resource with format {{name}}.
 
 ## Import
 
-Router Ripng can be imported using any of these accepted formats:
+router_ripng can be imported using any of these accepted formats:
 ```
 $ export "FORTIOS_IMPORT_TABLE"="true"
-$ terraform import fortios_router_ripng.labelname RouterRipng
+$ terraform import fortios_router_ripng.labelname {{name}}
 $ unset "FORTIOS_IMPORT_TABLE"
 ```

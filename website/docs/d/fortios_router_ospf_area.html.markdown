@@ -11,7 +11,9 @@ Use this data source to get information on a fortios OSPF area configuration.
 
 ## Example Usage
 
-WIP
+```hcl
+
+```
 
 ## Argument Reference
 

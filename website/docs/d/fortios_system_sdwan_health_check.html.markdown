@@ -11,7 +11,9 @@ Use this data source to get information on a fortios SD-WAN status checking or h
 
 ## Example Usage
 
-WIP
+```hcl
+
+```
 
 ## Argument Reference
 

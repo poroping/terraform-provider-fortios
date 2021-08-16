@@ -11,7 +11,9 @@ Use this data source to get information on a fortios FortiGate interfaces added 
 
 ## Example Usage
 
-WIP
+```hcl
+
+```
 
 ## Argument Reference
 

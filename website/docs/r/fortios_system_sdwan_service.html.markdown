@@ -13,10 +13,13 @@ Create SD-WAN rules (also called services) to control how sessions are distribut
 
 ## Example Usage
 
-WIP
+```hcl
+
+```
 
 ## Argument Reference
 * `vdomparam` - Specifies the vdom to which the data source will be applied when the FortiGate unit is running in VDOM mode. Only one vdom can be specified. If you want to inherit the vdom configuration of the provider, please do not set this parameter.
+* `allow_append` - If set to true allows provider to overwrite existing resources instead of erroring. Useful for brownfield implementations. Use with caution! Requires `"fosid"` to be defined.
 * `dynamic_sort_table` - `true` or `false`, set this parameter to `true` when using dynamic for_each + toset to configure and sort sub-tables, if set to `true` static sub-tables must be ordered.
 
 * `addr_mode` - Address mode (IPv4 or IPv6). Valid values: `ipv4` `ipv6` .

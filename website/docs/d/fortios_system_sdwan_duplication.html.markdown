@@ -11,7 +11,9 @@ Use this data source to get information on a fortios Create SD-WAN duplication r
 
 ## Example Usage
 
-WIP
+```hcl
+
+```
 
 ## Argument Reference
 
