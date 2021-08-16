@@ -9,6 +9,7 @@
 				{{- else }}
                 Computed:     true,
 				{{- end }}
+                {{ if $value.sensitive }}Sensitive:    true,{{- end }}
 			},
             {{- end }}
             {{- if or (eq $value.category "table") (eq $value.category "complex") }}
