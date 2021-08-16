@@ -1,3 +1,9 @@
+## 2.3.4
+
+BUGFIXES:
+* Fixed bug with dynamic_sort_subtable in the following resources: `fortios_system_zone` `fortios_router_ospf` `fortios_router_ospf6` `fortios_router_bgp` `fortios_router_rip` `fortios_router_ripng` `fortios_router_static` `fortios_router_static6`
+
+
 ## 2.3.3
 
 IMPROVEMENTS:
