@@ -57,7 +57,7 @@ func resource{{ .fpath }}Create(d *schema.ResourceData, m interface{}) error {
 		o, err = c.Create{{ .fpath }}(obj, vdomparam, urlparams, batchid)
 	}
 {{ else }}
-	o, err := c.Create{{ .fpath }}(obj, vdomparam, urlparams, batchid)
+	o, err := c.{{- if eq .results.category "complex" -}}Update{{ .fpath }}(obj, {{ .fpath | printf "%q" }}, vdomparam, urlparams, batchid){{- else -}}Create{{ .fpath }}(obj, vdomparam, urlparams, batchid){{- end }}
 {{ end }}
 	if err != nil {
 		return fmt.Errorf("error creating {{ .fpath }} resource: %v", err)
