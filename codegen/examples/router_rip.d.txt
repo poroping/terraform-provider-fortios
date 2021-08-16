@@ -1,0 +1,6 @@
+data "fortios_router_rip" sample1 {
+}
+
+output output1 {
+  value = data.fortios_router_rip.sample1
+}

@@ -1,0 +1,43 @@
+resource "fortios_router_ospf6" "trname" {
+  abr_type                        = "standard"
+  auto_cost_ref_bandwidth         = 1000
+  bfd                             = "disable"
+  default_information_metric      = 10
+  default_information_metric_type = "2"
+  default_information_originate   = "disable"
+  default_metric                  = 10
+  log_neighbour_changes           = "enable"
+  router_id                       = "0.0.0.0"
+  spf_timers                      = "5 10"
+
+  redistribute {
+    metric      = 0
+    metric_type = "2"
+    name        = "connected"
+    status      = "disable"
+  }
+  redistribute {
+    metric      = 0
+    metric_type = "2"
+    name        = "static"
+    status      = "disable"
+  }
+  redistribute {
+    metric      = 0
+    metric_type = "2"
+    name        = "rip"
+    status      = "disable"
+  }
+  redistribute {
+    metric      = 0
+    metric_type = "2"
+    name        = "bgp"
+    status      = "disable"
+  }
+  redistribute {
+    metric      = 0
+    metric_type = "2"
+    name        = "isis"
+    status      = "disable"
+  }
+}

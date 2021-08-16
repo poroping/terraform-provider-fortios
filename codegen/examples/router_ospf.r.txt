@@ -1,0 +1,58 @@
+resource "fortios_router_ospf" "trname" {
+  abr_type                          = "standard"
+  auto_cost_ref_bandwidth           = 1000
+  bfd                               = "disable"
+  database_overflow                 = "disable"
+  database_overflow_max_lsas        = 10000
+  database_overflow_time_to_recover = 300
+  default_information_metric        = 10
+  default_information_metric_type   = "2"
+  default_information_originate     = "disable"
+  default_metric                    = 10
+  distance                          = 110
+  distance_external                 = 110
+  distance_inter_area               = 110
+  distance_intra_area               = 110
+  log_neighbour_changes             = "enable"
+  restart_mode                      = "none"
+  restart_period                    = 120
+  rfc1583_compatible                = "disable"
+  router_id                         = "0.0.0.0"
+  spf_timers                        = "5 10"
+
+  redistribute {
+    metric      = 0
+    metric_type = "2"
+    name        = "connected"
+    status      = "disable"
+    tag         = 0
+  }
+  redistribute {
+    metric      = 0
+    metric_type = "2"
+    name        = "static"
+    status      = "disable"
+    tag         = 0
+  }
+  redistribute {
+    metric      = 0
+    metric_type = "2"
+    name        = "rip"
+    status      = "disable"
+    tag         = 0
+  }
+  redistribute {
+    metric      = 0
+    metric_type = "2"
+    name        = "bgp"
+    status      = "disable"
+    tag         = 0
+  }
+  redistribute {
+    metric      = 0
+    metric_type = "2"
+    name        = "isis"
+    status      = "disable"
+    tag         = 0
+  }
+}

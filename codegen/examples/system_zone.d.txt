@@ -1,0 +1,7 @@
+data "fortios_system_zone" sample1 {
+    name = "outside"
+}
+
+output output1 {
+  value = data.fortios_system_zone.sample1
+}

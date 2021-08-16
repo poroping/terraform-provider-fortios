@@ -1,0 +1,72 @@
+resource "fortios_router_bgp" "trname" {
+  additional_path_select             = 2
+  additional_path_select6            = 2
+  always_compare_med                 = "disable"
+  as                                 = 0
+  client_to_client_reflection        = "enable"
+  cluster_id                         = "0.0.0.0"
+  dampening                          = "disable"
+  dampening_max_suppress_time        = 60
+  dampening_reachability_half_life   = 15
+  dampening_reuse                    = 750
+  dampening_suppress                 = 2000
+  dampening_unreachability_half_life = 15
+  default_local_preference           = 100
+  deterministic_med                  = "disable"
+  distance_external                  = 20
+  distance_internal                  = 200
+  distance_local                     = 200
+  graceful_restart_time              = 120
+  graceful_stalepath_time            = 360
+  graceful_update_delay              = 120
+  holdtime_timer                     = 180
+  ibgp_multipath                     = "disable"
+  ignore_optional_capability         = "enable"
+  keepalive_timer                    = 60
+  log_neighbour_changes              = "enable"
+  network_import_check               = "enable"
+  scan_time                          = 60
+  synchronization                    = "disable"
+
+  redistribute {
+    name   = "connected"
+    status = "disable"
+  }
+  redistribute {
+    name   = "rip"
+    status = "disable"
+  }
+  redistribute {
+    name   = "ospf"
+    status = "disable"
+  }
+  redistribute {
+    name   = "static"
+    status = "disable"
+  }
+  redistribute {
+    name   = "isis"
+    status = "disable"
+  }
+
+  redistribute6 {
+    name   = "connected"
+    status = "disable"
+  }
+  redistribute6 {
+    name   = "rip"
+    status = "disable"
+  }
+  redistribute6 {
+    name   = "ospf"
+    status = "disable"
+  }
+  redistribute6 {
+    name   = "static"
+    status = "disable"
+  }
+  redistribute6 {
+    name   = "isis"
+    status = "disable"
+  }
+}

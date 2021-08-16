@@ -1,0 +1,7 @@
+data "fortios_router_static6" sample1 {
+  seq_num = 1
+}
+
+output output1 {
+  value = data.fortios_router_static6.sample1
+}

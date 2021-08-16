@@ -1,0 +1,7 @@
+resource "fortios_system_interface" "trname" {
+  ip           = "0.0.0.0 0.0.0.0"
+  name         = "loopymcloopface"
+  type         = "loopback"
+  vdom         = "root"
+  description  = "Created by Terraform Provider for FortiOS"
+}

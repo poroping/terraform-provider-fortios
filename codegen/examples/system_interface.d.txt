@@ -1,0 +1,7 @@
+data "fortios_system_interface" "trname" {
+  name         = "wan1"
+}
+
+output output1 {
+  value = data.fortios_system_interface.trname
+}

@@ -1,0 +1,34 @@
+resource "fortios_router_ripng" "trname" {
+  default_information_originate = "disable"
+  default_metric                = 1
+  garbage_timer                 = 120
+  max_out_metric                = 0
+  timeout_timer                 = 180
+  update_timer                  = 30
+
+  redistribute {
+    metric = 10
+    name   = "connected"
+    status = "disable"
+  }
+  redistribute {
+    metric = 10
+    name   = "static"
+    status = "disable"
+  }
+  redistribute {
+    metric = 10
+    name   = "ospf"
+    status = "disable"
+  }
+  redistribute {
+    metric = 10
+    name   = "bgp"
+    status = "disable"
+  }
+  redistribute {
+    metric = 10
+    name   = "isis"
+    status = "disable"
+  }
+}

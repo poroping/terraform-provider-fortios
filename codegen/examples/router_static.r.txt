@@ -1,0 +1,18 @@
+resource "fortios_router_static" "trname" {
+  bfd                 = "disable"
+  blackhole           = "disable"
+  device              = "port4"
+  distance            = 10
+  dst                 = "1.0.0.0 255.240.0.0"
+  dynamic_gateway     = "disable"
+  gateway             = "0.0.0.0"
+  internet_service    = 0
+  link_monitor_exempt = "disable"
+  priority            = 22
+  seq_num             = 1
+  src                 = "0.0.0.0 0.0.0.0"
+  status              = "enable"
+  virtual_wan_link    = "disable"
+  vrf                 = 0
+  weight              = 2
+}
