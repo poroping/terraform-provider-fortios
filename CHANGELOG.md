@@ -1,3 +1,18 @@
+## 2.3.3
+
+IMPROVEMENTS:
+* Add complex parent sub-table emptying on terraform destroy to codegen.
+* Add clearing of tables on removal from config to codegen.
+* Codegen now supports `allow_append` on all resources with an mkey.
+* Add functionality to add examples to codegen.
+* Codegen now deals with password fields properly, marks as sensitive and doesn't create functions to read from API response (always returned as ENC XXXX).
+* `allow_append` now supported on following resources: `fortios_system_zone` `fortios_router_static` `fortios_router_static6`
+
+BUGFIXES:
+* Fixed bug where tables would not be cleared if a table configuration was set and then removed for the following resources: `fortios_system_zone` `fortios_router_ospf` `fortios_router_ospf6` `fortios_router_bgp` `fortios_router_rip` `fortios_router_ripng`
+* Fixed bug where passwords would attempt to be read (API returns ENC XXXX) in the following resources: `fortios_router_ospf_area`
+* Fixed bug in data sources with the mkey "seq_num".
+
 ## 2.3.2
 
 IMPROVEMENTS:
