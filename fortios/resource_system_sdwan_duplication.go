@@ -46,7 +46,7 @@ func resourceSystemsdwanDuplication() *schema.Resource {
 				Description:  "If set to true allows provider to overwrite existing resources instead of erroring. Useful for brownfield implementations. Use with caution!",
 				Optional:     true,
 				Default:      false,
-				RequiredWith: []string{"id"},
+				RequiredWith: []string{"fosid"},
 			},
 			"dynamic_sort_table": {
 				Type:     schema.TypeBool,
