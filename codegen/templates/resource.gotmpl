@@ -43,7 +43,7 @@ func resource{{.fpath}}() *schema.Resource {
 				Description: "If set to true allows provider to overwrite existing resources instead of erroring. Useful for brownfield implementations. Use with caution!",
 				Optional:     true,
 				Default:      false,
-				{{ if eq .results.mkey "id" }}RequiredWith: []string{ "fosid" },{{ else }}RequiredWith: []string{ {{- (flatten .results.mkey) | printf "%q" -}} },{{ end }}
+				{{ if eq .results.mkey "id" }}RequiredWith: []string{ "fosid" },{{ else if or (eq .results.mkey "seq-num") }}RequiredWith: []string{ {{- (flatten .results.mkey) | printf "%q" -}} },{{ else }}{{- end }}
 			},
 			{{- end }}
 			{{- if .results.dynamic_sort_table }}

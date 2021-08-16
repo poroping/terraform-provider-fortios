@@ -42,11 +42,10 @@ func resourceSystemsdwanNeighbor() *schema.Resource {
 				Default:     0,
 			},
 			"allow_append": {
-				Type:         schema.TypeBool,
-				Description:  "If set to true allows provider to overwrite existing resources instead of erroring. Useful for brownfield implementations. Use with caution!",
-				Optional:     true,
-				Default:      false,
-				RequiredWith: []string{"ip"},
+				Type:        schema.TypeBool,
+				Description: "If set to true allows provider to overwrite existing resources instead of erroring. Useful for brownfield implementations. Use with caution!",
+				Optional:    true,
+				Default:     false,
 			},
 			"health_check": {
 				Type:         schema.TypeString,
