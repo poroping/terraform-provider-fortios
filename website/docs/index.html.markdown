@@ -8,9 +8,7 @@ description: |-
 
 # FortiOS Provider
 
-->	This is a fork of the Official FortiOS provider with a bunch of added functionality and bug fixes. It is a drop-in replacement with one breaking change related to the dynamic_sort_subtable attribute.
-
-If you have used this attribute you just need to change it from a string to a bool.
+->	This is a fork of the Official FortiOS provider with a bunch of added functionality and bug fixes. It is a drop-in replacement with one breaking change related to the dynamic_sort_subtable attribute. If you have used this attribute you just need to change it from a string to a bool.
 
 The FortiOS provider is used to interact with the resources supported by FortiOS. We need to configure the provider with the proper credentials before it can be used.
 
