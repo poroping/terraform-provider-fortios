@@ -47,7 +47,7 @@ func resourceSystemsdwanHealthCheck() *schema.Resource {
 				Optional:    true,
 				Default:     false,
 			},
-			"dynamic_sort_table": {
+			"dynamic_sort_subtable": {
 				Type:     schema.TypeBool,
 				Optional: true,
 				Default:  false,

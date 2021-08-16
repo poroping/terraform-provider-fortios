@@ -41,7 +41,7 @@ func resourceRouterOspf() *schema.Resource {
 				Optional:    true,
 				Default:     0,
 			},
-			"dynamic_sort_table": {
+			"dynamic_sort_subtable": {
 				Type:     schema.TypeBool,
 				Optional: true,
 				Default:  false,

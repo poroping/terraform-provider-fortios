@@ -48,7 +48,7 @@ func resourceSystemsdwanDuplication() *schema.Resource {
 				Default:      false,
 				RequiredWith: []string{"fosid"},
 			},
-			"dynamic_sort_table": {
+			"dynamic_sort_subtable": {
 				Type:     schema.TypeBool,
 				Optional: true,
 				Default:  false,
