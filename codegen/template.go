@@ -24,6 +24,7 @@ func main() {
 			"title":       title,
 			"subcategory": subcategory,
 			"difflookup":  diffLookup,
+			"readExample": readExample,
 		}
 		t := template.Must(template.New("main").Funcs(funcMap).ParseGlob("./templates/*.gotmpl"))
 
@@ -33,9 +34,9 @@ func main() {
 			panic(err)
 		}
 
-		// Add relative path to json struct for use in templates
+		// Add relative path to json struct for use in templates.
 		n := addPaths(m)
-
+		// Add extra values to use in templates.
 		r := addResourceInfo(n)
 
 		var buf bytes.Buffer
@@ -300,6 +301,7 @@ func typelookup(s string) string {
 		"integer":            "TypeInt",
 		"user":               "TypeString",
 		"password-3":         "TypeString",
+		"mac-address":        "TypeString",
 	}
 	s, ok := m[s]
 	if !ok {
@@ -332,6 +334,7 @@ func valilookup(values map[string]interface{}) string {
 		"integer":            valiInt(int(min), int(max)),
 		"user":               "",
 		"password-3":         "",
+		"mac-address":        "",
 	}
 	s, ok := m[vtype]
 	if !ok {
@@ -364,6 +367,7 @@ func diffLookup(values map[string]interface{}) string {
 		"integer":            "",
 		"user":               "",
 		"password-3":         "",
+		"mac-address":        "",
 	}
 	s, ok := m[vtype]
 	if !ok {
@@ -424,4 +428,16 @@ func title(v string) string {
 func subcategory(input string) string {
 	s := strings.Split(input, ".")
 	return s[0]
+}
+
+func readExample(name, typ string) string {
+	file, err := os.Open(fmt.Sprintf("./examples/%s.%s.txt", name, typ))
+	if err != nil {
+		return ""
+	}
+	example, err := ioutil.ReadAll(file)
+	if err != nil {
+		return ""
+	}
+	return string(example)
 }
