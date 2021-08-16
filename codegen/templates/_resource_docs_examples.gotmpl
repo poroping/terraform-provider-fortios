@@ -1,4 +1,4 @@
-{{ define "DATASOURCEEXAMPLE" }}
+{{ define "RESOURCEEXAMPLE" }}
 {{- $path := (flatten .path) }}
 {{- $name := (flatten .name) }}
 {{- $full_name := (printf "%s_%s" $path $name) }}
@@ -6,6 +6,6 @@
 ## Example Usage
 
 ```hcl
-{{ (readExample $full_name "d") }}
+{{ (readExample $full_name "r") }}
 ```
 {{- end }}
