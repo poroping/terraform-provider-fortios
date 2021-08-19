@@ -47,7 +47,7 @@ func flatten{{.fpath}}(v interface{}, d *schema.ResourceData, pre string, sv str
 		con += 1
 	}
 
-	dynamic_sort_subtable(result, "{{ $value.mkey }}", d)
+	dynamic_sort_subtable(result, {{(flatten $value.mkey) | printf "%q" }}, d)
 	return result
 }
 

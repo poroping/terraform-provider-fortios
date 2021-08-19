@@ -355,7 +355,7 @@ func flattenSystemZoneInterface(v interface{}, d *schema.ResourceData, pre strin
 		con += 1
 	}
 
-	dynamic_sort_subtable(result, "interface-name", d)
+	dynamic_sort_subtable(result, "interface_name", d)
 	return result
 }
 

@@ -676,7 +676,7 @@ func flattenSystemsdwanHealthCheckMembers(v interface{}, d *schema.ResourceData,
 		con += 1
 	}
 
-	dynamic_sort_subtable(result, "seq-num", d)
+	dynamic_sort_subtable(result, "seq_num", d)
 	return result
 }
 

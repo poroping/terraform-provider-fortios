@@ -1345,7 +1345,7 @@ func flattenSystemsdwanServicePriorityMembers(v interface{}, d *schema.ResourceD
 		con += 1
 	}
 
-	dynamic_sort_subtable(result, "seq-num", d)
+	dynamic_sort_subtable(result, "seq_num", d)
 	return result
 }
 
@@ -1441,7 +1441,7 @@ func flattenSystemsdwanServiceSla(v interface{}, d *schema.ResourceData, pre str
 		con += 1
 	}
 
-	dynamic_sort_subtable(result, "health-check", d)
+	dynamic_sort_subtable(result, "health_check", d)
 	return result
 }
 

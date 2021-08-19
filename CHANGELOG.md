@@ -1,3 +1,8 @@
+## 2.3.5
+
+BUGFIXES:
+* Fixed fatal bug with dynamic_sort_subtable in the following resources: `fortios_system_zone` `fortios_router_bgp` `fortios_sdwan_health_check` `fortios_sdwan_service`
+
 ## 2.3.4
 
 BUGFIXES:
