@@ -1,115 +1,105 @@
 ---
 subcategory: "FortiGate System"
 layout: "fortios"
-page_title: "FortiOS: fortios_system_sdnconnector"
+page_title: "FortiOS: fortios_system_sdn_connector"
 description: |-
   Configure connection to SDN Connector.
 ---
 
-# fortios_system_sdnconnector
+## fortios_system_sdn_connector
 Configure connection to SDN Connector.
-
 ## Example Usage
 
 ```hcl
-resource "fortios_system_sdnconnector" "trname" {
-  azure_region     = "global"
-  ha_status        = "disable"
-  name             = "1"
-  password         = "deWdf321ds"
-  server           = "1.1.1.1"
-  server_port      = 3
-  status           = "disable"
-  type             = "aci"
-  update_interval  = 60
-  use_metadata_iam = "disable"
-  username         = "sg"
-}
+
 ```
 
 ## Argument Reference
+* `vdomparam` - Specifies the vdom to which the data source will be applied when the FortiGate unit is running in VDOM mode. Only one vdom can be specified. If you want to inherit the vdom configuration of the provider, please do not set this parameter.
+* `allow_append` - If set to true allows provider to overwrite existing resources instead of erroring. Useful for brownfield implementations. Use with caution! Requires `name` to be defined.
+* `dynamic_sort_table` - `true` or `false`, set this parameter to `true` when using dynamic for_each + toset to configure and sort sub-tables, if set to `true` static sub-tables must be ordered.
 
-The following arguments are supported:
-
-* `name` - SDN connector name.
-* `status` - (Required) Enable/disable connection to the remote SDN connector. Valid values: `disable`, `enable`.
-* `type` - (Required) Type of SDN connector.
-* `ha_status` - Enable/disable use for FortiGate HA service. Valid values: `disable`, `enable`.
-* `server` - Server address of the remote SDN connector.
-* `server_port` - Port number of the remote SDN connector.
-* `username` - Username of the remote SDN connector as login credentials.
-* `password` - Password of the remote SDN connector as login credentials.
-* `vcenter_server` - vCenter server address for NSX quarantine.
-* `vcenter_username` - vCenter server username for NSX quarantine.
-* `vcenter_password` - vCenter server password for NSX quarantine.
-* `access_key` - AWS access key ID.
-* `secret_key` - AWS secret access key.
-* `region` - AWS region name.
-* `vpc_id` - AWS VPC ID.
-* `tenant_id` - Tenant ID (directory ID).
-* `subscription_id` - Azure subscription ID.
-* `login_endpoint` - Azure Stack login endpoint.
-* `resource_url` - Azure Stack resource URL.
+* `access_key` - AWS / ACS access key ID.
+* `api_key` - IBM cloud API key or service ID API key.
+* `azure_region` - Azure server region. Valid values: `global` `china` `germany` `usgov` `local` .
 * `client_id` - Azure client ID (application ID).
 * `client_secret` - Azure client secret (application key).
-* `resource_group` - Azure resource group.
-* `azure_region` - Azure server region. Valid values: `global`, `china`, `germany`, `usgov`, `local`.
-* `nic` - Configure Azure network interface. The structure of `nic` block is documented below.
-* `route_table` - Configure Azure route table. The structure of `route_table` block is documented below.
-* `user_id` - User ID.
 * `compartment_id` - Compartment ID.
-* `oci_region` - OCI server region.
-* `oci_region_type` - OCI region type. Valid values: `commercial`, `government`.
-* `oci_cert` - OCI certificate.
-* `oci_fingerprint` - OCI pubkey fingerprint.
-* `external_ip` - Configure GCP external IP. The structure of `external_ip` block is documented below.
-* `route` - Configure GCP route. The structure of `route` block is documented below.
-* `use_metadata_iam` - Enable/disable using IAM role from metadata to call API. Valid values: `disable`, `enable`.
-* `gcp_project` - GCP project name.
-* `service_account` - GCP service account email.
-* `key_passwd` - Private key password.
-* `private_key` - Private key of GCP service account.
-* `secret_token` - Secret token of Kubernetes service account.
-* `domain` - Domain name.
-* `group_name` - Group name of computers.
-* `api_key` - IBM cloud API key or service ID API key.
 * `compute_generation` - Compute generation for IBM cloud infrastructure.
-* `ibm_region` - IBM cloud region name. Valid values: `us-south`, `us-east`, `germany`, `great-britain`, `japan`, `australia`.
-* `update_interval` - Dynamic object update interval (0 - 3600 sec, 0 means disabled, default = 60).
-* `dynamic_sort_subtable` - true or false, set this parameter to true when using dynamic for_each + toset to configure and sort sub-tables, please do not set this parameter when configuring static sub-tables.
-* `vdomparam` - Specifies the vdom to which the resource will be applied when the FortiGate unit is running in VDOM mode. Only one vdom can be specified. If you want to inherit the vdom configuration of the provider, please do not set this parameter.
+* `domain` - Domain name.
+* `gcp_project` - GCP project name.
+* `group_name` - Group name of computers.
+* `ha_status` - Enable/disable use for FortiGate HA service. Valid values: `disable` `enable` .
+* `ibm_region` - IBM cloud region name. Valid values: `us-south` `us-east` `germany` `great-britain` `japan` `australia` .
+* `login_endpoint` - Azure Stack login endpoint.
+* `name` - SDN connector name.
+* `oci_cert` - OCI certificate. This attribute must reference one of the following datasources: `certificate.local.name` .
+* `oci_fingerprint` - OCI pubkey fingerprint.
+* `oci_region` - OCI server region.
+* `oci_region_type` - OCI region type. Valid values: `commercial` `government` .
+* `password` - Password of the remote SDN connector as login credentials.
+* `private_key` - Private key of GCP service account.
+* `region` - AWS / ACS region name.
+* `resource_group` - Azure resource group.
+* `resource_url` - Azure Stack resource URL.
+* `secret_key` - AWS / ACS secret access key.
+* `secret_token` - Secret token of Kubernetes service account.
+* `server` - Server address of the remote SDN connector.
+* `server_port` - Port number of the remote SDN connector.
+* `service_account` - GCP service account email.
+* `status` - Enable/disable connection to the remote SDN connector. Valid values: `disable` `enable` .
+* `subscription_id` - Azure subscription ID.
+* `tenant_id` - Tenant ID (directory ID).
+* `type` - Type of SDN connector. Valid values: `aci` `alicloud` `aws` `azure` `gcp` `nsx` `nuage` `oci` `openstack` `kubernetes` `vmware` `sepm` `aci-direct` `ibm` `nutanix` .
+* `update_interval` - Dynamic object update interval (30 - 3600 sec, default = 60, 0 = disabled).
+* `use_metadata_iam` - Enable/disable use of IAM role from metadata to call API. Valid values: `disable` `enable` .
+* `user_id` - User ID.
+* `username` - Username of the remote SDN connector as login credentials.
+* `vcenter_password` - vCenter server password for NSX quarantine.
+* `vcenter_server` - vCenter server address for NSX quarantine.
+* `vcenter_username` - vCenter server username for NSX quarantine.
+* `verify_certificate` - Enable/disable server certificate verification. Valid values: `disable` `enable` .
+* `vpc_id` - AWS VPC ID.
+* `external_ip` - Configure GCP external IP. The structure of `external_ip` block is documented below.
 
-The `nic` block supports:
+The `external_ip` block contains:
+
+* `name` - External IP name.
+* `nic` - Configure Azure network interface. The structure of `nic` block is documented below.
+
+The `nic` block contains:
 
 * `name` - Network interface name.
 * `ip` - Configure IP configuration. The structure of `ip` block is documented below.
 
-The `ip` block supports:
+The `ip` block contains:
 
 * `name` - IP configuration name.
 * `public_ip` - Public IP name.
 * `resource_group` - Resource group of Azure public IP.
+* `route` - Configure GCP route. The structure of `route` block is documented below.
 
-The `route_table` block supports:
+The `route` block contains:
+
+* `name` - Route name.
+* `route_table` - Configure Azure route table. The structure of `route_table` block is documented below.
+
+The `route_table` block contains:
 
 * `name` - Route table name.
-* `subscription_id` - Subscription ID of Azure route table.
 * `resource_group` - Resource group of Azure route table.
+* `subscription_id` - Subscription ID of Azure route table.
 * `route` - Configure Azure route. The structure of `route` block is documented below.
 
-The `route` block supports:
+The `route` block contains:
 
 * `name` - Route name.
 * `next_hop` - Next hop address.
+* `server_list` - Server address list of the remote SDN connector. The structure of `server_list` block is documented below.
 
-The `external_ip` block supports:
+The `server_list` block contains:
 
-* `name` - External IP name.
-
-The `route` block supports:
-
-* `name` - Route name.
-
+* `ip` - IPv4 address.
 
 ## Attribute Reference
 
@@ -118,9 +108,9 @@ In addition to all the above arguments, the following attributes are exported:
 
 ## Import
 
-System SdnConnector can be imported using any of these accepted formats:
+system_sdn_connector can be imported using any of these accepted formats:
 ```
 $ export "FORTIOS_IMPORT_TABLE"="true"
-$ terraform import fortios_system_sdnconnector.labelname {{name}}
+$ terraform import fortios_system_sdn_connector.labelname {{name}}
 $ unset "FORTIOS_IMPORT_TABLE"
 ```

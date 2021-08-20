@@ -1,0 +1,7 @@
+data "fortios_system_sdnconnector" "trname" {
+  name             = "sdnconnector"
+}
+
+output "output1" {
+  value = data.fortios_system_sdnconnector.trname
+}
