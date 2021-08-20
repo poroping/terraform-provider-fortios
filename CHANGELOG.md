@@ -1,3 +1,9 @@
+## 2.3.6
+
+IMPROVEMENTS:
+* Add support for password_aes256 type.
+* Reroll resources: `fortios_system_sdnconnector`
+
 ## 2.3.5
 
 BUGFIXES:
