@@ -302,6 +302,7 @@ func typelookup(s string) string {
 		"user":               "TypeString",
 		"password-3":         "TypeString",
 		"mac-address":        "TypeString",
+		"password_aes256":    "TypeString",
 	}
 	s, ok := m[s]
 	if !ok {
@@ -335,6 +336,7 @@ func valilookup(values map[string]interface{}) string {
 		"user":               "",
 		"password-3":         "",
 		"mac-address":        "",
+		"password_aes256":    "",
 	}
 	s, ok := m[vtype]
 	if !ok {
@@ -368,6 +370,7 @@ func diffLookup(values map[string]interface{}) string {
 		"user":               "",
 		"password-3":         "",
 		"mac-address":        "",
+		"password_aes256":    "",
 	}
 	s, ok := m[vtype]
 	if !ok {
