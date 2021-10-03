@@ -1459,6 +1459,11 @@ func flattenRouterOspfAreaVirtualLink(v interface{}, d *schema.ResourceData, pre
 			tmp["authentication"] = flattenRouterOspfAreaVirtualLinkAuthentication(i["authentication"], d, pre_append, sv)
 		}
 
+		pre_append = pre + "." + strconv.Itoa(con) + "." + "authentication_key"
+		if s, ok := i["authentication-key"].(string); ok && s != "ENC XXXX" {
+			tmp["authentication_key"] = flattenRouterOspfAreaVirtualLinkAuthenticationKey(i["authentication-key"], d, pre_append, sv)
+		}
+
 		pre_append = pre + "." + strconv.Itoa(con) + "." + "dead_interval"
 		if _, ok := i["dead-interval"]; ok {
 
@@ -1520,6 +1525,10 @@ func flattenRouterOspfAreaVirtualLinkAuthentication(v interface{}, d *schema.Res
 	return v
 }
 
+func flattenRouterOspfAreaVirtualLinkAuthenticationKey(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
 func flattenRouterOspfAreaVirtualLinkDeadInterval(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
 	return v
 }
@@ -1556,6 +1565,11 @@ func flattenRouterOspfAreaVirtualLinkMd5Keys(v interface{}, d *schema.ResourceDa
 			tmp["id"] = flattenRouterOspfAreaVirtualLinkMd5KeysId(i["id"], d, pre_append, sv)
 		}
 
+		pre_append = pre + "." + strconv.Itoa(con) + "." + "key_string"
+		if s, ok := i["key-string"].(string); ok && s != "ENC XXXX" {
+			tmp["key_string"] = flattenRouterOspfAreaVirtualLinkMd5KeysKeyString(i["key-string"], d, pre_append, sv)
+		}
+
 		result = append(result, tmp)
 
 		con += 1
@@ -1566,6 +1580,10 @@ func flattenRouterOspfAreaVirtualLinkMd5Keys(v interface{}, d *schema.ResourceDa
 }
 
 func flattenRouterOspfAreaVirtualLinkMd5KeysId(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
+func flattenRouterOspfAreaVirtualLinkMd5KeysKeyString(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
 	return v
 }
 
@@ -1884,6 +1902,11 @@ func flattenRouterOspfOspfInterface(v interface{}, d *schema.ResourceData, pre s
 			tmp["authentication"] = flattenRouterOspfOspfInterfaceAuthentication(i["authentication"], d, pre_append, sv)
 		}
 
+		pre_append = pre + "." + strconv.Itoa(con) + "." + "authentication_key"
+		if s, ok := i["authentication-key"].(string); ok && s != "ENC XXXX" {
+			tmp["authentication_key"] = flattenRouterOspfOspfInterfaceAuthenticationKey(i["authentication-key"], d, pre_append, sv)
+		}
+
 		pre_append = pre + "." + strconv.Itoa(con) + "." + "bfd"
 		if _, ok := i["bfd"]; ok {
 
@@ -2023,6 +2046,10 @@ func flattenRouterOspfOspfInterfaceAuthentication(v interface{}, d *schema.Resou
 	return v
 }
 
+func flattenRouterOspfOspfInterfaceAuthenticationKey(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
 func flattenRouterOspfOspfInterfaceBfd(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
 	return v
 }
@@ -2087,6 +2114,11 @@ func flattenRouterOspfOspfInterfaceMd5Keys(v interface{}, d *schema.ResourceData
 			tmp["id"] = flattenRouterOspfOspfInterfaceMd5KeysId(i["id"], d, pre_append, sv)
 		}
 
+		pre_append = pre + "." + strconv.Itoa(con) + "." + "key_string"
+		if s, ok := i["key-string"].(string); ok && s != "ENC XXXX" {
+			tmp["key_string"] = flattenRouterOspfOspfInterfaceMd5KeysKeyString(i["key-string"], d, pre_append, sv)
+		}
+
 		result = append(result, tmp)
 
 		con += 1
@@ -2097,6 +2129,10 @@ func flattenRouterOspfOspfInterfaceMd5Keys(v interface{}, d *schema.ResourceData
 }
 
 func flattenRouterOspfOspfInterfaceMd5KeysId(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
+func flattenRouterOspfOspfInterfaceMd5KeysKeyString(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
 	return v
 }
 

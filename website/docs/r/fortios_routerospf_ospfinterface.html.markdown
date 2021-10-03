@@ -1,53 +1,55 @@
 ---
 subcategory: "FortiGate Router"
 layout: "fortios"
-page_title: "FortiOS: fortios_routerospf_ospfinterface"
+page_title: "FortiOS: fortios_router_ospf_ospf_interface"
 description: |-
   OSPF interface configuration.
 ---
 
-# fortios_routerospf_ospfinterface
+## fortios_router_ospf_ospf_interface
 OSPF interface configuration.
 
-~> The provider supports the definition of Ospf-Interface in Router Ospf `fortios_router_ospf`, and also allows the definition of separate Ospf-Interface resources `fortios_routerospf_ospfinterface`, but do not use a `fortios_router_ospf` with in-line Ospf-Interface in conjunction with any `fortios_routerospf_ospfinterface` resources, otherwise conflicts and overwrite will occur.
+~> This resource is configuring a child table of the parent resource: `fortios_router_ospf`. If this resource is used the parent resource must NOT modify this child table or state inconsistencies will occur.
 
+## Example Usage
 
+```hcl
+
+```
 
 ## Argument Reference
+* `vdomparam` - Specifies the vdom to which the data source will be applied when the FortiGate unit is running in VDOM mode. Only one vdom can be specified. If you want to inherit the vdom configuration of the provider, please do not set this parameter.
+* `allow_append` - If set to true allows provider to overwrite existing resources instead of erroring. Useful for brownfield implementations. Use with caution! Requires `name` to be defined.
+* `dynamic_sort_table` - `true` or `false`, set this parameter to `true` when using dynamic for_each + toset to configure and sort sub-tables, if set to `true` static sub-tables must be ordered.
 
-The following arguments are supported:
-
-* `name` - Interface entry name.
-* `interface` - Configuration interface name.
-* `ip` - IP address.
-* `authentication` - Authentication type. Valid values: `none`, `text`, `md5`.
+* `authentication` - Authentication type. Valid values: `none` `text` `message-digest` `md5` .
 * `authentication_key` - Authentication key.
-* `md5_key` - MD5 key.
-* `md5_keychain` - Authentication MD5 key-chain name.
-* `prefix_length` - Prefix length.
-* `retransmit_interval` - Retransmit interval.
-* `transmit_delay` - Transmit delay.
+* `bfd` - Bidirectional Forwarding Detection (BFD). Valid values: `global` `enable` `disable` .
+* `comments` - Comment.
 * `cost` - Cost of the interface, value range from 0 to 65535, 0 means auto-cost.
-* `priority` - Priority.
+* `database_filter_out` - Enable/disable control of flooding out LSAs. Valid values: `enable` `disable` .
 * `dead_interval` - Dead interval.
 * `hello_interval` - Hello interval.
 * `hello_multiplier` - Number of hello packets within dead interval.
-* `database_filter_out` - Enable/disable control of flooding out LSAs. Valid values: `enable`, `disable`.
+* `interface` - Configuration interface name. This attribute must reference one of the following datasources: `system.interface.name` .
+* `ip` - IP address.
+* `keychain` - Message-digest key-chain name. This attribute must reference one of the following datasources: `router.key-chain.name` .
 * `mtu` - MTU for database description packets.
-* `mtu_ignore` - Enable/disable ignore MTU. Valid values: `enable`, `disable`.
-* `network_type` - Network type. Valid values: `broadcast`, `non-broadcast`, `point-to-point`, `point-to-multipoint`, `point-to-multipoint-non-broadcast`.
-* `bfd` - Bidirectional Forwarding Detection (BFD). Valid values: `global`, `enable`, `disable`.
-* `status` - Enable/disable status. Valid values: `disable`, `enable`.
+* `mtu_ignore` - Enable/disable ignore MTU. Valid values: `enable` `disable` .
+* `name` - Interface entry name.
+* `network_type` - Network type. Valid values: `broadcast` `non-broadcast` `point-to-point` `point-to-multipoint` `point-to-multipoint-non-broadcast` .
+* `prefix_length` - Prefix length.
+* `priority` - Priority.
 * `resync_timeout` - Graceful restart neighbor resynchronization timeout.
+* `retransmit_interval` - Retransmit interval.
+* `status` - Enable/disable status. Valid values: `disable` `enable` .
+* `transmit_delay` - Transmit delay.
 * `md5_keys` - MD5 key. The structure of `md5_keys` block is documented below.
-* `dynamic_sort_subtable` - true or false, set this parameter to true when using dynamic for_each + toset to configure and sort sub-tables, please do not set this parameter when configuring static sub-tables.
-* `vdomparam` - Specifies the vdom to which the resource will be applied when the FortiGate unit is running in VDOM mode. Only one vdom can be specified. If you want to inherit the vdom configuration of the provider, please do not set this parameter.
 
-The `md5_keys` block supports:
+The `md5_keys` block contains:
 
 * `id` - Key ID (1 - 255).
 * `key_string` - Password for the key.
-
 
 ## Attribute Reference
 
@@ -56,9 +58,9 @@ In addition to all the above arguments, the following attributes are exported:
 
 ## Import
 
-Routerospf OspfInterface can be imported using any of these accepted formats:
+router_ospf_interface can be imported using any of these accepted formats:
 ```
 $ export "FORTIOS_IMPORT_TABLE"="true"
-$ terraform import fortios_routerospf_ospfinterface.labelname {{name}}
+$ terraform import fortios_router_ospf_interface.labelname {{name}}
 $ unset "FORTIOS_IMPORT_TABLE"
 ```

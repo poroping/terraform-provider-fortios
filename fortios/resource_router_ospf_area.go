@@ -739,6 +739,11 @@ func flattenRouterospfAreaVirtualLink(v interface{}, d *schema.ResourceData, pre
 			tmp["authentication"] = flattenRouterospfAreaVirtualLinkAuthentication(i["authentication"], d, pre_append, sv)
 		}
 
+		pre_append = pre + "." + strconv.Itoa(con) + "." + "authentication_key"
+		if s, ok := i["authentication-key"].(string); ok && s != "ENC XXXX" {
+			tmp["authentication_key"] = flattenRouterospfAreaVirtualLinkAuthenticationKey(i["authentication-key"], d, pre_append, sv)
+		}
+
 		pre_append = pre + "." + strconv.Itoa(con) + "." + "dead_interval"
 		if _, ok := i["dead-interval"]; ok {
 
@@ -800,6 +805,10 @@ func flattenRouterospfAreaVirtualLinkAuthentication(v interface{}, d *schema.Res
 	return v
 }
 
+func flattenRouterospfAreaVirtualLinkAuthenticationKey(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
 func flattenRouterospfAreaVirtualLinkDeadInterval(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
 	return v
 }
@@ -836,6 +845,11 @@ func flattenRouterospfAreaVirtualLinkMd5Keys(v interface{}, d *schema.ResourceDa
 			tmp["id"] = flattenRouterospfAreaVirtualLinkMd5KeysId(i["id"], d, pre_append, sv)
 		}
 
+		pre_append = pre + "." + strconv.Itoa(con) + "." + "key_string"
+		if s, ok := i["key-string"].(string); ok && s != "ENC XXXX" {
+			tmp["key_string"] = flattenRouterospfAreaVirtualLinkMd5KeysKeyString(i["key-string"], d, pre_append, sv)
+		}
+
 		result = append(result, tmp)
 
 		con += 1
@@ -846,6 +860,10 @@ func flattenRouterospfAreaVirtualLinkMd5Keys(v interface{}, d *schema.ResourceDa
 }
 
 func flattenRouterospfAreaVirtualLinkMd5KeysId(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
+func flattenRouterospfAreaVirtualLinkMd5KeysKeyString(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
 	return v
 }
 

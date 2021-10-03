@@ -801,6 +801,11 @@ func flattenRouterRipInterface(v interface{}, d *schema.ResourceData, pre string
 			tmp["auth_mode"] = flattenRouterRipInterfaceAuthMode(i["auth-mode"], d, pre_append, sv)
 		}
 
+		pre_append = pre + "." + strconv.Itoa(con) + "." + "auth_string"
+		if s, ok := i["auth-string"].(string); ok && s != "ENC XXXX" {
+			tmp["auth_string"] = flattenRouterRipInterfaceAuthString(i["auth-string"], d, pre_append, sv)
+		}
+
 		pre_append = pre + "." + strconv.Itoa(con) + "." + "flags"
 		if _, ok := i["flags"]; ok {
 
@@ -857,6 +862,10 @@ func flattenRouterRipInterfaceAuthKeychain(v interface{}, d *schema.ResourceData
 }
 
 func flattenRouterRipInterfaceAuthMode(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
+func flattenRouterRipInterfaceAuthString(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
 	return v
 }
 

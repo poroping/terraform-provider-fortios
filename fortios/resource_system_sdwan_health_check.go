@@ -692,6 +692,10 @@ func flattenSystemsdwanHealthCheckPacketSize(v interface{}, d *schema.ResourceDa
 	return v
 }
 
+func flattenSystemsdwanHealthCheckPassword(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
 func flattenSystemsdwanHealthCheckPort(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
 	return v
 }
@@ -959,6 +963,14 @@ func refreshObjectSystemsdwanHealthCheck(d *schema.ResourceData, o map[string]in
 	if err = d.Set("packet_size", flattenSystemsdwanHealthCheckPacketSize(o["packet-size"], d, "packet_size", sv)); err != nil {
 		if !fortiAPIPatch(o["packet-size"]) {
 			return fmt.Errorf("error reading packet_size: %v", err)
+		}
+	}
+
+	if s, ok := o["password"].(string); ok && s != "ENC XXXX" {
+		if err = d.Set("password", flattenSystemsdwanHealthCheckPassword(o["password"], d, "password", sv)); err != nil {
+			if !fortiAPIPatch(o["password"]) {
+				return fmt.Errorf("error reading password: %v", err)
+			}
 		}
 	}
 

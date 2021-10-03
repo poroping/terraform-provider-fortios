@@ -1087,6 +1087,16 @@ func flattenRouterOspf6AreaIpsecKeys(v interface{}, d *schema.ResourceData, pre 
 		i := r.(map[string]interface{})
 
 		pre_append := "" // table
+		pre_append = pre + "." + strconv.Itoa(con) + "." + "auth_key"
+		if s, ok := i["auth-key"].(string); ok && s != "ENC XXXX" {
+			tmp["auth_key"] = flattenRouterOspf6AreaIpsecKeysAuthKey(i["auth-key"], d, pre_append, sv)
+		}
+
+		pre_append = pre + "." + strconv.Itoa(con) + "." + "enc_key"
+		if s, ok := i["enc-key"].(string); ok && s != "ENC XXXX" {
+			tmp["enc_key"] = flattenRouterOspf6AreaIpsecKeysEncKey(i["enc-key"], d, pre_append, sv)
+		}
+
 		pre_append = pre + "." + strconv.Itoa(con) + "." + "spi"
 		if _, ok := i["spi"]; ok {
 
@@ -1100,6 +1110,14 @@ func flattenRouterOspf6AreaIpsecKeys(v interface{}, d *schema.ResourceData, pre 
 
 	dynamic_sort_subtable(result, "spi", d)
 	return result
+}
+
+func flattenRouterOspf6AreaIpsecKeysAuthKey(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
+func flattenRouterOspf6AreaIpsecKeysEncKey(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
 }
 
 func flattenRouterOspf6AreaIpsecKeysSpi(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
@@ -1326,6 +1344,16 @@ func flattenRouterOspf6AreaVirtualLinkIpsecKeys(v interface{}, d *schema.Resourc
 		i := r.(map[string]interface{})
 
 		pre_append := "" // table
+		pre_append = pre + "." + strconv.Itoa(con) + "." + "auth_key"
+		if s, ok := i["auth-key"].(string); ok && s != "ENC XXXX" {
+			tmp["auth_key"] = flattenRouterOspf6AreaVirtualLinkIpsecKeysAuthKey(i["auth-key"], d, pre_append, sv)
+		}
+
+		pre_append = pre + "." + strconv.Itoa(con) + "." + "enc_key"
+		if s, ok := i["enc-key"].(string); ok && s != "ENC XXXX" {
+			tmp["enc_key"] = flattenRouterOspf6AreaVirtualLinkIpsecKeysEncKey(i["enc-key"], d, pre_append, sv)
+		}
+
 		pre_append = pre + "." + strconv.Itoa(con) + "." + "spi"
 		if _, ok := i["spi"]; ok {
 
@@ -1339,6 +1367,14 @@ func flattenRouterOspf6AreaVirtualLinkIpsecKeys(v interface{}, d *schema.Resourc
 
 	dynamic_sort_subtable(result, "spi", d)
 	return result
+}
+
+func flattenRouterOspf6AreaVirtualLinkIpsecKeysAuthKey(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
+func flattenRouterOspf6AreaVirtualLinkIpsecKeysEncKey(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
 }
 
 func flattenRouterOspf6AreaVirtualLinkIpsecKeysSpi(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
@@ -1598,6 +1634,16 @@ func flattenRouterOspf6Ospf6InterfaceIpsecKeys(v interface{}, d *schema.Resource
 		i := r.(map[string]interface{})
 
 		pre_append := "" // table
+		pre_append = pre + "." + strconv.Itoa(con) + "." + "auth_key"
+		if s, ok := i["auth-key"].(string); ok && s != "ENC XXXX" {
+			tmp["auth_key"] = flattenRouterOspf6Ospf6InterfaceIpsecKeysAuthKey(i["auth-key"], d, pre_append, sv)
+		}
+
+		pre_append = pre + "." + strconv.Itoa(con) + "." + "enc_key"
+		if s, ok := i["enc-key"].(string); ok && s != "ENC XXXX" {
+			tmp["enc_key"] = flattenRouterOspf6Ospf6InterfaceIpsecKeysEncKey(i["enc-key"], d, pre_append, sv)
+		}
+
 		pre_append = pre + "." + strconv.Itoa(con) + "." + "spi"
 		if _, ok := i["spi"]; ok {
 
@@ -1611,6 +1657,14 @@ func flattenRouterOspf6Ospf6InterfaceIpsecKeys(v interface{}, d *schema.Resource
 
 	dynamic_sort_subtable(result, "spi", d)
 	return result
+}
+
+func flattenRouterOspf6Ospf6InterfaceIpsecKeysAuthKey(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
+func flattenRouterOspf6Ospf6InterfaceIpsecKeysEncKey(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
 }
 
 func flattenRouterOspf6Ospf6InterfaceIpsecKeysSpi(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {

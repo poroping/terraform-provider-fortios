@@ -3328,6 +3328,11 @@ func flattenRouterBgpNeighbor(v interface{}, d *schema.ResourceData, pre string,
 			tmp["passive"] = flattenRouterBgpNeighborPassive(i["passive"], d, pre_append, sv)
 		}
 
+		pre_append = pre + "." + strconv.Itoa(con) + "." + "password"
+		if s, ok := i["password"].(string); ok && s != "ENC XXXX" {
+			tmp["password"] = flattenRouterBgpNeighborPassword(i["password"], d, pre_append, sv)
+		}
+
 		pre_append = pre + "." + strconv.Itoa(con) + "." + "prefix_list_in"
 		if _, ok := i["prefix-list-in"]; ok {
 
@@ -3864,6 +3869,10 @@ func flattenRouterBgpNeighborOverrideCapability(v interface{}, d *schema.Resourc
 }
 
 func flattenRouterBgpNeighborPassive(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
+func flattenRouterBgpNeighborPassword(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
 	return v
 }
 

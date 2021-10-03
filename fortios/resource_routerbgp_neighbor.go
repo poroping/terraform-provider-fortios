@@ -1,8 +1,8 @@
-// Copyright 2020 Fortinet, Inc. All rights reserved.
-// Author: Frank Shen (@frankshen01), Hongbin Lu (@fgtdev-hblu)
-// Documentation:
-// Frank Shen (@frankshen01), Hongbin Lu (@fgtdev-hblu),
-// Xing Li (@lix-fortinet), Yue Wang (@yuew-ftnt), Yuffie Zhu (@yuffiezhu)
+// Inspired by Official Fortinet Provider https://github.com/fortinetdev/terraform-provider-fortios
+// Shout out to: Frank Shen (@frankshen01), Hongbin Lu (@fgtdev-hblu)
+// Generated from template using FortiOS v7.0.1 schema
+// Template Authors:
+// Justin Roberts (@poroping)
 
 // Description: BGP neighbor table.
 
@@ -12,7 +12,6 @@ import (
 	"fmt"
 	"log"
 	"strconv"
-	"strings"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
@@ -31,572 +30,809 @@ func resourceRouterbgpNeighbor() *schema.Resource {
 
 		Schema: map[string]*schema.Schema{
 			"vdomparam": {
-				Type:     schema.TypeString,
-				Optional: true,
-				ForceNew: true,
-			},
-			"ip": {
-				Type:         schema.TypeString,
-				ValidateFunc: validation.Any(validation.IsIPv4Address, validation.IsIPv6Address),
-				Optional:     true,
-				Computed:     true,
-			},
-			"advertisement_interval": {
-				Type:         schema.TypeInt,
-				ValidateFunc: validation.IntBetween(1, 600),
-				Optional:     true,
-				Computed:     true,
-			},
-			"allowas_in_enable": {
-				Type:         schema.TypeString,
-				ValidateFunc: fortiValidateEnableDisable(),
-				Optional:     true,
-				Computed:     true,
-			},
-			"allowas_in_enable6": {
-				Type:         schema.TypeString,
-				ValidateFunc: fortiValidateEnableDisable(),
-				Optional:     true,
-				Computed:     true,
-			},
-			"allowas_in": {
-				Type:         schema.TypeInt,
-				ValidateFunc: validation.IntBetween(1, 10),
-				Optional:     true,
-				Computed:     true,
-			},
-			"allowas_in6": {
-				Type:         schema.TypeInt,
-				ValidateFunc: validation.IntBetween(1, 10),
-				Optional:     true,
-				Computed:     true,
-			},
-			"attribute_unchanged": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-			},
-			"attribute_unchanged6": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-			},
-			"activate": {
-				Type:         schema.TypeString,
-				ValidateFunc: fortiValidateEnableDisable(),
-				Optional:     true,
-				Computed:     true,
-			},
-			"activate6": {
-				Type:         schema.TypeString,
-				ValidateFunc: fortiValidateEnableDisable(),
-				Optional:     true,
-				Computed:     true,
-			},
-			"bfd": {
-				Type:         schema.TypeString,
-				ValidateFunc: fortiValidateEnableDisable(),
-				Optional:     true,
-				Computed:     true,
-			},
-			"capability_dynamic": {
-				Type:         schema.TypeString,
-				ValidateFunc: fortiValidateEnableDisable(),
-				Optional:     true,
-				Computed:     true,
-			},
-			"capability_orf": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-			},
-			"capability_orf6": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-			},
-			"capability_graceful_restart": {
-				Type:         schema.TypeString,
-				ValidateFunc: fortiValidateEnableDisable(),
-				Optional:     true,
-				Computed:     true,
-			},
-			"capability_graceful_restart6": {
-				Type:         schema.TypeString,
-				ValidateFunc: fortiValidateEnableDisable(),
-				Optional:     true,
-				Computed:     true,
-			},
-			"capability_route_refresh": {
-				Type:         schema.TypeString,
-				ValidateFunc: fortiValidateEnableDisable(),
-				Optional:     true,
-				Computed:     true,
-			},
-			"capability_default_originate": {
-				Type:         schema.TypeString,
-				ValidateFunc: fortiValidateEnableDisable(),
-				Optional:     true,
-				Computed:     true,
-			},
-			"capability_default_originate6": {
-				Type:         schema.TypeString,
-				ValidateFunc: fortiValidateEnableDisable(),
-				Optional:     true,
-				Computed:     true,
-			},
-			"dont_capability_negotiate": {
-				Type:         schema.TypeString,
-				ValidateFunc: fortiValidateEnableDisable(),
-				Optional:     true,
-				Computed:     true,
-			},
-			"ebgp_enforce_multihop": {
-				Type:         schema.TypeString,
-				ValidateFunc: fortiValidateEnableDisable(),
-				Optional:     true,
-				Computed:     true,
-			},
-			"link_down_failover": {
-				Type:         schema.TypeString,
-				ValidateFunc: fortiValidateEnableDisable(),
-				Optional:     true,
-				Computed:     true,
-			},
-			"stale_route": {
-				Type:         schema.TypeString,
-				ValidateFunc: fortiValidateEnableDisable(),
-				Optional:     true,
-				Computed:     true,
-			},
-			"next_hop_self": {
-				Type:         schema.TypeString,
-				ValidateFunc: fortiValidateEnableDisable(),
-				Optional:     true,
-				Computed:     true,
-			},
-			"next_hop_self6": {
-				Type:         schema.TypeString,
-				ValidateFunc: fortiValidateEnableDisable(),
-				Optional:     true,
-				Computed:     true,
-			},
-			"next_hop_self_rr": {
-				Type:         schema.TypeString,
-				ValidateFunc: fortiValidateEnableDisable(),
-				Optional:     true,
-				Computed:     true,
-			},
-			"next_hop_self_rr6": {
-				Type:         schema.TypeString,
-				ValidateFunc: fortiValidateEnableDisable(),
-				Optional:     true,
-				Computed:     true,
-			},
-			"override_capability": {
-				Type:         schema.TypeString,
-				ValidateFunc: fortiValidateEnableDisable(),
-				Optional:     true,
-				Computed:     true,
-			},
-			"passive": {
-				Type:         schema.TypeString,
-				ValidateFunc: fortiValidateEnableDisable(),
-				Optional:     true,
-				Computed:     true,
-			},
-			"remove_private_as": {
-				Type:         schema.TypeString,
-				ValidateFunc: fortiValidateEnableDisable(),
-				Optional:     true,
-				Computed:     true,
-			},
-			"remove_private_as6": {
-				Type:         schema.TypeString,
-				ValidateFunc: fortiValidateEnableDisable(),
-				Optional:     true,
-				Computed:     true,
-			},
-			"route_reflector_client": {
-				Type:         schema.TypeString,
-				ValidateFunc: fortiValidateEnableDisable(),
-				Optional:     true,
-				Computed:     true,
-			},
-			"route_reflector_client6": {
-				Type:         schema.TypeString,
-				ValidateFunc: fortiValidateEnableDisable(),
-				Optional:     true,
-				Computed:     true,
-			},
-			"route_server_client": {
-				Type:         schema.TypeString,
-				ValidateFunc: fortiValidateEnableDisable(),
-				Optional:     true,
-				Computed:     true,
-			},
-			"route_server_client6": {
-				Type:         schema.TypeString,
-				ValidateFunc: fortiValidateEnableDisable(),
-				Optional:     true,
-				Computed:     true,
-			},
-			"shutdown": {
-				Type:         schema.TypeString,
-				ValidateFunc: fortiValidateEnableDisable(),
-				Optional:     true,
-				Computed:     true,
-			},
-			"soft_reconfiguration": {
-				Type:         schema.TypeString,
-				ValidateFunc: fortiValidateEnableDisable(),
-				Optional:     true,
-				Computed:     true,
-			},
-			"soft_reconfiguration6": {
-				Type:         schema.TypeString,
-				ValidateFunc: fortiValidateEnableDisable(),
-				Optional:     true,
-				Computed:     true,
-			},
-			"as_override": {
-				Type:         schema.TypeString,
-				ValidateFunc: fortiValidateEnableDisable(),
-				Optional:     true,
-				Computed:     true,
-			},
-			"as_override6": {
-				Type:         schema.TypeString,
-				ValidateFunc: fortiValidateEnableDisable(),
-				Optional:     true,
-				Computed:     true,
-			},
-			"strict_capability_match": {
-				Type:         schema.TypeString,
-				ValidateFunc: fortiValidateEnableDisable(),
-				Optional:     true,
-				Computed:     true,
-			},
-			"default_originate_routemap": {
-				Type:         schema.TypeString,
-				ValidateFunc: validation.StringLenBetween(0, 35),
-				Optional:     true,
-				Computed:     true,
-			},
-			"default_originate_routemap6": {
-				Type:         schema.TypeString,
-				ValidateFunc: validation.StringLenBetween(0, 35),
-				Optional:     true,
-				Computed:     true,
-			},
-			"description": {
-				Type:         schema.TypeString,
-				ValidateFunc: validation.StringLenBetween(0, 63),
-				Optional:     true,
-				Computed:     true,
-			},
-			"distribute_list_in": {
-				Type:         schema.TypeString,
-				ValidateFunc: validation.StringLenBetween(0, 35),
-				Optional:     true,
-				Computed:     true,
-			},
-			"distribute_list_in6": {
-				Type:         schema.TypeString,
-				ValidateFunc: validation.StringLenBetween(0, 35),
-				Optional:     true,
-				Computed:     true,
-			},
-			"distribute_list_out": {
-				Type:         schema.TypeString,
-				ValidateFunc: validation.StringLenBetween(0, 35),
-				Optional:     true,
-				Computed:     true,
-			},
-			"distribute_list_out6": {
-				Type:         schema.TypeString,
-				ValidateFunc: validation.StringLenBetween(0, 35),
-				Optional:     true,
-				Computed:     true,
-			},
-			"ebgp_multihop_ttl": {
-				Type:         schema.TypeInt,
-				ValidateFunc: validation.IntBetween(1, 255),
-				Optional:     true,
-				Computed:     true,
-			},
-			"filter_list_in": {
-				Type:         schema.TypeString,
-				ValidateFunc: validation.StringLenBetween(0, 35),
-				Optional:     true,
-				Computed:     true,
-			},
-			"filter_list_in6": {
-				Type:         schema.TypeString,
-				ValidateFunc: validation.StringLenBetween(0, 35),
-				Optional:     true,
-				Computed:     true,
-			},
-			"filter_list_out": {
-				Type:         schema.TypeString,
-				ValidateFunc: validation.StringLenBetween(0, 35),
-				Optional:     true,
-				Computed:     true,
-			},
-			"filter_list_out6": {
-				Type:         schema.TypeString,
-				ValidateFunc: validation.StringLenBetween(0, 35),
-				Optional:     true,
-				Computed:     true,
-			},
-			"interface": {
-				Type:         schema.TypeString,
-				ValidateFunc: validation.StringLenBetween(0, 15),
-				Optional:     true,
-				Computed:     true,
-			},
-			"maximum_prefix": {
-				Type:     schema.TypeInt,
-				Optional: true,
-				Computed: true,
-			},
-			"maximum_prefix6": {
-				Type:     schema.TypeInt,
-				Optional: true,
-				Computed: true,
-			},
-			"maximum_prefix_threshold": {
-				Type:         schema.TypeInt,
-				ValidateFunc: validation.IntBetween(1, 100),
-				Optional:     true,
-				Computed:     true,
-			},
-			"maximum_prefix_threshold6": {
-				Type:         schema.TypeInt,
-				ValidateFunc: validation.IntBetween(1, 100),
-				Optional:     true,
-				Computed:     true,
-			},
-			"maximum_prefix_warning_only": {
-				Type:         schema.TypeString,
-				ValidateFunc: fortiValidateEnableDisable(),
-				Optional:     true,
-				Computed:     true,
-			},
-			"maximum_prefix_warning_only6": {
-				Type:         schema.TypeString,
-				ValidateFunc: fortiValidateEnableDisable(),
-				Optional:     true,
-				Computed:     true,
-			},
-			"prefix_list_in": {
-				Type:         schema.TypeString,
-				ValidateFunc: validation.StringLenBetween(0, 35),
-				Optional:     true,
-				Computed:     true,
-			},
-			"prefix_list_in6": {
-				Type:         schema.TypeString,
-				ValidateFunc: validation.StringLenBetween(0, 35),
-				Optional:     true,
-				Computed:     true,
-			},
-			"prefix_list_out": {
-				Type:         schema.TypeString,
-				ValidateFunc: validation.StringLenBetween(0, 35),
-				Optional:     true,
-				Computed:     true,
-			},
-			"prefix_list_out6": {
-				Type:         schema.TypeString,
-				ValidateFunc: validation.StringLenBetween(0, 35),
-				Optional:     true,
-				Computed:     true,
-			},
-			"remote_as": {
-				Type:     schema.TypeInt,
-				Optional: true,
-				Computed: true,
-			},
-			"local_as": {
-				Type:     schema.TypeInt,
-				Optional: true,
-				Computed: true,
-			},
-			"local_as_no_prepend": {
-				Type:         schema.TypeString,
-				ValidateFunc: fortiValidateEnableDisable(),
-				Optional:     true,
-				Computed:     true,
-			},
-			"local_as_replace_as": {
-				Type:         schema.TypeString,
-				ValidateFunc: fortiValidateEnableDisable(),
-				Optional:     true,
-				Computed:     true,
-			},
-			"retain_stale_time": {
-				Type:         schema.TypeInt,
-				ValidateFunc: validation.IntBetween(0, 65535),
-				Optional:     true,
-				Computed:     true,
-			},
-			"route_map_in": {
-				Type:         schema.TypeString,
-				ValidateFunc: validation.StringLenBetween(0, 35),
-				Optional:     true,
-				Computed:     true,
-			},
-			"route_map_in6": {
-				Type:         schema.TypeString,
-				ValidateFunc: validation.StringLenBetween(0, 35),
-				Optional:     true,
-				Computed:     true,
-			},
-			"route_map_out": {
-				Type:         schema.TypeString,
-				ValidateFunc: validation.StringLenBetween(0, 35),
-				Optional:     true,
-				Computed:     true,
-			},
-			"route_map_out_preferable": {
-				Type:         schema.TypeString,
-				ValidateFunc: validation.StringLenBetween(0, 35),
-				Optional:     true,
-				Computed:     true,
-			},
-			"route_map_out6": {
-				Type:         schema.TypeString,
-				ValidateFunc: validation.StringLenBetween(0, 35),
-				Optional:     true,
-				Computed:     true,
-			},
-			"route_map_out6_preferable": {
-				Type:         schema.TypeString,
-				ValidateFunc: validation.StringLenBetween(0, 35),
-				Optional:     true,
-				Computed:     true,
-			},
-			"send_community": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-			},
-			"send_community6": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-			},
-			"keep_alive_timer": {
-				Type:         schema.TypeInt,
-				ValidateFunc: validation.IntBetween(0, 65535),
-				Optional:     true,
-				Computed:     true,
-			},
-			"holdtime_timer": {
-				Type:         schema.TypeInt,
-				ValidateFunc: validation.IntBetween(3, 65535),
-				Optional:     true,
-				Computed:     true,
-			},
-			"connect_timer": {
-				Type:         schema.TypeInt,
-				ValidateFunc: validation.IntBetween(0, 65535),
-				Optional:     true,
-				Computed:     true,
-			},
-			"unsuppress_map": {
-				Type:         schema.TypeString,
-				ValidateFunc: validation.StringLenBetween(0, 35),
-				Optional:     true,
-				Computed:     true,
-			},
-			"unsuppress_map6": {
-				Type:         schema.TypeString,
-				ValidateFunc: validation.StringLenBetween(0, 35),
-				Optional:     true,
-				Computed:     true,
-			},
-			"update_source": {
-				Type:         schema.TypeString,
-				ValidateFunc: validation.StringLenBetween(0, 15),
-				Optional:     true,
-				Computed:     true,
-			},
-			"weight": {
-				Type:         schema.TypeInt,
-				ValidateFunc: validation.IntBetween(0, 65535),
-				Optional:     true,
-				Computed:     true,
-			},
-			"restart_time": {
-				Type:         schema.TypeInt,
-				ValidateFunc: validation.IntBetween(0, 3600),
-				Optional:     true,
-				Computed:     true,
-			},
-			"additional_path": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-			},
-			"additional_path6": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-			},
-			"adv_additional_path": {
-				Type:         schema.TypeInt,
-				ValidateFunc: validation.IntBetween(2, 3),
-				Optional:     true,
-				Computed:     true,
-			},
-			"adv_additional_path6": {
-				Type:         schema.TypeInt,
-				ValidateFunc: validation.IntBetween(2, 3),
-				Optional:     true,
-				Computed:     true,
-			},
-			"password": {
-				Type:         schema.TypeString,
-				ValidateFunc: validation.StringLenBetween(0, 128),
-				Optional:     true,
-				Sensitive:    true,
-			},
-			"conditional_advertise": {
-				Type:     schema.TypeList,
-				Optional: true,
-				Elem: &schema.Resource{
-					Schema: map[string]*schema.Schema{
-						"advertise_routemap": {
-							Type:         schema.TypeString,
-							ValidateFunc: validation.StringLenBetween(0, 35),
-							Optional:     true,
-							Computed:     true,
-						},
-						"condition_routemap": {
-							Type:         schema.TypeString,
-							ValidateFunc: validation.StringLenBetween(0, 35),
-							Optional:     true,
-							Computed:     true,
-						},
-						"condition_type": {
-							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
-						},
-					},
-				},
+				Type:        schema.TypeString,
+				Description: "Specifies the vdom to which the resource will be applied when the FortiGate unit is running in VDOM mode. Only one vdom can be specified. If you want to inherit the vdom configuration of the provider, please do not set this parameter.",
+				Optional:    true,
+				ForceNew:    true,
+			},
+			"batchid": {
+				Type:        schema.TypeInt,
+				Description: "Associate with batch. From 6.4.x+. Currently a WIP and broken.",
+				Optional:    true,
+				Default:     0,
+			},
+			"allow_append": {
+				Type:        schema.TypeBool,
+				Description: "If set to true allows provider to overwrite existing resources instead of erroring. Useful for brownfield implementations. Use with caution!",
+				Optional:    true,
+				Default:     false,
 			},
 			"dynamic_sort_subtable": {
 				Type:     schema.TypeBool,
 				Optional: true,
 				Default:  false,
 			},
-			"batchid": {
-				Type:     schema.TypeInt,
-				Optional: true,
-				Default:  0,
+			"activate": {
+				Type:         schema.TypeString,
+				ValidateFunc: fortiValidateEnableDisable(),
+
+				Description: "Enable/disable address family IPv4 for this neighbor.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"activate6": {
+				Type:         schema.TypeString,
+				ValidateFunc: fortiValidateEnableDisable(),
+
+				Description: "Enable/disable address family IPv6 for this neighbor.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"additional_path": {
+				Type:         schema.TypeString,
+				ValidateFunc: fortiValidateEnum([]string{"send", "receive", "both", "disable"}),
+
+				Description: "Enable/disable IPv4 additional-path capability.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"additional_path6": {
+				Type:         schema.TypeString,
+				ValidateFunc: fortiValidateEnum([]string{"send", "receive", "both", "disable"}),
+
+				Description: "Enable/disable IPv6 additional-path capability.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"adv_additional_path": {
+				Type:         schema.TypeInt,
+				ValidateFunc: validation.IntBetween(2, 255),
+
+				Description: "Number of IPv4 additional paths that can be advertised to this neighbor.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"adv_additional_path6": {
+				Type:         schema.TypeInt,
+				ValidateFunc: validation.IntBetween(2, 255),
+
+				Description: "Number of IPv6 additional paths that can be advertised to this neighbor.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"advertisement_interval": {
+				Type:         schema.TypeInt,
+				ValidateFunc: validation.IntBetween(0, 600),
+
+				Description: "Minimum interval (sec) between sending updates.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"allowas_in": {
+				Type:         schema.TypeInt,
+				ValidateFunc: validation.IntBetween(1, 10),
+
+				Description: "IPv4 The maximum number of occurrence of my AS number allowed.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"allowas_in_enable": {
+				Type:         schema.TypeString,
+				ValidateFunc: fortiValidateEnableDisable(),
+
+				Description: "Enable/disable IPv4 Enable to allow my AS in AS path.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"allowas_in_enable6": {
+				Type:         schema.TypeString,
+				ValidateFunc: fortiValidateEnableDisable(),
+
+				Description: "Enable/disable IPv6 Enable to allow my AS in AS path.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"allowas_in6": {
+				Type:         schema.TypeInt,
+				ValidateFunc: validation.IntBetween(1, 10),
+
+				Description: "IPv6 The maximum number of occurrence of my AS number allowed.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"as_override": {
+				Type:         schema.TypeString,
+				ValidateFunc: fortiValidateEnableDisable(),
+
+				Description: "Enable/disable replace peer AS with own AS for IPv4.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"as_override6": {
+				Type:         schema.TypeString,
+				ValidateFunc: fortiValidateEnableDisable(),
+
+				Description: "Enable/disable replace peer AS with own AS for IPv6.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"attribute_unchanged": {
+				Type: schema.TypeString,
+
+				DiffSuppressFunc: diffFakeListEqual,
+				Description:      "IPv4 List of attributes that should be unchanged.",
+				Optional:         true,
+				Computed:         true,
+			},
+			"attribute_unchanged6": {
+				Type: schema.TypeString,
+
+				DiffSuppressFunc: diffFakeListEqual,
+				Description:      "IPv6 List of attributes that should be unchanged.",
+				Optional:         true,
+				Computed:         true,
+			},
+			"bfd": {
+				Type:         schema.TypeString,
+				ValidateFunc: fortiValidateEnableDisable(),
+
+				Description: "Enable/disable BFD for this neighbor.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"capability_default_originate": {
+				Type:         schema.TypeString,
+				ValidateFunc: fortiValidateEnableDisable(),
+
+				Description: "Enable/disable advertise default IPv4 route to this neighbor.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"capability_default_originate6": {
+				Type:         schema.TypeString,
+				ValidateFunc: fortiValidateEnableDisable(),
+
+				Description: "Enable/disable advertise default IPv6 route to this neighbor.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"capability_dynamic": {
+				Type:         schema.TypeString,
+				ValidateFunc: fortiValidateEnableDisable(),
+
+				Description: "Enable/disable advertise dynamic capability to this neighbor.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"capability_graceful_restart": {
+				Type:         schema.TypeString,
+				ValidateFunc: fortiValidateEnableDisable(),
+
+				Description: "Enable/disable advertise IPv4 graceful restart capability to this neighbor.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"capability_graceful_restart6": {
+				Type:         schema.TypeString,
+				ValidateFunc: fortiValidateEnableDisable(),
+
+				Description: "Enable/disable advertise IPv6 graceful restart capability to this neighbor.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"capability_orf": {
+				Type:         schema.TypeString,
+				ValidateFunc: fortiValidateEnum([]string{"none", "receive", "send", "both"}),
+
+				Description: "Accept/Send IPv4 ORF lists to/from this neighbor.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"capability_orf6": {
+				Type:         schema.TypeString,
+				ValidateFunc: fortiValidateEnum([]string{"none", "receive", "send", "both"}),
+
+				Description: "Accept/Send IPv6 ORF lists to/from this neighbor.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"capability_route_refresh": {
+				Type:         schema.TypeString,
+				ValidateFunc: fortiValidateEnableDisable(),
+
+				Description: "Enable/disable advertise route refresh capability to this neighbor.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"conditional_advertise": {
+				Type:        schema.TypeList,
+				Description: "Conditional advertisement.",
+				Optional:    true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"advertise_routemap": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringLenBetween(0, 35),
+
+							Description: "Name of advertising route map.",
+							Optional:    true,
+							Computed:    true,
+						},
+						"condition_routemap": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringLenBetween(0, 35),
+
+							Description: "Name of condition route map.",
+							Optional:    true,
+							Computed:    true,
+						},
+						"condition_type": {
+							Type:         schema.TypeString,
+							ValidateFunc: fortiValidateEnum([]string{"exist", "non-exist"}),
+
+							Description: "Type of condition.",
+							Optional:    true,
+							Computed:    true,
+						},
+					},
+				},
+			},
+			"conditional_advertise6": {
+				Type:        schema.TypeList,
+				Description: "IPv6 conditional advertisement.",
+				Optional:    true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"advertise_routemap": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringLenBetween(0, 35),
+
+							Description: "Name of advertising route map.",
+							Optional:    true,
+							Computed:    true,
+						},
+						"condition_routemap": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringLenBetween(0, 35),
+
+							Description: "Name of condition route map.",
+							Optional:    true,
+							Computed:    true,
+						},
+						"condition_type": {
+							Type:         schema.TypeString,
+							ValidateFunc: fortiValidateEnum([]string{"exist", "non-exist"}),
+
+							Description: "Type of condition.",
+							Optional:    true,
+							Computed:    true,
+						},
+					},
+				},
+			},
+			"connect_timer": {
+				Type:         schema.TypeInt,
+				ValidateFunc: validation.IntBetween(0, 65535),
+
+				Description: "Interval (sec) for connect timer.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"default_originate_routemap": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringLenBetween(0, 35),
+
+				Description: "Route map to specify criteria to originate IPv4 default.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"default_originate_routemap6": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringLenBetween(0, 35),
+
+				Description: "Route map to specify criteria to originate IPv6 default.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"description": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringLenBetween(0, 63),
+
+				Description: "Description.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"distribute_list_in": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringLenBetween(0, 35),
+
+				Description: "Filter for IPv4 updates from this neighbor.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"distribute_list_in6": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringLenBetween(0, 35),
+
+				Description: "Filter for IPv6 updates from this neighbor.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"distribute_list_out": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringLenBetween(0, 35),
+
+				Description: "Filter for IPv4 updates to this neighbor.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"distribute_list_out6": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringLenBetween(0, 35),
+
+				Description: "Filter for IPv6 updates to this neighbor.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"dont_capability_negotiate": {
+				Type:         schema.TypeString,
+				ValidateFunc: fortiValidateEnableDisable(),
+
+				Description: "Don't negotiate capabilities with this neighbor",
+				Optional:    true,
+				Computed:    true,
+			},
+			"ebgp_enforce_multihop": {
+				Type:         schema.TypeString,
+				ValidateFunc: fortiValidateEnableDisable(),
+
+				Description: "Enable/disable allow multi-hop EBGP neighbors.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"ebgp_multihop_ttl": {
+				Type:         schema.TypeInt,
+				ValidateFunc: validation.IntBetween(1, 255),
+
+				Description: "EBGP multihop TTL for this peer.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"filter_list_in": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringLenBetween(0, 35),
+
+				Description: "BGP filter for IPv4 inbound routes.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"filter_list_in6": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringLenBetween(0, 35),
+
+				Description: "BGP filter for IPv6 inbound routes.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"filter_list_out": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringLenBetween(0, 35),
+
+				Description: "BGP filter for IPv4 outbound routes.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"filter_list_out6": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringLenBetween(0, 35),
+
+				Description: "BGP filter for IPv6 outbound routes.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"holdtime_timer": {
+				Type:         schema.TypeInt,
+				ValidateFunc: validation.IntBetween(3, 65535),
+
+				Description: "Interval (sec) before peer considered dead.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"interface": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringLenBetween(0, 15),
+
+				Description: "Specify outgoing interface for peer connection. For IPv6 peer, the interface should have link-local address.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"ip": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringLenBetween(0, 45),
+
+				Description: "IP/IPv6 address of neighbor.",
+				ForceNew:    true,
+				Required:    true,
+			},
+			"keep_alive_timer": {
+				Type:         schema.TypeInt,
+				ValidateFunc: validation.IntBetween(0, 65535),
+
+				Description: "Keep alive timer interval (sec).",
+				Optional:    true,
+				Computed:    true,
+			},
+			"link_down_failover": {
+				Type:         schema.TypeString,
+				ValidateFunc: fortiValidateEnableDisable(),
+
+				Description: "Enable/disable failover upon link down.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"local_as": {
+				Type: schema.TypeInt,
+
+				Description: "Local AS number of neighbor.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"local_as_no_prepend": {
+				Type:         schema.TypeString,
+				ValidateFunc: fortiValidateEnableDisable(),
+
+				Description: "Do not prepend local-as to incoming updates.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"local_as_replace_as": {
+				Type:         schema.TypeString,
+				ValidateFunc: fortiValidateEnableDisable(),
+
+				Description: "Replace real AS with local-as in outgoing updates.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"maximum_prefix": {
+				Type: schema.TypeInt,
+
+				Description: "Maximum number of IPv4 prefixes to accept from this peer.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"maximum_prefix_threshold": {
+				Type:         schema.TypeInt,
+				ValidateFunc: validation.IntBetween(1, 100),
+
+				Description: "Maximum IPv4 prefix threshold value (1 - 100 percent).",
+				Optional:    true,
+				Computed:    true,
+			},
+			"maximum_prefix_threshold6": {
+				Type:         schema.TypeInt,
+				ValidateFunc: validation.IntBetween(1, 100),
+
+				Description: "Maximum IPv6 prefix threshold value (1 - 100 percent).",
+				Optional:    true,
+				Computed:    true,
+			},
+			"maximum_prefix_warning_only": {
+				Type:         schema.TypeString,
+				ValidateFunc: fortiValidateEnableDisable(),
+
+				Description: "Enable/disable IPv4 Only give warning message when limit is exceeded.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"maximum_prefix_warning_only6": {
+				Type:         schema.TypeString,
+				ValidateFunc: fortiValidateEnableDisable(),
+
+				Description: "Enable/disable IPv6 Only give warning message when limit is exceeded.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"maximum_prefix6": {
+				Type: schema.TypeInt,
+
+				Description: "Maximum number of IPv6 prefixes to accept from this peer.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"next_hop_self": {
+				Type:         schema.TypeString,
+				ValidateFunc: fortiValidateEnableDisable(),
+
+				Description: "Enable/disable IPv4 next-hop calculation for this neighbor.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"next_hop_self_rr": {
+				Type:         schema.TypeString,
+				ValidateFunc: fortiValidateEnableDisable(),
+
+				Description: "Enable/disable setting nexthop's address to interface's IPv4 address for route-reflector routes.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"next_hop_self_rr6": {
+				Type:         schema.TypeString,
+				ValidateFunc: fortiValidateEnableDisable(),
+
+				Description: "Enable/disable setting nexthop's address to interface's IPv6 address for route-reflector routes.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"next_hop_self6": {
+				Type:         schema.TypeString,
+				ValidateFunc: fortiValidateEnableDisable(),
+
+				Description: "Enable/disable IPv6 next-hop calculation for this neighbor.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"override_capability": {
+				Type:         schema.TypeString,
+				ValidateFunc: fortiValidateEnableDisable(),
+
+				Description: "Enable/disable override result of capability negotiation.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"passive": {
+				Type:         schema.TypeString,
+				ValidateFunc: fortiValidateEnableDisable(),
+
+				Description: "Enable/disable sending of open messages to this neighbor.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"password": {
+				Type: schema.TypeString,
+
+				Description: "Password used in MD5 authentication.",
+				Optional:    true,
+				Computed:    true,
+				Sensitive:   true,
+			},
+			"prefix_list_in": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringLenBetween(0, 35),
+
+				Description: "IPv4 Inbound filter for updates from this neighbor.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"prefix_list_in6": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringLenBetween(0, 35),
+
+				Description: "IPv6 Inbound filter for updates from this neighbor.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"prefix_list_out": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringLenBetween(0, 35),
+
+				Description: "IPv4 Outbound filter for updates to this neighbor.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"prefix_list_out6": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringLenBetween(0, 35),
+
+				Description: "IPv6 Outbound filter for updates to this neighbor.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"remote_as": {
+				Type: schema.TypeInt,
+
+				Description: "AS number of neighbor.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"remove_private_as": {
+				Type:         schema.TypeString,
+				ValidateFunc: fortiValidateEnableDisable(),
+
+				Description: "Enable/disable remove private AS number from IPv4 outbound updates.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"remove_private_as6": {
+				Type:         schema.TypeString,
+				ValidateFunc: fortiValidateEnableDisable(),
+
+				Description: "Enable/disable remove private AS number from IPv6 outbound updates.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"restart_time": {
+				Type:         schema.TypeInt,
+				ValidateFunc: validation.IntBetween(0, 3600),
+
+				Description: "Graceful restart delay time (sec, 0 = global default).",
+				Optional:    true,
+				Computed:    true,
+			},
+			"retain_stale_time": {
+				Type:         schema.TypeInt,
+				ValidateFunc: validation.IntBetween(0, 65535),
+
+				Description: "Time to retain stale routes.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"route_map_in": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringLenBetween(0, 35),
+
+				Description: "IPv4 Inbound route map filter.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"route_map_in6": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringLenBetween(0, 35),
+
+				Description: "IPv6 Inbound route map filter.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"route_map_out": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringLenBetween(0, 35),
+
+				Description: "IPv4 outbound route map filter.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"route_map_out_preferable": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringLenBetween(0, 35),
+
+				Description: "IPv4 outbound route map filter if the peer is preferred.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"route_map_out6": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringLenBetween(0, 35),
+
+				Description: "IPv6 Outbound route map filter.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"route_map_out6_preferable": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringLenBetween(0, 35),
+
+				Description: "IPv6 outbound route map filter if the peer is preferred.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"route_reflector_client": {
+				Type:         schema.TypeString,
+				ValidateFunc: fortiValidateEnableDisable(),
+
+				Description: "Enable/disable IPv4 AS route reflector client.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"route_reflector_client6": {
+				Type:         schema.TypeString,
+				ValidateFunc: fortiValidateEnableDisable(),
+
+				Description: "Enable/disable IPv6 AS route reflector client.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"route_server_client": {
+				Type:         schema.TypeString,
+				ValidateFunc: fortiValidateEnableDisable(),
+
+				Description: "Enable/disable IPv4 AS route server client.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"route_server_client6": {
+				Type:         schema.TypeString,
+				ValidateFunc: fortiValidateEnableDisable(),
+
+				Description: "Enable/disable IPv6 AS route server client.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"send_community": {
+				Type:         schema.TypeString,
+				ValidateFunc: fortiValidateEnum([]string{"standard", "extended", "both", "disable"}),
+
+				Description: "IPv4 Send community attribute to neighbor.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"send_community6": {
+				Type:         schema.TypeString,
+				ValidateFunc: fortiValidateEnum([]string{"standard", "extended", "both", "disable"}),
+
+				Description: "IPv6 Send community attribute to neighbor.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"shutdown": {
+				Type:         schema.TypeString,
+				ValidateFunc: fortiValidateEnableDisable(),
+
+				Description: "Enable/disable shutdown this neighbor.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"soft_reconfiguration": {
+				Type:         schema.TypeString,
+				ValidateFunc: fortiValidateEnableDisable(),
+
+				Description: "Enable/disable allow IPv4 inbound soft reconfiguration.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"soft_reconfiguration6": {
+				Type:         schema.TypeString,
+				ValidateFunc: fortiValidateEnableDisable(),
+
+				Description: "Enable/disable allow IPv6 inbound soft reconfiguration.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"stale_route": {
+				Type:         schema.TypeString,
+				ValidateFunc: fortiValidateEnableDisable(),
+
+				Description: "Enable/disable stale route after neighbor down.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"strict_capability_match": {
+				Type:         schema.TypeString,
+				ValidateFunc: fortiValidateEnableDisable(),
+
+				Description: "Enable/disable strict capability matching.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"unsuppress_map": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringLenBetween(0, 35),
+
+				Description: "IPv4 Route map to selectively unsuppress suppressed routes.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"unsuppress_map6": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringLenBetween(0, 35),
+
+				Description: "IPv6 Route map to selectively unsuppress suppressed routes.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"update_source": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringLenBetween(0, 15),
+
+				Description: "Interface to use as source IP/IPv6 address of TCP connections.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"weight": {
+				Type:         schema.TypeInt,
+				ValidateFunc: validation.IntBetween(0, 65535),
+
+				Description: "Neighbor weight.",
+				Optional:    true,
+				Computed:    true,
 			},
 		},
 	}
@@ -605,6 +841,7 @@ func resourceRouterbgpNeighbor() *schema.Resource {
 func resourceRouterbgpNeighborCreate(d *schema.ResourceData, m interface{}) error {
 	c := m.(*FortiClient).Client
 	c.Retries = 1
+	urlparams := make(map[string][]string)
 
 	vdomparam := ""
 
@@ -622,14 +859,39 @@ func resourceRouterbgpNeighborCreate(d *schema.ResourceData, m interface{}) erro
 		}
 	}
 
-	urlparams := make(map[string][]string)
+	allow_append := false
+
+	if v, ok := d.GetOk("allow_append"); ok {
+		if b, ok := v.(bool); ok {
+			allow_append = b
+		}
+	}
+
+	urlparams["allow_append"] = []string{strconv.FormatBool(allow_append)}
+
+	key := "ip"
+	mkey := ""
+	if v, ok := d.GetOk(key); ok {
+		if s, ok := v.(string); ok {
+			mkey = s
+		}
+	}
 
 	obj, err := getObjectRouterbgpNeighbor(d, c.Fv)
 	if err != nil {
 		return fmt.Errorf("error creating RouterbgpNeighbor resource while getting object: %v", err)
 	}
 
-	o, err := c.CreateRouterbgpNeighbor(obj, vdomparam, urlparams, batchid)
+	if mkey == "" && allow_append {
+		return fmt.Errorf("error creating RouterbgpNeighbor resource: %q must be set if \"allow_append\" is true", key)
+	}
+
+	o := make(map[string]interface{})
+	if mkey != "" && allow_append {
+		o, err = c.UpdateRouterbgpNeighbor(obj, mkey, vdomparam, urlparams, batchid)
+	} else {
+		o, err = c.CreateRouterbgpNeighbor(obj, vdomparam, urlparams, batchid)
+	}
 
 	if err != nil {
 		return fmt.Errorf("error creating RouterbgpNeighbor resource: %v", err)
@@ -648,6 +910,7 @@ func resourceRouterbgpNeighborUpdate(d *schema.ResourceData, m interface{}) erro
 	mkey := d.Id()
 	c := m.(*FortiClient).Client
 	c.Retries = 1
+	urlparams := make(map[string][]string)
 
 	vdomparam := ""
 
@@ -664,8 +927,6 @@ func resourceRouterbgpNeighborUpdate(d *schema.ResourceData, m interface{}) erro
 			batchid = i
 		}
 	}
-
-	urlparams := make(map[string][]string)
 
 	obj, err := getObjectRouterbgpNeighbor(d, c.Fv)
 	if err != nil {
@@ -724,6 +985,7 @@ func resourceRouterbgpNeighborRead(d *schema.ResourceData, m interface{}) error 
 
 	c := m.(*FortiClient).Client
 	c.Retries = 1
+	urlparams := make(map[string][]string)
 
 	vdomparam := ""
 
@@ -740,8 +1002,6 @@ func resourceRouterbgpNeighborRead(d *schema.ResourceData, m interface{}) error 
 			batchid = i
 		}
 	}
-
-	urlparams := make(map[string][]string)
 
 	o, err := c.ReadRouterbgpNeighbor(mkey, vdomparam, urlparams, batchid)
 	if err != nil {
@@ -761,343 +1021,11 @@ func resourceRouterbgpNeighborRead(d *schema.ResourceData, m interface{}) error 
 	return nil
 }
 
-func flattenRouterbgpNeighborIp(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
-	return v
-}
-
-func flattenRouterbgpNeighborAdvertisementInterval(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
-	return v
-}
-
-func flattenRouterbgpNeighborAllowasInEnable(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
-	return v
-}
-
-func flattenRouterbgpNeighborAllowasInEnable6(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
-	return v
-}
-
-func flattenRouterbgpNeighborAllowasIn(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
-	return v
-}
-
-func flattenRouterbgpNeighborAllowasIn6(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
-	return v
-}
-
-func flattenRouterbgpNeighborAttributeUnchanged(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
-	return v
-}
-
-func flattenRouterbgpNeighborAttributeUnchanged6(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
-	return v
-}
-
 func flattenRouterbgpNeighborActivate(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
 	return v
 }
 
 func flattenRouterbgpNeighborActivate6(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
-	return v
-}
-
-func flattenRouterbgpNeighborBfd(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
-	return v
-}
-
-func flattenRouterbgpNeighborCapabilityDynamic(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
-	return v
-}
-
-func flattenRouterbgpNeighborCapabilityOrf(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
-	return v
-}
-
-func flattenRouterbgpNeighborCapabilityOrf6(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
-	return v
-}
-
-func flattenRouterbgpNeighborCapabilityGracefulRestart(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
-	return v
-}
-
-func flattenRouterbgpNeighborCapabilityGracefulRestart6(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
-	return v
-}
-
-func flattenRouterbgpNeighborCapabilityRouteRefresh(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
-	return v
-}
-
-func flattenRouterbgpNeighborCapabilityDefaultOriginate(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
-	return v
-}
-
-func flattenRouterbgpNeighborCapabilityDefaultOriginate6(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
-	return v
-}
-
-func flattenRouterbgpNeighborDontCapabilityNegotiate(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
-	return v
-}
-
-func flattenRouterbgpNeighborEbgpEnforceMultihop(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
-	return v
-}
-
-func flattenRouterbgpNeighborLinkDownFailover(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
-	return v
-}
-
-func flattenRouterbgpNeighborStaleRoute(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
-	return v
-}
-
-func flattenRouterbgpNeighborNextHopSelf(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
-	return v
-}
-
-func flattenRouterbgpNeighborNextHopSelf6(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
-	return v
-}
-
-func flattenRouterbgpNeighborNextHopSelfRr(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
-	return v
-}
-
-func flattenRouterbgpNeighborNextHopSelfRr6(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
-	return v
-}
-
-func flattenRouterbgpNeighborOverrideCapability(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
-	return v
-}
-
-func flattenRouterbgpNeighborPassive(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
-	return v
-}
-
-func flattenRouterbgpNeighborRemovePrivateAs(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
-	return v
-}
-
-func flattenRouterbgpNeighborRemovePrivateAs6(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
-	return v
-}
-
-func flattenRouterbgpNeighborRouteReflectorClient(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
-	return v
-}
-
-func flattenRouterbgpNeighborRouteReflectorClient6(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
-	return v
-}
-
-func flattenRouterbgpNeighborRouteServerClient(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
-	return v
-}
-
-func flattenRouterbgpNeighborRouteServerClient6(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
-	return v
-}
-
-func flattenRouterbgpNeighborShutdown(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
-	return v
-}
-
-func flattenRouterbgpNeighborSoftReconfiguration(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
-	return v
-}
-
-func flattenRouterbgpNeighborSoftReconfiguration6(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
-	return v
-}
-
-func flattenRouterbgpNeighborAsOverride(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
-	return v
-}
-
-func flattenRouterbgpNeighborAsOverride6(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
-	return v
-}
-
-func flattenRouterbgpNeighborStrictCapabilityMatch(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
-	return v
-}
-
-func flattenRouterbgpNeighborDefaultOriginateRoutemap(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
-	return v
-}
-
-func flattenRouterbgpNeighborDefaultOriginateRoutemap6(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
-	return v
-}
-
-func flattenRouterbgpNeighborDescription(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
-	return v
-}
-
-func flattenRouterbgpNeighborDistributeListIn(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
-	return v
-}
-
-func flattenRouterbgpNeighborDistributeListIn6(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
-	return v
-}
-
-func flattenRouterbgpNeighborDistributeListOut(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
-	return v
-}
-
-func flattenRouterbgpNeighborDistributeListOut6(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
-	return v
-}
-
-func flattenRouterbgpNeighborEbgpMultihopTtl(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
-	return v
-}
-
-func flattenRouterbgpNeighborFilterListIn(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
-	return v
-}
-
-func flattenRouterbgpNeighborFilterListIn6(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
-	return v
-}
-
-func flattenRouterbgpNeighborFilterListOut(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
-	return v
-}
-
-func flattenRouterbgpNeighborFilterListOut6(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
-	return v
-}
-
-func flattenRouterbgpNeighborInterface(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
-	return v
-}
-
-func flattenRouterbgpNeighborMaximumPrefix(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
-	return v
-}
-
-func flattenRouterbgpNeighborMaximumPrefix6(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
-	return v
-}
-
-func flattenRouterbgpNeighborMaximumPrefixThreshold(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
-	return v
-}
-
-func flattenRouterbgpNeighborMaximumPrefixThreshold6(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
-	return v
-}
-
-func flattenRouterbgpNeighborMaximumPrefixWarningOnly(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
-	return v
-}
-
-func flattenRouterbgpNeighborMaximumPrefixWarningOnly6(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
-	return v
-}
-
-func flattenRouterbgpNeighborPrefixListIn(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
-	return v
-}
-
-func flattenRouterbgpNeighborPrefixListIn6(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
-	return v
-}
-
-func flattenRouterbgpNeighborPrefixListOut(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
-	return v
-}
-
-func flattenRouterbgpNeighborPrefixListOut6(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
-	return v
-}
-
-func flattenRouterbgpNeighborRemoteAs(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
-	return v
-}
-
-func flattenRouterbgpNeighborLocalAs(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
-	return v
-}
-
-func flattenRouterbgpNeighborLocalAsNoPrepend(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
-	return v
-}
-
-func flattenRouterbgpNeighborLocalAsReplaceAs(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
-	return v
-}
-
-func flattenRouterbgpNeighborRetainStaleTime(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
-	return v
-}
-
-func flattenRouterbgpNeighborRouteMapIn(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
-	return v
-}
-
-func flattenRouterbgpNeighborRouteMapIn6(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
-	return v
-}
-
-func flattenRouterbgpNeighborRouteMapOut(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
-	return v
-}
-
-func flattenRouterbgpNeighborRouteMapOutPreferable(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
-	return v
-}
-
-func flattenRouterbgpNeighborRouteMapOut6(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
-	return v
-}
-
-func flattenRouterbgpNeighborRouteMapOut6Preferable(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
-	return v
-}
-
-func flattenRouterbgpNeighborSendCommunity(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
-	return v
-}
-
-func flattenRouterbgpNeighborSendCommunity6(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
-	return v
-}
-
-func flattenRouterbgpNeighborKeepAliveTimer(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
-	return v
-}
-
-func flattenRouterbgpNeighborHoldtimeTimer(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
-	return v
-}
-
-func flattenRouterbgpNeighborConnectTimer(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
-	return v
-}
-
-func flattenRouterbgpNeighborUnsuppressMap(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
-	return v
-}
-
-func flattenRouterbgpNeighborUnsuppressMap6(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
-	return v
-}
-
-func flattenRouterbgpNeighborUpdateSource(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
-	return v
-}
-
-func flattenRouterbgpNeighborWeight(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
-	return v
-}
-
-func flattenRouterbgpNeighborRestartTime(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
 	return v
 }
 
@@ -1117,7 +1045,75 @@ func flattenRouterbgpNeighborAdvAdditionalPath6(v interface{}, d *schema.Resourc
 	return v
 }
 
-func flattenRouterbgpNeighborPassword(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+func flattenRouterbgpNeighborAdvertisementInterval(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
+func flattenRouterbgpNeighborAllowasIn(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
+func flattenRouterbgpNeighborAllowasInEnable(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
+func flattenRouterbgpNeighborAllowasInEnable6(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
+func flattenRouterbgpNeighborAllowasIn6(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
+func flattenRouterbgpNeighborAsOverride(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
+func flattenRouterbgpNeighborAsOverride6(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
+func flattenRouterbgpNeighborAttributeUnchanged(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
+func flattenRouterbgpNeighborAttributeUnchanged6(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
+func flattenRouterbgpNeighborBfd(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
+func flattenRouterbgpNeighborCapabilityDefaultOriginate(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
+func flattenRouterbgpNeighborCapabilityDefaultOriginate6(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
+func flattenRouterbgpNeighborCapabilityDynamic(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
+func flattenRouterbgpNeighborCapabilityGracefulRestart(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
+func flattenRouterbgpNeighborCapabilityGracefulRestart6(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
+func flattenRouterbgpNeighborCapabilityOrf(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
+func flattenRouterbgpNeighborCapabilityOrf6(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
+func flattenRouterbgpNeighborCapabilityRouteRefresh(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
 	return v
 }
 
@@ -1139,7 +1135,6 @@ func flattenRouterbgpNeighborConditionalAdvertise(v interface{}, d *schema.Resou
 		i := r.(map[string]interface{})
 
 		pre_append := "" // table
-
 		pre_append = pre + "." + strconv.Itoa(con) + "." + "advertise_routemap"
 		if _, ok := i["advertise-routemap"]; ok {
 
@@ -1179,18 +1174,375 @@ func flattenRouterbgpNeighborConditionalAdvertiseConditionType(v interface{}, d 
 	return v
 }
 
+func flattenRouterbgpNeighborConditionalAdvertise6(v interface{}, d *schema.ResourceData, pre string, sv string) []map[string]interface{} {
+	if v == nil {
+		return nil
+	}
+
+	l := v.([]interface{})
+	if len(l) == 0 || l[0] == nil {
+		return nil
+	}
+
+	result := make([]map[string]interface{}, 0, len(l))
+
+	con := 0
+	for _, r := range l {
+		tmp := make(map[string]interface{})
+		i := r.(map[string]interface{})
+
+		pre_append := "" // table
+		pre_append = pre + "." + strconv.Itoa(con) + "." + "advertise_routemap"
+		if _, ok := i["advertise-routemap"]; ok {
+
+			tmp["advertise_routemap"] = flattenRouterbgpNeighborConditionalAdvertise6AdvertiseRoutemap(i["advertise-routemap"], d, pre_append, sv)
+		}
+
+		pre_append = pre + "." + strconv.Itoa(con) + "." + "condition_routemap"
+		if _, ok := i["condition-routemap"]; ok {
+
+			tmp["condition_routemap"] = flattenRouterbgpNeighborConditionalAdvertise6ConditionRoutemap(i["condition-routemap"], d, pre_append, sv)
+		}
+
+		pre_append = pre + "." + strconv.Itoa(con) + "." + "condition_type"
+		if _, ok := i["condition-type"]; ok {
+
+			tmp["condition_type"] = flattenRouterbgpNeighborConditionalAdvertise6ConditionType(i["condition-type"], d, pre_append, sv)
+		}
+
+		result = append(result, tmp)
+
+		con += 1
+	}
+
+	dynamic_sort_subtable(result, "advertise_routemap", d)
+	return result
+}
+
+func flattenRouterbgpNeighborConditionalAdvertise6AdvertiseRoutemap(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
+func flattenRouterbgpNeighborConditionalAdvertise6ConditionRoutemap(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
+func flattenRouterbgpNeighborConditionalAdvertise6ConditionType(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
+func flattenRouterbgpNeighborConnectTimer(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
+func flattenRouterbgpNeighborDefaultOriginateRoutemap(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
+func flattenRouterbgpNeighborDefaultOriginateRoutemap6(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
+func flattenRouterbgpNeighborDescription(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
+func flattenRouterbgpNeighborDistributeListIn(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
+func flattenRouterbgpNeighborDistributeListIn6(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
+func flattenRouterbgpNeighborDistributeListOut(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
+func flattenRouterbgpNeighborDistributeListOut6(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
+func flattenRouterbgpNeighborDontCapabilityNegotiate(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
+func flattenRouterbgpNeighborEbgpEnforceMultihop(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
+func flattenRouterbgpNeighborEbgpMultihopTtl(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
+func flattenRouterbgpNeighborFilterListIn(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
+func flattenRouterbgpNeighborFilterListIn6(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
+func flattenRouterbgpNeighborFilterListOut(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
+func flattenRouterbgpNeighborFilterListOut6(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
+func flattenRouterbgpNeighborHoldtimeTimer(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
+func flattenRouterbgpNeighborInterface(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
+func flattenRouterbgpNeighborIp(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
+func flattenRouterbgpNeighborKeepAliveTimer(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
+func flattenRouterbgpNeighborLinkDownFailover(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
+func flattenRouterbgpNeighborLocalAs(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
+func flattenRouterbgpNeighborLocalAsNoPrepend(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
+func flattenRouterbgpNeighborLocalAsReplaceAs(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
+func flattenRouterbgpNeighborMaximumPrefix(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
+func flattenRouterbgpNeighborMaximumPrefixThreshold(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
+func flattenRouterbgpNeighborMaximumPrefixThreshold6(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
+func flattenRouterbgpNeighborMaximumPrefixWarningOnly(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
+func flattenRouterbgpNeighborMaximumPrefixWarningOnly6(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
+func flattenRouterbgpNeighborMaximumPrefix6(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
+func flattenRouterbgpNeighborNextHopSelf(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
+func flattenRouterbgpNeighborNextHopSelfRr(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
+func flattenRouterbgpNeighborNextHopSelfRr6(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
+func flattenRouterbgpNeighborNextHopSelf6(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
+func flattenRouterbgpNeighborOverrideCapability(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
+func flattenRouterbgpNeighborPassive(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
+func flattenRouterbgpNeighborPassword(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
+func flattenRouterbgpNeighborPrefixListIn(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
+func flattenRouterbgpNeighborPrefixListIn6(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
+func flattenRouterbgpNeighborPrefixListOut(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
+func flattenRouterbgpNeighborPrefixListOut6(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
+func flattenRouterbgpNeighborRemoteAs(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
+func flattenRouterbgpNeighborRemovePrivateAs(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
+func flattenRouterbgpNeighborRemovePrivateAs6(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
+func flattenRouterbgpNeighborRestartTime(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
+func flattenRouterbgpNeighborRetainStaleTime(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
+func flattenRouterbgpNeighborRouteMapIn(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
+func flattenRouterbgpNeighborRouteMapIn6(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
+func flattenRouterbgpNeighborRouteMapOut(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
+func flattenRouterbgpNeighborRouteMapOutPreferable(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
+func flattenRouterbgpNeighborRouteMapOut6(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
+func flattenRouterbgpNeighborRouteMapOut6Preferable(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
+func flattenRouterbgpNeighborRouteReflectorClient(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
+func flattenRouterbgpNeighborRouteReflectorClient6(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
+func flattenRouterbgpNeighborRouteServerClient(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
+func flattenRouterbgpNeighborRouteServerClient6(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
+func flattenRouterbgpNeighborSendCommunity(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
+func flattenRouterbgpNeighborSendCommunity6(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
+func flattenRouterbgpNeighborShutdown(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
+func flattenRouterbgpNeighborSoftReconfiguration(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
+func flattenRouterbgpNeighborSoftReconfiguration6(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
+func flattenRouterbgpNeighborStaleRoute(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
+func flattenRouterbgpNeighborStrictCapabilityMatch(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
+func flattenRouterbgpNeighborUnsuppressMap(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
+func flattenRouterbgpNeighborUnsuppressMap6(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
+func flattenRouterbgpNeighborUpdateSource(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
+func flattenRouterbgpNeighborWeight(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
 func refreshObjectRouterbgpNeighbor(d *schema.ResourceData, o map[string]interface{}, sv string) error {
 	var err error
 
-	if err = d.Set("ip", flattenRouterbgpNeighborIp(o["ip"], d, "ip", sv)); err != nil {
-		if !fortiAPIPatch(o["ip"]) {
-			return fmt.Errorf("error reading ip: %v", err)
+	if err = d.Set("activate", flattenRouterbgpNeighborActivate(o["activate"], d, "activate", sv)); err != nil {
+		if !fortiAPIPatch(o["activate"]) {
+			return fmt.Errorf("error reading activate: %v", err)
+		}
+	}
+
+	if err = d.Set("activate6", flattenRouterbgpNeighborActivate6(o["activate6"], d, "activate6", sv)); err != nil {
+		if !fortiAPIPatch(o["activate6"]) {
+			return fmt.Errorf("error reading activate6: %v", err)
+		}
+	}
+
+	if err = d.Set("additional_path", flattenRouterbgpNeighborAdditionalPath(o["additional-path"], d, "additional_path", sv)); err != nil {
+		if !fortiAPIPatch(o["additional-path"]) {
+			return fmt.Errorf("error reading additional_path: %v", err)
+		}
+	}
+
+	if err = d.Set("additional_path6", flattenRouterbgpNeighborAdditionalPath6(o["additional-path6"], d, "additional_path6", sv)); err != nil {
+		if !fortiAPIPatch(o["additional-path6"]) {
+			return fmt.Errorf("error reading additional_path6: %v", err)
+		}
+	}
+
+	if err = d.Set("adv_additional_path", flattenRouterbgpNeighborAdvAdditionalPath(o["adv-additional-path"], d, "adv_additional_path", sv)); err != nil {
+		if !fortiAPIPatch(o["adv-additional-path"]) {
+			return fmt.Errorf("error reading adv_additional_path: %v", err)
+		}
+	}
+
+	if err = d.Set("adv_additional_path6", flattenRouterbgpNeighborAdvAdditionalPath6(o["adv-additional-path6"], d, "adv_additional_path6", sv)); err != nil {
+		if !fortiAPIPatch(o["adv-additional-path6"]) {
+			return fmt.Errorf("error reading adv_additional_path6: %v", err)
 		}
 	}
 
 	if err = d.Set("advertisement_interval", flattenRouterbgpNeighborAdvertisementInterval(o["advertisement-interval"], d, "advertisement_interval", sv)); err != nil {
 		if !fortiAPIPatch(o["advertisement-interval"]) {
 			return fmt.Errorf("error reading advertisement_interval: %v", err)
+		}
+	}
+
+	if err = d.Set("allowas_in", flattenRouterbgpNeighborAllowasIn(o["allowas-in"], d, "allowas_in", sv)); err != nil {
+		if !fortiAPIPatch(o["allowas-in"]) {
+			return fmt.Errorf("error reading allowas_in: %v", err)
 		}
 	}
 
@@ -1206,207 +1558,9 @@ func refreshObjectRouterbgpNeighbor(d *schema.ResourceData, o map[string]interfa
 		}
 	}
 
-	if err = d.Set("allowas_in", flattenRouterbgpNeighborAllowasIn(o["allowas-in"], d, "allowas_in", sv)); err != nil {
-		if !fortiAPIPatch(o["allowas-in"]) {
-			return fmt.Errorf("error reading allowas_in: %v", err)
-		}
-	}
-
 	if err = d.Set("allowas_in6", flattenRouterbgpNeighborAllowasIn6(o["allowas-in6"], d, "allowas_in6", sv)); err != nil {
 		if !fortiAPIPatch(o["allowas-in6"]) {
 			return fmt.Errorf("error reading allowas_in6: %v", err)
-		}
-	}
-
-	if err = d.Set("attribute_unchanged", flattenRouterbgpNeighborAttributeUnchanged(o["attribute-unchanged"], d, "attribute_unchanged", sv)); err != nil {
-		if !fortiAPIPatch(o["attribute-unchanged"]) {
-			return fmt.Errorf("error reading attribute_unchanged: %v", err)
-		}
-	}
-
-	if err = d.Set("attribute_unchanged6", flattenRouterbgpNeighborAttributeUnchanged6(o["attribute-unchanged6"], d, "attribute_unchanged6", sv)); err != nil {
-		if !fortiAPIPatch(o["attribute-unchanged6"]) {
-			return fmt.Errorf("error reading attribute_unchanged6: %v", err)
-		}
-	}
-
-	if err = d.Set("activate", flattenRouterbgpNeighborActivate(o["activate"], d, "activate", sv)); err != nil {
-		if !fortiAPIPatch(o["activate"]) {
-			return fmt.Errorf("error reading activate: %v", err)
-		}
-	}
-
-	if err = d.Set("activate6", flattenRouterbgpNeighborActivate6(o["activate6"], d, "activate6", sv)); err != nil {
-		if !fortiAPIPatch(o["activate6"]) {
-			return fmt.Errorf("error reading activate6: %v", err)
-		}
-	}
-
-	if err = d.Set("bfd", flattenRouterbgpNeighborBfd(o["bfd"], d, "bfd", sv)); err != nil {
-		if !fortiAPIPatch(o["bfd"]) {
-			return fmt.Errorf("error reading bfd: %v", err)
-		}
-	}
-
-	if err = d.Set("capability_dynamic", flattenRouterbgpNeighborCapabilityDynamic(o["capability-dynamic"], d, "capability_dynamic", sv)); err != nil {
-		if !fortiAPIPatch(o["capability-dynamic"]) {
-			return fmt.Errorf("error reading capability_dynamic: %v", err)
-		}
-	}
-
-	if err = d.Set("capability_orf", flattenRouterbgpNeighborCapabilityOrf(o["capability-orf"], d, "capability_orf", sv)); err != nil {
-		if !fortiAPIPatch(o["capability-orf"]) {
-			return fmt.Errorf("error reading capability_orf: %v", err)
-		}
-	}
-
-	if err = d.Set("capability_orf6", flattenRouterbgpNeighborCapabilityOrf6(o["capability-orf6"], d, "capability_orf6", sv)); err != nil {
-		if !fortiAPIPatch(o["capability-orf6"]) {
-			return fmt.Errorf("error reading capability_orf6: %v", err)
-		}
-	}
-
-	if err = d.Set("capability_graceful_restart", flattenRouterbgpNeighborCapabilityGracefulRestart(o["capability-graceful-restart"], d, "capability_graceful_restart", sv)); err != nil {
-		if !fortiAPIPatch(o["capability-graceful-restart"]) {
-			return fmt.Errorf("error reading capability_graceful_restart: %v", err)
-		}
-	}
-
-	if err = d.Set("capability_graceful_restart6", flattenRouterbgpNeighborCapabilityGracefulRestart6(o["capability-graceful-restart6"], d, "capability_graceful_restart6", sv)); err != nil {
-		if !fortiAPIPatch(o["capability-graceful-restart6"]) {
-			return fmt.Errorf("error reading capability_graceful_restart6: %v", err)
-		}
-	}
-
-	if err = d.Set("capability_route_refresh", flattenRouterbgpNeighborCapabilityRouteRefresh(o["capability-route-refresh"], d, "capability_route_refresh", sv)); err != nil {
-		if !fortiAPIPatch(o["capability-route-refresh"]) {
-			return fmt.Errorf("error reading capability_route_refresh: %v", err)
-		}
-	}
-
-	if err = d.Set("capability_default_originate", flattenRouterbgpNeighborCapabilityDefaultOriginate(o["capability-default-originate"], d, "capability_default_originate", sv)); err != nil {
-		if !fortiAPIPatch(o["capability-default-originate"]) {
-			return fmt.Errorf("error reading capability_default_originate: %v", err)
-		}
-	}
-
-	if err = d.Set("capability_default_originate6", flattenRouterbgpNeighborCapabilityDefaultOriginate6(o["capability-default-originate6"], d, "capability_default_originate6", sv)); err != nil {
-		if !fortiAPIPatch(o["capability-default-originate6"]) {
-			return fmt.Errorf("error reading capability_default_originate6: %v", err)
-		}
-	}
-
-	if err = d.Set("dont_capability_negotiate", flattenRouterbgpNeighborDontCapabilityNegotiate(o["dont-capability-negotiate"], d, "dont_capability_negotiate", sv)); err != nil {
-		if !fortiAPIPatch(o["dont-capability-negotiate"]) {
-			return fmt.Errorf("error reading dont_capability_negotiate: %v", err)
-		}
-	}
-
-	if err = d.Set("ebgp_enforce_multihop", flattenRouterbgpNeighborEbgpEnforceMultihop(o["ebgp-enforce-multihop"], d, "ebgp_enforce_multihop", sv)); err != nil {
-		if !fortiAPIPatch(o["ebgp-enforce-multihop"]) {
-			return fmt.Errorf("error reading ebgp_enforce_multihop: %v", err)
-		}
-	}
-
-	if err = d.Set("link_down_failover", flattenRouterbgpNeighborLinkDownFailover(o["link-down-failover"], d, "link_down_failover", sv)); err != nil {
-		if !fortiAPIPatch(o["link-down-failover"]) {
-			return fmt.Errorf("error reading link_down_failover: %v", err)
-		}
-	}
-
-	if err = d.Set("stale_route", flattenRouterbgpNeighborStaleRoute(o["stale-route"], d, "stale_route", sv)); err != nil {
-		if !fortiAPIPatch(o["stale-route"]) {
-			return fmt.Errorf("error reading stale_route: %v", err)
-		}
-	}
-
-	if err = d.Set("next_hop_self", flattenRouterbgpNeighborNextHopSelf(o["next-hop-self"], d, "next_hop_self", sv)); err != nil {
-		if !fortiAPIPatch(o["next-hop-self"]) {
-			return fmt.Errorf("error reading next_hop_self: %v", err)
-		}
-	}
-
-	if err = d.Set("next_hop_self6", flattenRouterbgpNeighborNextHopSelf6(o["next-hop-self6"], d, "next_hop_self6", sv)); err != nil {
-		if !fortiAPIPatch(o["next-hop-self6"]) {
-			return fmt.Errorf("error reading next_hop_self6: %v", err)
-		}
-	}
-
-	if err = d.Set("next_hop_self_rr", flattenRouterbgpNeighborNextHopSelfRr(o["next-hop-self-rr"], d, "next_hop_self_rr", sv)); err != nil {
-		if !fortiAPIPatch(o["next-hop-self-rr"]) {
-			return fmt.Errorf("error reading next_hop_self_rr: %v", err)
-		}
-	}
-
-	if err = d.Set("next_hop_self_rr6", flattenRouterbgpNeighborNextHopSelfRr6(o["next-hop-self-rr6"], d, "next_hop_self_rr6", sv)); err != nil {
-		if !fortiAPIPatch(o["next-hop-self-rr6"]) {
-			return fmt.Errorf("error reading next_hop_self_rr6: %v", err)
-		}
-	}
-
-	if err = d.Set("override_capability", flattenRouterbgpNeighborOverrideCapability(o["override-capability"], d, "override_capability", sv)); err != nil {
-		if !fortiAPIPatch(o["override-capability"]) {
-			return fmt.Errorf("error reading override_capability: %v", err)
-		}
-	}
-
-	if err = d.Set("passive", flattenRouterbgpNeighborPassive(o["passive"], d, "passive", sv)); err != nil {
-		if !fortiAPIPatch(o["passive"]) {
-			return fmt.Errorf("error reading passive: %v", err)
-		}
-	}
-
-	if err = d.Set("remove_private_as", flattenRouterbgpNeighborRemovePrivateAs(o["remove-private-as"], d, "remove_private_as", sv)); err != nil {
-		if !fortiAPIPatch(o["remove-private-as"]) {
-			return fmt.Errorf("error reading remove_private_as: %v", err)
-		}
-	}
-
-	if err = d.Set("remove_private_as6", flattenRouterbgpNeighborRemovePrivateAs6(o["remove-private-as6"], d, "remove_private_as6", sv)); err != nil {
-		if !fortiAPIPatch(o["remove-private-as6"]) {
-			return fmt.Errorf("error reading remove_private_as6: %v", err)
-		}
-	}
-
-	if err = d.Set("route_reflector_client", flattenRouterbgpNeighborRouteReflectorClient(o["route-reflector-client"], d, "route_reflector_client", sv)); err != nil {
-		if !fortiAPIPatch(o["route-reflector-client"]) {
-			return fmt.Errorf("error reading route_reflector_client: %v", err)
-		}
-	}
-
-	if err = d.Set("route_reflector_client6", flattenRouterbgpNeighborRouteReflectorClient6(o["route-reflector-client6"], d, "route_reflector_client6", sv)); err != nil {
-		if !fortiAPIPatch(o["route-reflector-client6"]) {
-			return fmt.Errorf("error reading route_reflector_client6: %v", err)
-		}
-	}
-
-	if err = d.Set("route_server_client", flattenRouterbgpNeighborRouteServerClient(o["route-server-client"], d, "route_server_client", sv)); err != nil {
-		if !fortiAPIPatch(o["route-server-client"]) {
-			return fmt.Errorf("error reading route_server_client: %v", err)
-		}
-	}
-
-	if err = d.Set("route_server_client6", flattenRouterbgpNeighborRouteServerClient6(o["route-server-client6"], d, "route_server_client6", sv)); err != nil {
-		if !fortiAPIPatch(o["route-server-client6"]) {
-			return fmt.Errorf("error reading route_server_client6: %v", err)
-		}
-	}
-
-	if err = d.Set("shutdown", flattenRouterbgpNeighborShutdown(o["shutdown"], d, "shutdown", sv)); err != nil {
-		if !fortiAPIPatch(o["shutdown"]) {
-			return fmt.Errorf("error reading shutdown: %v", err)
-		}
-	}
-
-	if err = d.Set("soft_reconfiguration", flattenRouterbgpNeighborSoftReconfiguration(o["soft-reconfiguration"], d, "soft_reconfiguration", sv)); err != nil {
-		if !fortiAPIPatch(o["soft-reconfiguration"]) {
-			return fmt.Errorf("error reading soft_reconfiguration: %v", err)
-		}
-	}
-
-	if err = d.Set("soft_reconfiguration6", flattenRouterbgpNeighborSoftReconfiguration6(o["soft-reconfiguration6"], d, "soft_reconfiguration6", sv)); err != nil {
-		if !fortiAPIPatch(o["soft-reconfiguration6"]) {
-			return fmt.Errorf("error reading soft_reconfiguration6: %v", err)
 		}
 	}
 
@@ -1422,9 +1576,107 @@ func refreshObjectRouterbgpNeighbor(d *schema.ResourceData, o map[string]interfa
 		}
 	}
 
-	if err = d.Set("strict_capability_match", flattenRouterbgpNeighborStrictCapabilityMatch(o["strict-capability-match"], d, "strict_capability_match", sv)); err != nil {
-		if !fortiAPIPatch(o["strict-capability-match"]) {
-			return fmt.Errorf("error reading strict_capability_match: %v", err)
+	if err = d.Set("attribute_unchanged", flattenRouterbgpNeighborAttributeUnchanged(o["attribute-unchanged"], d, "attribute_unchanged", sv)); err != nil {
+		if !fortiAPIPatch(o["attribute-unchanged"]) {
+			return fmt.Errorf("error reading attribute_unchanged: %v", err)
+		}
+	}
+
+	if err = d.Set("attribute_unchanged6", flattenRouterbgpNeighborAttributeUnchanged6(o["attribute-unchanged6"], d, "attribute_unchanged6", sv)); err != nil {
+		if !fortiAPIPatch(o["attribute-unchanged6"]) {
+			return fmt.Errorf("error reading attribute_unchanged6: %v", err)
+		}
+	}
+
+	if err = d.Set("bfd", flattenRouterbgpNeighborBfd(o["bfd"], d, "bfd", sv)); err != nil {
+		if !fortiAPIPatch(o["bfd"]) {
+			return fmt.Errorf("error reading bfd: %v", err)
+		}
+	}
+
+	if err = d.Set("capability_default_originate", flattenRouterbgpNeighborCapabilityDefaultOriginate(o["capability-default-originate"], d, "capability_default_originate", sv)); err != nil {
+		if !fortiAPIPatch(o["capability-default-originate"]) {
+			return fmt.Errorf("error reading capability_default_originate: %v", err)
+		}
+	}
+
+	if err = d.Set("capability_default_originate6", flattenRouterbgpNeighborCapabilityDefaultOriginate6(o["capability-default-originate6"], d, "capability_default_originate6", sv)); err != nil {
+		if !fortiAPIPatch(o["capability-default-originate6"]) {
+			return fmt.Errorf("error reading capability_default_originate6: %v", err)
+		}
+	}
+
+	if err = d.Set("capability_dynamic", flattenRouterbgpNeighborCapabilityDynamic(o["capability-dynamic"], d, "capability_dynamic", sv)); err != nil {
+		if !fortiAPIPatch(o["capability-dynamic"]) {
+			return fmt.Errorf("error reading capability_dynamic: %v", err)
+		}
+	}
+
+	if err = d.Set("capability_graceful_restart", flattenRouterbgpNeighborCapabilityGracefulRestart(o["capability-graceful-restart"], d, "capability_graceful_restart", sv)); err != nil {
+		if !fortiAPIPatch(o["capability-graceful-restart"]) {
+			return fmt.Errorf("error reading capability_graceful_restart: %v", err)
+		}
+	}
+
+	if err = d.Set("capability_graceful_restart6", flattenRouterbgpNeighborCapabilityGracefulRestart6(o["capability-graceful-restart6"], d, "capability_graceful_restart6", sv)); err != nil {
+		if !fortiAPIPatch(o["capability-graceful-restart6"]) {
+			return fmt.Errorf("error reading capability_graceful_restart6: %v", err)
+		}
+	}
+
+	if err = d.Set("capability_orf", flattenRouterbgpNeighborCapabilityOrf(o["capability-orf"], d, "capability_orf", sv)); err != nil {
+		if !fortiAPIPatch(o["capability-orf"]) {
+			return fmt.Errorf("error reading capability_orf: %v", err)
+		}
+	}
+
+	if err = d.Set("capability_orf6", flattenRouterbgpNeighborCapabilityOrf6(o["capability-orf6"], d, "capability_orf6", sv)); err != nil {
+		if !fortiAPIPatch(o["capability-orf6"]) {
+			return fmt.Errorf("error reading capability_orf6: %v", err)
+		}
+	}
+
+	if err = d.Set("capability_route_refresh", flattenRouterbgpNeighborCapabilityRouteRefresh(o["capability-route-refresh"], d, "capability_route_refresh", sv)); err != nil {
+		if !fortiAPIPatch(o["capability-route-refresh"]) {
+			return fmt.Errorf("error reading capability_route_refresh: %v", err)
+		}
+	}
+
+	if isImportTable() {
+		if err = d.Set("conditional_advertise", flattenRouterbgpNeighborConditionalAdvertise(o["conditional-advertise"], d, "conditional_advertise", sv)); err != nil {
+			if !fortiAPIPatch(o["conditional-advertise"]) {
+				return fmt.Errorf("error reading conditional_advertise: %v", err)
+			}
+		}
+	} else {
+		if _, ok := d.GetOk("conditional_advertise"); ok {
+			if err = d.Set("conditional_advertise", flattenRouterbgpNeighborConditionalAdvertise(o["conditional-advertise"], d, "conditional_advertise", sv)); err != nil {
+				if !fortiAPIPatch(o["conditional-advertise"]) {
+					return fmt.Errorf("error reading conditional_advertise: %v", err)
+				}
+			}
+		}
+	}
+
+	if isImportTable() {
+		if err = d.Set("conditional_advertise6", flattenRouterbgpNeighborConditionalAdvertise6(o["conditional-advertise6"], d, "conditional_advertise6", sv)); err != nil {
+			if !fortiAPIPatch(o["conditional-advertise6"]) {
+				return fmt.Errorf("error reading conditional_advertise6: %v", err)
+			}
+		}
+	} else {
+		if _, ok := d.GetOk("conditional_advertise6"); ok {
+			if err = d.Set("conditional_advertise6", flattenRouterbgpNeighborConditionalAdvertise6(o["conditional-advertise6"], d, "conditional_advertise6", sv)); err != nil {
+				if !fortiAPIPatch(o["conditional-advertise6"]) {
+					return fmt.Errorf("error reading conditional_advertise6: %v", err)
+				}
+			}
+		}
+	}
+
+	if err = d.Set("connect_timer", flattenRouterbgpNeighborConnectTimer(o["connect-timer"], d, "connect_timer", sv)); err != nil {
+		if !fortiAPIPatch(o["connect-timer"]) {
+			return fmt.Errorf("error reading connect_timer: %v", err)
 		}
 	}
 
@@ -1470,6 +1722,18 @@ func refreshObjectRouterbgpNeighbor(d *schema.ResourceData, o map[string]interfa
 		}
 	}
 
+	if err = d.Set("dont_capability_negotiate", flattenRouterbgpNeighborDontCapabilityNegotiate(o["dont-capability-negotiate"], d, "dont_capability_negotiate", sv)); err != nil {
+		if !fortiAPIPatch(o["dont-capability-negotiate"]) {
+			return fmt.Errorf("error reading dont_capability_negotiate: %v", err)
+		}
+	}
+
+	if err = d.Set("ebgp_enforce_multihop", flattenRouterbgpNeighborEbgpEnforceMultihop(o["ebgp-enforce-multihop"], d, "ebgp_enforce_multihop", sv)); err != nil {
+		if !fortiAPIPatch(o["ebgp-enforce-multihop"]) {
+			return fmt.Errorf("error reading ebgp_enforce_multihop: %v", err)
+		}
+	}
+
 	if err = d.Set("ebgp_multihop_ttl", flattenRouterbgpNeighborEbgpMultihopTtl(o["ebgp-multihop-ttl"], d, "ebgp_multihop_ttl", sv)); err != nil {
 		if !fortiAPIPatch(o["ebgp-multihop-ttl"]) {
 			return fmt.Errorf("error reading ebgp_multihop_ttl: %v", err)
@@ -1500,21 +1764,57 @@ func refreshObjectRouterbgpNeighbor(d *schema.ResourceData, o map[string]interfa
 		}
 	}
 
+	if err = d.Set("holdtime_timer", flattenRouterbgpNeighborHoldtimeTimer(o["holdtime-timer"], d, "holdtime_timer", sv)); err != nil {
+		if !fortiAPIPatch(o["holdtime-timer"]) {
+			return fmt.Errorf("error reading holdtime_timer: %v", err)
+		}
+	}
+
 	if err = d.Set("interface", flattenRouterbgpNeighborInterface(o["interface"], d, "interface", sv)); err != nil {
 		if !fortiAPIPatch(o["interface"]) {
 			return fmt.Errorf("error reading interface: %v", err)
 		}
 	}
 
-	if err = d.Set("maximum_prefix", flattenRouterbgpNeighborMaximumPrefix(o["maximum-prefix"], d, "maximum_prefix", sv)); err != nil {
-		if !fortiAPIPatch(o["maximum-prefix"]) {
-			return fmt.Errorf("error reading maximum_prefix: %v", err)
+	if err = d.Set("ip", flattenRouterbgpNeighborIp(o["ip"], d, "ip", sv)); err != nil {
+		if !fortiAPIPatch(o["ip"]) {
+			return fmt.Errorf("error reading ip: %v", err)
 		}
 	}
 
-	if err = d.Set("maximum_prefix6", flattenRouterbgpNeighborMaximumPrefix6(o["maximum-prefix6"], d, "maximum_prefix6", sv)); err != nil {
-		if !fortiAPIPatch(o["maximum-prefix6"]) {
-			return fmt.Errorf("error reading maximum_prefix6: %v", err)
+	if err = d.Set("keep_alive_timer", flattenRouterbgpNeighborKeepAliveTimer(o["keep-alive-timer"], d, "keep_alive_timer", sv)); err != nil {
+		if !fortiAPIPatch(o["keep-alive-timer"]) {
+			return fmt.Errorf("error reading keep_alive_timer: %v", err)
+		}
+	}
+
+	if err = d.Set("link_down_failover", flattenRouterbgpNeighborLinkDownFailover(o["link-down-failover"], d, "link_down_failover", sv)); err != nil {
+		if !fortiAPIPatch(o["link-down-failover"]) {
+			return fmt.Errorf("error reading link_down_failover: %v", err)
+		}
+	}
+
+	if err = d.Set("local_as", flattenRouterbgpNeighborLocalAs(o["local-as"], d, "local_as", sv)); err != nil {
+		if !fortiAPIPatch(o["local-as"]) {
+			return fmt.Errorf("error reading local_as: %v", err)
+		}
+	}
+
+	if err = d.Set("local_as_no_prepend", flattenRouterbgpNeighborLocalAsNoPrepend(o["local-as-no-prepend"], d, "local_as_no_prepend", sv)); err != nil {
+		if !fortiAPIPatch(o["local-as-no-prepend"]) {
+			return fmt.Errorf("error reading local_as_no_prepend: %v", err)
+		}
+	}
+
+	if err = d.Set("local_as_replace_as", flattenRouterbgpNeighborLocalAsReplaceAs(o["local-as-replace-as"], d, "local_as_replace_as", sv)); err != nil {
+		if !fortiAPIPatch(o["local-as-replace-as"]) {
+			return fmt.Errorf("error reading local_as_replace_as: %v", err)
+		}
+	}
+
+	if err = d.Set("maximum_prefix", flattenRouterbgpNeighborMaximumPrefix(o["maximum-prefix"], d, "maximum_prefix", sv)); err != nil {
+		if !fortiAPIPatch(o["maximum-prefix"]) {
+			return fmt.Errorf("error reading maximum_prefix: %v", err)
 		}
 	}
 
@@ -1539,6 +1839,56 @@ func refreshObjectRouterbgpNeighbor(d *schema.ResourceData, o map[string]interfa
 	if err = d.Set("maximum_prefix_warning_only6", flattenRouterbgpNeighborMaximumPrefixWarningOnly6(o["maximum-prefix-warning-only6"], d, "maximum_prefix_warning_only6", sv)); err != nil {
 		if !fortiAPIPatch(o["maximum-prefix-warning-only6"]) {
 			return fmt.Errorf("error reading maximum_prefix_warning_only6: %v", err)
+		}
+	}
+
+	if err = d.Set("maximum_prefix6", flattenRouterbgpNeighborMaximumPrefix6(o["maximum-prefix6"], d, "maximum_prefix6", sv)); err != nil {
+		if !fortiAPIPatch(o["maximum-prefix6"]) {
+			return fmt.Errorf("error reading maximum_prefix6: %v", err)
+		}
+	}
+
+	if err = d.Set("next_hop_self", flattenRouterbgpNeighborNextHopSelf(o["next-hop-self"], d, "next_hop_self", sv)); err != nil {
+		if !fortiAPIPatch(o["next-hop-self"]) {
+			return fmt.Errorf("error reading next_hop_self: %v", err)
+		}
+	}
+
+	if err = d.Set("next_hop_self_rr", flattenRouterbgpNeighborNextHopSelfRr(o["next-hop-self-rr"], d, "next_hop_self_rr", sv)); err != nil {
+		if !fortiAPIPatch(o["next-hop-self-rr"]) {
+			return fmt.Errorf("error reading next_hop_self_rr: %v", err)
+		}
+	}
+
+	if err = d.Set("next_hop_self_rr6", flattenRouterbgpNeighborNextHopSelfRr6(o["next-hop-self-rr6"], d, "next_hop_self_rr6", sv)); err != nil {
+		if !fortiAPIPatch(o["next-hop-self-rr6"]) {
+			return fmt.Errorf("error reading next_hop_self_rr6: %v", err)
+		}
+	}
+
+	if err = d.Set("next_hop_self6", flattenRouterbgpNeighborNextHopSelf6(o["next-hop-self6"], d, "next_hop_self6", sv)); err != nil {
+		if !fortiAPIPatch(o["next-hop-self6"]) {
+			return fmt.Errorf("error reading next_hop_self6: %v", err)
+		}
+	}
+
+	if err = d.Set("override_capability", flattenRouterbgpNeighborOverrideCapability(o["override-capability"], d, "override_capability", sv)); err != nil {
+		if !fortiAPIPatch(o["override-capability"]) {
+			return fmt.Errorf("error reading override_capability: %v", err)
+		}
+	}
+
+	if err = d.Set("passive", flattenRouterbgpNeighborPassive(o["passive"], d, "passive", sv)); err != nil {
+		if !fortiAPIPatch(o["passive"]) {
+			return fmt.Errorf("error reading passive: %v", err)
+		}
+	}
+
+	if s, ok := o["password"].(string); ok && s != "ENC XXXX" {
+		if err = d.Set("password", flattenRouterbgpNeighborPassword(o["password"], d, "password", sv)); err != nil {
+			if !fortiAPIPatch(o["password"]) {
+				return fmt.Errorf("error reading password: %v", err)
+			}
 		}
 	}
 
@@ -1572,21 +1922,21 @@ func refreshObjectRouterbgpNeighbor(d *schema.ResourceData, o map[string]interfa
 		}
 	}
 
-	if err = d.Set("local_as", flattenRouterbgpNeighborLocalAs(o["local-as"], d, "local_as", sv)); err != nil {
-		if !fortiAPIPatch(o["local-as"]) {
-			return fmt.Errorf("error reading local_as: %v", err)
+	if err = d.Set("remove_private_as", flattenRouterbgpNeighborRemovePrivateAs(o["remove-private-as"], d, "remove_private_as", sv)); err != nil {
+		if !fortiAPIPatch(o["remove-private-as"]) {
+			return fmt.Errorf("error reading remove_private_as: %v", err)
 		}
 	}
 
-	if err = d.Set("local_as_no_prepend", flattenRouterbgpNeighborLocalAsNoPrepend(o["local-as-no-prepend"], d, "local_as_no_prepend", sv)); err != nil {
-		if !fortiAPIPatch(o["local-as-no-prepend"]) {
-			return fmt.Errorf("error reading local_as_no_prepend: %v", err)
+	if err = d.Set("remove_private_as6", flattenRouterbgpNeighborRemovePrivateAs6(o["remove-private-as6"], d, "remove_private_as6", sv)); err != nil {
+		if !fortiAPIPatch(o["remove-private-as6"]) {
+			return fmt.Errorf("error reading remove_private_as6: %v", err)
 		}
 	}
 
-	if err = d.Set("local_as_replace_as", flattenRouterbgpNeighborLocalAsReplaceAs(o["local-as-replace-as"], d, "local_as_replace_as", sv)); err != nil {
-		if !fortiAPIPatch(o["local-as-replace-as"]) {
-			return fmt.Errorf("error reading local_as_replace_as: %v", err)
+	if err = d.Set("restart_time", flattenRouterbgpNeighborRestartTime(o["restart-time"], d, "restart_time", sv)); err != nil {
+		if !fortiAPIPatch(o["restart-time"]) {
+			return fmt.Errorf("error reading restart_time: %v", err)
 		}
 	}
 
@@ -1632,6 +1982,30 @@ func refreshObjectRouterbgpNeighbor(d *schema.ResourceData, o map[string]interfa
 		}
 	}
 
+	if err = d.Set("route_reflector_client", flattenRouterbgpNeighborRouteReflectorClient(o["route-reflector-client"], d, "route_reflector_client", sv)); err != nil {
+		if !fortiAPIPatch(o["route-reflector-client"]) {
+			return fmt.Errorf("error reading route_reflector_client: %v", err)
+		}
+	}
+
+	if err = d.Set("route_reflector_client6", flattenRouterbgpNeighborRouteReflectorClient6(o["route-reflector-client6"], d, "route_reflector_client6", sv)); err != nil {
+		if !fortiAPIPatch(o["route-reflector-client6"]) {
+			return fmt.Errorf("error reading route_reflector_client6: %v", err)
+		}
+	}
+
+	if err = d.Set("route_server_client", flattenRouterbgpNeighborRouteServerClient(o["route-server-client"], d, "route_server_client", sv)); err != nil {
+		if !fortiAPIPatch(o["route-server-client"]) {
+			return fmt.Errorf("error reading route_server_client: %v", err)
+		}
+	}
+
+	if err = d.Set("route_server_client6", flattenRouterbgpNeighborRouteServerClient6(o["route-server-client6"], d, "route_server_client6", sv)); err != nil {
+		if !fortiAPIPatch(o["route-server-client6"]) {
+			return fmt.Errorf("error reading route_server_client6: %v", err)
+		}
+	}
+
 	if err = d.Set("send_community", flattenRouterbgpNeighborSendCommunity(o["send-community"], d, "send_community", sv)); err != nil {
 		if !fortiAPIPatch(o["send-community"]) {
 			return fmt.Errorf("error reading send_community: %v", err)
@@ -1644,21 +2018,33 @@ func refreshObjectRouterbgpNeighbor(d *schema.ResourceData, o map[string]interfa
 		}
 	}
 
-	if err = d.Set("keep_alive_timer", flattenRouterbgpNeighborKeepAliveTimer(o["keep-alive-timer"], d, "keep_alive_timer", sv)); err != nil {
-		if !fortiAPIPatch(o["keep-alive-timer"]) {
-			return fmt.Errorf("error reading keep_alive_timer: %v", err)
+	if err = d.Set("shutdown", flattenRouterbgpNeighborShutdown(o["shutdown"], d, "shutdown", sv)); err != nil {
+		if !fortiAPIPatch(o["shutdown"]) {
+			return fmt.Errorf("error reading shutdown: %v", err)
 		}
 	}
 
-	if err = d.Set("holdtime_timer", flattenRouterbgpNeighborHoldtimeTimer(o["holdtime-timer"], d, "holdtime_timer", sv)); err != nil {
-		if !fortiAPIPatch(o["holdtime-timer"]) {
-			return fmt.Errorf("error reading holdtime_timer: %v", err)
+	if err = d.Set("soft_reconfiguration", flattenRouterbgpNeighborSoftReconfiguration(o["soft-reconfiguration"], d, "soft_reconfiguration", sv)); err != nil {
+		if !fortiAPIPatch(o["soft-reconfiguration"]) {
+			return fmt.Errorf("error reading soft_reconfiguration: %v", err)
 		}
 	}
 
-	if err = d.Set("connect_timer", flattenRouterbgpNeighborConnectTimer(o["connect-timer"], d, "connect_timer", sv)); err != nil {
-		if !fortiAPIPatch(o["connect-timer"]) {
-			return fmt.Errorf("error reading connect_timer: %v", err)
+	if err = d.Set("soft_reconfiguration6", flattenRouterbgpNeighborSoftReconfiguration6(o["soft-reconfiguration6"], d, "soft_reconfiguration6", sv)); err != nil {
+		if !fortiAPIPatch(o["soft-reconfiguration6"]) {
+			return fmt.Errorf("error reading soft_reconfiguration6: %v", err)
+		}
+	}
+
+	if err = d.Set("stale_route", flattenRouterbgpNeighborStaleRoute(o["stale-route"], d, "stale_route", sv)); err != nil {
+		if !fortiAPIPatch(o["stale-route"]) {
+			return fmt.Errorf("error reading stale_route: %v", err)
+		}
+	}
+
+	if err = d.Set("strict_capability_match", flattenRouterbgpNeighborStrictCapabilityMatch(o["strict-capability-match"], d, "strict_capability_match", sv)); err != nil {
+		if !fortiAPIPatch(o["strict-capability-match"]) {
+			return fmt.Errorf("error reading strict_capability_match: %v", err)
 		}
 	}
 
@@ -1686,91 +2072,7 @@ func refreshObjectRouterbgpNeighbor(d *schema.ResourceData, o map[string]interfa
 		}
 	}
 
-	if err = d.Set("restart_time", flattenRouterbgpNeighborRestartTime(o["restart-time"], d, "restart_time", sv)); err != nil {
-		if !fortiAPIPatch(o["restart-time"]) {
-			return fmt.Errorf("error reading restart_time: %v", err)
-		}
-	}
-
-	if err = d.Set("additional_path", flattenRouterbgpNeighborAdditionalPath(o["additional-path"], d, "additional_path", sv)); err != nil {
-		if !fortiAPIPatch(o["additional-path"]) {
-			return fmt.Errorf("error reading additional_path: %v", err)
-		}
-	}
-
-	if err = d.Set("additional_path6", flattenRouterbgpNeighborAdditionalPath6(o["additional-path6"], d, "additional_path6", sv)); err != nil {
-		if !fortiAPIPatch(o["additional-path6"]) {
-			return fmt.Errorf("error reading additional_path6: %v", err)
-		}
-	}
-
-	if err = d.Set("adv_additional_path", flattenRouterbgpNeighborAdvAdditionalPath(o["adv-additional-path"], d, "adv_additional_path", sv)); err != nil {
-		if !fortiAPIPatch(o["adv-additional-path"]) {
-			return fmt.Errorf("error reading adv_additional_path: %v", err)
-		}
-	}
-
-	if err = d.Set("adv_additional_path6", flattenRouterbgpNeighborAdvAdditionalPath6(o["adv-additional-path6"], d, "adv_additional_path6", sv)); err != nil {
-		if !fortiAPIPatch(o["adv-additional-path6"]) {
-			return fmt.Errorf("error reading adv_additional_path6: %v", err)
-		}
-	}
-
-	if isImportTable() {
-		if err = d.Set("conditional_advertise", flattenRouterbgpNeighborConditionalAdvertise(o["conditional-advertise"], d, "conditional_advertise", sv)); err != nil {
-			if !fortiAPIPatch(o["conditional-advertise"]) {
-				return fmt.Errorf("error reading conditional_advertise: %v", err)
-			}
-		}
-	} else {
-		if _, ok := d.GetOk("conditional_advertise"); ok {
-			if err = d.Set("conditional_advertise", flattenRouterbgpNeighborConditionalAdvertise(o["conditional-advertise"], d, "conditional_advertise", sv)); err != nil {
-				if !fortiAPIPatch(o["conditional-advertise"]) {
-					return fmt.Errorf("error reading conditional_advertise: %v", err)
-				}
-			}
-		}
-	}
-
 	return nil
-}
-
-func flattenRouterbgpNeighborFortiTestDebug(d *schema.ResourceData, fosdebugsn int, fosdebugbeg int, fosdebugend int) {
-	log.Printf(strconv.Itoa(fosdebugsn))
-	e := validation.IntBetween(fosdebugbeg, fosdebugend)
-	log.Printf("ER List: %v, %v", strings.Split("FortiOS Ver", " "), e)
-}
-
-func expandRouterbgpNeighborIp(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
-	return v, nil
-}
-
-func expandRouterbgpNeighborAdvertisementInterval(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
-	return v, nil
-}
-
-func expandRouterbgpNeighborAllowasInEnable(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
-	return v, nil
-}
-
-func expandRouterbgpNeighborAllowasInEnable6(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
-	return v, nil
-}
-
-func expandRouterbgpNeighborAllowasIn(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
-	return v, nil
-}
-
-func expandRouterbgpNeighborAllowasIn6(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
-	return v, nil
-}
-
-func expandRouterbgpNeighborAttributeUnchanged(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
-	return v, nil
-}
-
-func expandRouterbgpNeighborAttributeUnchanged6(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
-	return v, nil
 }
 
 func expandRouterbgpNeighborActivate(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
@@ -1778,306 +2080,6 @@ func expandRouterbgpNeighborActivate(d *schema.ResourceData, v interface{}, pre 
 }
 
 func expandRouterbgpNeighborActivate6(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
-	return v, nil
-}
-
-func expandRouterbgpNeighborBfd(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
-	return v, nil
-}
-
-func expandRouterbgpNeighborCapabilityDynamic(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
-	return v, nil
-}
-
-func expandRouterbgpNeighborCapabilityOrf(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
-	return v, nil
-}
-
-func expandRouterbgpNeighborCapabilityOrf6(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
-	return v, nil
-}
-
-func expandRouterbgpNeighborCapabilityGracefulRestart(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
-	return v, nil
-}
-
-func expandRouterbgpNeighborCapabilityGracefulRestart6(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
-	return v, nil
-}
-
-func expandRouterbgpNeighborCapabilityRouteRefresh(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
-	return v, nil
-}
-
-func expandRouterbgpNeighborCapabilityDefaultOriginate(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
-	return v, nil
-}
-
-func expandRouterbgpNeighborCapabilityDefaultOriginate6(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
-	return v, nil
-}
-
-func expandRouterbgpNeighborDontCapabilityNegotiate(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
-	return v, nil
-}
-
-func expandRouterbgpNeighborEbgpEnforceMultihop(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
-	return v, nil
-}
-
-func expandRouterbgpNeighborLinkDownFailover(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
-	return v, nil
-}
-
-func expandRouterbgpNeighborStaleRoute(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
-	return v, nil
-}
-
-func expandRouterbgpNeighborNextHopSelf(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
-	return v, nil
-}
-
-func expandRouterbgpNeighborNextHopSelf6(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
-	return v, nil
-}
-
-func expandRouterbgpNeighborNextHopSelfRr(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
-	return v, nil
-}
-
-func expandRouterbgpNeighborNextHopSelfRr6(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
-	return v, nil
-}
-
-func expandRouterbgpNeighborOverrideCapability(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
-	return v, nil
-}
-
-func expandRouterbgpNeighborPassive(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
-	return v, nil
-}
-
-func expandRouterbgpNeighborRemovePrivateAs(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
-	return v, nil
-}
-
-func expandRouterbgpNeighborRemovePrivateAs6(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
-	return v, nil
-}
-
-func expandRouterbgpNeighborRouteReflectorClient(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
-	return v, nil
-}
-
-func expandRouterbgpNeighborRouteReflectorClient6(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
-	return v, nil
-}
-
-func expandRouterbgpNeighborRouteServerClient(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
-	return v, nil
-}
-
-func expandRouterbgpNeighborRouteServerClient6(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
-	return v, nil
-}
-
-func expandRouterbgpNeighborShutdown(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
-	return v, nil
-}
-
-func expandRouterbgpNeighborSoftReconfiguration(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
-	return v, nil
-}
-
-func expandRouterbgpNeighborSoftReconfiguration6(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
-	return v, nil
-}
-
-func expandRouterbgpNeighborAsOverride(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
-	return v, nil
-}
-
-func expandRouterbgpNeighborAsOverride6(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
-	return v, nil
-}
-
-func expandRouterbgpNeighborStrictCapabilityMatch(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
-	return v, nil
-}
-
-func expandRouterbgpNeighborDefaultOriginateRoutemap(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
-	return v, nil
-}
-
-func expandRouterbgpNeighborDefaultOriginateRoutemap6(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
-	return v, nil
-}
-
-func expandRouterbgpNeighborDescription(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
-	return v, nil
-}
-
-func expandRouterbgpNeighborDistributeListIn(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
-	return v, nil
-}
-
-func expandRouterbgpNeighborDistributeListIn6(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
-	return v, nil
-}
-
-func expandRouterbgpNeighborDistributeListOut(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
-	return v, nil
-}
-
-func expandRouterbgpNeighborDistributeListOut6(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
-	return v, nil
-}
-
-func expandRouterbgpNeighborEbgpMultihopTtl(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
-	return v, nil
-}
-
-func expandRouterbgpNeighborFilterListIn(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
-	return v, nil
-}
-
-func expandRouterbgpNeighborFilterListIn6(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
-	return v, nil
-}
-
-func expandRouterbgpNeighborFilterListOut(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
-	return v, nil
-}
-
-func expandRouterbgpNeighborFilterListOut6(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
-	return v, nil
-}
-
-func expandRouterbgpNeighborInterface(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
-	return v, nil
-}
-
-func expandRouterbgpNeighborMaximumPrefix(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
-	return v, nil
-}
-
-func expandRouterbgpNeighborMaximumPrefix6(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
-	return v, nil
-}
-
-func expandRouterbgpNeighborMaximumPrefixThreshold(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
-	return v, nil
-}
-
-func expandRouterbgpNeighborMaximumPrefixThreshold6(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
-	return v, nil
-}
-
-func expandRouterbgpNeighborMaximumPrefixWarningOnly(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
-	return v, nil
-}
-
-func expandRouterbgpNeighborMaximumPrefixWarningOnly6(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
-	return v, nil
-}
-
-func expandRouterbgpNeighborPrefixListIn(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
-	return v, nil
-}
-
-func expandRouterbgpNeighborPrefixListIn6(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
-	return v, nil
-}
-
-func expandRouterbgpNeighborPrefixListOut(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
-	return v, nil
-}
-
-func expandRouterbgpNeighborPrefixListOut6(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
-	return v, nil
-}
-
-func expandRouterbgpNeighborRemoteAs(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
-	return v, nil
-}
-
-func expandRouterbgpNeighborLocalAs(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
-	return v, nil
-}
-
-func expandRouterbgpNeighborLocalAsNoPrepend(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
-	return v, nil
-}
-
-func expandRouterbgpNeighborLocalAsReplaceAs(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
-	return v, nil
-}
-
-func expandRouterbgpNeighborRetainStaleTime(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
-	return v, nil
-}
-
-func expandRouterbgpNeighborRouteMapIn(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
-	return v, nil
-}
-
-func expandRouterbgpNeighborRouteMapIn6(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
-	return v, nil
-}
-
-func expandRouterbgpNeighborRouteMapOut(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
-	return v, nil
-}
-
-func expandRouterbgpNeighborRouteMapOutPreferable(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
-	return v, nil
-}
-
-func expandRouterbgpNeighborRouteMapOut6(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
-	return v, nil
-}
-
-func expandRouterbgpNeighborRouteMapOut6Preferable(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
-	return v, nil
-}
-
-func expandRouterbgpNeighborSendCommunity(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
-	return v, nil
-}
-
-func expandRouterbgpNeighborSendCommunity6(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
-	return v, nil
-}
-
-func expandRouterbgpNeighborKeepAliveTimer(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
-	return v, nil
-}
-
-func expandRouterbgpNeighborHoldtimeTimer(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
-	return v, nil
-}
-
-func expandRouterbgpNeighborConnectTimer(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
-	return v, nil
-}
-
-func expandRouterbgpNeighborUnsuppressMap(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
-	return v, nil
-}
-
-func expandRouterbgpNeighborUnsuppressMap6(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
-	return v, nil
-}
-
-func expandRouterbgpNeighborUpdateSource(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
-	return v, nil
-}
-
-func expandRouterbgpNeighborWeight(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
-	return v, nil
-}
-
-func expandRouterbgpNeighborRestartTime(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
 	return v, nil
 }
 
@@ -2097,7 +2099,75 @@ func expandRouterbgpNeighborAdvAdditionalPath6(d *schema.ResourceData, v interfa
 	return v, nil
 }
 
-func expandRouterbgpNeighborPassword(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+func expandRouterbgpNeighborAdvertisementInterval(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+	return v, nil
+}
+
+func expandRouterbgpNeighborAllowasIn(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+	return v, nil
+}
+
+func expandRouterbgpNeighborAllowasInEnable(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+	return v, nil
+}
+
+func expandRouterbgpNeighborAllowasInEnable6(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+	return v, nil
+}
+
+func expandRouterbgpNeighborAllowasIn6(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+	return v, nil
+}
+
+func expandRouterbgpNeighborAsOverride(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+	return v, nil
+}
+
+func expandRouterbgpNeighborAsOverride6(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+	return v, nil
+}
+
+func expandRouterbgpNeighborAttributeUnchanged(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+	return v, nil
+}
+
+func expandRouterbgpNeighborAttributeUnchanged6(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+	return v, nil
+}
+
+func expandRouterbgpNeighborBfd(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+	return v, nil
+}
+
+func expandRouterbgpNeighborCapabilityDefaultOriginate(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+	return v, nil
+}
+
+func expandRouterbgpNeighborCapabilityDefaultOriginate6(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+	return v, nil
+}
+
+func expandRouterbgpNeighborCapabilityDynamic(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+	return v, nil
+}
+
+func expandRouterbgpNeighborCapabilityGracefulRestart(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+	return v, nil
+}
+
+func expandRouterbgpNeighborCapabilityGracefulRestart6(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+	return v, nil
+}
+
+func expandRouterbgpNeighborCapabilityOrf(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+	return v, nil
+}
+
+func expandRouterbgpNeighborCapabilityOrf6(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+	return v, nil
+}
+
+func expandRouterbgpNeighborCapabilityRouteRefresh(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
 	return v, nil
 }
 
@@ -2153,91 +2223,326 @@ func expandRouterbgpNeighborConditionalAdvertiseConditionType(d *schema.Resource
 	return v, nil
 }
 
+func expandRouterbgpNeighborConditionalAdvertise6(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+	l := v.([]interface{})
+	if len(l) == 0 || l[0] == nil {
+		return nil, nil
+	}
+
+	result := make([]map[string]interface{}, 0, len(l))
+
+	con := 0
+	for _, r := range l {
+		tmp := make(map[string]interface{})
+		i := r.(map[string]interface{})
+		pre_append := "" // table
+
+		pre_append = pre + "." + strconv.Itoa(con) + "." + "advertise_routemap"
+		if _, ok := d.GetOk(pre_append); ok {
+
+			tmp["advertise-routemap"], _ = expandRouterbgpNeighborConditionalAdvertise6AdvertiseRoutemap(d, i["advertise_routemap"], pre_append, sv)
+		}
+
+		pre_append = pre + "." + strconv.Itoa(con) + "." + "condition_routemap"
+		if _, ok := d.GetOk(pre_append); ok {
+
+			tmp["condition-routemap"], _ = expandRouterbgpNeighborConditionalAdvertise6ConditionRoutemap(d, i["condition_routemap"], pre_append, sv)
+		}
+
+		pre_append = pre + "." + strconv.Itoa(con) + "." + "condition_type"
+		if _, ok := d.GetOk(pre_append); ok {
+
+			tmp["condition-type"], _ = expandRouterbgpNeighborConditionalAdvertise6ConditionType(d, i["condition_type"], pre_append, sv)
+		}
+
+		result = append(result, tmp)
+
+		con += 1
+	}
+
+	return result, nil
+}
+
+func expandRouterbgpNeighborConditionalAdvertise6AdvertiseRoutemap(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+	return v, nil
+}
+
+func expandRouterbgpNeighborConditionalAdvertise6ConditionRoutemap(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+	return v, nil
+}
+
+func expandRouterbgpNeighborConditionalAdvertise6ConditionType(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+	return v, nil
+}
+
+func expandRouterbgpNeighborConnectTimer(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+	return v, nil
+}
+
+func expandRouterbgpNeighborDefaultOriginateRoutemap(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+	return v, nil
+}
+
+func expandRouterbgpNeighborDefaultOriginateRoutemap6(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+	return v, nil
+}
+
+func expandRouterbgpNeighborDescription(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+	return v, nil
+}
+
+func expandRouterbgpNeighborDistributeListIn(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+	return v, nil
+}
+
+func expandRouterbgpNeighborDistributeListIn6(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+	return v, nil
+}
+
+func expandRouterbgpNeighborDistributeListOut(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+	return v, nil
+}
+
+func expandRouterbgpNeighborDistributeListOut6(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+	return v, nil
+}
+
+func expandRouterbgpNeighborDontCapabilityNegotiate(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+	return v, nil
+}
+
+func expandRouterbgpNeighborEbgpEnforceMultihop(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+	return v, nil
+}
+
+func expandRouterbgpNeighborEbgpMultihopTtl(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+	return v, nil
+}
+
+func expandRouterbgpNeighborFilterListIn(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+	return v, nil
+}
+
+func expandRouterbgpNeighborFilterListIn6(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+	return v, nil
+}
+
+func expandRouterbgpNeighborFilterListOut(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+	return v, nil
+}
+
+func expandRouterbgpNeighborFilterListOut6(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+	return v, nil
+}
+
+func expandRouterbgpNeighborHoldtimeTimer(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+	return v, nil
+}
+
+func expandRouterbgpNeighborInterface(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+	return v, nil
+}
+
+func expandRouterbgpNeighborIp(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+	return v, nil
+}
+
+func expandRouterbgpNeighborKeepAliveTimer(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+	return v, nil
+}
+
+func expandRouterbgpNeighborLinkDownFailover(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+	return v, nil
+}
+
+func expandRouterbgpNeighborLocalAs(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+	return v, nil
+}
+
+func expandRouterbgpNeighborLocalAsNoPrepend(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+	return v, nil
+}
+
+func expandRouterbgpNeighborLocalAsReplaceAs(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+	return v, nil
+}
+
+func expandRouterbgpNeighborMaximumPrefix(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+	return v, nil
+}
+
+func expandRouterbgpNeighborMaximumPrefixThreshold(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+	return v, nil
+}
+
+func expandRouterbgpNeighborMaximumPrefixThreshold6(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+	return v, nil
+}
+
+func expandRouterbgpNeighborMaximumPrefixWarningOnly(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+	return v, nil
+}
+
+func expandRouterbgpNeighborMaximumPrefixWarningOnly6(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+	return v, nil
+}
+
+func expandRouterbgpNeighborMaximumPrefix6(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+	return v, nil
+}
+
+func expandRouterbgpNeighborNextHopSelf(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+	return v, nil
+}
+
+func expandRouterbgpNeighborNextHopSelfRr(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+	return v, nil
+}
+
+func expandRouterbgpNeighborNextHopSelfRr6(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+	return v, nil
+}
+
+func expandRouterbgpNeighborNextHopSelf6(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+	return v, nil
+}
+
+func expandRouterbgpNeighborOverrideCapability(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+	return v, nil
+}
+
+func expandRouterbgpNeighborPassive(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+	return v, nil
+}
+
+func expandRouterbgpNeighborPassword(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+	return v, nil
+}
+
+func expandRouterbgpNeighborPrefixListIn(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+	return v, nil
+}
+
+func expandRouterbgpNeighborPrefixListIn6(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+	return v, nil
+}
+
+func expandRouterbgpNeighborPrefixListOut(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+	return v, nil
+}
+
+func expandRouterbgpNeighborPrefixListOut6(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+	return v, nil
+}
+
+func expandRouterbgpNeighborRemoteAs(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+	return v, nil
+}
+
+func expandRouterbgpNeighborRemovePrivateAs(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+	return v, nil
+}
+
+func expandRouterbgpNeighborRemovePrivateAs6(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+	return v, nil
+}
+
+func expandRouterbgpNeighborRestartTime(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+	return v, nil
+}
+
+func expandRouterbgpNeighborRetainStaleTime(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+	return v, nil
+}
+
+func expandRouterbgpNeighborRouteMapIn(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+	return v, nil
+}
+
+func expandRouterbgpNeighborRouteMapIn6(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+	return v, nil
+}
+
+func expandRouterbgpNeighborRouteMapOut(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+	return v, nil
+}
+
+func expandRouterbgpNeighborRouteMapOutPreferable(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+	return v, nil
+}
+
+func expandRouterbgpNeighborRouteMapOut6(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+	return v, nil
+}
+
+func expandRouterbgpNeighborRouteMapOut6Preferable(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+	return v, nil
+}
+
+func expandRouterbgpNeighborRouteReflectorClient(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+	return v, nil
+}
+
+func expandRouterbgpNeighborRouteReflectorClient6(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+	return v, nil
+}
+
+func expandRouterbgpNeighborRouteServerClient(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+	return v, nil
+}
+
+func expandRouterbgpNeighborRouteServerClient6(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+	return v, nil
+}
+
+func expandRouterbgpNeighborSendCommunity(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+	return v, nil
+}
+
+func expandRouterbgpNeighborSendCommunity6(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+	return v, nil
+}
+
+func expandRouterbgpNeighborShutdown(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+	return v, nil
+}
+
+func expandRouterbgpNeighborSoftReconfiguration(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+	return v, nil
+}
+
+func expandRouterbgpNeighborSoftReconfiguration6(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+	return v, nil
+}
+
+func expandRouterbgpNeighborStaleRoute(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+	return v, nil
+}
+
+func expandRouterbgpNeighborStrictCapabilityMatch(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+	return v, nil
+}
+
+func expandRouterbgpNeighborUnsuppressMap(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+	return v, nil
+}
+
+func expandRouterbgpNeighborUnsuppressMap6(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+	return v, nil
+}
+
+func expandRouterbgpNeighborUpdateSource(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+	return v, nil
+}
+
+func expandRouterbgpNeighborWeight(d *schema.ResourceData, v interface{}, pre string, sv string) (interface{}, error) {
+	return v, nil
+}
+
 func getObjectRouterbgpNeighbor(d *schema.ResourceData, sv string) (*map[string]interface{}, error) {
 	obj := make(map[string]interface{})
 
-	if v, ok := d.GetOk("ip"); ok {
-
-		t, err := expandRouterbgpNeighborIp(d, v, "ip", sv)
-		if err != nil {
-			return &obj, err
-		} else if t != nil {
-			obj["ip"] = t
-		}
-	}
-
-	if v, ok := d.GetOk("advertisement_interval"); ok {
-
-		t, err := expandRouterbgpNeighborAdvertisementInterval(d, v, "advertisement_interval", sv)
-		if err != nil {
-			return &obj, err
-		} else if t != nil {
-			obj["advertisement-interval"] = t
-		}
-	}
-
-	if v, ok := d.GetOk("allowas_in_enable"); ok {
-
-		t, err := expandRouterbgpNeighborAllowasInEnable(d, v, "allowas_in_enable", sv)
-		if err != nil {
-			return &obj, err
-		} else if t != nil {
-			obj["allowas-in-enable"] = t
-		}
-	}
-
-	if v, ok := d.GetOk("allowas_in_enable6"); ok {
-
-		t, err := expandRouterbgpNeighborAllowasInEnable6(d, v, "allowas_in_enable6", sv)
-		if err != nil {
-			return &obj, err
-		} else if t != nil {
-			obj["allowas-in-enable6"] = t
-		}
-	}
-
-	if v, ok := d.GetOk("allowas_in"); ok {
-
-		t, err := expandRouterbgpNeighborAllowasIn(d, v, "allowas_in", sv)
-		if err != nil {
-			return &obj, err
-		} else if t != nil {
-			obj["allowas-in"] = t
-		}
-	}
-
-	if v, ok := d.GetOk("allowas_in6"); ok {
-
-		t, err := expandRouterbgpNeighborAllowasIn6(d, v, "allowas_in6", sv)
-		if err != nil {
-			return &obj, err
-		} else if t != nil {
-			obj["allowas-in6"] = t
-		}
-	}
-
-	if v, ok := d.GetOk("attribute_unchanged"); ok {
-
-		t, err := expandRouterbgpNeighborAttributeUnchanged(d, v, "attribute_unchanged", sv)
-		if err != nil {
-			return &obj, err
-		} else if t != nil {
-			obj["attribute-unchanged"] = t
-		}
-	}
-
-	if v, ok := d.GetOk("attribute_unchanged6"); ok {
-
-		t, err := expandRouterbgpNeighborAttributeUnchanged6(d, v, "attribute_unchanged6", sv)
-		if err != nil {
-			return &obj, err
-		} else if t != nil {
-			obj["attribute-unchanged6"] = t
-		}
-	}
-
 	if v, ok := d.GetOk("activate"); ok {
-
 		t, err := expandRouterbgpNeighborActivate(d, v, "activate", sv)
 		if err != nil {
 			return &obj, err
@@ -2247,7 +2552,6 @@ func getObjectRouterbgpNeighbor(d *schema.ResourceData, sv string) (*map[string]
 	}
 
 	if v, ok := d.GetOk("activate6"); ok {
-
 		t, err := expandRouterbgpNeighborActivate6(d, v, "activate6", sv)
 		if err != nil {
 			return &obj, err
@@ -2256,758 +2560,7 @@ func getObjectRouterbgpNeighbor(d *schema.ResourceData, sv string) (*map[string]
 		}
 	}
 
-	if v, ok := d.GetOk("bfd"); ok {
-
-		t, err := expandRouterbgpNeighborBfd(d, v, "bfd", sv)
-		if err != nil {
-			return &obj, err
-		} else if t != nil {
-			obj["bfd"] = t
-		}
-	}
-
-	if v, ok := d.GetOk("capability_dynamic"); ok {
-
-		t, err := expandRouterbgpNeighborCapabilityDynamic(d, v, "capability_dynamic", sv)
-		if err != nil {
-			return &obj, err
-		} else if t != nil {
-			obj["capability-dynamic"] = t
-		}
-	}
-
-	if v, ok := d.GetOk("capability_orf"); ok {
-
-		t, err := expandRouterbgpNeighborCapabilityOrf(d, v, "capability_orf", sv)
-		if err != nil {
-			return &obj, err
-		} else if t != nil {
-			obj["capability-orf"] = t
-		}
-	}
-
-	if v, ok := d.GetOk("capability_orf6"); ok {
-
-		t, err := expandRouterbgpNeighborCapabilityOrf6(d, v, "capability_orf6", sv)
-		if err != nil {
-			return &obj, err
-		} else if t != nil {
-			obj["capability-orf6"] = t
-		}
-	}
-
-	if v, ok := d.GetOk("capability_graceful_restart"); ok {
-
-		t, err := expandRouterbgpNeighborCapabilityGracefulRestart(d, v, "capability_graceful_restart", sv)
-		if err != nil {
-			return &obj, err
-		} else if t != nil {
-			obj["capability-graceful-restart"] = t
-		}
-	}
-
-	if v, ok := d.GetOk("capability_graceful_restart6"); ok {
-
-		t, err := expandRouterbgpNeighborCapabilityGracefulRestart6(d, v, "capability_graceful_restart6", sv)
-		if err != nil {
-			return &obj, err
-		} else if t != nil {
-			obj["capability-graceful-restart6"] = t
-		}
-	}
-
-	if v, ok := d.GetOk("capability_route_refresh"); ok {
-
-		t, err := expandRouterbgpNeighborCapabilityRouteRefresh(d, v, "capability_route_refresh", sv)
-		if err != nil {
-			return &obj, err
-		} else if t != nil {
-			obj["capability-route-refresh"] = t
-		}
-	}
-
-	if v, ok := d.GetOk("capability_default_originate"); ok {
-
-		t, err := expandRouterbgpNeighborCapabilityDefaultOriginate(d, v, "capability_default_originate", sv)
-		if err != nil {
-			return &obj, err
-		} else if t != nil {
-			obj["capability-default-originate"] = t
-		}
-	}
-
-	if v, ok := d.GetOk("capability_default_originate6"); ok {
-
-		t, err := expandRouterbgpNeighborCapabilityDefaultOriginate6(d, v, "capability_default_originate6", sv)
-		if err != nil {
-			return &obj, err
-		} else if t != nil {
-			obj["capability-default-originate6"] = t
-		}
-	}
-
-	if v, ok := d.GetOk("dont_capability_negotiate"); ok {
-
-		t, err := expandRouterbgpNeighborDontCapabilityNegotiate(d, v, "dont_capability_negotiate", sv)
-		if err != nil {
-			return &obj, err
-		} else if t != nil {
-			obj["dont-capability-negotiate"] = t
-		}
-	}
-
-	if v, ok := d.GetOk("ebgp_enforce_multihop"); ok {
-
-		t, err := expandRouterbgpNeighborEbgpEnforceMultihop(d, v, "ebgp_enforce_multihop", sv)
-		if err != nil {
-			return &obj, err
-		} else if t != nil {
-			obj["ebgp-enforce-multihop"] = t
-		}
-	}
-
-	if v, ok := d.GetOk("link_down_failover"); ok {
-
-		t, err := expandRouterbgpNeighborLinkDownFailover(d, v, "link_down_failover", sv)
-		if err != nil {
-			return &obj, err
-		} else if t != nil {
-			obj["link-down-failover"] = t
-		}
-	}
-
-	if v, ok := d.GetOk("stale_route"); ok {
-
-		t, err := expandRouterbgpNeighborStaleRoute(d, v, "stale_route", sv)
-		if err != nil {
-			return &obj, err
-		} else if t != nil {
-			obj["stale-route"] = t
-		}
-	}
-
-	if v, ok := d.GetOk("next_hop_self"); ok {
-
-		t, err := expandRouterbgpNeighborNextHopSelf(d, v, "next_hop_self", sv)
-		if err != nil {
-			return &obj, err
-		} else if t != nil {
-			obj["next-hop-self"] = t
-		}
-	}
-
-	if v, ok := d.GetOk("next_hop_self6"); ok {
-
-		t, err := expandRouterbgpNeighborNextHopSelf6(d, v, "next_hop_self6", sv)
-		if err != nil {
-			return &obj, err
-		} else if t != nil {
-			obj["next-hop-self6"] = t
-		}
-	}
-
-	if v, ok := d.GetOk("next_hop_self_rr"); ok {
-
-		t, err := expandRouterbgpNeighborNextHopSelfRr(d, v, "next_hop_self_rr", sv)
-		if err != nil {
-			return &obj, err
-		} else if t != nil {
-			obj["next-hop-self-rr"] = t
-		}
-	}
-
-	if v, ok := d.GetOk("next_hop_self_rr6"); ok {
-
-		t, err := expandRouterbgpNeighborNextHopSelfRr6(d, v, "next_hop_self_rr6", sv)
-		if err != nil {
-			return &obj, err
-		} else if t != nil {
-			obj["next-hop-self-rr6"] = t
-		}
-	}
-
-	if v, ok := d.GetOk("override_capability"); ok {
-
-		t, err := expandRouterbgpNeighborOverrideCapability(d, v, "override_capability", sv)
-		if err != nil {
-			return &obj, err
-		} else if t != nil {
-			obj["override-capability"] = t
-		}
-	}
-
-	if v, ok := d.GetOk("passive"); ok {
-
-		t, err := expandRouterbgpNeighborPassive(d, v, "passive", sv)
-		if err != nil {
-			return &obj, err
-		} else if t != nil {
-			obj["passive"] = t
-		}
-	}
-
-	if v, ok := d.GetOk("remove_private_as"); ok {
-
-		t, err := expandRouterbgpNeighborRemovePrivateAs(d, v, "remove_private_as", sv)
-		if err != nil {
-			return &obj, err
-		} else if t != nil {
-			obj["remove-private-as"] = t
-		}
-	}
-
-	if v, ok := d.GetOk("remove_private_as6"); ok {
-
-		t, err := expandRouterbgpNeighborRemovePrivateAs6(d, v, "remove_private_as6", sv)
-		if err != nil {
-			return &obj, err
-		} else if t != nil {
-			obj["remove-private-as6"] = t
-		}
-	}
-
-	if v, ok := d.GetOk("route_reflector_client"); ok {
-
-		t, err := expandRouterbgpNeighborRouteReflectorClient(d, v, "route_reflector_client", sv)
-		if err != nil {
-			return &obj, err
-		} else if t != nil {
-			obj["route-reflector-client"] = t
-		}
-	}
-
-	if v, ok := d.GetOk("route_reflector_client6"); ok {
-
-		t, err := expandRouterbgpNeighborRouteReflectorClient6(d, v, "route_reflector_client6", sv)
-		if err != nil {
-			return &obj, err
-		} else if t != nil {
-			obj["route-reflector-client6"] = t
-		}
-	}
-
-	if v, ok := d.GetOk("route_server_client"); ok {
-
-		t, err := expandRouterbgpNeighborRouteServerClient(d, v, "route_server_client", sv)
-		if err != nil {
-			return &obj, err
-		} else if t != nil {
-			obj["route-server-client"] = t
-		}
-	}
-
-	if v, ok := d.GetOk("route_server_client6"); ok {
-
-		t, err := expandRouterbgpNeighborRouteServerClient6(d, v, "route_server_client6", sv)
-		if err != nil {
-			return &obj, err
-		} else if t != nil {
-			obj["route-server-client6"] = t
-		}
-	}
-
-	if v, ok := d.GetOk("shutdown"); ok {
-
-		t, err := expandRouterbgpNeighborShutdown(d, v, "shutdown", sv)
-		if err != nil {
-			return &obj, err
-		} else if t != nil {
-			obj["shutdown"] = t
-		}
-	}
-
-	if v, ok := d.GetOk("soft_reconfiguration"); ok {
-
-		t, err := expandRouterbgpNeighborSoftReconfiguration(d, v, "soft_reconfiguration", sv)
-		if err != nil {
-			return &obj, err
-		} else if t != nil {
-			obj["soft-reconfiguration"] = t
-		}
-	}
-
-	if v, ok := d.GetOk("soft_reconfiguration6"); ok {
-
-		t, err := expandRouterbgpNeighborSoftReconfiguration6(d, v, "soft_reconfiguration6", sv)
-		if err != nil {
-			return &obj, err
-		} else if t != nil {
-			obj["soft-reconfiguration6"] = t
-		}
-	}
-
-	if v, ok := d.GetOk("as_override"); ok {
-
-		t, err := expandRouterbgpNeighborAsOverride(d, v, "as_override", sv)
-		if err != nil {
-			return &obj, err
-		} else if t != nil {
-			obj["as-override"] = t
-		}
-	}
-
-	if v, ok := d.GetOk("as_override6"); ok {
-
-		t, err := expandRouterbgpNeighborAsOverride6(d, v, "as_override6", sv)
-		if err != nil {
-			return &obj, err
-		} else if t != nil {
-			obj["as-override6"] = t
-		}
-	}
-
-	if v, ok := d.GetOk("strict_capability_match"); ok {
-
-		t, err := expandRouterbgpNeighborStrictCapabilityMatch(d, v, "strict_capability_match", sv)
-		if err != nil {
-			return &obj, err
-		} else if t != nil {
-			obj["strict-capability-match"] = t
-		}
-	}
-
-	if v, ok := d.GetOk("default_originate_routemap"); ok {
-
-		t, err := expandRouterbgpNeighborDefaultOriginateRoutemap(d, v, "default_originate_routemap", sv)
-		if err != nil {
-			return &obj, err
-		} else if t != nil {
-			obj["default-originate-routemap"] = t
-		}
-	}
-
-	if v, ok := d.GetOk("default_originate_routemap6"); ok {
-
-		t, err := expandRouterbgpNeighborDefaultOriginateRoutemap6(d, v, "default_originate_routemap6", sv)
-		if err != nil {
-			return &obj, err
-		} else if t != nil {
-			obj["default-originate-routemap6"] = t
-		}
-	}
-
-	if v, ok := d.GetOk("description"); ok {
-
-		t, err := expandRouterbgpNeighborDescription(d, v, "description", sv)
-		if err != nil {
-			return &obj, err
-		} else if t != nil {
-			obj["description"] = t
-		}
-	}
-
-	if v, ok := d.GetOk("distribute_list_in"); ok {
-
-		t, err := expandRouterbgpNeighborDistributeListIn(d, v, "distribute_list_in", sv)
-		if err != nil {
-			return &obj, err
-		} else if t != nil {
-			obj["distribute-list-in"] = t
-		}
-	}
-
-	if v, ok := d.GetOk("distribute_list_in6"); ok {
-
-		t, err := expandRouterbgpNeighborDistributeListIn6(d, v, "distribute_list_in6", sv)
-		if err != nil {
-			return &obj, err
-		} else if t != nil {
-			obj["distribute-list-in6"] = t
-		}
-	}
-
-	if v, ok := d.GetOk("distribute_list_out"); ok {
-
-		t, err := expandRouterbgpNeighborDistributeListOut(d, v, "distribute_list_out", sv)
-		if err != nil {
-			return &obj, err
-		} else if t != nil {
-			obj["distribute-list-out"] = t
-		}
-	}
-
-	if v, ok := d.GetOk("distribute_list_out6"); ok {
-
-		t, err := expandRouterbgpNeighborDistributeListOut6(d, v, "distribute_list_out6", sv)
-		if err != nil {
-			return &obj, err
-		} else if t != nil {
-			obj["distribute-list-out6"] = t
-		}
-	}
-
-	if v, ok := d.GetOk("ebgp_multihop_ttl"); ok {
-
-		t, err := expandRouterbgpNeighborEbgpMultihopTtl(d, v, "ebgp_multihop_ttl", sv)
-		if err != nil {
-			return &obj, err
-		} else if t != nil {
-			obj["ebgp-multihop-ttl"] = t
-		}
-	}
-
-	if v, ok := d.GetOk("filter_list_in"); ok {
-
-		t, err := expandRouterbgpNeighborFilterListIn(d, v, "filter_list_in", sv)
-		if err != nil {
-			return &obj, err
-		} else if t != nil {
-			obj["filter-list-in"] = t
-		}
-	}
-
-	if v, ok := d.GetOk("filter_list_in6"); ok {
-
-		t, err := expandRouterbgpNeighborFilterListIn6(d, v, "filter_list_in6", sv)
-		if err != nil {
-			return &obj, err
-		} else if t != nil {
-			obj["filter-list-in6"] = t
-		}
-	}
-
-	if v, ok := d.GetOk("filter_list_out"); ok {
-
-		t, err := expandRouterbgpNeighborFilterListOut(d, v, "filter_list_out", sv)
-		if err != nil {
-			return &obj, err
-		} else if t != nil {
-			obj["filter-list-out"] = t
-		}
-	}
-
-	if v, ok := d.GetOk("filter_list_out6"); ok {
-
-		t, err := expandRouterbgpNeighborFilterListOut6(d, v, "filter_list_out6", sv)
-		if err != nil {
-			return &obj, err
-		} else if t != nil {
-			obj["filter-list-out6"] = t
-		}
-	}
-
-	if v, ok := d.GetOk("interface"); ok {
-
-		t, err := expandRouterbgpNeighborInterface(d, v, "interface", sv)
-		if err != nil {
-			return &obj, err
-		} else if t != nil {
-			obj["interface"] = t
-		}
-	}
-
-	if v, ok := d.GetOk("maximum_prefix"); ok {
-
-		t, err := expandRouterbgpNeighborMaximumPrefix(d, v, "maximum_prefix", sv)
-		if err != nil {
-			return &obj, err
-		} else if t != nil {
-			obj["maximum-prefix"] = t
-		}
-	}
-
-	if v, ok := d.GetOk("maximum_prefix6"); ok {
-
-		t, err := expandRouterbgpNeighborMaximumPrefix6(d, v, "maximum_prefix6", sv)
-		if err != nil {
-			return &obj, err
-		} else if t != nil {
-			obj["maximum-prefix6"] = t
-		}
-	}
-
-	if v, ok := d.GetOk("maximum_prefix_threshold"); ok {
-
-		t, err := expandRouterbgpNeighborMaximumPrefixThreshold(d, v, "maximum_prefix_threshold", sv)
-		if err != nil {
-			return &obj, err
-		} else if t != nil {
-			obj["maximum-prefix-threshold"] = t
-		}
-	}
-
-	if v, ok := d.GetOk("maximum_prefix_threshold6"); ok {
-
-		t, err := expandRouterbgpNeighborMaximumPrefixThreshold6(d, v, "maximum_prefix_threshold6", sv)
-		if err != nil {
-			return &obj, err
-		} else if t != nil {
-			obj["maximum-prefix-threshold6"] = t
-		}
-	}
-
-	if v, ok := d.GetOk("maximum_prefix_warning_only"); ok {
-
-		t, err := expandRouterbgpNeighborMaximumPrefixWarningOnly(d, v, "maximum_prefix_warning_only", sv)
-		if err != nil {
-			return &obj, err
-		} else if t != nil {
-			obj["maximum-prefix-warning-only"] = t
-		}
-	}
-
-	if v, ok := d.GetOk("maximum_prefix_warning_only6"); ok {
-
-		t, err := expandRouterbgpNeighborMaximumPrefixWarningOnly6(d, v, "maximum_prefix_warning_only6", sv)
-		if err != nil {
-			return &obj, err
-		} else if t != nil {
-			obj["maximum-prefix-warning-only6"] = t
-		}
-	}
-
-	if v, ok := d.GetOk("prefix_list_in"); ok {
-
-		t, err := expandRouterbgpNeighborPrefixListIn(d, v, "prefix_list_in", sv)
-		if err != nil {
-			return &obj, err
-		} else if t != nil {
-			obj["prefix-list-in"] = t
-		}
-	}
-
-	if v, ok := d.GetOk("prefix_list_in6"); ok {
-
-		t, err := expandRouterbgpNeighborPrefixListIn6(d, v, "prefix_list_in6", sv)
-		if err != nil {
-			return &obj, err
-		} else if t != nil {
-			obj["prefix-list-in6"] = t
-		}
-	}
-
-	if v, ok := d.GetOk("prefix_list_out"); ok {
-
-		t, err := expandRouterbgpNeighborPrefixListOut(d, v, "prefix_list_out", sv)
-		if err != nil {
-			return &obj, err
-		} else if t != nil {
-			obj["prefix-list-out"] = t
-		}
-	}
-
-	if v, ok := d.GetOk("prefix_list_out6"); ok {
-
-		t, err := expandRouterbgpNeighborPrefixListOut6(d, v, "prefix_list_out6", sv)
-		if err != nil {
-			return &obj, err
-		} else if t != nil {
-			obj["prefix-list-out6"] = t
-		}
-	}
-
-	if v, ok := d.GetOk("remote_as"); ok {
-
-		t, err := expandRouterbgpNeighborRemoteAs(d, v, "remote_as", sv)
-		if err != nil {
-			return &obj, err
-		} else if t != nil {
-			obj["remote-as"] = t
-		}
-	}
-
-	if v, ok := d.GetOkExists("local_as"); ok {
-
-		t, err := expandRouterbgpNeighborLocalAs(d, v, "local_as", sv)
-		if err != nil {
-			return &obj, err
-		} else if t != nil {
-			obj["local-as"] = t
-		}
-	}
-
-	if v, ok := d.GetOk("local_as_no_prepend"); ok {
-
-		t, err := expandRouterbgpNeighborLocalAsNoPrepend(d, v, "local_as_no_prepend", sv)
-		if err != nil {
-			return &obj, err
-		} else if t != nil {
-			obj["local-as-no-prepend"] = t
-		}
-	}
-
-	if v, ok := d.GetOk("local_as_replace_as"); ok {
-
-		t, err := expandRouterbgpNeighborLocalAsReplaceAs(d, v, "local_as_replace_as", sv)
-		if err != nil {
-			return &obj, err
-		} else if t != nil {
-			obj["local-as-replace-as"] = t
-		}
-	}
-
-	if v, ok := d.GetOkExists("retain_stale_time"); ok {
-
-		t, err := expandRouterbgpNeighborRetainStaleTime(d, v, "retain_stale_time", sv)
-		if err != nil {
-			return &obj, err
-		} else if t != nil {
-			obj["retain-stale-time"] = t
-		}
-	}
-
-	if v, ok := d.GetOk("route_map_in"); ok {
-
-		t, err := expandRouterbgpNeighborRouteMapIn(d, v, "route_map_in", sv)
-		if err != nil {
-			return &obj, err
-		} else if t != nil {
-			obj["route-map-in"] = t
-		}
-	}
-
-	if v, ok := d.GetOk("route_map_in6"); ok {
-
-		t, err := expandRouterbgpNeighborRouteMapIn6(d, v, "route_map_in6", sv)
-		if err != nil {
-			return &obj, err
-		} else if t != nil {
-			obj["route-map-in6"] = t
-		}
-	}
-
-	if v, ok := d.GetOk("route_map_out"); ok {
-
-		t, err := expandRouterbgpNeighborRouteMapOut(d, v, "route_map_out", sv)
-		if err != nil {
-			return &obj, err
-		} else if t != nil {
-			obj["route-map-out"] = t
-		}
-	}
-
-	if v, ok := d.GetOk("route_map_out_preferable"); ok {
-
-		t, err := expandRouterbgpNeighborRouteMapOutPreferable(d, v, "route_map_out_preferable", sv)
-		if err != nil {
-			return &obj, err
-		} else if t != nil {
-			obj["route-map-out-preferable"] = t
-		}
-	}
-
-	if v, ok := d.GetOk("route_map_out6"); ok {
-
-		t, err := expandRouterbgpNeighborRouteMapOut6(d, v, "route_map_out6", sv)
-		if err != nil {
-			return &obj, err
-		} else if t != nil {
-			obj["route-map-out6"] = t
-		}
-	}
-
-	if v, ok := d.GetOk("route_map_out6_preferable"); ok {
-
-		t, err := expandRouterbgpNeighborRouteMapOut6Preferable(d, v, "route_map_out6_preferable", sv)
-		if err != nil {
-			return &obj, err
-		} else if t != nil {
-			obj["route-map-out6-preferable"] = t
-		}
-	}
-
-	if v, ok := d.GetOk("send_community"); ok {
-
-		t, err := expandRouterbgpNeighborSendCommunity(d, v, "send_community", sv)
-		if err != nil {
-			return &obj, err
-		} else if t != nil {
-			obj["send-community"] = t
-		}
-	}
-
-	if v, ok := d.GetOk("send_community6"); ok {
-
-		t, err := expandRouterbgpNeighborSendCommunity6(d, v, "send_community6", sv)
-		if err != nil {
-			return &obj, err
-		} else if t != nil {
-			obj["send-community6"] = t
-		}
-	}
-
-	if v, ok := d.GetOkExists("keep_alive_timer"); ok {
-
-		t, err := expandRouterbgpNeighborKeepAliveTimer(d, v, "keep_alive_timer", sv)
-		if err != nil {
-			return &obj, err
-		} else if t != nil {
-			obj["keep-alive-timer"] = t
-		}
-	}
-
-	if v, ok := d.GetOk("holdtime_timer"); ok {
-
-		t, err := expandRouterbgpNeighborHoldtimeTimer(d, v, "holdtime_timer", sv)
-		if err != nil {
-			return &obj, err
-		} else if t != nil {
-			obj["holdtime-timer"] = t
-		}
-	}
-
-	if v, ok := d.GetOkExists("connect_timer"); ok {
-
-		t, err := expandRouterbgpNeighborConnectTimer(d, v, "connect_timer", sv)
-		if err != nil {
-			return &obj, err
-		} else if t != nil {
-			obj["connect-timer"] = t
-		}
-	}
-
-	if v, ok := d.GetOk("unsuppress_map"); ok {
-
-		t, err := expandRouterbgpNeighborUnsuppressMap(d, v, "unsuppress_map", sv)
-		if err != nil {
-			return &obj, err
-		} else if t != nil {
-			obj["unsuppress-map"] = t
-		}
-	}
-
-	if v, ok := d.GetOk("unsuppress_map6"); ok {
-
-		t, err := expandRouterbgpNeighborUnsuppressMap6(d, v, "unsuppress_map6", sv)
-		if err != nil {
-			return &obj, err
-		} else if t != nil {
-			obj["unsuppress-map6"] = t
-		}
-	}
-
-	if v, ok := d.GetOk("update_source"); ok {
-
-		t, err := expandRouterbgpNeighborUpdateSource(d, v, "update_source", sv)
-		if err != nil {
-			return &obj, err
-		} else if t != nil {
-			obj["update-source"] = t
-		}
-	}
-
-	if v, ok := d.GetOkExists("weight"); ok {
-
-		t, err := expandRouterbgpNeighborWeight(d, v, "weight", sv)
-		if err != nil {
-			return &obj, err
-		} else if t != nil {
-			obj["weight"] = t
-		}
-	}
-
-	if v, ok := d.GetOkExists("restart_time"); ok {
-
-		t, err := expandRouterbgpNeighborRestartTime(d, v, "restart_time", sv)
-		if err != nil {
-			return &obj, err
-		} else if t != nil {
-			obj["restart-time"] = t
-		}
-	}
-
 	if v, ok := d.GetOk("additional_path"); ok {
-
 		t, err := expandRouterbgpNeighborAdditionalPath(d, v, "additional_path", sv)
 		if err != nil {
 			return &obj, err
@@ -3017,7 +2570,6 @@ func getObjectRouterbgpNeighbor(d *schema.ResourceData, sv string) (*map[string]
 	}
 
 	if v, ok := d.GetOk("additional_path6"); ok {
-
 		t, err := expandRouterbgpNeighborAdditionalPath6(d, v, "additional_path6", sv)
 		if err != nil {
 			return &obj, err
@@ -3027,7 +2579,6 @@ func getObjectRouterbgpNeighbor(d *schema.ResourceData, sv string) (*map[string]
 	}
 
 	if v, ok := d.GetOk("adv_additional_path"); ok {
-
 		t, err := expandRouterbgpNeighborAdvAdditionalPath(d, v, "adv_additional_path", sv)
 		if err != nil {
 			return &obj, err
@@ -3037,7 +2588,6 @@ func getObjectRouterbgpNeighbor(d *schema.ResourceData, sv string) (*map[string]
 	}
 
 	if v, ok := d.GetOk("adv_additional_path6"); ok {
-
 		t, err := expandRouterbgpNeighborAdvAdditionalPath6(d, v, "adv_additional_path6", sv)
 		if err != nil {
 			return &obj, err
@@ -3046,8 +2596,512 @@ func getObjectRouterbgpNeighbor(d *schema.ResourceData, sv string) (*map[string]
 		}
 	}
 
-	if v, ok := d.GetOk("password"); ok {
+	if v, ok := d.GetOk("advertisement_interval"); ok {
+		t, err := expandRouterbgpNeighborAdvertisementInterval(d, v, "advertisement_interval", sv)
+		if err != nil {
+			return &obj, err
+		} else if t != nil {
+			obj["advertisement-interval"] = t
+		}
+	}
 
+	if v, ok := d.GetOk("allowas_in"); ok {
+		t, err := expandRouterbgpNeighborAllowasIn(d, v, "allowas_in", sv)
+		if err != nil {
+			return &obj, err
+		} else if t != nil {
+			obj["allowas-in"] = t
+		}
+	}
+
+	if v, ok := d.GetOk("allowas_in_enable"); ok {
+		t, err := expandRouterbgpNeighborAllowasInEnable(d, v, "allowas_in_enable", sv)
+		if err != nil {
+			return &obj, err
+		} else if t != nil {
+			obj["allowas-in-enable"] = t
+		}
+	}
+
+	if v, ok := d.GetOk("allowas_in_enable6"); ok {
+		t, err := expandRouterbgpNeighborAllowasInEnable6(d, v, "allowas_in_enable6", sv)
+		if err != nil {
+			return &obj, err
+		} else if t != nil {
+			obj["allowas-in-enable6"] = t
+		}
+	}
+
+	if v, ok := d.GetOk("allowas_in6"); ok {
+		t, err := expandRouterbgpNeighborAllowasIn6(d, v, "allowas_in6", sv)
+		if err != nil {
+			return &obj, err
+		} else if t != nil {
+			obj["allowas-in6"] = t
+		}
+	}
+
+	if v, ok := d.GetOk("as_override"); ok {
+		t, err := expandRouterbgpNeighborAsOverride(d, v, "as_override", sv)
+		if err != nil {
+			return &obj, err
+		} else if t != nil {
+			obj["as-override"] = t
+		}
+	}
+
+	if v, ok := d.GetOk("as_override6"); ok {
+		t, err := expandRouterbgpNeighborAsOverride6(d, v, "as_override6", sv)
+		if err != nil {
+			return &obj, err
+		} else if t != nil {
+			obj["as-override6"] = t
+		}
+	}
+
+	if v, ok := d.GetOk("attribute_unchanged"); ok {
+		t, err := expandRouterbgpNeighborAttributeUnchanged(d, v, "attribute_unchanged", sv)
+		if err != nil {
+			return &obj, err
+		} else if t != nil {
+			obj["attribute-unchanged"] = t
+		}
+	}
+
+	if v, ok := d.GetOk("attribute_unchanged6"); ok {
+		t, err := expandRouterbgpNeighborAttributeUnchanged6(d, v, "attribute_unchanged6", sv)
+		if err != nil {
+			return &obj, err
+		} else if t != nil {
+			obj["attribute-unchanged6"] = t
+		}
+	}
+
+	if v, ok := d.GetOk("bfd"); ok {
+		t, err := expandRouterbgpNeighborBfd(d, v, "bfd", sv)
+		if err != nil {
+			return &obj, err
+		} else if t != nil {
+			obj["bfd"] = t
+		}
+	}
+
+	if v, ok := d.GetOk("capability_default_originate"); ok {
+		t, err := expandRouterbgpNeighborCapabilityDefaultOriginate(d, v, "capability_default_originate", sv)
+		if err != nil {
+			return &obj, err
+		} else if t != nil {
+			obj["capability-default-originate"] = t
+		}
+	}
+
+	if v, ok := d.GetOk("capability_default_originate6"); ok {
+		t, err := expandRouterbgpNeighborCapabilityDefaultOriginate6(d, v, "capability_default_originate6", sv)
+		if err != nil {
+			return &obj, err
+		} else if t != nil {
+			obj["capability-default-originate6"] = t
+		}
+	}
+
+	if v, ok := d.GetOk("capability_dynamic"); ok {
+		t, err := expandRouterbgpNeighborCapabilityDynamic(d, v, "capability_dynamic", sv)
+		if err != nil {
+			return &obj, err
+		} else if t != nil {
+			obj["capability-dynamic"] = t
+		}
+	}
+
+	if v, ok := d.GetOk("capability_graceful_restart"); ok {
+		t, err := expandRouterbgpNeighborCapabilityGracefulRestart(d, v, "capability_graceful_restart", sv)
+		if err != nil {
+			return &obj, err
+		} else if t != nil {
+			obj["capability-graceful-restart"] = t
+		}
+	}
+
+	if v, ok := d.GetOk("capability_graceful_restart6"); ok {
+		t, err := expandRouterbgpNeighborCapabilityGracefulRestart6(d, v, "capability_graceful_restart6", sv)
+		if err != nil {
+			return &obj, err
+		} else if t != nil {
+			obj["capability-graceful-restart6"] = t
+		}
+	}
+
+	if v, ok := d.GetOk("capability_orf"); ok {
+		t, err := expandRouterbgpNeighborCapabilityOrf(d, v, "capability_orf", sv)
+		if err != nil {
+			return &obj, err
+		} else if t != nil {
+			obj["capability-orf"] = t
+		}
+	}
+
+	if v, ok := d.GetOk("capability_orf6"); ok {
+		t, err := expandRouterbgpNeighborCapabilityOrf6(d, v, "capability_orf6", sv)
+		if err != nil {
+			return &obj, err
+		} else if t != nil {
+			obj["capability-orf6"] = t
+		}
+	}
+
+	if v, ok := d.GetOk("capability_route_refresh"); ok {
+		t, err := expandRouterbgpNeighborCapabilityRouteRefresh(d, v, "capability_route_refresh", sv)
+		if err != nil {
+			return &obj, err
+		} else if t != nil {
+			obj["capability-route-refresh"] = t
+		}
+	}
+
+	if v, ok := d.GetOk("conditional_advertise"); ok {
+		t, err := expandRouterbgpNeighborConditionalAdvertise(d, v, "conditional_advertise", sv)
+		if err != nil {
+			return &obj, err
+		} else if t != nil {
+			obj["conditional-advertise"] = t
+		}
+	} else if d.HasChange("conditional_advertise") {
+		old, new := d.GetChange("conditional_advertise")
+		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
+			obj["conditional-advertise"] = make([]struct{}, 0)
+		}
+	}
+
+	if v, ok := d.GetOk("conditional_advertise6"); ok {
+		t, err := expandRouterbgpNeighborConditionalAdvertise6(d, v, "conditional_advertise6", sv)
+		if err != nil {
+			return &obj, err
+		} else if t != nil {
+			obj["conditional-advertise6"] = t
+		}
+	} else if d.HasChange("conditional_advertise6") {
+		old, new := d.GetChange("conditional_advertise6")
+		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
+			obj["conditional-advertise6"] = make([]struct{}, 0)
+		}
+	}
+
+	if v, ok := d.GetOk("connect_timer"); ok {
+		t, err := expandRouterbgpNeighborConnectTimer(d, v, "connect_timer", sv)
+		if err != nil {
+			return &obj, err
+		} else if t != nil {
+			obj["connect-timer"] = t
+		}
+	}
+
+	if v, ok := d.GetOk("default_originate_routemap"); ok {
+		t, err := expandRouterbgpNeighborDefaultOriginateRoutemap(d, v, "default_originate_routemap", sv)
+		if err != nil {
+			return &obj, err
+		} else if t != nil {
+			obj["default-originate-routemap"] = t
+		}
+	}
+
+	if v, ok := d.GetOk("default_originate_routemap6"); ok {
+		t, err := expandRouterbgpNeighborDefaultOriginateRoutemap6(d, v, "default_originate_routemap6", sv)
+		if err != nil {
+			return &obj, err
+		} else if t != nil {
+			obj["default-originate-routemap6"] = t
+		}
+	}
+
+	if v, ok := d.GetOk("description"); ok {
+		t, err := expandRouterbgpNeighborDescription(d, v, "description", sv)
+		if err != nil {
+			return &obj, err
+		} else if t != nil {
+			obj["description"] = t
+		}
+	}
+
+	if v, ok := d.GetOk("distribute_list_in"); ok {
+		t, err := expandRouterbgpNeighborDistributeListIn(d, v, "distribute_list_in", sv)
+		if err != nil {
+			return &obj, err
+		} else if t != nil {
+			obj["distribute-list-in"] = t
+		}
+	}
+
+	if v, ok := d.GetOk("distribute_list_in6"); ok {
+		t, err := expandRouterbgpNeighborDistributeListIn6(d, v, "distribute_list_in6", sv)
+		if err != nil {
+			return &obj, err
+		} else if t != nil {
+			obj["distribute-list-in6"] = t
+		}
+	}
+
+	if v, ok := d.GetOk("distribute_list_out"); ok {
+		t, err := expandRouterbgpNeighborDistributeListOut(d, v, "distribute_list_out", sv)
+		if err != nil {
+			return &obj, err
+		} else if t != nil {
+			obj["distribute-list-out"] = t
+		}
+	}
+
+	if v, ok := d.GetOk("distribute_list_out6"); ok {
+		t, err := expandRouterbgpNeighborDistributeListOut6(d, v, "distribute_list_out6", sv)
+		if err != nil {
+			return &obj, err
+		} else if t != nil {
+			obj["distribute-list-out6"] = t
+		}
+	}
+
+	if v, ok := d.GetOk("dont_capability_negotiate"); ok {
+		t, err := expandRouterbgpNeighborDontCapabilityNegotiate(d, v, "dont_capability_negotiate", sv)
+		if err != nil {
+			return &obj, err
+		} else if t != nil {
+			obj["dont-capability-negotiate"] = t
+		}
+	}
+
+	if v, ok := d.GetOk("ebgp_enforce_multihop"); ok {
+		t, err := expandRouterbgpNeighborEbgpEnforceMultihop(d, v, "ebgp_enforce_multihop", sv)
+		if err != nil {
+			return &obj, err
+		} else if t != nil {
+			obj["ebgp-enforce-multihop"] = t
+		}
+	}
+
+	if v, ok := d.GetOk("ebgp_multihop_ttl"); ok {
+		t, err := expandRouterbgpNeighborEbgpMultihopTtl(d, v, "ebgp_multihop_ttl", sv)
+		if err != nil {
+			return &obj, err
+		} else if t != nil {
+			obj["ebgp-multihop-ttl"] = t
+		}
+	}
+
+	if v, ok := d.GetOk("filter_list_in"); ok {
+		t, err := expandRouterbgpNeighborFilterListIn(d, v, "filter_list_in", sv)
+		if err != nil {
+			return &obj, err
+		} else if t != nil {
+			obj["filter-list-in"] = t
+		}
+	}
+
+	if v, ok := d.GetOk("filter_list_in6"); ok {
+		t, err := expandRouterbgpNeighborFilterListIn6(d, v, "filter_list_in6", sv)
+		if err != nil {
+			return &obj, err
+		} else if t != nil {
+			obj["filter-list-in6"] = t
+		}
+	}
+
+	if v, ok := d.GetOk("filter_list_out"); ok {
+		t, err := expandRouterbgpNeighborFilterListOut(d, v, "filter_list_out", sv)
+		if err != nil {
+			return &obj, err
+		} else if t != nil {
+			obj["filter-list-out"] = t
+		}
+	}
+
+	if v, ok := d.GetOk("filter_list_out6"); ok {
+		t, err := expandRouterbgpNeighborFilterListOut6(d, v, "filter_list_out6", sv)
+		if err != nil {
+			return &obj, err
+		} else if t != nil {
+			obj["filter-list-out6"] = t
+		}
+	}
+
+	if v, ok := d.GetOk("holdtime_timer"); ok {
+		t, err := expandRouterbgpNeighborHoldtimeTimer(d, v, "holdtime_timer", sv)
+		if err != nil {
+			return &obj, err
+		} else if t != nil {
+			obj["holdtime-timer"] = t
+		}
+	}
+
+	if v, ok := d.GetOk("interface"); ok {
+		t, err := expandRouterbgpNeighborInterface(d, v, "interface", sv)
+		if err != nil {
+			return &obj, err
+		} else if t != nil {
+			obj["interface"] = t
+		}
+	}
+
+	if v, ok := d.GetOk("ip"); ok {
+		t, err := expandRouterbgpNeighborIp(d, v, "ip", sv)
+		if err != nil {
+			return &obj, err
+		} else if t != nil {
+			obj["ip"] = t
+		}
+	}
+
+	if v, ok := d.GetOk("keep_alive_timer"); ok {
+		t, err := expandRouterbgpNeighborKeepAliveTimer(d, v, "keep_alive_timer", sv)
+		if err != nil {
+			return &obj, err
+		} else if t != nil {
+			obj["keep-alive-timer"] = t
+		}
+	}
+
+	if v, ok := d.GetOk("link_down_failover"); ok {
+		t, err := expandRouterbgpNeighborLinkDownFailover(d, v, "link_down_failover", sv)
+		if err != nil {
+			return &obj, err
+		} else if t != nil {
+			obj["link-down-failover"] = t
+		}
+	}
+
+	if v, ok := d.GetOk("local_as"); ok {
+		t, err := expandRouterbgpNeighborLocalAs(d, v, "local_as", sv)
+		if err != nil {
+			return &obj, err
+		} else if t != nil {
+			obj["local-as"] = t
+		}
+	}
+
+	if v, ok := d.GetOk("local_as_no_prepend"); ok {
+		t, err := expandRouterbgpNeighborLocalAsNoPrepend(d, v, "local_as_no_prepend", sv)
+		if err != nil {
+			return &obj, err
+		} else if t != nil {
+			obj["local-as-no-prepend"] = t
+		}
+	}
+
+	if v, ok := d.GetOk("local_as_replace_as"); ok {
+		t, err := expandRouterbgpNeighborLocalAsReplaceAs(d, v, "local_as_replace_as", sv)
+		if err != nil {
+			return &obj, err
+		} else if t != nil {
+			obj["local-as-replace-as"] = t
+		}
+	}
+
+	if v, ok := d.GetOk("maximum_prefix"); ok {
+		t, err := expandRouterbgpNeighborMaximumPrefix(d, v, "maximum_prefix", sv)
+		if err != nil {
+			return &obj, err
+		} else if t != nil {
+			obj["maximum-prefix"] = t
+		}
+	}
+
+	if v, ok := d.GetOk("maximum_prefix_threshold"); ok {
+		t, err := expandRouterbgpNeighborMaximumPrefixThreshold(d, v, "maximum_prefix_threshold", sv)
+		if err != nil {
+			return &obj, err
+		} else if t != nil {
+			obj["maximum-prefix-threshold"] = t
+		}
+	}
+
+	if v, ok := d.GetOk("maximum_prefix_threshold6"); ok {
+		t, err := expandRouterbgpNeighborMaximumPrefixThreshold6(d, v, "maximum_prefix_threshold6", sv)
+		if err != nil {
+			return &obj, err
+		} else if t != nil {
+			obj["maximum-prefix-threshold6"] = t
+		}
+	}
+
+	if v, ok := d.GetOk("maximum_prefix_warning_only"); ok {
+		t, err := expandRouterbgpNeighborMaximumPrefixWarningOnly(d, v, "maximum_prefix_warning_only", sv)
+		if err != nil {
+			return &obj, err
+		} else if t != nil {
+			obj["maximum-prefix-warning-only"] = t
+		}
+	}
+
+	if v, ok := d.GetOk("maximum_prefix_warning_only6"); ok {
+		t, err := expandRouterbgpNeighborMaximumPrefixWarningOnly6(d, v, "maximum_prefix_warning_only6", sv)
+		if err != nil {
+			return &obj, err
+		} else if t != nil {
+			obj["maximum-prefix-warning-only6"] = t
+		}
+	}
+
+	if v, ok := d.GetOk("maximum_prefix6"); ok {
+		t, err := expandRouterbgpNeighborMaximumPrefix6(d, v, "maximum_prefix6", sv)
+		if err != nil {
+			return &obj, err
+		} else if t != nil {
+			obj["maximum-prefix6"] = t
+		}
+	}
+
+	if v, ok := d.GetOk("next_hop_self"); ok {
+		t, err := expandRouterbgpNeighborNextHopSelf(d, v, "next_hop_self", sv)
+		if err != nil {
+			return &obj, err
+		} else if t != nil {
+			obj["next-hop-self"] = t
+		}
+	}
+
+	if v, ok := d.GetOk("next_hop_self_rr"); ok {
+		t, err := expandRouterbgpNeighborNextHopSelfRr(d, v, "next_hop_self_rr", sv)
+		if err != nil {
+			return &obj, err
+		} else if t != nil {
+			obj["next-hop-self-rr"] = t
+		}
+	}
+
+	if v, ok := d.GetOk("next_hop_self_rr6"); ok {
+		t, err := expandRouterbgpNeighborNextHopSelfRr6(d, v, "next_hop_self_rr6", sv)
+		if err != nil {
+			return &obj, err
+		} else if t != nil {
+			obj["next-hop-self-rr6"] = t
+		}
+	}
+
+	if v, ok := d.GetOk("next_hop_self6"); ok {
+		t, err := expandRouterbgpNeighborNextHopSelf6(d, v, "next_hop_self6", sv)
+		if err != nil {
+			return &obj, err
+		} else if t != nil {
+			obj["next-hop-self6"] = t
+		}
+	}
+
+	if v, ok := d.GetOk("override_capability"); ok {
+		t, err := expandRouterbgpNeighborOverrideCapability(d, v, "override_capability", sv)
+		if err != nil {
+			return &obj, err
+		} else if t != nil {
+			obj["override-capability"] = t
+		}
+	}
+
+	if v, ok := d.GetOk("passive"); ok {
+		t, err := expandRouterbgpNeighborPassive(d, v, "passive", sv)
+		if err != nil {
+			return &obj, err
+		} else if t != nil {
+			obj["passive"] = t
+		}
+	}
+
+	if v, ok := d.GetOk("password"); ok {
 		t, err := expandRouterbgpNeighborPassword(d, v, "password", sv)
 		if err != nil {
 			return &obj, err
@@ -3056,13 +3110,273 @@ func getObjectRouterbgpNeighbor(d *schema.ResourceData, sv string) (*map[string]
 		}
 	}
 
-	if v, ok := d.GetOk("conditional_advertise"); ok {
-
-		t, err := expandRouterbgpNeighborConditionalAdvertise(d, v, "conditional_advertise", sv)
+	if v, ok := d.GetOk("prefix_list_in"); ok {
+		t, err := expandRouterbgpNeighborPrefixListIn(d, v, "prefix_list_in", sv)
 		if err != nil {
 			return &obj, err
 		} else if t != nil {
-			obj["conditional-advertise"] = t
+			obj["prefix-list-in"] = t
+		}
+	}
+
+	if v, ok := d.GetOk("prefix_list_in6"); ok {
+		t, err := expandRouterbgpNeighborPrefixListIn6(d, v, "prefix_list_in6", sv)
+		if err != nil {
+			return &obj, err
+		} else if t != nil {
+			obj["prefix-list-in6"] = t
+		}
+	}
+
+	if v, ok := d.GetOk("prefix_list_out"); ok {
+		t, err := expandRouterbgpNeighborPrefixListOut(d, v, "prefix_list_out", sv)
+		if err != nil {
+			return &obj, err
+		} else if t != nil {
+			obj["prefix-list-out"] = t
+		}
+	}
+
+	if v, ok := d.GetOk("prefix_list_out6"); ok {
+		t, err := expandRouterbgpNeighborPrefixListOut6(d, v, "prefix_list_out6", sv)
+		if err != nil {
+			return &obj, err
+		} else if t != nil {
+			obj["prefix-list-out6"] = t
+		}
+	}
+
+	if v, ok := d.GetOk("remote_as"); ok {
+		t, err := expandRouterbgpNeighborRemoteAs(d, v, "remote_as", sv)
+		if err != nil {
+			return &obj, err
+		} else if t != nil {
+			obj["remote-as"] = t
+		}
+	}
+
+	if v, ok := d.GetOk("remove_private_as"); ok {
+		t, err := expandRouterbgpNeighborRemovePrivateAs(d, v, "remove_private_as", sv)
+		if err != nil {
+			return &obj, err
+		} else if t != nil {
+			obj["remove-private-as"] = t
+		}
+	}
+
+	if v, ok := d.GetOk("remove_private_as6"); ok {
+		t, err := expandRouterbgpNeighborRemovePrivateAs6(d, v, "remove_private_as6", sv)
+		if err != nil {
+			return &obj, err
+		} else if t != nil {
+			obj["remove-private-as6"] = t
+		}
+	}
+
+	if v, ok := d.GetOk("restart_time"); ok {
+		t, err := expandRouterbgpNeighborRestartTime(d, v, "restart_time", sv)
+		if err != nil {
+			return &obj, err
+		} else if t != nil {
+			obj["restart-time"] = t
+		}
+	}
+
+	if v, ok := d.GetOk("retain_stale_time"); ok {
+		t, err := expandRouterbgpNeighborRetainStaleTime(d, v, "retain_stale_time", sv)
+		if err != nil {
+			return &obj, err
+		} else if t != nil {
+			obj["retain-stale-time"] = t
+		}
+	}
+
+	if v, ok := d.GetOk("route_map_in"); ok {
+		t, err := expandRouterbgpNeighborRouteMapIn(d, v, "route_map_in", sv)
+		if err != nil {
+			return &obj, err
+		} else if t != nil {
+			obj["route-map-in"] = t
+		}
+	}
+
+	if v, ok := d.GetOk("route_map_in6"); ok {
+		t, err := expandRouterbgpNeighborRouteMapIn6(d, v, "route_map_in6", sv)
+		if err != nil {
+			return &obj, err
+		} else if t != nil {
+			obj["route-map-in6"] = t
+		}
+	}
+
+	if v, ok := d.GetOk("route_map_out"); ok {
+		t, err := expandRouterbgpNeighborRouteMapOut(d, v, "route_map_out", sv)
+		if err != nil {
+			return &obj, err
+		} else if t != nil {
+			obj["route-map-out"] = t
+		}
+	}
+
+	if v, ok := d.GetOk("route_map_out_preferable"); ok {
+		t, err := expandRouterbgpNeighborRouteMapOutPreferable(d, v, "route_map_out_preferable", sv)
+		if err != nil {
+			return &obj, err
+		} else if t != nil {
+			obj["route-map-out-preferable"] = t
+		}
+	}
+
+	if v, ok := d.GetOk("route_map_out6"); ok {
+		t, err := expandRouterbgpNeighborRouteMapOut6(d, v, "route_map_out6", sv)
+		if err != nil {
+			return &obj, err
+		} else if t != nil {
+			obj["route-map-out6"] = t
+		}
+	}
+
+	if v, ok := d.GetOk("route_map_out6_preferable"); ok {
+		t, err := expandRouterbgpNeighborRouteMapOut6Preferable(d, v, "route_map_out6_preferable", sv)
+		if err != nil {
+			return &obj, err
+		} else if t != nil {
+			obj["route-map-out6-preferable"] = t
+		}
+	}
+
+	if v, ok := d.GetOk("route_reflector_client"); ok {
+		t, err := expandRouterbgpNeighborRouteReflectorClient(d, v, "route_reflector_client", sv)
+		if err != nil {
+			return &obj, err
+		} else if t != nil {
+			obj["route-reflector-client"] = t
+		}
+	}
+
+	if v, ok := d.GetOk("route_reflector_client6"); ok {
+		t, err := expandRouterbgpNeighborRouteReflectorClient6(d, v, "route_reflector_client6", sv)
+		if err != nil {
+			return &obj, err
+		} else if t != nil {
+			obj["route-reflector-client6"] = t
+		}
+	}
+
+	if v, ok := d.GetOk("route_server_client"); ok {
+		t, err := expandRouterbgpNeighborRouteServerClient(d, v, "route_server_client", sv)
+		if err != nil {
+			return &obj, err
+		} else if t != nil {
+			obj["route-server-client"] = t
+		}
+	}
+
+	if v, ok := d.GetOk("route_server_client6"); ok {
+		t, err := expandRouterbgpNeighborRouteServerClient6(d, v, "route_server_client6", sv)
+		if err != nil {
+			return &obj, err
+		} else if t != nil {
+			obj["route-server-client6"] = t
+		}
+	}
+
+	if v, ok := d.GetOk("send_community"); ok {
+		t, err := expandRouterbgpNeighborSendCommunity(d, v, "send_community", sv)
+		if err != nil {
+			return &obj, err
+		} else if t != nil {
+			obj["send-community"] = t
+		}
+	}
+
+	if v, ok := d.GetOk("send_community6"); ok {
+		t, err := expandRouterbgpNeighborSendCommunity6(d, v, "send_community6", sv)
+		if err != nil {
+			return &obj, err
+		} else if t != nil {
+			obj["send-community6"] = t
+		}
+	}
+
+	if v, ok := d.GetOk("shutdown"); ok {
+		t, err := expandRouterbgpNeighborShutdown(d, v, "shutdown", sv)
+		if err != nil {
+			return &obj, err
+		} else if t != nil {
+			obj["shutdown"] = t
+		}
+	}
+
+	if v, ok := d.GetOk("soft_reconfiguration"); ok {
+		t, err := expandRouterbgpNeighborSoftReconfiguration(d, v, "soft_reconfiguration", sv)
+		if err != nil {
+			return &obj, err
+		} else if t != nil {
+			obj["soft-reconfiguration"] = t
+		}
+	}
+
+	if v, ok := d.GetOk("soft_reconfiguration6"); ok {
+		t, err := expandRouterbgpNeighborSoftReconfiguration6(d, v, "soft_reconfiguration6", sv)
+		if err != nil {
+			return &obj, err
+		} else if t != nil {
+			obj["soft-reconfiguration6"] = t
+		}
+	}
+
+	if v, ok := d.GetOk("stale_route"); ok {
+		t, err := expandRouterbgpNeighborStaleRoute(d, v, "stale_route", sv)
+		if err != nil {
+			return &obj, err
+		} else if t != nil {
+			obj["stale-route"] = t
+		}
+	}
+
+	if v, ok := d.GetOk("strict_capability_match"); ok {
+		t, err := expandRouterbgpNeighborStrictCapabilityMatch(d, v, "strict_capability_match", sv)
+		if err != nil {
+			return &obj, err
+		} else if t != nil {
+			obj["strict-capability-match"] = t
+		}
+	}
+
+	if v, ok := d.GetOk("unsuppress_map"); ok {
+		t, err := expandRouterbgpNeighborUnsuppressMap(d, v, "unsuppress_map", sv)
+		if err != nil {
+			return &obj, err
+		} else if t != nil {
+			obj["unsuppress-map"] = t
+		}
+	}
+
+	if v, ok := d.GetOk("unsuppress_map6"); ok {
+		t, err := expandRouterbgpNeighborUnsuppressMap6(d, v, "unsuppress_map6", sv)
+		if err != nil {
+			return &obj, err
+		} else if t != nil {
+			obj["unsuppress-map6"] = t
+		}
+	}
+
+	if v, ok := d.GetOk("update_source"); ok {
+		t, err := expandRouterbgpNeighborUpdateSource(d, v, "update_source", sv)
+		if err != nil {
+			return &obj, err
+		} else if t != nil {
+			obj["update-source"] = t
+		}
+	}
+
+	if v, ok := d.GetOk("weight"); ok {
+		t, err := expandRouterbgpNeighborWeight(d, v, "weight", sv)
+		if err != nil {
+			return &obj, err
+		} else if t != nil {
+			obj["weight"] = t
 		}
 	}
 

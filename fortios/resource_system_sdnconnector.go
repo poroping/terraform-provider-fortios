@@ -728,11 +728,19 @@ func flattenSystemSdnConnectorAccessKey(v interface{}, d *schema.ResourceData, p
 	return v
 }
 
+func flattenSystemSdnConnectorApiKey(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
 func flattenSystemSdnConnectorAzureRegion(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
 	return v
 }
 
 func flattenSystemSdnConnectorClientId(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
+func flattenSystemSdnConnectorClientSecret(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
 	return v
 }
 
@@ -925,6 +933,10 @@ func flattenSystemSdnConnectorOciRegionType(v interface{}, d *schema.ResourceDat
 	return v
 }
 
+func flattenSystemSdnConnectorPassword(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
 func flattenSystemSdnConnectorPrivateKey(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
 	return v
 }
@@ -1088,6 +1100,10 @@ func flattenSystemSdnConnectorRouteTableSubscriptionId(v interface{}, d *schema.
 	return v
 }
 
+func flattenSystemSdnConnectorSecretKey(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
 func flattenSystemSdnConnectorSecretToken(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
 	return v
 }
@@ -1173,6 +1189,10 @@ func flattenSystemSdnConnectorUsername(v interface{}, d *schema.ResourceData, pr
 	return v
 }
 
+func flattenSystemSdnConnectorVcenterPassword(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
+	return v
+}
+
 func flattenSystemSdnConnectorVcenterServer(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
 	return v
 }
@@ -1198,6 +1218,14 @@ func refreshObjectSystemSdnConnector(d *schema.ResourceData, o map[string]interf
 		}
 	}
 
+	if s, ok := o["api-key"].(string); ok && s != "ENC XXXX" {
+		if err = d.Set("api_key", flattenSystemSdnConnectorApiKey(o["api-key"], d, "api_key", sv)); err != nil {
+			if !fortiAPIPatch(o["api-key"]) {
+				return fmt.Errorf("error reading api_key: %v", err)
+			}
+		}
+	}
+
 	if err = d.Set("azure_region", flattenSystemSdnConnectorAzureRegion(o["azure-region"], d, "azure_region", sv)); err != nil {
 		if !fortiAPIPatch(o["azure-region"]) {
 			return fmt.Errorf("error reading azure_region: %v", err)
@@ -1207,6 +1235,14 @@ func refreshObjectSystemSdnConnector(d *schema.ResourceData, o map[string]interf
 	if err = d.Set("client_id", flattenSystemSdnConnectorClientId(o["client-id"], d, "client_id", sv)); err != nil {
 		if !fortiAPIPatch(o["client-id"]) {
 			return fmt.Errorf("error reading client_id: %v", err)
+		}
+	}
+
+	if s, ok := o["client-secret"].(string); ok && s != "ENC XXXX" {
+		if err = d.Set("client_secret", flattenSystemSdnConnectorClientSecret(o["client-secret"], d, "client_secret", sv)); err != nil {
+			if !fortiAPIPatch(o["client-secret"]) {
+				return fmt.Errorf("error reading client_secret: %v", err)
+			}
 		}
 	}
 
@@ -1320,6 +1356,14 @@ func refreshObjectSystemSdnConnector(d *schema.ResourceData, o map[string]interf
 		}
 	}
 
+	if s, ok := o["password"].(string); ok && s != "ENC XXXX" {
+		if err = d.Set("password", flattenSystemSdnConnectorPassword(o["password"], d, "password", sv)); err != nil {
+			if !fortiAPIPatch(o["password"]) {
+				return fmt.Errorf("error reading password: %v", err)
+			}
+		}
+	}
+
 	if err = d.Set("private_key", flattenSystemSdnConnectorPrivateKey(o["private-key"], d, "private_key", sv)); err != nil {
 		if !fortiAPIPatch(o["private-key"]) {
 			return fmt.Errorf("error reading private_key: %v", err)
@@ -1372,6 +1416,14 @@ func refreshObjectSystemSdnConnector(d *schema.ResourceData, o map[string]interf
 				if !fortiAPIPatch(o["route-table"]) {
 					return fmt.Errorf("error reading route_table: %v", err)
 				}
+			}
+		}
+	}
+
+	if s, ok := o["secret-key"].(string); ok && s != "ENC XXXX" {
+		if err = d.Set("secret_key", flattenSystemSdnConnectorSecretKey(o["secret-key"], d, "secret_key", sv)); err != nil {
+			if !fortiAPIPatch(o["secret-key"]) {
+				return fmt.Errorf("error reading secret_key: %v", err)
 			}
 		}
 	}
@@ -1461,6 +1513,14 @@ func refreshObjectSystemSdnConnector(d *schema.ResourceData, o map[string]interf
 	if err = d.Set("username", flattenSystemSdnConnectorUsername(o["username"], d, "username", sv)); err != nil {
 		if !fortiAPIPatch(o["username"]) {
 			return fmt.Errorf("error reading username: %v", err)
+		}
+	}
+
+	if s, ok := o["vcenter-password"].(string); ok && s != "ENC XXXX" {
+		if err = d.Set("vcenter_password", flattenSystemSdnConnectorVcenterPassword(o["vcenter-password"], d, "vcenter_password", sv)); err != nil {
+			if !fortiAPIPatch(o["vcenter-password"]) {
+				return fmt.Errorf("error reading vcenter_password: %v", err)
+			}
 		}
 	}
 

@@ -1,6 +1,6 @@
 {{ define "FLATTEN" }}
 {{- range $key, $value := .children }}
-{{- if and (eq $value.category "unitary") (not $value.sensitive) }}
+{{- if and (eq $value.category "unitary") }}
 func flatten{{.fpath}}(v interface{}, d *schema.ResourceData, pre string, sv string) interface{} {
 {{- if or (eq $value.type "ipv4-classnet-any") (eq $value.type "ipv4-classnet-host") (eq $value.type "ipv4-classnet")}}
 	if v1, ok := d.GetOkExists(pre); ok && v != nil {
@@ -41,6 +41,11 @@ func flatten{{.fpath}}(v interface{}, d *schema.ResourceData, pre string, sv str
 
 			tmp[{{(flatten $value.name) | printf "%q" }}] = flatten{{.fpath}}(i[{{$value.name | printf "%q" }}], d, pre_append, sv)
 		}
+{{ else }}
+		pre_append = pre + "." + strconv.Itoa(con) + "." + {{(flatten $value.name) | printf "%q" }}
+		if s, ok := i[{{$value.name | printf "%q" }}].(string); ok && s != "ENC XXXX"{
+			tmp[{{(flatten $value.name) | printf "%q" }}] = flatten{{.fpath}}(i[{{$value.name | printf "%q" }}], d, pre_append, sv)
+		}
 {{ end }}{{ end }}
 		result = append(result, tmp)
 
@@ -77,6 +82,11 @@ func flatten{{.fpath}}(v interface{}, d *schema.ResourceData, pre string, sv str
 		pre_append = pre + "." + strconv.Itoa(con) + "." + {{(flatten $value.name) | printf "%q" }}
 		if _, ok := i[{{$value.name | printf "%q" }}]; ok {
 
+			tmp[{{(flatten $value.name) | printf "%q" }}] = flatten{{.fpath}}(i[{{$value.name | printf "%q" }}], d, pre_append, sv)
+		}
+{{ else }}
+		pre_append = pre + "." + strconv.Itoa(con) + "." + {{(flatten $value.name) | printf "%q" }}
+		if s, ok := i[{{$value.name | printf "%q" }}].(string); ok && s != "ENC XXXX"{
 			tmp[{{(flatten $value.name) | printf "%q" }}] = flatten{{.fpath}}(i[{{$value.name | printf "%q" }}], d, pre_append, sv)
 		}
 {{ end }}{{ end }}
