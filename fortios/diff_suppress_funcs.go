@@ -103,6 +103,16 @@ func isFakeListEqual(s1, s2 string) bool {
 	return reflect.DeepEqual(l1, l2)
 }
 
+func diffMultiStringEqual(k, old, new string, d *schema.ResourceData) bool {
+	return isMultiStringEqual(old, new)
+}
+
+func isMultiStringEqual(s1, s2 string) bool {
+	s1 = strings.Trim(s1, "\"")
+	s2 = strings.Trim(s2, "\"")
+	return s1 == s2
+}
+
 // func isSubtableEqual(v1, v2 []map[string]interface{}) bool {
 // 	l1 := strings.Split(s1, " ")
 // 	l2 := strings.Split(s2, " ")

@@ -218,3 +218,28 @@ func TestIsFakeListEqual(t *testing.T) {
 		})
 	}
 }
+
+func TestIsMultiStringEqual(t *testing.T) {
+	var tests = []struct {
+		s1, s2 string
+		equal  bool
+	}{
+		{"\"169.254.255.1\"", "169.254.255.1", true},
+		{`"169.254.255.1"`, "169.254.255.1", true},
+		{"", "", true},
+		{"\"169.254.255.2\"", "169.254.255.1", false},
+		{"\"169.254.255.1\"", "\"169.254.255.1\"", true},
+		{"\"169.254.255.1\" \"169.254.255.2\"", "\"169.254.255.1\" \"169.254.255.2\"", true},
+		{"\"169.254.255.1\" \"169.254.255.2\"", "\"169.254.255.1\" \"169.254.255.3\"", false},
+	}
+
+	for i, tt := range tests {
+		testname := fmt.Sprintf("Testing FortiOS 'multi-string' equality, %v", i)
+		t.Run(testname, func(t *testing.T) {
+			ans := isMultiStringEqual(tt.s1, tt.s2)
+			if ans != tt.equal {
+				t.Errorf("got %v, want %v", ans, tt.equal)
+			}
+		})
+	}
+}

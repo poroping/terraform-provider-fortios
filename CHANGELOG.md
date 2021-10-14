@@ -1,3 +1,8 @@
+## 2.3.7 (Unreleased)
+
+IMPROVEMENTS:
+* Added DiffSupp Func `diffMultiStringEqual`.
+
 ## 2.3.6
 
 IMPROVEMENTS:
