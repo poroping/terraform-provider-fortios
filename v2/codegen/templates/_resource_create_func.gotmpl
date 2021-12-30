@@ -1,0 +1,54 @@
+{{ define "CREATERESFUNC" }}
+func resource{{ .fpath }}Create(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+	c := meta.(*apiClient).Client
+	var diags diag.Diagnostics
+	var err error
+	// c.Retries = 1
+	urlparams := &models.CmdbRequestParams{}
+	vdomparam := ""
+	if v, ok := d.GetOk("vdomparam"); ok {
+		if s, ok := v.(string); ok {
+			vdomparam = s
+		}
+	}
+	urlparams.Vdom = vdomparam
+
+	allow_append := false
+	if v, ok := d.GetOk("allow_append"); ok {
+		if b, ok := v.(bool); ok {
+			allow_append = b
+		}
+	}
+	urlparams.AllowAppend = &allow_append
+
+	{{ if not (eq .results.category "complex") }}
+	mkey := ""
+	key := {{ (flatten .results.mkey) | printf "%q" }}
+	if v, ok := d.GetOk(key); ok {
+		mkey = utils.ParseMkey(v)
+		if mkey == "" && allow_append {
+			return diag.Errorf("error creating {{ .fpath }} resource: %q must be set if \"allow_append\" is true", key)
+		}
+	}
+	{{ end }}
+	obj, diags := getObject{{ .fpath }}(d, c.Config.Fv)
+	if diags.HasError() {
+		return diags
+	}
+
+	o, err := c.Cmdb.Create{{ .fpath }}(obj, urlparams)
+
+	if err != nil {
+		e := diag.FromErr(err)
+		return append(diags, e...)
+	}
+
+	if o.Mkey != nil {
+		d.SetId(utils.ParseMkey(o.Mkey))
+	} else {
+		d.SetId({{ .fpath | printf "%q" }})
+	}
+
+	return resource{{ .fpath }}Read(ctx, d, meta)
+}
+{{ end }}

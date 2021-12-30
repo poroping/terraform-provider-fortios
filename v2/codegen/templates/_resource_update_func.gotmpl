@@ -1,0 +1,34 @@
+{{define "UPDATERESFUNC" }}
+func resource{{ .fpath }}Update(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+	mkey := d.Id()
+	c := meta.(*apiClient).Client
+	// c.Retries = 1
+	urlparams := &models.CmdbRequestParams{}
+	vdomparam := ""
+	if v, ok := d.GetOk("vdomparam"); ok {
+		if s, ok := v.(string); ok {
+			vdomparam = s
+		}
+	}
+	urlparams.Vdom = vdomparam
+
+	obj, diags := getObject{{ .fpath }}(d, c.Config.Fv)
+	if diags.HasError() {
+		return diags
+	}
+
+	o, err := c.Cmdb.Update{{ .fpath }}(mkey, obj, urlparams)
+	if err != nil {
+		return diag.Errorf("error updating {{ .fpath }} resource: %v", err)
+	}
+
+	// log.Printf(strconv.Itoa(c.Retries))
+	if o.Mkey != nil {
+		d.SetId(utils.ParseMkey(o.Mkey))
+	} else {
+		d.SetId({{ .fpath | printf "%q" }})
+	}
+
+	return resource{{ .fpath }}Read(ctx, d, meta)
+}
+{{ end }}

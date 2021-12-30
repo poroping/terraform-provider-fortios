@@ -1,0 +1,36 @@
+{{ define "refreshObject" }}
+func refreshObject{{.fpath}}(d *schema.ResourceData, o *models.{{.fpath}}, sv string, sort bool) diag.Diagnostics {
+	{{ if .results.children }}var err error{{ end }}
+
+{{ template "refreshObjects" .results }}
+
+	return nil
+}
+{{ end }}
+
+
+{{ define "refreshObjects" }}
+{{- range $key, $value := .children }}
+{{- if eq $value.category "unitary" }}
+	if o.{{if $value.name_begin_with_int}}The{{end}}{{(mixedCase $value.name)}} != nil {
+		v := *o.{{if $value.name_begin_with_int}}The{{end}}{{(mixedCase $value.name)}}
+		{{- if or (eq $value.type "ipv4-classnet-any") (eq $value.type "ipv4-classnet-host") (eq $value.type "ipv4-classnet")}}
+		if current, ok := d.GetOk({{(flatten $value.name) | printf "%q" }}); ok {
+			if s, ok := current.(string); ok {
+				v = utils.ValidateConvIPMask2CIDR(s, v)
+			}
+		}{{end}}
+	
+		if err = d.Set({{(flatten $value.name) | printf "%q" }}, v); err != nil {
+			return diag.Errorf("error reading {{ (flatten $value.name) }}: %v", err)
+		}
+	}
+{{- else if or (eq $value.category "table") (eq $value.category "complex") }}
+	if o.{{if $value.name_begin_with_int}}The{{end}}{{(mixedCase $value.name)}} != nil {
+		if err = d.Set({{(flatten $value.name) | printf "%q" }}, flatten{{.fpath}}(o.{{if $value.name_begin_with_int}}The{{end}}{{(mixedCase $value.name)}}, sort)); err != nil {
+			return diag.Errorf("error reading {{ (flatten $value.name) }}: %v", err)
+		}
+	}
+{{ end }}
+{{ end }}
+{{ end }}

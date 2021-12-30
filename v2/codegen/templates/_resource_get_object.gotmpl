@@ -1,0 +1,43 @@
+{{ define "GETOBJECT" }}
+func getObject{{.fpath}}(d *schema.ResourceData, sv string) (*models.{{.fpath}}, diag.Diagnostics) {
+	obj := models.{{.fpath}}{}
+	diags := diag.Diagnostics{}
+	{{ template "getObjects" .results }}
+	return &obj, diags
+}
+{{ end }}
+
+{{ define "getObjects" }}
+{{- range $key, $value := .children }}
+{{- if or (eq $value.category "table") (eq $value.category "complex") }}
+	if v, ok := d.GetOk({{(flatten $value.name) | printf "%q" }}); ok {
+		if !utils.CheckVer(sv, "{{ or $value.addedIn "" }}", "{{ or $value.removedIn "" }}") {
+			e := utils.AttributeVersionWarning({{(flatten $value.name) | printf "%q" }}, sv)
+			diags = append(diags, e)
+		}
+		t, err := expand{{ .fpath }}(d, v, {{(flatten $value.name) | printf "%q" }}, sv)
+		if err != nil {
+			return &obj, diag.FromErr(err)
+		} else if t != nil {
+			obj.{{if $value.name_begin_with_int}}The{{end}}{{(mixedCase $value.name)}} = t
+		}
+	} else if d.HasChange({{(flatten $value.name) | printf "%q" }}) {
+		old, new := d.GetChange({{(flatten $value.name) | printf "%q" }})
+		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
+			obj.{{if $value.name_begin_with_int}}The{{end}}{{(mixedCase $value.name)}} = &[]models.{{ .fpath }}{}
+		}
+	}
+{{- else }}
+	if v1, ok := d.GetOk({{(flatten $value.name) | printf "%q" }}); ok {
+		if v2, ok := v1.({{if eq (typeLookup $value.type) "int64"}}int{{else}}{{(typeLookup $value.type)}}{{end}}); ok {
+			if !utils.CheckVer(sv, "{{ or $value.addedIn "" }}", "{{ or $value.removedIn "" }}") {
+			e := utils.AttributeVersionWarning({{(flatten $value.name) | printf "%q" }}, sv)
+			diags = append(diags, e)
+			}{{ if eq (typeLookup $value.type) "int64" }}
+			tmp := int64(v2){{end}}
+			obj.{{if $value.name_begin_with_int}}The{{end}}{{(mixedCase $value.name)}} = &{{ if eq (typeLookup $value.type) "int64" }}tmp{{else}}v2{{end}}
+		}
+	}
+{{- end }}
+{{- end }}
+{{- end }}

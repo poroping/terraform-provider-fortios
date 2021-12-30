@@ -1,0 +1,38 @@
+{{ define "EXPAND" }}
+{{- range $key, $value := .children }}
+{{- if or (eq $value.category "table") (eq $value.category "complex") }}
+func expand{{.fpath}}(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.{{ .fpath }}, error) {
+	l := v.([]interface{})
+	if len(l) == 0 || l[0] == nil {
+		return nil, nil
+	}
+
+	var result []models.{{ .fpath }}
+
+	for i := range l {
+		tmp := models.{{ .fpath }}{}
+		var pre_append string
+		{{ range $key, $value := $value.children }}
+		pre_append = fmt.Sprintf("%s.%d.{{ (flatten $value.name) }}", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			{{- if or (eq $value.category "table") (eq $value.category "complex") }}
+			v2, _ := expand{{.fpath}}(d, v1, pre_append, sv)
+			// if err != nil {
+			// 	v2 := &[]models.{{.fpath}}
+			// 	}
+			tmp.{{if $value.name_begin_with_int}}The{{end}}{{(mixedCase $value.name)}} = v2
+			{{ else }}
+			if v2, ok := v1.({{ (typeLookup $value.type) }}); ok {
+				tmp.{{if $value.name_begin_with_int}}The{{end}}{{(mixedCase $value.name)}} = &v2
+			}{{ end }}
+		}
+		{{end}}
+
+		result = append(result, tmp)
+	}
+	return &result, nil
+}
+{{ template "EXPAND" $value }}
+{{- end }}
+{{- end }}
+{{- end }}

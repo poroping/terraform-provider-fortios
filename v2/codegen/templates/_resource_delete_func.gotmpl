@@ -1,0 +1,26 @@
+{{define "DELETERESFUNC" }}
+func resource{{.fpath}}Delete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+	mkey := d.Id()
+
+	c := meta.(*apiClient).Client
+	// c.Retries = 1
+
+    urlparams := &models.CmdbRequestParams{}
+	vdomparam := ""
+	if v, ok := d.GetOk("vdomparam"); ok {
+		if s, ok := v.(string); ok {
+			vdomparam = s
+		}
+	}
+	urlparams.Vdom = vdomparam
+
+	err := c.Cmdb.Delete{{.fpath}}(mkey, urlparams)
+	if err != nil {
+		return diag.Errorf("error deleting {{.fpath}} resource: %v", err)
+	}
+
+	d.SetId("")
+
+	return nil
+}
+{{ end }}
