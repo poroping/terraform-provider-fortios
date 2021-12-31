@@ -1,6 +1,6 @@
 resource "fortios_firewall_vip" "example" {
   name    = "foobar"
-  extip = "1.1.1.1"
+  extip   = "1.1.1.1"
   extintf = "any"
 
   mappedip {
