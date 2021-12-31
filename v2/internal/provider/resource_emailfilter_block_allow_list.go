@@ -145,6 +145,7 @@ func resourceEmailfilterBlockAllowList() *schema.Resource {
 				Type: schema.TypeInt,
 
 				Description: "ID.",
+				ForceNew:    true,
 				Optional:    true,
 				Computed:    true,
 			},
@@ -380,8 +381,8 @@ func refreshObjectEmailfilterBlockAllowList(d *schema.ResourceData, o *models.Em
 		}
 	}
 
-	if o.Fosid != nil {
-		v := *o.Fosid
+	if o.Id != nil {
+		v := *o.Id
 
 		if err = d.Set("fosid", v); err != nil {
 			return diag.Errorf("error reading fosid: %v", err)
@@ -516,7 +517,7 @@ func getObjectEmailfilterBlockAllowList(d *schema.ResourceData, sv string) (*mod
 				diags = append(diags, e)
 			}
 			tmp := int64(v2)
-			obj.Fosid = &tmp
+			obj.Id = &tmp
 		}
 	}
 	if v1, ok := d.GetOk("name"); ok {

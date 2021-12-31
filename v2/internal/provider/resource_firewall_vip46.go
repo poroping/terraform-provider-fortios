@@ -94,6 +94,7 @@ func resourceFirewallVip46() *schema.Resource {
 				ValidateFunc: validation.IntBetween(0, 65535),
 
 				Description: "Custom defined id.",
+				ForceNew:    true,
 				Optional:    true,
 				Computed:    true,
 			},
@@ -651,8 +652,8 @@ func refreshObjectFirewallVip46(d *schema.ResourceData, o *models.FirewallVip46,
 		}
 	}
 
-	if o.Fosid != nil {
-		v := *o.Fosid
+	if o.Id != nil {
+		v := *o.Id
 
 		if err = d.Set("fosid", v); err != nil {
 			return diag.Errorf("error reading fosid: %v", err)
@@ -1001,7 +1002,7 @@ func getObjectFirewallVip46(d *schema.ResourceData, sv string) (*models.Firewall
 				diags = append(diags, e)
 			}
 			tmp := int64(v2)
-			obj.Fosid = &tmp
+			obj.Id = &tmp
 		}
 	}
 	if v1, ok := d.GetOk("ldb_method"); ok {

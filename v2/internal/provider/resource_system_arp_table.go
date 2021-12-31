@@ -49,6 +49,7 @@ func resourceSystemArpTable() *schema.Resource {
 				Type: schema.TypeInt,
 
 				Description: "Unique integer ID of the entry.",
+				ForceNew:    true,
 				Optional:    true,
 				Computed:    true,
 			},
@@ -232,8 +233,8 @@ func resourceSystemArpTableRead(ctx context.Context, d *schema.ResourceData, met
 func refreshObjectSystemArpTable(d *schema.ResourceData, o *models.SystemArpTable, sv string, sort bool) diag.Diagnostics {
 	var err error
 
-	if o.Fosid != nil {
-		v := *o.Fosid
+	if o.Id != nil {
+		v := *o.Id
 
 		if err = d.Set("fosid", v); err != nil {
 			return diag.Errorf("error reading fosid: %v", err)
@@ -278,7 +279,7 @@ func getObjectSystemArpTable(d *schema.ResourceData, sv string) (*models.SystemA
 				diags = append(diags, e)
 			}
 			tmp := int64(v2)
-			obj.Fosid = &tmp
+			obj.Id = &tmp
 		}
 	}
 	if v1, ok := d.GetOk("interface"); ok {

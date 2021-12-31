@@ -49,6 +49,7 @@ func resourceIpsViewMap() *schema.Resource {
 				Type: schema.TypeInt,
 
 				Description: "View ID.",
+				ForceNew:    true,
 				Optional:    true,
 				Computed:    true,
 			},
@@ -238,8 +239,8 @@ func resourceIpsViewMapRead(ctx context.Context, d *schema.ResourceData, meta in
 func refreshObjectIpsViewMap(d *schema.ResourceData, o *models.IpsViewMap, sv string, sort bool) diag.Diagnostics {
 	var err error
 
-	if o.Fosid != nil {
-		v := *o.Fosid
+	if o.Id != nil {
+		v := *o.Id
 
 		if err = d.Set("fosid", v); err != nil {
 			return diag.Errorf("error reading fosid: %v", err)
@@ -292,7 +293,7 @@ func getObjectIpsViewMap(d *schema.ResourceData, sv string) (*models.IpsViewMap,
 				diags = append(diags, e)
 			}
 			tmp := int64(v2)
-			obj.Fosid = &tmp
+			obj.Id = &tmp
 		}
 	}
 	if v1, ok := d.GetOk("id_policy_id"); ok {

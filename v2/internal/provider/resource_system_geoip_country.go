@@ -50,6 +50,7 @@ func resourceSystemGeoipCountry() *schema.Resource {
 				ValidateFunc: validation.StringLenBetween(0, 2),
 
 				Description: "Country ID.",
+				ForceNew:    true,
 				Optional:    true,
 				Computed:    true,
 			},
@@ -218,8 +219,8 @@ func resourceSystemGeoipCountryRead(ctx context.Context, d *schema.ResourceData,
 func refreshObjectSystemGeoipCountry(d *schema.ResourceData, o *models.SystemGeoipCountry, sv string, sort bool) diag.Diagnostics {
 	var err error
 
-	if o.Fosid != nil {
-		v := *o.Fosid
+	if o.Id != nil {
+		v := *o.Id
 
 		if err = d.Set("fosid", v); err != nil {
 			return diag.Errorf("error reading fosid: %v", err)
@@ -247,7 +248,7 @@ func getObjectSystemGeoipCountry(d *schema.ResourceData, sv string) (*models.Sys
 				e := utils.AttributeVersionWarning("fosid", sv)
 				diags = append(diags, e)
 			}
-			obj.Fosid = &v2
+			obj.Id = &v2
 		}
 	}
 	if v1, ok := d.GetOk("name"); ok {

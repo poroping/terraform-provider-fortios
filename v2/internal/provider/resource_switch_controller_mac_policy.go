@@ -265,8 +265,8 @@ func refreshObjectSwitchControllerMacPolicy(d *schema.ResourceData, o *models.Sw
 		}
 	}
 
-	if o.Foscount != nil {
-		v := *o.Foscount
+	if o.Count != nil {
+		v := *o.Count
 
 		if err = d.Set("foscount", v); err != nil {
 			return diag.Errorf("error reading foscount: %v", err)
@@ -335,7 +335,7 @@ func getObjectSwitchControllerMacPolicy(d *schema.ResourceData, sv string) (*mod
 				e := utils.AttributeVersionWarning("foscount", sv)
 				diags = append(diags, e)
 			}
-			obj.Foscount = &v2
+			obj.Count = &v2
 		}
 	}
 	if v1, ok := d.GetOk("description"); ok {

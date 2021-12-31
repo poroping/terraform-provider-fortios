@@ -263,15 +263,9 @@ func replaceTopLevelId(m map[string]interface{}) map[string]interface{} {
 	if ok {
 		for _, v := range child {
 			name := v.(map[string]interface{})["name"].(string)
-			// id is reserved in TF
-			if name == "id" {
-				v.(map[string]interface{})["fosid"] = true
-				v.(map[string]interface{})["name"] = "fosid"
-			}
-			// count is reserved in TF
-			if name == "count" {
-				v.(map[string]interface{})["foscount"] = true
-				v.(map[string]interface{})["name"] = "foscount"
+			// id and count are reserved in TF
+			if name == "id" || name == "count" {
+				v.(map[string]interface{})["NameReserved"] = true
 			}
 		}
 	}

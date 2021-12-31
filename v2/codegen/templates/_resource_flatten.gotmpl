@@ -9,7 +9,7 @@ func flatten{{.fpath}}(v *[]models.{{.fpath}}, sort bool) interface{} {
 			v := make(map[string]interface{})
 		{{- range $key, $value := $value.children }}
 			if tmp := cfg.{{if $value.name_begin_with_int}}The{{end}}{{(mixedCase $value.name)}}; tmp != nil {
-				v[{{(flatten $value.name) | printf "%q" }}] = {{ if or (eq $value.category "table") (eq $value.category "complex") }}flatten{{.fpath}}(tmp, sort){{else}}*tmp{{end}}
+				v["{{ if $value.NameReserved }}fos{{end}}{{(flatten $value.name)}}"] = {{ if or (eq $value.category "table") (eq $value.category "complex") }}flatten{{.fpath}}(tmp, sort){{else}}*tmp{{end}}
 			}
 		{{ end }}
 			flat = append(flat, v)
@@ -17,7 +17,7 @@ func flatten{{.fpath}}(v *[]models.{{.fpath}}, sort bool) interface{} {
 	}
 	{{ if not (eq $value.category "complex") }}
 	if sort {
-		utils.SortSubtable(flat, {{(flatten $value.mkey) | printf "%q" }})
+		utils.SortSubtable(flat, "{{ if $value.NameReserved }}fos{{end}}{{(flatten $value.mkey)}}")
 	}
 	{{ end }}
 	return flat

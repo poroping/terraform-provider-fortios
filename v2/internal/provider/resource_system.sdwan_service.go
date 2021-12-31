@@ -218,6 +218,7 @@ func resourceSystemsdwanService() *schema.Resource {
 				ValidateFunc: validation.IntBetween(1, 4000),
 
 				Description: "SD-WAN rule ID (1 - 4000).",
+				ForceNew:    true,
 				Optional:    true,
 				Computed:    true,
 			},
@@ -1274,8 +1275,8 @@ func refreshObjectSystemsdwanService(d *schema.ResourceData, o *models.Systemsdw
 		}
 	}
 
-	if o.Fosid != nil {
-		v := *o.Fosid
+	if o.Id != nil {
+		v := *o.Id
 
 		if err = d.Set("fosid", v); err != nil {
 			return diag.Errorf("error reading fosid: %v", err)
@@ -2160,7 +2161,7 @@ func getObjectSystemsdwanService(d *schema.ResourceData, sv string) (*models.Sys
 				diags = append(diags, e)
 			}
 			tmp := int64(v2)
-			obj.Fosid = &tmp
+			obj.Id = &tmp
 		}
 	}
 	if v, ok := d.GetOk("input_device"); ok {

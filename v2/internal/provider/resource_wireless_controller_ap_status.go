@@ -56,6 +56,7 @@ func resourceWirelessControllerApStatus() *schema.Resource {
 				Type: schema.TypeInt,
 
 				Description: "AP ID.",
+				ForceNew:    true,
 				Optional:    true,
 				Computed:    true,
 			},
@@ -240,8 +241,8 @@ func refreshObjectWirelessControllerApStatus(d *schema.ResourceData, o *models.W
 		}
 	}
 
-	if o.Fosid != nil {
-		v := *o.Fosid
+	if o.Id != nil {
+		v := *o.Id
 
 		if err = d.Set("fosid", v); err != nil {
 			return diag.Errorf("error reading fosid: %v", err)
@@ -287,7 +288,7 @@ func getObjectWirelessControllerApStatus(d *schema.ResourceData, sv string) (*mo
 				diags = append(diags, e)
 			}
 			tmp := int64(v2)
-			obj.Fosid = &tmp
+			obj.Id = &tmp
 		}
 	}
 	if v1, ok := d.GetOk("ssid"); ok {

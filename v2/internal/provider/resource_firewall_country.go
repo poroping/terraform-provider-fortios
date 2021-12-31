@@ -56,6 +56,7 @@ func resourceFirewallCountry() *schema.Resource {
 				ValidateFunc: validation.IntBetween(0, 65535),
 
 				Description: "Country ID.",
+				ForceNew:    true,
 				Optional:    true,
 				Computed:    true,
 			},
@@ -262,8 +263,8 @@ func flattenFirewallCountryRegion(v *[]models.FirewallCountryRegion, sort bool) 
 func refreshObjectFirewallCountry(d *schema.ResourceData, o *models.FirewallCountry, sv string, sort bool) diag.Diagnostics {
 	var err error
 
-	if o.Fosid != nil {
-		v := *o.Fosid
+	if o.Id != nil {
+		v := *o.Id
 
 		if err = d.Set("fosid", v); err != nil {
 			return diag.Errorf("error reading fosid: %v", err)
@@ -322,7 +323,7 @@ func getObjectFirewallCountry(d *schema.ResourceData, sv string) (*models.Firewa
 				diags = append(diags, e)
 			}
 			tmp := int64(v2)
-			obj.Fosid = &tmp
+			obj.Id = &tmp
 		}
 	}
 	if v1, ok := d.GetOk("name"); ok {

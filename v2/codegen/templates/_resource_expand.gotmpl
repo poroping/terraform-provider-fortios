@@ -13,7 +13,7 @@ func expand{{.fpath}}(d *schema.ResourceData, v interface{}, pre string, sv stri
 		tmp := models.{{ .fpath }}{}
 		var pre_append string
 		{{ range $key, $value := $value.children }}
-		pre_append = fmt.Sprintf("%s.%d.{{ (flatten $value.name) }}", pre, i)
+		pre_append = fmt.Sprintf("%s.%d.{{ if $value.NameReserved }}fos{{end}}{{(flatten $value.name)}}", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
 			{{- if or (eq $value.category "table") (eq $value.category "complex") }}
 			v2, _ := expand{{.fpath}}(d, v1, pre_append, sv)

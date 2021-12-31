@@ -73,6 +73,7 @@ func resourceFirewallRegion() *schema.Resource {
 				ValidateFunc: validation.IntBetween(0, 65535),
 
 				Description: "Region ID.",
+				ForceNew:    true,
 				Optional:    true,
 				Computed:    true,
 			},
@@ -268,8 +269,8 @@ func refreshObjectFirewallRegion(d *schema.ResourceData, o *models.FirewallRegio
 		}
 	}
 
-	if o.Fosid != nil {
-		v := *o.Fosid
+	if o.Id != nil {
+		v := *o.Id
 
 		if err = d.Set("fosid", v); err != nil {
 			return diag.Errorf("error reading fosid: %v", err)
@@ -339,7 +340,7 @@ func getObjectFirewallRegion(d *schema.ResourceData, sv string) (*models.Firewal
 				diags = append(diags, e)
 			}
 			tmp := int64(v2)
-			obj.Fosid = &tmp
+			obj.Id = &tmp
 		}
 	}
 	if v1, ok := d.GetOk("name"); ok {

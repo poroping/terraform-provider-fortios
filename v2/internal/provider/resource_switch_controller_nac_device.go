@@ -57,6 +57,7 @@ func resourceSwitchControllerNacDevice() *schema.Resource {
 				Type: schema.TypeInt,
 
 				Description: "Device ID.",
+				ForceNew:    true,
 				Optional:    true,
 				Computed:    true,
 			},
@@ -287,8 +288,8 @@ func refreshObjectSwitchControllerNacDevice(d *schema.ResourceData, o *models.Sw
 		}
 	}
 
-	if o.Fosid != nil {
-		v := *o.Fosid
+	if o.Id != nil {
+		v := *o.Id
 
 		if err = d.Set("fosid", v); err != nil {
 			return diag.Errorf("error reading fosid: %v", err)
@@ -382,7 +383,7 @@ func getObjectSwitchControllerNacDevice(d *schema.ResourceData, sv string) (*mod
 				diags = append(diags, e)
 			}
 			tmp := int64(v2)
-			obj.Fosid = &tmp
+			obj.Id = &tmp
 		}
 	}
 	if v1, ok := d.GetOk("last_known_port"); ok {

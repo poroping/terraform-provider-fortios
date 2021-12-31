@@ -57,6 +57,7 @@ func resourceFirewallInternetServiceReputation() *schema.Resource {
 				Type: schema.TypeInt,
 
 				Description: "Internet Service Reputation ID.",
+				ForceNew:    true,
 				Optional:    true,
 				Computed:    true,
 			},
@@ -225,8 +226,8 @@ func refreshObjectFirewallInternetServiceReputation(d *schema.ResourceData, o *m
 		}
 	}
 
-	if o.Fosid != nil {
-		v := *o.Fosid
+	if o.Id != nil {
+		v := *o.Id
 
 		if err = d.Set("fosid", v); err != nil {
 			return diag.Errorf("error reading fosid: %v", err)
@@ -256,7 +257,7 @@ func getObjectFirewallInternetServiceReputation(d *schema.ResourceData, sv strin
 				diags = append(diags, e)
 			}
 			tmp := int64(v2)
-			obj.Fosid = &tmp
+			obj.Id = &tmp
 		}
 	}
 	return &obj, diags

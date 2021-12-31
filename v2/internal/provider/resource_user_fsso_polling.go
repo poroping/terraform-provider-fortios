@@ -80,6 +80,7 @@ func resourceUserFssoPolling() *schema.Resource {
 				Type: schema.TypeInt,
 
 				Description: "Active Directory server ID.",
+				ForceNew:    true,
 				Optional:    true,
 				Computed:    true,
 			},
@@ -355,8 +356,8 @@ func refreshObjectUserFssoPolling(d *schema.ResourceData, o *models.UserFssoPoll
 		}
 	}
 
-	if o.Fosid != nil {
-		v := *o.Fosid
+	if o.Id != nil {
+		v := *o.Id
 
 		if err = d.Set("fosid", v); err != nil {
 			return diag.Errorf("error reading fosid: %v", err)
@@ -507,7 +508,7 @@ func getObjectUserFssoPolling(d *schema.ResourceData, sv string) (*models.UserFs
 				diags = append(diags, e)
 			}
 			tmp := int64(v2)
-			obj.Fosid = &tmp
+			obj.Id = &tmp
 		}
 	}
 	if v1, ok := d.GetOk("ldap_server"); ok {

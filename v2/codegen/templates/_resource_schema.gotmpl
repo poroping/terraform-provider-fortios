@@ -1,7 +1,7 @@
             {{ define "SCHEMA" }}
             {{- range $key, $value := .children }}
             {{- if eq $value.category "unitary" }}
-            {{(flatten $value.name) | printf "%q" }}:{
+            "{{ if $value.NameReserved }}fos{{end}}{{(flatten $value.name)}}":{
             	{{ (schemaTypeLookup $value.type) }}
 				{{ (valiLookup $value) }}
                 {{ (diffLookup $value) }}
@@ -21,7 +21,7 @@
 			},
             {{- end }}
             {{- if or (eq $value.category "table") (eq $value.category "complex") }}
-            {{(flatten $value.name) | printf "%q" }}: {
+            "{{ if $value.NameReserved }}fos{{end}}{{(flatten $value.name)}}": {
             	Type:         schema.TypeList,
                 Description: {{ $value.help | printf "%q"}},
 				Optional:     true,

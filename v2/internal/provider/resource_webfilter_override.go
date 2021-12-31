@@ -57,6 +57,7 @@ func resourceWebfilterOverride() *schema.Resource {
 				Type: schema.TypeInt,
 
 				Description: "Override rule ID.",
+				ForceNew:    true,
 				Optional:    true,
 				Computed:    true,
 			},
@@ -297,8 +298,8 @@ func refreshObjectWebfilterOverride(d *schema.ResourceData, o *models.WebfilterO
 		}
 	}
 
-	if o.Fosid != nil {
-		v := *o.Fosid
+	if o.Id != nil {
+		v := *o.Id
 
 		if err = d.Set("fosid", v); err != nil {
 			return diag.Errorf("error reading fosid: %v", err)
@@ -400,7 +401,7 @@ func getObjectWebfilterOverride(d *schema.ResourceData, sv string) (*models.Webf
 				diags = append(diags, e)
 			}
 			tmp := int64(v2)
-			obj.Fosid = &tmp
+			obj.Id = &tmp
 		}
 	}
 	if v1, ok := d.GetOk("initiator"); ok {

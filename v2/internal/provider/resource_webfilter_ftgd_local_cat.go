@@ -57,6 +57,7 @@ func resourceWebfilterFtgdLocalCat() *schema.Resource {
 				ValidateFunc: validation.IntBetween(140, 191),
 
 				Description: "Local category ID.",
+				ForceNew:    true,
 				Optional:    true,
 				Computed:    true,
 			},
@@ -233,8 +234,8 @@ func refreshObjectWebfilterFtgdLocalCat(d *schema.ResourceData, o *models.Webfil
 		}
 	}
 
-	if o.Fosid != nil {
-		v := *o.Fosid
+	if o.Id != nil {
+		v := *o.Id
 
 		if err = d.Set("fosid", v); err != nil {
 			return diag.Errorf("error reading fosid: %v", err)
@@ -272,7 +273,7 @@ func getObjectWebfilterFtgdLocalCat(d *schema.ResourceData, sv string) (*models.
 				diags = append(diags, e)
 			}
 			tmp := int64(v2)
-			obj.Fosid = &tmp
+			obj.Id = &tmp
 		}
 	}
 	if v1, ok := d.GetOk("status"); ok {

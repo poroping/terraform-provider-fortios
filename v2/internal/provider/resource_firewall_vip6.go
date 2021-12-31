@@ -197,6 +197,7 @@ func resourceFirewallVip6() *schema.Resource {
 				ValidateFunc: validation.IntBetween(0, 65535),
 
 				Description: "Custom defined ID.",
+				ForceNew:    true,
 				Optional:    true,
 				Computed:    true,
 			},
@@ -1279,8 +1280,8 @@ func refreshObjectFirewallVip6(d *schema.ResourceData, o *models.FirewallVip6, s
 		}
 	}
 
-	if o.Fosid != nil {
-		v := *o.Fosid
+	if o.Id != nil {
+		v := *o.Id
 
 		if err = d.Set("fosid", v); err != nil {
 			return diag.Errorf("error reading fosid: %v", err)
@@ -2141,7 +2142,7 @@ func getObjectFirewallVip6(d *schema.ResourceData, sv string) (*models.FirewallV
 				diags = append(diags, e)
 			}
 			tmp := int64(v2)
-			obj.Fosid = &tmp
+			obj.Id = &tmp
 		}
 	}
 	if v1, ok := d.GetOk("ipv4_mappedip"); ok {

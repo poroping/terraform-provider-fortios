@@ -112,6 +112,7 @@ func resourceRouterospfArea() *schema.Resource {
 				ValidateFunc: validation.IsIPv4Address,
 
 				Description: "Area entry IP address.",
+				ForceNew:    true,
 				Optional:    true,
 				Computed:    true,
 			},
@@ -680,8 +681,8 @@ func refreshObjectRouterospfArea(d *schema.ResourceData, o *models.RouterospfAre
 		}
 	}
 
-	if o.Fosid != nil {
-		v := *o.Fosid
+	if o.Id != nil {
+		v := *o.Id
 
 		if err = d.Set("fosid", v); err != nil {
 			return diag.Errorf("error reading fosid: %v", err)
@@ -1040,7 +1041,7 @@ func getObjectRouterospfArea(d *schema.ResourceData, sv string) (*models.Routero
 				e := utils.AttributeVersionWarning("fosid", sv)
 				diags = append(diags, e)
 			}
-			obj.Fosid = &v2
+			obj.Id = &v2
 		}
 	}
 	if v1, ok := d.GetOk("nssa_default_information_originate"); ok {

@@ -48,6 +48,7 @@ func resourceIpsRuleSettings() *schema.Resource {
 				Type: schema.TypeInt,
 
 				Description: "Rule ID.",
+				ForceNew:    true,
 				Optional:    true,
 				Computed:    true,
 			},
@@ -208,8 +209,8 @@ func resourceIpsRuleSettingsRead(ctx context.Context, d *schema.ResourceData, me
 func refreshObjectIpsRuleSettings(d *schema.ResourceData, o *models.IpsRuleSettings, sv string, sort bool) diag.Diagnostics {
 	var err error
 
-	if o.Fosid != nil {
-		v := *o.Fosid
+	if o.Id != nil {
+		v := *o.Id
 
 		if err = d.Set("fosid", v); err != nil {
 			return diag.Errorf("error reading fosid: %v", err)
@@ -230,7 +231,7 @@ func getObjectIpsRuleSettings(d *schema.ResourceData, sv string) (*models.IpsRul
 				diags = append(diags, e)
 			}
 			tmp := int64(v2)
-			obj.Fosid = &tmp
+			obj.Id = &tmp
 		}
 	}
 	return &obj, diags

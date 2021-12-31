@@ -231,6 +231,7 @@ func resourceFirewallSniffer() *schema.Resource {
 				ValidateFunc: validation.IntBetween(0, 9999),
 
 				Description: "Sniffer ID (0 - 9999).",
+				ForceNew:    true,
 				Optional:    true,
 				Computed:    true,
 			},
@@ -704,8 +705,8 @@ func refreshObjectFirewallSniffer(d *schema.ResourceData, o *models.FirewallSnif
 		}
 	}
 
-	if o.Fosid != nil {
-		v := *o.Fosid
+	if o.Id != nil {
+		v := *o.Id
 
 		if err = d.Set("fosid", v); err != nil {
 			return diag.Errorf("error reading fosid: %v", err)
@@ -1081,7 +1082,7 @@ func getObjectFirewallSniffer(d *schema.ResourceData, sv string) (*models.Firewa
 				diags = append(diags, e)
 			}
 			tmp := int64(v2)
-			obj.Fosid = &tmp
+			obj.Id = &tmp
 		}
 	}
 	if v1, ok := d.GetOk("interface"); ok {

@@ -49,6 +49,7 @@ func resourceFirewallInternetServiceList() *schema.Resource {
 				Type: schema.TypeInt,
 
 				Description: "Internet Service category ID.",
+				ForceNew:    true,
 				Optional:    true,
 				Computed:    true,
 			},
@@ -217,8 +218,8 @@ func resourceFirewallInternetServiceListRead(ctx context.Context, d *schema.Reso
 func refreshObjectFirewallInternetServiceList(d *schema.ResourceData, o *models.FirewallInternetServiceList, sv string, sort bool) diag.Diagnostics {
 	var err error
 
-	if o.Fosid != nil {
-		v := *o.Fosid
+	if o.Id != nil {
+		v := *o.Id
 
 		if err = d.Set("fosid", v); err != nil {
 			return diag.Errorf("error reading fosid: %v", err)
@@ -247,7 +248,7 @@ func getObjectFirewallInternetServiceList(d *schema.ResourceData, sv string) (*m
 				diags = append(diags, e)
 			}
 			tmp := int64(v2)
-			obj.Fosid = &tmp
+			obj.Id = &tmp
 		}
 	}
 	if v1, ok := d.GetOk("name"); ok {

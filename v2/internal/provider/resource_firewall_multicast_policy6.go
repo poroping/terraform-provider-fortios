@@ -112,6 +112,7 @@ func resourceFirewallMulticastPolicy6() *schema.Resource {
 				Type: schema.TypeInt,
 
 				Description: "Policy ID (0 - 4294967294).",
+				ForceNew:    true,
 				Optional:    true,
 				Computed:    true,
 			},
@@ -432,8 +433,8 @@ func refreshObjectFirewallMulticastPolicy6(d *schema.ResourceData, o *models.Fir
 		}
 	}
 
-	if o.Fosid != nil {
-		v := *o.Fosid
+	if o.Id != nil {
+		v := *o.Id
 
 		if err = d.Set("fosid", v); err != nil {
 			return diag.Errorf("error reading fosid: %v", err)
@@ -627,7 +628,7 @@ func getObjectFirewallMulticastPolicy6(d *schema.ResourceData, sv string) (*mode
 				diags = append(diags, e)
 			}
 			tmp := int64(v2)
-			obj.Fosid = &tmp
+			obj.Id = &tmp
 		}
 	}
 	if v1, ok := d.GetOk("logtraffic"); ok {

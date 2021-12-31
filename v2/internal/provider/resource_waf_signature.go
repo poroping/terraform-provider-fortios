@@ -57,6 +57,7 @@ func resourceWafSignature() *schema.Resource {
 				Type: schema.TypeInt,
 
 				Description: "Signature ID.",
+				ForceNew:    true,
 				Optional:    true,
 				Computed:    true,
 			},
@@ -225,8 +226,8 @@ func refreshObjectWafSignature(d *schema.ResourceData, o *models.WafSignature, s
 		}
 	}
 
-	if o.Fosid != nil {
-		v := *o.Fosid
+	if o.Id != nil {
+		v := *o.Id
 
 		if err = d.Set("fosid", v); err != nil {
 			return diag.Errorf("error reading fosid: %v", err)
@@ -256,7 +257,7 @@ func getObjectWafSignature(d *schema.ResourceData, sv string) (*models.WafSignat
 				diags = append(diags, e)
 			}
 			tmp := int64(v2)
-			obj.Fosid = &tmp
+			obj.Id = &tmp
 		}
 	}
 	return &obj, diags

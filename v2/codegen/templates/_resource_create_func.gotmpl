@@ -23,7 +23,7 @@ func resource{{ .fpath }}Create(ctx context.Context, d *schema.ResourceData, met
 
 	{{ if not (eq .results.category "complex") }}
 	mkey := ""
-	key := {{ (flatten .results.mkey) | printf "%q" }}
+	key := "{{ if .results.NameReserved }}fos{{end}}{{(flatten .results.mkey)}}"
 	if v, ok := d.GetOk(key); ok {
 		mkey = utils.ParseMkey(v)
 		if mkey == "" && allow_append {

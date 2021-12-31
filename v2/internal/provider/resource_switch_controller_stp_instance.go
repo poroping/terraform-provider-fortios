@@ -56,6 +56,7 @@ func resourceSwitchControllerStpInstance() *schema.Resource {
 				ValidateFunc: validation.StringLenBetween(0, 2),
 
 				Description: "Instance ID.",
+				ForceNew:    true,
 				Optional:    true,
 				Computed:    true,
 			},
@@ -254,8 +255,8 @@ func flattenSwitchControllerStpInstanceVlanRange(v *[]models.SwitchControllerStp
 func refreshObjectSwitchControllerStpInstance(d *schema.ResourceData, o *models.SwitchControllerStpInstance, sv string, sort bool) diag.Diagnostics {
 	var err error
 
-	if o.Fosid != nil {
-		v := *o.Fosid
+	if o.Id != nil {
+		v := *o.Id
 
 		if err = d.Set("fosid", v); err != nil {
 			return diag.Errorf("error reading fosid: %v", err)
@@ -305,7 +306,7 @@ func getObjectSwitchControllerStpInstance(d *schema.ResourceData, sv string) (*m
 				e := utils.AttributeVersionWarning("fosid", sv)
 				diags = append(diags, e)
 			}
-			obj.Fosid = &v2
+			obj.Id = &v2
 		}
 	}
 	if v, ok := d.GetOk("vlan_range"); ok {

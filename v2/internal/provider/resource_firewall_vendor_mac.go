@@ -49,6 +49,7 @@ func resourceFirewallVendorMac() *schema.Resource {
 				Type: schema.TypeInt,
 
 				Description: "Vendor ID.",
+				ForceNew:    true,
 				Optional:    true,
 				Computed:    true,
 			},
@@ -232,8 +233,8 @@ func resourceFirewallVendorMacRead(ctx context.Context, d *schema.ResourceData, 
 func refreshObjectFirewallVendorMac(d *schema.ResourceData, o *models.FirewallVendorMac, sv string, sort bool) diag.Diagnostics {
 	var err error
 
-	if o.Fosid != nil {
-		v := *o.Fosid
+	if o.Id != nil {
+		v := *o.Id
 
 		if err = d.Set("fosid", v); err != nil {
 			return diag.Errorf("error reading fosid: %v", err)
@@ -278,7 +279,7 @@ func getObjectFirewallVendorMac(d *schema.ResourceData, sv string) (*models.Fire
 				diags = append(diags, e)
 			}
 			tmp := int64(v2)
-			obj.Fosid = &tmp
+			obj.Id = &tmp
 		}
 	}
 	if v1, ok := d.GetOk("mac_number"); ok {

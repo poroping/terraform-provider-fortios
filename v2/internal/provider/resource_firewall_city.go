@@ -50,6 +50,7 @@ func resourceFirewallCity() *schema.Resource {
 				ValidateFunc: validation.IntBetween(0, 65535),
 
 				Description: "City ID.",
+				ForceNew:    true,
 				Optional:    true,
 				Computed:    true,
 			},
@@ -218,8 +219,8 @@ func resourceFirewallCityRead(ctx context.Context, d *schema.ResourceData, meta 
 func refreshObjectFirewallCity(d *schema.ResourceData, o *models.FirewallCity, sv string, sort bool) diag.Diagnostics {
 	var err error
 
-	if o.Fosid != nil {
-		v := *o.Fosid
+	if o.Id != nil {
+		v := *o.Id
 
 		if err = d.Set("fosid", v); err != nil {
 			return diag.Errorf("error reading fosid: %v", err)
@@ -248,7 +249,7 @@ func getObjectFirewallCity(d *schema.ResourceData, sv string) (*models.FirewallC
 				diags = append(diags, e)
 			}
 			tmp := int64(v2)
-			obj.Fosid = &tmp
+			obj.Id = &tmp
 		}
 	}
 	if v1, ok := d.GetOk("name"); ok {

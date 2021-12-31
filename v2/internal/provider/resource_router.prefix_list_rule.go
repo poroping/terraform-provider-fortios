@@ -72,6 +72,7 @@ func resourceRouterprefixListRule() *schema.Resource {
 				Type: schema.TypeInt,
 
 				Description: "Rule ID.",
+				ForceNew:    true,
 				Optional:    true,
 				Computed:    true,
 			},
@@ -271,8 +272,8 @@ func refreshObjectRouterprefixListRule(d *schema.ResourceData, o *models.Routerp
 		}
 	}
 
-	if o.Fosid != nil {
-		v := *o.Fosid
+	if o.Id != nil {
+		v := *o.Id
 
 		if err = d.Set("fosid", v); err != nil {
 			return diag.Errorf("error reading fosid: %v", err)
@@ -338,7 +339,7 @@ func getObjectRouterprefixListRule(d *schema.ResourceData, sv string) (*models.R
 				diags = append(diags, e)
 			}
 			tmp := int64(v2)
-			obj.Fosid = &tmp
+			obj.Id = &tmp
 		}
 	}
 	if v1, ok := d.GetOk("le"); ok {

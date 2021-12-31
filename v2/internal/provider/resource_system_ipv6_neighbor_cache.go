@@ -50,6 +50,7 @@ func resourceSystemIpv6NeighborCache() *schema.Resource {
 				Type: schema.TypeInt,
 
 				Description: "Unique integer ID of the entry.",
+				ForceNew:    true,
 				Optional:    true,
 				Computed:    true,
 			},
@@ -233,8 +234,8 @@ func resourceSystemIpv6NeighborCacheRead(ctx context.Context, d *schema.Resource
 func refreshObjectSystemIpv6NeighborCache(d *schema.ResourceData, o *models.SystemIpv6NeighborCache, sv string, sort bool) diag.Diagnostics {
 	var err error
 
-	if o.Fosid != nil {
-		v := *o.Fosid
+	if o.Id != nil {
+		v := *o.Id
 
 		if err = d.Set("fosid", v); err != nil {
 			return diag.Errorf("error reading fosid: %v", err)
@@ -279,7 +280,7 @@ func getObjectSystemIpv6NeighborCache(d *schema.ResourceData, sv string) (*model
 				diags = append(diags, e)
 			}
 			tmp := int64(v2)
-			obj.Fosid = &tmp
+			obj.Id = &tmp
 		}
 	}
 	if v1, ok := d.GetOk("interface"); ok {

@@ -213,6 +213,7 @@ func resourceUserGroup() *schema.Resource {
 				Type: schema.TypeInt,
 
 				Description: "Group ID.",
+				ForceNew:    true,
 				Optional:    true,
 				Computed:    true,
 			},
@@ -695,8 +696,8 @@ func refreshObjectUserGroup(d *schema.ResourceData, o *models.UserGroup, sv stri
 		}
 	}
 
-	if o.Fosid != nil {
-		v := *o.Fosid
+	if o.Id != nil {
+		v := *o.Id
 
 		if err = d.Set("fosid", v); err != nil {
 			return diag.Errorf("error reading fosid: %v", err)
@@ -1067,7 +1068,7 @@ func getObjectUserGroup(d *schema.ResourceData, sv string) (*models.UserGroup, d
 				diags = append(diags, e)
 			}
 			tmp := int64(v2)
-			obj.Fosid = &tmp
+			obj.Id = &tmp
 		}
 	}
 	if v, ok := d.GetOk("match"); ok {

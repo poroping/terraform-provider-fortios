@@ -50,6 +50,7 @@ func resourceLogCustomField() *schema.Resource {
 				ValidateFunc: validation.StringLenBetween(0, 35),
 
 				Description: "field ID <string>.",
+				ForceNew:    true,
 				Optional:    true,
 				Computed:    true,
 			},
@@ -226,8 +227,8 @@ func resourceLogCustomFieldRead(ctx context.Context, d *schema.ResourceData, met
 func refreshObjectLogCustomField(d *schema.ResourceData, o *models.LogCustomField, sv string, sort bool) diag.Diagnostics {
 	var err error
 
-	if o.Fosid != nil {
-		v := *o.Fosid
+	if o.Id != nil {
+		v := *o.Id
 
 		if err = d.Set("fosid", v); err != nil {
 			return diag.Errorf("error reading fosid: %v", err)
@@ -263,7 +264,7 @@ func getObjectLogCustomField(d *schema.ResourceData, sv string) (*models.LogCust
 				e := utils.AttributeVersionWarning("fosid", sv)
 				diags = append(diags, e)
 			}
-			obj.Fosid = &v2
+			obj.Id = &v2
 		}
 	}
 	if v1, ok := d.GetOk("name"); ok {

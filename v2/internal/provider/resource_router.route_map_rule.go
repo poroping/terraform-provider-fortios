@@ -64,6 +64,7 @@ func resourceRouterrouteMapRule() *schema.Resource {
 				Type: schema.TypeInt,
 
 				Description: "Rule ID.",
+				ForceNew:    true,
 				Optional:    true,
 				Computed:    true,
 			},
@@ -672,8 +673,8 @@ func refreshObjectRouterrouteMapRule(d *schema.ResourceData, o *models.Routerrou
 		}
 	}
 
-	if o.Fosid != nil {
-		v := *o.Fosid
+	if o.Id != nil {
+		v := *o.Id
 
 		if err = d.Set("fosid", v); err != nil {
 			return diag.Errorf("error reading fosid: %v", err)
@@ -1119,7 +1120,7 @@ func getObjectRouterrouteMapRule(d *schema.ResourceData, sv string) (*models.Rou
 				diags = append(diags, e)
 			}
 			tmp := int64(v2)
-			obj.Fosid = &tmp
+			obj.Id = &tmp
 		}
 	}
 	if v1, ok := d.GetOk("match_as_path"); ok {
