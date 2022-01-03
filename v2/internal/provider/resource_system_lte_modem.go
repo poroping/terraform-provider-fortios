@@ -213,7 +213,12 @@ func resourceSystemLteModemDelete(ctx context.Context, d *schema.ResourceData, m
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteSystemLteModem(mkey, urlparams)
+	obj, diags := getEmptyObjectSystemLteModem(d, c.Config.Fv)
+	if diags.HasError() {
+		return diags
+	}
+
+	_, err := c.Cmdb.UpdateSystemLteModem(mkey, obj, urlparams)
 	if err != nil {
 		return diag.Errorf("error deleting SystemLteModem resource: %v", err)
 	}
@@ -445,5 +450,13 @@ func getObjectSystemLteModem(d *schema.ResourceData, sv string) (*models.SystemL
 			obj.Username = &v2
 		}
 	}
+	return &obj, diags
+}
+
+// Return an object with explicitly empty objects for tables that have been set.
+func getEmptyObjectSystemLteModem(d *schema.ResourceData, sv string) (*models.SystemLteModem, diag.Diagnostics) {
+	obj := models.SystemLteModem{}
+	diags := diag.Diagnostics{}
+
 	return &obj, diags
 }

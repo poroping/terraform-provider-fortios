@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -18,14 +18,14 @@ import (
 	"github.com/poroping/terraform-provider-fortios/v2/utils"
 )
 
-func resourceSystemreplacemsgIcap() *schema.Resource {
+func resourceSystemReplacemsgIcap() *schema.Resource {
 	return &schema.Resource{
 		Description: "Replacement messages.",
 
-		CreateContext: resourceSystemreplacemsgIcapCreate,
-		ReadContext:   resourceSystemreplacemsgIcapRead,
-		UpdateContext: resourceSystemreplacemsgIcapUpdate,
-		DeleteContext: resourceSystemreplacemsgIcapDelete,
+		CreateContext: resourceSystemReplacemsgIcapCreate,
+		ReadContext:   resourceSystemReplacemsgIcapRead,
+		UpdateContext: resourceSystemReplacemsgIcapUpdate,
+		DeleteContext: resourceSystemReplacemsgIcapDelete,
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
@@ -80,7 +80,7 @@ func resourceSystemreplacemsgIcap() *schema.Resource {
 	}
 }
 
-func resourceSystemreplacemsgIcapCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSystemReplacemsgIcapCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*apiClient).Client
 	var diags diag.Diagnostics
 	var err error
@@ -107,16 +107,16 @@ func resourceSystemreplacemsgIcapCreate(ctx context.Context, d *schema.ResourceD
 	if v, ok := d.GetOk(key); ok {
 		mkey = utils.ParseMkey(v)
 		if mkey == "" && allow_append {
-			return diag.Errorf("error creating SystemreplacemsgIcap resource: %q must be set if \"allow_append\" is true", key)
+			return diag.Errorf("error creating SystemReplacemsgIcap resource: %q must be set if \"allow_append\" is true", key)
 		}
 	}
 
-	obj, diags := getObjectSystemreplacemsgIcap(d, c.Config.Fv)
+	obj, diags := getObjectSystemReplacemsgIcap(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.CreateSystemreplacemsgIcap(obj, urlparams)
+	o, err := c.Cmdb.CreateSystemReplacemsgIcap(obj, urlparams)
 
 	if err != nil {
 		e := diag.FromErr(err)
@@ -126,13 +126,13 @@ func resourceSystemreplacemsgIcapCreate(ctx context.Context, d *schema.ResourceD
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("SystemreplacemsgIcap")
+		d.SetId("SystemReplacemsgIcap")
 	}
 
-	return resourceSystemreplacemsgIcapRead(ctx, d, meta)
+	return resourceSystemReplacemsgIcapRead(ctx, d, meta)
 }
 
-func resourceSystemreplacemsgIcapUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSystemReplacemsgIcapUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
@@ -145,27 +145,27 @@ func resourceSystemreplacemsgIcapUpdate(ctx context.Context, d *schema.ResourceD
 	}
 	urlparams.Vdom = vdomparam
 
-	obj, diags := getObjectSystemreplacemsgIcap(d, c.Config.Fv)
+	obj, diags := getObjectSystemReplacemsgIcap(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.UpdateSystemreplacemsgIcap(mkey, obj, urlparams)
+	o, err := c.Cmdb.UpdateSystemReplacemsgIcap(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error updating SystemreplacemsgIcap resource: %v", err)
+		return diag.Errorf("error updating SystemReplacemsgIcap resource: %v", err)
 	}
 
 	// log.Printf(strconv.Itoa(c.Retries))
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("SystemreplacemsgIcap")
+		d.SetId("SystemReplacemsgIcap")
 	}
 
-	return resourceSystemreplacemsgIcapRead(ctx, d, meta)
+	return resourceSystemReplacemsgIcapRead(ctx, d, meta)
 }
 
-func resourceSystemreplacemsgIcapDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSystemReplacemsgIcapDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -180,9 +180,9 @@ func resourceSystemreplacemsgIcapDelete(ctx context.Context, d *schema.ResourceD
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteSystemreplacemsgIcap(mkey, urlparams)
+	err := c.Cmdb.DeleteSystemReplacemsgIcap(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error deleting SystemreplacemsgIcap resource: %v", err)
+		return diag.Errorf("error deleting SystemReplacemsgIcap resource: %v", err)
 	}
 
 	d.SetId("")
@@ -190,7 +190,7 @@ func resourceSystemreplacemsgIcapDelete(ctx context.Context, d *schema.ResourceD
 	return nil
 }
 
-func resourceSystemreplacemsgIcapRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSystemReplacemsgIcapRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -205,9 +205,9 @@ func resourceSystemreplacemsgIcapRead(ctx context.Context, d *schema.ResourceDat
 	}
 	urlparams.Vdom = vdomparam
 
-	o, err := c.Cmdb.ReadSystemreplacemsgIcap(mkey, urlparams)
+	o, err := c.Cmdb.ReadSystemReplacemsgIcap(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error reading SystemreplacemsgIcap resource: %v", err)
+		return diag.Errorf("error reading SystemReplacemsgIcap resource: %v", err)
 	}
 
 	if o == nil {
@@ -223,14 +223,14 @@ func resourceSystemreplacemsgIcapRead(ctx context.Context, d *schema.ResourceDat
 		}
 	}
 
-	diags := refreshObjectSystemreplacemsgIcap(d, o, c.Config.Fv, sort)
+	diags := refreshObjectSystemReplacemsgIcap(d, o, c.Config.Fv, sort)
 	if diags.HasError() {
 		return diags
 	}
 	return nil
 }
 
-func refreshObjectSystemreplacemsgIcap(d *schema.ResourceData, o *models.SystemreplacemsgIcap, sv string, sort bool) diag.Diagnostics {
+func refreshObjectSystemReplacemsgIcap(d *schema.ResourceData, o *models.SystemReplacemsgIcap, sv string, sort bool) diag.Diagnostics {
 	var err error
 
 	if o.Buffer != nil {
@@ -268,8 +268,8 @@ func refreshObjectSystemreplacemsgIcap(d *schema.ResourceData, o *models.Systemr
 	return nil
 }
 
-func getObjectSystemreplacemsgIcap(d *schema.ResourceData, sv string) (*models.SystemreplacemsgIcap, diag.Diagnostics) {
-	obj := models.SystemreplacemsgIcap{}
+func getObjectSystemReplacemsgIcap(d *schema.ResourceData, sv string) (*models.SystemReplacemsgIcap, diag.Diagnostics) {
+	obj := models.SystemReplacemsgIcap{}
 	diags := diag.Diagnostics{}
 
 	if v1, ok := d.GetOk("buffer"); ok {

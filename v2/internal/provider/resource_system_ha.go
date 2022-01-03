@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -893,7 +893,12 @@ func resourceSystemHaDelete(ctx context.Context, d *schema.ResourceData, meta in
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteSystemHa(mkey, urlparams)
+	obj, diags := getEmptyObjectSystemHa(d, c.Config.Fv)
+	if diags.HasError() {
+		return diags
+	}
+
+	_, err := c.Cmdb.UpdateSystemHa(mkey, obj, urlparams)
 	if err != nil {
 		return diag.Errorf("error deleting SystemHa resource: %v", err)
 	}
@@ -2089,7 +2094,7 @@ func getObjectSystemHa(d *schema.ResourceData, sv string) (*models.SystemHa, dia
 	}
 	if v1, ok := d.GetOk("inter_cluster_session_sync"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "v6.4.2") {
+			if !utils.CheckVer(sv, "", "v6.4.0") {
 				e := utils.AttributeVersionWarning("inter_cluster_session_sync", sv)
 				diags = append(diags, e)
 			}
@@ -2514,7 +2519,7 @@ func getObjectSystemHa(d *schema.ResourceData, sv string) (*models.SystemHa, dia
 	}
 	if v1, ok := d.GetOk("unicast_hb"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "v6.4.2", "") {
+			if !utils.CheckVer(sv, "v6.4.0", "") {
 				e := utils.AttributeVersionWarning("unicast_hb", sv)
 				diags = append(diags, e)
 			}
@@ -2523,7 +2528,7 @@ func getObjectSystemHa(d *schema.ResourceData, sv string) (*models.SystemHa, dia
 	}
 	if v1, ok := d.GetOk("unicast_hb_netmask"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "v6.4.2", "") {
+			if !utils.CheckVer(sv, "v6.4.0", "") {
 				e := utils.AttributeVersionWarning("unicast_hb_netmask", sv)
 				diags = append(diags, e)
 			}
@@ -2532,7 +2537,7 @@ func getObjectSystemHa(d *schema.ResourceData, sv string) (*models.SystemHa, dia
 	}
 	if v1, ok := d.GetOk("unicast_hb_peerip"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "v6.4.2", "") {
+			if !utils.CheckVer(sv, "v6.4.0", "") {
 				e := utils.AttributeVersionWarning("unicast_hb_peerip", sv)
 				diags = append(diags, e)
 			}
@@ -2621,5 +2626,17 @@ func getObjectSystemHa(d *schema.ResourceData, sv string) (*models.SystemHa, dia
 			obj.Weight = &v2
 		}
 	}
+	return &obj, diags
+}
+
+// Return an object with explicitly empty objects for tables that have been set.
+func getEmptyObjectSystemHa(d *schema.ResourceData, sv string) (*models.SystemHa, diag.Diagnostics) {
+	obj := models.SystemHa{}
+	diags := diag.Diagnostics{}
+
+	obj.HaMgmtInterfaces = &[]models.SystemHaHaMgmtInterfaces{}
+	obj.SecondaryVcluster = &[]models.SystemHaSecondaryVcluster{}
+	obj.UnicastPeers = &[]models.SystemHaUnicastPeers{}
+
 	return &obj, diags
 }

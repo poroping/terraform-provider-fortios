@@ -165,7 +165,12 @@ func resourceEndpointControlSettingsDelete(ctx context.Context, d *schema.Resour
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteEndpointControlSettings(mkey, urlparams)
+	obj, diags := getEmptyObjectEndpointControlSettings(d, c.Config.Fv)
+	if diags.HasError() {
+		return diags
+	}
+
+	_, err := c.Cmdb.UpdateEndpointControlSettings(mkey, obj, urlparams)
 	if err != nil {
 		return diag.Errorf("error deleting EndpointControlSettings resource: %v", err)
 	}
@@ -295,5 +300,13 @@ func getObjectEndpointControlSettings(d *schema.ResourceData, sv string) (*model
 			obj.ForticlientUserAvatar = &v2
 		}
 	}
+	return &obj, diags
+}
+
+// Return an object with explicitly empty objects for tables that have been set.
+func getEmptyObjectEndpointControlSettings(d *schema.ResourceData, sv string) (*models.EndpointControlSettings, diag.Diagnostics) {
+	obj := models.EndpointControlSettings{}
+	diags := diag.Diagnostics{}
+
 	return &obj, diags
 }

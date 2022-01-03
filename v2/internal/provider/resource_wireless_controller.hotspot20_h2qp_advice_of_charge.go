@@ -19,14 +19,14 @@ import (
 	"github.com/poroping/terraform-provider-fortios/v2/utils"
 )
 
-func resourceWirelessControllerhotspot20H2qpAdviceOfCharge() *schema.Resource {
+func resourceWirelessControllerHotspot20H2qpAdviceOfCharge() *schema.Resource {
 	return &schema.Resource{
 		Description: "Configure advice of charge.",
 
-		CreateContext: resourceWirelessControllerhotspot20H2qpAdviceOfChargeCreate,
-		ReadContext:   resourceWirelessControllerhotspot20H2qpAdviceOfChargeRead,
-		UpdateContext: resourceWirelessControllerhotspot20H2qpAdviceOfChargeUpdate,
-		DeleteContext: resourceWirelessControllerhotspot20H2qpAdviceOfChargeDelete,
+		CreateContext: resourceWirelessControllerHotspot20H2qpAdviceOfChargeCreate,
+		ReadContext:   resourceWirelessControllerHotspot20H2qpAdviceOfChargeRead,
+		UpdateContext: resourceWirelessControllerHotspot20H2qpAdviceOfChargeUpdate,
+		DeleteContext: resourceWirelessControllerHotspot20H2qpAdviceOfChargeDelete,
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
@@ -144,7 +144,7 @@ func resourceWirelessControllerhotspot20H2qpAdviceOfCharge() *schema.Resource {
 	}
 }
 
-func resourceWirelessControllerhotspot20H2qpAdviceOfChargeCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceWirelessControllerHotspot20H2qpAdviceOfChargeCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*apiClient).Client
 	var diags diag.Diagnostics
 	var err error
@@ -171,16 +171,16 @@ func resourceWirelessControllerhotspot20H2qpAdviceOfChargeCreate(ctx context.Con
 	if v, ok := d.GetOk(key); ok {
 		mkey = utils.ParseMkey(v)
 		if mkey == "" && allow_append {
-			return diag.Errorf("error creating WirelessControllerhotspot20H2qpAdviceOfCharge resource: %q must be set if \"allow_append\" is true", key)
+			return diag.Errorf("error creating WirelessControllerHotspot20H2qpAdviceOfCharge resource: %q must be set if \"allow_append\" is true", key)
 		}
 	}
 
-	obj, diags := getObjectWirelessControllerhotspot20H2qpAdviceOfCharge(d, c.Config.Fv)
+	obj, diags := getObjectWirelessControllerHotspot20H2qpAdviceOfCharge(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.CreateWirelessControllerhotspot20H2qpAdviceOfCharge(obj, urlparams)
+	o, err := c.Cmdb.CreateWirelessControllerHotspot20H2qpAdviceOfCharge(obj, urlparams)
 
 	if err != nil {
 		e := diag.FromErr(err)
@@ -190,13 +190,13 @@ func resourceWirelessControllerhotspot20H2qpAdviceOfChargeCreate(ctx context.Con
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("WirelessControllerhotspot20H2qpAdviceOfCharge")
+		d.SetId("WirelessControllerHotspot20H2qpAdviceOfCharge")
 	}
 
-	return resourceWirelessControllerhotspot20H2qpAdviceOfChargeRead(ctx, d, meta)
+	return resourceWirelessControllerHotspot20H2qpAdviceOfChargeRead(ctx, d, meta)
 }
 
-func resourceWirelessControllerhotspot20H2qpAdviceOfChargeUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceWirelessControllerHotspot20H2qpAdviceOfChargeUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
@@ -209,27 +209,27 @@ func resourceWirelessControllerhotspot20H2qpAdviceOfChargeUpdate(ctx context.Con
 	}
 	urlparams.Vdom = vdomparam
 
-	obj, diags := getObjectWirelessControllerhotspot20H2qpAdviceOfCharge(d, c.Config.Fv)
+	obj, diags := getObjectWirelessControllerHotspot20H2qpAdviceOfCharge(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.UpdateWirelessControllerhotspot20H2qpAdviceOfCharge(mkey, obj, urlparams)
+	o, err := c.Cmdb.UpdateWirelessControllerHotspot20H2qpAdviceOfCharge(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error updating WirelessControllerhotspot20H2qpAdviceOfCharge resource: %v", err)
+		return diag.Errorf("error updating WirelessControllerHotspot20H2qpAdviceOfCharge resource: %v", err)
 	}
 
 	// log.Printf(strconv.Itoa(c.Retries))
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("WirelessControllerhotspot20H2qpAdviceOfCharge")
+		d.SetId("WirelessControllerHotspot20H2qpAdviceOfCharge")
 	}
 
-	return resourceWirelessControllerhotspot20H2qpAdviceOfChargeRead(ctx, d, meta)
+	return resourceWirelessControllerHotspot20H2qpAdviceOfChargeRead(ctx, d, meta)
 }
 
-func resourceWirelessControllerhotspot20H2qpAdviceOfChargeDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceWirelessControllerHotspot20H2qpAdviceOfChargeDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -244,9 +244,9 @@ func resourceWirelessControllerhotspot20H2qpAdviceOfChargeDelete(ctx context.Con
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteWirelessControllerhotspot20H2qpAdviceOfCharge(mkey, urlparams)
+	err := c.Cmdb.DeleteWirelessControllerHotspot20H2qpAdviceOfCharge(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error deleting WirelessControllerhotspot20H2qpAdviceOfCharge resource: %v", err)
+		return diag.Errorf("error deleting WirelessControllerHotspot20H2qpAdviceOfCharge resource: %v", err)
 	}
 
 	d.SetId("")
@@ -254,7 +254,7 @@ func resourceWirelessControllerhotspot20H2qpAdviceOfChargeDelete(ctx context.Con
 	return nil
 }
 
-func resourceWirelessControllerhotspot20H2qpAdviceOfChargeRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceWirelessControllerHotspot20H2qpAdviceOfChargeRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -269,9 +269,9 @@ func resourceWirelessControllerhotspot20H2qpAdviceOfChargeRead(ctx context.Conte
 	}
 	urlparams.Vdom = vdomparam
 
-	o, err := c.Cmdb.ReadWirelessControllerhotspot20H2qpAdviceOfCharge(mkey, urlparams)
+	o, err := c.Cmdb.ReadWirelessControllerHotspot20H2qpAdviceOfCharge(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error reading WirelessControllerhotspot20H2qpAdviceOfCharge resource: %v", err)
+		return diag.Errorf("error reading WirelessControllerHotspot20H2qpAdviceOfCharge resource: %v", err)
 	}
 
 	if o == nil {
@@ -287,14 +287,14 @@ func resourceWirelessControllerhotspot20H2qpAdviceOfChargeRead(ctx context.Conte
 		}
 	}
 
-	diags := refreshObjectWirelessControllerhotspot20H2qpAdviceOfCharge(d, o, c.Config.Fv, sort)
+	diags := refreshObjectWirelessControllerHotspot20H2qpAdviceOfCharge(d, o, c.Config.Fv, sort)
 	if diags.HasError() {
 		return diags
 	}
 	return nil
 }
 
-func flattenWirelessControllerhotspot20H2qpAdviceOfChargeAocList(v *[]models.WirelessControllerhotspot20H2qpAdviceOfChargeAocList, sort bool) interface{} {
+func flattenWirelessControllerHotspot20H2qpAdviceOfChargeAocList(v *[]models.WirelessControllerHotspot20H2qpAdviceOfChargeAocList, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
@@ -313,7 +313,7 @@ func flattenWirelessControllerhotspot20H2qpAdviceOfChargeAocList(v *[]models.Wir
 			}
 
 			if tmp := cfg.PlanInfo; tmp != nil {
-				v["plan_info"] = flattenWirelessControllerhotspot20H2qpAdviceOfChargeAocListPlanInfo(tmp, sort)
+				v["plan_info"] = flattenWirelessControllerHotspot20H2qpAdviceOfChargeAocListPlanInfo(tmp, sort)
 			}
 
 			if tmp := cfg.Type; tmp != nil {
@@ -331,7 +331,7 @@ func flattenWirelessControllerhotspot20H2qpAdviceOfChargeAocList(v *[]models.Wir
 	return flat
 }
 
-func flattenWirelessControllerhotspot20H2qpAdviceOfChargeAocListPlanInfo(v *[]models.WirelessControllerhotspot20H2qpAdviceOfChargeAocListPlanInfo, sort bool) interface{} {
+func flattenWirelessControllerHotspot20H2qpAdviceOfChargeAocListPlanInfo(v *[]models.WirelessControllerHotspot20H2qpAdviceOfChargeAocListPlanInfo, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
@@ -364,11 +364,11 @@ func flattenWirelessControllerhotspot20H2qpAdviceOfChargeAocListPlanInfo(v *[]mo
 	return flat
 }
 
-func refreshObjectWirelessControllerhotspot20H2qpAdviceOfCharge(d *schema.ResourceData, o *models.WirelessControllerhotspot20H2qpAdviceOfCharge, sv string, sort bool) diag.Diagnostics {
+func refreshObjectWirelessControllerHotspot20H2qpAdviceOfCharge(d *schema.ResourceData, o *models.WirelessControllerHotspot20H2qpAdviceOfCharge, sv string, sort bool) diag.Diagnostics {
 	var err error
 
 	if o.AocList != nil {
-		if err = d.Set("aoc_list", flattenWirelessControllerhotspot20H2qpAdviceOfChargeAocList(o.AocList, sort)); err != nil {
+		if err = d.Set("aoc_list", flattenWirelessControllerHotspot20H2qpAdviceOfChargeAocList(o.AocList, sort)); err != nil {
 			return diag.Errorf("error reading aoc_list: %v", err)
 		}
 	}
@@ -384,16 +384,16 @@ func refreshObjectWirelessControllerhotspot20H2qpAdviceOfCharge(d *schema.Resour
 	return nil
 }
 
-func expandWirelessControllerhotspot20H2qpAdviceOfChargeAocList(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.WirelessControllerhotspot20H2qpAdviceOfChargeAocList, error) {
+func expandWirelessControllerHotspot20H2qpAdviceOfChargeAocList(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.WirelessControllerHotspot20H2qpAdviceOfChargeAocList, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
 	}
 
-	var result []models.WirelessControllerhotspot20H2qpAdviceOfChargeAocList
+	var result []models.WirelessControllerHotspot20H2qpAdviceOfChargeAocList
 
 	for i := range l {
-		tmp := models.WirelessControllerhotspot20H2qpAdviceOfChargeAocList{}
+		tmp := models.WirelessControllerHotspot20H2qpAdviceOfChargeAocList{}
 		var pre_append string
 
 		pre_append = fmt.Sprintf("%s.%d.nai_realm", pre, i)
@@ -419,9 +419,9 @@ func expandWirelessControllerhotspot20H2qpAdviceOfChargeAocList(d *schema.Resour
 
 		pre_append = fmt.Sprintf("%s.%d.plan_info", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			v2, _ := expandWirelessControllerhotspot20H2qpAdviceOfChargeAocListPlanInfo(d, v1, pre_append, sv)
+			v2, _ := expandWirelessControllerHotspot20H2qpAdviceOfChargeAocListPlanInfo(d, v1, pre_append, sv)
 			// if err != nil {
-			// 	v2 := &[]models.WirelessControllerhotspot20H2qpAdviceOfChargeAocListPlanInfo
+			// 	v2 := &[]models.WirelessControllerHotspot20H2qpAdviceOfChargeAocListPlanInfo
 			// 	}
 			tmp.PlanInfo = v2
 
@@ -439,16 +439,16 @@ func expandWirelessControllerhotspot20H2qpAdviceOfChargeAocList(d *schema.Resour
 	return &result, nil
 }
 
-func expandWirelessControllerhotspot20H2qpAdviceOfChargeAocListPlanInfo(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.WirelessControllerhotspot20H2qpAdviceOfChargeAocListPlanInfo, error) {
+func expandWirelessControllerHotspot20H2qpAdviceOfChargeAocListPlanInfo(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.WirelessControllerHotspot20H2qpAdviceOfChargeAocListPlanInfo, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
 	}
 
-	var result []models.WirelessControllerhotspot20H2qpAdviceOfChargeAocListPlanInfo
+	var result []models.WirelessControllerHotspot20H2qpAdviceOfChargeAocListPlanInfo
 
 	for i := range l {
-		tmp := models.WirelessControllerhotspot20H2qpAdviceOfChargeAocListPlanInfo{}
+		tmp := models.WirelessControllerHotspot20H2qpAdviceOfChargeAocListPlanInfo{}
 		var pre_append string
 
 		pre_append = fmt.Sprintf("%s.%d.currency", pre, i)
@@ -484,8 +484,8 @@ func expandWirelessControllerhotspot20H2qpAdviceOfChargeAocListPlanInfo(d *schem
 	return &result, nil
 }
 
-func getObjectWirelessControllerhotspot20H2qpAdviceOfCharge(d *schema.ResourceData, sv string) (*models.WirelessControllerhotspot20H2qpAdviceOfCharge, diag.Diagnostics) {
-	obj := models.WirelessControllerhotspot20H2qpAdviceOfCharge{}
+func getObjectWirelessControllerHotspot20H2qpAdviceOfCharge(d *schema.ResourceData, sv string) (*models.WirelessControllerHotspot20H2qpAdviceOfCharge, diag.Diagnostics) {
+	obj := models.WirelessControllerHotspot20H2qpAdviceOfCharge{}
 	diags := diag.Diagnostics{}
 
 	if v, ok := d.GetOk("aoc_list"); ok {
@@ -493,7 +493,7 @@ func getObjectWirelessControllerhotspot20H2qpAdviceOfCharge(d *schema.ResourceDa
 			e := utils.AttributeVersionWarning("aoc_list", sv)
 			diags = append(diags, e)
 		}
-		t, err := expandWirelessControllerhotspot20H2qpAdviceOfChargeAocList(d, v, "aoc_list", sv)
+		t, err := expandWirelessControllerHotspot20H2qpAdviceOfChargeAocList(d, v, "aoc_list", sv)
 		if err != nil {
 			return &obj, diag.FromErr(err)
 		} else if t != nil {
@@ -502,7 +502,7 @@ func getObjectWirelessControllerhotspot20H2qpAdviceOfCharge(d *schema.ResourceDa
 	} else if d.HasChange("aoc_list") {
 		old, new := d.GetChange("aoc_list")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.AocList = &[]models.WirelessControllerhotspot20H2qpAdviceOfChargeAocList{}
+			obj.AocList = &[]models.WirelessControllerHotspot20H2qpAdviceOfChargeAocList{}
 		}
 	}
 	if v1, ok := d.GetOk("name"); ok {

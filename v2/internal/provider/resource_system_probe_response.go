@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -189,7 +189,12 @@ func resourceSystemProbeResponseDelete(ctx context.Context, d *schema.ResourceDa
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteSystemProbeResponse(mkey, urlparams)
+	obj, diags := getEmptyObjectSystemProbeResponse(d, c.Config.Fv)
+	if diags.HasError() {
+		return diags
+	}
+
+	_, err := c.Cmdb.UpdateSystemProbeResponse(mkey, obj, urlparams)
 	if err != nil {
 		return diag.Errorf("error deleting SystemProbeResponse resource: %v", err)
 	}
@@ -370,5 +375,13 @@ func getObjectSystemProbeResponse(d *schema.ResourceData, sv string) (*models.Sy
 			obj.TtlMode = &v2
 		}
 	}
+	return &obj, diags
+}
+
+// Return an object with explicitly empty objects for tables that have been set.
+func getEmptyObjectSystemProbeResponse(d *schema.ResourceData, sv string) (*models.SystemProbeResponse, diag.Diagnostics) {
+	obj := models.SystemProbeResponse{}
+	diags := diag.Diagnostics{}
+
 	return &obj, diags
 }

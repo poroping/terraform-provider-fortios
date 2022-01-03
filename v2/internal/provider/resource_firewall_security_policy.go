@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -2714,7 +2714,7 @@ func getObjectFirewallSecurityPolicy(d *schema.ResourceData, sv string) (*models
 		}
 	}
 	if v, ok := d.GetOk("dstaddr"); ok {
-		if !utils.CheckVer(sv, "v6.4.2", "") {
+		if !utils.CheckVer(sv, "v6.4.0", "") {
 			e := utils.AttributeVersionWarning("dstaddr", sv)
 			diags = append(diags, e)
 		}
@@ -2740,7 +2740,7 @@ func getObjectFirewallSecurityPolicy(d *schema.ResourceData, sv string) (*models
 		}
 	}
 	if v, ok := d.GetOk("dstaddr4"); ok {
-		if !utils.CheckVer(sv, "", "v6.4.2") {
+		if !utils.CheckVer(sv, "", "v6.4.0") {
 			e := utils.AttributeVersionWarning("dstaddr4", sv)
 			diags = append(diags, e)
 		}
@@ -2921,7 +2921,7 @@ func getObjectFirewallSecurityPolicy(d *schema.ResourceData, sv string) (*models
 		}
 	}
 	if v, ok := d.GetOk("internet_service_id"); ok {
-		if !utils.CheckVer(sv, "", "v6.4.2") {
+		if !utils.CheckVer(sv, "", "v6.4.0") {
 			e := utils.AttributeVersionWarning("internet_service_id", sv)
 			diags = append(diags, e)
 		}
@@ -2938,7 +2938,7 @@ func getObjectFirewallSecurityPolicy(d *schema.ResourceData, sv string) (*models
 		}
 	}
 	if v, ok := d.GetOk("internet_service_name"); ok {
-		if !utils.CheckVer(sv, "v6.4.2", "") {
+		if !utils.CheckVer(sv, "v6.4.0", "") {
 			e := utils.AttributeVersionWarning("internet_service_name", sv)
 			diags = append(diags, e)
 		}
@@ -3024,7 +3024,7 @@ func getObjectFirewallSecurityPolicy(d *schema.ResourceData, sv string) (*models
 		}
 	}
 	if v, ok := d.GetOk("internet_service_src_id"); ok {
-		if !utils.CheckVer(sv, "", "v6.4.2") {
+		if !utils.CheckVer(sv, "", "v6.4.0") {
 			e := utils.AttributeVersionWarning("internet_service_src_id", sv)
 			diags = append(diags, e)
 		}
@@ -3041,7 +3041,7 @@ func getObjectFirewallSecurityPolicy(d *schema.ResourceData, sv string) (*models
 		}
 	}
 	if v, ok := d.GetOk("internet_service_src_name"); ok {
-		if !utils.CheckVer(sv, "v6.4.2", "") {
+		if !utils.CheckVer(sv, "v6.4.0", "") {
 			e := utils.AttributeVersionWarning("internet_service_src_name", sv)
 			diags = append(diags, e)
 		}
@@ -3095,7 +3095,7 @@ func getObjectFirewallSecurityPolicy(d *schema.ResourceData, sv string) (*models
 	}
 	if v1, ok := d.GetOk("logtraffic_start"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "v6.4.2") {
+			if !utils.CheckVer(sv, "", "v6.4.0") {
 				e := utils.AttributeVersionWarning("logtraffic_start", sv)
 				diags = append(diags, e)
 			}
@@ -3220,7 +3220,7 @@ func getObjectFirewallSecurityPolicy(d *schema.ResourceData, sv string) (*models
 		}
 	}
 	if v, ok := d.GetOk("srcaddr"); ok {
-		if !utils.CheckVer(sv, "v6.4.2", "") {
+		if !utils.CheckVer(sv, "v6.4.0", "") {
 			e := utils.AttributeVersionWarning("srcaddr", sv)
 			diags = append(diags, e)
 		}
@@ -3246,7 +3246,7 @@ func getObjectFirewallSecurityPolicy(d *schema.ResourceData, sv string) (*models
 		}
 	}
 	if v, ok := d.GetOk("srcaddr4"); ok {
-		if !utils.CheckVer(sv, "", "v6.4.2") {
+		if !utils.CheckVer(sv, "", "v6.4.0") {
 			e := utils.AttributeVersionWarning("srcaddr4", sv)
 			diags = append(diags, e)
 		}

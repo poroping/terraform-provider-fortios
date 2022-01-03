@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -18,14 +18,14 @@ import (
 	"github.com/poroping/terraform-provider-fortios/v2/utils"
 )
 
-func resourceSystemreplacemsgUtm() *schema.Resource {
+func resourceSystemReplacemsgUtm() *schema.Resource {
 	return &schema.Resource{
 		Description: "Replacement messages.",
 
-		CreateContext: resourceSystemreplacemsgUtmCreate,
-		ReadContext:   resourceSystemreplacemsgUtmRead,
-		UpdateContext: resourceSystemreplacemsgUtmUpdate,
-		DeleteContext: resourceSystemreplacemsgUtmDelete,
+		CreateContext: resourceSystemReplacemsgUtmCreate,
+		ReadContext:   resourceSystemReplacemsgUtmRead,
+		UpdateContext: resourceSystemReplacemsgUtmUpdate,
+		DeleteContext: resourceSystemReplacemsgUtmDelete,
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
@@ -80,7 +80,7 @@ func resourceSystemreplacemsgUtm() *schema.Resource {
 	}
 }
 
-func resourceSystemreplacemsgUtmCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSystemReplacemsgUtmCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*apiClient).Client
 	var diags diag.Diagnostics
 	var err error
@@ -107,16 +107,16 @@ func resourceSystemreplacemsgUtmCreate(ctx context.Context, d *schema.ResourceDa
 	if v, ok := d.GetOk(key); ok {
 		mkey = utils.ParseMkey(v)
 		if mkey == "" && allow_append {
-			return diag.Errorf("error creating SystemreplacemsgUtm resource: %q must be set if \"allow_append\" is true", key)
+			return diag.Errorf("error creating SystemReplacemsgUtm resource: %q must be set if \"allow_append\" is true", key)
 		}
 	}
 
-	obj, diags := getObjectSystemreplacemsgUtm(d, c.Config.Fv)
+	obj, diags := getObjectSystemReplacemsgUtm(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.CreateSystemreplacemsgUtm(obj, urlparams)
+	o, err := c.Cmdb.CreateSystemReplacemsgUtm(obj, urlparams)
 
 	if err != nil {
 		e := diag.FromErr(err)
@@ -126,13 +126,13 @@ func resourceSystemreplacemsgUtmCreate(ctx context.Context, d *schema.ResourceDa
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("SystemreplacemsgUtm")
+		d.SetId("SystemReplacemsgUtm")
 	}
 
-	return resourceSystemreplacemsgUtmRead(ctx, d, meta)
+	return resourceSystemReplacemsgUtmRead(ctx, d, meta)
 }
 
-func resourceSystemreplacemsgUtmUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSystemReplacemsgUtmUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
@@ -145,27 +145,27 @@ func resourceSystemreplacemsgUtmUpdate(ctx context.Context, d *schema.ResourceDa
 	}
 	urlparams.Vdom = vdomparam
 
-	obj, diags := getObjectSystemreplacemsgUtm(d, c.Config.Fv)
+	obj, diags := getObjectSystemReplacemsgUtm(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.UpdateSystemreplacemsgUtm(mkey, obj, urlparams)
+	o, err := c.Cmdb.UpdateSystemReplacemsgUtm(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error updating SystemreplacemsgUtm resource: %v", err)
+		return diag.Errorf("error updating SystemReplacemsgUtm resource: %v", err)
 	}
 
 	// log.Printf(strconv.Itoa(c.Retries))
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("SystemreplacemsgUtm")
+		d.SetId("SystemReplacemsgUtm")
 	}
 
-	return resourceSystemreplacemsgUtmRead(ctx, d, meta)
+	return resourceSystemReplacemsgUtmRead(ctx, d, meta)
 }
 
-func resourceSystemreplacemsgUtmDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSystemReplacemsgUtmDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -180,9 +180,9 @@ func resourceSystemreplacemsgUtmDelete(ctx context.Context, d *schema.ResourceDa
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteSystemreplacemsgUtm(mkey, urlparams)
+	err := c.Cmdb.DeleteSystemReplacemsgUtm(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error deleting SystemreplacemsgUtm resource: %v", err)
+		return diag.Errorf("error deleting SystemReplacemsgUtm resource: %v", err)
 	}
 
 	d.SetId("")
@@ -190,7 +190,7 @@ func resourceSystemreplacemsgUtmDelete(ctx context.Context, d *schema.ResourceDa
 	return nil
 }
 
-func resourceSystemreplacemsgUtmRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSystemReplacemsgUtmRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -205,9 +205,9 @@ func resourceSystemreplacemsgUtmRead(ctx context.Context, d *schema.ResourceData
 	}
 	urlparams.Vdom = vdomparam
 
-	o, err := c.Cmdb.ReadSystemreplacemsgUtm(mkey, urlparams)
+	o, err := c.Cmdb.ReadSystemReplacemsgUtm(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error reading SystemreplacemsgUtm resource: %v", err)
+		return diag.Errorf("error reading SystemReplacemsgUtm resource: %v", err)
 	}
 
 	if o == nil {
@@ -223,14 +223,14 @@ func resourceSystemreplacemsgUtmRead(ctx context.Context, d *schema.ResourceData
 		}
 	}
 
-	diags := refreshObjectSystemreplacemsgUtm(d, o, c.Config.Fv, sort)
+	diags := refreshObjectSystemReplacemsgUtm(d, o, c.Config.Fv, sort)
 	if diags.HasError() {
 		return diags
 	}
 	return nil
 }
 
-func refreshObjectSystemreplacemsgUtm(d *schema.ResourceData, o *models.SystemreplacemsgUtm, sv string, sort bool) diag.Diagnostics {
+func refreshObjectSystemReplacemsgUtm(d *schema.ResourceData, o *models.SystemReplacemsgUtm, sv string, sort bool) diag.Diagnostics {
 	var err error
 
 	if o.Buffer != nil {
@@ -268,8 +268,8 @@ func refreshObjectSystemreplacemsgUtm(d *schema.ResourceData, o *models.Systemre
 	return nil
 }
 
-func getObjectSystemreplacemsgUtm(d *schema.ResourceData, sv string) (*models.SystemreplacemsgUtm, diag.Diagnostics) {
-	obj := models.SystemreplacemsgUtm{}
+func getObjectSystemReplacemsgUtm(d *schema.ResourceData, sv string) (*models.SystemReplacemsgUtm, diag.Diagnostics) {
+	obj := models.SystemReplacemsgUtm{}
 	diags := diag.Diagnostics{}
 
 	if v1, ok := d.GetOk("buffer"); ok {

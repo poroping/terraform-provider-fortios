@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -216,6 +216,14 @@ func resourceFirewallProfileProtocolOptions() *schema.Resource {
 						},
 					},
 				},
+			},
+			"feature_set": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"flow", "proxy"}, false),
+
+				Description: "Flow/proxy feature set.",
+				Optional:    true,
+				Computed:    true,
 			},
 			"ftp": {
 				Type:        schema.TypeList,
@@ -2016,6 +2024,14 @@ func refreshObjectFirewallProfileProtocolOptions(d *schema.ResourceData, o *mode
 		}
 	}
 
+	if o.FeatureSet != nil {
+		v := *o.FeatureSet
+
+		if err = d.Set("feature_set", v); err != nil {
+			return diag.Errorf("error reading feature_set: %v", err)
+		}
+	}
+
 	if o.Ftp != nil {
 		if err = d.Set("ftp", flattenFirewallProfileProtocolOptionsFtp(o.Ftp, sort)); err != nil {
 			return diag.Errorf("error reading ftp: %v", err)
@@ -3233,6 +3249,15 @@ func getObjectFirewallProfileProtocolOptions(d *schema.ResourceData, sv string) 
 		old, new := d.GetChange("dns")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
 			obj.Dns = &[]models.FirewallProfileProtocolOptionsDns{}
+		}
+	}
+	if v1, ok := d.GetOk("feature_set"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v6.4.0", "v6.4.2") {
+				e := utils.AttributeVersionWarning("feature_set", sv)
+				diags = append(diags, e)
+			}
+			obj.FeatureSet = &v2
 		}
 	}
 	if v, ok := d.GetOk("ftp"); ok {

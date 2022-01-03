@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -18,14 +18,14 @@ import (
 	"github.com/poroping/terraform-provider-fortios/v2/utils"
 )
 
-func resourceLogwebtrendsSetting() *schema.Resource {
+func resourceLogWebtrendsSetting() *schema.Resource {
 	return &schema.Resource{
 		Description: "Settings for WebTrends.",
 
-		CreateContext: resourceLogwebtrendsSettingCreate,
-		ReadContext:   resourceLogwebtrendsSettingRead,
-		UpdateContext: resourceLogwebtrendsSettingUpdate,
-		DeleteContext: resourceLogwebtrendsSettingDelete,
+		CreateContext: resourceLogWebtrendsSettingCreate,
+		ReadContext:   resourceLogWebtrendsSettingRead,
+		UpdateContext: resourceLogWebtrendsSettingUpdate,
+		DeleteContext: resourceLogWebtrendsSettingDelete,
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
@@ -58,7 +58,7 @@ func resourceLogwebtrendsSetting() *schema.Resource {
 	}
 }
 
-func resourceLogwebtrendsSettingCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceLogWebtrendsSettingCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*apiClient).Client
 	var diags diag.Diagnostics
 	var err error
@@ -80,12 +80,12 @@ func resourceLogwebtrendsSettingCreate(ctx context.Context, d *schema.ResourceDa
 	}
 	urlparams.AllowAppend = &allow_append
 
-	obj, diags := getObjectLogwebtrendsSetting(d, c.Config.Fv)
+	obj, diags := getObjectLogWebtrendsSetting(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.CreateLogwebtrendsSetting(obj, urlparams)
+	o, err := c.Cmdb.CreateLogWebtrendsSetting(obj, urlparams)
 
 	if err != nil {
 		e := diag.FromErr(err)
@@ -95,13 +95,13 @@ func resourceLogwebtrendsSettingCreate(ctx context.Context, d *schema.ResourceDa
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("LogwebtrendsSetting")
+		d.SetId("LogWebtrendsSetting")
 	}
 
-	return resourceLogwebtrendsSettingRead(ctx, d, meta)
+	return resourceLogWebtrendsSettingRead(ctx, d, meta)
 }
 
-func resourceLogwebtrendsSettingUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceLogWebtrendsSettingUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
@@ -114,27 +114,27 @@ func resourceLogwebtrendsSettingUpdate(ctx context.Context, d *schema.ResourceDa
 	}
 	urlparams.Vdom = vdomparam
 
-	obj, diags := getObjectLogwebtrendsSetting(d, c.Config.Fv)
+	obj, diags := getObjectLogWebtrendsSetting(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.UpdateLogwebtrendsSetting(mkey, obj, urlparams)
+	o, err := c.Cmdb.UpdateLogWebtrendsSetting(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error updating LogwebtrendsSetting resource: %v", err)
+		return diag.Errorf("error updating LogWebtrendsSetting resource: %v", err)
 	}
 
 	// log.Printf(strconv.Itoa(c.Retries))
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("LogwebtrendsSetting")
+		d.SetId("LogWebtrendsSetting")
 	}
 
-	return resourceLogwebtrendsSettingRead(ctx, d, meta)
+	return resourceLogWebtrendsSettingRead(ctx, d, meta)
 }
 
-func resourceLogwebtrendsSettingDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceLogWebtrendsSettingDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -149,9 +149,14 @@ func resourceLogwebtrendsSettingDelete(ctx context.Context, d *schema.ResourceDa
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteLogwebtrendsSetting(mkey, urlparams)
+	obj, diags := getEmptyObjectLogWebtrendsSetting(d, c.Config.Fv)
+	if diags.HasError() {
+		return diags
+	}
+
+	_, err := c.Cmdb.UpdateLogWebtrendsSetting(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error deleting LogwebtrendsSetting resource: %v", err)
+		return diag.Errorf("error deleting LogWebtrendsSetting resource: %v", err)
 	}
 
 	d.SetId("")
@@ -159,7 +164,7 @@ func resourceLogwebtrendsSettingDelete(ctx context.Context, d *schema.ResourceDa
 	return nil
 }
 
-func resourceLogwebtrendsSettingRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceLogWebtrendsSettingRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -174,9 +179,9 @@ func resourceLogwebtrendsSettingRead(ctx context.Context, d *schema.ResourceData
 	}
 	urlparams.Vdom = vdomparam
 
-	o, err := c.Cmdb.ReadLogwebtrendsSetting(mkey, urlparams)
+	o, err := c.Cmdb.ReadLogWebtrendsSetting(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error reading LogwebtrendsSetting resource: %v", err)
+		return diag.Errorf("error reading LogWebtrendsSetting resource: %v", err)
 	}
 
 	if o == nil {
@@ -192,14 +197,14 @@ func resourceLogwebtrendsSettingRead(ctx context.Context, d *schema.ResourceData
 		}
 	}
 
-	diags := refreshObjectLogwebtrendsSetting(d, o, c.Config.Fv, sort)
+	diags := refreshObjectLogWebtrendsSetting(d, o, c.Config.Fv, sort)
 	if diags.HasError() {
 		return diags
 	}
 	return nil
 }
 
-func refreshObjectLogwebtrendsSetting(d *schema.ResourceData, o *models.LogwebtrendsSetting, sv string, sort bool) diag.Diagnostics {
+func refreshObjectLogWebtrendsSetting(d *schema.ResourceData, o *models.LogWebtrendsSetting, sv string, sort bool) diag.Diagnostics {
 	var err error
 
 	if o.Server != nil {
@@ -221,8 +226,8 @@ func refreshObjectLogwebtrendsSetting(d *schema.ResourceData, o *models.Logwebtr
 	return nil
 }
 
-func getObjectLogwebtrendsSetting(d *schema.ResourceData, sv string) (*models.LogwebtrendsSetting, diag.Diagnostics) {
-	obj := models.LogwebtrendsSetting{}
+func getObjectLogWebtrendsSetting(d *schema.ResourceData, sv string) (*models.LogWebtrendsSetting, diag.Diagnostics) {
+	obj := models.LogWebtrendsSetting{}
 	diags := diag.Diagnostics{}
 
 	if v1, ok := d.GetOk("server"); ok {
@@ -243,5 +248,13 @@ func getObjectLogwebtrendsSetting(d *schema.ResourceData, sv string) (*models.Lo
 			obj.Status = &v2
 		}
 	}
+	return &obj, diags
+}
+
+// Return an object with explicitly empty objects for tables that have been set.
+func getEmptyObjectLogWebtrendsSetting(d *schema.ResourceData, sv string) (*models.LogWebtrendsSetting, diag.Diagnostics) {
+	obj := models.LogWebtrendsSetting{}
+	diags := diag.Diagnostics{}
+
 	return &obj, diags
 }

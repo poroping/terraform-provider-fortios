@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -674,6 +674,14 @@ func resourceSystemGlobal() *schema.Resource {
 				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
 
 				Description: "Enable/disable displaying the FortiGate's hostname on the GUI login page.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"gui_firmware_upgrade_setup_warning": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+				Description: "Enable/disable the firmware upgrade warning on GUI setup wizard.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -1856,7 +1864,12 @@ func resourceSystemGlobalDelete(ctx context.Context, d *schema.ResourceData, met
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteSystemGlobal(mkey, urlparams)
+	obj, diags := getEmptyObjectSystemGlobal(d, c.Config.Fv)
+	if diags.HasError() {
+		return diags
+	}
+
+	_, err := c.Cmdb.UpdateSystemGlobal(mkey, obj, urlparams)
 	if err != nil {
 		return diag.Errorf("error deleting SystemGlobal resource: %v", err)
 	}
@@ -2546,6 +2559,14 @@ func refreshObjectSystemGlobal(d *schema.ResourceData, o *models.SystemGlobal, s
 
 		if err = d.Set("gui_display_hostname", v); err != nil {
 			return diag.Errorf("error reading gui_display_hostname: %v", err)
+		}
+	}
+
+	if o.GuiFirmwareUpgradeSetupWarning != nil {
+		v := *o.GuiFirmwareUpgradeSetupWarning
+
+		if err = d.Set("gui_firmware_upgrade_setup_warning", v); err != nil {
+			return diag.Errorf("error reading gui_firmware_upgrade_setup_warning: %v", err)
 		}
 	}
 
@@ -4223,7 +4244,7 @@ func getObjectSystemGlobal(d *schema.ResourceData, sv string) (*models.SystemGlo
 	}
 	if v1, ok := d.GetOk("faz_disk_buffer_size"); ok {
 		if v2, ok := v1.(int); ok {
-			if !utils.CheckVer(sv, "v6.4.2", "") {
+			if !utils.CheckVer(sv, "v6.4.0", "") {
 				e := utils.AttributeVersionWarning("faz_disk_buffer_size", sv)
 				diags = append(diags, e)
 			}
@@ -4397,6 +4418,15 @@ func getObjectSystemGlobal(d *schema.ResourceData, sv string) (*models.SystemGlo
 			obj.GuiDisplayHostname = &v2
 		}
 	}
+	if v1, ok := d.GetOk("gui_firmware_upgrade_setup_warning"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v6.4.0", "v6.4.2") {
+				e := utils.AttributeVersionWarning("gui_firmware_upgrade_setup_warning", sv)
+				diags = append(diags, e)
+			}
+			obj.GuiFirmwareUpgradeSetupWarning = &v2
+		}
+	}
 	if v1, ok := d.GetOk("gui_firmware_upgrade_warning"); ok {
 		if v2, ok := v1.(string); ok {
 			if !utils.CheckVer(sv, "v6.4.2", "") {
@@ -4564,7 +4594,7 @@ func getObjectSystemGlobal(d *schema.ResourceData, sv string) (*models.SystemGlo
 	}
 	if v1, ok := d.GetOk("ipsec_asic_offload"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "v6.4.2") {
+			if !utils.CheckVer(sv, "", "v6.4.0") {
 				e := utils.AttributeVersionWarning("ipsec_asic_offload", sv)
 				diags = append(diags, e)
 			}
@@ -4583,7 +4613,7 @@ func getObjectSystemGlobal(d *schema.ResourceData, sv string) (*models.SystemGlo
 	}
 	if v1, ok := d.GetOk("ipsec_hmac_offload"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "v6.4.2") {
+			if !utils.CheckVer(sv, "", "v6.4.0") {
 				e := utils.AttributeVersionWarning("ipsec_hmac_offload", sv)
 				diags = append(diags, e)
 			}
@@ -4711,7 +4741,7 @@ func getObjectSystemGlobal(d *schema.ResourceData, sv string) (*models.SystemGlo
 	}
 	if v1, ok := d.GetOk("long_vdom_name"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "v6.4.2") {
+			if !utils.CheckVer(sv, "", "v6.4.0") {
 				e := utils.AttributeVersionWarning("long_vdom_name", sv)
 				diags = append(diags, e)
 			}
@@ -4938,7 +4968,7 @@ func getObjectSystemGlobal(d *schema.ResourceData, sv string) (*models.SystemGlo
 	}
 	if v1, ok := d.GetOk("proxy_cipher_hardware_acceleration"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "v6.4.2") {
+			if !utils.CheckVer(sv, "", "v6.4.0") {
 				e := utils.AttributeVersionWarning("proxy_cipher_hardware_acceleration", sv)
 				diags = append(diags, e)
 			}
@@ -4947,7 +4977,7 @@ func getObjectSystemGlobal(d *schema.ResourceData, sv string) (*models.SystemGlo
 	}
 	if v1, ok := d.GetOk("proxy_kxp_hardware_acceleration"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "v6.4.2") {
+			if !utils.CheckVer(sv, "", "v6.4.0") {
 				e := utils.AttributeVersionWarning("proxy_kxp_hardware_acceleration", sv)
 				diags = append(diags, e)
 			}
@@ -5252,7 +5282,7 @@ func getObjectSystemGlobal(d *schema.ResourceData, sv string) (*models.SystemGlo
 	}
 	if v1, ok := d.GetOk("sslvpn_cipher_hardware_acceleration"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "v6.4.2") {
+			if !utils.CheckVer(sv, "", "v6.4.0") {
 				e := utils.AttributeVersionWarning("sslvpn_cipher_hardware_acceleration", sv)
 				diags = append(diags, e)
 			}
@@ -5270,7 +5300,7 @@ func getObjectSystemGlobal(d *schema.ResourceData, sv string) (*models.SystemGlo
 	}
 	if v1, ok := d.GetOk("sslvpn_kxp_hardware_acceleration"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "v6.4.2") {
+			if !utils.CheckVer(sv, "", "v6.4.0") {
 				e := utils.AttributeVersionWarning("sslvpn_kxp_hardware_acceleration", sv)
 				diags = append(diags, e)
 			}
@@ -5547,7 +5577,7 @@ func getObjectSystemGlobal(d *schema.ResourceData, sv string) (*models.SystemGlo
 	}
 	if v1, ok := d.GetOk("vdom_mode"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "v6.4.2") {
+			if !utils.CheckVer(sv, "", "v6.4.0") {
 				e := utils.AttributeVersionWarning("vdom_mode", sv)
 				diags = append(diags, e)
 			}
@@ -5667,5 +5697,13 @@ func getObjectSystemGlobal(d *schema.ResourceData, sv string) (*models.SystemGlo
 			obj.WirelessControllerPort = &tmp
 		}
 	}
+	return &obj, diags
+}
+
+// Return an object with explicitly empty objects for tables that have been set.
+func getEmptyObjectSystemGlobal(d *schema.ResourceData, sv string) (*models.SystemGlobal, diag.Diagnostics) {
+	obj := models.SystemGlobal{}
+	diags := diag.Diagnostics{}
+
 	return &obj, diags
 }

@@ -173,7 +173,12 @@ func resourceSystemStpDelete(ctx context.Context, d *schema.ResourceData, meta i
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteSystemStp(mkey, urlparams)
+	obj, diags := getEmptyObjectSystemStp(d, c.Config.Fv)
+	if diags.HasError() {
+		return diags
+	}
+
+	_, err := c.Cmdb.UpdateSystemStp(mkey, obj, urlparams)
 	if err != nil {
 		return diag.Errorf("error deleting SystemStp resource: %v", err)
 	}
@@ -322,5 +327,13 @@ func getObjectSystemStp(d *schema.ResourceData, sv string) (*models.SystemStp, d
 			obj.SwitchPriority = &v2
 		}
 	}
+	return &obj, diags
+}
+
+// Return an object with explicitly empty objects for tables that have been set.
+func getEmptyObjectSystemStp(d *schema.ResourceData, sv string) (*models.SystemStp, diag.Diagnostics) {
+	obj := models.SystemStp{}
+	diags := diag.Diagnostics{}
+
 	return &obj, diags
 }

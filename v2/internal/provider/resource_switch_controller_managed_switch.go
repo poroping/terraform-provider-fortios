@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -5500,7 +5500,7 @@ func getObjectSwitchControllerManagedSwitch(d *schema.ResourceData, sv string) (
 		}
 	}
 	if v, ok := d.GetOk("ip_source_guard"); ok {
-		if !utils.CheckVer(sv, "v6.4.2", "") {
+		if !utils.CheckVer(sv, "v6.4.0", "") {
 			e := utils.AttributeVersionWarning("ip_source_guard", sv)
 			diags = append(diags, e)
 		}
@@ -5518,7 +5518,7 @@ func getObjectSwitchControllerManagedSwitch(d *schema.ResourceData, sv string) (
 	}
 	if v1, ok := d.GetOk("l3_discovered"); ok {
 		if v2, ok := v1.(int); ok {
-			if !utils.CheckVer(sv, "v6.4.2", "") {
+			if !utils.CheckVer(sv, "v6.4.0", "") {
 				e := utils.AttributeVersionWarning("l3_discovered", sv)
 				diags = append(diags, e)
 			}
@@ -5628,7 +5628,7 @@ func getObjectSwitchControllerManagedSwitch(d *schema.ResourceData, sv string) (
 	}
 	if v1, ok := d.GetOk("poe_lldp_detection"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "v6.4.2") {
+			if !utils.CheckVer(sv, "", "v6.4.0") {
 				e := utils.AttributeVersionWarning("poe_lldp_detection", sv)
 				diags = append(diags, e)
 			}
@@ -5673,7 +5673,7 @@ func getObjectSwitchControllerManagedSwitch(d *schema.ResourceData, sv string) (
 	}
 	if v1, ok := d.GetOk("qos_drop_policy"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "v6.4.2", "") {
+			if !utils.CheckVer(sv, "v6.4.0", "") {
 				e := utils.AttributeVersionWarning("qos_drop_policy", sv)
 				diags = append(diags, e)
 			}
@@ -5682,7 +5682,7 @@ func getObjectSwitchControllerManagedSwitch(d *schema.ResourceData, sv string) (
 	}
 	if v1, ok := d.GetOk("qos_red_probability"); ok {
 		if v2, ok := v1.(int); ok {
-			if !utils.CheckVer(sv, "v6.4.2", "") {
+			if !utils.CheckVer(sv, "v6.4.0", "") {
 				e := utils.AttributeVersionWarning("qos_red_probability", sv)
 				diags = append(diags, e)
 			}
@@ -5863,7 +5863,7 @@ func getObjectSwitchControllerManagedSwitch(d *schema.ResourceData, sv string) (
 	}
 	if v1, ok := d.GetOk("switch_dhcp_opt43_key"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "v6.4.2", "") {
+			if !utils.CheckVer(sv, "v6.4.0", "") {
 				e := utils.AttributeVersionWarning("switch_dhcp_opt43_key", sv)
 				diags = append(diags, e)
 			}

@@ -148,7 +148,12 @@ func resourceSystemIpsDelete(ctx context.Context, d *schema.ResourceData, meta i
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteSystemIps(mkey, urlparams)
+	obj, diags := getEmptyObjectSystemIps(d, c.Config.Fv)
+	if diags.HasError() {
+		return diags
+	}
+
+	_, err := c.Cmdb.UpdateSystemIps(mkey, obj, urlparams)
 	if err != nil {
 		return diag.Errorf("error deleting SystemIps resource: %v", err)
 	}
@@ -242,5 +247,13 @@ func getObjectSystemIps(d *schema.ResourceData, sv string) (*models.SystemIps, d
 			obj.SignatureHoldTime = &v2
 		}
 	}
+	return &obj, diags
+}
+
+// Return an object with explicitly empty objects for tables that have been set.
+func getEmptyObjectSystemIps(d *schema.ResourceData, sv string) (*models.SystemIps, diag.Diagnostics) {
+	obj := models.SystemIps{}
+	diags := diag.Diagnostics{}
+
 	return &obj, diags
 }

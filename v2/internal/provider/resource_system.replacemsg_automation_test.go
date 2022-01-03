@@ -13,7 +13,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 )
 
-func TestAccSystemreplacemsgAutomation_basic(t *testing.T) {
+func TestAccSystemReplacemsgAutomation_basic(t *testing.T) {
 	rName := "system.replacemsg_automation"
 
 	resource.Test(t, resource.TestCase{

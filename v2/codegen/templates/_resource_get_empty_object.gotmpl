@@ -1,0 +1,18 @@
+{{ define "getEmptyObject" }}
+// Return an object with explicitly empty objects for tables that have been set.
+func getEmptyObject{{.fpath}}(d *schema.ResourceData, sv string) (*models.{{.fpath}}, diag.Diagnostics) {
+	obj := models.{{.fpath}}{}
+	diags := diag.Diagnostics{}
+	{{ template "getEmptyObjects" .results }}
+	
+	return &obj, diags
+}
+{{ end }}
+
+{{ define "getEmptyObjects" }}
+{{- range $key, $value := .children }}
+{{- if or (eq $value.category "table") (eq $value.category "complex") }}
+			obj.{{if $value.name_begin_with_int}}The{{end}}{{(mixedCase $value.name)}} = &[]models.{{ .fpath }}{}
+{{- end }}
+{{- end }}
+{{- end }}

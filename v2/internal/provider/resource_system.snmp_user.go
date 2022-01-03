@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -19,14 +19,14 @@ import (
 	"github.com/poroping/terraform-provider-fortios/v2/utils"
 )
 
-func resourceSystemsnmpUser() *schema.Resource {
+func resourceSystemSnmpUser() *schema.Resource {
 	return &schema.Resource{
 		Description: "SNMP user configuration.",
 
-		CreateContext: resourceSystemsnmpUserCreate,
-		ReadContext:   resourceSystemsnmpUserRead,
-		UpdateContext: resourceSystemsnmpUserUpdate,
-		DeleteContext: resourceSystemsnmpUserDelete,
+		CreateContext: resourceSystemSnmpUserCreate,
+		ReadContext:   resourceSystemSnmpUserRead,
+		UpdateContext: resourceSystemSnmpUserUpdate,
+		DeleteContext: resourceSystemSnmpUserDelete,
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
@@ -193,7 +193,7 @@ func resourceSystemsnmpUser() *schema.Resource {
 	}
 }
 
-func resourceSystemsnmpUserCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSystemSnmpUserCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*apiClient).Client
 	var diags diag.Diagnostics
 	var err error
@@ -220,16 +220,16 @@ func resourceSystemsnmpUserCreate(ctx context.Context, d *schema.ResourceData, m
 	if v, ok := d.GetOk(key); ok {
 		mkey = utils.ParseMkey(v)
 		if mkey == "" && allow_append {
-			return diag.Errorf("error creating SystemsnmpUser resource: %q must be set if \"allow_append\" is true", key)
+			return diag.Errorf("error creating SystemSnmpUser resource: %q must be set if \"allow_append\" is true", key)
 		}
 	}
 
-	obj, diags := getObjectSystemsnmpUser(d, c.Config.Fv)
+	obj, diags := getObjectSystemSnmpUser(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.CreateSystemsnmpUser(obj, urlparams)
+	o, err := c.Cmdb.CreateSystemSnmpUser(obj, urlparams)
 
 	if err != nil {
 		e := diag.FromErr(err)
@@ -239,13 +239,13 @@ func resourceSystemsnmpUserCreate(ctx context.Context, d *schema.ResourceData, m
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("SystemsnmpUser")
+		d.SetId("SystemSnmpUser")
 	}
 
-	return resourceSystemsnmpUserRead(ctx, d, meta)
+	return resourceSystemSnmpUserRead(ctx, d, meta)
 }
 
-func resourceSystemsnmpUserUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSystemSnmpUserUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
@@ -258,27 +258,27 @@ func resourceSystemsnmpUserUpdate(ctx context.Context, d *schema.ResourceData, m
 	}
 	urlparams.Vdom = vdomparam
 
-	obj, diags := getObjectSystemsnmpUser(d, c.Config.Fv)
+	obj, diags := getObjectSystemSnmpUser(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.UpdateSystemsnmpUser(mkey, obj, urlparams)
+	o, err := c.Cmdb.UpdateSystemSnmpUser(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error updating SystemsnmpUser resource: %v", err)
+		return diag.Errorf("error updating SystemSnmpUser resource: %v", err)
 	}
 
 	// log.Printf(strconv.Itoa(c.Retries))
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("SystemsnmpUser")
+		d.SetId("SystemSnmpUser")
 	}
 
-	return resourceSystemsnmpUserRead(ctx, d, meta)
+	return resourceSystemSnmpUserRead(ctx, d, meta)
 }
 
-func resourceSystemsnmpUserDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSystemSnmpUserDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -293,9 +293,9 @@ func resourceSystemsnmpUserDelete(ctx context.Context, d *schema.ResourceData, m
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteSystemsnmpUser(mkey, urlparams)
+	err := c.Cmdb.DeleteSystemSnmpUser(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error deleting SystemsnmpUser resource: %v", err)
+		return diag.Errorf("error deleting SystemSnmpUser resource: %v", err)
 	}
 
 	d.SetId("")
@@ -303,7 +303,7 @@ func resourceSystemsnmpUserDelete(ctx context.Context, d *schema.ResourceData, m
 	return nil
 }
 
-func resourceSystemsnmpUserRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSystemSnmpUserRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -318,9 +318,9 @@ func resourceSystemsnmpUserRead(ctx context.Context, d *schema.ResourceData, met
 	}
 	urlparams.Vdom = vdomparam
 
-	o, err := c.Cmdb.ReadSystemsnmpUser(mkey, urlparams)
+	o, err := c.Cmdb.ReadSystemSnmpUser(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error reading SystemsnmpUser resource: %v", err)
+		return diag.Errorf("error reading SystemSnmpUser resource: %v", err)
 	}
 
 	if o == nil {
@@ -336,14 +336,14 @@ func resourceSystemsnmpUserRead(ctx context.Context, d *schema.ResourceData, met
 		}
 	}
 
-	diags := refreshObjectSystemsnmpUser(d, o, c.Config.Fv, sort)
+	diags := refreshObjectSystemSnmpUser(d, o, c.Config.Fv, sort)
 	if diags.HasError() {
 		return diags
 	}
 	return nil
 }
 
-func refreshObjectSystemsnmpUser(d *schema.ResourceData, o *models.SystemsnmpUser, sv string, sort bool) diag.Diagnostics {
+func refreshObjectSystemSnmpUser(d *schema.ResourceData, o *models.SystemSnmpUser, sv string, sort bool) diag.Diagnostics {
 	var err error
 
 	if o.AuthProto != nil {
@@ -493,8 +493,8 @@ func refreshObjectSystemsnmpUser(d *schema.ResourceData, o *models.SystemsnmpUse
 	return nil
 }
 
-func getObjectSystemsnmpUser(d *schema.ResourceData, sv string) (*models.SystemsnmpUser, diag.Diagnostics) {
-	obj := models.SystemsnmpUser{}
+func getObjectSystemSnmpUser(d *schema.ResourceData, sv string) (*models.SystemSnmpUser, diag.Diagnostics) {
+	obj := models.SystemSnmpUser{}
 	diags := diag.Diagnostics{}
 
 	if v1, ok := d.GetOk("auth_proto"); ok {

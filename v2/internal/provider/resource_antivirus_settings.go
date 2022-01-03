@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -189,7 +189,12 @@ func resourceAntivirusSettingsDelete(ctx context.Context, d *schema.ResourceData
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteAntivirusSettings(mkey, urlparams)
+	obj, diags := getEmptyObjectAntivirusSettings(d, c.Config.Fv)
+	if diags.HasError() {
+		return diags
+	}
+
+	_, err := c.Cmdb.UpdateAntivirusSettings(mkey, obj, urlparams)
 	if err != nil {
 		return diag.Errorf("error deleting AntivirusSettings resource: %v", err)
 	}
@@ -325,7 +330,7 @@ func getObjectAntivirusSettings(d *schema.ResourceData, sv string) (*models.Anti
 	}
 	if v1, ok := d.GetOk("default_db"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "v6.4.2") {
+			if !utils.CheckVer(sv, "", "v6.4.0") {
 				e := utils.AttributeVersionWarning("default_db", sv)
 				diags = append(diags, e)
 			}
@@ -362,12 +367,20 @@ func getObjectAntivirusSettings(d *schema.ResourceData, sv string) (*models.Anti
 	}
 	if v1, ok := d.GetOk("use_extreme_db"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "v6.4.2", "") {
+			if !utils.CheckVer(sv, "v6.4.0", "") {
 				e := utils.AttributeVersionWarning("use_extreme_db", sv)
 				diags = append(diags, e)
 			}
 			obj.UseExtremeDb = &v2
 		}
 	}
+	return &obj, diags
+}
+
+// Return an object with explicitly empty objects for tables that have been set.
+func getEmptyObjectAntivirusSettings(d *schema.ResourceData, sv string) (*models.AntivirusSettings, diag.Diagnostics) {
+	obj := models.AntivirusSettings{}
+	diags := diag.Diagnostics{}
+
 	return &obj, diags
 }

@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -19,14 +19,14 @@ import (
 	"github.com/poroping/terraform-provider-fortios/v2/utils"
 )
 
-func resourceVpnsslwebUserGroupBookmark() *schema.Resource {
+func resourceVpnSslWebUserGroupBookmark() *schema.Resource {
 	return &schema.Resource{
 		Description: "Configure SSL-VPN user group bookmark.",
 
-		CreateContext: resourceVpnsslwebUserGroupBookmarkCreate,
-		ReadContext:   resourceVpnsslwebUserGroupBookmarkRead,
-		UpdateContext: resourceVpnsslwebUserGroupBookmarkUpdate,
-		DeleteContext: resourceVpnsslwebUserGroupBookmarkDelete,
+		CreateContext: resourceVpnSslWebUserGroupBookmarkCreate,
+		ReadContext:   resourceVpnSslWebUserGroupBookmarkRead,
+		UpdateContext: resourceVpnSslWebUserGroupBookmarkUpdate,
+		DeleteContext: resourceVpnSslWebUserGroupBookmarkDelete,
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
@@ -319,7 +319,7 @@ func resourceVpnsslwebUserGroupBookmark() *schema.Resource {
 	}
 }
 
-func resourceVpnsslwebUserGroupBookmarkCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceVpnSslWebUserGroupBookmarkCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*apiClient).Client
 	var diags diag.Diagnostics
 	var err error
@@ -346,16 +346,16 @@ func resourceVpnsslwebUserGroupBookmarkCreate(ctx context.Context, d *schema.Res
 	if v, ok := d.GetOk(key); ok {
 		mkey = utils.ParseMkey(v)
 		if mkey == "" && allow_append {
-			return diag.Errorf("error creating VpnsslwebUserGroupBookmark resource: %q must be set if \"allow_append\" is true", key)
+			return diag.Errorf("error creating VpnSslWebUserGroupBookmark resource: %q must be set if \"allow_append\" is true", key)
 		}
 	}
 
-	obj, diags := getObjectVpnsslwebUserGroupBookmark(d, c.Config.Fv)
+	obj, diags := getObjectVpnSslWebUserGroupBookmark(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.CreateVpnsslwebUserGroupBookmark(obj, urlparams)
+	o, err := c.Cmdb.CreateVpnSslWebUserGroupBookmark(obj, urlparams)
 
 	if err != nil {
 		e := diag.FromErr(err)
@@ -365,13 +365,13 @@ func resourceVpnsslwebUserGroupBookmarkCreate(ctx context.Context, d *schema.Res
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("VpnsslwebUserGroupBookmark")
+		d.SetId("VpnSslWebUserGroupBookmark")
 	}
 
-	return resourceVpnsslwebUserGroupBookmarkRead(ctx, d, meta)
+	return resourceVpnSslWebUserGroupBookmarkRead(ctx, d, meta)
 }
 
-func resourceVpnsslwebUserGroupBookmarkUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceVpnSslWebUserGroupBookmarkUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
@@ -384,27 +384,27 @@ func resourceVpnsslwebUserGroupBookmarkUpdate(ctx context.Context, d *schema.Res
 	}
 	urlparams.Vdom = vdomparam
 
-	obj, diags := getObjectVpnsslwebUserGroupBookmark(d, c.Config.Fv)
+	obj, diags := getObjectVpnSslWebUserGroupBookmark(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.UpdateVpnsslwebUserGroupBookmark(mkey, obj, urlparams)
+	o, err := c.Cmdb.UpdateVpnSslWebUserGroupBookmark(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error updating VpnsslwebUserGroupBookmark resource: %v", err)
+		return diag.Errorf("error updating VpnSslWebUserGroupBookmark resource: %v", err)
 	}
 
 	// log.Printf(strconv.Itoa(c.Retries))
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("VpnsslwebUserGroupBookmark")
+		d.SetId("VpnSslWebUserGroupBookmark")
 	}
 
-	return resourceVpnsslwebUserGroupBookmarkRead(ctx, d, meta)
+	return resourceVpnSslWebUserGroupBookmarkRead(ctx, d, meta)
 }
 
-func resourceVpnsslwebUserGroupBookmarkDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceVpnSslWebUserGroupBookmarkDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -419,9 +419,9 @@ func resourceVpnsslwebUserGroupBookmarkDelete(ctx context.Context, d *schema.Res
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteVpnsslwebUserGroupBookmark(mkey, urlparams)
+	err := c.Cmdb.DeleteVpnSslWebUserGroupBookmark(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error deleting VpnsslwebUserGroupBookmark resource: %v", err)
+		return diag.Errorf("error deleting VpnSslWebUserGroupBookmark resource: %v", err)
 	}
 
 	d.SetId("")
@@ -429,7 +429,7 @@ func resourceVpnsslwebUserGroupBookmarkDelete(ctx context.Context, d *schema.Res
 	return nil
 }
 
-func resourceVpnsslwebUserGroupBookmarkRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceVpnSslWebUserGroupBookmarkRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -444,9 +444,9 @@ func resourceVpnsslwebUserGroupBookmarkRead(ctx context.Context, d *schema.Resou
 	}
 	urlparams.Vdom = vdomparam
 
-	o, err := c.Cmdb.ReadVpnsslwebUserGroupBookmark(mkey, urlparams)
+	o, err := c.Cmdb.ReadVpnSslWebUserGroupBookmark(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error reading VpnsslwebUserGroupBookmark resource: %v", err)
+		return diag.Errorf("error reading VpnSslWebUserGroupBookmark resource: %v", err)
 	}
 
 	if o == nil {
@@ -462,14 +462,14 @@ func resourceVpnsslwebUserGroupBookmarkRead(ctx context.Context, d *schema.Resou
 		}
 	}
 
-	diags := refreshObjectVpnsslwebUserGroupBookmark(d, o, c.Config.Fv, sort)
+	diags := refreshObjectVpnSslWebUserGroupBookmark(d, o, c.Config.Fv, sort)
 	if diags.HasError() {
 		return diags
 	}
 	return nil
 }
 
-func flattenVpnsslwebUserGroupBookmarkBookmarks(v *[]models.VpnsslwebUserGroupBookmarkBookmarks, sort bool) interface{} {
+func flattenVpnSslWebUserGroupBookmarkBookmarks(v *[]models.VpnSslWebUserGroupBookmarkBookmarks, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
@@ -500,7 +500,7 @@ func flattenVpnsslwebUserGroupBookmarkBookmarks(v *[]models.VpnsslwebUserGroupBo
 			}
 
 			if tmp := cfg.FormData; tmp != nil {
-				v["form_data"] = flattenVpnsslwebUserGroupBookmarkBookmarksFormData(tmp, sort)
+				v["form_data"] = flattenVpnSslWebUserGroupBookmarkBookmarksFormData(tmp, sort)
 			}
 
 			if tmp := cfg.Host; tmp != nil {
@@ -602,7 +602,7 @@ func flattenVpnsslwebUserGroupBookmarkBookmarks(v *[]models.VpnsslwebUserGroupBo
 	return flat
 }
 
-func flattenVpnsslwebUserGroupBookmarkBookmarksFormData(v *[]models.VpnsslwebUserGroupBookmarkBookmarksFormData, sort bool) interface{} {
+func flattenVpnSslWebUserGroupBookmarkBookmarksFormData(v *[]models.VpnSslWebUserGroupBookmarkBookmarksFormData, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
@@ -627,11 +627,11 @@ func flattenVpnsslwebUserGroupBookmarkBookmarksFormData(v *[]models.VpnsslwebUse
 	return flat
 }
 
-func refreshObjectVpnsslwebUserGroupBookmark(d *schema.ResourceData, o *models.VpnsslwebUserGroupBookmark, sv string, sort bool) diag.Diagnostics {
+func refreshObjectVpnSslWebUserGroupBookmark(d *schema.ResourceData, o *models.VpnSslWebUserGroupBookmark, sv string, sort bool) diag.Diagnostics {
 	var err error
 
 	if o.Bookmarks != nil {
-		if err = d.Set("bookmarks", flattenVpnsslwebUserGroupBookmarkBookmarks(o.Bookmarks, sort)); err != nil {
+		if err = d.Set("bookmarks", flattenVpnSslWebUserGroupBookmarkBookmarks(o.Bookmarks, sort)); err != nil {
 			return diag.Errorf("error reading bookmarks: %v", err)
 		}
 	}
@@ -647,16 +647,16 @@ func refreshObjectVpnsslwebUserGroupBookmark(d *schema.ResourceData, o *models.V
 	return nil
 }
 
-func expandVpnsslwebUserGroupBookmarkBookmarks(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.VpnsslwebUserGroupBookmarkBookmarks, error) {
+func expandVpnSslWebUserGroupBookmarkBookmarks(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.VpnSslWebUserGroupBookmarkBookmarks, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
 	}
 
-	var result []models.VpnsslwebUserGroupBookmarkBookmarks
+	var result []models.VpnSslWebUserGroupBookmarkBookmarks
 
 	for i := range l {
-		tmp := models.VpnsslwebUserGroupBookmarkBookmarks{}
+		tmp := models.VpnSslWebUserGroupBookmarkBookmarks{}
 		var pre_append string
 
 		pre_append = fmt.Sprintf("%s.%d.additional_params", pre, i)
@@ -703,9 +703,9 @@ func expandVpnsslwebUserGroupBookmarkBookmarks(d *schema.ResourceData, v interfa
 
 		pre_append = fmt.Sprintf("%s.%d.form_data", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			v2, _ := expandVpnsslwebUserGroupBookmarkBookmarksFormData(d, v1, pre_append, sv)
+			v2, _ := expandVpnSslWebUserGroupBookmarkBookmarksFormData(d, v1, pre_append, sv)
 			// if err != nil {
-			// 	v2 := &[]models.VpnsslwebUserGroupBookmarkBookmarksFormData
+			// 	v2 := &[]models.VpnSslWebUserGroupBookmarkBookmarksFormData
 			// 	}
 			tmp.FormData = v2
 
@@ -870,16 +870,16 @@ func expandVpnsslwebUserGroupBookmarkBookmarks(d *schema.ResourceData, v interfa
 	return &result, nil
 }
 
-func expandVpnsslwebUserGroupBookmarkBookmarksFormData(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.VpnsslwebUserGroupBookmarkBookmarksFormData, error) {
+func expandVpnSslWebUserGroupBookmarkBookmarksFormData(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.VpnSslWebUserGroupBookmarkBookmarksFormData, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
 	}
 
-	var result []models.VpnsslwebUserGroupBookmarkBookmarksFormData
+	var result []models.VpnSslWebUserGroupBookmarkBookmarksFormData
 
 	for i := range l {
-		tmp := models.VpnsslwebUserGroupBookmarkBookmarksFormData{}
+		tmp := models.VpnSslWebUserGroupBookmarkBookmarksFormData{}
 		var pre_append string
 
 		pre_append = fmt.Sprintf("%s.%d.name", pre, i)
@@ -901,8 +901,8 @@ func expandVpnsslwebUserGroupBookmarkBookmarksFormData(d *schema.ResourceData, v
 	return &result, nil
 }
 
-func getObjectVpnsslwebUserGroupBookmark(d *schema.ResourceData, sv string) (*models.VpnsslwebUserGroupBookmark, diag.Diagnostics) {
-	obj := models.VpnsslwebUserGroupBookmark{}
+func getObjectVpnSslWebUserGroupBookmark(d *schema.ResourceData, sv string) (*models.VpnSslWebUserGroupBookmark, diag.Diagnostics) {
+	obj := models.VpnSslWebUserGroupBookmark{}
 	diags := diag.Diagnostics{}
 
 	if v, ok := d.GetOk("bookmarks"); ok {
@@ -910,7 +910,7 @@ func getObjectVpnsslwebUserGroupBookmark(d *schema.ResourceData, sv string) (*mo
 			e := utils.AttributeVersionWarning("bookmarks", sv)
 			diags = append(diags, e)
 		}
-		t, err := expandVpnsslwebUserGroupBookmarkBookmarks(d, v, "bookmarks", sv)
+		t, err := expandVpnSslWebUserGroupBookmarkBookmarks(d, v, "bookmarks", sv)
 		if err != nil {
 			return &obj, diag.FromErr(err)
 		} else if t != nil {
@@ -919,7 +919,7 @@ func getObjectVpnsslwebUserGroupBookmark(d *schema.ResourceData, sv string) (*mo
 	} else if d.HasChange("bookmarks") {
 		old, new := d.GetChange("bookmarks")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.Bookmarks = &[]models.VpnsslwebUserGroupBookmarkBookmarks{}
+			obj.Bookmarks = &[]models.VpnSslWebUserGroupBookmarkBookmarks{}
 		}
 	}
 	if v1, ok := d.GetOk("name"); ok {

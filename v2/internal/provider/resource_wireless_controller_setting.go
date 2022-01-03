@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -286,7 +286,12 @@ func resourceWirelessControllerSettingDelete(ctx context.Context, d *schema.Reso
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteWirelessControllerSetting(mkey, urlparams)
+	obj, diags := getEmptyObjectWirelessControllerSetting(d, c.Config.Fv)
+	if diags.HasError() {
+		return diags
+	}
+
+	_, err := c.Cmdb.UpdateWirelessControllerSetting(mkey, obj, urlparams)
 	if err != nil {
 		return diag.Errorf("error deleting WirelessControllerSetting resource: %v", err)
 	}
@@ -712,5 +717,16 @@ func getObjectWirelessControllerSetting(d *schema.ResourceData, sv string) (*mod
 			obj.WfaCompatibility = &v2
 		}
 	}
+	return &obj, diags
+}
+
+// Return an object with explicitly empty objects for tables that have been set.
+func getEmptyObjectWirelessControllerSetting(d *schema.ResourceData, sv string) (*models.WirelessControllerSetting, diag.Diagnostics) {
+	obj := models.WirelessControllerSetting{}
+	diags := diag.Diagnostics{}
+
+	obj.DarrpOptimizeSchedules = &[]models.WirelessControllerSettingDarrpOptimizeSchedules{}
+	obj.OffendingSsid = &[]models.WirelessControllerSettingOffendingSsid{}
+
 	return &obj, diags
 }

@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -18,14 +18,14 @@ import (
 	"github.com/poroping/terraform-provider-fortios/v2/utils"
 )
 
-func resourceLogfortiguardSetting() *schema.Resource {
+func resourceLogFortiguardSetting() *schema.Resource {
 	return &schema.Resource{
 		Description: "Configure logging to FortiCloud.",
 
-		CreateContext: resourceLogfortiguardSettingCreate,
-		ReadContext:   resourceLogfortiguardSettingRead,
-		UpdateContext: resourceLogfortiguardSettingUpdate,
-		DeleteContext: resourceLogfortiguardSettingDelete,
+		CreateContext: resourceLogFortiguardSettingCreate,
+		ReadContext:   resourceLogFortiguardSettingRead,
+		UpdateContext: resourceLogFortiguardSettingUpdate,
+		DeleteContext: resourceLogFortiguardSettingDelete,
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
@@ -152,7 +152,7 @@ func resourceLogfortiguardSetting() *schema.Resource {
 	}
 }
 
-func resourceLogfortiguardSettingCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceLogFortiguardSettingCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*apiClient).Client
 	var diags diag.Diagnostics
 	var err error
@@ -174,12 +174,12 @@ func resourceLogfortiguardSettingCreate(ctx context.Context, d *schema.ResourceD
 	}
 	urlparams.AllowAppend = &allow_append
 
-	obj, diags := getObjectLogfortiguardSetting(d, c.Config.Fv)
+	obj, diags := getObjectLogFortiguardSetting(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.CreateLogfortiguardSetting(obj, urlparams)
+	o, err := c.Cmdb.CreateLogFortiguardSetting(obj, urlparams)
 
 	if err != nil {
 		e := diag.FromErr(err)
@@ -189,13 +189,13 @@ func resourceLogfortiguardSettingCreate(ctx context.Context, d *schema.ResourceD
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("LogfortiguardSetting")
+		d.SetId("LogFortiguardSetting")
 	}
 
-	return resourceLogfortiguardSettingRead(ctx, d, meta)
+	return resourceLogFortiguardSettingRead(ctx, d, meta)
 }
 
-func resourceLogfortiguardSettingUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceLogFortiguardSettingUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
@@ -208,27 +208,27 @@ func resourceLogfortiguardSettingUpdate(ctx context.Context, d *schema.ResourceD
 	}
 	urlparams.Vdom = vdomparam
 
-	obj, diags := getObjectLogfortiguardSetting(d, c.Config.Fv)
+	obj, diags := getObjectLogFortiguardSetting(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.UpdateLogfortiguardSetting(mkey, obj, urlparams)
+	o, err := c.Cmdb.UpdateLogFortiguardSetting(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error updating LogfortiguardSetting resource: %v", err)
+		return diag.Errorf("error updating LogFortiguardSetting resource: %v", err)
 	}
 
 	// log.Printf(strconv.Itoa(c.Retries))
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("LogfortiguardSetting")
+		d.SetId("LogFortiguardSetting")
 	}
 
-	return resourceLogfortiguardSettingRead(ctx, d, meta)
+	return resourceLogFortiguardSettingRead(ctx, d, meta)
 }
 
-func resourceLogfortiguardSettingDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceLogFortiguardSettingDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -243,9 +243,14 @@ func resourceLogfortiguardSettingDelete(ctx context.Context, d *schema.ResourceD
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteLogfortiguardSetting(mkey, urlparams)
+	obj, diags := getEmptyObjectLogFortiguardSetting(d, c.Config.Fv)
+	if diags.HasError() {
+		return diags
+	}
+
+	_, err := c.Cmdb.UpdateLogFortiguardSetting(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error deleting LogfortiguardSetting resource: %v", err)
+		return diag.Errorf("error deleting LogFortiguardSetting resource: %v", err)
 	}
 
 	d.SetId("")
@@ -253,7 +258,7 @@ func resourceLogfortiguardSettingDelete(ctx context.Context, d *schema.ResourceD
 	return nil
 }
 
-func resourceLogfortiguardSettingRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceLogFortiguardSettingRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -268,9 +273,9 @@ func resourceLogfortiguardSettingRead(ctx context.Context, d *schema.ResourceDat
 	}
 	urlparams.Vdom = vdomparam
 
-	o, err := c.Cmdb.ReadLogfortiguardSetting(mkey, urlparams)
+	o, err := c.Cmdb.ReadLogFortiguardSetting(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error reading LogfortiguardSetting resource: %v", err)
+		return diag.Errorf("error reading LogFortiguardSetting resource: %v", err)
 	}
 
 	if o == nil {
@@ -286,14 +291,14 @@ func resourceLogfortiguardSettingRead(ctx context.Context, d *schema.ResourceDat
 		}
 	}
 
-	diags := refreshObjectLogfortiguardSetting(d, o, c.Config.Fv, sort)
+	diags := refreshObjectLogFortiguardSetting(d, o, c.Config.Fv, sort)
 	if diags.HasError() {
 		return diags
 	}
 	return nil
 }
 
-func refreshObjectLogfortiguardSetting(d *schema.ResourceData, o *models.LogfortiguardSetting, sv string, sort bool) diag.Diagnostics {
+func refreshObjectLogFortiguardSetting(d *schema.ResourceData, o *models.LogFortiguardSetting, sv string, sort bool) diag.Diagnostics {
 	var err error
 
 	if o.AccessConfig != nil {
@@ -411,8 +416,8 @@ func refreshObjectLogfortiguardSetting(d *schema.ResourceData, o *models.Logfort
 	return nil
 }
 
-func getObjectLogfortiguardSetting(d *schema.ResourceData, sv string) (*models.LogfortiguardSetting, diag.Diagnostics) {
-	obj := models.LogfortiguardSetting{}
+func getObjectLogFortiguardSetting(d *schema.ResourceData, sv string) (*models.LogFortiguardSetting, diag.Diagnostics) {
+	obj := models.LogFortiguardSetting{}
 	diags := diag.Diagnostics{}
 
 	if v1, ok := d.GetOk("access_config"); ok {
@@ -445,7 +450,7 @@ func getObjectLogfortiguardSetting(d *schema.ResourceData, sv string) (*models.L
 	}
 	if v1, ok := d.GetOk("interface"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "") {
+			if !utils.CheckVer(sv, "", "v6.4.0") {
 				e := utils.AttributeVersionWarning("interface", sv)
 				diags = append(diags, e)
 			}
@@ -454,7 +459,7 @@ func getObjectLogfortiguardSetting(d *schema.ResourceData, sv string) (*models.L
 	}
 	if v1, ok := d.GetOk("interface_select_method"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "") {
+			if !utils.CheckVer(sv, "", "v6.4.0") {
 				e := utils.AttributeVersionWarning("interface_select_method", sv)
 				diags = append(diags, e)
 			}
@@ -543,5 +548,13 @@ func getObjectLogfortiguardSetting(d *schema.ResourceData, sv string) (*models.L
 			obj.UploadTime = &v2
 		}
 	}
+	return &obj, diags
+}
+
+// Return an object with explicitly empty objects for tables that have been set.
+func getEmptyObjectLogFortiguardSetting(d *schema.ResourceData, sv string) (*models.LogFortiguardSetting, diag.Diagnostics) {
+	obj := models.LogFortiguardSetting{}
+	diags := diag.Diagnostics{}
+
 	return &obj, diags
 }

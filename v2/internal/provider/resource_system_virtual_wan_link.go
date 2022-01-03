@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -88,6 +88,14 @@ func resourceSystemVirtualWanLink() *schema.Resource {
 							Type: schema.TypeString,
 
 							Description: "Differentiated services code point (DSCP) in the IP header of the probe packet.",
+							Optional:    true,
+							Computed:    true,
+						},
+						"dns_request_domain": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringLenBetween(0, 255),
+
+							Description: "Fully qualified domain name to resolve for the DNS probe.",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -187,6 +195,14 @@ func resourceSystemVirtualWanLink() *schema.Resource {
 							Optional:    true,
 							Computed:    true,
 						},
+						"probe_count": {
+							Type:         schema.TypeInt,
+							ValidateFunc: validation.IntBetween(5, 30),
+
+							Description: "Number of most recent probes that should be used to calculate latency and jitter (5 - 30, default = 30).",
+							Optional:    true,
+							Computed:    true,
+						},
 						"probe_packets": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringInSlice([]string{"disable", "enable"}, false),
@@ -205,7 +221,7 @@ func resourceSystemVirtualWanLink() *schema.Resource {
 						},
 						"protocol": {
 							Type:         schema.TypeString,
-							ValidateFunc: validation.StringInSlice([]string{"ping", "tcp-echo", "udp-echo", "http", "twamp", "ping6"}, false),
+							ValidateFunc: validation.StringInSlice([]string{"ping", "tcp-echo", "udp-echo", "http", "twamp", "ping6", "dns"}, false),
 
 							Description: "Protocol used to determine if the FortiGate can communicate with the server.",
 							Optional:    true,
@@ -297,6 +313,14 @@ func resourceSystemVirtualWanLink() *schema.Resource {
 							ValidateFunc: validation.IntBetween(0, 3600),
 
 							Description: "Time interval in seconds that SLA pass log messages will be generated (0 - 3600, default = 0).",
+							Optional:    true,
+							Computed:    true,
+						},
+						"system_dns": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringInSlice([]string{"disable", "enable"}, false),
+
+							Description: "Enable/disable system DNS as the probe server.",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -508,7 +532,7 @@ func resourceSystemVirtualWanLink() *schema.Resource {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 45),
 
-							Description: "IP address of neighbor.",
+							Description: "IP/IPv6 address of neighbor.",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -697,12 +721,21 @@ func resourceSystemVirtualWanLink() *schema.Resource {
 							},
 						},
 						"health_check": {
-							Type:         schema.TypeString,
-							ValidateFunc: validation.StringLenBetween(0, 35),
-
-							Description: "Health check.",
+							Type:        schema.TypeList,
+							Description: "Health check list.",
 							Optional:    true,
-							Computed:    true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"name": {
+										Type:         schema.TypeString,
+										ValidateFunc: validation.StringLenBetween(0, 79),
+
+										Description: "Health check name.",
+										Optional:    true,
+										Computed:    true,
+									},
+								},
+							},
 						},
 						"hold_down_time": {
 							Type:         schema.TypeInt,
@@ -853,6 +886,23 @@ func resourceSystemVirtualWanLink() *schema.Resource {
 								},
 							},
 						},
+						"internet_service_name": {
+							Type:        schema.TypeList,
+							Description: "Internet service name list.",
+							Optional:    true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"name": {
+										Type:         schema.TypeString,
+										ValidateFunc: validation.StringLenBetween(0, 79),
+
+										Description: "Internet service name.",
+										Optional:    true,
+										Computed:    true,
+									},
+								},
+							},
+						},
 						"jitter_weight": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 10000000),
@@ -984,7 +1034,7 @@ func resourceSystemVirtualWanLink() *schema.Resource {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringInSlice([]string{"order", "number"}, false),
 
-							Description: "Method to compare SLA value for sla and load balance mode. ",
+							Description: "Method to compare SLA value for SLA mode.",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -1208,7 +1258,12 @@ func resourceSystemVirtualWanLinkDelete(ctx context.Context, d *schema.ResourceD
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteSystemVirtualWanLink(mkey, urlparams)
+	obj, diags := getEmptyObjectSystemVirtualWanLink(d, c.Config.Fv)
+	if diags.HasError() {
+		return diags
+	}
+
+	_, err := c.Cmdb.UpdateSystemVirtualWanLink(mkey, obj, urlparams)
 	if err != nil {
 		return diag.Errorf("error deleting SystemVirtualWanLink resource: %v", err)
 	}
@@ -1293,6 +1348,10 @@ func flattenSystemVirtualWanLinkHealthCheck(v *[]models.SystemVirtualWanLinkHeal
 				v["diffservcode"] = *tmp
 			}
 
+			if tmp := cfg.DnsRequestDomain; tmp != nil {
+				v["dns_request_domain"] = *tmp
+			}
+
 			if tmp := cfg.Failtime; tmp != nil {
 				v["failtime"] = *tmp
 			}
@@ -1337,6 +1396,10 @@ func flattenSystemVirtualWanLinkHealthCheck(v *[]models.SystemVirtualWanLinkHeal
 				v["port"] = *tmp
 			}
 
+			if tmp := cfg.ProbeCount; tmp != nil {
+				v["probe_count"] = *tmp
+			}
+
 			if tmp := cfg.ProbePackets; tmp != nil {
 				v["probe_packets"] = *tmp
 			}
@@ -1371,6 +1434,10 @@ func flattenSystemVirtualWanLinkHealthCheck(v *[]models.SystemVirtualWanLinkHeal
 
 			if tmp := cfg.SlaPassLogPeriod; tmp != nil {
 				v["sla_pass_log_period"] = *tmp
+			}
+
+			if tmp := cfg.SystemDns; tmp != nil {
+				v["system_dns"] = *tmp
 			}
 
 			if tmp := cfg.ThresholdAlertJitter; tmp != nil {
@@ -1643,7 +1710,7 @@ func flattenSystemVirtualWanLinkService(v *[]models.SystemVirtualWanLinkService,
 			}
 
 			if tmp := cfg.HealthCheck; tmp != nil {
-				v["health_check"] = *tmp
+				v["health_check"] = flattenSystemVirtualWanLinkServiceHealthCheck(tmp, sort)
 			}
 
 			if tmp := cfg.HoldDownTime; tmp != nil {
@@ -1688,6 +1755,10 @@ func flattenSystemVirtualWanLinkService(v *[]models.SystemVirtualWanLinkService,
 
 			if tmp := cfg.InternetServiceId; tmp != nil {
 				v["internet_service_id"] = flattenSystemVirtualWanLinkServiceInternetServiceId(tmp, sort)
+			}
+
+			if tmp := cfg.InternetServiceName; tmp != nil {
+				v["internet_service_name"] = flattenSystemVirtualWanLinkServiceInternetServiceName(tmp, sort)
 			}
 
 			if tmp := cfg.JitterWeight; tmp != nil {
@@ -1856,6 +1927,27 @@ func flattenSystemVirtualWanLinkServiceGroups(v *[]models.SystemVirtualWanLinkSe
 	return flat
 }
 
+func flattenSystemVirtualWanLinkServiceHealthCheck(v *[]models.SystemVirtualWanLinkServiceHealthCheck, sort bool) interface{} {
+	flat := make([]map[string]interface{}, 0)
+
+	if v != nil {
+		for _, cfg := range *v {
+			v := make(map[string]interface{})
+			if tmp := cfg.Name; tmp != nil {
+				v["name"] = *tmp
+			}
+
+			flat = append(flat, v)
+		}
+	}
+
+	if sort {
+		utils.SortSubtable(flat, "name")
+	}
+
+	return flat
+}
+
 func flattenSystemVirtualWanLinkServiceInputDevice(v *[]models.SystemVirtualWanLinkServiceInputDevice, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
@@ -1998,6 +2090,27 @@ func flattenSystemVirtualWanLinkServiceInternetServiceId(v *[]models.SystemVirtu
 
 	if sort {
 		utils.SortSubtable(flat, "id")
+	}
+
+	return flat
+}
+
+func flattenSystemVirtualWanLinkServiceInternetServiceName(v *[]models.SystemVirtualWanLinkServiceInternetServiceName, sort bool) interface{} {
+	flat := make([]map[string]interface{}, 0)
+
+	if v != nil {
+		for _, cfg := range *v {
+			v := make(map[string]interface{})
+			if tmp := cfg.Name; tmp != nil {
+				v["name"] = *tmp
+			}
+
+			flat = append(flat, v)
+		}
+	}
+
+	if sort {
+		utils.SortSubtable(flat, "name")
 	}
 
 	return flat
@@ -2273,6 +2386,13 @@ func expandSystemVirtualWanLinkHealthCheck(d *schema.ResourceData, v interface{}
 			}
 		}
 
+		pre_append = fmt.Sprintf("%s.%d.dns_request_domain", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.DnsRequestDomain = &v2
+			}
+		}
+
 		pre_append = fmt.Sprintf("%s.%d.failtime", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
 			if v2, ok := v1.(int64); ok {
@@ -2353,6 +2473,13 @@ func expandSystemVirtualWanLinkHealthCheck(d *schema.ResourceData, v interface{}
 			}
 		}
 
+		pre_append = fmt.Sprintf("%s.%d.probe_count", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(int64); ok {
+				tmp.ProbeCount = &v2
+			}
+		}
+
 		pre_append = fmt.Sprintf("%s.%d.probe_packets", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
 			if v2, ok := v1.(string); ok {
@@ -2416,6 +2543,13 @@ func expandSystemVirtualWanLinkHealthCheck(d *schema.ResourceData, v interface{}
 		if v1, ok := d.GetOk(pre_append); ok {
 			if v2, ok := v1.(int64); ok {
 				tmp.SlaPassLogPeriod = &v2
+			}
+		}
+
+		pre_append = fmt.Sprintf("%s.%d.system_dns", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.SystemDns = &v2
 			}
 		}
 
@@ -2837,9 +2971,12 @@ func expandSystemVirtualWanLinkService(d *schema.ResourceData, v interface{}, pr
 
 		pre_append = fmt.Sprintf("%s.%d.health_check", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(string); ok {
-				tmp.HealthCheck = &v2
-			}
+			v2, _ := expandSystemVirtualWanLinkServiceHealthCheck(d, v1, pre_append, sv)
+			// if err != nil {
+			// 	v2 := &[]models.SystemVirtualWanLinkServiceHealthCheck
+			// 	}
+			tmp.HealthCheck = v2
+
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.hold_down_time", pre, i)
@@ -2937,6 +3074,16 @@ func expandSystemVirtualWanLinkService(d *schema.ResourceData, v interface{}, pr
 			// 	v2 := &[]models.SystemVirtualWanLinkServiceInternetServiceId
 			// 	}
 			tmp.InternetServiceId = v2
+
+		}
+
+		pre_append = fmt.Sprintf("%s.%d.internet_service_name", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			v2, _ := expandSystemVirtualWanLinkServiceInternetServiceName(d, v1, pre_append, sv)
+			// if err != nil {
+			// 	v2 := &[]models.SystemVirtualWanLinkServiceInternetServiceName
+			// 	}
+			tmp.InternetServiceName = v2
 
 		}
 
@@ -3193,6 +3340,30 @@ func expandSystemVirtualWanLinkServiceGroups(d *schema.ResourceData, v interface
 	return &result, nil
 }
 
+func expandSystemVirtualWanLinkServiceHealthCheck(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.SystemVirtualWanLinkServiceHealthCheck, error) {
+	l := v.([]interface{})
+	if len(l) == 0 || l[0] == nil {
+		return nil, nil
+	}
+
+	var result []models.SystemVirtualWanLinkServiceHealthCheck
+
+	for i := range l {
+		tmp := models.SystemVirtualWanLinkServiceHealthCheck{}
+		var pre_append string
+
+		pre_append = fmt.Sprintf("%s.%d.name", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.Name = &v2
+			}
+		}
+
+		result = append(result, tmp)
+	}
+	return &result, nil
+}
+
 func expandSystemVirtualWanLinkServiceInputDevice(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.SystemVirtualWanLinkServiceInputDevice, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
@@ -3353,6 +3524,30 @@ func expandSystemVirtualWanLinkServiceInternetServiceId(d *schema.ResourceData, 
 		if v1, ok := d.GetOk(pre_append); ok {
 			if v2, ok := v1.(int64); ok {
 				tmp.Id = &v2
+			}
+		}
+
+		result = append(result, tmp)
+	}
+	return &result, nil
+}
+
+func expandSystemVirtualWanLinkServiceInternetServiceName(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.SystemVirtualWanLinkServiceInternetServiceName, error) {
+	l := v.([]interface{})
+	if len(l) == 0 || l[0] == nil {
+		return nil, nil
+	}
+
+	var result []models.SystemVirtualWanLinkServiceInternetServiceName
+
+	for i := range l {
+		tmp := models.SystemVirtualWanLinkServiceInternetServiceName{}
+		var pre_append string
+
+		pre_append = fmt.Sprintf("%s.%d.name", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.Name = &v2
 			}
 		}
 
@@ -3658,7 +3853,7 @@ func getObjectSystemVirtualWanLink(d *schema.ResourceData, sv string) (*models.S
 		}
 	}
 	if v, ok := d.GetOk("zone"); ok {
-		if !utils.CheckVer(sv, "", "") {
+		if !utils.CheckVer(sv, "", "v6.4.0") {
 			e := utils.AttributeVersionWarning("zone", sv)
 			diags = append(diags, e)
 		}
@@ -3674,5 +3869,20 @@ func getObjectSystemVirtualWanLink(d *schema.ResourceData, sv string) (*models.S
 			obj.Zone = &[]models.SystemVirtualWanLinkZone{}
 		}
 	}
+	return &obj, diags
+}
+
+// Return an object with explicitly empty objects for tables that have been set.
+func getEmptyObjectSystemVirtualWanLink(d *schema.ResourceData, sv string) (*models.SystemVirtualWanLink, diag.Diagnostics) {
+	obj := models.SystemVirtualWanLink{}
+	diags := diag.Diagnostics{}
+
+	obj.FailAlertInterfaces = &[]models.SystemVirtualWanLinkFailAlertInterfaces{}
+	obj.HealthCheck = &[]models.SystemVirtualWanLinkHealthCheck{}
+	obj.Members = &[]models.SystemVirtualWanLinkMembers{}
+	obj.Neighbor = &[]models.SystemVirtualWanLinkNeighbor{}
+	obj.Service = &[]models.SystemVirtualWanLinkService{}
+	obj.Zone = &[]models.SystemVirtualWanLinkZone{}
+
 	return &obj, diags
 }

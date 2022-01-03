@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -214,7 +214,12 @@ func resourceSystemNat64Delete(ctx context.Context, d *schema.ResourceData, meta
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteSystemNat64(mkey, urlparams)
+	obj, diags := getEmptyObjectSystemNat64(d, c.Config.Fv)
+	if diags.HasError() {
+		return diags
+	}
+
+	_, err := c.Cmdb.UpdateSystemNat64(mkey, obj, urlparams)
 	if err != nil {
 		return diag.Errorf("error deleting SystemNat64 resource: %v", err)
 	}
@@ -455,5 +460,15 @@ func getObjectSystemNat64(d *schema.ResourceData, sv string) (*models.SystemNat6
 			obj.Status = &v2
 		}
 	}
+	return &obj, diags
+}
+
+// Return an object with explicitly empty objects for tables that have been set.
+func getEmptyObjectSystemNat64(d *schema.ResourceData, sv string) (*models.SystemNat64, diag.Diagnostics) {
+	obj := models.SystemNat64{}
+	diags := diag.Diagnostics{}
+
+	obj.SecondaryPrefix = &[]models.SystemNat64SecondaryPrefix{}
+
 	return &obj, diags
 }

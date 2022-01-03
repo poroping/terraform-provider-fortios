@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -18,14 +18,14 @@ import (
 	"github.com/poroping/terraform-provider-fortios/v2/utils"
 )
 
-func resourceSystemreplacemsgNntp() *schema.Resource {
+func resourceSystemReplacemsgNntp() *schema.Resource {
 	return &schema.Resource{
 		Description: "Replacement messages.",
 
-		CreateContext: resourceSystemreplacemsgNntpCreate,
-		ReadContext:   resourceSystemreplacemsgNntpRead,
-		UpdateContext: resourceSystemreplacemsgNntpUpdate,
-		DeleteContext: resourceSystemreplacemsgNntpDelete,
+		CreateContext: resourceSystemReplacemsgNntpCreate,
+		ReadContext:   resourceSystemReplacemsgNntpRead,
+		UpdateContext: resourceSystemReplacemsgNntpUpdate,
+		DeleteContext: resourceSystemReplacemsgNntpDelete,
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
@@ -80,7 +80,7 @@ func resourceSystemreplacemsgNntp() *schema.Resource {
 	}
 }
 
-func resourceSystemreplacemsgNntpCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSystemReplacemsgNntpCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*apiClient).Client
 	var diags diag.Diagnostics
 	var err error
@@ -107,16 +107,16 @@ func resourceSystemreplacemsgNntpCreate(ctx context.Context, d *schema.ResourceD
 	if v, ok := d.GetOk(key); ok {
 		mkey = utils.ParseMkey(v)
 		if mkey == "" && allow_append {
-			return diag.Errorf("error creating SystemreplacemsgNntp resource: %q must be set if \"allow_append\" is true", key)
+			return diag.Errorf("error creating SystemReplacemsgNntp resource: %q must be set if \"allow_append\" is true", key)
 		}
 	}
 
-	obj, diags := getObjectSystemreplacemsgNntp(d, c.Config.Fv)
+	obj, diags := getObjectSystemReplacemsgNntp(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.CreateSystemreplacemsgNntp(obj, urlparams)
+	o, err := c.Cmdb.CreateSystemReplacemsgNntp(obj, urlparams)
 
 	if err != nil {
 		e := diag.FromErr(err)
@@ -126,13 +126,13 @@ func resourceSystemreplacemsgNntpCreate(ctx context.Context, d *schema.ResourceD
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("SystemreplacemsgNntp")
+		d.SetId("SystemReplacemsgNntp")
 	}
 
-	return resourceSystemreplacemsgNntpRead(ctx, d, meta)
+	return resourceSystemReplacemsgNntpRead(ctx, d, meta)
 }
 
-func resourceSystemreplacemsgNntpUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSystemReplacemsgNntpUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
@@ -145,27 +145,27 @@ func resourceSystemreplacemsgNntpUpdate(ctx context.Context, d *schema.ResourceD
 	}
 	urlparams.Vdom = vdomparam
 
-	obj, diags := getObjectSystemreplacemsgNntp(d, c.Config.Fv)
+	obj, diags := getObjectSystemReplacemsgNntp(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.UpdateSystemreplacemsgNntp(mkey, obj, urlparams)
+	o, err := c.Cmdb.UpdateSystemReplacemsgNntp(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error updating SystemreplacemsgNntp resource: %v", err)
+		return diag.Errorf("error updating SystemReplacemsgNntp resource: %v", err)
 	}
 
 	// log.Printf(strconv.Itoa(c.Retries))
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("SystemreplacemsgNntp")
+		d.SetId("SystemReplacemsgNntp")
 	}
 
-	return resourceSystemreplacemsgNntpRead(ctx, d, meta)
+	return resourceSystemReplacemsgNntpRead(ctx, d, meta)
 }
 
-func resourceSystemreplacemsgNntpDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSystemReplacemsgNntpDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -180,9 +180,9 @@ func resourceSystemreplacemsgNntpDelete(ctx context.Context, d *schema.ResourceD
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteSystemreplacemsgNntp(mkey, urlparams)
+	err := c.Cmdb.DeleteSystemReplacemsgNntp(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error deleting SystemreplacemsgNntp resource: %v", err)
+		return diag.Errorf("error deleting SystemReplacemsgNntp resource: %v", err)
 	}
 
 	d.SetId("")
@@ -190,7 +190,7 @@ func resourceSystemreplacemsgNntpDelete(ctx context.Context, d *schema.ResourceD
 	return nil
 }
 
-func resourceSystemreplacemsgNntpRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSystemReplacemsgNntpRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -205,9 +205,9 @@ func resourceSystemreplacemsgNntpRead(ctx context.Context, d *schema.ResourceDat
 	}
 	urlparams.Vdom = vdomparam
 
-	o, err := c.Cmdb.ReadSystemreplacemsgNntp(mkey, urlparams)
+	o, err := c.Cmdb.ReadSystemReplacemsgNntp(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error reading SystemreplacemsgNntp resource: %v", err)
+		return diag.Errorf("error reading SystemReplacemsgNntp resource: %v", err)
 	}
 
 	if o == nil {
@@ -223,14 +223,14 @@ func resourceSystemreplacemsgNntpRead(ctx context.Context, d *schema.ResourceDat
 		}
 	}
 
-	diags := refreshObjectSystemreplacemsgNntp(d, o, c.Config.Fv, sort)
+	diags := refreshObjectSystemReplacemsgNntp(d, o, c.Config.Fv, sort)
 	if diags.HasError() {
 		return diags
 	}
 	return nil
 }
 
-func refreshObjectSystemreplacemsgNntp(d *schema.ResourceData, o *models.SystemreplacemsgNntp, sv string, sort bool) diag.Diagnostics {
+func refreshObjectSystemReplacemsgNntp(d *schema.ResourceData, o *models.SystemReplacemsgNntp, sv string, sort bool) diag.Diagnostics {
 	var err error
 
 	if o.Buffer != nil {
@@ -268,8 +268,8 @@ func refreshObjectSystemreplacemsgNntp(d *schema.ResourceData, o *models.Systemr
 	return nil
 }
 
-func getObjectSystemreplacemsgNntp(d *schema.ResourceData, sv string) (*models.SystemreplacemsgNntp, diag.Diagnostics) {
-	obj := models.SystemreplacemsgNntp{}
+func getObjectSystemReplacemsgNntp(d *schema.ResourceData, sv string) (*models.SystemReplacemsgNntp, diag.Diagnostics) {
+	obj := models.SystemReplacemsgNntp{}
 	diags := diag.Diagnostics{}
 
 	if v1, ok := d.GetOk("buffer"); ok {

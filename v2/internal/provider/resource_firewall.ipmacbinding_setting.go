@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -18,14 +18,14 @@ import (
 	"github.com/poroping/terraform-provider-fortios/v2/utils"
 )
 
-func resourceFirewallipmacbindingSetting() *schema.Resource {
+func resourceFirewallIpmacbindingSetting() *schema.Resource {
 	return &schema.Resource{
 		Description: "Configure IP to MAC binding settings.",
 
-		CreateContext: resourceFirewallipmacbindingSettingCreate,
-		ReadContext:   resourceFirewallipmacbindingSettingRead,
-		UpdateContext: resourceFirewallipmacbindingSettingUpdate,
-		DeleteContext: resourceFirewallipmacbindingSettingDelete,
+		CreateContext: resourceFirewallIpmacbindingSettingCreate,
+		ReadContext:   resourceFirewallIpmacbindingSettingRead,
+		UpdateContext: resourceFirewallIpmacbindingSettingUpdate,
+		DeleteContext: resourceFirewallIpmacbindingSettingDelete,
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
@@ -66,7 +66,7 @@ func resourceFirewallipmacbindingSetting() *schema.Resource {
 	}
 }
 
-func resourceFirewallipmacbindingSettingCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceFirewallIpmacbindingSettingCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*apiClient).Client
 	var diags diag.Diagnostics
 	var err error
@@ -88,12 +88,12 @@ func resourceFirewallipmacbindingSettingCreate(ctx context.Context, d *schema.Re
 	}
 	urlparams.AllowAppend = &allow_append
 
-	obj, diags := getObjectFirewallipmacbindingSetting(d, c.Config.Fv)
+	obj, diags := getObjectFirewallIpmacbindingSetting(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.CreateFirewallipmacbindingSetting(obj, urlparams)
+	o, err := c.Cmdb.CreateFirewallIpmacbindingSetting(obj, urlparams)
 
 	if err != nil {
 		e := diag.FromErr(err)
@@ -103,13 +103,13 @@ func resourceFirewallipmacbindingSettingCreate(ctx context.Context, d *schema.Re
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("FirewallipmacbindingSetting")
+		d.SetId("FirewallIpmacbindingSetting")
 	}
 
-	return resourceFirewallipmacbindingSettingRead(ctx, d, meta)
+	return resourceFirewallIpmacbindingSettingRead(ctx, d, meta)
 }
 
-func resourceFirewallipmacbindingSettingUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceFirewallIpmacbindingSettingUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
@@ -122,27 +122,27 @@ func resourceFirewallipmacbindingSettingUpdate(ctx context.Context, d *schema.Re
 	}
 	urlparams.Vdom = vdomparam
 
-	obj, diags := getObjectFirewallipmacbindingSetting(d, c.Config.Fv)
+	obj, diags := getObjectFirewallIpmacbindingSetting(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.UpdateFirewallipmacbindingSetting(mkey, obj, urlparams)
+	o, err := c.Cmdb.UpdateFirewallIpmacbindingSetting(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error updating FirewallipmacbindingSetting resource: %v", err)
+		return diag.Errorf("error updating FirewallIpmacbindingSetting resource: %v", err)
 	}
 
 	// log.Printf(strconv.Itoa(c.Retries))
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("FirewallipmacbindingSetting")
+		d.SetId("FirewallIpmacbindingSetting")
 	}
 
-	return resourceFirewallipmacbindingSettingRead(ctx, d, meta)
+	return resourceFirewallIpmacbindingSettingRead(ctx, d, meta)
 }
 
-func resourceFirewallipmacbindingSettingDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceFirewallIpmacbindingSettingDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -157,9 +157,14 @@ func resourceFirewallipmacbindingSettingDelete(ctx context.Context, d *schema.Re
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteFirewallipmacbindingSetting(mkey, urlparams)
+	obj, diags := getEmptyObjectFirewallIpmacbindingSetting(d, c.Config.Fv)
+	if diags.HasError() {
+		return diags
+	}
+
+	_, err := c.Cmdb.UpdateFirewallIpmacbindingSetting(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error deleting FirewallipmacbindingSetting resource: %v", err)
+		return diag.Errorf("error deleting FirewallIpmacbindingSetting resource: %v", err)
 	}
 
 	d.SetId("")
@@ -167,7 +172,7 @@ func resourceFirewallipmacbindingSettingDelete(ctx context.Context, d *schema.Re
 	return nil
 }
 
-func resourceFirewallipmacbindingSettingRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceFirewallIpmacbindingSettingRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -182,9 +187,9 @@ func resourceFirewallipmacbindingSettingRead(ctx context.Context, d *schema.Reso
 	}
 	urlparams.Vdom = vdomparam
 
-	o, err := c.Cmdb.ReadFirewallipmacbindingSetting(mkey, urlparams)
+	o, err := c.Cmdb.ReadFirewallIpmacbindingSetting(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error reading FirewallipmacbindingSetting resource: %v", err)
+		return diag.Errorf("error reading FirewallIpmacbindingSetting resource: %v", err)
 	}
 
 	if o == nil {
@@ -200,14 +205,14 @@ func resourceFirewallipmacbindingSettingRead(ctx context.Context, d *schema.Reso
 		}
 	}
 
-	diags := refreshObjectFirewallipmacbindingSetting(d, o, c.Config.Fv, sort)
+	diags := refreshObjectFirewallIpmacbindingSetting(d, o, c.Config.Fv, sort)
 	if diags.HasError() {
 		return diags
 	}
 	return nil
 }
 
-func refreshObjectFirewallipmacbindingSetting(d *schema.ResourceData, o *models.FirewallipmacbindingSetting, sv string, sort bool) diag.Diagnostics {
+func refreshObjectFirewallIpmacbindingSetting(d *schema.ResourceData, o *models.FirewallIpmacbindingSetting, sv string, sort bool) diag.Diagnostics {
 	var err error
 
 	if o.Bindthroughfw != nil {
@@ -237,8 +242,8 @@ func refreshObjectFirewallipmacbindingSetting(d *schema.ResourceData, o *models.
 	return nil
 }
 
-func getObjectFirewallipmacbindingSetting(d *schema.ResourceData, sv string) (*models.FirewallipmacbindingSetting, diag.Diagnostics) {
-	obj := models.FirewallipmacbindingSetting{}
+func getObjectFirewallIpmacbindingSetting(d *schema.ResourceData, sv string) (*models.FirewallIpmacbindingSetting, diag.Diagnostics) {
+	obj := models.FirewallIpmacbindingSetting{}
 	diags := diag.Diagnostics{}
 
 	if v1, ok := d.GetOk("bindthroughfw"); ok {
@@ -268,5 +273,13 @@ func getObjectFirewallipmacbindingSetting(d *schema.ResourceData, sv string) (*m
 			obj.Undefinedhost = &v2
 		}
 	}
+	return &obj, diags
+}
+
+// Return an object with explicitly empty objects for tables that have been set.
+func getEmptyObjectFirewallIpmacbindingSetting(d *schema.ResourceData, sv string) (*models.FirewallIpmacbindingSetting, diag.Diagnostics) {
+	obj := models.FirewallIpmacbindingSetting{}
+	diags := diag.Diagnostics{}
+
 	return &obj, diags
 }

@@ -159,7 +159,12 @@ func resourceSystemDns64Delete(ctx context.Context, d *schema.ResourceData, meta
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteSystemDns64(mkey, urlparams)
+	obj, diags := getEmptyObjectSystemDns64(d, c.Config.Fv)
+	if diags.HasError() {
+		return diags
+	}
+
+	_, err := c.Cmdb.UpdateSystemDns64(mkey, obj, urlparams)
 	if err != nil {
 		return diag.Errorf("error deleting SystemDns64 resource: %v", err)
 	}
@@ -270,5 +275,13 @@ func getObjectSystemDns64(d *schema.ResourceData, sv string) (*models.SystemDns6
 			obj.Status = &v2
 		}
 	}
+	return &obj, diags
+}
+
+// Return an object with explicitly empty objects for tables that have been set.
+func getEmptyObjectSystemDns64(d *schema.ResourceData, sv string) (*models.SystemDns64, diag.Diagnostics) {
+	obj := models.SystemDns64{}
+	diags := diag.Diagnostics{}
+
 	return &obj, diags
 }

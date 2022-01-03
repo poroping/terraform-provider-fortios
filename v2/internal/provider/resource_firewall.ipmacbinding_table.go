@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -18,14 +18,14 @@ import (
 	"github.com/poroping/terraform-provider-fortios/v2/utils"
 )
 
-func resourceFirewallipmacbindingTable() *schema.Resource {
+func resourceFirewallIpmacbindingTable() *schema.Resource {
 	return &schema.Resource{
 		Description: "Configure IP to MAC address pairs in the IP/MAC binding table.",
 
-		CreateContext: resourceFirewallipmacbindingTableCreate,
-		ReadContext:   resourceFirewallipmacbindingTableRead,
-		UpdateContext: resourceFirewallipmacbindingTableUpdate,
-		DeleteContext: resourceFirewallipmacbindingTableDelete,
+		CreateContext: resourceFirewallIpmacbindingTableCreate,
+		ReadContext:   resourceFirewallIpmacbindingTableRead,
+		UpdateContext: resourceFirewallIpmacbindingTableUpdate,
+		DeleteContext: resourceFirewallIpmacbindingTableDelete,
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
@@ -88,7 +88,7 @@ func resourceFirewallipmacbindingTable() *schema.Resource {
 	}
 }
 
-func resourceFirewallipmacbindingTableCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceFirewallIpmacbindingTableCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*apiClient).Client
 	var diags diag.Diagnostics
 	var err error
@@ -115,16 +115,16 @@ func resourceFirewallipmacbindingTableCreate(ctx context.Context, d *schema.Reso
 	if v, ok := d.GetOk(key); ok {
 		mkey = utils.ParseMkey(v)
 		if mkey == "" && allow_append {
-			return diag.Errorf("error creating FirewallipmacbindingTable resource: %q must be set if \"allow_append\" is true", key)
+			return diag.Errorf("error creating FirewallIpmacbindingTable resource: %q must be set if \"allow_append\" is true", key)
 		}
 	}
 
-	obj, diags := getObjectFirewallipmacbindingTable(d, c.Config.Fv)
+	obj, diags := getObjectFirewallIpmacbindingTable(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.CreateFirewallipmacbindingTable(obj, urlparams)
+	o, err := c.Cmdb.CreateFirewallIpmacbindingTable(obj, urlparams)
 
 	if err != nil {
 		e := diag.FromErr(err)
@@ -134,13 +134,13 @@ func resourceFirewallipmacbindingTableCreate(ctx context.Context, d *schema.Reso
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("FirewallipmacbindingTable")
+		d.SetId("FirewallIpmacbindingTable")
 	}
 
-	return resourceFirewallipmacbindingTableRead(ctx, d, meta)
+	return resourceFirewallIpmacbindingTableRead(ctx, d, meta)
 }
 
-func resourceFirewallipmacbindingTableUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceFirewallIpmacbindingTableUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
@@ -153,27 +153,27 @@ func resourceFirewallipmacbindingTableUpdate(ctx context.Context, d *schema.Reso
 	}
 	urlparams.Vdom = vdomparam
 
-	obj, diags := getObjectFirewallipmacbindingTable(d, c.Config.Fv)
+	obj, diags := getObjectFirewallIpmacbindingTable(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.UpdateFirewallipmacbindingTable(mkey, obj, urlparams)
+	o, err := c.Cmdb.UpdateFirewallIpmacbindingTable(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error updating FirewallipmacbindingTable resource: %v", err)
+		return diag.Errorf("error updating FirewallIpmacbindingTable resource: %v", err)
 	}
 
 	// log.Printf(strconv.Itoa(c.Retries))
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("FirewallipmacbindingTable")
+		d.SetId("FirewallIpmacbindingTable")
 	}
 
-	return resourceFirewallipmacbindingTableRead(ctx, d, meta)
+	return resourceFirewallIpmacbindingTableRead(ctx, d, meta)
 }
 
-func resourceFirewallipmacbindingTableDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceFirewallIpmacbindingTableDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -188,9 +188,9 @@ func resourceFirewallipmacbindingTableDelete(ctx context.Context, d *schema.Reso
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteFirewallipmacbindingTable(mkey, urlparams)
+	err := c.Cmdb.DeleteFirewallIpmacbindingTable(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error deleting FirewallipmacbindingTable resource: %v", err)
+		return diag.Errorf("error deleting FirewallIpmacbindingTable resource: %v", err)
 	}
 
 	d.SetId("")
@@ -198,7 +198,7 @@ func resourceFirewallipmacbindingTableDelete(ctx context.Context, d *schema.Reso
 	return nil
 }
 
-func resourceFirewallipmacbindingTableRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceFirewallIpmacbindingTableRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -213,9 +213,9 @@ func resourceFirewallipmacbindingTableRead(ctx context.Context, d *schema.Resour
 	}
 	urlparams.Vdom = vdomparam
 
-	o, err := c.Cmdb.ReadFirewallipmacbindingTable(mkey, urlparams)
+	o, err := c.Cmdb.ReadFirewallIpmacbindingTable(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error reading FirewallipmacbindingTable resource: %v", err)
+		return diag.Errorf("error reading FirewallIpmacbindingTable resource: %v", err)
 	}
 
 	if o == nil {
@@ -231,14 +231,14 @@ func resourceFirewallipmacbindingTableRead(ctx context.Context, d *schema.Resour
 		}
 	}
 
-	diags := refreshObjectFirewallipmacbindingTable(d, o, c.Config.Fv, sort)
+	diags := refreshObjectFirewallIpmacbindingTable(d, o, c.Config.Fv, sort)
 	if diags.HasError() {
 		return diags
 	}
 	return nil
 }
 
-func refreshObjectFirewallipmacbindingTable(d *schema.ResourceData, o *models.FirewallipmacbindingTable, sv string, sort bool) diag.Diagnostics {
+func refreshObjectFirewallIpmacbindingTable(d *schema.ResourceData, o *models.FirewallIpmacbindingTable, sv string, sort bool) diag.Diagnostics {
 	var err error
 
 	if o.Ip != nil {
@@ -284,8 +284,8 @@ func refreshObjectFirewallipmacbindingTable(d *schema.ResourceData, o *models.Fi
 	return nil
 }
 
-func getObjectFirewallipmacbindingTable(d *schema.ResourceData, sv string) (*models.FirewallipmacbindingTable, diag.Diagnostics) {
-	obj := models.FirewallipmacbindingTable{}
+func getObjectFirewallIpmacbindingTable(d *schema.ResourceData, sv string) (*models.FirewallIpmacbindingTable, diag.Diagnostics) {
+	obj := models.FirewallIpmacbindingTable{}
 	diags := diag.Diagnostics{}
 
 	if v1, ok := d.GetOk("ip"); ok {

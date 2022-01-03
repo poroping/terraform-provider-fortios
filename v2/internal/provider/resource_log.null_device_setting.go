@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -18,14 +18,14 @@ import (
 	"github.com/poroping/terraform-provider-fortios/v2/utils"
 )
 
-func resourceLognullDeviceSetting() *schema.Resource {
+func resourceLogNullDeviceSetting() *schema.Resource {
 	return &schema.Resource{
 		Description: "Settings for null device logging.",
 
-		CreateContext: resourceLognullDeviceSettingCreate,
-		ReadContext:   resourceLognullDeviceSettingRead,
-		UpdateContext: resourceLognullDeviceSettingUpdate,
-		DeleteContext: resourceLognullDeviceSettingDelete,
+		CreateContext: resourceLogNullDeviceSettingCreate,
+		ReadContext:   resourceLogNullDeviceSettingRead,
+		UpdateContext: resourceLogNullDeviceSettingUpdate,
+		DeleteContext: resourceLogNullDeviceSettingDelete,
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
@@ -50,7 +50,7 @@ func resourceLognullDeviceSetting() *schema.Resource {
 	}
 }
 
-func resourceLognullDeviceSettingCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceLogNullDeviceSettingCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*apiClient).Client
 	var diags diag.Diagnostics
 	var err error
@@ -72,12 +72,12 @@ func resourceLognullDeviceSettingCreate(ctx context.Context, d *schema.ResourceD
 	}
 	urlparams.AllowAppend = &allow_append
 
-	obj, diags := getObjectLognullDeviceSetting(d, c.Config.Fv)
+	obj, diags := getObjectLogNullDeviceSetting(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.CreateLognullDeviceSetting(obj, urlparams)
+	o, err := c.Cmdb.CreateLogNullDeviceSetting(obj, urlparams)
 
 	if err != nil {
 		e := diag.FromErr(err)
@@ -87,13 +87,13 @@ func resourceLognullDeviceSettingCreate(ctx context.Context, d *schema.ResourceD
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("LognullDeviceSetting")
+		d.SetId("LogNullDeviceSetting")
 	}
 
-	return resourceLognullDeviceSettingRead(ctx, d, meta)
+	return resourceLogNullDeviceSettingRead(ctx, d, meta)
 }
 
-func resourceLognullDeviceSettingUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceLogNullDeviceSettingUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
@@ -106,27 +106,27 @@ func resourceLognullDeviceSettingUpdate(ctx context.Context, d *schema.ResourceD
 	}
 	urlparams.Vdom = vdomparam
 
-	obj, diags := getObjectLognullDeviceSetting(d, c.Config.Fv)
+	obj, diags := getObjectLogNullDeviceSetting(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.UpdateLognullDeviceSetting(mkey, obj, urlparams)
+	o, err := c.Cmdb.UpdateLogNullDeviceSetting(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error updating LognullDeviceSetting resource: %v", err)
+		return diag.Errorf("error updating LogNullDeviceSetting resource: %v", err)
 	}
 
 	// log.Printf(strconv.Itoa(c.Retries))
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("LognullDeviceSetting")
+		d.SetId("LogNullDeviceSetting")
 	}
 
-	return resourceLognullDeviceSettingRead(ctx, d, meta)
+	return resourceLogNullDeviceSettingRead(ctx, d, meta)
 }
 
-func resourceLognullDeviceSettingDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceLogNullDeviceSettingDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -141,9 +141,14 @@ func resourceLognullDeviceSettingDelete(ctx context.Context, d *schema.ResourceD
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteLognullDeviceSetting(mkey, urlparams)
+	obj, diags := getEmptyObjectLogNullDeviceSetting(d, c.Config.Fv)
+	if diags.HasError() {
+		return diags
+	}
+
+	_, err := c.Cmdb.UpdateLogNullDeviceSetting(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error deleting LognullDeviceSetting resource: %v", err)
+		return diag.Errorf("error deleting LogNullDeviceSetting resource: %v", err)
 	}
 
 	d.SetId("")
@@ -151,7 +156,7 @@ func resourceLognullDeviceSettingDelete(ctx context.Context, d *schema.ResourceD
 	return nil
 }
 
-func resourceLognullDeviceSettingRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceLogNullDeviceSettingRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -166,9 +171,9 @@ func resourceLognullDeviceSettingRead(ctx context.Context, d *schema.ResourceDat
 	}
 	urlparams.Vdom = vdomparam
 
-	o, err := c.Cmdb.ReadLognullDeviceSetting(mkey, urlparams)
+	o, err := c.Cmdb.ReadLogNullDeviceSetting(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error reading LognullDeviceSetting resource: %v", err)
+		return diag.Errorf("error reading LogNullDeviceSetting resource: %v", err)
 	}
 
 	if o == nil {
@@ -184,14 +189,14 @@ func resourceLognullDeviceSettingRead(ctx context.Context, d *schema.ResourceDat
 		}
 	}
 
-	diags := refreshObjectLognullDeviceSetting(d, o, c.Config.Fv, sort)
+	diags := refreshObjectLogNullDeviceSetting(d, o, c.Config.Fv, sort)
 	if diags.HasError() {
 		return diags
 	}
 	return nil
 }
 
-func refreshObjectLognullDeviceSetting(d *schema.ResourceData, o *models.LognullDeviceSetting, sv string, sort bool) diag.Diagnostics {
+func refreshObjectLogNullDeviceSetting(d *schema.ResourceData, o *models.LogNullDeviceSetting, sv string, sort bool) diag.Diagnostics {
 	var err error
 
 	if o.Status != nil {
@@ -205,8 +210,8 @@ func refreshObjectLognullDeviceSetting(d *schema.ResourceData, o *models.Lognull
 	return nil
 }
 
-func getObjectLognullDeviceSetting(d *schema.ResourceData, sv string) (*models.LognullDeviceSetting, diag.Diagnostics) {
-	obj := models.LognullDeviceSetting{}
+func getObjectLogNullDeviceSetting(d *schema.ResourceData, sv string) (*models.LogNullDeviceSetting, diag.Diagnostics) {
+	obj := models.LogNullDeviceSetting{}
 	diags := diag.Diagnostics{}
 
 	if v1, ok := d.GetOk("status"); ok {
@@ -218,5 +223,13 @@ func getObjectLognullDeviceSetting(d *schema.ResourceData, sv string) (*models.L
 			obj.Status = &v2
 		}
 	}
+	return &obj, diags
+}
+
+// Return an object with explicitly empty objects for tables that have been set.
+func getEmptyObjectLogNullDeviceSetting(d *schema.ResourceData, sv string) (*models.LogNullDeviceSetting, diag.Diagnostics) {
+	obj := models.LogNullDeviceSetting{}
+	diags := diag.Diagnostics{}
+
 	return &obj, diags
 }

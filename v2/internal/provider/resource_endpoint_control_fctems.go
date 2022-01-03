@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -531,7 +531,7 @@ func getObjectEndpointControlFctems(d *schema.ResourceData, sv string) (*models.
 
 	if v1, ok := d.GetOk("admin_password"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "v6.4.2") {
+			if !utils.CheckVer(sv, "", "v6.4.0") {
 				e := utils.AttributeVersionWarning("admin_password", sv)
 				diags = append(diags, e)
 			}
@@ -540,7 +540,7 @@ func getObjectEndpointControlFctems(d *schema.ResourceData, sv string) (*models.
 	}
 	if v1, ok := d.GetOk("admin_username"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "v6.4.2") {
+			if !utils.CheckVer(sv, "", "v6.4.0") {
 				e := utils.AttributeVersionWarning("admin_username", sv)
 				diags = append(diags, e)
 			}
@@ -568,7 +568,7 @@ func getObjectEndpointControlFctems(d *schema.ResourceData, sv string) (*models.
 	}
 	if v1, ok := d.GetOk("certificate"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "v6.4.2", "v7.0.0") {
+			if !utils.CheckVer(sv, "v6.4.0", "v7.0.0") {
 				e := utils.AttributeVersionWarning("certificate", sv)
 				diags = append(diags, e)
 			}
@@ -577,7 +577,7 @@ func getObjectEndpointControlFctems(d *schema.ResourceData, sv string) (*models.
 	}
 	if v1, ok := d.GetOk("cloud_server_type"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "v6.4.2", "") {
+			if !utils.CheckVer(sv, "v6.4.0", "") {
 				e := utils.AttributeVersionWarning("cloud_server_type", sv)
 				diags = append(diags, e)
 			}
@@ -623,7 +623,7 @@ func getObjectEndpointControlFctems(d *schema.ResourceData, sv string) (*models.
 	}
 	if v1, ok := d.GetOk("pull_avatars"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "v6.4.2", "") {
+			if !utils.CheckVer(sv, "v6.4.0", "") {
 				e := utils.AttributeVersionWarning("pull_avatars", sv)
 				diags = append(diags, e)
 			}
@@ -641,7 +641,7 @@ func getObjectEndpointControlFctems(d *schema.ResourceData, sv string) (*models.
 	}
 	if v1, ok := d.GetOk("pull_sysinfo"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "v6.4.2", "") {
+			if !utils.CheckVer(sv, "v6.4.0", "") {
 				e := utils.AttributeVersionWarning("pull_sysinfo", sv)
 				diags = append(diags, e)
 			}
@@ -650,7 +650,7 @@ func getObjectEndpointControlFctems(d *schema.ResourceData, sv string) (*models.
 	}
 	if v1, ok := d.GetOk("pull_tags"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "v6.4.2", "") {
+			if !utils.CheckVer(sv, "v6.4.0", "") {
 				e := utils.AttributeVersionWarning("pull_tags", sv)
 				diags = append(diags, e)
 			}
@@ -659,7 +659,7 @@ func getObjectEndpointControlFctems(d *schema.ResourceData, sv string) (*models.
 	}
 	if v1, ok := d.GetOk("pull_vulnerabilities"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "v6.4.2", "") {
+			if !utils.CheckVer(sv, "v6.4.0", "") {
 				e := utils.AttributeVersionWarning("pull_vulnerabilities", sv)
 				diags = append(diags, e)
 			}
@@ -668,7 +668,7 @@ func getObjectEndpointControlFctems(d *schema.ResourceData, sv string) (*models.
 	}
 	if v1, ok := d.GetOk("serial_number"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "v6.4.2") {
+			if !utils.CheckVer(sv, "", "v6.4.0") {
 				e := utils.AttributeVersionWarning("serial_number", sv)
 				diags = append(diags, e)
 			}

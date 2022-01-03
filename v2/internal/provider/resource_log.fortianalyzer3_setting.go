@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -19,14 +19,14 @@ import (
 	"github.com/poroping/terraform-provider-fortios/v2/utils"
 )
 
-func resourceLogfortianalyzer3Setting() *schema.Resource {
+func resourceLogFortianalyzer3Setting() *schema.Resource {
 	return &schema.Resource{
 		Description: "Global FortiAnalyzer settings.",
 
-		CreateContext: resourceLogfortianalyzer3SettingCreate,
-		ReadContext:   resourceLogfortianalyzer3SettingRead,
-		UpdateContext: resourceLogfortianalyzer3SettingUpdate,
-		DeleteContext: resourceLogfortianalyzer3SettingDelete,
+		CreateContext: resourceLogFortianalyzer3SettingCreate,
+		ReadContext:   resourceLogFortianalyzer3SettingRead,
+		UpdateContext: resourceLogFortianalyzer3SettingUpdate,
+		DeleteContext: resourceLogFortianalyzer3SettingDelete,
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
@@ -247,7 +247,7 @@ func resourceLogfortianalyzer3Setting() *schema.Resource {
 	}
 }
 
-func resourceLogfortianalyzer3SettingCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceLogFortianalyzer3SettingCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*apiClient).Client
 	var diags diag.Diagnostics
 	var err error
@@ -269,12 +269,12 @@ func resourceLogfortianalyzer3SettingCreate(ctx context.Context, d *schema.Resou
 	}
 	urlparams.AllowAppend = &allow_append
 
-	obj, diags := getObjectLogfortianalyzer3Setting(d, c.Config.Fv)
+	obj, diags := getObjectLogFortianalyzer3Setting(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.CreateLogfortianalyzer3Setting(obj, urlparams)
+	o, err := c.Cmdb.CreateLogFortianalyzer3Setting(obj, urlparams)
 
 	if err != nil {
 		e := diag.FromErr(err)
@@ -284,13 +284,13 @@ func resourceLogfortianalyzer3SettingCreate(ctx context.Context, d *schema.Resou
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("Logfortianalyzer3Setting")
+		d.SetId("LogFortianalyzer3Setting")
 	}
 
-	return resourceLogfortianalyzer3SettingRead(ctx, d, meta)
+	return resourceLogFortianalyzer3SettingRead(ctx, d, meta)
 }
 
-func resourceLogfortianalyzer3SettingUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceLogFortianalyzer3SettingUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
@@ -303,27 +303,27 @@ func resourceLogfortianalyzer3SettingUpdate(ctx context.Context, d *schema.Resou
 	}
 	urlparams.Vdom = vdomparam
 
-	obj, diags := getObjectLogfortianalyzer3Setting(d, c.Config.Fv)
+	obj, diags := getObjectLogFortianalyzer3Setting(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.UpdateLogfortianalyzer3Setting(mkey, obj, urlparams)
+	o, err := c.Cmdb.UpdateLogFortianalyzer3Setting(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error updating Logfortianalyzer3Setting resource: %v", err)
+		return diag.Errorf("error updating LogFortianalyzer3Setting resource: %v", err)
 	}
 
 	// log.Printf(strconv.Itoa(c.Retries))
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("Logfortianalyzer3Setting")
+		d.SetId("LogFortianalyzer3Setting")
 	}
 
-	return resourceLogfortianalyzer3SettingRead(ctx, d, meta)
+	return resourceLogFortianalyzer3SettingRead(ctx, d, meta)
 }
 
-func resourceLogfortianalyzer3SettingDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceLogFortianalyzer3SettingDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -338,9 +338,14 @@ func resourceLogfortianalyzer3SettingDelete(ctx context.Context, d *schema.Resou
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteLogfortianalyzer3Setting(mkey, urlparams)
+	obj, diags := getEmptyObjectLogFortianalyzer3Setting(d, c.Config.Fv)
+	if diags.HasError() {
+		return diags
+	}
+
+	_, err := c.Cmdb.UpdateLogFortianalyzer3Setting(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error deleting Logfortianalyzer3Setting resource: %v", err)
+		return diag.Errorf("error deleting LogFortianalyzer3Setting resource: %v", err)
 	}
 
 	d.SetId("")
@@ -348,7 +353,7 @@ func resourceLogfortianalyzer3SettingDelete(ctx context.Context, d *schema.Resou
 	return nil
 }
 
-func resourceLogfortianalyzer3SettingRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceLogFortianalyzer3SettingRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -363,9 +368,9 @@ func resourceLogfortianalyzer3SettingRead(ctx context.Context, d *schema.Resourc
 	}
 	urlparams.Vdom = vdomparam
 
-	o, err := c.Cmdb.ReadLogfortianalyzer3Setting(mkey, urlparams)
+	o, err := c.Cmdb.ReadLogFortianalyzer3Setting(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error reading Logfortianalyzer3Setting resource: %v", err)
+		return diag.Errorf("error reading LogFortianalyzer3Setting resource: %v", err)
 	}
 
 	if o == nil {
@@ -381,14 +386,14 @@ func resourceLogfortianalyzer3SettingRead(ctx context.Context, d *schema.Resourc
 		}
 	}
 
-	diags := refreshObjectLogfortianalyzer3Setting(d, o, c.Config.Fv, sort)
+	diags := refreshObjectLogFortianalyzer3Setting(d, o, c.Config.Fv, sort)
 	if diags.HasError() {
 		return diags
 	}
 	return nil
 }
 
-func flattenLogfortianalyzer3SettingSerial(v *[]models.Logfortianalyzer3SettingSerial, sort bool) interface{} {
+func flattenLogFortianalyzer3SettingSerial(v *[]models.LogFortianalyzer3SettingSerial, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
@@ -409,7 +414,7 @@ func flattenLogfortianalyzer3SettingSerial(v *[]models.Logfortianalyzer3SettingS
 	return flat
 }
 
-func refreshObjectLogfortianalyzer3Setting(d *schema.ResourceData, o *models.Logfortianalyzer3Setting, sv string, sort bool) diag.Diagnostics {
+func refreshObjectLogFortianalyzer3Setting(d *schema.ResourceData, o *models.LogFortianalyzer3Setting, sv string, sort bool) diag.Diagnostics {
 	var err error
 
 	if o.AccessConfig != nil {
@@ -533,7 +538,7 @@ func refreshObjectLogfortianalyzer3Setting(d *schema.ResourceData, o *models.Log
 	}
 
 	if o.Serial != nil {
-		if err = d.Set("serial", flattenLogfortianalyzer3SettingSerial(o.Serial, sort)); err != nil {
+		if err = d.Set("serial", flattenLogFortianalyzer3SettingSerial(o.Serial, sort)); err != nil {
 			return diag.Errorf("error reading serial: %v", err)
 		}
 	}
@@ -605,16 +610,16 @@ func refreshObjectLogfortianalyzer3Setting(d *schema.ResourceData, o *models.Log
 	return nil
 }
 
-func expandLogfortianalyzer3SettingSerial(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.Logfortianalyzer3SettingSerial, error) {
+func expandLogFortianalyzer3SettingSerial(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.LogFortianalyzer3SettingSerial, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
 	}
 
-	var result []models.Logfortianalyzer3SettingSerial
+	var result []models.LogFortianalyzer3SettingSerial
 
 	for i := range l {
-		tmp := models.Logfortianalyzer3SettingSerial{}
+		tmp := models.LogFortianalyzer3SettingSerial{}
 		var pre_append string
 
 		pre_append = fmt.Sprintf("%s.%d.name", pre, i)
@@ -629,8 +634,8 @@ func expandLogfortianalyzer3SettingSerial(d *schema.ResourceData, v interface{},
 	return &result, nil
 }
 
-func getObjectLogfortianalyzer3Setting(d *schema.ResourceData, sv string) (*models.Logfortianalyzer3Setting, diag.Diagnostics) {
-	obj := models.Logfortianalyzer3Setting{}
+func getObjectLogFortianalyzer3Setting(d *schema.ResourceData, sv string) (*models.LogFortianalyzer3Setting, diag.Diagnostics) {
+	obj := models.LogFortianalyzer3Setting{}
 	diags := diag.Diagnostics{}
 
 	if v1, ok := d.GetOk("access_config"); ok {
@@ -690,7 +695,7 @@ func getObjectLogfortianalyzer3Setting(d *schema.ResourceData, sv string) (*mode
 	}
 	if v1, ok := d.GetOk("interface"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "") {
+			if !utils.CheckVer(sv, "", "v6.4.0") {
 				e := utils.AttributeVersionWarning("interface", sv)
 				diags = append(diags, e)
 			}
@@ -699,7 +704,7 @@ func getObjectLogfortianalyzer3Setting(d *schema.ResourceData, sv string) (*mode
 	}
 	if v1, ok := d.GetOk("interface_select_method"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "") {
+			if !utils.CheckVer(sv, "", "v6.4.0") {
 				e := utils.AttributeVersionWarning("interface_select_method", sv)
 				diags = append(diags, e)
 			}
@@ -777,7 +782,7 @@ func getObjectLogfortianalyzer3Setting(d *schema.ResourceData, sv string) (*mode
 			e := utils.AttributeVersionWarning("serial", sv)
 			diags = append(diags, e)
 		}
-		t, err := expandLogfortianalyzer3SettingSerial(d, v, "serial", sv)
+		t, err := expandLogFortianalyzer3SettingSerial(d, v, "serial", sv)
 		if err != nil {
 			return &obj, diag.FromErr(err)
 		} else if t != nil {
@@ -786,7 +791,7 @@ func getObjectLogfortianalyzer3Setting(d *schema.ResourceData, sv string) (*mode
 	} else if d.HasChange("serial") {
 		old, new := d.GetChange("serial")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.Serial = &[]models.Logfortianalyzer3SettingSerial{}
+			obj.Serial = &[]models.LogFortianalyzer3SettingSerial{}
 		}
 	}
 	if v1, ok := d.GetOk("server"); ok {
@@ -861,5 +866,15 @@ func getObjectLogfortianalyzer3Setting(d *schema.ResourceData, sv string) (*mode
 			obj.UploadTime = &v2
 		}
 	}
+	return &obj, diags
+}
+
+// Return an object with explicitly empty objects for tables that have been set.
+func getEmptyObjectLogFortianalyzer3Setting(d *schema.ResourceData, sv string) (*models.LogFortianalyzer3Setting, diag.Diagnostics) {
+	obj := models.LogFortianalyzer3Setting{}
+	diags := diag.Diagnostics{}
+
+	obj.Serial = &[]models.LogFortianalyzer3SettingSerial{}
+
 	return &obj, diags
 }

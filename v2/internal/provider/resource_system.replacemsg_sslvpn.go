@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -18,14 +18,14 @@ import (
 	"github.com/poroping/terraform-provider-fortios/v2/utils"
 )
 
-func resourceSystemreplacemsgSslvpn() *schema.Resource {
+func resourceSystemReplacemsgSslvpn() *schema.Resource {
 	return &schema.Resource{
 		Description: "Replacement messages.",
 
-		CreateContext: resourceSystemreplacemsgSslvpnCreate,
-		ReadContext:   resourceSystemreplacemsgSslvpnRead,
-		UpdateContext: resourceSystemreplacemsgSslvpnUpdate,
-		DeleteContext: resourceSystemreplacemsgSslvpnDelete,
+		CreateContext: resourceSystemReplacemsgSslvpnCreate,
+		ReadContext:   resourceSystemReplacemsgSslvpnRead,
+		UpdateContext: resourceSystemReplacemsgSslvpnUpdate,
+		DeleteContext: resourceSystemReplacemsgSslvpnDelete,
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
@@ -80,7 +80,7 @@ func resourceSystemreplacemsgSslvpn() *schema.Resource {
 	}
 }
 
-func resourceSystemreplacemsgSslvpnCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSystemReplacemsgSslvpnCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*apiClient).Client
 	var diags diag.Diagnostics
 	var err error
@@ -107,16 +107,16 @@ func resourceSystemreplacemsgSslvpnCreate(ctx context.Context, d *schema.Resourc
 	if v, ok := d.GetOk(key); ok {
 		mkey = utils.ParseMkey(v)
 		if mkey == "" && allow_append {
-			return diag.Errorf("error creating SystemreplacemsgSslvpn resource: %q must be set if \"allow_append\" is true", key)
+			return diag.Errorf("error creating SystemReplacemsgSslvpn resource: %q must be set if \"allow_append\" is true", key)
 		}
 	}
 
-	obj, diags := getObjectSystemreplacemsgSslvpn(d, c.Config.Fv)
+	obj, diags := getObjectSystemReplacemsgSslvpn(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.CreateSystemreplacemsgSslvpn(obj, urlparams)
+	o, err := c.Cmdb.CreateSystemReplacemsgSslvpn(obj, urlparams)
 
 	if err != nil {
 		e := diag.FromErr(err)
@@ -126,13 +126,13 @@ func resourceSystemreplacemsgSslvpnCreate(ctx context.Context, d *schema.Resourc
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("SystemreplacemsgSslvpn")
+		d.SetId("SystemReplacemsgSslvpn")
 	}
 
-	return resourceSystemreplacemsgSslvpnRead(ctx, d, meta)
+	return resourceSystemReplacemsgSslvpnRead(ctx, d, meta)
 }
 
-func resourceSystemreplacemsgSslvpnUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSystemReplacemsgSslvpnUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
@@ -145,27 +145,27 @@ func resourceSystemreplacemsgSslvpnUpdate(ctx context.Context, d *schema.Resourc
 	}
 	urlparams.Vdom = vdomparam
 
-	obj, diags := getObjectSystemreplacemsgSslvpn(d, c.Config.Fv)
+	obj, diags := getObjectSystemReplacemsgSslvpn(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.UpdateSystemreplacemsgSslvpn(mkey, obj, urlparams)
+	o, err := c.Cmdb.UpdateSystemReplacemsgSslvpn(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error updating SystemreplacemsgSslvpn resource: %v", err)
+		return diag.Errorf("error updating SystemReplacemsgSslvpn resource: %v", err)
 	}
 
 	// log.Printf(strconv.Itoa(c.Retries))
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("SystemreplacemsgSslvpn")
+		d.SetId("SystemReplacemsgSslvpn")
 	}
 
-	return resourceSystemreplacemsgSslvpnRead(ctx, d, meta)
+	return resourceSystemReplacemsgSslvpnRead(ctx, d, meta)
 }
 
-func resourceSystemreplacemsgSslvpnDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSystemReplacemsgSslvpnDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -180,9 +180,9 @@ func resourceSystemreplacemsgSslvpnDelete(ctx context.Context, d *schema.Resourc
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteSystemreplacemsgSslvpn(mkey, urlparams)
+	err := c.Cmdb.DeleteSystemReplacemsgSslvpn(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error deleting SystemreplacemsgSslvpn resource: %v", err)
+		return diag.Errorf("error deleting SystemReplacemsgSslvpn resource: %v", err)
 	}
 
 	d.SetId("")
@@ -190,7 +190,7 @@ func resourceSystemreplacemsgSslvpnDelete(ctx context.Context, d *schema.Resourc
 	return nil
 }
 
-func resourceSystemreplacemsgSslvpnRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSystemReplacemsgSslvpnRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -205,9 +205,9 @@ func resourceSystemreplacemsgSslvpnRead(ctx context.Context, d *schema.ResourceD
 	}
 	urlparams.Vdom = vdomparam
 
-	o, err := c.Cmdb.ReadSystemreplacemsgSslvpn(mkey, urlparams)
+	o, err := c.Cmdb.ReadSystemReplacemsgSslvpn(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error reading SystemreplacemsgSslvpn resource: %v", err)
+		return diag.Errorf("error reading SystemReplacemsgSslvpn resource: %v", err)
 	}
 
 	if o == nil {
@@ -223,14 +223,14 @@ func resourceSystemreplacemsgSslvpnRead(ctx context.Context, d *schema.ResourceD
 		}
 	}
 
-	diags := refreshObjectSystemreplacemsgSslvpn(d, o, c.Config.Fv, sort)
+	diags := refreshObjectSystemReplacemsgSslvpn(d, o, c.Config.Fv, sort)
 	if diags.HasError() {
 		return diags
 	}
 	return nil
 }
 
-func refreshObjectSystemreplacemsgSslvpn(d *schema.ResourceData, o *models.SystemreplacemsgSslvpn, sv string, sort bool) diag.Diagnostics {
+func refreshObjectSystemReplacemsgSslvpn(d *schema.ResourceData, o *models.SystemReplacemsgSslvpn, sv string, sort bool) diag.Diagnostics {
 	var err error
 
 	if o.Buffer != nil {
@@ -268,8 +268,8 @@ func refreshObjectSystemreplacemsgSslvpn(d *schema.ResourceData, o *models.Syste
 	return nil
 }
 
-func getObjectSystemreplacemsgSslvpn(d *schema.ResourceData, sv string) (*models.SystemreplacemsgSslvpn, diag.Diagnostics) {
-	obj := models.SystemreplacemsgSslvpn{}
+func getObjectSystemReplacemsgSslvpn(d *schema.ResourceData, sv string) (*models.SystemReplacemsgSslvpn, diag.Diagnostics) {
+	obj := models.SystemReplacemsgSslvpn{}
 	diags := diag.Diagnostics{}
 
 	if v1, ok := d.GetOk("buffer"); ok {

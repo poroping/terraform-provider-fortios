@@ -18,14 +18,14 @@ import (
 	"github.com/poroping/terraform-provider-fortios/v2/utils"
 )
 
-func resourceVpnsslClient() *schema.Resource {
+func resourceVpnSslClient() *schema.Resource {
 	return &schema.Resource{
 		Description: "client",
 
-		CreateContext: resourceVpnsslClientCreate,
-		ReadContext:   resourceVpnsslClientRead,
-		UpdateContext: resourceVpnsslClientUpdate,
-		DeleteContext: resourceVpnsslClientDelete,
+		CreateContext: resourceVpnSslClientCreate,
+		ReadContext:   resourceVpnSslClientRead,
+		UpdateContext: resourceVpnSslClientUpdate,
+		DeleteContext: resourceVpnSslClientDelete,
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
@@ -159,7 +159,7 @@ func resourceVpnsslClient() *schema.Resource {
 	}
 }
 
-func resourceVpnsslClientCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceVpnSslClientCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*apiClient).Client
 	var diags diag.Diagnostics
 	var err error
@@ -186,16 +186,16 @@ func resourceVpnsslClientCreate(ctx context.Context, d *schema.ResourceData, met
 	if v, ok := d.GetOk(key); ok {
 		mkey = utils.ParseMkey(v)
 		if mkey == "" && allow_append {
-			return diag.Errorf("error creating VpnsslClient resource: %q must be set if \"allow_append\" is true", key)
+			return diag.Errorf("error creating VpnSslClient resource: %q must be set if \"allow_append\" is true", key)
 		}
 	}
 
-	obj, diags := getObjectVpnsslClient(d, c.Config.Fv)
+	obj, diags := getObjectVpnSslClient(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.CreateVpnsslClient(obj, urlparams)
+	o, err := c.Cmdb.CreateVpnSslClient(obj, urlparams)
 
 	if err != nil {
 		e := diag.FromErr(err)
@@ -205,13 +205,13 @@ func resourceVpnsslClientCreate(ctx context.Context, d *schema.ResourceData, met
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("VpnsslClient")
+		d.SetId("VpnSslClient")
 	}
 
-	return resourceVpnsslClientRead(ctx, d, meta)
+	return resourceVpnSslClientRead(ctx, d, meta)
 }
 
-func resourceVpnsslClientUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceVpnSslClientUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
@@ -224,27 +224,27 @@ func resourceVpnsslClientUpdate(ctx context.Context, d *schema.ResourceData, met
 	}
 	urlparams.Vdom = vdomparam
 
-	obj, diags := getObjectVpnsslClient(d, c.Config.Fv)
+	obj, diags := getObjectVpnSslClient(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.UpdateVpnsslClient(mkey, obj, urlparams)
+	o, err := c.Cmdb.UpdateVpnSslClient(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error updating VpnsslClient resource: %v", err)
+		return diag.Errorf("error updating VpnSslClient resource: %v", err)
 	}
 
 	// log.Printf(strconv.Itoa(c.Retries))
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("VpnsslClient")
+		d.SetId("VpnSslClient")
 	}
 
-	return resourceVpnsslClientRead(ctx, d, meta)
+	return resourceVpnSslClientRead(ctx, d, meta)
 }
 
-func resourceVpnsslClientDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceVpnSslClientDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -259,9 +259,9 @@ func resourceVpnsslClientDelete(ctx context.Context, d *schema.ResourceData, met
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteVpnsslClient(mkey, urlparams)
+	err := c.Cmdb.DeleteVpnSslClient(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error deleting VpnsslClient resource: %v", err)
+		return diag.Errorf("error deleting VpnSslClient resource: %v", err)
 	}
 
 	d.SetId("")
@@ -269,7 +269,7 @@ func resourceVpnsslClientDelete(ctx context.Context, d *schema.ResourceData, met
 	return nil
 }
 
-func resourceVpnsslClientRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceVpnSslClientRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -284,9 +284,9 @@ func resourceVpnsslClientRead(ctx context.Context, d *schema.ResourceData, meta 
 	}
 	urlparams.Vdom = vdomparam
 
-	o, err := c.Cmdb.ReadVpnsslClient(mkey, urlparams)
+	o, err := c.Cmdb.ReadVpnSslClient(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error reading VpnsslClient resource: %v", err)
+		return diag.Errorf("error reading VpnSslClient resource: %v", err)
 	}
 
 	if o == nil {
@@ -302,14 +302,14 @@ func resourceVpnsslClientRead(ctx context.Context, d *schema.ResourceData, meta 
 		}
 	}
 
-	diags := refreshObjectVpnsslClient(d, o, c.Config.Fv, sort)
+	diags := refreshObjectVpnSslClient(d, o, c.Config.Fv, sort)
 	if diags.HasError() {
 		return diags
 	}
 	return nil
 }
 
-func refreshObjectVpnsslClient(d *schema.ResourceData, o *models.VpnsslClient, sv string, sort bool) diag.Diagnostics {
+func refreshObjectVpnSslClient(d *schema.ResourceData, o *models.VpnSslClient, sv string, sort bool) diag.Diagnostics {
 	var err error
 
 	if o.Certificate != nil {
@@ -427,8 +427,8 @@ func refreshObjectVpnsslClient(d *schema.ResourceData, o *models.VpnsslClient, s
 	return nil
 }
 
-func getObjectVpnsslClient(d *schema.ResourceData, sv string) (*models.VpnsslClient, diag.Diagnostics) {
-	obj := models.VpnsslClient{}
+func getObjectVpnSslClient(d *schema.ResourceData, sv string) (*models.VpnSslClient, diag.Diagnostics) {
+	obj := models.VpnSslClient{}
 	diags := diag.Diagnostics{}
 
 	if v1, ok := d.GetOk("certificate"); ok {

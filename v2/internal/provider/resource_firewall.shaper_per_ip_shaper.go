@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -18,14 +18,14 @@ import (
 	"github.com/poroping/terraform-provider-fortios/v2/utils"
 )
 
-func resourceFirewallshaperPerIpShaper() *schema.Resource {
+func resourceFirewallShaperPerIpShaper() *schema.Resource {
 	return &schema.Resource{
 		Description: "Configure per-IP traffic shaper.",
 
-		CreateContext: resourceFirewallshaperPerIpShaperCreate,
-		ReadContext:   resourceFirewallshaperPerIpShaperRead,
-		UpdateContext: resourceFirewallshaperPerIpShaperUpdate,
-		DeleteContext: resourceFirewallshaperPerIpShaperDelete,
+		CreateContext: resourceFirewallShaperPerIpShaperCreate,
+		ReadContext:   resourceFirewallShaperPerIpShaperRead,
+		UpdateContext: resourceFirewallShaperPerIpShaperUpdate,
+		DeleteContext: resourceFirewallShaperPerIpShaperDelete,
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
@@ -126,7 +126,7 @@ func resourceFirewallshaperPerIpShaper() *schema.Resource {
 	}
 }
 
-func resourceFirewallshaperPerIpShaperCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceFirewallShaperPerIpShaperCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*apiClient).Client
 	var diags diag.Diagnostics
 	var err error
@@ -153,16 +153,16 @@ func resourceFirewallshaperPerIpShaperCreate(ctx context.Context, d *schema.Reso
 	if v, ok := d.GetOk(key); ok {
 		mkey = utils.ParseMkey(v)
 		if mkey == "" && allow_append {
-			return diag.Errorf("error creating FirewallshaperPerIpShaper resource: %q must be set if \"allow_append\" is true", key)
+			return diag.Errorf("error creating FirewallShaperPerIpShaper resource: %q must be set if \"allow_append\" is true", key)
 		}
 	}
 
-	obj, diags := getObjectFirewallshaperPerIpShaper(d, c.Config.Fv)
+	obj, diags := getObjectFirewallShaperPerIpShaper(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.CreateFirewallshaperPerIpShaper(obj, urlparams)
+	o, err := c.Cmdb.CreateFirewallShaperPerIpShaper(obj, urlparams)
 
 	if err != nil {
 		e := diag.FromErr(err)
@@ -172,13 +172,13 @@ func resourceFirewallshaperPerIpShaperCreate(ctx context.Context, d *schema.Reso
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("FirewallshaperPerIpShaper")
+		d.SetId("FirewallShaperPerIpShaper")
 	}
 
-	return resourceFirewallshaperPerIpShaperRead(ctx, d, meta)
+	return resourceFirewallShaperPerIpShaperRead(ctx, d, meta)
 }
 
-func resourceFirewallshaperPerIpShaperUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceFirewallShaperPerIpShaperUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
@@ -191,27 +191,27 @@ func resourceFirewallshaperPerIpShaperUpdate(ctx context.Context, d *schema.Reso
 	}
 	urlparams.Vdom = vdomparam
 
-	obj, diags := getObjectFirewallshaperPerIpShaper(d, c.Config.Fv)
+	obj, diags := getObjectFirewallShaperPerIpShaper(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.UpdateFirewallshaperPerIpShaper(mkey, obj, urlparams)
+	o, err := c.Cmdb.UpdateFirewallShaperPerIpShaper(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error updating FirewallshaperPerIpShaper resource: %v", err)
+		return diag.Errorf("error updating FirewallShaperPerIpShaper resource: %v", err)
 	}
 
 	// log.Printf(strconv.Itoa(c.Retries))
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("FirewallshaperPerIpShaper")
+		d.SetId("FirewallShaperPerIpShaper")
 	}
 
-	return resourceFirewallshaperPerIpShaperRead(ctx, d, meta)
+	return resourceFirewallShaperPerIpShaperRead(ctx, d, meta)
 }
 
-func resourceFirewallshaperPerIpShaperDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceFirewallShaperPerIpShaperDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -226,9 +226,9 @@ func resourceFirewallshaperPerIpShaperDelete(ctx context.Context, d *schema.Reso
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteFirewallshaperPerIpShaper(mkey, urlparams)
+	err := c.Cmdb.DeleteFirewallShaperPerIpShaper(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error deleting FirewallshaperPerIpShaper resource: %v", err)
+		return diag.Errorf("error deleting FirewallShaperPerIpShaper resource: %v", err)
 	}
 
 	d.SetId("")
@@ -236,7 +236,7 @@ func resourceFirewallshaperPerIpShaperDelete(ctx context.Context, d *schema.Reso
 	return nil
 }
 
-func resourceFirewallshaperPerIpShaperRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceFirewallShaperPerIpShaperRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -251,9 +251,9 @@ func resourceFirewallshaperPerIpShaperRead(ctx context.Context, d *schema.Resour
 	}
 	urlparams.Vdom = vdomparam
 
-	o, err := c.Cmdb.ReadFirewallshaperPerIpShaper(mkey, urlparams)
+	o, err := c.Cmdb.ReadFirewallShaperPerIpShaper(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error reading FirewallshaperPerIpShaper resource: %v", err)
+		return diag.Errorf("error reading FirewallShaperPerIpShaper resource: %v", err)
 	}
 
 	if o == nil {
@@ -269,14 +269,14 @@ func resourceFirewallshaperPerIpShaperRead(ctx context.Context, d *schema.Resour
 		}
 	}
 
-	diags := refreshObjectFirewallshaperPerIpShaper(d, o, c.Config.Fv, sort)
+	diags := refreshObjectFirewallShaperPerIpShaper(d, o, c.Config.Fv, sort)
 	if diags.HasError() {
 		return diags
 	}
 	return nil
 }
 
-func refreshObjectFirewallshaperPerIpShaper(d *schema.ResourceData, o *models.FirewallshaperPerIpShaper, sv string, sort bool) diag.Diagnostics {
+func refreshObjectFirewallShaperPerIpShaper(d *schema.ResourceData, o *models.FirewallShaperPerIpShaper, sv string, sort bool) diag.Diagnostics {
 	var err error
 
 	if o.BandwidthUnit != nil {
@@ -362,8 +362,8 @@ func refreshObjectFirewallshaperPerIpShaper(d *schema.ResourceData, o *models.Fi
 	return nil
 }
 
-func getObjectFirewallshaperPerIpShaper(d *schema.ResourceData, sv string) (*models.FirewallshaperPerIpShaper, diag.Diagnostics) {
-	obj := models.FirewallshaperPerIpShaper{}
+func getObjectFirewallShaperPerIpShaper(d *schema.ResourceData, sv string) (*models.FirewallShaperPerIpShaper, diag.Diagnostics) {
+	obj := models.FirewallShaperPerIpShaper{}
 	diags := diag.Diagnostics{}
 
 	if v1, ok := d.GetOk("bandwidth_unit"); ok {

@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -19,14 +19,14 @@ import (
 	"github.com/poroping/terraform-provider-fortios/v2/utils"
 )
 
-func resourceLogsyslogd3Filter() *schema.Resource {
+func resourceLogSyslogd3Filter() *schema.Resource {
 	return &schema.Resource{
 		Description: "Filters for remote system server.",
 
-		CreateContext: resourceLogsyslogd3FilterCreate,
-		ReadContext:   resourceLogsyslogd3FilterRead,
-		UpdateContext: resourceLogsyslogd3FilterUpdate,
-		DeleteContext: resourceLogsyslogd3FilterDelete,
+		CreateContext: resourceLogSyslogd3FilterCreate,
+		ReadContext:   resourceLogSyslogd3FilterRead,
+		UpdateContext: resourceLogSyslogd3FilterUpdate,
+		DeleteContext: resourceLogSyslogd3FilterDelete,
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
@@ -168,7 +168,7 @@ func resourceLogsyslogd3Filter() *schema.Resource {
 	}
 }
 
-func resourceLogsyslogd3FilterCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceLogSyslogd3FilterCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*apiClient).Client
 	var diags diag.Diagnostics
 	var err error
@@ -190,12 +190,12 @@ func resourceLogsyslogd3FilterCreate(ctx context.Context, d *schema.ResourceData
 	}
 	urlparams.AllowAppend = &allow_append
 
-	obj, diags := getObjectLogsyslogd3Filter(d, c.Config.Fv)
+	obj, diags := getObjectLogSyslogd3Filter(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.CreateLogsyslogd3Filter(obj, urlparams)
+	o, err := c.Cmdb.CreateLogSyslogd3Filter(obj, urlparams)
 
 	if err != nil {
 		e := diag.FromErr(err)
@@ -205,13 +205,13 @@ func resourceLogsyslogd3FilterCreate(ctx context.Context, d *schema.ResourceData
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("Logsyslogd3Filter")
+		d.SetId("LogSyslogd3Filter")
 	}
 
-	return resourceLogsyslogd3FilterRead(ctx, d, meta)
+	return resourceLogSyslogd3FilterRead(ctx, d, meta)
 }
 
-func resourceLogsyslogd3FilterUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceLogSyslogd3FilterUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
@@ -224,27 +224,27 @@ func resourceLogsyslogd3FilterUpdate(ctx context.Context, d *schema.ResourceData
 	}
 	urlparams.Vdom = vdomparam
 
-	obj, diags := getObjectLogsyslogd3Filter(d, c.Config.Fv)
+	obj, diags := getObjectLogSyslogd3Filter(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.UpdateLogsyslogd3Filter(mkey, obj, urlparams)
+	o, err := c.Cmdb.UpdateLogSyslogd3Filter(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error updating Logsyslogd3Filter resource: %v", err)
+		return diag.Errorf("error updating LogSyslogd3Filter resource: %v", err)
 	}
 
 	// log.Printf(strconv.Itoa(c.Retries))
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("Logsyslogd3Filter")
+		d.SetId("LogSyslogd3Filter")
 	}
 
-	return resourceLogsyslogd3FilterRead(ctx, d, meta)
+	return resourceLogSyslogd3FilterRead(ctx, d, meta)
 }
 
-func resourceLogsyslogd3FilterDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceLogSyslogd3FilterDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -259,9 +259,14 @@ func resourceLogsyslogd3FilterDelete(ctx context.Context, d *schema.ResourceData
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteLogsyslogd3Filter(mkey, urlparams)
+	obj, diags := getEmptyObjectLogSyslogd3Filter(d, c.Config.Fv)
+	if diags.HasError() {
+		return diags
+	}
+
+	_, err := c.Cmdb.UpdateLogSyslogd3Filter(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error deleting Logsyslogd3Filter resource: %v", err)
+		return diag.Errorf("error deleting LogSyslogd3Filter resource: %v", err)
 	}
 
 	d.SetId("")
@@ -269,7 +274,7 @@ func resourceLogsyslogd3FilterDelete(ctx context.Context, d *schema.ResourceData
 	return nil
 }
 
-func resourceLogsyslogd3FilterRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceLogSyslogd3FilterRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -284,9 +289,9 @@ func resourceLogsyslogd3FilterRead(ctx context.Context, d *schema.ResourceData, 
 	}
 	urlparams.Vdom = vdomparam
 
-	o, err := c.Cmdb.ReadLogsyslogd3Filter(mkey, urlparams)
+	o, err := c.Cmdb.ReadLogSyslogd3Filter(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error reading Logsyslogd3Filter resource: %v", err)
+		return diag.Errorf("error reading LogSyslogd3Filter resource: %v", err)
 	}
 
 	if o == nil {
@@ -302,14 +307,14 @@ func resourceLogsyslogd3FilterRead(ctx context.Context, d *schema.ResourceData, 
 		}
 	}
 
-	diags := refreshObjectLogsyslogd3Filter(d, o, c.Config.Fv, sort)
+	diags := refreshObjectLogSyslogd3Filter(d, o, c.Config.Fv, sort)
 	if diags.HasError() {
 		return diags
 	}
 	return nil
 }
 
-func flattenLogsyslogd3FilterFreeStyle(v *[]models.Logsyslogd3FilterFreeStyle, sort bool) interface{} {
+func flattenLogSyslogd3FilterFreeStyle(v *[]models.LogSyslogd3FilterFreeStyle, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
@@ -342,7 +347,7 @@ func flattenLogsyslogd3FilterFreeStyle(v *[]models.Logsyslogd3FilterFreeStyle, s
 	return flat
 }
 
-func refreshObjectLogsyslogd3Filter(d *schema.ResourceData, o *models.Logsyslogd3Filter, sv string, sort bool) diag.Diagnostics {
+func refreshObjectLogSyslogd3Filter(d *schema.ResourceData, o *models.LogSyslogd3Filter, sv string, sort bool) diag.Diagnostics {
 	var err error
 
 	if o.Anomaly != nil {
@@ -378,7 +383,7 @@ func refreshObjectLogsyslogd3Filter(d *schema.ResourceData, o *models.Logsyslogd
 	}
 
 	if o.FreeStyle != nil {
-		if err = d.Set("free_style", flattenLogsyslogd3FilterFreeStyle(o.FreeStyle, sort)); err != nil {
+		if err = d.Set("free_style", flattenLogSyslogd3FilterFreeStyle(o.FreeStyle, sort)); err != nil {
 			return diag.Errorf("error reading free_style: %v", err)
 		}
 	}
@@ -434,16 +439,16 @@ func refreshObjectLogsyslogd3Filter(d *schema.ResourceData, o *models.Logsyslogd
 	return nil
 }
 
-func expandLogsyslogd3FilterFreeStyle(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.Logsyslogd3FilterFreeStyle, error) {
+func expandLogSyslogd3FilterFreeStyle(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.LogSyslogd3FilterFreeStyle, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
 	}
 
-	var result []models.Logsyslogd3FilterFreeStyle
+	var result []models.LogSyslogd3FilterFreeStyle
 
 	for i := range l {
-		tmp := models.Logsyslogd3FilterFreeStyle{}
+		tmp := models.LogSyslogd3FilterFreeStyle{}
 		var pre_append string
 
 		pre_append = fmt.Sprintf("%s.%d.category", pre, i)
@@ -479,8 +484,8 @@ func expandLogsyslogd3FilterFreeStyle(d *schema.ResourceData, v interface{}, pre
 	return &result, nil
 }
 
-func getObjectLogsyslogd3Filter(d *schema.ResourceData, sv string) (*models.Logsyslogd3Filter, diag.Diagnostics) {
-	obj := models.Logsyslogd3Filter{}
+func getObjectLogSyslogd3Filter(d *schema.ResourceData, sv string) (*models.LogSyslogd3Filter, diag.Diagnostics) {
+	obj := models.LogSyslogd3Filter{}
 	diags := diag.Diagnostics{}
 
 	if v1, ok := d.GetOk("anomaly"); ok {
@@ -524,7 +529,7 @@ func getObjectLogsyslogd3Filter(d *schema.ResourceData, sv string) (*models.Logs
 			e := utils.AttributeVersionWarning("free_style", sv)
 			diags = append(diags, e)
 		}
-		t, err := expandLogsyslogd3FilterFreeStyle(d, v, "free_style", sv)
+		t, err := expandLogSyslogd3FilterFreeStyle(d, v, "free_style", sv)
 		if err != nil {
 			return &obj, diag.FromErr(err)
 		} else if t != nil {
@@ -533,12 +538,12 @@ func getObjectLogsyslogd3Filter(d *schema.ResourceData, sv string) (*models.Logs
 	} else if d.HasChange("free_style") {
 		old, new := d.GetChange("free_style")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.FreeStyle = &[]models.Logsyslogd3FilterFreeStyle{}
+			obj.FreeStyle = &[]models.LogSyslogd3FilterFreeStyle{}
 		}
 	}
 	if v1, ok := d.GetOk("gtp"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "v6.4.2", "") {
+			if !utils.CheckVer(sv, "v6.4.0", "") {
 				e := utils.AttributeVersionWarning("gtp", sv)
 				diags = append(diags, e)
 			}
@@ -590,5 +595,15 @@ func getObjectLogsyslogd3Filter(d *schema.ResourceData, sv string) (*models.Logs
 			obj.Voip = &v2
 		}
 	}
+	return &obj, diags
+}
+
+// Return an object with explicitly empty objects for tables that have been set.
+func getEmptyObjectLogSyslogd3Filter(d *schema.ResourceData, sv string) (*models.LogSyslogd3Filter, diag.Diagnostics) {
+	obj := models.LogSyslogd3Filter{}
+	diags := diag.Diagnostics{}
+
+	obj.FreeStyle = &[]models.LogSyslogd3FilterFreeStyle{}
+
 	return &obj, diags
 }

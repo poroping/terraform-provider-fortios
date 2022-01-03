@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -173,7 +173,12 @@ func resourceSwitchControllerLldpSettingsDelete(ctx context.Context, d *schema.R
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteSwitchControllerLldpSettings(mkey, urlparams)
+	obj, diags := getEmptyObjectSwitchControllerLldpSettings(d, c.Config.Fv)
+	if diags.HasError() {
+		return diags
+	}
+
+	_, err := c.Cmdb.UpdateSwitchControllerLldpSettings(mkey, obj, urlparams)
 	if err != nil {
 		return diag.Errorf("error deleting SwitchControllerLldpSettings resource: %v", err)
 	}
@@ -275,7 +280,7 @@ func getObjectSwitchControllerLldpSettings(d *schema.ResourceData, sv string) (*
 
 	if v1, ok := d.GetOk("device_detection"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "v6.4.2", "") {
+			if !utils.CheckVer(sv, "v6.4.0", "") {
 				e := utils.AttributeVersionWarning("device_detection", sv)
 				diags = append(diags, e)
 			}
@@ -321,5 +326,13 @@ func getObjectSwitchControllerLldpSettings(d *schema.ResourceData, sv string) (*
 			obj.TxInterval = &tmp
 		}
 	}
+	return &obj, diags
+}
+
+// Return an object with explicitly empty objects for tables that have been set.
+func getEmptyObjectSwitchControllerLldpSettings(d *schema.ResourceData, sv string) (*models.SwitchControllerLldpSettings, diag.Diagnostics) {
+	obj := models.SwitchControllerLldpSettings{}
+	diags := diag.Diagnostics{}
+
 	return &obj, diags
 }

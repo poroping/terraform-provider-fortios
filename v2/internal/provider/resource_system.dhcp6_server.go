@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -21,14 +21,14 @@ import (
 	"github.com/poroping/terraform-provider-fortios/v2/validators"
 )
 
-func resourceSystemdhcp6Server() *schema.Resource {
+func resourceSystemDhcp6Server() *schema.Resource {
 	return &schema.Resource{
 		Description: "Configure DHCPv6 servers.",
 
-		CreateContext: resourceSystemdhcp6ServerCreate,
-		ReadContext:   resourceSystemdhcp6ServerRead,
-		UpdateContext: resourceSystemdhcp6ServerUpdate,
-		DeleteContext: resourceSystemdhcp6ServerDelete,
+		CreateContext: resourceSystemDhcp6ServerCreate,
+		ReadContext:   resourceSystemDhcp6ServerRead,
+		UpdateContext: resourceSystemDhcp6ServerUpdate,
+		DeleteContext: resourceSystemDhcp6ServerDelete,
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
@@ -285,7 +285,7 @@ func resourceSystemdhcp6Server() *schema.Resource {
 	}
 }
 
-func resourceSystemdhcp6ServerCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSystemDhcp6ServerCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*apiClient).Client
 	var diags diag.Diagnostics
 	var err error
@@ -312,16 +312,16 @@ func resourceSystemdhcp6ServerCreate(ctx context.Context, d *schema.ResourceData
 	if v, ok := d.GetOk(key); ok {
 		mkey = utils.ParseMkey(v)
 		if mkey == "" && allow_append {
-			return diag.Errorf("error creating Systemdhcp6Server resource: %q must be set if \"allow_append\" is true", key)
+			return diag.Errorf("error creating SystemDhcp6Server resource: %q must be set if \"allow_append\" is true", key)
 		}
 	}
 
-	obj, diags := getObjectSystemdhcp6Server(d, c.Config.Fv)
+	obj, diags := getObjectSystemDhcp6Server(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.CreateSystemdhcp6Server(obj, urlparams)
+	o, err := c.Cmdb.CreateSystemDhcp6Server(obj, urlparams)
 
 	if err != nil {
 		e := diag.FromErr(err)
@@ -331,13 +331,13 @@ func resourceSystemdhcp6ServerCreate(ctx context.Context, d *schema.ResourceData
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("Systemdhcp6Server")
+		d.SetId("SystemDhcp6Server")
 	}
 
-	return resourceSystemdhcp6ServerRead(ctx, d, meta)
+	return resourceSystemDhcp6ServerRead(ctx, d, meta)
 }
 
-func resourceSystemdhcp6ServerUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSystemDhcp6ServerUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
@@ -350,27 +350,27 @@ func resourceSystemdhcp6ServerUpdate(ctx context.Context, d *schema.ResourceData
 	}
 	urlparams.Vdom = vdomparam
 
-	obj, diags := getObjectSystemdhcp6Server(d, c.Config.Fv)
+	obj, diags := getObjectSystemDhcp6Server(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.UpdateSystemdhcp6Server(mkey, obj, urlparams)
+	o, err := c.Cmdb.UpdateSystemDhcp6Server(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error updating Systemdhcp6Server resource: %v", err)
+		return diag.Errorf("error updating SystemDhcp6Server resource: %v", err)
 	}
 
 	// log.Printf(strconv.Itoa(c.Retries))
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("Systemdhcp6Server")
+		d.SetId("SystemDhcp6Server")
 	}
 
-	return resourceSystemdhcp6ServerRead(ctx, d, meta)
+	return resourceSystemDhcp6ServerRead(ctx, d, meta)
 }
 
-func resourceSystemdhcp6ServerDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSystemDhcp6ServerDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -385,9 +385,9 @@ func resourceSystemdhcp6ServerDelete(ctx context.Context, d *schema.ResourceData
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteSystemdhcp6Server(mkey, urlparams)
+	err := c.Cmdb.DeleteSystemDhcp6Server(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error deleting Systemdhcp6Server resource: %v", err)
+		return diag.Errorf("error deleting SystemDhcp6Server resource: %v", err)
 	}
 
 	d.SetId("")
@@ -395,7 +395,7 @@ func resourceSystemdhcp6ServerDelete(ctx context.Context, d *schema.ResourceData
 	return nil
 }
 
-func resourceSystemdhcp6ServerRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSystemDhcp6ServerRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -410,9 +410,9 @@ func resourceSystemdhcp6ServerRead(ctx context.Context, d *schema.ResourceData, 
 	}
 	urlparams.Vdom = vdomparam
 
-	o, err := c.Cmdb.ReadSystemdhcp6Server(mkey, urlparams)
+	o, err := c.Cmdb.ReadSystemDhcp6Server(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error reading Systemdhcp6Server resource: %v", err)
+		return diag.Errorf("error reading SystemDhcp6Server resource: %v", err)
 	}
 
 	if o == nil {
@@ -428,14 +428,14 @@ func resourceSystemdhcp6ServerRead(ctx context.Context, d *schema.ResourceData, 
 		}
 	}
 
-	diags := refreshObjectSystemdhcp6Server(d, o, c.Config.Fv, sort)
+	diags := refreshObjectSystemDhcp6Server(d, o, c.Config.Fv, sort)
 	if diags.HasError() {
 		return diags
 	}
 	return nil
 }
 
-func flattenSystemdhcp6ServerIpRange(v *[]models.Systemdhcp6ServerIpRange, sort bool) interface{} {
+func flattenSystemDhcp6ServerIpRange(v *[]models.SystemDhcp6ServerIpRange, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
@@ -464,7 +464,7 @@ func flattenSystemdhcp6ServerIpRange(v *[]models.Systemdhcp6ServerIpRange, sort 
 	return flat
 }
 
-func flattenSystemdhcp6ServerPrefixRange(v *[]models.Systemdhcp6ServerPrefixRange, sort bool) interface{} {
+func flattenSystemDhcp6ServerPrefixRange(v *[]models.SystemDhcp6ServerPrefixRange, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
@@ -497,7 +497,7 @@ func flattenSystemdhcp6ServerPrefixRange(v *[]models.Systemdhcp6ServerPrefixRang
 	return flat
 }
 
-func refreshObjectSystemdhcp6Server(d *schema.ResourceData, o *models.Systemdhcp6Server, sv string, sort bool) diag.Diagnostics {
+func refreshObjectSystemDhcp6Server(d *schema.ResourceData, o *models.SystemDhcp6Server, sv string, sort bool) diag.Diagnostics {
 	var err error
 
 	if o.DelegatedPrefixIaid != nil {
@@ -589,7 +589,7 @@ func refreshObjectSystemdhcp6Server(d *schema.ResourceData, o *models.Systemdhcp
 	}
 
 	if o.IpRange != nil {
-		if err = d.Set("ip_range", flattenSystemdhcp6ServerIpRange(o.IpRange, sort)); err != nil {
+		if err = d.Set("ip_range", flattenSystemDhcp6ServerIpRange(o.IpRange, sort)); err != nil {
 			return diag.Errorf("error reading ip_range: %v", err)
 		}
 	}
@@ -635,7 +635,7 @@ func refreshObjectSystemdhcp6Server(d *schema.ResourceData, o *models.Systemdhcp
 	}
 
 	if o.PrefixRange != nil {
-		if err = d.Set("prefix_range", flattenSystemdhcp6ServerPrefixRange(o.PrefixRange, sort)); err != nil {
+		if err = d.Set("prefix_range", flattenSystemDhcp6ServerPrefixRange(o.PrefixRange, sort)); err != nil {
 			return diag.Errorf("error reading prefix_range: %v", err)
 		}
 	}
@@ -675,16 +675,16 @@ func refreshObjectSystemdhcp6Server(d *schema.ResourceData, o *models.Systemdhcp
 	return nil
 }
 
-func expandSystemdhcp6ServerIpRange(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.Systemdhcp6ServerIpRange, error) {
+func expandSystemDhcp6ServerIpRange(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.SystemDhcp6ServerIpRange, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
 	}
 
-	var result []models.Systemdhcp6ServerIpRange
+	var result []models.SystemDhcp6ServerIpRange
 
 	for i := range l {
-		tmp := models.Systemdhcp6ServerIpRange{}
+		tmp := models.SystemDhcp6ServerIpRange{}
 		var pre_append string
 
 		pre_append = fmt.Sprintf("%s.%d.end_ip", pre, i)
@@ -713,16 +713,16 @@ func expandSystemdhcp6ServerIpRange(d *schema.ResourceData, v interface{}, pre s
 	return &result, nil
 }
 
-func expandSystemdhcp6ServerPrefixRange(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.Systemdhcp6ServerPrefixRange, error) {
+func expandSystemDhcp6ServerPrefixRange(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.SystemDhcp6ServerPrefixRange, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
 	}
 
-	var result []models.Systemdhcp6ServerPrefixRange
+	var result []models.SystemDhcp6ServerPrefixRange
 
 	for i := range l {
-		tmp := models.Systemdhcp6ServerPrefixRange{}
+		tmp := models.SystemDhcp6ServerPrefixRange{}
 		var pre_append string
 
 		pre_append = fmt.Sprintf("%s.%d.end_prefix", pre, i)
@@ -758,8 +758,8 @@ func expandSystemdhcp6ServerPrefixRange(d *schema.ResourceData, v interface{}, p
 	return &result, nil
 }
 
-func getObjectSystemdhcp6Server(d *schema.ResourceData, sv string) (*models.Systemdhcp6Server, diag.Diagnostics) {
-	obj := models.Systemdhcp6Server{}
+func getObjectSystemDhcp6Server(d *schema.ResourceData, sv string) (*models.SystemDhcp6Server, diag.Diagnostics) {
+	obj := models.SystemDhcp6Server{}
 	diags := diag.Diagnostics{}
 
 	if v1, ok := d.GetOk("delegated_prefix_iaid"); ok {
@@ -868,7 +868,7 @@ func getObjectSystemdhcp6Server(d *schema.ResourceData, sv string) (*models.Syst
 			e := utils.AttributeVersionWarning("ip_range", sv)
 			diags = append(diags, e)
 		}
-		t, err := expandSystemdhcp6ServerIpRange(d, v, "ip_range", sv)
+		t, err := expandSystemDhcp6ServerIpRange(d, v, "ip_range", sv)
 		if err != nil {
 			return &obj, diag.FromErr(err)
 		} else if t != nil {
@@ -877,7 +877,7 @@ func getObjectSystemdhcp6Server(d *schema.ResourceData, sv string) (*models.Syst
 	} else if d.HasChange("ip_range") {
 		old, new := d.GetChange("ip_range")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.IpRange = &[]models.Systemdhcp6ServerIpRange{}
+			obj.IpRange = &[]models.SystemDhcp6ServerIpRange{}
 		}
 	}
 	if v1, ok := d.GetOk("lease_time"); ok {
@@ -931,7 +931,7 @@ func getObjectSystemdhcp6Server(d *schema.ResourceData, sv string) (*models.Syst
 			e := utils.AttributeVersionWarning("prefix_range", sv)
 			diags = append(diags, e)
 		}
-		t, err := expandSystemdhcp6ServerPrefixRange(d, v, "prefix_range", sv)
+		t, err := expandSystemDhcp6ServerPrefixRange(d, v, "prefix_range", sv)
 		if err != nil {
 			return &obj, diag.FromErr(err)
 		} else if t != nil {
@@ -940,7 +940,7 @@ func getObjectSystemdhcp6Server(d *schema.ResourceData, sv string) (*models.Syst
 	} else if d.HasChange("prefix_range") {
 		old, new := d.GetChange("prefix_range")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.PrefixRange = &[]models.Systemdhcp6ServerPrefixRange{}
+			obj.PrefixRange = &[]models.SystemDhcp6ServerPrefixRange{}
 		}
 	}
 	if v1, ok := d.GetOk("rapid_commit"); ok {

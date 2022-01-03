@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 

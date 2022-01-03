@@ -2034,7 +2034,12 @@ func resourceSystemNpuDelete(ctx context.Context, d *schema.ResourceData, meta i
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteSystemNpu(mkey, urlparams)
+	obj, diags := getEmptyObjectSystemNpu(d, c.Config.Fv)
+	if diags.HasError() {
+		return diags
+	}
+
+	_, err := c.Cmdb.UpdateSystemNpu(mkey, obj, urlparams)
 	if err != nil {
 		return diag.Errorf("error deleting SystemNpu resource: %v", err)
 	}
@@ -5704,5 +5709,28 @@ func getObjectSystemNpu(d *schema.ResourceData, sv string) (*models.SystemNpu, d
 			obj.VlanLookupCache = &v2
 		}
 	}
+	return &obj, diags
+}
+
+// Return an object with explicitly empty objects for tables that have been set.
+func getEmptyObjectSystemNpu(d *schema.ResourceData, sv string) (*models.SystemNpu, diag.Diagnostics) {
+	obj := models.SystemNpu{}
+	diags := diag.Diagnostics{}
+
+	obj.DosOptions = &[]models.SystemNpuDosOptions{}
+	obj.DswDtsProfile = &[]models.SystemNpuDswDtsProfile{}
+	obj.DswQueueDtsProfile = &[]models.SystemNpuDswQueueDtsProfile{}
+	obj.FpAnomaly = &[]models.SystemNpuFpAnomaly{}
+	obj.Hpe = &[]models.SystemNpuHpe{}
+	obj.InboundDscpCopyPort = &[]models.SystemNpuInboundDscpCopyPort{}
+	obj.IpReassembly = &[]models.SystemNpuIpReassembly{}
+	obj.IsfNpQueues = &[]models.SystemNpuIsfNpQueues{}
+	obj.NpQueues = &[]models.SystemNpuNpQueues{}
+	obj.PortCpuMap = &[]models.SystemNpuPortCpuMap{}
+	obj.PortNpuMap = &[]models.SystemNpuPortNpuMap{}
+	obj.PriorityProtocol = &[]models.SystemNpuPriorityProtocol{}
+	obj.TcpTimeoutProfile = &[]models.SystemNpuTcpTimeoutProfile{}
+	obj.UdpTimeoutProfile = &[]models.SystemNpuUdpTimeoutProfile{}
+
 	return &obj, diags
 }

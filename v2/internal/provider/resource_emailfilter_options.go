@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -141,7 +141,12 @@ func resourceEmailfilterOptionsDelete(ctx context.Context, d *schema.ResourceDat
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteEmailfilterOptions(mkey, urlparams)
+	obj, diags := getEmptyObjectEmailfilterOptions(d, c.Config.Fv)
+	if diags.HasError() {
+		return diags
+	}
+
+	_, err := c.Cmdb.UpdateEmailfilterOptions(mkey, obj, urlparams)
 	if err != nil {
 		return diag.Errorf("error deleting EmailfilterOptions resource: %v", err)
 	}
@@ -219,5 +224,13 @@ func getObjectEmailfilterOptions(d *schema.ResourceData, sv string) (*models.Ema
 			obj.DnsTimeout = &tmp
 		}
 	}
+	return &obj, diags
+}
+
+// Return an object with explicitly empty objects for tables that have been set.
+func getEmptyObjectEmailfilterOptions(d *schema.ResourceData, sv string) (*models.EmailfilterOptions, diag.Diagnostics) {
+	obj := models.EmailfilterOptions{}
+	diags := diag.Diagnostics{}
+
 	return &obj, diags
 }

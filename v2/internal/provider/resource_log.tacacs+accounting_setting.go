@@ -18,14 +18,14 @@ import (
 	"github.com/poroping/terraform-provider-fortios/v2/utils"
 )
 
-func resourceLogtacacsaccountingSetting() *schema.Resource {
+func resourceLogTacacsaccountingSetting() *schema.Resource {
 	return &schema.Resource{
 		Description: "Settings for TACACS+ accounting.",
 
-		CreateContext: resourceLogtacacsaccountingSettingCreate,
-		ReadContext:   resourceLogtacacsaccountingSettingRead,
-		UpdateContext: resourceLogtacacsaccountingSettingUpdate,
-		DeleteContext: resourceLogtacacsaccountingSettingDelete,
+		CreateContext: resourceLogTacacsaccountingSettingCreate,
+		ReadContext:   resourceLogTacacsaccountingSettingRead,
+		UpdateContext: resourceLogTacacsaccountingSettingUpdate,
+		DeleteContext: resourceLogTacacsaccountingSettingDelete,
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
@@ -66,7 +66,7 @@ func resourceLogtacacsaccountingSetting() *schema.Resource {
 	}
 }
 
-func resourceLogtacacsaccountingSettingCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceLogTacacsaccountingSettingCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*apiClient).Client
 	var diags diag.Diagnostics
 	var err error
@@ -88,12 +88,12 @@ func resourceLogtacacsaccountingSettingCreate(ctx context.Context, d *schema.Res
 	}
 	urlparams.AllowAppend = &allow_append
 
-	obj, diags := getObjectLogtacacsaccountingSetting(d, c.Config.Fv)
+	obj, diags := getObjectLogTacacsaccountingSetting(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.CreateLogtacacsaccountingSetting(obj, urlparams)
+	o, err := c.Cmdb.CreateLogTacacsaccountingSetting(obj, urlparams)
 
 	if err != nil {
 		e := diag.FromErr(err)
@@ -103,13 +103,13 @@ func resourceLogtacacsaccountingSettingCreate(ctx context.Context, d *schema.Res
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("LogtacacsaccountingSetting")
+		d.SetId("LogTacacsaccountingSetting")
 	}
 
-	return resourceLogtacacsaccountingSettingRead(ctx, d, meta)
+	return resourceLogTacacsaccountingSettingRead(ctx, d, meta)
 }
 
-func resourceLogtacacsaccountingSettingUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceLogTacacsaccountingSettingUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
@@ -122,27 +122,27 @@ func resourceLogtacacsaccountingSettingUpdate(ctx context.Context, d *schema.Res
 	}
 	urlparams.Vdom = vdomparam
 
-	obj, diags := getObjectLogtacacsaccountingSetting(d, c.Config.Fv)
+	obj, diags := getObjectLogTacacsaccountingSetting(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.UpdateLogtacacsaccountingSetting(mkey, obj, urlparams)
+	o, err := c.Cmdb.UpdateLogTacacsaccountingSetting(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error updating LogtacacsaccountingSetting resource: %v", err)
+		return diag.Errorf("error updating LogTacacsaccountingSetting resource: %v", err)
 	}
 
 	// log.Printf(strconv.Itoa(c.Retries))
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("LogtacacsaccountingSetting")
+		d.SetId("LogTacacsaccountingSetting")
 	}
 
-	return resourceLogtacacsaccountingSettingRead(ctx, d, meta)
+	return resourceLogTacacsaccountingSettingRead(ctx, d, meta)
 }
 
-func resourceLogtacacsaccountingSettingDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceLogTacacsaccountingSettingDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -157,9 +157,14 @@ func resourceLogtacacsaccountingSettingDelete(ctx context.Context, d *schema.Res
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteLogtacacsaccountingSetting(mkey, urlparams)
+	obj, diags := getEmptyObjectLogTacacsaccountingSetting(d, c.Config.Fv)
+	if diags.HasError() {
+		return diags
+	}
+
+	_, err := c.Cmdb.UpdateLogTacacsaccountingSetting(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error deleting LogtacacsaccountingSetting resource: %v", err)
+		return diag.Errorf("error deleting LogTacacsaccountingSetting resource: %v", err)
 	}
 
 	d.SetId("")
@@ -167,7 +172,7 @@ func resourceLogtacacsaccountingSettingDelete(ctx context.Context, d *schema.Res
 	return nil
 }
 
-func resourceLogtacacsaccountingSettingRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceLogTacacsaccountingSettingRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -182,9 +187,9 @@ func resourceLogtacacsaccountingSettingRead(ctx context.Context, d *schema.Resou
 	}
 	urlparams.Vdom = vdomparam
 
-	o, err := c.Cmdb.ReadLogtacacsaccountingSetting(mkey, urlparams)
+	o, err := c.Cmdb.ReadLogTacacsaccountingSetting(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error reading LogtacacsaccountingSetting resource: %v", err)
+		return diag.Errorf("error reading LogTacacsaccountingSetting resource: %v", err)
 	}
 
 	if o == nil {
@@ -200,14 +205,14 @@ func resourceLogtacacsaccountingSettingRead(ctx context.Context, d *schema.Resou
 		}
 	}
 
-	diags := refreshObjectLogtacacsaccountingSetting(d, o, c.Config.Fv, sort)
+	diags := refreshObjectLogTacacsaccountingSetting(d, o, c.Config.Fv, sort)
 	if diags.HasError() {
 		return diags
 	}
 	return nil
 }
 
-func refreshObjectLogtacacsaccountingSetting(d *schema.ResourceData, o *models.LogtacacsaccountingSetting, sv string, sort bool) diag.Diagnostics {
+func refreshObjectLogTacacsaccountingSetting(d *schema.ResourceData, o *models.LogTacacsaccountingSetting, sv string, sort bool) diag.Diagnostics {
 	var err error
 
 	if o.Server != nil {
@@ -237,8 +242,8 @@ func refreshObjectLogtacacsaccountingSetting(d *schema.ResourceData, o *models.L
 	return nil
 }
 
-func getObjectLogtacacsaccountingSetting(d *schema.ResourceData, sv string) (*models.LogtacacsaccountingSetting, diag.Diagnostics) {
-	obj := models.LogtacacsaccountingSetting{}
+func getObjectLogTacacsaccountingSetting(d *schema.ResourceData, sv string) (*models.LogTacacsaccountingSetting, diag.Diagnostics) {
+	obj := models.LogTacacsaccountingSetting{}
 	diags := diag.Diagnostics{}
 
 	if v1, ok := d.GetOk("server"); ok {
@@ -268,5 +273,13 @@ func getObjectLogtacacsaccountingSetting(d *schema.ResourceData, sv string) (*mo
 			obj.Status = &v2
 		}
 	}
+	return &obj, diags
+}
+
+// Return an object with explicitly empty objects for tables that have been set.
+func getEmptyObjectLogTacacsaccountingSetting(d *schema.ResourceData, sv string) (*models.LogTacacsaccountingSetting, diag.Diagnostics) {
+	obj := models.LogTacacsaccountingSetting{}
+	diags := diag.Diagnostics{}
+
 	return &obj, diags
 }

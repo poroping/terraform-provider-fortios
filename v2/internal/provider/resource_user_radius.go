@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -1210,7 +1210,7 @@ func getObjectUserRadius(d *schema.ResourceData, sv string) (*models.UserRadius,
 	}
 	if v1, ok := d.GetOk("group_override_attr_type"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "v6.4.2", "") {
+			if !utils.CheckVer(sv, "v6.4.0", "") {
 				e := utils.AttributeVersionWarning("group_override_attr_type", sv)
 				diags = append(diags, e)
 			}
@@ -1228,7 +1228,7 @@ func getObjectUserRadius(d *schema.ResourceData, sv string) (*models.UserRadius,
 	}
 	if v1, ok := d.GetOk("interface"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "") {
+			if !utils.CheckVer(sv, "", "v6.4.0") {
 				e := utils.AttributeVersionWarning("interface", sv)
 				diags = append(diags, e)
 			}
@@ -1237,7 +1237,7 @@ func getObjectUserRadius(d *schema.ResourceData, sv string) (*models.UserRadius,
 	}
 	if v1, ok := d.GetOk("interface_select_method"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "") {
+			if !utils.CheckVer(sv, "", "v6.4.0") {
 				e := utils.AttributeVersionWarning("interface_select_method", sv)
 				diags = append(diags, e)
 			}
@@ -1484,7 +1484,7 @@ func getObjectUserRadius(d *schema.ResourceData, sv string) (*models.UserRadius,
 	}
 	if v1, ok := d.GetOk("switch_controller_acct_fast_framedip_detect"); ok {
 		if v2, ok := v1.(int); ok {
-			if !utils.CheckVer(sv, "v6.4.2", "") {
+			if !utils.CheckVer(sv, "v6.4.0", "") {
 				e := utils.AttributeVersionWarning("switch_controller_acct_fast_framedip_detect", sv)
 				diags = append(diags, e)
 			}

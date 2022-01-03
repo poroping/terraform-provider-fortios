@@ -9,7 +9,7 @@ import "github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 func providerResources() map[string]*schema.Resource {
 	return map[string]*schema.Resource{
-    {{ range . }}"fortios_{{(resFlatten .Path)}}_{{(resFlatten .Name)}}": resource{{.Fpath}}(),
+    {{ range . }}"fortios_{{(resFlatten .Path)}}_{{(resFlatten .Name)}}{{with .ChildPath}}_{{(resFlatten .)}}{{end}}": resource{{.Fpath}}(),
     {{ end }}
 	}
 }

@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -18,14 +18,14 @@ import (
 	"github.com/poroping/terraform-provider-fortios/v2/utils"
 )
 
-func resourceVpnipsecForticlient() *schema.Resource {
+func resourceVpnIpsecForticlient() *schema.Resource {
 	return &schema.Resource{
 		Description: "Configure FortiClient policy realm.",
 
-		CreateContext: resourceVpnipsecForticlientCreate,
-		ReadContext:   resourceVpnipsecForticlientRead,
-		UpdateContext: resourceVpnipsecForticlientUpdate,
-		DeleteContext: resourceVpnipsecForticlientDelete,
+		CreateContext: resourceVpnIpsecForticlientCreate,
+		ReadContext:   resourceVpnIpsecForticlientRead,
+		UpdateContext: resourceVpnIpsecForticlientUpdate,
+		DeleteContext: resourceVpnIpsecForticlientDelete,
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
@@ -80,7 +80,7 @@ func resourceVpnipsecForticlient() *schema.Resource {
 	}
 }
 
-func resourceVpnipsecForticlientCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceVpnIpsecForticlientCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*apiClient).Client
 	var diags diag.Diagnostics
 	var err error
@@ -107,16 +107,16 @@ func resourceVpnipsecForticlientCreate(ctx context.Context, d *schema.ResourceDa
 	if v, ok := d.GetOk(key); ok {
 		mkey = utils.ParseMkey(v)
 		if mkey == "" && allow_append {
-			return diag.Errorf("error creating VpnipsecForticlient resource: %q must be set if \"allow_append\" is true", key)
+			return diag.Errorf("error creating VpnIpsecForticlient resource: %q must be set if \"allow_append\" is true", key)
 		}
 	}
 
-	obj, diags := getObjectVpnipsecForticlient(d, c.Config.Fv)
+	obj, diags := getObjectVpnIpsecForticlient(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.CreateVpnipsecForticlient(obj, urlparams)
+	o, err := c.Cmdb.CreateVpnIpsecForticlient(obj, urlparams)
 
 	if err != nil {
 		e := diag.FromErr(err)
@@ -126,13 +126,13 @@ func resourceVpnipsecForticlientCreate(ctx context.Context, d *schema.ResourceDa
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("VpnipsecForticlient")
+		d.SetId("VpnIpsecForticlient")
 	}
 
-	return resourceVpnipsecForticlientRead(ctx, d, meta)
+	return resourceVpnIpsecForticlientRead(ctx, d, meta)
 }
 
-func resourceVpnipsecForticlientUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceVpnIpsecForticlientUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
@@ -145,27 +145,27 @@ func resourceVpnipsecForticlientUpdate(ctx context.Context, d *schema.ResourceDa
 	}
 	urlparams.Vdom = vdomparam
 
-	obj, diags := getObjectVpnipsecForticlient(d, c.Config.Fv)
+	obj, diags := getObjectVpnIpsecForticlient(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.UpdateVpnipsecForticlient(mkey, obj, urlparams)
+	o, err := c.Cmdb.UpdateVpnIpsecForticlient(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error updating VpnipsecForticlient resource: %v", err)
+		return diag.Errorf("error updating VpnIpsecForticlient resource: %v", err)
 	}
 
 	// log.Printf(strconv.Itoa(c.Retries))
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("VpnipsecForticlient")
+		d.SetId("VpnIpsecForticlient")
 	}
 
-	return resourceVpnipsecForticlientRead(ctx, d, meta)
+	return resourceVpnIpsecForticlientRead(ctx, d, meta)
 }
 
-func resourceVpnipsecForticlientDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceVpnIpsecForticlientDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -180,9 +180,9 @@ func resourceVpnipsecForticlientDelete(ctx context.Context, d *schema.ResourceDa
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteVpnipsecForticlient(mkey, urlparams)
+	err := c.Cmdb.DeleteVpnIpsecForticlient(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error deleting VpnipsecForticlient resource: %v", err)
+		return diag.Errorf("error deleting VpnIpsecForticlient resource: %v", err)
 	}
 
 	d.SetId("")
@@ -190,7 +190,7 @@ func resourceVpnipsecForticlientDelete(ctx context.Context, d *schema.ResourceDa
 	return nil
 }
 
-func resourceVpnipsecForticlientRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceVpnIpsecForticlientRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -205,9 +205,9 @@ func resourceVpnipsecForticlientRead(ctx context.Context, d *schema.ResourceData
 	}
 	urlparams.Vdom = vdomparam
 
-	o, err := c.Cmdb.ReadVpnipsecForticlient(mkey, urlparams)
+	o, err := c.Cmdb.ReadVpnIpsecForticlient(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error reading VpnipsecForticlient resource: %v", err)
+		return diag.Errorf("error reading VpnIpsecForticlient resource: %v", err)
 	}
 
 	if o == nil {
@@ -223,14 +223,14 @@ func resourceVpnipsecForticlientRead(ctx context.Context, d *schema.ResourceData
 		}
 	}
 
-	diags := refreshObjectVpnipsecForticlient(d, o, c.Config.Fv, sort)
+	diags := refreshObjectVpnIpsecForticlient(d, o, c.Config.Fv, sort)
 	if diags.HasError() {
 		return diags
 	}
 	return nil
 }
 
-func refreshObjectVpnipsecForticlient(d *schema.ResourceData, o *models.VpnipsecForticlient, sv string, sort bool) diag.Diagnostics {
+func refreshObjectVpnIpsecForticlient(d *schema.ResourceData, o *models.VpnIpsecForticlient, sv string, sort bool) diag.Diagnostics {
 	var err error
 
 	if o.Phase2name != nil {
@@ -268,8 +268,8 @@ func refreshObjectVpnipsecForticlient(d *schema.ResourceData, o *models.Vpnipsec
 	return nil
 }
 
-func getObjectVpnipsecForticlient(d *schema.ResourceData, sv string) (*models.VpnipsecForticlient, diag.Diagnostics) {
-	obj := models.VpnipsecForticlient{}
+func getObjectVpnIpsecForticlient(d *schema.ResourceData, sv string) (*models.VpnIpsecForticlient, diag.Diagnostics) {
+	obj := models.VpnIpsecForticlient{}
 	diags := diag.Diagnostics{}
 
 	if v1, ok := d.GetOk("phase2name"); ok {

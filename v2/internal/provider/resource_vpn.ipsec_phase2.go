@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -20,14 +20,14 @@ import (
 	"github.com/poroping/terraform-provider-fortios/v2/validators"
 )
 
-func resourceVpnipsecPhase2() *schema.Resource {
+func resourceVpnIpsecPhase2() *schema.Resource {
 	return &schema.Resource{
 		Description: "Configure VPN autokey tunnel.",
 
-		CreateContext: resourceVpnipsecPhase2Create,
-		ReadContext:   resourceVpnipsecPhase2Read,
-		UpdateContext: resourceVpnipsecPhase2Update,
-		DeleteContext: resourceVpnipsecPhase2Delete,
+		CreateContext: resourceVpnIpsecPhase2Create,
+		ReadContext:   resourceVpnIpsecPhase2Read,
+		UpdateContext: resourceVpnIpsecPhase2Update,
+		DeleteContext: resourceVpnIpsecPhase2Delete,
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
@@ -408,7 +408,7 @@ func resourceVpnipsecPhase2() *schema.Resource {
 	}
 }
 
-func resourceVpnipsecPhase2Create(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceVpnIpsecPhase2Create(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*apiClient).Client
 	var diags diag.Diagnostics
 	var err error
@@ -435,16 +435,16 @@ func resourceVpnipsecPhase2Create(ctx context.Context, d *schema.ResourceData, m
 	if v, ok := d.GetOk(key); ok {
 		mkey = utils.ParseMkey(v)
 		if mkey == "" && allow_append {
-			return diag.Errorf("error creating VpnipsecPhase2 resource: %q must be set if \"allow_append\" is true", key)
+			return diag.Errorf("error creating VpnIpsecPhase2 resource: %q must be set if \"allow_append\" is true", key)
 		}
 	}
 
-	obj, diags := getObjectVpnipsecPhase2(d, c.Config.Fv)
+	obj, diags := getObjectVpnIpsecPhase2(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.CreateVpnipsecPhase2(obj, urlparams)
+	o, err := c.Cmdb.CreateVpnIpsecPhase2(obj, urlparams)
 
 	if err != nil {
 		e := diag.FromErr(err)
@@ -454,13 +454,13 @@ func resourceVpnipsecPhase2Create(ctx context.Context, d *schema.ResourceData, m
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("VpnipsecPhase2")
+		d.SetId("VpnIpsecPhase2")
 	}
 
-	return resourceVpnipsecPhase2Read(ctx, d, meta)
+	return resourceVpnIpsecPhase2Read(ctx, d, meta)
 }
 
-func resourceVpnipsecPhase2Update(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceVpnIpsecPhase2Update(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
@@ -473,27 +473,27 @@ func resourceVpnipsecPhase2Update(ctx context.Context, d *schema.ResourceData, m
 	}
 	urlparams.Vdom = vdomparam
 
-	obj, diags := getObjectVpnipsecPhase2(d, c.Config.Fv)
+	obj, diags := getObjectVpnIpsecPhase2(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.UpdateVpnipsecPhase2(mkey, obj, urlparams)
+	o, err := c.Cmdb.UpdateVpnIpsecPhase2(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error updating VpnipsecPhase2 resource: %v", err)
+		return diag.Errorf("error updating VpnIpsecPhase2 resource: %v", err)
 	}
 
 	// log.Printf(strconv.Itoa(c.Retries))
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("VpnipsecPhase2")
+		d.SetId("VpnIpsecPhase2")
 	}
 
-	return resourceVpnipsecPhase2Read(ctx, d, meta)
+	return resourceVpnIpsecPhase2Read(ctx, d, meta)
 }
 
-func resourceVpnipsecPhase2Delete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceVpnIpsecPhase2Delete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -508,9 +508,9 @@ func resourceVpnipsecPhase2Delete(ctx context.Context, d *schema.ResourceData, m
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteVpnipsecPhase2(mkey, urlparams)
+	err := c.Cmdb.DeleteVpnIpsecPhase2(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error deleting VpnipsecPhase2 resource: %v", err)
+		return diag.Errorf("error deleting VpnIpsecPhase2 resource: %v", err)
 	}
 
 	d.SetId("")
@@ -518,7 +518,7 @@ func resourceVpnipsecPhase2Delete(ctx context.Context, d *schema.ResourceData, m
 	return nil
 }
 
-func resourceVpnipsecPhase2Read(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceVpnIpsecPhase2Read(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -533,9 +533,9 @@ func resourceVpnipsecPhase2Read(ctx context.Context, d *schema.ResourceData, met
 	}
 	urlparams.Vdom = vdomparam
 
-	o, err := c.Cmdb.ReadVpnipsecPhase2(mkey, urlparams)
+	o, err := c.Cmdb.ReadVpnIpsecPhase2(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error reading VpnipsecPhase2 resource: %v", err)
+		return diag.Errorf("error reading VpnIpsecPhase2 resource: %v", err)
 	}
 
 	if o == nil {
@@ -551,14 +551,14 @@ func resourceVpnipsecPhase2Read(ctx context.Context, d *schema.ResourceData, met
 		}
 	}
 
-	diags := refreshObjectVpnipsecPhase2(d, o, c.Config.Fv, sort)
+	diags := refreshObjectVpnIpsecPhase2(d, o, c.Config.Fv, sort)
 	if diags.HasError() {
 		return diags
 	}
 	return nil
 }
 
-func refreshObjectVpnipsecPhase2(d *schema.ResourceData, o *models.VpnipsecPhase2, sv string, sort bool) diag.Diagnostics {
+func refreshObjectVpnIpsecPhase2(d *schema.ResourceData, o *models.VpnIpsecPhase2, sv string, sort bool) diag.Diagnostics {
 	var err error
 
 	if o.AddRoute != nil {
@@ -934,8 +934,8 @@ func refreshObjectVpnipsecPhase2(d *schema.ResourceData, o *models.VpnipsecPhase
 	return nil
 }
 
-func getObjectVpnipsecPhase2(d *schema.ResourceData, sv string) (*models.VpnipsecPhase2, diag.Diagnostics) {
-	obj := models.VpnipsecPhase2{}
+func getObjectVpnIpsecPhase2(d *schema.ResourceData, sv string) (*models.VpnIpsecPhase2, diag.Diagnostics) {
+	obj := models.VpnIpsecPhase2{}
 	diags := diag.Diagnostics{}
 
 	if v1, ok := d.GetOk("add_route"); ok {

@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -19,14 +19,14 @@ import (
 	"github.com/poroping/terraform-provider-fortios/v2/utils"
 )
 
-func resourceLogwebtrendsFilter() *schema.Resource {
+func resourceLogWebtrendsFilter() *schema.Resource {
 	return &schema.Resource{
 		Description: "Filters for WebTrends.",
 
-		CreateContext: resourceLogwebtrendsFilterCreate,
-		ReadContext:   resourceLogwebtrendsFilterRead,
-		UpdateContext: resourceLogwebtrendsFilterUpdate,
-		DeleteContext: resourceLogwebtrendsFilterDelete,
+		CreateContext: resourceLogWebtrendsFilterCreate,
+		ReadContext:   resourceLogWebtrendsFilterRead,
+		UpdateContext: resourceLogWebtrendsFilterUpdate,
+		DeleteContext: resourceLogWebtrendsFilterDelete,
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
@@ -168,7 +168,7 @@ func resourceLogwebtrendsFilter() *schema.Resource {
 	}
 }
 
-func resourceLogwebtrendsFilterCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceLogWebtrendsFilterCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*apiClient).Client
 	var diags diag.Diagnostics
 	var err error
@@ -190,12 +190,12 @@ func resourceLogwebtrendsFilterCreate(ctx context.Context, d *schema.ResourceDat
 	}
 	urlparams.AllowAppend = &allow_append
 
-	obj, diags := getObjectLogwebtrendsFilter(d, c.Config.Fv)
+	obj, diags := getObjectLogWebtrendsFilter(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.CreateLogwebtrendsFilter(obj, urlparams)
+	o, err := c.Cmdb.CreateLogWebtrendsFilter(obj, urlparams)
 
 	if err != nil {
 		e := diag.FromErr(err)
@@ -205,13 +205,13 @@ func resourceLogwebtrendsFilterCreate(ctx context.Context, d *schema.ResourceDat
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("LogwebtrendsFilter")
+		d.SetId("LogWebtrendsFilter")
 	}
 
-	return resourceLogwebtrendsFilterRead(ctx, d, meta)
+	return resourceLogWebtrendsFilterRead(ctx, d, meta)
 }
 
-func resourceLogwebtrendsFilterUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceLogWebtrendsFilterUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
@@ -224,27 +224,27 @@ func resourceLogwebtrendsFilterUpdate(ctx context.Context, d *schema.ResourceDat
 	}
 	urlparams.Vdom = vdomparam
 
-	obj, diags := getObjectLogwebtrendsFilter(d, c.Config.Fv)
+	obj, diags := getObjectLogWebtrendsFilter(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.UpdateLogwebtrendsFilter(mkey, obj, urlparams)
+	o, err := c.Cmdb.UpdateLogWebtrendsFilter(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error updating LogwebtrendsFilter resource: %v", err)
+		return diag.Errorf("error updating LogWebtrendsFilter resource: %v", err)
 	}
 
 	// log.Printf(strconv.Itoa(c.Retries))
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("LogwebtrendsFilter")
+		d.SetId("LogWebtrendsFilter")
 	}
 
-	return resourceLogwebtrendsFilterRead(ctx, d, meta)
+	return resourceLogWebtrendsFilterRead(ctx, d, meta)
 }
 
-func resourceLogwebtrendsFilterDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceLogWebtrendsFilterDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -259,9 +259,14 @@ func resourceLogwebtrendsFilterDelete(ctx context.Context, d *schema.ResourceDat
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteLogwebtrendsFilter(mkey, urlparams)
+	obj, diags := getEmptyObjectLogWebtrendsFilter(d, c.Config.Fv)
+	if diags.HasError() {
+		return diags
+	}
+
+	_, err := c.Cmdb.UpdateLogWebtrendsFilter(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error deleting LogwebtrendsFilter resource: %v", err)
+		return diag.Errorf("error deleting LogWebtrendsFilter resource: %v", err)
 	}
 
 	d.SetId("")
@@ -269,7 +274,7 @@ func resourceLogwebtrendsFilterDelete(ctx context.Context, d *schema.ResourceDat
 	return nil
 }
 
-func resourceLogwebtrendsFilterRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceLogWebtrendsFilterRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -284,9 +289,9 @@ func resourceLogwebtrendsFilterRead(ctx context.Context, d *schema.ResourceData,
 	}
 	urlparams.Vdom = vdomparam
 
-	o, err := c.Cmdb.ReadLogwebtrendsFilter(mkey, urlparams)
+	o, err := c.Cmdb.ReadLogWebtrendsFilter(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error reading LogwebtrendsFilter resource: %v", err)
+		return diag.Errorf("error reading LogWebtrendsFilter resource: %v", err)
 	}
 
 	if o == nil {
@@ -302,14 +307,14 @@ func resourceLogwebtrendsFilterRead(ctx context.Context, d *schema.ResourceData,
 		}
 	}
 
-	diags := refreshObjectLogwebtrendsFilter(d, o, c.Config.Fv, sort)
+	diags := refreshObjectLogWebtrendsFilter(d, o, c.Config.Fv, sort)
 	if diags.HasError() {
 		return diags
 	}
 	return nil
 }
 
-func flattenLogwebtrendsFilterFreeStyle(v *[]models.LogwebtrendsFilterFreeStyle, sort bool) interface{} {
+func flattenLogWebtrendsFilterFreeStyle(v *[]models.LogWebtrendsFilterFreeStyle, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
@@ -342,7 +347,7 @@ func flattenLogwebtrendsFilterFreeStyle(v *[]models.LogwebtrendsFilterFreeStyle,
 	return flat
 }
 
-func refreshObjectLogwebtrendsFilter(d *schema.ResourceData, o *models.LogwebtrendsFilter, sv string, sort bool) diag.Diagnostics {
+func refreshObjectLogWebtrendsFilter(d *schema.ResourceData, o *models.LogWebtrendsFilter, sv string, sort bool) diag.Diagnostics {
 	var err error
 
 	if o.Anomaly != nil {
@@ -378,7 +383,7 @@ func refreshObjectLogwebtrendsFilter(d *schema.ResourceData, o *models.Logwebtre
 	}
 
 	if o.FreeStyle != nil {
-		if err = d.Set("free_style", flattenLogwebtrendsFilterFreeStyle(o.FreeStyle, sort)); err != nil {
+		if err = d.Set("free_style", flattenLogWebtrendsFilterFreeStyle(o.FreeStyle, sort)); err != nil {
 			return diag.Errorf("error reading free_style: %v", err)
 		}
 	}
@@ -434,16 +439,16 @@ func refreshObjectLogwebtrendsFilter(d *schema.ResourceData, o *models.Logwebtre
 	return nil
 }
 
-func expandLogwebtrendsFilterFreeStyle(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.LogwebtrendsFilterFreeStyle, error) {
+func expandLogWebtrendsFilterFreeStyle(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.LogWebtrendsFilterFreeStyle, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
 	}
 
-	var result []models.LogwebtrendsFilterFreeStyle
+	var result []models.LogWebtrendsFilterFreeStyle
 
 	for i := range l {
-		tmp := models.LogwebtrendsFilterFreeStyle{}
+		tmp := models.LogWebtrendsFilterFreeStyle{}
 		var pre_append string
 
 		pre_append = fmt.Sprintf("%s.%d.category", pre, i)
@@ -479,8 +484,8 @@ func expandLogwebtrendsFilterFreeStyle(d *schema.ResourceData, v interface{}, pr
 	return &result, nil
 }
 
-func getObjectLogwebtrendsFilter(d *schema.ResourceData, sv string) (*models.LogwebtrendsFilter, diag.Diagnostics) {
-	obj := models.LogwebtrendsFilter{}
+func getObjectLogWebtrendsFilter(d *schema.ResourceData, sv string) (*models.LogWebtrendsFilter, diag.Diagnostics) {
+	obj := models.LogWebtrendsFilter{}
 	diags := diag.Diagnostics{}
 
 	if v1, ok := d.GetOk("anomaly"); ok {
@@ -524,7 +529,7 @@ func getObjectLogwebtrendsFilter(d *schema.ResourceData, sv string) (*models.Log
 			e := utils.AttributeVersionWarning("free_style", sv)
 			diags = append(diags, e)
 		}
-		t, err := expandLogwebtrendsFilterFreeStyle(d, v, "free_style", sv)
+		t, err := expandLogWebtrendsFilterFreeStyle(d, v, "free_style", sv)
 		if err != nil {
 			return &obj, diag.FromErr(err)
 		} else if t != nil {
@@ -533,12 +538,12 @@ func getObjectLogwebtrendsFilter(d *schema.ResourceData, sv string) (*models.Log
 	} else if d.HasChange("free_style") {
 		old, new := d.GetChange("free_style")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.FreeStyle = &[]models.LogwebtrendsFilterFreeStyle{}
+			obj.FreeStyle = &[]models.LogWebtrendsFilterFreeStyle{}
 		}
 	}
 	if v1, ok := d.GetOk("gtp"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "v6.4.2", "") {
+			if !utils.CheckVer(sv, "v6.4.0", "") {
 				e := utils.AttributeVersionWarning("gtp", sv)
 				diags = append(diags, e)
 			}
@@ -590,5 +595,15 @@ func getObjectLogwebtrendsFilter(d *schema.ResourceData, sv string) (*models.Log
 			obj.Voip = &v2
 		}
 	}
+	return &obj, diags
+}
+
+// Return an object with explicitly empty objects for tables that have been set.
+func getEmptyObjectLogWebtrendsFilter(d *schema.ResourceData, sv string) (*models.LogWebtrendsFilter, diag.Diagnostics) {
+	obj := models.LogWebtrendsFilter{}
+	diags := diag.Diagnostics{}
+
+	obj.FreeStyle = &[]models.LogWebtrendsFilterFreeStyle{}
+
 	return &obj, diags
 }

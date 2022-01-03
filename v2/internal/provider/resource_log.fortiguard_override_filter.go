@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -19,14 +19,14 @@ import (
 	"github.com/poroping/terraform-provider-fortios/v2/utils"
 )
 
-func resourceLogfortiguardOverrideFilter() *schema.Resource {
+func resourceLogFortiguardOverrideFilter() *schema.Resource {
 	return &schema.Resource{
 		Description: "Override filters for FortiCloud.",
 
-		CreateContext: resourceLogfortiguardOverrideFilterCreate,
-		ReadContext:   resourceLogfortiguardOverrideFilterRead,
-		UpdateContext: resourceLogfortiguardOverrideFilterUpdate,
-		DeleteContext: resourceLogfortiguardOverrideFilterDelete,
+		CreateContext: resourceLogFortiguardOverrideFilterCreate,
+		ReadContext:   resourceLogFortiguardOverrideFilterRead,
+		UpdateContext: resourceLogFortiguardOverrideFilterUpdate,
+		DeleteContext: resourceLogFortiguardOverrideFilterDelete,
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
@@ -168,7 +168,7 @@ func resourceLogfortiguardOverrideFilter() *schema.Resource {
 	}
 }
 
-func resourceLogfortiguardOverrideFilterCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceLogFortiguardOverrideFilterCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*apiClient).Client
 	var diags diag.Diagnostics
 	var err error
@@ -190,12 +190,12 @@ func resourceLogfortiguardOverrideFilterCreate(ctx context.Context, d *schema.Re
 	}
 	urlparams.AllowAppend = &allow_append
 
-	obj, diags := getObjectLogfortiguardOverrideFilter(d, c.Config.Fv)
+	obj, diags := getObjectLogFortiguardOverrideFilter(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.CreateLogfortiguardOverrideFilter(obj, urlparams)
+	o, err := c.Cmdb.CreateLogFortiguardOverrideFilter(obj, urlparams)
 
 	if err != nil {
 		e := diag.FromErr(err)
@@ -205,13 +205,13 @@ func resourceLogfortiguardOverrideFilterCreate(ctx context.Context, d *schema.Re
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("LogfortiguardOverrideFilter")
+		d.SetId("LogFortiguardOverrideFilter")
 	}
 
-	return resourceLogfortiguardOverrideFilterRead(ctx, d, meta)
+	return resourceLogFortiguardOverrideFilterRead(ctx, d, meta)
 }
 
-func resourceLogfortiguardOverrideFilterUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceLogFortiguardOverrideFilterUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
@@ -224,27 +224,27 @@ func resourceLogfortiguardOverrideFilterUpdate(ctx context.Context, d *schema.Re
 	}
 	urlparams.Vdom = vdomparam
 
-	obj, diags := getObjectLogfortiguardOverrideFilter(d, c.Config.Fv)
+	obj, diags := getObjectLogFortiguardOverrideFilter(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.UpdateLogfortiguardOverrideFilter(mkey, obj, urlparams)
+	o, err := c.Cmdb.UpdateLogFortiguardOverrideFilter(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error updating LogfortiguardOverrideFilter resource: %v", err)
+		return diag.Errorf("error updating LogFortiguardOverrideFilter resource: %v", err)
 	}
 
 	// log.Printf(strconv.Itoa(c.Retries))
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("LogfortiguardOverrideFilter")
+		d.SetId("LogFortiguardOverrideFilter")
 	}
 
-	return resourceLogfortiguardOverrideFilterRead(ctx, d, meta)
+	return resourceLogFortiguardOverrideFilterRead(ctx, d, meta)
 }
 
-func resourceLogfortiguardOverrideFilterDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceLogFortiguardOverrideFilterDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -259,9 +259,14 @@ func resourceLogfortiguardOverrideFilterDelete(ctx context.Context, d *schema.Re
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteLogfortiguardOverrideFilter(mkey, urlparams)
+	obj, diags := getEmptyObjectLogFortiguardOverrideFilter(d, c.Config.Fv)
+	if diags.HasError() {
+		return diags
+	}
+
+	_, err := c.Cmdb.UpdateLogFortiguardOverrideFilter(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error deleting LogfortiguardOverrideFilter resource: %v", err)
+		return diag.Errorf("error deleting LogFortiguardOverrideFilter resource: %v", err)
 	}
 
 	d.SetId("")
@@ -269,7 +274,7 @@ func resourceLogfortiguardOverrideFilterDelete(ctx context.Context, d *schema.Re
 	return nil
 }
 
-func resourceLogfortiguardOverrideFilterRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceLogFortiguardOverrideFilterRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -284,9 +289,9 @@ func resourceLogfortiguardOverrideFilterRead(ctx context.Context, d *schema.Reso
 	}
 	urlparams.Vdom = vdomparam
 
-	o, err := c.Cmdb.ReadLogfortiguardOverrideFilter(mkey, urlparams)
+	o, err := c.Cmdb.ReadLogFortiguardOverrideFilter(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error reading LogfortiguardOverrideFilter resource: %v", err)
+		return diag.Errorf("error reading LogFortiguardOverrideFilter resource: %v", err)
 	}
 
 	if o == nil {
@@ -302,14 +307,14 @@ func resourceLogfortiguardOverrideFilterRead(ctx context.Context, d *schema.Reso
 		}
 	}
 
-	diags := refreshObjectLogfortiguardOverrideFilter(d, o, c.Config.Fv, sort)
+	diags := refreshObjectLogFortiguardOverrideFilter(d, o, c.Config.Fv, sort)
 	if diags.HasError() {
 		return diags
 	}
 	return nil
 }
 
-func flattenLogfortiguardOverrideFilterFreeStyle(v *[]models.LogfortiguardOverrideFilterFreeStyle, sort bool) interface{} {
+func flattenLogFortiguardOverrideFilterFreeStyle(v *[]models.LogFortiguardOverrideFilterFreeStyle, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
@@ -342,7 +347,7 @@ func flattenLogfortiguardOverrideFilterFreeStyle(v *[]models.LogfortiguardOverri
 	return flat
 }
 
-func refreshObjectLogfortiguardOverrideFilter(d *schema.ResourceData, o *models.LogfortiguardOverrideFilter, sv string, sort bool) diag.Diagnostics {
+func refreshObjectLogFortiguardOverrideFilter(d *schema.ResourceData, o *models.LogFortiguardOverrideFilter, sv string, sort bool) diag.Diagnostics {
 	var err error
 
 	if o.Anomaly != nil {
@@ -378,7 +383,7 @@ func refreshObjectLogfortiguardOverrideFilter(d *schema.ResourceData, o *models.
 	}
 
 	if o.FreeStyle != nil {
-		if err = d.Set("free_style", flattenLogfortiguardOverrideFilterFreeStyle(o.FreeStyle, sort)); err != nil {
+		if err = d.Set("free_style", flattenLogFortiguardOverrideFilterFreeStyle(o.FreeStyle, sort)); err != nil {
 			return diag.Errorf("error reading free_style: %v", err)
 		}
 	}
@@ -434,16 +439,16 @@ func refreshObjectLogfortiguardOverrideFilter(d *schema.ResourceData, o *models.
 	return nil
 }
 
-func expandLogfortiguardOverrideFilterFreeStyle(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.LogfortiguardOverrideFilterFreeStyle, error) {
+func expandLogFortiguardOverrideFilterFreeStyle(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.LogFortiguardOverrideFilterFreeStyle, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
 	}
 
-	var result []models.LogfortiguardOverrideFilterFreeStyle
+	var result []models.LogFortiguardOverrideFilterFreeStyle
 
 	for i := range l {
-		tmp := models.LogfortiguardOverrideFilterFreeStyle{}
+		tmp := models.LogFortiguardOverrideFilterFreeStyle{}
 		var pre_append string
 
 		pre_append = fmt.Sprintf("%s.%d.category", pre, i)
@@ -479,8 +484,8 @@ func expandLogfortiguardOverrideFilterFreeStyle(d *schema.ResourceData, v interf
 	return &result, nil
 }
 
-func getObjectLogfortiguardOverrideFilter(d *schema.ResourceData, sv string) (*models.LogfortiguardOverrideFilter, diag.Diagnostics) {
-	obj := models.LogfortiguardOverrideFilter{}
+func getObjectLogFortiguardOverrideFilter(d *schema.ResourceData, sv string) (*models.LogFortiguardOverrideFilter, diag.Diagnostics) {
+	obj := models.LogFortiguardOverrideFilter{}
 	diags := diag.Diagnostics{}
 
 	if v1, ok := d.GetOk("anomaly"); ok {
@@ -524,7 +529,7 @@ func getObjectLogfortiguardOverrideFilter(d *schema.ResourceData, sv string) (*m
 			e := utils.AttributeVersionWarning("free_style", sv)
 			diags = append(diags, e)
 		}
-		t, err := expandLogfortiguardOverrideFilterFreeStyle(d, v, "free_style", sv)
+		t, err := expandLogFortiguardOverrideFilterFreeStyle(d, v, "free_style", sv)
 		if err != nil {
 			return &obj, diag.FromErr(err)
 		} else if t != nil {
@@ -533,12 +538,12 @@ func getObjectLogfortiguardOverrideFilter(d *schema.ResourceData, sv string) (*m
 	} else if d.HasChange("free_style") {
 		old, new := d.GetChange("free_style")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.FreeStyle = &[]models.LogfortiguardOverrideFilterFreeStyle{}
+			obj.FreeStyle = &[]models.LogFortiguardOverrideFilterFreeStyle{}
 		}
 	}
 	if v1, ok := d.GetOk("gtp"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "v6.4.2", "") {
+			if !utils.CheckVer(sv, "v6.4.0", "") {
 				e := utils.AttributeVersionWarning("gtp", sv)
 				diags = append(diags, e)
 			}
@@ -590,5 +595,15 @@ func getObjectLogfortiguardOverrideFilter(d *schema.ResourceData, sv string) (*m
 			obj.Voip = &v2
 		}
 	}
+	return &obj, diags
+}
+
+// Return an object with explicitly empty objects for tables that have been set.
+func getEmptyObjectLogFortiguardOverrideFilter(d *schema.ResourceData, sv string) (*models.LogFortiguardOverrideFilter, diag.Diagnostics) {
+	obj := models.LogFortiguardOverrideFilter{}
+	diags := diag.Diagnostics{}
+
+	obj.FreeStyle = &[]models.LogFortiguardOverrideFilterFreeStyle{}
+
 	return &obj, diags
 }

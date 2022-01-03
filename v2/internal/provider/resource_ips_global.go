@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -327,7 +327,12 @@ func resourceIpsGlobalDelete(ctx context.Context, d *schema.ResourceData, meta i
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteIpsGlobal(mkey, urlparams)
+	obj, diags := getEmptyObjectIpsGlobal(d, c.Config.Fv)
+	if diags.HasError() {
+		return diags
+	}
+
+	_, err := c.Cmdb.UpdateIpsGlobal(mkey, obj, urlparams)
 	if err != nil {
 		return diag.Errorf("error deleting IpsGlobal resource: %v", err)
 	}
@@ -633,7 +638,7 @@ func getObjectIpsGlobal(d *schema.ResourceData, sv string) (*models.IpsGlobal, d
 	}
 	if v1, ok := d.GetOk("cp_accel_mode"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "v6.4.2") {
+			if !utils.CheckVer(sv, "", "v6.4.0") {
 				e := utils.AttributeVersionWarning("cp_accel_mode", sv)
 				diags = append(diags, e)
 			}
@@ -708,7 +713,7 @@ func getObjectIpsGlobal(d *schema.ResourceData, sv string) (*models.IpsGlobal, d
 	}
 	if v1, ok := d.GetOk("ips_reserve_cpu"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "v6.4.2") {
+			if !utils.CheckVer(sv, "", "v6.4.0") {
 				e := utils.AttributeVersionWarning("ips_reserve_cpu", sv)
 				diags = append(diags, e)
 			}
@@ -727,7 +732,7 @@ func getObjectIpsGlobal(d *schema.ResourceData, sv string) (*models.IpsGlobal, d
 	}
 	if v1, ok := d.GetOk("np_accel_mode"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "v6.4.2") {
+			if !utils.CheckVer(sv, "", "v6.4.0") {
 				e := utils.AttributeVersionWarning("np_accel_mode", sv)
 				diags = append(diags, e)
 			}
@@ -755,7 +760,7 @@ func getObjectIpsGlobal(d *schema.ResourceData, sv string) (*models.IpsGlobal, d
 	}
 	if v1, ok := d.GetOk("skype_client_public_ipaddr"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "v6.4.2") {
+			if !utils.CheckVer(sv, "", "v6.4.0") {
 				e := utils.AttributeVersionWarning("skype_client_public_ipaddr", sv)
 				diags = append(diags, e)
 			}
@@ -782,7 +787,7 @@ func getObjectIpsGlobal(d *schema.ResourceData, sv string) (*models.IpsGlobal, d
 		}
 	}
 	if v, ok := d.GetOk("tls_active_probe"); ok {
-		if !utils.CheckVer(sv, "", "v6.4.2") {
+		if !utils.CheckVer(sv, "", "v6.4.0") {
 			e := utils.AttributeVersionWarning("tls_active_probe", sv)
 			diags = append(diags, e)
 		}
@@ -807,5 +812,15 @@ func getObjectIpsGlobal(d *schema.ResourceData, sv string) (*models.IpsGlobal, d
 			obj.TrafficSubmit = &v2
 		}
 	}
+	return &obj, diags
+}
+
+// Return an object with explicitly empty objects for tables that have been set.
+func getEmptyObjectIpsGlobal(d *schema.ResourceData, sv string) (*models.IpsGlobal, diag.Diagnostics) {
+	obj := models.IpsGlobal{}
+	diags := diag.Diagnostics{}
+
+	obj.TlsActiveProbe = &[]models.IpsGlobalTlsActiveProbe{}
+
 	return &obj, diags
 }

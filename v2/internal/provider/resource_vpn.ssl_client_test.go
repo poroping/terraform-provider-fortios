@@ -13,7 +13,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 )
 
-func TestAccVpnsslClient_basic(t *testing.T) {
+func TestAccVpnSslClient_basic(t *testing.T) {
 	rName := "vpn.ssl_client"
 
 	resource.Test(t, resource.TestCase{

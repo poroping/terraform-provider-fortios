@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -173,7 +173,12 @@ func resourceSystemSflowDelete(ctx context.Context, d *schema.ResourceData, meta
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteSystemSflow(mkey, urlparams)
+	obj, diags := getEmptyObjectSystemSflow(d, c.Config.Fv)
+	if diags.HasError() {
+		return diags
+	}
+
+	_, err := c.Cmdb.UpdateSystemSflow(mkey, obj, urlparams)
 	if err != nil {
 		return diag.Errorf("error deleting SystemSflow resource: %v", err)
 	}
@@ -319,5 +324,13 @@ func getObjectSystemSflow(d *schema.ResourceData, sv string) (*models.SystemSflo
 			obj.SourceIp = &v2
 		}
 	}
+	return &obj, diags
+}
+
+// Return an object with explicitly empty objects for tables that have been set.
+func getEmptyObjectSystemSflow(d *schema.ResourceData, sv string) (*models.SystemSflow, diag.Diagnostics) {
+	obj := models.SystemSflow{}
+	diags := diag.Diagnostics{}
+
 	return &obj, diags
 }

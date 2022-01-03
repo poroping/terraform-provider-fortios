@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -20,14 +20,14 @@ import (
 	"github.com/poroping/terraform-provider-fortios/v2/utils"
 )
 
-func resourceVpnsslSettings() *schema.Resource {
+func resourceVpnSslSettings() *schema.Resource {
 	return &schema.Resource{
 		Description: "Configure SSL-VPN.",
 
-		CreateContext: resourceVpnsslSettingsCreate,
-		ReadContext:   resourceVpnsslSettingsRead,
-		UpdateContext: resourceVpnsslSettingsUpdate,
-		DeleteContext: resourceVpnsslSettingsDelete,
+		CreateContext: resourceVpnSslSettingsCreate,
+		ReadContext:   resourceVpnSslSettingsRead,
+		UpdateContext: resourceVpnSslSettingsUpdate,
+		DeleteContext: resourceVpnSslSettingsDelete,
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
@@ -807,7 +807,7 @@ func resourceVpnsslSettings() *schema.Resource {
 	}
 }
 
-func resourceVpnsslSettingsCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceVpnSslSettingsCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*apiClient).Client
 	var diags diag.Diagnostics
 	var err error
@@ -829,12 +829,12 @@ func resourceVpnsslSettingsCreate(ctx context.Context, d *schema.ResourceData, m
 	}
 	urlparams.AllowAppend = &allow_append
 
-	obj, diags := getObjectVpnsslSettings(d, c.Config.Fv)
+	obj, diags := getObjectVpnSslSettings(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.CreateVpnsslSettings(obj, urlparams)
+	o, err := c.Cmdb.CreateVpnSslSettings(obj, urlparams)
 
 	if err != nil {
 		e := diag.FromErr(err)
@@ -844,13 +844,13 @@ func resourceVpnsslSettingsCreate(ctx context.Context, d *schema.ResourceData, m
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("VpnsslSettings")
+		d.SetId("VpnSslSettings")
 	}
 
-	return resourceVpnsslSettingsRead(ctx, d, meta)
+	return resourceVpnSslSettingsRead(ctx, d, meta)
 }
 
-func resourceVpnsslSettingsUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceVpnSslSettingsUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
@@ -863,27 +863,27 @@ func resourceVpnsslSettingsUpdate(ctx context.Context, d *schema.ResourceData, m
 	}
 	urlparams.Vdom = vdomparam
 
-	obj, diags := getObjectVpnsslSettings(d, c.Config.Fv)
+	obj, diags := getObjectVpnSslSettings(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.UpdateVpnsslSettings(mkey, obj, urlparams)
+	o, err := c.Cmdb.UpdateVpnSslSettings(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error updating VpnsslSettings resource: %v", err)
+		return diag.Errorf("error updating VpnSslSettings resource: %v", err)
 	}
 
 	// log.Printf(strconv.Itoa(c.Retries))
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("VpnsslSettings")
+		d.SetId("VpnSslSettings")
 	}
 
-	return resourceVpnsslSettingsRead(ctx, d, meta)
+	return resourceVpnSslSettingsRead(ctx, d, meta)
 }
 
-func resourceVpnsslSettingsDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceVpnSslSettingsDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -898,9 +898,14 @@ func resourceVpnsslSettingsDelete(ctx context.Context, d *schema.ResourceData, m
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteVpnsslSettings(mkey, urlparams)
+	obj, diags := getEmptyObjectVpnSslSettings(d, c.Config.Fv)
+	if diags.HasError() {
+		return diags
+	}
+
+	_, err := c.Cmdb.UpdateVpnSslSettings(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error deleting VpnsslSettings resource: %v", err)
+		return diag.Errorf("error deleting VpnSslSettings resource: %v", err)
 	}
 
 	d.SetId("")
@@ -908,7 +913,7 @@ func resourceVpnsslSettingsDelete(ctx context.Context, d *schema.ResourceData, m
 	return nil
 }
 
-func resourceVpnsslSettingsRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceVpnSslSettingsRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -923,9 +928,9 @@ func resourceVpnsslSettingsRead(ctx context.Context, d *schema.ResourceData, met
 	}
 	urlparams.Vdom = vdomparam
 
-	o, err := c.Cmdb.ReadVpnsslSettings(mkey, urlparams)
+	o, err := c.Cmdb.ReadVpnSslSettings(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error reading VpnsslSettings resource: %v", err)
+		return diag.Errorf("error reading VpnSslSettings resource: %v", err)
 	}
 
 	if o == nil {
@@ -941,14 +946,14 @@ func resourceVpnsslSettingsRead(ctx context.Context, d *schema.ResourceData, met
 		}
 	}
 
-	diags := refreshObjectVpnsslSettings(d, o, c.Config.Fv, sort)
+	diags := refreshObjectVpnSslSettings(d, o, c.Config.Fv, sort)
 	if diags.HasError() {
 		return diags
 	}
 	return nil
 }
 
-func flattenVpnsslSettingsAuthenticationRule(v *[]models.VpnsslSettingsAuthenticationRule, sort bool) interface{} {
+func flattenVpnSslSettingsAuthenticationRule(v *[]models.VpnSslSettingsAuthenticationRule, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
@@ -967,7 +972,7 @@ func flattenVpnsslSettingsAuthenticationRule(v *[]models.VpnsslSettingsAuthentic
 			}
 
 			if tmp := cfg.Groups; tmp != nil {
-				v["groups"] = flattenVpnsslSettingsAuthenticationRuleGroups(tmp, sort)
+				v["groups"] = flattenVpnSslSettingsAuthenticationRuleGroups(tmp, sort)
 			}
 
 			if tmp := cfg.Id; tmp != nil {
@@ -983,7 +988,7 @@ func flattenVpnsslSettingsAuthenticationRule(v *[]models.VpnsslSettingsAuthentic
 			}
 
 			if tmp := cfg.SourceAddress; tmp != nil {
-				v["source_address"] = flattenVpnsslSettingsAuthenticationRuleSourceAddress(tmp, sort)
+				v["source_address"] = flattenVpnSslSettingsAuthenticationRuleSourceAddress(tmp, sort)
 			}
 
 			if tmp := cfg.SourceAddressNegate; tmp != nil {
@@ -991,7 +996,7 @@ func flattenVpnsslSettingsAuthenticationRule(v *[]models.VpnsslSettingsAuthentic
 			}
 
 			if tmp := cfg.SourceAddress6; tmp != nil {
-				v["source_address6"] = flattenVpnsslSettingsAuthenticationRuleSourceAddress6(tmp, sort)
+				v["source_address6"] = flattenVpnSslSettingsAuthenticationRuleSourceAddress6(tmp, sort)
 			}
 
 			if tmp := cfg.SourceAddress6Negate; tmp != nil {
@@ -999,7 +1004,7 @@ func flattenVpnsslSettingsAuthenticationRule(v *[]models.VpnsslSettingsAuthentic
 			}
 
 			if tmp := cfg.SourceInterface; tmp != nil {
-				v["source_interface"] = flattenVpnsslSettingsAuthenticationRuleSourceInterface(tmp, sort)
+				v["source_interface"] = flattenVpnSslSettingsAuthenticationRuleSourceInterface(tmp, sort)
 			}
 
 			if tmp := cfg.UserPeer; tmp != nil {
@@ -1007,7 +1012,7 @@ func flattenVpnsslSettingsAuthenticationRule(v *[]models.VpnsslSettingsAuthentic
 			}
 
 			if tmp := cfg.Users; tmp != nil {
-				v["users"] = flattenVpnsslSettingsAuthenticationRuleUsers(tmp, sort)
+				v["users"] = flattenVpnSslSettingsAuthenticationRuleUsers(tmp, sort)
 			}
 
 			flat = append(flat, v)
@@ -1021,7 +1026,7 @@ func flattenVpnsslSettingsAuthenticationRule(v *[]models.VpnsslSettingsAuthentic
 	return flat
 }
 
-func flattenVpnsslSettingsAuthenticationRuleGroups(v *[]models.VpnsslSettingsAuthenticationRuleGroups, sort bool) interface{} {
+func flattenVpnSslSettingsAuthenticationRuleGroups(v *[]models.VpnSslSettingsAuthenticationRuleGroups, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
@@ -1042,7 +1047,7 @@ func flattenVpnsslSettingsAuthenticationRuleGroups(v *[]models.VpnsslSettingsAut
 	return flat
 }
 
-func flattenVpnsslSettingsAuthenticationRuleSourceAddress(v *[]models.VpnsslSettingsAuthenticationRuleSourceAddress, sort bool) interface{} {
+func flattenVpnSslSettingsAuthenticationRuleSourceAddress(v *[]models.VpnSslSettingsAuthenticationRuleSourceAddress, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
@@ -1063,7 +1068,7 @@ func flattenVpnsslSettingsAuthenticationRuleSourceAddress(v *[]models.VpnsslSett
 	return flat
 }
 
-func flattenVpnsslSettingsAuthenticationRuleSourceAddress6(v *[]models.VpnsslSettingsAuthenticationRuleSourceAddress6, sort bool) interface{} {
+func flattenVpnSslSettingsAuthenticationRuleSourceAddress6(v *[]models.VpnSslSettingsAuthenticationRuleSourceAddress6, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
@@ -1084,7 +1089,7 @@ func flattenVpnsslSettingsAuthenticationRuleSourceAddress6(v *[]models.VpnsslSet
 	return flat
 }
 
-func flattenVpnsslSettingsAuthenticationRuleSourceInterface(v *[]models.VpnsslSettingsAuthenticationRuleSourceInterface, sort bool) interface{} {
+func flattenVpnSslSettingsAuthenticationRuleSourceInterface(v *[]models.VpnSslSettingsAuthenticationRuleSourceInterface, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
@@ -1105,7 +1110,7 @@ func flattenVpnsslSettingsAuthenticationRuleSourceInterface(v *[]models.VpnsslSe
 	return flat
 }
 
-func flattenVpnsslSettingsAuthenticationRuleUsers(v *[]models.VpnsslSettingsAuthenticationRuleUsers, sort bool) interface{} {
+func flattenVpnSslSettingsAuthenticationRuleUsers(v *[]models.VpnSslSettingsAuthenticationRuleUsers, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
@@ -1126,7 +1131,7 @@ func flattenVpnsslSettingsAuthenticationRuleUsers(v *[]models.VpnsslSettingsAuth
 	return flat
 }
 
-func flattenVpnsslSettingsSourceAddress(v *[]models.VpnsslSettingsSourceAddress, sort bool) interface{} {
+func flattenVpnSslSettingsSourceAddress(v *[]models.VpnSslSettingsSourceAddress, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
@@ -1147,7 +1152,7 @@ func flattenVpnsslSettingsSourceAddress(v *[]models.VpnsslSettingsSourceAddress,
 	return flat
 }
 
-func flattenVpnsslSettingsSourceAddress6(v *[]models.VpnsslSettingsSourceAddress6, sort bool) interface{} {
+func flattenVpnSslSettingsSourceAddress6(v *[]models.VpnSslSettingsSourceAddress6, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
@@ -1168,7 +1173,7 @@ func flattenVpnsslSettingsSourceAddress6(v *[]models.VpnsslSettingsSourceAddress
 	return flat
 }
 
-func flattenVpnsslSettingsSourceInterface(v *[]models.VpnsslSettingsSourceInterface, sort bool) interface{} {
+func flattenVpnSslSettingsSourceInterface(v *[]models.VpnSslSettingsSourceInterface, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
@@ -1189,7 +1194,7 @@ func flattenVpnsslSettingsSourceInterface(v *[]models.VpnsslSettingsSourceInterf
 	return flat
 }
 
-func flattenVpnsslSettingsTunnelIpPools(v *[]models.VpnsslSettingsTunnelIpPools, sort bool) interface{} {
+func flattenVpnSslSettingsTunnelIpPools(v *[]models.VpnSslSettingsTunnelIpPools, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
@@ -1210,7 +1215,7 @@ func flattenVpnsslSettingsTunnelIpPools(v *[]models.VpnsslSettingsTunnelIpPools,
 	return flat
 }
 
-func flattenVpnsslSettingsTunnelIpv6Pools(v *[]models.VpnsslSettingsTunnelIpv6Pools, sort bool) interface{} {
+func flattenVpnSslSettingsTunnelIpv6Pools(v *[]models.VpnSslSettingsTunnelIpv6Pools, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
@@ -1231,7 +1236,7 @@ func flattenVpnsslSettingsTunnelIpv6Pools(v *[]models.VpnsslSettingsTunnelIpv6Po
 	return flat
 }
 
-func refreshObjectVpnsslSettings(d *schema.ResourceData, o *models.VpnsslSettings, sv string, sort bool) diag.Diagnostics {
+func refreshObjectVpnSslSettings(d *schema.ResourceData, o *models.VpnSslSettings, sv string, sort bool) diag.Diagnostics {
 	var err error
 
 	if o.Algorithm != nil {
@@ -1259,7 +1264,7 @@ func refreshObjectVpnsslSettings(d *schema.ResourceData, o *models.VpnsslSetting
 	}
 
 	if o.AuthenticationRule != nil {
-		if err = d.Set("authentication_rule", flattenVpnsslSettingsAuthenticationRule(o.AuthenticationRule, sort)); err != nil {
+		if err = d.Set("authentication_rule", flattenVpnSslSettingsAuthenticationRule(o.AuthenticationRule, sort)); err != nil {
 			return diag.Errorf("error reading authentication_rule: %v", err)
 		}
 	}
@@ -1585,7 +1590,7 @@ func refreshObjectVpnsslSettings(d *schema.ResourceData, o *models.VpnsslSetting
 	}
 
 	if o.SourceAddress != nil {
-		if err = d.Set("source_address", flattenVpnsslSettingsSourceAddress(o.SourceAddress, sort)); err != nil {
+		if err = d.Set("source_address", flattenVpnSslSettingsSourceAddress(o.SourceAddress, sort)); err != nil {
 			return diag.Errorf("error reading source_address: %v", err)
 		}
 	}
@@ -1599,7 +1604,7 @@ func refreshObjectVpnsslSettings(d *schema.ResourceData, o *models.VpnsslSetting
 	}
 
 	if o.SourceAddress6 != nil {
-		if err = d.Set("source_address6", flattenVpnsslSettingsSourceAddress6(o.SourceAddress6, sort)); err != nil {
+		if err = d.Set("source_address6", flattenVpnSslSettingsSourceAddress6(o.SourceAddress6, sort)); err != nil {
 			return diag.Errorf("error reading source_address6: %v", err)
 		}
 	}
@@ -1613,7 +1618,7 @@ func refreshObjectVpnsslSettings(d *schema.ResourceData, o *models.VpnsslSetting
 	}
 
 	if o.SourceInterface != nil {
-		if err = d.Set("source_interface", flattenVpnsslSettingsSourceInterface(o.SourceInterface, sort)); err != nil {
+		if err = d.Set("source_interface", flattenVpnSslSettingsSourceInterface(o.SourceInterface, sort)); err != nil {
 			return diag.Errorf("error reading source_interface: %v", err)
 		}
 	}
@@ -1715,13 +1720,13 @@ func refreshObjectVpnsslSettings(d *schema.ResourceData, o *models.VpnsslSetting
 	}
 
 	if o.TunnelIpPools != nil {
-		if err = d.Set("tunnel_ip_pools", flattenVpnsslSettingsTunnelIpPools(o.TunnelIpPools, sort)); err != nil {
+		if err = d.Set("tunnel_ip_pools", flattenVpnSslSettingsTunnelIpPools(o.TunnelIpPools, sort)); err != nil {
 			return diag.Errorf("error reading tunnel_ip_pools: %v", err)
 		}
 	}
 
 	if o.TunnelIpv6Pools != nil {
-		if err = d.Set("tunnel_ipv6_pools", flattenVpnsslSettingsTunnelIpv6Pools(o.TunnelIpv6Pools, sort)); err != nil {
+		if err = d.Set("tunnel_ipv6_pools", flattenVpnSslSettingsTunnelIpv6Pools(o.TunnelIpv6Pools, sort)); err != nil {
 			return diag.Errorf("error reading tunnel_ipv6_pools: %v", err)
 		}
 	}
@@ -1785,16 +1790,16 @@ func refreshObjectVpnsslSettings(d *schema.ResourceData, o *models.VpnsslSetting
 	return nil
 }
 
-func expandVpnsslSettingsAuthenticationRule(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.VpnsslSettingsAuthenticationRule, error) {
+func expandVpnSslSettingsAuthenticationRule(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.VpnSslSettingsAuthenticationRule, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
 	}
 
-	var result []models.VpnsslSettingsAuthenticationRule
+	var result []models.VpnSslSettingsAuthenticationRule
 
 	for i := range l {
-		tmp := models.VpnsslSettingsAuthenticationRule{}
+		tmp := models.VpnSslSettingsAuthenticationRule{}
 		var pre_append string
 
 		pre_append = fmt.Sprintf("%s.%d.auth", pre, i)
@@ -1820,9 +1825,9 @@ func expandVpnsslSettingsAuthenticationRule(d *schema.ResourceData, v interface{
 
 		pre_append = fmt.Sprintf("%s.%d.groups", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			v2, _ := expandVpnsslSettingsAuthenticationRuleGroups(d, v1, pre_append, sv)
+			v2, _ := expandVpnSslSettingsAuthenticationRuleGroups(d, v1, pre_append, sv)
 			// if err != nil {
-			// 	v2 := &[]models.VpnsslSettingsAuthenticationRuleGroups
+			// 	v2 := &[]models.VpnSslSettingsAuthenticationRuleGroups
 			// 	}
 			tmp.Groups = v2
 
@@ -1851,9 +1856,9 @@ func expandVpnsslSettingsAuthenticationRule(d *schema.ResourceData, v interface{
 
 		pre_append = fmt.Sprintf("%s.%d.source_address", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			v2, _ := expandVpnsslSettingsAuthenticationRuleSourceAddress(d, v1, pre_append, sv)
+			v2, _ := expandVpnSslSettingsAuthenticationRuleSourceAddress(d, v1, pre_append, sv)
 			// if err != nil {
-			// 	v2 := &[]models.VpnsslSettingsAuthenticationRuleSourceAddress
+			// 	v2 := &[]models.VpnSslSettingsAuthenticationRuleSourceAddress
 			// 	}
 			tmp.SourceAddress = v2
 
@@ -1868,9 +1873,9 @@ func expandVpnsslSettingsAuthenticationRule(d *schema.ResourceData, v interface{
 
 		pre_append = fmt.Sprintf("%s.%d.source_address6", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			v2, _ := expandVpnsslSettingsAuthenticationRuleSourceAddress6(d, v1, pre_append, sv)
+			v2, _ := expandVpnSslSettingsAuthenticationRuleSourceAddress6(d, v1, pre_append, sv)
 			// if err != nil {
-			// 	v2 := &[]models.VpnsslSettingsAuthenticationRuleSourceAddress6
+			// 	v2 := &[]models.VpnSslSettingsAuthenticationRuleSourceAddress6
 			// 	}
 			tmp.SourceAddress6 = v2
 
@@ -1885,9 +1890,9 @@ func expandVpnsslSettingsAuthenticationRule(d *schema.ResourceData, v interface{
 
 		pre_append = fmt.Sprintf("%s.%d.source_interface", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			v2, _ := expandVpnsslSettingsAuthenticationRuleSourceInterface(d, v1, pre_append, sv)
+			v2, _ := expandVpnSslSettingsAuthenticationRuleSourceInterface(d, v1, pre_append, sv)
 			// if err != nil {
-			// 	v2 := &[]models.VpnsslSettingsAuthenticationRuleSourceInterface
+			// 	v2 := &[]models.VpnSslSettingsAuthenticationRuleSourceInterface
 			// 	}
 			tmp.SourceInterface = v2
 
@@ -1902,9 +1907,9 @@ func expandVpnsslSettingsAuthenticationRule(d *schema.ResourceData, v interface{
 
 		pre_append = fmt.Sprintf("%s.%d.users", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			v2, _ := expandVpnsslSettingsAuthenticationRuleUsers(d, v1, pre_append, sv)
+			v2, _ := expandVpnSslSettingsAuthenticationRuleUsers(d, v1, pre_append, sv)
 			// if err != nil {
-			// 	v2 := &[]models.VpnsslSettingsAuthenticationRuleUsers
+			// 	v2 := &[]models.VpnSslSettingsAuthenticationRuleUsers
 			// 	}
 			tmp.Users = v2
 
@@ -1915,16 +1920,16 @@ func expandVpnsslSettingsAuthenticationRule(d *schema.ResourceData, v interface{
 	return &result, nil
 }
 
-func expandVpnsslSettingsAuthenticationRuleGroups(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.VpnsslSettingsAuthenticationRuleGroups, error) {
+func expandVpnSslSettingsAuthenticationRuleGroups(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.VpnSslSettingsAuthenticationRuleGroups, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
 	}
 
-	var result []models.VpnsslSettingsAuthenticationRuleGroups
+	var result []models.VpnSslSettingsAuthenticationRuleGroups
 
 	for i := range l {
-		tmp := models.VpnsslSettingsAuthenticationRuleGroups{}
+		tmp := models.VpnSslSettingsAuthenticationRuleGroups{}
 		var pre_append string
 
 		pre_append = fmt.Sprintf("%s.%d.name", pre, i)
@@ -1939,16 +1944,16 @@ func expandVpnsslSettingsAuthenticationRuleGroups(d *schema.ResourceData, v inte
 	return &result, nil
 }
 
-func expandVpnsslSettingsAuthenticationRuleSourceAddress(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.VpnsslSettingsAuthenticationRuleSourceAddress, error) {
+func expandVpnSslSettingsAuthenticationRuleSourceAddress(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.VpnSslSettingsAuthenticationRuleSourceAddress, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
 	}
 
-	var result []models.VpnsslSettingsAuthenticationRuleSourceAddress
+	var result []models.VpnSslSettingsAuthenticationRuleSourceAddress
 
 	for i := range l {
-		tmp := models.VpnsslSettingsAuthenticationRuleSourceAddress{}
+		tmp := models.VpnSslSettingsAuthenticationRuleSourceAddress{}
 		var pre_append string
 
 		pre_append = fmt.Sprintf("%s.%d.name", pre, i)
@@ -1963,16 +1968,16 @@ func expandVpnsslSettingsAuthenticationRuleSourceAddress(d *schema.ResourceData,
 	return &result, nil
 }
 
-func expandVpnsslSettingsAuthenticationRuleSourceAddress6(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.VpnsslSettingsAuthenticationRuleSourceAddress6, error) {
+func expandVpnSslSettingsAuthenticationRuleSourceAddress6(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.VpnSslSettingsAuthenticationRuleSourceAddress6, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
 	}
 
-	var result []models.VpnsslSettingsAuthenticationRuleSourceAddress6
+	var result []models.VpnSslSettingsAuthenticationRuleSourceAddress6
 
 	for i := range l {
-		tmp := models.VpnsslSettingsAuthenticationRuleSourceAddress6{}
+		tmp := models.VpnSslSettingsAuthenticationRuleSourceAddress6{}
 		var pre_append string
 
 		pre_append = fmt.Sprintf("%s.%d.name", pre, i)
@@ -1987,16 +1992,16 @@ func expandVpnsslSettingsAuthenticationRuleSourceAddress6(d *schema.ResourceData
 	return &result, nil
 }
 
-func expandVpnsslSettingsAuthenticationRuleSourceInterface(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.VpnsslSettingsAuthenticationRuleSourceInterface, error) {
+func expandVpnSslSettingsAuthenticationRuleSourceInterface(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.VpnSslSettingsAuthenticationRuleSourceInterface, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
 	}
 
-	var result []models.VpnsslSettingsAuthenticationRuleSourceInterface
+	var result []models.VpnSslSettingsAuthenticationRuleSourceInterface
 
 	for i := range l {
-		tmp := models.VpnsslSettingsAuthenticationRuleSourceInterface{}
+		tmp := models.VpnSslSettingsAuthenticationRuleSourceInterface{}
 		var pre_append string
 
 		pre_append = fmt.Sprintf("%s.%d.name", pre, i)
@@ -2011,16 +2016,16 @@ func expandVpnsslSettingsAuthenticationRuleSourceInterface(d *schema.ResourceDat
 	return &result, nil
 }
 
-func expandVpnsslSettingsAuthenticationRuleUsers(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.VpnsslSettingsAuthenticationRuleUsers, error) {
+func expandVpnSslSettingsAuthenticationRuleUsers(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.VpnSslSettingsAuthenticationRuleUsers, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
 	}
 
-	var result []models.VpnsslSettingsAuthenticationRuleUsers
+	var result []models.VpnSslSettingsAuthenticationRuleUsers
 
 	for i := range l {
-		tmp := models.VpnsslSettingsAuthenticationRuleUsers{}
+		tmp := models.VpnSslSettingsAuthenticationRuleUsers{}
 		var pre_append string
 
 		pre_append = fmt.Sprintf("%s.%d.name", pre, i)
@@ -2035,16 +2040,16 @@ func expandVpnsslSettingsAuthenticationRuleUsers(d *schema.ResourceData, v inter
 	return &result, nil
 }
 
-func expandVpnsslSettingsSourceAddress(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.VpnsslSettingsSourceAddress, error) {
+func expandVpnSslSettingsSourceAddress(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.VpnSslSettingsSourceAddress, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
 	}
 
-	var result []models.VpnsslSettingsSourceAddress
+	var result []models.VpnSslSettingsSourceAddress
 
 	for i := range l {
-		tmp := models.VpnsslSettingsSourceAddress{}
+		tmp := models.VpnSslSettingsSourceAddress{}
 		var pre_append string
 
 		pre_append = fmt.Sprintf("%s.%d.name", pre, i)
@@ -2059,16 +2064,16 @@ func expandVpnsslSettingsSourceAddress(d *schema.ResourceData, v interface{}, pr
 	return &result, nil
 }
 
-func expandVpnsslSettingsSourceAddress6(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.VpnsslSettingsSourceAddress6, error) {
+func expandVpnSslSettingsSourceAddress6(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.VpnSslSettingsSourceAddress6, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
 	}
 
-	var result []models.VpnsslSettingsSourceAddress6
+	var result []models.VpnSslSettingsSourceAddress6
 
 	for i := range l {
-		tmp := models.VpnsslSettingsSourceAddress6{}
+		tmp := models.VpnSslSettingsSourceAddress6{}
 		var pre_append string
 
 		pre_append = fmt.Sprintf("%s.%d.name", pre, i)
@@ -2083,16 +2088,16 @@ func expandVpnsslSettingsSourceAddress6(d *schema.ResourceData, v interface{}, p
 	return &result, nil
 }
 
-func expandVpnsslSettingsSourceInterface(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.VpnsslSettingsSourceInterface, error) {
+func expandVpnSslSettingsSourceInterface(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.VpnSslSettingsSourceInterface, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
 	}
 
-	var result []models.VpnsslSettingsSourceInterface
+	var result []models.VpnSslSettingsSourceInterface
 
 	for i := range l {
-		tmp := models.VpnsslSettingsSourceInterface{}
+		tmp := models.VpnSslSettingsSourceInterface{}
 		var pre_append string
 
 		pre_append = fmt.Sprintf("%s.%d.name", pre, i)
@@ -2107,16 +2112,16 @@ func expandVpnsslSettingsSourceInterface(d *schema.ResourceData, v interface{}, 
 	return &result, nil
 }
 
-func expandVpnsslSettingsTunnelIpPools(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.VpnsslSettingsTunnelIpPools, error) {
+func expandVpnSslSettingsTunnelIpPools(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.VpnSslSettingsTunnelIpPools, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
 	}
 
-	var result []models.VpnsslSettingsTunnelIpPools
+	var result []models.VpnSslSettingsTunnelIpPools
 
 	for i := range l {
-		tmp := models.VpnsslSettingsTunnelIpPools{}
+		tmp := models.VpnSslSettingsTunnelIpPools{}
 		var pre_append string
 
 		pre_append = fmt.Sprintf("%s.%d.name", pre, i)
@@ -2131,16 +2136,16 @@ func expandVpnsslSettingsTunnelIpPools(d *schema.ResourceData, v interface{}, pr
 	return &result, nil
 }
 
-func expandVpnsslSettingsTunnelIpv6Pools(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.VpnsslSettingsTunnelIpv6Pools, error) {
+func expandVpnSslSettingsTunnelIpv6Pools(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.VpnSslSettingsTunnelIpv6Pools, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
 	}
 
-	var result []models.VpnsslSettingsTunnelIpv6Pools
+	var result []models.VpnSslSettingsTunnelIpv6Pools
 
 	for i := range l {
-		tmp := models.VpnsslSettingsTunnelIpv6Pools{}
+		tmp := models.VpnSslSettingsTunnelIpv6Pools{}
 		var pre_append string
 
 		pre_append = fmt.Sprintf("%s.%d.name", pre, i)
@@ -2155,8 +2160,8 @@ func expandVpnsslSettingsTunnelIpv6Pools(d *schema.ResourceData, v interface{}, 
 	return &result, nil
 }
 
-func getObjectVpnsslSettings(d *schema.ResourceData, sv string) (*models.VpnsslSettings, diag.Diagnostics) {
-	obj := models.VpnsslSettings{}
+func getObjectVpnSslSettings(d *schema.ResourceData, sv string) (*models.VpnSslSettings, diag.Diagnostics) {
+	obj := models.VpnSslSettings{}
 	diags := diag.Diagnostics{}
 
 	if v1, ok := d.GetOk("algorithm"); ok {
@@ -2192,7 +2197,7 @@ func getObjectVpnsslSettings(d *schema.ResourceData, sv string) (*models.VpnsslS
 			e := utils.AttributeVersionWarning("authentication_rule", sv)
 			diags = append(diags, e)
 		}
-		t, err := expandVpnsslSettingsAuthenticationRule(d, v, "authentication_rule", sv)
+		t, err := expandVpnSslSettingsAuthenticationRule(d, v, "authentication_rule", sv)
 		if err != nil {
 			return &obj, diag.FromErr(err)
 		} else if t != nil {
@@ -2201,7 +2206,7 @@ func getObjectVpnsslSettings(d *schema.ResourceData, sv string) (*models.VpnsslS
 	} else if d.HasChange("authentication_rule") {
 		old, new := d.GetChange("authentication_rule")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.AuthenticationRule = &[]models.VpnsslSettingsAuthenticationRule{}
+			obj.AuthenticationRule = &[]models.VpnSslSettingsAuthenticationRule{}
 		}
 	}
 	if v1, ok := d.GetOk("auto_tunnel_static_route"); ok {
@@ -2362,7 +2367,7 @@ func getObjectVpnsslSettings(d *schema.ResourceData, sv string) (*models.VpnsslS
 	}
 	if v1, ok := d.GetOk("encrypt_and_store_password"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "v6.4.2", "") {
+			if !utils.CheckVer(sv, "v6.4.0", "") {
 				e := utils.AttributeVersionWarning("encrypt_and_store_password", sv)
 				diags = append(diags, e)
 			}
@@ -2580,7 +2585,7 @@ func getObjectVpnsslSettings(d *schema.ResourceData, sv string) (*models.VpnsslS
 			e := utils.AttributeVersionWarning("source_address", sv)
 			diags = append(diags, e)
 		}
-		t, err := expandVpnsslSettingsSourceAddress(d, v, "source_address", sv)
+		t, err := expandVpnSslSettingsSourceAddress(d, v, "source_address", sv)
 		if err != nil {
 			return &obj, diag.FromErr(err)
 		} else if t != nil {
@@ -2589,7 +2594,7 @@ func getObjectVpnsslSettings(d *schema.ResourceData, sv string) (*models.VpnsslS
 	} else if d.HasChange("source_address") {
 		old, new := d.GetChange("source_address")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.SourceAddress = &[]models.VpnsslSettingsSourceAddress{}
+			obj.SourceAddress = &[]models.VpnSslSettingsSourceAddress{}
 		}
 	}
 	if v1, ok := d.GetOk("source_address_negate"); ok {
@@ -2606,7 +2611,7 @@ func getObjectVpnsslSettings(d *schema.ResourceData, sv string) (*models.VpnsslS
 			e := utils.AttributeVersionWarning("source_address6", sv)
 			diags = append(diags, e)
 		}
-		t, err := expandVpnsslSettingsSourceAddress6(d, v, "source_address6", sv)
+		t, err := expandVpnSslSettingsSourceAddress6(d, v, "source_address6", sv)
 		if err != nil {
 			return &obj, diag.FromErr(err)
 		} else if t != nil {
@@ -2615,7 +2620,7 @@ func getObjectVpnsslSettings(d *schema.ResourceData, sv string) (*models.VpnsslS
 	} else if d.HasChange("source_address6") {
 		old, new := d.GetChange("source_address6")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.SourceAddress6 = &[]models.VpnsslSettingsSourceAddress6{}
+			obj.SourceAddress6 = &[]models.VpnSslSettingsSourceAddress6{}
 		}
 	}
 	if v1, ok := d.GetOk("source_address6_negate"); ok {
@@ -2632,7 +2637,7 @@ func getObjectVpnsslSettings(d *schema.ResourceData, sv string) (*models.VpnsslS
 			e := utils.AttributeVersionWarning("source_interface", sv)
 			diags = append(diags, e)
 		}
-		t, err := expandVpnsslSettingsSourceInterface(d, v, "source_interface", sv)
+		t, err := expandVpnSslSettingsSourceInterface(d, v, "source_interface", sv)
 		if err != nil {
 			return &obj, diag.FromErr(err)
 		} else if t != nil {
@@ -2641,7 +2646,7 @@ func getObjectVpnsslSettings(d *schema.ResourceData, sv string) (*models.VpnsslS
 	} else if d.HasChange("source_interface") {
 		old, new := d.GetChange("source_interface")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.SourceInterface = &[]models.VpnsslSettingsSourceInterface{}
+			obj.SourceInterface = &[]models.VpnSslSettingsSourceInterface{}
 		}
 	}
 	if v1, ok := d.GetOk("ssl_client_renegotiation"); ok {
@@ -2727,7 +2732,7 @@ func getObjectVpnsslSettings(d *schema.ResourceData, sv string) (*models.VpnsslS
 	}
 	if v1, ok := d.GetOk("transform_backward_slashes"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "v6.4.2", "") {
+			if !utils.CheckVer(sv, "v6.4.0", "") {
 				e := utils.AttributeVersionWarning("transform_backward_slashes", sv)
 				diags = append(diags, e)
 			}
@@ -2757,7 +2762,7 @@ func getObjectVpnsslSettings(d *schema.ResourceData, sv string) (*models.VpnsslS
 			e := utils.AttributeVersionWarning("tunnel_ip_pools", sv)
 			diags = append(diags, e)
 		}
-		t, err := expandVpnsslSettingsTunnelIpPools(d, v, "tunnel_ip_pools", sv)
+		t, err := expandVpnSslSettingsTunnelIpPools(d, v, "tunnel_ip_pools", sv)
 		if err != nil {
 			return &obj, diag.FromErr(err)
 		} else if t != nil {
@@ -2766,7 +2771,7 @@ func getObjectVpnsslSettings(d *schema.ResourceData, sv string) (*models.VpnsslS
 	} else if d.HasChange("tunnel_ip_pools") {
 		old, new := d.GetChange("tunnel_ip_pools")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.TunnelIpPools = &[]models.VpnsslSettingsTunnelIpPools{}
+			obj.TunnelIpPools = &[]models.VpnSslSettingsTunnelIpPools{}
 		}
 	}
 	if v, ok := d.GetOk("tunnel_ipv6_pools"); ok {
@@ -2774,7 +2779,7 @@ func getObjectVpnsslSettings(d *schema.ResourceData, sv string) (*models.VpnsslS
 			e := utils.AttributeVersionWarning("tunnel_ipv6_pools", sv)
 			diags = append(diags, e)
 		}
-		t, err := expandVpnsslSettingsTunnelIpv6Pools(d, v, "tunnel_ipv6_pools", sv)
+		t, err := expandVpnSslSettingsTunnelIpv6Pools(d, v, "tunnel_ipv6_pools", sv)
 		if err != nil {
 			return &obj, diag.FromErr(err)
 		} else if t != nil {
@@ -2783,7 +2788,7 @@ func getObjectVpnsslSettings(d *schema.ResourceData, sv string) (*models.VpnsslS
 	} else if d.HasChange("tunnel_ipv6_pools") {
 		old, new := d.GetChange("tunnel_ipv6_pools")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.TunnelIpv6Pools = &[]models.VpnsslSettingsTunnelIpv6Pools{}
+			obj.TunnelIpv6Pools = &[]models.VpnSslSettingsTunnelIpv6Pools{}
 		}
 	}
 	if v1, ok := d.GetOk("tunnel_user_session_timeout"); ok {
@@ -2850,5 +2855,20 @@ func getObjectVpnsslSettings(d *schema.ResourceData, sv string) (*models.VpnsslS
 			obj.XContentTypeOptions = &v2
 		}
 	}
+	return &obj, diags
+}
+
+// Return an object with explicitly empty objects for tables.
+func getEmptyObjectVpnSslSettings(d *schema.ResourceData, sv string) (*models.VpnSslSettings, diag.Diagnostics) {
+	obj := models.VpnSslSettings{}
+	diags := diag.Diagnostics{}
+
+	obj.AuthenticationRule = &[]models.VpnSslSettingsAuthenticationRule{}
+	obj.SourceAddress = &[]models.VpnSslSettingsSourceAddress{}
+	obj.SourceAddress6 = &[]models.VpnSslSettingsSourceAddress6{}
+	obj.SourceInterface = &[]models.VpnSslSettingsSourceInterface{}
+	obj.TunnelIpPools = &[]models.VpnSslSettingsTunnelIpPools{}
+	obj.TunnelIpv6Pools = &[]models.VpnSslSettingsTunnelIpv6Pools{}
+
 	return &obj, diags
 }

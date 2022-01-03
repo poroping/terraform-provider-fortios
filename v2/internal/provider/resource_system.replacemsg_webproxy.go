@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -18,14 +18,14 @@ import (
 	"github.com/poroping/terraform-provider-fortios/v2/utils"
 )
 
-func resourceSystemreplacemsgWebproxy() *schema.Resource {
+func resourceSystemReplacemsgWebproxy() *schema.Resource {
 	return &schema.Resource{
 		Description: "Replacement messages.",
 
-		CreateContext: resourceSystemreplacemsgWebproxyCreate,
-		ReadContext:   resourceSystemreplacemsgWebproxyRead,
-		UpdateContext: resourceSystemreplacemsgWebproxyUpdate,
-		DeleteContext: resourceSystemreplacemsgWebproxyDelete,
+		CreateContext: resourceSystemReplacemsgWebproxyCreate,
+		ReadContext:   resourceSystemReplacemsgWebproxyRead,
+		UpdateContext: resourceSystemReplacemsgWebproxyUpdate,
+		DeleteContext: resourceSystemReplacemsgWebproxyDelete,
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
@@ -80,7 +80,7 @@ func resourceSystemreplacemsgWebproxy() *schema.Resource {
 	}
 }
 
-func resourceSystemreplacemsgWebproxyCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSystemReplacemsgWebproxyCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*apiClient).Client
 	var diags diag.Diagnostics
 	var err error
@@ -107,16 +107,16 @@ func resourceSystemreplacemsgWebproxyCreate(ctx context.Context, d *schema.Resou
 	if v, ok := d.GetOk(key); ok {
 		mkey = utils.ParseMkey(v)
 		if mkey == "" && allow_append {
-			return diag.Errorf("error creating SystemreplacemsgWebproxy resource: %q must be set if \"allow_append\" is true", key)
+			return diag.Errorf("error creating SystemReplacemsgWebproxy resource: %q must be set if \"allow_append\" is true", key)
 		}
 	}
 
-	obj, diags := getObjectSystemreplacemsgWebproxy(d, c.Config.Fv)
+	obj, diags := getObjectSystemReplacemsgWebproxy(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.CreateSystemreplacemsgWebproxy(obj, urlparams)
+	o, err := c.Cmdb.CreateSystemReplacemsgWebproxy(obj, urlparams)
 
 	if err != nil {
 		e := diag.FromErr(err)
@@ -126,13 +126,13 @@ func resourceSystemreplacemsgWebproxyCreate(ctx context.Context, d *schema.Resou
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("SystemreplacemsgWebproxy")
+		d.SetId("SystemReplacemsgWebproxy")
 	}
 
-	return resourceSystemreplacemsgWebproxyRead(ctx, d, meta)
+	return resourceSystemReplacemsgWebproxyRead(ctx, d, meta)
 }
 
-func resourceSystemreplacemsgWebproxyUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSystemReplacemsgWebproxyUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
@@ -145,27 +145,27 @@ func resourceSystemreplacemsgWebproxyUpdate(ctx context.Context, d *schema.Resou
 	}
 	urlparams.Vdom = vdomparam
 
-	obj, diags := getObjectSystemreplacemsgWebproxy(d, c.Config.Fv)
+	obj, diags := getObjectSystemReplacemsgWebproxy(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.UpdateSystemreplacemsgWebproxy(mkey, obj, urlparams)
+	o, err := c.Cmdb.UpdateSystemReplacemsgWebproxy(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error updating SystemreplacemsgWebproxy resource: %v", err)
+		return diag.Errorf("error updating SystemReplacemsgWebproxy resource: %v", err)
 	}
 
 	// log.Printf(strconv.Itoa(c.Retries))
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("SystemreplacemsgWebproxy")
+		d.SetId("SystemReplacemsgWebproxy")
 	}
 
-	return resourceSystemreplacemsgWebproxyRead(ctx, d, meta)
+	return resourceSystemReplacemsgWebproxyRead(ctx, d, meta)
 }
 
-func resourceSystemreplacemsgWebproxyDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSystemReplacemsgWebproxyDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -180,9 +180,9 @@ func resourceSystemreplacemsgWebproxyDelete(ctx context.Context, d *schema.Resou
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteSystemreplacemsgWebproxy(mkey, urlparams)
+	err := c.Cmdb.DeleteSystemReplacemsgWebproxy(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error deleting SystemreplacemsgWebproxy resource: %v", err)
+		return diag.Errorf("error deleting SystemReplacemsgWebproxy resource: %v", err)
 	}
 
 	d.SetId("")
@@ -190,7 +190,7 @@ func resourceSystemreplacemsgWebproxyDelete(ctx context.Context, d *schema.Resou
 	return nil
 }
 
-func resourceSystemreplacemsgWebproxyRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSystemReplacemsgWebproxyRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -205,9 +205,9 @@ func resourceSystemreplacemsgWebproxyRead(ctx context.Context, d *schema.Resourc
 	}
 	urlparams.Vdom = vdomparam
 
-	o, err := c.Cmdb.ReadSystemreplacemsgWebproxy(mkey, urlparams)
+	o, err := c.Cmdb.ReadSystemReplacemsgWebproxy(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error reading SystemreplacemsgWebproxy resource: %v", err)
+		return diag.Errorf("error reading SystemReplacemsgWebproxy resource: %v", err)
 	}
 
 	if o == nil {
@@ -223,14 +223,14 @@ func resourceSystemreplacemsgWebproxyRead(ctx context.Context, d *schema.Resourc
 		}
 	}
 
-	diags := refreshObjectSystemreplacemsgWebproxy(d, o, c.Config.Fv, sort)
+	diags := refreshObjectSystemReplacemsgWebproxy(d, o, c.Config.Fv, sort)
 	if diags.HasError() {
 		return diags
 	}
 	return nil
 }
 
-func refreshObjectSystemreplacemsgWebproxy(d *schema.ResourceData, o *models.SystemreplacemsgWebproxy, sv string, sort bool) diag.Diagnostics {
+func refreshObjectSystemReplacemsgWebproxy(d *schema.ResourceData, o *models.SystemReplacemsgWebproxy, sv string, sort bool) diag.Diagnostics {
 	var err error
 
 	if o.Buffer != nil {
@@ -268,8 +268,8 @@ func refreshObjectSystemreplacemsgWebproxy(d *schema.ResourceData, o *models.Sys
 	return nil
 }
 
-func getObjectSystemreplacemsgWebproxy(d *schema.ResourceData, sv string) (*models.SystemreplacemsgWebproxy, diag.Diagnostics) {
-	obj := models.SystemreplacemsgWebproxy{}
+func getObjectSystemReplacemsgWebproxy(d *schema.ResourceData, sv string) (*models.SystemReplacemsgWebproxy, diag.Diagnostics) {
+	obj := models.SystemReplacemsgWebproxy{}
 	diags := diag.Diagnostics{}
 
 	if v1, ok := d.GetOk("buffer"); ok {

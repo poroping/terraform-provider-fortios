@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -440,7 +440,12 @@ func resourceWebProxyExplicitDelete(ctx context.Context, d *schema.ResourceData,
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteWebProxyExplicit(mkey, urlparams)
+	obj, diags := getEmptyObjectWebProxyExplicit(d, c.Config.Fv)
+	if diags.HasError() {
+		return diags
+	}
+
+	_, err := c.Cmdb.UpdateWebProxyExplicit(mkey, obj, urlparams)
 	if err != nil {
 		return diag.Errorf("error deleting WebProxyExplicit resource: %v", err)
 	}
@@ -1231,5 +1236,15 @@ func getObjectWebProxyExplicit(d *schema.ResourceData, sv string) (*models.WebPr
 			obj.UnknownHttpVersion = &v2
 		}
 	}
+	return &obj, diags
+}
+
+// Return an object with explicitly empty objects for tables that have been set.
+func getEmptyObjectWebProxyExplicit(d *schema.ResourceData, sv string) (*models.WebProxyExplicit, diag.Diagnostics) {
+	obj := models.WebProxyExplicit{}
+	diags := diag.Diagnostics{}
+
+	obj.PacPolicy = &[]models.WebProxyExplicitPacPolicy{}
+
 	return &obj, diags
 }

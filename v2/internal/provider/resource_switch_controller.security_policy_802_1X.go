@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -19,14 +19,14 @@ import (
 	"github.com/poroping/terraform-provider-fortios/v2/utils"
 )
 
-func resourceSwitchControllersecurityPolicy8021X() *schema.Resource {
+func resourceSwitchControllerSecurityPolicy8021X() *schema.Resource {
 	return &schema.Resource{
 		Description: "Configure 802.1x MAC Authentication Bypass (MAB) policies.",
 
-		CreateContext: resourceSwitchControllersecurityPolicy8021XCreate,
-		ReadContext:   resourceSwitchControllersecurityPolicy8021XRead,
-		UpdateContext: resourceSwitchControllersecurityPolicy8021XUpdate,
-		DeleteContext: resourceSwitchControllersecurityPolicy8021XDelete,
+		CreateContext: resourceSwitchControllerSecurityPolicy8021XCreate,
+		ReadContext:   resourceSwitchControllerSecurityPolicy8021XRead,
+		UpdateContext: resourceSwitchControllerSecurityPolicy8021XUpdate,
+		DeleteContext: resourceSwitchControllerSecurityPolicy8021XDelete,
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
@@ -207,7 +207,7 @@ func resourceSwitchControllersecurityPolicy8021X() *schema.Resource {
 	}
 }
 
-func resourceSwitchControllersecurityPolicy8021XCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSwitchControllerSecurityPolicy8021XCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*apiClient).Client
 	var diags diag.Diagnostics
 	var err error
@@ -234,16 +234,16 @@ func resourceSwitchControllersecurityPolicy8021XCreate(ctx context.Context, d *s
 	if v, ok := d.GetOk(key); ok {
 		mkey = utils.ParseMkey(v)
 		if mkey == "" && allow_append {
-			return diag.Errorf("error creating SwitchControllersecurityPolicy8021X resource: %q must be set if \"allow_append\" is true", key)
+			return diag.Errorf("error creating SwitchControllerSecurityPolicy8021X resource: %q must be set if \"allow_append\" is true", key)
 		}
 	}
 
-	obj, diags := getObjectSwitchControllersecurityPolicy8021X(d, c.Config.Fv)
+	obj, diags := getObjectSwitchControllerSecurityPolicy8021X(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.CreateSwitchControllersecurityPolicy8021X(obj, urlparams)
+	o, err := c.Cmdb.CreateSwitchControllerSecurityPolicy8021X(obj, urlparams)
 
 	if err != nil {
 		e := diag.FromErr(err)
@@ -253,13 +253,13 @@ func resourceSwitchControllersecurityPolicy8021XCreate(ctx context.Context, d *s
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("SwitchControllersecurityPolicy8021X")
+		d.SetId("SwitchControllerSecurityPolicy8021X")
 	}
 
-	return resourceSwitchControllersecurityPolicy8021XRead(ctx, d, meta)
+	return resourceSwitchControllerSecurityPolicy8021XRead(ctx, d, meta)
 }
 
-func resourceSwitchControllersecurityPolicy8021XUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSwitchControllerSecurityPolicy8021XUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
@@ -272,27 +272,27 @@ func resourceSwitchControllersecurityPolicy8021XUpdate(ctx context.Context, d *s
 	}
 	urlparams.Vdom = vdomparam
 
-	obj, diags := getObjectSwitchControllersecurityPolicy8021X(d, c.Config.Fv)
+	obj, diags := getObjectSwitchControllerSecurityPolicy8021X(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.UpdateSwitchControllersecurityPolicy8021X(mkey, obj, urlparams)
+	o, err := c.Cmdb.UpdateSwitchControllerSecurityPolicy8021X(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error updating SwitchControllersecurityPolicy8021X resource: %v", err)
+		return diag.Errorf("error updating SwitchControllerSecurityPolicy8021X resource: %v", err)
 	}
 
 	// log.Printf(strconv.Itoa(c.Retries))
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("SwitchControllersecurityPolicy8021X")
+		d.SetId("SwitchControllerSecurityPolicy8021X")
 	}
 
-	return resourceSwitchControllersecurityPolicy8021XRead(ctx, d, meta)
+	return resourceSwitchControllerSecurityPolicy8021XRead(ctx, d, meta)
 }
 
-func resourceSwitchControllersecurityPolicy8021XDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSwitchControllerSecurityPolicy8021XDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -307,9 +307,9 @@ func resourceSwitchControllersecurityPolicy8021XDelete(ctx context.Context, d *s
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteSwitchControllersecurityPolicy8021X(mkey, urlparams)
+	err := c.Cmdb.DeleteSwitchControllerSecurityPolicy8021X(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error deleting SwitchControllersecurityPolicy8021X resource: %v", err)
+		return diag.Errorf("error deleting SwitchControllerSecurityPolicy8021X resource: %v", err)
 	}
 
 	d.SetId("")
@@ -317,7 +317,7 @@ func resourceSwitchControllersecurityPolicy8021XDelete(ctx context.Context, d *s
 	return nil
 }
 
-func resourceSwitchControllersecurityPolicy8021XRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSwitchControllerSecurityPolicy8021XRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -332,9 +332,9 @@ func resourceSwitchControllersecurityPolicy8021XRead(ctx context.Context, d *sch
 	}
 	urlparams.Vdom = vdomparam
 
-	o, err := c.Cmdb.ReadSwitchControllersecurityPolicy8021X(mkey, urlparams)
+	o, err := c.Cmdb.ReadSwitchControllerSecurityPolicy8021X(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error reading SwitchControllersecurityPolicy8021X resource: %v", err)
+		return diag.Errorf("error reading SwitchControllerSecurityPolicy8021X resource: %v", err)
 	}
 
 	if o == nil {
@@ -350,14 +350,14 @@ func resourceSwitchControllersecurityPolicy8021XRead(ctx context.Context, d *sch
 		}
 	}
 
-	diags := refreshObjectSwitchControllersecurityPolicy8021X(d, o, c.Config.Fv, sort)
+	diags := refreshObjectSwitchControllerSecurityPolicy8021X(d, o, c.Config.Fv, sort)
 	if diags.HasError() {
 		return diags
 	}
 	return nil
 }
 
-func flattenSwitchControllersecurityPolicy8021XUserGroup(v *[]models.SwitchControllersecurityPolicy8021XUserGroup, sort bool) interface{} {
+func flattenSwitchControllerSecurityPolicy8021XUserGroup(v *[]models.SwitchControllerSecurityPolicy8021XUserGroup, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
@@ -378,7 +378,7 @@ func flattenSwitchControllersecurityPolicy8021XUserGroup(v *[]models.SwitchContr
 	return flat
 }
 
-func refreshObjectSwitchControllersecurityPolicy8021X(d *schema.ResourceData, o *models.SwitchControllersecurityPolicy8021X, sv string, sort bool) diag.Diagnostics {
+func refreshObjectSwitchControllerSecurityPolicy8021X(d *schema.ResourceData, o *models.SwitchControllerSecurityPolicy8021X, sv string, sort bool) diag.Diagnostics {
 	var err error
 
 	if o.AuthFailVlan != nil {
@@ -518,7 +518,7 @@ func refreshObjectSwitchControllersecurityPolicy8021X(d *schema.ResourceData, o 
 	}
 
 	if o.UserGroup != nil {
-		if err = d.Set("user_group", flattenSwitchControllersecurityPolicy8021XUserGroup(o.UserGroup, sort)); err != nil {
+		if err = d.Set("user_group", flattenSwitchControllerSecurityPolicy8021XUserGroup(o.UserGroup, sort)); err != nil {
 			return diag.Errorf("error reading user_group: %v", err)
 		}
 	}
@@ -526,16 +526,16 @@ func refreshObjectSwitchControllersecurityPolicy8021X(d *schema.ResourceData, o 
 	return nil
 }
 
-func expandSwitchControllersecurityPolicy8021XUserGroup(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.SwitchControllersecurityPolicy8021XUserGroup, error) {
+func expandSwitchControllerSecurityPolicy8021XUserGroup(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.SwitchControllerSecurityPolicy8021XUserGroup, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
 	}
 
-	var result []models.SwitchControllersecurityPolicy8021XUserGroup
+	var result []models.SwitchControllerSecurityPolicy8021XUserGroup
 
 	for i := range l {
-		tmp := models.SwitchControllersecurityPolicy8021XUserGroup{}
+		tmp := models.SwitchControllerSecurityPolicy8021XUserGroup{}
 		var pre_append string
 
 		pre_append = fmt.Sprintf("%s.%d.name", pre, i)
@@ -550,8 +550,8 @@ func expandSwitchControllersecurityPolicy8021XUserGroup(d *schema.ResourceData, 
 	return &result, nil
 }
 
-func getObjectSwitchControllersecurityPolicy8021X(d *schema.ResourceData, sv string) (*models.SwitchControllersecurityPolicy8021X, diag.Diagnostics) {
-	obj := models.SwitchControllersecurityPolicy8021X{}
+func getObjectSwitchControllerSecurityPolicy8021X(d *schema.ResourceData, sv string) (*models.SwitchControllerSecurityPolicy8021X, diag.Diagnostics) {
+	obj := models.SwitchControllerSecurityPolicy8021X{}
 	diags := diag.Diagnostics{}
 
 	if v1, ok := d.GetOk("auth_fail_vlan"); ok {
@@ -602,7 +602,7 @@ func getObjectSwitchControllersecurityPolicy8021X(d *schema.ResourceData, sv str
 	}
 	if v1, ok := d.GetOk("eap_auto_untagged_vlans"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "v6.4.2", "") {
+			if !utils.CheckVer(sv, "v6.4.0", "") {
 				e := utils.AttributeVersionWarning("eap_auto_untagged_vlans", sv)
 				diags = append(diags, e)
 			}
@@ -714,7 +714,7 @@ func getObjectSwitchControllersecurityPolicy8021X(d *schema.ResourceData, sv str
 			e := utils.AttributeVersionWarning("user_group", sv)
 			diags = append(diags, e)
 		}
-		t, err := expandSwitchControllersecurityPolicy8021XUserGroup(d, v, "user_group", sv)
+		t, err := expandSwitchControllerSecurityPolicy8021XUserGroup(d, v, "user_group", sv)
 		if err != nil {
 			return &obj, diag.FromErr(err)
 		} else if t != nil {
@@ -723,7 +723,7 @@ func getObjectSwitchControllersecurityPolicy8021X(d *schema.ResourceData, sv str
 	} else if d.HasChange("user_group") {
 		old, new := d.GetChange("user_group")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.UserGroup = &[]models.SwitchControllersecurityPolicy8021XUserGroup{}
+			obj.UserGroup = &[]models.SwitchControllerSecurityPolicy8021XUserGroup{}
 		}
 	}
 	return &obj, diags

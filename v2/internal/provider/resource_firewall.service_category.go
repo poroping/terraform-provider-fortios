@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -18,14 +18,14 @@ import (
 	"github.com/poroping/terraform-provider-fortios/v2/utils"
 )
 
-func resourceFirewallserviceCategory() *schema.Resource {
+func resourceFirewallServiceCategory() *schema.Resource {
 	return &schema.Resource{
 		Description: "Configure service categories.",
 
-		CreateContext: resourceFirewallserviceCategoryCreate,
-		ReadContext:   resourceFirewallserviceCategoryRead,
-		UpdateContext: resourceFirewallserviceCategoryUpdate,
-		DeleteContext: resourceFirewallserviceCategoryDelete,
+		CreateContext: resourceFirewallServiceCategoryCreate,
+		ReadContext:   resourceFirewallServiceCategoryRead,
+		UpdateContext: resourceFirewallServiceCategoryUpdate,
+		DeleteContext: resourceFirewallServiceCategoryDelete,
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
@@ -72,7 +72,7 @@ func resourceFirewallserviceCategory() *schema.Resource {
 	}
 }
 
-func resourceFirewallserviceCategoryCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceFirewallServiceCategoryCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*apiClient).Client
 	var diags diag.Diagnostics
 	var err error
@@ -99,16 +99,16 @@ func resourceFirewallserviceCategoryCreate(ctx context.Context, d *schema.Resour
 	if v, ok := d.GetOk(key); ok {
 		mkey = utils.ParseMkey(v)
 		if mkey == "" && allow_append {
-			return diag.Errorf("error creating FirewallserviceCategory resource: %q must be set if \"allow_append\" is true", key)
+			return diag.Errorf("error creating FirewallServiceCategory resource: %q must be set if \"allow_append\" is true", key)
 		}
 	}
 
-	obj, diags := getObjectFirewallserviceCategory(d, c.Config.Fv)
+	obj, diags := getObjectFirewallServiceCategory(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.CreateFirewallserviceCategory(obj, urlparams)
+	o, err := c.Cmdb.CreateFirewallServiceCategory(obj, urlparams)
 
 	if err != nil {
 		e := diag.FromErr(err)
@@ -118,13 +118,13 @@ func resourceFirewallserviceCategoryCreate(ctx context.Context, d *schema.Resour
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("FirewallserviceCategory")
+		d.SetId("FirewallServiceCategory")
 	}
 
-	return resourceFirewallserviceCategoryRead(ctx, d, meta)
+	return resourceFirewallServiceCategoryRead(ctx, d, meta)
 }
 
-func resourceFirewallserviceCategoryUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceFirewallServiceCategoryUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
@@ -137,27 +137,27 @@ func resourceFirewallserviceCategoryUpdate(ctx context.Context, d *schema.Resour
 	}
 	urlparams.Vdom = vdomparam
 
-	obj, diags := getObjectFirewallserviceCategory(d, c.Config.Fv)
+	obj, diags := getObjectFirewallServiceCategory(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.UpdateFirewallserviceCategory(mkey, obj, urlparams)
+	o, err := c.Cmdb.UpdateFirewallServiceCategory(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error updating FirewallserviceCategory resource: %v", err)
+		return diag.Errorf("error updating FirewallServiceCategory resource: %v", err)
 	}
 
 	// log.Printf(strconv.Itoa(c.Retries))
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("FirewallserviceCategory")
+		d.SetId("FirewallServiceCategory")
 	}
 
-	return resourceFirewallserviceCategoryRead(ctx, d, meta)
+	return resourceFirewallServiceCategoryRead(ctx, d, meta)
 }
 
-func resourceFirewallserviceCategoryDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceFirewallServiceCategoryDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -172,9 +172,9 @@ func resourceFirewallserviceCategoryDelete(ctx context.Context, d *schema.Resour
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteFirewallserviceCategory(mkey, urlparams)
+	err := c.Cmdb.DeleteFirewallServiceCategory(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error deleting FirewallserviceCategory resource: %v", err)
+		return diag.Errorf("error deleting FirewallServiceCategory resource: %v", err)
 	}
 
 	d.SetId("")
@@ -182,7 +182,7 @@ func resourceFirewallserviceCategoryDelete(ctx context.Context, d *schema.Resour
 	return nil
 }
 
-func resourceFirewallserviceCategoryRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceFirewallServiceCategoryRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -197,9 +197,9 @@ func resourceFirewallserviceCategoryRead(ctx context.Context, d *schema.Resource
 	}
 	urlparams.Vdom = vdomparam
 
-	o, err := c.Cmdb.ReadFirewallserviceCategory(mkey, urlparams)
+	o, err := c.Cmdb.ReadFirewallServiceCategory(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error reading FirewallserviceCategory resource: %v", err)
+		return diag.Errorf("error reading FirewallServiceCategory resource: %v", err)
 	}
 
 	if o == nil {
@@ -215,14 +215,14 @@ func resourceFirewallserviceCategoryRead(ctx context.Context, d *schema.Resource
 		}
 	}
 
-	diags := refreshObjectFirewallserviceCategory(d, o, c.Config.Fv, sort)
+	diags := refreshObjectFirewallServiceCategory(d, o, c.Config.Fv, sort)
 	if diags.HasError() {
 		return diags
 	}
 	return nil
 }
 
-func refreshObjectFirewallserviceCategory(d *schema.ResourceData, o *models.FirewallserviceCategory, sv string, sort bool) diag.Diagnostics {
+func refreshObjectFirewallServiceCategory(d *schema.ResourceData, o *models.FirewallServiceCategory, sv string, sort bool) diag.Diagnostics {
 	var err error
 
 	if o.Comment != nil {
@@ -252,8 +252,8 @@ func refreshObjectFirewallserviceCategory(d *schema.ResourceData, o *models.Fire
 	return nil
 }
 
-func getObjectFirewallserviceCategory(d *schema.ResourceData, sv string) (*models.FirewallserviceCategory, diag.Diagnostics) {
-	obj := models.FirewallserviceCategory{}
+func getObjectFirewallServiceCategory(d *schema.ResourceData, sv string) (*models.FirewallServiceCategory, diag.Diagnostics) {
+	obj := models.FirewallServiceCategory{}
 	diags := diag.Diagnostics{}
 
 	if v1, ok := d.GetOk("comment"); ok {

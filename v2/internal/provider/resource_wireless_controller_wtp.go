@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -547,7 +547,7 @@ func resourceWirelessControllerWtp() *schema.Resource {
 						},
 						"spectrum_analysis": {
 							Type:         schema.TypeString,
-							ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+							ValidateFunc: validation.StringInSlice([]string{"enable", "scan-only", "disable"}, false),
 
 							Description: "Enable/disable spectrum analysis to find interference that would negatively impact wireless performance.",
 							Optional:    true,
@@ -716,7 +716,7 @@ func resourceWirelessControllerWtp() *schema.Resource {
 						},
 						"spectrum_analysis": {
 							Type:         schema.TypeString,
-							ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+							ValidateFunc: validation.StringInSlice([]string{"enable", "scan-only", "disable"}, false),
 
 							Description: "Enable/disable spectrum analysis to find interference that would negatively impact wireless performance.",
 							Optional:    true,
@@ -885,7 +885,7 @@ func resourceWirelessControllerWtp() *schema.Resource {
 						},
 						"spectrum_analysis": {
 							Type:         schema.TypeString,
-							ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+							ValidateFunc: validation.StringInSlice([]string{"enable", "scan-only", "disable"}, false),
 
 							Description: "Enable/disable spectrum analysis to find interference that would negatively impact wireless performance.",
 							Optional:    true,
@@ -1054,7 +1054,7 @@ func resourceWirelessControllerWtp() *schema.Resource {
 						},
 						"spectrum_analysis": {
 							Type:         schema.TypeString,
-							ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+							ValidateFunc: validation.StringInSlice([]string{"enable", "scan-only", "disable"}, false),
 
 							Description: "Enable/disable spectrum analysis to find interference that would negatively impact wireless performance.",
 							Optional:    true,
@@ -3317,7 +3317,7 @@ func getObjectWirelessControllerWtp(d *schema.ResourceData, sv string) (*models.
 	}
 	if v1, ok := d.GetOk("apcfg_profile"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "v6.4.2", "") {
+			if !utils.CheckVer(sv, "v6.4.0", "") {
 				e := utils.AttributeVersionWarning("apcfg_profile", sv)
 				diags = append(diags, e)
 			}
@@ -3353,7 +3353,7 @@ func getObjectWirelessControllerWtp(d *schema.ResourceData, sv string) (*models.
 	}
 	if v1, ok := d.GetOk("firmware_provision"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "v6.4.2", "") {
+			if !utils.CheckVer(sv, "v6.4.0", "") {
 				e := utils.AttributeVersionWarning("firmware_provision", sv)
 				diags = append(diags, e)
 			}

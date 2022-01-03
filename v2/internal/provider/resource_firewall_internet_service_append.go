@@ -149,7 +149,12 @@ func resourceFirewallInternetServiceAppendDelete(ctx context.Context, d *schema.
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteFirewallInternetServiceAppend(mkey, urlparams)
+	obj, diags := getEmptyObjectFirewallInternetServiceAppend(d, c.Config.Fv)
+	if diags.HasError() {
+		return diags
+	}
+
+	_, err := c.Cmdb.UpdateFirewallInternetServiceAppend(mkey, obj, urlparams)
 	if err != nil {
 		return diag.Errorf("error deleting FirewallInternetServiceAppend resource: %v", err)
 	}
@@ -245,5 +250,13 @@ func getObjectFirewallInternetServiceAppend(d *schema.ResourceData, sv string) (
 			obj.MatchPort = &tmp
 		}
 	}
+	return &obj, diags
+}
+
+// Return an object with explicitly empty objects for tables that have been set.
+func getEmptyObjectFirewallInternetServiceAppend(d *schema.ResourceData, sv string) (*models.FirewallInternetServiceAppend, diag.Diagnostics) {
+	obj := models.FirewallInternetServiceAppend{}
+	diags := diag.Diagnostics{}
+
 	return &obj, diags
 }

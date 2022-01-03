@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -20,14 +20,14 @@ import (
 	"github.com/poroping/terraform-provider-fortios/v2/validators"
 )
 
-func resourceSwitchControllerinitialConfigTemplate() *schema.Resource {
+func resourceSwitchControllerInitialConfigTemplate() *schema.Resource {
 	return &schema.Resource{
 		Description: "Configure template for auto-generated VLANs.",
 
-		CreateContext: resourceSwitchControllerinitialConfigTemplateCreate,
-		ReadContext:   resourceSwitchControllerinitialConfigTemplateRead,
-		UpdateContext: resourceSwitchControllerinitialConfigTemplateUpdate,
-		DeleteContext: resourceSwitchControllerinitialConfigTemplateDelete,
+		CreateContext: resourceSwitchControllerInitialConfigTemplateCreate,
+		ReadContext:   resourceSwitchControllerInitialConfigTemplateRead,
+		UpdateContext: resourceSwitchControllerInitialConfigTemplateUpdate,
+		DeleteContext: resourceSwitchControllerInitialConfigTemplateDelete,
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
@@ -98,7 +98,7 @@ func resourceSwitchControllerinitialConfigTemplate() *schema.Resource {
 	}
 }
 
-func resourceSwitchControllerinitialConfigTemplateCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSwitchControllerInitialConfigTemplateCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*apiClient).Client
 	var diags diag.Diagnostics
 	var err error
@@ -125,16 +125,16 @@ func resourceSwitchControllerinitialConfigTemplateCreate(ctx context.Context, d 
 	if v, ok := d.GetOk(key); ok {
 		mkey = utils.ParseMkey(v)
 		if mkey == "" && allow_append {
-			return diag.Errorf("error creating SwitchControllerinitialConfigTemplate resource: %q must be set if \"allow_append\" is true", key)
+			return diag.Errorf("error creating SwitchControllerInitialConfigTemplate resource: %q must be set if \"allow_append\" is true", key)
 		}
 	}
 
-	obj, diags := getObjectSwitchControllerinitialConfigTemplate(d, c.Config.Fv)
+	obj, diags := getObjectSwitchControllerInitialConfigTemplate(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.CreateSwitchControllerinitialConfigTemplate(obj, urlparams)
+	o, err := c.Cmdb.CreateSwitchControllerInitialConfigTemplate(obj, urlparams)
 
 	if err != nil {
 		e := diag.FromErr(err)
@@ -144,13 +144,13 @@ func resourceSwitchControllerinitialConfigTemplateCreate(ctx context.Context, d 
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("SwitchControllerinitialConfigTemplate")
+		d.SetId("SwitchControllerInitialConfigTemplate")
 	}
 
-	return resourceSwitchControllerinitialConfigTemplateRead(ctx, d, meta)
+	return resourceSwitchControllerInitialConfigTemplateRead(ctx, d, meta)
 }
 
-func resourceSwitchControllerinitialConfigTemplateUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSwitchControllerInitialConfigTemplateUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
@@ -163,27 +163,27 @@ func resourceSwitchControllerinitialConfigTemplateUpdate(ctx context.Context, d 
 	}
 	urlparams.Vdom = vdomparam
 
-	obj, diags := getObjectSwitchControllerinitialConfigTemplate(d, c.Config.Fv)
+	obj, diags := getObjectSwitchControllerInitialConfigTemplate(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.UpdateSwitchControllerinitialConfigTemplate(mkey, obj, urlparams)
+	o, err := c.Cmdb.UpdateSwitchControllerInitialConfigTemplate(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error updating SwitchControllerinitialConfigTemplate resource: %v", err)
+		return diag.Errorf("error updating SwitchControllerInitialConfigTemplate resource: %v", err)
 	}
 
 	// log.Printf(strconv.Itoa(c.Retries))
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("SwitchControllerinitialConfigTemplate")
+		d.SetId("SwitchControllerInitialConfigTemplate")
 	}
 
-	return resourceSwitchControllerinitialConfigTemplateRead(ctx, d, meta)
+	return resourceSwitchControllerInitialConfigTemplateRead(ctx, d, meta)
 }
 
-func resourceSwitchControllerinitialConfigTemplateDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSwitchControllerInitialConfigTemplateDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -198,9 +198,9 @@ func resourceSwitchControllerinitialConfigTemplateDelete(ctx context.Context, d 
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteSwitchControllerinitialConfigTemplate(mkey, urlparams)
+	err := c.Cmdb.DeleteSwitchControllerInitialConfigTemplate(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error deleting SwitchControllerinitialConfigTemplate resource: %v", err)
+		return diag.Errorf("error deleting SwitchControllerInitialConfigTemplate resource: %v", err)
 	}
 
 	d.SetId("")
@@ -208,7 +208,7 @@ func resourceSwitchControllerinitialConfigTemplateDelete(ctx context.Context, d 
 	return nil
 }
 
-func resourceSwitchControllerinitialConfigTemplateRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSwitchControllerInitialConfigTemplateRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -223,9 +223,9 @@ func resourceSwitchControllerinitialConfigTemplateRead(ctx context.Context, d *s
 	}
 	urlparams.Vdom = vdomparam
 
-	o, err := c.Cmdb.ReadSwitchControllerinitialConfigTemplate(mkey, urlparams)
+	o, err := c.Cmdb.ReadSwitchControllerInitialConfigTemplate(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error reading SwitchControllerinitialConfigTemplate resource: %v", err)
+		return diag.Errorf("error reading SwitchControllerInitialConfigTemplate resource: %v", err)
 	}
 
 	if o == nil {
@@ -241,14 +241,14 @@ func resourceSwitchControllerinitialConfigTemplateRead(ctx context.Context, d *s
 		}
 	}
 
-	diags := refreshObjectSwitchControllerinitialConfigTemplate(d, o, c.Config.Fv, sort)
+	diags := refreshObjectSwitchControllerInitialConfigTemplate(d, o, c.Config.Fv, sort)
 	if diags.HasError() {
 		return diags
 	}
 	return nil
 }
 
-func refreshObjectSwitchControllerinitialConfigTemplate(d *schema.ResourceData, o *models.SwitchControllerinitialConfigTemplate, sv string, sort bool) diag.Diagnostics {
+func refreshObjectSwitchControllerInitialConfigTemplate(d *schema.ResourceData, o *models.SwitchControllerInitialConfigTemplate, sv string, sort bool) diag.Diagnostics {
 	var err error
 
 	if o.Allowaccess != nil {
@@ -307,8 +307,8 @@ func refreshObjectSwitchControllerinitialConfigTemplate(d *schema.ResourceData, 
 	return nil
 }
 
-func getObjectSwitchControllerinitialConfigTemplate(d *schema.ResourceData, sv string) (*models.SwitchControllerinitialConfigTemplate, diag.Diagnostics) {
-	obj := models.SwitchControllerinitialConfigTemplate{}
+func getObjectSwitchControllerInitialConfigTemplate(d *schema.ResourceData, sv string) (*models.SwitchControllerInitialConfigTemplate, diag.Diagnostics) {
+	obj := models.SwitchControllerInitialConfigTemplate{}
 	diags := diag.Diagnostics{}
 
 	if v1, ok := d.GetOk("allowaccess"); ok {

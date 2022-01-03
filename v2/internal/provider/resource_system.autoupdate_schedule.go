@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -18,14 +18,14 @@ import (
 	"github.com/poroping/terraform-provider-fortios/v2/utils"
 )
 
-func resourceSystemautoupdateSchedule() *schema.Resource {
+func resourceSystemAutoupdateSchedule() *schema.Resource {
 	return &schema.Resource{
 		Description: "Configure update schedule.",
 
-		CreateContext: resourceSystemautoupdateScheduleCreate,
-		ReadContext:   resourceSystemautoupdateScheduleRead,
-		UpdateContext: resourceSystemautoupdateScheduleUpdate,
-		DeleteContext: resourceSystemautoupdateScheduleDelete,
+		CreateContext: resourceSystemAutoupdateScheduleCreate,
+		ReadContext:   resourceSystemAutoupdateScheduleRead,
+		UpdateContext: resourceSystemAutoupdateScheduleUpdate,
+		DeleteContext: resourceSystemAutoupdateScheduleDelete,
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
@@ -73,7 +73,7 @@ func resourceSystemautoupdateSchedule() *schema.Resource {
 	}
 }
 
-func resourceSystemautoupdateScheduleCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSystemAutoupdateScheduleCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*apiClient).Client
 	var diags diag.Diagnostics
 	var err error
@@ -95,12 +95,12 @@ func resourceSystemautoupdateScheduleCreate(ctx context.Context, d *schema.Resou
 	}
 	urlparams.AllowAppend = &allow_append
 
-	obj, diags := getObjectSystemautoupdateSchedule(d, c.Config.Fv)
+	obj, diags := getObjectSystemAutoupdateSchedule(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.CreateSystemautoupdateSchedule(obj, urlparams)
+	o, err := c.Cmdb.CreateSystemAutoupdateSchedule(obj, urlparams)
 
 	if err != nil {
 		e := diag.FromErr(err)
@@ -110,13 +110,13 @@ func resourceSystemautoupdateScheduleCreate(ctx context.Context, d *schema.Resou
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("SystemautoupdateSchedule")
+		d.SetId("SystemAutoupdateSchedule")
 	}
 
-	return resourceSystemautoupdateScheduleRead(ctx, d, meta)
+	return resourceSystemAutoupdateScheduleRead(ctx, d, meta)
 }
 
-func resourceSystemautoupdateScheduleUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSystemAutoupdateScheduleUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
@@ -129,27 +129,27 @@ func resourceSystemautoupdateScheduleUpdate(ctx context.Context, d *schema.Resou
 	}
 	urlparams.Vdom = vdomparam
 
-	obj, diags := getObjectSystemautoupdateSchedule(d, c.Config.Fv)
+	obj, diags := getObjectSystemAutoupdateSchedule(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.UpdateSystemautoupdateSchedule(mkey, obj, urlparams)
+	o, err := c.Cmdb.UpdateSystemAutoupdateSchedule(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error updating SystemautoupdateSchedule resource: %v", err)
+		return diag.Errorf("error updating SystemAutoupdateSchedule resource: %v", err)
 	}
 
 	// log.Printf(strconv.Itoa(c.Retries))
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("SystemautoupdateSchedule")
+		d.SetId("SystemAutoupdateSchedule")
 	}
 
-	return resourceSystemautoupdateScheduleRead(ctx, d, meta)
+	return resourceSystemAutoupdateScheduleRead(ctx, d, meta)
 }
 
-func resourceSystemautoupdateScheduleDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSystemAutoupdateScheduleDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -164,9 +164,14 @@ func resourceSystemautoupdateScheduleDelete(ctx context.Context, d *schema.Resou
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteSystemautoupdateSchedule(mkey, urlparams)
+	obj, diags := getEmptyObjectSystemAutoupdateSchedule(d, c.Config.Fv)
+	if diags.HasError() {
+		return diags
+	}
+
+	_, err := c.Cmdb.UpdateSystemAutoupdateSchedule(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error deleting SystemautoupdateSchedule resource: %v", err)
+		return diag.Errorf("error deleting SystemAutoupdateSchedule resource: %v", err)
 	}
 
 	d.SetId("")
@@ -174,7 +179,7 @@ func resourceSystemautoupdateScheduleDelete(ctx context.Context, d *schema.Resou
 	return nil
 }
 
-func resourceSystemautoupdateScheduleRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSystemAutoupdateScheduleRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -189,9 +194,9 @@ func resourceSystemautoupdateScheduleRead(ctx context.Context, d *schema.Resourc
 	}
 	urlparams.Vdom = vdomparam
 
-	o, err := c.Cmdb.ReadSystemautoupdateSchedule(mkey, urlparams)
+	o, err := c.Cmdb.ReadSystemAutoupdateSchedule(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error reading SystemautoupdateSchedule resource: %v", err)
+		return diag.Errorf("error reading SystemAutoupdateSchedule resource: %v", err)
 	}
 
 	if o == nil {
@@ -207,14 +212,14 @@ func resourceSystemautoupdateScheduleRead(ctx context.Context, d *schema.Resourc
 		}
 	}
 
-	diags := refreshObjectSystemautoupdateSchedule(d, o, c.Config.Fv, sort)
+	diags := refreshObjectSystemAutoupdateSchedule(d, o, c.Config.Fv, sort)
 	if diags.HasError() {
 		return diags
 	}
 	return nil
 }
 
-func refreshObjectSystemautoupdateSchedule(d *schema.ResourceData, o *models.SystemautoupdateSchedule, sv string, sort bool) diag.Diagnostics {
+func refreshObjectSystemAutoupdateSchedule(d *schema.ResourceData, o *models.SystemAutoupdateSchedule, sv string, sort bool) diag.Diagnostics {
 	var err error
 
 	if o.Day != nil {
@@ -252,8 +257,8 @@ func refreshObjectSystemautoupdateSchedule(d *schema.ResourceData, o *models.Sys
 	return nil
 }
 
-func getObjectSystemautoupdateSchedule(d *schema.ResourceData, sv string) (*models.SystemautoupdateSchedule, diag.Diagnostics) {
-	obj := models.SystemautoupdateSchedule{}
+func getObjectSystemAutoupdateSchedule(d *schema.ResourceData, sv string) (*models.SystemAutoupdateSchedule, diag.Diagnostics) {
+	obj := models.SystemAutoupdateSchedule{}
 	diags := diag.Diagnostics{}
 
 	if v1, ok := d.GetOk("day"); ok {
@@ -292,5 +297,13 @@ func getObjectSystemautoupdateSchedule(d *schema.ResourceData, sv string) (*mode
 			obj.Time = &v2
 		}
 	}
+	return &obj, diags
+}
+
+// Return an object with explicitly empty objects for tables that have been set.
+func getEmptyObjectSystemAutoupdateSchedule(d *schema.ResourceData, sv string) (*models.SystemAutoupdateSchedule, diag.Diagnostics) {
+	obj := models.SystemAutoupdateSchedule{}
+	diags := diag.Diagnostics{}
+
 	return &obj, diags
 }

@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -331,7 +331,12 @@ func resourceUserSettingDelete(ctx context.Context, d *schema.ResourceData, meta
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteUserSetting(mkey, urlparams)
+	obj, diags := getEmptyObjectUserSetting(d, c.Config.Fv)
+	if diags.HasError() {
+		return diags
+	}
+
+	_, err := c.Cmdb.UpdateUserSetting(mkey, obj, urlparams)
 	if err != nil {
 		return diag.Errorf("error deleting UserSetting resource: %v", err)
 	}
@@ -827,5 +832,15 @@ func getObjectUserSetting(d *schema.ResourceData, sv string) (*models.UserSettin
 			obj.RadiusSesTimeoutAct = &v2
 		}
 	}
+	return &obj, diags
+}
+
+// Return an object with explicitly empty objects for tables that have been set.
+func getEmptyObjectUserSetting(d *schema.ResourceData, sv string) (*models.UserSetting, diag.Diagnostics) {
+	obj := models.UserSetting{}
+	diags := diag.Diagnostics{}
+
+	obj.AuthPorts = &[]models.UserSettingAuthPorts{}
+
 	return &obj, diags
 }

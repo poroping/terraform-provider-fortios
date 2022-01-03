@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -19,14 +19,14 @@ import (
 	"github.com/poroping/terraform-provider-fortios/v2/utils"
 )
 
-func resourceLogsyslogd2Setting() *schema.Resource {
+func resourceLogSyslogd2Setting() *schema.Resource {
 	return &schema.Resource{
 		Description: "Global settings for remote syslog server.",
 
-		CreateContext: resourceLogsyslogd2SettingCreate,
-		ReadContext:   resourceLogsyslogd2SettingRead,
-		UpdateContext: resourceLogsyslogd2SettingUpdate,
-		DeleteContext: resourceLogsyslogd2SettingDelete,
+		CreateContext: resourceLogSyslogd2SettingCreate,
+		ReadContext:   resourceLogSyslogd2SettingRead,
+		UpdateContext: resourceLogSyslogd2SettingUpdate,
+		DeleteContext: resourceLogSyslogd2SettingDelete,
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
@@ -193,7 +193,7 @@ func resourceLogsyslogd2Setting() *schema.Resource {
 	}
 }
 
-func resourceLogsyslogd2SettingCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceLogSyslogd2SettingCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*apiClient).Client
 	var diags diag.Diagnostics
 	var err error
@@ -215,12 +215,12 @@ func resourceLogsyslogd2SettingCreate(ctx context.Context, d *schema.ResourceDat
 	}
 	urlparams.AllowAppend = &allow_append
 
-	obj, diags := getObjectLogsyslogd2Setting(d, c.Config.Fv)
+	obj, diags := getObjectLogSyslogd2Setting(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.CreateLogsyslogd2Setting(obj, urlparams)
+	o, err := c.Cmdb.CreateLogSyslogd2Setting(obj, urlparams)
 
 	if err != nil {
 		e := diag.FromErr(err)
@@ -230,13 +230,13 @@ func resourceLogsyslogd2SettingCreate(ctx context.Context, d *schema.ResourceDat
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("Logsyslogd2Setting")
+		d.SetId("LogSyslogd2Setting")
 	}
 
-	return resourceLogsyslogd2SettingRead(ctx, d, meta)
+	return resourceLogSyslogd2SettingRead(ctx, d, meta)
 }
 
-func resourceLogsyslogd2SettingUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceLogSyslogd2SettingUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
@@ -249,27 +249,27 @@ func resourceLogsyslogd2SettingUpdate(ctx context.Context, d *schema.ResourceDat
 	}
 	urlparams.Vdom = vdomparam
 
-	obj, diags := getObjectLogsyslogd2Setting(d, c.Config.Fv)
+	obj, diags := getObjectLogSyslogd2Setting(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.UpdateLogsyslogd2Setting(mkey, obj, urlparams)
+	o, err := c.Cmdb.UpdateLogSyslogd2Setting(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error updating Logsyslogd2Setting resource: %v", err)
+		return diag.Errorf("error updating LogSyslogd2Setting resource: %v", err)
 	}
 
 	// log.Printf(strconv.Itoa(c.Retries))
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("Logsyslogd2Setting")
+		d.SetId("LogSyslogd2Setting")
 	}
 
-	return resourceLogsyslogd2SettingRead(ctx, d, meta)
+	return resourceLogSyslogd2SettingRead(ctx, d, meta)
 }
 
-func resourceLogsyslogd2SettingDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceLogSyslogd2SettingDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -284,9 +284,14 @@ func resourceLogsyslogd2SettingDelete(ctx context.Context, d *schema.ResourceDat
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteLogsyslogd2Setting(mkey, urlparams)
+	obj, diags := getEmptyObjectLogSyslogd2Setting(d, c.Config.Fv)
+	if diags.HasError() {
+		return diags
+	}
+
+	_, err := c.Cmdb.UpdateLogSyslogd2Setting(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error deleting Logsyslogd2Setting resource: %v", err)
+		return diag.Errorf("error deleting LogSyslogd2Setting resource: %v", err)
 	}
 
 	d.SetId("")
@@ -294,7 +299,7 @@ func resourceLogsyslogd2SettingDelete(ctx context.Context, d *schema.ResourceDat
 	return nil
 }
 
-func resourceLogsyslogd2SettingRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceLogSyslogd2SettingRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -309,9 +314,9 @@ func resourceLogsyslogd2SettingRead(ctx context.Context, d *schema.ResourceData,
 	}
 	urlparams.Vdom = vdomparam
 
-	o, err := c.Cmdb.ReadLogsyslogd2Setting(mkey, urlparams)
+	o, err := c.Cmdb.ReadLogSyslogd2Setting(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error reading Logsyslogd2Setting resource: %v", err)
+		return diag.Errorf("error reading LogSyslogd2Setting resource: %v", err)
 	}
 
 	if o == nil {
@@ -327,14 +332,14 @@ func resourceLogsyslogd2SettingRead(ctx context.Context, d *schema.ResourceData,
 		}
 	}
 
-	diags := refreshObjectLogsyslogd2Setting(d, o, c.Config.Fv, sort)
+	diags := refreshObjectLogSyslogd2Setting(d, o, c.Config.Fv, sort)
 	if diags.HasError() {
 		return diags
 	}
 	return nil
 }
 
-func flattenLogsyslogd2SettingCustomFieldName(v *[]models.Logsyslogd2SettingCustomFieldName, sort bool) interface{} {
+func flattenLogSyslogd2SettingCustomFieldName(v *[]models.LogSyslogd2SettingCustomFieldName, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
@@ -363,7 +368,7 @@ func flattenLogsyslogd2SettingCustomFieldName(v *[]models.Logsyslogd2SettingCust
 	return flat
 }
 
-func refreshObjectLogsyslogd2Setting(d *schema.ResourceData, o *models.Logsyslogd2Setting, sv string, sort bool) diag.Diagnostics {
+func refreshObjectLogSyslogd2Setting(d *schema.ResourceData, o *models.LogSyslogd2Setting, sv string, sort bool) diag.Diagnostics {
 	var err error
 
 	if o.Certificate != nil {
@@ -375,7 +380,7 @@ func refreshObjectLogsyslogd2Setting(d *schema.ResourceData, o *models.Logsyslog
 	}
 
 	if o.CustomFieldName != nil {
-		if err = d.Set("custom_field_name", flattenLogsyslogd2SettingCustomFieldName(o.CustomFieldName, sort)); err != nil {
+		if err = d.Set("custom_field_name", flattenLogSyslogd2SettingCustomFieldName(o.CustomFieldName, sort)); err != nil {
 			return diag.Errorf("error reading custom_field_name: %v", err)
 		}
 	}
@@ -487,16 +492,16 @@ func refreshObjectLogsyslogd2Setting(d *schema.ResourceData, o *models.Logsyslog
 	return nil
 }
 
-func expandLogsyslogd2SettingCustomFieldName(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.Logsyslogd2SettingCustomFieldName, error) {
+func expandLogSyslogd2SettingCustomFieldName(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.LogSyslogd2SettingCustomFieldName, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
 	}
 
-	var result []models.Logsyslogd2SettingCustomFieldName
+	var result []models.LogSyslogd2SettingCustomFieldName
 
 	for i := range l {
-		tmp := models.Logsyslogd2SettingCustomFieldName{}
+		tmp := models.LogSyslogd2SettingCustomFieldName{}
 		var pre_append string
 
 		pre_append = fmt.Sprintf("%s.%d.custom", pre, i)
@@ -525,8 +530,8 @@ func expandLogsyslogd2SettingCustomFieldName(d *schema.ResourceData, v interface
 	return &result, nil
 }
 
-func getObjectLogsyslogd2Setting(d *schema.ResourceData, sv string) (*models.Logsyslogd2Setting, diag.Diagnostics) {
-	obj := models.Logsyslogd2Setting{}
+func getObjectLogSyslogd2Setting(d *schema.ResourceData, sv string) (*models.LogSyslogd2Setting, diag.Diagnostics) {
+	obj := models.LogSyslogd2Setting{}
 	diags := diag.Diagnostics{}
 
 	if v1, ok := d.GetOk("certificate"); ok {
@@ -543,7 +548,7 @@ func getObjectLogsyslogd2Setting(d *schema.ResourceData, sv string) (*models.Log
 			e := utils.AttributeVersionWarning("custom_field_name", sv)
 			diags = append(diags, e)
 		}
-		t, err := expandLogsyslogd2SettingCustomFieldName(d, v, "custom_field_name", sv)
+		t, err := expandLogSyslogd2SettingCustomFieldName(d, v, "custom_field_name", sv)
 		if err != nil {
 			return &obj, diag.FromErr(err)
 		} else if t != nil {
@@ -552,7 +557,7 @@ func getObjectLogsyslogd2Setting(d *schema.ResourceData, sv string) (*models.Log
 	} else if d.HasChange("custom_field_name") {
 		old, new := d.GetChange("custom_field_name")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.CustomFieldName = &[]models.Logsyslogd2SettingCustomFieldName{}
+			obj.CustomFieldName = &[]models.LogSyslogd2SettingCustomFieldName{}
 		}
 	}
 	if v1, ok := d.GetOk("enc_algorithm"); ok {
@@ -584,7 +589,7 @@ func getObjectLogsyslogd2Setting(d *schema.ResourceData, sv string) (*models.Log
 	}
 	if v1, ok := d.GetOk("interface"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "") {
+			if !utils.CheckVer(sv, "", "v6.4.0") {
 				e := utils.AttributeVersionWarning("interface", sv)
 				diags = append(diags, e)
 			}
@@ -593,7 +598,7 @@ func getObjectLogsyslogd2Setting(d *schema.ResourceData, sv string) (*models.Log
 	}
 	if v1, ok := d.GetOk("interface_select_method"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "") {
+			if !utils.CheckVer(sv, "", "v6.4.0") {
 				e := utils.AttributeVersionWarning("interface_select_method", sv)
 				diags = append(diags, e)
 			}
@@ -674,5 +679,15 @@ func getObjectLogsyslogd2Setting(d *schema.ResourceData, sv string) (*models.Log
 			obj.Status = &v2
 		}
 	}
+	return &obj, diags
+}
+
+// Return an object with explicitly empty objects for tables that have been set.
+func getEmptyObjectLogSyslogd2Setting(d *schema.ResourceData, sv string) (*models.LogSyslogd2Setting, diag.Diagnostics) {
+	obj := models.LogSyslogd2Setting{}
+	diags := diag.Diagnostics{}
+
+	obj.CustomFieldName = &[]models.LogSyslogd2SettingCustomFieldName{}
+
 	return &obj, diags
 }

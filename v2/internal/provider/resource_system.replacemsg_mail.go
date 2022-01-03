@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -18,14 +18,14 @@ import (
 	"github.com/poroping/terraform-provider-fortios/v2/utils"
 )
 
-func resourceSystemreplacemsgMail() *schema.Resource {
+func resourceSystemReplacemsgMail() *schema.Resource {
 	return &schema.Resource{
 		Description: "Replacement messages.",
 
-		CreateContext: resourceSystemreplacemsgMailCreate,
-		ReadContext:   resourceSystemreplacemsgMailRead,
-		UpdateContext: resourceSystemreplacemsgMailUpdate,
-		DeleteContext: resourceSystemreplacemsgMailDelete,
+		CreateContext: resourceSystemReplacemsgMailCreate,
+		ReadContext:   resourceSystemReplacemsgMailRead,
+		UpdateContext: resourceSystemReplacemsgMailUpdate,
+		DeleteContext: resourceSystemReplacemsgMailDelete,
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
@@ -80,7 +80,7 @@ func resourceSystemreplacemsgMail() *schema.Resource {
 	}
 }
 
-func resourceSystemreplacemsgMailCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSystemReplacemsgMailCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*apiClient).Client
 	var diags diag.Diagnostics
 	var err error
@@ -107,16 +107,16 @@ func resourceSystemreplacemsgMailCreate(ctx context.Context, d *schema.ResourceD
 	if v, ok := d.GetOk(key); ok {
 		mkey = utils.ParseMkey(v)
 		if mkey == "" && allow_append {
-			return diag.Errorf("error creating SystemreplacemsgMail resource: %q must be set if \"allow_append\" is true", key)
+			return diag.Errorf("error creating SystemReplacemsgMail resource: %q must be set if \"allow_append\" is true", key)
 		}
 	}
 
-	obj, diags := getObjectSystemreplacemsgMail(d, c.Config.Fv)
+	obj, diags := getObjectSystemReplacemsgMail(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.CreateSystemreplacemsgMail(obj, urlparams)
+	o, err := c.Cmdb.CreateSystemReplacemsgMail(obj, urlparams)
 
 	if err != nil {
 		e := diag.FromErr(err)
@@ -126,13 +126,13 @@ func resourceSystemreplacemsgMailCreate(ctx context.Context, d *schema.ResourceD
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("SystemreplacemsgMail")
+		d.SetId("SystemReplacemsgMail")
 	}
 
-	return resourceSystemreplacemsgMailRead(ctx, d, meta)
+	return resourceSystemReplacemsgMailRead(ctx, d, meta)
 }
 
-func resourceSystemreplacemsgMailUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSystemReplacemsgMailUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
@@ -145,27 +145,27 @@ func resourceSystemreplacemsgMailUpdate(ctx context.Context, d *schema.ResourceD
 	}
 	urlparams.Vdom = vdomparam
 
-	obj, diags := getObjectSystemreplacemsgMail(d, c.Config.Fv)
+	obj, diags := getObjectSystemReplacemsgMail(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.UpdateSystemreplacemsgMail(mkey, obj, urlparams)
+	o, err := c.Cmdb.UpdateSystemReplacemsgMail(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error updating SystemreplacemsgMail resource: %v", err)
+		return diag.Errorf("error updating SystemReplacemsgMail resource: %v", err)
 	}
 
 	// log.Printf(strconv.Itoa(c.Retries))
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("SystemreplacemsgMail")
+		d.SetId("SystemReplacemsgMail")
 	}
 
-	return resourceSystemreplacemsgMailRead(ctx, d, meta)
+	return resourceSystemReplacemsgMailRead(ctx, d, meta)
 }
 
-func resourceSystemreplacemsgMailDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSystemReplacemsgMailDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -180,9 +180,9 @@ func resourceSystemreplacemsgMailDelete(ctx context.Context, d *schema.ResourceD
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteSystemreplacemsgMail(mkey, urlparams)
+	err := c.Cmdb.DeleteSystemReplacemsgMail(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error deleting SystemreplacemsgMail resource: %v", err)
+		return diag.Errorf("error deleting SystemReplacemsgMail resource: %v", err)
 	}
 
 	d.SetId("")
@@ -190,7 +190,7 @@ func resourceSystemreplacemsgMailDelete(ctx context.Context, d *schema.ResourceD
 	return nil
 }
 
-func resourceSystemreplacemsgMailRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSystemReplacemsgMailRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -205,9 +205,9 @@ func resourceSystemreplacemsgMailRead(ctx context.Context, d *schema.ResourceDat
 	}
 	urlparams.Vdom = vdomparam
 
-	o, err := c.Cmdb.ReadSystemreplacemsgMail(mkey, urlparams)
+	o, err := c.Cmdb.ReadSystemReplacemsgMail(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error reading SystemreplacemsgMail resource: %v", err)
+		return diag.Errorf("error reading SystemReplacemsgMail resource: %v", err)
 	}
 
 	if o == nil {
@@ -223,14 +223,14 @@ func resourceSystemreplacemsgMailRead(ctx context.Context, d *schema.ResourceDat
 		}
 	}
 
-	diags := refreshObjectSystemreplacemsgMail(d, o, c.Config.Fv, sort)
+	diags := refreshObjectSystemReplacemsgMail(d, o, c.Config.Fv, sort)
 	if diags.HasError() {
 		return diags
 	}
 	return nil
 }
 
-func refreshObjectSystemreplacemsgMail(d *schema.ResourceData, o *models.SystemreplacemsgMail, sv string, sort bool) diag.Diagnostics {
+func refreshObjectSystemReplacemsgMail(d *schema.ResourceData, o *models.SystemReplacemsgMail, sv string, sort bool) diag.Diagnostics {
 	var err error
 
 	if o.Buffer != nil {
@@ -268,8 +268,8 @@ func refreshObjectSystemreplacemsgMail(d *schema.ResourceData, o *models.Systemr
 	return nil
 }
 
-func getObjectSystemreplacemsgMail(d *schema.ResourceData, sv string) (*models.SystemreplacemsgMail, diag.Diagnostics) {
-	obj := models.SystemreplacemsgMail{}
+func getObjectSystemReplacemsgMail(d *schema.ResourceData, sv string) (*models.SystemReplacemsgMail, diag.Diagnostics) {
+	obj := models.SystemReplacemsgMail{}
 	diags := diag.Diagnostics{}
 
 	if v1, ok := d.GetOk("buffer"); ok {

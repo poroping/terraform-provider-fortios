@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -19,14 +19,14 @@ import (
 	"github.com/poroping/terraform-provider-fortios/v2/utils"
 )
 
-func resourceLogdiskSetting() *schema.Resource {
+func resourceLogDiskSetting() *schema.Resource {
 	return &schema.Resource{
 		Description: "Settings for local disk logging.",
 
-		CreateContext: resourceLogdiskSettingCreate,
-		ReadContext:   resourceLogdiskSettingRead,
-		UpdateContext: resourceLogdiskSettingUpdate,
-		DeleteContext: resourceLogdiskSettingDelete,
+		CreateContext: resourceLogDiskSettingCreate,
+		ReadContext:   resourceLogDiskSettingRead,
+		UpdateContext: resourceLogDiskSettingUpdate,
+		DeleteContext: resourceLogDiskSettingDelete,
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
@@ -277,7 +277,7 @@ func resourceLogdiskSetting() *schema.Resource {
 	}
 }
 
-func resourceLogdiskSettingCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceLogDiskSettingCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*apiClient).Client
 	var diags diag.Diagnostics
 	var err error
@@ -299,12 +299,12 @@ func resourceLogdiskSettingCreate(ctx context.Context, d *schema.ResourceData, m
 	}
 	urlparams.AllowAppend = &allow_append
 
-	obj, diags := getObjectLogdiskSetting(d, c.Config.Fv)
+	obj, diags := getObjectLogDiskSetting(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.CreateLogdiskSetting(obj, urlparams)
+	o, err := c.Cmdb.CreateLogDiskSetting(obj, urlparams)
 
 	if err != nil {
 		e := diag.FromErr(err)
@@ -314,13 +314,13 @@ func resourceLogdiskSettingCreate(ctx context.Context, d *schema.ResourceData, m
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("LogdiskSetting")
+		d.SetId("LogDiskSetting")
 	}
 
-	return resourceLogdiskSettingRead(ctx, d, meta)
+	return resourceLogDiskSettingRead(ctx, d, meta)
 }
 
-func resourceLogdiskSettingUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceLogDiskSettingUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
@@ -333,27 +333,27 @@ func resourceLogdiskSettingUpdate(ctx context.Context, d *schema.ResourceData, m
 	}
 	urlparams.Vdom = vdomparam
 
-	obj, diags := getObjectLogdiskSetting(d, c.Config.Fv)
+	obj, diags := getObjectLogDiskSetting(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.UpdateLogdiskSetting(mkey, obj, urlparams)
+	o, err := c.Cmdb.UpdateLogDiskSetting(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error updating LogdiskSetting resource: %v", err)
+		return diag.Errorf("error updating LogDiskSetting resource: %v", err)
 	}
 
 	// log.Printf(strconv.Itoa(c.Retries))
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("LogdiskSetting")
+		d.SetId("LogDiskSetting")
 	}
 
-	return resourceLogdiskSettingRead(ctx, d, meta)
+	return resourceLogDiskSettingRead(ctx, d, meta)
 }
 
-func resourceLogdiskSettingDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceLogDiskSettingDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -368,9 +368,14 @@ func resourceLogdiskSettingDelete(ctx context.Context, d *schema.ResourceData, m
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteLogdiskSetting(mkey, urlparams)
+	obj, diags := getEmptyObjectLogDiskSetting(d, c.Config.Fv)
+	if diags.HasError() {
+		return diags
+	}
+
+	_, err := c.Cmdb.UpdateLogDiskSetting(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error deleting LogdiskSetting resource: %v", err)
+		return diag.Errorf("error deleting LogDiskSetting resource: %v", err)
 	}
 
 	d.SetId("")
@@ -378,7 +383,7 @@ func resourceLogdiskSettingDelete(ctx context.Context, d *schema.ResourceData, m
 	return nil
 }
 
-func resourceLogdiskSettingRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceLogDiskSettingRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -393,9 +398,9 @@ func resourceLogdiskSettingRead(ctx context.Context, d *schema.ResourceData, met
 	}
 	urlparams.Vdom = vdomparam
 
-	o, err := c.Cmdb.ReadLogdiskSetting(mkey, urlparams)
+	o, err := c.Cmdb.ReadLogDiskSetting(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error reading LogdiskSetting resource: %v", err)
+		return diag.Errorf("error reading LogDiskSetting resource: %v", err)
 	}
 
 	if o == nil {
@@ -411,14 +416,14 @@ func resourceLogdiskSettingRead(ctx context.Context, d *schema.ResourceData, met
 		}
 	}
 
-	diags := refreshObjectLogdiskSetting(d, o, c.Config.Fv, sort)
+	diags := refreshObjectLogDiskSetting(d, o, c.Config.Fv, sort)
 	if diags.HasError() {
 		return diags
 	}
 	return nil
 }
 
-func refreshObjectLogdiskSetting(d *schema.ResourceData, o *models.LogdiskSetting, sv string, sort bool) diag.Diagnostics {
+func refreshObjectLogDiskSetting(d *schema.ResourceData, o *models.LogDiskSetting, sv string, sort bool) diag.Diagnostics {
 	var err error
 
 	if o.Diskfull != nil {
@@ -664,8 +669,8 @@ func refreshObjectLogdiskSetting(d *schema.ResourceData, o *models.LogdiskSettin
 	return nil
 }
 
-func getObjectLogdiskSetting(d *schema.ResourceData, sv string) (*models.LogdiskSetting, diag.Diagnostics) {
-	obj := models.LogdiskSetting{}
+func getObjectLogDiskSetting(d *schema.ResourceData, sv string) (*models.LogDiskSetting, diag.Diagnostics) {
+	obj := models.LogDiskSetting{}
 	diags := diag.Diagnostics{}
 
 	if v1, ok := d.GetOk("diskfull"); ok {
@@ -948,5 +953,13 @@ func getObjectLogdiskSetting(d *schema.ResourceData, sv string) (*models.Logdisk
 			obj.Uploaduser = &v2
 		}
 	}
+	return &obj, diags
+}
+
+// Return an object with explicitly empty objects for tables that have been set.
+func getEmptyObjectLogDiskSetting(d *schema.ResourceData, sv string) (*models.LogDiskSetting, diag.Diagnostics) {
+	obj := models.LogDiskSetting{}
+	diags := diag.Diagnostics{}
+
 	return &obj, diags
 }

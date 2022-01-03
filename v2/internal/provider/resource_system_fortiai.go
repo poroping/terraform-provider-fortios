@@ -141,7 +141,12 @@ func resourceSystemFortiaiDelete(ctx context.Context, d *schema.ResourceData, me
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteSystemFortiai(mkey, urlparams)
+	obj, diags := getEmptyObjectSystemFortiai(d, c.Config.Fv)
+	if diags.HasError() {
+		return diags
+	}
+
+	_, err := c.Cmdb.UpdateSystemFortiai(mkey, obj, urlparams)
 	if err != nil {
 		return diag.Errorf("error deleting SystemFortiai resource: %v", err)
 	}
@@ -218,5 +223,13 @@ func getObjectSystemFortiai(d *schema.ResourceData, sv string) (*models.SystemFo
 			obj.Status = &v2
 		}
 	}
+	return &obj, diags
+}
+
+// Return an object with explicitly empty objects for tables that have been set.
+func getEmptyObjectSystemFortiai(d *schema.ResourceData, sv string) (*models.SystemFortiai, diag.Diagnostics) {
+	obj := models.SystemFortiai{}
+	diags := diag.Diagnostics{}
+
 	return &obj, diags
 }

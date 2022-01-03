@@ -18,14 +18,14 @@ import (
 	"github.com/poroping/terraform-provider-fortios/v2/utils"
 )
 
-func resourceSystemreplacemsgAutomation() *schema.Resource {
+func resourceSystemReplacemsgAutomation() *schema.Resource {
 	return &schema.Resource{
 		Description: "Replacement messages.",
 
-		CreateContext: resourceSystemreplacemsgAutomationCreate,
-		ReadContext:   resourceSystemreplacemsgAutomationRead,
-		UpdateContext: resourceSystemreplacemsgAutomationUpdate,
-		DeleteContext: resourceSystemreplacemsgAutomationDelete,
+		CreateContext: resourceSystemReplacemsgAutomationCreate,
+		ReadContext:   resourceSystemReplacemsgAutomationRead,
+		UpdateContext: resourceSystemReplacemsgAutomationUpdate,
+		DeleteContext: resourceSystemReplacemsgAutomationDelete,
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
@@ -80,7 +80,7 @@ func resourceSystemreplacemsgAutomation() *schema.Resource {
 	}
 }
 
-func resourceSystemreplacemsgAutomationCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSystemReplacemsgAutomationCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*apiClient).Client
 	var diags diag.Diagnostics
 	var err error
@@ -107,16 +107,16 @@ func resourceSystemreplacemsgAutomationCreate(ctx context.Context, d *schema.Res
 	if v, ok := d.GetOk(key); ok {
 		mkey = utils.ParseMkey(v)
 		if mkey == "" && allow_append {
-			return diag.Errorf("error creating SystemreplacemsgAutomation resource: %q must be set if \"allow_append\" is true", key)
+			return diag.Errorf("error creating SystemReplacemsgAutomation resource: %q must be set if \"allow_append\" is true", key)
 		}
 	}
 
-	obj, diags := getObjectSystemreplacemsgAutomation(d, c.Config.Fv)
+	obj, diags := getObjectSystemReplacemsgAutomation(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.CreateSystemreplacemsgAutomation(obj, urlparams)
+	o, err := c.Cmdb.CreateSystemReplacemsgAutomation(obj, urlparams)
 
 	if err != nil {
 		e := diag.FromErr(err)
@@ -126,13 +126,13 @@ func resourceSystemreplacemsgAutomationCreate(ctx context.Context, d *schema.Res
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("SystemreplacemsgAutomation")
+		d.SetId("SystemReplacemsgAutomation")
 	}
 
-	return resourceSystemreplacemsgAutomationRead(ctx, d, meta)
+	return resourceSystemReplacemsgAutomationRead(ctx, d, meta)
 }
 
-func resourceSystemreplacemsgAutomationUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSystemReplacemsgAutomationUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
@@ -145,27 +145,27 @@ func resourceSystemreplacemsgAutomationUpdate(ctx context.Context, d *schema.Res
 	}
 	urlparams.Vdom = vdomparam
 
-	obj, diags := getObjectSystemreplacemsgAutomation(d, c.Config.Fv)
+	obj, diags := getObjectSystemReplacemsgAutomation(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.UpdateSystemreplacemsgAutomation(mkey, obj, urlparams)
+	o, err := c.Cmdb.UpdateSystemReplacemsgAutomation(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error updating SystemreplacemsgAutomation resource: %v", err)
+		return diag.Errorf("error updating SystemReplacemsgAutomation resource: %v", err)
 	}
 
 	// log.Printf(strconv.Itoa(c.Retries))
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("SystemreplacemsgAutomation")
+		d.SetId("SystemReplacemsgAutomation")
 	}
 
-	return resourceSystemreplacemsgAutomationRead(ctx, d, meta)
+	return resourceSystemReplacemsgAutomationRead(ctx, d, meta)
 }
 
-func resourceSystemreplacemsgAutomationDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSystemReplacemsgAutomationDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -180,9 +180,9 @@ func resourceSystemreplacemsgAutomationDelete(ctx context.Context, d *schema.Res
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteSystemreplacemsgAutomation(mkey, urlparams)
+	err := c.Cmdb.DeleteSystemReplacemsgAutomation(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error deleting SystemreplacemsgAutomation resource: %v", err)
+		return diag.Errorf("error deleting SystemReplacemsgAutomation resource: %v", err)
 	}
 
 	d.SetId("")
@@ -190,7 +190,7 @@ func resourceSystemreplacemsgAutomationDelete(ctx context.Context, d *schema.Res
 	return nil
 }
 
-func resourceSystemreplacemsgAutomationRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSystemReplacemsgAutomationRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -205,9 +205,9 @@ func resourceSystemreplacemsgAutomationRead(ctx context.Context, d *schema.Resou
 	}
 	urlparams.Vdom = vdomparam
 
-	o, err := c.Cmdb.ReadSystemreplacemsgAutomation(mkey, urlparams)
+	o, err := c.Cmdb.ReadSystemReplacemsgAutomation(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error reading SystemreplacemsgAutomation resource: %v", err)
+		return diag.Errorf("error reading SystemReplacemsgAutomation resource: %v", err)
 	}
 
 	if o == nil {
@@ -223,14 +223,14 @@ func resourceSystemreplacemsgAutomationRead(ctx context.Context, d *schema.Resou
 		}
 	}
 
-	diags := refreshObjectSystemreplacemsgAutomation(d, o, c.Config.Fv, sort)
+	diags := refreshObjectSystemReplacemsgAutomation(d, o, c.Config.Fv, sort)
 	if diags.HasError() {
 		return diags
 	}
 	return nil
 }
 
-func refreshObjectSystemreplacemsgAutomation(d *schema.ResourceData, o *models.SystemreplacemsgAutomation, sv string, sort bool) diag.Diagnostics {
+func refreshObjectSystemReplacemsgAutomation(d *schema.ResourceData, o *models.SystemReplacemsgAutomation, sv string, sort bool) diag.Diagnostics {
 	var err error
 
 	if o.Buffer != nil {
@@ -268,8 +268,8 @@ func refreshObjectSystemreplacemsgAutomation(d *schema.ResourceData, o *models.S
 	return nil
 }
 
-func getObjectSystemreplacemsgAutomation(d *schema.ResourceData, sv string) (*models.SystemreplacemsgAutomation, diag.Diagnostics) {
-	obj := models.SystemreplacemsgAutomation{}
+func getObjectSystemReplacemsgAutomation(d *schema.ResourceData, sv string) (*models.SystemReplacemsgAutomation, diag.Diagnostics) {
+	obj := models.SystemReplacemsgAutomation{}
 	diags := diag.Diagnostics{}
 
 	if v1, ok := d.GetOk("buffer"); ok {

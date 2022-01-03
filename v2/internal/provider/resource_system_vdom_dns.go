@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -269,7 +269,12 @@ func resourceSystemVdomDnsDelete(ctx context.Context, d *schema.ResourceData, me
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteSystemVdomDns(mkey, urlparams)
+	obj, diags := getEmptyObjectSystemVdomDns(d, c.Config.Fv)
+	if diags.HasError() {
+		return diags
+	}
+
+	_, err := c.Cmdb.UpdateSystemVdomDns(mkey, obj, urlparams)
 	if err != nil {
 		return diag.Errorf("error deleting SystemVdomDns resource: %v", err)
 	}
@@ -521,7 +526,7 @@ func getObjectSystemVdomDns(d *schema.ResourceData, sv string) (*models.SystemVd
 	}
 	if v1, ok := d.GetOk("interface"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "") {
+			if !utils.CheckVer(sv, "", "v6.4.0") {
 				e := utils.AttributeVersionWarning("interface", sv)
 				diags = append(diags, e)
 			}
@@ -530,7 +535,7 @@ func getObjectSystemVdomDns(d *schema.ResourceData, sv string) (*models.SystemVd
 	}
 	if v1, ok := d.GetOk("interface_select_method"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "") {
+			if !utils.CheckVer(sv, "", "v6.4.0") {
 				e := utils.AttributeVersionWarning("interface_select_method", sv)
 				diags = append(diags, e)
 			}
@@ -635,5 +640,15 @@ func getObjectSystemVdomDns(d *schema.ResourceData, sv string) (*models.SystemVd
 			obj.VdomDns = &v2
 		}
 	}
+	return &obj, diags
+}
+
+// Return an object with explicitly empty objects for tables that have been set.
+func getEmptyObjectSystemVdomDns(d *schema.ResourceData, sv string) (*models.SystemVdomDns, diag.Diagnostics) {
+	obj := models.SystemVdomDns{}
+	diags := diag.Diagnostics{}
+
+	obj.ServerHostname = &[]models.SystemVdomDnsServerHostname{}
+
 	return &obj, diags
 }

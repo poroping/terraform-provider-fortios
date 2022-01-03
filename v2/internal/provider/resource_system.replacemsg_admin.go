@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -18,14 +18,14 @@ import (
 	"github.com/poroping/terraform-provider-fortios/v2/utils"
 )
 
-func resourceSystemreplacemsgAdmin() *schema.Resource {
+func resourceSystemReplacemsgAdmin() *schema.Resource {
 	return &schema.Resource{
 		Description: "Replacement messages.",
 
-		CreateContext: resourceSystemreplacemsgAdminCreate,
-		ReadContext:   resourceSystemreplacemsgAdminRead,
-		UpdateContext: resourceSystemreplacemsgAdminUpdate,
-		DeleteContext: resourceSystemreplacemsgAdminDelete,
+		CreateContext: resourceSystemReplacemsgAdminCreate,
+		ReadContext:   resourceSystemReplacemsgAdminRead,
+		UpdateContext: resourceSystemReplacemsgAdminUpdate,
+		DeleteContext: resourceSystemReplacemsgAdminDelete,
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
@@ -80,7 +80,7 @@ func resourceSystemreplacemsgAdmin() *schema.Resource {
 	}
 }
 
-func resourceSystemreplacemsgAdminCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSystemReplacemsgAdminCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*apiClient).Client
 	var diags diag.Diagnostics
 	var err error
@@ -107,16 +107,16 @@ func resourceSystemreplacemsgAdminCreate(ctx context.Context, d *schema.Resource
 	if v, ok := d.GetOk(key); ok {
 		mkey = utils.ParseMkey(v)
 		if mkey == "" && allow_append {
-			return diag.Errorf("error creating SystemreplacemsgAdmin resource: %q must be set if \"allow_append\" is true", key)
+			return diag.Errorf("error creating SystemReplacemsgAdmin resource: %q must be set if \"allow_append\" is true", key)
 		}
 	}
 
-	obj, diags := getObjectSystemreplacemsgAdmin(d, c.Config.Fv)
+	obj, diags := getObjectSystemReplacemsgAdmin(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.CreateSystemreplacemsgAdmin(obj, urlparams)
+	o, err := c.Cmdb.CreateSystemReplacemsgAdmin(obj, urlparams)
 
 	if err != nil {
 		e := diag.FromErr(err)
@@ -126,13 +126,13 @@ func resourceSystemreplacemsgAdminCreate(ctx context.Context, d *schema.Resource
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("SystemreplacemsgAdmin")
+		d.SetId("SystemReplacemsgAdmin")
 	}
 
-	return resourceSystemreplacemsgAdminRead(ctx, d, meta)
+	return resourceSystemReplacemsgAdminRead(ctx, d, meta)
 }
 
-func resourceSystemreplacemsgAdminUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSystemReplacemsgAdminUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
@@ -145,27 +145,27 @@ func resourceSystemreplacemsgAdminUpdate(ctx context.Context, d *schema.Resource
 	}
 	urlparams.Vdom = vdomparam
 
-	obj, diags := getObjectSystemreplacemsgAdmin(d, c.Config.Fv)
+	obj, diags := getObjectSystemReplacemsgAdmin(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.UpdateSystemreplacemsgAdmin(mkey, obj, urlparams)
+	o, err := c.Cmdb.UpdateSystemReplacemsgAdmin(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error updating SystemreplacemsgAdmin resource: %v", err)
+		return diag.Errorf("error updating SystemReplacemsgAdmin resource: %v", err)
 	}
 
 	// log.Printf(strconv.Itoa(c.Retries))
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("SystemreplacemsgAdmin")
+		d.SetId("SystemReplacemsgAdmin")
 	}
 
-	return resourceSystemreplacemsgAdminRead(ctx, d, meta)
+	return resourceSystemReplacemsgAdminRead(ctx, d, meta)
 }
 
-func resourceSystemreplacemsgAdminDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSystemReplacemsgAdminDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -180,9 +180,9 @@ func resourceSystemreplacemsgAdminDelete(ctx context.Context, d *schema.Resource
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteSystemreplacemsgAdmin(mkey, urlparams)
+	err := c.Cmdb.DeleteSystemReplacemsgAdmin(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error deleting SystemreplacemsgAdmin resource: %v", err)
+		return diag.Errorf("error deleting SystemReplacemsgAdmin resource: %v", err)
 	}
 
 	d.SetId("")
@@ -190,7 +190,7 @@ func resourceSystemreplacemsgAdminDelete(ctx context.Context, d *schema.Resource
 	return nil
 }
 
-func resourceSystemreplacemsgAdminRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSystemReplacemsgAdminRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -205,9 +205,9 @@ func resourceSystemreplacemsgAdminRead(ctx context.Context, d *schema.ResourceDa
 	}
 	urlparams.Vdom = vdomparam
 
-	o, err := c.Cmdb.ReadSystemreplacemsgAdmin(mkey, urlparams)
+	o, err := c.Cmdb.ReadSystemReplacemsgAdmin(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error reading SystemreplacemsgAdmin resource: %v", err)
+		return diag.Errorf("error reading SystemReplacemsgAdmin resource: %v", err)
 	}
 
 	if o == nil {
@@ -223,14 +223,14 @@ func resourceSystemreplacemsgAdminRead(ctx context.Context, d *schema.ResourceDa
 		}
 	}
 
-	diags := refreshObjectSystemreplacemsgAdmin(d, o, c.Config.Fv, sort)
+	diags := refreshObjectSystemReplacemsgAdmin(d, o, c.Config.Fv, sort)
 	if diags.HasError() {
 		return diags
 	}
 	return nil
 }
 
-func refreshObjectSystemreplacemsgAdmin(d *schema.ResourceData, o *models.SystemreplacemsgAdmin, sv string, sort bool) diag.Diagnostics {
+func refreshObjectSystemReplacemsgAdmin(d *schema.ResourceData, o *models.SystemReplacemsgAdmin, sv string, sort bool) diag.Diagnostics {
 	var err error
 
 	if o.Buffer != nil {
@@ -268,8 +268,8 @@ func refreshObjectSystemreplacemsgAdmin(d *schema.ResourceData, o *models.System
 	return nil
 }
 
-func getObjectSystemreplacemsgAdmin(d *schema.ResourceData, sv string) (*models.SystemreplacemsgAdmin, diag.Diagnostics) {
-	obj := models.SystemreplacemsgAdmin{}
+func getObjectSystemReplacemsgAdmin(d *schema.ResourceData, sv string) (*models.SystemReplacemsgAdmin, diag.Diagnostics) {
+	obj := models.SystemReplacemsgAdmin{}
 	diags := diag.Diagnostics{}
 
 	if v1, ok := d.GetOk("buffer"); ok {

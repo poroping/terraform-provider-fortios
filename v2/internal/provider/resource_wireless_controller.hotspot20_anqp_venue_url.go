@@ -19,14 +19,14 @@ import (
 	"github.com/poroping/terraform-provider-fortios/v2/utils"
 )
 
-func resourceWirelessControllerhotspot20AnqpVenueUrl() *schema.Resource {
+func resourceWirelessControllerHotspot20AnqpVenueUrl() *schema.Resource {
 	return &schema.Resource{
 		Description: "Configure venue URL.",
 
-		CreateContext: resourceWirelessControllerhotspot20AnqpVenueUrlCreate,
-		ReadContext:   resourceWirelessControllerhotspot20AnqpVenueUrlRead,
-		UpdateContext: resourceWirelessControllerhotspot20AnqpVenueUrlUpdate,
-		DeleteContext: resourceWirelessControllerhotspot20AnqpVenueUrlDelete,
+		CreateContext: resourceWirelessControllerHotspot20AnqpVenueUrlCreate,
+		ReadContext:   resourceWirelessControllerHotspot20AnqpVenueUrlRead,
+		UpdateContext: resourceWirelessControllerHotspot20AnqpVenueUrlUpdate,
+		DeleteContext: resourceWirelessControllerHotspot20AnqpVenueUrlDelete,
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
@@ -95,7 +95,7 @@ func resourceWirelessControllerhotspot20AnqpVenueUrl() *schema.Resource {
 	}
 }
 
-func resourceWirelessControllerhotspot20AnqpVenueUrlCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceWirelessControllerHotspot20AnqpVenueUrlCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*apiClient).Client
 	var diags diag.Diagnostics
 	var err error
@@ -122,16 +122,16 @@ func resourceWirelessControllerhotspot20AnqpVenueUrlCreate(ctx context.Context, 
 	if v, ok := d.GetOk(key); ok {
 		mkey = utils.ParseMkey(v)
 		if mkey == "" && allow_append {
-			return diag.Errorf("error creating WirelessControllerhotspot20AnqpVenueUrl resource: %q must be set if \"allow_append\" is true", key)
+			return diag.Errorf("error creating WirelessControllerHotspot20AnqpVenueUrl resource: %q must be set if \"allow_append\" is true", key)
 		}
 	}
 
-	obj, diags := getObjectWirelessControllerhotspot20AnqpVenueUrl(d, c.Config.Fv)
+	obj, diags := getObjectWirelessControllerHotspot20AnqpVenueUrl(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.CreateWirelessControllerhotspot20AnqpVenueUrl(obj, urlparams)
+	o, err := c.Cmdb.CreateWirelessControllerHotspot20AnqpVenueUrl(obj, urlparams)
 
 	if err != nil {
 		e := diag.FromErr(err)
@@ -141,13 +141,13 @@ func resourceWirelessControllerhotspot20AnqpVenueUrlCreate(ctx context.Context, 
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("WirelessControllerhotspot20AnqpVenueUrl")
+		d.SetId("WirelessControllerHotspot20AnqpVenueUrl")
 	}
 
-	return resourceWirelessControllerhotspot20AnqpVenueUrlRead(ctx, d, meta)
+	return resourceWirelessControllerHotspot20AnqpVenueUrlRead(ctx, d, meta)
 }
 
-func resourceWirelessControllerhotspot20AnqpVenueUrlUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceWirelessControllerHotspot20AnqpVenueUrlUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
@@ -160,27 +160,27 @@ func resourceWirelessControllerhotspot20AnqpVenueUrlUpdate(ctx context.Context, 
 	}
 	urlparams.Vdom = vdomparam
 
-	obj, diags := getObjectWirelessControllerhotspot20AnqpVenueUrl(d, c.Config.Fv)
+	obj, diags := getObjectWirelessControllerHotspot20AnqpVenueUrl(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.UpdateWirelessControllerhotspot20AnqpVenueUrl(mkey, obj, urlparams)
+	o, err := c.Cmdb.UpdateWirelessControllerHotspot20AnqpVenueUrl(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error updating WirelessControllerhotspot20AnqpVenueUrl resource: %v", err)
+		return diag.Errorf("error updating WirelessControllerHotspot20AnqpVenueUrl resource: %v", err)
 	}
 
 	// log.Printf(strconv.Itoa(c.Retries))
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("WirelessControllerhotspot20AnqpVenueUrl")
+		d.SetId("WirelessControllerHotspot20AnqpVenueUrl")
 	}
 
-	return resourceWirelessControllerhotspot20AnqpVenueUrlRead(ctx, d, meta)
+	return resourceWirelessControllerHotspot20AnqpVenueUrlRead(ctx, d, meta)
 }
 
-func resourceWirelessControllerhotspot20AnqpVenueUrlDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceWirelessControllerHotspot20AnqpVenueUrlDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -195,9 +195,9 @@ func resourceWirelessControllerhotspot20AnqpVenueUrlDelete(ctx context.Context, 
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteWirelessControllerhotspot20AnqpVenueUrl(mkey, urlparams)
+	err := c.Cmdb.DeleteWirelessControllerHotspot20AnqpVenueUrl(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error deleting WirelessControllerhotspot20AnqpVenueUrl resource: %v", err)
+		return diag.Errorf("error deleting WirelessControllerHotspot20AnqpVenueUrl resource: %v", err)
 	}
 
 	d.SetId("")
@@ -205,7 +205,7 @@ func resourceWirelessControllerhotspot20AnqpVenueUrlDelete(ctx context.Context, 
 	return nil
 }
 
-func resourceWirelessControllerhotspot20AnqpVenueUrlRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceWirelessControllerHotspot20AnqpVenueUrlRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -220,9 +220,9 @@ func resourceWirelessControllerhotspot20AnqpVenueUrlRead(ctx context.Context, d 
 	}
 	urlparams.Vdom = vdomparam
 
-	o, err := c.Cmdb.ReadWirelessControllerhotspot20AnqpVenueUrl(mkey, urlparams)
+	o, err := c.Cmdb.ReadWirelessControllerHotspot20AnqpVenueUrl(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error reading WirelessControllerhotspot20AnqpVenueUrl resource: %v", err)
+		return diag.Errorf("error reading WirelessControllerHotspot20AnqpVenueUrl resource: %v", err)
 	}
 
 	if o == nil {
@@ -238,14 +238,14 @@ func resourceWirelessControllerhotspot20AnqpVenueUrlRead(ctx context.Context, d 
 		}
 	}
 
-	diags := refreshObjectWirelessControllerhotspot20AnqpVenueUrl(d, o, c.Config.Fv, sort)
+	diags := refreshObjectWirelessControllerHotspot20AnqpVenueUrl(d, o, c.Config.Fv, sort)
 	if diags.HasError() {
 		return diags
 	}
 	return nil
 }
 
-func flattenWirelessControllerhotspot20AnqpVenueUrlValueList(v *[]models.WirelessControllerhotspot20AnqpVenueUrlValueList, sort bool) interface{} {
+func flattenWirelessControllerHotspot20AnqpVenueUrlValueList(v *[]models.WirelessControllerHotspot20AnqpVenueUrlValueList, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
@@ -274,7 +274,7 @@ func flattenWirelessControllerhotspot20AnqpVenueUrlValueList(v *[]models.Wireles
 	return flat
 }
 
-func refreshObjectWirelessControllerhotspot20AnqpVenueUrl(d *schema.ResourceData, o *models.WirelessControllerhotspot20AnqpVenueUrl, sv string, sort bool) diag.Diagnostics {
+func refreshObjectWirelessControllerHotspot20AnqpVenueUrl(d *schema.ResourceData, o *models.WirelessControllerHotspot20AnqpVenueUrl, sv string, sort bool) diag.Diagnostics {
 	var err error
 
 	if o.Name != nil {
@@ -286,7 +286,7 @@ func refreshObjectWirelessControllerhotspot20AnqpVenueUrl(d *schema.ResourceData
 	}
 
 	if o.ValueList != nil {
-		if err = d.Set("value_list", flattenWirelessControllerhotspot20AnqpVenueUrlValueList(o.ValueList, sort)); err != nil {
+		if err = d.Set("value_list", flattenWirelessControllerHotspot20AnqpVenueUrlValueList(o.ValueList, sort)); err != nil {
 			return diag.Errorf("error reading value_list: %v", err)
 		}
 	}
@@ -294,16 +294,16 @@ func refreshObjectWirelessControllerhotspot20AnqpVenueUrl(d *schema.ResourceData
 	return nil
 }
 
-func expandWirelessControllerhotspot20AnqpVenueUrlValueList(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.WirelessControllerhotspot20AnqpVenueUrlValueList, error) {
+func expandWirelessControllerHotspot20AnqpVenueUrlValueList(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.WirelessControllerHotspot20AnqpVenueUrlValueList, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
 	}
 
-	var result []models.WirelessControllerhotspot20AnqpVenueUrlValueList
+	var result []models.WirelessControllerHotspot20AnqpVenueUrlValueList
 
 	for i := range l {
-		tmp := models.WirelessControllerhotspot20AnqpVenueUrlValueList{}
+		tmp := models.WirelessControllerHotspot20AnqpVenueUrlValueList{}
 		var pre_append string
 
 		pre_append = fmt.Sprintf("%s.%d.index", pre, i)
@@ -332,8 +332,8 @@ func expandWirelessControllerhotspot20AnqpVenueUrlValueList(d *schema.ResourceDa
 	return &result, nil
 }
 
-func getObjectWirelessControllerhotspot20AnqpVenueUrl(d *schema.ResourceData, sv string) (*models.WirelessControllerhotspot20AnqpVenueUrl, diag.Diagnostics) {
-	obj := models.WirelessControllerhotspot20AnqpVenueUrl{}
+func getObjectWirelessControllerHotspot20AnqpVenueUrl(d *schema.ResourceData, sv string) (*models.WirelessControllerHotspot20AnqpVenueUrl, diag.Diagnostics) {
+	obj := models.WirelessControllerHotspot20AnqpVenueUrl{}
 	diags := diag.Diagnostics{}
 
 	if v1, ok := d.GetOk("name"); ok {
@@ -350,7 +350,7 @@ func getObjectWirelessControllerhotspot20AnqpVenueUrl(d *schema.ResourceData, sv
 			e := utils.AttributeVersionWarning("value_list", sv)
 			diags = append(diags, e)
 		}
-		t, err := expandWirelessControllerhotspot20AnqpVenueUrlValueList(d, v, "value_list", sv)
+		t, err := expandWirelessControllerHotspot20AnqpVenueUrlValueList(d, v, "value_list", sv)
 		if err != nil {
 			return &obj, diag.FromErr(err)
 		} else if t != nil {
@@ -359,7 +359,7 @@ func getObjectWirelessControllerhotspot20AnqpVenueUrl(d *schema.ResourceData, sv
 	} else if d.HasChange("value_list") {
 		old, new := d.GetChange("value_list")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.ValueList = &[]models.WirelessControllerhotspot20AnqpVenueUrlValueList{}
+			obj.ValueList = &[]models.WirelessControllerHotspot20AnqpVenueUrlValueList{}
 		}
 	}
 	return &obj, diags

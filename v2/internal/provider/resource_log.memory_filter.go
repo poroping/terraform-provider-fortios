@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -19,14 +19,14 @@ import (
 	"github.com/poroping/terraform-provider-fortios/v2/utils"
 )
 
-func resourceLogmemoryFilter() *schema.Resource {
+func resourceLogMemoryFilter() *schema.Resource {
 	return &schema.Resource{
 		Description: "Filters for memory buffer.",
 
-		CreateContext: resourceLogmemoryFilterCreate,
-		ReadContext:   resourceLogmemoryFilterRead,
-		UpdateContext: resourceLogmemoryFilterUpdate,
-		DeleteContext: resourceLogmemoryFilterDelete,
+		CreateContext: resourceLogMemoryFilterCreate,
+		ReadContext:   resourceLogMemoryFilterRead,
+		UpdateContext: resourceLogMemoryFilterUpdate,
+		DeleteContext: resourceLogMemoryFilterDelete,
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
@@ -312,7 +312,7 @@ func resourceLogmemoryFilter() *schema.Resource {
 	}
 }
 
-func resourceLogmemoryFilterCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceLogMemoryFilterCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*apiClient).Client
 	var diags diag.Diagnostics
 	var err error
@@ -334,12 +334,12 @@ func resourceLogmemoryFilterCreate(ctx context.Context, d *schema.ResourceData, 
 	}
 	urlparams.AllowAppend = &allow_append
 
-	obj, diags := getObjectLogmemoryFilter(d, c.Config.Fv)
+	obj, diags := getObjectLogMemoryFilter(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.CreateLogmemoryFilter(obj, urlparams)
+	o, err := c.Cmdb.CreateLogMemoryFilter(obj, urlparams)
 
 	if err != nil {
 		e := diag.FromErr(err)
@@ -349,13 +349,13 @@ func resourceLogmemoryFilterCreate(ctx context.Context, d *schema.ResourceData, 
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("LogmemoryFilter")
+		d.SetId("LogMemoryFilter")
 	}
 
-	return resourceLogmemoryFilterRead(ctx, d, meta)
+	return resourceLogMemoryFilterRead(ctx, d, meta)
 }
 
-func resourceLogmemoryFilterUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceLogMemoryFilterUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
@@ -368,27 +368,27 @@ func resourceLogmemoryFilterUpdate(ctx context.Context, d *schema.ResourceData, 
 	}
 	urlparams.Vdom = vdomparam
 
-	obj, diags := getObjectLogmemoryFilter(d, c.Config.Fv)
+	obj, diags := getObjectLogMemoryFilter(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.UpdateLogmemoryFilter(mkey, obj, urlparams)
+	o, err := c.Cmdb.UpdateLogMemoryFilter(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error updating LogmemoryFilter resource: %v", err)
+		return diag.Errorf("error updating LogMemoryFilter resource: %v", err)
 	}
 
 	// log.Printf(strconv.Itoa(c.Retries))
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("LogmemoryFilter")
+		d.SetId("LogMemoryFilter")
 	}
 
-	return resourceLogmemoryFilterRead(ctx, d, meta)
+	return resourceLogMemoryFilterRead(ctx, d, meta)
 }
 
-func resourceLogmemoryFilterDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceLogMemoryFilterDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -403,9 +403,14 @@ func resourceLogmemoryFilterDelete(ctx context.Context, d *schema.ResourceData, 
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteLogmemoryFilter(mkey, urlparams)
+	obj, diags := getEmptyObjectLogMemoryFilter(d, c.Config.Fv)
+	if diags.HasError() {
+		return diags
+	}
+
+	_, err := c.Cmdb.UpdateLogMemoryFilter(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error deleting LogmemoryFilter resource: %v", err)
+		return diag.Errorf("error deleting LogMemoryFilter resource: %v", err)
 	}
 
 	d.SetId("")
@@ -413,7 +418,7 @@ func resourceLogmemoryFilterDelete(ctx context.Context, d *schema.ResourceData, 
 	return nil
 }
 
-func resourceLogmemoryFilterRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceLogMemoryFilterRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -428,9 +433,9 @@ func resourceLogmemoryFilterRead(ctx context.Context, d *schema.ResourceData, me
 	}
 	urlparams.Vdom = vdomparam
 
-	o, err := c.Cmdb.ReadLogmemoryFilter(mkey, urlparams)
+	o, err := c.Cmdb.ReadLogMemoryFilter(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error reading LogmemoryFilter resource: %v", err)
+		return diag.Errorf("error reading LogMemoryFilter resource: %v", err)
 	}
 
 	if o == nil {
@@ -446,14 +451,14 @@ func resourceLogmemoryFilterRead(ctx context.Context, d *schema.ResourceData, me
 		}
 	}
 
-	diags := refreshObjectLogmemoryFilter(d, o, c.Config.Fv, sort)
+	diags := refreshObjectLogMemoryFilter(d, o, c.Config.Fv, sort)
 	if diags.HasError() {
 		return diags
 	}
 	return nil
 }
 
-func flattenLogmemoryFilterFreeStyle(v *[]models.LogmemoryFilterFreeStyle, sort bool) interface{} {
+func flattenLogMemoryFilterFreeStyle(v *[]models.LogMemoryFilterFreeStyle, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
@@ -486,7 +491,7 @@ func flattenLogmemoryFilterFreeStyle(v *[]models.LogmemoryFilterFreeStyle, sort 
 	return flat
 }
 
-func refreshObjectLogmemoryFilter(d *schema.ResourceData, o *models.LogmemoryFilter, sv string, sort bool) diag.Diagnostics {
+func refreshObjectLogMemoryFilter(d *schema.ResourceData, o *models.LogMemoryFilter, sv string, sort bool) diag.Diagnostics {
 	var err error
 
 	if o.Admin != nil {
@@ -562,7 +567,7 @@ func refreshObjectLogmemoryFilter(d *schema.ResourceData, o *models.LogmemoryFil
 	}
 
 	if o.FreeStyle != nil {
-		if err = d.Set("free_style", flattenLogmemoryFilterFreeStyle(o.FreeStyle, sort)); err != nil {
+		if err = d.Set("free_style", flattenLogMemoryFilterFreeStyle(o.FreeStyle, sort)); err != nil {
 			return diag.Errorf("error reading free_style: %v", err)
 		}
 	}
@@ -722,16 +727,16 @@ func refreshObjectLogmemoryFilter(d *schema.ResourceData, o *models.LogmemoryFil
 	return nil
 }
 
-func expandLogmemoryFilterFreeStyle(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.LogmemoryFilterFreeStyle, error) {
+func expandLogMemoryFilterFreeStyle(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.LogMemoryFilterFreeStyle, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
 	}
 
-	var result []models.LogmemoryFilterFreeStyle
+	var result []models.LogMemoryFilterFreeStyle
 
 	for i := range l {
-		tmp := models.LogmemoryFilterFreeStyle{}
+		tmp := models.LogMemoryFilterFreeStyle{}
 		var pre_append string
 
 		pre_append = fmt.Sprintf("%s.%d.category", pre, i)
@@ -767,8 +772,8 @@ func expandLogmemoryFilterFreeStyle(d *schema.ResourceData, v interface{}, pre s
 	return &result, nil
 }
 
-func getObjectLogmemoryFilter(d *schema.ResourceData, sv string) (*models.LogmemoryFilter, diag.Diagnostics) {
-	obj := models.LogmemoryFilter{}
+func getObjectLogMemoryFilter(d *schema.ResourceData, sv string) (*models.LogMemoryFilter, diag.Diagnostics) {
+	obj := models.LogMemoryFilter{}
 	diags := diag.Diagnostics{}
 
 	if v1, ok := d.GetOk("admin"); ok {
@@ -857,7 +862,7 @@ func getObjectLogmemoryFilter(d *schema.ResourceData, sv string) (*models.Logmem
 			e := utils.AttributeVersionWarning("free_style", sv)
 			diags = append(diags, e)
 		}
-		t, err := expandLogmemoryFilterFreeStyle(d, v, "free_style", sv)
+		t, err := expandLogMemoryFilterFreeStyle(d, v, "free_style", sv)
 		if err != nil {
 			return &obj, diag.FromErr(err)
 		} else if t != nil {
@@ -866,12 +871,12 @@ func getObjectLogmemoryFilter(d *schema.ResourceData, sv string) (*models.Logmem
 	} else if d.HasChange("free_style") {
 		old, new := d.GetChange("free_style")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.FreeStyle = &[]models.LogmemoryFilterFreeStyle{}
+			obj.FreeStyle = &[]models.LogMemoryFilterFreeStyle{}
 		}
 	}
 	if v1, ok := d.GetOk("gtp"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "v6.4.2", "") {
+			if !utils.CheckVer(sv, "v6.4.0", "") {
 				e := utils.AttributeVersionWarning("gtp", sv)
 				diags = append(diags, e)
 			}
@@ -1040,5 +1045,15 @@ func getObjectLogmemoryFilter(d *schema.ResourceData, sv string) (*models.Logmem
 			obj.WirelessActivity = &v2
 		}
 	}
+	return &obj, diags
+}
+
+// Return an object with explicitly empty objects for tables that have been set.
+func getEmptyObjectLogMemoryFilter(d *schema.ResourceData, sv string) (*models.LogMemoryFilter, diag.Diagnostics) {
+	obj := models.LogMemoryFilter{}
+	diags := diag.Diagnostics{}
+
+	obj.FreeStyle = &[]models.LogMemoryFilterFreeStyle{}
+
 	return &obj, diags
 }

@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -18,14 +18,14 @@ import (
 	"github.com/poroping/terraform-provider-fortios/v2/utils"
 )
 
-func resourceFirewallsshHostKey() *schema.Resource {
+func resourceFirewallSshHostKey() *schema.Resource {
 	return &schema.Resource{
 		Description: "SSH proxy host public keys.",
 
-		CreateContext: resourceFirewallsshHostKeyCreate,
-		ReadContext:   resourceFirewallsshHostKeyRead,
-		UpdateContext: resourceFirewallsshHostKeyUpdate,
-		DeleteContext: resourceFirewallsshHostKeyDelete,
+		CreateContext: resourceFirewallSshHostKeyCreate,
+		ReadContext:   resourceFirewallSshHostKeyRead,
+		UpdateContext: resourceFirewallSshHostKeyUpdate,
+		DeleteContext: resourceFirewallSshHostKeyDelete,
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
@@ -119,7 +119,7 @@ func resourceFirewallsshHostKey() *schema.Resource {
 	}
 }
 
-func resourceFirewallsshHostKeyCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceFirewallSshHostKeyCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*apiClient).Client
 	var diags diag.Diagnostics
 	var err error
@@ -146,16 +146,16 @@ func resourceFirewallsshHostKeyCreate(ctx context.Context, d *schema.ResourceDat
 	if v, ok := d.GetOk(key); ok {
 		mkey = utils.ParseMkey(v)
 		if mkey == "" && allow_append {
-			return diag.Errorf("error creating FirewallsshHostKey resource: %q must be set if \"allow_append\" is true", key)
+			return diag.Errorf("error creating FirewallSshHostKey resource: %q must be set if \"allow_append\" is true", key)
 		}
 	}
 
-	obj, diags := getObjectFirewallsshHostKey(d, c.Config.Fv)
+	obj, diags := getObjectFirewallSshHostKey(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.CreateFirewallsshHostKey(obj, urlparams)
+	o, err := c.Cmdb.CreateFirewallSshHostKey(obj, urlparams)
 
 	if err != nil {
 		e := diag.FromErr(err)
@@ -165,13 +165,13 @@ func resourceFirewallsshHostKeyCreate(ctx context.Context, d *schema.ResourceDat
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("FirewallsshHostKey")
+		d.SetId("FirewallSshHostKey")
 	}
 
-	return resourceFirewallsshHostKeyRead(ctx, d, meta)
+	return resourceFirewallSshHostKeyRead(ctx, d, meta)
 }
 
-func resourceFirewallsshHostKeyUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceFirewallSshHostKeyUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
@@ -184,27 +184,27 @@ func resourceFirewallsshHostKeyUpdate(ctx context.Context, d *schema.ResourceDat
 	}
 	urlparams.Vdom = vdomparam
 
-	obj, diags := getObjectFirewallsshHostKey(d, c.Config.Fv)
+	obj, diags := getObjectFirewallSshHostKey(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.UpdateFirewallsshHostKey(mkey, obj, urlparams)
+	o, err := c.Cmdb.UpdateFirewallSshHostKey(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error updating FirewallsshHostKey resource: %v", err)
+		return diag.Errorf("error updating FirewallSshHostKey resource: %v", err)
 	}
 
 	// log.Printf(strconv.Itoa(c.Retries))
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("FirewallsshHostKey")
+		d.SetId("FirewallSshHostKey")
 	}
 
-	return resourceFirewallsshHostKeyRead(ctx, d, meta)
+	return resourceFirewallSshHostKeyRead(ctx, d, meta)
 }
 
-func resourceFirewallsshHostKeyDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceFirewallSshHostKeyDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -219,9 +219,9 @@ func resourceFirewallsshHostKeyDelete(ctx context.Context, d *schema.ResourceDat
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteFirewallsshHostKey(mkey, urlparams)
+	err := c.Cmdb.DeleteFirewallSshHostKey(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error deleting FirewallsshHostKey resource: %v", err)
+		return diag.Errorf("error deleting FirewallSshHostKey resource: %v", err)
 	}
 
 	d.SetId("")
@@ -229,7 +229,7 @@ func resourceFirewallsshHostKeyDelete(ctx context.Context, d *schema.ResourceDat
 	return nil
 }
 
-func resourceFirewallsshHostKeyRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceFirewallSshHostKeyRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -244,9 +244,9 @@ func resourceFirewallsshHostKeyRead(ctx context.Context, d *schema.ResourceData,
 	}
 	urlparams.Vdom = vdomparam
 
-	o, err := c.Cmdb.ReadFirewallsshHostKey(mkey, urlparams)
+	o, err := c.Cmdb.ReadFirewallSshHostKey(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error reading FirewallsshHostKey resource: %v", err)
+		return diag.Errorf("error reading FirewallSshHostKey resource: %v", err)
 	}
 
 	if o == nil {
@@ -262,14 +262,14 @@ func resourceFirewallsshHostKeyRead(ctx context.Context, d *schema.ResourceData,
 		}
 	}
 
-	diags := refreshObjectFirewallsshHostKey(d, o, c.Config.Fv, sort)
+	diags := refreshObjectFirewallSshHostKey(d, o, c.Config.Fv, sort)
 	if diags.HasError() {
 		return diags
 	}
 	return nil
 }
 
-func refreshObjectFirewallsshHostKey(d *schema.ResourceData, o *models.FirewallsshHostKey, sv string, sort bool) diag.Diagnostics {
+func refreshObjectFirewallSshHostKey(d *schema.ResourceData, o *models.FirewallSshHostKey, sv string, sort bool) diag.Diagnostics {
 	var err error
 
 	if o.Hostname != nil {
@@ -347,8 +347,8 @@ func refreshObjectFirewallsshHostKey(d *schema.ResourceData, o *models.Firewalls
 	return nil
 }
 
-func getObjectFirewallsshHostKey(d *schema.ResourceData, sv string) (*models.FirewallsshHostKey, diag.Diagnostics) {
-	obj := models.FirewallsshHostKey{}
+func getObjectFirewallSshHostKey(d *schema.ResourceData, sv string) (*models.FirewallSshHostKey, diag.Diagnostics) {
+	obj := models.FirewallSshHostKey{}
 	diags := diag.Diagnostics{}
 
 	if v1, ok := d.GetOk("hostname"); ok {

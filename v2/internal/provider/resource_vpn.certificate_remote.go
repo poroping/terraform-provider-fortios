@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -18,14 +18,14 @@ import (
 	"github.com/poroping/terraform-provider-fortios/v2/utils"
 )
 
-func resourceVpncertificateRemote() *schema.Resource {
+func resourceVpnCertificateRemote() *schema.Resource {
 	return &schema.Resource{
 		Description: "Remote certificate as a PEM file.",
 
-		CreateContext: resourceVpncertificateRemoteCreate,
-		ReadContext:   resourceVpncertificateRemoteRead,
-		UpdateContext: resourceVpncertificateRemoteUpdate,
-		DeleteContext: resourceVpncertificateRemoteDelete,
+		CreateContext: resourceVpnCertificateRemoteCreate,
+		ReadContext:   resourceVpnCertificateRemoteRead,
+		UpdateContext: resourceVpnCertificateRemoteUpdate,
+		DeleteContext: resourceVpnCertificateRemoteDelete,
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
@@ -79,7 +79,7 @@ func resourceVpncertificateRemote() *schema.Resource {
 	}
 }
 
-func resourceVpncertificateRemoteCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceVpnCertificateRemoteCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*apiClient).Client
 	var diags diag.Diagnostics
 	var err error
@@ -106,16 +106,16 @@ func resourceVpncertificateRemoteCreate(ctx context.Context, d *schema.ResourceD
 	if v, ok := d.GetOk(key); ok {
 		mkey = utils.ParseMkey(v)
 		if mkey == "" && allow_append {
-			return diag.Errorf("error creating VpncertificateRemote resource: %q must be set if \"allow_append\" is true", key)
+			return diag.Errorf("error creating VpnCertificateRemote resource: %q must be set if \"allow_append\" is true", key)
 		}
 	}
 
-	obj, diags := getObjectVpncertificateRemote(d, c.Config.Fv)
+	obj, diags := getObjectVpnCertificateRemote(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.CreateVpncertificateRemote(obj, urlparams)
+	o, err := c.Cmdb.CreateVpnCertificateRemote(obj, urlparams)
 
 	if err != nil {
 		e := diag.FromErr(err)
@@ -125,13 +125,13 @@ func resourceVpncertificateRemoteCreate(ctx context.Context, d *schema.ResourceD
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("VpncertificateRemote")
+		d.SetId("VpnCertificateRemote")
 	}
 
-	return resourceVpncertificateRemoteRead(ctx, d, meta)
+	return resourceVpnCertificateRemoteRead(ctx, d, meta)
 }
 
-func resourceVpncertificateRemoteUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceVpnCertificateRemoteUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
@@ -144,27 +144,27 @@ func resourceVpncertificateRemoteUpdate(ctx context.Context, d *schema.ResourceD
 	}
 	urlparams.Vdom = vdomparam
 
-	obj, diags := getObjectVpncertificateRemote(d, c.Config.Fv)
+	obj, diags := getObjectVpnCertificateRemote(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.UpdateVpncertificateRemote(mkey, obj, urlparams)
+	o, err := c.Cmdb.UpdateVpnCertificateRemote(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error updating VpncertificateRemote resource: %v", err)
+		return diag.Errorf("error updating VpnCertificateRemote resource: %v", err)
 	}
 
 	// log.Printf(strconv.Itoa(c.Retries))
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("VpncertificateRemote")
+		d.SetId("VpnCertificateRemote")
 	}
 
-	return resourceVpncertificateRemoteRead(ctx, d, meta)
+	return resourceVpnCertificateRemoteRead(ctx, d, meta)
 }
 
-func resourceVpncertificateRemoteDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceVpnCertificateRemoteDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -179,9 +179,9 @@ func resourceVpncertificateRemoteDelete(ctx context.Context, d *schema.ResourceD
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteVpncertificateRemote(mkey, urlparams)
+	err := c.Cmdb.DeleteVpnCertificateRemote(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error deleting VpncertificateRemote resource: %v", err)
+		return diag.Errorf("error deleting VpnCertificateRemote resource: %v", err)
 	}
 
 	d.SetId("")
@@ -189,7 +189,7 @@ func resourceVpncertificateRemoteDelete(ctx context.Context, d *schema.ResourceD
 	return nil
 }
 
-func resourceVpncertificateRemoteRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceVpnCertificateRemoteRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -204,9 +204,9 @@ func resourceVpncertificateRemoteRead(ctx context.Context, d *schema.ResourceDat
 	}
 	urlparams.Vdom = vdomparam
 
-	o, err := c.Cmdb.ReadVpncertificateRemote(mkey, urlparams)
+	o, err := c.Cmdb.ReadVpnCertificateRemote(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error reading VpncertificateRemote resource: %v", err)
+		return diag.Errorf("error reading VpnCertificateRemote resource: %v", err)
 	}
 
 	if o == nil {
@@ -222,14 +222,14 @@ func resourceVpncertificateRemoteRead(ctx context.Context, d *schema.ResourceDat
 		}
 	}
 
-	diags := refreshObjectVpncertificateRemote(d, o, c.Config.Fv, sort)
+	diags := refreshObjectVpnCertificateRemote(d, o, c.Config.Fv, sort)
 	if diags.HasError() {
 		return diags
 	}
 	return nil
 }
 
-func refreshObjectVpncertificateRemote(d *schema.ResourceData, o *models.VpncertificateRemote, sv string, sort bool) diag.Diagnostics {
+func refreshObjectVpnCertificateRemote(d *schema.ResourceData, o *models.VpnCertificateRemote, sv string, sort bool) diag.Diagnostics {
 	var err error
 
 	if o.Name != nil {
@@ -267,8 +267,8 @@ func refreshObjectVpncertificateRemote(d *schema.ResourceData, o *models.Vpncert
 	return nil
 }
 
-func getObjectVpncertificateRemote(d *schema.ResourceData, sv string) (*models.VpncertificateRemote, diag.Diagnostics) {
-	obj := models.VpncertificateRemote{}
+func getObjectVpnCertificateRemote(d *schema.ResourceData, sv string) (*models.VpnCertificateRemote, diag.Diagnostics) {
+	obj := models.VpnCertificateRemote{}
 	diags := diag.Diagnostics{}
 
 	if v1, ok := d.GetOk("name"); ok {

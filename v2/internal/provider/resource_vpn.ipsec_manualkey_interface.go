@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -19,14 +19,14 @@ import (
 	"github.com/poroping/terraform-provider-fortios/v2/utils"
 )
 
-func resourceVpnipsecManualkeyInterface() *schema.Resource {
+func resourceVpnIpsecManualkeyInterface() *schema.Resource {
 	return &schema.Resource{
 		Description: "Configure IPsec manual keys.",
 
-		CreateContext: resourceVpnipsecManualkeyInterfaceCreate,
-		ReadContext:   resourceVpnipsecManualkeyInterfaceRead,
-		UpdateContext: resourceVpnipsecManualkeyInterfaceUpdate,
-		DeleteContext: resourceVpnipsecManualkeyInterfaceDelete,
+		CreateContext: resourceVpnIpsecManualkeyInterfaceCreate,
+		ReadContext:   resourceVpnIpsecManualkeyInterfaceRead,
+		UpdateContext: resourceVpnIpsecManualkeyInterfaceUpdate,
+		DeleteContext: resourceVpnIpsecManualkeyInterfaceDelete,
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
@@ -165,7 +165,7 @@ func resourceVpnipsecManualkeyInterface() *schema.Resource {
 	}
 }
 
-func resourceVpnipsecManualkeyInterfaceCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceVpnIpsecManualkeyInterfaceCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*apiClient).Client
 	var diags diag.Diagnostics
 	var err error
@@ -192,16 +192,16 @@ func resourceVpnipsecManualkeyInterfaceCreate(ctx context.Context, d *schema.Res
 	if v, ok := d.GetOk(key); ok {
 		mkey = utils.ParseMkey(v)
 		if mkey == "" && allow_append {
-			return diag.Errorf("error creating VpnipsecManualkeyInterface resource: %q must be set if \"allow_append\" is true", key)
+			return diag.Errorf("error creating VpnIpsecManualkeyInterface resource: %q must be set if \"allow_append\" is true", key)
 		}
 	}
 
-	obj, diags := getObjectVpnipsecManualkeyInterface(d, c.Config.Fv)
+	obj, diags := getObjectVpnIpsecManualkeyInterface(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.CreateVpnipsecManualkeyInterface(obj, urlparams)
+	o, err := c.Cmdb.CreateVpnIpsecManualkeyInterface(obj, urlparams)
 
 	if err != nil {
 		e := diag.FromErr(err)
@@ -211,13 +211,13 @@ func resourceVpnipsecManualkeyInterfaceCreate(ctx context.Context, d *schema.Res
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("VpnipsecManualkeyInterface")
+		d.SetId("VpnIpsecManualkeyInterface")
 	}
 
-	return resourceVpnipsecManualkeyInterfaceRead(ctx, d, meta)
+	return resourceVpnIpsecManualkeyInterfaceRead(ctx, d, meta)
 }
 
-func resourceVpnipsecManualkeyInterfaceUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceVpnIpsecManualkeyInterfaceUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
@@ -230,27 +230,27 @@ func resourceVpnipsecManualkeyInterfaceUpdate(ctx context.Context, d *schema.Res
 	}
 	urlparams.Vdom = vdomparam
 
-	obj, diags := getObjectVpnipsecManualkeyInterface(d, c.Config.Fv)
+	obj, diags := getObjectVpnIpsecManualkeyInterface(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.UpdateVpnipsecManualkeyInterface(mkey, obj, urlparams)
+	o, err := c.Cmdb.UpdateVpnIpsecManualkeyInterface(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error updating VpnipsecManualkeyInterface resource: %v", err)
+		return diag.Errorf("error updating VpnIpsecManualkeyInterface resource: %v", err)
 	}
 
 	// log.Printf(strconv.Itoa(c.Retries))
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("VpnipsecManualkeyInterface")
+		d.SetId("VpnIpsecManualkeyInterface")
 	}
 
-	return resourceVpnipsecManualkeyInterfaceRead(ctx, d, meta)
+	return resourceVpnIpsecManualkeyInterfaceRead(ctx, d, meta)
 }
 
-func resourceVpnipsecManualkeyInterfaceDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceVpnIpsecManualkeyInterfaceDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -265,9 +265,9 @@ func resourceVpnipsecManualkeyInterfaceDelete(ctx context.Context, d *schema.Res
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteVpnipsecManualkeyInterface(mkey, urlparams)
+	err := c.Cmdb.DeleteVpnIpsecManualkeyInterface(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error deleting VpnipsecManualkeyInterface resource: %v", err)
+		return diag.Errorf("error deleting VpnIpsecManualkeyInterface resource: %v", err)
 	}
 
 	d.SetId("")
@@ -275,7 +275,7 @@ func resourceVpnipsecManualkeyInterfaceDelete(ctx context.Context, d *schema.Res
 	return nil
 }
 
-func resourceVpnipsecManualkeyInterfaceRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceVpnIpsecManualkeyInterfaceRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -290,9 +290,9 @@ func resourceVpnipsecManualkeyInterfaceRead(ctx context.Context, d *schema.Resou
 	}
 	urlparams.Vdom = vdomparam
 
-	o, err := c.Cmdb.ReadVpnipsecManualkeyInterface(mkey, urlparams)
+	o, err := c.Cmdb.ReadVpnIpsecManualkeyInterface(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error reading VpnipsecManualkeyInterface resource: %v", err)
+		return diag.Errorf("error reading VpnIpsecManualkeyInterface resource: %v", err)
 	}
 
 	if o == nil {
@@ -308,14 +308,14 @@ func resourceVpnipsecManualkeyInterfaceRead(ctx context.Context, d *schema.Resou
 		}
 	}
 
-	diags := refreshObjectVpnipsecManualkeyInterface(d, o, c.Config.Fv, sort)
+	diags := refreshObjectVpnIpsecManualkeyInterface(d, o, c.Config.Fv, sort)
 	if diags.HasError() {
 		return diags
 	}
 	return nil
 }
 
-func refreshObjectVpnipsecManualkeyInterface(d *schema.ResourceData, o *models.VpnipsecManualkeyInterface, sv string, sort bool) diag.Diagnostics {
+func refreshObjectVpnIpsecManualkeyInterface(d *schema.ResourceData, o *models.VpnIpsecManualkeyInterface, sv string, sort bool) diag.Diagnostics {
 	var err error
 
 	if o.AddrType != nil {
@@ -441,8 +441,8 @@ func refreshObjectVpnipsecManualkeyInterface(d *schema.ResourceData, o *models.V
 	return nil
 }
 
-func getObjectVpnipsecManualkeyInterface(d *schema.ResourceData, sv string) (*models.VpnipsecManualkeyInterface, diag.Diagnostics) {
-	obj := models.VpnipsecManualkeyInterface{}
+func getObjectVpnIpsecManualkeyInterface(d *schema.ResourceData, sv string) (*models.VpnIpsecManualkeyInterface, diag.Diagnostics) {
+	obj := models.VpnIpsecManualkeyInterface{}
 	diags := diag.Diagnostics{}
 
 	if v1, ok := d.GetOk("addr_type"); ok {
@@ -546,7 +546,7 @@ func getObjectVpnipsecManualkeyInterface(d *schema.ResourceData, sv string) (*mo
 	}
 	if v1, ok := d.GetOk("npu_offload"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "v6.4.2") {
+			if !utils.CheckVer(sv, "", "v6.4.0") {
 				e := utils.AttributeVersionWarning("npu_offload", sv)
 				diags = append(diags, e)
 			}

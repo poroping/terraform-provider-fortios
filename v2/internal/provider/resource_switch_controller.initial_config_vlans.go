@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -18,14 +18,14 @@ import (
 	"github.com/poroping/terraform-provider-fortios/v2/utils"
 )
 
-func resourceSwitchControllerinitialConfigVlans() *schema.Resource {
+func resourceSwitchControllerInitialConfigVlans() *schema.Resource {
 	return &schema.Resource{
 		Description: "Configure initial template for auto-generated VLAN interfaces.",
 
-		CreateContext: resourceSwitchControllerinitialConfigVlansCreate,
-		ReadContext:   resourceSwitchControllerinitialConfigVlansRead,
-		UpdateContext: resourceSwitchControllerinitialConfigVlansUpdate,
-		DeleteContext: resourceSwitchControllerinitialConfigVlansDelete,
+		CreateContext: resourceSwitchControllerInitialConfigVlansCreate,
+		ReadContext:   resourceSwitchControllerInitialConfigVlansRead,
+		UpdateContext: resourceSwitchControllerInitialConfigVlansUpdate,
+		DeleteContext: resourceSwitchControllerInitialConfigVlansDelete,
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
@@ -98,7 +98,7 @@ func resourceSwitchControllerinitialConfigVlans() *schema.Resource {
 	}
 }
 
-func resourceSwitchControllerinitialConfigVlansCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSwitchControllerInitialConfigVlansCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*apiClient).Client
 	var diags diag.Diagnostics
 	var err error
@@ -120,12 +120,12 @@ func resourceSwitchControllerinitialConfigVlansCreate(ctx context.Context, d *sc
 	}
 	urlparams.AllowAppend = &allow_append
 
-	obj, diags := getObjectSwitchControllerinitialConfigVlans(d, c.Config.Fv)
+	obj, diags := getObjectSwitchControllerInitialConfigVlans(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.CreateSwitchControllerinitialConfigVlans(obj, urlparams)
+	o, err := c.Cmdb.CreateSwitchControllerInitialConfigVlans(obj, urlparams)
 
 	if err != nil {
 		e := diag.FromErr(err)
@@ -135,13 +135,13 @@ func resourceSwitchControllerinitialConfigVlansCreate(ctx context.Context, d *sc
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("SwitchControllerinitialConfigVlans")
+		d.SetId("SwitchControllerInitialConfigVlans")
 	}
 
-	return resourceSwitchControllerinitialConfigVlansRead(ctx, d, meta)
+	return resourceSwitchControllerInitialConfigVlansRead(ctx, d, meta)
 }
 
-func resourceSwitchControllerinitialConfigVlansUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSwitchControllerInitialConfigVlansUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
@@ -154,27 +154,27 @@ func resourceSwitchControllerinitialConfigVlansUpdate(ctx context.Context, d *sc
 	}
 	urlparams.Vdom = vdomparam
 
-	obj, diags := getObjectSwitchControllerinitialConfigVlans(d, c.Config.Fv)
+	obj, diags := getObjectSwitchControllerInitialConfigVlans(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.UpdateSwitchControllerinitialConfigVlans(mkey, obj, urlparams)
+	o, err := c.Cmdb.UpdateSwitchControllerInitialConfigVlans(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error updating SwitchControllerinitialConfigVlans resource: %v", err)
+		return diag.Errorf("error updating SwitchControllerInitialConfigVlans resource: %v", err)
 	}
 
 	// log.Printf(strconv.Itoa(c.Retries))
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("SwitchControllerinitialConfigVlans")
+		d.SetId("SwitchControllerInitialConfigVlans")
 	}
 
-	return resourceSwitchControllerinitialConfigVlansRead(ctx, d, meta)
+	return resourceSwitchControllerInitialConfigVlansRead(ctx, d, meta)
 }
 
-func resourceSwitchControllerinitialConfigVlansDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSwitchControllerInitialConfigVlansDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -189,9 +189,14 @@ func resourceSwitchControllerinitialConfigVlansDelete(ctx context.Context, d *sc
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteSwitchControllerinitialConfigVlans(mkey, urlparams)
+	obj, diags := getEmptyObjectSwitchControllerInitialConfigVlans(d, c.Config.Fv)
+	if diags.HasError() {
+		return diags
+	}
+
+	_, err := c.Cmdb.UpdateSwitchControllerInitialConfigVlans(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error deleting SwitchControllerinitialConfigVlans resource: %v", err)
+		return diag.Errorf("error deleting SwitchControllerInitialConfigVlans resource: %v", err)
 	}
 
 	d.SetId("")
@@ -199,7 +204,7 @@ func resourceSwitchControllerinitialConfigVlansDelete(ctx context.Context, d *sc
 	return nil
 }
 
-func resourceSwitchControllerinitialConfigVlansRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSwitchControllerInitialConfigVlansRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -214,9 +219,9 @@ func resourceSwitchControllerinitialConfigVlansRead(ctx context.Context, d *sche
 	}
 	urlparams.Vdom = vdomparam
 
-	o, err := c.Cmdb.ReadSwitchControllerinitialConfigVlans(mkey, urlparams)
+	o, err := c.Cmdb.ReadSwitchControllerInitialConfigVlans(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error reading SwitchControllerinitialConfigVlans resource: %v", err)
+		return diag.Errorf("error reading SwitchControllerInitialConfigVlans resource: %v", err)
 	}
 
 	if o == nil {
@@ -232,14 +237,14 @@ func resourceSwitchControllerinitialConfigVlansRead(ctx context.Context, d *sche
 		}
 	}
 
-	diags := refreshObjectSwitchControllerinitialConfigVlans(d, o, c.Config.Fv, sort)
+	diags := refreshObjectSwitchControllerInitialConfigVlans(d, o, c.Config.Fv, sort)
 	if diags.HasError() {
 		return diags
 	}
 	return nil
 }
 
-func refreshObjectSwitchControllerinitialConfigVlans(d *schema.ResourceData, o *models.SwitchControllerinitialConfigVlans, sv string, sort bool) diag.Diagnostics {
+func refreshObjectSwitchControllerInitialConfigVlans(d *schema.ResourceData, o *models.SwitchControllerInitialConfigVlans, sv string, sort bool) diag.Diagnostics {
 	var err error
 
 	if o.DefaultVlan != nil {
@@ -301,8 +306,8 @@ func refreshObjectSwitchControllerinitialConfigVlans(d *schema.ResourceData, o *
 	return nil
 }
 
-func getObjectSwitchControllerinitialConfigVlans(d *schema.ResourceData, sv string) (*models.SwitchControllerinitialConfigVlans, diag.Diagnostics) {
-	obj := models.SwitchControllerinitialConfigVlans{}
+func getObjectSwitchControllerInitialConfigVlans(d *schema.ResourceData, sv string) (*models.SwitchControllerInitialConfigVlans, diag.Diagnostics) {
+	obj := models.SwitchControllerInitialConfigVlans{}
 	diags := diag.Diagnostics{}
 
 	if v1, ok := d.GetOk("default_vlan"); ok {
@@ -368,5 +373,13 @@ func getObjectSwitchControllerinitialConfigVlans(d *schema.ResourceData, sv stri
 			obj.Voice = &v2
 		}
 	}
+	return &obj, diags
+}
+
+// Return an object with explicitly empty objects for tables that have been set.
+func getEmptyObjectSwitchControllerInitialConfigVlans(d *schema.ResourceData, sv string) (*models.SwitchControllerInitialConfigVlans, diag.Diagnostics) {
+	obj := models.SwitchControllerInitialConfigVlans{}
+	diags := diag.Diagnostics{}
+
 	return &obj, diags
 }

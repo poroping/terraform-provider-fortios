@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -65,6 +65,14 @@ func resourceSwitchControllerMacPolicy() *schema.Resource {
 				ValidateFunc: validation.StringLenBetween(0, 63),
 
 				Description: "Description for the MAC policy.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"drop": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"disable", "enable"}, false),
+
+				Description: "Enable/disable dropping of NAC device traffic.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -281,6 +289,14 @@ func refreshObjectSwitchControllerMacPolicy(d *schema.ResourceData, o *models.Sw
 		}
 	}
 
+	if o.Drop != nil {
+		v := *o.Drop
+
+		if err = d.Set("drop", v); err != nil {
+			return diag.Errorf("error reading drop: %v", err)
+		}
+	}
+
 	if o.Fortilink != nil {
 		v := *o.Fortilink
 
@@ -345,6 +361,15 @@ func getObjectSwitchControllerMacPolicy(d *schema.ResourceData, sv string) (*mod
 				diags = append(diags, e)
 			}
 			obj.Description = &v2
+		}
+	}
+	if v1, ok := d.GetOk("drop"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "", "v6.4.2") {
+				e := utils.AttributeVersionWarning("drop", sv)
+				diags = append(diags, e)
+			}
+			obj.Drop = &v2
 		}
 	}
 	if v1, ok := d.GetOk("fortilink"); ok {

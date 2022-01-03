@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -18,14 +18,14 @@ import (
 	"github.com/poroping/terraform-provider-fortios/v2/utils"
 )
 
-func resourceSystemreplacemsgAuth() *schema.Resource {
+func resourceSystemReplacemsgAuth() *schema.Resource {
 	return &schema.Resource{
 		Description: "Replacement messages.",
 
-		CreateContext: resourceSystemreplacemsgAuthCreate,
-		ReadContext:   resourceSystemreplacemsgAuthRead,
-		UpdateContext: resourceSystemreplacemsgAuthUpdate,
-		DeleteContext: resourceSystemreplacemsgAuthDelete,
+		CreateContext: resourceSystemReplacemsgAuthCreate,
+		ReadContext:   resourceSystemReplacemsgAuthRead,
+		UpdateContext: resourceSystemReplacemsgAuthUpdate,
+		DeleteContext: resourceSystemReplacemsgAuthDelete,
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
@@ -80,7 +80,7 @@ func resourceSystemreplacemsgAuth() *schema.Resource {
 	}
 }
 
-func resourceSystemreplacemsgAuthCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSystemReplacemsgAuthCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*apiClient).Client
 	var diags diag.Diagnostics
 	var err error
@@ -107,16 +107,16 @@ func resourceSystemreplacemsgAuthCreate(ctx context.Context, d *schema.ResourceD
 	if v, ok := d.GetOk(key); ok {
 		mkey = utils.ParseMkey(v)
 		if mkey == "" && allow_append {
-			return diag.Errorf("error creating SystemreplacemsgAuth resource: %q must be set if \"allow_append\" is true", key)
+			return diag.Errorf("error creating SystemReplacemsgAuth resource: %q must be set if \"allow_append\" is true", key)
 		}
 	}
 
-	obj, diags := getObjectSystemreplacemsgAuth(d, c.Config.Fv)
+	obj, diags := getObjectSystemReplacemsgAuth(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.CreateSystemreplacemsgAuth(obj, urlparams)
+	o, err := c.Cmdb.CreateSystemReplacemsgAuth(obj, urlparams)
 
 	if err != nil {
 		e := diag.FromErr(err)
@@ -126,13 +126,13 @@ func resourceSystemreplacemsgAuthCreate(ctx context.Context, d *schema.ResourceD
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("SystemreplacemsgAuth")
+		d.SetId("SystemReplacemsgAuth")
 	}
 
-	return resourceSystemreplacemsgAuthRead(ctx, d, meta)
+	return resourceSystemReplacemsgAuthRead(ctx, d, meta)
 }
 
-func resourceSystemreplacemsgAuthUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSystemReplacemsgAuthUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
@@ -145,27 +145,27 @@ func resourceSystemreplacemsgAuthUpdate(ctx context.Context, d *schema.ResourceD
 	}
 	urlparams.Vdom = vdomparam
 
-	obj, diags := getObjectSystemreplacemsgAuth(d, c.Config.Fv)
+	obj, diags := getObjectSystemReplacemsgAuth(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.UpdateSystemreplacemsgAuth(mkey, obj, urlparams)
+	o, err := c.Cmdb.UpdateSystemReplacemsgAuth(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error updating SystemreplacemsgAuth resource: %v", err)
+		return diag.Errorf("error updating SystemReplacemsgAuth resource: %v", err)
 	}
 
 	// log.Printf(strconv.Itoa(c.Retries))
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("SystemreplacemsgAuth")
+		d.SetId("SystemReplacemsgAuth")
 	}
 
-	return resourceSystemreplacemsgAuthRead(ctx, d, meta)
+	return resourceSystemReplacemsgAuthRead(ctx, d, meta)
 }
 
-func resourceSystemreplacemsgAuthDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSystemReplacemsgAuthDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -180,9 +180,9 @@ func resourceSystemreplacemsgAuthDelete(ctx context.Context, d *schema.ResourceD
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteSystemreplacemsgAuth(mkey, urlparams)
+	err := c.Cmdb.DeleteSystemReplacemsgAuth(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error deleting SystemreplacemsgAuth resource: %v", err)
+		return diag.Errorf("error deleting SystemReplacemsgAuth resource: %v", err)
 	}
 
 	d.SetId("")
@@ -190,7 +190,7 @@ func resourceSystemreplacemsgAuthDelete(ctx context.Context, d *schema.ResourceD
 	return nil
 }
 
-func resourceSystemreplacemsgAuthRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSystemReplacemsgAuthRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -205,9 +205,9 @@ func resourceSystemreplacemsgAuthRead(ctx context.Context, d *schema.ResourceDat
 	}
 	urlparams.Vdom = vdomparam
 
-	o, err := c.Cmdb.ReadSystemreplacemsgAuth(mkey, urlparams)
+	o, err := c.Cmdb.ReadSystemReplacemsgAuth(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error reading SystemreplacemsgAuth resource: %v", err)
+		return diag.Errorf("error reading SystemReplacemsgAuth resource: %v", err)
 	}
 
 	if o == nil {
@@ -223,14 +223,14 @@ func resourceSystemreplacemsgAuthRead(ctx context.Context, d *schema.ResourceDat
 		}
 	}
 
-	diags := refreshObjectSystemreplacemsgAuth(d, o, c.Config.Fv, sort)
+	diags := refreshObjectSystemReplacemsgAuth(d, o, c.Config.Fv, sort)
 	if diags.HasError() {
 		return diags
 	}
 	return nil
 }
 
-func refreshObjectSystemreplacemsgAuth(d *schema.ResourceData, o *models.SystemreplacemsgAuth, sv string, sort bool) diag.Diagnostics {
+func refreshObjectSystemReplacemsgAuth(d *schema.ResourceData, o *models.SystemReplacemsgAuth, sv string, sort bool) diag.Diagnostics {
 	var err error
 
 	if o.Buffer != nil {
@@ -268,8 +268,8 @@ func refreshObjectSystemreplacemsgAuth(d *schema.ResourceData, o *models.Systemr
 	return nil
 }
 
-func getObjectSystemreplacemsgAuth(d *schema.ResourceData, sv string) (*models.SystemreplacemsgAuth, diag.Diagnostics) {
-	obj := models.SystemreplacemsgAuth{}
+func getObjectSystemReplacemsgAuth(d *schema.ResourceData, sv string) (*models.SystemReplacemsgAuth, diag.Diagnostics) {
+	obj := models.SystemReplacemsgAuth{}
 	diags := diag.Diagnostics{}
 
 	if v1, ok := d.GetOk("buffer"); ok {

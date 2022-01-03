@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -18,14 +18,14 @@ import (
 	"github.com/poroping/terraform-provider-fortios/v2/utils"
 )
 
-func resourceSystemreplacemsgSpam() *schema.Resource {
+func resourceSystemReplacemsgSpam() *schema.Resource {
 	return &schema.Resource{
 		Description: "Replacement messages.",
 
-		CreateContext: resourceSystemreplacemsgSpamCreate,
-		ReadContext:   resourceSystemreplacemsgSpamRead,
-		UpdateContext: resourceSystemreplacemsgSpamUpdate,
-		DeleteContext: resourceSystemreplacemsgSpamDelete,
+		CreateContext: resourceSystemReplacemsgSpamCreate,
+		ReadContext:   resourceSystemReplacemsgSpamRead,
+		UpdateContext: resourceSystemReplacemsgSpamUpdate,
+		DeleteContext: resourceSystemReplacemsgSpamDelete,
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
@@ -80,7 +80,7 @@ func resourceSystemreplacemsgSpam() *schema.Resource {
 	}
 }
 
-func resourceSystemreplacemsgSpamCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSystemReplacemsgSpamCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*apiClient).Client
 	var diags diag.Diagnostics
 	var err error
@@ -107,16 +107,16 @@ func resourceSystemreplacemsgSpamCreate(ctx context.Context, d *schema.ResourceD
 	if v, ok := d.GetOk(key); ok {
 		mkey = utils.ParseMkey(v)
 		if mkey == "" && allow_append {
-			return diag.Errorf("error creating SystemreplacemsgSpam resource: %q must be set if \"allow_append\" is true", key)
+			return diag.Errorf("error creating SystemReplacemsgSpam resource: %q must be set if \"allow_append\" is true", key)
 		}
 	}
 
-	obj, diags := getObjectSystemreplacemsgSpam(d, c.Config.Fv)
+	obj, diags := getObjectSystemReplacemsgSpam(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.CreateSystemreplacemsgSpam(obj, urlparams)
+	o, err := c.Cmdb.CreateSystemReplacemsgSpam(obj, urlparams)
 
 	if err != nil {
 		e := diag.FromErr(err)
@@ -126,13 +126,13 @@ func resourceSystemreplacemsgSpamCreate(ctx context.Context, d *schema.ResourceD
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("SystemreplacemsgSpam")
+		d.SetId("SystemReplacemsgSpam")
 	}
 
-	return resourceSystemreplacemsgSpamRead(ctx, d, meta)
+	return resourceSystemReplacemsgSpamRead(ctx, d, meta)
 }
 
-func resourceSystemreplacemsgSpamUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSystemReplacemsgSpamUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
@@ -145,27 +145,27 @@ func resourceSystemreplacemsgSpamUpdate(ctx context.Context, d *schema.ResourceD
 	}
 	urlparams.Vdom = vdomparam
 
-	obj, diags := getObjectSystemreplacemsgSpam(d, c.Config.Fv)
+	obj, diags := getObjectSystemReplacemsgSpam(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.UpdateSystemreplacemsgSpam(mkey, obj, urlparams)
+	o, err := c.Cmdb.UpdateSystemReplacemsgSpam(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error updating SystemreplacemsgSpam resource: %v", err)
+		return diag.Errorf("error updating SystemReplacemsgSpam resource: %v", err)
 	}
 
 	// log.Printf(strconv.Itoa(c.Retries))
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("SystemreplacemsgSpam")
+		d.SetId("SystemReplacemsgSpam")
 	}
 
-	return resourceSystemreplacemsgSpamRead(ctx, d, meta)
+	return resourceSystemReplacemsgSpamRead(ctx, d, meta)
 }
 
-func resourceSystemreplacemsgSpamDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSystemReplacemsgSpamDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -180,9 +180,9 @@ func resourceSystemreplacemsgSpamDelete(ctx context.Context, d *schema.ResourceD
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteSystemreplacemsgSpam(mkey, urlparams)
+	err := c.Cmdb.DeleteSystemReplacemsgSpam(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error deleting SystemreplacemsgSpam resource: %v", err)
+		return diag.Errorf("error deleting SystemReplacemsgSpam resource: %v", err)
 	}
 
 	d.SetId("")
@@ -190,7 +190,7 @@ func resourceSystemreplacemsgSpamDelete(ctx context.Context, d *schema.ResourceD
 	return nil
 }
 
-func resourceSystemreplacemsgSpamRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSystemReplacemsgSpamRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -205,9 +205,9 @@ func resourceSystemreplacemsgSpamRead(ctx context.Context, d *schema.ResourceDat
 	}
 	urlparams.Vdom = vdomparam
 
-	o, err := c.Cmdb.ReadSystemreplacemsgSpam(mkey, urlparams)
+	o, err := c.Cmdb.ReadSystemReplacemsgSpam(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error reading SystemreplacemsgSpam resource: %v", err)
+		return diag.Errorf("error reading SystemReplacemsgSpam resource: %v", err)
 	}
 
 	if o == nil {
@@ -223,14 +223,14 @@ func resourceSystemreplacemsgSpamRead(ctx context.Context, d *schema.ResourceDat
 		}
 	}
 
-	diags := refreshObjectSystemreplacemsgSpam(d, o, c.Config.Fv, sort)
+	diags := refreshObjectSystemReplacemsgSpam(d, o, c.Config.Fv, sort)
 	if diags.HasError() {
 		return diags
 	}
 	return nil
 }
 
-func refreshObjectSystemreplacemsgSpam(d *schema.ResourceData, o *models.SystemreplacemsgSpam, sv string, sort bool) diag.Diagnostics {
+func refreshObjectSystemReplacemsgSpam(d *schema.ResourceData, o *models.SystemReplacemsgSpam, sv string, sort bool) diag.Diagnostics {
 	var err error
 
 	if o.Buffer != nil {
@@ -268,8 +268,8 @@ func refreshObjectSystemreplacemsgSpam(d *schema.ResourceData, o *models.Systemr
 	return nil
 }
 
-func getObjectSystemreplacemsgSpam(d *schema.ResourceData, sv string) (*models.SystemreplacemsgSpam, diag.Diagnostics) {
-	obj := models.SystemreplacemsgSpam{}
+func getObjectSystemReplacemsgSpam(d *schema.ResourceData, sv string) (*models.SystemReplacemsgSpam, diag.Diagnostics) {
+	obj := models.SystemReplacemsgSpam{}
 	diags := diag.Diagnostics{}
 
 	if v1, ok := d.GetOk("buffer"); ok {

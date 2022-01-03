@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -21,14 +21,14 @@ import (
 	"github.com/poroping/terraform-provider-fortios/v2/validators"
 )
 
-func resourceSystemsnmpCommunity() *schema.Resource {
+func resourceSystemSnmpCommunity() *schema.Resource {
 	return &schema.Resource{
 		Description: "SNMP community configuration.",
 
-		CreateContext: resourceSystemsnmpCommunityCreate,
-		ReadContext:   resourceSystemsnmpCommunityRead,
-		UpdateContext: resourceSystemsnmpCommunityUpdate,
-		DeleteContext: resourceSystemsnmpCommunityDelete,
+		CreateContext: resourceSystemSnmpCommunityCreate,
+		ReadContext:   resourceSystemSnmpCommunityRead,
+		UpdateContext: resourceSystemSnmpCommunityUpdate,
+		DeleteContext: resourceSystemSnmpCommunityDelete,
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
@@ -264,7 +264,7 @@ func resourceSystemsnmpCommunity() *schema.Resource {
 	}
 }
 
-func resourceSystemsnmpCommunityCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSystemSnmpCommunityCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*apiClient).Client
 	var diags diag.Diagnostics
 	var err error
@@ -291,16 +291,16 @@ func resourceSystemsnmpCommunityCreate(ctx context.Context, d *schema.ResourceDa
 	if v, ok := d.GetOk(key); ok {
 		mkey = utils.ParseMkey(v)
 		if mkey == "" && allow_append {
-			return diag.Errorf("error creating SystemsnmpCommunity resource: %q must be set if \"allow_append\" is true", key)
+			return diag.Errorf("error creating SystemSnmpCommunity resource: %q must be set if \"allow_append\" is true", key)
 		}
 	}
 
-	obj, diags := getObjectSystemsnmpCommunity(d, c.Config.Fv)
+	obj, diags := getObjectSystemSnmpCommunity(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.CreateSystemsnmpCommunity(obj, urlparams)
+	o, err := c.Cmdb.CreateSystemSnmpCommunity(obj, urlparams)
 
 	if err != nil {
 		e := diag.FromErr(err)
@@ -310,13 +310,13 @@ func resourceSystemsnmpCommunityCreate(ctx context.Context, d *schema.ResourceDa
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("SystemsnmpCommunity")
+		d.SetId("SystemSnmpCommunity")
 	}
 
-	return resourceSystemsnmpCommunityRead(ctx, d, meta)
+	return resourceSystemSnmpCommunityRead(ctx, d, meta)
 }
 
-func resourceSystemsnmpCommunityUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSystemSnmpCommunityUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
@@ -329,27 +329,27 @@ func resourceSystemsnmpCommunityUpdate(ctx context.Context, d *schema.ResourceDa
 	}
 	urlparams.Vdom = vdomparam
 
-	obj, diags := getObjectSystemsnmpCommunity(d, c.Config.Fv)
+	obj, diags := getObjectSystemSnmpCommunity(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.UpdateSystemsnmpCommunity(mkey, obj, urlparams)
+	o, err := c.Cmdb.UpdateSystemSnmpCommunity(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error updating SystemsnmpCommunity resource: %v", err)
+		return diag.Errorf("error updating SystemSnmpCommunity resource: %v", err)
 	}
 
 	// log.Printf(strconv.Itoa(c.Retries))
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("SystemsnmpCommunity")
+		d.SetId("SystemSnmpCommunity")
 	}
 
-	return resourceSystemsnmpCommunityRead(ctx, d, meta)
+	return resourceSystemSnmpCommunityRead(ctx, d, meta)
 }
 
-func resourceSystemsnmpCommunityDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSystemSnmpCommunityDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -364,9 +364,9 @@ func resourceSystemsnmpCommunityDelete(ctx context.Context, d *schema.ResourceDa
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteSystemsnmpCommunity(mkey, urlparams)
+	err := c.Cmdb.DeleteSystemSnmpCommunity(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error deleting SystemsnmpCommunity resource: %v", err)
+		return diag.Errorf("error deleting SystemSnmpCommunity resource: %v", err)
 	}
 
 	d.SetId("")
@@ -374,7 +374,7 @@ func resourceSystemsnmpCommunityDelete(ctx context.Context, d *schema.ResourceDa
 	return nil
 }
 
-func resourceSystemsnmpCommunityRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSystemSnmpCommunityRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -389,9 +389,9 @@ func resourceSystemsnmpCommunityRead(ctx context.Context, d *schema.ResourceData
 	}
 	urlparams.Vdom = vdomparam
 
-	o, err := c.Cmdb.ReadSystemsnmpCommunity(mkey, urlparams)
+	o, err := c.Cmdb.ReadSystemSnmpCommunity(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error reading SystemsnmpCommunity resource: %v", err)
+		return diag.Errorf("error reading SystemSnmpCommunity resource: %v", err)
 	}
 
 	if o == nil {
@@ -407,14 +407,14 @@ func resourceSystemsnmpCommunityRead(ctx context.Context, d *schema.ResourceData
 		}
 	}
 
-	diags := refreshObjectSystemsnmpCommunity(d, o, c.Config.Fv, sort)
+	diags := refreshObjectSystemSnmpCommunity(d, o, c.Config.Fv, sort)
 	if diags.HasError() {
 		return diags
 	}
 	return nil
 }
 
-func flattenSystemsnmpCommunityHosts(v *[]models.SystemsnmpCommunityHosts, sort bool) interface{} {
+func flattenSystemSnmpCommunityHosts(v *[]models.SystemSnmpCommunityHosts, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
@@ -451,7 +451,7 @@ func flattenSystemsnmpCommunityHosts(v *[]models.SystemsnmpCommunityHosts, sort 
 	return flat
 }
 
-func flattenSystemsnmpCommunityHosts6(v *[]models.SystemsnmpCommunityHosts6, sort bool) interface{} {
+func flattenSystemSnmpCommunityHosts6(v *[]models.SystemSnmpCommunityHosts6, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
@@ -488,7 +488,7 @@ func flattenSystemsnmpCommunityHosts6(v *[]models.SystemsnmpCommunityHosts6, sor
 	return flat
 }
 
-func refreshObjectSystemsnmpCommunity(d *schema.ResourceData, o *models.SystemsnmpCommunity, sv string, sort bool) diag.Diagnostics {
+func refreshObjectSystemSnmpCommunity(d *schema.ResourceData, o *models.SystemSnmpCommunity, sv string, sort bool) diag.Diagnostics {
 	var err error
 
 	if o.Events != nil {
@@ -500,13 +500,13 @@ func refreshObjectSystemsnmpCommunity(d *schema.ResourceData, o *models.Systemsn
 	}
 
 	if o.Hosts != nil {
-		if err = d.Set("hosts", flattenSystemsnmpCommunityHosts(o.Hosts, sort)); err != nil {
+		if err = d.Set("hosts", flattenSystemSnmpCommunityHosts(o.Hosts, sort)); err != nil {
 			return diag.Errorf("error reading hosts: %v", err)
 		}
 	}
 
 	if o.Hosts6 != nil {
-		if err = d.Set("hosts6", flattenSystemsnmpCommunityHosts6(o.Hosts6, sort)); err != nil {
+		if err = d.Set("hosts6", flattenSystemSnmpCommunityHosts6(o.Hosts6, sort)); err != nil {
 			return diag.Errorf("error reading hosts6: %v", err)
 		}
 	}
@@ -618,16 +618,16 @@ func refreshObjectSystemsnmpCommunity(d *schema.ResourceData, o *models.Systemsn
 	return nil
 }
 
-func expandSystemsnmpCommunityHosts(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.SystemsnmpCommunityHosts, error) {
+func expandSystemSnmpCommunityHosts(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.SystemSnmpCommunityHosts, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
 	}
 
-	var result []models.SystemsnmpCommunityHosts
+	var result []models.SystemSnmpCommunityHosts
 
 	for i := range l {
-		tmp := models.SystemsnmpCommunityHosts{}
+		tmp := models.SystemSnmpCommunityHosts{}
 		var pre_append string
 
 		pre_append = fmt.Sprintf("%s.%d.ha_direct", pre, i)
@@ -670,16 +670,16 @@ func expandSystemsnmpCommunityHosts(d *schema.ResourceData, v interface{}, pre s
 	return &result, nil
 }
 
-func expandSystemsnmpCommunityHosts6(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.SystemsnmpCommunityHosts6, error) {
+func expandSystemSnmpCommunityHosts6(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.SystemSnmpCommunityHosts6, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
 	}
 
-	var result []models.SystemsnmpCommunityHosts6
+	var result []models.SystemSnmpCommunityHosts6
 
 	for i := range l {
-		tmp := models.SystemsnmpCommunityHosts6{}
+		tmp := models.SystemSnmpCommunityHosts6{}
 		var pre_append string
 
 		pre_append = fmt.Sprintf("%s.%d.ha_direct", pre, i)
@@ -722,8 +722,8 @@ func expandSystemsnmpCommunityHosts6(d *schema.ResourceData, v interface{}, pre 
 	return &result, nil
 }
 
-func getObjectSystemsnmpCommunity(d *schema.ResourceData, sv string) (*models.SystemsnmpCommunity, diag.Diagnostics) {
-	obj := models.SystemsnmpCommunity{}
+func getObjectSystemSnmpCommunity(d *schema.ResourceData, sv string) (*models.SystemSnmpCommunity, diag.Diagnostics) {
+	obj := models.SystemSnmpCommunity{}
 	diags := diag.Diagnostics{}
 
 	if v1, ok := d.GetOk("events"); ok {
@@ -740,7 +740,7 @@ func getObjectSystemsnmpCommunity(d *schema.ResourceData, sv string) (*models.Sy
 			e := utils.AttributeVersionWarning("hosts", sv)
 			diags = append(diags, e)
 		}
-		t, err := expandSystemsnmpCommunityHosts(d, v, "hosts", sv)
+		t, err := expandSystemSnmpCommunityHosts(d, v, "hosts", sv)
 		if err != nil {
 			return &obj, diag.FromErr(err)
 		} else if t != nil {
@@ -749,7 +749,7 @@ func getObjectSystemsnmpCommunity(d *schema.ResourceData, sv string) (*models.Sy
 	} else if d.HasChange("hosts") {
 		old, new := d.GetChange("hosts")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.Hosts = &[]models.SystemsnmpCommunityHosts{}
+			obj.Hosts = &[]models.SystemSnmpCommunityHosts{}
 		}
 	}
 	if v, ok := d.GetOk("hosts6"); ok {
@@ -757,7 +757,7 @@ func getObjectSystemsnmpCommunity(d *schema.ResourceData, sv string) (*models.Sy
 			e := utils.AttributeVersionWarning("hosts6", sv)
 			diags = append(diags, e)
 		}
-		t, err := expandSystemsnmpCommunityHosts6(d, v, "hosts6", sv)
+		t, err := expandSystemSnmpCommunityHosts6(d, v, "hosts6", sv)
 		if err != nil {
 			return &obj, diag.FromErr(err)
 		} else if t != nil {
@@ -766,7 +766,7 @@ func getObjectSystemsnmpCommunity(d *schema.ResourceData, sv string) (*models.Sy
 	} else if d.HasChange("hosts6") {
 		old, new := d.GetChange("hosts6")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.Hosts6 = &[]models.SystemsnmpCommunityHosts6{}
+			obj.Hosts6 = &[]models.SystemSnmpCommunityHosts6{}
 		}
 	}
 	if v1, ok := d.GetOk("fosid"); ok {

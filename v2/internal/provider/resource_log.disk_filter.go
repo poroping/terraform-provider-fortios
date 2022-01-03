@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -19,14 +19,14 @@ import (
 	"github.com/poroping/terraform-provider-fortios/v2/utils"
 )
 
-func resourceLogdiskFilter() *schema.Resource {
+func resourceLogDiskFilter() *schema.Resource {
 	return &schema.Resource{
 		Description: "Configure filters for local disk logging. Use these filters to determine the log messages to record according to severity and type.",
 
-		CreateContext: resourceLogdiskFilterCreate,
-		ReadContext:   resourceLogdiskFilterRead,
-		UpdateContext: resourceLogdiskFilterUpdate,
-		DeleteContext: resourceLogdiskFilterDelete,
+		CreateContext: resourceLogDiskFilterCreate,
+		ReadContext:   resourceLogDiskFilterRead,
+		UpdateContext: resourceLogDiskFilterUpdate,
+		DeleteContext: resourceLogDiskFilterDelete,
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
@@ -320,7 +320,7 @@ func resourceLogdiskFilter() *schema.Resource {
 	}
 }
 
-func resourceLogdiskFilterCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceLogDiskFilterCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*apiClient).Client
 	var diags diag.Diagnostics
 	var err error
@@ -342,12 +342,12 @@ func resourceLogdiskFilterCreate(ctx context.Context, d *schema.ResourceData, me
 	}
 	urlparams.AllowAppend = &allow_append
 
-	obj, diags := getObjectLogdiskFilter(d, c.Config.Fv)
+	obj, diags := getObjectLogDiskFilter(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.CreateLogdiskFilter(obj, urlparams)
+	o, err := c.Cmdb.CreateLogDiskFilter(obj, urlparams)
 
 	if err != nil {
 		e := diag.FromErr(err)
@@ -357,13 +357,13 @@ func resourceLogdiskFilterCreate(ctx context.Context, d *schema.ResourceData, me
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("LogdiskFilter")
+		d.SetId("LogDiskFilter")
 	}
 
-	return resourceLogdiskFilterRead(ctx, d, meta)
+	return resourceLogDiskFilterRead(ctx, d, meta)
 }
 
-func resourceLogdiskFilterUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceLogDiskFilterUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
@@ -376,27 +376,27 @@ func resourceLogdiskFilterUpdate(ctx context.Context, d *schema.ResourceData, me
 	}
 	urlparams.Vdom = vdomparam
 
-	obj, diags := getObjectLogdiskFilter(d, c.Config.Fv)
+	obj, diags := getObjectLogDiskFilter(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.UpdateLogdiskFilter(mkey, obj, urlparams)
+	o, err := c.Cmdb.UpdateLogDiskFilter(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error updating LogdiskFilter resource: %v", err)
+		return diag.Errorf("error updating LogDiskFilter resource: %v", err)
 	}
 
 	// log.Printf(strconv.Itoa(c.Retries))
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("LogdiskFilter")
+		d.SetId("LogDiskFilter")
 	}
 
-	return resourceLogdiskFilterRead(ctx, d, meta)
+	return resourceLogDiskFilterRead(ctx, d, meta)
 }
 
-func resourceLogdiskFilterDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceLogDiskFilterDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -411,9 +411,14 @@ func resourceLogdiskFilterDelete(ctx context.Context, d *schema.ResourceData, me
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteLogdiskFilter(mkey, urlparams)
+	obj, diags := getEmptyObjectLogDiskFilter(d, c.Config.Fv)
+	if diags.HasError() {
+		return diags
+	}
+
+	_, err := c.Cmdb.UpdateLogDiskFilter(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error deleting LogdiskFilter resource: %v", err)
+		return diag.Errorf("error deleting LogDiskFilter resource: %v", err)
 	}
 
 	d.SetId("")
@@ -421,7 +426,7 @@ func resourceLogdiskFilterDelete(ctx context.Context, d *schema.ResourceData, me
 	return nil
 }
 
-func resourceLogdiskFilterRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceLogDiskFilterRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -436,9 +441,9 @@ func resourceLogdiskFilterRead(ctx context.Context, d *schema.ResourceData, meta
 	}
 	urlparams.Vdom = vdomparam
 
-	o, err := c.Cmdb.ReadLogdiskFilter(mkey, urlparams)
+	o, err := c.Cmdb.ReadLogDiskFilter(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error reading LogdiskFilter resource: %v", err)
+		return diag.Errorf("error reading LogDiskFilter resource: %v", err)
 	}
 
 	if o == nil {
@@ -454,14 +459,14 @@ func resourceLogdiskFilterRead(ctx context.Context, d *schema.ResourceData, meta
 		}
 	}
 
-	diags := refreshObjectLogdiskFilter(d, o, c.Config.Fv, sort)
+	diags := refreshObjectLogDiskFilter(d, o, c.Config.Fv, sort)
 	if diags.HasError() {
 		return diags
 	}
 	return nil
 }
 
-func flattenLogdiskFilterFreeStyle(v *[]models.LogdiskFilterFreeStyle, sort bool) interface{} {
+func flattenLogDiskFilterFreeStyle(v *[]models.LogDiskFilterFreeStyle, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
@@ -494,7 +499,7 @@ func flattenLogdiskFilterFreeStyle(v *[]models.LogdiskFilterFreeStyle, sort bool
 	return flat
 }
 
-func refreshObjectLogdiskFilter(d *schema.ResourceData, o *models.LogdiskFilter, sv string, sort bool) diag.Diagnostics {
+func refreshObjectLogDiskFilter(d *schema.ResourceData, o *models.LogDiskFilter, sv string, sort bool) diag.Diagnostics {
 	var err error
 
 	if o.Admin != nil {
@@ -578,7 +583,7 @@ func refreshObjectLogdiskFilter(d *schema.ResourceData, o *models.LogdiskFilter,
 	}
 
 	if o.FreeStyle != nil {
-		if err = d.Set("free_style", flattenLogdiskFilterFreeStyle(o.FreeStyle, sort)); err != nil {
+		if err = d.Set("free_style", flattenLogDiskFilterFreeStyle(o.FreeStyle, sort)); err != nil {
 			return diag.Errorf("error reading free_style: %v", err)
 		}
 	}
@@ -738,16 +743,16 @@ func refreshObjectLogdiskFilter(d *schema.ResourceData, o *models.LogdiskFilter,
 	return nil
 }
 
-func expandLogdiskFilterFreeStyle(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.LogdiskFilterFreeStyle, error) {
+func expandLogDiskFilterFreeStyle(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.LogDiskFilterFreeStyle, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
 	}
 
-	var result []models.LogdiskFilterFreeStyle
+	var result []models.LogDiskFilterFreeStyle
 
 	for i := range l {
-		tmp := models.LogdiskFilterFreeStyle{}
+		tmp := models.LogDiskFilterFreeStyle{}
 		var pre_append string
 
 		pre_append = fmt.Sprintf("%s.%d.category", pre, i)
@@ -783,8 +788,8 @@ func expandLogdiskFilterFreeStyle(d *schema.ResourceData, v interface{}, pre str
 	return &result, nil
 }
 
-func getObjectLogdiskFilter(d *schema.ResourceData, sv string) (*models.LogdiskFilter, diag.Diagnostics) {
-	obj := models.LogdiskFilter{}
+func getObjectLogDiskFilter(d *schema.ResourceData, sv string) (*models.LogDiskFilter, diag.Diagnostics) {
+	obj := models.LogDiskFilter{}
 	diags := diag.Diagnostics{}
 
 	if v1, ok := d.GetOk("admin"); ok {
@@ -834,7 +839,7 @@ func getObjectLogdiskFilter(d *schema.ResourceData, sv string) (*models.LogdiskF
 	}
 	if v1, ok := d.GetOk("dlp_archive"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "v6.4.2") {
+			if !utils.CheckVer(sv, "", "v6.4.0") {
 				e := utils.AttributeVersionWarning("dlp_archive", sv)
 				diags = append(diags, e)
 			}
@@ -882,7 +887,7 @@ func getObjectLogdiskFilter(d *schema.ResourceData, sv string) (*models.LogdiskF
 			e := utils.AttributeVersionWarning("free_style", sv)
 			diags = append(diags, e)
 		}
-		t, err := expandLogdiskFilterFreeStyle(d, v, "free_style", sv)
+		t, err := expandLogDiskFilterFreeStyle(d, v, "free_style", sv)
 		if err != nil {
 			return &obj, diag.FromErr(err)
 		} else if t != nil {
@@ -891,12 +896,12 @@ func getObjectLogdiskFilter(d *schema.ResourceData, sv string) (*models.LogdiskF
 	} else if d.HasChange("free_style") {
 		old, new := d.GetChange("free_style")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.FreeStyle = &[]models.LogdiskFilterFreeStyle{}
+			obj.FreeStyle = &[]models.LogDiskFilterFreeStyle{}
 		}
 	}
 	if v1, ok := d.GetOk("gtp"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "v6.4.2", "") {
+			if !utils.CheckVer(sv, "v6.4.0", "") {
 				e := utils.AttributeVersionWarning("gtp", sv)
 				diags = append(diags, e)
 			}
@@ -1065,5 +1070,15 @@ func getObjectLogdiskFilter(d *schema.ResourceData, sv string) (*models.LogdiskF
 			obj.WirelessActivity = &v2
 		}
 	}
+	return &obj, diags
+}
+
+// Return an object with explicitly empty objects for tables that have been set.
+func getEmptyObjectLogDiskFilter(d *schema.ResourceData, sv string) (*models.LogDiskFilter, diag.Diagnostics) {
+	obj := models.LogDiskFilter{}
+	diags := diag.Diagnostics{}
+
+	obj.FreeStyle = &[]models.LogDiskFilterFreeStyle{}
+
 	return &obj, diags
 }

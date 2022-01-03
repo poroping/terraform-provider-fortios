@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -3374,7 +3374,7 @@ func getObjectWirelessControllerVap(d *schema.ResourceData, sv string) (*models.
 
 	if v1, ok := d.GetOk("access_control_list"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "v6.4.2", "") {
+			if !utils.CheckVer(sv, "v6.4.0", "") {
 				e := utils.AttributeVersionWarning("access_control_list", sv)
 				diags = append(diags, e)
 			}
@@ -3383,7 +3383,7 @@ func getObjectWirelessControllerVap(d *schema.ResourceData, sv string) (*models.
 	}
 	if v1, ok := d.GetOk("acct_interim_interval"); ok {
 		if v2, ok := v1.(int); ok {
-			if !utils.CheckVer(sv, "", "v6.4.2") {
+			if !utils.CheckVer(sv, "", "v6.4.0") {
 				e := utils.AttributeVersionWarning("acct_interim_interval", sv)
 				diags = append(diags, e)
 			}
@@ -3522,7 +3522,7 @@ func getObjectWirelessControllerVap(d *schema.ResourceData, sv string) (*models.
 	}
 	if v1, ok := d.GetOk("captive_portal_auth_timeout"); ok {
 		if v2, ok := v1.(int); ok {
-			if !utils.CheckVer(sv, "v6.4.2", "") {
+			if !utils.CheckVer(sv, "v6.4.0", "") {
 				e := utils.AttributeVersionWarning("captive_portal_auth_timeout", sv)
 				diags = append(diags, e)
 			}
@@ -3532,7 +3532,7 @@ func getObjectWirelessControllerVap(d *schema.ResourceData, sv string) (*models.
 	}
 	if v1, ok := d.GetOk("captive_portal_macauth_radius_secret"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "v6.4.2") {
+			if !utils.CheckVer(sv, "", "v6.4.0") {
 				e := utils.AttributeVersionWarning("captive_portal_macauth_radius_secret", sv)
 				diags = append(diags, e)
 			}
@@ -3541,7 +3541,7 @@ func getObjectWirelessControllerVap(d *schema.ResourceData, sv string) (*models.
 	}
 	if v1, ok := d.GetOk("captive_portal_macauth_radius_server"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "v6.4.2") {
+			if !utils.CheckVer(sv, "", "v6.4.0") {
 				e := utils.AttributeVersionWarning("captive_portal_macauth_radius_server", sv)
 				diags = append(diags, e)
 			}
@@ -3550,7 +3550,7 @@ func getObjectWirelessControllerVap(d *schema.ResourceData, sv string) (*models.
 	}
 	if v1, ok := d.GetOk("captive_portal_radius_secret"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "v6.4.2") {
+			if !utils.CheckVer(sv, "", "v6.4.0") {
 				e := utils.AttributeVersionWarning("captive_portal_radius_secret", sv)
 				diags = append(diags, e)
 			}
@@ -3559,7 +3559,7 @@ func getObjectWirelessControllerVap(d *schema.ResourceData, sv string) (*models.
 	}
 	if v1, ok := d.GetOk("captive_portal_radius_server"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "v6.4.2") {
+			if !utils.CheckVer(sv, "", "v6.4.0") {
 				e := utils.AttributeVersionWarning("captive_portal_radius_server", sv)
 				diags = append(diags, e)
 			}
@@ -3568,7 +3568,7 @@ func getObjectWirelessControllerVap(d *schema.ResourceData, sv string) (*models.
 	}
 	if v1, ok := d.GetOk("captive_portal_session_timeout_interval"); ok {
 		if v2, ok := v1.(int); ok {
-			if !utils.CheckVer(sv, "", "v6.4.2") {
+			if !utils.CheckVer(sv, "", "v6.4.0") {
 				e := utils.AttributeVersionWarning("captive_portal_session_timeout_interval", sv)
 				diags = append(diags, e)
 			}
@@ -3855,7 +3855,7 @@ func getObjectWirelessControllerVap(d *schema.ResourceData, sv string) (*models.
 	}
 	if v1, ok := d.GetOk("ipv6_rules"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "v6.4.2", "") {
+			if !utils.CheckVer(sv, "v6.4.0", "") {
 				e := utils.AttributeVersionWarning("ipv6_rules", sv)
 				diags = append(diags, e)
 			}
@@ -4697,7 +4697,7 @@ func getObjectWirelessControllerVap(d *schema.ResourceData, sv string) (*models.
 	}
 	if v1, ok := d.GetOk("sticky_client_remove"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "v6.4.2", "") {
+			if !utils.CheckVer(sv, "v6.4.0", "") {
 				e := utils.AttributeVersionWarning("sticky_client_remove", sv)
 				diags = append(diags, e)
 			}
@@ -4706,7 +4706,7 @@ func getObjectWirelessControllerVap(d *schema.ResourceData, sv string) (*models.
 	}
 	if v1, ok := d.GetOk("sticky_client_threshold_2g"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "v6.4.2", "") {
+			if !utils.CheckVer(sv, "v6.4.0", "") {
 				e := utils.AttributeVersionWarning("sticky_client_threshold_2g", sv)
 				diags = append(diags, e)
 			}
@@ -4715,7 +4715,7 @@ func getObjectWirelessControllerVap(d *schema.ResourceData, sv string) (*models.
 	}
 	if v1, ok := d.GetOk("sticky_client_threshold_5g"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "v6.4.2", "") {
+			if !utils.CheckVer(sv, "v6.4.0", "") {
 				e := utils.AttributeVersionWarning("sticky_client_threshold_5g", sv)
 				diags = append(diags, e)
 			}

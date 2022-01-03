@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -18,14 +18,14 @@ import (
 	"github.com/poroping/terraform-provider-fortios/v2/utils"
 )
 
-func resourceSystemautoupdateTunneling() *schema.Resource {
+func resourceSystemAutoupdateTunneling() *schema.Resource {
 	return &schema.Resource{
 		Description: "Configure web proxy tunnelling for the FDN.",
 
-		CreateContext: resourceSystemautoupdateTunnelingCreate,
-		ReadContext:   resourceSystemautoupdateTunnelingRead,
-		UpdateContext: resourceSystemautoupdateTunnelingUpdate,
-		DeleteContext: resourceSystemautoupdateTunnelingDelete,
+		CreateContext: resourceSystemAutoupdateTunnelingCreate,
+		ReadContext:   resourceSystemAutoupdateTunnelingRead,
+		UpdateContext: resourceSystemAutoupdateTunnelingUpdate,
+		DeleteContext: resourceSystemAutoupdateTunnelingDelete,
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
@@ -82,7 +82,7 @@ func resourceSystemautoupdateTunneling() *schema.Resource {
 	}
 }
 
-func resourceSystemautoupdateTunnelingCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSystemAutoupdateTunnelingCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*apiClient).Client
 	var diags diag.Diagnostics
 	var err error
@@ -104,12 +104,12 @@ func resourceSystemautoupdateTunnelingCreate(ctx context.Context, d *schema.Reso
 	}
 	urlparams.AllowAppend = &allow_append
 
-	obj, diags := getObjectSystemautoupdateTunneling(d, c.Config.Fv)
+	obj, diags := getObjectSystemAutoupdateTunneling(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.CreateSystemautoupdateTunneling(obj, urlparams)
+	o, err := c.Cmdb.CreateSystemAutoupdateTunneling(obj, urlparams)
 
 	if err != nil {
 		e := diag.FromErr(err)
@@ -119,13 +119,13 @@ func resourceSystemautoupdateTunnelingCreate(ctx context.Context, d *schema.Reso
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("SystemautoupdateTunneling")
+		d.SetId("SystemAutoupdateTunneling")
 	}
 
-	return resourceSystemautoupdateTunnelingRead(ctx, d, meta)
+	return resourceSystemAutoupdateTunnelingRead(ctx, d, meta)
 }
 
-func resourceSystemautoupdateTunnelingUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSystemAutoupdateTunnelingUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
@@ -138,27 +138,27 @@ func resourceSystemautoupdateTunnelingUpdate(ctx context.Context, d *schema.Reso
 	}
 	urlparams.Vdom = vdomparam
 
-	obj, diags := getObjectSystemautoupdateTunneling(d, c.Config.Fv)
+	obj, diags := getObjectSystemAutoupdateTunneling(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.UpdateSystemautoupdateTunneling(mkey, obj, urlparams)
+	o, err := c.Cmdb.UpdateSystemAutoupdateTunneling(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error updating SystemautoupdateTunneling resource: %v", err)
+		return diag.Errorf("error updating SystemAutoupdateTunneling resource: %v", err)
 	}
 
 	// log.Printf(strconv.Itoa(c.Retries))
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("SystemautoupdateTunneling")
+		d.SetId("SystemAutoupdateTunneling")
 	}
 
-	return resourceSystemautoupdateTunnelingRead(ctx, d, meta)
+	return resourceSystemAutoupdateTunnelingRead(ctx, d, meta)
 }
 
-func resourceSystemautoupdateTunnelingDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSystemAutoupdateTunnelingDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -173,9 +173,14 @@ func resourceSystemautoupdateTunnelingDelete(ctx context.Context, d *schema.Reso
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteSystemautoupdateTunneling(mkey, urlparams)
+	obj, diags := getEmptyObjectSystemAutoupdateTunneling(d, c.Config.Fv)
+	if diags.HasError() {
+		return diags
+	}
+
+	_, err := c.Cmdb.UpdateSystemAutoupdateTunneling(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error deleting SystemautoupdateTunneling resource: %v", err)
+		return diag.Errorf("error deleting SystemAutoupdateTunneling resource: %v", err)
 	}
 
 	d.SetId("")
@@ -183,7 +188,7 @@ func resourceSystemautoupdateTunnelingDelete(ctx context.Context, d *schema.Reso
 	return nil
 }
 
-func resourceSystemautoupdateTunnelingRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSystemAutoupdateTunnelingRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -198,9 +203,9 @@ func resourceSystemautoupdateTunnelingRead(ctx context.Context, d *schema.Resour
 	}
 	urlparams.Vdom = vdomparam
 
-	o, err := c.Cmdb.ReadSystemautoupdateTunneling(mkey, urlparams)
+	o, err := c.Cmdb.ReadSystemAutoupdateTunneling(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error reading SystemautoupdateTunneling resource: %v", err)
+		return diag.Errorf("error reading SystemAutoupdateTunneling resource: %v", err)
 	}
 
 	if o == nil {
@@ -216,14 +221,14 @@ func resourceSystemautoupdateTunnelingRead(ctx context.Context, d *schema.Resour
 		}
 	}
 
-	diags := refreshObjectSystemautoupdateTunneling(d, o, c.Config.Fv, sort)
+	diags := refreshObjectSystemAutoupdateTunneling(d, o, c.Config.Fv, sort)
 	if diags.HasError() {
 		return diags
 	}
 	return nil
 }
 
-func refreshObjectSystemautoupdateTunneling(d *schema.ResourceData, o *models.SystemautoupdateTunneling, sv string, sort bool) diag.Diagnostics {
+func refreshObjectSystemAutoupdateTunneling(d *schema.ResourceData, o *models.SystemAutoupdateTunneling, sv string, sort bool) diag.Diagnostics {
 	var err error
 
 	if o.Address != nil {
@@ -269,8 +274,8 @@ func refreshObjectSystemautoupdateTunneling(d *schema.ResourceData, o *models.Sy
 	return nil
 }
 
-func getObjectSystemautoupdateTunneling(d *schema.ResourceData, sv string) (*models.SystemautoupdateTunneling, diag.Diagnostics) {
-	obj := models.SystemautoupdateTunneling{}
+func getObjectSystemAutoupdateTunneling(d *schema.ResourceData, sv string) (*models.SystemAutoupdateTunneling, diag.Diagnostics) {
+	obj := models.SystemAutoupdateTunneling{}
 	diags := diag.Diagnostics{}
 
 	if v1, ok := d.GetOk("address"); ok {
@@ -319,5 +324,13 @@ func getObjectSystemautoupdateTunneling(d *schema.ResourceData, sv string) (*mod
 			obj.Username = &v2
 		}
 	}
+	return &obj, diags
+}
+
+// Return an object with explicitly empty objects for tables that have been set.
+func getEmptyObjectSystemAutoupdateTunneling(d *schema.ResourceData, sv string) (*models.SystemAutoupdateTunneling, diag.Diagnostics) {
+	obj := models.SystemAutoupdateTunneling{}
+	diags := diag.Diagnostics{}
+
 	return &obj, diags
 }

@@ -14,11 +14,17 @@ func resource{{.fpath}}Delete(ctx context.Context, d *schema.ResourceData, meta 
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.Delete{{.fpath}}(mkey, urlparams)
+	{{ if eq .results.category "complex" }}
+	obj, diags := getEmptyObject{{ .fpath }}(d, c.Config.Fv)
+	if diags.HasError() {
+		return diags
+	}
+
+	_, err := c.Cmdb.Update{{ .fpath }}(mkey, obj, urlparams){{else}}err := c.Cmdb.Delete{{.fpath}}(mkey, urlparams){{end}}
 	if err != nil {
 		return diag.Errorf("error deleting {{.fpath}} resource: %v", err)
 	}
-
+	
 	d.SetId("")
 
 	return nil

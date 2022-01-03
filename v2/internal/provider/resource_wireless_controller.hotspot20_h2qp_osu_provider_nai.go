@@ -19,14 +19,14 @@ import (
 	"github.com/poroping/terraform-provider-fortios/v2/utils"
 )
 
-func resourceWirelessControllerhotspot20H2qpOsuProviderNai() *schema.Resource {
+func resourceWirelessControllerHotspot20H2qpOsuProviderNai() *schema.Resource {
 	return &schema.Resource{
 		Description: "Configure online sign up (OSU) provider NAI list.",
 
-		CreateContext: resourceWirelessControllerhotspot20H2qpOsuProviderNaiCreate,
-		ReadContext:   resourceWirelessControllerhotspot20H2qpOsuProviderNaiRead,
-		UpdateContext: resourceWirelessControllerhotspot20H2qpOsuProviderNaiUpdate,
-		DeleteContext: resourceWirelessControllerhotspot20H2qpOsuProviderNaiDelete,
+		CreateContext: resourceWirelessControllerHotspot20H2qpOsuProviderNaiCreate,
+		ReadContext:   resourceWirelessControllerHotspot20H2qpOsuProviderNaiRead,
+		UpdateContext: resourceWirelessControllerHotspot20H2qpOsuProviderNaiUpdate,
+		DeleteContext: resourceWirelessControllerHotspot20H2qpOsuProviderNaiDelete,
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
@@ -87,7 +87,7 @@ func resourceWirelessControllerhotspot20H2qpOsuProviderNai() *schema.Resource {
 	}
 }
 
-func resourceWirelessControllerhotspot20H2qpOsuProviderNaiCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceWirelessControllerHotspot20H2qpOsuProviderNaiCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*apiClient).Client
 	var diags diag.Diagnostics
 	var err error
@@ -114,16 +114,16 @@ func resourceWirelessControllerhotspot20H2qpOsuProviderNaiCreate(ctx context.Con
 	if v, ok := d.GetOk(key); ok {
 		mkey = utils.ParseMkey(v)
 		if mkey == "" && allow_append {
-			return diag.Errorf("error creating WirelessControllerhotspot20H2qpOsuProviderNai resource: %q must be set if \"allow_append\" is true", key)
+			return diag.Errorf("error creating WirelessControllerHotspot20H2qpOsuProviderNai resource: %q must be set if \"allow_append\" is true", key)
 		}
 	}
 
-	obj, diags := getObjectWirelessControllerhotspot20H2qpOsuProviderNai(d, c.Config.Fv)
+	obj, diags := getObjectWirelessControllerHotspot20H2qpOsuProviderNai(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.CreateWirelessControllerhotspot20H2qpOsuProviderNai(obj, urlparams)
+	o, err := c.Cmdb.CreateWirelessControllerHotspot20H2qpOsuProviderNai(obj, urlparams)
 
 	if err != nil {
 		e := diag.FromErr(err)
@@ -133,13 +133,13 @@ func resourceWirelessControllerhotspot20H2qpOsuProviderNaiCreate(ctx context.Con
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("WirelessControllerhotspot20H2qpOsuProviderNai")
+		d.SetId("WirelessControllerHotspot20H2qpOsuProviderNai")
 	}
 
-	return resourceWirelessControllerhotspot20H2qpOsuProviderNaiRead(ctx, d, meta)
+	return resourceWirelessControllerHotspot20H2qpOsuProviderNaiRead(ctx, d, meta)
 }
 
-func resourceWirelessControllerhotspot20H2qpOsuProviderNaiUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceWirelessControllerHotspot20H2qpOsuProviderNaiUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
@@ -152,27 +152,27 @@ func resourceWirelessControllerhotspot20H2qpOsuProviderNaiUpdate(ctx context.Con
 	}
 	urlparams.Vdom = vdomparam
 
-	obj, diags := getObjectWirelessControllerhotspot20H2qpOsuProviderNai(d, c.Config.Fv)
+	obj, diags := getObjectWirelessControllerHotspot20H2qpOsuProviderNai(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.UpdateWirelessControllerhotspot20H2qpOsuProviderNai(mkey, obj, urlparams)
+	o, err := c.Cmdb.UpdateWirelessControllerHotspot20H2qpOsuProviderNai(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error updating WirelessControllerhotspot20H2qpOsuProviderNai resource: %v", err)
+		return diag.Errorf("error updating WirelessControllerHotspot20H2qpOsuProviderNai resource: %v", err)
 	}
 
 	// log.Printf(strconv.Itoa(c.Retries))
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("WirelessControllerhotspot20H2qpOsuProviderNai")
+		d.SetId("WirelessControllerHotspot20H2qpOsuProviderNai")
 	}
 
-	return resourceWirelessControllerhotspot20H2qpOsuProviderNaiRead(ctx, d, meta)
+	return resourceWirelessControllerHotspot20H2qpOsuProviderNaiRead(ctx, d, meta)
 }
 
-func resourceWirelessControllerhotspot20H2qpOsuProviderNaiDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceWirelessControllerHotspot20H2qpOsuProviderNaiDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -187,9 +187,9 @@ func resourceWirelessControllerhotspot20H2qpOsuProviderNaiDelete(ctx context.Con
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteWirelessControllerhotspot20H2qpOsuProviderNai(mkey, urlparams)
+	err := c.Cmdb.DeleteWirelessControllerHotspot20H2qpOsuProviderNai(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error deleting WirelessControllerhotspot20H2qpOsuProviderNai resource: %v", err)
+		return diag.Errorf("error deleting WirelessControllerHotspot20H2qpOsuProviderNai resource: %v", err)
 	}
 
 	d.SetId("")
@@ -197,7 +197,7 @@ func resourceWirelessControllerhotspot20H2qpOsuProviderNaiDelete(ctx context.Con
 	return nil
 }
 
-func resourceWirelessControllerhotspot20H2qpOsuProviderNaiRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceWirelessControllerHotspot20H2qpOsuProviderNaiRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -212,9 +212,9 @@ func resourceWirelessControllerhotspot20H2qpOsuProviderNaiRead(ctx context.Conte
 	}
 	urlparams.Vdom = vdomparam
 
-	o, err := c.Cmdb.ReadWirelessControllerhotspot20H2qpOsuProviderNai(mkey, urlparams)
+	o, err := c.Cmdb.ReadWirelessControllerHotspot20H2qpOsuProviderNai(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error reading WirelessControllerhotspot20H2qpOsuProviderNai resource: %v", err)
+		return diag.Errorf("error reading WirelessControllerHotspot20H2qpOsuProviderNai resource: %v", err)
 	}
 
 	if o == nil {
@@ -230,14 +230,14 @@ func resourceWirelessControllerhotspot20H2qpOsuProviderNaiRead(ctx context.Conte
 		}
 	}
 
-	diags := refreshObjectWirelessControllerhotspot20H2qpOsuProviderNai(d, o, c.Config.Fv, sort)
+	diags := refreshObjectWirelessControllerHotspot20H2qpOsuProviderNai(d, o, c.Config.Fv, sort)
 	if diags.HasError() {
 		return diags
 	}
 	return nil
 }
 
-func flattenWirelessControllerhotspot20H2qpOsuProviderNaiNaiList(v *[]models.WirelessControllerhotspot20H2qpOsuProviderNaiNaiList, sort bool) interface{} {
+func flattenWirelessControllerHotspot20H2qpOsuProviderNaiNaiList(v *[]models.WirelessControllerHotspot20H2qpOsuProviderNaiNaiList, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
@@ -262,11 +262,11 @@ func flattenWirelessControllerhotspot20H2qpOsuProviderNaiNaiList(v *[]models.Wir
 	return flat
 }
 
-func refreshObjectWirelessControllerhotspot20H2qpOsuProviderNai(d *schema.ResourceData, o *models.WirelessControllerhotspot20H2qpOsuProviderNai, sv string, sort bool) diag.Diagnostics {
+func refreshObjectWirelessControllerHotspot20H2qpOsuProviderNai(d *schema.ResourceData, o *models.WirelessControllerHotspot20H2qpOsuProviderNai, sv string, sort bool) diag.Diagnostics {
 	var err error
 
 	if o.NaiList != nil {
-		if err = d.Set("nai_list", flattenWirelessControllerhotspot20H2qpOsuProviderNaiNaiList(o.NaiList, sort)); err != nil {
+		if err = d.Set("nai_list", flattenWirelessControllerHotspot20H2qpOsuProviderNaiNaiList(o.NaiList, sort)); err != nil {
 			return diag.Errorf("error reading nai_list: %v", err)
 		}
 	}
@@ -282,16 +282,16 @@ func refreshObjectWirelessControllerhotspot20H2qpOsuProviderNai(d *schema.Resour
 	return nil
 }
 
-func expandWirelessControllerhotspot20H2qpOsuProviderNaiNaiList(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.WirelessControllerhotspot20H2qpOsuProviderNaiNaiList, error) {
+func expandWirelessControllerHotspot20H2qpOsuProviderNaiNaiList(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.WirelessControllerHotspot20H2qpOsuProviderNaiNaiList, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
 	}
 
-	var result []models.WirelessControllerhotspot20H2qpOsuProviderNaiNaiList
+	var result []models.WirelessControllerHotspot20H2qpOsuProviderNaiNaiList
 
 	for i := range l {
-		tmp := models.WirelessControllerhotspot20H2qpOsuProviderNaiNaiList{}
+		tmp := models.WirelessControllerHotspot20H2qpOsuProviderNaiNaiList{}
 		var pre_append string
 
 		pre_append = fmt.Sprintf("%s.%d.name", pre, i)
@@ -313,8 +313,8 @@ func expandWirelessControllerhotspot20H2qpOsuProviderNaiNaiList(d *schema.Resour
 	return &result, nil
 }
 
-func getObjectWirelessControllerhotspot20H2qpOsuProviderNai(d *schema.ResourceData, sv string) (*models.WirelessControllerhotspot20H2qpOsuProviderNai, diag.Diagnostics) {
-	obj := models.WirelessControllerhotspot20H2qpOsuProviderNai{}
+func getObjectWirelessControllerHotspot20H2qpOsuProviderNai(d *schema.ResourceData, sv string) (*models.WirelessControllerHotspot20H2qpOsuProviderNai, diag.Diagnostics) {
+	obj := models.WirelessControllerHotspot20H2qpOsuProviderNai{}
 	diags := diag.Diagnostics{}
 
 	if v, ok := d.GetOk("nai_list"); ok {
@@ -322,7 +322,7 @@ func getObjectWirelessControllerhotspot20H2qpOsuProviderNai(d *schema.ResourceDa
 			e := utils.AttributeVersionWarning("nai_list", sv)
 			diags = append(diags, e)
 		}
-		t, err := expandWirelessControllerhotspot20H2qpOsuProviderNaiNaiList(d, v, "nai_list", sv)
+		t, err := expandWirelessControllerHotspot20H2qpOsuProviderNaiNaiList(d, v, "nai_list", sv)
 		if err != nil {
 			return &obj, diag.FromErr(err)
 		} else if t != nil {
@@ -331,7 +331,7 @@ func getObjectWirelessControllerhotspot20H2qpOsuProviderNai(d *schema.ResourceDa
 	} else if d.HasChange("nai_list") {
 		old, new := d.GetChange("nai_list")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.NaiList = &[]models.WirelessControllerhotspot20H2qpOsuProviderNaiNaiList{}
+			obj.NaiList = &[]models.WirelessControllerHotspot20H2qpOsuProviderNaiNaiList{}
 		}
 	}
 	if v1, ok := d.GetOk("name"); ok {

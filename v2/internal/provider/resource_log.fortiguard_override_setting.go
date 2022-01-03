@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -18,14 +18,14 @@ import (
 	"github.com/poroping/terraform-provider-fortios/v2/utils"
 )
 
-func resourceLogfortiguardOverrideSetting() *schema.Resource {
+func resourceLogFortiguardOverrideSetting() *schema.Resource {
 	return &schema.Resource{
 		Description: "Override global FortiCloud logging settings for this VDOM.",
 
-		CreateContext: resourceLogfortiguardOverrideSettingCreate,
-		ReadContext:   resourceLogfortiguardOverrideSettingRead,
-		UpdateContext: resourceLogfortiguardOverrideSettingUpdate,
-		DeleteContext: resourceLogfortiguardOverrideSettingDelete,
+		CreateContext: resourceLogFortiguardOverrideSettingCreate,
+		ReadContext:   resourceLogFortiguardOverrideSettingRead,
+		UpdateContext: resourceLogFortiguardOverrideSettingUpdate,
+		DeleteContext: resourceLogFortiguardOverrideSettingDelete,
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
@@ -112,7 +112,7 @@ func resourceLogfortiguardOverrideSetting() *schema.Resource {
 	}
 }
 
-func resourceLogfortiguardOverrideSettingCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceLogFortiguardOverrideSettingCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*apiClient).Client
 	var diags diag.Diagnostics
 	var err error
@@ -134,12 +134,12 @@ func resourceLogfortiguardOverrideSettingCreate(ctx context.Context, d *schema.R
 	}
 	urlparams.AllowAppend = &allow_append
 
-	obj, diags := getObjectLogfortiguardOverrideSetting(d, c.Config.Fv)
+	obj, diags := getObjectLogFortiguardOverrideSetting(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.CreateLogfortiguardOverrideSetting(obj, urlparams)
+	o, err := c.Cmdb.CreateLogFortiguardOverrideSetting(obj, urlparams)
 
 	if err != nil {
 		e := diag.FromErr(err)
@@ -149,13 +149,13 @@ func resourceLogfortiguardOverrideSettingCreate(ctx context.Context, d *schema.R
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("LogfortiguardOverrideSetting")
+		d.SetId("LogFortiguardOverrideSetting")
 	}
 
-	return resourceLogfortiguardOverrideSettingRead(ctx, d, meta)
+	return resourceLogFortiguardOverrideSettingRead(ctx, d, meta)
 }
 
-func resourceLogfortiguardOverrideSettingUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceLogFortiguardOverrideSettingUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
@@ -168,27 +168,27 @@ func resourceLogfortiguardOverrideSettingUpdate(ctx context.Context, d *schema.R
 	}
 	urlparams.Vdom = vdomparam
 
-	obj, diags := getObjectLogfortiguardOverrideSetting(d, c.Config.Fv)
+	obj, diags := getObjectLogFortiguardOverrideSetting(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.UpdateLogfortiguardOverrideSetting(mkey, obj, urlparams)
+	o, err := c.Cmdb.UpdateLogFortiguardOverrideSetting(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error updating LogfortiguardOverrideSetting resource: %v", err)
+		return diag.Errorf("error updating LogFortiguardOverrideSetting resource: %v", err)
 	}
 
 	// log.Printf(strconv.Itoa(c.Retries))
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("LogfortiguardOverrideSetting")
+		d.SetId("LogFortiguardOverrideSetting")
 	}
 
-	return resourceLogfortiguardOverrideSettingRead(ctx, d, meta)
+	return resourceLogFortiguardOverrideSettingRead(ctx, d, meta)
 }
 
-func resourceLogfortiguardOverrideSettingDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceLogFortiguardOverrideSettingDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -203,9 +203,14 @@ func resourceLogfortiguardOverrideSettingDelete(ctx context.Context, d *schema.R
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteLogfortiguardOverrideSetting(mkey, urlparams)
+	obj, diags := getEmptyObjectLogFortiguardOverrideSetting(d, c.Config.Fv)
+	if diags.HasError() {
+		return diags
+	}
+
+	_, err := c.Cmdb.UpdateLogFortiguardOverrideSetting(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error deleting LogfortiguardOverrideSetting resource: %v", err)
+		return diag.Errorf("error deleting LogFortiguardOverrideSetting resource: %v", err)
 	}
 
 	d.SetId("")
@@ -213,7 +218,7 @@ func resourceLogfortiguardOverrideSettingDelete(ctx context.Context, d *schema.R
 	return nil
 }
 
-func resourceLogfortiguardOverrideSettingRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceLogFortiguardOverrideSettingRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -228,9 +233,9 @@ func resourceLogfortiguardOverrideSettingRead(ctx context.Context, d *schema.Res
 	}
 	urlparams.Vdom = vdomparam
 
-	o, err := c.Cmdb.ReadLogfortiguardOverrideSetting(mkey, urlparams)
+	o, err := c.Cmdb.ReadLogFortiguardOverrideSetting(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error reading LogfortiguardOverrideSetting resource: %v", err)
+		return diag.Errorf("error reading LogFortiguardOverrideSetting resource: %v", err)
 	}
 
 	if o == nil {
@@ -246,14 +251,14 @@ func resourceLogfortiguardOverrideSettingRead(ctx context.Context, d *schema.Res
 		}
 	}
 
-	diags := refreshObjectLogfortiguardOverrideSetting(d, o, c.Config.Fv, sort)
+	diags := refreshObjectLogFortiguardOverrideSetting(d, o, c.Config.Fv, sort)
 	if diags.HasError() {
 		return diags
 	}
 	return nil
 }
 
-func refreshObjectLogfortiguardOverrideSetting(d *schema.ResourceData, o *models.LogfortiguardOverrideSetting, sv string, sort bool) diag.Diagnostics {
+func refreshObjectLogFortiguardOverrideSetting(d *schema.ResourceData, o *models.LogFortiguardOverrideSetting, sv string, sort bool) diag.Diagnostics {
 	var err error
 
 	if o.AccessConfig != nil {
@@ -331,8 +336,8 @@ func refreshObjectLogfortiguardOverrideSetting(d *schema.ResourceData, o *models
 	return nil
 }
 
-func getObjectLogfortiguardOverrideSetting(d *schema.ResourceData, sv string) (*models.LogfortiguardOverrideSetting, diag.Diagnostics) {
-	obj := models.LogfortiguardOverrideSetting{}
+func getObjectLogFortiguardOverrideSetting(d *schema.ResourceData, sv string) (*models.LogFortiguardOverrideSetting, diag.Diagnostics) {
+	obj := models.LogFortiguardOverrideSetting{}
 	diags := diag.Diagnostics{}
 
 	if v1, ok := d.GetOk("access_config"); ok {
@@ -417,5 +422,13 @@ func getObjectLogfortiguardOverrideSetting(d *schema.ResourceData, sv string) (*
 			obj.UploadTime = &v2
 		}
 	}
+	return &obj, diags
+}
+
+// Return an object with explicitly empty objects for tables that have been set.
+func getEmptyObjectLogFortiguardOverrideSetting(d *schema.ResourceData, sv string) (*models.LogFortiguardOverrideSetting, diag.Diagnostics) {
+	obj := models.LogFortiguardOverrideSetting{}
+	diags := diag.Diagnostics{}
+
 	return &obj, diags
 }

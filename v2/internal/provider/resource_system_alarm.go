@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -321,7 +321,12 @@ func resourceSystemAlarmDelete(ctx context.Context, d *schema.ResourceData, meta
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteSystemAlarm(mkey, urlparams)
+	obj, diags := getEmptyObjectSystemAlarm(d, c.Config.Fv)
+	if diags.HasError() {
+		return diags
+	}
+
+	_, err := c.Cmdb.UpdateSystemAlarm(mkey, obj, urlparams)
 	if err != nil {
 		return diag.Errorf("error deleting SystemAlarm resource: %v", err)
 	}
@@ -729,5 +734,15 @@ func getObjectSystemAlarm(d *schema.ResourceData, sv string) (*models.SystemAlar
 			obj.Status = &v2
 		}
 	}
+	return &obj, diags
+}
+
+// Return an object with explicitly empty objects for tables that have been set.
+func getEmptyObjectSystemAlarm(d *schema.ResourceData, sv string) (*models.SystemAlarm, diag.Diagnostics) {
+	obj := models.SystemAlarm{}
+	diags := diag.Diagnostics{}
+
+	obj.Groups = &[]models.SystemAlarmGroups{}
+
 	return &obj, diags
 }

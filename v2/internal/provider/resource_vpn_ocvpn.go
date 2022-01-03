@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -424,7 +424,12 @@ func resourceVpnOcvpnDelete(ctx context.Context, d *schema.ResourceData, meta in
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteVpnOcvpn(mkey, urlparams)
+	obj, diags := getEmptyObjectVpnOcvpn(d, c.Config.Fv)
+	if diags.HasError() {
+		return diags
+	}
+
+	_, err := c.Cmdb.UpdateVpnOcvpn(mkey, obj, urlparams)
 	if err != nil {
 		return diag.Errorf("error deleting VpnOcvpn resource: %v", err)
 	}
@@ -1069,7 +1074,7 @@ func getObjectVpnOcvpn(d *schema.ResourceData, sv string) (*models.VpnOcvpn, dia
 		}
 	}
 	if v, ok := d.GetOk("forticlient_access"); ok {
-		if !utils.CheckVer(sv, "v6.4.2", "") {
+		if !utils.CheckVer(sv, "v6.4.0", "") {
 			e := utils.AttributeVersionWarning("forticlient_access", sv)
 			diags = append(diags, e)
 		}
@@ -1087,7 +1092,7 @@ func getObjectVpnOcvpn(d *schema.ResourceData, sv string) (*models.VpnOcvpn, dia
 	}
 	if v1, ok := d.GetOk("ip_allocation_block"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "v6.4.2", "") {
+			if !utils.CheckVer(sv, "v6.4.0", "") {
 				e := utils.AttributeVersionWarning("ip_allocation_block", sv)
 				diags = append(diags, e)
 			}
@@ -1096,7 +1101,7 @@ func getObjectVpnOcvpn(d *schema.ResourceData, sv string) (*models.VpnOcvpn, dia
 	}
 	if v1, ok := d.GetOk("multipath"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "v6.4.2", "") {
+			if !utils.CheckVer(sv, "v6.4.0", "") {
 				e := utils.AttributeVersionWarning("multipath", sv)
 				diags = append(diags, e)
 			}
@@ -1150,7 +1155,7 @@ func getObjectVpnOcvpn(d *schema.ResourceData, sv string) (*models.VpnOcvpn, dia
 	}
 	if v1, ok := d.GetOk("sdwan"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "v6.4.2", "") {
+			if !utils.CheckVer(sv, "v6.4.0", "") {
 				e := utils.AttributeVersionWarning("sdwan", sv)
 				diags = append(diags, e)
 			}
@@ -1176,7 +1181,7 @@ func getObjectVpnOcvpn(d *schema.ResourceData, sv string) (*models.VpnOcvpn, dia
 		}
 	}
 	if v, ok := d.GetOk("wan_interface"); ok {
-		if !utils.CheckVer(sv, "v6.4.2", "") {
+		if !utils.CheckVer(sv, "v6.4.0", "") {
 			e := utils.AttributeVersionWarning("wan_interface", sv)
 			diags = append(diags, e)
 		}
@@ -1192,5 +1197,17 @@ func getObjectVpnOcvpn(d *schema.ResourceData, sv string) (*models.VpnOcvpn, dia
 			obj.WanInterface = &[]models.VpnOcvpnWanInterface{}
 		}
 	}
+	return &obj, diags
+}
+
+// Return an object with explicitly empty objects for tables that have been set.
+func getEmptyObjectVpnOcvpn(d *schema.ResourceData, sv string) (*models.VpnOcvpn, diag.Diagnostics) {
+	obj := models.VpnOcvpn{}
+	diags := diag.Diagnostics{}
+
+	obj.ForticlientAccess = &[]models.VpnOcvpnForticlientAccess{}
+	obj.Overlays = &[]models.VpnOcvpnOverlays{}
+	obj.WanInterface = &[]models.VpnOcvpnWanInterface{}
+
 	return &obj, diags
 }

@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -18,14 +18,14 @@ import (
 	"github.com/poroping/terraform-provider-fortios/v2/utils"
 )
 
-func resourceSystemautoupdatePushUpdate() *schema.Resource {
+func resourceSystemAutoupdatePushUpdate() *schema.Resource {
 	return &schema.Resource{
 		Description: "Configure push updates.",
 
-		CreateContext: resourceSystemautoupdatePushUpdateCreate,
-		ReadContext:   resourceSystemautoupdatePushUpdateRead,
-		UpdateContext: resourceSystemautoupdatePushUpdateUpdate,
-		DeleteContext: resourceSystemautoupdatePushUpdateDelete,
+		CreateContext: resourceSystemAutoupdatePushUpdateCreate,
+		ReadContext:   resourceSystemAutoupdatePushUpdateRead,
+		UpdateContext: resourceSystemAutoupdatePushUpdateUpdate,
+		DeleteContext: resourceSystemAutoupdatePushUpdateDelete,
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
@@ -74,7 +74,7 @@ func resourceSystemautoupdatePushUpdate() *schema.Resource {
 	}
 }
 
-func resourceSystemautoupdatePushUpdateCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSystemAutoupdatePushUpdateCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*apiClient).Client
 	var diags diag.Diagnostics
 	var err error
@@ -96,12 +96,12 @@ func resourceSystemautoupdatePushUpdateCreate(ctx context.Context, d *schema.Res
 	}
 	urlparams.AllowAppend = &allow_append
 
-	obj, diags := getObjectSystemautoupdatePushUpdate(d, c.Config.Fv)
+	obj, diags := getObjectSystemAutoupdatePushUpdate(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.CreateSystemautoupdatePushUpdate(obj, urlparams)
+	o, err := c.Cmdb.CreateSystemAutoupdatePushUpdate(obj, urlparams)
 
 	if err != nil {
 		e := diag.FromErr(err)
@@ -111,13 +111,13 @@ func resourceSystemautoupdatePushUpdateCreate(ctx context.Context, d *schema.Res
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("SystemautoupdatePushUpdate")
+		d.SetId("SystemAutoupdatePushUpdate")
 	}
 
-	return resourceSystemautoupdatePushUpdateRead(ctx, d, meta)
+	return resourceSystemAutoupdatePushUpdateRead(ctx, d, meta)
 }
 
-func resourceSystemautoupdatePushUpdateUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSystemAutoupdatePushUpdateUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
@@ -130,27 +130,27 @@ func resourceSystemautoupdatePushUpdateUpdate(ctx context.Context, d *schema.Res
 	}
 	urlparams.Vdom = vdomparam
 
-	obj, diags := getObjectSystemautoupdatePushUpdate(d, c.Config.Fv)
+	obj, diags := getObjectSystemAutoupdatePushUpdate(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.UpdateSystemautoupdatePushUpdate(mkey, obj, urlparams)
+	o, err := c.Cmdb.UpdateSystemAutoupdatePushUpdate(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error updating SystemautoupdatePushUpdate resource: %v", err)
+		return diag.Errorf("error updating SystemAutoupdatePushUpdate resource: %v", err)
 	}
 
 	// log.Printf(strconv.Itoa(c.Retries))
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("SystemautoupdatePushUpdate")
+		d.SetId("SystemAutoupdatePushUpdate")
 	}
 
-	return resourceSystemautoupdatePushUpdateRead(ctx, d, meta)
+	return resourceSystemAutoupdatePushUpdateRead(ctx, d, meta)
 }
 
-func resourceSystemautoupdatePushUpdateDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSystemAutoupdatePushUpdateDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -165,9 +165,14 @@ func resourceSystemautoupdatePushUpdateDelete(ctx context.Context, d *schema.Res
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteSystemautoupdatePushUpdate(mkey, urlparams)
+	obj, diags := getEmptyObjectSystemAutoupdatePushUpdate(d, c.Config.Fv)
+	if diags.HasError() {
+		return diags
+	}
+
+	_, err := c.Cmdb.UpdateSystemAutoupdatePushUpdate(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error deleting SystemautoupdatePushUpdate resource: %v", err)
+		return diag.Errorf("error deleting SystemAutoupdatePushUpdate resource: %v", err)
 	}
 
 	d.SetId("")
@@ -175,7 +180,7 @@ func resourceSystemautoupdatePushUpdateDelete(ctx context.Context, d *schema.Res
 	return nil
 }
 
-func resourceSystemautoupdatePushUpdateRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSystemAutoupdatePushUpdateRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -190,9 +195,9 @@ func resourceSystemautoupdatePushUpdateRead(ctx context.Context, d *schema.Resou
 	}
 	urlparams.Vdom = vdomparam
 
-	o, err := c.Cmdb.ReadSystemautoupdatePushUpdate(mkey, urlparams)
+	o, err := c.Cmdb.ReadSystemAutoupdatePushUpdate(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error reading SystemautoupdatePushUpdate resource: %v", err)
+		return diag.Errorf("error reading SystemAutoupdatePushUpdate resource: %v", err)
 	}
 
 	if o == nil {
@@ -208,14 +213,14 @@ func resourceSystemautoupdatePushUpdateRead(ctx context.Context, d *schema.Resou
 		}
 	}
 
-	diags := refreshObjectSystemautoupdatePushUpdate(d, o, c.Config.Fv, sort)
+	diags := refreshObjectSystemAutoupdatePushUpdate(d, o, c.Config.Fv, sort)
 	if diags.HasError() {
 		return diags
 	}
 	return nil
 }
 
-func refreshObjectSystemautoupdatePushUpdate(d *schema.ResourceData, o *models.SystemautoupdatePushUpdate, sv string, sort bool) diag.Diagnostics {
+func refreshObjectSystemAutoupdatePushUpdate(d *schema.ResourceData, o *models.SystemAutoupdatePushUpdate, sv string, sort bool) diag.Diagnostics {
 	var err error
 
 	if o.Address != nil {
@@ -253,8 +258,8 @@ func refreshObjectSystemautoupdatePushUpdate(d *schema.ResourceData, o *models.S
 	return nil
 }
 
-func getObjectSystemautoupdatePushUpdate(d *schema.ResourceData, sv string) (*models.SystemautoupdatePushUpdate, diag.Diagnostics) {
-	obj := models.SystemautoupdatePushUpdate{}
+func getObjectSystemAutoupdatePushUpdate(d *schema.ResourceData, sv string) (*models.SystemAutoupdatePushUpdate, diag.Diagnostics) {
+	obj := models.SystemAutoupdatePushUpdate{}
 	diags := diag.Diagnostics{}
 
 	if v1, ok := d.GetOk("address"); ok {
@@ -294,5 +299,13 @@ func getObjectSystemautoupdatePushUpdate(d *schema.ResourceData, sv string) (*mo
 			obj.Status = &v2
 		}
 	}
+	return &obj, diags
+}
+
+// Return an object with explicitly empty objects for tables that have been set.
+func getEmptyObjectSystemAutoupdatePushUpdate(d *schema.ResourceData, sv string) (*models.SystemAutoupdatePushUpdate, diag.Diagnostics) {
+	obj := models.SystemAutoupdatePushUpdate{}
+	diags := diag.Diagnostics{}
+
 	return &obj, diags
 }

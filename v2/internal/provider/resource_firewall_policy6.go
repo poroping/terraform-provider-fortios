@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -2524,7 +2524,7 @@ func getObjectFirewallPolicy6(d *schema.ResourceData, sv string) (*models.Firewa
 	}
 	if v1, ok := d.GetOk("decrypted_traffic_mirror"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "v6.4.2", "") {
+			if !utils.CheckVer(sv, "v6.4.0", "") {
 				e := utils.AttributeVersionWarning("decrypted_traffic_mirror", sv)
 				diags = append(diags, e)
 			}
@@ -2817,7 +2817,7 @@ func getObjectFirewallPolicy6(d *schema.ResourceData, sv string) (*models.Firewa
 	}
 	if v1, ok := d.GetOk("np_acceleration"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "v6.4.2") {
+			if !utils.CheckVer(sv, "", "v6.4.0") {
 				e := utils.AttributeVersionWarning("np_acceleration", sv)
 				diags = append(diags, e)
 			}
@@ -2907,7 +2907,7 @@ func getObjectFirewallPolicy6(d *schema.ResourceData, sv string) (*models.Firewa
 	}
 	if v1, ok := d.GetOk("rsso"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "v6.4.2") {
+			if !utils.CheckVer(sv, "", "v6.4.0") {
 				e := utils.AttributeVersionWarning("rsso", sv)
 				diags = append(diags, e)
 			}
@@ -3030,7 +3030,7 @@ func getObjectFirewallPolicy6(d *schema.ResourceData, sv string) (*models.Firewa
 	}
 	if v1, ok := d.GetOk("ssl_mirror"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "v6.4.2") {
+			if !utils.CheckVer(sv, "", "v6.4.0") {
 				e := utils.AttributeVersionWarning("ssl_mirror", sv)
 				diags = append(diags, e)
 			}
@@ -3038,7 +3038,7 @@ func getObjectFirewallPolicy6(d *schema.ResourceData, sv string) (*models.Firewa
 		}
 	}
 	if v, ok := d.GetOk("ssl_mirror_intf"); ok {
-		if !utils.CheckVer(sv, "", "v6.4.2") {
+		if !utils.CheckVer(sv, "", "v6.4.0") {
 			e := utils.AttributeVersionWarning("ssl_mirror_intf", sv)
 			diags = append(diags, e)
 		}

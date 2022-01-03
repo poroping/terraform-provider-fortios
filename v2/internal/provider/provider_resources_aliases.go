@@ -5,16 +5,15 @@ import "github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 // Aliases to resources with different naming conventions. For backwards compatibility.
 func providerResourcesAliases() map[string]*schema.Resource {
 	return map[string]*schema.Resource{
-		"fortios_vpnssl_settings_authentication_rule": resourceVpnsslsettingsAuthenticationRule(),
-		"fortios_system_sdwan_duplication":            resourceSystemsdwanDuplication(),
-		"fortios_system_sdwan_health_check":           resourceSystemsdwanHealthCheck(),
-		"fortios_system_sdwan_members":                resourceSystemsdwanMembers(),
-		"fortios_system_sdwan_neighbor":               resourceSystemsdwanNeighbor(),
-		"fortios_system_sdwan_service":                resourceSystemsdwanService(),
-		"fortios_system_sdwan_zone":                   resourceSystemsdwanZone(),
-		"fortios_routerbgp_neighbor_group":            resourceRouterbgpNeighborGroup(),
-		"fortios_routerbgp_neighbor_range":            resourceRouterbgpNeighborRange(),
-		"fortios_firewall_access_proxy":               resourceFirewallAccessProxy(),
-		"fortios_firewall_access_proxy_virtual_host":  resourceFirewallAccessProxyVirtualHost(),
+		"fortios_routerbgp_neighbor":         resourceRouterBgpNeighbor(),
+		"fortios_routerbgp_network":          resourceRouterBgpNetwork(),
+		"fortios_routerbgp_network6":         resourceRouterBgpNetwork6(),
+		"fortios_routerbgp_neighbor_group":   resourceRouterBgpNeighborGroup(),
+		"fortios_routerbgp_neighbor_range":   resourceRouterBgpNeighborRange(),
+		"fortios_routerospf_ospfinterface":   resourceRouterOspfOspfInterface(),
+		"fortios_routerospf6_ospf6interface": resourceRouterOspf6Ospf6Interface(),
+		"fortios_routerospf_network":         resourceRouterOspfNetwork(),
+		"fortios_routerospf_neighbor":        resourceRouterOspfNeighbor(),
+		"fortios_routerospf_area":            resourceRouterOspfArea(),
 	}
 }

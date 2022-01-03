@@ -19,14 +19,14 @@ import (
 	"github.com/poroping/terraform-provider-fortios/v2/utils"
 )
 
-func resourceVpnipsecFec() *schema.Resource {
+func resourceVpnIpsecFec() *schema.Resource {
 	return &schema.Resource{
 		Description: "Configure Forward Error Correction (FEC) mapping profiles.",
 
-		CreateContext: resourceVpnipsecFecCreate,
-		ReadContext:   resourceVpnipsecFecRead,
-		UpdateContext: resourceVpnipsecFecUpdate,
-		DeleteContext: resourceVpnipsecFecDelete,
+		CreateContext: resourceVpnIpsecFecCreate,
+		ReadContext:   resourceVpnIpsecFecRead,
+		UpdateContext: resourceVpnIpsecFecUpdate,
+		DeleteContext: resourceVpnIpsecFecDelete,
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
@@ -131,7 +131,7 @@ func resourceVpnipsecFec() *schema.Resource {
 	}
 }
 
-func resourceVpnipsecFecCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceVpnIpsecFecCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*apiClient).Client
 	var diags diag.Diagnostics
 	var err error
@@ -158,16 +158,16 @@ func resourceVpnipsecFecCreate(ctx context.Context, d *schema.ResourceData, meta
 	if v, ok := d.GetOk(key); ok {
 		mkey = utils.ParseMkey(v)
 		if mkey == "" && allow_append {
-			return diag.Errorf("error creating VpnipsecFec resource: %q must be set if \"allow_append\" is true", key)
+			return diag.Errorf("error creating VpnIpsecFec resource: %q must be set if \"allow_append\" is true", key)
 		}
 	}
 
-	obj, diags := getObjectVpnipsecFec(d, c.Config.Fv)
+	obj, diags := getObjectVpnIpsecFec(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.CreateVpnipsecFec(obj, urlparams)
+	o, err := c.Cmdb.CreateVpnIpsecFec(obj, urlparams)
 
 	if err != nil {
 		e := diag.FromErr(err)
@@ -177,13 +177,13 @@ func resourceVpnipsecFecCreate(ctx context.Context, d *schema.ResourceData, meta
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("VpnipsecFec")
+		d.SetId("VpnIpsecFec")
 	}
 
-	return resourceVpnipsecFecRead(ctx, d, meta)
+	return resourceVpnIpsecFecRead(ctx, d, meta)
 }
 
-func resourceVpnipsecFecUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceVpnIpsecFecUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
@@ -196,27 +196,27 @@ func resourceVpnipsecFecUpdate(ctx context.Context, d *schema.ResourceData, meta
 	}
 	urlparams.Vdom = vdomparam
 
-	obj, diags := getObjectVpnipsecFec(d, c.Config.Fv)
+	obj, diags := getObjectVpnIpsecFec(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.UpdateVpnipsecFec(mkey, obj, urlparams)
+	o, err := c.Cmdb.UpdateVpnIpsecFec(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error updating VpnipsecFec resource: %v", err)
+		return diag.Errorf("error updating VpnIpsecFec resource: %v", err)
 	}
 
 	// log.Printf(strconv.Itoa(c.Retries))
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("VpnipsecFec")
+		d.SetId("VpnIpsecFec")
 	}
 
-	return resourceVpnipsecFecRead(ctx, d, meta)
+	return resourceVpnIpsecFecRead(ctx, d, meta)
 }
 
-func resourceVpnipsecFecDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceVpnIpsecFecDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -231,9 +231,9 @@ func resourceVpnipsecFecDelete(ctx context.Context, d *schema.ResourceData, meta
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteVpnipsecFec(mkey, urlparams)
+	err := c.Cmdb.DeleteVpnIpsecFec(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error deleting VpnipsecFec resource: %v", err)
+		return diag.Errorf("error deleting VpnIpsecFec resource: %v", err)
 	}
 
 	d.SetId("")
@@ -241,7 +241,7 @@ func resourceVpnipsecFecDelete(ctx context.Context, d *schema.ResourceData, meta
 	return nil
 }
 
-func resourceVpnipsecFecRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceVpnIpsecFecRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -256,9 +256,9 @@ func resourceVpnipsecFecRead(ctx context.Context, d *schema.ResourceData, meta i
 	}
 	urlparams.Vdom = vdomparam
 
-	o, err := c.Cmdb.ReadVpnipsecFec(mkey, urlparams)
+	o, err := c.Cmdb.ReadVpnIpsecFec(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error reading VpnipsecFec resource: %v", err)
+		return diag.Errorf("error reading VpnIpsecFec resource: %v", err)
 	}
 
 	if o == nil {
@@ -274,14 +274,14 @@ func resourceVpnipsecFecRead(ctx context.Context, d *schema.ResourceData, meta i
 		}
 	}
 
-	diags := refreshObjectVpnipsecFec(d, o, c.Config.Fv, sort)
+	diags := refreshObjectVpnIpsecFec(d, o, c.Config.Fv, sort)
 	if diags.HasError() {
 		return diags
 	}
 	return nil
 }
 
-func flattenVpnipsecFecMappings(v *[]models.VpnipsecFecMappings, sort bool) interface{} {
+func flattenVpnIpsecFecMappings(v *[]models.VpnIpsecFecMappings, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
@@ -330,11 +330,11 @@ func flattenVpnipsecFecMappings(v *[]models.VpnipsecFecMappings, sort bool) inte
 	return flat
 }
 
-func refreshObjectVpnipsecFec(d *schema.ResourceData, o *models.VpnipsecFec, sv string, sort bool) diag.Diagnostics {
+func refreshObjectVpnIpsecFec(d *schema.ResourceData, o *models.VpnIpsecFec, sv string, sort bool) diag.Diagnostics {
 	var err error
 
 	if o.Mappings != nil {
-		if err = d.Set("mappings", flattenVpnipsecFecMappings(o.Mappings, sort)); err != nil {
+		if err = d.Set("mappings", flattenVpnIpsecFecMappings(o.Mappings, sort)); err != nil {
 			return diag.Errorf("error reading mappings: %v", err)
 		}
 	}
@@ -350,16 +350,16 @@ func refreshObjectVpnipsecFec(d *schema.ResourceData, o *models.VpnipsecFec, sv 
 	return nil
 }
 
-func expandVpnipsecFecMappings(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.VpnipsecFecMappings, error) {
+func expandVpnIpsecFecMappings(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.VpnIpsecFecMappings, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
 	}
 
-	var result []models.VpnipsecFecMappings
+	var result []models.VpnIpsecFecMappings
 
 	for i := range l {
-		tmp := models.VpnipsecFecMappings{}
+		tmp := models.VpnIpsecFecMappings{}
 		var pre_append string
 
 		pre_append = fmt.Sprintf("%s.%d.bandwidth_bi_threshold", pre, i)
@@ -423,8 +423,8 @@ func expandVpnipsecFecMappings(d *schema.ResourceData, v interface{}, pre string
 	return &result, nil
 }
 
-func getObjectVpnipsecFec(d *schema.ResourceData, sv string) (*models.VpnipsecFec, diag.Diagnostics) {
-	obj := models.VpnipsecFec{}
+func getObjectVpnIpsecFec(d *schema.ResourceData, sv string) (*models.VpnIpsecFec, diag.Diagnostics) {
+	obj := models.VpnIpsecFec{}
 	diags := diag.Diagnostics{}
 
 	if v, ok := d.GetOk("mappings"); ok {
@@ -432,7 +432,7 @@ func getObjectVpnipsecFec(d *schema.ResourceData, sv string) (*models.VpnipsecFe
 			e := utils.AttributeVersionWarning("mappings", sv)
 			diags = append(diags, e)
 		}
-		t, err := expandVpnipsecFecMappings(d, v, "mappings", sv)
+		t, err := expandVpnIpsecFecMappings(d, v, "mappings", sv)
 		if err != nil {
 			return &obj, diag.FromErr(err)
 		} else if t != nil {
@@ -441,7 +441,7 @@ func getObjectVpnipsecFec(d *schema.ResourceData, sv string) (*models.VpnipsecFe
 	} else if d.HasChange("mappings") {
 		old, new := d.GetChange("mappings")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.Mappings = &[]models.VpnipsecFecMappings{}
+			obj.Mappings = &[]models.VpnIpsecFecMappings{}
 		}
 	}
 	if v1, ok := d.GetOk("name"); ok {

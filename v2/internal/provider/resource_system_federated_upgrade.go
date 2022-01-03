@@ -232,7 +232,12 @@ func resourceSystemFederatedUpgradeDelete(ctx context.Context, d *schema.Resourc
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteSystemFederatedUpgrade(mkey, urlparams)
+	obj, diags := getEmptyObjectSystemFederatedUpgrade(d, c.Config.Fv)
+	if diags.HasError() {
+		return diags
+	}
+
+	_, err := c.Cmdb.UpdateSystemFederatedUpgrade(mkey, obj, urlparams)
 	if err != nil {
 		return diag.Errorf("error deleting SystemFederatedUpgrade resource: %v", err)
 	}
@@ -495,5 +500,15 @@ func getObjectSystemFederatedUpgrade(d *schema.ResourceData, sv string) (*models
 			obj.UpgradeId = &tmp
 		}
 	}
+	return &obj, diags
+}
+
+// Return an object with explicitly empty objects for tables that have been set.
+func getEmptyObjectSystemFederatedUpgrade(d *schema.ResourceData, sv string) (*models.SystemFederatedUpgrade, diag.Diagnostics) {
+	obj := models.SystemFederatedUpgrade{}
+	diags := diag.Diagnostics{}
+
+	obj.NodeList = &[]models.SystemFederatedUpgradeNodeList{}
+
 	return &obj, diags
 }

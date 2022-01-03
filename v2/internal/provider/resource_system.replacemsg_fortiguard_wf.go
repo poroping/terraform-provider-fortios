@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -18,14 +18,14 @@ import (
 	"github.com/poroping/terraform-provider-fortios/v2/utils"
 )
 
-func resourceSystemreplacemsgFortiguardWf() *schema.Resource {
+func resourceSystemReplacemsgFortiguardWf() *schema.Resource {
 	return &schema.Resource{
 		Description: "Replacement messages.",
 
-		CreateContext: resourceSystemreplacemsgFortiguardWfCreate,
-		ReadContext:   resourceSystemreplacemsgFortiguardWfRead,
-		UpdateContext: resourceSystemreplacemsgFortiguardWfUpdate,
-		DeleteContext: resourceSystemreplacemsgFortiguardWfDelete,
+		CreateContext: resourceSystemReplacemsgFortiguardWfCreate,
+		ReadContext:   resourceSystemReplacemsgFortiguardWfRead,
+		UpdateContext: resourceSystemReplacemsgFortiguardWfUpdate,
+		DeleteContext: resourceSystemReplacemsgFortiguardWfDelete,
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
@@ -80,7 +80,7 @@ func resourceSystemreplacemsgFortiguardWf() *schema.Resource {
 	}
 }
 
-func resourceSystemreplacemsgFortiguardWfCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSystemReplacemsgFortiguardWfCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*apiClient).Client
 	var diags diag.Diagnostics
 	var err error
@@ -107,16 +107,16 @@ func resourceSystemreplacemsgFortiguardWfCreate(ctx context.Context, d *schema.R
 	if v, ok := d.GetOk(key); ok {
 		mkey = utils.ParseMkey(v)
 		if mkey == "" && allow_append {
-			return diag.Errorf("error creating SystemreplacemsgFortiguardWf resource: %q must be set if \"allow_append\" is true", key)
+			return diag.Errorf("error creating SystemReplacemsgFortiguardWf resource: %q must be set if \"allow_append\" is true", key)
 		}
 	}
 
-	obj, diags := getObjectSystemreplacemsgFortiguardWf(d, c.Config.Fv)
+	obj, diags := getObjectSystemReplacemsgFortiguardWf(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.CreateSystemreplacemsgFortiguardWf(obj, urlparams)
+	o, err := c.Cmdb.CreateSystemReplacemsgFortiguardWf(obj, urlparams)
 
 	if err != nil {
 		e := diag.FromErr(err)
@@ -126,13 +126,13 @@ func resourceSystemreplacemsgFortiguardWfCreate(ctx context.Context, d *schema.R
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("SystemreplacemsgFortiguardWf")
+		d.SetId("SystemReplacemsgFortiguardWf")
 	}
 
-	return resourceSystemreplacemsgFortiguardWfRead(ctx, d, meta)
+	return resourceSystemReplacemsgFortiguardWfRead(ctx, d, meta)
 }
 
-func resourceSystemreplacemsgFortiguardWfUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSystemReplacemsgFortiguardWfUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
@@ -145,27 +145,27 @@ func resourceSystemreplacemsgFortiguardWfUpdate(ctx context.Context, d *schema.R
 	}
 	urlparams.Vdom = vdomparam
 
-	obj, diags := getObjectSystemreplacemsgFortiguardWf(d, c.Config.Fv)
+	obj, diags := getObjectSystemReplacemsgFortiguardWf(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.UpdateSystemreplacemsgFortiguardWf(mkey, obj, urlparams)
+	o, err := c.Cmdb.UpdateSystemReplacemsgFortiguardWf(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error updating SystemreplacemsgFortiguardWf resource: %v", err)
+		return diag.Errorf("error updating SystemReplacemsgFortiguardWf resource: %v", err)
 	}
 
 	// log.Printf(strconv.Itoa(c.Retries))
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("SystemreplacemsgFortiguardWf")
+		d.SetId("SystemReplacemsgFortiguardWf")
 	}
 
-	return resourceSystemreplacemsgFortiguardWfRead(ctx, d, meta)
+	return resourceSystemReplacemsgFortiguardWfRead(ctx, d, meta)
 }
 
-func resourceSystemreplacemsgFortiguardWfDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSystemReplacemsgFortiguardWfDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -180,9 +180,9 @@ func resourceSystemreplacemsgFortiguardWfDelete(ctx context.Context, d *schema.R
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteSystemreplacemsgFortiguardWf(mkey, urlparams)
+	err := c.Cmdb.DeleteSystemReplacemsgFortiguardWf(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error deleting SystemreplacemsgFortiguardWf resource: %v", err)
+		return diag.Errorf("error deleting SystemReplacemsgFortiguardWf resource: %v", err)
 	}
 
 	d.SetId("")
@@ -190,7 +190,7 @@ func resourceSystemreplacemsgFortiguardWfDelete(ctx context.Context, d *schema.R
 	return nil
 }
 
-func resourceSystemreplacemsgFortiguardWfRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSystemReplacemsgFortiguardWfRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -205,9 +205,9 @@ func resourceSystemreplacemsgFortiguardWfRead(ctx context.Context, d *schema.Res
 	}
 	urlparams.Vdom = vdomparam
 
-	o, err := c.Cmdb.ReadSystemreplacemsgFortiguardWf(mkey, urlparams)
+	o, err := c.Cmdb.ReadSystemReplacemsgFortiguardWf(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error reading SystemreplacemsgFortiguardWf resource: %v", err)
+		return diag.Errorf("error reading SystemReplacemsgFortiguardWf resource: %v", err)
 	}
 
 	if o == nil {
@@ -223,14 +223,14 @@ func resourceSystemreplacemsgFortiguardWfRead(ctx context.Context, d *schema.Res
 		}
 	}
 
-	diags := refreshObjectSystemreplacemsgFortiguardWf(d, o, c.Config.Fv, sort)
+	diags := refreshObjectSystemReplacemsgFortiguardWf(d, o, c.Config.Fv, sort)
 	if diags.HasError() {
 		return diags
 	}
 	return nil
 }
 
-func refreshObjectSystemreplacemsgFortiguardWf(d *schema.ResourceData, o *models.SystemreplacemsgFortiguardWf, sv string, sort bool) diag.Diagnostics {
+func refreshObjectSystemReplacemsgFortiguardWf(d *schema.ResourceData, o *models.SystemReplacemsgFortiguardWf, sv string, sort bool) diag.Diagnostics {
 	var err error
 
 	if o.Buffer != nil {
@@ -268,8 +268,8 @@ func refreshObjectSystemreplacemsgFortiguardWf(d *schema.ResourceData, o *models
 	return nil
 }
 
-func getObjectSystemreplacemsgFortiguardWf(d *schema.ResourceData, sv string) (*models.SystemreplacemsgFortiguardWf, diag.Diagnostics) {
-	obj := models.SystemreplacemsgFortiguardWf{}
+func getObjectSystemReplacemsgFortiguardWf(d *schema.ResourceData, sv string) (*models.SystemReplacemsgFortiguardWf, diag.Diagnostics) {
+	obj := models.SystemReplacemsgFortiguardWf{}
 	diags := diag.Diagnostics{}
 
 	if v1, ok := d.GetOk("buffer"); ok {

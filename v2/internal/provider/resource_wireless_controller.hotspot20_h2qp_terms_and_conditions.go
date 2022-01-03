@@ -18,14 +18,14 @@ import (
 	"github.com/poroping/terraform-provider-fortios/v2/utils"
 )
 
-func resourceWirelessControllerhotspot20H2qpTermsAndConditions() *schema.Resource {
+func resourceWirelessControllerHotspot20H2qpTermsAndConditions() *schema.Resource {
 	return &schema.Resource{
 		Description: "Configure terms and conditions.",
 
-		CreateContext: resourceWirelessControllerhotspot20H2qpTermsAndConditionsCreate,
-		ReadContext:   resourceWirelessControllerhotspot20H2qpTermsAndConditionsRead,
-		UpdateContext: resourceWirelessControllerhotspot20H2qpTermsAndConditionsUpdate,
-		DeleteContext: resourceWirelessControllerhotspot20H2qpTermsAndConditionsDelete,
+		CreateContext: resourceWirelessControllerHotspot20H2qpTermsAndConditionsCreate,
+		ReadContext:   resourceWirelessControllerHotspot20H2qpTermsAndConditionsRead,
+		UpdateContext: resourceWirelessControllerHotspot20H2qpTermsAndConditionsUpdate,
+		DeleteContext: resourceWirelessControllerHotspot20H2qpTermsAndConditionsDelete,
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
@@ -79,7 +79,7 @@ func resourceWirelessControllerhotspot20H2qpTermsAndConditions() *schema.Resourc
 	}
 }
 
-func resourceWirelessControllerhotspot20H2qpTermsAndConditionsCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceWirelessControllerHotspot20H2qpTermsAndConditionsCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*apiClient).Client
 	var diags diag.Diagnostics
 	var err error
@@ -106,16 +106,16 @@ func resourceWirelessControllerhotspot20H2qpTermsAndConditionsCreate(ctx context
 	if v, ok := d.GetOk(key); ok {
 		mkey = utils.ParseMkey(v)
 		if mkey == "" && allow_append {
-			return diag.Errorf("error creating WirelessControllerhotspot20H2qpTermsAndConditions resource: %q must be set if \"allow_append\" is true", key)
+			return diag.Errorf("error creating WirelessControllerHotspot20H2qpTermsAndConditions resource: %q must be set if \"allow_append\" is true", key)
 		}
 	}
 
-	obj, diags := getObjectWirelessControllerhotspot20H2qpTermsAndConditions(d, c.Config.Fv)
+	obj, diags := getObjectWirelessControllerHotspot20H2qpTermsAndConditions(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.CreateWirelessControllerhotspot20H2qpTermsAndConditions(obj, urlparams)
+	o, err := c.Cmdb.CreateWirelessControllerHotspot20H2qpTermsAndConditions(obj, urlparams)
 
 	if err != nil {
 		e := diag.FromErr(err)
@@ -125,13 +125,13 @@ func resourceWirelessControllerhotspot20H2qpTermsAndConditionsCreate(ctx context
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("WirelessControllerhotspot20H2qpTermsAndConditions")
+		d.SetId("WirelessControllerHotspot20H2qpTermsAndConditions")
 	}
 
-	return resourceWirelessControllerhotspot20H2qpTermsAndConditionsRead(ctx, d, meta)
+	return resourceWirelessControllerHotspot20H2qpTermsAndConditionsRead(ctx, d, meta)
 }
 
-func resourceWirelessControllerhotspot20H2qpTermsAndConditionsUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceWirelessControllerHotspot20H2qpTermsAndConditionsUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
@@ -144,27 +144,27 @@ func resourceWirelessControllerhotspot20H2qpTermsAndConditionsUpdate(ctx context
 	}
 	urlparams.Vdom = vdomparam
 
-	obj, diags := getObjectWirelessControllerhotspot20H2qpTermsAndConditions(d, c.Config.Fv)
+	obj, diags := getObjectWirelessControllerHotspot20H2qpTermsAndConditions(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.UpdateWirelessControllerhotspot20H2qpTermsAndConditions(mkey, obj, urlparams)
+	o, err := c.Cmdb.UpdateWirelessControllerHotspot20H2qpTermsAndConditions(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error updating WirelessControllerhotspot20H2qpTermsAndConditions resource: %v", err)
+		return diag.Errorf("error updating WirelessControllerHotspot20H2qpTermsAndConditions resource: %v", err)
 	}
 
 	// log.Printf(strconv.Itoa(c.Retries))
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("WirelessControllerhotspot20H2qpTermsAndConditions")
+		d.SetId("WirelessControllerHotspot20H2qpTermsAndConditions")
 	}
 
-	return resourceWirelessControllerhotspot20H2qpTermsAndConditionsRead(ctx, d, meta)
+	return resourceWirelessControllerHotspot20H2qpTermsAndConditionsRead(ctx, d, meta)
 }
 
-func resourceWirelessControllerhotspot20H2qpTermsAndConditionsDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceWirelessControllerHotspot20H2qpTermsAndConditionsDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -179,9 +179,9 @@ func resourceWirelessControllerhotspot20H2qpTermsAndConditionsDelete(ctx context
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteWirelessControllerhotspot20H2qpTermsAndConditions(mkey, urlparams)
+	err := c.Cmdb.DeleteWirelessControllerHotspot20H2qpTermsAndConditions(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error deleting WirelessControllerhotspot20H2qpTermsAndConditions resource: %v", err)
+		return diag.Errorf("error deleting WirelessControllerHotspot20H2qpTermsAndConditions resource: %v", err)
 	}
 
 	d.SetId("")
@@ -189,7 +189,7 @@ func resourceWirelessControllerhotspot20H2qpTermsAndConditionsDelete(ctx context
 	return nil
 }
 
-func resourceWirelessControllerhotspot20H2qpTermsAndConditionsRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceWirelessControllerHotspot20H2qpTermsAndConditionsRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -204,9 +204,9 @@ func resourceWirelessControllerhotspot20H2qpTermsAndConditionsRead(ctx context.C
 	}
 	urlparams.Vdom = vdomparam
 
-	o, err := c.Cmdb.ReadWirelessControllerhotspot20H2qpTermsAndConditions(mkey, urlparams)
+	o, err := c.Cmdb.ReadWirelessControllerHotspot20H2qpTermsAndConditions(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error reading WirelessControllerhotspot20H2qpTermsAndConditions resource: %v", err)
+		return diag.Errorf("error reading WirelessControllerHotspot20H2qpTermsAndConditions resource: %v", err)
 	}
 
 	if o == nil {
@@ -222,14 +222,14 @@ func resourceWirelessControllerhotspot20H2qpTermsAndConditionsRead(ctx context.C
 		}
 	}
 
-	diags := refreshObjectWirelessControllerhotspot20H2qpTermsAndConditions(d, o, c.Config.Fv, sort)
+	diags := refreshObjectWirelessControllerHotspot20H2qpTermsAndConditions(d, o, c.Config.Fv, sort)
 	if diags.HasError() {
 		return diags
 	}
 	return nil
 }
 
-func refreshObjectWirelessControllerhotspot20H2qpTermsAndConditions(d *schema.ResourceData, o *models.WirelessControllerhotspot20H2qpTermsAndConditions, sv string, sort bool) diag.Diagnostics {
+func refreshObjectWirelessControllerHotspot20H2qpTermsAndConditions(d *schema.ResourceData, o *models.WirelessControllerHotspot20H2qpTermsAndConditions, sv string, sort bool) diag.Diagnostics {
 	var err error
 
 	if o.Filename != nil {
@@ -267,8 +267,8 @@ func refreshObjectWirelessControllerhotspot20H2qpTermsAndConditions(d *schema.Re
 	return nil
 }
 
-func getObjectWirelessControllerhotspot20H2qpTermsAndConditions(d *schema.ResourceData, sv string) (*models.WirelessControllerhotspot20H2qpTermsAndConditions, diag.Diagnostics) {
-	obj := models.WirelessControllerhotspot20H2qpTermsAndConditions{}
+func getObjectWirelessControllerHotspot20H2qpTermsAndConditions(d *schema.ResourceData, sv string) (*models.WirelessControllerHotspot20H2qpTermsAndConditions, diag.Diagnostics) {
+	obj := models.WirelessControllerHotspot20H2qpTermsAndConditions{}
 	diags := diag.Diagnostics{}
 
 	if v1, ok := d.GetOk("filename"); ok {

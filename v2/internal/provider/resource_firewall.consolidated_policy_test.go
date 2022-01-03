@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -13,7 +13,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 )
 
-func TestAccFirewallconsolidatedPolicy_basic(t *testing.T) {
+func TestAccFirewallConsolidatedPolicy_basic(t *testing.T) {
 	rName := "firewall.consolidated_policy"
 
 	resource.Test(t, resource.TestCase{

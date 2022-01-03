@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -20,14 +20,14 @@ import (
 	"github.com/poroping/terraform-provider-fortios/v2/utils"
 )
 
-func resourceVpnsslwebPortal() *schema.Resource {
+func resourceVpnSslWebPortal() *schema.Resource {
 	return &schema.Resource{
 		Description: "Portal.",
 
-		CreateContext: resourceVpnsslwebPortalCreate,
-		ReadContext:   resourceVpnsslwebPortalRead,
-		UpdateContext: resourceVpnsslwebPortalUpdate,
-		DeleteContext: resourceVpnsslwebPortalDelete,
+		CreateContext: resourceVpnSslWebPortalCreate,
+		ReadContext:   resourceVpnSslWebPortalRead,
+		UpdateContext: resourceVpnSslWebPortalUpdate,
+		DeleteContext: resourceVpnSslWebPortalDelete,
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
@@ -1023,7 +1023,7 @@ func resourceVpnsslwebPortal() *schema.Resource {
 	}
 }
 
-func resourceVpnsslwebPortalCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceVpnSslWebPortalCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*apiClient).Client
 	var diags diag.Diagnostics
 	var err error
@@ -1050,16 +1050,16 @@ func resourceVpnsslwebPortalCreate(ctx context.Context, d *schema.ResourceData, 
 	if v, ok := d.GetOk(key); ok {
 		mkey = utils.ParseMkey(v)
 		if mkey == "" && allow_append {
-			return diag.Errorf("error creating VpnsslwebPortal resource: %q must be set if \"allow_append\" is true", key)
+			return diag.Errorf("error creating VpnSslWebPortal resource: %q must be set if \"allow_append\" is true", key)
 		}
 	}
 
-	obj, diags := getObjectVpnsslwebPortal(d, c.Config.Fv)
+	obj, diags := getObjectVpnSslWebPortal(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.CreateVpnsslwebPortal(obj, urlparams)
+	o, err := c.Cmdb.CreateVpnSslWebPortal(obj, urlparams)
 
 	if err != nil {
 		e := diag.FromErr(err)
@@ -1069,13 +1069,13 @@ func resourceVpnsslwebPortalCreate(ctx context.Context, d *schema.ResourceData, 
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("VpnsslwebPortal")
+		d.SetId("VpnSslWebPortal")
 	}
 
-	return resourceVpnsslwebPortalRead(ctx, d, meta)
+	return resourceVpnSslWebPortalRead(ctx, d, meta)
 }
 
-func resourceVpnsslwebPortalUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceVpnSslWebPortalUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
@@ -1088,27 +1088,27 @@ func resourceVpnsslwebPortalUpdate(ctx context.Context, d *schema.ResourceData, 
 	}
 	urlparams.Vdom = vdomparam
 
-	obj, diags := getObjectVpnsslwebPortal(d, c.Config.Fv)
+	obj, diags := getObjectVpnSslWebPortal(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.UpdateVpnsslwebPortal(mkey, obj, urlparams)
+	o, err := c.Cmdb.UpdateVpnSslWebPortal(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error updating VpnsslwebPortal resource: %v", err)
+		return diag.Errorf("error updating VpnSslWebPortal resource: %v", err)
 	}
 
 	// log.Printf(strconv.Itoa(c.Retries))
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("VpnsslwebPortal")
+		d.SetId("VpnSslWebPortal")
 	}
 
-	return resourceVpnsslwebPortalRead(ctx, d, meta)
+	return resourceVpnSslWebPortalRead(ctx, d, meta)
 }
 
-func resourceVpnsslwebPortalDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceVpnSslWebPortalDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -1123,9 +1123,9 @@ func resourceVpnsslwebPortalDelete(ctx context.Context, d *schema.ResourceData, 
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteVpnsslwebPortal(mkey, urlparams)
+	err := c.Cmdb.DeleteVpnSslWebPortal(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error deleting VpnsslwebPortal resource: %v", err)
+		return diag.Errorf("error deleting VpnSslWebPortal resource: %v", err)
 	}
 
 	d.SetId("")
@@ -1133,7 +1133,7 @@ func resourceVpnsslwebPortalDelete(ctx context.Context, d *schema.ResourceData, 
 	return nil
 }
 
-func resourceVpnsslwebPortalRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceVpnSslWebPortalRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -1148,9 +1148,9 @@ func resourceVpnsslwebPortalRead(ctx context.Context, d *schema.ResourceData, me
 	}
 	urlparams.Vdom = vdomparam
 
-	o, err := c.Cmdb.ReadVpnsslwebPortal(mkey, urlparams)
+	o, err := c.Cmdb.ReadVpnSslWebPortal(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error reading VpnsslwebPortal resource: %v", err)
+		return diag.Errorf("error reading VpnSslWebPortal resource: %v", err)
 	}
 
 	if o == nil {
@@ -1166,21 +1166,21 @@ func resourceVpnsslwebPortalRead(ctx context.Context, d *schema.ResourceData, me
 		}
 	}
 
-	diags := refreshObjectVpnsslwebPortal(d, o, c.Config.Fv, sort)
+	diags := refreshObjectVpnSslWebPortal(d, o, c.Config.Fv, sort)
 	if diags.HasError() {
 		return diags
 	}
 	return nil
 }
 
-func flattenVpnsslwebPortalBookmarkGroup(v *[]models.VpnsslwebPortalBookmarkGroup, sort bool) interface{} {
+func flattenVpnSslWebPortalBookmarkGroup(v *[]models.VpnSslWebPortalBookmarkGroup, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
 		for _, cfg := range *v {
 			v := make(map[string]interface{})
 			if tmp := cfg.Bookmarks; tmp != nil {
-				v["bookmarks"] = flattenVpnsslwebPortalBookmarkGroupBookmarks(tmp, sort)
+				v["bookmarks"] = flattenVpnSslWebPortalBookmarkGroupBookmarks(tmp, sort)
 			}
 
 			if tmp := cfg.Name; tmp != nil {
@@ -1198,7 +1198,7 @@ func flattenVpnsslwebPortalBookmarkGroup(v *[]models.VpnsslwebPortalBookmarkGrou
 	return flat
 }
 
-func flattenVpnsslwebPortalBookmarkGroupBookmarks(v *[]models.VpnsslwebPortalBookmarkGroupBookmarks, sort bool) interface{} {
+func flattenVpnSslWebPortalBookmarkGroupBookmarks(v *[]models.VpnSslWebPortalBookmarkGroupBookmarks, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
@@ -1229,7 +1229,7 @@ func flattenVpnsslwebPortalBookmarkGroupBookmarks(v *[]models.VpnsslwebPortalBoo
 			}
 
 			if tmp := cfg.FormData; tmp != nil {
-				v["form_data"] = flattenVpnsslwebPortalBookmarkGroupBookmarksFormData(tmp, sort)
+				v["form_data"] = flattenVpnSslWebPortalBookmarkGroupBookmarksFormData(tmp, sort)
 			}
 
 			if tmp := cfg.Host; tmp != nil {
@@ -1331,7 +1331,7 @@ func flattenVpnsslwebPortalBookmarkGroupBookmarks(v *[]models.VpnsslwebPortalBoo
 	return flat
 }
 
-func flattenVpnsslwebPortalBookmarkGroupBookmarksFormData(v *[]models.VpnsslwebPortalBookmarkGroupBookmarksFormData, sort bool) interface{} {
+func flattenVpnSslWebPortalBookmarkGroupBookmarksFormData(v *[]models.VpnSslWebPortalBookmarkGroupBookmarksFormData, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
@@ -1356,7 +1356,7 @@ func flattenVpnsslwebPortalBookmarkGroupBookmarksFormData(v *[]models.VpnsslwebP
 	return flat
 }
 
-func flattenVpnsslwebPortalHostCheckPolicy(v *[]models.VpnsslwebPortalHostCheckPolicy, sort bool) interface{} {
+func flattenVpnSslWebPortalHostCheckPolicy(v *[]models.VpnSslWebPortalHostCheckPolicy, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
@@ -1377,7 +1377,7 @@ func flattenVpnsslwebPortalHostCheckPolicy(v *[]models.VpnsslwebPortalHostCheckP
 	return flat
 }
 
-func flattenVpnsslwebPortalIpPools(v *[]models.VpnsslwebPortalIpPools, sort bool) interface{} {
+func flattenVpnSslWebPortalIpPools(v *[]models.VpnSslWebPortalIpPools, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
@@ -1398,7 +1398,7 @@ func flattenVpnsslwebPortalIpPools(v *[]models.VpnsslwebPortalIpPools, sort bool
 	return flat
 }
 
-func flattenVpnsslwebPortalIpv6Pools(v *[]models.VpnsslwebPortalIpv6Pools, sort bool) interface{} {
+func flattenVpnSslWebPortalIpv6Pools(v *[]models.VpnSslWebPortalIpv6Pools, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
@@ -1419,7 +1419,7 @@ func flattenVpnsslwebPortalIpv6Pools(v *[]models.VpnsslwebPortalIpv6Pools, sort 
 	return flat
 }
 
-func flattenVpnsslwebPortalIpv6SplitTunnelingRoutingAddress(v *[]models.VpnsslwebPortalIpv6SplitTunnelingRoutingAddress, sort bool) interface{} {
+func flattenVpnSslWebPortalIpv6SplitTunnelingRoutingAddress(v *[]models.VpnSslWebPortalIpv6SplitTunnelingRoutingAddress, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
@@ -1440,14 +1440,14 @@ func flattenVpnsslwebPortalIpv6SplitTunnelingRoutingAddress(v *[]models.Vpnsslwe
 	return flat
 }
 
-func flattenVpnsslwebPortalMacAddrCheckRule(v *[]models.VpnsslwebPortalMacAddrCheckRule, sort bool) interface{} {
+func flattenVpnSslWebPortalMacAddrCheckRule(v *[]models.VpnSslWebPortalMacAddrCheckRule, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
 		for _, cfg := range *v {
 			v := make(map[string]interface{})
 			if tmp := cfg.MacAddrList; tmp != nil {
-				v["mac_addr_list"] = flattenVpnsslwebPortalMacAddrCheckRuleMacAddrList(tmp, sort)
+				v["mac_addr_list"] = flattenVpnSslWebPortalMacAddrCheckRuleMacAddrList(tmp, sort)
 			}
 
 			if tmp := cfg.MacAddrMask; tmp != nil {
@@ -1469,7 +1469,7 @@ func flattenVpnsslwebPortalMacAddrCheckRule(v *[]models.VpnsslwebPortalMacAddrCh
 	return flat
 }
 
-func flattenVpnsslwebPortalMacAddrCheckRuleMacAddrList(v *[]models.VpnsslwebPortalMacAddrCheckRuleMacAddrList, sort bool) interface{} {
+func flattenVpnSslWebPortalMacAddrCheckRuleMacAddrList(v *[]models.VpnSslWebPortalMacAddrCheckRuleMacAddrList, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
@@ -1490,7 +1490,7 @@ func flattenVpnsslwebPortalMacAddrCheckRuleMacAddrList(v *[]models.VpnsslwebPort
 	return flat
 }
 
-func flattenVpnsslwebPortalOsCheckList(v *[]models.VpnsslwebPortalOsCheckList, sort bool) interface{} {
+func flattenVpnSslWebPortalOsCheckList(v *[]models.VpnSslWebPortalOsCheckList, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
@@ -1523,7 +1523,7 @@ func flattenVpnsslwebPortalOsCheckList(v *[]models.VpnsslwebPortalOsCheckList, s
 	return flat
 }
 
-func flattenVpnsslwebPortalSplitDns(v *[]models.VpnsslwebPortalSplitDns, sort bool) interface{} {
+func flattenVpnSslWebPortalSplitDns(v *[]models.VpnSslWebPortalSplitDns, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
@@ -1564,7 +1564,7 @@ func flattenVpnsslwebPortalSplitDns(v *[]models.VpnsslwebPortalSplitDns, sort bo
 	return flat
 }
 
-func flattenVpnsslwebPortalSplitTunnelingRoutingAddress(v *[]models.VpnsslwebPortalSplitTunnelingRoutingAddress, sort bool) interface{} {
+func flattenVpnSslWebPortalSplitTunnelingRoutingAddress(v *[]models.VpnSslWebPortalSplitTunnelingRoutingAddress, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
@@ -1585,7 +1585,7 @@ func flattenVpnsslwebPortalSplitTunnelingRoutingAddress(v *[]models.VpnsslwebPor
 	return flat
 }
 
-func refreshObjectVpnsslwebPortal(d *schema.ResourceData, o *models.VpnsslwebPortal, sv string, sort bool) diag.Diagnostics {
+func refreshObjectVpnSslWebPortal(d *schema.ResourceData, o *models.VpnSslWebPortal, sv string, sort bool) diag.Diagnostics {
 	var err error
 
 	if o.AllowUserAccess != nil {
@@ -1605,7 +1605,7 @@ func refreshObjectVpnsslwebPortal(d *schema.ResourceData, o *models.VpnsslwebPor
 	}
 
 	if o.BookmarkGroup != nil {
-		if err = d.Set("bookmark_group", flattenVpnsslwebPortalBookmarkGroup(o.BookmarkGroup, sort)); err != nil {
+		if err = d.Set("bookmark_group", flattenVpnSslWebPortalBookmarkGroup(o.BookmarkGroup, sort)); err != nil {
 			return diag.Errorf("error reading bookmark_group: %v", err)
 		}
 	}
@@ -1747,7 +1747,7 @@ func refreshObjectVpnsslwebPortal(d *schema.ResourceData, o *models.VpnsslwebPor
 	}
 
 	if o.HostCheckPolicy != nil {
-		if err = d.Set("host_check_policy", flattenVpnsslwebPortalHostCheckPolicy(o.HostCheckPolicy, sort)); err != nil {
+		if err = d.Set("host_check_policy", flattenVpnSslWebPortalHostCheckPolicy(o.HostCheckPolicy, sort)); err != nil {
 			return diag.Errorf("error reading host_check_policy: %v", err)
 		}
 	}
@@ -1761,7 +1761,7 @@ func refreshObjectVpnsslwebPortal(d *schema.ResourceData, o *models.VpnsslwebPor
 	}
 
 	if o.IpPools != nil {
-		if err = d.Set("ip_pools", flattenVpnsslwebPortalIpPools(o.IpPools, sort)); err != nil {
+		if err = d.Set("ip_pools", flattenVpnSslWebPortalIpPools(o.IpPools, sort)); err != nil {
 			return diag.Errorf("error reading ip_pools: %v", err)
 		}
 	}
@@ -1791,7 +1791,7 @@ func refreshObjectVpnsslwebPortal(d *schema.ResourceData, o *models.VpnsslwebPor
 	}
 
 	if o.Ipv6Pools != nil {
-		if err = d.Set("ipv6_pools", flattenVpnsslwebPortalIpv6Pools(o.Ipv6Pools, sort)); err != nil {
+		if err = d.Set("ipv6_pools", flattenVpnSslWebPortalIpv6Pools(o.Ipv6Pools, sort)); err != nil {
 			return diag.Errorf("error reading ipv6_pools: %v", err)
 		}
 	}
@@ -1813,7 +1813,7 @@ func refreshObjectVpnsslwebPortal(d *schema.ResourceData, o *models.VpnsslwebPor
 	}
 
 	if o.Ipv6SplitTunnelingRoutingAddress != nil {
-		if err = d.Set("ipv6_split_tunneling_routing_address", flattenVpnsslwebPortalIpv6SplitTunnelingRoutingAddress(o.Ipv6SplitTunnelingRoutingAddress, sort)); err != nil {
+		if err = d.Set("ipv6_split_tunneling_routing_address", flattenVpnSslWebPortalIpv6SplitTunnelingRoutingAddress(o.Ipv6SplitTunnelingRoutingAddress, sort)); err != nil {
 			return diag.Errorf("error reading ipv6_split_tunneling_routing_address: %v", err)
 		}
 	}
@@ -1883,7 +1883,7 @@ func refreshObjectVpnsslwebPortal(d *schema.ResourceData, o *models.VpnsslwebPor
 	}
 
 	if o.MacAddrCheckRule != nil {
-		if err = d.Set("mac_addr_check_rule", flattenVpnsslwebPortalMacAddrCheckRule(o.MacAddrCheckRule, sort)); err != nil {
+		if err = d.Set("mac_addr_check_rule", flattenVpnSslWebPortalMacAddrCheckRule(o.MacAddrCheckRule, sort)); err != nil {
 			return diag.Errorf("error reading mac_addr_check_rule: %v", err)
 		}
 	}
@@ -1913,7 +1913,7 @@ func refreshObjectVpnsslwebPortal(d *schema.ResourceData, o *models.VpnsslwebPor
 	}
 
 	if o.OsCheckList != nil {
-		if err = d.Set("os_check_list", flattenVpnsslwebPortalOsCheckList(o.OsCheckList, sort)); err != nil {
+		if err = d.Set("os_check_list", flattenVpnSslWebPortalOsCheckList(o.OsCheckList, sort)); err != nil {
 			return diag.Errorf("error reading os_check_list: %v", err)
 		}
 	}
@@ -2007,7 +2007,7 @@ func refreshObjectVpnsslwebPortal(d *schema.ResourceData, o *models.VpnsslwebPor
 	}
 
 	if o.SplitDns != nil {
-		if err = d.Set("split_dns", flattenVpnsslwebPortalSplitDns(o.SplitDns, sort)); err != nil {
+		if err = d.Set("split_dns", flattenVpnSslWebPortalSplitDns(o.SplitDns, sort)); err != nil {
 			return diag.Errorf("error reading split_dns: %v", err)
 		}
 	}
@@ -2021,7 +2021,7 @@ func refreshObjectVpnsslwebPortal(d *schema.ResourceData, o *models.VpnsslwebPor
 	}
 
 	if o.SplitTunnelingRoutingAddress != nil {
-		if err = d.Set("split_tunneling_routing_address", flattenVpnsslwebPortalSplitTunnelingRoutingAddress(o.SplitTunnelingRoutingAddress, sort)); err != nil {
+		if err = d.Set("split_tunneling_routing_address", flattenVpnSslWebPortalSplitTunnelingRoutingAddress(o.SplitTunnelingRoutingAddress, sort)); err != nil {
 			return diag.Errorf("error reading split_tunneling_routing_address: %v", err)
 		}
 	}
@@ -2117,23 +2117,23 @@ func refreshObjectVpnsslwebPortal(d *schema.ResourceData, o *models.VpnsslwebPor
 	return nil
 }
 
-func expandVpnsslwebPortalBookmarkGroup(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.VpnsslwebPortalBookmarkGroup, error) {
+func expandVpnSslWebPortalBookmarkGroup(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.VpnSslWebPortalBookmarkGroup, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
 	}
 
-	var result []models.VpnsslwebPortalBookmarkGroup
+	var result []models.VpnSslWebPortalBookmarkGroup
 
 	for i := range l {
-		tmp := models.VpnsslwebPortalBookmarkGroup{}
+		tmp := models.VpnSslWebPortalBookmarkGroup{}
 		var pre_append string
 
 		pre_append = fmt.Sprintf("%s.%d.bookmarks", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			v2, _ := expandVpnsslwebPortalBookmarkGroupBookmarks(d, v1, pre_append, sv)
+			v2, _ := expandVpnSslWebPortalBookmarkGroupBookmarks(d, v1, pre_append, sv)
 			// if err != nil {
-			// 	v2 := &[]models.VpnsslwebPortalBookmarkGroupBookmarks
+			// 	v2 := &[]models.VpnSslWebPortalBookmarkGroupBookmarks
 			// 	}
 			tmp.Bookmarks = v2
 
@@ -2151,16 +2151,16 @@ func expandVpnsslwebPortalBookmarkGroup(d *schema.ResourceData, v interface{}, p
 	return &result, nil
 }
 
-func expandVpnsslwebPortalBookmarkGroupBookmarks(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.VpnsslwebPortalBookmarkGroupBookmarks, error) {
+func expandVpnSslWebPortalBookmarkGroupBookmarks(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.VpnSslWebPortalBookmarkGroupBookmarks, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
 	}
 
-	var result []models.VpnsslwebPortalBookmarkGroupBookmarks
+	var result []models.VpnSslWebPortalBookmarkGroupBookmarks
 
 	for i := range l {
-		tmp := models.VpnsslwebPortalBookmarkGroupBookmarks{}
+		tmp := models.VpnSslWebPortalBookmarkGroupBookmarks{}
 		var pre_append string
 
 		pre_append = fmt.Sprintf("%s.%d.additional_params", pre, i)
@@ -2207,9 +2207,9 @@ func expandVpnsslwebPortalBookmarkGroupBookmarks(d *schema.ResourceData, v inter
 
 		pre_append = fmt.Sprintf("%s.%d.form_data", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			v2, _ := expandVpnsslwebPortalBookmarkGroupBookmarksFormData(d, v1, pre_append, sv)
+			v2, _ := expandVpnSslWebPortalBookmarkGroupBookmarksFormData(d, v1, pre_append, sv)
 			// if err != nil {
-			// 	v2 := &[]models.VpnsslwebPortalBookmarkGroupBookmarksFormData
+			// 	v2 := &[]models.VpnSslWebPortalBookmarkGroupBookmarksFormData
 			// 	}
 			tmp.FormData = v2
 
@@ -2374,16 +2374,16 @@ func expandVpnsslwebPortalBookmarkGroupBookmarks(d *schema.ResourceData, v inter
 	return &result, nil
 }
 
-func expandVpnsslwebPortalBookmarkGroupBookmarksFormData(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.VpnsslwebPortalBookmarkGroupBookmarksFormData, error) {
+func expandVpnSslWebPortalBookmarkGroupBookmarksFormData(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.VpnSslWebPortalBookmarkGroupBookmarksFormData, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
 	}
 
-	var result []models.VpnsslwebPortalBookmarkGroupBookmarksFormData
+	var result []models.VpnSslWebPortalBookmarkGroupBookmarksFormData
 
 	for i := range l {
-		tmp := models.VpnsslwebPortalBookmarkGroupBookmarksFormData{}
+		tmp := models.VpnSslWebPortalBookmarkGroupBookmarksFormData{}
 		var pre_append string
 
 		pre_append = fmt.Sprintf("%s.%d.name", pre, i)
@@ -2405,16 +2405,16 @@ func expandVpnsslwebPortalBookmarkGroupBookmarksFormData(d *schema.ResourceData,
 	return &result, nil
 }
 
-func expandVpnsslwebPortalHostCheckPolicy(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.VpnsslwebPortalHostCheckPolicy, error) {
+func expandVpnSslWebPortalHostCheckPolicy(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.VpnSslWebPortalHostCheckPolicy, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
 	}
 
-	var result []models.VpnsslwebPortalHostCheckPolicy
+	var result []models.VpnSslWebPortalHostCheckPolicy
 
 	for i := range l {
-		tmp := models.VpnsslwebPortalHostCheckPolicy{}
+		tmp := models.VpnSslWebPortalHostCheckPolicy{}
 		var pre_append string
 
 		pre_append = fmt.Sprintf("%s.%d.name", pre, i)
@@ -2429,16 +2429,16 @@ func expandVpnsslwebPortalHostCheckPolicy(d *schema.ResourceData, v interface{},
 	return &result, nil
 }
 
-func expandVpnsslwebPortalIpPools(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.VpnsslwebPortalIpPools, error) {
+func expandVpnSslWebPortalIpPools(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.VpnSslWebPortalIpPools, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
 	}
 
-	var result []models.VpnsslwebPortalIpPools
+	var result []models.VpnSslWebPortalIpPools
 
 	for i := range l {
-		tmp := models.VpnsslwebPortalIpPools{}
+		tmp := models.VpnSslWebPortalIpPools{}
 		var pre_append string
 
 		pre_append = fmt.Sprintf("%s.%d.name", pre, i)
@@ -2453,16 +2453,16 @@ func expandVpnsslwebPortalIpPools(d *schema.ResourceData, v interface{}, pre str
 	return &result, nil
 }
 
-func expandVpnsslwebPortalIpv6Pools(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.VpnsslwebPortalIpv6Pools, error) {
+func expandVpnSslWebPortalIpv6Pools(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.VpnSslWebPortalIpv6Pools, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
 	}
 
-	var result []models.VpnsslwebPortalIpv6Pools
+	var result []models.VpnSslWebPortalIpv6Pools
 
 	for i := range l {
-		tmp := models.VpnsslwebPortalIpv6Pools{}
+		tmp := models.VpnSslWebPortalIpv6Pools{}
 		var pre_append string
 
 		pre_append = fmt.Sprintf("%s.%d.name", pre, i)
@@ -2477,16 +2477,16 @@ func expandVpnsslwebPortalIpv6Pools(d *schema.ResourceData, v interface{}, pre s
 	return &result, nil
 }
 
-func expandVpnsslwebPortalIpv6SplitTunnelingRoutingAddress(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.VpnsslwebPortalIpv6SplitTunnelingRoutingAddress, error) {
+func expandVpnSslWebPortalIpv6SplitTunnelingRoutingAddress(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.VpnSslWebPortalIpv6SplitTunnelingRoutingAddress, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
 	}
 
-	var result []models.VpnsslwebPortalIpv6SplitTunnelingRoutingAddress
+	var result []models.VpnSslWebPortalIpv6SplitTunnelingRoutingAddress
 
 	for i := range l {
-		tmp := models.VpnsslwebPortalIpv6SplitTunnelingRoutingAddress{}
+		tmp := models.VpnSslWebPortalIpv6SplitTunnelingRoutingAddress{}
 		var pre_append string
 
 		pre_append = fmt.Sprintf("%s.%d.name", pre, i)
@@ -2501,23 +2501,23 @@ func expandVpnsslwebPortalIpv6SplitTunnelingRoutingAddress(d *schema.ResourceDat
 	return &result, nil
 }
 
-func expandVpnsslwebPortalMacAddrCheckRule(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.VpnsslwebPortalMacAddrCheckRule, error) {
+func expandVpnSslWebPortalMacAddrCheckRule(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.VpnSslWebPortalMacAddrCheckRule, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
 	}
 
-	var result []models.VpnsslwebPortalMacAddrCheckRule
+	var result []models.VpnSslWebPortalMacAddrCheckRule
 
 	for i := range l {
-		tmp := models.VpnsslwebPortalMacAddrCheckRule{}
+		tmp := models.VpnSslWebPortalMacAddrCheckRule{}
 		var pre_append string
 
 		pre_append = fmt.Sprintf("%s.%d.mac_addr_list", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			v2, _ := expandVpnsslwebPortalMacAddrCheckRuleMacAddrList(d, v1, pre_append, sv)
+			v2, _ := expandVpnSslWebPortalMacAddrCheckRuleMacAddrList(d, v1, pre_append, sv)
 			// if err != nil {
-			// 	v2 := &[]models.VpnsslwebPortalMacAddrCheckRuleMacAddrList
+			// 	v2 := &[]models.VpnSslWebPortalMacAddrCheckRuleMacAddrList
 			// 	}
 			tmp.MacAddrList = v2
 
@@ -2542,16 +2542,16 @@ func expandVpnsslwebPortalMacAddrCheckRule(d *schema.ResourceData, v interface{}
 	return &result, nil
 }
 
-func expandVpnsslwebPortalMacAddrCheckRuleMacAddrList(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.VpnsslwebPortalMacAddrCheckRuleMacAddrList, error) {
+func expandVpnSslWebPortalMacAddrCheckRuleMacAddrList(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.VpnSslWebPortalMacAddrCheckRuleMacAddrList, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
 	}
 
-	var result []models.VpnsslwebPortalMacAddrCheckRuleMacAddrList
+	var result []models.VpnSslWebPortalMacAddrCheckRuleMacAddrList
 
 	for i := range l {
-		tmp := models.VpnsslwebPortalMacAddrCheckRuleMacAddrList{}
+		tmp := models.VpnSslWebPortalMacAddrCheckRuleMacAddrList{}
 		var pre_append string
 
 		pre_append = fmt.Sprintf("%s.%d.addr", pre, i)
@@ -2566,16 +2566,16 @@ func expandVpnsslwebPortalMacAddrCheckRuleMacAddrList(d *schema.ResourceData, v 
 	return &result, nil
 }
 
-func expandVpnsslwebPortalOsCheckList(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.VpnsslwebPortalOsCheckList, error) {
+func expandVpnSslWebPortalOsCheckList(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.VpnSslWebPortalOsCheckList, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
 	}
 
-	var result []models.VpnsslwebPortalOsCheckList
+	var result []models.VpnSslWebPortalOsCheckList
 
 	for i := range l {
-		tmp := models.VpnsslwebPortalOsCheckList{}
+		tmp := models.VpnSslWebPortalOsCheckList{}
 		var pre_append string
 
 		pre_append = fmt.Sprintf("%s.%d.action", pre, i)
@@ -2611,16 +2611,16 @@ func expandVpnsslwebPortalOsCheckList(d *schema.ResourceData, v interface{}, pre
 	return &result, nil
 }
 
-func expandVpnsslwebPortalSplitDns(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.VpnsslwebPortalSplitDns, error) {
+func expandVpnSslWebPortalSplitDns(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.VpnSslWebPortalSplitDns, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
 	}
 
-	var result []models.VpnsslwebPortalSplitDns
+	var result []models.VpnSslWebPortalSplitDns
 
 	for i := range l {
-		tmp := models.VpnsslwebPortalSplitDns{}
+		tmp := models.VpnSslWebPortalSplitDns{}
 		var pre_append string
 
 		pre_append = fmt.Sprintf("%s.%d.dns_server1", pre, i)
@@ -2670,16 +2670,16 @@ func expandVpnsslwebPortalSplitDns(d *schema.ResourceData, v interface{}, pre st
 	return &result, nil
 }
 
-func expandVpnsslwebPortalSplitTunnelingRoutingAddress(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.VpnsslwebPortalSplitTunnelingRoutingAddress, error) {
+func expandVpnSslWebPortalSplitTunnelingRoutingAddress(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.VpnSslWebPortalSplitTunnelingRoutingAddress, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
 	}
 
-	var result []models.VpnsslwebPortalSplitTunnelingRoutingAddress
+	var result []models.VpnSslWebPortalSplitTunnelingRoutingAddress
 
 	for i := range l {
-		tmp := models.VpnsslwebPortalSplitTunnelingRoutingAddress{}
+		tmp := models.VpnSslWebPortalSplitTunnelingRoutingAddress{}
 		var pre_append string
 
 		pre_append = fmt.Sprintf("%s.%d.name", pre, i)
@@ -2694,8 +2694,8 @@ func expandVpnsslwebPortalSplitTunnelingRoutingAddress(d *schema.ResourceData, v
 	return &result, nil
 }
 
-func getObjectVpnsslwebPortal(d *schema.ResourceData, sv string) (*models.VpnsslwebPortal, diag.Diagnostics) {
-	obj := models.VpnsslwebPortal{}
+func getObjectVpnSslWebPortal(d *schema.ResourceData, sv string) (*models.VpnSslWebPortal, diag.Diagnostics) {
+	obj := models.VpnSslWebPortal{}
 	diags := diag.Diagnostics{}
 
 	if v1, ok := d.GetOk("allow_user_access"); ok {
@@ -2721,7 +2721,7 @@ func getObjectVpnsslwebPortal(d *schema.ResourceData, sv string) (*models.Vpnssl
 			e := utils.AttributeVersionWarning("bookmark_group", sv)
 			diags = append(diags, e)
 		}
-		t, err := expandVpnsslwebPortalBookmarkGroup(d, v, "bookmark_group", sv)
+		t, err := expandVpnSslWebPortalBookmarkGroup(d, v, "bookmark_group", sv)
 		if err != nil {
 			return &obj, diag.FromErr(err)
 		} else if t != nil {
@@ -2730,7 +2730,7 @@ func getObjectVpnsslwebPortal(d *schema.ResourceData, sv string) (*models.Vpnssl
 	} else if d.HasChange("bookmark_group") {
 		old, new := d.GetChange("bookmark_group")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.BookmarkGroup = &[]models.VpnsslwebPortalBookmarkGroup{}
+			obj.BookmarkGroup = &[]models.VpnSslWebPortalBookmarkGroup{}
 		}
 	}
 	if v1, ok := d.GetOk("clipboard"); ok {
@@ -2892,7 +2892,7 @@ func getObjectVpnsslwebPortal(d *schema.ResourceData, sv string) (*models.Vpnssl
 			e := utils.AttributeVersionWarning("host_check_policy", sv)
 			diags = append(diags, e)
 		}
-		t, err := expandVpnsslwebPortalHostCheckPolicy(d, v, "host_check_policy", sv)
+		t, err := expandVpnSslWebPortalHostCheckPolicy(d, v, "host_check_policy", sv)
 		if err != nil {
 			return &obj, diag.FromErr(err)
 		} else if t != nil {
@@ -2901,7 +2901,7 @@ func getObjectVpnsslwebPortal(d *schema.ResourceData, sv string) (*models.Vpnssl
 	} else if d.HasChange("host_check_policy") {
 		old, new := d.GetChange("host_check_policy")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.HostCheckPolicy = &[]models.VpnsslwebPortalHostCheckPolicy{}
+			obj.HostCheckPolicy = &[]models.VpnSslWebPortalHostCheckPolicy{}
 		}
 	}
 	if v1, ok := d.GetOk("ip_mode"); ok {
@@ -2918,7 +2918,7 @@ func getObjectVpnsslwebPortal(d *schema.ResourceData, sv string) (*models.Vpnssl
 			e := utils.AttributeVersionWarning("ip_pools", sv)
 			diags = append(diags, e)
 		}
-		t, err := expandVpnsslwebPortalIpPools(d, v, "ip_pools", sv)
+		t, err := expandVpnSslWebPortalIpPools(d, v, "ip_pools", sv)
 		if err != nil {
 			return &obj, diag.FromErr(err)
 		} else if t != nil {
@@ -2927,7 +2927,7 @@ func getObjectVpnsslwebPortal(d *schema.ResourceData, sv string) (*models.Vpnssl
 	} else if d.HasChange("ip_pools") {
 		old, new := d.GetChange("ip_pools")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.IpPools = &[]models.VpnsslwebPortalIpPools{}
+			obj.IpPools = &[]models.VpnSslWebPortalIpPools{}
 		}
 	}
 	if v1, ok := d.GetOk("ipv6_dns_server1"); ok {
@@ -2962,7 +2962,7 @@ func getObjectVpnsslwebPortal(d *schema.ResourceData, sv string) (*models.Vpnssl
 			e := utils.AttributeVersionWarning("ipv6_pools", sv)
 			diags = append(diags, e)
 		}
-		t, err := expandVpnsslwebPortalIpv6Pools(d, v, "ipv6_pools", sv)
+		t, err := expandVpnSslWebPortalIpv6Pools(d, v, "ipv6_pools", sv)
 		if err != nil {
 			return &obj, diag.FromErr(err)
 		} else if t != nil {
@@ -2971,7 +2971,7 @@ func getObjectVpnsslwebPortal(d *schema.ResourceData, sv string) (*models.Vpnssl
 	} else if d.HasChange("ipv6_pools") {
 		old, new := d.GetChange("ipv6_pools")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.Ipv6Pools = &[]models.VpnsslwebPortalIpv6Pools{}
+			obj.Ipv6Pools = &[]models.VpnSslWebPortalIpv6Pools{}
 		}
 	}
 	if v1, ok := d.GetOk("ipv6_service_restriction"); ok {
@@ -2997,7 +2997,7 @@ func getObjectVpnsslwebPortal(d *schema.ResourceData, sv string) (*models.Vpnssl
 			e := utils.AttributeVersionWarning("ipv6_split_tunneling_routing_address", sv)
 			diags = append(diags, e)
 		}
-		t, err := expandVpnsslwebPortalIpv6SplitTunnelingRoutingAddress(d, v, "ipv6_split_tunneling_routing_address", sv)
+		t, err := expandVpnSslWebPortalIpv6SplitTunnelingRoutingAddress(d, v, "ipv6_split_tunneling_routing_address", sv)
 		if err != nil {
 			return &obj, diag.FromErr(err)
 		} else if t != nil {
@@ -3006,12 +3006,12 @@ func getObjectVpnsslwebPortal(d *schema.ResourceData, sv string) (*models.Vpnssl
 	} else if d.HasChange("ipv6_split_tunneling_routing_address") {
 		old, new := d.GetChange("ipv6_split_tunneling_routing_address")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.Ipv6SplitTunnelingRoutingAddress = &[]models.VpnsslwebPortalIpv6SplitTunnelingRoutingAddress{}
+			obj.Ipv6SplitTunnelingRoutingAddress = &[]models.VpnSslWebPortalIpv6SplitTunnelingRoutingAddress{}
 		}
 	}
 	if v1, ok := d.GetOk("ipv6_split_tunneling_routing_negate"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "v6.4.2", "") {
+			if !utils.CheckVer(sv, "v6.4.0", "") {
 				e := utils.AttributeVersionWarning("ipv6_split_tunneling_routing_negate", sv)
 				diags = append(diags, e)
 			}
@@ -3086,7 +3086,7 @@ func getObjectVpnsslwebPortal(d *schema.ResourceData, sv string) (*models.Vpnssl
 			e := utils.AttributeVersionWarning("mac_addr_check_rule", sv)
 			diags = append(diags, e)
 		}
-		t, err := expandVpnsslwebPortalMacAddrCheckRule(d, v, "mac_addr_check_rule", sv)
+		t, err := expandVpnSslWebPortalMacAddrCheckRule(d, v, "mac_addr_check_rule", sv)
 		if err != nil {
 			return &obj, diag.FromErr(err)
 		} else if t != nil {
@@ -3095,7 +3095,7 @@ func getObjectVpnsslwebPortal(d *schema.ResourceData, sv string) (*models.Vpnssl
 	} else if d.HasChange("mac_addr_check_rule") {
 		old, new := d.GetChange("mac_addr_check_rule")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.MacAddrCheckRule = &[]models.VpnsslwebPortalMacAddrCheckRule{}
+			obj.MacAddrCheckRule = &[]models.VpnSslWebPortalMacAddrCheckRule{}
 		}
 	}
 	if v1, ok := d.GetOk("macos_forticlient_download_url"); ok {
@@ -3130,7 +3130,7 @@ func getObjectVpnsslwebPortal(d *schema.ResourceData, sv string) (*models.Vpnssl
 			e := utils.AttributeVersionWarning("os_check_list", sv)
 			diags = append(diags, e)
 		}
-		t, err := expandVpnsslwebPortalOsCheckList(d, v, "os_check_list", sv)
+		t, err := expandVpnSslWebPortalOsCheckList(d, v, "os_check_list", sv)
 		if err != nil {
 			return &obj, diag.FromErr(err)
 		} else if t != nil {
@@ -3139,7 +3139,7 @@ func getObjectVpnsslwebPortal(d *schema.ResourceData, sv string) (*models.Vpnssl
 	} else if d.HasChange("os_check_list") {
 		old, new := d.GetChange("os_check_list")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.OsCheckList = &[]models.VpnsslwebPortalOsCheckList{}
+			obj.OsCheckList = &[]models.VpnSslWebPortalOsCheckList{}
 		}
 	}
 	if v1, ok := d.GetOk("prefer_ipv6_dns"); ok {
@@ -3246,7 +3246,7 @@ func getObjectVpnsslwebPortal(d *schema.ResourceData, sv string) (*models.Vpnssl
 			e := utils.AttributeVersionWarning("split_dns", sv)
 			diags = append(diags, e)
 		}
-		t, err := expandVpnsslwebPortalSplitDns(d, v, "split_dns", sv)
+		t, err := expandVpnSslWebPortalSplitDns(d, v, "split_dns", sv)
 		if err != nil {
 			return &obj, diag.FromErr(err)
 		} else if t != nil {
@@ -3255,7 +3255,7 @@ func getObjectVpnsslwebPortal(d *schema.ResourceData, sv string) (*models.Vpnssl
 	} else if d.HasChange("split_dns") {
 		old, new := d.GetChange("split_dns")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.SplitDns = &[]models.VpnsslwebPortalSplitDns{}
+			obj.SplitDns = &[]models.VpnSslWebPortalSplitDns{}
 		}
 	}
 	if v1, ok := d.GetOk("split_tunneling"); ok {
@@ -3272,7 +3272,7 @@ func getObjectVpnsslwebPortal(d *schema.ResourceData, sv string) (*models.Vpnssl
 			e := utils.AttributeVersionWarning("split_tunneling_routing_address", sv)
 			diags = append(diags, e)
 		}
-		t, err := expandVpnsslwebPortalSplitTunnelingRoutingAddress(d, v, "split_tunneling_routing_address", sv)
+		t, err := expandVpnSslWebPortalSplitTunnelingRoutingAddress(d, v, "split_tunneling_routing_address", sv)
 		if err != nil {
 			return &obj, diag.FromErr(err)
 		} else if t != nil {
@@ -3281,12 +3281,12 @@ func getObjectVpnsslwebPortal(d *schema.ResourceData, sv string) (*models.Vpnssl
 	} else if d.HasChange("split_tunneling_routing_address") {
 		old, new := d.GetChange("split_tunneling_routing_address")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.SplitTunnelingRoutingAddress = &[]models.VpnsslwebPortalSplitTunnelingRoutingAddress{}
+			obj.SplitTunnelingRoutingAddress = &[]models.VpnSslWebPortalSplitTunnelingRoutingAddress{}
 		}
 	}
 	if v1, ok := d.GetOk("split_tunneling_routing_negate"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "v6.4.2", "") {
+			if !utils.CheckVer(sv, "v6.4.0", "") {
 				e := utils.AttributeVersionWarning("split_tunneling_routing_negate", sv)
 				diags = append(diags, e)
 			}
@@ -3304,7 +3304,7 @@ func getObjectVpnsslwebPortal(d *schema.ResourceData, sv string) (*models.Vpnssl
 	}
 	if v1, ok := d.GetOk("transform_backward_slashes"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "v6.4.2") {
+			if !utils.CheckVer(sv, "", "v6.4.0") {
 				e := utils.AttributeVersionWarning("transform_backward_slashes", sv)
 				diags = append(diags, e)
 			}
@@ -3322,7 +3322,7 @@ func getObjectVpnsslwebPortal(d *schema.ResourceData, sv string) (*models.Vpnssl
 	}
 	if v1, ok := d.GetOk("use_sdwan"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "v6.4.2") {
+			if !utils.CheckVer(sv, "", "v6.4.0") {
 				e := utils.AttributeVersionWarning("use_sdwan", sv)
 				diags = append(diags, e)
 			}

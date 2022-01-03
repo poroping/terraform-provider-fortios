@@ -1,5 +1,4 @@
 {
-	"FullPath": null,
 	"addedIn": "v6.4.2",
 	"build": 237,
 	"http_method": "GET",
@@ -11,7 +10,38 @@
 		"access_group": "sysgrp",
 		"category": "table",
 		"children": {
+			"APN": {
+				"category": "unitary",
+				"help": "APN configuration.",
+				"name": "APN",
+				"removedIn": "v6.4.5",
+				"size": 63,
+				"type": "string"
+			},
+			"PDN": {
+				"category": "unitary",
+				"help": "PDN type.",
+				"multiple_values": false,
+				"name": "PDN",
+				"options": [
+					{
+						"help": "IPv4 only PDN activation.",
+						"name": "ipv4-only"
+					},
+					{
+						"help": "IPv6 only PDN activation.",
+						"name": "ipv6-only"
+					},
+					{
+						"help": "Both IPv4 and IPv6 PDN activations.",
+						"name": "ipv4-ipv6"
+					}
+				],
+				"removedIn": "v6.4.5",
+				"type": "option"
+			},
 			"apn": {
+				"addedIn": "v6.4.5",
 				"category": "unitary",
 				"default": "",
 				"help": "APN configuration.",
@@ -143,6 +173,7 @@
 				"type": "password"
 			},
 			"pdn": {
+				"addedIn": "v6.4.5",
 				"category": "unitary",
 				"default": "ipv4-only",
 				"help": "PDN type.",
@@ -275,8 +306,8 @@
 		"path": "extender-controller",
 		"q_type": 231
 	},
-	"revision": "0f5eb597fa8ac37d5f819e2b64bf7e6e",
-	"serial": "FGTAZRKKLFZKT347",
+	"revision": "78ee061304af9c5d17bcae6474808d97",
+	"serial": "FGTAZRAQCG14L19D",
 	"status": "success",
 	"vdom": "root",
 	"version": "v7.0.3"

@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -19,14 +19,14 @@ import (
 	"github.com/poroping/terraform-provider-fortios/v2/utils"
 )
 
-func resourceWirelessControllerhotspot20AnqpNaiRealm() *schema.Resource {
+func resourceWirelessControllerHotspot20AnqpNaiRealm() *schema.Resource {
 	return &schema.Resource{
 		Description: "Configure network access identifier (NAI) realm.",
 
-		CreateContext: resourceWirelessControllerhotspot20AnqpNaiRealmCreate,
-		ReadContext:   resourceWirelessControllerhotspot20AnqpNaiRealmRead,
-		UpdateContext: resourceWirelessControllerhotspot20AnqpNaiRealmUpdate,
-		DeleteContext: resourceWirelessControllerhotspot20AnqpNaiRealmDelete,
+		CreateContext: resourceWirelessControllerHotspot20AnqpNaiRealmCreate,
+		ReadContext:   resourceWirelessControllerHotspot20AnqpNaiRealmRead,
+		UpdateContext: resourceWirelessControllerHotspot20AnqpNaiRealmUpdate,
+		DeleteContext: resourceWirelessControllerHotspot20AnqpNaiRealmDelete,
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
@@ -153,7 +153,7 @@ func resourceWirelessControllerhotspot20AnqpNaiRealm() *schema.Resource {
 	}
 }
 
-func resourceWirelessControllerhotspot20AnqpNaiRealmCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceWirelessControllerHotspot20AnqpNaiRealmCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*apiClient).Client
 	var diags diag.Diagnostics
 	var err error
@@ -180,16 +180,16 @@ func resourceWirelessControllerhotspot20AnqpNaiRealmCreate(ctx context.Context, 
 	if v, ok := d.GetOk(key); ok {
 		mkey = utils.ParseMkey(v)
 		if mkey == "" && allow_append {
-			return diag.Errorf("error creating WirelessControllerhotspot20AnqpNaiRealm resource: %q must be set if \"allow_append\" is true", key)
+			return diag.Errorf("error creating WirelessControllerHotspot20AnqpNaiRealm resource: %q must be set if \"allow_append\" is true", key)
 		}
 	}
 
-	obj, diags := getObjectWirelessControllerhotspot20AnqpNaiRealm(d, c.Config.Fv)
+	obj, diags := getObjectWirelessControllerHotspot20AnqpNaiRealm(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.CreateWirelessControllerhotspot20AnqpNaiRealm(obj, urlparams)
+	o, err := c.Cmdb.CreateWirelessControllerHotspot20AnqpNaiRealm(obj, urlparams)
 
 	if err != nil {
 		e := diag.FromErr(err)
@@ -199,13 +199,13 @@ func resourceWirelessControllerhotspot20AnqpNaiRealmCreate(ctx context.Context, 
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("WirelessControllerhotspot20AnqpNaiRealm")
+		d.SetId("WirelessControllerHotspot20AnqpNaiRealm")
 	}
 
-	return resourceWirelessControllerhotspot20AnqpNaiRealmRead(ctx, d, meta)
+	return resourceWirelessControllerHotspot20AnqpNaiRealmRead(ctx, d, meta)
 }
 
-func resourceWirelessControllerhotspot20AnqpNaiRealmUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceWirelessControllerHotspot20AnqpNaiRealmUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
@@ -218,27 +218,27 @@ func resourceWirelessControllerhotspot20AnqpNaiRealmUpdate(ctx context.Context, 
 	}
 	urlparams.Vdom = vdomparam
 
-	obj, diags := getObjectWirelessControllerhotspot20AnqpNaiRealm(d, c.Config.Fv)
+	obj, diags := getObjectWirelessControllerHotspot20AnqpNaiRealm(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.UpdateWirelessControllerhotspot20AnqpNaiRealm(mkey, obj, urlparams)
+	o, err := c.Cmdb.UpdateWirelessControllerHotspot20AnqpNaiRealm(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error updating WirelessControllerhotspot20AnqpNaiRealm resource: %v", err)
+		return diag.Errorf("error updating WirelessControllerHotspot20AnqpNaiRealm resource: %v", err)
 	}
 
 	// log.Printf(strconv.Itoa(c.Retries))
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("WirelessControllerhotspot20AnqpNaiRealm")
+		d.SetId("WirelessControllerHotspot20AnqpNaiRealm")
 	}
 
-	return resourceWirelessControllerhotspot20AnqpNaiRealmRead(ctx, d, meta)
+	return resourceWirelessControllerHotspot20AnqpNaiRealmRead(ctx, d, meta)
 }
 
-func resourceWirelessControllerhotspot20AnqpNaiRealmDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceWirelessControllerHotspot20AnqpNaiRealmDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -253,9 +253,9 @@ func resourceWirelessControllerhotspot20AnqpNaiRealmDelete(ctx context.Context, 
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteWirelessControllerhotspot20AnqpNaiRealm(mkey, urlparams)
+	err := c.Cmdb.DeleteWirelessControllerHotspot20AnqpNaiRealm(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error deleting WirelessControllerhotspot20AnqpNaiRealm resource: %v", err)
+		return diag.Errorf("error deleting WirelessControllerHotspot20AnqpNaiRealm resource: %v", err)
 	}
 
 	d.SetId("")
@@ -263,7 +263,7 @@ func resourceWirelessControllerhotspot20AnqpNaiRealmDelete(ctx context.Context, 
 	return nil
 }
 
-func resourceWirelessControllerhotspot20AnqpNaiRealmRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceWirelessControllerHotspot20AnqpNaiRealmRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -278,9 +278,9 @@ func resourceWirelessControllerhotspot20AnqpNaiRealmRead(ctx context.Context, d 
 	}
 	urlparams.Vdom = vdomparam
 
-	o, err := c.Cmdb.ReadWirelessControllerhotspot20AnqpNaiRealm(mkey, urlparams)
+	o, err := c.Cmdb.ReadWirelessControllerHotspot20AnqpNaiRealm(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error reading WirelessControllerhotspot20AnqpNaiRealm resource: %v", err)
+		return diag.Errorf("error reading WirelessControllerHotspot20AnqpNaiRealm resource: %v", err)
 	}
 
 	if o == nil {
@@ -296,21 +296,21 @@ func resourceWirelessControllerhotspot20AnqpNaiRealmRead(ctx context.Context, d 
 		}
 	}
 
-	diags := refreshObjectWirelessControllerhotspot20AnqpNaiRealm(d, o, c.Config.Fv, sort)
+	diags := refreshObjectWirelessControllerHotspot20AnqpNaiRealm(d, o, c.Config.Fv, sort)
 	if diags.HasError() {
 		return diags
 	}
 	return nil
 }
 
-func flattenWirelessControllerhotspot20AnqpNaiRealmNaiList(v *[]models.WirelessControllerhotspot20AnqpNaiRealmNaiList, sort bool) interface{} {
+func flattenWirelessControllerHotspot20AnqpNaiRealmNaiList(v *[]models.WirelessControllerHotspot20AnqpNaiRealmNaiList, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
 		for _, cfg := range *v {
 			v := make(map[string]interface{})
 			if tmp := cfg.EapMethod; tmp != nil {
-				v["eap_method"] = flattenWirelessControllerhotspot20AnqpNaiRealmNaiListEapMethod(tmp, sort)
+				v["eap_method"] = flattenWirelessControllerHotspot20AnqpNaiRealmNaiListEapMethod(tmp, sort)
 			}
 
 			if tmp := cfg.Encoding; tmp != nil {
@@ -336,14 +336,14 @@ func flattenWirelessControllerhotspot20AnqpNaiRealmNaiList(v *[]models.WirelessC
 	return flat
 }
 
-func flattenWirelessControllerhotspot20AnqpNaiRealmNaiListEapMethod(v *[]models.WirelessControllerhotspot20AnqpNaiRealmNaiListEapMethod, sort bool) interface{} {
+func flattenWirelessControllerHotspot20AnqpNaiRealmNaiListEapMethod(v *[]models.WirelessControllerHotspot20AnqpNaiRealmNaiListEapMethod, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
 		for _, cfg := range *v {
 			v := make(map[string]interface{})
 			if tmp := cfg.AuthParam; tmp != nil {
-				v["auth_param"] = flattenWirelessControllerhotspot20AnqpNaiRealmNaiListEapMethodAuthParam(tmp, sort)
+				v["auth_param"] = flattenWirelessControllerHotspot20AnqpNaiRealmNaiListEapMethodAuthParam(tmp, sort)
 			}
 
 			if tmp := cfg.Index; tmp != nil {
@@ -365,7 +365,7 @@ func flattenWirelessControllerhotspot20AnqpNaiRealmNaiListEapMethod(v *[]models.
 	return flat
 }
 
-func flattenWirelessControllerhotspot20AnqpNaiRealmNaiListEapMethodAuthParam(v *[]models.WirelessControllerhotspot20AnqpNaiRealmNaiListEapMethodAuthParam, sort bool) interface{} {
+func flattenWirelessControllerHotspot20AnqpNaiRealmNaiListEapMethodAuthParam(v *[]models.WirelessControllerHotspot20AnqpNaiRealmNaiListEapMethodAuthParam, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
@@ -394,11 +394,11 @@ func flattenWirelessControllerhotspot20AnqpNaiRealmNaiListEapMethodAuthParam(v *
 	return flat
 }
 
-func refreshObjectWirelessControllerhotspot20AnqpNaiRealm(d *schema.ResourceData, o *models.WirelessControllerhotspot20AnqpNaiRealm, sv string, sort bool) diag.Diagnostics {
+func refreshObjectWirelessControllerHotspot20AnqpNaiRealm(d *schema.ResourceData, o *models.WirelessControllerHotspot20AnqpNaiRealm, sv string, sort bool) diag.Diagnostics {
 	var err error
 
 	if o.NaiList != nil {
-		if err = d.Set("nai_list", flattenWirelessControllerhotspot20AnqpNaiRealmNaiList(o.NaiList, sort)); err != nil {
+		if err = d.Set("nai_list", flattenWirelessControllerHotspot20AnqpNaiRealmNaiList(o.NaiList, sort)); err != nil {
 			return diag.Errorf("error reading nai_list: %v", err)
 		}
 	}
@@ -414,23 +414,23 @@ func refreshObjectWirelessControllerhotspot20AnqpNaiRealm(d *schema.ResourceData
 	return nil
 }
 
-func expandWirelessControllerhotspot20AnqpNaiRealmNaiList(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.WirelessControllerhotspot20AnqpNaiRealmNaiList, error) {
+func expandWirelessControllerHotspot20AnqpNaiRealmNaiList(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.WirelessControllerHotspot20AnqpNaiRealmNaiList, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
 	}
 
-	var result []models.WirelessControllerhotspot20AnqpNaiRealmNaiList
+	var result []models.WirelessControllerHotspot20AnqpNaiRealmNaiList
 
 	for i := range l {
-		tmp := models.WirelessControllerhotspot20AnqpNaiRealmNaiList{}
+		tmp := models.WirelessControllerHotspot20AnqpNaiRealmNaiList{}
 		var pre_append string
 
 		pre_append = fmt.Sprintf("%s.%d.eap_method", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			v2, _ := expandWirelessControllerhotspot20AnqpNaiRealmNaiListEapMethod(d, v1, pre_append, sv)
+			v2, _ := expandWirelessControllerHotspot20AnqpNaiRealmNaiListEapMethod(d, v1, pre_append, sv)
 			// if err != nil {
-			// 	v2 := &[]models.WirelessControllerhotspot20AnqpNaiRealmNaiListEapMethod
+			// 	v2 := &[]models.WirelessControllerHotspot20AnqpNaiRealmNaiListEapMethod
 			// 	}
 			tmp.EapMethod = v2
 
@@ -462,23 +462,23 @@ func expandWirelessControllerhotspot20AnqpNaiRealmNaiList(d *schema.ResourceData
 	return &result, nil
 }
 
-func expandWirelessControllerhotspot20AnqpNaiRealmNaiListEapMethod(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.WirelessControllerhotspot20AnqpNaiRealmNaiListEapMethod, error) {
+func expandWirelessControllerHotspot20AnqpNaiRealmNaiListEapMethod(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.WirelessControllerHotspot20AnqpNaiRealmNaiListEapMethod, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
 	}
 
-	var result []models.WirelessControllerhotspot20AnqpNaiRealmNaiListEapMethod
+	var result []models.WirelessControllerHotspot20AnqpNaiRealmNaiListEapMethod
 
 	for i := range l {
-		tmp := models.WirelessControllerhotspot20AnqpNaiRealmNaiListEapMethod{}
+		tmp := models.WirelessControllerHotspot20AnqpNaiRealmNaiListEapMethod{}
 		var pre_append string
 
 		pre_append = fmt.Sprintf("%s.%d.auth_param", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			v2, _ := expandWirelessControllerhotspot20AnqpNaiRealmNaiListEapMethodAuthParam(d, v1, pre_append, sv)
+			v2, _ := expandWirelessControllerHotspot20AnqpNaiRealmNaiListEapMethodAuthParam(d, v1, pre_append, sv)
 			// if err != nil {
-			// 	v2 := &[]models.WirelessControllerhotspot20AnqpNaiRealmNaiListEapMethodAuthParam
+			// 	v2 := &[]models.WirelessControllerHotspot20AnqpNaiRealmNaiListEapMethodAuthParam
 			// 	}
 			tmp.AuthParam = v2
 
@@ -503,16 +503,16 @@ func expandWirelessControllerhotspot20AnqpNaiRealmNaiListEapMethod(d *schema.Res
 	return &result, nil
 }
 
-func expandWirelessControllerhotspot20AnqpNaiRealmNaiListEapMethodAuthParam(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.WirelessControllerhotspot20AnqpNaiRealmNaiListEapMethodAuthParam, error) {
+func expandWirelessControllerHotspot20AnqpNaiRealmNaiListEapMethodAuthParam(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.WirelessControllerHotspot20AnqpNaiRealmNaiListEapMethodAuthParam, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
 	}
 
-	var result []models.WirelessControllerhotspot20AnqpNaiRealmNaiListEapMethodAuthParam
+	var result []models.WirelessControllerHotspot20AnqpNaiRealmNaiListEapMethodAuthParam
 
 	for i := range l {
-		tmp := models.WirelessControllerhotspot20AnqpNaiRealmNaiListEapMethodAuthParam{}
+		tmp := models.WirelessControllerHotspot20AnqpNaiRealmNaiListEapMethodAuthParam{}
 		var pre_append string
 
 		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
@@ -541,8 +541,8 @@ func expandWirelessControllerhotspot20AnqpNaiRealmNaiListEapMethodAuthParam(d *s
 	return &result, nil
 }
 
-func getObjectWirelessControllerhotspot20AnqpNaiRealm(d *schema.ResourceData, sv string) (*models.WirelessControllerhotspot20AnqpNaiRealm, diag.Diagnostics) {
-	obj := models.WirelessControllerhotspot20AnqpNaiRealm{}
+func getObjectWirelessControllerHotspot20AnqpNaiRealm(d *schema.ResourceData, sv string) (*models.WirelessControllerHotspot20AnqpNaiRealm, diag.Diagnostics) {
+	obj := models.WirelessControllerHotspot20AnqpNaiRealm{}
 	diags := diag.Diagnostics{}
 
 	if v, ok := d.GetOk("nai_list"); ok {
@@ -550,7 +550,7 @@ func getObjectWirelessControllerhotspot20AnqpNaiRealm(d *schema.ResourceData, sv
 			e := utils.AttributeVersionWarning("nai_list", sv)
 			diags = append(diags, e)
 		}
-		t, err := expandWirelessControllerhotspot20AnqpNaiRealmNaiList(d, v, "nai_list", sv)
+		t, err := expandWirelessControllerHotspot20AnqpNaiRealmNaiList(d, v, "nai_list", sv)
 		if err != nil {
 			return &obj, diag.FromErr(err)
 		} else if t != nil {
@@ -559,7 +559,7 @@ func getObjectWirelessControllerhotspot20AnqpNaiRealm(d *schema.ResourceData, sv
 	} else if d.HasChange("nai_list") {
 		old, new := d.GetChange("nai_list")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.NaiList = &[]models.WirelessControllerhotspot20AnqpNaiRealmNaiList{}
+			obj.NaiList = &[]models.WirelessControllerHotspot20AnqpNaiRealmNaiList{}
 		}
 	}
 	if v1, ok := d.GetOk("name"); ok {

@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -6400,7 +6400,7 @@ func getObjectSystemInterface(d *schema.ResourceData, sv string) (*models.System
 	}
 	if v1, ok := d.GetOk("bandwidth_measure_time"); ok {
 		if v2, ok := v1.(int); ok {
-			if !utils.CheckVer(sv, "v6.4.2", "") {
+			if !utils.CheckVer(sv, "v6.4.0", "") {
 				e := utils.AttributeVersionWarning("bandwidth_measure_time", sv)
 				diags = append(diags, e)
 			}
@@ -6449,7 +6449,7 @@ func getObjectSystemInterface(d *schema.ResourceData, sv string) (*models.System
 	}
 	if v1, ok := d.GetOk("broadcast_forticlient_discovery"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "v6.4.2") {
+			if !utils.CheckVer(sv, "", "v6.4.0") {
 				e := utils.AttributeVersionWarning("broadcast_forticlient_discovery", sv)
 				diags = append(diags, e)
 			}
@@ -6476,7 +6476,7 @@ func getObjectSystemInterface(d *schema.ResourceData, sv string) (*models.System
 		}
 	}
 	if v, ok := d.GetOk("client_options"); ok {
-		if !utils.CheckVer(sv, "v6.4.2", "") {
+		if !utils.CheckVer(sv, "v6.4.0", "") {
 			e := utils.AttributeVersionWarning("client_options", sv)
 			diags = append(diags, e)
 		}
@@ -6614,7 +6614,7 @@ func getObjectSystemInterface(d *schema.ResourceData, sv string) (*models.System
 	}
 	if v1, ok := d.GetOk("dhcp_relay_interface"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "") {
+			if !utils.CheckVer(sv, "", "v6.4.0") {
 				e := utils.AttributeVersionWarning("dhcp_relay_interface", sv)
 				diags = append(diags, e)
 			}
@@ -6623,7 +6623,7 @@ func getObjectSystemInterface(d *schema.ResourceData, sv string) (*models.System
 	}
 	if v1, ok := d.GetOk("dhcp_relay_interface_select_method"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "") {
+			if !utils.CheckVer(sv, "", "v6.4.0") {
 				e := utils.AttributeVersionWarning("dhcp_relay_interface_select_method", sv)
 				diags = append(diags, e)
 			}
@@ -6752,7 +6752,7 @@ func getObjectSystemInterface(d *schema.ResourceData, sv string) (*models.System
 	}
 	if v1, ok := d.GetOk("egress_cos"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "v6.4.2") {
+			if !utils.CheckVer(sv, "", "v6.4.0") {
 				e := utils.AttributeVersionWarning("egress_cos", sv)
 				diags = append(diags, e)
 			}
@@ -6760,7 +6760,7 @@ func getObjectSystemInterface(d *schema.ResourceData, sv string) (*models.System
 		}
 	}
 	if v, ok := d.GetOk("egress_queues"); ok {
-		if !utils.CheckVer(sv, "", "v6.4.2") {
+		if !utils.CheckVer(sv, "", "v6.4.0") {
 			e := utils.AttributeVersionWarning("egress_queues", sv)
 			diags = append(diags, e)
 		}
@@ -6787,7 +6787,7 @@ func getObjectSystemInterface(d *schema.ResourceData, sv string) (*models.System
 	}
 	if v1, ok := d.GetOk("eip"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "v6.4.2", "") {
+			if !utils.CheckVer(sv, "v6.4.0", "") {
 				e := utils.AttributeVersionWarning("eip", sv)
 				diags = append(diags, e)
 			}
@@ -7018,7 +7018,7 @@ func getObjectSystemInterface(d *schema.ResourceData, sv string) (*models.System
 	}
 	if v1, ok := d.GetOk("ingress_cos"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "v6.4.2") {
+			if !utils.CheckVer(sv, "", "v6.4.0") {
 				e := utils.AttributeVersionWarning("ingress_cos", sv)
 				diags = append(diags, e)
 			}
@@ -7074,7 +7074,7 @@ func getObjectSystemInterface(d *schema.ResourceData, sv string) (*models.System
 	}
 	if v1, ok := d.GetOk("ip_managed_by_fortiipam"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "v6.4.2", "") {
+			if !utils.CheckVer(sv, "v6.4.0", "") {
 				e := utils.AttributeVersionWarning("ip_managed_by_fortiipam", sv)
 				diags = append(diags, e)
 			}
@@ -7229,7 +7229,7 @@ func getObjectSystemInterface(d *schema.ResourceData, sv string) (*models.System
 	}
 	if v1, ok := d.GetOk("managed_subnetwork_size"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "v6.4.2", "") {
+			if !utils.CheckVer(sv, "v6.4.0", "") {
 				e := utils.AttributeVersionWarning("managed_subnetwork_size", sv)
 				diags = append(diags, e)
 			}
@@ -7247,7 +7247,7 @@ func getObjectSystemInterface(d *schema.ResourceData, sv string) (*models.System
 	}
 	if v1, ok := d.GetOk("measured_downstream_bandwidth"); ok {
 		if v2, ok := v1.(int); ok {
-			if !utils.CheckVer(sv, "v6.4.2", "") {
+			if !utils.CheckVer(sv, "v6.4.0", "") {
 				e := utils.AttributeVersionWarning("measured_downstream_bandwidth", sv)
 				diags = append(diags, e)
 			}
@@ -7257,7 +7257,7 @@ func getObjectSystemInterface(d *schema.ResourceData, sv string) (*models.System
 	}
 	if v1, ok := d.GetOk("measured_upstream_bandwidth"); ok {
 		if v2, ok := v1.(int); ok {
-			if !utils.CheckVer(sv, "v6.4.2", "") {
+			if !utils.CheckVer(sv, "v6.4.0", "") {
 				e := utils.AttributeVersionWarning("measured_upstream_bandwidth", sv)
 				diags = append(diags, e)
 			}
@@ -7267,7 +7267,7 @@ func getObjectSystemInterface(d *schema.ResourceData, sv string) (*models.System
 	}
 	if v1, ok := d.GetOk("mediatype"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "v6.4.2") {
+			if !utils.CheckVer(sv, "", "v6.4.0") {
 				e := utils.AttributeVersionWarning("mediatype", sv)
 				diags = append(diags, e)
 			}
@@ -7321,7 +7321,7 @@ func getObjectSystemInterface(d *schema.ResourceData, sv string) (*models.System
 	}
 	if v1, ok := d.GetOk("monitor_bandwidth"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "v6.4.2", "") {
+			if !utils.CheckVer(sv, "v6.4.0", "") {
 				e := utils.AttributeVersionWarning("monitor_bandwidth", sv)
 				diags = append(diags, e)
 			}
@@ -7562,7 +7562,7 @@ func getObjectSystemInterface(d *schema.ResourceData, sv string) (*models.System
 	}
 	if v1, ok := d.GetOk("ring_rx"); ok {
 		if v2, ok := v1.(int); ok {
-			if !utils.CheckVer(sv, "v6.4.2", "") {
+			if !utils.CheckVer(sv, "v6.4.0", "") {
 				e := utils.AttributeVersionWarning("ring_rx", sv)
 				diags = append(diags, e)
 			}
@@ -7572,7 +7572,7 @@ func getObjectSystemInterface(d *schema.ResourceData, sv string) (*models.System
 	}
 	if v1, ok := d.GetOk("ring_tx"); ok {
 		if v2, ok := v1.(int); ok {
-			if !utils.CheckVer(sv, "v6.4.2", "") {
+			if !utils.CheckVer(sv, "v6.4.0", "") {
 				e := utils.AttributeVersionWarning("ring_tx", sv)
 				diags = append(diags, e)
 			}
@@ -7818,7 +7818,7 @@ func getObjectSystemInterface(d *schema.ResourceData, sv string) (*models.System
 	}
 	if v1, ok := d.GetOk("swc_vlan"); ok {
 		if v2, ok := v1.(int); ok {
-			if !utils.CheckVer(sv, "v6.4.2", "") {
+			if !utils.CheckVer(sv, "v6.4.0", "") {
 				e := utils.AttributeVersionWarning("swc_vlan", sv)
 				diags = append(diags, e)
 			}
@@ -7891,7 +7891,7 @@ func getObjectSystemInterface(d *schema.ResourceData, sv string) (*models.System
 	}
 	if v1, ok := d.GetOk("switch_controller_feature"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "v6.4.2", "") {
+			if !utils.CheckVer(sv, "v6.4.0", "") {
 				e := utils.AttributeVersionWarning("switch_controller_feature", sv)
 				diags = append(diags, e)
 			}
@@ -7946,7 +7946,7 @@ func getObjectSystemInterface(d *schema.ResourceData, sv string) (*models.System
 	}
 	if v1, ok := d.GetOk("switch_controller_mgmt_vlan"); ok {
 		if v2, ok := v1.(int); ok {
-			if !utils.CheckVer(sv, "v6.4.2", "") {
+			if !utils.CheckVer(sv, "v6.4.0", "") {
 				e := utils.AttributeVersionWarning("switch_controller_mgmt_vlan", sv)
 				diags = append(diags, e)
 			}
@@ -7956,7 +7956,7 @@ func getObjectSystemInterface(d *schema.ResourceData, sv string) (*models.System
 	}
 	if v1, ok := d.GetOk("switch_controller_nac"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "v6.4.2", "") {
+			if !utils.CheckVer(sv, "v6.4.0", "") {
 				e := utils.AttributeVersionWarning("switch_controller_nac", sv)
 				diags = append(diags, e)
 			}
@@ -8128,7 +8128,7 @@ func getObjectSystemInterface(d *schema.ResourceData, sv string) (*models.System
 	}
 	if v1, ok := d.GetOk("vlan_protocol"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "v6.4.2", "") {
+			if !utils.CheckVer(sv, "v6.4.0", "") {
 				e := utils.AttributeVersionWarning("vlan_protocol", sv)
 				diags = append(diags, e)
 			}

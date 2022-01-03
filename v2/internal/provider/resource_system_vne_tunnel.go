@@ -199,7 +199,12 @@ func resourceSystemVneTunnelDelete(ctx context.Context, d *schema.ResourceData, 
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteSystemVneTunnel(mkey, urlparams)
+	obj, diags := getEmptyObjectSystemVneTunnel(d, c.Config.Fv)
+	if diags.HasError() {
+		return diags
+	}
+
+	_, err := c.Cmdb.UpdateSystemVneTunnel(mkey, obj, urlparams)
 	if err != nil {
 		return diag.Errorf("error deleting SystemVneTunnel resource: %v", err)
 	}
@@ -400,5 +405,13 @@ func getObjectSystemVneTunnel(d *schema.ResourceData, sv string) (*models.System
 			obj.UpdateUrl = &v2
 		}
 	}
+	return &obj, diags
+}
+
+// Return an object with explicitly empty objects for tables that have been set.
+func getEmptyObjectSystemVneTunnel(d *schema.ResourceData, sv string) (*models.SystemVneTunnel, diag.Diagnostics) {
+	obj := models.SystemVneTunnel{}
+	diags := diag.Diagnostics{}
+
 	return &obj, diags
 }

@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -18,14 +18,14 @@ import (
 	"github.com/poroping/terraform-provider-fortios/v2/utils"
 )
 
-func resourceFirewallwildcardFqdnCustom() *schema.Resource {
+func resourceFirewallWildcardFqdnCustom() *schema.Resource {
 	return &schema.Resource{
 		Description: "Config global/VDOM Wildcard FQDN address.",
 
-		CreateContext: resourceFirewallwildcardFqdnCustomCreate,
-		ReadContext:   resourceFirewallwildcardFqdnCustomRead,
-		UpdateContext: resourceFirewallwildcardFqdnCustomUpdate,
-		DeleteContext: resourceFirewallwildcardFqdnCustomDelete,
+		CreateContext: resourceFirewallWildcardFqdnCustomCreate,
+		ReadContext:   resourceFirewallWildcardFqdnCustomRead,
+		UpdateContext: resourceFirewallWildcardFqdnCustomUpdate,
+		DeleteContext: resourceFirewallWildcardFqdnCustomDelete,
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
@@ -95,7 +95,7 @@ func resourceFirewallwildcardFqdnCustom() *schema.Resource {
 	}
 }
 
-func resourceFirewallwildcardFqdnCustomCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceFirewallWildcardFqdnCustomCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*apiClient).Client
 	var diags diag.Diagnostics
 	var err error
@@ -122,16 +122,16 @@ func resourceFirewallwildcardFqdnCustomCreate(ctx context.Context, d *schema.Res
 	if v, ok := d.GetOk(key); ok {
 		mkey = utils.ParseMkey(v)
 		if mkey == "" && allow_append {
-			return diag.Errorf("error creating FirewallwildcardFqdnCustom resource: %q must be set if \"allow_append\" is true", key)
+			return diag.Errorf("error creating FirewallWildcardFqdnCustom resource: %q must be set if \"allow_append\" is true", key)
 		}
 	}
 
-	obj, diags := getObjectFirewallwildcardFqdnCustom(d, c.Config.Fv)
+	obj, diags := getObjectFirewallWildcardFqdnCustom(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.CreateFirewallwildcardFqdnCustom(obj, urlparams)
+	o, err := c.Cmdb.CreateFirewallWildcardFqdnCustom(obj, urlparams)
 
 	if err != nil {
 		e := diag.FromErr(err)
@@ -141,13 +141,13 @@ func resourceFirewallwildcardFqdnCustomCreate(ctx context.Context, d *schema.Res
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("FirewallwildcardFqdnCustom")
+		d.SetId("FirewallWildcardFqdnCustom")
 	}
 
-	return resourceFirewallwildcardFqdnCustomRead(ctx, d, meta)
+	return resourceFirewallWildcardFqdnCustomRead(ctx, d, meta)
 }
 
-func resourceFirewallwildcardFqdnCustomUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceFirewallWildcardFqdnCustomUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
@@ -160,27 +160,27 @@ func resourceFirewallwildcardFqdnCustomUpdate(ctx context.Context, d *schema.Res
 	}
 	urlparams.Vdom = vdomparam
 
-	obj, diags := getObjectFirewallwildcardFqdnCustom(d, c.Config.Fv)
+	obj, diags := getObjectFirewallWildcardFqdnCustom(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.UpdateFirewallwildcardFqdnCustom(mkey, obj, urlparams)
+	o, err := c.Cmdb.UpdateFirewallWildcardFqdnCustom(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error updating FirewallwildcardFqdnCustom resource: %v", err)
+		return diag.Errorf("error updating FirewallWildcardFqdnCustom resource: %v", err)
 	}
 
 	// log.Printf(strconv.Itoa(c.Retries))
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("FirewallwildcardFqdnCustom")
+		d.SetId("FirewallWildcardFqdnCustom")
 	}
 
-	return resourceFirewallwildcardFqdnCustomRead(ctx, d, meta)
+	return resourceFirewallWildcardFqdnCustomRead(ctx, d, meta)
 }
 
-func resourceFirewallwildcardFqdnCustomDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceFirewallWildcardFqdnCustomDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -195,9 +195,9 @@ func resourceFirewallwildcardFqdnCustomDelete(ctx context.Context, d *schema.Res
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteFirewallwildcardFqdnCustom(mkey, urlparams)
+	err := c.Cmdb.DeleteFirewallWildcardFqdnCustom(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error deleting FirewallwildcardFqdnCustom resource: %v", err)
+		return diag.Errorf("error deleting FirewallWildcardFqdnCustom resource: %v", err)
 	}
 
 	d.SetId("")
@@ -205,7 +205,7 @@ func resourceFirewallwildcardFqdnCustomDelete(ctx context.Context, d *schema.Res
 	return nil
 }
 
-func resourceFirewallwildcardFqdnCustomRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceFirewallWildcardFqdnCustomRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -220,9 +220,9 @@ func resourceFirewallwildcardFqdnCustomRead(ctx context.Context, d *schema.Resou
 	}
 	urlparams.Vdom = vdomparam
 
-	o, err := c.Cmdb.ReadFirewallwildcardFqdnCustom(mkey, urlparams)
+	o, err := c.Cmdb.ReadFirewallWildcardFqdnCustom(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error reading FirewallwildcardFqdnCustom resource: %v", err)
+		return diag.Errorf("error reading FirewallWildcardFqdnCustom resource: %v", err)
 	}
 
 	if o == nil {
@@ -238,14 +238,14 @@ func resourceFirewallwildcardFqdnCustomRead(ctx context.Context, d *schema.Resou
 		}
 	}
 
-	diags := refreshObjectFirewallwildcardFqdnCustom(d, o, c.Config.Fv, sort)
+	diags := refreshObjectFirewallWildcardFqdnCustom(d, o, c.Config.Fv, sort)
 	if diags.HasError() {
 		return diags
 	}
 	return nil
 }
 
-func refreshObjectFirewallwildcardFqdnCustom(d *schema.ResourceData, o *models.FirewallwildcardFqdnCustom, sv string, sort bool) diag.Diagnostics {
+func refreshObjectFirewallWildcardFqdnCustom(d *schema.ResourceData, o *models.FirewallWildcardFqdnCustom, sv string, sort bool) diag.Diagnostics {
 	var err error
 
 	if o.Color != nil {
@@ -299,8 +299,8 @@ func refreshObjectFirewallwildcardFqdnCustom(d *schema.ResourceData, o *models.F
 	return nil
 }
 
-func getObjectFirewallwildcardFqdnCustom(d *schema.ResourceData, sv string) (*models.FirewallwildcardFqdnCustom, diag.Diagnostics) {
-	obj := models.FirewallwildcardFqdnCustom{}
+func getObjectFirewallWildcardFqdnCustom(d *schema.ResourceData, sv string) (*models.FirewallWildcardFqdnCustom, diag.Diagnostics) {
+	obj := models.FirewallWildcardFqdnCustom{}
 	diags := diag.Diagnostics{}
 
 	if v1, ok := d.GetOk("color"); ok {
@@ -342,7 +342,7 @@ func getObjectFirewallwildcardFqdnCustom(d *schema.ResourceData, sv string) (*mo
 	}
 	if v1, ok := d.GetOk("visibility"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "v6.4.2") {
+			if !utils.CheckVer(sv, "", "v6.4.0") {
 				e := utils.AttributeVersionWarning("visibility", sv)
 				diags = append(diags, e)
 			}

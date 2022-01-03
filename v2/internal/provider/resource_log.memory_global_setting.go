@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -18,14 +18,14 @@ import (
 	"github.com/poroping/terraform-provider-fortios/v2/utils"
 )
 
-func resourceLogmemoryGlobalSetting() *schema.Resource {
+func resourceLogMemoryGlobalSetting() *schema.Resource {
 	return &schema.Resource{
 		Description: "Global settings for memory logging.",
 
-		CreateContext: resourceLogmemoryGlobalSettingCreate,
-		ReadContext:   resourceLogmemoryGlobalSettingRead,
-		UpdateContext: resourceLogmemoryGlobalSettingUpdate,
-		DeleteContext: resourceLogmemoryGlobalSettingDelete,
+		CreateContext: resourceLogMemoryGlobalSettingCreate,
+		ReadContext:   resourceLogMemoryGlobalSettingRead,
+		UpdateContext: resourceLogMemoryGlobalSettingUpdate,
+		DeleteContext: resourceLogMemoryGlobalSettingDelete,
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
@@ -73,7 +73,7 @@ func resourceLogmemoryGlobalSetting() *schema.Resource {
 	}
 }
 
-func resourceLogmemoryGlobalSettingCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceLogMemoryGlobalSettingCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*apiClient).Client
 	var diags diag.Diagnostics
 	var err error
@@ -95,12 +95,12 @@ func resourceLogmemoryGlobalSettingCreate(ctx context.Context, d *schema.Resourc
 	}
 	urlparams.AllowAppend = &allow_append
 
-	obj, diags := getObjectLogmemoryGlobalSetting(d, c.Config.Fv)
+	obj, diags := getObjectLogMemoryGlobalSetting(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.CreateLogmemoryGlobalSetting(obj, urlparams)
+	o, err := c.Cmdb.CreateLogMemoryGlobalSetting(obj, urlparams)
 
 	if err != nil {
 		e := diag.FromErr(err)
@@ -110,13 +110,13 @@ func resourceLogmemoryGlobalSettingCreate(ctx context.Context, d *schema.Resourc
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("LogmemoryGlobalSetting")
+		d.SetId("LogMemoryGlobalSetting")
 	}
 
-	return resourceLogmemoryGlobalSettingRead(ctx, d, meta)
+	return resourceLogMemoryGlobalSettingRead(ctx, d, meta)
 }
 
-func resourceLogmemoryGlobalSettingUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceLogMemoryGlobalSettingUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
@@ -129,27 +129,27 @@ func resourceLogmemoryGlobalSettingUpdate(ctx context.Context, d *schema.Resourc
 	}
 	urlparams.Vdom = vdomparam
 
-	obj, diags := getObjectLogmemoryGlobalSetting(d, c.Config.Fv)
+	obj, diags := getObjectLogMemoryGlobalSetting(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.UpdateLogmemoryGlobalSetting(mkey, obj, urlparams)
+	o, err := c.Cmdb.UpdateLogMemoryGlobalSetting(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error updating LogmemoryGlobalSetting resource: %v", err)
+		return diag.Errorf("error updating LogMemoryGlobalSetting resource: %v", err)
 	}
 
 	// log.Printf(strconv.Itoa(c.Retries))
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("LogmemoryGlobalSetting")
+		d.SetId("LogMemoryGlobalSetting")
 	}
 
-	return resourceLogmemoryGlobalSettingRead(ctx, d, meta)
+	return resourceLogMemoryGlobalSettingRead(ctx, d, meta)
 }
 
-func resourceLogmemoryGlobalSettingDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceLogMemoryGlobalSettingDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -164,9 +164,14 @@ func resourceLogmemoryGlobalSettingDelete(ctx context.Context, d *schema.Resourc
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteLogmemoryGlobalSetting(mkey, urlparams)
+	obj, diags := getEmptyObjectLogMemoryGlobalSetting(d, c.Config.Fv)
+	if diags.HasError() {
+		return diags
+	}
+
+	_, err := c.Cmdb.UpdateLogMemoryGlobalSetting(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error deleting LogmemoryGlobalSetting resource: %v", err)
+		return diag.Errorf("error deleting LogMemoryGlobalSetting resource: %v", err)
 	}
 
 	d.SetId("")
@@ -174,7 +179,7 @@ func resourceLogmemoryGlobalSettingDelete(ctx context.Context, d *schema.Resourc
 	return nil
 }
 
-func resourceLogmemoryGlobalSettingRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceLogMemoryGlobalSettingRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -189,9 +194,9 @@ func resourceLogmemoryGlobalSettingRead(ctx context.Context, d *schema.ResourceD
 	}
 	urlparams.Vdom = vdomparam
 
-	o, err := c.Cmdb.ReadLogmemoryGlobalSetting(mkey, urlparams)
+	o, err := c.Cmdb.ReadLogMemoryGlobalSetting(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error reading LogmemoryGlobalSetting resource: %v", err)
+		return diag.Errorf("error reading LogMemoryGlobalSetting resource: %v", err)
 	}
 
 	if o == nil {
@@ -207,14 +212,14 @@ func resourceLogmemoryGlobalSettingRead(ctx context.Context, d *schema.ResourceD
 		}
 	}
 
-	diags := refreshObjectLogmemoryGlobalSetting(d, o, c.Config.Fv, sort)
+	diags := refreshObjectLogMemoryGlobalSetting(d, o, c.Config.Fv, sort)
 	if diags.HasError() {
 		return diags
 	}
 	return nil
 }
 
-func refreshObjectLogmemoryGlobalSetting(d *schema.ResourceData, o *models.LogmemoryGlobalSetting, sv string, sort bool) diag.Diagnostics {
+func refreshObjectLogMemoryGlobalSetting(d *schema.ResourceData, o *models.LogMemoryGlobalSetting, sv string, sort bool) diag.Diagnostics {
 	var err error
 
 	if o.FullFinalWarningThreshold != nil {
@@ -252,8 +257,8 @@ func refreshObjectLogmemoryGlobalSetting(d *schema.ResourceData, o *models.Logme
 	return nil
 }
 
-func getObjectLogmemoryGlobalSetting(d *schema.ResourceData, sv string) (*models.LogmemoryGlobalSetting, diag.Diagnostics) {
-	obj := models.LogmemoryGlobalSetting{}
+func getObjectLogMemoryGlobalSetting(d *schema.ResourceData, sv string) (*models.LogMemoryGlobalSetting, diag.Diagnostics) {
+	obj := models.LogMemoryGlobalSetting{}
 	diags := diag.Diagnostics{}
 
 	if v1, ok := d.GetOk("full_final_warning_threshold"); ok {
@@ -296,5 +301,13 @@ func getObjectLogmemoryGlobalSetting(d *schema.ResourceData, sv string) (*models
 			obj.MaxSize = &tmp
 		}
 	}
+	return &obj, diags
+}
+
+// Return an object with explicitly empty objects for tables that have been set.
+func getEmptyObjectLogMemoryGlobalSetting(d *schema.ResourceData, sv string) (*models.LogMemoryGlobalSetting, diag.Diagnostics) {
+	obj := models.LogMemoryGlobalSetting{}
+	diags := diag.Diagnostics{}
+
 	return &obj, diags
 }

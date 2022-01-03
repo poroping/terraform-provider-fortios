@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -189,7 +189,12 @@ func resourceSystemFortimanagerDelete(ctx context.Context, d *schema.ResourceDat
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteSystemFortimanager(mkey, urlparams)
+	obj, diags := getEmptyObjectSystemFortimanager(d, c.Config.Fv)
+	if diags.HasError() {
+		return diags
+	}
+
+	_, err := c.Cmdb.UpdateSystemFortimanager(mkey, obj, urlparams)
 	if err != nil {
 		return diag.Errorf("error deleting SystemFortimanager resource: %v", err)
 	}
@@ -368,5 +373,13 @@ func getObjectSystemFortimanager(d *schema.ResourceData, sv string) (*models.Sys
 			obj.Vdom = &v2
 		}
 	}
+	return &obj, diags
+}
+
+// Return an object with explicitly empty objects for tables that have been set.
+func getEmptyObjectSystemFortimanager(d *schema.ResourceData, sv string) (*models.SystemFortimanager, diag.Diagnostics) {
+	obj := models.SystemFortimanager{}
+	diags := diag.Diagnostics{}
+
 	return &obj, diags
 }

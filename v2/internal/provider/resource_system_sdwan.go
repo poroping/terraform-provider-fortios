@@ -1564,7 +1564,12 @@ func resourceSystemSdwanDelete(ctx context.Context, d *schema.ResourceData, meta
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteSystemSdwan(mkey, urlparams)
+	obj, diags := getEmptyObjectSystemSdwan(d, c.Config.Fv)
+	if diags.HasError() {
+		return diags
+	}
+
+	_, err := c.Cmdb.UpdateSystemSdwan(mkey, obj, urlparams)
 	if err != nil {
 		return diag.Errorf("error deleting SystemSdwan resource: %v", err)
 	}
@@ -4932,5 +4937,21 @@ func getObjectSystemSdwan(d *schema.ResourceData, sv string) (*models.SystemSdwa
 			obj.Zone = &[]models.SystemSdwanZone{}
 		}
 	}
+	return &obj, diags
+}
+
+// Return an object with explicitly empty objects for tables that have been set.
+func getEmptyObjectSystemSdwan(d *schema.ResourceData, sv string) (*models.SystemSdwan, diag.Diagnostics) {
+	obj := models.SystemSdwan{}
+	diags := diag.Diagnostics{}
+
+	obj.Duplication = &[]models.SystemSdwanDuplication{}
+	obj.FailAlertInterfaces = &[]models.SystemSdwanFailAlertInterfaces{}
+	obj.HealthCheck = &[]models.SystemSdwanHealthCheck{}
+	obj.Members = &[]models.SystemSdwanMembers{}
+	obj.Neighbor = &[]models.SystemSdwanNeighbor{}
+	obj.Service = &[]models.SystemSdwanService{}
+	obj.Zone = &[]models.SystemSdwanZone{}
+
 	return &obj, diags
 }

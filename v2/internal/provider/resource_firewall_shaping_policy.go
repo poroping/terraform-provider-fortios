@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -2318,7 +2318,7 @@ func getObjectFirewallShapingPolicy(d *schema.ResourceData, sv string) (*models.
 		}
 	}
 	if v, ok := d.GetOk("internet_service_id"); ok {
-		if !utils.CheckVer(sv, "", "v6.4.2") {
+		if !utils.CheckVer(sv, "", "v6.4.0") {
 			e := utils.AttributeVersionWarning("internet_service_id", sv)
 			diags = append(diags, e)
 		}
@@ -2335,7 +2335,7 @@ func getObjectFirewallShapingPolicy(d *schema.ResourceData, sv string) (*models.
 		}
 	}
 	if v, ok := d.GetOk("internet_service_name"); ok {
-		if !utils.CheckVer(sv, "v6.4.2", "") {
+		if !utils.CheckVer(sv, "v6.4.0", "") {
 			e := utils.AttributeVersionWarning("internet_service_name", sv)
 			diags = append(diags, e)
 		}
@@ -2412,7 +2412,7 @@ func getObjectFirewallShapingPolicy(d *schema.ResourceData, sv string) (*models.
 		}
 	}
 	if v, ok := d.GetOk("internet_service_src_id"); ok {
-		if !utils.CheckVer(sv, "", "v6.4.2") {
+		if !utils.CheckVer(sv, "", "v6.4.0") {
 			e := utils.AttributeVersionWarning("internet_service_src_id", sv)
 			diags = append(diags, e)
 		}
@@ -2429,7 +2429,7 @@ func getObjectFirewallShapingPolicy(d *schema.ResourceData, sv string) (*models.
 		}
 	}
 	if v, ok := d.GetOk("internet_service_src_name"); ok {
-		if !utils.CheckVer(sv, "v6.4.2", "") {
+		if !utils.CheckVer(sv, "v6.4.0", "") {
 			e := utils.AttributeVersionWarning("internet_service_src_name", sv)
 			diags = append(diags, e)
 		}

@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -19,14 +19,14 @@ import (
 	"github.com/poroping/terraform-provider-fortios/v2/utils"
 )
 
-func resourceLogfortianalyzerCloudFilter() *schema.Resource {
+func resourceLogFortianalyzerCloudFilter() *schema.Resource {
 	return &schema.Resource{
 		Description: "Filters for FortiAnalyzer Cloud.",
 
-		CreateContext: resourceLogfortianalyzerCloudFilterCreate,
-		ReadContext:   resourceLogfortianalyzerCloudFilterRead,
-		UpdateContext: resourceLogfortianalyzerCloudFilterUpdate,
-		DeleteContext: resourceLogfortianalyzerCloudFilterDelete,
+		CreateContext: resourceLogFortianalyzerCloudFilterCreate,
+		ReadContext:   resourceLogFortianalyzerCloudFilterRead,
+		UpdateContext: resourceLogFortianalyzerCloudFilterUpdate,
+		DeleteContext: resourceLogFortianalyzerCloudFilterDelete,
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
@@ -176,7 +176,7 @@ func resourceLogfortianalyzerCloudFilter() *schema.Resource {
 	}
 }
 
-func resourceLogfortianalyzerCloudFilterCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceLogFortianalyzerCloudFilterCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*apiClient).Client
 	var diags diag.Diagnostics
 	var err error
@@ -198,12 +198,12 @@ func resourceLogfortianalyzerCloudFilterCreate(ctx context.Context, d *schema.Re
 	}
 	urlparams.AllowAppend = &allow_append
 
-	obj, diags := getObjectLogfortianalyzerCloudFilter(d, c.Config.Fv)
+	obj, diags := getObjectLogFortianalyzerCloudFilter(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.CreateLogfortianalyzerCloudFilter(obj, urlparams)
+	o, err := c.Cmdb.CreateLogFortianalyzerCloudFilter(obj, urlparams)
 
 	if err != nil {
 		e := diag.FromErr(err)
@@ -213,13 +213,13 @@ func resourceLogfortianalyzerCloudFilterCreate(ctx context.Context, d *schema.Re
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("LogfortianalyzerCloudFilter")
+		d.SetId("LogFortianalyzerCloudFilter")
 	}
 
-	return resourceLogfortianalyzerCloudFilterRead(ctx, d, meta)
+	return resourceLogFortianalyzerCloudFilterRead(ctx, d, meta)
 }
 
-func resourceLogfortianalyzerCloudFilterUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceLogFortianalyzerCloudFilterUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
@@ -232,27 +232,27 @@ func resourceLogfortianalyzerCloudFilterUpdate(ctx context.Context, d *schema.Re
 	}
 	urlparams.Vdom = vdomparam
 
-	obj, diags := getObjectLogfortianalyzerCloudFilter(d, c.Config.Fv)
+	obj, diags := getObjectLogFortianalyzerCloudFilter(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.UpdateLogfortianalyzerCloudFilter(mkey, obj, urlparams)
+	o, err := c.Cmdb.UpdateLogFortianalyzerCloudFilter(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error updating LogfortianalyzerCloudFilter resource: %v", err)
+		return diag.Errorf("error updating LogFortianalyzerCloudFilter resource: %v", err)
 	}
 
 	// log.Printf(strconv.Itoa(c.Retries))
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("LogfortianalyzerCloudFilter")
+		d.SetId("LogFortianalyzerCloudFilter")
 	}
 
-	return resourceLogfortianalyzerCloudFilterRead(ctx, d, meta)
+	return resourceLogFortianalyzerCloudFilterRead(ctx, d, meta)
 }
 
-func resourceLogfortianalyzerCloudFilterDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceLogFortianalyzerCloudFilterDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -267,9 +267,14 @@ func resourceLogfortianalyzerCloudFilterDelete(ctx context.Context, d *schema.Re
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteLogfortianalyzerCloudFilter(mkey, urlparams)
+	obj, diags := getEmptyObjectLogFortianalyzerCloudFilter(d, c.Config.Fv)
+	if diags.HasError() {
+		return diags
+	}
+
+	_, err := c.Cmdb.UpdateLogFortianalyzerCloudFilter(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error deleting LogfortianalyzerCloudFilter resource: %v", err)
+		return diag.Errorf("error deleting LogFortianalyzerCloudFilter resource: %v", err)
 	}
 
 	d.SetId("")
@@ -277,7 +282,7 @@ func resourceLogfortianalyzerCloudFilterDelete(ctx context.Context, d *schema.Re
 	return nil
 }
 
-func resourceLogfortianalyzerCloudFilterRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceLogFortianalyzerCloudFilterRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -292,9 +297,9 @@ func resourceLogfortianalyzerCloudFilterRead(ctx context.Context, d *schema.Reso
 	}
 	urlparams.Vdom = vdomparam
 
-	o, err := c.Cmdb.ReadLogfortianalyzerCloudFilter(mkey, urlparams)
+	o, err := c.Cmdb.ReadLogFortianalyzerCloudFilter(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error reading LogfortianalyzerCloudFilter resource: %v", err)
+		return diag.Errorf("error reading LogFortianalyzerCloudFilter resource: %v", err)
 	}
 
 	if o == nil {
@@ -310,14 +315,14 @@ func resourceLogfortianalyzerCloudFilterRead(ctx context.Context, d *schema.Reso
 		}
 	}
 
-	diags := refreshObjectLogfortianalyzerCloudFilter(d, o, c.Config.Fv, sort)
+	diags := refreshObjectLogFortianalyzerCloudFilter(d, o, c.Config.Fv, sort)
 	if diags.HasError() {
 		return diags
 	}
 	return nil
 }
 
-func flattenLogfortianalyzerCloudFilterFreeStyle(v *[]models.LogfortianalyzerCloudFilterFreeStyle, sort bool) interface{} {
+func flattenLogFortianalyzerCloudFilterFreeStyle(v *[]models.LogFortianalyzerCloudFilterFreeStyle, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
@@ -350,7 +355,7 @@ func flattenLogfortianalyzerCloudFilterFreeStyle(v *[]models.LogfortianalyzerClo
 	return flat
 }
 
-func refreshObjectLogfortianalyzerCloudFilter(d *schema.ResourceData, o *models.LogfortianalyzerCloudFilter, sv string, sort bool) diag.Diagnostics {
+func refreshObjectLogFortianalyzerCloudFilter(d *schema.ResourceData, o *models.LogFortianalyzerCloudFilter, sv string, sort bool) diag.Diagnostics {
 	var err error
 
 	if o.Anomaly != nil {
@@ -394,7 +399,7 @@ func refreshObjectLogfortianalyzerCloudFilter(d *schema.ResourceData, o *models.
 	}
 
 	if o.FreeStyle != nil {
-		if err = d.Set("free_style", flattenLogfortianalyzerCloudFilterFreeStyle(o.FreeStyle, sort)); err != nil {
+		if err = d.Set("free_style", flattenLogFortianalyzerCloudFilterFreeStyle(o.FreeStyle, sort)); err != nil {
 			return diag.Errorf("error reading free_style: %v", err)
 		}
 	}
@@ -450,16 +455,16 @@ func refreshObjectLogfortianalyzerCloudFilter(d *schema.ResourceData, o *models.
 	return nil
 }
 
-func expandLogfortianalyzerCloudFilterFreeStyle(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.LogfortianalyzerCloudFilterFreeStyle, error) {
+func expandLogFortianalyzerCloudFilterFreeStyle(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.LogFortianalyzerCloudFilterFreeStyle, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
 	}
 
-	var result []models.LogfortianalyzerCloudFilterFreeStyle
+	var result []models.LogFortianalyzerCloudFilterFreeStyle
 
 	for i := range l {
-		tmp := models.LogfortianalyzerCloudFilterFreeStyle{}
+		tmp := models.LogFortianalyzerCloudFilterFreeStyle{}
 		var pre_append string
 
 		pre_append = fmt.Sprintf("%s.%d.category", pre, i)
@@ -495,8 +500,8 @@ func expandLogfortianalyzerCloudFilterFreeStyle(d *schema.ResourceData, v interf
 	return &result, nil
 }
 
-func getObjectLogfortianalyzerCloudFilter(d *schema.ResourceData, sv string) (*models.LogfortianalyzerCloudFilter, diag.Diagnostics) {
-	obj := models.LogfortianalyzerCloudFilter{}
+func getObjectLogFortianalyzerCloudFilter(d *schema.ResourceData, sv string) (*models.LogFortianalyzerCloudFilter, diag.Diagnostics) {
+	obj := models.LogFortianalyzerCloudFilter{}
 	diags := diag.Diagnostics{}
 
 	if v1, ok := d.GetOk("anomaly"); ok {
@@ -549,7 +554,7 @@ func getObjectLogfortianalyzerCloudFilter(d *schema.ResourceData, sv string) (*m
 			e := utils.AttributeVersionWarning("free_style", sv)
 			diags = append(diags, e)
 		}
-		t, err := expandLogfortianalyzerCloudFilterFreeStyle(d, v, "free_style", sv)
+		t, err := expandLogFortianalyzerCloudFilterFreeStyle(d, v, "free_style", sv)
 		if err != nil {
 			return &obj, diag.FromErr(err)
 		} else if t != nil {
@@ -558,12 +563,12 @@ func getObjectLogfortianalyzerCloudFilter(d *schema.ResourceData, sv string) (*m
 	} else if d.HasChange("free_style") {
 		old, new := d.GetChange("free_style")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.FreeStyle = &[]models.LogfortianalyzerCloudFilterFreeStyle{}
+			obj.FreeStyle = &[]models.LogFortianalyzerCloudFilterFreeStyle{}
 		}
 	}
 	if v1, ok := d.GetOk("gtp"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "v6.4.2", "") {
+			if !utils.CheckVer(sv, "v6.4.0", "") {
 				e := utils.AttributeVersionWarning("gtp", sv)
 				diags = append(diags, e)
 			}
@@ -615,5 +620,15 @@ func getObjectLogfortianalyzerCloudFilter(d *schema.ResourceData, sv string) (*m
 			obj.Voip = &v2
 		}
 	}
+	return &obj, diags
+}
+
+// Return an object with explicitly empty objects for tables that have been set.
+func getEmptyObjectLogFortianalyzerCloudFilter(d *schema.ResourceData, sv string) (*models.LogFortianalyzerCloudFilter, diag.Diagnostics) {
+	obj := models.LogFortianalyzerCloudFilter{}
+	diags := diag.Diagnostics{}
+
+	obj.FreeStyle = &[]models.LogFortianalyzerCloudFilterFreeStyle{}
+
 	return &obj, diags
 }

@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -19,14 +19,14 @@ import (
 	"github.com/poroping/terraform-provider-fortios/v2/utils"
 )
 
-func resourceSystemlldpNetworkPolicy() *schema.Resource {
+func resourceSystemLldpNetworkPolicy() *schema.Resource {
 	return &schema.Resource{
 		Description: "Configure LLDP network policy.",
 
-		CreateContext: resourceSystemlldpNetworkPolicyCreate,
-		ReadContext:   resourceSystemlldpNetworkPolicyRead,
-		UpdateContext: resourceSystemlldpNetworkPolicyUpdate,
-		DeleteContext: resourceSystemlldpNetworkPolicyDelete,
+		CreateContext: resourceSystemLldpNetworkPolicyCreate,
+		ReadContext:   resourceSystemLldpNetworkPolicyRead,
+		UpdateContext: resourceSystemLldpNetworkPolicyUpdate,
+		DeleteContext: resourceSystemLldpNetworkPolicyDelete,
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
@@ -457,7 +457,7 @@ func resourceSystemlldpNetworkPolicy() *schema.Resource {
 	}
 }
 
-func resourceSystemlldpNetworkPolicyCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSystemLldpNetworkPolicyCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*apiClient).Client
 	var diags diag.Diagnostics
 	var err error
@@ -484,16 +484,16 @@ func resourceSystemlldpNetworkPolicyCreate(ctx context.Context, d *schema.Resour
 	if v, ok := d.GetOk(key); ok {
 		mkey = utils.ParseMkey(v)
 		if mkey == "" && allow_append {
-			return diag.Errorf("error creating SystemlldpNetworkPolicy resource: %q must be set if \"allow_append\" is true", key)
+			return diag.Errorf("error creating SystemLldpNetworkPolicy resource: %q must be set if \"allow_append\" is true", key)
 		}
 	}
 
-	obj, diags := getObjectSystemlldpNetworkPolicy(d, c.Config.Fv)
+	obj, diags := getObjectSystemLldpNetworkPolicy(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.CreateSystemlldpNetworkPolicy(obj, urlparams)
+	o, err := c.Cmdb.CreateSystemLldpNetworkPolicy(obj, urlparams)
 
 	if err != nil {
 		e := diag.FromErr(err)
@@ -503,13 +503,13 @@ func resourceSystemlldpNetworkPolicyCreate(ctx context.Context, d *schema.Resour
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("SystemlldpNetworkPolicy")
+		d.SetId("SystemLldpNetworkPolicy")
 	}
 
-	return resourceSystemlldpNetworkPolicyRead(ctx, d, meta)
+	return resourceSystemLldpNetworkPolicyRead(ctx, d, meta)
 }
 
-func resourceSystemlldpNetworkPolicyUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSystemLldpNetworkPolicyUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
@@ -522,27 +522,27 @@ func resourceSystemlldpNetworkPolicyUpdate(ctx context.Context, d *schema.Resour
 	}
 	urlparams.Vdom = vdomparam
 
-	obj, diags := getObjectSystemlldpNetworkPolicy(d, c.Config.Fv)
+	obj, diags := getObjectSystemLldpNetworkPolicy(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.UpdateSystemlldpNetworkPolicy(mkey, obj, urlparams)
+	o, err := c.Cmdb.UpdateSystemLldpNetworkPolicy(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error updating SystemlldpNetworkPolicy resource: %v", err)
+		return diag.Errorf("error updating SystemLldpNetworkPolicy resource: %v", err)
 	}
 
 	// log.Printf(strconv.Itoa(c.Retries))
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("SystemlldpNetworkPolicy")
+		d.SetId("SystemLldpNetworkPolicy")
 	}
 
-	return resourceSystemlldpNetworkPolicyRead(ctx, d, meta)
+	return resourceSystemLldpNetworkPolicyRead(ctx, d, meta)
 }
 
-func resourceSystemlldpNetworkPolicyDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSystemLldpNetworkPolicyDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -557,9 +557,9 @@ func resourceSystemlldpNetworkPolicyDelete(ctx context.Context, d *schema.Resour
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteSystemlldpNetworkPolicy(mkey, urlparams)
+	err := c.Cmdb.DeleteSystemLldpNetworkPolicy(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error deleting SystemlldpNetworkPolicy resource: %v", err)
+		return diag.Errorf("error deleting SystemLldpNetworkPolicy resource: %v", err)
 	}
 
 	d.SetId("")
@@ -567,7 +567,7 @@ func resourceSystemlldpNetworkPolicyDelete(ctx context.Context, d *schema.Resour
 	return nil
 }
 
-func resourceSystemlldpNetworkPolicyRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSystemLldpNetworkPolicyRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -582,9 +582,9 @@ func resourceSystemlldpNetworkPolicyRead(ctx context.Context, d *schema.Resource
 	}
 	urlparams.Vdom = vdomparam
 
-	o, err := c.Cmdb.ReadSystemlldpNetworkPolicy(mkey, urlparams)
+	o, err := c.Cmdb.ReadSystemLldpNetworkPolicy(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error reading SystemlldpNetworkPolicy resource: %v", err)
+		return diag.Errorf("error reading SystemLldpNetworkPolicy resource: %v", err)
 	}
 
 	if o == nil {
@@ -600,14 +600,14 @@ func resourceSystemlldpNetworkPolicyRead(ctx context.Context, d *schema.Resource
 		}
 	}
 
-	diags := refreshObjectSystemlldpNetworkPolicy(d, o, c.Config.Fv, sort)
+	diags := refreshObjectSystemLldpNetworkPolicy(d, o, c.Config.Fv, sort)
 	if diags.HasError() {
 		return diags
 	}
 	return nil
 }
 
-func flattenSystemlldpNetworkPolicyGuest(v *[]models.SystemlldpNetworkPolicyGuest, sort bool) interface{} {
+func flattenSystemLldpNetworkPolicyGuest(v *[]models.SystemLldpNetworkPolicyGuest, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
@@ -640,7 +640,7 @@ func flattenSystemlldpNetworkPolicyGuest(v *[]models.SystemlldpNetworkPolicyGues
 	return flat
 }
 
-func flattenSystemlldpNetworkPolicyGuestVoiceSignaling(v *[]models.SystemlldpNetworkPolicyGuestVoiceSignaling, sort bool) interface{} {
+func flattenSystemLldpNetworkPolicyGuestVoiceSignaling(v *[]models.SystemLldpNetworkPolicyGuestVoiceSignaling, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
@@ -673,7 +673,7 @@ func flattenSystemlldpNetworkPolicyGuestVoiceSignaling(v *[]models.SystemlldpNet
 	return flat
 }
 
-func flattenSystemlldpNetworkPolicySoftphone(v *[]models.SystemlldpNetworkPolicySoftphone, sort bool) interface{} {
+func flattenSystemLldpNetworkPolicySoftphone(v *[]models.SystemLldpNetworkPolicySoftphone, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
@@ -706,7 +706,7 @@ func flattenSystemlldpNetworkPolicySoftphone(v *[]models.SystemlldpNetworkPolicy
 	return flat
 }
 
-func flattenSystemlldpNetworkPolicyStreamingVideo(v *[]models.SystemlldpNetworkPolicyStreamingVideo, sort bool) interface{} {
+func flattenSystemLldpNetworkPolicyStreamingVideo(v *[]models.SystemLldpNetworkPolicyStreamingVideo, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
@@ -739,7 +739,7 @@ func flattenSystemlldpNetworkPolicyStreamingVideo(v *[]models.SystemlldpNetworkP
 	return flat
 }
 
-func flattenSystemlldpNetworkPolicyVideoConferencing(v *[]models.SystemlldpNetworkPolicyVideoConferencing, sort bool) interface{} {
+func flattenSystemLldpNetworkPolicyVideoConferencing(v *[]models.SystemLldpNetworkPolicyVideoConferencing, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
@@ -772,7 +772,7 @@ func flattenSystemlldpNetworkPolicyVideoConferencing(v *[]models.SystemlldpNetwo
 	return flat
 }
 
-func flattenSystemlldpNetworkPolicyVideoSignaling(v *[]models.SystemlldpNetworkPolicyVideoSignaling, sort bool) interface{} {
+func flattenSystemLldpNetworkPolicyVideoSignaling(v *[]models.SystemLldpNetworkPolicyVideoSignaling, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
@@ -805,7 +805,7 @@ func flattenSystemlldpNetworkPolicyVideoSignaling(v *[]models.SystemlldpNetworkP
 	return flat
 }
 
-func flattenSystemlldpNetworkPolicyVoice(v *[]models.SystemlldpNetworkPolicyVoice, sort bool) interface{} {
+func flattenSystemLldpNetworkPolicyVoice(v *[]models.SystemLldpNetworkPolicyVoice, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
@@ -838,7 +838,7 @@ func flattenSystemlldpNetworkPolicyVoice(v *[]models.SystemlldpNetworkPolicyVoic
 	return flat
 }
 
-func flattenSystemlldpNetworkPolicyVoiceSignaling(v *[]models.SystemlldpNetworkPolicyVoiceSignaling, sort bool) interface{} {
+func flattenSystemLldpNetworkPolicyVoiceSignaling(v *[]models.SystemLldpNetworkPolicyVoiceSignaling, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
@@ -871,7 +871,7 @@ func flattenSystemlldpNetworkPolicyVoiceSignaling(v *[]models.SystemlldpNetworkP
 	return flat
 }
 
-func refreshObjectSystemlldpNetworkPolicy(d *schema.ResourceData, o *models.SystemlldpNetworkPolicy, sv string, sort bool) diag.Diagnostics {
+func refreshObjectSystemLldpNetworkPolicy(d *schema.ResourceData, o *models.SystemLldpNetworkPolicy, sv string, sort bool) diag.Diagnostics {
 	var err error
 
 	if o.Comment != nil {
@@ -883,13 +883,13 @@ func refreshObjectSystemlldpNetworkPolicy(d *schema.ResourceData, o *models.Syst
 	}
 
 	if o.Guest != nil {
-		if err = d.Set("guest", flattenSystemlldpNetworkPolicyGuest(o.Guest, sort)); err != nil {
+		if err = d.Set("guest", flattenSystemLldpNetworkPolicyGuest(o.Guest, sort)); err != nil {
 			return diag.Errorf("error reading guest: %v", err)
 		}
 	}
 
 	if o.GuestVoiceSignaling != nil {
-		if err = d.Set("guest_voice_signaling", flattenSystemlldpNetworkPolicyGuestVoiceSignaling(o.GuestVoiceSignaling, sort)); err != nil {
+		if err = d.Set("guest_voice_signaling", flattenSystemLldpNetworkPolicyGuestVoiceSignaling(o.GuestVoiceSignaling, sort)); err != nil {
 			return diag.Errorf("error reading guest_voice_signaling: %v", err)
 		}
 	}
@@ -903,37 +903,37 @@ func refreshObjectSystemlldpNetworkPolicy(d *schema.ResourceData, o *models.Syst
 	}
 
 	if o.Softphone != nil {
-		if err = d.Set("softphone", flattenSystemlldpNetworkPolicySoftphone(o.Softphone, sort)); err != nil {
+		if err = d.Set("softphone", flattenSystemLldpNetworkPolicySoftphone(o.Softphone, sort)); err != nil {
 			return diag.Errorf("error reading softphone: %v", err)
 		}
 	}
 
 	if o.StreamingVideo != nil {
-		if err = d.Set("streaming_video", flattenSystemlldpNetworkPolicyStreamingVideo(o.StreamingVideo, sort)); err != nil {
+		if err = d.Set("streaming_video", flattenSystemLldpNetworkPolicyStreamingVideo(o.StreamingVideo, sort)); err != nil {
 			return diag.Errorf("error reading streaming_video: %v", err)
 		}
 	}
 
 	if o.VideoConferencing != nil {
-		if err = d.Set("video_conferencing", flattenSystemlldpNetworkPolicyVideoConferencing(o.VideoConferencing, sort)); err != nil {
+		if err = d.Set("video_conferencing", flattenSystemLldpNetworkPolicyVideoConferencing(o.VideoConferencing, sort)); err != nil {
 			return diag.Errorf("error reading video_conferencing: %v", err)
 		}
 	}
 
 	if o.VideoSignaling != nil {
-		if err = d.Set("video_signaling", flattenSystemlldpNetworkPolicyVideoSignaling(o.VideoSignaling, sort)); err != nil {
+		if err = d.Set("video_signaling", flattenSystemLldpNetworkPolicyVideoSignaling(o.VideoSignaling, sort)); err != nil {
 			return diag.Errorf("error reading video_signaling: %v", err)
 		}
 	}
 
 	if o.Voice != nil {
-		if err = d.Set("voice", flattenSystemlldpNetworkPolicyVoice(o.Voice, sort)); err != nil {
+		if err = d.Set("voice", flattenSystemLldpNetworkPolicyVoice(o.Voice, sort)); err != nil {
 			return diag.Errorf("error reading voice: %v", err)
 		}
 	}
 
 	if o.VoiceSignaling != nil {
-		if err = d.Set("voice_signaling", flattenSystemlldpNetworkPolicyVoiceSignaling(o.VoiceSignaling, sort)); err != nil {
+		if err = d.Set("voice_signaling", flattenSystemLldpNetworkPolicyVoiceSignaling(o.VoiceSignaling, sort)); err != nil {
 			return diag.Errorf("error reading voice_signaling: %v", err)
 		}
 	}
@@ -941,16 +941,16 @@ func refreshObjectSystemlldpNetworkPolicy(d *schema.ResourceData, o *models.Syst
 	return nil
 }
 
-func expandSystemlldpNetworkPolicyGuest(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.SystemlldpNetworkPolicyGuest, error) {
+func expandSystemLldpNetworkPolicyGuest(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.SystemLldpNetworkPolicyGuest, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
 	}
 
-	var result []models.SystemlldpNetworkPolicyGuest
+	var result []models.SystemLldpNetworkPolicyGuest
 
 	for i := range l {
-		tmp := models.SystemlldpNetworkPolicyGuest{}
+		tmp := models.SystemLldpNetworkPolicyGuest{}
 		var pre_append string
 
 		pre_append = fmt.Sprintf("%s.%d.dscp", pre, i)
@@ -993,16 +993,16 @@ func expandSystemlldpNetworkPolicyGuest(d *schema.ResourceData, v interface{}, p
 	return &result, nil
 }
 
-func expandSystemlldpNetworkPolicyGuestVoiceSignaling(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.SystemlldpNetworkPolicyGuestVoiceSignaling, error) {
+func expandSystemLldpNetworkPolicyGuestVoiceSignaling(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.SystemLldpNetworkPolicyGuestVoiceSignaling, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
 	}
 
-	var result []models.SystemlldpNetworkPolicyGuestVoiceSignaling
+	var result []models.SystemLldpNetworkPolicyGuestVoiceSignaling
 
 	for i := range l {
-		tmp := models.SystemlldpNetworkPolicyGuestVoiceSignaling{}
+		tmp := models.SystemLldpNetworkPolicyGuestVoiceSignaling{}
 		var pre_append string
 
 		pre_append = fmt.Sprintf("%s.%d.dscp", pre, i)
@@ -1045,16 +1045,16 @@ func expandSystemlldpNetworkPolicyGuestVoiceSignaling(d *schema.ResourceData, v 
 	return &result, nil
 }
 
-func expandSystemlldpNetworkPolicySoftphone(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.SystemlldpNetworkPolicySoftphone, error) {
+func expandSystemLldpNetworkPolicySoftphone(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.SystemLldpNetworkPolicySoftphone, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
 	}
 
-	var result []models.SystemlldpNetworkPolicySoftphone
+	var result []models.SystemLldpNetworkPolicySoftphone
 
 	for i := range l {
-		tmp := models.SystemlldpNetworkPolicySoftphone{}
+		tmp := models.SystemLldpNetworkPolicySoftphone{}
 		var pre_append string
 
 		pre_append = fmt.Sprintf("%s.%d.dscp", pre, i)
@@ -1097,16 +1097,16 @@ func expandSystemlldpNetworkPolicySoftphone(d *schema.ResourceData, v interface{
 	return &result, nil
 }
 
-func expandSystemlldpNetworkPolicyStreamingVideo(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.SystemlldpNetworkPolicyStreamingVideo, error) {
+func expandSystemLldpNetworkPolicyStreamingVideo(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.SystemLldpNetworkPolicyStreamingVideo, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
 	}
 
-	var result []models.SystemlldpNetworkPolicyStreamingVideo
+	var result []models.SystemLldpNetworkPolicyStreamingVideo
 
 	for i := range l {
-		tmp := models.SystemlldpNetworkPolicyStreamingVideo{}
+		tmp := models.SystemLldpNetworkPolicyStreamingVideo{}
 		var pre_append string
 
 		pre_append = fmt.Sprintf("%s.%d.dscp", pre, i)
@@ -1149,16 +1149,16 @@ func expandSystemlldpNetworkPolicyStreamingVideo(d *schema.ResourceData, v inter
 	return &result, nil
 }
 
-func expandSystemlldpNetworkPolicyVideoConferencing(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.SystemlldpNetworkPolicyVideoConferencing, error) {
+func expandSystemLldpNetworkPolicyVideoConferencing(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.SystemLldpNetworkPolicyVideoConferencing, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
 	}
 
-	var result []models.SystemlldpNetworkPolicyVideoConferencing
+	var result []models.SystemLldpNetworkPolicyVideoConferencing
 
 	for i := range l {
-		tmp := models.SystemlldpNetworkPolicyVideoConferencing{}
+		tmp := models.SystemLldpNetworkPolicyVideoConferencing{}
 		var pre_append string
 
 		pre_append = fmt.Sprintf("%s.%d.dscp", pre, i)
@@ -1201,16 +1201,16 @@ func expandSystemlldpNetworkPolicyVideoConferencing(d *schema.ResourceData, v in
 	return &result, nil
 }
 
-func expandSystemlldpNetworkPolicyVideoSignaling(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.SystemlldpNetworkPolicyVideoSignaling, error) {
+func expandSystemLldpNetworkPolicyVideoSignaling(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.SystemLldpNetworkPolicyVideoSignaling, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
 	}
 
-	var result []models.SystemlldpNetworkPolicyVideoSignaling
+	var result []models.SystemLldpNetworkPolicyVideoSignaling
 
 	for i := range l {
-		tmp := models.SystemlldpNetworkPolicyVideoSignaling{}
+		tmp := models.SystemLldpNetworkPolicyVideoSignaling{}
 		var pre_append string
 
 		pre_append = fmt.Sprintf("%s.%d.dscp", pre, i)
@@ -1253,16 +1253,16 @@ func expandSystemlldpNetworkPolicyVideoSignaling(d *schema.ResourceData, v inter
 	return &result, nil
 }
 
-func expandSystemlldpNetworkPolicyVoice(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.SystemlldpNetworkPolicyVoice, error) {
+func expandSystemLldpNetworkPolicyVoice(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.SystemLldpNetworkPolicyVoice, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
 	}
 
-	var result []models.SystemlldpNetworkPolicyVoice
+	var result []models.SystemLldpNetworkPolicyVoice
 
 	for i := range l {
-		tmp := models.SystemlldpNetworkPolicyVoice{}
+		tmp := models.SystemLldpNetworkPolicyVoice{}
 		var pre_append string
 
 		pre_append = fmt.Sprintf("%s.%d.dscp", pre, i)
@@ -1305,16 +1305,16 @@ func expandSystemlldpNetworkPolicyVoice(d *schema.ResourceData, v interface{}, p
 	return &result, nil
 }
 
-func expandSystemlldpNetworkPolicyVoiceSignaling(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.SystemlldpNetworkPolicyVoiceSignaling, error) {
+func expandSystemLldpNetworkPolicyVoiceSignaling(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.SystemLldpNetworkPolicyVoiceSignaling, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
 	}
 
-	var result []models.SystemlldpNetworkPolicyVoiceSignaling
+	var result []models.SystemLldpNetworkPolicyVoiceSignaling
 
 	for i := range l {
-		tmp := models.SystemlldpNetworkPolicyVoiceSignaling{}
+		tmp := models.SystemLldpNetworkPolicyVoiceSignaling{}
 		var pre_append string
 
 		pre_append = fmt.Sprintf("%s.%d.dscp", pre, i)
@@ -1357,8 +1357,8 @@ func expandSystemlldpNetworkPolicyVoiceSignaling(d *schema.ResourceData, v inter
 	return &result, nil
 }
 
-func getObjectSystemlldpNetworkPolicy(d *schema.ResourceData, sv string) (*models.SystemlldpNetworkPolicy, diag.Diagnostics) {
-	obj := models.SystemlldpNetworkPolicy{}
+func getObjectSystemLldpNetworkPolicy(d *schema.ResourceData, sv string) (*models.SystemLldpNetworkPolicy, diag.Diagnostics) {
+	obj := models.SystemLldpNetworkPolicy{}
 	diags := diag.Diagnostics{}
 
 	if v1, ok := d.GetOk("comment"); ok {
@@ -1375,7 +1375,7 @@ func getObjectSystemlldpNetworkPolicy(d *schema.ResourceData, sv string) (*model
 			e := utils.AttributeVersionWarning("guest", sv)
 			diags = append(diags, e)
 		}
-		t, err := expandSystemlldpNetworkPolicyGuest(d, v, "guest", sv)
+		t, err := expandSystemLldpNetworkPolicyGuest(d, v, "guest", sv)
 		if err != nil {
 			return &obj, diag.FromErr(err)
 		} else if t != nil {
@@ -1384,7 +1384,7 @@ func getObjectSystemlldpNetworkPolicy(d *schema.ResourceData, sv string) (*model
 	} else if d.HasChange("guest") {
 		old, new := d.GetChange("guest")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.Guest = &[]models.SystemlldpNetworkPolicyGuest{}
+			obj.Guest = &[]models.SystemLldpNetworkPolicyGuest{}
 		}
 	}
 	if v, ok := d.GetOk("guest_voice_signaling"); ok {
@@ -1392,7 +1392,7 @@ func getObjectSystemlldpNetworkPolicy(d *schema.ResourceData, sv string) (*model
 			e := utils.AttributeVersionWarning("guest_voice_signaling", sv)
 			diags = append(diags, e)
 		}
-		t, err := expandSystemlldpNetworkPolicyGuestVoiceSignaling(d, v, "guest_voice_signaling", sv)
+		t, err := expandSystemLldpNetworkPolicyGuestVoiceSignaling(d, v, "guest_voice_signaling", sv)
 		if err != nil {
 			return &obj, diag.FromErr(err)
 		} else if t != nil {
@@ -1401,7 +1401,7 @@ func getObjectSystemlldpNetworkPolicy(d *schema.ResourceData, sv string) (*model
 	} else if d.HasChange("guest_voice_signaling") {
 		old, new := d.GetChange("guest_voice_signaling")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.GuestVoiceSignaling = &[]models.SystemlldpNetworkPolicyGuestVoiceSignaling{}
+			obj.GuestVoiceSignaling = &[]models.SystemLldpNetworkPolicyGuestVoiceSignaling{}
 		}
 	}
 	if v1, ok := d.GetOk("name"); ok {
@@ -1418,7 +1418,7 @@ func getObjectSystemlldpNetworkPolicy(d *schema.ResourceData, sv string) (*model
 			e := utils.AttributeVersionWarning("softphone", sv)
 			diags = append(diags, e)
 		}
-		t, err := expandSystemlldpNetworkPolicySoftphone(d, v, "softphone", sv)
+		t, err := expandSystemLldpNetworkPolicySoftphone(d, v, "softphone", sv)
 		if err != nil {
 			return &obj, diag.FromErr(err)
 		} else if t != nil {
@@ -1427,7 +1427,7 @@ func getObjectSystemlldpNetworkPolicy(d *schema.ResourceData, sv string) (*model
 	} else if d.HasChange("softphone") {
 		old, new := d.GetChange("softphone")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.Softphone = &[]models.SystemlldpNetworkPolicySoftphone{}
+			obj.Softphone = &[]models.SystemLldpNetworkPolicySoftphone{}
 		}
 	}
 	if v, ok := d.GetOk("streaming_video"); ok {
@@ -1435,7 +1435,7 @@ func getObjectSystemlldpNetworkPolicy(d *schema.ResourceData, sv string) (*model
 			e := utils.AttributeVersionWarning("streaming_video", sv)
 			diags = append(diags, e)
 		}
-		t, err := expandSystemlldpNetworkPolicyStreamingVideo(d, v, "streaming_video", sv)
+		t, err := expandSystemLldpNetworkPolicyStreamingVideo(d, v, "streaming_video", sv)
 		if err != nil {
 			return &obj, diag.FromErr(err)
 		} else if t != nil {
@@ -1444,7 +1444,7 @@ func getObjectSystemlldpNetworkPolicy(d *schema.ResourceData, sv string) (*model
 	} else if d.HasChange("streaming_video") {
 		old, new := d.GetChange("streaming_video")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.StreamingVideo = &[]models.SystemlldpNetworkPolicyStreamingVideo{}
+			obj.StreamingVideo = &[]models.SystemLldpNetworkPolicyStreamingVideo{}
 		}
 	}
 	if v, ok := d.GetOk("video_conferencing"); ok {
@@ -1452,7 +1452,7 @@ func getObjectSystemlldpNetworkPolicy(d *schema.ResourceData, sv string) (*model
 			e := utils.AttributeVersionWarning("video_conferencing", sv)
 			diags = append(diags, e)
 		}
-		t, err := expandSystemlldpNetworkPolicyVideoConferencing(d, v, "video_conferencing", sv)
+		t, err := expandSystemLldpNetworkPolicyVideoConferencing(d, v, "video_conferencing", sv)
 		if err != nil {
 			return &obj, diag.FromErr(err)
 		} else if t != nil {
@@ -1461,7 +1461,7 @@ func getObjectSystemlldpNetworkPolicy(d *schema.ResourceData, sv string) (*model
 	} else if d.HasChange("video_conferencing") {
 		old, new := d.GetChange("video_conferencing")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.VideoConferencing = &[]models.SystemlldpNetworkPolicyVideoConferencing{}
+			obj.VideoConferencing = &[]models.SystemLldpNetworkPolicyVideoConferencing{}
 		}
 	}
 	if v, ok := d.GetOk("video_signaling"); ok {
@@ -1469,7 +1469,7 @@ func getObjectSystemlldpNetworkPolicy(d *schema.ResourceData, sv string) (*model
 			e := utils.AttributeVersionWarning("video_signaling", sv)
 			diags = append(diags, e)
 		}
-		t, err := expandSystemlldpNetworkPolicyVideoSignaling(d, v, "video_signaling", sv)
+		t, err := expandSystemLldpNetworkPolicyVideoSignaling(d, v, "video_signaling", sv)
 		if err != nil {
 			return &obj, diag.FromErr(err)
 		} else if t != nil {
@@ -1478,7 +1478,7 @@ func getObjectSystemlldpNetworkPolicy(d *schema.ResourceData, sv string) (*model
 	} else if d.HasChange("video_signaling") {
 		old, new := d.GetChange("video_signaling")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.VideoSignaling = &[]models.SystemlldpNetworkPolicyVideoSignaling{}
+			obj.VideoSignaling = &[]models.SystemLldpNetworkPolicyVideoSignaling{}
 		}
 	}
 	if v, ok := d.GetOk("voice"); ok {
@@ -1486,7 +1486,7 @@ func getObjectSystemlldpNetworkPolicy(d *schema.ResourceData, sv string) (*model
 			e := utils.AttributeVersionWarning("voice", sv)
 			diags = append(diags, e)
 		}
-		t, err := expandSystemlldpNetworkPolicyVoice(d, v, "voice", sv)
+		t, err := expandSystemLldpNetworkPolicyVoice(d, v, "voice", sv)
 		if err != nil {
 			return &obj, diag.FromErr(err)
 		} else if t != nil {
@@ -1495,7 +1495,7 @@ func getObjectSystemlldpNetworkPolicy(d *schema.ResourceData, sv string) (*model
 	} else if d.HasChange("voice") {
 		old, new := d.GetChange("voice")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.Voice = &[]models.SystemlldpNetworkPolicyVoice{}
+			obj.Voice = &[]models.SystemLldpNetworkPolicyVoice{}
 		}
 	}
 	if v, ok := d.GetOk("voice_signaling"); ok {
@@ -1503,7 +1503,7 @@ func getObjectSystemlldpNetworkPolicy(d *schema.ResourceData, sv string) (*model
 			e := utils.AttributeVersionWarning("voice_signaling", sv)
 			diags = append(diags, e)
 		}
-		t, err := expandSystemlldpNetworkPolicyVoiceSignaling(d, v, "voice_signaling", sv)
+		t, err := expandSystemLldpNetworkPolicyVoiceSignaling(d, v, "voice_signaling", sv)
 		if err != nil {
 			return &obj, diag.FromErr(err)
 		} else if t != nil {
@@ -1512,7 +1512,7 @@ func getObjectSystemlldpNetworkPolicy(d *schema.ResourceData, sv string) (*model
 	} else if d.HasChange("voice_signaling") {
 		old, new := d.GetChange("voice_signaling")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.VoiceSignaling = &[]models.SystemlldpNetworkPolicyVoiceSignaling{}
+			obj.VoiceSignaling = &[]models.SystemLldpNetworkPolicyVoiceSignaling{}
 		}
 	}
 	return &obj, diags

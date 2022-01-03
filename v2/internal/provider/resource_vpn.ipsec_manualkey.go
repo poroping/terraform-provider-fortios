@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -18,14 +18,14 @@ import (
 	"github.com/poroping/terraform-provider-fortios/v2/utils"
 )
 
-func resourceVpnipsecManualkey() *schema.Resource {
+func resourceVpnIpsecManualkey() *schema.Resource {
 	return &schema.Resource{
 		Description: "Configure IPsec manual keys.",
 
-		CreateContext: resourceVpnipsecManualkeyCreate,
-		ReadContext:   resourceVpnipsecManualkeyRead,
-		UpdateContext: resourceVpnipsecManualkeyUpdate,
-		DeleteContext: resourceVpnipsecManualkeyDelete,
+		CreateContext: resourceVpnIpsecManualkeyCreate,
+		ReadContext:   resourceVpnIpsecManualkeyRead,
+		UpdateContext: resourceVpnIpsecManualkeyUpdate,
+		DeleteContext: resourceVpnIpsecManualkeyDelete,
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
@@ -132,7 +132,7 @@ func resourceVpnipsecManualkey() *schema.Resource {
 	}
 }
 
-func resourceVpnipsecManualkeyCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceVpnIpsecManualkeyCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*apiClient).Client
 	var diags diag.Diagnostics
 	var err error
@@ -159,16 +159,16 @@ func resourceVpnipsecManualkeyCreate(ctx context.Context, d *schema.ResourceData
 	if v, ok := d.GetOk(key); ok {
 		mkey = utils.ParseMkey(v)
 		if mkey == "" && allow_append {
-			return diag.Errorf("error creating VpnipsecManualkey resource: %q must be set if \"allow_append\" is true", key)
+			return diag.Errorf("error creating VpnIpsecManualkey resource: %q must be set if \"allow_append\" is true", key)
 		}
 	}
 
-	obj, diags := getObjectVpnipsecManualkey(d, c.Config.Fv)
+	obj, diags := getObjectVpnIpsecManualkey(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.CreateVpnipsecManualkey(obj, urlparams)
+	o, err := c.Cmdb.CreateVpnIpsecManualkey(obj, urlparams)
 
 	if err != nil {
 		e := diag.FromErr(err)
@@ -178,13 +178,13 @@ func resourceVpnipsecManualkeyCreate(ctx context.Context, d *schema.ResourceData
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("VpnipsecManualkey")
+		d.SetId("VpnIpsecManualkey")
 	}
 
-	return resourceVpnipsecManualkeyRead(ctx, d, meta)
+	return resourceVpnIpsecManualkeyRead(ctx, d, meta)
 }
 
-func resourceVpnipsecManualkeyUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceVpnIpsecManualkeyUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
@@ -197,27 +197,27 @@ func resourceVpnipsecManualkeyUpdate(ctx context.Context, d *schema.ResourceData
 	}
 	urlparams.Vdom = vdomparam
 
-	obj, diags := getObjectVpnipsecManualkey(d, c.Config.Fv)
+	obj, diags := getObjectVpnIpsecManualkey(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.UpdateVpnipsecManualkey(mkey, obj, urlparams)
+	o, err := c.Cmdb.UpdateVpnIpsecManualkey(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error updating VpnipsecManualkey resource: %v", err)
+		return diag.Errorf("error updating VpnIpsecManualkey resource: %v", err)
 	}
 
 	// log.Printf(strconv.Itoa(c.Retries))
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("VpnipsecManualkey")
+		d.SetId("VpnIpsecManualkey")
 	}
 
-	return resourceVpnipsecManualkeyRead(ctx, d, meta)
+	return resourceVpnIpsecManualkeyRead(ctx, d, meta)
 }
 
-func resourceVpnipsecManualkeyDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceVpnIpsecManualkeyDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -232,9 +232,9 @@ func resourceVpnipsecManualkeyDelete(ctx context.Context, d *schema.ResourceData
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteVpnipsecManualkey(mkey, urlparams)
+	err := c.Cmdb.DeleteVpnIpsecManualkey(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error deleting VpnipsecManualkey resource: %v", err)
+		return diag.Errorf("error deleting VpnIpsecManualkey resource: %v", err)
 	}
 
 	d.SetId("")
@@ -242,7 +242,7 @@ func resourceVpnipsecManualkeyDelete(ctx context.Context, d *schema.ResourceData
 	return nil
 }
 
-func resourceVpnipsecManualkeyRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceVpnIpsecManualkeyRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -257,9 +257,9 @@ func resourceVpnipsecManualkeyRead(ctx context.Context, d *schema.ResourceData, 
 	}
 	urlparams.Vdom = vdomparam
 
-	o, err := c.Cmdb.ReadVpnipsecManualkey(mkey, urlparams)
+	o, err := c.Cmdb.ReadVpnIpsecManualkey(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error reading VpnipsecManualkey resource: %v", err)
+		return diag.Errorf("error reading VpnIpsecManualkey resource: %v", err)
 	}
 
 	if o == nil {
@@ -275,14 +275,14 @@ func resourceVpnipsecManualkeyRead(ctx context.Context, d *schema.ResourceData, 
 		}
 	}
 
-	diags := refreshObjectVpnipsecManualkey(d, o, c.Config.Fv, sort)
+	diags := refreshObjectVpnIpsecManualkey(d, o, c.Config.Fv, sort)
 	if diags.HasError() {
 		return diags
 	}
 	return nil
 }
 
-func refreshObjectVpnipsecManualkey(d *schema.ResourceData, o *models.VpnipsecManualkey, sv string, sort bool) diag.Diagnostics {
+func refreshObjectVpnIpsecManualkey(d *schema.ResourceData, o *models.VpnIpsecManualkey, sv string, sort bool) diag.Diagnostics {
 	var err error
 
 	if o.Authentication != nil {
@@ -376,8 +376,8 @@ func refreshObjectVpnipsecManualkey(d *schema.ResourceData, o *models.VpnipsecMa
 	return nil
 }
 
-func getObjectVpnipsecManualkey(d *schema.ResourceData, sv string) (*models.VpnipsecManualkey, diag.Diagnostics) {
-	obj := models.VpnipsecManualkey{}
+func getObjectVpnIpsecManualkey(d *schema.ResourceData, sv string) (*models.VpnIpsecManualkey, diag.Diagnostics) {
+	obj := models.VpnIpsecManualkey{}
 	diags := diag.Diagnostics{}
 
 	if v1, ok := d.GetOk("authentication"); ok {
@@ -454,7 +454,7 @@ func getObjectVpnipsecManualkey(d *schema.ResourceData, sv string) (*models.Vpni
 	}
 	if v1, ok := d.GetOk("npu_offload"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "v6.4.2") {
+			if !utils.CheckVer(sv, "", "v6.4.0") {
 				e := utils.AttributeVersionWarning("npu_offload", sv)
 				diags = append(diags, e)
 			}

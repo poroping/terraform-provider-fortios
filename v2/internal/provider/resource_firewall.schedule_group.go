@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -19,14 +19,14 @@ import (
 	"github.com/poroping/terraform-provider-fortios/v2/utils"
 )
 
-func resourceFirewallscheduleGroup() *schema.Resource {
+func resourceFirewallScheduleGroup() *schema.Resource {
 	return &schema.Resource{
 		Description: "Schedule group configuration.",
 
-		CreateContext: resourceFirewallscheduleGroupCreate,
-		ReadContext:   resourceFirewallscheduleGroupRead,
-		UpdateContext: resourceFirewallscheduleGroupUpdate,
-		DeleteContext: resourceFirewallscheduleGroupDelete,
+		CreateContext: resourceFirewallScheduleGroupCreate,
+		ReadContext:   resourceFirewallScheduleGroupRead,
+		UpdateContext: resourceFirewallScheduleGroupUpdate,
+		DeleteContext: resourceFirewallScheduleGroupDelete,
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
@@ -95,7 +95,7 @@ func resourceFirewallscheduleGroup() *schema.Resource {
 	}
 }
 
-func resourceFirewallscheduleGroupCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceFirewallScheduleGroupCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*apiClient).Client
 	var diags diag.Diagnostics
 	var err error
@@ -122,16 +122,16 @@ func resourceFirewallscheduleGroupCreate(ctx context.Context, d *schema.Resource
 	if v, ok := d.GetOk(key); ok {
 		mkey = utils.ParseMkey(v)
 		if mkey == "" && allow_append {
-			return diag.Errorf("error creating FirewallscheduleGroup resource: %q must be set if \"allow_append\" is true", key)
+			return diag.Errorf("error creating FirewallScheduleGroup resource: %q must be set if \"allow_append\" is true", key)
 		}
 	}
 
-	obj, diags := getObjectFirewallscheduleGroup(d, c.Config.Fv)
+	obj, diags := getObjectFirewallScheduleGroup(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.CreateFirewallscheduleGroup(obj, urlparams)
+	o, err := c.Cmdb.CreateFirewallScheduleGroup(obj, urlparams)
 
 	if err != nil {
 		e := diag.FromErr(err)
@@ -141,13 +141,13 @@ func resourceFirewallscheduleGroupCreate(ctx context.Context, d *schema.Resource
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("FirewallscheduleGroup")
+		d.SetId("FirewallScheduleGroup")
 	}
 
-	return resourceFirewallscheduleGroupRead(ctx, d, meta)
+	return resourceFirewallScheduleGroupRead(ctx, d, meta)
 }
 
-func resourceFirewallscheduleGroupUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceFirewallScheduleGroupUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
@@ -160,27 +160,27 @@ func resourceFirewallscheduleGroupUpdate(ctx context.Context, d *schema.Resource
 	}
 	urlparams.Vdom = vdomparam
 
-	obj, diags := getObjectFirewallscheduleGroup(d, c.Config.Fv)
+	obj, diags := getObjectFirewallScheduleGroup(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.UpdateFirewallscheduleGroup(mkey, obj, urlparams)
+	o, err := c.Cmdb.UpdateFirewallScheduleGroup(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error updating FirewallscheduleGroup resource: %v", err)
+		return diag.Errorf("error updating FirewallScheduleGroup resource: %v", err)
 	}
 
 	// log.Printf(strconv.Itoa(c.Retries))
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("FirewallscheduleGroup")
+		d.SetId("FirewallScheduleGroup")
 	}
 
-	return resourceFirewallscheduleGroupRead(ctx, d, meta)
+	return resourceFirewallScheduleGroupRead(ctx, d, meta)
 }
 
-func resourceFirewallscheduleGroupDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceFirewallScheduleGroupDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -195,9 +195,9 @@ func resourceFirewallscheduleGroupDelete(ctx context.Context, d *schema.Resource
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteFirewallscheduleGroup(mkey, urlparams)
+	err := c.Cmdb.DeleteFirewallScheduleGroup(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error deleting FirewallscheduleGroup resource: %v", err)
+		return diag.Errorf("error deleting FirewallScheduleGroup resource: %v", err)
 	}
 
 	d.SetId("")
@@ -205,7 +205,7 @@ func resourceFirewallscheduleGroupDelete(ctx context.Context, d *schema.Resource
 	return nil
 }
 
-func resourceFirewallscheduleGroupRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceFirewallScheduleGroupRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -220,9 +220,9 @@ func resourceFirewallscheduleGroupRead(ctx context.Context, d *schema.ResourceDa
 	}
 	urlparams.Vdom = vdomparam
 
-	o, err := c.Cmdb.ReadFirewallscheduleGroup(mkey, urlparams)
+	o, err := c.Cmdb.ReadFirewallScheduleGroup(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error reading FirewallscheduleGroup resource: %v", err)
+		return diag.Errorf("error reading FirewallScheduleGroup resource: %v", err)
 	}
 
 	if o == nil {
@@ -238,14 +238,14 @@ func resourceFirewallscheduleGroupRead(ctx context.Context, d *schema.ResourceDa
 		}
 	}
 
-	diags := refreshObjectFirewallscheduleGroup(d, o, c.Config.Fv, sort)
+	diags := refreshObjectFirewallScheduleGroup(d, o, c.Config.Fv, sort)
 	if diags.HasError() {
 		return diags
 	}
 	return nil
 }
 
-func flattenFirewallscheduleGroupMember(v *[]models.FirewallscheduleGroupMember, sort bool) interface{} {
+func flattenFirewallScheduleGroupMember(v *[]models.FirewallScheduleGroupMember, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
@@ -266,7 +266,7 @@ func flattenFirewallscheduleGroupMember(v *[]models.FirewallscheduleGroupMember,
 	return flat
 }
 
-func refreshObjectFirewallscheduleGroup(d *schema.ResourceData, o *models.FirewallscheduleGroup, sv string, sort bool) diag.Diagnostics {
+func refreshObjectFirewallScheduleGroup(d *schema.ResourceData, o *models.FirewallScheduleGroup, sv string, sort bool) diag.Diagnostics {
 	var err error
 
 	if o.Color != nil {
@@ -286,7 +286,7 @@ func refreshObjectFirewallscheduleGroup(d *schema.ResourceData, o *models.Firewa
 	}
 
 	if o.Member != nil {
-		if err = d.Set("member", flattenFirewallscheduleGroupMember(o.Member, sort)); err != nil {
+		if err = d.Set("member", flattenFirewallScheduleGroupMember(o.Member, sort)); err != nil {
 			return diag.Errorf("error reading member: %v", err)
 		}
 	}
@@ -302,16 +302,16 @@ func refreshObjectFirewallscheduleGroup(d *schema.ResourceData, o *models.Firewa
 	return nil
 }
 
-func expandFirewallscheduleGroupMember(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.FirewallscheduleGroupMember, error) {
+func expandFirewallScheduleGroupMember(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.FirewallScheduleGroupMember, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
 	}
 
-	var result []models.FirewallscheduleGroupMember
+	var result []models.FirewallScheduleGroupMember
 
 	for i := range l {
-		tmp := models.FirewallscheduleGroupMember{}
+		tmp := models.FirewallScheduleGroupMember{}
 		var pre_append string
 
 		pre_append = fmt.Sprintf("%s.%d.name", pre, i)
@@ -326,8 +326,8 @@ func expandFirewallscheduleGroupMember(d *schema.ResourceData, v interface{}, pr
 	return &result, nil
 }
 
-func getObjectFirewallscheduleGroup(d *schema.ResourceData, sv string) (*models.FirewallscheduleGroup, diag.Diagnostics) {
-	obj := models.FirewallscheduleGroup{}
+func getObjectFirewallScheduleGroup(d *schema.ResourceData, sv string) (*models.FirewallScheduleGroup, diag.Diagnostics) {
+	obj := models.FirewallScheduleGroup{}
 	diags := diag.Diagnostics{}
 
 	if v1, ok := d.GetOk("color"); ok {
@@ -354,7 +354,7 @@ func getObjectFirewallscheduleGroup(d *schema.ResourceData, sv string) (*models.
 			e := utils.AttributeVersionWarning("member", sv)
 			diags = append(diags, e)
 		}
-		t, err := expandFirewallscheduleGroupMember(d, v, "member", sv)
+		t, err := expandFirewallScheduleGroupMember(d, v, "member", sv)
 		if err != nil {
 			return &obj, diag.FromErr(err)
 		} else if t != nil {
@@ -363,7 +363,7 @@ func getObjectFirewallscheduleGroup(d *schema.ResourceData, sv string) (*models.
 	} else if d.HasChange("member") {
 		old, new := d.GetChange("member")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.Member = &[]models.FirewallscheduleGroupMember{}
+			obj.Member = &[]models.FirewallScheduleGroupMember{}
 		}
 	}
 	if v1, ok := d.GetOk("name"); ok {

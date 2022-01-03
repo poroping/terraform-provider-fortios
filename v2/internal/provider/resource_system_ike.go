@@ -751,7 +751,12 @@ func resourceSystemIkeDelete(ctx context.Context, d *schema.ResourceData, meta i
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteSystemIke(mkey, urlparams)
+	obj, diags := getEmptyObjectSystemIke(d, c.Config.Fv)
+	if diags.HasError() {
+		return diags
+	}
+
+	_, err := c.Cmdb.UpdateSystemIke(mkey, obj, urlparams)
 	if err != nil {
 		return diag.Errorf("error deleting SystemIke resource: %v", err)
 	}
@@ -2395,5 +2400,31 @@ func getObjectSystemIke(d *schema.ResourceData, sv string) (*models.SystemIke, d
 			obj.EmbryonicLimit = &tmp
 		}
 	}
+	return &obj, diags
+}
+
+// Return an object with explicitly empty objects for tables that have been set.
+func getEmptyObjectSystemIke(d *schema.ResourceData, sv string) (*models.SystemIke, diag.Diagnostics) {
+	obj := models.SystemIke{}
+	diags := diag.Diagnostics{}
+
+	obj.DhGroup1 = &[]models.SystemIkeDhGroup1{}
+	obj.DhGroup14 = &[]models.SystemIkeDhGroup14{}
+	obj.DhGroup15 = &[]models.SystemIkeDhGroup15{}
+	obj.DhGroup16 = &[]models.SystemIkeDhGroup16{}
+	obj.DhGroup17 = &[]models.SystemIkeDhGroup17{}
+	obj.DhGroup18 = &[]models.SystemIkeDhGroup18{}
+	obj.DhGroup19 = &[]models.SystemIkeDhGroup19{}
+	obj.DhGroup2 = &[]models.SystemIkeDhGroup2{}
+	obj.DhGroup20 = &[]models.SystemIkeDhGroup20{}
+	obj.DhGroup21 = &[]models.SystemIkeDhGroup21{}
+	obj.DhGroup27 = &[]models.SystemIkeDhGroup27{}
+	obj.DhGroup28 = &[]models.SystemIkeDhGroup28{}
+	obj.DhGroup29 = &[]models.SystemIkeDhGroup29{}
+	obj.DhGroup30 = &[]models.SystemIkeDhGroup30{}
+	obj.DhGroup31 = &[]models.SystemIkeDhGroup31{}
+	obj.DhGroup32 = &[]models.SystemIkeDhGroup32{}
+	obj.DhGroup5 = &[]models.SystemIkeDhGroup5{}
+
 	return &obj, diags
 }

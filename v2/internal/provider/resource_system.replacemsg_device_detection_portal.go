@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -18,14 +18,14 @@ import (
 	"github.com/poroping/terraform-provider-fortios/v2/utils"
 )
 
-func resourceSystemreplacemsgDeviceDetectionPortal() *schema.Resource {
+func resourceSystemReplacemsgDeviceDetectionPortal() *schema.Resource {
 	return &schema.Resource{
 		Description: "Replacement messages.",
 
-		CreateContext: resourceSystemreplacemsgDeviceDetectionPortalCreate,
-		ReadContext:   resourceSystemreplacemsgDeviceDetectionPortalRead,
-		UpdateContext: resourceSystemreplacemsgDeviceDetectionPortalUpdate,
-		DeleteContext: resourceSystemreplacemsgDeviceDetectionPortalDelete,
+		CreateContext: resourceSystemReplacemsgDeviceDetectionPortalCreate,
+		ReadContext:   resourceSystemReplacemsgDeviceDetectionPortalRead,
+		UpdateContext: resourceSystemReplacemsgDeviceDetectionPortalUpdate,
+		DeleteContext: resourceSystemReplacemsgDeviceDetectionPortalDelete,
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
@@ -80,7 +80,7 @@ func resourceSystemreplacemsgDeviceDetectionPortal() *schema.Resource {
 	}
 }
 
-func resourceSystemreplacemsgDeviceDetectionPortalCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSystemReplacemsgDeviceDetectionPortalCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*apiClient).Client
 	var diags diag.Diagnostics
 	var err error
@@ -107,16 +107,16 @@ func resourceSystemreplacemsgDeviceDetectionPortalCreate(ctx context.Context, d 
 	if v, ok := d.GetOk(key); ok {
 		mkey = utils.ParseMkey(v)
 		if mkey == "" && allow_append {
-			return diag.Errorf("error creating SystemreplacemsgDeviceDetectionPortal resource: %q must be set if \"allow_append\" is true", key)
+			return diag.Errorf("error creating SystemReplacemsgDeviceDetectionPortal resource: %q must be set if \"allow_append\" is true", key)
 		}
 	}
 
-	obj, diags := getObjectSystemreplacemsgDeviceDetectionPortal(d, c.Config.Fv)
+	obj, diags := getObjectSystemReplacemsgDeviceDetectionPortal(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.CreateSystemreplacemsgDeviceDetectionPortal(obj, urlparams)
+	o, err := c.Cmdb.CreateSystemReplacemsgDeviceDetectionPortal(obj, urlparams)
 
 	if err != nil {
 		e := diag.FromErr(err)
@@ -126,13 +126,13 @@ func resourceSystemreplacemsgDeviceDetectionPortalCreate(ctx context.Context, d 
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("SystemreplacemsgDeviceDetectionPortal")
+		d.SetId("SystemReplacemsgDeviceDetectionPortal")
 	}
 
-	return resourceSystemreplacemsgDeviceDetectionPortalRead(ctx, d, meta)
+	return resourceSystemReplacemsgDeviceDetectionPortalRead(ctx, d, meta)
 }
 
-func resourceSystemreplacemsgDeviceDetectionPortalUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSystemReplacemsgDeviceDetectionPortalUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
@@ -145,27 +145,27 @@ func resourceSystemreplacemsgDeviceDetectionPortalUpdate(ctx context.Context, d 
 	}
 	urlparams.Vdom = vdomparam
 
-	obj, diags := getObjectSystemreplacemsgDeviceDetectionPortal(d, c.Config.Fv)
+	obj, diags := getObjectSystemReplacemsgDeviceDetectionPortal(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.UpdateSystemreplacemsgDeviceDetectionPortal(mkey, obj, urlparams)
+	o, err := c.Cmdb.UpdateSystemReplacemsgDeviceDetectionPortal(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error updating SystemreplacemsgDeviceDetectionPortal resource: %v", err)
+		return diag.Errorf("error updating SystemReplacemsgDeviceDetectionPortal resource: %v", err)
 	}
 
 	// log.Printf(strconv.Itoa(c.Retries))
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("SystemreplacemsgDeviceDetectionPortal")
+		d.SetId("SystemReplacemsgDeviceDetectionPortal")
 	}
 
-	return resourceSystemreplacemsgDeviceDetectionPortalRead(ctx, d, meta)
+	return resourceSystemReplacemsgDeviceDetectionPortalRead(ctx, d, meta)
 }
 
-func resourceSystemreplacemsgDeviceDetectionPortalDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSystemReplacemsgDeviceDetectionPortalDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -180,9 +180,9 @@ func resourceSystemreplacemsgDeviceDetectionPortalDelete(ctx context.Context, d 
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteSystemreplacemsgDeviceDetectionPortal(mkey, urlparams)
+	err := c.Cmdb.DeleteSystemReplacemsgDeviceDetectionPortal(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error deleting SystemreplacemsgDeviceDetectionPortal resource: %v", err)
+		return diag.Errorf("error deleting SystemReplacemsgDeviceDetectionPortal resource: %v", err)
 	}
 
 	d.SetId("")
@@ -190,7 +190,7 @@ func resourceSystemreplacemsgDeviceDetectionPortalDelete(ctx context.Context, d 
 	return nil
 }
 
-func resourceSystemreplacemsgDeviceDetectionPortalRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSystemReplacemsgDeviceDetectionPortalRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -205,9 +205,9 @@ func resourceSystemreplacemsgDeviceDetectionPortalRead(ctx context.Context, d *s
 	}
 	urlparams.Vdom = vdomparam
 
-	o, err := c.Cmdb.ReadSystemreplacemsgDeviceDetectionPortal(mkey, urlparams)
+	o, err := c.Cmdb.ReadSystemReplacemsgDeviceDetectionPortal(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error reading SystemreplacemsgDeviceDetectionPortal resource: %v", err)
+		return diag.Errorf("error reading SystemReplacemsgDeviceDetectionPortal resource: %v", err)
 	}
 
 	if o == nil {
@@ -223,14 +223,14 @@ func resourceSystemreplacemsgDeviceDetectionPortalRead(ctx context.Context, d *s
 		}
 	}
 
-	diags := refreshObjectSystemreplacemsgDeviceDetectionPortal(d, o, c.Config.Fv, sort)
+	diags := refreshObjectSystemReplacemsgDeviceDetectionPortal(d, o, c.Config.Fv, sort)
 	if diags.HasError() {
 		return diags
 	}
 	return nil
 }
 
-func refreshObjectSystemreplacemsgDeviceDetectionPortal(d *schema.ResourceData, o *models.SystemreplacemsgDeviceDetectionPortal, sv string, sort bool) diag.Diagnostics {
+func refreshObjectSystemReplacemsgDeviceDetectionPortal(d *schema.ResourceData, o *models.SystemReplacemsgDeviceDetectionPortal, sv string, sort bool) diag.Diagnostics {
 	var err error
 
 	if o.Buffer != nil {
@@ -268,8 +268,8 @@ func refreshObjectSystemreplacemsgDeviceDetectionPortal(d *schema.ResourceData, 
 	return nil
 }
 
-func getObjectSystemreplacemsgDeviceDetectionPortal(d *schema.ResourceData, sv string) (*models.SystemreplacemsgDeviceDetectionPortal, diag.Diagnostics) {
-	obj := models.SystemreplacemsgDeviceDetectionPortal{}
+func getObjectSystemReplacemsgDeviceDetectionPortal(d *schema.ResourceData, sv string) (*models.SystemReplacemsgDeviceDetectionPortal, diag.Diagnostics) {
+	obj := models.SystemReplacemsgDeviceDetectionPortal{}
 	diags := diag.Diagnostics{}
 
 	if v1, ok := d.GetOk("buffer"); ok {

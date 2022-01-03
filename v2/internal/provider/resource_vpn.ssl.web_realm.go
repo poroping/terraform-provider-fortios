@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -18,14 +18,14 @@ import (
 	"github.com/poroping/terraform-provider-fortios/v2/utils"
 )
 
-func resourceVpnsslwebRealm() *schema.Resource {
+func resourceVpnSslWebRealm() *schema.Resource {
 	return &schema.Resource{
 		Description: "Realm.",
 
-		CreateContext: resourceVpnsslwebRealmCreate,
-		ReadContext:   resourceVpnsslwebRealmRead,
-		UpdateContext: resourceVpnsslwebRealmUpdate,
-		DeleteContext: resourceVpnsslwebRealmDelete,
+		CreateContext: resourceVpnSslWebRealmCreate,
+		ReadContext:   resourceVpnSslWebRealmRead,
+		UpdateContext: resourceVpnSslWebRealmUpdate,
+		DeleteContext: resourceVpnSslWebRealmDelete,
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
@@ -120,7 +120,7 @@ func resourceVpnsslwebRealm() *schema.Resource {
 	}
 }
 
-func resourceVpnsslwebRealmCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceVpnSslWebRealmCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*apiClient).Client
 	var diags diag.Diagnostics
 	var err error
@@ -147,16 +147,16 @@ func resourceVpnsslwebRealmCreate(ctx context.Context, d *schema.ResourceData, m
 	if v, ok := d.GetOk(key); ok {
 		mkey = utils.ParseMkey(v)
 		if mkey == "" && allow_append {
-			return diag.Errorf("error creating VpnsslwebRealm resource: %q must be set if \"allow_append\" is true", key)
+			return diag.Errorf("error creating VpnSslWebRealm resource: %q must be set if \"allow_append\" is true", key)
 		}
 	}
 
-	obj, diags := getObjectVpnsslwebRealm(d, c.Config.Fv)
+	obj, diags := getObjectVpnSslWebRealm(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.CreateVpnsslwebRealm(obj, urlparams)
+	o, err := c.Cmdb.CreateVpnSslWebRealm(obj, urlparams)
 
 	if err != nil {
 		e := diag.FromErr(err)
@@ -166,13 +166,13 @@ func resourceVpnsslwebRealmCreate(ctx context.Context, d *schema.ResourceData, m
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("VpnsslwebRealm")
+		d.SetId("VpnSslWebRealm")
 	}
 
-	return resourceVpnsslwebRealmRead(ctx, d, meta)
+	return resourceVpnSslWebRealmRead(ctx, d, meta)
 }
 
-func resourceVpnsslwebRealmUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceVpnSslWebRealmUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
@@ -185,27 +185,27 @@ func resourceVpnsslwebRealmUpdate(ctx context.Context, d *schema.ResourceData, m
 	}
 	urlparams.Vdom = vdomparam
 
-	obj, diags := getObjectVpnsslwebRealm(d, c.Config.Fv)
+	obj, diags := getObjectVpnSslWebRealm(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.UpdateVpnsslwebRealm(mkey, obj, urlparams)
+	o, err := c.Cmdb.UpdateVpnSslWebRealm(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error updating VpnsslwebRealm resource: %v", err)
+		return diag.Errorf("error updating VpnSslWebRealm resource: %v", err)
 	}
 
 	// log.Printf(strconv.Itoa(c.Retries))
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("VpnsslwebRealm")
+		d.SetId("VpnSslWebRealm")
 	}
 
-	return resourceVpnsslwebRealmRead(ctx, d, meta)
+	return resourceVpnSslWebRealmRead(ctx, d, meta)
 }
 
-func resourceVpnsslwebRealmDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceVpnSslWebRealmDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -220,9 +220,9 @@ func resourceVpnsslwebRealmDelete(ctx context.Context, d *schema.ResourceData, m
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteVpnsslwebRealm(mkey, urlparams)
+	err := c.Cmdb.DeleteVpnSslWebRealm(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error deleting VpnsslwebRealm resource: %v", err)
+		return diag.Errorf("error deleting VpnSslWebRealm resource: %v", err)
 	}
 
 	d.SetId("")
@@ -230,7 +230,7 @@ func resourceVpnsslwebRealmDelete(ctx context.Context, d *schema.ResourceData, m
 	return nil
 }
 
-func resourceVpnsslwebRealmRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceVpnSslWebRealmRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -245,9 +245,9 @@ func resourceVpnsslwebRealmRead(ctx context.Context, d *schema.ResourceData, met
 	}
 	urlparams.Vdom = vdomparam
 
-	o, err := c.Cmdb.ReadVpnsslwebRealm(mkey, urlparams)
+	o, err := c.Cmdb.ReadVpnSslWebRealm(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error reading VpnsslwebRealm resource: %v", err)
+		return diag.Errorf("error reading VpnSslWebRealm resource: %v", err)
 	}
 
 	if o == nil {
@@ -263,14 +263,14 @@ func resourceVpnsslwebRealmRead(ctx context.Context, d *schema.ResourceData, met
 		}
 	}
 
-	diags := refreshObjectVpnsslwebRealm(d, o, c.Config.Fv, sort)
+	diags := refreshObjectVpnSslWebRealm(d, o, c.Config.Fv, sort)
 	if diags.HasError() {
 		return diags
 	}
 	return nil
 }
 
-func refreshObjectVpnsslwebRealm(d *schema.ResourceData, o *models.VpnsslwebRealm, sv string, sort bool) diag.Diagnostics {
+func refreshObjectVpnSslWebRealm(d *schema.ResourceData, o *models.VpnSslWebRealm, sv string, sort bool) diag.Diagnostics {
 	var err error
 
 	if o.LoginPage != nil {
@@ -348,8 +348,8 @@ func refreshObjectVpnsslwebRealm(d *schema.ResourceData, o *models.VpnsslwebReal
 	return nil
 }
 
-func getObjectVpnsslwebRealm(d *schema.ResourceData, sv string) (*models.VpnsslwebRealm, diag.Diagnostics) {
-	obj := models.VpnsslwebRealm{}
+func getObjectVpnSslWebRealm(d *schema.ResourceData, sv string) (*models.VpnSslWebRealm, diag.Diagnostics) {
+	obj := models.VpnSslWebRealm{}
 	diags := diag.Diagnostics{}
 
 	if v1, ok := d.GetOk("login_page"); ok {
@@ -373,7 +373,7 @@ func getObjectVpnsslwebRealm(d *schema.ResourceData, sv string) (*models.Vpnsslw
 	}
 	if v1, ok := d.GetOk("nas_ip"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "v6.4.2", "") {
+			if !utils.CheckVer(sv, "v6.4.0", "") {
 				e := utils.AttributeVersionWarning("nas_ip", sv)
 				diags = append(diags, e)
 			}
@@ -392,7 +392,7 @@ func getObjectVpnsslwebRealm(d *schema.ResourceData, sv string) (*models.Vpnsslw
 	}
 	if v1, ok := d.GetOk("radius_server"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "v6.4.2", "") {
+			if !utils.CheckVer(sv, "v6.4.0", "") {
 				e := utils.AttributeVersionWarning("radius_server", sv)
 				diags = append(diags, e)
 			}

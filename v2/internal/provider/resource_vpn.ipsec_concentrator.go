@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -19,14 +19,14 @@ import (
 	"github.com/poroping/terraform-provider-fortios/v2/utils"
 )
 
-func resourceVpnipsecConcentrator() *schema.Resource {
+func resourceVpnIpsecConcentrator() *schema.Resource {
 	return &schema.Resource{
 		Description: "Concentrator configuration.",
 
-		CreateContext: resourceVpnipsecConcentratorCreate,
-		ReadContext:   resourceVpnipsecConcentratorRead,
-		UpdateContext: resourceVpnipsecConcentratorUpdate,
-		DeleteContext: resourceVpnipsecConcentratorDelete,
+		CreateContext: resourceVpnIpsecConcentratorCreate,
+		ReadContext:   resourceVpnIpsecConcentratorRead,
+		UpdateContext: resourceVpnIpsecConcentratorUpdate,
+		DeleteContext: resourceVpnIpsecConcentratorDelete,
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
@@ -97,7 +97,7 @@ func resourceVpnipsecConcentrator() *schema.Resource {
 	}
 }
 
-func resourceVpnipsecConcentratorCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceVpnIpsecConcentratorCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*apiClient).Client
 	var diags diag.Diagnostics
 	var err error
@@ -124,16 +124,16 @@ func resourceVpnipsecConcentratorCreate(ctx context.Context, d *schema.ResourceD
 	if v, ok := d.GetOk(key); ok {
 		mkey = utils.ParseMkey(v)
 		if mkey == "" && allow_append {
-			return diag.Errorf("error creating VpnipsecConcentrator resource: %q must be set if \"allow_append\" is true", key)
+			return diag.Errorf("error creating VpnIpsecConcentrator resource: %q must be set if \"allow_append\" is true", key)
 		}
 	}
 
-	obj, diags := getObjectVpnipsecConcentrator(d, c.Config.Fv)
+	obj, diags := getObjectVpnIpsecConcentrator(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.CreateVpnipsecConcentrator(obj, urlparams)
+	o, err := c.Cmdb.CreateVpnIpsecConcentrator(obj, urlparams)
 
 	if err != nil {
 		e := diag.FromErr(err)
@@ -143,13 +143,13 @@ func resourceVpnipsecConcentratorCreate(ctx context.Context, d *schema.ResourceD
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("VpnipsecConcentrator")
+		d.SetId("VpnIpsecConcentrator")
 	}
 
-	return resourceVpnipsecConcentratorRead(ctx, d, meta)
+	return resourceVpnIpsecConcentratorRead(ctx, d, meta)
 }
 
-func resourceVpnipsecConcentratorUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceVpnIpsecConcentratorUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
@@ -162,27 +162,27 @@ func resourceVpnipsecConcentratorUpdate(ctx context.Context, d *schema.ResourceD
 	}
 	urlparams.Vdom = vdomparam
 
-	obj, diags := getObjectVpnipsecConcentrator(d, c.Config.Fv)
+	obj, diags := getObjectVpnIpsecConcentrator(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.UpdateVpnipsecConcentrator(mkey, obj, urlparams)
+	o, err := c.Cmdb.UpdateVpnIpsecConcentrator(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error updating VpnipsecConcentrator resource: %v", err)
+		return diag.Errorf("error updating VpnIpsecConcentrator resource: %v", err)
 	}
 
 	// log.Printf(strconv.Itoa(c.Retries))
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("VpnipsecConcentrator")
+		d.SetId("VpnIpsecConcentrator")
 	}
 
-	return resourceVpnipsecConcentratorRead(ctx, d, meta)
+	return resourceVpnIpsecConcentratorRead(ctx, d, meta)
 }
 
-func resourceVpnipsecConcentratorDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceVpnIpsecConcentratorDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -197,9 +197,9 @@ func resourceVpnipsecConcentratorDelete(ctx context.Context, d *schema.ResourceD
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteVpnipsecConcentrator(mkey, urlparams)
+	err := c.Cmdb.DeleteVpnIpsecConcentrator(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error deleting VpnipsecConcentrator resource: %v", err)
+		return diag.Errorf("error deleting VpnIpsecConcentrator resource: %v", err)
 	}
 
 	d.SetId("")
@@ -207,7 +207,7 @@ func resourceVpnipsecConcentratorDelete(ctx context.Context, d *schema.ResourceD
 	return nil
 }
 
-func resourceVpnipsecConcentratorRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceVpnIpsecConcentratorRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -222,9 +222,9 @@ func resourceVpnipsecConcentratorRead(ctx context.Context, d *schema.ResourceDat
 	}
 	urlparams.Vdom = vdomparam
 
-	o, err := c.Cmdb.ReadVpnipsecConcentrator(mkey, urlparams)
+	o, err := c.Cmdb.ReadVpnIpsecConcentrator(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error reading VpnipsecConcentrator resource: %v", err)
+		return diag.Errorf("error reading VpnIpsecConcentrator resource: %v", err)
 	}
 
 	if o == nil {
@@ -240,14 +240,14 @@ func resourceVpnipsecConcentratorRead(ctx context.Context, d *schema.ResourceDat
 		}
 	}
 
-	diags := refreshObjectVpnipsecConcentrator(d, o, c.Config.Fv, sort)
+	diags := refreshObjectVpnIpsecConcentrator(d, o, c.Config.Fv, sort)
 	if diags.HasError() {
 		return diags
 	}
 	return nil
 }
 
-func flattenVpnipsecConcentratorMember(v *[]models.VpnipsecConcentratorMember, sort bool) interface{} {
+func flattenVpnIpsecConcentratorMember(v *[]models.VpnIpsecConcentratorMember, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
@@ -268,7 +268,7 @@ func flattenVpnipsecConcentratorMember(v *[]models.VpnipsecConcentratorMember, s
 	return flat
 }
 
-func refreshObjectVpnipsecConcentrator(d *schema.ResourceData, o *models.VpnipsecConcentrator, sv string, sort bool) diag.Diagnostics {
+func refreshObjectVpnIpsecConcentrator(d *schema.ResourceData, o *models.VpnIpsecConcentrator, sv string, sort bool) diag.Diagnostics {
 	var err error
 
 	if o.Id != nil {
@@ -280,7 +280,7 @@ func refreshObjectVpnipsecConcentrator(d *schema.ResourceData, o *models.Vpnipse
 	}
 
 	if o.Member != nil {
-		if err = d.Set("member", flattenVpnipsecConcentratorMember(o.Member, sort)); err != nil {
+		if err = d.Set("member", flattenVpnIpsecConcentratorMember(o.Member, sort)); err != nil {
 			return diag.Errorf("error reading member: %v", err)
 		}
 	}
@@ -304,16 +304,16 @@ func refreshObjectVpnipsecConcentrator(d *schema.ResourceData, o *models.Vpnipse
 	return nil
 }
 
-func expandVpnipsecConcentratorMember(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.VpnipsecConcentratorMember, error) {
+func expandVpnIpsecConcentratorMember(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.VpnIpsecConcentratorMember, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
 	}
 
-	var result []models.VpnipsecConcentratorMember
+	var result []models.VpnIpsecConcentratorMember
 
 	for i := range l {
-		tmp := models.VpnipsecConcentratorMember{}
+		tmp := models.VpnIpsecConcentratorMember{}
 		var pre_append string
 
 		pre_append = fmt.Sprintf("%s.%d.name", pre, i)
@@ -328,8 +328,8 @@ func expandVpnipsecConcentratorMember(d *schema.ResourceData, v interface{}, pre
 	return &result, nil
 }
 
-func getObjectVpnipsecConcentrator(d *schema.ResourceData, sv string) (*models.VpnipsecConcentrator, diag.Diagnostics) {
-	obj := models.VpnipsecConcentrator{}
+func getObjectVpnIpsecConcentrator(d *schema.ResourceData, sv string) (*models.VpnIpsecConcentrator, diag.Diagnostics) {
+	obj := models.VpnIpsecConcentrator{}
 	diags := diag.Diagnostics{}
 
 	if v1, ok := d.GetOk("fosid"); ok {
@@ -347,7 +347,7 @@ func getObjectVpnipsecConcentrator(d *schema.ResourceData, sv string) (*models.V
 			e := utils.AttributeVersionWarning("member", sv)
 			diags = append(diags, e)
 		}
-		t, err := expandVpnipsecConcentratorMember(d, v, "member", sv)
+		t, err := expandVpnIpsecConcentratorMember(d, v, "member", sv)
 		if err != nil {
 			return &obj, diag.FromErr(err)
 		} else if t != nil {
@@ -356,7 +356,7 @@ func getObjectVpnipsecConcentrator(d *schema.ResourceData, sv string) (*models.V
 	} else if d.HasChange("member") {
 		old, new := d.GetChange("member")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.Member = &[]models.VpnipsecConcentratorMember{}
+			obj.Member = &[]models.VpnIpsecConcentratorMember{}
 		}
 	}
 	if v1, ok := d.GetOk("name"); ok {

@@ -213,7 +213,12 @@ func resourceSystemAcmeDelete(ctx context.Context, d *schema.ResourceData, meta 
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteSystemAcme(mkey, urlparams)
+	obj, diags := getEmptyObjectSystemAcme(d, c.Config.Fv)
+	if diags.HasError() {
+		return diags
+	}
+
+	_, err := c.Cmdb.UpdateSystemAcme(mkey, obj, urlparams)
 	if err != nil {
 		return diag.Errorf("error deleting SystemAcme resource: %v", err)
 	}
@@ -464,5 +469,16 @@ func getObjectSystemAcme(d *schema.ResourceData, sv string) (*models.SystemAcme,
 			obj.Interface = &[]models.SystemAcmeInterface{}
 		}
 	}
+	return &obj, diags
+}
+
+// Return an object with explicitly empty objects for tables that have been set.
+func getEmptyObjectSystemAcme(d *schema.ResourceData, sv string) (*models.SystemAcme, diag.Diagnostics) {
+	obj := models.SystemAcme{}
+	diags := diag.Diagnostics{}
+
+	obj.Accounts = &[]models.SystemAcmeAccounts{}
+	obj.Interface = &[]models.SystemAcmeInterface{}
+
 	return &obj, diags
 }

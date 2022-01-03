@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -324,7 +324,12 @@ func resourceLogSettingDelete(ctx context.Context, d *schema.ResourceData, meta 
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteLogSetting(mkey, urlparams)
+	obj, diags := getEmptyObjectLogSetting(d, c.Config.Fv)
+	if diags.HasError() {
+		return diags
+	}
+
+	_, err := c.Cmdb.UpdateLogSetting(mkey, obj, urlparams)
 	if err != nil {
 		return diag.Errorf("error deleting LogSetting resource: %v", err)
 	}
@@ -667,7 +672,7 @@ func getObjectLogSetting(d *schema.ResourceData, sv string) (*models.LogSetting,
 	}
 	if v1, ok := d.GetOk("fortiview_weekly_data"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "v6.4.2") {
+			if !utils.CheckVer(sv, "", "v6.4.0") {
 				e := utils.AttributeVersionWarning("fortiview_weekly_data", sv)
 				diags = append(diags, e)
 			}
@@ -748,7 +753,7 @@ func getObjectLogSetting(d *schema.ResourceData, sv string) (*models.LogSetting,
 	}
 	if v1, ok := d.GetOk("log_policy_name"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "v6.4.2") {
+			if !utils.CheckVer(sv, "", "v6.4.0") {
 				e := utils.AttributeVersionWarning("log_policy_name", sv)
 				diags = append(diags, e)
 			}
@@ -809,5 +814,15 @@ func getObjectLogSetting(d *schema.ResourceData, sv string) (*models.LogSetting,
 			obj.UserAnonymize = &v2
 		}
 	}
+	return &obj, diags
+}
+
+// Return an object with explicitly empty objects for tables that have been set.
+func getEmptyObjectLogSetting(d *schema.ResourceData, sv string) (*models.LogSetting, diag.Diagnostics) {
+	obj := models.LogSetting{}
+	diags := diag.Diagnostics{}
+
+	obj.CustomLogFields = &[]models.LogSettingCustomLogFields{}
+
 	return &obj, diags
 }

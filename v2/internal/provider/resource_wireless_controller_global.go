@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -285,7 +285,12 @@ func resourceWirelessControllerGlobalDelete(ctx context.Context, d *schema.Resou
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteWirelessControllerGlobal(mkey, urlparams)
+	obj, diags := getEmptyObjectWirelessControllerGlobal(d, c.Config.Fv)
+	if diags.HasError() {
+		return diags
+	}
+
+	_, err := c.Cmdb.UpdateWirelessControllerGlobal(mkey, obj, urlparams)
 	if err != nil {
 		return diag.Errorf("error deleting WirelessControllerGlobal resource: %v", err)
 	}
@@ -675,5 +680,13 @@ func getObjectWirelessControllerGlobal(d *schema.ResourceData, sv string) (*mode
 			obj.WtpShare = &v2
 		}
 	}
+	return &obj, diags
+}
+
+// Return an object with explicitly empty objects for tables that have been set.
+func getEmptyObjectWirelessControllerGlobal(d *schema.ResourceData, sv string) (*models.WirelessControllerGlobal, diag.Diagnostics) {
+	obj := models.WirelessControllerGlobal{}
+	diags := diag.Diagnostics{}
+
 	return &obj, diags
 }

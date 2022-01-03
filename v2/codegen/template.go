@@ -19,9 +19,10 @@ const (
 )
 
 type providerRes struct {
-	Fpath string
-	Path  string
-	Name  string
+	Fpath     string
+	Path      string
+	Name      string
+	ChildPath string
 }
 
 func main() {
@@ -29,6 +30,10 @@ func main() {
 	cmdbResources := []providerRes{}
 	for _, schema := range schemas {
 		fileName := schema.Name()
+		if ignoreSchemas(fileName) {
+			log.Printf("[DEBUG] schema: %s marked for skipping", fileName)
+			continue
+		}
 		log.Printf("[DEBUG] processing: %s", fileName)
 		funcMap := template.FuncMap{
 			"replace":          replace,
@@ -56,10 +61,15 @@ func main() {
 		// Add extra values to use in templates.
 		r := addResourceInfo(n)
 
+		cp, ok := r["child_path"].(string)
+		if !ok {
+			cp = ""
+		}
 		tmp := providerRes{
-			Fpath: r["fpath"].(string),
-			Path:  r["path"].(string),
-			Name:  r["name"].(string),
+			Fpath:     r["fpath"].(string),
+			Path:      r["path"].(string),
+			Name:      r["name"].(string),
+			ChildPath: cp,
 		}
 		cmdbResources = append(cmdbResources, tmp)
 
@@ -70,6 +80,27 @@ func main() {
 		render("resource_test", fileName, t, r)
 	}
 	providerResourceRender(cmdbResources)
+}
+
+// ignore these cause need work
+func ignoreSchemas(name string) bool {
+	ign := []string{
+		"router.access_list_rule.json",
+		"router.access_list6_rule.json",
+		"router.prefix_list_rule.json",
+		"router.prefix_list6_rule.json",
+		"router.route_map_rule.json",
+		// duplicate keys
+		"extender_controller_dataplan.json",
+		// empty ?
+		"firewall_vendor_mac_summary.json",
+	}
+	for _, v := range ign {
+		if name == v {
+			return true
+		}
+	}
+	return false
 }
 
 func isComplex(category string) bool {
@@ -129,12 +160,12 @@ func addPaths(m map[string]interface{}) map[string]interface{} {
 	path := mixedCase(m["path"].(string))
 	if _, ok := m["child_path"].(string); ok {
 		name, _ := m["name"].(string)
-		path += name
+		path += mixedCase(name)
 	}
 	resource := mixedCase(m["results"].(map[string]interface{})["name"].(string))
 	tmp := m["results"]
-	m["fpath"] = path + resource
-	m["results"].(map[string]interface{})["fpath"] = path + resource
+	m["fpath"] = mixedCase(path + " " + resource)
+	m["results"].(map[string]interface{})["fpath"] = mixedCase(path + " " + resource)
 	recursePaths(tmp, path+resource)
 	return m
 }
@@ -145,8 +176,9 @@ func recursePaths(v interface{}, pre string) interface{} {
 		for _, v := range child {
 			if v2, ok := v.(map[string]interface{}); ok {
 				name := mixedCase(v2["name"].(string))
-				v2["fpath"] = pre + name
-				recursePaths(v, pre+name)
+				fpath := mixedCase(pre + " " + name)
+				v2["fpath"] = fpath
+				recursePaths(v, fpath)
 			}
 		}
 	} else {
@@ -332,12 +364,12 @@ func flatten(s string) string {
 }
 
 func resFlatten(s string) string {
-	s = strings.ReplaceAll(s, "-", "")
+	s = strings.ReplaceAll(s, "-", "_")
 	s = strings.ReplaceAll(s, ".", "")
 	s = strings.ReplaceAll(s, "+", "")
 	s = strings.ReplaceAll(s, "(", "")
 	s = strings.ReplaceAll(s, ")", "")
-	s = strings.ReplaceAll(s, " ", "")
+	s = strings.ReplaceAll(s, " ", "_")
 	s = strings.ToLower(s)
 	return s
 }
@@ -527,7 +559,7 @@ func valiOptions(opts []interface{}, multi_val bool) string {
 }
 
 func mixedCase(v string) string {
-	v = strings.ReplaceAll(v, ".", "")
+	v = strings.ReplaceAll(v, ".", " ")
 	v = strings.ReplaceAll(v, "-", " ")
 	v = strings.ReplaceAll(v, "+", "")
 	v = strings.ReplaceAll(v, "(", "")

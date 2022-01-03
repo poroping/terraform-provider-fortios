@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -19,14 +19,14 @@ import (
 	"github.com/poroping/terraform-provider-fortios/v2/utils"
 )
 
-func resourceFirewallwildcardFqdnGroup() *schema.Resource {
+func resourceFirewallWildcardFqdnGroup() *schema.Resource {
 	return &schema.Resource{
 		Description: "Config global Wildcard FQDN address groups.",
 
-		CreateContext: resourceFirewallwildcardFqdnGroupCreate,
-		ReadContext:   resourceFirewallwildcardFqdnGroupRead,
-		UpdateContext: resourceFirewallwildcardFqdnGroupUpdate,
-		DeleteContext: resourceFirewallwildcardFqdnGroupDelete,
+		CreateContext: resourceFirewallWildcardFqdnGroupCreate,
+		ReadContext:   resourceFirewallWildcardFqdnGroupRead,
+		UpdateContext: resourceFirewallWildcardFqdnGroupUpdate,
+		DeleteContext: resourceFirewallWildcardFqdnGroupDelete,
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
@@ -110,7 +110,7 @@ func resourceFirewallwildcardFqdnGroup() *schema.Resource {
 	}
 }
 
-func resourceFirewallwildcardFqdnGroupCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceFirewallWildcardFqdnGroupCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*apiClient).Client
 	var diags diag.Diagnostics
 	var err error
@@ -137,16 +137,16 @@ func resourceFirewallwildcardFqdnGroupCreate(ctx context.Context, d *schema.Reso
 	if v, ok := d.GetOk(key); ok {
 		mkey = utils.ParseMkey(v)
 		if mkey == "" && allow_append {
-			return diag.Errorf("error creating FirewallwildcardFqdnGroup resource: %q must be set if \"allow_append\" is true", key)
+			return diag.Errorf("error creating FirewallWildcardFqdnGroup resource: %q must be set if \"allow_append\" is true", key)
 		}
 	}
 
-	obj, diags := getObjectFirewallwildcardFqdnGroup(d, c.Config.Fv)
+	obj, diags := getObjectFirewallWildcardFqdnGroup(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.CreateFirewallwildcardFqdnGroup(obj, urlparams)
+	o, err := c.Cmdb.CreateFirewallWildcardFqdnGroup(obj, urlparams)
 
 	if err != nil {
 		e := diag.FromErr(err)
@@ -156,13 +156,13 @@ func resourceFirewallwildcardFqdnGroupCreate(ctx context.Context, d *schema.Reso
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("FirewallwildcardFqdnGroup")
+		d.SetId("FirewallWildcardFqdnGroup")
 	}
 
-	return resourceFirewallwildcardFqdnGroupRead(ctx, d, meta)
+	return resourceFirewallWildcardFqdnGroupRead(ctx, d, meta)
 }
 
-func resourceFirewallwildcardFqdnGroupUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceFirewallWildcardFqdnGroupUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
@@ -175,27 +175,27 @@ func resourceFirewallwildcardFqdnGroupUpdate(ctx context.Context, d *schema.Reso
 	}
 	urlparams.Vdom = vdomparam
 
-	obj, diags := getObjectFirewallwildcardFqdnGroup(d, c.Config.Fv)
+	obj, diags := getObjectFirewallWildcardFqdnGroup(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.UpdateFirewallwildcardFqdnGroup(mkey, obj, urlparams)
+	o, err := c.Cmdb.UpdateFirewallWildcardFqdnGroup(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error updating FirewallwildcardFqdnGroup resource: %v", err)
+		return diag.Errorf("error updating FirewallWildcardFqdnGroup resource: %v", err)
 	}
 
 	// log.Printf(strconv.Itoa(c.Retries))
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("FirewallwildcardFqdnGroup")
+		d.SetId("FirewallWildcardFqdnGroup")
 	}
 
-	return resourceFirewallwildcardFqdnGroupRead(ctx, d, meta)
+	return resourceFirewallWildcardFqdnGroupRead(ctx, d, meta)
 }
 
-func resourceFirewallwildcardFqdnGroupDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceFirewallWildcardFqdnGroupDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -210,9 +210,9 @@ func resourceFirewallwildcardFqdnGroupDelete(ctx context.Context, d *schema.Reso
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteFirewallwildcardFqdnGroup(mkey, urlparams)
+	err := c.Cmdb.DeleteFirewallWildcardFqdnGroup(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error deleting FirewallwildcardFqdnGroup resource: %v", err)
+		return diag.Errorf("error deleting FirewallWildcardFqdnGroup resource: %v", err)
 	}
 
 	d.SetId("")
@@ -220,7 +220,7 @@ func resourceFirewallwildcardFqdnGroupDelete(ctx context.Context, d *schema.Reso
 	return nil
 }
 
-func resourceFirewallwildcardFqdnGroupRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceFirewallWildcardFqdnGroupRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -235,9 +235,9 @@ func resourceFirewallwildcardFqdnGroupRead(ctx context.Context, d *schema.Resour
 	}
 	urlparams.Vdom = vdomparam
 
-	o, err := c.Cmdb.ReadFirewallwildcardFqdnGroup(mkey, urlparams)
+	o, err := c.Cmdb.ReadFirewallWildcardFqdnGroup(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error reading FirewallwildcardFqdnGroup resource: %v", err)
+		return diag.Errorf("error reading FirewallWildcardFqdnGroup resource: %v", err)
 	}
 
 	if o == nil {
@@ -253,14 +253,14 @@ func resourceFirewallwildcardFqdnGroupRead(ctx context.Context, d *schema.Resour
 		}
 	}
 
-	diags := refreshObjectFirewallwildcardFqdnGroup(d, o, c.Config.Fv, sort)
+	diags := refreshObjectFirewallWildcardFqdnGroup(d, o, c.Config.Fv, sort)
 	if diags.HasError() {
 		return diags
 	}
 	return nil
 }
 
-func flattenFirewallwildcardFqdnGroupMember(v *[]models.FirewallwildcardFqdnGroupMember, sort bool) interface{} {
+func flattenFirewallWildcardFqdnGroupMember(v *[]models.FirewallWildcardFqdnGroupMember, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
@@ -281,7 +281,7 @@ func flattenFirewallwildcardFqdnGroupMember(v *[]models.FirewallwildcardFqdnGrou
 	return flat
 }
 
-func refreshObjectFirewallwildcardFqdnGroup(d *schema.ResourceData, o *models.FirewallwildcardFqdnGroup, sv string, sort bool) diag.Diagnostics {
+func refreshObjectFirewallWildcardFqdnGroup(d *schema.ResourceData, o *models.FirewallWildcardFqdnGroup, sv string, sort bool) diag.Diagnostics {
 	var err error
 
 	if o.Color != nil {
@@ -301,7 +301,7 @@ func refreshObjectFirewallwildcardFqdnGroup(d *schema.ResourceData, o *models.Fi
 	}
 
 	if o.Member != nil {
-		if err = d.Set("member", flattenFirewallwildcardFqdnGroupMember(o.Member, sort)); err != nil {
+		if err = d.Set("member", flattenFirewallWildcardFqdnGroupMember(o.Member, sort)); err != nil {
 			return diag.Errorf("error reading member: %v", err)
 		}
 	}
@@ -333,16 +333,16 @@ func refreshObjectFirewallwildcardFqdnGroup(d *schema.ResourceData, o *models.Fi
 	return nil
 }
 
-func expandFirewallwildcardFqdnGroupMember(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.FirewallwildcardFqdnGroupMember, error) {
+func expandFirewallWildcardFqdnGroupMember(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.FirewallWildcardFqdnGroupMember, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
 	}
 
-	var result []models.FirewallwildcardFqdnGroupMember
+	var result []models.FirewallWildcardFqdnGroupMember
 
 	for i := range l {
-		tmp := models.FirewallwildcardFqdnGroupMember{}
+		tmp := models.FirewallWildcardFqdnGroupMember{}
 		var pre_append string
 
 		pre_append = fmt.Sprintf("%s.%d.name", pre, i)
@@ -357,8 +357,8 @@ func expandFirewallwildcardFqdnGroupMember(d *schema.ResourceData, v interface{}
 	return &result, nil
 }
 
-func getObjectFirewallwildcardFqdnGroup(d *schema.ResourceData, sv string) (*models.FirewallwildcardFqdnGroup, diag.Diagnostics) {
-	obj := models.FirewallwildcardFqdnGroup{}
+func getObjectFirewallWildcardFqdnGroup(d *schema.ResourceData, sv string) (*models.FirewallWildcardFqdnGroup, diag.Diagnostics) {
+	obj := models.FirewallWildcardFqdnGroup{}
 	diags := diag.Diagnostics{}
 
 	if v1, ok := d.GetOk("color"); ok {
@@ -385,7 +385,7 @@ func getObjectFirewallwildcardFqdnGroup(d *schema.ResourceData, sv string) (*mod
 			e := utils.AttributeVersionWarning("member", sv)
 			diags = append(diags, e)
 		}
-		t, err := expandFirewallwildcardFqdnGroupMember(d, v, "member", sv)
+		t, err := expandFirewallWildcardFqdnGroupMember(d, v, "member", sv)
 		if err != nil {
 			return &obj, diag.FromErr(err)
 		} else if t != nil {
@@ -394,7 +394,7 @@ func getObjectFirewallwildcardFqdnGroup(d *schema.ResourceData, sv string) (*mod
 	} else if d.HasChange("member") {
 		old, new := d.GetChange("member")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.Member = &[]models.FirewallwildcardFqdnGroupMember{}
+			obj.Member = &[]models.FirewallWildcardFqdnGroupMember{}
 		}
 	}
 	if v1, ok := d.GetOk("name"); ok {
@@ -417,7 +417,7 @@ func getObjectFirewallwildcardFqdnGroup(d *schema.ResourceData, sv string) (*mod
 	}
 	if v1, ok := d.GetOk("visibility"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "v6.4.2") {
+			if !utils.CheckVer(sv, "", "v6.4.0") {
 				e := utils.AttributeVersionWarning("visibility", sv)
 				diags = append(diags, e)
 			}

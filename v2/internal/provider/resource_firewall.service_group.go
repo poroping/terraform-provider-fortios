@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -19,14 +19,14 @@ import (
 	"github.com/poroping/terraform-provider-fortios/v2/utils"
 )
 
-func resourceFirewallserviceGroup() *schema.Resource {
+func resourceFirewallServiceGroup() *schema.Resource {
 	return &schema.Resource{
 		Description: "Configure service groups.",
 
-		CreateContext: resourceFirewallserviceGroupCreate,
-		ReadContext:   resourceFirewallserviceGroupRead,
-		UpdateContext: resourceFirewallserviceGroupUpdate,
-		DeleteContext: resourceFirewallserviceGroupDelete,
+		CreateContext: resourceFirewallServiceGroupCreate,
+		ReadContext:   resourceFirewallServiceGroupRead,
+		UpdateContext: resourceFirewallServiceGroupUpdate,
+		DeleteContext: resourceFirewallServiceGroupDelete,
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
@@ -111,7 +111,7 @@ func resourceFirewallserviceGroup() *schema.Resource {
 	}
 }
 
-func resourceFirewallserviceGroupCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceFirewallServiceGroupCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*apiClient).Client
 	var diags diag.Diagnostics
 	var err error
@@ -138,16 +138,16 @@ func resourceFirewallserviceGroupCreate(ctx context.Context, d *schema.ResourceD
 	if v, ok := d.GetOk(key); ok {
 		mkey = utils.ParseMkey(v)
 		if mkey == "" && allow_append {
-			return diag.Errorf("error creating FirewallserviceGroup resource: %q must be set if \"allow_append\" is true", key)
+			return diag.Errorf("error creating FirewallServiceGroup resource: %q must be set if \"allow_append\" is true", key)
 		}
 	}
 
-	obj, diags := getObjectFirewallserviceGroup(d, c.Config.Fv)
+	obj, diags := getObjectFirewallServiceGroup(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.CreateFirewallserviceGroup(obj, urlparams)
+	o, err := c.Cmdb.CreateFirewallServiceGroup(obj, urlparams)
 
 	if err != nil {
 		e := diag.FromErr(err)
@@ -157,13 +157,13 @@ func resourceFirewallserviceGroupCreate(ctx context.Context, d *schema.ResourceD
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("FirewallserviceGroup")
+		d.SetId("FirewallServiceGroup")
 	}
 
-	return resourceFirewallserviceGroupRead(ctx, d, meta)
+	return resourceFirewallServiceGroupRead(ctx, d, meta)
 }
 
-func resourceFirewallserviceGroupUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceFirewallServiceGroupUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
@@ -176,27 +176,27 @@ func resourceFirewallserviceGroupUpdate(ctx context.Context, d *schema.ResourceD
 	}
 	urlparams.Vdom = vdomparam
 
-	obj, diags := getObjectFirewallserviceGroup(d, c.Config.Fv)
+	obj, diags := getObjectFirewallServiceGroup(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.UpdateFirewallserviceGroup(mkey, obj, urlparams)
+	o, err := c.Cmdb.UpdateFirewallServiceGroup(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error updating FirewallserviceGroup resource: %v", err)
+		return diag.Errorf("error updating FirewallServiceGroup resource: %v", err)
 	}
 
 	// log.Printf(strconv.Itoa(c.Retries))
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("FirewallserviceGroup")
+		d.SetId("FirewallServiceGroup")
 	}
 
-	return resourceFirewallserviceGroupRead(ctx, d, meta)
+	return resourceFirewallServiceGroupRead(ctx, d, meta)
 }
 
-func resourceFirewallserviceGroupDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceFirewallServiceGroupDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -211,9 +211,9 @@ func resourceFirewallserviceGroupDelete(ctx context.Context, d *schema.ResourceD
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteFirewallserviceGroup(mkey, urlparams)
+	err := c.Cmdb.DeleteFirewallServiceGroup(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error deleting FirewallserviceGroup resource: %v", err)
+		return diag.Errorf("error deleting FirewallServiceGroup resource: %v", err)
 	}
 
 	d.SetId("")
@@ -221,7 +221,7 @@ func resourceFirewallserviceGroupDelete(ctx context.Context, d *schema.ResourceD
 	return nil
 }
 
-func resourceFirewallserviceGroupRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceFirewallServiceGroupRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -236,9 +236,9 @@ func resourceFirewallserviceGroupRead(ctx context.Context, d *schema.ResourceDat
 	}
 	urlparams.Vdom = vdomparam
 
-	o, err := c.Cmdb.ReadFirewallserviceGroup(mkey, urlparams)
+	o, err := c.Cmdb.ReadFirewallServiceGroup(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error reading FirewallserviceGroup resource: %v", err)
+		return diag.Errorf("error reading FirewallServiceGroup resource: %v", err)
 	}
 
 	if o == nil {
@@ -254,14 +254,14 @@ func resourceFirewallserviceGroupRead(ctx context.Context, d *schema.ResourceDat
 		}
 	}
 
-	diags := refreshObjectFirewallserviceGroup(d, o, c.Config.Fv, sort)
+	diags := refreshObjectFirewallServiceGroup(d, o, c.Config.Fv, sort)
 	if diags.HasError() {
 		return diags
 	}
 	return nil
 }
 
-func flattenFirewallserviceGroupMember(v *[]models.FirewallserviceGroupMember, sort bool) interface{} {
+func flattenFirewallServiceGroupMember(v *[]models.FirewallServiceGroupMember, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
@@ -282,7 +282,7 @@ func flattenFirewallserviceGroupMember(v *[]models.FirewallserviceGroupMember, s
 	return flat
 }
 
-func refreshObjectFirewallserviceGroup(d *schema.ResourceData, o *models.FirewallserviceGroup, sv string, sort bool) diag.Diagnostics {
+func refreshObjectFirewallServiceGroup(d *schema.ResourceData, o *models.FirewallServiceGroup, sv string, sort bool) diag.Diagnostics {
 	var err error
 
 	if o.Color != nil {
@@ -310,7 +310,7 @@ func refreshObjectFirewallserviceGroup(d *schema.ResourceData, o *models.Firewal
 	}
 
 	if o.Member != nil {
-		if err = d.Set("member", flattenFirewallserviceGroupMember(o.Member, sort)); err != nil {
+		if err = d.Set("member", flattenFirewallServiceGroupMember(o.Member, sort)); err != nil {
 			return diag.Errorf("error reading member: %v", err)
 		}
 	}
@@ -334,16 +334,16 @@ func refreshObjectFirewallserviceGroup(d *schema.ResourceData, o *models.Firewal
 	return nil
 }
 
-func expandFirewallserviceGroupMember(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.FirewallserviceGroupMember, error) {
+func expandFirewallServiceGroupMember(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.FirewallServiceGroupMember, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
 	}
 
-	var result []models.FirewallserviceGroupMember
+	var result []models.FirewallServiceGroupMember
 
 	for i := range l {
-		tmp := models.FirewallserviceGroupMember{}
+		tmp := models.FirewallServiceGroupMember{}
 		var pre_append string
 
 		pre_append = fmt.Sprintf("%s.%d.name", pre, i)
@@ -358,8 +358,8 @@ func expandFirewallserviceGroupMember(d *schema.ResourceData, v interface{}, pre
 	return &result, nil
 }
 
-func getObjectFirewallserviceGroup(d *schema.ResourceData, sv string) (*models.FirewallserviceGroup, diag.Diagnostics) {
-	obj := models.FirewallserviceGroup{}
+func getObjectFirewallServiceGroup(d *schema.ResourceData, sv string) (*models.FirewallServiceGroup, diag.Diagnostics) {
+	obj := models.FirewallServiceGroup{}
 	diags := diag.Diagnostics{}
 
 	if v1, ok := d.GetOk("color"); ok {
@@ -395,7 +395,7 @@ func getObjectFirewallserviceGroup(d *schema.ResourceData, sv string) (*models.F
 			e := utils.AttributeVersionWarning("member", sv)
 			diags = append(diags, e)
 		}
-		t, err := expandFirewallserviceGroupMember(d, v, "member", sv)
+		t, err := expandFirewallServiceGroupMember(d, v, "member", sv)
 		if err != nil {
 			return &obj, diag.FromErr(err)
 		} else if t != nil {
@@ -404,7 +404,7 @@ func getObjectFirewallserviceGroup(d *schema.ResourceData, sv string) (*models.F
 	} else if d.HasChange("member") {
 		old, new := d.GetChange("member")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.Member = &[]models.FirewallserviceGroupMember{}
+			obj.Member = &[]models.FirewallServiceGroupMember{}
 		}
 	}
 	if v1, ok := d.GetOk("name"); ok {

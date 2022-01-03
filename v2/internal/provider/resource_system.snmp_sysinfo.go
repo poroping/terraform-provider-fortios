@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -18,14 +18,14 @@ import (
 	"github.com/poroping/terraform-provider-fortios/v2/utils"
 )
 
-func resourceSystemsnmpSysinfo() *schema.Resource {
+func resourceSystemSnmpSysinfo() *schema.Resource {
 	return &schema.Resource{
 		Description: "SNMP system info configuration.",
 
-		CreateContext: resourceSystemsnmpSysinfoCreate,
-		ReadContext:   resourceSystemsnmpSysinfoRead,
-		UpdateContext: resourceSystemsnmpSysinfoUpdate,
-		DeleteContext: resourceSystemsnmpSysinfoDelete,
+		CreateContext: resourceSystemSnmpSysinfoCreate,
+		ReadContext:   resourceSystemSnmpSysinfoRead,
+		UpdateContext: resourceSystemSnmpSysinfoUpdate,
+		DeleteContext: resourceSystemSnmpSysinfoDelete,
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
@@ -114,7 +114,7 @@ func resourceSystemsnmpSysinfo() *schema.Resource {
 	}
 }
 
-func resourceSystemsnmpSysinfoCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSystemSnmpSysinfoCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*apiClient).Client
 	var diags diag.Diagnostics
 	var err error
@@ -136,12 +136,12 @@ func resourceSystemsnmpSysinfoCreate(ctx context.Context, d *schema.ResourceData
 	}
 	urlparams.AllowAppend = &allow_append
 
-	obj, diags := getObjectSystemsnmpSysinfo(d, c.Config.Fv)
+	obj, diags := getObjectSystemSnmpSysinfo(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.CreateSystemsnmpSysinfo(obj, urlparams)
+	o, err := c.Cmdb.CreateSystemSnmpSysinfo(obj, urlparams)
 
 	if err != nil {
 		e := diag.FromErr(err)
@@ -151,13 +151,13 @@ func resourceSystemsnmpSysinfoCreate(ctx context.Context, d *schema.ResourceData
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("SystemsnmpSysinfo")
+		d.SetId("SystemSnmpSysinfo")
 	}
 
-	return resourceSystemsnmpSysinfoRead(ctx, d, meta)
+	return resourceSystemSnmpSysinfoRead(ctx, d, meta)
 }
 
-func resourceSystemsnmpSysinfoUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSystemSnmpSysinfoUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
@@ -170,27 +170,27 @@ func resourceSystemsnmpSysinfoUpdate(ctx context.Context, d *schema.ResourceData
 	}
 	urlparams.Vdom = vdomparam
 
-	obj, diags := getObjectSystemsnmpSysinfo(d, c.Config.Fv)
+	obj, diags := getObjectSystemSnmpSysinfo(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.UpdateSystemsnmpSysinfo(mkey, obj, urlparams)
+	o, err := c.Cmdb.UpdateSystemSnmpSysinfo(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error updating SystemsnmpSysinfo resource: %v", err)
+		return diag.Errorf("error updating SystemSnmpSysinfo resource: %v", err)
 	}
 
 	// log.Printf(strconv.Itoa(c.Retries))
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("SystemsnmpSysinfo")
+		d.SetId("SystemSnmpSysinfo")
 	}
 
-	return resourceSystemsnmpSysinfoRead(ctx, d, meta)
+	return resourceSystemSnmpSysinfoRead(ctx, d, meta)
 }
 
-func resourceSystemsnmpSysinfoDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSystemSnmpSysinfoDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -205,9 +205,14 @@ func resourceSystemsnmpSysinfoDelete(ctx context.Context, d *schema.ResourceData
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteSystemsnmpSysinfo(mkey, urlparams)
+	obj, diags := getEmptyObjectSystemSnmpSysinfo(d, c.Config.Fv)
+	if diags.HasError() {
+		return diags
+	}
+
+	_, err := c.Cmdb.UpdateSystemSnmpSysinfo(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error deleting SystemsnmpSysinfo resource: %v", err)
+		return diag.Errorf("error deleting SystemSnmpSysinfo resource: %v", err)
 	}
 
 	d.SetId("")
@@ -215,7 +220,7 @@ func resourceSystemsnmpSysinfoDelete(ctx context.Context, d *schema.ResourceData
 	return nil
 }
 
-func resourceSystemsnmpSysinfoRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSystemSnmpSysinfoRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -230,9 +235,9 @@ func resourceSystemsnmpSysinfoRead(ctx context.Context, d *schema.ResourceData, 
 	}
 	urlparams.Vdom = vdomparam
 
-	o, err := c.Cmdb.ReadSystemsnmpSysinfo(mkey, urlparams)
+	o, err := c.Cmdb.ReadSystemSnmpSysinfo(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error reading SystemsnmpSysinfo resource: %v", err)
+		return diag.Errorf("error reading SystemSnmpSysinfo resource: %v", err)
 	}
 
 	if o == nil {
@@ -248,14 +253,14 @@ func resourceSystemsnmpSysinfoRead(ctx context.Context, d *schema.ResourceData, 
 		}
 	}
 
-	diags := refreshObjectSystemsnmpSysinfo(d, o, c.Config.Fv, sort)
+	diags := refreshObjectSystemSnmpSysinfo(d, o, c.Config.Fv, sort)
 	if diags.HasError() {
 		return diags
 	}
 	return nil
 }
 
-func refreshObjectSystemsnmpSysinfo(d *schema.ResourceData, o *models.SystemsnmpSysinfo, sv string, sort bool) diag.Diagnostics {
+func refreshObjectSystemSnmpSysinfo(d *schema.ResourceData, o *models.SystemSnmpSysinfo, sv string, sort bool) diag.Diagnostics {
 	var err error
 
 	if o.ContactInfo != nil {
@@ -333,8 +338,8 @@ func refreshObjectSystemsnmpSysinfo(d *schema.ResourceData, o *models.Systemsnmp
 	return nil
 }
 
-func getObjectSystemsnmpSysinfo(d *schema.ResourceData, sv string) (*models.SystemsnmpSysinfo, diag.Diagnostics) {
-	obj := models.SystemsnmpSysinfo{}
+func getObjectSystemSnmpSysinfo(d *schema.ResourceData, sv string) (*models.SystemSnmpSysinfo, diag.Diagnostics) {
+	obj := models.SystemSnmpSysinfo{}
 	diags := diag.Diagnostics{}
 
 	if v1, ok := d.GetOk("contact_info"); ok {
@@ -421,5 +426,13 @@ func getObjectSystemsnmpSysinfo(d *schema.ResourceData, sv string) (*models.Syst
 			obj.TrapLowMemoryThreshold = &tmp
 		}
 	}
+	return &obj, diags
+}
+
+// Return an object with explicitly empty objects for tables that have been set.
+func getEmptyObjectSystemSnmpSysinfo(d *schema.ResourceData, sv string) (*models.SystemSnmpSysinfo, diag.Diagnostics) {
+	obj := models.SystemSnmpSysinfo{}
+	diags := diag.Diagnostics{}
+
 	return &obj, diags
 }

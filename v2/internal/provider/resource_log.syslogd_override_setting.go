@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -19,14 +19,14 @@ import (
 	"github.com/poroping/terraform-provider-fortios/v2/utils"
 )
 
-func resourceLogsyslogdOverrideSetting() *schema.Resource {
+func resourceLogSyslogdOverrideSetting() *schema.Resource {
 	return &schema.Resource{
 		Description: "Override settings for remote syslog server.",
 
-		CreateContext: resourceLogsyslogdOverrideSettingCreate,
-		ReadContext:   resourceLogsyslogdOverrideSettingRead,
-		UpdateContext: resourceLogsyslogdOverrideSettingUpdate,
-		DeleteContext: resourceLogsyslogdOverrideSettingDelete,
+		CreateContext: resourceLogSyslogdOverrideSettingCreate,
+		ReadContext:   resourceLogSyslogdOverrideSettingRead,
+		UpdateContext: resourceLogSyslogdOverrideSettingUpdate,
+		DeleteContext: resourceLogSyslogdOverrideSettingDelete,
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
@@ -193,7 +193,7 @@ func resourceLogsyslogdOverrideSetting() *schema.Resource {
 	}
 }
 
-func resourceLogsyslogdOverrideSettingCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceLogSyslogdOverrideSettingCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*apiClient).Client
 	var diags diag.Diagnostics
 	var err error
@@ -215,12 +215,12 @@ func resourceLogsyslogdOverrideSettingCreate(ctx context.Context, d *schema.Reso
 	}
 	urlparams.AllowAppend = &allow_append
 
-	obj, diags := getObjectLogsyslogdOverrideSetting(d, c.Config.Fv)
+	obj, diags := getObjectLogSyslogdOverrideSetting(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.CreateLogsyslogdOverrideSetting(obj, urlparams)
+	o, err := c.Cmdb.CreateLogSyslogdOverrideSetting(obj, urlparams)
 
 	if err != nil {
 		e := diag.FromErr(err)
@@ -230,13 +230,13 @@ func resourceLogsyslogdOverrideSettingCreate(ctx context.Context, d *schema.Reso
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("LogsyslogdOverrideSetting")
+		d.SetId("LogSyslogdOverrideSetting")
 	}
 
-	return resourceLogsyslogdOverrideSettingRead(ctx, d, meta)
+	return resourceLogSyslogdOverrideSettingRead(ctx, d, meta)
 }
 
-func resourceLogsyslogdOverrideSettingUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceLogSyslogdOverrideSettingUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
@@ -249,27 +249,27 @@ func resourceLogsyslogdOverrideSettingUpdate(ctx context.Context, d *schema.Reso
 	}
 	urlparams.Vdom = vdomparam
 
-	obj, diags := getObjectLogsyslogdOverrideSetting(d, c.Config.Fv)
+	obj, diags := getObjectLogSyslogdOverrideSetting(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.UpdateLogsyslogdOverrideSetting(mkey, obj, urlparams)
+	o, err := c.Cmdb.UpdateLogSyslogdOverrideSetting(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error updating LogsyslogdOverrideSetting resource: %v", err)
+		return diag.Errorf("error updating LogSyslogdOverrideSetting resource: %v", err)
 	}
 
 	// log.Printf(strconv.Itoa(c.Retries))
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("LogsyslogdOverrideSetting")
+		d.SetId("LogSyslogdOverrideSetting")
 	}
 
-	return resourceLogsyslogdOverrideSettingRead(ctx, d, meta)
+	return resourceLogSyslogdOverrideSettingRead(ctx, d, meta)
 }
 
-func resourceLogsyslogdOverrideSettingDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceLogSyslogdOverrideSettingDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -284,9 +284,14 @@ func resourceLogsyslogdOverrideSettingDelete(ctx context.Context, d *schema.Reso
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteLogsyslogdOverrideSetting(mkey, urlparams)
+	obj, diags := getEmptyObjectLogSyslogdOverrideSetting(d, c.Config.Fv)
+	if diags.HasError() {
+		return diags
+	}
+
+	_, err := c.Cmdb.UpdateLogSyslogdOverrideSetting(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error deleting LogsyslogdOverrideSetting resource: %v", err)
+		return diag.Errorf("error deleting LogSyslogdOverrideSetting resource: %v", err)
 	}
 
 	d.SetId("")
@@ -294,7 +299,7 @@ func resourceLogsyslogdOverrideSettingDelete(ctx context.Context, d *schema.Reso
 	return nil
 }
 
-func resourceLogsyslogdOverrideSettingRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceLogSyslogdOverrideSettingRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -309,9 +314,9 @@ func resourceLogsyslogdOverrideSettingRead(ctx context.Context, d *schema.Resour
 	}
 	urlparams.Vdom = vdomparam
 
-	o, err := c.Cmdb.ReadLogsyslogdOverrideSetting(mkey, urlparams)
+	o, err := c.Cmdb.ReadLogSyslogdOverrideSetting(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error reading LogsyslogdOverrideSetting resource: %v", err)
+		return diag.Errorf("error reading LogSyslogdOverrideSetting resource: %v", err)
 	}
 
 	if o == nil {
@@ -327,14 +332,14 @@ func resourceLogsyslogdOverrideSettingRead(ctx context.Context, d *schema.Resour
 		}
 	}
 
-	diags := refreshObjectLogsyslogdOverrideSetting(d, o, c.Config.Fv, sort)
+	diags := refreshObjectLogSyslogdOverrideSetting(d, o, c.Config.Fv, sort)
 	if diags.HasError() {
 		return diags
 	}
 	return nil
 }
 
-func flattenLogsyslogdOverrideSettingCustomFieldName(v *[]models.LogsyslogdOverrideSettingCustomFieldName, sort bool) interface{} {
+func flattenLogSyslogdOverrideSettingCustomFieldName(v *[]models.LogSyslogdOverrideSettingCustomFieldName, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
@@ -363,7 +368,7 @@ func flattenLogsyslogdOverrideSettingCustomFieldName(v *[]models.LogsyslogdOverr
 	return flat
 }
 
-func refreshObjectLogsyslogdOverrideSetting(d *schema.ResourceData, o *models.LogsyslogdOverrideSetting, sv string, sort bool) diag.Diagnostics {
+func refreshObjectLogSyslogdOverrideSetting(d *schema.ResourceData, o *models.LogSyslogdOverrideSetting, sv string, sort bool) diag.Diagnostics {
 	var err error
 
 	if o.Certificate != nil {
@@ -375,7 +380,7 @@ func refreshObjectLogsyslogdOverrideSetting(d *schema.ResourceData, o *models.Lo
 	}
 
 	if o.CustomFieldName != nil {
-		if err = d.Set("custom_field_name", flattenLogsyslogdOverrideSettingCustomFieldName(o.CustomFieldName, sort)); err != nil {
+		if err = d.Set("custom_field_name", flattenLogSyslogdOverrideSettingCustomFieldName(o.CustomFieldName, sort)); err != nil {
 			return diag.Errorf("error reading custom_field_name: %v", err)
 		}
 	}
@@ -487,16 +492,16 @@ func refreshObjectLogsyslogdOverrideSetting(d *schema.ResourceData, o *models.Lo
 	return nil
 }
 
-func expandLogsyslogdOverrideSettingCustomFieldName(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.LogsyslogdOverrideSettingCustomFieldName, error) {
+func expandLogSyslogdOverrideSettingCustomFieldName(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.LogSyslogdOverrideSettingCustomFieldName, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
 	}
 
-	var result []models.LogsyslogdOverrideSettingCustomFieldName
+	var result []models.LogSyslogdOverrideSettingCustomFieldName
 
 	for i := range l {
-		tmp := models.LogsyslogdOverrideSettingCustomFieldName{}
+		tmp := models.LogSyslogdOverrideSettingCustomFieldName{}
 		var pre_append string
 
 		pre_append = fmt.Sprintf("%s.%d.custom", pre, i)
@@ -525,8 +530,8 @@ func expandLogsyslogdOverrideSettingCustomFieldName(d *schema.ResourceData, v in
 	return &result, nil
 }
 
-func getObjectLogsyslogdOverrideSetting(d *schema.ResourceData, sv string) (*models.LogsyslogdOverrideSetting, diag.Diagnostics) {
-	obj := models.LogsyslogdOverrideSetting{}
+func getObjectLogSyslogdOverrideSetting(d *schema.ResourceData, sv string) (*models.LogSyslogdOverrideSetting, diag.Diagnostics) {
+	obj := models.LogSyslogdOverrideSetting{}
 	diags := diag.Diagnostics{}
 
 	if v1, ok := d.GetOk("certificate"); ok {
@@ -543,7 +548,7 @@ func getObjectLogsyslogdOverrideSetting(d *schema.ResourceData, sv string) (*mod
 			e := utils.AttributeVersionWarning("custom_field_name", sv)
 			diags = append(diags, e)
 		}
-		t, err := expandLogsyslogdOverrideSettingCustomFieldName(d, v, "custom_field_name", sv)
+		t, err := expandLogSyslogdOverrideSettingCustomFieldName(d, v, "custom_field_name", sv)
 		if err != nil {
 			return &obj, diag.FromErr(err)
 		} else if t != nil {
@@ -552,7 +557,7 @@ func getObjectLogsyslogdOverrideSetting(d *schema.ResourceData, sv string) (*mod
 	} else if d.HasChange("custom_field_name") {
 		old, new := d.GetChange("custom_field_name")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.CustomFieldName = &[]models.LogsyslogdOverrideSettingCustomFieldName{}
+			obj.CustomFieldName = &[]models.LogSyslogdOverrideSettingCustomFieldName{}
 		}
 	}
 	if v1, ok := d.GetOk("enc_algorithm"); ok {
@@ -584,7 +589,7 @@ func getObjectLogsyslogdOverrideSetting(d *schema.ResourceData, sv string) (*mod
 	}
 	if v1, ok := d.GetOk("interface"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "") {
+			if !utils.CheckVer(sv, "", "v6.4.0") {
 				e := utils.AttributeVersionWarning("interface", sv)
 				diags = append(diags, e)
 			}
@@ -593,7 +598,7 @@ func getObjectLogsyslogdOverrideSetting(d *schema.ResourceData, sv string) (*mod
 	}
 	if v1, ok := d.GetOk("interface_select_method"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "") {
+			if !utils.CheckVer(sv, "", "v6.4.0") {
 				e := utils.AttributeVersionWarning("interface_select_method", sv)
 				diags = append(diags, e)
 			}
@@ -674,5 +679,15 @@ func getObjectLogsyslogdOverrideSetting(d *schema.ResourceData, sv string) (*mod
 			obj.Status = &v2
 		}
 	}
+	return &obj, diags
+}
+
+// Return an object with explicitly empty objects for tables that have been set.
+func getEmptyObjectLogSyslogdOverrideSetting(d *schema.ResourceData, sv string) (*models.LogSyslogdOverrideSetting, diag.Diagnostics) {
+	obj := models.LogSyslogdOverrideSetting{}
+	diags := diag.Diagnostics{}
+
+	obj.CustomFieldName = &[]models.LogSyslogdOverrideSettingCustomFieldName{}
+
 	return &obj, diags
 }

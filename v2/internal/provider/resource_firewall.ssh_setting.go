@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -18,14 +18,14 @@ import (
 	"github.com/poroping/terraform-provider-fortios/v2/utils"
 )
 
-func resourceFirewallsshSetting() *schema.Resource {
+func resourceFirewallSshSetting() *schema.Resource {
 	return &schema.Resource{
 		Description: "SSH proxy settings.",
 
-		CreateContext: resourceFirewallsshSettingCreate,
-		ReadContext:   resourceFirewallsshSettingRead,
-		UpdateContext: resourceFirewallsshSettingUpdate,
-		DeleteContext: resourceFirewallsshSettingDelete,
+		CreateContext: resourceFirewallSshSettingCreate,
+		ReadContext:   resourceFirewallSshSettingRead,
+		UpdateContext: resourceFirewallSshSettingUpdate,
+		DeleteContext: resourceFirewallSshSettingDelete,
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
@@ -114,7 +114,7 @@ func resourceFirewallsshSetting() *schema.Resource {
 	}
 }
 
-func resourceFirewallsshSettingCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceFirewallSshSettingCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*apiClient).Client
 	var diags diag.Diagnostics
 	var err error
@@ -136,12 +136,12 @@ func resourceFirewallsshSettingCreate(ctx context.Context, d *schema.ResourceDat
 	}
 	urlparams.AllowAppend = &allow_append
 
-	obj, diags := getObjectFirewallsshSetting(d, c.Config.Fv)
+	obj, diags := getObjectFirewallSshSetting(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.CreateFirewallsshSetting(obj, urlparams)
+	o, err := c.Cmdb.CreateFirewallSshSetting(obj, urlparams)
 
 	if err != nil {
 		e := diag.FromErr(err)
@@ -151,13 +151,13 @@ func resourceFirewallsshSettingCreate(ctx context.Context, d *schema.ResourceDat
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("FirewallsshSetting")
+		d.SetId("FirewallSshSetting")
 	}
 
-	return resourceFirewallsshSettingRead(ctx, d, meta)
+	return resourceFirewallSshSettingRead(ctx, d, meta)
 }
 
-func resourceFirewallsshSettingUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceFirewallSshSettingUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
@@ -170,27 +170,27 @@ func resourceFirewallsshSettingUpdate(ctx context.Context, d *schema.ResourceDat
 	}
 	urlparams.Vdom = vdomparam
 
-	obj, diags := getObjectFirewallsshSetting(d, c.Config.Fv)
+	obj, diags := getObjectFirewallSshSetting(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.UpdateFirewallsshSetting(mkey, obj, urlparams)
+	o, err := c.Cmdb.UpdateFirewallSshSetting(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error updating FirewallsshSetting resource: %v", err)
+		return diag.Errorf("error updating FirewallSshSetting resource: %v", err)
 	}
 
 	// log.Printf(strconv.Itoa(c.Retries))
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("FirewallsshSetting")
+		d.SetId("FirewallSshSetting")
 	}
 
-	return resourceFirewallsshSettingRead(ctx, d, meta)
+	return resourceFirewallSshSettingRead(ctx, d, meta)
 }
 
-func resourceFirewallsshSettingDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceFirewallSshSettingDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -205,9 +205,14 @@ func resourceFirewallsshSettingDelete(ctx context.Context, d *schema.ResourceDat
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteFirewallsshSetting(mkey, urlparams)
+	obj, diags := getEmptyObjectFirewallSshSetting(d, c.Config.Fv)
+	if diags.HasError() {
+		return diags
+	}
+
+	_, err := c.Cmdb.UpdateFirewallSshSetting(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error deleting FirewallsshSetting resource: %v", err)
+		return diag.Errorf("error deleting FirewallSshSetting resource: %v", err)
 	}
 
 	d.SetId("")
@@ -215,7 +220,7 @@ func resourceFirewallsshSettingDelete(ctx context.Context, d *schema.ResourceDat
 	return nil
 }
 
-func resourceFirewallsshSettingRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceFirewallSshSettingRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -230,9 +235,9 @@ func resourceFirewallsshSettingRead(ctx context.Context, d *schema.ResourceData,
 	}
 	urlparams.Vdom = vdomparam
 
-	o, err := c.Cmdb.ReadFirewallsshSetting(mkey, urlparams)
+	o, err := c.Cmdb.ReadFirewallSshSetting(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error reading FirewallsshSetting resource: %v", err)
+		return diag.Errorf("error reading FirewallSshSetting resource: %v", err)
 	}
 
 	if o == nil {
@@ -248,14 +253,14 @@ func resourceFirewallsshSettingRead(ctx context.Context, d *schema.ResourceData,
 		}
 	}
 
-	diags := refreshObjectFirewallsshSetting(d, o, c.Config.Fv, sort)
+	diags := refreshObjectFirewallSshSetting(d, o, c.Config.Fv, sort)
 	if diags.HasError() {
 		return diags
 	}
 	return nil
 }
 
-func refreshObjectFirewallsshSetting(d *schema.ResourceData, o *models.FirewallsshSetting, sv string, sort bool) diag.Diagnostics {
+func refreshObjectFirewallSshSetting(d *schema.ResourceData, o *models.FirewallSshSetting, sv string, sort bool) diag.Diagnostics {
 	var err error
 
 	if o.Caname != nil {
@@ -333,8 +338,8 @@ func refreshObjectFirewallsshSetting(d *schema.ResourceData, o *models.Firewalls
 	return nil
 }
 
-func getObjectFirewallsshSetting(d *schema.ResourceData, sv string) (*models.FirewallsshSetting, diag.Diagnostics) {
-	obj := models.FirewallsshSetting{}
+func getObjectFirewallSshSetting(d *schema.ResourceData, sv string) (*models.FirewallSshSetting, diag.Diagnostics) {
+	obj := models.FirewallSshSetting{}
 	diags := diag.Diagnostics{}
 
 	if v1, ok := d.GetOk("caname"); ok {
@@ -418,5 +423,13 @@ func getObjectFirewallsshSetting(d *schema.ResourceData, sv string) (*models.Fir
 			obj.UntrustedCaname = &v2
 		}
 	}
+	return &obj, diags
+}
+
+// Return an object with explicitly empty objects for tables that have been set.
+func getEmptyObjectFirewallSshSetting(d *schema.ResourceData, sv string) (*models.FirewallSshSetting, diag.Diagnostics) {
+	obj := models.FirewallSshSetting{}
+	diags := diag.Diagnostics{}
+
 	return &obj, diags
 }

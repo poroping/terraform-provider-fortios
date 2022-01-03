@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -224,6 +224,14 @@ func resourceUserLocal() *schema.Resource {
 				ValidateFunc: validation.StringInSlice([]string{"password", "radius", "tacacs+", "ldap"}, false),
 
 				Description: "Authentication method.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"username_case_insensitivity": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+				Description: "Enable/disable case sensitivity when performing username matching (uppercase and lowercase letters are treated either as distinct or equivalent).",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -592,6 +600,14 @@ func refreshObjectUserLocal(d *schema.ResourceData, o *models.UserLocal, sv stri
 		}
 	}
 
+	if o.UsernameCaseInsensitivity != nil {
+		v := *o.UsernameCaseInsensitivity
+
+		if err = d.Set("username_case_insensitivity", v); err != nil {
+			return diag.Errorf("error reading username_case_insensitivity: %v", err)
+		}
+	}
+
 	if o.UsernameCaseSensitivity != nil {
 		v := *o.UsernameCaseSensitivity
 
@@ -833,9 +849,18 @@ func getObjectUserLocal(d *schema.ResourceData, sv string) (*models.UserLocal, d
 			obj.Type = &v2
 		}
 	}
+	if v1, ok := d.GetOk("username_case_insensitivity"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v6.4.0", "v6.4.2") {
+				e := utils.AttributeVersionWarning("username_case_insensitivity", sv)
+				diags = append(diags, e)
+			}
+			obj.UsernameCaseInsensitivity = &v2
+		}
+	}
 	if v1, ok := d.GetOk("username_case_sensitivity"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "v6.4.7") {
+			if !utils.CheckVer(sv, "", "v6.4.0") {
 				e := utils.AttributeVersionWarning("username_case_sensitivity", sv)
 				diags = append(diags, e)
 			}

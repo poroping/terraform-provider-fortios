@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -181,7 +181,12 @@ func resourceSystemNetworkVisibilityDelete(ctx context.Context, d *schema.Resour
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteSystemNetworkVisibility(mkey, urlparams)
+	obj, diags := getEmptyObjectSystemNetworkVisibility(d, c.Config.Fv)
+	if diags.HasError() {
+		return diags
+	}
+
+	_, err := c.Cmdb.UpdateSystemNetworkVisibility(mkey, obj, urlparams)
 	if err != nil {
 		return diag.Errorf("error deleting SystemNetworkVisibility resource: %v", err)
 	}
@@ -345,5 +350,13 @@ func getObjectSystemNetworkVisibility(d *schema.ResourceData, sv string) (*model
 			obj.SourceLocation = &v2
 		}
 	}
+	return &obj, diags
+}
+
+// Return an object with explicitly empty objects for tables that have been set.
+func getEmptyObjectSystemNetworkVisibility(d *schema.ResourceData, sv string) (*models.SystemNetworkVisibility, diag.Diagnostics) {
+	obj := models.SystemNetworkVisibility{}
+	diags := diag.Diagnostics{}
+
 	return &obj, diags
 }

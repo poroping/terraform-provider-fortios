@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -253,7 +253,12 @@ func resourceLogEventfilterDelete(ctx context.Context, d *schema.ResourceData, m
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteLogEventfilter(mkey, urlparams)
+	obj, diags := getEmptyObjectLogEventfilter(d, c.Config.Fv)
+	if diags.HasError() {
+		return diags
+	}
+
+	_, err := c.Cmdb.UpdateLogEventfilter(mkey, obj, urlparams)
 	if err != nil {
 		return diag.Errorf("error deleting LogEventfilter resource: %v", err)
 	}
@@ -498,7 +503,7 @@ func getObjectLogEventfilter(d *schema.ResourceData, sv string) (*models.LogEven
 	}
 	if v1, ok := d.GetOk("sdwan"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "v6.4.2", "") {
+			if !utils.CheckVer(sv, "v6.4.0", "") {
 				e := utils.AttributeVersionWarning("sdwan", sv)
 				diags = append(diags, e)
 			}
@@ -568,5 +573,13 @@ func getObjectLogEventfilter(d *schema.ResourceData, sv string) (*models.LogEven
 			obj.WirelessActivity = &v2
 		}
 	}
+	return &obj, diags
+}
+
+// Return an object with explicitly empty objects for tables that have been set.
+func getEmptyObjectLogEventfilter(d *schema.ResourceData, sv string) (*models.LogEventfilter, diag.Diagnostics) {
+	obj := models.LogEventfilter{}
+	diags := diag.Diagnostics{}
+
 	return &obj, diags
 }

@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -13,7 +13,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 )
 
-func TestAccSystemreplacemsgNntp_basic(t *testing.T) {
+func TestAccSystemReplacemsgNntp_basic(t *testing.T) {
 	rName := "system.replacemsg_nntp"
 
 	resource.Test(t, resource.TestCase{

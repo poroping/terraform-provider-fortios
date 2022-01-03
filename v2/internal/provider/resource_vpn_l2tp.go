@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -205,7 +205,12 @@ func resourceVpnL2tpDelete(ctx context.Context, d *schema.ResourceData, meta int
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteVpnL2tp(mkey, urlparams)
+	obj, diags := getEmptyObjectVpnL2tp(d, c.Config.Fv)
+	if diags.HasError() {
+		return diags
+	}
+
+	_, err := c.Cmdb.UpdateVpnL2tp(mkey, obj, urlparams)
 	if err != nil {
 		return diag.Errorf("error deleting VpnL2tp resource: %v", err)
 	}
@@ -421,5 +426,13 @@ func getObjectVpnL2tp(d *schema.ResourceData, sv string) (*models.VpnL2tp, diag.
 			obj.Usrgrp = &v2
 		}
 	}
+	return &obj, diags
+}
+
+// Return an object with explicitly empty objects for tables that have been set.
+func getEmptyObjectVpnL2tp(d *schema.ResourceData, sv string) (*models.VpnL2tp, diag.Diagnostics) {
+	obj := models.VpnL2tp{}
+	diags := diag.Diagnostics{}
+
 	return &obj, diags
 }

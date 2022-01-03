@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -18,14 +18,14 @@ import (
 	"github.com/poroping/terraform-provider-fortios/v2/utils"
 )
 
-func resourceLogmemorySetting() *schema.Resource {
+func resourceLogMemorySetting() *schema.Resource {
 	return &schema.Resource{
 		Description: "Settings for memory buffer.",
 
-		CreateContext: resourceLogmemorySettingCreate,
-		ReadContext:   resourceLogmemorySettingRead,
-		UpdateContext: resourceLogmemorySettingUpdate,
-		DeleteContext: resourceLogmemorySettingDelete,
+		CreateContext: resourceLogMemorySettingCreate,
+		ReadContext:   resourceLogMemorySettingRead,
+		UpdateContext: resourceLogMemorySettingUpdate,
+		DeleteContext: resourceLogMemorySettingDelete,
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
@@ -58,7 +58,7 @@ func resourceLogmemorySetting() *schema.Resource {
 	}
 }
 
-func resourceLogmemorySettingCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceLogMemorySettingCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*apiClient).Client
 	var diags diag.Diagnostics
 	var err error
@@ -80,12 +80,12 @@ func resourceLogmemorySettingCreate(ctx context.Context, d *schema.ResourceData,
 	}
 	urlparams.AllowAppend = &allow_append
 
-	obj, diags := getObjectLogmemorySetting(d, c.Config.Fv)
+	obj, diags := getObjectLogMemorySetting(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.CreateLogmemorySetting(obj, urlparams)
+	o, err := c.Cmdb.CreateLogMemorySetting(obj, urlparams)
 
 	if err != nil {
 		e := diag.FromErr(err)
@@ -95,13 +95,13 @@ func resourceLogmemorySettingCreate(ctx context.Context, d *schema.ResourceData,
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("LogmemorySetting")
+		d.SetId("LogMemorySetting")
 	}
 
-	return resourceLogmemorySettingRead(ctx, d, meta)
+	return resourceLogMemorySettingRead(ctx, d, meta)
 }
 
-func resourceLogmemorySettingUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceLogMemorySettingUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
@@ -114,27 +114,27 @@ func resourceLogmemorySettingUpdate(ctx context.Context, d *schema.ResourceData,
 	}
 	urlparams.Vdom = vdomparam
 
-	obj, diags := getObjectLogmemorySetting(d, c.Config.Fv)
+	obj, diags := getObjectLogMemorySetting(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.UpdateLogmemorySetting(mkey, obj, urlparams)
+	o, err := c.Cmdb.UpdateLogMemorySetting(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error updating LogmemorySetting resource: %v", err)
+		return diag.Errorf("error updating LogMemorySetting resource: %v", err)
 	}
 
 	// log.Printf(strconv.Itoa(c.Retries))
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("LogmemorySetting")
+		d.SetId("LogMemorySetting")
 	}
 
-	return resourceLogmemorySettingRead(ctx, d, meta)
+	return resourceLogMemorySettingRead(ctx, d, meta)
 }
 
-func resourceLogmemorySettingDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceLogMemorySettingDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -149,9 +149,14 @@ func resourceLogmemorySettingDelete(ctx context.Context, d *schema.ResourceData,
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteLogmemorySetting(mkey, urlparams)
+	obj, diags := getEmptyObjectLogMemorySetting(d, c.Config.Fv)
+	if diags.HasError() {
+		return diags
+	}
+
+	_, err := c.Cmdb.UpdateLogMemorySetting(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error deleting LogmemorySetting resource: %v", err)
+		return diag.Errorf("error deleting LogMemorySetting resource: %v", err)
 	}
 
 	d.SetId("")
@@ -159,7 +164,7 @@ func resourceLogmemorySettingDelete(ctx context.Context, d *schema.ResourceData,
 	return nil
 }
 
-func resourceLogmemorySettingRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceLogMemorySettingRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -174,9 +179,9 @@ func resourceLogmemorySettingRead(ctx context.Context, d *schema.ResourceData, m
 	}
 	urlparams.Vdom = vdomparam
 
-	o, err := c.Cmdb.ReadLogmemorySetting(mkey, urlparams)
+	o, err := c.Cmdb.ReadLogMemorySetting(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error reading LogmemorySetting resource: %v", err)
+		return diag.Errorf("error reading LogMemorySetting resource: %v", err)
 	}
 
 	if o == nil {
@@ -192,14 +197,14 @@ func resourceLogmemorySettingRead(ctx context.Context, d *schema.ResourceData, m
 		}
 	}
 
-	diags := refreshObjectLogmemorySetting(d, o, c.Config.Fv, sort)
+	diags := refreshObjectLogMemorySetting(d, o, c.Config.Fv, sort)
 	if diags.HasError() {
 		return diags
 	}
 	return nil
 }
 
-func refreshObjectLogmemorySetting(d *schema.ResourceData, o *models.LogmemorySetting, sv string, sort bool) diag.Diagnostics {
+func refreshObjectLogMemorySetting(d *schema.ResourceData, o *models.LogMemorySetting, sv string, sort bool) diag.Diagnostics {
 	var err error
 
 	if o.Diskfull != nil {
@@ -221,8 +226,8 @@ func refreshObjectLogmemorySetting(d *schema.ResourceData, o *models.LogmemorySe
 	return nil
 }
 
-func getObjectLogmemorySetting(d *schema.ResourceData, sv string) (*models.LogmemorySetting, diag.Diagnostics) {
-	obj := models.LogmemorySetting{}
+func getObjectLogMemorySetting(d *schema.ResourceData, sv string) (*models.LogMemorySetting, diag.Diagnostics) {
+	obj := models.LogMemorySetting{}
 	diags := diag.Diagnostics{}
 
 	if v1, ok := d.GetOk("diskfull"); ok {
@@ -243,5 +248,13 @@ func getObjectLogmemorySetting(d *schema.ResourceData, sv string) (*models.Logme
 			obj.Status = &v2
 		}
 	}
+	return &obj, diags
+}
+
+// Return an object with explicitly empty objects for tables that have been set.
+func getEmptyObjectLogMemorySetting(d *schema.ResourceData, sv string) (*models.LogMemorySetting, diag.Diagnostics) {
+	obj := models.LogMemorySetting{}
+	diags := diag.Diagnostics{}
+
 	return &obj, diags
 }

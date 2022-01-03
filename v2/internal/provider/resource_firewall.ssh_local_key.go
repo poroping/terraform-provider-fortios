@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -18,14 +18,14 @@ import (
 	"github.com/poroping/terraform-provider-fortios/v2/utils"
 )
 
-func resourceFirewallsshLocalKey() *schema.Resource {
+func resourceFirewallSshLocalKey() *schema.Resource {
 	return &schema.Resource{
 		Description: "SSH proxy local keys.",
 
-		CreateContext: resourceFirewallsshLocalKeyCreate,
-		ReadContext:   resourceFirewallsshLocalKeyRead,
-		UpdateContext: resourceFirewallsshLocalKeyUpdate,
-		DeleteContext: resourceFirewallsshLocalKeyDelete,
+		CreateContext: resourceFirewallSshLocalKeyCreate,
+		ReadContext:   resourceFirewallSshLocalKeyRead,
+		UpdateContext: resourceFirewallSshLocalKeyUpdate,
+		DeleteContext: resourceFirewallSshLocalKeyDelete,
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
@@ -86,7 +86,7 @@ func resourceFirewallsshLocalKey() *schema.Resource {
 	}
 }
 
-func resourceFirewallsshLocalKeyCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceFirewallSshLocalKeyCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*apiClient).Client
 	var diags diag.Diagnostics
 	var err error
@@ -113,16 +113,16 @@ func resourceFirewallsshLocalKeyCreate(ctx context.Context, d *schema.ResourceDa
 	if v, ok := d.GetOk(key); ok {
 		mkey = utils.ParseMkey(v)
 		if mkey == "" && allow_append {
-			return diag.Errorf("error creating FirewallsshLocalKey resource: %q must be set if \"allow_append\" is true", key)
+			return diag.Errorf("error creating FirewallSshLocalKey resource: %q must be set if \"allow_append\" is true", key)
 		}
 	}
 
-	obj, diags := getObjectFirewallsshLocalKey(d, c.Config.Fv)
+	obj, diags := getObjectFirewallSshLocalKey(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.CreateFirewallsshLocalKey(obj, urlparams)
+	o, err := c.Cmdb.CreateFirewallSshLocalKey(obj, urlparams)
 
 	if err != nil {
 		e := diag.FromErr(err)
@@ -132,13 +132,13 @@ func resourceFirewallsshLocalKeyCreate(ctx context.Context, d *schema.ResourceDa
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("FirewallsshLocalKey")
+		d.SetId("FirewallSshLocalKey")
 	}
 
-	return resourceFirewallsshLocalKeyRead(ctx, d, meta)
+	return resourceFirewallSshLocalKeyRead(ctx, d, meta)
 }
 
-func resourceFirewallsshLocalKeyUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceFirewallSshLocalKeyUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
@@ -151,27 +151,27 @@ func resourceFirewallsshLocalKeyUpdate(ctx context.Context, d *schema.ResourceDa
 	}
 	urlparams.Vdom = vdomparam
 
-	obj, diags := getObjectFirewallsshLocalKey(d, c.Config.Fv)
+	obj, diags := getObjectFirewallSshLocalKey(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.UpdateFirewallsshLocalKey(mkey, obj, urlparams)
+	o, err := c.Cmdb.UpdateFirewallSshLocalKey(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error updating FirewallsshLocalKey resource: %v", err)
+		return diag.Errorf("error updating FirewallSshLocalKey resource: %v", err)
 	}
 
 	// log.Printf(strconv.Itoa(c.Retries))
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("FirewallsshLocalKey")
+		d.SetId("FirewallSshLocalKey")
 	}
 
-	return resourceFirewallsshLocalKeyRead(ctx, d, meta)
+	return resourceFirewallSshLocalKeyRead(ctx, d, meta)
 }
 
-func resourceFirewallsshLocalKeyDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceFirewallSshLocalKeyDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -186,9 +186,9 @@ func resourceFirewallsshLocalKeyDelete(ctx context.Context, d *schema.ResourceDa
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteFirewallsshLocalKey(mkey, urlparams)
+	err := c.Cmdb.DeleteFirewallSshLocalKey(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error deleting FirewallsshLocalKey resource: %v", err)
+		return diag.Errorf("error deleting FirewallSshLocalKey resource: %v", err)
 	}
 
 	d.SetId("")
@@ -196,7 +196,7 @@ func resourceFirewallsshLocalKeyDelete(ctx context.Context, d *schema.ResourceDa
 	return nil
 }
 
-func resourceFirewallsshLocalKeyRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceFirewallSshLocalKeyRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -211,9 +211,9 @@ func resourceFirewallsshLocalKeyRead(ctx context.Context, d *schema.ResourceData
 	}
 	urlparams.Vdom = vdomparam
 
-	o, err := c.Cmdb.ReadFirewallsshLocalKey(mkey, urlparams)
+	o, err := c.Cmdb.ReadFirewallSshLocalKey(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error reading FirewallsshLocalKey resource: %v", err)
+		return diag.Errorf("error reading FirewallSshLocalKey resource: %v", err)
 	}
 
 	if o == nil {
@@ -229,14 +229,14 @@ func resourceFirewallsshLocalKeyRead(ctx context.Context, d *schema.ResourceData
 		}
 	}
 
-	diags := refreshObjectFirewallsshLocalKey(d, o, c.Config.Fv, sort)
+	diags := refreshObjectFirewallSshLocalKey(d, o, c.Config.Fv, sort)
 	if diags.HasError() {
 		return diags
 	}
 	return nil
 }
 
-func refreshObjectFirewallsshLocalKey(d *schema.ResourceData, o *models.FirewallsshLocalKey, sv string, sort bool) diag.Diagnostics {
+func refreshObjectFirewallSshLocalKey(d *schema.ResourceData, o *models.FirewallSshLocalKey, sv string, sort bool) diag.Diagnostics {
 	var err error
 
 	if o.Name != nil {
@@ -282,8 +282,8 @@ func refreshObjectFirewallsshLocalKey(d *schema.ResourceData, o *models.Firewall
 	return nil
 }
 
-func getObjectFirewallsshLocalKey(d *schema.ResourceData, sv string) (*models.FirewallsshLocalKey, diag.Diagnostics) {
-	obj := models.FirewallsshLocalKey{}
+func getObjectFirewallSshLocalKey(d *schema.ResourceData, sv string) (*models.FirewallSshLocalKey, diag.Diagnostics) {
+	obj := models.FirewallSshLocalKey{}
 	diags := diag.Diagnostics{}
 
 	if v1, ok := d.GetOk("name"); ok {

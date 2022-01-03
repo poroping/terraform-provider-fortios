@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -19,14 +19,14 @@ import (
 	"github.com/poroping/terraform-provider-fortios/v2/utils"
 )
 
-func resourceFirewallscheduleRecurring() *schema.Resource {
+func resourceFirewallScheduleRecurring() *schema.Resource {
 	return &schema.Resource{
 		Description: "Recurring schedule configuration.",
 
-		CreateContext: resourceFirewallscheduleRecurringCreate,
-		ReadContext:   resourceFirewallscheduleRecurringRead,
-		UpdateContext: resourceFirewallscheduleRecurringUpdate,
-		DeleteContext: resourceFirewallscheduleRecurringDelete,
+		CreateContext: resourceFirewallScheduleRecurringCreate,
+		ReadContext:   resourceFirewallScheduleRecurringRead,
+		UpdateContext: resourceFirewallScheduleRecurringUpdate,
+		DeleteContext: resourceFirewallScheduleRecurringDelete,
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
@@ -95,7 +95,7 @@ func resourceFirewallscheduleRecurring() *schema.Resource {
 	}
 }
 
-func resourceFirewallscheduleRecurringCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceFirewallScheduleRecurringCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*apiClient).Client
 	var diags diag.Diagnostics
 	var err error
@@ -122,16 +122,16 @@ func resourceFirewallscheduleRecurringCreate(ctx context.Context, d *schema.Reso
 	if v, ok := d.GetOk(key); ok {
 		mkey = utils.ParseMkey(v)
 		if mkey == "" && allow_append {
-			return diag.Errorf("error creating FirewallscheduleRecurring resource: %q must be set if \"allow_append\" is true", key)
+			return diag.Errorf("error creating FirewallScheduleRecurring resource: %q must be set if \"allow_append\" is true", key)
 		}
 	}
 
-	obj, diags := getObjectFirewallscheduleRecurring(d, c.Config.Fv)
+	obj, diags := getObjectFirewallScheduleRecurring(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.CreateFirewallscheduleRecurring(obj, urlparams)
+	o, err := c.Cmdb.CreateFirewallScheduleRecurring(obj, urlparams)
 
 	if err != nil {
 		e := diag.FromErr(err)
@@ -141,13 +141,13 @@ func resourceFirewallscheduleRecurringCreate(ctx context.Context, d *schema.Reso
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("FirewallscheduleRecurring")
+		d.SetId("FirewallScheduleRecurring")
 	}
 
-	return resourceFirewallscheduleRecurringRead(ctx, d, meta)
+	return resourceFirewallScheduleRecurringRead(ctx, d, meta)
 }
 
-func resourceFirewallscheduleRecurringUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceFirewallScheduleRecurringUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
@@ -160,27 +160,27 @@ func resourceFirewallscheduleRecurringUpdate(ctx context.Context, d *schema.Reso
 	}
 	urlparams.Vdom = vdomparam
 
-	obj, diags := getObjectFirewallscheduleRecurring(d, c.Config.Fv)
+	obj, diags := getObjectFirewallScheduleRecurring(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.UpdateFirewallscheduleRecurring(mkey, obj, urlparams)
+	o, err := c.Cmdb.UpdateFirewallScheduleRecurring(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error updating FirewallscheduleRecurring resource: %v", err)
+		return diag.Errorf("error updating FirewallScheduleRecurring resource: %v", err)
 	}
 
 	// log.Printf(strconv.Itoa(c.Retries))
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("FirewallscheduleRecurring")
+		d.SetId("FirewallScheduleRecurring")
 	}
 
-	return resourceFirewallscheduleRecurringRead(ctx, d, meta)
+	return resourceFirewallScheduleRecurringRead(ctx, d, meta)
 }
 
-func resourceFirewallscheduleRecurringDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceFirewallScheduleRecurringDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -195,9 +195,9 @@ func resourceFirewallscheduleRecurringDelete(ctx context.Context, d *schema.Reso
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteFirewallscheduleRecurring(mkey, urlparams)
+	err := c.Cmdb.DeleteFirewallScheduleRecurring(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error deleting FirewallscheduleRecurring resource: %v", err)
+		return diag.Errorf("error deleting FirewallScheduleRecurring resource: %v", err)
 	}
 
 	d.SetId("")
@@ -205,7 +205,7 @@ func resourceFirewallscheduleRecurringDelete(ctx context.Context, d *schema.Reso
 	return nil
 }
 
-func resourceFirewallscheduleRecurringRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceFirewallScheduleRecurringRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -220,9 +220,9 @@ func resourceFirewallscheduleRecurringRead(ctx context.Context, d *schema.Resour
 	}
 	urlparams.Vdom = vdomparam
 
-	o, err := c.Cmdb.ReadFirewallscheduleRecurring(mkey, urlparams)
+	o, err := c.Cmdb.ReadFirewallScheduleRecurring(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error reading FirewallscheduleRecurring resource: %v", err)
+		return diag.Errorf("error reading FirewallScheduleRecurring resource: %v", err)
 	}
 
 	if o == nil {
@@ -238,14 +238,14 @@ func resourceFirewallscheduleRecurringRead(ctx context.Context, d *schema.Resour
 		}
 	}
 
-	diags := refreshObjectFirewallscheduleRecurring(d, o, c.Config.Fv, sort)
+	diags := refreshObjectFirewallScheduleRecurring(d, o, c.Config.Fv, sort)
 	if diags.HasError() {
 		return diags
 	}
 	return nil
 }
 
-func refreshObjectFirewallscheduleRecurring(d *schema.ResourceData, o *models.FirewallscheduleRecurring, sv string, sort bool) diag.Diagnostics {
+func refreshObjectFirewallScheduleRecurring(d *schema.ResourceData, o *models.FirewallScheduleRecurring, sv string, sort bool) diag.Diagnostics {
 	var err error
 
 	if o.Color != nil {
@@ -299,8 +299,8 @@ func refreshObjectFirewallscheduleRecurring(d *schema.ResourceData, o *models.Fi
 	return nil
 }
 
-func getObjectFirewallscheduleRecurring(d *schema.ResourceData, sv string) (*models.FirewallscheduleRecurring, diag.Diagnostics) {
-	obj := models.FirewallscheduleRecurring{}
+func getObjectFirewallScheduleRecurring(d *schema.ResourceData, sv string) (*models.FirewallScheduleRecurring, diag.Diagnostics) {
+	obj := models.FirewallScheduleRecurring{}
 	diags := diag.Diagnostics{}
 
 	if v1, ok := d.GetOk("color"); ok {

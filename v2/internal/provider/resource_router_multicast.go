@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -670,7 +670,12 @@ func resourceRouterMulticastDelete(ctx context.Context, d *schema.ResourceData, 
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteRouterMulticast(mkey, urlparams)
+	obj, diags := getEmptyObjectRouterMulticast(d, c.Config.Fv)
+	if diags.HasError() {
+		return diags
+	}
+
+	_, err := c.Cmdb.UpdateRouterMulticast(mkey, obj, urlparams)
 	if err != nil {
 		return diag.Errorf("error deleting RouterMulticast resource: %v", err)
 	}
@@ -1671,5 +1676,16 @@ func getObjectRouterMulticast(d *schema.ResourceData, sv string) (*models.Router
 			obj.RouteThreshold = &tmp
 		}
 	}
+	return &obj, diags
+}
+
+// Return an object with explicitly empty objects for tables that have been set.
+func getEmptyObjectRouterMulticast(d *schema.ResourceData, sv string) (*models.RouterMulticast, diag.Diagnostics) {
+	obj := models.RouterMulticast{}
+	diags := diag.Diagnostics{}
+
+	obj.Interface = &[]models.RouterMulticastInterface{}
+	obj.PimSmGlobal = &[]models.RouterMulticastPimSmGlobal{}
+
 	return &obj, diags
 }

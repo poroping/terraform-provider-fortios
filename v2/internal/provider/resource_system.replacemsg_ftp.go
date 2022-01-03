@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -18,14 +18,14 @@ import (
 	"github.com/poroping/terraform-provider-fortios/v2/utils"
 )
 
-func resourceSystemreplacemsgFtp() *schema.Resource {
+func resourceSystemReplacemsgFtp() *schema.Resource {
 	return &schema.Resource{
 		Description: "Replacement messages.",
 
-		CreateContext: resourceSystemreplacemsgFtpCreate,
-		ReadContext:   resourceSystemreplacemsgFtpRead,
-		UpdateContext: resourceSystemreplacemsgFtpUpdate,
-		DeleteContext: resourceSystemreplacemsgFtpDelete,
+		CreateContext: resourceSystemReplacemsgFtpCreate,
+		ReadContext:   resourceSystemReplacemsgFtpRead,
+		UpdateContext: resourceSystemReplacemsgFtpUpdate,
+		DeleteContext: resourceSystemReplacemsgFtpDelete,
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
@@ -80,7 +80,7 @@ func resourceSystemreplacemsgFtp() *schema.Resource {
 	}
 }
 
-func resourceSystemreplacemsgFtpCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSystemReplacemsgFtpCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*apiClient).Client
 	var diags diag.Diagnostics
 	var err error
@@ -107,16 +107,16 @@ func resourceSystemreplacemsgFtpCreate(ctx context.Context, d *schema.ResourceDa
 	if v, ok := d.GetOk(key); ok {
 		mkey = utils.ParseMkey(v)
 		if mkey == "" && allow_append {
-			return diag.Errorf("error creating SystemreplacemsgFtp resource: %q must be set if \"allow_append\" is true", key)
+			return diag.Errorf("error creating SystemReplacemsgFtp resource: %q must be set if \"allow_append\" is true", key)
 		}
 	}
 
-	obj, diags := getObjectSystemreplacemsgFtp(d, c.Config.Fv)
+	obj, diags := getObjectSystemReplacemsgFtp(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.CreateSystemreplacemsgFtp(obj, urlparams)
+	o, err := c.Cmdb.CreateSystemReplacemsgFtp(obj, urlparams)
 
 	if err != nil {
 		e := diag.FromErr(err)
@@ -126,13 +126,13 @@ func resourceSystemreplacemsgFtpCreate(ctx context.Context, d *schema.ResourceDa
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("SystemreplacemsgFtp")
+		d.SetId("SystemReplacemsgFtp")
 	}
 
-	return resourceSystemreplacemsgFtpRead(ctx, d, meta)
+	return resourceSystemReplacemsgFtpRead(ctx, d, meta)
 }
 
-func resourceSystemreplacemsgFtpUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSystemReplacemsgFtpUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
@@ -145,27 +145,27 @@ func resourceSystemreplacemsgFtpUpdate(ctx context.Context, d *schema.ResourceDa
 	}
 	urlparams.Vdom = vdomparam
 
-	obj, diags := getObjectSystemreplacemsgFtp(d, c.Config.Fv)
+	obj, diags := getObjectSystemReplacemsgFtp(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.UpdateSystemreplacemsgFtp(mkey, obj, urlparams)
+	o, err := c.Cmdb.UpdateSystemReplacemsgFtp(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error updating SystemreplacemsgFtp resource: %v", err)
+		return diag.Errorf("error updating SystemReplacemsgFtp resource: %v", err)
 	}
 
 	// log.Printf(strconv.Itoa(c.Retries))
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("SystemreplacemsgFtp")
+		d.SetId("SystemReplacemsgFtp")
 	}
 
-	return resourceSystemreplacemsgFtpRead(ctx, d, meta)
+	return resourceSystemReplacemsgFtpRead(ctx, d, meta)
 }
 
-func resourceSystemreplacemsgFtpDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSystemReplacemsgFtpDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -180,9 +180,9 @@ func resourceSystemreplacemsgFtpDelete(ctx context.Context, d *schema.ResourceDa
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteSystemreplacemsgFtp(mkey, urlparams)
+	err := c.Cmdb.DeleteSystemReplacemsgFtp(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error deleting SystemreplacemsgFtp resource: %v", err)
+		return diag.Errorf("error deleting SystemReplacemsgFtp resource: %v", err)
 	}
 
 	d.SetId("")
@@ -190,7 +190,7 @@ func resourceSystemreplacemsgFtpDelete(ctx context.Context, d *schema.ResourceDa
 	return nil
 }
 
-func resourceSystemreplacemsgFtpRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSystemReplacemsgFtpRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -205,9 +205,9 @@ func resourceSystemreplacemsgFtpRead(ctx context.Context, d *schema.ResourceData
 	}
 	urlparams.Vdom = vdomparam
 
-	o, err := c.Cmdb.ReadSystemreplacemsgFtp(mkey, urlparams)
+	o, err := c.Cmdb.ReadSystemReplacemsgFtp(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error reading SystemreplacemsgFtp resource: %v", err)
+		return diag.Errorf("error reading SystemReplacemsgFtp resource: %v", err)
 	}
 
 	if o == nil {
@@ -223,14 +223,14 @@ func resourceSystemreplacemsgFtpRead(ctx context.Context, d *schema.ResourceData
 		}
 	}
 
-	diags := refreshObjectSystemreplacemsgFtp(d, o, c.Config.Fv, sort)
+	diags := refreshObjectSystemReplacemsgFtp(d, o, c.Config.Fv, sort)
 	if diags.HasError() {
 		return diags
 	}
 	return nil
 }
 
-func refreshObjectSystemreplacemsgFtp(d *schema.ResourceData, o *models.SystemreplacemsgFtp, sv string, sort bool) diag.Diagnostics {
+func refreshObjectSystemReplacemsgFtp(d *schema.ResourceData, o *models.SystemReplacemsgFtp, sv string, sort bool) diag.Diagnostics {
 	var err error
 
 	if o.Buffer != nil {
@@ -268,8 +268,8 @@ func refreshObjectSystemreplacemsgFtp(d *schema.ResourceData, o *models.Systemre
 	return nil
 }
 
-func getObjectSystemreplacemsgFtp(d *schema.ResourceData, sv string) (*models.SystemreplacemsgFtp, diag.Diagnostics) {
-	obj := models.SystemreplacemsgFtp{}
+func getObjectSystemReplacemsgFtp(d *schema.ResourceData, sv string) (*models.SystemReplacemsgFtp, diag.Diagnostics) {
+	obj := models.SystemReplacemsgFtp{}
 	diags := diag.Diagnostics{}
 
 	if v1, ok := d.GetOk("buffer"); ok {

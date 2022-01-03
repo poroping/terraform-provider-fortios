@@ -13,7 +13,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 )
 
-func TestAccVpnipsecFec_basic(t *testing.T) {
+func TestAccVpnIpsecFec_basic(t *testing.T) {
 	rName := "vpn.ipsec_fec"
 
 	resource.Test(t, resource.TestCase{

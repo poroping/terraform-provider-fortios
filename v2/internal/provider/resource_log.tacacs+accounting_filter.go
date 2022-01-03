@@ -18,14 +18,14 @@ import (
 	"github.com/poroping/terraform-provider-fortios/v2/utils"
 )
 
-func resourceLogtacacsaccountingFilter() *schema.Resource {
+func resourceLogTacacsaccountingFilter() *schema.Resource {
 	return &schema.Resource{
 		Description: "Settings for TACACS+ accounting events filter.",
 
-		CreateContext: resourceLogtacacsaccountingFilterCreate,
-		ReadContext:   resourceLogtacacsaccountingFilterRead,
-		UpdateContext: resourceLogtacacsaccountingFilterUpdate,
-		DeleteContext: resourceLogtacacsaccountingFilterDelete,
+		CreateContext: resourceLogTacacsaccountingFilterCreate,
+		ReadContext:   resourceLogTacacsaccountingFilterRead,
+		UpdateContext: resourceLogTacacsaccountingFilterUpdate,
+		DeleteContext: resourceLogTacacsaccountingFilterDelete,
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
@@ -66,7 +66,7 @@ func resourceLogtacacsaccountingFilter() *schema.Resource {
 	}
 }
 
-func resourceLogtacacsaccountingFilterCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceLogTacacsaccountingFilterCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*apiClient).Client
 	var diags diag.Diagnostics
 	var err error
@@ -88,12 +88,12 @@ func resourceLogtacacsaccountingFilterCreate(ctx context.Context, d *schema.Reso
 	}
 	urlparams.AllowAppend = &allow_append
 
-	obj, diags := getObjectLogtacacsaccountingFilter(d, c.Config.Fv)
+	obj, diags := getObjectLogTacacsaccountingFilter(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.CreateLogtacacsaccountingFilter(obj, urlparams)
+	o, err := c.Cmdb.CreateLogTacacsaccountingFilter(obj, urlparams)
 
 	if err != nil {
 		e := diag.FromErr(err)
@@ -103,13 +103,13 @@ func resourceLogtacacsaccountingFilterCreate(ctx context.Context, d *schema.Reso
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("LogtacacsaccountingFilter")
+		d.SetId("LogTacacsaccountingFilter")
 	}
 
-	return resourceLogtacacsaccountingFilterRead(ctx, d, meta)
+	return resourceLogTacacsaccountingFilterRead(ctx, d, meta)
 }
 
-func resourceLogtacacsaccountingFilterUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceLogTacacsaccountingFilterUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
@@ -122,27 +122,27 @@ func resourceLogtacacsaccountingFilterUpdate(ctx context.Context, d *schema.Reso
 	}
 	urlparams.Vdom = vdomparam
 
-	obj, diags := getObjectLogtacacsaccountingFilter(d, c.Config.Fv)
+	obj, diags := getObjectLogTacacsaccountingFilter(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.UpdateLogtacacsaccountingFilter(mkey, obj, urlparams)
+	o, err := c.Cmdb.UpdateLogTacacsaccountingFilter(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error updating LogtacacsaccountingFilter resource: %v", err)
+		return diag.Errorf("error updating LogTacacsaccountingFilter resource: %v", err)
 	}
 
 	// log.Printf(strconv.Itoa(c.Retries))
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("LogtacacsaccountingFilter")
+		d.SetId("LogTacacsaccountingFilter")
 	}
 
-	return resourceLogtacacsaccountingFilterRead(ctx, d, meta)
+	return resourceLogTacacsaccountingFilterRead(ctx, d, meta)
 }
 
-func resourceLogtacacsaccountingFilterDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceLogTacacsaccountingFilterDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -157,9 +157,14 @@ func resourceLogtacacsaccountingFilterDelete(ctx context.Context, d *schema.Reso
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteLogtacacsaccountingFilter(mkey, urlparams)
+	obj, diags := getEmptyObjectLogTacacsaccountingFilter(d, c.Config.Fv)
+	if diags.HasError() {
+		return diags
+	}
+
+	_, err := c.Cmdb.UpdateLogTacacsaccountingFilter(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error deleting LogtacacsaccountingFilter resource: %v", err)
+		return diag.Errorf("error deleting LogTacacsaccountingFilter resource: %v", err)
 	}
 
 	d.SetId("")
@@ -167,7 +172,7 @@ func resourceLogtacacsaccountingFilterDelete(ctx context.Context, d *schema.Reso
 	return nil
 }
 
-func resourceLogtacacsaccountingFilterRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceLogTacacsaccountingFilterRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -182,9 +187,9 @@ func resourceLogtacacsaccountingFilterRead(ctx context.Context, d *schema.Resour
 	}
 	urlparams.Vdom = vdomparam
 
-	o, err := c.Cmdb.ReadLogtacacsaccountingFilter(mkey, urlparams)
+	o, err := c.Cmdb.ReadLogTacacsaccountingFilter(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error reading LogtacacsaccountingFilter resource: %v", err)
+		return diag.Errorf("error reading LogTacacsaccountingFilter resource: %v", err)
 	}
 
 	if o == nil {
@@ -200,14 +205,14 @@ func resourceLogtacacsaccountingFilterRead(ctx context.Context, d *schema.Resour
 		}
 	}
 
-	diags := refreshObjectLogtacacsaccountingFilter(d, o, c.Config.Fv, sort)
+	diags := refreshObjectLogTacacsaccountingFilter(d, o, c.Config.Fv, sort)
 	if diags.HasError() {
 		return diags
 	}
 	return nil
 }
 
-func refreshObjectLogtacacsaccountingFilter(d *schema.ResourceData, o *models.LogtacacsaccountingFilter, sv string, sort bool) diag.Diagnostics {
+func refreshObjectLogTacacsaccountingFilter(d *schema.ResourceData, o *models.LogTacacsaccountingFilter, sv string, sort bool) diag.Diagnostics {
 	var err error
 
 	if o.CliCmdAudit != nil {
@@ -237,8 +242,8 @@ func refreshObjectLogtacacsaccountingFilter(d *schema.ResourceData, o *models.Lo
 	return nil
 }
 
-func getObjectLogtacacsaccountingFilter(d *schema.ResourceData, sv string) (*models.LogtacacsaccountingFilter, diag.Diagnostics) {
-	obj := models.LogtacacsaccountingFilter{}
+func getObjectLogTacacsaccountingFilter(d *schema.ResourceData, sv string) (*models.LogTacacsaccountingFilter, diag.Diagnostics) {
+	obj := models.LogTacacsaccountingFilter{}
 	diags := diag.Diagnostics{}
 
 	if v1, ok := d.GetOk("cli_cmd_audit"); ok {
@@ -268,5 +273,13 @@ func getObjectLogtacacsaccountingFilter(d *schema.ResourceData, sv string) (*mod
 			obj.LoginAudit = &v2
 		}
 	}
+	return &obj, diags
+}
+
+// Return an object with explicitly empty objects for tables that have been set.
+func getEmptyObjectLogTacacsaccountingFilter(d *schema.ResourceData, sv string) (*models.LogTacacsaccountingFilter, diag.Diagnostics) {
+	obj := models.LogTacacsaccountingFilter{}
+	diags := diag.Diagnostics{}
+
 	return &obj, diags
 }

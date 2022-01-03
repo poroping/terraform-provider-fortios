@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -19,14 +19,14 @@ import (
 	"github.com/poroping/terraform-provider-fortios/v2/utils"
 )
 
-func resourceLogsyslogdOverrideFilter() *schema.Resource {
+func resourceLogSyslogdOverrideFilter() *schema.Resource {
 	return &schema.Resource{
 		Description: "Override filters for remote system server.",
 
-		CreateContext: resourceLogsyslogdOverrideFilterCreate,
-		ReadContext:   resourceLogsyslogdOverrideFilterRead,
-		UpdateContext: resourceLogsyslogdOverrideFilterUpdate,
-		DeleteContext: resourceLogsyslogdOverrideFilterDelete,
+		CreateContext: resourceLogSyslogdOverrideFilterCreate,
+		ReadContext:   resourceLogSyslogdOverrideFilterRead,
+		UpdateContext: resourceLogSyslogdOverrideFilterUpdate,
+		DeleteContext: resourceLogSyslogdOverrideFilterDelete,
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
@@ -168,7 +168,7 @@ func resourceLogsyslogdOverrideFilter() *schema.Resource {
 	}
 }
 
-func resourceLogsyslogdOverrideFilterCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceLogSyslogdOverrideFilterCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*apiClient).Client
 	var diags diag.Diagnostics
 	var err error
@@ -190,12 +190,12 @@ func resourceLogsyslogdOverrideFilterCreate(ctx context.Context, d *schema.Resou
 	}
 	urlparams.AllowAppend = &allow_append
 
-	obj, diags := getObjectLogsyslogdOverrideFilter(d, c.Config.Fv)
+	obj, diags := getObjectLogSyslogdOverrideFilter(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.CreateLogsyslogdOverrideFilter(obj, urlparams)
+	o, err := c.Cmdb.CreateLogSyslogdOverrideFilter(obj, urlparams)
 
 	if err != nil {
 		e := diag.FromErr(err)
@@ -205,13 +205,13 @@ func resourceLogsyslogdOverrideFilterCreate(ctx context.Context, d *schema.Resou
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("LogsyslogdOverrideFilter")
+		d.SetId("LogSyslogdOverrideFilter")
 	}
 
-	return resourceLogsyslogdOverrideFilterRead(ctx, d, meta)
+	return resourceLogSyslogdOverrideFilterRead(ctx, d, meta)
 }
 
-func resourceLogsyslogdOverrideFilterUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceLogSyslogdOverrideFilterUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
@@ -224,27 +224,27 @@ func resourceLogsyslogdOverrideFilterUpdate(ctx context.Context, d *schema.Resou
 	}
 	urlparams.Vdom = vdomparam
 
-	obj, diags := getObjectLogsyslogdOverrideFilter(d, c.Config.Fv)
+	obj, diags := getObjectLogSyslogdOverrideFilter(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.UpdateLogsyslogdOverrideFilter(mkey, obj, urlparams)
+	o, err := c.Cmdb.UpdateLogSyslogdOverrideFilter(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error updating LogsyslogdOverrideFilter resource: %v", err)
+		return diag.Errorf("error updating LogSyslogdOverrideFilter resource: %v", err)
 	}
 
 	// log.Printf(strconv.Itoa(c.Retries))
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("LogsyslogdOverrideFilter")
+		d.SetId("LogSyslogdOverrideFilter")
 	}
 
-	return resourceLogsyslogdOverrideFilterRead(ctx, d, meta)
+	return resourceLogSyslogdOverrideFilterRead(ctx, d, meta)
 }
 
-func resourceLogsyslogdOverrideFilterDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceLogSyslogdOverrideFilterDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -259,9 +259,14 @@ func resourceLogsyslogdOverrideFilterDelete(ctx context.Context, d *schema.Resou
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteLogsyslogdOverrideFilter(mkey, urlparams)
+	obj, diags := getEmptyObjectLogSyslogdOverrideFilter(d, c.Config.Fv)
+	if diags.HasError() {
+		return diags
+	}
+
+	_, err := c.Cmdb.UpdateLogSyslogdOverrideFilter(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error deleting LogsyslogdOverrideFilter resource: %v", err)
+		return diag.Errorf("error deleting LogSyslogdOverrideFilter resource: %v", err)
 	}
 
 	d.SetId("")
@@ -269,7 +274,7 @@ func resourceLogsyslogdOverrideFilterDelete(ctx context.Context, d *schema.Resou
 	return nil
 }
 
-func resourceLogsyslogdOverrideFilterRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceLogSyslogdOverrideFilterRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -284,9 +289,9 @@ func resourceLogsyslogdOverrideFilterRead(ctx context.Context, d *schema.Resourc
 	}
 	urlparams.Vdom = vdomparam
 
-	o, err := c.Cmdb.ReadLogsyslogdOverrideFilter(mkey, urlparams)
+	o, err := c.Cmdb.ReadLogSyslogdOverrideFilter(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error reading LogsyslogdOverrideFilter resource: %v", err)
+		return diag.Errorf("error reading LogSyslogdOverrideFilter resource: %v", err)
 	}
 
 	if o == nil {
@@ -302,14 +307,14 @@ func resourceLogsyslogdOverrideFilterRead(ctx context.Context, d *schema.Resourc
 		}
 	}
 
-	diags := refreshObjectLogsyslogdOverrideFilter(d, o, c.Config.Fv, sort)
+	diags := refreshObjectLogSyslogdOverrideFilter(d, o, c.Config.Fv, sort)
 	if diags.HasError() {
 		return diags
 	}
 	return nil
 }
 
-func flattenLogsyslogdOverrideFilterFreeStyle(v *[]models.LogsyslogdOverrideFilterFreeStyle, sort bool) interface{} {
+func flattenLogSyslogdOverrideFilterFreeStyle(v *[]models.LogSyslogdOverrideFilterFreeStyle, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
@@ -342,7 +347,7 @@ func flattenLogsyslogdOverrideFilterFreeStyle(v *[]models.LogsyslogdOverrideFilt
 	return flat
 }
 
-func refreshObjectLogsyslogdOverrideFilter(d *schema.ResourceData, o *models.LogsyslogdOverrideFilter, sv string, sort bool) diag.Diagnostics {
+func refreshObjectLogSyslogdOverrideFilter(d *schema.ResourceData, o *models.LogSyslogdOverrideFilter, sv string, sort bool) diag.Diagnostics {
 	var err error
 
 	if o.Anomaly != nil {
@@ -378,7 +383,7 @@ func refreshObjectLogsyslogdOverrideFilter(d *schema.ResourceData, o *models.Log
 	}
 
 	if o.FreeStyle != nil {
-		if err = d.Set("free_style", flattenLogsyslogdOverrideFilterFreeStyle(o.FreeStyle, sort)); err != nil {
+		if err = d.Set("free_style", flattenLogSyslogdOverrideFilterFreeStyle(o.FreeStyle, sort)); err != nil {
 			return diag.Errorf("error reading free_style: %v", err)
 		}
 	}
@@ -434,16 +439,16 @@ func refreshObjectLogsyslogdOverrideFilter(d *schema.ResourceData, o *models.Log
 	return nil
 }
 
-func expandLogsyslogdOverrideFilterFreeStyle(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.LogsyslogdOverrideFilterFreeStyle, error) {
+func expandLogSyslogdOverrideFilterFreeStyle(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.LogSyslogdOverrideFilterFreeStyle, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
 	}
 
-	var result []models.LogsyslogdOverrideFilterFreeStyle
+	var result []models.LogSyslogdOverrideFilterFreeStyle
 
 	for i := range l {
-		tmp := models.LogsyslogdOverrideFilterFreeStyle{}
+		tmp := models.LogSyslogdOverrideFilterFreeStyle{}
 		var pre_append string
 
 		pre_append = fmt.Sprintf("%s.%d.category", pre, i)
@@ -479,8 +484,8 @@ func expandLogsyslogdOverrideFilterFreeStyle(d *schema.ResourceData, v interface
 	return &result, nil
 }
 
-func getObjectLogsyslogdOverrideFilter(d *schema.ResourceData, sv string) (*models.LogsyslogdOverrideFilter, diag.Diagnostics) {
-	obj := models.LogsyslogdOverrideFilter{}
+func getObjectLogSyslogdOverrideFilter(d *schema.ResourceData, sv string) (*models.LogSyslogdOverrideFilter, diag.Diagnostics) {
+	obj := models.LogSyslogdOverrideFilter{}
 	diags := diag.Diagnostics{}
 
 	if v1, ok := d.GetOk("anomaly"); ok {
@@ -524,7 +529,7 @@ func getObjectLogsyslogdOverrideFilter(d *schema.ResourceData, sv string) (*mode
 			e := utils.AttributeVersionWarning("free_style", sv)
 			diags = append(diags, e)
 		}
-		t, err := expandLogsyslogdOverrideFilterFreeStyle(d, v, "free_style", sv)
+		t, err := expandLogSyslogdOverrideFilterFreeStyle(d, v, "free_style", sv)
 		if err != nil {
 			return &obj, diag.FromErr(err)
 		} else if t != nil {
@@ -533,12 +538,12 @@ func getObjectLogsyslogdOverrideFilter(d *schema.ResourceData, sv string) (*mode
 	} else if d.HasChange("free_style") {
 		old, new := d.GetChange("free_style")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.FreeStyle = &[]models.LogsyslogdOverrideFilterFreeStyle{}
+			obj.FreeStyle = &[]models.LogSyslogdOverrideFilterFreeStyle{}
 		}
 	}
 	if v1, ok := d.GetOk("gtp"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "v6.4.2", "") {
+			if !utils.CheckVer(sv, "v6.4.0", "") {
 				e := utils.AttributeVersionWarning("gtp", sv)
 				diags = append(diags, e)
 			}
@@ -590,5 +595,15 @@ func getObjectLogsyslogdOverrideFilter(d *schema.ResourceData, sv string) (*mode
 			obj.Voip = &v2
 		}
 	}
+	return &obj, diags
+}
+
+// Return an object with explicitly empty objects for tables that have been set.
+func getEmptyObjectLogSyslogdOverrideFilter(d *schema.ResourceData, sv string) (*models.LogSyslogdOverrideFilter, diag.Diagnostics) {
+	obj := models.LogSyslogdOverrideFilter{}
+	diags := diag.Diagnostics{}
+
+	obj.FreeStyle = &[]models.LogSyslogdOverrideFilterFreeStyle{}
+
 	return &obj, diags
 }

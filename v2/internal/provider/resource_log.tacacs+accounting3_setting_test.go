@@ -13,7 +13,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 )
 
-func TestAccLogtacacsaccounting3Setting_basic(t *testing.T) {
+func TestAccLogTacacsaccounting3Setting_basic(t *testing.T) {
 	rName := "log.tacacs+accounting3_setting"
 
 	resource.Test(t, resource.TestCase{

@@ -13,7 +13,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 )
 
-func TestAccWirelessControllerhotspot20AnqpVenueUrl_basic(t *testing.T) {
+func TestAccWirelessControllerHotspot20AnqpVenueUrl_basic(t *testing.T) {
 	rName := "wireless_controller.hotspot20_anqp_venue_url"
 
 	resource.Test(t, resource.TestCase{

@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -18,14 +18,14 @@ import (
 	"github.com/poroping/terraform-provider-fortios/v2/utils"
 )
 
-func resourceVpncertificateOcspServer() *schema.Resource {
+func resourceVpnCertificateOcspServer() *schema.Resource {
 	return &schema.Resource{
 		Description: "OCSP server configuration.",
 
-		CreateContext: resourceVpncertificateOcspServerCreate,
-		ReadContext:   resourceVpncertificateOcspServerRead,
-		UpdateContext: resourceVpncertificateOcspServerUpdate,
-		DeleteContext: resourceVpncertificateOcspServerDelete,
+		CreateContext: resourceVpnCertificateOcspServerCreate,
+		ReadContext:   resourceVpnCertificateOcspServerRead,
+		UpdateContext: resourceVpnCertificateOcspServerUpdate,
+		DeleteContext: resourceVpnCertificateOcspServerDelete,
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
@@ -104,7 +104,7 @@ func resourceVpncertificateOcspServer() *schema.Resource {
 	}
 }
 
-func resourceVpncertificateOcspServerCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceVpnCertificateOcspServerCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*apiClient).Client
 	var diags diag.Diagnostics
 	var err error
@@ -131,16 +131,16 @@ func resourceVpncertificateOcspServerCreate(ctx context.Context, d *schema.Resou
 	if v, ok := d.GetOk(key); ok {
 		mkey = utils.ParseMkey(v)
 		if mkey == "" && allow_append {
-			return diag.Errorf("error creating VpncertificateOcspServer resource: %q must be set if \"allow_append\" is true", key)
+			return diag.Errorf("error creating VpnCertificateOcspServer resource: %q must be set if \"allow_append\" is true", key)
 		}
 	}
 
-	obj, diags := getObjectVpncertificateOcspServer(d, c.Config.Fv)
+	obj, diags := getObjectVpnCertificateOcspServer(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.CreateVpncertificateOcspServer(obj, urlparams)
+	o, err := c.Cmdb.CreateVpnCertificateOcspServer(obj, urlparams)
 
 	if err != nil {
 		e := diag.FromErr(err)
@@ -150,13 +150,13 @@ func resourceVpncertificateOcspServerCreate(ctx context.Context, d *schema.Resou
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("VpncertificateOcspServer")
+		d.SetId("VpnCertificateOcspServer")
 	}
 
-	return resourceVpncertificateOcspServerRead(ctx, d, meta)
+	return resourceVpnCertificateOcspServerRead(ctx, d, meta)
 }
 
-func resourceVpncertificateOcspServerUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceVpnCertificateOcspServerUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
@@ -169,27 +169,27 @@ func resourceVpncertificateOcspServerUpdate(ctx context.Context, d *schema.Resou
 	}
 	urlparams.Vdom = vdomparam
 
-	obj, diags := getObjectVpncertificateOcspServer(d, c.Config.Fv)
+	obj, diags := getObjectVpnCertificateOcspServer(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.UpdateVpncertificateOcspServer(mkey, obj, urlparams)
+	o, err := c.Cmdb.UpdateVpnCertificateOcspServer(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error updating VpncertificateOcspServer resource: %v", err)
+		return diag.Errorf("error updating VpnCertificateOcspServer resource: %v", err)
 	}
 
 	// log.Printf(strconv.Itoa(c.Retries))
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("VpncertificateOcspServer")
+		d.SetId("VpnCertificateOcspServer")
 	}
 
-	return resourceVpncertificateOcspServerRead(ctx, d, meta)
+	return resourceVpnCertificateOcspServerRead(ctx, d, meta)
 }
 
-func resourceVpncertificateOcspServerDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceVpnCertificateOcspServerDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -204,9 +204,9 @@ func resourceVpncertificateOcspServerDelete(ctx context.Context, d *schema.Resou
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteVpncertificateOcspServer(mkey, urlparams)
+	err := c.Cmdb.DeleteVpnCertificateOcspServer(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error deleting VpncertificateOcspServer resource: %v", err)
+		return diag.Errorf("error deleting VpnCertificateOcspServer resource: %v", err)
 	}
 
 	d.SetId("")
@@ -214,7 +214,7 @@ func resourceVpncertificateOcspServerDelete(ctx context.Context, d *schema.Resou
 	return nil
 }
 
-func resourceVpncertificateOcspServerRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceVpnCertificateOcspServerRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -229,9 +229,9 @@ func resourceVpncertificateOcspServerRead(ctx context.Context, d *schema.Resourc
 	}
 	urlparams.Vdom = vdomparam
 
-	o, err := c.Cmdb.ReadVpncertificateOcspServer(mkey, urlparams)
+	o, err := c.Cmdb.ReadVpnCertificateOcspServer(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error reading VpncertificateOcspServer resource: %v", err)
+		return diag.Errorf("error reading VpnCertificateOcspServer resource: %v", err)
 	}
 
 	if o == nil {
@@ -247,14 +247,14 @@ func resourceVpncertificateOcspServerRead(ctx context.Context, d *schema.Resourc
 		}
 	}
 
-	diags := refreshObjectVpncertificateOcspServer(d, o, c.Config.Fv, sort)
+	diags := refreshObjectVpnCertificateOcspServer(d, o, c.Config.Fv, sort)
 	if diags.HasError() {
 		return diags
 	}
 	return nil
 }
 
-func refreshObjectVpncertificateOcspServer(d *schema.ResourceData, o *models.VpncertificateOcspServer, sv string, sort bool) diag.Diagnostics {
+func refreshObjectVpnCertificateOcspServer(d *schema.ResourceData, o *models.VpnCertificateOcspServer, sv string, sort bool) diag.Diagnostics {
 	var err error
 
 	if o.Cert != nil {
@@ -316,8 +316,8 @@ func refreshObjectVpncertificateOcspServer(d *schema.ResourceData, o *models.Vpn
 	return nil
 }
 
-func getObjectVpncertificateOcspServer(d *schema.ResourceData, sv string) (*models.VpncertificateOcspServer, diag.Diagnostics) {
-	obj := models.VpncertificateOcspServer{}
+func getObjectVpnCertificateOcspServer(d *schema.ResourceData, sv string) (*models.VpnCertificateOcspServer, diag.Diagnostics) {
+	obj := models.VpnCertificateOcspServer{}
 	diags := diag.Diagnostics{}
 
 	if v1, ok := d.GetOk("cert"); ok {

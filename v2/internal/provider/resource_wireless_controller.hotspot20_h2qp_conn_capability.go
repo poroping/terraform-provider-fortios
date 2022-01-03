@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -18,14 +18,14 @@ import (
 	"github.com/poroping/terraform-provider-fortios/v2/utils"
 )
 
-func resourceWirelessControllerhotspot20H2qpConnCapability() *schema.Resource {
+func resourceWirelessControllerHotspot20H2qpConnCapability() *schema.Resource {
 	return &schema.Resource{
 		Description: "Configure connection capability.",
 
-		CreateContext: resourceWirelessControllerhotspot20H2qpConnCapabilityCreate,
-		ReadContext:   resourceWirelessControllerhotspot20H2qpConnCapabilityRead,
-		UpdateContext: resourceWirelessControllerhotspot20H2qpConnCapabilityUpdate,
-		DeleteContext: resourceWirelessControllerhotspot20H2qpConnCapabilityDelete,
+		CreateContext: resourceWirelessControllerHotspot20H2qpConnCapabilityCreate,
+		ReadContext:   resourceWirelessControllerHotspot20H2qpConnCapabilityRead,
+		UpdateContext: resourceWirelessControllerHotspot20H2qpConnCapabilityUpdate,
+		DeleteContext: resourceWirelessControllerHotspot20H2qpConnCapabilityDelete,
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
@@ -144,7 +144,7 @@ func resourceWirelessControllerhotspot20H2qpConnCapability() *schema.Resource {
 	}
 }
 
-func resourceWirelessControllerhotspot20H2qpConnCapabilityCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceWirelessControllerHotspot20H2qpConnCapabilityCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*apiClient).Client
 	var diags diag.Diagnostics
 	var err error
@@ -171,16 +171,16 @@ func resourceWirelessControllerhotspot20H2qpConnCapabilityCreate(ctx context.Con
 	if v, ok := d.GetOk(key); ok {
 		mkey = utils.ParseMkey(v)
 		if mkey == "" && allow_append {
-			return diag.Errorf("error creating WirelessControllerhotspot20H2qpConnCapability resource: %q must be set if \"allow_append\" is true", key)
+			return diag.Errorf("error creating WirelessControllerHotspot20H2qpConnCapability resource: %q must be set if \"allow_append\" is true", key)
 		}
 	}
 
-	obj, diags := getObjectWirelessControllerhotspot20H2qpConnCapability(d, c.Config.Fv)
+	obj, diags := getObjectWirelessControllerHotspot20H2qpConnCapability(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.CreateWirelessControllerhotspot20H2qpConnCapability(obj, urlparams)
+	o, err := c.Cmdb.CreateWirelessControllerHotspot20H2qpConnCapability(obj, urlparams)
 
 	if err != nil {
 		e := diag.FromErr(err)
@@ -190,13 +190,13 @@ func resourceWirelessControllerhotspot20H2qpConnCapabilityCreate(ctx context.Con
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("WirelessControllerhotspot20H2qpConnCapability")
+		d.SetId("WirelessControllerHotspot20H2qpConnCapability")
 	}
 
-	return resourceWirelessControllerhotspot20H2qpConnCapabilityRead(ctx, d, meta)
+	return resourceWirelessControllerHotspot20H2qpConnCapabilityRead(ctx, d, meta)
 }
 
-func resourceWirelessControllerhotspot20H2qpConnCapabilityUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceWirelessControllerHotspot20H2qpConnCapabilityUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
@@ -209,27 +209,27 @@ func resourceWirelessControllerhotspot20H2qpConnCapabilityUpdate(ctx context.Con
 	}
 	urlparams.Vdom = vdomparam
 
-	obj, diags := getObjectWirelessControllerhotspot20H2qpConnCapability(d, c.Config.Fv)
+	obj, diags := getObjectWirelessControllerHotspot20H2qpConnCapability(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.UpdateWirelessControllerhotspot20H2qpConnCapability(mkey, obj, urlparams)
+	o, err := c.Cmdb.UpdateWirelessControllerHotspot20H2qpConnCapability(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error updating WirelessControllerhotspot20H2qpConnCapability resource: %v", err)
+		return diag.Errorf("error updating WirelessControllerHotspot20H2qpConnCapability resource: %v", err)
 	}
 
 	// log.Printf(strconv.Itoa(c.Retries))
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("WirelessControllerhotspot20H2qpConnCapability")
+		d.SetId("WirelessControllerHotspot20H2qpConnCapability")
 	}
 
-	return resourceWirelessControllerhotspot20H2qpConnCapabilityRead(ctx, d, meta)
+	return resourceWirelessControllerHotspot20H2qpConnCapabilityRead(ctx, d, meta)
 }
 
-func resourceWirelessControllerhotspot20H2qpConnCapabilityDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceWirelessControllerHotspot20H2qpConnCapabilityDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -244,9 +244,9 @@ func resourceWirelessControllerhotspot20H2qpConnCapabilityDelete(ctx context.Con
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteWirelessControllerhotspot20H2qpConnCapability(mkey, urlparams)
+	err := c.Cmdb.DeleteWirelessControllerHotspot20H2qpConnCapability(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error deleting WirelessControllerhotspot20H2qpConnCapability resource: %v", err)
+		return diag.Errorf("error deleting WirelessControllerHotspot20H2qpConnCapability resource: %v", err)
 	}
 
 	d.SetId("")
@@ -254,7 +254,7 @@ func resourceWirelessControllerhotspot20H2qpConnCapabilityDelete(ctx context.Con
 	return nil
 }
 
-func resourceWirelessControllerhotspot20H2qpConnCapabilityRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceWirelessControllerHotspot20H2qpConnCapabilityRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -269,9 +269,9 @@ func resourceWirelessControllerhotspot20H2qpConnCapabilityRead(ctx context.Conte
 	}
 	urlparams.Vdom = vdomparam
 
-	o, err := c.Cmdb.ReadWirelessControllerhotspot20H2qpConnCapability(mkey, urlparams)
+	o, err := c.Cmdb.ReadWirelessControllerHotspot20H2qpConnCapability(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error reading WirelessControllerhotspot20H2qpConnCapability resource: %v", err)
+		return diag.Errorf("error reading WirelessControllerHotspot20H2qpConnCapability resource: %v", err)
 	}
 
 	if o == nil {
@@ -287,14 +287,14 @@ func resourceWirelessControllerhotspot20H2qpConnCapabilityRead(ctx context.Conte
 		}
 	}
 
-	diags := refreshObjectWirelessControllerhotspot20H2qpConnCapability(d, o, c.Config.Fv, sort)
+	diags := refreshObjectWirelessControllerHotspot20H2qpConnCapability(d, o, c.Config.Fv, sort)
 	if diags.HasError() {
 		return diags
 	}
 	return nil
 }
 
-func refreshObjectWirelessControllerhotspot20H2qpConnCapability(d *schema.ResourceData, o *models.WirelessControllerhotspot20H2qpConnCapability, sv string, sort bool) diag.Diagnostics {
+func refreshObjectWirelessControllerHotspot20H2qpConnCapability(d *schema.ResourceData, o *models.WirelessControllerHotspot20H2qpConnCapability, sv string, sort bool) diag.Diagnostics {
 	var err error
 
 	if o.EspPort != nil {
@@ -396,8 +396,8 @@ func refreshObjectWirelessControllerhotspot20H2qpConnCapability(d *schema.Resour
 	return nil
 }
 
-func getObjectWirelessControllerhotspot20H2qpConnCapability(d *schema.ResourceData, sv string) (*models.WirelessControllerhotspot20H2qpConnCapability, diag.Diagnostics) {
-	obj := models.WirelessControllerhotspot20H2qpConnCapability{}
+func getObjectWirelessControllerHotspot20H2qpConnCapability(d *schema.ResourceData, sv string) (*models.WirelessControllerHotspot20H2qpConnCapability, diag.Diagnostics) {
+	obj := models.WirelessControllerHotspot20H2qpConnCapability{}
 	diags := diag.Diagnostics{}
 
 	if v1, ok := d.GetOk("esp_port"); ok {

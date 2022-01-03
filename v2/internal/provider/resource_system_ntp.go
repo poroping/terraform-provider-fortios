@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -307,7 +307,12 @@ func resourceSystemNtpDelete(ctx context.Context, d *schema.ResourceData, meta i
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteSystemNtp(mkey, urlparams)
+	obj, diags := getEmptyObjectSystemNtp(d, c.Config.Fv)
+	if diags.HasError() {
+		return diags
+	}
+
+	_, err := c.Cmdb.UpdateSystemNtp(mkey, obj, urlparams)
 	if err != nil {
 		return diag.Errorf("error deleting SystemNtp resource: %v", err)
 	}
@@ -752,5 +757,16 @@ func getObjectSystemNtp(d *schema.ResourceData, sv string) (*models.SystemNtp, d
 			obj.Type = &v2
 		}
 	}
+	return &obj, diags
+}
+
+// Return an object with explicitly empty objects for tables that have been set.
+func getEmptyObjectSystemNtp(d *schema.ResourceData, sv string) (*models.SystemNtp, diag.Diagnostics) {
+	obj := models.SystemNtp{}
+	diags := diag.Diagnostics{}
+
+	obj.Interface = &[]models.SystemNtpInterface{}
+	obj.Ntpserver = &[]models.SystemNtpNtpserver{}
+
 	return &obj, diags
 }

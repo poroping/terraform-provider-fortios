@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -268,7 +268,12 @@ func resourceWanoptWebcacheDelete(ctx context.Context, d *schema.ResourceData, m
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteWanoptWebcache(mkey, urlparams)
+	obj, diags := getEmptyObjectWanoptWebcache(d, c.Config.Fv)
+	if diags.HasError() {
+		return diags
+	}
+
+	_, err := c.Cmdb.UpdateWanoptWebcache(mkey, obj, urlparams)
 	if err != nil {
 		return diag.Errorf("error deleting WanoptWebcache resource: %v", err)
 	}
@@ -623,5 +628,13 @@ func getObjectWanoptWebcache(d *schema.ResourceData, sv string) (*models.WanoptW
 			obj.RevalPnc = &v2
 		}
 	}
+	return &obj, diags
+}
+
+// Return an object with explicitly empty objects for tables that have been set.
+func getEmptyObjectWanoptWebcache(d *schema.ResourceData, sv string) (*models.WanoptWebcache, diag.Diagnostics) {
+	obj := models.WanoptWebcache{}
+	diags := diag.Diagnostics{}
+
 	return &obj, diags
 }

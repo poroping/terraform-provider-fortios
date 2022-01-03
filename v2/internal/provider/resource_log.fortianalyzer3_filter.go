@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -19,14 +19,14 @@ import (
 	"github.com/poroping/terraform-provider-fortios/v2/utils"
 )
 
-func resourceLogfortianalyzer3Filter() *schema.Resource {
+func resourceLogFortianalyzer3Filter() *schema.Resource {
 	return &schema.Resource{
 		Description: "Filters for FortiAnalyzer.",
 
-		CreateContext: resourceLogfortianalyzer3FilterCreate,
-		ReadContext:   resourceLogfortianalyzer3FilterRead,
-		UpdateContext: resourceLogfortianalyzer3FilterUpdate,
-		DeleteContext: resourceLogfortianalyzer3FilterDelete,
+		CreateContext: resourceLogFortianalyzer3FilterCreate,
+		ReadContext:   resourceLogFortianalyzer3FilterRead,
+		UpdateContext: resourceLogFortianalyzer3FilterUpdate,
+		DeleteContext: resourceLogFortianalyzer3FilterDelete,
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
@@ -176,7 +176,7 @@ func resourceLogfortianalyzer3Filter() *schema.Resource {
 	}
 }
 
-func resourceLogfortianalyzer3FilterCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceLogFortianalyzer3FilterCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*apiClient).Client
 	var diags diag.Diagnostics
 	var err error
@@ -198,12 +198,12 @@ func resourceLogfortianalyzer3FilterCreate(ctx context.Context, d *schema.Resour
 	}
 	urlparams.AllowAppend = &allow_append
 
-	obj, diags := getObjectLogfortianalyzer3Filter(d, c.Config.Fv)
+	obj, diags := getObjectLogFortianalyzer3Filter(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.CreateLogfortianalyzer3Filter(obj, urlparams)
+	o, err := c.Cmdb.CreateLogFortianalyzer3Filter(obj, urlparams)
 
 	if err != nil {
 		e := diag.FromErr(err)
@@ -213,13 +213,13 @@ func resourceLogfortianalyzer3FilterCreate(ctx context.Context, d *schema.Resour
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("Logfortianalyzer3Filter")
+		d.SetId("LogFortianalyzer3Filter")
 	}
 
-	return resourceLogfortianalyzer3FilterRead(ctx, d, meta)
+	return resourceLogFortianalyzer3FilterRead(ctx, d, meta)
 }
 
-func resourceLogfortianalyzer3FilterUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceLogFortianalyzer3FilterUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
@@ -232,27 +232,27 @@ func resourceLogfortianalyzer3FilterUpdate(ctx context.Context, d *schema.Resour
 	}
 	urlparams.Vdom = vdomparam
 
-	obj, diags := getObjectLogfortianalyzer3Filter(d, c.Config.Fv)
+	obj, diags := getObjectLogFortianalyzer3Filter(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.UpdateLogfortianalyzer3Filter(mkey, obj, urlparams)
+	o, err := c.Cmdb.UpdateLogFortianalyzer3Filter(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error updating Logfortianalyzer3Filter resource: %v", err)
+		return diag.Errorf("error updating LogFortianalyzer3Filter resource: %v", err)
 	}
 
 	// log.Printf(strconv.Itoa(c.Retries))
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("Logfortianalyzer3Filter")
+		d.SetId("LogFortianalyzer3Filter")
 	}
 
-	return resourceLogfortianalyzer3FilterRead(ctx, d, meta)
+	return resourceLogFortianalyzer3FilterRead(ctx, d, meta)
 }
 
-func resourceLogfortianalyzer3FilterDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceLogFortianalyzer3FilterDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -267,9 +267,14 @@ func resourceLogfortianalyzer3FilterDelete(ctx context.Context, d *schema.Resour
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteLogfortianalyzer3Filter(mkey, urlparams)
+	obj, diags := getEmptyObjectLogFortianalyzer3Filter(d, c.Config.Fv)
+	if diags.HasError() {
+		return diags
+	}
+
+	_, err := c.Cmdb.UpdateLogFortianalyzer3Filter(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error deleting Logfortianalyzer3Filter resource: %v", err)
+		return diag.Errorf("error deleting LogFortianalyzer3Filter resource: %v", err)
 	}
 
 	d.SetId("")
@@ -277,7 +282,7 @@ func resourceLogfortianalyzer3FilterDelete(ctx context.Context, d *schema.Resour
 	return nil
 }
 
-func resourceLogfortianalyzer3FilterRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceLogFortianalyzer3FilterRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -292,9 +297,9 @@ func resourceLogfortianalyzer3FilterRead(ctx context.Context, d *schema.Resource
 	}
 	urlparams.Vdom = vdomparam
 
-	o, err := c.Cmdb.ReadLogfortianalyzer3Filter(mkey, urlparams)
+	o, err := c.Cmdb.ReadLogFortianalyzer3Filter(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error reading Logfortianalyzer3Filter resource: %v", err)
+		return diag.Errorf("error reading LogFortianalyzer3Filter resource: %v", err)
 	}
 
 	if o == nil {
@@ -310,14 +315,14 @@ func resourceLogfortianalyzer3FilterRead(ctx context.Context, d *schema.Resource
 		}
 	}
 
-	diags := refreshObjectLogfortianalyzer3Filter(d, o, c.Config.Fv, sort)
+	diags := refreshObjectLogFortianalyzer3Filter(d, o, c.Config.Fv, sort)
 	if diags.HasError() {
 		return diags
 	}
 	return nil
 }
 
-func flattenLogfortianalyzer3FilterFreeStyle(v *[]models.Logfortianalyzer3FilterFreeStyle, sort bool) interface{} {
+func flattenLogFortianalyzer3FilterFreeStyle(v *[]models.LogFortianalyzer3FilterFreeStyle, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
@@ -350,7 +355,7 @@ func flattenLogfortianalyzer3FilterFreeStyle(v *[]models.Logfortianalyzer3Filter
 	return flat
 }
 
-func refreshObjectLogfortianalyzer3Filter(d *schema.ResourceData, o *models.Logfortianalyzer3Filter, sv string, sort bool) diag.Diagnostics {
+func refreshObjectLogFortianalyzer3Filter(d *schema.ResourceData, o *models.LogFortianalyzer3Filter, sv string, sort bool) diag.Diagnostics {
 	var err error
 
 	if o.Anomaly != nil {
@@ -394,7 +399,7 @@ func refreshObjectLogfortianalyzer3Filter(d *schema.ResourceData, o *models.Logf
 	}
 
 	if o.FreeStyle != nil {
-		if err = d.Set("free_style", flattenLogfortianalyzer3FilterFreeStyle(o.FreeStyle, sort)); err != nil {
+		if err = d.Set("free_style", flattenLogFortianalyzer3FilterFreeStyle(o.FreeStyle, sort)); err != nil {
 			return diag.Errorf("error reading free_style: %v", err)
 		}
 	}
@@ -450,16 +455,16 @@ func refreshObjectLogfortianalyzer3Filter(d *schema.ResourceData, o *models.Logf
 	return nil
 }
 
-func expandLogfortianalyzer3FilterFreeStyle(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.Logfortianalyzer3FilterFreeStyle, error) {
+func expandLogFortianalyzer3FilterFreeStyle(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.LogFortianalyzer3FilterFreeStyle, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
 	}
 
-	var result []models.Logfortianalyzer3FilterFreeStyle
+	var result []models.LogFortianalyzer3FilterFreeStyle
 
 	for i := range l {
-		tmp := models.Logfortianalyzer3FilterFreeStyle{}
+		tmp := models.LogFortianalyzer3FilterFreeStyle{}
 		var pre_append string
 
 		pre_append = fmt.Sprintf("%s.%d.category", pre, i)
@@ -495,8 +500,8 @@ func expandLogfortianalyzer3FilterFreeStyle(d *schema.ResourceData, v interface{
 	return &result, nil
 }
 
-func getObjectLogfortianalyzer3Filter(d *schema.ResourceData, sv string) (*models.Logfortianalyzer3Filter, diag.Diagnostics) {
-	obj := models.Logfortianalyzer3Filter{}
+func getObjectLogFortianalyzer3Filter(d *schema.ResourceData, sv string) (*models.LogFortianalyzer3Filter, diag.Diagnostics) {
+	obj := models.LogFortianalyzer3Filter{}
 	diags := diag.Diagnostics{}
 
 	if v1, ok := d.GetOk("anomaly"); ok {
@@ -549,7 +554,7 @@ func getObjectLogfortianalyzer3Filter(d *schema.ResourceData, sv string) (*model
 			e := utils.AttributeVersionWarning("free_style", sv)
 			diags = append(diags, e)
 		}
-		t, err := expandLogfortianalyzer3FilterFreeStyle(d, v, "free_style", sv)
+		t, err := expandLogFortianalyzer3FilterFreeStyle(d, v, "free_style", sv)
 		if err != nil {
 			return &obj, diag.FromErr(err)
 		} else if t != nil {
@@ -558,12 +563,12 @@ func getObjectLogfortianalyzer3Filter(d *schema.ResourceData, sv string) (*model
 	} else if d.HasChange("free_style") {
 		old, new := d.GetChange("free_style")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.FreeStyle = &[]models.Logfortianalyzer3FilterFreeStyle{}
+			obj.FreeStyle = &[]models.LogFortianalyzer3FilterFreeStyle{}
 		}
 	}
 	if v1, ok := d.GetOk("gtp"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "v6.4.2", "") {
+			if !utils.CheckVer(sv, "v6.4.0", "") {
 				e := utils.AttributeVersionWarning("gtp", sv)
 				diags = append(diags, e)
 			}
@@ -615,5 +620,15 @@ func getObjectLogfortianalyzer3Filter(d *schema.ResourceData, sv string) (*model
 			obj.Voip = &v2
 		}
 	}
+	return &obj, diags
+}
+
+// Return an object with explicitly empty objects for tables that have been set.
+func getEmptyObjectLogFortianalyzer3Filter(d *schema.ResourceData, sv string) (*models.LogFortianalyzer3Filter, diag.Diagnostics) {
+	obj := models.LogFortianalyzer3Filter{}
+	diags := diag.Diagnostics{}
+
+	obj.FreeStyle = &[]models.LogFortianalyzer3FilterFreeStyle{}
+
 	return &obj, diags
 }

@@ -165,7 +165,12 @@ func resourceSystemAutoInstallDelete(ctx context.Context, d *schema.ResourceData
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteSystemAutoInstall(mkey, urlparams)
+	obj, diags := getEmptyObjectSystemAutoInstall(d, c.Config.Fv)
+	if diags.HasError() {
+		return diags
+	}
+
+	_, err := c.Cmdb.UpdateSystemAutoInstall(mkey, obj, urlparams)
 	if err != nil {
 		return diag.Errorf("error deleting SystemAutoInstall resource: %v", err)
 	}
@@ -293,5 +298,13 @@ func getObjectSystemAutoInstall(d *schema.ResourceData, sv string) (*models.Syst
 			obj.DefaultImageFile = &v2
 		}
 	}
+	return &obj, diags
+}
+
+// Return an object with explicitly empty objects for tables that have been set.
+func getEmptyObjectSystemAutoInstall(d *schema.ResourceData, sv string) (*models.SystemAutoInstall, diag.Diagnostics) {
+	obj := models.SystemAutoInstall{}
+	diags := diag.Diagnostics{}
+
 	return &obj, diags
 }

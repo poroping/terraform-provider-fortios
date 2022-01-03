@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -18,14 +18,14 @@ import (
 	"github.com/poroping/terraform-provider-fortios/v2/utils"
 )
 
-func resourceWirelessControllerhotspot20H2qpWanMetric() *schema.Resource {
+func resourceWirelessControllerHotspot20H2qpWanMetric() *schema.Resource {
 	return &schema.Resource{
 		Description: "Configure WAN metrics.",
 
-		CreateContext: resourceWirelessControllerhotspot20H2qpWanMetricCreate,
-		ReadContext:   resourceWirelessControllerhotspot20H2qpWanMetricRead,
-		UpdateContext: resourceWirelessControllerhotspot20H2qpWanMetricUpdate,
-		DeleteContext: resourceWirelessControllerhotspot20H2qpWanMetricDelete,
+		CreateContext: resourceWirelessControllerHotspot20H2qpWanMetricCreate,
+		ReadContext:   resourceWirelessControllerHotspot20H2qpWanMetricRead,
+		UpdateContext: resourceWirelessControllerHotspot20H2qpWanMetricUpdate,
+		DeleteContext: resourceWirelessControllerHotspot20H2qpWanMetricDelete,
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
@@ -118,7 +118,7 @@ func resourceWirelessControllerhotspot20H2qpWanMetric() *schema.Resource {
 	}
 }
 
-func resourceWirelessControllerhotspot20H2qpWanMetricCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceWirelessControllerHotspot20H2qpWanMetricCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*apiClient).Client
 	var diags diag.Diagnostics
 	var err error
@@ -145,16 +145,16 @@ func resourceWirelessControllerhotspot20H2qpWanMetricCreate(ctx context.Context,
 	if v, ok := d.GetOk(key); ok {
 		mkey = utils.ParseMkey(v)
 		if mkey == "" && allow_append {
-			return diag.Errorf("error creating WirelessControllerhotspot20H2qpWanMetric resource: %q must be set if \"allow_append\" is true", key)
+			return diag.Errorf("error creating WirelessControllerHotspot20H2qpWanMetric resource: %q must be set if \"allow_append\" is true", key)
 		}
 	}
 
-	obj, diags := getObjectWirelessControllerhotspot20H2qpWanMetric(d, c.Config.Fv)
+	obj, diags := getObjectWirelessControllerHotspot20H2qpWanMetric(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.CreateWirelessControllerhotspot20H2qpWanMetric(obj, urlparams)
+	o, err := c.Cmdb.CreateWirelessControllerHotspot20H2qpWanMetric(obj, urlparams)
 
 	if err != nil {
 		e := diag.FromErr(err)
@@ -164,13 +164,13 @@ func resourceWirelessControllerhotspot20H2qpWanMetricCreate(ctx context.Context,
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("WirelessControllerhotspot20H2qpWanMetric")
+		d.SetId("WirelessControllerHotspot20H2qpWanMetric")
 	}
 
-	return resourceWirelessControllerhotspot20H2qpWanMetricRead(ctx, d, meta)
+	return resourceWirelessControllerHotspot20H2qpWanMetricRead(ctx, d, meta)
 }
 
-func resourceWirelessControllerhotspot20H2qpWanMetricUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceWirelessControllerHotspot20H2qpWanMetricUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
@@ -183,27 +183,27 @@ func resourceWirelessControllerhotspot20H2qpWanMetricUpdate(ctx context.Context,
 	}
 	urlparams.Vdom = vdomparam
 
-	obj, diags := getObjectWirelessControllerhotspot20H2qpWanMetric(d, c.Config.Fv)
+	obj, diags := getObjectWirelessControllerHotspot20H2qpWanMetric(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.UpdateWirelessControllerhotspot20H2qpWanMetric(mkey, obj, urlparams)
+	o, err := c.Cmdb.UpdateWirelessControllerHotspot20H2qpWanMetric(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error updating WirelessControllerhotspot20H2qpWanMetric resource: %v", err)
+		return diag.Errorf("error updating WirelessControllerHotspot20H2qpWanMetric resource: %v", err)
 	}
 
 	// log.Printf(strconv.Itoa(c.Retries))
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("WirelessControllerhotspot20H2qpWanMetric")
+		d.SetId("WirelessControllerHotspot20H2qpWanMetric")
 	}
 
-	return resourceWirelessControllerhotspot20H2qpWanMetricRead(ctx, d, meta)
+	return resourceWirelessControllerHotspot20H2qpWanMetricRead(ctx, d, meta)
 }
 
-func resourceWirelessControllerhotspot20H2qpWanMetricDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceWirelessControllerHotspot20H2qpWanMetricDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -218,9 +218,9 @@ func resourceWirelessControllerhotspot20H2qpWanMetricDelete(ctx context.Context,
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteWirelessControllerhotspot20H2qpWanMetric(mkey, urlparams)
+	err := c.Cmdb.DeleteWirelessControllerHotspot20H2qpWanMetric(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error deleting WirelessControllerhotspot20H2qpWanMetric resource: %v", err)
+		return diag.Errorf("error deleting WirelessControllerHotspot20H2qpWanMetric resource: %v", err)
 	}
 
 	d.SetId("")
@@ -228,7 +228,7 @@ func resourceWirelessControllerhotspot20H2qpWanMetricDelete(ctx context.Context,
 	return nil
 }
 
-func resourceWirelessControllerhotspot20H2qpWanMetricRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceWirelessControllerHotspot20H2qpWanMetricRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -243,9 +243,9 @@ func resourceWirelessControllerhotspot20H2qpWanMetricRead(ctx context.Context, d
 	}
 	urlparams.Vdom = vdomparam
 
-	o, err := c.Cmdb.ReadWirelessControllerhotspot20H2qpWanMetric(mkey, urlparams)
+	o, err := c.Cmdb.ReadWirelessControllerHotspot20H2qpWanMetric(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error reading WirelessControllerhotspot20H2qpWanMetric resource: %v", err)
+		return diag.Errorf("error reading WirelessControllerHotspot20H2qpWanMetric resource: %v", err)
 	}
 
 	if o == nil {
@@ -261,14 +261,14 @@ func resourceWirelessControllerhotspot20H2qpWanMetricRead(ctx context.Context, d
 		}
 	}
 
-	diags := refreshObjectWirelessControllerhotspot20H2qpWanMetric(d, o, c.Config.Fv, sort)
+	diags := refreshObjectWirelessControllerHotspot20H2qpWanMetric(d, o, c.Config.Fv, sort)
 	if diags.HasError() {
 		return diags
 	}
 	return nil
 }
 
-func refreshObjectWirelessControllerhotspot20H2qpWanMetric(d *schema.ResourceData, o *models.WirelessControllerhotspot20H2qpWanMetric, sv string, sort bool) diag.Diagnostics {
+func refreshObjectWirelessControllerHotspot20H2qpWanMetric(d *schema.ResourceData, o *models.WirelessControllerHotspot20H2qpWanMetric, sv string, sort bool) diag.Diagnostics {
 	var err error
 
 	if o.DownlinkLoad != nil {
@@ -346,8 +346,8 @@ func refreshObjectWirelessControllerhotspot20H2qpWanMetric(d *schema.ResourceDat
 	return nil
 }
 
-func getObjectWirelessControllerhotspot20H2qpWanMetric(d *schema.ResourceData, sv string) (*models.WirelessControllerhotspot20H2qpWanMetric, diag.Diagnostics) {
-	obj := models.WirelessControllerhotspot20H2qpWanMetric{}
+func getObjectWirelessControllerHotspot20H2qpWanMetric(d *schema.ResourceData, sv string) (*models.WirelessControllerHotspot20H2qpWanMetric, diag.Diagnostics) {
+	obj := models.WirelessControllerHotspot20H2qpWanMetric{}
 	diags := diag.Diagnostics{}
 
 	if v1, ok := d.GetOk("downlink_load"); ok {

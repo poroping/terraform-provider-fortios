@@ -64,16 +64,14 @@ func resource{{.fpath}}() *schema.Resource {
 
 {{ template "READRESFUNC" . }}
 
-{{ template "FLATTEN" .results }}
+{{if not .child_path}}{{ template "FLATTEN" .results }}{{end}}
 
 {{ template "refreshObject" . }}
 
-{{ template "EXPAND" .results }}
+{{if not .child_path}}{{ template "EXPAND" .results }}{{end}}
 
 {{ template "GETOBJECT" . }}
 
-
-
-
+{{if eq .results.category "complex"}}{{ template "getEmptyObject" . }}{{end}}
 
 {{end}}

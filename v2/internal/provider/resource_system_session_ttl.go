@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -194,7 +194,12 @@ func resourceSystemSessionTtlDelete(ctx context.Context, d *schema.ResourceData,
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteSystemSessionTtl(mkey, urlparams)
+	obj, diags := getEmptyObjectSystemSessionTtl(d, c.Config.Fv)
+	if diags.HasError() {
+		return diags
+	}
+
+	_, err := c.Cmdb.UpdateSystemSessionTtl(mkey, obj, urlparams)
 	if err != nil {
 		return diag.Errorf("error deleting SystemSessionTtl resource: %v", err)
 	}
@@ -383,5 +388,15 @@ func getObjectSystemSessionTtl(d *schema.ResourceData, sv string) (*models.Syste
 			obj.Port = &[]models.SystemSessionTtlPort{}
 		}
 	}
+	return &obj, diags
+}
+
+// Return an object with explicitly empty objects for tables that have been set.
+func getEmptyObjectSystemSessionTtl(d *schema.ResourceData, sv string) (*models.SystemSessionTtl, diag.Diagnostics) {
+	obj := models.SystemSessionTtl{}
+	diags := diag.Diagnostics{}
+
+	obj.Port = &[]models.SystemSessionTtlPort{}
+
 	return &obj, diags
 }

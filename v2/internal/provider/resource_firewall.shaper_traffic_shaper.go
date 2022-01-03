@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -18,14 +18,14 @@ import (
 	"github.com/poroping/terraform-provider-fortios/v2/utils"
 )
 
-func resourceFirewallshaperTrafficShaper() *schema.Resource {
+func resourceFirewallShaperTrafficShaper() *schema.Resource {
 	return &schema.Resource{
 		Description: "Configure shared traffic shaper.",
 
-		CreateContext: resourceFirewallshaperTrafficShaperCreate,
-		ReadContext:   resourceFirewallshaperTrafficShaperRead,
-		UpdateContext: resourceFirewallshaperTrafficShaperUpdate,
-		DeleteContext: resourceFirewallshaperTrafficShaperDelete,
+		CreateContext: resourceFirewallShaperTrafficShaperCreate,
+		ReadContext:   resourceFirewallShaperTrafficShaperRead,
+		UpdateContext: resourceFirewallShaperTrafficShaperUpdate,
+		DeleteContext: resourceFirewallShaperTrafficShaperDelete,
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
@@ -156,7 +156,7 @@ func resourceFirewallshaperTrafficShaper() *schema.Resource {
 	}
 }
 
-func resourceFirewallshaperTrafficShaperCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceFirewallShaperTrafficShaperCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*apiClient).Client
 	var diags diag.Diagnostics
 	var err error
@@ -183,16 +183,16 @@ func resourceFirewallshaperTrafficShaperCreate(ctx context.Context, d *schema.Re
 	if v, ok := d.GetOk(key); ok {
 		mkey = utils.ParseMkey(v)
 		if mkey == "" && allow_append {
-			return diag.Errorf("error creating FirewallshaperTrafficShaper resource: %q must be set if \"allow_append\" is true", key)
+			return diag.Errorf("error creating FirewallShaperTrafficShaper resource: %q must be set if \"allow_append\" is true", key)
 		}
 	}
 
-	obj, diags := getObjectFirewallshaperTrafficShaper(d, c.Config.Fv)
+	obj, diags := getObjectFirewallShaperTrafficShaper(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.CreateFirewallshaperTrafficShaper(obj, urlparams)
+	o, err := c.Cmdb.CreateFirewallShaperTrafficShaper(obj, urlparams)
 
 	if err != nil {
 		e := diag.FromErr(err)
@@ -202,13 +202,13 @@ func resourceFirewallshaperTrafficShaperCreate(ctx context.Context, d *schema.Re
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("FirewallshaperTrafficShaper")
+		d.SetId("FirewallShaperTrafficShaper")
 	}
 
-	return resourceFirewallshaperTrafficShaperRead(ctx, d, meta)
+	return resourceFirewallShaperTrafficShaperRead(ctx, d, meta)
 }
 
-func resourceFirewallshaperTrafficShaperUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceFirewallShaperTrafficShaperUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
@@ -221,27 +221,27 @@ func resourceFirewallshaperTrafficShaperUpdate(ctx context.Context, d *schema.Re
 	}
 	urlparams.Vdom = vdomparam
 
-	obj, diags := getObjectFirewallshaperTrafficShaper(d, c.Config.Fv)
+	obj, diags := getObjectFirewallShaperTrafficShaper(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.UpdateFirewallshaperTrafficShaper(mkey, obj, urlparams)
+	o, err := c.Cmdb.UpdateFirewallShaperTrafficShaper(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error updating FirewallshaperTrafficShaper resource: %v", err)
+		return diag.Errorf("error updating FirewallShaperTrafficShaper resource: %v", err)
 	}
 
 	// log.Printf(strconv.Itoa(c.Retries))
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("FirewallshaperTrafficShaper")
+		d.SetId("FirewallShaperTrafficShaper")
 	}
 
-	return resourceFirewallshaperTrafficShaperRead(ctx, d, meta)
+	return resourceFirewallShaperTrafficShaperRead(ctx, d, meta)
 }
 
-func resourceFirewallshaperTrafficShaperDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceFirewallShaperTrafficShaperDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -256,9 +256,9 @@ func resourceFirewallshaperTrafficShaperDelete(ctx context.Context, d *schema.Re
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteFirewallshaperTrafficShaper(mkey, urlparams)
+	err := c.Cmdb.DeleteFirewallShaperTrafficShaper(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error deleting FirewallshaperTrafficShaper resource: %v", err)
+		return diag.Errorf("error deleting FirewallShaperTrafficShaper resource: %v", err)
 	}
 
 	d.SetId("")
@@ -266,7 +266,7 @@ func resourceFirewallshaperTrafficShaperDelete(ctx context.Context, d *schema.Re
 	return nil
 }
 
-func resourceFirewallshaperTrafficShaperRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceFirewallShaperTrafficShaperRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -281,9 +281,9 @@ func resourceFirewallshaperTrafficShaperRead(ctx context.Context, d *schema.Reso
 	}
 	urlparams.Vdom = vdomparam
 
-	o, err := c.Cmdb.ReadFirewallshaperTrafficShaper(mkey, urlparams)
+	o, err := c.Cmdb.ReadFirewallShaperTrafficShaper(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error reading FirewallshaperTrafficShaper resource: %v", err)
+		return diag.Errorf("error reading FirewallShaperTrafficShaper resource: %v", err)
 	}
 
 	if o == nil {
@@ -299,14 +299,14 @@ func resourceFirewallshaperTrafficShaperRead(ctx context.Context, d *schema.Reso
 		}
 	}
 
-	diags := refreshObjectFirewallshaperTrafficShaper(d, o, c.Config.Fv, sort)
+	diags := refreshObjectFirewallShaperTrafficShaper(d, o, c.Config.Fv, sort)
 	if diags.HasError() {
 		return diags
 	}
 	return nil
 }
 
-func refreshObjectFirewallshaperTrafficShaper(d *schema.ResourceData, o *models.FirewallshaperTrafficShaper, sv string, sort bool) diag.Diagnostics {
+func refreshObjectFirewallShaperTrafficShaper(d *schema.ResourceData, o *models.FirewallShaperTrafficShaper, sv string, sort bool) diag.Diagnostics {
 	var err error
 
 	if o.BandwidthUnit != nil {
@@ -424,8 +424,8 @@ func refreshObjectFirewallshaperTrafficShaper(d *schema.ResourceData, o *models.
 	return nil
 }
 
-func getObjectFirewallshaperTrafficShaper(d *schema.ResourceData, sv string) (*models.FirewallshaperTrafficShaper, diag.Diagnostics) {
-	obj := models.FirewallshaperTrafficShaper{}
+func getObjectFirewallShaperTrafficShaper(d *schema.ResourceData, sv string) (*models.FirewallShaperTrafficShaper, diag.Diagnostics) {
+	obj := models.FirewallShaperTrafficShaper{}
 	diags := diag.Diagnostics{}
 
 	if v1, ok := d.GetOk("bandwidth_unit"); ok {

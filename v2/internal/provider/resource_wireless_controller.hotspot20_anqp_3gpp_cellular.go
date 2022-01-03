@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -19,14 +19,14 @@ import (
 	"github.com/poroping/terraform-provider-fortios/v2/utils"
 )
 
-func resourceWirelessControllerhotspot20Anqp3gppCellular() *schema.Resource {
+func resourceWirelessControllerHotspot20Anqp3gppCellular() *schema.Resource {
 	return &schema.Resource{
 		Description: "Configure 3GPP public land mobile network (PLMN).",
 
-		CreateContext: resourceWirelessControllerhotspot20Anqp3gppCellularCreate,
-		ReadContext:   resourceWirelessControllerhotspot20Anqp3gppCellularRead,
-		UpdateContext: resourceWirelessControllerhotspot20Anqp3gppCellularUpdate,
-		DeleteContext: resourceWirelessControllerhotspot20Anqp3gppCellularDelete,
+		CreateContext: resourceWirelessControllerHotspot20Anqp3gppCellularCreate,
+		ReadContext:   resourceWirelessControllerHotspot20Anqp3gppCellularRead,
+		UpdateContext: resourceWirelessControllerHotspot20Anqp3gppCellularUpdate,
+		DeleteContext: resourceWirelessControllerHotspot20Anqp3gppCellularDelete,
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
@@ -95,7 +95,7 @@ func resourceWirelessControllerhotspot20Anqp3gppCellular() *schema.Resource {
 	}
 }
 
-func resourceWirelessControllerhotspot20Anqp3gppCellularCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceWirelessControllerHotspot20Anqp3gppCellularCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*apiClient).Client
 	var diags diag.Diagnostics
 	var err error
@@ -122,16 +122,16 @@ func resourceWirelessControllerhotspot20Anqp3gppCellularCreate(ctx context.Conte
 	if v, ok := d.GetOk(key); ok {
 		mkey = utils.ParseMkey(v)
 		if mkey == "" && allow_append {
-			return diag.Errorf("error creating WirelessControllerhotspot20Anqp3gppCellular resource: %q must be set if \"allow_append\" is true", key)
+			return diag.Errorf("error creating WirelessControllerHotspot20Anqp3gppCellular resource: %q must be set if \"allow_append\" is true", key)
 		}
 	}
 
-	obj, diags := getObjectWirelessControllerhotspot20Anqp3gppCellular(d, c.Config.Fv)
+	obj, diags := getObjectWirelessControllerHotspot20Anqp3gppCellular(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.CreateWirelessControllerhotspot20Anqp3gppCellular(obj, urlparams)
+	o, err := c.Cmdb.CreateWirelessControllerHotspot20Anqp3gppCellular(obj, urlparams)
 
 	if err != nil {
 		e := diag.FromErr(err)
@@ -141,13 +141,13 @@ func resourceWirelessControllerhotspot20Anqp3gppCellularCreate(ctx context.Conte
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("WirelessControllerhotspot20Anqp3gppCellular")
+		d.SetId("WirelessControllerHotspot20Anqp3gppCellular")
 	}
 
-	return resourceWirelessControllerhotspot20Anqp3gppCellularRead(ctx, d, meta)
+	return resourceWirelessControllerHotspot20Anqp3gppCellularRead(ctx, d, meta)
 }
 
-func resourceWirelessControllerhotspot20Anqp3gppCellularUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceWirelessControllerHotspot20Anqp3gppCellularUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
@@ -160,27 +160,27 @@ func resourceWirelessControllerhotspot20Anqp3gppCellularUpdate(ctx context.Conte
 	}
 	urlparams.Vdom = vdomparam
 
-	obj, diags := getObjectWirelessControllerhotspot20Anqp3gppCellular(d, c.Config.Fv)
+	obj, diags := getObjectWirelessControllerHotspot20Anqp3gppCellular(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.UpdateWirelessControllerhotspot20Anqp3gppCellular(mkey, obj, urlparams)
+	o, err := c.Cmdb.UpdateWirelessControllerHotspot20Anqp3gppCellular(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error updating WirelessControllerhotspot20Anqp3gppCellular resource: %v", err)
+		return diag.Errorf("error updating WirelessControllerHotspot20Anqp3gppCellular resource: %v", err)
 	}
 
 	// log.Printf(strconv.Itoa(c.Retries))
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("WirelessControllerhotspot20Anqp3gppCellular")
+		d.SetId("WirelessControllerHotspot20Anqp3gppCellular")
 	}
 
-	return resourceWirelessControllerhotspot20Anqp3gppCellularRead(ctx, d, meta)
+	return resourceWirelessControllerHotspot20Anqp3gppCellularRead(ctx, d, meta)
 }
 
-func resourceWirelessControllerhotspot20Anqp3gppCellularDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceWirelessControllerHotspot20Anqp3gppCellularDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -195,9 +195,9 @@ func resourceWirelessControllerhotspot20Anqp3gppCellularDelete(ctx context.Conte
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteWirelessControllerhotspot20Anqp3gppCellular(mkey, urlparams)
+	err := c.Cmdb.DeleteWirelessControllerHotspot20Anqp3gppCellular(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error deleting WirelessControllerhotspot20Anqp3gppCellular resource: %v", err)
+		return diag.Errorf("error deleting WirelessControllerHotspot20Anqp3gppCellular resource: %v", err)
 	}
 
 	d.SetId("")
@@ -205,7 +205,7 @@ func resourceWirelessControllerhotspot20Anqp3gppCellularDelete(ctx context.Conte
 	return nil
 }
 
-func resourceWirelessControllerhotspot20Anqp3gppCellularRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceWirelessControllerHotspot20Anqp3gppCellularRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -220,9 +220,9 @@ func resourceWirelessControllerhotspot20Anqp3gppCellularRead(ctx context.Context
 	}
 	urlparams.Vdom = vdomparam
 
-	o, err := c.Cmdb.ReadWirelessControllerhotspot20Anqp3gppCellular(mkey, urlparams)
+	o, err := c.Cmdb.ReadWirelessControllerHotspot20Anqp3gppCellular(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error reading WirelessControllerhotspot20Anqp3gppCellular resource: %v", err)
+		return diag.Errorf("error reading WirelessControllerHotspot20Anqp3gppCellular resource: %v", err)
 	}
 
 	if o == nil {
@@ -238,14 +238,14 @@ func resourceWirelessControllerhotspot20Anqp3gppCellularRead(ctx context.Context
 		}
 	}
 
-	diags := refreshObjectWirelessControllerhotspot20Anqp3gppCellular(d, o, c.Config.Fv, sort)
+	diags := refreshObjectWirelessControllerHotspot20Anqp3gppCellular(d, o, c.Config.Fv, sort)
 	if diags.HasError() {
 		return diags
 	}
 	return nil
 }
 
-func flattenWirelessControllerhotspot20Anqp3gppCellularMccMncList(v *[]models.WirelessControllerhotspot20Anqp3gppCellularMccMncList, sort bool) interface{} {
+func flattenWirelessControllerHotspot20Anqp3gppCellularMccMncList(v *[]models.WirelessControllerHotspot20Anqp3gppCellularMccMncList, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
@@ -274,11 +274,11 @@ func flattenWirelessControllerhotspot20Anqp3gppCellularMccMncList(v *[]models.Wi
 	return flat
 }
 
-func refreshObjectWirelessControllerhotspot20Anqp3gppCellular(d *schema.ResourceData, o *models.WirelessControllerhotspot20Anqp3gppCellular, sv string, sort bool) diag.Diagnostics {
+func refreshObjectWirelessControllerHotspot20Anqp3gppCellular(d *schema.ResourceData, o *models.WirelessControllerHotspot20Anqp3gppCellular, sv string, sort bool) diag.Diagnostics {
 	var err error
 
 	if o.MccMncList != nil {
-		if err = d.Set("mcc_mnc_list", flattenWirelessControllerhotspot20Anqp3gppCellularMccMncList(o.MccMncList, sort)); err != nil {
+		if err = d.Set("mcc_mnc_list", flattenWirelessControllerHotspot20Anqp3gppCellularMccMncList(o.MccMncList, sort)); err != nil {
 			return diag.Errorf("error reading mcc_mnc_list: %v", err)
 		}
 	}
@@ -294,16 +294,16 @@ func refreshObjectWirelessControllerhotspot20Anqp3gppCellular(d *schema.Resource
 	return nil
 }
 
-func expandWirelessControllerhotspot20Anqp3gppCellularMccMncList(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.WirelessControllerhotspot20Anqp3gppCellularMccMncList, error) {
+func expandWirelessControllerHotspot20Anqp3gppCellularMccMncList(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.WirelessControllerHotspot20Anqp3gppCellularMccMncList, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
 	}
 
-	var result []models.WirelessControllerhotspot20Anqp3gppCellularMccMncList
+	var result []models.WirelessControllerHotspot20Anqp3gppCellularMccMncList
 
 	for i := range l {
-		tmp := models.WirelessControllerhotspot20Anqp3gppCellularMccMncList{}
+		tmp := models.WirelessControllerHotspot20Anqp3gppCellularMccMncList{}
 		var pre_append string
 
 		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
@@ -332,8 +332,8 @@ func expandWirelessControllerhotspot20Anqp3gppCellularMccMncList(d *schema.Resou
 	return &result, nil
 }
 
-func getObjectWirelessControllerhotspot20Anqp3gppCellular(d *schema.ResourceData, sv string) (*models.WirelessControllerhotspot20Anqp3gppCellular, diag.Diagnostics) {
-	obj := models.WirelessControllerhotspot20Anqp3gppCellular{}
+func getObjectWirelessControllerHotspot20Anqp3gppCellular(d *schema.ResourceData, sv string) (*models.WirelessControllerHotspot20Anqp3gppCellular, diag.Diagnostics) {
+	obj := models.WirelessControllerHotspot20Anqp3gppCellular{}
 	diags := diag.Diagnostics{}
 
 	if v, ok := d.GetOk("mcc_mnc_list"); ok {
@@ -341,7 +341,7 @@ func getObjectWirelessControllerhotspot20Anqp3gppCellular(d *schema.ResourceData
 			e := utils.AttributeVersionWarning("mcc_mnc_list", sv)
 			diags = append(diags, e)
 		}
-		t, err := expandWirelessControllerhotspot20Anqp3gppCellularMccMncList(d, v, "mcc_mnc_list", sv)
+		t, err := expandWirelessControllerHotspot20Anqp3gppCellularMccMncList(d, v, "mcc_mnc_list", sv)
 		if err != nil {
 			return &obj, diag.FromErr(err)
 		} else if t != nil {
@@ -350,7 +350,7 @@ func getObjectWirelessControllerhotspot20Anqp3gppCellular(d *schema.ResourceData
 	} else if d.HasChange("mcc_mnc_list") {
 		old, new := d.GetChange("mcc_mnc_list")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.MccMncList = &[]models.WirelessControllerhotspot20Anqp3gppCellularMccMncList{}
+			obj.MccMncList = &[]models.WirelessControllerHotspot20Anqp3gppCellularMccMncList{}
 		}
 	}
 	if v1, ok := d.GetOk("name"); ok {

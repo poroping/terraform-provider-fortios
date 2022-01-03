@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -18,14 +18,14 @@ import (
 	"github.com/poroping/terraform-provider-fortios/v2/utils"
 )
 
-func resourceSwitchControllerautoConfigDefault() *schema.Resource {
+func resourceSwitchControllerAutoConfigDefault() *schema.Resource {
 	return &schema.Resource{
 		Description: "Policies which are applied automatically to all ISL/ICL/FortiLink interfaces.",
 
-		CreateContext: resourceSwitchControllerautoConfigDefaultCreate,
-		ReadContext:   resourceSwitchControllerautoConfigDefaultRead,
-		UpdateContext: resourceSwitchControllerautoConfigDefaultUpdate,
-		DeleteContext: resourceSwitchControllerautoConfigDefaultDelete,
+		CreateContext: resourceSwitchControllerAutoConfigDefaultCreate,
+		ReadContext:   resourceSwitchControllerAutoConfigDefaultRead,
+		UpdateContext: resourceSwitchControllerAutoConfigDefaultUpdate,
+		DeleteContext: resourceSwitchControllerAutoConfigDefaultDelete,
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
@@ -66,7 +66,7 @@ func resourceSwitchControllerautoConfigDefault() *schema.Resource {
 	}
 }
 
-func resourceSwitchControllerautoConfigDefaultCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSwitchControllerAutoConfigDefaultCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*apiClient).Client
 	var diags diag.Diagnostics
 	var err error
@@ -88,12 +88,12 @@ func resourceSwitchControllerautoConfigDefaultCreate(ctx context.Context, d *sch
 	}
 	urlparams.AllowAppend = &allow_append
 
-	obj, diags := getObjectSwitchControllerautoConfigDefault(d, c.Config.Fv)
+	obj, diags := getObjectSwitchControllerAutoConfigDefault(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.CreateSwitchControllerautoConfigDefault(obj, urlparams)
+	o, err := c.Cmdb.CreateSwitchControllerAutoConfigDefault(obj, urlparams)
 
 	if err != nil {
 		e := diag.FromErr(err)
@@ -103,13 +103,13 @@ func resourceSwitchControllerautoConfigDefaultCreate(ctx context.Context, d *sch
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("SwitchControllerautoConfigDefault")
+		d.SetId("SwitchControllerAutoConfigDefault")
 	}
 
-	return resourceSwitchControllerautoConfigDefaultRead(ctx, d, meta)
+	return resourceSwitchControllerAutoConfigDefaultRead(ctx, d, meta)
 }
 
-func resourceSwitchControllerautoConfigDefaultUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSwitchControllerAutoConfigDefaultUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
@@ -122,27 +122,27 @@ func resourceSwitchControllerautoConfigDefaultUpdate(ctx context.Context, d *sch
 	}
 	urlparams.Vdom = vdomparam
 
-	obj, diags := getObjectSwitchControllerautoConfigDefault(d, c.Config.Fv)
+	obj, diags := getObjectSwitchControllerAutoConfigDefault(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.UpdateSwitchControllerautoConfigDefault(mkey, obj, urlparams)
+	o, err := c.Cmdb.UpdateSwitchControllerAutoConfigDefault(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error updating SwitchControllerautoConfigDefault resource: %v", err)
+		return diag.Errorf("error updating SwitchControllerAutoConfigDefault resource: %v", err)
 	}
 
 	// log.Printf(strconv.Itoa(c.Retries))
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("SwitchControllerautoConfigDefault")
+		d.SetId("SwitchControllerAutoConfigDefault")
 	}
 
-	return resourceSwitchControllerautoConfigDefaultRead(ctx, d, meta)
+	return resourceSwitchControllerAutoConfigDefaultRead(ctx, d, meta)
 }
 
-func resourceSwitchControllerautoConfigDefaultDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSwitchControllerAutoConfigDefaultDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -157,9 +157,14 @@ func resourceSwitchControllerautoConfigDefaultDelete(ctx context.Context, d *sch
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteSwitchControllerautoConfigDefault(mkey, urlparams)
+	obj, diags := getEmptyObjectSwitchControllerAutoConfigDefault(d, c.Config.Fv)
+	if diags.HasError() {
+		return diags
+	}
+
+	_, err := c.Cmdb.UpdateSwitchControllerAutoConfigDefault(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error deleting SwitchControllerautoConfigDefault resource: %v", err)
+		return diag.Errorf("error deleting SwitchControllerAutoConfigDefault resource: %v", err)
 	}
 
 	d.SetId("")
@@ -167,7 +172,7 @@ func resourceSwitchControllerautoConfigDefaultDelete(ctx context.Context, d *sch
 	return nil
 }
 
-func resourceSwitchControllerautoConfigDefaultRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSwitchControllerAutoConfigDefaultRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -182,9 +187,9 @@ func resourceSwitchControllerautoConfigDefaultRead(ctx context.Context, d *schem
 	}
 	urlparams.Vdom = vdomparam
 
-	o, err := c.Cmdb.ReadSwitchControllerautoConfigDefault(mkey, urlparams)
+	o, err := c.Cmdb.ReadSwitchControllerAutoConfigDefault(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error reading SwitchControllerautoConfigDefault resource: %v", err)
+		return diag.Errorf("error reading SwitchControllerAutoConfigDefault resource: %v", err)
 	}
 
 	if o == nil {
@@ -200,14 +205,14 @@ func resourceSwitchControllerautoConfigDefaultRead(ctx context.Context, d *schem
 		}
 	}
 
-	diags := refreshObjectSwitchControllerautoConfigDefault(d, o, c.Config.Fv, sort)
+	diags := refreshObjectSwitchControllerAutoConfigDefault(d, o, c.Config.Fv, sort)
 	if diags.HasError() {
 		return diags
 	}
 	return nil
 }
 
-func refreshObjectSwitchControllerautoConfigDefault(d *schema.ResourceData, o *models.SwitchControllerautoConfigDefault, sv string, sort bool) diag.Diagnostics {
+func refreshObjectSwitchControllerAutoConfigDefault(d *schema.ResourceData, o *models.SwitchControllerAutoConfigDefault, sv string, sort bool) diag.Diagnostics {
 	var err error
 
 	if o.FgtPolicy != nil {
@@ -237,8 +242,8 @@ func refreshObjectSwitchControllerautoConfigDefault(d *schema.ResourceData, o *m
 	return nil
 }
 
-func getObjectSwitchControllerautoConfigDefault(d *schema.ResourceData, sv string) (*models.SwitchControllerautoConfigDefault, diag.Diagnostics) {
-	obj := models.SwitchControllerautoConfigDefault{}
+func getObjectSwitchControllerAutoConfigDefault(d *schema.ResourceData, sv string) (*models.SwitchControllerAutoConfigDefault, diag.Diagnostics) {
+	obj := models.SwitchControllerAutoConfigDefault{}
 	diags := diag.Diagnostics{}
 
 	if v1, ok := d.GetOk("fgt_policy"); ok {
@@ -268,5 +273,13 @@ func getObjectSwitchControllerautoConfigDefault(d *schema.ResourceData, sv strin
 			obj.IslPolicy = &v2
 		}
 	}
+	return &obj, diags
+}
+
+// Return an object with explicitly empty objects for tables that have been set.
+func getEmptyObjectSwitchControllerAutoConfigDefault(d *schema.ResourceData, sv string) (*models.SwitchControllerAutoConfigDefault, diag.Diagnostics) {
+	obj := models.SwitchControllerAutoConfigDefault{}
+	diags := diag.Diagnostics{}
+
 	return &obj, diags
 }

@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -230,7 +230,12 @@ func resourceSystemPasswordPolicyGuestAdminDelete(ctx context.Context, d *schema
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteSystemPasswordPolicyGuestAdmin(mkey, urlparams)
+	obj, diags := getEmptyObjectSystemPasswordPolicyGuestAdmin(d, c.Config.Fv)
+	if diags.HasError() {
+		return diags
+	}
+
+	_, err := c.Cmdb.UpdateSystemPasswordPolicyGuestAdmin(mkey, obj, urlparams)
 	if err != nil {
 		return diag.Errorf("error deleting SystemPasswordPolicyGuestAdmin resource: %v", err)
 	}
@@ -501,5 +506,13 @@ func getObjectSystemPasswordPolicyGuestAdmin(d *schema.ResourceData, sv string) 
 			obj.Status = &v2
 		}
 	}
+	return &obj, diags
+}
+
+// Return an object with explicitly empty objects for tables that have been set.
+func getEmptyObjectSystemPasswordPolicyGuestAdmin(d *schema.ResourceData, sv string) (*models.SystemPasswordPolicyGuestAdmin, diag.Diagnostics) {
+	obj := models.SystemPasswordPolicyGuestAdmin{}
+	diags := diag.Diagnostics{}
+
 	return &obj, diags
 }

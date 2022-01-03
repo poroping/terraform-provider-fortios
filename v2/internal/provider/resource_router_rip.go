@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -544,7 +544,12 @@ func resourceRouterRipDelete(ctx context.Context, d *schema.ResourceData, meta i
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteRouterRip(mkey, urlparams)
+	obj, diags := getEmptyObjectRouterRip(d, c.Config.Fv)
+	if diags.HasError() {
+		return diags
+	}
+
+	_, err := c.Cmdb.UpdateRouterRip(mkey, obj, urlparams)
 	if err != nil {
 		return diag.Errorf("error deleting RouterRip resource: %v", err)
 	}
@@ -1576,5 +1581,22 @@ func getObjectRouterRip(d *schema.ResourceData, sv string) (*models.RouterRip, d
 			obj.Version = &v2
 		}
 	}
+	return &obj, diags
+}
+
+// Return an object with explicitly empty objects for tables that have been set.
+func getEmptyObjectRouterRip(d *schema.ResourceData, sv string) (*models.RouterRip, diag.Diagnostics) {
+	obj := models.RouterRip{}
+	diags := diag.Diagnostics{}
+
+	obj.Distance = &[]models.RouterRipDistance{}
+	obj.DistributeList = &[]models.RouterRipDistributeList{}
+	obj.Interface = &[]models.RouterRipInterface{}
+	obj.Neighbor = &[]models.RouterRipNeighbor{}
+	obj.Network = &[]models.RouterRipNetwork{}
+	obj.OffsetList = &[]models.RouterRipOffsetList{}
+	obj.PassiveInterface = &[]models.RouterRipPassiveInterface{}
+	obj.Redistribute = &[]models.RouterRipRedistribute{}
+
 	return &obj, diags
 }

@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -18,14 +18,14 @@ import (
 	"github.com/poroping/terraform-provider-fortios/v2/utils"
 )
 
-func resourceVpncertificateCa() *schema.Resource {
+func resourceVpnCertificateCa() *schema.Resource {
 	return &schema.Resource{
 		Description: "CA certificate.",
 
-		CreateContext: resourceVpncertificateCaCreate,
-		ReadContext:   resourceVpncertificateCaRead,
-		UpdateContext: resourceVpncertificateCaUpdate,
-		DeleteContext: resourceVpncertificateCaDelete,
+		CreateContext: resourceVpnCertificateCaCreate,
+		ReadContext:   resourceVpnCertificateCaRead,
+		UpdateContext: resourceVpnCertificateCaUpdate,
+		DeleteContext: resourceVpnCertificateCaDelete,
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
@@ -125,7 +125,7 @@ func resourceVpncertificateCa() *schema.Resource {
 	}
 }
 
-func resourceVpncertificateCaCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceVpnCertificateCaCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*apiClient).Client
 	var diags diag.Diagnostics
 	var err error
@@ -152,16 +152,16 @@ func resourceVpncertificateCaCreate(ctx context.Context, d *schema.ResourceData,
 	if v, ok := d.GetOk(key); ok {
 		mkey = utils.ParseMkey(v)
 		if mkey == "" && allow_append {
-			return diag.Errorf("error creating VpncertificateCa resource: %q must be set if \"allow_append\" is true", key)
+			return diag.Errorf("error creating VpnCertificateCa resource: %q must be set if \"allow_append\" is true", key)
 		}
 	}
 
-	obj, diags := getObjectVpncertificateCa(d, c.Config.Fv)
+	obj, diags := getObjectVpnCertificateCa(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.CreateVpncertificateCa(obj, urlparams)
+	o, err := c.Cmdb.CreateVpnCertificateCa(obj, urlparams)
 
 	if err != nil {
 		e := diag.FromErr(err)
@@ -171,13 +171,13 @@ func resourceVpncertificateCaCreate(ctx context.Context, d *schema.ResourceData,
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("VpncertificateCa")
+		d.SetId("VpnCertificateCa")
 	}
 
-	return resourceVpncertificateCaRead(ctx, d, meta)
+	return resourceVpnCertificateCaRead(ctx, d, meta)
 }
 
-func resourceVpncertificateCaUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceVpnCertificateCaUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
@@ -190,27 +190,27 @@ func resourceVpncertificateCaUpdate(ctx context.Context, d *schema.ResourceData,
 	}
 	urlparams.Vdom = vdomparam
 
-	obj, diags := getObjectVpncertificateCa(d, c.Config.Fv)
+	obj, diags := getObjectVpnCertificateCa(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.UpdateVpncertificateCa(mkey, obj, urlparams)
+	o, err := c.Cmdb.UpdateVpnCertificateCa(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error updating VpncertificateCa resource: %v", err)
+		return diag.Errorf("error updating VpnCertificateCa resource: %v", err)
 	}
 
 	// log.Printf(strconv.Itoa(c.Retries))
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("VpncertificateCa")
+		d.SetId("VpnCertificateCa")
 	}
 
-	return resourceVpncertificateCaRead(ctx, d, meta)
+	return resourceVpnCertificateCaRead(ctx, d, meta)
 }
 
-func resourceVpncertificateCaDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceVpnCertificateCaDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -225,9 +225,9 @@ func resourceVpncertificateCaDelete(ctx context.Context, d *schema.ResourceData,
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteVpncertificateCa(mkey, urlparams)
+	err := c.Cmdb.DeleteVpnCertificateCa(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error deleting VpncertificateCa resource: %v", err)
+		return diag.Errorf("error deleting VpnCertificateCa resource: %v", err)
 	}
 
 	d.SetId("")
@@ -235,7 +235,7 @@ func resourceVpncertificateCaDelete(ctx context.Context, d *schema.ResourceData,
 	return nil
 }
 
-func resourceVpncertificateCaRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceVpnCertificateCaRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -250,9 +250,9 @@ func resourceVpncertificateCaRead(ctx context.Context, d *schema.ResourceData, m
 	}
 	urlparams.Vdom = vdomparam
 
-	o, err := c.Cmdb.ReadVpncertificateCa(mkey, urlparams)
+	o, err := c.Cmdb.ReadVpnCertificateCa(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error reading VpncertificateCa resource: %v", err)
+		return diag.Errorf("error reading VpnCertificateCa resource: %v", err)
 	}
 
 	if o == nil {
@@ -268,14 +268,14 @@ func resourceVpncertificateCaRead(ctx context.Context, d *schema.ResourceData, m
 		}
 	}
 
-	diags := refreshObjectVpncertificateCa(d, o, c.Config.Fv, sort)
+	diags := refreshObjectVpnCertificateCa(d, o, c.Config.Fv, sort)
 	if diags.HasError() {
 		return diags
 	}
 	return nil
 }
 
-func refreshObjectVpncertificateCa(d *schema.ResourceData, o *models.VpncertificateCa, sv string, sort bool) diag.Diagnostics {
+func refreshObjectVpnCertificateCa(d *schema.ResourceData, o *models.VpnCertificateCa, sv string, sort bool) diag.Diagnostics {
 	var err error
 
 	if o.AutoUpdateDays != nil {
@@ -361,8 +361,8 @@ func refreshObjectVpncertificateCa(d *schema.ResourceData, o *models.Vpncertific
 	return nil
 }
 
-func getObjectVpncertificateCa(d *schema.ResourceData, sv string) (*models.VpncertificateCa, diag.Diagnostics) {
-	obj := models.VpncertificateCa{}
+func getObjectVpnCertificateCa(d *schema.ResourceData, sv string) (*models.VpnCertificateCa, diag.Diagnostics) {
+	obj := models.VpnCertificateCa{}
 	diags := diag.Diagnostics{}
 
 	if v1, ok := d.GetOk("auto_update_days"); ok {

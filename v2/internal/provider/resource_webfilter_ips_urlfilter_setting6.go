@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -166,7 +166,12 @@ func resourceWebfilterIpsUrlfilterSetting6Delete(ctx context.Context, d *schema.
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteWebfilterIpsUrlfilterSetting6(mkey, urlparams)
+	obj, diags := getEmptyObjectWebfilterIpsUrlfilterSetting6(d, c.Config.Fv)
+	if diags.HasError() {
+		return diags
+	}
+
+	_, err := c.Cmdb.UpdateWebfilterIpsUrlfilterSetting6(mkey, obj, urlparams)
 	if err != nil {
 		return diag.Errorf("error deleting WebfilterIpsUrlfilterSetting6 resource: %v", err)
 	}
@@ -295,5 +300,13 @@ func getObjectWebfilterIpsUrlfilterSetting6(d *schema.ResourceData, sv string) (
 			obj.GeoFilter = &v2
 		}
 	}
+	return &obj, diags
+}
+
+// Return an object with explicitly empty objects for tables that have been set.
+func getEmptyObjectWebfilterIpsUrlfilterSetting6(d *schema.ResourceData, sv string) (*models.WebfilterIpsUrlfilterSetting6, diag.Diagnostics) {
+	obj := models.WebfilterIpsUrlfilterSetting6{}
+	diags := diag.Diagnostics{}
+
 	return &obj, diags
 }

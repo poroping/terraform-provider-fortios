@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -19,14 +19,14 @@ import (
 	"github.com/poroping/terraform-provider-fortios/v2/utils"
 )
 
-func resourceWirelessControllerhotspot20Icon() *schema.Resource {
+func resourceWirelessControllerHotspot20Icon() *schema.Resource {
 	return &schema.Resource{
 		Description: "Configure OSU provider icon.",
 
-		CreateContext: resourceWirelessControllerhotspot20IconCreate,
-		ReadContext:   resourceWirelessControllerhotspot20IconRead,
-		UpdateContext: resourceWirelessControllerhotspot20IconUpdate,
-		DeleteContext: resourceWirelessControllerhotspot20IconDelete,
+		CreateContext: resourceWirelessControllerHotspot20IconCreate,
+		ReadContext:   resourceWirelessControllerHotspot20IconRead,
+		UpdateContext: resourceWirelessControllerHotspot20IconUpdate,
+		DeleteContext: resourceWirelessControllerHotspot20IconDelete,
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
@@ -119,7 +119,7 @@ func resourceWirelessControllerhotspot20Icon() *schema.Resource {
 	}
 }
 
-func resourceWirelessControllerhotspot20IconCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceWirelessControllerHotspot20IconCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*apiClient).Client
 	var diags diag.Diagnostics
 	var err error
@@ -146,16 +146,16 @@ func resourceWirelessControllerhotspot20IconCreate(ctx context.Context, d *schem
 	if v, ok := d.GetOk(key); ok {
 		mkey = utils.ParseMkey(v)
 		if mkey == "" && allow_append {
-			return diag.Errorf("error creating WirelessControllerhotspot20Icon resource: %q must be set if \"allow_append\" is true", key)
+			return diag.Errorf("error creating WirelessControllerHotspot20Icon resource: %q must be set if \"allow_append\" is true", key)
 		}
 	}
 
-	obj, diags := getObjectWirelessControllerhotspot20Icon(d, c.Config.Fv)
+	obj, diags := getObjectWirelessControllerHotspot20Icon(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.CreateWirelessControllerhotspot20Icon(obj, urlparams)
+	o, err := c.Cmdb.CreateWirelessControllerHotspot20Icon(obj, urlparams)
 
 	if err != nil {
 		e := diag.FromErr(err)
@@ -165,13 +165,13 @@ func resourceWirelessControllerhotspot20IconCreate(ctx context.Context, d *schem
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("WirelessControllerhotspot20Icon")
+		d.SetId("WirelessControllerHotspot20Icon")
 	}
 
-	return resourceWirelessControllerhotspot20IconRead(ctx, d, meta)
+	return resourceWirelessControllerHotspot20IconRead(ctx, d, meta)
 }
 
-func resourceWirelessControllerhotspot20IconUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceWirelessControllerHotspot20IconUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
@@ -184,27 +184,27 @@ func resourceWirelessControllerhotspot20IconUpdate(ctx context.Context, d *schem
 	}
 	urlparams.Vdom = vdomparam
 
-	obj, diags := getObjectWirelessControllerhotspot20Icon(d, c.Config.Fv)
+	obj, diags := getObjectWirelessControllerHotspot20Icon(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.UpdateWirelessControllerhotspot20Icon(mkey, obj, urlparams)
+	o, err := c.Cmdb.UpdateWirelessControllerHotspot20Icon(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error updating WirelessControllerhotspot20Icon resource: %v", err)
+		return diag.Errorf("error updating WirelessControllerHotspot20Icon resource: %v", err)
 	}
 
 	// log.Printf(strconv.Itoa(c.Retries))
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("WirelessControllerhotspot20Icon")
+		d.SetId("WirelessControllerHotspot20Icon")
 	}
 
-	return resourceWirelessControllerhotspot20IconRead(ctx, d, meta)
+	return resourceWirelessControllerHotspot20IconRead(ctx, d, meta)
 }
 
-func resourceWirelessControllerhotspot20IconDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceWirelessControllerHotspot20IconDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -219,9 +219,9 @@ func resourceWirelessControllerhotspot20IconDelete(ctx context.Context, d *schem
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteWirelessControllerhotspot20Icon(mkey, urlparams)
+	err := c.Cmdb.DeleteWirelessControllerHotspot20Icon(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error deleting WirelessControllerhotspot20Icon resource: %v", err)
+		return diag.Errorf("error deleting WirelessControllerHotspot20Icon resource: %v", err)
 	}
 
 	d.SetId("")
@@ -229,7 +229,7 @@ func resourceWirelessControllerhotspot20IconDelete(ctx context.Context, d *schem
 	return nil
 }
 
-func resourceWirelessControllerhotspot20IconRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceWirelessControllerHotspot20IconRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -244,9 +244,9 @@ func resourceWirelessControllerhotspot20IconRead(ctx context.Context, d *schema.
 	}
 	urlparams.Vdom = vdomparam
 
-	o, err := c.Cmdb.ReadWirelessControllerhotspot20Icon(mkey, urlparams)
+	o, err := c.Cmdb.ReadWirelessControllerHotspot20Icon(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error reading WirelessControllerhotspot20Icon resource: %v", err)
+		return diag.Errorf("error reading WirelessControllerHotspot20Icon resource: %v", err)
 	}
 
 	if o == nil {
@@ -262,14 +262,14 @@ func resourceWirelessControllerhotspot20IconRead(ctx context.Context, d *schema.
 		}
 	}
 
-	diags := refreshObjectWirelessControllerhotspot20Icon(d, o, c.Config.Fv, sort)
+	diags := refreshObjectWirelessControllerHotspot20Icon(d, o, c.Config.Fv, sort)
 	if diags.HasError() {
 		return diags
 	}
 	return nil
 }
 
-func flattenWirelessControllerhotspot20IconIconList(v *[]models.WirelessControllerhotspot20IconIconList, sort bool) interface{} {
+func flattenWirelessControllerHotspot20IconIconList(v *[]models.WirelessControllerHotspot20IconIconList, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
@@ -310,11 +310,11 @@ func flattenWirelessControllerhotspot20IconIconList(v *[]models.WirelessControll
 	return flat
 }
 
-func refreshObjectWirelessControllerhotspot20Icon(d *schema.ResourceData, o *models.WirelessControllerhotspot20Icon, sv string, sort bool) diag.Diagnostics {
+func refreshObjectWirelessControllerHotspot20Icon(d *schema.ResourceData, o *models.WirelessControllerHotspot20Icon, sv string, sort bool) diag.Diagnostics {
 	var err error
 
 	if o.IconList != nil {
-		if err = d.Set("icon_list", flattenWirelessControllerhotspot20IconIconList(o.IconList, sort)); err != nil {
+		if err = d.Set("icon_list", flattenWirelessControllerHotspot20IconIconList(o.IconList, sort)); err != nil {
 			return diag.Errorf("error reading icon_list: %v", err)
 		}
 	}
@@ -330,16 +330,16 @@ func refreshObjectWirelessControllerhotspot20Icon(d *schema.ResourceData, o *mod
 	return nil
 }
 
-func expandWirelessControllerhotspot20IconIconList(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.WirelessControllerhotspot20IconIconList, error) {
+func expandWirelessControllerHotspot20IconIconList(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.WirelessControllerHotspot20IconIconList, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
 	}
 
-	var result []models.WirelessControllerhotspot20IconIconList
+	var result []models.WirelessControllerHotspot20IconIconList
 
 	for i := range l {
-		tmp := models.WirelessControllerhotspot20IconIconList{}
+		tmp := models.WirelessControllerHotspot20IconIconList{}
 		var pre_append string
 
 		pre_append = fmt.Sprintf("%s.%d.file", pre, i)
@@ -389,8 +389,8 @@ func expandWirelessControllerhotspot20IconIconList(d *schema.ResourceData, v int
 	return &result, nil
 }
 
-func getObjectWirelessControllerhotspot20Icon(d *schema.ResourceData, sv string) (*models.WirelessControllerhotspot20Icon, diag.Diagnostics) {
-	obj := models.WirelessControllerhotspot20Icon{}
+func getObjectWirelessControllerHotspot20Icon(d *schema.ResourceData, sv string) (*models.WirelessControllerHotspot20Icon, diag.Diagnostics) {
+	obj := models.WirelessControllerHotspot20Icon{}
 	diags := diag.Diagnostics{}
 
 	if v, ok := d.GetOk("icon_list"); ok {
@@ -398,7 +398,7 @@ func getObjectWirelessControllerhotspot20Icon(d *schema.ResourceData, sv string)
 			e := utils.AttributeVersionWarning("icon_list", sv)
 			diags = append(diags, e)
 		}
-		t, err := expandWirelessControllerhotspot20IconIconList(d, v, "icon_list", sv)
+		t, err := expandWirelessControllerHotspot20IconIconList(d, v, "icon_list", sv)
 		if err != nil {
 			return &obj, diag.FromErr(err)
 		} else if t != nil {
@@ -407,7 +407,7 @@ func getObjectWirelessControllerhotspot20Icon(d *schema.ResourceData, sv string)
 	} else if d.HasChange("icon_list") {
 		old, new := d.GetChange("icon_list")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.IconList = &[]models.WirelessControllerhotspot20IconIconList{}
+			obj.IconList = &[]models.WirelessControllerHotspot20IconIconList{}
 		}
 	}
 	if v1, ok := d.GetOk("name"); ok {

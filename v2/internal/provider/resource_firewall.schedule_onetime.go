@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -18,14 +18,14 @@ import (
 	"github.com/poroping/terraform-provider-fortios/v2/utils"
 )
 
-func resourceFirewallscheduleOnetime() *schema.Resource {
+func resourceFirewallScheduleOnetime() *schema.Resource {
 	return &schema.Resource{
 		Description: "Onetime schedule configuration.",
 
-		CreateContext: resourceFirewallscheduleOnetimeCreate,
-		ReadContext:   resourceFirewallscheduleOnetimeRead,
-		UpdateContext: resourceFirewallscheduleOnetimeUpdate,
-		DeleteContext: resourceFirewallscheduleOnetimeDelete,
+		CreateContext: resourceFirewallScheduleOnetimeCreate,
+		ReadContext:   resourceFirewallScheduleOnetimeRead,
+		UpdateContext: resourceFirewallScheduleOnetimeUpdate,
+		DeleteContext: resourceFirewallScheduleOnetimeDelete,
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
@@ -94,7 +94,7 @@ func resourceFirewallscheduleOnetime() *schema.Resource {
 	}
 }
 
-func resourceFirewallscheduleOnetimeCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceFirewallScheduleOnetimeCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*apiClient).Client
 	var diags diag.Diagnostics
 	var err error
@@ -121,16 +121,16 @@ func resourceFirewallscheduleOnetimeCreate(ctx context.Context, d *schema.Resour
 	if v, ok := d.GetOk(key); ok {
 		mkey = utils.ParseMkey(v)
 		if mkey == "" && allow_append {
-			return diag.Errorf("error creating FirewallscheduleOnetime resource: %q must be set if \"allow_append\" is true", key)
+			return diag.Errorf("error creating FirewallScheduleOnetime resource: %q must be set if \"allow_append\" is true", key)
 		}
 	}
 
-	obj, diags := getObjectFirewallscheduleOnetime(d, c.Config.Fv)
+	obj, diags := getObjectFirewallScheduleOnetime(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.CreateFirewallscheduleOnetime(obj, urlparams)
+	o, err := c.Cmdb.CreateFirewallScheduleOnetime(obj, urlparams)
 
 	if err != nil {
 		e := diag.FromErr(err)
@@ -140,13 +140,13 @@ func resourceFirewallscheduleOnetimeCreate(ctx context.Context, d *schema.Resour
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("FirewallscheduleOnetime")
+		d.SetId("FirewallScheduleOnetime")
 	}
 
-	return resourceFirewallscheduleOnetimeRead(ctx, d, meta)
+	return resourceFirewallScheduleOnetimeRead(ctx, d, meta)
 }
 
-func resourceFirewallscheduleOnetimeUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceFirewallScheduleOnetimeUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
@@ -159,27 +159,27 @@ func resourceFirewallscheduleOnetimeUpdate(ctx context.Context, d *schema.Resour
 	}
 	urlparams.Vdom = vdomparam
 
-	obj, diags := getObjectFirewallscheduleOnetime(d, c.Config.Fv)
+	obj, diags := getObjectFirewallScheduleOnetime(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.UpdateFirewallscheduleOnetime(mkey, obj, urlparams)
+	o, err := c.Cmdb.UpdateFirewallScheduleOnetime(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error updating FirewallscheduleOnetime resource: %v", err)
+		return diag.Errorf("error updating FirewallScheduleOnetime resource: %v", err)
 	}
 
 	// log.Printf(strconv.Itoa(c.Retries))
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("FirewallscheduleOnetime")
+		d.SetId("FirewallScheduleOnetime")
 	}
 
-	return resourceFirewallscheduleOnetimeRead(ctx, d, meta)
+	return resourceFirewallScheduleOnetimeRead(ctx, d, meta)
 }
 
-func resourceFirewallscheduleOnetimeDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceFirewallScheduleOnetimeDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -194,9 +194,9 @@ func resourceFirewallscheduleOnetimeDelete(ctx context.Context, d *schema.Resour
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteFirewallscheduleOnetime(mkey, urlparams)
+	err := c.Cmdb.DeleteFirewallScheduleOnetime(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error deleting FirewallscheduleOnetime resource: %v", err)
+		return diag.Errorf("error deleting FirewallScheduleOnetime resource: %v", err)
 	}
 
 	d.SetId("")
@@ -204,7 +204,7 @@ func resourceFirewallscheduleOnetimeDelete(ctx context.Context, d *schema.Resour
 	return nil
 }
 
-func resourceFirewallscheduleOnetimeRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceFirewallScheduleOnetimeRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -219,9 +219,9 @@ func resourceFirewallscheduleOnetimeRead(ctx context.Context, d *schema.Resource
 	}
 	urlparams.Vdom = vdomparam
 
-	o, err := c.Cmdb.ReadFirewallscheduleOnetime(mkey, urlparams)
+	o, err := c.Cmdb.ReadFirewallScheduleOnetime(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error reading FirewallscheduleOnetime resource: %v", err)
+		return diag.Errorf("error reading FirewallScheduleOnetime resource: %v", err)
 	}
 
 	if o == nil {
@@ -237,14 +237,14 @@ func resourceFirewallscheduleOnetimeRead(ctx context.Context, d *schema.Resource
 		}
 	}
 
-	diags := refreshObjectFirewallscheduleOnetime(d, o, c.Config.Fv, sort)
+	diags := refreshObjectFirewallScheduleOnetime(d, o, c.Config.Fv, sort)
 	if diags.HasError() {
 		return diags
 	}
 	return nil
 }
 
-func refreshObjectFirewallscheduleOnetime(d *schema.ResourceData, o *models.FirewallscheduleOnetime, sv string, sort bool) diag.Diagnostics {
+func refreshObjectFirewallScheduleOnetime(d *schema.ResourceData, o *models.FirewallScheduleOnetime, sv string, sort bool) diag.Diagnostics {
 	var err error
 
 	if o.Color != nil {
@@ -298,8 +298,8 @@ func refreshObjectFirewallscheduleOnetime(d *schema.ResourceData, o *models.Fire
 	return nil
 }
 
-func getObjectFirewallscheduleOnetime(d *schema.ResourceData, sv string) (*models.FirewallscheduleOnetime, diag.Diagnostics) {
-	obj := models.FirewallscheduleOnetime{}
+func getObjectFirewallScheduleOnetime(d *schema.ResourceData, sv string) (*models.FirewallScheduleOnetime, diag.Diagnostics) {
+	obj := models.FirewallScheduleOnetime{}
 	diags := diag.Diagnostics{}
 
 	if v1, ok := d.GetOk("color"); ok {

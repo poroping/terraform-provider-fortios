@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -325,7 +325,12 @@ func resourceSystemDnsDelete(ctx context.Context, d *schema.ResourceData, meta i
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteSystemDns(mkey, urlparams)
+	obj, diags := getEmptyObjectSystemDns(d, c.Config.Fv)
+	if diags.HasError() {
+		return diags
+	}
+
+	_, err := c.Cmdb.UpdateSystemDns(mkey, obj, urlparams)
 	if err != nil {
 		return diag.Errorf("error deleting SystemDns resource: %v", err)
 	}
@@ -714,7 +719,7 @@ func getObjectSystemDns(d *schema.ResourceData, sv string) (*models.SystemDns, d
 	}
 	if v1, ok := d.GetOk("interface"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "") {
+			if !utils.CheckVer(sv, "", "v6.4.0") {
 				e := utils.AttributeVersionWarning("interface", sv)
 				diags = append(diags, e)
 			}
@@ -723,7 +728,7 @@ func getObjectSystemDns(d *schema.ResourceData, sv string) (*models.SystemDns, d
 	}
 	if v1, ok := d.GetOk("interface_select_method"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "") {
+			if !utils.CheckVer(sv, "", "v6.4.0") {
 				e := utils.AttributeVersionWarning("interface_select_method", sv)
 				diags = append(diags, e)
 			}
@@ -848,5 +853,16 @@ func getObjectSystemDns(d *schema.ResourceData, sv string) (*models.SystemDns, d
 			obj.Timeout = &tmp
 		}
 	}
+	return &obj, diags
+}
+
+// Return an object with explicitly empty objects for tables that have been set.
+func getEmptyObjectSystemDns(d *schema.ResourceData, sv string) (*models.SystemDns, diag.Diagnostics) {
+	obj := models.SystemDns{}
+	diags := diag.Diagnostics{}
+
+	obj.Domain = &[]models.SystemDnsDomain{}
+	obj.ServerHostname = &[]models.SystemDnsServerHostname{}
+
 	return &obj, diags
 }

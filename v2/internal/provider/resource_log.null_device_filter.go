@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -19,14 +19,14 @@ import (
 	"github.com/poroping/terraform-provider-fortios/v2/utils"
 )
 
-func resourceLognullDeviceFilter() *schema.Resource {
+func resourceLogNullDeviceFilter() *schema.Resource {
 	return &schema.Resource{
 		Description: "Filters for null device logging.",
 
-		CreateContext: resourceLognullDeviceFilterCreate,
-		ReadContext:   resourceLognullDeviceFilterRead,
-		UpdateContext: resourceLognullDeviceFilterUpdate,
-		DeleteContext: resourceLognullDeviceFilterDelete,
+		CreateContext: resourceLogNullDeviceFilterCreate,
+		ReadContext:   resourceLogNullDeviceFilterRead,
+		UpdateContext: resourceLogNullDeviceFilterUpdate,
+		DeleteContext: resourceLogNullDeviceFilterDelete,
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
@@ -168,7 +168,7 @@ func resourceLognullDeviceFilter() *schema.Resource {
 	}
 }
 
-func resourceLognullDeviceFilterCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceLogNullDeviceFilterCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*apiClient).Client
 	var diags diag.Diagnostics
 	var err error
@@ -190,12 +190,12 @@ func resourceLognullDeviceFilterCreate(ctx context.Context, d *schema.ResourceDa
 	}
 	urlparams.AllowAppend = &allow_append
 
-	obj, diags := getObjectLognullDeviceFilter(d, c.Config.Fv)
+	obj, diags := getObjectLogNullDeviceFilter(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.CreateLognullDeviceFilter(obj, urlparams)
+	o, err := c.Cmdb.CreateLogNullDeviceFilter(obj, urlparams)
 
 	if err != nil {
 		e := diag.FromErr(err)
@@ -205,13 +205,13 @@ func resourceLognullDeviceFilterCreate(ctx context.Context, d *schema.ResourceDa
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("LognullDeviceFilter")
+		d.SetId("LogNullDeviceFilter")
 	}
 
-	return resourceLognullDeviceFilterRead(ctx, d, meta)
+	return resourceLogNullDeviceFilterRead(ctx, d, meta)
 }
 
-func resourceLognullDeviceFilterUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceLogNullDeviceFilterUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
@@ -224,27 +224,27 @@ func resourceLognullDeviceFilterUpdate(ctx context.Context, d *schema.ResourceDa
 	}
 	urlparams.Vdom = vdomparam
 
-	obj, diags := getObjectLognullDeviceFilter(d, c.Config.Fv)
+	obj, diags := getObjectLogNullDeviceFilter(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.UpdateLognullDeviceFilter(mkey, obj, urlparams)
+	o, err := c.Cmdb.UpdateLogNullDeviceFilter(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error updating LognullDeviceFilter resource: %v", err)
+		return diag.Errorf("error updating LogNullDeviceFilter resource: %v", err)
 	}
 
 	// log.Printf(strconv.Itoa(c.Retries))
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("LognullDeviceFilter")
+		d.SetId("LogNullDeviceFilter")
 	}
 
-	return resourceLognullDeviceFilterRead(ctx, d, meta)
+	return resourceLogNullDeviceFilterRead(ctx, d, meta)
 }
 
-func resourceLognullDeviceFilterDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceLogNullDeviceFilterDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -259,9 +259,14 @@ func resourceLognullDeviceFilterDelete(ctx context.Context, d *schema.ResourceDa
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteLognullDeviceFilter(mkey, urlparams)
+	obj, diags := getEmptyObjectLogNullDeviceFilter(d, c.Config.Fv)
+	if diags.HasError() {
+		return diags
+	}
+
+	_, err := c.Cmdb.UpdateLogNullDeviceFilter(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error deleting LognullDeviceFilter resource: %v", err)
+		return diag.Errorf("error deleting LogNullDeviceFilter resource: %v", err)
 	}
 
 	d.SetId("")
@@ -269,7 +274,7 @@ func resourceLognullDeviceFilterDelete(ctx context.Context, d *schema.ResourceDa
 	return nil
 }
 
-func resourceLognullDeviceFilterRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceLogNullDeviceFilterRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -284,9 +289,9 @@ func resourceLognullDeviceFilterRead(ctx context.Context, d *schema.ResourceData
 	}
 	urlparams.Vdom = vdomparam
 
-	o, err := c.Cmdb.ReadLognullDeviceFilter(mkey, urlparams)
+	o, err := c.Cmdb.ReadLogNullDeviceFilter(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error reading LognullDeviceFilter resource: %v", err)
+		return diag.Errorf("error reading LogNullDeviceFilter resource: %v", err)
 	}
 
 	if o == nil {
@@ -302,14 +307,14 @@ func resourceLognullDeviceFilterRead(ctx context.Context, d *schema.ResourceData
 		}
 	}
 
-	diags := refreshObjectLognullDeviceFilter(d, o, c.Config.Fv, sort)
+	diags := refreshObjectLogNullDeviceFilter(d, o, c.Config.Fv, sort)
 	if diags.HasError() {
 		return diags
 	}
 	return nil
 }
 
-func flattenLognullDeviceFilterFreeStyle(v *[]models.LognullDeviceFilterFreeStyle, sort bool) interface{} {
+func flattenLogNullDeviceFilterFreeStyle(v *[]models.LogNullDeviceFilterFreeStyle, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
@@ -342,7 +347,7 @@ func flattenLognullDeviceFilterFreeStyle(v *[]models.LognullDeviceFilterFreeStyl
 	return flat
 }
 
-func refreshObjectLognullDeviceFilter(d *schema.ResourceData, o *models.LognullDeviceFilter, sv string, sort bool) diag.Diagnostics {
+func refreshObjectLogNullDeviceFilter(d *schema.ResourceData, o *models.LogNullDeviceFilter, sv string, sort bool) diag.Diagnostics {
 	var err error
 
 	if o.Anomaly != nil {
@@ -378,7 +383,7 @@ func refreshObjectLognullDeviceFilter(d *schema.ResourceData, o *models.LognullD
 	}
 
 	if o.FreeStyle != nil {
-		if err = d.Set("free_style", flattenLognullDeviceFilterFreeStyle(o.FreeStyle, sort)); err != nil {
+		if err = d.Set("free_style", flattenLogNullDeviceFilterFreeStyle(o.FreeStyle, sort)); err != nil {
 			return diag.Errorf("error reading free_style: %v", err)
 		}
 	}
@@ -434,16 +439,16 @@ func refreshObjectLognullDeviceFilter(d *schema.ResourceData, o *models.LognullD
 	return nil
 }
 
-func expandLognullDeviceFilterFreeStyle(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.LognullDeviceFilterFreeStyle, error) {
+func expandLogNullDeviceFilterFreeStyle(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.LogNullDeviceFilterFreeStyle, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
 	}
 
-	var result []models.LognullDeviceFilterFreeStyle
+	var result []models.LogNullDeviceFilterFreeStyle
 
 	for i := range l {
-		tmp := models.LognullDeviceFilterFreeStyle{}
+		tmp := models.LogNullDeviceFilterFreeStyle{}
 		var pre_append string
 
 		pre_append = fmt.Sprintf("%s.%d.category", pre, i)
@@ -479,8 +484,8 @@ func expandLognullDeviceFilterFreeStyle(d *schema.ResourceData, v interface{}, p
 	return &result, nil
 }
 
-func getObjectLognullDeviceFilter(d *schema.ResourceData, sv string) (*models.LognullDeviceFilter, diag.Diagnostics) {
-	obj := models.LognullDeviceFilter{}
+func getObjectLogNullDeviceFilter(d *schema.ResourceData, sv string) (*models.LogNullDeviceFilter, diag.Diagnostics) {
+	obj := models.LogNullDeviceFilter{}
 	diags := diag.Diagnostics{}
 
 	if v1, ok := d.GetOk("anomaly"); ok {
@@ -524,7 +529,7 @@ func getObjectLognullDeviceFilter(d *schema.ResourceData, sv string) (*models.Lo
 			e := utils.AttributeVersionWarning("free_style", sv)
 			diags = append(diags, e)
 		}
-		t, err := expandLognullDeviceFilterFreeStyle(d, v, "free_style", sv)
+		t, err := expandLogNullDeviceFilterFreeStyle(d, v, "free_style", sv)
 		if err != nil {
 			return &obj, diag.FromErr(err)
 		} else if t != nil {
@@ -533,12 +538,12 @@ func getObjectLognullDeviceFilter(d *schema.ResourceData, sv string) (*models.Lo
 	} else if d.HasChange("free_style") {
 		old, new := d.GetChange("free_style")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.FreeStyle = &[]models.LognullDeviceFilterFreeStyle{}
+			obj.FreeStyle = &[]models.LogNullDeviceFilterFreeStyle{}
 		}
 	}
 	if v1, ok := d.GetOk("gtp"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "v6.4.2", "") {
+			if !utils.CheckVer(sv, "v6.4.0", "") {
 				e := utils.AttributeVersionWarning("gtp", sv)
 				diags = append(diags, e)
 			}
@@ -590,5 +595,15 @@ func getObjectLognullDeviceFilter(d *schema.ResourceData, sv string) (*models.Lo
 			obj.Voip = &v2
 		}
 	}
+	return &obj, diags
+}
+
+// Return an object with explicitly empty objects for tables that have been set.
+func getEmptyObjectLogNullDeviceFilter(d *schema.ResourceData, sv string) (*models.LogNullDeviceFilter, diag.Diagnostics) {
+	obj := models.LogNullDeviceFilter{}
+	diags := diag.Diagnostics{}
+
+	obj.FreeStyle = &[]models.LogNullDeviceFilterFreeStyle{}
+
 	return &obj, diags
 }

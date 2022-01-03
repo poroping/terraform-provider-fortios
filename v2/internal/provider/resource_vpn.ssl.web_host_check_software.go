@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -19,14 +19,14 @@ import (
 	"github.com/poroping/terraform-provider-fortios/v2/utils"
 )
 
-func resourceVpnsslwebHostCheckSoftware() *schema.Resource {
+func resourceVpnSslWebHostCheckSoftware() *schema.Resource {
 	return &schema.Resource{
 		Description: "SSL-VPN host check software.",
 
-		CreateContext: resourceVpnsslwebHostCheckSoftwareCreate,
-		ReadContext:   resourceVpnsslwebHostCheckSoftwareRead,
-		UpdateContext: resourceVpnsslwebHostCheckSoftwareUpdate,
-		DeleteContext: resourceVpnsslwebHostCheckSoftwareDelete,
+		CreateContext: resourceVpnSslWebHostCheckSoftwareCreate,
+		ReadContext:   resourceVpnSslWebHostCheckSoftwareRead,
+		UpdateContext: resourceVpnSslWebHostCheckSoftwareUpdate,
+		DeleteContext: resourceVpnSslWebHostCheckSoftwareDelete,
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
@@ -159,7 +159,7 @@ func resourceVpnsslwebHostCheckSoftware() *schema.Resource {
 	}
 }
 
-func resourceVpnsslwebHostCheckSoftwareCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceVpnSslWebHostCheckSoftwareCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*apiClient).Client
 	var diags diag.Diagnostics
 	var err error
@@ -186,16 +186,16 @@ func resourceVpnsslwebHostCheckSoftwareCreate(ctx context.Context, d *schema.Res
 	if v, ok := d.GetOk(key); ok {
 		mkey = utils.ParseMkey(v)
 		if mkey == "" && allow_append {
-			return diag.Errorf("error creating VpnsslwebHostCheckSoftware resource: %q must be set if \"allow_append\" is true", key)
+			return diag.Errorf("error creating VpnSslWebHostCheckSoftware resource: %q must be set if \"allow_append\" is true", key)
 		}
 	}
 
-	obj, diags := getObjectVpnsslwebHostCheckSoftware(d, c.Config.Fv)
+	obj, diags := getObjectVpnSslWebHostCheckSoftware(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.CreateVpnsslwebHostCheckSoftware(obj, urlparams)
+	o, err := c.Cmdb.CreateVpnSslWebHostCheckSoftware(obj, urlparams)
 
 	if err != nil {
 		e := diag.FromErr(err)
@@ -205,13 +205,13 @@ func resourceVpnsslwebHostCheckSoftwareCreate(ctx context.Context, d *schema.Res
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("VpnsslwebHostCheckSoftware")
+		d.SetId("VpnSslWebHostCheckSoftware")
 	}
 
-	return resourceVpnsslwebHostCheckSoftwareRead(ctx, d, meta)
+	return resourceVpnSslWebHostCheckSoftwareRead(ctx, d, meta)
 }
 
-func resourceVpnsslwebHostCheckSoftwareUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceVpnSslWebHostCheckSoftwareUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
@@ -224,27 +224,27 @@ func resourceVpnsslwebHostCheckSoftwareUpdate(ctx context.Context, d *schema.Res
 	}
 	urlparams.Vdom = vdomparam
 
-	obj, diags := getObjectVpnsslwebHostCheckSoftware(d, c.Config.Fv)
+	obj, diags := getObjectVpnSslWebHostCheckSoftware(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.UpdateVpnsslwebHostCheckSoftware(mkey, obj, urlparams)
+	o, err := c.Cmdb.UpdateVpnSslWebHostCheckSoftware(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error updating VpnsslwebHostCheckSoftware resource: %v", err)
+		return diag.Errorf("error updating VpnSslWebHostCheckSoftware resource: %v", err)
 	}
 
 	// log.Printf(strconv.Itoa(c.Retries))
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("VpnsslwebHostCheckSoftware")
+		d.SetId("VpnSslWebHostCheckSoftware")
 	}
 
-	return resourceVpnsslwebHostCheckSoftwareRead(ctx, d, meta)
+	return resourceVpnSslWebHostCheckSoftwareRead(ctx, d, meta)
 }
 
-func resourceVpnsslwebHostCheckSoftwareDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceVpnSslWebHostCheckSoftwareDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -259,9 +259,9 @@ func resourceVpnsslwebHostCheckSoftwareDelete(ctx context.Context, d *schema.Res
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteVpnsslwebHostCheckSoftware(mkey, urlparams)
+	err := c.Cmdb.DeleteVpnSslWebHostCheckSoftware(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error deleting VpnsslwebHostCheckSoftware resource: %v", err)
+		return diag.Errorf("error deleting VpnSslWebHostCheckSoftware resource: %v", err)
 	}
 
 	d.SetId("")
@@ -269,7 +269,7 @@ func resourceVpnsslwebHostCheckSoftwareDelete(ctx context.Context, d *schema.Res
 	return nil
 }
 
-func resourceVpnsslwebHostCheckSoftwareRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceVpnSslWebHostCheckSoftwareRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -284,9 +284,9 @@ func resourceVpnsslwebHostCheckSoftwareRead(ctx context.Context, d *schema.Resou
 	}
 	urlparams.Vdom = vdomparam
 
-	o, err := c.Cmdb.ReadVpnsslwebHostCheckSoftware(mkey, urlparams)
+	o, err := c.Cmdb.ReadVpnSslWebHostCheckSoftware(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error reading VpnsslwebHostCheckSoftware resource: %v", err)
+		return diag.Errorf("error reading VpnSslWebHostCheckSoftware resource: %v", err)
 	}
 
 	if o == nil {
@@ -302,14 +302,14 @@ func resourceVpnsslwebHostCheckSoftwareRead(ctx context.Context, d *schema.Resou
 		}
 	}
 
-	diags := refreshObjectVpnsslwebHostCheckSoftware(d, o, c.Config.Fv, sort)
+	diags := refreshObjectVpnSslWebHostCheckSoftware(d, o, c.Config.Fv, sort)
 	if diags.HasError() {
 		return diags
 	}
 	return nil
 }
 
-func flattenVpnsslwebHostCheckSoftwareCheckItemList(v *[]models.VpnsslwebHostCheckSoftwareCheckItemList, sort bool) interface{} {
+func flattenVpnSslWebHostCheckSoftwareCheckItemList(v *[]models.VpnSslWebHostCheckSoftwareCheckItemList, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
@@ -324,7 +324,7 @@ func flattenVpnsslwebHostCheckSoftwareCheckItemList(v *[]models.VpnsslwebHostChe
 			}
 
 			if tmp := cfg.Md5s; tmp != nil {
-				v["md5s"] = flattenVpnsslwebHostCheckSoftwareCheckItemListMd5s(tmp, sort)
+				v["md5s"] = flattenVpnSslWebHostCheckSoftwareCheckItemListMd5s(tmp, sort)
 			}
 
 			if tmp := cfg.Target; tmp != nil {
@@ -350,7 +350,7 @@ func flattenVpnsslwebHostCheckSoftwareCheckItemList(v *[]models.VpnsslwebHostChe
 	return flat
 }
 
-func flattenVpnsslwebHostCheckSoftwareCheckItemListMd5s(v *[]models.VpnsslwebHostCheckSoftwareCheckItemListMd5s, sort bool) interface{} {
+func flattenVpnSslWebHostCheckSoftwareCheckItemListMd5s(v *[]models.VpnSslWebHostCheckSoftwareCheckItemListMd5s, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
@@ -371,11 +371,11 @@ func flattenVpnsslwebHostCheckSoftwareCheckItemListMd5s(v *[]models.VpnsslwebHos
 	return flat
 }
 
-func refreshObjectVpnsslwebHostCheckSoftware(d *schema.ResourceData, o *models.VpnsslwebHostCheckSoftware, sv string, sort bool) diag.Diagnostics {
+func refreshObjectVpnSslWebHostCheckSoftware(d *schema.ResourceData, o *models.VpnSslWebHostCheckSoftware, sv string, sort bool) diag.Diagnostics {
 	var err error
 
 	if o.CheckItemList != nil {
-		if err = d.Set("check_item_list", flattenVpnsslwebHostCheckSoftwareCheckItemList(o.CheckItemList, sort)); err != nil {
+		if err = d.Set("check_item_list", flattenVpnSslWebHostCheckSoftwareCheckItemList(o.CheckItemList, sort)); err != nil {
 			return diag.Errorf("error reading check_item_list: %v", err)
 		}
 	}
@@ -423,16 +423,16 @@ func refreshObjectVpnsslwebHostCheckSoftware(d *schema.ResourceData, o *models.V
 	return nil
 }
 
-func expandVpnsslwebHostCheckSoftwareCheckItemList(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.VpnsslwebHostCheckSoftwareCheckItemList, error) {
+func expandVpnSslWebHostCheckSoftwareCheckItemList(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.VpnSslWebHostCheckSoftwareCheckItemList, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
 	}
 
-	var result []models.VpnsslwebHostCheckSoftwareCheckItemList
+	var result []models.VpnSslWebHostCheckSoftwareCheckItemList
 
 	for i := range l {
-		tmp := models.VpnsslwebHostCheckSoftwareCheckItemList{}
+		tmp := models.VpnSslWebHostCheckSoftwareCheckItemList{}
 		var pre_append string
 
 		pre_append = fmt.Sprintf("%s.%d.action", pre, i)
@@ -451,9 +451,9 @@ func expandVpnsslwebHostCheckSoftwareCheckItemList(d *schema.ResourceData, v int
 
 		pre_append = fmt.Sprintf("%s.%d.md5s", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			v2, _ := expandVpnsslwebHostCheckSoftwareCheckItemListMd5s(d, v1, pre_append, sv)
+			v2, _ := expandVpnSslWebHostCheckSoftwareCheckItemListMd5s(d, v1, pre_append, sv)
 			// if err != nil {
-			// 	v2 := &[]models.VpnsslwebHostCheckSoftwareCheckItemListMd5s
+			// 	v2 := &[]models.VpnSslWebHostCheckSoftwareCheckItemListMd5s
 			// 	}
 			tmp.Md5s = v2
 
@@ -485,16 +485,16 @@ func expandVpnsslwebHostCheckSoftwareCheckItemList(d *schema.ResourceData, v int
 	return &result, nil
 }
 
-func expandVpnsslwebHostCheckSoftwareCheckItemListMd5s(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.VpnsslwebHostCheckSoftwareCheckItemListMd5s, error) {
+func expandVpnSslWebHostCheckSoftwareCheckItemListMd5s(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.VpnSslWebHostCheckSoftwareCheckItemListMd5s, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
 	}
 
-	var result []models.VpnsslwebHostCheckSoftwareCheckItemListMd5s
+	var result []models.VpnSslWebHostCheckSoftwareCheckItemListMd5s
 
 	for i := range l {
-		tmp := models.VpnsslwebHostCheckSoftwareCheckItemListMd5s{}
+		tmp := models.VpnSslWebHostCheckSoftwareCheckItemListMd5s{}
 		var pre_append string
 
 		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
@@ -509,8 +509,8 @@ func expandVpnsslwebHostCheckSoftwareCheckItemListMd5s(d *schema.ResourceData, v
 	return &result, nil
 }
 
-func getObjectVpnsslwebHostCheckSoftware(d *schema.ResourceData, sv string) (*models.VpnsslwebHostCheckSoftware, diag.Diagnostics) {
-	obj := models.VpnsslwebHostCheckSoftware{}
+func getObjectVpnSslWebHostCheckSoftware(d *schema.ResourceData, sv string) (*models.VpnSslWebHostCheckSoftware, diag.Diagnostics) {
+	obj := models.VpnSslWebHostCheckSoftware{}
 	diags := diag.Diagnostics{}
 
 	if v, ok := d.GetOk("check_item_list"); ok {
@@ -518,7 +518,7 @@ func getObjectVpnsslwebHostCheckSoftware(d *schema.ResourceData, sv string) (*mo
 			e := utils.AttributeVersionWarning("check_item_list", sv)
 			diags = append(diags, e)
 		}
-		t, err := expandVpnsslwebHostCheckSoftwareCheckItemList(d, v, "check_item_list", sv)
+		t, err := expandVpnSslWebHostCheckSoftwareCheckItemList(d, v, "check_item_list", sv)
 		if err != nil {
 			return &obj, diag.FromErr(err)
 		} else if t != nil {
@@ -527,7 +527,7 @@ func getObjectVpnsslwebHostCheckSoftware(d *schema.ResourceData, sv string) (*mo
 	} else if d.HasChange("check_item_list") {
 		old, new := d.GetChange("check_item_list")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.CheckItemList = &[]models.VpnsslwebHostCheckSoftwareCheckItemList{}
+			obj.CheckItemList = &[]models.VpnSslWebHostCheckSoftwareCheckItemList{}
 		}
 	}
 	if v1, ok := d.GetOk("guid"); ok {

@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -857,7 +857,12 @@ func resourceRouterOspf6Delete(ctx context.Context, d *schema.ResourceData, meta
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteRouterOspf6(mkey, urlparams)
+	obj, diags := getEmptyObjectRouterOspf6(d, c.Config.Fv)
+	if diags.HasError() {
+		return diags
+	}
+
+	_, err := c.Cmdb.UpdateRouterOspf6(mkey, obj, urlparams)
 	if err != nil {
 		return diag.Errorf("error deleting RouterOspf6 resource: %v", err)
 	}
@@ -2417,5 +2422,19 @@ func getObjectRouterOspf6(d *schema.ResourceData, sv string) (*models.RouterOspf
 			obj.SummaryAddress = &[]models.RouterOspf6SummaryAddress{}
 		}
 	}
+	return &obj, diags
+}
+
+// Return an object with explicitly empty objects for tables that have been set.
+func getEmptyObjectRouterOspf6(d *schema.ResourceData, sv string) (*models.RouterOspf6, diag.Diagnostics) {
+	obj := models.RouterOspf6{}
+	diags := diag.Diagnostics{}
+
+	obj.Area = &[]models.RouterOspf6Area{}
+	obj.Ospf6Interface = &[]models.RouterOspf6Ospf6Interface{}
+	obj.PassiveInterface = &[]models.RouterOspf6PassiveInterface{}
+	obj.Redistribute = &[]models.RouterOspf6Redistribute{}
+	obj.SummaryAddress = &[]models.RouterOspf6SummaryAddress{}
+
 	return &obj, diags
 }

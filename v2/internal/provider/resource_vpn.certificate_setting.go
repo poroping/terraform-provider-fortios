@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -19,14 +19,14 @@ import (
 	"github.com/poroping/terraform-provider-fortios/v2/utils"
 )
 
-func resourceVpncertificateSetting() *schema.Resource {
+func resourceVpnCertificateSetting() *schema.Resource {
 	return &schema.Resource{
 		Description: "VPN certificate setting.",
 
-		CreateContext: resourceVpncertificateSettingCreate,
-		ReadContext:   resourceVpncertificateSettingRead,
-		UpdateContext: resourceVpncertificateSettingUpdate,
-		DeleteContext: resourceVpncertificateSettingDelete,
+		CreateContext: resourceVpnCertificateSettingCreate,
+		ReadContext:   resourceVpnCertificateSettingRead,
+		UpdateContext: resourceVpnCertificateSettingUpdate,
+		DeleteContext: resourceVpnCertificateSettingDelete,
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
@@ -292,7 +292,7 @@ func resourceVpncertificateSetting() *schema.Resource {
 	}
 }
 
-func resourceVpncertificateSettingCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceVpnCertificateSettingCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*apiClient).Client
 	var diags diag.Diagnostics
 	var err error
@@ -314,12 +314,12 @@ func resourceVpncertificateSettingCreate(ctx context.Context, d *schema.Resource
 	}
 	urlparams.AllowAppend = &allow_append
 
-	obj, diags := getObjectVpncertificateSetting(d, c.Config.Fv)
+	obj, diags := getObjectVpnCertificateSetting(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.CreateVpncertificateSetting(obj, urlparams)
+	o, err := c.Cmdb.CreateVpnCertificateSetting(obj, urlparams)
 
 	if err != nil {
 		e := diag.FromErr(err)
@@ -329,13 +329,13 @@ func resourceVpncertificateSettingCreate(ctx context.Context, d *schema.Resource
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("VpncertificateSetting")
+		d.SetId("VpnCertificateSetting")
 	}
 
-	return resourceVpncertificateSettingRead(ctx, d, meta)
+	return resourceVpnCertificateSettingRead(ctx, d, meta)
 }
 
-func resourceVpncertificateSettingUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceVpnCertificateSettingUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
@@ -348,27 +348,27 @@ func resourceVpncertificateSettingUpdate(ctx context.Context, d *schema.Resource
 	}
 	urlparams.Vdom = vdomparam
 
-	obj, diags := getObjectVpncertificateSetting(d, c.Config.Fv)
+	obj, diags := getObjectVpnCertificateSetting(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.UpdateVpncertificateSetting(mkey, obj, urlparams)
+	o, err := c.Cmdb.UpdateVpnCertificateSetting(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error updating VpncertificateSetting resource: %v", err)
+		return diag.Errorf("error updating VpnCertificateSetting resource: %v", err)
 	}
 
 	// log.Printf(strconv.Itoa(c.Retries))
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("VpncertificateSetting")
+		d.SetId("VpnCertificateSetting")
 	}
 
-	return resourceVpncertificateSettingRead(ctx, d, meta)
+	return resourceVpnCertificateSettingRead(ctx, d, meta)
 }
 
-func resourceVpncertificateSettingDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceVpnCertificateSettingDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -383,9 +383,14 @@ func resourceVpncertificateSettingDelete(ctx context.Context, d *schema.Resource
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteVpncertificateSetting(mkey, urlparams)
+	obj, diags := getEmptyObjectVpnCertificateSetting(d, c.Config.Fv)
+	if diags.HasError() {
+		return diags
+	}
+
+	_, err := c.Cmdb.UpdateVpnCertificateSetting(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error deleting VpncertificateSetting resource: %v", err)
+		return diag.Errorf("error deleting VpnCertificateSetting resource: %v", err)
 	}
 
 	d.SetId("")
@@ -393,7 +398,7 @@ func resourceVpncertificateSettingDelete(ctx context.Context, d *schema.Resource
 	return nil
 }
 
-func resourceVpncertificateSettingRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceVpnCertificateSettingRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -408,9 +413,9 @@ func resourceVpncertificateSettingRead(ctx context.Context, d *schema.ResourceDa
 	}
 	urlparams.Vdom = vdomparam
 
-	o, err := c.Cmdb.ReadVpncertificateSetting(mkey, urlparams)
+	o, err := c.Cmdb.ReadVpnCertificateSetting(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error reading VpncertificateSetting resource: %v", err)
+		return diag.Errorf("error reading VpnCertificateSetting resource: %v", err)
 	}
 
 	if o == nil {
@@ -426,14 +431,14 @@ func resourceVpncertificateSettingRead(ctx context.Context, d *schema.ResourceDa
 		}
 	}
 
-	diags := refreshObjectVpncertificateSetting(d, o, c.Config.Fv, sort)
+	diags := refreshObjectVpnCertificateSetting(d, o, c.Config.Fv, sort)
 	if diags.HasError() {
 		return diags
 	}
 	return nil
 }
 
-func flattenVpncertificateSettingCrlVerification(v *[]models.VpncertificateSettingCrlVerification, sort bool) interface{} {
+func flattenVpnCertificateSettingCrlVerification(v *[]models.VpnCertificateSettingCrlVerification, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
@@ -458,7 +463,7 @@ func flattenVpncertificateSettingCrlVerification(v *[]models.VpncertificateSetti
 	return flat
 }
 
-func refreshObjectVpncertificateSetting(d *schema.ResourceData, o *models.VpncertificateSetting, sv string, sort bool) diag.Diagnostics {
+func refreshObjectVpnCertificateSetting(d *schema.ResourceData, o *models.VpnCertificateSetting, sv string, sort bool) diag.Diagnostics {
 	var err error
 
 	if o.CertnameDsa1024 != nil {
@@ -590,7 +595,7 @@ func refreshObjectVpncertificateSetting(d *schema.ResourceData, o *models.Vpncer
 	}
 
 	if o.CrlVerification != nil {
-		if err = d.Set("crl_verification", flattenVpncertificateSettingCrlVerification(o.CrlVerification, sort)); err != nil {
+		if err = d.Set("crl_verification", flattenVpnCertificateSettingCrlVerification(o.CrlVerification, sort)); err != nil {
 			return diag.Errorf("error reading crl_verification: %v", err)
 		}
 	}
@@ -686,16 +691,16 @@ func refreshObjectVpncertificateSetting(d *schema.ResourceData, o *models.Vpncer
 	return nil
 }
 
-func expandVpncertificateSettingCrlVerification(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.VpncertificateSettingCrlVerification, error) {
+func expandVpnCertificateSettingCrlVerification(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.VpnCertificateSettingCrlVerification, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
 	}
 
-	var result []models.VpncertificateSettingCrlVerification
+	var result []models.VpnCertificateSettingCrlVerification
 
 	for i := range l {
-		tmp := models.VpncertificateSettingCrlVerification{}
+		tmp := models.VpnCertificateSettingCrlVerification{}
 		var pre_append string
 
 		pre_append = fmt.Sprintf("%s.%d.chain_crl_absence", pre, i)
@@ -724,8 +729,8 @@ func expandVpncertificateSettingCrlVerification(d *schema.ResourceData, v interf
 	return &result, nil
 }
 
-func getObjectVpncertificateSetting(d *schema.ResourceData, sv string) (*models.VpncertificateSetting, diag.Diagnostics) {
-	obj := models.VpncertificateSetting{}
+func getObjectVpnCertificateSetting(d *schema.ResourceData, sv string) (*models.VpnCertificateSetting, diag.Diagnostics) {
+	obj := models.VpnCertificateSetting{}
 	diags := diag.Diagnostics{}
 
 	if v1, ok := d.GetOk("certname_dsa1024"); ok {
@@ -838,7 +843,7 @@ func getObjectVpncertificateSetting(d *schema.ResourceData, sv string) (*models.
 	}
 	if v1, ok := d.GetOk("cmp_key_usage_checking"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "") {
+			if !utils.CheckVer(sv, "", "v6.4.0") {
 				e := utils.AttributeVersionWarning("cmp_key_usage_checking", sv)
 				diags = append(diags, e)
 			}
@@ -877,7 +882,7 @@ func getObjectVpncertificateSetting(d *schema.ResourceData, sv string) (*models.
 			e := utils.AttributeVersionWarning("crl_verification", sv)
 			diags = append(diags, e)
 		}
-		t, err := expandVpncertificateSettingCrlVerification(d, v, "crl_verification", sv)
+		t, err := expandVpnCertificateSettingCrlVerification(d, v, "crl_verification", sv)
 		if err != nil {
 			return &obj, diag.FromErr(err)
 		} else if t != nil {
@@ -886,12 +891,12 @@ func getObjectVpncertificateSetting(d *schema.ResourceData, sv string) (*models.
 	} else if d.HasChange("crl_verification") {
 		old, new := d.GetChange("crl_verification")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.CrlVerification = &[]models.VpncertificateSettingCrlVerification{}
+			obj.CrlVerification = &[]models.VpnCertificateSettingCrlVerification{}
 		}
 	}
 	if v1, ok := d.GetOk("interface"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "") {
+			if !utils.CheckVer(sv, "", "v6.4.0") {
 				e := utils.AttributeVersionWarning("interface", sv)
 				diags = append(diags, e)
 			}
@@ -900,7 +905,7 @@ func getObjectVpncertificateSetting(d *schema.ResourceData, sv string) (*models.
 	}
 	if v1, ok := d.GetOk("interface_select_method"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "") {
+			if !utils.CheckVer(sv, "", "v6.4.0") {
 				e := utils.AttributeVersionWarning("interface_select_method", sv)
 				diags = append(diags, e)
 			}
@@ -988,5 +993,15 @@ func getObjectVpncertificateSetting(d *schema.ResourceData, sv string) (*models.
 			obj.SubjectSet = &v2
 		}
 	}
+	return &obj, diags
+}
+
+// Return an object with explicitly empty objects for tables that have been set.
+func getEmptyObjectVpnCertificateSetting(d *schema.ResourceData, sv string) (*models.VpnCertificateSetting, diag.Diagnostics) {
+	obj := models.VpnCertificateSetting{}
+	diags := diag.Diagnostics{}
+
+	obj.CrlVerification = &[]models.VpnCertificateSettingCrlVerification{}
+
 	return &obj, diags
 }

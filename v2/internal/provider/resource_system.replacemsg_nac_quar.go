@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -18,14 +18,14 @@ import (
 	"github.com/poroping/terraform-provider-fortios/v2/utils"
 )
 
-func resourceSystemreplacemsgNacQuar() *schema.Resource {
+func resourceSystemReplacemsgNacQuar() *schema.Resource {
 	return &schema.Resource{
 		Description: "Replacement messages.",
 
-		CreateContext: resourceSystemreplacemsgNacQuarCreate,
-		ReadContext:   resourceSystemreplacemsgNacQuarRead,
-		UpdateContext: resourceSystemreplacemsgNacQuarUpdate,
-		DeleteContext: resourceSystemreplacemsgNacQuarDelete,
+		CreateContext: resourceSystemReplacemsgNacQuarCreate,
+		ReadContext:   resourceSystemReplacemsgNacQuarRead,
+		UpdateContext: resourceSystemReplacemsgNacQuarUpdate,
+		DeleteContext: resourceSystemReplacemsgNacQuarDelete,
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
@@ -80,7 +80,7 @@ func resourceSystemreplacemsgNacQuar() *schema.Resource {
 	}
 }
 
-func resourceSystemreplacemsgNacQuarCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSystemReplacemsgNacQuarCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*apiClient).Client
 	var diags diag.Diagnostics
 	var err error
@@ -107,16 +107,16 @@ func resourceSystemreplacemsgNacQuarCreate(ctx context.Context, d *schema.Resour
 	if v, ok := d.GetOk(key); ok {
 		mkey = utils.ParseMkey(v)
 		if mkey == "" && allow_append {
-			return diag.Errorf("error creating SystemreplacemsgNacQuar resource: %q must be set if \"allow_append\" is true", key)
+			return diag.Errorf("error creating SystemReplacemsgNacQuar resource: %q must be set if \"allow_append\" is true", key)
 		}
 	}
 
-	obj, diags := getObjectSystemreplacemsgNacQuar(d, c.Config.Fv)
+	obj, diags := getObjectSystemReplacemsgNacQuar(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.CreateSystemreplacemsgNacQuar(obj, urlparams)
+	o, err := c.Cmdb.CreateSystemReplacemsgNacQuar(obj, urlparams)
 
 	if err != nil {
 		e := diag.FromErr(err)
@@ -126,13 +126,13 @@ func resourceSystemreplacemsgNacQuarCreate(ctx context.Context, d *schema.Resour
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("SystemreplacemsgNacQuar")
+		d.SetId("SystemReplacemsgNacQuar")
 	}
 
-	return resourceSystemreplacemsgNacQuarRead(ctx, d, meta)
+	return resourceSystemReplacemsgNacQuarRead(ctx, d, meta)
 }
 
-func resourceSystemreplacemsgNacQuarUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSystemReplacemsgNacQuarUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
@@ -145,27 +145,27 @@ func resourceSystemreplacemsgNacQuarUpdate(ctx context.Context, d *schema.Resour
 	}
 	urlparams.Vdom = vdomparam
 
-	obj, diags := getObjectSystemreplacemsgNacQuar(d, c.Config.Fv)
+	obj, diags := getObjectSystemReplacemsgNacQuar(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.UpdateSystemreplacemsgNacQuar(mkey, obj, urlparams)
+	o, err := c.Cmdb.UpdateSystemReplacemsgNacQuar(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error updating SystemreplacemsgNacQuar resource: %v", err)
+		return diag.Errorf("error updating SystemReplacemsgNacQuar resource: %v", err)
 	}
 
 	// log.Printf(strconv.Itoa(c.Retries))
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("SystemreplacemsgNacQuar")
+		d.SetId("SystemReplacemsgNacQuar")
 	}
 
-	return resourceSystemreplacemsgNacQuarRead(ctx, d, meta)
+	return resourceSystemReplacemsgNacQuarRead(ctx, d, meta)
 }
 
-func resourceSystemreplacemsgNacQuarDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSystemReplacemsgNacQuarDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -180,9 +180,9 @@ func resourceSystemreplacemsgNacQuarDelete(ctx context.Context, d *schema.Resour
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteSystemreplacemsgNacQuar(mkey, urlparams)
+	err := c.Cmdb.DeleteSystemReplacemsgNacQuar(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error deleting SystemreplacemsgNacQuar resource: %v", err)
+		return diag.Errorf("error deleting SystemReplacemsgNacQuar resource: %v", err)
 	}
 
 	d.SetId("")
@@ -190,7 +190,7 @@ func resourceSystemreplacemsgNacQuarDelete(ctx context.Context, d *schema.Resour
 	return nil
 }
 
-func resourceSystemreplacemsgNacQuarRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSystemReplacemsgNacQuarRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -205,9 +205,9 @@ func resourceSystemreplacemsgNacQuarRead(ctx context.Context, d *schema.Resource
 	}
 	urlparams.Vdom = vdomparam
 
-	o, err := c.Cmdb.ReadSystemreplacemsgNacQuar(mkey, urlparams)
+	o, err := c.Cmdb.ReadSystemReplacemsgNacQuar(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error reading SystemreplacemsgNacQuar resource: %v", err)
+		return diag.Errorf("error reading SystemReplacemsgNacQuar resource: %v", err)
 	}
 
 	if o == nil {
@@ -223,14 +223,14 @@ func resourceSystemreplacemsgNacQuarRead(ctx context.Context, d *schema.Resource
 		}
 	}
 
-	diags := refreshObjectSystemreplacemsgNacQuar(d, o, c.Config.Fv, sort)
+	diags := refreshObjectSystemReplacemsgNacQuar(d, o, c.Config.Fv, sort)
 	if diags.HasError() {
 		return diags
 	}
 	return nil
 }
 
-func refreshObjectSystemreplacemsgNacQuar(d *schema.ResourceData, o *models.SystemreplacemsgNacQuar, sv string, sort bool) diag.Diagnostics {
+func refreshObjectSystemReplacemsgNacQuar(d *schema.ResourceData, o *models.SystemReplacemsgNacQuar, sv string, sort bool) diag.Diagnostics {
 	var err error
 
 	if o.Buffer != nil {
@@ -268,8 +268,8 @@ func refreshObjectSystemreplacemsgNacQuar(d *schema.ResourceData, o *models.Syst
 	return nil
 }
 
-func getObjectSystemreplacemsgNacQuar(d *schema.ResourceData, sv string) (*models.SystemreplacemsgNacQuar, diag.Diagnostics) {
-	obj := models.SystemreplacemsgNacQuar{}
+func getObjectSystemReplacemsgNacQuar(d *schema.ResourceData, sv string) (*models.SystemReplacemsgNacQuar, diag.Diagnostics) {
+	obj := models.SystemReplacemsgNacQuar{}
 	diags := diag.Diagnostics{}
 
 	if v1, ok := d.GetOk("buffer"); ok {

@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -19,14 +19,14 @@ import (
 	"github.com/poroping/terraform-provider-fortios/v2/utils"
 )
 
-func resourceLogfortianalyzerOverrideSetting() *schema.Resource {
+func resourceLogFortianalyzerOverrideSetting() *schema.Resource {
 	return &schema.Resource{
 		Description: "Override FortiAnalyzer settings.",
 
-		CreateContext: resourceLogfortianalyzerOverrideSettingCreate,
-		ReadContext:   resourceLogfortianalyzerOverrideSettingRead,
-		UpdateContext: resourceLogfortianalyzerOverrideSettingUpdate,
-		DeleteContext: resourceLogfortianalyzerOverrideSettingDelete,
+		CreateContext: resourceLogFortianalyzerOverrideSettingCreate,
+		ReadContext:   resourceLogFortianalyzerOverrideSettingRead,
+		UpdateContext: resourceLogFortianalyzerOverrideSettingUpdate,
+		DeleteContext: resourceLogFortianalyzerOverrideSettingDelete,
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
@@ -255,7 +255,7 @@ func resourceLogfortianalyzerOverrideSetting() *schema.Resource {
 	}
 }
 
-func resourceLogfortianalyzerOverrideSettingCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceLogFortianalyzerOverrideSettingCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*apiClient).Client
 	var diags diag.Diagnostics
 	var err error
@@ -277,12 +277,12 @@ func resourceLogfortianalyzerOverrideSettingCreate(ctx context.Context, d *schem
 	}
 	urlparams.AllowAppend = &allow_append
 
-	obj, diags := getObjectLogfortianalyzerOverrideSetting(d, c.Config.Fv)
+	obj, diags := getObjectLogFortianalyzerOverrideSetting(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.CreateLogfortianalyzerOverrideSetting(obj, urlparams)
+	o, err := c.Cmdb.CreateLogFortianalyzerOverrideSetting(obj, urlparams)
 
 	if err != nil {
 		e := diag.FromErr(err)
@@ -292,13 +292,13 @@ func resourceLogfortianalyzerOverrideSettingCreate(ctx context.Context, d *schem
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("LogfortianalyzerOverrideSetting")
+		d.SetId("LogFortianalyzerOverrideSetting")
 	}
 
-	return resourceLogfortianalyzerOverrideSettingRead(ctx, d, meta)
+	return resourceLogFortianalyzerOverrideSettingRead(ctx, d, meta)
 }
 
-func resourceLogfortianalyzerOverrideSettingUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceLogFortianalyzerOverrideSettingUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
@@ -311,27 +311,27 @@ func resourceLogfortianalyzerOverrideSettingUpdate(ctx context.Context, d *schem
 	}
 	urlparams.Vdom = vdomparam
 
-	obj, diags := getObjectLogfortianalyzerOverrideSetting(d, c.Config.Fv)
+	obj, diags := getObjectLogFortianalyzerOverrideSetting(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.UpdateLogfortianalyzerOverrideSetting(mkey, obj, urlparams)
+	o, err := c.Cmdb.UpdateLogFortianalyzerOverrideSetting(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error updating LogfortianalyzerOverrideSetting resource: %v", err)
+		return diag.Errorf("error updating LogFortianalyzerOverrideSetting resource: %v", err)
 	}
 
 	// log.Printf(strconv.Itoa(c.Retries))
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("LogfortianalyzerOverrideSetting")
+		d.SetId("LogFortianalyzerOverrideSetting")
 	}
 
-	return resourceLogfortianalyzerOverrideSettingRead(ctx, d, meta)
+	return resourceLogFortianalyzerOverrideSettingRead(ctx, d, meta)
 }
 
-func resourceLogfortianalyzerOverrideSettingDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceLogFortianalyzerOverrideSettingDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -346,9 +346,14 @@ func resourceLogfortianalyzerOverrideSettingDelete(ctx context.Context, d *schem
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteLogfortianalyzerOverrideSetting(mkey, urlparams)
+	obj, diags := getEmptyObjectLogFortianalyzerOverrideSetting(d, c.Config.Fv)
+	if diags.HasError() {
+		return diags
+	}
+
+	_, err := c.Cmdb.UpdateLogFortianalyzerOverrideSetting(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error deleting LogfortianalyzerOverrideSetting resource: %v", err)
+		return diag.Errorf("error deleting LogFortianalyzerOverrideSetting resource: %v", err)
 	}
 
 	d.SetId("")
@@ -356,7 +361,7 @@ func resourceLogfortianalyzerOverrideSettingDelete(ctx context.Context, d *schem
 	return nil
 }
 
-func resourceLogfortianalyzerOverrideSettingRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceLogFortianalyzerOverrideSettingRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -371,9 +376,9 @@ func resourceLogfortianalyzerOverrideSettingRead(ctx context.Context, d *schema.
 	}
 	urlparams.Vdom = vdomparam
 
-	o, err := c.Cmdb.ReadLogfortianalyzerOverrideSetting(mkey, urlparams)
+	o, err := c.Cmdb.ReadLogFortianalyzerOverrideSetting(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error reading LogfortianalyzerOverrideSetting resource: %v", err)
+		return diag.Errorf("error reading LogFortianalyzerOverrideSetting resource: %v", err)
 	}
 
 	if o == nil {
@@ -389,14 +394,14 @@ func resourceLogfortianalyzerOverrideSettingRead(ctx context.Context, d *schema.
 		}
 	}
 
-	diags := refreshObjectLogfortianalyzerOverrideSetting(d, o, c.Config.Fv, sort)
+	diags := refreshObjectLogFortianalyzerOverrideSetting(d, o, c.Config.Fv, sort)
 	if diags.HasError() {
 		return diags
 	}
 	return nil
 }
 
-func flattenLogfortianalyzerOverrideSettingSerial(v *[]models.LogfortianalyzerOverrideSettingSerial, sort bool) interface{} {
+func flattenLogFortianalyzerOverrideSettingSerial(v *[]models.LogFortianalyzerOverrideSettingSerial, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
@@ -417,7 +422,7 @@ func flattenLogfortianalyzerOverrideSettingSerial(v *[]models.LogfortianalyzerOv
 	return flat
 }
 
-func refreshObjectLogfortianalyzerOverrideSetting(d *schema.ResourceData, o *models.LogfortianalyzerOverrideSetting, sv string, sort bool) diag.Diagnostics {
+func refreshObjectLogFortianalyzerOverrideSetting(d *schema.ResourceData, o *models.LogFortianalyzerOverrideSetting, sv string, sort bool) diag.Diagnostics {
 	var err error
 
 	if o.AccessConfig != nil {
@@ -541,7 +546,7 @@ func refreshObjectLogfortianalyzerOverrideSetting(d *schema.ResourceData, o *mod
 	}
 
 	if o.Serial != nil {
-		if err = d.Set("serial", flattenLogfortianalyzerOverrideSettingSerial(o.Serial, sort)); err != nil {
+		if err = d.Set("serial", flattenLogFortianalyzerOverrideSettingSerial(o.Serial, sort)); err != nil {
 			return diag.Errorf("error reading serial: %v", err)
 		}
 	}
@@ -621,16 +626,16 @@ func refreshObjectLogfortianalyzerOverrideSetting(d *schema.ResourceData, o *mod
 	return nil
 }
 
-func expandLogfortianalyzerOverrideSettingSerial(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.LogfortianalyzerOverrideSettingSerial, error) {
+func expandLogFortianalyzerOverrideSettingSerial(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.LogFortianalyzerOverrideSettingSerial, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
 	}
 
-	var result []models.LogfortianalyzerOverrideSettingSerial
+	var result []models.LogFortianalyzerOverrideSettingSerial
 
 	for i := range l {
-		tmp := models.LogfortianalyzerOverrideSettingSerial{}
+		tmp := models.LogFortianalyzerOverrideSettingSerial{}
 		var pre_append string
 
 		pre_append = fmt.Sprintf("%s.%d.name", pre, i)
@@ -645,8 +650,8 @@ func expandLogfortianalyzerOverrideSettingSerial(d *schema.ResourceData, v inter
 	return &result, nil
 }
 
-func getObjectLogfortianalyzerOverrideSetting(d *schema.ResourceData, sv string) (*models.LogfortianalyzerOverrideSetting, diag.Diagnostics) {
-	obj := models.LogfortianalyzerOverrideSetting{}
+func getObjectLogFortianalyzerOverrideSetting(d *schema.ResourceData, sv string) (*models.LogFortianalyzerOverrideSetting, diag.Diagnostics) {
+	obj := models.LogFortianalyzerOverrideSetting{}
 	diags := diag.Diagnostics{}
 
 	if v1, ok := d.GetOk("access_config"); ok {
@@ -706,7 +711,7 @@ func getObjectLogfortianalyzerOverrideSetting(d *schema.ResourceData, sv string)
 	}
 	if v1, ok := d.GetOk("interface"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "") {
+			if !utils.CheckVer(sv, "", "v6.4.0") {
 				e := utils.AttributeVersionWarning("interface", sv)
 				diags = append(diags, e)
 			}
@@ -715,7 +720,7 @@ func getObjectLogfortianalyzerOverrideSetting(d *schema.ResourceData, sv string)
 	}
 	if v1, ok := d.GetOk("interface_select_method"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "") {
+			if !utils.CheckVer(sv, "", "v6.4.0") {
 				e := utils.AttributeVersionWarning("interface_select_method", sv)
 				diags = append(diags, e)
 			}
@@ -793,7 +798,7 @@ func getObjectLogfortianalyzerOverrideSetting(d *schema.ResourceData, sv string)
 			e := utils.AttributeVersionWarning("serial", sv)
 			diags = append(diags, e)
 		}
-		t, err := expandLogfortianalyzerOverrideSettingSerial(d, v, "serial", sv)
+		t, err := expandLogFortianalyzerOverrideSettingSerial(d, v, "serial", sv)
 		if err != nil {
 			return &obj, diag.FromErr(err)
 		} else if t != nil {
@@ -802,7 +807,7 @@ func getObjectLogfortianalyzerOverrideSetting(d *schema.ResourceData, sv string)
 	} else if d.HasChange("serial") {
 		old, new := d.GetChange("serial")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.Serial = &[]models.LogfortianalyzerOverrideSettingSerial{}
+			obj.Serial = &[]models.LogFortianalyzerOverrideSettingSerial{}
 		}
 	}
 	if v1, ok := d.GetOk("server"); ok {
@@ -886,5 +891,15 @@ func getObjectLogfortianalyzerOverrideSetting(d *schema.ResourceData, sv string)
 			obj.UseManagementVdom = &v2
 		}
 	}
+	return &obj, diags
+}
+
+// Return an object with explicitly empty objects for tables that have been set.
+func getEmptyObjectLogFortianalyzerOverrideSetting(d *schema.ResourceData, sv string) (*models.LogFortianalyzerOverrideSetting, diag.Diagnostics) {
+	obj := models.LogFortianalyzerOverrideSetting{}
+	diags := diag.Diagnostics{}
+
+	obj.Serial = &[]models.LogFortianalyzerOverrideSettingSerial{}
+
 	return &obj, diags
 }

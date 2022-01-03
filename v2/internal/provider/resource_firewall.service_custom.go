@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -19,14 +19,14 @@ import (
 	"github.com/poroping/terraform-provider-fortios/v2/utils"
 )
 
-func resourceFirewallserviceCustom() *schema.Resource {
+func resourceFirewallServiceCustom() *schema.Resource {
 	return &schema.Resource{
 		Description: "Configure custom services.",
 
-		CreateContext: resourceFirewallserviceCustomCreate,
-		ReadContext:   resourceFirewallserviceCustomRead,
-		UpdateContext: resourceFirewallserviceCustomUpdate,
-		DeleteContext: resourceFirewallserviceCustomDelete,
+		CreateContext: resourceFirewallServiceCustomCreate,
+		ReadContext:   resourceFirewallServiceCustomRead,
+		UpdateContext: resourceFirewallServiceCustomUpdate,
+		DeleteContext: resourceFirewallServiceCustomDelete,
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
@@ -280,7 +280,7 @@ func resourceFirewallserviceCustom() *schema.Resource {
 	}
 }
 
-func resourceFirewallserviceCustomCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceFirewallServiceCustomCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*apiClient).Client
 	var diags diag.Diagnostics
 	var err error
@@ -307,16 +307,16 @@ func resourceFirewallserviceCustomCreate(ctx context.Context, d *schema.Resource
 	if v, ok := d.GetOk(key); ok {
 		mkey = utils.ParseMkey(v)
 		if mkey == "" && allow_append {
-			return diag.Errorf("error creating FirewallserviceCustom resource: %q must be set if \"allow_append\" is true", key)
+			return diag.Errorf("error creating FirewallServiceCustom resource: %q must be set if \"allow_append\" is true", key)
 		}
 	}
 
-	obj, diags := getObjectFirewallserviceCustom(d, c.Config.Fv)
+	obj, diags := getObjectFirewallServiceCustom(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.CreateFirewallserviceCustom(obj, urlparams)
+	o, err := c.Cmdb.CreateFirewallServiceCustom(obj, urlparams)
 
 	if err != nil {
 		e := diag.FromErr(err)
@@ -326,13 +326,13 @@ func resourceFirewallserviceCustomCreate(ctx context.Context, d *schema.Resource
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("FirewallserviceCustom")
+		d.SetId("FirewallServiceCustom")
 	}
 
-	return resourceFirewallserviceCustomRead(ctx, d, meta)
+	return resourceFirewallServiceCustomRead(ctx, d, meta)
 }
 
-func resourceFirewallserviceCustomUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceFirewallServiceCustomUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
@@ -345,27 +345,27 @@ func resourceFirewallserviceCustomUpdate(ctx context.Context, d *schema.Resource
 	}
 	urlparams.Vdom = vdomparam
 
-	obj, diags := getObjectFirewallserviceCustom(d, c.Config.Fv)
+	obj, diags := getObjectFirewallServiceCustom(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.UpdateFirewallserviceCustom(mkey, obj, urlparams)
+	o, err := c.Cmdb.UpdateFirewallServiceCustom(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error updating FirewallserviceCustom resource: %v", err)
+		return diag.Errorf("error updating FirewallServiceCustom resource: %v", err)
 	}
 
 	// log.Printf(strconv.Itoa(c.Retries))
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("FirewallserviceCustom")
+		d.SetId("FirewallServiceCustom")
 	}
 
-	return resourceFirewallserviceCustomRead(ctx, d, meta)
+	return resourceFirewallServiceCustomRead(ctx, d, meta)
 }
 
-func resourceFirewallserviceCustomDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceFirewallServiceCustomDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -380,9 +380,9 @@ func resourceFirewallserviceCustomDelete(ctx context.Context, d *schema.Resource
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteFirewallserviceCustom(mkey, urlparams)
+	err := c.Cmdb.DeleteFirewallServiceCustom(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error deleting FirewallserviceCustom resource: %v", err)
+		return diag.Errorf("error deleting FirewallServiceCustom resource: %v", err)
 	}
 
 	d.SetId("")
@@ -390,7 +390,7 @@ func resourceFirewallserviceCustomDelete(ctx context.Context, d *schema.Resource
 	return nil
 }
 
-func resourceFirewallserviceCustomRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceFirewallServiceCustomRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -405,9 +405,9 @@ func resourceFirewallserviceCustomRead(ctx context.Context, d *schema.ResourceDa
 	}
 	urlparams.Vdom = vdomparam
 
-	o, err := c.Cmdb.ReadFirewallserviceCustom(mkey, urlparams)
+	o, err := c.Cmdb.ReadFirewallServiceCustom(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error reading FirewallserviceCustom resource: %v", err)
+		return diag.Errorf("error reading FirewallServiceCustom resource: %v", err)
 	}
 
 	if o == nil {
@@ -423,14 +423,14 @@ func resourceFirewallserviceCustomRead(ctx context.Context, d *schema.ResourceDa
 		}
 	}
 
-	diags := refreshObjectFirewallserviceCustom(d, o, c.Config.Fv, sort)
+	diags := refreshObjectFirewallServiceCustom(d, o, c.Config.Fv, sort)
 	if diags.HasError() {
 		return diags
 	}
 	return nil
 }
 
-func flattenFirewallserviceCustomAppCategory(v *[]models.FirewallserviceCustomAppCategory, sort bool) interface{} {
+func flattenFirewallServiceCustomAppCategory(v *[]models.FirewallServiceCustomAppCategory, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
@@ -451,7 +451,7 @@ func flattenFirewallserviceCustomAppCategory(v *[]models.FirewallserviceCustomAp
 	return flat
 }
 
-func flattenFirewallserviceCustomApplication(v *[]models.FirewallserviceCustomApplication, sort bool) interface{} {
+func flattenFirewallServiceCustomApplication(v *[]models.FirewallServiceCustomApplication, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
@@ -472,11 +472,11 @@ func flattenFirewallserviceCustomApplication(v *[]models.FirewallserviceCustomAp
 	return flat
 }
 
-func refreshObjectFirewallserviceCustom(d *schema.ResourceData, o *models.FirewallserviceCustom, sv string, sort bool) diag.Diagnostics {
+func refreshObjectFirewallServiceCustom(d *schema.ResourceData, o *models.FirewallServiceCustom, sv string, sort bool) diag.Diagnostics {
 	var err error
 
 	if o.AppCategory != nil {
-		if err = d.Set("app_category", flattenFirewallserviceCustomAppCategory(o.AppCategory, sort)); err != nil {
+		if err = d.Set("app_category", flattenFirewallServiceCustomAppCategory(o.AppCategory, sort)); err != nil {
 			return diag.Errorf("error reading app_category: %v", err)
 		}
 	}
@@ -490,7 +490,7 @@ func refreshObjectFirewallserviceCustom(d *schema.ResourceData, o *models.Firewa
 	}
 
 	if o.Application != nil {
-		if err = d.Set("application", flattenFirewallserviceCustomApplication(o.Application, sort)); err != nil {
+		if err = d.Set("application", flattenFirewallServiceCustomApplication(o.Application, sort)); err != nil {
 			return diag.Errorf("error reading application: %v", err)
 		}
 	}
@@ -690,16 +690,16 @@ func refreshObjectFirewallserviceCustom(d *schema.ResourceData, o *models.Firewa
 	return nil
 }
 
-func expandFirewallserviceCustomAppCategory(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.FirewallserviceCustomAppCategory, error) {
+func expandFirewallServiceCustomAppCategory(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.FirewallServiceCustomAppCategory, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
 	}
 
-	var result []models.FirewallserviceCustomAppCategory
+	var result []models.FirewallServiceCustomAppCategory
 
 	for i := range l {
-		tmp := models.FirewallserviceCustomAppCategory{}
+		tmp := models.FirewallServiceCustomAppCategory{}
 		var pre_append string
 
 		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
@@ -714,16 +714,16 @@ func expandFirewallserviceCustomAppCategory(d *schema.ResourceData, v interface{
 	return &result, nil
 }
 
-func expandFirewallserviceCustomApplication(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.FirewallserviceCustomApplication, error) {
+func expandFirewallServiceCustomApplication(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.FirewallServiceCustomApplication, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
 	}
 
-	var result []models.FirewallserviceCustomApplication
+	var result []models.FirewallServiceCustomApplication
 
 	for i := range l {
-		tmp := models.FirewallserviceCustomApplication{}
+		tmp := models.FirewallServiceCustomApplication{}
 		var pre_append string
 
 		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
@@ -738,8 +738,8 @@ func expandFirewallserviceCustomApplication(d *schema.ResourceData, v interface{
 	return &result, nil
 }
 
-func getObjectFirewallserviceCustom(d *schema.ResourceData, sv string) (*models.FirewallserviceCustom, diag.Diagnostics) {
-	obj := models.FirewallserviceCustom{}
+func getObjectFirewallServiceCustom(d *schema.ResourceData, sv string) (*models.FirewallServiceCustom, diag.Diagnostics) {
+	obj := models.FirewallServiceCustom{}
 	diags := diag.Diagnostics{}
 
 	if v, ok := d.GetOk("app_category"); ok {
@@ -747,7 +747,7 @@ func getObjectFirewallserviceCustom(d *schema.ResourceData, sv string) (*models.
 			e := utils.AttributeVersionWarning("app_category", sv)
 			diags = append(diags, e)
 		}
-		t, err := expandFirewallserviceCustomAppCategory(d, v, "app_category", sv)
+		t, err := expandFirewallServiceCustomAppCategory(d, v, "app_category", sv)
 		if err != nil {
 			return &obj, diag.FromErr(err)
 		} else if t != nil {
@@ -756,7 +756,7 @@ func getObjectFirewallserviceCustom(d *schema.ResourceData, sv string) (*models.
 	} else if d.HasChange("app_category") {
 		old, new := d.GetChange("app_category")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.AppCategory = &[]models.FirewallserviceCustomAppCategory{}
+			obj.AppCategory = &[]models.FirewallServiceCustomAppCategory{}
 		}
 	}
 	if v1, ok := d.GetOk("app_service_type"); ok {
@@ -773,7 +773,7 @@ func getObjectFirewallserviceCustom(d *schema.ResourceData, sv string) (*models.
 			e := utils.AttributeVersionWarning("application", sv)
 			diags = append(diags, e)
 		}
-		t, err := expandFirewallserviceCustomApplication(d, v, "application", sv)
+		t, err := expandFirewallServiceCustomApplication(d, v, "application", sv)
 		if err != nil {
 			return &obj, diag.FromErr(err)
 		} else if t != nil {
@@ -782,7 +782,7 @@ func getObjectFirewallserviceCustom(d *schema.ResourceData, sv string) (*models.
 	} else if d.HasChange("application") {
 		old, new := d.GetChange("application")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.Application = &[]models.FirewallserviceCustomApplication{}
+			obj.Application = &[]models.FirewallServiceCustomApplication{}
 		}
 	}
 	if v1, ok := d.GetOk("category"); ok {

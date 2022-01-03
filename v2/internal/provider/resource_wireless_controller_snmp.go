@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -347,7 +347,12 @@ func resourceWirelessControllerSnmpDelete(ctx context.Context, d *schema.Resourc
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteWirelessControllerSnmp(mkey, urlparams)
+	obj, diags := getEmptyObjectWirelessControllerSnmp(d, c.Config.Fv)
+	if diags.HasError() {
+		return diags
+	}
+
+	_, err := c.Cmdb.UpdateWirelessControllerSnmp(mkey, obj, urlparams)
 	if err != nil {
 		return diag.Errorf("error deleting WirelessControllerSnmp resource: %v", err)
 	}
@@ -848,5 +853,16 @@ func getObjectWirelessControllerSnmp(d *schema.ResourceData, sv string) (*models
 			obj.User = &[]models.WirelessControllerSnmpUser{}
 		}
 	}
+	return &obj, diags
+}
+
+// Return an object with explicitly empty objects for tables that have been set.
+func getEmptyObjectWirelessControllerSnmp(d *schema.ResourceData, sv string) (*models.WirelessControllerSnmp, diag.Diagnostics) {
+	obj := models.WirelessControllerSnmp{}
+	diags := diag.Diagnostics{}
+
+	obj.Community = &[]models.WirelessControllerSnmpCommunity{}
+	obj.User = &[]models.WirelessControllerSnmpUser{}
+
 	return &obj, diags
 }

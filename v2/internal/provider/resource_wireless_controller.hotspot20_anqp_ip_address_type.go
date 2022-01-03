@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -18,14 +18,14 @@ import (
 	"github.com/poroping/terraform-provider-fortios/v2/utils"
 )
 
-func resourceWirelessControllerhotspot20AnqpIpAddressType() *schema.Resource {
+func resourceWirelessControllerHotspot20AnqpIpAddressType() *schema.Resource {
 	return &schema.Resource{
 		Description: "Configure IP address type availability.",
 
-		CreateContext: resourceWirelessControllerhotspot20AnqpIpAddressTypeCreate,
-		ReadContext:   resourceWirelessControllerhotspot20AnqpIpAddressTypeRead,
-		UpdateContext: resourceWirelessControllerhotspot20AnqpIpAddressTypeUpdate,
-		DeleteContext: resourceWirelessControllerhotspot20AnqpIpAddressTypeDelete,
+		CreateContext: resourceWirelessControllerHotspot20AnqpIpAddressTypeCreate,
+		ReadContext:   resourceWirelessControllerHotspot20AnqpIpAddressTypeRead,
+		UpdateContext: resourceWirelessControllerHotspot20AnqpIpAddressTypeUpdate,
+		DeleteContext: resourceWirelessControllerHotspot20AnqpIpAddressTypeDelete,
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
@@ -72,7 +72,7 @@ func resourceWirelessControllerhotspot20AnqpIpAddressType() *schema.Resource {
 	}
 }
 
-func resourceWirelessControllerhotspot20AnqpIpAddressTypeCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceWirelessControllerHotspot20AnqpIpAddressTypeCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*apiClient).Client
 	var diags diag.Diagnostics
 	var err error
@@ -99,16 +99,16 @@ func resourceWirelessControllerhotspot20AnqpIpAddressTypeCreate(ctx context.Cont
 	if v, ok := d.GetOk(key); ok {
 		mkey = utils.ParseMkey(v)
 		if mkey == "" && allow_append {
-			return diag.Errorf("error creating WirelessControllerhotspot20AnqpIpAddressType resource: %q must be set if \"allow_append\" is true", key)
+			return diag.Errorf("error creating WirelessControllerHotspot20AnqpIpAddressType resource: %q must be set if \"allow_append\" is true", key)
 		}
 	}
 
-	obj, diags := getObjectWirelessControllerhotspot20AnqpIpAddressType(d, c.Config.Fv)
+	obj, diags := getObjectWirelessControllerHotspot20AnqpIpAddressType(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.CreateWirelessControllerhotspot20AnqpIpAddressType(obj, urlparams)
+	o, err := c.Cmdb.CreateWirelessControllerHotspot20AnqpIpAddressType(obj, urlparams)
 
 	if err != nil {
 		e := diag.FromErr(err)
@@ -118,13 +118,13 @@ func resourceWirelessControllerhotspot20AnqpIpAddressTypeCreate(ctx context.Cont
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("WirelessControllerhotspot20AnqpIpAddressType")
+		d.SetId("WirelessControllerHotspot20AnqpIpAddressType")
 	}
 
-	return resourceWirelessControllerhotspot20AnqpIpAddressTypeRead(ctx, d, meta)
+	return resourceWirelessControllerHotspot20AnqpIpAddressTypeRead(ctx, d, meta)
 }
 
-func resourceWirelessControllerhotspot20AnqpIpAddressTypeUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceWirelessControllerHotspot20AnqpIpAddressTypeUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
@@ -137,27 +137,27 @@ func resourceWirelessControllerhotspot20AnqpIpAddressTypeUpdate(ctx context.Cont
 	}
 	urlparams.Vdom = vdomparam
 
-	obj, diags := getObjectWirelessControllerhotspot20AnqpIpAddressType(d, c.Config.Fv)
+	obj, diags := getObjectWirelessControllerHotspot20AnqpIpAddressType(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.UpdateWirelessControllerhotspot20AnqpIpAddressType(mkey, obj, urlparams)
+	o, err := c.Cmdb.UpdateWirelessControllerHotspot20AnqpIpAddressType(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error updating WirelessControllerhotspot20AnqpIpAddressType resource: %v", err)
+		return diag.Errorf("error updating WirelessControllerHotspot20AnqpIpAddressType resource: %v", err)
 	}
 
 	// log.Printf(strconv.Itoa(c.Retries))
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("WirelessControllerhotspot20AnqpIpAddressType")
+		d.SetId("WirelessControllerHotspot20AnqpIpAddressType")
 	}
 
-	return resourceWirelessControllerhotspot20AnqpIpAddressTypeRead(ctx, d, meta)
+	return resourceWirelessControllerHotspot20AnqpIpAddressTypeRead(ctx, d, meta)
 }
 
-func resourceWirelessControllerhotspot20AnqpIpAddressTypeDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceWirelessControllerHotspot20AnqpIpAddressTypeDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -172,9 +172,9 @@ func resourceWirelessControllerhotspot20AnqpIpAddressTypeDelete(ctx context.Cont
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteWirelessControllerhotspot20AnqpIpAddressType(mkey, urlparams)
+	err := c.Cmdb.DeleteWirelessControllerHotspot20AnqpIpAddressType(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error deleting WirelessControllerhotspot20AnqpIpAddressType resource: %v", err)
+		return diag.Errorf("error deleting WirelessControllerHotspot20AnqpIpAddressType resource: %v", err)
 	}
 
 	d.SetId("")
@@ -182,7 +182,7 @@ func resourceWirelessControllerhotspot20AnqpIpAddressTypeDelete(ctx context.Cont
 	return nil
 }
 
-func resourceWirelessControllerhotspot20AnqpIpAddressTypeRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceWirelessControllerHotspot20AnqpIpAddressTypeRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -197,9 +197,9 @@ func resourceWirelessControllerhotspot20AnqpIpAddressTypeRead(ctx context.Contex
 	}
 	urlparams.Vdom = vdomparam
 
-	o, err := c.Cmdb.ReadWirelessControllerhotspot20AnqpIpAddressType(mkey, urlparams)
+	o, err := c.Cmdb.ReadWirelessControllerHotspot20AnqpIpAddressType(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error reading WirelessControllerhotspot20AnqpIpAddressType resource: %v", err)
+		return diag.Errorf("error reading WirelessControllerHotspot20AnqpIpAddressType resource: %v", err)
 	}
 
 	if o == nil {
@@ -215,14 +215,14 @@ func resourceWirelessControllerhotspot20AnqpIpAddressTypeRead(ctx context.Contex
 		}
 	}
 
-	diags := refreshObjectWirelessControllerhotspot20AnqpIpAddressType(d, o, c.Config.Fv, sort)
+	diags := refreshObjectWirelessControllerHotspot20AnqpIpAddressType(d, o, c.Config.Fv, sort)
 	if diags.HasError() {
 		return diags
 	}
 	return nil
 }
 
-func refreshObjectWirelessControllerhotspot20AnqpIpAddressType(d *schema.ResourceData, o *models.WirelessControllerhotspot20AnqpIpAddressType, sv string, sort bool) diag.Diagnostics {
+func refreshObjectWirelessControllerHotspot20AnqpIpAddressType(d *schema.ResourceData, o *models.WirelessControllerHotspot20AnqpIpAddressType, sv string, sort bool) diag.Diagnostics {
 	var err error
 
 	if o.Ipv4AddressType != nil {
@@ -252,8 +252,8 @@ func refreshObjectWirelessControllerhotspot20AnqpIpAddressType(d *schema.Resourc
 	return nil
 }
 
-func getObjectWirelessControllerhotspot20AnqpIpAddressType(d *schema.ResourceData, sv string) (*models.WirelessControllerhotspot20AnqpIpAddressType, diag.Diagnostics) {
-	obj := models.WirelessControllerhotspot20AnqpIpAddressType{}
+func getObjectWirelessControllerHotspot20AnqpIpAddressType(d *schema.ResourceData, sv string) (*models.WirelessControllerHotspot20AnqpIpAddressType, diag.Diagnostics) {
+	obj := models.WirelessControllerHotspot20AnqpIpAddressType{}
 	diags := diag.Diagnostics{}
 
 	if v1, ok := d.GetOk("ipv4_address_type"); ok {

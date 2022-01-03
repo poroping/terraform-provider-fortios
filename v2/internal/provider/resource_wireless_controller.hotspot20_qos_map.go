@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -19,14 +19,14 @@ import (
 	"github.com/poroping/terraform-provider-fortios/v2/utils"
 )
 
-func resourceWirelessControllerhotspot20QosMap() *schema.Resource {
+func resourceWirelessControllerHotspot20QosMap() *schema.Resource {
 	return &schema.Resource{
 		Description: "Configure QoS map set.",
 
-		CreateContext: resourceWirelessControllerhotspot20QosMapCreate,
-		ReadContext:   resourceWirelessControllerhotspot20QosMapRead,
-		UpdateContext: resourceWirelessControllerhotspot20QosMapUpdate,
-		DeleteContext: resourceWirelessControllerhotspot20QosMapDelete,
+		CreateContext: resourceWirelessControllerHotspot20QosMapCreate,
+		ReadContext:   resourceWirelessControllerHotspot20QosMapRead,
+		UpdateContext: resourceWirelessControllerHotspot20QosMapUpdate,
+		DeleteContext: resourceWirelessControllerHotspot20QosMapDelete,
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
@@ -136,7 +136,7 @@ func resourceWirelessControllerhotspot20QosMap() *schema.Resource {
 	}
 }
 
-func resourceWirelessControllerhotspot20QosMapCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceWirelessControllerHotspot20QosMapCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*apiClient).Client
 	var diags diag.Diagnostics
 	var err error
@@ -163,16 +163,16 @@ func resourceWirelessControllerhotspot20QosMapCreate(ctx context.Context, d *sch
 	if v, ok := d.GetOk(key); ok {
 		mkey = utils.ParseMkey(v)
 		if mkey == "" && allow_append {
-			return diag.Errorf("error creating WirelessControllerhotspot20QosMap resource: %q must be set if \"allow_append\" is true", key)
+			return diag.Errorf("error creating WirelessControllerHotspot20QosMap resource: %q must be set if \"allow_append\" is true", key)
 		}
 	}
 
-	obj, diags := getObjectWirelessControllerhotspot20QosMap(d, c.Config.Fv)
+	obj, diags := getObjectWirelessControllerHotspot20QosMap(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.CreateWirelessControllerhotspot20QosMap(obj, urlparams)
+	o, err := c.Cmdb.CreateWirelessControllerHotspot20QosMap(obj, urlparams)
 
 	if err != nil {
 		e := diag.FromErr(err)
@@ -182,13 +182,13 @@ func resourceWirelessControllerhotspot20QosMapCreate(ctx context.Context, d *sch
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("WirelessControllerhotspot20QosMap")
+		d.SetId("WirelessControllerHotspot20QosMap")
 	}
 
-	return resourceWirelessControllerhotspot20QosMapRead(ctx, d, meta)
+	return resourceWirelessControllerHotspot20QosMapRead(ctx, d, meta)
 }
 
-func resourceWirelessControllerhotspot20QosMapUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceWirelessControllerHotspot20QosMapUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
@@ -201,27 +201,27 @@ func resourceWirelessControllerhotspot20QosMapUpdate(ctx context.Context, d *sch
 	}
 	urlparams.Vdom = vdomparam
 
-	obj, diags := getObjectWirelessControllerhotspot20QosMap(d, c.Config.Fv)
+	obj, diags := getObjectWirelessControllerHotspot20QosMap(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.UpdateWirelessControllerhotspot20QosMap(mkey, obj, urlparams)
+	o, err := c.Cmdb.UpdateWirelessControllerHotspot20QosMap(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error updating WirelessControllerhotspot20QosMap resource: %v", err)
+		return diag.Errorf("error updating WirelessControllerHotspot20QosMap resource: %v", err)
 	}
 
 	// log.Printf(strconv.Itoa(c.Retries))
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("WirelessControllerhotspot20QosMap")
+		d.SetId("WirelessControllerHotspot20QosMap")
 	}
 
-	return resourceWirelessControllerhotspot20QosMapRead(ctx, d, meta)
+	return resourceWirelessControllerHotspot20QosMapRead(ctx, d, meta)
 }
 
-func resourceWirelessControllerhotspot20QosMapDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceWirelessControllerHotspot20QosMapDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -236,9 +236,9 @@ func resourceWirelessControllerhotspot20QosMapDelete(ctx context.Context, d *sch
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteWirelessControllerhotspot20QosMap(mkey, urlparams)
+	err := c.Cmdb.DeleteWirelessControllerHotspot20QosMap(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error deleting WirelessControllerhotspot20QosMap resource: %v", err)
+		return diag.Errorf("error deleting WirelessControllerHotspot20QosMap resource: %v", err)
 	}
 
 	d.SetId("")
@@ -246,7 +246,7 @@ func resourceWirelessControllerhotspot20QosMapDelete(ctx context.Context, d *sch
 	return nil
 }
 
-func resourceWirelessControllerhotspot20QosMapRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceWirelessControllerHotspot20QosMapRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -261,9 +261,9 @@ func resourceWirelessControllerhotspot20QosMapRead(ctx context.Context, d *schem
 	}
 	urlparams.Vdom = vdomparam
 
-	o, err := c.Cmdb.ReadWirelessControllerhotspot20QosMap(mkey, urlparams)
+	o, err := c.Cmdb.ReadWirelessControllerHotspot20QosMap(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error reading WirelessControllerhotspot20QosMap resource: %v", err)
+		return diag.Errorf("error reading WirelessControllerHotspot20QosMap resource: %v", err)
 	}
 
 	if o == nil {
@@ -279,14 +279,14 @@ func resourceWirelessControllerhotspot20QosMapRead(ctx context.Context, d *schem
 		}
 	}
 
-	diags := refreshObjectWirelessControllerhotspot20QosMap(d, o, c.Config.Fv, sort)
+	diags := refreshObjectWirelessControllerHotspot20QosMap(d, o, c.Config.Fv, sort)
 	if diags.HasError() {
 		return diags
 	}
 	return nil
 }
 
-func flattenWirelessControllerhotspot20QosMapDscpExcept(v *[]models.WirelessControllerhotspot20QosMapDscpExcept, sort bool) interface{} {
+func flattenWirelessControllerHotspot20QosMapDscpExcept(v *[]models.WirelessControllerHotspot20QosMapDscpExcept, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
@@ -315,7 +315,7 @@ func flattenWirelessControllerhotspot20QosMapDscpExcept(v *[]models.WirelessCont
 	return flat
 }
 
-func flattenWirelessControllerhotspot20QosMapDscpRange(v *[]models.WirelessControllerhotspot20QosMapDscpRange, sort bool) interface{} {
+func flattenWirelessControllerHotspot20QosMapDscpRange(v *[]models.WirelessControllerHotspot20QosMapDscpRange, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
@@ -348,17 +348,17 @@ func flattenWirelessControllerhotspot20QosMapDscpRange(v *[]models.WirelessContr
 	return flat
 }
 
-func refreshObjectWirelessControllerhotspot20QosMap(d *schema.ResourceData, o *models.WirelessControllerhotspot20QosMap, sv string, sort bool) diag.Diagnostics {
+func refreshObjectWirelessControllerHotspot20QosMap(d *schema.ResourceData, o *models.WirelessControllerHotspot20QosMap, sv string, sort bool) diag.Diagnostics {
 	var err error
 
 	if o.DscpExcept != nil {
-		if err = d.Set("dscp_except", flattenWirelessControllerhotspot20QosMapDscpExcept(o.DscpExcept, sort)); err != nil {
+		if err = d.Set("dscp_except", flattenWirelessControllerHotspot20QosMapDscpExcept(o.DscpExcept, sort)); err != nil {
 			return diag.Errorf("error reading dscp_except: %v", err)
 		}
 	}
 
 	if o.DscpRange != nil {
-		if err = d.Set("dscp_range", flattenWirelessControllerhotspot20QosMapDscpRange(o.DscpRange, sort)); err != nil {
+		if err = d.Set("dscp_range", flattenWirelessControllerHotspot20QosMapDscpRange(o.DscpRange, sort)); err != nil {
 			return diag.Errorf("error reading dscp_range: %v", err)
 		}
 	}
@@ -374,16 +374,16 @@ func refreshObjectWirelessControllerhotspot20QosMap(d *schema.ResourceData, o *m
 	return nil
 }
 
-func expandWirelessControllerhotspot20QosMapDscpExcept(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.WirelessControllerhotspot20QosMapDscpExcept, error) {
+func expandWirelessControllerHotspot20QosMapDscpExcept(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.WirelessControllerHotspot20QosMapDscpExcept, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
 	}
 
-	var result []models.WirelessControllerhotspot20QosMapDscpExcept
+	var result []models.WirelessControllerHotspot20QosMapDscpExcept
 
 	for i := range l {
-		tmp := models.WirelessControllerhotspot20QosMapDscpExcept{}
+		tmp := models.WirelessControllerHotspot20QosMapDscpExcept{}
 		var pre_append string
 
 		pre_append = fmt.Sprintf("%s.%d.dscp", pre, i)
@@ -412,16 +412,16 @@ func expandWirelessControllerhotspot20QosMapDscpExcept(d *schema.ResourceData, v
 	return &result, nil
 }
 
-func expandWirelessControllerhotspot20QosMapDscpRange(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.WirelessControllerhotspot20QosMapDscpRange, error) {
+func expandWirelessControllerHotspot20QosMapDscpRange(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.WirelessControllerHotspot20QosMapDscpRange, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
 	}
 
-	var result []models.WirelessControllerhotspot20QosMapDscpRange
+	var result []models.WirelessControllerHotspot20QosMapDscpRange
 
 	for i := range l {
-		tmp := models.WirelessControllerhotspot20QosMapDscpRange{}
+		tmp := models.WirelessControllerHotspot20QosMapDscpRange{}
 		var pre_append string
 
 		pre_append = fmt.Sprintf("%s.%d.high", pre, i)
@@ -457,8 +457,8 @@ func expandWirelessControllerhotspot20QosMapDscpRange(d *schema.ResourceData, v 
 	return &result, nil
 }
 
-func getObjectWirelessControllerhotspot20QosMap(d *schema.ResourceData, sv string) (*models.WirelessControllerhotspot20QosMap, diag.Diagnostics) {
-	obj := models.WirelessControllerhotspot20QosMap{}
+func getObjectWirelessControllerHotspot20QosMap(d *schema.ResourceData, sv string) (*models.WirelessControllerHotspot20QosMap, diag.Diagnostics) {
+	obj := models.WirelessControllerHotspot20QosMap{}
 	diags := diag.Diagnostics{}
 
 	if v, ok := d.GetOk("dscp_except"); ok {
@@ -466,7 +466,7 @@ func getObjectWirelessControllerhotspot20QosMap(d *schema.ResourceData, sv strin
 			e := utils.AttributeVersionWarning("dscp_except", sv)
 			diags = append(diags, e)
 		}
-		t, err := expandWirelessControllerhotspot20QosMapDscpExcept(d, v, "dscp_except", sv)
+		t, err := expandWirelessControllerHotspot20QosMapDscpExcept(d, v, "dscp_except", sv)
 		if err != nil {
 			return &obj, diag.FromErr(err)
 		} else if t != nil {
@@ -475,7 +475,7 @@ func getObjectWirelessControllerhotspot20QosMap(d *schema.ResourceData, sv strin
 	} else if d.HasChange("dscp_except") {
 		old, new := d.GetChange("dscp_except")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.DscpExcept = &[]models.WirelessControllerhotspot20QosMapDscpExcept{}
+			obj.DscpExcept = &[]models.WirelessControllerHotspot20QosMapDscpExcept{}
 		}
 	}
 	if v, ok := d.GetOk("dscp_range"); ok {
@@ -483,7 +483,7 @@ func getObjectWirelessControllerhotspot20QosMap(d *schema.ResourceData, sv strin
 			e := utils.AttributeVersionWarning("dscp_range", sv)
 			diags = append(diags, e)
 		}
-		t, err := expandWirelessControllerhotspot20QosMapDscpRange(d, v, "dscp_range", sv)
+		t, err := expandWirelessControllerHotspot20QosMapDscpRange(d, v, "dscp_range", sv)
 		if err != nil {
 			return &obj, diag.FromErr(err)
 		} else if t != nil {
@@ -492,7 +492,7 @@ func getObjectWirelessControllerhotspot20QosMap(d *schema.ResourceData, sv strin
 	} else if d.HasChange("dscp_range") {
 		old, new := d.GetChange("dscp_range")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.DscpRange = &[]models.WirelessControllerhotspot20QosMapDscpRange{}
+			obj.DscpRange = &[]models.WirelessControllerHotspot20QosMapDscpRange{}
 		}
 	}
 	if v1, ok := d.GetOk("name"); ok {

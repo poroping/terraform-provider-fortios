@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -505,7 +505,12 @@ func resourceLogThreatWeightDelete(ctx context.Context, d *schema.ResourceData, 
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteLogThreatWeight(mkey, urlparams)
+	obj, diags := getEmptyObjectLogThreatWeight(d, c.Config.Fv)
+	if diags.HasError() {
+		return diags
+	}
+
+	_, err := c.Cmdb.UpdateLogThreatWeight(mkey, obj, urlparams)
 	if err != nil {
 		return diag.Errorf("error deleting LogThreatWeight resource: %v", err)
 	}
@@ -1354,5 +1359,20 @@ func getObjectLogThreatWeight(d *schema.ResourceData, sv string) (*models.LogThr
 			obj.Web = &[]models.LogThreatWeightWeb{}
 		}
 	}
+	return &obj, diags
+}
+
+// Return an object with explicitly empty objects for tables that have been set.
+func getEmptyObjectLogThreatWeight(d *schema.ResourceData, sv string) (*models.LogThreatWeight, diag.Diagnostics) {
+	obj := models.LogThreatWeight{}
+	diags := diag.Diagnostics{}
+
+	obj.Application = &[]models.LogThreatWeightApplication{}
+	obj.Geolocation = &[]models.LogThreatWeightGeolocation{}
+	obj.Ips = &[]models.LogThreatWeightIps{}
+	obj.Level = &[]models.LogThreatWeightLevel{}
+	obj.Malware = &[]models.LogThreatWeightMalware{}
+	obj.Web = &[]models.LogThreatWeightWeb{}
+
 	return &obj, diags
 }

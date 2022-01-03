@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -164,7 +164,12 @@ func resourceIpsSettingsDelete(ctx context.Context, d *schema.ResourceData, meta
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteIpsSettings(mkey, urlparams)
+	obj, diags := getEmptyObjectIpsSettings(d, c.Config.Fv)
+	if diags.HasError() {
+		return diags
+	}
+
+	_, err := c.Cmdb.UpdateIpsSettings(mkey, obj, urlparams)
 	if err != nil {
 		return diag.Errorf("error deleting IpsSettings resource: %v", err)
 	}
@@ -296,5 +301,13 @@ func getObjectIpsSettings(d *schema.ResourceData, sv string) (*models.IpsSetting
 			obj.PacketLogPostAttack = &tmp
 		}
 	}
+	return &obj, diags
+}
+
+// Return an object with explicitly empty objects for tables that have been set.
+func getEmptyObjectIpsSettings(d *schema.ResourceData, sv string) (*models.IpsSettings, diag.Diagnostics) {
+	obj := models.IpsSettings{}
+	diags := diag.Diagnostics{}
+
 	return &obj, diags
 }

@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -269,7 +269,12 @@ func resourceWanoptCacheServiceDelete(ctx context.Context, d *schema.ResourceDat
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteWanoptCacheService(mkey, urlparams)
+	obj, diags := getEmptyObjectWanoptCacheService(d, c.Config.Fv)
+	if diags.HasError() {
+		return diags
+	}
+
+	_, err := c.Cmdb.UpdateWanoptCacheService(mkey, obj, urlparams)
 	if err != nil {
 		return diag.Errorf("error deleting WanoptCacheService resource: %v", err)
 	}
@@ -621,5 +626,16 @@ func getObjectWanoptCacheService(d *schema.ResourceData, sv string) (*models.Wan
 			obj.SrcPeer = &[]models.WanoptCacheServiceSrcPeer{}
 		}
 	}
+	return &obj, diags
+}
+
+// Return an object with explicitly empty objects for tables that have been set.
+func getEmptyObjectWanoptCacheService(d *schema.ResourceData, sv string) (*models.WanoptCacheService, diag.Diagnostics) {
+	obj := models.WanoptCacheService{}
+	diags := diag.Diagnostics{}
+
+	obj.DstPeer = &[]models.WanoptCacheServiceDstPeer{}
+	obj.SrcPeer = &[]models.WanoptCacheServiceSrcPeer{}
+
 	return &obj, diags
 }

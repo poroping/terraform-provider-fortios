@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -18,14 +18,14 @@ import (
 	"github.com/poroping/terraform-provider-fortios/v2/utils"
 )
 
-func resourceSystemreplacemsgTrafficQuota() *schema.Resource {
+func resourceSystemReplacemsgTrafficQuota() *schema.Resource {
 	return &schema.Resource{
 		Description: "Replacement messages.",
 
-		CreateContext: resourceSystemreplacemsgTrafficQuotaCreate,
-		ReadContext:   resourceSystemreplacemsgTrafficQuotaRead,
-		UpdateContext: resourceSystemreplacemsgTrafficQuotaUpdate,
-		DeleteContext: resourceSystemreplacemsgTrafficQuotaDelete,
+		CreateContext: resourceSystemReplacemsgTrafficQuotaCreate,
+		ReadContext:   resourceSystemReplacemsgTrafficQuotaRead,
+		UpdateContext: resourceSystemReplacemsgTrafficQuotaUpdate,
+		DeleteContext: resourceSystemReplacemsgTrafficQuotaDelete,
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
@@ -80,7 +80,7 @@ func resourceSystemreplacemsgTrafficQuota() *schema.Resource {
 	}
 }
 
-func resourceSystemreplacemsgTrafficQuotaCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSystemReplacemsgTrafficQuotaCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*apiClient).Client
 	var diags diag.Diagnostics
 	var err error
@@ -107,16 +107,16 @@ func resourceSystemreplacemsgTrafficQuotaCreate(ctx context.Context, d *schema.R
 	if v, ok := d.GetOk(key); ok {
 		mkey = utils.ParseMkey(v)
 		if mkey == "" && allow_append {
-			return diag.Errorf("error creating SystemreplacemsgTrafficQuota resource: %q must be set if \"allow_append\" is true", key)
+			return diag.Errorf("error creating SystemReplacemsgTrafficQuota resource: %q must be set if \"allow_append\" is true", key)
 		}
 	}
 
-	obj, diags := getObjectSystemreplacemsgTrafficQuota(d, c.Config.Fv)
+	obj, diags := getObjectSystemReplacemsgTrafficQuota(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.CreateSystemreplacemsgTrafficQuota(obj, urlparams)
+	o, err := c.Cmdb.CreateSystemReplacemsgTrafficQuota(obj, urlparams)
 
 	if err != nil {
 		e := diag.FromErr(err)
@@ -126,13 +126,13 @@ func resourceSystemreplacemsgTrafficQuotaCreate(ctx context.Context, d *schema.R
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("SystemreplacemsgTrafficQuota")
+		d.SetId("SystemReplacemsgTrafficQuota")
 	}
 
-	return resourceSystemreplacemsgTrafficQuotaRead(ctx, d, meta)
+	return resourceSystemReplacemsgTrafficQuotaRead(ctx, d, meta)
 }
 
-func resourceSystemreplacemsgTrafficQuotaUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSystemReplacemsgTrafficQuotaUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
@@ -145,27 +145,27 @@ func resourceSystemreplacemsgTrafficQuotaUpdate(ctx context.Context, d *schema.R
 	}
 	urlparams.Vdom = vdomparam
 
-	obj, diags := getObjectSystemreplacemsgTrafficQuota(d, c.Config.Fv)
+	obj, diags := getObjectSystemReplacemsgTrafficQuota(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.UpdateSystemreplacemsgTrafficQuota(mkey, obj, urlparams)
+	o, err := c.Cmdb.UpdateSystemReplacemsgTrafficQuota(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error updating SystemreplacemsgTrafficQuota resource: %v", err)
+		return diag.Errorf("error updating SystemReplacemsgTrafficQuota resource: %v", err)
 	}
 
 	// log.Printf(strconv.Itoa(c.Retries))
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("SystemreplacemsgTrafficQuota")
+		d.SetId("SystemReplacemsgTrafficQuota")
 	}
 
-	return resourceSystemreplacemsgTrafficQuotaRead(ctx, d, meta)
+	return resourceSystemReplacemsgTrafficQuotaRead(ctx, d, meta)
 }
 
-func resourceSystemreplacemsgTrafficQuotaDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSystemReplacemsgTrafficQuotaDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -180,9 +180,9 @@ func resourceSystemreplacemsgTrafficQuotaDelete(ctx context.Context, d *schema.R
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteSystemreplacemsgTrafficQuota(mkey, urlparams)
+	err := c.Cmdb.DeleteSystemReplacemsgTrafficQuota(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error deleting SystemreplacemsgTrafficQuota resource: %v", err)
+		return diag.Errorf("error deleting SystemReplacemsgTrafficQuota resource: %v", err)
 	}
 
 	d.SetId("")
@@ -190,7 +190,7 @@ func resourceSystemreplacemsgTrafficQuotaDelete(ctx context.Context, d *schema.R
 	return nil
 }
 
-func resourceSystemreplacemsgTrafficQuotaRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSystemReplacemsgTrafficQuotaRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -205,9 +205,9 @@ func resourceSystemreplacemsgTrafficQuotaRead(ctx context.Context, d *schema.Res
 	}
 	urlparams.Vdom = vdomparam
 
-	o, err := c.Cmdb.ReadSystemreplacemsgTrafficQuota(mkey, urlparams)
+	o, err := c.Cmdb.ReadSystemReplacemsgTrafficQuota(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error reading SystemreplacemsgTrafficQuota resource: %v", err)
+		return diag.Errorf("error reading SystemReplacemsgTrafficQuota resource: %v", err)
 	}
 
 	if o == nil {
@@ -223,14 +223,14 @@ func resourceSystemreplacemsgTrafficQuotaRead(ctx context.Context, d *schema.Res
 		}
 	}
 
-	diags := refreshObjectSystemreplacemsgTrafficQuota(d, o, c.Config.Fv, sort)
+	diags := refreshObjectSystemReplacemsgTrafficQuota(d, o, c.Config.Fv, sort)
 	if diags.HasError() {
 		return diags
 	}
 	return nil
 }
 
-func refreshObjectSystemreplacemsgTrafficQuota(d *schema.ResourceData, o *models.SystemreplacemsgTrafficQuota, sv string, sort bool) diag.Diagnostics {
+func refreshObjectSystemReplacemsgTrafficQuota(d *schema.ResourceData, o *models.SystemReplacemsgTrafficQuota, sv string, sort bool) diag.Diagnostics {
 	var err error
 
 	if o.Buffer != nil {
@@ -268,8 +268,8 @@ func refreshObjectSystemreplacemsgTrafficQuota(d *schema.ResourceData, o *models
 	return nil
 }
 
-func getObjectSystemreplacemsgTrafficQuota(d *schema.ResourceData, sv string) (*models.SystemreplacemsgTrafficQuota, diag.Diagnostics) {
-	obj := models.SystemreplacemsgTrafficQuota{}
+func getObjectSystemReplacemsgTrafficQuota(d *schema.ResourceData, sv string) (*models.SystemReplacemsgTrafficQuota, diag.Diagnostics) {
+	obj := models.SystemReplacemsgTrafficQuota{}
 	diags := diag.Diagnostics{}
 
 	if v1, ok := d.GetOk("buffer"); ok {

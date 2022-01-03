@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -176,7 +176,7 @@ func resourceSystemSettings() *schema.Resource {
 			},
 			"consolidated_firewall_mode": {
 				Type:         schema.TypeString,
-				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+				ValidateFunc: validation.StringInSlice([]string{}, false),
 
 				Description: "Consolidated firewall mode.",
 				Optional:    true,
@@ -1130,7 +1130,12 @@ func resourceSystemSettingsDelete(ctx context.Context, d *schema.ResourceData, m
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteSystemSettings(mkey, urlparams)
+	obj, diags := getEmptyObjectSystemSettings(d, c.Config.Fv)
+	if diags.HasError() {
+		return diags
+	}
+
+	_, err := c.Cmdb.UpdateSystemSettings(mkey, obj, urlparams)
 	if err != nil {
 		return diag.Errorf("error deleting SystemSettings resource: %v", err)
 	}
@@ -2416,7 +2421,7 @@ func getObjectSystemSettings(d *schema.ResourceData, sv string) (*models.SystemS
 	}
 	if v1, ok := d.GetOk("dhcp_proxy_interface"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "") {
+			if !utils.CheckVer(sv, "", "v6.4.0") {
 				e := utils.AttributeVersionWarning("dhcp_proxy_interface", sv)
 				diags = append(diags, e)
 			}
@@ -2425,7 +2430,7 @@ func getObjectSystemSettings(d *schema.ResourceData, sv string) (*models.SystemS
 	}
 	if v1, ok := d.GetOk("dhcp_proxy_interface_select_method"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "") {
+			if !utils.CheckVer(sv, "", "v6.4.0") {
 				e := utils.AttributeVersionWarning("dhcp_proxy_interface_select_method", sv)
 				diags = append(diags, e)
 			}
@@ -2804,7 +2809,7 @@ func getObjectSystemSettings(d *schema.ResourceData, sv string) (*models.SystemS
 	}
 	if v1, ok := d.GetOk("gui_per_policy_disclaimer"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "v6.4.2") {
+			if !utils.CheckVer(sv, "", "v6.4.0") {
 				e := utils.AttributeVersionWarning("gui_per_policy_disclaimer", sv)
 				diags = append(diags, e)
 			}
@@ -2822,7 +2827,7 @@ func getObjectSystemSettings(d *schema.ResourceData, sv string) (*models.SystemS
 	}
 	if v1, ok := d.GetOk("gui_policy_disclaimer"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "v6.4.2", "") {
+			if !utils.CheckVer(sv, "v6.4.0", "") {
 				e := utils.AttributeVersionWarning("gui_policy_disclaimer", sv)
 				diags = append(diags, e)
 			}
@@ -3048,7 +3053,7 @@ func getObjectSystemSettings(d *schema.ResourceData, sv string) (*models.SystemS
 	}
 	if v1, ok := d.GetOk("implicit_allow_dns"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "v6.4.2") {
+			if !utils.CheckVer(sv, "", "v6.4.0") {
 				e := utils.AttributeVersionWarning("implicit_allow_dns", sv)
 				diags = append(diags, e)
 			}
@@ -3349,5 +3354,15 @@ func getObjectSystemSettings(d *schema.ResourceData, sv string) (*models.SystemS
 			obj.WccpCacheEngine = &v2
 		}
 	}
+	return &obj, diags
+}
+
+// Return an object with explicitly empty objects for tables that have been set.
+func getEmptyObjectSystemSettings(d *schema.ResourceData, sv string) (*models.SystemSettings, diag.Diagnostics) {
+	obj := models.SystemSettings{}
+	diags := diag.Diagnostics{}
+
+	obj.GuiDefaultPolicyColumns = &[]models.SystemSettingsGuiDefaultPolicyColumns{}
+
 	return &obj, diags
 }

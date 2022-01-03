@@ -158,7 +158,12 @@ func resourceSystemIpamDelete(ctx context.Context, d *schema.ResourceData, meta 
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteSystemIpam(mkey, urlparams)
+	obj, diags := getEmptyObjectSystemIpam(d, c.Config.Fv)
+	if diags.HasError() {
+		return diags
+	}
+
+	_, err := c.Cmdb.UpdateSystemIpam(mkey, obj, urlparams)
 	if err != nil {
 		return diag.Errorf("error deleting SystemIpam resource: %v", err)
 	}
@@ -274,5 +279,13 @@ func getObjectSystemIpam(d *schema.ResourceData, sv string) (*models.SystemIpam,
 			obj.Status = &v2
 		}
 	}
+	return &obj, diags
+}
+
+// Return an object with explicitly empty objects for tables that have been set.
+func getEmptyObjectSystemIpam(d *schema.ResourceData, sv string) (*models.SystemIpam, diag.Diagnostics) {
+	obj := models.SystemIpam{}
+	diags := diag.Diagnostics{}
+
 	return &obj, diags
 }

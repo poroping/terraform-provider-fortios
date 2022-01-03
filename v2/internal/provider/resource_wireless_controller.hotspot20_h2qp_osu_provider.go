@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -20,14 +20,14 @@ import (
 	"github.com/poroping/terraform-provider-fortios/v2/utils"
 )
 
-func resourceWirelessControllerhotspot20H2qpOsuProvider() *schema.Resource {
+func resourceWirelessControllerHotspot20H2qpOsuProvider() *schema.Resource {
 	return &schema.Resource{
 		Description: "Configure online sign up (OSU) provider list.",
 
-		CreateContext: resourceWirelessControllerhotspot20H2qpOsuProviderCreate,
-		ReadContext:   resourceWirelessControllerhotspot20H2qpOsuProviderRead,
-		UpdateContext: resourceWirelessControllerhotspot20H2qpOsuProviderUpdate,
-		DeleteContext: resourceWirelessControllerhotspot20H2qpOsuProviderDelete,
+		CreateContext: resourceWirelessControllerHotspot20H2qpOsuProviderCreate,
+		ReadContext:   resourceWirelessControllerHotspot20H2qpOsuProviderRead,
+		UpdateContext: resourceWirelessControllerHotspot20H2qpOsuProviderUpdate,
+		DeleteContext: resourceWirelessControllerHotspot20H2qpOsuProviderDelete,
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
@@ -160,7 +160,7 @@ func resourceWirelessControllerhotspot20H2qpOsuProvider() *schema.Resource {
 	}
 }
 
-func resourceWirelessControllerhotspot20H2qpOsuProviderCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceWirelessControllerHotspot20H2qpOsuProviderCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*apiClient).Client
 	var diags diag.Diagnostics
 	var err error
@@ -187,16 +187,16 @@ func resourceWirelessControllerhotspot20H2qpOsuProviderCreate(ctx context.Contex
 	if v, ok := d.GetOk(key); ok {
 		mkey = utils.ParseMkey(v)
 		if mkey == "" && allow_append {
-			return diag.Errorf("error creating WirelessControllerhotspot20H2qpOsuProvider resource: %q must be set if \"allow_append\" is true", key)
+			return diag.Errorf("error creating WirelessControllerHotspot20H2qpOsuProvider resource: %q must be set if \"allow_append\" is true", key)
 		}
 	}
 
-	obj, diags := getObjectWirelessControllerhotspot20H2qpOsuProvider(d, c.Config.Fv)
+	obj, diags := getObjectWirelessControllerHotspot20H2qpOsuProvider(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.CreateWirelessControllerhotspot20H2qpOsuProvider(obj, urlparams)
+	o, err := c.Cmdb.CreateWirelessControllerHotspot20H2qpOsuProvider(obj, urlparams)
 
 	if err != nil {
 		e := diag.FromErr(err)
@@ -206,13 +206,13 @@ func resourceWirelessControllerhotspot20H2qpOsuProviderCreate(ctx context.Contex
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("WirelessControllerhotspot20H2qpOsuProvider")
+		d.SetId("WirelessControllerHotspot20H2qpOsuProvider")
 	}
 
-	return resourceWirelessControllerhotspot20H2qpOsuProviderRead(ctx, d, meta)
+	return resourceWirelessControllerHotspot20H2qpOsuProviderRead(ctx, d, meta)
 }
 
-func resourceWirelessControllerhotspot20H2qpOsuProviderUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceWirelessControllerHotspot20H2qpOsuProviderUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
@@ -225,27 +225,27 @@ func resourceWirelessControllerhotspot20H2qpOsuProviderUpdate(ctx context.Contex
 	}
 	urlparams.Vdom = vdomparam
 
-	obj, diags := getObjectWirelessControllerhotspot20H2qpOsuProvider(d, c.Config.Fv)
+	obj, diags := getObjectWirelessControllerHotspot20H2qpOsuProvider(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.UpdateWirelessControllerhotspot20H2qpOsuProvider(mkey, obj, urlparams)
+	o, err := c.Cmdb.UpdateWirelessControllerHotspot20H2qpOsuProvider(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error updating WirelessControllerhotspot20H2qpOsuProvider resource: %v", err)
+		return diag.Errorf("error updating WirelessControllerHotspot20H2qpOsuProvider resource: %v", err)
 	}
 
 	// log.Printf(strconv.Itoa(c.Retries))
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("WirelessControllerhotspot20H2qpOsuProvider")
+		d.SetId("WirelessControllerHotspot20H2qpOsuProvider")
 	}
 
-	return resourceWirelessControllerhotspot20H2qpOsuProviderRead(ctx, d, meta)
+	return resourceWirelessControllerHotspot20H2qpOsuProviderRead(ctx, d, meta)
 }
 
-func resourceWirelessControllerhotspot20H2qpOsuProviderDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceWirelessControllerHotspot20H2qpOsuProviderDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -260,9 +260,9 @@ func resourceWirelessControllerhotspot20H2qpOsuProviderDelete(ctx context.Contex
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteWirelessControllerhotspot20H2qpOsuProvider(mkey, urlparams)
+	err := c.Cmdb.DeleteWirelessControllerHotspot20H2qpOsuProvider(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error deleting WirelessControllerhotspot20H2qpOsuProvider resource: %v", err)
+		return diag.Errorf("error deleting WirelessControllerHotspot20H2qpOsuProvider resource: %v", err)
 	}
 
 	d.SetId("")
@@ -270,7 +270,7 @@ func resourceWirelessControllerhotspot20H2qpOsuProviderDelete(ctx context.Contex
 	return nil
 }
 
-func resourceWirelessControllerhotspot20H2qpOsuProviderRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceWirelessControllerHotspot20H2qpOsuProviderRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -285,9 +285,9 @@ func resourceWirelessControllerhotspot20H2qpOsuProviderRead(ctx context.Context,
 	}
 	urlparams.Vdom = vdomparam
 
-	o, err := c.Cmdb.ReadWirelessControllerhotspot20H2qpOsuProvider(mkey, urlparams)
+	o, err := c.Cmdb.ReadWirelessControllerHotspot20H2qpOsuProvider(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error reading WirelessControllerhotspot20H2qpOsuProvider resource: %v", err)
+		return diag.Errorf("error reading WirelessControllerHotspot20H2qpOsuProvider resource: %v", err)
 	}
 
 	if o == nil {
@@ -303,14 +303,14 @@ func resourceWirelessControllerhotspot20H2qpOsuProviderRead(ctx context.Context,
 		}
 	}
 
-	diags := refreshObjectWirelessControllerhotspot20H2qpOsuProvider(d, o, c.Config.Fv, sort)
+	diags := refreshObjectWirelessControllerHotspot20H2qpOsuProvider(d, o, c.Config.Fv, sort)
 	if diags.HasError() {
 		return diags
 	}
 	return nil
 }
 
-func flattenWirelessControllerhotspot20H2qpOsuProviderFriendlyName(v *[]models.WirelessControllerhotspot20H2qpOsuProviderFriendlyName, sort bool) interface{} {
+func flattenWirelessControllerHotspot20H2qpOsuProviderFriendlyName(v *[]models.WirelessControllerHotspot20H2qpOsuProviderFriendlyName, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
@@ -339,7 +339,7 @@ func flattenWirelessControllerhotspot20H2qpOsuProviderFriendlyName(v *[]models.W
 	return flat
 }
 
-func flattenWirelessControllerhotspot20H2qpOsuProviderServiceDescription(v *[]models.WirelessControllerhotspot20H2qpOsuProviderServiceDescription, sort bool) interface{} {
+func flattenWirelessControllerHotspot20H2qpOsuProviderServiceDescription(v *[]models.WirelessControllerHotspot20H2qpOsuProviderServiceDescription, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
@@ -368,11 +368,11 @@ func flattenWirelessControllerhotspot20H2qpOsuProviderServiceDescription(v *[]mo
 	return flat
 }
 
-func refreshObjectWirelessControllerhotspot20H2qpOsuProvider(d *schema.ResourceData, o *models.WirelessControllerhotspot20H2qpOsuProvider, sv string, sort bool) diag.Diagnostics {
+func refreshObjectWirelessControllerHotspot20H2qpOsuProvider(d *schema.ResourceData, o *models.WirelessControllerHotspot20H2qpOsuProvider, sv string, sort bool) diag.Diagnostics {
 	var err error
 
 	if o.FriendlyName != nil {
-		if err = d.Set("friendly_name", flattenWirelessControllerhotspot20H2qpOsuProviderFriendlyName(o.FriendlyName, sort)); err != nil {
+		if err = d.Set("friendly_name", flattenWirelessControllerHotspot20H2qpOsuProviderFriendlyName(o.FriendlyName, sort)); err != nil {
 			return diag.Errorf("error reading friendly_name: %v", err)
 		}
 	}
@@ -418,7 +418,7 @@ func refreshObjectWirelessControllerhotspot20H2qpOsuProvider(d *schema.ResourceD
 	}
 
 	if o.ServiceDescription != nil {
-		if err = d.Set("service_description", flattenWirelessControllerhotspot20H2qpOsuProviderServiceDescription(o.ServiceDescription, sort)); err != nil {
+		if err = d.Set("service_description", flattenWirelessControllerHotspot20H2qpOsuProviderServiceDescription(o.ServiceDescription, sort)); err != nil {
 			return diag.Errorf("error reading service_description: %v", err)
 		}
 	}
@@ -426,16 +426,16 @@ func refreshObjectWirelessControllerhotspot20H2qpOsuProvider(d *schema.ResourceD
 	return nil
 }
 
-func expandWirelessControllerhotspot20H2qpOsuProviderFriendlyName(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.WirelessControllerhotspot20H2qpOsuProviderFriendlyName, error) {
+func expandWirelessControllerHotspot20H2qpOsuProviderFriendlyName(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.WirelessControllerHotspot20H2qpOsuProviderFriendlyName, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
 	}
 
-	var result []models.WirelessControllerhotspot20H2qpOsuProviderFriendlyName
+	var result []models.WirelessControllerHotspot20H2qpOsuProviderFriendlyName
 
 	for i := range l {
-		tmp := models.WirelessControllerhotspot20H2qpOsuProviderFriendlyName{}
+		tmp := models.WirelessControllerHotspot20H2qpOsuProviderFriendlyName{}
 		var pre_append string
 
 		pre_append = fmt.Sprintf("%s.%d.friendly_name", pre, i)
@@ -464,16 +464,16 @@ func expandWirelessControllerhotspot20H2qpOsuProviderFriendlyName(d *schema.Reso
 	return &result, nil
 }
 
-func expandWirelessControllerhotspot20H2qpOsuProviderServiceDescription(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.WirelessControllerhotspot20H2qpOsuProviderServiceDescription, error) {
+func expandWirelessControllerHotspot20H2qpOsuProviderServiceDescription(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.WirelessControllerHotspot20H2qpOsuProviderServiceDescription, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
 	}
 
-	var result []models.WirelessControllerhotspot20H2qpOsuProviderServiceDescription
+	var result []models.WirelessControllerHotspot20H2qpOsuProviderServiceDescription
 
 	for i := range l {
-		tmp := models.WirelessControllerhotspot20H2qpOsuProviderServiceDescription{}
+		tmp := models.WirelessControllerHotspot20H2qpOsuProviderServiceDescription{}
 		var pre_append string
 
 		pre_append = fmt.Sprintf("%s.%d.lang", pre, i)
@@ -502,8 +502,8 @@ func expandWirelessControllerhotspot20H2qpOsuProviderServiceDescription(d *schem
 	return &result, nil
 }
 
-func getObjectWirelessControllerhotspot20H2qpOsuProvider(d *schema.ResourceData, sv string) (*models.WirelessControllerhotspot20H2qpOsuProvider, diag.Diagnostics) {
-	obj := models.WirelessControllerhotspot20H2qpOsuProvider{}
+func getObjectWirelessControllerHotspot20H2qpOsuProvider(d *schema.ResourceData, sv string) (*models.WirelessControllerHotspot20H2qpOsuProvider, diag.Diagnostics) {
+	obj := models.WirelessControllerHotspot20H2qpOsuProvider{}
 	diags := diag.Diagnostics{}
 
 	if v, ok := d.GetOk("friendly_name"); ok {
@@ -511,7 +511,7 @@ func getObjectWirelessControllerhotspot20H2qpOsuProvider(d *schema.ResourceData,
 			e := utils.AttributeVersionWarning("friendly_name", sv)
 			diags = append(diags, e)
 		}
-		t, err := expandWirelessControllerhotspot20H2qpOsuProviderFriendlyName(d, v, "friendly_name", sv)
+		t, err := expandWirelessControllerHotspot20H2qpOsuProviderFriendlyName(d, v, "friendly_name", sv)
 		if err != nil {
 			return &obj, diag.FromErr(err)
 		} else if t != nil {
@@ -520,7 +520,7 @@ func getObjectWirelessControllerhotspot20H2qpOsuProvider(d *schema.ResourceData,
 	} else if d.HasChange("friendly_name") {
 		old, new := d.GetChange("friendly_name")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.FriendlyName = &[]models.WirelessControllerhotspot20H2qpOsuProviderFriendlyName{}
+			obj.FriendlyName = &[]models.WirelessControllerHotspot20H2qpOsuProviderFriendlyName{}
 		}
 	}
 	if v1, ok := d.GetOk("icon"); ok {
@@ -573,7 +573,7 @@ func getObjectWirelessControllerhotspot20H2qpOsuProvider(d *schema.ResourceData,
 			e := utils.AttributeVersionWarning("service_description", sv)
 			diags = append(diags, e)
 		}
-		t, err := expandWirelessControllerhotspot20H2qpOsuProviderServiceDescription(d, v, "service_description", sv)
+		t, err := expandWirelessControllerHotspot20H2qpOsuProviderServiceDescription(d, v, "service_description", sv)
 		if err != nil {
 			return &obj, diag.FromErr(err)
 		} else if t != nil {
@@ -582,7 +582,7 @@ func getObjectWirelessControllerhotspot20H2qpOsuProvider(d *schema.ResourceData,
 	} else if d.HasChange("service_description") {
 		old, new := d.GetChange("service_description")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.ServiceDescription = &[]models.WirelessControllerhotspot20H2qpOsuProviderServiceDescription{}
+			obj.ServiceDescription = &[]models.WirelessControllerHotspot20H2qpOsuProviderServiceDescription{}
 		}
 	}
 	return &obj, diags

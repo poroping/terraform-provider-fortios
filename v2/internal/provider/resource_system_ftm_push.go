@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -173,7 +173,12 @@ func resourceSystemFtmPushDelete(ctx context.Context, d *schema.ResourceData, me
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteSystemFtmPush(mkey, urlparams)
+	obj, diags := getEmptyObjectSystemFtmPush(d, c.Config.Fv)
+	if diags.HasError() {
+		return diags
+	}
+
+	_, err := c.Cmdb.UpdateSystemFtmPush(mkey, obj, urlparams)
 	if err != nil {
 		return diag.Errorf("error deleting SystemFtmPush resource: %v", err)
 	}
@@ -284,7 +289,7 @@ func getObjectSystemFtmPush(d *schema.ResourceData, sv string) (*models.SystemFt
 	}
 	if v1, ok := d.GetOk("server_cert"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "v6.4.2", "") {
+			if !utils.CheckVer(sv, "v6.4.0", "") {
 				e := utils.AttributeVersionWarning("server_cert", sv)
 				diags = append(diags, e)
 			}
@@ -319,5 +324,13 @@ func getObjectSystemFtmPush(d *schema.ResourceData, sv string) (*models.SystemFt
 			obj.Status = &v2
 		}
 	}
+	return &obj, diags
+}
+
+// Return an object with explicitly empty objects for tables that have been set.
+func getEmptyObjectSystemFtmPush(d *schema.ResourceData, sv string) (*models.SystemFtmPush, diag.Diagnostics) {
+	obj := models.SystemFtmPush{}
+	diags := diag.Diagnostics{}
+
 	return &obj, diags
 }

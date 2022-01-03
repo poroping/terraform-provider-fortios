@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -2981,7 +2981,7 @@ func getObjectWebfilterProfile(d *schema.ResourceData, sv string) (*models.Webfi
 	diags := diag.Diagnostics{}
 
 	if v, ok := d.GetOk("antiphish"); ok {
-		if !utils.CheckVer(sv, "v6.4.2", "") {
+		if !utils.CheckVer(sv, "v6.4.0", "") {
 			e := utils.AttributeVersionWarning("antiphish", sv)
 			diags = append(diags, e)
 		}
@@ -3017,7 +3017,7 @@ func getObjectWebfilterProfile(d *schema.ResourceData, sv string) (*models.Webfi
 	}
 	if v1, ok := d.GetOk("feature_set"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "v6.4.2", "") {
+			if !utils.CheckVer(sv, "v6.4.0", "") {
 				e := utils.AttributeVersionWarning("feature_set", sv)
 				diags = append(diags, e)
 			}
@@ -3157,7 +3157,7 @@ func getObjectWebfilterProfile(d *schema.ResourceData, sv string) (*models.Webfi
 	}
 	if v1, ok := d.GetOk("web_antiphishing_log"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "v6.4.2", "") {
+			if !utils.CheckVer(sv, "v6.4.0", "") {
 				e := utils.AttributeVersionWarning("web_antiphishing_log", sv)
 				diags = append(diags, e)
 			}

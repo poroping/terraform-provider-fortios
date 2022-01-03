@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -422,7 +422,12 @@ func resourceSystemCsfDelete(ctx context.Context, d *schema.ResourceData, meta i
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteSystemCsf(mkey, urlparams)
+	obj, diags := getEmptyObjectSystemCsf(d, c.Config.Fv)
+	if diags.HasError() {
+		return diags
+	}
+
+	_, err := c.Cmdb.UpdateSystemCsf(mkey, obj, urlparams)
 	if err != nil {
 		return diag.Errorf("error deleting SystemCsf resource: %v", err)
 	}
@@ -990,7 +995,7 @@ func getObjectSystemCsf(d *schema.ResourceData, sv string) (*models.SystemCsf, d
 	}
 	if v1, ok := d.GetOk("fabric_object_unification"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "v6.4.2", "") {
+			if !utils.CheckVer(sv, "v6.4.0", "") {
 				e := utils.AttributeVersionWarning("fabric_object_unification", sv)
 				diags = append(diags, e)
 			}
@@ -1116,5 +1121,17 @@ func getObjectSystemCsf(d *schema.ResourceData, sv string) (*models.SystemCsf, d
 			obj.UpstreamPort = &tmp
 		}
 	}
+	return &obj, diags
+}
+
+// Return an object with explicitly empty objects for tables that have been set.
+func getEmptyObjectSystemCsf(d *schema.ResourceData, sv string) (*models.SystemCsf, diag.Diagnostics) {
+	obj := models.SystemCsf{}
+	diags := diag.Diagnostics{}
+
+	obj.FabricConnector = &[]models.SystemCsfFabricConnector{}
+	obj.FabricDevice = &[]models.SystemCsfFabricDevice{}
+	obj.TrustedList = &[]models.SystemCsfTrustedList{}
+
 	return &obj, diags
 }

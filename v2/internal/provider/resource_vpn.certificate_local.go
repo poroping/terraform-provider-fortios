@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -18,14 +18,14 @@ import (
 	"github.com/poroping/terraform-provider-fortios/v2/utils"
 )
 
-func resourceVpncertificateLocal() *schema.Resource {
+func resourceVpnCertificateLocal() *schema.Resource {
 	return &schema.Resource{
 		Description: "Local keys and certificates.",
 
-		CreateContext: resourceVpncertificateLocalCreate,
-		ReadContext:   resourceVpncertificateLocalRead,
-		UpdateContext: resourceVpncertificateLocalUpdate,
-		DeleteContext: resourceVpncertificateLocalDelete,
+		CreateContext: resourceVpnCertificateLocalCreate,
+		ReadContext:   resourceVpnCertificateLocalRead,
+		UpdateContext: resourceVpnCertificateLocalUpdate,
+		DeleteContext: resourceVpnCertificateLocalDelete,
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
@@ -266,7 +266,7 @@ func resourceVpncertificateLocal() *schema.Resource {
 	}
 }
 
-func resourceVpncertificateLocalCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceVpnCertificateLocalCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*apiClient).Client
 	var diags diag.Diagnostics
 	var err error
@@ -293,16 +293,16 @@ func resourceVpncertificateLocalCreate(ctx context.Context, d *schema.ResourceDa
 	if v, ok := d.GetOk(key); ok {
 		mkey = utils.ParseMkey(v)
 		if mkey == "" && allow_append {
-			return diag.Errorf("error creating VpncertificateLocal resource: %q must be set if \"allow_append\" is true", key)
+			return diag.Errorf("error creating VpnCertificateLocal resource: %q must be set if \"allow_append\" is true", key)
 		}
 	}
 
-	obj, diags := getObjectVpncertificateLocal(d, c.Config.Fv)
+	obj, diags := getObjectVpnCertificateLocal(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.CreateVpncertificateLocal(obj, urlparams)
+	o, err := c.Cmdb.CreateVpnCertificateLocal(obj, urlparams)
 
 	if err != nil {
 		e := diag.FromErr(err)
@@ -312,13 +312,13 @@ func resourceVpncertificateLocalCreate(ctx context.Context, d *schema.ResourceDa
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("VpncertificateLocal")
+		d.SetId("VpnCertificateLocal")
 	}
 
-	return resourceVpncertificateLocalRead(ctx, d, meta)
+	return resourceVpnCertificateLocalRead(ctx, d, meta)
 }
 
-func resourceVpncertificateLocalUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceVpnCertificateLocalUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
@@ -331,27 +331,27 @@ func resourceVpncertificateLocalUpdate(ctx context.Context, d *schema.ResourceDa
 	}
 	urlparams.Vdom = vdomparam
 
-	obj, diags := getObjectVpncertificateLocal(d, c.Config.Fv)
+	obj, diags := getObjectVpnCertificateLocal(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.UpdateVpncertificateLocal(mkey, obj, urlparams)
+	o, err := c.Cmdb.UpdateVpnCertificateLocal(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error updating VpncertificateLocal resource: %v", err)
+		return diag.Errorf("error updating VpnCertificateLocal resource: %v", err)
 	}
 
 	// log.Printf(strconv.Itoa(c.Retries))
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("VpncertificateLocal")
+		d.SetId("VpnCertificateLocal")
 	}
 
-	return resourceVpncertificateLocalRead(ctx, d, meta)
+	return resourceVpnCertificateLocalRead(ctx, d, meta)
 }
 
-func resourceVpncertificateLocalDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceVpnCertificateLocalDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -366,9 +366,9 @@ func resourceVpncertificateLocalDelete(ctx context.Context, d *schema.ResourceDa
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteVpncertificateLocal(mkey, urlparams)
+	err := c.Cmdb.DeleteVpnCertificateLocal(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error deleting VpncertificateLocal resource: %v", err)
+		return diag.Errorf("error deleting VpnCertificateLocal resource: %v", err)
 	}
 
 	d.SetId("")
@@ -376,7 +376,7 @@ func resourceVpncertificateLocalDelete(ctx context.Context, d *schema.ResourceDa
 	return nil
 }
 
-func resourceVpncertificateLocalRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceVpnCertificateLocalRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -391,9 +391,9 @@ func resourceVpncertificateLocalRead(ctx context.Context, d *schema.ResourceData
 	}
 	urlparams.Vdom = vdomparam
 
-	o, err := c.Cmdb.ReadVpncertificateLocal(mkey, urlparams)
+	o, err := c.Cmdb.ReadVpnCertificateLocal(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error reading VpncertificateLocal resource: %v", err)
+		return diag.Errorf("error reading VpnCertificateLocal resource: %v", err)
 	}
 
 	if o == nil {
@@ -409,14 +409,14 @@ func resourceVpncertificateLocalRead(ctx context.Context, d *schema.ResourceData
 		}
 	}
 
-	diags := refreshObjectVpncertificateLocal(d, o, c.Config.Fv, sort)
+	diags := refreshObjectVpnCertificateLocal(d, o, c.Config.Fv, sort)
 	if diags.HasError() {
 		return diags
 	}
 	return nil
 }
 
-func refreshObjectVpncertificateLocal(d *schema.ResourceData, o *models.VpncertificateLocal, sv string, sort bool) diag.Diagnostics {
+func refreshObjectVpnCertificateLocal(d *schema.ResourceData, o *models.VpnCertificateLocal, sv string, sort bool) diag.Diagnostics {
 	var err error
 
 	if o.AcmeCaUrl != nil {
@@ -646,8 +646,8 @@ func refreshObjectVpncertificateLocal(d *schema.ResourceData, o *models.Vpncerti
 	return nil
 }
 
-func getObjectVpncertificateLocal(d *schema.ResourceData, sv string) (*models.VpncertificateLocal, diag.Diagnostics) {
-	obj := models.VpncertificateLocal{}
+func getObjectVpnCertificateLocal(d *schema.ResourceData, sv string) (*models.VpnCertificateLocal, diag.Diagnostics) {
+	obj := models.VpnCertificateLocal{}
 	diags := diag.Diagnostics{}
 
 	if v1, ok := d.GetOk("acme_ca_url"); ok {

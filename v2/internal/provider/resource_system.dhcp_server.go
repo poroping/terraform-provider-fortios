@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -20,14 +20,14 @@ import (
 	"github.com/poroping/terraform-provider-fortios/v2/validators"
 )
 
-func resourceSystemdhcpServer() *schema.Resource {
+func resourceSystemDhcpServer() *schema.Resource {
 	return &schema.Resource{
 		Description: "Configure DHCP servers.",
 
-		CreateContext: resourceSystemdhcpServerCreate,
-		ReadContext:   resourceSystemdhcpServerRead,
-		UpdateContext: resourceSystemdhcpServerUpdate,
-		DeleteContext: resourceSystemdhcpServerDelete,
+		CreateContext: resourceSystemDhcpServerCreate,
+		ReadContext:   resourceSystemDhcpServerRead,
+		UpdateContext: resourceSystemDhcpServerUpdate,
+		DeleteContext: resourceSystemDhcpServerDelete,
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
@@ -639,7 +639,7 @@ func resourceSystemdhcpServer() *schema.Resource {
 	}
 }
 
-func resourceSystemdhcpServerCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSystemDhcpServerCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*apiClient).Client
 	var diags diag.Diagnostics
 	var err error
@@ -666,16 +666,16 @@ func resourceSystemdhcpServerCreate(ctx context.Context, d *schema.ResourceData,
 	if v, ok := d.GetOk(key); ok {
 		mkey = utils.ParseMkey(v)
 		if mkey == "" && allow_append {
-			return diag.Errorf("error creating SystemdhcpServer resource: %q must be set if \"allow_append\" is true", key)
+			return diag.Errorf("error creating SystemDhcpServer resource: %q must be set if \"allow_append\" is true", key)
 		}
 	}
 
-	obj, diags := getObjectSystemdhcpServer(d, c.Config.Fv)
+	obj, diags := getObjectSystemDhcpServer(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.CreateSystemdhcpServer(obj, urlparams)
+	o, err := c.Cmdb.CreateSystemDhcpServer(obj, urlparams)
 
 	if err != nil {
 		e := diag.FromErr(err)
@@ -685,13 +685,13 @@ func resourceSystemdhcpServerCreate(ctx context.Context, d *schema.ResourceData,
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("SystemdhcpServer")
+		d.SetId("SystemDhcpServer")
 	}
 
-	return resourceSystemdhcpServerRead(ctx, d, meta)
+	return resourceSystemDhcpServerRead(ctx, d, meta)
 }
 
-func resourceSystemdhcpServerUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSystemDhcpServerUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
@@ -704,27 +704,27 @@ func resourceSystemdhcpServerUpdate(ctx context.Context, d *schema.ResourceData,
 	}
 	urlparams.Vdom = vdomparam
 
-	obj, diags := getObjectSystemdhcpServer(d, c.Config.Fv)
+	obj, diags := getObjectSystemDhcpServer(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.UpdateSystemdhcpServer(mkey, obj, urlparams)
+	o, err := c.Cmdb.UpdateSystemDhcpServer(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error updating SystemdhcpServer resource: %v", err)
+		return diag.Errorf("error updating SystemDhcpServer resource: %v", err)
 	}
 
 	// log.Printf(strconv.Itoa(c.Retries))
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("SystemdhcpServer")
+		d.SetId("SystemDhcpServer")
 	}
 
-	return resourceSystemdhcpServerRead(ctx, d, meta)
+	return resourceSystemDhcpServerRead(ctx, d, meta)
 }
 
-func resourceSystemdhcpServerDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSystemDhcpServerDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -739,9 +739,9 @@ func resourceSystemdhcpServerDelete(ctx context.Context, d *schema.ResourceData,
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteSystemdhcpServer(mkey, urlparams)
+	err := c.Cmdb.DeleteSystemDhcpServer(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error deleting SystemdhcpServer resource: %v", err)
+		return diag.Errorf("error deleting SystemDhcpServer resource: %v", err)
 	}
 
 	d.SetId("")
@@ -749,7 +749,7 @@ func resourceSystemdhcpServerDelete(ctx context.Context, d *schema.ResourceData,
 	return nil
 }
 
-func resourceSystemdhcpServerRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSystemDhcpServerRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -764,9 +764,9 @@ func resourceSystemdhcpServerRead(ctx context.Context, d *schema.ResourceData, m
 	}
 	urlparams.Vdom = vdomparam
 
-	o, err := c.Cmdb.ReadSystemdhcpServer(mkey, urlparams)
+	o, err := c.Cmdb.ReadSystemDhcpServer(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error reading SystemdhcpServer resource: %v", err)
+		return diag.Errorf("error reading SystemDhcpServer resource: %v", err)
 	}
 
 	if o == nil {
@@ -782,14 +782,14 @@ func resourceSystemdhcpServerRead(ctx context.Context, d *schema.ResourceData, m
 		}
 	}
 
-	diags := refreshObjectSystemdhcpServer(d, o, c.Config.Fv, sort)
+	diags := refreshObjectSystemDhcpServer(d, o, c.Config.Fv, sort)
 	if diags.HasError() {
 		return diags
 	}
 	return nil
 }
 
-func flattenSystemdhcpServerExcludeRange(v *[]models.SystemdhcpServerExcludeRange, sort bool) interface{} {
+func flattenSystemDhcpServerExcludeRange(v *[]models.SystemDhcpServerExcludeRange, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
@@ -818,7 +818,7 @@ func flattenSystemdhcpServerExcludeRange(v *[]models.SystemdhcpServerExcludeRang
 	return flat
 }
 
-func flattenSystemdhcpServerIpRange(v *[]models.SystemdhcpServerIpRange, sort bool) interface{} {
+func flattenSystemDhcpServerIpRange(v *[]models.SystemDhcpServerIpRange, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
@@ -847,7 +847,7 @@ func flattenSystemdhcpServerIpRange(v *[]models.SystemdhcpServerIpRange, sort bo
 	return flat
 }
 
-func flattenSystemdhcpServerOptions(v *[]models.SystemdhcpServerOptions, sort bool) interface{} {
+func flattenSystemDhcpServerOptions(v *[]models.SystemDhcpServerOptions, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
@@ -884,7 +884,7 @@ func flattenSystemdhcpServerOptions(v *[]models.SystemdhcpServerOptions, sort bo
 	return flat
 }
 
-func flattenSystemdhcpServerReservedAddress(v *[]models.SystemdhcpServerReservedAddress, sort bool) interface{} {
+func flattenSystemDhcpServerReservedAddress(v *[]models.SystemDhcpServerReservedAddress, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
@@ -941,7 +941,7 @@ func flattenSystemdhcpServerReservedAddress(v *[]models.SystemdhcpServerReserved
 	return flat
 }
 
-func flattenSystemdhcpServerTftpServer(v *[]models.SystemdhcpServerTftpServer, sort bool) interface{} {
+func flattenSystemDhcpServerTftpServer(v *[]models.SystemDhcpServerTftpServer, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
@@ -962,7 +962,7 @@ func flattenSystemdhcpServerTftpServer(v *[]models.SystemdhcpServerTftpServer, s
 	return flat
 }
 
-func flattenSystemdhcpServerVciString(v *[]models.SystemdhcpServerVciString, sort bool) interface{} {
+func flattenSystemDhcpServerVciString(v *[]models.SystemDhcpServerVciString, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
@@ -983,7 +983,7 @@ func flattenSystemdhcpServerVciString(v *[]models.SystemdhcpServerVciString, sor
 	return flat
 }
 
-func refreshObjectSystemdhcpServer(d *schema.ResourceData, o *models.SystemdhcpServer, sv string, sort bool) diag.Diagnostics {
+func refreshObjectSystemDhcpServer(d *schema.ResourceData, o *models.SystemDhcpServer, sv string, sort bool) diag.Diagnostics {
 	var err error
 
 	if o.AutoConfiguration != nil {
@@ -1139,7 +1139,7 @@ func refreshObjectSystemdhcpServer(d *schema.ResourceData, o *models.SystemdhcpS
 	}
 
 	if o.ExcludeRange != nil {
-		if err = d.Set("exclude_range", flattenSystemdhcpServerExcludeRange(o.ExcludeRange, sort)); err != nil {
+		if err = d.Set("exclude_range", flattenSystemDhcpServerExcludeRange(o.ExcludeRange, sort)); err != nil {
 			return diag.Errorf("error reading exclude_range: %v", err)
 		}
 	}
@@ -1185,7 +1185,7 @@ func refreshObjectSystemdhcpServer(d *schema.ResourceData, o *models.SystemdhcpS
 	}
 
 	if o.IpRange != nil {
-		if err = d.Set("ip_range", flattenSystemdhcpServerIpRange(o.IpRange, sort)); err != nil {
+		if err = d.Set("ip_range", flattenSystemDhcpServerIpRange(o.IpRange, sort)); err != nil {
 			return diag.Errorf("error reading ip_range: %v", err)
 		}
 	}
@@ -1263,13 +1263,13 @@ func refreshObjectSystemdhcpServer(d *schema.ResourceData, o *models.SystemdhcpS
 	}
 
 	if o.Options != nil {
-		if err = d.Set("options", flattenSystemdhcpServerOptions(o.Options, sort)); err != nil {
+		if err = d.Set("options", flattenSystemDhcpServerOptions(o.Options, sort)); err != nil {
 			return diag.Errorf("error reading options: %v", err)
 		}
 	}
 
 	if o.ReservedAddress != nil {
-		if err = d.Set("reserved_address", flattenSystemdhcpServerReservedAddress(o.ReservedAddress, sort)); err != nil {
+		if err = d.Set("reserved_address", flattenSystemDhcpServerReservedAddress(o.ReservedAddress, sort)); err != nil {
 			return diag.Errorf("error reading reserved_address: %v", err)
 		}
 	}
@@ -1291,7 +1291,7 @@ func refreshObjectSystemdhcpServer(d *schema.ResourceData, o *models.SystemdhcpS
 	}
 
 	if o.TftpServer != nil {
-		if err = d.Set("tftp_server", flattenSystemdhcpServerTftpServer(o.TftpServer, sort)); err != nil {
+		if err = d.Set("tftp_server", flattenSystemDhcpServerTftpServer(o.TftpServer, sort)); err != nil {
 			return diag.Errorf("error reading tftp_server: %v", err)
 		}
 	}
@@ -1321,7 +1321,7 @@ func refreshObjectSystemdhcpServer(d *schema.ResourceData, o *models.SystemdhcpS
 	}
 
 	if o.VciString != nil {
-		if err = d.Set("vci_string", flattenSystemdhcpServerVciString(o.VciString, sort)); err != nil {
+		if err = d.Set("vci_string", flattenSystemDhcpServerVciString(o.VciString, sort)); err != nil {
 			return diag.Errorf("error reading vci_string: %v", err)
 		}
 	}
@@ -1377,16 +1377,16 @@ func refreshObjectSystemdhcpServer(d *schema.ResourceData, o *models.SystemdhcpS
 	return nil
 }
 
-func expandSystemdhcpServerExcludeRange(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.SystemdhcpServerExcludeRange, error) {
+func expandSystemDhcpServerExcludeRange(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.SystemDhcpServerExcludeRange, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
 	}
 
-	var result []models.SystemdhcpServerExcludeRange
+	var result []models.SystemDhcpServerExcludeRange
 
 	for i := range l {
-		tmp := models.SystemdhcpServerExcludeRange{}
+		tmp := models.SystemDhcpServerExcludeRange{}
 		var pre_append string
 
 		pre_append = fmt.Sprintf("%s.%d.end_ip", pre, i)
@@ -1415,16 +1415,16 @@ func expandSystemdhcpServerExcludeRange(d *schema.ResourceData, v interface{}, p
 	return &result, nil
 }
 
-func expandSystemdhcpServerIpRange(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.SystemdhcpServerIpRange, error) {
+func expandSystemDhcpServerIpRange(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.SystemDhcpServerIpRange, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
 	}
 
-	var result []models.SystemdhcpServerIpRange
+	var result []models.SystemDhcpServerIpRange
 
 	for i := range l {
-		tmp := models.SystemdhcpServerIpRange{}
+		tmp := models.SystemDhcpServerIpRange{}
 		var pre_append string
 
 		pre_append = fmt.Sprintf("%s.%d.end_ip", pre, i)
@@ -1453,16 +1453,16 @@ func expandSystemdhcpServerIpRange(d *schema.ResourceData, v interface{}, pre st
 	return &result, nil
 }
 
-func expandSystemdhcpServerOptions(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.SystemdhcpServerOptions, error) {
+func expandSystemDhcpServerOptions(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.SystemDhcpServerOptions, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
 	}
 
-	var result []models.SystemdhcpServerOptions
+	var result []models.SystemDhcpServerOptions
 
 	for i := range l {
-		tmp := models.SystemdhcpServerOptions{}
+		tmp := models.SystemDhcpServerOptions{}
 		var pre_append string
 
 		pre_append = fmt.Sprintf("%s.%d.code", pre, i)
@@ -1505,16 +1505,16 @@ func expandSystemdhcpServerOptions(d *schema.ResourceData, v interface{}, pre st
 	return &result, nil
 }
 
-func expandSystemdhcpServerReservedAddress(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.SystemdhcpServerReservedAddress, error) {
+func expandSystemDhcpServerReservedAddress(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.SystemDhcpServerReservedAddress, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
 	}
 
-	var result []models.SystemdhcpServerReservedAddress
+	var result []models.SystemDhcpServerReservedAddress
 
 	for i := range l {
-		tmp := models.SystemdhcpServerReservedAddress{}
+		tmp := models.SystemDhcpServerReservedAddress{}
 		var pre_append string
 
 		pre_append = fmt.Sprintf("%s.%d.action", pre, i)
@@ -1592,16 +1592,16 @@ func expandSystemdhcpServerReservedAddress(d *schema.ResourceData, v interface{}
 	return &result, nil
 }
 
-func expandSystemdhcpServerTftpServer(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.SystemdhcpServerTftpServer, error) {
+func expandSystemDhcpServerTftpServer(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.SystemDhcpServerTftpServer, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
 	}
 
-	var result []models.SystemdhcpServerTftpServer
+	var result []models.SystemDhcpServerTftpServer
 
 	for i := range l {
-		tmp := models.SystemdhcpServerTftpServer{}
+		tmp := models.SystemDhcpServerTftpServer{}
 		var pre_append string
 
 		pre_append = fmt.Sprintf("%s.%d.tftp_server", pre, i)
@@ -1616,16 +1616,16 @@ func expandSystemdhcpServerTftpServer(d *schema.ResourceData, v interface{}, pre
 	return &result, nil
 }
 
-func expandSystemdhcpServerVciString(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.SystemdhcpServerVciString, error) {
+func expandSystemDhcpServerVciString(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.SystemDhcpServerVciString, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
 	}
 
-	var result []models.SystemdhcpServerVciString
+	var result []models.SystemDhcpServerVciString
 
 	for i := range l {
-		tmp := models.SystemdhcpServerVciString{}
+		tmp := models.SystemDhcpServerVciString{}
 		var pre_append string
 
 		pre_append = fmt.Sprintf("%s.%d.vci_string", pre, i)
@@ -1640,8 +1640,8 @@ func expandSystemdhcpServerVciString(d *schema.ResourceData, v interface{}, pre 
 	return &result, nil
 }
 
-func getObjectSystemdhcpServer(d *schema.ResourceData, sv string) (*models.SystemdhcpServer, diag.Diagnostics) {
-	obj := models.SystemdhcpServer{}
+func getObjectSystemDhcpServer(d *schema.ResourceData, sv string) (*models.SystemDhcpServer, diag.Diagnostics) {
+	obj := models.SystemDhcpServer{}
 	diags := diag.Diagnostics{}
 
 	if v1, ok := d.GetOk("auto_configuration"); ok {
@@ -1655,7 +1655,7 @@ func getObjectSystemdhcpServer(d *schema.ResourceData, sv string) (*models.Syste
 	}
 	if v1, ok := d.GetOk("auto_managed_status"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "v6.4.2", "") {
+			if !utils.CheckVer(sv, "v6.4.0", "") {
 				e := utils.AttributeVersionWarning("auto_managed_status", sv)
 				diags = append(diags, e)
 			}
@@ -1756,7 +1756,7 @@ func getObjectSystemdhcpServer(d *schema.ResourceData, sv string) (*models.Syste
 	}
 	if v1, ok := d.GetOk("dhcp_settings_from_fortiipam"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "v6.4.2", "") {
+			if !utils.CheckVer(sv, "v6.4.0", "") {
 				e := utils.AttributeVersionWarning("dhcp_settings_from_fortiipam", sv)
 				diags = append(diags, e)
 			}
@@ -1822,7 +1822,7 @@ func getObjectSystemdhcpServer(d *schema.ResourceData, sv string) (*models.Syste
 			e := utils.AttributeVersionWarning("exclude_range", sv)
 			diags = append(diags, e)
 		}
-		t, err := expandSystemdhcpServerExcludeRange(d, v, "exclude_range", sv)
+		t, err := expandSystemDhcpServerExcludeRange(d, v, "exclude_range", sv)
 		if err != nil {
 			return &obj, diag.FromErr(err)
 		} else if t != nil {
@@ -1831,7 +1831,7 @@ func getObjectSystemdhcpServer(d *schema.ResourceData, sv string) (*models.Syste
 	} else if d.HasChange("exclude_range") {
 		old, new := d.GetChange("exclude_range")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.ExcludeRange = &[]models.SystemdhcpServerExcludeRange{}
+			obj.ExcludeRange = &[]models.SystemDhcpServerExcludeRange{}
 		}
 	}
 	if v1, ok := d.GetOk("filename"); ok {
@@ -1885,7 +1885,7 @@ func getObjectSystemdhcpServer(d *schema.ResourceData, sv string) (*models.Syste
 			e := utils.AttributeVersionWarning("ip_range", sv)
 			diags = append(diags, e)
 		}
-		t, err := expandSystemdhcpServerIpRange(d, v, "ip_range", sv)
+		t, err := expandSystemDhcpServerIpRange(d, v, "ip_range", sv)
 		if err != nil {
 			return &obj, diag.FromErr(err)
 		} else if t != nil {
@@ -1894,7 +1894,7 @@ func getObjectSystemdhcpServer(d *schema.ResourceData, sv string) (*models.Syste
 	} else if d.HasChange("ip_range") {
 		old, new := d.GetChange("ip_range")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.IpRange = &[]models.SystemdhcpServerIpRange{}
+			obj.IpRange = &[]models.SystemDhcpServerIpRange{}
 		}
 	}
 	if v1, ok := d.GetOk("ipsec_lease_hold"); ok {
@@ -1985,7 +1985,7 @@ func getObjectSystemdhcpServer(d *schema.ResourceData, sv string) (*models.Syste
 			e := utils.AttributeVersionWarning("options", sv)
 			diags = append(diags, e)
 		}
-		t, err := expandSystemdhcpServerOptions(d, v, "options", sv)
+		t, err := expandSystemDhcpServerOptions(d, v, "options", sv)
 		if err != nil {
 			return &obj, diag.FromErr(err)
 		} else if t != nil {
@@ -1994,7 +1994,7 @@ func getObjectSystemdhcpServer(d *schema.ResourceData, sv string) (*models.Syste
 	} else if d.HasChange("options") {
 		old, new := d.GetChange("options")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.Options = &[]models.SystemdhcpServerOptions{}
+			obj.Options = &[]models.SystemDhcpServerOptions{}
 		}
 	}
 	if v, ok := d.GetOk("reserved_address"); ok {
@@ -2002,7 +2002,7 @@ func getObjectSystemdhcpServer(d *schema.ResourceData, sv string) (*models.Syste
 			e := utils.AttributeVersionWarning("reserved_address", sv)
 			diags = append(diags, e)
 		}
-		t, err := expandSystemdhcpServerReservedAddress(d, v, "reserved_address", sv)
+		t, err := expandSystemDhcpServerReservedAddress(d, v, "reserved_address", sv)
 		if err != nil {
 			return &obj, diag.FromErr(err)
 		} else if t != nil {
@@ -2011,7 +2011,7 @@ func getObjectSystemdhcpServer(d *schema.ResourceData, sv string) (*models.Syste
 	} else if d.HasChange("reserved_address") {
 		old, new := d.GetChange("reserved_address")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.ReservedAddress = &[]models.SystemdhcpServerReservedAddress{}
+			obj.ReservedAddress = &[]models.SystemDhcpServerReservedAddress{}
 		}
 	}
 	if v1, ok := d.GetOk("server_type"); ok {
@@ -2037,7 +2037,7 @@ func getObjectSystemdhcpServer(d *schema.ResourceData, sv string) (*models.Syste
 			e := utils.AttributeVersionWarning("tftp_server", sv)
 			diags = append(diags, e)
 		}
-		t, err := expandSystemdhcpServerTftpServer(d, v, "tftp_server", sv)
+		t, err := expandSystemDhcpServerTftpServer(d, v, "tftp_server", sv)
 		if err != nil {
 			return &obj, diag.FromErr(err)
 		} else if t != nil {
@@ -2046,7 +2046,7 @@ func getObjectSystemdhcpServer(d *schema.ResourceData, sv string) (*models.Syste
 	} else if d.HasChange("tftp_server") {
 		old, new := d.GetChange("tftp_server")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.TftpServer = &[]models.SystemdhcpServerTftpServer{}
+			obj.TftpServer = &[]models.SystemDhcpServerTftpServer{}
 		}
 	}
 	if v1, ok := d.GetOk("timezone"); ok {
@@ -2081,7 +2081,7 @@ func getObjectSystemdhcpServer(d *schema.ResourceData, sv string) (*models.Syste
 			e := utils.AttributeVersionWarning("vci_string", sv)
 			diags = append(diags, e)
 		}
-		t, err := expandSystemdhcpServerVciString(d, v, "vci_string", sv)
+		t, err := expandSystemDhcpServerVciString(d, v, "vci_string", sv)
 		if err != nil {
 			return &obj, diag.FromErr(err)
 		} else if t != nil {
@@ -2090,7 +2090,7 @@ func getObjectSystemdhcpServer(d *schema.ResourceData, sv string) (*models.Syste
 	} else if d.HasChange("vci_string") {
 		old, new := d.GetChange("vci_string")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.VciString = &[]models.SystemdhcpServerVciString{}
+			obj.VciString = &[]models.SystemDhcpServerVciString{}
 		}
 	}
 	if v1, ok := d.GetOk("wifi_ac_service"); ok {

@@ -500,7 +500,12 @@ func resourceSystemModemDelete(ctx context.Context, d *schema.ResourceData, meta
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteSystemModem(mkey, urlparams)
+	obj, diags := getEmptyObjectSystemModem(d, c.Config.Fv)
+	if diags.HasError() {
+		return diags
+	}
+
+	_, err := c.Cmdb.UpdateSystemModem(mkey, obj, urlparams)
 	if err != nil {
 		return diag.Errorf("error deleting SystemModem resource: %v", err)
 	}
@@ -1349,5 +1354,13 @@ func getObjectSystemModem(d *schema.ResourceData, sv string) (*models.SystemMode
 			obj.WirelessPort = &tmp
 		}
 	}
+	return &obj, diags
+}
+
+// Return an object with explicitly empty objects for tables that have been set.
+func getEmptyObjectSystemModem(d *schema.ResourceData, sv string) (*models.SystemModem, diag.Diagnostics) {
+	obj := models.SystemModem{}
+	diags := diag.Diagnostics{}
+
 	return &obj, diags
 }

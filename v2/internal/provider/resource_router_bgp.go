@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -2469,7 +2469,12 @@ func resourceRouterBgpDelete(ctx context.Context, d *schema.ResourceData, meta i
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteRouterBgp(mkey, urlparams)
+	obj, diags := getEmptyObjectRouterBgp(d, c.Config.Fv)
+	if diags.HasError() {
+		return diags
+	}
+
+	_, err := c.Cmdb.UpdateRouterBgp(mkey, obj, urlparams)
 	if err != nil {
 		return diag.Errorf("error deleting RouterBgp resource: %v", err)
 	}
@@ -6778,7 +6783,7 @@ func getObjectRouterBgp(d *schema.ResourceData, sv string) (*models.RouterBgp, d
 		}
 	}
 	if v, ok := d.GetOk("vrf_leak"); ok {
-		if !utils.CheckVer(sv, "v6.4.2", "") {
+		if !utils.CheckVer(sv, "v6.4.0", "") {
 			e := utils.AttributeVersionWarning("vrf_leak", sv)
 			diags = append(diags, e)
 		}
@@ -6811,5 +6816,28 @@ func getObjectRouterBgp(d *schema.ResourceData, sv string) (*models.RouterBgp, d
 			obj.VrfLeak6 = &[]models.RouterBgpVrfLeak6{}
 		}
 	}
+	return &obj, diags
+}
+
+// Return an object with explicitly empty objects for tables that have been set.
+func getEmptyObjectRouterBgp(d *schema.ResourceData, sv string) (*models.RouterBgp, diag.Diagnostics) {
+	obj := models.RouterBgp{}
+	diags := diag.Diagnostics{}
+
+	obj.AdminDistance = &[]models.RouterBgpAdminDistance{}
+	obj.AggregateAddress = &[]models.RouterBgpAggregateAddress{}
+	obj.AggregateAddress6 = &[]models.RouterBgpAggregateAddress6{}
+	obj.ConfederationPeers = &[]models.RouterBgpConfederationPeers{}
+	obj.Neighbor = &[]models.RouterBgpNeighbor{}
+	obj.NeighborGroup = &[]models.RouterBgpNeighborGroup{}
+	obj.NeighborRange = &[]models.RouterBgpNeighborRange{}
+	obj.NeighborRange6 = &[]models.RouterBgpNeighborRange6{}
+	obj.Network = &[]models.RouterBgpNetwork{}
+	obj.Network6 = &[]models.RouterBgpNetwork6{}
+	obj.Redistribute = &[]models.RouterBgpRedistribute{}
+	obj.Redistribute6 = &[]models.RouterBgpRedistribute6{}
+	obj.VrfLeak = &[]models.RouterBgpVrfLeak{}
+	obj.VrfLeak6 = &[]models.RouterBgpVrfLeak6{}
+
 	return &obj, diags
 }

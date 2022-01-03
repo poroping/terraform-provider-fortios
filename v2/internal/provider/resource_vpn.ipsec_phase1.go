@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -21,14 +21,14 @@ import (
 	"github.com/poroping/terraform-provider-fortios/v2/validators"
 )
 
-func resourceVpnipsecPhase1() *schema.Resource {
+func resourceVpnIpsecPhase1() *schema.Resource {
 	return &schema.Resource{
 		Description: "Configure VPN remote gateway.",
 
-		CreateContext: resourceVpnipsecPhase1Create,
-		ReadContext:   resourceVpnipsecPhase1Read,
-		UpdateContext: resourceVpnipsecPhase1Update,
-		DeleteContext: resourceVpnipsecPhase1Delete,
+		CreateContext: resourceVpnIpsecPhase1Create,
+		ReadContext:   resourceVpnIpsecPhase1Read,
+		UpdateContext: resourceVpnIpsecPhase1Update,
+		DeleteContext: resourceVpnIpsecPhase1Delete,
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
@@ -1064,7 +1064,7 @@ func resourceVpnipsecPhase1() *schema.Resource {
 	}
 }
 
-func resourceVpnipsecPhase1Create(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceVpnIpsecPhase1Create(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*apiClient).Client
 	var diags diag.Diagnostics
 	var err error
@@ -1091,16 +1091,16 @@ func resourceVpnipsecPhase1Create(ctx context.Context, d *schema.ResourceData, m
 	if v, ok := d.GetOk(key); ok {
 		mkey = utils.ParseMkey(v)
 		if mkey == "" && allow_append {
-			return diag.Errorf("error creating VpnipsecPhase1 resource: %q must be set if \"allow_append\" is true", key)
+			return diag.Errorf("error creating VpnIpsecPhase1 resource: %q must be set if \"allow_append\" is true", key)
 		}
 	}
 
-	obj, diags := getObjectVpnipsecPhase1(d, c.Config.Fv)
+	obj, diags := getObjectVpnIpsecPhase1(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.CreateVpnipsecPhase1(obj, urlparams)
+	o, err := c.Cmdb.CreateVpnIpsecPhase1(obj, urlparams)
 
 	if err != nil {
 		e := diag.FromErr(err)
@@ -1110,13 +1110,13 @@ func resourceVpnipsecPhase1Create(ctx context.Context, d *schema.ResourceData, m
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("VpnipsecPhase1")
+		d.SetId("VpnIpsecPhase1")
 	}
 
-	return resourceVpnipsecPhase1Read(ctx, d, meta)
+	return resourceVpnIpsecPhase1Read(ctx, d, meta)
 }
 
-func resourceVpnipsecPhase1Update(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceVpnIpsecPhase1Update(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
@@ -1129,27 +1129,27 @@ func resourceVpnipsecPhase1Update(ctx context.Context, d *schema.ResourceData, m
 	}
 	urlparams.Vdom = vdomparam
 
-	obj, diags := getObjectVpnipsecPhase1(d, c.Config.Fv)
+	obj, diags := getObjectVpnIpsecPhase1(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.UpdateVpnipsecPhase1(mkey, obj, urlparams)
+	o, err := c.Cmdb.UpdateVpnIpsecPhase1(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error updating VpnipsecPhase1 resource: %v", err)
+		return diag.Errorf("error updating VpnIpsecPhase1 resource: %v", err)
 	}
 
 	// log.Printf(strconv.Itoa(c.Retries))
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("VpnipsecPhase1")
+		d.SetId("VpnIpsecPhase1")
 	}
 
-	return resourceVpnipsecPhase1Read(ctx, d, meta)
+	return resourceVpnIpsecPhase1Read(ctx, d, meta)
 }
 
-func resourceVpnipsecPhase1Delete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceVpnIpsecPhase1Delete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -1164,9 +1164,9 @@ func resourceVpnipsecPhase1Delete(ctx context.Context, d *schema.ResourceData, m
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteVpnipsecPhase1(mkey, urlparams)
+	err := c.Cmdb.DeleteVpnIpsecPhase1(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error deleting VpnipsecPhase1 resource: %v", err)
+		return diag.Errorf("error deleting VpnIpsecPhase1 resource: %v", err)
 	}
 
 	d.SetId("")
@@ -1174,7 +1174,7 @@ func resourceVpnipsecPhase1Delete(ctx context.Context, d *schema.ResourceData, m
 	return nil
 }
 
-func resourceVpnipsecPhase1Read(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceVpnIpsecPhase1Read(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -1189,9 +1189,9 @@ func resourceVpnipsecPhase1Read(ctx context.Context, d *schema.ResourceData, met
 	}
 	urlparams.Vdom = vdomparam
 
-	o, err := c.Cmdb.ReadVpnipsecPhase1(mkey, urlparams)
+	o, err := c.Cmdb.ReadVpnIpsecPhase1(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error reading VpnipsecPhase1 resource: %v", err)
+		return diag.Errorf("error reading VpnIpsecPhase1 resource: %v", err)
 	}
 
 	if o == nil {
@@ -1207,14 +1207,14 @@ func resourceVpnipsecPhase1Read(ctx context.Context, d *schema.ResourceData, met
 		}
 	}
 
-	diags := refreshObjectVpnipsecPhase1(d, o, c.Config.Fv, sort)
+	diags := refreshObjectVpnIpsecPhase1(d, o, c.Config.Fv, sort)
 	if diags.HasError() {
 		return diags
 	}
 	return nil
 }
 
-func flattenVpnipsecPhase1BackupGateway(v *[]models.VpnipsecPhase1BackupGateway, sort bool) interface{} {
+func flattenVpnIpsecPhase1BackupGateway(v *[]models.VpnIpsecPhase1BackupGateway, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
@@ -1235,7 +1235,7 @@ func flattenVpnipsecPhase1BackupGateway(v *[]models.VpnipsecPhase1BackupGateway,
 	return flat
 }
 
-func flattenVpnipsecPhase1Certificate(v *[]models.VpnipsecPhase1Certificate, sort bool) interface{} {
+func flattenVpnIpsecPhase1Certificate(v *[]models.VpnIpsecPhase1Certificate, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
@@ -1256,7 +1256,7 @@ func flattenVpnipsecPhase1Certificate(v *[]models.VpnipsecPhase1Certificate, sor
 	return flat
 }
 
-func flattenVpnipsecPhase1Ipv4ExcludeRange(v *[]models.VpnipsecPhase1Ipv4ExcludeRange, sort bool) interface{} {
+func flattenVpnIpsecPhase1Ipv4ExcludeRange(v *[]models.VpnIpsecPhase1Ipv4ExcludeRange, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
@@ -1285,7 +1285,7 @@ func flattenVpnipsecPhase1Ipv4ExcludeRange(v *[]models.VpnipsecPhase1Ipv4Exclude
 	return flat
 }
 
-func flattenVpnipsecPhase1Ipv6ExcludeRange(v *[]models.VpnipsecPhase1Ipv6ExcludeRange, sort bool) interface{} {
+func flattenVpnIpsecPhase1Ipv6ExcludeRange(v *[]models.VpnIpsecPhase1Ipv6ExcludeRange, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
@@ -1314,7 +1314,7 @@ func flattenVpnipsecPhase1Ipv6ExcludeRange(v *[]models.VpnipsecPhase1Ipv6Exclude
 	return flat
 }
 
-func refreshObjectVpnipsecPhase1(d *schema.ResourceData, o *models.VpnipsecPhase1, sv string, sort bool) diag.Diagnostics {
+func refreshObjectVpnIpsecPhase1(d *schema.ResourceData, o *models.VpnIpsecPhase1, sv string, sort bool) diag.Diagnostics {
 	var err error
 
 	if o.AcctVerify != nil {
@@ -1406,7 +1406,7 @@ func refreshObjectVpnipsecPhase1(d *schema.ResourceData, o *models.VpnipsecPhase
 	}
 
 	if o.BackupGateway != nil {
-		if err = d.Set("backup_gateway", flattenVpnipsecPhase1BackupGateway(o.BackupGateway, sort)); err != nil {
+		if err = d.Set("backup_gateway", flattenVpnIpsecPhase1BackupGateway(o.BackupGateway, sort)); err != nil {
 			return diag.Errorf("error reading backup_gateway: %v", err)
 		}
 	}
@@ -1428,7 +1428,7 @@ func refreshObjectVpnipsecPhase1(d *schema.ResourceData, o *models.VpnipsecPhase
 	}
 
 	if o.Certificate != nil {
-		if err = d.Set("certificate", flattenVpnipsecPhase1Certificate(o.Certificate, sort)); err != nil {
+		if err = d.Set("certificate", flattenVpnIpsecPhase1Certificate(o.Certificate, sort)); err != nil {
 			return diag.Errorf("error reading certificate: %v", err)
 		}
 	}
@@ -1786,7 +1786,7 @@ func refreshObjectVpnipsecPhase1(d *schema.ResourceData, o *models.VpnipsecPhase
 	}
 
 	if o.Ipv4ExcludeRange != nil {
-		if err = d.Set("ipv4_exclude_range", flattenVpnipsecPhase1Ipv4ExcludeRange(o.Ipv4ExcludeRange, sort)); err != nil {
+		if err = d.Set("ipv4_exclude_range", flattenVpnIpsecPhase1Ipv4ExcludeRange(o.Ipv4ExcludeRange, sort)); err != nil {
 			return diag.Errorf("error reading ipv4_exclude_range: %v", err)
 		}
 	}
@@ -1880,7 +1880,7 @@ func refreshObjectVpnipsecPhase1(d *schema.ResourceData, o *models.VpnipsecPhase
 	}
 
 	if o.Ipv6ExcludeRange != nil {
-		if err = d.Set("ipv6_exclude_range", flattenVpnipsecPhase1Ipv6ExcludeRange(o.Ipv6ExcludeRange, sort)); err != nil {
+		if err = d.Set("ipv6_exclude_range", flattenVpnIpsecPhase1Ipv6ExcludeRange(o.Ipv6ExcludeRange, sort)); err != nil {
 			return diag.Errorf("error reading ipv6_exclude_range: %v", err)
 		}
 	}
@@ -2256,16 +2256,16 @@ func refreshObjectVpnipsecPhase1(d *schema.ResourceData, o *models.VpnipsecPhase
 	return nil
 }
 
-func expandVpnipsecPhase1BackupGateway(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.VpnipsecPhase1BackupGateway, error) {
+func expandVpnIpsecPhase1BackupGateway(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.VpnIpsecPhase1BackupGateway, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
 	}
 
-	var result []models.VpnipsecPhase1BackupGateway
+	var result []models.VpnIpsecPhase1BackupGateway
 
 	for i := range l {
-		tmp := models.VpnipsecPhase1BackupGateway{}
+		tmp := models.VpnIpsecPhase1BackupGateway{}
 		var pre_append string
 
 		pre_append = fmt.Sprintf("%s.%d.address", pre, i)
@@ -2280,16 +2280,16 @@ func expandVpnipsecPhase1BackupGateway(d *schema.ResourceData, v interface{}, pr
 	return &result, nil
 }
 
-func expandVpnipsecPhase1Certificate(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.VpnipsecPhase1Certificate, error) {
+func expandVpnIpsecPhase1Certificate(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.VpnIpsecPhase1Certificate, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
 	}
 
-	var result []models.VpnipsecPhase1Certificate
+	var result []models.VpnIpsecPhase1Certificate
 
 	for i := range l {
-		tmp := models.VpnipsecPhase1Certificate{}
+		tmp := models.VpnIpsecPhase1Certificate{}
 		var pre_append string
 
 		pre_append = fmt.Sprintf("%s.%d.name", pre, i)
@@ -2304,16 +2304,16 @@ func expandVpnipsecPhase1Certificate(d *schema.ResourceData, v interface{}, pre 
 	return &result, nil
 }
 
-func expandVpnipsecPhase1Ipv4ExcludeRange(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.VpnipsecPhase1Ipv4ExcludeRange, error) {
+func expandVpnIpsecPhase1Ipv4ExcludeRange(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.VpnIpsecPhase1Ipv4ExcludeRange, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
 	}
 
-	var result []models.VpnipsecPhase1Ipv4ExcludeRange
+	var result []models.VpnIpsecPhase1Ipv4ExcludeRange
 
 	for i := range l {
-		tmp := models.VpnipsecPhase1Ipv4ExcludeRange{}
+		tmp := models.VpnIpsecPhase1Ipv4ExcludeRange{}
 		var pre_append string
 
 		pre_append = fmt.Sprintf("%s.%d.end_ip", pre, i)
@@ -2342,16 +2342,16 @@ func expandVpnipsecPhase1Ipv4ExcludeRange(d *schema.ResourceData, v interface{},
 	return &result, nil
 }
 
-func expandVpnipsecPhase1Ipv6ExcludeRange(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.VpnipsecPhase1Ipv6ExcludeRange, error) {
+func expandVpnIpsecPhase1Ipv6ExcludeRange(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.VpnIpsecPhase1Ipv6ExcludeRange, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
 	}
 
-	var result []models.VpnipsecPhase1Ipv6ExcludeRange
+	var result []models.VpnIpsecPhase1Ipv6ExcludeRange
 
 	for i := range l {
-		tmp := models.VpnipsecPhase1Ipv6ExcludeRange{}
+		tmp := models.VpnIpsecPhase1Ipv6ExcludeRange{}
 		var pre_append string
 
 		pre_append = fmt.Sprintf("%s.%d.end_ip", pre, i)
@@ -2380,8 +2380,8 @@ func expandVpnipsecPhase1Ipv6ExcludeRange(d *schema.ResourceData, v interface{},
 	return &result, nil
 }
 
-func getObjectVpnipsecPhase1(d *schema.ResourceData, sv string) (*models.VpnipsecPhase1, diag.Diagnostics) {
-	obj := models.VpnipsecPhase1{}
+func getObjectVpnIpsecPhase1(d *schema.ResourceData, sv string) (*models.VpnIpsecPhase1, diag.Diagnostics) {
+	obj := models.VpnIpsecPhase1{}
 	diags := diag.Diagnostics{}
 
 	if v1, ok := d.GetOk("acct_verify"); ok {
@@ -2488,7 +2488,7 @@ func getObjectVpnipsecPhase1(d *schema.ResourceData, sv string) (*models.Vpnipse
 			e := utils.AttributeVersionWarning("backup_gateway", sv)
 			diags = append(diags, e)
 		}
-		t, err := expandVpnipsecPhase1BackupGateway(d, v, "backup_gateway", sv)
+		t, err := expandVpnIpsecPhase1BackupGateway(d, v, "backup_gateway", sv)
 		if err != nil {
 			return &obj, diag.FromErr(err)
 		} else if t != nil {
@@ -2497,7 +2497,7 @@ func getObjectVpnipsecPhase1(d *schema.ResourceData, sv string) (*models.Vpnipse
 	} else if d.HasChange("backup_gateway") {
 		old, new := d.GetChange("backup_gateway")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.BackupGateway = &[]models.VpnipsecPhase1BackupGateway{}
+			obj.BackupGateway = &[]models.VpnIpsecPhase1BackupGateway{}
 		}
 	}
 	if v1, ok := d.GetOk("banner"); ok {
@@ -2523,7 +2523,7 @@ func getObjectVpnipsecPhase1(d *schema.ResourceData, sv string) (*models.Vpnipse
 			e := utils.AttributeVersionWarning("certificate", sv)
 			diags = append(diags, e)
 		}
-		t, err := expandVpnipsecPhase1Certificate(d, v, "certificate", sv)
+		t, err := expandVpnIpsecPhase1Certificate(d, v, "certificate", sv)
 		if err != nil {
 			return &obj, diag.FromErr(err)
 		} else if t != nil {
@@ -2532,7 +2532,7 @@ func getObjectVpnipsecPhase1(d *schema.ResourceData, sv string) (*models.Vpnipse
 	} else if d.HasChange("certificate") {
 		old, new := d.GetChange("certificate")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.Certificate = &[]models.VpnipsecPhase1Certificate{}
+			obj.Certificate = &[]models.VpnIpsecPhase1Certificate{}
 		}
 	}
 	if v1, ok := d.GetOk("childless_ike"); ok {
@@ -2701,7 +2701,7 @@ func getObjectVpnipsecPhase1(d *schema.ResourceData, sv string) (*models.Vpnipse
 	}
 	if v1, ok := d.GetOk("esn"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "v6.4.2") {
+			if !utils.CheckVer(sv, "", "v6.4.0") {
 				e := utils.AttributeVersionWarning("esn", sv)
 				diags = append(diags, e)
 			}
@@ -2945,7 +2945,7 @@ func getObjectVpnipsecPhase1(d *schema.ResourceData, sv string) (*models.Vpnipse
 			e := utils.AttributeVersionWarning("ipv4_exclude_range", sv)
 			diags = append(diags, e)
 		}
-		t, err := expandVpnipsecPhase1Ipv4ExcludeRange(d, v, "ipv4_exclude_range", sv)
+		t, err := expandVpnIpsecPhase1Ipv4ExcludeRange(d, v, "ipv4_exclude_range", sv)
 		if err != nil {
 			return &obj, diag.FromErr(err)
 		} else if t != nil {
@@ -2954,7 +2954,7 @@ func getObjectVpnipsecPhase1(d *schema.ResourceData, sv string) (*models.Vpnipse
 	} else if d.HasChange("ipv4_exclude_range") {
 		old, new := d.GetChange("ipv4_exclude_range")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.Ipv4ExcludeRange = &[]models.VpnipsecPhase1Ipv4ExcludeRange{}
+			obj.Ipv4ExcludeRange = &[]models.VpnIpsecPhase1Ipv4ExcludeRange{}
 		}
 	}
 	if v1, ok := d.GetOk("ipv4_name"); ok {
@@ -3061,7 +3061,7 @@ func getObjectVpnipsecPhase1(d *schema.ResourceData, sv string) (*models.Vpnipse
 			e := utils.AttributeVersionWarning("ipv6_exclude_range", sv)
 			diags = append(diags, e)
 		}
-		t, err := expandVpnipsecPhase1Ipv6ExcludeRange(d, v, "ipv6_exclude_range", sv)
+		t, err := expandVpnIpsecPhase1Ipv6ExcludeRange(d, v, "ipv6_exclude_range", sv)
 		if err != nil {
 			return &obj, diag.FromErr(err)
 		} else if t != nil {
@@ -3070,7 +3070,7 @@ func getObjectVpnipsecPhase1(d *schema.ResourceData, sv string) (*models.Vpnipse
 	} else if d.HasChange("ipv6_exclude_range") {
 		old, new := d.GetChange("ipv6_exclude_range")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.Ipv6ExcludeRange = &[]models.VpnipsecPhase1Ipv6ExcludeRange{}
+			obj.Ipv6ExcludeRange = &[]models.VpnIpsecPhase1Ipv6ExcludeRange{}
 		}
 	}
 	if v1, ok := d.GetOk("ipv6_name"); ok {
@@ -3251,7 +3251,7 @@ func getObjectVpnipsecPhase1(d *schema.ResourceData, sv string) (*models.Vpnipse
 	}
 	if v1, ok := d.GetOk("npu_offload"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "v6.4.2") {
+			if !utils.CheckVer(sv, "", "v6.4.0") {
 				e := utils.AttributeVersionWarning("npu_offload", sv)
 				diags = append(diags, e)
 			}

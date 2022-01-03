@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -18,14 +18,14 @@ import (
 	"github.com/poroping/terraform-provider-fortios/v2/utils"
 )
 
-func resourceSystemreplacemsgAlertmail() *schema.Resource {
+func resourceSystemReplacemsgAlertmail() *schema.Resource {
 	return &schema.Resource{
 		Description: "Replacement messages.",
 
-		CreateContext: resourceSystemreplacemsgAlertmailCreate,
-		ReadContext:   resourceSystemreplacemsgAlertmailRead,
-		UpdateContext: resourceSystemreplacemsgAlertmailUpdate,
-		DeleteContext: resourceSystemreplacemsgAlertmailDelete,
+		CreateContext: resourceSystemReplacemsgAlertmailCreate,
+		ReadContext:   resourceSystemReplacemsgAlertmailRead,
+		UpdateContext: resourceSystemReplacemsgAlertmailUpdate,
+		DeleteContext: resourceSystemReplacemsgAlertmailDelete,
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
@@ -80,7 +80,7 @@ func resourceSystemreplacemsgAlertmail() *schema.Resource {
 	}
 }
 
-func resourceSystemreplacemsgAlertmailCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSystemReplacemsgAlertmailCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*apiClient).Client
 	var diags diag.Diagnostics
 	var err error
@@ -107,16 +107,16 @@ func resourceSystemreplacemsgAlertmailCreate(ctx context.Context, d *schema.Reso
 	if v, ok := d.GetOk(key); ok {
 		mkey = utils.ParseMkey(v)
 		if mkey == "" && allow_append {
-			return diag.Errorf("error creating SystemreplacemsgAlertmail resource: %q must be set if \"allow_append\" is true", key)
+			return diag.Errorf("error creating SystemReplacemsgAlertmail resource: %q must be set if \"allow_append\" is true", key)
 		}
 	}
 
-	obj, diags := getObjectSystemreplacemsgAlertmail(d, c.Config.Fv)
+	obj, diags := getObjectSystemReplacemsgAlertmail(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.CreateSystemreplacemsgAlertmail(obj, urlparams)
+	o, err := c.Cmdb.CreateSystemReplacemsgAlertmail(obj, urlparams)
 
 	if err != nil {
 		e := diag.FromErr(err)
@@ -126,13 +126,13 @@ func resourceSystemreplacemsgAlertmailCreate(ctx context.Context, d *schema.Reso
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("SystemreplacemsgAlertmail")
+		d.SetId("SystemReplacemsgAlertmail")
 	}
 
-	return resourceSystemreplacemsgAlertmailRead(ctx, d, meta)
+	return resourceSystemReplacemsgAlertmailRead(ctx, d, meta)
 }
 
-func resourceSystemreplacemsgAlertmailUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSystemReplacemsgAlertmailUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
@@ -145,27 +145,27 @@ func resourceSystemreplacemsgAlertmailUpdate(ctx context.Context, d *schema.Reso
 	}
 	urlparams.Vdom = vdomparam
 
-	obj, diags := getObjectSystemreplacemsgAlertmail(d, c.Config.Fv)
+	obj, diags := getObjectSystemReplacemsgAlertmail(d, c.Config.Fv)
 	if diags.HasError() {
 		return diags
 	}
 
-	o, err := c.Cmdb.UpdateSystemreplacemsgAlertmail(mkey, obj, urlparams)
+	o, err := c.Cmdb.UpdateSystemReplacemsgAlertmail(mkey, obj, urlparams)
 	if err != nil {
-		return diag.Errorf("error updating SystemreplacemsgAlertmail resource: %v", err)
+		return diag.Errorf("error updating SystemReplacemsgAlertmail resource: %v", err)
 	}
 
 	// log.Printf(strconv.Itoa(c.Retries))
 	if o.Mkey != nil {
 		d.SetId(utils.ParseMkey(o.Mkey))
 	} else {
-		d.SetId("SystemreplacemsgAlertmail")
+		d.SetId("SystemReplacemsgAlertmail")
 	}
 
-	return resourceSystemreplacemsgAlertmailRead(ctx, d, meta)
+	return resourceSystemReplacemsgAlertmailRead(ctx, d, meta)
 }
 
-func resourceSystemreplacemsgAlertmailDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSystemReplacemsgAlertmailDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -180,9 +180,9 @@ func resourceSystemreplacemsgAlertmailDelete(ctx context.Context, d *schema.Reso
 	}
 	urlparams.Vdom = vdomparam
 
-	err := c.Cmdb.DeleteSystemreplacemsgAlertmail(mkey, urlparams)
+	err := c.Cmdb.DeleteSystemReplacemsgAlertmail(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error deleting SystemreplacemsgAlertmail resource: %v", err)
+		return diag.Errorf("error deleting SystemReplacemsgAlertmail resource: %v", err)
 	}
 
 	d.SetId("")
@@ -190,7 +190,7 @@ func resourceSystemreplacemsgAlertmailDelete(ctx context.Context, d *schema.Reso
 	return nil
 }
 
-func resourceSystemreplacemsgAlertmailRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceSystemReplacemsgAlertmailRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	mkey := d.Id()
 
 	c := meta.(*apiClient).Client
@@ -205,9 +205,9 @@ func resourceSystemreplacemsgAlertmailRead(ctx context.Context, d *schema.Resour
 	}
 	urlparams.Vdom = vdomparam
 
-	o, err := c.Cmdb.ReadSystemreplacemsgAlertmail(mkey, urlparams)
+	o, err := c.Cmdb.ReadSystemReplacemsgAlertmail(mkey, urlparams)
 	if err != nil {
-		return diag.Errorf("error reading SystemreplacemsgAlertmail resource: %v", err)
+		return diag.Errorf("error reading SystemReplacemsgAlertmail resource: %v", err)
 	}
 
 	if o == nil {
@@ -223,14 +223,14 @@ func resourceSystemreplacemsgAlertmailRead(ctx context.Context, d *schema.Resour
 		}
 	}
 
-	diags := refreshObjectSystemreplacemsgAlertmail(d, o, c.Config.Fv, sort)
+	diags := refreshObjectSystemReplacemsgAlertmail(d, o, c.Config.Fv, sort)
 	if diags.HasError() {
 		return diags
 	}
 	return nil
 }
 
-func refreshObjectSystemreplacemsgAlertmail(d *schema.ResourceData, o *models.SystemreplacemsgAlertmail, sv string, sort bool) diag.Diagnostics {
+func refreshObjectSystemReplacemsgAlertmail(d *schema.ResourceData, o *models.SystemReplacemsgAlertmail, sv string, sort bool) diag.Diagnostics {
 	var err error
 
 	if o.Buffer != nil {
@@ -268,8 +268,8 @@ func refreshObjectSystemreplacemsgAlertmail(d *schema.ResourceData, o *models.Sy
 	return nil
 }
 
-func getObjectSystemreplacemsgAlertmail(d *schema.ResourceData, sv string) (*models.SystemreplacemsgAlertmail, diag.Diagnostics) {
-	obj := models.SystemreplacemsgAlertmail{}
+func getObjectSystemReplacemsgAlertmail(d *schema.ResourceData, sv string) (*models.SystemReplacemsgAlertmail, diag.Diagnostics) {
+	obj := models.SystemReplacemsgAlertmail{}
 	diags := diag.Diagnostics{}
 
 	if v1, ok := d.GetOk("buffer"); ok {
