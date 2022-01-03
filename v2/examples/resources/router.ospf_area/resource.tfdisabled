@@ -1,5 +1,0 @@
-# API bug https://github.com/poroping/terraform-provider-fortios/issues/7
-
-resource "fortios_routerospf_area" "example" {
-  fosid = "0.0.0.0"
-}
