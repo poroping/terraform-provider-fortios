@@ -14,7 +14,7 @@ import (
 )
 
 func TestAccRouterBgpVrfLeak_basic(t *testing.T) {
-	rName := "router_bgp"
+	rName := "router_bgp_vrf_leak"
 
 	resource.Test(t, resource.TestCase{
 		PreCheck:          func() { testAccPreCheck(t) },

@@ -9,7 +9,7 @@ import (
 )
 
 func TestAcc{{.fpath}}_basic(t *testing.T) {
-	rName := "{{(replace .path "-" "_")}}_{{(replace .name "-" "_")}}"
+	rName := "{{(replace .path "-" "_")}}_{{(replace .name "-" "_")}}{{if .child_path}}_{{(replace .child_path "-" "_")}}{{end}}"
 
 	resource.Test(t, resource.TestCase{
 		PreCheck:          func() { testAccPreCheck(t) },

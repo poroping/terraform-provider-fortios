@@ -14,7 +14,7 @@ import (
 )
 
 func TestAccRouterOspf6Redistribute_basic(t *testing.T) {
-	rName := "router_ospf6"
+	rName := "router_ospf6_redistribute"
 
 	resource.Test(t, resource.TestCase{
 		PreCheck:          func() { testAccPreCheck(t) },

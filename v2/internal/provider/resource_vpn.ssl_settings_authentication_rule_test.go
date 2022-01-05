@@ -14,7 +14,7 @@ import (
 )
 
 func TestAccVpnSslSettingsAuthenticationRule_basic(t *testing.T) {
-	rName := "vpn.ssl_settings"
+	rName := "vpn.ssl_settings_authentication_rule"
 
 	resource.Test(t, resource.TestCase{
 		PreCheck:          func() { testAccPreCheck(t) },

@@ -14,7 +14,7 @@ import (
 )
 
 func TestAccRouterIsisSummaryAddress6_basic(t *testing.T) {
-	rName := "router_isis"
+	rName := "router_isis_summary_address6"
 
 	resource.Test(t, resource.TestCase{
 		PreCheck:          func() { testAccPreCheck(t) },

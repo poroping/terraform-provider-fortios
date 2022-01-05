@@ -14,7 +14,7 @@ import (
 )
 
 func TestAccSystemSdwanDuplication_basic(t *testing.T) {
-	rName := "system_sdwan"
+	rName := "system_sdwan_duplication"
 
 	resource.Test(t, resource.TestCase{
 		PreCheck:          func() { testAccPreCheck(t) },

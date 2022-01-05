@@ -96,7 +96,7 @@ func New(version string) func() *schema.Provider {
 					DefaultFunc: schema.EnvDefaultFunc("FORTIOS_OFFLINE", false),
 				},
 			},
-			DataSourcesMap: providerDataSources(),
+			DataSourcesMap: providerDataSourcesMerged(),
 			ResourcesMap:   providerResourcesMerged(),
 		}
 
@@ -104,6 +104,20 @@ func New(version string) func() *schema.Provider {
 
 		return p
 	}
+}
+
+func providerDataSourcesMerged() map[string]*schema.Resource {
+	a := providerDataSources()
+	b := providerDataSourcesAliases()
+	c := providerDataSourcesCustom()
+	for k, v := range b {
+		a[k] = v
+	}
+	for k, v := range c {
+		a[k] = v
+	}
+	delete(a, "fortios_firewall_vendormacsummary") // shit resource that is empty?
+	return a
 }
 
 func providerResourcesMerged() map[string]*schema.Resource {

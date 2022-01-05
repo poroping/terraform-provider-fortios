@@ -14,7 +14,7 @@ import (
 )
 
 func TestAccRouterIsisRedistribute_basic(t *testing.T) {
-	rName := "router_isis"
+	rName := "router_isis_redistribute"
 
 	resource.Test(t, resource.TestCase{
 		PreCheck:          func() { testAccPreCheck(t) },

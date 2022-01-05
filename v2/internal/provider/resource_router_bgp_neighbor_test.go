@@ -14,7 +14,7 @@ import (
 )
 
 func TestAccRouterBgpNeighbor_basic(t *testing.T) {
-	rName := "router_bgp"
+	rName := "router_bgp_neighbor"
 
 	resource.Test(t, resource.TestCase{
 		PreCheck:          func() { testAccPreCheck(t) },

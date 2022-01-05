@@ -54,12 +54,33 @@ func testAccCreateResourceFromExampleStep(rName string) resource.TestStep {
 	}
 }
 
+func testAccCreateDataSourceFromExampleStep(rName string) resource.TestStep {
+	// skip test if no example is provided
+	if testAccExampleDataSourceConfig(rName) == "" {
+		return resource.TestStep{
+			SkipFunc: testAccSkipTestStep,
+		}
+	}
+	return resource.TestStep{
+		Config: testAccExampleDataSourceConfig(rName),
+		Check:  resource.ComposeTestCheckFunc(),
+	}
+}
+
 func testAccSkipTestStep() (bool, error) {
 	return true, nil
 }
 
 func testAccExampleResourceConfig(rName string) string {
 	b, err := os.ReadFile(fmt.Sprintf("%s/resources/%s/resource.tf", examplesDir, rName))
+	if err != nil {
+		return ""
+	}
+	return string(b)
+}
+
+func testAccExampleDataSourceConfig(rName string) string {
+	b, err := os.ReadFile(fmt.Sprintf("%s/data_sources/%s/resource.tf", examplesDir, rName))
 	if err != nil {
 		return ""
 	}

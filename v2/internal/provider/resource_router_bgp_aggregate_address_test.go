@@ -14,7 +14,7 @@ import (
 )
 
 func TestAccRouterBgpAggregateAddress_basic(t *testing.T) {
-	rName := "router_bgp"
+	rName := "router_bgp_aggregate_address"
 
 	resource.Test(t, resource.TestCase{
 		PreCheck:          func() { testAccPreCheck(t) },

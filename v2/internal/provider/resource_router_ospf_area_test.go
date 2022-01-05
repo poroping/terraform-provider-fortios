@@ -14,7 +14,7 @@ import (
 )
 
 func TestAccRouterOspfArea_basic(t *testing.T) {
-	rName := "router_ospf"
+	rName := "router_ospf_area"
 
 	resource.Test(t, resource.TestCase{
 		PreCheck:          func() { testAccPreCheck(t) },

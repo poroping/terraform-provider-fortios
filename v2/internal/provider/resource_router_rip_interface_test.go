@@ -14,7 +14,7 @@ import (
 )
 
 func TestAccRouterRipInterface_basic(t *testing.T) {
-	rName := "router_rip"
+	rName := "router_rip_interface"
 
 	resource.Test(t, resource.TestCase{
 		PreCheck:          func() { testAccPreCheck(t) },

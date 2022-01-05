@@ -14,7 +14,7 @@ import (
 )
 
 func TestAccRouterBgpAdminDistance_basic(t *testing.T) {
-	rName := "router_bgp"
+	rName := "router_bgp_admin_distance"
 
 	resource.Test(t, resource.TestCase{
 		PreCheck:          func() { testAccPreCheck(t) },

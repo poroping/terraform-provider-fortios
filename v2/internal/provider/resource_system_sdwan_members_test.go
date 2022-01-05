@@ -14,7 +14,7 @@ import (
 )
 
 func TestAccSystemSdwanMembers_basic(t *testing.T) {
-	rName := "system_sdwan"
+	rName := "system_sdwan_members"
 
 	resource.Test(t, resource.TestCase{
 		PreCheck:          func() { testAccPreCheck(t) },

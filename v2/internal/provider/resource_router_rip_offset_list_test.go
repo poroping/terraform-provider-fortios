@@ -14,7 +14,7 @@ import (
 )
 
 func TestAccRouterRipOffsetList_basic(t *testing.T) {
-	rName := "router_rip"
+	rName := "router_rip_offset_list"
 
 	resource.Test(t, resource.TestCase{
 		PreCheck:          func() { testAccPreCheck(t) },

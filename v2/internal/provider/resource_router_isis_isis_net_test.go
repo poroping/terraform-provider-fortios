@@ -14,7 +14,7 @@ import (
 )
 
 func TestAccRouterIsisIsisNet_basic(t *testing.T) {
-	rName := "router_isis"
+	rName := "router_isis_isis_net"
 
 	resource.Test(t, resource.TestCase{
 		PreCheck:          func() { testAccPreCheck(t) },

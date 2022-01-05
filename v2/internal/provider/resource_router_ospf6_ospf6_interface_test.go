@@ -14,7 +14,7 @@ import (
 )
 
 func TestAccRouterOspf6Ospf6Interface_basic(t *testing.T) {
-	rName := "router_ospf6"
+	rName := "router_ospf6_ospf6_interface"
 
 	resource.Test(t, resource.TestCase{
 		PreCheck:          func() { testAccPreCheck(t) },
