@@ -46,8 +46,6 @@ func dataSourceWirelessControllerHotspot20H2qpOsuProviderNaiList() *schema.Resou
 }
 
 func dataSourceWirelessControllerHotspot20H2qpOsuProviderNaiListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceWirelessControllerHotspot20H2qpOsuProviderNaiListRead(ctx context
 	format := []string{"name"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListWirelessControllerHotspot20H2qpOsuProviderNai(mkey, urlparams)
+	o, err := c.Cmdb.ListWirelessControllerHotspot20H2qpOsuProviderNai(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading WirelessControllerHotspot20H2qpOsuProviderNai dataSource: %v", err)
 	}

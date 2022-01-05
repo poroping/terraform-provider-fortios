@@ -46,8 +46,6 @@ func dataSourceSystemReplacemsgHttpList() *schema.Resource {
 }
 
 func dataSourceSystemReplacemsgHttpListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceSystemReplacemsgHttpListRead(ctx context.Context, d *schema.Resou
 	format := []string{"msg-type"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListSystemReplacemsgHttp(mkey, urlparams)
+	o, err := c.Cmdb.ListSystemReplacemsgHttp(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading SystemReplacemsgHttp dataSource: %v", err)
 	}

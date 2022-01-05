@@ -46,8 +46,6 @@ func dataSourceWafProfileList() *schema.Resource {
 }
 
 func dataSourceWafProfileListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceWafProfileListRead(ctx context.Context, d *schema.ResourceData, m
 	format := []string{"name"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListWafProfile(mkey, urlparams)
+	o, err := c.Cmdb.ListWafProfile(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading WafProfile dataSource: %v", err)
 	}

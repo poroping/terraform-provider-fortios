@@ -46,8 +46,6 @@ func dataSourceFirewallSshLocalKeyList() *schema.Resource {
 }
 
 func dataSourceFirewallSshLocalKeyListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceFirewallSshLocalKeyListRead(ctx context.Context, d *schema.Resour
 	format := []string{"name"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListFirewallSshLocalKey(mkey, urlparams)
+	o, err := c.Cmdb.ListFirewallSshLocalKey(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading FirewallSshLocalKey dataSource: %v", err)
 	}

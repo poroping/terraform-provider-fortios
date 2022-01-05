@@ -46,8 +46,6 @@ func dataSourceIpsViewMapList() *schema.Resource {
 }
 
 func dataSourceIpsViewMapListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceIpsViewMapListRead(ctx context.Context, d *schema.ResourceData, m
 	format := []string{"id"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListIpsViewMap(mkey, urlparams)
+	o, err := c.Cmdb.ListIpsViewMap(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading IpsViewMap dataSource: %v", err)
 	}

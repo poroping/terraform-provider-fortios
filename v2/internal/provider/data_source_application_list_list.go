@@ -46,8 +46,6 @@ func dataSourceApplicationListList() *schema.Resource {
 }
 
 func dataSourceApplicationListListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceApplicationListListRead(ctx context.Context, d *schema.ResourceDa
 	format := []string{"name"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListApplicationList(mkey, urlparams)
+	o, err := c.Cmdb.ListApplicationList(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading ApplicationList dataSource: %v", err)
 	}

@@ -46,8 +46,6 @@ func dataSourceReportDatasetList() *schema.Resource {
 }
 
 func dataSourceReportDatasetListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceReportDatasetListRead(ctx context.Context, d *schema.ResourceData
 	format := []string{"name"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListReportDataset(mkey, urlparams)
+	o, err := c.Cmdb.ListReportDataset(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading ReportDataset dataSource: %v", err)
 	}

@@ -46,8 +46,6 @@ func dataSourceSwitchControllerStpInstanceList() *schema.Resource {
 }
 
 func dataSourceSwitchControllerStpInstanceListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceSwitchControllerStpInstanceListRead(ctx context.Context, d *schem
 	format := []string{"id"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListSwitchControllerStpInstance(mkey, urlparams)
+	o, err := c.Cmdb.ListSwitchControllerStpInstance(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading SwitchControllerStpInstance dataSource: %v", err)
 	}

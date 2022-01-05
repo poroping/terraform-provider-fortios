@@ -46,8 +46,6 @@ func dataSourceExtenderControllerExtenderList() *schema.Resource {
 }
 
 func dataSourceExtenderControllerExtenderListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceExtenderControllerExtenderListRead(ctx context.Context, d *schema
 	format := []string{"name"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListExtenderControllerExtender(mkey, urlparams)
+	o, err := c.Cmdb.ListExtenderControllerExtender(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading ExtenderControllerExtender dataSource: %v", err)
 	}

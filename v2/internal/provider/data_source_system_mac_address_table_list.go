@@ -46,8 +46,6 @@ func dataSourceSystemMacAddressTableList() *schema.Resource {
 }
 
 func dataSourceSystemMacAddressTableListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceSystemMacAddressTableListRead(ctx context.Context, d *schema.Reso
 	format := []string{"mac"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListSystemMacAddressTable(mkey, urlparams)
+	o, err := c.Cmdb.ListSystemMacAddressTable(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading SystemMacAddressTable dataSource: %v", err)
 	}

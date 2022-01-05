@@ -46,8 +46,6 @@ func dataSourceRouterRipDistanceList() *schema.Resource {
 }
 
 func dataSourceRouterRipDistanceListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceRouterRipDistanceListRead(ctx context.Context, d *schema.Resource
 	format := []string{"id"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListRouterRipDistance(mkey, urlparams)
+	o, err := c.Cmdb.ListRouterRipDistance(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading RouterRipDistance dataSource: %v", err)
 	}

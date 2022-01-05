@@ -46,8 +46,6 @@ func dataSourceSystemSdwanHealthCheckList() *schema.Resource {
 }
 
 func dataSourceSystemSdwanHealthCheckListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceSystemSdwanHealthCheckListRead(ctx context.Context, d *schema.Res
 	format := []string{"name"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListSystemSdwanHealthCheck(mkey, urlparams)
+	o, err := c.Cmdb.ListSystemSdwanHealthCheck(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading SystemSdwanHealthCheck dataSource: %v", err)
 	}

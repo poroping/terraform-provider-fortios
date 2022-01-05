@@ -46,8 +46,6 @@ func dataSourceFirewallCityList() *schema.Resource {
 }
 
 func dataSourceFirewallCityListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceFirewallCityListRead(ctx context.Context, d *schema.ResourceData,
 	format := []string{"id"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListFirewallCity(mkey, urlparams)
+	o, err := c.Cmdb.ListFirewallCity(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading FirewallCity dataSource: %v", err)
 	}

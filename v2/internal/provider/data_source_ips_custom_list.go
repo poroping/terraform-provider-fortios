@@ -46,8 +46,6 @@ func dataSourceIpsCustomList() *schema.Resource {
 }
 
 func dataSourceIpsCustomListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceIpsCustomListRead(ctx context.Context, d *schema.ResourceData, me
 	format := []string{"tag"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListIpsCustom(mkey, urlparams)
+	o, err := c.Cmdb.ListIpsCustom(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading IpsCustom dataSource: %v", err)
 	}

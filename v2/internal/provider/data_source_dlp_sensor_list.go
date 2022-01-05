@@ -46,8 +46,6 @@ func dataSourceDlpSensorList() *schema.Resource {
 }
 
 func dataSourceDlpSensorListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceDlpSensorListRead(ctx context.Context, d *schema.ResourceData, me
 	format := []string{"name"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListDlpSensor(mkey, urlparams)
+	o, err := c.Cmdb.ListDlpSensor(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading DlpSensor dataSource: %v", err)
 	}

@@ -46,8 +46,6 @@ func dataSourceFirewallSshLocalCaList() *schema.Resource {
 }
 
 func dataSourceFirewallSshLocalCaListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceFirewallSshLocalCaListRead(ctx context.Context, d *schema.Resourc
 	format := []string{"name"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListFirewallSshLocalCa(mkey, urlparams)
+	o, err := c.Cmdb.ListFirewallSshLocalCa(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading FirewallSshLocalCa dataSource: %v", err)
 	}

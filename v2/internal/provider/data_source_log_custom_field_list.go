@@ -46,8 +46,6 @@ func dataSourceLogCustomFieldList() *schema.Resource {
 }
 
 func dataSourceLogCustomFieldListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceLogCustomFieldListRead(ctx context.Context, d *schema.ResourceDat
 	format := []string{"id"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListLogCustomField(mkey, urlparams)
+	o, err := c.Cmdb.ListLogCustomField(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading LogCustomField dataSource: %v", err)
 	}

@@ -46,8 +46,6 @@ func dataSourceFirewallVipgrp46List() *schema.Resource {
 }
 
 func dataSourceFirewallVipgrp46ListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceFirewallVipgrp46ListRead(ctx context.Context, d *schema.ResourceD
 	format := []string{"name"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListFirewallVipgrp46(mkey, urlparams)
+	o, err := c.Cmdb.ListFirewallVipgrp46(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading FirewallVipgrp46 dataSource: %v", err)
 	}

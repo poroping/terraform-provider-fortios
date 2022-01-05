@@ -46,8 +46,6 @@ func dataSourceUserPasswordPolicyList() *schema.Resource {
 }
 
 func dataSourceUserPasswordPolicyListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceUserPasswordPolicyListRead(ctx context.Context, d *schema.Resourc
 	format := []string{"name"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListUserPasswordPolicy(mkey, urlparams)
+	o, err := c.Cmdb.ListUserPasswordPolicy(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading UserPasswordPolicy dataSource: %v", err)
 	}

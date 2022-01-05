@@ -46,8 +46,6 @@ func dataSourceFirewallDecryptedTrafficMirrorList() *schema.Resource {
 }
 
 func dataSourceFirewallDecryptedTrafficMirrorListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceFirewallDecryptedTrafficMirrorListRead(ctx context.Context, d *sc
 	format := []string{"name"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListFirewallDecryptedTrafficMirror(mkey, urlparams)
+	o, err := c.Cmdb.ListFirewallDecryptedTrafficMirror(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading FirewallDecryptedTrafficMirror dataSource: %v", err)
 	}

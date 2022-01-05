@@ -46,8 +46,6 @@ func dataSourceReportChartList() *schema.Resource {
 }
 
 func dataSourceReportChartListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceReportChartListRead(ctx context.Context, d *schema.ResourceData, 
 	format := []string{"name"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListReportChart(mkey, urlparams)
+	o, err := c.Cmdb.ListReportChart(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading ReportChart dataSource: %v", err)
 	}

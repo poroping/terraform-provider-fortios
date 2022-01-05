@@ -46,8 +46,6 @@ func dataSourceSystemVdomExceptionList() *schema.Resource {
 }
 
 func dataSourceSystemVdomExceptionListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceSystemVdomExceptionListRead(ctx context.Context, d *schema.Resour
 	format := []string{"id"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListSystemVdomException(mkey, urlparams)
+	o, err := c.Cmdb.ListSystemVdomException(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading SystemVdomException dataSource: %v", err)
 	}

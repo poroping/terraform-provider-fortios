@@ -46,8 +46,6 @@ func dataSourceFirewallIpmacbindingTableList() *schema.Resource {
 }
 
 func dataSourceFirewallIpmacbindingTableListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceFirewallIpmacbindingTableListRead(ctx context.Context, d *schema.
 	format := []string{"seq-num"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListFirewallIpmacbindingTable(mkey, urlparams)
+	o, err := c.Cmdb.ListFirewallIpmacbindingTable(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading FirewallIpmacbindingTable dataSource: %v", err)
 	}

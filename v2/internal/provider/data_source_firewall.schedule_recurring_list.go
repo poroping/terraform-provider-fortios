@@ -46,8 +46,6 @@ func dataSourceFirewallScheduleRecurringList() *schema.Resource {
 }
 
 func dataSourceFirewallScheduleRecurringListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceFirewallScheduleRecurringListRead(ctx context.Context, d *schema.
 	format := []string{"name"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListFirewallScheduleRecurring(mkey, urlparams)
+	o, err := c.Cmdb.ListFirewallScheduleRecurring(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading FirewallScheduleRecurring dataSource: %v", err)
 	}

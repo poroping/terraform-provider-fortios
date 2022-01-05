@@ -46,8 +46,6 @@ func dataSourceSystemReplacemsgIcapList() *schema.Resource {
 }
 
 func dataSourceSystemReplacemsgIcapListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceSystemReplacemsgIcapListRead(ctx context.Context, d *schema.Resou
 	format := []string{"msg-type"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListSystemReplacemsgIcap(mkey, urlparams)
+	o, err := c.Cmdb.ListSystemReplacemsgIcap(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading SystemReplacemsgIcap dataSource: %v", err)
 	}

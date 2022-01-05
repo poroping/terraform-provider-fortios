@@ -46,8 +46,6 @@ func dataSourceEndpointControlFctemsList() *schema.Resource {
 }
 
 func dataSourceEndpointControlFctemsListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceEndpointControlFctemsListRead(ctx context.Context, d *schema.Reso
 	format := []string{"name"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListEndpointControlFctems(mkey, urlparams)
+	o, err := c.Cmdb.ListEndpointControlFctems(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading EndpointControlFctems dataSource: %v", err)
 	}

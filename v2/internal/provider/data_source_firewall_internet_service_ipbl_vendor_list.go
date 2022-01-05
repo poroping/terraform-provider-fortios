@@ -46,8 +46,6 @@ func dataSourceFirewallInternetServiceIpblVendorList() *schema.Resource {
 }
 
 func dataSourceFirewallInternetServiceIpblVendorListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceFirewallInternetServiceIpblVendorListRead(ctx context.Context, d 
 	format := []string{"id"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListFirewallInternetServiceIpblVendor(mkey, urlparams)
+	o, err := c.Cmdb.ListFirewallInternetServiceIpblVendor(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading FirewallInternetServiceIpblVendor dataSource: %v", err)
 	}

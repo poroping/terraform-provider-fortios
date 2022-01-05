@@ -46,8 +46,6 @@ func dataSourceWirelessControllerSsidPolicyList() *schema.Resource {
 }
 
 func dataSourceWirelessControllerSsidPolicyListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceWirelessControllerSsidPolicyListRead(ctx context.Context, d *sche
 	format := []string{"name"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListWirelessControllerSsidPolicy(mkey, urlparams)
+	o, err := c.Cmdb.ListWirelessControllerSsidPolicy(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading WirelessControllerSsidPolicy dataSource: %v", err)
 	}

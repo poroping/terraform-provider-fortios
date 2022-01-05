@@ -46,8 +46,6 @@ func dataSourceFirewallAddrgrpList() *schema.Resource {
 }
 
 func dataSourceFirewallAddrgrpListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceFirewallAddrgrpListRead(ctx context.Context, d *schema.ResourceDa
 	format := []string{"name"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListFirewallAddrgrp(mkey, urlparams)
+	o, err := c.Cmdb.ListFirewallAddrgrp(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading FirewallAddrgrp dataSource: %v", err)
 	}

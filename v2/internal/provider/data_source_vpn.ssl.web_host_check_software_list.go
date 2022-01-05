@@ -46,8 +46,6 @@ func dataSourceVpnSslWebHostCheckSoftwareList() *schema.Resource {
 }
 
 func dataSourceVpnSslWebHostCheckSoftwareListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceVpnSslWebHostCheckSoftwareListRead(ctx context.Context, d *schema
 	format := []string{"name"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListVpnSslWebHostCheckSoftware(mkey, urlparams)
+	o, err := c.Cmdb.ListVpnSslWebHostCheckSoftware(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading VpnSslWebHostCheckSoftware dataSource: %v", err)
 	}

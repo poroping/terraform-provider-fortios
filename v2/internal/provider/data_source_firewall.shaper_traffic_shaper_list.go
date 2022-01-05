@@ -46,8 +46,6 @@ func dataSourceFirewallShaperTrafficShaperList() *schema.Resource {
 }
 
 func dataSourceFirewallShaperTrafficShaperListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceFirewallShaperTrafficShaperListRead(ctx context.Context, d *schem
 	format := []string{"name"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListFirewallShaperTrafficShaper(mkey, urlparams)
+	o, err := c.Cmdb.ListFirewallShaperTrafficShaper(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading FirewallShaperTrafficShaper dataSource: %v", err)
 	}

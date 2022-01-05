@@ -46,8 +46,6 @@ func dataSourceWebfilterOverrideList() *schema.Resource {
 }
 
 func dataSourceWebfilterOverrideListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceWebfilterOverrideListRead(ctx context.Context, d *schema.Resource
 	format := []string{"id"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListWebfilterOverride(mkey, urlparams)
+	o, err := c.Cmdb.ListWebfilterOverride(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading WebfilterOverride dataSource: %v", err)
 	}

@@ -46,8 +46,6 @@ func dataSourceSystemReplacemsgSpamList() *schema.Resource {
 }
 
 func dataSourceSystemReplacemsgSpamListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceSystemReplacemsgSpamListRead(ctx context.Context, d *schema.Resou
 	format := []string{"msg-type"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListSystemReplacemsgSpam(mkey, urlparams)
+	o, err := c.Cmdb.ListSystemReplacemsgSpam(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading SystemReplacemsgSpam dataSource: %v", err)
 	}

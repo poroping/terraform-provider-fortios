@@ -46,8 +46,6 @@ func dataSourceCertificateCrlList() *schema.Resource {
 }
 
 func dataSourceCertificateCrlListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceCertificateCrlListRead(ctx context.Context, d *schema.ResourceDat
 	format := []string{"name"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListCertificateCrl(mkey, urlparams)
+	o, err := c.Cmdb.ListCertificateCrl(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading CertificateCrl dataSource: %v", err)
 	}

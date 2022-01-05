@@ -46,8 +46,6 @@ func dataSourceFirewallScheduleGroupList() *schema.Resource {
 }
 
 func dataSourceFirewallScheduleGroupListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceFirewallScheduleGroupListRead(ctx context.Context, d *schema.Reso
 	format := []string{"name"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListFirewallScheduleGroup(mkey, urlparams)
+	o, err := c.Cmdb.ListFirewallScheduleGroup(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading FirewallScheduleGroup dataSource: %v", err)
 	}

@@ -46,8 +46,6 @@ func dataSourceFirewallSnifferList() *schema.Resource {
 }
 
 func dataSourceFirewallSnifferListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceFirewallSnifferListRead(ctx context.Context, d *schema.ResourceDa
 	format := []string{"id"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListFirewallSniffer(mkey, urlparams)
+	o, err := c.Cmdb.ListFirewallSniffer(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading FirewallSniffer dataSource: %v", err)
 	}

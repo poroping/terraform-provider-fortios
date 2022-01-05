@@ -46,8 +46,6 @@ func dataSourceVpnIpsecPhase2InterfaceList() *schema.Resource {
 }
 
 func dataSourceVpnIpsecPhase2InterfaceListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceVpnIpsecPhase2InterfaceListRead(ctx context.Context, d *schema.Re
 	format := []string{"name"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListVpnIpsecPhase2Interface(mkey, urlparams)
+	o, err := c.Cmdb.ListVpnIpsecPhase2Interface(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading VpnIpsecPhase2Interface dataSource: %v", err)
 	}

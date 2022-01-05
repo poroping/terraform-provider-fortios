@@ -46,8 +46,6 @@ func dataSourceAuthenticationRuleList() *schema.Resource {
 }
 
 func dataSourceAuthenticationRuleListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceAuthenticationRuleListRead(ctx context.Context, d *schema.Resourc
 	format := []string{"name"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListAuthenticationRule(mkey, urlparams)
+	o, err := c.Cmdb.ListAuthenticationRule(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading AuthenticationRule dataSource: %v", err)
 	}

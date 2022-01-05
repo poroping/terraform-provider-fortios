@@ -46,8 +46,6 @@ func dataSourceSwitchControllerLocationList() *schema.Resource {
 }
 
 func dataSourceSwitchControllerLocationListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceSwitchControllerLocationListRead(ctx context.Context, d *schema.R
 	format := []string{"name"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListSwitchControllerLocation(mkey, urlparams)
+	o, err := c.Cmdb.ListSwitchControllerLocation(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading SwitchControllerLocation dataSource: %v", err)
 	}

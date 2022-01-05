@@ -46,8 +46,6 @@ func dataSourceRouterPrefixList6List() *schema.Resource {
 }
 
 func dataSourceRouterPrefixList6ListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceRouterPrefixList6ListRead(ctx context.Context, d *schema.Resource
 	format := []string{"name"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListRouterPrefixList6(mkey, urlparams)
+	o, err := c.Cmdb.ListRouterPrefixList6(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading RouterPrefixList6 dataSource: %v", err)
 	}

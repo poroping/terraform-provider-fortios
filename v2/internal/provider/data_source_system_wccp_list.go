@@ -46,8 +46,6 @@ func dataSourceSystemWccpList() *schema.Resource {
 }
 
 func dataSourceSystemWccpListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceSystemWccpListRead(ctx context.Context, d *schema.ResourceData, m
 	format := []string{"service-id"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListSystemWccp(mkey, urlparams)
+	o, err := c.Cmdb.ListSystemWccp(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading SystemWccp dataSource: %v", err)
 	}

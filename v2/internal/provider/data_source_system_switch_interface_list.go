@@ -46,8 +46,6 @@ func dataSourceSystemSwitchInterfaceList() *schema.Resource {
 }
 
 func dataSourceSystemSwitchInterfaceListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceSystemSwitchInterfaceListRead(ctx context.Context, d *schema.Reso
 	format := []string{"name"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListSystemSwitchInterface(mkey, urlparams)
+	o, err := c.Cmdb.ListSystemSwitchInterface(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading SystemSwitchInterface dataSource: %v", err)
 	}

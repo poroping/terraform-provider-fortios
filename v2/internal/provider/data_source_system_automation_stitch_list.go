@@ -46,8 +46,6 @@ func dataSourceSystemAutomationStitchList() *schema.Resource {
 }
 
 func dataSourceSystemAutomationStitchListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceSystemAutomationStitchListRead(ctx context.Context, d *schema.Res
 	format := []string{"name"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListSystemAutomationStitch(mkey, urlparams)
+	o, err := c.Cmdb.ListSystemAutomationStitch(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading SystemAutomationStitch dataSource: %v", err)
 	}

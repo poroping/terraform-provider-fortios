@@ -46,8 +46,6 @@ func dataSourceRouterStaticList() *schema.Resource {
 }
 
 func dataSourceRouterStaticListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceRouterStaticListRead(ctx context.Context, d *schema.ResourceData,
 	format := []string{"seq-num"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListRouterStatic(mkey, urlparams)
+	o, err := c.Cmdb.ListRouterStatic(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading RouterStatic dataSource: %v", err)
 	}

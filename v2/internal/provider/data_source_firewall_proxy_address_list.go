@@ -46,8 +46,6 @@ func dataSourceFirewallProxyAddressList() *schema.Resource {
 }
 
 func dataSourceFirewallProxyAddressListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceFirewallProxyAddressListRead(ctx context.Context, d *schema.Resou
 	format := []string{"name"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListFirewallProxyAddress(mkey, urlparams)
+	o, err := c.Cmdb.ListFirewallProxyAddress(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading FirewallProxyAddress dataSource: %v", err)
 	}

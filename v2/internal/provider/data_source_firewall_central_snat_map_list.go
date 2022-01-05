@@ -46,8 +46,6 @@ func dataSourceFirewallCentralSnatMapList() *schema.Resource {
 }
 
 func dataSourceFirewallCentralSnatMapListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceFirewallCentralSnatMapListRead(ctx context.Context, d *schema.Res
 	format := []string{"policyid"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListFirewallCentralSnatMap(mkey, urlparams)
+	o, err := c.Cmdb.ListFirewallCentralSnatMap(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading FirewallCentralSnatMap dataSource: %v", err)
 	}

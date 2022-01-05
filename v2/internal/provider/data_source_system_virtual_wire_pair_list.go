@@ -46,8 +46,6 @@ func dataSourceSystemVirtualWirePairList() *schema.Resource {
 }
 
 func dataSourceSystemVirtualWirePairListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceSystemVirtualWirePairListRead(ctx context.Context, d *schema.Reso
 	format := []string{"name"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListSystemVirtualWirePair(mkey, urlparams)
+	o, err := c.Cmdb.ListSystemVirtualWirePair(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading SystemVirtualWirePair dataSource: %v", err)
 	}

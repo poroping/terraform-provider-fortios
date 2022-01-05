@@ -46,8 +46,6 @@ func dataSourceFirewallSshHostKeyList() *schema.Resource {
 }
 
 func dataSourceFirewallSshHostKeyListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceFirewallSshHostKeyListRead(ctx context.Context, d *schema.Resourc
 	format := []string{"name"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListFirewallSshHostKey(mkey, urlparams)
+	o, err := c.Cmdb.ListFirewallSshHostKey(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading FirewallSshHostKey dataSource: %v", err)
 	}

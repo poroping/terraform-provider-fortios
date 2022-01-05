@@ -46,8 +46,6 @@ func dataSourceSystemGeoipCountryList() *schema.Resource {
 }
 
 func dataSourceSystemGeoipCountryListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceSystemGeoipCountryListRead(ctx context.Context, d *schema.Resourc
 	format := []string{"id"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListSystemGeoipCountry(mkey, urlparams)
+	o, err := c.Cmdb.ListSystemGeoipCountry(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading SystemGeoipCountry dataSource: %v", err)
 	}

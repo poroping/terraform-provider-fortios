@@ -46,8 +46,6 @@ func dataSourceFirewallInternetServiceDefinitionList() *schema.Resource {
 }
 
 func dataSourceFirewallInternetServiceDefinitionListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceFirewallInternetServiceDefinitionListRead(ctx context.Context, d 
 	format := []string{"id"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListFirewallInternetServiceDefinition(mkey, urlparams)
+	o, err := c.Cmdb.ListFirewallInternetServiceDefinition(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading FirewallInternetServiceDefinition dataSource: %v", err)
 	}

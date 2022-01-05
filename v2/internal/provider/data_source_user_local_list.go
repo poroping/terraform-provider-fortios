@@ -46,8 +46,6 @@ func dataSourceUserLocalList() *schema.Resource {
 }
 
 func dataSourceUserLocalListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceUserLocalListRead(ctx context.Context, d *schema.ResourceData, me
 	format := []string{"name"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListUserLocal(mkey, urlparams)
+	o, err := c.Cmdb.ListUserLocal(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading UserLocal dataSource: %v", err)
 	}

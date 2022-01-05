@@ -46,8 +46,6 @@ func dataSourceVpnSslSettingsAuthenticationRuleList() *schema.Resource {
 }
 
 func dataSourceVpnSslSettingsAuthenticationRuleListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceVpnSslSettingsAuthenticationRuleListRead(ctx context.Context, d *
 	format := []string{"id"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListVpnSslSettingsAuthenticationRule(mkey, urlparams)
+	o, err := c.Cmdb.ListVpnSslSettingsAuthenticationRule(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading VpnSslSettingsAuthenticationRule dataSource: %v", err)
 	}

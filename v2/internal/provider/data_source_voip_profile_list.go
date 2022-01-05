@@ -46,8 +46,6 @@ func dataSourceVoipProfileList() *schema.Resource {
 }
 
 func dataSourceVoipProfileListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceVoipProfileListRead(ctx context.Context, d *schema.ResourceData, 
 	format := []string{"name"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListVoipProfile(mkey, urlparams)
+	o, err := c.Cmdb.ListVoipProfile(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading VoipProfile dataSource: %v", err)
 	}

@@ -46,8 +46,6 @@ func dataSourceSwitchControllerDynamicPortPolicyList() *schema.Resource {
 }
 
 func dataSourceSwitchControllerDynamicPortPolicyListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceSwitchControllerDynamicPortPolicyListRead(ctx context.Context, d 
 	format := []string{"name"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListSwitchControllerDynamicPortPolicy(mkey, urlparams)
+	o, err := c.Cmdb.ListSwitchControllerDynamicPortPolicy(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading SwitchControllerDynamicPortPolicy dataSource: %v", err)
 	}

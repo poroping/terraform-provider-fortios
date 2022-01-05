@@ -46,8 +46,6 @@ func dataSourceVpnIpsecFecList() *schema.Resource {
 }
 
 func dataSourceVpnIpsecFecListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceVpnIpsecFecListRead(ctx context.Context, d *schema.ResourceData, 
 	format := []string{"name"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListVpnIpsecFec(mkey, urlparams)
+	o, err := c.Cmdb.ListVpnIpsecFec(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading VpnIpsecFec dataSource: %v", err)
 	}

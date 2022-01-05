@@ -46,8 +46,6 @@ func dataSourceVpnCertificateLocalList() *schema.Resource {
 }
 
 func dataSourceVpnCertificateLocalListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceVpnCertificateLocalListRead(ctx context.Context, d *schema.Resour
 	format := []string{"name"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListVpnCertificateLocal(mkey, urlparams)
+	o, err := c.Cmdb.ListVpnCertificateLocal(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading VpnCertificateLocal dataSource: %v", err)
 	}

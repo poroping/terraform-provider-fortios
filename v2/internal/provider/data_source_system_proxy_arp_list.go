@@ -46,8 +46,6 @@ func dataSourceSystemProxyArpList() *schema.Resource {
 }
 
 func dataSourceSystemProxyArpListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceSystemProxyArpListRead(ctx context.Context, d *schema.ResourceDat
 	format := []string{"id"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListSystemProxyArp(mkey, urlparams)
+	o, err := c.Cmdb.ListSystemProxyArp(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading SystemProxyArp dataSource: %v", err)
 	}

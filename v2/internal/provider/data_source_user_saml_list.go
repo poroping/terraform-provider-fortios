@@ -46,8 +46,6 @@ func dataSourceUserSamlList() *schema.Resource {
 }
 
 func dataSourceUserSamlListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceUserSamlListRead(ctx context.Context, d *schema.ResourceData, met
 	format := []string{"name"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListUserSaml(mkey, urlparams)
+	o, err := c.Cmdb.ListUserSaml(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading UserSaml dataSource: %v", err)
 	}

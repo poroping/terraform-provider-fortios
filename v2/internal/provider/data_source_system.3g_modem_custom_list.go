@@ -46,8 +46,6 @@ func dataSourceSystem3gModemCustomList() *schema.Resource {
 }
 
 func dataSourceSystem3gModemCustomListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceSystem3gModemCustomListRead(ctx context.Context, d *schema.Resour
 	format := []string{"id"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListSystem3gModemCustom(mkey, urlparams)
+	o, err := c.Cmdb.ListSystem3gModemCustom(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading System3gModemCustom dataSource: %v", err)
 	}

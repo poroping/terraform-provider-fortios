@@ -46,8 +46,6 @@ func dataSourceSystemArpTableList() *schema.Resource {
 }
 
 func dataSourceSystemArpTableListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceSystemArpTableListRead(ctx context.Context, d *schema.ResourceDat
 	format := []string{"id"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListSystemArpTable(mkey, urlparams)
+	o, err := c.Cmdb.ListSystemArpTable(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading SystemArpTable dataSource: %v", err)
 	}

@@ -46,8 +46,6 @@ func dataSourceFirewallServiceCustomList() *schema.Resource {
 }
 
 func dataSourceFirewallServiceCustomListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceFirewallServiceCustomListRead(ctx context.Context, d *schema.Reso
 	format := []string{"name"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListFirewallServiceCustom(mkey, urlparams)
+	o, err := c.Cmdb.ListFirewallServiceCustom(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading FirewallServiceCustom dataSource: %v", err)
 	}

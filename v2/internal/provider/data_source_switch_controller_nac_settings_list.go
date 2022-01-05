@@ -46,8 +46,6 @@ func dataSourceSwitchControllerNacSettingsList() *schema.Resource {
 }
 
 func dataSourceSwitchControllerNacSettingsListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceSwitchControllerNacSettingsListRead(ctx context.Context, d *schem
 	format := []string{"name"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListSwitchControllerNacSettings(mkey, urlparams)
+	o, err := c.Cmdb.ListSwitchControllerNacSettings(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading SwitchControllerNacSettings dataSource: %v", err)
 	}

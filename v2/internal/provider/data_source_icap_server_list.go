@@ -46,8 +46,6 @@ func dataSourceIcapServerList() *schema.Resource {
 }
 
 func dataSourceIcapServerListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceIcapServerListRead(ctx context.Context, d *schema.ResourceData, m
 	format := []string{"name"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListIcapServer(mkey, urlparams)
+	o, err := c.Cmdb.ListIcapServer(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading IcapServer dataSource: %v", err)
 	}

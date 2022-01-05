@@ -46,8 +46,6 @@ func dataSourceWebProxyForwardServerGroupList() *schema.Resource {
 }
 
 func dataSourceWebProxyForwardServerGroupListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceWebProxyForwardServerGroupListRead(ctx context.Context, d *schema
 	format := []string{"name"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListWebProxyForwardServerGroup(mkey, urlparams)
+	o, err := c.Cmdb.ListWebProxyForwardServerGroup(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading WebProxyForwardServerGroup dataSource: %v", err)
 	}

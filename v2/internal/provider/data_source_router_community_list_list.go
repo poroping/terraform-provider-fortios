@@ -46,8 +46,6 @@ func dataSourceRouterCommunityListList() *schema.Resource {
 }
 
 func dataSourceRouterCommunityListListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceRouterCommunityListListRead(ctx context.Context, d *schema.Resour
 	format := []string{"name"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListRouterCommunityList(mkey, urlparams)
+	o, err := c.Cmdb.ListRouterCommunityList(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading RouterCommunityList dataSource: %v", err)
 	}

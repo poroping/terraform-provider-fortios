@@ -46,8 +46,6 @@ func dataSourceSystemZoneList() *schema.Resource {
 }
 
 func dataSourceSystemZoneListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceSystemZoneListRead(ctx context.Context, d *schema.ResourceData, m
 	format := []string{"name"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListSystemZone(mkey, urlparams)
+	o, err := c.Cmdb.ListSystemZone(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading SystemZone dataSource: %v", err)
 	}

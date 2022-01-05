@@ -46,8 +46,6 @@ func dataSourceWebProxyWispList() *schema.Resource {
 }
 
 func dataSourceWebProxyWispListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceWebProxyWispListRead(ctx context.Context, d *schema.ResourceData,
 	format := []string{"name"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListWebProxyWisp(mkey, urlparams)
+	o, err := c.Cmdb.ListWebProxyWisp(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading WebProxyWisp dataSource: %v", err)
 	}

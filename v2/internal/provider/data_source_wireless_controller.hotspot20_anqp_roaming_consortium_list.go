@@ -46,8 +46,6 @@ func dataSourceWirelessControllerHotspot20AnqpRoamingConsortiumList() *schema.Re
 }
 
 func dataSourceWirelessControllerHotspot20AnqpRoamingConsortiumListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceWirelessControllerHotspot20AnqpRoamingConsortiumListRead(ctx cont
 	format := []string{"name"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListWirelessControllerHotspot20AnqpRoamingConsortium(mkey, urlparams)
+	o, err := c.Cmdb.ListWirelessControllerHotspot20AnqpRoamingConsortium(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading WirelessControllerHotspot20AnqpRoamingConsortium dataSource: %v", err)
 	}

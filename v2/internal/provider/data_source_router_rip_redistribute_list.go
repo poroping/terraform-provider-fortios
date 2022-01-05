@@ -46,8 +46,6 @@ func dataSourceRouterRipRedistributeList() *schema.Resource {
 }
 
 func dataSourceRouterRipRedistributeListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceRouterRipRedistributeListRead(ctx context.Context, d *schema.Reso
 	format := []string{"name"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListRouterRipRedistribute(mkey, urlparams)
+	o, err := c.Cmdb.ListRouterRipRedistribute(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading RouterRipRedistribute dataSource: %v", err)
 	}

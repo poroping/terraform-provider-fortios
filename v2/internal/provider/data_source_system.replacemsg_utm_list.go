@@ -46,8 +46,6 @@ func dataSourceSystemReplacemsgUtmList() *schema.Resource {
 }
 
 func dataSourceSystemReplacemsgUtmListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceSystemReplacemsgUtmListRead(ctx context.Context, d *schema.Resour
 	format := []string{"msg-type"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListSystemReplacemsgUtm(mkey, urlparams)
+	o, err := c.Cmdb.ListSystemReplacemsgUtm(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading SystemReplacemsgUtm dataSource: %v", err)
 	}

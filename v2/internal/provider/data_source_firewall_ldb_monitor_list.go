@@ -46,8 +46,6 @@ func dataSourceFirewallLdbMonitorList() *schema.Resource {
 }
 
 func dataSourceFirewallLdbMonitorListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceFirewallLdbMonitorListRead(ctx context.Context, d *schema.Resourc
 	format := []string{"name"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListFirewallLdbMonitor(mkey, urlparams)
+	o, err := c.Cmdb.ListFirewallLdbMonitor(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading FirewallLdbMonitor dataSource: %v", err)
 	}

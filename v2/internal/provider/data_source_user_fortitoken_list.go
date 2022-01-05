@@ -46,8 +46,6 @@ func dataSourceUserFortitokenList() *schema.Resource {
 }
 
 func dataSourceUserFortitokenListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceUserFortitokenListRead(ctx context.Context, d *schema.ResourceDat
 	format := []string{"serial-number"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListUserFortitoken(mkey, urlparams)
+	o, err := c.Cmdb.ListUserFortitoken(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading UserFortitoken dataSource: %v", err)
 	}

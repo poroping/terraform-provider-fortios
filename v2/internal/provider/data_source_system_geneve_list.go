@@ -46,8 +46,6 @@ func dataSourceSystemGeneveList() *schema.Resource {
 }
 
 func dataSourceSystemGeneveListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceSystemGeneveListRead(ctx context.Context, d *schema.ResourceData,
 	format := []string{"name"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListSystemGeneve(mkey, urlparams)
+	o, err := c.Cmdb.ListSystemGeneve(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading SystemGeneve dataSource: %v", err)
 	}

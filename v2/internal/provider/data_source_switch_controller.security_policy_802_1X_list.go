@@ -46,8 +46,6 @@ func dataSourceSwitchControllerSecurityPolicy8021XList() *schema.Resource {
 }
 
 func dataSourceSwitchControllerSecurityPolicy8021XListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceSwitchControllerSecurityPolicy8021XListRead(ctx context.Context, 
 	format := []string{"name"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListSwitchControllerSecurityPolicy8021X(mkey, urlparams)
+	o, err := c.Cmdb.ListSwitchControllerSecurityPolicy8021X(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading SwitchControllerSecurityPolicy8021X dataSource: %v", err)
 	}

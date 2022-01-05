@@ -46,8 +46,6 @@ func dataSourceFirewallInternetServiceBotnetList() *schema.Resource {
 }
 
 func dataSourceFirewallInternetServiceBotnetListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceFirewallInternetServiceBotnetListRead(ctx context.Context, d *sch
 	format := []string{"id"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListFirewallInternetServiceBotnet(mkey, urlparams)
+	o, err := c.Cmdb.ListFirewallInternetServiceBotnet(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading FirewallInternetServiceBotnet dataSource: %v", err)
 	}

@@ -46,8 +46,6 @@ func dataSourceEmailfilterBlockAllowListList() *schema.Resource {
 }
 
 func dataSourceEmailfilterBlockAllowListListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceEmailfilterBlockAllowListListRead(ctx context.Context, d *schema.
 	format := []string{"id"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListEmailfilterBlockAllowList(mkey, urlparams)
+	o, err := c.Cmdb.ListEmailfilterBlockAllowList(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading EmailfilterBlockAllowList dataSource: %v", err)
 	}

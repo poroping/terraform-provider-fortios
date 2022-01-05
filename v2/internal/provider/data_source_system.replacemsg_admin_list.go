@@ -46,8 +46,6 @@ func dataSourceSystemReplacemsgAdminList() *schema.Resource {
 }
 
 func dataSourceSystemReplacemsgAdminListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceSystemReplacemsgAdminListRead(ctx context.Context, d *schema.Reso
 	format := []string{"msg-type"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListSystemReplacemsgAdmin(mkey, urlparams)
+	o, err := c.Cmdb.ListSystemReplacemsgAdmin(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading SystemReplacemsgAdmin dataSource: %v", err)
 	}

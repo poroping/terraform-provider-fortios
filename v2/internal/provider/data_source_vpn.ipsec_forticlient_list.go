@@ -46,8 +46,6 @@ func dataSourceVpnIpsecForticlientList() *schema.Resource {
 }
 
 func dataSourceVpnIpsecForticlientListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceVpnIpsecForticlientListRead(ctx context.Context, d *schema.Resour
 	format := []string{"realm"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListVpnIpsecForticlient(mkey, urlparams)
+	o, err := c.Cmdb.ListVpnIpsecForticlient(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading VpnIpsecForticlient dataSource: %v", err)
 	}

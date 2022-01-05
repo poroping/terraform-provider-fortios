@@ -46,8 +46,6 @@ func dataSourceReportStyleList() *schema.Resource {
 }
 
 func dataSourceReportStyleListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceReportStyleListRead(ctx context.Context, d *schema.ResourceData, 
 	format := []string{"name"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListReportStyle(mkey, urlparams)
+	o, err := c.Cmdb.ListReportStyle(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading ReportStyle dataSource: %v", err)
 	}

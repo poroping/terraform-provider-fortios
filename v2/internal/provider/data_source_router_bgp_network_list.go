@@ -46,8 +46,6 @@ func dataSourceRouterBgpNetworkList() *schema.Resource {
 }
 
 func dataSourceRouterBgpNetworkListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceRouterBgpNetworkListRead(ctx context.Context, d *schema.ResourceD
 	format := []string{"id"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListRouterBgpNetwork(mkey, urlparams)
+	o, err := c.Cmdb.ListRouterBgpNetwork(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading RouterBgpNetwork dataSource: %v", err)
 	}

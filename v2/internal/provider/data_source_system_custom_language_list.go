@@ -46,8 +46,6 @@ func dataSourceSystemCustomLanguageList() *schema.Resource {
 }
 
 func dataSourceSystemCustomLanguageListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceSystemCustomLanguageListRead(ctx context.Context, d *schema.Resou
 	format := []string{"name"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListSystemCustomLanguage(mkey, urlparams)
+	o, err := c.Cmdb.ListSystemCustomLanguage(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading SystemCustomLanguage dataSource: %v", err)
 	}

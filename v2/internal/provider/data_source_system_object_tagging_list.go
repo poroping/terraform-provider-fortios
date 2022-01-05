@@ -46,8 +46,6 @@ func dataSourceSystemObjectTaggingList() *schema.Resource {
 }
 
 func dataSourceSystemObjectTaggingListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceSystemObjectTaggingListRead(ctx context.Context, d *schema.Resour
 	format := []string{"category"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListSystemObjectTagging(mkey, urlparams)
+	o, err := c.Cmdb.ListSystemObjectTagging(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading SystemObjectTagging dataSource: %v", err)
 	}

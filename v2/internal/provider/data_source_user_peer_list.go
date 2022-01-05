@@ -46,8 +46,6 @@ func dataSourceUserPeerList() *schema.Resource {
 }
 
 func dataSourceUserPeerListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceUserPeerListRead(ctx context.Context, d *schema.ResourceData, met
 	format := []string{"name"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListUserPeer(mkey, urlparams)
+	o, err := c.Cmdb.ListUserPeer(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading UserPeer dataSource: %v", err)
 	}

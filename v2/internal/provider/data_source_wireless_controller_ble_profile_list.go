@@ -46,8 +46,6 @@ func dataSourceWirelessControllerBleProfileList() *schema.Resource {
 }
 
 func dataSourceWirelessControllerBleProfileListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceWirelessControllerBleProfileListRead(ctx context.Context, d *sche
 	format := []string{"name"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListWirelessControllerBleProfile(mkey, urlparams)
+	o, err := c.Cmdb.ListWirelessControllerBleProfile(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading WirelessControllerBleProfile dataSource: %v", err)
 	}

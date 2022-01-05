@@ -46,8 +46,6 @@ func dataSourceCertificateLocalList() *schema.Resource {
 }
 
 func dataSourceCertificateLocalListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceCertificateLocalListRead(ctx context.Context, d *schema.ResourceD
 	format := []string{"name"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListCertificateLocal(mkey, urlparams)
+	o, err := c.Cmdb.ListCertificateLocal(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading CertificateLocal dataSource: %v", err)
 	}

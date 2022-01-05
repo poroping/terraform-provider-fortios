@@ -46,8 +46,6 @@ func dataSourceRouterOspfSummaryAddressList() *schema.Resource {
 }
 
 func dataSourceRouterOspfSummaryAddressListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceRouterOspfSummaryAddressListRead(ctx context.Context, d *schema.R
 	format := []string{"id"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListRouterOspfSummaryAddress(mkey, urlparams)
+	o, err := c.Cmdb.ListRouterOspfSummaryAddress(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading RouterOspfSummaryAddress dataSource: %v", err)
 	}

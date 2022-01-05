@@ -46,8 +46,6 @@ func dataSourceWebfilterContentList() *schema.Resource {
 }
 
 func dataSourceWebfilterContentListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceWebfilterContentListRead(ctx context.Context, d *schema.ResourceD
 	format := []string{"id"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListWebfilterContent(mkey, urlparams)
+	o, err := c.Cmdb.ListWebfilterContent(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading WebfilterContent dataSource: %v", err)
 	}

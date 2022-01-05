@@ -46,8 +46,6 @@ func dataSourceDlpSensitivityList() *schema.Resource {
 }
 
 func dataSourceDlpSensitivityListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceDlpSensitivityListRead(ctx context.Context, d *schema.ResourceDat
 	format := []string{"name"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListDlpSensitivity(mkey, urlparams)
+	o, err := c.Cmdb.ListDlpSensitivity(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading DlpSensitivity dataSource: %v", err)
 	}

@@ -46,8 +46,6 @@ func dataSourceWebfilterFtgdLocalCatList() *schema.Resource {
 }
 
 func dataSourceWebfilterFtgdLocalCatListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceWebfilterFtgdLocalCatListRead(ctx context.Context, d *schema.Reso
 	format := []string{"desc"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListWebfilterFtgdLocalCat(mkey, urlparams)
+	o, err := c.Cmdb.ListWebfilterFtgdLocalCat(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading WebfilterFtgdLocalCat dataSource: %v", err)
 	}

@@ -46,8 +46,6 @@ func dataSourceRouterAuthPathList() *schema.Resource {
 }
 
 func dataSourceRouterAuthPathListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceRouterAuthPathListRead(ctx context.Context, d *schema.ResourceDat
 	format := []string{"name"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListRouterAuthPath(mkey, urlparams)
+	o, err := c.Cmdb.ListRouterAuthPath(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading RouterAuthPath dataSource: %v", err)
 	}

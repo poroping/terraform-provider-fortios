@@ -46,8 +46,6 @@ func dataSourceSystemIpsecAggregateList() *schema.Resource {
 }
 
 func dataSourceSystemIpsecAggregateListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceSystemIpsecAggregateListRead(ctx context.Context, d *schema.Resou
 	format := []string{"name"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListSystemIpsecAggregate(mkey, urlparams)
+	o, err := c.Cmdb.ListSystemIpsecAggregate(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading SystemIpsecAggregate dataSource: %v", err)
 	}

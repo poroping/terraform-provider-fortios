@@ -46,8 +46,6 @@ func dataSourceSystemSdnConnectorList() *schema.Resource {
 }
 
 func dataSourceSystemSdnConnectorListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceSystemSdnConnectorListRead(ctx context.Context, d *schema.Resourc
 	format := []string{"name"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListSystemSdnConnector(mkey, urlparams)
+	o, err := c.Cmdb.ListSystemSdnConnector(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading SystemSdnConnector dataSource: %v", err)
 	}

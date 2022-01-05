@@ -46,8 +46,6 @@ func dataSourceIpsSensorList() *schema.Resource {
 }
 
 func dataSourceIpsSensorListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceIpsSensorListRead(ctx context.Context, d *schema.ResourceData, me
 	format := []string{"name"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListIpsSensor(mkey, urlparams)
+	o, err := c.Cmdb.ListIpsSensor(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading IpsSensor dataSource: %v", err)
 	}

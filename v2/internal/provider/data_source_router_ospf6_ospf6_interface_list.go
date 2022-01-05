@@ -46,8 +46,6 @@ func dataSourceRouterOspf6Ospf6InterfaceList() *schema.Resource {
 }
 
 func dataSourceRouterOspf6Ospf6InterfaceListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceRouterOspf6Ospf6InterfaceListRead(ctx context.Context, d *schema.
 	format := []string{"name"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListRouterOspf6Ospf6Interface(mkey, urlparams)
+	o, err := c.Cmdb.ListRouterOspf6Ospf6Interface(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading RouterOspf6Ospf6Interface dataSource: %v", err)
 	}

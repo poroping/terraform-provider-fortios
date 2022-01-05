@@ -46,8 +46,6 @@ func dataSourceWanoptPeerList() *schema.Resource {
 }
 
 func dataSourceWanoptPeerListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceWanoptPeerListRead(ctx context.Context, d *schema.ResourceData, m
 	format := []string{"peer-host-id"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListWanoptPeer(mkey, urlparams)
+	o, err := c.Cmdb.ListWanoptPeer(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading WanoptPeer dataSource: %v", err)
 	}

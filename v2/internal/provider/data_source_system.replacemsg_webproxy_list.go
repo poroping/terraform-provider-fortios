@@ -46,8 +46,6 @@ func dataSourceSystemReplacemsgWebproxyList() *schema.Resource {
 }
 
 func dataSourceSystemReplacemsgWebproxyListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceSystemReplacemsgWebproxyListRead(ctx context.Context, d *schema.R
 	format := []string{"msg-type"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListSystemReplacemsgWebproxy(mkey, urlparams)
+	o, err := c.Cmdb.ListSystemReplacemsgWebproxy(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading SystemReplacemsgWebproxy dataSource: %v", err)
 	}

@@ -46,8 +46,6 @@ func dataSourceUserFssoPollingList() *schema.Resource {
 }
 
 func dataSourceUserFssoPollingListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceUserFssoPollingListRead(ctx context.Context, d *schema.ResourceDa
 	format := []string{"id"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListUserFssoPolling(mkey, urlparams)
+	o, err := c.Cmdb.ListUserFssoPolling(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading UserFssoPolling dataSource: %v", err)
 	}

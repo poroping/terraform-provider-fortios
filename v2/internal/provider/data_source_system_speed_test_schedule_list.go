@@ -46,8 +46,6 @@ func dataSourceSystemSpeedTestScheduleList() *schema.Resource {
 }
 
 func dataSourceSystemSpeedTestScheduleListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceSystemSpeedTestScheduleListRead(ctx context.Context, d *schema.Re
 	format := []string{"interface"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListSystemSpeedTestSchedule(mkey, urlparams)
+	o, err := c.Cmdb.ListSystemSpeedTestSchedule(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading SystemSpeedTestSchedule dataSource: %v", err)
 	}

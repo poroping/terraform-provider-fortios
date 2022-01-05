@@ -46,8 +46,6 @@ func dataSourceRouterIsisSummaryAddress6List() *schema.Resource {
 }
 
 func dataSourceRouterIsisSummaryAddress6ListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceRouterIsisSummaryAddress6ListRead(ctx context.Context, d *schema.
 	format := []string{"id"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListRouterIsisSummaryAddress6(mkey, urlparams)
+	o, err := c.Cmdb.ListRouterIsisSummaryAddress6(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading RouterIsisSummaryAddress6 dataSource: %v", err)
 	}

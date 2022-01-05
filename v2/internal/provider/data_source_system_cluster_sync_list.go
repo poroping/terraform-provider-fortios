@@ -46,8 +46,6 @@ func dataSourceSystemClusterSyncList() *schema.Resource {
 }
 
 func dataSourceSystemClusterSyncListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceSystemClusterSyncListRead(ctx context.Context, d *schema.Resource
 	format := []string{"sync-id"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListSystemClusterSync(mkey, urlparams)
+	o, err := c.Cmdb.ListSystemClusterSync(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading SystemClusterSync dataSource: %v", err)
 	}

@@ -46,8 +46,6 @@ func dataSourceSystemDhcpServerList() *schema.Resource {
 }
 
 func dataSourceSystemDhcpServerListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceSystemDhcpServerListRead(ctx context.Context, d *schema.ResourceD
 	format := []string{"id"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListSystemDhcpServer(mkey, urlparams)
+	o, err := c.Cmdb.ListSystemDhcpServer(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading SystemDhcpServer dataSource: %v", err)
 	}

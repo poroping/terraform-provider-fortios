@@ -46,8 +46,6 @@ func dataSourceSystemReplacemsgNntpList() *schema.Resource {
 }
 
 func dataSourceSystemReplacemsgNntpListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceSystemReplacemsgNntpListRead(ctx context.Context, d *schema.Resou
 	format := []string{"msg-type"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListSystemReplacemsgNntp(mkey, urlparams)
+	o, err := c.Cmdb.ListSystemReplacemsgNntp(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading SystemReplacemsgNntp dataSource: %v", err)
 	}

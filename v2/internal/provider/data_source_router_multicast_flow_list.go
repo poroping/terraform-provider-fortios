@@ -46,8 +46,6 @@ func dataSourceRouterMulticastFlowList() *schema.Resource {
 }
 
 func dataSourceRouterMulticastFlowListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceRouterMulticastFlowListRead(ctx context.Context, d *schema.Resour
 	format := []string{"name"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListRouterMulticastFlow(mkey, urlparams)
+	o, err := c.Cmdb.ListRouterMulticastFlow(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading RouterMulticastFlow dataSource: %v", err)
 	}

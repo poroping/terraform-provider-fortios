@@ -1,7 +1,5 @@
 {{define "DATALISTRESFUNC" }}
 func dataSource{{.fpath}}ListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 	
@@ -27,7 +25,7 @@ func dataSource{{.fpath}}ListRead(ctx context.Context, d *schema.ResourceData, m
 	format := []string{"{{.results.mkey}}"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.List{{.fpath}}(mkey, urlparams)
+	o, err := c.Cmdb.List{{.fpath}}(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading {{.fpath}} dataSource: %v", err)
 	}

@@ -46,8 +46,6 @@ func dataSourceUserFssoList() *schema.Resource {
 }
 
 func dataSourceUserFssoListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceUserFssoListRead(ctx context.Context, d *schema.ResourceData, met
 	format := []string{"name"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListUserFsso(mkey, urlparams)
+	o, err := c.Cmdb.ListUserFsso(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading UserFsso dataSource: %v", err)
 	}

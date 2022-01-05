@@ -46,8 +46,6 @@ func dataSourceSystemGeoipOverrideList() *schema.Resource {
 }
 
 func dataSourceSystemGeoipOverrideListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceSystemGeoipOverrideListRead(ctx context.Context, d *schema.Resour
 	format := []string{"name"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListSystemGeoipOverride(mkey, urlparams)
+	o, err := c.Cmdb.ListSystemGeoipOverride(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading SystemGeoipOverride dataSource: %v", err)
 	}

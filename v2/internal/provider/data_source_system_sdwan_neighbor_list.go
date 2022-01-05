@@ -46,8 +46,6 @@ func dataSourceSystemSdwanNeighborList() *schema.Resource {
 }
 
 func dataSourceSystemSdwanNeighborListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceSystemSdwanNeighborListRead(ctx context.Context, d *schema.Resour
 	format := []string{"ip"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListSystemSdwanNeighbor(mkey, urlparams)
+	o, err := c.Cmdb.ListSystemSdwanNeighbor(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading SystemSdwanNeighbor dataSource: %v", err)
 	}

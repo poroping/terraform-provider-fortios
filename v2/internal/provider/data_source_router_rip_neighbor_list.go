@@ -46,8 +46,6 @@ func dataSourceRouterRipNeighborList() *schema.Resource {
 }
 
 func dataSourceRouterRipNeighborListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceRouterRipNeighborListRead(ctx context.Context, d *schema.Resource
 	format := []string{"id"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListRouterRipNeighbor(mkey, urlparams)
+	o, err := c.Cmdb.ListRouterRipNeighbor(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading RouterRipNeighbor dataSource: %v", err)
 	}

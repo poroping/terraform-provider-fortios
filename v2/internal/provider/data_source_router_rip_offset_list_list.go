@@ -46,8 +46,6 @@ func dataSourceRouterRipOffsetListList() *schema.Resource {
 }
 
 func dataSourceRouterRipOffsetListListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceRouterRipOffsetListListRead(ctx context.Context, d *schema.Resour
 	format := []string{"id"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListRouterRipOffsetList(mkey, urlparams)
+	o, err := c.Cmdb.ListRouterRipOffsetList(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading RouterRipOffsetList dataSource: %v", err)
 	}

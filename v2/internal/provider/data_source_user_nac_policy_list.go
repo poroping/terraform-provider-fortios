@@ -46,8 +46,6 @@ func dataSourceUserNacPolicyList() *schema.Resource {
 }
 
 func dataSourceUserNacPolicyListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceUserNacPolicyListRead(ctx context.Context, d *schema.ResourceData
 	format := []string{"name"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListUserNacPolicy(mkey, urlparams)
+	o, err := c.Cmdb.ListUserNacPolicy(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading UserNacPolicy dataSource: %v", err)
 	}

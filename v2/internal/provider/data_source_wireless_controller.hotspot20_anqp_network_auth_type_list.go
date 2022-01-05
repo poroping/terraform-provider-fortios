@@ -46,8 +46,6 @@ func dataSourceWirelessControllerHotspot20AnqpNetworkAuthTypeList() *schema.Reso
 }
 
 func dataSourceWirelessControllerHotspot20AnqpNetworkAuthTypeListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceWirelessControllerHotspot20AnqpNetworkAuthTypeListRead(ctx contex
 	format := []string{"name"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListWirelessControllerHotspot20AnqpNetworkAuthType(mkey, urlparams)
+	o, err := c.Cmdb.ListWirelessControllerHotspot20AnqpNetworkAuthType(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading WirelessControllerHotspot20AnqpNetworkAuthType dataSource: %v", err)
 	}

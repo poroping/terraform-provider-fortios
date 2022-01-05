@@ -46,8 +46,6 @@ func dataSourceSystemLldpNetworkPolicyList() *schema.Resource {
 }
 
 func dataSourceSystemLldpNetworkPolicyListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceSystemLldpNetworkPolicyListRead(ctx context.Context, d *schema.Re
 	format := []string{"name"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListSystemLldpNetworkPolicy(mkey, urlparams)
+	o, err := c.Cmdb.ListSystemLldpNetworkPolicy(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading SystemLldpNetworkPolicy dataSource: %v", err)
 	}

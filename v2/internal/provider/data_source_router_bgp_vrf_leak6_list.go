@@ -46,8 +46,6 @@ func dataSourceRouterBgpVrfLeak6List() *schema.Resource {
 }
 
 func dataSourceRouterBgpVrfLeak6ListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceRouterBgpVrfLeak6ListRead(ctx context.Context, d *schema.Resource
 	format := []string{"vrf"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListRouterBgpVrfLeak6(mkey, urlparams)
+	o, err := c.Cmdb.ListRouterBgpVrfLeak6(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading RouterBgpVrfLeak6 dataSource: %v", err)
 	}

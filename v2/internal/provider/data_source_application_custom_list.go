@@ -46,8 +46,6 @@ func dataSourceApplicationCustomList() *schema.Resource {
 }
 
 func dataSourceApplicationCustomListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceApplicationCustomListRead(ctx context.Context, d *schema.Resource
 	format := []string{"tag"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListApplicationCustom(mkey, urlparams)
+	o, err := c.Cmdb.ListApplicationCustom(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading ApplicationCustom dataSource: %v", err)
 	}

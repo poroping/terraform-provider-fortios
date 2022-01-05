@@ -46,8 +46,6 @@ func dataSourceSystemAutomationDestinationList() *schema.Resource {
 }
 
 func dataSourceSystemAutomationDestinationListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceSystemAutomationDestinationListRead(ctx context.Context, d *schem
 	format := []string{"name"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListSystemAutomationDestination(mkey, urlparams)
+	o, err := c.Cmdb.ListSystemAutomationDestination(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading SystemAutomationDestination dataSource: %v", err)
 	}

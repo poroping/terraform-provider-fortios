@@ -46,8 +46,6 @@ func dataSourceWirelessControllerAddressList() *schema.Resource {
 }
 
 func dataSourceWirelessControllerAddressListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceWirelessControllerAddressListRead(ctx context.Context, d *schema.
 	format := []string{"id"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListWirelessControllerAddress(mkey, urlparams)
+	o, err := c.Cmdb.ListWirelessControllerAddress(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading WirelessControllerAddress dataSource: %v", err)
 	}

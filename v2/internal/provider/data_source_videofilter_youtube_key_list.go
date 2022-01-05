@@ -46,8 +46,6 @@ func dataSourceVideofilterYoutubeKeyList() *schema.Resource {
 }
 
 func dataSourceVideofilterYoutubeKeyListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceVideofilterYoutubeKeyListRead(ctx context.Context, d *schema.Reso
 	format := []string{"id"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListVideofilterYoutubeKey(mkey, urlparams)
+	o, err := c.Cmdb.ListVideofilterYoutubeKey(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading VideofilterYoutubeKey dataSource: %v", err)
 	}

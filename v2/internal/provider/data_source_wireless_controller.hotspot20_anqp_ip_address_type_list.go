@@ -46,8 +46,6 @@ func dataSourceWirelessControllerHotspot20AnqpIpAddressTypeList() *schema.Resour
 }
 
 func dataSourceWirelessControllerHotspot20AnqpIpAddressTypeListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceWirelessControllerHotspot20AnqpIpAddressTypeListRead(ctx context.
 	format := []string{"name"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListWirelessControllerHotspot20AnqpIpAddressType(mkey, urlparams)
+	o, err := c.Cmdb.ListWirelessControllerHotspot20AnqpIpAddressType(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading WirelessControllerHotspot20AnqpIpAddressType dataSource: %v", err)
 	}

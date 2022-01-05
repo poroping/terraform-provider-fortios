@@ -46,8 +46,6 @@ func dataSourceWafSignatureList() *schema.Resource {
 }
 
 func dataSourceWafSignatureListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceWafSignatureListRead(ctx context.Context, d *schema.ResourceData,
 	format := []string{"id"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListWafSignature(mkey, urlparams)
+	o, err := c.Cmdb.ListWafSignature(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading WafSignature dataSource: %v", err)
 	}

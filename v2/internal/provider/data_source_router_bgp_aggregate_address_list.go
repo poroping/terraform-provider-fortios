@@ -46,8 +46,6 @@ func dataSourceRouterBgpAggregateAddressList() *schema.Resource {
 }
 
 func dataSourceRouterBgpAggregateAddressListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceRouterBgpAggregateAddressListRead(ctx context.Context, d *schema.
 	format := []string{"id"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListRouterBgpAggregateAddress(mkey, urlparams)
+	o, err := c.Cmdb.ListRouterBgpAggregateAddress(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading RouterBgpAggregateAddress dataSource: %v", err)
 	}

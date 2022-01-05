@@ -46,8 +46,6 @@ func dataSourceWirelessControllerWtpGroupList() *schema.Resource {
 }
 
 func dataSourceWirelessControllerWtpGroupListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceWirelessControllerWtpGroupListRead(ctx context.Context, d *schema
 	format := []string{"name"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListWirelessControllerWtpGroup(mkey, urlparams)
+	o, err := c.Cmdb.ListWirelessControllerWtpGroup(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading WirelessControllerWtpGroup dataSource: %v", err)
 	}

@@ -46,8 +46,6 @@ func dataSourceFirewallAccessProxyVirtualHostList() *schema.Resource {
 }
 
 func dataSourceFirewallAccessProxyVirtualHostListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceFirewallAccessProxyVirtualHostListRead(ctx context.Context, d *sc
 	format := []string{"name"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListFirewallAccessProxyVirtualHost(mkey, urlparams)
+	o, err := c.Cmdb.ListFirewallAccessProxyVirtualHost(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading FirewallAccessProxyVirtualHost dataSource: %v", err)
 	}

@@ -46,8 +46,6 @@ func dataSourceSystemDnsServerList() *schema.Resource {
 }
 
 func dataSourceSystemDnsServerListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceSystemDnsServerListRead(ctx context.Context, d *schema.ResourceDa
 	format := []string{"name"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListSystemDnsServer(mkey, urlparams)
+	o, err := c.Cmdb.ListSystemDnsServer(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading SystemDnsServer dataSource: %v", err)
 	}

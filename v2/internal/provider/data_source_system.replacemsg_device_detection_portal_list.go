@@ -46,8 +46,6 @@ func dataSourceSystemReplacemsgDeviceDetectionPortalList() *schema.Resource {
 }
 
 func dataSourceSystemReplacemsgDeviceDetectionPortalListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceSystemReplacemsgDeviceDetectionPortalListRead(ctx context.Context
 	format := []string{"msg-type"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListSystemReplacemsgDeviceDetectionPortal(mkey, urlparams)
+	o, err := c.Cmdb.ListSystemReplacemsgDeviceDetectionPortal(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading SystemReplacemsgDeviceDetectionPortal dataSource: %v", err)
 	}

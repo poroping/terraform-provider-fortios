@@ -46,8 +46,6 @@ func dataSourceSystemSdwanMembersList() *schema.Resource {
 }
 
 func dataSourceSystemSdwanMembersListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceSystemSdwanMembersListRead(ctx context.Context, d *schema.Resourc
 	format := []string{"seq-num"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListSystemSdwanMembers(mkey, urlparams)
+	o, err := c.Cmdb.ListSystemSdwanMembers(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading SystemSdwanMembers dataSource: %v", err)
 	}

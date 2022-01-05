@@ -46,8 +46,6 @@ func dataSourceFirewallScheduleOnetimeList() *schema.Resource {
 }
 
 func dataSourceFirewallScheduleOnetimeListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceFirewallScheduleOnetimeListRead(ctx context.Context, d *schema.Re
 	format := []string{"name"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListFirewallScheduleOnetime(mkey, urlparams)
+	o, err := c.Cmdb.ListFirewallScheduleOnetime(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading FirewallScheduleOnetime dataSource: %v", err)
 	}

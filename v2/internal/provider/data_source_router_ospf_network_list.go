@@ -46,8 +46,6 @@ func dataSourceRouterOspfNetworkList() *schema.Resource {
 }
 
 func dataSourceRouterOspfNetworkListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceRouterOspfNetworkListRead(ctx context.Context, d *schema.Resource
 	format := []string{"id"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListRouterOspfNetwork(mkey, urlparams)
+	o, err := c.Cmdb.ListRouterOspfNetwork(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading RouterOspfNetwork dataSource: %v", err)
 	}

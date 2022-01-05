@@ -46,8 +46,6 @@ func dataSourceSystemReplacemsgTrafficQuotaList() *schema.Resource {
 }
 
 func dataSourceSystemReplacemsgTrafficQuotaListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceSystemReplacemsgTrafficQuotaListRead(ctx context.Context, d *sche
 	format := []string{"msg-type"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListSystemReplacemsgTrafficQuota(mkey, urlparams)
+	o, err := c.Cmdb.ListSystemReplacemsgTrafficQuota(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading SystemReplacemsgTrafficQuota dataSource: %v", err)
 	}

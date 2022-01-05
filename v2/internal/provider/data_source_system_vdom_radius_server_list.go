@@ -46,8 +46,6 @@ func dataSourceSystemVdomRadiusServerList() *schema.Resource {
 }
 
 func dataSourceSystemVdomRadiusServerListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceSystemVdomRadiusServerListRead(ctx context.Context, d *schema.Res
 	format := []string{"name"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListSystemVdomRadiusServer(mkey, urlparams)
+	o, err := c.Cmdb.ListSystemVdomRadiusServer(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading SystemVdomRadiusServer dataSource: %v", err)
 	}

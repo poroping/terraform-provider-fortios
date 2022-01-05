@@ -46,8 +46,6 @@ func dataSourceSystemReplacemsgSslvpnList() *schema.Resource {
 }
 
 func dataSourceSystemReplacemsgSslvpnListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceSystemReplacemsgSslvpnListRead(ctx context.Context, d *schema.Res
 	format := []string{"msg-type"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListSystemReplacemsgSslvpn(mkey, urlparams)
+	o, err := c.Cmdb.ListSystemReplacemsgSslvpn(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading SystemReplacemsgSslvpn dataSource: %v", err)
 	}

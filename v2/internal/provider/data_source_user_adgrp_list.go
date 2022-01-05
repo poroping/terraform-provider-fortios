@@ -46,8 +46,6 @@ func dataSourceUserAdgrpList() *schema.Resource {
 }
 
 func dataSourceUserAdgrpListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceUserAdgrpListRead(ctx context.Context, d *schema.ResourceData, me
 	format := []string{"name"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListUserAdgrp(mkey, urlparams)
+	o, err := c.Cmdb.ListUserAdgrp(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading UserAdgrp dataSource: %v", err)
 	}

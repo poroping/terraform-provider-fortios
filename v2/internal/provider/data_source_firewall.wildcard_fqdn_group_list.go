@@ -46,8 +46,6 @@ func dataSourceFirewallWildcardFqdnGroupList() *schema.Resource {
 }
 
 func dataSourceFirewallWildcardFqdnGroupListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceFirewallWildcardFqdnGroupListRead(ctx context.Context, d *schema.
 	format := []string{"name"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListFirewallWildcardFqdnGroup(mkey, urlparams)
+	o, err := c.Cmdb.ListFirewallWildcardFqdnGroup(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading FirewallWildcardFqdnGroup dataSource: %v", err)
 	}

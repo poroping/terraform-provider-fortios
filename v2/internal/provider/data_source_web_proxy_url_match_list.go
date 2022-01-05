@@ -46,8 +46,6 @@ func dataSourceWebProxyUrlMatchList() *schema.Resource {
 }
 
 func dataSourceWebProxyUrlMatchListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceWebProxyUrlMatchListRead(ctx context.Context, d *schema.ResourceD
 	format := []string{"name"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListWebProxyUrlMatch(mkey, urlparams)
+	o, err := c.Cmdb.ListWebProxyUrlMatch(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading WebProxyUrlMatch dataSource: %v", err)
 	}

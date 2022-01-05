@@ -46,8 +46,6 @@ func dataSourceWirelessControllerSyslogProfileList() *schema.Resource {
 }
 
 func dataSourceWirelessControllerSyslogProfileListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceWirelessControllerSyslogProfileListRead(ctx context.Context, d *s
 	format := []string{"name"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListWirelessControllerSyslogProfile(mkey, urlparams)
+	o, err := c.Cmdb.ListWirelessControllerSyslogProfile(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading WirelessControllerSyslogProfile dataSource: %v", err)
 	}

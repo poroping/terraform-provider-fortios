@@ -46,8 +46,6 @@ func dataSourceWirelessControllerHotspot20H2qpTermsAndConditionsList() *schema.R
 }
 
 func dataSourceWirelessControllerHotspot20H2qpTermsAndConditionsListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceWirelessControllerHotspot20H2qpTermsAndConditionsListRead(ctx con
 	format := []string{"name"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListWirelessControllerHotspot20H2qpTermsAndConditions(mkey, urlparams)
+	o, err := c.Cmdb.ListWirelessControllerHotspot20H2qpTermsAndConditions(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading WirelessControllerHotspot20H2qpTermsAndConditions dataSource: %v", err)
 	}

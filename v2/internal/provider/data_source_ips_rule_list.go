@@ -46,8 +46,6 @@ func dataSourceIpsRuleList() *schema.Resource {
 }
 
 func dataSourceIpsRuleListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceIpsRuleListRead(ctx context.Context, d *schema.ResourceData, meta
 	format := []string{"name"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListIpsRule(mkey, urlparams)
+	o, err := c.Cmdb.ListIpsRule(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading IpsRule dataSource: %v", err)
 	}

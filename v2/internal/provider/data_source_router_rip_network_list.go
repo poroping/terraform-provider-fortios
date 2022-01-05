@@ -46,8 +46,6 @@ func dataSourceRouterRipNetworkList() *schema.Resource {
 }
 
 func dataSourceRouterRipNetworkListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceRouterRipNetworkListRead(ctx context.Context, d *schema.ResourceD
 	format := []string{"id"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListRouterRipNetwork(mkey, urlparams)
+	o, err := c.Cmdb.ListRouterRipNetwork(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading RouterRipNetwork dataSource: %v", err)
 	}

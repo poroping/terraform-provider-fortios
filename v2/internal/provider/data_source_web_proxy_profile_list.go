@@ -46,8 +46,6 @@ func dataSourceWebProxyProfileList() *schema.Resource {
 }
 
 func dataSourceWebProxyProfileListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceWebProxyProfileListRead(ctx context.Context, d *schema.ResourceDa
 	format := []string{"name"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListWebProxyProfile(mkey, urlparams)
+	o, err := c.Cmdb.ListWebProxyProfile(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading WebProxyProfile dataSource: %v", err)
 	}

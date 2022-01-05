@@ -46,8 +46,6 @@ func dataSourceWirelessControllerUtmProfileList() *schema.Resource {
 }
 
 func dataSourceWirelessControllerUtmProfileListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceWirelessControllerUtmProfileListRead(ctx context.Context, d *sche
 	format := []string{"name"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListWirelessControllerUtmProfile(mkey, urlparams)
+	o, err := c.Cmdb.ListWirelessControllerUtmProfile(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading WirelessControllerUtmProfile dataSource: %v", err)
 	}

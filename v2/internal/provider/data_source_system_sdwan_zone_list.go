@@ -46,8 +46,6 @@ func dataSourceSystemSdwanZoneList() *schema.Resource {
 }
 
 func dataSourceSystemSdwanZoneListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceSystemSdwanZoneListRead(ctx context.Context, d *schema.ResourceDa
 	format := []string{"name"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListSystemSdwanZone(mkey, urlparams)
+	o, err := c.Cmdb.ListSystemSdwanZone(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading SystemSdwanZone dataSource: %v", err)
 	}

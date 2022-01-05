@@ -46,8 +46,6 @@ func dataSourceEmailfilterBwordList() *schema.Resource {
 }
 
 func dataSourceEmailfilterBwordListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceEmailfilterBwordListRead(ctx context.Context, d *schema.ResourceD
 	format := []string{"id"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListEmailfilterBword(mkey, urlparams)
+	o, err := c.Cmdb.ListEmailfilterBword(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading EmailfilterBword dataSource: %v", err)
 	}

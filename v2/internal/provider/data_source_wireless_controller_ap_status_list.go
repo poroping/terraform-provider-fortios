@@ -46,8 +46,6 @@ func dataSourceWirelessControllerApStatusList() *schema.Resource {
 }
 
 func dataSourceWirelessControllerApStatusListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceWirelessControllerApStatusListRead(ctx context.Context, d *schema
 	format := []string{"id"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListWirelessControllerApStatus(mkey, urlparams)
+	o, err := c.Cmdb.ListWirelessControllerApStatus(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading WirelessControllerApStatus dataSource: %v", err)
 	}

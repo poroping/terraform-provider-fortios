@@ -46,8 +46,6 @@ func dataSourceRouterOspfDistributeListList() *schema.Resource {
 }
 
 func dataSourceRouterOspfDistributeListListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceRouterOspfDistributeListListRead(ctx context.Context, d *schema.R
 	format := []string{"id"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListRouterOspfDistributeList(mkey, urlparams)
+	o, err := c.Cmdb.ListRouterOspfDistributeList(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading RouterOspfDistributeList dataSource: %v", err)
 	}

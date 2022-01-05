@@ -46,8 +46,6 @@ func dataSourceEmailfilterDnsblList() *schema.Resource {
 }
 
 func dataSourceEmailfilterDnsblListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceEmailfilterDnsblListRead(ctx context.Context, d *schema.ResourceD
 	format := []string{"id"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListEmailfilterDnsbl(mkey, urlparams)
+	o, err := c.Cmdb.ListEmailfilterDnsbl(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading EmailfilterDnsbl dataSource: %v", err)
 	}

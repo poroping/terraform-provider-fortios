@@ -46,8 +46,6 @@ func dataSourceFirewallAccessProxySshClientCertList() *schema.Resource {
 }
 
 func dataSourceFirewallAccessProxySshClientCertListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceFirewallAccessProxySshClientCertListRead(ctx context.Context, d *
 	format := []string{"name"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListFirewallAccessProxySshClientCert(mkey, urlparams)
+	o, err := c.Cmdb.ListFirewallAccessProxySshClientCert(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading FirewallAccessProxySshClientCert dataSource: %v", err)
 	}

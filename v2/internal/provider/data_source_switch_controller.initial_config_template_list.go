@@ -46,8 +46,6 @@ func dataSourceSwitchControllerInitialConfigTemplateList() *schema.Resource {
 }
 
 func dataSourceSwitchControllerInitialConfigTemplateListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceSwitchControllerInitialConfigTemplateListRead(ctx context.Context
 	format := []string{"name"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListSwitchControllerInitialConfigTemplate(mkey, urlparams)
+	o, err := c.Cmdb.ListSwitchControllerInitialConfigTemplate(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading SwitchControllerInitialConfigTemplate dataSource: %v", err)
 	}

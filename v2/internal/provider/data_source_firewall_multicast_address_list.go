@@ -46,8 +46,6 @@ func dataSourceFirewallMulticastAddressList() *schema.Resource {
 }
 
 func dataSourceFirewallMulticastAddressListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceFirewallMulticastAddressListRead(ctx context.Context, d *schema.R
 	format := []string{"name"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListFirewallMulticastAddress(mkey, urlparams)
+	o, err := c.Cmdb.ListFirewallMulticastAddress(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading FirewallMulticastAddress dataSource: %v", err)
 	}

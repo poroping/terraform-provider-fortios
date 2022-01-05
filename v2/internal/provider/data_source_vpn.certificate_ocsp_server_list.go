@@ -46,8 +46,6 @@ func dataSourceVpnCertificateOcspServerList() *schema.Resource {
 }
 
 func dataSourceVpnCertificateOcspServerListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceVpnCertificateOcspServerListRead(ctx context.Context, d *schema.R
 	format := []string{"name"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListVpnCertificateOcspServer(mkey, urlparams)
+	o, err := c.Cmdb.ListVpnCertificateOcspServer(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading VpnCertificateOcspServer dataSource: %v", err)
 	}

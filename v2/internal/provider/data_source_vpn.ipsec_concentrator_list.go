@@ -46,8 +46,6 @@ func dataSourceVpnIpsecConcentratorList() *schema.Resource {
 }
 
 func dataSourceVpnIpsecConcentratorListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceVpnIpsecConcentratorListRead(ctx context.Context, d *schema.Resou
 	format := []string{"id"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListVpnIpsecConcentrator(mkey, urlparams)
+	o, err := c.Cmdb.ListVpnIpsecConcentrator(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading VpnIpsecConcentrator dataSource: %v", err)
 	}

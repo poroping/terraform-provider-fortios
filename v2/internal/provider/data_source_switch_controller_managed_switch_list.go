@@ -46,8 +46,6 @@ func dataSourceSwitchControllerManagedSwitchList() *schema.Resource {
 }
 
 func dataSourceSwitchControllerManagedSwitchListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceSwitchControllerManagedSwitchListRead(ctx context.Context, d *sch
 	format := []string{"switch-id"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListSwitchControllerManagedSwitch(mkey, urlparams)
+	o, err := c.Cmdb.ListSwitchControllerManagedSwitch(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading SwitchControllerManagedSwitch dataSource: %v", err)
 	}

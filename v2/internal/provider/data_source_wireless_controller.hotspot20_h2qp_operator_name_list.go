@@ -46,8 +46,6 @@ func dataSourceWirelessControllerHotspot20H2qpOperatorNameList() *schema.Resourc
 }
 
 func dataSourceWirelessControllerHotspot20H2qpOperatorNameListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceWirelessControllerHotspot20H2qpOperatorNameListRead(ctx context.C
 	format := []string{"name"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListWirelessControllerHotspot20H2qpOperatorName(mkey, urlparams)
+	o, err := c.Cmdb.ListWirelessControllerHotspot20H2qpOperatorName(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading WirelessControllerHotspot20H2qpOperatorName dataSource: %v", err)
 	}

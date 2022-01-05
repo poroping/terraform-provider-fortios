@@ -46,8 +46,6 @@ func dataSourceRouterIsisRedistribute6List() *schema.Resource {
 }
 
 func dataSourceRouterIsisRedistribute6ListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceRouterIsisRedistribute6ListRead(ctx context.Context, d *schema.Re
 	format := []string{"protocol"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListRouterIsisRedistribute6(mkey, urlparams)
+	o, err := c.Cmdb.ListRouterIsisRedistribute6(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading RouterIsisRedistribute6 dataSource: %v", err)
 	}

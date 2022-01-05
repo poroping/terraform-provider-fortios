@@ -46,8 +46,6 @@ func dataSourceFirewallShaperPerIpShaperList() *schema.Resource {
 }
 
 func dataSourceFirewallShaperPerIpShaperListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceFirewallShaperPerIpShaperListRead(ctx context.Context, d *schema.
 	format := []string{"name"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListFirewallShaperPerIpShaper(mkey, urlparams)
+	o, err := c.Cmdb.ListFirewallShaperPerIpShaper(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading FirewallShaperPerIpShaper dataSource: %v", err)
 	}

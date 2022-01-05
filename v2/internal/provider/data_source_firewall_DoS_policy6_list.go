@@ -46,8 +46,6 @@ func dataSourceFirewallDoSPolicy6List() *schema.Resource {
 }
 
 func dataSourceFirewallDoSPolicy6ListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceFirewallDoSPolicy6ListRead(ctx context.Context, d *schema.Resourc
 	format := []string{"policyid"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListFirewallDoSPolicy6(mkey, urlparams)
+	o, err := c.Cmdb.ListFirewallDoSPolicy6(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading FirewallDoSPolicy6 dataSource: %v", err)
 	}

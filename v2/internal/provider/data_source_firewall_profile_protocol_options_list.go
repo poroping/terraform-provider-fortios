@@ -46,8 +46,6 @@ func dataSourceFirewallProfileProtocolOptionsList() *schema.Resource {
 }
 
 func dataSourceFirewallProfileProtocolOptionsListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceFirewallProfileProtocolOptionsListRead(ctx context.Context, d *sc
 	format := []string{"name"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListFirewallProfileProtocolOptions(mkey, urlparams)
+	o, err := c.Cmdb.ListFirewallProfileProtocolOptions(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading FirewallProfileProtocolOptions dataSource: %v", err)
 	}

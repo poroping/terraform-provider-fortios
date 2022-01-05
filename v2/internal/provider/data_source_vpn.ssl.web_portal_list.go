@@ -46,8 +46,6 @@ func dataSourceVpnSslWebPortalList() *schema.Resource {
 }
 
 func dataSourceVpnSslWebPortalListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceVpnSslWebPortalListRead(ctx context.Context, d *schema.ResourceDa
 	format := []string{"name"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListVpnSslWebPortal(mkey, urlparams)
+	o, err := c.Cmdb.ListVpnSslWebPortal(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading VpnSslWebPortal dataSource: %v", err)
 	}

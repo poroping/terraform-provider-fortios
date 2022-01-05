@@ -46,8 +46,6 @@ func dataSourceSystemAutomationTriggerList() *schema.Resource {
 }
 
 func dataSourceSystemAutomationTriggerListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceSystemAutomationTriggerListRead(ctx context.Context, d *schema.Re
 	format := []string{"name"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListSystemAutomationTrigger(mkey, urlparams)
+	o, err := c.Cmdb.ListSystemAutomationTrigger(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading SystemAutomationTrigger dataSource: %v", err)
 	}

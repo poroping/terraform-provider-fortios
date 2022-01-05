@@ -46,8 +46,6 @@ func dataSourceWanoptProfileList() *schema.Resource {
 }
 
 func dataSourceWanoptProfileListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceWanoptProfileListRead(ctx context.Context, d *schema.ResourceData
 	format := []string{"name"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListWanoptProfile(mkey, urlparams)
+	o, err := c.Cmdb.ListWanoptProfile(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading WanoptProfile dataSource: %v", err)
 	}

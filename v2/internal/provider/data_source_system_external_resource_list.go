@@ -46,8 +46,6 @@ func dataSourceSystemExternalResourceList() *schema.Resource {
 }
 
 func dataSourceSystemExternalResourceListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceSystemExternalResourceListRead(ctx context.Context, d *schema.Res
 	format := []string{"name"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListSystemExternalResource(mkey, urlparams)
+	o, err := c.Cmdb.ListSystemExternalResource(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading SystemExternalResource dataSource: %v", err)
 	}

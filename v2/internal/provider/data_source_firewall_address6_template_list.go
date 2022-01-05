@@ -46,8 +46,6 @@ func dataSourceFirewallAddress6TemplateList() *schema.Resource {
 }
 
 func dataSourceFirewallAddress6TemplateListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceFirewallAddress6TemplateListRead(ctx context.Context, d *schema.R
 	format := []string{"name"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListFirewallAddress6Template(mkey, urlparams)
+	o, err := c.Cmdb.ListFirewallAddress6Template(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading FirewallAddress6Template dataSource: %v", err)
 	}

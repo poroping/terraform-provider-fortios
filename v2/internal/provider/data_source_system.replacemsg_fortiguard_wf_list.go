@@ -46,8 +46,6 @@ func dataSourceSystemReplacemsgFortiguardWfList() *schema.Resource {
 }
 
 func dataSourceSystemReplacemsgFortiguardWfListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -73,7 +71,7 @@ func dataSourceSystemReplacemsgFortiguardWfListRead(ctx context.Context, d *sche
 	format := []string{"msg-type"}
 	urlparams.Format = &format
 
-	o, err := c.Cmdb.ListSystemReplacemsgFortiguardWf(mkey, urlparams)
+	o, err := c.Cmdb.ListSystemReplacemsgFortiguardWf(urlparams)
 	if err != nil {
 		return diag.Errorf("error reading SystemReplacemsgFortiguardWf dataSource: %v", err)
 	}
