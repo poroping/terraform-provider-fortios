@@ -23,6 +23,7 @@ type providerRes struct {
 	Path      string
 	Name      string
 	ChildPath string
+	Category  string
 }
 
 func main() {
@@ -65,21 +66,31 @@ func main() {
 		if !ok {
 			cp = ""
 		}
+
+		category := r["results"].(map[string]interface{})["category"].(string)
+
 		tmp := providerRes{
 			Fpath:     r["fpath"].(string),
 			Path:      r["path"].(string),
 			Name:      r["name"].(string),
 			ChildPath: cp,
+			Category:  r["results"].(map[string]interface{})["category"].(string),
 		}
 		cmdbResources = append(cmdbResources, tmp)
 
 		fileName = strings.TrimSuffix(fileName, ".json")
 
-		render("resource", fileName, t, r)
-		fileName += "_test"
-		render("resource_test", fileName, t, r)
+		r["fileName"] = fileName
+
+		render("data_source", "data_source", fileName, t, r, true)
+		if category == "table" {
+			render("data_source_list", "data_source", fileName+"_list", t, r, true)
+		}
+		render("resource", "resource", fileName, t, r, true)
+		render("resource_test", "resource", fileName+"_test", t, r, true)
 	}
 	providerResourceRender(cmdbResources)
+	providerDataSourceRender(cmdbResources)
 }
 
 // ignore these cause need work
@@ -125,35 +136,59 @@ func providerResourceRender(resources []providerRes) {
 	os.WriteFile("../internal/provider/provider_resources.go", f, os.FileMode(perm))
 }
 
+func providerDataSourceRender(resources []providerRes) {
+	funcMap := template.FuncMap{
+		"replace":    replace,
+		"resFlatten": resFlatten,
+	}
+	t := template.Must(template.New("main").Funcs(funcMap).ParseGlob("./templates/provider_data_source.gotmpl"))
+	var buf bytes.Buffer
+	if err := t.ExecuteTemplate(&buf, "provider_data_source", resources); err != nil {
+		panic(err)
+	}
+	f, err := format.Source(buf.Bytes())
+	if err != nil {
+		panic(err)
+	}
+	perm := int(0755)
+	os.WriteFile("../internal/provider/provider_data_sources.go", f, os.FileMode(perm))
+}
+
 func debugx(v interface{}) string {
 	fmt.Println(v)
 	return ""
 }
 
-func render(templateName, fileName string, t *template.Template, m map[string]interface{}) {
+func render(templateName, resType, fileName string, t *template.Template, m map[string]interface{}, lint bool) {
 	var buf bytes.Buffer
+	var err error
 	if err := t.ExecuteTemplate(&buf, templateName, m); err != nil {
 		panic(err)
 	}
 
 	// lint
-	// f := buf.Bytes()
-	log.Printf("[DEBUG] linting: %s", fileName)
-	f, err := format.Source(buf.Bytes())
-	if err != nil {
-		panic(err)
+	var f []byte
+	if lint {
+		log.Printf("[DEBUG] linting: %s", fileName)
+		f, err = format.Source(buf.Bytes())
+		if err != nil {
+			panic(err)
+		}
+		log.Printf("[DEBUG] removed unused imports: %s", fileName)
+		f, err = imports.Process("", f, nil)
+		if err != nil {
+			panic(err)
+		}
+	} else {
+		f = buf.Bytes()
 	}
-	log.Printf("[DEBUG] removed unused imports: %s", fileName)
-	f, err = imports.Process("", f, nil)
-	if err != nil {
-		panic(err)
-	}
+
 	// Debug
 	// f := buf.Bytes()
 	// fmt.Println(f)
 
 	perm := int(0755)
-	os.WriteFile(fmt.Sprintf("../internal/provider/resource_%s.go", fileName), f, os.FileMode(perm))
+	os.WriteFile(fmt.Sprintf("../internal/provider/%s_%s.go", resType, fileName), f, os.FileMode(perm))
 }
 
 func addPaths(m map[string]interface{}) map[string]interface{} {

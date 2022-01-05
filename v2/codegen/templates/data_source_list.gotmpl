@@ -1,0 +1,46 @@
+{{ define "data_source_list" }}
+{{ template "HEADER" . }}
+package provider
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/poroping/forti-sdk-go/v2/models"
+	"github.com/poroping/terraform-provider-fortios/v2/utils"
+)
+
+func dataSource{{.fpath}}List() *schema.Resource {
+	return &schema.Resource{
+		Description: "{{ .results.help }}",
+
+		ReadContext:   dataSource{{.fpath}}ListRead,
+
+		Schema: map[string]*schema.Schema{
+			"vdomparam": {
+				Type:     schema.TypeString,
+				Description: "Specifies the vdom to which the dataSource will be applied when the FortiGate unit is running in VDOM mode. If you want to inherit the VDOM configuration of the provider, do not set this parameter.",
+				Optional: true,
+				ForceNew: true,
+			},
+			"filter": {
+				Type:     schema.TypeString,
+				Description: "Filter to apply to query",
+				Optional: true,
+				ForceNew: true,
+			},
+			"{{(flatten .results.mkey )}}list": {
+				Type:     schema.TypeList,
+				Description: "List of results",
+				Computed: true,
+				Elem: &schema.Schema{ {{- (schemaTypeLookup .results.mkey_type) -}} },
+			},
+		},
+	}
+}
+
+{{ template "DATALISTRESFUNC" . }}
+
+{{end}}

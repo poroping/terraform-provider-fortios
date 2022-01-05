@@ -1,0 +1,29 @@
+            {{ define "DATASCHEMA" }}
+            {{- range $key, $value := .children }}
+            {{- if eq $value.category "unitary" }}
+            "{{ if $value.NameReserved }}fos{{end}}{{(flatten $value.name)}}":{
+            	{{ (schemaTypeLookup $value.type) }}
+                {{ $value.help | printf "Description: %q" }},
+                {{- if $value.schema_required }}
+                Required: true,
+                {{- else }}
+                Computed: true,
+                {{- end }}
+                {{ if $value.sensitive }}Sensitive:    true,{{- end }}
+			},
+            {{- end }}
+            {{- if or (eq $value.category "table") (eq $value.category "complex") }}
+            "{{ if $value.NameReserved }}fos{{end}}{{(flatten $value.name)}}": {
+            	Type:         schema.TypeList,
+                Description: {{ $value.help | printf "%q"}},
+				Computed:     true,
+			    Elem: &schema.Resource{
+                        Schema: map[string]*schema.Schema{
+                        {{- template "DATASCHEMA" $value}}
+                    },
+                },
+			},
+            {{- end }}
+            {{- end }}
+
+{{- end }}
