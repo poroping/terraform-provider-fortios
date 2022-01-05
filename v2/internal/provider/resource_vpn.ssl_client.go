@@ -284,6 +284,9 @@ func resourceVpnSslClientRead(ctx context.Context, d *schema.ResourceData, meta 
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadVpnSslClient(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading VpnSslClient resource: %v", err)
@@ -379,7 +382,8 @@ func refreshObjectVpnSslClient(d *schema.ResourceData, o *models.VpnSslClient, s
 	if o.Psk != nil {
 		v := *o.Psk
 
-		if err = d.Set("psk", v); err != nil {
+		if v == "ENC XXXX" {
+		} else if err = d.Set("psk", v); err != nil {
 			return diag.Errorf("error reading psk: %v", err)
 		}
 	}

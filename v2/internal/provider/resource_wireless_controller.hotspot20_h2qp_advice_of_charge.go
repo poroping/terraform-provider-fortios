@@ -270,6 +270,9 @@ func resourceWirelessControllerHotspot20H2qpAdviceOfChargeRead(ctx context.Conte
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadWirelessControllerHotspot20H2qpAdviceOfCharge(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading WirelessControllerHotspot20H2qpAdviceOfCharge resource: %v", err)

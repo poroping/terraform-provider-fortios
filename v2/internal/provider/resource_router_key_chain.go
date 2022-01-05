@@ -235,6 +235,9 @@ func resourceRouterKeyChainRead(ctx context.Context, d *schema.ResourceData, met
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadRouterKeyChain(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading RouterKeyChain resource: %v", err)

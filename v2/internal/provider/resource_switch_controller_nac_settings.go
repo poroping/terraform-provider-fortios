@@ -229,6 +229,9 @@ func resourceSwitchControllerNacSettingsRead(ctx context.Context, d *schema.Reso
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadSwitchControllerNacSettings(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading SwitchControllerNacSettings resource: %v", err)

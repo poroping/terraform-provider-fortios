@@ -21,7 +21,7 @@ func refreshObject{{.fpath}}(d *schema.ResourceData, o *models.{{.fpath}}, sv st
 			}
 		}{{end}}
 	
-		if err = d.Set("{{ if $value.NameReserved }}fos{{end}}{{(flatten $value.name)}}", v); err != nil {
+		{{if $value.sensitive}}if v == "ENC XXXX" {} else {{end}}if err = d.Set("{{ if $value.NameReserved }}fos{{end}}{{(flatten $value.name)}}", v); err != nil {
 			return diag.Errorf("error reading {{ if $value.NameReserved }}fos{{end}}{{ (flatten $value.name) }}: %v", err)
 		}
 	}

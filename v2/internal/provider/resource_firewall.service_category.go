@@ -197,6 +197,9 @@ func resourceFirewallServiceCategoryRead(ctx context.Context, d *schema.Resource
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadFirewallServiceCategory(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading FirewallServiceCategory resource: %v", err)

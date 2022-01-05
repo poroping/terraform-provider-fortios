@@ -14,6 +14,9 @@ func resource{{.fpath}}Read(ctx context.Context, d *schema.ResourceData, meta in
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.Read{{.fpath}}(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading {{.fpath}} resource: %v", err)

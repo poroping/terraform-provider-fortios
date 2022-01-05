@@ -563,6 +563,9 @@ func resourceSystemFortiguardRead(ctx context.Context, d *schema.ResourceData, m
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadSystemFortiguard(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading SystemFortiguard resource: %v", err)
@@ -818,7 +821,8 @@ func refreshObjectSystemFortiguard(d *schema.ResourceData, o *models.SystemForti
 	if o.ProxyPassword != nil {
 		v := *o.ProxyPassword
 
-		if err = d.Set("proxy_password", v); err != nil {
+		if v == "ENC XXXX" {
+		} else if err = d.Set("proxy_password", v); err != nil {
 			return diag.Errorf("error reading proxy_password: %v", err)
 		}
 	}

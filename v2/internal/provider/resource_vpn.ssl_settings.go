@@ -929,6 +929,9 @@ func resourceVpnSslSettingsRead(ctx context.Context, d *schema.ResourceData, met
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadVpnSslSettings(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading VpnSslSettings resource: %v", err)

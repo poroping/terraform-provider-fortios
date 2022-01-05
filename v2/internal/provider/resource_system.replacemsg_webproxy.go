@@ -205,6 +205,9 @@ func resourceSystemReplacemsgWebproxyRead(ctx context.Context, d *schema.Resourc
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadSystemReplacemsgWebproxy(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading SystemReplacemsgWebproxy resource: %v", err)

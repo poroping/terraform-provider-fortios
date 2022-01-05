@@ -615,6 +615,9 @@ func resourceSystemAutomationActionRead(ctx context.Context, d *schema.ResourceD
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadSystemAutomationAction(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading SystemAutomationAction resource: %v", err)
@@ -733,7 +736,8 @@ func refreshObjectSystemAutomationAction(d *schema.ResourceData, o *models.Syste
 	if o.AlicloudAccessKeySecret != nil {
 		v := *o.AlicloudAccessKeySecret
 
-		if err = d.Set("alicloud_access_key_secret", v); err != nil {
+		if v == "ENC XXXX" {
+		} else if err = d.Set("alicloud_access_key_secret", v); err != nil {
 			return diag.Errorf("error reading alicloud_access_key_secret: %v", err)
 		}
 	}
@@ -805,7 +809,8 @@ func refreshObjectSystemAutomationAction(d *schema.ResourceData, o *models.Syste
 	if o.AwsApiKey != nil {
 		v := *o.AwsApiKey
 
-		if err = d.Set("aws_api_key", v); err != nil {
+		if v == "ENC XXXX" {
+		} else if err = d.Set("aws_api_key", v); err != nil {
 			return diag.Errorf("error reading aws_api_key: %v", err)
 		}
 	}
@@ -845,7 +850,8 @@ func refreshObjectSystemAutomationAction(d *schema.ResourceData, o *models.Syste
 	if o.AzureApiKey != nil {
 		v := *o.AzureApiKey
 
-		if err = d.Set("azure_api_key", v); err != nil {
+		if v == "ENC XXXX" {
+		} else if err = d.Set("azure_api_key", v); err != nil {
 			return diag.Errorf("error reading azure_api_key: %v", err)
 		}
 	}

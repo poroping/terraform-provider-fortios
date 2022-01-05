@@ -472,6 +472,9 @@ func resourceRouterOspf6AreaRead(ctx context.Context, d *schema.ResourceData, me
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadRouterOspf6Area(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading RouterOspf6Area resource: %v", err)

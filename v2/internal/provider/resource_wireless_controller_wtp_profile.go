@@ -3346,6 +3346,9 @@ func resourceWirelessControllerWtpProfileRead(ctx context.Context, d *schema.Res
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadWirelessControllerWtpProfile(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading WirelessControllerWtpProfile resource: %v", err)
@@ -5262,7 +5265,8 @@ func refreshObjectWirelessControllerWtpProfile(d *schema.ResourceData, o *models
 	if o.LoginPasswd != nil {
 		v := *o.LoginPasswd
 
-		if err = d.Set("login_passwd", v); err != nil {
+		if v == "ENC XXXX" {
+		} else if err = d.Set("login_passwd", v); err != nil {
 			return diag.Errorf("error reading login_passwd: %v", err)
 		}
 	}
@@ -5394,7 +5398,8 @@ func refreshObjectWirelessControllerWtpProfile(d *schema.ResourceData, o *models
 	if o.WanPortAuthPassword != nil {
 		v := *o.WanPortAuthPassword
 
-		if err = d.Set("wan_port_auth_password", v); err != nil {
+		if v == "ENC XXXX" {
+		} else if err = d.Set("wan_port_auth_password", v); err != nil {
 			return diag.Errorf("error reading wan_port_auth_password: %v", err)
 		}
 	}

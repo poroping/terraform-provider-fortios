@@ -286,6 +286,9 @@ func resourceFirewallProxyAddrgrpRead(ctx context.Context, d *schema.ResourceDat
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadFirewallProxyAddrgrp(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading FirewallProxyAddrgrp resource: %v", err)

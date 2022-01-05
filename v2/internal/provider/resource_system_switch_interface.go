@@ -278,6 +278,9 @@ func resourceSystemSwitchInterfaceRead(ctx context.Context, d *schema.ResourceDa
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadSystemSwitchInterface(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading SystemSwitchInterface resource: %v", err)

@@ -229,6 +229,9 @@ func resourceSystemVneTunnelRead(ctx context.Context, d *schema.ResourceData, me
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadSystemVneTunnel(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading SystemVneTunnel resource: %v", err)
@@ -260,7 +263,8 @@ func refreshObjectSystemVneTunnel(d *schema.ResourceData, o *models.SystemVneTun
 	if o.BmrHostname != nil {
 		v := *o.BmrHostname
 
-		if err = d.Set("bmr_hostname", v); err != nil {
+		if v == "ENC XXXX" {
+		} else if err = d.Set("bmr_hostname", v); err != nil {
 			return diag.Errorf("error reading bmr_hostname: %v", err)
 		}
 	}

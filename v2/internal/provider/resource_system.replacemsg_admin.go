@@ -205,6 +205,9 @@ func resourceSystemReplacemsgAdminRead(ctx context.Context, d *schema.ResourceDa
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadSystemReplacemsgAdmin(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading SystemReplacemsgAdmin resource: %v", err)

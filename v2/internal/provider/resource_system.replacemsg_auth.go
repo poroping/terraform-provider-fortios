@@ -205,6 +205,9 @@ func resourceSystemReplacemsgAuthRead(ctx context.Context, d *schema.ResourceDat
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadSystemReplacemsgAuth(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading SystemReplacemsgAuth resource: %v", err)

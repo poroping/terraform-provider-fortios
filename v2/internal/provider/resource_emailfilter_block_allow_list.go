@@ -287,6 +287,9 @@ func resourceEmailfilterBlockAllowListRead(ctx context.Context, d *schema.Resour
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadEmailfilterBlockAllowList(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading EmailfilterBlockAllowList resource: %v", err)

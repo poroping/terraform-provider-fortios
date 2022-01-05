@@ -388,6 +388,9 @@ func resourceUserLocalRead(ctx context.Context, d *schema.ResourceData, meta int
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadUserLocal(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading UserLocal resource: %v", err)
@@ -483,7 +486,8 @@ func refreshObjectUserLocal(d *schema.ResourceData, o *models.UserLocal, sv stri
 	if o.Passwd != nil {
 		v := *o.Passwd
 
-		if err = d.Set("passwd", v); err != nil {
+		if v == "ENC XXXX" {
+		} else if err = d.Set("passwd", v); err != nil {
 			return diag.Errorf("error reading passwd: %v", err)
 		}
 	}
@@ -515,7 +519,8 @@ func refreshObjectUserLocal(d *schema.ResourceData, o *models.UserLocal, sv stri
 	if o.PpkSecret != nil {
 		v := *o.PpkSecret
 
-		if err = d.Set("ppk_secret", v); err != nil {
+		if v == "ENC XXXX" {
+		} else if err = d.Set("ppk_secret", v); err != nil {
 			return diag.Errorf("error reading ppk_secret: %v", err)
 		}
 	}

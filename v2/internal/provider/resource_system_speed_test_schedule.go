@@ -284,6 +284,9 @@ func resourceSystemSpeedTestScheduleRead(ctx context.Context, d *schema.Resource
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadSystemSpeedTestSchedule(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading SystemSpeedTestSchedule resource: %v", err)

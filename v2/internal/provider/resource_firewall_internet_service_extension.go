@@ -359,6 +359,9 @@ func resourceFirewallInternetServiceExtensionRead(ctx context.Context, d *schema
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadFirewallInternetServiceExtension(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading FirewallInternetServiceExtension resource: %v", err)

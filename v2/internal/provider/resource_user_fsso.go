@@ -422,6 +422,9 @@ func resourceUserFssoRead(ctx context.Context, d *schema.ResourceData, meta inte
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadUserFsso(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading UserFsso resource: %v", err)
@@ -525,7 +528,8 @@ func refreshObjectUserFsso(d *schema.ResourceData, o *models.UserFsso, sv string
 	if o.Password != nil {
 		v := *o.Password
 
-		if err = d.Set("password", v); err != nil {
+		if v == "ENC XXXX" {
+		} else if err = d.Set("password", v); err != nil {
 			return diag.Errorf("error reading password: %v", err)
 		}
 	}
@@ -533,7 +537,8 @@ func refreshObjectUserFsso(d *schema.ResourceData, o *models.UserFsso, sv string
 	if o.Password2 != nil {
 		v := *o.Password2
 
-		if err = d.Set("password2", v); err != nil {
+		if v == "ENC XXXX" {
+		} else if err = d.Set("password2", v); err != nil {
 			return diag.Errorf("error reading password2: %v", err)
 		}
 	}
@@ -541,7 +546,8 @@ func refreshObjectUserFsso(d *schema.ResourceData, o *models.UserFsso, sv string
 	if o.Password3 != nil {
 		v := *o.Password3
 
-		if err = d.Set("password3", v); err != nil {
+		if v == "ENC XXXX" {
+		} else if err = d.Set("password3", v); err != nil {
 			return diag.Errorf("error reading password3: %v", err)
 		}
 	}
@@ -549,7 +555,8 @@ func refreshObjectUserFsso(d *schema.ResourceData, o *models.UserFsso, sv string
 	if o.Password4 != nil {
 		v := *o.Password4
 
-		if err = d.Set("password4", v); err != nil {
+		if v == "ENC XXXX" {
+		} else if err = d.Set("password4", v); err != nil {
 			return diag.Errorf("error reading password4: %v", err)
 		}
 	}
@@ -557,7 +564,8 @@ func refreshObjectUserFsso(d *schema.ResourceData, o *models.UserFsso, sv string
 	if o.Password5 != nil {
 		v := *o.Password5
 
-		if err = d.Set("password5", v); err != nil {
+		if v == "ENC XXXX" {
+		} else if err = d.Set("password5", v); err != nil {
 			return diag.Errorf("error reading password5: %v", err)
 		}
 	}

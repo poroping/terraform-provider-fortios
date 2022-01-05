@@ -194,6 +194,9 @@ func resourceSystemAutoupdateScheduleRead(ctx context.Context, d *schema.Resourc
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadSystemAutoupdateSchedule(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading SystemAutoupdateSchedule resource: %v", err)

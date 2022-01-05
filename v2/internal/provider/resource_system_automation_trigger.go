@@ -373,6 +373,9 @@ func resourceSystemAutomationTriggerRead(ctx context.Context, d *schema.Resource
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadSystemAutomationTrigger(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading SystemAutomationTrigger resource: %v", err)

@@ -273,6 +273,9 @@ func resourceLogFortiguardSettingRead(ctx context.Context, d *schema.ResourceDat
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadLogFortiguardSetting(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading LogFortiguardSetting resource: %v", err)

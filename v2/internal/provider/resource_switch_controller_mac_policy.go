@@ -237,6 +237,9 @@ func resourceSwitchControllerMacPolicyRead(ctx context.Context, d *schema.Resour
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadSwitchControllerMacPolicy(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading SwitchControllerMacPolicy resource: %v", err)

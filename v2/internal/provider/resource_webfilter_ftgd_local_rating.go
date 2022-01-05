@@ -204,6 +204,9 @@ func resourceWebfilterFtgdLocalRatingRead(ctx context.Context, d *schema.Resourc
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadWebfilterFtgdLocalRating(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading WebfilterFtgdLocalRating resource: %v", err)

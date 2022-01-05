@@ -267,6 +267,9 @@ func resourceWirelessControllerTimersRead(ctx context.Context, d *schema.Resourc
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadWirelessControllerTimers(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading WirelessControllerTimers resource: %v", err)

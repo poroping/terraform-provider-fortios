@@ -321,6 +321,9 @@ func resourceLogFortianalyzerCloudSettingRead(ctx context.Context, d *schema.Res
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadLogFortianalyzerCloudSetting(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading LogFortianalyzerCloudSetting resource: %v", err)

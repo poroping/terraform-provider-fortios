@@ -391,6 +391,9 @@ func resourceVpnCertificateLocalRead(ctx context.Context, d *schema.ResourceData
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadVpnCertificateLocal(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading VpnCertificateLocal resource: %v", err)
@@ -582,7 +585,8 @@ func refreshObjectVpnCertificateLocal(d *schema.ResourceData, o *models.VpnCerti
 	if o.Password != nil {
 		v := *o.Password
 
-		if err = d.Set("password", v); err != nil {
+		if v == "ENC XXXX" {
+		} else if err = d.Set("password", v); err != nil {
 			return diag.Errorf("error reading password: %v", err)
 		}
 	}
@@ -606,7 +610,8 @@ func refreshObjectVpnCertificateLocal(d *schema.ResourceData, o *models.VpnCerti
 	if o.ScepPassword != nil {
 		v := *o.ScepPassword
 
-		if err = d.Set("scep_password", v); err != nil {
+		if v == "ENC XXXX" {
+		} else if err = d.Set("scep_password", v); err != nil {
 			return diag.Errorf("error reading scep_password: %v", err)
 		}
 	}

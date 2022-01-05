@@ -198,6 +198,9 @@ func resourceSystemTosBasedPriorityRead(ctx context.Context, d *schema.ResourceD
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadSystemTosBasedPriority(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading SystemTosBasedPriority resource: %v", err)

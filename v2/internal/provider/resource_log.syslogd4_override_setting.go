@@ -315,6 +315,9 @@ func resourceLogSyslogd4OverrideSettingRead(ctx context.Context, d *schema.Resou
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadLogSyslogd4OverrideSetting(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading LogSyslogd4OverrideSetting resource: %v", err)

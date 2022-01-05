@@ -252,6 +252,9 @@ func resourceSwitchControllerNacDeviceRead(ctx context.Context, d *schema.Resour
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadSwitchControllerNacDevice(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading SwitchControllerNacDevice resource: %v", err)

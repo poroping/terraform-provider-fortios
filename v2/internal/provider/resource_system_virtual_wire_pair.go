@@ -220,6 +220,9 @@ func resourceSystemVirtualWirePairRead(ctx context.Context, d *schema.ResourceDa
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadSystemVirtualWirePair(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading SystemVirtualWirePair resource: %v", err)

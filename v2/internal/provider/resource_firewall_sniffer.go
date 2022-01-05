@@ -502,6 +502,9 @@ func resourceFirewallSnifferRead(ctx context.Context, d *schema.ResourceData, me
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadFirewallSniffer(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading FirewallSniffer resource: %v", err)

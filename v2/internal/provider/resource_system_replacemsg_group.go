@@ -942,6 +942,9 @@ func resourceSystemReplacemsgGroupRead(ctx context.Context, d *schema.ResourceDa
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadSystemReplacemsgGroup(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading SystemReplacemsgGroup resource: %v", err)

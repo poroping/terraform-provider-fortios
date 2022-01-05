@@ -190,6 +190,9 @@ func resourceWafMainClassRead(ctx context.Context, d *schema.ResourceData, meta 
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadWafMainClass(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading WafMainClass resource: %v", err)

@@ -230,6 +230,9 @@ func resourceCifsDomainControllerRead(ctx context.Context, d *schema.ResourceDat
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadCifsDomainController(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading CifsDomainController resource: %v", err)
@@ -285,7 +288,8 @@ func refreshObjectCifsDomainController(d *schema.ResourceData, o *models.CifsDom
 	if o.Password != nil {
 		v := *o.Password
 
-		if err = d.Set("password", v); err != nil {
+		if v == "ENC XXXX" {
+		} else if err = d.Set("password", v); err != nil {
 			return diag.Errorf("error reading password: %v", err)
 		}
 	}

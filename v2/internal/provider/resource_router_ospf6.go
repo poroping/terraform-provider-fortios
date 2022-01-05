@@ -888,6 +888,9 @@ func resourceRouterOspf6Read(ctx context.Context, d *schema.ResourceData, meta i
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadRouterOspf6(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading RouterOspf6 resource: %v", err)

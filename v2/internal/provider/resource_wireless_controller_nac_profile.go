@@ -197,6 +197,9 @@ func resourceWirelessControllerNacProfileRead(ctx context.Context, d *schema.Res
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadWirelessControllerNacProfile(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading WirelessControllerNacProfile resource: %v", err)

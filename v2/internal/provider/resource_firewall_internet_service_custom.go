@@ -277,6 +277,9 @@ func resourceFirewallInternetServiceCustomRead(ctx context.Context, d *schema.Re
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadFirewallInternetServiceCustom(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading FirewallInternetServiceCustom resource: %v", err)

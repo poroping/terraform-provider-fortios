@@ -221,6 +221,9 @@ func resourceWanoptAuthGroupRead(ctx context.Context, d *schema.ResourceData, me
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadWanoptAuthGroup(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading WanoptAuthGroup resource: %v", err)
@@ -292,7 +295,8 @@ func refreshObjectWanoptAuthGroup(d *schema.ResourceData, o *models.WanoptAuthGr
 	if o.Psk != nil {
 		v := *o.Psk
 
-		if err = d.Set("psk", v); err != nil {
+		if v == "ENC XXXX" {
+		} else if err = d.Set("psk", v); err != nil {
 			return diag.Errorf("error reading psk: %v", err)
 		}
 	}

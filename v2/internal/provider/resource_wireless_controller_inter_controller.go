@@ -250,6 +250,9 @@ func resourceWirelessControllerInterControllerRead(ctx context.Context, d *schem
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadWirelessControllerInterController(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading WirelessControllerInterController resource: %v", err)
@@ -330,7 +333,8 @@ func refreshObjectWirelessControllerInterController(d *schema.ResourceData, o *m
 	if o.InterControllerKey != nil {
 		v := *o.InterControllerKey
 
-		if err = d.Set("inter_controller_key", v); err != nil {
+		if v == "ENC XXXX" {
+		} else if err = d.Set("inter_controller_key", v); err != nil {
 			return diag.Errorf("error reading inter_controller_key: %v", err)
 		}
 	}

@@ -205,6 +205,9 @@ func resourceSystemReplacemsgMailRead(ctx context.Context, d *schema.ResourceDat
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadSystemReplacemsgMail(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading SystemReplacemsgMail resource: %v", err)

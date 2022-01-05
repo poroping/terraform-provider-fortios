@@ -229,6 +229,9 @@ func resourceWebfilterSearchEngineRead(ctx context.Context, d *schema.ResourceDa
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadWebfilterSearchEngine(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading WebfilterSearchEngine resource: %v", err)

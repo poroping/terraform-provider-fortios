@@ -298,6 +298,9 @@ func resourceLogFortianalyzerOverrideFilterRead(ctx context.Context, d *schema.R
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadLogFortianalyzerOverrideFilter(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading LogFortianalyzerOverrideFilter resource: %v", err)

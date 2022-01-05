@@ -223,6 +223,9 @@ func resourceSystemVdomExceptionRead(ctx context.Context, d *schema.ResourceData
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadSystemVdomException(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading SystemVdomException resource: %v", err)

@@ -1526,6 +1526,9 @@ func resourceFirewallSslSshProfileRead(ctx context.Context, d *schema.ResourceDa
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadFirewallSslSshProfile(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading FirewallSslSshProfile resource: %v", err)

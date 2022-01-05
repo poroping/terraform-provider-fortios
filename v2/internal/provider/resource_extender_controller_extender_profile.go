@@ -833,6 +833,9 @@ func resourceExtenderControllerExtenderProfileRead(ctx context.Context, d *schem
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadExtenderControllerExtenderProfile(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading ExtenderControllerExtenderProfile resource: %v", err)
@@ -1364,7 +1367,8 @@ func refreshObjectExtenderControllerExtenderProfile(d *schema.ResourceData, o *m
 	if o.LoginPassword != nil {
 		v := *o.LoginPassword
 
-		if err = d.Set("login_password", v); err != nil {
+		if v == "ENC XXXX" {
+		} else if err = d.Set("login_password", v); err != nil {
 			return diag.Errorf("error reading login_password: %v", err)
 		}
 	}

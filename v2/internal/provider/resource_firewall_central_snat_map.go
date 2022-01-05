@@ -400,6 +400,9 @@ func resourceFirewallCentralSnatMapRead(ctx context.Context, d *schema.ResourceD
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadFirewallCentralSnatMap(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading FirewallCentralSnatMap resource: %v", err)

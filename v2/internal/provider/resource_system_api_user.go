@@ -303,6 +303,9 @@ func resourceSystemApiUserRead(ctx context.Context, d *schema.ResourceData, meta
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadSystemApiUser(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading SystemApiUser resource: %v", err)
@@ -396,7 +399,8 @@ func refreshObjectSystemApiUser(d *schema.ResourceData, o *models.SystemApiUser,
 	if o.ApiKey != nil {
 		v := *o.ApiKey
 
-		if err = d.Set("api_key", v); err != nil {
+		if v == "ENC XXXX" {
+		} else if err = d.Set("api_key", v); err != nil {
 			return diag.Errorf("error reading api_key: %v", err)
 		}
 	}

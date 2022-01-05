@@ -194,6 +194,9 @@ func resourceLogMemoryGlobalSettingRead(ctx context.Context, d *schema.ResourceD
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadLogMemoryGlobalSetting(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading LogMemoryGlobalSetting resource: %v", err)

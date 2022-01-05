@@ -221,6 +221,9 @@ func resourceUserCertificateRead(ctx context.Context, d *schema.ResourceData, me
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadUserCertificate(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading UserCertificate resource: %v", err)

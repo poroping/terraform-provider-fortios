@@ -205,6 +205,9 @@ func resourceSystemReplacemsgHttpRead(ctx context.Context, d *schema.ResourceDat
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadSystemReplacemsgHttp(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading SystemReplacemsgHttp resource: %v", err)

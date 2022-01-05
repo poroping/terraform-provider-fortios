@@ -338,6 +338,9 @@ func resourceWirelessControllerAccessControlListRead(ctx context.Context, d *sch
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadWirelessControllerAccessControlList(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading WirelessControllerAccessControlList resource: %v", err)

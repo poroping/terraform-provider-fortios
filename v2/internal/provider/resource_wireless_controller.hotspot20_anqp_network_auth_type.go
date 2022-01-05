@@ -197,6 +197,9 @@ func resourceWirelessControllerHotspot20AnqpNetworkAuthTypeRead(ctx context.Cont
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadWirelessControllerHotspot20AnqpNetworkAuthType(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading WirelessControllerHotspot20AnqpNetworkAuthType resource: %v", err)

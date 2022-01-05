@@ -604,6 +604,9 @@ func resourceSystemAdminRead(ctx context.Context, d *schema.ResourceData, meta i
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadSystemAdmin(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading SystemAdmin resource: %v", err)
@@ -843,7 +846,8 @@ func refreshObjectSystemAdmin(d *schema.ResourceData, o *models.SystemAdmin, sv 
 	if o.Password != nil {
 		v := *o.Password
 
-		if err = d.Set("password", v); err != nil {
+		if v == "ENC XXXX" {
+		} else if err = d.Set("password", v); err != nil {
 			return diag.Errorf("error reading password: %v", err)
 		}
 	}

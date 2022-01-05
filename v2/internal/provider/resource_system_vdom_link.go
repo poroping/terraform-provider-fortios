@@ -197,6 +197,9 @@ func resourceSystemVdomLinkRead(ctx context.Context, d *schema.ResourceData, met
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadSystemVdomLink(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading SystemVdomLink resource: %v", err)

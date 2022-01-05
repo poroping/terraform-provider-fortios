@@ -211,6 +211,9 @@ func resourceFirewallSshLocalKeyRead(ctx context.Context, d *schema.ResourceData
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadFirewallSshLocalKey(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading FirewallSshLocalKey resource: %v", err)
@@ -250,7 +253,8 @@ func refreshObjectFirewallSshLocalKey(d *schema.ResourceData, o *models.Firewall
 	if o.Password != nil {
 		v := *o.Password
 
-		if err = d.Set("password", v); err != nil {
+		if v == "ENC XXXX" {
+		} else if err = d.Set("password", v); err != nil {
 			return diag.Errorf("error reading password: %v", err)
 		}
 	}

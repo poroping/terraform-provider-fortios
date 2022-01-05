@@ -262,6 +262,9 @@ func resourceWirelessControllerHotspot20QosMapRead(ctx context.Context, d *schem
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadWirelessControllerHotspot20QosMap(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading WirelessControllerHotspot20QosMap resource: %v", err)

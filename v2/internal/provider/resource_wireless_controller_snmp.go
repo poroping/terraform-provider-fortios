@@ -378,6 +378,9 @@ func resourceWirelessControllerSnmpRead(ctx context.Context, d *schema.ResourceD
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadWirelessControllerSnmp(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading WirelessControllerSnmp resource: %v", err)

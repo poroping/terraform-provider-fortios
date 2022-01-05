@@ -220,6 +220,9 @@ func resourceRouterBgpVrfLeakRead(ctx context.Context, d *schema.ResourceData, m
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadRouterBgpVrfLeak(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading RouterBgpVrfLeak resource: %v", err)

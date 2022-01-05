@@ -251,6 +251,9 @@ func resourceFirewallShaperPerIpShaperRead(ctx context.Context, d *schema.Resour
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadFirewallShaperPerIpShaper(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading FirewallShaperPerIpShaper resource: %v", err)

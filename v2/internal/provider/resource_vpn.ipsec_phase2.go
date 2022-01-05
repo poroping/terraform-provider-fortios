@@ -533,6 +533,9 @@ func resourceVpnIpsecPhase2Read(ctx context.Context, d *schema.ResourceData, met
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadVpnIpsecPhase2(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading VpnIpsecPhase2 resource: %v", err)

@@ -453,6 +453,9 @@ func resourceSystemCsfRead(ctx context.Context, d *schema.ResourceData, meta int
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadSystemCsf(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading SystemCsf resource: %v", err)
@@ -675,7 +678,8 @@ func refreshObjectSystemCsf(d *schema.ResourceData, o *models.SystemCsf, sv stri
 	if o.GroupPassword != nil {
 		v := *o.GroupPassword
 
-		if err = d.Set("group_password", v); err != nil {
+		if v == "ENC XXXX" {
+		} else if err = d.Set("group_password", v); err != nil {
 			return diag.Errorf("error reading group_password: %v", err)
 		}
 	}

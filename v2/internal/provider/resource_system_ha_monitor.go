@@ -187,6 +187,9 @@ func resourceSystemHaMonitorRead(ctx context.Context, d *schema.ResourceData, me
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadSystemHaMonitor(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading SystemHaMonitor resource: %v", err)

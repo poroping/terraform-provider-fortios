@@ -267,6 +267,9 @@ func resourceAntivirusQuarantineRead(ctx context.Context, d *schema.ResourceData
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadAntivirusQuarantine(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading AntivirusQuarantine resource: %v", err)

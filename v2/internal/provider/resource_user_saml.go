@@ -301,6 +301,9 @@ func resourceUserSamlRead(ctx context.Context, d *schema.ResourceData, meta inte
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadUserSaml(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading UserSaml resource: %v", err)

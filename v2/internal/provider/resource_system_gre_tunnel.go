@@ -315,6 +315,9 @@ func resourceSystemGreTunnelRead(ctx context.Context, d *schema.ResourceData, me
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadSystemGreTunnel(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading SystemGreTunnel resource: %v", err)

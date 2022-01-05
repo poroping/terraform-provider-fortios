@@ -536,6 +536,9 @@ func resourceSystemSdwanHealthCheckRead(ctx context.Context, d *schema.ResourceD
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadSystemSdwanHealthCheck(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading SystemSdwanHealthCheck resource: %v", err)
@@ -693,7 +696,8 @@ func refreshObjectSystemSdwanHealthCheck(d *schema.ResourceData, o *models.Syste
 	if o.Password != nil {
 		v := *o.Password
 
-		if err = d.Set("password", v); err != nil {
+		if v == "ENC XXXX" {
+		} else if err = d.Set("password", v); err != nil {
 			return diag.Errorf("error reading password: %v", err)
 		}
 	}

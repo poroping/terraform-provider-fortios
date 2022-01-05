@@ -205,6 +205,9 @@ func resourceUserPasswordPolicyRead(ctx context.Context, d *schema.ResourceData,
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadUserPasswordPolicy(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading UserPasswordPolicy resource: %v", err)

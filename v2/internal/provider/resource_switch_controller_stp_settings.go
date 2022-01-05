@@ -219,6 +219,9 @@ func resourceSwitchControllerStpSettingsRead(ctx context.Context, d *schema.Reso
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadSwitchControllerStpSettings(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading SwitchControllerStpSettings resource: %v", err)

@@ -575,6 +575,9 @@ func resourceRouterRipRead(ctx context.Context, d *schema.ResourceData, meta int
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadRouterRip(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading RouterRip resource: %v", err)

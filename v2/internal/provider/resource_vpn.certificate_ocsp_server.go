@@ -229,6 +229,9 @@ func resourceVpnCertificateOcspServerRead(ctx context.Context, d *schema.Resourc
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadVpnCertificateOcspServer(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading VpnCertificateOcspServer resource: %v", err)

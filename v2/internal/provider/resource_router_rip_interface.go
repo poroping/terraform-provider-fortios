@@ -254,6 +254,9 @@ func resourceRouterRipInterfaceRead(ctx context.Context, d *schema.ResourceData,
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadRouterRipInterface(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading RouterRipInterface resource: %v", err)
@@ -301,7 +304,8 @@ func refreshObjectRouterRipInterface(d *schema.ResourceData, o *models.RouterRip
 	if o.AuthString != nil {
 		v := *o.AuthString
 
-		if err = d.Set("auth_string", v); err != nil {
+		if v == "ENC XXXX" {
+		} else if err = d.Set("auth_string", v); err != nil {
 			return diag.Errorf("error reading auth_string: %v", err)
 		}
 	}

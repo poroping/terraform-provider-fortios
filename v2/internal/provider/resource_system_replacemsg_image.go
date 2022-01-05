@@ -197,6 +197,9 @@ func resourceSystemReplacemsgImageRead(ctx context.Context, d *schema.ResourceDa
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadSystemReplacemsgImage(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading SystemReplacemsgImage resource: %v", err)

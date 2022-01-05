@@ -279,6 +279,9 @@ func resourceFirewallAddress6TemplateRead(ctx context.Context, d *schema.Resourc
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadFirewallAddress6Template(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading FirewallAddress6Template resource: %v", err)

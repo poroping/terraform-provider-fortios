@@ -245,6 +245,9 @@ func resourceSystemObjectTaggingRead(ctx context.Context, d *schema.ResourceData
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadSystemObjectTagging(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading SystemObjectTagging resource: %v", err)

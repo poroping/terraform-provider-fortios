@@ -181,6 +181,9 @@ func resourceDlpSensitivityRead(ctx context.Context, d *schema.ResourceData, met
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadDlpSensitivity(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading DlpSensitivity resource: %v", err)

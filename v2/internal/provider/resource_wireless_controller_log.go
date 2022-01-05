@@ -259,6 +259,9 @@ func resourceWirelessControllerLogRead(ctx context.Context, d *schema.ResourceDa
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadWirelessControllerLog(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading WirelessControllerLog resource: %v", err)

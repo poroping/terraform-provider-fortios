@@ -235,6 +235,9 @@ func resourceSystemSnmpSysinfoRead(ctx context.Context, d *schema.ResourceData, 
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadSystemSnmpSysinfo(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading SystemSnmpSysinfo resource: %v", err)

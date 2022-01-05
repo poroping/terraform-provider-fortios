@@ -187,6 +187,9 @@ func resourceSwitchControllerAutoConfigDefaultRead(ctx context.Context, d *schem
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadSwitchControllerAutoConfigDefault(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading SwitchControllerAutoConfigDefault resource: %v", err)

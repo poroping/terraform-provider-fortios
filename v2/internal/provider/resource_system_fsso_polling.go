@@ -195,6 +195,9 @@ func resourceSystemFssoPollingRead(ctx context.Context, d *schema.ResourceData, 
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadSystemFssoPolling(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading SystemFssoPolling resource: %v", err)
@@ -226,7 +229,8 @@ func refreshObjectSystemFssoPolling(d *schema.ResourceData, o *models.SystemFsso
 	if o.AuthPassword != nil {
 		v := *o.AuthPassword
 
-		if err = d.Set("auth_password", v); err != nil {
+		if v == "ENC XXXX" {
+		} else if err = d.Set("auth_password", v); err != nil {
 			return diag.Errorf("error reading auth_password: %v", err)
 		}
 	}

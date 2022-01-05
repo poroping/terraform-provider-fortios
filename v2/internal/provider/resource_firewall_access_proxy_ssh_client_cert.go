@@ -285,6 +285,9 @@ func resourceFirewallAccessProxySshClientCertRead(ctx context.Context, d *schema
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadFirewallAccessProxySshClientCert(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading FirewallAccessProxySshClientCert resource: %v", err)

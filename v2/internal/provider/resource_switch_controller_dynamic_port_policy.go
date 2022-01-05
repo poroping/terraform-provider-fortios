@@ -334,6 +334,9 @@ func resourceSwitchControllerDynamicPortPolicyRead(ctx context.Context, d *schem
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadSwitchControllerDynamicPortPolicy(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading SwitchControllerDynamicPortPolicy resource: %v", err)

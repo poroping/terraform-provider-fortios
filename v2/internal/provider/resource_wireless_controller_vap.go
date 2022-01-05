@@ -1587,6 +1587,9 @@ func resourceWirelessControllerVapRead(ctx context.Context, d *schema.ResourceDa
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadWirelessControllerVap(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading WirelessControllerVap resource: %v", err)
@@ -1979,7 +1982,8 @@ func refreshObjectWirelessControllerVap(d *schema.ResourceData, o *models.Wirele
 	if o.CaptivePortalMacauthRadiusSecret != nil {
 		v := *o.CaptivePortalMacauthRadiusSecret
 
-		if err = d.Set("captive_portal_macauth_radius_secret", v); err != nil {
+		if v == "ENC XXXX" {
+		} else if err = d.Set("captive_portal_macauth_radius_secret", v); err != nil {
 			return diag.Errorf("error reading captive_portal_macauth_radius_secret: %v", err)
 		}
 	}
@@ -1995,7 +1999,8 @@ func refreshObjectWirelessControllerVap(d *schema.ResourceData, o *models.Wirele
 	if o.CaptivePortalRadiusSecret != nil {
 		v := *o.CaptivePortalRadiusSecret
 
-		if err = d.Set("captive_portal_radius_secret", v); err != nil {
+		if v == "ENC XXXX" {
+		} else if err = d.Set("captive_portal_radius_secret", v); err != nil {
 			return diag.Errorf("error reading captive_portal_radius_secret: %v", err)
 		}
 	}
@@ -2272,7 +2277,8 @@ func refreshObjectWirelessControllerVap(d *schema.ResourceData, o *models.Wirele
 	if o.Key != nil {
 		v := *o.Key
 
-		if err = d.Set("key", v); err != nil {
+		if v == "ENC XXXX" {
+		} else if err = d.Set("key", v); err != nil {
 			return diag.Errorf("error reading key: %v", err)
 		}
 	}
@@ -2596,7 +2602,8 @@ func refreshObjectWirelessControllerVap(d *schema.ResourceData, o *models.Wirele
 	if o.Passphrase != nil {
 		v := *o.Passphrase
 
-		if err = d.Set("passphrase", v); err != nil {
+		if v == "ENC XXXX" {
+		} else if err = d.Set("passphrase", v); err != nil {
 			return diag.Errorf("error reading passphrase: %v", err)
 		}
 	}
@@ -2872,7 +2879,8 @@ func refreshObjectWirelessControllerVap(d *schema.ResourceData, o *models.Wirele
 	if o.SaePassword != nil {
 		v := *o.SaePassword
 
-		if err = d.Set("sae_password", v); err != nil {
+		if v == "ENC XXXX" {
+		} else if err = d.Set("sae_password", v); err != nil {
 			return diag.Errorf("error reading sae_password: %v", err)
 		}
 	}

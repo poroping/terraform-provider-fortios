@@ -263,6 +263,9 @@ func resourceSystemZoneRead(ctx context.Context, d *schema.ResourceData, meta in
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadSystemZone(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading SystemZone resource: %v", err)

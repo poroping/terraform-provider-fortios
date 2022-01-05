@@ -577,6 +577,9 @@ func resourceRouterRouteMapRead(ctx context.Context, d *schema.ResourceData, met
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadRouterRouteMap(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading RouterRouteMap resource: %v", err)

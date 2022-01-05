@@ -242,6 +242,9 @@ func resourceRouterAccessList6Read(ctx context.Context, d *schema.ResourceData, 
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadRouterAccessList6(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading RouterAccessList6 resource: %v", err)

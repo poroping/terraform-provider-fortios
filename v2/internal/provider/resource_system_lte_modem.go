@@ -243,6 +243,9 @@ func resourceSystemLteModemRead(ctx context.Context, d *schema.ResourceData, met
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadSystemLteModem(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading SystemLteModem resource: %v", err)
@@ -330,7 +333,8 @@ func refreshObjectSystemLteModem(d *schema.ResourceData, o *models.SystemLteMode
 	if o.Passwd != nil {
 		v := *o.Passwd
 
-		if err = d.Set("passwd", v); err != nil {
+		if v == "ENC XXXX" {
+		} else if err = d.Set("passwd", v); err != nil {
 			return diag.Errorf("error reading passwd: %v", err)
 		}
 	}

@@ -190,6 +190,9 @@ func resourceFirewallInternetServiceReputationRead(ctx context.Context, d *schem
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadFirewallInternetServiceReputation(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading FirewallInternetServiceReputation resource: %v", err)

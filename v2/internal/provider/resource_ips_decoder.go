@@ -213,6 +213,9 @@ func resourceIpsDecoderRead(ctx context.Context, d *schema.ResourceData, meta in
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadIpsDecoder(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading IpsDecoder resource: %v", err)

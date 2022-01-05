@@ -447,6 +447,9 @@ func resourceWanoptContentDeliveryNetworkRuleRead(ctx context.Context, d *schema
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadWanoptContentDeliveryNetworkRule(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading WanoptContentDeliveryNetworkRule resource: %v", err)

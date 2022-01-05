@@ -179,6 +179,9 @@ func resourceFirewallInternetServiceAppendRead(ctx context.Context, d *schema.Re
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadFirewallInternetServiceAppend(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading FirewallInternetServiceAppend resource: %v", err)

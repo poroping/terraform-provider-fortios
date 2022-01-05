@@ -259,6 +259,9 @@ func resourceUserQuarantineRead(ctx context.Context, d *schema.ResourceData, met
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadUserQuarantine(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading UserQuarantine resource: %v", err)

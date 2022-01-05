@@ -261,6 +261,9 @@ func resourceEmailfilterMheaderRead(ctx context.Context, d *schema.ResourceData,
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadEmailfilterMheader(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading EmailfilterMheader resource: %v", err)

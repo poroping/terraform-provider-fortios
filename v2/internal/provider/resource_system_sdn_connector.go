@@ -724,6 +724,9 @@ func resourceSystemSdnConnectorRead(ctx context.Context, d *schema.ResourceData,
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadSystemSdnConnector(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading SystemSdnConnector resource: %v", err)
@@ -1009,7 +1012,8 @@ func refreshObjectSystemSdnConnector(d *schema.ResourceData, o *models.SystemSdn
 	if o.ApiKey != nil {
 		v := *o.ApiKey
 
-		if err = d.Set("api_key", v); err != nil {
+		if v == "ENC XXXX" {
+		} else if err = d.Set("api_key", v); err != nil {
 			return diag.Errorf("error reading api_key: %v", err)
 		}
 	}
@@ -1033,7 +1037,8 @@ func refreshObjectSystemSdnConnector(d *schema.ResourceData, o *models.SystemSdn
 	if o.ClientSecret != nil {
 		v := *o.ClientSecret
 
-		if err = d.Set("client_secret", v); err != nil {
+		if v == "ENC XXXX" {
+		} else if err = d.Set("client_secret", v); err != nil {
 			return diag.Errorf("error reading client_secret: %v", err)
 		}
 	}
@@ -1169,7 +1174,8 @@ func refreshObjectSystemSdnConnector(d *schema.ResourceData, o *models.SystemSdn
 	if o.Password != nil {
 		v := *o.Password
 
-		if err = d.Set("password", v); err != nil {
+		if v == "ENC XXXX" {
+		} else if err = d.Set("password", v); err != nil {
 			return diag.Errorf("error reading password: %v", err)
 		}
 	}
@@ -1221,7 +1227,8 @@ func refreshObjectSystemSdnConnector(d *schema.ResourceData, o *models.SystemSdn
 	if o.SecretKey != nil {
 		v := *o.SecretKey
 
-		if err = d.Set("secret_key", v); err != nil {
+		if v == "ENC XXXX" {
+		} else if err = d.Set("secret_key", v); err != nil {
 			return diag.Errorf("error reading secret_key: %v", err)
 		}
 	}
@@ -1331,7 +1338,8 @@ func refreshObjectSystemSdnConnector(d *schema.ResourceData, o *models.SystemSdn
 	if o.VcenterPassword != nil {
 		v := *o.VcenterPassword
 
-		if err = d.Set("vcenter_password", v); err != nil {
+		if v == "ENC XXXX" {
+		} else if err = d.Set("vcenter_password", v); err != nil {
 			return diag.Errorf("error reading vcenter_password: %v", err)
 		}
 	}

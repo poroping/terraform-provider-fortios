@@ -238,6 +238,9 @@ func resourceDlpFilepatternRead(ctx context.Context, d *schema.ResourceData, met
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadDlpFilepattern(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading DlpFilepattern resource: %v", err)

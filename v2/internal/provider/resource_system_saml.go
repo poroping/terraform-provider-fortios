@@ -426,6 +426,9 @@ func resourceSystemSamlRead(ctx context.Context, d *schema.ResourceData, meta in
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadSystemSaml(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading SystemSaml resource: %v", err)

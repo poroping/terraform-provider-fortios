@@ -221,6 +221,9 @@ func resourceSystemIpipTunnelRead(ctx context.Context, d *schema.ResourceData, m
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadSystemIpipTunnel(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading SystemIpipTunnel resource: %v", err)

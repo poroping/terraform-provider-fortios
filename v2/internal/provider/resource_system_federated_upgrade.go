@@ -263,6 +263,9 @@ func resourceSystemFederatedUpgradeRead(ctx context.Context, d *schema.ResourceD
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadSystemFederatedUpgrade(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading SystemFederatedUpgrade resource: %v", err)

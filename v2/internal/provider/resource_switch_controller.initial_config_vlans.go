@@ -219,6 +219,9 @@ func resourceSwitchControllerInitialConfigVlansRead(ctx context.Context, d *sche
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadSwitchControllerInitialConfigVlans(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading SwitchControllerInitialConfigVlans resource: %v", err)

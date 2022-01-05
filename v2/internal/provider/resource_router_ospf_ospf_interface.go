@@ -388,6 +388,9 @@ func resourceRouterOspfOspfInterfaceRead(ctx context.Context, d *schema.Resource
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadRouterOspfOspfInterface(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading RouterOspfOspfInterface resource: %v", err)
@@ -427,7 +430,8 @@ func refreshObjectRouterOspfOspfInterface(d *schema.ResourceData, o *models.Rout
 	if o.AuthenticationKey != nil {
 		v := *o.AuthenticationKey
 
-		if err = d.Set("authentication_key", v); err != nil {
+		if v == "ENC XXXX" {
+		} else if err = d.Set("authentication_key", v); err != nil {
 			return diag.Errorf("error reading authentication_key: %v", err)
 		}
 	}

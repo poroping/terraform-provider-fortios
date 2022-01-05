@@ -195,6 +195,9 @@ func resourceSystemAutoInstallRead(ctx context.Context, d *schema.ResourceData, 
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadSystemAutoInstall(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading SystemAutoInstall resource: %v", err)

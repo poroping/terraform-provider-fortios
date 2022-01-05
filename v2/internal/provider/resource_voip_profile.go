@@ -1191,6 +1191,9 @@ func resourceVoipProfileRead(ctx context.Context, d *schema.ResourceData, meta i
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadVoipProfile(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading VoipProfile resource: %v", err)

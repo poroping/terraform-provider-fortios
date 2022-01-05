@@ -179,6 +179,9 @@ func resourceWebfilterIpsUrlfilterCacheSettingRead(ctx context.Context, d *schem
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadWebfilterIpsUrlfilterCacheSetting(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading WebfilterIpsUrlfilterCacheSetting resource: %v", err)

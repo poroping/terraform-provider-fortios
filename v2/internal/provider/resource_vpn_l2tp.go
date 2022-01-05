@@ -235,6 +235,9 @@ func resourceVpnL2tpRead(ctx context.Context, d *schema.ResourceData, meta inter
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadVpnL2tp(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading VpnL2tp resource: %v", err)

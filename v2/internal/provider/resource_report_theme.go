@@ -413,6 +413,9 @@ func resourceReportThemeRead(ctx context.Context, d *schema.ResourceData, meta i
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadReportTheme(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading ReportTheme resource: %v", err)

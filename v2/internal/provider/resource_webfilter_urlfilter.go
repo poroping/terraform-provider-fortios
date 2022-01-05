@@ -310,6 +310,9 @@ func resourceWebfilterUrlfilterRead(ctx context.Context, d *schema.ResourceData,
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadWebfilterUrlfilter(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading WebfilterUrlfilter resource: %v", err)

@@ -205,6 +205,9 @@ func resourceSystemReplacemsgDeviceDetectionPortalRead(ctx context.Context, d *s
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadSystemReplacemsgDeviceDetectionPortal(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading SystemReplacemsgDeviceDetectionPortal resource: %v", err)

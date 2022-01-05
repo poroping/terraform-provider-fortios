@@ -724,6 +724,9 @@ func resourceReportLayoutRead(ctx context.Context, d *schema.ResourceData, meta 
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadReportLayout(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading ReportLayout resource: %v", err)

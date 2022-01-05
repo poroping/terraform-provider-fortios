@@ -190,6 +190,9 @@ func resourceWafSignatureRead(ctx context.Context, d *schema.ResourceData, meta 
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadWafSignature(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading WafSignature resource: %v", err)

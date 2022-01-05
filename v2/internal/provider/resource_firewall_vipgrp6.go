@@ -228,6 +228,9 @@ func resourceFirewallVipgrp6Read(ctx context.Context, d *schema.ResourceData, me
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadFirewallVipgrp6(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading FirewallVipgrp6 resource: %v", err)

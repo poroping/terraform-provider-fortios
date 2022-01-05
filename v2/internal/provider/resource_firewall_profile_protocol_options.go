@@ -1320,6 +1320,9 @@ func resourceFirewallProfileProtocolOptionsRead(ctx context.Context, d *schema.R
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadFirewallProfileProtocolOptions(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading FirewallProfileProtocolOptions resource: %v", err)

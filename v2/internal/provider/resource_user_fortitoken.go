@@ -236,6 +236,9 @@ func resourceUserFortitokenRead(ctx context.Context, d *schema.ResourceData, met
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadUserFortitoken(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading UserFortitoken resource: %v", err)

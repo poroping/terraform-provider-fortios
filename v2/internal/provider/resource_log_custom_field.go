@@ -199,6 +199,9 @@ func resourceLogCustomFieldRead(ctx context.Context, d *schema.ResourceData, met
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadLogCustomField(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading LogCustomField resource: %v", err)

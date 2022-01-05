@@ -277,6 +277,9 @@ func resourceUserTacacsRead(ctx context.Context, d *schema.ResourceData, meta in
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadUserTacacs(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading UserTacacs resource: %v", err)
@@ -340,7 +343,8 @@ func refreshObjectUserTacacs(d *schema.ResourceData, o *models.UserTacacs, sv st
 	if o.Key != nil {
 		v := *o.Key
 
-		if err = d.Set("key", v); err != nil {
+		if v == "ENC XXXX" {
+		} else if err = d.Set("key", v); err != nil {
 			return diag.Errorf("error reading key: %v", err)
 		}
 	}
@@ -364,7 +368,8 @@ func refreshObjectUserTacacs(d *schema.ResourceData, o *models.UserTacacs, sv st
 	if o.SecondaryKey != nil {
 		v := *o.SecondaryKey
 
-		if err = d.Set("secondary_key", v); err != nil {
+		if v == "ENC XXXX" {
+		} else if err = d.Set("secondary_key", v); err != nil {
 			return diag.Errorf("error reading secondary_key: %v", err)
 		}
 	}
@@ -396,7 +401,8 @@ func refreshObjectUserTacacs(d *schema.ResourceData, o *models.UserTacacs, sv st
 	if o.TertiaryKey != nil {
 		v := *o.TertiaryKey
 
-		if err = d.Set("tertiary_key", v); err != nil {
+		if v == "ENC XXXX" {
+		} else if err = d.Set("tertiary_key", v); err != nil {
 			return diag.Errorf("error reading tertiary_key: %v", err)
 		}
 	}

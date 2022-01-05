@@ -211,6 +211,9 @@ func resourceSystemVdomSflowRead(ctx context.Context, d *schema.ResourceData, me
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadSystemVdomSflow(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading SystemVdomSflow resource: %v", err)

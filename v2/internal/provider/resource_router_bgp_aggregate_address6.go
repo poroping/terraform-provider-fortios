@@ -208,6 +208,9 @@ func resourceRouterBgpAggregateAddress6Read(ctx context.Context, d *schema.Resou
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadRouterBgpAggregateAddress6(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading RouterBgpAggregateAddress6 resource: %v", err)

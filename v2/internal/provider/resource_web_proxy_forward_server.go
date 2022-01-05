@@ -261,6 +261,9 @@ func resourceWebProxyForwardServerRead(ctx context.Context, d *schema.ResourceDa
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadWebProxyForwardServer(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading WebProxyForwardServer resource: %v", err)
@@ -348,7 +351,8 @@ func refreshObjectWebProxyForwardServer(d *schema.ResourceData, o *models.WebPro
 	if o.Password != nil {
 		v := *o.Password
 
-		if err = d.Set("password", v); err != nil {
+		if v == "ENC XXXX" {
+		} else if err = d.Set("password", v); err != nil {
 			return diag.Errorf("error reading password: %v", err)
 		}
 	}

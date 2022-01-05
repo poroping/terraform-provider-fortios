@@ -317,6 +317,9 @@ func resourceWirelessControllerSettingRead(ctx context.Context, d *schema.Resour
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadWirelessControllerSetting(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading WirelessControllerSetting resource: %v", err)

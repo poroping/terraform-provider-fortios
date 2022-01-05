@@ -300,6 +300,9 @@ func resourceWanoptCacheServiceRead(ctx context.Context, d *schema.ResourceData,
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadWanoptCacheService(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading WanoptCacheService resource: %v", err)

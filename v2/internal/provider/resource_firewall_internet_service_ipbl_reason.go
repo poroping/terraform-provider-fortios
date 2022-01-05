@@ -190,6 +190,9 @@ func resourceFirewallInternetServiceIpblReasonRead(ctx context.Context, d *schem
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadFirewallInternetServiceIpblReason(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading FirewallInternetServiceIpblReason resource: %v", err)

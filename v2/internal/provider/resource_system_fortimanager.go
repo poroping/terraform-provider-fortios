@@ -219,6 +219,9 @@ func resourceSystemFortimanagerRead(ctx context.Context, d *schema.ResourceData,
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadSystemFortimanager(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading SystemFortimanager resource: %v", err)

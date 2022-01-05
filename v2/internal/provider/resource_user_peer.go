@@ -277,6 +277,9 @@ func resourceUserPeerRead(ctx context.Context, d *schema.ResourceData, meta inte
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadUserPeer(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading UserPeer resource: %v", err)
@@ -340,7 +343,8 @@ func refreshObjectUserPeer(d *schema.ResourceData, o *models.UserPeer, sv string
 	if o.LdapPassword != nil {
 		v := *o.LdapPassword
 
-		if err = d.Set("ldap_password", v); err != nil {
+		if v == "ENC XXXX" {
+		} else if err = d.Set("ldap_password", v); err != nil {
 			return diag.Errorf("error reading ldap_password: %v", err)
 		}
 	}
@@ -388,7 +392,8 @@ func refreshObjectUserPeer(d *schema.ResourceData, o *models.UserPeer, sv string
 	if o.Passwd != nil {
 		v := *o.Passwd
 
-		if err = d.Set("passwd", v); err != nil {
+		if v == "ENC XXXX" {
+		} else if err = d.Set("passwd", v); err != nil {
 			return diag.Errorf("error reading passwd: %v", err)
 		}
 	}

@@ -179,6 +179,9 @@ func resourceRouterSettingRead(ctx context.Context, d *schema.ResourceData, meta
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadRouterSetting(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading RouterSetting resource: %v", err)

@@ -357,6 +357,9 @@ func resourceIpsGlobalRead(ctx context.Context, d *schema.ResourceData, meta int
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadIpsGlobal(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading IpsGlobal resource: %v", err)

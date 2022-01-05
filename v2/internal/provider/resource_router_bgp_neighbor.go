@@ -962,6 +962,9 @@ func resourceRouterBgpNeighborRead(ctx context.Context, d *schema.ResourceData, 
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadRouterBgpNeighbor(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading RouterBgpNeighbor resource: %v", err)
@@ -1477,7 +1480,8 @@ func refreshObjectRouterBgpNeighbor(d *schema.ResourceData, o *models.RouterBgpN
 	if o.Password != nil {
 		v := *o.Password
 
-		if err = d.Set("password", v); err != nil {
+		if v == "ENC XXXX" {
+		} else if err = d.Set("password", v); err != nil {
 			return diag.Errorf("error reading password: %v", err)
 		}
 	}

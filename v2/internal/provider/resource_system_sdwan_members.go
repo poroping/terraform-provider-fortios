@@ -303,6 +303,9 @@ func resourceSystemSdwanMembersRead(ctx context.Context, d *schema.ResourceData,
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadSystemSdwanMembers(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading SystemSdwanMembers resource: %v", err)

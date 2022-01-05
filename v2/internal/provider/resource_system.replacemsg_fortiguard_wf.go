@@ -205,6 +205,9 @@ func resourceSystemReplacemsgFortiguardWfRead(ctx context.Context, d *schema.Res
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadSystemReplacemsgFortiguardWf(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading SystemReplacemsgFortiguardWf resource: %v", err)

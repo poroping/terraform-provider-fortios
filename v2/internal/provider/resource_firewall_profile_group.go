@@ -317,6 +317,9 @@ func resourceFirewallProfileGroupRead(ctx context.Context, d *schema.ResourceDat
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadFirewallProfileGroup(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading FirewallProfileGroup resource: %v", err)

@@ -318,6 +318,9 @@ func resourceSystemSnmpUserRead(ctx context.Context, d *schema.ResourceData, met
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadSystemSnmpUser(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading SystemSnmpUser resource: %v", err)
@@ -357,7 +360,8 @@ func refreshObjectSystemSnmpUser(d *schema.ResourceData, o *models.SystemSnmpUse
 	if o.AuthPwd != nil {
 		v := *o.AuthPwd
 
-		if err = d.Set("auth_pwd", v); err != nil {
+		if v == "ENC XXXX" {
+		} else if err = d.Set("auth_pwd", v); err != nil {
 			return diag.Errorf("error reading auth_pwd: %v", err)
 		}
 	}
@@ -413,7 +417,8 @@ func refreshObjectSystemSnmpUser(d *schema.ResourceData, o *models.SystemSnmpUse
 	if o.PrivPwd != nil {
 		v := *o.PrivPwd
 
-		if err = d.Set("priv_pwd", v); err != nil {
+		if v == "ENC XXXX" {
+		} else if err = d.Set("priv_pwd", v); err != nil {
 			return diag.Errorf("error reading priv_pwd: %v", err)
 		}
 	}

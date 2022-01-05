@@ -502,6 +502,9 @@ func resourceSystemLinkMonitorRead(ctx context.Context, d *schema.ResourceData, 
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadSystemLinkMonitor(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading SystemLinkMonitor resource: %v", err)
@@ -724,7 +727,8 @@ func refreshObjectSystemLinkMonitor(d *schema.ResourceData, o *models.SystemLink
 	if o.Password != nil {
 		v := *o.Password
 
-		if err = d.Set("password", v); err != nil {
+		if v == "ENC XXXX" {
+		} else if err = d.Set("password", v); err != nil {
 			return diag.Errorf("error reading password: %v", err)
 		}
 	}

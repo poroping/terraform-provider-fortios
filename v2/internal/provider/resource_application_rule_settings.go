@@ -181,6 +181,9 @@ func resourceApplicationRuleSettingsRead(ctx context.Context, d *schema.Resource
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadApplicationRuleSettings(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading ApplicationRuleSettings resource: %v", err)

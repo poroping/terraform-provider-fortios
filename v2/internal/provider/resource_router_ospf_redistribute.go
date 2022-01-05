@@ -220,6 +220,9 @@ func resourceRouterOspfRedistributeRead(ctx context.Context, d *schema.ResourceD
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadRouterOspfRedistribute(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading RouterOspfRedistribute resource: %v", err)

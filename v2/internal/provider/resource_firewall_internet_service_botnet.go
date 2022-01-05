@@ -190,6 +190,9 @@ func resourceFirewallInternetServiceBotnetRead(ctx context.Context, d *schema.Re
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadFirewallInternetServiceBotnet(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading FirewallInternetServiceBotnet resource: %v", err)

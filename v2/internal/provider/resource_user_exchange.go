@@ -293,6 +293,9 @@ func resourceUserExchangeRead(ctx context.Context, d *schema.ResourceData, meta 
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadUserExchange(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading UserExchange resource: %v", err)
@@ -415,7 +418,8 @@ func refreshObjectUserExchange(d *schema.ResourceData, o *models.UserExchange, s
 	if o.Password != nil {
 		v := *o.Password
 
-		if err = d.Set("password", v); err != nil {
+		if v == "ENC XXXX" {
+		} else if err = d.Set("password", v); err != nil {
 			return diag.Errorf("error reading password: %v", err)
 		}
 	}

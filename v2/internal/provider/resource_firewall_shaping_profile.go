@@ -306,6 +306,9 @@ func resourceFirewallShapingProfileRead(ctx context.Context, d *schema.ResourceD
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadFirewallShapingProfile(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading FirewallShapingProfile resource: %v", err)

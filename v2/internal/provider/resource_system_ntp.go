@@ -338,6 +338,9 @@ func resourceSystemNtpRead(ctx context.Context, d *schema.ResourceData, meta int
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadSystemNtp(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading SystemNtp resource: %v", err)
@@ -453,7 +456,8 @@ func refreshObjectSystemNtp(d *schema.ResourceData, o *models.SystemNtp, sv stri
 	if o.Key != nil {
 		v := *o.Key
 
-		if err = d.Set("key", v); err != nil {
+		if v == "ENC XXXX" {
+		} else if err = d.Set("key", v); err != nil {
 			return diag.Errorf("error reading key: %v", err)
 		}
 	}

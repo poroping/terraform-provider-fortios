@@ -205,6 +205,9 @@ func resourceRouterRipRedistributeRead(ctx context.Context, d *schema.ResourceDa
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadRouterRipRedistribute(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading RouterRipRedistribute resource: %v", err)

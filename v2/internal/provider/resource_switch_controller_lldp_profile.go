@@ -382,6 +382,9 @@ func resourceSwitchControllerLldpProfileRead(ctx context.Context, d *schema.Reso
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadSwitchControllerLldpProfile(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading SwitchControllerLldpProfile resource: %v", err)

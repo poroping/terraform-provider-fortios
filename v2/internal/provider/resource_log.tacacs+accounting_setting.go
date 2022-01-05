@@ -187,6 +187,9 @@ func resourceLogTacacsaccountingSettingRead(ctx context.Context, d *schema.Resou
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadLogTacacsaccountingSetting(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading LogTacacsaccountingSetting resource: %v", err)
@@ -226,7 +229,8 @@ func refreshObjectLogTacacsaccountingSetting(d *schema.ResourceData, o *models.L
 	if o.ServerKey != nil {
 		v := *o.ServerKey
 
-		if err = d.Set("server_key", v); err != nil {
+		if v == "ENC XXXX" {
+		} else if err = d.Set("server_key", v); err != nil {
 			return diag.Errorf("error reading server_key: %v", err)
 		}
 	}

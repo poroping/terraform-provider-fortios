@@ -207,6 +207,9 @@ func resourceRouterBgpNetworkRead(ctx context.Context, d *schema.ResourceData, m
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadRouterBgpNetwork(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading RouterBgpNetwork resource: %v", err)

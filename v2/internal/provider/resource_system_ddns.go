@@ -364,6 +364,9 @@ func resourceSystemDdnsRead(ctx context.Context, d *schema.ResourceData, meta in
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadSystemDdns(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading SystemDdns resource: %v", err)
@@ -493,7 +496,8 @@ func refreshObjectSystemDdns(d *schema.ResourceData, o *models.SystemDdns, sv st
 	if o.DdnsPassword != nil {
 		v := *o.DdnsPassword
 
-		if err = d.Set("ddns_password", v); err != nil {
+		if v == "ENC XXXX" {
+		} else if err = d.Set("ddns_password", v); err != nil {
 			return diag.Errorf("error reading ddns_password: %v", err)
 		}
 	}

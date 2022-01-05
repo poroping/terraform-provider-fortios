@@ -693,6 +693,9 @@ func resourceReportChartRead(ctx context.Context, d *schema.ResourceData, meta i
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadReportChart(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading ReportChart resource: %v", err)

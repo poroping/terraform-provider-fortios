@@ -217,6 +217,9 @@ func resourceFirewallInternetServiceNameRead(ctx context.Context, d *schema.Reso
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadFirewallInternetServiceName(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading FirewallInternetServiceName resource: %v", err)

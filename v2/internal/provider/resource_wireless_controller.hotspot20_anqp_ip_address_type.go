@@ -197,6 +197,9 @@ func resourceWirelessControllerHotspot20AnqpIpAddressTypeRead(ctx context.Contex
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadWirelessControllerHotspot20AnqpIpAddressType(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading WirelessControllerHotspot20AnqpIpAddressType resource: %v", err)

@@ -275,6 +275,9 @@ func resourceCertificateCrlRead(ctx context.Context, d *schema.ResourceData, met
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadCertificateCrl(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading CertificateCrl resource: %v", err)
@@ -322,7 +325,8 @@ func refreshObjectCertificateCrl(d *schema.ResourceData, o *models.CertificateCr
 	if o.LdapPassword != nil {
 		v := *o.LdapPassword
 
-		if err = d.Set("ldap_password", v); err != nil {
+		if v == "ENC XXXX" {
+		} else if err = d.Set("ldap_password", v); err != nil {
 			return diag.Errorf("error reading ldap_password: %v", err)
 		}
 	}

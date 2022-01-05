@@ -298,6 +298,9 @@ func resourceSystemPppoeInterfaceRead(ctx context.Context, d *schema.ResourceDat
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadSystemPppoeInterface(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading SystemPppoeInterface resource: %v", err)
@@ -425,7 +428,8 @@ func refreshObjectSystemPppoeInterface(d *schema.ResourceData, o *models.SystemP
 	if o.Password != nil {
 		v := *o.Password
 
-		if err = d.Set("password", v); err != nil {
+		if v == "ENC XXXX" {
+		} else if err = d.Set("password", v); err != nil {
 			return diag.Errorf("error reading password: %v", err)
 		}
 	}

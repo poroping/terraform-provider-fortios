@@ -398,6 +398,9 @@ func resourceFirewallPolicy46Read(ctx context.Context, d *schema.ResourceData, m
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadFirewallPolicy46(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading FirewallPolicy46 resource: %v", err)

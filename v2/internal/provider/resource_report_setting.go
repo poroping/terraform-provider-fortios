@@ -204,6 +204,9 @@ func resourceReportSettingRead(ctx context.Context, d *schema.ResourceData, meta
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadReportSetting(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading ReportSetting resource: %v", err)

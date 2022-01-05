@@ -229,6 +229,9 @@ func resourceUserKrbKeytabRead(ctx context.Context, d *schema.ResourceData, meta
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadUserKrbKeytab(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading UserKrbKeytab resource: %v", err)

@@ -285,6 +285,9 @@ func resourceWirelessControllerApcfgProfileRead(ctx context.Context, d *schema.R
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadWirelessControllerApcfgProfile(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading WirelessControllerApcfgProfile resource: %v", err)

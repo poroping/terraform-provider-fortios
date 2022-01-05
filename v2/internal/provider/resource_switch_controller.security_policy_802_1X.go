@@ -333,6 +333,9 @@ func resourceSwitchControllerSecurityPolicy8021XRead(ctx context.Context, d *sch
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadSwitchControllerSecurityPolicy8021X(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading SwitchControllerSecurityPolicy8021X resource: %v", err)

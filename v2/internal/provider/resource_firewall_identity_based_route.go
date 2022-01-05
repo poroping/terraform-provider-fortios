@@ -245,6 +245,9 @@ func resourceFirewallIdentityBasedRouteRead(ctx context.Context, d *schema.Resou
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadFirewallIdentityBasedRoute(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading FirewallIdentityBasedRoute resource: %v", err)

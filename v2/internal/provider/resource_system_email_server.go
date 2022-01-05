@@ -276,6 +276,9 @@ func resourceSystemEmailServerRead(ctx context.Context, d *schema.ResourceData, 
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadSystemEmailServer(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading SystemEmailServer resource: %v", err)
@@ -331,7 +334,8 @@ func refreshObjectSystemEmailServer(d *schema.ResourceData, o *models.SystemEmai
 	if o.Password != nil {
 		v := *o.Password
 
-		if err = d.Set("password", v); err != nil {
+		if v == "ENC XXXX" {
+		} else if err = d.Set("password", v); err != nil {
 			return diag.Errorf("error reading password: %v", err)
 		}
 	}

@@ -326,6 +326,9 @@ func resourceApplicationNameRead(ctx context.Context, d *schema.ResourceData, me
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadApplicationName(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading ApplicationName resource: %v", err)

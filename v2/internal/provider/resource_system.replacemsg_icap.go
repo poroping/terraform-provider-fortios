@@ -205,6 +205,9 @@ func resourceSystemReplacemsgIcapRead(ctx context.Context, d *schema.ResourceDat
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadSystemReplacemsgIcap(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading SystemReplacemsgIcap resource: %v", err)

@@ -171,6 +171,9 @@ func resourceEmailfilterOptionsRead(ctx context.Context, d *schema.ResourceData,
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadEmailfilterOptions(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading EmailfilterOptions resource: %v", err)

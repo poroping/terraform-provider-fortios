@@ -212,6 +212,9 @@ func resourceFirewallIpTranslationRead(ctx context.Context, d *schema.ResourceDa
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadFirewallIpTranslation(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading FirewallIpTranslation resource: %v", err)

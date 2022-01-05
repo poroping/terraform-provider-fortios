@@ -221,6 +221,9 @@ func resourceSystemAutomationDestinationRead(ctx context.Context, d *schema.Reso
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadSystemAutomationDestination(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading SystemAutomationDestination resource: %v", err)

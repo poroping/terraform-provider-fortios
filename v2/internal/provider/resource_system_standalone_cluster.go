@@ -210,6 +210,9 @@ func resourceSystemStandaloneClusterRead(ctx context.Context, d *schema.Resource
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadSystemStandaloneCluster(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading SystemStandaloneCluster resource: %v", err)
@@ -265,7 +268,8 @@ func refreshObjectSystemStandaloneCluster(d *schema.ResourceData, o *models.Syst
 	if o.Psksecret != nil {
 		v := *o.Psksecret
 
-		if err = d.Set("psksecret", v); err != nil {
+		if v == "ENC XXXX" {
+		} else if err = d.Set("psksecret", v); err != nil {
 			return diag.Errorf("error reading psksecret: %v", err)
 		}
 	}

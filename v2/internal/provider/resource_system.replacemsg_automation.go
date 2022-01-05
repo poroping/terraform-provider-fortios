@@ -205,6 +205,9 @@ func resourceSystemReplacemsgAutomationRead(ctx context.Context, d *schema.Resou
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadSystemReplacemsgAutomation(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading SystemReplacemsgAutomation resource: %v", err)

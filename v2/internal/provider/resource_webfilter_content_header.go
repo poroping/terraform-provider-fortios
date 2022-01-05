@@ -237,6 +237,9 @@ func resourceWebfilterContentHeaderRead(ctx context.Context, d *schema.ResourceD
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadWebfilterContentHeader(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading WebfilterContentHeader resource: %v", err)

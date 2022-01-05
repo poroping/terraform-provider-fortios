@@ -202,6 +202,9 @@ func resourceDlpSettingsRead(ctx context.Context, d *schema.ResourceData, meta i
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadDlpSettings(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading DlpSettings resource: %v", err)

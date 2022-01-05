@@ -378,6 +378,9 @@ func resourceReportStyleRead(ctx context.Context, d *schema.ResourceData, meta i
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadReportStyle(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading ReportStyle resource: %v", err)

@@ -334,6 +334,9 @@ func resourceEndpointControlFctemsRead(ctx context.Context, d *schema.ResourceDa
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadEndpointControlFctems(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading EndpointControlFctems resource: %v", err)
@@ -365,7 +368,8 @@ func refreshObjectEndpointControlFctems(d *schema.ResourceData, o *models.Endpoi
 	if o.AdminPassword != nil {
 		v := *o.AdminPassword
 
-		if err = d.Set("admin_password", v); err != nil {
+		if v == "ENC XXXX" {
+		} else if err = d.Set("admin_password", v); err != nil {
 			return diag.Errorf("error reading admin_password: %v", err)
 		}
 	}

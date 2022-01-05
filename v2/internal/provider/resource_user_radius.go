@@ -596,6 +596,9 @@ func resourceUserRadiusRead(ctx context.Context, d *schema.ResourceData, meta in
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadUserRadius(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading UserRadius resource: %v", err)
@@ -901,7 +904,8 @@ func refreshObjectUserRadius(d *schema.ResourceData, o *models.UserRadius, sv st
 	if o.RssoSecret != nil {
 		v := *o.RssoSecret
 
-		if err = d.Set("rsso_secret", v); err != nil {
+		if v == "ENC XXXX" {
+		} else if err = d.Set("rsso_secret", v); err != nil {
 			return diag.Errorf("error reading rsso_secret: %v", err)
 		}
 	}
@@ -917,7 +921,8 @@ func refreshObjectUserRadius(d *schema.ResourceData, o *models.UserRadius, sv st
 	if o.SecondarySecret != nil {
 		v := *o.SecondarySecret
 
-		if err = d.Set("secondary_secret", v); err != nil {
+		if v == "ENC XXXX" {
+		} else if err = d.Set("secondary_secret", v); err != nil {
 			return diag.Errorf("error reading secondary_secret: %v", err)
 		}
 	}
@@ -933,7 +938,8 @@ func refreshObjectUserRadius(d *schema.ResourceData, o *models.UserRadius, sv st
 	if o.Secret != nil {
 		v := *o.Secret
 
-		if err = d.Set("secret", v); err != nil {
+		if v == "ENC XXXX" {
+		} else if err = d.Set("secret", v); err != nil {
 			return diag.Errorf("error reading secret: %v", err)
 		}
 	}
@@ -997,7 +1003,8 @@ func refreshObjectUserRadius(d *schema.ResourceData, o *models.UserRadius, sv st
 	if o.TertiarySecret != nil {
 		v := *o.TertiarySecret
 
-		if err = d.Set("tertiary_secret", v); err != nil {
+		if v == "ENC XXXX" {
+		} else if err = d.Set("tertiary_secret", v); err != nil {
 			return diag.Errorf("error reading tertiary_secret: %v", err)
 		}
 	}

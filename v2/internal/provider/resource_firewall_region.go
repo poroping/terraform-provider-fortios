@@ -215,6 +215,9 @@ func resourceFirewallRegionRead(ctx context.Context, d *schema.ResourceData, met
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadFirewallRegion(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading FirewallRegion resource: %v", err)

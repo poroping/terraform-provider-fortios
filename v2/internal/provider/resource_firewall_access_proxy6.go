@@ -915,6 +915,9 @@ func resourceFirewallAccessProxy6Read(ctx context.Context, d *schema.ResourceDat
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadFirewallAccessProxy6(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading FirewallAccessProxy6 resource: %v", err)

@@ -190,6 +190,9 @@ func resourceFirewallInternetServiceSldRead(ctx context.Context, d *schema.Resou
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadFirewallInternetServiceSld(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading FirewallInternetServiceSld resource: %v", err)

@@ -530,6 +530,9 @@ func resourceSystemModemRead(ctx context.Context, d *schema.ResourceData, meta i
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadSystemModem(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading SystemModem resource: %v", err)
@@ -753,7 +756,8 @@ func refreshObjectSystemModem(d *schema.ResourceData, o *models.SystemModem, sv 
 	if o.Passwd1 != nil {
 		v := *o.Passwd1
 
-		if err = d.Set("passwd1", v); err != nil {
+		if v == "ENC XXXX" {
+		} else if err = d.Set("passwd1", v); err != nil {
 			return diag.Errorf("error reading passwd1: %v", err)
 		}
 	}
@@ -761,7 +765,8 @@ func refreshObjectSystemModem(d *schema.ResourceData, o *models.SystemModem, sv 
 	if o.Passwd2 != nil {
 		v := *o.Passwd2
 
-		if err = d.Set("passwd2", v); err != nil {
+		if v == "ENC XXXX" {
+		} else if err = d.Set("passwd2", v); err != nil {
 			return diag.Errorf("error reading passwd2: %v", err)
 		}
 	}
@@ -769,7 +774,8 @@ func refreshObjectSystemModem(d *schema.ResourceData, o *models.SystemModem, sv 
 	if o.Passwd3 != nil {
 		v := *o.Passwd3
 
-		if err = d.Set("passwd3", v); err != nil {
+		if v == "ENC XXXX" {
+		} else if err = d.Set("passwd3", v); err != nil {
 			return diag.Errorf("error reading passwd3: %v", err)
 		}
 	}

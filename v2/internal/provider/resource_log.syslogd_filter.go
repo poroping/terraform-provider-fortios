@@ -290,6 +290,9 @@ func resourceLogSyslogdFilterRead(ctx context.Context, d *schema.ResourceData, m
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadLogSyslogdFilter(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading LogSyslogdFilter resource: %v", err)

@@ -398,6 +398,9 @@ func resourceLogDiskSettingRead(ctx context.Context, d *schema.ResourceData, met
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadLogDiskSetting(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading LogDiskSetting resource: %v", err)
@@ -621,7 +624,8 @@ func refreshObjectLogDiskSetting(d *schema.ResourceData, o *models.LogDiskSettin
 	if o.Uploadpass != nil {
 		v := *o.Uploadpass
 
-		if err = d.Set("uploadpass", v); err != nil {
+		if v == "ENC XXXX" {
+		} else if err = d.Set("uploadpass", v); err != nil {
 			return diag.Errorf("error reading uploadpass: %v", err)
 		}
 	}

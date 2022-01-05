@@ -290,6 +290,9 @@ func resourceLogSyslogd4OverrideFilterRead(ctx context.Context, d *schema.Resour
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadLogSyslogd4OverrideFilter(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading LogSyslogd4OverrideFilter resource: %v", err)

@@ -964,6 +964,9 @@ func resourceExtenderControllerExtenderRead(ctx context.Context, d *schema.Resou
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadExtenderControllerExtender(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading ExtenderControllerExtender resource: %v", err)
@@ -1253,7 +1256,8 @@ func refreshObjectExtenderControllerExtender(d *schema.ResourceData, o *models.E
 	if o.AaaSharedSecret != nil {
 		v := *o.AaaSharedSecret
 
-		if err = d.Set("aaa_shared_secret", v); err != nil {
+		if v == "ENC XXXX" {
+		} else if err = d.Set("aaa_shared_secret", v); err != nil {
 			return diag.Errorf("error reading aaa_shared_secret: %v", err)
 		}
 	}
@@ -1411,7 +1415,8 @@ func refreshObjectExtenderControllerExtender(d *schema.ResourceData, o *models.E
 	if o.HaSharedSecret != nil {
 		v := *o.HaSharedSecret
 
-		if err = d.Set("ha_shared_secret", v); err != nil {
+		if v == "ENC XXXX" {
+		} else if err = d.Set("ha_shared_secret", v); err != nil {
 			return diag.Errorf("error reading ha_shared_secret: %v", err)
 		}
 	}
@@ -1443,7 +1448,8 @@ func refreshObjectExtenderControllerExtender(d *schema.ResourceData, o *models.E
 	if o.LoginPassword != nil {
 		v := *o.LoginPassword
 
-		if err = d.Set("login_password", v); err != nil {
+		if v == "ENC XXXX" {
+		} else if err = d.Set("login_password", v); err != nil {
 			return diag.Errorf("error reading login_password: %v", err)
 		}
 	}
@@ -1467,7 +1473,8 @@ func refreshObjectExtenderControllerExtender(d *schema.ResourceData, o *models.E
 	if o.ModemPasswd != nil {
 		v := *o.ModemPasswd
 
-		if err = d.Set("modem_passwd", v); err != nil {
+		if v == "ENC XXXX" {
+		} else if err = d.Set("modem_passwd", v); err != nil {
 			return diag.Errorf("error reading modem_passwd: %v", err)
 		}
 	}
@@ -1551,7 +1558,8 @@ func refreshObjectExtenderControllerExtender(d *schema.ResourceData, o *models.E
 	if o.PppPassword != nil {
 		v := *o.PppPassword
 
-		if err = d.Set("ppp_password", v); err != nil {
+		if v == "ENC XXXX" {
+		} else if err = d.Set("ppp_password", v); err != nil {
 			return diag.Errorf("error reading ppp_password: %v", err)
 		}
 	}
@@ -1631,7 +1639,8 @@ func refreshObjectExtenderControllerExtender(d *schema.ResourceData, o *models.E
 	if o.SimPin != nil {
 		v := *o.SimPin
 
-		if err = d.Set("sim_pin", v); err != nil {
+		if v == "ENC XXXX" {
+		} else if err = d.Set("sim_pin", v); err != nil {
 			return diag.Errorf("error reading sim_pin: %v", err)
 		}
 	}

@@ -189,6 +189,9 @@ func resourceSystemDns64Read(ctx context.Context, d *schema.ResourceData, meta i
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadSystemDns64(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading SystemDns64 resource: %v", err)

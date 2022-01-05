@@ -1436,6 +1436,9 @@ func resourceVpnIpsecPhase1InterfaceRead(ctx context.Context, d *schema.Resource
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadVpnIpsecPhase1Interface(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading VpnIpsecPhase1Interface resource: %v", err)
@@ -1639,7 +1642,8 @@ func refreshObjectVpnIpsecPhase1Interface(d *schema.ResourceData, o *models.VpnI
 	if o.Authpasswd != nil {
 		v := *o.Authpasswd
 
-		if err = d.Set("authpasswd", v); err != nil {
+		if v == "ENC XXXX" {
+		} else if err = d.Set("authpasswd", v); err != nil {
 			return diag.Errorf("error reading authpasswd: %v", err)
 		}
 	}
@@ -2083,7 +2087,8 @@ func refreshObjectVpnIpsecPhase1Interface(d *schema.ResourceData, o *models.VpnI
 	if o.GroupAuthenticationSecret != nil {
 		v := *o.GroupAuthenticationSecret
 
-		if err = d.Set("group_authentication_secret", v); err != nil {
+		if v == "ENC XXXX" {
+		} else if err = d.Set("group_authentication_secret", v); err != nil {
 			return diag.Errorf("error reading group_authentication_secret: %v", err)
 		}
 	}
@@ -2567,7 +2572,8 @@ func refreshObjectVpnIpsecPhase1Interface(d *schema.ResourceData, o *models.VpnI
 	if o.PpkSecret != nil {
 		v := *o.PpkSecret
 
-		if err = d.Set("ppk_secret", v); err != nil {
+		if v == "ENC XXXX" {
+		} else if err = d.Set("ppk_secret", v); err != nil {
 			return diag.Errorf("error reading ppk_secret: %v", err)
 		}
 	}
@@ -2591,7 +2597,8 @@ func refreshObjectVpnIpsecPhase1Interface(d *schema.ResourceData, o *models.VpnI
 	if o.Psksecret != nil {
 		v := *o.Psksecret
 
-		if err = d.Set("psksecret", v); err != nil {
+		if v == "ENC XXXX" {
+		} else if err = d.Set("psksecret", v); err != nil {
 			return diag.Errorf("error reading psksecret: %v", err)
 		}
 	}
@@ -2599,7 +2606,8 @@ func refreshObjectVpnIpsecPhase1Interface(d *schema.ResourceData, o *models.VpnI
 	if o.PsksecretRemote != nil {
 		v := *o.PsksecretRemote
 
-		if err = d.Set("psksecret_remote", v); err != nil {
+		if v == "ENC XXXX" {
+		} else if err = d.Set("psksecret_remote", v); err != nil {
 			return diag.Errorf("error reading psksecret_remote: %v", err)
 		}
 	}

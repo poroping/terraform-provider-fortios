@@ -229,6 +229,9 @@ func resourceFirewallDecryptedTrafficMirrorRead(ctx context.Context, d *schema.R
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadFirewallDecryptedTrafficMirror(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading FirewallDecryptedTrafficMirror resource: %v", err)

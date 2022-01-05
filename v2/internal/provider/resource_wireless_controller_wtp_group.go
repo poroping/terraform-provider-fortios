@@ -213,6 +213,9 @@ func resourceWirelessControllerWtpGroupRead(ctx context.Context, d *schema.Resou
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadWirelessControllerWtpGroup(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading WirelessControllerWtpGroup resource: %v", err)

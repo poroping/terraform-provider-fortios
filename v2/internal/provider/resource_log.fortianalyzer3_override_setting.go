@@ -377,6 +377,9 @@ func resourceLogFortianalyzer3OverrideSettingRead(ctx context.Context, d *schema
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadLogFortianalyzer3OverrideSetting(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading LogFortianalyzer3OverrideSetting resource: %v", err)

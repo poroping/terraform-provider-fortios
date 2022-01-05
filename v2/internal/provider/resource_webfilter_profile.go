@@ -1152,6 +1152,9 @@ func resourceWebfilterProfileRead(ctx context.Context, d *schema.ResourceData, m
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadWebfilterProfile(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading WebfilterProfile resource: %v", err)

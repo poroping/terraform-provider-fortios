@@ -187,6 +187,9 @@ func resourceFirewallIpmacbindingSettingRead(ctx context.Context, d *schema.Reso
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadFirewallIpmacbindingSetting(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading FirewallIpmacbindingSetting resource: %v", err)

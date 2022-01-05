@@ -205,6 +205,9 @@ func resourceSystemSsoForticloudAdminRead(ctx context.Context, d *schema.Resourc
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadSystemSsoForticloudAdmin(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading SystemSsoForticloudAdmin resource: %v", err)

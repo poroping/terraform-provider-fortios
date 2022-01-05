@@ -411,6 +411,9 @@ func resourceRouterIsisIsisInterfaceRead(ctx context.Context, d *schema.Resource
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadRouterIsisIsisInterface(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading RouterIsisIsisInterface resource: %v", err)
@@ -474,7 +477,8 @@ func refreshObjectRouterIsisIsisInterface(d *schema.ResourceData, o *models.Rout
 	if o.AuthPasswordL1 != nil {
 		v := *o.AuthPasswordL1
 
-		if err = d.Set("auth_password_l1", v); err != nil {
+		if v == "ENC XXXX" {
+		} else if err = d.Set("auth_password_l1", v); err != nil {
 			return diag.Errorf("error reading auth_password_l1: %v", err)
 		}
 	}
@@ -482,7 +486,8 @@ func refreshObjectRouterIsisIsisInterface(d *schema.ResourceData, o *models.Rout
 	if o.AuthPasswordL2 != nil {
 		v := *o.AuthPasswordL2
 
-		if err = d.Set("auth_password_l2", v); err != nil {
+		if v == "ENC XXXX" {
+		} else if err = d.Set("auth_password_l2", v); err != nil {
 			return diag.Errorf("error reading auth_password_l2: %v", err)
 		}
 	}

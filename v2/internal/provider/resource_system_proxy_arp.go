@@ -206,6 +206,9 @@ func resourceSystemProxyArpRead(ctx context.Context, d *schema.ResourceData, met
 	}
 	urlparams.Vdom = vdomparam
 
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
 	o, err := c.Cmdb.ReadSystemProxyArp(mkey, urlparams)
 	if err != nil {
 		return diag.Errorf("error reading SystemProxyArp resource: %v", err)
