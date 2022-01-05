@@ -118,8 +118,6 @@ func dataSourceLogFortianalyzerFilter() *schema.Resource {
 }
 
 func dataSourceLogFortianalyzerFilterRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -131,6 +129,8 @@ func dataSourceLogFortianalyzerFilterRead(ctx context.Context, d *schema.Resourc
 		}
 	}
 	urlparams.Vdom = vdomparam
+
+	mkey := "LogFortianalyzerFilter"
 
 	o, err := c.Cmdb.ReadLogFortianalyzerFilter(mkey, urlparams)
 	if err != nil {
@@ -154,5 +154,8 @@ func dataSourceLogFortianalyzerFilterRead(ctx context.Context, d *schema.Resourc
 	if diags.HasError() {
 		return diags
 	}
+
+	d.SetId(mkey)
+
 	return nil
 }

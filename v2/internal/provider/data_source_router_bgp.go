@@ -1562,8 +1562,6 @@ func dataSourceRouterBgp() *schema.Resource {
 }
 
 func dataSourceRouterBgpRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -1575,6 +1573,8 @@ func dataSourceRouterBgpRead(ctx context.Context, d *schema.ResourceData, meta i
 		}
 	}
 	urlparams.Vdom = vdomparam
+
+	mkey := "RouterBgp"
 
 	o, err := c.Cmdb.ReadRouterBgp(mkey, urlparams)
 	if err != nil {
@@ -1598,5 +1598,8 @@ func dataSourceRouterBgpRead(ctx context.Context, d *schema.ResourceData, meta i
 	if diags.HasError() {
 		return diags
 	}
+
+	d.SetId(mkey)
+
 	return nil
 }

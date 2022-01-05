@@ -79,8 +79,6 @@ func dataSourceVpnL2tp() *schema.Resource {
 }
 
 func dataSourceVpnL2tpRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -92,6 +90,8 @@ func dataSourceVpnL2tpRead(ctx context.Context, d *schema.ResourceData, meta int
 		}
 	}
 	urlparams.Vdom = vdomparam
+
+	mkey := "VpnL2tp"
 
 	o, err := c.Cmdb.ReadVpnL2tp(mkey, urlparams)
 	if err != nil {
@@ -115,5 +115,8 @@ func dataSourceVpnL2tpRead(ctx context.Context, d *schema.ResourceData, meta int
 	if diags.HasError() {
 		return diags
 	}
+
+	d.SetId(mkey)
+
 	return nil
 }

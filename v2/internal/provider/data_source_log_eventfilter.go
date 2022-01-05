@@ -109,8 +109,6 @@ func dataSourceLogEventfilter() *schema.Resource {
 }
 
 func dataSourceLogEventfilterRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -122,6 +120,8 @@ func dataSourceLogEventfilterRead(ctx context.Context, d *schema.ResourceData, m
 		}
 	}
 	urlparams.Vdom = vdomparam
+
+	mkey := "LogEventfilter"
 
 	o, err := c.Cmdb.ReadLogEventfilter(mkey, urlparams)
 	if err != nil {
@@ -145,5 +145,8 @@ func dataSourceLogEventfilterRead(ctx context.Context, d *schema.ResourceData, m
 	if diags.HasError() {
 		return diags
 	}
+
+	d.SetId(mkey)
+
 	return nil
 }

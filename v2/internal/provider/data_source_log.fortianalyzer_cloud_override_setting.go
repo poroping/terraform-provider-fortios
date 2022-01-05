@@ -39,8 +39,6 @@ func dataSourceLogFortianalyzerCloudOverrideSetting() *schema.Resource {
 }
 
 func dataSourceLogFortianalyzerCloudOverrideSettingRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -52,6 +50,8 @@ func dataSourceLogFortianalyzerCloudOverrideSettingRead(ctx context.Context, d *
 		}
 	}
 	urlparams.Vdom = vdomparam
+
+	mkey := "LogFortianalyzerCloudOverrideSetting"
 
 	o, err := c.Cmdb.ReadLogFortianalyzerCloudOverrideSetting(mkey, urlparams)
 	if err != nil {
@@ -75,5 +75,8 @@ func dataSourceLogFortianalyzerCloudOverrideSettingRead(ctx context.Context, d *
 	if diags.HasError() {
 		return diags
 	}
+
+	d.SetId(mkey)
+
 	return nil
 }

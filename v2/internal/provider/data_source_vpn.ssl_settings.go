@@ -548,8 +548,6 @@ func dataSourceVpnSslSettings() *schema.Resource {
 }
 
 func dataSourceVpnSslSettingsRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -561,6 +559,8 @@ func dataSourceVpnSslSettingsRead(ctx context.Context, d *schema.ResourceData, m
 		}
 	}
 	urlparams.Vdom = vdomparam
+
+	mkey := "VpnSslSettings"
 
 	o, err := c.Cmdb.ReadVpnSslSettings(mkey, urlparams)
 	if err != nil {
@@ -584,5 +584,8 @@ func dataSourceVpnSslSettingsRead(ctx context.Context, d *schema.ResourceData, m
 	if diags.HasError() {
 		return diags
 	}
+
+	d.SetId(mkey)
+
 	return nil
 }

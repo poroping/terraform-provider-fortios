@@ -118,8 +118,6 @@ func dataSourceLogFortianalyzer3OverrideFilter() *schema.Resource {
 }
 
 func dataSourceLogFortianalyzer3OverrideFilterRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -131,6 +129,8 @@ func dataSourceLogFortianalyzer3OverrideFilterRead(ctx context.Context, d *schem
 		}
 	}
 	urlparams.Vdom = vdomparam
+
+	mkey := "LogFortianalyzer3OverrideFilter"
 
 	o, err := c.Cmdb.ReadLogFortianalyzer3OverrideFilter(mkey, urlparams)
 	if err != nil {
@@ -154,5 +154,8 @@ func dataSourceLogFortianalyzer3OverrideFilterRead(ctx context.Context, d *schem
 	if diags.HasError() {
 		return diags
 	}
+
+	d.SetId(mkey)
+
 	return nil
 }

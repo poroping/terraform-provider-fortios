@@ -203,8 +203,6 @@ func dataSourceLogMemoryFilter() *schema.Resource {
 }
 
 func dataSourceLogMemoryFilterRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -216,6 +214,8 @@ func dataSourceLogMemoryFilterRead(ctx context.Context, d *schema.ResourceData, 
 		}
 	}
 	urlparams.Vdom = vdomparam
+
+	mkey := "LogMemoryFilter"
 
 	o, err := c.Cmdb.ReadLogMemoryFilter(mkey, urlparams)
 	if err != nil {
@@ -239,5 +239,8 @@ func dataSourceLogMemoryFilterRead(ctx context.Context, d *schema.ResourceData, 
 	if diags.HasError() {
 		return diags
 	}
+
+	d.SetId(mkey)
+
 	return nil
 }

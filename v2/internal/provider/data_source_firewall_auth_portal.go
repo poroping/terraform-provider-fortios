@@ -63,8 +63,6 @@ func dataSourceFirewallAuthPortal() *schema.Resource {
 }
 
 func dataSourceFirewallAuthPortalRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -76,6 +74,8 @@ func dataSourceFirewallAuthPortalRead(ctx context.Context, d *schema.ResourceDat
 		}
 	}
 	urlparams.Vdom = vdomparam
+
+	mkey := "FirewallAuthPortal"
 
 	o, err := c.Cmdb.ReadFirewallAuthPortal(mkey, urlparams)
 	if err != nil {
@@ -99,5 +99,8 @@ func dataSourceFirewallAuthPortalRead(ctx context.Context, d *schema.ResourceDat
 	if diags.HasError() {
 		return diags
 	}
+
+	d.SetId(mkey)
+
 	return nil
 }

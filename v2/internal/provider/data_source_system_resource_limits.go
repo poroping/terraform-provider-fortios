@@ -124,8 +124,6 @@ func dataSourceSystemResourceLimits() *schema.Resource {
 }
 
 func dataSourceSystemResourceLimitsRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -137,6 +135,8 @@ func dataSourceSystemResourceLimitsRead(ctx context.Context, d *schema.ResourceD
 		}
 	}
 	urlparams.Vdom = vdomparam
+
+	mkey := "SystemResourceLimits"
 
 	o, err := c.Cmdb.ReadSystemResourceLimits(mkey, urlparams)
 	if err != nil {
@@ -160,5 +160,8 @@ func dataSourceSystemResourceLimitsRead(ctx context.Context, d *schema.ResourceD
 	if diags.HasError() {
 		return diags
 	}
+
+	d.SetId(mkey)
+
 	return nil
 }

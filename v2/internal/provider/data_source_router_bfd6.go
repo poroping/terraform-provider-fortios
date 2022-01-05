@@ -53,8 +53,6 @@ func dataSourceRouterBfd6() *schema.Resource {
 }
 
 func dataSourceRouterBfd6Read(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -66,6 +64,8 @@ func dataSourceRouterBfd6Read(ctx context.Context, d *schema.ResourceData, meta 
 		}
 	}
 	urlparams.Vdom = vdomparam
+
+	mkey := "RouterBfd6"
 
 	o, err := c.Cmdb.ReadRouterBfd6(mkey, urlparams)
 	if err != nil {
@@ -89,5 +89,8 @@ func dataSourceRouterBfd6Read(ctx context.Context, d *schema.ResourceData, meta 
 	if diags.HasError() {
 		return diags
 	}
+
+	d.SetId(mkey)
+
 	return nil
 }

@@ -157,8 +157,6 @@ func dataSourceSystemAlarm() *schema.Resource {
 }
 
 func dataSourceSystemAlarmRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -170,6 +168,8 @@ func dataSourceSystemAlarmRead(ctx context.Context, d *schema.ResourceData, meta
 		}
 	}
 	urlparams.Vdom = vdomparam
+
+	mkey := "SystemAlarm"
 
 	o, err := c.Cmdb.ReadSystemAlarm(mkey, urlparams)
 	if err != nil {
@@ -193,5 +193,8 @@ func dataSourceSystemAlarmRead(ctx context.Context, d *schema.ResourceData, meta
 	if diags.HasError() {
 		return diags
 	}
+
+	d.SetId(mkey)
+
 	return nil
 }

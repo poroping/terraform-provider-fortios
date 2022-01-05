@@ -39,8 +39,6 @@ func dataSourceLogNullDeviceSetting() *schema.Resource {
 }
 
 func dataSourceLogNullDeviceSettingRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -52,6 +50,8 @@ func dataSourceLogNullDeviceSettingRead(ctx context.Context, d *schema.ResourceD
 		}
 	}
 	urlparams.Vdom = vdomparam
+
+	mkey := "LogNullDeviceSetting"
 
 	o, err := c.Cmdb.ReadLogNullDeviceSetting(mkey, urlparams)
 	if err != nil {
@@ -75,5 +75,8 @@ func dataSourceLogNullDeviceSettingRead(ctx context.Context, d *schema.ResourceD
 	if diags.HasError() {
 		return diags
 	}
+
+	d.SetId(mkey)
+
 	return nil
 }

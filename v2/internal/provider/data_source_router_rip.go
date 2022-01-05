@@ -317,8 +317,6 @@ func dataSourceRouterRip() *schema.Resource {
 }
 
 func dataSourceRouterRipRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -330,6 +328,8 @@ func dataSourceRouterRipRead(ctx context.Context, d *schema.ResourceData, meta i
 		}
 	}
 	urlparams.Vdom = vdomparam
+
+	mkey := "RouterRip"
 
 	o, err := c.Cmdb.ReadRouterRip(mkey, urlparams)
 	if err != nil {
@@ -353,5 +353,8 @@ func dataSourceRouterRipRead(ctx context.Context, d *schema.ResourceData, meta i
 	if diags.HasError() {
 		return diags
 	}
+
+	d.SetId(mkey)
+
 	return nil
 }

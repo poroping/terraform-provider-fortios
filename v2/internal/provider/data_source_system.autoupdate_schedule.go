@@ -54,8 +54,6 @@ func dataSourceSystemAutoupdateSchedule() *schema.Resource {
 }
 
 func dataSourceSystemAutoupdateScheduleRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -67,6 +65,8 @@ func dataSourceSystemAutoupdateScheduleRead(ctx context.Context, d *schema.Resou
 		}
 	}
 	urlparams.Vdom = vdomparam
+
+	mkey := "SystemAutoupdateSchedule"
 
 	o, err := c.Cmdb.ReadSystemAutoupdateSchedule(mkey, urlparams)
 	if err != nil {
@@ -90,5 +90,8 @@ func dataSourceSystemAutoupdateScheduleRead(ctx context.Context, d *schema.Resou
 	if diags.HasError() {
 		return diags
 	}
+
+	d.SetId(mkey)
+
 	return nil
 }

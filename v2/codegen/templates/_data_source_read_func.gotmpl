@@ -1,7 +1,5 @@
 {{define "DATAREADRESFUNC" }}
 func dataSource{{.fpath}}Read(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 	
@@ -13,6 +11,10 @@ func dataSource{{.fpath}}Read(ctx context.Context, d *schema.ResourceData, meta 
 		}
 	}
 	urlparams.Vdom = vdomparam
+
+	{{if eq .results.category "complex"}}mkey := "{{.fpath}}"{{else}}
+	i := d.Get("{{if or (eq .results.mkey "id") (eq .results.mkey "count")}}fos{{end}}{{(flatten .results.mkey)}}")
+	mkey := utils.ParseMkey(i){{end}}
 
 	o, err := c.Cmdb.Read{{.fpath}}(mkey, urlparams)
 	if err != nil {
@@ -36,6 +38,9 @@ func dataSource{{.fpath}}Read(ctx context.Context, d *schema.ResourceData, meta 
 	if diags.HasError() {
 		return diags
 	}
+
+	d.SetId(mkey)
+
 	return nil
 }
 {{ end }}

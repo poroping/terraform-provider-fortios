@@ -39,8 +39,6 @@ func dataSourceAntivirusHeuristic() *schema.Resource {
 }
 
 func dataSourceAntivirusHeuristicRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -52,6 +50,8 @@ func dataSourceAntivirusHeuristicRead(ctx context.Context, d *schema.ResourceDat
 		}
 	}
 	urlparams.Vdom = vdomparam
+
+	mkey := "AntivirusHeuristic"
 
 	o, err := c.Cmdb.ReadAntivirusHeuristic(mkey, urlparams)
 	if err != nil {
@@ -75,5 +75,8 @@ func dataSourceAntivirusHeuristicRead(ctx context.Context, d *schema.ResourceDat
 	if diags.HasError() {
 		return diags
 	}
+
+	d.SetId(mkey)
+
 	return nil
 }

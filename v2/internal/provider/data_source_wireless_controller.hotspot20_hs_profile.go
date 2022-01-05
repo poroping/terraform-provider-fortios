@@ -14,6 +14,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/poroping/forti-sdk-go/v2/models"
+	"github.com/poroping/terraform-provider-fortios/v2/utils"
 )
 
 func dataSourceWirelessControllerHotspot20HsProfile() *schema.Resource {
@@ -233,8 +234,6 @@ func dataSourceWirelessControllerHotspot20HsProfile() *schema.Resource {
 }
 
 func dataSourceWirelessControllerHotspot20HsProfileRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -246,6 +245,9 @@ func dataSourceWirelessControllerHotspot20HsProfileRead(ctx context.Context, d *
 		}
 	}
 	urlparams.Vdom = vdomparam
+
+	i := d.Get("name")
+	mkey := utils.ParseMkey(i)
 
 	o, err := c.Cmdb.ReadWirelessControllerHotspot20HsProfile(mkey, urlparams)
 	if err != nil {
@@ -269,5 +271,8 @@ func dataSourceWirelessControllerHotspot20HsProfileRead(ctx context.Context, d *
 	if diags.HasError() {
 		return diags
 	}
+
+	d.SetId(mkey)
+
 	return nil
 }

@@ -529,8 +529,6 @@ func dataSourceRouterOspf6() *schema.Resource {
 }
 
 func dataSourceRouterOspf6Read(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -542,6 +540,8 @@ func dataSourceRouterOspf6Read(ctx context.Context, d *schema.ResourceData, meta
 		}
 	}
 	urlparams.Vdom = vdomparam
+
+	mkey := "RouterOspf6"
 
 	o, err := c.Cmdb.ReadRouterOspf6(mkey, urlparams)
 	if err != nil {
@@ -565,5 +565,8 @@ func dataSourceRouterOspf6Read(ctx context.Context, d *schema.ResourceData, meta
 	if diags.HasError() {
 		return diags
 	}
+
+	d.SetId(mkey)
+
 	return nil
 }

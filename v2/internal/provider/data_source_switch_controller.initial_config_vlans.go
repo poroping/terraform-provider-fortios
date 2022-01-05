@@ -69,8 +69,6 @@ func dataSourceSwitchControllerInitialConfigVlans() *schema.Resource {
 }
 
 func dataSourceSwitchControllerInitialConfigVlansRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -82,6 +80,8 @@ func dataSourceSwitchControllerInitialConfigVlansRead(ctx context.Context, d *sc
 		}
 	}
 	urlparams.Vdom = vdomparam
+
+	mkey := "SwitchControllerInitialConfigVlans"
 
 	o, err := c.Cmdb.ReadSwitchControllerInitialConfigVlans(mkey, urlparams)
 	if err != nil {
@@ -105,5 +105,8 @@ func dataSourceSwitchControllerInitialConfigVlansRead(ctx context.Context, d *sc
 	if diags.HasError() {
 		return diags
 	}
+
+	d.SetId(mkey)
+
 	return nil
 }

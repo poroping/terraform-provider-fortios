@@ -1285,8 +1285,6 @@ func dataSourceSystemNpu() *schema.Resource {
 }
 
 func dataSourceSystemNpuRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -1298,6 +1296,8 @@ func dataSourceSystemNpuRead(ctx context.Context, d *schema.ResourceData, meta i
 		}
 	}
 	urlparams.Vdom = vdomparam
+
+	mkey := "SystemNpu"
 
 	o, err := c.Cmdb.ReadSystemNpu(mkey, urlparams)
 	if err != nil {
@@ -1321,5 +1321,8 @@ func dataSourceSystemNpuRead(ctx context.Context, d *schema.ResourceData, meta i
 	if diags.HasError() {
 		return diags
 	}
+
+	d.SetId(mkey)
+
 	return nil
 }

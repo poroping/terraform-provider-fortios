@@ -69,8 +69,6 @@ func dataSourceSystemDedicatedMgmt() *schema.Resource {
 }
 
 func dataSourceSystemDedicatedMgmtRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -82,6 +80,8 @@ func dataSourceSystemDedicatedMgmtRead(ctx context.Context, d *schema.ResourceDa
 		}
 	}
 	urlparams.Vdom = vdomparam
+
+	mkey := "SystemDedicatedMgmt"
 
 	o, err := c.Cmdb.ReadSystemDedicatedMgmt(mkey, urlparams)
 	if err != nil {
@@ -105,5 +105,8 @@ func dataSourceSystemDedicatedMgmtRead(ctx context.Context, d *schema.ResourceDa
 	if diags.HasError() {
 		return diags
 	}
+
+	d.SetId(mkey)
+
 	return nil
 }

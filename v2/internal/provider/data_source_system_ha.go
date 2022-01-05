@@ -528,8 +528,6 @@ func dataSourceSystemHa() *schema.Resource {
 }
 
 func dataSourceSystemHaRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -541,6 +539,8 @@ func dataSourceSystemHaRead(ctx context.Context, d *schema.ResourceData, meta in
 		}
 	}
 	urlparams.Vdom = vdomparam
+
+	mkey := "SystemHa"
 
 	o, err := c.Cmdb.ReadSystemHa(mkey, urlparams)
 	if err != nil {
@@ -564,5 +564,8 @@ func dataSourceSystemHaRead(ctx context.Context, d *schema.ResourceData, meta in
 	if diags.HasError() {
 		return diags
 	}
+
+	d.SetId(mkey)
+
 	return nil
 }

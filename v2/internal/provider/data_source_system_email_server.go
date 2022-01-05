@@ -105,8 +105,6 @@ func dataSourceSystemEmailServer() *schema.Resource {
 }
 
 func dataSourceSystemEmailServerRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -118,6 +116,8 @@ func dataSourceSystemEmailServerRead(ctx context.Context, d *schema.ResourceData
 		}
 	}
 	urlparams.Vdom = vdomparam
+
+	mkey := "SystemEmailServer"
 
 	o, err := c.Cmdb.ReadSystemEmailServer(mkey, urlparams)
 	if err != nil {
@@ -141,5 +141,8 @@ func dataSourceSystemEmailServerRead(ctx context.Context, d *schema.ResourceData
 	if diags.HasError() {
 		return diags
 	}
+
+	d.SetId(mkey)
+
 	return nil
 }

@@ -84,8 +84,6 @@ func dataSourceSwitchControllerSystem() *schema.Resource {
 }
 
 func dataSourceSwitchControllerSystemRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -97,6 +95,8 @@ func dataSourceSwitchControllerSystemRead(ctx context.Context, d *schema.Resourc
 		}
 	}
 	urlparams.Vdom = vdomparam
+
+	mkey := "SwitchControllerSystem"
 
 	o, err := c.Cmdb.ReadSwitchControllerSystem(mkey, urlparams)
 	if err != nil {
@@ -120,5 +120,8 @@ func dataSourceSwitchControllerSystemRead(ctx context.Context, d *schema.Resourc
 	if diags.HasError() {
 		return diags
 	}
+
+	d.SetId(mkey)
+
 	return nil
 }

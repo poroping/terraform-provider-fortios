@@ -89,8 +89,6 @@ func dataSourceWebfilterFortiguard() *schema.Resource {
 }
 
 func dataSourceWebfilterFortiguardRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -102,6 +100,8 @@ func dataSourceWebfilterFortiguardRead(ctx context.Context, d *schema.ResourceDa
 		}
 	}
 	urlparams.Vdom = vdomparam
+
+	mkey := "WebfilterFortiguard"
 
 	o, err := c.Cmdb.ReadWebfilterFortiguard(mkey, urlparams)
 	if err != nil {
@@ -125,5 +125,8 @@ func dataSourceWebfilterFortiguardRead(ctx context.Context, d *schema.ResourceDa
 	if diags.HasError() {
 		return diags
 	}
+
+	d.SetId(mkey)
+
 	return nil
 }

@@ -59,8 +59,6 @@ func dataSourceSystemFtmPush() *schema.Resource {
 }
 
 func dataSourceSystemFtmPushRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -72,6 +70,8 @@ func dataSourceSystemFtmPushRead(ctx context.Context, d *schema.ResourceData, me
 		}
 	}
 	urlparams.Vdom = vdomparam
+
+	mkey := "SystemFtmPush"
 
 	o, err := c.Cmdb.ReadSystemFtmPush(mkey, urlparams)
 	if err != nil {
@@ -95,5 +95,8 @@ func dataSourceSystemFtmPushRead(ctx context.Context, d *schema.ResourceData, me
 	if diags.HasError() {
 		return diags
 	}
+
+	d.SetId(mkey)
+
 	return nil
 }

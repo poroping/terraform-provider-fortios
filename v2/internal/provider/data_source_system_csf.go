@@ -223,8 +223,6 @@ func dataSourceSystemCsf() *schema.Resource {
 }
 
 func dataSourceSystemCsfRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -236,6 +234,8 @@ func dataSourceSystemCsfRead(ctx context.Context, d *schema.ResourceData, meta i
 		}
 	}
 	urlparams.Vdom = vdomparam
+
+	mkey := "SystemCsf"
 
 	o, err := c.Cmdb.ReadSystemCsf(mkey, urlparams)
 	if err != nil {
@@ -259,5 +259,8 @@ func dataSourceSystemCsfRead(ctx context.Context, d *schema.ResourceData, meta i
 	if diags.HasError() {
 		return diags
 	}
+
+	d.SetId(mkey)
+
 	return nil
 }

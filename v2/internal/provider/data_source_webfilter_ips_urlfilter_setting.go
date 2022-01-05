@@ -54,8 +54,6 @@ func dataSourceWebfilterIpsUrlfilterSetting() *schema.Resource {
 }
 
 func dataSourceWebfilterIpsUrlfilterSettingRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -67,6 +65,8 @@ func dataSourceWebfilterIpsUrlfilterSettingRead(ctx context.Context, d *schema.R
 		}
 	}
 	urlparams.Vdom = vdomparam
+
+	mkey := "WebfilterIpsUrlfilterSetting"
 
 	o, err := c.Cmdb.ReadWebfilterIpsUrlfilterSetting(mkey, urlparams)
 	if err != nil {
@@ -90,5 +90,8 @@ func dataSourceWebfilterIpsUrlfilterSettingRead(ctx context.Context, d *schema.R
 	if diags.HasError() {
 		return diags
 	}
+
+	d.SetId(mkey)
+
 	return nil
 }

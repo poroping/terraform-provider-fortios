@@ -128,8 +128,6 @@ func dataSourceLogSyslogdOverrideSetting() *schema.Resource {
 }
 
 func dataSourceLogSyslogdOverrideSettingRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -141,6 +139,8 @@ func dataSourceLogSyslogdOverrideSettingRead(ctx context.Context, d *schema.Reso
 		}
 	}
 	urlparams.Vdom = vdomparam
+
+	mkey := "LogSyslogdOverrideSetting"
 
 	o, err := c.Cmdb.ReadLogSyslogdOverrideSetting(mkey, urlparams)
 	if err != nil {
@@ -164,5 +164,8 @@ func dataSourceLogSyslogdOverrideSettingRead(ctx context.Context, d *schema.Reso
 	if diags.HasError() {
 		return diags
 	}
+
+	d.SetId(mkey)
+
 	return nil
 }

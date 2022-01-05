@@ -477,8 +477,6 @@ func dataSourceSystemIke() *schema.Resource {
 }
 
 func dataSourceSystemIkeRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -490,6 +488,8 @@ func dataSourceSystemIkeRead(ctx context.Context, d *schema.ResourceData, meta i
 		}
 	}
 	urlparams.Vdom = vdomparam
+
+	mkey := "SystemIke"
 
 	o, err := c.Cmdb.ReadSystemIke(mkey, urlparams)
 	if err != nil {
@@ -513,5 +513,8 @@ func dataSourceSystemIkeRead(ctx context.Context, d *schema.ResourceData, meta i
 	if diags.HasError() {
 		return diags
 	}
+
+	d.SetId(mkey)
+
 	return nil
 }

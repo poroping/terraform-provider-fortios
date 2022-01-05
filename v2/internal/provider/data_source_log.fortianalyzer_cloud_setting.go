@@ -134,8 +134,6 @@ func dataSourceLogFortianalyzerCloudSetting() *schema.Resource {
 }
 
 func dataSourceLogFortianalyzerCloudSettingRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -147,6 +145,8 @@ func dataSourceLogFortianalyzerCloudSettingRead(ctx context.Context, d *schema.R
 		}
 	}
 	urlparams.Vdom = vdomparam
+
+	mkey := "LogFortianalyzerCloudSetting"
 
 	o, err := c.Cmdb.ReadLogFortianalyzerCloudSetting(mkey, urlparams)
 	if err != nil {
@@ -170,5 +170,8 @@ func dataSourceLogFortianalyzerCloudSettingRead(ctx context.Context, d *schema.R
 	if diags.HasError() {
 		return diags
 	}
+
+	d.SetId(mkey)
+
 	return nil
 }

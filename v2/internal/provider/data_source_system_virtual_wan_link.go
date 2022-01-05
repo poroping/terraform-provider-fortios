@@ -830,8 +830,6 @@ func dataSourceSystemVirtualWanLink() *schema.Resource {
 }
 
 func dataSourceSystemVirtualWanLinkRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -843,6 +841,8 @@ func dataSourceSystemVirtualWanLinkRead(ctx context.Context, d *schema.ResourceD
 		}
 	}
 	urlparams.Vdom = vdomparam
+
+	mkey := "SystemVirtualWanLink"
 
 	o, err := c.Cmdb.ReadSystemVirtualWanLink(mkey, urlparams)
 	if err != nil {
@@ -866,5 +866,8 @@ func dataSourceSystemVirtualWanLinkRead(ctx context.Context, d *schema.ResourceD
 	if diags.HasError() {
 		return diags
 	}
+
+	d.SetId(mkey)
+
 	return nil
 }

@@ -128,8 +128,6 @@ func dataSourceLogSyslogd4Setting() *schema.Resource {
 }
 
 func dataSourceLogSyslogd4SettingRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -141,6 +139,8 @@ func dataSourceLogSyslogd4SettingRead(ctx context.Context, d *schema.ResourceDat
 		}
 	}
 	urlparams.Vdom = vdomparam
+
+	mkey := "LogSyslogd4Setting"
 
 	o, err := c.Cmdb.ReadLogSyslogd4Setting(mkey, urlparams)
 	if err != nil {
@@ -164,5 +164,8 @@ func dataSourceLogSyslogd4SettingRead(ctx context.Context, d *schema.ResourceDat
 	if diags.HasError() {
 		return diags
 	}
+
+	d.SetId(mkey)
+
 	return nil
 }

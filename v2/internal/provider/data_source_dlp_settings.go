@@ -59,8 +59,6 @@ func dataSourceDlpSettings() *schema.Resource {
 }
 
 func dataSourceDlpSettingsRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -72,6 +70,8 @@ func dataSourceDlpSettingsRead(ctx context.Context, d *schema.ResourceData, meta
 		}
 	}
 	urlparams.Vdom = vdomparam
+
+	mkey := "DlpSettings"
 
 	o, err := c.Cmdb.ReadDlpSettings(mkey, urlparams)
 	if err != nil {
@@ -95,5 +95,8 @@ func dataSourceDlpSettingsRead(ctx context.Context, d *schema.ResourceData, meta
 	if diags.HasError() {
 		return diags
 	}
+
+	d.SetId(mkey)
+
 	return nil
 }

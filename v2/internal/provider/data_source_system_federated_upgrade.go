@@ -98,8 +98,6 @@ func dataSourceSystemFederatedUpgrade() *schema.Resource {
 }
 
 func dataSourceSystemFederatedUpgradeRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -111,6 +109,8 @@ func dataSourceSystemFederatedUpgradeRead(ctx context.Context, d *schema.Resourc
 		}
 	}
 	urlparams.Vdom = vdomparam
+
+	mkey := "SystemFederatedUpgrade"
 
 	o, err := c.Cmdb.ReadSystemFederatedUpgrade(mkey, urlparams)
 	if err != nil {
@@ -134,5 +134,8 @@ func dataSourceSystemFederatedUpgradeRead(ctx context.Context, d *schema.Resourc
 	if diags.HasError() {
 		return diags
 	}
+
+	d.SetId(mkey)
+
 	return nil
 }

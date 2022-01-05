@@ -79,8 +79,6 @@ func dataSourceFirewallSshSetting() *schema.Resource {
 }
 
 func dataSourceFirewallSshSettingRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -92,6 +90,8 @@ func dataSourceFirewallSshSettingRead(ctx context.Context, d *schema.ResourceDat
 		}
 	}
 	urlparams.Vdom = vdomparam
+
+	mkey := "FirewallSshSetting"
 
 	o, err := c.Cmdb.ReadFirewallSshSetting(mkey, urlparams)
 	if err != nil {
@@ -115,5 +115,8 @@ func dataSourceFirewallSshSettingRead(ctx context.Context, d *schema.ResourceDat
 	if diags.HasError() {
 		return diags
 	}
+
+	d.SetId(mkey)
+
 	return nil
 }

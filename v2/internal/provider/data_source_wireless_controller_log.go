@@ -94,8 +94,6 @@ func dataSourceWirelessControllerLog() *schema.Resource {
 }
 
 func dataSourceWirelessControllerLogRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -107,6 +105,8 @@ func dataSourceWirelessControllerLogRead(ctx context.Context, d *schema.Resource
 		}
 	}
 	urlparams.Vdom = vdomparam
+
+	mkey := "WirelessControllerLog"
 
 	o, err := c.Cmdb.ReadWirelessControllerLog(mkey, urlparams)
 	if err != nil {
@@ -130,5 +130,8 @@ func dataSourceWirelessControllerLogRead(ctx context.Context, d *schema.Resource
 	if diags.HasError() {
 		return diags
 	}
+
+	d.SetId(mkey)
+
 	return nil
 }

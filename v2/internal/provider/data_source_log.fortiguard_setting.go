@@ -104,8 +104,6 @@ func dataSourceLogFortiguardSetting() *schema.Resource {
 }
 
 func dataSourceLogFortiguardSettingRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -117,6 +115,8 @@ func dataSourceLogFortiguardSettingRead(ctx context.Context, d *schema.ResourceD
 		}
 	}
 	urlparams.Vdom = vdomparam
+
+	mkey := "LogFortiguardSetting"
 
 	o, err := c.Cmdb.ReadLogFortiguardSetting(mkey, urlparams)
 	if err != nil {
@@ -140,5 +140,8 @@ func dataSourceLogFortiguardSettingRead(ctx context.Context, d *schema.ResourceD
 	if diags.HasError() {
 		return diags
 	}
+
+	d.SetId(mkey)
+
 	return nil
 }

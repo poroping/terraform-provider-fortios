@@ -14,6 +14,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/poroping/forti-sdk-go/v2/models"
+	"github.com/poroping/terraform-provider-fortios/v2/utils"
 )
 
 func dataSourceFirewallInternetServiceExtension() *schema.Resource {
@@ -168,8 +169,6 @@ func dataSourceFirewallInternetServiceExtension() *schema.Resource {
 }
 
 func dataSourceFirewallInternetServiceExtensionRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -181,6 +180,9 @@ func dataSourceFirewallInternetServiceExtensionRead(ctx context.Context, d *sche
 		}
 	}
 	urlparams.Vdom = vdomparam
+
+	i := d.Get("fosid")
+	mkey := utils.ParseMkey(i)
 
 	o, err := c.Cmdb.ReadFirewallInternetServiceExtension(mkey, urlparams)
 	if err != nil {
@@ -204,5 +206,8 @@ func dataSourceFirewallInternetServiceExtensionRead(ctx context.Context, d *sche
 	if diags.HasError() {
 		return diags
 	}
+
+	d.SetId(mkey)
+
 	return nil
 }

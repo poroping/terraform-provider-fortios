@@ -202,8 +202,6 @@ func dataSourceSystemSaml() *schema.Resource {
 }
 
 func dataSourceSystemSamlRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -215,6 +213,8 @@ func dataSourceSystemSamlRead(ctx context.Context, d *schema.ResourceData, meta 
 		}
 	}
 	urlparams.Vdom = vdomparam
+
+	mkey := "SystemSaml"
 
 	o, err := c.Cmdb.ReadSystemSaml(mkey, urlparams)
 	if err != nil {
@@ -238,5 +238,8 @@ func dataSourceSystemSamlRead(ctx context.Context, d *schema.ResourceData, meta 
 	if diags.HasError() {
 		return diags
 	}
+
+	d.SetId(mkey)
+
 	return nil
 }

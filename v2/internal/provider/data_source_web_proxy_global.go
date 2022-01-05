@@ -152,8 +152,6 @@ func dataSourceWebProxyGlobal() *schema.Resource {
 }
 
 func dataSourceWebProxyGlobalRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -165,6 +163,8 @@ func dataSourceWebProxyGlobalRead(ctx context.Context, d *schema.ResourceData, m
 		}
 	}
 	urlparams.Vdom = vdomparam
+
+	mkey := "WebProxyGlobal"
 
 	o, err := c.Cmdb.ReadWebProxyGlobal(mkey, urlparams)
 	if err != nil {
@@ -188,5 +188,8 @@ func dataSourceWebProxyGlobalRead(ctx context.Context, d *schema.ResourceData, m
 	if diags.HasError() {
 		return diags
 	}
+
+	d.SetId(mkey)
+
 	return nil
 }

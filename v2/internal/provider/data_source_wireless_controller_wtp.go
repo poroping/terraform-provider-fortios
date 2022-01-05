@@ -14,6 +14,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/poroping/forti-sdk-go/v2/models"
+	"github.com/poroping/terraform-provider-fortios/v2/utils"
 )
 
 func dataSourceWirelessControllerWtp() *schema.Resource {
@@ -811,8 +812,6 @@ func dataSourceWirelessControllerWtp() *schema.Resource {
 }
 
 func dataSourceWirelessControllerWtpRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -824,6 +823,9 @@ func dataSourceWirelessControllerWtpRead(ctx context.Context, d *schema.Resource
 		}
 	}
 	urlparams.Vdom = vdomparam
+
+	i := d.Get("wtp_id")
+	mkey := utils.ParseMkey(i)
 
 	o, err := c.Cmdb.ReadWirelessControllerWtp(mkey, urlparams)
 	if err != nil {
@@ -847,5 +849,8 @@ func dataSourceWirelessControllerWtpRead(ctx context.Context, d *schema.Resource
 	if diags.HasError() {
 		return diags
 	}
+
+	d.SetId(mkey)
+
 	return nil
 }

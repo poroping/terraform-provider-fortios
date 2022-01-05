@@ -73,8 +73,6 @@ func dataSourceSystemSessionTtl() *schema.Resource {
 }
 
 func dataSourceSystemSessionTtlRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -86,6 +84,8 @@ func dataSourceSystemSessionTtlRead(ctx context.Context, d *schema.ResourceData,
 		}
 	}
 	urlparams.Vdom = vdomparam
+
+	mkey := "SystemSessionTtl"
 
 	o, err := c.Cmdb.ReadSystemSessionTtl(mkey, urlparams)
 	if err != nil {
@@ -109,5 +109,8 @@ func dataSourceSystemSessionTtlRead(ctx context.Context, d *schema.ResourceData,
 	if diags.HasError() {
 		return diags
 	}
+
+	d.SetId(mkey)
+
 	return nil
 }

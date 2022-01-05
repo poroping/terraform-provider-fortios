@@ -49,8 +49,6 @@ func dataSourceFirewallIpmacbindingSetting() *schema.Resource {
 }
 
 func dataSourceFirewallIpmacbindingSettingRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -62,6 +60,8 @@ func dataSourceFirewallIpmacbindingSettingRead(ctx context.Context, d *schema.Re
 		}
 	}
 	urlparams.Vdom = vdomparam
+
+	mkey := "FirewallIpmacbindingSetting"
 
 	o, err := c.Cmdb.ReadFirewallIpmacbindingSetting(mkey, urlparams)
 	if err != nil {
@@ -85,5 +85,8 @@ func dataSourceFirewallIpmacbindingSettingRead(ctx context.Context, d *schema.Re
 	if diags.HasError() {
 		return diags
 	}
+
+	d.SetId(mkey)
+
 	return nil
 }

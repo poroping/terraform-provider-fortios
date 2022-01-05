@@ -129,8 +129,6 @@ func dataSourceWirelessControllerGlobal() *schema.Resource {
 }
 
 func dataSourceWirelessControllerGlobalRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -142,6 +140,8 @@ func dataSourceWirelessControllerGlobalRead(ctx context.Context, d *schema.Resou
 		}
 	}
 	urlparams.Vdom = vdomparam
+
+	mkey := "WirelessControllerGlobal"
 
 	o, err := c.Cmdb.ReadWirelessControllerGlobal(mkey, urlparams)
 	if err != nil {
@@ -165,5 +165,8 @@ func dataSourceWirelessControllerGlobalRead(ctx context.Context, d *schema.Resou
 	if diags.HasError() {
 		return diags
 	}
+
+	d.SetId(mkey)
+
 	return nil
 }

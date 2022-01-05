@@ -14,6 +14,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/poroping/forti-sdk-go/v2/models"
+	"github.com/poroping/terraform-provider-fortios/v2/utils"
 )
 
 func dataSourceEmailfilterMheader() *schema.Resource {
@@ -88,8 +89,6 @@ func dataSourceEmailfilterMheader() *schema.Resource {
 }
 
 func dataSourceEmailfilterMheaderRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -101,6 +100,9 @@ func dataSourceEmailfilterMheaderRead(ctx context.Context, d *schema.ResourceDat
 		}
 	}
 	urlparams.Vdom = vdomparam
+
+	i := d.Get("fosid")
+	mkey := utils.ParseMkey(i)
 
 	o, err := c.Cmdb.ReadEmailfilterMheader(mkey, urlparams)
 	if err != nil {
@@ -124,5 +126,8 @@ func dataSourceEmailfilterMheaderRead(ctx context.Context, d *schema.ResourceDat
 	if diags.HasError() {
 		return diags
 	}
+
+	d.SetId(mkey)
+
 	return nil
 }

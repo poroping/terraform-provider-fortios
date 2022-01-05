@@ -59,8 +59,6 @@ func dataSourceSystemSflow() *schema.Resource {
 }
 
 func dataSourceSystemSflowRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -72,6 +70,8 @@ func dataSourceSystemSflowRead(ctx context.Context, d *schema.ResourceData, meta
 		}
 	}
 	urlparams.Vdom = vdomparam
+
+	mkey := "SystemSflow"
 
 	o, err := c.Cmdb.ReadSystemSflow(mkey, urlparams)
 	if err != nil {
@@ -95,5 +95,8 @@ func dataSourceSystemSflowRead(ctx context.Context, d *schema.ResourceData, meta
 	if diags.HasError() {
 		return diags
 	}
+
+	d.SetId(mkey)
+
 	return nil
 }

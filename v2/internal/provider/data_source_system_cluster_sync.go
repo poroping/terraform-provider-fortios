@@ -14,6 +14,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/poroping/forti-sdk-go/v2/models"
+	"github.com/poroping/terraform-provider-fortios/v2/utils"
 )
 
 func dataSourceSystemClusterSync() *schema.Resource {
@@ -185,8 +186,6 @@ func dataSourceSystemClusterSync() *schema.Resource {
 }
 
 func dataSourceSystemClusterSyncRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -198,6 +197,9 @@ func dataSourceSystemClusterSyncRead(ctx context.Context, d *schema.ResourceData
 		}
 	}
 	urlparams.Vdom = vdomparam
+
+	i := d.Get("sync_id")
+	mkey := utils.ParseMkey(i)
 
 	o, err := c.Cmdb.ReadSystemClusterSync(mkey, urlparams)
 	if err != nil {
@@ -221,5 +223,8 @@ func dataSourceSystemClusterSyncRead(ctx context.Context, d *schema.ResourceData
 	if diags.HasError() {
 		return diags
 	}
+
+	d.SetId(mkey)
+
 	return nil
 }

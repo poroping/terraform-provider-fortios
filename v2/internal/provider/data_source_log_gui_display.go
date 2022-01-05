@@ -49,8 +49,6 @@ func dataSourceLogGuiDisplay() *schema.Resource {
 }
 
 func dataSourceLogGuiDisplayRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -62,6 +60,8 @@ func dataSourceLogGuiDisplayRead(ctx context.Context, d *schema.ResourceData, me
 		}
 	}
 	urlparams.Vdom = vdomparam
+
+	mkey := "LogGuiDisplay"
 
 	o, err := c.Cmdb.ReadLogGuiDisplay(mkey, urlparams)
 	if err != nil {
@@ -85,5 +85,8 @@ func dataSourceLogGuiDisplayRead(ctx context.Context, d *schema.ResourceData, me
 	if diags.HasError() {
 		return diags
 	}
+
+	d.SetId(mkey)
+
 	return nil
 }

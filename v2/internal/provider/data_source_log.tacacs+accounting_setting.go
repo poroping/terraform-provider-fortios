@@ -50,8 +50,6 @@ func dataSourceLogTacacsaccountingSetting() *schema.Resource {
 }
 
 func dataSourceLogTacacsaccountingSettingRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -63,6 +61,8 @@ func dataSourceLogTacacsaccountingSettingRead(ctx context.Context, d *schema.Res
 		}
 	}
 	urlparams.Vdom = vdomparam
+
+	mkey := "LogTacacsaccountingSetting"
 
 	o, err := c.Cmdb.ReadLogTacacsaccountingSetting(mkey, urlparams)
 	if err != nil {
@@ -86,5 +86,8 @@ func dataSourceLogTacacsaccountingSettingRead(ctx context.Context, d *schema.Res
 	if diags.HasError() {
 		return diags
 	}
+
+	d.SetId(mkey)
+
 	return nil
 }

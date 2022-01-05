@@ -267,8 +267,6 @@ func dataSourceSystemModem() *schema.Resource {
 }
 
 func dataSourceSystemModemRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -280,6 +278,8 @@ func dataSourceSystemModemRead(ctx context.Context, d *schema.ResourceData, meta
 		}
 	}
 	urlparams.Vdom = vdomparam
+
+	mkey := "SystemModem"
 
 	o, err := c.Cmdb.ReadSystemModem(mkey, urlparams)
 	if err != nil {
@@ -303,5 +303,8 @@ func dataSourceSystemModemRead(ctx context.Context, d *schema.ResourceData, meta
 	if diags.HasError() {
 		return diags
 	}
+
+	d.SetId(mkey)
+
 	return nil
 }

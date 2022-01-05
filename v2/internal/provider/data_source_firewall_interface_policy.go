@@ -14,6 +14,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/poroping/forti-sdk-go/v2/models"
+	"github.com/poroping/terraform-provider-fortios/v2/utils"
 )
 
 func dataSourceFirewallInterfacePolicy() *schema.Resource {
@@ -166,8 +167,6 @@ func dataSourceFirewallInterfacePolicy() *schema.Resource {
 }
 
 func dataSourceFirewallInterfacePolicyRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -179,6 +178,9 @@ func dataSourceFirewallInterfacePolicyRead(ctx context.Context, d *schema.Resour
 		}
 	}
 	urlparams.Vdom = vdomparam
+
+	i := d.Get("policyid")
+	mkey := utils.ParseMkey(i)
 
 	o, err := c.Cmdb.ReadFirewallInterfacePolicy(mkey, urlparams)
 	if err != nil {
@@ -202,5 +204,8 @@ func dataSourceFirewallInterfacePolicyRead(ctx context.Context, d *schema.Resour
 	if diags.HasError() {
 		return diags
 	}
+
+	d.SetId(mkey)
+
 	return nil
 }

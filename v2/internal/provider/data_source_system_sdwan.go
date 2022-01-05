@@ -1051,8 +1051,6 @@ func dataSourceSystemSdwan() *schema.Resource {
 }
 
 func dataSourceSystemSdwanRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -1064,6 +1062,8 @@ func dataSourceSystemSdwanRead(ctx context.Context, d *schema.ResourceData, meta
 		}
 	}
 	urlparams.Vdom = vdomparam
+
+	mkey := "SystemSdwan"
 
 	o, err := c.Cmdb.ReadSystemSdwan(mkey, urlparams)
 	if err != nil {
@@ -1087,5 +1087,8 @@ func dataSourceSystemSdwanRead(ctx context.Context, d *schema.ResourceData, meta
 	if diags.HasError() {
 		return diags
 	}
+
+	d.SetId(mkey)
+
 	return nil
 }

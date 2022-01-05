@@ -49,8 +49,6 @@ func dataSourceSystemDns64() *schema.Resource {
 }
 
 func dataSourceSystemDns64Read(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -62,6 +60,8 @@ func dataSourceSystemDns64Read(ctx context.Context, d *schema.ResourceData, meta
 		}
 	}
 	urlparams.Vdom = vdomparam
+
+	mkey := "SystemDns64"
 
 	o, err := c.Cmdb.ReadSystemDns64(mkey, urlparams)
 	if err != nil {
@@ -85,5 +85,8 @@ func dataSourceSystemDns64Read(ctx context.Context, d *schema.ResourceData, meta
 	if diags.HasError() {
 		return diags
 	}
+
+	d.SetId(mkey)
+
 	return nil
 }

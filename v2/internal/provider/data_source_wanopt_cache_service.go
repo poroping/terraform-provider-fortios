@@ -122,8 +122,6 @@ func dataSourceWanoptCacheService() *schema.Resource {
 }
 
 func dataSourceWanoptCacheServiceRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -135,6 +133,8 @@ func dataSourceWanoptCacheServiceRead(ctx context.Context, d *schema.ResourceDat
 		}
 	}
 	urlparams.Vdom = vdomparam
+
+	mkey := "WanoptCacheService"
 
 	o, err := c.Cmdb.ReadWanoptCacheService(mkey, urlparams)
 	if err != nil {
@@ -158,5 +158,8 @@ func dataSourceWanoptCacheServiceRead(ctx context.Context, d *schema.ResourceDat
 	if diags.HasError() {
 		return diags
 	}
+
+	d.SetId(mkey)
+
 	return nil
 }

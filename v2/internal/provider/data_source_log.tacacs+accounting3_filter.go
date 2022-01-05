@@ -49,8 +49,6 @@ func dataSourceLogTacacsaccounting3Filter() *schema.Resource {
 }
 
 func dataSourceLogTacacsaccounting3FilterRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -62,6 +60,8 @@ func dataSourceLogTacacsaccounting3FilterRead(ctx context.Context, d *schema.Res
 		}
 	}
 	urlparams.Vdom = vdomparam
+
+	mkey := "LogTacacsaccounting3Filter"
 
 	o, err := c.Cmdb.ReadLogTacacsaccounting3Filter(mkey, urlparams)
 	if err != nil {
@@ -85,5 +85,8 @@ func dataSourceLogTacacsaccounting3FilterRead(ctx context.Context, d *schema.Res
 	if diags.HasError() {
 		return diags
 	}
+
+	d.SetId(mkey)
+
 	return nil
 }

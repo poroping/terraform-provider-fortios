@@ -193,8 +193,6 @@ func dataSourceVpnCertificateSetting() *schema.Resource {
 }
 
 func dataSourceVpnCertificateSettingRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -206,6 +204,8 @@ func dataSourceVpnCertificateSettingRead(ctx context.Context, d *schema.Resource
 		}
 	}
 	urlparams.Vdom = vdomparam
+
+	mkey := "VpnCertificateSetting"
 
 	o, err := c.Cmdb.ReadVpnCertificateSetting(mkey, urlparams)
 	if err != nil {
@@ -229,5 +229,8 @@ func dataSourceVpnCertificateSettingRead(ctx context.Context, d *schema.Resource
 	if diags.HasError() {
 		return diags
 	}
+
+	d.SetId(mkey)
+
 	return nil
 }

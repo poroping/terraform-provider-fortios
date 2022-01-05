@@ -59,8 +59,6 @@ func dataSourceSwitchControllerLldpSettings() *schema.Resource {
 }
 
 func dataSourceSwitchControllerLldpSettingsRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -72,6 +70,8 @@ func dataSourceSwitchControllerLldpSettingsRead(ctx context.Context, d *schema.R
 		}
 	}
 	urlparams.Vdom = vdomparam
+
+	mkey := "SwitchControllerLldpSettings"
 
 	o, err := c.Cmdb.ReadSwitchControllerLldpSettings(mkey, urlparams)
 	if err != nil {
@@ -95,5 +95,8 @@ func dataSourceSwitchControllerLldpSettingsRead(ctx context.Context, d *schema.R
 	if diags.HasError() {
 		return diags
 	}
+
+	d.SetId(mkey)
+
 	return nil
 }

@@ -14,6 +14,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/poroping/forti-sdk-go/v2/models"
+	"github.com/poroping/terraform-provider-fortios/v2/utils"
 )
 
 func dataSourceSystemAutoScript() *schema.Resource {
@@ -69,8 +70,6 @@ func dataSourceSystemAutoScript() *schema.Resource {
 }
 
 func dataSourceSystemAutoScriptRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -82,6 +81,9 @@ func dataSourceSystemAutoScriptRead(ctx context.Context, d *schema.ResourceData,
 		}
 	}
 	urlparams.Vdom = vdomparam
+
+	i := d.Get("name")
+	mkey := utils.ParseMkey(i)
 
 	o, err := c.Cmdb.ReadSystemAutoScript(mkey, urlparams)
 	if err != nil {
@@ -105,5 +107,8 @@ func dataSourceSystemAutoScriptRead(ctx context.Context, d *schema.ResourceData,
 	if diags.HasError() {
 		return diags
 	}
+
+	d.SetId(mkey)
+
 	return nil
 }

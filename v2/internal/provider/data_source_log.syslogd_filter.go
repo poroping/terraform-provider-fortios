@@ -113,8 +113,6 @@ func dataSourceLogSyslogdFilter() *schema.Resource {
 }
 
 func dataSourceLogSyslogdFilterRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -126,6 +124,8 @@ func dataSourceLogSyslogdFilterRead(ctx context.Context, d *schema.ResourceData,
 		}
 	}
 	urlparams.Vdom = vdomparam
+
+	mkey := "LogSyslogdFilter"
 
 	o, err := c.Cmdb.ReadLogSyslogdFilter(mkey, urlparams)
 	if err != nil {
@@ -149,5 +149,8 @@ func dataSourceLogSyslogdFilterRead(ctx context.Context, d *schema.ResourceData,
 	if diags.HasError() {
 		return diags
 	}
+
+	d.SetId(mkey)
+
 	return nil
 }

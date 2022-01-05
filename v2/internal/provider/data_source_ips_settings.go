@@ -54,8 +54,6 @@ func dataSourceIpsSettings() *schema.Resource {
 }
 
 func dataSourceIpsSettingsRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -67,6 +65,8 @@ func dataSourceIpsSettingsRead(ctx context.Context, d *schema.ResourceData, meta
 		}
 	}
 	urlparams.Vdom = vdomparam
+
+	mkey := "IpsSettings"
 
 	o, err := c.Cmdb.ReadIpsSettings(mkey, urlparams)
 	if err != nil {
@@ -90,5 +90,8 @@ func dataSourceIpsSettingsRead(ctx context.Context, d *schema.ResourceData, meta
 	if diags.HasError() {
 		return diags
 	}
+
+	d.SetId(mkey)
+
 	return nil
 }

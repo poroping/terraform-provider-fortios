@@ -39,8 +39,6 @@ func dataSourceSystemFortiai() *schema.Resource {
 }
 
 func dataSourceSystemFortiaiRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -52,6 +50,8 @@ func dataSourceSystemFortiaiRead(ctx context.Context, d *schema.ResourceData, me
 		}
 	}
 	urlparams.Vdom = vdomparam
+
+	mkey := "SystemFortiai"
 
 	o, err := c.Cmdb.ReadSystemFortiai(mkey, urlparams)
 	if err != nil {
@@ -75,5 +75,8 @@ func dataSourceSystemFortiaiRead(ctx context.Context, d *schema.ResourceData, me
 	if diags.HasError() {
 		return diags
 	}
+
+	d.SetId(mkey)
+
 	return nil
 }

@@ -94,8 +94,6 @@ func dataSourceSystemPasswordPolicy() *schema.Resource {
 }
 
 func dataSourceSystemPasswordPolicyRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -107,6 +105,8 @@ func dataSourceSystemPasswordPolicyRead(ctx context.Context, d *schema.ResourceD
 		}
 	}
 	urlparams.Vdom = vdomparam
+
+	mkey := "SystemPasswordPolicy"
 
 	o, err := c.Cmdb.ReadSystemPasswordPolicy(mkey, urlparams)
 	if err != nil {
@@ -130,5 +130,8 @@ func dataSourceSystemPasswordPolicyRead(ctx context.Context, d *schema.ResourceD
 	if diags.HasError() {
 		return diags
 	}
+
+	d.SetId(mkey)
+
 	return nil
 }

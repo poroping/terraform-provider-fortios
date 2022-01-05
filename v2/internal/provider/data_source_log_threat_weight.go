@@ -283,8 +283,6 @@ func dataSourceLogThreatWeight() *schema.Resource {
 }
 
 func dataSourceLogThreatWeightRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -296,6 +294,8 @@ func dataSourceLogThreatWeightRead(ctx context.Context, d *schema.ResourceData, 
 		}
 	}
 	urlparams.Vdom = vdomparam
+
+	mkey := "LogThreatWeight"
 
 	o, err := c.Cmdb.ReadLogThreatWeight(mkey, urlparams)
 	if err != nil {
@@ -319,5 +319,8 @@ func dataSourceLogThreatWeightRead(ctx context.Context, d *schema.ResourceData, 
 	if diags.HasError() {
 		return diags
 	}
+
+	d.SetId(mkey)
+
 	return nil
 }

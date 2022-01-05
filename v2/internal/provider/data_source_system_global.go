@@ -1119,8 +1119,6 @@ func dataSourceSystemGlobal() *schema.Resource {
 }
 
 func dataSourceSystemGlobalRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -1132,6 +1130,8 @@ func dataSourceSystemGlobalRead(ctx context.Context, d *schema.ResourceData, met
 		}
 	}
 	urlparams.Vdom = vdomparam
+
+	mkey := "SystemGlobal"
 
 	o, err := c.Cmdb.ReadSystemGlobal(mkey, urlparams)
 	if err != nil {
@@ -1155,5 +1155,8 @@ func dataSourceSystemGlobalRead(ctx context.Context, d *schema.ResourceData, met
 	if diags.HasError() {
 		return diags
 	}
+
+	d.SetId(mkey)
+
 	return nil
 }

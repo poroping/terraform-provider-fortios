@@ -49,8 +49,6 @@ func dataSourceSwitchControllerAutoConfigDefault() *schema.Resource {
 }
 
 func dataSourceSwitchControllerAutoConfigDefaultRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	mkey := d.Id()
-
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 
@@ -62,6 +60,8 @@ func dataSourceSwitchControllerAutoConfigDefaultRead(ctx context.Context, d *sch
 		}
 	}
 	urlparams.Vdom = vdomparam
+
+	mkey := "SwitchControllerAutoConfigDefault"
 
 	o, err := c.Cmdb.ReadSwitchControllerAutoConfigDefault(mkey, urlparams)
 	if err != nil {
@@ -85,5 +85,8 @@ func dataSourceSwitchControllerAutoConfigDefaultRead(ctx context.Context, d *sch
 	if diags.HasError() {
 		return diags
 	}
+
+	d.SetId(mkey)
+
 	return nil
 }
