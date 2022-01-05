@@ -41,14 +41,15 @@ func resourceSystemAutomationStitch() *schema.Resource {
 			},
 			"allow_append": {
 				Type:        schema.TypeBool,
-				Description: "If set to true allows provider to overwrite existing resources instead of erroring. Useful for brownfield implementations. Use with caution!",
+				Description: "If set the provider will overwrite existing resources with the same mkey instead of erroring. Useful for brownfield implementations. Use with caution!",
 				Optional:    true,
 				Default:     false,
 			},
 			"dynamic_sort_subtable": {
-				Type:     schema.TypeBool,
-				Optional: true,
-				Default:  false,
+				Type:        schema.TypeBool,
+				Description: "If set will sort table response by mkey",
+				Optional:    true,
+				Default:     false,
 			},
 			"action": {
 				Type:        schema.TypeList,

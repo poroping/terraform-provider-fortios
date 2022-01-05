@@ -42,9 +42,10 @@ func resourceSystemSettings() *schema.Resource {
 				ForceNew:    true,
 			},
 			"dynamic_sort_subtable": {
-				Type:     schema.TypeBool,
-				Optional: true,
-				Default:  false,
+				Type:        schema.TypeBool,
+				Description: "If set will sort table response by mkey",
+				Optional:    true,
+				Default:     false,
 			},
 			"allow_linkdown_path": {
 				Type:         schema.TypeString,

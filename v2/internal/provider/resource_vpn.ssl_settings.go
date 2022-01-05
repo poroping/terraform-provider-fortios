@@ -41,9 +41,10 @@ func resourceVpnSslSettings() *schema.Resource {
 				ForceNew:    true,
 			},
 			"dynamic_sort_subtable": {
-				Type:     schema.TypeBool,
-				Optional: true,
-				Default:  false,
+				Type:        schema.TypeBool,
+				Description: "If set will sort table response by mkey",
+				Optional:    true,
+				Default:     false,
 			},
 			"algorithm": {
 				Type:         schema.TypeString,
@@ -2858,7 +2859,7 @@ func getObjectVpnSslSettings(d *schema.ResourceData, sv string) (*models.VpnSslS
 	return &obj, diags
 }
 
-// Return an object with explicitly empty objects for tables.
+// Return an object with explicitly empty objects for tables that have been set.
 func getEmptyObjectVpnSslSettings(d *schema.ResourceData, sv string) (*models.VpnSslSettings, diag.Diagnostics) {
 	obj := models.VpnSslSettings{}
 	diags := diag.Diagnostics{}

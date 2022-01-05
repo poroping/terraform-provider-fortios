@@ -41,9 +41,10 @@ func resourceRouterMulticast6() *schema.Resource {
 				ForceNew:    true,
 			},
 			"dynamic_sort_subtable": {
-				Type:     schema.TypeBool,
-				Optional: true,
-				Default:  false,
+				Type:        schema.TypeBool,
+				Description: "If set will sort table response by mkey",
+				Optional:    true,
+				Default:     false,
 			},
 			"interface": {
 				Type:        schema.TypeList,

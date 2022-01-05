@@ -40,9 +40,10 @@ func resourceLogSyslogd3OverrideSetting() *schema.Resource {
 				ForceNew:    true,
 			},
 			"dynamic_sort_subtable": {
-				Type:     schema.TypeBool,
-				Optional: true,
-				Default:  false,
+				Type:        schema.TypeBool,
+				Description: "If set will sort table response by mkey",
+				Optional:    true,
+				Default:     false,
 			},
 			"certificate": {
 				Type:         schema.TypeString,
