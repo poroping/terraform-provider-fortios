@@ -142,11 +142,6 @@ func resourceCertificateManagementLocal() *schema.Resource {
 				ForceNew: true,
 				Required: true,
 			},
-			"batchid": {
-				Type:     schema.TypeInt,
-				Optional: true,
-				Default:  0,
-			},
 		},
 	}
 }

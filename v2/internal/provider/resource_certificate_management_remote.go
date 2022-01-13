@@ -23,7 +23,7 @@ func resourceCertificateManagementRemote() *schema.Resource {
 	return &schema.Resource{
 		CreateContext: resourceCertificateManagementRemoteCreate,
 		ReadContext:   resourceCertificateManagementRemoteRead,
-		UpdateContext: resourceCertificateManagementRemoteUpdate,
+		// UpdateContext: resourceCertificateManagementRemoteUpdate,
 		DeleteContext: resourceCertificateManagementRemoteDelete,
 
 		Importer: &schema.ResourceImporter{
@@ -41,25 +41,6 @@ func resourceCertificateManagementRemote() *schema.Resource {
 				ValidateFunc: validation.StringLenBetween(0, 35),
 				ForceNew:     true,
 				Required:     true,
-			},
-			"password": {
-				Type:         schema.TypeString,
-				ValidateFunc: validation.StringLenBetween(0, 128),
-				ForceNew:     true,
-				Optional:     true,
-				Sensitive:    true,
-			},
-			"comments": {
-				Type:         schema.TypeString,
-				ValidateFunc: validation.StringLenBetween(0, 511),
-				Optional:     true,
-				Computed:     true,
-			},
-			"private_key": {
-				Type:      schema.TypeString,
-				ForceNew:  true,
-				Optional:  true,
-				Sensitive: true,
 			},
 			"certificate": {
 				Type:             schema.TypeString,
@@ -125,27 +106,6 @@ func resourceCertificateManagementRemote() *schema.Resource {
 				Type:     schema.TypeString,
 				ForceNew: true,
 				Required: true,
-			},
-			"ike_localid": {
-				Type:         schema.TypeString,
-				ValidateFunc: validation.StringLenBetween(0, 63),
-				Optional:     true,
-				Computed:     true,
-			},
-			"ike_localid_type": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-			},
-			"type": {
-				Type:     schema.TypeString,
-				ForceNew: true,
-				Required: true,
-			},
-			"batchid": {
-				Type:     schema.TypeInt,
-				Optional: true,
-				Default:  0,
 			},
 		},
 	}
@@ -383,8 +343,8 @@ func refreshObjectCertificateManagementRemote(d *schema.ResourceData, o *models.
 	if o.Range != nil {
 		v := *o.Range
 
-		if err = d.Set("range", v); err != nil {
-			return diag.Errorf("error reading range: %v", err)
+		if err = d.Set("scope", v); err != nil {
+			return diag.Errorf("error reading scope: %v", err)
 		}
 	}
 
@@ -422,8 +382,8 @@ func refreshObjectVpnCertificateManagementRemote(d *schema.ResourceData, o *mode
 	if o.Range != nil {
 		v := *o.Range
 
-		if err = d.Set("range", v); err != nil {
-			return diag.Errorf("error reading range: %v", err)
+		if err = d.Set("scope", v); err != nil {
+			return diag.Errorf("error reading scope: %v", err)
 		}
 	}
 
