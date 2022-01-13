@@ -11,5 +11,7 @@ func providerResourcesCustom() map[string]*schema.Resource {
 		"fortios_firewall_security_policy_sort": resourceFirewallSecurityPolicySort(),
 		"fortios_firewall_proxy_policy_sort":    resourceFirewallProxyPolicySort(),
 		"fortios_firewall_shaping_policy_sort":  resourceFirewallShapingPolicySort(),
+		"fortios_certificate_management_local":  resourceCertificateManagementLocal(),
+		"fortios_certificate_management_remote": resourceCertificateManagementRemote(),
 	}
 }
