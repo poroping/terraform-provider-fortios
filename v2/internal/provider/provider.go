@@ -2,6 +2,9 @@ package provider
 
 import (
 	"context"
+	"fmt"
+	"log"
+	"strings"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -16,13 +19,19 @@ func init() {
 
 	// Customize the content of descriptions when output. For example you can add defaults on
 	// to the exported descriptions if present.
-	// schema.SchemaDescriptionBuilder = func(s *schema.Schema) string {
-	// 	desc := s.Description
-	// 	if s.Default != nil {
-	// 		desc += fmt.Sprintf(" Defaults to `%v`.", s.Default)
-	// 	}
-	// 	return strings.TrimSpace(desc)
-	// }
+	schema.SchemaDescriptionBuilder = func(s *schema.Schema) string {
+		desc := s.Description
+		if s.Default != nil {
+			desc += fmt.Sprintf(" Defaults to `%v`.", s.Default)
+		}
+		if s.Required {
+			desc = "(Required) " + desc
+		}
+		if s.ForceNew {
+			desc += " Changing this forces a new resource to be created."
+		}
+		return strings.TrimSpace(desc)
+	}
 }
 
 func New(version string) func() *schema.Provider {
@@ -92,7 +101,7 @@ func New(version string) func() *schema.Provider {
 				"offline": {
 					Type:        schema.TypeBool,
 					Optional:    true,
-					Description: "Set to true if FortiOS is not reachable on client creation",
+					Description: "Set to true if FortiOS is not reachable upon client creation",
 					DefaultFunc: schema.EnvDefaultFunc("FORTIOS_OFFLINE", false),
 				},
 			},
@@ -151,6 +160,7 @@ func configure(version string, p *schema.Provider) func(context.Context, *schema
 			Vdom:     d.Get("vdom").(string),
 			CABundle: d.Get("cabundlefile").(string),
 			Insecure: d.Get("insecure").(bool),
+			Offline:  d.Get("offline").(bool),
 
 			PeerAuth:   d.Get("peerauth").(string),
 			CaCert:     d.Get("cacert").(string),
@@ -159,16 +169,18 @@ func configure(version string, p *schema.Provider) func(context.Context, *schema
 		}
 
 		tmp, err := client.NewClient(auth)
-		diags = append(diags, diag.FromErr(err)...)
+		diags = diag.FromErr(err)
 
 		c := &apiClient{
 			Client: tmp,
 		}
 
 		userAgent := p.UserAgent("terraform-provider-fortios", version)
+		log.Printf("[DEBUG] Setting User Agent to %s", userAgent)
 		c.Client.Config.UserAgent = userAgent
 
 		if v, ok := d.GetOk("fortiosversion"); ok {
+			log.Printf("[INFO] Manually setting FortiOS version to %s", v.(string))
 			c.Client.Config.Fv = v.(string)
 		}
 
