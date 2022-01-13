@@ -10,13 +10,13 @@ import (
 )
 
 // Doc notes: Will sort, if sort field equal will retain order. Name/Comment are sorted as string, do 0001-x 0010-x.
-func resourceFirewallPolicySort() *schema.Resource {
+func resourceFirewallPolicy64Sort() *schema.Resource {
 	return &schema.Resource{
-		Description: "Sort firewall policies.",
+		Description: "Sort firewall NAT64 policies.",
 
-		CreateContext: resourceFirewallPolicySortCreate,
-		ReadContext:   resourceFirewallPolicySortRead,
-		UpdateContext: resourceFirewallPolicySortCreate,
+		CreateContext: resourceFirewallPolicy64SortCreate,
+		ReadContext:   resourceFirewallPolicy64SortRead,
+		UpdateContext: resourceFirewallPolicy64SortCreate,
 		DeleteContext: schema.NoopContext,
 
 		Schema: map[string]*schema.Schema{
@@ -61,7 +61,7 @@ func resourceFirewallPolicySort() *schema.Resource {
 	}
 }
 
-func resourceFirewallPolicySortCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceFirewallPolicy64SortCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 	urlparams := &models.CmdbRequestParams{}
@@ -83,10 +83,10 @@ func resourceFirewallPolicySortCreate(ctx context.Context, d *schema.ResourceDat
 
 	d.SetId(sortby + sortdirection)
 
-	return resourceFirewallPolicySortRead(ctx, d, meta)
+	return resourceFirewallPolicy64SortRead(ctx, d, meta)
 }
 
-func resourceFirewallPolicySortRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceFirewallPolicy64SortRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*apiClient).Client
 	// c.Retries = 1
 	urlparams := &models.CmdbRequestParams{}
