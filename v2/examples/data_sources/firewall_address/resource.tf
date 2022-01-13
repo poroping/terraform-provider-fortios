@@ -1,9 +1,9 @@
-data "fortios_firewall_address" example {
-    vdomparam = "root"
-    
+data "fortios_firewall_address" "example" {
+  vdomparam = "root"
+
   name = "all"
 }
 
-output example {
+output "example" {
   value = data.fortios_firewall_address.example
 }

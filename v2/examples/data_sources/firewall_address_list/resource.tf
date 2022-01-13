@@ -1,9 +1,9 @@
-data "fortios_firewall_addresslist" example {
-    vdomparam = "root"
-    
+data "fortios_firewall_addresslist" "example" {
+  vdomparam = "root"
+
   filter = "name!=fakeyjakey"
 }
 
-output example {
+output "example" {
   value = data.fortios_firewall_addresslist.example.namelist
 }

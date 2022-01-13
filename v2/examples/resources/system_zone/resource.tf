@@ -1,17 +1,17 @@
 resource "fortios_system_interface" "example" {
   allow_append = true
-  vdomparam = "root"
+  vdomparam    = "root"
 
-  name   = "TESTACCINT2"
-  type   = "aggregate"
-  vdom   = "root"
+  name = "TESTACCINT2"
+  type = "aggregate"
+  vdom = "root"
 }
 
 resource "fortios_system_zone" "example" {
-    vdomparam = fortios_system_interface.example.vdom
+  vdomparam = fortios_system_interface.example.vdom
 
-    name = "TESTZONE"
-    interface {
-        interface_name = fortios_system_interface.example.name
-    }
+  name = "TESTZONE"
+  interface {
+    interface_name = fortios_system_interface.example.name
+  }
 }

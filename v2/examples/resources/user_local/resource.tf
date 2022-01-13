@@ -1,4 +1,4 @@
 resource "fortios_user_local" "example" {
-  name = "foobar"
+  name   = "foobar"
   passwd = "changeme"
 }

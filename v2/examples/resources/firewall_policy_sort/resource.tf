@@ -1,5 +1,5 @@
 resource "fortios_firewall_policy_sort" "example" {
-  sortby       = "name"
+  sortby        = "name"
   sortdirection = "descending"
-  auto_sort = true
+  auto_sort     = true
 }
