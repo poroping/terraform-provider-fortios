@@ -43,6 +43,7 @@ func main() {
 			"schemaTypeLookup": schemaTypeLookup,
 			"flatten":          flatten,
 			"resFlatten":       resFlatten,
+			"resNameFlatten":   resNameFlatten,
 			"valiLookup":       valiLookup,
 			"title":            title,
 			"subcategory":      subcategory,
@@ -120,8 +121,9 @@ func isComplex(category string) bool {
 
 func providerResourceRender(resources []providerRes) {
 	funcMap := template.FuncMap{
-		"replace":    replace,
-		"resFlatten": resFlatten,
+		"replace":        replace,
+		"resFlatten":     resFlatten,
+		"resNameFlatten": resNameFlatten,
 	}
 	t := template.Must(template.New("main").Funcs(funcMap).ParseGlob("./templates/provider_resource.gotmpl"))
 	var buf bytes.Buffer
@@ -400,6 +402,17 @@ func flatten(s string) string {
 
 func resFlatten(s string) string {
 	s = strings.ReplaceAll(s, "-", "_")
+	s = strings.ReplaceAll(s, ".", "")
+	s = strings.ReplaceAll(s, "+", "")
+	s = strings.ReplaceAll(s, "(", "")
+	s = strings.ReplaceAll(s, ")", "")
+	s = strings.ReplaceAll(s, " ", "_")
+	s = strings.ToLower(s)
+	return s
+}
+
+func resNameFlatten(s string) string {
+	s = strings.ReplaceAll(s, "-", "")
 	s = strings.ReplaceAll(s, ".", "")
 	s = strings.ReplaceAll(s, "+", "")
 	s = strings.ReplaceAll(s, "(", "")
