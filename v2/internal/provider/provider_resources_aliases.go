@@ -15,5 +15,6 @@ func providerResourcesAliases() map[string]*schema.Resource {
 		"fortios_routerospf_network":         resourceRouterOspfNetwork(),
 		"fortios_routerospf_neighbor":        resourceRouterOspfNeighbor(),
 		"fortios_routerospf_area":            resourceRouterOspfArea(),
+		"fortios_json_generic_api":           resourceGenericApi(),
 	}
 }

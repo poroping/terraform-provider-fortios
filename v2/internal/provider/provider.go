@@ -41,14 +41,14 @@ func New(version string) func() *schema.Provider {
 				"hostname": {
 					Type:        schema.TypeString,
 					Optional:    true,
-					Description: "The hostname/IP address of the FortiOS to be connected",
+					Description: "The hostname/IP address of the FortiOS to be connected.",
 					DefaultFunc: schema.EnvDefaultFunc("FORTIOS_ACCESS_HOSTNAME", ""),
 				},
 				"token": {
 					Type:        schema.TypeString,
 					Optional:    true,
 					Sensitive:   true,
-					Description: "The FortiOS API access token",
+					Description: "The FortiOS API access token.",
 					DefaultFunc: schema.EnvDefaultFunc("FORTIOS_ACCESS_TOKEN", ""),
 				},
 				"insecure": {
@@ -64,45 +64,45 @@ func New(version string) func() *schema.Provider {
 				"peerauth": {
 					Type:        schema.TypeString,
 					Optional:    true,
-					Description: "Enable/disable peer authentication, can be 'enable' or 'disable'",
+					Description: "Enable/disable peer authentication, can be 'enable' or 'disable'.",
 					DefaultFunc: schema.EnvDefaultFunc("FORTIOS_CA_PEERAUTH", ""),
 				},
 				"cacert": {
 					Type:        schema.TypeString,
 					Optional:    true,
-					Description: "CA certificate(Optional)",
+					Description: "CA certificate(Optional).",
 					DefaultFunc: schema.EnvDefaultFunc("FORTIOS_CA_CACERT", ""),
 				},
 				"clientcert": {
 					Type:        schema.TypeString,
 					Optional:    true,
-					Description: "User certificate",
+					Description: "User certificate.",
 					DefaultFunc: schema.EnvDefaultFunc("FORTIOS_CA_CLIENTCERT", ""),
 				},
 				"clientkey": {
 					Type:        schema.TypeString,
 					Optional:    true,
 					Sensitive:   true,
-					Description: "User private key",
+					Description: "User private key.",
 					DefaultFunc: schema.EnvDefaultFunc("FORTIOS_CA_CLIENTKEY", ""),
 				},
 				"vdom": {
 					Type:        schema.TypeString,
 					Optional:    true,
-					Description: "Default VDOM for API calls",
+					Description: "Default VDOM for API calls.",
 					DefaultFunc: schema.EnvDefaultFunc("FORTIOS_VDOM", ""),
 				},
-				"fortiosversion": {
+				"os_version": {
 					Type:        schema.TypeString,
 					Optional:    true,
-					Description: "Override the FortiOS version",
-					DefaultFunc: schema.EnvDefaultFunc("FORTIOS_FORTIOSVERSION", nil),
+					Description: "Manually set the FortiOS version. Will overwrite auto_version.",
+					DefaultFunc: schema.EnvDefaultFunc("FORTIOS_OS_VERSION", nil),
 				},
-				"offline": {
+				"auto_version": {
 					Type:        schema.TypeBool,
 					Optional:    true,
-					Description: "Set to true if FortiOS is not reachable upon client creation",
-					DefaultFunc: schema.EnvDefaultFunc("FORTIOS_OFFLINE", false),
+					Description: "Will determine FortiOS version on client creation.",
+					DefaultFunc: schema.EnvDefaultFunc("FORTIOS_AUTO_VERSION", true),
 				},
 			},
 			DataSourcesMap: providerDataSourcesMerged(),
@@ -155,12 +155,12 @@ func configure(version string, p *schema.Provider) func(context.Context, *schema
 		var diags diag.Diagnostics
 
 		auth := &auth.Auth{
-			Hostname: d.Get("hostname").(string),
-			Token:    d.Get("token").(string),
-			Vdom:     d.Get("vdom").(string),
-			CABundle: d.Get("cabundlefile").(string),
-			Insecure: d.Get("insecure").(bool),
-			Offline:  d.Get("offline").(bool),
+			Hostname:    d.Get("hostname").(string),
+			Token:       d.Get("token").(string),
+			Vdom:        d.Get("vdom").(string),
+			CABundle:    d.Get("cabundlefile").(string),
+			Insecure:    d.Get("insecure").(bool),
+			AutoVersion: d.Get("auto_version").(bool),
 
 			PeerAuth:   d.Get("peerauth").(string),
 			CaCert:     d.Get("cacert").(string),
@@ -179,7 +179,7 @@ func configure(version string, p *schema.Provider) func(context.Context, *schema
 		log.Printf("[DEBUG] Setting User Agent to %s", userAgent)
 		c.Client.Config.UserAgent = userAgent
 
-		if v, ok := d.GetOk("fortiosversion"); ok {
+		if v, ok := d.GetOk("os_version"); ok {
 			log.Printf("[INFO] Manually setting FortiOS version to %s", v.(string))
 			c.Client.Config.Fv = v.(string)
 		}
