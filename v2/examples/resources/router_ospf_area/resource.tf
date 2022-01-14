@@ -1,4 +1,4 @@
-# resource "fortios_routerospf_area" "example" {
+# resource "fortios_router_ospf_area" "example" {
 #   fosid = "0.0.0.0"
 # }
 

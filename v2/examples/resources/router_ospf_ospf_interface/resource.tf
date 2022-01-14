@@ -4,7 +4,7 @@ resource "fortios_system_interface" "example" {
   name = "foobar234"
 }
 
-resource "fortios_routerospf_ospfinterface" "example" {
+resource "fortios_router_ospf_ospf_interface" "example" {
   name      = fortios_system_interface.example.name
   interface = fortios_system_interface.example.name
 }

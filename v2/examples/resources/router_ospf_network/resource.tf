@@ -16,7 +16,7 @@ resource "fortios_router_ospf" "example" {
 
 }
 
-resource "fortios_routerospf_network" "example" {
+resource "fortios_router_ospf_network" "example" {
   prefix = "10.0.0.0/24"
   area   = fortios_router_ospf.example.area[0].id
 }
