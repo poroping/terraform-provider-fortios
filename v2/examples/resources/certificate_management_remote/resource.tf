@@ -24,9 +24,11 @@ EOF
 }
 
 resource "fortios_certificate_management_remote" "example" {
-  name        = "Global_Remote_Example"
+  vdomparam   = "root"
+
+  name        = "Vdom_Remote_Example"
   certificate = local.cert
-  scope       = "global"
+  scope       = "vdom"
 
   lifecycle {
     create_before_destroy = true
