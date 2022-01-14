@@ -27,6 +27,7 @@ description: |-
 
 Effort has been made to make this a drop-in replacement. However there may be some gotchas.
 
+- Some old resources are missing, assuming these are from 6.0 track which is EOL anyway. But there maybe some other endpoints that were missed.
 - This provider will enforce network addresses for resources such as router_bgp_network. Even though FortiOS API will convert on the fly. This will fail during planning phase and should be obvious and easy to resolve.
 - Sorting resources were re-written. Raise an Issue on GitHub if this is something that needs to be backported.
 - PKI auth has not been tested.
