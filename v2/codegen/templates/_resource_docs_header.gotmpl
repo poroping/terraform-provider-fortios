@@ -1,0 +1,15 @@
+{{- define "resDocsHeader" }}---
+subcategory: "FortiGate {{ (title (subcategory .path)) }}"
+layout: "fortios"
+page_title: "FortiOS: fortios_{{.resName}}"
+description: |-
+  {{.results.help}}
+---
+
+## fortios_{{.resName}}
+{{.results.help}}
+{{- if .child_path }}
+
+~> This resource is configuring a child table of the parent resource: `fortios_{{(flatten .path)}}_{{(flatten .name)}}`. If this resource is used the parent resource must NOT modify this child table or state inconsistencies will occur.
+{{ end -}}
+{{ end }}

@@ -83,12 +83,19 @@ func main() {
 
 		r["fileName"] = fileName
 
+		resN := resName(r["name"].(string), r["path"].(string), cp)
+
+		r["resName"] = resN
+
 		render("data_source", "data_source", fileName, t, r, true)
 		if category == "table" {
 			render("data_source_list", "data_source", fileName+"_list", t, r, true)
 		}
+		renderDocs("data_source_docs", "data-sources", resN, t, r)
+
 		render("resource", "resource", fileName, t, r, true)
 		render("resource_test", "resource", fileName+"_test", t, r, true)
+		renderDocs("resource_docs", "resources", resN, t, r)
 	}
 	providerResourceRender(cmdbResources)
 	providerDataSourceRender(cmdbResources)
@@ -161,6 +168,18 @@ func debugx(v interface{}) string {
 	return ""
 }
 
+func resName(name, path, cp string) string {
+	p := resNameFlatten(path)
+	n := resNameFlatten(name)
+
+	if cp != "" {
+		cp = resNameFlatten(cp)
+		return fmt.Sprintf("%s_%s_%s", p, n, cp)
+	}
+
+	return fmt.Sprintf("%s_%s", p, n)
+}
+
 func render(templateName, resType, fileName string, t *template.Template, m map[string]interface{}, lint bool) {
 	var buf bytes.Buffer
 	var err error
@@ -191,6 +210,21 @@ func render(templateName, resType, fileName string, t *template.Template, m map[
 
 	perm := int(0755)
 	os.WriteFile(fmt.Sprintf("../internal/provider/%s_%s.go", resType, fileName), f, os.FileMode(perm))
+}
+
+func renderDocs(templateName, resType, fileName string, t *template.Template, m map[string]interface{}) {
+	var buf bytes.Buffer
+	if err := t.ExecuteTemplate(&buf, templateName, m); err != nil {
+		panic(err)
+	}
+
+	f := buf.Bytes()
+
+	// Debug
+	// fmt.Println(f)
+
+	perm := int(0755)
+	os.WriteFile(fmt.Sprintf("../docs/%s/%s.md", resType, fileName), f, os.FileMode(perm))
 }
 
 func addPaths(m map[string]interface{}) map[string]interface{} {
@@ -624,8 +658,8 @@ func subcategory(input string) string {
 	return s[0]
 }
 
-func readExample(name, typ string) string {
-	file, err := os.Open(fmt.Sprintf("./examples/%s.%s.txt", name, typ))
+func readExample(typ, name string) string {
+	file, err := os.Open(fmt.Sprintf("../examples/%s/%s/resource.tf", typ, name))
 	if err != nil {
 		return ""
 	}

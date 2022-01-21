@@ -1,0 +1,11 @@
+{{- define "DataSourceDocsHeader" }}---
+subcategory: "FortiGate {{ (title (subcategory .path)) }}"
+layout: "fortios"
+page_title: "FortiOS: fortios_{{.resName}}"
+description: |-
+  Get information on a fortios {{.results.help}}
+---
+
+# Data Source: fortios_{{.resName}}
+Use this data source to get information on a fortios {{.results.help}}
+{{ end }}
