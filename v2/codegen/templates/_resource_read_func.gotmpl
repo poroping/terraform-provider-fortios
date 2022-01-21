@@ -1,0 +1,44 @@
+{{define "READRESFUNC" }}
+func resource{{.fpath}}Read(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+	mkey := d.Id()
+
+	c := meta.(*apiClient).Client
+	// c.Retries = 1
+	
+    urlparams := &models.CmdbRequestParams{}
+	vdomparam := ""
+	if v, ok := d.GetOk("vdomparam"); ok {
+		if s, ok := v.(string); ok {
+			vdomparam = s
+		}
+	}
+	urlparams.Vdom = vdomparam
+
+	ptp := true
+	urlparams.PlainTextPassword = &ptp
+
+	o, err := c.Cmdb.Read{{.fpath}}(mkey, urlparams)
+	if err != nil {
+		return diag.Errorf("error reading {{.fpath}} resource: %v", err)
+	}
+
+	if o == nil {
+		log.Printf("[WARN] resource (%s) not found, removing from state", d.Id())
+		d.SetId("")
+		return nil
+	}
+
+	sort := false
+	if v, ok := d.GetOk("dynamic_sort_subtable"); ok {
+		if b, ok := v.(bool); ok {
+			sort = b
+		}
+	}
+
+	diags := refreshObject{{.fpath}}(d, o, c.Config.Fv, sort)
+	if diags.HasError() {
+		return diags
+	}
+	return nil
+}
+{{ end }}

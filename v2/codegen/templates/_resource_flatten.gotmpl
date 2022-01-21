@@ -1,0 +1,30 @@
+{{ define "FLATTEN" }}
+{{- range $key, $value := .children }}
+{{- if or (eq $value.category "table") (eq $value.category "complex") }}
+func flatten{{.fpath}}(v *[]models.{{.fpath}}, sort bool) interface{} {
+	flat := make([]map[string]interface{}, 0)
+
+	if v != nil {
+		for _, cfg := range *v {
+			v := make(map[string]interface{})
+		{{- range $key, $value := $value.children }}
+			if tmp := cfg.{{if $value.name_begin_with_int}}The{{end}}{{(mixedCase $value.name)}}; tmp != nil {
+				v["{{ if $value.NameReserved }}fos{{end}}{{(flatten $value.name)}}"] = {{ if or (eq $value.category "table") (eq $value.category "complex") }}flatten{{.fpath}}(tmp, sort){{else}}*tmp{{end}}
+			}
+		{{ end }}
+			flat = append(flat, v)
+		}
+	}
+	{{ if not (eq $value.category "complex") }}
+	if sort {
+		utils.SortSubtable(flat, "{{ if $value.NameReserved }}fos{{end}}{{(flatten $value.mkey)}}")
+	}
+	{{ end }}
+	return flat
+}
+
+{{ template "FLATTEN" $value }}
+
+{{- end }}
+{{- end }}
+{{- end }}

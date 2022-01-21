@@ -1,0 +1,27 @@
+{{ define "DataSourceDocsAttrRef" }}
+## Attribute Reference
+
+The following attributes are exported:
+{{ template "DataSourceAttribute" . }}
+{{ end }}
+
+{{ define "DataSourceAttribute" }}
+{{- range $key, $value := .children }}
+{{- if eq $value.category "unitary" }}
+* `{{(flatten $value.name)}}` - {{$value.help -}}
+{{- end}}
+{{- end -}}
+{{- range $key, $value := .children }}
+{{- if eq $value.category "table" }}
+* `{{(flatten $value.name)}}` - {{$value.help -}} The structure of `{{(flatten $value.name)}}` block is documented below.
+
+The `{{(flatten $value.name)}}` block contains:
+{{ template "DataSourceAttribute" $value}}
+{{- else if eq $value.category "complex" }}
+* `{{(flatten $value.name)}}` - {{$value.help -}} The structure of `{{(flatten $value.name)}}` block is documented below.
+
+The `{{(flatten $value.name)}}` block contains:
+{{ template "DataSourceAttribute" $value}}
+{{- end }}
+{{- end }}
+{{- end }}

@@ -1,0 +1,15 @@
+{{ define "ResDocsAttrRef" }}
+## Attribute Reference
+
+In addition to all the above arguments, the following attributes are exported:
+* `id` - an identifier for the resource with format {{`{{mkey}}`}}.
+
+## Import
+
+Check out `allow_append` to auto import upon resource creation.
+
+fortios_{{(resNameFlatten .path)}}_{{(resNameFlatten .name)}}{{with .child_path}}_{{(resFlatten .)}}{{end}} can be imported using:
+```sh
+terraform import fortios_{{(resNameFlatten .path)}}_{{(resNameFlatten .name)}}{{with .child_path}}_{{(resFlatten .)}}{{end}}.labelname {{`{{mkey}}`}}
+```
+{{ end }}

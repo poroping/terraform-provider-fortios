@@ -1,0 +1,55 @@
+{{define "DATALISTRESFUNC" }}
+func dataSource{{.fpath}}ListRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+	c := meta.(*apiClient).Client
+	// c.Retries = 1
+	
+    urlparams := &models.CmdbRequestParams{}
+	vdomparam := ""
+	if v, ok := d.GetOk("vdomparam"); ok {
+		if s, ok := v.(string); ok {
+			vdomparam = s
+		}
+	}
+	urlparams.Vdom = vdomparam
+
+	setfilter := ""
+	filter := []string{}
+	if v, ok := d.GetOk("filter"); ok {
+		if s, ok := v.(string); ok {
+			setfilter = s
+			filter = []string{s}
+		}
+	}
+	urlparams.Filter = &filter
+
+	format := []string{"{{.results.mkey}}"}
+	urlparams.Format = &format
+
+	o, err := c.Cmdb.List{{.fpath}}(urlparams)
+	if err != nil {
+		return diag.Errorf("error reading {{.fpath}} dataSource: %v", err)
+	}
+
+	if o == nil {
+		log.Printf("[WARN] dataSource (%s) not found, removing from state", d.Id())
+		d.SetId("")
+		return nil
+	}
+
+	if len(*o) == 0 {
+		return nil
+		}
+	
+	results := []{{ if eq .results.mkey_type "integer"}}int{{else}}{{(typeLookup .results.mkey_type)}}{{end}}{}
+	for _, v := range *o {
+		v2 := v.{{(mixedCase .results.mkey)}}
+		results = append(results, {{ if eq .results.mkey_type "integer"}}int(*v2){{else}}*v2{{end}})
+		}
+
+	d.Set("{{(flatten .results.mkey )}}list", results)
+
+	d.SetId("DataSource{{.fpath}}List" + setfilter)
+
+	return nil
+}
+{{ end }}

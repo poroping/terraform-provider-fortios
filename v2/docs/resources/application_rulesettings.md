@@ -1,0 +1,36 @@
+---
+subcategory: "FortiGate Application"
+layout: "fortios"
+page_title: "FortiOS: fortios_application_rulesettings"
+description: |-
+  Configure application rule settings.
+---
+
+## fortios_application_rulesettings
+Configure application rule settings.
+
+## Example Usage
+
+```hcl
+
+```
+
+## Argument Reference
+* `vdomparam` - Specifies the vdom to which the data source will be applied when the FortiGate unit is running in VDOM mode. Only one vdom can be specified. If you want to inherit the vdom configuration of the provider, please do not set this parameter.
+* `allow_append` - If set to true allows provider to overwrite existing resources instead of erroring. Useful for brownfield implementations. Use with caution! Requires `id` to be defined.
+
+* `id` - Rule ID.
+
+## Attribute Reference
+
+In addition to all the above arguments, the following attributes are exported:
+* `id` - an identifier for the resource with format {{mkey}}.
+
+## Import
+
+Check out `allow_append` to auto import upon resource creation.
+
+fortios_application_rulesettings can be imported using:
+```sh
+terraform import fortios_application_rulesettings.labelname {{mkey}}
+```

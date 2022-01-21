@@ -1,0 +1,35 @@
+{{ define "data_source" }}
+{{ template "HEADER" . }}
+package provider
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/poroping/forti-sdk-go/v2/models"
+	"github.com/poroping/terraform-provider-fortios/v2/utils"
+)
+
+func dataSource{{.fpath}}() *schema.Resource {
+	return &schema.Resource{
+		Description: "{{ .results.help }}",
+
+		ReadContext:   dataSource{{.fpath}}Read,
+
+		Schema: map[string]*schema.Schema{
+			"vdomparam": {
+				Type:     schema.TypeString,
+				Description: "Specifies the vdom to which the dataSource will be applied when the FortiGate unit is running in VDOM mode. If you want to inherit the VDOM configuration of the provider, do not set this parameter.",
+				Optional: true,
+				ForceNew: true,
+			},
+            {{- template "DATASCHEMA" .results }}
+		},
+	}
+}
+
+{{ template "DATAREADRESFUNC" . }}
+
+{{end}}

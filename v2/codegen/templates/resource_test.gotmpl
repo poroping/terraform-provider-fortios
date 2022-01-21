@@ -1,0 +1,23 @@
+{{ define "resource_test" }}
+{{ template "HEADER" . }}
+package provider
+
+import (
+	"testing"
+
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+)
+
+func TestAcc{{.fpath}}_basic(t *testing.T) {
+	rName := "{{(replace .path "-" "_")}}_{{(replace .name "-" "_")}}{{if .child_path}}_{{(replace .child_path "-" "_")}}{{end}}"
+
+	resource.Test(t, resource.TestCase{
+		PreCheck:          func() { testAccPreCheck(t) },
+		ProviderFactories: providerFactories,
+		// CheckDestroy: testAccCheckExampleResourceDestroy,
+		Steps: []resource.TestStep{
+			testAccCreateResourceFromExampleStep(rName),
+		},
+	})
+}
+{{ end }}

@@ -1,3 +1,20 @@
+## 3.0.0 
+
+v3 Uses rewritten GoSDK with models instead of interfaces everywhere.
+Effort was made to unsure backwards compatibility with 2.x besides the breaking changes listed below.
+
+
+BREAKING CHANGES:
+* FortiOS 6.0 resources removed.
+* Sort resources no longer return sorted data as an attribute.
+
+IMPROVEMENTS:
+* `allow_append` added to resources with an mkey. Setting this will check if resources already exists outside of state and onboard it as needed.
+* A resource that is in state but deleted outside of Terraform will no longer result in an error and will be created/state updated as needed.
+* Migrated to `terraform-plugin-sdk/v2`
+* CIDR notation able to be used everywhere as an alternative to IP MASK.
+* More sorting resources.
+
 ## 2.3.7 (Unreleased)
 
 IMPROVEMENTS:
