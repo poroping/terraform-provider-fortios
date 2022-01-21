@@ -224,7 +224,7 @@ func renderDocs(templateName, resType, fileName string, t *template.Template, m 
 	// fmt.Println(f)
 
 	perm := int(0755)
-	os.WriteFile(fmt.Sprintf("../docs/%s/%s.md", resType, fileName), f, os.FileMode(perm))
+	os.WriteFile(fmt.Sprintf("../../docs/%s/%s.md", resType, fileName), f, os.FileMode(perm))
 }
 
 func addPaths(m map[string]interface{}) map[string]interface{} {

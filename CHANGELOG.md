@@ -1,3 +1,8 @@
+## 3.0.1
+
+BUGFIXES:
+* Move Terraform docs to root instead of within v2
+
 ## 3.0.0 
 
 v3 Uses rewritten GoSDK with models instead of interfaces everywhere.
