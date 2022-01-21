@@ -1,0 +1,45 @@
+---
+subcategory: "FortiGate Log"
+layout: "fortios"
+page_title: "FortiOS: fortios_logfortianalyzer2_filter"
+description: |-
+  Get information on a fortios Filters for FortiAnalyzer.
+---
+
+# Data Source: fortios_logfortianalyzer2_filter
+Use this data source to get information on a fortios Filters for FortiAnalyzer.
+
+
+## Example Usage
+
+```hcl
+
+```
+
+## Argument Reference
+
+* `vdomparam` - Specifies the vdom to which the data source will be applied when the FortiGate unit is running in VDOM mode. Only one vdom can be specified. If you want to inherit the vdom configuration of the provider, please do not set this parameter.
+
+## Attribute Reference
+
+The following attributes are exported:
+
+* `anomaly` - Enable/disable anomaly logging.
+* `dlp_archive` - Enable/disable DLP archive logging.
+* `filter` - FortiAnalyzer 2 log filter.
+* `filter_type` - Include/exclude logs that match the filter.
+* `forward_traffic` - Enable/disable forward traffic logging.
+* `gtp` - Enable/disable GTP messages logging.
+* `local_traffic` - Enable/disable local in or out traffic logging.
+* `multicast_traffic` - Enable/disable multicast traffic logging.
+* `severity` - Log every message above and including this severity level.
+* `sniffer_traffic` - Enable/disable sniffer traffic logging.
+* `voip` - Enable/disable VoIP logging.
+* `free_style` - Free Style FiltersThe structure of `free_style` block is documented below.
+
+The `free_style` block contains:
+
+* `category` - Log category.
+* `filter` - Free style filter string.
+* `filter_type` - Include/exclude logs that match the filter.
+* `id` - Entry ID.
