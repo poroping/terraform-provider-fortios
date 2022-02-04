@@ -310,9 +310,10 @@ func resourceSystemFortiguard() *schema.Resource {
 			"sdns_server_ip": {
 				Type: schema.TypeString,
 
-				Description: "IP address of the FortiGuard DNS rating server.",
-				Optional:    true,
-				Computed:    true,
+				DiffSuppressFunc: suppressors.DiffMultiStringEqual,
+				Description:      "IP address of the FortiGuard DNS rating server.",
+				Optional:         true,
+				Computed:         true,
 			},
 			"sdns_server_port": {
 				Type:         schema.TypeInt,

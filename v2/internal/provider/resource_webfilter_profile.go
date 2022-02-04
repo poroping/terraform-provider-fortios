@@ -156,9 +156,10 @@ func resourceWebfilterProfile() *schema.Resource {
 									"fortiguard_category": {
 										Type: schema.TypeString,
 
-										Description: "FortiGuard category to match.",
-										Optional:    true,
-										Computed:    true,
+										DiffSuppressFunc: suppressors.DiffMultiStringEqual,
+										Description:      "FortiGuard category to match.",
+										Optional:         true,
+										Computed:         true,
 									},
 									"name": {
 										Type:         schema.TypeString,
@@ -337,9 +338,10 @@ func resourceWebfilterProfile() *schema.Resource {
 						"exempt_quota": {
 							Type: schema.TypeString,
 
-							Description: "Do not stop quota for these categories.",
-							Optional:    true,
-							Computed:    true,
+							DiffSuppressFunc: suppressors.DiffMultiStringEqual,
+							Description:      "Do not stop quota for these categories.",
+							Optional:         true,
+							Computed:         true,
 						},
 						"filters": {
 							Type:        schema.TypeList,
@@ -449,9 +451,10 @@ func resourceWebfilterProfile() *schema.Resource {
 						"ovrd": {
 							Type: schema.TypeString,
 
-							Description: "Allow web filter profile overrides.",
-							Optional:    true,
-							Computed:    true,
+							DiffSuppressFunc: suppressors.DiffMultiStringEqual,
+							Description:      "Allow web filter profile overrides.",
+							Optional:         true,
+							Computed:         true,
 						},
 						"quota": {
 							Type:        schema.TypeList,
@@ -462,9 +465,10 @@ func resourceWebfilterProfile() *schema.Resource {
 									"category": {
 										Type: schema.TypeString,
 
-										Description: "FortiGuard categories to apply quota to (category action must be set to monitor).",
-										Optional:    true,
-										Computed:    true,
+										DiffSuppressFunc: suppressors.DiffMultiStringEqual,
+										Description:      "FortiGuard categories to apply quota to (category action must be set to monitor).",
+										Optional:         true,
+										Computed:         true,
 									},
 									"duration": {
 										Type: schema.TypeString,

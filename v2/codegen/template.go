@@ -572,7 +572,7 @@ func diffLookup(values map[string]interface{}) string {
 	vtype := values["type"].(string)
 	multi_val, _ := values["multiple_values"].(bool)
 	m := map[string]string{
-		"string":                 "",
+		"string":                 diffMultiString(multi_val),
 		"option":                 diffOptions(multi_val),
 		"ipv4-address":           "",
 		"ipv4-address-any":       "",
@@ -588,7 +588,7 @@ func diffLookup(values map[string]interface{}) string {
 		"var-string":             "",
 		"password":               "",
 		"integer":                "",
-		"user":                   "",
+		"user":                   diffMultiString(multi_val),
 		"password-2":             "",
 		"password-3":             "",
 		"varlen_password":        "",
@@ -611,6 +611,14 @@ func diffLookup(values map[string]interface{}) string {
 func diffOptions(multi_val bool) string {
 	if multi_val {
 		return "suppressors.DiffFakeListEqual"
+	} else {
+		return ""
+	}
+}
+
+func diffMultiString(multi_val bool) string {
+	if multi_val {
+		return "suppressors.DiffMultiStringEqual"
 	} else {
 		return ""
 	}

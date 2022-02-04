@@ -232,9 +232,10 @@ func resourceSystemHa() *schema.Resource {
 			"hbdev": {
 				Type: schema.TypeString,
 
-				Description: "Heartbeat interfaces. Must be the same for all members.",
-				Optional:    true,
-				Computed:    true,
+				DiffSuppressFunc: suppressors.DiffMultiStringEqual,
+				Description:      "Heartbeat interfaces. Must be the same for all members.",
+				Optional:         true,
+				Computed:         true,
 			},
 			"hc_eth_type": {
 				Type:         schema.TypeString,
@@ -380,9 +381,10 @@ func resourceSystemHa() *schema.Resource {
 			"monitor": {
 				Type: schema.TypeString,
 
-				Description: "Interfaces to check for port monitoring (or link failure).",
-				Optional:    true,
-				Computed:    true,
+				DiffSuppressFunc: suppressors.DiffMultiStringEqual,
+				Description:      "Interfaces to check for port monitoring (or link failure).",
+				Optional:         true,
+				Computed:         true,
 			},
 			"multicast_ttl": {
 				Type:         schema.TypeInt,
@@ -442,9 +444,10 @@ func resourceSystemHa() *schema.Resource {
 			"pingserver_monitor_interface": {
 				Type: schema.TypeString,
 
-				Description: "Interfaces to check for remote IP monitoring.",
-				Optional:    true,
-				Computed:    true,
+				DiffSuppressFunc: suppressors.DiffMultiStringEqual,
+				Description:      "Interfaces to check for remote IP monitoring.",
+				Optional:         true,
+				Computed:         true,
 			},
 			"pingserver_secondary_force_reset": {
 				Type:         schema.TypeString,
@@ -518,9 +521,10 @@ func resourceSystemHa() *schema.Resource {
 						"monitor": {
 							Type: schema.TypeString,
 
-							Description: "Interfaces to check for port monitoring (or link failure).",
-							Optional:    true,
-							Computed:    true,
+							DiffSuppressFunc: suppressors.DiffMultiStringEqual,
+							Description:      "Interfaces to check for port monitoring (or link failure).",
+							Optional:         true,
+							Computed:         true,
 						},
 						"override": {
 							Type:         schema.TypeString,
@@ -549,9 +553,10 @@ func resourceSystemHa() *schema.Resource {
 						"pingserver_monitor_interface": {
 							Type: schema.TypeString,
 
-							Description: "Interfaces to check for remote IP monitoring.",
-							Optional:    true,
-							Computed:    true,
+							DiffSuppressFunc: suppressors.DiffMultiStringEqual,
+							Description:      "Interfaces to check for remote IP monitoring.",
+							Optional:         true,
+							Computed:         true,
 						},
 						"pingserver_secondary_force_reset": {
 							Type:         schema.TypeString,
@@ -638,9 +643,10 @@ func resourceSystemHa() *schema.Resource {
 			"session_sync_dev": {
 				Type: schema.TypeString,
 
-				Description: "Offload session-sync process to kernel and sync sessions using connected interface(s) directly.",
-				Optional:    true,
-				Computed:    true,
+				DiffSuppressFunc: suppressors.DiffMultiStringEqual,
+				Description:      "Offload session-sync process to kernel and sync sessions using connected interface(s) directly.",
+				Optional:         true,
+				Computed:         true,
 			},
 			"smtp_proxy_threshold": {
 				Type: schema.TypeString,

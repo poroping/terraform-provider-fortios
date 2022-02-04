@@ -1,3 +1,9 @@
+## 3.1.0
+
+IMPROVEMENTS:
+* Support for FortiOS 7.0.4
+* DiffSupp func for multi value string fields. Resolves [#11](https://github.com/poroping/terraform-provider-fortios/issues/11)
+
 ## 3.0.2
 
 BUGFIXES:

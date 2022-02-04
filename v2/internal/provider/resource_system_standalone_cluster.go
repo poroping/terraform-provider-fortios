@@ -15,6 +15,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 	"github.com/poroping/forti-sdk-go/v2/models"
+	"github.com/poroping/terraform-provider-fortios/v2/suppressors"
 	"github.com/poroping/terraform-provider-fortios/v2/utils"
 )
 
@@ -73,9 +74,10 @@ func resourceSystemStandaloneCluster() *schema.Resource {
 			"session_sync_dev": {
 				Type: schema.TypeString,
 
-				Description: "Offload session-sync process to kernel and sync sessions using connected interface(s) directly.",
-				Optional:    true,
-				Computed:    true,
+				DiffSuppressFunc: suppressors.DiffMultiStringEqual,
+				Description:      "Offload session-sync process to kernel and sync sessions using connected interface(s) directly.",
+				Optional:         true,
+				Computed:         true,
 			},
 			"standalone_group_id": {
 				Type:         schema.TypeInt,

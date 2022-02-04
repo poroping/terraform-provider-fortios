@@ -16,6 +16,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 	"github.com/poroping/forti-sdk-go/v2/models"
+	"github.com/poroping/terraform-provider-fortios/v2/suppressors"
 	"github.com/poroping/terraform-provider-fortios/v2/utils"
 	"github.com/poroping/terraform-provider-fortios/v2/validators"
 )
@@ -404,9 +405,10 @@ func resourceSystemDhcpServer() *schema.Resource {
 						"ip": {
 							Type: schema.TypeString,
 
-							Description: "DHCP option IPs.",
-							Optional:    true,
-							Computed:    true,
+							DiffSuppressFunc: suppressors.DiffMultiStringEqual,
+							Description:      "DHCP option IPs.",
+							Optional:         true,
+							Computed:         true,
 						},
 						"type": {
 							Type:         schema.TypeString,

@@ -165,9 +165,10 @@ func resourceApplicationList() *schema.Resource {
 						"behavior": {
 							Type: schema.TypeString,
 
-							Description: "Application behavior filter.",
-							Optional:    true,
-							Computed:    true,
+							DiffSuppressFunc: suppressors.DiffMultiStringEqual,
+							Description:      "Application behavior filter.",
+							Optional:         true,
+							Computed:         true,
 						},
 						"category": {
 							Type:        schema.TypeList,
@@ -299,9 +300,10 @@ func resourceApplicationList() *schema.Resource {
 						"protocols": {
 							Type: schema.TypeString,
 
-							Description: "Application protocol filter.",
-							Optional:    true,
-							Computed:    true,
+							DiffSuppressFunc: suppressors.DiffMultiStringEqual,
+							Description:      "Application protocol filter.",
+							Optional:         true,
+							Computed:         true,
 						},
 						"quarantine": {
 							Type:         schema.TypeString,
@@ -416,16 +418,18 @@ func resourceApplicationList() *schema.Resource {
 						"technology": {
 							Type: schema.TypeString,
 
-							Description: "Application technology filter.",
-							Optional:    true,
-							Computed:    true,
+							DiffSuppressFunc: suppressors.DiffMultiStringEqual,
+							Description:      "Application technology filter.",
+							Optional:         true,
+							Computed:         true,
 						},
 						"vendor": {
 							Type: schema.TypeString,
 
-							Description: "Application vendor filter.",
-							Optional:    true,
-							Computed:    true,
+							DiffSuppressFunc: suppressors.DiffMultiStringEqual,
+							Description:      "Application vendor filter.",
+							Optional:         true,
+							Computed:         true,
 						},
 					},
 				},

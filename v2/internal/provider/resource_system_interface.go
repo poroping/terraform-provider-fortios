@@ -234,9 +234,10 @@ func resourceSystemInterface() *schema.Resource {
 						"ip": {
 							Type: schema.TypeString,
 
-							Description: "DHCP option IPs.",
-							Optional:    true,
-							Computed:    true,
+							DiffSuppressFunc: suppressors.DiffMultiStringEqual,
+							Description:      "DHCP option IPs.",
+							Optional:         true,
+							Computed:         true,
 						},
 						"type": {
 							Type:         schema.TypeString,
@@ -377,9 +378,10 @@ func resourceSystemInterface() *schema.Resource {
 			"dhcp_relay_ip": {
 				Type: schema.TypeString,
 
-				Description: "DHCP relay IP address.",
-				Optional:    true,
-				Computed:    true,
+				DiffSuppressFunc: suppressors.DiffMultiStringEqual,
+				Description:      "DHCP relay IP address.",
+				Optional:         true,
+				Computed:         true,
 			},
 			"dhcp_relay_link_selection": {
 				Type:         schema.TypeString,
@@ -977,9 +979,10 @@ func resourceSystemInterface() *schema.Resource {
 						"dhcp6_relay_ip": {
 							Type: schema.TypeString,
 
-							Description: "DHCPv6 relay IP address.",
-							Optional:    true,
-							Computed:    true,
+							DiffSuppressFunc: suppressors.DiffMultiStringEqual,
+							Description:      "DHCPv6 relay IP address.",
+							Optional:         true,
+							Computed:         true,
 						},
 						"dhcp6_relay_service": {
 							Type:         schema.TypeString,
@@ -1083,9 +1086,10 @@ func resourceSystemInterface() *schema.Resource {
 									"rdnss": {
 										Type: schema.TypeString,
 
-										Description: "Recursive DNS server option.",
-										Optional:    true,
-										Computed:    true,
+										DiffSuppressFunc: suppressors.DiffMultiStringEqual,
+										Description:      "Recursive DNS server option.",
+										Optional:         true,
+										Computed:         true,
 									},
 									"rdnss_service": {
 										Type:         schema.TypeString,
@@ -1252,9 +1256,10 @@ func resourceSystemInterface() *schema.Resource {
 									"rdnss": {
 										Type: schema.TypeString,
 
-										Description: "Recursive DNS server option.",
-										Optional:    true,
-										Computed:    true,
+										DiffSuppressFunc: suppressors.DiffMultiStringEqual,
+										Description:      "Recursive DNS server option.",
+										Optional:         true,
+										Computed:         true,
 									},
 									"valid_life_time": {
 										Type: schema.TypeInt,

@@ -16,6 +16,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 	"github.com/poroping/forti-sdk-go/v2/models"
+	"github.com/poroping/terraform-provider-fortios/v2/suppressors"
 	"github.com/poroping/terraform-provider-fortios/v2/utils"
 )
 
@@ -84,9 +85,10 @@ func resourceIpsRule() *schema.Resource {
 			"location": {
 				Type: schema.TypeString,
 
-				Description: "Vulnerable location.",
-				Optional:    true,
-				Computed:    true,
+				DiffSuppressFunc: suppressors.DiffMultiStringEqual,
+				Description:      "Vulnerable location.",
+				Optional:         true,
+				Computed:         true,
 			},
 			"log": {
 				Type:         schema.TypeString,

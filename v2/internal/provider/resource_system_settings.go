@@ -234,16 +234,18 @@ func resourceSystemSettings() *schema.Resource {
 			"dhcp_server_ip": {
 				Type: schema.TypeString,
 
-				Description: "DHCP Server IPv4 address.",
-				Optional:    true,
-				Computed:    true,
+				DiffSuppressFunc: suppressors.DiffMultiStringEqual,
+				Description:      "DHCP Server IPv4 address.",
+				Optional:         true,
+				Computed:         true,
 			},
 			"dhcp6_server_ip": {
 				Type: schema.TypeString,
 
-				Description: "DHCPv6 server IPv6 address.",
-				Optional:    true,
-				Computed:    true,
+				DiffSuppressFunc: suppressors.DiffMultiStringEqual,
+				Description:      "DHCPv6 server IPv6 address.",
+				Optional:         true,
+				Computed:         true,
 			},
 			"discovered_device_timeout": {
 				Type:         schema.TypeInt,

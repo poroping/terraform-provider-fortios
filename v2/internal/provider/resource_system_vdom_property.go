@@ -15,6 +15,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 	"github.com/poroping/forti-sdk-go/v2/models"
+	"github.com/poroping/terraform-provider-fortios/v2/suppressors"
 	"github.com/poroping/terraform-provider-fortios/v2/utils"
 )
 
@@ -47,9 +48,10 @@ func resourceSystemVdomProperty() *schema.Resource {
 			"custom_service": {
 				Type: schema.TypeString,
 
-				Description: "Maximum guaranteed number of firewall custom services.",
-				Optional:    true,
-				Computed:    true,
+				DiffSuppressFunc: suppressors.DiffMultiStringEqual,
+				Description:      "Maximum guaranteed number of firewall custom services.",
+				Optional:         true,
+				Computed:         true,
 			},
 			"description": {
 				Type:         schema.TypeString,
@@ -62,65 +64,74 @@ func resourceSystemVdomProperty() *schema.Resource {
 			"dialup_tunnel": {
 				Type: schema.TypeString,
 
-				Description: "Maximum guaranteed number of dial-up tunnels.",
-				Optional:    true,
-				Computed:    true,
+				DiffSuppressFunc: suppressors.DiffMultiStringEqual,
+				Description:      "Maximum guaranteed number of dial-up tunnels.",
+				Optional:         true,
+				Computed:         true,
 			},
 			"firewall_address": {
 				Type: schema.TypeString,
 
-				Description: "Maximum guaranteed number of firewall addresses (IPv4, IPv6, multicast).",
-				Optional:    true,
-				Computed:    true,
+				DiffSuppressFunc: suppressors.DiffMultiStringEqual,
+				Description:      "Maximum guaranteed number of firewall addresses (IPv4, IPv6, multicast).",
+				Optional:         true,
+				Computed:         true,
 			},
 			"firewall_addrgrp": {
 				Type: schema.TypeString,
 
-				Description: "Maximum guaranteed number of firewall address groups (IPv4, IPv6).",
-				Optional:    true,
-				Computed:    true,
+				DiffSuppressFunc: suppressors.DiffMultiStringEqual,
+				Description:      "Maximum guaranteed number of firewall address groups (IPv4, IPv6).",
+				Optional:         true,
+				Computed:         true,
 			},
 			"firewall_policy": {
 				Type: schema.TypeString,
 
-				Description: "Maximum guaranteed number of firewall policies (policy, DoS-policy4, DoS-policy6, multicast).",
-				Optional:    true,
-				Computed:    true,
+				DiffSuppressFunc: suppressors.DiffMultiStringEqual,
+				Description:      "Maximum guaranteed number of firewall policies (policy, DoS-policy4, DoS-policy6, multicast).",
+				Optional:         true,
+				Computed:         true,
 			},
 			"ipsec_phase1": {
 				Type: schema.TypeString,
 
-				Description: "Maximum guaranteed number of VPN IPsec phase 1 tunnels.",
-				Optional:    true,
-				Computed:    true,
+				DiffSuppressFunc: suppressors.DiffMultiStringEqual,
+				Description:      "Maximum guaranteed number of VPN IPsec phase 1 tunnels.",
+				Optional:         true,
+				Computed:         true,
 			},
 			"ipsec_phase1_interface": {
 				Type: schema.TypeString,
 
-				Description: "Maximum guaranteed number of VPN IPsec phase1 interface tunnels.",
-				Optional:    true,
-				Computed:    true,
+				DiffSuppressFunc: suppressors.DiffMultiStringEqual,
+				Description:      "Maximum guaranteed number of VPN IPsec phase1 interface tunnels.",
+				Optional:         true,
+				Computed:         true,
 			},
 			"ipsec_phase2": {
 				Type: schema.TypeString,
 
-				Description: "Maximum guaranteed number of VPN IPsec phase 2 tunnels.",
-				Optional:    true,
-				Computed:    true,
+				DiffSuppressFunc: suppressors.DiffMultiStringEqual,
+				Description:      "Maximum guaranteed number of VPN IPsec phase 2 tunnels.",
+				Optional:         true,
+				Computed:         true,
 			},
 			"ipsec_phase2_interface": {
 				Type: schema.TypeString,
 
-				Description: "Maximum guaranteed number of VPN IPsec phase2 interface tunnels.",
-				Optional:    true,
-				Computed:    true,
+				DiffSuppressFunc: suppressors.DiffMultiStringEqual,
+				Description:      "Maximum guaranteed number of VPN IPsec phase2 interface tunnels.",
+				Optional:         true,
+				Computed:         true,
 			},
 			"log_disk_quota": {
 				Type: schema.TypeString,
 
-				Description: "Log disk quota in megabytes (MB). Range depends on how much disk space is available.",
-				Optional:    true,
-				Computed:    true,
+				DiffSuppressFunc: suppressors.DiffMultiStringEqual,
+				Description:      "Log disk quota in megabytes (MB). Range depends on how much disk space is available.",
+				Optional:         true,
+				Computed:         true,
 			},
 			"name": {
 				Type:         schema.TypeString,
@@ -133,37 +144,42 @@ func resourceSystemVdomProperty() *schema.Resource {
 			"onetime_schedule": {
 				Type: schema.TypeString,
 
-				Description: "Maximum guaranteed number of firewall one-time schedules.",
-				Optional:    true,
-				Computed:    true,
+				DiffSuppressFunc: suppressors.DiffMultiStringEqual,
+				Description:      "Maximum guaranteed number of firewall one-time schedules.",
+				Optional:         true,
+				Computed:         true,
 			},
 			"proxy": {
 				Type: schema.TypeString,
 
-				Description: "Maximum guaranteed number of concurrent proxy users.",
-				Optional:    true,
-				Computed:    true,
+				DiffSuppressFunc: suppressors.DiffMultiStringEqual,
+				Description:      "Maximum guaranteed number of concurrent proxy users.",
+				Optional:         true,
+				Computed:         true,
 			},
 			"recurring_schedule": {
 				Type: schema.TypeString,
 
-				Description: "Maximum guaranteed number of firewall recurring schedules.",
-				Optional:    true,
-				Computed:    true,
+				DiffSuppressFunc: suppressors.DiffMultiStringEqual,
+				Description:      "Maximum guaranteed number of firewall recurring schedules.",
+				Optional:         true,
+				Computed:         true,
 			},
 			"service_group": {
 				Type: schema.TypeString,
 
-				Description: "Maximum guaranteed number of firewall service groups.",
-				Optional:    true,
-				Computed:    true,
+				DiffSuppressFunc: suppressors.DiffMultiStringEqual,
+				Description:      "Maximum guaranteed number of firewall service groups.",
+				Optional:         true,
+				Computed:         true,
 			},
 			"session": {
 				Type: schema.TypeString,
 
-				Description: "Maximum guaranteed number of sessions.",
-				Optional:    true,
-				Computed:    true,
+				DiffSuppressFunc: suppressors.DiffMultiStringEqual,
+				Description:      "Maximum guaranteed number of sessions.",
+				Optional:         true,
+				Computed:         true,
 			},
 			"snmp_index": {
 				Type:         schema.TypeInt,
@@ -176,23 +192,26 @@ func resourceSystemVdomProperty() *schema.Resource {
 			"sslvpn": {
 				Type: schema.TypeString,
 
-				Description: "Maximum guaranteed number of SSL-VPNs.",
-				Optional:    true,
-				Computed:    true,
+				DiffSuppressFunc: suppressors.DiffMultiStringEqual,
+				Description:      "Maximum guaranteed number of SSL-VPNs.",
+				Optional:         true,
+				Computed:         true,
 			},
 			"user": {
 				Type: schema.TypeString,
 
-				Description: "Maximum guaranteed number of local users.",
-				Optional:    true,
-				Computed:    true,
+				DiffSuppressFunc: suppressors.DiffMultiStringEqual,
+				Description:      "Maximum guaranteed number of local users.",
+				Optional:         true,
+				Computed:         true,
 			},
 			"user_group": {
 				Type: schema.TypeString,
 
-				Description: "Maximum guaranteed number of user groups.",
-				Optional:    true,
-				Computed:    true,
+				DiffSuppressFunc: suppressors.DiffMultiStringEqual,
+				Description:      "Maximum guaranteed number of user groups.",
+				Optional:         true,
+				Computed:         true,
 			},
 		},
 	}

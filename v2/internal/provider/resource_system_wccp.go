@@ -137,9 +137,10 @@ func resourceSystemWccp() *schema.Resource {
 			"ports": {
 				Type: schema.TypeString,
 
-				Description: "Service ports.",
-				Optional:    true,
-				Computed:    true,
+				DiffSuppressFunc: suppressors.DiffMultiStringEqual,
+				Description:      "Service ports.",
+				Optional:         true,
+				Computed:         true,
 			},
 			"ports_defined": {
 				Type:         schema.TypeString,
@@ -192,16 +193,18 @@ func resourceSystemWccp() *schema.Resource {
 			"router_list": {
 				Type: schema.TypeString,
 
-				Description: "IP addresses of one or more WCCP routers.",
-				Optional:    true,
-				Computed:    true,
+				DiffSuppressFunc: suppressors.DiffMultiStringEqual,
+				Description:      "IP addresses of one or more WCCP routers.",
+				Optional:         true,
+				Computed:         true,
 			},
 			"server_list": {
 				Type: schema.TypeString,
 
-				Description: "IP addresses and netmasks for up to four cache servers.",
-				Optional:    true,
-				Computed:    true,
+				DiffSuppressFunc: suppressors.DiffMultiStringEqual,
+				Description:      "IP addresses and netmasks for up to four cache servers.",
+				Optional:         true,
+				Computed:         true,
 			},
 			"server_type": {
 				Type:         schema.TypeString,

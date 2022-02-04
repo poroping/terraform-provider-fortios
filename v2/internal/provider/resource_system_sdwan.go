@@ -461,12 +461,12 @@ func resourceSystemSdwan() *schema.Resource {
 							Computed:    true,
 						},
 						"server": {
-							Type:         schema.TypeString,
-							ValidateFunc: validation.StringLenBetween(0, 79),
-
-							Description: "IP address or FQDN name of the server.",
-							Optional:    true,
-							Computed:    true,
+							Type:             schema.TypeString,
+							ValidateFunc:     validation.StringLenBetween(0, 79),
+							DiffSuppressFunc: suppressors.DiffMultiStringEqual,
+							Description:      "IP address or FQDN name of the server.",
+							Optional:         true,
+							Computed:         true,
 						},
 						"sla": {
 							Type:        schema.TypeList,

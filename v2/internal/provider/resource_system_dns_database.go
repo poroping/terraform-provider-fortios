@@ -55,9 +55,10 @@ func resourceSystemDnsDatabase() *schema.Resource {
 			"allow_transfer": {
 				Type: schema.TypeString,
 
-				Description: "DNS zone transfer IP address list.",
-				Optional:    true,
-				Computed:    true,
+				DiffSuppressFunc: suppressors.DiffMultiStringEqual,
+				Description:      "DNS zone transfer IP address list.",
+				Optional:         true,
+				Computed:         true,
 			},
 			"authoritative": {
 				Type:         schema.TypeString,
@@ -166,9 +167,10 @@ func resourceSystemDnsDatabase() *schema.Resource {
 			"forwarder": {
 				Type: schema.TypeString,
 
-				Description: "DNS zone forwarder IP address list.",
-				Optional:    true,
-				Computed:    true,
+				DiffSuppressFunc: suppressors.DiffMultiStringEqual,
+				Description:      "DNS zone forwarder IP address list.",
+				Optional:         true,
+				Computed:         true,
 			},
 			"ip_master": {
 				Type:         schema.TypeString,

@@ -15,6 +15,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 	"github.com/poroping/forti-sdk-go/v2/models"
+	"github.com/poroping/terraform-provider-fortios/v2/suppressors"
 	"github.com/poroping/terraform-provider-fortios/v2/utils"
 )
 
@@ -55,9 +56,10 @@ func resourceIpsCustom() *schema.Resource {
 			"application": {
 				Type: schema.TypeString,
 
-				Description: "Applications to be protected. Blank for all applications.",
-				Optional:    true,
-				Computed:    true,
+				DiffSuppressFunc: suppressors.DiffMultiStringEqual,
+				Description:      "Applications to be protected. Blank for all applications.",
+				Optional:         true,
+				Computed:         true,
 			},
 			"comment": {
 				Type:         schema.TypeString,
@@ -70,9 +72,10 @@ func resourceIpsCustom() *schema.Resource {
 			"location": {
 				Type: schema.TypeString,
 
-				Description: "Protect client or server traffic.",
-				Optional:    true,
-				Computed:    true,
+				DiffSuppressFunc: suppressors.DiffMultiStringEqual,
+				Description:      "Protect client or server traffic.",
+				Optional:         true,
+				Computed:         true,
 			},
 			"log": {
 				Type:         schema.TypeString,
@@ -93,9 +96,10 @@ func resourceIpsCustom() *schema.Resource {
 			"os": {
 				Type: schema.TypeString,
 
-				Description: "Operating system(s) that the signature protects. Blank for all operating systems.",
-				Optional:    true,
-				Computed:    true,
+				DiffSuppressFunc: suppressors.DiffMultiStringEqual,
+				Description:      "Operating system(s) that the signature protects. Blank for all operating systems.",
+				Optional:         true,
+				Computed:         true,
 			},
 			"protocol": {
 				Type: schema.TypeString,

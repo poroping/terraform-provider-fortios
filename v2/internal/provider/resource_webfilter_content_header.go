@@ -16,6 +16,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 	"github.com/poroping/forti-sdk-go/v2/models"
+	"github.com/poroping/terraform-provider-fortios/v2/suppressors"
 	"github.com/poroping/terraform-provider-fortios/v2/utils"
 )
 
@@ -77,9 +78,10 @@ func resourceWebfilterContentHeader() *schema.Resource {
 						"category": {
 							Type: schema.TypeString,
 
-							Description: "Categories that this content type applies to.",
-							Optional:    true,
-							Computed:    true,
+							DiffSuppressFunc: suppressors.DiffMultiStringEqual,
+							Description:      "Categories that this content type applies to.",
+							Optional:         true,
+							Computed:         true,
 						},
 						"pattern": {
 							Type:         schema.TypeString,

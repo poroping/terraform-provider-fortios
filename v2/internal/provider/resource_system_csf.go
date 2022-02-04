@@ -16,6 +16,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 	"github.com/poroping/forti-sdk-go/v2/models"
+	"github.com/poroping/terraform-provider-fortios/v2/suppressors"
 	"github.com/poroping/terraform-provider-fortios/v2/utils"
 )
 
@@ -286,12 +287,12 @@ func resourceSystemCsf() *schema.Resource {
 							Computed:    true,
 						},
 						"ha_members": {
-							Type:         schema.TypeString,
-							ValidateFunc: validation.StringLenBetween(0, 19),
-
-							Description: "HA members.",
-							Optional:    true,
-							Computed:    true,
+							Type:             schema.TypeString,
+							ValidateFunc:     validation.StringLenBetween(0, 19),
+							DiffSuppressFunc: suppressors.DiffMultiStringEqual,
+							Description:      "HA members.",
+							Optional:         true,
+							Computed:         true,
 						},
 						"name": {
 							Type:         schema.TypeString,
