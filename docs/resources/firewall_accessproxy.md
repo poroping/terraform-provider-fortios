@@ -20,6 +20,8 @@ Configure IPv4 access proxy.
 * `allow_append` - If set to true allows provider to overwrite existing resources instead of erroring. Useful for brownfield implementations. Use with caution! Requires `name` to be defined.
 * `dynamic_sort_table` - `true` or `false`, set this parameter to `true` when using dynamic for_each + toset to configure and sort sub-tables, if set to `true` static sub-tables must be ordered.
 
+* `auth_portal` - Enable/disable authentication portal. Valid values: `disable` `enable` .
+* `auth_virtual_host` - Virtual host for authentication portal. This attribute must reference one of the following datasources: `firewall.access-proxy-virtual-host.name` .
 * `client_cert` - Enable/disable to request client certificate. Valid values: `disable` `enable` .
 * `decrypted_traffic_mirror` - Decrypted traffic mirror. This attribute must reference one of the following datasources: `firewall.decrypted-traffic-mirror.name` .
 * `empty_cert_action` - Action of an empty client certificate. Valid values: `accept` `block` .
@@ -37,18 +39,19 @@ The `api_gateway` block contains:
 * `http_cookie_domain_from_host` - Enable/disable use of HTTP cookie domain from host field in HTTP. Valid values: `disable` `enable` .
 * `http_cookie_generation` - Generation of HTTP cookie to be accepted. Changing invalidates all existing cookies.
 * `http_cookie_path` - Limit HTTP cookie persistence to the specified path.
-* `http_cookie_share` - Control sharing of cookies across API Gateway. same-ip means a cookie from one virtual server can be used by another. Disable stops cookie sharing. Valid values: `disable` `same-ip` .
+* `http_cookie_share` - Control sharing of cookies across API Gateway. Use of same-ip means a cookie from one virtual server can be used by another. Disable stops cookie sharing. Valid values: `disable` `same-ip` .
 * `https_cookie_secure` - Enable/disable verification that inserted HTTPS cookies are secure. Valid values: `disable` `enable` .
 * `id` - API Gateway ID.
 * `ldb_method` - Method used to distribute sessions to real servers. Valid values: `static` `round-robin` `weighted` `first-alive` `http-host` .
 * `persistence` - Configure how to make sure that clients connect to the same server every time they make a request that is part of the same session. Valid values: `none` `http-cookie` .
 * `saml_redirect` - Enable/disable SAML redirection after successful authentication. Valid values: `disable` `enable` .
 * `saml_server` - SAML service provider configuration for VIP authentication. This attribute must reference one of the following datasources: `user.saml.name` .
-* `service` - Service. Valid values: `http` `https` `tcp-forwarding` `samlsp` .
+* `service` - Service. Valid values: `http` `https` `tcp-forwarding` `samlsp` `web-portal` .
 * `ssl_algorithm` - Permitted encryption algorithms for the server side of SSL full mode sessions according to encryption strength. Valid values: `high` `medium` `low` .
 * `ssl_dh_bits` - Number of bits to use in the Diffie-Hellman exchange for RSA encryption of SSL sessions. Valid values: `768` `1024` `1536` `2048` `3072` `4096` .
 * `ssl_max_version` - Highest SSL/TLS version acceptable from a server. Valid values: `tls-1.0` `tls-1.1` `tls-1.2` `tls-1.3` .
 * `ssl_min_version` - Lowest SSL/TLS version acceptable from a server. Valid values: `tls-1.0` `tls-1.1` `tls-1.2` `tls-1.3` .
+* `ssl_vpn_web_portal` - SSL-VPN web portal. This attribute must reference one of the following datasources: `vpn.ssl.web.portal.name` .
 * `url_map` - URL pattern to match.
 * `url_map_type` - Type of url-map. Valid values: `sub-string` `wildcard` `regex` .
 * `virtual_host` - Virtual host. This attribute must reference one of the following datasources: `firewall.access-proxy-virtual-host.name` .
@@ -58,6 +61,7 @@ The `realservers` block contains:
 
 * `addr_type` - Type of address. Valid values: `ip` `fqdn` .
 * `address` - Address or address group of the real server. This attribute must reference one of the following datasources: `firewall.address.name` `firewall.addrgrp.name` .
+* `domain` - Wildcard domain name of the real server.
 * `health_check` - Enable to check the responsiveness of the real server before forwarding traffic. Valid values: `disable` `enable` .
 * `health_check_proto` - Protocol of the health check monitor to use when polling to determine server's connectivity status. Valid values: `ping` `http` `tcp-connect` .
 * `holddown_interval` - Enable/disable holddown timer. Server will be considered active and reachable once the holddown period has expired (30 seconds). Valid values: `enable` `disable` .
@@ -92,18 +96,19 @@ The `api_gateway6` block contains:
 * `http_cookie_domain_from_host` - Enable/disable use of HTTP cookie domain from host field in HTTP. Valid values: `disable` `enable` .
 * `http_cookie_generation` - Generation of HTTP cookie to be accepted. Changing invalidates all existing cookies.
 * `http_cookie_path` - Limit HTTP cookie persistence to the specified path.
-* `http_cookie_share` - Control sharing of cookies across API Gateway. same-ip means a cookie from one virtual server can be used by another. Disable stops cookie sharing. Valid values: `disable` `same-ip` .
+* `http_cookie_share` - Control sharing of cookies across API Gateway. Use of same-ip means a cookie from one virtual server can be used by another. Disable stops cookie sharing. Valid values: `disable` `same-ip` .
 * `https_cookie_secure` - Enable/disable verification that inserted HTTPS cookies are secure. Valid values: `disable` `enable` .
 * `id` - API Gateway ID.
 * `ldb_method` - Method used to distribute sessions to real servers. Valid values: `static` `round-robin` `weighted` `first-alive` `http-host` .
 * `persistence` - Configure how to make sure that clients connect to the same server every time they make a request that is part of the same session. Valid values: `none` `http-cookie` .
 * `saml_redirect` - Enable/disable SAML redirection after successful authentication. Valid values: `disable` `enable` .
 * `saml_server` - SAML service provider configuration for VIP authentication. This attribute must reference one of the following datasources: `user.saml.name` .
-* `service` - Service. Valid values: `http` `https` `tcp-forwarding` `samlsp` .
+* `service` - Service. Valid values: `http` `https` `tcp-forwarding` `samlsp` `web-portal` .
 * `ssl_algorithm` - Permitted encryption algorithms for the server side of SSL full mode sessions according to encryption strength. Valid values: `high` `medium` `low` .
 * `ssl_dh_bits` - Number of bits to use in the Diffie-Hellman exchange for RSA encryption of SSL sessions. Valid values: `768` `1024` `1536` `2048` `3072` `4096` .
 * `ssl_max_version` - Highest SSL/TLS version acceptable from a server. Valid values: `tls-1.0` `tls-1.1` `tls-1.2` `tls-1.3` .
 * `ssl_min_version` - Lowest SSL/TLS version acceptable from a server. Valid values: `tls-1.0` `tls-1.1` `tls-1.2` `tls-1.3` .
+* `ssl_vpn_web_portal` - SSL-VPN web portal. This attribute must reference one of the following datasources: `vpn.ssl.web.portal.name` .
 * `url_map` - URL pattern to match.
 * `url_map_type` - Type of url-map. Valid values: `sub-string` `wildcard` `regex` .
 * `virtual_host` - Virtual host. This attribute must reference one of the following datasources: `firewall.access-proxy-virtual-host.name` .
@@ -113,6 +118,7 @@ The `realservers` block contains:
 
 * `addr_type` - Type of address. Valid values: `ip` `fqdn` .
 * `address` - Address or address group of the real server. This attribute must reference one of the following datasources: `firewall.address6.name` `firewall.addrgrp6.name` .
+* `domain` - Wildcard domain name of the real server.
 * `health_check` - Enable to check the responsiveness of the real server before forwarding traffic. Valid values: `disable` `enable` .
 * `health_check_proto` - Protocol of the health check monitor to use when polling to determine server's connectivity status. Valid values: `ping` `http` `tcp-connect` .
 * `holddown_interval` - Enable/disable holddown timer. Server will be considered active and reachable once the holddown period has expired (30 seconds). Valid values: `enable` `disable` .

@@ -32,6 +32,7 @@ The following attributes are exported:
 * `downstream_accprofile` - Default access profile for requests from downstream devices.
 * `fabric_object_unification` - Fabric CMDB Object Unification.
 * `fabric_workers` - Number of worker processes for Security Fabric daemon.
+* `forticloud_account_enforcement` - Fabric FortiCloud account unification.
 * `group_name` - Security Fabric group name. All FortiGates in a Security Fabric must have the same group name.
 * `group_password` - Security Fabric group password. All FortiGates in a Security Fabric must have the same group password.
 * `log_unification` - Enable/disable broadcast of discovery messages for log unification.

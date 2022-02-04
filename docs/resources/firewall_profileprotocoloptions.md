@@ -23,7 +23,7 @@ Configure protocol options.
 * `feature_set` - Flow/proxy feature set. Valid values: `flow` `proxy` .
 * `name` - Name.
 * `oversize_log` - Enable/disable logging for antivirus oversize file blocking. Valid values: `disable` `enable` .
-* `replacemsg_group` - Name of the replacement message group to be used This attribute must reference one of the following datasources: `system.replacemsg-group.name` .
+* `replacemsg_group` - Name of the replacement message group to be used. This attribute must reference one of the following datasources: `system.replacemsg-group.name` .
 * `rpc_over_http` - Enable/disable inspection of RPC over HTTP. Valid values: `enable` `disable` .
 * `switching_protocols_log` - Enable/disable logging for HTTP/HTTPS switching protocols. Valid values: `disable` `enable` .
 * `cifs` - Configure CIFS protocol options. The structure of `cifs` block is documented below.
@@ -40,7 +40,7 @@ The `cifs` block contains:
 * `tcp_window_maximum` - Maximum dynamic TCP window size.
 * `tcp_window_minimum` - Minimum dynamic TCP window size.
 * `tcp_window_size` - Set TCP static window size.
-* `tcp_window_type` - TCP window type to use for this protocol. Valid values: `system` `static` `dynamic` .
+* `tcp_window_type` - TCP window type to use for this protocol. Valid values: `system` `static` `dynamic` `auto-tuning` .
 * `uncompressed_nest_limit` - Maximum nested levels of compression that can be uncompressed and scanned (2 - 100, default = 12).
 * `uncompressed_oversize_limit` - Maximum in-memory uncompressed file size that can be scanned (1 - 383 MB, default = 10).
 * `server_keytab` - Server keytab. The structure of `server_keytab` block is documented below.
@@ -48,7 +48,7 @@ The `cifs` block contains:
 The `server_keytab` block contains:
 
 * `keytab` - Base64 encoded keytab file containing credential of the server.
-* `principal` - Service principal.  For example, "host/cifsserver.example.com@example.com".
+* `principal` - Service principal. For example, host/cifsserver.example.com@example.com.
 * `dns` - Configure DNS protocol options. The structure of `dns` block is documented below.
 
 The `dns` block contains:
@@ -68,11 +68,11 @@ The `ftp` block contains:
 * `scan_bzip2` - Enable/disable scanning of BZip2 compressed files. Valid values: `enable` `disable` .
 * `ssl_offloaded` - SSL decryption and encryption performed by an external device. Valid values: `no` `yes` .
 * `status` - Enable/disable the active status of scanning for this protocol. Valid values: `enable` `disable` .
-* `stream_based_uncompressed_limit` - Maximum stream-based uncompressed data size that will be scanned (MB, 0 = unlimited (default).  Stream-based uncompression used only under certain conditions.).
+* `stream_based_uncompressed_limit` - Maximum stream-based uncompressed data size that will be scanned in megabytes. Stream-based uncompression used only under certain conditions (unlimited = 0, default = 0).
 * `tcp_window_maximum` - Maximum dynamic TCP window size.
 * `tcp_window_minimum` - Minimum dynamic TCP window size.
 * `tcp_window_size` - Set TCP static window size.
-* `tcp_window_type` - TCP window type to use for this protocol. Valid values: `system` `static` `dynamic` .
+* `tcp_window_type` - TCP window type to use for this protocol. Valid values: `system` `static` `dynamic` `auto-tuning` .
 * `uncompressed_nest_limit` - Maximum nested levels of compression that can be uncompressed and scanned (2 - 100, default = 12).
 * `uncompressed_oversize_limit` - Maximum in-memory uncompressed file size that can be scanned (1 - 383 MB, default = 10).
 * `http` - Configure HTTP protocol options. The structure of `http` block is documented below.
@@ -95,14 +95,14 @@ The `http` block contains:
 * `scan_bzip2` - Enable/disable scanning of BZip2 compressed files. Valid values: `enable` `disable` .
 * `ssl_offloaded` - SSL decryption and encryption performed by an external device. Valid values: `no` `yes` .
 * `status` - Enable/disable the active status of scanning for this protocol. Valid values: `enable` `disable` .
-* `stream_based_uncompressed_limit` - Maximum stream-based uncompressed data size that will be scanned (MB, 0 = unlimited (default).  Stream-based uncompression used only under certain conditions.).
+* `stream_based_uncompressed_limit` - Maximum stream-based uncompressed data size that will be scanned in megabytes. Stream-based uncompression used only under certain conditions (unlimited = 0, default = 0).
 * `streaming_content_bypass` - Enable/disable bypassing of streaming content from buffering. Valid values: `enable` `disable` .
 * `strip_x_forwarded_for` - Enable/disable stripping of HTTP X-Forwarded-For header. Valid values: `disable` `enable` .
 * `switching_protocols` - Bypass from scanning, or block a connection that attempts to switch protocol. Valid values: `bypass` `block` .
 * `tcp_window_maximum` - Maximum dynamic TCP window size.
 * `tcp_window_minimum` - Minimum dynamic TCP window size.
 * `tcp_window_size` - Set TCP static window size.
-* `tcp_window_type` - TCP window type to use for this protocol. Valid values: `system` `static` `dynamic` .
+* `tcp_window_type` - TCP window type to use for this protocol. Valid values: `system` `static` `dynamic` `auto-tuning` .
 * `tunnel_non_http` - Configure how to process non-HTTP traffic when a profile configured for HTTP traffic accepts a non-HTTP session. Can occur if an application sends non-HTTP traffic using an HTTP destination port. Valid values: `enable` `disable` .
 * `uncompressed_nest_limit` - Maximum nested levels of compression that can be uncompressed and scanned (2 - 100, default = 12).
 * `uncompressed_oversize_limit` - Maximum in-memory uncompressed file size that can be scanned (1 - 383 MB, default = 10).
@@ -190,11 +190,11 @@ The `ssh` block contains:
 * `oversize_limit` - Maximum in-memory file size that can be scanned (1 - 383 MB, default = 10).
 * `scan_bzip2` - Enable/disable scanning of BZip2 compressed files. Valid values: `enable` `disable` .
 * `ssl_offloaded` - SSL decryption and encryption performed by an external device. Valid values: `no` `yes` .
-* `stream_based_uncompressed_limit` - Maximum stream-based uncompressed data size that will be scanned (MB, 0 = unlimited (default).  Stream-based uncompression used only under certain conditions.).
+* `stream_based_uncompressed_limit` - Maximum stream-based uncompressed data size that will be scanned in megabytes. Stream-based uncompression used only under certain conditions (unlimited = 0, default = 0).
 * `tcp_window_maximum` - Maximum dynamic TCP window size.
 * `tcp_window_minimum` - Minimum dynamic TCP window size.
 * `tcp_window_size` - Set TCP static window size.
-* `tcp_window_type` - TCP window type to use for this protocol. Valid values: `system` `static` `dynamic` .
+* `tcp_window_type` - TCP window type to use for this protocol. Valid values: `system` `static` `dynamic` `auto-tuning` .
 * `uncompressed_nest_limit` - Maximum nested levels of compression that can be uncompressed and scanned (2 - 100, default = 12).
 * `uncompressed_oversize_limit` - Maximum in-memory uncompressed file size that can be scanned (1 - 383 MB, default = 10).
 

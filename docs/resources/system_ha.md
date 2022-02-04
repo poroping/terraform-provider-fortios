@@ -42,7 +42,7 @@ Configure HA.
 * `http_proxy_threshold` - Dynamic weighted load balancing weight and high and low number of HTTP proxy sessions.
 * `imap_proxy_threshold` - Dynamic weighted load balancing weight and high and low number of IMAP proxy sessions.
 * `inter_cluster_session_sync` - Enable/disable synchronization of sessions among HA clusters. Valid values: `enable` `disable` .
-* `key` - key
+* `key` - Key.
 * `l2ep_eth_type` - Telnet session HA heartbeat packet Ethertype (4-digit hex).
 * `link_failed_signal` - Enable to shut down all interfaces for 1 sec after a failover. Use if gratuitous ARPs do not update network. Valid values: `enable` `disable` .
 * `load_balance_all` - Enable to load balance TCP sessions. Disable to load balance proxy sessions only. Valid values: `enable` `disable` .
@@ -94,7 +94,7 @@ Configure HA.
 * `vcluster_id` - Cluster ID.
 * `vcluster2` - Enable/disable virtual cluster 2 for virtual clustering. Valid values: `enable` `disable` .
 * `vdom` - VDOMs in virtual cluster 1.
-* `weight` - Weight-round-robin weight for each cluster unit. Syntax <priority> <weight>.
+* `weight` - Weighted round robin weight for each cluster unit. Syntax <priority> <weight>.
 * `ha_mgmt_interfaces` - Reserve interfaces to manage individual cluster units. The structure of `ha_mgmt_interfaces` block is documented below.
 
 The `ha_mgmt_interfaces` block contains:

@@ -27,7 +27,8 @@ The following attributes are exported:
 
 * `adfs_claim` - Enable/disable ADFS Claim for user/group attribute in assertion statement (default = disable).
 * `cert` - Certificate to sign SAML messages.
-* `digest_method` - Digest Method Algorithm. (default = sha1).
+* `clock_tolerance` - Clock skew tolerance in seconds (0 - 300, default = 15, 0 = no tolerance).
+* `digest_method` - Digest method algorithm (default = sha1).
 * `entity_id` - SP entity ID.
 * `group_claim_type` - Group claim in assertion statement.
 * `group_name` - Group name in assertion statement.

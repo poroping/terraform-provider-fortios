@@ -35,6 +35,6 @@ The following attributes are exported:
 * `secondary_key` - Key to access the secondary server.
 * `secondary_server` - Secondary TACACS+ server CN domain name or IP address.
 * `server` - Primary TACACS+ server CN domain name or IP address.
-* `source_ip` - source IP for communications to TACACS+ server.
+* `source_ip` - Source IP address for communications to TACACS+ server.
 * `tertiary_key` - Key to access the tertiary server.
 * `tertiary_server` - Tertiary TACACS+ server CN domain name or IP address.

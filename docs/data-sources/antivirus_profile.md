@@ -46,7 +46,7 @@ The following attributes are exported:
 * `name` - Profile name.
 * `outbreak_prevention_archive_scan` - Enable/disable outbreak-prevention archive scanning.
 * `replacemsg_group` - Replacement message group customized for this profile.
-* `scan_mode` - Choose between default scan mode and legacy scan mode. 
+* `scan_mode` - Configure scan mode (default or legacy).
 * `cifs` - Configure CIFS AntiVirus options.The structure of `cifs` block is documented below.
 
 The `cifs` block contains:
@@ -56,7 +56,7 @@ The `cifs` block contains:
 * `av_scan` - Enable AntiVirus scan service.
 * `emulator` - Enable/disable the virus emulator.
 * `external_blocklist` - Enable external-blocklist. Analyzes files including the content of archives.
-* `fortiai` - Enable/disable scanning of files by FortiAI server.
+* `fortiai` - Enable/disable scanning of files by FortiAI.
 * `options` - Enable/disable CIFS AntiVirus scanning, monitoring, and quarantine.
 * `outbreak_prevention` - Enable virus outbreak prevention service.
 * `quarantine` - Enable/disable quarantine for infected files.
@@ -97,7 +97,7 @@ The `ftp` block contains:
 * `av_scan` - Enable AntiVirus scan service.
 * `emulator` - Enable/disable the virus emulator.
 * `external_blocklist` - Enable external-blocklist. Analyzes files including the content of archives.
-* `fortiai` - Enable/disable scanning of files by FortiAI server.
+* `fortiai` - Enable/disable scanning of files by FortiAI.
 * `options` - Enable/disable FTP AntiVirus scanning, monitoring, and quarantine.
 * `outbreak_prevention` - Enable virus outbreak prevention service.
 * `quarantine` - Enable/disable quarantine for infected files.
@@ -111,7 +111,7 @@ The `http` block contains:
 * `content_disarm` - Enable/disable Content Disarm and Reconstruction when performing AntiVirus scan.
 * `emulator` - Enable/disable the virus emulator.
 * `external_blocklist` - Enable external-blocklist. Analyzes files including the content of archives.
-* `fortiai` - Enable/disable scanning of files by FortiAI server.
+* `fortiai` - Enable/disable scanning of files by FortiAI.
 * `options` - Enable/disable HTTP AntiVirus scanning, monitoring, and quarantine.
 * `outbreak_prevention` - Enable virus outbreak prevention service.
 * `quarantine` - Enable/disable quarantine for infected files.
@@ -126,7 +126,7 @@ The `imap` block contains:
 * `emulator` - Enable/disable the virus emulator.
 * `executables` - Treat Windows executable files as viruses for the purpose of blocking or monitoring.
 * `external_blocklist` - Enable external-blocklist. Analyzes files including the content of archives.
-* `fortiai` - Enable/disable scanning of files by FortiAI server.
+* `fortiai` - Enable/disable scanning of files by FortiAI.
 * `options` - Enable/disable IMAP AntiVirus scanning, monitoring, and quarantine.
 * `outbreak_prevention` - Enable virus outbreak prevention service.
 * `quarantine` - Enable/disable quarantine for infected files.
@@ -140,7 +140,7 @@ The `mapi` block contains:
 * `emulator` - Enable/disable the virus emulator.
 * `executables` - Treat Windows executable files as viruses for the purpose of blocking or monitoring.
 * `external_blocklist` - Enable external-blocklist. Analyzes files including the content of archives.
-* `fortiai` - Enable/disable scanning of files by FortiAI server.
+* `fortiai` - Enable/disable scanning of files by FortiAI.
 * `options` - Enable/disable MAPI AntiVirus scanning, monitoring, and quarantine.
 * `outbreak_prevention` - Enable virus outbreak prevention service.
 * `quarantine` - Enable/disable quarantine for infected files.
@@ -160,7 +160,7 @@ The `nntp` block contains:
 * `av_scan` - Enable AntiVirus scan service.
 * `emulator` - Enable/disable the virus emulator.
 * `external_blocklist` - Enable external-blocklist. Analyzes files including the content of archives.
-* `fortiai` - Enable/disable scanning of files by FortiAI server.
+* `fortiai` - Enable/disable scanning of files by FortiAI.
 * `options` - Enable/disable NNTP AntiVirus scanning, monitoring, and quarantine.
 * `outbreak_prevention` - Enable virus outbreak prevention service.
 * `quarantine` - Enable/disable quarantine for infected files.
@@ -181,7 +181,7 @@ The `pop3` block contains:
 * `emulator` - Enable/disable the virus emulator.
 * `executables` - Treat Windows executable files as viruses for the purpose of blocking or monitoring.
 * `external_blocklist` - Enable external-blocklist. Analyzes files including the content of archives.
-* `fortiai` - Enable/disable scanning of files by FortiAI server.
+* `fortiai` - Enable/disable scanning of files by FortiAI.
 * `options` - Enable/disable POP3 AntiVirus scanning, monitoring, and quarantine.
 * `outbreak_prevention` - Enable virus outbreak prevention service.
 * `quarantine` - Enable/disable quarantine for infected files.
@@ -196,7 +196,7 @@ The `smtp` block contains:
 * `emulator` - Enable/disable the virus emulator.
 * `executables` - Treat Windows executable files as viruses for the purpose of blocking or monitoring.
 * `external_blocklist` - Enable external-blocklist. Analyzes files including the content of archives.
-* `fortiai` - Enable/disable scanning of files by FortiAI server.
+* `fortiai` - Enable/disable scanning of files by FortiAI.
 * `options` - Enable/disable SMTP AntiVirus scanning, monitoring, and quarantine.
 * `outbreak_prevention` - Enable virus outbreak prevention service.
 * `quarantine` - Enable/disable quarantine for infected files.
@@ -209,7 +209,7 @@ The `ssh` block contains:
 * `av_scan` - Enable AntiVirus scan service.
 * `emulator` - Enable/disable the virus emulator.
 * `external_blocklist` - Enable external-blocklist. Analyzes files including the content of archives.
-* `fortiai` - Enable/disable scanning of files by FortiAI server.
+* `fortiai` - Enable/disable scanning of files by FortiAI.
 * `options` - Enable/disable SFTP and SCP AntiVirus scanning, monitoring, and quarantine.
 * `outbreak_prevention` - Enable virus outbreak prevention service.
 * `quarantine` - Enable/disable quarantine for infected files.

@@ -25,7 +25,7 @@ Use this data source to get information on a fortios Configure FortiGuard servic
 The following attributes are exported:
 
 * `antispam_cache` - Enable/disable FortiGuard antispam request caching. Uses a small amount of memory but improves performance.
-* `antispam_cache_mpercent` - Maximum percent of FortiGate memory the antispam cache is allowed to use (1 - 15%).
+* `antispam_cache_mpercent` - Maximum percentage of FortiGate memory the antispam cache is allowed to use (1 - 15).
 * `antispam_cache_ttl` - Time-to-live for antispam cache entries in seconds (300 - 86400). Lower times reduce the cache size. Higher times may improve performance since the cache will have more entries.
 * `antispam_expiration` - Expiration date of the FortiGuard antispam contract.
 * `antispam_force_off` - Enable/disable turning off the FortiGuard antispam service.

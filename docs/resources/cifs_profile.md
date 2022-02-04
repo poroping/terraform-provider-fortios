@@ -47,7 +47,7 @@ The `file_type` block contains:
 The `server_keytab` block contains:
 
 * `keytab` - Base64 encoded keytab file containing credential of the server.
-* `principal` - Service principal.  For example, "host/cifsserver.example.com@example.com".
+* `principal` - Service principal. For example, host/cifsserver.example.com@example.com.
 
 ## Attribute Reference
 

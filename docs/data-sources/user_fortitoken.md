@@ -32,4 +32,4 @@ The following attributes are exported:
 * `os_ver` - Device Mobile Version.
 * `reg_id` - Device Reg ID.
 * `serial_number` - Serial number.
-* `status` - Status
+* `status` - Status.

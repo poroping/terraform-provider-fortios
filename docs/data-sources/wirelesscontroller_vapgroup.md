@@ -18,7 +18,7 @@ Use this data source to get information on a fortios Configure virtual Access Po
 
 ## Argument Reference
 
-* `name` - (Required) Group Name
+* `name` - (Required) Group Name.
 * `vdomparam` - Specifies the vdom to which the data source will be applied when the FortiGate unit is running in VDOM mode. Only one vdom can be specified. If you want to inherit the vdom configuration of the provider, please do not set this parameter.
 
 ## Attribute Reference
@@ -26,9 +26,9 @@ Use this data source to get information on a fortios Configure virtual Access Po
 The following attributes are exported:
 
 * `comment` - Comment.
-* `name` - Group Name
+* `name` - Group Name.
 * `vaps` - List of SSIDs to be included in the VAP group.The structure of `vaps` block is documented below.
 
 The `vaps` block contains:
 
-* `name` - vap name
+* `name` - VAP name.

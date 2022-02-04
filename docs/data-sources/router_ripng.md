@@ -36,7 +36,7 @@ The `aggregate_address` block contains:
 
 * `id` - Aggregate address entry ID.
 * `prefix6` - Aggregate address prefix.
-* `distance` - distanceThe structure of `distance` block is documented below.
+* `distance` - Distance.The structure of `distance` block is documented below.
 
 The `distance` block contains:
 
@@ -52,7 +52,7 @@ The `distribute_list` block contains:
 * `id` - Distribute list ID.
 * `interface` - Distribute list interface name.
 * `listname` - Distribute access/prefix list name.
-* `status` - status
+* `status` - Status.
 * `interface` - RIPng interface configuration.The structure of `interface` block is documented below.
 
 The `interface` block contains:
@@ -61,7 +61,7 @@ The `interface` block contains:
 * `name` - Interface name.
 * `split_horizon` - Enable/disable split horizon.
 * `split_horizon_status` - Enable/disable split horizon.
-* `neighbor` - neighborThe structure of `neighbor` block is documented below.
+* `neighbor` - Neighbor.The structure of `neighbor` block is documented below.
 
 The `neighbor` block contains:
 
@@ -82,8 +82,8 @@ The `offset_list` block contains:
 * `direction` - Offset list direction.
 * `id` - Offset-list ID.
 * `interface` - Interface name.
-* `offset` - offset
-* `status` - status
+* `offset` - Offset.
+* `status` - Status.
 * `passive_interface` - Passive interface configuration.The structure of `passive_interface` block is documented below.
 
 The `passive_interface` block contains:
@@ -96,4 +96,4 @@ The `redistribute` block contains:
 * `metric` - Redistribute metric setting.
 * `name` - Redistribute name.
 * `routemap` - Route map name.
-* `status` - status
+* `status` - Status.

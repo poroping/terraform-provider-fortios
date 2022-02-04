@@ -26,6 +26,7 @@ resource "fortios_router_bgp_network" "example" {
 
 * `backdoor` - Enable/disable route as backdoor. Valid values: `enable` `disable` .
 * `id` - ID.
+* `network_import_check` - Configure insurance of BGP network route existence in IGP. Valid values: `global` `enable` `disable` .
 * `prefix` - Network prefix.
 * `route_map` - Route map to modify generated route. This attribute must reference one of the following datasources: `router.route-map.name` .
 

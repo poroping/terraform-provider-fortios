@@ -39,14 +39,14 @@ The following attributes are exported:
 * `http_cookie_domain_from_host` - Enable/disable use of HTTP cookie domain from host field in HTTP.
 * `http_cookie_generation` - Generation of HTTP cookie to be accepted. Changing invalidates all existing cookies.
 * `http_cookie_path` - Limit HTTP cookie persistence to the specified path.
-* `http_cookie_share` - Control sharing of cookies across virtual servers. same-ip means a cookie from one virtual server can be used by another. Disable stops cookie sharing.
+* `http_cookie_share` - Control sharing of cookies across virtual servers. Use of same-ip means a cookie from one virtual server can be used by another. Disable stops cookie sharing.
 * `http_ip_header` - For HTTP multiplexing, enable to add the original client IP address in the XForwarded-For HTTP header.
 * `http_ip_header_name` - For HTTP multiplexing, enter a custom HTTPS header name. The original client IP address is added to this header. If empty, X-Forwarded-For is used.
 * `http_multiplex` - Enable/disable HTTP multiplexing.
-* `http_redirect` - Enable/disable redirection of HTTP to HTTPS
+* `http_redirect` - Enable/disable redirection of HTTP to HTTPS.
 * `https_cookie_secure` - Enable/disable verification that inserted HTTPS cookies are secure.
 * `id` - Custom defined ID.
-* `ipv6_mappedip` - Start-mapped-IPv6-address [-end mapped-IPv6-address].
+* `ipv6_mappedip` - Range of mapped IPv6 addresses. Specify the start IPv6 address followed by a space and the end IPv6 address.
 * `ipv6_mappedport` - IPv6 port number range on the destination network to which the external port number range is mapped.
 * `ldb_method` - Method used to distribute sessions to real servers.
 * `mapped_addr` - Mapped FQDN address name.
@@ -62,6 +62,7 @@ The following attributes are exported:
 * `portmapping_type` - Port mapping type.
 * `protocol` - Protocol to use when forwarding packets.
 * `server_type` - Protocol to be load balanced by the virtual server (also called the server load balance virtual IP).
+* `ssl_accept_ffdhe_groups` - Enable/disable FFDHE cipher suite for SSL key exchange.
 * `ssl_algorithm` - Permitted encryption algorithms for SSL sessions according to encryption strength.
 * `ssl_certificate` - The name of the certificate to use for SSL handshake.
 * `ssl_client_fallback` - Enable/disable support for preventing Downgrade Attacks on client connections (RFC 7507).
@@ -72,13 +73,13 @@ The following attributes are exported:
 * `ssl_client_session_state_type` - How to expire SSL sessions for the segment of the SSL connection between the client and the FortiGate.
 * `ssl_dh_bits` - Number of bits to use in the Diffie-Hellman exchange for RSA encryption of SSL sessions.
 * `ssl_hpkp` - Enable/disable including HPKP header in response.
-* `ssl_hpkp_age` - Number of seconds the client should honour the HPKP setting.
+* `ssl_hpkp_age` - Number of seconds the client should honor the HPKP setting.
 * `ssl_hpkp_backup` - Certificate to generate backup HPKP pin from.
 * `ssl_hpkp_include_subdomains` - Indicate that HPKP header applies to all subdomains.
 * `ssl_hpkp_primary` - Certificate to generate primary HPKP pin from.
 * `ssl_hpkp_report_uri` - URL to report HPKP violations to.
 * `ssl_hsts` - Enable/disable including HSTS header in response.
-* `ssl_hsts_age` - Number of seconds the client should honour the HSTS setting.
+* `ssl_hsts_age` - Number of seconds the client should honor the HSTS setting.
 * `ssl_hsts_include_subdomains` - Indicate that HSTS header applies to all subdomains.
 * `ssl_http_location_conversion` - Enable to replace HTTP with HTTPS in the reply's Location HTTP header field.
 * `ssl_http_match_host` - Enable/disable HTTP host matching for location conversion.

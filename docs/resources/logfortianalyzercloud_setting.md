@@ -17,9 +17,11 @@ Global FortiAnalyzer Cloud settings.
 
 ## Argument Reference
 * `vdomparam` - Specifies the vdom to which the data source will be applied when the FortiGate unit is running in VDOM mode. Only one vdom can be specified. If you want to inherit the vdom configuration of the provider, please do not set this parameter.
+* `dynamic_sort_table` - `true` or `false`, set this parameter to `true` when using dynamic for_each + toset to configure and sort sub-tables, if set to `true` static sub-tables must be ordered.
 
 * `access_config` - Enable/disable FortiAnalyzer access to configuration and data. Valid values: `enable` `disable` .
 * `certificate` - Certificate used to communicate with FortiAnalyzer. This attribute must reference one of the following datasources: `certificate.local.name` .
+* `certificate_verification` - Enable/disable identity verification of FortiAnalyzer by use of certificate. Valid values: `enable` `disable` .
 * `conn_timeout` - FortiAnalyzer connection time-out in seconds (for status and log buffer).
 * `enc_algorithm` - Configure the level of SSL protection for secure communication with FortiAnalyzer. Valid values: `high-medium` `high` `low` .
 * `hmac_algorithm` - FortiAnalyzer IPsec tunnel HMAC algorithm. Valid values: `sha256` `sha1` .
@@ -38,6 +40,11 @@ Global FortiAnalyzer Cloud settings.
 * `upload_interval` - Frequency to upload log files to FortiAnalyzer. Valid values: `daily` `weekly` `monthly` .
 * `upload_option` - Enable/disable logging to hard disk and then uploading to FortiAnalyzer. Valid values: `store-and-upload` `realtime` `1-minute` `5-minute` .
 * `upload_time` - Time to upload logs (hh:mm).
+* `serial` - Serial numbers of the FortiAnalyzer. The structure of `serial` block is documented below.
+
+The `serial` block contains:
+
+* `name` - Serial Number.
 
 ## Attribute Reference
 

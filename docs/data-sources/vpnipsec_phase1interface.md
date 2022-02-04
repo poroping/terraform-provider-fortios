@@ -74,7 +74,7 @@ The following attributes are exported:
 * `esn` - Extended sequence number (ESN) negotiation.
 * `exchange_interface_ip` - Enable/disable exchange of IPsec interface IP address.
 * `exchange_ip_addr4` - IPv4 address to exchange with peers.
-* `exchange_ip_addr6` - IPv6 address to exchange with peers
+* `exchange_ip_addr6` - IPv6 address to exchange with peers.
 * `fec_base` - Number of base Forward Error Correction packets (1 - 20).
 * `fec_codec` - Forward Error Correction encoding/decoding algorithm.
 * `fec_egress` - Enable/disable Forward Error Correction for egress IPsec traffic.
@@ -88,7 +88,7 @@ The following attributes are exported:
 * `fragmentation` - Enable/disable fragment IKE message on re-transmission.
 * `fragmentation_mtu` - IKE fragmentation MTU (500 - 16000).
 * `group_authentication` - Enable/disable IKEv2 IDi group authentication.
-* `group_authentication_secret` - Password for IKEv2 IDi group authentication.  (ASCII string or hexadecimal indicated by a leading 0x.)
+* `group_authentication_secret` - Password for IKEv2 ID group authentication. ASCII string or hexadecimal indicated by a leading 0x.
 * `ha_sync_esp_seqno` - Enable/disable sequence number jump ahead for IPsec HA.
 * `idle_timeout` - Enable/disable IPsec tunnel idle timeout.
 * `idle_timeoutinterval` - IPsec tunnel idle timeout in minutes (5 - 43200).
@@ -148,7 +148,7 @@ The following attributes are exported:
 * `ppk` - Enable/disable IKEv2 Postquantum Preshared Key (PPK).
 * `ppk_identity` - IKEv2 Postquantum Preshared Key Identity.
 * `ppk_secret` - IKEv2 Postquantum Preshared Key (ASCII string or hexadecimal encoded with a leading 0x).
-* `priority` - Priority for routes added by IKE (0 - 4294967295).
+* `priority` - Priority for routes added by IKE (1 - 65535).
 * `proposal` - Phase1 proposal.
 * `psksecret` - Pre-shared secret for PSK authentication (ASCII string or hexadecimal encoded with a leading 0x).
 * `psksecret_remote` - Pre-shared secret for remote side PSK authentication (ASCII string or hexadecimal encoded with a leading 0x).
@@ -156,7 +156,7 @@ The following attributes are exported:
 * `rekey` - Enable/disable phase1 rekey.
 * `remote_gw` - IPv4 address of the remote gateway's external interface.
 * `remote_gw6` - IPv6 address of the remote gateway's external interface.
-* `remotegw_ddns` - Domain name of remote gateway (eg. name.DDNS.com).
+* `remotegw_ddns` - Domain name of remote gateway. For example, name.ddns.com.
 * `rsa_signature_format` - Digital Signature Authentication RSA signature format.
 * `save_password` - Enable/disable saving XAuth username and password on VPN clients.
 * `send_cert_chain` - Enable/disable sending certificate chain.

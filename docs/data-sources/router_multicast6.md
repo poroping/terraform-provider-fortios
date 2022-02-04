@@ -30,8 +30,8 @@ The following attributes are exported:
 
 The `interface` block contains:
 
-* `hello_holdtime` - Time before old neighbour information expires (1 - 65535 sec, default = 105).
-* `hello_interval` - Interval between sending PIM hello messages  (1 - 65535 sec, default = 30)..
+* `hello_holdtime` - Time before old neighbor information expires in seconds (1 - 65535, default = 105).
+* `hello_interval` - Interval between sending PIM hello messages in seconds (1 - 65535, default = 30).
 * `name` - Interface name.
 * `pim_sm_global` - PIM sparse-mode global settings.The structure of `pim_sm_global` block is documented below.
 

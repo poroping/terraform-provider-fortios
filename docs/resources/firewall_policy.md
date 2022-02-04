@@ -60,9 +60,9 @@ Configure IPv4/IPv6 policies.
 * `identity_based_route` - Name of identity-based routing rule. This attribute must reference one of the following datasources: `firewall.identity-based-route.name` .
 * `inbound` - Policy-based IPsec VPN: only traffic from the remote network can initiate a VPN. Valid values: `enable` `disable` .
 * `inspection_mode` - Policy inspection mode (Flow/proxy). Default is Flow mode. Valid values: `proxy` `flow` .
-* `internet_service` - Enable/disable use of Internet Services for this policy. If enabled, destination address and service are not used.  Valid values: `enable` `disable` .
+* `internet_service` - Enable/disable use of Internet Services for this policy. If enabled, destination address and service are not used. Valid values: `enable` `disable` .
 * `internet_service_negate` - When enabled internet-service specifies what the service must NOT be. Valid values: `enable` `disable` .
-* `internet_service_src` - Enable/disable use of Internet Services in source for this policy. If enabled, source address is not used.  Valid values: `enable` `disable` .
+* `internet_service_src` - Enable/disable use of Internet Services in source for this policy. If enabled, source address is not used. Valid values: `enable` `disable` .
 * `internet_service_src_negate` - When enabled internet-service-src specifies what the service must NOT be. Valid values: `enable` `disable` .
 * `ippool` - Enable to use IP Pools for source NAT. Valid values: `enable` `disable` .
 * `ips_sensor` - Name of an existing IPS sensor. This attribute must reference one of the following datasources: `ips.sensor.name` .

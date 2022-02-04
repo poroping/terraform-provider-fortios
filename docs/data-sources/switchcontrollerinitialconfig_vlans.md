@@ -26,7 +26,7 @@ The following attributes are exported:
 
 * `default_vlan` - Default VLAN (native) assigned to all switch ports upon discovery.
 * `nac` - VLAN for NAC onboarding devices.
-* `nac_segment` - VLAN for NAC segemnt primary interface.
+* `nac_segment` - VLAN for NAC segment primary interface.
 * `quarantine` - VLAN for quarantined traffic.
 * `rspan` - VLAN for RSPAN/ERSPAN mirrored traffic.
 * `video` - VLAN dedicated for video devices.

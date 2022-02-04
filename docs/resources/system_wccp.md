@@ -35,7 +35,7 @@ Configure WCCP.
 * `primary_hash` - Hash method. Valid values: `src-ip` `dst-ip` `src-port` `dst-port` .
 * `priority` - Service priority.
 * `protocol` - Service protocol.
-* `return_method` -  Method used to decline a redirected packet and return it to the FortiGate. Valid values: `GRE` `L2` `any` .
+* `return_method` - Method used to decline a redirected packet and return it to the FortiGate unit. Valid values: `GRE` `L2` `any` .
 * `router_id` - IP address known to all cache engines. If all cache engines connect to the same FortiGate interface, use the default 0.0.0.0.
 * `router_list` - IP addresses of one or more WCCP routers.
 * `server_list` - IP addresses and netmasks for up to four cache servers.

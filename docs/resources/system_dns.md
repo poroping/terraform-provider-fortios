@@ -19,8 +19,8 @@ Configure DNS.
 * `vdomparam` - Specifies the vdom to which the data source will be applied when the FortiGate unit is running in VDOM mode. Only one vdom can be specified. If you want to inherit the vdom configuration of the provider, please do not set this parameter.
 * `dynamic_sort_table` - `true` or `false`, set this parameter to `true` when using dynamic for_each + toset to configure and sort sub-tables, if set to `true` static sub-tables must be ordered.
 
-* `alt_primary` - Alternate primary DNS server. (This is not used as a failover DNS server.)
-* `alt_secondary` - Alternate secondary DNS server. (This is not used as a failover DNS server.)
+* `alt_primary` - Alternate primary DNS server. This is not used as a failover DNS server.
+* `alt_secondary` - Alternate secondary DNS server. This is not used as a failover DNS server.
 * `cache_notfound_responses` - Enable/disable response from the DNS server when a record is not in cache. Valid values: `disable` `enable` .
 * `dns_cache_limit` - Maximum number of records in the DNS cache.
 * `dns_cache_ttl` - Duration in seconds that the DNS cache retains information.
@@ -31,7 +31,7 @@ Configure DNS.
 * `ip6_secondary` - Secondary DNS server IPv6 address.
 * `log` - Local DNS log setting. Valid values: `disable` `error` `all` .
 * `primary` - Primary DNS server IP address.
-* `protocol` - DNS protocols. Valid values: `cleartext` `dot` `doh` .
+* `protocol` - DNS transport protocols. Valid values: `cleartext` `dot` `doh` .
 * `retry` - Number of times to retry (0 - 5).
 * `secondary` - Secondary DNS server IP address.
 * `server_select_method` - Specify how configured servers are prioritized. Valid values: `least-rtt` `failover` .

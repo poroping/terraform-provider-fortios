@@ -62,6 +62,8 @@ The following attributes are exported:
 * `sub_type` - Sub-type of address.
 * `subnet` - IP address and subnet mask of address.
 * `subnet_name` - Subnet name.
+* `tag_detection_level` - Tag detection level of dynamic address object.
+* `tag_type` - Tag type of dynamic address object.
 * `tenant` - Tenant.
 * `type` - Type of address.
 * `uuid` - Universally Unique Identifier (UUID; automatically assigned but can be manually reset).

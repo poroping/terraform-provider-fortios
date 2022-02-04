@@ -28,7 +28,7 @@ The following attributes are exported:
 * `auth_keychain` - Authentication key-chain name.
 * `auth_mode` - Authentication mode.
 * `auth_string` - Authentication string/password.
-* `flags` - flags
+* `flags` - Flags.
 * `name` - Interface name.
 * `receive_version` - Receive version.
 * `send_version` - Send version.

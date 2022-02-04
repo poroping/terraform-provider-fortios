@@ -19,7 +19,7 @@ SSH proxy host public keys.
 * `vdomparam` - Specifies the vdom to which the data source will be applied when the FortiGate unit is running in VDOM mode. Only one vdom can be specified. If you want to inherit the vdom configuration of the provider, please do not set this parameter.
 * `allow_append` - If set to true allows provider to overwrite existing resources instead of erroring. Useful for brownfield implementations. Use with caution! Requires `name` to be defined.
 
-* `hostname` - Hostname of the SSH server, to match SSH certificate principals. 
+* `hostname` - Hostname of the SSH server to match SSH certificate principals.
 * `ip` - IP address of the SSH server.
 * `name` - SSH public key name.
 * `nid` - Set the nid of the ECDSA key. Valid values: `256` `384` `521` .

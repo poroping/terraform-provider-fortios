@@ -24,6 +24,7 @@ Configure FortiSwitch global settings.
 * `default_virtual_switch_vlan` - Default VLAN for ports when added to the virtual-switch. This attribute must reference one of the following datasources: `system.interface.name` .
 * `dhcp_server_access_list` - Enable/disable DHCP snooping server access list. Valid values: `enable` `disable` .
 * `fips_enforce` - Enable/disable enforcement of FIPS on managed FortiSwitch devices. Valid values: `disable` `enable` .
+* `firmware_provision_on_authorization` - Enable/disable automatic provisioning of latest firmware on authorization. Valid values: `enable` `disable` .
 * `https_image_push` - Enable/disable image push to FortiSwitch using HTTPS. Valid values: `enable` `disable` .
 * `log_mac_limit_violations` - Enable/disable logs for Learning Limit Violations. Valid values: `enable` `disable` .
 * `mac_aging_interval` - Time after which an inactive MAC is aged out (10 - 1000000 sec, default = 300, 0 = disable).

@@ -30,7 +30,7 @@ IS-IS interface configuration.
 * `auth_password_l2` - Authentication password for level 2 PDUs.
 * `auth_send_only_l1` - Enable/disable authentication send-only for level 1 PDUs. Valid values: `enable` `disable` .
 * `auth_send_only_l2` - Enable/disable authentication send-only for level 2 PDUs. Valid values: `enable` `disable` .
-* `circuit_type` - IS-IS interface's circuit type Valid values: `level-1-2` `level-1` `level-2` .
+* `circuit_type` - IS-IS interface's circuit type. Valid values: `level-1-2` `level-1` `level-2` .
 * `csnp_interval_l1` - Level 1 CSNP interval.
 * `csnp_interval_l2` - Level 2 CSNP interval.
 * `hello_interval_l1` - Level 1 hello interval.
@@ -45,7 +45,7 @@ IS-IS interface configuration.
 * `metric_l1` - Level 1 metric for interface.
 * `metric_l2` - Level 2 metric for interface.
 * `name` - IS-IS interface name. This attribute must reference one of the following datasources: `system.interface.name` .
-* `network_type` - IS-IS interface's network type Valid values: `broadcast` `point-to-point` `loopback` .
+* `network_type` - IS-IS interface's network type. Valid values: `broadcast` `point-to-point` `loopback` .
 * `priority_l1` - Level 1 priority.
 * `priority_l2` - Level 2 priority.
 * `status` - Enable/disable interface for IS-IS. Valid values: `enable` `disable` .

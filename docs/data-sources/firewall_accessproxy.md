@@ -25,6 +25,8 @@ Use this data source to get information on a fortios Configure IPv4 access proxy
 
 The following attributes are exported:
 
+* `auth_portal` - Enable/disable authentication portal.
+* `auth_virtual_host` - Virtual host for authentication portal.
 * `client_cert` - Enable/disable to request client certificate.
 * `decrypted_traffic_mirror` - Decrypted traffic mirror.
 * `empty_cert_action` - Action of an empty client certificate.
@@ -42,7 +44,7 @@ The `api_gateway` block contains:
 * `http_cookie_domain_from_host` - Enable/disable use of HTTP cookie domain from host field in HTTP.
 * `http_cookie_generation` - Generation of HTTP cookie to be accepted. Changing invalidates all existing cookies.
 * `http_cookie_path` - Limit HTTP cookie persistence to the specified path.
-* `http_cookie_share` - Control sharing of cookies across API Gateway. same-ip means a cookie from one virtual server can be used by another. Disable stops cookie sharing.
+* `http_cookie_share` - Control sharing of cookies across API Gateway. Use of same-ip means a cookie from one virtual server can be used by another. Disable stops cookie sharing.
 * `https_cookie_secure` - Enable/disable verification that inserted HTTPS cookies are secure.
 * `id` - API Gateway ID.
 * `ldb_method` - Method used to distribute sessions to real servers.
@@ -54,6 +56,7 @@ The `api_gateway` block contains:
 * `ssl_dh_bits` - Number of bits to use in the Diffie-Hellman exchange for RSA encryption of SSL sessions.
 * `ssl_max_version` - Highest SSL/TLS version acceptable from a server.
 * `ssl_min_version` - Lowest SSL/TLS version acceptable from a server.
+* `ssl_vpn_web_portal` - SSL-VPN web portal.
 * `url_map` - URL pattern to match.
 * `url_map_type` - Type of url-map.
 * `virtual_host` - Virtual host.
@@ -63,6 +66,7 @@ The `realservers` block contains:
 
 * `addr_type` - Type of address.
 * `address` - Address or address group of the real server.
+* `domain` - Wildcard domain name of the real server.
 * `health_check` - Enable to check the responsiveness of the real server before forwarding traffic.
 * `health_check_proto` - Protocol of the health check monitor to use when polling to determine server's connectivity status.
 * `holddown_interval` - Enable/disable holddown timer. Server will be considered active and reachable once the holddown period has expired (30 seconds).
@@ -97,7 +101,7 @@ The `api_gateway6` block contains:
 * `http_cookie_domain_from_host` - Enable/disable use of HTTP cookie domain from host field in HTTP.
 * `http_cookie_generation` - Generation of HTTP cookie to be accepted. Changing invalidates all existing cookies.
 * `http_cookie_path` - Limit HTTP cookie persistence to the specified path.
-* `http_cookie_share` - Control sharing of cookies across API Gateway. same-ip means a cookie from one virtual server can be used by another. Disable stops cookie sharing.
+* `http_cookie_share` - Control sharing of cookies across API Gateway. Use of same-ip means a cookie from one virtual server can be used by another. Disable stops cookie sharing.
 * `https_cookie_secure` - Enable/disable verification that inserted HTTPS cookies are secure.
 * `id` - API Gateway ID.
 * `ldb_method` - Method used to distribute sessions to real servers.
@@ -109,6 +113,7 @@ The `api_gateway6` block contains:
 * `ssl_dh_bits` - Number of bits to use in the Diffie-Hellman exchange for RSA encryption of SSL sessions.
 * `ssl_max_version` - Highest SSL/TLS version acceptable from a server.
 * `ssl_min_version` - Lowest SSL/TLS version acceptable from a server.
+* `ssl_vpn_web_portal` - SSL-VPN web portal.
 * `url_map` - URL pattern to match.
 * `url_map_type` - Type of url-map.
 * `virtual_host` - Virtual host.
@@ -118,6 +123,7 @@ The `realservers` block contains:
 
 * `addr_type` - Type of address.
 * `address` - Address or address group of the real server.
+* `domain` - Wildcard domain name of the real server.
 * `health_check` - Enable to check the responsiveness of the real server before forwarding traffic.
 * `health_check_proto` - Protocol of the health check monitor to use when polling to determine server's connectivity status.
 * `holddown_interval` - Enable/disable holddown timer. Server will be considered active and reachable once the holddown period has expired (30 seconds).

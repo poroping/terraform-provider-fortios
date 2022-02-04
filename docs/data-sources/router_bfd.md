@@ -24,7 +24,7 @@ Use this data source to get information on a fortios Configure BFD.
 
 The following attributes are exported:
 
-* `neighbor` - neighborThe structure of `neighbor` block is documented below.
+* `neighbor` - Neighbor.The structure of `neighbor` block is documented below.
 
 The `neighbor` block contains:
 

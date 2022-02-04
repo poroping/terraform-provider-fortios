@@ -76,7 +76,7 @@ The `malware` block contains:
 * `mimefragmented` - Threat weight score for mimefragmented detected.
 * `oversized` - Threat weight score for oversized file detected.
 * `switch_proto` - Threat weight score for switch proto detected.
-* `virus_file_type_executable` - Threat weight score for virus (filetype executable) detected.
+* `virus_file_type_executable` - Threat weight score for virus (file type executable) detected.
 * `virus_infected` - Threat weight score for virus (infected) detected.
 * `virus_outbreak_prevention` - Threat weight score for virus (outbreak prevention) event.
 * `virus_scan_error` - Threat weight score for virus (scan error) detected.

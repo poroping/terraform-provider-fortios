@@ -26,7 +26,7 @@ Use this data source to get information on a fortios Configure firewall applicat
 The following attributes are exported:
 
 * `behavior` - Application behavior filter.
-* `comment` - Comment
+* `comment` - Comments.
 * `name` - Application group name.
 * `popularity` - Application popularity filter (1 - 5, from least to most popular).
 * `protocols` - Application protocol filter.

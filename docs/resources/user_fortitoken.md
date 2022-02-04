@@ -26,7 +26,7 @@ Configure FortiToken.
 * `os_ver` - Device Mobile Version.
 * `reg_id` - Device Reg ID.
 * `serial_number` - Serial number.
-* `status` - Status Valid values: `active` `lock` .
+* `status` - Status. Valid values: `active` `lock` .
 
 ## Attribute Reference
 

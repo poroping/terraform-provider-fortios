@@ -19,7 +19,7 @@ Configure custom log fields.
 * `vdomparam` - Specifies the vdom to which the data source will be applied when the FortiGate unit is running in VDOM mode. Only one vdom can be specified. If you want to inherit the vdom configuration of the provider, please do not set this parameter.
 * `allow_append` - If set to true allows provider to overwrite existing resources instead of erroring. Useful for brownfield implementations. Use with caution! Requires `id` to be defined.
 
-* `id` - field ID <string>.
+* `id` - Field ID string.
 * `name` - Field name (max: 15 characters).
 * `value` - Field value (max: 15 characters).
 

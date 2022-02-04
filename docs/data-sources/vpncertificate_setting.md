@@ -38,7 +38,7 @@ The following attributes are exported:
 * `check_ca_chain` - Enable/disable verification of the entire certificate chain and pass authentication only if the chain is complete and all of the CAs in the chain are trusted (default = disable).
 * `cmp_key_usage_checking` - Enable/disable server certificate key usage checking in CMP mode (default = enable).
 * `cmp_save_extra_certs` - Enable/disable saving extra certificates in CMP mode (default = disable).
-* `cn_allow_multi` - When searching for a matching certificate, allow mutliple CN fields in certificate subject name (default = enable).
+* `cn_allow_multi` - When searching for a matching certificate, allow multiple CN fields in certificate subject name (default = enable).
 * `cn_match` - When searching for a matching certificate, control how to do CN value matching with certificate subject name (default = substring).
 * `interface` - Specify outgoing interface to reach server.
 * `interface_select_method` - Specify how to select outgoing interface to reach server.

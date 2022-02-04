@@ -30,7 +30,7 @@ The following attributes are exported:
 * `authtimeout` - Authentication timeout in minutes for this user group. 0 to use the global user setting auth-timeout.
 * `company` - Set the action for the company guest user field.
 * `email` - Enable/disable the guest user email address field.
-* `expire` - Time in seconds before guest user accounts expire. (1 - 31536000 sec)
+* `expire` - Time in seconds before guest user accounts expire (1 - 31536000).
 * `expire_type` - Determine when the expiration countdown begins.
 * `group_type` - Set the group to be for firewall authentication, FSSO, RSSO, or guest users.
 * `http_digest_realm` - Realm attribute for MD5-digest authentication.

@@ -26,7 +26,7 @@ Use this data source to get information on a fortios Configure IP to MAC address
 The following attributes are exported:
 
 * `ip` - IPv4 address portion of the pair (format: xxx.xxx.xxx.xxx).
-* `mac` - MAC address portion of the pair (format: xx:xx:xx:xx:xx:xx in hexidecimal).
+* `mac` - MAC address portion of the pair (format = xx:xx:xx:xx:xx:xx in hexadecimal).
 * `name` - Name of the pair (optional, default = no name).
 * `seq_num` - Entry number.
 * `status` - Enable/disable this IP-mac binding pair.

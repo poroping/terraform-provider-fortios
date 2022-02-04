@@ -24,7 +24,7 @@ BGP IPv6 redistribute table.
 
 * `name` - Distribute list entry name.
 * `route_map` - Route map name. This attribute must reference one of the following datasources: `router.route-map.name` .
-* `status` - Status Valid values: `enable` `disable` .
+* `status` - Status. Valid values: `enable` `disable` .
 
 ## Attribute Reference
 

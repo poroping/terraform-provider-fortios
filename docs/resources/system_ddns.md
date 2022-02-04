@@ -24,7 +24,7 @@ Configure DDNS.
 * `bound_ip` - Bound IP address.
 * `clear_text` - Enable/disable use of clear text connections. Valid values: `disable` `enable` .
 * `ddns_auth` - Enable/disable TSIG authentication for your DDNS server. Valid values: `disable` `tsig` .
-* `ddns_domain` - Your fully qualified domain name (for example, yourname.DDNS.com).
+* `ddns_domain` - Your fully qualified domain name. For example, yourname.ddns.com.
 * `ddns_key` - DDNS update key (base 64 encoding).
 * `ddns_keyname` - DDNS update key name.
 * `ddns_password` - DDNS password.
@@ -37,7 +37,7 @@ Configure DDNS.
 * `ddnsid` - DDNS ID.
 * `server_type` - Address type of the DDNS server. Valid values: `ipv4` `ipv6` .
 * `ssl_certificate` - Name of local certificate for SSL connections. This attribute must reference one of the following datasources: `certificate.local.name` .
-* `update_interval` - DDNS update interval (60 - 2592000 sec, default = 300).
+* `update_interval` - DDNS update interval (60 - 2592000 sec, 0 means default).
 * `use_public_ip` - Enable/disable use of public IP address. Valid values: `disable` `enable` .
 * `ddns_server_addr` - Generic DDNS server IP/FQDN list. The structure of `ddns_server_addr` block is documented below.
 

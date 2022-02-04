@@ -102,6 +102,7 @@ Configure VDOM settings.
 * `gui_webfilter_advanced` - Enable/disable advanced web filtering on the GUI. Valid values: `enable` `disable` .
 * `gui_wireless_controller` - Enable/disable the wireless controller on the GUI. Valid values: `enable` `disable` .
 * `gui_ztna` - Enable/disable Zero Trust Network Access features on the GUI. Valid values: `enable` `disable` .
+* `h323_direct_model` - Enable/disable H323 direct model. Valid values: `disable` `enable` .
 * `http_external_dest` - Offload HTTP traffic to FortiWeb or FortiCache. Valid values: `fortiweb` `forticache` .
 * `ike_dn_format` - Configure IKE ASN.1 Distinguished Name format conventions. Valid values: `with-space` `no-space` .
 * `ike_policy_route` - Enable/disable IKE Policy Based Routing (PBR). Valid values: `enable` `disable` .

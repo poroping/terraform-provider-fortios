@@ -25,4 +25,4 @@ Use this data source to get information on a fortios Configure IPS URL filter ca
 The following attributes are exported:
 
 * `dns_retry_interval` - Retry interval. Refresh DNS faster than TTL to capture multiple IPs for hosts. 0 means use DNS server's TTL only.
-* `extended_ttl` - Extend time to live beyond reported by DNS. 0 means use DNS server's TTL
+* `extended_ttl` - Extend time to live beyond reported by DNS. Use of 0 means use DNS server's TTL.

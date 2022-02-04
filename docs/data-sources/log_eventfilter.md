@@ -30,6 +30,7 @@ The following attributes are exported:
 * `event` - Enable/disable event logging.
 * `fortiextender` - Enable/disable FortiExtender logging.
 * `ha` - Enable/disable ha event logging.
+* `rest_api` - Enable/disable REST API logging.
 * `router` - Enable/disable router event logging.
 * `sdwan` - Enable/disable SD-WAN logging.
 * `security_rating` - Enable/disable Security Rating result logging.

@@ -27,4 +27,4 @@ The following attributes are exported:
 * `entropy_token` - Enable/disable/dynamic entropy token.
 * `key_generation_self_test` - Enable/disable self tests after key generation.
 * `self_test_period` - Self test period.
-* `status` - Enable/disable/fips-ciphers
+* `status` - Enable/disable ciphers for FIPS mode of operation.

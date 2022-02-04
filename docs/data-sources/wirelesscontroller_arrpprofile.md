@@ -26,10 +26,12 @@ Use this data source to get information on a fortios Configure WiFi Automatic Ra
 The following attributes are exported:
 
 * `comment` - Comment.
+* `darrp_optimize` - Time for running Dynamic Automatic Radio Resource Provisioning (DARRP) optimizations (0 - 86400 sec, default = 86400, 0 = disable).
 * `include_dfs_channel` - Enable/disable use of DFS channel in DARRP channel selection phase 1 (default = disable).
 * `include_weather_channel` - Enable/disable use of weather channel in DARRP channel selection phase 1 (default = disable).
 * `monitor_period` - Period in seconds to measure average transmit retries and receive errors (default = 300).
 * `name` - WiFi ARRP profile name.
+* `override_darrp_optimize` - Enable to override setting darrp-optimize and darrp-optimize-schedules (default = disable).
 * `selection_period` - Period in seconds to measure average channel load, noise floor, spectral RSSI (default = 3600).
 * `threshold_ap` - Threshold to reject channel in DARRP channel selection phase 1 due to surrounding APs (0 - 500, default = 250).
 * `threshold_channel_load` - Threshold in percentage to reject channel in DARRP channel selection phase 1 due to channel load (0 - 100, default = 60).
@@ -44,3 +46,8 @@ The following attributes are exported:
 * `weight_rogue_ap` - Weight in DARRP channel score calculation for rogue APs (0 - 2000, default = 10).
 * `weight_spectral_rssi` - Weight in DARRP channel score calculation for spectral RSSI (0 - 2000, default = 40).
 * `weight_weather_channel` - Weight in DARRP channel score calculation for weather channel (0 - 2000, default = 1000).
+* `darrp_optimize_schedules` - Firewall schedules for DARRP running time. DARRP will run periodically based on darrp-optimize within the schedules. Separate multiple schedule names with a space.The structure of `darrp_optimize_schedules` block is documented below.
+
+The `darrp_optimize_schedules` block contains:
+
+* `name` - Schedule name.

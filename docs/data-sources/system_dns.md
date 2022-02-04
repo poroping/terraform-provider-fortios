@@ -24,8 +24,8 @@ Use this data source to get information on a fortios Configure DNS.
 
 The following attributes are exported:
 
-* `alt_primary` - Alternate primary DNS server. (This is not used as a failover DNS server.)
-* `alt_secondary` - Alternate secondary DNS server. (This is not used as a failover DNS server.)
+* `alt_primary` - Alternate primary DNS server. This is not used as a failover DNS server.
+* `alt_secondary` - Alternate secondary DNS server. This is not used as a failover DNS server.
 * `cache_notfound_responses` - Enable/disable response from the DNS server when a record is not in cache.
 * `dns_cache_limit` - Maximum number of records in the DNS cache.
 * `dns_cache_ttl` - Duration in seconds that the DNS cache retains information.
@@ -36,7 +36,7 @@ The following attributes are exported:
 * `ip6_secondary` - Secondary DNS server IPv6 address.
 * `log` - Local DNS log setting.
 * `primary` - Primary DNS server IP address.
-* `protocol` - DNS protocols.
+* `protocol` - DNS transport protocols.
 * `retry` - Number of times to retry (0 - 5).
 * `secondary` - Secondary DNS server IP address.
 * `server_select_method` - Specify how configured servers are prioritized.

@@ -57,7 +57,7 @@ The following attributes are exported:
 * `distribute_list_in6` - Filter for IPv6 updates from this neighbor.
 * `distribute_list_out` - Filter for IPv4 updates to this neighbor.
 * `distribute_list_out6` - Filter for IPv6 updates to this neighbor.
-* `dont_capability_negotiate` - Don't negotiate capabilities with this neighbor
+* `dont_capability_negotiate` - Do not negotiate capabilities with this neighbor.
 * `ebgp_enforce_multihop` - Enable/disable allow multi-hop EBGP neighbors.
 * `ebgp_multihop_ttl` - EBGP multihop TTL for this peer.
 * `filter_list_in` - BGP filter for IPv4 inbound routes.

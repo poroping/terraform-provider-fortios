@@ -29,11 +29,12 @@ Override filters for remote system server.
 * `severity` - Lowest severity level to log. Valid values: `emergency` `alert` `critical` `error` `warning` `notification` `information` `debug` .
 * `sniffer_traffic` - Enable/disable sniffer traffic logging. Valid values: `enable` `disable` .
 * `voip` - Enable/disable VoIP logging. Valid values: `enable` `disable` .
-* `free_style` - Free Style Filters The structure of `free_style` block is documented below.
+* `ztna_traffic` - Enable/disable ztna traffic logging. Valid values: `enable` `disable` .
+* `free_style` - Free style filters. The structure of `free_style` block is documented below.
 
 The `free_style` block contains:
 
-* `category` - Log category. Valid values: `traffic` `event` `virus` `webfilter` `attack` `spam` `anomaly` `voip` `dlp` `app-ctrl` `waf` `gtp` `dns` `ssh` `ssl` `file-filter` `icap` `ztna` .
+* `category` - Log category. Valid values: `traffic` `event` `virus` `webfilter` `attack` `spam` `anomaly` `voip` `dlp` `app-ctrl` `waf` `gtp` `dns` `ssh` `ssl` `file-filter` `icap` .
 * `filter` - Free style filter string.
 * `filter_type` - Include/exclude logs that match the filter. Valid values: `include` `exclude` .
 * `id` - Entry ID.

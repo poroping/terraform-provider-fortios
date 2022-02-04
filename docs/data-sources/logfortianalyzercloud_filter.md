@@ -35,7 +35,8 @@ The following attributes are exported:
 * `severity` - Lowest severity level to log.
 * `sniffer_traffic` - Enable/disable sniffer traffic logging.
 * `voip` - Enable/disable VoIP logging.
-* `free_style` - Free Style FiltersThe structure of `free_style` block is documented below.
+* `ztna_traffic` - Enable/disable ztna traffic logging.
+* `free_style` - Free style filters.The structure of `free_style` block is documented below.
 
 The `free_style` block contains:
 

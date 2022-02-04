@@ -32,9 +32,11 @@ The following attributes are exported:
 * `allowaccess` - Permitted types of management access to this interface.
 * `ap_discover` - Enable/disable automatic registration of unknown FortiAP devices.
 * `arpforward` - Enable/disable ARP forwarding.
+* `auth_cert` - HTTPS server certificate.
+* `auth_portal_addr` - Address of captive portal.
 * `auth_type` - PPP authentication type to use.
 * `auto_auth_extension_device` - Enable/disable automatic authorization of dedicated Fortinet extension device on this interface.
-* `bandwidth_measure_time` - Bandwidth measure time 
+* `bandwidth_measure_time` - Bandwidth measure time.
 * `bfd` - Bidirectional Forwarding Detection (BFD) settings.
 * `bfd_desired_min_tx` - BFD desired minimal transmit interval.
 * `bfd_detect_mult` - BFD detection multiplier.
@@ -58,6 +60,7 @@ The following attributes are exported:
 * `dhcp_relay_interface` - Specify outgoing interface to reach server.
 * `dhcp_relay_interface_select_method` - Specify how to select outgoing interface to reach server.
 * `dhcp_relay_ip` - DHCP relay IP address.
+* `dhcp_relay_link_selection` - DHCP relay link selection.
 * `dhcp_relay_request_all_server` - Enable/disable sending of DHCP requests to all servers.
 * `dhcp_relay_service` - Enable/disable allowing this interface to act as a DHCP relay.
 * `dhcp_relay_type` - DHCP relay type (regular or IPsec).
@@ -66,6 +69,7 @@ The following attributes are exported:
 * `disconnect_threshold` - Time in milliseconds to wait before sending a notification that this interface is down or disconnected.
 * `distance` - Distance for routes learned through PPPoE or DHCP, lower distance indicates preferred route.
 * `dns_server_override` - Enable/disable use DNS acquired by DHCP or PPPoE.
+* `dns_server_protocol` - DNS transport protocols.
 * `drop_fragment` - Enable/disable drop fragment packets.
 * `drop_overlapped_fragment` - Enable/disable drop overlapped fragment packets.
 * `egress_cos` - Override outgoing CoS in user VLAN tag.
@@ -76,12 +80,12 @@ The following attributes are exported:
 * `explicit_ftp_proxy` - Enable/disable the explicit FTP proxy on this interface.
 * `explicit_web_proxy` - Enable/disable the explicit web proxy on this interface.
 * `external` - Enable/disable identifying the interface as an external interface (which usually means it's connected to the Internet).
-* `fail_action_on_extender` - Action on extender when interface fail .
+* `fail_action_on_extender` - Action on FortiExtender when interface fail.
 * `fail_alert_method` - Select link-failed-signal or link-down method to alert about a failed link.
 * `fail_detect` - Enable/disable fail detection features for this interface.
 * `fail_detect_option` - Options for detecting that this interface has failed.
 * `fortilink` - Enable FortiLink to dedicate this interface to manage other Fortinet devices.
-* `fortilink_backup_link` - fortilink split interface backup link.
+* `fortilink_backup_link` - FortiLink split interface backup link.
 * `fortilink_neighbor_detect` - Protocol for FortiGate neighbor discovery.
 * `fortilink_split_interface` - Enable/disable FortiLink split interface to connect member link to different FortiSwitch in stack for uplink redundancy.
 * `fortilink_stacking` - Enable/disable FortiLink switch-stacking on this interface.
@@ -116,8 +120,8 @@ The following attributes are exported:
 * `macaddr` - Change the interface's MAC address.
 * `managed_subnetwork_size` - Number of IP addresses to be allocated by FortiIPAM and used by this FortiGate unit's DHCP server settings.
 * `management_ip` - High Availability in-band management IP address of this interface.
-* `measured_downstream_bandwidth` - Measured downstream bandwidth (kbps). 
-* `measured_upstream_bandwidth` - Measured upstream bandwidth (kbps). 
+* `measured_downstream_bandwidth` - Measured downstream bandwidth (kbps).
+* `measured_upstream_bandwidth` - Measured upstream bandwidth (kbps).
 * `mediatype` - Select SFP media interface type
 * `min_links` - Minimum number of aggregated ports that must be up.
 * `min_links_down` - Action to take when less than the configured minimum number of links are active.
@@ -133,7 +137,7 @@ The following attributes are exported:
 * `padt_retry_timeout` - PPPoE Active Discovery Terminate (PADT) used to terminate sessions after an idle time.
 * `password` - PPPoE account's password.
 * `ping_serv_status` - PING server status.
-* `polling_interval` - sFlow polling interval (1 - 255 sec).
+* `polling_interval` - sFlow polling interval in seconds (1 - 255).
 * `pppoe_unnumbered_negotiate` - Enable/disable PPPoE unnumbered negotiation.
 * `pptp_auth_type` - PPTP authentication type.
 * `pptp_client` - Enable/disable PPTP client.
@@ -145,6 +149,7 @@ The following attributes are exported:
 * `priority` - Priority of learned routes.
 * `priority_override` - Enable/disable fail back to higher priority port once recovered.
 * `proxy_captive_portal` - Enable/disable proxy captive portal on this interface.
+* `reachable_time` - IPv4 reachable time in milliseconds (30000 - 3600000, default = 30000).
 * `redundant_interface` - Redundant interface.
 * `remote_ip` - Remote IP address of tunnel.
 * `replacemsg_override_group` - Replacement message override group.
@@ -261,7 +266,7 @@ The `ipv6` block contains:
 * `dhcp6_relay_type` - DHCPv6 relay type.
 * `icmp6_send_redirect` - Enable/disable sending of ICMPv6 redirects.
 * `interface_identifier` - IPv6 interface identifier.
-* `ip6_address` - Primary IPv6 address prefix, syntax: xxxx:xxxx:xxxx:xxxx:xxxx:xxxx:xxxx:xxxx/xxx
+* `ip6_address` - Primary IPv6 address prefix. Syntax: xxxx:xxxx:xxxx:xxxx:xxxx:xxxx:xxxx:xxxx/xxx.
 * `ip6_allowaccess` - Allow management access to the interface.
 * `ip6_default_life` - Default life (sec).
 * `ip6_delegated_prefix_iaid` - IAID of obtained delegated-prefix from the upstream interface.
@@ -277,7 +282,7 @@ The `ipv6` block contains:
 * `ip6_reachable_time` - IPv6 reachable time (milliseconds; 0 means unspecified).
 * `ip6_retrans_time` - IPv6 retransmit time (milliseconds; 0 means unspecified).
 * `ip6_send_adv` - Enable/disable sending advertisements about the interface.
-* `ip6_subnet` -  Subnet to routing prefix, syntax: xxxx:xxxx:xxxx:xxxx:xxxx:xxxx:xxxx:xxxx/xxx
+* `ip6_subnet` - Subnet to routing prefix. Syntax: xxxx:xxxx:xxxx:xxxx:xxxx:xxxx:xxxx:xxxx/xxx.
 * `ip6_upstream_interface` - Interface name providing delegated information.
 * `nd_cert` - Neighbor discovery certificate.
 * `nd_cga_modifier` - Neighbor discovery CGA modifier.
@@ -289,7 +294,7 @@ The `ipv6` block contains:
 * `unique_autoconf_addr` - Enable/disable unique auto config address.
 * `vrip6_link_local` - Link-local IPv6 address of virtual router.
 * `vrrp_virtual_mac6` - Enable/disable virtual MAC for VRRP.
-* `dhcp6_iapd_list` - DHCPv6 IA-PD listThe structure of `dhcp6_iapd_list` block is documented below.
+* `dhcp6_iapd_list` - DHCPv6 IA-PD list.The structure of `dhcp6_iapd_list` block is documented below.
 
 The `dhcp6_iapd_list` block contains:
 
@@ -307,7 +312,7 @@ The `ip6_delegated_prefix_list` block contains:
 * `prefix_id` - Prefix ID.
 * `rdnss` - Recursive DNS server option.
 * `rdnss_service` - Recursive DNS service option.
-* `subnet` -  Add subnet ID to routing prefix.
+* `subnet` - Add subnet ID to routing prefix.
 * `upstream_interface` - Name of the interface that provides delegated information.
 * `ip6_extra_addr` - Extra IPv6 address prefixes of interface.The structure of `ip6_extra_addr` block is documented below.
 

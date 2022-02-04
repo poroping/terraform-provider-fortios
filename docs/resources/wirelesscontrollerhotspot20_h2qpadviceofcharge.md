@@ -35,7 +35,7 @@ The `plan_info` block contains:
 
 * `currency` - Currency code.
 * `info_file` - Info file.
-* `lang` - Languague code.
+* `lang` - Language code.
 * `name` - Plan name.
 
 ## Attribute Reference

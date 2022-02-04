@@ -24,8 +24,8 @@ Use this data source to get information on a fortios Designate logical storage f
 
 The following attributes are exported:
 
-* `cache_mem_percent` - Maximum percentage of available memory allocated to caching (1 - 15%).
-* `chunk_size` - Maximum fingerprint chunk size.  **Changing will flush the entire database**.
-* `db_mode` - Behaviour when the maximum size is reached.
+* `cache_mem_percent` - Maximum percentage of available memory allocated to caching (1 - 15).
+* `chunk_size` - Maximum fingerprint chunk size. Caution, changing this setting will flush the entire database.
+* `db_mode` - Behavior when the maximum size is reached.
 * `size` - Maximum total size of files within the storage (MB).
 * `storage_device` - Storage device name.

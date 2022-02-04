@@ -27,7 +27,7 @@ The following attributes are exported:
 
 * `add_nat46_route` - Enable/disable adding NAT46 route.
 * `comments` - Comment.
-* `endip` - Final IPv6 address (inclusive) in the range for the address pool (format xxxx:xxxx:xxxx:xxxx:xxxx:xxxx:xxxx:xxxx, Default: ::).
+* `endip` - Final IPv6 address (inclusive) in the range for the address pool (format = xxxx:xxxx:xxxx:xxxx:xxxx:xxxx:xxxx:xxxx, default = ::).
 * `name` - IPv6 IP pool name.
 * `nat46` - Enable/disable NAT46.
-* `startip` - First IPv6 address (inclusive) in the range for the address pool (format xxxx:xxxx:xxxx:xxxx:xxxx:xxxx:xxxx:xxxx, Default: ::).
+* `startip` - First IPv6 address (inclusive) in the range for the address pool (format = xxxx:xxxx:xxxx:xxxx:xxxx:xxxx:xxxx:xxxx, default = ::).

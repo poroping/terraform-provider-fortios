@@ -32,12 +32,12 @@ Extender controller configuration.
 * `cdma_nai` - NAI for CDMA MODEMS.
 * `conn_status` - Connection status.
 * `description` - Description.
-* `device_id` - device-id
+* `device_id` - Device ID.
 * `dial_mode` - Dial mode (dial-on-demand or always-connect). Valid values: `dial-on-demand` `always-connect` .
 * `dial_status` - Dial status.
 * `enforce_bandwidth` - Enable/disable enforcement of bandwidth on LAN extension interface. Valid values: `enable` `disable` .
 * `ext_name` - FortiExtender name.
-* `extension_type` - Extension type for this FortiExtender. Valid values: `wan-extension` `lan-extension` .
+* `extension_type` - Extension type for this FortiExtender. Valid values: `lan-extension` .
 * `ha_shared_secret` - HA shared secret.
 * `id` - FortiExtender serial number.
 * `ifname` - FortiExtender interface name. This attribute must reference one of the following datasources: `system.interface.name` .
@@ -65,7 +65,7 @@ Extender controller configuration.
 * `role` - FortiExtender work role(Primary, Secondary, None). Valid values: `none` `primary` `secondary` .
 * `secondary_ha` - Secondary HA.
 * `sim_pin` - SIM PIN.
-* `vdom` - VDOM
+* `vdom` - VDOM.
 * `wimax_auth_protocol` - WiMax authentication protocol(TLS or TTLS). Valid values: `tls` `ttls` .
 * `wimax_carrier` - WiMax carrier.
 * `wimax_realm` - WiMax realm.

@@ -26,8 +26,8 @@ The following attributes are exported:
 
 * `http_probe_value` - Value to respond to the monitoring server.
 * `mode` - SLA response mode.
-* `password` - Twamp respondor password in authentication mode
+* `password` - TWAMP responder password in authentication mode.
 * `port` - Port number to response.
-* `security_mode` - Twamp respondor security mode.
+* `security_mode` - TWAMP responder security mode.
 * `timeout` - An inactivity timer for a twamp test session.
 * `ttl_mode` - Mode for TWAMP packet TTL modification.

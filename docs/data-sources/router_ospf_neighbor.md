@@ -3,11 +3,11 @@ subcategory: "FortiGate Router"
 layout: "fortios"
 page_title: "FortiOS: fortios_router_ospf_neighbor"
 description: |-
-  Get information on a fortios OSPF neighbor configuration are used when OSPF runs on non-broadcast media
+  Get information on a fortios OSPF neighbor configuration are used when OSPF runs on non-broadcast media.
 ---
 
 # Data Source: fortios_router_ospf_neighbor
-Use this data source to get information on a fortios OSPF neighbor configuration are used when OSPF runs on non-broadcast media
+Use this data source to get information on a fortios OSPF neighbor configuration are used when OSPF runs on non-broadcast media.
 
 
 ## Example Usage

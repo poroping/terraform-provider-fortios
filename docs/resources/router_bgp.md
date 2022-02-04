@@ -55,15 +55,16 @@ Configure BGP.
 * `graceful_update_delay` - Route advertisement/selection delay after restart (sec).
 * `holdtime_timer` - Number of seconds to mark peer as dead.
 * `ibgp_multipath` - Enable/disable IBGP multi-path. Valid values: `enable` `disable` .
-* `ignore_optional_capability` - Don't send unknown optional capability notification message Valid values: `enable` `disable` .
+* `ignore_optional_capability` - Do not send unknown optional capability notification message. Valid values: `enable` `disable` .
 * `keepalive_timer` - Frequency to send keep alive requests.
-* `log_neighbour_changes` - Enable logging of BGP neighbour's changes Valid values: `enable` `disable` .
+* `log_neighbour_changes` - Log BGP neighbor changes. Valid values: `enable` `disable` .
 * `multipath_recursive_distance` - Enable/disable use of recursive distance to select multipath. Valid values: `enable` `disable` .
 * `network_import_check` - Enable/disable ensure BGP network route exists in IGP. Valid values: `enable` `disable` .
 * `recursive_next_hop` - Enable/disable recursive resolution of next-hop using BGP route. Valid values: `enable` `disable` .
 * `router_id` - Router ID.
 * `scan_time` - Background scanner interval (sec), 0 to disable it.
 * `synchronization` - Enable/disable only advertise routes from iBGP if routes present in an IGP. Valid values: `enable` `disable` .
+* `tag_resolve_mode` - Configure tag-match mode. Resolves BGP routes with other routes containing the same tag. Valid values: `disable` `preferred` `merge` .
 * `admin_distance` - Administrative distance modifications. The structure of `admin_distance` block is documented below.
 
 The `admin_distance` block contains:
@@ -129,7 +130,7 @@ The `neighbor` block contains:
 * `distribute_list_in6` - Filter for IPv6 updates from this neighbor. This attribute must reference one of the following datasources: `router.access-list6.name` .
 * `distribute_list_out` - Filter for IPv4 updates to this neighbor. This attribute must reference one of the following datasources: `router.access-list.name` .
 * `distribute_list_out6` - Filter for IPv6 updates to this neighbor. This attribute must reference one of the following datasources: `router.access-list6.name` .
-* `dont_capability_negotiate` - Don't negotiate capabilities with this neighbor Valid values: `enable` `disable` .
+* `dont_capability_negotiate` - Do not negotiate capabilities with this neighbor. Valid values: `enable` `disable` .
 * `ebgp_enforce_multihop` - Enable/disable allow multi-hop EBGP neighbors. Valid values: `enable` `disable` .
 * `ebgp_multihop_ttl` - EBGP multihop TTL for this peer.
 * `filter_list_in` - BGP filter for IPv4 inbound routes. This attribute must reference one of the following datasources: `router.aspath-list.name` .
@@ -192,15 +193,23 @@ The `neighbor` block contains:
 The `conditional_advertise` block contains:
 
 * `advertise_routemap` - Name of advertising route map. This attribute must reference one of the following datasources: `router.route-map.name` .
-* `condition_routemap` - Name of condition route map. This attribute must reference one of the following datasources: `router.route-map.name` .
 * `condition_type` - Type of condition. Valid values: `exist` `non-exist` .
+* `condition_routemap` - List of conditional route maps. The structure of `condition_routemap` block is documented below.
+
+The `condition_routemap` block contains:
+
+* `name` - route map This attribute must reference one of the following datasources: `router.route-map.name` .
 * `conditional_advertise6` - IPv6 conditional advertisement. The structure of `conditional_advertise6` block is documented below.
 
 The `conditional_advertise6` block contains:
 
 * `advertise_routemap` - Name of advertising route map. This attribute must reference one of the following datasources: `router.route-map.name` .
-* `condition_routemap` - Name of condition route map. This attribute must reference one of the following datasources: `router.route-map.name` .
 * `condition_type` - Type of condition. Valid values: `exist` `non-exist` .
+* `condition_routemap` - List of conditional route maps. The structure of `condition_routemap` block is documented below.
+
+The `condition_routemap` block contains:
+
+* `name` - route map This attribute must reference one of the following datasources: `router.route-map.name` .
 * `neighbor_group` - BGP neighbor group table. The structure of `neighbor_group` block is documented below.
 
 The `neighbor_group` block contains:
@@ -237,7 +246,7 @@ The `neighbor_group` block contains:
 * `distribute_list_in6` - Filter for IPv6 updates from this neighbor. This attribute must reference one of the following datasources: `router.access-list6.name` .
 * `distribute_list_out` - Filter for IPv4 updates to this neighbor. This attribute must reference one of the following datasources: `router.access-list.name` .
 * `distribute_list_out6` - Filter for IPv6 updates to this neighbor. This attribute must reference one of the following datasources: `router.access-list6.name` .
-* `dont_capability_negotiate` - Don't negotiate capabilities with this neighbor Valid values: `enable` `disable` .
+* `dont_capability_negotiate` - Do not negotiate capabilities with this neighbor. Valid values: `enable` `disable` .
 * `ebgp_enforce_multihop` - Enable/disable allow multi-hop EBGP neighbors. Valid values: `enable` `disable` .
 * `ebgp_multihop_ttl` - EBGP multihop TTL for this peer.
 * `filter_list_in` - BGP filter for IPv4 inbound routes. This attribute must reference one of the following datasources: `router.aspath-list.name` .
@@ -316,6 +325,7 @@ The `network` block contains:
 
 * `backdoor` - Enable/disable route as backdoor. Valid values: `enable` `disable` .
 * `id` - ID.
+* `network_import_check` - Configure insurance of BGP network route existence in IGP. Valid values: `global` `enable` `disable` .
 * `prefix` - Network prefix.
 * `route_map` - Route map to modify generated route. This attribute must reference one of the following datasources: `router.route-map.name` .
 * `network6` - BGP IPv6 network table. The structure of `network6` block is documented below.
@@ -324,6 +334,7 @@ The `network6` block contains:
 
 * `backdoor` - Enable/disable route as backdoor. Valid values: `enable` `disable` .
 * `id` - ID.
+* `network_import_check` - Configure insurance of BGP network route existence in IGP. Valid values: `global` `enable` `disable` .
 * `prefix6` - Network IPv6 prefix.
 * `route_map` - Route map to modify generated route. This attribute must reference one of the following datasources: `router.route-map.name` .
 * `redistribute` - BGP IPv4 redistribute table. The structure of `redistribute` block is documented below.
@@ -332,38 +343,38 @@ The `redistribute` block contains:
 
 * `name` - Distribute list entry name.
 * `route_map` - Route map name. This attribute must reference one of the following datasources: `router.route-map.name` .
-* `status` - Status Valid values: `enable` `disable` .
+* `status` - Status. Valid values: `enable` `disable` .
 * `redistribute6` - BGP IPv6 redistribute table. The structure of `redistribute6` block is documented below.
 
 The `redistribute6` block contains:
 
 * `name` - Distribute list entry name.
 * `route_map` - Route map name. This attribute must reference one of the following datasources: `router.route-map.name` .
-* `status` - Status Valid values: `enable` `disable` .
+* `status` - Status. Valid values: `enable` `disable` .
 * `vrf_leak` - BGP VRF leaking table. The structure of `vrf_leak` block is documented below.
 
 The `vrf_leak` block contains:
 
-* `vrf` - Origin VRF ID <0 - 31>.
+* `vrf` - Origin VRF ID (0 - 31).
 * `target` - Target VRF table. The structure of `target` block is documented below.
 
 The `target` block contains:
 
 * `interface` - Interface which is used to leak routes to target VRF. This attribute must reference one of the following datasources: `system.interface.name` .
 * `route_map` - Route map of VRF leaking. This attribute must reference one of the following datasources: `router.route-map.name` .
-* `vrf` - Target VRF ID <0 - 31>.
+* `vrf` - Target VRF ID (0 - 31).
 * `vrf_leak6` - BGP IPv6 VRF leaking table. The structure of `vrf_leak6` block is documented below.
 
 The `vrf_leak6` block contains:
 
-* `vrf` - Origin VRF ID <0 - 31>.
+* `vrf` - Origin VRF ID (0 - 31).
 * `target` - Target VRF table. The structure of `target` block is documented below.
 
 The `target` block contains:
 
 * `interface` - Interface which is used to leak routes to target VRF. This attribute must reference one of the following datasources: `system.interface.name` .
 * `route_map` - Route map of VRF leaking. This attribute must reference one of the following datasources: `router.route-map.name` .
-* `vrf` - Target VRF ID <0 - 31>.
+* `vrf` - Target VRF ID (0 - 31).
 
 ## Attribute Reference
 

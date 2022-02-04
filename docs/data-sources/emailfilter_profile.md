@@ -109,7 +109,7 @@ The `pop3` block contains:
 The `smtp` block contains:
 
 * `action` - Action for spam email.
-* `hdrip` - Enable/disable SMTP email header IP checks for spamfsip, spamrbl and spambal filters.
+* `hdrip` - Enable/disable SMTP email header IP checks for spamfsip, spamrbl, and spambal filters.
 * `local_override` - Enable/disable local filter to override SMTP remote check result.
 * `log` - Enable/disable logging.
 * `log_all` - Enable/disable logging of all email traffic.

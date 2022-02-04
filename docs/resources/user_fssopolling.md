@@ -24,7 +24,7 @@ Configure FSSO active directory servers for polling mode.
 * `id` - Active Directory server ID.
 * `ldap_server` - LDAP server name used in LDAP connection strings. This attribute must reference one of the following datasources: `user.ldap.name` .
 * `logon_history` - Number of hours of logon history to keep, 0 means keep all history.
-* `password` - Password required to log into this Active Directory server
+* `password` - Password required to log into this Active Directory server.
 * `polling_frequency` - Polling frequency (every 1 to 30 seconds).
 * `port` - Port to communicate with this Active Directory server.
 * `server` - Host name or IP address of the Active Directory server.

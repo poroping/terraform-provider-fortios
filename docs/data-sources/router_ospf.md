@@ -41,7 +41,7 @@ The following attributes are exported:
 * `distance_intra_area` - Administrative intra-area distance.
 * `distribute_list_in` - Filter incoming routes.
 * `distribute_route_map_in` - Filter incoming external routes by route-map.
-* `log_neighbour_changes` - Enable logging of OSPF neighbour's changes
+* `log_neighbour_changes` - Log of OSPF neighbor changes.
 * `restart_mode` - OSPF restart mode (graceful or LLS).
 * `restart_period` - Graceful restart period.
 * `rfc1583_compatible` - Enable/disable RFC1583 compatibility.
@@ -106,7 +106,7 @@ The `distribute_list` block contains:
 * `access_list` - Access list name.
 * `id` - Distribute list entry ID.
 * `protocol` - Protocol type.
-* `neighbor` - OSPF neighbor configuration are used when OSPF runs on non-broadcast mediaThe structure of `neighbor` block is documented below.
+* `neighbor` - OSPF neighbor configuration are used when OSPF runs on non-broadcast media.The structure of `neighbor` block is documented below.
 
 The `neighbor` block contains:
 
@@ -169,7 +169,7 @@ The `redistribute` block contains:
 * `metric_type` - Metric type.
 * `name` - Redistribute name.
 * `routemap` - Route map name.
-* `status` - status
+* `status` - Status.
 * `tag` - Tag value.
 * `summary_address` - IP address summary configuration.The structure of `summary_address` block is documented below.
 

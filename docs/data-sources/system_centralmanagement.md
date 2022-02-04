@@ -24,7 +24,7 @@ Use this data source to get information on a fortios Configure central managemen
 
 The following attributes are exported:
 
-* `allow_monitor` - Enable/disable allowing the central management server to remotely monitor this FortiGate
+* `allow_monitor` - Enable/disable allowing the central management server to remotely monitor this FortiGate unit.
 * `allow_push_configuration` - Enable/disable allowing the central management server to push configuration changes to this FortiGate.
 * `allow_push_firmware` - Enable/disable allowing the central management server to push firmware updates to this FortiGate.
 * `allow_remote_firmware_upgrade` - Enable/disable remotely upgrading the firmware on this FortiGate from the central management server.

@@ -65,7 +65,7 @@ The following attributes are exported:
 * `port_precedence` - Enable/disable, Enable means that if SSL-VPN connections are allowed on an interface admin GUI connections are blocked on that interface.
 * `reqclientcert` - Enable/disable to require client certificates for all SSL-VPN users.
 * `route_source_interface` - Enable to allow SSL-VPN sessions to bypass routing and bind to the incoming interface.
-* `saml_redirect_port` - SAML local redirect port in the machine running FCT (0 - 65535). 0 is to disable redirection on FGT side.
+* `saml_redirect_port` - SAML local redirect port in the machine running FortiClient (0 - 65535). 0 is to disable redirection on FGT side.
 * `servercert` - Name of the server certificate to be used for SSL-VPNs.
 * `source_address_negate` - Enable/disable negated source address match.
 * `source_address6_negate` - Enable/disable negated source IPv6 address match.

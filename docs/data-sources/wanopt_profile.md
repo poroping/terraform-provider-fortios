@@ -37,7 +37,7 @@ The `cifs` block contains:
 * `log_traffic` - Enable/disable logging.
 * `port` - Single port number or port number range for CIFS. Only packets with a destination port number that matches this port number or range are accepted by this profile.
 * `prefer_chunking` - Select dynamic or fixed-size data chunking for WAN Optimization.
-* `protocol_opt` - Select Protocol specific optimitation or generic TCP optimization.
+* `protocol_opt` - Select protocol specific optimization or generic TCP optimization.
 * `secure_tunnel` - Enable/disable securing the WAN Opt tunnel using SSL. Secure and non-secure tunnels use the same TCP port (7810).
 * `status` - Enable/disable WAN Optimization.
 * `tunnel_sharing` - Tunnel sharing mode for aggressive/non-aggressive and/or interactive/non-interactive protocols.
@@ -49,7 +49,7 @@ The `ftp` block contains:
 * `log_traffic` - Enable/disable logging.
 * `port` - Single port number or port number range for FTP. Only packets with a destination port number that matches this port number or range are accepted by this profile.
 * `prefer_chunking` - Select dynamic or fixed-size data chunking for WAN Optimization.
-* `protocol_opt` - Select Protocol specific optimitation or generic TCP optimization.
+* `protocol_opt` - Select protocol specific optimization or generic TCP optimization.
 * `secure_tunnel` - Enable/disable securing the WAN Opt tunnel using SSL. Secure and non-secure tunnels use the same TCP port (7810).
 * `ssl` - Enable/disable SSL/TLS offloading (hardware acceleration) for traffic in this tunnel.
 * `status` - Enable/disable WAN Optimization.
@@ -62,7 +62,7 @@ The `http` block contains:
 * `log_traffic` - Enable/disable logging.
 * `port` - Single port number or port number range for HTTP. Only packets with a destination port number that matches this port number or range are accepted by this profile.
 * `prefer_chunking` - Select dynamic or fixed-size data chunking for WAN Optimization.
-* `protocol_opt` - Select Protocol specific optimitation or generic TCP optimization.
+* `protocol_opt` - Select protocol specific optimization or generic TCP optimization.
 * `secure_tunnel` - Enable/disable securing the WAN Opt tunnel using SSL. Secure and non-secure tunnels use the same TCP port (7810).
 * `ssl` - Enable/disable SSL/TLS offloading (hardware acceleration) for traffic in this tunnel.
 * `ssl_port` - Port on which to expect HTTPS traffic for SSL/TLS offloading.

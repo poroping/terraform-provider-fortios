@@ -41,7 +41,7 @@ The following attributes are exported:
 * `primary_hash` - Hash method.
 * `priority` - Service priority.
 * `protocol` - Service protocol.
-* `return_method` -  Method used to decline a redirected packet and return it to the FortiGate.
+* `return_method` - Method used to decline a redirected packet and return it to the FortiGate unit.
 * `router_id` - IP address known to all cache engines. If all cache engines connect to the same FortiGate interface, use the default 0.0.0.0.
 * `router_list` - IP addresses of one or more WCCP routers.
 * `server_list` - IP addresses and netmasks for up to four cache servers.

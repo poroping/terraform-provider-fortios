@@ -26,6 +26,7 @@ The following attributes are exported:
 
 * `access_config` - Enable/disable FortiAnalyzer access to configuration and data.
 * `certificate` - Certificate used to communicate with FortiAnalyzer.
+* `certificate_verification` - Enable/disable identity verification of FortiAnalyzer by use of certificate.
 * `conn_timeout` - FortiAnalyzer connection time-out in seconds (for status and log buffer).
 * `enc_algorithm` - Configure the level of SSL protection for secure communication with FortiAnalyzer.
 * `hmac_algorithm` - FortiAnalyzer IPsec tunnel HMAC algorithm.
@@ -44,3 +45,8 @@ The following attributes are exported:
 * `upload_interval` - Frequency to upload log files to FortiAnalyzer.
 * `upload_option` - Enable/disable logging to hard disk and then uploading to FortiAnalyzer.
 * `upload_time` - Time to upload logs (hh:mm).
+* `serial` - Serial numbers of the FortiAnalyzer.The structure of `serial` block is documented below.
+
+The `serial` block contains:
+
+* `name` - Serial Number.

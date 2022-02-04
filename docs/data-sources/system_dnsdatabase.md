@@ -27,9 +27,7 @@ The following attributes are exported:
 
 * `allow_transfer` - DNS zone transfer IP address list.
 * `authoritative` - Enable/disable authoritative zone.
-* `contact` - Email address of the administrator for this zone.
-		You can specify only the username (e.g. admin) or full email address (e.g. admin@test.com) 
-		When using a simple username, the domain of the email will be this zone.
+* `contact` - Email address of the administrator for this zone. You can specify only the username, such as admin or the full email address, such as admin@test.com When using only a username, the domain of the email will be this zone.
 * `domain` - Domain name.
 * `forwarder` - DNS zone forwarder IP address list.
 * `ip_master` - IP address of master DNS server. Entries in this master DNS server and imported into the DNS zone.
@@ -51,7 +49,7 @@ The `dns_entry` block contains:
 * `id` - DNS entry ID.
 * `ip` - IPv4 address of the host.
 * `ipv6` - IPv6 address of the host.
-* `preference` - DNS entry preference, 0 is the highest preference (0 - 65535, default = 10)
+* `preference` - DNS entry preference (0 - 65535, highest preference = 0, default = 10).
 * `status` - Enable/disable resource record status.
 * `ttl` - Time-to-live for this entry (0 to 2147483647 sec, default = 0).
 * `type` - Resource record type.

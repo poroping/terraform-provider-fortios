@@ -27,8 +27,8 @@ Configure shaping policies.
 * `diffservcode_forward` - Change packet's DiffServ to this value.
 * `diffservcode_rev` - Change packet's reverse (reply) DiffServ to this value.
 * `id` - Shaping policy ID (0 - 4294967295).
-* `internet_service` - Enable/disable use of Internet Services for this policy. If enabled, destination address and service are not used.  Valid values: `enable` `disable` .
-* `internet_service_src` - Enable/disable use of Internet Services in source for this policy. If enabled, source address is not used.  Valid values: `enable` `disable` .
+* `internet_service` - Enable/disable use of Internet Services for this policy. If enabled, destination address and service are not used. Valid values: `enable` `disable` .
+* `internet_service_src` - Enable/disable use of Internet Services in source for this policy. If enabled, source address is not used. Valid values: `enable` `disable` .
 * `ip_version` - Apply this traffic shaping policy to IPv4 or IPv6 traffic. Valid values: `4` `6` .
 * `name` - Shaping policy name.
 * `per_ip_shaper` - Per-IP traffic shaper to apply with this policy. This attribute must reference one of the following datasources: `firewall.shaper.per-ip-shaper.name` .

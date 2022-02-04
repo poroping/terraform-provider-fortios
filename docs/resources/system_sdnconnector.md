@@ -31,7 +31,7 @@ Configure connection to SDN Connector.
 * `gcp_project` - GCP project name.
 * `group_name` - Group name of computers.
 * `ha_status` - Enable/disable use for FortiGate HA service. Valid values: `disable` `enable` .
-* `ibm_region` - IBM cloud region name. Valid values: `us-south` `us-east` `germany` `great-britain` `japan` `australia` .
+* `ibm_region` - IBM cloud region name. Valid values: `dallas` `washington-dc` `london` `frankfurt` `sydney` `tokyo` `osaka` `toronto` `sao-paulo` .
 * `login_endpoint` - Azure Stack login endpoint.
 * `name` - SDN connector name.
 * `oci_cert` - OCI certificate. This attribute must reference one of the following datasources: `certificate.local.name` .
@@ -61,6 +61,16 @@ Configure connection to SDN Connector.
 * `vcenter_username` - vCenter server username for NSX quarantine.
 * `verify_certificate` - Enable/disable server certificate verification. Valid values: `disable` `enable` .
 * `vpc_id` - AWS VPC ID.
+* `external_account_list` - Configure AWS external account list. The structure of `external_account_list` block is documented below.
+
+The `external_account_list` block contains:
+
+* `role_arn` - AWS role ARN to assume.
+* `region_list` - AWS region name list. The structure of `region_list` block is documented below.
+
+The `region_list` block contains:
+
+* `region` - AWS region name.
 * `external_ip` - Configure GCP external IP. The structure of `external_ip` block is documented below.
 
 The `external_ip` block contains:

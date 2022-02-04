@@ -28,4 +28,4 @@ The following attributes are exported:
 * `metric` - Redistribute metric setting.
 * `name` - Redistribute name.
 * `routemap` - Route map name.
-* `status` - status
+* `status` - Status.

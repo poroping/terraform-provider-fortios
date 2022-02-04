@@ -24,12 +24,12 @@ Use this data source to get information on a fortios Configure FortiGuard Web Fi
 
 The following attributes are exported:
 
-* `cache_mem_percent` - Maximum percentage of available memory allocated to caching (1 - 15%).
+* `cache_mem_percent` - Maximum percentage of available memory allocated to caching (1 - 15).
 * `cache_mode` - Cache entry expiration mode.
 * `cache_prefix_match` - Enable/disable prefix matching in the cache.
 * `close_ports` - Close ports used for HTTP/HTTPS override authentication and disable user overrides.
 * `ovrd_auth_https` - Enable/disable use of HTTPS for override authentication.
-* `ovrd_auth_port_http` - Port to use for FortiGuard Web Filter HTTP override authentication
+* `ovrd_auth_port_http` - Port to use for FortiGuard Web Filter HTTP override authentication.
 * `ovrd_auth_port_https` - Port to use for FortiGuard Web Filter HTTPS override authentication in proxy mode.
 * `ovrd_auth_port_https_flow` - Port to use for FortiGuard Web Filter HTTPS override authentication in flow mode.
 * `ovrd_auth_port_warning` - Port to use for FortiGuard Web Filter Warning override authentication.

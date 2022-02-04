@@ -56,9 +56,9 @@ Portal.
 * `macos_forticlient_download_url` - Download URL for Mac FortiClient.
 * `name` - Portal name.
 * `os_check` - Enable to let the FortiGate decide action based on client OS. Valid values: `enable` `disable` .
-* `prefer_ipv6_dns` - prefer to query IPv6 dns first if enabled. Valid values: `enable` `disable` .
+* `prefer_ipv6_dns` - Prefer to query IPv6 DNS server first if enabled. Valid values: `enable` `disable` .
 * `redir_url` - Client login redirect URL.
-* `rewrite_ip_uri_ui` - Rewrite contents for URI contains IP and "/ui/". (default = disable) Valid values: `enable` `disable` .
+* `rewrite_ip_uri_ui` - Rewrite contents for URI contains IP and /ui/ (default = disable). Valid values: `enable` `disable` .
 * `save_password` - Enable/disable FortiClient saving the user's password. Valid values: `enable` `disable` .
 * `service_restriction` - Enable/disable tunnel service restriction. Valid values: `enable` `disable` .
 * `skip_check_for_browser` - Enable to skip host check for browser support. Valid values: `enable` `disable` .
@@ -66,7 +66,7 @@ Portal.
 * `smb_max_version` - SMB maximum client protocol version. Valid values: `smbv1` `smbv2` `smbv3` .
 * `smb_min_version` - SMB minimum client protocol version. Valid values: `smbv1` `smbv2` `smbv3` .
 * `smb_ntlmv1_auth` - Enable support of NTLMv1 for Samba authentication. Valid values: `enable` `disable` .
-* `smbv1` - smbv1 Valid values: `enable` `disable` .
+* `smbv1` - SMB version 1. Valid values: `enable` `disable` .
 * `split_tunneling` - Enable/disable IPv4 split tunneling. Valid values: `enable` `disable` .
 * `split_tunneling_routing_negate` - Enable to negate split tunneling routing address. Valid values: `enable` `disable` .
 * `theme` - Web portal color scheme. Valid values: `jade` `neutrino` `mariner` `graphite` `melongene` `dark-matter` `onyx` `eclipse` .
@@ -94,6 +94,7 @@ The `bookmarks` block contains:
 * `description` - Description.
 * `domain` - Login domain.
 * `folder` - Network shared file folder parameter.
+* `height` - Screen height (range from 480 - 65535, default = 768).
 * `host` - Host name/IP parameter.
 * `keyboard_layout` - Keyboard layout. Valid values: `ar-101` `ar-102` `ar-102-azerty` `can-mul` `cz` `cz-qwerty` `cz-pr` `da` `nl` `de` `de-ch` `de-ibm` `en-uk` `en-uk-ext` `en-us` `en-us-dvorak` `es` `es-var` `fi` `fi-sami` `fr` `fr-ca` `fr-ch` `fr-be` `hr` `hu` `hu-101` `it` `it-142` `ja` `ko` `lt` `lt-ibm` `lt-std` `lav-std` `lav-leg` `mk` `mk-std` `no` `no-sami` `pol-214` `pol-pr` `pt` `pt-br` `pt-br-abnt2` `ru` `ru-mne` `ru-t` `sl` `sv` `sv-sami` `tuk` `tur-f` `tur-q` `zh-sym-sg-us` `zh-sym-us` `zh-tr-hk` `zh-tr-mo` `zh-tr-us` .
 * `listening_port` - Listening port (0 - 65535).
@@ -116,6 +117,7 @@ The `bookmarks` block contains:
 * `sso_password` - SSO password.
 * `sso_username` - SSO user name.
 * `url` - URL parameter.
+* `width` - Screen width (range from 640 - 65535, default = 1024).
 * `form_data` - Form data. The structure of `form_data` block is documented below.
 
 The `form_data` block contains:
@@ -167,7 +169,7 @@ The `split_dns` block contains:
 
 * `dns_server1` - DNS server 1.
 * `dns_server2` - DNS server 2.
-* `domains` - Split DNS domains used for SSL-VPN clients separated by comma(,).
+* `domains` - Split DNS domains used for SSL-VPN clients separated by comma.
 * `id` - ID.
 * `ipv6_dns_server1` - IPv6 DNS server 1.
 * `ipv6_dns_server2` - IPv6 DNS server 2.

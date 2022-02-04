@@ -3,11 +3,11 @@ subcategory: "FortiGate Router"
 layout: "fortios"
 page_title: "FortiOS: fortios_router_rip_network"
 description: |-
-  Get information on a fortios network
+  Get information on a fortios Network.
 ---
 
 # Data Source: fortios_router_rip_network
-Use this data source to get information on a fortios network
+Use this data source to get information on a fortios Network.
 
 
 ## Example Usage

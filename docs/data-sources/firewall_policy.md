@@ -65,9 +65,9 @@ The following attributes are exported:
 * `identity_based_route` - Name of identity-based routing rule.
 * `inbound` - Policy-based IPsec VPN: only traffic from the remote network can initiate a VPN.
 * `inspection_mode` - Policy inspection mode (Flow/proxy). Default is Flow mode.
-* `internet_service` - Enable/disable use of Internet Services for this policy. If enabled, destination address and service are not used. 
+* `internet_service` - Enable/disable use of Internet Services for this policy. If enabled, destination address and service are not used.
 * `internet_service_negate` - When enabled internet-service specifies what the service must NOT be.
-* `internet_service_src` - Enable/disable use of Internet Services in source for this policy. If enabled, source address is not used. 
+* `internet_service_src` - Enable/disable use of Internet Services in source for this policy. If enabled, source address is not used.
 * `internet_service_src_negate` - When enabled internet-service-src specifies what the service must NOT be.
 * `ippool` - Enable to use IP Pools for source NAT.
 * `ips_sensor` - Name of an existing IPS sensor.

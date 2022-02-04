@@ -32,8 +32,8 @@ The following attributes are exported:
 * `diffservcode_forward` - Change packet's DiffServ to this value.
 * `diffservcode_rev` - Change packet's reverse (reply) DiffServ to this value.
 * `id` - Shaping policy ID (0 - 4294967295).
-* `internet_service` - Enable/disable use of Internet Services for this policy. If enabled, destination address and service are not used. 
-* `internet_service_src` - Enable/disable use of Internet Services in source for this policy. If enabled, source address is not used. 
+* `internet_service` - Enable/disable use of Internet Services for this policy. If enabled, destination address and service are not used.
+* `internet_service_src` - Enable/disable use of Internet Services in source for this policy. If enabled, source address is not used.
 * `ip_version` - Apply this traffic shaping policy to IPv4 or IPv6 traffic.
 * `name` - Shaping policy name.
 * `per_ip_shaper` - Per-IP traffic shaper to apply with this policy.

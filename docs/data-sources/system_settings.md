@@ -107,6 +107,7 @@ The following attributes are exported:
 * `gui_webfilter_advanced` - Enable/disable advanced web filtering on the GUI.
 * `gui_wireless_controller` - Enable/disable the wireless controller on the GUI.
 * `gui_ztna` - Enable/disable Zero Trust Network Access features on the GUI.
+* `h323_direct_model` - Enable/disable H323 direct model.
 * `http_external_dest` - Offload HTTP traffic to FortiWeb or FortiCache.
 * `ike_dn_format` - Configure IKE ASN.1 Distinguished Name format conventions.
 * `ike_policy_route` - Enable/disable IKE Policy Based Routing (PBR).

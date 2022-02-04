@@ -37,7 +37,7 @@ Configure NAC policy matching pattern to identify matching NAC devices.
 * `sw_version` - NAC policy matching software version.
 * `switch_auto_auth` - NAC device auto authorization when discovered and nac-policy matched. Valid values: `global` `disable` `enable` .
 * `switch_fortilink` - FortiLink interface for which this NAC policy belongs to. This attribute must reference one of the following datasources: `system.interface.name` .
-* `switch_mac_policy` - switch-mac-policy action to be applied on the matched NAC policy. This attribute must reference one of the following datasources: `switch-controller.mac-policy.name` .
+* `switch_mac_policy` - Switch MAC policy action to be applied on the matched NAC policy. This attribute must reference one of the following datasources: `switch-controller.mac-policy.name` .
 * `switch_port_policy` - switch-port-policy to be applied on the matched NAC policy. This attribute must reference one of the following datasources: `switch-controller.port-policy.name` .
 * `type` - NAC policy matching type.
 * `user` - NAC policy matching user.

@@ -27,7 +27,7 @@ The following attributes are exported:
 * `anomaly_mode` - Global blocking mode for rate-based anomalies.
 * `cp_accel_mode` - IPS Pattern matching acceleration/offloading to CPx processors.
 * `database` - Regular or extended IPS database. Regular protects against the latest common and in-the-wild attacks. Extended includes protection from legacy attacks.
-* `deep_app_insp_db_limit` - Limit on number of entries in deep application inspection database (1 - 2147483647, 0 = use recommended setting)
+* `deep_app_insp_db_limit` - Limit on number of entries in deep application inspection database (1 - 2147483647, use recommended setting = 0).
 * `deep_app_insp_timeout` - Timeout for Deep application inspection (1 - 2147483647 sec., 0 = use recommended setting).
 * `engine_count` - Number of IPS engines running. If set to the default value of 0, FortiOS sets the number to optimize performance depending on the number of CPU cores.
 * `exclude_signatures` - Excluded signatures.

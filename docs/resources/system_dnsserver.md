@@ -20,7 +20,7 @@ Configure DNS servers.
 * `allow_append` - If set to true allows provider to overwrite existing resources instead of erroring. Useful for brownfield implementations. Use with caution! Requires `name` to be defined.
 
 * `dnsfilter_profile` - DNS filter profile. This attribute must reference one of the following datasources: `dnsfilter.profile.name` .
-* `doh` - DNS over HTTPS. Valid values: `enable` `disable` .
+* `doh` - DNS over HTTPS/443. Valid values: `enable` `disable` .
 * `mode` - DNS server mode. Valid values: `recursive` `non-recursive` `forward-only` .
 * `name` - DNS server name. This attribute must reference one of the following datasources: `system.interface.name` .
 

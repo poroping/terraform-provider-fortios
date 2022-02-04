@@ -40,7 +40,7 @@ Configure domain controller entries.
 * `source_ip6` - FortiGate IPv6 address to be used for communication with the domain controller.
 * `source_port` - Source port to be used for communication with the domain controller.
 * `username` - User name to sign in with. Must have proper permissions for service.
-* `extra_server` - extra servers. The structure of `extra_server` block is documented below.
+* `extra_server` - Extra servers. The structure of `extra_server` block is documented below.
 
 The `extra_server` block contains:
 

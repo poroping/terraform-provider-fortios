@@ -20,10 +20,10 @@ Configure Kerberos keytab entries.
 * `allow_append` - If set to true allows provider to overwrite existing resources instead of erroring. Useful for brownfield implementations. Use with caution! Requires `name` to be defined.
 * `dynamic_sort_table` - `true` or `false`, set this parameter to `true` when using dynamic for_each + toset to configure and sort sub-tables, if set to `true` static sub-tables must be ordered.
 
-* `keytab` - base64 coded keytab file containing a pre-shared key.
+* `keytab` - Base64 coded keytab file containing a pre-shared key.
 * `name` - Kerberos keytab entry name.
 * `pac_data` - Enable/disable parsing PAC data in the ticket. Valid values: `enable` `disable` .
-* `principal` - Kerberos service principal, e.g. HTTP/fgt.example.com@EXAMPLE.COM.
+* `principal` - Kerberos service principal. For example, HTTP/myfgt.example.com@example.com.
 * `ldap_server` - LDAP server name(s). The structure of `ldap_server` block is documented below.
 
 The `ldap_server` block contains:

@@ -26,6 +26,6 @@ Use this data source to get information on a fortios Configure DNS servers.
 The following attributes are exported:
 
 * `dnsfilter_profile` - DNS filter profile.
-* `doh` - DNS over HTTPS.
+* `doh` - DNS over HTTPS/443.
 * `mode` - DNS server mode.
 * `name` - DNS server name.

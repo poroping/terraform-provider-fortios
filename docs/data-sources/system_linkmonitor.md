@@ -29,7 +29,7 @@ The following attributes are exported:
 * `class_id` - Traffic class ID.
 * `diffservcode` - Differentiated services code point (DSCP) in the IP header of the probe packet.
 * `fail_weight` - Threshold weight to trigger link failure alert.
-* `failtime` - Number of retry attempts before the server is considered down (1 - 10, default = 5)
+* `failtime` - Number of retry attempts before the server is considered down (1 - 10, default = 5).
 * `gateway_ip` - Gateway IP address used to probe the server.
 * `gateway_ip6` - Gateway IPv6 address used to probe the server.
 * `ha_priority` - HA election priority (1 - 50).
@@ -38,8 +38,8 @@ The following attributes are exported:
 * `http_match` - String that you expect to see in the HTTP-GET requests of the traffic to be monitored.
 * `interval` - Detection interval in milliseconds (500 - 3600 * 1000 msec, default = 500).
 * `name` - Link monitor name.
-* `packet_size` - Packet size of a twamp test session,
-* `password` - Twamp controller password in authentication mode
+* `packet_size` - Packet size of a TWAMP test session.
+* `password` - TWAMP controller password in authentication mode.
 * `port` - Port number of the traffic to be used to monitor the server.
 * `probe_count` - Number of most recent probes that should be used to calculate latency and jitter (5 - 30, default = 30).
 * `probe_timeout` - Time to wait before a probe packet is considered lost (500 - 5000 msec, default = 500).

@@ -29,7 +29,7 @@ The following attributes are exported:
 * `feature_set` - Flow/proxy feature set.
 * `name` - Name.
 * `oversize_log` - Enable/disable logging for antivirus oversize file blocking.
-* `replacemsg_group` - Name of the replacement message group to be used
+* `replacemsg_group` - Name of the replacement message group to be used.
 * `rpc_over_http` - Enable/disable inspection of RPC over HTTP.
 * `switching_protocols_log` - Enable/disable logging for HTTP/HTTPS switching protocols.
 * `cifs` - Configure CIFS protocol options.The structure of `cifs` block is documented below.
@@ -54,7 +54,7 @@ The `cifs` block contains:
 The `server_keytab` block contains:
 
 * `keytab` - Base64 encoded keytab file containing credential of the server.
-* `principal` - Service principal.  For example, "host/cifsserver.example.com@example.com".
+* `principal` - Service principal. For example, host/cifsserver.example.com@example.com.
 * `dns` - Configure DNS protocol options.The structure of `dns` block is documented below.
 
 The `dns` block contains:
@@ -74,7 +74,7 @@ The `ftp` block contains:
 * `scan_bzip2` - Enable/disable scanning of BZip2 compressed files.
 * `ssl_offloaded` - SSL decryption and encryption performed by an external device.
 * `status` - Enable/disable the active status of scanning for this protocol.
-* `stream_based_uncompressed_limit` - Maximum stream-based uncompressed data size that will be scanned (MB, 0 = unlimited (default).  Stream-based uncompression used only under certain conditions.).
+* `stream_based_uncompressed_limit` - Maximum stream-based uncompressed data size that will be scanned in megabytes. Stream-based uncompression used only under certain conditions (unlimited = 0, default = 0).
 * `tcp_window_maximum` - Maximum dynamic TCP window size.
 * `tcp_window_minimum` - Minimum dynamic TCP window size.
 * `tcp_window_size` - Set TCP static window size.
@@ -101,7 +101,7 @@ The `http` block contains:
 * `scan_bzip2` - Enable/disable scanning of BZip2 compressed files.
 * `ssl_offloaded` - SSL decryption and encryption performed by an external device.
 * `status` - Enable/disable the active status of scanning for this protocol.
-* `stream_based_uncompressed_limit` - Maximum stream-based uncompressed data size that will be scanned (MB, 0 = unlimited (default).  Stream-based uncompression used only under certain conditions.).
+* `stream_based_uncompressed_limit` - Maximum stream-based uncompressed data size that will be scanned in megabytes. Stream-based uncompression used only under certain conditions (unlimited = 0, default = 0).
 * `streaming_content_bypass` - Enable/disable bypassing of streaming content from buffering.
 * `strip_x_forwarded_for` - Enable/disable stripping of HTTP X-Forwarded-For header.
 * `switching_protocols` - Bypass from scanning, or block a connection that attempts to switch protocol.
@@ -196,7 +196,7 @@ The `ssh` block contains:
 * `oversize_limit` - Maximum in-memory file size that can be scanned (1 - 383 MB, default = 10).
 * `scan_bzip2` - Enable/disable scanning of BZip2 compressed files.
 * `ssl_offloaded` - SSL decryption and encryption performed by an external device.
-* `stream_based_uncompressed_limit` - Maximum stream-based uncompressed data size that will be scanned (MB, 0 = unlimited (default).  Stream-based uncompression used only under certain conditions.).
+* `stream_based_uncompressed_limit` - Maximum stream-based uncompressed data size that will be scanned in megabytes. Stream-based uncompression used only under certain conditions (unlimited = 0, default = 0).
 * `tcp_window_maximum` - Maximum dynamic TCP window size.
 * `tcp_window_minimum` - Minimum dynamic TCP window size.
 * `tcp_window_size` - Set TCP static window size.

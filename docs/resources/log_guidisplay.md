@@ -20,7 +20,7 @@ Configure how log messages are displayed on the GUI.
 
 * `fortiview_unscanned_apps` - Enable/disable showing unscanned traffic in FortiView application charts. Valid values: `enable` `disable` .
 * `resolve_apps` - Resolve unknown applications on the GUI using Fortinet's remote application database. Valid values: `enable` `disable` .
-* `resolve_hosts` - Enable/disable resolving IP addresses to hostname in log messages on the GUI using reverse DNS lookup Valid values: `enable` `disable` .
+* `resolve_hosts` - Enable/disable resolving IP addresses to hostname in log messages on the GUI using reverse DNS lookup. Valid values: `enable` `disable` .
 
 ## Attribute Reference
 

@@ -27,5 +27,6 @@ The following attributes are exported:
 
 * `backdoor` - Enable/disable route as backdoor.
 * `id` - ID.
+* `network_import_check` - Configure insurance of BGP network route existence in IGP.
 * `prefix` - Network prefix.
 * `route_map` - Route map to modify generated route.

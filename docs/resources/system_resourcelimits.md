@@ -27,7 +27,7 @@ Configure resource limits.
 * `ipsec_phase1_interface` - Maximum number of VPN IPsec phase1 interface tunnels.
 * `ipsec_phase2` - Maximum number of VPN IPsec phase2 tunnels.
 * `ipsec_phase2_interface` - Maximum number of VPN IPsec phase2 interface tunnels.
-* `log_disk_quota` - Log disk quota in MiB.
+* `log_disk_quota` - Log disk quota in megabytes (MB).
 * `onetime_schedule` - Maximum number of firewall one-time schedules.
 * `proxy` - Maximum number of concurrent proxy users.
 * `recurring_schedule` - Maximum number of firewall recurring schedules.

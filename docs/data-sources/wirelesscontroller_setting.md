@@ -47,4 +47,4 @@ The `offending_ssid` block contains:
 
 * `action` - Actions taken for detected offending SSID.
 * `id` - ID.
-* `ssid_pattern` - Define offending SSID pattern (case insensitive), eg: word, word*, *word, wo*rd.
+* `ssid_pattern` - Define offending SSID pattern (case insensitive). For example, word, word*, *word, wo*rd.

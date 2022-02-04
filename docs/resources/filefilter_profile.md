@@ -25,7 +25,7 @@ Configure file-filter profiles.
 * `feature_set` - Flow/proxy feature set. Valid values: `flow` `proxy` .
 * `log` - Enable/disable file-filter logging. Valid values: `disable` `enable` .
 * `name` - Profile name.
-* `replacemsg_group` - Replacement message group This attribute must reference one of the following datasources: `system.replacemsg-group.name` .
+* `replacemsg_group` - Replacement message group. This attribute must reference one of the following datasources: `system.replacemsg-group.name` .
 * `scan_archive_contents` - Enable/disable archive contents scan. Valid values: `disable` `enable` .
 * `rules` - File filter rules. The structure of `rules` block is documented below.
 
@@ -33,7 +33,7 @@ The `rules` block contains:
 
 * `action` - Action taken for matched file. Valid values: `log-only` `block` .
 * `comment` - Comment.
-* `direction` - Traffic direction. (HTTP, FTP, SSH, CIFS only) Valid values: `incoming` `outgoing` `any` .
+* `direction` - Traffic direction (HTTP, FTP, SSH, CIFS only). Valid values: `incoming` `outgoing` `any` .
 * `name` - File-filter rule name.
 * `password_protected` - Match password-protected files. Valid values: `yes` `any` .
 * `protocol` - Protocols to apply rule to. Valid values: `http` `ftp` `smtp` `imap` `pop3` `mapi` `cifs` `ssh` .

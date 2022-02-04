@@ -61,9 +61,9 @@ The following attributes are exported:
 * `macos_forticlient_download_url` - Download URL for Mac FortiClient.
 * `name` - Portal name.
 * `os_check` - Enable to let the FortiGate decide action based on client OS.
-* `prefer_ipv6_dns` - prefer to query IPv6 dns first if enabled.
+* `prefer_ipv6_dns` - Prefer to query IPv6 DNS server first if enabled.
 * `redir_url` - Client login redirect URL.
-* `rewrite_ip_uri_ui` - Rewrite contents for URI contains IP and "/ui/". (default = disable)
+* `rewrite_ip_uri_ui` - Rewrite contents for URI contains IP and /ui/ (default = disable).
 * `save_password` - Enable/disable FortiClient saving the user's password.
 * `service_restriction` - Enable/disable tunnel service restriction.
 * `skip_check_for_browser` - Enable to skip host check for browser support.
@@ -71,7 +71,7 @@ The following attributes are exported:
 * `smb_max_version` - SMB maximum client protocol version.
 * `smb_min_version` - SMB minimum client protocol version.
 * `smb_ntlmv1_auth` - Enable support of NTLMv1 for Samba authentication.
-* `smbv1` - smbv1
+* `smbv1` - SMB version 1.
 * `split_tunneling` - Enable/disable IPv4 split tunneling.
 * `split_tunneling_routing_negate` - Enable to negate split tunneling routing address.
 * `theme` - Web portal color scheme.
@@ -99,6 +99,7 @@ The `bookmarks` block contains:
 * `description` - Description.
 * `domain` - Login domain.
 * `folder` - Network shared file folder parameter.
+* `height` - Screen height (range from 480 - 65535, default = 768).
 * `host` - Host name/IP parameter.
 * `keyboard_layout` - Keyboard layout.
 * `listening_port` - Listening port (0 - 65535).
@@ -121,6 +122,7 @@ The `bookmarks` block contains:
 * `sso_password` - SSO password.
 * `sso_username` - SSO user name.
 * `url` - URL parameter.
+* `width` - Screen width (range from 640 - 65535, default = 1024).
 * `form_data` - Form data.The structure of `form_data` block is documented below.
 
 The `form_data` block contains:
@@ -172,7 +174,7 @@ The `split_dns` block contains:
 
 * `dns_server1` - DNS server 1.
 * `dns_server2` - DNS server 2.
-* `domains` - Split DNS domains used for SSL-VPN clients separated by comma(,).
+* `domains` - Split DNS domains used for SSL-VPN clients separated by comma.
 * `id` - ID.
 * `ipv6_dns_server1` - IPv6 DNS server 1.
 * `ipv6_dns_server2` - IPv6 DNS server 2.

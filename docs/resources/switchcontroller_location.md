@@ -42,8 +42,8 @@ The `address_civic` block contains:
 * `number` - House number.
 * `number_suffix` - House number suffix.
 * `parent_key` - Parent key name.
-* `place_type` - Placetype.
-* `post_office_box` - Post office box (P.O. box).
+* `place_type` - Place type.
+* `post_office_box` - Post office box.
 * `postal_community` - Postal community name.
 * `primary_road` - Primary road name.
 * `road_section` - Road section.
@@ -62,11 +62,11 @@ The `address_civic` block contains:
 
 The `coordinates` block contains:
 
-* `altitude` - +/- Floating point no. eg. 117.47.
-* `altitude_unit` - m ( meters), f ( floors). Valid values: `m` `f` .
+* `altitude` - Plus or minus floating point number. For example, 117.47.
+* `altitude_unit` - Configure the unit for which the altitude is to (m = meters, f = floors of a building). Valid values: `m` `f` .
 * `datum` - WGS84, NAD83, NAD83/MLLW. Valid values: `WGS84` `NAD83` `NAD83/MLLW` .
-* `latitude` - Floating point start with ( +/- )  or end with ( N or S ) eg. +/-16.67 or 16.67N.
-* `longitude` - Floating point start with ( +/- )  or end with ( E or W ) eg. +/-26.789 or 26.789E.
+* `latitude` - Floating point starting with +/- or ending with (N or S). For example, +/-16.67 or 16.67N.
+* `longitude` - Floating point starting with +/- or ending with (N or S). For example, +/-26.789 or 26.789E.
 * `parent_key` - Parent key name.
 * `elin_number` - Configure location ELIN number. The structure of `elin_number` block is documented below.
 

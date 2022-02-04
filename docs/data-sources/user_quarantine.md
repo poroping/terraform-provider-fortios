@@ -38,6 +38,6 @@ The `targets` block contains:
 The `macs` block contains:
 
 * `description` - Description for the quarantine MAC.
-* `drop` - Enable/Disable dropping of quarantined device traffic
+* `drop` - Enable/disable dropping of quarantined device traffic.
 * `mac` - Quarantine MAC.
 * `parent` - Parent entry name.

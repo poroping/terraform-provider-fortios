@@ -35,9 +35,11 @@ resource "fortios_system_interface" "example" {
 * `allowaccess` - Permitted types of management access to this interface. Valid values: `ping` `https` `ssh` `snmp` `http` `telnet` `fgfm` `radius-acct` `probe-response` `fabric` `ftm` `speed-test` .
 * `ap_discover` - Enable/disable automatic registration of unknown FortiAP devices. Valid values: `enable` `disable` .
 * `arpforward` - Enable/disable ARP forwarding. Valid values: `enable` `disable` .
+* `auth_cert` - HTTPS server certificate. This attribute must reference one of the following datasources: `vpn.certificate.local.name` .
+* `auth_portal_addr` - Address of captive portal.
 * `auth_type` - PPP authentication type to use. Valid values: `auto` `pap` `chap` `mschapv1` `mschapv2` .
 * `auto_auth_extension_device` - Enable/disable automatic authorization of dedicated Fortinet extension device on this interface. Valid values: `enable` `disable` .
-* `bandwidth_measure_time` - Bandwidth measure time 
+* `bandwidth_measure_time` - Bandwidth measure time.
 * `bfd` - Bidirectional Forwarding Detection (BFD) settings. Valid values: `global` `enable` `disable` .
 * `bfd_desired_min_tx` - BFD desired minimal transmit interval.
 * `bfd_detect_mult` - BFD detection multiplier.
@@ -61,6 +63,7 @@ resource "fortios_system_interface" "example" {
 * `dhcp_relay_interface` - Specify outgoing interface to reach server. This attribute must reference one of the following datasources: `system.interface.name` .
 * `dhcp_relay_interface_select_method` - Specify how to select outgoing interface to reach server. Valid values: `auto` `sdwan` `specify` .
 * `dhcp_relay_ip` - DHCP relay IP address.
+* `dhcp_relay_link_selection` - DHCP relay link selection.
 * `dhcp_relay_request_all_server` - Enable/disable sending of DHCP requests to all servers. Valid values: `disable` `enable` .
 * `dhcp_relay_service` - Enable/disable allowing this interface to act as a DHCP relay. Valid values: `disable` `enable` .
 * `dhcp_relay_type` - DHCP relay type (regular or IPsec). Valid values: `regular` `ipsec` .
@@ -69,6 +72,7 @@ resource "fortios_system_interface" "example" {
 * `disconnect_threshold` - Time in milliseconds to wait before sending a notification that this interface is down or disconnected.
 * `distance` - Distance for routes learned through PPPoE or DHCP, lower distance indicates preferred route.
 * `dns_server_override` - Enable/disable use DNS acquired by DHCP or PPPoE. Valid values: `enable` `disable` .
+* `dns_server_protocol` - DNS transport protocols. Valid values: `cleartext` `dot` `doh` .
 * `drop_fragment` - Enable/disable drop fragment packets. Valid values: `enable` `disable` .
 * `drop_overlapped_fragment` - Enable/disable drop overlapped fragment packets. Valid values: `enable` `disable` .
 * `egress_cos` - Override outgoing CoS in user VLAN tag. Valid values: `disable` `cos0` `cos1` `cos2` `cos3` `cos4` `cos5` `cos6` `cos7` .
@@ -79,12 +83,12 @@ resource "fortios_system_interface" "example" {
 * `explicit_ftp_proxy` - Enable/disable the explicit FTP proxy on this interface. Valid values: `enable` `disable` .
 * `explicit_web_proxy` - Enable/disable the explicit web proxy on this interface. Valid values: `enable` `disable` .
 * `external` - Enable/disable identifying the interface as an external interface (which usually means it's connected to the Internet). Valid values: `enable` `disable` .
-* `fail_action_on_extender` - Action on extender when interface fail . Valid values: `soft-restart` `hard-restart` `reboot` .
+* `fail_action_on_extender` - Action on FortiExtender when interface fail. Valid values: `soft-restart` `hard-restart` `reboot` .
 * `fail_alert_method` - Select link-failed-signal or link-down method to alert about a failed link. Valid values: `link-failed-signal` `link-down` .
 * `fail_detect` - Enable/disable fail detection features for this interface. Valid values: `enable` `disable` .
 * `fail_detect_option` - Options for detecting that this interface has failed. Valid values: `detectserver` `link-down` .
 * `fortilink` - Enable FortiLink to dedicate this interface to manage other Fortinet devices. Valid values: `enable` `disable` .
-* `fortilink_backup_link` - fortilink split interface backup link.
+* `fortilink_backup_link` - FortiLink split interface backup link.
 * `fortilink_neighbor_detect` - Protocol for FortiGate neighbor discovery. Valid values: `lldp` `fortilink` .
 * `fortilink_split_interface` - Enable/disable FortiLink split interface to connect member link to different FortiSwitch in stack for uplink redundancy. Valid values: `enable` `disable` .
 * `fortilink_stacking` - Enable/disable FortiLink switch-stacking on this interface. Valid values: `enable` `disable` .
@@ -119,8 +123,8 @@ resource "fortios_system_interface" "example" {
 * `macaddr` - Change the interface's MAC address.
 * `managed_subnetwork_size` - Number of IP addresses to be allocated by FortiIPAM and used by this FortiGate unit's DHCP server settings. Valid values: `32` `64` `128` `256` `512` `1024` `2048` `4096` `8192` `16384` `32768` `65536` .
 * `management_ip` - High Availability in-band management IP address of this interface.
-* `measured_downstream_bandwidth` - Measured downstream bandwidth (kbps). 
-* `measured_upstream_bandwidth` - Measured upstream bandwidth (kbps). 
+* `measured_downstream_bandwidth` - Measured downstream bandwidth (kbps).
+* `measured_upstream_bandwidth` - Measured upstream bandwidth (kbps).
 * `mediatype` - Select SFP media interface type Valid values: `serdes-sfp` `sgmii-sfp` `serdes-copper-sfp` .
 * `min_links` - Minimum number of aggregated ports that must be up.
 * `min_links_down` - Action to take when less than the configured minimum number of links are active. Valid values: `operational` `administrative` .
@@ -136,7 +140,7 @@ resource "fortios_system_interface" "example" {
 * `padt_retry_timeout` - PPPoE Active Discovery Terminate (PADT) used to terminate sessions after an idle time.
 * `password` - PPPoE account's password.
 * `ping_serv_status` - PING server status.
-* `polling_interval` - sFlow polling interval (1 - 255 sec).
+* `polling_interval` - sFlow polling interval in seconds (1 - 255).
 * `pppoe_unnumbered_negotiate` - Enable/disable PPPoE unnumbered negotiation. Valid values: `enable` `disable` .
 * `pptp_auth_type` - PPTP authentication type. Valid values: `auto` `pap` `chap` `mschapv1` `mschapv2` .
 * `pptp_client` - Enable/disable PPTP client. Valid values: `enable` `disable` .
@@ -148,6 +152,7 @@ resource "fortios_system_interface" "example" {
 * `priority` - Priority of learned routes.
 * `priority_override` - Enable/disable fail back to higher priority port once recovered. Valid values: `enable` `disable` .
 * `proxy_captive_portal` - Enable/disable proxy captive portal on this interface. Valid values: `enable` `disable` .
+* `reachable_time` - IPv4 reachable time in milliseconds (30000 - 3600000, default = 30000).
 * `redundant_interface` - Redundant interface.
 * `remote_ip` - Remote IP address of tunnel.
 * `replacemsg_override_group` - Replacement message override group.
@@ -166,7 +171,7 @@ resource "fortios_system_interface" "example" {
 * `service_name` - PPPoE service name.
 * `sflow_sampler` - Enable/disable sFlow on this interface. Valid values: `enable` `disable` .
 * `snmp_index` - Permanent SNMP Index of the interface.
-* `speed` - Interface speed. The default setting and the options available depend on the interface hardware. Valid values: `auto` `10full` `10half` `100full` `100half` `1000full` `1000half` `1000auto` .
+* `speed` - Interface speed. The default setting and the options available depend on the interface hardware. Valid values: `auto` `10full` `10half` `100full` `100half` `1000full` `1000auto` .
 * `spillover_threshold` - Egress Spillover threshold (0 - 16776000 kbps), 0 means unlimited.
 * `src_check` - Enable/disable source IP check. Valid values: `enable` `disable` .
 * `status` - Bring the interface up or shut the interface down. Valid values: `up` `down` .
@@ -264,7 +269,7 @@ The `ipv6` block contains:
 * `dhcp6_relay_type` - DHCPv6 relay type. Valid values: `regular` .
 * `icmp6_send_redirect` - Enable/disable sending of ICMPv6 redirects. Valid values: `enable` `disable` .
 * `interface_identifier` - IPv6 interface identifier.
-* `ip6_address` - Primary IPv6 address prefix, syntax: xxxx:xxxx:xxxx:xxxx:xxxx:xxxx:xxxx:xxxx/xxx
+* `ip6_address` - Primary IPv6 address prefix. Syntax: xxxx:xxxx:xxxx:xxxx:xxxx:xxxx:xxxx:xxxx/xxx.
 * `ip6_allowaccess` - Allow management access to the interface. Valid values: `ping` `https` `ssh` `snmp` `http` `telnet` `fgfm` `fabric` .
 * `ip6_default_life` - Default life (sec).
 * `ip6_delegated_prefix_iaid` - IAID of obtained delegated-prefix from the upstream interface.
@@ -280,7 +285,7 @@ The `ipv6` block contains:
 * `ip6_reachable_time` - IPv6 reachable time (milliseconds; 0 means unspecified).
 * `ip6_retrans_time` - IPv6 retransmit time (milliseconds; 0 means unspecified).
 * `ip6_send_adv` - Enable/disable sending advertisements about the interface. Valid values: `enable` `disable` .
-* `ip6_subnet` -  Subnet to routing prefix, syntax: xxxx:xxxx:xxxx:xxxx:xxxx:xxxx:xxxx:xxxx/xxx
+* `ip6_subnet` - Subnet to routing prefix. Syntax: xxxx:xxxx:xxxx:xxxx:xxxx:xxxx:xxxx:xxxx/xxx.
 * `ip6_upstream_interface` - Interface name providing delegated information. This attribute must reference one of the following datasources: `system.interface.name` .
 * `nd_cert` - Neighbor discovery certificate. This attribute must reference one of the following datasources: `certificate.local.name` .
 * `nd_cga_modifier` - Neighbor discovery CGA modifier.
@@ -292,7 +297,7 @@ The `ipv6` block contains:
 * `unique_autoconf_addr` - Enable/disable unique auto config address. Valid values: `enable` `disable` .
 * `vrip6_link_local` - Link-local IPv6 address of virtual router.
 * `vrrp_virtual_mac6` - Enable/disable virtual MAC for VRRP. Valid values: `enable` `disable` .
-* `dhcp6_iapd_list` - DHCPv6 IA-PD list The structure of `dhcp6_iapd_list` block is documented below.
+* `dhcp6_iapd_list` - DHCPv6 IA-PD list. The structure of `dhcp6_iapd_list` block is documented below.
 
 The `dhcp6_iapd_list` block contains:
 
@@ -310,7 +315,7 @@ The `ip6_delegated_prefix_list` block contains:
 * `prefix_id` - Prefix ID.
 * `rdnss` - Recursive DNS server option.
 * `rdnss_service` - Recursive DNS service option. Valid values: `delegated` `default` `specify` .
-* `subnet` -  Add subnet ID to routing prefix.
+* `subnet` - Add subnet ID to routing prefix.
 * `upstream_interface` - Name of the interface that provides delegated information. This attribute must reference one of the following datasources: `system.interface.name` .
 * `ip6_extra_addr` - Extra IPv6 address prefixes of interface. The structure of `ip6_extra_addr` block is documented below.
 

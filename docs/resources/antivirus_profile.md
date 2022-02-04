@@ -41,7 +41,7 @@ Configure AntiVirus profiles.
 * `name` - Profile name.
 * `outbreak_prevention_archive_scan` - Enable/disable outbreak-prevention archive scanning. Valid values: `disable` `enable` .
 * `replacemsg_group` - Replacement message group customized for this profile. This attribute must reference one of the following datasources: `system.replacemsg-group.name` .
-* `scan_mode` - Choose between default scan mode and legacy scan mode.  Valid values: `default` `legacy` .
+* `scan_mode` - Configure scan mode (default or legacy). Valid values: `default` `legacy` .
 * `cifs` - Configure CIFS AntiVirus options. The structure of `cifs` block is documented below.
 
 The `cifs` block contains:
@@ -51,7 +51,7 @@ The `cifs` block contains:
 * `av_scan` - Enable AntiVirus scan service. Valid values: `disable` `block` `monitor` .
 * `emulator` - Enable/disable the virus emulator. Valid values: `enable` `disable` .
 * `external_blocklist` - Enable external-blocklist. Analyzes files including the content of archives. Valid values: `disable` `block` `monitor` .
-* `fortiai` - Enable/disable scanning of files by FortiAI server. Valid values: `disable` `block` `monitor` .
+* `fortiai` - Enable/disable scanning of files by FortiAI. Valid values: `disable` `block` `monitor` .
 * `options` - Enable/disable CIFS AntiVirus scanning, monitoring, and quarantine. Valid values: `scan` `avmonitor` `quarantine` .
 * `outbreak_prevention` - Enable virus outbreak prevention service. Valid values: `disable` `block` `monitor` .
 * `quarantine` - Enable/disable quarantine for infected files. Valid values: `disable` `enable` .
@@ -92,7 +92,7 @@ The `ftp` block contains:
 * `av_scan` - Enable AntiVirus scan service. Valid values: `disable` `block` `monitor` .
 * `emulator` - Enable/disable the virus emulator. Valid values: `enable` `disable` .
 * `external_blocklist` - Enable external-blocklist. Analyzes files including the content of archives. Valid values: `disable` `block` `monitor` .
-* `fortiai` - Enable/disable scanning of files by FortiAI server. Valid values: `disable` `block` `monitor` .
+* `fortiai` - Enable/disable scanning of files by FortiAI. Valid values: `disable` `block` `monitor` .
 * `options` - Enable/disable FTP AntiVirus scanning, monitoring, and quarantine. Valid values: `scan` `avmonitor` `quarantine` .
 * `outbreak_prevention` - Enable virus outbreak prevention service. Valid values: `disable` `block` `monitor` .
 * `quarantine` - Enable/disable quarantine for infected files. Valid values: `disable` `enable` .
@@ -106,7 +106,7 @@ The `http` block contains:
 * `content_disarm` - Enable/disable Content Disarm and Reconstruction when performing AntiVirus scan. Valid values: `disable` `enable` .
 * `emulator` - Enable/disable the virus emulator. Valid values: `enable` `disable` .
 * `external_blocklist` - Enable external-blocklist. Analyzes files including the content of archives. Valid values: `disable` `block` `monitor` .
-* `fortiai` - Enable/disable scanning of files by FortiAI server. Valid values: `disable` `block` `monitor` .
+* `fortiai` - Enable/disable scanning of files by FortiAI. Valid values: `disable` `block` `monitor` .
 * `options` - Enable/disable HTTP AntiVirus scanning, monitoring, and quarantine. Valid values: `scan` `avmonitor` `quarantine` .
 * `outbreak_prevention` - Enable virus outbreak prevention service. Valid values: `disable` `block` `monitor` .
 * `quarantine` - Enable/disable quarantine for infected files. Valid values: `disable` `enable` .
@@ -121,7 +121,7 @@ The `imap` block contains:
 * `emulator` - Enable/disable the virus emulator. Valid values: `enable` `disable` .
 * `executables` - Treat Windows executable files as viruses for the purpose of blocking or monitoring. Valid values: `default` `virus` .
 * `external_blocklist` - Enable external-blocklist. Analyzes files including the content of archives. Valid values: `disable` `block` `monitor` .
-* `fortiai` - Enable/disable scanning of files by FortiAI server. Valid values: `disable` `block` `monitor` .
+* `fortiai` - Enable/disable scanning of files by FortiAI. Valid values: `disable` `block` `monitor` .
 * `options` - Enable/disable IMAP AntiVirus scanning, monitoring, and quarantine. Valid values: `scan` `avmonitor` `quarantine` .
 * `outbreak_prevention` - Enable virus outbreak prevention service. Valid values: `disable` `block` `monitor` .
 * `quarantine` - Enable/disable quarantine for infected files. Valid values: `disable` `enable` .
@@ -135,7 +135,7 @@ The `mapi` block contains:
 * `emulator` - Enable/disable the virus emulator. Valid values: `enable` `disable` .
 * `executables` - Treat Windows executable files as viruses for the purpose of blocking or monitoring. Valid values: `default` `virus` .
 * `external_blocklist` - Enable external-blocklist. Analyzes files including the content of archives. Valid values: `disable` `block` `monitor` .
-* `fortiai` - Enable/disable scanning of files by FortiAI server. Valid values: `disable` `block` `monitor` .
+* `fortiai` - Enable/disable scanning of files by FortiAI. Valid values: `disable` `block` `monitor` .
 * `options` - Enable/disable MAPI AntiVirus scanning, monitoring, and quarantine. Valid values: `scan` `avmonitor` `quarantine` .
 * `outbreak_prevention` - Enable virus outbreak prevention service. Valid values: `disable` `block` `monitor` .
 * `quarantine` - Enable/disable quarantine for infected files. Valid values: `disable` `enable` .
@@ -155,7 +155,7 @@ The `nntp` block contains:
 * `av_scan` - Enable AntiVirus scan service. Valid values: `disable` `block` `monitor` .
 * `emulator` - Enable/disable the virus emulator. Valid values: `enable` `disable` .
 * `external_blocklist` - Enable external-blocklist. Analyzes files including the content of archives. Valid values: `disable` `block` `monitor` .
-* `fortiai` - Enable/disable scanning of files by FortiAI server. Valid values: `disable` `block` `monitor` .
+* `fortiai` - Enable/disable scanning of files by FortiAI. Valid values: `disable` `block` `monitor` .
 * `options` - Enable/disable NNTP AntiVirus scanning, monitoring, and quarantine. Valid values: `scan` `avmonitor` `quarantine` .
 * `outbreak_prevention` - Enable virus outbreak prevention service. Valid values: `disable` `block` `monitor` .
 * `quarantine` - Enable/disable quarantine for infected files. Valid values: `disable` `enable` .
@@ -176,7 +176,7 @@ The `pop3` block contains:
 * `emulator` - Enable/disable the virus emulator. Valid values: `enable` `disable` .
 * `executables` - Treat Windows executable files as viruses for the purpose of blocking or monitoring. Valid values: `default` `virus` .
 * `external_blocklist` - Enable external-blocklist. Analyzes files including the content of archives. Valid values: `disable` `block` `monitor` .
-* `fortiai` - Enable/disable scanning of files by FortiAI server. Valid values: `disable` `block` `monitor` .
+* `fortiai` - Enable/disable scanning of files by FortiAI. Valid values: `disable` `block` `monitor` .
 * `options` - Enable/disable POP3 AntiVirus scanning, monitoring, and quarantine. Valid values: `scan` `avmonitor` `quarantine` .
 * `outbreak_prevention` - Enable virus outbreak prevention service. Valid values: `disable` `block` `monitor` .
 * `quarantine` - Enable/disable quarantine for infected files. Valid values: `disable` `enable` .
@@ -191,7 +191,7 @@ The `smtp` block contains:
 * `emulator` - Enable/disable the virus emulator. Valid values: `enable` `disable` .
 * `executables` - Treat Windows executable files as viruses for the purpose of blocking or monitoring. Valid values: `default` `virus` .
 * `external_blocklist` - Enable external-blocklist. Analyzes files including the content of archives. Valid values: `disable` `block` `monitor` .
-* `fortiai` - Enable/disable scanning of files by FortiAI server. Valid values: `disable` `block` `monitor` .
+* `fortiai` - Enable/disable scanning of files by FortiAI. Valid values: `disable` `block` `monitor` .
 * `options` - Enable/disable SMTP AntiVirus scanning, monitoring, and quarantine. Valid values: `scan` `avmonitor` `quarantine` .
 * `outbreak_prevention` - Enable virus outbreak prevention service. Valid values: `disable` `block` `monitor` .
 * `quarantine` - Enable/disable quarantine for infected files. Valid values: `disable` `enable` .
@@ -204,7 +204,7 @@ The `ssh` block contains:
 * `av_scan` - Enable AntiVirus scan service. Valid values: `disable` `block` `monitor` .
 * `emulator` - Enable/disable the virus emulator. Valid values: `enable` `disable` .
 * `external_blocklist` - Enable external-blocklist. Analyzes files including the content of archives. Valid values: `disable` `block` `monitor` .
-* `fortiai` - Enable/disable scanning of files by FortiAI server. Valid values: `disable` `block` `monitor` .
+* `fortiai` - Enable/disable scanning of files by FortiAI. Valid values: `disable` `block` `monitor` .
 * `options` - Enable/disable SFTP and SCP AntiVirus scanning, monitoring, and quarantine. Valid values: `scan` `avmonitor` `quarantine` .
 * `outbreak_prevention` - Enable virus outbreak prevention service. Valid values: `disable` `block` `monitor` .
 * `quarantine` - Enable/disable quarantine for infected files. Valid values: `disable` `enable` .

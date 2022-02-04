@@ -24,15 +24,15 @@ Use this data source to get information on a fortios Configure DNS servers for a
 
 The following attributes are exported:
 
-* `alt_primary` - Alternate primary DNS server. (This is not used as a failover DNS server.)
-* `alt_secondary` - Alternate secondary DNS server. (This is not used as a failover DNS server.)
+* `alt_primary` - Alternate primary DNS server. This is not used as a failover DNS server.
+* `alt_secondary` - Alternate secondary DNS server. This is not used as a failover DNS server.
 * `dns_over_tls` - Enable/disable/enforce DNS over TLS.
 * `interface` - Specify outgoing interface to reach server.
 * `interface_select_method` - Specify how to select outgoing interface to reach server.
 * `ip6_primary` - Primary IPv6 DNS server IP address for the VDOM.
 * `ip6_secondary` - Secondary IPv6 DNS server IP address for the VDOM.
 * `primary` - Primary DNS server IP address for the VDOM.
-* `protocol` - DNS protocols.
+* `protocol` - DNS transport protocols.
 * `secondary` - Secondary DNS server IP address for the VDOM.
 * `server_select_method` - Specify how configured servers are prioritized.
 * `source_ip` - Source IP for communications with the DNS server.

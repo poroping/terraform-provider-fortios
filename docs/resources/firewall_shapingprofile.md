@@ -31,11 +31,11 @@ The `shaping_entries` block contains:
 * `burst_in_msec` - Number of bytes that can be burst at maximum-bandwidth speed. Formula: burst = maximum-bandwidth*burst-in-msec.
 * `cburst_in_msec` - Number of bytes that can be burst as fast as the interface can transmit. Formula: cburst = maximum-bandwidth*cburst-in-msec.
 * `class_id` - Class ID. This attribute must reference one of the following datasources: `firewall.traffic-class.class-id` .
-* `guaranteed_bandwidth_percentage` - Guaranteed bandwith in percentage.
+* `guaranteed_bandwidth_percentage` - Guaranteed bandwidth in percentage.
 * `id` - ID number.
 * `limit` - Hard limit on the real queue size in packets.
 * `max` - Average queue size in packets at which RED drop probability is maximal.
-* `maximum_bandwidth_percentage` - Maximum bandwith in percentage.
+* `maximum_bandwidth_percentage` - Maximum bandwidth in percentage.
 * `min` - Average queue size in packets at which RED drop becomes a possibility.
 * `priority` - Priority. Valid values: `top` `critical` `high` `medium` `low` .
 * `red_probability` - Maximum probability (in percentage) for RED marking.

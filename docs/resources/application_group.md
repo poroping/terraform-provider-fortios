@@ -21,7 +21,7 @@ Configure firewall application groups.
 * `dynamic_sort_table` - `true` or `false`, set this parameter to `true` when using dynamic for_each + toset to configure and sort sub-tables, if set to `true` static sub-tables must be ordered.
 
 * `behavior` - Application behavior filter.
-* `comment` - Comment
+* `comment` - Comments.
 * `name` - Application group name.
 * `popularity` - Application popularity filter (1 - 5, from least to most popular). Valid values: `1` `2` `3` `4` `5` .
 * `protocols` - Application protocol filter.

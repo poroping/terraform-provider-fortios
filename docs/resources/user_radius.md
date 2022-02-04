@@ -36,7 +36,7 @@ Configure RADIUS server entries.
 * `radius_port` - RADIUS service port number.
 * `rsso` - Enable/disable RADIUS based single sign on feature. Valid values: `enable` `disable` .
 * `rsso_context_timeout` - Time in seconds before the logged out user is removed from the "user context list" of logged on users.
-* `rsso_endpoint_attribute` - RADIUS attributes used to extract the user end point identifer from the RADIUS Start record. Valid values: `User-Name` `NAS-IP-Address` `Framed-IP-Address` `Framed-IP-Netmask` `Filter-Id` `Login-IP-Host` `Reply-Message` `Callback-Number` `Callback-Id` `Framed-Route` `Framed-IPX-Network` `Class` `Called-Station-Id` `Calling-Station-Id` `NAS-Identifier` `Proxy-State` `Login-LAT-Service` `Login-LAT-Node` `Login-LAT-Group` `Framed-AppleTalk-Zone` `Acct-Session-Id` `Acct-Multi-Session-Id` .
+* `rsso_endpoint_attribute` - RADIUS attributes used to extract the user end point identifier from the RADIUS Start record. Valid values: `User-Name` `NAS-IP-Address` `Framed-IP-Address` `Framed-IP-Netmask` `Filter-Id` `Login-IP-Host` `Reply-Message` `Callback-Number` `Callback-Id` `Framed-Route` `Framed-IPX-Network` `Class` `Called-Station-Id` `Calling-Station-Id` `NAS-Identifier` `Proxy-State` `Login-LAT-Service` `Login-LAT-Node` `Login-LAT-Group` `Framed-AppleTalk-Zone` `Acct-Session-Id` `Acct-Multi-Session-Id` .
 * `rsso_endpoint_block_attribute` - RADIUS attributes used to block a user. Valid values: `User-Name` `NAS-IP-Address` `Framed-IP-Address` `Framed-IP-Netmask` `Filter-Id` `Login-IP-Host` `Reply-Message` `Callback-Number` `Callback-Id` `Framed-Route` `Framed-IPX-Network` `Class` `Called-Station-Id` `Calling-Station-Id` `NAS-Identifier` `Proxy-State` `Login-LAT-Service` `Login-LAT-Node` `Login-LAT-Group` `Framed-AppleTalk-Zone` `Acct-Session-Id` `Acct-Multi-Session-Id` .
 * `rsso_ep_one_ip_only` - Enable/disable the replacement of old IP addresses with new ones for the same endpoint on RADIUS accounting Start messages. Valid values: `enable` `disable` .
 * `rsso_flush_ip_session` - Enable/disable flushing user IP sessions on RADIUS accounting Stop messages. Valid values: `enable` `disable` .
@@ -47,7 +47,7 @@ Configure RADIUS server entries.
 * `rsso_secret` - RADIUS secret used by the RADIUS accounting server.
 * `rsso_validate_request_secret` - Enable/disable validating the RADIUS request shared secret in the Start or End record. Valid values: `enable` `disable` .
 * `secondary_secret` - Secret key to access the secondary server.
-* `secondary_server` - {<name_str|ip_str>} secondary RADIUS CN domain name or IP.
+* `secondary_server` - Secondary RADIUS CN domain name or IP address.
 * `secret` - Pre-shared secret key used to access the primary RADIUS server.
 * `server` - Primary RADIUS server CN domain name or IP address.
 * `source_ip` - Source IP address for communications to the RADIUS server.
@@ -57,7 +57,7 @@ Configure RADIUS server entries.
 * `switch_controller_acct_fast_framedip_detect` - Switch controller accounting message Framed-IP detection from DHCP snooping (seconds, default=2).
 * `switch_controller_service_type` - RADIUS service type. Valid values: `login` `framed` `callback-login` `callback-framed` `outbound` `administrative` `nas-prompt` `authenticate-only` `callback-nas-prompt` `call-check` `callback-administrative` .
 * `tertiary_secret` - Secret key to access the tertiary server.
-* `tertiary_server` - {<name_str|ip_str>} tertiary RADIUS CN domain name or IP.
+* `tertiary_server` - Tertiary RADIUS CN domain name or IP address.
 * `timeout` - Time in seconds between re-sending authentication requests.
 * `use_management_vdom` - Enable/disable using management VDOM to send requests. Valid values: `enable` `disable` .
 * `username_case_sensitive` - Enable/disable case sensitive user names. Valid values: `enable` `disable` .
@@ -70,7 +70,7 @@ The `accounting_server` block contains:
 * `interface_select_method` - Specify how to select outgoing interface to reach server. Valid values: `auto` `sdwan` `specify` .
 * `port` - RADIUS accounting port number.
 * `secret` - Secret key.
-* `server` - {<name_str|ip_str>} Server CN domain name or IP.
+* `server` - Server CN domain name or IP address.
 * `source_ip` - Source IP address for communications to the RADIUS server.
 * `status` - Status. Valid values: `enable` `disable` .
 * `class` - Class attribute name(s). The structure of `class` block is documented below.

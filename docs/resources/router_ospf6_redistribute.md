@@ -31,7 +31,7 @@ resource "fortios_router_ospf6_redistribute" "example" {
 * `metric_type` - Metric type. Valid values: `1` `2` .
 * `name` - Redistribute name.
 * `routemap` - Route map name. This attribute must reference one of the following datasources: `router.route-map.name` .
-* `status` - status Valid values: `enable` `disable` .
+* `status` - Status. Valid values: `enable` `disable` .
 
 ## Attribute Reference
 

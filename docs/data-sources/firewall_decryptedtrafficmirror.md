@@ -29,7 +29,7 @@ The following attributes are exported:
 * `name` - Name.
 * `traffic_source` - Source of decrypted traffic to be mirrored.
 * `traffic_type` - Types of decrypted traffic to be mirrored.
-* `interface` - Decrypted traffic mirror interfaceThe structure of `interface` block is documented below.
+* `interface` - Decrypted traffic mirror interface.The structure of `interface` block is documented below.
 
 The `interface` block contains:
 

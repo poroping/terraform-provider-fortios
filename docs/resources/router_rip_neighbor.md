@@ -3,11 +3,11 @@ subcategory: "FortiGate Router"
 layout: "fortios"
 page_title: "FortiOS: fortios_router_rip_neighbor"
 description: |-
-  neighbor
+  Neighbor.
 ---
 
 ## fortios_router_rip_neighbor
-neighbor
+Neighbor.
 
 ~> This resource is configuring a child table of the parent resource: `fortios_router_rip`. If this resource is used the parent resource must NOT modify this child table or state inconsistencies will occur.
 

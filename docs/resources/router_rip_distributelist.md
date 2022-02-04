@@ -26,7 +26,7 @@ Distribute list.
 * `id` - Distribute list ID.
 * `interface` - Distribute list interface name. This attribute must reference one of the following datasources: `system.interface.name` .
 * `listname` - Distribute access/prefix list name. This attribute must reference one of the following datasources: `router.access-list.name` `router.prefix-list.name` .
-* `status` - status Valid values: `enable` `disable` .
+* `status` - Status. Valid values: `enable` `disable` .
 
 ## Attribute Reference
 

@@ -23,6 +23,7 @@ Configure proxy policies.
 * `action` - Accept or deny traffic matching the policy parameters. Valid values: `accept` `deny` `redirect` .
 * `application_list` - Name of an existing Application list. This attribute must reference one of the following datasources: `application.list.name` .
 * `av_profile` - Name of an existing Antivirus profile. This attribute must reference one of the following datasources: `antivirus.profile.name` .
+* `block_notification` - Enable/disable block notification. Valid values: `enable` `disable` .
 * `cifs_profile` - Name of an existing CIFS profile. This attribute must reference one of the following datasources: `cifs.profile.name` .
 * `comments` - Optional comments.
 * `decrypted_traffic_mirror` - Decrypted traffic mirror. This attribute must reference one of the following datasources: `firewall.decrypted-traffic-mirror.name` .

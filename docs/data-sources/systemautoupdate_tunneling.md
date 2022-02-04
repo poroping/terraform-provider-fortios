@@ -3,11 +3,11 @@ subcategory: "FortiGate System"
 layout: "fortios"
 page_title: "FortiOS: fortios_systemautoupdate_tunneling"
 description: |-
-  Get information on a fortios Configure web proxy tunnelling for the FDN.
+  Get information on a fortios Configure web proxy tunneling for the FDN.
 ---
 
 # Data Source: fortios_systemautoupdate_tunneling
-Use this data source to get information on a fortios Configure web proxy tunnelling for the FDN.
+Use this data source to get information on a fortios Configure web proxy tunneling for the FDN.
 
 
 ## Example Usage
@@ -27,5 +27,5 @@ The following attributes are exported:
 * `address` - Web proxy IP address or FQDN.
 * `password` - Web proxy password.
 * `port` - Web proxy port.
-* `status` - Enable/disable web proxy tunnelling.
+* `status` - Enable/disable web proxy tunneling.
 * `username` - Web proxy username.

@@ -29,6 +29,7 @@ The following attributes are exported:
 * `default_virtual_switch_vlan` - Default VLAN for ports when added to the virtual-switch.
 * `dhcp_server_access_list` - Enable/disable DHCP snooping server access list.
 * `fips_enforce` - Enable/disable enforcement of FIPS on managed FortiSwitch devices.
+* `firmware_provision_on_authorization` - Enable/disable automatic provisioning of latest firmware on authorization.
 * `https_image_push` - Enable/disable image push to FortiSwitch using HTTPS.
 * `log_mac_limit_violations` - Enable/disable logs for Learning Limit Violations.
 * `mac_aging_interval` - Time after which an inactive MAC is aged out (10 - 1000000 sec, default = 300, 0 = disable).

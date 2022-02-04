@@ -52,7 +52,7 @@ The `rule` block contains:
 * `set_dampening_reachability_half_life` - Reachability half-life time for the penalty (1 - 45 min, 0 = unset).
 * `set_dampening_reuse` - Value to start reusing a route (1 - 20000, 0 = unset).
 * `set_dampening_suppress` - Value to start suppressing a route (1 - 20000, 0 = unset).
-* `set_dampening_unreachability_half_life` - Unreachability Half-life time for the penalty (1 - 45 min, 0 = unset)
+* `set_dampening_unreachability_half_life` - Unreachability Half-life time for the penalty (1 - 45 min, 0 = unset).
 * `set_flags` - BGP flags value (0 - 65535)
 * `set_ip_nexthop` - IP address of next hop.
 * `set_ip6_nexthop` - IPv6 global address of next hop.
@@ -69,8 +69,7 @@ The `rule` block contains:
 
 The `set_aspath` block contains:
 
-* `as` - AS number (0 - 4294967295). NOTE: Use quotes for repeating numbers, e.g.: "1 1 2"
-
+* `as` - AS number (0 - 4294967295). Use quotes for repeating numbers, For example, "1 1 2".
 * `set_community` - BGP community attribute. The structure of `set_community` block is documented below.
 
 The `set_community` block contains:
@@ -85,7 +84,7 @@ The `set_extcommunity_rt` block contains:
 
 The `set_extcommunity_soo` block contains:
 
-* `community` - AA:NN
+* `community` - Community (format = AA:NN).
 
 ## Attribute Reference
 

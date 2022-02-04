@@ -31,16 +31,17 @@ The `policy` block contains:
 * `bounce_port_link` - Enable/disable bouncing (administratively bring the link down, up) of a switch port where this policy is applied. Helps to clear and reassign VLAN from lldp-profile. Valid values: `disable` `enable` .
 * `category` - Category of Dynamic port policy. Valid values: `device` `interface-tag` .
 * `description` - Description for the policy.
-* `family` - Policy matching family.
-* `host` - Policy matching host.
+* `family` - Match policy based on family.
+* `host` - Match policy based on host.
+* `hw_vendor` - Match policy based on hardware vendor.
 * `lldp_profile` - LLDP profile to be applied when using this policy. This attribute must reference one of the following datasources: `switch-controller.lldp-profile.name` .
-* `mac` - Policy matching MAC address.
+* `mac` - Match policy based on MAC address.
 * `name` - Policy name.
 * `qos_policy` - QoS policy to be applied when using this policy. This attribute must reference one of the following datasources: `switch-controller.qos.qos-policy.name` .
 * `status` - Enable/disable policy. Valid values: `enable` `disable` .
-* `type` - Policy matching type.
+* `type` - Match policy based on type.
 * `vlan_policy` - VLAN policy to be applied when using this policy. This attribute must reference one of the following datasources: `switch-controller.vlan-policy.name` .
-* `interface_tags` - Policy matching the FortiSwitch interface object tags. The structure of `interface_tags` block is documented below.
+* `interface_tags` - Match policy based on the FortiSwitch interface object tags. The structure of `interface_tags` block is documented below.
 
 The `interface_tags` block contains:
 

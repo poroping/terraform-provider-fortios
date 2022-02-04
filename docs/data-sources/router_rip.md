@@ -32,7 +32,7 @@ The following attributes are exported:
 * `timeout_timer` - Timeout timer in seconds.
 * `update_timer` - Update timer in seconds.
 * `version` - RIP version.
-* `distance` - distanceThe structure of `distance` block is documented below.
+* `distance` - Distance.The structure of `distance` block is documented below.
 
 The `distance` block contains:
 
@@ -48,7 +48,7 @@ The `distribute_list` block contains:
 * `id` - Distribute list ID.
 * `interface` - Distribute list interface name.
 * `listname` - Distribute access/prefix list name.
-* `status` - status
+* `status` - Status.
 * `interface` - RIP interface configuration.The structure of `interface` block is documented below.
 
 The `interface` block contains:
@@ -56,20 +56,20 @@ The `interface` block contains:
 * `auth_keychain` - Authentication key-chain name.
 * `auth_mode` - Authentication mode.
 * `auth_string` - Authentication string/password.
-* `flags` - flags
+* `flags` - Flags.
 * `name` - Interface name.
 * `receive_version` - Receive version.
 * `send_version` - Send version.
 * `send_version2_broadcast` - Enable/disable broadcast version 1 compatible packets.
 * `split_horizon` - Enable/disable split horizon.
 * `split_horizon_status` - Enable/disable split horizon.
-* `neighbor` - neighborThe structure of `neighbor` block is documented below.
+* `neighbor` - Neighbor.The structure of `neighbor` block is documented below.
 
 The `neighbor` block contains:
 
 * `id` - Neighbor entry ID.
 * `ip` - IP address.
-* `network` - networkThe structure of `network` block is documented below.
+* `network` - Network.The structure of `network` block is documented below.
 
 The `network` block contains:
 
@@ -83,8 +83,8 @@ The `offset_list` block contains:
 * `direction` - Offset list direction.
 * `id` - Offset-list ID.
 * `interface` - Interface name.
-* `offset` - offset
-* `status` - status
+* `offset` - Offset.
+* `status` - Status.
 * `passive_interface` - Passive interface configuration.The structure of `passive_interface` block is documented below.
 
 The `passive_interface` block contains:
@@ -97,4 +97,4 @@ The `redistribute` block contains:
 * `metric` - Redistribute metric setting.
 * `name` - Redistribute name.
 * `routemap` - Route map name.
-* `status` - status
+* `status` - Status.

@@ -26,7 +26,7 @@ Use this data source to get information on a fortios Report layout configuration
 The following attributes are exported:
 
 * `cutoff_option` - Cutoff-option is either run-time or custom.
-* `cutoff_time` - Custom cutoff time to generate report [hh:mm].
+* `cutoff_time` - Custom cutoff time to generate report (format = hh:mm).
 * `day` - Schedule days of week to generate report.
 * `description` - Description.
 * `email_recipients` - Email recipients for generated reports.
@@ -38,7 +38,7 @@ The following attributes are exported:
 * `schedule_type` - Report schedule type.
 * `style_theme` - Report style theme.
 * `subtitle` - Report subtitle.
-* `time` - Schedule time to generate report [hh:mm].
+* `time` - Schedule time to generate report (format = hh:mm).
 * `title` - Report title.
 * `body_item` - Configure report body item.The structure of `body_item` block is documented below.
 

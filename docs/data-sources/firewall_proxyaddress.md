@@ -45,7 +45,7 @@ The following attributes are exported:
 
 The `category` block contains:
 
-* `id` - Fortiguard category id.
+* `id` - FortiGuard category ID.
 * `header_group` - HTTP header group.The structure of `header_group` block is documented below.
 
 The `header_group` block contains:

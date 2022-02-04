@@ -26,7 +26,7 @@ Use this data source to get information on a fortios Configure application contr
 The following attributes are exported:
 
 * `app_replacemsg` - Enable/disable replacement messages for blocked applications.
-* `comment` - comments
+* `comment` - Comments.
 * `control_default_network_services` - Enable/disable enforcement of protocols over selected ports.
 * `deep_app_inspection` - Enable/disable deep application inspection.
 * `enforce_default_app_port` - Enable/disable default application port enforcement for allowed applications.
@@ -37,7 +37,7 @@ The following attributes are exported:
 * `other_application_action` - Action for other applications.
 * `other_application_log` - Enable/disable logging for other applications.
 * `p2p_black_list` - P2P applications to be black listed.
-* `p2p_block_list` - P2P applications to be blocklisted.
+* `p2p_block_list` - P2P applications to be block listed.
 * `replacemsg_group` - Replacement message group.
 * `unknown_application_action` - Pass or block traffic from unknown applications.
 * `unknown_application_log` - Enable/disable logging for unknown applications.

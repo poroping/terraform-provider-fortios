@@ -24,4 +24,7 @@ Use this data source to get information on a fortios Configure FortiAI.
 
 The following attributes are exported:
 
+* `interface` - Specify outgoing interface to reach server.
+* `interface_select_method` - Specify how to select outgoing interface to reach server.
+* `source_ip` - Source IP address for communications to FortiAI.
 * `status` - Enable/disable FortiAI.

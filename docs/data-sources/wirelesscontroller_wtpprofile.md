@@ -26,12 +26,12 @@ Use this data source to get information on a fortios Configure WTP profiles or F
 The following attributes are exported:
 
 * `allowaccess` - Control management access to the managed WTP, FortiAP, or AP. Separate entries with a space.
-* `ap_country` - Country in which this WTP, FortiAP or AP will operate (default = NA, automatically use the country configured for the current VDOM).
+* `ap_country` - Country in which this WTP, FortiAP, or AP will operate (default = NA, automatically use the country configured for the current VDOM).
 * `ap_handoff` - Enable/disable AP handoff of clients to other APs (default = disable).
 * `apcfg_profile` - AP local configuration profile name.
 * `ble_profile` - Bluetooth Low Energy profile name.
 * `comment` - Comment.
-* `console_login` - Enable/disable FAP console login access (default = enable).
+* `console_login` - Enable/disable FortiAP console login access (default = enable).
 * `control_message_offload` - Enable/disable CAPWAP control message data channel offload.
 * `dtls_in_kernel` - Enable/disable data channel DTLS in kernel.
 * `dtls_policy` - WTP data channel DTLS policy (default = clear-text).
@@ -79,8 +79,8 @@ The `esl_ses_dongle` block contains:
 * `esl_channel` - ESL SES-imagotag dongle channel (default = 127).
 * `output_power` - ESL SES-imagotag dongle output power (default = A).
 * `scd_enable` - Enable/disable ESL SES-imagotag Serial Communication Daemon (SCD) (default = disable).
-* `tls_cert_verification` - Enable/disable TLS Certificate verification. (default = enable).
-* `tls_fqdn_verification` - Enable/disable TLS Certificate verification. (default = disable).
+* `tls_cert_verification` - Enable/disable TLS certificate verification (default = enable).
+* `tls_fqdn_verification` - Enable/disable TLS certificate verification (default = disable).
 * `lan` - WTP LAN port mapping.The structure of `lan` block is documented below.
 
 The `lan` block contains:
@@ -160,16 +160,17 @@ The `radio_1` block contains:
 * `ap_sniffer_mgmt_beacon` - Enable/disable sniffer on WiFi management Beacon frames (default = enable).
 * `ap_sniffer_mgmt_other` - Enable/disable sniffer on WiFi management other frames  (default = enable).
 * `ap_sniffer_mgmt_probe` - Enable/disable sniffer on WiFi management probe frames (default = enable).
+* `arrp_profile` - Distributed Automatic Radio Resource Provisioning (DARRP) profile name to assign to the radio.
 * `auto_power_high` - The upper bound of automatic transmit power adjustment in dBm (the actual range of transmit power depends on the AP platform type).
 * `auto_power_level` - Enable/disable automatic power-level adjustment to prevent co-channel interference (default = enable).
 * `auto_power_low` - The lower bound of automatic transmit power adjustment in dBm (the actual range of transmit power depends on the AP platform type).
-* `auto_power_target` - The target of automatic transmit power adjustment in dBm. (-95 to -20, default = -70).
+* `auto_power_target` - Target of automatic transmit power adjustment in dBm (-95 to -20, default = -70).
 * `band` - WiFi band that Radio 1 operates on.
 * `band_5g_type` - WiFi 5G band type.
 * `bandwidth_admission_control` - Enable/disable WiFi multimedia (WMM) bandwidth admission control to optimize WiFi bandwidth use. A request to join the wireless network is only allowed if the access point has enough bandwidth to support it.
 * `bandwidth_capacity` - Maximum bandwidth capacity allowed (1 - 600000 Kbps, default = 2000).
-* `beacon_interval` - Beacon interval. The time between beacon frames in msec (the actual range of beacon interval depends on the AP platform type, default = 100).
-* `bss_color` - BSS color value for this 11ax radio (0 - 63, 0 means disable. default = 0).
+* `beacon_interval` - Beacon interval. The time between beacon frames in milliseconds. Actual range of beacon interval depends on the AP platform type (default = 100).
+* `bss_color` - BSS color value for this 11ax radio (0 - 63, disable = 0, default = 0).
 * `bss_color_mode` - BSS color mode for this 11ax radio (default = auto).
 * `call_admission_control` - Enable/disable WiFi multimedia (WMM) call admission control to optimize WiFi bandwidth use for VoIP calls. New VoIP calls are only accepted if there is enough bandwidth available to support them.
 * `call_capacity` - Maximum number of Voice over WLAN (VoWLAN) phones supported by the radio (0 - 60, default = 10).
@@ -242,16 +243,17 @@ The `radio_2` block contains:
 * `ap_sniffer_mgmt_beacon` - Enable/disable sniffer on WiFi management Beacon frames (default = enable).
 * `ap_sniffer_mgmt_other` - Enable/disable sniffer on WiFi management other frames  (default = enable).
 * `ap_sniffer_mgmt_probe` - Enable/disable sniffer on WiFi management probe frames (default = enable).
+* `arrp_profile` - Distributed Automatic Radio Resource Provisioning (DARRP) profile name to assign to the radio.
 * `auto_power_high` - The upper bound of automatic transmit power adjustment in dBm (the actual range of transmit power depends on the AP platform type).
 * `auto_power_level` - Enable/disable automatic power-level adjustment to prevent co-channel interference (default = enable).
 * `auto_power_low` - The lower bound of automatic transmit power adjustment in dBm (the actual range of transmit power depends on the AP platform type).
-* `auto_power_target` - The target of automatic transmit power adjustment in dBm. (-95 to -20, default = -70).
+* `auto_power_target` - Target of automatic transmit power adjustment in dBm (-95 to -20, default = -70).
 * `band` - WiFi band that Radio 2 operates on.
 * `band_5g_type` - WiFi 5G band type.
 * `bandwidth_admission_control` - Enable/disable WiFi multimedia (WMM) bandwidth admission control to optimize WiFi bandwidth use. A request to join the wireless network is only allowed if the access point has enough bandwidth to support it.
 * `bandwidth_capacity` - Maximum bandwidth capacity allowed (1 - 600000 Kbps, default = 2000).
-* `beacon_interval` - Beacon interval. The time between beacon frames in msec (the actual range of beacon interval depends on the AP platform type, default = 100).
-* `bss_color` - BSS color value for this 11ax radio (0 - 63, 0 means disable. default = 0).
+* `beacon_interval` - Beacon interval. The time between beacon frames in milliseconds. Actual range of beacon interval depends on the AP platform type (default = 100).
+* `bss_color` - BSS color value for this 11ax radio (0 - 63, disable = 0, default = 0).
 * `bss_color_mode` - BSS color mode for this 11ax radio (default = auto).
 * `call_admission_control` - Enable/disable WiFi multimedia (WMM) call admission control to optimize WiFi bandwidth use for VoIP calls. New VoIP calls are only accepted if there is enough bandwidth available to support them.
 * `call_capacity` - Maximum number of Voice over WLAN (VoWLAN) phones supported by the radio (0 - 60, default = 10).
@@ -324,16 +326,17 @@ The `radio_3` block contains:
 * `ap_sniffer_mgmt_beacon` - Enable/disable sniffer on WiFi management Beacon frames (default = enable).
 * `ap_sniffer_mgmt_other` - Enable/disable sniffer on WiFi management other frames  (default = enable).
 * `ap_sniffer_mgmt_probe` - Enable/disable sniffer on WiFi management probe frames (default = enable).
+* `arrp_profile` - Distributed Automatic Radio Resource Provisioning (DARRP) profile name to assign to the radio.
 * `auto_power_high` - The upper bound of automatic transmit power adjustment in dBm (the actual range of transmit power depends on the AP platform type).
 * `auto_power_level` - Enable/disable automatic power-level adjustment to prevent co-channel interference (default = enable).
 * `auto_power_low` - The lower bound of automatic transmit power adjustment in dBm (the actual range of transmit power depends on the AP platform type).
-* `auto_power_target` - The target of automatic transmit power adjustment in dBm. (-95 to -20, default = -70).
+* `auto_power_target` - Target of automatic transmit power adjustment in dBm (-95 to -20, default = -70).
 * `band` - WiFi band that Radio 3 operates on.
 * `band_5g_type` - WiFi 5G band type.
 * `bandwidth_admission_control` - Enable/disable WiFi multimedia (WMM) bandwidth admission control to optimize WiFi bandwidth use. A request to join the wireless network is only allowed if the access point has enough bandwidth to support it.
 * `bandwidth_capacity` - Maximum bandwidth capacity allowed (1 - 600000 Kbps, default = 2000).
-* `beacon_interval` - Beacon interval. The time between beacon frames in msec (the actual range of beacon interval depends on the AP platform type, default = 100).
-* `bss_color` - BSS color value for this 11ax radio (0 - 63, 0 means disable. default = 0).
+* `beacon_interval` - Beacon interval. The time between beacon frames in milliseconds. Actual range of beacon interval depends on the AP platform type (default = 100).
+* `bss_color` - BSS color value for this 11ax radio (0 - 63, disable = 0, default = 0).
 * `bss_color_mode` - BSS color mode for this 11ax radio (default = auto).
 * `call_admission_control` - Enable/disable WiFi multimedia (WMM) call admission control to optimize WiFi bandwidth use for VoIP calls. New VoIP calls are only accepted if there is enough bandwidth available to support them.
 * `call_capacity` - Maximum number of Voice over WLAN (VoWLAN) phones supported by the radio (0 - 60, default = 10).
@@ -406,16 +409,17 @@ The `radio_4` block contains:
 * `ap_sniffer_mgmt_beacon` - Enable/disable sniffer on WiFi management Beacon frames (default = enable).
 * `ap_sniffer_mgmt_other` - Enable/disable sniffer on WiFi management other frames  (default = enable).
 * `ap_sniffer_mgmt_probe` - Enable/disable sniffer on WiFi management probe frames (default = enable).
+* `arrp_profile` - Distributed Automatic Radio Resource Provisioning (DARRP) profile name to assign to the radio.
 * `auto_power_high` - The upper bound of automatic transmit power adjustment in dBm (the actual range of transmit power depends on the AP platform type).
 * `auto_power_level` - Enable/disable automatic power-level adjustment to prevent co-channel interference (default = enable).
 * `auto_power_low` - The lower bound of automatic transmit power adjustment in dBm (the actual range of transmit power depends on the AP platform type).
-* `auto_power_target` - The target of automatic transmit power adjustment in dBm. (-95 to -20, default = -70).
+* `auto_power_target` - Target of automatic transmit power adjustment in dBm (-95 to -20, default = -70).
 * `band` - WiFi band that Radio 3 operates on.
 * `band_5g_type` - WiFi 5G band type.
 * `bandwidth_admission_control` - Enable/disable WiFi multimedia (WMM) bandwidth admission control to optimize WiFi bandwidth use. A request to join the wireless network is only allowed if the access point has enough bandwidth to support it.
 * `bandwidth_capacity` - Maximum bandwidth capacity allowed (1 - 600000 Kbps, default = 2000).
-* `beacon_interval` - Beacon interval. The time between beacon frames in msec (the actual range of beacon interval depends on the AP platform type, default = 100).
-* `bss_color` - BSS color value for this 11ax radio (0 - 63, 0 means disable. default = 0).
+* `beacon_interval` - Beacon interval. The time between beacon frames in milliseconds. Actual range of beacon interval depends on the AP platform type (default = 100).
+* `bss_color` - BSS color value for this 11ax radio (0 - 63, disable = 0, default = 0).
 * `bss_color_mode` - BSS color mode for this 11ax radio (default = auto).
 * `call_admission_control` - Enable/disable WiFi multimedia (WMM) call admission control to optimize WiFi bandwidth use for VoIP calls. New VoIP calls are only accepted if there is enough bandwidth available to support them.
 * `call_capacity` - Maximum number of Voice over WLAN (VoWLAN) phones supported by the radio (0 - 60, default = 10).

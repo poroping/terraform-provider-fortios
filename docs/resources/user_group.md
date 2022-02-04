@@ -27,7 +27,7 @@ resource "fortios_user_group" "example" {
 * `authtimeout` - Authentication timeout in minutes for this user group. 0 to use the global user setting auth-timeout.
 * `company` - Set the action for the company guest user field. Valid values: `optional` `mandatory` `disabled` .
 * `email` - Enable/disable the guest user email address field. Valid values: `disable` `enable` .
-* `expire` - Time in seconds before guest user accounts expire. (1 - 31536000 sec)
+* `expire` - Time in seconds before guest user accounts expire (1 - 31536000).
 * `expire_type` - Determine when the expiration countdown begins. Valid values: `immediately` `first-successful-login` .
 * `group_type` - Set the group to be for firewall authentication, FSSO, RSSO, or guest users. Valid values: `firewall` `fsso-service` `rsso` `guest` .
 * `http_digest_realm` - Realm attribute for MD5-digest authentication.

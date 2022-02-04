@@ -24,7 +24,7 @@ Configure decrypted traffic mirror.
 * `name` - Name.
 * `traffic_source` - Source of decrypted traffic to be mirrored. Valid values: `client` `server` `both` .
 * `traffic_type` - Types of decrypted traffic to be mirrored. Valid values: `ssl` `ssh` .
-* `interface` - Decrypted traffic mirror interface The structure of `interface` block is documented below.
+* `interface` - Decrypted traffic mirror interface. The structure of `interface` block is documented below.
 
 The `interface` block contains:
 

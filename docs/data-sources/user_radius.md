@@ -41,7 +41,7 @@ The following attributes are exported:
 * `radius_port` - RADIUS service port number.
 * `rsso` - Enable/disable RADIUS based single sign on feature.
 * `rsso_context_timeout` - Time in seconds before the logged out user is removed from the "user context list" of logged on users.
-* `rsso_endpoint_attribute` - RADIUS attributes used to extract the user end point identifer from the RADIUS Start record.
+* `rsso_endpoint_attribute` - RADIUS attributes used to extract the user end point identifier from the RADIUS Start record.
 * `rsso_endpoint_block_attribute` - RADIUS attributes used to block a user.
 * `rsso_ep_one_ip_only` - Enable/disable the replacement of old IP addresses with new ones for the same endpoint on RADIUS accounting Start messages.
 * `rsso_flush_ip_session` - Enable/disable flushing user IP sessions on RADIUS accounting Stop messages.
@@ -52,7 +52,7 @@ The following attributes are exported:
 * `rsso_secret` - RADIUS secret used by the RADIUS accounting server.
 * `rsso_validate_request_secret` - Enable/disable validating the RADIUS request shared secret in the Start or End record.
 * `secondary_secret` - Secret key to access the secondary server.
-* `secondary_server` - {<name_str|ip_str>} secondary RADIUS CN domain name or IP.
+* `secondary_server` - Secondary RADIUS CN domain name or IP address.
 * `secret` - Pre-shared secret key used to access the primary RADIUS server.
 * `server` - Primary RADIUS server CN domain name or IP address.
 * `source_ip` - Source IP address for communications to the RADIUS server.
@@ -62,7 +62,7 @@ The following attributes are exported:
 * `switch_controller_acct_fast_framedip_detect` - Switch controller accounting message Framed-IP detection from DHCP snooping (seconds, default=2).
 * `switch_controller_service_type` - RADIUS service type.
 * `tertiary_secret` - Secret key to access the tertiary server.
-* `tertiary_server` - {<name_str|ip_str>} tertiary RADIUS CN domain name or IP.
+* `tertiary_server` - Tertiary RADIUS CN domain name or IP address.
 * `timeout` - Time in seconds between re-sending authentication requests.
 * `use_management_vdom` - Enable/disable using management VDOM to send requests.
 * `username_case_sensitive` - Enable/disable case sensitive user names.
@@ -75,7 +75,7 @@ The `accounting_server` block contains:
 * `interface_select_method` - Specify how to select outgoing interface to reach server.
 * `port` - RADIUS accounting port number.
 * `secret` - Secret key.
-* `server` - {<name_str|ip_str>} Server CN domain name or IP.
+* `server` - Server CN domain name or IP address.
 * `source_ip` - Source IP address for communications to the RADIUS server.
 * `status` - Status.
 * `class` - Class attribute name(s).The structure of `class` block is documented below.

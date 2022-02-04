@@ -30,15 +30,15 @@ The following attributes are exported:
 * `home_agent` - IPv4 address of the NEMO HA (Format: xxx.xxx.xxx.xxx).
 * `lifetime` - NMMO HA registration request lifetime (180 - 65535 sec, default = 65535).
 * `n_mhae_key` - NEMO authentication key.
-* `n_mhae_key_type` - NEMO authentication key type (ascii or base64).
+* `n_mhae_key_type` - NEMO authentication key type (ASCII or base64).
 * `n_mhae_spi` - NEMO authentication SPI (default: 256).
 * `name` - Tunnel name.
 * `reg_interval` - NMMO HA registration interval (5 - 300, default = 5).
 * `reg_retry` - Maximum number of NMMO HA registration retries (1 to 30, default = 3).
-* `renew_interval` - Time before lifetime expiraton to send NMMO HA re-registration (5 - 60, default = 60).
+* `renew_interval` - Time before lifetime expiration to send NMMO HA re-registration (5 - 60, default = 60).
 * `roaming_interface` - Select the associated interface name from available options.
 * `status` - Enable/disable this mobile tunnel.
-* `tunnel_mode` - NEMO tunnnel mode (GRE tunnel).
+* `tunnel_mode` - NEMO tunnel mode (GRE tunnel).
 * `network` - NEMO network configuration.The structure of `network` block is documented below.
 
 The `network` block contains:

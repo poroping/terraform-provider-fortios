@@ -25,7 +25,7 @@ Configure multicast NAT policies.
 * `comments` - Comment.
 * `dnat` - IPv4 DNAT address used for multicast destination addresses.
 * `dstintf` - Destination interface name. This attribute must reference one of the following datasources: `system.interface.name` `system.zone.name` .
-* `end_port` -  Integer value for ending TCP/UDP/SCTP destination port in range (1 - 65535, default = 1).
+* `end_port` - Integer value for ending TCP/UDP/SCTP destination port in range (1 - 65535, default = 1).
 * `id` - Policy ID ((0 - 4294967294).
 * `logtraffic` - Enable/disable logging traffic accepted by this policy. Valid values: `enable` `disable` .
 * `name` - Policy name.

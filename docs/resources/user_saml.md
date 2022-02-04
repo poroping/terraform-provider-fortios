@@ -21,7 +21,8 @@ SAML server entry configuration.
 
 * `adfs_claim` - Enable/disable ADFS Claim for user/group attribute in assertion statement (default = disable). Valid values: `enable` `disable` .
 * `cert` - Certificate to sign SAML messages. This attribute must reference one of the following datasources: `vpn.certificate.local.name` .
-* `digest_method` - Digest Method Algorithm. (default = sha1). Valid values: `sha1` `sha256` .
+* `clock_tolerance` - Clock skew tolerance in seconds (0 - 300, default = 15, 0 = no tolerance).
+* `digest_method` - Digest method algorithm (default = sha1). Valid values: `sha1` `sha256` .
 * `entity_id` - SP entity ID.
 * `group_claim_type` - Group claim in assertion statement. Valid values: `email` `given-name` `name` `upn` `common-name` `email-adfs-1x` `group` `upn-adfs-1x` `role` `sur-name` `ppid` `name-identifier` `authentication-method` `deny-only-group-sid` `deny-only-primary-sid` `deny-only-primary-group-sid` `group-sid` `primary-group-sid` `primary-sid` `windows-account-name` .
 * `group_name` - Group name in assertion statement.

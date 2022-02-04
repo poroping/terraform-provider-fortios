@@ -25,7 +25,7 @@ Use this data source to get information on a fortios Configure SNMP.
 The following attributes are exported:
 
 * `contact_info` - Contact Information.
-* `engine_id` - AC SNMP engineId string (maximum 24 characters).
+* `engine_id` - AC SNMP engineID string (maximum 24 characters).
 * `trap_high_cpu_threshold` - CPU usage when trap is sent.
 * `trap_high_mem_threshold` - Memory usage when trap is sent.
 * `community` - SNMP Community Configuration.The structure of `community` block is documented below.
@@ -51,11 +51,11 @@ The `user` block contains:
 
 * `auth_proto` - Authentication protocol.
 * `auth_pwd` - Password for authentication protocol.
-* `name` - SNMP User Name
+* `name` - SNMP user name.
 * `notify_hosts` - Configure SNMP User Notify Hosts.
 * `priv_proto` - Privacy (encryption) protocol.
 * `priv_pwd` - Password for privacy (encryption) protocol.
 * `queries` - Enable/disable SNMP queries for this user.
 * `security_level` - Security level for message authentication and encryption.
-* `status` - SNMP User Enable
+* `status` - SNMP user enable.
 * `trap_status` - Enable/disable traps for this SNMP user.

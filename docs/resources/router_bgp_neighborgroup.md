@@ -54,7 +54,7 @@ BGP neighbor group table.
 * `distribute_list_in6` - Filter for IPv6 updates from this neighbor. This attribute must reference one of the following datasources: `router.access-list6.name` .
 * `distribute_list_out` - Filter for IPv4 updates to this neighbor. This attribute must reference one of the following datasources: `router.access-list.name` .
 * `distribute_list_out6` - Filter for IPv6 updates to this neighbor. This attribute must reference one of the following datasources: `router.access-list6.name` .
-* `dont_capability_negotiate` - Don't negotiate capabilities with this neighbor Valid values: `enable` `disable` .
+* `dont_capability_negotiate` - Do not negotiate capabilities with this neighbor. Valid values: `enable` `disable` .
 * `ebgp_enforce_multihop` - Enable/disable allow multi-hop EBGP neighbors. Valid values: `enable` `disable` .
 * `ebgp_multihop_ttl` - EBGP multihop TTL for this peer.
 * `filter_list_in` - BGP filter for IPv4 inbound routes. This attribute must reference one of the following datasources: `router.aspath-list.name` .

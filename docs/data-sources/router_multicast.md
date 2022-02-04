@@ -61,7 +61,7 @@ The `igmp` block contains:
 * `last_member_query_interval` - Timeout between IGMPv2 leave and removing group (1 - 65535 msec, default = 1000).
 * `query_interval` - Interval between queries to IGMP hosts (1 - 65535 sec, default = 125).
 * `query_max_response_time` - Maximum time to wait for a IGMP query response (1 - 25 sec, default = 10).
-* `query_timeout` - Timeout between queries before becoming querier for network (60 - 900, default = 255).
+* `query_timeout` - Timeout between queries before becoming querying unit for network (60 - 900, default = 255).
 * `router_alert_check` - Enable/disable require IGMP packets contain router alert option.
 * `version` - Maximum version of IGMP to support.
 * `join_group` - Join multicast groups.The structure of `join_group` block is documented below.

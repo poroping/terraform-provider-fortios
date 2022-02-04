@@ -21,12 +21,12 @@ Configure virtual Access Point (VAP) groups.
 * `dynamic_sort_table` - `true` or `false`, set this parameter to `true` when using dynamic for_each + toset to configure and sort sub-tables, if set to `true` static sub-tables must be ordered.
 
 * `comment` - Comment.
-* `name` - Group Name
+* `name` - Group Name.
 * `vaps` - List of SSIDs to be included in the VAP group. The structure of `vaps` block is documented below.
 
 The `vaps` block contains:
 
-* `name` - vap name This attribute must reference one of the following datasources: `wireless-controller.vap.name` .
+* `name` - VAP name. This attribute must reference one of the following datasources: `wireless-controller.vap.name` .
 
 ## Attribute Reference
 

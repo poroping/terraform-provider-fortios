@@ -21,7 +21,7 @@ Configure application control lists.
 * `dynamic_sort_table` - `true` or `false`, set this parameter to `true` when using dynamic for_each + toset to configure and sort sub-tables, if set to `true` static sub-tables must be ordered.
 
 * `app_replacemsg` - Enable/disable replacement messages for blocked applications. Valid values: `disable` `enable` .
-* `comment` - comments
+* `comment` - Comments.
 * `control_default_network_services` - Enable/disable enforcement of protocols over selected ports. Valid values: `disable` `enable` .
 * `deep_app_inspection` - Enable/disable deep application inspection. Valid values: `disable` `enable` .
 * `enforce_default_app_port` - Enable/disable default application port enforcement for allowed applications. Valid values: `disable` `enable` .
@@ -32,7 +32,7 @@ Configure application control lists.
 * `other_application_action` - Action for other applications. Valid values: `pass` `block` .
 * `other_application_log` - Enable/disable logging for other applications. Valid values: `disable` `enable` .
 * `p2p_black_list` - P2P applications to be black listed. Valid values: `skype` `edonkey` `bittorrent` .
-* `p2p_block_list` - P2P applications to be blocklisted. Valid values: `skype` `edonkey` `bittorrent` .
+* `p2p_block_list` - P2P applications to be block listed. Valid values: `skype` `edonkey` `bittorrent` .
 * `replacemsg_group` - Replacement message group. This attribute must reference one of the following datasources: `system.replacemsg-group.name` .
 * `unknown_application_action` - Pass or block traffic from unknown applications. Valid values: `pass` `block` .
 * `unknown_application_log` - Enable/disable logging for unknown applications. Valid values: `disable` `enable` .

@@ -3,11 +3,11 @@ subcategory: "FortiGate Router"
 layout: "fortios"
 page_title: "FortiOS: fortios_router_rip_neighbor"
 description: |-
-  Get information on a fortios neighbor
+  Get information on a fortios Neighbor.
 ---
 
 # Data Source: fortios_router_rip_neighbor
-Use this data source to get information on a fortios neighbor
+Use this data source to get information on a fortios Neighbor.
 
 
 ## Example Usage

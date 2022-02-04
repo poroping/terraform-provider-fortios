@@ -45,7 +45,7 @@ The following attributes are exported:
 * `lsp_gen_interval_l2` - Minimum interval for level 2 LSP regenerating.
 * `lsp_refresh_interval` - LSP refresh time in seconds.
 * `max_lsp_lifetime` - Maximum LSP lifetime in seconds.
-* `metric_style` - Use old-style (ISO 10589) or new-style packet formats
+* `metric_style` - Use old-style (ISO 10589) or new-style packet formats.
 * `overload_bit` - Enable/disable signal other routers not to use us in SPF.
 * `overload_bit_on_startup` - Overload-bit only temporarily after reboot.
 * `overload_bit_suppress` - Suppress overload-bit for the specific prefixes.
@@ -71,7 +71,7 @@ The `isis_interface` block contains:
 * `auth_password_l2` - Authentication password for level 2 PDUs.
 * `auth_send_only_l1` - Enable/disable authentication send-only for level 1 PDUs.
 * `auth_send_only_l2` - Enable/disable authentication send-only for level 2 PDUs.
-* `circuit_type` - IS-IS interface's circuit type
+* `circuit_type` - IS-IS interface's circuit type.
 * `csnp_interval_l1` - Level 1 CSNP interval.
 * `csnp_interval_l2` - Level 2 CSNP interval.
 * `hello_interval_l1` - Level 1 hello interval.
@@ -86,7 +86,7 @@ The `isis_interface` block contains:
 * `metric_l1` - Level 1 metric for interface.
 * `metric_l2` - Level 2 metric for interface.
 * `name` - IS-IS interface name.
-* `network_type` - IS-IS interface's network type
+* `network_type` - IS-IS interface's network type.
 * `priority_l1` - Level 1 priority.
 * `priority_l2` - Level 2 priority.
 * `status` - Enable/disable interface for IS-IS.
@@ -97,8 +97,8 @@ The `isis_interface` block contains:
 
 The `isis_net` block contains:
 
-* `id` - isis-net ID.
-* `net` - IS-IS net xx.xxxx. ... .xxxx.xx.
+* `id` - ISIS network ID.
+* `net` - IS-IS networks (format = xx.xxxx.  .xxxx.xx.).
 * `redistribute` - IS-IS redistribute protocols.The structure of `redistribute` block is documented below.
 
 The `redistribute` block contains:

@@ -30,7 +30,7 @@ The following attributes are exported:
 * `feature_set` - Flow/proxy feature set.
 * `log` - Enable/disable file-filter logging.
 * `name` - Profile name.
-* `replacemsg_group` - Replacement message group
+* `replacemsg_group` - Replacement message group.
 * `scan_archive_contents` - Enable/disable archive contents scan.
 * `rules` - File filter rules.The structure of `rules` block is documented below.
 
@@ -38,7 +38,7 @@ The `rules` block contains:
 
 * `action` - Action taken for matched file.
 * `comment` - Comment.
-* `direction` - Traffic direction. (HTTP, FTP, SSH, CIFS only)
+* `direction` - Traffic direction (HTTP, FTP, SSH, CIFS only).
 * `name` - File-filter rule name.
 * `password_protected` - Match password-protected files.
 * `protocol` - Protocols to apply rule to.

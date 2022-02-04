@@ -24,6 +24,7 @@ Configure log event filters.
 * `event` - Enable/disable event logging. Valid values: `enable` `disable` .
 * `fortiextender` - Enable/disable FortiExtender logging. Valid values: `enable` `disable` .
 * `ha` - Enable/disable ha event logging. Valid values: `enable` `disable` .
+* `rest_api` - Enable/disable REST API logging. Valid values: `enable` `disable` .
 * `router` - Enable/disable router event logging. Valid values: `enable` `disable` .
 * `sdwan` - Enable/disable SD-WAN logging. Valid values: `enable` `disable` .
 * `security_rating` - Enable/disable Security Rating result logging. Valid values: `enable` `disable` .

@@ -42,7 +42,7 @@ The `filter` block contains:
 * `action` - Action to take with content that this DLP sensor matches.
 * `archive` - Enable/disable DLP archiving.
 * `company_identifier` - Enter a company identifier watermark to match. Only watermarks that your company has placed on the files are matched.
-* `expiry` - Quarantine duration in days, hours, minutes format (dddhhmm).
+* `expiry` - Quarantine duration in days, hours, minutes (format = dddhhmm).
 * `file_size` - Match files this size or larger (0 - 4294967295 kbytes).
 * `file_type` - Select the number of a DLP file pattern table to match.
 * `filter_by` - Select the type of content to match.
@@ -52,7 +52,7 @@ The `filter` block contains:
 * `proto` - Check messages or files over one or more of these protocols.
 * `regexp` - Enter a regular expression to match (max. 255 characters).
 * `severity` - Select the severity or threat level that matches this filter.
-* `type` - Select whether to check the content of messages (an email message) or files (downloaded files or email attachments). 
+* `type` - Select whether to check the content of messages (an email message) or files (downloaded files or email attachments).
 * `sensitivity` - Select a DLP file pattern sensitivity to match.The structure of `sensitivity` block is documented below.
 
 The `sensitivity` block contains:

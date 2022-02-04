@@ -29,5 +29,5 @@ The following attributes are exported:
 * `direction` - Offset list direction.
 * `id` - Offset-list ID.
 * `interface` - Interface name.
-* `offset` - offset
-* `status` - status
+* `offset` - Offset.
+* `status` - Status.

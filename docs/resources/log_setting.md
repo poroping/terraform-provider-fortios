@@ -38,6 +38,8 @@ Configure general log settings.
 * `neighbor_event` - Enable/disable neighbor event logging. Valid values: `enable` `disable` .
 * `resolve_ip` - Enable/disable adding resolved domain names to traffic logs if possible. Valid values: `enable` `disable` .
 * `resolve_port` - Enable/disable adding resolved service names to traffic logs. Valid values: `enable` `disable` .
+* `rest_api_get` - Enable/disable REST API GET request logging. Valid values: `enable` `disable` .
+* `rest_api_set` - Enable/disable REST API POST/PUT/DELETE request logging. Valid values: `enable` `disable` .
 * `syslog_override` - Enable/disable override Syslog settings. Valid values: `enable` `disable` .
 * `user_anonymize` - Enable/disable anonymizing user names in log messages. Valid values: `enable` `disable` .
 * `custom_log_fields` - Custom fields to append to all log messages. The structure of `custom_log_fields` block is documented below.

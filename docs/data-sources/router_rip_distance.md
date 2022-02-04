@@ -3,11 +3,11 @@ subcategory: "FortiGate Router"
 layout: "fortios"
 page_title: "FortiOS: fortios_router_rip_distance"
 description: |-
-  Get information on a fortios distance
+  Get information on a fortios Distance.
 ---
 
 # Data Source: fortios_router_rip_distance
-Use this data source to get information on a fortios distance
+Use this data source to get information on a fortios Distance.
 
 
 ## Example Usage

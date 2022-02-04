@@ -32,7 +32,7 @@ The following attributes are exported:
 * `default_information_originate` - Enable/disable generation of default route.
 * `default_information_route_map` - Default information route map.
 * `default_metric` - Default metric of redistribute routes.
-* `log_neighbour_changes` - Enable logging of OSPFv3 neighbour's changes
+* `log_neighbour_changes` - Log OSPFv3 neighbor changes.
 * `router_id` - A.B.C.D, in IPv4 address format.
 * `spf_timers` - SPF calculation frequency.
 * `area` - OSPF6 area configuration.The structure of `area` block is documented below.
@@ -105,7 +105,7 @@ The `ospf6_interface` block contains:
 * `mtu_ignore` - Enable/disable ignoring MTU field in DBD packets.
 * `name` - Interface entry name.
 * `network_type` - Network type.
-* `priority` - priority
+* `priority` - Priority.
 * `retransmit_interval` - Retransmit interval.
 * `status` - Enable/disable OSPF6 routing on this interface.
 * `transmit_delay` - Transmit delay.
@@ -116,14 +116,14 @@ The `ipsec_keys` block contains:
 * `auth_key` - Authentication key.
 * `enc_key` - Encryption key.
 * `spi` - Security Parameters Index.
-* `neighbor` - OSPFv3 neighbors are used when OSPFv3 runs on non-broadcast mediaThe structure of `neighbor` block is documented below.
+* `neighbor` - OSPFv3 neighbors are used when OSPFv3 runs on non-broadcast media.The structure of `neighbor` block is documented below.
 
 The `neighbor` block contains:
 
 * `cost` - Cost of the interface, value range from 0 to 65535, 0 means auto-cost.
 * `ip6` - IPv6 link local address of the neighbor.
 * `poll_interval` - Poll interval time in seconds.
-* `priority` - priority
+* `priority` - Priority.
 * `passive_interface` - Passive interface configuration.The structure of `passive_interface` block is documented below.
 
 The `passive_interface` block contains:
@@ -137,7 +137,7 @@ The `redistribute` block contains:
 * `metric_type` - Metric type.
 * `name` - Redistribute name.
 * `routemap` - Route map name.
-* `status` - status
+* `status` - Status.
 * `summary_address` - IPv6 address summary configuration.The structure of `summary_address` block is documented below.
 
 The `summary_address` block contains:

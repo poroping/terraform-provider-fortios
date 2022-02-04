@@ -69,7 +69,7 @@ Configure VPN remote gateway.
 * `esn` - Extended sequence number (ESN) negotiation. Valid values: `require` `allow` `disable` .
 * `exchange_interface_ip` - Enable/disable exchange of IPsec interface IP address. Valid values: `enable` `disable` .
 * `exchange_ip_addr4` - IPv4 address to exchange with peers.
-* `exchange_ip_addr6` - IPv6 address to exchange with peers
+* `exchange_ip_addr6` - IPv6 address to exchange with peers.
 * `fec_base` - Number of base Forward Error Correction packets (1 - 20).
 * `fec_codec` - Forward Error Correction encoding/decoding algorithm. Valid values: `rs` `xor` .
 * `fec_egress` - Enable/disable Forward Error Correction for egress IPsec traffic. Valid values: `enable` `disable` .
@@ -83,7 +83,7 @@ Configure VPN remote gateway.
 * `fragmentation` - Enable/disable fragment IKE message on re-transmission. Valid values: `enable` `disable` .
 * `fragmentation_mtu` - IKE fragmentation MTU (500 - 16000).
 * `group_authentication` - Enable/disable IKEv2 IDi group authentication. Valid values: `enable` `disable` .
-* `group_authentication_secret` - Password for IKEv2 IDi group authentication.  (ASCII string or hexadecimal indicated by a leading 0x.)
+* `group_authentication_secret` - Password for IKEv2 ID group authentication. ASCII string or hexadecimal indicated by a leading 0x.
 * `ha_sync_esp_seqno` - Enable/disable sequence number jump ahead for IPsec HA. Valid values: `enable` `disable` .
 * `idle_timeout` - Enable/disable IPsec tunnel idle timeout. Valid values: `enable` `disable` .
 * `idle_timeoutinterval` - IPsec tunnel idle timeout in minutes (5 - 43200).
@@ -143,7 +143,7 @@ Configure VPN remote gateway.
 * `ppk` - Enable/disable IKEv2 Postquantum Preshared Key (PPK). Valid values: `disable` `allow` `require` .
 * `ppk_identity` - IKEv2 Postquantum Preshared Key Identity.
 * `ppk_secret` - IKEv2 Postquantum Preshared Key (ASCII string or hexadecimal encoded with a leading 0x).
-* `priority` - Priority for routes added by IKE (0 - 4294967295).
+* `priority` - Priority for routes added by IKE (1 - 65535).
 * `proposal` - Phase1 proposal. Valid values: `des-md5` `des-sha1` `des-sha256` `des-sha384` `des-sha512` `3des-md5` `3des-sha1` `3des-sha256` `3des-sha384` `3des-sha512` `aes128-md5` `aes128-sha1` `aes128-sha256` `aes128-sha384` `aes128-sha512` `aes128gcm-prfsha1` `aes128gcm-prfsha256` `aes128gcm-prfsha384` `aes128gcm-prfsha512` `aes192-md5` `aes192-sha1` `aes192-sha256` `aes192-sha384` `aes192-sha512` `aes256-md5` `aes256-sha1` `aes256-sha256` `aes256-sha384` `aes256-sha512` `aes256gcm-prfsha1` `aes256gcm-prfsha256` `aes256gcm-prfsha384` `aes256gcm-prfsha512` `chacha20poly1305-prfsha1` `chacha20poly1305-prfsha256` `chacha20poly1305-prfsha384` `chacha20poly1305-prfsha512` `aria128-md5` `aria128-sha1` `aria128-sha256` `aria128-sha384` `aria128-sha512` `aria192-md5` `aria192-sha1` `aria192-sha256` `aria192-sha384` `aria192-sha512` `aria256-md5` `aria256-sha1` `aria256-sha256` `aria256-sha384` `aria256-sha512` `seed-md5` `seed-sha1` `seed-sha256` `seed-sha384` `seed-sha512` .
 * `psksecret` - Pre-shared secret for PSK authentication (ASCII string or hexadecimal encoded with a leading 0x).
 * `psksecret_remote` - Pre-shared secret for remote side PSK authentication (ASCII string or hexadecimal encoded with a leading 0x).
@@ -151,7 +151,7 @@ Configure VPN remote gateway.
 * `rekey` - Enable/disable phase1 rekey. Valid values: `enable` `disable` .
 * `remote_gw` - IPv4 address of the remote gateway's external interface.
 * `remote_gw6` - IPv6 address of the remote gateway's external interface.
-* `remotegw_ddns` - Domain name of remote gateway (eg. name.DDNS.com).
+* `remotegw_ddns` - Domain name of remote gateway. For example, name.ddns.com.
 * `rsa_signature_format` - Digital Signature Authentication RSA signature format. Valid values: `pkcs1` `pss` .
 * `save_password` - Enable/disable saving XAuth username and password on VPN clients. Valid values: `disable` `enable` .
 * `send_cert_chain` - Enable/disable sending certificate chain. Valid values: `enable` `disable` .

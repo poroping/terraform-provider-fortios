@@ -3,11 +3,11 @@ subcategory: "FortiGate Web-Proxy"
 layout: "fortios"
 page_title: "FortiOS: fortios_webproxy_wisp"
 description: |-
-  Get information on a fortios Configure Wireless Internet service provider (WISP) servers.
+  Get information on a fortios Configure Websense Integrated Services Protocol (WISP) servers.
 ---
 
 # Data Source: fortios_webproxy_wisp
-Use this data source to get information on a fortios Configure Wireless Internet service provider (WISP) servers.
+Use this data source to get information on a fortios Configure Websense Integrated Services Protocol (WISP) servers.
 
 
 ## Example Usage

@@ -92,7 +92,7 @@ The `radio_1` block contains:
 * `auto_power_high` - The upper bound of automatic transmit power adjustment in dBm (the actual range of transmit power depends on the AP platform type).
 * `auto_power_level` - Enable/disable automatic power-level adjustment to prevent co-channel interference (default = enable).
 * `auto_power_low` - The lower bound of automatic transmit power adjustment in dBm (the actual range of transmit power depends on the AP platform type).
-* `auto_power_target` - The target of automatic transmit power adjustment in dBm. (-95 to -20, default = -70).
+* `auto_power_target` - Target of automatic transmit power adjustment in dBm (-95 to -20, default = -70).
 * `band` - WiFi band that Radio 1 operates on.
 * `drma_manual_mode` - Radio mode to be used for DRMA manual mode (default = ncf).
 * `override_analysis` - Enable to override the WTP profile spectrum analysis configuration.
@@ -122,7 +122,7 @@ The `radio_2` block contains:
 * `auto_power_high` - The upper bound of automatic transmit power adjustment in dBm (the actual range of transmit power depends on the AP platform type).
 * `auto_power_level` - Enable/disable automatic power-level adjustment to prevent co-channel interference (default = enable).
 * `auto_power_low` - The lower bound of automatic transmit power adjustment in dBm (the actual range of transmit power depends on the AP platform type).
-* `auto_power_target` - The target of automatic transmit power adjustment in dBm. (-95 to -20, default = -70).
+* `auto_power_target` - Target of automatic transmit power adjustment in dBm (-95 to -20, default = -70).
 * `band` - WiFi band that Radio 2 operates on.
 * `drma_manual_mode` - Radio mode to be used for DRMA manual mode (default = ncf).
 * `override_analysis` - Enable to override the WTP profile spectrum analysis configuration.
@@ -152,7 +152,7 @@ The `radio_3` block contains:
 * `auto_power_high` - The upper bound of automatic transmit power adjustment in dBm (the actual range of transmit power depends on the AP platform type).
 * `auto_power_level` - Enable/disable automatic power-level adjustment to prevent co-channel interference (default = enable).
 * `auto_power_low` - The lower bound of automatic transmit power adjustment in dBm (the actual range of transmit power depends on the AP platform type).
-* `auto_power_target` - The target of automatic transmit power adjustment in dBm. (-95 to -20, default = -70).
+* `auto_power_target` - Target of automatic transmit power adjustment in dBm (-95 to -20, default = -70).
 * `band` - WiFi band that Radio 3 operates on.
 * `drma_manual_mode` - Radio mode to be used for DRMA manual mode (default = ncf).
 * `override_analysis` - Enable to override the WTP profile spectrum analysis configuration.
@@ -182,7 +182,7 @@ The `radio_4` block contains:
 * `auto_power_high` - The upper bound of automatic transmit power adjustment in dBm (the actual range of transmit power depends on the AP platform type).
 * `auto_power_level` - Enable/disable automatic power-level adjustment to prevent co-channel interference (default = enable).
 * `auto_power_low` - The lower bound of automatic transmit power adjustment in dBm (the actual range of transmit power depends on the AP platform type).
-* `auto_power_target` - The target of automatic transmit power adjustment in dBm. (-95 to -20, default = -70).
+* `auto_power_target` - Target of automatic transmit power adjustment in dBm (-95 to -20, default = -70).
 * `band` - WiFi band that Radio 4 operates on.
 * `drma_manual_mode` - Radio mode to be used for DRMA manual mode (default = ncf).
 * `override_analysis` - Enable to override the WTP profile spectrum analysis configuration.

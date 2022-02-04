@@ -29,7 +29,7 @@ The following attributes are exported:
 * `arp_reply` - Enable to respond to ARP requests for this virtual IP address. Enabled by default.
 * `color` - Color of icon on the GUI.
 * `comment` - Comment.
-* `embedded_ipv4_address` - Enable/disable embedded IPv4 address.
+* `embedded_ipv4_address` - Enable/disable use of the lower 32 bits of the external IPv6 address as mapped IPv4 address.
 * `extip` - IPv6 address or address range on the external interface that you want to map to an address or address range on the destination network.
 * `extport` - Incoming port number range that you want to map to a port number range on the destination network.
 * `http_cookie_age` - Time in minutes that client web browsers should keep a cookie. Default is 60 minutes. 0 = no time limit.
@@ -37,14 +37,14 @@ The following attributes are exported:
 * `http_cookie_domain_from_host` - Enable/disable use of HTTP cookie domain from host field in HTTP.
 * `http_cookie_generation` - Generation of HTTP cookie to be accepted. Changing invalidates all existing cookies.
 * `http_cookie_path` - Limit HTTP cookie persistence to the specified path.
-* `http_cookie_share` - Control sharing of cookies across virtual servers. same-ip means a cookie from one virtual server can be used by another. Disable stops cookie sharing.
+* `http_cookie_share` - Control sharing of cookies across virtual servers. Use of same-ip means a cookie from one virtual server can be used by another. Disable stops cookie sharing.
 * `http_ip_header` - For HTTP multiplexing, enable to add the original client IP address in the XForwarded-For HTTP header.
 * `http_ip_header_name` - For HTTP multiplexing, enter a custom HTTPS header name. The original client IP address is added to this header. If empty, X-Forwarded-For is used.
 * `http_multiplex` - Enable/disable HTTP multiplexing.
-* `http_redirect` - Enable/disable redirection of HTTP to HTTPS
+* `http_redirect` - Enable/disable redirection of HTTP to HTTPS.
 * `https_cookie_secure` - Enable/disable verification that inserted HTTPS cookies are secure.
 * `id` - Custom defined ID.
-* `ipv4_mappedip` - Start-mapped-IPv4-address [-end mapped-IPv4-address].
+* `ipv4_mappedip` - Range of mapped IP addresses. Specify the start IP address followed by a space and the end IP address.
 * `ipv4_mappedport` - IPv4 port number range on the destination network to which the external port number range is mapped.
 * `ldb_method` - Method used to distribute sessions to real servers.
 * `mappedip` - Mapped IPv6 address range in the format startIP-endIP.
@@ -59,6 +59,7 @@ The following attributes are exported:
 * `portforward` - Enable port forwarding.
 * `protocol` - Protocol to use when forwarding packets.
 * `server_type` - Protocol to be load balanced by the virtual server (also called the server load balance virtual IP).
+* `ssl_accept_ffdhe_groups` - Enable/disable FFDHE cipher suite for SSL key exchange.
 * `ssl_algorithm` - Permitted encryption algorithms for SSL sessions according to encryption strength.
 * `ssl_certificate` - The name of the certificate to use for SSL handshake.
 * `ssl_client_fallback` - Enable/disable support for preventing Downgrade Attacks on client connections (RFC 7507).
@@ -75,7 +76,7 @@ The following attributes are exported:
 * `ssl_hpkp_primary` - Certificate to generate primary HPKP pin from.
 * `ssl_hpkp_report_uri` - URL to report HPKP violations to.
 * `ssl_hsts` - Enable/disable including HSTS header in response.
-* `ssl_hsts_age` - Number of seconds the client should honour the HSTS setting.
+* `ssl_hsts_age` - Number of seconds the client should honor the HSTS setting.
 * `ssl_hsts_include_subdomains` - Indicate that HSTS header applies to all subdomains.
 * `ssl_http_location_conversion` - Enable to replace HTTP with HTTPS in the reply's Location HTTP header field.
 * `ssl_http_match_host` - Enable/disable HTTP host matching for location conversion.

@@ -22,13 +22,13 @@ Configure FortiClient Enterprise Management Server (EMS) entries.
 * `admin_password` - FortiClient EMS admin password.
 * `admin_username` - FortiClient EMS admin username.
 * `call_timeout` - FortiClient EMS call timeout in seconds (1 - 180 seconds, default = 30).
-* `capabilities` - List of EMS capabilities. Valid values: `fabric-auth` `silent-approval` `websocket` `websocket-malware` `push-ca-certs` .
+* `capabilities` - List of EMS capabilities. Valid values: `fabric-auth` `silent-approval` `websocket` `websocket-malware` `push-ca-certs` `common-tags-api` .
 * `certificate` - FortiClient EMS certificate. This attribute must reference one of the following datasources: `certificate.remote.name` .
 * `cloud_server_type` - Cloud server type. Valid values: `production` `alpha` `beta` .
 * `fortinetone_cloud_authentication` - Enable/disable authentication of FortiClient EMS Cloud through FortiCloud account. Valid values: `enable` `disable` .
 * `https_port` - FortiClient EMS HTTPS access port number. (1 - 65535, default: 443).
 * `name` - FortiClient Enterprise Management Server (EMS) name.
-* `preserve_ssl_session` - Enable/disable preservation of EMS SSL session connection. WARNING: Most users should not touch this setting! Valid values: `enable` `disable` .
+* `preserve_ssl_session` - Enable/disable preservation of EMS SSL session connection. Warning, most users should not touch this setting. Valid values: `enable` `disable` .
 * `pull_avatars` - Enable/disable pulling avatars from EMS. Valid values: `enable` `disable` .
 * `pull_malware_hash` - Enable/disable pulling FortiClient malware hash from EMS. Valid values: `enable` `disable` .
 * `pull_sysinfo` - Enable/disable pulling SysInfo from EMS. Valid values: `enable` `disable` .

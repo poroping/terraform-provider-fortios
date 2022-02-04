@@ -3,11 +3,11 @@ subcategory: "FortiGate Web-Proxy"
 layout: "fortios"
 page_title: "FortiOS: fortios_webproxy_wisp"
 description: |-
-  Configure Wireless Internet service provider (WISP) servers.
+  Configure Websense Integrated Services Protocol (WISP) servers.
 ---
 
 ## fortios_webproxy_wisp
-Configure Wireless Internet service provider (WISP) servers.
+Configure Websense Integrated Services Protocol (WISP) servers.
 
 ## Example Usage
 

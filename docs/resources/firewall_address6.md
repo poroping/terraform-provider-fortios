@@ -61,7 +61,7 @@ The `subnet_segment` block contains:
 * `name` - Name.
 * `type` - Subnet segment type. Valid values: `any` `specific` .
 * `value` - Subnet segment value.
-* `tagging` - Config object tagging The structure of `tagging` block is documented below.
+* `tagging` - Config object tagging. The structure of `tagging` block is documented below.
 
 The `tagging` block contains:
 

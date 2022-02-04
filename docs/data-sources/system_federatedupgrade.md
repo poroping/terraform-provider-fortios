@@ -26,13 +26,14 @@ The following attributes are exported:
 
 * `failure_device` - Serial number of the node to include.
 * `failure_reason` - Reason for upgrade failure.
+* `next_path_index` - The index of the next image to upgrade to.
 * `status` - Current status of the upgrade.
 * `upgrade_id` - Unique identifier for this upgrade.
 * `node_list` - Nodes which will be included in the upgrade.The structure of `node_list` block is documented below.
 
 The `node_list` block contains:
 
-* `coordinating_fortigate` - The serial of the FortiGate that controls this device
+* `coordinating_fortigate` - Serial number of the FortiGate unit that controls this device.
 * `device_type` - What type of device this node represents.
 * `serial` - Serial number of the node to include.
 * `setup_time` - When the upgrade was configured. Format hh:mm yyyy/mm/dd UTC.

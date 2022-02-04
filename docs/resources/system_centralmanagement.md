@@ -19,7 +19,7 @@ Configure central management.
 * `vdomparam` - Specifies the vdom to which the data source will be applied when the FortiGate unit is running in VDOM mode. Only one vdom can be specified. If you want to inherit the vdom configuration of the provider, please do not set this parameter.
 * `dynamic_sort_table` - `true` or `false`, set this parameter to `true` when using dynamic for_each + toset to configure and sort sub-tables, if set to `true` static sub-tables must be ordered.
 
-* `allow_monitor` - Enable/disable allowing the central management server to remotely monitor this FortiGate Valid values: `enable` `disable` .
+* `allow_monitor` - Enable/disable allowing the central management server to remotely monitor this FortiGate unit. Valid values: `enable` `disable` .
 * `allow_push_configuration` - Enable/disable allowing the central management server to push configuration changes to this FortiGate. Valid values: `enable` `disable` .
 * `allow_push_firmware` - Enable/disable allowing the central management server to push firmware updates to this FortiGate. Valid values: `enable` `disable` .
 * `allow_remote_firmware_upgrade` - Enable/disable remotely upgrading the firmware on this FortiGate from the central management server. Valid values: `enable` `disable` .

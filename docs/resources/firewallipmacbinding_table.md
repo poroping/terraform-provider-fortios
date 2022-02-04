@@ -20,7 +20,7 @@ Configure IP to MAC address pairs in the IP/MAC binding table.
 * `allow_append` - If set to true allows provider to overwrite existing resources instead of erroring. Useful for brownfield implementations. Use with caution! Requires `seq_num` to be defined.
 
 * `ip` - IPv4 address portion of the pair (format: xxx.xxx.xxx.xxx).
-* `mac` - MAC address portion of the pair (format: xx:xx:xx:xx:xx:xx in hexidecimal).
+* `mac` - MAC address portion of the pair (format = xx:xx:xx:xx:xx:xx in hexadecimal).
 * `name` - Name of the pair (optional, default = no name).
 * `seq_num` - Entry number.
 * `status` - Enable/disable this IP-mac binding pair. Valid values: `enable` `disable` .

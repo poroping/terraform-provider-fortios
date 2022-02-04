@@ -22,12 +22,12 @@ FortiExtender extender profile configuration.
 * `allowaccess` - Control management access to the managed extender. Separate entries with a space. Valid values: `ping` `telnet` `http` `https` `ssh` `snmp` .
 * `bandwidth_limit` - FortiExtender LAN extension bandwidth limit (Mbps).
 * `enforce_bandwidth` - Enable/disable enforcement of bandwidth on LAN extension interface. Valid values: `enable` `disable` .
-* `extension` - Extension option. Valid values: `wan-extension` `lan-extension` .
-* `id` - id
+* `extension` - Extension option. Valid values: `lan-extension` .
+* `id` - ID.
 * `login_password` - Set the managed extender's administrator password.
 * `login_password_change` - Change or reset the administrator password of a managed extender (yes, default, or no, default = no). Valid values: `yes` `default` `no` .
 * `model` - Model. Valid values: `FX201E` `FX211E` `FX200F` `FXA11F` `FXE11F` `FXA21F` `FXE21F` `FXA22F` `FXE22F` `FX212F` `FX311F` `FX312F` `FX511F` `FVG21F` `FVA21F` `FVG22F` `FVA22F` `FX04DA` .
-* `name` - FortiExtender profile name
+* `name` - FortiExtender profile name.
 * `cellular` - FortiExtender cellular configuration. The structure of `cellular` block is documented below.
 
 The `cellular` block contains:
@@ -118,7 +118,7 @@ The `receiver` block contains:
 
 * `alert` - Alert multi-options. Valid values: `system-reboot` `data-exhausted` `session-disconnect` `low-signal-strength` `mode-switch` `os-image-fallback` `fgt-backup-mode-switch` .
 * `name` - FortiExtender SMS notification receiver name.
-* `phone_number` - Receiver phone number.  Format: [+][country code][area code][local phone number].  For example: +16501234567.
+* `phone_number` - Receiver phone number. Format: [+][country code][area code][local phone number]. For example, +16501234567.
 * `status` - SMS notification receiver status. Valid values: `disable` `enable` .
 * `lan_extension` - FortiExtender lan extension configuration. The structure of `lan_extension` block is documented below.
 
@@ -132,10 +132,10 @@ The `lan_extension` block contains:
 
 The `backhaul` block contains:
 
-* `name` - FortiExtender LAN extension backhaul name
+* `name` - FortiExtender LAN extension backhaul name.
 * `port` - FortiExtender uplink port. Valid values: `wan` `lte1` `lte2` `port1` `port2` `port3` `port4` `port5` `sfp` .
 * `role` - FortiExtender uplink port. Valid values: `primary` `secondary` .
-* `weight` - WRR weight parameter
+* `weight` - WRR weight parameter.
 
 ## Attribute Reference
 

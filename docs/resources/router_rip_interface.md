@@ -25,7 +25,7 @@ RIP interface configuration.
 * `auth_keychain` - Authentication key-chain name. This attribute must reference one of the following datasources: `router.key-chain.name` .
 * `auth_mode` - Authentication mode. Valid values: `none` `text` `md5` .
 * `auth_string` - Authentication string/password.
-* `flags` - flags
+* `flags` - Flags.
 * `name` - Interface name. This attribute must reference one of the following datasources: `system.interface.name` .
 * `receive_version` - Receive version. Valid values: `1` `2` .
 * `send_version` - Send version. Valid values: `1` `2` .

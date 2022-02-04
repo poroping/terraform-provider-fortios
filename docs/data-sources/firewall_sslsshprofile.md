@@ -71,6 +71,7 @@ The `ftps` block contains:
 * `client_certificate` - Action based on received client certificate.
 * `expired_server_cert` - Action based on server certificate is expired.
 * `invalid_server_cert` - Allow or block the invalid SSL session server certificate.
+* `min_allowed_ssl_version` - Minimum SSL version to be allowed.
 * `ports` - Ports to use for scanning (1 - 65535, default = 443).
 * `revoked_server_cert` - Action based on server certificate is revoked.
 * `sni_server_cert_check` - Check the SNI in the client hello message with the CN or SAN fields in the returned server certificate.
@@ -91,6 +92,7 @@ The `https` block contains:
 * `client_certificate` - Action based on received client certificate.
 * `expired_server_cert` - Action based on server certificate is expired.
 * `invalid_server_cert` - Allow or block the invalid SSL session server certificate.
+* `min_allowed_ssl_version` - Minimum SSL version to be allowed.
 * `ports` - Ports to use for scanning (1 - 65535, default = 443).
 * `proxy_after_tcp_handshake` - Proxy traffic after the TCP 3-way handshake has been established (not before).
 * `revoked_server_cert` - Action based on server certificate is revoked.
@@ -189,6 +191,7 @@ The `ssl` block contains:
 * `expired_server_cert` - Action based on server certificate is expired.
 * `inspect_all` - Level of SSL inspection.
 * `invalid_server_cert` - Allow or block the invalid SSL session server certificate.
+* `min_allowed_ssl_version` - Minimum SSL version to be allowed.
 * `revoked_server_cert` - Action based on server certificate is revoked.
 * `sni_server_cert_check` - Check the SNI in the client hello message with the CN or SAN fields in the returned server certificate.
 * `unsupported_ssl` - Action based on the SSL encryption used being unsupported.

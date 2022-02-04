@@ -97,9 +97,9 @@ The `health_check` block contains:
 * `http_match` - Response string expected from the server if the protocol is HTTP.
 * `interval` - Status check interval in milliseconds, or the time between attempting to connect to the server (500 - 3600*1000 msec, default = 500).
 * `name` - Status check or health check name.
-* `packet_size` - Packet size of a twamp test session,
-* `password` - Twamp controller password in authentication mode
-* `port` - Port number used to communicate with the server over the selected protocol (0-65535, default = 0, auto select. http, tcp-connect: 80, udp-echo, tcp-echo: 7, dns: 53, ftp: 21, twamp: 862).
+* `packet_size` - Packet size of a TWAMP test session.
+* `password` - TWAMP controller password in authentication mode.
+* `port` - Port number used to communicate with the server over the selected protocol (0 - 65535, default = 0, auto select. http, tcp-connect: 80, udp-echo, tcp-echo: 7, dns: 53, ftp: 21, twamp: 862).
 * `probe_count` - Number of most recent probes that should be used to calculate latency and jitter (5 - 30, default = 30).
 * `probe_packets` - Enable/disable transmission of probe packets. Valid values: `disable` `enable` .
 * `probe_timeout` - Time to wait before a probe packet is considered lost (500 - 3600*1000 msec, default = 500).
@@ -144,7 +144,7 @@ The `members` block contains:
 * `gateway6` - IPv6 gateway.
 * `ingress_spillover_threshold` - Ingress spillover threshold for this interface (0 - 16776000 kbit/s). When this traffic volume threshold is reached, new sessions spill over to other interfaces in the SD-WAN.
 * `interface` - Interface name. This attribute must reference one of the following datasources: `system.interface.name` .
-* `priority` - Priority of the interface for IPv4 (0 - 65535, default = 0). Used for SD-WAN rules or priority rules.
+* `priority` - Priority of the interface for IPv4 (1 - 65535, default = 1). Used for SD-WAN rules or priority rules.
 * `priority6` - Priority of the interface for IPv6 (1 - 65535, default = 1024). Used for SD-WAN rules or priority rules.
 * `seq_num` - Sequence number(1-512).
 * `source` - Source IP address used in the health-check packet to the server.

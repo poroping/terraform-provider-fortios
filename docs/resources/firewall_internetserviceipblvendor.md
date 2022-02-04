@@ -3,11 +3,11 @@ subcategory: "FortiGate Firewall"
 layout: "fortios"
 page_title: "FortiOS: fortios_firewall_internetserviceipblvendor"
 description: |-
-  IP blocklist vendor.
+  IP block list vendor.
 ---
 
 ## fortios_firewall_internetserviceipblvendor
-IP blocklist vendor.
+IP block list vendor.
 
 ## Example Usage
 
@@ -19,8 +19,8 @@ IP blocklist vendor.
 * `vdomparam` - Specifies the vdom to which the data source will be applied when the FortiGate unit is running in VDOM mode. Only one vdom can be specified. If you want to inherit the vdom configuration of the provider, please do not set this parameter.
 * `allow_append` - If set to true allows provider to overwrite existing resources instead of erroring. Useful for brownfield implementations. Use with caution! Requires `id` to be defined.
 
-* `id` - IP blocklist vendor ID.
-* `name` - IP blocklist vendor name.
+* `id` - IP block list vendor ID.
+* `name` - IP block list vendor name.
 
 ## Attribute Reference
 

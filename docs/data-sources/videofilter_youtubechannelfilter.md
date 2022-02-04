@@ -28,7 +28,7 @@ The following attributes are exported:
 * `comment` - Comment.
 * `default_action` - YouTube channel filter default action.
 * `id` - ID.
-* `log` - Eanble/disable logging.
+* `log` - Enable/disable logging.
 * `name` - Name.
 * `entries` - YouTube filter entries.The structure of `entries` block is documented below.
 

@@ -18,12 +18,12 @@ Use this data source to get information on a fortios IS-IS net configuration.
 
 ## Argument Reference
 
-* `id` - (Required) isis-net ID.
+* `id` - (Required) ISIS network ID.
 * `vdomparam` - Specifies the vdom to which the data source will be applied when the FortiGate unit is running in VDOM mode. Only one vdom can be specified. If you want to inherit the vdom configuration of the provider, please do not set this parameter.
 
 ## Attribute Reference
 
 The following attributes are exported:
 
-* `id` - isis-net ID.
-* `net` - IS-IS net xx.xxxx. ... .xxxx.xx.
+* `id` - ISIS network ID.
+* `net` - IS-IS networks (format = xx.xxxx.  .xxxx.xx.).

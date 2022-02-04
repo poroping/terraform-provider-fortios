@@ -26,8 +26,8 @@ Offset list.
 * `direction` - Offset list direction. Valid values: `in` `out` .
 * `id` - Offset-list ID.
 * `interface` - Interface name. This attribute must reference one of the following datasources: `system.interface.name` .
-* `offset` - offset
-* `status` - status Valid values: `enable` `disable` .
+* `offset` - Offset.
+* `status` - Status. Valid values: `enable` `disable` .
 
 ## Attribute Reference
 

@@ -20,7 +20,7 @@ Local keys and certificates.
 * `allow_append` - If set to true allows provider to overwrite existing resources instead of erroring. Useful for brownfield implementations. Use with caution! Requires `name` to be defined.
 
 * `acme_ca_url` - The URL for the ACME CA server (Let's Encrypt is the default provider).
-* `acme_domain` - A valid domain that resolves to this Fortigate.
+* `acme_domain` - A valid domain that resolves to this FortiGate unit.
 * `acme_email` - Contact email address that is required by some CAs like LetsEncrypt.
 * `acme_renew_window` - Beginning of the renewal window (in days before certificate expiration, 30 by default).
 * `acme_rsa_key_size` - Length of the RSA private key of the generated cert (Minimum 2048 bits).
@@ -30,7 +30,7 @@ Local keys and certificates.
 * `certificate` - PEM format certificate.
 * `cmp_path` - Path location inside CMP server.
 * `cmp_regeneration_method` - CMP auto-regeneration method. Valid values: `keyupate` `renewal` .
-* `cmp_server` - 'ADDRESS:PORT' for CMP server.
+* `cmp_server` - Address and port for CMP server (format = address:port).
 * `cmp_server_cert` - CMP server certificate. This attribute must reference one of the following datasources: `certificate.ca.name` `certificate.remote.name` .
 * `comments` - Comment.
 * `csr` - Certificate Signing Request.
@@ -40,7 +40,7 @@ Local keys and certificates.
 * `name` - Name.
 * `name_encoding` - Name encoding method for auto-regeneration. Valid values: `printable` `utf8` .
 * `password` - Password as a PEM file.
-* `private_key` - PEM format key, encrypted with a password.
+* `private_key` - PEM format key encrypted with a password.
 * `range` - Either a global or VDOM IP address range for the certificate. Valid values: `global` `vdom` .
 * `scep_password` - SCEP server challenge password for auto-regeneration.
 * `scep_url` - SCEP server URL.

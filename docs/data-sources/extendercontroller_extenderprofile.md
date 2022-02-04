@@ -18,7 +18,7 @@ Use this data source to get information on a fortios FortiExtender extender prof
 
 ## Argument Reference
 
-* `name` - (Required) FortiExtender profile name
+* `name` - (Required) FortiExtender profile name.
 * `vdomparam` - Specifies the vdom to which the data source will be applied when the FortiGate unit is running in VDOM mode. Only one vdom can be specified. If you want to inherit the vdom configuration of the provider, please do not set this parameter.
 
 ## Attribute Reference
@@ -29,11 +29,11 @@ The following attributes are exported:
 * `bandwidth_limit` - FortiExtender LAN extension bandwidth limit (Mbps).
 * `enforce_bandwidth` - Enable/disable enforcement of bandwidth on LAN extension interface.
 * `extension` - Extension option.
-* `id` - id
+* `id` - ID.
 * `login_password` - Set the managed extender's administrator password.
 * `login_password_change` - Change or reset the administrator password of a managed extender (yes, default, or no, default = no).
 * `model` - Model.
-* `name` - FortiExtender profile name
+* `name` - FortiExtender profile name.
 * `cellular` - FortiExtender cellular configuration.The structure of `cellular` block is documented below.
 
 The `cellular` block contains:
@@ -124,7 +124,7 @@ The `receiver` block contains:
 
 * `alert` - Alert multi-options.
 * `name` - FortiExtender SMS notification receiver name.
-* `phone_number` - Receiver phone number.  Format: [+][country code][area code][local phone number].  For example: +16501234567.
+* `phone_number` - Receiver phone number. Format: [+][country code][area code][local phone number]. For example, +16501234567.
 * `status` - SMS notification receiver status.
 * `lan_extension` - FortiExtender lan extension configuration.The structure of `lan_extension` block is documented below.
 
@@ -138,7 +138,7 @@ The `lan_extension` block contains:
 
 The `backhaul` block contains:
 
-* `name` - FortiExtender LAN extension backhaul name
+* `name` - FortiExtender LAN extension backhaul name.
 * `port` - FortiExtender uplink port.
 * `role` - FortiExtender uplink port.
-* `weight` - WRR weight parameter
+* `weight` - WRR weight parameter.

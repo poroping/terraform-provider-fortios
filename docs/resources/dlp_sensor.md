@@ -37,7 +37,7 @@ The `filter` block contains:
 * `action` - Action to take with content that this DLP sensor matches. Valid values: `allow` `log-only` `block` `quarantine-ip` .
 * `archive` - Enable/disable DLP archiving. Valid values: `disable` `enable` .
 * `company_identifier` - Enter a company identifier watermark to match. Only watermarks that your company has placed on the files are matched.
-* `expiry` - Quarantine duration in days, hours, minutes format (dddhhmm).
+* `expiry` - Quarantine duration in days, hours, minutes (format = dddhhmm).
 * `file_size` - Match files this size or larger (0 - 4294967295 kbytes).
 * `file_type` - Select the number of a DLP file pattern table to match. This attribute must reference one of the following datasources: `dlp.filepattern.id` .
 * `filter_by` - Select the type of content to match. Valid values: `credit-card` `ssn` `regexp` `file-type` `file-size` `fingerprint` `watermark` `encrypted` .
@@ -47,7 +47,7 @@ The `filter` block contains:
 * `proto` - Check messages or files over one or more of these protocols. Valid values: `smtp` `pop3` `imap` `http-get` `http-post` `ftp` `nntp` `mapi` `ssh` `cifs` .
 * `regexp` - Enter a regular expression to match (max. 255 characters).
 * `severity` - Select the severity or threat level that matches this filter. Valid values: `info` `low` `medium` `high` `critical` .
-* `type` - Select whether to check the content of messages (an email message) or files (downloaded files or email attachments).  Valid values: `file` `message` .
+* `type` - Select whether to check the content of messages (an email message) or files (downloaded files or email attachments). Valid values: `file` `message` .
 * `sensitivity` - Select a DLP file pattern sensitivity to match. The structure of `sensitivity` block is documented below.
 
 The `sensitivity` block contains:

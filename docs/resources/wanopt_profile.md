@@ -31,7 +31,7 @@ The `cifs` block contains:
 * `log_traffic` - Enable/disable logging. Valid values: `enable` `disable` .
 * `port` - Single port number or port number range for CIFS. Only packets with a destination port number that matches this port number or range are accepted by this profile.
 * `prefer_chunking` - Select dynamic or fixed-size data chunking for WAN Optimization. Valid values: `dynamic` `fix` .
-* `protocol_opt` - Select Protocol specific optimitation or generic TCP optimization. Valid values: `protocol` `tcp` .
+* `protocol_opt` - Select protocol specific optimization or generic TCP optimization. Valid values: `protocol` `tcp` .
 * `secure_tunnel` - Enable/disable securing the WAN Opt tunnel using SSL. Secure and non-secure tunnels use the same TCP port (7810). Valid values: `enable` `disable` .
 * `status` - Enable/disable WAN Optimization. Valid values: `enable` `disable` .
 * `tunnel_sharing` - Tunnel sharing mode for aggressive/non-aggressive and/or interactive/non-interactive protocols. Valid values: `shared` `express-shared` `private` .
@@ -43,7 +43,7 @@ The `ftp` block contains:
 * `log_traffic` - Enable/disable logging. Valid values: `enable` `disable` .
 * `port` - Single port number or port number range for FTP. Only packets with a destination port number that matches this port number or range are accepted by this profile.
 * `prefer_chunking` - Select dynamic or fixed-size data chunking for WAN Optimization. Valid values: `dynamic` `fix` .
-* `protocol_opt` - Select Protocol specific optimitation or generic TCP optimization. Valid values: `protocol` `tcp` .
+* `protocol_opt` - Select protocol specific optimization or generic TCP optimization. Valid values: `protocol` `tcp` .
 * `secure_tunnel` - Enable/disable securing the WAN Opt tunnel using SSL. Secure and non-secure tunnels use the same TCP port (7810). Valid values: `enable` `disable` .
 * `ssl` - Enable/disable SSL/TLS offloading (hardware acceleration) for traffic in this tunnel. Valid values: `enable` `disable` .
 * `status` - Enable/disable WAN Optimization. Valid values: `enable` `disable` .
@@ -56,7 +56,7 @@ The `http` block contains:
 * `log_traffic` - Enable/disable logging. Valid values: `enable` `disable` .
 * `port` - Single port number or port number range for HTTP. Only packets with a destination port number that matches this port number or range are accepted by this profile.
 * `prefer_chunking` - Select dynamic or fixed-size data chunking for WAN Optimization. Valid values: `dynamic` `fix` .
-* `protocol_opt` - Select Protocol specific optimitation or generic TCP optimization. Valid values: `protocol` `tcp` .
+* `protocol_opt` - Select protocol specific optimization or generic TCP optimization. Valid values: `protocol` `tcp` .
 * `secure_tunnel` - Enable/disable securing the WAN Opt tunnel using SSL. Secure and non-secure tunnels use the same TCP port (7810). Valid values: `enable` `disable` .
 * `ssl` - Enable/disable SSL/TLS offloading (hardware acceleration) for traffic in this tunnel. Valid values: `enable` `disable` .
 * `ssl_port` - Port on which to expect HTTPS traffic for SSL/TLS offloading.

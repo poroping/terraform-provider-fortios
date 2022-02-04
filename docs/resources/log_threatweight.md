@@ -71,7 +71,7 @@ The `malware` block contains:
 * `mimefragmented` - Threat weight score for mimefragmented detected. Valid values: `disable` `low` `medium` `high` `critical` .
 * `oversized` - Threat weight score for oversized file detected. Valid values: `disable` `low` `medium` `high` `critical` .
 * `switch_proto` - Threat weight score for switch proto detected. Valid values: `disable` `low` `medium` `high` `critical` .
-* `virus_file_type_executable` - Threat weight score for virus (filetype executable) detected. Valid values: `disable` `low` `medium` `high` `critical` .
+* `virus_file_type_executable` - Threat weight score for virus (file type executable) detected. Valid values: `disable` `low` `medium` `high` `critical` .
 * `virus_infected` - Threat weight score for virus (infected) detected. Valid values: `disable` `low` `medium` `high` `critical` .
 * `virus_outbreak_prevention` - Threat weight score for virus (outbreak prevention) event. Valid values: `disable` `low` `medium` `high` `critical` .
 * `virus_scan_error` - Threat weight score for virus (scan error) detected. Valid values: `disable` `low` `medium` `high` `critical` .

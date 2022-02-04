@@ -25,7 +25,7 @@ Use this data source to get information on a fortios SSH proxy host public keys.
 
 The following attributes are exported:
 
-* `hostname` - Hostname of the SSH server, to match SSH certificate principals. 
+* `hostname` - Hostname of the SSH server to match SSH certificate principals.
 * `ip` - IP address of the SSH server.
 * `name` - SSH public key name.
 * `nid` - Set the nid of the ECDSA key.

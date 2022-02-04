@@ -27,4 +27,4 @@ The following attributes are exported:
 
 * `name` - Distribute list entry name.
 * `route_map` - Route map name.
-* `status` - Status
+* `status` - Status.

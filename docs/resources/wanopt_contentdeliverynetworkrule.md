@@ -28,7 +28,7 @@ Configure WAN optimization content delivery network rules.
 * `response_expires` - Enable/disable HTTP response cache expires. Valid values: `enable` `disable` .
 * `status` - Enable/disable WAN optimization content delivery network rules. Valid values: `enable` `disable` .
 * `updateserver` - Enable/disable update server. Valid values: `enable` `disable` .
-* `host_domain_name_suffix` - Suffix portion of the fully qualified domain name (eg. fortinet.com in "www.fortinet.com"). The structure of `host_domain_name_suffix` block is documented below.
+* `host_domain_name_suffix` - Suffix portion of the fully qualified domain name. For example, fortinet.com in "www.fortinet.com". The structure of `host_domain_name_suffix` block is documented below.
 
 The `host_domain_name_suffix` block contains:
 
@@ -58,7 +58,7 @@ The `match_entries` block contains:
 
 * `id` - Rule ID.
 * `target` - Option in HTTP header or URL parameter to match. Valid values: `path` `parameter` `referrer` `youtube-map` `youtube-id` `youku-id` .
-* `pattern` - Pattern string for matching target (Referrer or URL pattern, eg. "a", "a*c", "*a*", "a*c*e", and "*"). The structure of `pattern` block is documented below.
+* `pattern` - Pattern string for matching target (Referrer or URL pattern). For example, a, a*c, *a*, a*c*e, and *. The structure of `pattern` block is documented below.
 
 The `pattern` block contains:
 
@@ -69,7 +69,7 @@ The `skip_entries` block contains:
 
 * `id` - Rule ID.
 * `target` - Option in HTTP header or URL parameter to match. Valid values: `path` `parameter` `referrer` `youtube-map` `youtube-id` `youku-id` .
-* `pattern` - Pattern string for matching target (Referrer or URL pattern, eg. "a", "a*c", "*a*", "a*c*e", and "*"). The structure of `pattern` block is documented below.
+* `pattern` - Pattern string for matching target (Referrer or URL pattern). For example, a, a*c, *a*, a*c*e, and *. The structure of `pattern` block is documented below.
 
 The `pattern` block contains:
 

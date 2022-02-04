@@ -43,6 +43,8 @@ The following attributes are exported:
 * `neighbor_event` - Enable/disable neighbor event logging.
 * `resolve_ip` - Enable/disable adding resolved domain names to traffic logs if possible.
 * `resolve_port` - Enable/disable adding resolved service names to traffic logs.
+* `rest_api_get` - Enable/disable REST API GET request logging.
+* `rest_api_set` - Enable/disable REST API POST/PUT/DELETE request logging.
 * `syslog_override` - Enable/disable override Syslog settings.
 * `user_anonymize` - Enable/disable anonymizing user names in log messages.
 * `custom_log_fields` - Custom fields to append to all log messages.The structure of `custom_log_fields` block is documented below.

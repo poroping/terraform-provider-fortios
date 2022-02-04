@@ -27,7 +27,7 @@ Configure IPv6 OSPF.
 * `default_information_originate` - Enable/disable generation of default route. Valid values: `enable` `always` `disable` .
 * `default_information_route_map` - Default information route map. This attribute must reference one of the following datasources: `router.route-map.name` .
 * `default_metric` - Default metric of redistribute routes.
-* `log_neighbour_changes` - Enable logging of OSPFv3 neighbour's changes Valid values: `enable` `disable` .
+* `log_neighbour_changes` - Log OSPFv3 neighbor changes. Valid values: `enable` `disable` .
 * `router_id` - A.B.C.D, in IPv4 address format.
 * `spf_timers` - SPF calculation frequency.
 * `area` - OSPF6 area configuration. The structure of `area` block is documented below.
@@ -100,7 +100,7 @@ The `ospf6_interface` block contains:
 * `mtu_ignore` - Enable/disable ignoring MTU field in DBD packets. Valid values: `enable` `disable` .
 * `name` - Interface entry name.
 * `network_type` - Network type. Valid values: `broadcast` `point-to-point` `non-broadcast` `point-to-multipoint` `point-to-multipoint-non-broadcast` .
-* `priority` - priority
+* `priority` - Priority.
 * `retransmit_interval` - Retransmit interval.
 * `status` - Enable/disable OSPF6 routing on this interface. Valid values: `disable` `enable` .
 * `transmit_delay` - Transmit delay.
@@ -111,14 +111,14 @@ The `ipsec_keys` block contains:
 * `auth_key` - Authentication key.
 * `enc_key` - Encryption key.
 * `spi` - Security Parameters Index.
-* `neighbor` - OSPFv3 neighbors are used when OSPFv3 runs on non-broadcast media The structure of `neighbor` block is documented below.
+* `neighbor` - OSPFv3 neighbors are used when OSPFv3 runs on non-broadcast media. The structure of `neighbor` block is documented below.
 
 The `neighbor` block contains:
 
 * `cost` - Cost of the interface, value range from 0 to 65535, 0 means auto-cost.
 * `ip6` - IPv6 link local address of the neighbor.
 * `poll_interval` - Poll interval time in seconds.
-* `priority` - priority
+* `priority` - Priority.
 * `passive_interface` - Passive interface configuration. The structure of `passive_interface` block is documented below.
 
 The `passive_interface` block contains:
@@ -132,7 +132,7 @@ The `redistribute` block contains:
 * `metric_type` - Metric type. Valid values: `1` `2` .
 * `name` - Redistribute name.
 * `routemap` - Route map name. This attribute must reference one of the following datasources: `router.route-map.name` .
-* `status` - status Valid values: `enable` `disable` .
+* `status` - Status. Valid values: `enable` `disable` .
 * `summary_address` - IPv6 address summary configuration. The structure of `summary_address` block is documented below.
 
 The `summary_address` block contains:

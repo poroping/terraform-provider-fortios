@@ -25,10 +25,10 @@ Use this data source to get information on a fortios Configure Kerberos keytab e
 
 The following attributes are exported:
 
-* `keytab` - base64 coded keytab file containing a pre-shared key.
+* `keytab` - Base64 coded keytab file containing a pre-shared key.
 * `name` - Kerberos keytab entry name.
 * `pac_data` - Enable/disable parsing PAC data in the ticket.
-* `principal` - Kerberos service principal, e.g. HTTP/fgt.example.com@EXAMPLE.COM.
+* `principal` - Kerberos service principal. For example, HTTP/myfgt.example.com@example.com.
 * `ldap_server` - LDAP server name(s).The structure of `ldap_server` block is documented below.
 
 The `ldap_server` block contains:

@@ -23,7 +23,7 @@ Configure 802.1x MAC Authentication Bypass (MAB) policies.
 * `auth_fail_vlan` - Enable to allow limited access to clients that cannot authenticate. Valid values: `disable` `enable` .
 * `auth_fail_vlan_id` - VLAN ID on which authentication failed. This attribute must reference one of the following datasources: `system.interface.name` .
 * `authserver_timeout_period` - Authentication server timeout period (3 - 15 sec, default = 3).
-* `authserver_timeout_vlan` - Enable/disable the authentication server timeout VLAN to allow limited access when RADIUS is unavailable.  Valid values: `disable` `enable` .
+* `authserver_timeout_vlan` - Enable/disable the authentication server timeout VLAN to allow limited access when RADIUS is unavailable. Valid values: `disable` `enable` .
 * `authserver_timeout_vlanid` - Authentication server timeout VLAN name. This attribute must reference one of the following datasources: `system.interface.name` .
 * `eap_auto_untagged_vlans` - Enable/disable automatic inclusion of untagged VLANs. Valid values: `disable` `enable` .
 * `eap_passthru` - Enable/disable EAP pass-through mode, allowing protocols (such as LLDP) to pass through ports for more flexible authentication. Valid values: `disable` `enable` .

@@ -33,7 +33,7 @@ The following attributes are exported:
 * `auth_password_l2` - Authentication password for level 2 PDUs.
 * `auth_send_only_l1` - Enable/disable authentication send-only for level 1 PDUs.
 * `auth_send_only_l2` - Enable/disable authentication send-only for level 2 PDUs.
-* `circuit_type` - IS-IS interface's circuit type
+* `circuit_type` - IS-IS interface's circuit type.
 * `csnp_interval_l1` - Level 1 CSNP interval.
 * `csnp_interval_l2` - Level 2 CSNP interval.
 * `hello_interval_l1` - Level 1 hello interval.
@@ -48,7 +48,7 @@ The following attributes are exported:
 * `metric_l1` - Level 1 metric for interface.
 * `metric_l2` - Level 2 metric for interface.
 * `name` - IS-IS interface name.
-* `network_type` - IS-IS interface's network type
+* `network_type` - IS-IS interface's network type.
 * `priority_l1` - Level 1 priority.
 * `priority_l2` - Level 2 priority.
 * `status` - Enable/disable interface for IS-IS.

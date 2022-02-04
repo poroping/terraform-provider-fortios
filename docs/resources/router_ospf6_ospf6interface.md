@@ -37,7 +37,7 @@ OSPF6 interface configuration.
 * `mtu_ignore` - Enable/disable ignoring MTU field in DBD packets. Valid values: `enable` `disable` .
 * `name` - Interface entry name.
 * `network_type` - Network type. Valid values: `broadcast` `point-to-point` `non-broadcast` `point-to-multipoint` `point-to-multipoint-non-broadcast` .
-* `priority` - priority
+* `priority` - Priority.
 * `retransmit_interval` - Retransmit interval.
 * `status` - Enable/disable OSPF6 routing on this interface. Valid values: `disable` `enable` .
 * `transmit_delay` - Transmit delay.
@@ -48,14 +48,14 @@ The `ipsec_keys` block contains:
 * `auth_key` - Authentication key.
 * `enc_key` - Encryption key.
 * `spi` - Security Parameters Index.
-* `neighbor` - OSPFv3 neighbors are used when OSPFv3 runs on non-broadcast media The structure of `neighbor` block is documented below.
+* `neighbor` - OSPFv3 neighbors are used when OSPFv3 runs on non-broadcast media. The structure of `neighbor` block is documented below.
 
 The `neighbor` block contains:
 
 * `cost` - Cost of the interface, value range from 0 to 65535, 0 means auto-cost.
 * `ip6` - IPv6 link local address of the neighbor.
 * `poll_interval` - Poll interval time in seconds.
-* `priority` - priority
+* `priority` - Priority.
 
 ## Attribute Reference
 

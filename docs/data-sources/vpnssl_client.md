@@ -3,11 +3,11 @@ subcategory: "FortiGate Vpn"
 layout: "fortios"
 page_title: "FortiOS: fortios_vpnssl_client"
 description: |-
-  Get information on a fortios client
+  Get information on a fortios Client.
 ---
 
 # Data Source: fortios_vpnssl_client
-Use this data source to get information on a fortios client
+Use this data source to get information on a fortios Client.
 
 
 ## Example Usage
@@ -32,7 +32,7 @@ The following attributes are exported:
 * `name` - SSL-VPN tunnel name.
 * `peer` - Authenticate peer's certificate with the peer/peergrp.
 * `port` - SSL-VPN server port.
-* `priority` - Priority for routes added by SSL-VPN (0 - 4294967295).
+* `priority` - Priority for routes added by SSL-VPN (1 - 65535).
 * `psk` - Pre-shared secret to authenticate with the server (ASCII string or hexadecimal encoded with a leading 0x).
 * `realm` - Realm name configured on SSL-VPN server.
 * `server` - IPv4, IPv6 or DNS address of the SSL-VPN server.

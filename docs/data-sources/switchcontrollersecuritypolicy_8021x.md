@@ -28,7 +28,7 @@ The following attributes are exported:
 * `auth_fail_vlan` - Enable to allow limited access to clients that cannot authenticate.
 * `auth_fail_vlan_id` - VLAN ID on which authentication failed.
 * `authserver_timeout_period` - Authentication server timeout period (3 - 15 sec, default = 3).
-* `authserver_timeout_vlan` - Enable/disable the authentication server timeout VLAN to allow limited access when RADIUS is unavailable. 
+* `authserver_timeout_vlan` - Enable/disable the authentication server timeout VLAN to allow limited access when RADIUS is unavailable.
 * `authserver_timeout_vlanid` - Authentication server timeout VLAN name.
 * `eap_auto_untagged_vlans` - Enable/disable automatic inclusion of untagged VLANs.
 * `eap_passthru` - Enable/disable EAP pass-through mode, allowing protocols (such as LLDP) to pass through ports for more flexible authentication.

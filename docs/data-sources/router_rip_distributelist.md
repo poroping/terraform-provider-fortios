@@ -29,4 +29,4 @@ The following attributes are exported:
 * `id` - Distribute list ID.
 * `interface` - Distribute list interface name.
 * `listname` - Distribute access/prefix list name.
-* `status` - status
+* `status` - Status.

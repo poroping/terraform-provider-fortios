@@ -20,7 +20,7 @@ Configure Virtual Access Points (VAPs).
 * `allow_append` - If set to true allows provider to overwrite existing resources instead of erroring. Useful for brownfield implementations. Use with caution! Requires `name` to be defined.
 * `dynamic_sort_table` - `true` or `false`, set this parameter to `true` when using dynamic for_each + toset to configure and sort sub-tables, if set to `true` static sub-tables must be ordered.
 
-* `access_control_list` - access-control-list profile name. This attribute must reference one of the following datasources: `wireless-controller.access-control-list.name` .
+* `access_control_list` - Profile name for access-control-list. This attribute must reference one of the following datasources: `wireless-controller.access-control-list.name` .
 * `acct_interim_interval` - WiFi RADIUS accounting interim interval (60 - 86400 sec, default = 0).
 * `additional_akms` - Additional AKMs. Valid values: `akm6` .
 * `address_group` - Address group ID. This attribute must reference one of the following datasources: `wireless-controller.addrgrp.id` .
@@ -28,6 +28,8 @@ Configure Virtual Access Points (VAPs).
 * `application_list` - Application control list name. This attribute must reference one of the following datasources: `application.list.name` .
 * `atf_weight` - Airtime weight in percentage (default = 20).
 * `auth` - Authentication protocol. Valid values: `psk` `radius` `usergroup` .
+* `auth_cert` - HTTPS server certificate. This attribute must reference one of the following datasources: `vpn.certificate.local.name` .
+* `auth_portal_addr` - Address of captive portal.
 * `beacon_advertising` - Fortinet beacon advertising IE data   (default = empty). Valid values: `name` `model` `serial-number` .
 * `broadcast_ssid` - Enable/disable broadcasting the SSID (default = enable). Valid values: `enable` `disable` .
 * `broadcast_suppression` - Optional suppression of broadcast messages. For example, you can keep DHCP messages, ARP broadcasts, and so on off of the wireless network. Valid values: `dhcp-up` `dhcp-down` `dhcp-starvation` `dhcp-ucast` `arp-known` `arp-unknown` `arp-reply` `arp-poison` `arp-proxy` `netbios-ns` `netbios-ds` `ipv6` `all-other-mc` `all-other-bc` .
@@ -153,7 +155,7 @@ Configure Virtual Access Points (VAPs).
 * `security_redirect_url` - Optional URL for redirecting users after they pass captive portal authentication.
 * `split_tunneling` - Enable/disable split tunneling (default = disable). Valid values: `enable` `disable` .
 * `ssid` - IEEE 802.11 service set identifier (SSID) for the wireless interface. Users who wish to use the wireless network must configure their computers to access this SSID name.
-* `sticky_client_remove` - Enable/disable sticky client remove to maintain good signal level clients in SSID. (default = disable). Valid values: `enable` `disable` .
+* `sticky_client_remove` - Enable/disable sticky client remove to maintain good signal level clients in SSID (default = disable). Valid values: `enable` `disable` .
 * `sticky_client_threshold_2g` - Minimum signal level/threshold in dBm required for the 2G client to be serviced by the AP (-95 to -20, default = -79).
 * `sticky_client_threshold_5g` - Minimum signal level/threshold in dBm required for the 5G client to be serviced by the AP (-95 to -20, default = -76).
 * `target_wake_time` - Enable/disable 802.11ax target wake time (default = enable). Valid values: `enable` `disable` .
@@ -216,6 +218,12 @@ The `selected_usergroups` block contains:
 The `usergroup` block contains:
 
 * `name` - User group name. This attribute must reference one of the following datasources: `user.group.name` .
+* `vlan_name` - Table for mapping VLAN name to VLAN ID. The structure of `vlan_name` block is documented below.
+
+The `vlan_name` block contains:
+
+* `name` - VLAN name.
+* `vlan_id` - VLAN ID.
 * `vlan_pool` - VLAN pool. The structure of `vlan_pool` block is documented below.
 
 The `vlan_pool` block contains:

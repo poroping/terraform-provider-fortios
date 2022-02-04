@@ -3,11 +3,11 @@ subcategory: "FortiGate Ips"
 layout: "fortios"
 page_title: "FortiOS: fortios_ips_viewmap"
 description: |-
-  Get information on a fortios configure ips view-map
+  Get information on a fortios Configure IPS view-map.
 ---
 
 # Data Source: fortios_ips_viewmap
-Use this data source to get information on a fortios configure ips view-map
+Use this data source to get information on a fortios Configure IPS view-map.
 
 
 ## Example Usage

@@ -28,5 +28,5 @@ The following attributes are exported:
 * `name` - POP3 server entry name.
 * `port` - POP3 service port number.
 * `secure` - SSL connection.
-* `server` - {<name_str|ip_str>} server domain name or IP.
+* `server` - Server domain name or IP address.
 * `ssl_min_proto_version` - Minimum supported protocol version for SSL/TLS connections (default is to follow system global setting).

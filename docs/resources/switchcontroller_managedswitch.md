@@ -28,10 +28,11 @@ Configure FortiSwitch devices that are managed by this FortiGate.
 * `dynamic_capability` - List of features this FortiSwitch supports (not configurable) that is sent to the FortiGate device for subsequent configuration initiated by the FortiGate device.
 * `dynamically_discovered` - Dynamically discovered FortiSwitch.
 * `firmware_provision` - Enable/disable provisioning of firmware to FortiSwitches on join connection. Valid values: `enable` `disable` .
+* `firmware_provision_latest` - Enable/disable one-time automatic provisioning of the latest firmware version. Valid values: `disable` `once` .
 * `firmware_provision_version` - Firmware version to provision to this FortiSwitch on bootup (major.minor.build, i.e. 6.2.1234).
 * `flow_identity` - Flow-tracking netflow ipfix switch identity in hex format(00000000-FFFFFFFF default=0).
 * `fsw_wan1_admin` - FortiSwitch WAN1 admin status; enable to authorize the FortiSwitch as a managed switch. Valid values: `discovered` `disable` `enable` .
-* `fsw_wan1_peer` - Fortiswitch WAN1 peer port. This attribute must reference one of the following datasources: `system.interface.name` .
+* `fsw_wan1_peer` - FortiSwitch WAN1 peer port. This attribute must reference one of the following datasources: `system.interface.name` .
 * `l3_discovered` - Layer 3 management discovered.
 * `max_allowed_trunk_members` - FortiSwitch maximum allowed trunk members.
 * `mclag_igmp_snooping_aware` - Enable/disable MCLAG IGMP-snooping awareness. Valid values: `enable` `disable` .
@@ -84,7 +85,7 @@ The `vlans` block contains:
 * `proxy` - IGMP snooping proxy for the VLAN interface. Valid values: `disable` `enable` `global` .
 * `querier` - Enable/disable IGMP snooping querier for the VLAN interface. Valid values: `disable` `enable` .
 * `querier_addr` - IGMP snooping querier address.
-* `version` - IGMP snooping querier version.
+* `version` - IGMP snooping querying version.
 * `vlan_name` - List of FortiSwitch VLANs. This attribute must reference one of the following datasources: `system.interface.name` .
 * `ip_source_guard` - IP source guard. The structure of `ip_source_guard` block is documented below.
 
@@ -148,7 +149,7 @@ The `ports` block contains:
 * `isl_local_trunk_name` - ISL local trunk name.
 * `isl_peer_device_name` - ISL peer device name.
 * `isl_peer_port_name` - ISL peer port name.
-* `lacp_speed` - end Link Aggregation Control Protocol (LACP) messages every 30 seconds (slow) or every second (fast). Valid values: `slow` `fast` .
+* `lacp_speed` - End Link Aggregation Control Protocol (LACP) messages every 30 seconds (slow) or every second (fast). Valid values: `slow` `fast` .
 * `learning_limit` - Limit the number of dynamic MAC addresses on this Port (1 - 128, 0 = no limit, default).
 * `lldp_profile` - LLDP port TLV profile. This attribute must reference one of the following datasources: `switch-controller.lldp-profile.name` .
 * `lldp_status` - LLDP transmit and receive status. Valid values: `disable` `rx-only` `tx-only` `tx-rx` .
@@ -157,12 +158,12 @@ The `ports` block contains:
 * `mac_addr` - Port/Trunk MAC.
 * `matched_dpp_intf_tags` - Matched interface tags in the dynamic port policy.
 * `matched_dpp_policy` - Matched child policy in the dynamic port policy.
-* `max_bundle` - Maximum size of LAG bundle (1 - 24, default = 24)
+* `max_bundle` - Maximum size of LAG bundle (1 - 24, default = 24).
 * `mclag` - Enable/disable multi-chassis link aggregation (MCLAG). Valid values: `enable` `disable` .
 * `mclag_icl_port` - MCLAG-ICL port.
 * `media_type` - Media type.
 * `member_withdrawal_behavior` - Port behavior after it withdraws because of loss of control packets. Valid values: `forward` `block` .
-* `min_bundle` - Minimum size of LAG bundle (1 - 24, default = 1)
+* `min_bundle` - Minimum size of LAG bundle (1 - 24, default = 1).
 * `mode` - LACP mode: ignore and do not send control messages, or negotiate 802.3ad aggregation passively or actively. Valid values: `static` `lacp-passive` `lacp-active` .
 * `p2p_port` - General peer to peer tunnel port.
 * `packet_sample_rate` - Packet sampling rate (0 - 99999 p/sec).
@@ -185,7 +186,7 @@ The `ports` block contains:
 * `qos_policy` - Switch controller QoS policy from available options. This attribute must reference one of the following datasources: `switch-controller.qos.qos-policy.name` .
 * `rpvst_port` - Enable/disable inter-operability with rapid PVST on this interface. Valid values: `disabled` `enabled` .
 * `sample_direction` - Packet sampling direction. Valid values: `tx` `rx` `both` .
-* `sflow_counter_interval` - sFlow sampling counter polling interval (0 - 255 sec).
+* `sflow_counter_interval` - sFlow sampling counter polling interval in seconds (0 - 255).
 * `speed` - Switch port speed; default and available settings depend on hardware. Valid values: `10half` `10full` `100half` `100full` `1000auto` `1000fiber` `1000full` `10000` `40000` `auto` `auto-module` `100FX-half` `100FX-full` `100000full` `2500auto` `25000full` `50000full` `10000cr` `10000sr` `100000sr4` `100000cr4` `25000cr4` `25000sr4` `5000full` .
 * `stacking_port` - Stacking port.
 * `status` - Switch port admin status: up or down. Valid values: `up` `down` .
@@ -198,7 +199,7 @@ The `ports` block contains:
 * `switch_id` - Switch id.
 * `type` - Interface type: physical or trunk port. Valid values: `physical` `trunk` .
 * `vlan` - Assign switch ports to a VLAN. This attribute must reference one of the following datasources: `system.interface.name` .
-* `allowed_vlans` - Configure switch port tagged vlans The structure of `allowed_vlans` block is documented below.
+* `allowed_vlans` - Configure switch port tagged VLANs. The structure of `allowed_vlans` block is documented below.
 
 The `allowed_vlans` block contains:
 
@@ -218,7 +219,7 @@ The `interface_tags` block contains:
 The `members` block contains:
 
 * `member_name` - Interface name from available options.
-* `untagged_vlans` - Configure switch port untagged vlans The structure of `untagged_vlans` block is documented below.
+* `untagged_vlans` - Configure switch port untagged VLANs. The structure of `untagged_vlans` block is documented below.
 
 The `untagged_vlans` block contains:
 
@@ -291,7 +292,7 @@ The `snmp_user` block contains:
 The `static_mac` block contains:
 
 * `description` - Description.
-* `id` - Id
+* `id` - ID.
 * `interface` - Interface name.
 * `mac` - MAC address.
 * `type` - Type. Valid values: `static` `sticky` .

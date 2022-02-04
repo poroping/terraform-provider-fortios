@@ -27,7 +27,7 @@ Configure RIP.
 * `timeout_timer` - Timeout timer in seconds.
 * `update_timer` - Update timer in seconds.
 * `version` - RIP version. Valid values: `1` `2` .
-* `distance` - distance The structure of `distance` block is documented below.
+* `distance` - Distance. The structure of `distance` block is documented below.
 
 The `distance` block contains:
 
@@ -43,7 +43,7 @@ The `distribute_list` block contains:
 * `id` - Distribute list ID.
 * `interface` - Distribute list interface name. This attribute must reference one of the following datasources: `system.interface.name` .
 * `listname` - Distribute access/prefix list name. This attribute must reference one of the following datasources: `router.access-list.name` `router.prefix-list.name` .
-* `status` - status Valid values: `enable` `disable` .
+* `status` - Status. Valid values: `enable` `disable` .
 * `interface` - RIP interface configuration. The structure of `interface` block is documented below.
 
 The `interface` block contains:
@@ -51,20 +51,20 @@ The `interface` block contains:
 * `auth_keychain` - Authentication key-chain name. This attribute must reference one of the following datasources: `router.key-chain.name` .
 * `auth_mode` - Authentication mode. Valid values: `none` `text` `md5` .
 * `auth_string` - Authentication string/password.
-* `flags` - flags
+* `flags` - Flags.
 * `name` - Interface name. This attribute must reference one of the following datasources: `system.interface.name` .
 * `receive_version` - Receive version. Valid values: `1` `2` .
 * `send_version` - Send version. Valid values: `1` `2` .
 * `send_version2_broadcast` - Enable/disable broadcast version 1 compatible packets. Valid values: `disable` `enable` .
 * `split_horizon` - Enable/disable split horizon. Valid values: `poisoned` `regular` .
 * `split_horizon_status` - Enable/disable split horizon. Valid values: `enable` `disable` .
-* `neighbor` - neighbor The structure of `neighbor` block is documented below.
+* `neighbor` - Neighbor. The structure of `neighbor` block is documented below.
 
 The `neighbor` block contains:
 
 * `id` - Neighbor entry ID.
 * `ip` - IP address.
-* `network` - network The structure of `network` block is documented below.
+* `network` - Network. The structure of `network` block is documented below.
 
 The `network` block contains:
 
@@ -78,8 +78,8 @@ The `offset_list` block contains:
 * `direction` - Offset list direction. Valid values: `in` `out` .
 * `id` - Offset-list ID.
 * `interface` - Interface name. This attribute must reference one of the following datasources: `system.interface.name` .
-* `offset` - offset
-* `status` - status Valid values: `enable` `disable` .
+* `offset` - Offset.
+* `status` - Status. Valid values: `enable` `disable` .
 * `passive_interface` - Passive interface configuration. The structure of `passive_interface` block is documented below.
 
 The `passive_interface` block contains:
@@ -92,7 +92,7 @@ The `redistribute` block contains:
 * `metric` - Redistribute metric setting.
 * `name` - Redistribute name.
 * `routemap` - Route map name. This attribute must reference one of the following datasources: `router.route-map.name` .
-* `status` - status Valid values: `enable` `disable` .
+* `status` - Status. Valid values: `enable` `disable` .
 
 ## Attribute Reference
 

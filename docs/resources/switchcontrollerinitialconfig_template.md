@@ -23,7 +23,7 @@ Configure template for auto-generated VLANs.
 * `auto_ip` - Automatically allocate interface address and subnet block. Valid values: `enable` `disable` .
 * `dhcp_server` - Enable/disable a DHCP server on this interface. Valid values: `enable` `disable` .
 * `ip` - Interface IPv4 address and subnet mask.
-* `name` - Initial config template name
+* `name` - Initial config template name.
 * `vlanid` - Unique VLAN ID.
 
 ## Attribute Reference

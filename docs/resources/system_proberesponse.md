@@ -20,9 +20,9 @@ Configure system probe response.
 
 * `http_probe_value` - Value to respond to the monitoring server.
 * `mode` - SLA response mode. Valid values: `none` `http-probe` `twamp` .
-* `password` - Twamp respondor password in authentication mode
+* `password` - TWAMP responder password in authentication mode.
 * `port` - Port number to response.
-* `security_mode` - Twamp respondor security mode. Valid values: `none` `authentication` .
+* `security_mode` - TWAMP responder security mode. Valid values: `none` `authentication` .
 * `timeout` - An inactivity timer for a twamp test session.
 * `ttl_mode` - Mode for TWAMP packet TTL modification. Valid values: `reinit` `decrease` `retain` .
 

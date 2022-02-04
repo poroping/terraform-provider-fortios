@@ -29,7 +29,7 @@ Configure VDOM property.
 * `ipsec_phase1_interface` - Maximum guaranteed number of VPN IPsec phase1 interface tunnels.
 * `ipsec_phase2` - Maximum guaranteed number of VPN IPsec phase 2 tunnels.
 * `ipsec_phase2_interface` - Maximum guaranteed number of VPN IPsec phase2 interface tunnels.
-* `log_disk_quota` - Log disk quota in MiB (range depends on how much disk space is available).
+* `log_disk_quota` - Log disk quota in megabytes (MB). Range depends on how much disk space is available.
 * `name` - VDOM name. This attribute must reference one of the following datasources: `system.vdom.name` .
 * `onetime_schedule` - Maximum guaranteed number of firewall one-time schedules.
 * `proxy` - Maximum guaranteed number of concurrent proxy users.

@@ -46,7 +46,7 @@ Settings for local disk logging.
 * `uploadport` - TCP port to use for communicating with the FTP server (default = 21).
 * `uploadsched` - Set the schedule for uploading log files to the FTP server (default = disable = upload when rolling). Valid values: `disable` `enable` .
 * `uploadtime` - Time of day at which log files are uploaded if uploadsched is enabled (hh:mm or hh).
-* `uploadtype` - Types of log files to upload. Separate multiple entries with a space. Valid values: `traffic` `event` `virus` `webfilter` `IPS` `emailfilter` `dlp-archive` `anomaly` `voip` `dlp` `app-ctrl` `waf` `gtp` `dns` `ssh` `ssl` `file-filter` `icap` `ztna` .
+* `uploadtype` - Types of log files to upload. Separate multiple entries with a space. Valid values: `traffic` `event` `virus` `webfilter` `IPS` `emailfilter` `dlp-archive` `anomaly` `voip` `dlp` `app-ctrl` `waf` `gtp` `dns` `ssh` `ssl` `file-filter` `icap` .
 * `uploaduser` - Username required to log into the FTP server to upload disk log files.
 
 ## Attribute Reference

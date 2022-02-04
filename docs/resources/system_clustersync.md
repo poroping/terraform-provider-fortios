@@ -47,7 +47,7 @@ The `session_sync_filter` block contains:
 * `srcaddr` - Only sessions from this IPv4 address are synchronized. You can only enter one address. To synchronize sessions from multiple source addresses, add multiple filters.
 * `srcaddr6` - Only sessions from this IPv6 address are synchronized. You can only enter one address. To synchronize sessions from multiple source addresses, add multiple filters.
 * `srcintf` - Only sessions from this interface are synchronized. You can only enter one interface name. To synchronize sessions for multiple source interfaces, add multiple filters. This attribute must reference one of the following datasources: `system.interface.name` .
-* `custom_service` - Only sessions using these custom services are synchronized. Use source and destination port ranges to define these custome services. The structure of `custom_service` block is documented below.
+* `custom_service` - Only sessions using these custom services are synchronized. Use source and destination port ranges to define these custom services. The structure of `custom_service` block is documented below.
 
 The `custom_service` block contains:
 

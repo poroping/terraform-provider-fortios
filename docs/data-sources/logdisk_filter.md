@@ -53,7 +53,8 @@ The following attributes are exported:
 * `voip` - Enable/disable VoIP logging.
 * `wan_opt` - Enable/disable WAN optimization event logging.
 * `wireless_activity` - Enable/disable wireless activity event logging.
-* `free_style` - Free Style FiltersThe structure of `free_style` block is documented below.
+* `ztna_traffic` - Enable/disable ztna traffic logging.
+* `free_style` - Free style filters.The structure of `free_style` block is documented below.
 
 The `free_style` block contains:
 

@@ -38,7 +38,7 @@ The following attributes are exported:
 * `cdma_nai` - NAI for CDMA MODEMS.
 * `conn_status` - Connection status.
 * `description` - Description.
-* `device_id` - device-id
+* `device_id` - Device ID.
 * `dial_mode` - Dial mode (dial-on-demand or always-connect).
 * `dial_status` - Dial status.
 * `enforce_bandwidth` - Enable/disable enforcement of bandwidth on LAN extension interface.
@@ -71,7 +71,7 @@ The following attributes are exported:
 * `role` - FortiExtender work role(Primary, Secondary, None).
 * `secondary_ha` - Secondary HA.
 * `sim_pin` - SIM PIN.
-* `vdom` - VDOM
+* `vdom` - VDOM.
 * `wimax_auth_protocol` - WiMax authentication protocol(TLS or TTLS).
 * `wimax_carrier` - WiMax carrier.
 * `wimax_realm` - WiMax realm.

@@ -26,4 +26,4 @@ The following attributes are exported:
 
 * `fortiview_unscanned_apps` - Enable/disable showing unscanned traffic in FortiView application charts.
 * `resolve_apps` - Resolve unknown applications on the GUI using Fortinet's remote application database.
-* `resolve_hosts` - Enable/disable resolving IP addresses to hostname in log messages on the GUI using reverse DNS lookup
+* `resolve_hosts` - Enable/disable resolving IP addresses to hostname in log messages on the GUI using reverse DNS lookup.

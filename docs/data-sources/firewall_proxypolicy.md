@@ -28,6 +28,7 @@ The following attributes are exported:
 * `action` - Accept or deny traffic matching the policy parameters.
 * `application_list` - Name of an existing Application list.
 * `av_profile` - Name of an existing Antivirus profile.
+* `block_notification` - Enable/disable block notification.
 * `cifs_profile` - Name of an existing CIFS profile.
 * `comments` - Optional comments.
 * `decrypted_traffic_mirror` - Decrypted traffic mirror.

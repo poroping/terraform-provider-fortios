@@ -21,7 +21,7 @@ Report layout configuration.
 * `dynamic_sort_table` - `true` or `false`, set this parameter to `true` when using dynamic for_each + toset to configure and sort sub-tables, if set to `true` static sub-tables must be ordered.
 
 * `cutoff_option` - Cutoff-option is either run-time or custom. Valid values: `run-time` `custom` .
-* `cutoff_time` - Custom cutoff time to generate report [hh:mm].
+* `cutoff_time` - Custom cutoff time to generate report (format = hh:mm).
 * `day` - Schedule days of week to generate report. Valid values: `sunday` `monday` `tuesday` `wednesday` `thursday` `friday` `saturday` .
 * `description` - Description.
 * `email_recipients` - Email recipients for generated reports.
@@ -33,7 +33,7 @@ Report layout configuration.
 * `schedule_type` - Report schedule type. Valid values: `demand` `daily` `weekly` .
 * `style_theme` - Report style theme.
 * `subtitle` - Report subtitle.
-* `time` - Schedule time to generate report [hh:mm].
+* `time` - Schedule time to generate report (format = hh:mm).
 * `title` - Report title.
 * `body_item` - Configure report body item. The structure of `body_item` block is documented below.
 

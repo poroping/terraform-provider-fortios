@@ -214,7 +214,7 @@ The `custom_signature` block contains:
 * `severity` - Severity. Valid values: `high` `medium` `low` .
 * `status` - Status. Valid values: `enable` `disable` .
 * `target` - Match HTTP target. Valid values: `arg` `arg-name` `req-body` `req-cookie` `req-cookie-name` `req-filename` `req-header` `req-header-name` `req-raw-uri` `req-uri` `resp-body` `resp-hdr` `resp-status` .
-* `disabled_signature` - Disabled signatures The structure of `disabled_signature` block is documented below.
+* `disabled_signature` - Disabled signatures. The structure of `disabled_signature` block is documented below.
 
 The `disabled_signature` block contains:
 
@@ -233,7 +233,7 @@ The `main_class` block contains:
 * `log` - Enable/disable logging. Valid values: `enable` `disable` .
 * `severity` - Severity. Valid values: `high` `medium` `low` .
 * `status` - Status. Valid values: `enable` `disable` .
-* `url_access` - URL access list The structure of `url_access` block is documented below.
+* `url_access` - URL access list. The structure of `url_access` block is documented below.
 
 The `url_access` block contains:
 

@@ -63,7 +63,7 @@ The following attributes are exported:
 * `timezone` - Select the time zone to be assigned to DHCP clients.
 * `timezone_option` - Options for the DHCP server to set the client's time zone.
 * `vci_match` - Enable/disable vendor class identifier (VCI) matching. When enabled only DHCP requests with a matching VCI are served.
-* `wifi_ac_service` - Options for assigning WiFi Access Controllers to DHCP clients
+* `wifi_ac_service` - Options for assigning WiFi access controllers to DHCP clients.
 * `wifi_ac1` - WiFi Access Controller 1 IP address (DHCP option 138, RFC 5417).
 * `wifi_ac2` - WiFi Access Controller 2 IP address (DHCP option 138, RFC 5417).
 * `wifi_ac3` - WiFi Access Controller 3 IP address (DHCP option 138, RFC 5417).

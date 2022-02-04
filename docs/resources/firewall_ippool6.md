@@ -25,10 +25,10 @@ resource "fortios_firewall_ippool6" "example" {
 
 * `add_nat46_route` - Enable/disable adding NAT46 route. Valid values: `disable` `enable` .
 * `comments` - Comment.
-* `endip` - Final IPv6 address (inclusive) in the range for the address pool (format xxxx:xxxx:xxxx:xxxx:xxxx:xxxx:xxxx:xxxx, Default: ::).
+* `endip` - Final IPv6 address (inclusive) in the range for the address pool (format = xxxx:xxxx:xxxx:xxxx:xxxx:xxxx:xxxx:xxxx, default = ::).
 * `name` - IPv6 IP pool name.
 * `nat46` - Enable/disable NAT46. Valid values: `disable` `enable` .
-* `startip` - First IPv6 address (inclusive) in the range for the address pool (format xxxx:xxxx:xxxx:xxxx:xxxx:xxxx:xxxx:xxxx, Default: ::).
+* `startip` - First IPv6 address (inclusive) in the range for the address pool (format = xxxx:xxxx:xxxx:xxxx:xxxx:xxxx:xxxx:xxxx, default = ::).
 
 ## Attribute Reference
 

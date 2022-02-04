@@ -26,7 +26,7 @@ Configure DHCPv6 servers.
 * `dns_server2` - DNS server 2.
 * `dns_server3` - DNS server 3.
 * `dns_server4` - DNS server 4.
-* `dns_service` -  Options for assigning DNS servers to DHCPv6 clients. Valid values: `delegated` `default` `specify` .
+* `dns_service` - Options for assigning DNS servers to DHCPv6 clients. Valid values: `delegated` `default` `specify` .
 * `domain` - Domain name suffix for the IP addresses that the DHCP server assigns to clients.
 * `id` - ID.
 * `interface` - DHCP server can assign IP configurations to clients connected to this interface. This attribute must reference one of the following datasources: `system.interface.name` .

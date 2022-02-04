@@ -18,8 +18,8 @@ Configure global attributes.
 ## Argument Reference
 * `vdomparam` - Specifies the vdom to which the data source will be applied when the FortiGate unit is running in VDOM mode. Only one vdom can be specified. If you want to inherit the vdom configuration of the provider, please do not set this parameter.
 
-* `admin_concurrent` - Enable/disable concurrent administrator logins. (Use policy-auth-concurrent for firewall authenticated users.) Valid values: `enable` `disable` .
-* `admin_console_timeout` - Console login timeout that overrides the admintimeout value. (15 - 300 seconds) (15 seconds to 5 minutes). 0 the default, disables this timeout.
+* `admin_concurrent` - Enable/disable concurrent administrator logins. Use policy-auth-concurrent for firewall authenticated users. Valid values: `enable` `disable` .
+* `admin_console_timeout` - Console login timeout that overrides the admin timeout value (15 - 300 seconds, default = 0, which disables the timeout).
 * `admin_forticloud_sso_login` - Enable/disable FortiCloud admin login via SSO. Valid values: `enable` `disable` .
 * `admin_hsts_max_age` - HTTPS Strict-Transport-Security header max-age in seconds. A value of 0 will reset any HSTS records in the browser.When admin-https-redirect is disabled the header max-age will be 0.
 * `admin_https_pki_required` - Enable/disable admin login method. Enable to force administrators to provide a valid certificate to log in if PKI is enabled. Disable to allow administrators to log in with a certificate or password. Valid values: `enable` `disable` .
@@ -29,10 +29,10 @@ Configure global attributes.
 * `admin_https_ssl_versions` - Allowed TLS versions for web administration. Valid values: `tlsv1-1` `tlsv1-2` `tlsv1-3` .
 * `admin_lockout_duration` - Amount of time in seconds that an administrator account is locked out after reaching the admin-lockout-threshold for repeated failed login attempts.
 * `admin_lockout_threshold` - Number of failed login attempts before an administrator account is locked out for the admin-lockout-duration.
-* `admin_login_max` - Maximum number of administrators who can be logged in at the same time (1 - 100, default = 100)
+* `admin_login_max` - Maximum number of administrators who can be logged in at the same time (1 - 100, default = 100).
 * `admin_maintainer` - Enable/disable maintainer administrator login. When enabled, the maintainer account can be used to log in from the console after a hard reboot. The password is "bcpb" followed by the FortiGate unit serial number. You have limited time to complete this login. Valid values: `enable` `disable` .
 * `admin_port` - Administrative access port for HTTP. (1 - 65535, default = 80).
-* `admin_restrict_local` - Enable/disable local admin authentication restriction when remote authenticator is up and running. (default = disable) Valid values: `enable` `disable` .
+* `admin_restrict_local` - Enable/disable local admin authentication restriction when remote authenticator is up and running (default = disable). Valid values: `enable` `disable` .
 * `admin_scp` - Enable/disable using SCP to download the system configuration. You can use SCP as an alternative method for backing up the configuration. Valid values: `enable` `disable` .
 * `admin_server_cert` - Server certificate that the FortiGate uses for HTTPS administrative connections. This attribute must reference one of the following datasources: `certificate.local.name` .
 * `admin_sport` - Administrative access port for HTTPS. (1 - 65535, default = 443).
@@ -63,34 +63,37 @@ Configure global attributes.
 * `cert_chain_max` - Maximum number of certificates that can be traversed in a certificate chain.
 * `cfg_revert_timeout` - Time-out for reverting to the last saved configuration. (10 - 4294967295 seconds, default = 600).
 * `cfg_save` - Configuration file save mode for CLI changes. Valid values: `automatic` `manual` `revert` .
-* `check_protocol_header` - Level of checking performed on protocol headers. Strict checking is more thorough but may affect performance. Loose checking is ok in most cases. Valid values: `loose` `strict` .
+* `check_protocol_header` - Level of checking performed on protocol headers. Strict checking is more thorough but may affect performance. Loose checking is OK in most cases. Valid values: `loose` `strict` .
 * `check_reset_range` - Configure ICMP error message verification. You can either apply strict RST range checking or disable it. Valid values: `strict` `disable` .
 * `cli_audit_log` - Enable/disable CLI audit log. Valid values: `enable` `disable` .
 * `cloud_communication` - Enable/disable all cloud communication. Valid values: `enable` `disable` .
 * `clt_cert_req` - Enable/disable requiring administrators to have a client certificate to log into the GUI using HTTPS. Valid values: `enable` `disable` .
 * `cmdbsvr_affinity` - Affinity setting for cmdbsvr (hexadecimal value up to 256 bits in the format of xxxxxxxxxxxxxxxx).
-* `cpu_use_threshold` - Threshold at which CPU usage is reported. (% of total CPU, default = 90).
+* `cpu_use_threshold` - Threshold at which CPU usage is reported (% of total CPU, default = 90).
 * `csr_ca_attribute` - Enable/disable the CA attribute in certificates. Some CA servers reject CSRs that have the CA attribute. Valid values: `enable` `disable` .
 * `daily_restart` - Enable/disable daily restart of FortiGate unit. Use the restart-time option to set the time of day for the restart. Valid values: `enable` `disable` .
-* `default_service_source_port` - Default service source port range. (default=1-65535)
+* `default_service_source_port` - Default service source port range (default = 1 - 65535).
 * `device_identification_active_scan_delay` - Number of seconds to passively scan a device before performing an active scan. (20 - 3600 sec, (20 sec to 1 hour), default = 90).
 * `device_idle_timeout` - Time in seconds that a device must be idle to automatically log the device user out. (30 - 31536000 sec (30 sec to 1 year), default = 300).
 * `dh_params` - Number of bits to use in the Diffie-Hellman exchange for HTTPS/SSH protocols. Valid values: `1024` `1536` `2048` `3072` `4096` `6144` `8192` .
 * `dnsproxy_worker_count` - DNS proxy worker count. For a FortiGate with multiple logical CPUs, you can set the DNS process number from 1 to the number of logical CPUs.
 * `dst` - Enable/disable daylight saving time. Valid values: `enable` `disable` .
+* `extender_controller_reserved_network` - Configure reserved network subnet for managed LAN extension FortiExtender units. This is available when the FortiExtender daemon is running.
 * `failtime` - Fail-time for server lost.
-* `faz_disk_buffer_size` - Maximum disk buffer size to temporarily store logs destined for FortiAnalyzer. To be used in the event that FortiAnalyzer is unavailalble.
+* `faz_disk_buffer_size` - Maximum disk buffer size to temporarily store logs destined for FortiAnalyzer. To be used in the event that FortiAnalyzer is unavailable.
 * `fds_statistics` - Enable/disable sending IPS, Application Control, and AntiVirus data to FortiGuard. This data is used to improve FortiGuard services and is not shared with external parties and is protected by Fortinet's privacy policy. Valid values: `enable` `disable` .
 * `fds_statistics_period` - FortiGuard statistics collection period in minutes. (1 - 1440 min (1 min to 24 hours), default = 60).
 * `fec_port` - Local UDP port for Forward Error Correction (49152 - 65535).
 * `fgd_alert_subscription` - Type of alert to retrieve from FortiGuard. Valid values: `advisory` `latest-threat` `latest-virus` `latest-attack` `new-antivirus-db` `new-attack-db` .
 * `fortiextender` - Enable/disable FortiExtender. Valid values: `disable` `enable` .
 * `fortiextender_data_port` - FortiExtender data port (1024 - 49150, default = 25246).
+* `fortiextender_discovery_lockdown` - Enable/disable FortiExtender CAPWAP lockdown. Valid values: `disable` `enable` .
 * `fortiextender_vlan_mode` - Enable/disable FortiExtender VLAN mode. Valid values: `enable` `disable` .
 * `fortiipam_integration` - Enable/disable integration with the FortiIPAM cloud service. Valid values: `enable` `disable` .
 * `fortiservice_port` - FortiService port (1 - 65535, default = 8013). Used by FortiClient endpoint compliance. Older versions of FortiClient used a different port.
 * `fortitoken_cloud` - Enable/disable FortiToken Cloud service. Valid values: `enable` `disable` .
 * `gui_allow_default_hostname` - Enable/disable the factory default hostname warning on the GUI setup wizard. Valid values: `enable` `disable` .
+* `gui_cdn_usage` - Enable/disable Load GUI static files from a CDN. Valid values: `enable` `disable` .
 * `gui_certificates` - Enable/disable the System > Certificate GUI page, allowing you to add and configure certificates from the GUI. Valid values: `enable` `disable` .
 * `gui_custom_language` - Enable/disable custom languages in GUI. Valid values: `enable` `disable` .
 * `gui_date_format` - Default date format used throughout GUI. Valid values: `yyyy/MM/dd` `dd/MM/yyyy` `MM/dd/yyyy` `yyyy-MM-dd` `dd-MM-yyyy` `MM-dd-yyyy` .
@@ -114,6 +117,7 @@ Configure global attributes.
 * `honor_df` - Enable/disable honoring of Don't-Fragment (DF) flag. Valid values: `enable` `disable` .
 * `hostname` - FortiGate unit's hostname. Most models will truncate names longer than 24 characters. Some models support hostnames up to 35 characters.
 * `igmp_state_limit` - Maximum number of IGMP memberships (96 - 64000, default = 3200).
+* `internet_service_database` - Configure which Internet Service database size to download from FortiGuard and use. Valid values: `mini` `standard` `full` .
 * `interval` - Dead gateway detection interval.
 * `ip_src_port_range` - IP source port range used for traffic originating from the FortiGate unit.
 * `ips_affinity` - Affinity setting for IPS (hexadecimal value up to 256 bits in the format of xxxxxxxxxxxxxxxx; allowed CPUs must be less than total number of IPS engine daemons).
@@ -154,9 +158,10 @@ Configure global attributes.
 * `post_login_banner` - Enable/disable displaying the administrator access disclaimer message after an administrator successfully logs in. Valid values: `disable` `enable` .
 * `pre_login_banner` - Enable/disable displaying the administrator access disclaimer message on the login page before an administrator logs in. Valid values: `enable` `disable` .
 * `private_data_encryption` - Enable/disable private data encryption using an AES 128-bit key or passpharse. Valid values: `disable` `enable` .
-* `proxy_auth_lifetime` - Enable/disable authenticated users lifetime control.  This is a cap on the total time a proxy user can be authenticated for after which re-authentication will take place. Valid values: `enable` `disable` .
+* `proxy_auth_lifetime` - Enable/disable authenticated users lifetime control. This is a cap on the total time a proxy user can be authenticated for after which re-authentication will take place. Valid values: `enable` `disable` .
 * `proxy_auth_lifetime_timeout` - Lifetime timeout in minutes for authenticated users (5  - 65535 min, default=480 (8 hours)).
 * `proxy_auth_timeout` - Authentication timeout in minutes for authenticated users (1 - 300 min, default = 10).
+* `proxy_cert_use_mgmt_vdom` - Enable/disable using management VDOM to send requests. Valid values: `enable` `disable` .
 * `proxy_cipher_hardware_acceleration` - Enable/disable using content processor (CP8 or CP9) hardware acceleration to encrypt and decrypt IPsec and SSL traffic. Valid values: `disable` `enable` .
 * `proxy_kxp_hardware_acceleration` - Enable/disable using the content processor to accelerate KXP traffic. Valid values: `disable` `enable` .
 * `proxy_re_authentication_mode` - Control if users must re-authenticate after a session is closed, traffic has been idle, or from the point at which the user was first created. Valid values: `session` `traffic` `absolute` .

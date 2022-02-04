@@ -219,7 +219,7 @@ The `custom_signature` block contains:
 * `severity` - Severity.
 * `status` - Status.
 * `target` - Match HTTP target.
-* `disabled_signature` - Disabled signaturesThe structure of `disabled_signature` block is documented below.
+* `disabled_signature` - Disabled signatures.The structure of `disabled_signature` block is documented below.
 
 The `disabled_signature` block contains:
 
@@ -238,7 +238,7 @@ The `main_class` block contains:
 * `log` - Enable/disable logging.
 * `severity` - Severity.
 * `status` - Status.
-* `url_access` - URL access listThe structure of `url_access` block is documented below.
+* `url_access` - URL access list.The structure of `url_access` block is documented below.
 
 The `url_access` block contains:
 

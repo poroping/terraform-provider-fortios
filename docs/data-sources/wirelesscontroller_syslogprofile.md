@@ -26,9 +26,9 @@ Use this data source to get information on a fortios Configure Wireless Terminat
 The following attributes are exported:
 
 * `comment` - Comment.
-* `log_level` - Lowest level of log messages that FortiAP units send to this server (default = information)
+* `log_level` - Lowest level of log messages that FortiAP units send to this server (default = information).
 * `name` - WTP system log server profile name.
-* `server_addr_type` - Syslog server address type (default = IP)
+* `server_addr_type` - Syslog server address type (default = ip).
 * `server_fqdn` - FQDN of syslog server that FortiAP units send log messages to.
 * `server_ip` - IP address of syslog server that FortiAP units send log messages to.
 * `server_port` - Port number of syslog server that FortiAP units send log messages to (default = 514).

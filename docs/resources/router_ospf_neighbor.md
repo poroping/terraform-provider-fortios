@@ -3,11 +3,11 @@ subcategory: "FortiGate Router"
 layout: "fortios"
 page_title: "FortiOS: fortios_router_ospf_neighbor"
 description: |-
-  OSPF neighbor configuration are used when OSPF runs on non-broadcast media
+  OSPF neighbor configuration are used when OSPF runs on non-broadcast media.
 ---
 
 ## fortios_router_ospf_neighbor
-OSPF neighbor configuration are used when OSPF runs on non-broadcast media
+OSPF neighbor configuration are used when OSPF runs on non-broadcast media.
 
 ~> This resource is configuring a child table of the parent resource: `fortios_router_ospf`. If this resource is used the parent resource must NOT modify this child table or state inconsistencies will occur.
 

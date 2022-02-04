@@ -42,7 +42,7 @@ The following attributes are exported:
 * `sw_version` - NAC policy matching software version.
 * `switch_auto_auth` - NAC device auto authorization when discovered and nac-policy matched.
 * `switch_fortilink` - FortiLink interface for which this NAC policy belongs to.
-* `switch_mac_policy` - switch-mac-policy action to be applied on the matched NAC policy.
+* `switch_mac_policy` - Switch MAC policy action to be applied on the matched NAC policy.
 * `switch_port_policy` - switch-port-policy to be applied on the matched NAC policy.
 * `type` - NAC policy matching type.
 * `user` - NAC policy matching user.

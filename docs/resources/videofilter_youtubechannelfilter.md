@@ -23,7 +23,7 @@ Configure YouTube channel filter.
 * `comment` - Comment.
 * `default_action` - YouTube channel filter default action. Valid values: `allow` `monitor` `block` .
 * `id` - ID.
-* `log` - Eanble/disable logging. Valid values: `enable` `disable` .
+* `log` - Enable/disable logging. Valid values: `enable` `disable` .
 * `name` - Name.
 * `entries` - YouTube filter entries. The structure of `entries` block is documented below.
 

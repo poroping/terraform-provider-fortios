@@ -31,7 +31,7 @@ The following attributes are exported:
 * `dns_server2` - DNS server 2.
 * `dns_server3` - DNS server 3.
 * `dns_server4` - DNS server 4.
-* `dns_service` -  Options for assigning DNS servers to DHCPv6 clients.
+* `dns_service` - Options for assigning DNS servers to DHCPv6 clients.
 * `domain` - Domain name suffix for the IP addresses that the DHCP server assigns to clients.
 * `id` - ID.
 * `interface` - DHCP server can assign IP configurations to clients connected to this interface.

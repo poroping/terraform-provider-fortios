@@ -35,7 +35,7 @@ resource "fortios_router_static" "example" {
 * `internet_service` - Application ID in the Internet service database. This attribute must reference one of the following datasources: `firewall.internet-service.id` .
 * `internet_service_custom` - Application name in the Internet service custom database. This attribute must reference one of the following datasources: `firewall.internet-service-custom.name` .
 * `link_monitor_exempt` - Enable/disable withdrawal of this static route when link monitor or health check is down. Valid values: `enable` `disable` .
-* `priority` - Administrative priority (0 - 65535).
+* `priority` - Administrative priority (1 - 65535).
 * `sdwan` - Enable/disable egress through SD-WAN. Valid values: `enable` `disable` .
 * `seq_num` - Sequence number.
 * `src` - Source prefix for this route.

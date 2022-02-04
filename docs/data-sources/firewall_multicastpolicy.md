@@ -30,7 +30,7 @@ The following attributes are exported:
 * `comments` - Comment.
 * `dnat` - IPv4 DNAT address used for multicast destination addresses.
 * `dstintf` - Destination interface name.
-* `end_port` -  Integer value for ending TCP/UDP/SCTP destination port in range (1 - 65535, default = 1).
+* `end_port` - Integer value for ending TCP/UDP/SCTP destination port in range (1 - 65535, default = 1).
 * `id` - Policy ID ((0 - 4294967294).
 * `logtraffic` - Enable/disable logging traffic accepted by this policy.
 * `name` - Policy name.
