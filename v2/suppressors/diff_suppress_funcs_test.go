@@ -243,3 +243,24 @@ func TestIsMultiStringEqual(t *testing.T) {
 		})
 	}
 }
+
+func TestToCIDR(t *testing.T) {
+	var tests = []struct {
+		s1, s2 string
+	}{
+		{"0.0.0.0 0.0.0.0", "0.0.0.0/0"},
+		{"172.16.0.0 255.240.0.0", "172.16.0.0/12"},
+		{"192.168.0.0/16", "192.168.0.0/16"},
+		{"asdsadasdasd", "asdsadasdasd"},
+	}
+
+	for i, tt := range tests {
+		testname := fmt.Sprintf("Testing FortiOS 'multi-string' equality, %v", i)
+		t.Run(testname, func(t *testing.T) {
+			ans := toCidr(tt.s1)
+			if ans != tt.s2 {
+				t.Errorf("got %v, want %v", ans, tt.s2)
+			}
+		})
+	}
+}

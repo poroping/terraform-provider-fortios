@@ -7,6 +7,7 @@ import (
 	"net"
 	"reflect"
 	"sort"
+	"strconv"
 	"strings"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -69,6 +70,8 @@ func DiffCidrEqual(k, old, new string, d *schema.ResourceData) bool {
 	if old == "" && new == "" {
 		return true
 	}
+	old = toCidr(old)
+	new = toCidr(new)
 	return isCidrEqual(old, new)
 }
 
@@ -111,6 +114,25 @@ func isMultiStringEqual(s1, s2 string) bool {
 	s1 = strings.Trim(s1, "\"")
 	s2 = strings.Trim(s2, "\"")
 	return s1 == s2
+}
+
+func toCidr(in string) (cidr string) {
+	_, _, err := net.ParseCIDR(in)
+	if err == nil {
+		return in
+	}
+	s := strings.Split(in, " ")
+	if len(s) == 2 {
+		ip := s[0]
+		mask := s[1]
+		prefix_length, _ := net.IPMask(net.ParseIP(mask).To4()).Size()
+		if mask != "0.0.0.0" && prefix_length == 0 {
+			return in
+		}
+		cidr = ip + "/" + strconv.Itoa(prefix_length)
+		return
+	}
+	return in
 }
 
 // func isSubtableEqual(v1, v2 []map[string]interface{}) bool {
