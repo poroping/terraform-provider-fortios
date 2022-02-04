@@ -1,3 +1,8 @@
+## 3.1.2
+
+BUGFIXES:
+* Bumped SDK to resolve issue where mkey contained characters that needed to be escaped. And added acc test to check this.
+
 ## 3.1.1
 
 BUGFIXES:
