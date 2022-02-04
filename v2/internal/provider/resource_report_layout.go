@@ -1246,8 +1246,9 @@ func expandReportLayoutBodyItem(d *schema.ResourceData, v interface{}, pre strin
 
 		pre_append = fmt.Sprintf("%s.%d.column", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Column = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Column = &v3
 			}
 		}
 
@@ -1288,8 +1289,9 @@ func expandReportLayoutBodyItem(d *schema.ResourceData, v interface{}, pre strin
 
 		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Id = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Id = &v3
 			}
 		}
 
@@ -1392,8 +1394,9 @@ func expandReportLayoutBodyItem(d *schema.ResourceData, v interface{}, pre strin
 
 		pre_append = fmt.Sprintf("%s.%d.top_n", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.TopN = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.TopN = &v3
 			}
 		}
 
@@ -1430,8 +1433,9 @@ func expandReportLayoutBodyItemList(d *schema.ResourceData, v interface{}, pre s
 
 		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Id = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Id = &v3
 			}
 		}
 
@@ -1454,8 +1458,9 @@ func expandReportLayoutBodyItemParameters(d *schema.ResourceData, v interface{},
 
 		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Id = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Id = &v3
 			}
 		}
 
@@ -1605,8 +1610,9 @@ func expandReportLayoutPageFooterFooterItem(d *schema.ResourceData, v interface{
 
 		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Id = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Id = &v3
 			}
 		}
 
@@ -1698,8 +1704,9 @@ func expandReportLayoutPageHeaderHeaderItem(d *schema.ResourceData, v interface{
 
 		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Id = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Id = &v3
 			}
 		}
 

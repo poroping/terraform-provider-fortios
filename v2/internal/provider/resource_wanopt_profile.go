@@ -966,8 +966,9 @@ func expandWanoptProfileCifs(d *schema.ResourceData, v interface{}, pre string, 
 
 		pre_append = fmt.Sprintf("%s.%d.port", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Port = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Port = &v3
 			}
 		}
 
@@ -1039,8 +1040,9 @@ func expandWanoptProfileFtp(d *schema.ResourceData, v interface{}, pre string, s
 
 		pre_append = fmt.Sprintf("%s.%d.port", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Port = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Port = &v3
 			}
 		}
 
@@ -1119,8 +1121,9 @@ func expandWanoptProfileHttp(d *schema.ResourceData, v interface{}, pre string, 
 
 		pre_append = fmt.Sprintf("%s.%d.port", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Port = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Port = &v3
 			}
 		}
 
@@ -1154,8 +1157,9 @@ func expandWanoptProfileHttp(d *schema.ResourceData, v interface{}, pre string, 
 
 		pre_append = fmt.Sprintf("%s.%d.ssl_port", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.SslPort = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.SslPort = &v3
 			}
 		}
 
@@ -1220,8 +1224,9 @@ func expandWanoptProfileMapi(d *schema.ResourceData, v interface{}, pre string, 
 
 		pre_append = fmt.Sprintf("%s.%d.port", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Port = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Port = &v3
 			}
 		}
 

@@ -368,29 +368,33 @@ func expandRouterPrefixList6Rule(d *schema.ResourceData, v interface{}, pre stri
 
 		pre_append = fmt.Sprintf("%s.%d.flags", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Flags = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Flags = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.ge", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Ge = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Ge = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Id = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Id = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.le", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Le = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Le = &v3
 			}
 		}
 

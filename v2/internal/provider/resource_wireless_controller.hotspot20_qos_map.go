@@ -392,22 +392,25 @@ func expandWirelessControllerHotspot20QosMapDscpExcept(d *schema.ResourceData, v
 
 		pre_append = fmt.Sprintf("%s.%d.dscp", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Dscp = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Dscp = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.index", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Index = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Index = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.up", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Up = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Up = &v3
 			}
 		}
 
@@ -430,29 +433,33 @@ func expandWirelessControllerHotspot20QosMapDscpRange(d *schema.ResourceData, v 
 
 		pre_append = fmt.Sprintf("%s.%d.high", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.High = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.High = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.index", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Index = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Index = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.low", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Low = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Low = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.up", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Up = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Up = &v3
 			}
 		}
 

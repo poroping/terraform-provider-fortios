@@ -2160,15 +2160,17 @@ func expandFirewallProfileProtocolOptionsCifs(d *schema.ResourceData, v interfac
 
 		pre_append = fmt.Sprintf("%s.%d.oversize_limit", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.OversizeLimit = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.OversizeLimit = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.ports", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Ports = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Ports = &v3
 			}
 		}
 
@@ -2205,22 +2207,25 @@ func expandFirewallProfileProtocolOptionsCifs(d *schema.ResourceData, v interfac
 
 		pre_append = fmt.Sprintf("%s.%d.tcp_window_maximum", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.TcpWindowMaximum = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.TcpWindowMaximum = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.tcp_window_minimum", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.TcpWindowMinimum = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.TcpWindowMinimum = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.tcp_window_size", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.TcpWindowSize = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.TcpWindowSize = &v3
 			}
 		}
 
@@ -2233,15 +2238,17 @@ func expandFirewallProfileProtocolOptionsCifs(d *schema.ResourceData, v interfac
 
 		pre_append = fmt.Sprintf("%s.%d.uncompressed_nest_limit", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.UncompressedNestLimit = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.UncompressedNestLimit = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.uncompressed_oversize_limit", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.UncompressedOversizeLimit = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.UncompressedOversizeLimit = &v3
 			}
 		}
 
@@ -2295,8 +2302,9 @@ func expandFirewallProfileProtocolOptionsDns(d *schema.ResourceData, v interface
 
 		pre_append = fmt.Sprintf("%s.%d.ports", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Ports = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Ports = &v3
 			}
 		}
 
@@ -2326,15 +2334,17 @@ func expandFirewallProfileProtocolOptionsFtp(d *schema.ResourceData, v interface
 
 		pre_append = fmt.Sprintf("%s.%d.comfort_amount", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.ComfortAmount = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.ComfortAmount = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.comfort_interval", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.ComfortInterval = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.ComfortInterval = &v3
 			}
 		}
 
@@ -2354,15 +2364,17 @@ func expandFirewallProfileProtocolOptionsFtp(d *schema.ResourceData, v interface
 
 		pre_append = fmt.Sprintf("%s.%d.oversize_limit", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.OversizeLimit = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.OversizeLimit = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.ports", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Ports = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Ports = &v3
 			}
 		}
 
@@ -2389,29 +2401,33 @@ func expandFirewallProfileProtocolOptionsFtp(d *schema.ResourceData, v interface
 
 		pre_append = fmt.Sprintf("%s.%d.stream_based_uncompressed_limit", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.StreamBasedUncompressedLimit = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.StreamBasedUncompressedLimit = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.tcp_window_maximum", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.TcpWindowMaximum = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.TcpWindowMaximum = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.tcp_window_minimum", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.TcpWindowMinimum = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.TcpWindowMinimum = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.tcp_window_size", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.TcpWindowSize = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.TcpWindowSize = &v3
 			}
 		}
 
@@ -2424,15 +2440,17 @@ func expandFirewallProfileProtocolOptionsFtp(d *schema.ResourceData, v interface
 
 		pre_append = fmt.Sprintf("%s.%d.uncompressed_nest_limit", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.UncompressedNestLimit = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.UncompressedNestLimit = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.uncompressed_oversize_limit", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.UncompressedOversizeLimit = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.UncompressedOversizeLimit = &v3
 			}
 		}
 
@@ -2455,22 +2473,25 @@ func expandFirewallProfileProtocolOptionsHttp(d *schema.ResourceData, v interfac
 
 		pre_append = fmt.Sprintf("%s.%d.block_page_status_code", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.BlockPageStatusCode = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.BlockPageStatusCode = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.comfort_amount", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.ComfortAmount = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.ComfortAmount = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.comfort_interval", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.ComfortInterval = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.ComfortInterval = &v3
 			}
 		}
 
@@ -2483,8 +2504,9 @@ func expandFirewallProfileProtocolOptionsHttp(d *schema.ResourceData, v interfac
 
 		pre_append = fmt.Sprintf("%s.%d.fortinet_bar_port", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.FortinetBarPort = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.FortinetBarPort = &v3
 			}
 		}
 
@@ -2504,15 +2526,17 @@ func expandFirewallProfileProtocolOptionsHttp(d *schema.ResourceData, v interfac
 
 		pre_append = fmt.Sprintf("%s.%d.oversize_limit", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.OversizeLimit = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.OversizeLimit = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.ports", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Ports = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Ports = &v3
 			}
 		}
 
@@ -2539,8 +2563,9 @@ func expandFirewallProfileProtocolOptionsHttp(d *schema.ResourceData, v interfac
 
 		pre_append = fmt.Sprintf("%s.%d.retry_count", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.RetryCount = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.RetryCount = &v3
 			}
 		}
 
@@ -2567,8 +2592,9 @@ func expandFirewallProfileProtocolOptionsHttp(d *schema.ResourceData, v interfac
 
 		pre_append = fmt.Sprintf("%s.%d.stream_based_uncompressed_limit", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.StreamBasedUncompressedLimit = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.StreamBasedUncompressedLimit = &v3
 			}
 		}
 
@@ -2595,22 +2621,25 @@ func expandFirewallProfileProtocolOptionsHttp(d *schema.ResourceData, v interfac
 
 		pre_append = fmt.Sprintf("%s.%d.tcp_window_maximum", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.TcpWindowMaximum = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.TcpWindowMaximum = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.tcp_window_minimum", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.TcpWindowMinimum = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.TcpWindowMinimum = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.tcp_window_size", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.TcpWindowSize = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.TcpWindowSize = &v3
 			}
 		}
 
@@ -2630,15 +2659,17 @@ func expandFirewallProfileProtocolOptionsHttp(d *schema.ResourceData, v interfac
 
 		pre_append = fmt.Sprintf("%s.%d.uncompressed_nest_limit", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.UncompressedNestLimit = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.UncompressedNestLimit = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.uncompressed_oversize_limit", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.UncompressedOversizeLimit = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.UncompressedOversizeLimit = &v3
 			}
 		}
 
@@ -2682,15 +2713,17 @@ func expandFirewallProfileProtocolOptionsImap(d *schema.ResourceData, v interfac
 
 		pre_append = fmt.Sprintf("%s.%d.oversize_limit", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.OversizeLimit = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.OversizeLimit = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.ports", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Ports = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Ports = &v3
 			}
 		}
 
@@ -2724,15 +2757,17 @@ func expandFirewallProfileProtocolOptionsImap(d *schema.ResourceData, v interfac
 
 		pre_append = fmt.Sprintf("%s.%d.uncompressed_nest_limit", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.UncompressedNestLimit = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.UncompressedNestLimit = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.uncompressed_oversize_limit", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.UncompressedOversizeLimit = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.UncompressedOversizeLimit = &v3
 			}
 		}
 
@@ -2793,15 +2828,17 @@ func expandFirewallProfileProtocolOptionsMapi(d *schema.ResourceData, v interfac
 
 		pre_append = fmt.Sprintf("%s.%d.oversize_limit", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.OversizeLimit = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.OversizeLimit = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.ports", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Ports = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Ports = &v3
 			}
 		}
 
@@ -2821,15 +2858,17 @@ func expandFirewallProfileProtocolOptionsMapi(d *schema.ResourceData, v interfac
 
 		pre_append = fmt.Sprintf("%s.%d.uncompressed_nest_limit", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.UncompressedNestLimit = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.UncompressedNestLimit = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.uncompressed_oversize_limit", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.UncompressedOversizeLimit = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.UncompressedOversizeLimit = &v3
 			}
 		}
 
@@ -2866,15 +2905,17 @@ func expandFirewallProfileProtocolOptionsNntp(d *schema.ResourceData, v interfac
 
 		pre_append = fmt.Sprintf("%s.%d.oversize_limit", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.OversizeLimit = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.OversizeLimit = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.ports", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Ports = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Ports = &v3
 			}
 		}
 
@@ -2901,15 +2942,17 @@ func expandFirewallProfileProtocolOptionsNntp(d *schema.ResourceData, v interfac
 
 		pre_append = fmt.Sprintf("%s.%d.uncompressed_nest_limit", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.UncompressedNestLimit = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.UncompressedNestLimit = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.uncompressed_oversize_limit", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.UncompressedOversizeLimit = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.UncompressedOversizeLimit = &v3
 			}
 		}
 
@@ -2946,15 +2989,17 @@ func expandFirewallProfileProtocolOptionsPop3(d *schema.ResourceData, v interfac
 
 		pre_append = fmt.Sprintf("%s.%d.oversize_limit", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.OversizeLimit = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.OversizeLimit = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.ports", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Ports = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Ports = &v3
 			}
 		}
 
@@ -2988,15 +3033,17 @@ func expandFirewallProfileProtocolOptionsPop3(d *schema.ResourceData, v interfac
 
 		pre_append = fmt.Sprintf("%s.%d.uncompressed_nest_limit", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.UncompressedNestLimit = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.UncompressedNestLimit = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.uncompressed_oversize_limit", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.UncompressedOversizeLimit = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.UncompressedOversizeLimit = &v3
 			}
 		}
 
@@ -3033,15 +3080,17 @@ func expandFirewallProfileProtocolOptionsSmtp(d *schema.ResourceData, v interfac
 
 		pre_append = fmt.Sprintf("%s.%d.oversize_limit", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.OversizeLimit = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.OversizeLimit = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.ports", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Ports = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Ports = &v3
 			}
 		}
 
@@ -3082,15 +3131,17 @@ func expandFirewallProfileProtocolOptionsSmtp(d *schema.ResourceData, v interfac
 
 		pre_append = fmt.Sprintf("%s.%d.uncompressed_nest_limit", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.UncompressedNestLimit = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.UncompressedNestLimit = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.uncompressed_oversize_limit", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.UncompressedOversizeLimit = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.UncompressedOversizeLimit = &v3
 			}
 		}
 
@@ -3113,15 +3164,17 @@ func expandFirewallProfileProtocolOptionsSsh(d *schema.ResourceData, v interface
 
 		pre_append = fmt.Sprintf("%s.%d.comfort_amount", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.ComfortAmount = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.ComfortAmount = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.comfort_interval", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.ComfortInterval = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.ComfortInterval = &v3
 			}
 		}
 
@@ -3134,8 +3187,9 @@ func expandFirewallProfileProtocolOptionsSsh(d *schema.ResourceData, v interface
 
 		pre_append = fmt.Sprintf("%s.%d.oversize_limit", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.OversizeLimit = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.OversizeLimit = &v3
 			}
 		}
 
@@ -3155,29 +3209,33 @@ func expandFirewallProfileProtocolOptionsSsh(d *schema.ResourceData, v interface
 
 		pre_append = fmt.Sprintf("%s.%d.stream_based_uncompressed_limit", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.StreamBasedUncompressedLimit = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.StreamBasedUncompressedLimit = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.tcp_window_maximum", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.TcpWindowMaximum = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.TcpWindowMaximum = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.tcp_window_minimum", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.TcpWindowMinimum = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.TcpWindowMinimum = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.tcp_window_size", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.TcpWindowSize = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.TcpWindowSize = &v3
 			}
 		}
 
@@ -3190,15 +3248,17 @@ func expandFirewallProfileProtocolOptionsSsh(d *schema.ResourceData, v interface
 
 		pre_append = fmt.Sprintf("%s.%d.uncompressed_nest_limit", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.UncompressedNestLimit = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.UncompressedNestLimit = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.uncompressed_oversize_limit", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.UncompressedOversizeLimit = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.UncompressedOversizeLimit = &v3
 			}
 		}
 

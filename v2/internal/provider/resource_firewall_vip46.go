@@ -815,15 +815,17 @@ func expandFirewallVip46Realservers(d *schema.ResourceData, v interface{}, pre s
 
 		pre_append = fmt.Sprintf("%s.%d.holddown_interval", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.HolddownInterval = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.HolddownInterval = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Id = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Id = &v3
 			}
 		}
 
@@ -836,8 +838,9 @@ func expandFirewallVip46Realservers(d *schema.ResourceData, v interface{}, pre s
 
 		pre_append = fmt.Sprintf("%s.%d.max_connections", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.MaxConnections = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.MaxConnections = &v3
 			}
 		}
 
@@ -853,8 +856,9 @@ func expandFirewallVip46Realservers(d *schema.ResourceData, v interface{}, pre s
 
 		pre_append = fmt.Sprintf("%s.%d.port", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Port = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Port = &v3
 			}
 		}
 
@@ -867,8 +871,9 @@ func expandFirewallVip46Realservers(d *schema.ResourceData, v interface{}, pre s
 
 		pre_append = fmt.Sprintf("%s.%d.weight", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Weight = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Weight = &v3
 			}
 		}
 

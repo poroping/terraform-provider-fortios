@@ -927,8 +927,9 @@ func expandRouterRouteMapRule(d *schema.ResourceData, v interface{}, pre string,
 
 		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Id = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Id = &v3
 			}
 		}
 
@@ -955,8 +956,9 @@ func expandRouterRouteMapRule(d *schema.ResourceData, v interface{}, pre string,
 
 		pre_append = fmt.Sprintf("%s.%d.match_flags", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.MatchFlags = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.MatchFlags = &v3
 			}
 		}
 
@@ -997,8 +999,9 @@ func expandRouterRouteMapRule(d *schema.ResourceData, v interface{}, pre string,
 
 		pre_append = fmt.Sprintf("%s.%d.match_metric", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.MatchMetric = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.MatchMetric = &v3
 			}
 		}
 
@@ -1018,22 +1021,25 @@ func expandRouterRouteMapRule(d *schema.ResourceData, v interface{}, pre string,
 
 		pre_append = fmt.Sprintf("%s.%d.match_tag", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.MatchTag = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.MatchTag = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.match_vrf", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.MatchVrf = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.MatchVrf = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.set_aggregator_as", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.SetAggregatorAs = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.SetAggregatorAs = &v3
 			}
 		}
 
@@ -1094,36 +1100,41 @@ func expandRouterRouteMapRule(d *schema.ResourceData, v interface{}, pre string,
 
 		pre_append = fmt.Sprintf("%s.%d.set_dampening_max_suppress", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.SetDampeningMaxSuppress = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.SetDampeningMaxSuppress = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.set_dampening_reachability_half_life", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.SetDampeningReachabilityHalfLife = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.SetDampeningReachabilityHalfLife = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.set_dampening_reuse", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.SetDampeningReuse = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.SetDampeningReuse = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.set_dampening_suppress", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.SetDampeningSuppress = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.SetDampeningSuppress = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.set_dampening_unreachability_half_life", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.SetDampeningUnreachabilityHalfLife = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.SetDampeningUnreachabilityHalfLife = &v3
 			}
 		}
 
@@ -1149,8 +1160,9 @@ func expandRouterRouteMapRule(d *schema.ResourceData, v interface{}, pre string,
 
 		pre_append = fmt.Sprintf("%s.%d.set_flags", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.SetFlags = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.SetFlags = &v3
 			}
 		}
 
@@ -1177,15 +1189,17 @@ func expandRouterRouteMapRule(d *schema.ResourceData, v interface{}, pre string,
 
 		pre_append = fmt.Sprintf("%s.%d.set_local_preference", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.SetLocalPreference = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.SetLocalPreference = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.set_metric", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.SetMetric = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.SetMetric = &v3
 			}
 		}
 
@@ -1212,22 +1226,25 @@ func expandRouterRouteMapRule(d *schema.ResourceData, v interface{}, pre string,
 
 		pre_append = fmt.Sprintf("%s.%d.set_route_tag", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.SetRouteTag = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.SetRouteTag = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.set_tag", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.SetTag = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.SetTag = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.set_weight", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.SetWeight = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.SetWeight = &v3
 			}
 		}
 

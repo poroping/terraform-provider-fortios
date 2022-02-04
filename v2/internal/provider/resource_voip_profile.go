@@ -1819,8 +1819,9 @@ func expandVoipProfileMsrp(d *schema.ResourceData, v interface{}, pre string, sv
 
 		pre_append = fmt.Sprintf("%s.%d.max_msg_size", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.MaxMsgSize = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.MaxMsgSize = &v3
 			}
 		}
 
@@ -1878,8 +1879,9 @@ func expandVoipProfileSccp(d *schema.ResourceData, v interface{}, pre string, sv
 
 		pre_append = fmt.Sprintf("%s.%d.max_calls", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.MaxCalls = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.MaxCalls = &v3
 			}
 		}
 
@@ -1916,8 +1918,9 @@ func expandVoipProfileSip(d *schema.ResourceData, v interface{}, pre string, sv 
 
 		pre_append = fmt.Sprintf("%s.%d.ack_rate", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.AckRate = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.AckRate = &v3
 			}
 		}
 
@@ -2049,8 +2052,9 @@ func expandVoipProfileSip(d *schema.ResourceData, v interface{}, pre string, sv 
 
 		pre_append = fmt.Sprintf("%s.%d.bye_rate", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.ByeRate = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.ByeRate = &v3
 			}
 		}
 
@@ -2063,15 +2067,17 @@ func expandVoipProfileSip(d *schema.ResourceData, v interface{}, pre string, sv 
 
 		pre_append = fmt.Sprintf("%s.%d.call_keepalive", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.CallKeepalive = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.CallKeepalive = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.cancel_rate", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.CancelRate = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.CancelRate = &v3
 			}
 		}
 
@@ -2105,8 +2111,9 @@ func expandVoipProfileSip(d *schema.ResourceData, v interface{}, pre string, sv 
 
 		pre_append = fmt.Sprintf("%s.%d.info_rate", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.InfoRate = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.InfoRate = &v3
 			}
 		}
 
@@ -2119,8 +2126,9 @@ func expandVoipProfileSip(d *schema.ResourceData, v interface{}, pre string, sv 
 
 		pre_append = fmt.Sprintf("%s.%d.invite_rate", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.InviteRate = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.InviteRate = &v3
 			}
 		}
 
@@ -2371,36 +2379,41 @@ func expandVoipProfileSip(d *schema.ResourceData, v interface{}, pre string, sv 
 
 		pre_append = fmt.Sprintf("%s.%d.max_body_length", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.MaxBodyLength = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.MaxBodyLength = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.max_dialogs", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.MaxDialogs = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.MaxDialogs = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.max_idle_dialogs", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.MaxIdleDialogs = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.MaxIdleDialogs = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.max_line_length", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.MaxLineLength = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.MaxLineLength = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.message_rate", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.MessageRate = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.MessageRate = &v3
 			}
 		}
 
@@ -2434,8 +2447,9 @@ func expandVoipProfileSip(d *schema.ResourceData, v interface{}, pre string, sv 
 
 		pre_append = fmt.Sprintf("%s.%d.notify_rate", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.NotifyRate = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.NotifyRate = &v3
 			}
 		}
 
@@ -2476,8 +2490,9 @@ func expandVoipProfileSip(d *schema.ResourceData, v interface{}, pre string, sv 
 
 		pre_append = fmt.Sprintf("%s.%d.options_rate", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.OptionsRate = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.OptionsRate = &v3
 			}
 		}
 
@@ -2490,8 +2505,9 @@ func expandVoipProfileSip(d *schema.ResourceData, v interface{}, pre string, sv 
 
 		pre_append = fmt.Sprintf("%s.%d.prack_rate", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.PrackRate = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.PrackRate = &v3
 			}
 		}
 
@@ -2511,15 +2527,17 @@ func expandVoipProfileSip(d *schema.ResourceData, v interface{}, pre string, sv 
 
 		pre_append = fmt.Sprintf("%s.%d.provisional_invite_expiry_time", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.ProvisionalInviteExpiryTime = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.ProvisionalInviteExpiryTime = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.publish_rate", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.PublishRate = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.PublishRate = &v3
 			}
 		}
 
@@ -2532,8 +2550,9 @@ func expandVoipProfileSip(d *schema.ResourceData, v interface{}, pre string, sv 
 
 		pre_append = fmt.Sprintf("%s.%d.refer_rate", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.ReferRate = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.ReferRate = &v3
 			}
 		}
 
@@ -2553,8 +2572,9 @@ func expandVoipProfileSip(d *schema.ResourceData, v interface{}, pre string, sv 
 
 		pre_append = fmt.Sprintf("%s.%d.register_rate", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.RegisterRate = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.RegisterRate = &v3
 			}
 		}
 
@@ -2672,8 +2692,9 @@ func expandVoipProfileSip(d *schema.ResourceData, v interface{}, pre string, sv 
 
 		pre_append = fmt.Sprintf("%s.%d.subscribe_rate", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.SubscribeRate = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.SubscribeRate = &v3
 			}
 		}
 
@@ -2693,8 +2714,9 @@ func expandVoipProfileSip(d *schema.ResourceData, v interface{}, pre string, sv 
 
 		pre_append = fmt.Sprintf("%s.%d.update_rate", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.UpdateRate = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.UpdateRate = &v3
 			}
 		}
 

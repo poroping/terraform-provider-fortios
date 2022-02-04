@@ -533,22 +533,25 @@ func expandWirelessControllerAccessControlListLayer3Ipv4Rules(d *schema.Resource
 
 		pre_append = fmt.Sprintf("%s.%d.dstport", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Dstport = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Dstport = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.protocol", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Protocol = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Protocol = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.rule_id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.RuleId = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.RuleId = &v3
 			}
 		}
 
@@ -561,8 +564,9 @@ func expandWirelessControllerAccessControlListLayer3Ipv4Rules(d *schema.Resource
 
 		pre_append = fmt.Sprintf("%s.%d.srcport", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Srcport = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Srcport = &v3
 			}
 		}
 
@@ -606,22 +610,25 @@ func expandWirelessControllerAccessControlListLayer3Ipv6Rules(d *schema.Resource
 
 		pre_append = fmt.Sprintf("%s.%d.dstport", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Dstport = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Dstport = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.protocol", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Protocol = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Protocol = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.rule_id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.RuleId = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.RuleId = &v3
 			}
 		}
 
@@ -634,8 +641,9 @@ func expandWirelessControllerAccessControlListLayer3Ipv6Rules(d *schema.Resource
 
 		pre_append = fmt.Sprintf("%s.%d.srcport", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Srcport = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Srcport = &v3
 			}
 		}
 

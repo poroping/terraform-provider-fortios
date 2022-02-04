@@ -536,43 +536,49 @@ func expandSystemAlarmGroups(d *schema.ResourceData, v interface{}, pre string, 
 
 		pre_append = fmt.Sprintf("%s.%d.admin_auth_failure_threshold", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.AdminAuthFailureThreshold = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.AdminAuthFailureThreshold = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.admin_auth_lockout_threshold", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.AdminAuthLockoutThreshold = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.AdminAuthLockoutThreshold = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.decryption_failure_threshold", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.DecryptionFailureThreshold = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.DecryptionFailureThreshold = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.encryption_failure_threshold", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.EncryptionFailureThreshold = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.EncryptionFailureThreshold = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.fw_policy_id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.FwPolicyId = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.FwPolicyId = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.fw_policy_id_threshold", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.FwPolicyIdThreshold = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.FwPolicyIdThreshold = &v3
 			}
 		}
 
@@ -588,50 +594,57 @@ func expandSystemAlarmGroups(d *schema.ResourceData, v interface{}, pre string, 
 
 		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Id = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Id = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.log_full_warning_threshold", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.LogFullWarningThreshold = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.LogFullWarningThreshold = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.period", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Period = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Period = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.replay_attempt_threshold", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.ReplayAttemptThreshold = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.ReplayAttemptThreshold = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.self_test_failure_threshold", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.SelfTestFailureThreshold = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.SelfTestFailureThreshold = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.user_auth_failure_threshold", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.UserAuthFailureThreshold = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.UserAuthFailureThreshold = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.user_auth_lockout_threshold", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.UserAuthLockoutThreshold = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.UserAuthLockoutThreshold = &v3
 			}
 		}
 
@@ -661,15 +674,17 @@ func expandSystemAlarmGroupsFwPolicyViolations(d *schema.ResourceData, v interfa
 
 		pre_append = fmt.Sprintf("%s.%d.dst_port", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.DstPort = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.DstPort = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Id = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Id = &v3
 			}
 		}
 
@@ -682,15 +697,17 @@ func expandSystemAlarmGroupsFwPolicyViolations(d *schema.ResourceData, v interfa
 
 		pre_append = fmt.Sprintf("%s.%d.src_port", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.SrcPort = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.SrcPort = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.threshold", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Threshold = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Threshold = &v3
 			}
 		}
 

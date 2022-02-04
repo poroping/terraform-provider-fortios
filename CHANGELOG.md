@@ -1,3 +1,8 @@
+## 3.1.1
+
+BUGFIXES:
+* Fixed issue with codegen that would not marshal ints within subtables properly
+
 ## 3.1.0
 
 IMPROVEMENTS:

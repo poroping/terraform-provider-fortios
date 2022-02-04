@@ -5240,15 +5240,17 @@ func expandSystemInterfaceClientOptions(d *schema.ResourceData, v interface{}, p
 
 		pre_append = fmt.Sprintf("%s.%d.code", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Code = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Code = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Id = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Id = &v3
 			}
 		}
 
@@ -5427,8 +5429,9 @@ func expandSystemInterfaceIpv6(d *schema.ResourceData, v interface{}, pre string
 
 		pre_append = fmt.Sprintf("%s.%d.cli_conn6_status", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.CliConn6Status = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.CliConn6Status = &v3
 			}
 		}
 
@@ -5472,15 +5475,17 @@ func expandSystemInterfaceIpv6(d *schema.ResourceData, v interface{}, pre string
 
 		pre_append = fmt.Sprintf("%s.%d.dhcp6_prefix_hint_plt", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Dhcp6PrefixHintPlt = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Dhcp6PrefixHintPlt = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.dhcp6_prefix_hint_vlt", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Dhcp6PrefixHintVlt = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Dhcp6PrefixHintVlt = &v3
 			}
 		}
 
@@ -5535,15 +5540,17 @@ func expandSystemInterfaceIpv6(d *schema.ResourceData, v interface{}, pre string
 
 		pre_append = fmt.Sprintf("%s.%d.ip6_default_life", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Ip6DefaultLife = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Ip6DefaultLife = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.ip6_delegated_prefix_iaid", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Ip6DelegatedPrefixIaid = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Ip6DelegatedPrefixIaid = &v3
 			}
 		}
 
@@ -5576,15 +5583,17 @@ func expandSystemInterfaceIpv6(d *schema.ResourceData, v interface{}, pre string
 
 		pre_append = fmt.Sprintf("%s.%d.ip6_hop_limit", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Ip6HopLimit = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Ip6HopLimit = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.ip6_link_mtu", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Ip6LinkMtu = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Ip6LinkMtu = &v3
 			}
 		}
 
@@ -5597,15 +5606,17 @@ func expandSystemInterfaceIpv6(d *schema.ResourceData, v interface{}, pre string
 
 		pre_append = fmt.Sprintf("%s.%d.ip6_max_interval", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Ip6MaxInterval = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Ip6MaxInterval = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.ip6_min_interval", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Ip6MinInterval = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Ip6MinInterval = &v3
 			}
 		}
 
@@ -5642,15 +5653,17 @@ func expandSystemInterfaceIpv6(d *schema.ResourceData, v interface{}, pre string
 
 		pre_append = fmt.Sprintf("%s.%d.ip6_reachable_time", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Ip6ReachableTime = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Ip6ReachableTime = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.ip6_retrans_time", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Ip6RetransTime = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Ip6RetransTime = &v3
 			}
 		}
 
@@ -5698,22 +5711,25 @@ func expandSystemInterfaceIpv6(d *schema.ResourceData, v interface{}, pre string
 
 		pre_append = fmt.Sprintf("%s.%d.nd_security_level", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.NdSecurityLevel = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.NdSecurityLevel = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.nd_timestamp_delta", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.NdTimestampDelta = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.NdTimestampDelta = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.nd_timestamp_fuzz", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.NdTimestampFuzz = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.NdTimestampFuzz = &v3
 			}
 		}
 
@@ -5774,8 +5790,9 @@ func expandSystemInterfaceIpv6Dhcp6IapdList(d *schema.ResourceData, v interface{
 
 		pre_append = fmt.Sprintf("%s.%d.iaid", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Iaid = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Iaid = &v3
 			}
 		}
 
@@ -5788,15 +5805,17 @@ func expandSystemInterfaceIpv6Dhcp6IapdList(d *schema.ResourceData, v interface{
 
 		pre_append = fmt.Sprintf("%s.%d.prefix_hint_plt", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.PrefixHintPlt = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.PrefixHintPlt = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.prefix_hint_vlt", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.PrefixHintVlt = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.PrefixHintVlt = &v3
 			}
 		}
 
@@ -5826,8 +5845,9 @@ func expandSystemInterfaceIpv6Ip6DelegatedPrefixList(d *schema.ResourceData, v i
 
 		pre_append = fmt.Sprintf("%s.%d.delegated_prefix_iaid", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.DelegatedPrefixIaid = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.DelegatedPrefixIaid = &v3
 			}
 		}
 
@@ -5840,8 +5860,9 @@ func expandSystemInterfaceIpv6Ip6DelegatedPrefixList(d *schema.ResourceData, v i
 
 		pre_append = fmt.Sprintf("%s.%d.prefix_id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.PrefixId = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.PrefixId = &v3
 			}
 		}
 
@@ -5940,8 +5961,9 @@ func expandSystemInterfaceIpv6Ip6PrefixList(d *schema.ResourceData, v interface{
 
 		pre_append = fmt.Sprintf("%s.%d.preferred_life_time", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.PreferredLifeTime = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.PreferredLifeTime = &v3
 			}
 		}
 
@@ -5961,8 +5983,9 @@ func expandSystemInterfaceIpv6Ip6PrefixList(d *schema.ResourceData, v interface{
 
 		pre_append = fmt.Sprintf("%s.%d.valid_life_time", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.ValidLifeTime = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.ValidLifeTime = &v3
 			}
 		}
 
@@ -6016,8 +6039,9 @@ func expandSystemInterfaceIpv6Vrrp6(d *schema.ResourceData, v interface{}, pre s
 
 		pre_append = fmt.Sprintf("%s.%d.adv_interval", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.AdvInterval = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.AdvInterval = &v3
 			}
 		}
 
@@ -6030,15 +6054,17 @@ func expandSystemInterfaceIpv6Vrrp6(d *schema.ResourceData, v interface{}, pre s
 
 		pre_append = fmt.Sprintf("%s.%d.priority", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Priority = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Priority = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.start_time", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.StartTime = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.StartTime = &v3
 			}
 		}
 
@@ -6058,15 +6084,17 @@ func expandSystemInterfaceIpv6Vrrp6(d *schema.ResourceData, v interface{}, pre s
 
 		pre_append = fmt.Sprintf("%s.%d.vrgrp", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Vrgrp = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Vrgrp = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.vrid", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Vrid = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Vrid = &v3
 			}
 		}
 
@@ -6148,15 +6176,17 @@ func expandSystemInterfaceSecondaryip(d *schema.ResourceData, v interface{}, pre
 
 		pre_append = fmt.Sprintf("%s.%d.ha_priority", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.HaPriority = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.HaPriority = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Id = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Id = &v3
 			}
 		}
 
@@ -6169,8 +6199,9 @@ func expandSystemInterfaceSecondaryip(d *schema.ResourceData, v interface{}, pre
 
 		pre_append = fmt.Sprintf("%s.%d.ping_serv_status", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.PingServStatus = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.PingServStatus = &v3
 			}
 		}
 
@@ -6289,8 +6320,9 @@ func expandSystemInterfaceVrrp(d *schema.ResourceData, v interface{}, pre string
 
 		pre_append = fmt.Sprintf("%s.%d.adv_interval", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.AdvInterval = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.AdvInterval = &v3
 			}
 		}
 
@@ -6310,8 +6342,9 @@ func expandSystemInterfaceVrrp(d *schema.ResourceData, v interface{}, pre string
 
 		pre_append = fmt.Sprintf("%s.%d.priority", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Priority = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Priority = &v3
 			}
 		}
 
@@ -6327,8 +6360,9 @@ func expandSystemInterfaceVrrp(d *schema.ResourceData, v interface{}, pre string
 
 		pre_append = fmt.Sprintf("%s.%d.start_time", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.StartTime = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.StartTime = &v3
 			}
 		}
 
@@ -6355,22 +6389,25 @@ func expandSystemInterfaceVrrp(d *schema.ResourceData, v interface{}, pre string
 
 		pre_append = fmt.Sprintf("%s.%d.vrdst_priority", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.VrdstPriority = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.VrdstPriority = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.vrgrp", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Vrgrp = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Vrgrp = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.vrid", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Vrid = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Vrid = &v3
 			}
 		}
 
@@ -6400,8 +6437,9 @@ func expandSystemInterfaceVrrpProxyArp(d *schema.ResourceData, v interface{}, pr
 
 		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Id = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Id = &v3
 			}
 		}
 

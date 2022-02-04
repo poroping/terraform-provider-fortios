@@ -5485,8 +5485,9 @@ func expandWirelessControllerWtpProfileDenyMacList(d *schema.ResourceData, v int
 
 		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Id = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Id = &v3
 			}
 		}
 
@@ -5537,8 +5538,9 @@ func expandWirelessControllerWtpProfileEslSesDongle(d *schema.ResourceData, v in
 
 		pre_append = fmt.Sprintf("%s.%d.apc_port", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.ApcPort = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.ApcPort = &v3
 			}
 		}
 
@@ -5795,15 +5797,17 @@ func expandWirelessControllerWtpProfileLbs(d *schema.ResourceData, v interface{}
 
 		pre_append = fmt.Sprintf("%s.%d.aeroscout_mu_factor", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.AeroscoutMuFactor = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.AeroscoutMuFactor = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.aeroscout_mu_timeout", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.AeroscoutMuTimeout = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.AeroscoutMuTimeout = &v3
 			}
 		}
 
@@ -5816,8 +5820,9 @@ func expandWirelessControllerWtpProfileLbs(d *schema.ResourceData, v interface{}
 
 		pre_append = fmt.Sprintf("%s.%d.aeroscout_server_port", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.AeroscoutServerPort = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.AeroscoutServerPort = &v3
 			}
 		}
 
@@ -5844,8 +5849,9 @@ func expandWirelessControllerWtpProfileLbs(d *schema.ResourceData, v interface{}
 
 		pre_append = fmt.Sprintf("%s.%d.erc_server_port", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.ErcServerPort = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.ErcServerPort = &v3
 			}
 		}
 
@@ -5865,15 +5871,17 @@ func expandWirelessControllerWtpProfileLbs(d *schema.ResourceData, v interface{}
 
 		pre_append = fmt.Sprintf("%s.%d.fortipresence_frequency", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.FortipresenceFrequency = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.FortipresenceFrequency = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.fortipresence_port", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.FortipresencePort = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.FortipresencePort = &v3
 			}
 		}
 
@@ -6042,15 +6050,17 @@ func expandWirelessControllerWtpProfileRadio1(d *schema.ResourceData, v interfac
 
 		pre_append = fmt.Sprintf("%s.%d.ap_sniffer_bufsize", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.ApSnifferBufsize = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.ApSnifferBufsize = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.ap_sniffer_chan", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.ApSnifferChan = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.ApSnifferChan = &v3
 			}
 		}
 
@@ -6098,8 +6108,9 @@ func expandWirelessControllerWtpProfileRadio1(d *schema.ResourceData, v interfac
 
 		pre_append = fmt.Sprintf("%s.%d.auto_power_high", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.AutoPowerHigh = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.AutoPowerHigh = &v3
 			}
 		}
 
@@ -6112,8 +6123,9 @@ func expandWirelessControllerWtpProfileRadio1(d *schema.ResourceData, v interfac
 
 		pre_append = fmt.Sprintf("%s.%d.auto_power_low", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.AutoPowerLow = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.AutoPowerLow = &v3
 			}
 		}
 
@@ -6147,22 +6159,25 @@ func expandWirelessControllerWtpProfileRadio1(d *schema.ResourceData, v interfac
 
 		pre_append = fmt.Sprintf("%s.%d.bandwidth_capacity", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.BandwidthCapacity = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.BandwidthCapacity = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.beacon_interval", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.BeaconInterval = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.BeaconInterval = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.bss_color", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.BssColor = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.BssColor = &v3
 			}
 		}
 
@@ -6182,8 +6197,9 @@ func expandWirelessControllerWtpProfileRadio1(d *schema.ResourceData, v interfac
 
 		pre_append = fmt.Sprintf("%s.%d.call_capacity", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.CallCapacity = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.CallCapacity = &v3
 			}
 		}
 
@@ -6241,15 +6257,17 @@ func expandWirelessControllerWtpProfileRadio1(d *schema.ResourceData, v interfac
 
 		pre_append = fmt.Sprintf("%s.%d.dtim", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Dtim = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Dtim = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.frag_threshold", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.FragThreshold = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.FragThreshold = &v3
 			}
 		}
 
@@ -6269,22 +6287,25 @@ func expandWirelessControllerWtpProfileRadio1(d *schema.ResourceData, v interfac
 
 		pre_append = fmt.Sprintf("%s.%d.iperf_server_port", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.IperfServerPort = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.IperfServerPort = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.max_clients", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.MaxClients = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.MaxClients = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.max_distance", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.MaxDistance = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.MaxDistance = &v3
 			}
 		}
 
@@ -6297,8 +6318,9 @@ func expandWirelessControllerWtpProfileRadio1(d *schema.ResourceData, v interfac
 
 		pre_append = fmt.Sprintf("%s.%d.power_level", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.PowerLevel = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.PowerLevel = &v3
 			}
 		}
 
@@ -6311,8 +6333,9 @@ func expandWirelessControllerWtpProfileRadio1(d *schema.ResourceData, v interfac
 
 		pre_append = fmt.Sprintf("%s.%d.power_value", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.PowerValue = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.PowerValue = &v3
 			}
 		}
 
@@ -6332,8 +6355,9 @@ func expandWirelessControllerWtpProfileRadio1(d *schema.ResourceData, v interfac
 
 		pre_append = fmt.Sprintf("%s.%d.rts_threshold", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.RtsThreshold = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.RtsThreshold = &v3
 			}
 		}
 
@@ -6402,8 +6426,9 @@ func expandWirelessControllerWtpProfileRadio1(d *schema.ResourceData, v interfac
 
 		pre_append = fmt.Sprintf("%s.%d.sam_report_intv", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.SamReportIntv = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.SamReportIntv = &v3
 			}
 		}
 
@@ -6610,15 +6635,17 @@ func expandWirelessControllerWtpProfileRadio2(d *schema.ResourceData, v interfac
 
 		pre_append = fmt.Sprintf("%s.%d.ap_sniffer_bufsize", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.ApSnifferBufsize = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.ApSnifferBufsize = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.ap_sniffer_chan", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.ApSnifferChan = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.ApSnifferChan = &v3
 			}
 		}
 
@@ -6666,8 +6693,9 @@ func expandWirelessControllerWtpProfileRadio2(d *schema.ResourceData, v interfac
 
 		pre_append = fmt.Sprintf("%s.%d.auto_power_high", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.AutoPowerHigh = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.AutoPowerHigh = &v3
 			}
 		}
 
@@ -6680,8 +6708,9 @@ func expandWirelessControllerWtpProfileRadio2(d *schema.ResourceData, v interfac
 
 		pre_append = fmt.Sprintf("%s.%d.auto_power_low", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.AutoPowerLow = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.AutoPowerLow = &v3
 			}
 		}
 
@@ -6715,22 +6744,25 @@ func expandWirelessControllerWtpProfileRadio2(d *schema.ResourceData, v interfac
 
 		pre_append = fmt.Sprintf("%s.%d.bandwidth_capacity", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.BandwidthCapacity = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.BandwidthCapacity = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.beacon_interval", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.BeaconInterval = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.BeaconInterval = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.bss_color", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.BssColor = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.BssColor = &v3
 			}
 		}
 
@@ -6750,8 +6782,9 @@ func expandWirelessControllerWtpProfileRadio2(d *schema.ResourceData, v interfac
 
 		pre_append = fmt.Sprintf("%s.%d.call_capacity", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.CallCapacity = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.CallCapacity = &v3
 			}
 		}
 
@@ -6809,15 +6842,17 @@ func expandWirelessControllerWtpProfileRadio2(d *schema.ResourceData, v interfac
 
 		pre_append = fmt.Sprintf("%s.%d.dtim", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Dtim = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Dtim = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.frag_threshold", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.FragThreshold = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.FragThreshold = &v3
 			}
 		}
 
@@ -6837,22 +6872,25 @@ func expandWirelessControllerWtpProfileRadio2(d *schema.ResourceData, v interfac
 
 		pre_append = fmt.Sprintf("%s.%d.iperf_server_port", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.IperfServerPort = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.IperfServerPort = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.max_clients", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.MaxClients = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.MaxClients = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.max_distance", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.MaxDistance = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.MaxDistance = &v3
 			}
 		}
 
@@ -6865,8 +6903,9 @@ func expandWirelessControllerWtpProfileRadio2(d *schema.ResourceData, v interfac
 
 		pre_append = fmt.Sprintf("%s.%d.power_level", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.PowerLevel = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.PowerLevel = &v3
 			}
 		}
 
@@ -6879,8 +6918,9 @@ func expandWirelessControllerWtpProfileRadio2(d *schema.ResourceData, v interfac
 
 		pre_append = fmt.Sprintf("%s.%d.power_value", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.PowerValue = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.PowerValue = &v3
 			}
 		}
 
@@ -6900,8 +6940,9 @@ func expandWirelessControllerWtpProfileRadio2(d *schema.ResourceData, v interfac
 
 		pre_append = fmt.Sprintf("%s.%d.rts_threshold", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.RtsThreshold = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.RtsThreshold = &v3
 			}
 		}
 
@@ -6970,8 +7011,9 @@ func expandWirelessControllerWtpProfileRadio2(d *schema.ResourceData, v interfac
 
 		pre_append = fmt.Sprintf("%s.%d.sam_report_intv", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.SamReportIntv = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.SamReportIntv = &v3
 			}
 		}
 
@@ -7178,15 +7220,17 @@ func expandWirelessControllerWtpProfileRadio3(d *schema.ResourceData, v interfac
 
 		pre_append = fmt.Sprintf("%s.%d.ap_sniffer_bufsize", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.ApSnifferBufsize = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.ApSnifferBufsize = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.ap_sniffer_chan", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.ApSnifferChan = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.ApSnifferChan = &v3
 			}
 		}
 
@@ -7234,8 +7278,9 @@ func expandWirelessControllerWtpProfileRadio3(d *schema.ResourceData, v interfac
 
 		pre_append = fmt.Sprintf("%s.%d.auto_power_high", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.AutoPowerHigh = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.AutoPowerHigh = &v3
 			}
 		}
 
@@ -7248,8 +7293,9 @@ func expandWirelessControllerWtpProfileRadio3(d *schema.ResourceData, v interfac
 
 		pre_append = fmt.Sprintf("%s.%d.auto_power_low", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.AutoPowerLow = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.AutoPowerLow = &v3
 			}
 		}
 
@@ -7283,22 +7329,25 @@ func expandWirelessControllerWtpProfileRadio3(d *schema.ResourceData, v interfac
 
 		pre_append = fmt.Sprintf("%s.%d.bandwidth_capacity", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.BandwidthCapacity = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.BandwidthCapacity = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.beacon_interval", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.BeaconInterval = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.BeaconInterval = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.bss_color", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.BssColor = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.BssColor = &v3
 			}
 		}
 
@@ -7318,8 +7367,9 @@ func expandWirelessControllerWtpProfileRadio3(d *schema.ResourceData, v interfac
 
 		pre_append = fmt.Sprintf("%s.%d.call_capacity", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.CallCapacity = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.CallCapacity = &v3
 			}
 		}
 
@@ -7377,15 +7427,17 @@ func expandWirelessControllerWtpProfileRadio3(d *schema.ResourceData, v interfac
 
 		pre_append = fmt.Sprintf("%s.%d.dtim", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Dtim = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Dtim = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.frag_threshold", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.FragThreshold = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.FragThreshold = &v3
 			}
 		}
 
@@ -7405,22 +7457,25 @@ func expandWirelessControllerWtpProfileRadio3(d *schema.ResourceData, v interfac
 
 		pre_append = fmt.Sprintf("%s.%d.iperf_server_port", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.IperfServerPort = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.IperfServerPort = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.max_clients", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.MaxClients = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.MaxClients = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.max_distance", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.MaxDistance = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.MaxDistance = &v3
 			}
 		}
 
@@ -7433,8 +7488,9 @@ func expandWirelessControllerWtpProfileRadio3(d *schema.ResourceData, v interfac
 
 		pre_append = fmt.Sprintf("%s.%d.power_level", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.PowerLevel = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.PowerLevel = &v3
 			}
 		}
 
@@ -7447,8 +7503,9 @@ func expandWirelessControllerWtpProfileRadio3(d *schema.ResourceData, v interfac
 
 		pre_append = fmt.Sprintf("%s.%d.power_value", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.PowerValue = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.PowerValue = &v3
 			}
 		}
 
@@ -7468,8 +7525,9 @@ func expandWirelessControllerWtpProfileRadio3(d *schema.ResourceData, v interfac
 
 		pre_append = fmt.Sprintf("%s.%d.rts_threshold", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.RtsThreshold = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.RtsThreshold = &v3
 			}
 		}
 
@@ -7538,8 +7596,9 @@ func expandWirelessControllerWtpProfileRadio3(d *schema.ResourceData, v interfac
 
 		pre_append = fmt.Sprintf("%s.%d.sam_report_intv", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.SamReportIntv = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.SamReportIntv = &v3
 			}
 		}
 
@@ -7746,15 +7805,17 @@ func expandWirelessControllerWtpProfileRadio4(d *schema.ResourceData, v interfac
 
 		pre_append = fmt.Sprintf("%s.%d.ap_sniffer_bufsize", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.ApSnifferBufsize = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.ApSnifferBufsize = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.ap_sniffer_chan", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.ApSnifferChan = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.ApSnifferChan = &v3
 			}
 		}
 
@@ -7802,8 +7863,9 @@ func expandWirelessControllerWtpProfileRadio4(d *schema.ResourceData, v interfac
 
 		pre_append = fmt.Sprintf("%s.%d.auto_power_high", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.AutoPowerHigh = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.AutoPowerHigh = &v3
 			}
 		}
 
@@ -7816,8 +7878,9 @@ func expandWirelessControllerWtpProfileRadio4(d *schema.ResourceData, v interfac
 
 		pre_append = fmt.Sprintf("%s.%d.auto_power_low", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.AutoPowerLow = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.AutoPowerLow = &v3
 			}
 		}
 
@@ -7851,22 +7914,25 @@ func expandWirelessControllerWtpProfileRadio4(d *schema.ResourceData, v interfac
 
 		pre_append = fmt.Sprintf("%s.%d.bandwidth_capacity", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.BandwidthCapacity = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.BandwidthCapacity = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.beacon_interval", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.BeaconInterval = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.BeaconInterval = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.bss_color", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.BssColor = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.BssColor = &v3
 			}
 		}
 
@@ -7886,8 +7952,9 @@ func expandWirelessControllerWtpProfileRadio4(d *schema.ResourceData, v interfac
 
 		pre_append = fmt.Sprintf("%s.%d.call_capacity", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.CallCapacity = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.CallCapacity = &v3
 			}
 		}
 
@@ -7945,15 +8012,17 @@ func expandWirelessControllerWtpProfileRadio4(d *schema.ResourceData, v interfac
 
 		pre_append = fmt.Sprintf("%s.%d.dtim", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Dtim = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Dtim = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.frag_threshold", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.FragThreshold = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.FragThreshold = &v3
 			}
 		}
 
@@ -7973,22 +8042,25 @@ func expandWirelessControllerWtpProfileRadio4(d *schema.ResourceData, v interfac
 
 		pre_append = fmt.Sprintf("%s.%d.iperf_server_port", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.IperfServerPort = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.IperfServerPort = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.max_clients", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.MaxClients = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.MaxClients = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.max_distance", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.MaxDistance = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.MaxDistance = &v3
 			}
 		}
 
@@ -8001,8 +8073,9 @@ func expandWirelessControllerWtpProfileRadio4(d *schema.ResourceData, v interfac
 
 		pre_append = fmt.Sprintf("%s.%d.power_level", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.PowerLevel = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.PowerLevel = &v3
 			}
 		}
 
@@ -8015,8 +8088,9 @@ func expandWirelessControllerWtpProfileRadio4(d *schema.ResourceData, v interfac
 
 		pre_append = fmt.Sprintf("%s.%d.power_value", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.PowerValue = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.PowerValue = &v3
 			}
 		}
 
@@ -8036,8 +8110,9 @@ func expandWirelessControllerWtpProfileRadio4(d *schema.ResourceData, v interfac
 
 		pre_append = fmt.Sprintf("%s.%d.rts_threshold", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.RtsThreshold = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.RtsThreshold = &v3
 			}
 		}
 
@@ -8106,8 +8181,9 @@ func expandWirelessControllerWtpProfileRadio4(d *schema.ResourceData, v interfac
 
 		pre_append = fmt.Sprintf("%s.%d.sam_report_intv", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.SamReportIntv = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.SamReportIntv = &v3
 			}
 		}
 
@@ -8293,8 +8369,9 @@ func expandWirelessControllerWtpProfileSplitTunnelingAcl(d *schema.ResourceData,
 
 		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Id = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Id = &v3
 			}
 		}
 

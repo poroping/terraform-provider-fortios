@@ -644,8 +644,9 @@ func expandSwitchControllerLldpProfileCustomTlvs(d *schema.ResourceData, v inter
 
 		pre_append = fmt.Sprintf("%s.%d.subtype", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Subtype = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Subtype = &v3
 			}
 		}
 
@@ -713,8 +714,9 @@ func expandSwitchControllerLldpProfileMedNetworkPolicy(d *schema.ResourceData, v
 
 		pre_append = fmt.Sprintf("%s.%d.dscp", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Dscp = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Dscp = &v3
 			}
 		}
 
@@ -727,8 +729,9 @@ func expandSwitchControllerLldpProfileMedNetworkPolicy(d *schema.ResourceData, v
 
 		pre_append = fmt.Sprintf("%s.%d.priority", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Priority = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Priority = &v3
 			}
 		}
 

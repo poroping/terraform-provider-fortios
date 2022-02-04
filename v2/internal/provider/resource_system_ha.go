@@ -1742,8 +1742,9 @@ func expandSystemHaHaMgmtInterfaces(d *schema.ResourceData, v interface{}, pre s
 
 		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Id = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Id = &v3
 			}
 		}
 
@@ -1787,15 +1788,17 @@ func expandSystemHaSecondaryVcluster(d *schema.ResourceData, v interface{}, pre 
 
 		pre_append = fmt.Sprintf("%s.%d.override_wait_time", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.OverrideWaitTime = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.OverrideWaitTime = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.pingserver_failover_threshold", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.PingserverFailoverThreshold = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.PingserverFailoverThreshold = &v3
 			}
 		}
 
@@ -1822,15 +1825,17 @@ func expandSystemHaSecondaryVcluster(d *schema.ResourceData, v interface{}, pre 
 
 		pre_append = fmt.Sprintf("%s.%d.priority", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Priority = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Priority = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.vcluster_id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.VclusterId = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.VclusterId = &v3
 			}
 		}
 
@@ -1860,8 +1865,9 @@ func expandSystemHaUnicastPeers(d *schema.ResourceData, v interface{}, pre strin
 
 		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Id = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Id = &v3
 			}
 		}
 

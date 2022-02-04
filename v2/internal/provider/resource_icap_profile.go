@@ -829,8 +829,9 @@ func expandIcapProfileIcapHeaders(d *schema.ResourceData, v interface{}, pre str
 
 		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Id = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Id = &v3
 			}
 		}
 
@@ -939,8 +940,9 @@ func expandIcapProfileRespmodForwardRulesHeaderGroup(d *schema.ResourceData, v i
 
 		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Id = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Id = &v3
 			}
 		}
 
@@ -963,8 +965,9 @@ func expandIcapProfileRespmodForwardRulesHttpRespStatusCode(d *schema.ResourceDa
 
 		pre_append = fmt.Sprintf("%s.%d.code", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Code = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Code = &v3
 			}
 		}
 

@@ -655,15 +655,17 @@ func expandDlpSensorFilter(d *schema.ResourceData, v interface{}, pre string, sv
 
 		pre_append = fmt.Sprintf("%s.%d.file_size", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.FileSize = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.FileSize = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.file_type", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.FileType = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.FileType = &v3
 			}
 		}
 
@@ -676,15 +678,17 @@ func expandDlpSensorFilter(d *schema.ResourceData, v interface{}, pre string, sv
 
 		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Id = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Id = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.match_percentage", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.MatchPercentage = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.MatchPercentage = &v3
 			}
 		}
 

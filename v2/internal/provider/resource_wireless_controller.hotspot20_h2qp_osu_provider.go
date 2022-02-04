@@ -451,8 +451,9 @@ func expandWirelessControllerHotspot20H2qpOsuProviderFriendlyName(d *schema.Reso
 
 		pre_append = fmt.Sprintf("%s.%d.index", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Index = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Index = &v3
 			}
 		}
 
@@ -496,8 +497,9 @@ func expandWirelessControllerHotspot20H2qpOsuProviderServiceDescription(d *schem
 
 		pre_append = fmt.Sprintf("%s.%d.service_id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.ServiceId = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.ServiceId = &v3
 			}
 		}
 

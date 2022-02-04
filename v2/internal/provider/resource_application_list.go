@@ -1156,15 +1156,17 @@ func expandApplicationListDefaultNetworkServices(d *schema.ResourceData, v inter
 
 		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Id = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Id = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.port", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Port = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Port = &v3
 			}
 		}
 
@@ -1245,8 +1247,9 @@ func expandApplicationListEntries(d *schema.ResourceData, v interface{}, pre str
 
 		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Id = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Id = &v3
 			}
 		}
 
@@ -1318,15 +1321,17 @@ func expandApplicationListEntries(d *schema.ResourceData, v interface{}, pre str
 
 		pre_append = fmt.Sprintf("%s.%d.rate_count", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.RateCount = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.RateCount = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.rate_duration", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.RateDuration = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.RateDuration = &v3
 			}
 		}
 
@@ -1356,8 +1361,9 @@ func expandApplicationListEntries(d *schema.ResourceData, v interface{}, pre str
 
 		pre_append = fmt.Sprintf("%s.%d.session_ttl", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.SessionTtl = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.SessionTtl = &v3
 			}
 		}
 
@@ -1418,8 +1424,9 @@ func expandApplicationListEntriesApplication(d *schema.ResourceData, v interface
 
 		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Id = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Id = &v3
 			}
 		}
 
@@ -1442,8 +1449,9 @@ func expandApplicationListEntriesCategory(d *schema.ResourceData, v interface{},
 
 		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Id = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Id = &v3
 			}
 		}
 
@@ -1466,8 +1474,9 @@ func expandApplicationListEntriesExclusion(d *schema.ResourceData, v interface{}
 
 		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Id = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Id = &v3
 			}
 		}
 
@@ -1490,8 +1499,9 @@ func expandApplicationListEntriesParameters(d *schema.ResourceData, v interface{
 
 		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Id = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Id = &v3
 			}
 		}
 
@@ -1531,8 +1541,9 @@ func expandApplicationListEntriesParametersMembers(d *schema.ResourceData, v int
 
 		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Id = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Id = &v3
 			}
 		}
 
@@ -1569,8 +1580,9 @@ func expandApplicationListEntriesRisk(d *schema.ResourceData, v interface{}, pre
 
 		pre_append = fmt.Sprintf("%s.%d.level", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Level = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Level = &v3
 			}
 		}
 
@@ -1593,8 +1605,9 @@ func expandApplicationListEntriesSubCategory(d *schema.ResourceData, v interface
 
 		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Id = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Id = &v3
 			}
 		}
 

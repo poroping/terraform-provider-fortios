@@ -368,57 +368,65 @@ func expandVpnIpsecFecMappings(d *schema.ResourceData, v interface{}, pre string
 
 		pre_append = fmt.Sprintf("%s.%d.bandwidth_bi_threshold", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.BandwidthBiThreshold = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.BandwidthBiThreshold = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.bandwidth_down_threshold", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.BandwidthDownThreshold = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.BandwidthDownThreshold = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.bandwidth_up_threshold", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.BandwidthUpThreshold = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.BandwidthUpThreshold = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.base", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Base = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Base = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.latency_threshold", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.LatencyThreshold = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.LatencyThreshold = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.packet_loss_threshold", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.PacketLossThreshold = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.PacketLossThreshold = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.redundant", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Redundant = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Redundant = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.seqno", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Seqno = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Seqno = &v3
 			}
 		}
 

@@ -1700,15 +1700,17 @@ func expandExtenderControllerExtenderControllerReport(d *schema.ResourceData, v 
 
 		pre_append = fmt.Sprintf("%s.%d.interval", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Interval = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Interval = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.signal_threshold", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.SignalThreshold = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.SignalThreshold = &v3
 			}
 		}
 
@@ -1748,8 +1750,9 @@ func expandExtenderControllerExtenderModem1(d *schema.ResourceData, v interface{
 
 		pre_append = fmt.Sprintf("%s.%d.conn_status", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.ConnStatus = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.ConnStatus = &v3
 			}
 		}
 
@@ -1856,15 +1859,17 @@ func expandExtenderControllerExtenderModem1AutoSwitch(d *schema.ResourceData, v 
 
 		pre_append = fmt.Sprintf("%s.%d.disconnect_period", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.DisconnectPeriod = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.DisconnectPeriod = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.disconnect_threshold", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.DisconnectThreshold = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.DisconnectThreshold = &v3
 			}
 		}
 
@@ -1891,8 +1896,9 @@ func expandExtenderControllerExtenderModem1AutoSwitch(d *schema.ResourceData, v 
 
 		pre_append = fmt.Sprintf("%s.%d.switch_back_timer", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.SwitchBackTimer = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.SwitchBackTimer = &v3
 			}
 		}
 
@@ -1925,8 +1931,9 @@ func expandExtenderControllerExtenderModem2(d *schema.ResourceData, v interface{
 
 		pre_append = fmt.Sprintf("%s.%d.conn_status", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.ConnStatus = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.ConnStatus = &v3
 			}
 		}
 
@@ -2033,15 +2040,17 @@ func expandExtenderControllerExtenderModem2AutoSwitch(d *schema.ResourceData, v 
 
 		pre_append = fmt.Sprintf("%s.%d.disconnect_period", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.DisconnectPeriod = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.DisconnectPeriod = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.disconnect_threshold", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.DisconnectThreshold = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.DisconnectThreshold = &v3
 			}
 		}
 
@@ -2068,8 +2077,9 @@ func expandExtenderControllerExtenderModem2AutoSwitch(d *schema.ResourceData, v 
 
 		pre_append = fmt.Sprintf("%s.%d.switch_back_timer", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.SwitchBackTimer = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.SwitchBackTimer = &v3
 			}
 		}
 

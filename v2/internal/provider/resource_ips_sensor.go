@@ -1129,8 +1129,9 @@ func expandIpsSensorEntries(d *schema.ResourceData, v interface{}, pre string, s
 
 		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Id = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Id = &v3
 			}
 		}
 
@@ -1199,15 +1200,17 @@ func expandIpsSensorEntries(d *schema.ResourceData, v interface{}, pre string, s
 
 		pre_append = fmt.Sprintf("%s.%d.rate_count", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.RateCount = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.RateCount = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.rate_duration", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.RateDuration = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.RateDuration = &v3
 			}
 		}
 
@@ -1299,8 +1302,9 @@ func expandIpsSensorEntriesExemptIp(d *schema.ResourceData, v interface{}, pre s
 
 		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Id = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Id = &v3
 			}
 		}
 
@@ -1330,8 +1334,9 @@ func expandIpsSensorEntriesRule(d *schema.ResourceData, v interface{}, pre strin
 
 		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Id = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Id = &v3
 			}
 		}
 
@@ -1417,8 +1422,9 @@ func expandIpsSensorFilter(d *schema.ResourceData, v interface{}, pre string, sv
 
 		pre_append = fmt.Sprintf("%s.%d.quarantine_expiry", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.QuarantineExpiry = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.QuarantineExpiry = &v3
 			}
 		}
 
@@ -1500,8 +1506,9 @@ func expandIpsSensorOverride(d *schema.ResourceData, v interface{}, pre string, 
 
 		pre_append = fmt.Sprintf("%s.%d.quarantine_expiry", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.QuarantineExpiry = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.QuarantineExpiry = &v3
 			}
 		}
 
@@ -1514,8 +1521,9 @@ func expandIpsSensorOverride(d *schema.ResourceData, v interface{}, pre string, 
 
 		pre_append = fmt.Sprintf("%s.%d.rule_id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.RuleId = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.RuleId = &v3
 			}
 		}
 
@@ -1552,8 +1560,9 @@ func expandIpsSensorOverrideExemptIp(d *schema.ResourceData, v interface{}, pre 
 
 		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Id = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Id = &v3
 			}
 		}
 

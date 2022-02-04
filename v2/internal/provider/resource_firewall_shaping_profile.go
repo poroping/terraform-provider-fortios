@@ -453,64 +453,73 @@ func expandFirewallShapingProfileShapingEntries(d *schema.ResourceData, v interf
 
 		pre_append = fmt.Sprintf("%s.%d.burst_in_msec", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.BurstInMsec = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.BurstInMsec = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.cburst_in_msec", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.CburstInMsec = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.CburstInMsec = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.class_id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.ClassId = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.ClassId = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.guaranteed_bandwidth_percentage", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.GuaranteedBandwidthPercentage = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.GuaranteedBandwidthPercentage = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Id = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Id = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.limit", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Limit = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Limit = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.max", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Max = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Max = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.maximum_bandwidth_percentage", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.MaximumBandwidthPercentage = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.MaximumBandwidthPercentage = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.min", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Min = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Min = &v3
 			}
 		}
 
@@ -523,8 +532,9 @@ func expandFirewallShapingProfileShapingEntries(d *schema.ResourceData, v interf
 
 		pre_append = fmt.Sprintf("%s.%d.red_probability", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.RedProbability = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.RedProbability = &v3
 			}
 		}
 

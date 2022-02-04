@@ -22,9 +22,12 @@ func expand{{.fpath}}(d *schema.ResourceData, v interface{}, pre string, sv stri
 			// 	}
 			tmp.{{if $value.name_begin_with_int}}The{{end}}{{(mixedCase $value.name)}} = v2
 			{{ else }}
-			if v2, ok := v1.({{ (typeLookup $value.type) }}); ok {
+			{{ if eq $value.type "integer" }}if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.{{if $value.name_begin_with_int}}The{{end}}{{(mixedCase $value.name)}} = &v3
+			}{{ else }}if v2, ok := v1.({{ (typeLookup $value.type) }}); ok {
 				tmp.{{if $value.name_begin_with_int}}The{{end}}{{(mixedCase $value.name)}} = &v2
-			}{{ end }}
+			}{{ end }}{{ end }}
 		}
 		{{end}}
 

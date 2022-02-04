@@ -355,8 +355,9 @@ func expandWirelessControllerHotspot20IconIconList(d *schema.ResourceData, v int
 
 		pre_append = fmt.Sprintf("%s.%d.height", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Height = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Height = &v3
 			}
 		}
 
@@ -383,8 +384,9 @@ func expandWirelessControllerHotspot20IconIconList(d *schema.ResourceData, v int
 
 		pre_append = fmt.Sprintf("%s.%d.width", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Width = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Width = &v3
 			}
 		}
 

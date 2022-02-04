@@ -628,15 +628,17 @@ func expandFirewallDoSPolicy6Anomaly(d *schema.ResourceData, v interface{}, pre 
 
 		pre_append = fmt.Sprintf("%s.%d.threshold", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Threshold = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Threshold = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.thresholddefault", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Thresholddefault = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Thresholddefault = &v3
 			}
 		}
 

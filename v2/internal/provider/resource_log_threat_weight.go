@@ -886,15 +886,17 @@ func expandLogThreatWeightApplication(d *schema.ResourceData, v interface{}, pre
 
 		pre_append = fmt.Sprintf("%s.%d.category", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Category = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Category = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Id = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Id = &v3
 			}
 		}
 
@@ -931,8 +933,9 @@ func expandLogThreatWeightGeolocation(d *schema.ResourceData, v interface{}, pre
 
 		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Id = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Id = &v3
 			}
 		}
 
@@ -1014,29 +1017,33 @@ func expandLogThreatWeightLevel(d *schema.ResourceData, v interface{}, pre strin
 
 		pre_append = fmt.Sprintf("%s.%d.critical", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Critical = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Critical = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.high", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.High = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.High = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.low", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Low = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Low = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.medium", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Medium = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Medium = &v3
 			}
 		}
 
@@ -1188,15 +1195,17 @@ func expandLogThreatWeightWeb(d *schema.ResourceData, v interface{}, pre string,
 
 		pre_append = fmt.Sprintf("%s.%d.category", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Category = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Category = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Id = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Id = &v3
 			}
 		}
 

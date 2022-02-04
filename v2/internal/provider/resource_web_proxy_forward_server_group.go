@@ -355,8 +355,9 @@ func expandWebProxyForwardServerGroupServerList(d *schema.ResourceData, v interf
 
 		pre_append = fmt.Sprintf("%s.%d.weight", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Weight = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Weight = &v3
 			}
 		}
 

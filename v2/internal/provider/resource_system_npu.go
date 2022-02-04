@@ -3558,22 +3558,25 @@ func expandSystemNpuDswDtsProfile(d *schema.ResourceData, v interface{}, pre str
 
 		pre_append = fmt.Sprintf("%s.%d.min_limit", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.MinLimit = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.MinLimit = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.profile_id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.ProfileId = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.ProfileId = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.step", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Step = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Step = &v3
 			}
 		}
 
@@ -3617,15 +3620,17 @@ func expandSystemNpuDswQueueDtsProfile(d *schema.ResourceData, v interface{}, pr
 
 		pre_append = fmt.Sprintf("%s.%d.profile_id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.ProfileId = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.ProfileId = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.queue_select", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.QueueSelect = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.QueueSelect = &v3
 			}
 		}
 
@@ -3910,15 +3915,17 @@ func expandSystemNpuHpe(d *schema.ResourceData, v interface{}, pre string, sv st
 
 		pre_append = fmt.Sprintf("%s.%d.all_protocol", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.AllProtocol = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.AllProtocol = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.arp_max", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.ArpMax = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.ArpMax = &v3
 			}
 		}
 
@@ -3931,85 +3938,97 @@ func expandSystemNpuHpe(d *schema.ResourceData, v interface{}, pre string, sv st
 
 		pre_append = fmt.Sprintf("%s.%d.esp_max", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.EspMax = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.EspMax = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.high_priority", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.HighPriority = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.HighPriority = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.icmp_max", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.IcmpMax = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.IcmpMax = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.ip_frag_max", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.IpFragMax = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.IpFragMax = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.ip_others_max", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.IpOthersMax = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.IpOthersMax = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.l2_others_max", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.L2OthersMax = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.L2OthersMax = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.sctp_max", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.SctpMax = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.SctpMax = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.tcp_max", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.TcpMax = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.TcpMax = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.tcpfin_rst_max", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.TcpfinRstMax = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.TcpfinRstMax = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.tcpsyn_ack_max", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.TcpsynAckMax = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.TcpsynAckMax = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.tcpsyn_max", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.TcpsynMax = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.TcpsynMax = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.udp_max", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.UdpMax = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.UdpMax = &v3
 			}
 		}
 
@@ -4056,15 +4075,17 @@ func expandSystemNpuIpReassembly(d *schema.ResourceData, v interface{}, pre stri
 
 		pre_append = fmt.Sprintf("%s.%d.max_timeout", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.MaxTimeout = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.MaxTimeout = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.min_timeout", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.MinTimeout = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.MinTimeout = &v3
 			}
 		}
 
@@ -4241,8 +4262,9 @@ func expandSystemNpuNpQueuesEthernetType(d *schema.ResourceData, v interface{}, 
 
 		pre_append = fmt.Sprintf("%s.%d.queue", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Queue = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Queue = &v3
 			}
 		}
 
@@ -4255,8 +4277,9 @@ func expandSystemNpuNpQueuesEthernetType(d *schema.ResourceData, v interface{}, 
 
 		pre_append = fmt.Sprintf("%s.%d.weight", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Weight = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Weight = &v3
 			}
 		}
 
@@ -4286,22 +4309,25 @@ func expandSystemNpuNpQueuesIpProtocol(d *schema.ResourceData, v interface{}, pr
 
 		pre_append = fmt.Sprintf("%s.%d.protocol", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Protocol = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Protocol = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.queue", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Queue = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Queue = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.weight", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Weight = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Weight = &v3
 			}
 		}
 
@@ -4324,8 +4350,9 @@ func expandSystemNpuNpQueuesIpService(d *schema.ResourceData, v interface{}, pre
 
 		pre_append = fmt.Sprintf("%s.%d.dport", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Dport = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Dport = &v3
 			}
 		}
 
@@ -4338,29 +4365,33 @@ func expandSystemNpuNpQueuesIpService(d *schema.ResourceData, v interface{}, pre
 
 		pre_append = fmt.Sprintf("%s.%d.protocol", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Protocol = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Protocol = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.queue", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Queue = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Queue = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.sport", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Sport = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Sport = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.weight", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Weight = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Weight = &v3
 			}
 		}
 
@@ -4887,8 +4918,9 @@ func expandSystemNpuNpQueuesProfile(d *schema.ResourceData, v interface{}, pre s
 
 		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Id = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Id = &v3
 			}
 		}
 
@@ -4901,8 +4933,9 @@ func expandSystemNpuNpQueuesProfile(d *schema.ResourceData, v interface{}, pre s
 
 		pre_append = fmt.Sprintf("%s.%d.weight", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Weight = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Weight = &v3
 			}
 		}
 
@@ -4994,8 +5027,9 @@ func expandSystemNpuPortNpuMap(d *schema.ResourceData, v interface{}, pre string
 
 		pre_append = fmt.Sprintf("%s.%d.npu_group_index", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.NpuGroupIndex = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.NpuGroupIndex = &v3
 			}
 		}
 
@@ -5056,50 +5090,57 @@ func expandSystemNpuTcpTimeoutProfile(d *schema.ResourceData, v interface{}, pre
 
 		pre_append = fmt.Sprintf("%s.%d.close_wait", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.CloseWait = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.CloseWait = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.fin_wait", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.FinWait = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.FinWait = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Id = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Id = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.syn_sent", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.SynSent = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.SynSent = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.syn_wait", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.SynWait = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.SynWait = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.tcp_idle", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.TcpIdle = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.TcpIdle = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.time_wait", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.TimeWait = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.TimeWait = &v3
 			}
 		}
 
@@ -5122,15 +5163,17 @@ func expandSystemNpuUdpTimeoutProfile(d *schema.ResourceData, v interface{}, pre
 
 		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Id = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Id = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.udp_idle", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.UdpIdle = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.UdpIdle = &v3
 			}
 		}
 

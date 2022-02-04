@@ -1187,8 +1187,9 @@ func expandReportChartCategorySeries(d *schema.ResourceData, v interface{}, pre 
 
 		pre_append = fmt.Sprintf("%s.%d.font_size", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.FontSize = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.FontSize = &v3
 			}
 		}
 
@@ -1246,8 +1247,9 @@ func expandReportChartColumn(d *schema.ResourceData, v interface{}, pre string, 
 
 		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Id = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Id = &v3
 			}
 		}
 
@@ -1287,8 +1289,9 @@ func expandReportChartColumnMapping(d *schema.ResourceData, v interface{}, pre s
 
 		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Id = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Id = &v3
 			}
 		}
 
@@ -1346,8 +1349,9 @@ func expandReportChartDrillDownCharts(d *schema.ResourceData, v interface{}, pre
 
 		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Id = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Id = &v3
 			}
 		}
 
@@ -1408,8 +1412,9 @@ func expandReportChartXSeries(d *schema.ResourceData, v interface{}, pre string,
 
 		pre_append = fmt.Sprintf("%s.%d.caption_font_size", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.CaptionFontSize = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.CaptionFontSize = &v3
 			}
 		}
 
@@ -1422,8 +1427,9 @@ func expandReportChartXSeries(d *schema.ResourceData, v interface{}, pre string,
 
 		pre_append = fmt.Sprintf("%s.%d.font_size", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.FontSize = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.FontSize = &v3
 			}
 		}
 
@@ -1457,8 +1463,9 @@ func expandReportChartXSeries(d *schema.ResourceData, v interface{}, pre string,
 
 		pre_append = fmt.Sprintf("%s.%d.scale_step", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.ScaleStep = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.ScaleStep = &v3
 			}
 		}
 
@@ -1502,8 +1509,9 @@ func expandReportChartYSeries(d *schema.ResourceData, v interface{}, pre string,
 
 		pre_append = fmt.Sprintf("%s.%d.caption_font_size", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.CaptionFontSize = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.CaptionFontSize = &v3
 			}
 		}
 
@@ -1537,8 +1545,9 @@ func expandReportChartYSeries(d *schema.ResourceData, v interface{}, pre string,
 
 		pre_append = fmt.Sprintf("%s.%d.font_size", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.FontSize = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.FontSize = &v3
 			}
 		}
 

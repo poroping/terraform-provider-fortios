@@ -1575,8 +1575,9 @@ func expandFirewallAccessProxy6ApiGateway(d *schema.ResourceData, v interface{},
 
 		pre_append = fmt.Sprintf("%s.%d.http_cookie_age", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.HttpCookieAge = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.HttpCookieAge = &v3
 			}
 		}
 
@@ -1596,8 +1597,9 @@ func expandFirewallAccessProxy6ApiGateway(d *schema.ResourceData, v interface{},
 
 		pre_append = fmt.Sprintf("%s.%d.http_cookie_generation", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.HttpCookieGeneration = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.HttpCookieGeneration = &v3
 			}
 		}
 
@@ -1624,8 +1626,9 @@ func expandFirewallAccessProxy6ApiGateway(d *schema.ResourceData, v interface{},
 
 		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Id = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Id = &v3
 			}
 		}
 
@@ -1808,8 +1811,9 @@ func expandFirewallAccessProxy6ApiGatewayRealservers(d *schema.ResourceData, v i
 
 		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Id = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Id = &v3
 			}
 		}
 
@@ -1829,8 +1833,9 @@ func expandFirewallAccessProxy6ApiGatewayRealservers(d *schema.ResourceData, v i
 
 		pre_append = fmt.Sprintf("%s.%d.port", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Port = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Port = &v3
 			}
 		}
 
@@ -1874,8 +1879,9 @@ func expandFirewallAccessProxy6ApiGatewayRealservers(d *schema.ResourceData, v i
 
 		pre_append = fmt.Sprintf("%s.%d.weight", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Weight = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Weight = &v3
 			}
 		}
 
@@ -1929,8 +1935,9 @@ func expandFirewallAccessProxy6ApiGatewaySslCipherSuites(d *schema.ResourceData,
 
 		pre_append = fmt.Sprintf("%s.%d.priority", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Priority = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Priority = &v3
 			}
 		}
 
@@ -1960,8 +1967,9 @@ func expandFirewallAccessProxy6ApiGateway6(d *schema.ResourceData, v interface{}
 
 		pre_append = fmt.Sprintf("%s.%d.http_cookie_age", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.HttpCookieAge = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.HttpCookieAge = &v3
 			}
 		}
 
@@ -1981,8 +1989,9 @@ func expandFirewallAccessProxy6ApiGateway6(d *schema.ResourceData, v interface{}
 
 		pre_append = fmt.Sprintf("%s.%d.http_cookie_generation", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.HttpCookieGeneration = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.HttpCookieGeneration = &v3
 			}
 		}
 
@@ -2009,8 +2018,9 @@ func expandFirewallAccessProxy6ApiGateway6(d *schema.ResourceData, v interface{}
 
 		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Id = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Id = &v3
 			}
 		}
 
@@ -2193,8 +2203,9 @@ func expandFirewallAccessProxy6ApiGateway6Realservers(d *schema.ResourceData, v 
 
 		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Id = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Id = &v3
 			}
 		}
 
@@ -2214,8 +2225,9 @@ func expandFirewallAccessProxy6ApiGateway6Realservers(d *schema.ResourceData, v 
 
 		pre_append = fmt.Sprintf("%s.%d.port", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Port = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Port = &v3
 			}
 		}
 
@@ -2259,8 +2271,9 @@ func expandFirewallAccessProxy6ApiGateway6Realservers(d *schema.ResourceData, v 
 
 		pre_append = fmt.Sprintf("%s.%d.weight", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Weight = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Weight = &v3
 			}
 		}
 
@@ -2314,8 +2327,9 @@ func expandFirewallAccessProxy6ApiGateway6SslCipherSuites(d *schema.ResourceData
 
 		pre_append = fmt.Sprintf("%s.%d.priority", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Priority = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Priority = &v3
 			}
 		}
 

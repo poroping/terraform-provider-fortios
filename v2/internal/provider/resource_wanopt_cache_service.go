@@ -466,8 +466,9 @@ func expandWanoptCacheServiceDstPeer(d *schema.ResourceData, v interface{}, pre 
 
 		pre_append = fmt.Sprintf("%s.%d.auth_type", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.AuthType = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.AuthType = &v3
 			}
 		}
 
@@ -480,8 +481,9 @@ func expandWanoptCacheServiceDstPeer(d *schema.ResourceData, v interface{}, pre 
 
 		pre_append = fmt.Sprintf("%s.%d.encode_type", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.EncodeType = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.EncodeType = &v3
 			}
 		}
 
@@ -494,8 +496,9 @@ func expandWanoptCacheServiceDstPeer(d *schema.ResourceData, v interface{}, pre 
 
 		pre_append = fmt.Sprintf("%s.%d.priority", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Priority = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Priority = &v3
 			}
 		}
 
@@ -518,8 +521,9 @@ func expandWanoptCacheServiceSrcPeer(d *schema.ResourceData, v interface{}, pre 
 
 		pre_append = fmt.Sprintf("%s.%d.auth_type", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.AuthType = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.AuthType = &v3
 			}
 		}
 
@@ -532,8 +536,9 @@ func expandWanoptCacheServiceSrcPeer(d *schema.ResourceData, v interface{}, pre 
 
 		pre_append = fmt.Sprintf("%s.%d.encode_type", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.EncodeType = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.EncodeType = &v3
 			}
 		}
 
@@ -546,8 +551,9 @@ func expandWanoptCacheServiceSrcPeer(d *schema.ResourceData, v interface{}, pre 
 
 		pre_append = fmt.Sprintf("%s.%d.priority", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Priority = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Priority = &v3
 			}
 		}
 

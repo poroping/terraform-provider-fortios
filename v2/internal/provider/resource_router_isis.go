@@ -1627,43 +1627,49 @@ func expandRouterIsisIsisInterface(d *schema.ResourceData, v interface{}, pre st
 
 		pre_append = fmt.Sprintf("%s.%d.csnp_interval_l1", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.CsnpIntervalL1 = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.CsnpIntervalL1 = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.csnp_interval_l2", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.CsnpIntervalL2 = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.CsnpIntervalL2 = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.hello_interval_l1", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.HelloIntervalL1 = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.HelloIntervalL1 = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.hello_interval_l2", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.HelloIntervalL2 = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.HelloIntervalL2 = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.hello_multiplier_l1", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.HelloMultiplierL1 = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.HelloMultiplierL1 = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.hello_multiplier_l2", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.HelloMultiplierL2 = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.HelloMultiplierL2 = &v3
 			}
 		}
 
@@ -1676,15 +1682,17 @@ func expandRouterIsisIsisInterface(d *schema.ResourceData, v interface{}, pre st
 
 		pre_append = fmt.Sprintf("%s.%d.lsp_interval", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.LspInterval = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.LspInterval = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.lsp_retransmit_interval", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.LspRetransmitInterval = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.LspRetransmitInterval = &v3
 			}
 		}
 
@@ -1697,22 +1705,25 @@ func expandRouterIsisIsisInterface(d *schema.ResourceData, v interface{}, pre st
 
 		pre_append = fmt.Sprintf("%s.%d.mesh_group_id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.MeshGroupId = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.MeshGroupId = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.metric_l1", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.MetricL1 = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.MetricL1 = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.metric_l2", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.MetricL2 = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.MetricL2 = &v3
 			}
 		}
 
@@ -1732,15 +1743,17 @@ func expandRouterIsisIsisInterface(d *schema.ResourceData, v interface{}, pre st
 
 		pre_append = fmt.Sprintf("%s.%d.priority_l1", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.PriorityL1 = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.PriorityL1 = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.priority_l2", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.PriorityL2 = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.PriorityL2 = &v3
 			}
 		}
 
@@ -1760,15 +1773,17 @@ func expandRouterIsisIsisInterface(d *schema.ResourceData, v interface{}, pre st
 
 		pre_append = fmt.Sprintf("%s.%d.wide_metric_l1", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.WideMetricL1 = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.WideMetricL1 = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.wide_metric_l2", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.WideMetricL2 = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.WideMetricL2 = &v3
 			}
 		}
 
@@ -1791,8 +1806,9 @@ func expandRouterIsisIsisNet(d *schema.ResourceData, v interface{}, pre string, 
 
 		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Id = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Id = &v3
 			}
 		}
 
@@ -1829,8 +1845,9 @@ func expandRouterIsisRedistribute(d *schema.ResourceData, v interface{}, pre str
 
 		pre_append = fmt.Sprintf("%s.%d.metric", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Metric = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Metric = &v3
 			}
 		}
 
@@ -1888,8 +1905,9 @@ func expandRouterIsisRedistribute6(d *schema.ResourceData, v interface{}, pre st
 
 		pre_append = fmt.Sprintf("%s.%d.metric", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Metric = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Metric = &v3
 			}
 		}
 
@@ -1940,8 +1958,9 @@ func expandRouterIsisSummaryAddress(d *schema.ResourceData, v interface{}, pre s
 
 		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Id = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Id = &v3
 			}
 		}
 
@@ -1978,8 +1997,9 @@ func expandRouterIsisSummaryAddress6(d *schema.ResourceData, v interface{}, pre 
 
 		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Id = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Id = &v3
 			}
 		}
 

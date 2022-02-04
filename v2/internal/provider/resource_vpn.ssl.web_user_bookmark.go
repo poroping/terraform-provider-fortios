@@ -757,8 +757,9 @@ func expandVpnSslWebUserBookmarkBookmarks(d *schema.ResourceData, v interface{},
 
 		pre_append = fmt.Sprintf("%s.%d.height", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Height = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Height = &v3
 			}
 		}
 
@@ -778,8 +779,9 @@ func expandVpnSslWebUserBookmarkBookmarks(d *schema.ResourceData, v interface{},
 
 		pre_append = fmt.Sprintf("%s.%d.listening_port", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.ListeningPort = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.ListeningPort = &v3
 			}
 		}
 
@@ -813,8 +815,9 @@ func expandVpnSslWebUserBookmarkBookmarks(d *schema.ResourceData, v interface{},
 
 		pre_append = fmt.Sprintf("%s.%d.port", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Port = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Port = &v3
 			}
 		}
 
@@ -827,15 +830,17 @@ func expandVpnSslWebUserBookmarkBookmarks(d *schema.ResourceData, v interface{},
 
 		pre_append = fmt.Sprintf("%s.%d.preconnection_id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.PreconnectionId = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.PreconnectionId = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.remote_port", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.RemotePort = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.RemotePort = &v3
 			}
 		}
 
@@ -918,8 +923,9 @@ func expandVpnSslWebUserBookmarkBookmarks(d *schema.ResourceData, v interface{},
 
 		pre_append = fmt.Sprintf("%s.%d.width", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Width = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Width = &v3
 			}
 		}
 

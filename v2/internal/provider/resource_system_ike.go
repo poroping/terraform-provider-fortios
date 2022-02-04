@@ -1419,8 +1419,9 @@ func expandSystemIkeDhGroup1(d *schema.ResourceData, v interface{}, pre string, 
 
 		pre_append = fmt.Sprintf("%s.%d.keypair_count", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.KeypairCount = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.KeypairCount = &v3
 			}
 		}
 
@@ -1457,8 +1458,9 @@ func expandSystemIkeDhGroup14(d *schema.ResourceData, v interface{}, pre string,
 
 		pre_append = fmt.Sprintf("%s.%d.keypair_count", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.KeypairCount = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.KeypairCount = &v3
 			}
 		}
 
@@ -1495,8 +1497,9 @@ func expandSystemIkeDhGroup15(d *schema.ResourceData, v interface{}, pre string,
 
 		pre_append = fmt.Sprintf("%s.%d.keypair_count", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.KeypairCount = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.KeypairCount = &v3
 			}
 		}
 
@@ -1533,8 +1536,9 @@ func expandSystemIkeDhGroup16(d *schema.ResourceData, v interface{}, pre string,
 
 		pre_append = fmt.Sprintf("%s.%d.keypair_count", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.KeypairCount = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.KeypairCount = &v3
 			}
 		}
 
@@ -1571,8 +1575,9 @@ func expandSystemIkeDhGroup17(d *schema.ResourceData, v interface{}, pre string,
 
 		pre_append = fmt.Sprintf("%s.%d.keypair_count", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.KeypairCount = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.KeypairCount = &v3
 			}
 		}
 
@@ -1609,8 +1614,9 @@ func expandSystemIkeDhGroup18(d *schema.ResourceData, v interface{}, pre string,
 
 		pre_append = fmt.Sprintf("%s.%d.keypair_count", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.KeypairCount = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.KeypairCount = &v3
 			}
 		}
 
@@ -1647,8 +1653,9 @@ func expandSystemIkeDhGroup19(d *schema.ResourceData, v interface{}, pre string,
 
 		pre_append = fmt.Sprintf("%s.%d.keypair_count", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.KeypairCount = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.KeypairCount = &v3
 			}
 		}
 
@@ -1685,8 +1692,9 @@ func expandSystemIkeDhGroup2(d *schema.ResourceData, v interface{}, pre string, 
 
 		pre_append = fmt.Sprintf("%s.%d.keypair_count", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.KeypairCount = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.KeypairCount = &v3
 			}
 		}
 
@@ -1723,8 +1731,9 @@ func expandSystemIkeDhGroup20(d *schema.ResourceData, v interface{}, pre string,
 
 		pre_append = fmt.Sprintf("%s.%d.keypair_count", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.KeypairCount = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.KeypairCount = &v3
 			}
 		}
 
@@ -1761,8 +1770,9 @@ func expandSystemIkeDhGroup21(d *schema.ResourceData, v interface{}, pre string,
 
 		pre_append = fmt.Sprintf("%s.%d.keypair_count", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.KeypairCount = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.KeypairCount = &v3
 			}
 		}
 
@@ -1799,8 +1809,9 @@ func expandSystemIkeDhGroup27(d *schema.ResourceData, v interface{}, pre string,
 
 		pre_append = fmt.Sprintf("%s.%d.keypair_count", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.KeypairCount = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.KeypairCount = &v3
 			}
 		}
 
@@ -1837,8 +1848,9 @@ func expandSystemIkeDhGroup28(d *schema.ResourceData, v interface{}, pre string,
 
 		pre_append = fmt.Sprintf("%s.%d.keypair_count", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.KeypairCount = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.KeypairCount = &v3
 			}
 		}
 
@@ -1875,8 +1887,9 @@ func expandSystemIkeDhGroup29(d *schema.ResourceData, v interface{}, pre string,
 
 		pre_append = fmt.Sprintf("%s.%d.keypair_count", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.KeypairCount = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.KeypairCount = &v3
 			}
 		}
 
@@ -1913,8 +1926,9 @@ func expandSystemIkeDhGroup30(d *schema.ResourceData, v interface{}, pre string,
 
 		pre_append = fmt.Sprintf("%s.%d.keypair_count", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.KeypairCount = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.KeypairCount = &v3
 			}
 		}
 
@@ -1951,8 +1965,9 @@ func expandSystemIkeDhGroup31(d *schema.ResourceData, v interface{}, pre string,
 
 		pre_append = fmt.Sprintf("%s.%d.keypair_count", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.KeypairCount = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.KeypairCount = &v3
 			}
 		}
 
@@ -1989,8 +2004,9 @@ func expandSystemIkeDhGroup32(d *schema.ResourceData, v interface{}, pre string,
 
 		pre_append = fmt.Sprintf("%s.%d.keypair_count", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.KeypairCount = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.KeypairCount = &v3
 			}
 		}
 
@@ -2027,8 +2043,9 @@ func expandSystemIkeDhGroup5(d *schema.ResourceData, v interface{}, pre string, 
 
 		pre_append = fmt.Sprintf("%s.%d.keypair_count", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.KeypairCount = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.KeypairCount = &v3
 			}
 		}
 

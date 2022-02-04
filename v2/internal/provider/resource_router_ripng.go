@@ -970,8 +970,9 @@ func expandRouterRipngAggregateAddress(d *schema.ResourceData, v interface{}, pr
 
 		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Id = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Id = &v3
 			}
 		}
 
@@ -1008,15 +1009,17 @@ func expandRouterRipngDistance(d *schema.ResourceData, v interface{}, pre string
 
 		pre_append = fmt.Sprintf("%s.%d.distance", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Distance = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Distance = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Id = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Id = &v3
 			}
 		}
 
@@ -1053,8 +1056,9 @@ func expandRouterRipngDistributeList(d *schema.ResourceData, v interface{}, pre 
 
 		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Id = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Id = &v3
 			}
 		}
 
@@ -1098,8 +1102,9 @@ func expandRouterRipngInterface(d *schema.ResourceData, v interface{}, pre strin
 
 		pre_append = fmt.Sprintf("%s.%d.flags", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Flags = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Flags = &v3
 			}
 		}
 
@@ -1143,8 +1148,9 @@ func expandRouterRipngNeighbor(d *schema.ResourceData, v interface{}, pre string
 
 		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Id = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Id = &v3
 			}
 		}
 
@@ -1181,8 +1187,9 @@ func expandRouterRipngNetwork(d *schema.ResourceData, v interface{}, pre string,
 
 		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Id = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Id = &v3
 			}
 		}
 
@@ -1226,8 +1233,9 @@ func expandRouterRipngOffsetList(d *schema.ResourceData, v interface{}, pre stri
 
 		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Id = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Id = &v3
 			}
 		}
 
@@ -1240,8 +1248,9 @@ func expandRouterRipngOffsetList(d *schema.ResourceData, v interface{}, pre stri
 
 		pre_append = fmt.Sprintf("%s.%d.offset", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Offset = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Offset = &v3
 			}
 		}
 
@@ -1295,8 +1304,9 @@ func expandRouterRipngRedistribute(d *schema.ResourceData, v interface{}, pre st
 
 		pre_append = fmt.Sprintf("%s.%d.metric", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Metric = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Metric = &v3
 			}
 		}
 

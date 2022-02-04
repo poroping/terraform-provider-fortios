@@ -609,8 +609,9 @@ func expandFirewallInternetServiceExtensionDisableEntry(d *schema.ResourceData, 
 
 		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Id = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Id = &v3
 			}
 		}
 
@@ -636,8 +637,9 @@ func expandFirewallInternetServiceExtensionDisableEntry(d *schema.ResourceData, 
 
 		pre_append = fmt.Sprintf("%s.%d.protocol", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Protocol = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Protocol = &v3
 			}
 		}
 
@@ -667,8 +669,9 @@ func expandFirewallInternetServiceExtensionDisableEntryIpRange(d *schema.Resourc
 
 		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Id = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Id = &v3
 			}
 		}
 
@@ -698,22 +701,25 @@ func expandFirewallInternetServiceExtensionDisableEntryPortRange(d *schema.Resou
 
 		pre_append = fmt.Sprintf("%s.%d.end_port", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.EndPort = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.EndPort = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Id = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Id = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.start_port", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.StartPort = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.StartPort = &v3
 			}
 		}
 
@@ -746,8 +752,9 @@ func expandFirewallInternetServiceExtensionEntry(d *schema.ResourceData, v inter
 
 		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Id = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Id = &v3
 			}
 		}
 
@@ -763,8 +770,9 @@ func expandFirewallInternetServiceExtensionEntry(d *schema.ResourceData, v inter
 
 		pre_append = fmt.Sprintf("%s.%d.protocol", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Protocol = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Protocol = &v3
 			}
 		}
 
@@ -811,22 +819,25 @@ func expandFirewallInternetServiceExtensionEntryPortRange(d *schema.ResourceData
 
 		pre_append = fmt.Sprintf("%s.%d.end_port", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.EndPort = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.EndPort = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Id = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Id = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.start_port", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.StartPort = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.StartPort = &v3
 			}
 		}
 

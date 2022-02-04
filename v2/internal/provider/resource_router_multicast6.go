@@ -412,15 +412,17 @@ func expandRouterMulticast6Interface(d *schema.ResourceData, v interface{}, pre 
 
 		pre_append = fmt.Sprintf("%s.%d.hello_holdtime", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.HelloHoldtime = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.HelloHoldtime = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.hello_interval", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.HelloInterval = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.HelloInterval = &v3
 			}
 		}
 
@@ -450,8 +452,9 @@ func expandRouterMulticast6PimSmGlobal(d *schema.ResourceData, v interface{}, pr
 
 		pre_append = fmt.Sprintf("%s.%d.register_rate_limit", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.RegisterRateLimit = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.RegisterRateLimit = &v3
 			}
 		}
 
@@ -484,8 +487,9 @@ func expandRouterMulticast6PimSmGlobalRpAddress(d *schema.ResourceData, v interf
 
 		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Id = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Id = &v3
 			}
 		}
 

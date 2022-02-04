@@ -2685,8 +2685,9 @@ func expandFirewallSslSshProfileFtps(d *schema.ResourceData, v interface{}, pre 
 
 		pre_append = fmt.Sprintf("%s.%d.ports", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Ports = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Ports = &v3
 			}
 		}
 
@@ -2821,8 +2822,9 @@ func expandFirewallSslSshProfileHttps(d *schema.ResourceData, v interface{}, pre
 
 		pre_append = fmt.Sprintf("%s.%d.ports", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Ports = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Ports = &v3
 			}
 		}
 
@@ -2950,8 +2952,9 @@ func expandFirewallSslSshProfileImaps(d *schema.ResourceData, v interface{}, pre
 
 		pre_append = fmt.Sprintf("%s.%d.ports", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Ports = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Ports = &v3
 			}
 		}
 
@@ -3079,8 +3082,9 @@ func expandFirewallSslSshProfilePop3s(d *schema.ResourceData, v interface{}, pre
 
 		pre_append = fmt.Sprintf("%s.%d.ports", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Ports = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Ports = &v3
 			}
 		}
 
@@ -3232,8 +3236,9 @@ func expandFirewallSslSshProfileSmtps(d *schema.ResourceData, v interface{}, pre
 
 		pre_append = fmt.Sprintf("%s.%d.ports", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Ports = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Ports = &v3
 			}
 		}
 
@@ -3326,8 +3331,9 @@ func expandFirewallSslSshProfileSsh(d *schema.ResourceData, v interface{}, pre s
 
 		pre_append = fmt.Sprintf("%s.%d.ports", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Ports = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Ports = &v3
 			}
 		}
 
@@ -3528,15 +3534,17 @@ func expandFirewallSslSshProfileSslExempt(d *schema.ResourceData, v interface{},
 
 		pre_append = fmt.Sprintf("%s.%d.fortiguard_category", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.FortiguardCategory = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.FortiguardCategory = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Id = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Id = &v3
 			}
 		}
 
@@ -3608,8 +3616,9 @@ func expandFirewallSslSshProfileSslServer(d *schema.ResourceData, v interface{},
 
 		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Id = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Id = &v3
 			}
 		}
 

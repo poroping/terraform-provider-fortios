@@ -958,15 +958,17 @@ func expandSystemLldpNetworkPolicyGuest(d *schema.ResourceData, v interface{}, p
 
 		pre_append = fmt.Sprintf("%s.%d.dscp", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Dscp = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Dscp = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.priority", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Priority = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Priority = &v3
 			}
 		}
 
@@ -986,8 +988,9 @@ func expandSystemLldpNetworkPolicyGuest(d *schema.ResourceData, v interface{}, p
 
 		pre_append = fmt.Sprintf("%s.%d.vlan", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Vlan = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Vlan = &v3
 			}
 		}
 
@@ -1010,15 +1013,17 @@ func expandSystemLldpNetworkPolicyGuestVoiceSignaling(d *schema.ResourceData, v 
 
 		pre_append = fmt.Sprintf("%s.%d.dscp", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Dscp = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Dscp = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.priority", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Priority = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Priority = &v3
 			}
 		}
 
@@ -1038,8 +1043,9 @@ func expandSystemLldpNetworkPolicyGuestVoiceSignaling(d *schema.ResourceData, v 
 
 		pre_append = fmt.Sprintf("%s.%d.vlan", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Vlan = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Vlan = &v3
 			}
 		}
 
@@ -1062,15 +1068,17 @@ func expandSystemLldpNetworkPolicySoftphone(d *schema.ResourceData, v interface{
 
 		pre_append = fmt.Sprintf("%s.%d.dscp", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Dscp = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Dscp = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.priority", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Priority = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Priority = &v3
 			}
 		}
 
@@ -1090,8 +1098,9 @@ func expandSystemLldpNetworkPolicySoftphone(d *schema.ResourceData, v interface{
 
 		pre_append = fmt.Sprintf("%s.%d.vlan", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Vlan = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Vlan = &v3
 			}
 		}
 
@@ -1114,15 +1123,17 @@ func expandSystemLldpNetworkPolicyStreamingVideo(d *schema.ResourceData, v inter
 
 		pre_append = fmt.Sprintf("%s.%d.dscp", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Dscp = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Dscp = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.priority", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Priority = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Priority = &v3
 			}
 		}
 
@@ -1142,8 +1153,9 @@ func expandSystemLldpNetworkPolicyStreamingVideo(d *schema.ResourceData, v inter
 
 		pre_append = fmt.Sprintf("%s.%d.vlan", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Vlan = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Vlan = &v3
 			}
 		}
 
@@ -1166,15 +1178,17 @@ func expandSystemLldpNetworkPolicyVideoConferencing(d *schema.ResourceData, v in
 
 		pre_append = fmt.Sprintf("%s.%d.dscp", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Dscp = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Dscp = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.priority", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Priority = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Priority = &v3
 			}
 		}
 
@@ -1194,8 +1208,9 @@ func expandSystemLldpNetworkPolicyVideoConferencing(d *schema.ResourceData, v in
 
 		pre_append = fmt.Sprintf("%s.%d.vlan", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Vlan = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Vlan = &v3
 			}
 		}
 
@@ -1218,15 +1233,17 @@ func expandSystemLldpNetworkPolicyVideoSignaling(d *schema.ResourceData, v inter
 
 		pre_append = fmt.Sprintf("%s.%d.dscp", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Dscp = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Dscp = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.priority", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Priority = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Priority = &v3
 			}
 		}
 
@@ -1246,8 +1263,9 @@ func expandSystemLldpNetworkPolicyVideoSignaling(d *schema.ResourceData, v inter
 
 		pre_append = fmt.Sprintf("%s.%d.vlan", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Vlan = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Vlan = &v3
 			}
 		}
 
@@ -1270,15 +1288,17 @@ func expandSystemLldpNetworkPolicyVoice(d *schema.ResourceData, v interface{}, p
 
 		pre_append = fmt.Sprintf("%s.%d.dscp", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Dscp = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Dscp = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.priority", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Priority = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Priority = &v3
 			}
 		}
 
@@ -1298,8 +1318,9 @@ func expandSystemLldpNetworkPolicyVoice(d *schema.ResourceData, v interface{}, p
 
 		pre_append = fmt.Sprintf("%s.%d.vlan", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Vlan = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Vlan = &v3
 			}
 		}
 
@@ -1322,15 +1343,17 @@ func expandSystemLldpNetworkPolicyVoiceSignaling(d *schema.ResourceData, v inter
 
 		pre_append = fmt.Sprintf("%s.%d.dscp", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Dscp = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Dscp = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.priority", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Priority = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Priority = &v3
 			}
 		}
 
@@ -1350,8 +1373,9 @@ func expandSystemLldpNetworkPolicyVoiceSignaling(d *schema.ResourceData, v inter
 
 		pre_append = fmt.Sprintf("%s.%d.vlan", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Vlan = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Vlan = &v3
 			}
 		}
 

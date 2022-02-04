@@ -580,8 +580,9 @@ func expandSystemNtpNtpserver(d *schema.ResourceData, v interface{}, pre string,
 
 		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Id = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Id = &v3
 			}
 		}
 
@@ -608,8 +609,9 @@ func expandSystemNtpNtpserver(d *schema.ResourceData, v interface{}, pre string,
 
 		pre_append = fmt.Sprintf("%s.%d.key_id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.KeyId = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.KeyId = &v3
 			}
 		}
 

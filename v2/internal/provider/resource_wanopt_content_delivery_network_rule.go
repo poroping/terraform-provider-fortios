@@ -877,8 +877,9 @@ func expandWanoptContentDeliveryNetworkRuleRulesContentId(d *schema.ResourceData
 
 		pre_append = fmt.Sprintf("%s.%d.end_skip", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.EndSkip = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.EndSkip = &v3
 			}
 		}
 
@@ -905,8 +906,9 @@ func expandWanoptContentDeliveryNetworkRuleRulesContentId(d *schema.ResourceData
 
 		pre_append = fmt.Sprintf("%s.%d.start_skip", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.StartSkip = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.StartSkip = &v3
 			}
 		}
 
@@ -943,8 +945,9 @@ func expandWanoptContentDeliveryNetworkRuleRulesMatchEntries(d *schema.ResourceD
 
 		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Id = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Id = &v3
 			}
 		}
 
@@ -1008,8 +1011,9 @@ func expandWanoptContentDeliveryNetworkRuleRulesSkipEntries(d *schema.ResourceDa
 
 		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Id = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Id = &v3
 			}
 		}
 

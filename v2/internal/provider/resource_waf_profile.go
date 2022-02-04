@@ -2736,8 +2736,9 @@ func expandWafProfileConstraintContentLength(d *schema.ResourceData, v interface
 
 		pre_append = fmt.Sprintf("%s.%d.length", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Length = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Length = &v3
 			}
 		}
 
@@ -2809,8 +2810,9 @@ func expandWafProfileConstraintException(d *schema.ResourceData, v interface{}, 
 
 		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Id = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Id = &v3
 			}
 		}
 
@@ -2924,8 +2926,9 @@ func expandWafProfileConstraintHeaderLength(d *schema.ResourceData, v interface{
 
 		pre_append = fmt.Sprintf("%s.%d.length", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Length = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Length = &v3
 			}
 		}
 
@@ -3021,8 +3024,9 @@ func expandWafProfileConstraintLineLength(d *schema.ResourceData, v interface{},
 
 		pre_append = fmt.Sprintf("%s.%d.length", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Length = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Length = &v3
 			}
 		}
 
@@ -3125,8 +3129,9 @@ func expandWafProfileConstraintMaxCookie(d *schema.ResourceData, v interface{}, 
 
 		pre_append = fmt.Sprintf("%s.%d.max_cookie", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.MaxCookie = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.MaxCookie = &v3
 			}
 		}
 
@@ -3177,8 +3182,9 @@ func expandWafProfileConstraintMaxHeaderLine(d *schema.ResourceData, v interface
 
 		pre_append = fmt.Sprintf("%s.%d.max_header_line", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.MaxHeaderLine = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.MaxHeaderLine = &v3
 			}
 		}
 
@@ -3229,8 +3235,9 @@ func expandWafProfileConstraintMaxRangeSegment(d *schema.ResourceData, v interfa
 
 		pre_append = fmt.Sprintf("%s.%d.max_range_segment", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.MaxRangeSegment = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.MaxRangeSegment = &v3
 			}
 		}
 
@@ -3281,8 +3288,9 @@ func expandWafProfileConstraintMaxUrlParam(d *schema.ResourceData, v interface{}
 
 		pre_append = fmt.Sprintf("%s.%d.max_url_param", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.MaxUrlParam = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.MaxUrlParam = &v3
 			}
 		}
 
@@ -3371,8 +3379,9 @@ func expandWafProfileConstraintParamLength(d *schema.ResourceData, v interface{}
 
 		pre_append = fmt.Sprintf("%s.%d.length", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Length = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Length = &v3
 			}
 		}
 
@@ -3423,8 +3432,9 @@ func expandWafProfileConstraintUrlParamLength(d *schema.ResourceData, v interfac
 
 		pre_append = fmt.Sprintf("%s.%d.length", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Length = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Length = &v3
 			}
 		}
 
@@ -3582,8 +3592,9 @@ func expandWafProfileMethodMethodPolicy(d *schema.ResourceData, v interface{}, p
 
 		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Id = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Id = &v3
 			}
 		}
 
@@ -3620,8 +3631,9 @@ func expandWafProfileSignature(d *schema.ResourceData, v interface{}, pre string
 
 		pre_append = fmt.Sprintf("%s.%d.credit_card_detection_threshold", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.CreditCardDetectionThreshold = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.CreditCardDetectionThreshold = &v3
 			}
 		}
 
@@ -3764,8 +3776,9 @@ func expandWafProfileSignatureDisabledSignature(d *schema.ResourceData, v interf
 
 		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Id = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Id = &v3
 			}
 		}
 
@@ -3788,8 +3801,9 @@ func expandWafProfileSignatureDisabledSubClass(d *schema.ResourceData, v interfa
 
 		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Id = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Id = &v3
 			}
 		}
 
@@ -3819,8 +3833,9 @@ func expandWafProfileSignatureMainClass(d *schema.ResourceData, v interface{}, p
 
 		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Id = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Id = &v3
 			}
 		}
 
@@ -3888,8 +3903,9 @@ func expandWafProfileUrlAccess(d *schema.ResourceData, v interface{}, pre string
 
 		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Id = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Id = &v3
 			}
 		}
 
@@ -3926,8 +3942,9 @@ func expandWafProfileUrlAccessAccessPattern(d *schema.ResourceData, v interface{
 
 		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Id = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Id = &v3
 			}
 		}
 

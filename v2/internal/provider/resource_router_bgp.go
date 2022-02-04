@@ -4326,15 +4326,17 @@ func expandRouterBgpAdminDistance(d *schema.ResourceData, v interface{}, pre str
 
 		pre_append = fmt.Sprintf("%s.%d.distance", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Distance = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Distance = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Id = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Id = &v3
 			}
 		}
 
@@ -4378,8 +4380,9 @@ func expandRouterBgpAggregateAddress(d *schema.ResourceData, v interface{}, pre 
 
 		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Id = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Id = &v3
 			}
 		}
 
@@ -4423,8 +4426,9 @@ func expandRouterBgpAggregateAddress6(d *schema.ResourceData, v interface{}, pre
 
 		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Id = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Id = &v3
 			}
 		}
 
@@ -4513,29 +4517,33 @@ func expandRouterBgpNeighbor(d *schema.ResourceData, v interface{}, pre string, 
 
 		pre_append = fmt.Sprintf("%s.%d.adv_additional_path", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.AdvAdditionalPath = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.AdvAdditionalPath = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.adv_additional_path6", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.AdvAdditionalPath6 = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.AdvAdditionalPath6 = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.advertisement_interval", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.AdvertisementInterval = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.AdvertisementInterval = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.allowas_in", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.AllowasIn = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.AllowasIn = &v3
 			}
 		}
 
@@ -4555,8 +4563,9 @@ func expandRouterBgpNeighbor(d *schema.ResourceData, v interface{}, pre string, 
 
 		pre_append = fmt.Sprintf("%s.%d.allowas_in6", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.AllowasIn6 = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.AllowasIn6 = &v3
 			}
 		}
 
@@ -4673,8 +4682,9 @@ func expandRouterBgpNeighbor(d *schema.ResourceData, v interface{}, pre string, 
 
 		pre_append = fmt.Sprintf("%s.%d.connect_timer", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.ConnectTimer = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.ConnectTimer = &v3
 			}
 		}
 
@@ -4743,8 +4753,9 @@ func expandRouterBgpNeighbor(d *schema.ResourceData, v interface{}, pre string, 
 
 		pre_append = fmt.Sprintf("%s.%d.ebgp_multihop_ttl", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.EbgpMultihopTtl = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.EbgpMultihopTtl = &v3
 			}
 		}
 
@@ -4778,8 +4789,9 @@ func expandRouterBgpNeighbor(d *schema.ResourceData, v interface{}, pre string, 
 
 		pre_append = fmt.Sprintf("%s.%d.holdtime_timer", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.HoldtimeTimer = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.HoldtimeTimer = &v3
 			}
 		}
 
@@ -4799,8 +4811,9 @@ func expandRouterBgpNeighbor(d *schema.ResourceData, v interface{}, pre string, 
 
 		pre_append = fmt.Sprintf("%s.%d.keep_alive_timer", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.KeepAliveTimer = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.KeepAliveTimer = &v3
 			}
 		}
 
@@ -4813,8 +4826,9 @@ func expandRouterBgpNeighbor(d *schema.ResourceData, v interface{}, pre string, 
 
 		pre_append = fmt.Sprintf("%s.%d.local_as", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.LocalAs = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.LocalAs = &v3
 			}
 		}
 
@@ -4834,22 +4848,25 @@ func expandRouterBgpNeighbor(d *schema.ResourceData, v interface{}, pre string, 
 
 		pre_append = fmt.Sprintf("%s.%d.maximum_prefix", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.MaximumPrefix = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.MaximumPrefix = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.maximum_prefix_threshold", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.MaximumPrefixThreshold = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.MaximumPrefixThreshold = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.maximum_prefix_threshold6", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.MaximumPrefixThreshold6 = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.MaximumPrefixThreshold6 = &v3
 			}
 		}
 
@@ -4869,8 +4886,9 @@ func expandRouterBgpNeighbor(d *schema.ResourceData, v interface{}, pre string, 
 
 		pre_append = fmt.Sprintf("%s.%d.maximum_prefix6", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.MaximumPrefix6 = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.MaximumPrefix6 = &v3
 			}
 		}
 
@@ -4953,8 +4971,9 @@ func expandRouterBgpNeighbor(d *schema.ResourceData, v interface{}, pre string, 
 
 		pre_append = fmt.Sprintf("%s.%d.remote_as", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.RemoteAs = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.RemoteAs = &v3
 			}
 		}
 
@@ -4974,15 +4993,17 @@ func expandRouterBgpNeighbor(d *schema.ResourceData, v interface{}, pre string, 
 
 		pre_append = fmt.Sprintf("%s.%d.restart_time", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.RestartTime = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.RestartTime = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.retain_stale_time", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.RetainStaleTime = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.RetainStaleTime = &v3
 			}
 		}
 
@@ -5128,8 +5149,9 @@ func expandRouterBgpNeighbor(d *schema.ResourceData, v interface{}, pre string, 
 
 		pre_append = fmt.Sprintf("%s.%d.weight", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Weight = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Weight = &v3
 			}
 		}
 
@@ -5310,29 +5332,33 @@ func expandRouterBgpNeighborGroup(d *schema.ResourceData, v interface{}, pre str
 
 		pre_append = fmt.Sprintf("%s.%d.adv_additional_path", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.AdvAdditionalPath = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.AdvAdditionalPath = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.adv_additional_path6", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.AdvAdditionalPath6 = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.AdvAdditionalPath6 = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.advertisement_interval", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.AdvertisementInterval = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.AdvertisementInterval = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.allowas_in", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.AllowasIn = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.AllowasIn = &v3
 			}
 		}
 
@@ -5352,8 +5378,9 @@ func expandRouterBgpNeighborGroup(d *schema.ResourceData, v interface{}, pre str
 
 		pre_append = fmt.Sprintf("%s.%d.allowas_in6", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.AllowasIn6 = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.AllowasIn6 = &v3
 			}
 		}
 
@@ -5450,8 +5477,9 @@ func expandRouterBgpNeighborGroup(d *schema.ResourceData, v interface{}, pre str
 
 		pre_append = fmt.Sprintf("%s.%d.connect_timer", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.ConnectTimer = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.ConnectTimer = &v3
 			}
 		}
 
@@ -5520,8 +5548,9 @@ func expandRouterBgpNeighborGroup(d *schema.ResourceData, v interface{}, pre str
 
 		pre_append = fmt.Sprintf("%s.%d.ebgp_multihop_ttl", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.EbgpMultihopTtl = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.EbgpMultihopTtl = &v3
 			}
 		}
 
@@ -5555,8 +5584,9 @@ func expandRouterBgpNeighborGroup(d *schema.ResourceData, v interface{}, pre str
 
 		pre_append = fmt.Sprintf("%s.%d.holdtime_timer", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.HoldtimeTimer = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.HoldtimeTimer = &v3
 			}
 		}
 
@@ -5569,8 +5599,9 @@ func expandRouterBgpNeighborGroup(d *schema.ResourceData, v interface{}, pre str
 
 		pre_append = fmt.Sprintf("%s.%d.keep_alive_timer", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.KeepAliveTimer = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.KeepAliveTimer = &v3
 			}
 		}
 
@@ -5583,8 +5614,9 @@ func expandRouterBgpNeighborGroup(d *schema.ResourceData, v interface{}, pre str
 
 		pre_append = fmt.Sprintf("%s.%d.local_as", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.LocalAs = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.LocalAs = &v3
 			}
 		}
 
@@ -5604,22 +5636,25 @@ func expandRouterBgpNeighborGroup(d *schema.ResourceData, v interface{}, pre str
 
 		pre_append = fmt.Sprintf("%s.%d.maximum_prefix", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.MaximumPrefix = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.MaximumPrefix = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.maximum_prefix_threshold", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.MaximumPrefixThreshold = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.MaximumPrefixThreshold = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.maximum_prefix_threshold6", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.MaximumPrefixThreshold6 = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.MaximumPrefixThreshold6 = &v3
 			}
 		}
 
@@ -5639,8 +5674,9 @@ func expandRouterBgpNeighborGroup(d *schema.ResourceData, v interface{}, pre str
 
 		pre_append = fmt.Sprintf("%s.%d.maximum_prefix6", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.MaximumPrefix6 = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.MaximumPrefix6 = &v3
 			}
 		}
 
@@ -5723,8 +5759,9 @@ func expandRouterBgpNeighborGroup(d *schema.ResourceData, v interface{}, pre str
 
 		pre_append = fmt.Sprintf("%s.%d.remote_as", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.RemoteAs = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.RemoteAs = &v3
 			}
 		}
 
@@ -5744,15 +5781,17 @@ func expandRouterBgpNeighborGroup(d *schema.ResourceData, v interface{}, pre str
 
 		pre_append = fmt.Sprintf("%s.%d.restart_time", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.RestartTime = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.RestartTime = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.retain_stale_time", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.RetainStaleTime = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.RetainStaleTime = &v3
 			}
 		}
 
@@ -5898,8 +5937,9 @@ func expandRouterBgpNeighborGroup(d *schema.ResourceData, v interface{}, pre str
 
 		pre_append = fmt.Sprintf("%s.%d.weight", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Weight = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Weight = &v3
 			}
 		}
 
@@ -5922,15 +5962,17 @@ func expandRouterBgpNeighborRange(d *schema.ResourceData, v interface{}, pre str
 
 		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Id = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Id = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.max_neighbor_num", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.MaxNeighborNum = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.MaxNeighborNum = &v3
 			}
 		}
 
@@ -5967,15 +6009,17 @@ func expandRouterBgpNeighborRange6(d *schema.ResourceData, v interface{}, pre st
 
 		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Id = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Id = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.max_neighbor_num", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.MaxNeighborNum = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.MaxNeighborNum = &v3
 			}
 		}
 
@@ -6019,8 +6063,9 @@ func expandRouterBgpNetwork(d *schema.ResourceData, v interface{}, pre string, s
 
 		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Id = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Id = &v3
 			}
 		}
 
@@ -6071,8 +6116,9 @@ func expandRouterBgpNetwork6(d *schema.ResourceData, v interface{}, pre string, 
 
 		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Id = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Id = &v3
 			}
 		}
 

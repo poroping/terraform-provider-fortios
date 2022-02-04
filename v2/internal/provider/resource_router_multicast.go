@@ -1120,22 +1120,25 @@ func expandRouterMulticastInterface(d *schema.ResourceData, v interface{}, pre s
 
 		pre_append = fmt.Sprintf("%s.%d.dr_priority", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.DrPriority = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.DrPriority = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.hello_holdtime", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.HelloHoldtime = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.HelloHoldtime = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.hello_interval", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.HelloInterval = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.HelloInterval = &v3
 			}
 		}
 
@@ -1196,8 +1199,9 @@ func expandRouterMulticastInterface(d *schema.ResourceData, v interface{}, pre s
 
 		pre_append = fmt.Sprintf("%s.%d.propagation_delay", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.PropagationDelay = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.PropagationDelay = &v3
 			}
 		}
 
@@ -1217,15 +1221,17 @@ func expandRouterMulticastInterface(d *schema.ResourceData, v interface{}, pre s
 
 		pre_append = fmt.Sprintf("%s.%d.rp_candidate_interval", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.RpCandidateInterval = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.RpCandidateInterval = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.rp_candidate_priority", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.RpCandidatePriority = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.RpCandidatePriority = &v3
 			}
 		}
 
@@ -1245,8 +1251,9 @@ func expandRouterMulticastInterface(d *schema.ResourceData, v interface{}, pre s
 
 		pre_append = fmt.Sprintf("%s.%d.state_refresh_interval", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.StateRefreshInterval = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.StateRefreshInterval = &v3
 			}
 		}
 
@@ -1259,8 +1266,9 @@ func expandRouterMulticastInterface(d *schema.ResourceData, v interface{}, pre s
 
 		pre_append = fmt.Sprintf("%s.%d.ttl_threshold", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.TtlThreshold = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.TtlThreshold = &v3
 			}
 		}
 
@@ -1297,36 +1305,41 @@ func expandRouterMulticastInterfaceIgmp(d *schema.ResourceData, v interface{}, p
 
 		pre_append = fmt.Sprintf("%s.%d.last_member_query_count", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.LastMemberQueryCount = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.LastMemberQueryCount = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.last_member_query_interval", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.LastMemberQueryInterval = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.LastMemberQueryInterval = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.query_interval", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.QueryInterval = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.QueryInterval = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.query_max_response_time", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.QueryMaxResponseTime = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.QueryMaxResponseTime = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.query_timeout", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.QueryTimeout = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.QueryTimeout = &v3
 			}
 		}
 
@@ -1415,8 +1428,9 @@ func expandRouterMulticastPimSmGlobal(d *schema.ResourceData, v interface{}, pre
 
 		pre_append = fmt.Sprintf("%s.%d.bsr_hash", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.BsrHash = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.BsrHash = &v3
 			}
 		}
 
@@ -1429,8 +1443,9 @@ func expandRouterMulticastPimSmGlobal(d *schema.ResourceData, v interface{}, pre
 
 		pre_append = fmt.Sprintf("%s.%d.bsr_priority", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.BsrPriority = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.BsrPriority = &v3
 			}
 		}
 
@@ -1464,29 +1479,33 @@ func expandRouterMulticastPimSmGlobal(d *schema.ResourceData, v interface{}, pre
 
 		pre_append = fmt.Sprintf("%s.%d.join_prune_holdtime", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.JoinPruneHoldtime = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.JoinPruneHoldtime = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.message_interval", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.MessageInterval = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.MessageInterval = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.null_register_retries", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.NullRegisterRetries = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.NullRegisterRetries = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.register_rate_limit", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.RegisterRateLimit = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.RegisterRateLimit = &v3
 			}
 		}
 
@@ -1520,8 +1539,9 @@ func expandRouterMulticastPimSmGlobal(d *schema.ResourceData, v interface{}, pre
 
 		pre_append = fmt.Sprintf("%s.%d.register_supression", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.RegisterSupression = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.RegisterSupression = &v3
 			}
 		}
 
@@ -1537,8 +1557,9 @@ func expandRouterMulticastPimSmGlobal(d *schema.ResourceData, v interface{}, pre
 
 		pre_append = fmt.Sprintf("%s.%d.rp_register_keepalive", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.RpRegisterKeepalive = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.RpRegisterKeepalive = &v3
 			}
 		}
 
@@ -1596,8 +1617,9 @@ func expandRouterMulticastPimSmGlobalRpAddress(d *schema.ResourceData, v interfa
 
 		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Id = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Id = &v3
 			}
 		}
 

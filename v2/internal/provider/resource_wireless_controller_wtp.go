@@ -2493,8 +2493,9 @@ func expandWirelessControllerWtpRadio1(d *schema.ResourceData, v interface{}, pr
 
 		pre_append = fmt.Sprintf("%s.%d.auto_power_high", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.AutoPowerHigh = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.AutoPowerHigh = &v3
 			}
 		}
 
@@ -2507,8 +2508,9 @@ func expandWirelessControllerWtpRadio1(d *schema.ResourceData, v interface{}, pr
 
 		pre_append = fmt.Sprintf("%s.%d.auto_power_low", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.AutoPowerLow = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.AutoPowerLow = &v3
 			}
 		}
 
@@ -2580,8 +2582,9 @@ func expandWirelessControllerWtpRadio1(d *schema.ResourceData, v interface{}, pr
 
 		pre_append = fmt.Sprintf("%s.%d.power_level", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.PowerLevel = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.PowerLevel = &v3
 			}
 		}
 
@@ -2594,8 +2597,9 @@ func expandWirelessControllerWtpRadio1(d *schema.ResourceData, v interface{}, pr
 
 		pre_append = fmt.Sprintf("%s.%d.power_value", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.PowerValue = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.PowerValue = &v3
 			}
 		}
 
@@ -2690,8 +2694,9 @@ func expandWirelessControllerWtpRadio2(d *schema.ResourceData, v interface{}, pr
 
 		pre_append = fmt.Sprintf("%s.%d.auto_power_high", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.AutoPowerHigh = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.AutoPowerHigh = &v3
 			}
 		}
 
@@ -2704,8 +2709,9 @@ func expandWirelessControllerWtpRadio2(d *schema.ResourceData, v interface{}, pr
 
 		pre_append = fmt.Sprintf("%s.%d.auto_power_low", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.AutoPowerLow = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.AutoPowerLow = &v3
 			}
 		}
 
@@ -2777,8 +2783,9 @@ func expandWirelessControllerWtpRadio2(d *schema.ResourceData, v interface{}, pr
 
 		pre_append = fmt.Sprintf("%s.%d.power_level", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.PowerLevel = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.PowerLevel = &v3
 			}
 		}
 
@@ -2791,8 +2798,9 @@ func expandWirelessControllerWtpRadio2(d *schema.ResourceData, v interface{}, pr
 
 		pre_append = fmt.Sprintf("%s.%d.power_value", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.PowerValue = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.PowerValue = &v3
 			}
 		}
 
@@ -2887,8 +2895,9 @@ func expandWirelessControllerWtpRadio3(d *schema.ResourceData, v interface{}, pr
 
 		pre_append = fmt.Sprintf("%s.%d.auto_power_high", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.AutoPowerHigh = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.AutoPowerHigh = &v3
 			}
 		}
 
@@ -2901,8 +2910,9 @@ func expandWirelessControllerWtpRadio3(d *schema.ResourceData, v interface{}, pr
 
 		pre_append = fmt.Sprintf("%s.%d.auto_power_low", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.AutoPowerLow = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.AutoPowerLow = &v3
 			}
 		}
 
@@ -2974,8 +2984,9 @@ func expandWirelessControllerWtpRadio3(d *schema.ResourceData, v interface{}, pr
 
 		pre_append = fmt.Sprintf("%s.%d.power_level", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.PowerLevel = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.PowerLevel = &v3
 			}
 		}
 
@@ -2988,8 +2999,9 @@ func expandWirelessControllerWtpRadio3(d *schema.ResourceData, v interface{}, pr
 
 		pre_append = fmt.Sprintf("%s.%d.power_value", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.PowerValue = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.PowerValue = &v3
 			}
 		}
 
@@ -3084,8 +3096,9 @@ func expandWirelessControllerWtpRadio4(d *schema.ResourceData, v interface{}, pr
 
 		pre_append = fmt.Sprintf("%s.%d.auto_power_high", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.AutoPowerHigh = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.AutoPowerHigh = &v3
 			}
 		}
 
@@ -3098,8 +3111,9 @@ func expandWirelessControllerWtpRadio4(d *schema.ResourceData, v interface{}, pr
 
 		pre_append = fmt.Sprintf("%s.%d.auto_power_low", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.AutoPowerLow = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.AutoPowerLow = &v3
 			}
 		}
 
@@ -3171,8 +3185,9 @@ func expandWirelessControllerWtpRadio4(d *schema.ResourceData, v interface{}, pr
 
 		pre_append = fmt.Sprintf("%s.%d.power_level", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.PowerLevel = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.PowerLevel = &v3
 			}
 		}
 
@@ -3185,8 +3200,9 @@ func expandWirelessControllerWtpRadio4(d *schema.ResourceData, v interface{}, pr
 
 		pre_append = fmt.Sprintf("%s.%d.power_value", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.PowerValue = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.PowerValue = &v3
 			}
 		}
 
@@ -3288,8 +3304,9 @@ func expandWirelessControllerWtpSplitTunnelingAcl(d *schema.ResourceData, v inte
 
 		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Id = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Id = &v3
 			}
 		}
 

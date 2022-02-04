@@ -1956,8 +1956,9 @@ func expandRouterOspfArea(d *schema.ResourceData, v interface{}, pre string, sv 
 
 		pre_append = fmt.Sprintf("%s.%d.default_cost", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.DefaultCost = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.DefaultCost = &v3
 			}
 		}
 
@@ -1987,8 +1988,9 @@ func expandRouterOspfArea(d *schema.ResourceData, v interface{}, pre string, sv 
 
 		pre_append = fmt.Sprintf("%s.%d.nssa_default_information_originate_metric", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.NssaDefaultInformationOriginateMetric = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.NssaDefaultInformationOriginateMetric = &v3
 			}
 		}
 
@@ -2080,8 +2082,9 @@ func expandRouterOspfAreaFilterList(d *schema.ResourceData, v interface{}, pre s
 
 		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Id = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Id = &v3
 			}
 		}
 
@@ -2118,8 +2121,9 @@ func expandRouterOspfAreaRange(d *schema.ResourceData, v interface{}, pre string
 
 		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Id = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Id = &v3
 			}
 		}
 
@@ -2177,15 +2181,17 @@ func expandRouterOspfAreaVirtualLink(d *schema.ResourceData, v interface{}, pre 
 
 		pre_append = fmt.Sprintf("%s.%d.dead_interval", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.DeadInterval = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.DeadInterval = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.hello_interval", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.HelloInterval = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.HelloInterval = &v3
 			}
 		}
 
@@ -2229,15 +2235,17 @@ func expandRouterOspfAreaVirtualLink(d *schema.ResourceData, v interface{}, pre 
 
 		pre_append = fmt.Sprintf("%s.%d.retransmit_interval", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.RetransmitInterval = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.RetransmitInterval = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.transmit_delay", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.TransmitDelay = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.TransmitDelay = &v3
 			}
 		}
 
@@ -2260,8 +2268,9 @@ func expandRouterOspfAreaVirtualLinkMd5Keys(d *schema.ResourceData, v interface{
 
 		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Id = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Id = &v3
 			}
 		}
 
@@ -2298,8 +2307,9 @@ func expandRouterOspfDistributeList(d *schema.ResourceData, v interface{}, pre s
 
 		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Id = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Id = &v3
 			}
 		}
 
@@ -2329,15 +2339,17 @@ func expandRouterOspfNeighbor(d *schema.ResourceData, v interface{}, pre string,
 
 		pre_append = fmt.Sprintf("%s.%d.cost", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Cost = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Cost = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Id = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Id = &v3
 			}
 		}
 
@@ -2350,15 +2362,17 @@ func expandRouterOspfNeighbor(d *schema.ResourceData, v interface{}, pre string,
 
 		pre_append = fmt.Sprintf("%s.%d.poll_interval", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.PollInterval = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.PollInterval = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.priority", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Priority = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Priority = &v3
 			}
 		}
 
@@ -2395,8 +2409,9 @@ func expandRouterOspfNetwork(d *schema.ResourceData, v interface{}, pre string, 
 
 		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Id = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Id = &v3
 			}
 		}
 
@@ -2454,8 +2469,9 @@ func expandRouterOspfOspfInterface(d *schema.ResourceData, v interface{}, pre st
 
 		pre_append = fmt.Sprintf("%s.%d.cost", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Cost = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Cost = &v3
 			}
 		}
 
@@ -2468,22 +2484,25 @@ func expandRouterOspfOspfInterface(d *schema.ResourceData, v interface{}, pre st
 
 		pre_append = fmt.Sprintf("%s.%d.dead_interval", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.DeadInterval = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.DeadInterval = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.hello_interval", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.HelloInterval = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.HelloInterval = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.hello_multiplier", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.HelloMultiplier = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.HelloMultiplier = &v3
 			}
 		}
 
@@ -2527,8 +2546,9 @@ func expandRouterOspfOspfInterface(d *schema.ResourceData, v interface{}, pre st
 
 		pre_append = fmt.Sprintf("%s.%d.mtu", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Mtu = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Mtu = &v3
 			}
 		}
 
@@ -2555,29 +2575,33 @@ func expandRouterOspfOspfInterface(d *schema.ResourceData, v interface{}, pre st
 
 		pre_append = fmt.Sprintf("%s.%d.prefix_length", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.PrefixLength = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.PrefixLength = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.priority", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Priority = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Priority = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.resync_timeout", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.ResyncTimeout = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.ResyncTimeout = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.retransmit_interval", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.RetransmitInterval = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.RetransmitInterval = &v3
 			}
 		}
 
@@ -2590,8 +2614,9 @@ func expandRouterOspfOspfInterface(d *schema.ResourceData, v interface{}, pre st
 
 		pre_append = fmt.Sprintf("%s.%d.transmit_delay", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.TransmitDelay = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.TransmitDelay = &v3
 			}
 		}
 
@@ -2614,8 +2639,9 @@ func expandRouterOspfOspfInterfaceMd5Keys(d *schema.ResourceData, v interface{},
 
 		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Id = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Id = &v3
 			}
 		}
 
@@ -2669,8 +2695,9 @@ func expandRouterOspfRedistribute(d *schema.ResourceData, v interface{}, pre str
 
 		pre_append = fmt.Sprintf("%s.%d.metric", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Metric = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Metric = &v3
 			}
 		}
 
@@ -2704,8 +2731,9 @@ func expandRouterOspfRedistribute(d *schema.ResourceData, v interface{}, pre str
 
 		pre_append = fmt.Sprintf("%s.%d.tag", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Tag = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Tag = &v3
 			}
 		}
 
@@ -2735,8 +2763,9 @@ func expandRouterOspfSummaryAddress(d *schema.ResourceData, v interface{}, pre s
 
 		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Id = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Id = &v3
 			}
 		}
 
@@ -2749,8 +2778,9 @@ func expandRouterOspfSummaryAddress(d *schema.ResourceData, v interface{}, pre s
 
 		pre_append = fmt.Sprintf("%s.%d.tag", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Tag = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Tag = &v3
 			}
 		}
 

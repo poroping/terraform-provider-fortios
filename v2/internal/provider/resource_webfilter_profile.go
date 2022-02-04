@@ -2160,8 +2160,9 @@ func expandWebfilterProfileAntiphish(d *schema.ResourceData, v interface{}, pre 
 
 		pre_append = fmt.Sprintf("%s.%d.max_body_len", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.MaxBodyLen = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.MaxBodyLen = &v3
 			}
 		}
 
@@ -2425,8 +2426,9 @@ func expandWebfilterProfileFtgdWf(d *schema.ResourceData, v interface{}, pre str
 
 		pre_append = fmt.Sprintf("%s.%d.max_quota_timeout", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.MaxQuotaTimeout = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.MaxQuotaTimeout = &v3
 			}
 		}
 
@@ -2518,15 +2520,17 @@ func expandWebfilterProfileFtgdWfFilters(d *schema.ResourceData, v interface{}, 
 
 		pre_append = fmt.Sprintf("%s.%d.category", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Category = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Category = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Id = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Id = &v3
 			}
 		}
 
@@ -2622,8 +2626,9 @@ func expandWebfilterProfileFtgdWfQuota(d *schema.ResourceData, v interface{}, pr
 
 		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Id = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Id = &v3
 			}
 		}
 
@@ -2650,8 +2655,9 @@ func expandWebfilterProfileFtgdWfQuota(d *schema.ResourceData, v interface{}, pr
 
 		pre_append = fmt.Sprintf("%s.%d.value", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Value = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Value = &v3
 			}
 		}
 
@@ -2822,22 +2828,25 @@ func expandWebfilterProfileWeb(d *schema.ResourceData, v interface{}, pre string
 
 		pre_append = fmt.Sprintf("%s.%d.bword_table", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.BwordTable = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.BwordTable = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.bword_threshold", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.BwordThreshold = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.BwordThreshold = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.content_header_list", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.ContentHeaderList = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.ContentHeaderList = &v3
 			}
 		}
 
@@ -2867,8 +2876,9 @@ func expandWebfilterProfileWeb(d *schema.ResourceData, v interface{}, pre string
 
 		pre_append = fmt.Sprintf("%s.%d.urlfilter_table", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.UrlfilterTable = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.UrlfilterTable = &v3
 			}
 		}
 
@@ -2974,8 +2984,9 @@ func expandWebfilterProfileYoutubeChannelFilter(d *schema.ResourceData, v interf
 
 		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Id = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Id = &v3
 			}
 		}
 

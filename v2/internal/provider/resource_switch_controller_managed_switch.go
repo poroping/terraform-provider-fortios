@@ -3642,22 +3642,25 @@ func expandSwitchControllerManagedSwitch8021XSettings(d *schema.ResourceData, v 
 
 		pre_append = fmt.Sprintf("%s.%d.max_reauth_attempt", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.MaxReauthAttempt = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.MaxReauthAttempt = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.reauth_period", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.ReauthPeriod = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.ReauthPeriod = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.tx_period", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.TxPeriod = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.TxPeriod = &v3
 			}
 		}
 
@@ -3711,8 +3714,9 @@ func expandSwitchControllerManagedSwitchIgmpSnooping(d *schema.ResourceData, v i
 
 		pre_append = fmt.Sprintf("%s.%d.aging_time", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.AgingTime = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.AgingTime = &v3
 			}
 		}
 
@@ -3780,8 +3784,9 @@ func expandSwitchControllerManagedSwitchIgmpSnoopingVlans(d *schema.ResourceData
 
 		pre_append = fmt.Sprintf("%s.%d.version", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Version = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Version = &v3
 			}
 		}
 
@@ -4107,8 +4112,9 @@ func expandSwitchControllerManagedSwitchPorts(d *schema.ResourceData, v interfac
 
 		pre_append = fmt.Sprintf("%s.%d.fec_capable", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.FecCapable = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.FecCapable = &v3
 			}
 		}
 
@@ -4135,15 +4141,17 @@ func expandSwitchControllerManagedSwitchPorts(d *schema.ResourceData, v interfac
 
 		pre_append = fmt.Sprintf("%s.%d.fiber_port", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.FiberPort = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.FiberPort = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.flags", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Flags = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Flags = &v3
 			}
 		}
 
@@ -4156,8 +4164,9 @@ func expandSwitchControllerManagedSwitchPorts(d *schema.ResourceData, v interfac
 
 		pre_append = fmt.Sprintf("%s.%d.fortilink_port", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.FortilinkPort = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.FortilinkPort = &v3
 			}
 		}
 
@@ -4229,8 +4238,9 @@ func expandSwitchControllerManagedSwitchPorts(d *schema.ResourceData, v interfac
 
 		pre_append = fmt.Sprintf("%s.%d.learning_limit", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.LearningLimit = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.LearningLimit = &v3
 			}
 		}
 
@@ -4257,8 +4267,9 @@ func expandSwitchControllerManagedSwitchPorts(d *schema.ResourceData, v interfac
 
 		pre_append = fmt.Sprintf("%s.%d.loop_guard_timeout", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.LoopGuardTimeout = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.LoopGuardTimeout = &v3
 			}
 		}
 
@@ -4285,8 +4296,9 @@ func expandSwitchControllerManagedSwitchPorts(d *schema.ResourceData, v interfac
 
 		pre_append = fmt.Sprintf("%s.%d.max_bundle", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.MaxBundle = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.MaxBundle = &v3
 			}
 		}
 
@@ -4299,8 +4311,9 @@ func expandSwitchControllerManagedSwitchPorts(d *schema.ResourceData, v interfac
 
 		pre_append = fmt.Sprintf("%s.%d.mclag_icl_port", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.MclagIclPort = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.MclagIclPort = &v3
 			}
 		}
 
@@ -4330,8 +4343,9 @@ func expandSwitchControllerManagedSwitchPorts(d *schema.ResourceData, v interfac
 
 		pre_append = fmt.Sprintf("%s.%d.min_bundle", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.MinBundle = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.MinBundle = &v3
 			}
 		}
 
@@ -4344,15 +4358,17 @@ func expandSwitchControllerManagedSwitchPorts(d *schema.ResourceData, v interfac
 
 		pre_append = fmt.Sprintf("%s.%d.p2p_port", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.P2pPort = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.P2pPort = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.packet_sample_rate", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.PacketSampleRate = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.PacketSampleRate = &v3
 			}
 		}
 
@@ -4365,8 +4381,9 @@ func expandSwitchControllerManagedSwitchPorts(d *schema.ResourceData, v interfac
 
 		pre_append = fmt.Sprintf("%s.%d.pause_meter", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.PauseMeter = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.PauseMeter = &v3
 			}
 		}
 
@@ -4379,8 +4396,9 @@ func expandSwitchControllerManagedSwitchPorts(d *schema.ResourceData, v interfac
 
 		pre_append = fmt.Sprintf("%s.%d.poe_capable", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.PoeCapable = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.PoeCapable = &v3
 			}
 		}
 
@@ -4421,8 +4439,9 @@ func expandSwitchControllerManagedSwitchPorts(d *schema.ResourceData, v interfac
 
 		pre_append = fmt.Sprintf("%s.%d.port_number", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.PortNumber = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.PortNumber = &v3
 			}
 		}
 
@@ -4442,8 +4461,9 @@ func expandSwitchControllerManagedSwitchPorts(d *schema.ResourceData, v interfac
 
 		pre_append = fmt.Sprintf("%s.%d.port_prefix_type", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.PortPrefixType = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.PortPrefixType = &v3
 			}
 		}
 
@@ -4491,8 +4511,9 @@ func expandSwitchControllerManagedSwitchPorts(d *schema.ResourceData, v interfac
 
 		pre_append = fmt.Sprintf("%s.%d.sflow_counter_interval", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.SflowCounterInterval = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.SflowCounterInterval = &v3
 			}
 		}
 
@@ -4505,8 +4526,9 @@ func expandSwitchControllerManagedSwitchPorts(d *schema.ResourceData, v interfac
 
 		pre_append = fmt.Sprintf("%s.%d.stacking_port", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.StackingPort = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.StackingPort = &v3
 			}
 		}
 
@@ -4540,8 +4562,9 @@ func expandSwitchControllerManagedSwitchPorts(d *schema.ResourceData, v interfac
 
 		pre_append = fmt.Sprintf("%s.%d.stp_bpdu_guard_timeout", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.StpBpduGuardTimeout = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.StpBpduGuardTimeout = &v3
 			}
 		}
 
@@ -4750,8 +4773,9 @@ func expandSwitchControllerManagedSwitchRemoteLog(d *schema.ResourceData, v inte
 
 		pre_append = fmt.Sprintf("%s.%d.port", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Port = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Port = &v3
 			}
 		}
 
@@ -4812,8 +4836,9 @@ func expandSwitchControllerManagedSwitchSnmpCommunity(d *schema.ResourceData, v 
 
 		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Id = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Id = &v3
 			}
 		}
 
@@ -4826,8 +4851,9 @@ func expandSwitchControllerManagedSwitchSnmpCommunity(d *schema.ResourceData, v 
 
 		pre_append = fmt.Sprintf("%s.%d.query_v1_port", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.QueryV1Port = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.QueryV1Port = &v3
 			}
 		}
 
@@ -4840,8 +4866,9 @@ func expandSwitchControllerManagedSwitchSnmpCommunity(d *schema.ResourceData, v 
 
 		pre_append = fmt.Sprintf("%s.%d.query_v2c_port", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.QueryV2cPort = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.QueryV2cPort = &v3
 			}
 		}
 
@@ -4861,15 +4888,17 @@ func expandSwitchControllerManagedSwitchSnmpCommunity(d *schema.ResourceData, v 
 
 		pre_append = fmt.Sprintf("%s.%d.trap_v1_lport", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.TrapV1Lport = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.TrapV1Lport = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.trap_v1_rport", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.TrapV1Rport = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.TrapV1Rport = &v3
 			}
 		}
 
@@ -4882,15 +4911,17 @@ func expandSwitchControllerManagedSwitchSnmpCommunity(d *schema.ResourceData, v 
 
 		pre_append = fmt.Sprintf("%s.%d.trap_v2c_lport", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.TrapV2cLport = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.TrapV2cLport = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.trap_v2c_rport", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.TrapV2cRport = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.TrapV2cRport = &v3
 			}
 		}
 
@@ -4920,8 +4951,9 @@ func expandSwitchControllerManagedSwitchSnmpCommunityHosts(d *schema.ResourceDat
 
 		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Id = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Id = &v3
 			}
 		}
 
@@ -5003,22 +5035,25 @@ func expandSwitchControllerManagedSwitchSnmpTrapThreshold(d *schema.ResourceData
 
 		pre_append = fmt.Sprintf("%s.%d.trap_high_cpu_threshold", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.TrapHighCpuThreshold = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.TrapHighCpuThreshold = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.trap_log_full_threshold", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.TrapLogFullThreshold = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.TrapLogFullThreshold = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.trap_low_memory_threshold", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.TrapLowMemoryThreshold = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.TrapLowMemoryThreshold = &v3
 			}
 		}
 
@@ -5083,8 +5118,9 @@ func expandSwitchControllerManagedSwitchSnmpUser(d *schema.ResourceData, v inter
 
 		pre_append = fmt.Sprintf("%s.%d.query_port", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.QueryPort = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.QueryPort = &v3
 			}
 		}
 
@@ -5121,8 +5157,9 @@ func expandSwitchControllerManagedSwitchStaticMac(d *schema.ResourceData, v inte
 
 		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Id = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Id = &v3
 			}
 		}
 
@@ -5187,8 +5224,9 @@ func expandSwitchControllerManagedSwitchStormControl(d *schema.ResourceData, v i
 
 		pre_append = fmt.Sprintf("%s.%d.rate", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Rate = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Rate = &v3
 			}
 		}
 
@@ -5256,15 +5294,17 @@ func expandSwitchControllerManagedSwitchStpSettings(d *schema.ResourceData, v in
 
 		pre_append = fmt.Sprintf("%s.%d.forward_time", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.ForwardTime = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.ForwardTime = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.hello_time", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.HelloTime = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.HelloTime = &v3
 			}
 		}
 
@@ -5277,15 +5317,17 @@ func expandSwitchControllerManagedSwitchStpSettings(d *schema.ResourceData, v in
 
 		pre_append = fmt.Sprintf("%s.%d.max_age", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.MaxAge = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.MaxAge = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.max_hops", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.MaxHops = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.MaxHops = &v3
 			}
 		}
 
@@ -5298,15 +5340,17 @@ func expandSwitchControllerManagedSwitchStpSettings(d *schema.ResourceData, v in
 
 		pre_append = fmt.Sprintf("%s.%d.pending_timer", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.PendingTimer = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.PendingTimer = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.revision", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Revision = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Revision = &v3
 			}
 		}
 

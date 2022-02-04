@@ -3001,8 +3001,9 @@ func expandSystemSdwanDuplication(d *schema.ResourceData, v interface{}, pre str
 
 		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Id = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Id = &v3
 			}
 		}
 
@@ -3185,8 +3186,9 @@ func expandSystemSdwanDuplicationServiceId(d *schema.ResourceData, v interface{}
 
 		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Id = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Id = &v3
 			}
 		}
 
@@ -3340,8 +3342,9 @@ func expandSystemSdwanHealthCheck(d *schema.ResourceData, v interface{}, pre str
 
 		pre_append = fmt.Sprintf("%s.%d.failtime", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Failtime = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Failtime = &v3
 			}
 		}
 
@@ -3361,8 +3364,9 @@ func expandSystemSdwanHealthCheck(d *schema.ResourceData, v interface{}, pre str
 
 		pre_append = fmt.Sprintf("%s.%d.ha_priority", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.HaPriority = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.HaPriority = &v3
 			}
 		}
 
@@ -3389,8 +3393,9 @@ func expandSystemSdwanHealthCheck(d *schema.ResourceData, v interface{}, pre str
 
 		pre_append = fmt.Sprintf("%s.%d.interval", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Interval = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Interval = &v3
 			}
 		}
 
@@ -3413,8 +3418,9 @@ func expandSystemSdwanHealthCheck(d *schema.ResourceData, v interface{}, pre str
 
 		pre_append = fmt.Sprintf("%s.%d.packet_size", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.PacketSize = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.PacketSize = &v3
 			}
 		}
 
@@ -3427,15 +3433,17 @@ func expandSystemSdwanHealthCheck(d *schema.ResourceData, v interface{}, pre str
 
 		pre_append = fmt.Sprintf("%s.%d.port", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Port = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Port = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.probe_count", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.ProbeCount = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.ProbeCount = &v3
 			}
 		}
 
@@ -3448,8 +3456,9 @@ func expandSystemSdwanHealthCheck(d *schema.ResourceData, v interface{}, pre str
 
 		pre_append = fmt.Sprintf("%s.%d.probe_timeout", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.ProbeTimeout = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.ProbeTimeout = &v3
 			}
 		}
 
@@ -3469,8 +3478,9 @@ func expandSystemSdwanHealthCheck(d *schema.ResourceData, v interface{}, pre str
 
 		pre_append = fmt.Sprintf("%s.%d.recoverytime", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Recoverytime = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Recoverytime = &v3
 			}
 		}
 
@@ -3500,15 +3510,17 @@ func expandSystemSdwanHealthCheck(d *schema.ResourceData, v interface{}, pre str
 
 		pre_append = fmt.Sprintf("%s.%d.sla_fail_log_period", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.SlaFailLogPeriod = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.SlaFailLogPeriod = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.sla_pass_log_period", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.SlaPassLogPeriod = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.SlaPassLogPeriod = &v3
 			}
 		}
 
@@ -3521,43 +3533,49 @@ func expandSystemSdwanHealthCheck(d *schema.ResourceData, v interface{}, pre str
 
 		pre_append = fmt.Sprintf("%s.%d.threshold_alert_jitter", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.ThresholdAlertJitter = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.ThresholdAlertJitter = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.threshold_alert_latency", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.ThresholdAlertLatency = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.ThresholdAlertLatency = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.threshold_alert_packetloss", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.ThresholdAlertPacketloss = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.ThresholdAlertPacketloss = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.threshold_warning_jitter", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.ThresholdWarningJitter = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.ThresholdWarningJitter = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.threshold_warning_latency", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.ThresholdWarningLatency = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.ThresholdWarningLatency = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.threshold_warning_packetloss", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.ThresholdWarningPacketloss = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.ThresholdWarningPacketloss = &v3
 			}
 		}
 
@@ -3601,8 +3619,9 @@ func expandSystemSdwanHealthCheckMembers(d *schema.ResourceData, v interface{}, 
 
 		pre_append = fmt.Sprintf("%s.%d.seq_num", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.SeqNum = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.SeqNum = &v3
 			}
 		}
 
@@ -3625,22 +3644,25 @@ func expandSystemSdwanHealthCheckSla(d *schema.ResourceData, v interface{}, pre 
 
 		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Id = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Id = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.jitter_threshold", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.JitterThreshold = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.JitterThreshold = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.latency_threshold", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.LatencyThreshold = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.LatencyThreshold = &v3
 			}
 		}
 
@@ -3653,8 +3675,9 @@ func expandSystemSdwanHealthCheckSla(d *schema.ResourceData, v interface{}, pre 
 
 		pre_append = fmt.Sprintf("%s.%d.packetloss_threshold", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.PacketlossThreshold = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.PacketlossThreshold = &v3
 			}
 		}
 
@@ -3684,8 +3707,9 @@ func expandSystemSdwanMembers(d *schema.ResourceData, v interface{}, pre string,
 
 		pre_append = fmt.Sprintf("%s.%d.cost", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Cost = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Cost = &v3
 			}
 		}
 
@@ -3705,8 +3729,9 @@ func expandSystemSdwanMembers(d *schema.ResourceData, v interface{}, pre string,
 
 		pre_append = fmt.Sprintf("%s.%d.ingress_spillover_threshold", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.IngressSpilloverThreshold = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.IngressSpilloverThreshold = &v3
 			}
 		}
 
@@ -3719,22 +3744,25 @@ func expandSystemSdwanMembers(d *schema.ResourceData, v interface{}, pre string,
 
 		pre_append = fmt.Sprintf("%s.%d.priority", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Priority = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Priority = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.priority6", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Priority6 = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Priority6 = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.seq_num", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.SeqNum = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.SeqNum = &v3
 			}
 		}
 
@@ -3754,8 +3782,9 @@ func expandSystemSdwanMembers(d *schema.ResourceData, v interface{}, pre string,
 
 		pre_append = fmt.Sprintf("%s.%d.spillover_threshold", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.SpilloverThreshold = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.SpilloverThreshold = &v3
 			}
 		}
 
@@ -3768,15 +3797,17 @@ func expandSystemSdwanMembers(d *schema.ResourceData, v interface{}, pre string,
 
 		pre_append = fmt.Sprintf("%s.%d.volume_ratio", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.VolumeRatio = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.VolumeRatio = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.weight", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Weight = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Weight = &v3
 			}
 		}
 
@@ -3820,8 +3851,9 @@ func expandSystemSdwanNeighbor(d *schema.ResourceData, v interface{}, pre string
 
 		pre_append = fmt.Sprintf("%s.%d.member", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Member = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Member = &v3
 			}
 		}
 
@@ -3841,8 +3873,9 @@ func expandSystemSdwanNeighbor(d *schema.ResourceData, v interface{}, pre string
 
 		pre_append = fmt.Sprintf("%s.%d.sla_id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.SlaId = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.SlaId = &v3
 			}
 		}
 
@@ -3872,8 +3905,9 @@ func expandSystemSdwanService(d *schema.ResourceData, v interface{}, pre string,
 
 		pre_append = fmt.Sprintf("%s.%d.bandwidth_weight", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.BandwidthWeight = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.BandwidthWeight = &v3
 			}
 		}
 
@@ -3941,8 +3975,9 @@ func expandSystemSdwanService(d *schema.ResourceData, v interface{}, pre string,
 
 		pre_append = fmt.Sprintf("%s.%d.end_port", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.EndPort = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.EndPort = &v3
 			}
 		}
 
@@ -3982,15 +4017,17 @@ func expandSystemSdwanService(d *schema.ResourceData, v interface{}, pre string,
 
 		pre_append = fmt.Sprintf("%s.%d.hold_down_time", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.HoldDownTime = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.HoldDownTime = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Id = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Id = &v3
 			}
 		}
 
@@ -4080,15 +4117,17 @@ func expandSystemSdwanService(d *schema.ResourceData, v interface{}, pre string,
 
 		pre_append = fmt.Sprintf("%s.%d.jitter_weight", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.JitterWeight = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.JitterWeight = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.latency_weight", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.LatencyWeight = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.LatencyWeight = &v3
 			}
 		}
 
@@ -4101,15 +4140,17 @@ func expandSystemSdwanService(d *schema.ResourceData, v interface{}, pre string,
 
 		pre_append = fmt.Sprintf("%s.%d.link_cost_threshold", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.LinkCostThreshold = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.LinkCostThreshold = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.minimum_sla_meet_members", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.MinimumSlaMeetMembers = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.MinimumSlaMeetMembers = &v3
 			}
 		}
 
@@ -4129,8 +4170,9 @@ func expandSystemSdwanService(d *schema.ResourceData, v interface{}, pre string,
 
 		pre_append = fmt.Sprintf("%s.%d.packet_loss_weight", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.PacketLossWeight = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.PacketLossWeight = &v3
 			}
 		}
 
@@ -4163,15 +4205,17 @@ func expandSystemSdwanService(d *schema.ResourceData, v interface{}, pre string,
 
 		pre_append = fmt.Sprintf("%s.%d.protocol", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Protocol = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Protocol = &v3
 			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.quality_link", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.QualityLink = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.QualityLink = &v3
 			}
 		}
 
@@ -4184,8 +4228,9 @@ func expandSystemSdwanService(d *schema.ResourceData, v interface{}, pre string,
 
 		pre_append = fmt.Sprintf("%s.%d.route_tag", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.RouteTag = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.RouteTag = &v3
 			}
 		}
 
@@ -4242,8 +4287,9 @@ func expandSystemSdwanService(d *schema.ResourceData, v interface{}, pre string,
 
 		pre_append = fmt.Sprintf("%s.%d.start_port", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.StartPort = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.StartPort = &v3
 			}
 		}
 
@@ -4431,8 +4477,9 @@ func expandSystemSdwanServiceInternetServiceAppCtrl(d *schema.ResourceData, v in
 
 		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Id = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Id = &v3
 			}
 		}
 
@@ -4575,8 +4622,9 @@ func expandSystemSdwanServicePriorityMembers(d *schema.ResourceData, v interface
 
 		pre_append = fmt.Sprintf("%s.%d.seq_num", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.SeqNum = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.SeqNum = &v3
 			}
 		}
 
@@ -4630,8 +4678,9 @@ func expandSystemSdwanServiceSla(d *schema.ResourceData, v interface{}, pre stri
 
 		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int64); ok {
-				tmp.Id = &v2
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Id = &v3
 			}
 		}
 
