@@ -30,3 +30,11 @@ resource "fortios_firewall_address" "example4" {
   color   = 15
   comment = "acc testing"
 }
+
+resource "fortios_firewall_address" "specialchars" {
+  name    = "BLA**^^$$@@&&++-10.1.1.1/32"
+  type    = "ipmask"
+  subnet  = "10.1.1.1/32"
+  color   = 6
+  comment = "acc testing"
+}
