@@ -408,7 +408,7 @@ func dataSourceFirewallConsolidatedPolicy() *schema.Resource {
 			"policyid": {
 				Type:        schema.TypeInt,
 				Description: "Policy ID (0 - 4294967294).",
-				Required:    true,
+				Computed:    true,
 			},
 			"poolname4": {
 				Type:        schema.TypeList,

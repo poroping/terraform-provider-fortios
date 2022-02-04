@@ -185,7 +185,8 @@ func resourceFirewallInterfacePolicy() *schema.Resource {
 
 				Description: "Policy ID (0 - 4294967295).",
 				ForceNew:    true,
-				Required:    true,
+				Optional:    true,
+				Computed:    true,
 			},
 			"service": {
 				Type:        schema.TypeList,

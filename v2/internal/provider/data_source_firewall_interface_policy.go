@@ -117,7 +117,7 @@ func dataSourceFirewallInterfacePolicy() *schema.Resource {
 			"policyid": {
 				Type:        schema.TypeInt,
 				Description: "Policy ID (0 - 4294967295).",
-				Required:    true,
+				Computed:    true,
 			},
 			"service": {
 				Type:        schema.TypeList,

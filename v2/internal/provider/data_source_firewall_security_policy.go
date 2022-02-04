@@ -414,7 +414,7 @@ func dataSourceFirewallSecurityPolicy() *schema.Resource {
 			"policyid": {
 				Type:        schema.TypeInt,
 				Description: "Policy ID.",
-				Required:    true,
+				Computed:    true,
 			},
 			"profile_group": {
 				Type:        schema.TypeString,

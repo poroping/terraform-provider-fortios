@@ -97,7 +97,7 @@ func dataSourceFirewallPolicy46() *schema.Resource {
 			"policyid": {
 				Type:        schema.TypeInt,
 				Description: "Policy ID (0 - 4294967294).",
-				Required:    true,
+				Computed:    true,
 			},
 			"poolname": {
 				Type:        schema.TypeList,

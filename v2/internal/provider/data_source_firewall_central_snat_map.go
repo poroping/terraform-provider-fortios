@@ -161,7 +161,7 @@ func dataSourceFirewallCentralSnatMap() *schema.Resource {
 			"policyid": {
 				Type:        schema.TypeInt,
 				Description: "Policy ID.",
-				Required:    true,
+				Computed:    true,
 			},
 			"protocol": {
 				Type:        schema.TypeInt,

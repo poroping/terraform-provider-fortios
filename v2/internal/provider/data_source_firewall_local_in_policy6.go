@@ -67,7 +67,7 @@ func dataSourceFirewallLocalInPolicy6() *schema.Resource {
 			"policyid": {
 				Type:        schema.TypeInt,
 				Description: "User defined local in policy ID.",
-				Required:    true,
+				Computed:    true,
 			},
 			"schedule": {
 				Type:        schema.TypeString,

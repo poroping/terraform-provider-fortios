@@ -1,3 +1,8 @@
+## 3.0.2
+
+BUGFIXES:
+* policyid is no longer a required field for policy table resources
+
 ## 3.0.1
 
 BUGFIXES:

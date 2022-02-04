@@ -468,7 +468,8 @@ func resourceFirewallPolicy6() *schema.Resource {
 
 				Description: "Policy ID (0 - 4294967294).",
 				ForceNew:    true,
-				Required:    true,
+				Optional:    true,
+				Computed:    true,
 			},
 			"poolname": {
 				Type:        schema.TypeList,

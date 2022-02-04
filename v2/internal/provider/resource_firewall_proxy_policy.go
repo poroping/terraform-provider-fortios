@@ -402,7 +402,8 @@ func resourceFirewallProxyPolicy() *schema.Resource {
 
 				Description: "Policy ID.",
 				ForceNew:    true,
-				Required:    true,
+				Optional:    true,
+				Computed:    true,
 			},
 			"poolname": {
 				Type:        schema.TypeList,

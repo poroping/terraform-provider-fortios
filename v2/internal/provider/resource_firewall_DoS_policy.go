@@ -177,7 +177,8 @@ func resourceFirewallDoSPolicy() *schema.Resource {
 
 				Description: "Policy ID.",
 				ForceNew:    true,
-				Required:    true,
+				Optional:    true,
+				Computed:    true,
 			},
 			"service": {
 				Type:        schema.TypeList,

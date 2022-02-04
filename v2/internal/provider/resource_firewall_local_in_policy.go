@@ -113,7 +113,8 @@ func resourceFirewallLocalInPolicy() *schema.Resource {
 
 				Description: "User defined local in policy ID.",
 				ForceNew:    true,
-				Required:    true,
+				Optional:    true,
+				Computed:    true,
 			},
 			"schedule": {
 				Type:         schema.TypeString,
