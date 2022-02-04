@@ -16,6 +16,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 	"github.com/poroping/forti-sdk-go/v2/models"
+	"github.com/poroping/terraform-provider-fortios/v2/suppressors"
 	"github.com/poroping/terraform-provider-fortios/v2/utils"
 )
 
@@ -106,9 +107,10 @@ func resourceRouterAccessList() *schema.Resource {
 						"prefix": {
 							Type: schema.TypeString,
 
-							Description: "IPv4 prefix to define regular filter criteria, such as \"any\" or subnets.",
-							Optional:    true,
-							Computed:    true,
+							DiffSuppressFunc: suppressors.DiffCidrEqual,
+							Description:      "IPv4 prefix to define regular filter criteria, such as \"any\" or subnets.",
+							Optional:         true,
+							Computed:         true,
 						},
 						"wildcard": {
 							Type: schema.TypeString,

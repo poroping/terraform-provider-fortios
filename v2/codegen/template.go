@@ -82,6 +82,7 @@ func main() {
 		fileName = strings.TrimSuffix(fileName, ".json")
 
 		r["fileName"] = fileName
+		r["results"].(map[string]interface{})["fileName"] = fileName
 
 		resN := resName(r["name"].(string), r["path"].(string), cp)
 
@@ -568,7 +569,14 @@ func valiLookup(values map[string]interface{}) string {
 	}
 }
 
-func diffLookup(values map[string]interface{}) string {
+func diffLookup(values map[string]interface{}, fullPath string) string {
+	// edge cases, figure out something better
+	if fullPath == "RouterPrefixListRule" && values["name"].(string) == "prefix" {
+		return "DiffSuppressFunc: suppressors.DiffCidrEqual,"
+	}
+	if fullPath == "RouterAccessListRule" && values["name"].(string) == "prefix" {
+		return "DiffSuppressFunc: suppressors.DiffCidrEqual,"
+	}
 	vtype := values["type"].(string)
 	multi_val, _ := values["multiple_values"].(bool)
 	m := map[string]string{

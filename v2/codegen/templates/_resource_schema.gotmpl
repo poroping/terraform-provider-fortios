@@ -4,7 +4,7 @@
             "{{ if $value.NameReserved }}fos{{end}}{{(flatten $value.name)}}":{
             	{{ (schemaTypeLookup $value.type) }}
 				{{ (valiLookup $value) }}
-                {{ (diffLookup $value) }}
+                {{ (diffLookup $value $.fpath) }}
                 {{ $value.help | printf "Description: %q" }},
                 {{- if $value.schema_required }}
                 ForceNew: true,
