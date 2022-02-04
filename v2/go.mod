@@ -4,7 +4,7 @@ go 1.17
 
 require (
 	github.com/hashicorp/terraform-plugin-sdk/v2 v2.10.1
-	github.com/poroping/forti-sdk-go/v2 v2.0.0
+	github.com/poroping/forti-sdk-go/v2 v2.1.0
 	golang.org/x/tools v0.0.0-20200713011307-fd294ab11aed
 )
 

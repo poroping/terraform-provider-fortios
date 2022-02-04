@@ -285,8 +285,8 @@ github.com/pkg/errors v0.8.1/go.mod h1:bwawxfHBFNV+L2hUp1rHADufV3IMtnDRdf1r5NINE
 github.com/pkg/errors v0.9.1/go.mod h1:bwawxfHBFNV+L2hUp1rHADufV3IMtnDRdf1r5NINEl0=
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
-github.com/poroping/forti-sdk-go/v2 v2.0.0 h1:dbswkRN1yq9BaYctHjCamTdA4qxdAU3ZYA+MnH1A0S8=
-github.com/poroping/forti-sdk-go/v2 v2.0.0/go.mod h1:h89dIUpiKjjFY31JvGlsk9hejIMfjrk5EIDUsGhdkvE=
+github.com/poroping/forti-sdk-go/v2 v2.1.0 h1:qftmXSO9zR8VWPmLo4PDXXrURqIxSoKO/yArUY6adp0=
+github.com/poroping/forti-sdk-go/v2 v2.1.0/go.mod h1:h89dIUpiKjjFY31JvGlsk9hejIMfjrk5EIDUsGhdkvE=
 github.com/posener/complete v1.1.1/go.mod h1:em0nMJCgc9GFtwrmVmEMR/ZL6WyhyjMBndrE9hABlRI=
 github.com/prometheus/client_model v0.0.0-20190812154241-14fe0d1b01d4/go.mod h1:xMI15A0UPsDsEKsMN9yxemIoYk6Tm2C1GtYGdfGttqA=
 github.com/rogpeppe/go-internal v1.3.0/go.mod h1:M8bDsm7K2OlrFYOpmOWEs/qY81heoFRclV5y23lUDJ4=
