@@ -2,6 +2,7 @@
 
 BUGFIXES:
 * Fixed issue with codegen that would not marshal ints within subtables properly
+* Fixed edge case `router_access_list` and `router_prefix_list` rule prefixes not suppressing equal CIDR values.
 
 ## 3.1.0
 
