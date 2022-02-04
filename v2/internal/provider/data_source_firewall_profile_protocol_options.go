@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -79,7 +79,7 @@ func dataSourceFirewallProfileProtocolOptions() *schema.Resource {
 									},
 									"principal": {
 										Type:        schema.TypeString,
-										Description: "Service principal.  For example, \"host/cifsserver.example.com@example.com\".",
+										Description: "Service principal. For example, host/cifsserver.example.com@example.com.",
 										Computed:    true,
 									},
 								},
@@ -205,7 +205,7 @@ func dataSourceFirewallProfileProtocolOptions() *schema.Resource {
 						},
 						"stream_based_uncompressed_limit": {
 							Type:        schema.TypeInt,
-							Description: "Maximum stream-based uncompressed data size that will be scanned (MB, 0 = unlimited (default).  Stream-based uncompression used only under certain conditions.).",
+							Description: "Maximum stream-based uncompressed data size that will be scanned in megabytes. Stream-based uncompression used only under certain conditions (unlimited = 0, default = 0).",
 							Computed:    true,
 						},
 						"tcp_window_maximum": {
@@ -329,7 +329,7 @@ func dataSourceFirewallProfileProtocolOptions() *schema.Resource {
 						},
 						"stream_based_uncompressed_limit": {
 							Type:        schema.TypeInt,
-							Description: "Maximum stream-based uncompressed data size that will be scanned (MB, 0 = unlimited (default).  Stream-based uncompression used only under certain conditions.).",
+							Description: "Maximum stream-based uncompressed data size that will be scanned in megabytes. Stream-based uncompression used only under certain conditions (unlimited = 0, default = 0).",
 							Computed:    true,
 						},
 						"streaming_content_bypass": {
@@ -637,7 +637,7 @@ func dataSourceFirewallProfileProtocolOptions() *schema.Resource {
 			},
 			"replacemsg_group": {
 				Type:        schema.TypeString,
-				Description: "Name of the replacement message group to be used",
+				Description: "Name of the replacement message group to be used.",
 				Computed:    true,
 			},
 			"rpc_over_http": {
@@ -747,7 +747,7 @@ func dataSourceFirewallProfileProtocolOptions() *schema.Resource {
 						},
 						"stream_based_uncompressed_limit": {
 							Type:        schema.TypeInt,
-							Description: "Maximum stream-based uncompressed data size that will be scanned (MB, 0 = unlimited (default).  Stream-based uncompression used only under certain conditions.).",
+							Description: "Maximum stream-based uncompressed data size that will be scanned in megabytes. Stream-based uncompression used only under certain conditions (unlimited = 0, default = 0).",
 							Computed:    true,
 						},
 						"tcp_window_maximum": {

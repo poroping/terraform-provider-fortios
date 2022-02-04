@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -31,12 +31,12 @@ func dataSourceSystemDns() *schema.Resource {
 			},
 			"alt_primary": {
 				Type:        schema.TypeString,
-				Description: "Alternate primary DNS server. (This is not used as a failover DNS server.)",
+				Description: "Alternate primary DNS server. This is not used as a failover DNS server.",
 				Computed:    true,
 			},
 			"alt_secondary": {
 				Type:        schema.TypeString,
-				Description: "Alternate secondary DNS server. (This is not used as a failover DNS server.)",
+				Description: "Alternate secondary DNS server. This is not used as a failover DNS server.",
 				Computed:    true,
 			},
 			"cache_notfound_responses": {
@@ -105,7 +105,7 @@ func dataSourceSystemDns() *schema.Resource {
 			},
 			"protocol": {
 				Type:        schema.TypeString,
-				Description: "DNS protocols.",
+				Description: "DNS transport protocols.",
 				Computed:    true,
 			},
 			"retry": {

@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -37,7 +37,7 @@ func dataSourceCertificateLocal() *schema.Resource {
 			},
 			"acme_domain": {
 				Type:        schema.TypeString,
-				Description: "A valid domain that resolves to this Fortigate.",
+				Description: "A valid domain that resolves to this FortiGate unit.",
 				Computed:    true,
 			},
 			"acme_email": {
@@ -87,7 +87,7 @@ func dataSourceCertificateLocal() *schema.Resource {
 			},
 			"cmp_server": {
 				Type:        schema.TypeString,
-				Description: "'ADDRESS:PORT' for CMP server.",
+				Description: "Address and port for CMP server (format = address:port).",
 				Computed:    true,
 			},
 			"cmp_server_cert": {
@@ -138,7 +138,7 @@ func dataSourceCertificateLocal() *schema.Resource {
 			},
 			"private_key": {
 				Type:        schema.TypeString,
-				Description: "PEM format key, encrypted with a password.",
+				Description: "PEM format key encrypted with a password.",
 				Computed:    true,
 			},
 			"range": {

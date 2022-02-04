@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -481,7 +481,7 @@ func resourceVpnIpsecPhase1Interface() *schema.Resource {
 				Type:             schema.TypeString,
 				ValidateFunc:     validation.IsIPv6Address,
 				DiffSuppressFunc: suppressors.DiffIPEqual,
-				Description:      "IPv6 address to exchange with peers",
+				Description:      "IPv6 address to exchange with peers.",
 				Optional:         true,
 				Computed:         true,
 			},
@@ -592,7 +592,7 @@ func resourceVpnIpsecPhase1Interface() *schema.Resource {
 			"group_authentication_secret": {
 				Type: schema.TypeString,
 
-				Description: "Password for IKEv2 IDi group authentication.  (ASCII string or hexadecimal indicated by a leading 0x.)",
+				Description: "Password for IKEv2 ID group authentication. ASCII string or hexadecimal indicated by a leading 0x.",
 				Optional:    true,
 				Computed:    true,
 				Sensitive:   true,
@@ -1133,9 +1133,10 @@ func resourceVpnIpsecPhase1Interface() *schema.Resource {
 				Sensitive:   true,
 			},
 			"priority": {
-				Type: schema.TypeInt,
+				Type:         schema.TypeInt,
+				ValidateFunc: validation.IntBetween(1, 65535),
 
-				Description: "Priority for routes added by IKE (0 - 4294967295).",
+				Description: "Priority for routes added by IKE (1 - 65535).",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -1199,7 +1200,7 @@ func resourceVpnIpsecPhase1Interface() *schema.Resource {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 
-				Description: "Domain name of remote gateway (eg. name.DDNS.com).",
+				Description: "Domain name of remote gateway. For example, name.ddns.com.",
 				Optional:    true,
 				Computed:    true,
 			},

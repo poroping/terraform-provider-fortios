@@ -1,9 +1,9 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
-// Description: IP blocklist reason.
+// Description: IP block list reason.
 
 package provider
 
@@ -19,7 +19,7 @@ import (
 
 func dataSourceFirewallInternetServiceIpblReason() *schema.Resource {
 	return &schema.Resource{
-		Description: "IP blocklist reason.",
+		Description: "IP block list reason.",
 
 		ReadContext: dataSourceFirewallInternetServiceIpblReasonRead,
 
@@ -32,12 +32,12 @@ func dataSourceFirewallInternetServiceIpblReason() *schema.Resource {
 			},
 			"fosid": {
 				Type:        schema.TypeInt,
-				Description: "IP blocklist reason ID.",
+				Description: "IP block list reason ID.",
 				Computed:    true,
 			},
 			"name": {
 				Type:        schema.TypeString,
-				Description: "IP blocklist reason name.",
+				Description: "IP block list reason name.",
 				Computed:    true,
 			},
 		},

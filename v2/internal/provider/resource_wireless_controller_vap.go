@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -57,7 +57,7 @@ func resourceWirelessControllerVap() *schema.Resource {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 
-				Description: "access-control-list profile name.",
+				Description: "Profile name for access-control-list.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -114,6 +114,22 @@ func resourceWirelessControllerVap() *schema.Resource {
 				ValidateFunc: validation.StringInSlice([]string{"psk", "radius", "usergroup"}, false),
 
 				Description: "Authentication protocol.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"auth_cert": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringLenBetween(0, 35),
+
+				Description: "HTTPS server certificate.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"auth_portal_addr": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringLenBetween(0, 63),
+
+				Description: "Address of captive portal.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -1300,7 +1316,7 @@ func resourceWirelessControllerVap() *schema.Resource {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
 
-				Description: "Enable/disable sticky client remove to maintain good signal level clients in SSID. (default = disable).",
+				Description: "Enable/disable sticky client remove to maintain good signal level clients in SSID (default = disable).",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -1400,6 +1416,31 @@ func resourceWirelessControllerVap() *schema.Resource {
 				Description: "Enable/disable automatic management of SSID VLAN interface.",
 				Optional:    true,
 				Computed:    true,
+			},
+			"vlan_name": {
+				Type:        schema.TypeList,
+				Description: "Table for mapping VLAN name to VLAN ID.",
+				Optional:    true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"name": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringLenBetween(0, 35),
+
+							Description: "VLAN name.",
+							Optional:    true,
+							Computed:    true,
+						},
+						"vlan_id": {
+							Type:         schema.TypeInt,
+							ValidateFunc: validation.IntBetween(0, 4094),
+
+							Description: "VLAN ID.",
+							Optional:    true,
+							Computed:    true,
+						},
+					},
+				},
 			},
 			"vlan_pool": {
 				Type:        schema.TypeList,
@@ -1815,6 +1856,31 @@ func flattenWirelessControllerVapUsergroup(v *[]models.WirelessControllerVapUser
 	return flat
 }
 
+func flattenWirelessControllerVapVlanName(v *[]models.WirelessControllerVapVlanName, sort bool) interface{} {
+	flat := make([]map[string]interface{}, 0)
+
+	if v != nil {
+		for _, cfg := range *v {
+			v := make(map[string]interface{})
+			if tmp := cfg.Name; tmp != nil {
+				v["name"] = *tmp
+			}
+
+			if tmp := cfg.VlanId; tmp != nil {
+				v["vlan_id"] = *tmp
+			}
+
+			flat = append(flat, v)
+		}
+	}
+
+	if sort {
+		utils.SortSubtable(flat, "name")
+	}
+
+	return flat
+}
+
 func flattenWirelessControllerVapVlanPool(v *[]models.WirelessControllerVapVlanPool, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
@@ -1904,6 +1970,22 @@ func refreshObjectWirelessControllerVap(d *schema.ResourceData, o *models.Wirele
 
 		if err = d.Set("auth", v); err != nil {
 			return diag.Errorf("error reading auth: %v", err)
+		}
+	}
+
+	if o.AuthCert != nil {
+		v := *o.AuthCert
+
+		if err = d.Set("auth_cert", v); err != nil {
+			return diag.Errorf("error reading auth_cert: %v", err)
+		}
+	}
+
+	if o.AuthPortalAddr != nil {
+		v := *o.AuthPortalAddr
+
+		if err = d.Set("auth_portal_addr", v); err != nil {
+			return diag.Errorf("error reading auth_portal_addr: %v", err)
 		}
 	}
 
@@ -3047,6 +3129,12 @@ func refreshObjectWirelessControllerVap(d *schema.ResourceData, o *models.Wirele
 		}
 	}
 
+	if o.VlanName != nil {
+		if err = d.Set("vlan_name", flattenWirelessControllerVapVlanName(o.VlanName, sort)); err != nil {
+			return diag.Errorf("error reading vlan_name: %v", err)
+		}
+	}
+
 	if o.VlanPool != nil {
 		if err = d.Set("vlan_pool", flattenWirelessControllerVapVlanPool(o.VlanPool, sort)); err != nil {
 			return diag.Errorf("error reading vlan_pool: %v", err)
@@ -3346,6 +3434,37 @@ func expandWirelessControllerVapUsergroup(d *schema.ResourceData, v interface{},
 	return &result, nil
 }
 
+func expandWirelessControllerVapVlanName(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.WirelessControllerVapVlanName, error) {
+	l := v.([]interface{})
+	if len(l) == 0 || l[0] == nil {
+		return nil, nil
+	}
+
+	var result []models.WirelessControllerVapVlanName
+
+	for i := range l {
+		tmp := models.WirelessControllerVapVlanName{}
+		var pre_append string
+
+		pre_append = fmt.Sprintf("%s.%d.name", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.Name = &v2
+			}
+		}
+
+		pre_append = fmt.Sprintf("%s.%d.vlan_id", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(int64); ok {
+				tmp.VlanId = &v2
+			}
+		}
+
+		result = append(result, tmp)
+	}
+	return &result, nil
+}
+
 func expandWirelessControllerVapVlanPool(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.WirelessControllerVapVlanPool, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
@@ -3453,6 +3572,24 @@ func getObjectWirelessControllerVap(d *schema.ResourceData, sv string) (*models.
 				diags = append(diags, e)
 			}
 			obj.Auth = &v2
+		}
+	}
+	if v1, ok := d.GetOk("auth_cert"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.0.4", "") {
+				e := utils.AttributeVersionWarning("auth_cert", sv)
+				diags = append(diags, e)
+			}
+			obj.AuthCert = &v2
+		}
+	}
+	if v1, ok := d.GetOk("auth_portal_addr"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.0.4", "") {
+				e := utils.AttributeVersionWarning("auth_portal_addr", sv)
+				diags = append(diags, e)
+			}
+			obj.AuthPortalAddr = &v2
 		}
 	}
 	if v1, ok := d.GetOk("beacon_advertising"); ok {
@@ -4820,6 +4957,23 @@ func getObjectWirelessControllerVap(d *schema.ResourceData, sv string) (*models.
 				diags = append(diags, e)
 			}
 			obj.VlanAuto = &v2
+		}
+	}
+	if v, ok := d.GetOk("vlan_name"); ok {
+		if !utils.CheckVer(sv, "v7.0.4", "") {
+			e := utils.AttributeVersionWarning("vlan_name", sv)
+			diags = append(diags, e)
+		}
+		t, err := expandWirelessControllerVapVlanName(d, v, "vlan_name", sv)
+		if err != nil {
+			return &obj, diag.FromErr(err)
+		} else if t != nil {
+			obj.VlanName = t
+		}
+	} else if d.HasChange("vlan_name") {
+		old, new := d.GetChange("vlan_name")
+		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
+			obj.VlanName = &[]models.WirelessControllerVapVlanName{}
 		}
 	}
 	if v, ok := d.GetOk("vlan_pool"); ok {

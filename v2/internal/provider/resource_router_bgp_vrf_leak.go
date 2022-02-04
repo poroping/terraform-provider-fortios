@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -76,7 +76,7 @@ func resourceRouterBgpVrfLeak() *schema.Resource {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 7),
 
-							Description: "Target VRF ID <0 - 31>.",
+							Description: "Target VRF ID (0 - 31).",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -87,7 +87,7 @@ func resourceRouterBgpVrfLeak() *schema.Resource {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 7),
 
-				Description: "Origin VRF ID <0 - 31>.",
+				Description: "Origin VRF ID (0 - 31).",
 				ForceNew:    true,
 				Required:    true,
 			},

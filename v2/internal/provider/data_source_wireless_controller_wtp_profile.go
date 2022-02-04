@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -37,7 +37,7 @@ func dataSourceWirelessControllerWtpProfile() *schema.Resource {
 			},
 			"ap_country": {
 				Type:        schema.TypeString,
-				Description: "Country in which this WTP, FortiAP or AP will operate (default = NA, automatically use the country configured for the current VDOM).",
+				Description: "Country in which this WTP, FortiAP, or AP will operate (default = NA, automatically use the country configured for the current VDOM).",
 				Computed:    true,
 			},
 			"ap_handoff": {
@@ -62,7 +62,7 @@ func dataSourceWirelessControllerWtpProfile() *schema.Resource {
 			},
 			"console_login": {
 				Type:        schema.TypeString,
-				Description: "Enable/disable FAP console login access (default = enable).",
+				Description: "Enable/disable FortiAP console login access (default = enable).",
 				Computed:    true,
 			},
 			"control_message_offload": {
@@ -157,12 +157,12 @@ func dataSourceWirelessControllerWtpProfile() *schema.Resource {
 						},
 						"tls_cert_verification": {
 							Type:        schema.TypeString,
-							Description: "Enable/disable TLS Certificate verification. (default = enable).",
+							Description: "Enable/disable TLS certificate verification (default = enable).",
 							Computed:    true,
 						},
 						"tls_fqdn_verification": {
 							Type:        schema.TypeString,
-							Description: "Enable/disable TLS Certificate verification. (default = disable).",
+							Description: "Enable/disable TLS certificate verification (default = disable).",
 							Computed:    true,
 						},
 					},
@@ -577,6 +577,11 @@ func dataSourceWirelessControllerWtpProfile() *schema.Resource {
 							Description: "Enable/disable sniffer on WiFi management probe frames (default = enable).",
 							Computed:    true,
 						},
+						"arrp_profile": {
+							Type:        schema.TypeString,
+							Description: "Distributed Automatic Radio Resource Provisioning (DARRP) profile name to assign to the radio.",
+							Computed:    true,
+						},
 						"auto_power_high": {
 							Type:        schema.TypeInt,
 							Description: "The upper bound of automatic transmit power adjustment in dBm (the actual range of transmit power depends on the AP platform type).",
@@ -594,7 +599,7 @@ func dataSourceWirelessControllerWtpProfile() *schema.Resource {
 						},
 						"auto_power_target": {
 							Type:        schema.TypeString,
-							Description: "The target of automatic transmit power adjustment in dBm. (-95 to -20, default = -70).",
+							Description: "Target of automatic transmit power adjustment in dBm (-95 to -20, default = -70).",
 							Computed:    true,
 						},
 						"band": {
@@ -619,12 +624,12 @@ func dataSourceWirelessControllerWtpProfile() *schema.Resource {
 						},
 						"beacon_interval": {
 							Type:        schema.TypeInt,
-							Description: "Beacon interval. The time between beacon frames in msec (the actual range of beacon interval depends on the AP platform type, default = 100).",
+							Description: "Beacon interval. The time between beacon frames in milliseconds. Actual range of beacon interval depends on the AP platform type (default = 100).",
 							Computed:    true,
 						},
 						"bss_color": {
 							Type:        schema.TypeInt,
-							Description: "BSS color value for this 11ax radio (0 - 63, 0 means disable. default = 0).",
+							Description: "BSS color value for this 11ax radio (0 - 63, disable = 0, default = 0).",
 							Computed:    true,
 						},
 						"bss_color_mode": {
@@ -956,6 +961,11 @@ func dataSourceWirelessControllerWtpProfile() *schema.Resource {
 							Description: "Enable/disable sniffer on WiFi management probe frames (default = enable).",
 							Computed:    true,
 						},
+						"arrp_profile": {
+							Type:        schema.TypeString,
+							Description: "Distributed Automatic Radio Resource Provisioning (DARRP) profile name to assign to the radio.",
+							Computed:    true,
+						},
 						"auto_power_high": {
 							Type:        schema.TypeInt,
 							Description: "The upper bound of automatic transmit power adjustment in dBm (the actual range of transmit power depends on the AP platform type).",
@@ -973,7 +983,7 @@ func dataSourceWirelessControllerWtpProfile() *schema.Resource {
 						},
 						"auto_power_target": {
 							Type:        schema.TypeString,
-							Description: "The target of automatic transmit power adjustment in dBm. (-95 to -20, default = -70).",
+							Description: "Target of automatic transmit power adjustment in dBm (-95 to -20, default = -70).",
 							Computed:    true,
 						},
 						"band": {
@@ -998,12 +1008,12 @@ func dataSourceWirelessControllerWtpProfile() *schema.Resource {
 						},
 						"beacon_interval": {
 							Type:        schema.TypeInt,
-							Description: "Beacon interval. The time between beacon frames in msec (the actual range of beacon interval depends on the AP platform type, default = 100).",
+							Description: "Beacon interval. The time between beacon frames in milliseconds. Actual range of beacon interval depends on the AP platform type (default = 100).",
 							Computed:    true,
 						},
 						"bss_color": {
 							Type:        schema.TypeInt,
-							Description: "BSS color value for this 11ax radio (0 - 63, 0 means disable. default = 0).",
+							Description: "BSS color value for this 11ax radio (0 - 63, disable = 0, default = 0).",
 							Computed:    true,
 						},
 						"bss_color_mode": {
@@ -1335,6 +1345,11 @@ func dataSourceWirelessControllerWtpProfile() *schema.Resource {
 							Description: "Enable/disable sniffer on WiFi management probe frames (default = enable).",
 							Computed:    true,
 						},
+						"arrp_profile": {
+							Type:        schema.TypeString,
+							Description: "Distributed Automatic Radio Resource Provisioning (DARRP) profile name to assign to the radio.",
+							Computed:    true,
+						},
 						"auto_power_high": {
 							Type:        schema.TypeInt,
 							Description: "The upper bound of automatic transmit power adjustment in dBm (the actual range of transmit power depends on the AP platform type).",
@@ -1352,7 +1367,7 @@ func dataSourceWirelessControllerWtpProfile() *schema.Resource {
 						},
 						"auto_power_target": {
 							Type:        schema.TypeString,
-							Description: "The target of automatic transmit power adjustment in dBm. (-95 to -20, default = -70).",
+							Description: "Target of automatic transmit power adjustment in dBm (-95 to -20, default = -70).",
 							Computed:    true,
 						},
 						"band": {
@@ -1377,12 +1392,12 @@ func dataSourceWirelessControllerWtpProfile() *schema.Resource {
 						},
 						"beacon_interval": {
 							Type:        schema.TypeInt,
-							Description: "Beacon interval. The time between beacon frames in msec (the actual range of beacon interval depends on the AP platform type, default = 100).",
+							Description: "Beacon interval. The time between beacon frames in milliseconds. Actual range of beacon interval depends on the AP platform type (default = 100).",
 							Computed:    true,
 						},
 						"bss_color": {
 							Type:        schema.TypeInt,
-							Description: "BSS color value for this 11ax radio (0 - 63, 0 means disable. default = 0).",
+							Description: "BSS color value for this 11ax radio (0 - 63, disable = 0, default = 0).",
 							Computed:    true,
 						},
 						"bss_color_mode": {
@@ -1714,6 +1729,11 @@ func dataSourceWirelessControllerWtpProfile() *schema.Resource {
 							Description: "Enable/disable sniffer on WiFi management probe frames (default = enable).",
 							Computed:    true,
 						},
+						"arrp_profile": {
+							Type:        schema.TypeString,
+							Description: "Distributed Automatic Radio Resource Provisioning (DARRP) profile name to assign to the radio.",
+							Computed:    true,
+						},
 						"auto_power_high": {
 							Type:        schema.TypeInt,
 							Description: "The upper bound of automatic transmit power adjustment in dBm (the actual range of transmit power depends on the AP platform type).",
@@ -1731,7 +1751,7 @@ func dataSourceWirelessControllerWtpProfile() *schema.Resource {
 						},
 						"auto_power_target": {
 							Type:        schema.TypeString,
-							Description: "The target of automatic transmit power adjustment in dBm. (-95 to -20, default = -70).",
+							Description: "Target of automatic transmit power adjustment in dBm (-95 to -20, default = -70).",
 							Computed:    true,
 						},
 						"band": {
@@ -1756,12 +1776,12 @@ func dataSourceWirelessControllerWtpProfile() *schema.Resource {
 						},
 						"beacon_interval": {
 							Type:        schema.TypeInt,
-							Description: "Beacon interval. The time between beacon frames in msec (the actual range of beacon interval depends on the AP platform type, default = 100).",
+							Description: "Beacon interval. The time between beacon frames in milliseconds. Actual range of beacon interval depends on the AP platform type (default = 100).",
 							Computed:    true,
 						},
 						"bss_color": {
 							Type:        schema.TypeInt,
-							Description: "BSS color value for this 11ax radio (0 - 63, 0 means disable. default = 0).",
+							Description: "BSS color value for this 11ax radio (0 - 63, disable = 0, default = 0).",
 							Computed:    true,
 						},
 						"bss_color_mode": {

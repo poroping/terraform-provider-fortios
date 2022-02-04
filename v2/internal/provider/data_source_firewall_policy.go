@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -358,7 +358,7 @@ func dataSourceFirewallPolicy() *schema.Resource {
 			},
 			"internet_service": {
 				Type:        schema.TypeString,
-				Description: "Enable/disable use of Internet Services for this policy. If enabled, destination address and service are not used. ",
+				Description: "Enable/disable use of Internet Services for this policy. If enabled, destination address and service are not used.",
 				Computed:    true,
 			},
 			"internet_service_custom": {
@@ -438,7 +438,7 @@ func dataSourceFirewallPolicy() *schema.Resource {
 			},
 			"internet_service_src": {
 				Type:        schema.TypeString,
-				Description: "Enable/disable use of Internet Services in source for this policy. If enabled, source address is not used. ",
+				Description: "Enable/disable use of Internet Services in source for this policy. If enabled, source address is not used.",
 				Computed:    true,
 			},
 			"internet_service_src_custom": {

@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -65,6 +65,16 @@ func dataSourceSystemInterface() *schema.Resource {
 				Description: "Enable/disable ARP forwarding.",
 				Computed:    true,
 			},
+			"auth_cert": {
+				Type:        schema.TypeString,
+				Description: "HTTPS server certificate.",
+				Computed:    true,
+			},
+			"auth_portal_addr": {
+				Type:        schema.TypeString,
+				Description: "Address of captive portal.",
+				Computed:    true,
+			},
 			"auth_type": {
 				Type:        schema.TypeString,
 				Description: "PPP authentication type to use.",
@@ -77,7 +87,7 @@ func dataSourceSystemInterface() *schema.Resource {
 			},
 			"bandwidth_measure_time": {
 				Type:        schema.TypeInt,
-				Description: "Bandwidth measure time ",
+				Description: "Bandwidth measure time.",
 				Computed:    true,
 			},
 			"bfd": {
@@ -229,6 +239,11 @@ func dataSourceSystemInterface() *schema.Resource {
 				Description: "DHCP relay IP address.",
 				Computed:    true,
 			},
+			"dhcp_relay_link_selection": {
+				Type:        schema.TypeString,
+				Description: "DHCP relay link selection.",
+				Computed:    true,
+			},
 			"dhcp_relay_request_all_server": {
 				Type:        schema.TypeString,
 				Description: "Enable/disable sending of DHCP requests to all servers.",
@@ -286,6 +301,11 @@ func dataSourceSystemInterface() *schema.Resource {
 			"dns_server_override": {
 				Type:        schema.TypeString,
 				Description: "Enable/disable use DNS acquired by DHCP or PPPoE.",
+				Computed:    true,
+			},
+			"dns_server_protocol": {
+				Type:        schema.TypeString,
+				Description: "DNS transport protocols.",
 				Computed:    true,
 			},
 			"drop_fragment": {
@@ -389,7 +409,7 @@ func dataSourceSystemInterface() *schema.Resource {
 			},
 			"fail_action_on_extender": {
 				Type:        schema.TypeString,
-				Description: "Action on extender when interface fail .",
+				Description: "Action on FortiExtender when interface fail.",
 				Computed:    true,
 			},
 			"fail_alert_interfaces": {
@@ -428,7 +448,7 @@ func dataSourceSystemInterface() *schema.Resource {
 			},
 			"fortilink_backup_link": {
 				Type:        schema.TypeInt,
-				Description: "fortilink split interface backup link.",
+				Description: "FortiLink split interface backup link.",
 				Computed:    true,
 			},
 			"fortilink_neighbor_detect": {
@@ -559,7 +579,7 @@ func dataSourceSystemInterface() *schema.Resource {
 						},
 						"dhcp6_iapd_list": {
 							Type:        schema.TypeList,
-							Description: "DHCPv6 IA-PD list",
+							Description: "DHCPv6 IA-PD list.",
 							Computed:    true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
@@ -638,7 +658,7 @@ func dataSourceSystemInterface() *schema.Resource {
 						},
 						"ip6_address": {
 							Type:        schema.TypeString,
-							Description: "Primary IPv6 address prefix, syntax: xxxx:xxxx:xxxx:xxxx:xxxx:xxxx:xxxx:xxxx/xxx",
+							Description: "Primary IPv6 address prefix. Syntax: xxxx:xxxx:xxxx:xxxx:xxxx:xxxx:xxxx:xxxx/xxx.",
 							Computed:    true,
 						},
 						"ip6_allowaccess": {
@@ -694,7 +714,7 @@ func dataSourceSystemInterface() *schema.Resource {
 									},
 									"subnet": {
 										Type:        schema.TypeString,
-										Description: " Add subnet ID to routing prefix.",
+										Description: "Add subnet ID to routing prefix.",
 										Computed:    true,
 									},
 									"upstream_interface": {
@@ -834,7 +854,7 @@ func dataSourceSystemInterface() *schema.Resource {
 						},
 						"ip6_subnet": {
 							Type:        schema.TypeString,
-							Description: " Subnet to routing prefix, syntax: xxxx:xxxx:xxxx:xxxx:xxxx:xxxx:xxxx:xxxx/xxx",
+							Description: "Subnet to routing prefix. Syntax: xxxx:xxxx:xxxx:xxxx:xxxx:xxxx:xxxx:xxxx/xxx.",
 							Computed:    true,
 						},
 						"ip6_upstream_interface": {
@@ -1021,12 +1041,12 @@ func dataSourceSystemInterface() *schema.Resource {
 			},
 			"measured_downstream_bandwidth": {
 				Type:        schema.TypeInt,
-				Description: "Measured downstream bandwidth (kbps). ",
+				Description: "Measured downstream bandwidth (kbps).",
 				Computed:    true,
 			},
 			"measured_upstream_bandwidth": {
 				Type:        schema.TypeInt,
-				Description: "Measured upstream bandwidth (kbps). ",
+				Description: "Measured upstream bandwidth (kbps).",
 				Computed:    true,
 			},
 			"mediatype": {
@@ -1121,7 +1141,7 @@ func dataSourceSystemInterface() *schema.Resource {
 			},
 			"polling_interval": {
 				Type:        schema.TypeInt,
-				Description: "sFlow polling interval (1 - 255 sec).",
+				Description: "sFlow polling interval in seconds (1 - 255).",
 				Computed:    true,
 			},
 			"pppoe_unnumbered_negotiate": {
@@ -1178,6 +1198,11 @@ func dataSourceSystemInterface() *schema.Resource {
 			"proxy_captive_portal": {
 				Type:        schema.TypeString,
 				Description: "Enable/disable proxy captive portal on this interface.",
+				Computed:    true,
+			},
+			"reachable_time": {
+				Type:        schema.TypeInt,
+				Description: "IPv4 reachable time in milliseconds (30000 - 3600000, default = 30000).",
 				Computed:    true,
 			},
 			"redundant_interface": {

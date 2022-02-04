@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -57,7 +57,7 @@ func dataSourceSystemMobileTunnel() *schema.Resource {
 			},
 			"n_mhae_key_type": {
 				Type:        schema.TypeString,
-				Description: "NEMO authentication key type (ascii or base64).",
+				Description: "NEMO authentication key type (ASCII or base64).",
 				Computed:    true,
 			},
 			"n_mhae_spi": {
@@ -106,7 +106,7 @@ func dataSourceSystemMobileTunnel() *schema.Resource {
 			},
 			"renew_interval": {
 				Type:        schema.TypeInt,
-				Description: "Time before lifetime expiraton to send NMMO HA re-registration (5 - 60, default = 60).",
+				Description: "Time before lifetime expiration to send NMMO HA re-registration (5 - 60, default = 60).",
 				Computed:    true,
 			},
 			"roaming_interface": {
@@ -121,7 +121,7 @@ func dataSourceSystemMobileTunnel() *schema.Resource {
 			},
 			"tunnel_mode": {
 				Type:        schema.TypeString,
-				Description: "NEMO tunnnel mode (GRE tunnel).",
+				Description: "NEMO tunnel mode (GRE tunnel).",
 				Computed:    true,
 			},
 		},

@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -52,7 +52,7 @@ func dataSourceFirewallVip6() *schema.Resource {
 			},
 			"embedded_ipv4_address": {
 				Type:        schema.TypeString,
-				Description: "Enable/disable embedded IPv4 address.",
+				Description: "Enable/disable use of the lower 32 bits of the external IPv6 address as mapped IPv4 address.",
 				Computed:    true,
 			},
 			"extip": {
@@ -92,7 +92,7 @@ func dataSourceFirewallVip6() *schema.Resource {
 			},
 			"http_cookie_share": {
 				Type:        schema.TypeString,
-				Description: "Control sharing of cookies across virtual servers. same-ip means a cookie from one virtual server can be used by another. Disable stops cookie sharing.",
+				Description: "Control sharing of cookies across virtual servers. Use of same-ip means a cookie from one virtual server can be used by another. Disable stops cookie sharing.",
 				Computed:    true,
 			},
 			"http_ip_header": {
@@ -112,7 +112,7 @@ func dataSourceFirewallVip6() *schema.Resource {
 			},
 			"http_redirect": {
 				Type:        schema.TypeString,
-				Description: "Enable/disable redirection of HTTP to HTTPS",
+				Description: "Enable/disable redirection of HTTP to HTTPS.",
 				Computed:    true,
 			},
 			"https_cookie_secure": {
@@ -127,7 +127,7 @@ func dataSourceFirewallVip6() *schema.Resource {
 			},
 			"ipv4_mappedip": {
 				Type:        schema.TypeString,
-				Description: "Start-mapped-IPv4-address [-end mapped-IPv4-address].",
+				Description: "Range of mapped IP addresses. Specify the start IP address followed by a space and the end IP address.",
 				Computed:    true,
 			},
 			"ipv4_mappedport": {
@@ -301,6 +301,11 @@ func dataSourceFirewallVip6() *schema.Resource {
 					},
 				},
 			},
+			"ssl_accept_ffdhe_groups": {
+				Type:        schema.TypeString,
+				Description: "Enable/disable FFDHE cipher suite for SSL key exchange.",
+				Computed:    true,
+			},
 			"ssl_algorithm": {
 				Type:        schema.TypeString,
 				Description: "Permitted encryption algorithms for SSL sessions according to encryption strength.",
@@ -407,7 +412,7 @@ func dataSourceFirewallVip6() *schema.Resource {
 			},
 			"ssl_hsts_age": {
 				Type:        schema.TypeInt,
-				Description: "Number of seconds the client should honour the HSTS setting.",
+				Description: "Number of seconds the client should honor the HSTS setting.",
 				Computed:    true,
 			},
 			"ssl_hsts_include_subdomains": {

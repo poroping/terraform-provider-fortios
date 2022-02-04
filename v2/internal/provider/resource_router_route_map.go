@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -224,7 +224,7 @@ func resourceRouterRouteMap() *schema.Resource {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 79),
 
-										Description: "AS number (0 - 4294967295). NOTE: Use quotes for repeating numbers, e.g.: \"1 1 2\"\n",
+										Description: "AS number (0 - 4294967295). Use quotes for repeating numbers, For example, \"1 1 2\".",
 										Optional:    true,
 										Computed:    true,
 									},
@@ -316,7 +316,7 @@ func resourceRouterRouteMap() *schema.Resource {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 45),
 
-							Description: "Unreachability Half-life time for the penalty (1 - 45 min, 0 = unset)",
+							Description: "Unreachability Half-life time for the penalty (1 - 45 min, 0 = unset).",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -347,7 +347,7 @@ func resourceRouterRouteMap() *schema.Resource {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 79),
 
-										Description: "AA:NN",
+										Description: "Community (format = AA:NN).",
 										Optional:    true,
 										Computed:    true,
 									},

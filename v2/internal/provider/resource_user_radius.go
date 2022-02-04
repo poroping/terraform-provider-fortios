@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -101,7 +101,7 @@ func resourceUserRadius() *schema.Resource {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 63),
 
-							Description: "{<name_str|ip_str>} Server CN domain name or IP.",
+							Description: "Server CN domain name or IP address.",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -272,7 +272,7 @@ func resourceUserRadius() *schema.Resource {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringInSlice([]string{"User-Name", "NAS-IP-Address", "Framed-IP-Address", "Framed-IP-Netmask", "Filter-Id", "Login-IP-Host", "Reply-Message", "Callback-Number", "Callback-Id", "Framed-Route", "Framed-IPX-Network", "Class", "Called-Station-Id", "Calling-Station-Id", "NAS-Identifier", "Proxy-State", "Login-LAT-Service", "Login-LAT-Node", "Login-LAT-Group", "Framed-AppleTalk-Zone", "Acct-Session-Id", "Acct-Multi-Session-Id"}, false),
 
-				Description: "RADIUS attributes used to extract the user end point identifer from the RADIUS Start record.",
+				Description: "RADIUS attributes used to extract the user end point identifier from the RADIUS Start record.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -359,7 +359,7 @@ func resourceUserRadius() *schema.Resource {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 
-				Description: "{<name_str|ip_str>} secondary RADIUS CN domain name or IP.",
+				Description: "Secondary RADIUS CN domain name or IP address.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -439,7 +439,7 @@ func resourceUserRadius() *schema.Resource {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 
-				Description: "{<name_str|ip_str>} tertiary RADIUS CN domain name or IP.",
+				Description: "Tertiary RADIUS CN domain name or IP address.",
 				Optional:    true,
 				Computed:    true,
 			},

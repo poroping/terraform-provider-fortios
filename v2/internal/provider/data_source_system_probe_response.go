@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -41,7 +41,7 @@ func dataSourceSystemProbeResponse() *schema.Resource {
 			},
 			"password": {
 				Type:        schema.TypeString,
-				Description: "Twamp respondor password in authentication mode",
+				Description: "TWAMP responder password in authentication mode.",
 				Computed:    true,
 				Sensitive:   true,
 			},
@@ -52,7 +52,7 @@ func dataSourceSystemProbeResponse() *schema.Resource {
 			},
 			"security_mode": {
 				Type:        schema.TypeString,
-				Description: "Twamp respondor security mode.",
+				Description: "TWAMP responder security mode.",
 				Computed:    true,
 			},
 			"timeout": {

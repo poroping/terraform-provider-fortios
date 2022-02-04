@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -39,6 +39,11 @@ func dataSourceSystemFederatedUpgrade() *schema.Resource {
 				Description: "Reason for upgrade failure.",
 				Computed:    true,
 			},
+			"next_path_index": {
+				Type:        schema.TypeInt,
+				Description: "The index of the next image to upgrade to.",
+				Computed:    true,
+			},
 			"node_list": {
 				Type:        schema.TypeList,
 				Description: "Nodes which will be included in the upgrade.",
@@ -47,7 +52,7 @@ func dataSourceSystemFederatedUpgrade() *schema.Resource {
 					Schema: map[string]*schema.Schema{
 						"coordinating_fortigate": {
 							Type:        schema.TypeString,
-							Description: "The serial of the FortiGate that controls this device",
+							Description: "Serial number of the FortiGate unit that controls this device.",
 							Computed:    true,
 						},
 						"device_type": {

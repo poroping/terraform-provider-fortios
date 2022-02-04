@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -73,7 +73,7 @@ func dataSourceDlpSensor() *schema.Resource {
 						},
 						"expiry": {
 							Type:        schema.TypeString,
-							Description: "Quarantine duration in days, hours, minutes format (dddhhmm).",
+							Description: "Quarantine duration in days, hours, minutes (format = dddhhmm).",
 							Computed:    true,
 						},
 						"file_size": {
@@ -137,7 +137,7 @@ func dataSourceDlpSensor() *schema.Resource {
 						},
 						"type": {
 							Type:        schema.TypeString,
-							Description: "Select whether to check the content of messages (an email message) or files (downloaded files or email attachments). ",
+							Description: "Select whether to check the content of messages (an email message) or files (downloaded files or email attachments).",
 							Computed:    true,
 						},
 					},

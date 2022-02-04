@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -160,6 +160,11 @@ func dataSourceFirewallSslSshProfile() *schema.Resource {
 							Description: "Allow or block the invalid SSL session server certificate.",
 							Computed:    true,
 						},
+						"min_allowed_ssl_version": {
+							Type:        schema.TypeString,
+							Description: "Minimum SSL version to be allowed.",
+							Computed:    true,
+						},
 						"ports": {
 							Type:        schema.TypeInt,
 							Description: "Ports to use for scanning (1 - 65535, default = 443).",
@@ -247,6 +252,11 @@ func dataSourceFirewallSslSshProfile() *schema.Resource {
 						"invalid_server_cert": {
 							Type:        schema.TypeString,
 							Description: "Allow or block the invalid SSL session server certificate.",
+							Computed:    true,
+						},
+						"min_allowed_ssl_version": {
+							Type:        schema.TypeString,
+							Description: "Minimum SSL version to be allowed.",
 							Computed:    true,
 						},
 						"ports": {
@@ -691,6 +701,11 @@ func dataSourceFirewallSslSshProfile() *schema.Resource {
 						"invalid_server_cert": {
 							Type:        schema.TypeString,
 							Description: "Allow or block the invalid SSL session server certificate.",
+							Computed:    true,
+						},
+						"min_allowed_ssl_version": {
+							Type:        schema.TypeString,
+							Description: "Minimum SSL version to be allowed.",
 							Computed:    true,
 						},
 						"revoked_server_cert": {

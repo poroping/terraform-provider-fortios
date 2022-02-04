@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -152,6 +152,14 @@ func resourceVpnSslWebPortal() *schema.Resource {
 												},
 											},
 										},
+									},
+									"height": {
+										Type:         schema.TypeInt,
+										ValidateFunc: validation.IntBetween(480, 65535),
+
+										Description: "Screen height (range from 480 - 65535, default = 768).",
+										Optional:    true,
+										Computed:    true,
 									},
 									"host": {
 										Type:         schema.TypeString,
@@ -325,6 +333,14 @@ func resourceVpnSslWebPortal() *schema.Resource {
 										ValidateFunc: validation.StringLenBetween(0, 128),
 
 										Description: "URL parameter.",
+										Optional:    true,
+										Computed:    true,
+									},
+									"width": {
+										Type:         schema.TypeInt,
+										ValidateFunc: validation.IntBetween(640, 65535),
+
+										Description: "Screen width (range from 640 - 65535, default = 1024).",
 										Optional:    true,
 										Computed:    true,
 									},
@@ -767,7 +783,7 @@ func resourceVpnSslWebPortal() *schema.Resource {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
 
-				Description: "prefer to query IPv6 dns first if enabled.",
+				Description: "Prefer to query IPv6 DNS server first if enabled.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -783,7 +799,7 @@ func resourceVpnSslWebPortal() *schema.Resource {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
 
-				Description: "Rewrite contents for URI contains IP and \"/ui/\". (default = disable)",
+				Description: "Rewrite contents for URI contains IP and /ui/ (default = disable).",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -847,7 +863,7 @@ func resourceVpnSslWebPortal() *schema.Resource {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
 
-				Description: "smbv1",
+				Description: "SMB version 1.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -877,7 +893,7 @@ func resourceVpnSslWebPortal() *schema.Resource {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 1024),
 
-							Description: "Split DNS domains used for SSL-VPN clients separated by comma(,).",
+							Description: "Split DNS domains used for SSL-VPN clients separated by comma.",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -1236,6 +1252,10 @@ func flattenVpnSslWebPortalBookmarkGroupBookmarks(v *[]models.VpnSslWebPortalBoo
 				v["form_data"] = flattenVpnSslWebPortalBookmarkGroupBookmarksFormData(tmp, sort)
 			}
 
+			if tmp := cfg.Height; tmp != nil {
+				v["height"] = *tmp
+			}
+
 			if tmp := cfg.Host; tmp != nil {
 				v["host"] = *tmp
 			}
@@ -1322,6 +1342,10 @@ func flattenVpnSslWebPortalBookmarkGroupBookmarks(v *[]models.VpnSslWebPortalBoo
 
 			if tmp := cfg.Url; tmp != nil {
 				v["url"] = *tmp
+			}
+
+			if tmp := cfg.Width; tmp != nil {
+				v["width"] = *tmp
 			}
 
 			flat = append(flat, v)
@@ -2219,6 +2243,13 @@ func expandVpnSslWebPortalBookmarkGroupBookmarks(d *schema.ResourceData, v inter
 
 		}
 
+		pre_append = fmt.Sprintf("%s.%d.height", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(int64); ok {
+				tmp.Height = &v2
+			}
+		}
+
 		pre_append = fmt.Sprintf("%s.%d.host", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
 			if v2, ok := v1.(string); ok {
@@ -2370,6 +2401,13 @@ func expandVpnSslWebPortalBookmarkGroupBookmarks(d *schema.ResourceData, v inter
 		if v1, ok := d.GetOk(pre_append); ok {
 			if v2, ok := v1.(string); ok {
 				tmp.Url = &v2
+			}
+		}
+
+		pre_append = fmt.Sprintf("%s.%d.width", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(int64); ok {
+				tmp.Width = &v2
 			}
 		}
 

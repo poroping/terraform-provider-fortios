@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -42,7 +42,7 @@ func dataSourceWanoptContentDeliveryNetworkRule() *schema.Resource {
 			},
 			"host_domain_name_suffix": {
 				Type:        schema.TypeList,
-				Description: "Suffix portion of the fully qualified domain name (eg. fortinet.com in \"www.fortinet.com\").",
+				Description: "Suffix portion of the fully qualified domain name. For example, fortinet.com in \"www.fortinet.com\".",
 				Computed:    true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
@@ -142,7 +142,7 @@ func dataSourceWanoptContentDeliveryNetworkRule() *schema.Resource {
 									},
 									"pattern": {
 										Type:        schema.TypeList,
-										Description: "Pattern string for matching target (Referrer or URL pattern, eg. \"a\", \"a*c\", \"*a*\", \"a*c*e\", and \"*\").",
+										Description: "Pattern string for matching target (Referrer or URL pattern). For example, a, a*c, *a*, a*c*e, and *.",
 										Computed:    true,
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
@@ -185,7 +185,7 @@ func dataSourceWanoptContentDeliveryNetworkRule() *schema.Resource {
 									},
 									"pattern": {
 										Type:        schema.TypeList,
-										Description: "Pattern string for matching target (Referrer or URL pattern, eg. \"a\", \"a*c\", \"*a*\", \"a*c*e\", and \"*\").",
+										Description: "Pattern string for matching target (Referrer or URL pattern). For example, a, a*c, *a*, a*c*e, and *.",
 										Computed:    true,
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{

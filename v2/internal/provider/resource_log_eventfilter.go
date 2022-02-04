@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -83,6 +83,14 @@ func resourceLogEventfilter() *schema.Resource {
 				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
 
 				Description: "Enable/disable ha event logging.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"rest_api": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+				Description: "Enable/disable REST API logging.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -362,6 +370,14 @@ func refreshObjectLogEventfilter(d *schema.ResourceData, o *models.LogEventfilte
 		}
 	}
 
+	if o.RestApi != nil {
+		v := *o.RestApi
+
+		if err = d.Set("rest_api", v); err != nil {
+			return diag.Errorf("error reading rest_api: %v", err)
+		}
+	}
+
 	if o.Router != nil {
 		v := *o.Router
 
@@ -493,6 +509,15 @@ func getObjectLogEventfilter(d *schema.ResourceData, sv string) (*models.LogEven
 				diags = append(diags, e)
 			}
 			obj.Ha = &v2
+		}
+	}
+	if v1, ok := d.GetOk("rest_api"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.0.4", "") {
+				e := utils.AttributeVersionWarning("rest_api", sv)
+				diags = append(diags, e)
+			}
+			obj.RestApi = &v2
 		}
 	}
 	if v1, ok := d.GetOk("router"); ok {

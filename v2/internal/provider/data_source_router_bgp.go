@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -312,7 +312,7 @@ func dataSourceRouterBgp() *schema.Resource {
 			},
 			"ignore_optional_capability": {
 				Type:        schema.TypeString,
-				Description: "Don't send unknown optional capability notification message",
+				Description: "Do not send unknown optional capability notification message.",
 				Computed:    true,
 			},
 			"keepalive_timer": {
@@ -322,7 +322,7 @@ func dataSourceRouterBgp() *schema.Resource {
 			},
 			"log_neighbour_changes": {
 				Type:        schema.TypeString,
-				Description: "Enable logging of BGP neighbour's changes",
+				Description: "Log BGP neighbor changes.",
 				Computed:    true,
 			},
 			"multipath_recursive_distance": {
@@ -468,9 +468,18 @@ func dataSourceRouterBgp() *schema.Resource {
 										Computed:    true,
 									},
 									"condition_routemap": {
-										Type:        schema.TypeString,
-										Description: "Name of condition route map.",
+										Type:        schema.TypeList,
+										Description: "List of conditional route maps.",
 										Computed:    true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												"name": {
+													Type:        schema.TypeString,
+													Description: "route map",
+													Computed:    true,
+												},
+											},
+										},
 									},
 									"condition_type": {
 										Type:        schema.TypeString,
@@ -492,9 +501,18 @@ func dataSourceRouterBgp() *schema.Resource {
 										Computed:    true,
 									},
 									"condition_routemap": {
-										Type:        schema.TypeString,
-										Description: "Name of condition route map.",
+										Type:        schema.TypeList,
+										Description: "List of conditional route maps.",
 										Computed:    true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												"name": {
+													Type:        schema.TypeString,
+													Description: "route map",
+													Computed:    true,
+												},
+											},
+										},
 									},
 									"condition_type": {
 										Type:        schema.TypeString,
@@ -546,7 +564,7 @@ func dataSourceRouterBgp() *schema.Resource {
 						},
 						"dont_capability_negotiate": {
 							Type:        schema.TypeString,
-							Description: "Don't negotiate capabilities with this neighbor",
+							Description: "Do not negotiate capabilities with this neighbor.",
 							Computed:    true,
 						},
 						"ebgp_enforce_multihop": {
@@ -1006,7 +1024,7 @@ func dataSourceRouterBgp() *schema.Resource {
 						},
 						"dont_capability_negotiate": {
 							Type:        schema.TypeString,
-							Description: "Don't negotiate capabilities with this neighbor",
+							Description: "Do not negotiate capabilities with this neighbor.",
 							Computed:    true,
 						},
 						"ebgp_enforce_multihop": {
@@ -1366,6 +1384,11 @@ func dataSourceRouterBgp() *schema.Resource {
 							Description: "ID.",
 							Computed:    true,
 						},
+						"network_import_check": {
+							Type:        schema.TypeString,
+							Description: "Configure insurance of BGP network route existence in IGP.",
+							Computed:    true,
+						},
 						"prefix": {
 							Type:        schema.TypeString,
 							Description: "Network prefix.",
@@ -1398,6 +1421,11 @@ func dataSourceRouterBgp() *schema.Resource {
 						"id": {
 							Type:        schema.TypeInt,
 							Description: "ID.",
+							Computed:    true,
+						},
+						"network_import_check": {
+							Type:        schema.TypeString,
+							Description: "Configure insurance of BGP network route existence in IGP.",
 							Computed:    true,
 						},
 						"prefix6": {
@@ -1436,7 +1464,7 @@ func dataSourceRouterBgp() *schema.Resource {
 						},
 						"status": {
 							Type:        schema.TypeString,
-							Description: "Status",
+							Description: "Status.",
 							Computed:    true,
 						},
 					},
@@ -1460,7 +1488,7 @@ func dataSourceRouterBgp() *schema.Resource {
 						},
 						"status": {
 							Type:        schema.TypeString,
-							Description: "Status",
+							Description: "Status.",
 							Computed:    true,
 						},
 					},
@@ -1479,6 +1507,11 @@ func dataSourceRouterBgp() *schema.Resource {
 			"synchronization": {
 				Type:        schema.TypeString,
 				Description: "Enable/disable only advertise routes from iBGP if routes present in an IGP.",
+				Computed:    true,
+			},
+			"tag_resolve_mode": {
+				Type:        schema.TypeString,
+				Description: "Configure tag-match mode. Resolves BGP routes with other routes containing the same tag.",
 				Computed:    true,
 			},
 			"vrf_leak": {
@@ -1505,7 +1538,7 @@ func dataSourceRouterBgp() *schema.Resource {
 									},
 									"vrf": {
 										Type:        schema.TypeString,
-										Description: "Target VRF ID <0 - 31>.",
+										Description: "Target VRF ID (0 - 31).",
 										Computed:    true,
 									},
 								},
@@ -1513,7 +1546,7 @@ func dataSourceRouterBgp() *schema.Resource {
 						},
 						"vrf": {
 							Type:        schema.TypeString,
-							Description: "Origin VRF ID <0 - 31>.",
+							Description: "Origin VRF ID (0 - 31).",
 							Computed:    true,
 						},
 					},
@@ -1543,7 +1576,7 @@ func dataSourceRouterBgp() *schema.Resource {
 									},
 									"vrf": {
 										Type:        schema.TypeString,
-										Description: "Target VRF ID <0 - 31>.",
+										Description: "Target VRF ID (0 - 31).",
 										Computed:    true,
 									},
 								},
@@ -1551,7 +1584,7 @@ func dataSourceRouterBgp() *schema.Resource {
 						},
 						"vrf": {
 							Type:        schema.TypeString,
-							Description: "Origin VRF ID <0 - 31>.",
+							Description: "Origin VRF ID (0 - 31).",
 							Computed:    true,
 						},
 					},

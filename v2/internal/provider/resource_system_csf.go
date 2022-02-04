@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -180,6 +180,14 @@ func resourceSystemCsf() *schema.Resource {
 				ValidateFunc: validation.IntBetween(1, 4),
 
 				Description: "Number of worker processes for Security Fabric daemon.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"forticloud_account_enforcement": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+				Description: "Fabric FortiCloud account unification.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -667,6 +675,14 @@ func refreshObjectSystemCsf(d *schema.ResourceData, o *models.SystemCsf, sv stri
 		}
 	}
 
+	if o.ForticloudAccountEnforcement != nil {
+		v := *o.ForticloudAccountEnforcement
+
+		if err = d.Set("forticloud_account_enforcement", v); err != nil {
+			return diag.Errorf("error reading forticloud_account_enforcement: %v", err)
+		}
+	}
+
 	if o.GroupName != nil {
 		v := *o.GroupName
 
@@ -1015,6 +1031,15 @@ func getObjectSystemCsf(d *schema.ResourceData, sv string) (*models.SystemCsf, d
 			}
 			tmp := int64(v2)
 			obj.FabricWorkers = &tmp
+		}
+	}
+	if v1, ok := d.GetOk("forticloud_account_enforcement"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.0.4", "") {
+				e := utils.AttributeVersionWarning("forticloud_account_enforcement", sv)
+				diags = append(diags, e)
+			}
+			obj.ForticloudAccountEnforcement = &v2
 		}
 	}
 	if v1, ok := d.GetOk("group_name"); ok {

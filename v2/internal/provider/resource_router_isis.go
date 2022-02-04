@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -257,7 +257,7 @@ func resourceRouterIsis() *schema.Resource {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringInSlice([]string{"level-1-2", "level-1", "level-2"}, false),
 
-							Description: "IS-IS interface's circuit type",
+							Description: "IS-IS interface's circuit type.",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -375,7 +375,7 @@ func resourceRouterIsis() *schema.Resource {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringInSlice([]string{"broadcast", "point-to-point", "loopback"}, false),
 
-							Description: "IS-IS interface's network type",
+							Description: "IS-IS interface's network type.",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -439,14 +439,14 @@ func resourceRouterIsis() *schema.Resource {
 						"id": {
 							Type: schema.TypeInt,
 
-							Description: "isis-net ID.",
+							Description: "ISIS network ID.",
 							Optional:    true,
 							Computed:    true,
 						},
 						"net": {
 							Type: schema.TypeString,
 
-							Description: "IS-IS net xx.xxxx. ... .xxxx.xx.",
+							Description: "IS-IS networks (format = xx.xxxx.  .xxxx.xx.).",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -489,7 +489,7 @@ func resourceRouterIsis() *schema.Resource {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringInSlice([]string{"narrow", "wide", "transition", "narrow-transition", "narrow-transition-l1", "narrow-transition-l2", "wide-l1", "wide-l2", "wide-transition", "wide-transition-l1", "wide-transition-l2", "transition-l1", "transition-l2"}, false),
 
-				Description: "Use old-style (ISO 10589) or new-style packet formats",
+				Description: "Use old-style (ISO 10589) or new-style packet formats.",
 				Optional:    true,
 				Computed:    true,
 			},

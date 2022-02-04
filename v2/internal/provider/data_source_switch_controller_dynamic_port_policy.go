@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -73,17 +73,22 @@ func dataSourceSwitchControllerDynamicPortPolicy() *schema.Resource {
 						},
 						"family": {
 							Type:        schema.TypeString,
-							Description: "Policy matching family.",
+							Description: "Match policy based on family.",
 							Computed:    true,
 						},
 						"host": {
 							Type:        schema.TypeString,
-							Description: "Policy matching host.",
+							Description: "Match policy based on host.",
+							Computed:    true,
+						},
+						"hw_vendor": {
+							Type:        schema.TypeString,
+							Description: "Match policy based on hardware vendor.",
 							Computed:    true,
 						},
 						"interface_tags": {
 							Type:        schema.TypeList,
-							Description: "Policy matching the FortiSwitch interface object tags.",
+							Description: "Match policy based on the FortiSwitch interface object tags.",
 							Computed:    true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
@@ -102,7 +107,7 @@ func dataSourceSwitchControllerDynamicPortPolicy() *schema.Resource {
 						},
 						"mac": {
 							Type:        schema.TypeString,
-							Description: "Policy matching MAC address.",
+							Description: "Match policy based on MAC address.",
 							Computed:    true,
 						},
 						"name": {
@@ -122,7 +127,7 @@ func dataSourceSwitchControllerDynamicPortPolicy() *schema.Resource {
 						},
 						"type": {
 							Type:        schema.TypeString,
-							Description: "Policy matching type.",
+							Description: "Match policy based on type.",
 							Computed:    true,
 						},
 						"vlan_policy": {

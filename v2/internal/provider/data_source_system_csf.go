@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -121,6 +121,11 @@ func dataSourceSystemCsf() *schema.Resource {
 			"fabric_workers": {
 				Type:        schema.TypeInt,
 				Description: "Number of worker processes for Security Fabric daemon.",
+				Computed:    true,
+			},
+			"forticloud_account_enforcement": {
+				Type:        schema.TypeString,
+				Description: "Fabric FortiCloud account unification.",
 				Computed:    true,
 			},
 			"group_name": {

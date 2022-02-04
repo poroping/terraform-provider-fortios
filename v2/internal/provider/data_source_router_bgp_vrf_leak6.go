@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -48,7 +48,7 @@ func dataSourceRouterBgpVrfLeak6() *schema.Resource {
 						},
 						"vrf": {
 							Type:        schema.TypeString,
-							Description: "Target VRF ID <0 - 31>.",
+							Description: "Target VRF ID (0 - 31).",
 							Computed:    true,
 						},
 					},
@@ -56,7 +56,7 @@ func dataSourceRouterBgpVrfLeak6() *schema.Resource {
 			},
 			"vrf": {
 				Type:        schema.TypeString,
-				Description: "Origin VRF ID <0 - 31>.",
+				Description: "Origin VRF ID (0 - 31).",
 				Required:    true,
 			},
 		},

@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -179,7 +179,7 @@ func resourceFirewallSslSshProfile() *schema.Resource {
 						},
 						"unsupported_ssl_version": {
 							Type:         schema.TypeString,
-							ValidateFunc: validation.StringInSlice([]string{"allow", "block", "inspect"}, false),
+							ValidateFunc: validation.StringInSlice([]string{"allow", "block"}, false),
 
 							Description: "Action based on the SSL version used being unsupported.",
 							Optional:    true,
@@ -250,6 +250,14 @@ func resourceFirewallSslSshProfile() *schema.Resource {
 							Optional:    true,
 							Computed:    true,
 						},
+						"min_allowed_ssl_version": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringInSlice([]string{"ssl-3.0", "tls-1.0", "tls-1.1", "tls-1.2", "tls-1.3"}, false),
+
+							Description: "Minimum SSL version to be allowed.",
+							Optional:    true,
+							Computed:    true,
+						},
 						"ports": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 65535),
@@ -308,7 +316,7 @@ func resourceFirewallSslSshProfile() *schema.Resource {
 						},
 						"unsupported_ssl_version": {
 							Type:         schema.TypeString,
-							ValidateFunc: validation.StringInSlice([]string{"allow", "block", "inspect"}, false),
+							ValidateFunc: validation.StringInSlice([]string{"allow", "block"}, false),
 
 							Description: "Action based on the SSL version used being unsupported.",
 							Optional:    true,
@@ -387,6 +395,14 @@ func resourceFirewallSslSshProfile() *schema.Resource {
 							Optional:    true,
 							Computed:    true,
 						},
+						"min_allowed_ssl_version": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringInSlice([]string{"ssl-3.0", "tls-1.0", "tls-1.1", "tls-1.2", "tls-1.3"}, false),
+
+							Description: "Minimum SSL version to be allowed.",
+							Optional:    true,
+							Computed:    true,
+						},
 						"ports": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 65535),
@@ -453,7 +469,7 @@ func resourceFirewallSslSshProfile() *schema.Resource {
 						},
 						"unsupported_ssl_version": {
 							Type:         schema.TypeString,
-							ValidateFunc: validation.StringInSlice([]string{"allow", "block", "inspect"}, false),
+							ValidateFunc: validation.StringInSlice([]string{"allow", "block"}, false),
 
 							Description: "Action based on the SSL version used being unsupported.",
 							Optional:    true,
@@ -590,7 +606,7 @@ func resourceFirewallSslSshProfile() *schema.Resource {
 						},
 						"unsupported_ssl_version": {
 							Type:         schema.TypeString,
-							ValidateFunc: validation.StringInSlice([]string{"allow", "block", "inspect"}, false),
+							ValidateFunc: validation.StringInSlice([]string{"allow", "block"}, false),
 
 							Description: "Action based on the SSL version used being unsupported.",
 							Optional:    true,
@@ -743,7 +759,7 @@ func resourceFirewallSslSshProfile() *schema.Resource {
 						},
 						"unsupported_ssl_version": {
 							Type:         schema.TypeString,
-							ValidateFunc: validation.StringInSlice([]string{"allow", "block", "inspect"}, false),
+							ValidateFunc: validation.StringInSlice([]string{"allow", "block"}, false),
 
 							Description: "Action based on the SSL version used being unsupported.",
 							Optional:    true,
@@ -913,7 +929,7 @@ func resourceFirewallSslSshProfile() *schema.Resource {
 						},
 						"unsupported_ssl_version": {
 							Type:         schema.TypeString,
-							ValidateFunc: validation.StringInSlice([]string{"allow", "block", "inspect"}, false),
+							ValidateFunc: validation.StringInSlice([]string{"allow", "block"}, false),
 
 							Description: "Action based on the SSL version used being unsupported.",
 							Optional:    true,
@@ -1065,6 +1081,14 @@ func resourceFirewallSslSshProfile() *schema.Resource {
 							Optional:    true,
 							Computed:    true,
 						},
+						"min_allowed_ssl_version": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringInSlice([]string{"ssl-3.0", "tls-1.0", "tls-1.1", "tls-1.2", "tls-1.3"}, false),
+
+							Description: "Minimum SSL version to be allowed.",
+							Optional:    true,
+							Computed:    true,
+						},
 						"revoked_server_cert": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringInSlice([]string{"allow", "block", "ignore"}, false),
@@ -1107,7 +1131,7 @@ func resourceFirewallSslSshProfile() *schema.Resource {
 						},
 						"unsupported_ssl_version": {
 							Type:         schema.TypeString,
-							ValidateFunc: validation.StringInSlice([]string{"allow", "block", "inspect"}, false),
+							ValidateFunc: validation.StringInSlice([]string{"allow", "block"}, false),
 
 							Description: "Action based on the SSL version used being unsupported.",
 							Optional:    true,
@@ -1645,6 +1669,10 @@ func flattenFirewallSslSshProfileFtps(v *[]models.FirewallSslSshProfileFtps, sor
 				v["invalid_server_cert"] = *tmp
 			}
 
+			if tmp := cfg.MinAllowedSslVersion; tmp != nil {
+				v["min_allowed_ssl_version"] = *tmp
+			}
+
 			if tmp := cfg.Ports; tmp != nil {
 				v["ports"] = *tmp
 			}
@@ -1720,6 +1748,10 @@ func flattenFirewallSslSshProfileHttps(v *[]models.FirewallSslSshProfileHttps, s
 
 			if tmp := cfg.InvalidServerCert; tmp != nil {
 				v["invalid_server_cert"] = *tmp
+			}
+
+			if tmp := cfg.MinAllowedSslVersion; tmp != nil {
+				v["min_allowed_ssl_version"] = *tmp
 			}
 
 			if tmp := cfg.Ports; tmp != nil {
@@ -2098,6 +2130,10 @@ func flattenFirewallSslSshProfileSsl(v *[]models.FirewallSslSshProfileSsl, sort 
 
 			if tmp := cfg.InvalidServerCert; tmp != nil {
 				v["invalid_server_cert"] = *tmp
+			}
+
+			if tmp := cfg.MinAllowedSslVersion; tmp != nil {
+				v["min_allowed_ssl_version"] = *tmp
 			}
 
 			if tmp := cfg.RevokedServerCert; tmp != nil {
@@ -2640,6 +2676,13 @@ func expandFirewallSslSshProfileFtps(d *schema.ResourceData, v interface{}, pre 
 			}
 		}
 
+		pre_append = fmt.Sprintf("%s.%d.min_allowed_ssl_version", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.MinAllowedSslVersion = &v2
+			}
+		}
+
 		pre_append = fmt.Sprintf("%s.%d.ports", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
 			if v2, ok := v1.(int64); ok {
@@ -2766,6 +2809,13 @@ func expandFirewallSslSshProfileHttps(d *schema.ResourceData, v interface{}, pre
 		if v1, ok := d.GetOk(pre_append); ok {
 			if v2, ok := v1.(string); ok {
 				tmp.InvalidServerCert = &v2
+			}
+		}
+
+		pre_append = fmt.Sprintf("%s.%d.min_allowed_ssl_version", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.MinAllowedSslVersion = &v2
 			}
 		}
 
@@ -3386,6 +3436,13 @@ func expandFirewallSslSshProfileSsl(d *schema.ResourceData, v interface{}, pre s
 		if v1, ok := d.GetOk(pre_append); ok {
 			if v2, ok := v1.(string); ok {
 				tmp.InvalidServerCert = &v2
+			}
+		}
+
+		pre_append = fmt.Sprintf("%s.%d.min_allowed_ssl_version", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.MinAllowedSslVersion = &v2
 			}
 		}
 

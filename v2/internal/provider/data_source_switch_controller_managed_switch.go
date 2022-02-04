@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -123,6 +123,11 @@ func dataSourceSwitchControllerManagedSwitch() *schema.Resource {
 				Description: "Enable/disable provisioning of firmware to FortiSwitches on join connection.",
 				Computed:    true,
 			},
+			"firmware_provision_latest": {
+				Type:        schema.TypeString,
+				Description: "Enable/disable one-time automatic provisioning of the latest firmware version.",
+				Computed:    true,
+			},
 			"firmware_provision_version": {
 				Type:        schema.TypeString,
 				Description: "Firmware version to provision to this FortiSwitch on bootup (major.minor.build, i.e. 6.2.1234).",
@@ -140,7 +145,7 @@ func dataSourceSwitchControllerManagedSwitch() *schema.Resource {
 			},
 			"fsw_wan1_peer": {
 				Type:        schema.TypeString,
-				Description: "Fortiswitch WAN1 peer port.",
+				Description: "FortiSwitch WAN1 peer port.",
 				Computed:    true,
 			},
 			"igmp_snooping": {
@@ -187,7 +192,7 @@ func dataSourceSwitchControllerManagedSwitch() *schema.Resource {
 									},
 									"version": {
 										Type:        schema.TypeInt,
-										Description: "IGMP snooping querier version.",
+										Description: "IGMP snooping querying version.",
 										Computed:    true,
 									},
 									"vlan_name": {
@@ -379,7 +384,7 @@ func dataSourceSwitchControllerManagedSwitch() *schema.Resource {
 						},
 						"allowed_vlans": {
 							Type:        schema.TypeList,
-							Description: "Configure switch port tagged vlans",
+							Description: "Configure switch port tagged VLANs.",
 							Computed:    true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
@@ -546,7 +551,7 @@ func dataSourceSwitchControllerManagedSwitch() *schema.Resource {
 						},
 						"lacp_speed": {
 							Type:        schema.TypeString,
-							Description: "end Link Aggregation Control Protocol (LACP) messages every 30 seconds (slow) or every second (fast).",
+							Description: "End Link Aggregation Control Protocol (LACP) messages every 30 seconds (slow) or every second (fast).",
 							Computed:    true,
 						},
 						"learning_limit": {
@@ -591,7 +596,7 @@ func dataSourceSwitchControllerManagedSwitch() *schema.Resource {
 						},
 						"max_bundle": {
 							Type:        schema.TypeInt,
-							Description: "Maximum size of LAG bundle (1 - 24, default = 24)",
+							Description: "Maximum size of LAG bundle (1 - 24, default = 24).",
 							Computed:    true,
 						},
 						"mclag": {
@@ -630,7 +635,7 @@ func dataSourceSwitchControllerManagedSwitch() *schema.Resource {
 						},
 						"min_bundle": {
 							Type:        schema.TypeInt,
-							Description: "Minimum size of LAG bundle (1 - 24, default = 1)",
+							Description: "Minimum size of LAG bundle (1 - 24, default = 1).",
 							Computed:    true,
 						},
 						"mode": {
@@ -745,7 +750,7 @@ func dataSourceSwitchControllerManagedSwitch() *schema.Resource {
 						},
 						"sflow_counter_interval": {
 							Type:        schema.TypeInt,
-							Description: "sFlow sampling counter polling interval (0 - 255 sec).",
+							Description: "sFlow sampling counter polling interval in seconds (0 - 255).",
 							Computed:    true,
 						},
 						"speed": {
@@ -805,7 +810,7 @@ func dataSourceSwitchControllerManagedSwitch() *schema.Resource {
 						},
 						"untagged_vlans": {
 							Type:        schema.TypeList,
-							Description: "Configure switch port untagged vlans",
+							Description: "Configure switch port untagged VLANs.",
 							Computed:    true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
@@ -1109,7 +1114,7 @@ func dataSourceSwitchControllerManagedSwitch() *schema.Resource {
 						},
 						"id": {
 							Type:        schema.TypeInt,
-							Description: "Id",
+							Description: "ID.",
 							Computed:    true,
 						},
 						"interface": {

@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v7.0.2,v7.0.3,v7.0.4 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -107,7 +107,7 @@ func resourceWirelessControllerHotspot20H2qpAdviceOfCharge() *schema.Resource {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 3),
 
-										Description: "Languague code.",
+										Description: "Language code.",
 										Optional:    true,
 										Computed:    true,
 									},

@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -9,6 +9,7 @@ package provider
 
 import (
 	"context"
+	"fmt"
 	"log"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
@@ -44,6 +45,12 @@ func resourceWirelessControllerArrpProfile() *schema.Resource {
 				Optional:    true,
 				Default:     false,
 			},
+			"dynamic_sort_subtable": {
+				Type:        schema.TypeBool,
+				Description: "If set will sort table response by mkey",
+				Optional:    true,
+				Default:     false,
+			},
 			"comment": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
@@ -51,6 +58,31 @@ func resourceWirelessControllerArrpProfile() *schema.Resource {
 				Description: "Comment.",
 				Optional:    true,
 				Computed:    true,
+			},
+			"darrp_optimize": {
+				Type:         schema.TypeInt,
+				ValidateFunc: validation.IntBetween(0, 86400),
+
+				Description: "Time for running Dynamic Automatic Radio Resource Provisioning (DARRP) optimizations (0 - 86400 sec, default = 86400, 0 = disable).",
+				Optional:    true,
+				Computed:    true,
+			},
+			"darrp_optimize_schedules": {
+				Type:        schema.TypeList,
+				Description: "Firewall schedules for DARRP running time. DARRP will run periodically based on darrp-optimize within the schedules. Separate multiple schedule names with a space.",
+				Optional:    true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"name": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringLenBetween(0, 35),
+
+							Description: "Schedule name.",
+							Optional:    true,
+							Computed:    true,
+						},
+					},
+				},
 			},
 			"include_dfs_channel": {
 				Type:         schema.TypeString,
@@ -83,6 +115,14 @@ func resourceWirelessControllerArrpProfile() *schema.Resource {
 				Description: "WiFi ARRP profile name.",
 				ForceNew:    true,
 				Required:    true,
+			},
+			"override_darrp_optimize": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+				Description: "Enable to override setting darrp-optimize and darrp-optimize-schedules (default = disable).",
+				Optional:    true,
+				Computed:    true,
 			},
 			"selection_period": {
 				Type:         schema.TypeInt,
@@ -353,6 +393,27 @@ func resourceWirelessControllerArrpProfileRead(ctx context.Context, d *schema.Re
 	return nil
 }
 
+func flattenWirelessControllerArrpProfileDarrpOptimizeSchedules(v *[]models.WirelessControllerArrpProfileDarrpOptimizeSchedules, sort bool) interface{} {
+	flat := make([]map[string]interface{}, 0)
+
+	if v != nil {
+		for _, cfg := range *v {
+			v := make(map[string]interface{})
+			if tmp := cfg.Name; tmp != nil {
+				v["name"] = *tmp
+			}
+
+			flat = append(flat, v)
+		}
+	}
+
+	if sort {
+		utils.SortSubtable(flat, "name")
+	}
+
+	return flat
+}
+
 func refreshObjectWirelessControllerArrpProfile(d *schema.ResourceData, o *models.WirelessControllerArrpProfile, sv string, sort bool) diag.Diagnostics {
 	var err error
 
@@ -361,6 +422,20 @@ func refreshObjectWirelessControllerArrpProfile(d *schema.ResourceData, o *model
 
 		if err = d.Set("comment", v); err != nil {
 			return diag.Errorf("error reading comment: %v", err)
+		}
+	}
+
+	if o.DarrpOptimize != nil {
+		v := *o.DarrpOptimize
+
+		if err = d.Set("darrp_optimize", v); err != nil {
+			return diag.Errorf("error reading darrp_optimize: %v", err)
+		}
+	}
+
+	if o.DarrpOptimizeSchedules != nil {
+		if err = d.Set("darrp_optimize_schedules", flattenWirelessControllerArrpProfileDarrpOptimizeSchedules(o.DarrpOptimizeSchedules, sort)); err != nil {
+			return diag.Errorf("error reading darrp_optimize_schedules: %v", err)
 		}
 	}
 
@@ -393,6 +468,14 @@ func refreshObjectWirelessControllerArrpProfile(d *schema.ResourceData, o *model
 
 		if err = d.Set("name", v); err != nil {
 			return diag.Errorf("error reading name: %v", err)
+		}
+	}
+
+	if o.OverrideDarrpOptimize != nil {
+		v := *o.OverrideDarrpOptimize
+
+		if err = d.Set("override_darrp_optimize", v); err != nil {
+			return diag.Errorf("error reading override_darrp_optimize: %v", err)
 		}
 	}
 
@@ -511,6 +594,30 @@ func refreshObjectWirelessControllerArrpProfile(d *schema.ResourceData, o *model
 	return nil
 }
 
+func expandWirelessControllerArrpProfileDarrpOptimizeSchedules(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.WirelessControllerArrpProfileDarrpOptimizeSchedules, error) {
+	l := v.([]interface{})
+	if len(l) == 0 || l[0] == nil {
+		return nil, nil
+	}
+
+	var result []models.WirelessControllerArrpProfileDarrpOptimizeSchedules
+
+	for i := range l {
+		tmp := models.WirelessControllerArrpProfileDarrpOptimizeSchedules{}
+		var pre_append string
+
+		pre_append = fmt.Sprintf("%s.%d.name", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.Name = &v2
+			}
+		}
+
+		result = append(result, tmp)
+	}
+	return &result, nil
+}
+
 func getObjectWirelessControllerArrpProfile(d *schema.ResourceData, sv string) (*models.WirelessControllerArrpProfile, diag.Diagnostics) {
 	obj := models.WirelessControllerArrpProfile{}
 	diags := diag.Diagnostics{}
@@ -522,6 +629,33 @@ func getObjectWirelessControllerArrpProfile(d *schema.ResourceData, sv string) (
 				diags = append(diags, e)
 			}
 			obj.Comment = &v2
+		}
+	}
+	if v1, ok := d.GetOk("darrp_optimize"); ok {
+		if v2, ok := v1.(int); ok {
+			if !utils.CheckVer(sv, "v7.0.4", "") {
+				e := utils.AttributeVersionWarning("darrp_optimize", sv)
+				diags = append(diags, e)
+			}
+			tmp := int64(v2)
+			obj.DarrpOptimize = &tmp
+		}
+	}
+	if v, ok := d.GetOk("darrp_optimize_schedules"); ok {
+		if !utils.CheckVer(sv, "v7.0.4", "") {
+			e := utils.AttributeVersionWarning("darrp_optimize_schedules", sv)
+			diags = append(diags, e)
+		}
+		t, err := expandWirelessControllerArrpProfileDarrpOptimizeSchedules(d, v, "darrp_optimize_schedules", sv)
+		if err != nil {
+			return &obj, diag.FromErr(err)
+		} else if t != nil {
+			obj.DarrpOptimizeSchedules = t
+		}
+	} else if d.HasChange("darrp_optimize_schedules") {
+		old, new := d.GetChange("darrp_optimize_schedules")
+		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
+			obj.DarrpOptimizeSchedules = &[]models.WirelessControllerArrpProfileDarrpOptimizeSchedules{}
 		}
 	}
 	if v1, ok := d.GetOk("include_dfs_channel"); ok {
@@ -559,6 +693,15 @@ func getObjectWirelessControllerArrpProfile(d *schema.ResourceData, sv string) (
 				diags = append(diags, e)
 			}
 			obj.Name = &v2
+		}
+	}
+	if v1, ok := d.GetOk("override_darrp_optimize"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.0.4", "") {
+				e := utils.AttributeVersionWarning("override_darrp_optimize", sv)
+				diags = append(diags, e)
+			}
+			obj.OverrideDarrpOptimize = &v2
 		}
 	}
 	if v1, ok := d.GetOk("selection_period"); ok {

@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -144,7 +144,7 @@ func dataSourceRouterRouteMap() *schema.Resource {
 								Schema: map[string]*schema.Schema{
 									"as": {
 										Type:        schema.TypeString,
-										Description: "AS number (0 - 4294967295). NOTE: Use quotes for repeating numbers, e.g.: \"1 1 2\"\n",
+										Description: "AS number (0 - 4294967295). Use quotes for repeating numbers, For example, \"1 1 2\".",
 										Computed:    true,
 									},
 								},
@@ -206,7 +206,7 @@ func dataSourceRouterRouteMap() *schema.Resource {
 						},
 						"set_dampening_unreachability_half_life": {
 							Type:        schema.TypeInt,
-							Description: "Unreachability Half-life time for the penalty (1 - 45 min, 0 = unset)",
+							Description: "Unreachability Half-life time for the penalty (1 - 45 min, 0 = unset).",
 							Computed:    true,
 						},
 						"set_extcommunity_rt": {
@@ -231,7 +231,7 @@ func dataSourceRouterRouteMap() *schema.Resource {
 								Schema: map[string]*schema.Schema{
 									"community": {
 										Type:        schema.TypeString,
-										Description: "AA:NN",
+										Description: "Community (format = AA:NN).",
 										Computed:    true,
 									},
 								},

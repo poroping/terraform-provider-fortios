@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -63,7 +63,7 @@ func dataSourceFirewallAccessProxy6() *schema.Resource {
 						},
 						"http_cookie_share": {
 							Type:        schema.TypeString,
-							Description: "Control sharing of cookies across API Gateway. same-ip means a cookie from one virtual server can be used by another. Disable stops cookie sharing.",
+							Description: "Control sharing of cookies across API Gateway. Use of same-ip means a cookie from one virtual server can be used by another. Disable stops cookie sharing.",
 							Computed:    true,
 						},
 						"https_cookie_secure": {
@@ -100,6 +100,11 @@ func dataSourceFirewallAccessProxy6() *schema.Resource {
 									"address": {
 										Type:        schema.TypeString,
 										Description: "Address or address group of the real server.",
+										Computed:    true,
+									},
+									"domain": {
+										Type:        schema.TypeString,
+										Description: "Wildcard domain name of the real server.",
 										Computed:    true,
 									},
 									"health_check": {
@@ -243,6 +248,11 @@ func dataSourceFirewallAccessProxy6() *schema.Resource {
 							Description: "Lowest SSL/TLS version acceptable from a server.",
 							Computed:    true,
 						},
+						"ssl_vpn_web_portal": {
+							Type:        schema.TypeString,
+							Description: "SSL-VPN web portal.",
+							Computed:    true,
+						},
 						"url_map": {
 							Type:        schema.TypeString,
 							Description: "URL pattern to match.",
@@ -294,7 +304,7 @@ func dataSourceFirewallAccessProxy6() *schema.Resource {
 						},
 						"http_cookie_share": {
 							Type:        schema.TypeString,
-							Description: "Control sharing of cookies across API Gateway. same-ip means a cookie from one virtual server can be used by another. Disable stops cookie sharing.",
+							Description: "Control sharing of cookies across API Gateway. Use of same-ip means a cookie from one virtual server can be used by another. Disable stops cookie sharing.",
 							Computed:    true,
 						},
 						"https_cookie_secure": {
@@ -331,6 +341,11 @@ func dataSourceFirewallAccessProxy6() *schema.Resource {
 									"address": {
 										Type:        schema.TypeString,
 										Description: "Address or address group of the real server.",
+										Computed:    true,
+									},
+									"domain": {
+										Type:        schema.TypeString,
+										Description: "Wildcard domain name of the real server.",
 										Computed:    true,
 									},
 									"health_check": {
@@ -474,6 +489,11 @@ func dataSourceFirewallAccessProxy6() *schema.Resource {
 							Description: "Lowest SSL/TLS version acceptable from a server.",
 							Computed:    true,
 						},
+						"ssl_vpn_web_portal": {
+							Type:        schema.TypeString,
+							Description: "SSL-VPN web portal.",
+							Computed:    true,
+						},
 						"url_map": {
 							Type:        schema.TypeString,
 							Description: "URL pattern to match.",
@@ -491,6 +511,16 @@ func dataSourceFirewallAccessProxy6() *schema.Resource {
 						},
 					},
 				},
+			},
+			"auth_portal": {
+				Type:        schema.TypeString,
+				Description: "Enable/disable authentication portal.",
+				Computed:    true,
+			},
+			"auth_virtual_host": {
+				Type:        schema.TypeString,
+				Description: "Virtual host for authentication portal.",
+				Computed:    true,
 			},
 			"client_cert": {
 				Type:        schema.TypeString,

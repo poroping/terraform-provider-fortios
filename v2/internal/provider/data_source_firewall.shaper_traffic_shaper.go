@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -57,12 +57,12 @@ func dataSourceFirewallShaperTrafficShaper() *schema.Resource {
 			},
 			"exceed_class_id": {
 				Type:        schema.TypeInt,
-				Description: "Class ID for traffic in [guaranteed-bandwidth, maximum-bandwidth].",
+				Description: "Class ID for traffic in guaranteed-bandwidth and maximum-bandwidth.",
 				Computed:    true,
 			},
 			"exceed_dscp": {
 				Type:        schema.TypeString,
-				Description: "DSCP mark for traffic in [guaranteed-bandwidth, exceed-bandwidth].",
+				Description: "DSCP mark for traffic in guaranteed-bandwidth and exceed-bandwidth.",
 				Computed:    true,
 			},
 			"guaranteed_bandwidth": {
@@ -77,7 +77,7 @@ func dataSourceFirewallShaperTrafficShaper() *schema.Resource {
 			},
 			"maximum_dscp": {
 				Type:        schema.TypeString,
-				Description: "DSCP mark for traffic in [exceed-bandwidth, maximum-bandwidth].",
+				Description: "DSCP mark for traffic in exceed-bandwidth and maximum-bandwidth.",
 				Computed:    true,
 			},
 			"name": {

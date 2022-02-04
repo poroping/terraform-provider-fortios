@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -32,7 +32,7 @@ func dataSourceUserKrbKeytab() *schema.Resource {
 			},
 			"keytab": {
 				Type:        schema.TypeString,
-				Description: "base64 coded keytab file containing a pre-shared key.",
+				Description: "Base64 coded keytab file containing a pre-shared key.",
 				Computed:    true,
 			},
 			"ldap_server": {
@@ -61,7 +61,7 @@ func dataSourceUserKrbKeytab() *schema.Resource {
 			},
 			"principal": {
 				Type:        schema.TypeString,
-				Description: "Kerberos service principal, e.g. HTTP/fgt.example.com@EXAMPLE.COM.",
+				Description: "Kerberos service principal. For example, HTTP/myfgt.example.com@example.com.",
 				Computed:    true,
 			},
 		},

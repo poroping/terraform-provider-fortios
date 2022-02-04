@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -189,6 +189,14 @@ func resourceSwitchControllerManagedSwitch() *schema.Resource {
 				Optional:    true,
 				Computed:    true,
 			},
+			"firmware_provision_latest": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"disable", "once"}, false),
+
+				Description: "Enable/disable one-time automatic provisioning of the latest firmware version.",
+				Optional:    true,
+				Computed:    true,
+			},
 			"firmware_provision_version": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
@@ -216,7 +224,7 @@ func resourceSwitchControllerManagedSwitch() *schema.Resource {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 
-				Description: "Fortiswitch WAN1 peer port.",
+				Description: "FortiSwitch WAN1 peer port.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -284,7 +292,7 @@ func resourceSwitchControllerManagedSwitch() *schema.Resource {
 										Type:         schema.TypeInt,
 										ValidateFunc: validation.IntBetween(2, 3),
 
-										Description: "IGMP snooping querier version.",
+										Description: "IGMP snooping querying version.",
 										Optional:    true,
 										Computed:    true,
 									},
@@ -554,7 +562,7 @@ func resourceSwitchControllerManagedSwitch() *schema.Resource {
 						},
 						"allowed_vlans": {
 							Type:        schema.TypeList,
-							Description: "Configure switch port tagged vlans",
+							Description: "Configure switch port tagged VLANs.",
 							Optional:    true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
@@ -806,7 +814,7 @@ func resourceSwitchControllerManagedSwitch() *schema.Resource {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringInSlice([]string{"slow", "fast"}, false),
 
-							Description: "end Link Aggregation Control Protocol (LACP) messages every 30 seconds (slow) or every second (fast).",
+							Description: "End Link Aggregation Control Protocol (LACP) messages every 30 seconds (slow) or every second (fast).",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -877,7 +885,7 @@ func resourceSwitchControllerManagedSwitch() *schema.Resource {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 24),
 
-							Description: "Maximum size of LAG bundle (1 - 24, default = 24)",
+							Description: "Maximum size of LAG bundle (1 - 24, default = 24).",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -934,7 +942,7 @@ func resourceSwitchControllerManagedSwitch() *schema.Resource {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 24),
 
-							Description: "Minimum size of LAG bundle (1 - 24, default = 1)",
+							Description: "Minimum size of LAG bundle (1 - 24, default = 1).",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -1118,7 +1126,7 @@ func resourceSwitchControllerManagedSwitch() *schema.Resource {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 255),
 
-							Description: "sFlow sampling counter polling interval (0 - 255 sec).",
+							Description: "sFlow sampling counter polling interval in seconds (0 - 255).",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -1212,7 +1220,7 @@ func resourceSwitchControllerManagedSwitch() *schema.Resource {
 						},
 						"untagged_vlans": {
 							Type:        schema.TypeList,
-							Description: "Configure switch port untagged vlans",
+							Description: "Configure switch port untagged VLANs.",
 							Optional:    true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
@@ -1647,7 +1655,7 @@ func resourceSwitchControllerManagedSwitch() *schema.Resource {
 						"id": {
 							Type: schema.TypeInt,
 
-							Description: "Id",
+							Description: "ID.",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -3292,6 +3300,14 @@ func refreshObjectSwitchControllerManagedSwitch(d *schema.ResourceData, o *model
 
 		if err = d.Set("firmware_provision", v); err != nil {
 			return diag.Errorf("error reading firmware_provision: %v", err)
+		}
+	}
+
+	if o.FirmwareProvisionLatest != nil {
+		v := *o.FirmwareProvisionLatest
+
+		if err = d.Set("firmware_provision_latest", v); err != nil {
+			return diag.Errorf("error reading firmware_provision_latest: %v", err)
 		}
 	}
 
@@ -5448,6 +5464,15 @@ func getObjectSwitchControllerManagedSwitch(d *schema.ResourceData, sv string) (
 				diags = append(diags, e)
 			}
 			obj.FirmwareProvision = &v2
+		}
+	}
+	if v1, ok := d.GetOk("firmware_provision_latest"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.0.4", "") {
+				e := utils.AttributeVersionWarning("firmware_provision_latest", sv)
+				diags = append(diags, e)
+			}
+			obj.FirmwareProvisionLatest = &v2
 		}
 	}
 	if v1, ok := d.GetOk("firmware_provision_version"); ok {

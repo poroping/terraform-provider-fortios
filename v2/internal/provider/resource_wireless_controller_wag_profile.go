@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -56,7 +56,7 @@ func resourceWirelessControllerWagProfile() *schema.Resource {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.IsIPv4Address,
 
-				Description: "IP address of the monitoring DHCP request packet sent through the tunnel",
+				Description: "IP address of the monitoring DHCP request packet sent through the tunnel.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -80,7 +80,7 @@ func resourceWirelessControllerWagProfile() *schema.Resource {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 65535),
 
-				Description: "Number of the tunnel mointoring echo packets (1 - 65535, default = 5).",
+				Description: "Number of the tunnel monitoring echo packets (1 - 65535, default = 5).",
 				Optional:    true,
 				Computed:    true,
 			},

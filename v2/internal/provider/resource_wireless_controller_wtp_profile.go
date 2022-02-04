@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -65,7 +65,7 @@ func resourceWirelessControllerWtpProfile() *schema.Resource {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringInSlice([]string{"--", "AF", "AL", "DZ", "AS", "AO", "AR", "AM", "AU", "AT", "AZ", "BS", "BH", "BD", "BB", "BY", "BE", "BZ", "BJ", "BM", "BT", "BO", "BA", "BW", "BR", "BN", "BG", "BF", "KH", "CM", "KY", "CF", "TD", "CL", "CN", "CX", "CO", "CG", "CD", "CR", "HR", "CY", "CZ", "DK", "DM", "DO", "EC", "EG", "SV", "ET", "EE", "GF", "PF", "FO", "FJ", "FI", "FR", "GE", "DE", "GH", "GI", "GR", "GL", "GD", "GP", "GU", "GT", "GY", "HT", "HN", "HK", "HU", "IS", "IN", "ID", "IQ", "IE", "IM", "IL", "IT", "CI", "JM", "JO", "KZ", "KE", "KR", "KW", "LA", "LV", "LB", "LS", "LY", "LI", "LT", "LU", "MO", "MK", "MG", "MW", "MY", "MV", "ML", "MT", "MH", "MQ", "MR", "MU", "YT", "MX", "FM", "MD", "MC", "MA", "MZ", "MM", "NA", "NP", "NL", "AN", "AW", "NZ", "NI", "NE", "NO", "MP", "OM", "PK", "PW", "PA", "PG", "PY", "PE", "PH", "PL", "PT", "PR", "QA", "RE", "RO", "RU", "RW", "BL", "KN", "LC", "MF", "PM", "VC", "SA", "SN", "RS", "ME", "SL", "SG", "SK", "SI", "ZA", "ES", "LK", "SE", "SR", "CH", "TW", "TZ", "TH", "TG", "TT", "TN", "TR", "TM", "AE", "TC", "UG", "UA", "GB", "US", "PS", "UY", "UZ", "VU", "VE", "VN", "VI", "WF", "YE", "ZM", "ZW", "JP", "CA"}, false),
 
-				Description: "Country in which this WTP, FortiAP or AP will operate (default = NA, automatically use the country configured for the current VDOM).",
+				Description: "Country in which this WTP, FortiAP, or AP will operate (default = NA, automatically use the country configured for the current VDOM).",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -105,7 +105,7 @@ func resourceWirelessControllerWtpProfile() *schema.Resource {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
 
-				Description: "Enable/disable FAP console login access (default = enable).",
+				Description: "Enable/disable FortiAP console login access (default = enable).",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -246,7 +246,7 @@ func resourceWirelessControllerWtpProfile() *schema.Resource {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
 
-							Description: "Enable/disable TLS Certificate verification. (default = enable).",
+							Description: "Enable/disable TLS certificate verification (default = enable).",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -254,7 +254,7 @@ func resourceWirelessControllerWtpProfile() *schema.Resource {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
 
-							Description: "Enable/disable TLS Certificate verification. (default = disable).",
+							Description: "Enable/disable TLS certificate verification (default = disable).",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -881,6 +881,14 @@ func resourceWirelessControllerWtpProfile() *schema.Resource {
 							Optional:    true,
 							Computed:    true,
 						},
+						"arrp_profile": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringLenBetween(0, 35),
+
+							Description: "Distributed Automatic Radio Resource Provisioning (DARRP) profile name to assign to the radio.",
+							Optional:    true,
+							Computed:    true,
+						},
 						"auto_power_high": {
 							Type: schema.TypeInt,
 
@@ -907,7 +915,7 @@ func resourceWirelessControllerWtpProfile() *schema.Resource {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 7),
 
-							Description: "The target of automatic transmit power adjustment in dBm. (-95 to -20, default = -70).",
+							Description: "Target of automatic transmit power adjustment in dBm (-95 to -20, default = -70).",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -947,7 +955,7 @@ func resourceWirelessControllerWtpProfile() *schema.Resource {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 65535),
 
-							Description: "Beacon interval. The time between beacon frames in msec (the actual range of beacon interval depends on the AP platform type, default = 100).",
+							Description: "Beacon interval. The time between beacon frames in milliseconds. Actual range of beacon interval depends on the AP platform type (default = 100).",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -955,7 +963,7 @@ func resourceWirelessControllerWtpProfile() *schema.Resource {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 63),
 
-							Description: "BSS color value for this 11ax radio (0 - 63, 0 means disable. default = 0).",
+							Description: "BSS color value for this 11ax radio (0 - 63, disable = 0, default = 0).",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -1462,6 +1470,14 @@ func resourceWirelessControllerWtpProfile() *schema.Resource {
 							Optional:    true,
 							Computed:    true,
 						},
+						"arrp_profile": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringLenBetween(0, 35),
+
+							Description: "Distributed Automatic Radio Resource Provisioning (DARRP) profile name to assign to the radio.",
+							Optional:    true,
+							Computed:    true,
+						},
 						"auto_power_high": {
 							Type: schema.TypeInt,
 
@@ -1488,7 +1504,7 @@ func resourceWirelessControllerWtpProfile() *schema.Resource {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 7),
 
-							Description: "The target of automatic transmit power adjustment in dBm. (-95 to -20, default = -70).",
+							Description: "Target of automatic transmit power adjustment in dBm (-95 to -20, default = -70).",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -1528,7 +1544,7 @@ func resourceWirelessControllerWtpProfile() *schema.Resource {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 65535),
 
-							Description: "Beacon interval. The time between beacon frames in msec (the actual range of beacon interval depends on the AP platform type, default = 100).",
+							Description: "Beacon interval. The time between beacon frames in milliseconds. Actual range of beacon interval depends on the AP platform type (default = 100).",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -1536,7 +1552,7 @@ func resourceWirelessControllerWtpProfile() *schema.Resource {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 63),
 
-							Description: "BSS color value for this 11ax radio (0 - 63, 0 means disable. default = 0).",
+							Description: "BSS color value for this 11ax radio (0 - 63, disable = 0, default = 0).",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -2043,6 +2059,14 @@ func resourceWirelessControllerWtpProfile() *schema.Resource {
 							Optional:    true,
 							Computed:    true,
 						},
+						"arrp_profile": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringLenBetween(0, 35),
+
+							Description: "Distributed Automatic Radio Resource Provisioning (DARRP) profile name to assign to the radio.",
+							Optional:    true,
+							Computed:    true,
+						},
 						"auto_power_high": {
 							Type: schema.TypeInt,
 
@@ -2069,7 +2093,7 @@ func resourceWirelessControllerWtpProfile() *schema.Resource {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 7),
 
-							Description: "The target of automatic transmit power adjustment in dBm. (-95 to -20, default = -70).",
+							Description: "Target of automatic transmit power adjustment in dBm (-95 to -20, default = -70).",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -2109,7 +2133,7 @@ func resourceWirelessControllerWtpProfile() *schema.Resource {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 65535),
 
-							Description: "Beacon interval. The time between beacon frames in msec (the actual range of beacon interval depends on the AP platform type, default = 100).",
+							Description: "Beacon interval. The time between beacon frames in milliseconds. Actual range of beacon interval depends on the AP platform type (default = 100).",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -2117,7 +2141,7 @@ func resourceWirelessControllerWtpProfile() *schema.Resource {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 63),
 
-							Description: "BSS color value for this 11ax radio (0 - 63, 0 means disable. default = 0).",
+							Description: "BSS color value for this 11ax radio (0 - 63, disable = 0, default = 0).",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -2624,6 +2648,14 @@ func resourceWirelessControllerWtpProfile() *schema.Resource {
 							Optional:    true,
 							Computed:    true,
 						},
+						"arrp_profile": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringLenBetween(0, 35),
+
+							Description: "Distributed Automatic Radio Resource Provisioning (DARRP) profile name to assign to the radio.",
+							Optional:    true,
+							Computed:    true,
+						},
 						"auto_power_high": {
 							Type: schema.TypeInt,
 
@@ -2650,7 +2682,7 @@ func resourceWirelessControllerWtpProfile() *schema.Resource {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 7),
 
-							Description: "The target of automatic transmit power adjustment in dBm. (-95 to -20, default = -70).",
+							Description: "Target of automatic transmit power adjustment in dBm (-95 to -20, default = -70).",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -2690,7 +2722,7 @@ func resourceWirelessControllerWtpProfile() *schema.Resource {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 65535),
 
-							Description: "Beacon interval. The time between beacon frames in msec (the actual range of beacon interval depends on the AP platform type, default = 100).",
+							Description: "Beacon interval. The time between beacon frames in milliseconds. Actual range of beacon interval depends on the AP platform type (default = 100).",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -2698,7 +2730,7 @@ func resourceWirelessControllerWtpProfile() *schema.Resource {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 63),
 
-							Description: "BSS color value for this 11ax radio (0 - 63, 0 means disable. default = 0).",
+							Description: "BSS color value for this 11ax radio (0 - 63, disable = 0, default = 0).",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -3754,6 +3786,10 @@ func flattenWirelessControllerWtpProfileRadio1(v *[]models.WirelessControllerWtp
 				v["ap_sniffer_mgmt_probe"] = *tmp
 			}
 
+			if tmp := cfg.ArrpProfile; tmp != nil {
+				v["arrp_profile"] = *tmp
+			}
+
 			if tmp := cfg.AutoPowerHigh; tmp != nil {
 				v["auto_power_high"] = *tmp
 			}
@@ -4087,6 +4123,10 @@ func flattenWirelessControllerWtpProfileRadio2(v *[]models.WirelessControllerWtp
 
 			if tmp := cfg.ApSnifferMgmtProbe; tmp != nil {
 				v["ap_sniffer_mgmt_probe"] = *tmp
+			}
+
+			if tmp := cfg.ArrpProfile; tmp != nil {
+				v["arrp_profile"] = *tmp
 			}
 
 			if tmp := cfg.AutoPowerHigh; tmp != nil {
@@ -4424,6 +4464,10 @@ func flattenWirelessControllerWtpProfileRadio3(v *[]models.WirelessControllerWtp
 				v["ap_sniffer_mgmt_probe"] = *tmp
 			}
 
+			if tmp := cfg.ArrpProfile; tmp != nil {
+				v["arrp_profile"] = *tmp
+			}
+
 			if tmp := cfg.AutoPowerHigh; tmp != nil {
 				v["auto_power_high"] = *tmp
 			}
@@ -4757,6 +4801,10 @@ func flattenWirelessControllerWtpProfileRadio4(v *[]models.WirelessControllerWtp
 
 			if tmp := cfg.ApSnifferMgmtProbe; tmp != nil {
 				v["ap_sniffer_mgmt_probe"] = *tmp
+			}
+
+			if tmp := cfg.ArrpProfile; tmp != nil {
+				v["arrp_profile"] = *tmp
 			}
 
 			if tmp := cfg.AutoPowerHigh; tmp != nil {
@@ -6041,6 +6089,13 @@ func expandWirelessControllerWtpProfileRadio1(d *schema.ResourceData, v interfac
 			}
 		}
 
+		pre_append = fmt.Sprintf("%s.%d.arrp_profile", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.ArrpProfile = &v2
+			}
+		}
+
 		pre_append = fmt.Sprintf("%s.%d.auto_power_high", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
 			if v2, ok := v1.(int64); ok {
@@ -6599,6 +6654,13 @@ func expandWirelessControllerWtpProfileRadio2(d *schema.ResourceData, v interfac
 		if v1, ok := d.GetOk(pre_append); ok {
 			if v2, ok := v1.(string); ok {
 				tmp.ApSnifferMgmtProbe = &v2
+			}
+		}
+
+		pre_append = fmt.Sprintf("%s.%d.arrp_profile", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.ArrpProfile = &v2
 			}
 		}
 
@@ -7163,6 +7225,13 @@ func expandWirelessControllerWtpProfileRadio3(d *schema.ResourceData, v interfac
 			}
 		}
 
+		pre_append = fmt.Sprintf("%s.%d.arrp_profile", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.ArrpProfile = &v2
+			}
+		}
+
 		pre_append = fmt.Sprintf("%s.%d.auto_power_high", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
 			if v2, ok := v1.(int64); ok {
@@ -7721,6 +7790,13 @@ func expandWirelessControllerWtpProfileRadio4(d *schema.ResourceData, v interfac
 		if v1, ok := d.GetOk(pre_append); ok {
 			if v2, ok := v1.(string); ok {
 				tmp.ApSnifferMgmtProbe = &v2
+			}
+		}
+
+		pre_append = fmt.Sprintf("%s.%d.arrp_profile", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.ArrpProfile = &v2
 			}
 		}
 

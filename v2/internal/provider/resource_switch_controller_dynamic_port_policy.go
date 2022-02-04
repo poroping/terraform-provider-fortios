@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -117,7 +117,7 @@ func resourceSwitchControllerDynamicPortPolicy() *schema.Resource {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 31),
 
-							Description: "Policy matching family.",
+							Description: "Match policy based on family.",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -125,13 +125,21 @@ func resourceSwitchControllerDynamicPortPolicy() *schema.Resource {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 64),
 
-							Description: "Policy matching host.",
+							Description: "Match policy based on host.",
+							Optional:    true,
+							Computed:    true,
+						},
+						"hw_vendor": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringLenBetween(0, 15),
+
+							Description: "Match policy based on hardware vendor.",
 							Optional:    true,
 							Computed:    true,
 						},
 						"interface_tags": {
 							Type:        schema.TypeList,
-							Description: "Policy matching the FortiSwitch interface object tags.",
+							Description: "Match policy based on the FortiSwitch interface object tags.",
 							Optional:    true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
@@ -158,7 +166,7 @@ func resourceSwitchControllerDynamicPortPolicy() *schema.Resource {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 17),
 
-							Description: "Policy matching MAC address.",
+							Description: "Match policy based on MAC address.",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -190,7 +198,7 @@ func resourceSwitchControllerDynamicPortPolicy() *schema.Resource {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 15),
 
-							Description: "Policy matching type.",
+							Description: "Match policy based on type.",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -392,6 +400,10 @@ func flattenSwitchControllerDynamicPortPolicyPolicy(v *[]models.SwitchController
 				v["host"] = *tmp
 			}
 
+			if tmp := cfg.HwVendor; tmp != nil {
+				v["hw_vendor"] = *tmp
+			}
+
 			if tmp := cfg.InterfaceTags; tmp != nil {
 				v["interface_tags"] = flattenSwitchControllerDynamicPortPolicyPolicyInterfaceTags(tmp, sort)
 			}
@@ -543,6 +555,13 @@ func expandSwitchControllerDynamicPortPolicyPolicy(d *schema.ResourceData, v int
 		if v1, ok := d.GetOk(pre_append); ok {
 			if v2, ok := v1.(string); ok {
 				tmp.Host = &v2
+			}
+		}
+
+		pre_append = fmt.Sprintf("%s.%d.hw_vendor", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.HwVendor = &v2
 			}
 		}
 

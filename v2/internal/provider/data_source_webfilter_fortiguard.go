@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -31,7 +31,7 @@ func dataSourceWebfilterFortiguard() *schema.Resource {
 			},
 			"cache_mem_percent": {
 				Type:        schema.TypeInt,
-				Description: "Maximum percentage of available memory allocated to caching (1 - 15%).",
+				Description: "Maximum percentage of available memory allocated to caching (1 - 15).",
 				Computed:    true,
 			},
 			"cache_mode": {
@@ -56,7 +56,7 @@ func dataSourceWebfilterFortiguard() *schema.Resource {
 			},
 			"ovrd_auth_port_http": {
 				Type:        schema.TypeInt,
-				Description: "Port to use for FortiGuard Web Filter HTTP override authentication",
+				Description: "Port to use for FortiGuard Web Filter HTTP override authentication.",
 				Computed:    true,
 			},
 			"ovrd_auth_port_https": {

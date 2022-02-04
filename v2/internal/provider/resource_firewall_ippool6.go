@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -65,7 +65,7 @@ func resourceFirewallIppool6() *schema.Resource {
 				Type:             schema.TypeString,
 				ValidateFunc:     validation.IsIPv6Address,
 				DiffSuppressFunc: suppressors.DiffIPEqual,
-				Description:      "Final IPv6 address (inclusive) in the range for the address pool (format xxxx:xxxx:xxxx:xxxx:xxxx:xxxx:xxxx:xxxx, Default: ::).",
+				Description:      "Final IPv6 address (inclusive) in the range for the address pool (format = xxxx:xxxx:xxxx:xxxx:xxxx:xxxx:xxxx:xxxx, default = ::).",
 				Optional:         true,
 				Computed:         true,
 			},
@@ -89,7 +89,7 @@ func resourceFirewallIppool6() *schema.Resource {
 				Type:             schema.TypeString,
 				ValidateFunc:     validation.IsIPv6Address,
 				DiffSuppressFunc: suppressors.DiffIPEqual,
-				Description:      "First IPv6 address (inclusive) in the range for the address pool (format xxxx:xxxx:xxxx:xxxx:xxxx:xxxx:xxxx:xxxx, Default: ::).",
+				Description:      "First IPv6 address (inclusive) in the range for the address pool (format = xxxx:xxxx:xxxx:xxxx:xxxx:xxxx:xxxx:xxxx, default = ::).",
 				Optional:         true,
 				Computed:         true,
 			},

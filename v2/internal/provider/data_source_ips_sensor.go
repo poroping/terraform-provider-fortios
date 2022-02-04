@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -53,12 +53,12 @@ func dataSourceIpsSensor() *schema.Resource {
 						},
 						"application": {
 							Type:        schema.TypeString,
-							Description: "Applications to be protected. set application ? lists available applications. all includes all applications. other includes all unlisted applications.",
+							Description: "Operating systems to be protected. Use all for every application and other for unlisted application.",
 							Computed:    true,
 						},
 						"cve": {
 							Type:        schema.TypeList,
-							Description: "List of CVE IDs of the signatures to add to the sensor",
+							Description: "List of CVE IDs of the signatures to add to the sensor.",
 							Computed:    true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
@@ -121,12 +121,12 @@ func dataSourceIpsSensor() *schema.Resource {
 						},
 						"os": {
 							Type:        schema.TypeString,
-							Description: "Operating systems to be protected.  all includes all operating systems. other includes all unlisted operating systems.",
+							Description: "Operating systems to be protected. Use all for every operating system and other for unlisted operating systems.",
 							Computed:    true,
 						},
 						"protocol": {
 							Type:        schema.TypeString,
-							Description: "Protocols to be examined. set protocol ? lists available protocols. all includes all protocols. other includes all unlisted protocols.",
+							Description: "Protocols to be examined. Use all for every protocol and other for unlisted protocols.",
 							Computed:    true,
 						},
 						"quarantine": {
@@ -185,7 +185,7 @@ func dataSourceIpsSensor() *schema.Resource {
 						},
 						"status": {
 							Type:        schema.TypeString,
-							Description: "Status of the signatures included in filter. default enables the filter and only use filters with default status of enable. Filters with default status of disable will not be used.",
+							Description: "Status of the signatures included in filter. Only those filters with a status to enable are used.",
 							Computed:    true,
 						},
 					},

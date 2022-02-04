@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -42,7 +42,7 @@ func resourceDlpSettings() *schema.Resource {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 15),
 
-				Description: "Maximum percentage of available memory allocated to caching (1 - 15%).",
+				Description: "Maximum percentage of available memory allocated to caching (1 - 15).",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -50,7 +50,7 @@ func resourceDlpSettings() *schema.Resource {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(100, 100000),
 
-				Description: "Maximum fingerprint chunk size.  **Changing will flush the entire database**.",
+				Description: "Maximum fingerprint chunk size. Caution, changing this setting will flush the entire database.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -58,7 +58,7 @@ func resourceDlpSettings() *schema.Resource {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringInSlice([]string{"stop-adding", "remove-modified-then-oldest", "remove-oldest"}, false),
 
-				Description: "Behaviour when the maximum size is reached.",
+				Description: "Behavior when the maximum size is reached.",
 				Optional:    true,
 				Computed:    true,
 			},

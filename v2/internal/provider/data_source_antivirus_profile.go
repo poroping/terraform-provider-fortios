@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -103,7 +103,7 @@ func dataSourceAntivirusProfile() *schema.Resource {
 						},
 						"fortiai": {
 							Type:        schema.TypeString,
-							Description: "Enable/disable scanning of files by FortiAI server.",
+							Description: "Enable/disable scanning of files by FortiAI.",
 							Computed:    true,
 						},
 						"options": {
@@ -320,7 +320,7 @@ func dataSourceAntivirusProfile() *schema.Resource {
 						},
 						"fortiai": {
 							Type:        schema.TypeString,
-							Description: "Enable/disable scanning of files by FortiAI server.",
+							Description: "Enable/disable scanning of files by FortiAI.",
 							Computed:    true,
 						},
 						"options": {
@@ -379,7 +379,7 @@ func dataSourceAntivirusProfile() *schema.Resource {
 						},
 						"fortiai": {
 							Type:        schema.TypeString,
-							Description: "Enable/disable scanning of files by FortiAI server.",
+							Description: "Enable/disable scanning of files by FortiAI.",
 							Computed:    true,
 						},
 						"options": {
@@ -443,7 +443,7 @@ func dataSourceAntivirusProfile() *schema.Resource {
 						},
 						"fortiai": {
 							Type:        schema.TypeString,
-							Description: "Enable/disable scanning of files by FortiAI server.",
+							Description: "Enable/disable scanning of files by FortiAI.",
 							Computed:    true,
 						},
 						"options": {
@@ -502,7 +502,7 @@ func dataSourceAntivirusProfile() *schema.Resource {
 						},
 						"fortiai": {
 							Type:        schema.TypeString,
-							Description: "Enable/disable scanning of files by FortiAI server.",
+							Description: "Enable/disable scanning of files by FortiAI.",
 							Computed:    true,
 						},
 						"options": {
@@ -590,7 +590,7 @@ func dataSourceAntivirusProfile() *schema.Resource {
 						},
 						"fortiai": {
 							Type:        schema.TypeString,
-							Description: "Enable/disable scanning of files by FortiAI server.",
+							Description: "Enable/disable scanning of files by FortiAI.",
 							Computed:    true,
 						},
 						"options": {
@@ -678,7 +678,7 @@ func dataSourceAntivirusProfile() *schema.Resource {
 						},
 						"fortiai": {
 							Type:        schema.TypeString,
-							Description: "Enable/disable scanning of files by FortiAI server.",
+							Description: "Enable/disable scanning of files by FortiAI.",
 							Computed:    true,
 						},
 						"options": {
@@ -706,7 +706,7 @@ func dataSourceAntivirusProfile() *schema.Resource {
 			},
 			"scan_mode": {
 				Type:        schema.TypeString,
-				Description: "Choose between default scan mode and legacy scan mode. ",
+				Description: "Configure scan mode (default or legacy).",
 				Computed:    true,
 			},
 			"smtp": {
@@ -752,7 +752,7 @@ func dataSourceAntivirusProfile() *schema.Resource {
 						},
 						"fortiai": {
 							Type:        schema.TypeString,
-							Description: "Enable/disable scanning of files by FortiAI server.",
+							Description: "Enable/disable scanning of files by FortiAI.",
 							Computed:    true,
 						},
 						"options": {
@@ -806,7 +806,7 @@ func dataSourceAntivirusProfile() *schema.Resource {
 						},
 						"fortiai": {
 							Type:        schema.TypeString,
-							Description: "Enable/disable scanning of files by FortiAI server.",
+							Description: "Enable/disable scanning of files by FortiAI.",
 							Computed:    true,
 						},
 						"options": {

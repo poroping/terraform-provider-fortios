@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -42,7 +42,7 @@ func dataSourceSystemDnsDatabase() *schema.Resource {
 			},
 			"contact": {
 				Type:        schema.TypeString,
-				Description: "Email address of the administrator for this zone.\n\t\tYou can specify only the username (e.g. admin) or full email address (e.g. admin@test.com) \n\t\tWhen using a simple username, the domain of the email will be this zone.",
+				Description: "Email address of the administrator for this zone. You can specify only the username, such as admin or the full email address, such as admin@test.com When using only a username, the domain of the email will be this zone.",
 				Computed:    true,
 			},
 			"dns_entry": {
@@ -78,7 +78,7 @@ func dataSourceSystemDnsDatabase() *schema.Resource {
 						},
 						"preference": {
 							Type:        schema.TypeInt,
-							Description: "DNS entry preference, 0 is the highest preference (0 - 65535, default = 10)",
+							Description: "DNS entry preference (0 - 65535, highest preference = 0, default = 10).",
 							Computed:    true,
 						},
 						"status": {

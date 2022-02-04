@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -100,6 +100,11 @@ func dataSourceVpnSslWebPortal() *schema.Resource {
 												},
 											},
 										},
+									},
+									"height": {
+										Type:        schema.TypeInt,
+										Description: "Screen height (range from 480 - 65535, default = 768).",
+										Computed:    true,
 									},
 									"host": {
 										Type:        schema.TypeString,
@@ -211,6 +216,11 @@ func dataSourceVpnSslWebPortal() *schema.Resource {
 									"url": {
 										Type:        schema.TypeString,
 										Description: "URL parameter.",
+										Computed:    true,
+									},
+									"width": {
+										Type:        schema.TypeInt,
+										Description: "Screen width (range from 640 - 65535, default = 1024).",
 										Computed:    true,
 									},
 								},
@@ -514,7 +524,7 @@ func dataSourceVpnSslWebPortal() *schema.Resource {
 			},
 			"prefer_ipv6_dns": {
 				Type:        schema.TypeString,
-				Description: "prefer to query IPv6 dns first if enabled.",
+				Description: "Prefer to query IPv6 DNS server first if enabled.",
 				Computed:    true,
 			},
 			"redir_url": {
@@ -524,7 +534,7 @@ func dataSourceVpnSslWebPortal() *schema.Resource {
 			},
 			"rewrite_ip_uri_ui": {
 				Type:        schema.TypeString,
-				Description: "Rewrite contents for URI contains IP and \"/ui/\". (default = disable)",
+				Description: "Rewrite contents for URI contains IP and /ui/ (default = disable).",
 				Computed:    true,
 			},
 			"save_password": {
@@ -564,7 +574,7 @@ func dataSourceVpnSslWebPortal() *schema.Resource {
 			},
 			"smbv1": {
 				Type:        schema.TypeString,
-				Description: "smbv1",
+				Description: "SMB version 1.",
 				Computed:    true,
 			},
 			"split_dns": {
@@ -585,7 +595,7 @@ func dataSourceVpnSslWebPortal() *schema.Resource {
 						},
 						"domains": {
 							Type:        schema.TypeString,
-							Description: "Split DNS domains used for SSL-VPN clients separated by comma(,).",
+							Description: "Split DNS domains used for SSL-VPN clients separated by comma.",
 							Computed:    true,
 						},
 						"id": {

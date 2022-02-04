@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -182,7 +182,7 @@ func resourceFirewallVip() *schema.Resource {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringInSlice([]string{"disable", "same-ip"}, false),
 
-				Description: "Control sharing of cookies across virtual servers. same-ip means a cookie from one virtual server can be used by another. Disable stops cookie sharing.",
+				Description: "Control sharing of cookies across virtual servers. Use of same-ip means a cookie from one virtual server can be used by another. Disable stops cookie sharing.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -214,7 +214,7 @@ func resourceFirewallVip() *schema.Resource {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
 
-				Description: "Enable/disable redirection of HTTP to HTTPS",
+				Description: "Enable/disable redirection of HTTP to HTTPS.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -238,7 +238,7 @@ func resourceFirewallVip() *schema.Resource {
 			"ipv6_mappedip": {
 				Type: schema.TypeString,
 
-				Description: "Start-mapped-IPv6-address [-end mapped-IPv6-address].",
+				Description: "Range of mapped IPv6 addresses. Specify the start IPv6 address followed by a space and the end IPv6 address.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -564,6 +564,14 @@ func resourceFirewallVip() *schema.Resource {
 					},
 				},
 			},
+			"ssl_accept_ffdhe_groups": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+				Description: "Enable/disable FFDHE cipher suite for SSL key exchange.",
+				Optional:    true,
+				Computed:    true,
+			},
 			"ssl_algorithm": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringInSlice([]string{"high", "medium", "low", "custom"}, false),
@@ -680,7 +688,7 @@ func resourceFirewallVip() *schema.Resource {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(60, 157680000),
 
-				Description: "Number of seconds the client should honour the HPKP setting.",
+				Description: "Number of seconds the client should honor the HPKP setting.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -728,7 +736,7 @@ func resourceFirewallVip() *schema.Resource {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(60, 157680000),
 
-				Description: "Number of seconds the client should honour the HSTS setting.",
+				Description: "Number of seconds the client should honor the HSTS setting.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -1684,6 +1692,14 @@ func refreshObjectFirewallVip(d *schema.ResourceData, o *models.FirewallVip, sv 
 	if o.SrcintfFilter != nil {
 		if err = d.Set("srcintf_filter", flattenFirewallVipSrcintfFilter(o.SrcintfFilter, sort)); err != nil {
 			return diag.Errorf("error reading srcintf_filter: %v", err)
+		}
+	}
+
+	if o.SslAcceptFfdheGroups != nil {
+		v := *o.SslAcceptFfdheGroups
+
+		if err = d.Set("ssl_accept_ffdhe_groups", v); err != nil {
+			return diag.Errorf("error reading ssl_accept_ffdhe_groups: %v", err)
 		}
 	}
 
@@ -2806,6 +2822,15 @@ func getObjectFirewallVip(d *schema.ResourceData, sv string) (*models.FirewallVi
 		old, new := d.GetChange("srcintf_filter")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
 			obj.SrcintfFilter = &[]models.FirewallVipSrcintfFilter{}
+		}
+	}
+	if v1, ok := d.GetOk("ssl_accept_ffdhe_groups"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.0.4", "") {
+				e := utils.AttributeVersionWarning("ssl_accept_ffdhe_groups", sv)
+				diags = append(diags, e)
+			}
+			obj.SslAcceptFfdheGroups = &v2
 		}
 	}
 	if v1, ok := d.GetOk("ssl_algorithm"); ok {

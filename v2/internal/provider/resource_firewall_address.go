@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -311,7 +311,7 @@ func resourceFirewallAddress() *schema.Resource {
 			},
 			"sub_type": {
 				Type:         schema.TypeString,
-				ValidateFunc: validation.StringInSlice([]string{"sdn", "clearpass-spt", "fsso", "ems-tag", "swc-tag"}, false),
+				ValidateFunc: validation.StringInSlice([]string{"sdn", "clearpass-spt", "fsso", "ems-tag", "fortivoice-tag", "fortinac-tag", "swc-tag"}, false),
 
 				Description: "Sub-type of address.",
 				Optional:    true,
@@ -330,6 +330,22 @@ func resourceFirewallAddress() *schema.Resource {
 				ValidateFunc: validation.StringLenBetween(0, 255),
 
 				Description: "Subnet name.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"tag_detection_level": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringLenBetween(0, 15),
+
+				Description: "Tag detection level of dynamic address object.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"tag_type": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringLenBetween(0, 63),
+
+				Description: "Tag type of dynamic address object.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -950,6 +966,22 @@ func refreshObjectFirewallAddress(d *schema.ResourceData, o *models.FirewallAddr
 		}
 	}
 
+	if o.TagDetectionLevel != nil {
+		v := *o.TagDetectionLevel
+
+		if err = d.Set("tag_detection_level", v); err != nil {
+			return diag.Errorf("error reading tag_detection_level: %v", err)
+		}
+	}
+
+	if o.TagType != nil {
+		v := *o.TagType
+
+		if err = d.Set("tag_type", v); err != nil {
+			return diag.Errorf("error reading tag_type: %v", err)
+		}
+	}
+
 	if o.Tagging != nil {
 		if err = d.Set("tagging", flattenFirewallAddressTagging(o.Tagging, sort)); err != nil {
 			return diag.Errorf("error reading tagging: %v", err)
@@ -1465,6 +1497,24 @@ func getObjectFirewallAddress(d *schema.ResourceData, sv string) (*models.Firewa
 				diags = append(diags, e)
 			}
 			obj.SubnetName = &v2
+		}
+	}
+	if v1, ok := d.GetOk("tag_detection_level"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.0.4", "") {
+				e := utils.AttributeVersionWarning("tag_detection_level", sv)
+				diags = append(diags, e)
+			}
+			obj.TagDetectionLevel = &v2
+		}
+	}
+	if v1, ok := d.GetOk("tag_type"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.0.4", "") {
+				e := utils.AttributeVersionWarning("tag_type", sv)
+				diags = append(diags, e)
+			}
+			obj.TagType = &v2
 		}
 	}
 	if v, ok := d.GetOk("tagging"); ok {

@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -44,7 +44,7 @@ func resourceSystemGlobal() *schema.Resource {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
 
-				Description: "Enable/disable concurrent administrator logins. (Use policy-auth-concurrent for firewall authenticated users.)",
+				Description: "Enable/disable concurrent administrator logins. Use policy-auth-concurrent for firewall authenticated users.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -52,7 +52,7 @@ func resourceSystemGlobal() *schema.Resource {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(15, 300),
 
-				Description: "Console login timeout that overrides the admintimeout value. (15 - 300 seconds) (15 seconds to 5 minutes). 0 the default, disables this timeout.",
+				Description: "Console login timeout that overrides the admin timeout value (15 - 300 seconds, default = 0, which disables the timeout).",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -132,7 +132,7 @@ func resourceSystemGlobal() *schema.Resource {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 100),
 
-				Description: "Maximum number of administrators who can be logged in at the same time (1 - 100, default = 100)",
+				Description: "Maximum number of administrators who can be logged in at the same time (1 - 100, default = 100).",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -156,7 +156,7 @@ func resourceSystemGlobal() *schema.Resource {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
 
-				Description: "Enable/disable local admin authentication restriction when remote authenticator is up and running. (default = disable)",
+				Description: "Enable/disable local admin authentication restriction when remote authenticator is up and running (default = disable).",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -403,7 +403,7 @@ func resourceSystemGlobal() *schema.Resource {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringInSlice([]string{"loose", "strict"}, false),
 
-				Description: "Level of checking performed on protocol headers. Strict checking is more thorough but may affect performance. Loose checking is ok in most cases.",
+				Description: "Level of checking performed on protocol headers. Strict checking is more thorough but may affect performance. Loose checking is OK in most cases.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -451,7 +451,7 @@ func resourceSystemGlobal() *schema.Resource {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(50, 99),
 
-				Description: "Threshold at which CPU usage is reported. (% of total CPU, default = 90).",
+				Description: "Threshold at which CPU usage is reported (% of total CPU, default = 90).",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -474,7 +474,7 @@ func resourceSystemGlobal() *schema.Resource {
 			"default_service_source_port": {
 				Type: schema.TypeString,
 
-				Description: "Default service source port range. (default=1-65535)",
+				Description: "Default service source port range (default = 1 - 65535).",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -518,6 +518,14 @@ func resourceSystemGlobal() *schema.Resource {
 				Optional:    true,
 				Computed:    true,
 			},
+			"extender_controller_reserved_network": {
+				Type:         schema.TypeString,
+				ValidateFunc: validators.FortiValidateIPv4ClassnetHost,
+
+				Description: "Configure reserved network subnet for managed LAN extension FortiExtender units. This is available when the FortiExtender daemon is running.",
+				Optional:    true,
+				Computed:    true,
+			},
 			"failtime": {
 				Type: schema.TypeInt,
 
@@ -529,7 +537,7 @@ func resourceSystemGlobal() *schema.Resource {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 214748364),
 
-				Description: "Maximum disk buffer size to temporarily store logs destined for FortiAnalyzer. To be used in the event that FortiAnalyzer is unavailalble.",
+				Description: "Maximum disk buffer size to temporarily store logs destined for FortiAnalyzer. To be used in the event that FortiAnalyzer is unavailable.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -581,6 +589,14 @@ func resourceSystemGlobal() *schema.Resource {
 				Optional:    true,
 				Computed:    true,
 			},
+			"fortiextender_discovery_lockdown": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"disable", "enable"}, false),
+
+				Description: "Enable/disable FortiExtender CAPWAP lockdown.",
+				Optional:    true,
+				Computed:    true,
+			},
 			"fortiextender_vlan_mode": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
@@ -618,6 +634,14 @@ func resourceSystemGlobal() *schema.Resource {
 				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
 
 				Description: "Enable/disable the factory default hostname warning on the GUI setup wizard.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"gui_cdn_usage": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+				Description: "Enable/disable Load GUI static files from a CDN.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -802,6 +826,14 @@ func resourceSystemGlobal() *schema.Resource {
 				ValidateFunc: validation.IntBetween(96, 128000),
 
 				Description: "Maximum number of IGMP memberships (96 - 64000, default = 3200).",
+				Optional:    true,
+				Computed:    true,
+			},
+			"internet_service_database": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"mini", "standard", "full"}, false),
+
+				Description: "Configure which Internet Service database size to download from FortiGuard and use.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -1127,7 +1159,7 @@ func resourceSystemGlobal() *schema.Resource {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
 
-				Description: "Enable/disable authenticated users lifetime control.  This is a cap on the total time a proxy user can be authenticated for after which re-authentication will take place.",
+				Description: "Enable/disable authenticated users lifetime control. This is a cap on the total time a proxy user can be authenticated for after which re-authentication will take place.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -1144,6 +1176,14 @@ func resourceSystemGlobal() *schema.Resource {
 				ValidateFunc: validation.IntBetween(1, 300),
 
 				Description: "Authentication timeout in minutes for authenticated users (1 - 300 min, default = 10).",
+				Optional:    true,
+				Computed:    true,
+			},
+			"proxy_cert_use_mgmt_vdom": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+				Description: "Enable/disable using management VDOM to send requests.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -1635,7 +1675,7 @@ func resourceSystemGlobal() *schema.Resource {
 			},
 			"user_device_store_max_devices": {
 				Type:         schema.TypeInt,
-				ValidateFunc: validation.IntBetween(36679, 104797),
+				ValidateFunc: validation.IntBetween(36677, 104794),
 
 				Description: "Maximum number of devices allowed in user device store.",
 				Optional:    true,
@@ -1643,7 +1683,7 @@ func resourceSystemGlobal() *schema.Resource {
 			},
 			"user_device_store_max_unified_mem": {
 				Type:         schema.TypeInt,
-				ValidateFunc: validation.IntBetween(73358254, 733582540),
+				ValidateFunc: validation.IntBetween(73355960, 733559603),
 
 				Description: "Maximum unified memory allowed in user device store.",
 				Optional:    true,
@@ -1651,7 +1691,7 @@ func resourceSystemGlobal() *schema.Resource {
 			},
 			"user_device_store_max_users": {
 				Type:         schema.TypeInt,
-				ValidateFunc: validation.IntBetween(36679, 104797),
+				ValidateFunc: validation.IntBetween(36677, 104794),
 
 				Description: "Maximum number of users allowed in user device store.",
 				Optional:    true,
@@ -2405,6 +2445,19 @@ func refreshObjectSystemGlobal(d *schema.ResourceData, o *models.SystemGlobal, s
 		}
 	}
 
+	if o.ExtenderControllerReservedNetwork != nil {
+		v := *o.ExtenderControllerReservedNetwork
+		if current, ok := d.GetOk("extender_controller_reserved_network"); ok {
+			if s, ok := current.(string); ok {
+				v = utils.ValidateConvIPMask2CIDR(s, v)
+			}
+		}
+
+		if err = d.Set("extender_controller_reserved_network", v); err != nil {
+			return diag.Errorf("error reading extender_controller_reserved_network: %v", err)
+		}
+	}
+
 	if o.Failtime != nil {
 		v := *o.Failtime
 
@@ -2469,6 +2522,14 @@ func refreshObjectSystemGlobal(d *schema.ResourceData, o *models.SystemGlobal, s
 		}
 	}
 
+	if o.FortiextenderDiscoveryLockdown != nil {
+		v := *o.FortiextenderDiscoveryLockdown
+
+		if err = d.Set("fortiextender_discovery_lockdown", v); err != nil {
+			return diag.Errorf("error reading fortiextender_discovery_lockdown: %v", err)
+		}
+	}
+
 	if o.FortiextenderVlanMode != nil {
 		v := *o.FortiextenderVlanMode
 
@@ -2506,6 +2567,14 @@ func refreshObjectSystemGlobal(d *schema.ResourceData, o *models.SystemGlobal, s
 
 		if err = d.Set("gui_allow_default_hostname", v); err != nil {
 			return diag.Errorf("error reading gui_allow_default_hostname: %v", err)
+		}
+	}
+
+	if o.GuiCdnUsage != nil {
+		v := *o.GuiCdnUsage
+
+		if err = d.Set("gui_cdn_usage", v); err != nil {
+			return diag.Errorf("error reading gui_cdn_usage: %v", err)
 		}
 	}
 
@@ -2690,6 +2759,14 @@ func refreshObjectSystemGlobal(d *schema.ResourceData, o *models.SystemGlobal, s
 
 		if err = d.Set("igmp_state_limit", v); err != nil {
 			return diag.Errorf("error reading igmp_state_limit: %v", err)
+		}
+	}
+
+	if o.InternetServiceDatabase != nil {
+		v := *o.InternetServiceDatabase
+
+		if err = d.Set("internet_service_database", v); err != nil {
+			return diag.Errorf("error reading internet_service_database: %v", err)
 		}
 	}
 
@@ -3034,6 +3111,14 @@ func refreshObjectSystemGlobal(d *schema.ResourceData, o *models.SystemGlobal, s
 
 		if err = d.Set("proxy_auth_timeout", v); err != nil {
 			return diag.Errorf("error reading proxy_auth_timeout: %v", err)
+		}
+	}
+
+	if o.ProxyCertUseMgmtVdom != nil {
+		v := *o.ProxyCertUseMgmtVdom
+
+		if err = d.Set("proxy_cert_use_mgmt_vdom", v); err != nil {
+			return diag.Errorf("error reading proxy_cert_use_mgmt_vdom: %v", err)
 		}
 	}
 
@@ -4235,6 +4320,15 @@ func getObjectSystemGlobal(d *schema.ResourceData, sv string) (*models.SystemGlo
 			obj.Dst = &v2
 		}
 	}
+	if v1, ok := d.GetOk("extender_controller_reserved_network"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.0.4", "") {
+				e := utils.AttributeVersionWarning("extender_controller_reserved_network", sv)
+				diags = append(diags, e)
+			}
+			obj.ExtenderControllerReservedNetwork = &v2
+		}
+	}
 	if v1, ok := d.GetOk("failtime"); ok {
 		if v2, ok := v1.(int); ok {
 			if !utils.CheckVer(sv, "", "") {
@@ -4312,6 +4406,15 @@ func getObjectSystemGlobal(d *schema.ResourceData, sv string) (*models.SystemGlo
 			obj.FortiextenderDataPort = &tmp
 		}
 	}
+	if v1, ok := d.GetOk("fortiextender_discovery_lockdown"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.0.4", "") {
+				e := utils.AttributeVersionWarning("fortiextender_discovery_lockdown", sv)
+				diags = append(diags, e)
+			}
+			obj.FortiextenderDiscoveryLockdown = &v2
+		}
+	}
 	if v1, ok := d.GetOk("fortiextender_vlan_mode"); ok {
 		if v2, ok := v1.(string); ok {
 			if !utils.CheckVer(sv, "", "v6.4.2") {
@@ -4356,6 +4459,15 @@ func getObjectSystemGlobal(d *schema.ResourceData, sv string) (*models.SystemGlo
 				diags = append(diags, e)
 			}
 			obj.GuiAllowDefaultHostname = &v2
+		}
+	}
+	if v1, ok := d.GetOk("gui_cdn_usage"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.0.4", "") {
+				e := utils.AttributeVersionWarning("gui_cdn_usage", sv)
+				diags = append(diags, e)
+			}
+			obj.GuiCdnUsage = &v2
 		}
 	}
 	if v1, ok := d.GetOk("gui_certificates"); ok {
@@ -4565,6 +4677,15 @@ func getObjectSystemGlobal(d *schema.ResourceData, sv string) (*models.SystemGlo
 			}
 			tmp := int64(v2)
 			obj.IgmpStateLimit = &tmp
+		}
+	}
+	if v1, ok := d.GetOk("internet_service_database"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.0.4", "") {
+				e := utils.AttributeVersionWarning("internet_service_database", sv)
+				diags = append(diags, e)
+			}
+			obj.InternetServiceDatabase = &v2
 		}
 	}
 	if v1, ok := d.GetOk("interval"); ok {
@@ -4967,6 +5088,15 @@ func getObjectSystemGlobal(d *schema.ResourceData, sv string) (*models.SystemGlo
 			}
 			tmp := int64(v2)
 			obj.ProxyAuthTimeout = &tmp
+		}
+	}
+	if v1, ok := d.GetOk("proxy_cert_use_mgmt_vdom"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.0.4", "") {
+				e := utils.AttributeVersionWarning("proxy_cert_use_mgmt_vdom", sv)
+				diags = append(diags, e)
+			}
+			obj.ProxyCertUseMgmtVdom = &v2
 		}
 	}
 	if v1, ok := d.GetOk("proxy_cipher_hardware_acceleration"); ok {

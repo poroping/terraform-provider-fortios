@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -116,6 +116,22 @@ func resourceSystemInterface() *schema.Resource {
 				Optional:    true,
 				Computed:    true,
 			},
+			"auth_cert": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringLenBetween(0, 35),
+
+				Description: "HTTPS server certificate.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"auth_portal_addr": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringLenBetween(0, 63),
+
+				Description: "Address of captive portal.",
+				Optional:    true,
+				Computed:    true,
+			},
 			"auth_type": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringInSlice([]string{"auto", "pap", "chap", "mschapv1", "mschapv2"}, false),
@@ -135,7 +151,7 @@ func resourceSystemInterface() *schema.Resource {
 			"bandwidth_measure_time": {
 				Type: schema.TypeInt,
 
-				Description: "Bandwidth measure time ",
+				Description: "Bandwidth measure time.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -365,6 +381,14 @@ func resourceSystemInterface() *schema.Resource {
 				Optional:    true,
 				Computed:    true,
 			},
+			"dhcp_relay_link_selection": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.IsIPv4Address,
+
+				Description: "DHCP relay link selection.",
+				Optional:    true,
+				Computed:    true,
+			},
 			"dhcp_relay_request_all_server": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringInSlice([]string{"disable", "enable"}, false),
@@ -452,6 +476,14 @@ func resourceSystemInterface() *schema.Resource {
 				Description: "Enable/disable use DNS acquired by DHCP or PPPoE.",
 				Optional:    true,
 				Computed:    true,
+			},
+			"dns_server_protocol": {
+				Type: schema.TypeString,
+
+				DiffSuppressFunc: suppressors.DiffFakeListEqual,
+				Description:      "DNS transport protocols.",
+				Optional:         true,
+				Computed:         true,
 			},
 			"drop_fragment": {
 				Type:         schema.TypeString,
@@ -608,7 +640,7 @@ func resourceSystemInterface() *schema.Resource {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringInSlice([]string{"soft-restart", "hard-restart", "reboot"}, false),
 
-				Description: "Action on extender when interface fail .",
+				Description: "Action on FortiExtender when interface fail.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -665,7 +697,7 @@ func resourceSystemInterface() *schema.Resource {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 255),
 
-				Description: "fortilink split interface backup link.",
+				Description: "FortiLink split interface backup link.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -868,7 +900,7 @@ func resourceSystemInterface() *schema.Resource {
 						},
 						"dhcp6_iapd_list": {
 							Type:        schema.TypeList,
-							Description: "DHCPv6 IA-PD list",
+							Description: "DHCPv6 IA-PD list.",
 							Optional:    true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
@@ -985,7 +1017,7 @@ func resourceSystemInterface() *schema.Resource {
 							Type:             schema.TypeString,
 							ValidateFunc:     validators.FortiValidateIPv6Prefix,
 							DiffSuppressFunc: suppressors.DiffCidrEqual,
-							Description:      "Primary IPv6 address prefix, syntax: xxxx:xxxx:xxxx:xxxx:xxxx:xxxx:xxxx:xxxx/xxx",
+							Description:      "Primary IPv6 address prefix. Syntax: xxxx:xxxx:xxxx:xxxx:xxxx:xxxx:xxxx:xxxx/xxx.",
 							Optional:         true,
 							Computed:         true,
 						},
@@ -1067,7 +1099,7 @@ func resourceSystemInterface() *schema.Resource {
 										Type:             schema.TypeString,
 										ValidateFunc:     validators.FortiValidateIPv6Network,
 										DiffSuppressFunc: suppressors.DiffCidrEqual,
-										Description:      " Add subnet ID to routing prefix.",
+										Description:      "Add subnet ID to routing prefix.",
 										Optional:         true,
 										Computed:         true,
 									},
@@ -1269,7 +1301,7 @@ func resourceSystemInterface() *schema.Resource {
 							Type:             schema.TypeString,
 							ValidateFunc:     validators.FortiValidateIPv6Prefix,
 							DiffSuppressFunc: suppressors.DiffCidrEqual,
-							Description:      " Subnet to routing prefix, syntax: xxxx:xxxx:xxxx:xxxx:xxxx:xxxx:xxxx:xxxx/xxx",
+							Description:      "Subnet to routing prefix. Syntax: xxxx:xxxx:xxxx:xxxx:xxxx:xxxx:xxxx:xxxx/xxx.",
 							Optional:         true,
 							Computed:         true,
 						},
@@ -1558,14 +1590,14 @@ func resourceSystemInterface() *schema.Resource {
 			"measured_downstream_bandwidth": {
 				Type: schema.TypeInt,
 
-				Description: "Measured downstream bandwidth (kbps). ",
+				Description: "Measured downstream bandwidth (kbps).",
 				Optional:    true,
 				Computed:    true,
 			},
 			"measured_upstream_bandwidth": {
 				Type: schema.TypeInt,
 
-				Description: "Measured upstream bandwidth (kbps). ",
+				Description: "Measured upstream bandwidth (kbps).",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -1708,7 +1740,7 @@ func resourceSystemInterface() *schema.Resource {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 255),
 
-				Description: "sFlow polling interval (1 - 255 sec).",
+				Description: "sFlow polling interval in seconds (1 - 255).",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -1777,7 +1809,8 @@ func resourceSystemInterface() *schema.Resource {
 				Computed:    true,
 			},
 			"priority": {
-				Type: schema.TypeInt,
+				Type:         schema.TypeInt,
+				ValidateFunc: validation.IntBetween(1, 65535),
 
 				Description: "Priority of learned routes.",
 				Optional:    true,
@@ -1796,6 +1829,14 @@ func resourceSystemInterface() *schema.Resource {
 				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
 
 				Description: "Enable/disable proxy captive portal on this interface.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"reachable_time": {
+				Type:         schema.TypeInt,
+				ValidateFunc: validation.IntBetween(30000, 3600000),
+
+				Description: "IPv4 reachable time in milliseconds (30000 - 3600000, default = 30000).",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -2031,7 +2072,7 @@ func resourceSystemInterface() *schema.Resource {
 			},
 			"speed": {
 				Type:         schema.TypeString,
-				ValidateFunc: validation.StringInSlice([]string{"auto", "10full", "10half", "100full", "100half", "1000full", "1000half", "1000auto"}, false),
+				ValidateFunc: validation.StringInSlice([]string{"auto", "10full", "10half", "100full", "100half", "1000full", "1000auto"}, false),
 
 				Description: "Interface speed. The default setting and the options available depend on the interface hardware.",
 				Optional:    true,
@@ -3605,6 +3646,22 @@ func refreshObjectSystemInterface(d *schema.ResourceData, o *models.SystemInterf
 		}
 	}
 
+	if o.AuthCert != nil {
+		v := *o.AuthCert
+
+		if err = d.Set("auth_cert", v); err != nil {
+			return diag.Errorf("error reading auth_cert: %v", err)
+		}
+	}
+
+	if o.AuthPortalAddr != nil {
+		v := *o.AuthPortalAddr
+
+		if err = d.Set("auth_portal_addr", v); err != nil {
+			return diag.Errorf("error reading auth_portal_addr: %v", err)
+		}
+	}
+
 	if o.AuthType != nil {
 		v := *o.AuthType
 
@@ -3819,6 +3876,14 @@ func refreshObjectSystemInterface(d *schema.ResourceData, o *models.SystemInterf
 		}
 	}
 
+	if o.DhcpRelayLinkSelection != nil {
+		v := *o.DhcpRelayLinkSelection
+
+		if err = d.Set("dhcp_relay_link_selection", v); err != nil {
+			return diag.Errorf("error reading dhcp_relay_link_selection: %v", err)
+		}
+	}
+
 	if o.DhcpRelayRequestAllServer != nil {
 		v := *o.DhcpRelayRequestAllServer
 
@@ -3886,6 +3951,14 @@ func refreshObjectSystemInterface(d *schema.ResourceData, o *models.SystemInterf
 
 		if err = d.Set("dns_server_override", v); err != nil {
 			return diag.Errorf("error reading dns_server_override: %v", err)
+		}
+	}
+
+	if o.DnsServerProtocol != nil {
+		v := *o.DnsServerProtocol
+
+		if err = d.Set("dns_server_protocol", v); err != nil {
+			return diag.Errorf("error reading dns_server_protocol: %v", err)
 		}
 	}
 
@@ -4554,6 +4627,14 @@ func refreshObjectSystemInterface(d *schema.ResourceData, o *models.SystemInterf
 
 		if err = d.Set("proxy_captive_portal", v); err != nil {
 			return diag.Errorf("error reading proxy_captive_portal: %v", err)
+		}
+	}
+
+	if o.ReachableTime != nil {
+		v := *o.ReachableTime
+
+		if err = d.Set("reachable_time", v); err != nil {
+			return diag.Errorf("error reading reachable_time: %v", err)
 		}
 	}
 
@@ -6398,6 +6479,24 @@ func getObjectSystemInterface(d *schema.ResourceData, sv string) (*models.System
 			obj.Arpforward = &v2
 		}
 	}
+	if v1, ok := d.GetOk("auth_cert"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.0.4", "") {
+				e := utils.AttributeVersionWarning("auth_cert", sv)
+				diags = append(diags, e)
+			}
+			obj.AuthCert = &v2
+		}
+	}
+	if v1, ok := d.GetOk("auth_portal_addr"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.0.4", "") {
+				e := utils.AttributeVersionWarning("auth_portal_addr", sv)
+				diags = append(diags, e)
+			}
+			obj.AuthPortalAddr = &v2
+		}
+	}
 	if v1, ok := d.GetOk("auth_type"); ok {
 		if v2, ok := v1.(string); ok {
 			if !utils.CheckVer(sv, "", "") {
@@ -6657,6 +6756,15 @@ func getObjectSystemInterface(d *schema.ResourceData, sv string) (*models.System
 			obj.DhcpRelayIp = &v2
 		}
 	}
+	if v1, ok := d.GetOk("dhcp_relay_link_selection"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.0.4", "") {
+				e := utils.AttributeVersionWarning("dhcp_relay_link_selection", sv)
+				diags = append(diags, e)
+			}
+			obj.DhcpRelayLinkSelection = &v2
+		}
+	}
 	if v1, ok := d.GetOk("dhcp_relay_request_all_server"); ok {
 		if v2, ok := v1.(string); ok {
 			if !utils.CheckVer(sv, "v7.0.0", "") {
@@ -6748,6 +6856,15 @@ func getObjectSystemInterface(d *schema.ResourceData, sv string) (*models.System
 				diags = append(diags, e)
 			}
 			obj.DnsServerOverride = &v2
+		}
+	}
+	if v1, ok := d.GetOk("dns_server_protocol"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.0.4", "") {
+				e := utils.AttributeVersionWarning("dns_server_protocol", sv)
+				diags = append(diags, e)
+			}
+			obj.DnsServerProtocol = &v2
 		}
 	}
 	if v1, ok := d.GetOk("drop_fragment"); ok {
@@ -7549,6 +7666,16 @@ func getObjectSystemInterface(d *schema.ResourceData, sv string) (*models.System
 				diags = append(diags, e)
 			}
 			obj.ProxyCaptivePortal = &v2
+		}
+	}
+	if v1, ok := d.GetOk("reachable_time"); ok {
+		if v2, ok := v1.(int); ok {
+			if !utils.CheckVer(sv, "v7.0.4", "") {
+				e := utils.AttributeVersionWarning("reachable_time", sv)
+				diags = append(diags, e)
+			}
+			tmp := int64(v2)
+			obj.ReachableTime = &tmp
 		}
 	}
 	if v1, ok := d.GetOk("redundant_interface"); ok {

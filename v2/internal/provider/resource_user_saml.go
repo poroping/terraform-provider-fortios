@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -60,11 +60,19 @@ func resourceUserSaml() *schema.Resource {
 				Optional:    true,
 				Computed:    true,
 			},
+			"clock_tolerance": {
+				Type:         schema.TypeInt,
+				ValidateFunc: validation.IntBetween(0, 300),
+
+				Description: "Clock skew tolerance in seconds (0 - 300, default = 15, 0 = no tolerance).",
+				Optional:    true,
+				Computed:    true,
+			},
 			"digest_method": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringInSlice([]string{"sha1", "sha256"}, false),
 
-				Description: "Digest Method Algorithm. (default = sha1).",
+				Description: "Digest method algorithm (default = sha1).",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -348,6 +356,14 @@ func refreshObjectUserSaml(d *schema.ResourceData, o *models.UserSaml, sv string
 		}
 	}
 
+	if o.ClockTolerance != nil {
+		v := *o.ClockTolerance
+
+		if err = d.Set("clock_tolerance", v); err != nil {
+			return diag.Errorf("error reading clock_tolerance: %v", err)
+		}
+	}
+
 	if o.DigestMethod != nil {
 		v := *o.DigestMethod
 
@@ -483,6 +499,16 @@ func getObjectUserSaml(d *schema.ResourceData, sv string) (*models.UserSaml, dia
 				diags = append(diags, e)
 			}
 			obj.Cert = &v2
+		}
+	}
+	if v1, ok := d.GetOk("clock_tolerance"); ok {
+		if v2, ok := v1.(int); ok {
+			if !utils.CheckVer(sv, "v7.0.4", "") {
+				e := utils.AttributeVersionWarning("clock_tolerance", sv)
+				diags = append(diags, e)
+			}
+			tmp := int64(v2)
+			obj.ClockTolerance = &tmp
 		}
 	}
 	if v1, ok := d.GetOk("digest_method"); ok {

@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -86,7 +86,7 @@ func resourceSystemLinkMonitor() *schema.Resource {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 3600),
 
-				Description: "Number of retry attempts before the server is considered down (1 - 10, default = 5)",
+				Description: "Number of retry attempts before the server is considered down (1 - 10, default = 5).",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -158,14 +158,14 @@ func resourceSystemLinkMonitor() *schema.Resource {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(64, 1024),
 
-				Description: "Packet size of a twamp test session,",
+				Description: "Packet size of a TWAMP test session.",
 				Optional:    true,
 				Computed:    true,
 			},
 			"password": {
 				Type: schema.TypeString,
 
-				Description: "Twamp controller password in authentication mode",
+				Description: "TWAMP controller password in authentication mode.",
 				Optional:    true,
 				Computed:    true,
 				Sensitive:   true,

@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -37,6 +37,30 @@ func resourceSystemFortiai() *schema.Resource {
 				Description: "Specifies the vdom to which the resource will be applied when the FortiGate unit is running in VDOM mode. If you want to inherit the VDOM configuration of the provider, do not set this parameter.",
 				Optional:    true,
 				ForceNew:    true,
+			},
+			"interface": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringLenBetween(0, 15),
+
+				Description: "Specify outgoing interface to reach server.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"interface_select_method": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"auto", "sdwan", "specify"}, false),
+
+				Description: "Specify how to select outgoing interface to reach server.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"source_ip": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringLenBetween(0, 63),
+
+				Description: "Source IP address for communications to FortiAI.",
+				Optional:    true,
+				Computed:    true,
 			},
 			"status": {
 				Type:         schema.TypeString,
@@ -202,6 +226,30 @@ func resourceSystemFortiaiRead(ctx context.Context, d *schema.ResourceData, meta
 func refreshObjectSystemFortiai(d *schema.ResourceData, o *models.SystemFortiai, sv string, sort bool) diag.Diagnostics {
 	var err error
 
+	if o.Interface != nil {
+		v := *o.Interface
+
+		if err = d.Set("interface", v); err != nil {
+			return diag.Errorf("error reading interface: %v", err)
+		}
+	}
+
+	if o.InterfaceSelectMethod != nil {
+		v := *o.InterfaceSelectMethod
+
+		if err = d.Set("interface_select_method", v); err != nil {
+			return diag.Errorf("error reading interface_select_method: %v", err)
+		}
+	}
+
+	if o.SourceIp != nil {
+		v := *o.SourceIp
+
+		if err = d.Set("source_ip", v); err != nil {
+			return diag.Errorf("error reading source_ip: %v", err)
+		}
+	}
+
 	if o.Status != nil {
 		v := *o.Status
 
@@ -217,6 +265,33 @@ func getObjectSystemFortiai(d *schema.ResourceData, sv string) (*models.SystemFo
 	obj := models.SystemFortiai{}
 	diags := diag.Diagnostics{}
 
+	if v1, ok := d.GetOk("interface"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.0.4", "") {
+				e := utils.AttributeVersionWarning("interface", sv)
+				diags = append(diags, e)
+			}
+			obj.Interface = &v2
+		}
+	}
+	if v1, ok := d.GetOk("interface_select_method"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.0.4", "") {
+				e := utils.AttributeVersionWarning("interface_select_method", sv)
+				diags = append(diags, e)
+			}
+			obj.InterfaceSelectMethod = &v2
+		}
+	}
+	if v1, ok := d.GetOk("source_ip"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.0.4", "") {
+				e := utils.AttributeVersionWarning("source_ip", sv)
+				diags = append(diags, e)
+			}
+			obj.SourceIp = &v2
+		}
+	}
 	if v1, ok := d.GetOk("status"); ok {
 		if v2, ok := v1.(string); ok {
 			if !utils.CheckVer(sv, "", "") {

@@ -1,9 +1,9 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
-// Description: client
+// Description: Client.
 
 package provider
 
@@ -20,7 +20,7 @@ import (
 
 func resourceVpnSslClient() *schema.Resource {
 	return &schema.Resource{
-		Description: "client",
+		Description: "Client.",
 
 		CreateContext: resourceVpnSslClientCreate,
 		ReadContext:   resourceVpnSslClientRead,
@@ -101,9 +101,10 @@ func resourceVpnSslClient() *schema.Resource {
 				Computed:    true,
 			},
 			"priority": {
-				Type: schema.TypeInt,
+				Type:         schema.TypeInt,
+				ValidateFunc: validation.IntBetween(1, 65535),
 
-				Description: "Priority for routes added by SSL-VPN (0 - 4294967295).",
+				Description: "Priority for routes added by SSL-VPN (1 - 65535).",
 				Optional:    true,
 				Computed:    true,
 			},

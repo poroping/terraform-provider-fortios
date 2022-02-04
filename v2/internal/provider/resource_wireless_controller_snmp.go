@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -144,7 +144,7 @@ func resourceWirelessControllerSnmp() *schema.Resource {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 23),
 
-				Description: "AC SNMP engineId string (maximum 24 characters).",
+				Description: "AC SNMP engineID string (maximum 24 characters).",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -190,7 +190,7 @@ func resourceWirelessControllerSnmp() *schema.Resource {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 32),
 
-							Description: "SNMP User Name",
+							Description: "SNMP user name.",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -238,7 +238,7 @@ func resourceWirelessControllerSnmp() *schema.Resource {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
 
-							Description: "SNMP User Enable",
+							Description: "SNMP user enable.",
 							Optional:    true,
 							Computed:    true,
 						},

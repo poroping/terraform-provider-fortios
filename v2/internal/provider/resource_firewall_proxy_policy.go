@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -106,6 +106,14 @@ func resourceFirewallProxyPolicy() *schema.Resource {
 				ValidateFunc: validation.StringLenBetween(0, 35),
 
 				Description: "Name of an existing Antivirus profile.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"block_notification": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+				Description: "Enable/disable block notification.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -1313,6 +1321,14 @@ func refreshObjectFirewallProxyPolicy(d *schema.ResourceData, o *models.Firewall
 		}
 	}
 
+	if o.BlockNotification != nil {
+		v := *o.BlockNotification
+
+		if err = d.Set("block_notification", v); err != nil {
+			return diag.Errorf("error reading block_notification: %v", err)
+		}
+	}
+
 	if o.CifsProfile != nil {
 		v := *o.CifsProfile
 
@@ -2267,6 +2283,15 @@ func getObjectFirewallProxyPolicy(d *schema.ResourceData, sv string) (*models.Fi
 				diags = append(diags, e)
 			}
 			obj.AvProfile = &v2
+		}
+	}
+	if v1, ok := d.GetOk("block_notification"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.0.4", "") {
+				e := utils.AttributeVersionWarning("block_notification", sv)
+				diags = append(diags, e)
+			}
+			obj.BlockNotification = &v2
 		}
 	}
 	if v1, ok := d.GetOk("cifs_profile"); ok {

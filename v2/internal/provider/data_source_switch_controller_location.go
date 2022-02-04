@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -128,12 +128,12 @@ func dataSourceSwitchControllerLocation() *schema.Resource {
 						},
 						"place_type": {
 							Type:        schema.TypeString,
-							Description: "Placetype.",
+							Description: "Place type.",
 							Computed:    true,
 						},
 						"post_office_box": {
 							Type:        schema.TypeString,
-							Description: "Post office box (P.O. box).",
+							Description: "Post office box.",
 							Computed:    true,
 						},
 						"postal_community": {
@@ -217,12 +217,12 @@ func dataSourceSwitchControllerLocation() *schema.Resource {
 					Schema: map[string]*schema.Schema{
 						"altitude": {
 							Type:        schema.TypeString,
-							Description: "+/- Floating point no. eg. 117.47.",
+							Description: "Plus or minus floating point number. For example, 117.47.",
 							Computed:    true,
 						},
 						"altitude_unit": {
 							Type:        schema.TypeString,
-							Description: "m ( meters), f ( floors).",
+							Description: "Configure the unit for which the altitude is to (m = meters, f = floors of a building).",
 							Computed:    true,
 						},
 						"datum": {
@@ -232,12 +232,12 @@ func dataSourceSwitchControllerLocation() *schema.Resource {
 						},
 						"latitude": {
 							Type:        schema.TypeString,
-							Description: "Floating point start with ( +/- )  or end with ( N or S ) eg. +/-16.67 or 16.67N.",
+							Description: "Floating point starting with +/- or ending with (N or S). For example, +/-16.67 or 16.67N.",
 							Computed:    true,
 						},
 						"longitude": {
 							Type:        schema.TypeString,
-							Description: "Floating point start with ( +/- )  or end with ( E or W ) eg. +/-26.789 or 26.789E.",
+							Description: "Floating point starting with +/- or ending with (N or S). For example, +/-26.789 or 26.789E.",
 							Computed:    true,
 						},
 						"parent_key": {

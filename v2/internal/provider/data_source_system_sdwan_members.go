@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -62,7 +62,7 @@ func dataSourceSystemSdwanMembers() *schema.Resource {
 			},
 			"priority": {
 				Type:        schema.TypeInt,
-				Description: "Priority of the interface for IPv4 (0 - 65535, default = 0). Used for SD-WAN rules or priority rules.",
+				Description: "Priority of the interface for IPv4 (1 - 65535, default = 1). Used for SD-WAN rules or priority rules.",
 				Computed:    true,
 			},
 			"priority6": {

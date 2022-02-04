@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -57,7 +57,7 @@ func dataSourceFileFilterProfile() *schema.Resource {
 			},
 			"replacemsg_group": {
 				Type:        schema.TypeString,
-				Description: "Replacement message group",
+				Description: "Replacement message group.",
 				Computed:    true,
 			},
 			"rules": {
@@ -78,7 +78,7 @@ func dataSourceFileFilterProfile() *schema.Resource {
 						},
 						"direction": {
 							Type:        schema.TypeString,
-							Description: "Traffic direction. (HTTP, FTP, SSH, CIFS only)",
+							Description: "Traffic direction (HTTP, FTP, SSH, CIFS only).",
 							Computed:    true,
 						},
 						"file_type": {

@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -64,7 +64,7 @@ func dataSourceUserRadius() *schema.Resource {
 						},
 						"server": {
 							Type:        schema.TypeString,
-							Description: "{<name_str|ip_str>} Server CN domain name or IP.",
+							Description: "Server CN domain name or IP address.",
 							Computed:    true,
 						},
 						"source_ip": {
@@ -176,7 +176,7 @@ func dataSourceUserRadius() *schema.Resource {
 			},
 			"rsso_endpoint_attribute": {
 				Type:        schema.TypeString,
-				Description: "RADIUS attributes used to extract the user end point identifer from the RADIUS Start record.",
+				Description: "RADIUS attributes used to extract the user end point identifier from the RADIUS Start record.",
 				Computed:    true,
 			},
 			"rsso_endpoint_block_attribute": {
@@ -233,7 +233,7 @@ func dataSourceUserRadius() *schema.Resource {
 			},
 			"secondary_server": {
 				Type:        schema.TypeString,
-				Description: "{<name_str|ip_str>} secondary RADIUS CN domain name or IP.",
+				Description: "Secondary RADIUS CN domain name or IP address.",
 				Computed:    true,
 			},
 			"secret": {
@@ -285,7 +285,7 @@ func dataSourceUserRadius() *schema.Resource {
 			},
 			"tertiary_server": {
 				Type:        schema.TypeString,
-				Description: "{<name_str|ip_str>} tertiary RADIUS CN domain name or IP.",
+				Description: "Tertiary RADIUS CN domain name or IP address.",
 				Computed:    true,
 			},
 			"timeout": {

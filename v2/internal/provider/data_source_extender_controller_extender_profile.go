@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v7.0.2,v7.0.3,v7.0.4 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -372,7 +372,7 @@ func dataSourceExtenderControllerExtenderProfile() *schema.Resource {
 												},
 												"phone_number": {
 													Type:        schema.TypeString,
-													Description: "Receiver phone number.  Format: [+][country code][area code][local phone number].  For example: +16501234567.",
+													Description: "Receiver phone number. Format: [+][country code][area code][local phone number]. For example, +16501234567.",
 													Computed:    true,
 												},
 												"status": {
@@ -406,7 +406,7 @@ func dataSourceExtenderControllerExtenderProfile() *schema.Resource {
 			},
 			"fosid": {
 				Type:        schema.TypeInt,
-				Description: "id",
+				Description: "ID.",
 				Computed:    true,
 			},
 			"lan_extension": {
@@ -423,7 +423,7 @@ func dataSourceExtenderControllerExtenderProfile() *schema.Resource {
 								Schema: map[string]*schema.Schema{
 									"name": {
 										Type:        schema.TypeString,
-										Description: "FortiExtender LAN extension backhaul name",
+										Description: "FortiExtender LAN extension backhaul name.",
 										Computed:    true,
 									},
 									"port": {
@@ -438,7 +438,7 @@ func dataSourceExtenderControllerExtenderProfile() *schema.Resource {
 									},
 									"weight": {
 										Type:        schema.TypeInt,
-										Description: "WRR weight parameter",
+										Description: "WRR weight parameter.",
 										Computed:    true,
 									},
 								},
@@ -485,7 +485,7 @@ func dataSourceExtenderControllerExtenderProfile() *schema.Resource {
 			},
 			"name": {
 				Type:        schema.TypeString,
-				Description: "FortiExtender profile name",
+				Description: "FortiExtender profile name.",
 				Required:    true,
 			},
 		},

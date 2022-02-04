@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -87,7 +87,7 @@ func resourceSystemDdns() *schema.Resource {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 64),
 
-				Description: "Your fully qualified domain name (for example, yourname.DDNS.com).",
+				Description: "Your fully qualified domain name. For example, yourname.ddns.com.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -223,7 +223,7 @@ func resourceSystemDdns() *schema.Resource {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(60, 2592000),
 
-				Description: "DDNS update interval (60 - 2592000 sec, default = 300).",
+				Description: "DDNS update interval (60 - 2592000 sec, 0 means default).",
 				Optional:    true,
 				Computed:    true,
 			},

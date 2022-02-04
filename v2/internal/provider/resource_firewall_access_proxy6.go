@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -101,7 +101,7 @@ func resourceFirewallAccessProxy6() *schema.Resource {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringInSlice([]string{"disable", "same-ip"}, false),
 
-							Description: "Control sharing of cookies across API Gateway. same-ip means a cookie from one virtual server can be used by another. Disable stops cookie sharing.",
+							Description: "Control sharing of cookies across API Gateway. Use of same-ip means a cookie from one virtual server can be used by another. Disable stops cookie sharing.",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -155,6 +155,14 @@ func resourceFirewallAccessProxy6() *schema.Resource {
 										ValidateFunc: validation.StringLenBetween(0, 79),
 
 										Description: "Address or address group of the real server.",
+										Optional:    true,
+										Computed:    true,
+									},
+									"domain": {
+										Type:         schema.TypeString,
+										ValidateFunc: validation.StringLenBetween(0, 255),
+
+										Description: "Wildcard domain name of the real server.",
 										Optional:    true,
 										Computed:    true,
 									},
@@ -298,7 +306,7 @@ func resourceFirewallAccessProxy6() *schema.Resource {
 						},
 						"service": {
 							Type:         schema.TypeString,
-							ValidateFunc: validation.StringInSlice([]string{"http", "https", "tcp-forwarding", "samlsp"}, false),
+							ValidateFunc: validation.StringInSlice([]string{"http", "https", "tcp-forwarding", "samlsp", "web-portal"}, false),
 
 							Description: "Service.",
 							Optional:    true,
@@ -365,6 +373,14 @@ func resourceFirewallAccessProxy6() *schema.Resource {
 							ValidateFunc: validation.StringInSlice([]string{"tls-1.0", "tls-1.1", "tls-1.2", "tls-1.3"}, false),
 
 							Description: "Lowest SSL/TLS version acceptable from a server.",
+							Optional:    true,
+							Computed:    true,
+						},
+						"ssl_vpn_web_portal": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringLenBetween(0, 35),
+
+							Description: "SSL-VPN web portal.",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -444,7 +460,7 @@ func resourceFirewallAccessProxy6() *schema.Resource {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringInSlice([]string{"disable", "same-ip"}, false),
 
-							Description: "Control sharing of cookies across API Gateway. same-ip means a cookie from one virtual server can be used by another. Disable stops cookie sharing.",
+							Description: "Control sharing of cookies across API Gateway. Use of same-ip means a cookie from one virtual server can be used by another. Disable stops cookie sharing.",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -498,6 +514,14 @@ func resourceFirewallAccessProxy6() *schema.Resource {
 										ValidateFunc: validation.StringLenBetween(0, 79),
 
 										Description: "Address or address group of the real server.",
+										Optional:    true,
+										Computed:    true,
+									},
+									"domain": {
+										Type:         schema.TypeString,
+										ValidateFunc: validation.StringLenBetween(0, 255),
+
+										Description: "Wildcard domain name of the real server.",
 										Optional:    true,
 										Computed:    true,
 									},
@@ -641,7 +665,7 @@ func resourceFirewallAccessProxy6() *schema.Resource {
 						},
 						"service": {
 							Type:         schema.TypeString,
-							ValidateFunc: validation.StringInSlice([]string{"http", "https", "tcp-forwarding", "samlsp"}, false),
+							ValidateFunc: validation.StringInSlice([]string{"http", "https", "tcp-forwarding", "samlsp", "web-portal"}, false),
 
 							Description: "Service.",
 							Optional:    true,
@@ -711,6 +735,14 @@ func resourceFirewallAccessProxy6() *schema.Resource {
 							Optional:    true,
 							Computed:    true,
 						},
+						"ssl_vpn_web_portal": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringLenBetween(0, 35),
+
+							Description: "SSL-VPN web portal.",
+							Optional:    true,
+							Computed:    true,
+						},
 						"url_map": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 511),
@@ -737,6 +769,22 @@ func resourceFirewallAccessProxy6() *schema.Resource {
 						},
 					},
 				},
+			},
+			"auth_portal": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"disable", "enable"}, false),
+
+				Description: "Enable/disable authentication portal.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"auth_virtual_host": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringLenBetween(0, 79),
+
+				Description: "Virtual host for authentication portal.",
+				Optional:    true,
+				Computed:    true,
 			},
 			"client_cert": {
 				Type:         schema.TypeString,
@@ -1025,6 +1073,10 @@ func flattenFirewallAccessProxy6ApiGateway(v *[]models.FirewallAccessProxy6ApiGa
 				v["ssl_min_version"] = *tmp
 			}
 
+			if tmp := cfg.SslVpnWebPortal; tmp != nil {
+				v["ssl_vpn_web_portal"] = *tmp
+			}
+
 			if tmp := cfg.UrlMap; tmp != nil {
 				v["url_map"] = *tmp
 			}
@@ -1060,6 +1112,10 @@ func flattenFirewallAccessProxy6ApiGatewayRealservers(v *[]models.FirewallAccess
 
 			if tmp := cfg.Address; tmp != nil {
 				v["address"] = *tmp
+			}
+
+			if tmp := cfg.Domain; tmp != nil {
+				v["domain"] = *tmp
 			}
 
 			if tmp := cfg.HealthCheck; tmp != nil {
@@ -1261,6 +1317,10 @@ func flattenFirewallAccessProxy6ApiGateway6(v *[]models.FirewallAccessProxy6ApiG
 				v["ssl_min_version"] = *tmp
 			}
 
+			if tmp := cfg.SslVpnWebPortal; tmp != nil {
+				v["ssl_vpn_web_portal"] = *tmp
+			}
+
 			if tmp := cfg.UrlMap; tmp != nil {
 				v["url_map"] = *tmp
 			}
@@ -1296,6 +1356,10 @@ func flattenFirewallAccessProxy6ApiGateway6Realservers(v *[]models.FirewallAcces
 
 			if tmp := cfg.Address; tmp != nil {
 				v["address"] = *tmp
+			}
+
+			if tmp := cfg.Domain; tmp != nil {
+				v["domain"] = *tmp
 			}
 
 			if tmp := cfg.HealthCheck; tmp != nil {
@@ -1427,6 +1491,22 @@ func refreshObjectFirewallAccessProxy6(d *schema.ResourceData, o *models.Firewal
 	if o.ApiGateway6 != nil {
 		if err = d.Set("api_gateway6", flattenFirewallAccessProxy6ApiGateway6(o.ApiGateway6, sort)); err != nil {
 			return diag.Errorf("error reading api_gateway6: %v", err)
+		}
+	}
+
+	if o.AuthPortal != nil {
+		v := *o.AuthPortal
+
+		if err = d.Set("auth_portal", v); err != nil {
+			return diag.Errorf("error reading auth_portal: %v", err)
+		}
+	}
+
+	if o.AuthVirtualHost != nil {
+		v := *o.AuthVirtualHost
+
+		if err = d.Set("auth_virtual_host", v); err != nil {
+			return diag.Errorf("error reading auth_virtual_host: %v", err)
 		}
 	}
 
@@ -1632,6 +1712,13 @@ func expandFirewallAccessProxy6ApiGateway(d *schema.ResourceData, v interface{},
 			}
 		}
 
+		pre_append = fmt.Sprintf("%s.%d.ssl_vpn_web_portal", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.SslVpnWebPortal = &v2
+			}
+		}
+
 		pre_append = fmt.Sprintf("%s.%d.url_map", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
 			if v2, ok := v1.(string); ok {
@@ -1681,6 +1768,13 @@ func expandFirewallAccessProxy6ApiGatewayRealservers(d *schema.ResourceData, v i
 		if v1, ok := d.GetOk(pre_append); ok {
 			if v2, ok := v1.(string); ok {
 				tmp.Address = &v2
+			}
+		}
+
+		pre_append = fmt.Sprintf("%s.%d.domain", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.Domain = &v2
 			}
 		}
 
@@ -2003,6 +2097,13 @@ func expandFirewallAccessProxy6ApiGateway6(d *schema.ResourceData, v interface{}
 			}
 		}
 
+		pre_append = fmt.Sprintf("%s.%d.ssl_vpn_web_portal", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.SslVpnWebPortal = &v2
+			}
+		}
+
 		pre_append = fmt.Sprintf("%s.%d.url_map", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
 			if v2, ok := v1.(string); ok {
@@ -2052,6 +2153,13 @@ func expandFirewallAccessProxy6ApiGateway6Realservers(d *schema.ResourceData, v 
 		if v1, ok := d.GetOk(pre_append); ok {
 			if v2, ok := v1.(string); ok {
 				tmp.Address = &v2
+			}
+		}
+
+		pre_append = fmt.Sprintf("%s.%d.domain", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.Domain = &v2
 			}
 		}
 
@@ -2259,6 +2367,24 @@ func getObjectFirewallAccessProxy6(d *schema.ResourceData, sv string) (*models.F
 		old, new := d.GetChange("api_gateway6")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
 			obj.ApiGateway6 = &[]models.FirewallAccessProxy6ApiGateway6{}
+		}
+	}
+	if v1, ok := d.GetOk("auth_portal"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.0.4", "") {
+				e := utils.AttributeVersionWarning("auth_portal", sv)
+				diags = append(diags, e)
+			}
+			obj.AuthPortal = &v2
+		}
+	}
+	if v1, ok := d.GetOk("auth_virtual_host"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.0.4", "") {
+				e := utils.AttributeVersionWarning("auth_virtual_host", sv)
+				diags = append(diags, e)
+			}
+			obj.AuthVirtualHost = &v2
 		}
 	}
 	if v1, ok := d.GetOk("client_cert"); ok {

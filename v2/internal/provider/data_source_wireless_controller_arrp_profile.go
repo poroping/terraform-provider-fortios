@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -35,6 +35,25 @@ func dataSourceWirelessControllerArrpProfile() *schema.Resource {
 				Description: "Comment.",
 				Computed:    true,
 			},
+			"darrp_optimize": {
+				Type:        schema.TypeInt,
+				Description: "Time for running Dynamic Automatic Radio Resource Provisioning (DARRP) optimizations (0 - 86400 sec, default = 86400, 0 = disable).",
+				Computed:    true,
+			},
+			"darrp_optimize_schedules": {
+				Type:        schema.TypeList,
+				Description: "Firewall schedules for DARRP running time. DARRP will run periodically based on darrp-optimize within the schedules. Separate multiple schedule names with a space.",
+				Computed:    true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"name": {
+							Type:        schema.TypeString,
+							Description: "Schedule name.",
+							Computed:    true,
+						},
+					},
+				},
+			},
 			"include_dfs_channel": {
 				Type:        schema.TypeString,
 				Description: "Enable/disable use of DFS channel in DARRP channel selection phase 1 (default = disable).",
@@ -54,6 +73,11 @@ func dataSourceWirelessControllerArrpProfile() *schema.Resource {
 				Type:        schema.TypeString,
 				Description: "WiFi ARRP profile name.",
 				Required:    true,
+			},
+			"override_darrp_optimize": {
+				Type:        schema.TypeString,
+				Description: "Enable to override setting darrp-optimize and darrp-optimize-schedules (default = disable).",
+				Computed:    true,
 			},
 			"selection_period": {
 				Type:        schema.TypeInt,

@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -281,18 +281,18 @@ func dataSourceSystemSdwan() *schema.Resource {
 						},
 						"packet_size": {
 							Type:        schema.TypeInt,
-							Description: "Packet size of a twamp test session,",
+							Description: "Packet size of a TWAMP test session.",
 							Computed:    true,
 						},
 						"password": {
 							Type:        schema.TypeString,
-							Description: "Twamp controller password in authentication mode",
+							Description: "TWAMP controller password in authentication mode.",
 							Computed:    true,
 							Sensitive:   true,
 						},
 						"port": {
 							Type:        schema.TypeInt,
-							Description: "Port number used to communicate with the server over the selected protocol (0-65535, default = 0, auto select. http, tcp-connect: 80, udp-echo, tcp-echo: 7, dns: 53, ftp: 21, twamp: 862).",
+							Description: "Port number used to communicate with the server over the selected protocol (0 - 65535, default = 0, auto select. http, tcp-connect: 80, udp-echo, tcp-echo: 7, dns: 53, ftp: 21, twamp: 862).",
 							Computed:    true,
 						},
 						"probe_count": {
@@ -475,7 +475,7 @@ func dataSourceSystemSdwan() *schema.Resource {
 						},
 						"priority": {
 							Type:        schema.TypeInt,
-							Description: "Priority of the interface for IPv4 (0 - 65535, default = 0). Used for SD-WAN rules or priority rules.",
+							Description: "Priority of the interface for IPv4 (1 - 65535, default = 1). Used for SD-WAN rules or priority rules.",
 							Computed:    true,
 						},
 						"priority6": {

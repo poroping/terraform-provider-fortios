@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -80,7 +80,7 @@ func resourceFirewallIppool() *schema.Resource {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(64, 4096),
 
-				Description: " Number of addresses in a block (64 to 4096, default = 128).",
+				Description: "Number of addresses in a block (64 - 4096, default = 128).",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -152,7 +152,7 @@ func resourceFirewallIppool() *schema.Resource {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(32, 60416),
 
-				Description: " Number of port for each user (32 to 60416, default = 0, auto).",
+				Description: "Number of port for each user (32 - 60416, default = 0, which is auto).",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -168,7 +168,7 @@ func resourceFirewallIppool() *schema.Resource {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.IsIPv4Address,
 
-				Description: " First IPv4 address (inclusive) in the range of the source addresses to be translated (format xxx.xxx.xxx.xxx, Default: 0.0.0.0).",
+				Description: "First IPv4 address (inclusive) in the range of the source addresses to be translated (format = xxx.xxx.xxx.xxx, default = 0.0.0.0).",
 				Optional:    true,
 				Computed:    true,
 			},

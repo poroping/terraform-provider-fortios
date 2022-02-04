@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -31,17 +31,17 @@ func dataSourceDlpSettings() *schema.Resource {
 			},
 			"cache_mem_percent": {
 				Type:        schema.TypeInt,
-				Description: "Maximum percentage of available memory allocated to caching (1 - 15%).",
+				Description: "Maximum percentage of available memory allocated to caching (1 - 15).",
 				Computed:    true,
 			},
 			"chunk_size": {
 				Type:        schema.TypeInt,
-				Description: "Maximum fingerprint chunk size.  **Changing will flush the entire database**.",
+				Description: "Maximum fingerprint chunk size. Caution, changing this setting will flush the entire database.",
 				Computed:    true,
 			},
 			"db_mode": {
 				Type:        schema.TypeString,
-				Description: "Behaviour when the maximum size is reached.",
+				Description: "Behavior when the maximum size is reached.",
 				Computed:    true,
 			},
 			"size": {

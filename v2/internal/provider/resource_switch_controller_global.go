@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -125,6 +125,14 @@ func resourceSwitchControllerGlobal() *schema.Resource {
 				ValidateFunc: validation.StringInSlice([]string{"disable", "enable"}, false),
 
 				Description: "Enable/disable enforcement of FIPS on managed FortiSwitch devices.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"firmware_provision_on_authorization": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+				Description: "Enable/disable automatic provisioning of latest firmware on authorization.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -469,6 +477,14 @@ func refreshObjectSwitchControllerGlobal(d *schema.ResourceData, o *models.Switc
 		}
 	}
 
+	if o.FirmwareProvisionOnAuthorization != nil {
+		v := *o.FirmwareProvisionOnAuthorization
+
+		if err = d.Set("firmware_provision_on_authorization", v); err != nil {
+			return diag.Errorf("error reading firmware_provision_on_authorization: %v", err)
+		}
+	}
+
 	if o.HttpsImagePush != nil {
 		v := *o.HttpsImagePush
 
@@ -696,6 +712,15 @@ func getObjectSwitchControllerGlobal(d *schema.ResourceData, sv string) (*models
 				diags = append(diags, e)
 			}
 			obj.FipsEnforce = &v2
+		}
+	}
+	if v1, ok := d.GetOk("firmware_provision_on_authorization"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.0.4", "") {
+				e := utils.AttributeVersionWarning("firmware_provision_on_authorization", sv)
+				diags = append(diags, e)
+			}
+			obj.FirmwareProvisionOnAuthorization = &v2
 		}
 	}
 	if v1, ok := d.GetOk("https_image_push"); ok {

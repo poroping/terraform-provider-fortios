@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -52,7 +52,7 @@ func dataSourceSystemDdns() *schema.Resource {
 			},
 			"ddns_domain": {
 				Type:        schema.TypeString,
-				Description: "Your fully qualified domain name (for example, yourname.DDNS.com).",
+				Description: "Your fully qualified domain name. For example, yourname.ddns.com.",
 				Computed:    true,
 			},
 			"ddns_key": {
@@ -146,7 +146,7 @@ func dataSourceSystemDdns() *schema.Resource {
 			},
 			"update_interval": {
 				Type:        schema.TypeInt,
-				Description: "DDNS update interval (60 - 2592000 sec, default = 300).",
+				Description: "DDNS update interval (60 - 2592000 sec, 0 means default).",
 				Computed:    true,
 			},
 			"use_public_ip": {

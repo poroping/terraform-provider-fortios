@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -99,7 +99,7 @@ func dataSourceWirelessControllerSnmp() *schema.Resource {
 			},
 			"engine_id": {
 				Type:        schema.TypeString,
-				Description: "AC SNMP engineId string (maximum 24 characters).",
+				Description: "AC SNMP engineID string (maximum 24 characters).",
 				Computed:    true,
 			},
 			"trap_high_cpu_threshold": {
@@ -131,7 +131,7 @@ func dataSourceWirelessControllerSnmp() *schema.Resource {
 						},
 						"name": {
 							Type:        schema.TypeString,
-							Description: "SNMP User Name",
+							Description: "SNMP user name.",
 							Computed:    true,
 						},
 						"notify_hosts": {
@@ -162,7 +162,7 @@ func dataSourceWirelessControllerSnmp() *schema.Resource {
 						},
 						"status": {
 							Type:        schema.TypeString,
-							Description: "SNMP User Enable",
+							Description: "SNMP user enable.",
 							Computed:    true,
 						},
 						"trap_status": {

@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -40,9 +40,14 @@ func dataSourceUserSaml() *schema.Resource {
 				Description: "Certificate to sign SAML messages.",
 				Computed:    true,
 			},
+			"clock_tolerance": {
+				Type:        schema.TypeInt,
+				Description: "Clock skew tolerance in seconds (0 - 300, default = 15, 0 = no tolerance).",
+				Computed:    true,
+			},
 			"digest_method": {
 				Type:        schema.TypeString,
-				Description: "Digest Method Algorithm. (default = sha1).",
+				Description: "Digest method algorithm (default = sha1).",
 				Computed:    true,
 			},
 			"entity_id": {

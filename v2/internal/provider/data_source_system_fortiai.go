@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -28,6 +28,21 @@ func dataSourceSystemFortiai() *schema.Resource {
 				Description: "Specifies the vdom to which the dataSource will be applied when the FortiGate unit is running in VDOM mode. If you want to inherit the VDOM configuration of the provider, do not set this parameter.",
 				Optional:    true,
 				ForceNew:    true,
+			},
+			"interface": {
+				Type:        schema.TypeString,
+				Description: "Specify outgoing interface to reach server.",
+				Computed:    true,
+			},
+			"interface_select_method": {
+				Type:        schema.TypeString,
+				Description: "Specify how to select outgoing interface to reach server.",
+				Computed:    true,
+			},
+			"source_ip": {
+				Type:        schema.TypeString,
+				Description: "Source IP address for communications to FortiAI.",
+				Computed:    true,
 			},
 			"status": {
 				Type:        schema.TypeString,

@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -115,6 +115,40 @@ func resourceSystemSdnConnector() *schema.Resource {
 				Optional:    true,
 				Computed:    true,
 			},
+			"external_account_list": {
+				Type:        schema.TypeList,
+				Description: "Configure AWS external account list.",
+				Optional:    true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"region_list": {
+							Type:        schema.TypeList,
+							Description: "AWS region name list.",
+							Optional:    true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"region": {
+										Type:         schema.TypeString,
+										ValidateFunc: validation.StringLenBetween(0, 31),
+
+										Description: "AWS region name.",
+										Optional:    true,
+										Computed:    true,
+									},
+								},
+							},
+						},
+						"role_arn": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringLenBetween(0, 2047),
+
+							Description: "AWS role ARN to assume.",
+							Optional:    true,
+							Computed:    true,
+						},
+					},
+				},
+			},
 			"external_ip": {
 				Type:        schema.TypeList,
 				Description: "Configure GCP external IP.",
@@ -217,7 +251,7 @@ func resourceSystemSdnConnector() *schema.Resource {
 			},
 			"ibm_region": {
 				Type:         schema.TypeString,
-				ValidateFunc: validation.StringInSlice([]string{"us-south", "us-east", "germany", "great-britain", "japan", "australia"}, false),
+				ValidateFunc: validation.StringInSlice([]string{"dallas", "washington-dc", "london", "frankfurt", "sydney", "tokyo", "osaka", "toronto", "sao-paulo"}, false),
 
 				Description: "IBM cloud region name.",
 				Optional:    true,
@@ -752,6 +786,52 @@ func resourceSystemSdnConnectorRead(ctx context.Context, d *schema.ResourceData,
 	return nil
 }
 
+func flattenSystemSdnConnectorExternalAccountList(v *[]models.SystemSdnConnectorExternalAccountList, sort bool) interface{} {
+	flat := make([]map[string]interface{}, 0)
+
+	if v != nil {
+		for _, cfg := range *v {
+			v := make(map[string]interface{})
+			if tmp := cfg.RegionList; tmp != nil {
+				v["region_list"] = flattenSystemSdnConnectorExternalAccountListRegionList(tmp, sort)
+			}
+
+			if tmp := cfg.RoleArn; tmp != nil {
+				v["role_arn"] = *tmp
+			}
+
+			flat = append(flat, v)
+		}
+	}
+
+	if sort {
+		utils.SortSubtable(flat, "role_arn")
+	}
+
+	return flat
+}
+
+func flattenSystemSdnConnectorExternalAccountListRegionList(v *[]models.SystemSdnConnectorExternalAccountListRegionList, sort bool) interface{} {
+	flat := make([]map[string]interface{}, 0)
+
+	if v != nil {
+		for _, cfg := range *v {
+			v := make(map[string]interface{})
+			if tmp := cfg.Region; tmp != nil {
+				v["region"] = *tmp
+			}
+
+			flat = append(flat, v)
+		}
+	}
+
+	if sort {
+		utils.SortSubtable(flat, "region")
+	}
+
+	return flat
+}
+
 func flattenSystemSdnConnectorExternalIp(v *[]models.SystemSdnConnectorExternalIp, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
@@ -1067,6 +1147,12 @@ func refreshObjectSystemSdnConnector(d *schema.ResourceData, o *models.SystemSdn
 		}
 	}
 
+	if o.ExternalAccountList != nil {
+		if err = d.Set("external_account_list", flattenSystemSdnConnectorExternalAccountList(o.ExternalAccountList, sort)); err != nil {
+			return diag.Errorf("error reading external_account_list: %v", err)
+		}
+	}
+
 	if o.ExternalIp != nil {
 		if err = d.Set("external_ip", flattenSystemSdnConnectorExternalIp(o.ExternalIp, sort)); err != nil {
 			return diag.Errorf("error reading external_ip: %v", err)
@@ -1377,6 +1463,64 @@ func refreshObjectSystemSdnConnector(d *schema.ResourceData, o *models.SystemSdn
 	}
 
 	return nil
+}
+
+func expandSystemSdnConnectorExternalAccountList(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.SystemSdnConnectorExternalAccountList, error) {
+	l := v.([]interface{})
+	if len(l) == 0 || l[0] == nil {
+		return nil, nil
+	}
+
+	var result []models.SystemSdnConnectorExternalAccountList
+
+	for i := range l {
+		tmp := models.SystemSdnConnectorExternalAccountList{}
+		var pre_append string
+
+		pre_append = fmt.Sprintf("%s.%d.region_list", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			v2, _ := expandSystemSdnConnectorExternalAccountListRegionList(d, v1, pre_append, sv)
+			// if err != nil {
+			// 	v2 := &[]models.SystemSdnConnectorExternalAccountListRegionList
+			// 	}
+			tmp.RegionList = v2
+
+		}
+
+		pre_append = fmt.Sprintf("%s.%d.role_arn", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.RoleArn = &v2
+			}
+		}
+
+		result = append(result, tmp)
+	}
+	return &result, nil
+}
+
+func expandSystemSdnConnectorExternalAccountListRegionList(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.SystemSdnConnectorExternalAccountListRegionList, error) {
+	l := v.([]interface{})
+	if len(l) == 0 || l[0] == nil {
+		return nil, nil
+	}
+
+	var result []models.SystemSdnConnectorExternalAccountListRegionList
+
+	for i := range l {
+		tmp := models.SystemSdnConnectorExternalAccountListRegionList{}
+		var pre_append string
+
+		pre_append = fmt.Sprintf("%s.%d.region", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.Region = &v2
+			}
+		}
+
+		result = append(result, tmp)
+	}
+	return &result, nil
 }
 
 func expandSystemSdnConnectorExternalIp(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.SystemSdnConnectorExternalIp, error) {
@@ -1766,6 +1910,23 @@ func getObjectSystemSdnConnector(d *schema.ResourceData, sv string) (*models.Sys
 				diags = append(diags, e)
 			}
 			obj.Domain = &v2
+		}
+	}
+	if v, ok := d.GetOk("external_account_list"); ok {
+		if !utils.CheckVer(sv, "v7.0.4", "") {
+			e := utils.AttributeVersionWarning("external_account_list", sv)
+			diags = append(diags, e)
+		}
+		t, err := expandSystemSdnConnectorExternalAccountList(d, v, "external_account_list", sv)
+		if err != nil {
+			return &obj, diag.FromErr(err)
+		} else if t != nil {
+			obj.ExternalAccountList = t
+		}
+	} else if d.HasChange("external_account_list") {
+		old, new := d.GetChange("external_account_list")
+		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
+			obj.ExternalAccountList = &[]models.SystemSdnConnectorExternalAccountList{}
 		}
 	}
 	if v, ok := d.GetOk("external_ip"); ok {

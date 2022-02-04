@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -211,6 +211,22 @@ func resourceLogSetting() *schema.Resource {
 				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
 
 				Description: "Enable/disable adding resolved service names to traffic logs.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"rest_api_get": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+				Description: "Enable/disable REST API GET request logging.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"rest_api_set": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+				Description: "Enable/disable REST API POST/PUT/DELETE request logging.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -565,6 +581,22 @@ func refreshObjectLogSetting(d *schema.ResourceData, o *models.LogSetting, sv st
 		}
 	}
 
+	if o.RestApiGet != nil {
+		v := *o.RestApiGet
+
+		if err = d.Set("rest_api_get", v); err != nil {
+			return diag.Errorf("error reading rest_api_get: %v", err)
+		}
+	}
+
+	if o.RestApiSet != nil {
+		v := *o.RestApiSet
+
+		if err = d.Set("rest_api_set", v); err != nil {
+			return diag.Errorf("error reading rest_api_set: %v", err)
+		}
+	}
+
 	if o.SyslogOverride != nil {
 		v := *o.SyslogOverride
 
@@ -798,6 +830,24 @@ func getObjectLogSetting(d *schema.ResourceData, sv string) (*models.LogSetting,
 				diags = append(diags, e)
 			}
 			obj.ResolvePort = &v2
+		}
+	}
+	if v1, ok := d.GetOk("rest_api_get"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.0.4", "") {
+				e := utils.AttributeVersionWarning("rest_api_get", sv)
+				diags = append(diags, e)
+			}
+			obj.RestApiGet = &v2
+		}
+	}
+	if v1, ok := d.GetOk("rest_api_set"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.0.4", "") {
+				e := utils.AttributeVersionWarning("rest_api_set", sv)
+				diags = append(diags, e)
+			}
+			obj.RestApiSet = &v2
 		}
 	}
 	if v1, ok := d.GetOk("syslog_override"); ok {

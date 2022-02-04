@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -473,7 +473,7 @@ func resourceRouterBgp() *schema.Resource {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
 
-				Description: "Don't send unknown optional capability notification message",
+				Description: "Do not send unknown optional capability notification message.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -489,7 +489,7 @@ func resourceRouterBgp() *schema.Resource {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
 
-				Description: "Enable logging of BGP neighbour's changes",
+				Description: "Log BGP neighbor changes.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -714,12 +714,21 @@ func resourceRouterBgp() *schema.Resource {
 										Computed:    true,
 									},
 									"condition_routemap": {
-										Type:         schema.TypeString,
-										ValidateFunc: validation.StringLenBetween(0, 35),
-
-										Description: "Name of condition route map.",
+										Type:        schema.TypeList,
+										Description: "List of conditional route maps.",
 										Optional:    true,
-										Computed:    true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												"name": {
+													Type:         schema.TypeString,
+													ValidateFunc: validation.StringLenBetween(0, 79),
+
+													Description: "route map",
+													Optional:    true,
+													Computed:    true,
+												},
+											},
+										},
 									},
 									"condition_type": {
 										Type:         schema.TypeString,
@@ -747,12 +756,21 @@ func resourceRouterBgp() *schema.Resource {
 										Computed:    true,
 									},
 									"condition_routemap": {
-										Type:         schema.TypeString,
-										ValidateFunc: validation.StringLenBetween(0, 35),
-
-										Description: "Name of condition route map.",
+										Type:        schema.TypeList,
+										Description: "List of conditional route maps.",
 										Optional:    true,
-										Computed:    true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												"name": {
+													Type:         schema.TypeString,
+													ValidateFunc: validation.StringLenBetween(0, 79),
+
+													Description: "route map",
+													Optional:    true,
+													Computed:    true,
+												},
+											},
+										},
 									},
 									"condition_type": {
 										Type:         schema.TypeString,
@@ -833,7 +851,7 @@ func resourceRouterBgp() *schema.Resource {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
 
-							Description: "Don't negotiate capabilities with this neighbor",
+							Description: "Do not negotiate capabilities with this neighbor.",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -1558,7 +1576,7 @@ func resourceRouterBgp() *schema.Resource {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
 
-							Description: "Don't negotiate capabilities with this neighbor",
+							Description: "Do not negotiate capabilities with this neighbor.",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -2110,6 +2128,14 @@ func resourceRouterBgp() *schema.Resource {
 							Optional:    true,
 							Computed:    true,
 						},
+						"network_import_check": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringInSlice([]string{"global", "enable", "disable"}, false),
+
+							Description: "Configure insurance of BGP network route existence in IGP.",
+							Optional:    true,
+							Computed:    true,
+						},
 						"prefix": {
 							Type:         schema.TypeString,
 							ValidateFunc: validators.FortiValidateIPv4Classnet,
@@ -2155,6 +2181,14 @@ func resourceRouterBgp() *schema.Resource {
 							Type: schema.TypeInt,
 
 							Description: "ID.",
+							Optional:    true,
+							Computed:    true,
+						},
+						"network_import_check": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringInSlice([]string{"global", "enable", "disable"}, false),
+
+							Description: "Configure insurance of BGP network route existence in IGP.",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -2211,7 +2245,7 @@ func resourceRouterBgp() *schema.Resource {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
 
-							Description: "Status",
+							Description: "Status.",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -2244,7 +2278,7 @@ func resourceRouterBgp() *schema.Resource {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
 
-							Description: "Status",
+							Description: "Status.",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -2272,6 +2306,14 @@ func resourceRouterBgp() *schema.Resource {
 				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
 
 				Description: "Enable/disable only advertise routes from iBGP if routes present in an IGP.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"tag_resolve_mode": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"disable", "preferred", "merge"}, false),
+
+				Description: "Configure tag-match mode. Resolves BGP routes with other routes containing the same tag.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -2307,7 +2349,7 @@ func resourceRouterBgp() *schema.Resource {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 7),
 
-										Description: "Target VRF ID <0 - 31>.",
+										Description: "Target VRF ID (0 - 31).",
 										Optional:    true,
 										Computed:    true,
 									},
@@ -2318,7 +2360,7 @@ func resourceRouterBgp() *schema.Resource {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 7),
 
-							Description: "Origin VRF ID <0 - 31>.",
+							Description: "Origin VRF ID (0 - 31).",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -2357,7 +2399,7 @@ func resourceRouterBgp() *schema.Resource {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 7),
 
-										Description: "Target VRF ID <0 - 31>.",
+										Description: "Target VRF ID (0 - 31).",
 										Optional:    true,
 										Computed:    true,
 									},
@@ -2368,7 +2410,7 @@ func resourceRouterBgp() *schema.Resource {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 7),
 
-							Description: "Origin VRF ID <0 - 31>.",
+							Description: "Origin VRF ID (0 - 31).",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -3044,7 +3086,7 @@ func flattenRouterBgpNeighborConditionalAdvertise(v *[]models.RouterBgpNeighborC
 			}
 
 			if tmp := cfg.ConditionRoutemap; tmp != nil {
-				v["condition_routemap"] = *tmp
+				v["condition_routemap"] = flattenRouterBgpNeighborConditionalAdvertiseConditionRoutemap(tmp, sort)
 			}
 
 			if tmp := cfg.ConditionType; tmp != nil {
@@ -3062,6 +3104,27 @@ func flattenRouterBgpNeighborConditionalAdvertise(v *[]models.RouterBgpNeighborC
 	return flat
 }
 
+func flattenRouterBgpNeighborConditionalAdvertiseConditionRoutemap(v *[]models.RouterBgpNeighborConditionalAdvertiseConditionRoutemap, sort bool) interface{} {
+	flat := make([]map[string]interface{}, 0)
+
+	if v != nil {
+		for _, cfg := range *v {
+			v := make(map[string]interface{})
+			if tmp := cfg.Name; tmp != nil {
+				v["name"] = *tmp
+			}
+
+			flat = append(flat, v)
+		}
+	}
+
+	if sort {
+		utils.SortSubtable(flat, "name")
+	}
+
+	return flat
+}
+
 func flattenRouterBgpNeighborConditionalAdvertise6(v *[]models.RouterBgpNeighborConditionalAdvertise6, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
@@ -3073,7 +3136,7 @@ func flattenRouterBgpNeighborConditionalAdvertise6(v *[]models.RouterBgpNeighbor
 			}
 
 			if tmp := cfg.ConditionRoutemap; tmp != nil {
-				v["condition_routemap"] = *tmp
+				v["condition_routemap"] = flattenRouterBgpNeighborConditionalAdvertise6ConditionRoutemap(tmp, sort)
 			}
 
 			if tmp := cfg.ConditionType; tmp != nil {
@@ -3086,6 +3149,27 @@ func flattenRouterBgpNeighborConditionalAdvertise6(v *[]models.RouterBgpNeighbor
 
 	if sort {
 		utils.SortSubtable(flat, "advertise_routemap")
+	}
+
+	return flat
+}
+
+func flattenRouterBgpNeighborConditionalAdvertise6ConditionRoutemap(v *[]models.RouterBgpNeighborConditionalAdvertise6ConditionRoutemap, sort bool) interface{} {
+	flat := make([]map[string]interface{}, 0)
+
+	if v != nil {
+		for _, cfg := range *v {
+			v := make(map[string]interface{})
+			if tmp := cfg.Name; tmp != nil {
+				v["name"] = *tmp
+			}
+
+			flat = append(flat, v)
+		}
+	}
+
+	if sort {
+		utils.SortSubtable(flat, "name")
 	}
 
 	return flat
@@ -3544,6 +3628,10 @@ func flattenRouterBgpNetwork(v *[]models.RouterBgpNetwork, sort bool) interface{
 				v["id"] = *tmp
 			}
 
+			if tmp := cfg.NetworkImportCheck; tmp != nil {
+				v["network_import_check"] = *tmp
+			}
+
 			if tmp := cfg.Prefix; tmp != nil {
 				v["prefix"] = *tmp
 			}
@@ -3575,6 +3663,10 @@ func flattenRouterBgpNetwork6(v *[]models.RouterBgpNetwork6, sort bool) interfac
 
 			if tmp := cfg.Id; tmp != nil {
 				v["id"] = *tmp
+			}
+
+			if tmp := cfg.NetworkImportCheck; tmp != nil {
+				v["network_import_check"] = *tmp
 			}
 
 			if tmp := cfg.Prefix6; tmp != nil {
@@ -4194,6 +4286,14 @@ func refreshObjectRouterBgp(d *schema.ResourceData, o *models.RouterBgp, sv stri
 
 		if err = d.Set("synchronization", v); err != nil {
 			return diag.Errorf("error reading synchronization: %v", err)
+		}
+	}
+
+	if o.TagResolveMode != nil {
+		v := *o.TagResolveMode
+
+		if err = d.Set("tag_resolve_mode", v); err != nil {
+			return diag.Errorf("error reading tag_resolve_mode: %v", err)
 		}
 	}
 
@@ -5059,15 +5159,42 @@ func expandRouterBgpNeighborConditionalAdvertise(d *schema.ResourceData, v inter
 
 		pre_append = fmt.Sprintf("%s.%d.condition_routemap", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(string); ok {
-				tmp.ConditionRoutemap = &v2
-			}
+			v2, _ := expandRouterBgpNeighborConditionalAdvertiseConditionRoutemap(d, v1, pre_append, sv)
+			// if err != nil {
+			// 	v2 := &[]models.RouterBgpNeighborConditionalAdvertiseConditionRoutemap
+			// 	}
+			tmp.ConditionRoutemap = v2
+
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.condition_type", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
 			if v2, ok := v1.(string); ok {
 				tmp.ConditionType = &v2
+			}
+		}
+
+		result = append(result, tmp)
+	}
+	return &result, nil
+}
+
+func expandRouterBgpNeighborConditionalAdvertiseConditionRoutemap(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.RouterBgpNeighborConditionalAdvertiseConditionRoutemap, error) {
+	l := v.([]interface{})
+	if len(l) == 0 || l[0] == nil {
+		return nil, nil
+	}
+
+	var result []models.RouterBgpNeighborConditionalAdvertiseConditionRoutemap
+
+	for i := range l {
+		tmp := models.RouterBgpNeighborConditionalAdvertiseConditionRoutemap{}
+		var pre_append string
+
+		pre_append = fmt.Sprintf("%s.%d.name", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.Name = &v2
 			}
 		}
 
@@ -5097,15 +5224,42 @@ func expandRouterBgpNeighborConditionalAdvertise6(d *schema.ResourceData, v inte
 
 		pre_append = fmt.Sprintf("%s.%d.condition_routemap", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(string); ok {
-				tmp.ConditionRoutemap = &v2
-			}
+			v2, _ := expandRouterBgpNeighborConditionalAdvertise6ConditionRoutemap(d, v1, pre_append, sv)
+			// if err != nil {
+			// 	v2 := &[]models.RouterBgpNeighborConditionalAdvertise6ConditionRoutemap
+			// 	}
+			tmp.ConditionRoutemap = v2
+
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.condition_type", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
 			if v2, ok := v1.(string); ok {
 				tmp.ConditionType = &v2
+			}
+		}
+
+		result = append(result, tmp)
+	}
+	return &result, nil
+}
+
+func expandRouterBgpNeighborConditionalAdvertise6ConditionRoutemap(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.RouterBgpNeighborConditionalAdvertise6ConditionRoutemap, error) {
+	l := v.([]interface{})
+	if len(l) == 0 || l[0] == nil {
+		return nil, nil
+	}
+
+	var result []models.RouterBgpNeighborConditionalAdvertise6ConditionRoutemap
+
+	for i := range l {
+		tmp := models.RouterBgpNeighborConditionalAdvertise6ConditionRoutemap{}
+		var pre_append string
+
+		pre_append = fmt.Sprintf("%s.%d.name", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.Name = &v2
 			}
 		}
 
@@ -5870,6 +6024,13 @@ func expandRouterBgpNetwork(d *schema.ResourceData, v interface{}, pre string, s
 			}
 		}
 
+		pre_append = fmt.Sprintf("%s.%d.network_import_check", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.NetworkImportCheck = &v2
+			}
+		}
+
 		pre_append = fmt.Sprintf("%s.%d.prefix", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
 			if v2, ok := v1.(string); ok {
@@ -5912,6 +6073,13 @@ func expandRouterBgpNetwork6(d *schema.ResourceData, v interface{}, pre string, 
 		if v1, ok := d.GetOk(pre_append); ok {
 			if v2, ok := v1.(int64); ok {
 				tmp.Id = &v2
+			}
+		}
+
+		pre_append = fmt.Sprintf("%s.%d.network_import_check", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.NetworkImportCheck = &v2
 			}
 		}
 
@@ -6784,6 +6952,15 @@ func getObjectRouterBgp(d *schema.ResourceData, sv string) (*models.RouterBgp, d
 				diags = append(diags, e)
 			}
 			obj.Synchronization = &v2
+		}
+	}
+	if v1, ok := d.GetOk("tag_resolve_mode"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.0.4", "") {
+				e := utils.AttributeVersionWarning("tag_resolve_mode", sv)
+				diags = append(diags, e)
+			}
+			obj.TagResolveMode = &v2
 		}
 	}
 	if v, ok := d.GetOk("vrf_leak"); ok {

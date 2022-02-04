@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -59,6 +59,14 @@ func resourceRouterBgpNetwork() *schema.Resource {
 
 				Description: "ID.",
 				ForceNew:    true,
+				Optional:    true,
+				Computed:    true,
+			},
+			"network_import_check": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"global", "enable", "disable"}, false),
+
+				Description: "Configure insurance of BGP network route existence in IGP.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -254,6 +262,14 @@ func refreshObjectRouterBgpNetwork(d *schema.ResourceData, o *models.RouterBgpNe
 		}
 	}
 
+	if o.NetworkImportCheck != nil {
+		v := *o.NetworkImportCheck
+
+		if err = d.Set("network_import_check", v); err != nil {
+			return diag.Errorf("error reading network_import_check: %v", err)
+		}
+	}
+
 	if o.Prefix != nil {
 		v := *o.Prefix
 		if current, ok := d.GetOk("prefix"); ok {
@@ -299,6 +315,15 @@ func getObjectRouterBgpNetwork(d *schema.ResourceData, sv string) (*models.Route
 			}
 			tmp := int64(v2)
 			obj.Id = &tmp
+		}
+	}
+	if v1, ok := d.GetOk("network_import_check"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.0.4", "") {
+				e := utils.AttributeVersionWarning("network_import_check", sv)
+				diags = append(diags, e)
+			}
+			obj.NetworkImportCheck = &v2
 		}
 	}
 	if v1, ok := d.GetOk("prefix"); ok {

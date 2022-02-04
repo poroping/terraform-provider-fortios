@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -31,12 +31,12 @@ func dataSourceSystemGlobal() *schema.Resource {
 			},
 			"admin_concurrent": {
 				Type:        schema.TypeString,
-				Description: "Enable/disable concurrent administrator logins. (Use policy-auth-concurrent for firewall authenticated users.)",
+				Description: "Enable/disable concurrent administrator logins. Use policy-auth-concurrent for firewall authenticated users.",
 				Computed:    true,
 			},
 			"admin_console_timeout": {
 				Type:        schema.TypeInt,
-				Description: "Console login timeout that overrides the admintimeout value. (15 - 300 seconds) (15 seconds to 5 minutes). 0 the default, disables this timeout.",
+				Description: "Console login timeout that overrides the admin timeout value (15 - 300 seconds, default = 0, which disables the timeout).",
 				Computed:    true,
 			},
 			"admin_forticloud_sso_login": {
@@ -86,7 +86,7 @@ func dataSourceSystemGlobal() *schema.Resource {
 			},
 			"admin_login_max": {
 				Type:        schema.TypeInt,
-				Description: "Maximum number of administrators who can be logged in at the same time (1 - 100, default = 100)",
+				Description: "Maximum number of administrators who can be logged in at the same time (1 - 100, default = 100).",
 				Computed:    true,
 			},
 			"admin_maintainer": {
@@ -101,7 +101,7 @@ func dataSourceSystemGlobal() *schema.Resource {
 			},
 			"admin_restrict_local": {
 				Type:        schema.TypeString,
-				Description: "Enable/disable local admin authentication restriction when remote authenticator is up and running. (default = disable)",
+				Description: "Enable/disable local admin authentication restriction when remote authenticator is up and running (default = disable).",
 				Computed:    true,
 			},
 			"admin_scp": {
@@ -256,7 +256,7 @@ func dataSourceSystemGlobal() *schema.Resource {
 			},
 			"check_protocol_header": {
 				Type:        schema.TypeString,
-				Description: "Level of checking performed on protocol headers. Strict checking is more thorough but may affect performance. Loose checking is ok in most cases.",
+				Description: "Level of checking performed on protocol headers. Strict checking is more thorough but may affect performance. Loose checking is OK in most cases.",
 				Computed:    true,
 			},
 			"check_reset_range": {
@@ -286,7 +286,7 @@ func dataSourceSystemGlobal() *schema.Resource {
 			},
 			"cpu_use_threshold": {
 				Type:        schema.TypeInt,
-				Description: "Threshold at which CPU usage is reported. (% of total CPU, default = 90).",
+				Description: "Threshold at which CPU usage is reported (% of total CPU, default = 90).",
 				Computed:    true,
 			},
 			"csr_ca_attribute": {
@@ -301,7 +301,7 @@ func dataSourceSystemGlobal() *schema.Resource {
 			},
 			"default_service_source_port": {
 				Type:        schema.TypeString,
-				Description: "Default service source port range. (default=1-65535)",
+				Description: "Default service source port range (default = 1 - 65535).",
 				Computed:    true,
 			},
 			"device_identification_active_scan_delay": {
@@ -329,6 +329,11 @@ func dataSourceSystemGlobal() *schema.Resource {
 				Description: "Enable/disable daylight saving time.",
 				Computed:    true,
 			},
+			"extender_controller_reserved_network": {
+				Type:        schema.TypeString,
+				Description: "Configure reserved network subnet for managed LAN extension FortiExtender units. This is available when the FortiExtender daemon is running.",
+				Computed:    true,
+			},
 			"failtime": {
 				Type:        schema.TypeInt,
 				Description: "Fail-time for server lost.",
@@ -336,7 +341,7 @@ func dataSourceSystemGlobal() *schema.Resource {
 			},
 			"faz_disk_buffer_size": {
 				Type:        schema.TypeInt,
-				Description: "Maximum disk buffer size to temporarily store logs destined for FortiAnalyzer. To be used in the event that FortiAnalyzer is unavailalble.",
+				Description: "Maximum disk buffer size to temporarily store logs destined for FortiAnalyzer. To be used in the event that FortiAnalyzer is unavailable.",
 				Computed:    true,
 			},
 			"fds_statistics": {
@@ -369,6 +374,11 @@ func dataSourceSystemGlobal() *schema.Resource {
 				Description: "FortiExtender data port (1024 - 49150, default = 25246).",
 				Computed:    true,
 			},
+			"fortiextender_discovery_lockdown": {
+				Type:        schema.TypeString,
+				Description: "Enable/disable FortiExtender CAPWAP lockdown.",
+				Computed:    true,
+			},
 			"fortiextender_vlan_mode": {
 				Type:        schema.TypeString,
 				Description: "Enable/disable FortiExtender VLAN mode.",
@@ -392,6 +402,11 @@ func dataSourceSystemGlobal() *schema.Resource {
 			"gui_allow_default_hostname": {
 				Type:        schema.TypeString,
 				Description: "Enable/disable the factory default hostname warning on the GUI setup wizard.",
+				Computed:    true,
+			},
+			"gui_cdn_usage": {
+				Type:        schema.TypeString,
+				Description: "Enable/disable Load GUI static files from a CDN.",
 				Computed:    true,
 			},
 			"gui_certificates": {
@@ -507,6 +522,11 @@ func dataSourceSystemGlobal() *schema.Resource {
 			"igmp_state_limit": {
 				Type:        schema.TypeInt,
 				Description: "Maximum number of IGMP memberships (96 - 64000, default = 3200).",
+				Computed:    true,
+			},
+			"internet_service_database": {
+				Type:        schema.TypeString,
+				Description: "Configure which Internet Service database size to download from FortiGuard and use.",
 				Computed:    true,
 			},
 			"interval": {
@@ -711,7 +731,7 @@ func dataSourceSystemGlobal() *schema.Resource {
 			},
 			"proxy_auth_lifetime": {
 				Type:        schema.TypeString,
-				Description: "Enable/disable authenticated users lifetime control.  This is a cap on the total time a proxy user can be authenticated for after which re-authentication will take place.",
+				Description: "Enable/disable authenticated users lifetime control. This is a cap on the total time a proxy user can be authenticated for after which re-authentication will take place.",
 				Computed:    true,
 			},
 			"proxy_auth_lifetime_timeout": {
@@ -722,6 +742,11 @@ func dataSourceSystemGlobal() *schema.Resource {
 			"proxy_auth_timeout": {
 				Type:        schema.TypeInt,
 				Description: "Authentication timeout in minutes for authenticated users (1 - 300 min, default = 10).",
+				Computed:    true,
+			},
+			"proxy_cert_use_mgmt_vdom": {
+				Type:        schema.TypeString,
+				Description: "Enable/disable using management VDOM to send requests.",
 				Computed:    true,
 			},
 			"proxy_cipher_hardware_acceleration": {

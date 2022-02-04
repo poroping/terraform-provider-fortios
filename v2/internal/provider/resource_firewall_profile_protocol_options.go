@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -118,7 +118,7 @@ func resourceFirewallProfileProtocolOptions() *schema.Resource {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 511),
 
-										Description: "Service principal.  For example, \"host/cifsserver.example.com@example.com\".",
+										Description: "Service principal. For example, host/cifsserver.example.com@example.com.",
 										Optional:    true,
 										Computed:    true,
 									},
@@ -159,7 +159,7 @@ func resourceFirewallProfileProtocolOptions() *schema.Resource {
 						},
 						"tcp_window_type": {
 							Type:         schema.TypeString,
-							ValidateFunc: validation.StringInSlice([]string{"system", "static", "dynamic"}, false),
+							ValidateFunc: validation.StringInSlice([]string{"system", "static", "dynamic", "auto-tuning"}, false),
 
 							Description: "TCP window type to use for this protocol.",
 							Optional:    true,
@@ -306,7 +306,7 @@ func resourceFirewallProfileProtocolOptions() *schema.Resource {
 						"stream_based_uncompressed_limit": {
 							Type: schema.TypeInt,
 
-							Description: "Maximum stream-based uncompressed data size that will be scanned (MB, 0 = unlimited (default).  Stream-based uncompression used only under certain conditions.).",
+							Description: "Maximum stream-based uncompressed data size that will be scanned in megabytes. Stream-based uncompression used only under certain conditions (unlimited = 0, default = 0).",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -336,7 +336,7 @@ func resourceFirewallProfileProtocolOptions() *schema.Resource {
 						},
 						"tcp_window_type": {
 							Type:         schema.TypeString,
-							ValidateFunc: validation.StringInSlice([]string{"system", "static", "dynamic"}, false),
+							ValidateFunc: validation.StringInSlice([]string{"system", "static", "dynamic", "auto-tuning"}, false),
 
 							Description: "TCP window type to use for this protocol.",
 							Optional:    true,
@@ -498,7 +498,7 @@ func resourceFirewallProfileProtocolOptions() *schema.Resource {
 						"stream_based_uncompressed_limit": {
 							Type: schema.TypeInt,
 
-							Description: "Maximum stream-based uncompressed data size that will be scanned (MB, 0 = unlimited (default).  Stream-based uncompression used only under certain conditions.).",
+							Description: "Maximum stream-based uncompressed data size that will be scanned in megabytes. Stream-based uncompression used only under certain conditions (unlimited = 0, default = 0).",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -552,7 +552,7 @@ func resourceFirewallProfileProtocolOptions() *schema.Resource {
 						},
 						"tcp_window_type": {
 							Type:         schema.TypeString,
-							ValidateFunc: validation.StringInSlice([]string{"system", "static", "dynamic"}, false),
+							ValidateFunc: validation.StringInSlice([]string{"system", "static", "dynamic", "auto-tuning"}, false),
 
 							Description: "TCP window type to use for this protocol.",
 							Optional:    true,
@@ -962,7 +962,7 @@ func resourceFirewallProfileProtocolOptions() *schema.Resource {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 
-				Description: "Name of the replacement message group to be used",
+				Description: "Name of the replacement message group to be used.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -1128,7 +1128,7 @@ func resourceFirewallProfileProtocolOptions() *schema.Resource {
 						"stream_based_uncompressed_limit": {
 							Type: schema.TypeInt,
 
-							Description: "Maximum stream-based uncompressed data size that will be scanned (MB, 0 = unlimited (default).  Stream-based uncompression used only under certain conditions.).",
+							Description: "Maximum stream-based uncompressed data size that will be scanned in megabytes. Stream-based uncompression used only under certain conditions (unlimited = 0, default = 0).",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -1158,7 +1158,7 @@ func resourceFirewallProfileProtocolOptions() *schema.Resource {
 						},
 						"tcp_window_type": {
 							Type:         schema.TypeString,
-							ValidateFunc: validation.StringInSlice([]string{"system", "static", "dynamic"}, false),
+							ValidateFunc: validation.StringInSlice([]string{"system", "static", "dynamic", "auto-tuning"}, false),
 
 							Description: "TCP window type to use for this protocol.",
 							Optional:    true,

@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -180,7 +180,7 @@ func dataSourceSystemHa() *schema.Resource {
 			},
 			"key": {
 				Type:        schema.TypeString,
-				Description: "key",
+				Description: "Key.",
 				Computed:    true,
 				Sensitive:   true,
 			},
@@ -520,7 +520,7 @@ func dataSourceSystemHa() *schema.Resource {
 			},
 			"weight": {
 				Type:        schema.TypeString,
-				Description: "Weight-round-robin weight for each cluster unit. Syntax <priority> <weight>.",
+				Description: "Weighted round robin weight for each cluster unit. Syntax <priority> <weight>.",
 				Computed:    true,
 			},
 		},

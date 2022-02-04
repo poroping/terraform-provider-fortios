@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -61,6 +61,14 @@ func resourceSystemFederatedUpgrade() *schema.Resource {
 				Optional:    true,
 				Computed:    true,
 			},
+			"next_path_index": {
+				Type:         schema.TypeInt,
+				ValidateFunc: validation.IntBetween(0, 10),
+
+				Description: "The index of the next image to upgrade to.",
+				Optional:    true,
+				Computed:    true,
+			},
 			"node_list": {
 				Type:        schema.TypeList,
 				Description: "Nodes which will be included in the upgrade.",
@@ -71,7 +79,7 @@ func resourceSystemFederatedUpgrade() *schema.Resource {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 79),
 
-							Description: "The serial of the FortiGate that controls this device",
+							Description: "Serial number of the FortiGate unit that controls this device.",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -355,6 +363,14 @@ func refreshObjectSystemFederatedUpgrade(d *schema.ResourceData, o *models.Syste
 		}
 	}
 
+	if o.NextPathIndex != nil {
+		v := *o.NextPathIndex
+
+		if err = d.Set("next_path_index", v); err != nil {
+			return diag.Errorf("error reading next_path_index: %v", err)
+		}
+	}
+
 	if o.NodeList != nil {
 		if err = d.Set("node_list", flattenSystemFederatedUpgradeNodeList(o.NodeList, sort)); err != nil {
 			return diag.Errorf("error reading node_list: %v", err)
@@ -466,6 +482,16 @@ func getObjectSystemFederatedUpgrade(d *schema.ResourceData, sv string) (*models
 				diags = append(diags, e)
 			}
 			obj.FailureReason = &v2
+		}
+	}
+	if v1, ok := d.GetOk("next_path_index"); ok {
+		if v2, ok := v1.(int); ok {
+			if !utils.CheckVer(sv, "v7.0.4", "") {
+				e := utils.AttributeVersionWarning("next_path_index", sv)
+				diags = append(diags, e)
+			}
+			tmp := int64(v2)
+			obj.NextPathIndex = &tmp
 		}
 	}
 	if v, ok := d.GetOk("node_list"); ok {

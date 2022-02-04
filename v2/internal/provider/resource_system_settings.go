@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -723,6 +723,14 @@ func resourceSystemSettings() *schema.Resource {
 				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
 
 				Description: "Enable/disable Zero Trust Network Access features on the GUI.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"h323_direct_model": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"disable", "enable"}, false),
+
+				Description: "Enable/disable H323 direct model.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -1883,6 +1891,14 @@ func refreshObjectSystemSettings(d *schema.ResourceData, o *models.SystemSetting
 		}
 	}
 
+	if o.H323DirectModel != nil {
+		v := *o.H323DirectModel
+
+		if err = d.Set("h323_direct_model", v); err != nil {
+			return diag.Errorf("error reading h323_direct_model: %v", err)
+		}
+	}
+
 	if o.HttpExternalDest != nil {
 		v := *o.HttpExternalDest
 
@@ -2998,6 +3014,15 @@ func getObjectSystemSettings(d *schema.ResourceData, sv string) (*models.SystemS
 				diags = append(diags, e)
 			}
 			obj.GuiZtna = &v2
+		}
+	}
+	if v1, ok := d.GetOk("h323_direct_model"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.0.4", "") {
+				e := utils.AttributeVersionWarning("h323_direct_model", sv)
+				diags = append(diags, e)
+			}
+			obj.H323DirectModel = &v2
 		}
 	}
 	if v1, ok := d.GetOk("http_external_dest"); ok {

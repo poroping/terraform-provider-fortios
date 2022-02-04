@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -71,6 +71,34 @@ func dataSourceSystemSdnConnector() *schema.Resource {
 				Type:        schema.TypeString,
 				Description: "Domain name.",
 				Computed:    true,
+			},
+			"external_account_list": {
+				Type:        schema.TypeList,
+				Description: "Configure AWS external account list.",
+				Computed:    true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"region_list": {
+							Type:        schema.TypeList,
+							Description: "AWS region name list.",
+							Computed:    true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"region": {
+										Type:        schema.TypeString,
+										Description: "AWS region name.",
+										Computed:    true,
+									},
+								},
+							},
+						},
+						"role_arn": {
+							Type:        schema.TypeString,
+							Description: "AWS role ARN to assume.",
+							Computed:    true,
+						},
+					},
+				},
 			},
 			"external_ip": {
 				Type:        schema.TypeList,

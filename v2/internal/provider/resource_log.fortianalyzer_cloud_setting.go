@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -9,6 +9,7 @@ package provider
 
 import (
 	"context"
+	"fmt"
 	"log"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
@@ -38,6 +39,12 @@ func resourceLogFortianalyzerCloudSetting() *schema.Resource {
 				Optional:    true,
 				ForceNew:    true,
 			},
+			"dynamic_sort_subtable": {
+				Type:        schema.TypeBool,
+				Description: "If set will sort table response by mkey",
+				Optional:    true,
+				Default:     false,
+			},
 			"access_config": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
@@ -51,6 +58,14 @@ func resourceLogFortianalyzerCloudSetting() *schema.Resource {
 				ValidateFunc: validation.StringLenBetween(0, 35),
 
 				Description: "Certificate used to communicate with FortiAnalyzer.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"certificate_verification": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+				Description: "Enable/disable identity verification of FortiAnalyzer by use of certificate.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -141,6 +156,23 @@ func resourceLogFortianalyzerCloudSetting() *schema.Resource {
 				Description: "Set log transmission priority.",
 				Optional:    true,
 				Computed:    true,
+			},
+			"serial": {
+				Type:        schema.TypeList,
+				Description: "Serial numbers of the FortiAnalyzer.",
+				Optional:    true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"name": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringLenBetween(0, 79),
+
+							Description: "Serial Number.",
+							Optional:    true,
+							Computed:    true,
+						},
+					},
+				},
 			},
 			"source_ip": {
 				Type:         schema.TypeString,
@@ -349,6 +381,27 @@ func resourceLogFortianalyzerCloudSettingRead(ctx context.Context, d *schema.Res
 	return nil
 }
 
+func flattenLogFortianalyzerCloudSettingSerial(v *[]models.LogFortianalyzerCloudSettingSerial, sort bool) interface{} {
+	flat := make([]map[string]interface{}, 0)
+
+	if v != nil {
+		for _, cfg := range *v {
+			v := make(map[string]interface{})
+			if tmp := cfg.Name; tmp != nil {
+				v["name"] = *tmp
+			}
+
+			flat = append(flat, v)
+		}
+	}
+
+	if sort {
+		utils.SortSubtable(flat, "name")
+	}
+
+	return flat
+}
+
 func refreshObjectLogFortianalyzerCloudSetting(d *schema.ResourceData, o *models.LogFortianalyzerCloudSetting, sv string, sort bool) diag.Diagnostics {
 	var err error
 
@@ -365,6 +418,14 @@ func refreshObjectLogFortianalyzerCloudSetting(d *schema.ResourceData, o *models
 
 		if err = d.Set("certificate", v); err != nil {
 			return diag.Errorf("error reading certificate: %v", err)
+		}
+	}
+
+	if o.CertificateVerification != nil {
+		v := *o.CertificateVerification
+
+		if err = d.Set("certificate_verification", v); err != nil {
+			return diag.Errorf("error reading certificate_verification: %v", err)
 		}
 	}
 
@@ -456,6 +517,12 @@ func refreshObjectLogFortianalyzerCloudSetting(d *schema.ResourceData, o *models
 		}
 	}
 
+	if o.Serial != nil {
+		if err = d.Set("serial", flattenLogFortianalyzerCloudSettingSerial(o.Serial, sort)); err != nil {
+			return diag.Errorf("error reading serial: %v", err)
+		}
+	}
+
 	if o.SourceIp != nil {
 		v := *o.SourceIp
 
@@ -515,6 +582,30 @@ func refreshObjectLogFortianalyzerCloudSetting(d *schema.ResourceData, o *models
 	return nil
 }
 
+func expandLogFortianalyzerCloudSettingSerial(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.LogFortianalyzerCloudSettingSerial, error) {
+	l := v.([]interface{})
+	if len(l) == 0 || l[0] == nil {
+		return nil, nil
+	}
+
+	var result []models.LogFortianalyzerCloudSettingSerial
+
+	for i := range l {
+		tmp := models.LogFortianalyzerCloudSettingSerial{}
+		var pre_append string
+
+		pre_append = fmt.Sprintf("%s.%d.name", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.Name = &v2
+			}
+		}
+
+		result = append(result, tmp)
+	}
+	return &result, nil
+}
+
 func getObjectLogFortianalyzerCloudSetting(d *schema.ResourceData, sv string) (*models.LogFortianalyzerCloudSetting, diag.Diagnostics) {
 	obj := models.LogFortianalyzerCloudSetting{}
 	diags := diag.Diagnostics{}
@@ -535,6 +626,15 @@ func getObjectLogFortianalyzerCloudSetting(d *schema.ResourceData, sv string) (*
 				diags = append(diags, e)
 			}
 			obj.Certificate = &v2
+		}
+	}
+	if v1, ok := d.GetOk("certificate_verification"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.0.4", "") {
+				e := utils.AttributeVersionWarning("certificate_verification", sv)
+				diags = append(diags, e)
+			}
+			obj.CertificateVerification = &v2
 		}
 	}
 	if v1, ok := d.GetOk("conn_timeout"); ok {
@@ -640,6 +740,23 @@ func getObjectLogFortianalyzerCloudSetting(d *schema.ResourceData, sv string) (*
 			obj.Priority = &v2
 		}
 	}
+	if v, ok := d.GetOk("serial"); ok {
+		if !utils.CheckVer(sv, "v7.0.4", "") {
+			e := utils.AttributeVersionWarning("serial", sv)
+			diags = append(diags, e)
+		}
+		t, err := expandLogFortianalyzerCloudSettingSerial(d, v, "serial", sv)
+		if err != nil {
+			return &obj, diag.FromErr(err)
+		} else if t != nil {
+			obj.Serial = t
+		}
+	} else if d.HasChange("serial") {
+		old, new := d.GetChange("serial")
+		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
+			obj.Serial = &[]models.LogFortianalyzerCloudSettingSerial{}
+		}
+	}
 	if v1, ok := d.GetOk("source_ip"); ok {
 		if v2, ok := v1.(string); ok {
 			if !utils.CheckVer(sv, "", "") {
@@ -710,6 +827,8 @@ func getObjectLogFortianalyzerCloudSetting(d *schema.ResourceData, sv string) (*
 func getEmptyObjectLogFortianalyzerCloudSetting(d *schema.ResourceData, sv string) (*models.LogFortianalyzerCloudSetting, diag.Diagnostics) {
 	obj := models.LogFortianalyzerCloudSetting{}
 	diags := diag.Diagnostics{}
+
+	obj.Serial = &[]models.LogFortianalyzerCloudSettingSerial{}
 
 	return &obj, diags
 }

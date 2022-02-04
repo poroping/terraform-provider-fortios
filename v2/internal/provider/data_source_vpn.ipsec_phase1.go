@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -286,7 +286,7 @@ func dataSourceVpnIpsecPhase1() *schema.Resource {
 			},
 			"group_authentication_secret": {
 				Type:        schema.TypeString,
-				Description: "Password for IKEv2 IDi group authentication.  (ASCII string or hexadecimal indicated by a leading 0x.)",
+				Description: "Password for IKEv2 ID group authentication. ASCII string or hexadecimal indicated by a leading 0x.",
 				Computed:    true,
 				Sensitive:   true,
 			},
@@ -586,7 +586,7 @@ func dataSourceVpnIpsecPhase1() *schema.Resource {
 			},
 			"priority": {
 				Type:        schema.TypeInt,
-				Description: "Priority for routes added by IKE (0 - 4294967295).",
+				Description: "Priority for routes added by IKE (1 - 65535).",
 				Computed:    true,
 			},
 			"proposal": {
@@ -623,7 +623,7 @@ func dataSourceVpnIpsecPhase1() *schema.Resource {
 			},
 			"remotegw_ddns": {
 				Type:        schema.TypeString,
-				Description: "Domain name of remote gateway (eg. name.DDNS.com).",
+				Description: "Domain name of remote gateway. For example, name.ddns.com.",
 				Computed:    true,
 			},
 			"rsa_signature_format": {

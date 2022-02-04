@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v7.0.2,v7.0.3,v7.0.4 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -536,7 +536,7 @@ func resourceExtenderControllerExtenderProfile() *schema.Resource {
 													Type:         schema.TypeString,
 													ValidateFunc: validation.StringLenBetween(0, 31),
 
-													Description: "Receiver phone number.  Format: [+][country code][area code][local phone number].  For example: +16501234567.",
+													Description: "Receiver phone number. Format: [+][country code][area code][local phone number]. For example, +16501234567.",
 													Optional:    true,
 													Computed:    true,
 												},
@@ -575,7 +575,7 @@ func resourceExtenderControllerExtenderProfile() *schema.Resource {
 			},
 			"extension": {
 				Type:         schema.TypeString,
-				ValidateFunc: validation.StringInSlice([]string{"wan-extension", "lan-extension"}, false),
+				ValidateFunc: validation.StringInSlice([]string{"lan-extension"}, false),
 
 				Description: "Extension option.",
 				Optional:    true,
@@ -585,7 +585,7 @@ func resourceExtenderControllerExtenderProfile() *schema.Resource {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 102400000),
 
-				Description: "id",
+				Description: "ID.",
 				ForceNew:    true,
 				Optional:    true,
 				Computed:    true,
@@ -606,7 +606,7 @@ func resourceExtenderControllerExtenderProfile() *schema.Resource {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 31),
 
-										Description: "FortiExtender LAN extension backhaul name",
+										Description: "FortiExtender LAN extension backhaul name.",
 										Optional:    true,
 										Computed:    true,
 									},
@@ -630,7 +630,7 @@ func resourceExtenderControllerExtenderProfile() *schema.Resource {
 										Type:         schema.TypeInt,
 										ValidateFunc: validation.IntBetween(1, 256),
 
-										Description: "WRR weight parameter",
+										Description: "WRR weight parameter.",
 										Optional:    true,
 										Computed:    true,
 									},
@@ -700,7 +700,7 @@ func resourceExtenderControllerExtenderProfile() *schema.Resource {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 31),
 
-				Description: "FortiExtender profile name",
+				Description: "FortiExtender profile name.",
 				ForceNew:    true,
 				Required:    true,
 			},

@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -32,7 +32,7 @@ func dataSourceWirelessControllerVap() *schema.Resource {
 			},
 			"access_control_list": {
 				Type:        schema.TypeString,
-				Description: "access-control-list profile name.",
+				Description: "Profile name for access-control-list.",
 				Computed:    true,
 			},
 			"acct_interim_interval": {
@@ -68,6 +68,16 @@ func dataSourceWirelessControllerVap() *schema.Resource {
 			"auth": {
 				Type:        schema.TypeString,
 				Description: "Authentication protocol.",
+				Computed:    true,
+			},
+			"auth_cert": {
+				Type:        schema.TypeString,
+				Description: "HTTPS server certificate.",
+				Computed:    true,
+			},
+			"auth_portal_addr": {
+				Type:        schema.TypeString,
+				Description: "Address of captive portal.",
 				Computed:    true,
 			},
 			"beacon_advertising": {
@@ -841,7 +851,7 @@ func dataSourceWirelessControllerVap() *schema.Resource {
 			},
 			"sticky_client_remove": {
 				Type:        schema.TypeString,
-				Description: "Enable/disable sticky client remove to maintain good signal level clients in SSID. (default = disable).",
+				Description: "Enable/disable sticky client remove to maintain good signal level clients in SSID (default = disable).",
 				Computed:    true,
 			},
 			"sticky_client_threshold_2g": {
@@ -907,6 +917,25 @@ func dataSourceWirelessControllerVap() *schema.Resource {
 				Type:        schema.TypeString,
 				Description: "Enable/disable automatic management of SSID VLAN interface.",
 				Computed:    true,
+			},
+			"vlan_name": {
+				Type:        schema.TypeList,
+				Description: "Table for mapping VLAN name to VLAN ID.",
+				Computed:    true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"name": {
+							Type:        schema.TypeString,
+							Description: "VLAN name.",
+							Computed:    true,
+						},
+						"vlan_id": {
+							Type:        schema.TypeInt,
+							Description: "VLAN ID.",
+							Computed:    true,
+						},
+					},
+				},
 			},
 			"vlan_pool": {
 				Type:        schema.TypeList,

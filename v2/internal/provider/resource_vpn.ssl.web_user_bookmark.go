@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -129,6 +129,14 @@ func resourceVpnSslWebUserBookmark() *schema.Resource {
 									},
 								},
 							},
+						},
+						"height": {
+							Type:         schema.TypeInt,
+							ValidateFunc: validation.IntBetween(480, 65535),
+
+							Description: "Screen height (range from 480 - 65535, default = 768).",
+							Optional:    true,
+							Computed:    true,
 						},
 						"host": {
 							Type:         schema.TypeString,
@@ -302,6 +310,14 @@ func resourceVpnSslWebUserBookmark() *schema.Resource {
 							ValidateFunc: validation.StringLenBetween(0, 128),
 
 							Description: "URL parameter.",
+							Optional:    true,
+							Computed:    true,
+						},
+						"width": {
+							Type:         schema.TypeInt,
+							ValidateFunc: validation.IntBetween(640, 65535),
+
+							Description: "Screen width (range from 640 - 65535, default = 1024).",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -515,6 +531,10 @@ func flattenVpnSslWebUserBookmarkBookmarks(v *[]models.VpnSslWebUserBookmarkBook
 				v["form_data"] = flattenVpnSslWebUserBookmarkBookmarksFormData(tmp, sort)
 			}
 
+			if tmp := cfg.Height; tmp != nil {
+				v["height"] = *tmp
+			}
+
 			if tmp := cfg.Host; tmp != nil {
 				v["host"] = *tmp
 			}
@@ -601,6 +621,10 @@ func flattenVpnSslWebUserBookmarkBookmarks(v *[]models.VpnSslWebUserBookmarkBook
 
 			if tmp := cfg.Url; tmp != nil {
 				v["url"] = *tmp
+			}
+
+			if tmp := cfg.Width; tmp != nil {
+				v["width"] = *tmp
 			}
 
 			flat = append(flat, v)
@@ -729,6 +753,13 @@ func expandVpnSslWebUserBookmarkBookmarks(d *schema.ResourceData, v interface{},
 			// 	}
 			tmp.FormData = v2
 
+		}
+
+		pre_append = fmt.Sprintf("%s.%d.height", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(int64); ok {
+				tmp.Height = &v2
+			}
 		}
 
 		pre_append = fmt.Sprintf("%s.%d.host", pre, i)
@@ -882,6 +913,13 @@ func expandVpnSslWebUserBookmarkBookmarks(d *schema.ResourceData, v interface{},
 		if v1, ok := d.GetOk(pre_append); ok {
 			if v2, ok := v1.(string); ok {
 				tmp.Url = &v2
+			}
+		}
+
+		pre_append = fmt.Sprintf("%s.%d.width", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(int64); ok {
+				tmp.Width = &v2
 			}
 		}
 

@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v7.0.2,v7.0.3,v7.0.4 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -37,7 +37,7 @@ func dataSourceWirelessControllerSyslogProfile() *schema.Resource {
 			},
 			"log_level": {
 				Type:        schema.TypeString,
-				Description: "Lowest level of log messages that FortiAP units send to this server (default = information)",
+				Description: "Lowest level of log messages that FortiAP units send to this server (default = information).",
 				Computed:    true,
 			},
 			"name": {
@@ -47,7 +47,7 @@ func dataSourceWirelessControllerSyslogProfile() *schema.Resource {
 			},
 			"server_addr_type": {
 				Type:        schema.TypeString,
-				Description: "Syslog server address type (default = IP)",
+				Description: "Syslog server address type (default = ip).",
 				Computed:    true,
 			},
 			"server_fqdn": {

@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -360,7 +360,7 @@ func dataSourceVpnSslSettings() *schema.Resource {
 			},
 			"saml_redirect_port": {
 				Type:        schema.TypeInt,
-				Description: "SAML local redirect port in the machine running FCT (0 - 65535). 0 is to disable redirection on FGT side.",
+				Description: "SAML local redirect port in the machine running FortiClient (0 - 65535). 0 is to disable redirection on FGT side.",
 				Computed:    true,
 			},
 			"servercert": {

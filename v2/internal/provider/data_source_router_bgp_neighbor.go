@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -162,9 +162,18 @@ func dataSourceRouterBgpNeighbor() *schema.Resource {
 							Computed:    true,
 						},
 						"condition_routemap": {
-							Type:        schema.TypeString,
-							Description: "Name of condition route map.",
+							Type:        schema.TypeList,
+							Description: "List of conditional route maps.",
 							Computed:    true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"name": {
+										Type:        schema.TypeString,
+										Description: "route map",
+										Computed:    true,
+									},
+								},
+							},
 						},
 						"condition_type": {
 							Type:        schema.TypeString,
@@ -186,9 +195,18 @@ func dataSourceRouterBgpNeighbor() *schema.Resource {
 							Computed:    true,
 						},
 						"condition_routemap": {
-							Type:        schema.TypeString,
-							Description: "Name of condition route map.",
+							Type:        schema.TypeList,
+							Description: "List of conditional route maps.",
 							Computed:    true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"name": {
+										Type:        schema.TypeString,
+										Description: "route map",
+										Computed:    true,
+									},
+								},
+							},
 						},
 						"condition_type": {
 							Type:        schema.TypeString,
@@ -240,7 +258,7 @@ func dataSourceRouterBgpNeighbor() *schema.Resource {
 			},
 			"dont_capability_negotiate": {
 				Type:        schema.TypeString,
-				Description: "Don't negotiate capabilities with this neighbor",
+				Description: "Do not negotiate capabilities with this neighbor.",
 				Computed:    true,
 			},
 			"ebgp_enforce_multihop": {

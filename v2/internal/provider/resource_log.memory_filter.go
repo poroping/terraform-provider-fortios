@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -119,13 +119,13 @@ func resourceLogMemoryFilter() *schema.Resource {
 			},
 			"free_style": {
 				Type:        schema.TypeList,
-				Description: "Free Style Filters",
+				Description: "Free style filters.",
 				Optional:    true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"category": {
 							Type:         schema.TypeString,
-							ValidateFunc: validation.StringInSlice([]string{"traffic", "event", "virus", "webfilter", "attack", "spam", "anomaly", "voip", "dlp", "app-ctrl", "waf", "gtp", "dns", "ssh", "ssl", "file-filter", "icap", "ztna"}, false),
+							ValidateFunc: validation.StringInSlice([]string{"traffic", "event", "virus", "webfilter", "attack", "spam", "anomaly", "voip", "dlp", "app-ctrl", "waf", "gtp", "dns", "ssh", "ssl", "file-filter", "icap"}, false),
 
 							Description: "Log category.",
 							Optional:    true,
@@ -306,6 +306,14 @@ func resourceLogMemoryFilter() *schema.Resource {
 				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
 
 				Description: "Enable/disable wireless activity event logging.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"ztna_traffic": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+				Description: "Enable/disable ztna traffic logging.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -728,6 +736,14 @@ func refreshObjectLogMemoryFilter(d *schema.ResourceData, o *models.LogMemoryFil
 		}
 	}
 
+	if o.ZtnaTraffic != nil {
+		v := *o.ZtnaTraffic
+
+		if err = d.Set("ztna_traffic", v); err != nil {
+			return diag.Errorf("error reading ztna_traffic: %v", err)
+		}
+	}
+
 	return nil
 }
 
@@ -1047,6 +1063,15 @@ func getObjectLogMemoryFilter(d *schema.ResourceData, sv string) (*models.LogMem
 				diags = append(diags, e)
 			}
 			obj.WirelessActivity = &v2
+		}
+	}
+	if v1, ok := d.GetOk("ztna_traffic"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.0.4", "") {
+				e := utils.AttributeVersionWarning("ztna_traffic", sv)
+				diags = append(diags, e)
+			}
+			obj.ZtnaTraffic = &v2
 		}
 	}
 	return &obj, diags
