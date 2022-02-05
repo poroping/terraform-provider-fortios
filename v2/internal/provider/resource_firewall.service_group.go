@@ -265,11 +265,12 @@ func resourceFirewallServiceGroupRead(ctx context.Context, d *schema.ResourceDat
 	return nil
 }
 
-func flattenFirewallServiceGroupMember(v *[]models.FirewallServiceGroupMember, sort bool) interface{} {
+func flattenFirewallServiceGroupMember(d *schema.ResourceData, v *[]models.FirewallServiceGroupMember, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -314,7 +315,7 @@ func refreshObjectFirewallServiceGroup(d *schema.ResourceData, o *models.Firewal
 	}
 
 	if o.Member != nil {
-		if err = d.Set("member", flattenFirewallServiceGroupMember(o.Member, sort)); err != nil {
+		if err = d.Set("member", flattenFirewallServiceGroupMember(d, o.Member, "member", sort)); err != nil {
 			return diag.Errorf("error reading member: %v", err)
 		}
 	}

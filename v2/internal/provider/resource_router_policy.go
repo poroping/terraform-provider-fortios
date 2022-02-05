@@ -454,11 +454,12 @@ func resourceRouterPolicyRead(ctx context.Context, d *schema.ResourceData, meta 
 	return nil
 }
 
-func flattenRouterPolicyDst(v *[]models.RouterPolicyDst, sort bool) interface{} {
+func flattenRouterPolicyDst(d *schema.ResourceData, v *[]models.RouterPolicyDst, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Subnet; tmp != nil {
 				v["subnet"] = *tmp
@@ -475,11 +476,12 @@ func flattenRouterPolicyDst(v *[]models.RouterPolicyDst, sort bool) interface{} 
 	return flat
 }
 
-func flattenRouterPolicyDstaddr(v *[]models.RouterPolicyDstaddr, sort bool) interface{} {
+func flattenRouterPolicyDstaddr(d *schema.ResourceData, v *[]models.RouterPolicyDstaddr, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -496,11 +498,12 @@ func flattenRouterPolicyDstaddr(v *[]models.RouterPolicyDstaddr, sort bool) inte
 	return flat
 }
 
-func flattenRouterPolicyInputDevice(v *[]models.RouterPolicyInputDevice, sort bool) interface{} {
+func flattenRouterPolicyInputDevice(d *schema.ResourceData, v *[]models.RouterPolicyInputDevice, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -517,11 +520,12 @@ func flattenRouterPolicyInputDevice(v *[]models.RouterPolicyInputDevice, sort bo
 	return flat
 }
 
-func flattenRouterPolicyInternetServiceCustom(v *[]models.RouterPolicyInternetServiceCustom, sort bool) interface{} {
+func flattenRouterPolicyInternetServiceCustom(d *schema.ResourceData, v *[]models.RouterPolicyInternetServiceCustom, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -538,11 +542,12 @@ func flattenRouterPolicyInternetServiceCustom(v *[]models.RouterPolicyInternetSe
 	return flat
 }
 
-func flattenRouterPolicyInternetServiceId(v *[]models.RouterPolicyInternetServiceId, sort bool) interface{} {
+func flattenRouterPolicyInternetServiceId(d *schema.ResourceData, v *[]models.RouterPolicyInternetServiceId, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Id; tmp != nil {
 				v["id"] = *tmp
@@ -559,11 +564,12 @@ func flattenRouterPolicyInternetServiceId(v *[]models.RouterPolicyInternetServic
 	return flat
 }
 
-func flattenRouterPolicySrc(v *[]models.RouterPolicySrc, sort bool) interface{} {
+func flattenRouterPolicySrc(d *schema.ResourceData, v *[]models.RouterPolicySrc, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Subnet; tmp != nil {
 				v["subnet"] = *tmp
@@ -580,11 +586,12 @@ func flattenRouterPolicySrc(v *[]models.RouterPolicySrc, sort bool) interface{} 
 	return flat
 }
 
-func flattenRouterPolicySrcaddr(v *[]models.RouterPolicySrcaddr, sort bool) interface{} {
+func flattenRouterPolicySrcaddr(d *schema.ResourceData, v *[]models.RouterPolicySrcaddr, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -621,7 +628,7 @@ func refreshObjectRouterPolicy(d *schema.ResourceData, o *models.RouterPolicy, s
 	}
 
 	if o.Dst != nil {
-		if err = d.Set("dst", flattenRouterPolicyDst(o.Dst, sort)); err != nil {
+		if err = d.Set("dst", flattenRouterPolicyDst(d, o.Dst, "dst", sort)); err != nil {
 			return diag.Errorf("error reading dst: %v", err)
 		}
 	}
@@ -635,7 +642,7 @@ func refreshObjectRouterPolicy(d *schema.ResourceData, o *models.RouterPolicy, s
 	}
 
 	if o.Dstaddr != nil {
-		if err = d.Set("dstaddr", flattenRouterPolicyDstaddr(o.Dstaddr, sort)); err != nil {
+		if err = d.Set("dstaddr", flattenRouterPolicyDstaddr(d, o.Dstaddr, "dstaddr", sort)); err != nil {
 			return diag.Errorf("error reading dstaddr: %v", err)
 		}
 	}
@@ -665,7 +672,7 @@ func refreshObjectRouterPolicy(d *schema.ResourceData, o *models.RouterPolicy, s
 	}
 
 	if o.InputDevice != nil {
-		if err = d.Set("input_device", flattenRouterPolicyInputDevice(o.InputDevice, sort)); err != nil {
+		if err = d.Set("input_device", flattenRouterPolicyInputDevice(d, o.InputDevice, "input_device", sort)); err != nil {
 			return diag.Errorf("error reading input_device: %v", err)
 		}
 	}
@@ -679,13 +686,13 @@ func refreshObjectRouterPolicy(d *schema.ResourceData, o *models.RouterPolicy, s
 	}
 
 	if o.InternetServiceCustom != nil {
-		if err = d.Set("internet_service_custom", flattenRouterPolicyInternetServiceCustom(o.InternetServiceCustom, sort)); err != nil {
+		if err = d.Set("internet_service_custom", flattenRouterPolicyInternetServiceCustom(d, o.InternetServiceCustom, "internet_service_custom", sort)); err != nil {
 			return diag.Errorf("error reading internet_service_custom: %v", err)
 		}
 	}
 
 	if o.InternetServiceId != nil {
-		if err = d.Set("internet_service_id", flattenRouterPolicyInternetServiceId(o.InternetServiceId, sort)); err != nil {
+		if err = d.Set("internet_service_id", flattenRouterPolicyInternetServiceId(d, o.InternetServiceId, "internet_service_id", sort)); err != nil {
 			return diag.Errorf("error reading internet_service_id: %v", err)
 		}
 	}
@@ -715,7 +722,7 @@ func refreshObjectRouterPolicy(d *schema.ResourceData, o *models.RouterPolicy, s
 	}
 
 	if o.Src != nil {
-		if err = d.Set("src", flattenRouterPolicySrc(o.Src, sort)); err != nil {
+		if err = d.Set("src", flattenRouterPolicySrc(d, o.Src, "src", sort)); err != nil {
 			return diag.Errorf("error reading src: %v", err)
 		}
 	}
@@ -729,7 +736,7 @@ func refreshObjectRouterPolicy(d *schema.ResourceData, o *models.RouterPolicy, s
 	}
 
 	if o.Srcaddr != nil {
-		if err = d.Set("srcaddr", flattenRouterPolicySrcaddr(o.Srcaddr, sort)); err != nil {
+		if err = d.Set("srcaddr", flattenRouterPolicySrcaddr(d, o.Srcaddr, "srcaddr", sort)); err != nil {
 			return diag.Errorf("error reading srcaddr: %v", err)
 		}
 	}

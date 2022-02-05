@@ -321,11 +321,12 @@ func resourceUserExchangeRead(ctx context.Context, d *schema.ResourceData, meta 
 	return nil
 }
 
-func flattenUserExchangeKdcIp(v *[]models.UserExchangeKdcIp, sort bool) interface{} {
+func flattenUserExchangeKdcIp(d *schema.ResourceData, v *[]models.UserExchangeKdcIp, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Ipv4; tmp != nil {
 				v["ipv4"] = *tmp
@@ -402,7 +403,7 @@ func refreshObjectUserExchange(d *schema.ResourceData, o *models.UserExchange, s
 	}
 
 	if o.KdcIp != nil {
-		if err = d.Set("kdc_ip", flattenUserExchangeKdcIp(o.KdcIp, sort)); err != nil {
+		if err = d.Set("kdc_ip", flattenUserExchangeKdcIp(d, o.KdcIp, "kdc_ip", sort)); err != nil {
 			return diag.Errorf("error reading kdc_ip: %v", err)
 		}
 	}

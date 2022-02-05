@@ -223,11 +223,12 @@ func resourceRouterBfdRead(ctx context.Context, d *schema.ResourceData, meta int
 	return nil
 }
 
-func flattenRouterBfdNeighbor(v *[]models.RouterBfdNeighbor, sort bool) interface{} {
+func flattenRouterBfdNeighbor(d *schema.ResourceData, v *[]models.RouterBfdNeighbor, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Interface; tmp != nil {
 				v["interface"] = *tmp
@@ -252,7 +253,7 @@ func refreshObjectRouterBfd(d *schema.ResourceData, o *models.RouterBfd, sv stri
 	var err error
 
 	if o.Neighbor != nil {
-		if err = d.Set("neighbor", flattenRouterBfdNeighbor(o.Neighbor, sort)); err != nil {
+		if err = d.Set("neighbor", flattenRouterBfdNeighbor(d, o.Neighbor, "neighbor", sort)); err != nil {
 			return diag.Errorf("error reading neighbor: %v", err)
 		}
 	}

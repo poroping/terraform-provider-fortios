@@ -321,14 +321,15 @@ func resourceVideofilterProfileRead(ctx context.Context, d *schema.ResourceData,
 	return nil
 }
 
-func flattenVideofilterProfileFortiguardCategory(v *[]models.VideofilterProfileFortiguardCategory, sort bool) interface{} {
+func flattenVideofilterProfileFortiguardCategory(d *schema.ResourceData, v *[]models.VideofilterProfileFortiguardCategory, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Filters; tmp != nil {
-				v["filters"] = flattenVideofilterProfileFortiguardCategoryFilters(tmp, sort)
+				v["filters"] = flattenVideofilterProfileFortiguardCategoryFilters(d, tmp, prefix+"filters", sort)
 			}
 
 			flat = append(flat, v)
@@ -338,11 +339,12 @@ func flattenVideofilterProfileFortiguardCategory(v *[]models.VideofilterProfileF
 	return flat
 }
 
-func flattenVideofilterProfileFortiguardCategoryFilters(v *[]models.VideofilterProfileFortiguardCategoryFilters, sort bool) interface{} {
+func flattenVideofilterProfileFortiguardCategoryFilters(d *schema.ResourceData, v *[]models.VideofilterProfileFortiguardCategoryFilters, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Action; tmp != nil {
 				v["action"] = *tmp
@@ -391,7 +393,7 @@ func refreshObjectVideofilterProfile(d *schema.ResourceData, o *models.Videofilt
 	}
 
 	if o.FortiguardCategory != nil {
-		if err = d.Set("fortiguard_category", flattenVideofilterProfileFortiguardCategory(o.FortiguardCategory, sort)); err != nil {
+		if err = d.Set("fortiguard_category", flattenVideofilterProfileFortiguardCategory(d, o.FortiguardCategory, "fortiguard_category", sort)); err != nil {
 			return diag.Errorf("error reading fortiguard_category: %v", err)
 		}
 	}

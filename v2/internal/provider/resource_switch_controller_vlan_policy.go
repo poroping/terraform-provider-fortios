@@ -290,11 +290,12 @@ func resourceSwitchControllerVlanPolicyRead(ctx context.Context, d *schema.Resou
 	return nil
 }
 
-func flattenSwitchControllerVlanPolicyAllowedVlans(v *[]models.SwitchControllerVlanPolicyAllowedVlans, sort bool) interface{} {
+func flattenSwitchControllerVlanPolicyAllowedVlans(d *schema.ResourceData, v *[]models.SwitchControllerVlanPolicyAllowedVlans, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.VlanName; tmp != nil {
 				v["vlan_name"] = *tmp
@@ -311,11 +312,12 @@ func flattenSwitchControllerVlanPolicyAllowedVlans(v *[]models.SwitchControllerV
 	return flat
 }
 
-func flattenSwitchControllerVlanPolicyUntaggedVlans(v *[]models.SwitchControllerVlanPolicyUntaggedVlans, sort bool) interface{} {
+func flattenSwitchControllerVlanPolicyUntaggedVlans(d *schema.ResourceData, v *[]models.SwitchControllerVlanPolicyUntaggedVlans, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.VlanName; tmp != nil {
 				v["vlan_name"] = *tmp
@@ -336,7 +338,7 @@ func refreshObjectSwitchControllerVlanPolicy(d *schema.ResourceData, o *models.S
 	var err error
 
 	if o.AllowedVlans != nil {
-		if err = d.Set("allowed_vlans", flattenSwitchControllerVlanPolicyAllowedVlans(o.AllowedVlans, sort)); err != nil {
+		if err = d.Set("allowed_vlans", flattenSwitchControllerVlanPolicyAllowedVlans(d, o.AllowedVlans, "allowed_vlans", sort)); err != nil {
 			return diag.Errorf("error reading allowed_vlans: %v", err)
 		}
 	}
@@ -382,7 +384,7 @@ func refreshObjectSwitchControllerVlanPolicy(d *schema.ResourceData, o *models.S
 	}
 
 	if o.UntaggedVlans != nil {
-		if err = d.Set("untagged_vlans", flattenSwitchControllerVlanPolicyUntaggedVlans(o.UntaggedVlans, sort)); err != nil {
+		if err = d.Set("untagged_vlans", flattenSwitchControllerVlanPolicyUntaggedVlans(d, o.UntaggedVlans, "untagged_vlans", sort)); err != nil {
 			return diag.Errorf("error reading untagged_vlans: %v", err)
 		}
 	}

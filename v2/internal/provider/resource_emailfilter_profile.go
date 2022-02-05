@@ -712,14 +712,15 @@ func resourceEmailfilterProfileRead(ctx context.Context, d *schema.ResourceData,
 	return nil
 }
 
-func flattenEmailfilterProfileFileFilter(v *[]models.EmailfilterProfileFileFilter, sort bool) interface{} {
+func flattenEmailfilterProfileFileFilter(d *schema.ResourceData, v *[]models.EmailfilterProfileFileFilter, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Entries; tmp != nil {
-				v["entries"] = flattenEmailfilterProfileFileFilterEntries(tmp, sort)
+				v["entries"] = flattenEmailfilterProfileFileFilterEntries(d, tmp, prefix+"entries", sort)
 			}
 
 			if tmp := cfg.Log; tmp != nil {
@@ -741,11 +742,12 @@ func flattenEmailfilterProfileFileFilter(v *[]models.EmailfilterProfileFileFilte
 	return flat
 }
 
-func flattenEmailfilterProfileFileFilterEntries(v *[]models.EmailfilterProfileFileFilterEntries, sort bool) interface{} {
+func flattenEmailfilterProfileFileFilterEntries(d *schema.ResourceData, v *[]models.EmailfilterProfileFileFilterEntries, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Action; tmp != nil {
 				v["action"] = *tmp
@@ -756,7 +758,7 @@ func flattenEmailfilterProfileFileFilterEntries(v *[]models.EmailfilterProfileFi
 			}
 
 			if tmp := cfg.FileType; tmp != nil {
-				v["file_type"] = flattenEmailfilterProfileFileFilterEntriesFileType(tmp, sort)
+				v["file_type"] = flattenEmailfilterProfileFileFilterEntriesFileType(d, tmp, prefix+"file_type", sort)
 			}
 
 			if tmp := cfg.Filter; tmp != nil {
@@ -782,11 +784,12 @@ func flattenEmailfilterProfileFileFilterEntries(v *[]models.EmailfilterProfileFi
 	return flat
 }
 
-func flattenEmailfilterProfileFileFilterEntriesFileType(v *[]models.EmailfilterProfileFileFilterEntriesFileType, sort bool) interface{} {
+func flattenEmailfilterProfileFileFilterEntriesFileType(d *schema.ResourceData, v *[]models.EmailfilterProfileFileFilterEntriesFileType, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -803,11 +806,12 @@ func flattenEmailfilterProfileFileFilterEntriesFileType(v *[]models.EmailfilterP
 	return flat
 }
 
-func flattenEmailfilterProfileGmail(v *[]models.EmailfilterProfileGmail, sort bool) interface{} {
+func flattenEmailfilterProfileGmail(d *schema.ResourceData, v *[]models.EmailfilterProfileGmail, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Log; tmp != nil {
 				v["log"] = *tmp
@@ -824,11 +828,12 @@ func flattenEmailfilterProfileGmail(v *[]models.EmailfilterProfileGmail, sort bo
 	return flat
 }
 
-func flattenEmailfilterProfileImap(v *[]models.EmailfilterProfileImap, sort bool) interface{} {
+func flattenEmailfilterProfileImap(d *schema.ResourceData, v *[]models.EmailfilterProfileImap, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Action; tmp != nil {
 				v["action"] = *tmp
@@ -857,11 +862,12 @@ func flattenEmailfilterProfileImap(v *[]models.EmailfilterProfileImap, sort bool
 	return flat
 }
 
-func flattenEmailfilterProfileMapi(v *[]models.EmailfilterProfileMapi, sort bool) interface{} {
+func flattenEmailfilterProfileMapi(d *schema.ResourceData, v *[]models.EmailfilterProfileMapi, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Action; tmp != nil {
 				v["action"] = *tmp
@@ -882,11 +888,12 @@ func flattenEmailfilterProfileMapi(v *[]models.EmailfilterProfileMapi, sort bool
 	return flat
 }
 
-func flattenEmailfilterProfileMsnHotmail(v *[]models.EmailfilterProfileMsnHotmail, sort bool) interface{} {
+func flattenEmailfilterProfileMsnHotmail(d *schema.ResourceData, v *[]models.EmailfilterProfileMsnHotmail, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Log; tmp != nil {
 				v["log"] = *tmp
@@ -903,11 +910,12 @@ func flattenEmailfilterProfileMsnHotmail(v *[]models.EmailfilterProfileMsnHotmai
 	return flat
 }
 
-func flattenEmailfilterProfileOtherWebmails(v *[]models.EmailfilterProfileOtherWebmails, sort bool) interface{} {
+func flattenEmailfilterProfileOtherWebmails(d *schema.ResourceData, v *[]models.EmailfilterProfileOtherWebmails, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.LogAll; tmp != nil {
 				v["log_all"] = *tmp
@@ -920,11 +928,12 @@ func flattenEmailfilterProfileOtherWebmails(v *[]models.EmailfilterProfileOtherW
 	return flat
 }
 
-func flattenEmailfilterProfilePop3(v *[]models.EmailfilterProfilePop3, sort bool) interface{} {
+func flattenEmailfilterProfilePop3(d *schema.ResourceData, v *[]models.EmailfilterProfilePop3, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Action; tmp != nil {
 				v["action"] = *tmp
@@ -953,11 +962,12 @@ func flattenEmailfilterProfilePop3(v *[]models.EmailfilterProfilePop3, sort bool
 	return flat
 }
 
-func flattenEmailfilterProfileSmtp(v *[]models.EmailfilterProfileSmtp, sort bool) interface{} {
+func flattenEmailfilterProfileSmtp(d *schema.ResourceData, v *[]models.EmailfilterProfileSmtp, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Action; tmp != nil {
 				v["action"] = *tmp
@@ -994,11 +1004,12 @@ func flattenEmailfilterProfileSmtp(v *[]models.EmailfilterProfileSmtp, sort bool
 	return flat
 }
 
-func flattenEmailfilterProfileYahooMail(v *[]models.EmailfilterProfileYahooMail, sort bool) interface{} {
+func flattenEmailfilterProfileYahooMail(d *schema.ResourceData, v *[]models.EmailfilterProfileYahooMail, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Log; tmp != nil {
 				v["log"] = *tmp
@@ -1043,31 +1054,31 @@ func refreshObjectEmailfilterProfile(d *schema.ResourceData, o *models.Emailfilt
 	}
 
 	if o.FileFilter != nil {
-		if err = d.Set("file_filter", flattenEmailfilterProfileFileFilter(o.FileFilter, sort)); err != nil {
+		if err = d.Set("file_filter", flattenEmailfilterProfileFileFilter(d, o.FileFilter, "file_filter", sort)); err != nil {
 			return diag.Errorf("error reading file_filter: %v", err)
 		}
 	}
 
 	if o.Gmail != nil {
-		if err = d.Set("gmail", flattenEmailfilterProfileGmail(o.Gmail, sort)); err != nil {
+		if err = d.Set("gmail", flattenEmailfilterProfileGmail(d, o.Gmail, "gmail", sort)); err != nil {
 			return diag.Errorf("error reading gmail: %v", err)
 		}
 	}
 
 	if o.Imap != nil {
-		if err = d.Set("imap", flattenEmailfilterProfileImap(o.Imap, sort)); err != nil {
+		if err = d.Set("imap", flattenEmailfilterProfileImap(d, o.Imap, "imap", sort)); err != nil {
 			return diag.Errorf("error reading imap: %v", err)
 		}
 	}
 
 	if o.Mapi != nil {
-		if err = d.Set("mapi", flattenEmailfilterProfileMapi(o.Mapi, sort)); err != nil {
+		if err = d.Set("mapi", flattenEmailfilterProfileMapi(d, o.Mapi, "mapi", sort)); err != nil {
 			return diag.Errorf("error reading mapi: %v", err)
 		}
 	}
 
 	if o.MsnHotmail != nil {
-		if err = d.Set("msn_hotmail", flattenEmailfilterProfileMsnHotmail(o.MsnHotmail, sort)); err != nil {
+		if err = d.Set("msn_hotmail", flattenEmailfilterProfileMsnHotmail(d, o.MsnHotmail, "msn_hotmail", sort)); err != nil {
 			return diag.Errorf("error reading msn_hotmail: %v", err)
 		}
 	}
@@ -1089,13 +1100,13 @@ func refreshObjectEmailfilterProfile(d *schema.ResourceData, o *models.Emailfilt
 	}
 
 	if o.OtherWebmails != nil {
-		if err = d.Set("other_webmails", flattenEmailfilterProfileOtherWebmails(o.OtherWebmails, sort)); err != nil {
+		if err = d.Set("other_webmails", flattenEmailfilterProfileOtherWebmails(d, o.OtherWebmails, "other_webmails", sort)); err != nil {
 			return diag.Errorf("error reading other_webmails: %v", err)
 		}
 	}
 
 	if o.Pop3 != nil {
-		if err = d.Set("pop3", flattenEmailfilterProfilePop3(o.Pop3, sort)); err != nil {
+		if err = d.Set("pop3", flattenEmailfilterProfilePop3(d, o.Pop3, "pop3", sort)); err != nil {
 			return diag.Errorf("error reading pop3: %v", err)
 		}
 	}
@@ -1109,7 +1120,7 @@ func refreshObjectEmailfilterProfile(d *schema.ResourceData, o *models.Emailfilt
 	}
 
 	if o.Smtp != nil {
-		if err = d.Set("smtp", flattenEmailfilterProfileSmtp(o.Smtp, sort)); err != nil {
+		if err = d.Set("smtp", flattenEmailfilterProfileSmtp(d, o.Smtp, "smtp", sort)); err != nil {
 			return diag.Errorf("error reading smtp: %v", err)
 		}
 	}
@@ -1195,7 +1206,7 @@ func refreshObjectEmailfilterProfile(d *schema.ResourceData, o *models.Emailfilt
 	}
 
 	if o.YahooMail != nil {
-		if err = d.Set("yahoo_mail", flattenEmailfilterProfileYahooMail(o.YahooMail, sort)); err != nil {
+		if err = d.Set("yahoo_mail", flattenEmailfilterProfileYahooMail(d, o.YahooMail, "yahoo_mail", sort)); err != nil {
 			return diag.Errorf("error reading yahoo_mail: %v", err)
 		}
 	}

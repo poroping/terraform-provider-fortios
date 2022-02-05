@@ -249,11 +249,12 @@ func resourceWirelessControllerHotspot20Anqp3gppCellularRead(ctx context.Context
 	return nil
 }
 
-func flattenWirelessControllerHotspot20Anqp3gppCellularMccMncList(v *[]models.WirelessControllerHotspot20Anqp3gppCellularMccMncList, sort bool) interface{} {
+func flattenWirelessControllerHotspot20Anqp3gppCellularMccMncList(d *schema.ResourceData, v *[]models.WirelessControllerHotspot20Anqp3gppCellularMccMncList, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Id; tmp != nil {
 				v["id"] = *tmp
@@ -282,7 +283,7 @@ func refreshObjectWirelessControllerHotspot20Anqp3gppCellular(d *schema.Resource
 	var err error
 
 	if o.MccMncList != nil {
-		if err = d.Set("mcc_mnc_list", flattenWirelessControllerHotspot20Anqp3gppCellularMccMncList(o.MccMncList, sort)); err != nil {
+		if err = d.Set("mcc_mnc_list", flattenWirelessControllerHotspot20Anqp3gppCellularMccMncList(d, o.MccMncList, "mcc_mnc_list", sort)); err != nil {
 			return diag.Errorf("error reading mcc_mnc_list: %v", err)
 		}
 	}

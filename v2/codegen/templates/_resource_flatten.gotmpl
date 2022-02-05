@@ -1,15 +1,17 @@
 {{ define "FLATTEN" }}
 {{- range $key, $value := .children }}
 {{- if or (eq $value.category "table") (eq $value.category "complex") }}
-func flatten{{.fpath}}(v *[]models.{{.fpath}}, sort bool) interface{} {
+func flatten{{.fpath}}(d *schema.ResourceData, v *[]models.{{.fpath}}, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 		{{- range $key, $value := $value.children }}
 			if tmp := cfg.{{if $value.name_begin_with_int}}The{{end}}{{(mixedCase $value.name)}}; tmp != nil {
-				v["{{ if $value.NameReserved }}fos{{end}}{{(flatten $value.name)}}"] = {{ if or (eq $value.category "table") (eq $value.category "complex") }}flatten{{.fpath}}(tmp, sort){{else}}*tmp{{end}}
+				{{- (flattenFunc $value) }}
+				v["{{ if $value.NameReserved }}fos{{end}}{{(flatten $value.name)}}"] = {{ if or (eq $value.category "table") (eq $value.category "complex") }}flatten{{.fpath}}(d, tmp, prefix + "{{ (flatten $value.name) }}", sort){{else}}*tmp{{end}}
 			}
 		{{ end }}
 			flat = append(flat, v)

@@ -243,11 +243,12 @@ func resourceWirelessControllerAddrgrpRead(ctx context.Context, d *schema.Resour
 	return nil
 }
 
-func flattenWirelessControllerAddrgrpAddresses(v *[]models.WirelessControllerAddrgrpAddresses, sort bool) interface{} {
+func flattenWirelessControllerAddrgrpAddresses(d *schema.ResourceData, v *[]models.WirelessControllerAddrgrpAddresses, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Id; tmp != nil {
 				v["id"] = *tmp
@@ -268,7 +269,7 @@ func refreshObjectWirelessControllerAddrgrp(d *schema.ResourceData, o *models.Wi
 	var err error
 
 	if o.Addresses != nil {
-		if err = d.Set("addresses", flattenWirelessControllerAddrgrpAddresses(o.Addresses, sort)); err != nil {
+		if err = d.Set("addresses", flattenWirelessControllerAddrgrpAddresses(d, o.Addresses, "addresses", sort)); err != nil {
 			return diag.Errorf("error reading addresses: %v", err)
 		}
 	}

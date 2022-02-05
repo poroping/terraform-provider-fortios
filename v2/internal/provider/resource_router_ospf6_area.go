@@ -544,7 +544,7 @@ func refreshObjectRouterOspf6Area(d *schema.ResourceData, o *models.RouterOspf6A
 	}
 
 	if o.IpsecKeys != nil {
-		if err = d.Set("ipsec_keys", flattenRouterOspf6AreaIpsecKeys(o.IpsecKeys, sort)); err != nil {
+		if err = d.Set("ipsec_keys", flattenRouterOspf6AreaIpsecKeys(d, o.IpsecKeys, "ipsec_keys", sort)); err != nil {
 			return diag.Errorf("error reading ipsec_keys: %v", err)
 		}
 	}
@@ -598,7 +598,7 @@ func refreshObjectRouterOspf6Area(d *schema.ResourceData, o *models.RouterOspf6A
 	}
 
 	if o.Range != nil {
-		if err = d.Set("range", flattenRouterOspf6AreaRange(o.Range, sort)); err != nil {
+		if err = d.Set("range", flattenRouterOspf6AreaRange(d, o.Range, "range", sort)); err != nil {
 			return diag.Errorf("error reading range: %v", err)
 		}
 	}
@@ -620,7 +620,7 @@ func refreshObjectRouterOspf6Area(d *schema.ResourceData, o *models.RouterOspf6A
 	}
 
 	if o.VirtualLink != nil {
-		if err = d.Set("virtual_link", flattenRouterOspf6AreaVirtualLink(o.VirtualLink, sort)); err != nil {
+		if err = d.Set("virtual_link", flattenRouterOspf6AreaVirtualLink(d, o.VirtualLink, "virtual_link", sort)); err != nil {
 			return diag.Errorf("error reading virtual_link: %v", err)
 		}
 	}

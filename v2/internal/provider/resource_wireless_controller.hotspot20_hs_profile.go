@@ -520,11 +520,12 @@ func resourceWirelessControllerHotspot20HsProfileRead(ctx context.Context, d *sc
 	return nil
 }
 
-func flattenWirelessControllerHotspot20HsProfileOsuProvider(v *[]models.WirelessControllerHotspot20HsProfileOsuProvider, sort bool) interface{} {
+func flattenWirelessControllerHotspot20HsProfileOsuProvider(d *schema.ResourceData, v *[]models.WirelessControllerHotspot20HsProfileOsuProvider, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -729,7 +730,7 @@ func refreshObjectWirelessControllerHotspot20HsProfile(d *schema.ResourceData, o
 	}
 
 	if o.OsuProvider != nil {
-		if err = d.Set("osu_provider", flattenWirelessControllerHotspot20HsProfileOsuProvider(o.OsuProvider, sort)); err != nil {
+		if err = d.Set("osu_provider", flattenWirelessControllerHotspot20HsProfileOsuProvider(d, o.OsuProvider, "osu_provider", sort)); err != nil {
 			return diag.Errorf("error reading osu_provider: %v", err)
 		}
 	}

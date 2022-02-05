@@ -306,11 +306,12 @@ func resourceSystemSwitchInterfaceRead(ctx context.Context, d *schema.ResourceDa
 	return nil
 }
 
-func flattenSystemSwitchInterfaceMember(v *[]models.SystemSwitchInterfaceMember, sort bool) interface{} {
+func flattenSystemSwitchInterfaceMember(d *schema.ResourceData, v *[]models.SystemSwitchInterfaceMember, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.InterfaceName; tmp != nil {
 				v["interface_name"] = *tmp
@@ -327,11 +328,12 @@ func flattenSystemSwitchInterfaceMember(v *[]models.SystemSwitchInterfaceMember,
 	return flat
 }
 
-func flattenSystemSwitchInterfaceSpanSourcePort(v *[]models.SystemSwitchInterfaceSpanSourcePort, sort bool) interface{} {
+func flattenSystemSwitchInterfaceSpanSourcePort(d *schema.ResourceData, v *[]models.SystemSwitchInterfaceSpanSourcePort, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.InterfaceName; tmp != nil {
 				v["interface_name"] = *tmp
@@ -368,7 +370,7 @@ func refreshObjectSystemSwitchInterface(d *schema.ResourceData, o *models.System
 	}
 
 	if o.Member != nil {
-		if err = d.Set("member", flattenSystemSwitchInterfaceMember(o.Member, sort)); err != nil {
+		if err = d.Set("member", flattenSystemSwitchInterfaceMember(d, o.Member, "member", sort)); err != nil {
 			return diag.Errorf("error reading member: %v", err)
 		}
 	}
@@ -406,7 +408,7 @@ func refreshObjectSystemSwitchInterface(d *schema.ResourceData, o *models.System
 	}
 
 	if o.SpanSourcePort != nil {
-		if err = d.Set("span_source_port", flattenSystemSwitchInterfaceSpanSourcePort(o.SpanSourcePort, sort)); err != nil {
+		if err = d.Set("span_source_port", flattenSystemSwitchInterfaceSpanSourcePort(d, o.SpanSourcePort, "span_source_port", sort)); err != nil {
 			return diag.Errorf("error reading span_source_port: %v", err)
 		}
 	}

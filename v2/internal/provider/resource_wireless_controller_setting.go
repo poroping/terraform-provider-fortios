@@ -345,11 +345,12 @@ func resourceWirelessControllerSettingRead(ctx context.Context, d *schema.Resour
 	return nil
 }
 
-func flattenWirelessControllerSettingDarrpOptimizeSchedules(v *[]models.WirelessControllerSettingDarrpOptimizeSchedules, sort bool) interface{} {
+func flattenWirelessControllerSettingDarrpOptimizeSchedules(d *schema.ResourceData, v *[]models.WirelessControllerSettingDarrpOptimizeSchedules, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -366,11 +367,12 @@ func flattenWirelessControllerSettingDarrpOptimizeSchedules(v *[]models.Wireless
 	return flat
 }
 
-func flattenWirelessControllerSettingOffendingSsid(v *[]models.WirelessControllerSettingOffendingSsid, sort bool) interface{} {
+func flattenWirelessControllerSettingOffendingSsid(d *schema.ResourceData, v *[]models.WirelessControllerSettingOffendingSsid, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Action; tmp != nil {
 				v["action"] = *tmp
@@ -423,7 +425,7 @@ func refreshObjectWirelessControllerSetting(d *schema.ResourceData, o *models.Wi
 	}
 
 	if o.DarrpOptimizeSchedules != nil {
-		if err = d.Set("darrp_optimize_schedules", flattenWirelessControllerSettingDarrpOptimizeSchedules(o.DarrpOptimizeSchedules, sort)); err != nil {
+		if err = d.Set("darrp_optimize_schedules", flattenWirelessControllerSettingDarrpOptimizeSchedules(d, o.DarrpOptimizeSchedules, "darrp_optimize_schedules", sort)); err != nil {
 			return diag.Errorf("error reading darrp_optimize_schedules: %v", err)
 		}
 	}
@@ -485,7 +487,7 @@ func refreshObjectWirelessControllerSetting(d *schema.ResourceData, o *models.Wi
 	}
 
 	if o.OffendingSsid != nil {
-		if err = d.Set("offending_ssid", flattenWirelessControllerSettingOffendingSsid(o.OffendingSsid, sort)); err != nil {
+		if err = d.Set("offending_ssid", flattenWirelessControllerSettingOffendingSsid(d, o.OffendingSsid, "offending_ssid", sort)); err != nil {
 			return diag.Errorf("error reading offending_ssid: %v", err)
 		}
 	}

@@ -418,11 +418,12 @@ func resourceSystemSnmpCommunityRead(ctx context.Context, d *schema.ResourceData
 	return nil
 }
 
-func flattenSystemSnmpCommunityHosts(v *[]models.SystemSnmpCommunityHosts, sort bool) interface{} {
+func flattenSystemSnmpCommunityHosts(d *schema.ResourceData, v *[]models.SystemSnmpCommunityHosts, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.HaDirect; tmp != nil {
 				v["ha_direct"] = *tmp
@@ -455,11 +456,12 @@ func flattenSystemSnmpCommunityHosts(v *[]models.SystemSnmpCommunityHosts, sort 
 	return flat
 }
 
-func flattenSystemSnmpCommunityHosts6(v *[]models.SystemSnmpCommunityHosts6, sort bool) interface{} {
+func flattenSystemSnmpCommunityHosts6(d *schema.ResourceData, v *[]models.SystemSnmpCommunityHosts6, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.HaDirect; tmp != nil {
 				v["ha_direct"] = *tmp
@@ -504,13 +506,13 @@ func refreshObjectSystemSnmpCommunity(d *schema.ResourceData, o *models.SystemSn
 	}
 
 	if o.Hosts != nil {
-		if err = d.Set("hosts", flattenSystemSnmpCommunityHosts(o.Hosts, sort)); err != nil {
+		if err = d.Set("hosts", flattenSystemSnmpCommunityHosts(d, o.Hosts, "hosts", sort)); err != nil {
 			return diag.Errorf("error reading hosts: %v", err)
 		}
 	}
 
 	if o.Hosts6 != nil {
-		if err = d.Set("hosts6", flattenSystemSnmpCommunityHosts6(o.Hosts6, sort)); err != nil {
+		if err = d.Set("hosts6", flattenSystemSnmpCommunityHosts6(d, o.Hosts6, "hosts6", sort)); err != nil {
 			return diag.Errorf("error reading hosts6: %v", err)
 		}
 	}

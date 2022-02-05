@@ -380,11 +380,12 @@ func resourceSystemAlarmRead(ctx context.Context, d *schema.ResourceData, meta i
 	return nil
 }
 
-func flattenSystemAlarmGroups(v *[]models.SystemAlarmGroups, sort bool) interface{} {
+func flattenSystemAlarmGroups(d *schema.ResourceData, v *[]models.SystemAlarmGroups, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.AdminAuthFailureThreshold; tmp != nil {
 				v["admin_auth_failure_threshold"] = *tmp
@@ -411,7 +412,7 @@ func flattenSystemAlarmGroups(v *[]models.SystemAlarmGroups, sort bool) interfac
 			}
 
 			if tmp := cfg.FwPolicyViolations; tmp != nil {
-				v["fw_policy_violations"] = flattenSystemAlarmGroupsFwPolicyViolations(tmp, sort)
+				v["fw_policy_violations"] = flattenSystemAlarmGroupsFwPolicyViolations(d, tmp, prefix+"fw_policy_violations", sort)
 			}
 
 			if tmp := cfg.Id; tmp != nil {
@@ -453,11 +454,12 @@ func flattenSystemAlarmGroups(v *[]models.SystemAlarmGroups, sort bool) interfac
 	return flat
 }
 
-func flattenSystemAlarmGroupsFwPolicyViolations(v *[]models.SystemAlarmGroupsFwPolicyViolations, sort bool) interface{} {
+func flattenSystemAlarmGroupsFwPolicyViolations(d *schema.ResourceData, v *[]models.SystemAlarmGroupsFwPolicyViolations, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.DstIp; tmp != nil {
 				v["dst_ip"] = *tmp
@@ -506,7 +508,7 @@ func refreshObjectSystemAlarm(d *schema.ResourceData, o *models.SystemAlarm, sv 
 	}
 
 	if o.Groups != nil {
-		if err = d.Set("groups", flattenSystemAlarmGroups(o.Groups, sort)); err != nil {
+		if err = d.Set("groups", flattenSystemAlarmGroups(d, o.Groups, "groups", sort)); err != nil {
 			return diag.Errorf("error reading groups: %v", err)
 		}
 	}

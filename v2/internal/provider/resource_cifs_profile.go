@@ -340,14 +340,15 @@ func resourceCifsProfileRead(ctx context.Context, d *schema.ResourceData, meta i
 	return nil
 }
 
-func flattenCifsProfileFileFilter(v *[]models.CifsProfileFileFilter, sort bool) interface{} {
+func flattenCifsProfileFileFilter(d *schema.ResourceData, v *[]models.CifsProfileFileFilter, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Entries; tmp != nil {
-				v["entries"] = flattenCifsProfileFileFilterEntries(tmp, sort)
+				v["entries"] = flattenCifsProfileFileFilterEntries(d, tmp, prefix+"entries", sort)
 			}
 
 			if tmp := cfg.Log; tmp != nil {
@@ -365,11 +366,12 @@ func flattenCifsProfileFileFilter(v *[]models.CifsProfileFileFilter, sort bool) 
 	return flat
 }
 
-func flattenCifsProfileFileFilterEntries(v *[]models.CifsProfileFileFilterEntries, sort bool) interface{} {
+func flattenCifsProfileFileFilterEntries(d *schema.ResourceData, v *[]models.CifsProfileFileFilterEntries, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Action; tmp != nil {
 				v["action"] = *tmp
@@ -384,7 +386,7 @@ func flattenCifsProfileFileFilterEntries(v *[]models.CifsProfileFileFilterEntrie
 			}
 
 			if tmp := cfg.FileType; tmp != nil {
-				v["file_type"] = flattenCifsProfileFileFilterEntriesFileType(tmp, sort)
+				v["file_type"] = flattenCifsProfileFileFilterEntriesFileType(d, tmp, prefix+"file_type", sort)
 			}
 
 			if tmp := cfg.Filter; tmp != nil {
@@ -402,11 +404,12 @@ func flattenCifsProfileFileFilterEntries(v *[]models.CifsProfileFileFilterEntrie
 	return flat
 }
 
-func flattenCifsProfileFileFilterEntriesFileType(v *[]models.CifsProfileFileFilterEntriesFileType, sort bool) interface{} {
+func flattenCifsProfileFileFilterEntriesFileType(d *schema.ResourceData, v *[]models.CifsProfileFileFilterEntriesFileType, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -423,11 +426,12 @@ func flattenCifsProfileFileFilterEntriesFileType(v *[]models.CifsProfileFileFilt
 	return flat
 }
 
-func flattenCifsProfileServerKeytab(v *[]models.CifsProfileServerKeytab, sort bool) interface{} {
+func flattenCifsProfileServerKeytab(d *schema.ResourceData, v *[]models.CifsProfileServerKeytab, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Keytab; tmp != nil {
 				v["keytab"] = *tmp
@@ -460,7 +464,7 @@ func refreshObjectCifsProfile(d *schema.ResourceData, o *models.CifsProfile, sv 
 	}
 
 	if o.FileFilter != nil {
-		if err = d.Set("file_filter", flattenCifsProfileFileFilter(o.FileFilter, sort)); err != nil {
+		if err = d.Set("file_filter", flattenCifsProfileFileFilter(d, o.FileFilter, "file_filter", sort)); err != nil {
 			return diag.Errorf("error reading file_filter: %v", err)
 		}
 	}
@@ -482,7 +486,7 @@ func refreshObjectCifsProfile(d *schema.ResourceData, o *models.CifsProfile, sv 
 	}
 
 	if o.ServerKeytab != nil {
-		if err = d.Set("server_keytab", flattenCifsProfileServerKeytab(o.ServerKeytab, sort)); err != nil {
+		if err = d.Set("server_keytab", flattenCifsProfileServerKeytab(d, o.ServerKeytab, "server_keytab", sort)); err != nil {
 			return diag.Errorf("error reading server_keytab: %v", err)
 		}
 	}

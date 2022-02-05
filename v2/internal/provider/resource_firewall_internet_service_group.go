@@ -256,11 +256,12 @@ func resourceFirewallInternetServiceGroupRead(ctx context.Context, d *schema.Res
 	return nil
 }
 
-func flattenFirewallInternetServiceGroupMember(v *[]models.FirewallInternetServiceGroupMember, sort bool) interface{} {
+func flattenFirewallInternetServiceGroupMember(d *schema.ResourceData, v *[]models.FirewallInternetServiceGroupMember, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Id; tmp != nil {
 				v["id"] = *tmp
@@ -301,7 +302,7 @@ func refreshObjectFirewallInternetServiceGroup(d *schema.ResourceData, o *models
 	}
 
 	if o.Member != nil {
-		if err = d.Set("member", flattenFirewallInternetServiceGroupMember(o.Member, sort)); err != nil {
+		if err = d.Set("member", flattenFirewallInternetServiceGroupMember(d, o.Member, "member", sort)); err != nil {
 			return diag.Errorf("error reading member: %v", err)
 		}
 	}

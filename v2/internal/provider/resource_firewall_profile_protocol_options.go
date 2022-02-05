@@ -1348,11 +1348,12 @@ func resourceFirewallProfileProtocolOptionsRead(ctx context.Context, d *schema.R
 	return nil
 }
 
-func flattenFirewallProfileProtocolOptionsCifs(v *[]models.FirewallProfileProtocolOptionsCifs, sort bool) interface{} {
+func flattenFirewallProfileProtocolOptionsCifs(d *schema.ResourceData, v *[]models.FirewallProfileProtocolOptionsCifs, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.DomainController; tmp != nil {
 				v["domain_controller"] = *tmp
@@ -1379,7 +1380,7 @@ func flattenFirewallProfileProtocolOptionsCifs(v *[]models.FirewallProfileProtoc
 			}
 
 			if tmp := cfg.ServerKeytab; tmp != nil {
-				v["server_keytab"] = flattenFirewallProfileProtocolOptionsCifsServerKeytab(tmp, sort)
+				v["server_keytab"] = flattenFirewallProfileProtocolOptionsCifsServerKeytab(d, tmp, prefix+"server_keytab", sort)
 			}
 
 			if tmp := cfg.Status; tmp != nil {
@@ -1417,11 +1418,12 @@ func flattenFirewallProfileProtocolOptionsCifs(v *[]models.FirewallProfileProtoc
 	return flat
 }
 
-func flattenFirewallProfileProtocolOptionsCifsServerKeytab(v *[]models.FirewallProfileProtocolOptionsCifsServerKeytab, sort bool) interface{} {
+func flattenFirewallProfileProtocolOptionsCifsServerKeytab(d *schema.ResourceData, v *[]models.FirewallProfileProtocolOptionsCifsServerKeytab, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Keytab; tmp != nil {
 				v["keytab"] = *tmp
@@ -1442,11 +1444,12 @@ func flattenFirewallProfileProtocolOptionsCifsServerKeytab(v *[]models.FirewallP
 	return flat
 }
 
-func flattenFirewallProfileProtocolOptionsDns(v *[]models.FirewallProfileProtocolOptionsDns, sort bool) interface{} {
+func flattenFirewallProfileProtocolOptionsDns(d *schema.ResourceData, v *[]models.FirewallProfileProtocolOptionsDns, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Ports; tmp != nil {
 				v["ports"] = *tmp
@@ -1463,11 +1466,12 @@ func flattenFirewallProfileProtocolOptionsDns(v *[]models.FirewallProfileProtoco
 	return flat
 }
 
-func flattenFirewallProfileProtocolOptionsFtp(v *[]models.FirewallProfileProtocolOptionsFtp, sort bool) interface{} {
+func flattenFirewallProfileProtocolOptionsFtp(d *schema.ResourceData, v *[]models.FirewallProfileProtocolOptionsFtp, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.ComfortAmount; tmp != nil {
 				v["comfort_amount"] = *tmp
@@ -1540,11 +1544,12 @@ func flattenFirewallProfileProtocolOptionsFtp(v *[]models.FirewallProfileProtoco
 	return flat
 }
 
-func flattenFirewallProfileProtocolOptionsHttp(v *[]models.FirewallProfileProtocolOptionsHttp, sort bool) interface{} {
+func flattenFirewallProfileProtocolOptionsHttp(d *schema.ResourceData, v *[]models.FirewallProfileProtocolOptionsHttp, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.BlockPageStatusCode; tmp != nil {
 				v["block_page_status_code"] = *tmp
@@ -1665,11 +1670,12 @@ func flattenFirewallProfileProtocolOptionsHttp(v *[]models.FirewallProfileProtoc
 	return flat
 }
 
-func flattenFirewallProfileProtocolOptionsImap(v *[]models.FirewallProfileProtocolOptionsImap, sort bool) interface{} {
+func flattenFirewallProfileProtocolOptionsImap(d *schema.ResourceData, v *[]models.FirewallProfileProtocolOptionsImap, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.InspectAll; tmp != nil {
 				v["inspect_all"] = *tmp
@@ -1718,11 +1724,12 @@ func flattenFirewallProfileProtocolOptionsImap(v *[]models.FirewallProfileProtoc
 	return flat
 }
 
-func flattenFirewallProfileProtocolOptionsMailSignature(v *[]models.FirewallProfileProtocolOptionsMailSignature, sort bool) interface{} {
+func flattenFirewallProfileProtocolOptionsMailSignature(d *schema.ResourceData, v *[]models.FirewallProfileProtocolOptionsMailSignature, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Signature; tmp != nil {
 				v["signature"] = *tmp
@@ -1739,11 +1746,12 @@ func flattenFirewallProfileProtocolOptionsMailSignature(v *[]models.FirewallProf
 	return flat
 }
 
-func flattenFirewallProfileProtocolOptionsMapi(v *[]models.FirewallProfileProtocolOptionsMapi, sort bool) interface{} {
+func flattenFirewallProfileProtocolOptionsMapi(d *schema.ResourceData, v *[]models.FirewallProfileProtocolOptionsMapi, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Options; tmp != nil {
 				v["options"] = *tmp
@@ -1780,11 +1788,12 @@ func flattenFirewallProfileProtocolOptionsMapi(v *[]models.FirewallProfileProtoc
 	return flat
 }
 
-func flattenFirewallProfileProtocolOptionsNntp(v *[]models.FirewallProfileProtocolOptionsNntp, sort bool) interface{} {
+func flattenFirewallProfileProtocolOptionsNntp(d *schema.ResourceData, v *[]models.FirewallProfileProtocolOptionsNntp, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.InspectAll; tmp != nil {
 				v["inspect_all"] = *tmp
@@ -1829,11 +1838,12 @@ func flattenFirewallProfileProtocolOptionsNntp(v *[]models.FirewallProfileProtoc
 	return flat
 }
 
-func flattenFirewallProfileProtocolOptionsPop3(v *[]models.FirewallProfileProtocolOptionsPop3, sort bool) interface{} {
+func flattenFirewallProfileProtocolOptionsPop3(d *schema.ResourceData, v *[]models.FirewallProfileProtocolOptionsPop3, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.InspectAll; tmp != nil {
 				v["inspect_all"] = *tmp
@@ -1882,11 +1892,12 @@ func flattenFirewallProfileProtocolOptionsPop3(v *[]models.FirewallProfileProtoc
 	return flat
 }
 
-func flattenFirewallProfileProtocolOptionsSmtp(v *[]models.FirewallProfileProtocolOptionsSmtp, sort bool) interface{} {
+func flattenFirewallProfileProtocolOptionsSmtp(d *schema.ResourceData, v *[]models.FirewallProfileProtocolOptionsSmtp, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.InspectAll; tmp != nil {
 				v["inspect_all"] = *tmp
@@ -1939,11 +1950,12 @@ func flattenFirewallProfileProtocolOptionsSmtp(v *[]models.FirewallProfileProtoc
 	return flat
 }
 
-func flattenFirewallProfileProtocolOptionsSsh(v *[]models.FirewallProfileProtocolOptionsSsh, sort bool) interface{} {
+func flattenFirewallProfileProtocolOptionsSsh(d *schema.ResourceData, v *[]models.FirewallProfileProtocolOptionsSsh, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.ComfortAmount; tmp != nil {
 				v["comfort_amount"] = *tmp
@@ -2008,7 +2020,7 @@ func refreshObjectFirewallProfileProtocolOptions(d *schema.ResourceData, o *mode
 	var err error
 
 	if o.Cifs != nil {
-		if err = d.Set("cifs", flattenFirewallProfileProtocolOptionsCifs(o.Cifs, sort)); err != nil {
+		if err = d.Set("cifs", flattenFirewallProfileProtocolOptionsCifs(d, o.Cifs, "cifs", sort)); err != nil {
 			return diag.Errorf("error reading cifs: %v", err)
 		}
 	}
@@ -2022,7 +2034,7 @@ func refreshObjectFirewallProfileProtocolOptions(d *schema.ResourceData, o *mode
 	}
 
 	if o.Dns != nil {
-		if err = d.Set("dns", flattenFirewallProfileProtocolOptionsDns(o.Dns, sort)); err != nil {
+		if err = d.Set("dns", flattenFirewallProfileProtocolOptionsDns(d, o.Dns, "dns", sort)); err != nil {
 			return diag.Errorf("error reading dns: %v", err)
 		}
 	}
@@ -2036,31 +2048,31 @@ func refreshObjectFirewallProfileProtocolOptions(d *schema.ResourceData, o *mode
 	}
 
 	if o.Ftp != nil {
-		if err = d.Set("ftp", flattenFirewallProfileProtocolOptionsFtp(o.Ftp, sort)); err != nil {
+		if err = d.Set("ftp", flattenFirewallProfileProtocolOptionsFtp(d, o.Ftp, "ftp", sort)); err != nil {
 			return diag.Errorf("error reading ftp: %v", err)
 		}
 	}
 
 	if o.Http != nil {
-		if err = d.Set("http", flattenFirewallProfileProtocolOptionsHttp(o.Http, sort)); err != nil {
+		if err = d.Set("http", flattenFirewallProfileProtocolOptionsHttp(d, o.Http, "http", sort)); err != nil {
 			return diag.Errorf("error reading http: %v", err)
 		}
 	}
 
 	if o.Imap != nil {
-		if err = d.Set("imap", flattenFirewallProfileProtocolOptionsImap(o.Imap, sort)); err != nil {
+		if err = d.Set("imap", flattenFirewallProfileProtocolOptionsImap(d, o.Imap, "imap", sort)); err != nil {
 			return diag.Errorf("error reading imap: %v", err)
 		}
 	}
 
 	if o.MailSignature != nil {
-		if err = d.Set("mail_signature", flattenFirewallProfileProtocolOptionsMailSignature(o.MailSignature, sort)); err != nil {
+		if err = d.Set("mail_signature", flattenFirewallProfileProtocolOptionsMailSignature(d, o.MailSignature, "mail_signature", sort)); err != nil {
 			return diag.Errorf("error reading mail_signature: %v", err)
 		}
 	}
 
 	if o.Mapi != nil {
-		if err = d.Set("mapi", flattenFirewallProfileProtocolOptionsMapi(o.Mapi, sort)); err != nil {
+		if err = d.Set("mapi", flattenFirewallProfileProtocolOptionsMapi(d, o.Mapi, "mapi", sort)); err != nil {
 			return diag.Errorf("error reading mapi: %v", err)
 		}
 	}
@@ -2074,7 +2086,7 @@ func refreshObjectFirewallProfileProtocolOptions(d *schema.ResourceData, o *mode
 	}
 
 	if o.Nntp != nil {
-		if err = d.Set("nntp", flattenFirewallProfileProtocolOptionsNntp(o.Nntp, sort)); err != nil {
+		if err = d.Set("nntp", flattenFirewallProfileProtocolOptionsNntp(d, o.Nntp, "nntp", sort)); err != nil {
 			return diag.Errorf("error reading nntp: %v", err)
 		}
 	}
@@ -2088,7 +2100,7 @@ func refreshObjectFirewallProfileProtocolOptions(d *schema.ResourceData, o *mode
 	}
 
 	if o.Pop3 != nil {
-		if err = d.Set("pop3", flattenFirewallProfileProtocolOptionsPop3(o.Pop3, sort)); err != nil {
+		if err = d.Set("pop3", flattenFirewallProfileProtocolOptionsPop3(d, o.Pop3, "pop3", sort)); err != nil {
 			return diag.Errorf("error reading pop3: %v", err)
 		}
 	}
@@ -2110,13 +2122,13 @@ func refreshObjectFirewallProfileProtocolOptions(d *schema.ResourceData, o *mode
 	}
 
 	if o.Smtp != nil {
-		if err = d.Set("smtp", flattenFirewallProfileProtocolOptionsSmtp(o.Smtp, sort)); err != nil {
+		if err = d.Set("smtp", flattenFirewallProfileProtocolOptionsSmtp(d, o.Smtp, "smtp", sort)); err != nil {
 			return diag.Errorf("error reading smtp: %v", err)
 		}
 	}
 
 	if o.Ssh != nil {
-		if err = d.Set("ssh", flattenFirewallProfileProtocolOptionsSsh(o.Ssh, sort)); err != nil {
+		if err = d.Set("ssh", flattenFirewallProfileProtocolOptionsSsh(d, o.Ssh, "ssh", sort)); err != nil {
 			return diag.Errorf("error reading ssh: %v", err)
 		}
 	}

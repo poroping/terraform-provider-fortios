@@ -434,11 +434,12 @@ func resourceFirewallServiceCustomRead(ctx context.Context, d *schema.ResourceDa
 	return nil
 }
 
-func flattenFirewallServiceCustomAppCategory(v *[]models.FirewallServiceCustomAppCategory, sort bool) interface{} {
+func flattenFirewallServiceCustomAppCategory(d *schema.ResourceData, v *[]models.FirewallServiceCustomAppCategory, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Id; tmp != nil {
 				v["id"] = *tmp
@@ -455,11 +456,12 @@ func flattenFirewallServiceCustomAppCategory(v *[]models.FirewallServiceCustomAp
 	return flat
 }
 
-func flattenFirewallServiceCustomApplication(v *[]models.FirewallServiceCustomApplication, sort bool) interface{} {
+func flattenFirewallServiceCustomApplication(d *schema.ResourceData, v *[]models.FirewallServiceCustomApplication, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Id; tmp != nil {
 				v["id"] = *tmp
@@ -480,7 +482,7 @@ func refreshObjectFirewallServiceCustom(d *schema.ResourceData, o *models.Firewa
 	var err error
 
 	if o.AppCategory != nil {
-		if err = d.Set("app_category", flattenFirewallServiceCustomAppCategory(o.AppCategory, sort)); err != nil {
+		if err = d.Set("app_category", flattenFirewallServiceCustomAppCategory(d, o.AppCategory, "app_category", sort)); err != nil {
 			return diag.Errorf("error reading app_category: %v", err)
 		}
 	}
@@ -494,7 +496,7 @@ func refreshObjectFirewallServiceCustom(d *schema.ResourceData, o *models.Firewa
 	}
 
 	if o.Application != nil {
-		if err = d.Set("application", flattenFirewallServiceCustomApplication(o.Application, sort)); err != nil {
+		if err = d.Set("application", flattenFirewallServiceCustomApplication(d, o.Application, "application", sort)); err != nil {
 			return diag.Errorf("error reading application: %v", err)
 		}
 	}

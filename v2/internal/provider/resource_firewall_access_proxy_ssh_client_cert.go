@@ -313,11 +313,12 @@ func resourceFirewallAccessProxySshClientCertRead(ctx context.Context, d *schema
 	return nil
 }
 
-func flattenFirewallAccessProxySshClientCertCertExtension(v *[]models.FirewallAccessProxySshClientCertCertExtension, sort bool) interface{} {
+func flattenFirewallAccessProxySshClientCertCertExtension(d *schema.ResourceData, v *[]models.FirewallAccessProxySshClientCertCertExtension, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Critical; tmp != nil {
 				v["critical"] = *tmp
@@ -358,7 +359,7 @@ func refreshObjectFirewallAccessProxySshClientCert(d *schema.ResourceData, o *mo
 	}
 
 	if o.CertExtension != nil {
-		if err = d.Set("cert_extension", flattenFirewallAccessProxySshClientCertCertExtension(o.CertExtension, sort)); err != nil {
+		if err = d.Set("cert_extension", flattenFirewallAccessProxySshClientCertCertExtension(d, o.CertExtension, "cert_extension", sort)); err != nil {
 			return diag.Errorf("error reading cert_extension: %v", err)
 		}
 	}

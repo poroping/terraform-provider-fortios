@@ -721,11 +721,12 @@ func resourceReportChartRead(ctx context.Context, d *schema.ResourceData, meta i
 	return nil
 }
 
-func flattenReportChartCategorySeries(v *[]models.ReportChartCategorySeries, sort bool) interface{} {
+func flattenReportChartCategorySeries(d *schema.ResourceData, v *[]models.ReportChartCategorySeries, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Databind; tmp != nil {
 				v["databind"] = *tmp
@@ -742,11 +743,12 @@ func flattenReportChartCategorySeries(v *[]models.ReportChartCategorySeries, sor
 	return flat
 }
 
-func flattenReportChartColumn(v *[]models.ReportChartColumn, sort bool) interface{} {
+func flattenReportChartColumn(d *schema.ResourceData, v *[]models.ReportChartColumn, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.DetailUnit; tmp != nil {
 				v["detail_unit"] = *tmp
@@ -773,7 +775,7 @@ func flattenReportChartColumn(v *[]models.ReportChartColumn, sort bool) interfac
 			}
 
 			if tmp := cfg.Mapping; tmp != nil {
-				v["mapping"] = flattenReportChartColumnMapping(tmp, sort)
+				v["mapping"] = flattenReportChartColumnMapping(d, tmp, prefix+"mapping", sort)
 			}
 
 			flat = append(flat, v)
@@ -787,11 +789,12 @@ func flattenReportChartColumn(v *[]models.ReportChartColumn, sort bool) interfac
 	return flat
 }
 
-func flattenReportChartColumnMapping(v *[]models.ReportChartColumnMapping, sort bool) interface{} {
+func flattenReportChartColumnMapping(d *schema.ResourceData, v *[]models.ReportChartColumnMapping, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Displayname; tmp != nil {
 				v["displayname"] = *tmp
@@ -828,11 +831,12 @@ func flattenReportChartColumnMapping(v *[]models.ReportChartColumnMapping, sort 
 	return flat
 }
 
-func flattenReportChartDrillDownCharts(v *[]models.ReportChartDrillDownCharts, sort bool) interface{} {
+func flattenReportChartDrillDownCharts(d *schema.ResourceData, v *[]models.ReportChartDrillDownCharts, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.ChartName; tmp != nil {
 				v["chart_name"] = *tmp
@@ -857,11 +861,12 @@ func flattenReportChartDrillDownCharts(v *[]models.ReportChartDrillDownCharts, s
 	return flat
 }
 
-func flattenReportChartValueSeries(v *[]models.ReportChartValueSeries, sort bool) interface{} {
+func flattenReportChartValueSeries(d *schema.ResourceData, v *[]models.ReportChartValueSeries, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Databind; tmp != nil {
 				v["databind"] = *tmp
@@ -874,11 +879,12 @@ func flattenReportChartValueSeries(v *[]models.ReportChartValueSeries, sort bool
 	return flat
 }
 
-func flattenReportChartXSeries(v *[]models.ReportChartXSeries, sort bool) interface{} {
+func flattenReportChartXSeries(d *schema.ResourceData, v *[]models.ReportChartXSeries, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Caption; tmp != nil {
 				v["caption"] = *tmp
@@ -931,11 +937,12 @@ func flattenReportChartXSeries(v *[]models.ReportChartXSeries, sort bool) interf
 	return flat
 }
 
-func flattenReportChartYSeries(v *[]models.ReportChartYSeries, sort bool) interface{} {
+func flattenReportChartYSeries(d *schema.ResourceData, v *[]models.ReportChartYSeries, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Caption; tmp != nil {
 				v["caption"] = *tmp
@@ -1008,7 +1015,7 @@ func refreshObjectReportChart(d *schema.ResourceData, o *models.ReportChart, sv 
 	}
 
 	if o.CategorySeries != nil {
-		if err = d.Set("category_series", flattenReportChartCategorySeries(o.CategorySeries, sort)); err != nil {
+		if err = d.Set("category_series", flattenReportChartCategorySeries(d, o.CategorySeries, "category_series", sort)); err != nil {
 			return diag.Errorf("error reading category_series: %v", err)
 		}
 	}
@@ -1022,7 +1029,7 @@ func refreshObjectReportChart(d *schema.ResourceData, o *models.ReportChart, sv 
 	}
 
 	if o.Column != nil {
-		if err = d.Set("column", flattenReportChartColumn(o.Column, sort)); err != nil {
+		if err = d.Set("column", flattenReportChartColumn(d, o.Column, "column", sort)); err != nil {
 			return diag.Errorf("error reading column: %v", err)
 		}
 	}
@@ -1052,7 +1059,7 @@ func refreshObjectReportChart(d *schema.ResourceData, o *models.ReportChart, sv 
 	}
 
 	if o.DrillDownCharts != nil {
-		if err = d.Set("drill_down_charts", flattenReportChartDrillDownCharts(o.DrillDownCharts, sort)); err != nil {
+		if err = d.Set("drill_down_charts", flattenReportChartDrillDownCharts(d, o.DrillDownCharts, "drill_down_charts", sort)); err != nil {
 			return diag.Errorf("error reading drill_down_charts: %v", err)
 		}
 	}
@@ -1146,19 +1153,19 @@ func refreshObjectReportChart(d *schema.ResourceData, o *models.ReportChart, sv 
 	}
 
 	if o.ValueSeries != nil {
-		if err = d.Set("value_series", flattenReportChartValueSeries(o.ValueSeries, sort)); err != nil {
+		if err = d.Set("value_series", flattenReportChartValueSeries(d, o.ValueSeries, "value_series", sort)); err != nil {
 			return diag.Errorf("error reading value_series: %v", err)
 		}
 	}
 
 	if o.XSeries != nil {
-		if err = d.Set("x_series", flattenReportChartXSeries(o.XSeries, sort)); err != nil {
+		if err = d.Set("x_series", flattenReportChartXSeries(d, o.XSeries, "x_series", sort)); err != nil {
 			return diag.Errorf("error reading x_series: %v", err)
 		}
 	}
 
 	if o.YSeries != nil {
-		if err = d.Set("y_series", flattenReportChartYSeries(o.YSeries, sort)); err != nil {
+		if err = d.Set("y_series", flattenReportChartYSeries(d, o.YSeries, "y_series", sort)); err != nil {
 			return diag.Errorf("error reading y_series: %v", err)
 		}
 	}

@@ -958,13 +958,15 @@ func resourceSystemHaRead(ctx context.Context, d *schema.ResourceData, meta inte
 	return nil
 }
 
-func flattenSystemHaHaMgmtInterfaces(v *[]models.SystemHaHaMgmtInterfaces, sort bool) interface{} {
+func flattenSystemHaHaMgmtInterfaces(d *schema.ResourceData, v *[]models.SystemHaHaMgmtInterfaces, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Dst; tmp != nil {
+				tmp = utils.Ipv4Read(d, fmt.Sprintf("%s.%d.dst", prefix, i), *tmp)
 				v["dst"] = *tmp
 			}
 
@@ -995,11 +997,12 @@ func flattenSystemHaHaMgmtInterfaces(v *[]models.SystemHaHaMgmtInterfaces, sort 
 	return flat
 }
 
-func flattenSystemHaSecondaryVcluster(v *[]models.SystemHaSecondaryVcluster, sort bool) interface{} {
+func flattenSystemHaSecondaryVcluster(d *schema.ResourceData, v *[]models.SystemHaSecondaryVcluster, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Monitor; tmp != nil {
 				v["monitor"] = *tmp
@@ -1048,11 +1051,12 @@ func flattenSystemHaSecondaryVcluster(v *[]models.SystemHaSecondaryVcluster, sor
 	return flat
 }
 
-func flattenSystemHaUnicastPeers(v *[]models.SystemHaUnicastPeers, sort bool) interface{} {
+func flattenSystemHaUnicastPeers(d *schema.ResourceData, v *[]models.SystemHaUnicastPeers, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Id; tmp != nil {
 				v["id"] = *tmp
@@ -1173,7 +1177,7 @@ func refreshObjectSystemHa(d *schema.ResourceData, o *models.SystemHa, sv string
 	}
 
 	if o.HaMgmtInterfaces != nil {
-		if err = d.Set("ha_mgmt_interfaces", flattenSystemHaHaMgmtInterfaces(o.HaMgmtInterfaces, sort)); err != nil {
+		if err = d.Set("ha_mgmt_interfaces", flattenSystemHaHaMgmtInterfaces(d, o.HaMgmtInterfaces, "ha_mgmt_interfaces", sort)); err != nil {
 			return diag.Errorf("error reading ha_mgmt_interfaces: %v", err)
 		}
 	}
@@ -1509,7 +1513,7 @@ func refreshObjectSystemHa(d *schema.ResourceData, o *models.SystemHa, sv string
 	}
 
 	if o.SecondaryVcluster != nil {
-		if err = d.Set("secondary_vcluster", flattenSystemHaSecondaryVcluster(o.SecondaryVcluster, sort)); err != nil {
+		if err = d.Set("secondary_vcluster", flattenSystemHaSecondaryVcluster(d, o.SecondaryVcluster, "secondary_vcluster", sort)); err != nil {
 			return diag.Errorf("error reading secondary_vcluster: %v", err)
 		}
 	}
@@ -1643,7 +1647,7 @@ func refreshObjectSystemHa(d *schema.ResourceData, o *models.SystemHa, sv string
 	}
 
 	if o.UnicastPeers != nil {
-		if err = d.Set("unicast_peers", flattenSystemHaUnicastPeers(o.UnicastPeers, sort)); err != nil {
+		if err = d.Set("unicast_peers", flattenSystemHaUnicastPeers(d, o.UnicastPeers, "unicast_peers", sort)); err != nil {
 			return diag.Errorf("error reading unicast_peers: %v", err)
 		}
 	}

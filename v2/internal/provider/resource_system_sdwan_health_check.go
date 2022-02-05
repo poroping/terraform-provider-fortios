@@ -672,7 +672,7 @@ func refreshObjectSystemSdwanHealthCheck(d *schema.ResourceData, o *models.Syste
 	}
 
 	if o.Members != nil {
-		if err = d.Set("members", flattenSystemSdwanHealthCheckMembers(o.Members, sort)); err != nil {
+		if err = d.Set("members", flattenSystemSdwanHealthCheckMembers(d, o.Members, "members", sort)); err != nil {
 			return diag.Errorf("error reading members: %v", err)
 		}
 	}
@@ -775,7 +775,7 @@ func refreshObjectSystemSdwanHealthCheck(d *schema.ResourceData, o *models.Syste
 	}
 
 	if o.Sla != nil {
-		if err = d.Set("sla", flattenSystemSdwanHealthCheckSla(o.Sla, sort)); err != nil {
+		if err = d.Set("sla", flattenSystemSdwanHealthCheckSla(d, o.Sla, "sla", sort)); err != nil {
 			return diag.Errorf("error reading sla: %v", err)
 		}
 	}

@@ -248,11 +248,12 @@ func resourceRouterAspathListRead(ctx context.Context, d *schema.ResourceData, m
 	return nil
 }
 
-func flattenRouterAspathListRule(v *[]models.RouterAspathListRule, sort bool) interface{} {
+func flattenRouterAspathListRule(d *schema.ResourceData, v *[]models.RouterAspathListRule, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Action; tmp != nil {
 				v["action"] = *tmp
@@ -289,7 +290,7 @@ func refreshObjectRouterAspathList(d *schema.ResourceData, o *models.RouterAspat
 	}
 
 	if o.Rule != nil {
-		if err = d.Set("rule", flattenRouterAspathListRule(o.Rule, sort)); err != nil {
+		if err = d.Set("rule", flattenRouterAspathListRule(d, o.Rule, "rule", sort)); err != nil {
 			return diag.Errorf("error reading rule: %v", err)
 		}
 	}

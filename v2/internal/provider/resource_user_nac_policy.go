@@ -418,11 +418,12 @@ func resourceUserNacPolicyRead(ctx context.Context, d *schema.ResourceData, meta
 	return nil
 }
 
-func flattenUserNacPolicySwitchGroup(v *[]models.UserNacPolicySwitchGroup, sort bool) interface{} {
+func flattenUserNacPolicySwitchGroup(d *schema.ResourceData, v *[]models.UserNacPolicySwitchGroup, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -439,11 +440,12 @@ func flattenUserNacPolicySwitchGroup(v *[]models.UserNacPolicySwitchGroup, sort 
 	return flat
 }
 
-func flattenUserNacPolicySwitchScope(v *[]models.UserNacPolicySwitchScope, sort bool) interface{} {
+func flattenUserNacPolicySwitchScope(d *schema.ResourceData, v *[]models.UserNacPolicySwitchScope, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.SwitchId; tmp != nil {
 				v["switch_id"] = *tmp
@@ -600,7 +602,7 @@ func refreshObjectUserNacPolicy(d *schema.ResourceData, o *models.UserNacPolicy,
 	}
 
 	if o.SwitchGroup != nil {
-		if err = d.Set("switch_group", flattenUserNacPolicySwitchGroup(o.SwitchGroup, sort)); err != nil {
+		if err = d.Set("switch_group", flattenUserNacPolicySwitchGroup(d, o.SwitchGroup, "switch_group", sort)); err != nil {
 			return diag.Errorf("error reading switch_group: %v", err)
 		}
 	}
@@ -622,7 +624,7 @@ func refreshObjectUserNacPolicy(d *schema.ResourceData, o *models.UserNacPolicy,
 	}
 
 	if o.SwitchScope != nil {
-		if err = d.Set("switch_scope", flattenUserNacPolicySwitchScope(o.SwitchScope, sort)); err != nil {
+		if err = d.Set("switch_scope", flattenUserNacPolicySwitchScope(d, o.SwitchScope, "switch_scope", sort)); err != nil {
 			return diag.Errorf("error reading switch_scope: %v", err)
 		}
 	}

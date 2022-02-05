@@ -809,11 +809,12 @@ func resourceSystemIkeRead(ctx context.Context, d *schema.ResourceData, meta int
 	return nil
 }
 
-func flattenSystemIkeDhGroup1(v *[]models.SystemIkeDhGroup1, sort bool) interface{} {
+func flattenSystemIkeDhGroup1(d *schema.ResourceData, v *[]models.SystemIkeDhGroup1, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.KeypairCache; tmp != nil {
 				v["keypair_cache"] = *tmp
@@ -834,11 +835,12 @@ func flattenSystemIkeDhGroup1(v *[]models.SystemIkeDhGroup1, sort bool) interfac
 	return flat
 }
 
-func flattenSystemIkeDhGroup14(v *[]models.SystemIkeDhGroup14, sort bool) interface{} {
+func flattenSystemIkeDhGroup14(d *schema.ResourceData, v *[]models.SystemIkeDhGroup14, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.KeypairCache; tmp != nil {
 				v["keypair_cache"] = *tmp
@@ -859,11 +861,12 @@ func flattenSystemIkeDhGroup14(v *[]models.SystemIkeDhGroup14, sort bool) interf
 	return flat
 }
 
-func flattenSystemIkeDhGroup15(v *[]models.SystemIkeDhGroup15, sort bool) interface{} {
+func flattenSystemIkeDhGroup15(d *schema.ResourceData, v *[]models.SystemIkeDhGroup15, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.KeypairCache; tmp != nil {
 				v["keypair_cache"] = *tmp
@@ -884,11 +887,12 @@ func flattenSystemIkeDhGroup15(v *[]models.SystemIkeDhGroup15, sort bool) interf
 	return flat
 }
 
-func flattenSystemIkeDhGroup16(v *[]models.SystemIkeDhGroup16, sort bool) interface{} {
+func flattenSystemIkeDhGroup16(d *schema.ResourceData, v *[]models.SystemIkeDhGroup16, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.KeypairCache; tmp != nil {
 				v["keypair_cache"] = *tmp
@@ -909,11 +913,12 @@ func flattenSystemIkeDhGroup16(v *[]models.SystemIkeDhGroup16, sort bool) interf
 	return flat
 }
 
-func flattenSystemIkeDhGroup17(v *[]models.SystemIkeDhGroup17, sort bool) interface{} {
+func flattenSystemIkeDhGroup17(d *schema.ResourceData, v *[]models.SystemIkeDhGroup17, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.KeypairCache; tmp != nil {
 				v["keypair_cache"] = *tmp
@@ -934,11 +939,12 @@ func flattenSystemIkeDhGroup17(v *[]models.SystemIkeDhGroup17, sort bool) interf
 	return flat
 }
 
-func flattenSystemIkeDhGroup18(v *[]models.SystemIkeDhGroup18, sort bool) interface{} {
+func flattenSystemIkeDhGroup18(d *schema.ResourceData, v *[]models.SystemIkeDhGroup18, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.KeypairCache; tmp != nil {
 				v["keypair_cache"] = *tmp
@@ -959,11 +965,12 @@ func flattenSystemIkeDhGroup18(v *[]models.SystemIkeDhGroup18, sort bool) interf
 	return flat
 }
 
-func flattenSystemIkeDhGroup19(v *[]models.SystemIkeDhGroup19, sort bool) interface{} {
+func flattenSystemIkeDhGroup19(d *schema.ResourceData, v *[]models.SystemIkeDhGroup19, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.KeypairCache; tmp != nil {
 				v["keypair_cache"] = *tmp
@@ -984,11 +991,12 @@ func flattenSystemIkeDhGroup19(v *[]models.SystemIkeDhGroup19, sort bool) interf
 	return flat
 }
 
-func flattenSystemIkeDhGroup2(v *[]models.SystemIkeDhGroup2, sort bool) interface{} {
+func flattenSystemIkeDhGroup2(d *schema.ResourceData, v *[]models.SystemIkeDhGroup2, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.KeypairCache; tmp != nil {
 				v["keypair_cache"] = *tmp
@@ -1009,11 +1017,12 @@ func flattenSystemIkeDhGroup2(v *[]models.SystemIkeDhGroup2, sort bool) interfac
 	return flat
 }
 
-func flattenSystemIkeDhGroup20(v *[]models.SystemIkeDhGroup20, sort bool) interface{} {
+func flattenSystemIkeDhGroup20(d *schema.ResourceData, v *[]models.SystemIkeDhGroup20, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.KeypairCache; tmp != nil {
 				v["keypair_cache"] = *tmp
@@ -1034,11 +1043,12 @@ func flattenSystemIkeDhGroup20(v *[]models.SystemIkeDhGroup20, sort bool) interf
 	return flat
 }
 
-func flattenSystemIkeDhGroup21(v *[]models.SystemIkeDhGroup21, sort bool) interface{} {
+func flattenSystemIkeDhGroup21(d *schema.ResourceData, v *[]models.SystemIkeDhGroup21, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.KeypairCache; tmp != nil {
 				v["keypair_cache"] = *tmp
@@ -1059,11 +1069,12 @@ func flattenSystemIkeDhGroup21(v *[]models.SystemIkeDhGroup21, sort bool) interf
 	return flat
 }
 
-func flattenSystemIkeDhGroup27(v *[]models.SystemIkeDhGroup27, sort bool) interface{} {
+func flattenSystemIkeDhGroup27(d *schema.ResourceData, v *[]models.SystemIkeDhGroup27, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.KeypairCache; tmp != nil {
 				v["keypair_cache"] = *tmp
@@ -1084,11 +1095,12 @@ func flattenSystemIkeDhGroup27(v *[]models.SystemIkeDhGroup27, sort bool) interf
 	return flat
 }
 
-func flattenSystemIkeDhGroup28(v *[]models.SystemIkeDhGroup28, sort bool) interface{} {
+func flattenSystemIkeDhGroup28(d *schema.ResourceData, v *[]models.SystemIkeDhGroup28, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.KeypairCache; tmp != nil {
 				v["keypair_cache"] = *tmp
@@ -1109,11 +1121,12 @@ func flattenSystemIkeDhGroup28(v *[]models.SystemIkeDhGroup28, sort bool) interf
 	return flat
 }
 
-func flattenSystemIkeDhGroup29(v *[]models.SystemIkeDhGroup29, sort bool) interface{} {
+func flattenSystemIkeDhGroup29(d *schema.ResourceData, v *[]models.SystemIkeDhGroup29, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.KeypairCache; tmp != nil {
 				v["keypair_cache"] = *tmp
@@ -1134,11 +1147,12 @@ func flattenSystemIkeDhGroup29(v *[]models.SystemIkeDhGroup29, sort bool) interf
 	return flat
 }
 
-func flattenSystemIkeDhGroup30(v *[]models.SystemIkeDhGroup30, sort bool) interface{} {
+func flattenSystemIkeDhGroup30(d *schema.ResourceData, v *[]models.SystemIkeDhGroup30, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.KeypairCache; tmp != nil {
 				v["keypair_cache"] = *tmp
@@ -1159,11 +1173,12 @@ func flattenSystemIkeDhGroup30(v *[]models.SystemIkeDhGroup30, sort bool) interf
 	return flat
 }
 
-func flattenSystemIkeDhGroup31(v *[]models.SystemIkeDhGroup31, sort bool) interface{} {
+func flattenSystemIkeDhGroup31(d *schema.ResourceData, v *[]models.SystemIkeDhGroup31, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.KeypairCache; tmp != nil {
 				v["keypair_cache"] = *tmp
@@ -1184,11 +1199,12 @@ func flattenSystemIkeDhGroup31(v *[]models.SystemIkeDhGroup31, sort bool) interf
 	return flat
 }
 
-func flattenSystemIkeDhGroup32(v *[]models.SystemIkeDhGroup32, sort bool) interface{} {
+func flattenSystemIkeDhGroup32(d *schema.ResourceData, v *[]models.SystemIkeDhGroup32, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.KeypairCache; tmp != nil {
 				v["keypair_cache"] = *tmp
@@ -1209,11 +1225,12 @@ func flattenSystemIkeDhGroup32(v *[]models.SystemIkeDhGroup32, sort bool) interf
 	return flat
 }
 
-func flattenSystemIkeDhGroup5(v *[]models.SystemIkeDhGroup5, sort bool) interface{} {
+func flattenSystemIkeDhGroup5(d *schema.ResourceData, v *[]models.SystemIkeDhGroup5, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.KeypairCache; tmp != nil {
 				v["keypair_cache"] = *tmp
@@ -1238,103 +1255,103 @@ func refreshObjectSystemIke(d *schema.ResourceData, o *models.SystemIke, sv stri
 	var err error
 
 	if o.DhGroup1 != nil {
-		if err = d.Set("dh_group_1", flattenSystemIkeDhGroup1(o.DhGroup1, sort)); err != nil {
+		if err = d.Set("dh_group_1", flattenSystemIkeDhGroup1(d, o.DhGroup1, "dh_group_1", sort)); err != nil {
 			return diag.Errorf("error reading dh_group_1: %v", err)
 		}
 	}
 
 	if o.DhGroup14 != nil {
-		if err = d.Set("dh_group_14", flattenSystemIkeDhGroup14(o.DhGroup14, sort)); err != nil {
+		if err = d.Set("dh_group_14", flattenSystemIkeDhGroup14(d, o.DhGroup14, "dh_group_14", sort)); err != nil {
 			return diag.Errorf("error reading dh_group_14: %v", err)
 		}
 	}
 
 	if o.DhGroup15 != nil {
-		if err = d.Set("dh_group_15", flattenSystemIkeDhGroup15(o.DhGroup15, sort)); err != nil {
+		if err = d.Set("dh_group_15", flattenSystemIkeDhGroup15(d, o.DhGroup15, "dh_group_15", sort)); err != nil {
 			return diag.Errorf("error reading dh_group_15: %v", err)
 		}
 	}
 
 	if o.DhGroup16 != nil {
-		if err = d.Set("dh_group_16", flattenSystemIkeDhGroup16(o.DhGroup16, sort)); err != nil {
+		if err = d.Set("dh_group_16", flattenSystemIkeDhGroup16(d, o.DhGroup16, "dh_group_16", sort)); err != nil {
 			return diag.Errorf("error reading dh_group_16: %v", err)
 		}
 	}
 
 	if o.DhGroup17 != nil {
-		if err = d.Set("dh_group_17", flattenSystemIkeDhGroup17(o.DhGroup17, sort)); err != nil {
+		if err = d.Set("dh_group_17", flattenSystemIkeDhGroup17(d, o.DhGroup17, "dh_group_17", sort)); err != nil {
 			return diag.Errorf("error reading dh_group_17: %v", err)
 		}
 	}
 
 	if o.DhGroup18 != nil {
-		if err = d.Set("dh_group_18", flattenSystemIkeDhGroup18(o.DhGroup18, sort)); err != nil {
+		if err = d.Set("dh_group_18", flattenSystemIkeDhGroup18(d, o.DhGroup18, "dh_group_18", sort)); err != nil {
 			return diag.Errorf("error reading dh_group_18: %v", err)
 		}
 	}
 
 	if o.DhGroup19 != nil {
-		if err = d.Set("dh_group_19", flattenSystemIkeDhGroup19(o.DhGroup19, sort)); err != nil {
+		if err = d.Set("dh_group_19", flattenSystemIkeDhGroup19(d, o.DhGroup19, "dh_group_19", sort)); err != nil {
 			return diag.Errorf("error reading dh_group_19: %v", err)
 		}
 	}
 
 	if o.DhGroup2 != nil {
-		if err = d.Set("dh_group_2", flattenSystemIkeDhGroup2(o.DhGroup2, sort)); err != nil {
+		if err = d.Set("dh_group_2", flattenSystemIkeDhGroup2(d, o.DhGroup2, "dh_group_2", sort)); err != nil {
 			return diag.Errorf("error reading dh_group_2: %v", err)
 		}
 	}
 
 	if o.DhGroup20 != nil {
-		if err = d.Set("dh_group_20", flattenSystemIkeDhGroup20(o.DhGroup20, sort)); err != nil {
+		if err = d.Set("dh_group_20", flattenSystemIkeDhGroup20(d, o.DhGroup20, "dh_group_20", sort)); err != nil {
 			return diag.Errorf("error reading dh_group_20: %v", err)
 		}
 	}
 
 	if o.DhGroup21 != nil {
-		if err = d.Set("dh_group_21", flattenSystemIkeDhGroup21(o.DhGroup21, sort)); err != nil {
+		if err = d.Set("dh_group_21", flattenSystemIkeDhGroup21(d, o.DhGroup21, "dh_group_21", sort)); err != nil {
 			return diag.Errorf("error reading dh_group_21: %v", err)
 		}
 	}
 
 	if o.DhGroup27 != nil {
-		if err = d.Set("dh_group_27", flattenSystemIkeDhGroup27(o.DhGroup27, sort)); err != nil {
+		if err = d.Set("dh_group_27", flattenSystemIkeDhGroup27(d, o.DhGroup27, "dh_group_27", sort)); err != nil {
 			return diag.Errorf("error reading dh_group_27: %v", err)
 		}
 	}
 
 	if o.DhGroup28 != nil {
-		if err = d.Set("dh_group_28", flattenSystemIkeDhGroup28(o.DhGroup28, sort)); err != nil {
+		if err = d.Set("dh_group_28", flattenSystemIkeDhGroup28(d, o.DhGroup28, "dh_group_28", sort)); err != nil {
 			return diag.Errorf("error reading dh_group_28: %v", err)
 		}
 	}
 
 	if o.DhGroup29 != nil {
-		if err = d.Set("dh_group_29", flattenSystemIkeDhGroup29(o.DhGroup29, sort)); err != nil {
+		if err = d.Set("dh_group_29", flattenSystemIkeDhGroup29(d, o.DhGroup29, "dh_group_29", sort)); err != nil {
 			return diag.Errorf("error reading dh_group_29: %v", err)
 		}
 	}
 
 	if o.DhGroup30 != nil {
-		if err = d.Set("dh_group_30", flattenSystemIkeDhGroup30(o.DhGroup30, sort)); err != nil {
+		if err = d.Set("dh_group_30", flattenSystemIkeDhGroup30(d, o.DhGroup30, "dh_group_30", sort)); err != nil {
 			return diag.Errorf("error reading dh_group_30: %v", err)
 		}
 	}
 
 	if o.DhGroup31 != nil {
-		if err = d.Set("dh_group_31", flattenSystemIkeDhGroup31(o.DhGroup31, sort)); err != nil {
+		if err = d.Set("dh_group_31", flattenSystemIkeDhGroup31(d, o.DhGroup31, "dh_group_31", sort)); err != nil {
 			return diag.Errorf("error reading dh_group_31: %v", err)
 		}
 	}
 
 	if o.DhGroup32 != nil {
-		if err = d.Set("dh_group_32", flattenSystemIkeDhGroup32(o.DhGroup32, sort)); err != nil {
+		if err = d.Set("dh_group_32", flattenSystemIkeDhGroup32(d, o.DhGroup32, "dh_group_32", sort)); err != nil {
 			return diag.Errorf("error reading dh_group_32: %v", err)
 		}
 	}
 
 	if o.DhGroup5 != nil {
-		if err = d.Set("dh_group_5", flattenSystemIkeDhGroup5(o.DhGroup5, sort)); err != nil {
+		if err = d.Set("dh_group_5", flattenSystemIkeDhGroup5(d, o.DhGroup5, "dh_group_5", sort)); err != nil {
 			return diag.Errorf("error reading dh_group_5: %v", err)
 		}
 	}

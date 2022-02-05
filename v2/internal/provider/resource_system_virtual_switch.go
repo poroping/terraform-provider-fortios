@@ -304,11 +304,12 @@ func resourceSystemVirtualSwitchRead(ctx context.Context, d *schema.ResourceData
 	return nil
 }
 
-func flattenSystemVirtualSwitchPort(v *[]models.SystemVirtualSwitchPort, sort bool) interface{} {
+func flattenSystemVirtualSwitchPort(d *schema.ResourceData, v *[]models.SystemVirtualSwitchPort, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Alias; tmp != nil {
 				v["alias"] = *tmp
@@ -357,7 +358,7 @@ func refreshObjectSystemVirtualSwitch(d *schema.ResourceData, o *models.SystemVi
 	}
 
 	if o.Port != nil {
-		if err = d.Set("port", flattenSystemVirtualSwitchPort(o.Port, sort)); err != nil {
+		if err = d.Set("port", flattenSystemVirtualSwitchPort(d, o.Port, "port", sort)); err != nil {
 			return diag.Errorf("error reading port: %v", err)
 		}
 	}

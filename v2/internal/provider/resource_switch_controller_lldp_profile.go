@@ -410,11 +410,12 @@ func resourceSwitchControllerLldpProfileRead(ctx context.Context, d *schema.Reso
 	return nil
 }
 
-func flattenSwitchControllerLldpProfileCustomTlvs(v *[]models.SwitchControllerLldpProfileCustomTlvs, sort bool) interface{} {
+func flattenSwitchControllerLldpProfileCustomTlvs(d *schema.ResourceData, v *[]models.SwitchControllerLldpProfileCustomTlvs, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.InformationString; tmp != nil {
 				v["information_string"] = *tmp
@@ -443,11 +444,12 @@ func flattenSwitchControllerLldpProfileCustomTlvs(v *[]models.SwitchControllerLl
 	return flat
 }
 
-func flattenSwitchControllerLldpProfileMedLocationService(v *[]models.SwitchControllerLldpProfileMedLocationService, sort bool) interface{} {
+func flattenSwitchControllerLldpProfileMedLocationService(d *schema.ResourceData, v *[]models.SwitchControllerLldpProfileMedLocationService, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -472,11 +474,12 @@ func flattenSwitchControllerLldpProfileMedLocationService(v *[]models.SwitchCont
 	return flat
 }
 
-func flattenSwitchControllerLldpProfileMedNetworkPolicy(v *[]models.SwitchControllerLldpProfileMedNetworkPolicy, sort bool) interface{} {
+func flattenSwitchControllerLldpProfileMedNetworkPolicy(d *schema.ResourceData, v *[]models.SwitchControllerLldpProfileMedNetworkPolicy, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.AssignVlan; tmp != nil {
 				v["assign_vlan"] = *tmp
@@ -573,19 +576,19 @@ func refreshObjectSwitchControllerLldpProfile(d *schema.ResourceData, o *models.
 	}
 
 	if o.CustomTlvs != nil {
-		if err = d.Set("custom_tlvs", flattenSwitchControllerLldpProfileCustomTlvs(o.CustomTlvs, sort)); err != nil {
+		if err = d.Set("custom_tlvs", flattenSwitchControllerLldpProfileCustomTlvs(d, o.CustomTlvs, "custom_tlvs", sort)); err != nil {
 			return diag.Errorf("error reading custom_tlvs: %v", err)
 		}
 	}
 
 	if o.MedLocationService != nil {
-		if err = d.Set("med_location_service", flattenSwitchControllerLldpProfileMedLocationService(o.MedLocationService, sort)); err != nil {
+		if err = d.Set("med_location_service", flattenSwitchControllerLldpProfileMedLocationService(d, o.MedLocationService, "med_location_service", sort)); err != nil {
 			return diag.Errorf("error reading med_location_service: %v", err)
 		}
 	}
 
 	if o.MedNetworkPolicy != nil {
-		if err = d.Set("med_network_policy", flattenSwitchControllerLldpProfileMedNetworkPolicy(o.MedNetworkPolicy, sort)); err != nil {
+		if err = d.Set("med_network_policy", flattenSwitchControllerLldpProfileMedNetworkPolicy(d, o.MedNetworkPolicy, "med_network_policy", sort)); err != nil {
 			return diag.Errorf("error reading med_network_policy: %v", err)
 		}
 	}

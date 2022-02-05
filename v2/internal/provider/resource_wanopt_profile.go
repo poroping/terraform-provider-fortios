@@ -629,11 +629,12 @@ func resourceWanoptProfileRead(ctx context.Context, d *schema.ResourceData, meta
 	return nil
 }
 
-func flattenWanoptProfileCifs(v *[]models.WanoptProfileCifs, sort bool) interface{} {
+func flattenWanoptProfileCifs(d *schema.ResourceData, v *[]models.WanoptProfileCifs, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.ByteCaching; tmp != nil {
 				v["byte_caching"] = *tmp
@@ -674,11 +675,12 @@ func flattenWanoptProfileCifs(v *[]models.WanoptProfileCifs, sort bool) interfac
 	return flat
 }
 
-func flattenWanoptProfileFtp(v *[]models.WanoptProfileFtp, sort bool) interface{} {
+func flattenWanoptProfileFtp(d *schema.ResourceData, v *[]models.WanoptProfileFtp, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.ByteCaching; tmp != nil {
 				v["byte_caching"] = *tmp
@@ -723,11 +725,12 @@ func flattenWanoptProfileFtp(v *[]models.WanoptProfileFtp, sort bool) interface{
 	return flat
 }
 
-func flattenWanoptProfileHttp(v *[]models.WanoptProfileHttp, sort bool) interface{} {
+func flattenWanoptProfileHttp(d *schema.ResourceData, v *[]models.WanoptProfileHttp, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.ByteCaching; tmp != nil {
 				v["byte_caching"] = *tmp
@@ -784,11 +787,12 @@ func flattenWanoptProfileHttp(v *[]models.WanoptProfileHttp, sort bool) interfac
 	return flat
 }
 
-func flattenWanoptProfileMapi(v *[]models.WanoptProfileMapi, sort bool) interface{} {
+func flattenWanoptProfileMapi(d *schema.ResourceData, v *[]models.WanoptProfileMapi, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.ByteCaching; tmp != nil {
 				v["byte_caching"] = *tmp
@@ -821,11 +825,12 @@ func flattenWanoptProfileMapi(v *[]models.WanoptProfileMapi, sort bool) interfac
 	return flat
 }
 
-func flattenWanoptProfileTcp(v *[]models.WanoptProfileTcp, sort bool) interface{} {
+func flattenWanoptProfileTcp(d *schema.ResourceData, v *[]models.WanoptProfileTcp, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.ByteCaching; tmp != nil {
 				v["byte_caching"] = *tmp
@@ -882,7 +887,7 @@ func refreshObjectWanoptProfile(d *schema.ResourceData, o *models.WanoptProfile,
 	}
 
 	if o.Cifs != nil {
-		if err = d.Set("cifs", flattenWanoptProfileCifs(o.Cifs, sort)); err != nil {
+		if err = d.Set("cifs", flattenWanoptProfileCifs(d, o.Cifs, "cifs", sort)); err != nil {
 			return diag.Errorf("error reading cifs: %v", err)
 		}
 	}
@@ -896,19 +901,19 @@ func refreshObjectWanoptProfile(d *schema.ResourceData, o *models.WanoptProfile,
 	}
 
 	if o.Ftp != nil {
-		if err = d.Set("ftp", flattenWanoptProfileFtp(o.Ftp, sort)); err != nil {
+		if err = d.Set("ftp", flattenWanoptProfileFtp(d, o.Ftp, "ftp", sort)); err != nil {
 			return diag.Errorf("error reading ftp: %v", err)
 		}
 	}
 
 	if o.Http != nil {
-		if err = d.Set("http", flattenWanoptProfileHttp(o.Http, sort)); err != nil {
+		if err = d.Set("http", flattenWanoptProfileHttp(d, o.Http, "http", sort)); err != nil {
 			return diag.Errorf("error reading http: %v", err)
 		}
 	}
 
 	if o.Mapi != nil {
-		if err = d.Set("mapi", flattenWanoptProfileMapi(o.Mapi, sort)); err != nil {
+		if err = d.Set("mapi", flattenWanoptProfileMapi(d, o.Mapi, "mapi", sort)); err != nil {
 			return diag.Errorf("error reading mapi: %v", err)
 		}
 	}
@@ -922,7 +927,7 @@ func refreshObjectWanoptProfile(d *schema.ResourceData, o *models.WanoptProfile,
 	}
 
 	if o.Tcp != nil {
-		if err = d.Set("tcp", flattenWanoptProfileTcp(o.Tcp, sort)); err != nil {
+		if err = d.Set("tcp", flattenWanoptProfileTcp(d, o.Tcp, "tcp", sort)); err != nil {
 			return diag.Errorf("error reading tcp: %v", err)
 		}
 	}

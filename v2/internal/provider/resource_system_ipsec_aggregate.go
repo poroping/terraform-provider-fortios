@@ -241,11 +241,12 @@ func resourceSystemIpsecAggregateRead(ctx context.Context, d *schema.ResourceDat
 	return nil
 }
 
-func flattenSystemIpsecAggregateMember(v *[]models.SystemIpsecAggregateMember, sort bool) interface{} {
+func flattenSystemIpsecAggregateMember(d *schema.ResourceData, v *[]models.SystemIpsecAggregateMember, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.TunnelName; tmp != nil {
 				v["tunnel_name"] = *tmp
@@ -274,7 +275,7 @@ func refreshObjectSystemIpsecAggregate(d *schema.ResourceData, o *models.SystemI
 	}
 
 	if o.Member != nil {
-		if err = d.Set("member", flattenSystemIpsecAggregateMember(o.Member, sort)); err != nil {
+		if err = d.Set("member", flattenSystemIpsecAggregateMember(d, o.Member, "member", sort)); err != nil {
 			return diag.Errorf("error reading member: %v", err)
 		}
 	}

@@ -278,11 +278,12 @@ func resourceSystemPtpRead(ctx context.Context, d *schema.ResourceData, meta int
 	return nil
 }
 
-func flattenSystemPtpServerInterface(v *[]models.SystemPtpServerInterface, sort bool) interface{} {
+func flattenSystemPtpServerInterface(d *schema.ResourceData, v *[]models.SystemPtpServerInterface, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.DelayMechanism; tmp != nil {
 				v["delay_mechanism"] = *tmp
@@ -343,7 +344,7 @@ func refreshObjectSystemPtp(d *schema.ResourceData, o *models.SystemPtp, sv stri
 	}
 
 	if o.ServerInterface != nil {
-		if err = d.Set("server_interface", flattenSystemPtpServerInterface(o.ServerInterface, sort)); err != nil {
+		if err = d.Set("server_interface", flattenSystemPtpServerInterface(d, o.ServerInterface, "server_interface", sort)); err != nil {
 			return diag.Errorf("error reading server_interface: %v", err)
 		}
 	}

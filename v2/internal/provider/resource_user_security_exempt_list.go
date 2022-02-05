@@ -291,14 +291,15 @@ func resourceUserSecurityExemptListRead(ctx context.Context, d *schema.ResourceD
 	return nil
 }
 
-func flattenUserSecurityExemptListRule(v *[]models.UserSecurityExemptListRule, sort bool) interface{} {
+func flattenUserSecurityExemptListRule(d *schema.ResourceData, v *[]models.UserSecurityExemptListRule, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Dstaddr; tmp != nil {
-				v["dstaddr"] = flattenUserSecurityExemptListRuleDstaddr(tmp, sort)
+				v["dstaddr"] = flattenUserSecurityExemptListRuleDstaddr(d, tmp, prefix+"dstaddr", sort)
 			}
 
 			if tmp := cfg.Id; tmp != nil {
@@ -306,11 +307,11 @@ func flattenUserSecurityExemptListRule(v *[]models.UserSecurityExemptListRule, s
 			}
 
 			if tmp := cfg.Service; tmp != nil {
-				v["service"] = flattenUserSecurityExemptListRuleService(tmp, sort)
+				v["service"] = flattenUserSecurityExemptListRuleService(d, tmp, prefix+"service", sort)
 			}
 
 			if tmp := cfg.Srcaddr; tmp != nil {
-				v["srcaddr"] = flattenUserSecurityExemptListRuleSrcaddr(tmp, sort)
+				v["srcaddr"] = flattenUserSecurityExemptListRuleSrcaddr(d, tmp, prefix+"srcaddr", sort)
 			}
 
 			flat = append(flat, v)
@@ -324,11 +325,12 @@ func flattenUserSecurityExemptListRule(v *[]models.UserSecurityExemptListRule, s
 	return flat
 }
 
-func flattenUserSecurityExemptListRuleDstaddr(v *[]models.UserSecurityExemptListRuleDstaddr, sort bool) interface{} {
+func flattenUserSecurityExemptListRuleDstaddr(d *schema.ResourceData, v *[]models.UserSecurityExemptListRuleDstaddr, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -345,11 +347,12 @@ func flattenUserSecurityExemptListRuleDstaddr(v *[]models.UserSecurityExemptList
 	return flat
 }
 
-func flattenUserSecurityExemptListRuleService(v *[]models.UserSecurityExemptListRuleService, sort bool) interface{} {
+func flattenUserSecurityExemptListRuleService(d *schema.ResourceData, v *[]models.UserSecurityExemptListRuleService, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -366,11 +369,12 @@ func flattenUserSecurityExemptListRuleService(v *[]models.UserSecurityExemptList
 	return flat
 }
 
-func flattenUserSecurityExemptListRuleSrcaddr(v *[]models.UserSecurityExemptListRuleSrcaddr, sort bool) interface{} {
+func flattenUserSecurityExemptListRuleSrcaddr(d *schema.ResourceData, v *[]models.UserSecurityExemptListRuleSrcaddr, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -407,7 +411,7 @@ func refreshObjectUserSecurityExemptList(d *schema.ResourceData, o *models.UserS
 	}
 
 	if o.Rule != nil {
-		if err = d.Set("rule", flattenUserSecurityExemptListRule(o.Rule, sort)); err != nil {
+		if err = d.Set("rule", flattenUserSecurityExemptListRule(d, o.Rule, "rule", sort)); err != nil {
 			return diag.Errorf("error reading rule: %v", err)
 		}
 	}

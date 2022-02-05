@@ -366,11 +366,12 @@ func resourceWirelessControllerAccessControlListRead(ctx context.Context, d *sch
 	return nil
 }
 
-func flattenWirelessControllerAccessControlListLayer3Ipv4Rules(v *[]models.WirelessControllerAccessControlListLayer3Ipv4Rules, sort bool) interface{} {
+func flattenWirelessControllerAccessControlListLayer3Ipv4Rules(d *schema.ResourceData, v *[]models.WirelessControllerAccessControlListLayer3Ipv4Rules, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Action; tmp != nil {
 				v["action"] = *tmp
@@ -415,11 +416,12 @@ func flattenWirelessControllerAccessControlListLayer3Ipv4Rules(v *[]models.Wirel
 	return flat
 }
 
-func flattenWirelessControllerAccessControlListLayer3Ipv6Rules(v *[]models.WirelessControllerAccessControlListLayer3Ipv6Rules, sort bool) interface{} {
+func flattenWirelessControllerAccessControlListLayer3Ipv6Rules(d *schema.ResourceData, v *[]models.WirelessControllerAccessControlListLayer3Ipv6Rules, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Action; tmp != nil {
 				v["action"] = *tmp
@@ -476,13 +478,13 @@ func refreshObjectWirelessControllerAccessControlList(d *schema.ResourceData, o 
 	}
 
 	if o.Layer3Ipv4Rules != nil {
-		if err = d.Set("layer3_ipv4_rules", flattenWirelessControllerAccessControlListLayer3Ipv4Rules(o.Layer3Ipv4Rules, sort)); err != nil {
+		if err = d.Set("layer3_ipv4_rules", flattenWirelessControllerAccessControlListLayer3Ipv4Rules(d, o.Layer3Ipv4Rules, "layer3_ipv4_rules", sort)); err != nil {
 			return diag.Errorf("error reading layer3_ipv4_rules: %v", err)
 		}
 	}
 
 	if o.Layer3Ipv6Rules != nil {
-		if err = d.Set("layer3_ipv6_rules", flattenWirelessControllerAccessControlListLayer3Ipv6Rules(o.Layer3Ipv6Rules, sort)); err != nil {
+		if err = d.Set("layer3_ipv6_rules", flattenWirelessControllerAccessControlListLayer3Ipv6Rules(d, o.Layer3Ipv6Rules, "layer3_ipv6_rules", sort)); err != nil {
 			return diag.Errorf("error reading layer3_ipv6_rules: %v", err)
 		}
 	}

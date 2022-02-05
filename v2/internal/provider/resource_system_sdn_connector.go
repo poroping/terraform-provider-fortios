@@ -786,14 +786,15 @@ func resourceSystemSdnConnectorRead(ctx context.Context, d *schema.ResourceData,
 	return nil
 }
 
-func flattenSystemSdnConnectorExternalAccountList(v *[]models.SystemSdnConnectorExternalAccountList, sort bool) interface{} {
+func flattenSystemSdnConnectorExternalAccountList(d *schema.ResourceData, v *[]models.SystemSdnConnectorExternalAccountList, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.RegionList; tmp != nil {
-				v["region_list"] = flattenSystemSdnConnectorExternalAccountListRegionList(tmp, sort)
+				v["region_list"] = flattenSystemSdnConnectorExternalAccountListRegionList(d, tmp, prefix+"region_list", sort)
 			}
 
 			if tmp := cfg.RoleArn; tmp != nil {
@@ -811,11 +812,12 @@ func flattenSystemSdnConnectorExternalAccountList(v *[]models.SystemSdnConnector
 	return flat
 }
 
-func flattenSystemSdnConnectorExternalAccountListRegionList(v *[]models.SystemSdnConnectorExternalAccountListRegionList, sort bool) interface{} {
+func flattenSystemSdnConnectorExternalAccountListRegionList(d *schema.ResourceData, v *[]models.SystemSdnConnectorExternalAccountListRegionList, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Region; tmp != nil {
 				v["region"] = *tmp
@@ -832,11 +834,12 @@ func flattenSystemSdnConnectorExternalAccountListRegionList(v *[]models.SystemSd
 	return flat
 }
 
-func flattenSystemSdnConnectorExternalIp(v *[]models.SystemSdnConnectorExternalIp, sort bool) interface{} {
+func flattenSystemSdnConnectorExternalIp(d *schema.ResourceData, v *[]models.SystemSdnConnectorExternalIp, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -853,11 +856,12 @@ func flattenSystemSdnConnectorExternalIp(v *[]models.SystemSdnConnectorExternalI
 	return flat
 }
 
-func flattenSystemSdnConnectorForwardingRule(v *[]models.SystemSdnConnectorForwardingRule, sort bool) interface{} {
+func flattenSystemSdnConnectorForwardingRule(d *schema.ResourceData, v *[]models.SystemSdnConnectorForwardingRule, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.RuleName; tmp != nil {
 				v["rule_name"] = *tmp
@@ -878,14 +882,15 @@ func flattenSystemSdnConnectorForwardingRule(v *[]models.SystemSdnConnectorForwa
 	return flat
 }
 
-func flattenSystemSdnConnectorGcpProjectList(v *[]models.SystemSdnConnectorGcpProjectList, sort bool) interface{} {
+func flattenSystemSdnConnectorGcpProjectList(d *schema.ResourceData, v *[]models.SystemSdnConnectorGcpProjectList, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.GcpZoneList; tmp != nil {
-				v["gcp_zone_list"] = flattenSystemSdnConnectorGcpProjectListGcpZoneList(tmp, sort)
+				v["gcp_zone_list"] = flattenSystemSdnConnectorGcpProjectListGcpZoneList(d, tmp, prefix+"gcp_zone_list", sort)
 			}
 
 			if tmp := cfg.Id; tmp != nil {
@@ -903,11 +908,12 @@ func flattenSystemSdnConnectorGcpProjectList(v *[]models.SystemSdnConnectorGcpPr
 	return flat
 }
 
-func flattenSystemSdnConnectorGcpProjectListGcpZoneList(v *[]models.SystemSdnConnectorGcpProjectListGcpZoneList, sort bool) interface{} {
+func flattenSystemSdnConnectorGcpProjectListGcpZoneList(d *schema.ResourceData, v *[]models.SystemSdnConnectorGcpProjectListGcpZoneList, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -924,14 +930,15 @@ func flattenSystemSdnConnectorGcpProjectListGcpZoneList(v *[]models.SystemSdnCon
 	return flat
 }
 
-func flattenSystemSdnConnectorNic(v *[]models.SystemSdnConnectorNic, sort bool) interface{} {
+func flattenSystemSdnConnectorNic(d *schema.ResourceData, v *[]models.SystemSdnConnectorNic, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Ip; tmp != nil {
-				v["ip"] = flattenSystemSdnConnectorNicIp(tmp, sort)
+				v["ip"] = flattenSystemSdnConnectorNicIp(d, tmp, prefix+"ip", sort)
 			}
 
 			if tmp := cfg.Name; tmp != nil {
@@ -949,11 +956,12 @@ func flattenSystemSdnConnectorNic(v *[]models.SystemSdnConnectorNic, sort bool) 
 	return flat
 }
 
-func flattenSystemSdnConnectorNicIp(v *[]models.SystemSdnConnectorNicIp, sort bool) interface{} {
+func flattenSystemSdnConnectorNicIp(d *schema.ResourceData, v *[]models.SystemSdnConnectorNicIp, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -978,11 +986,12 @@ func flattenSystemSdnConnectorNicIp(v *[]models.SystemSdnConnectorNicIp, sort bo
 	return flat
 }
 
-func flattenSystemSdnConnectorRoute(v *[]models.SystemSdnConnectorRoute, sort bool) interface{} {
+func flattenSystemSdnConnectorRoute(d *schema.ResourceData, v *[]models.SystemSdnConnectorRoute, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -999,11 +1008,12 @@ func flattenSystemSdnConnectorRoute(v *[]models.SystemSdnConnectorRoute, sort bo
 	return flat
 }
 
-func flattenSystemSdnConnectorRouteTable(v *[]models.SystemSdnConnectorRouteTable, sort bool) interface{} {
+func flattenSystemSdnConnectorRouteTable(d *schema.ResourceData, v *[]models.SystemSdnConnectorRouteTable, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -1014,7 +1024,7 @@ func flattenSystemSdnConnectorRouteTable(v *[]models.SystemSdnConnectorRouteTabl
 			}
 
 			if tmp := cfg.Route; tmp != nil {
-				v["route"] = flattenSystemSdnConnectorRouteTableRoute(tmp, sort)
+				v["route"] = flattenSystemSdnConnectorRouteTableRoute(d, tmp, prefix+"route", sort)
 			}
 
 			if tmp := cfg.SubscriptionId; tmp != nil {
@@ -1032,11 +1042,12 @@ func flattenSystemSdnConnectorRouteTable(v *[]models.SystemSdnConnectorRouteTabl
 	return flat
 }
 
-func flattenSystemSdnConnectorRouteTableRoute(v *[]models.SystemSdnConnectorRouteTableRoute, sort bool) interface{} {
+func flattenSystemSdnConnectorRouteTableRoute(d *schema.ResourceData, v *[]models.SystemSdnConnectorRouteTableRoute, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -1057,11 +1068,12 @@ func flattenSystemSdnConnectorRouteTableRoute(v *[]models.SystemSdnConnectorRout
 	return flat
 }
 
-func flattenSystemSdnConnectorServerList(v *[]models.SystemSdnConnectorServerList, sort bool) interface{} {
+func flattenSystemSdnConnectorServerList(d *schema.ResourceData, v *[]models.SystemSdnConnectorServerList, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Ip; tmp != nil {
 				v["ip"] = *tmp
@@ -1148,19 +1160,19 @@ func refreshObjectSystemSdnConnector(d *schema.ResourceData, o *models.SystemSdn
 	}
 
 	if o.ExternalAccountList != nil {
-		if err = d.Set("external_account_list", flattenSystemSdnConnectorExternalAccountList(o.ExternalAccountList, sort)); err != nil {
+		if err = d.Set("external_account_list", flattenSystemSdnConnectorExternalAccountList(d, o.ExternalAccountList, "external_account_list", sort)); err != nil {
 			return diag.Errorf("error reading external_account_list: %v", err)
 		}
 	}
 
 	if o.ExternalIp != nil {
-		if err = d.Set("external_ip", flattenSystemSdnConnectorExternalIp(o.ExternalIp, sort)); err != nil {
+		if err = d.Set("external_ip", flattenSystemSdnConnectorExternalIp(d, o.ExternalIp, "external_ip", sort)); err != nil {
 			return diag.Errorf("error reading external_ip: %v", err)
 		}
 	}
 
 	if o.ForwardingRule != nil {
-		if err = d.Set("forwarding_rule", flattenSystemSdnConnectorForwardingRule(o.ForwardingRule, sort)); err != nil {
+		if err = d.Set("forwarding_rule", flattenSystemSdnConnectorForwardingRule(d, o.ForwardingRule, "forwarding_rule", sort)); err != nil {
 			return diag.Errorf("error reading forwarding_rule: %v", err)
 		}
 	}
@@ -1174,7 +1186,7 @@ func refreshObjectSystemSdnConnector(d *schema.ResourceData, o *models.SystemSdn
 	}
 
 	if o.GcpProjectList != nil {
-		if err = d.Set("gcp_project_list", flattenSystemSdnConnectorGcpProjectList(o.GcpProjectList, sort)); err != nil {
+		if err = d.Set("gcp_project_list", flattenSystemSdnConnectorGcpProjectList(d, o.GcpProjectList, "gcp_project_list", sort)); err != nil {
 			return diag.Errorf("error reading gcp_project_list: %v", err)
 		}
 	}
@@ -1220,7 +1232,7 @@ func refreshObjectSystemSdnConnector(d *schema.ResourceData, o *models.SystemSdn
 	}
 
 	if o.Nic != nil {
-		if err = d.Set("nic", flattenSystemSdnConnectorNic(o.Nic, sort)); err != nil {
+		if err = d.Set("nic", flattenSystemSdnConnectorNic(d, o.Nic, "nic", sort)); err != nil {
 			return diag.Errorf("error reading nic: %v", err)
 		}
 	}
@@ -1299,13 +1311,13 @@ func refreshObjectSystemSdnConnector(d *schema.ResourceData, o *models.SystemSdn
 	}
 
 	if o.Route != nil {
-		if err = d.Set("route", flattenSystemSdnConnectorRoute(o.Route, sort)); err != nil {
+		if err = d.Set("route", flattenSystemSdnConnectorRoute(d, o.Route, "route", sort)); err != nil {
 			return diag.Errorf("error reading route: %v", err)
 		}
 	}
 
 	if o.RouteTable != nil {
-		if err = d.Set("route_table", flattenSystemSdnConnectorRouteTable(o.RouteTable, sort)); err != nil {
+		if err = d.Set("route_table", flattenSystemSdnConnectorRouteTable(d, o.RouteTable, "route_table", sort)); err != nil {
 			return diag.Errorf("error reading route_table: %v", err)
 		}
 	}
@@ -1336,7 +1348,7 @@ func refreshObjectSystemSdnConnector(d *schema.ResourceData, o *models.SystemSdn
 	}
 
 	if o.ServerList != nil {
-		if err = d.Set("server_list", flattenSystemSdnConnectorServerList(o.ServerList, sort)); err != nil {
+		if err = d.Set("server_list", flattenSystemSdnConnectorServerList(d, o.ServerList, "server_list", sort)); err != nil {
 			return diag.Errorf("error reading server_list: %v", err)
 		}
 	}

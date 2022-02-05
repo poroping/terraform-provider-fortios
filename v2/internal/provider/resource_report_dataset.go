@@ -311,11 +311,12 @@ func resourceReportDatasetRead(ctx context.Context, d *schema.ResourceData, meta
 	return nil
 }
 
-func flattenReportDatasetField(v *[]models.ReportDatasetField, sort bool) interface{} {
+func flattenReportDatasetField(d *schema.ResourceData, v *[]models.ReportDatasetField, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Displayname; tmp != nil {
 				v["displayname"] = *tmp
@@ -344,11 +345,12 @@ func flattenReportDatasetField(v *[]models.ReportDatasetField, sort bool) interf
 	return flat
 }
 
-func flattenReportDatasetParameters(v *[]models.ReportDatasetParameters, sort bool) interface{} {
+func flattenReportDatasetParameters(d *schema.ResourceData, v *[]models.ReportDatasetParameters, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.DataType; tmp != nil {
 				v["data_type"] = *tmp
@@ -381,7 +383,7 @@ func refreshObjectReportDataset(d *schema.ResourceData, o *models.ReportDataset,
 	var err error
 
 	if o.Field != nil {
-		if err = d.Set("field", flattenReportDatasetField(o.Field, sort)); err != nil {
+		if err = d.Set("field", flattenReportDatasetField(d, o.Field, "field", sort)); err != nil {
 			return diag.Errorf("error reading field: %v", err)
 		}
 	}
@@ -395,7 +397,7 @@ func refreshObjectReportDataset(d *schema.ResourceData, o *models.ReportDataset,
 	}
 
 	if o.Parameters != nil {
-		if err = d.Set("parameters", flattenReportDatasetParameters(o.Parameters, sort)); err != nil {
+		if err = d.Set("parameters", flattenReportDatasetParameters(d, o.Parameters, "parameters", sort)); err != nil {
 			return diag.Errorf("error reading parameters: %v", err)
 		}
 	}

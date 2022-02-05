@@ -679,11 +679,12 @@ func resourceApplicationListRead(ctx context.Context, d *schema.ResourceData, me
 	return nil
 }
 
-func flattenApplicationListDefaultNetworkServices(v *[]models.ApplicationListDefaultNetworkServices, sort bool) interface{} {
+func flattenApplicationListDefaultNetworkServices(d *schema.ResourceData, v *[]models.ApplicationListDefaultNetworkServices, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Id; tmp != nil {
 				v["id"] = *tmp
@@ -712,18 +713,19 @@ func flattenApplicationListDefaultNetworkServices(v *[]models.ApplicationListDef
 	return flat
 }
 
-func flattenApplicationListEntries(v *[]models.ApplicationListEntries, sort bool) interface{} {
+func flattenApplicationListEntries(d *schema.ResourceData, v *[]models.ApplicationListEntries, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Action; tmp != nil {
 				v["action"] = *tmp
 			}
 
 			if tmp := cfg.Application; tmp != nil {
-				v["application"] = flattenApplicationListEntriesApplication(tmp, sort)
+				v["application"] = flattenApplicationListEntriesApplication(d, tmp, prefix+"application", sort)
 			}
 
 			if tmp := cfg.Behavior; tmp != nil {
@@ -731,11 +733,11 @@ func flattenApplicationListEntries(v *[]models.ApplicationListEntries, sort bool
 			}
 
 			if tmp := cfg.Category; tmp != nil {
-				v["category"] = flattenApplicationListEntriesCategory(tmp, sort)
+				v["category"] = flattenApplicationListEntriesCategory(d, tmp, prefix+"category", sort)
 			}
 
 			if tmp := cfg.Exclusion; tmp != nil {
-				v["exclusion"] = flattenApplicationListEntriesExclusion(tmp, sort)
+				v["exclusion"] = flattenApplicationListEntriesExclusion(d, tmp, prefix+"exclusion", sort)
 			}
 
 			if tmp := cfg.Id; tmp != nil {
@@ -751,7 +753,7 @@ func flattenApplicationListEntries(v *[]models.ApplicationListEntries, sort bool
 			}
 
 			if tmp := cfg.Parameters; tmp != nil {
-				v["parameters"] = flattenApplicationListEntriesParameters(tmp, sort)
+				v["parameters"] = flattenApplicationListEntriesParameters(d, tmp, prefix+"parameters", sort)
 			}
 
 			if tmp := cfg.PerIpShaper; tmp != nil {
@@ -795,7 +797,7 @@ func flattenApplicationListEntries(v *[]models.ApplicationListEntries, sort bool
 			}
 
 			if tmp := cfg.Risk; tmp != nil {
-				v["risk"] = flattenApplicationListEntriesRisk(tmp, sort)
+				v["risk"] = flattenApplicationListEntriesRisk(d, tmp, prefix+"risk", sort)
 			}
 
 			if tmp := cfg.SessionTtl; tmp != nil {
@@ -811,7 +813,7 @@ func flattenApplicationListEntries(v *[]models.ApplicationListEntries, sort bool
 			}
 
 			if tmp := cfg.SubCategory; tmp != nil {
-				v["sub_category"] = flattenApplicationListEntriesSubCategory(tmp, sort)
+				v["sub_category"] = flattenApplicationListEntriesSubCategory(d, tmp, prefix+"sub_category", sort)
 			}
 
 			if tmp := cfg.Technology; tmp != nil {
@@ -833,11 +835,12 @@ func flattenApplicationListEntries(v *[]models.ApplicationListEntries, sort bool
 	return flat
 }
 
-func flattenApplicationListEntriesApplication(v *[]models.ApplicationListEntriesApplication, sort bool) interface{} {
+func flattenApplicationListEntriesApplication(d *schema.ResourceData, v *[]models.ApplicationListEntriesApplication, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Id; tmp != nil {
 				v["id"] = *tmp
@@ -854,11 +857,12 @@ func flattenApplicationListEntriesApplication(v *[]models.ApplicationListEntries
 	return flat
 }
 
-func flattenApplicationListEntriesCategory(v *[]models.ApplicationListEntriesCategory, sort bool) interface{} {
+func flattenApplicationListEntriesCategory(d *schema.ResourceData, v *[]models.ApplicationListEntriesCategory, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Id; tmp != nil {
 				v["id"] = *tmp
@@ -875,11 +879,12 @@ func flattenApplicationListEntriesCategory(v *[]models.ApplicationListEntriesCat
 	return flat
 }
 
-func flattenApplicationListEntriesExclusion(v *[]models.ApplicationListEntriesExclusion, sort bool) interface{} {
+func flattenApplicationListEntriesExclusion(d *schema.ResourceData, v *[]models.ApplicationListEntriesExclusion, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Id; tmp != nil {
 				v["id"] = *tmp
@@ -896,18 +901,19 @@ func flattenApplicationListEntriesExclusion(v *[]models.ApplicationListEntriesEx
 	return flat
 }
 
-func flattenApplicationListEntriesParameters(v *[]models.ApplicationListEntriesParameters, sort bool) interface{} {
+func flattenApplicationListEntriesParameters(d *schema.ResourceData, v *[]models.ApplicationListEntriesParameters, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Id; tmp != nil {
 				v["id"] = *tmp
 			}
 
 			if tmp := cfg.Members; tmp != nil {
-				v["members"] = flattenApplicationListEntriesParametersMembers(tmp, sort)
+				v["members"] = flattenApplicationListEntriesParametersMembers(d, tmp, prefix+"members", sort)
 			}
 
 			if tmp := cfg.Value; tmp != nil {
@@ -925,11 +931,12 @@ func flattenApplicationListEntriesParameters(v *[]models.ApplicationListEntriesP
 	return flat
 }
 
-func flattenApplicationListEntriesParametersMembers(v *[]models.ApplicationListEntriesParametersMembers, sort bool) interface{} {
+func flattenApplicationListEntriesParametersMembers(d *schema.ResourceData, v *[]models.ApplicationListEntriesParametersMembers, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Id; tmp != nil {
 				v["id"] = *tmp
@@ -954,11 +961,12 @@ func flattenApplicationListEntriesParametersMembers(v *[]models.ApplicationListE
 	return flat
 }
 
-func flattenApplicationListEntriesRisk(v *[]models.ApplicationListEntriesRisk, sort bool) interface{} {
+func flattenApplicationListEntriesRisk(d *schema.ResourceData, v *[]models.ApplicationListEntriesRisk, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Level; tmp != nil {
 				v["level"] = *tmp
@@ -975,11 +983,12 @@ func flattenApplicationListEntriesRisk(v *[]models.ApplicationListEntriesRisk, s
 	return flat
 }
 
-func flattenApplicationListEntriesSubCategory(v *[]models.ApplicationListEntriesSubCategory, sort bool) interface{} {
+func flattenApplicationListEntriesSubCategory(d *schema.ResourceData, v *[]models.ApplicationListEntriesSubCategory, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Id; tmp != nil {
 				v["id"] = *tmp
@@ -1032,7 +1041,7 @@ func refreshObjectApplicationList(d *schema.ResourceData, o *models.ApplicationL
 	}
 
 	if o.DefaultNetworkServices != nil {
-		if err = d.Set("default_network_services", flattenApplicationListDefaultNetworkServices(o.DefaultNetworkServices, sort)); err != nil {
+		if err = d.Set("default_network_services", flattenApplicationListDefaultNetworkServices(d, o.DefaultNetworkServices, "default_network_services", sort)); err != nil {
 			return diag.Errorf("error reading default_network_services: %v", err)
 		}
 	}
@@ -1046,7 +1055,7 @@ func refreshObjectApplicationList(d *schema.ResourceData, o *models.ApplicationL
 	}
 
 	if o.Entries != nil {
-		if err = d.Set("entries", flattenApplicationListEntries(o.Entries, sort)); err != nil {
+		if err = d.Set("entries", flattenApplicationListEntries(d, o.Entries, "entries", sort)); err != nil {
 			return diag.Errorf("error reading entries: %v", err)
 		}
 	}

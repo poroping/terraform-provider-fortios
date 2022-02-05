@@ -241,11 +241,12 @@ func resourceFirewallInternetServiceCustomGroupRead(ctx context.Context, d *sche
 	return nil
 }
 
-func flattenFirewallInternetServiceCustomGroupMember(v *[]models.FirewallInternetServiceCustomGroupMember, sort bool) interface{} {
+func flattenFirewallInternetServiceCustomGroupMember(d *schema.ResourceData, v *[]models.FirewallInternetServiceCustomGroupMember, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -274,7 +275,7 @@ func refreshObjectFirewallInternetServiceCustomGroup(d *schema.ResourceData, o *
 	}
 
 	if o.Member != nil {
-		if err = d.Set("member", flattenFirewallInternetServiceCustomGroupMember(o.Member, sort)); err != nil {
+		if err = d.Set("member", flattenFirewallInternetServiceCustomGroupMember(d, o.Member, "member", sort)); err != nil {
 			return diag.Errorf("error reading member: %v", err)
 		}
 	}

@@ -27,7 +27,7 @@ func refreshObject{{.fpath}}(d *schema.ResourceData, o *models.{{.fpath}}, sv st
 	}
 {{- else if or (eq $value.category "table") (eq $value.category "complex") }}
 	if o.{{if $value.name_begin_with_int}}The{{end}}{{(mixedCase $value.name)}} != nil {
-		if err = d.Set("{{ if $value.NameReserved }}fos{{end}}{{(flatten $value.name)}}", flatten{{.fpath}}(o.{{if $value.name_begin_with_int}}The{{end}}{{(mixedCase $value.name)}}, sort)); err != nil {
+		if err = d.Set("{{ if $value.NameReserved }}fos{{end}}{{(flatten $value.name)}}", flatten{{.fpath}}(d, o.{{if $value.name_begin_with_int}}The{{end}}{{(mixedCase $value.name)}}, "{{ (flatten $value.name) }}", sort)); err != nil {
 			return diag.Errorf("error reading {{ (flatten $value.name) }}: %v", err)
 		}
 	}

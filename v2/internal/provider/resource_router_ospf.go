@@ -1129,11 +1129,12 @@ func resourceRouterOspfRead(ctx context.Context, d *schema.ResourceData, meta in
 	return nil
 }
 
-func flattenRouterOspfArea(v *[]models.RouterOspfArea, sort bool) interface{} {
+func flattenRouterOspfArea(d *schema.ResourceData, v *[]models.RouterOspfArea, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Authentication; tmp != nil {
 				v["authentication"] = *tmp
@@ -1148,7 +1149,7 @@ func flattenRouterOspfArea(v *[]models.RouterOspfArea, sort bool) interface{} {
 			}
 
 			if tmp := cfg.FilterList; tmp != nil {
-				v["filter_list"] = flattenRouterOspfAreaFilterList(tmp, sort)
+				v["filter_list"] = flattenRouterOspfAreaFilterList(d, tmp, prefix+"filter_list", sort)
 			}
 
 			if tmp := cfg.Id; tmp != nil {
@@ -1176,7 +1177,7 @@ func flattenRouterOspfArea(v *[]models.RouterOspfArea, sort bool) interface{} {
 			}
 
 			if tmp := cfg.Range; tmp != nil {
-				v["range"] = flattenRouterOspfAreaRange(tmp, sort)
+				v["range"] = flattenRouterOspfAreaRange(d, tmp, prefix+"range", sort)
 			}
 
 			if tmp := cfg.Shortcut; tmp != nil {
@@ -1192,7 +1193,7 @@ func flattenRouterOspfArea(v *[]models.RouterOspfArea, sort bool) interface{} {
 			}
 
 			if tmp := cfg.VirtualLink; tmp != nil {
-				v["virtual_link"] = flattenRouterOspfAreaVirtualLink(tmp, sort)
+				v["virtual_link"] = flattenRouterOspfAreaVirtualLink(d, tmp, prefix+"virtual_link", sort)
 			}
 
 			flat = append(flat, v)
@@ -1206,11 +1207,12 @@ func flattenRouterOspfArea(v *[]models.RouterOspfArea, sort bool) interface{} {
 	return flat
 }
 
-func flattenRouterOspfAreaFilterList(v *[]models.RouterOspfAreaFilterList, sort bool) interface{} {
+func flattenRouterOspfAreaFilterList(d *schema.ResourceData, v *[]models.RouterOspfAreaFilterList, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Direction; tmp != nil {
 				v["direction"] = *tmp
@@ -1235,11 +1237,12 @@ func flattenRouterOspfAreaFilterList(v *[]models.RouterOspfAreaFilterList, sort 
 	return flat
 }
 
-func flattenRouterOspfAreaRange(v *[]models.RouterOspfAreaRange, sort bool) interface{} {
+func flattenRouterOspfAreaRange(d *schema.ResourceData, v *[]models.RouterOspfAreaRange, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Advertise; tmp != nil {
 				v["advertise"] = *tmp
@@ -1250,10 +1253,12 @@ func flattenRouterOspfAreaRange(v *[]models.RouterOspfAreaRange, sort bool) inte
 			}
 
 			if tmp := cfg.Prefix; tmp != nil {
+				tmp = utils.Ipv4Read(d, fmt.Sprintf("%s.%d.prefix", prefix, i), *tmp)
 				v["prefix"] = *tmp
 			}
 
 			if tmp := cfg.Substitute; tmp != nil {
+				tmp = utils.Ipv4Read(d, fmt.Sprintf("%s.%d.substitute", prefix, i), *tmp)
 				v["substitute"] = *tmp
 			}
 
@@ -1272,11 +1277,12 @@ func flattenRouterOspfAreaRange(v *[]models.RouterOspfAreaRange, sort bool) inte
 	return flat
 }
 
-func flattenRouterOspfAreaVirtualLink(v *[]models.RouterOspfAreaVirtualLink, sort bool) interface{} {
+func flattenRouterOspfAreaVirtualLink(d *schema.ResourceData, v *[]models.RouterOspfAreaVirtualLink, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Authentication; tmp != nil {
 				v["authentication"] = *tmp
@@ -1303,7 +1309,7 @@ func flattenRouterOspfAreaVirtualLink(v *[]models.RouterOspfAreaVirtualLink, sor
 			}
 
 			if tmp := cfg.Md5Keys; tmp != nil {
-				v["md5_keys"] = flattenRouterOspfAreaVirtualLinkMd5Keys(tmp, sort)
+				v["md5_keys"] = flattenRouterOspfAreaVirtualLinkMd5Keys(d, tmp, prefix+"md5_keys", sort)
 			}
 
 			if tmp := cfg.Name; tmp != nil {
@@ -1333,11 +1339,12 @@ func flattenRouterOspfAreaVirtualLink(v *[]models.RouterOspfAreaVirtualLink, sor
 	return flat
 }
 
-func flattenRouterOspfAreaVirtualLinkMd5Keys(v *[]models.RouterOspfAreaVirtualLinkMd5Keys, sort bool) interface{} {
+func flattenRouterOspfAreaVirtualLinkMd5Keys(d *schema.ResourceData, v *[]models.RouterOspfAreaVirtualLinkMd5Keys, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Id; tmp != nil {
 				v["id"] = *tmp
@@ -1358,11 +1365,12 @@ func flattenRouterOspfAreaVirtualLinkMd5Keys(v *[]models.RouterOspfAreaVirtualLi
 	return flat
 }
 
-func flattenRouterOspfDistributeList(v *[]models.RouterOspfDistributeList, sort bool) interface{} {
+func flattenRouterOspfDistributeList(d *schema.ResourceData, v *[]models.RouterOspfDistributeList, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.AccessList; tmp != nil {
 				v["access_list"] = *tmp
@@ -1387,11 +1395,12 @@ func flattenRouterOspfDistributeList(v *[]models.RouterOspfDistributeList, sort 
 	return flat
 }
 
-func flattenRouterOspfNeighbor(v *[]models.RouterOspfNeighbor, sort bool) interface{} {
+func flattenRouterOspfNeighbor(d *schema.ResourceData, v *[]models.RouterOspfNeighbor, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Cost; tmp != nil {
 				v["cost"] = *tmp
@@ -1424,11 +1433,12 @@ func flattenRouterOspfNeighbor(v *[]models.RouterOspfNeighbor, sort bool) interf
 	return flat
 }
 
-func flattenRouterOspfNetwork(v *[]models.RouterOspfNetwork, sort bool) interface{} {
+func flattenRouterOspfNetwork(d *schema.ResourceData, v *[]models.RouterOspfNetwork, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Area; tmp != nil {
 				v["area"] = *tmp
@@ -1443,6 +1453,7 @@ func flattenRouterOspfNetwork(v *[]models.RouterOspfNetwork, sort bool) interfac
 			}
 
 			if tmp := cfg.Prefix; tmp != nil {
+				tmp = utils.Ipv4Read(d, fmt.Sprintf("%s.%d.prefix", prefix, i), *tmp)
 				v["prefix"] = *tmp
 			}
 
@@ -1457,11 +1468,12 @@ func flattenRouterOspfNetwork(v *[]models.RouterOspfNetwork, sort bool) interfac
 	return flat
 }
 
-func flattenRouterOspfOspfInterface(v *[]models.RouterOspfOspfInterface, sort bool) interface{} {
+func flattenRouterOspfOspfInterface(d *schema.ResourceData, v *[]models.RouterOspfOspfInterface, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Authentication; tmp != nil {
 				v["authentication"] = *tmp
@@ -1516,7 +1528,7 @@ func flattenRouterOspfOspfInterface(v *[]models.RouterOspfOspfInterface, sort bo
 			}
 
 			if tmp := cfg.Md5Keys; tmp != nil {
-				v["md5_keys"] = flattenRouterOspfOspfInterfaceMd5Keys(tmp, sort)
+				v["md5_keys"] = flattenRouterOspfOspfInterfaceMd5Keys(d, tmp, prefix+"md5_keys", sort)
 			}
 
 			if tmp := cfg.Mtu; tmp != nil {
@@ -1570,11 +1582,12 @@ func flattenRouterOspfOspfInterface(v *[]models.RouterOspfOspfInterface, sort bo
 	return flat
 }
 
-func flattenRouterOspfOspfInterfaceMd5Keys(v *[]models.RouterOspfOspfInterfaceMd5Keys, sort bool) interface{} {
+func flattenRouterOspfOspfInterfaceMd5Keys(d *schema.ResourceData, v *[]models.RouterOspfOspfInterfaceMd5Keys, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Id; tmp != nil {
 				v["id"] = *tmp
@@ -1595,11 +1608,12 @@ func flattenRouterOspfOspfInterfaceMd5Keys(v *[]models.RouterOspfOspfInterfaceMd
 	return flat
 }
 
-func flattenRouterOspfPassiveInterface(v *[]models.RouterOspfPassiveInterface, sort bool) interface{} {
+func flattenRouterOspfPassiveInterface(d *schema.ResourceData, v *[]models.RouterOspfPassiveInterface, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -1616,11 +1630,12 @@ func flattenRouterOspfPassiveInterface(v *[]models.RouterOspfPassiveInterface, s
 	return flat
 }
 
-func flattenRouterOspfRedistribute(v *[]models.RouterOspfRedistribute, sort bool) interface{} {
+func flattenRouterOspfRedistribute(d *schema.ResourceData, v *[]models.RouterOspfRedistribute, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Metric; tmp != nil {
 				v["metric"] = *tmp
@@ -1657,11 +1672,12 @@ func flattenRouterOspfRedistribute(v *[]models.RouterOspfRedistribute, sort bool
 	return flat
 }
 
-func flattenRouterOspfSummaryAddress(v *[]models.RouterOspfSummaryAddress, sort bool) interface{} {
+func flattenRouterOspfSummaryAddress(d *schema.ResourceData, v *[]models.RouterOspfSummaryAddress, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Advertise; tmp != nil {
 				v["advertise"] = *tmp
@@ -1672,6 +1688,7 @@ func flattenRouterOspfSummaryAddress(v *[]models.RouterOspfSummaryAddress, sort 
 			}
 
 			if tmp := cfg.Prefix; tmp != nil {
+				tmp = utils.Ipv4Read(d, fmt.Sprintf("%s.%d.prefix", prefix, i), *tmp)
 				v["prefix"] = *tmp
 			}
 
@@ -1702,7 +1719,7 @@ func refreshObjectRouterOspf(d *schema.ResourceData, o *models.RouterOspf, sv st
 	}
 
 	if o.Area != nil {
-		if err = d.Set("area", flattenRouterOspfArea(o.Area, sort)); err != nil {
+		if err = d.Set("area", flattenRouterOspfArea(d, o.Area, "area", sort)); err != nil {
 			return diag.Errorf("error reading area: %v", err)
 		}
 	}
@@ -1820,7 +1837,7 @@ func refreshObjectRouterOspf(d *schema.ResourceData, o *models.RouterOspf, sv st
 	}
 
 	if o.DistributeList != nil {
-		if err = d.Set("distribute_list", flattenRouterOspfDistributeList(o.DistributeList, sort)); err != nil {
+		if err = d.Set("distribute_list", flattenRouterOspfDistributeList(d, o.DistributeList, "distribute_list", sort)); err != nil {
 			return diag.Errorf("error reading distribute_list: %v", err)
 		}
 	}
@@ -1850,31 +1867,31 @@ func refreshObjectRouterOspf(d *schema.ResourceData, o *models.RouterOspf, sv st
 	}
 
 	if o.Neighbor != nil {
-		if err = d.Set("neighbor", flattenRouterOspfNeighbor(o.Neighbor, sort)); err != nil {
+		if err = d.Set("neighbor", flattenRouterOspfNeighbor(d, o.Neighbor, "neighbor", sort)); err != nil {
 			return diag.Errorf("error reading neighbor: %v", err)
 		}
 	}
 
 	if o.Network != nil {
-		if err = d.Set("network", flattenRouterOspfNetwork(o.Network, sort)); err != nil {
+		if err = d.Set("network", flattenRouterOspfNetwork(d, o.Network, "network", sort)); err != nil {
 			return diag.Errorf("error reading network: %v", err)
 		}
 	}
 
 	if o.OspfInterface != nil {
-		if err = d.Set("ospf_interface", flattenRouterOspfOspfInterface(o.OspfInterface, sort)); err != nil {
+		if err = d.Set("ospf_interface", flattenRouterOspfOspfInterface(d, o.OspfInterface, "ospf_interface", sort)); err != nil {
 			return diag.Errorf("error reading ospf_interface: %v", err)
 		}
 	}
 
 	if o.PassiveInterface != nil {
-		if err = d.Set("passive_interface", flattenRouterOspfPassiveInterface(o.PassiveInterface, sort)); err != nil {
+		if err = d.Set("passive_interface", flattenRouterOspfPassiveInterface(d, o.PassiveInterface, "passive_interface", sort)); err != nil {
 			return diag.Errorf("error reading passive_interface: %v", err)
 		}
 	}
 
 	if o.Redistribute != nil {
-		if err = d.Set("redistribute", flattenRouterOspfRedistribute(o.Redistribute, sort)); err != nil {
+		if err = d.Set("redistribute", flattenRouterOspfRedistribute(d, o.Redistribute, "redistribute", sort)); err != nil {
 			return diag.Errorf("error reading redistribute: %v", err)
 		}
 	}
@@ -1920,7 +1937,7 @@ func refreshObjectRouterOspf(d *schema.ResourceData, o *models.RouterOspf, sv st
 	}
 
 	if o.SummaryAddress != nil {
-		if err = d.Set("summary_address", flattenRouterOspfSummaryAddress(o.SummaryAddress, sort)); err != nil {
+		if err = d.Set("summary_address", flattenRouterOspfSummaryAddress(d, o.SummaryAddress, "summary_address", sort)); err != nil {
 			return diag.Errorf("error reading summary_address: %v", err)
 		}
 	}

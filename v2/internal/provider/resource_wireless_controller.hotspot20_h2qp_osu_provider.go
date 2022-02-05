@@ -314,11 +314,12 @@ func resourceWirelessControllerHotspot20H2qpOsuProviderRead(ctx context.Context,
 	return nil
 }
 
-func flattenWirelessControllerHotspot20H2qpOsuProviderFriendlyName(v *[]models.WirelessControllerHotspot20H2qpOsuProviderFriendlyName, sort bool) interface{} {
+func flattenWirelessControllerHotspot20H2qpOsuProviderFriendlyName(d *schema.ResourceData, v *[]models.WirelessControllerHotspot20H2qpOsuProviderFriendlyName, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.FriendlyName; tmp != nil {
 				v["friendly_name"] = *tmp
@@ -343,11 +344,12 @@ func flattenWirelessControllerHotspot20H2qpOsuProviderFriendlyName(v *[]models.W
 	return flat
 }
 
-func flattenWirelessControllerHotspot20H2qpOsuProviderServiceDescription(v *[]models.WirelessControllerHotspot20H2qpOsuProviderServiceDescription, sort bool) interface{} {
+func flattenWirelessControllerHotspot20H2qpOsuProviderServiceDescription(d *schema.ResourceData, v *[]models.WirelessControllerHotspot20H2qpOsuProviderServiceDescription, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Lang; tmp != nil {
 				v["lang"] = *tmp
@@ -376,7 +378,7 @@ func refreshObjectWirelessControllerHotspot20H2qpOsuProvider(d *schema.ResourceD
 	var err error
 
 	if o.FriendlyName != nil {
-		if err = d.Set("friendly_name", flattenWirelessControllerHotspot20H2qpOsuProviderFriendlyName(o.FriendlyName, sort)); err != nil {
+		if err = d.Set("friendly_name", flattenWirelessControllerHotspot20H2qpOsuProviderFriendlyName(d, o.FriendlyName, "friendly_name", sort)); err != nil {
 			return diag.Errorf("error reading friendly_name: %v", err)
 		}
 	}
@@ -422,7 +424,7 @@ func refreshObjectWirelessControllerHotspot20H2qpOsuProvider(d *schema.ResourceD
 	}
 
 	if o.ServiceDescription != nil {
-		if err = d.Set("service_description", flattenWirelessControllerHotspot20H2qpOsuProviderServiceDescription(o.ServiceDescription, sort)); err != nil {
+		if err = d.Set("service_description", flattenWirelessControllerHotspot20H2qpOsuProviderServiceDescription(d, o.ServiceDescription, "service_description", sort)); err != nil {
 			return diag.Errorf("error reading service_description: %v", err)
 		}
 	}

@@ -273,11 +273,12 @@ func resourceFirewallIdentityBasedRouteRead(ctx context.Context, d *schema.Resou
 	return nil
 }
 
-func flattenFirewallIdentityBasedRouteRule(v *[]models.FirewallIdentityBasedRouteRule, sort bool) interface{} {
+func flattenFirewallIdentityBasedRouteRule(d *schema.ResourceData, v *[]models.FirewallIdentityBasedRouteRule, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Device; tmp != nil {
 				v["device"] = *tmp
@@ -288,7 +289,7 @@ func flattenFirewallIdentityBasedRouteRule(v *[]models.FirewallIdentityBasedRout
 			}
 
 			if tmp := cfg.Groups; tmp != nil {
-				v["groups"] = flattenFirewallIdentityBasedRouteRuleGroups(tmp, sort)
+				v["groups"] = flattenFirewallIdentityBasedRouteRuleGroups(d, tmp, prefix+"groups", sort)
 			}
 
 			if tmp := cfg.Id; tmp != nil {
@@ -306,11 +307,12 @@ func flattenFirewallIdentityBasedRouteRule(v *[]models.FirewallIdentityBasedRout
 	return flat
 }
 
-func flattenFirewallIdentityBasedRouteRuleGroups(v *[]models.FirewallIdentityBasedRouteRuleGroups, sort bool) interface{} {
+func flattenFirewallIdentityBasedRouteRuleGroups(d *schema.ResourceData, v *[]models.FirewallIdentityBasedRouteRuleGroups, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -347,7 +349,7 @@ func refreshObjectFirewallIdentityBasedRoute(d *schema.ResourceData, o *models.F
 	}
 
 	if o.Rule != nil {
-		if err = d.Set("rule", flattenFirewallIdentityBasedRouteRule(o.Rule, sort)); err != nil {
+		if err = d.Set("rule", flattenFirewallIdentityBasedRouteRule(d, o.Rule, "rule", sort)); err != nil {
 			return diag.Errorf("error reading rule: %v", err)
 		}
 	}

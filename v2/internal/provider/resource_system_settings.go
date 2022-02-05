@@ -1199,11 +1199,12 @@ func resourceSystemSettingsRead(ctx context.Context, d *schema.ResourceData, met
 	return nil
 }
 
-func flattenSystemSettingsGuiDefaultPolicyColumns(v *[]models.SystemSettingsGuiDefaultPolicyColumns, sort bool) interface{} {
+func flattenSystemSettingsGuiDefaultPolicyColumns(d *schema.ResourceData, v *[]models.SystemSettingsGuiDefaultPolicyColumns, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -1520,7 +1521,7 @@ func refreshObjectSystemSettings(d *schema.ResourceData, o *models.SystemSetting
 	}
 
 	if o.GuiDefaultPolicyColumns != nil {
-		if err = d.Set("gui_default_policy_columns", flattenSystemSettingsGuiDefaultPolicyColumns(o.GuiDefaultPolicyColumns, sort)); err != nil {
+		if err = d.Set("gui_default_policy_columns", flattenSystemSettingsGuiDefaultPolicyColumns(d, o.GuiDefaultPolicyColumns, "gui_default_policy_columns", sort)); err != nil {
 			return diag.Errorf("error reading gui_default_policy_columns: %v", err)
 		}
 	}

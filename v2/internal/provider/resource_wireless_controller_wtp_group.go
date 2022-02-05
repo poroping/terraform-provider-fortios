@@ -241,11 +241,12 @@ func resourceWirelessControllerWtpGroupRead(ctx context.Context, d *schema.Resou
 	return nil
 }
 
-func flattenWirelessControllerWtpGroupWtps(v *[]models.WirelessControllerWtpGroupWtps, sort bool) interface{} {
+func flattenWirelessControllerWtpGroupWtps(d *schema.ResourceData, v *[]models.WirelessControllerWtpGroupWtps, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.WtpId; tmp != nil {
 				v["wtp_id"] = *tmp
@@ -282,7 +283,7 @@ func refreshObjectWirelessControllerWtpGroup(d *schema.ResourceData, o *models.W
 	}
 
 	if o.Wtps != nil {
-		if err = d.Set("wtps", flattenWirelessControllerWtpGroupWtps(o.Wtps, sort)); err != nil {
+		if err = d.Set("wtps", flattenWirelessControllerWtpGroupWtps(d, o.Wtps, "wtps", sort)); err != nil {
 			return diag.Errorf("error reading wtps: %v", err)
 		}
 	}

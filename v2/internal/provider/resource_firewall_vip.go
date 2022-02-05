@@ -1080,11 +1080,12 @@ func resourceFirewallVipRead(ctx context.Context, d *schema.ResourceData, meta i
 	return nil
 }
 
-func flattenFirewallVipExtaddr(v *[]models.FirewallVipExtaddr, sort bool) interface{} {
+func flattenFirewallVipExtaddr(d *schema.ResourceData, v *[]models.FirewallVipExtaddr, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -1101,11 +1102,12 @@ func flattenFirewallVipExtaddr(v *[]models.FirewallVipExtaddr, sort bool) interf
 	return flat
 }
 
-func flattenFirewallVipMappedip(v *[]models.FirewallVipMappedip, sort bool) interface{} {
+func flattenFirewallVipMappedip(d *schema.ResourceData, v *[]models.FirewallVipMappedip, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Range; tmp != nil {
 				v["range"] = *tmp
@@ -1122,11 +1124,12 @@ func flattenFirewallVipMappedip(v *[]models.FirewallVipMappedip, sort bool) inte
 	return flat
 }
 
-func flattenFirewallVipMonitor(v *[]models.FirewallVipMonitor, sort bool) interface{} {
+func flattenFirewallVipMonitor(d *schema.ResourceData, v *[]models.FirewallVipMonitor, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -1143,11 +1146,12 @@ func flattenFirewallVipMonitor(v *[]models.FirewallVipMonitor, sort bool) interf
 	return flat
 }
 
-func flattenFirewallVipRealservers(v *[]models.FirewallVipRealservers, sort bool) interface{} {
+func flattenFirewallVipRealservers(d *schema.ResourceData, v *[]models.FirewallVipRealservers, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Address; tmp != nil {
 				v["address"] = *tmp
@@ -1182,7 +1186,7 @@ func flattenFirewallVipRealservers(v *[]models.FirewallVipRealservers, sort bool
 			}
 
 			if tmp := cfg.Monitor; tmp != nil {
-				v["monitor"] = flattenFirewallVipRealserversMonitor(tmp, sort)
+				v["monitor"] = flattenFirewallVipRealserversMonitor(d, tmp, prefix+"monitor", sort)
 			}
 
 			if tmp := cfg.Port; tmp != nil {
@@ -1212,11 +1216,12 @@ func flattenFirewallVipRealservers(v *[]models.FirewallVipRealservers, sort bool
 	return flat
 }
 
-func flattenFirewallVipRealserversMonitor(v *[]models.FirewallVipRealserversMonitor, sort bool) interface{} {
+func flattenFirewallVipRealserversMonitor(d *schema.ResourceData, v *[]models.FirewallVipRealserversMonitor, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -1233,11 +1238,12 @@ func flattenFirewallVipRealserversMonitor(v *[]models.FirewallVipRealserversMoni
 	return flat
 }
 
-func flattenFirewallVipService(v *[]models.FirewallVipService, sort bool) interface{} {
+func flattenFirewallVipService(d *schema.ResourceData, v *[]models.FirewallVipService, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -1254,11 +1260,12 @@ func flattenFirewallVipService(v *[]models.FirewallVipService, sort bool) interf
 	return flat
 }
 
-func flattenFirewallVipSrcFilter(v *[]models.FirewallVipSrcFilter, sort bool) interface{} {
+func flattenFirewallVipSrcFilter(d *schema.ResourceData, v *[]models.FirewallVipSrcFilter, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Range; tmp != nil {
 				v["range"] = *tmp
@@ -1275,11 +1282,12 @@ func flattenFirewallVipSrcFilter(v *[]models.FirewallVipSrcFilter, sort bool) in
 	return flat
 }
 
-func flattenFirewallVipSrcintfFilter(v *[]models.FirewallVipSrcintfFilter, sort bool) interface{} {
+func flattenFirewallVipSrcintfFilter(d *schema.ResourceData, v *[]models.FirewallVipSrcintfFilter, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.InterfaceName; tmp != nil {
 				v["interface_name"] = *tmp
@@ -1296,11 +1304,12 @@ func flattenFirewallVipSrcintfFilter(v *[]models.FirewallVipSrcintfFilter, sort 
 	return flat
 }
 
-func flattenFirewallVipSslCipherSuites(v *[]models.FirewallVipSslCipherSuites, sort bool) interface{} {
+func flattenFirewallVipSslCipherSuites(d *schema.ResourceData, v *[]models.FirewallVipSslCipherSuites, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Cipher; tmp != nil {
 				v["cipher"] = *tmp
@@ -1325,11 +1334,12 @@ func flattenFirewallVipSslCipherSuites(v *[]models.FirewallVipSslCipherSuites, s
 	return flat
 }
 
-func flattenFirewallVipSslServerCipherSuites(v *[]models.FirewallVipSslServerCipherSuites, sort bool) interface{} {
+func flattenFirewallVipSslServerCipherSuites(d *schema.ResourceData, v *[]models.FirewallVipSslServerCipherSuites, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Cipher; tmp != nil {
 				v["cipher"] = *tmp
@@ -1398,7 +1408,7 @@ func refreshObjectFirewallVip(d *schema.ResourceData, o *models.FirewallVip, sv 
 	}
 
 	if o.Extaddr != nil {
-		if err = d.Set("extaddr", flattenFirewallVipExtaddr(o.Extaddr, sort)); err != nil {
+		if err = d.Set("extaddr", flattenFirewallVipExtaddr(d, o.Extaddr, "extaddr", sort)); err != nil {
 			return diag.Errorf("error reading extaddr: %v", err)
 		}
 	}
@@ -1564,7 +1574,7 @@ func refreshObjectFirewallVip(d *schema.ResourceData, o *models.FirewallVip, sv 
 	}
 
 	if o.Mappedip != nil {
-		if err = d.Set("mappedip", flattenFirewallVipMappedip(o.Mappedip, sort)); err != nil {
+		if err = d.Set("mappedip", flattenFirewallVipMappedip(d, o.Mappedip, "mappedip", sort)); err != nil {
 			return diag.Errorf("error reading mappedip: %v", err)
 		}
 	}
@@ -1586,7 +1596,7 @@ func refreshObjectFirewallVip(d *schema.ResourceData, o *models.FirewallVip, sv 
 	}
 
 	if o.Monitor != nil {
-		if err = d.Set("monitor", flattenFirewallVipMonitor(o.Monitor, sort)); err != nil {
+		if err = d.Set("monitor", flattenFirewallVipMonitor(d, o.Monitor, "monitor", sort)); err != nil {
 			return diag.Errorf("error reading monitor: %v", err)
 		}
 	}
@@ -1664,7 +1674,7 @@ func refreshObjectFirewallVip(d *schema.ResourceData, o *models.FirewallVip, sv 
 	}
 
 	if o.Realservers != nil {
-		if err = d.Set("realservers", flattenFirewallVipRealservers(o.Realservers, sort)); err != nil {
+		if err = d.Set("realservers", flattenFirewallVipRealservers(d, o.Realservers, "realservers", sort)); err != nil {
 			return diag.Errorf("error reading realservers: %v", err)
 		}
 	}
@@ -1678,19 +1688,19 @@ func refreshObjectFirewallVip(d *schema.ResourceData, o *models.FirewallVip, sv 
 	}
 
 	if o.Service != nil {
-		if err = d.Set("service", flattenFirewallVipService(o.Service, sort)); err != nil {
+		if err = d.Set("service", flattenFirewallVipService(d, o.Service, "service", sort)); err != nil {
 			return diag.Errorf("error reading service: %v", err)
 		}
 	}
 
 	if o.SrcFilter != nil {
-		if err = d.Set("src_filter", flattenFirewallVipSrcFilter(o.SrcFilter, sort)); err != nil {
+		if err = d.Set("src_filter", flattenFirewallVipSrcFilter(d, o.SrcFilter, "src_filter", sort)); err != nil {
 			return diag.Errorf("error reading src_filter: %v", err)
 		}
 	}
 
 	if o.SrcintfFilter != nil {
-		if err = d.Set("srcintf_filter", flattenFirewallVipSrcintfFilter(o.SrcintfFilter, sort)); err != nil {
+		if err = d.Set("srcintf_filter", flattenFirewallVipSrcintfFilter(d, o.SrcintfFilter, "srcintf_filter", sort)); err != nil {
 			return diag.Errorf("error reading srcintf_filter: %v", err)
 		}
 	}
@@ -1720,7 +1730,7 @@ func refreshObjectFirewallVip(d *schema.ResourceData, o *models.FirewallVip, sv 
 	}
 
 	if o.SslCipherSuites != nil {
-		if err = d.Set("ssl_cipher_suites", flattenFirewallVipSslCipherSuites(o.SslCipherSuites, sort)); err != nil {
+		if err = d.Set("ssl_cipher_suites", flattenFirewallVipSslCipherSuites(d, o.SslCipherSuites, "ssl_cipher_suites", sort)); err != nil {
 			return diag.Errorf("error reading ssl_cipher_suites: %v", err)
 		}
 	}
@@ -1918,7 +1928,7 @@ func refreshObjectFirewallVip(d *schema.ResourceData, o *models.FirewallVip, sv 
 	}
 
 	if o.SslServerCipherSuites != nil {
-		if err = d.Set("ssl_server_cipher_suites", flattenFirewallVipSslServerCipherSuites(o.SslServerCipherSuites, sort)); err != nil {
+		if err = d.Set("ssl_server_cipher_suites", flattenFirewallVipSslServerCipherSuites(d, o.SslServerCipherSuites, "ssl_server_cipher_suites", sort)); err != nil {
 			return diag.Errorf("error reading ssl_server_cipher_suites: %v", err)
 		}
 	}

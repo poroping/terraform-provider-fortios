@@ -610,11 +610,12 @@ func resourceSystemLldpNetworkPolicyRead(ctx context.Context, d *schema.Resource
 	return nil
 }
 
-func flattenSystemLldpNetworkPolicyGuest(v *[]models.SystemLldpNetworkPolicyGuest, sort bool) interface{} {
+func flattenSystemLldpNetworkPolicyGuest(d *schema.ResourceData, v *[]models.SystemLldpNetworkPolicyGuest, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Dscp; tmp != nil {
 				v["dscp"] = *tmp
@@ -643,11 +644,12 @@ func flattenSystemLldpNetworkPolicyGuest(v *[]models.SystemLldpNetworkPolicyGues
 	return flat
 }
 
-func flattenSystemLldpNetworkPolicyGuestVoiceSignaling(v *[]models.SystemLldpNetworkPolicyGuestVoiceSignaling, sort bool) interface{} {
+func flattenSystemLldpNetworkPolicyGuestVoiceSignaling(d *schema.ResourceData, v *[]models.SystemLldpNetworkPolicyGuestVoiceSignaling, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Dscp; tmp != nil {
 				v["dscp"] = *tmp
@@ -676,11 +678,12 @@ func flattenSystemLldpNetworkPolicyGuestVoiceSignaling(v *[]models.SystemLldpNet
 	return flat
 }
 
-func flattenSystemLldpNetworkPolicySoftphone(v *[]models.SystemLldpNetworkPolicySoftphone, sort bool) interface{} {
+func flattenSystemLldpNetworkPolicySoftphone(d *schema.ResourceData, v *[]models.SystemLldpNetworkPolicySoftphone, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Dscp; tmp != nil {
 				v["dscp"] = *tmp
@@ -709,11 +712,12 @@ func flattenSystemLldpNetworkPolicySoftphone(v *[]models.SystemLldpNetworkPolicy
 	return flat
 }
 
-func flattenSystemLldpNetworkPolicyStreamingVideo(v *[]models.SystemLldpNetworkPolicyStreamingVideo, sort bool) interface{} {
+func flattenSystemLldpNetworkPolicyStreamingVideo(d *schema.ResourceData, v *[]models.SystemLldpNetworkPolicyStreamingVideo, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Dscp; tmp != nil {
 				v["dscp"] = *tmp
@@ -742,11 +746,12 @@ func flattenSystemLldpNetworkPolicyStreamingVideo(v *[]models.SystemLldpNetworkP
 	return flat
 }
 
-func flattenSystemLldpNetworkPolicyVideoConferencing(v *[]models.SystemLldpNetworkPolicyVideoConferencing, sort bool) interface{} {
+func flattenSystemLldpNetworkPolicyVideoConferencing(d *schema.ResourceData, v *[]models.SystemLldpNetworkPolicyVideoConferencing, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Dscp; tmp != nil {
 				v["dscp"] = *tmp
@@ -775,11 +780,12 @@ func flattenSystemLldpNetworkPolicyVideoConferencing(v *[]models.SystemLldpNetwo
 	return flat
 }
 
-func flattenSystemLldpNetworkPolicyVideoSignaling(v *[]models.SystemLldpNetworkPolicyVideoSignaling, sort bool) interface{} {
+func flattenSystemLldpNetworkPolicyVideoSignaling(d *schema.ResourceData, v *[]models.SystemLldpNetworkPolicyVideoSignaling, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Dscp; tmp != nil {
 				v["dscp"] = *tmp
@@ -808,11 +814,12 @@ func flattenSystemLldpNetworkPolicyVideoSignaling(v *[]models.SystemLldpNetworkP
 	return flat
 }
 
-func flattenSystemLldpNetworkPolicyVoice(v *[]models.SystemLldpNetworkPolicyVoice, sort bool) interface{} {
+func flattenSystemLldpNetworkPolicyVoice(d *schema.ResourceData, v *[]models.SystemLldpNetworkPolicyVoice, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Dscp; tmp != nil {
 				v["dscp"] = *tmp
@@ -841,11 +848,12 @@ func flattenSystemLldpNetworkPolicyVoice(v *[]models.SystemLldpNetworkPolicyVoic
 	return flat
 }
 
-func flattenSystemLldpNetworkPolicyVoiceSignaling(v *[]models.SystemLldpNetworkPolicyVoiceSignaling, sort bool) interface{} {
+func flattenSystemLldpNetworkPolicyVoiceSignaling(d *schema.ResourceData, v *[]models.SystemLldpNetworkPolicyVoiceSignaling, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Dscp; tmp != nil {
 				v["dscp"] = *tmp
@@ -886,13 +894,13 @@ func refreshObjectSystemLldpNetworkPolicy(d *schema.ResourceData, o *models.Syst
 	}
 
 	if o.Guest != nil {
-		if err = d.Set("guest", flattenSystemLldpNetworkPolicyGuest(o.Guest, sort)); err != nil {
+		if err = d.Set("guest", flattenSystemLldpNetworkPolicyGuest(d, o.Guest, "guest", sort)); err != nil {
 			return diag.Errorf("error reading guest: %v", err)
 		}
 	}
 
 	if o.GuestVoiceSignaling != nil {
-		if err = d.Set("guest_voice_signaling", flattenSystemLldpNetworkPolicyGuestVoiceSignaling(o.GuestVoiceSignaling, sort)); err != nil {
+		if err = d.Set("guest_voice_signaling", flattenSystemLldpNetworkPolicyGuestVoiceSignaling(d, o.GuestVoiceSignaling, "guest_voice_signaling", sort)); err != nil {
 			return diag.Errorf("error reading guest_voice_signaling: %v", err)
 		}
 	}
@@ -906,37 +914,37 @@ func refreshObjectSystemLldpNetworkPolicy(d *schema.ResourceData, o *models.Syst
 	}
 
 	if o.Softphone != nil {
-		if err = d.Set("softphone", flattenSystemLldpNetworkPolicySoftphone(o.Softphone, sort)); err != nil {
+		if err = d.Set("softphone", flattenSystemLldpNetworkPolicySoftphone(d, o.Softphone, "softphone", sort)); err != nil {
 			return diag.Errorf("error reading softphone: %v", err)
 		}
 	}
 
 	if o.StreamingVideo != nil {
-		if err = d.Set("streaming_video", flattenSystemLldpNetworkPolicyStreamingVideo(o.StreamingVideo, sort)); err != nil {
+		if err = d.Set("streaming_video", flattenSystemLldpNetworkPolicyStreamingVideo(d, o.StreamingVideo, "streaming_video", sort)); err != nil {
 			return diag.Errorf("error reading streaming_video: %v", err)
 		}
 	}
 
 	if o.VideoConferencing != nil {
-		if err = d.Set("video_conferencing", flattenSystemLldpNetworkPolicyVideoConferencing(o.VideoConferencing, sort)); err != nil {
+		if err = d.Set("video_conferencing", flattenSystemLldpNetworkPolicyVideoConferencing(d, o.VideoConferencing, "video_conferencing", sort)); err != nil {
 			return diag.Errorf("error reading video_conferencing: %v", err)
 		}
 	}
 
 	if o.VideoSignaling != nil {
-		if err = d.Set("video_signaling", flattenSystemLldpNetworkPolicyVideoSignaling(o.VideoSignaling, sort)); err != nil {
+		if err = d.Set("video_signaling", flattenSystemLldpNetworkPolicyVideoSignaling(d, o.VideoSignaling, "video_signaling", sort)); err != nil {
 			return diag.Errorf("error reading video_signaling: %v", err)
 		}
 	}
 
 	if o.Voice != nil {
-		if err = d.Set("voice", flattenSystemLldpNetworkPolicyVoice(o.Voice, sort)); err != nil {
+		if err = d.Set("voice", flattenSystemLldpNetworkPolicyVoice(d, o.Voice, "voice", sort)); err != nil {
 			return diag.Errorf("error reading voice: %v", err)
 		}
 	}
 
 	if o.VoiceSignaling != nil {
-		if err = d.Set("voice_signaling", flattenSystemLldpNetworkPolicyVoiceSignaling(o.VoiceSignaling, sort)); err != nil {
+		if err = d.Set("voice_signaling", flattenSystemLldpNetworkPolicyVoiceSignaling(d, o.VoiceSignaling, "voice_signaling", sort)); err != nil {
 			return diag.Errorf("error reading voice_signaling: %v", err)
 		}
 	}

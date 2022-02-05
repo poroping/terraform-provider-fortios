@@ -334,11 +334,12 @@ func resourceLogFortianalyzerCloudFilterRead(ctx context.Context, d *schema.Reso
 	return nil
 }
 
-func flattenLogFortianalyzerCloudFilterFreeStyle(v *[]models.LogFortianalyzerCloudFilterFreeStyle, sort bool) interface{} {
+func flattenLogFortianalyzerCloudFilterFreeStyle(d *schema.ResourceData, v *[]models.LogFortianalyzerCloudFilterFreeStyle, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Category; tmp != nil {
 				v["category"] = *tmp
@@ -411,7 +412,7 @@ func refreshObjectLogFortianalyzerCloudFilter(d *schema.ResourceData, o *models.
 	}
 
 	if o.FreeStyle != nil {
-		if err = d.Set("free_style", flattenLogFortianalyzerCloudFilterFreeStyle(o.FreeStyle, sort)); err != nil {
+		if err = d.Set("free_style", flattenLogFortianalyzerCloudFilterFreeStyle(d, o.FreeStyle, "free_style", sort)); err != nil {
 			return diag.Errorf("error reading free_style: %v", err)
 		}
 	}

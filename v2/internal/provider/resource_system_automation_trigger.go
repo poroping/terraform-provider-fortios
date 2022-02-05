@@ -401,11 +401,12 @@ func resourceSystemAutomationTriggerRead(ctx context.Context, d *schema.Resource
 	return nil
 }
 
-func flattenSystemAutomationTriggerFields(v *[]models.SystemAutomationTriggerFields, sort bool) interface{} {
+func flattenSystemAutomationTriggerFields(d *schema.ResourceData, v *[]models.SystemAutomationTriggerFields, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Id; tmp != nil {
 				v["id"] = *tmp
@@ -430,11 +431,12 @@ func flattenSystemAutomationTriggerFields(v *[]models.SystemAutomationTriggerFie
 	return flat
 }
 
-func flattenSystemAutomationTriggerLogid(v *[]models.SystemAutomationTriggerLogid, sort bool) interface{} {
+func flattenSystemAutomationTriggerLogid(d *schema.ResourceData, v *[]models.SystemAutomationTriggerLogid, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Id; tmp != nil {
 				v["id"] = *tmp
@@ -511,7 +513,7 @@ func refreshObjectSystemAutomationTrigger(d *schema.ResourceData, o *models.Syst
 	}
 
 	if o.Fields != nil {
-		if err = d.Set("fields", flattenSystemAutomationTriggerFields(o.Fields, sort)); err != nil {
+		if err = d.Set("fields", flattenSystemAutomationTriggerFields(d, o.Fields, "fields", sort)); err != nil {
 			return diag.Errorf("error reading fields: %v", err)
 		}
 	}
@@ -533,7 +535,7 @@ func refreshObjectSystemAutomationTrigger(d *schema.ResourceData, o *models.Syst
 	}
 
 	if o.Logid != nil {
-		if err = d.Set("logid", flattenSystemAutomationTriggerLogid(o.Logid, sort)); err != nil {
+		if err = d.Set("logid", flattenSystemAutomationTriggerLogid(d, o.Logid, "logid", sort)); err != nil {
 			return diag.Errorf("error reading logid: %v", err)
 		}
 	}

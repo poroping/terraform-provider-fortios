@@ -314,11 +314,12 @@ func resourceFirewallAddrgrp6Read(ctx context.Context, d *schema.ResourceData, m
 	return nil
 }
 
-func flattenFirewallAddrgrp6Member(v *[]models.FirewallAddrgrp6Member, sort bool) interface{} {
+func flattenFirewallAddrgrp6Member(d *schema.ResourceData, v *[]models.FirewallAddrgrp6Member, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -335,11 +336,12 @@ func flattenFirewallAddrgrp6Member(v *[]models.FirewallAddrgrp6Member, sort bool
 	return flat
 }
 
-func flattenFirewallAddrgrp6Tagging(v *[]models.FirewallAddrgrp6Tagging, sort bool) interface{} {
+func flattenFirewallAddrgrp6Tagging(d *schema.ResourceData, v *[]models.FirewallAddrgrp6Tagging, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Category; tmp != nil {
 				v["category"] = *tmp
@@ -350,7 +352,7 @@ func flattenFirewallAddrgrp6Tagging(v *[]models.FirewallAddrgrp6Tagging, sort bo
 			}
 
 			if tmp := cfg.Tags; tmp != nil {
-				v["tags"] = flattenFirewallAddrgrp6TaggingTags(tmp, sort)
+				v["tags"] = flattenFirewallAddrgrp6TaggingTags(d, tmp, prefix+"tags", sort)
 			}
 
 			flat = append(flat, v)
@@ -364,11 +366,12 @@ func flattenFirewallAddrgrp6Tagging(v *[]models.FirewallAddrgrp6Tagging, sort bo
 	return flat
 }
 
-func flattenFirewallAddrgrp6TaggingTags(v *[]models.FirewallAddrgrp6TaggingTags, sort bool) interface{} {
+func flattenFirewallAddrgrp6TaggingTags(d *schema.ResourceData, v *[]models.FirewallAddrgrp6TaggingTags, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -413,7 +416,7 @@ func refreshObjectFirewallAddrgrp6(d *schema.ResourceData, o *models.FirewallAdd
 	}
 
 	if o.Member != nil {
-		if err = d.Set("member", flattenFirewallAddrgrp6Member(o.Member, sort)); err != nil {
+		if err = d.Set("member", flattenFirewallAddrgrp6Member(d, o.Member, "member", sort)); err != nil {
 			return diag.Errorf("error reading member: %v", err)
 		}
 	}
@@ -427,7 +430,7 @@ func refreshObjectFirewallAddrgrp6(d *schema.ResourceData, o *models.FirewallAdd
 	}
 
 	if o.Tagging != nil {
-		if err = d.Set("tagging", flattenFirewallAddrgrp6Tagging(o.Tagging, sort)); err != nil {
+		if err = d.Set("tagging", flattenFirewallAddrgrp6Tagging(d, o.Tagging, "tagging", sort)); err != nil {
 			return diag.Errorf("error reading tagging: %v", err)
 		}
 	}

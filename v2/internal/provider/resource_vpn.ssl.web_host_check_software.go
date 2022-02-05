@@ -313,11 +313,12 @@ func resourceVpnSslWebHostCheckSoftwareRead(ctx context.Context, d *schema.Resou
 	return nil
 }
 
-func flattenVpnSslWebHostCheckSoftwareCheckItemList(v *[]models.VpnSslWebHostCheckSoftwareCheckItemList, sort bool) interface{} {
+func flattenVpnSslWebHostCheckSoftwareCheckItemList(d *schema.ResourceData, v *[]models.VpnSslWebHostCheckSoftwareCheckItemList, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Action; tmp != nil {
 				v["action"] = *tmp
@@ -328,7 +329,7 @@ func flattenVpnSslWebHostCheckSoftwareCheckItemList(v *[]models.VpnSslWebHostChe
 			}
 
 			if tmp := cfg.Md5s; tmp != nil {
-				v["md5s"] = flattenVpnSslWebHostCheckSoftwareCheckItemListMd5s(tmp, sort)
+				v["md5s"] = flattenVpnSslWebHostCheckSoftwareCheckItemListMd5s(d, tmp, prefix+"md5s", sort)
 			}
 
 			if tmp := cfg.Target; tmp != nil {
@@ -354,11 +355,12 @@ func flattenVpnSslWebHostCheckSoftwareCheckItemList(v *[]models.VpnSslWebHostChe
 	return flat
 }
 
-func flattenVpnSslWebHostCheckSoftwareCheckItemListMd5s(v *[]models.VpnSslWebHostCheckSoftwareCheckItemListMd5s, sort bool) interface{} {
+func flattenVpnSslWebHostCheckSoftwareCheckItemListMd5s(d *schema.ResourceData, v *[]models.VpnSslWebHostCheckSoftwareCheckItemListMd5s, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Id; tmp != nil {
 				v["id"] = *tmp
@@ -379,7 +381,7 @@ func refreshObjectVpnSslWebHostCheckSoftware(d *schema.ResourceData, o *models.V
 	var err error
 
 	if o.CheckItemList != nil {
-		if err = d.Set("check_item_list", flattenVpnSslWebHostCheckSoftwareCheckItemList(o.CheckItemList, sort)); err != nil {
+		if err = d.Set("check_item_list", flattenVpnSslWebHostCheckSoftwareCheckItemList(d, o.CheckItemList, "check_item_list", sort)); err != nil {
 			return diag.Errorf("error reading check_item_list: %v", err)
 		}
 	}

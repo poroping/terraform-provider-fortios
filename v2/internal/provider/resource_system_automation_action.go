@@ -643,11 +643,12 @@ func resourceSystemAutomationActionRead(ctx context.Context, d *schema.ResourceD
 	return nil
 }
 
-func flattenSystemAutomationActionEmailTo(v *[]models.SystemAutomationActionEmailTo, sort bool) interface{} {
+func flattenSystemAutomationActionEmailTo(d *schema.ResourceData, v *[]models.SystemAutomationActionEmailTo, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -664,11 +665,12 @@ func flattenSystemAutomationActionEmailTo(v *[]models.SystemAutomationActionEmai
 	return flat
 }
 
-func flattenSystemAutomationActionHeaders(v *[]models.SystemAutomationActionHeaders, sort bool) interface{} {
+func flattenSystemAutomationActionHeaders(d *schema.ResourceData, v *[]models.SystemAutomationActionHeaders, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Header; tmp != nil {
 				v["header"] = *tmp
@@ -685,11 +687,12 @@ func flattenSystemAutomationActionHeaders(v *[]models.SystemAutomationActionHead
 	return flat
 }
 
-func flattenSystemAutomationActionSdnConnector(v *[]models.SystemAutomationActionSdnConnector, sort bool) interface{} {
+func flattenSystemAutomationActionSdnConnector(d *schema.ResourceData, v *[]models.SystemAutomationActionSdnConnector, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -929,7 +932,7 @@ func refreshObjectSystemAutomationAction(d *schema.ResourceData, o *models.Syste
 	}
 
 	if o.EmailTo != nil {
-		if err = d.Set("email_to", flattenSystemAutomationActionEmailTo(o.EmailTo, sort)); err != nil {
+		if err = d.Set("email_to", flattenSystemAutomationActionEmailTo(d, o.EmailTo, "email_to", sort)); err != nil {
 			return diag.Errorf("error reading email_to: %v", err)
 		}
 	}
@@ -975,7 +978,7 @@ func refreshObjectSystemAutomationAction(d *schema.ResourceData, o *models.Syste
 	}
 
 	if o.Headers != nil {
-		if err = d.Set("headers", flattenSystemAutomationActionHeaders(o.Headers, sort)); err != nil {
+		if err = d.Set("headers", flattenSystemAutomationActionHeaders(d, o.Headers, "headers", sort)); err != nil {
 			return diag.Errorf("error reading headers: %v", err)
 		}
 	}
@@ -1077,7 +1080,7 @@ func refreshObjectSystemAutomationAction(d *schema.ResourceData, o *models.Syste
 	}
 
 	if o.SdnConnector != nil {
-		if err = d.Set("sdn_connector", flattenSystemAutomationActionSdnConnector(o.SdnConnector, sort)); err != nil {
+		if err = d.Set("sdn_connector", flattenSystemAutomationActionSdnConnector(d, o.SdnConnector, "sdn_connector", sort)); err != nil {
 			return diag.Errorf("error reading sdn_connector: %v", err)
 		}
 	}

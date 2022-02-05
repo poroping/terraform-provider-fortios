@@ -289,11 +289,12 @@ func resourceRouterMulticast6Read(ctx context.Context, d *schema.ResourceData, m
 	return nil
 }
 
-func flattenRouterMulticast6Interface(v *[]models.RouterMulticast6Interface, sort bool) interface{} {
+func flattenRouterMulticast6Interface(d *schema.ResourceData, v *[]models.RouterMulticast6Interface, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.HelloHoldtime; tmp != nil {
 				v["hello_holdtime"] = *tmp
@@ -318,18 +319,19 @@ func flattenRouterMulticast6Interface(v *[]models.RouterMulticast6Interface, sor
 	return flat
 }
 
-func flattenRouterMulticast6PimSmGlobal(v *[]models.RouterMulticast6PimSmGlobal, sort bool) interface{} {
+func flattenRouterMulticast6PimSmGlobal(d *schema.ResourceData, v *[]models.RouterMulticast6PimSmGlobal, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.RegisterRateLimit; tmp != nil {
 				v["register_rate_limit"] = *tmp
 			}
 
 			if tmp := cfg.RpAddress; tmp != nil {
-				v["rp_address"] = flattenRouterMulticast6PimSmGlobalRpAddress(tmp, sort)
+				v["rp_address"] = flattenRouterMulticast6PimSmGlobalRpAddress(d, tmp, prefix+"rp_address", sort)
 			}
 
 			flat = append(flat, v)
@@ -339,11 +341,12 @@ func flattenRouterMulticast6PimSmGlobal(v *[]models.RouterMulticast6PimSmGlobal,
 	return flat
 }
 
-func flattenRouterMulticast6PimSmGlobalRpAddress(v *[]models.RouterMulticast6PimSmGlobalRpAddress, sort bool) interface{} {
+func flattenRouterMulticast6PimSmGlobalRpAddress(d *schema.ResourceData, v *[]models.RouterMulticast6PimSmGlobalRpAddress, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Id; tmp != nil {
 				v["id"] = *tmp
@@ -368,7 +371,7 @@ func refreshObjectRouterMulticast6(d *schema.ResourceData, o *models.RouterMulti
 	var err error
 
 	if o.Interface != nil {
-		if err = d.Set("interface", flattenRouterMulticast6Interface(o.Interface, sort)); err != nil {
+		if err = d.Set("interface", flattenRouterMulticast6Interface(d, o.Interface, "interface", sort)); err != nil {
 			return diag.Errorf("error reading interface: %v", err)
 		}
 	}
@@ -390,7 +393,7 @@ func refreshObjectRouterMulticast6(d *schema.ResourceData, o *models.RouterMulti
 	}
 
 	if o.PimSmGlobal != nil {
-		if err = d.Set("pim_sm_global", flattenRouterMulticast6PimSmGlobal(o.PimSmGlobal, sort)); err != nil {
+		if err = d.Set("pim_sm_global", flattenRouterMulticast6PimSmGlobal(d, o.PimSmGlobal, "pim_sm_global", sort)); err != nil {
 			return diag.Errorf("error reading pim_sm_global: %v", err)
 		}
 	}

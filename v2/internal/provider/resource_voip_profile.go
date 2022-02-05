@@ -1219,11 +1219,12 @@ func resourceVoipProfileRead(ctx context.Context, d *schema.ResourceData, meta i
 	return nil
 }
 
-func flattenVoipProfileMsrp(v *[]models.VoipProfileMsrp, sort bool) interface{} {
+func flattenVoipProfileMsrp(d *schema.ResourceData, v *[]models.VoipProfileMsrp, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.LogViolations; tmp != nil {
 				v["log_violations"] = *tmp
@@ -1248,11 +1249,12 @@ func flattenVoipProfileMsrp(v *[]models.VoipProfileMsrp, sort bool) interface{} 
 	return flat
 }
 
-func flattenVoipProfileSccp(v *[]models.VoipProfileSccp, sort bool) interface{} {
+func flattenVoipProfileSccp(d *schema.ResourceData, v *[]models.VoipProfileSccp, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.BlockMcast; tmp != nil {
 				v["block_mcast"] = *tmp
@@ -1285,11 +1287,12 @@ func flattenVoipProfileSccp(v *[]models.VoipProfileSccp, sort bool) interface{} 
 	return flat
 }
 
-func flattenVoipProfileSip(v *[]models.VoipProfileSip, sort bool) interface{} {
+func flattenVoipProfileSip(d *schema.ResourceData, v *[]models.VoipProfileSip, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.AckRate; tmp != nil {
 				v["ack_rate"] = *tmp
@@ -1770,7 +1773,7 @@ func refreshObjectVoipProfile(d *schema.ResourceData, o *models.VoipProfile, sv 
 	}
 
 	if o.Msrp != nil {
-		if err = d.Set("msrp", flattenVoipProfileMsrp(o.Msrp, sort)); err != nil {
+		if err = d.Set("msrp", flattenVoipProfileMsrp(d, o.Msrp, "msrp", sort)); err != nil {
 			return diag.Errorf("error reading msrp: %v", err)
 		}
 	}
@@ -1784,13 +1787,13 @@ func refreshObjectVoipProfile(d *schema.ResourceData, o *models.VoipProfile, sv 
 	}
 
 	if o.Sccp != nil {
-		if err = d.Set("sccp", flattenVoipProfileSccp(o.Sccp, sort)); err != nil {
+		if err = d.Set("sccp", flattenVoipProfileSccp(d, o.Sccp, "sccp", sort)); err != nil {
 			return diag.Errorf("error reading sccp: %v", err)
 		}
 	}
 
 	if o.Sip != nil {
-		if err = d.Set("sip", flattenVoipProfileSip(o.Sip, sort)); err != nil {
+		if err = d.Set("sip", flattenVoipProfileSip(d, o.Sip, "sip", sort)); err != nil {
 			return diag.Errorf("error reading sip: %v", err)
 		}
 	}

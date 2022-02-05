@@ -15,6 +15,7 @@ import (
 
 	"github.com/Masterminds/semver"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func ValidateConvIPMask2CIDR(oNewIP, oOldIP string) string {
@@ -28,6 +29,16 @@ func ValidateConvIPMask2CIDR(oNewIP, oOldIP string) string {
 		}
 	}
 	return oOldIP
+}
+
+func Ipv4Read(d *schema.ResourceData, get, ip string) (tmp *string) {
+	if current, ok := d.GetOk(get); ok {
+		if s, ok := current.(string); ok {
+			tmp2 := ValidateConvIPMask2CIDR(s, ip)
+			tmp = &tmp2
+		}
+	}
+	return tmp
 }
 
 func escapeFilter(filter string) string {

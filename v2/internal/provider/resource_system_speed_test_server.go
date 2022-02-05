@@ -271,11 +271,12 @@ func resourceSystemSpeedTestServerRead(ctx context.Context, d *schema.ResourceDa
 	return nil
 }
 
-func flattenSystemSpeedTestServerHost(v *[]models.SystemSpeedTestServerHost, sort bool) interface{} {
+func flattenSystemSpeedTestServerHost(d *schema.ResourceData, v *[]models.SystemSpeedTestServerHost, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Id; tmp != nil {
 				v["id"] = *tmp
@@ -312,7 +313,7 @@ func refreshObjectSystemSpeedTestServer(d *schema.ResourceData, o *models.System
 	var err error
 
 	if o.Host != nil {
-		if err = d.Set("host", flattenSystemSpeedTestServerHost(o.Host, sort)); err != nil {
+		if err = d.Set("host", flattenSystemSpeedTestServerHost(d, o.Host, "host", sort)); err != nil {
 			return diag.Errorf("error reading host: %v", err)
 		}
 	}

@@ -305,11 +305,12 @@ func resourceEmailfilterBwordRead(ctx context.Context, d *schema.ResourceData, m
 	return nil
 }
 
-func flattenEmailfilterBwordEntries(v *[]models.EmailfilterBwordEntries, sort bool) interface{} {
+func flattenEmailfilterBwordEntries(d *schema.ResourceData, v *[]models.EmailfilterBwordEntries, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Action; tmp != nil {
 				v["action"] = *tmp
@@ -366,7 +367,7 @@ func refreshObjectEmailfilterBword(d *schema.ResourceData, o *models.Emailfilter
 	}
 
 	if o.Entries != nil {
-		if err = d.Set("entries", flattenEmailfilterBwordEntries(o.Entries, sort)); err != nil {
+		if err = d.Set("entries", flattenEmailfilterBwordEntries(d, o.Entries, "entries", sort)); err != nil {
 			return diag.Errorf("error reading entries: %v", err)
 		}
 	}

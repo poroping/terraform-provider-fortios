@@ -361,11 +361,12 @@ func resourceSwitchControllerSecurityPolicy8021XRead(ctx context.Context, d *sch
 	return nil
 }
 
-func flattenSwitchControllerSecurityPolicy8021XUserGroup(v *[]models.SwitchControllerSecurityPolicy8021XUserGroup, sort bool) interface{} {
+func flattenSwitchControllerSecurityPolicy8021XUserGroup(d *schema.ResourceData, v *[]models.SwitchControllerSecurityPolicy8021XUserGroup, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -522,7 +523,7 @@ func refreshObjectSwitchControllerSecurityPolicy8021X(d *schema.ResourceData, o 
 	}
 
 	if o.UserGroup != nil {
-		if err = d.Set("user_group", flattenSwitchControllerSecurityPolicy8021XUserGroup(o.UserGroup, sort)); err != nil {
+		if err = d.Set("user_group", flattenSwitchControllerSecurityPolicy8021XUserGroup(d, o.UserGroup, "user_group", sort)); err != nil {
 			return diag.Errorf("error reading user_group: %v", err)
 		}
 	}

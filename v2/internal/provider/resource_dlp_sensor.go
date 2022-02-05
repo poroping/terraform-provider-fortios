@@ -423,11 +423,12 @@ func resourceDlpSensorRead(ctx context.Context, d *schema.ResourceData, meta int
 	return nil
 }
 
-func flattenDlpSensorFilter(v *[]models.DlpSensorFilter, sort bool) interface{} {
+func flattenDlpSensorFilter(d *schema.ResourceData, v *[]models.DlpSensorFilter, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Action; tmp != nil {
 				v["action"] = *tmp
@@ -478,7 +479,7 @@ func flattenDlpSensorFilter(v *[]models.DlpSensorFilter, sort bool) interface{} 
 			}
 
 			if tmp := cfg.Sensitivity; tmp != nil {
-				v["sensitivity"] = flattenDlpSensorFilterSensitivity(tmp, sort)
+				v["sensitivity"] = flattenDlpSensorFilterSensitivity(d, tmp, prefix+"sensitivity", sort)
 			}
 
 			if tmp := cfg.Severity; tmp != nil {
@@ -500,11 +501,12 @@ func flattenDlpSensorFilter(v *[]models.DlpSensorFilter, sort bool) interface{} 
 	return flat
 }
 
-func flattenDlpSensorFilterSensitivity(v *[]models.DlpSensorFilterSensitivity, sort bool) interface{} {
+func flattenDlpSensorFilterSensitivity(d *schema.ResourceData, v *[]models.DlpSensorFilterSensitivity, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -557,7 +559,7 @@ func refreshObjectDlpSensor(d *schema.ResourceData, o *models.DlpSensor, sv stri
 	}
 
 	if o.Filter != nil {
-		if err = d.Set("filter", flattenDlpSensorFilter(o.Filter, sort)); err != nil {
+		if err = d.Set("filter", flattenDlpSensorFilter(d, o.Filter, "filter", sort)); err != nil {
 			return diag.Errorf("error reading filter: %v", err)
 		}
 	}

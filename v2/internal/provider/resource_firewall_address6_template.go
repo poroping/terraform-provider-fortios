@@ -307,11 +307,12 @@ func resourceFirewallAddress6TemplateRead(ctx context.Context, d *schema.Resourc
 	return nil
 }
 
-func flattenFirewallAddress6TemplateSubnetSegment(v *[]models.FirewallAddress6TemplateSubnetSegment, sort bool) interface{} {
+func flattenFirewallAddress6TemplateSubnetSegment(d *schema.ResourceData, v *[]models.FirewallAddress6TemplateSubnetSegment, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Bits; tmp != nil {
 				v["bits"] = *tmp
@@ -330,7 +331,7 @@ func flattenFirewallAddress6TemplateSubnetSegment(v *[]models.FirewallAddress6Te
 			}
 
 			if tmp := cfg.Values; tmp != nil {
-				v["values"] = flattenFirewallAddress6TemplateSubnetSegmentValues(tmp, sort)
+				v["values"] = flattenFirewallAddress6TemplateSubnetSegmentValues(d, tmp, prefix+"values", sort)
 			}
 
 			flat = append(flat, v)
@@ -344,11 +345,12 @@ func flattenFirewallAddress6TemplateSubnetSegment(v *[]models.FirewallAddress6Te
 	return flat
 }
 
-func flattenFirewallAddress6TemplateSubnetSegmentValues(v *[]models.FirewallAddress6TemplateSubnetSegmentValues, sort bool) interface{} {
+func flattenFirewallAddress6TemplateSubnetSegmentValues(d *schema.ResourceData, v *[]models.FirewallAddress6TemplateSubnetSegmentValues, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -397,7 +399,7 @@ func refreshObjectFirewallAddress6Template(d *schema.ResourceData, o *models.Fir
 	}
 
 	if o.SubnetSegment != nil {
-		if err = d.Set("subnet_segment", flattenFirewallAddress6TemplateSubnetSegment(o.SubnetSegment, sort)); err != nil {
+		if err = d.Set("subnet_segment", flattenFirewallAddress6TemplateSubnetSegment(d, o.SubnetSegment, "subnet_segment", sort)); err != nil {
 			return diag.Errorf("error reading subnet_segment: %v", err)
 		}
 	}

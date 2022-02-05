@@ -2570,11 +2570,12 @@ func resourceRouterBgpRead(ctx context.Context, d *schema.ResourceData, meta int
 	return nil
 }
 
-func flattenRouterBgpAdminDistance(v *[]models.RouterBgpAdminDistance, sort bool) interface{} {
+func flattenRouterBgpAdminDistance(d *schema.ResourceData, v *[]models.RouterBgpAdminDistance, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Distance; tmp != nil {
 				v["distance"] = *tmp
@@ -2585,6 +2586,7 @@ func flattenRouterBgpAdminDistance(v *[]models.RouterBgpAdminDistance, sort bool
 			}
 
 			if tmp := cfg.NeighbourPrefix; tmp != nil {
+				tmp = utils.Ipv4Read(d, fmt.Sprintf("%s.%d.neighbour_prefix", prefix, i), *tmp)
 				v["neighbour_prefix"] = *tmp
 			}
 
@@ -2603,11 +2605,12 @@ func flattenRouterBgpAdminDistance(v *[]models.RouterBgpAdminDistance, sort bool
 	return flat
 }
 
-func flattenRouterBgpAggregateAddress(v *[]models.RouterBgpAggregateAddress, sort bool) interface{} {
+func flattenRouterBgpAggregateAddress(d *schema.ResourceData, v *[]models.RouterBgpAggregateAddress, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.AsSet; tmp != nil {
 				v["as_set"] = *tmp
@@ -2618,6 +2621,7 @@ func flattenRouterBgpAggregateAddress(v *[]models.RouterBgpAggregateAddress, sor
 			}
 
 			if tmp := cfg.Prefix; tmp != nil {
+				tmp = utils.Ipv4Read(d, fmt.Sprintf("%s.%d.prefix", prefix, i), *tmp)
 				v["prefix"] = *tmp
 			}
 
@@ -2636,11 +2640,12 @@ func flattenRouterBgpAggregateAddress(v *[]models.RouterBgpAggregateAddress, sor
 	return flat
 }
 
-func flattenRouterBgpAggregateAddress6(v *[]models.RouterBgpAggregateAddress6, sort bool) interface{} {
+func flattenRouterBgpAggregateAddress6(d *schema.ResourceData, v *[]models.RouterBgpAggregateAddress6, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.AsSet; tmp != nil {
 				v["as_set"] = *tmp
@@ -2669,11 +2674,12 @@ func flattenRouterBgpAggregateAddress6(v *[]models.RouterBgpAggregateAddress6, s
 	return flat
 }
 
-func flattenRouterBgpConfederationPeers(v *[]models.RouterBgpConfederationPeers, sort bool) interface{} {
+func flattenRouterBgpConfederationPeers(d *schema.ResourceData, v *[]models.RouterBgpConfederationPeers, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Peer; tmp != nil {
 				v["peer"] = *tmp
@@ -2690,11 +2696,12 @@ func flattenRouterBgpConfederationPeers(v *[]models.RouterBgpConfederationPeers,
 	return flat
 }
 
-func flattenRouterBgpNeighbor(v *[]models.RouterBgpNeighbor, sort bool) interface{} {
+func flattenRouterBgpNeighbor(d *schema.ResourceData, v *[]models.RouterBgpNeighbor, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Activate; tmp != nil {
 				v["activate"] = *tmp
@@ -2793,11 +2800,11 @@ func flattenRouterBgpNeighbor(v *[]models.RouterBgpNeighbor, sort bool) interfac
 			}
 
 			if tmp := cfg.ConditionalAdvertise; tmp != nil {
-				v["conditional_advertise"] = flattenRouterBgpNeighborConditionalAdvertise(tmp, sort)
+				v["conditional_advertise"] = flattenRouterBgpNeighborConditionalAdvertise(d, tmp, prefix+"conditional_advertise", sort)
 			}
 
 			if tmp := cfg.ConditionalAdvertise6; tmp != nil {
-				v["conditional_advertise6"] = flattenRouterBgpNeighborConditionalAdvertise6(tmp, sort)
+				v["conditional_advertise6"] = flattenRouterBgpNeighborConditionalAdvertise6(d, tmp, prefix+"conditional_advertise6", sort)
 			}
 
 			if tmp := cfg.ConnectTimer; tmp != nil {
@@ -3075,18 +3082,19 @@ func flattenRouterBgpNeighbor(v *[]models.RouterBgpNeighbor, sort bool) interfac
 	return flat
 }
 
-func flattenRouterBgpNeighborConditionalAdvertise(v *[]models.RouterBgpNeighborConditionalAdvertise, sort bool) interface{} {
+func flattenRouterBgpNeighborConditionalAdvertise(d *schema.ResourceData, v *[]models.RouterBgpNeighborConditionalAdvertise, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.AdvertiseRoutemap; tmp != nil {
 				v["advertise_routemap"] = *tmp
 			}
 
 			if tmp := cfg.ConditionRoutemap; tmp != nil {
-				v["condition_routemap"] = flattenRouterBgpNeighborConditionalAdvertiseConditionRoutemap(tmp, sort)
+				v["condition_routemap"] = flattenRouterBgpNeighborConditionalAdvertiseConditionRoutemap(d, tmp, prefix+"condition_routemap", sort)
 			}
 
 			if tmp := cfg.ConditionType; tmp != nil {
@@ -3104,11 +3112,12 @@ func flattenRouterBgpNeighborConditionalAdvertise(v *[]models.RouterBgpNeighborC
 	return flat
 }
 
-func flattenRouterBgpNeighborConditionalAdvertiseConditionRoutemap(v *[]models.RouterBgpNeighborConditionalAdvertiseConditionRoutemap, sort bool) interface{} {
+func flattenRouterBgpNeighborConditionalAdvertiseConditionRoutemap(d *schema.ResourceData, v *[]models.RouterBgpNeighborConditionalAdvertiseConditionRoutemap, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -3125,18 +3134,19 @@ func flattenRouterBgpNeighborConditionalAdvertiseConditionRoutemap(v *[]models.R
 	return flat
 }
 
-func flattenRouterBgpNeighborConditionalAdvertise6(v *[]models.RouterBgpNeighborConditionalAdvertise6, sort bool) interface{} {
+func flattenRouterBgpNeighborConditionalAdvertise6(d *schema.ResourceData, v *[]models.RouterBgpNeighborConditionalAdvertise6, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.AdvertiseRoutemap; tmp != nil {
 				v["advertise_routemap"] = *tmp
 			}
 
 			if tmp := cfg.ConditionRoutemap; tmp != nil {
-				v["condition_routemap"] = flattenRouterBgpNeighborConditionalAdvertise6ConditionRoutemap(tmp, sort)
+				v["condition_routemap"] = flattenRouterBgpNeighborConditionalAdvertise6ConditionRoutemap(d, tmp, prefix+"condition_routemap", sort)
 			}
 
 			if tmp := cfg.ConditionType; tmp != nil {
@@ -3154,11 +3164,12 @@ func flattenRouterBgpNeighborConditionalAdvertise6(v *[]models.RouterBgpNeighbor
 	return flat
 }
 
-func flattenRouterBgpNeighborConditionalAdvertise6ConditionRoutemap(v *[]models.RouterBgpNeighborConditionalAdvertise6ConditionRoutemap, sort bool) interface{} {
+func flattenRouterBgpNeighborConditionalAdvertise6ConditionRoutemap(d *schema.ResourceData, v *[]models.RouterBgpNeighborConditionalAdvertise6ConditionRoutemap, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -3175,11 +3186,12 @@ func flattenRouterBgpNeighborConditionalAdvertise6ConditionRoutemap(v *[]models.
 	return flat
 }
 
-func flattenRouterBgpNeighborGroup(v *[]models.RouterBgpNeighborGroup, sort bool) interface{} {
+func flattenRouterBgpNeighborGroup(d *schema.ResourceData, v *[]models.RouterBgpNeighborGroup, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Activate; tmp != nil {
 				v["activate"] = *tmp
@@ -3548,11 +3560,12 @@ func flattenRouterBgpNeighborGroup(v *[]models.RouterBgpNeighborGroup, sort bool
 	return flat
 }
 
-func flattenRouterBgpNeighborRange(v *[]models.RouterBgpNeighborRange, sort bool) interface{} {
+func flattenRouterBgpNeighborRange(d *schema.ResourceData, v *[]models.RouterBgpNeighborRange, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Id; tmp != nil {
 				v["id"] = *tmp
@@ -3567,6 +3580,7 @@ func flattenRouterBgpNeighborRange(v *[]models.RouterBgpNeighborRange, sort bool
 			}
 
 			if tmp := cfg.Prefix; tmp != nil {
+				tmp = utils.Ipv4Read(d, fmt.Sprintf("%s.%d.prefix", prefix, i), *tmp)
 				v["prefix"] = *tmp
 			}
 
@@ -3581,11 +3595,12 @@ func flattenRouterBgpNeighborRange(v *[]models.RouterBgpNeighborRange, sort bool
 	return flat
 }
 
-func flattenRouterBgpNeighborRange6(v *[]models.RouterBgpNeighborRange6, sort bool) interface{} {
+func flattenRouterBgpNeighborRange6(d *schema.ResourceData, v *[]models.RouterBgpNeighborRange6, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Id; tmp != nil {
 				v["id"] = *tmp
@@ -3614,11 +3629,12 @@ func flattenRouterBgpNeighborRange6(v *[]models.RouterBgpNeighborRange6, sort bo
 	return flat
 }
 
-func flattenRouterBgpNetwork(v *[]models.RouterBgpNetwork, sort bool) interface{} {
+func flattenRouterBgpNetwork(d *schema.ResourceData, v *[]models.RouterBgpNetwork, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Backdoor; tmp != nil {
 				v["backdoor"] = *tmp
@@ -3633,6 +3649,7 @@ func flattenRouterBgpNetwork(v *[]models.RouterBgpNetwork, sort bool) interface{
 			}
 
 			if tmp := cfg.Prefix; tmp != nil {
+				tmp = utils.Ipv4Read(d, fmt.Sprintf("%s.%d.prefix", prefix, i), *tmp)
 				v["prefix"] = *tmp
 			}
 
@@ -3651,11 +3668,12 @@ func flattenRouterBgpNetwork(v *[]models.RouterBgpNetwork, sort bool) interface{
 	return flat
 }
 
-func flattenRouterBgpNetwork6(v *[]models.RouterBgpNetwork6, sort bool) interface{} {
+func flattenRouterBgpNetwork6(d *schema.ResourceData, v *[]models.RouterBgpNetwork6, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Backdoor; tmp != nil {
 				v["backdoor"] = *tmp
@@ -3688,11 +3706,12 @@ func flattenRouterBgpNetwork6(v *[]models.RouterBgpNetwork6, sort bool) interfac
 	return flat
 }
 
-func flattenRouterBgpRedistribute(v *[]models.RouterBgpRedistribute, sort bool) interface{} {
+func flattenRouterBgpRedistribute(d *schema.ResourceData, v *[]models.RouterBgpRedistribute, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -3717,11 +3736,12 @@ func flattenRouterBgpRedistribute(v *[]models.RouterBgpRedistribute, sort bool) 
 	return flat
 }
 
-func flattenRouterBgpRedistribute6(v *[]models.RouterBgpRedistribute6, sort bool) interface{} {
+func flattenRouterBgpRedistribute6(d *schema.ResourceData, v *[]models.RouterBgpRedistribute6, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -3746,14 +3766,15 @@ func flattenRouterBgpRedistribute6(v *[]models.RouterBgpRedistribute6, sort bool
 	return flat
 }
 
-func flattenRouterBgpVrfLeak(v *[]models.RouterBgpVrfLeak, sort bool) interface{} {
+func flattenRouterBgpVrfLeak(d *schema.ResourceData, v *[]models.RouterBgpVrfLeak, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Target; tmp != nil {
-				v["target"] = flattenRouterBgpVrfLeakTarget(tmp, sort)
+				v["target"] = flattenRouterBgpVrfLeakTarget(d, tmp, prefix+"target", sort)
 			}
 
 			if tmp := cfg.Vrf; tmp != nil {
@@ -3771,11 +3792,12 @@ func flattenRouterBgpVrfLeak(v *[]models.RouterBgpVrfLeak, sort bool) interface{
 	return flat
 }
 
-func flattenRouterBgpVrfLeakTarget(v *[]models.RouterBgpVrfLeakTarget, sort bool) interface{} {
+func flattenRouterBgpVrfLeakTarget(d *schema.ResourceData, v *[]models.RouterBgpVrfLeakTarget, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Interface; tmp != nil {
 				v["interface"] = *tmp
@@ -3800,14 +3822,15 @@ func flattenRouterBgpVrfLeakTarget(v *[]models.RouterBgpVrfLeakTarget, sort bool
 	return flat
 }
 
-func flattenRouterBgpVrfLeak6(v *[]models.RouterBgpVrfLeak6, sort bool) interface{} {
+func flattenRouterBgpVrfLeak6(d *schema.ResourceData, v *[]models.RouterBgpVrfLeak6, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Target; tmp != nil {
-				v["target"] = flattenRouterBgpVrfLeak6Target(tmp, sort)
+				v["target"] = flattenRouterBgpVrfLeak6Target(d, tmp, prefix+"target", sort)
 			}
 
 			if tmp := cfg.Vrf; tmp != nil {
@@ -3825,11 +3848,12 @@ func flattenRouterBgpVrfLeak6(v *[]models.RouterBgpVrfLeak6, sort bool) interfac
 	return flat
 }
 
-func flattenRouterBgpVrfLeak6Target(v *[]models.RouterBgpVrfLeak6Target, sort bool) interface{} {
+func flattenRouterBgpVrfLeak6Target(d *schema.ResourceData, v *[]models.RouterBgpVrfLeak6Target, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Interface; tmp != nil {
 				v["interface"] = *tmp
@@ -3890,19 +3914,19 @@ func refreshObjectRouterBgp(d *schema.ResourceData, o *models.RouterBgp, sv stri
 	}
 
 	if o.AdminDistance != nil {
-		if err = d.Set("admin_distance", flattenRouterBgpAdminDistance(o.AdminDistance, sort)); err != nil {
+		if err = d.Set("admin_distance", flattenRouterBgpAdminDistance(d, o.AdminDistance, "admin_distance", sort)); err != nil {
 			return diag.Errorf("error reading admin_distance: %v", err)
 		}
 	}
 
 	if o.AggregateAddress != nil {
-		if err = d.Set("aggregate_address", flattenRouterBgpAggregateAddress(o.AggregateAddress, sort)); err != nil {
+		if err = d.Set("aggregate_address", flattenRouterBgpAggregateAddress(d, o.AggregateAddress, "aggregate_address", sort)); err != nil {
 			return diag.Errorf("error reading aggregate_address: %v", err)
 		}
 	}
 
 	if o.AggregateAddress6 != nil {
-		if err = d.Set("aggregate_address6", flattenRouterBgpAggregateAddress6(o.AggregateAddress6, sort)); err != nil {
+		if err = d.Set("aggregate_address6", flattenRouterBgpAggregateAddress6(d, o.AggregateAddress6, "aggregate_address6", sort)); err != nil {
 			return diag.Errorf("error reading aggregate_address6: %v", err)
 		}
 	}
@@ -3988,7 +4012,7 @@ func refreshObjectRouterBgp(d *schema.ResourceData, o *models.RouterBgp, sv stri
 	}
 
 	if o.ConfederationPeers != nil {
-		if err = d.Set("confederation_peers", flattenRouterBgpConfederationPeers(o.ConfederationPeers, sort)); err != nil {
+		if err = d.Set("confederation_peers", flattenRouterBgpConfederationPeers(d, o.ConfederationPeers, "confederation_peers", sort)); err != nil {
 			return diag.Errorf("error reading confederation_peers: %v", err)
 		}
 	}
@@ -4202,31 +4226,31 @@ func refreshObjectRouterBgp(d *schema.ResourceData, o *models.RouterBgp, sv stri
 	}
 
 	if o.Neighbor != nil {
-		if err = d.Set("neighbor", flattenRouterBgpNeighbor(o.Neighbor, sort)); err != nil {
+		if err = d.Set("neighbor", flattenRouterBgpNeighbor(d, o.Neighbor, "neighbor", sort)); err != nil {
 			return diag.Errorf("error reading neighbor: %v", err)
 		}
 	}
 
 	if o.NeighborGroup != nil {
-		if err = d.Set("neighbor_group", flattenRouterBgpNeighborGroup(o.NeighborGroup, sort)); err != nil {
+		if err = d.Set("neighbor_group", flattenRouterBgpNeighborGroup(d, o.NeighborGroup, "neighbor_group", sort)); err != nil {
 			return diag.Errorf("error reading neighbor_group: %v", err)
 		}
 	}
 
 	if o.NeighborRange != nil {
-		if err = d.Set("neighbor_range", flattenRouterBgpNeighborRange(o.NeighborRange, sort)); err != nil {
+		if err = d.Set("neighbor_range", flattenRouterBgpNeighborRange(d, o.NeighborRange, "neighbor_range", sort)); err != nil {
 			return diag.Errorf("error reading neighbor_range: %v", err)
 		}
 	}
 
 	if o.NeighborRange6 != nil {
-		if err = d.Set("neighbor_range6", flattenRouterBgpNeighborRange6(o.NeighborRange6, sort)); err != nil {
+		if err = d.Set("neighbor_range6", flattenRouterBgpNeighborRange6(d, o.NeighborRange6, "neighbor_range6", sort)); err != nil {
 			return diag.Errorf("error reading neighbor_range6: %v", err)
 		}
 	}
 
 	if o.Network != nil {
-		if err = d.Set("network", flattenRouterBgpNetwork(o.Network, sort)); err != nil {
+		if err = d.Set("network", flattenRouterBgpNetwork(d, o.Network, "network", sort)); err != nil {
 			return diag.Errorf("error reading network: %v", err)
 		}
 	}
@@ -4240,7 +4264,7 @@ func refreshObjectRouterBgp(d *schema.ResourceData, o *models.RouterBgp, sv stri
 	}
 
 	if o.Network6 != nil {
-		if err = d.Set("network6", flattenRouterBgpNetwork6(o.Network6, sort)); err != nil {
+		if err = d.Set("network6", flattenRouterBgpNetwork6(d, o.Network6, "network6", sort)); err != nil {
 			return diag.Errorf("error reading network6: %v", err)
 		}
 	}
@@ -4254,13 +4278,13 @@ func refreshObjectRouterBgp(d *schema.ResourceData, o *models.RouterBgp, sv stri
 	}
 
 	if o.Redistribute != nil {
-		if err = d.Set("redistribute", flattenRouterBgpRedistribute(o.Redistribute, sort)); err != nil {
+		if err = d.Set("redistribute", flattenRouterBgpRedistribute(d, o.Redistribute, "redistribute", sort)); err != nil {
 			return diag.Errorf("error reading redistribute: %v", err)
 		}
 	}
 
 	if o.Redistribute6 != nil {
-		if err = d.Set("redistribute6", flattenRouterBgpRedistribute6(o.Redistribute6, sort)); err != nil {
+		if err = d.Set("redistribute6", flattenRouterBgpRedistribute6(d, o.Redistribute6, "redistribute6", sort)); err != nil {
 			return diag.Errorf("error reading redistribute6: %v", err)
 		}
 	}
@@ -4298,13 +4322,13 @@ func refreshObjectRouterBgp(d *schema.ResourceData, o *models.RouterBgp, sv stri
 	}
 
 	if o.VrfLeak != nil {
-		if err = d.Set("vrf_leak", flattenRouterBgpVrfLeak(o.VrfLeak, sort)); err != nil {
+		if err = d.Set("vrf_leak", flattenRouterBgpVrfLeak(d, o.VrfLeak, "vrf_leak", sort)); err != nil {
 			return diag.Errorf("error reading vrf_leak: %v", err)
 		}
 	}
 
 	if o.VrfLeak6 != nil {
-		if err = d.Set("vrf_leak6", flattenRouterBgpVrfLeak6(o.VrfLeak6, sort)); err != nil {
+		if err = d.Set("vrf_leak6", flattenRouterBgpVrfLeak6(d, o.VrfLeak6, "vrf_leak6", sort)); err != nil {
 			return diag.Errorf("error reading vrf_leak6: %v", err)
 		}
 	}

@@ -315,11 +315,12 @@ func resourceEmailfilterBlockAllowListRead(ctx context.Context, d *schema.Resour
 	return nil
 }
 
-func flattenEmailfilterBlockAllowListEntries(v *[]models.EmailfilterBlockAllowListEntries, sort bool) interface{} {
+func flattenEmailfilterBlockAllowListEntries(d *schema.ResourceData, v *[]models.EmailfilterBlockAllowListEntries, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Action; tmp != nil {
 				v["action"] = *tmp
@@ -338,6 +339,7 @@ func flattenEmailfilterBlockAllowListEntries(v *[]models.EmailfilterBlockAllowLi
 			}
 
 			if tmp := cfg.Ip4Subnet; tmp != nil {
+				tmp = utils.Ipv4Read(d, fmt.Sprintf("%s.%d.ip4_subnet", prefix, i), *tmp)
 				v["ip4_subnet"] = *tmp
 			}
 
@@ -380,7 +382,7 @@ func refreshObjectEmailfilterBlockAllowList(d *schema.ResourceData, o *models.Em
 	}
 
 	if o.Entries != nil {
-		if err = d.Set("entries", flattenEmailfilterBlockAllowListEntries(o.Entries, sort)); err != nil {
+		if err = d.Set("entries", flattenEmailfilterBlockAllowListEntries(d, o.Entries, "entries", sort)); err != nil {
 			return diag.Errorf("error reading entries: %v", err)
 		}
 	}

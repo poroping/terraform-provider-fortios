@@ -334,11 +334,12 @@ func resourceFirewallShapingProfileRead(ctx context.Context, d *schema.ResourceD
 	return nil
 }
 
-func flattenFirewallShapingProfileShapingEntries(v *[]models.FirewallShapingProfileShapingEntries, sort bool) interface{} {
+func flattenFirewallShapingProfileShapingEntries(d *schema.ResourceData, v *[]models.FirewallShapingProfileShapingEntries, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.BurstInMsec; tmp != nil {
 				v["burst_in_msec"] = *tmp
@@ -423,7 +424,7 @@ func refreshObjectFirewallShapingProfile(d *schema.ResourceData, o *models.Firew
 	}
 
 	if o.ShapingEntries != nil {
-		if err = d.Set("shaping_entries", flattenFirewallShapingProfileShapingEntries(o.ShapingEntries, sort)); err != nil {
+		if err = d.Set("shaping_entries", flattenFirewallShapingProfileShapingEntries(d, o.ShapingEntries, "shaping_entries", sort)); err != nil {
 			return diag.Errorf("error reading shaping_entries: %v", err)
 		}
 	}

@@ -256,11 +256,12 @@ func resourceFirewallVipgrp64Read(ctx context.Context, d *schema.ResourceData, m
 	return nil
 }
 
-func flattenFirewallVipgrp64Member(v *[]models.FirewallVipgrp64Member, sort bool) interface{} {
+func flattenFirewallVipgrp64Member(d *schema.ResourceData, v *[]models.FirewallVipgrp64Member, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -297,7 +298,7 @@ func refreshObjectFirewallVipgrp64(d *schema.ResourceData, o *models.FirewallVip
 	}
 
 	if o.Member != nil {
-		if err = d.Set("member", flattenFirewallVipgrp64Member(o.Member, sort)); err != nil {
+		if err = d.Set("member", flattenFirewallVipgrp64Member(d, o.Member, "member", sort)); err != nil {
 			return diag.Errorf("error reading member: %v", err)
 		}
 	}

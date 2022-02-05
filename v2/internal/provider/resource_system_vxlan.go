@@ -290,11 +290,12 @@ func resourceSystemVxlanRead(ctx context.Context, d *schema.ResourceData, meta i
 	return nil
 }
 
-func flattenSystemVxlanRemoteIp(v *[]models.SystemVxlanRemoteIp, sort bool) interface{} {
+func flattenSystemVxlanRemoteIp(d *schema.ResourceData, v *[]models.SystemVxlanRemoteIp, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Ip; tmp != nil {
 				v["ip"] = *tmp
@@ -311,11 +312,12 @@ func flattenSystemVxlanRemoteIp(v *[]models.SystemVxlanRemoteIp, sort bool) inte
 	return flat
 }
 
-func flattenSystemVxlanRemoteIp6(v *[]models.SystemVxlanRemoteIp6, sort bool) interface{} {
+func flattenSystemVxlanRemoteIp6(d *schema.ResourceData, v *[]models.SystemVxlanRemoteIp6, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Ip6; tmp != nil {
 				v["ip6"] = *tmp
@@ -376,13 +378,13 @@ func refreshObjectSystemVxlan(d *schema.ResourceData, o *models.SystemVxlan, sv 
 	}
 
 	if o.RemoteIp != nil {
-		if err = d.Set("remote_ip", flattenSystemVxlanRemoteIp(o.RemoteIp, sort)); err != nil {
+		if err = d.Set("remote_ip", flattenSystemVxlanRemoteIp(d, o.RemoteIp, "remote_ip", sort)); err != nil {
 			return diag.Errorf("error reading remote_ip: %v", err)
 		}
 	}
 
 	if o.RemoteIp6 != nil {
-		if err = d.Set("remote_ip6", flattenSystemVxlanRemoteIp6(o.RemoteIp6, sort)); err != nil {
+		if err = d.Set("remote_ip6", flattenSystemVxlanRemoteIp6(d, o.RemoteIp6, "remote_ip6", sort)); err != nil {
 			return diag.Errorf("error reading remote_ip6: %v", err)
 		}
 	}

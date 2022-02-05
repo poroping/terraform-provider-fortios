@@ -248,11 +248,12 @@ func resourceSystemVirtualWirePairRead(ctx context.Context, d *schema.ResourceDa
 	return nil
 }
 
-func flattenSystemVirtualWirePairMember(v *[]models.SystemVirtualWirePairMember, sort bool) interface{} {
+func flattenSystemVirtualWirePairMember(d *schema.ResourceData, v *[]models.SystemVirtualWirePairMember, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.InterfaceName; tmp != nil {
 				v["interface_name"] = *tmp
@@ -273,7 +274,7 @@ func refreshObjectSystemVirtualWirePair(d *schema.ResourceData, o *models.System
 	var err error
 
 	if o.Member != nil {
-		if err = d.Set("member", flattenSystemVirtualWirePairMember(o.Member, sort)); err != nil {
+		if err = d.Set("member", flattenSystemVirtualWirePairMember(d, o.Member, "member", sort)); err != nil {
 			return diag.Errorf("error reading member: %v", err)
 		}
 	}

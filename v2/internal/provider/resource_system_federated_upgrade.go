@@ -299,11 +299,12 @@ func resourceSystemFederatedUpgradeRead(ctx context.Context, d *schema.ResourceD
 	return nil
 }
 
-func flattenSystemFederatedUpgradeNodeList(v *[]models.SystemFederatedUpgradeNodeList, sort bool) interface{} {
+func flattenSystemFederatedUpgradeNodeList(d *schema.ResourceData, v *[]models.SystemFederatedUpgradeNodeList, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.CoordinatingFortigate; tmp != nil {
 				v["coordinating_fortigate"] = *tmp
@@ -372,7 +373,7 @@ func refreshObjectSystemFederatedUpgrade(d *schema.ResourceData, o *models.Syste
 	}
 
 	if o.NodeList != nil {
-		if err = d.Set("node_list", flattenSystemFederatedUpgradeNodeList(o.NodeList, sort)); err != nil {
+		if err = d.Set("node_list", flattenSystemFederatedUpgradeNodeList(d, o.NodeList, "node_list", sort)); err != nil {
 			return diag.Errorf("error reading node_list: %v", err)
 		}
 	}

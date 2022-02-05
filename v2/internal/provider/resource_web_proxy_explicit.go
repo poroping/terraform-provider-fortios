@@ -499,18 +499,19 @@ func resourceWebProxyExplicitRead(ctx context.Context, d *schema.ResourceData, m
 	return nil
 }
 
-func flattenWebProxyExplicitPacPolicy(v *[]models.WebProxyExplicitPacPolicy, sort bool) interface{} {
+func flattenWebProxyExplicitPacPolicy(d *schema.ResourceData, v *[]models.WebProxyExplicitPacPolicy, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Comments; tmp != nil {
 				v["comments"] = *tmp
 			}
 
 			if tmp := cfg.Dstaddr; tmp != nil {
-				v["dstaddr"] = flattenWebProxyExplicitPacPolicyDstaddr(tmp, sort)
+				v["dstaddr"] = flattenWebProxyExplicitPacPolicyDstaddr(d, tmp, prefix+"dstaddr", sort)
 			}
 
 			if tmp := cfg.PacFileData; tmp != nil {
@@ -526,11 +527,11 @@ func flattenWebProxyExplicitPacPolicy(v *[]models.WebProxyExplicitPacPolicy, sor
 			}
 
 			if tmp := cfg.Srcaddr; tmp != nil {
-				v["srcaddr"] = flattenWebProxyExplicitPacPolicySrcaddr(tmp, sort)
+				v["srcaddr"] = flattenWebProxyExplicitPacPolicySrcaddr(d, tmp, prefix+"srcaddr", sort)
 			}
 
 			if tmp := cfg.Srcaddr6; tmp != nil {
-				v["srcaddr6"] = flattenWebProxyExplicitPacPolicySrcaddr6(tmp, sort)
+				v["srcaddr6"] = flattenWebProxyExplicitPacPolicySrcaddr6(d, tmp, prefix+"srcaddr6", sort)
 			}
 
 			if tmp := cfg.Status; tmp != nil {
@@ -548,11 +549,12 @@ func flattenWebProxyExplicitPacPolicy(v *[]models.WebProxyExplicitPacPolicy, sor
 	return flat
 }
 
-func flattenWebProxyExplicitPacPolicyDstaddr(v *[]models.WebProxyExplicitPacPolicyDstaddr, sort bool) interface{} {
+func flattenWebProxyExplicitPacPolicyDstaddr(d *schema.ResourceData, v *[]models.WebProxyExplicitPacPolicyDstaddr, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -569,11 +571,12 @@ func flattenWebProxyExplicitPacPolicyDstaddr(v *[]models.WebProxyExplicitPacPoli
 	return flat
 }
 
-func flattenWebProxyExplicitPacPolicySrcaddr(v *[]models.WebProxyExplicitPacPolicySrcaddr, sort bool) interface{} {
+func flattenWebProxyExplicitPacPolicySrcaddr(d *schema.ResourceData, v *[]models.WebProxyExplicitPacPolicySrcaddr, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -590,11 +593,12 @@ func flattenWebProxyExplicitPacPolicySrcaddr(v *[]models.WebProxyExplicitPacPoli
 	return flat
 }
 
-func flattenWebProxyExplicitPacPolicySrcaddr6(v *[]models.WebProxyExplicitPacPolicySrcaddr6, sort bool) interface{} {
+func flattenWebProxyExplicitPacPolicySrcaddr6(d *schema.ResourceData, v *[]models.WebProxyExplicitPacPolicySrcaddr6, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -743,7 +747,7 @@ func refreshObjectWebProxyExplicit(d *schema.ResourceData, o *models.WebProxyExp
 	}
 
 	if o.PacPolicy != nil {
-		if err = d.Set("pac_policy", flattenWebProxyExplicitPacPolicy(o.PacPolicy, sort)); err != nil {
+		if err = d.Set("pac_policy", flattenWebProxyExplicitPacPolicy(d, o.PacPolicy, "pac_policy", sort)); err != nil {
 			return diag.Errorf("error reading pac_policy: %v", err)
 		}
 	}

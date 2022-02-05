@@ -249,11 +249,12 @@ func resourceWirelessControllerHotspot20AnqpRoamingConsortiumRead(ctx context.Co
 	return nil
 }
 
-func flattenWirelessControllerHotspot20AnqpRoamingConsortiumOiList(v *[]models.WirelessControllerHotspot20AnqpRoamingConsortiumOiList, sort bool) interface{} {
+func flattenWirelessControllerHotspot20AnqpRoamingConsortiumOiList(d *schema.ResourceData, v *[]models.WirelessControllerHotspot20AnqpRoamingConsortiumOiList, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Comment; tmp != nil {
 				v["comment"] = *tmp
@@ -290,7 +291,7 @@ func refreshObjectWirelessControllerHotspot20AnqpRoamingConsortium(d *schema.Res
 	}
 
 	if o.OiList != nil {
-		if err = d.Set("oi_list", flattenWirelessControllerHotspot20AnqpRoamingConsortiumOiList(o.OiList, sort)); err != nil {
+		if err = d.Set("oi_list", flattenWirelessControllerHotspot20AnqpRoamingConsortiumOiList(d, o.OiList, "oi_list", sort)); err != nil {
 			return diag.Errorf("error reading oi_list: %v", err)
 		}
 	}

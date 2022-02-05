@@ -256,11 +256,12 @@ func resourceRouterMulticastFlowRead(ctx context.Context, d *schema.ResourceData
 	return nil
 }
 
-func flattenRouterMulticastFlowFlows(v *[]models.RouterMulticastFlowFlows, sort bool) interface{} {
+func flattenRouterMulticastFlowFlows(d *schema.ResourceData, v *[]models.RouterMulticastFlowFlows, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.GroupAddr; tmp != nil {
 				v["group_addr"] = *tmp
@@ -297,7 +298,7 @@ func refreshObjectRouterMulticastFlow(d *schema.ResourceData, o *models.RouterMu
 	}
 
 	if o.Flows != nil {
-		if err = d.Set("flows", flattenRouterMulticastFlowFlows(o.Flows, sort)); err != nil {
+		if err = d.Set("flows", flattenRouterMulticastFlowFlows(d, o.Flows, "flows", sort)); err != nil {
 			return diag.Errorf("error reading flows: %v", err)
 		}
 	}

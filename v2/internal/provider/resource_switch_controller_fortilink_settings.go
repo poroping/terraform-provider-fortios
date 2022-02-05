@@ -308,11 +308,12 @@ func resourceSwitchControllerFortilinkSettingsRead(ctx context.Context, d *schem
 	return nil
 }
 
-func flattenSwitchControllerFortilinkSettingsNacPorts(v *[]models.SwitchControllerFortilinkSettingsNacPorts, sort bool) interface{} {
+func flattenSwitchControllerFortilinkSettingsNacPorts(d *schema.ResourceData, v *[]models.SwitchControllerFortilinkSettingsNacPorts, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.BounceNacPort; tmp != nil {
 				v["bounce_nac_port"] = *tmp
@@ -331,7 +332,7 @@ func flattenSwitchControllerFortilinkSettingsNacPorts(v *[]models.SwitchControll
 			}
 
 			if tmp := cfg.NacSegmentVlans; tmp != nil {
-				v["nac_segment_vlans"] = flattenSwitchControllerFortilinkSettingsNacPortsNacSegmentVlans(tmp, sort)
+				v["nac_segment_vlans"] = flattenSwitchControllerFortilinkSettingsNacPortsNacSegmentVlans(d, tmp, prefix+"nac_segment_vlans", sort)
 			}
 
 			if tmp := cfg.OnboardingVlan; tmp != nil {
@@ -349,11 +350,12 @@ func flattenSwitchControllerFortilinkSettingsNacPorts(v *[]models.SwitchControll
 	return flat
 }
 
-func flattenSwitchControllerFortilinkSettingsNacPortsNacSegmentVlans(v *[]models.SwitchControllerFortilinkSettingsNacPortsNacSegmentVlans, sort bool) interface{} {
+func flattenSwitchControllerFortilinkSettingsNacPortsNacSegmentVlans(d *schema.ResourceData, v *[]models.SwitchControllerFortilinkSettingsNacPortsNacSegmentVlans, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.VlanName; tmp != nil {
 				v["vlan_name"] = *tmp
@@ -398,7 +400,7 @@ func refreshObjectSwitchControllerFortilinkSettings(d *schema.ResourceData, o *m
 	}
 
 	if o.NacPorts != nil {
-		if err = d.Set("nac_ports", flattenSwitchControllerFortilinkSettingsNacPorts(o.NacPorts, sort)); err != nil {
+		if err = d.Set("nac_ports", flattenSwitchControllerFortilinkSettingsNacPorts(d, o.NacPorts, "nac_ports", sort)); err != nil {
 			return diag.Errorf("error reading nac_ports: %v", err)
 		}
 	}

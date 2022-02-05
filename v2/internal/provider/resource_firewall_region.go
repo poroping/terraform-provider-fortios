@@ -243,11 +243,12 @@ func resourceFirewallRegionRead(ctx context.Context, d *schema.ResourceData, met
 	return nil
 }
 
-func flattenFirewallRegionCity(v *[]models.FirewallRegionCity, sort bool) interface{} {
+func flattenFirewallRegionCity(d *schema.ResourceData, v *[]models.FirewallRegionCity, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Id; tmp != nil {
 				v["id"] = *tmp
@@ -268,7 +269,7 @@ func refreshObjectFirewallRegion(d *schema.ResourceData, o *models.FirewallRegio
 	var err error
 
 	if o.City != nil {
-		if err = d.Set("city", flattenFirewallRegionCity(o.City, sort)); err != nil {
+		if err = d.Set("city", flattenFirewallRegionCity(d, o.City, "city", sort)); err != nil {
 			return diag.Errorf("error reading city: %v", err)
 		}
 	}

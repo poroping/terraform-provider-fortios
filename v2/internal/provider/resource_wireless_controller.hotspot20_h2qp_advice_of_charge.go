@@ -298,11 +298,12 @@ func resourceWirelessControllerHotspot20H2qpAdviceOfChargeRead(ctx context.Conte
 	return nil
 }
 
-func flattenWirelessControllerHotspot20H2qpAdviceOfChargeAocList(v *[]models.WirelessControllerHotspot20H2qpAdviceOfChargeAocList, sort bool) interface{} {
+func flattenWirelessControllerHotspot20H2qpAdviceOfChargeAocList(d *schema.ResourceData, v *[]models.WirelessControllerHotspot20H2qpAdviceOfChargeAocList, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.NaiRealm; tmp != nil {
 				v["nai_realm"] = *tmp
@@ -317,7 +318,7 @@ func flattenWirelessControllerHotspot20H2qpAdviceOfChargeAocList(v *[]models.Wir
 			}
 
 			if tmp := cfg.PlanInfo; tmp != nil {
-				v["plan_info"] = flattenWirelessControllerHotspot20H2qpAdviceOfChargeAocListPlanInfo(tmp, sort)
+				v["plan_info"] = flattenWirelessControllerHotspot20H2qpAdviceOfChargeAocListPlanInfo(d, tmp, prefix+"plan_info", sort)
 			}
 
 			if tmp := cfg.Type; tmp != nil {
@@ -335,11 +336,12 @@ func flattenWirelessControllerHotspot20H2qpAdviceOfChargeAocList(v *[]models.Wir
 	return flat
 }
 
-func flattenWirelessControllerHotspot20H2qpAdviceOfChargeAocListPlanInfo(v *[]models.WirelessControllerHotspot20H2qpAdviceOfChargeAocListPlanInfo, sort bool) interface{} {
+func flattenWirelessControllerHotspot20H2qpAdviceOfChargeAocListPlanInfo(d *schema.ResourceData, v *[]models.WirelessControllerHotspot20H2qpAdviceOfChargeAocListPlanInfo, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Currency; tmp != nil {
 				v["currency"] = *tmp
@@ -372,7 +374,7 @@ func refreshObjectWirelessControllerHotspot20H2qpAdviceOfCharge(d *schema.Resour
 	var err error
 
 	if o.AocList != nil {
-		if err = d.Set("aoc_list", flattenWirelessControllerHotspot20H2qpAdviceOfChargeAocList(o.AocList, sort)); err != nil {
+		if err = d.Set("aoc_list", flattenWirelessControllerHotspot20H2qpAdviceOfChargeAocList(d, o.AocList, "aoc_list", sort)); err != nil {
 			return diag.Errorf("error reading aoc_list: %v", err)
 		}
 	}

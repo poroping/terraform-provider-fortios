@@ -370,11 +370,12 @@ func resourceFirewallMulticastPolicyRead(ctx context.Context, d *schema.Resource
 	return nil
 }
 
-func flattenFirewallMulticastPolicyDstaddr(v *[]models.FirewallMulticastPolicyDstaddr, sort bool) interface{} {
+func flattenFirewallMulticastPolicyDstaddr(d *schema.ResourceData, v *[]models.FirewallMulticastPolicyDstaddr, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -391,11 +392,12 @@ func flattenFirewallMulticastPolicyDstaddr(v *[]models.FirewallMulticastPolicyDs
 	return flat
 }
 
-func flattenFirewallMulticastPolicySrcaddr(v *[]models.FirewallMulticastPolicySrcaddr, sort bool) interface{} {
+func flattenFirewallMulticastPolicySrcaddr(d *schema.ResourceData, v *[]models.FirewallMulticastPolicySrcaddr, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -448,7 +450,7 @@ func refreshObjectFirewallMulticastPolicy(d *schema.ResourceData, o *models.Fire
 	}
 
 	if o.Dstaddr != nil {
-		if err = d.Set("dstaddr", flattenFirewallMulticastPolicyDstaddr(o.Dstaddr, sort)); err != nil {
+		if err = d.Set("dstaddr", flattenFirewallMulticastPolicyDstaddr(d, o.Dstaddr, "dstaddr", sort)); err != nil {
 			return diag.Errorf("error reading dstaddr: %v", err)
 		}
 	}
@@ -518,7 +520,7 @@ func refreshObjectFirewallMulticastPolicy(d *schema.ResourceData, o *models.Fire
 	}
 
 	if o.Srcaddr != nil {
-		if err = d.Set("srcaddr", flattenFirewallMulticastPolicySrcaddr(o.Srcaddr, sort)); err != nil {
+		if err = d.Set("srcaddr", flattenFirewallMulticastPolicySrcaddr(d, o.Srcaddr, "srcaddr", sort)); err != nil {
 			return diag.Errorf("error reading srcaddr: %v", err)
 		}
 	}

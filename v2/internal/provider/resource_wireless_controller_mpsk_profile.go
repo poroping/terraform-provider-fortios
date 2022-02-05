@@ -330,14 +330,15 @@ func resourceWirelessControllerMpskProfileRead(ctx context.Context, d *schema.Re
 	return nil
 }
 
-func flattenWirelessControllerMpskProfileMpskGroup(v *[]models.WirelessControllerMpskProfileMpskGroup, sort bool) interface{} {
+func flattenWirelessControllerMpskProfileMpskGroup(d *schema.ResourceData, v *[]models.WirelessControllerMpskProfileMpskGroup, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.MpskKey; tmp != nil {
-				v["mpsk_key"] = flattenWirelessControllerMpskProfileMpskGroupMpskKey(tmp, sort)
+				v["mpsk_key"] = flattenWirelessControllerMpskProfileMpskGroupMpskKey(d, tmp, prefix+"mpsk_key", sort)
 			}
 
 			if tmp := cfg.Name; tmp != nil {
@@ -363,11 +364,12 @@ func flattenWirelessControllerMpskProfileMpskGroup(v *[]models.WirelessControlle
 	return flat
 }
 
-func flattenWirelessControllerMpskProfileMpskGroupMpskKey(v *[]models.WirelessControllerMpskProfileMpskGroupMpskKey, sort bool) interface{} {
+func flattenWirelessControllerMpskProfileMpskGroupMpskKey(d *schema.ResourceData, v *[]models.WirelessControllerMpskProfileMpskGroupMpskKey, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Comment; tmp != nil {
 				v["comment"] = *tmp
@@ -386,7 +388,7 @@ func flattenWirelessControllerMpskProfileMpskGroupMpskKey(v *[]models.WirelessCo
 			}
 
 			if tmp := cfg.MpskSchedules; tmp != nil {
-				v["mpsk_schedules"] = flattenWirelessControllerMpskProfileMpskGroupMpskKeyMpskSchedules(tmp, sort)
+				v["mpsk_schedules"] = flattenWirelessControllerMpskProfileMpskGroupMpskKeyMpskSchedules(d, tmp, prefix+"mpsk_schedules", sort)
 			}
 
 			if tmp := cfg.Name; tmp != nil {
@@ -408,11 +410,12 @@ func flattenWirelessControllerMpskProfileMpskGroupMpskKey(v *[]models.WirelessCo
 	return flat
 }
 
-func flattenWirelessControllerMpskProfileMpskGroupMpskKeyMpskSchedules(v *[]models.WirelessControllerMpskProfileMpskGroupMpskKeyMpskSchedules, sort bool) interface{} {
+func flattenWirelessControllerMpskProfileMpskGroupMpskKeyMpskSchedules(d *schema.ResourceData, v *[]models.WirelessControllerMpskProfileMpskGroupMpskKeyMpskSchedules, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -441,7 +444,7 @@ func refreshObjectWirelessControllerMpskProfile(d *schema.ResourceData, o *model
 	}
 
 	if o.MpskGroup != nil {
-		if err = d.Set("mpsk_group", flattenWirelessControllerMpskProfileMpskGroup(o.MpskGroup, sort)); err != nil {
+		if err = d.Set("mpsk_group", flattenWirelessControllerMpskProfileMpskGroup(d, o.MpskGroup, "mpsk_group", sort)); err != nil {
 			return diag.Errorf("error reading mpsk_group: %v", err)
 		}
 	}

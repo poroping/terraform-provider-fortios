@@ -346,11 +346,12 @@ func resourceFirewallLocalInPolicyRead(ctx context.Context, d *schema.ResourceDa
 	return nil
 }
 
-func flattenFirewallLocalInPolicyDstaddr(v *[]models.FirewallLocalInPolicyDstaddr, sort bool) interface{} {
+func flattenFirewallLocalInPolicyDstaddr(d *schema.ResourceData, v *[]models.FirewallLocalInPolicyDstaddr, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -367,11 +368,12 @@ func flattenFirewallLocalInPolicyDstaddr(v *[]models.FirewallLocalInPolicyDstadd
 	return flat
 }
 
-func flattenFirewallLocalInPolicyService(v *[]models.FirewallLocalInPolicyService, sort bool) interface{} {
+func flattenFirewallLocalInPolicyService(d *schema.ResourceData, v *[]models.FirewallLocalInPolicyService, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -388,11 +390,12 @@ func flattenFirewallLocalInPolicyService(v *[]models.FirewallLocalInPolicyServic
 	return flat
 }
 
-func flattenFirewallLocalInPolicySrcaddr(v *[]models.FirewallLocalInPolicySrcaddr, sort bool) interface{} {
+func flattenFirewallLocalInPolicySrcaddr(d *schema.ResourceData, v *[]models.FirewallLocalInPolicySrcaddr, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -429,7 +432,7 @@ func refreshObjectFirewallLocalInPolicy(d *schema.ResourceData, o *models.Firewa
 	}
 
 	if o.Dstaddr != nil {
-		if err = d.Set("dstaddr", flattenFirewallLocalInPolicyDstaddr(o.Dstaddr, sort)); err != nil {
+		if err = d.Set("dstaddr", flattenFirewallLocalInPolicyDstaddr(d, o.Dstaddr, "dstaddr", sort)); err != nil {
 			return diag.Errorf("error reading dstaddr: %v", err)
 		}
 	}
@@ -475,7 +478,7 @@ func refreshObjectFirewallLocalInPolicy(d *schema.ResourceData, o *models.Firewa
 	}
 
 	if o.Service != nil {
-		if err = d.Set("service", flattenFirewallLocalInPolicyService(o.Service, sort)); err != nil {
+		if err = d.Set("service", flattenFirewallLocalInPolicyService(d, o.Service, "service", sort)); err != nil {
 			return diag.Errorf("error reading service: %v", err)
 		}
 	}
@@ -489,7 +492,7 @@ func refreshObjectFirewallLocalInPolicy(d *schema.ResourceData, o *models.Firewa
 	}
 
 	if o.Srcaddr != nil {
-		if err = d.Set("srcaddr", flattenFirewallLocalInPolicySrcaddr(o.Srcaddr, sort)); err != nil {
+		if err = d.Set("srcaddr", flattenFirewallLocalInPolicySrcaddr(d, o.Srcaddr, "srcaddr", sort)); err != nil {
 			return diag.Errorf("error reading srcaddr: %v", err)
 		}
 	}

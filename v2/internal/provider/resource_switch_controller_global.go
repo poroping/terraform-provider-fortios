@@ -376,11 +376,12 @@ func resourceSwitchControllerGlobalRead(ctx context.Context, d *schema.ResourceD
 	return nil
 }
 
-func flattenSwitchControllerGlobalCustomCommand(v *[]models.SwitchControllerGlobalCustomCommand, sort bool) interface{} {
+func flattenSwitchControllerGlobalCustomCommand(d *schema.ResourceData, v *[]models.SwitchControllerGlobalCustomCommand, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.CommandEntry; tmp != nil {
 				v["command_entry"] = *tmp
@@ -401,11 +402,12 @@ func flattenSwitchControllerGlobalCustomCommand(v *[]models.SwitchControllerGlob
 	return flat
 }
 
-func flattenSwitchControllerGlobalDisableDiscovery(v *[]models.SwitchControllerGlobalDisableDiscovery, sort bool) interface{} {
+func flattenSwitchControllerGlobalDisableDiscovery(d *schema.ResourceData, v *[]models.SwitchControllerGlobalDisableDiscovery, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -442,7 +444,7 @@ func refreshObjectSwitchControllerGlobal(d *schema.ResourceData, o *models.Switc
 	}
 
 	if o.CustomCommand != nil {
-		if err = d.Set("custom_command", flattenSwitchControllerGlobalCustomCommand(o.CustomCommand, sort)); err != nil {
+		if err = d.Set("custom_command", flattenSwitchControllerGlobalCustomCommand(d, o.CustomCommand, "custom_command", sort)); err != nil {
 			return diag.Errorf("error reading custom_command: %v", err)
 		}
 	}
@@ -464,7 +466,7 @@ func refreshObjectSwitchControllerGlobal(d *schema.ResourceData, o *models.Switc
 	}
 
 	if o.DisableDiscovery != nil {
-		if err = d.Set("disable_discovery", flattenSwitchControllerGlobalDisableDiscovery(o.DisableDiscovery, sort)); err != nil {
+		if err = d.Set("disable_discovery", flattenSwitchControllerGlobalDisableDiscovery(d, o.DisableDiscovery, "disable_discovery", sort)); err != nil {
 			return diag.Errorf("error reading disable_discovery: %v", err)
 		}
 	}

@@ -1429,14 +1429,15 @@ func resourceWafProfileRead(ctx context.Context, d *schema.ResourceData, meta in
 	return nil
 }
 
-func flattenWafProfileAddressList(v *[]models.WafProfileAddressList, sort bool) interface{} {
+func flattenWafProfileAddressList(d *schema.ResourceData, v *[]models.WafProfileAddressList, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.BlockedAddress; tmp != nil {
-				v["blocked_address"] = flattenWafProfileAddressListBlockedAddress(tmp, sort)
+				v["blocked_address"] = flattenWafProfileAddressListBlockedAddress(d, tmp, prefix+"blocked_address", sort)
 			}
 
 			if tmp := cfg.BlockedLog; tmp != nil {
@@ -1452,7 +1453,7 @@ func flattenWafProfileAddressList(v *[]models.WafProfileAddressList, sort bool) 
 			}
 
 			if tmp := cfg.TrustedAddress; tmp != nil {
-				v["trusted_address"] = flattenWafProfileAddressListTrustedAddress(tmp, sort)
+				v["trusted_address"] = flattenWafProfileAddressListTrustedAddress(d, tmp, prefix+"trusted_address", sort)
 			}
 
 			flat = append(flat, v)
@@ -1462,11 +1463,12 @@ func flattenWafProfileAddressList(v *[]models.WafProfileAddressList, sort bool) 
 	return flat
 }
 
-func flattenWafProfileAddressListBlockedAddress(v *[]models.WafProfileAddressListBlockedAddress, sort bool) interface{} {
+func flattenWafProfileAddressListBlockedAddress(d *schema.ResourceData, v *[]models.WafProfileAddressListBlockedAddress, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -1483,11 +1485,12 @@ func flattenWafProfileAddressListBlockedAddress(v *[]models.WafProfileAddressLis
 	return flat
 }
 
-func flattenWafProfileAddressListTrustedAddress(v *[]models.WafProfileAddressListTrustedAddress, sort bool) interface{} {
+func flattenWafProfileAddressListTrustedAddress(d *schema.ResourceData, v *[]models.WafProfileAddressListTrustedAddress, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -1504,66 +1507,67 @@ func flattenWafProfileAddressListTrustedAddress(v *[]models.WafProfileAddressLis
 	return flat
 }
 
-func flattenWafProfileConstraint(v *[]models.WafProfileConstraint, sort bool) interface{} {
+func flattenWafProfileConstraint(d *schema.ResourceData, v *[]models.WafProfileConstraint, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.ContentLength; tmp != nil {
-				v["content_length"] = flattenWafProfileConstraintContentLength(tmp, sort)
+				v["content_length"] = flattenWafProfileConstraintContentLength(d, tmp, prefix+"content_length", sort)
 			}
 
 			if tmp := cfg.Exception; tmp != nil {
-				v["exception"] = flattenWafProfileConstraintException(tmp, sort)
+				v["exception"] = flattenWafProfileConstraintException(d, tmp, prefix+"exception", sort)
 			}
 
 			if tmp := cfg.HeaderLength; tmp != nil {
-				v["header_length"] = flattenWafProfileConstraintHeaderLength(tmp, sort)
+				v["header_length"] = flattenWafProfileConstraintHeaderLength(d, tmp, prefix+"header_length", sort)
 			}
 
 			if tmp := cfg.Hostname; tmp != nil {
-				v["hostname"] = flattenWafProfileConstraintHostname(tmp, sort)
+				v["hostname"] = flattenWafProfileConstraintHostname(d, tmp, prefix+"hostname", sort)
 			}
 
 			if tmp := cfg.LineLength; tmp != nil {
-				v["line_length"] = flattenWafProfileConstraintLineLength(tmp, sort)
+				v["line_length"] = flattenWafProfileConstraintLineLength(d, tmp, prefix+"line_length", sort)
 			}
 
 			if tmp := cfg.Malformed; tmp != nil {
-				v["malformed"] = flattenWafProfileConstraintMalformed(tmp, sort)
+				v["malformed"] = flattenWafProfileConstraintMalformed(d, tmp, prefix+"malformed", sort)
 			}
 
 			if tmp := cfg.MaxCookie; tmp != nil {
-				v["max_cookie"] = flattenWafProfileConstraintMaxCookie(tmp, sort)
+				v["max_cookie"] = flattenWafProfileConstraintMaxCookie(d, tmp, prefix+"max_cookie", sort)
 			}
 
 			if tmp := cfg.MaxHeaderLine; tmp != nil {
-				v["max_header_line"] = flattenWafProfileConstraintMaxHeaderLine(tmp, sort)
+				v["max_header_line"] = flattenWafProfileConstraintMaxHeaderLine(d, tmp, prefix+"max_header_line", sort)
 			}
 
 			if tmp := cfg.MaxRangeSegment; tmp != nil {
-				v["max_range_segment"] = flattenWafProfileConstraintMaxRangeSegment(tmp, sort)
+				v["max_range_segment"] = flattenWafProfileConstraintMaxRangeSegment(d, tmp, prefix+"max_range_segment", sort)
 			}
 
 			if tmp := cfg.MaxUrlParam; tmp != nil {
-				v["max_url_param"] = flattenWafProfileConstraintMaxUrlParam(tmp, sort)
+				v["max_url_param"] = flattenWafProfileConstraintMaxUrlParam(d, tmp, prefix+"max_url_param", sort)
 			}
 
 			if tmp := cfg.Method; tmp != nil {
-				v["method"] = flattenWafProfileConstraintMethod(tmp, sort)
+				v["method"] = flattenWafProfileConstraintMethod(d, tmp, prefix+"method", sort)
 			}
 
 			if tmp := cfg.ParamLength; tmp != nil {
-				v["param_length"] = flattenWafProfileConstraintParamLength(tmp, sort)
+				v["param_length"] = flattenWafProfileConstraintParamLength(d, tmp, prefix+"param_length", sort)
 			}
 
 			if tmp := cfg.UrlParamLength; tmp != nil {
-				v["url_param_length"] = flattenWafProfileConstraintUrlParamLength(tmp, sort)
+				v["url_param_length"] = flattenWafProfileConstraintUrlParamLength(d, tmp, prefix+"url_param_length", sort)
 			}
 
 			if tmp := cfg.Version; tmp != nil {
-				v["version"] = flattenWafProfileConstraintVersion(tmp, sort)
+				v["version"] = flattenWafProfileConstraintVersion(d, tmp, prefix+"version", sort)
 			}
 
 			flat = append(flat, v)
@@ -1573,11 +1577,12 @@ func flattenWafProfileConstraint(v *[]models.WafProfileConstraint, sort bool) in
 	return flat
 }
 
-func flattenWafProfileConstraintContentLength(v *[]models.WafProfileConstraintContentLength, sort bool) interface{} {
+func flattenWafProfileConstraintContentLength(d *schema.ResourceData, v *[]models.WafProfileConstraintContentLength, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Action; tmp != nil {
 				v["action"] = *tmp
@@ -1606,11 +1611,12 @@ func flattenWafProfileConstraintContentLength(v *[]models.WafProfileConstraintCo
 	return flat
 }
 
-func flattenWafProfileConstraintException(v *[]models.WafProfileConstraintException, sort bool) interface{} {
+func flattenWafProfileConstraintException(d *schema.ResourceData, v *[]models.WafProfileConstraintException, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Address; tmp != nil {
 				v["address"] = *tmp
@@ -1691,11 +1697,12 @@ func flattenWafProfileConstraintException(v *[]models.WafProfileConstraintExcept
 	return flat
 }
 
-func flattenWafProfileConstraintHeaderLength(v *[]models.WafProfileConstraintHeaderLength, sort bool) interface{} {
+func flattenWafProfileConstraintHeaderLength(d *schema.ResourceData, v *[]models.WafProfileConstraintHeaderLength, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Action; tmp != nil {
 				v["action"] = *tmp
@@ -1724,11 +1731,12 @@ func flattenWafProfileConstraintHeaderLength(v *[]models.WafProfileConstraintHea
 	return flat
 }
 
-func flattenWafProfileConstraintHostname(v *[]models.WafProfileConstraintHostname, sort bool) interface{} {
+func flattenWafProfileConstraintHostname(d *schema.ResourceData, v *[]models.WafProfileConstraintHostname, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Action; tmp != nil {
 				v["action"] = *tmp
@@ -1753,11 +1761,12 @@ func flattenWafProfileConstraintHostname(v *[]models.WafProfileConstraintHostnam
 	return flat
 }
 
-func flattenWafProfileConstraintLineLength(v *[]models.WafProfileConstraintLineLength, sort bool) interface{} {
+func flattenWafProfileConstraintLineLength(d *schema.ResourceData, v *[]models.WafProfileConstraintLineLength, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Action; tmp != nil {
 				v["action"] = *tmp
@@ -1786,11 +1795,12 @@ func flattenWafProfileConstraintLineLength(v *[]models.WafProfileConstraintLineL
 	return flat
 }
 
-func flattenWafProfileConstraintMalformed(v *[]models.WafProfileConstraintMalformed, sort bool) interface{} {
+func flattenWafProfileConstraintMalformed(d *schema.ResourceData, v *[]models.WafProfileConstraintMalformed, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Action; tmp != nil {
 				v["action"] = *tmp
@@ -1815,11 +1825,12 @@ func flattenWafProfileConstraintMalformed(v *[]models.WafProfileConstraintMalfor
 	return flat
 }
 
-func flattenWafProfileConstraintMaxCookie(v *[]models.WafProfileConstraintMaxCookie, sort bool) interface{} {
+func flattenWafProfileConstraintMaxCookie(d *schema.ResourceData, v *[]models.WafProfileConstraintMaxCookie, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Action; tmp != nil {
 				v["action"] = *tmp
@@ -1848,11 +1859,12 @@ func flattenWafProfileConstraintMaxCookie(v *[]models.WafProfileConstraintMaxCoo
 	return flat
 }
 
-func flattenWafProfileConstraintMaxHeaderLine(v *[]models.WafProfileConstraintMaxHeaderLine, sort bool) interface{} {
+func flattenWafProfileConstraintMaxHeaderLine(d *schema.ResourceData, v *[]models.WafProfileConstraintMaxHeaderLine, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Action; tmp != nil {
 				v["action"] = *tmp
@@ -1881,11 +1893,12 @@ func flattenWafProfileConstraintMaxHeaderLine(v *[]models.WafProfileConstraintMa
 	return flat
 }
 
-func flattenWafProfileConstraintMaxRangeSegment(v *[]models.WafProfileConstraintMaxRangeSegment, sort bool) interface{} {
+func flattenWafProfileConstraintMaxRangeSegment(d *schema.ResourceData, v *[]models.WafProfileConstraintMaxRangeSegment, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Action; tmp != nil {
 				v["action"] = *tmp
@@ -1914,11 +1927,12 @@ func flattenWafProfileConstraintMaxRangeSegment(v *[]models.WafProfileConstraint
 	return flat
 }
 
-func flattenWafProfileConstraintMaxUrlParam(v *[]models.WafProfileConstraintMaxUrlParam, sort bool) interface{} {
+func flattenWafProfileConstraintMaxUrlParam(d *schema.ResourceData, v *[]models.WafProfileConstraintMaxUrlParam, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Action; tmp != nil {
 				v["action"] = *tmp
@@ -1947,11 +1961,12 @@ func flattenWafProfileConstraintMaxUrlParam(v *[]models.WafProfileConstraintMaxU
 	return flat
 }
 
-func flattenWafProfileConstraintMethod(v *[]models.WafProfileConstraintMethod, sort bool) interface{} {
+func flattenWafProfileConstraintMethod(d *schema.ResourceData, v *[]models.WafProfileConstraintMethod, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Action; tmp != nil {
 				v["action"] = *tmp
@@ -1976,44 +1991,12 @@ func flattenWafProfileConstraintMethod(v *[]models.WafProfileConstraintMethod, s
 	return flat
 }
 
-func flattenWafProfileConstraintParamLength(v *[]models.WafProfileConstraintParamLength, sort bool) interface{} {
+func flattenWafProfileConstraintParamLength(d *schema.ResourceData, v *[]models.WafProfileConstraintParamLength, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
-			v := make(map[string]interface{})
-			if tmp := cfg.Action; tmp != nil {
-				v["action"] = *tmp
-			}
-
-			if tmp := cfg.Length; tmp != nil {
-				v["length"] = *tmp
-			}
-
-			if tmp := cfg.Log; tmp != nil {
-				v["log"] = *tmp
-			}
-
-			if tmp := cfg.Severity; tmp != nil {
-				v["severity"] = *tmp
-			}
-
-			if tmp := cfg.Status; tmp != nil {
-				v["status"] = *tmp
-			}
-
-			flat = append(flat, v)
-		}
-	}
-
-	return flat
-}
-
-func flattenWafProfileConstraintUrlParamLength(v *[]models.WafProfileConstraintUrlParamLength, sort bool) interface{} {
-	flat := make([]map[string]interface{}, 0)
-
-	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Action; tmp != nil {
 				v["action"] = *tmp
@@ -2042,11 +2025,46 @@ func flattenWafProfileConstraintUrlParamLength(v *[]models.WafProfileConstraintU
 	return flat
 }
 
-func flattenWafProfileConstraintVersion(v *[]models.WafProfileConstraintVersion, sort bool) interface{} {
+func flattenWafProfileConstraintUrlParamLength(d *schema.ResourceData, v *[]models.WafProfileConstraintUrlParamLength, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
+			v := make(map[string]interface{})
+			if tmp := cfg.Action; tmp != nil {
+				v["action"] = *tmp
+			}
+
+			if tmp := cfg.Length; tmp != nil {
+				v["length"] = *tmp
+			}
+
+			if tmp := cfg.Log; tmp != nil {
+				v["log"] = *tmp
+			}
+
+			if tmp := cfg.Severity; tmp != nil {
+				v["severity"] = *tmp
+			}
+
+			if tmp := cfg.Status; tmp != nil {
+				v["status"] = *tmp
+			}
+
+			flat = append(flat, v)
+		}
+	}
+
+	return flat
+}
+
+func flattenWafProfileConstraintVersion(d *schema.ResourceData, v *[]models.WafProfileConstraintVersion, prefix string, sort bool) interface{} {
+	flat := make([]map[string]interface{}, 0)
+
+	if v != nil {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Action; tmp != nil {
 				v["action"] = *tmp
@@ -2071,11 +2089,12 @@ func flattenWafProfileConstraintVersion(v *[]models.WafProfileConstraintVersion,
 	return flat
 }
 
-func flattenWafProfileMethod(v *[]models.WafProfileMethod, sort bool) interface{} {
+func flattenWafProfileMethod(d *schema.ResourceData, v *[]models.WafProfileMethod, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.DefaultAllowedMethods; tmp != nil {
 				v["default_allowed_methods"] = *tmp
@@ -2086,7 +2105,7 @@ func flattenWafProfileMethod(v *[]models.WafProfileMethod, sort bool) interface{
 			}
 
 			if tmp := cfg.MethodPolicy; tmp != nil {
-				v["method_policy"] = flattenWafProfileMethodMethodPolicy(tmp, sort)
+				v["method_policy"] = flattenWafProfileMethodMethodPolicy(d, tmp, prefix+"method_policy", sort)
 			}
 
 			if tmp := cfg.Severity; tmp != nil {
@@ -2104,11 +2123,12 @@ func flattenWafProfileMethod(v *[]models.WafProfileMethod, sort bool) interface{
 	return flat
 }
 
-func flattenWafProfileMethodMethodPolicy(v *[]models.WafProfileMethodMethodPolicy, sort bool) interface{} {
+func flattenWafProfileMethodMethodPolicy(d *schema.ResourceData, v *[]models.WafProfileMethodMethodPolicy, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Address; tmp != nil {
 				v["address"] = *tmp
@@ -2141,30 +2161,31 @@ func flattenWafProfileMethodMethodPolicy(v *[]models.WafProfileMethodMethodPolic
 	return flat
 }
 
-func flattenWafProfileSignature(v *[]models.WafProfileSignature, sort bool) interface{} {
+func flattenWafProfileSignature(d *schema.ResourceData, v *[]models.WafProfileSignature, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.CreditCardDetectionThreshold; tmp != nil {
 				v["credit_card_detection_threshold"] = *tmp
 			}
 
 			if tmp := cfg.CustomSignature; tmp != nil {
-				v["custom_signature"] = flattenWafProfileSignatureCustomSignature(tmp, sort)
+				v["custom_signature"] = flattenWafProfileSignatureCustomSignature(d, tmp, prefix+"custom_signature", sort)
 			}
 
 			if tmp := cfg.DisabledSignature; tmp != nil {
-				v["disabled_signature"] = flattenWafProfileSignatureDisabledSignature(tmp, sort)
+				v["disabled_signature"] = flattenWafProfileSignatureDisabledSignature(d, tmp, prefix+"disabled_signature", sort)
 			}
 
 			if tmp := cfg.DisabledSubClass; tmp != nil {
-				v["disabled_sub_class"] = flattenWafProfileSignatureDisabledSubClass(tmp, sort)
+				v["disabled_sub_class"] = flattenWafProfileSignatureDisabledSubClass(d, tmp, prefix+"disabled_sub_class", sort)
 			}
 
 			if tmp := cfg.MainClass; tmp != nil {
-				v["main_class"] = flattenWafProfileSignatureMainClass(tmp, sort)
+				v["main_class"] = flattenWafProfileSignatureMainClass(d, tmp, prefix+"main_class", sort)
 			}
 
 			flat = append(flat, v)
@@ -2174,11 +2195,12 @@ func flattenWafProfileSignature(v *[]models.WafProfileSignature, sort bool) inte
 	return flat
 }
 
-func flattenWafProfileSignatureCustomSignature(v *[]models.WafProfileSignatureCustomSignature, sort bool) interface{} {
+func flattenWafProfileSignatureCustomSignature(d *schema.ResourceData, v *[]models.WafProfileSignatureCustomSignature, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Action; tmp != nil {
 				v["action"] = *tmp
@@ -2227,11 +2249,12 @@ func flattenWafProfileSignatureCustomSignature(v *[]models.WafProfileSignatureCu
 	return flat
 }
 
-func flattenWafProfileSignatureDisabledSignature(v *[]models.WafProfileSignatureDisabledSignature, sort bool) interface{} {
+func flattenWafProfileSignatureDisabledSignature(d *schema.ResourceData, v *[]models.WafProfileSignatureDisabledSignature, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Id; tmp != nil {
 				v["id"] = *tmp
@@ -2248,11 +2271,12 @@ func flattenWafProfileSignatureDisabledSignature(v *[]models.WafProfileSignature
 	return flat
 }
 
-func flattenWafProfileSignatureDisabledSubClass(v *[]models.WafProfileSignatureDisabledSubClass, sort bool) interface{} {
+func flattenWafProfileSignatureDisabledSubClass(d *schema.ResourceData, v *[]models.WafProfileSignatureDisabledSubClass, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Id; tmp != nil {
 				v["id"] = *tmp
@@ -2269,11 +2293,12 @@ func flattenWafProfileSignatureDisabledSubClass(v *[]models.WafProfileSignatureD
 	return flat
 }
 
-func flattenWafProfileSignatureMainClass(v *[]models.WafProfileSignatureMainClass, sort bool) interface{} {
+func flattenWafProfileSignatureMainClass(d *schema.ResourceData, v *[]models.WafProfileSignatureMainClass, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Action; tmp != nil {
 				v["action"] = *tmp
@@ -2306,14 +2331,15 @@ func flattenWafProfileSignatureMainClass(v *[]models.WafProfileSignatureMainClas
 	return flat
 }
 
-func flattenWafProfileUrlAccess(v *[]models.WafProfileUrlAccess, sort bool) interface{} {
+func flattenWafProfileUrlAccess(d *schema.ResourceData, v *[]models.WafProfileUrlAccess, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.AccessPattern; tmp != nil {
-				v["access_pattern"] = flattenWafProfileUrlAccessAccessPattern(tmp, sort)
+				v["access_pattern"] = flattenWafProfileUrlAccessAccessPattern(d, tmp, prefix+"access_pattern", sort)
 			}
 
 			if tmp := cfg.Action; tmp != nil {
@@ -2347,11 +2373,12 @@ func flattenWafProfileUrlAccess(v *[]models.WafProfileUrlAccess, sort bool) inte
 	return flat
 }
 
-func flattenWafProfileUrlAccessAccessPattern(v *[]models.WafProfileUrlAccessAccessPattern, sort bool) interface{} {
+func flattenWafProfileUrlAccessAccessPattern(d *schema.ResourceData, v *[]models.WafProfileUrlAccessAccessPattern, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Id; tmp != nil {
 				v["id"] = *tmp
@@ -2388,7 +2415,7 @@ func refreshObjectWafProfile(d *schema.ResourceData, o *models.WafProfile, sv st
 	var err error
 
 	if o.AddressList != nil {
-		if err = d.Set("address_list", flattenWafProfileAddressList(o.AddressList, sort)); err != nil {
+		if err = d.Set("address_list", flattenWafProfileAddressList(d, o.AddressList, "address_list", sort)); err != nil {
 			return diag.Errorf("error reading address_list: %v", err)
 		}
 	}
@@ -2402,7 +2429,7 @@ func refreshObjectWafProfile(d *schema.ResourceData, o *models.WafProfile, sv st
 	}
 
 	if o.Constraint != nil {
-		if err = d.Set("constraint", flattenWafProfileConstraint(o.Constraint, sort)); err != nil {
+		if err = d.Set("constraint", flattenWafProfileConstraint(d, o.Constraint, "constraint", sort)); err != nil {
 			return diag.Errorf("error reading constraint: %v", err)
 		}
 	}
@@ -2424,7 +2451,7 @@ func refreshObjectWafProfile(d *schema.ResourceData, o *models.WafProfile, sv st
 	}
 
 	if o.Method != nil {
-		if err = d.Set("method", flattenWafProfileMethod(o.Method, sort)); err != nil {
+		if err = d.Set("method", flattenWafProfileMethod(d, o.Method, "method", sort)); err != nil {
 			return diag.Errorf("error reading method: %v", err)
 		}
 	}
@@ -2438,13 +2465,13 @@ func refreshObjectWafProfile(d *schema.ResourceData, o *models.WafProfile, sv st
 	}
 
 	if o.Signature != nil {
-		if err = d.Set("signature", flattenWafProfileSignature(o.Signature, sort)); err != nil {
+		if err = d.Set("signature", flattenWafProfileSignature(d, o.Signature, "signature", sort)); err != nil {
 			return diag.Errorf("error reading signature: %v", err)
 		}
 	}
 
 	if o.UrlAccess != nil {
-		if err = d.Set("url_access", flattenWafProfileUrlAccess(o.UrlAccess, sort)); err != nil {
+		if err = d.Set("url_access", flattenWafProfileUrlAccess(d, o.UrlAccess, "url_access", sort)); err != nil {
 			return diag.Errorf("error reading url_access: %v", err)
 		}
 	}

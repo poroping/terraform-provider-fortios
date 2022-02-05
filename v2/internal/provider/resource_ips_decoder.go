@@ -241,11 +241,12 @@ func resourceIpsDecoderRead(ctx context.Context, d *schema.ResourceData, meta in
 	return nil
 }
 
-func flattenIpsDecoderParameter(v *[]models.IpsDecoderParameter, sort bool) interface{} {
+func flattenIpsDecoderParameter(d *schema.ResourceData, v *[]models.IpsDecoderParameter, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -278,7 +279,7 @@ func refreshObjectIpsDecoder(d *schema.ResourceData, o *models.IpsDecoder, sv st
 	}
 
 	if o.Parameter != nil {
-		if err = d.Set("parameter", flattenIpsDecoderParameter(o.Parameter, sort)); err != nil {
+		if err = d.Set("parameter", flattenIpsDecoderParameter(d, o.Parameter, "parameter", sort)); err != nil {
 			return diag.Errorf("error reading parameter: %v", err)
 		}
 	}

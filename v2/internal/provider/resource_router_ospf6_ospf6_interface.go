@@ -501,7 +501,7 @@ func refreshObjectRouterOspf6Ospf6Interface(d *schema.ResourceData, o *models.Ro
 	}
 
 	if o.IpsecKeys != nil {
-		if err = d.Set("ipsec_keys", flattenRouterOspf6Ospf6InterfaceIpsecKeys(o.IpsecKeys, sort)); err != nil {
+		if err = d.Set("ipsec_keys", flattenRouterOspf6Ospf6InterfaceIpsecKeys(d, o.IpsecKeys, "ipsec_keys", sort)); err != nil {
 			return diag.Errorf("error reading ipsec_keys: %v", err)
 		}
 	}
@@ -539,7 +539,7 @@ func refreshObjectRouterOspf6Ospf6Interface(d *schema.ResourceData, o *models.Ro
 	}
 
 	if o.Neighbor != nil {
-		if err = d.Set("neighbor", flattenRouterOspf6Ospf6InterfaceNeighbor(o.Neighbor, sort)); err != nil {
+		if err = d.Set("neighbor", flattenRouterOspf6Ospf6InterfaceNeighbor(d, o.Neighbor, "neighbor", sort)); err != nil {
 			return diag.Errorf("error reading neighbor: %v", err)
 		}
 	}

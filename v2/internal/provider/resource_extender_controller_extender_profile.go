@@ -861,30 +861,31 @@ func resourceExtenderControllerExtenderProfileRead(ctx context.Context, d *schem
 	return nil
 }
 
-func flattenExtenderControllerExtenderProfileCellular(v *[]models.ExtenderControllerExtenderProfileCellular, sort bool) interface{} {
+func flattenExtenderControllerExtenderProfileCellular(d *schema.ResourceData, v *[]models.ExtenderControllerExtenderProfileCellular, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.ControllerReport; tmp != nil {
-				v["controller_report"] = flattenExtenderControllerExtenderProfileCellularControllerReport(tmp, sort)
+				v["controller_report"] = flattenExtenderControllerExtenderProfileCellularControllerReport(d, tmp, prefix+"controller_report", sort)
 			}
 
 			if tmp := cfg.Dataplan; tmp != nil {
-				v["dataplan"] = flattenExtenderControllerExtenderProfileCellularDataplan(tmp, sort)
+				v["dataplan"] = flattenExtenderControllerExtenderProfileCellularDataplan(d, tmp, prefix+"dataplan", sort)
 			}
 
 			if tmp := cfg.Modem1; tmp != nil {
-				v["modem1"] = flattenExtenderControllerExtenderProfileCellularModem1(tmp, sort)
+				v["modem1"] = flattenExtenderControllerExtenderProfileCellularModem1(d, tmp, prefix+"modem1", sort)
 			}
 
 			if tmp := cfg.Modem2; tmp != nil {
-				v["modem2"] = flattenExtenderControllerExtenderProfileCellularModem2(tmp, sort)
+				v["modem2"] = flattenExtenderControllerExtenderProfileCellularModem2(d, tmp, prefix+"modem2", sort)
 			}
 
 			if tmp := cfg.SmsNotification; tmp != nil {
-				v["sms_notification"] = flattenExtenderControllerExtenderProfileCellularSmsNotification(tmp, sort)
+				v["sms_notification"] = flattenExtenderControllerExtenderProfileCellularSmsNotification(d, tmp, prefix+"sms_notification", sort)
 			}
 
 			flat = append(flat, v)
@@ -894,11 +895,12 @@ func flattenExtenderControllerExtenderProfileCellular(v *[]models.ExtenderContro
 	return flat
 }
 
-func flattenExtenderControllerExtenderProfileCellularControllerReport(v *[]models.ExtenderControllerExtenderProfileCellularControllerReport, sort bool) interface{} {
+func flattenExtenderControllerExtenderProfileCellularControllerReport(d *schema.ResourceData, v *[]models.ExtenderControllerExtenderProfileCellularControllerReport, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Interval; tmp != nil {
 				v["interval"] = *tmp
@@ -919,11 +921,12 @@ func flattenExtenderControllerExtenderProfileCellularControllerReport(v *[]model
 	return flat
 }
 
-func flattenExtenderControllerExtenderProfileCellularDataplan(v *[]models.ExtenderControllerExtenderProfileCellularDataplan, sort bool) interface{} {
+func flattenExtenderControllerExtenderProfileCellularDataplan(d *schema.ResourceData, v *[]models.ExtenderControllerExtenderProfileCellularDataplan, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -940,14 +943,15 @@ func flattenExtenderControllerExtenderProfileCellularDataplan(v *[]models.Extend
 	return flat
 }
 
-func flattenExtenderControllerExtenderProfileCellularModem1(v *[]models.ExtenderControllerExtenderProfileCellularModem1, sort bool) interface{} {
+func flattenExtenderControllerExtenderProfileCellularModem1(d *schema.ResourceData, v *[]models.ExtenderControllerExtenderProfileCellularModem1, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.AutoSwitch; tmp != nil {
-				v["auto_switch"] = flattenExtenderControllerExtenderProfileCellularModem1AutoSwitch(tmp, sort)
+				v["auto_switch"] = flattenExtenderControllerExtenderProfileCellularModem1AutoSwitch(d, tmp, prefix+"auto_switch", sort)
 			}
 
 			if tmp := cfg.ConnStatus; tmp != nil {
@@ -997,11 +1001,12 @@ func flattenExtenderControllerExtenderProfileCellularModem1(v *[]models.Extender
 	return flat
 }
 
-func flattenExtenderControllerExtenderProfileCellularModem1AutoSwitch(v *[]models.ExtenderControllerExtenderProfileCellularModem1AutoSwitch, sort bool) interface{} {
+func flattenExtenderControllerExtenderProfileCellularModem1AutoSwitch(d *schema.ResourceData, v *[]models.ExtenderControllerExtenderProfileCellularModem1AutoSwitch, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Dataplan; tmp != nil {
 				v["dataplan"] = *tmp
@@ -1042,14 +1047,15 @@ func flattenExtenderControllerExtenderProfileCellularModem1AutoSwitch(v *[]model
 	return flat
 }
 
-func flattenExtenderControllerExtenderProfileCellularModem2(v *[]models.ExtenderControllerExtenderProfileCellularModem2, sort bool) interface{} {
+func flattenExtenderControllerExtenderProfileCellularModem2(d *schema.ResourceData, v *[]models.ExtenderControllerExtenderProfileCellularModem2, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.AutoSwitch; tmp != nil {
-				v["auto_switch"] = flattenExtenderControllerExtenderProfileCellularModem2AutoSwitch(tmp, sort)
+				v["auto_switch"] = flattenExtenderControllerExtenderProfileCellularModem2AutoSwitch(d, tmp, prefix+"auto_switch", sort)
 			}
 
 			if tmp := cfg.ConnStatus; tmp != nil {
@@ -1099,11 +1105,12 @@ func flattenExtenderControllerExtenderProfileCellularModem2(v *[]models.Extender
 	return flat
 }
 
-func flattenExtenderControllerExtenderProfileCellularModem2AutoSwitch(v *[]models.ExtenderControllerExtenderProfileCellularModem2AutoSwitch, sort bool) interface{} {
+func flattenExtenderControllerExtenderProfileCellularModem2AutoSwitch(d *schema.ResourceData, v *[]models.ExtenderControllerExtenderProfileCellularModem2AutoSwitch, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Dataplan; tmp != nil {
 				v["dataplan"] = *tmp
@@ -1144,18 +1151,19 @@ func flattenExtenderControllerExtenderProfileCellularModem2AutoSwitch(v *[]model
 	return flat
 }
 
-func flattenExtenderControllerExtenderProfileCellularSmsNotification(v *[]models.ExtenderControllerExtenderProfileCellularSmsNotification, sort bool) interface{} {
+func flattenExtenderControllerExtenderProfileCellularSmsNotification(d *schema.ResourceData, v *[]models.ExtenderControllerExtenderProfileCellularSmsNotification, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Alert; tmp != nil {
-				v["alert"] = flattenExtenderControllerExtenderProfileCellularSmsNotificationAlert(tmp, sort)
+				v["alert"] = flattenExtenderControllerExtenderProfileCellularSmsNotificationAlert(d, tmp, prefix+"alert", sort)
 			}
 
 			if tmp := cfg.Receiver; tmp != nil {
-				v["receiver"] = flattenExtenderControllerExtenderProfileCellularSmsNotificationReceiver(tmp, sort)
+				v["receiver"] = flattenExtenderControllerExtenderProfileCellularSmsNotificationReceiver(d, tmp, prefix+"receiver", sort)
 			}
 
 			if tmp := cfg.Status; tmp != nil {
@@ -1169,11 +1177,12 @@ func flattenExtenderControllerExtenderProfileCellularSmsNotification(v *[]models
 	return flat
 }
 
-func flattenExtenderControllerExtenderProfileCellularSmsNotificationAlert(v *[]models.ExtenderControllerExtenderProfileCellularSmsNotificationAlert, sort bool) interface{} {
+func flattenExtenderControllerExtenderProfileCellularSmsNotificationAlert(d *schema.ResourceData, v *[]models.ExtenderControllerExtenderProfileCellularSmsNotificationAlert, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.DataExhausted; tmp != nil {
 				v["data_exhausted"] = *tmp
@@ -1210,11 +1219,12 @@ func flattenExtenderControllerExtenderProfileCellularSmsNotificationAlert(v *[]m
 	return flat
 }
 
-func flattenExtenderControllerExtenderProfileCellularSmsNotificationReceiver(v *[]models.ExtenderControllerExtenderProfileCellularSmsNotificationReceiver, sort bool) interface{} {
+func flattenExtenderControllerExtenderProfileCellularSmsNotificationReceiver(d *schema.ResourceData, v *[]models.ExtenderControllerExtenderProfileCellularSmsNotificationReceiver, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Alert; tmp != nil {
 				v["alert"] = *tmp
@@ -1243,14 +1253,15 @@ func flattenExtenderControllerExtenderProfileCellularSmsNotificationReceiver(v *
 	return flat
 }
 
-func flattenExtenderControllerExtenderProfileLanExtension(v *[]models.ExtenderControllerExtenderProfileLanExtension, sort bool) interface{} {
+func flattenExtenderControllerExtenderProfileLanExtension(d *schema.ResourceData, v *[]models.ExtenderControllerExtenderProfileLanExtension, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Backhaul; tmp != nil {
-				v["backhaul"] = flattenExtenderControllerExtenderProfileLanExtensionBackhaul(tmp, sort)
+				v["backhaul"] = flattenExtenderControllerExtenderProfileLanExtensionBackhaul(d, tmp, prefix+"backhaul", sort)
 			}
 
 			if tmp := cfg.BackhaulInterface; tmp != nil {
@@ -1276,11 +1287,12 @@ func flattenExtenderControllerExtenderProfileLanExtension(v *[]models.ExtenderCo
 	return flat
 }
 
-func flattenExtenderControllerExtenderProfileLanExtensionBackhaul(v *[]models.ExtenderControllerExtenderProfileLanExtensionBackhaul, sort bool) interface{} {
+func flattenExtenderControllerExtenderProfileLanExtensionBackhaul(d *schema.ResourceData, v *[]models.ExtenderControllerExtenderProfileLanExtensionBackhaul, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -1329,7 +1341,7 @@ func refreshObjectExtenderControllerExtenderProfile(d *schema.ResourceData, o *m
 	}
 
 	if o.Cellular != nil {
-		if err = d.Set("cellular", flattenExtenderControllerExtenderProfileCellular(o.Cellular, sort)); err != nil {
+		if err = d.Set("cellular", flattenExtenderControllerExtenderProfileCellular(d, o.Cellular, "cellular", sort)); err != nil {
 			return diag.Errorf("error reading cellular: %v", err)
 		}
 	}
@@ -1359,7 +1371,7 @@ func refreshObjectExtenderControllerExtenderProfile(d *schema.ResourceData, o *m
 	}
 
 	if o.LanExtension != nil {
-		if err = d.Set("lan_extension", flattenExtenderControllerExtenderProfileLanExtension(o.LanExtension, sort)); err != nil {
+		if err = d.Set("lan_extension", flattenExtenderControllerExtenderProfileLanExtension(d, o.LanExtension, "lan_extension", sort)); err != nil {
 			return diag.Errorf("error reading lan_extension: %v", err)
 		}
 	}

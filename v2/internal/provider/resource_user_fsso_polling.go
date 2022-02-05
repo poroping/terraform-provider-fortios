@@ -322,11 +322,12 @@ func resourceUserFssoPollingRead(ctx context.Context, d *schema.ResourceData, me
 	return nil
 }
 
-func flattenUserFssoPollingAdgrp(v *[]models.UserFssoPollingAdgrp, sort bool) interface{} {
+func flattenUserFssoPollingAdgrp(d *schema.ResourceData, v *[]models.UserFssoPollingAdgrp, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -347,7 +348,7 @@ func refreshObjectUserFssoPolling(d *schema.ResourceData, o *models.UserFssoPoll
 	var err error
 
 	if o.Adgrp != nil {
-		if err = d.Set("adgrp", flattenUserFssoPollingAdgrp(o.Adgrp, sort)); err != nil {
+		if err = d.Set("adgrp", flattenUserFssoPollingAdgrp(d, o.Adgrp, "adgrp", sort)); err != nil {
 			return diag.Errorf("error reading adgrp: %v", err)
 		}
 	}

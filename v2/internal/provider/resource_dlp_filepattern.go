@@ -266,11 +266,12 @@ func resourceDlpFilepatternRead(ctx context.Context, d *schema.ResourceData, met
 	return nil
 }
 
-func flattenDlpFilepatternEntries(v *[]models.DlpFilepatternEntries, sort bool) interface{} {
+func flattenDlpFilepatternEntries(d *schema.ResourceData, v *[]models.DlpFilepatternEntries, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.FileType; tmp != nil {
 				v["file_type"] = *tmp
@@ -307,7 +308,7 @@ func refreshObjectDlpFilepattern(d *schema.ResourceData, o *models.DlpFilepatter
 	}
 
 	if o.Entries != nil {
-		if err = d.Set("entries", flattenDlpFilepatternEntries(o.Entries, sort)); err != nil {
+		if err = d.Set("entries", flattenDlpFilepatternEntries(d, o.Entries, "entries", sort)); err != nil {
 			return diag.Errorf("error reading entries: %v", err)
 		}
 	}

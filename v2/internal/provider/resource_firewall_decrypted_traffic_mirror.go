@@ -257,11 +257,12 @@ func resourceFirewallDecryptedTrafficMirrorRead(ctx context.Context, d *schema.R
 	return nil
 }
 
-func flattenFirewallDecryptedTrafficMirrorInterface(v *[]models.FirewallDecryptedTrafficMirrorInterface, sort bool) interface{} {
+func flattenFirewallDecryptedTrafficMirrorInterface(d *schema.ResourceData, v *[]models.FirewallDecryptedTrafficMirrorInterface, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -290,7 +291,7 @@ func refreshObjectFirewallDecryptedTrafficMirror(d *schema.ResourceData, o *mode
 	}
 
 	if o.Interface != nil {
-		if err = d.Set("interface", flattenFirewallDecryptedTrafficMirrorInterface(o.Interface, sort)); err != nil {
+		if err = d.Set("interface", flattenFirewallDecryptedTrafficMirrorInterface(d, o.Interface, "interface", sort)); err != nil {
 			return diag.Errorf("error reading interface: %v", err)
 		}
 	}

@@ -406,14 +406,15 @@ func resourceWirelessControllerSnmpRead(ctx context.Context, d *schema.ResourceD
 	return nil
 }
 
-func flattenWirelessControllerSnmpCommunity(v *[]models.WirelessControllerSnmpCommunity, sort bool) interface{} {
+func flattenWirelessControllerSnmpCommunity(d *schema.ResourceData, v *[]models.WirelessControllerSnmpCommunity, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Hosts; tmp != nil {
-				v["hosts"] = flattenWirelessControllerSnmpCommunityHosts(tmp, sort)
+				v["hosts"] = flattenWirelessControllerSnmpCommunityHosts(d, tmp, prefix+"hosts", sort)
 			}
 
 			if tmp := cfg.Id; tmp != nil {
@@ -455,11 +456,12 @@ func flattenWirelessControllerSnmpCommunity(v *[]models.WirelessControllerSnmpCo
 	return flat
 }
 
-func flattenWirelessControllerSnmpCommunityHosts(v *[]models.WirelessControllerSnmpCommunityHosts, sort bool) interface{} {
+func flattenWirelessControllerSnmpCommunityHosts(d *schema.ResourceData, v *[]models.WirelessControllerSnmpCommunityHosts, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Id; tmp != nil {
 				v["id"] = *tmp
@@ -480,11 +482,12 @@ func flattenWirelessControllerSnmpCommunityHosts(v *[]models.WirelessControllerS
 	return flat
 }
 
-func flattenWirelessControllerSnmpUser(v *[]models.WirelessControllerSnmpUser, sort bool) interface{} {
+func flattenWirelessControllerSnmpUser(d *schema.ResourceData, v *[]models.WirelessControllerSnmpUser, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.AuthProto; tmp != nil {
 				v["auth_proto"] = *tmp
@@ -541,7 +544,7 @@ func refreshObjectWirelessControllerSnmp(d *schema.ResourceData, o *models.Wirel
 	var err error
 
 	if o.Community != nil {
-		if err = d.Set("community", flattenWirelessControllerSnmpCommunity(o.Community, sort)); err != nil {
+		if err = d.Set("community", flattenWirelessControllerSnmpCommunity(d, o.Community, "community", sort)); err != nil {
 			return diag.Errorf("error reading community: %v", err)
 		}
 	}
@@ -579,7 +582,7 @@ func refreshObjectWirelessControllerSnmp(d *schema.ResourceData, o *models.Wirel
 	}
 
 	if o.User != nil {
-		if err = d.Set("user", flattenWirelessControllerSnmpUser(o.User, sort)); err != nil {
+		if err = d.Set("user", flattenWirelessControllerSnmpUser(d, o.User, "user", sort)); err != nil {
 			return diag.Errorf("error reading user: %v", err)
 		}
 	}

@@ -409,11 +409,12 @@ func resourceSystemDnsDatabaseRead(ctx context.Context, d *schema.ResourceData, 
 	return nil
 }
 
-func flattenSystemDnsDatabaseDnsEntry(v *[]models.SystemDnsDatabaseDnsEntry, sort bool) interface{} {
+func flattenSystemDnsDatabaseDnsEntry(d *schema.ResourceData, v *[]models.SystemDnsDatabaseDnsEntry, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.CanonicalName; tmp != nil {
 				v["canonical_name"] = *tmp
@@ -490,7 +491,7 @@ func refreshObjectSystemDnsDatabase(d *schema.ResourceData, o *models.SystemDnsD
 	}
 
 	if o.DnsEntry != nil {
-		if err = d.Set("dns_entry", flattenSystemDnsDatabaseDnsEntry(o.DnsEntry, sort)); err != nil {
+		if err = d.Set("dns_entry", flattenSystemDnsDatabaseDnsEntry(d, o.DnsEntry, "dns_entry", sort)); err != nil {
 			return diag.Errorf("error reading dns_entry: %v", err)
 		}
 	}

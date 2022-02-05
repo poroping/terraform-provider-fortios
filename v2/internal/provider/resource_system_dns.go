@@ -384,11 +384,12 @@ func resourceSystemDnsRead(ctx context.Context, d *schema.ResourceData, meta int
 	return nil
 }
 
-func flattenSystemDnsDomain(v *[]models.SystemDnsDomain, sort bool) interface{} {
+func flattenSystemDnsDomain(d *schema.ResourceData, v *[]models.SystemDnsDomain, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Domain; tmp != nil {
 				v["domain"] = *tmp
@@ -405,11 +406,12 @@ func flattenSystemDnsDomain(v *[]models.SystemDnsDomain, sort bool) interface{} 
 	return flat
 }
 
-func flattenSystemDnsServerHostname(v *[]models.SystemDnsServerHostname, sort bool) interface{} {
+func flattenSystemDnsServerHostname(d *schema.ResourceData, v *[]models.SystemDnsServerHostname, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Hostname; tmp != nil {
 				v["hostname"] = *tmp
@@ -478,7 +480,7 @@ func refreshObjectSystemDns(d *schema.ResourceData, o *models.SystemDns, sv stri
 	}
 
 	if o.Domain != nil {
-		if err = d.Set("domain", flattenSystemDnsDomain(o.Domain, sort)); err != nil {
+		if err = d.Set("domain", flattenSystemDnsDomain(d, o.Domain, "domain", sort)); err != nil {
 			return diag.Errorf("error reading domain: %v", err)
 		}
 	}
@@ -556,7 +558,7 @@ func refreshObjectSystemDns(d *schema.ResourceData, o *models.SystemDns, sv stri
 	}
 
 	if o.ServerHostname != nil {
-		if err = d.Set("server_hostname", flattenSystemDnsServerHostname(o.ServerHostname, sort)); err != nil {
+		if err = d.Set("server_hostname", flattenSystemDnsServerHostname(d, o.ServerHostname, "server_hostname", sort)); err != nil {
 			return diag.Errorf("error reading server_hostname: %v", err)
 		}
 	}

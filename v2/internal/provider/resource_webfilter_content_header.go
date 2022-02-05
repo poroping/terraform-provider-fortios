@@ -267,11 +267,12 @@ func resourceWebfilterContentHeaderRead(ctx context.Context, d *schema.ResourceD
 	return nil
 }
 
-func flattenWebfilterContentHeaderEntries(v *[]models.WebfilterContentHeaderEntries, sort bool) interface{} {
+func flattenWebfilterContentHeaderEntries(d *schema.ResourceData, v *[]models.WebfilterContentHeaderEntries, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Action; tmp != nil {
 				v["action"] = *tmp
@@ -308,7 +309,7 @@ func refreshObjectWebfilterContentHeader(d *schema.ResourceData, o *models.Webfi
 	}
 
 	if o.Entries != nil {
-		if err = d.Set("entries", flattenWebfilterContentHeaderEntries(o.Entries, sort)); err != nil {
+		if err = d.Set("entries", flattenWebfilterContentHeaderEntries(d, o.Entries, "entries", sort)); err != nil {
 			return diag.Errorf("error reading entries: %v", err)
 		}
 	}

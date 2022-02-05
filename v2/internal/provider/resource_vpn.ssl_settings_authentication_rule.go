@@ -393,7 +393,7 @@ func refreshObjectVpnSslSettingsAuthenticationRule(d *schema.ResourceData, o *mo
 	}
 
 	if o.Groups != nil {
-		if err = d.Set("groups", flattenVpnSslSettingsAuthenticationRuleGroups(o.Groups, sort)); err != nil {
+		if err = d.Set("groups", flattenVpnSslSettingsAuthenticationRuleGroups(d, o.Groups, "groups", sort)); err != nil {
 			return diag.Errorf("error reading groups: %v", err)
 		}
 	}
@@ -423,7 +423,7 @@ func refreshObjectVpnSslSettingsAuthenticationRule(d *schema.ResourceData, o *mo
 	}
 
 	if o.SourceAddress != nil {
-		if err = d.Set("source_address", flattenVpnSslSettingsAuthenticationRuleSourceAddress(o.SourceAddress, sort)); err != nil {
+		if err = d.Set("source_address", flattenVpnSslSettingsAuthenticationRuleSourceAddress(d, o.SourceAddress, "source_address", sort)); err != nil {
 			return diag.Errorf("error reading source_address: %v", err)
 		}
 	}
@@ -437,7 +437,7 @@ func refreshObjectVpnSslSettingsAuthenticationRule(d *schema.ResourceData, o *mo
 	}
 
 	if o.SourceAddress6 != nil {
-		if err = d.Set("source_address6", flattenVpnSslSettingsAuthenticationRuleSourceAddress6(o.SourceAddress6, sort)); err != nil {
+		if err = d.Set("source_address6", flattenVpnSslSettingsAuthenticationRuleSourceAddress6(d, o.SourceAddress6, "source_address6", sort)); err != nil {
 			return diag.Errorf("error reading source_address6: %v", err)
 		}
 	}
@@ -451,7 +451,7 @@ func refreshObjectVpnSslSettingsAuthenticationRule(d *schema.ResourceData, o *mo
 	}
 
 	if o.SourceInterface != nil {
-		if err = d.Set("source_interface", flattenVpnSslSettingsAuthenticationRuleSourceInterface(o.SourceInterface, sort)); err != nil {
+		if err = d.Set("source_interface", flattenVpnSslSettingsAuthenticationRuleSourceInterface(d, o.SourceInterface, "source_interface", sort)); err != nil {
 			return diag.Errorf("error reading source_interface: %v", err)
 		}
 	}
@@ -465,7 +465,7 @@ func refreshObjectVpnSslSettingsAuthenticationRule(d *schema.ResourceData, o *mo
 	}
 
 	if o.Users != nil {
-		if err = d.Set("users", flattenVpnSslSettingsAuthenticationRuleUsers(o.Users, sort)); err != nil {
+		if err = d.Set("users", flattenVpnSslSettingsAuthenticationRuleUsers(d, o.Users, "users", sort)); err != nil {
 			return diag.Errorf("error reading users: %v", err)
 		}
 	}

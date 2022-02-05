@@ -351,11 +351,12 @@ func resourceSystemMobileTunnelRead(ctx context.Context, d *schema.ResourceData,
 	return nil
 }
 
-func flattenSystemMobileTunnelNetwork(v *[]models.SystemMobileTunnelNetwork, sort bool) interface{} {
+func flattenSystemMobileTunnelNetwork(d *schema.ResourceData, v *[]models.SystemMobileTunnelNetwork, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Id; tmp != nil {
 				v["id"] = *tmp
@@ -366,6 +367,7 @@ func flattenSystemMobileTunnelNetwork(v *[]models.SystemMobileTunnelNetwork, sor
 			}
 
 			if tmp := cfg.Prefix; tmp != nil {
+				tmp = utils.Ipv4Read(d, fmt.Sprintf("%s.%d.prefix", prefix, i), *tmp)
 				v["prefix"] = *tmp
 			}
 
@@ -448,7 +450,7 @@ func refreshObjectSystemMobileTunnel(d *schema.ResourceData, o *models.SystemMob
 	}
 
 	if o.Network != nil {
-		if err = d.Set("network", flattenSystemMobileTunnelNetwork(o.Network, sort)); err != nil {
+		if err = d.Set("network", flattenSystemMobileTunnelNetwork(d, o.Network, "network", sort)); err != nil {
 			return diag.Errorf("error reading network: %v", err)
 		}
 	}

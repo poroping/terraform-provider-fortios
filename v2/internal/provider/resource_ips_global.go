@@ -385,11 +385,12 @@ func resourceIpsGlobalRead(ctx context.Context, d *schema.ResourceData, meta int
 	return nil
 }
 
-func flattenIpsGlobalTlsActiveProbe(v *[]models.IpsGlobalTlsActiveProbe, sort bool) interface{} {
+func flattenIpsGlobalTlsActiveProbe(d *schema.ResourceData, v *[]models.IpsGlobalTlsActiveProbe, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Interface; tmp != nil {
 				v["interface"] = *tmp
@@ -558,7 +559,7 @@ func refreshObjectIpsGlobal(d *schema.ResourceData, o *models.IpsGlobal, sv stri
 	}
 
 	if o.TlsActiveProbe != nil {
-		if err = d.Set("tls_active_probe", flattenIpsGlobalTlsActiveProbe(o.TlsActiveProbe, sort)); err != nil {
+		if err = d.Set("tls_active_probe", flattenIpsGlobalTlsActiveProbe(d, o.TlsActiveProbe, "tls_active_probe", sort)); err != nil {
 			return diag.Errorf("error reading tls_active_probe: %v", err)
 		}
 	}

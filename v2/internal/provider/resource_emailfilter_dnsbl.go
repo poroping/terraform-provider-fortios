@@ -273,11 +273,12 @@ func resourceEmailfilterDnsblRead(ctx context.Context, d *schema.ResourceData, m
 	return nil
 }
 
-func flattenEmailfilterDnsblEntries(v *[]models.EmailfilterDnsblEntries, sort bool) interface{} {
+func flattenEmailfilterDnsblEntries(d *schema.ResourceData, v *[]models.EmailfilterDnsblEntries, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Action; tmp != nil {
 				v["action"] = *tmp
@@ -318,7 +319,7 @@ func refreshObjectEmailfilterDnsbl(d *schema.ResourceData, o *models.Emailfilter
 	}
 
 	if o.Entries != nil {
-		if err = d.Set("entries", flattenEmailfilterDnsblEntries(o.Entries, sort)); err != nil {
+		if err = d.Set("entries", flattenEmailfilterDnsblEntries(d, o.Entries, "entries", sort)); err != nil {
 			return diag.Errorf("error reading entries: %v", err)
 		}
 	}

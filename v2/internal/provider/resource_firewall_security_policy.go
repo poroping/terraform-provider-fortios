@@ -956,11 +956,12 @@ func resourceFirewallSecurityPolicyRead(ctx context.Context, d *schema.ResourceD
 	return nil
 }
 
-func flattenFirewallSecurityPolicyAppCategory(v *[]models.FirewallSecurityPolicyAppCategory, sort bool) interface{} {
+func flattenFirewallSecurityPolicyAppCategory(d *schema.ResourceData, v *[]models.FirewallSecurityPolicyAppCategory, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Id; tmp != nil {
 				v["id"] = *tmp
@@ -977,11 +978,12 @@ func flattenFirewallSecurityPolicyAppCategory(v *[]models.FirewallSecurityPolicy
 	return flat
 }
 
-func flattenFirewallSecurityPolicyAppGroup(v *[]models.FirewallSecurityPolicyAppGroup, sort bool) interface{} {
+func flattenFirewallSecurityPolicyAppGroup(d *schema.ResourceData, v *[]models.FirewallSecurityPolicyAppGroup, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -998,11 +1000,12 @@ func flattenFirewallSecurityPolicyAppGroup(v *[]models.FirewallSecurityPolicyApp
 	return flat
 }
 
-func flattenFirewallSecurityPolicyApplication(v *[]models.FirewallSecurityPolicyApplication, sort bool) interface{} {
+func flattenFirewallSecurityPolicyApplication(d *schema.ResourceData, v *[]models.FirewallSecurityPolicyApplication, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Id; tmp != nil {
 				v["id"] = *tmp
@@ -1019,11 +1022,12 @@ func flattenFirewallSecurityPolicyApplication(v *[]models.FirewallSecurityPolicy
 	return flat
 }
 
-func flattenFirewallSecurityPolicyDstaddr(v *[]models.FirewallSecurityPolicyDstaddr, sort bool) interface{} {
+func flattenFirewallSecurityPolicyDstaddr(d *schema.ResourceData, v *[]models.FirewallSecurityPolicyDstaddr, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -1040,11 +1044,12 @@ func flattenFirewallSecurityPolicyDstaddr(v *[]models.FirewallSecurityPolicyDsta
 	return flat
 }
 
-func flattenFirewallSecurityPolicyDstaddr4(v *[]models.FirewallSecurityPolicyDstaddr4, sort bool) interface{} {
+func flattenFirewallSecurityPolicyDstaddr4(d *schema.ResourceData, v *[]models.FirewallSecurityPolicyDstaddr4, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -1061,11 +1066,12 @@ func flattenFirewallSecurityPolicyDstaddr4(v *[]models.FirewallSecurityPolicyDst
 	return flat
 }
 
-func flattenFirewallSecurityPolicyDstaddr6(v *[]models.FirewallSecurityPolicyDstaddr6, sort bool) interface{} {
+func flattenFirewallSecurityPolicyDstaddr6(d *schema.ResourceData, v *[]models.FirewallSecurityPolicyDstaddr6, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -1082,11 +1088,12 @@ func flattenFirewallSecurityPolicyDstaddr6(v *[]models.FirewallSecurityPolicyDst
 	return flat
 }
 
-func flattenFirewallSecurityPolicyDstintf(v *[]models.FirewallSecurityPolicyDstintf, sort bool) interface{} {
+func flattenFirewallSecurityPolicyDstintf(d *schema.ResourceData, v *[]models.FirewallSecurityPolicyDstintf, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -1103,11 +1110,12 @@ func flattenFirewallSecurityPolicyDstintf(v *[]models.FirewallSecurityPolicyDsti
 	return flat
 }
 
-func flattenFirewallSecurityPolicyFssoGroups(v *[]models.FirewallSecurityPolicyFssoGroups, sort bool) interface{} {
+func flattenFirewallSecurityPolicyFssoGroups(d *schema.ResourceData, v *[]models.FirewallSecurityPolicyFssoGroups, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -1124,11 +1132,12 @@ func flattenFirewallSecurityPolicyFssoGroups(v *[]models.FirewallSecurityPolicyF
 	return flat
 }
 
-func flattenFirewallSecurityPolicyGroups(v *[]models.FirewallSecurityPolicyGroups, sort bool) interface{} {
+func flattenFirewallSecurityPolicyGroups(d *schema.ResourceData, v *[]models.FirewallSecurityPolicyGroups, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -1145,11 +1154,12 @@ func flattenFirewallSecurityPolicyGroups(v *[]models.FirewallSecurityPolicyGroup
 	return flat
 }
 
-func flattenFirewallSecurityPolicyInternetServiceCustom(v *[]models.FirewallSecurityPolicyInternetServiceCustom, sort bool) interface{} {
+func flattenFirewallSecurityPolicyInternetServiceCustom(d *schema.ResourceData, v *[]models.FirewallSecurityPolicyInternetServiceCustom, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -1166,11 +1176,12 @@ func flattenFirewallSecurityPolicyInternetServiceCustom(v *[]models.FirewallSecu
 	return flat
 }
 
-func flattenFirewallSecurityPolicyInternetServiceCustomGroup(v *[]models.FirewallSecurityPolicyInternetServiceCustomGroup, sort bool) interface{} {
+func flattenFirewallSecurityPolicyInternetServiceCustomGroup(d *schema.ResourceData, v *[]models.FirewallSecurityPolicyInternetServiceCustomGroup, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -1187,11 +1198,12 @@ func flattenFirewallSecurityPolicyInternetServiceCustomGroup(v *[]models.Firewal
 	return flat
 }
 
-func flattenFirewallSecurityPolicyInternetServiceGroup(v *[]models.FirewallSecurityPolicyInternetServiceGroup, sort bool) interface{} {
+func flattenFirewallSecurityPolicyInternetServiceGroup(d *schema.ResourceData, v *[]models.FirewallSecurityPolicyInternetServiceGroup, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -1208,11 +1220,12 @@ func flattenFirewallSecurityPolicyInternetServiceGroup(v *[]models.FirewallSecur
 	return flat
 }
 
-func flattenFirewallSecurityPolicyInternetServiceId(v *[]models.FirewallSecurityPolicyInternetServiceId, sort bool) interface{} {
+func flattenFirewallSecurityPolicyInternetServiceId(d *schema.ResourceData, v *[]models.FirewallSecurityPolicyInternetServiceId, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Id; tmp != nil {
 				v["id"] = *tmp
@@ -1229,11 +1242,12 @@ func flattenFirewallSecurityPolicyInternetServiceId(v *[]models.FirewallSecurity
 	return flat
 }
 
-func flattenFirewallSecurityPolicyInternetServiceName(v *[]models.FirewallSecurityPolicyInternetServiceName, sort bool) interface{} {
+func flattenFirewallSecurityPolicyInternetServiceName(d *schema.ResourceData, v *[]models.FirewallSecurityPolicyInternetServiceName, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -1250,11 +1264,12 @@ func flattenFirewallSecurityPolicyInternetServiceName(v *[]models.FirewallSecuri
 	return flat
 }
 
-func flattenFirewallSecurityPolicyInternetServiceSrcCustom(v *[]models.FirewallSecurityPolicyInternetServiceSrcCustom, sort bool) interface{} {
+func flattenFirewallSecurityPolicyInternetServiceSrcCustom(d *schema.ResourceData, v *[]models.FirewallSecurityPolicyInternetServiceSrcCustom, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -1271,11 +1286,12 @@ func flattenFirewallSecurityPolicyInternetServiceSrcCustom(v *[]models.FirewallS
 	return flat
 }
 
-func flattenFirewallSecurityPolicyInternetServiceSrcCustomGroup(v *[]models.FirewallSecurityPolicyInternetServiceSrcCustomGroup, sort bool) interface{} {
+func flattenFirewallSecurityPolicyInternetServiceSrcCustomGroup(d *schema.ResourceData, v *[]models.FirewallSecurityPolicyInternetServiceSrcCustomGroup, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -1292,11 +1308,12 @@ func flattenFirewallSecurityPolicyInternetServiceSrcCustomGroup(v *[]models.Fire
 	return flat
 }
 
-func flattenFirewallSecurityPolicyInternetServiceSrcGroup(v *[]models.FirewallSecurityPolicyInternetServiceSrcGroup, sort bool) interface{} {
+func flattenFirewallSecurityPolicyInternetServiceSrcGroup(d *schema.ResourceData, v *[]models.FirewallSecurityPolicyInternetServiceSrcGroup, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -1313,11 +1330,12 @@ func flattenFirewallSecurityPolicyInternetServiceSrcGroup(v *[]models.FirewallSe
 	return flat
 }
 
-func flattenFirewallSecurityPolicyInternetServiceSrcId(v *[]models.FirewallSecurityPolicyInternetServiceSrcId, sort bool) interface{} {
+func flattenFirewallSecurityPolicyInternetServiceSrcId(d *schema.ResourceData, v *[]models.FirewallSecurityPolicyInternetServiceSrcId, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Id; tmp != nil {
 				v["id"] = *tmp
@@ -1334,11 +1352,12 @@ func flattenFirewallSecurityPolicyInternetServiceSrcId(v *[]models.FirewallSecur
 	return flat
 }
 
-func flattenFirewallSecurityPolicyInternetServiceSrcName(v *[]models.FirewallSecurityPolicyInternetServiceSrcName, sort bool) interface{} {
+func flattenFirewallSecurityPolicyInternetServiceSrcName(d *schema.ResourceData, v *[]models.FirewallSecurityPolicyInternetServiceSrcName, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -1355,11 +1374,12 @@ func flattenFirewallSecurityPolicyInternetServiceSrcName(v *[]models.FirewallSec
 	return flat
 }
 
-func flattenFirewallSecurityPolicyService(v *[]models.FirewallSecurityPolicyService, sort bool) interface{} {
+func flattenFirewallSecurityPolicyService(d *schema.ResourceData, v *[]models.FirewallSecurityPolicyService, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -1376,11 +1396,12 @@ func flattenFirewallSecurityPolicyService(v *[]models.FirewallSecurityPolicyServ
 	return flat
 }
 
-func flattenFirewallSecurityPolicySrcaddr(v *[]models.FirewallSecurityPolicySrcaddr, sort bool) interface{} {
+func flattenFirewallSecurityPolicySrcaddr(d *schema.ResourceData, v *[]models.FirewallSecurityPolicySrcaddr, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -1397,11 +1418,12 @@ func flattenFirewallSecurityPolicySrcaddr(v *[]models.FirewallSecurityPolicySrca
 	return flat
 }
 
-func flattenFirewallSecurityPolicySrcaddr4(v *[]models.FirewallSecurityPolicySrcaddr4, sort bool) interface{} {
+func flattenFirewallSecurityPolicySrcaddr4(d *schema.ResourceData, v *[]models.FirewallSecurityPolicySrcaddr4, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -1418,11 +1440,12 @@ func flattenFirewallSecurityPolicySrcaddr4(v *[]models.FirewallSecurityPolicySrc
 	return flat
 }
 
-func flattenFirewallSecurityPolicySrcaddr6(v *[]models.FirewallSecurityPolicySrcaddr6, sort bool) interface{} {
+func flattenFirewallSecurityPolicySrcaddr6(d *schema.ResourceData, v *[]models.FirewallSecurityPolicySrcaddr6, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -1439,11 +1462,12 @@ func flattenFirewallSecurityPolicySrcaddr6(v *[]models.FirewallSecurityPolicySrc
 	return flat
 }
 
-func flattenFirewallSecurityPolicySrcintf(v *[]models.FirewallSecurityPolicySrcintf, sort bool) interface{} {
+func flattenFirewallSecurityPolicySrcintf(d *schema.ResourceData, v *[]models.FirewallSecurityPolicySrcintf, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -1460,11 +1484,12 @@ func flattenFirewallSecurityPolicySrcintf(v *[]models.FirewallSecurityPolicySrci
 	return flat
 }
 
-func flattenFirewallSecurityPolicyUrlCategory(v *[]models.FirewallSecurityPolicyUrlCategory, sort bool) interface{} {
+func flattenFirewallSecurityPolicyUrlCategory(d *schema.ResourceData, v *[]models.FirewallSecurityPolicyUrlCategory, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Id; tmp != nil {
 				v["id"] = *tmp
@@ -1481,11 +1506,12 @@ func flattenFirewallSecurityPolicyUrlCategory(v *[]models.FirewallSecurityPolicy
 	return flat
 }
 
-func flattenFirewallSecurityPolicyUsers(v *[]models.FirewallSecurityPolicyUsers, sort bool) interface{} {
+func flattenFirewallSecurityPolicyUsers(d *schema.ResourceData, v *[]models.FirewallSecurityPolicyUsers, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -1514,19 +1540,19 @@ func refreshObjectFirewallSecurityPolicy(d *schema.ResourceData, o *models.Firew
 	}
 
 	if o.AppCategory != nil {
-		if err = d.Set("app_category", flattenFirewallSecurityPolicyAppCategory(o.AppCategory, sort)); err != nil {
+		if err = d.Set("app_category", flattenFirewallSecurityPolicyAppCategory(d, o.AppCategory, "app_category", sort)); err != nil {
 			return diag.Errorf("error reading app_category: %v", err)
 		}
 	}
 
 	if o.AppGroup != nil {
-		if err = d.Set("app_group", flattenFirewallSecurityPolicyAppGroup(o.AppGroup, sort)); err != nil {
+		if err = d.Set("app_group", flattenFirewallSecurityPolicyAppGroup(d, o.AppGroup, "app_group", sort)); err != nil {
 			return diag.Errorf("error reading app_group: %v", err)
 		}
 	}
 
 	if o.Application != nil {
-		if err = d.Set("application", flattenFirewallSecurityPolicyApplication(o.Application, sort)); err != nil {
+		if err = d.Set("application", flattenFirewallSecurityPolicyApplication(d, o.Application, "application", sort)); err != nil {
 			return diag.Errorf("error reading application: %v", err)
 		}
 	}
@@ -1580,7 +1606,7 @@ func refreshObjectFirewallSecurityPolicy(d *schema.ResourceData, o *models.Firew
 	}
 
 	if o.Dstaddr != nil {
-		if err = d.Set("dstaddr", flattenFirewallSecurityPolicyDstaddr(o.Dstaddr, sort)); err != nil {
+		if err = d.Set("dstaddr", flattenFirewallSecurityPolicyDstaddr(d, o.Dstaddr, "dstaddr", sort)); err != nil {
 			return diag.Errorf("error reading dstaddr: %v", err)
 		}
 	}
@@ -1594,19 +1620,19 @@ func refreshObjectFirewallSecurityPolicy(d *schema.ResourceData, o *models.Firew
 	}
 
 	if o.Dstaddr4 != nil {
-		if err = d.Set("dstaddr4", flattenFirewallSecurityPolicyDstaddr4(o.Dstaddr4, sort)); err != nil {
+		if err = d.Set("dstaddr4", flattenFirewallSecurityPolicyDstaddr4(d, o.Dstaddr4, "dstaddr4", sort)); err != nil {
 			return diag.Errorf("error reading dstaddr4: %v", err)
 		}
 	}
 
 	if o.Dstaddr6 != nil {
-		if err = d.Set("dstaddr6", flattenFirewallSecurityPolicyDstaddr6(o.Dstaddr6, sort)); err != nil {
+		if err = d.Set("dstaddr6", flattenFirewallSecurityPolicyDstaddr6(d, o.Dstaddr6, "dstaddr6", sort)); err != nil {
 			return diag.Errorf("error reading dstaddr6: %v", err)
 		}
 	}
 
 	if o.Dstintf != nil {
-		if err = d.Set("dstintf", flattenFirewallSecurityPolicyDstintf(o.Dstintf, sort)); err != nil {
+		if err = d.Set("dstintf", flattenFirewallSecurityPolicyDstintf(d, o.Dstintf, "dstintf", sort)); err != nil {
 			return diag.Errorf("error reading dstintf: %v", err)
 		}
 	}
@@ -1636,13 +1662,13 @@ func refreshObjectFirewallSecurityPolicy(d *schema.ResourceData, o *models.Firew
 	}
 
 	if o.FssoGroups != nil {
-		if err = d.Set("fsso_groups", flattenFirewallSecurityPolicyFssoGroups(o.FssoGroups, sort)); err != nil {
+		if err = d.Set("fsso_groups", flattenFirewallSecurityPolicyFssoGroups(d, o.FssoGroups, "fsso_groups", sort)); err != nil {
 			return diag.Errorf("error reading fsso_groups: %v", err)
 		}
 	}
 
 	if o.Groups != nil {
-		if err = d.Set("groups", flattenFirewallSecurityPolicyGroups(o.Groups, sort)); err != nil {
+		if err = d.Set("groups", flattenFirewallSecurityPolicyGroups(d, o.Groups, "groups", sort)); err != nil {
 			return diag.Errorf("error reading groups: %v", err)
 		}
 	}
@@ -1664,31 +1690,31 @@ func refreshObjectFirewallSecurityPolicy(d *schema.ResourceData, o *models.Firew
 	}
 
 	if o.InternetServiceCustom != nil {
-		if err = d.Set("internet_service_custom", flattenFirewallSecurityPolicyInternetServiceCustom(o.InternetServiceCustom, sort)); err != nil {
+		if err = d.Set("internet_service_custom", flattenFirewallSecurityPolicyInternetServiceCustom(d, o.InternetServiceCustom, "internet_service_custom", sort)); err != nil {
 			return diag.Errorf("error reading internet_service_custom: %v", err)
 		}
 	}
 
 	if o.InternetServiceCustomGroup != nil {
-		if err = d.Set("internet_service_custom_group", flattenFirewallSecurityPolicyInternetServiceCustomGroup(o.InternetServiceCustomGroup, sort)); err != nil {
+		if err = d.Set("internet_service_custom_group", flattenFirewallSecurityPolicyInternetServiceCustomGroup(d, o.InternetServiceCustomGroup, "internet_service_custom_group", sort)); err != nil {
 			return diag.Errorf("error reading internet_service_custom_group: %v", err)
 		}
 	}
 
 	if o.InternetServiceGroup != nil {
-		if err = d.Set("internet_service_group", flattenFirewallSecurityPolicyInternetServiceGroup(o.InternetServiceGroup, sort)); err != nil {
+		if err = d.Set("internet_service_group", flattenFirewallSecurityPolicyInternetServiceGroup(d, o.InternetServiceGroup, "internet_service_group", sort)); err != nil {
 			return diag.Errorf("error reading internet_service_group: %v", err)
 		}
 	}
 
 	if o.InternetServiceId != nil {
-		if err = d.Set("internet_service_id", flattenFirewallSecurityPolicyInternetServiceId(o.InternetServiceId, sort)); err != nil {
+		if err = d.Set("internet_service_id", flattenFirewallSecurityPolicyInternetServiceId(d, o.InternetServiceId, "internet_service_id", sort)); err != nil {
 			return diag.Errorf("error reading internet_service_id: %v", err)
 		}
 	}
 
 	if o.InternetServiceName != nil {
-		if err = d.Set("internet_service_name", flattenFirewallSecurityPolicyInternetServiceName(o.InternetServiceName, sort)); err != nil {
+		if err = d.Set("internet_service_name", flattenFirewallSecurityPolicyInternetServiceName(d, o.InternetServiceName, "internet_service_name", sort)); err != nil {
 			return diag.Errorf("error reading internet_service_name: %v", err)
 		}
 	}
@@ -1710,31 +1736,31 @@ func refreshObjectFirewallSecurityPolicy(d *schema.ResourceData, o *models.Firew
 	}
 
 	if o.InternetServiceSrcCustom != nil {
-		if err = d.Set("internet_service_src_custom", flattenFirewallSecurityPolicyInternetServiceSrcCustom(o.InternetServiceSrcCustom, sort)); err != nil {
+		if err = d.Set("internet_service_src_custom", flattenFirewallSecurityPolicyInternetServiceSrcCustom(d, o.InternetServiceSrcCustom, "internet_service_src_custom", sort)); err != nil {
 			return diag.Errorf("error reading internet_service_src_custom: %v", err)
 		}
 	}
 
 	if o.InternetServiceSrcCustomGroup != nil {
-		if err = d.Set("internet_service_src_custom_group", flattenFirewallSecurityPolicyInternetServiceSrcCustomGroup(o.InternetServiceSrcCustomGroup, sort)); err != nil {
+		if err = d.Set("internet_service_src_custom_group", flattenFirewallSecurityPolicyInternetServiceSrcCustomGroup(d, o.InternetServiceSrcCustomGroup, "internet_service_src_custom_group", sort)); err != nil {
 			return diag.Errorf("error reading internet_service_src_custom_group: %v", err)
 		}
 	}
 
 	if o.InternetServiceSrcGroup != nil {
-		if err = d.Set("internet_service_src_group", flattenFirewallSecurityPolicyInternetServiceSrcGroup(o.InternetServiceSrcGroup, sort)); err != nil {
+		if err = d.Set("internet_service_src_group", flattenFirewallSecurityPolicyInternetServiceSrcGroup(d, o.InternetServiceSrcGroup, "internet_service_src_group", sort)); err != nil {
 			return diag.Errorf("error reading internet_service_src_group: %v", err)
 		}
 	}
 
 	if o.InternetServiceSrcId != nil {
-		if err = d.Set("internet_service_src_id", flattenFirewallSecurityPolicyInternetServiceSrcId(o.InternetServiceSrcId, sort)); err != nil {
+		if err = d.Set("internet_service_src_id", flattenFirewallSecurityPolicyInternetServiceSrcId(d, o.InternetServiceSrcId, "internet_service_src_id", sort)); err != nil {
 			return diag.Errorf("error reading internet_service_src_id: %v", err)
 		}
 	}
 
 	if o.InternetServiceSrcName != nil {
-		if err = d.Set("internet_service_src_name", flattenFirewallSecurityPolicyInternetServiceSrcName(o.InternetServiceSrcName, sort)); err != nil {
+		if err = d.Set("internet_service_src_name", flattenFirewallSecurityPolicyInternetServiceSrcName(d, o.InternetServiceSrcName, "internet_service_src_name", sort)); err != nil {
 			return diag.Errorf("error reading internet_service_src_name: %v", err)
 		}
 	}
@@ -1860,7 +1886,7 @@ func refreshObjectFirewallSecurityPolicy(d *schema.ResourceData, o *models.Firew
 	}
 
 	if o.Service != nil {
-		if err = d.Set("service", flattenFirewallSecurityPolicyService(o.Service, sort)); err != nil {
+		if err = d.Set("service", flattenFirewallSecurityPolicyService(d, o.Service, "service", sort)); err != nil {
 			return diag.Errorf("error reading service: %v", err)
 		}
 	}
@@ -1874,7 +1900,7 @@ func refreshObjectFirewallSecurityPolicy(d *schema.ResourceData, o *models.Firew
 	}
 
 	if o.Srcaddr != nil {
-		if err = d.Set("srcaddr", flattenFirewallSecurityPolicySrcaddr(o.Srcaddr, sort)); err != nil {
+		if err = d.Set("srcaddr", flattenFirewallSecurityPolicySrcaddr(d, o.Srcaddr, "srcaddr", sort)); err != nil {
 			return diag.Errorf("error reading srcaddr: %v", err)
 		}
 	}
@@ -1888,19 +1914,19 @@ func refreshObjectFirewallSecurityPolicy(d *schema.ResourceData, o *models.Firew
 	}
 
 	if o.Srcaddr4 != nil {
-		if err = d.Set("srcaddr4", flattenFirewallSecurityPolicySrcaddr4(o.Srcaddr4, sort)); err != nil {
+		if err = d.Set("srcaddr4", flattenFirewallSecurityPolicySrcaddr4(d, o.Srcaddr4, "srcaddr4", sort)); err != nil {
 			return diag.Errorf("error reading srcaddr4: %v", err)
 		}
 	}
 
 	if o.Srcaddr6 != nil {
-		if err = d.Set("srcaddr6", flattenFirewallSecurityPolicySrcaddr6(o.Srcaddr6, sort)); err != nil {
+		if err = d.Set("srcaddr6", flattenFirewallSecurityPolicySrcaddr6(d, o.Srcaddr6, "srcaddr6", sort)); err != nil {
 			return diag.Errorf("error reading srcaddr6: %v", err)
 		}
 	}
 
 	if o.Srcintf != nil {
-		if err = d.Set("srcintf", flattenFirewallSecurityPolicySrcintf(o.Srcintf, sort)); err != nil {
+		if err = d.Set("srcintf", flattenFirewallSecurityPolicySrcintf(d, o.Srcintf, "srcintf", sort)); err != nil {
 			return diag.Errorf("error reading srcintf: %v", err)
 		}
 	}
@@ -1930,13 +1956,13 @@ func refreshObjectFirewallSecurityPolicy(d *schema.ResourceData, o *models.Firew
 	}
 
 	if o.UrlCategory != nil {
-		if err = d.Set("url_category", flattenFirewallSecurityPolicyUrlCategory(o.UrlCategory, sort)); err != nil {
+		if err = d.Set("url_category", flattenFirewallSecurityPolicyUrlCategory(d, o.UrlCategory, "url_category", sort)); err != nil {
 			return diag.Errorf("error reading url_category: %v", err)
 		}
 	}
 
 	if o.Users != nil {
-		if err = d.Set("users", flattenFirewallSecurityPolicyUsers(o.Users, sort)); err != nil {
+		if err = d.Set("users", flattenFirewallSecurityPolicyUsers(d, o.Users, "users", sort)); err != nil {
 			return diag.Errorf("error reading users: %v", err)
 		}
 	}

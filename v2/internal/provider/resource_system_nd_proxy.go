@@ -223,11 +223,12 @@ func resourceSystemNdProxyRead(ctx context.Context, d *schema.ResourceData, meta
 	return nil
 }
 
-func flattenSystemNdProxyMember(v *[]models.SystemNdProxyMember, sort bool) interface{} {
+func flattenSystemNdProxyMember(d *schema.ResourceData, v *[]models.SystemNdProxyMember, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.InterfaceName; tmp != nil {
 				v["interface_name"] = *tmp
@@ -248,7 +249,7 @@ func refreshObjectSystemNdProxy(d *schema.ResourceData, o *models.SystemNdProxy,
 	var err error
 
 	if o.Member != nil {
-		if err = d.Set("member", flattenSystemNdProxyMember(o.Member, sort)); err != nil {
+		if err = d.Set("member", flattenSystemNdProxyMember(d, o.Member, "member", sort)); err != nil {
 			return diag.Errorf("error reading member: %v", err)
 		}
 	}

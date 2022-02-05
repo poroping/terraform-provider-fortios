@@ -346,11 +346,12 @@ func resourceFirewallMulticastPolicy6Read(ctx context.Context, d *schema.Resourc
 	return nil
 }
 
-func flattenFirewallMulticastPolicy6Dstaddr(v *[]models.FirewallMulticastPolicy6Dstaddr, sort bool) interface{} {
+func flattenFirewallMulticastPolicy6Dstaddr(d *schema.ResourceData, v *[]models.FirewallMulticastPolicy6Dstaddr, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -367,11 +368,12 @@ func flattenFirewallMulticastPolicy6Dstaddr(v *[]models.FirewallMulticastPolicy6
 	return flat
 }
 
-func flattenFirewallMulticastPolicy6Srcaddr(v *[]models.FirewallMulticastPolicy6Srcaddr, sort bool) interface{} {
+func flattenFirewallMulticastPolicy6Srcaddr(d *schema.ResourceData, v *[]models.FirewallMulticastPolicy6Srcaddr, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -416,7 +418,7 @@ func refreshObjectFirewallMulticastPolicy6(d *schema.ResourceData, o *models.Fir
 	}
 
 	if o.Dstaddr != nil {
-		if err = d.Set("dstaddr", flattenFirewallMulticastPolicy6Dstaddr(o.Dstaddr, sort)); err != nil {
+		if err = d.Set("dstaddr", flattenFirewallMulticastPolicy6Dstaddr(d, o.Dstaddr, "dstaddr", sort)); err != nil {
 			return diag.Errorf("error reading dstaddr: %v", err)
 		}
 	}
@@ -470,7 +472,7 @@ func refreshObjectFirewallMulticastPolicy6(d *schema.ResourceData, o *models.Fir
 	}
 
 	if o.Srcaddr != nil {
-		if err = d.Set("srcaddr", flattenFirewallMulticastPolicy6Srcaddr(o.Srcaddr, sort)); err != nil {
+		if err = d.Set("srcaddr", flattenFirewallMulticastPolicy6Srcaddr(d, o.Srcaddr, "srcaddr", sort)); err != nil {
 			return diag.Errorf("error reading srcaddr: %v", err)
 		}
 	}

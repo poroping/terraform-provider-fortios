@@ -314,11 +314,12 @@ func resourceSystemAutomationStitchRead(ctx context.Context, d *schema.ResourceD
 	return nil
 }
 
-func flattenSystemAutomationStitchAction(v *[]models.SystemAutomationStitchAction, sort bool) interface{} {
+func flattenSystemAutomationStitchAction(d *schema.ResourceData, v *[]models.SystemAutomationStitchAction, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -335,11 +336,12 @@ func flattenSystemAutomationStitchAction(v *[]models.SystemAutomationStitchActio
 	return flat
 }
 
-func flattenSystemAutomationStitchActions(v *[]models.SystemAutomationStitchActions, sort bool) interface{} {
+func flattenSystemAutomationStitchActions(d *schema.ResourceData, v *[]models.SystemAutomationStitchActions, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Action; tmp != nil {
 				v["action"] = *tmp
@@ -368,11 +370,12 @@ func flattenSystemAutomationStitchActions(v *[]models.SystemAutomationStitchActi
 	return flat
 }
 
-func flattenSystemAutomationStitchDestination(v *[]models.SystemAutomationStitchDestination, sort bool) interface{} {
+func flattenSystemAutomationStitchDestination(d *schema.ResourceData, v *[]models.SystemAutomationStitchDestination, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -393,13 +396,13 @@ func refreshObjectSystemAutomationStitch(d *schema.ResourceData, o *models.Syste
 	var err error
 
 	if o.Action != nil {
-		if err = d.Set("action", flattenSystemAutomationStitchAction(o.Action, sort)); err != nil {
+		if err = d.Set("action", flattenSystemAutomationStitchAction(d, o.Action, "action", sort)); err != nil {
 			return diag.Errorf("error reading action: %v", err)
 		}
 	}
 
 	if o.Actions != nil {
-		if err = d.Set("actions", flattenSystemAutomationStitchActions(o.Actions, sort)); err != nil {
+		if err = d.Set("actions", flattenSystemAutomationStitchActions(d, o.Actions, "actions", sort)); err != nil {
 			return diag.Errorf("error reading actions: %v", err)
 		}
 	}
@@ -413,7 +416,7 @@ func refreshObjectSystemAutomationStitch(d *schema.ResourceData, o *models.Syste
 	}
 
 	if o.Destination != nil {
-		if err = d.Set("destination", flattenSystemAutomationStitchDestination(o.Destination, sort)); err != nil {
+		if err = d.Set("destination", flattenSystemAutomationStitchDestination(d, o.Destination, "destination", sort)); err != nil {
 			return diag.Errorf("error reading destination: %v", err)
 		}
 	}

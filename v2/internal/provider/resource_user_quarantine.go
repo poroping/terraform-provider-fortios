@@ -287,11 +287,12 @@ func resourceUserQuarantineRead(ctx context.Context, d *schema.ResourceData, met
 	return nil
 }
 
-func flattenUserQuarantineTargets(v *[]models.UserQuarantineTargets, sort bool) interface{} {
+func flattenUserQuarantineTargets(d *schema.ResourceData, v *[]models.UserQuarantineTargets, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Description; tmp != nil {
 				v["description"] = *tmp
@@ -302,7 +303,7 @@ func flattenUserQuarantineTargets(v *[]models.UserQuarantineTargets, sort bool) 
 			}
 
 			if tmp := cfg.Macs; tmp != nil {
-				v["macs"] = flattenUserQuarantineTargetsMacs(tmp, sort)
+				v["macs"] = flattenUserQuarantineTargetsMacs(d, tmp, prefix+"macs", sort)
 			}
 
 			flat = append(flat, v)
@@ -316,11 +317,12 @@ func flattenUserQuarantineTargets(v *[]models.UserQuarantineTargets, sort bool) 
 	return flat
 }
 
-func flattenUserQuarantineTargetsMacs(v *[]models.UserQuarantineTargetsMacs, sort bool) interface{} {
+func flattenUserQuarantineTargetsMacs(d *schema.ResourceData, v *[]models.UserQuarantineTargetsMacs, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Description; tmp != nil {
 				v["description"] = *tmp
@@ -369,7 +371,7 @@ func refreshObjectUserQuarantine(d *schema.ResourceData, o *models.UserQuarantin
 	}
 
 	if o.Targets != nil {
-		if err = d.Set("targets", flattenUserQuarantineTargets(o.Targets, sort)); err != nil {
+		if err = d.Set("targets", flattenUserQuarantineTargets(d, o.Targets, "targets", sort)); err != nil {
 			return diag.Errorf("error reading targets: %v", err)
 		}
 	}

@@ -472,11 +472,12 @@ func resourceFirewallVip46Read(ctx context.Context, d *schema.ResourceData, meta
 	return nil
 }
 
-func flattenFirewallVip46Monitor(v *[]models.FirewallVip46Monitor, sort bool) interface{} {
+func flattenFirewallVip46Monitor(d *schema.ResourceData, v *[]models.FirewallVip46Monitor, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -493,11 +494,12 @@ func flattenFirewallVip46Monitor(v *[]models.FirewallVip46Monitor, sort bool) in
 	return flat
 }
 
-func flattenFirewallVip46Realservers(v *[]models.FirewallVip46Realservers, sort bool) interface{} {
+func flattenFirewallVip46Realservers(d *schema.ResourceData, v *[]models.FirewallVip46Realservers, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.ClientIp; tmp != nil {
 				v["client_ip"] = *tmp
@@ -524,7 +526,7 @@ func flattenFirewallVip46Realservers(v *[]models.FirewallVip46Realservers, sort 
 			}
 
 			if tmp := cfg.Monitor; tmp != nil {
-				v["monitor"] = flattenFirewallVip46RealserversMonitor(tmp, sort)
+				v["monitor"] = flattenFirewallVip46RealserversMonitor(d, tmp, prefix+"monitor", sort)
 			}
 
 			if tmp := cfg.Port; tmp != nil {
@@ -550,11 +552,12 @@ func flattenFirewallVip46Realservers(v *[]models.FirewallVip46Realservers, sort 
 	return flat
 }
 
-func flattenFirewallVip46RealserversMonitor(v *[]models.FirewallVip46RealserversMonitor, sort bool) interface{} {
+func flattenFirewallVip46RealserversMonitor(d *schema.ResourceData, v *[]models.FirewallVip46RealserversMonitor, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -571,11 +574,12 @@ func flattenFirewallVip46RealserversMonitor(v *[]models.FirewallVip46Realservers
 	return flat
 }
 
-func flattenFirewallVip46SrcFilter(v *[]models.FirewallVip46SrcFilter, sort bool) interface{} {
+func flattenFirewallVip46SrcFilter(d *schema.ResourceData, v *[]models.FirewallVip46SrcFilter, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Range; tmp != nil {
 				v["range"] = *tmp
@@ -592,11 +596,12 @@ func flattenFirewallVip46SrcFilter(v *[]models.FirewallVip46SrcFilter, sort bool
 	return flat
 }
 
-func flattenFirewallVip46SrcintfFilter(v *[]models.FirewallVip46SrcintfFilter, sort bool) interface{} {
+func flattenFirewallVip46SrcintfFilter(d *schema.ResourceData, v *[]models.FirewallVip46SrcintfFilter, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.InterfaceName; tmp != nil {
 				v["interface_name"] = *tmp
@@ -689,7 +694,7 @@ func refreshObjectFirewallVip46(d *schema.ResourceData, o *models.FirewallVip46,
 	}
 
 	if o.Monitor != nil {
-		if err = d.Set("monitor", flattenFirewallVip46Monitor(o.Monitor, sort)); err != nil {
+		if err = d.Set("monitor", flattenFirewallVip46Monitor(d, o.Monitor, "monitor", sort)); err != nil {
 			return diag.Errorf("error reading monitor: %v", err)
 		}
 	}
@@ -719,7 +724,7 @@ func refreshObjectFirewallVip46(d *schema.ResourceData, o *models.FirewallVip46,
 	}
 
 	if o.Realservers != nil {
-		if err = d.Set("realservers", flattenFirewallVip46Realservers(o.Realservers, sort)); err != nil {
+		if err = d.Set("realservers", flattenFirewallVip46Realservers(d, o.Realservers, "realservers", sort)); err != nil {
 			return diag.Errorf("error reading realservers: %v", err)
 		}
 	}
@@ -733,13 +738,13 @@ func refreshObjectFirewallVip46(d *schema.ResourceData, o *models.FirewallVip46,
 	}
 
 	if o.SrcFilter != nil {
-		if err = d.Set("src_filter", flattenFirewallVip46SrcFilter(o.SrcFilter, sort)); err != nil {
+		if err = d.Set("src_filter", flattenFirewallVip46SrcFilter(d, o.SrcFilter, "src_filter", sort)); err != nil {
 			return diag.Errorf("error reading src_filter: %v", err)
 		}
 	}
 
 	if o.SrcintfFilter != nil {
-		if err = d.Set("srcintf_filter", flattenFirewallVip46SrcintfFilter(o.SrcintfFilter, sort)); err != nil {
+		if err = d.Set("srcintf_filter", flattenFirewallVip46SrcintfFilter(d, o.SrcintfFilter, "srcintf_filter", sort)); err != nil {
 			return diag.Errorf("error reading srcintf_filter: %v", err)
 		}
 	}

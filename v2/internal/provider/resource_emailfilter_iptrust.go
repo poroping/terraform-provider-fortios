@@ -283,11 +283,12 @@ func resourceEmailfilterIptrustRead(ctx context.Context, d *schema.ResourceData,
 	return nil
 }
 
-func flattenEmailfilterIptrustEntries(v *[]models.EmailfilterIptrustEntries, sort bool) interface{} {
+func flattenEmailfilterIptrustEntries(d *schema.ResourceData, v *[]models.EmailfilterIptrustEntries, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.AddrType; tmp != nil {
 				v["addr_type"] = *tmp
@@ -298,6 +299,7 @@ func flattenEmailfilterIptrustEntries(v *[]models.EmailfilterIptrustEntries, sor
 			}
 
 			if tmp := cfg.Ip4Subnet; tmp != nil {
+				tmp = utils.Ipv4Read(d, fmt.Sprintf("%s.%d.ip4_subnet", prefix, i), *tmp)
 				v["ip4_subnet"] = *tmp
 			}
 
@@ -332,7 +334,7 @@ func refreshObjectEmailfilterIptrust(d *schema.ResourceData, o *models.Emailfilt
 	}
 
 	if o.Entries != nil {
-		if err = d.Set("entries", flattenEmailfilterIptrustEntries(o.Entries, sort)); err != nil {
+		if err = d.Set("entries", flattenEmailfilterIptrustEntries(d, o.Entries, "entries", sort)); err != nil {
 			return diag.Errorf("error reading entries: %v", err)
 		}
 	}

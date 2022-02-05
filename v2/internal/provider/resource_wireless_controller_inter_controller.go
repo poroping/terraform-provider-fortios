@@ -278,11 +278,12 @@ func resourceWirelessControllerInterControllerRead(ctx context.Context, d *schem
 	return nil
 }
 
-func flattenWirelessControllerInterControllerInterControllerPeer(v *[]models.WirelessControllerInterControllerInterControllerPeer, sort bool) interface{} {
+func flattenWirelessControllerInterControllerInterControllerPeer(d *schema.ResourceData, v *[]models.WirelessControllerInterControllerInterControllerPeer, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Id; tmp != nil {
 				v["id"] = *tmp
@@ -348,7 +349,7 @@ func refreshObjectWirelessControllerInterController(d *schema.ResourceData, o *m
 	}
 
 	if o.InterControllerPeer != nil {
-		if err = d.Set("inter_controller_peer", flattenWirelessControllerInterControllerInterControllerPeer(o.InterControllerPeer, sort)); err != nil {
+		if err = d.Set("inter_controller_peer", flattenWirelessControllerInterControllerInterControllerPeer(d, o.InterControllerPeer, "inter_controller_peer", sort)); err != nil {
 			return diag.Errorf("error reading inter_controller_peer: %v", err)
 		}
 	}

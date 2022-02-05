@@ -249,11 +249,12 @@ func resourceWirelessControllerHotspot20H2qpOperatorNameRead(ctx context.Context
 	return nil
 }
 
-func flattenWirelessControllerHotspot20H2qpOperatorNameValueList(v *[]models.WirelessControllerHotspot20H2qpOperatorNameValueList, sort bool) interface{} {
+func flattenWirelessControllerHotspot20H2qpOperatorNameValueList(d *schema.ResourceData, v *[]models.WirelessControllerHotspot20H2qpOperatorNameValueList, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Index; tmp != nil {
 				v["index"] = *tmp
@@ -290,7 +291,7 @@ func refreshObjectWirelessControllerHotspot20H2qpOperatorName(d *schema.Resource
 	}
 
 	if o.ValueList != nil {
-		if err = d.Set("value_list", flattenWirelessControllerHotspot20H2qpOperatorNameValueList(o.ValueList, sort)); err != nil {
+		if err = d.Set("value_list", flattenWirelessControllerHotspot20H2qpOperatorNameValueList(d, o.ValueList, "value_list", sort)); err != nil {
 			return diag.Errorf("error reading value_list: %v", err)
 		}
 	}

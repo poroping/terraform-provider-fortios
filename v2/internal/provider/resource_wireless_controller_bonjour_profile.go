@@ -274,11 +274,12 @@ func resourceWirelessControllerBonjourProfileRead(ctx context.Context, d *schema
 	return nil
 }
 
-func flattenWirelessControllerBonjourProfilePolicyList(v *[]models.WirelessControllerBonjourProfilePolicyList, sort bool) interface{} {
+func flattenWirelessControllerBonjourProfilePolicyList(d *schema.ResourceData, v *[]models.WirelessControllerBonjourProfilePolicyList, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Description; tmp != nil {
 				v["description"] = *tmp
@@ -331,7 +332,7 @@ func refreshObjectWirelessControllerBonjourProfile(d *schema.ResourceData, o *mo
 	}
 
 	if o.PolicyList != nil {
-		if err = d.Set("policy_list", flattenWirelessControllerBonjourProfilePolicyList(o.PolicyList, sort)); err != nil {
+		if err = d.Set("policy_list", flattenWirelessControllerBonjourProfilePolicyList(d, o.PolicyList, "policy_list", sort)); err != nil {
 			return diag.Errorf("error reading policy_list: %v", err)
 		}
 	}

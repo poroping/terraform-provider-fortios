@@ -331,17 +331,19 @@ func resourceSystemApiUserRead(ctx context.Context, d *schema.ResourceData, meta
 	return nil
 }
 
-func flattenSystemApiUserTrusthost(v *[]models.SystemApiUserTrusthost, sort bool) interface{} {
+func flattenSystemApiUserTrusthost(d *schema.ResourceData, v *[]models.SystemApiUserTrusthost, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Id; tmp != nil {
 				v["id"] = *tmp
 			}
 
 			if tmp := cfg.Ipv4Trusthost; tmp != nil {
+				tmp = utils.Ipv4Read(d, fmt.Sprintf("%s.%d.ipv4_trusthost", prefix, i), *tmp)
 				v["ipv4_trusthost"] = *tmp
 			}
 
@@ -364,11 +366,12 @@ func flattenSystemApiUserTrusthost(v *[]models.SystemApiUserTrusthost, sort bool
 	return flat
 }
 
-func flattenSystemApiUserVdom(v *[]models.SystemApiUserVdom, sort bool) interface{} {
+func flattenSystemApiUserVdom(d *schema.ResourceData, v *[]models.SystemApiUserVdom, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -454,13 +457,13 @@ func refreshObjectSystemApiUser(d *schema.ResourceData, o *models.SystemApiUser,
 	}
 
 	if o.Trusthost != nil {
-		if err = d.Set("trusthost", flattenSystemApiUserTrusthost(o.Trusthost, sort)); err != nil {
+		if err = d.Set("trusthost", flattenSystemApiUserTrusthost(d, o.Trusthost, "trusthost", sort)); err != nil {
 			return diag.Errorf("error reading trusthost: %v", err)
 		}
 	}
 
 	if o.Vdom != nil {
-		if err = d.Set("vdom", flattenSystemApiUserVdom(o.Vdom, sort)); err != nil {
+		if err = d.Set("vdom", flattenSystemApiUserVdom(d, o.Vdom, "vdom", sort)); err != nil {
 			return diag.Errorf("error reading vdom: %v", err)
 		}
 	}

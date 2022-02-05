@@ -50,6 +50,7 @@ func main() {
 			"diffLookup":       diffLookup,
 			"readExample":      readExample,
 			"debug":            debugx,
+			"flattenFunc":      flattenFunc,
 		}
 		t := template.Must(template.New("main").Funcs(funcMap).ParseGlob("./templates/*.gotmpl"))
 
@@ -684,6 +685,49 @@ func readExample(typ, name string) string {
 		return ""
 	}
 	return string(example)
+}
+
+func flattenFunc(values map[string]interface{}) string {
+	var vtype string
+	if v, ok := values["type"].(string); ok {
+		vtype = v
+	}
+	name := values["name"].(string)
+	m := map[string]string{
+		"string":                 "",
+		"option":                 "",
+		"ipv4-address":           "",
+		"ipv4-address-any":       "",
+		"ipv4-classnet":          `tmp = utils.Ipv4Read(d, fmt.Sprintf("%s.%d.` + flatten(name) + `", prefix, i), *tmp)`,
+		"ipv4-classnet-host":     `tmp = utils.Ipv4Read(d, fmt.Sprintf("%s.%d.` + flatten(name) + `", prefix, i), *tmp)`,
+		"ipv4-classnet-any":      `tmp = utils.Ipv4Read(d, fmt.Sprintf("%s.%d.` + flatten(name) + `", prefix, i), *tmp)`,
+		"ipv4-netmask":           "",
+		"ipv4-netmask-any":       "",
+		"ipv4-address-multicast": "",
+		"ipv6-address":           "",
+		"ipv6-prefix":            "",
+		"ipv6-network":           "",
+		"var-string":             "",
+		"password":               "",
+		"integer":                "",
+		"user":                   "",
+		"password-2":             "",
+		"password-3":             "",
+		"varlen_password":        "",
+		"mac-address":            "",
+		"password_aes256":        "",
+		"uuid":                   "",
+		"ether-type":             "",
+	}
+	s, ok := m[vtype]
+	if !ok {
+		s = ""
+	}
+	if s == "" {
+		return ""
+	} else {
+		return s
+	}
 }
 
 // Entire swagger schema

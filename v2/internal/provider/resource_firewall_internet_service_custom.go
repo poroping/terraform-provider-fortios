@@ -305,14 +305,15 @@ func resourceFirewallInternetServiceCustomRead(ctx context.Context, d *schema.Re
 	return nil
 }
 
-func flattenFirewallInternetServiceCustomEntry(v *[]models.FirewallInternetServiceCustomEntry, sort bool) interface{} {
+func flattenFirewallInternetServiceCustomEntry(d *schema.ResourceData, v *[]models.FirewallInternetServiceCustomEntry, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Dst; tmp != nil {
-				v["dst"] = flattenFirewallInternetServiceCustomEntryDst(tmp, sort)
+				v["dst"] = flattenFirewallInternetServiceCustomEntryDst(d, tmp, prefix+"dst", sort)
 			}
 
 			if tmp := cfg.Id; tmp != nil {
@@ -320,7 +321,7 @@ func flattenFirewallInternetServiceCustomEntry(v *[]models.FirewallInternetServi
 			}
 
 			if tmp := cfg.PortRange; tmp != nil {
-				v["port_range"] = flattenFirewallInternetServiceCustomEntryPortRange(tmp, sort)
+				v["port_range"] = flattenFirewallInternetServiceCustomEntryPortRange(d, tmp, prefix+"port_range", sort)
 			}
 
 			if tmp := cfg.Protocol; tmp != nil {
@@ -338,11 +339,12 @@ func flattenFirewallInternetServiceCustomEntry(v *[]models.FirewallInternetServi
 	return flat
 }
 
-func flattenFirewallInternetServiceCustomEntryDst(v *[]models.FirewallInternetServiceCustomEntryDst, sort bool) interface{} {
+func flattenFirewallInternetServiceCustomEntryDst(d *schema.ResourceData, v *[]models.FirewallInternetServiceCustomEntryDst, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -359,11 +361,12 @@ func flattenFirewallInternetServiceCustomEntryDst(v *[]models.FirewallInternetSe
 	return flat
 }
 
-func flattenFirewallInternetServiceCustomEntryPortRange(v *[]models.FirewallInternetServiceCustomEntryPortRange, sort bool) interface{} {
+func flattenFirewallInternetServiceCustomEntryPortRange(d *schema.ResourceData, v *[]models.FirewallInternetServiceCustomEntryPortRange, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.EndPort; tmp != nil {
 				v["end_port"] = *tmp
@@ -400,7 +403,7 @@ func refreshObjectFirewallInternetServiceCustom(d *schema.ResourceData, o *model
 	}
 
 	if o.Entry != nil {
-		if err = d.Set("entry", flattenFirewallInternetServiceCustomEntry(o.Entry, sort)); err != nil {
+		if err = d.Set("entry", flattenFirewallInternetServiceCustomEntry(d, o.Entry, "entry", sort)); err != nil {
 			return diag.Errorf("error reading entry: %v", err)
 		}
 	}

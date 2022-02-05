@@ -263,11 +263,12 @@ func resourceRouterKeyChainRead(ctx context.Context, d *schema.ResourceData, met
 	return nil
 }
 
-func flattenRouterKeyChainKey(v *[]models.RouterKeyChainKey, sort bool) interface{} {
+func flattenRouterKeyChainKey(d *schema.ResourceData, v *[]models.RouterKeyChainKey, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.AcceptLifetime; tmp != nil {
 				v["accept_lifetime"] = *tmp
@@ -304,7 +305,7 @@ func refreshObjectRouterKeyChain(d *schema.ResourceData, o *models.RouterKeyChai
 	var err error
 
 	if o.Key != nil {
-		if err = d.Set("key", flattenRouterKeyChainKey(o.Key, sort)); err != nil {
+		if err = d.Set("key", flattenRouterKeyChainKey(d, o.Key, "key", sort)); err != nil {
 			return diag.Errorf("error reading key: %v", err)
 		}
 	}

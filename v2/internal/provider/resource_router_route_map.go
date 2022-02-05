@@ -605,11 +605,12 @@ func resourceRouterRouteMapRead(ctx context.Context, d *schema.ResourceData, met
 	return nil
 }
 
-func flattenRouterRouteMapRule(v *[]models.RouterRouteMapRule, sort bool) interface{} {
+func flattenRouterRouteMapRule(d *schema.ResourceData, v *[]models.RouterRouteMapRule, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Action; tmp != nil {
 				v["action"] = *tmp
@@ -684,7 +685,7 @@ func flattenRouterRouteMapRule(v *[]models.RouterRouteMapRule, sort bool) interf
 			}
 
 			if tmp := cfg.SetAspath; tmp != nil {
-				v["set_aspath"] = flattenRouterRouteMapRuleSetAspath(tmp, sort)
+				v["set_aspath"] = flattenRouterRouteMapRuleSetAspath(d, tmp, prefix+"set_aspath", sort)
 			}
 
 			if tmp := cfg.SetAspathAction; tmp != nil {
@@ -696,7 +697,7 @@ func flattenRouterRouteMapRule(v *[]models.RouterRouteMapRule, sort bool) interf
 			}
 
 			if tmp := cfg.SetCommunity; tmp != nil {
-				v["set_community"] = flattenRouterRouteMapRuleSetCommunity(tmp, sort)
+				v["set_community"] = flattenRouterRouteMapRuleSetCommunity(d, tmp, prefix+"set_community", sort)
 			}
 
 			if tmp := cfg.SetCommunityAdditive; tmp != nil {
@@ -728,11 +729,11 @@ func flattenRouterRouteMapRule(v *[]models.RouterRouteMapRule, sort bool) interf
 			}
 
 			if tmp := cfg.SetExtcommunityRt; tmp != nil {
-				v["set_extcommunity_rt"] = flattenRouterRouteMapRuleSetExtcommunityRt(tmp, sort)
+				v["set_extcommunity_rt"] = flattenRouterRouteMapRuleSetExtcommunityRt(d, tmp, prefix+"set_extcommunity_rt", sort)
 			}
 
 			if tmp := cfg.SetExtcommunitySoo; tmp != nil {
-				v["set_extcommunity_soo"] = flattenRouterRouteMapRuleSetExtcommunitySoo(tmp, sort)
+				v["set_extcommunity_soo"] = flattenRouterRouteMapRuleSetExtcommunitySoo(d, tmp, prefix+"set_extcommunity_soo", sort)
 			}
 
 			if tmp := cfg.SetFlags; tmp != nil {
@@ -794,11 +795,12 @@ func flattenRouterRouteMapRule(v *[]models.RouterRouteMapRule, sort bool) interf
 	return flat
 }
 
-func flattenRouterRouteMapRuleSetAspath(v *[]models.RouterRouteMapRuleSetAspath, sort bool) interface{} {
+func flattenRouterRouteMapRuleSetAspath(d *schema.ResourceData, v *[]models.RouterRouteMapRuleSetAspath, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.As; tmp != nil {
 				v["as"] = *tmp
@@ -815,11 +817,12 @@ func flattenRouterRouteMapRuleSetAspath(v *[]models.RouterRouteMapRuleSetAspath,
 	return flat
 }
 
-func flattenRouterRouteMapRuleSetCommunity(v *[]models.RouterRouteMapRuleSetCommunity, sort bool) interface{} {
+func flattenRouterRouteMapRuleSetCommunity(d *schema.ResourceData, v *[]models.RouterRouteMapRuleSetCommunity, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Community; tmp != nil {
 				v["community"] = *tmp
@@ -836,11 +839,12 @@ func flattenRouterRouteMapRuleSetCommunity(v *[]models.RouterRouteMapRuleSetComm
 	return flat
 }
 
-func flattenRouterRouteMapRuleSetExtcommunityRt(v *[]models.RouterRouteMapRuleSetExtcommunityRt, sort bool) interface{} {
+func flattenRouterRouteMapRuleSetExtcommunityRt(d *schema.ResourceData, v *[]models.RouterRouteMapRuleSetExtcommunityRt, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Community; tmp != nil {
 				v["community"] = *tmp
@@ -857,11 +861,12 @@ func flattenRouterRouteMapRuleSetExtcommunityRt(v *[]models.RouterRouteMapRuleSe
 	return flat
 }
 
-func flattenRouterRouteMapRuleSetExtcommunitySoo(v *[]models.RouterRouteMapRuleSetExtcommunitySoo, sort bool) interface{} {
+func flattenRouterRouteMapRuleSetExtcommunitySoo(d *schema.ResourceData, v *[]models.RouterRouteMapRuleSetExtcommunitySoo, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Community; tmp != nil {
 				v["community"] = *tmp
@@ -898,7 +903,7 @@ func refreshObjectRouterRouteMap(d *schema.ResourceData, o *models.RouterRouteMa
 	}
 
 	if o.Rule != nil {
-		if err = d.Set("rule", flattenRouterRouteMapRule(o.Rule, sort)); err != nil {
+		if err = d.Set("rule", flattenRouterRouteMapRule(d, o.Rule, "rule", sort)); err != nil {
 			return diag.Errorf("error reading rule: %v", err)
 		}
 	}

@@ -963,11 +963,12 @@ func resourceFirewallVip6Read(ctx context.Context, d *schema.ResourceData, meta 
 	return nil
 }
 
-func flattenFirewallVip6Monitor(v *[]models.FirewallVip6Monitor, sort bool) interface{} {
+func flattenFirewallVip6Monitor(d *schema.ResourceData, v *[]models.FirewallVip6Monitor, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -984,11 +985,12 @@ func flattenFirewallVip6Monitor(v *[]models.FirewallVip6Monitor, sort bool) inte
 	return flat
 }
 
-func flattenFirewallVip6Realservers(v *[]models.FirewallVip6Realservers, sort bool) interface{} {
+func flattenFirewallVip6Realservers(d *schema.ResourceData, v *[]models.FirewallVip6Realservers, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.ClientIp; tmp != nil {
 				v["client_ip"] = *tmp
@@ -1019,7 +1021,7 @@ func flattenFirewallVip6Realservers(v *[]models.FirewallVip6Realservers, sort bo
 			}
 
 			if tmp := cfg.Monitor; tmp != nil {
-				v["monitor"] = flattenFirewallVip6RealserversMonitor(tmp, sort)
+				v["monitor"] = flattenFirewallVip6RealserversMonitor(d, tmp, prefix+"monitor", sort)
 			}
 
 			if tmp := cfg.Port; tmp != nil {
@@ -1045,11 +1047,12 @@ func flattenFirewallVip6Realservers(v *[]models.FirewallVip6Realservers, sort bo
 	return flat
 }
 
-func flattenFirewallVip6RealserversMonitor(v *[]models.FirewallVip6RealserversMonitor, sort bool) interface{} {
+func flattenFirewallVip6RealserversMonitor(d *schema.ResourceData, v *[]models.FirewallVip6RealserversMonitor, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -1066,11 +1069,12 @@ func flattenFirewallVip6RealserversMonitor(v *[]models.FirewallVip6RealserversMo
 	return flat
 }
 
-func flattenFirewallVip6SrcFilter(v *[]models.FirewallVip6SrcFilter, sort bool) interface{} {
+func flattenFirewallVip6SrcFilter(d *schema.ResourceData, v *[]models.FirewallVip6SrcFilter, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Range; tmp != nil {
 				v["range"] = *tmp
@@ -1087,11 +1091,12 @@ func flattenFirewallVip6SrcFilter(v *[]models.FirewallVip6SrcFilter, sort bool) 
 	return flat
 }
 
-func flattenFirewallVip6SslCipherSuites(v *[]models.FirewallVip6SslCipherSuites, sort bool) interface{} {
+func flattenFirewallVip6SslCipherSuites(d *schema.ResourceData, v *[]models.FirewallVip6SslCipherSuites, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Cipher; tmp != nil {
 				v["cipher"] = *tmp
@@ -1116,11 +1121,12 @@ func flattenFirewallVip6SslCipherSuites(v *[]models.FirewallVip6SslCipherSuites,
 	return flat
 }
 
-func flattenFirewallVip6SslServerCipherSuites(v *[]models.FirewallVip6SslServerCipherSuites, sort bool) interface{} {
+func flattenFirewallVip6SslServerCipherSuites(d *schema.ResourceData, v *[]models.FirewallVip6SslServerCipherSuites, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Cipher; tmp != nil {
 				v["cipher"] = *tmp
@@ -1349,7 +1355,7 @@ func refreshObjectFirewallVip6(d *schema.ResourceData, o *models.FirewallVip6, s
 	}
 
 	if o.Monitor != nil {
-		if err = d.Set("monitor", flattenFirewallVip6Monitor(o.Monitor, sort)); err != nil {
+		if err = d.Set("monitor", flattenFirewallVip6Monitor(d, o.Monitor, "monitor", sort)); err != nil {
 			return diag.Errorf("error reading monitor: %v", err)
 		}
 	}
@@ -1419,7 +1425,7 @@ func refreshObjectFirewallVip6(d *schema.ResourceData, o *models.FirewallVip6, s
 	}
 
 	if o.Realservers != nil {
-		if err = d.Set("realservers", flattenFirewallVip6Realservers(o.Realservers, sort)); err != nil {
+		if err = d.Set("realservers", flattenFirewallVip6Realservers(d, o.Realservers, "realservers", sort)); err != nil {
 			return diag.Errorf("error reading realservers: %v", err)
 		}
 	}
@@ -1433,7 +1439,7 @@ func refreshObjectFirewallVip6(d *schema.ResourceData, o *models.FirewallVip6, s
 	}
 
 	if o.SrcFilter != nil {
-		if err = d.Set("src_filter", flattenFirewallVip6SrcFilter(o.SrcFilter, sort)); err != nil {
+		if err = d.Set("src_filter", flattenFirewallVip6SrcFilter(d, o.SrcFilter, "src_filter", sort)); err != nil {
 			return diag.Errorf("error reading src_filter: %v", err)
 		}
 	}
@@ -1463,7 +1469,7 @@ func refreshObjectFirewallVip6(d *schema.ResourceData, o *models.FirewallVip6, s
 	}
 
 	if o.SslCipherSuites != nil {
-		if err = d.Set("ssl_cipher_suites", flattenFirewallVip6SslCipherSuites(o.SslCipherSuites, sort)); err != nil {
+		if err = d.Set("ssl_cipher_suites", flattenFirewallVip6SslCipherSuites(d, o.SslCipherSuites, "ssl_cipher_suites", sort)); err != nil {
 			return diag.Errorf("error reading ssl_cipher_suites: %v", err)
 		}
 	}
@@ -1661,7 +1667,7 @@ func refreshObjectFirewallVip6(d *schema.ResourceData, o *models.FirewallVip6, s
 	}
 
 	if o.SslServerCipherSuites != nil {
-		if err = d.Set("ssl_server_cipher_suites", flattenFirewallVip6SslServerCipherSuites(o.SslServerCipherSuites, sort)); err != nil {
+		if err = d.Set("ssl_server_cipher_suites", flattenFirewallVip6SslServerCipherSuites(d, o.SslServerCipherSuites, "ssl_server_cipher_suites", sort)); err != nil {
 			return diag.Errorf("error reading ssl_server_cipher_suites: %v", err)
 		}
 	}

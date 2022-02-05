@@ -299,11 +299,12 @@ func resourceSystemGeoipOverrideRead(ctx context.Context, d *schema.ResourceData
 	return nil
 }
 
-func flattenSystemGeoipOverrideIpRange(v *[]models.SystemGeoipOverrideIpRange, sort bool) interface{} {
+func flattenSystemGeoipOverrideIpRange(d *schema.ResourceData, v *[]models.SystemGeoipOverrideIpRange, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.EndIp; tmp != nil {
 				v["end_ip"] = *tmp
@@ -328,11 +329,12 @@ func flattenSystemGeoipOverrideIpRange(v *[]models.SystemGeoipOverrideIpRange, s
 	return flat
 }
 
-func flattenSystemGeoipOverrideIp6Range(v *[]models.SystemGeoipOverrideIp6Range, sort bool) interface{} {
+func flattenSystemGeoipOverrideIp6Range(d *schema.ResourceData, v *[]models.SystemGeoipOverrideIp6Range, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.EndIp; tmp != nil {
 				v["end_ip"] = *tmp
@@ -377,13 +379,13 @@ func refreshObjectSystemGeoipOverride(d *schema.ResourceData, o *models.SystemGe
 	}
 
 	if o.IpRange != nil {
-		if err = d.Set("ip_range", flattenSystemGeoipOverrideIpRange(o.IpRange, sort)); err != nil {
+		if err = d.Set("ip_range", flattenSystemGeoipOverrideIpRange(d, o.IpRange, "ip_range", sort)); err != nil {
 			return diag.Errorf("error reading ip_range: %v", err)
 		}
 	}
 
 	if o.Ip6Range != nil {
-		if err = d.Set("ip6_range", flattenSystemGeoipOverrideIp6Range(o.Ip6Range, sort)); err != nil {
+		if err = d.Set("ip6_range", flattenSystemGeoipOverrideIp6Range(d, o.Ip6Range, "ip6_range", sort)); err != nil {
 			return diag.Errorf("error reading ip6_range: %v", err)
 		}
 	}

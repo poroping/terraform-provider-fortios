@@ -2086,11 +2086,12 @@ func resourceSwitchControllerManagedSwitchRead(ctx context.Context, d *schema.Re
 	return nil
 }
 
-func flattenSwitchControllerManagedSwitch8021XSettings(v *[]models.SwitchControllerManagedSwitch8021XSettings, sort bool) interface{} {
+func flattenSwitchControllerManagedSwitch8021XSettings(d *schema.ResourceData, v *[]models.SwitchControllerManagedSwitch8021XSettings, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.LinkDownAuth; tmp != nil {
 				v["link_down_auth"] = *tmp
@@ -2119,11 +2120,12 @@ func flattenSwitchControllerManagedSwitch8021XSettings(v *[]models.SwitchControl
 	return flat
 }
 
-func flattenSwitchControllerManagedSwitchCustomCommand(v *[]models.SwitchControllerManagedSwitchCustomCommand, sort bool) interface{} {
+func flattenSwitchControllerManagedSwitchCustomCommand(d *schema.ResourceData, v *[]models.SwitchControllerManagedSwitchCustomCommand, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.CommandEntry; tmp != nil {
 				v["command_entry"] = *tmp
@@ -2144,11 +2146,12 @@ func flattenSwitchControllerManagedSwitchCustomCommand(v *[]models.SwitchControl
 	return flat
 }
 
-func flattenSwitchControllerManagedSwitchIgmpSnooping(v *[]models.SwitchControllerManagedSwitchIgmpSnooping, sort bool) interface{} {
+func flattenSwitchControllerManagedSwitchIgmpSnooping(d *schema.ResourceData, v *[]models.SwitchControllerManagedSwitchIgmpSnooping, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.AgingTime; tmp != nil {
 				v["aging_time"] = *tmp
@@ -2163,7 +2166,7 @@ func flattenSwitchControllerManagedSwitchIgmpSnooping(v *[]models.SwitchControll
 			}
 
 			if tmp := cfg.Vlans; tmp != nil {
-				v["vlans"] = flattenSwitchControllerManagedSwitchIgmpSnoopingVlans(tmp, sort)
+				v["vlans"] = flattenSwitchControllerManagedSwitchIgmpSnoopingVlans(d, tmp, prefix+"vlans", sort)
 			}
 
 			flat = append(flat, v)
@@ -2173,11 +2176,12 @@ func flattenSwitchControllerManagedSwitchIgmpSnooping(v *[]models.SwitchControll
 	return flat
 }
 
-func flattenSwitchControllerManagedSwitchIgmpSnoopingVlans(v *[]models.SwitchControllerManagedSwitchIgmpSnoopingVlans, sort bool) interface{} {
+func flattenSwitchControllerManagedSwitchIgmpSnoopingVlans(d *schema.ResourceData, v *[]models.SwitchControllerManagedSwitchIgmpSnoopingVlans, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Proxy; tmp != nil {
 				v["proxy"] = *tmp
@@ -2210,14 +2214,15 @@ func flattenSwitchControllerManagedSwitchIgmpSnoopingVlans(v *[]models.SwitchCon
 	return flat
 }
 
-func flattenSwitchControllerManagedSwitchIpSourceGuard(v *[]models.SwitchControllerManagedSwitchIpSourceGuard, sort bool) interface{} {
+func flattenSwitchControllerManagedSwitchIpSourceGuard(d *schema.ResourceData, v *[]models.SwitchControllerManagedSwitchIpSourceGuard, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.BindingEntry; tmp != nil {
-				v["binding_entry"] = flattenSwitchControllerManagedSwitchIpSourceGuardBindingEntry(tmp, sort)
+				v["binding_entry"] = flattenSwitchControllerManagedSwitchIpSourceGuardBindingEntry(d, tmp, prefix+"binding_entry", sort)
 			}
 
 			if tmp := cfg.Description; tmp != nil {
@@ -2239,11 +2244,12 @@ func flattenSwitchControllerManagedSwitchIpSourceGuard(v *[]models.SwitchControl
 	return flat
 }
 
-func flattenSwitchControllerManagedSwitchIpSourceGuardBindingEntry(v *[]models.SwitchControllerManagedSwitchIpSourceGuardBindingEntry, sort bool) interface{} {
+func flattenSwitchControllerManagedSwitchIpSourceGuardBindingEntry(d *schema.ResourceData, v *[]models.SwitchControllerManagedSwitchIpSourceGuardBindingEntry, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.EntryName; tmp != nil {
 				v["entry_name"] = *tmp
@@ -2268,11 +2274,12 @@ func flattenSwitchControllerManagedSwitchIpSourceGuardBindingEntry(v *[]models.S
 	return flat
 }
 
-func flattenSwitchControllerManagedSwitchMirror(v *[]models.SwitchControllerManagedSwitchMirror, sort bool) interface{} {
+func flattenSwitchControllerManagedSwitchMirror(d *schema.ResourceData, v *[]models.SwitchControllerManagedSwitchMirror, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Dst; tmp != nil {
 				v["dst"] = *tmp
@@ -2283,11 +2290,11 @@ func flattenSwitchControllerManagedSwitchMirror(v *[]models.SwitchControllerMana
 			}
 
 			if tmp := cfg.SrcEgress; tmp != nil {
-				v["src_egress"] = flattenSwitchControllerManagedSwitchMirrorSrcEgress(tmp, sort)
+				v["src_egress"] = flattenSwitchControllerManagedSwitchMirrorSrcEgress(d, tmp, prefix+"src_egress", sort)
 			}
 
 			if tmp := cfg.SrcIngress; tmp != nil {
-				v["src_ingress"] = flattenSwitchControllerManagedSwitchMirrorSrcIngress(tmp, sort)
+				v["src_ingress"] = flattenSwitchControllerManagedSwitchMirrorSrcIngress(d, tmp, prefix+"src_ingress", sort)
 			}
 
 			if tmp := cfg.Status; tmp != nil {
@@ -2309,11 +2316,12 @@ func flattenSwitchControllerManagedSwitchMirror(v *[]models.SwitchControllerMana
 	return flat
 }
 
-func flattenSwitchControllerManagedSwitchMirrorSrcEgress(v *[]models.SwitchControllerManagedSwitchMirrorSrcEgress, sort bool) interface{} {
+func flattenSwitchControllerManagedSwitchMirrorSrcEgress(d *schema.ResourceData, v *[]models.SwitchControllerManagedSwitchMirrorSrcEgress, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -2330,11 +2338,12 @@ func flattenSwitchControllerManagedSwitchMirrorSrcEgress(v *[]models.SwitchContr
 	return flat
 }
 
-func flattenSwitchControllerManagedSwitchMirrorSrcIngress(v *[]models.SwitchControllerManagedSwitchMirrorSrcIngress, sort bool) interface{} {
+func flattenSwitchControllerManagedSwitchMirrorSrcIngress(d *schema.ResourceData, v *[]models.SwitchControllerManagedSwitchMirrorSrcIngress, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -2351,11 +2360,12 @@ func flattenSwitchControllerManagedSwitchMirrorSrcIngress(v *[]models.SwitchCont
 	return flat
 }
 
-func flattenSwitchControllerManagedSwitchPorts(v *[]models.SwitchControllerManagedSwitchPorts, sort bool) interface{} {
+func flattenSwitchControllerManagedSwitchPorts(d *schema.ResourceData, v *[]models.SwitchControllerManagedSwitchPorts, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.AccessMode; tmp != nil {
 				v["access_mode"] = *tmp
@@ -2366,7 +2376,7 @@ func flattenSwitchControllerManagedSwitchPorts(v *[]models.SwitchControllerManag
 			}
 
 			if tmp := cfg.AllowedVlans; tmp != nil {
-				v["allowed_vlans"] = flattenSwitchControllerManagedSwitchPortsAllowedVlans(tmp, sort)
+				v["allowed_vlans"] = flattenSwitchControllerManagedSwitchPortsAllowedVlans(d, tmp, prefix+"allowed_vlans", sort)
 			}
 
 			if tmp := cfg.AllowedVlansAll; tmp != nil {
@@ -2402,7 +2412,7 @@ func flattenSwitchControllerManagedSwitchPorts(v *[]models.SwitchControllerManag
 			}
 
 			if tmp := cfg.ExportTags; tmp != nil {
-				v["export_tags"] = flattenSwitchControllerManagedSwitchPortsExportTags(tmp, sort)
+				v["export_tags"] = flattenSwitchControllerManagedSwitchPortsExportTags(d, tmp, prefix+"export_tags", sort)
 			}
 
 			if tmp := cfg.ExportTo; tmp != nil {
@@ -2458,7 +2468,7 @@ func flattenSwitchControllerManagedSwitchPorts(v *[]models.SwitchControllerManag
 			}
 
 			if tmp := cfg.InterfaceTags; tmp != nil {
-				v["interface_tags"] = flattenSwitchControllerManagedSwitchPortsInterfaceTags(tmp, sort)
+				v["interface_tags"] = flattenSwitchControllerManagedSwitchPortsInterfaceTags(d, tmp, prefix+"interface_tags", sort)
 			}
 
 			if tmp := cfg.IpSourceGuard; tmp != nil {
@@ -2534,7 +2544,7 @@ func flattenSwitchControllerManagedSwitchPorts(v *[]models.SwitchControllerManag
 			}
 
 			if tmp := cfg.Members; tmp != nil {
-				v["members"] = flattenSwitchControllerManagedSwitchPortsMembers(tmp, sort)
+				v["members"] = flattenSwitchControllerManagedSwitchPortsMembers(d, tmp, prefix+"members", sort)
 			}
 
 			if tmp := cfg.MinBundle; tmp != nil {
@@ -2678,7 +2688,7 @@ func flattenSwitchControllerManagedSwitchPorts(v *[]models.SwitchControllerManag
 			}
 
 			if tmp := cfg.UntaggedVlans; tmp != nil {
-				v["untagged_vlans"] = flattenSwitchControllerManagedSwitchPortsUntaggedVlans(tmp, sort)
+				v["untagged_vlans"] = flattenSwitchControllerManagedSwitchPortsUntaggedVlans(d, tmp, prefix+"untagged_vlans", sort)
 			}
 
 			if tmp := cfg.Vlan; tmp != nil {
@@ -2696,11 +2706,12 @@ func flattenSwitchControllerManagedSwitchPorts(v *[]models.SwitchControllerManag
 	return flat
 }
 
-func flattenSwitchControllerManagedSwitchPortsAllowedVlans(v *[]models.SwitchControllerManagedSwitchPortsAllowedVlans, sort bool) interface{} {
+func flattenSwitchControllerManagedSwitchPortsAllowedVlans(d *schema.ResourceData, v *[]models.SwitchControllerManagedSwitchPortsAllowedVlans, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.VlanName; tmp != nil {
 				v["vlan_name"] = *tmp
@@ -2717,11 +2728,12 @@ func flattenSwitchControllerManagedSwitchPortsAllowedVlans(v *[]models.SwitchCon
 	return flat
 }
 
-func flattenSwitchControllerManagedSwitchPortsExportTags(v *[]models.SwitchControllerManagedSwitchPortsExportTags, sort bool) interface{} {
+func flattenSwitchControllerManagedSwitchPortsExportTags(d *schema.ResourceData, v *[]models.SwitchControllerManagedSwitchPortsExportTags, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.TagName; tmp != nil {
 				v["tag_name"] = *tmp
@@ -2738,11 +2750,12 @@ func flattenSwitchControllerManagedSwitchPortsExportTags(v *[]models.SwitchContr
 	return flat
 }
 
-func flattenSwitchControllerManagedSwitchPortsInterfaceTags(v *[]models.SwitchControllerManagedSwitchPortsInterfaceTags, sort bool) interface{} {
+func flattenSwitchControllerManagedSwitchPortsInterfaceTags(d *schema.ResourceData, v *[]models.SwitchControllerManagedSwitchPortsInterfaceTags, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.TagName; tmp != nil {
 				v["tag_name"] = *tmp
@@ -2759,11 +2772,12 @@ func flattenSwitchControllerManagedSwitchPortsInterfaceTags(v *[]models.SwitchCo
 	return flat
 }
 
-func flattenSwitchControllerManagedSwitchPortsMembers(v *[]models.SwitchControllerManagedSwitchPortsMembers, sort bool) interface{} {
+func flattenSwitchControllerManagedSwitchPortsMembers(d *schema.ResourceData, v *[]models.SwitchControllerManagedSwitchPortsMembers, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.MemberName; tmp != nil {
 				v["member_name"] = *tmp
@@ -2780,11 +2794,12 @@ func flattenSwitchControllerManagedSwitchPortsMembers(v *[]models.SwitchControll
 	return flat
 }
 
-func flattenSwitchControllerManagedSwitchPortsUntaggedVlans(v *[]models.SwitchControllerManagedSwitchPortsUntaggedVlans, sort bool) interface{} {
+func flattenSwitchControllerManagedSwitchPortsUntaggedVlans(d *schema.ResourceData, v *[]models.SwitchControllerManagedSwitchPortsUntaggedVlans, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.VlanName; tmp != nil {
 				v["vlan_name"] = *tmp
@@ -2801,11 +2816,12 @@ func flattenSwitchControllerManagedSwitchPortsUntaggedVlans(v *[]models.SwitchCo
 	return flat
 }
 
-func flattenSwitchControllerManagedSwitchRemoteLog(v *[]models.SwitchControllerManagedSwitchRemoteLog, sort bool) interface{} {
+func flattenSwitchControllerManagedSwitchRemoteLog(d *schema.ResourceData, v *[]models.SwitchControllerManagedSwitchRemoteLog, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Csv; tmp != nil {
 				v["csv"] = *tmp
@@ -2846,18 +2862,19 @@ func flattenSwitchControllerManagedSwitchRemoteLog(v *[]models.SwitchControllerM
 	return flat
 }
 
-func flattenSwitchControllerManagedSwitchSnmpCommunity(v *[]models.SwitchControllerManagedSwitchSnmpCommunity, sort bool) interface{} {
+func flattenSwitchControllerManagedSwitchSnmpCommunity(d *schema.ResourceData, v *[]models.SwitchControllerManagedSwitchSnmpCommunity, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Events; tmp != nil {
 				v["events"] = *tmp
 			}
 
 			if tmp := cfg.Hosts; tmp != nil {
-				v["hosts"] = flattenSwitchControllerManagedSwitchSnmpCommunityHosts(tmp, sort)
+				v["hosts"] = flattenSwitchControllerManagedSwitchSnmpCommunityHosts(d, tmp, prefix+"hosts", sort)
 			}
 
 			if tmp := cfg.Id; tmp != nil {
@@ -2923,11 +2940,12 @@ func flattenSwitchControllerManagedSwitchSnmpCommunity(v *[]models.SwitchControl
 	return flat
 }
 
-func flattenSwitchControllerManagedSwitchSnmpCommunityHosts(v *[]models.SwitchControllerManagedSwitchSnmpCommunityHosts, sort bool) interface{} {
+func flattenSwitchControllerManagedSwitchSnmpCommunityHosts(d *schema.ResourceData, v *[]models.SwitchControllerManagedSwitchSnmpCommunityHosts, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Id; tmp != nil {
 				v["id"] = *tmp
@@ -2948,11 +2966,12 @@ func flattenSwitchControllerManagedSwitchSnmpCommunityHosts(v *[]models.SwitchCo
 	return flat
 }
 
-func flattenSwitchControllerManagedSwitchSnmpSysinfo(v *[]models.SwitchControllerManagedSwitchSnmpSysinfo, sort bool) interface{} {
+func flattenSwitchControllerManagedSwitchSnmpSysinfo(d *schema.ResourceData, v *[]models.SwitchControllerManagedSwitchSnmpSysinfo, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.ContactInfo; tmp != nil {
 				v["contact_info"] = *tmp
@@ -2981,11 +3000,12 @@ func flattenSwitchControllerManagedSwitchSnmpSysinfo(v *[]models.SwitchControlle
 	return flat
 }
 
-func flattenSwitchControllerManagedSwitchSnmpTrapThreshold(v *[]models.SwitchControllerManagedSwitchSnmpTrapThreshold, sort bool) interface{} {
+func flattenSwitchControllerManagedSwitchSnmpTrapThreshold(d *schema.ResourceData, v *[]models.SwitchControllerManagedSwitchSnmpTrapThreshold, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.TrapHighCpuThreshold; tmp != nil {
 				v["trap_high_cpu_threshold"] = *tmp
@@ -3006,11 +3026,12 @@ func flattenSwitchControllerManagedSwitchSnmpTrapThreshold(v *[]models.SwitchCon
 	return flat
 }
 
-func flattenSwitchControllerManagedSwitchSnmpUser(v *[]models.SwitchControllerManagedSwitchSnmpUser, sort bool) interface{} {
+func flattenSwitchControllerManagedSwitchSnmpUser(d *schema.ResourceData, v *[]models.SwitchControllerManagedSwitchSnmpUser, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.AuthProto; tmp != nil {
 				v["auth_proto"] = *tmp
@@ -3055,11 +3076,12 @@ func flattenSwitchControllerManagedSwitchSnmpUser(v *[]models.SwitchControllerMa
 	return flat
 }
 
-func flattenSwitchControllerManagedSwitchStaticMac(v *[]models.SwitchControllerManagedSwitchStaticMac, sort bool) interface{} {
+func flattenSwitchControllerManagedSwitchStaticMac(d *schema.ResourceData, v *[]models.SwitchControllerManagedSwitchStaticMac, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Description; tmp != nil {
 				v["description"] = *tmp
@@ -3096,11 +3118,12 @@ func flattenSwitchControllerManagedSwitchStaticMac(v *[]models.SwitchControllerM
 	return flat
 }
 
-func flattenSwitchControllerManagedSwitchStormControl(v *[]models.SwitchControllerManagedSwitchStormControl, sort bool) interface{} {
+func flattenSwitchControllerManagedSwitchStormControl(d *schema.ResourceData, v *[]models.SwitchControllerManagedSwitchStormControl, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Broadcast; tmp != nil {
 				v["broadcast"] = *tmp
@@ -3129,11 +3152,12 @@ func flattenSwitchControllerManagedSwitchStormControl(v *[]models.SwitchControll
 	return flat
 }
 
-func flattenSwitchControllerManagedSwitchStpInstance(v *[]models.SwitchControllerManagedSwitchStpInstance, sort bool) interface{} {
+func flattenSwitchControllerManagedSwitchStpInstance(d *schema.ResourceData, v *[]models.SwitchControllerManagedSwitchStpInstance, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Id; tmp != nil {
 				v["id"] = *tmp
@@ -3154,11 +3178,12 @@ func flattenSwitchControllerManagedSwitchStpInstance(v *[]models.SwitchControlle
 	return flat
 }
 
-func flattenSwitchControllerManagedSwitchStpSettings(v *[]models.SwitchControllerManagedSwitchStpSettings, sort bool) interface{} {
+func flattenSwitchControllerManagedSwitchStpSettings(d *schema.ResourceData, v *[]models.SwitchControllerManagedSwitchStpSettings, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.ForwardTime; tmp != nil {
 				v["forward_time"] = *tmp
@@ -3199,11 +3224,12 @@ func flattenSwitchControllerManagedSwitchStpSettings(v *[]models.SwitchControlle
 	return flat
 }
 
-func flattenSwitchControllerManagedSwitchSwitchLog(v *[]models.SwitchControllerManagedSwitchSwitchLog, sort bool) interface{} {
+func flattenSwitchControllerManagedSwitchSwitchLog(d *schema.ResourceData, v *[]models.SwitchControllerManagedSwitchSwitchLog, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.LocalOverride; tmp != nil {
 				v["local_override"] = *tmp
@@ -3228,7 +3254,7 @@ func refreshObjectSwitchControllerManagedSwitch(d *schema.ResourceData, o *model
 	var err error
 
 	if o.The8021XSettings != nil {
-		if err = d.Set("802_1x_settings", flattenSwitchControllerManagedSwitch8021XSettings(o.The8021XSettings, sort)); err != nil {
+		if err = d.Set("802_1x_settings", flattenSwitchControllerManagedSwitch8021XSettings(d, o.The8021XSettings, "802_1x_settings", sort)); err != nil {
 			return diag.Errorf("error reading 802_1x_settings: %v", err)
 		}
 	}
@@ -3242,7 +3268,7 @@ func refreshObjectSwitchControllerManagedSwitch(d *schema.ResourceData, o *model
 	}
 
 	if o.CustomCommand != nil {
-		if err = d.Set("custom_command", flattenSwitchControllerManagedSwitchCustomCommand(o.CustomCommand, sort)); err != nil {
+		if err = d.Set("custom_command", flattenSwitchControllerManagedSwitchCustomCommand(d, o.CustomCommand, "custom_command", sort)); err != nil {
 			return diag.Errorf("error reading custom_command: %v", err)
 		}
 	}
@@ -3344,13 +3370,13 @@ func refreshObjectSwitchControllerManagedSwitch(d *schema.ResourceData, o *model
 	}
 
 	if o.IgmpSnooping != nil {
-		if err = d.Set("igmp_snooping", flattenSwitchControllerManagedSwitchIgmpSnooping(o.IgmpSnooping, sort)); err != nil {
+		if err = d.Set("igmp_snooping", flattenSwitchControllerManagedSwitchIgmpSnooping(d, o.IgmpSnooping, "igmp_snooping", sort)); err != nil {
 			return diag.Errorf("error reading igmp_snooping: %v", err)
 		}
 	}
 
 	if o.IpSourceGuard != nil {
-		if err = d.Set("ip_source_guard", flattenSwitchControllerManagedSwitchIpSourceGuard(o.IpSourceGuard, sort)); err != nil {
+		if err = d.Set("ip_source_guard", flattenSwitchControllerManagedSwitchIpSourceGuard(d, o.IpSourceGuard, "ip_source_guard", sort)); err != nil {
 			return diag.Errorf("error reading ip_source_guard: %v", err)
 		}
 	}
@@ -3380,7 +3406,7 @@ func refreshObjectSwitchControllerManagedSwitch(d *schema.ResourceData, o *model
 	}
 
 	if o.Mirror != nil {
-		if err = d.Set("mirror", flattenSwitchControllerManagedSwitchMirror(o.Mirror, sort)); err != nil {
+		if err = d.Set("mirror", flattenSwitchControllerManagedSwitchMirror(d, o.Mirror, "mirror", sort)); err != nil {
 			return diag.Errorf("error reading mirror: %v", err)
 		}
 	}
@@ -3458,7 +3484,7 @@ func refreshObjectSwitchControllerManagedSwitch(d *schema.ResourceData, o *model
 	}
 
 	if o.Ports != nil {
-		if err = d.Set("ports", flattenSwitchControllerManagedSwitchPorts(o.Ports, sort)); err != nil {
+		if err = d.Set("ports", flattenSwitchControllerManagedSwitchPorts(d, o.Ports, "ports", sort)); err != nil {
 			return diag.Errorf("error reading ports: %v", err)
 		}
 	}
@@ -3488,31 +3514,31 @@ func refreshObjectSwitchControllerManagedSwitch(d *schema.ResourceData, o *model
 	}
 
 	if o.RemoteLog != nil {
-		if err = d.Set("remote_log", flattenSwitchControllerManagedSwitchRemoteLog(o.RemoteLog, sort)); err != nil {
+		if err = d.Set("remote_log", flattenSwitchControllerManagedSwitchRemoteLog(d, o.RemoteLog, "remote_log", sort)); err != nil {
 			return diag.Errorf("error reading remote_log: %v", err)
 		}
 	}
 
 	if o.SnmpCommunity != nil {
-		if err = d.Set("snmp_community", flattenSwitchControllerManagedSwitchSnmpCommunity(o.SnmpCommunity, sort)); err != nil {
+		if err = d.Set("snmp_community", flattenSwitchControllerManagedSwitchSnmpCommunity(d, o.SnmpCommunity, "snmp_community", sort)); err != nil {
 			return diag.Errorf("error reading snmp_community: %v", err)
 		}
 	}
 
 	if o.SnmpSysinfo != nil {
-		if err = d.Set("snmp_sysinfo", flattenSwitchControllerManagedSwitchSnmpSysinfo(o.SnmpSysinfo, sort)); err != nil {
+		if err = d.Set("snmp_sysinfo", flattenSwitchControllerManagedSwitchSnmpSysinfo(d, o.SnmpSysinfo, "snmp_sysinfo", sort)); err != nil {
 			return diag.Errorf("error reading snmp_sysinfo: %v", err)
 		}
 	}
 
 	if o.SnmpTrapThreshold != nil {
-		if err = d.Set("snmp_trap_threshold", flattenSwitchControllerManagedSwitchSnmpTrapThreshold(o.SnmpTrapThreshold, sort)); err != nil {
+		if err = d.Set("snmp_trap_threshold", flattenSwitchControllerManagedSwitchSnmpTrapThreshold(d, o.SnmpTrapThreshold, "snmp_trap_threshold", sort)); err != nil {
 			return diag.Errorf("error reading snmp_trap_threshold: %v", err)
 		}
 	}
 
 	if o.SnmpUser != nil {
-		if err = d.Set("snmp_user", flattenSwitchControllerManagedSwitchSnmpUser(o.SnmpUser, sort)); err != nil {
+		if err = d.Set("snmp_user", flattenSwitchControllerManagedSwitchSnmpUser(d, o.SnmpUser, "snmp_user", sort)); err != nil {
 			return diag.Errorf("error reading snmp_user: %v", err)
 		}
 	}
@@ -3526,25 +3552,25 @@ func refreshObjectSwitchControllerManagedSwitch(d *schema.ResourceData, o *model
 	}
 
 	if o.StaticMac != nil {
-		if err = d.Set("static_mac", flattenSwitchControllerManagedSwitchStaticMac(o.StaticMac, sort)); err != nil {
+		if err = d.Set("static_mac", flattenSwitchControllerManagedSwitchStaticMac(d, o.StaticMac, "static_mac", sort)); err != nil {
 			return diag.Errorf("error reading static_mac: %v", err)
 		}
 	}
 
 	if o.StormControl != nil {
-		if err = d.Set("storm_control", flattenSwitchControllerManagedSwitchStormControl(o.StormControl, sort)); err != nil {
+		if err = d.Set("storm_control", flattenSwitchControllerManagedSwitchStormControl(d, o.StormControl, "storm_control", sort)); err != nil {
 			return diag.Errorf("error reading storm_control: %v", err)
 		}
 	}
 
 	if o.StpInstance != nil {
-		if err = d.Set("stp_instance", flattenSwitchControllerManagedSwitchStpInstance(o.StpInstance, sort)); err != nil {
+		if err = d.Set("stp_instance", flattenSwitchControllerManagedSwitchStpInstance(d, o.StpInstance, "stp_instance", sort)); err != nil {
 			return diag.Errorf("error reading stp_instance: %v", err)
 		}
 	}
 
 	if o.StpSettings != nil {
-		if err = d.Set("stp_settings", flattenSwitchControllerManagedSwitchStpSettings(o.StpSettings, sort)); err != nil {
+		if err = d.Set("stp_settings", flattenSwitchControllerManagedSwitchStpSettings(d, o.StpSettings, "stp_settings", sort)); err != nil {
 			return diag.Errorf("error reading stp_settings: %v", err)
 		}
 	}
@@ -3574,7 +3600,7 @@ func refreshObjectSwitchControllerManagedSwitch(d *schema.ResourceData, o *model
 	}
 
 	if o.SwitchLog != nil {
-		if err = d.Set("switch_log", flattenSwitchControllerManagedSwitchSwitchLog(o.SwitchLog, sort)); err != nil {
+		if err = d.Set("switch_log", flattenSwitchControllerManagedSwitchSwitchLog(d, o.SwitchLog, "switch_log", sort)); err != nil {
 			return diag.Errorf("error reading switch_log: %v", err)
 		}
 	}

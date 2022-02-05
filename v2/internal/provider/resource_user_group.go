@@ -512,11 +512,12 @@ func resourceUserGroupRead(ctx context.Context, d *schema.ResourceData, meta int
 	return nil
 }
 
-func flattenUserGroupGuest(v *[]models.UserGroupGuest, sort bool) interface{} {
+func flattenUserGroupGuest(d *schema.ResourceData, v *[]models.UserGroupGuest, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Comment; tmp != nil {
 				v["comment"] = *tmp
@@ -569,11 +570,12 @@ func flattenUserGroupGuest(v *[]models.UserGroupGuest, sort bool) interface{} {
 	return flat
 }
 
-func flattenUserGroupMatch(v *[]models.UserGroupMatch, sort bool) interface{} {
+func flattenUserGroupMatch(d *schema.ResourceData, v *[]models.UserGroupMatch, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.GroupName; tmp != nil {
 				v["group_name"] = *tmp
@@ -598,11 +600,12 @@ func flattenUserGroupMatch(v *[]models.UserGroupMatch, sort bool) interface{} {
 	return flat
 }
 
-func flattenUserGroupMember(v *[]models.UserGroupMember, sort bool) interface{} {
+func flattenUserGroupMember(d *schema.ResourceData, v *[]models.UserGroupMember, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -687,7 +690,7 @@ func refreshObjectUserGroup(d *schema.ResourceData, o *models.UserGroup, sv stri
 	}
 
 	if o.Guest != nil {
-		if err = d.Set("guest", flattenUserGroupGuest(o.Guest, sort)); err != nil {
+		if err = d.Set("guest", flattenUserGroupGuest(d, o.Guest, "guest", sort)); err != nil {
 			return diag.Errorf("error reading guest: %v", err)
 		}
 	}
@@ -709,7 +712,7 @@ func refreshObjectUserGroup(d *schema.ResourceData, o *models.UserGroup, sv stri
 	}
 
 	if o.Match != nil {
-		if err = d.Set("match", flattenUserGroupMatch(o.Match, sort)); err != nil {
+		if err = d.Set("match", flattenUserGroupMatch(d, o.Match, "match", sort)); err != nil {
 			return diag.Errorf("error reading match: %v", err)
 		}
 	}
@@ -723,7 +726,7 @@ func refreshObjectUserGroup(d *schema.ResourceData, o *models.UserGroup, sv stri
 	}
 
 	if o.Member != nil {
-		if err = d.Set("member", flattenUserGroupMember(o.Member, sort)); err != nil {
+		if err = d.Set("member", flattenUserGroupMember(d, o.Member, "member", sort)); err != nil {
 			return diag.Errorf("error reading member: %v", err)
 		}
 	}

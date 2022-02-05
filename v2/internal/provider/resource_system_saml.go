@@ -454,14 +454,15 @@ func resourceSystemSamlRead(ctx context.Context, d *schema.ResourceData, meta in
 	return nil
 }
 
-func flattenSystemSamlServiceProviders(v *[]models.SystemSamlServiceProviders, sort bool) interface{} {
+func flattenSystemSamlServiceProviders(d *schema.ResourceData, v *[]models.SystemSamlServiceProviders, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.AssertionAttributes; tmp != nil {
-				v["assertion_attributes"] = flattenSystemSamlServiceProvidersAssertionAttributes(tmp, sort)
+				v["assertion_attributes"] = flattenSystemSamlServiceProvidersAssertionAttributes(d, tmp, prefix+"assertion_attributes", sort)
 			}
 
 			if tmp := cfg.IdpEntityId; tmp != nil {
@@ -519,11 +520,12 @@ func flattenSystemSamlServiceProviders(v *[]models.SystemSamlServiceProviders, s
 	return flat
 }
 
-func flattenSystemSamlServiceProvidersAssertionAttributes(v *[]models.SystemSamlServiceProvidersAssertionAttributes, sort bool) interface{} {
+func flattenSystemSamlServiceProvidersAssertionAttributes(d *schema.ResourceData, v *[]models.SystemSamlServiceProvidersAssertionAttributes, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -652,7 +654,7 @@ func refreshObjectSystemSaml(d *schema.ResourceData, o *models.SystemSaml, sv st
 	}
 
 	if o.ServiceProviders != nil {
-		if err = d.Set("service_providers", flattenSystemSamlServiceProviders(o.ServiceProviders, sort)); err != nil {
+		if err = d.Set("service_providers", flattenSystemSamlServiceProviders(d, o.ServiceProviders, "service_providers", sort)); err != nil {
 			return diag.Errorf("error reading service_providers: %v", err)
 		}
 	}

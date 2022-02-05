@@ -489,11 +489,12 @@ func resourceVpnSslWebUserGroupBookmarkRead(ctx context.Context, d *schema.Resou
 	return nil
 }
 
-func flattenVpnSslWebUserGroupBookmarkBookmarks(v *[]models.VpnSslWebUserGroupBookmarkBookmarks, sort bool) interface{} {
+func flattenVpnSslWebUserGroupBookmarkBookmarks(d *schema.ResourceData, v *[]models.VpnSslWebUserGroupBookmarkBookmarks, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.AdditionalParams; tmp != nil {
 				v["additional_params"] = *tmp
@@ -520,7 +521,7 @@ func flattenVpnSslWebUserGroupBookmarkBookmarks(v *[]models.VpnSslWebUserGroupBo
 			}
 
 			if tmp := cfg.FormData; tmp != nil {
-				v["form_data"] = flattenVpnSslWebUserGroupBookmarkBookmarksFormData(tmp, sort)
+				v["form_data"] = flattenVpnSslWebUserGroupBookmarkBookmarksFormData(d, tmp, prefix+"form_data", sort)
 			}
 
 			if tmp := cfg.Height; tmp != nil {
@@ -630,11 +631,12 @@ func flattenVpnSslWebUserGroupBookmarkBookmarks(v *[]models.VpnSslWebUserGroupBo
 	return flat
 }
 
-func flattenVpnSslWebUserGroupBookmarkBookmarksFormData(v *[]models.VpnSslWebUserGroupBookmarkBookmarksFormData, sort bool) interface{} {
+func flattenVpnSslWebUserGroupBookmarkBookmarksFormData(d *schema.ResourceData, v *[]models.VpnSslWebUserGroupBookmarkBookmarksFormData, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -659,7 +661,7 @@ func refreshObjectVpnSslWebUserGroupBookmark(d *schema.ResourceData, o *models.V
 	var err error
 
 	if o.Bookmarks != nil {
-		if err = d.Set("bookmarks", flattenVpnSslWebUserGroupBookmarkBookmarks(o.Bookmarks, sort)); err != nil {
+		if err = d.Set("bookmarks", flattenVpnSslWebUserGroupBookmarkBookmarks(d, o.Bookmarks, "bookmarks", sort)); err != nil {
 			return diag.Errorf("error reading bookmarks: %v", err)
 		}
 	}

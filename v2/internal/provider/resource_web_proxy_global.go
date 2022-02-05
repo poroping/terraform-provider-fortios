@@ -377,11 +377,12 @@ func resourceWebProxyGlobalRead(ctx context.Context, d *schema.ResourceData, met
 	return nil
 }
 
-func flattenWebProxyGlobalLearnClientIpSrcaddr(v *[]models.WebProxyGlobalLearnClientIpSrcaddr, sort bool) interface{} {
+func flattenWebProxyGlobalLearnClientIpSrcaddr(d *schema.ResourceData, v *[]models.WebProxyGlobalLearnClientIpSrcaddr, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -398,11 +399,12 @@ func flattenWebProxyGlobalLearnClientIpSrcaddr(v *[]models.WebProxyGlobalLearnCl
 	return flat
 }
 
-func flattenWebProxyGlobalLearnClientIpSrcaddr6(v *[]models.WebProxyGlobalLearnClientIpSrcaddr6, sort bool) interface{} {
+func flattenWebProxyGlobalLearnClientIpSrcaddr6(d *schema.ResourceData, v *[]models.WebProxyGlobalLearnClientIpSrcaddr6, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -471,13 +473,13 @@ func refreshObjectWebProxyGlobal(d *schema.ResourceData, o *models.WebProxyGloba
 	}
 
 	if o.LearnClientIpSrcaddr != nil {
-		if err = d.Set("learn_client_ip_srcaddr", flattenWebProxyGlobalLearnClientIpSrcaddr(o.LearnClientIpSrcaddr, sort)); err != nil {
+		if err = d.Set("learn_client_ip_srcaddr", flattenWebProxyGlobalLearnClientIpSrcaddr(d, o.LearnClientIpSrcaddr, "learn_client_ip_srcaddr", sort)); err != nil {
 			return diag.Errorf("error reading learn_client_ip_srcaddr: %v", err)
 		}
 	}
 
 	if o.LearnClientIpSrcaddr6 != nil {
-		if err = d.Set("learn_client_ip_srcaddr6", flattenWebProxyGlobalLearnClientIpSrcaddr6(o.LearnClientIpSrcaddr6, sort)); err != nil {
+		if err = d.Set("learn_client_ip_srcaddr6", flattenWebProxyGlobalLearnClientIpSrcaddr6(d, o.LearnClientIpSrcaddr6, "learn_client_ip_srcaddr6", sort)); err != nil {
 			return diag.Errorf("error reading learn_client_ip_srcaddr6: %v", err)
 		}
 	}

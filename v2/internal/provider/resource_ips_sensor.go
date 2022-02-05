@@ -686,11 +686,12 @@ func resourceIpsSensorRead(ctx context.Context, d *schema.ResourceData, meta int
 	return nil
 }
 
-func flattenIpsSensorEntries(v *[]models.IpsSensorEntries, sort bool) interface{} {
+func flattenIpsSensorEntries(d *schema.ResourceData, v *[]models.IpsSensorEntries, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Action; tmp != nil {
 				v["action"] = *tmp
@@ -701,11 +702,11 @@ func flattenIpsSensorEntries(v *[]models.IpsSensorEntries, sort bool) interface{
 			}
 
 			if tmp := cfg.Cve; tmp != nil {
-				v["cve"] = flattenIpsSensorEntriesCve(tmp, sort)
+				v["cve"] = flattenIpsSensorEntriesCve(d, tmp, prefix+"cve", sort)
 			}
 
 			if tmp := cfg.ExemptIp; tmp != nil {
-				v["exempt_ip"] = flattenIpsSensorEntriesExemptIp(tmp, sort)
+				v["exempt_ip"] = flattenIpsSensorEntriesExemptIp(d, tmp, prefix+"exempt_ip", sort)
 			}
 
 			if tmp := cfg.Id; tmp != nil {
@@ -765,7 +766,7 @@ func flattenIpsSensorEntries(v *[]models.IpsSensorEntries, sort bool) interface{
 			}
 
 			if tmp := cfg.Rule; tmp != nil {
-				v["rule"] = flattenIpsSensorEntriesRule(tmp, sort)
+				v["rule"] = flattenIpsSensorEntriesRule(d, tmp, prefix+"rule", sort)
 			}
 
 			if tmp := cfg.Severity; tmp != nil {
@@ -787,11 +788,12 @@ func flattenIpsSensorEntries(v *[]models.IpsSensorEntries, sort bool) interface{
 	return flat
 }
 
-func flattenIpsSensorEntriesCve(v *[]models.IpsSensorEntriesCve, sort bool) interface{} {
+func flattenIpsSensorEntriesCve(d *schema.ResourceData, v *[]models.IpsSensorEntriesCve, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.CveEntry; tmp != nil {
 				v["cve_entry"] = *tmp
@@ -808,13 +810,15 @@ func flattenIpsSensorEntriesCve(v *[]models.IpsSensorEntriesCve, sort bool) inte
 	return flat
 }
 
-func flattenIpsSensorEntriesExemptIp(v *[]models.IpsSensorEntriesExemptIp, sort bool) interface{} {
+func flattenIpsSensorEntriesExemptIp(d *schema.ResourceData, v *[]models.IpsSensorEntriesExemptIp, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.DstIp; tmp != nil {
+				tmp = utils.Ipv4Read(d, fmt.Sprintf("%s.%d.dst_ip", prefix, i), *tmp)
 				v["dst_ip"] = *tmp
 			}
 
@@ -823,6 +827,7 @@ func flattenIpsSensorEntriesExemptIp(v *[]models.IpsSensorEntriesExemptIp, sort 
 			}
 
 			if tmp := cfg.SrcIp; tmp != nil {
+				tmp = utils.Ipv4Read(d, fmt.Sprintf("%s.%d.src_ip", prefix, i), *tmp)
 				v["src_ip"] = *tmp
 			}
 
@@ -837,11 +842,12 @@ func flattenIpsSensorEntriesExemptIp(v *[]models.IpsSensorEntriesExemptIp, sort 
 	return flat
 }
 
-func flattenIpsSensorEntriesRule(v *[]models.IpsSensorEntriesRule, sort bool) interface{} {
+func flattenIpsSensorEntriesRule(d *schema.ResourceData, v *[]models.IpsSensorEntriesRule, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Id; tmp != nil {
 				v["id"] = *tmp
@@ -858,11 +864,12 @@ func flattenIpsSensorEntriesRule(v *[]models.IpsSensorEntriesRule, sort bool) in
 	return flat
 }
 
-func flattenIpsSensorFilter(v *[]models.IpsSensorFilter, sort bool) interface{} {
+func flattenIpsSensorFilter(d *schema.ResourceData, v *[]models.IpsSensorFilter, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Action; tmp != nil {
 				v["action"] = *tmp
@@ -927,18 +934,19 @@ func flattenIpsSensorFilter(v *[]models.IpsSensorFilter, sort bool) interface{} 
 	return flat
 }
 
-func flattenIpsSensorOverride(v *[]models.IpsSensorOverride, sort bool) interface{} {
+func flattenIpsSensorOverride(d *schema.ResourceData, v *[]models.IpsSensorOverride, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Action; tmp != nil {
 				v["action"] = *tmp
 			}
 
 			if tmp := cfg.ExemptIp; tmp != nil {
-				v["exempt_ip"] = flattenIpsSensorOverrideExemptIp(tmp, sort)
+				v["exempt_ip"] = flattenIpsSensorOverrideExemptIp(d, tmp, prefix+"exempt_ip", sort)
 			}
 
 			if tmp := cfg.Log; tmp != nil {
@@ -980,13 +988,15 @@ func flattenIpsSensorOverride(v *[]models.IpsSensorOverride, sort bool) interfac
 	return flat
 }
 
-func flattenIpsSensorOverrideExemptIp(v *[]models.IpsSensorOverrideExemptIp, sort bool) interface{} {
+func flattenIpsSensorOverrideExemptIp(d *schema.ResourceData, v *[]models.IpsSensorOverrideExemptIp, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.DstIp; tmp != nil {
+				tmp = utils.Ipv4Read(d, fmt.Sprintf("%s.%d.dst_ip", prefix, i), *tmp)
 				v["dst_ip"] = *tmp
 			}
 
@@ -995,6 +1005,7 @@ func flattenIpsSensorOverrideExemptIp(v *[]models.IpsSensorOverrideExemptIp, sor
 			}
 
 			if tmp := cfg.SrcIp; tmp != nil {
+				tmp = utils.Ipv4Read(d, fmt.Sprintf("%s.%d.src_ip", prefix, i), *tmp)
 				v["src_ip"] = *tmp
 			}
 
@@ -1029,7 +1040,7 @@ func refreshObjectIpsSensor(d *schema.ResourceData, o *models.IpsSensor, sv stri
 	}
 
 	if o.Entries != nil {
-		if err = d.Set("entries", flattenIpsSensorEntries(o.Entries, sort)); err != nil {
+		if err = d.Set("entries", flattenIpsSensorEntries(d, o.Entries, "entries", sort)); err != nil {
 			return diag.Errorf("error reading entries: %v", err)
 		}
 	}
@@ -1043,7 +1054,7 @@ func refreshObjectIpsSensor(d *schema.ResourceData, o *models.IpsSensor, sv stri
 	}
 
 	if o.Filter != nil {
-		if err = d.Set("filter", flattenIpsSensorFilter(o.Filter, sort)); err != nil {
+		if err = d.Set("filter", flattenIpsSensorFilter(d, o.Filter, "filter", sort)); err != nil {
 			return diag.Errorf("error reading filter: %v", err)
 		}
 	}
@@ -1057,7 +1068,7 @@ func refreshObjectIpsSensor(d *schema.ResourceData, o *models.IpsSensor, sv stri
 	}
 
 	if o.Override != nil {
-		if err = d.Set("override", flattenIpsSensorOverride(o.Override, sort)); err != nil {
+		if err = d.Set("override", flattenIpsSensorOverride(d, o.Override, "override", sort)); err != nil {
 			return diag.Errorf("error reading override: %v", err)
 		}
 	}

@@ -405,11 +405,12 @@ func resourceLogFortianalyzer3OverrideSettingRead(ctx context.Context, d *schema
 	return nil
 }
 
-func flattenLogFortianalyzer3OverrideSettingSerial(v *[]models.LogFortianalyzer3OverrideSettingSerial, sort bool) interface{} {
+func flattenLogFortianalyzer3OverrideSettingSerial(d *schema.ResourceData, v *[]models.LogFortianalyzer3OverrideSettingSerial, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -550,7 +551,7 @@ func refreshObjectLogFortianalyzer3OverrideSetting(d *schema.ResourceData, o *mo
 	}
 
 	if o.Serial != nil {
-		if err = d.Set("serial", flattenLogFortianalyzer3OverrideSettingSerial(o.Serial, sort)); err != nil {
+		if err = d.Set("serial", flattenLogFortianalyzer3OverrideSettingSerial(d, o.Serial, "serial", sort)); err != nil {
 			return diag.Errorf("error reading serial: %v", err)
 		}
 	}

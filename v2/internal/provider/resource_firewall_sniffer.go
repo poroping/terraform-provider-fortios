@@ -530,11 +530,12 @@ func resourceFirewallSnifferRead(ctx context.Context, d *schema.ResourceData, me
 	return nil
 }
 
-func flattenFirewallSnifferAnomaly(v *[]models.FirewallSnifferAnomaly, sort bool) interface{} {
+func flattenFirewallSnifferAnomaly(d *schema.ResourceData, v *[]models.FirewallSnifferAnomaly, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Action; tmp != nil {
 				v["action"] = *tmp
@@ -583,11 +584,12 @@ func flattenFirewallSnifferAnomaly(v *[]models.FirewallSnifferAnomaly, sort bool
 	return flat
 }
 
-func flattenFirewallSnifferIpThreatfeed(v *[]models.FirewallSnifferIpThreatfeed, sort bool) interface{} {
+func flattenFirewallSnifferIpThreatfeed(d *schema.ResourceData, v *[]models.FirewallSnifferIpThreatfeed, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -608,7 +610,7 @@ func refreshObjectFirewallSniffer(d *schema.ResourceData, o *models.FirewallSnif
 	var err error
 
 	if o.Anomaly != nil {
-		if err = d.Set("anomaly", flattenFirewallSnifferAnomaly(o.Anomaly, sort)); err != nil {
+		if err = d.Set("anomaly", flattenFirewallSnifferAnomaly(d, o.Anomaly, "anomaly", sort)); err != nil {
 			return diag.Errorf("error reading anomaly: %v", err)
 		}
 	}
@@ -726,7 +728,7 @@ func refreshObjectFirewallSniffer(d *schema.ResourceData, o *models.FirewallSnif
 	}
 
 	if o.IpThreatfeed != nil {
-		if err = d.Set("ip_threatfeed", flattenFirewallSnifferIpThreatfeed(o.IpThreatfeed, sort)); err != nil {
+		if err = d.Set("ip_threatfeed", flattenFirewallSnifferIpThreatfeed(d, o.IpThreatfeed, "ip_threatfeed", sort)); err != nil {
 			return diag.Errorf("error reading ip_threatfeed: %v", err)
 		}
 	}

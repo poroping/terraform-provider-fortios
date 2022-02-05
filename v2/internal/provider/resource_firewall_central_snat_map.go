@@ -429,11 +429,12 @@ func resourceFirewallCentralSnatMapRead(ctx context.Context, d *schema.ResourceD
 	return nil
 }
 
-func flattenFirewallCentralSnatMapDstAddr(v *[]models.FirewallCentralSnatMapDstAddr, sort bool) interface{} {
+func flattenFirewallCentralSnatMapDstAddr(d *schema.ResourceData, v *[]models.FirewallCentralSnatMapDstAddr, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -450,11 +451,12 @@ func flattenFirewallCentralSnatMapDstAddr(v *[]models.FirewallCentralSnatMapDstA
 	return flat
 }
 
-func flattenFirewallCentralSnatMapDstAddr6(v *[]models.FirewallCentralSnatMapDstAddr6, sort bool) interface{} {
+func flattenFirewallCentralSnatMapDstAddr6(d *schema.ResourceData, v *[]models.FirewallCentralSnatMapDstAddr6, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -471,11 +473,12 @@ func flattenFirewallCentralSnatMapDstAddr6(v *[]models.FirewallCentralSnatMapDst
 	return flat
 }
 
-func flattenFirewallCentralSnatMapDstintf(v *[]models.FirewallCentralSnatMapDstintf, sort bool) interface{} {
+func flattenFirewallCentralSnatMapDstintf(d *schema.ResourceData, v *[]models.FirewallCentralSnatMapDstintf, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -492,11 +495,12 @@ func flattenFirewallCentralSnatMapDstintf(v *[]models.FirewallCentralSnatMapDsti
 	return flat
 }
 
-func flattenFirewallCentralSnatMapNatIppool(v *[]models.FirewallCentralSnatMapNatIppool, sort bool) interface{} {
+func flattenFirewallCentralSnatMapNatIppool(d *schema.ResourceData, v *[]models.FirewallCentralSnatMapNatIppool, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -513,11 +517,12 @@ func flattenFirewallCentralSnatMapNatIppool(v *[]models.FirewallCentralSnatMapNa
 	return flat
 }
 
-func flattenFirewallCentralSnatMapNatIppool6(v *[]models.FirewallCentralSnatMapNatIppool6, sort bool) interface{} {
+func flattenFirewallCentralSnatMapNatIppool6(d *schema.ResourceData, v *[]models.FirewallCentralSnatMapNatIppool6, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -534,11 +539,12 @@ func flattenFirewallCentralSnatMapNatIppool6(v *[]models.FirewallCentralSnatMapN
 	return flat
 }
 
-func flattenFirewallCentralSnatMapOrigAddr(v *[]models.FirewallCentralSnatMapOrigAddr, sort bool) interface{} {
+func flattenFirewallCentralSnatMapOrigAddr(d *schema.ResourceData, v *[]models.FirewallCentralSnatMapOrigAddr, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -555,11 +561,12 @@ func flattenFirewallCentralSnatMapOrigAddr(v *[]models.FirewallCentralSnatMapOri
 	return flat
 }
 
-func flattenFirewallCentralSnatMapOrigAddr6(v *[]models.FirewallCentralSnatMapOrigAddr6, sort bool) interface{} {
+func flattenFirewallCentralSnatMapOrigAddr6(d *schema.ResourceData, v *[]models.FirewallCentralSnatMapOrigAddr6, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -576,11 +583,12 @@ func flattenFirewallCentralSnatMapOrigAddr6(v *[]models.FirewallCentralSnatMapOr
 	return flat
 }
 
-func flattenFirewallCentralSnatMapSrcintf(v *[]models.FirewallCentralSnatMapSrcintf, sort bool) interface{} {
+func flattenFirewallCentralSnatMapSrcintf(d *schema.ResourceData, v *[]models.FirewallCentralSnatMapSrcintf, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -609,19 +617,19 @@ func refreshObjectFirewallCentralSnatMap(d *schema.ResourceData, o *models.Firew
 	}
 
 	if o.DstAddr != nil {
-		if err = d.Set("dst_addr", flattenFirewallCentralSnatMapDstAddr(o.DstAddr, sort)); err != nil {
+		if err = d.Set("dst_addr", flattenFirewallCentralSnatMapDstAddr(d, o.DstAddr, "dst_addr", sort)); err != nil {
 			return diag.Errorf("error reading dst_addr: %v", err)
 		}
 	}
 
 	if o.DstAddr6 != nil {
-		if err = d.Set("dst_addr6", flattenFirewallCentralSnatMapDstAddr6(o.DstAddr6, sort)); err != nil {
+		if err = d.Set("dst_addr6", flattenFirewallCentralSnatMapDstAddr6(d, o.DstAddr6, "dst_addr6", sort)); err != nil {
 			return diag.Errorf("error reading dst_addr6: %v", err)
 		}
 	}
 
 	if o.Dstintf != nil {
-		if err = d.Set("dstintf", flattenFirewallCentralSnatMapDstintf(o.Dstintf, sort)); err != nil {
+		if err = d.Set("dstintf", flattenFirewallCentralSnatMapDstintf(d, o.Dstintf, "dstintf", sort)); err != nil {
 			return diag.Errorf("error reading dstintf: %v", err)
 		}
 	}
@@ -635,13 +643,13 @@ func refreshObjectFirewallCentralSnatMap(d *schema.ResourceData, o *models.Firew
 	}
 
 	if o.NatIppool != nil {
-		if err = d.Set("nat_ippool", flattenFirewallCentralSnatMapNatIppool(o.NatIppool, sort)); err != nil {
+		if err = d.Set("nat_ippool", flattenFirewallCentralSnatMapNatIppool(d, o.NatIppool, "nat_ippool", sort)); err != nil {
 			return diag.Errorf("error reading nat_ippool: %v", err)
 		}
 	}
 
 	if o.NatIppool6 != nil {
-		if err = d.Set("nat_ippool6", flattenFirewallCentralSnatMapNatIppool6(o.NatIppool6, sort)); err != nil {
+		if err = d.Set("nat_ippool6", flattenFirewallCentralSnatMapNatIppool6(d, o.NatIppool6, "nat_ippool6", sort)); err != nil {
 			return diag.Errorf("error reading nat_ippool6: %v", err)
 		}
 	}
@@ -671,13 +679,13 @@ func refreshObjectFirewallCentralSnatMap(d *schema.ResourceData, o *models.Firew
 	}
 
 	if o.OrigAddr != nil {
-		if err = d.Set("orig_addr", flattenFirewallCentralSnatMapOrigAddr(o.OrigAddr, sort)); err != nil {
+		if err = d.Set("orig_addr", flattenFirewallCentralSnatMapOrigAddr(d, o.OrigAddr, "orig_addr", sort)); err != nil {
 			return diag.Errorf("error reading orig_addr: %v", err)
 		}
 	}
 
 	if o.OrigAddr6 != nil {
-		if err = d.Set("orig_addr6", flattenFirewallCentralSnatMapOrigAddr6(o.OrigAddr6, sort)); err != nil {
+		if err = d.Set("orig_addr6", flattenFirewallCentralSnatMapOrigAddr6(d, o.OrigAddr6, "orig_addr6", sort)); err != nil {
 			return diag.Errorf("error reading orig_addr6: %v", err)
 		}
 	}
@@ -707,7 +715,7 @@ func refreshObjectFirewallCentralSnatMap(d *schema.ResourceData, o *models.Firew
 	}
 
 	if o.Srcintf != nil {
-		if err = d.Set("srcintf", flattenFirewallCentralSnatMapSrcintf(o.Srcintf, sort)); err != nil {
+		if err = d.Set("srcintf", flattenFirewallCentralSnatMapSrcintf(d, o.Srcintf, "srcintf", sort)); err != nil {
 			return diag.Errorf("error reading srcintf: %v", err)
 		}
 	}

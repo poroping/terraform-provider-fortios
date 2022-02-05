@@ -795,11 +795,12 @@ func resourceSystemDhcpServerRead(ctx context.Context, d *schema.ResourceData, m
 	return nil
 }
 
-func flattenSystemDhcpServerExcludeRange(v *[]models.SystemDhcpServerExcludeRange, sort bool) interface{} {
+func flattenSystemDhcpServerExcludeRange(d *schema.ResourceData, v *[]models.SystemDhcpServerExcludeRange, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.EndIp; tmp != nil {
 				v["end_ip"] = *tmp
@@ -824,11 +825,12 @@ func flattenSystemDhcpServerExcludeRange(v *[]models.SystemDhcpServerExcludeRang
 	return flat
 }
 
-func flattenSystemDhcpServerIpRange(v *[]models.SystemDhcpServerIpRange, sort bool) interface{} {
+func flattenSystemDhcpServerIpRange(d *schema.ResourceData, v *[]models.SystemDhcpServerIpRange, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.EndIp; tmp != nil {
 				v["end_ip"] = *tmp
@@ -853,11 +855,12 @@ func flattenSystemDhcpServerIpRange(v *[]models.SystemDhcpServerIpRange, sort bo
 	return flat
 }
 
-func flattenSystemDhcpServerOptions(v *[]models.SystemDhcpServerOptions, sort bool) interface{} {
+func flattenSystemDhcpServerOptions(d *schema.ResourceData, v *[]models.SystemDhcpServerOptions, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Code; tmp != nil {
 				v["code"] = *tmp
@@ -890,11 +893,12 @@ func flattenSystemDhcpServerOptions(v *[]models.SystemDhcpServerOptions, sort bo
 	return flat
 }
 
-func flattenSystemDhcpServerReservedAddress(v *[]models.SystemDhcpServerReservedAddress, sort bool) interface{} {
+func flattenSystemDhcpServerReservedAddress(d *schema.ResourceData, v *[]models.SystemDhcpServerReservedAddress, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Action; tmp != nil {
 				v["action"] = *tmp
@@ -947,11 +951,12 @@ func flattenSystemDhcpServerReservedAddress(v *[]models.SystemDhcpServerReserved
 	return flat
 }
 
-func flattenSystemDhcpServerTftpServer(v *[]models.SystemDhcpServerTftpServer, sort bool) interface{} {
+func flattenSystemDhcpServerTftpServer(d *schema.ResourceData, v *[]models.SystemDhcpServerTftpServer, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.TftpServer; tmp != nil {
 				v["tftp_server"] = *tmp
@@ -968,11 +973,12 @@ func flattenSystemDhcpServerTftpServer(v *[]models.SystemDhcpServerTftpServer, s
 	return flat
 }
 
-func flattenSystemDhcpServerVciString(v *[]models.SystemDhcpServerVciString, sort bool) interface{} {
+func flattenSystemDhcpServerVciString(d *schema.ResourceData, v *[]models.SystemDhcpServerVciString, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.VciString; tmp != nil {
 				v["vci_string"] = *tmp
@@ -1145,7 +1151,7 @@ func refreshObjectSystemDhcpServer(d *schema.ResourceData, o *models.SystemDhcpS
 	}
 
 	if o.ExcludeRange != nil {
-		if err = d.Set("exclude_range", flattenSystemDhcpServerExcludeRange(o.ExcludeRange, sort)); err != nil {
+		if err = d.Set("exclude_range", flattenSystemDhcpServerExcludeRange(d, o.ExcludeRange, "exclude_range", sort)); err != nil {
 			return diag.Errorf("error reading exclude_range: %v", err)
 		}
 	}
@@ -1191,7 +1197,7 @@ func refreshObjectSystemDhcpServer(d *schema.ResourceData, o *models.SystemDhcpS
 	}
 
 	if o.IpRange != nil {
-		if err = d.Set("ip_range", flattenSystemDhcpServerIpRange(o.IpRange, sort)); err != nil {
+		if err = d.Set("ip_range", flattenSystemDhcpServerIpRange(d, o.IpRange, "ip_range", sort)); err != nil {
 			return diag.Errorf("error reading ip_range: %v", err)
 		}
 	}
@@ -1269,13 +1275,13 @@ func refreshObjectSystemDhcpServer(d *schema.ResourceData, o *models.SystemDhcpS
 	}
 
 	if o.Options != nil {
-		if err = d.Set("options", flattenSystemDhcpServerOptions(o.Options, sort)); err != nil {
+		if err = d.Set("options", flattenSystemDhcpServerOptions(d, o.Options, "options", sort)); err != nil {
 			return diag.Errorf("error reading options: %v", err)
 		}
 	}
 
 	if o.ReservedAddress != nil {
-		if err = d.Set("reserved_address", flattenSystemDhcpServerReservedAddress(o.ReservedAddress, sort)); err != nil {
+		if err = d.Set("reserved_address", flattenSystemDhcpServerReservedAddress(d, o.ReservedAddress, "reserved_address", sort)); err != nil {
 			return diag.Errorf("error reading reserved_address: %v", err)
 		}
 	}
@@ -1297,7 +1303,7 @@ func refreshObjectSystemDhcpServer(d *schema.ResourceData, o *models.SystemDhcpS
 	}
 
 	if o.TftpServer != nil {
-		if err = d.Set("tftp_server", flattenSystemDhcpServerTftpServer(o.TftpServer, sort)); err != nil {
+		if err = d.Set("tftp_server", flattenSystemDhcpServerTftpServer(d, o.TftpServer, "tftp_server", sort)); err != nil {
 			return diag.Errorf("error reading tftp_server: %v", err)
 		}
 	}
@@ -1327,7 +1333,7 @@ func refreshObjectSystemDhcpServer(d *schema.ResourceData, o *models.SystemDhcpS
 	}
 
 	if o.VciString != nil {
-		if err = d.Set("vci_string", flattenSystemDhcpServerVciString(o.VciString, sort)); err != nil {
+		if err = d.Set("vci_string", flattenSystemDhcpServerVciString(d, o.VciString, "vci_string", sort)); err != nil {
 			return diag.Errorf("error reading vci_string: %v", err)
 		}
 	}

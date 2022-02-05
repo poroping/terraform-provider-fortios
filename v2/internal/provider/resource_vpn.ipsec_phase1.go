@@ -1219,11 +1219,12 @@ func resourceVpnIpsecPhase1Read(ctx context.Context, d *schema.ResourceData, met
 	return nil
 }
 
-func flattenVpnIpsecPhase1BackupGateway(v *[]models.VpnIpsecPhase1BackupGateway, sort bool) interface{} {
+func flattenVpnIpsecPhase1BackupGateway(d *schema.ResourceData, v *[]models.VpnIpsecPhase1BackupGateway, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Address; tmp != nil {
 				v["address"] = *tmp
@@ -1240,11 +1241,12 @@ func flattenVpnIpsecPhase1BackupGateway(v *[]models.VpnIpsecPhase1BackupGateway,
 	return flat
 }
 
-func flattenVpnIpsecPhase1Certificate(v *[]models.VpnIpsecPhase1Certificate, sort bool) interface{} {
+func flattenVpnIpsecPhase1Certificate(d *schema.ResourceData, v *[]models.VpnIpsecPhase1Certificate, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -1261,11 +1263,12 @@ func flattenVpnIpsecPhase1Certificate(v *[]models.VpnIpsecPhase1Certificate, sor
 	return flat
 }
 
-func flattenVpnIpsecPhase1Ipv4ExcludeRange(v *[]models.VpnIpsecPhase1Ipv4ExcludeRange, sort bool) interface{} {
+func flattenVpnIpsecPhase1Ipv4ExcludeRange(d *schema.ResourceData, v *[]models.VpnIpsecPhase1Ipv4ExcludeRange, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.EndIp; tmp != nil {
 				v["end_ip"] = *tmp
@@ -1290,11 +1293,12 @@ func flattenVpnIpsecPhase1Ipv4ExcludeRange(v *[]models.VpnIpsecPhase1Ipv4Exclude
 	return flat
 }
 
-func flattenVpnIpsecPhase1Ipv6ExcludeRange(v *[]models.VpnIpsecPhase1Ipv6ExcludeRange, sort bool) interface{} {
+func flattenVpnIpsecPhase1Ipv6ExcludeRange(d *schema.ResourceData, v *[]models.VpnIpsecPhase1Ipv6ExcludeRange, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.EndIp; tmp != nil {
 				v["end_ip"] = *tmp
@@ -1412,7 +1416,7 @@ func refreshObjectVpnIpsecPhase1(d *schema.ResourceData, o *models.VpnIpsecPhase
 	}
 
 	if o.BackupGateway != nil {
-		if err = d.Set("backup_gateway", flattenVpnIpsecPhase1BackupGateway(o.BackupGateway, sort)); err != nil {
+		if err = d.Set("backup_gateway", flattenVpnIpsecPhase1BackupGateway(d, o.BackupGateway, "backup_gateway", sort)); err != nil {
 			return diag.Errorf("error reading backup_gateway: %v", err)
 		}
 	}
@@ -1434,7 +1438,7 @@ func refreshObjectVpnIpsecPhase1(d *schema.ResourceData, o *models.VpnIpsecPhase
 	}
 
 	if o.Certificate != nil {
-		if err = d.Set("certificate", flattenVpnIpsecPhase1Certificate(o.Certificate, sort)); err != nil {
+		if err = d.Set("certificate", flattenVpnIpsecPhase1Certificate(d, o.Certificate, "certificate", sort)); err != nil {
 			return diag.Errorf("error reading certificate: %v", err)
 		}
 	}
@@ -1793,7 +1797,7 @@ func refreshObjectVpnIpsecPhase1(d *schema.ResourceData, o *models.VpnIpsecPhase
 	}
 
 	if o.Ipv4ExcludeRange != nil {
-		if err = d.Set("ipv4_exclude_range", flattenVpnIpsecPhase1Ipv4ExcludeRange(o.Ipv4ExcludeRange, sort)); err != nil {
+		if err = d.Set("ipv4_exclude_range", flattenVpnIpsecPhase1Ipv4ExcludeRange(d, o.Ipv4ExcludeRange, "ipv4_exclude_range", sort)); err != nil {
 			return diag.Errorf("error reading ipv4_exclude_range: %v", err)
 		}
 	}
@@ -1887,7 +1891,7 @@ func refreshObjectVpnIpsecPhase1(d *schema.ResourceData, o *models.VpnIpsecPhase
 	}
 
 	if o.Ipv6ExcludeRange != nil {
-		if err = d.Set("ipv6_exclude_range", flattenVpnIpsecPhase1Ipv6ExcludeRange(o.Ipv6ExcludeRange, sort)); err != nil {
+		if err = d.Set("ipv6_exclude_range", flattenVpnIpsecPhase1Ipv6ExcludeRange(d, o.Ipv6ExcludeRange, "ipv6_exclude_range", sort)); err != nil {
 			return diag.Errorf("error reading ipv6_exclude_range: %v", err)
 		}
 	}

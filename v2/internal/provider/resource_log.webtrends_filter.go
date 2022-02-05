@@ -326,11 +326,12 @@ func resourceLogWebtrendsFilterRead(ctx context.Context, d *schema.ResourceData,
 	return nil
 }
 
-func flattenLogWebtrendsFilterFreeStyle(v *[]models.LogWebtrendsFilterFreeStyle, sort bool) interface{} {
+func flattenLogWebtrendsFilterFreeStyle(d *schema.ResourceData, v *[]models.LogWebtrendsFilterFreeStyle, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Category; tmp != nil {
 				v["category"] = *tmp
@@ -395,7 +396,7 @@ func refreshObjectLogWebtrendsFilter(d *schema.ResourceData, o *models.LogWebtre
 	}
 
 	if o.FreeStyle != nil {
-		if err = d.Set("free_style", flattenLogWebtrendsFilterFreeStyle(o.FreeStyle, sort)); err != nil {
+		if err = d.Set("free_style", flattenLogWebtrendsFilterFreeStyle(d, o.FreeStyle, "free_style", sort)); err != nil {
 			return diag.Errorf("error reading free_style: %v", err)
 		}
 	}

@@ -428,11 +428,12 @@ func resourceWirelessControllerQosProfileRead(ctx context.Context, d *schema.Res
 	return nil
 }
 
-func flattenWirelessControllerQosProfileDscpWmmBe(v *[]models.WirelessControllerQosProfileDscpWmmBe, sort bool) interface{} {
+func flattenWirelessControllerQosProfileDscpWmmBe(d *schema.ResourceData, v *[]models.WirelessControllerQosProfileDscpWmmBe, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Id; tmp != nil {
 				v["id"] = *tmp
@@ -449,11 +450,12 @@ func flattenWirelessControllerQosProfileDscpWmmBe(v *[]models.WirelessController
 	return flat
 }
 
-func flattenWirelessControllerQosProfileDscpWmmBk(v *[]models.WirelessControllerQosProfileDscpWmmBk, sort bool) interface{} {
+func flattenWirelessControllerQosProfileDscpWmmBk(d *schema.ResourceData, v *[]models.WirelessControllerQosProfileDscpWmmBk, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Id; tmp != nil {
 				v["id"] = *tmp
@@ -470,11 +472,12 @@ func flattenWirelessControllerQosProfileDscpWmmBk(v *[]models.WirelessController
 	return flat
 }
 
-func flattenWirelessControllerQosProfileDscpWmmVi(v *[]models.WirelessControllerQosProfileDscpWmmVi, sort bool) interface{} {
+func flattenWirelessControllerQosProfileDscpWmmVi(d *schema.ResourceData, v *[]models.WirelessControllerQosProfileDscpWmmVi, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Id; tmp != nil {
 				v["id"] = *tmp
@@ -491,11 +494,12 @@ func flattenWirelessControllerQosProfileDscpWmmVi(v *[]models.WirelessController
 	return flat
 }
 
-func flattenWirelessControllerQosProfileDscpWmmVo(v *[]models.WirelessControllerQosProfileDscpWmmVo, sort bool) interface{} {
+func flattenWirelessControllerQosProfileDscpWmmVo(d *schema.ResourceData, v *[]models.WirelessControllerQosProfileDscpWmmVo, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Id; tmp != nil {
 				v["id"] = *tmp
@@ -580,13 +584,13 @@ func refreshObjectWirelessControllerQosProfile(d *schema.ResourceData, o *models
 	}
 
 	if o.DscpWmmBe != nil {
-		if err = d.Set("dscp_wmm_be", flattenWirelessControllerQosProfileDscpWmmBe(o.DscpWmmBe, sort)); err != nil {
+		if err = d.Set("dscp_wmm_be", flattenWirelessControllerQosProfileDscpWmmBe(d, o.DscpWmmBe, "dscp_wmm_be", sort)); err != nil {
 			return diag.Errorf("error reading dscp_wmm_be: %v", err)
 		}
 	}
 
 	if o.DscpWmmBk != nil {
-		if err = d.Set("dscp_wmm_bk", flattenWirelessControllerQosProfileDscpWmmBk(o.DscpWmmBk, sort)); err != nil {
+		if err = d.Set("dscp_wmm_bk", flattenWirelessControllerQosProfileDscpWmmBk(d, o.DscpWmmBk, "dscp_wmm_bk", sort)); err != nil {
 			return diag.Errorf("error reading dscp_wmm_bk: %v", err)
 		}
 	}
@@ -600,13 +604,13 @@ func refreshObjectWirelessControllerQosProfile(d *schema.ResourceData, o *models
 	}
 
 	if o.DscpWmmVi != nil {
-		if err = d.Set("dscp_wmm_vi", flattenWirelessControllerQosProfileDscpWmmVi(o.DscpWmmVi, sort)); err != nil {
+		if err = d.Set("dscp_wmm_vi", flattenWirelessControllerQosProfileDscpWmmVi(d, o.DscpWmmVi, "dscp_wmm_vi", sort)); err != nil {
 			return diag.Errorf("error reading dscp_wmm_vi: %v", err)
 		}
 	}
 
 	if o.DscpWmmVo != nil {
-		if err = d.Set("dscp_wmm_vo", flattenWirelessControllerQosProfileDscpWmmVo(o.DscpWmmVo, sort)); err != nil {
+		if err = d.Set("dscp_wmm_vo", flattenWirelessControllerQosProfileDscpWmmVo(d, o.DscpWmmVo, "dscp_wmm_vo", sort)); err != nil {
 			return diag.Errorf("error reading dscp_wmm_vo: %v", err)
 		}
 	}

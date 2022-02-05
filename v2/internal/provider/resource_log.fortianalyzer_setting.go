@@ -397,11 +397,12 @@ func resourceLogFortianalyzerSettingRead(ctx context.Context, d *schema.Resource
 	return nil
 }
 
-func flattenLogFortianalyzerSettingSerial(v *[]models.LogFortianalyzerSettingSerial, sort bool) interface{} {
+func flattenLogFortianalyzerSettingSerial(d *schema.ResourceData, v *[]models.LogFortianalyzerSettingSerial, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -542,7 +543,7 @@ func refreshObjectLogFortianalyzerSetting(d *schema.ResourceData, o *models.LogF
 	}
 
 	if o.Serial != nil {
-		if err = d.Set("serial", flattenLogFortianalyzerSettingSerial(o.Serial, sort)); err != nil {
+		if err = d.Set("serial", flattenLogFortianalyzerSettingSerial(d, o.Serial, "serial", sort)); err != nil {
 			return diag.Errorf("error reading serial: %v", err)
 		}
 	}

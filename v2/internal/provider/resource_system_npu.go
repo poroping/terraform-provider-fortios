@@ -2093,11 +2093,12 @@ func resourceSystemNpuRead(ctx context.Context, d *schema.ResourceData, meta int
 	return nil
 }
 
-func flattenSystemNpuDosOptions(v *[]models.SystemNpuDosOptions, sort bool) interface{} {
+func flattenSystemNpuDosOptions(d *schema.ResourceData, v *[]models.SystemNpuDosOptions, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.NpuDosMeterMode; tmp != nil {
 				v["npu_dos_meter_mode"] = *tmp
@@ -2114,11 +2115,12 @@ func flattenSystemNpuDosOptions(v *[]models.SystemNpuDosOptions, sort bool) inte
 	return flat
 }
 
-func flattenSystemNpuDswDtsProfile(v *[]models.SystemNpuDswDtsProfile, sort bool) interface{} {
+func flattenSystemNpuDswDtsProfile(d *schema.ResourceData, v *[]models.SystemNpuDswDtsProfile, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Action; tmp != nil {
 				v["action"] = *tmp
@@ -2147,11 +2149,12 @@ func flattenSystemNpuDswDtsProfile(v *[]models.SystemNpuDswDtsProfile, sort bool
 	return flat
 }
 
-func flattenSystemNpuDswQueueDtsProfile(v *[]models.SystemNpuDswQueueDtsProfile, sort bool) interface{} {
+func flattenSystemNpuDswQueueDtsProfile(d *schema.ResourceData, v *[]models.SystemNpuDswQueueDtsProfile, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Iport; tmp != nil {
 				v["iport"] = *tmp
@@ -2184,11 +2187,12 @@ func flattenSystemNpuDswQueueDtsProfile(v *[]models.SystemNpuDswQueueDtsProfile,
 	return flat
 }
 
-func flattenSystemNpuFpAnomaly(v *[]models.SystemNpuFpAnomaly, sort bool) interface{} {
+func flattenSystemNpuFpAnomaly(d *schema.ResourceData, v *[]models.SystemNpuFpAnomaly, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.IcmpCsumErr; tmp != nil {
 				v["icmp_csum_err"] = *tmp
@@ -2337,11 +2341,12 @@ func flattenSystemNpuFpAnomaly(v *[]models.SystemNpuFpAnomaly, sort bool) interf
 	return flat
 }
 
-func flattenSystemNpuHpe(v *[]models.SystemNpuHpe, sort bool) interface{} {
+func flattenSystemNpuHpe(d *schema.ResourceData, v *[]models.SystemNpuHpe, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.AllProtocol; tmp != nil {
 				v["all_protocol"] = *tmp
@@ -2410,11 +2415,12 @@ func flattenSystemNpuHpe(v *[]models.SystemNpuHpe, sort bool) interface{} {
 	return flat
 }
 
-func flattenSystemNpuInboundDscpCopyPort(v *[]models.SystemNpuInboundDscpCopyPort, sort bool) interface{} {
+func flattenSystemNpuInboundDscpCopyPort(d *schema.ResourceData, v *[]models.SystemNpuInboundDscpCopyPort, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Interface; tmp != nil {
 				v["interface"] = *tmp
@@ -2431,11 +2437,12 @@ func flattenSystemNpuInboundDscpCopyPort(v *[]models.SystemNpuInboundDscpCopyPor
 	return flat
 }
 
-func flattenSystemNpuIpReassembly(v *[]models.SystemNpuIpReassembly, sort bool) interface{} {
+func flattenSystemNpuIpReassembly(d *schema.ResourceData, v *[]models.SystemNpuIpReassembly, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.MaxTimeout; tmp != nil {
 				v["max_timeout"] = *tmp
@@ -2456,11 +2463,12 @@ func flattenSystemNpuIpReassembly(v *[]models.SystemNpuIpReassembly, sort bool) 
 	return flat
 }
 
-func flattenSystemNpuIsfNpQueues(v *[]models.SystemNpuIsfNpQueues, sort bool) interface{} {
+func flattenSystemNpuIsfNpQueues(d *schema.ResourceData, v *[]models.SystemNpuIsfNpQueues, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Cos0; tmp != nil {
 				v["cos0"] = *tmp
@@ -2501,30 +2509,31 @@ func flattenSystemNpuIsfNpQueues(v *[]models.SystemNpuIsfNpQueues, sort bool) in
 	return flat
 }
 
-func flattenSystemNpuNpQueues(v *[]models.SystemNpuNpQueues, sort bool) interface{} {
+func flattenSystemNpuNpQueues(d *schema.ResourceData, v *[]models.SystemNpuNpQueues, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.EthernetType; tmp != nil {
-				v["ethernet_type"] = flattenSystemNpuNpQueuesEthernetType(tmp, sort)
+				v["ethernet_type"] = flattenSystemNpuNpQueuesEthernetType(d, tmp, prefix+"ethernet_type", sort)
 			}
 
 			if tmp := cfg.IpProtocol; tmp != nil {
-				v["ip_protocol"] = flattenSystemNpuNpQueuesIpProtocol(tmp, sort)
+				v["ip_protocol"] = flattenSystemNpuNpQueuesIpProtocol(d, tmp, prefix+"ip_protocol", sort)
 			}
 
 			if tmp := cfg.IpService; tmp != nil {
-				v["ip_service"] = flattenSystemNpuNpQueuesIpService(tmp, sort)
+				v["ip_service"] = flattenSystemNpuNpQueuesIpService(d, tmp, prefix+"ip_service", sort)
 			}
 
 			if tmp := cfg.Profile; tmp != nil {
-				v["profile"] = flattenSystemNpuNpQueuesProfile(tmp, sort)
+				v["profile"] = flattenSystemNpuNpQueuesProfile(d, tmp, prefix+"profile", sort)
 			}
 
 			if tmp := cfg.Scheduler; tmp != nil {
-				v["scheduler"] = flattenSystemNpuNpQueuesScheduler(tmp, sort)
+				v["scheduler"] = flattenSystemNpuNpQueuesScheduler(d, tmp, prefix+"scheduler", sort)
 			}
 
 			flat = append(flat, v)
@@ -2534,11 +2543,12 @@ func flattenSystemNpuNpQueues(v *[]models.SystemNpuNpQueues, sort bool) interfac
 	return flat
 }
 
-func flattenSystemNpuNpQueuesEthernetType(v *[]models.SystemNpuNpQueuesEthernetType, sort bool) interface{} {
+func flattenSystemNpuNpQueuesEthernetType(d *schema.ResourceData, v *[]models.SystemNpuNpQueuesEthernetType, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -2567,11 +2577,12 @@ func flattenSystemNpuNpQueuesEthernetType(v *[]models.SystemNpuNpQueuesEthernetT
 	return flat
 }
 
-func flattenSystemNpuNpQueuesIpProtocol(v *[]models.SystemNpuNpQueuesIpProtocol, sort bool) interface{} {
+func flattenSystemNpuNpQueuesIpProtocol(d *schema.ResourceData, v *[]models.SystemNpuNpQueuesIpProtocol, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -2600,11 +2611,12 @@ func flattenSystemNpuNpQueuesIpProtocol(v *[]models.SystemNpuNpQueuesIpProtocol,
 	return flat
 }
 
-func flattenSystemNpuNpQueuesIpService(v *[]models.SystemNpuNpQueuesIpService, sort bool) interface{} {
+func flattenSystemNpuNpQueuesIpService(d *schema.ResourceData, v *[]models.SystemNpuNpQueuesIpService, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Dport; tmp != nil {
 				v["dport"] = *tmp
@@ -2641,11 +2653,12 @@ func flattenSystemNpuNpQueuesIpService(v *[]models.SystemNpuNpQueuesIpService, s
 	return flat
 }
 
-func flattenSystemNpuNpQueuesProfile(v *[]models.SystemNpuNpQueuesProfile, sort bool) interface{} {
+func flattenSystemNpuNpQueuesProfile(d *schema.ResourceData, v *[]models.SystemNpuNpQueuesProfile, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Cos0; tmp != nil {
 				v["cos0"] = *tmp
@@ -2958,11 +2971,12 @@ func flattenSystemNpuNpQueuesProfile(v *[]models.SystemNpuNpQueuesProfile, sort 
 	return flat
 }
 
-func flattenSystemNpuNpQueuesScheduler(v *[]models.SystemNpuNpQueuesScheduler, sort bool) interface{} {
+func flattenSystemNpuNpQueuesScheduler(d *schema.ResourceData, v *[]models.SystemNpuNpQueuesScheduler, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Mode; tmp != nil {
 				v["mode"] = *tmp
@@ -2983,11 +2997,12 @@ func flattenSystemNpuNpQueuesScheduler(v *[]models.SystemNpuNpQueuesScheduler, s
 	return flat
 }
 
-func flattenSystemNpuPortCpuMap(v *[]models.SystemNpuPortCpuMap, sort bool) interface{} {
+func flattenSystemNpuPortCpuMap(d *schema.ResourceData, v *[]models.SystemNpuPortCpuMap, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.CpuCore; tmp != nil {
 				v["cpu_core"] = *tmp
@@ -3008,11 +3023,12 @@ func flattenSystemNpuPortCpuMap(v *[]models.SystemNpuPortCpuMap, sort bool) inte
 	return flat
 }
 
-func flattenSystemNpuPortNpuMap(v *[]models.SystemNpuPortNpuMap, sort bool) interface{} {
+func flattenSystemNpuPortNpuMap(d *schema.ResourceData, v *[]models.SystemNpuPortNpuMap, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Interface; tmp != nil {
 				v["interface"] = *tmp
@@ -3033,11 +3049,12 @@ func flattenSystemNpuPortNpuMap(v *[]models.SystemNpuPortNpuMap, sort bool) inte
 	return flat
 }
 
-func flattenSystemNpuPriorityProtocol(v *[]models.SystemNpuPriorityProtocol, sort bool) interface{} {
+func flattenSystemNpuPriorityProtocol(d *schema.ResourceData, v *[]models.SystemNpuPriorityProtocol, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Bfd; tmp != nil {
 				v["bfd"] = *tmp
@@ -3058,11 +3075,12 @@ func flattenSystemNpuPriorityProtocol(v *[]models.SystemNpuPriorityProtocol, sor
 	return flat
 }
 
-func flattenSystemNpuTcpTimeoutProfile(v *[]models.SystemNpuTcpTimeoutProfile, sort bool) interface{} {
+func flattenSystemNpuTcpTimeoutProfile(d *schema.ResourceData, v *[]models.SystemNpuTcpTimeoutProfile, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.CloseWait; tmp != nil {
 				v["close_wait"] = *tmp
@@ -3103,11 +3121,12 @@ func flattenSystemNpuTcpTimeoutProfile(v *[]models.SystemNpuTcpTimeoutProfile, s
 	return flat
 }
 
-func flattenSystemNpuUdpTimeoutProfile(v *[]models.SystemNpuUdpTimeoutProfile, sort bool) interface{} {
+func flattenSystemNpuUdpTimeoutProfile(d *schema.ResourceData, v *[]models.SystemNpuUdpTimeoutProfile, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Id; tmp != nil {
 				v["id"] = *tmp
@@ -3164,7 +3183,7 @@ func refreshObjectSystemNpu(d *schema.ResourceData, o *models.SystemNpu, sv stri
 	}
 
 	if o.DosOptions != nil {
-		if err = d.Set("dos_options", flattenSystemNpuDosOptions(o.DosOptions, sort)); err != nil {
+		if err = d.Set("dos_options", flattenSystemNpuDosOptions(d, o.DosOptions, "dos_options", sort)); err != nil {
 			return diag.Errorf("error reading dos_options: %v", err)
 		}
 	}
@@ -3186,13 +3205,13 @@ func refreshObjectSystemNpu(d *schema.ResourceData, o *models.SystemNpu, sv stri
 	}
 
 	if o.DswDtsProfile != nil {
-		if err = d.Set("dsw_dts_profile", flattenSystemNpuDswDtsProfile(o.DswDtsProfile, sort)); err != nil {
+		if err = d.Set("dsw_dts_profile", flattenSystemNpuDswDtsProfile(d, o.DswDtsProfile, "dsw_dts_profile", sort)); err != nil {
 			return diag.Errorf("error reading dsw_dts_profile: %v", err)
 		}
 	}
 
 	if o.DswQueueDtsProfile != nil {
-		if err = d.Set("dsw_queue_dts_profile", flattenSystemNpuDswQueueDtsProfile(o.DswQueueDtsProfile, sort)); err != nil {
+		if err = d.Set("dsw_queue_dts_profile", flattenSystemNpuDswQueueDtsProfile(d, o.DswQueueDtsProfile, "dsw_queue_dts_profile", sort)); err != nil {
 			return diag.Errorf("error reading dsw_queue_dts_profile: %v", err)
 		}
 	}
@@ -3206,7 +3225,7 @@ func refreshObjectSystemNpu(d *schema.ResourceData, o *models.SystemNpu, sv stri
 	}
 
 	if o.FpAnomaly != nil {
-		if err = d.Set("fp_anomaly", flattenSystemNpuFpAnomaly(o.FpAnomaly, sort)); err != nil {
+		if err = d.Set("fp_anomaly", flattenSystemNpuFpAnomaly(d, o.FpAnomaly, "fp_anomaly", sort)); err != nil {
 			return diag.Errorf("error reading fp_anomaly: %v", err)
 		}
 	}
@@ -3228,7 +3247,7 @@ func refreshObjectSystemNpu(d *schema.ResourceData, o *models.SystemNpu, sv stri
 	}
 
 	if o.Hpe != nil {
-		if err = d.Set("hpe", flattenSystemNpuHpe(o.Hpe, sort)); err != nil {
+		if err = d.Set("hpe", flattenSystemNpuHpe(d, o.Hpe, "hpe", sort)); err != nil {
 			return diag.Errorf("error reading hpe: %v", err)
 		}
 	}
@@ -3250,13 +3269,13 @@ func refreshObjectSystemNpu(d *schema.ResourceData, o *models.SystemNpu, sv stri
 	}
 
 	if o.InboundDscpCopyPort != nil {
-		if err = d.Set("inbound_dscp_copy_port", flattenSystemNpuInboundDscpCopyPort(o.InboundDscpCopyPort, sort)); err != nil {
+		if err = d.Set("inbound_dscp_copy_port", flattenSystemNpuInboundDscpCopyPort(d, o.InboundDscpCopyPort, "inbound_dscp_copy_port", sort)); err != nil {
 			return diag.Errorf("error reading inbound_dscp_copy_port: %v", err)
 		}
 	}
 
 	if o.IpReassembly != nil {
-		if err = d.Set("ip_reassembly", flattenSystemNpuIpReassembly(o.IpReassembly, sort)); err != nil {
+		if err = d.Set("ip_reassembly", flattenSystemNpuIpReassembly(d, o.IpReassembly, "ip_reassembly", sort)); err != nil {
 			return diag.Errorf("error reading ip_reassembly: %v", err)
 		}
 	}
@@ -3326,7 +3345,7 @@ func refreshObjectSystemNpu(d *schema.ResourceData, o *models.SystemNpu, sv stri
 	}
 
 	if o.IsfNpQueues != nil {
-		if err = d.Set("isf_np_queues", flattenSystemNpuIsfNpQueues(o.IsfNpQueues, sort)); err != nil {
+		if err = d.Set("isf_np_queues", flattenSystemNpuIsfNpQueues(d, o.IsfNpQueues, "isf_np_queues", sort)); err != nil {
 			return diag.Errorf("error reading isf_np_queues: %v", err)
 		}
 	}
@@ -3356,7 +3375,7 @@ func refreshObjectSystemNpu(d *schema.ResourceData, o *models.SystemNpu, sv stri
 	}
 
 	if o.NpQueues != nil {
-		if err = d.Set("np_queues", flattenSystemNpuNpQueues(o.NpQueues, sort)); err != nil {
+		if err = d.Set("np_queues", flattenSystemNpuNpQueues(d, o.NpQueues, "np_queues", sort)); err != nil {
 			return diag.Errorf("error reading np_queues: %v", err)
 		}
 	}
@@ -3394,19 +3413,19 @@ func refreshObjectSystemNpu(d *schema.ResourceData, o *models.SystemNpu, sv stri
 	}
 
 	if o.PortCpuMap != nil {
-		if err = d.Set("port_cpu_map", flattenSystemNpuPortCpuMap(o.PortCpuMap, sort)); err != nil {
+		if err = d.Set("port_cpu_map", flattenSystemNpuPortCpuMap(d, o.PortCpuMap, "port_cpu_map", sort)); err != nil {
 			return diag.Errorf("error reading port_cpu_map: %v", err)
 		}
 	}
 
 	if o.PortNpuMap != nil {
-		if err = d.Set("port_npu_map", flattenSystemNpuPortNpuMap(o.PortNpuMap, sort)); err != nil {
+		if err = d.Set("port_npu_map", flattenSystemNpuPortNpuMap(d, o.PortNpuMap, "port_npu_map", sort)); err != nil {
 			return diag.Errorf("error reading port_npu_map: %v", err)
 		}
 	}
 
 	if o.PriorityProtocol != nil {
-		if err = d.Set("priority_protocol", flattenSystemNpuPriorityProtocol(o.PriorityProtocol, sort)); err != nil {
+		if err = d.Set("priority_protocol", flattenSystemNpuPriorityProtocol(d, o.PriorityProtocol, "priority_protocol", sort)); err != nil {
 			return diag.Errorf("error reading priority_protocol: %v", err)
 		}
 	}
@@ -3484,13 +3503,13 @@ func refreshObjectSystemNpu(d *schema.ResourceData, o *models.SystemNpu, sv stri
 	}
 
 	if o.TcpTimeoutProfile != nil {
-		if err = d.Set("tcp_timeout_profile", flattenSystemNpuTcpTimeoutProfile(o.TcpTimeoutProfile, sort)); err != nil {
+		if err = d.Set("tcp_timeout_profile", flattenSystemNpuTcpTimeoutProfile(d, o.TcpTimeoutProfile, "tcp_timeout_profile", sort)); err != nil {
 			return diag.Errorf("error reading tcp_timeout_profile: %v", err)
 		}
 	}
 
 	if o.UdpTimeoutProfile != nil {
-		if err = d.Set("udp_timeout_profile", flattenSystemNpuUdpTimeoutProfile(o.UdpTimeoutProfile, sort)); err != nil {
+		if err = d.Set("udp_timeout_profile", flattenSystemNpuUdpTimeoutProfile(d, o.UdpTimeoutProfile, "udp_timeout_profile", sort)); err != nil {
 			return diag.Errorf("error reading udp_timeout_profile: %v", err)
 		}
 	}

@@ -729,11 +729,12 @@ func resourceRouterMulticastRead(ctx context.Context, d *schema.ResourceData, me
 	return nil
 }
 
-func flattenRouterMulticastInterface(v *[]models.RouterMulticastInterface, sort bool) interface{} {
+func flattenRouterMulticastInterface(d *schema.ResourceData, v *[]models.RouterMulticastInterface, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Bfd; tmp != nil {
 				v["bfd"] = *tmp
@@ -756,11 +757,11 @@ func flattenRouterMulticastInterface(v *[]models.RouterMulticastInterface, sort 
 			}
 
 			if tmp := cfg.Igmp; tmp != nil {
-				v["igmp"] = flattenRouterMulticastInterfaceIgmp(tmp, sort)
+				v["igmp"] = flattenRouterMulticastInterfaceIgmp(d, tmp, prefix+"igmp", sort)
 			}
 
 			if tmp := cfg.JoinGroup; tmp != nil {
-				v["join_group"] = flattenRouterMulticastInterfaceJoinGroup(tmp, sort)
+				v["join_group"] = flattenRouterMulticastInterfaceJoinGroup(d, tmp, prefix+"join_group", sort)
 			}
 
 			if tmp := cfg.MulticastFlow; tmp != nil {
@@ -834,11 +835,12 @@ func flattenRouterMulticastInterface(v *[]models.RouterMulticastInterface, sort 
 	return flat
 }
 
-func flattenRouterMulticastInterfaceIgmp(v *[]models.RouterMulticastInterfaceIgmp, sort bool) interface{} {
+func flattenRouterMulticastInterfaceIgmp(d *schema.ResourceData, v *[]models.RouterMulticastInterfaceIgmp, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.AccessGroup; tmp != nil {
 				v["access_group"] = *tmp
@@ -883,11 +885,12 @@ func flattenRouterMulticastInterfaceIgmp(v *[]models.RouterMulticastInterfaceIgm
 	return flat
 }
 
-func flattenRouterMulticastInterfaceJoinGroup(v *[]models.RouterMulticastInterfaceJoinGroup, sort bool) interface{} {
+func flattenRouterMulticastInterfaceJoinGroup(d *schema.ResourceData, v *[]models.RouterMulticastInterfaceJoinGroup, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Address; tmp != nil {
 				v["address"] = *tmp
@@ -904,11 +907,12 @@ func flattenRouterMulticastInterfaceJoinGroup(v *[]models.RouterMulticastInterfa
 	return flat
 }
 
-func flattenRouterMulticastPimSmGlobal(v *[]models.RouterMulticastPimSmGlobal, sort bool) interface{} {
+func flattenRouterMulticastPimSmGlobal(d *schema.ResourceData, v *[]models.RouterMulticastPimSmGlobal, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.AcceptRegisterList; tmp != nil {
 				v["accept_register_list"] = *tmp
@@ -991,7 +995,7 @@ func flattenRouterMulticastPimSmGlobal(v *[]models.RouterMulticastPimSmGlobal, s
 			}
 
 			if tmp := cfg.RpAddress; tmp != nil {
-				v["rp_address"] = flattenRouterMulticastPimSmGlobalRpAddress(tmp, sort)
+				v["rp_address"] = flattenRouterMulticastPimSmGlobalRpAddress(d, tmp, prefix+"rp_address", sort)
 			}
 
 			if tmp := cfg.RpRegisterKeepalive; tmp != nil {
@@ -1021,11 +1025,12 @@ func flattenRouterMulticastPimSmGlobal(v *[]models.RouterMulticastPimSmGlobal, s
 	return flat
 }
 
-func flattenRouterMulticastPimSmGlobalRpAddress(v *[]models.RouterMulticastPimSmGlobalRpAddress, sort bool) interface{} {
+func flattenRouterMulticastPimSmGlobalRpAddress(d *schema.ResourceData, v *[]models.RouterMulticastPimSmGlobalRpAddress, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Group; tmp != nil {
 				v["group"] = *tmp
@@ -1054,7 +1059,7 @@ func refreshObjectRouterMulticast(d *schema.ResourceData, o *models.RouterMultic
 	var err error
 
 	if o.Interface != nil {
-		if err = d.Set("interface", flattenRouterMulticastInterface(o.Interface, sort)); err != nil {
+		if err = d.Set("interface", flattenRouterMulticastInterface(d, o.Interface, "interface", sort)); err != nil {
 			return diag.Errorf("error reading interface: %v", err)
 		}
 	}
@@ -1068,7 +1073,7 @@ func refreshObjectRouterMulticast(d *schema.ResourceData, o *models.RouterMultic
 	}
 
 	if o.PimSmGlobal != nil {
-		if err = d.Set("pim_sm_global", flattenRouterMulticastPimSmGlobal(o.PimSmGlobal, sort)); err != nil {
+		if err = d.Set("pim_sm_global", flattenRouterMulticastPimSmGlobal(d, o.PimSmGlobal, "pim_sm_global", sort)); err != nil {
 			return diag.Errorf("error reading pim_sm_global: %v", err)
 		}
 	}

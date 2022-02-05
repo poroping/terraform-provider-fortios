@@ -2802,11 +2802,12 @@ func resourceSystemInterfaceRead(ctx context.Context, d *schema.ResourceData, me
 	return nil
 }
 
-func flattenSystemInterfaceClientOptions(v *[]models.SystemInterfaceClientOptions, sort bool) interface{} {
+func flattenSystemInterfaceClientOptions(d *schema.ResourceData, v *[]models.SystemInterfaceClientOptions, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Code; tmp != nil {
 				v["code"] = *tmp
@@ -2839,11 +2840,12 @@ func flattenSystemInterfaceClientOptions(v *[]models.SystemInterfaceClientOption
 	return flat
 }
 
-func flattenSystemInterfaceDhcpSnoopingServerList(v *[]models.SystemInterfaceDhcpSnoopingServerList, sort bool) interface{} {
+func flattenSystemInterfaceDhcpSnoopingServerList(d *schema.ResourceData, v *[]models.SystemInterfaceDhcpSnoopingServerList, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -2864,11 +2866,12 @@ func flattenSystemInterfaceDhcpSnoopingServerList(v *[]models.SystemInterfaceDhc
 	return flat
 }
 
-func flattenSystemInterfaceEgressQueues(v *[]models.SystemInterfaceEgressQueues, sort bool) interface{} {
+func flattenSystemInterfaceEgressQueues(d *schema.ResourceData, v *[]models.SystemInterfaceEgressQueues, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Cos0; tmp != nil {
 				v["cos0"] = *tmp
@@ -2909,11 +2912,12 @@ func flattenSystemInterfaceEgressQueues(v *[]models.SystemInterfaceEgressQueues,
 	return flat
 }
 
-func flattenSystemInterfaceFailAlertInterfaces(v *[]models.SystemInterfaceFailAlertInterfaces, sort bool) interface{} {
+func flattenSystemInterfaceFailAlertInterfaces(d *schema.ResourceData, v *[]models.SystemInterfaceFailAlertInterfaces, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -2930,11 +2934,12 @@ func flattenSystemInterfaceFailAlertInterfaces(v *[]models.SystemInterfaceFailAl
 	return flat
 }
 
-func flattenSystemInterfaceIpv6(v *[]models.SystemInterfaceIpv6, sort bool) interface{} {
+func flattenSystemInterfaceIpv6(d *schema.ResourceData, v *[]models.SystemInterfaceIpv6, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Autoconf; tmp != nil {
 				v["autoconf"] = *tmp
@@ -2949,7 +2954,7 @@ func flattenSystemInterfaceIpv6(v *[]models.SystemInterfaceIpv6, sort bool) inte
 			}
 
 			if tmp := cfg.Dhcp6IapdList; tmp != nil {
-				v["dhcp6_iapd_list"] = flattenSystemInterfaceIpv6Dhcp6IapdList(tmp, sort)
+				v["dhcp6_iapd_list"] = flattenSystemInterfaceIpv6Dhcp6IapdList(d, tmp, prefix+"dhcp6_iapd_list", sort)
 			}
 
 			if tmp := cfg.Dhcp6InformationRequest; tmp != nil {
@@ -3009,7 +3014,7 @@ func flattenSystemInterfaceIpv6(v *[]models.SystemInterfaceIpv6, sort bool) inte
 			}
 
 			if tmp := cfg.Ip6DelegatedPrefixList; tmp != nil {
-				v["ip6_delegated_prefix_list"] = flattenSystemInterfaceIpv6Ip6DelegatedPrefixList(tmp, sort)
+				v["ip6_delegated_prefix_list"] = flattenSystemInterfaceIpv6Ip6DelegatedPrefixList(d, tmp, prefix+"ip6_delegated_prefix_list", sort)
 			}
 
 			if tmp := cfg.Ip6DnsServerOverride; tmp != nil {
@@ -3017,7 +3022,7 @@ func flattenSystemInterfaceIpv6(v *[]models.SystemInterfaceIpv6, sort bool) inte
 			}
 
 			if tmp := cfg.Ip6ExtraAddr; tmp != nil {
-				v["ip6_extra_addr"] = flattenSystemInterfaceIpv6Ip6ExtraAddr(tmp, sort)
+				v["ip6_extra_addr"] = flattenSystemInterfaceIpv6Ip6ExtraAddr(d, tmp, prefix+"ip6_extra_addr", sort)
 			}
 
 			if tmp := cfg.Ip6HopLimit; tmp != nil {
@@ -3049,7 +3054,7 @@ func flattenSystemInterfaceIpv6(v *[]models.SystemInterfaceIpv6, sort bool) inte
 			}
 
 			if tmp := cfg.Ip6PrefixList; tmp != nil {
-				v["ip6_prefix_list"] = flattenSystemInterfaceIpv6Ip6PrefixList(tmp, sort)
+				v["ip6_prefix_list"] = flattenSystemInterfaceIpv6Ip6PrefixList(d, tmp, prefix+"ip6_prefix_list", sort)
 			}
 
 			if tmp := cfg.Ip6PrefixMode; tmp != nil {
@@ -3117,7 +3122,7 @@ func flattenSystemInterfaceIpv6(v *[]models.SystemInterfaceIpv6, sort bool) inte
 			}
 
 			if tmp := cfg.Vrrp6; tmp != nil {
-				v["vrrp6"] = flattenSystemInterfaceIpv6Vrrp6(tmp, sort)
+				v["vrrp6"] = flattenSystemInterfaceIpv6Vrrp6(d, tmp, prefix+"vrrp6", sort)
 			}
 
 			flat = append(flat, v)
@@ -3127,11 +3132,12 @@ func flattenSystemInterfaceIpv6(v *[]models.SystemInterfaceIpv6, sort bool) inte
 	return flat
 }
 
-func flattenSystemInterfaceIpv6Dhcp6IapdList(v *[]models.SystemInterfaceIpv6Dhcp6IapdList, sort bool) interface{} {
+func flattenSystemInterfaceIpv6Dhcp6IapdList(d *schema.ResourceData, v *[]models.SystemInterfaceIpv6Dhcp6IapdList, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Iaid; tmp != nil {
 				v["iaid"] = *tmp
@@ -3160,11 +3166,12 @@ func flattenSystemInterfaceIpv6Dhcp6IapdList(v *[]models.SystemInterfaceIpv6Dhcp
 	return flat
 }
 
-func flattenSystemInterfaceIpv6Ip6DelegatedPrefixList(v *[]models.SystemInterfaceIpv6Ip6DelegatedPrefixList, sort bool) interface{} {
+func flattenSystemInterfaceIpv6Ip6DelegatedPrefixList(d *schema.ResourceData, v *[]models.SystemInterfaceIpv6Ip6DelegatedPrefixList, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.AutonomousFlag; tmp != nil {
 				v["autonomous_flag"] = *tmp
@@ -3209,11 +3216,12 @@ func flattenSystemInterfaceIpv6Ip6DelegatedPrefixList(v *[]models.SystemInterfac
 	return flat
 }
 
-func flattenSystemInterfaceIpv6Ip6ExtraAddr(v *[]models.SystemInterfaceIpv6Ip6ExtraAddr, sort bool) interface{} {
+func flattenSystemInterfaceIpv6Ip6ExtraAddr(d *schema.ResourceData, v *[]models.SystemInterfaceIpv6Ip6ExtraAddr, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Prefix; tmp != nil {
 				v["prefix"] = *tmp
@@ -3230,18 +3238,19 @@ func flattenSystemInterfaceIpv6Ip6ExtraAddr(v *[]models.SystemInterfaceIpv6Ip6Ex
 	return flat
 }
 
-func flattenSystemInterfaceIpv6Ip6PrefixList(v *[]models.SystemInterfaceIpv6Ip6PrefixList, sort bool) interface{} {
+func flattenSystemInterfaceIpv6Ip6PrefixList(d *schema.ResourceData, v *[]models.SystemInterfaceIpv6Ip6PrefixList, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.AutonomousFlag; tmp != nil {
 				v["autonomous_flag"] = *tmp
 			}
 
 			if tmp := cfg.Dnssl; tmp != nil {
-				v["dnssl"] = flattenSystemInterfaceIpv6Ip6PrefixListDnssl(tmp, sort)
+				v["dnssl"] = flattenSystemInterfaceIpv6Ip6PrefixListDnssl(d, tmp, prefix+"dnssl", sort)
 			}
 
 			if tmp := cfg.OnlinkFlag; tmp != nil {
@@ -3275,11 +3284,12 @@ func flattenSystemInterfaceIpv6Ip6PrefixList(v *[]models.SystemInterfaceIpv6Ip6P
 	return flat
 }
 
-func flattenSystemInterfaceIpv6Ip6PrefixListDnssl(v *[]models.SystemInterfaceIpv6Ip6PrefixListDnssl, sort bool) interface{} {
+func flattenSystemInterfaceIpv6Ip6PrefixListDnssl(d *schema.ResourceData, v *[]models.SystemInterfaceIpv6Ip6PrefixListDnssl, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Domain; tmp != nil {
 				v["domain"] = *tmp
@@ -3296,11 +3306,12 @@ func flattenSystemInterfaceIpv6Ip6PrefixListDnssl(v *[]models.SystemInterfaceIpv
 	return flat
 }
 
-func flattenSystemInterfaceIpv6Vrrp6(v *[]models.SystemInterfaceIpv6Vrrp6, sort bool) interface{} {
+func flattenSystemInterfaceIpv6Vrrp6(d *schema.ResourceData, v *[]models.SystemInterfaceIpv6Vrrp6, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.AcceptMode; tmp != nil {
 				v["accept_mode"] = *tmp
@@ -3353,11 +3364,12 @@ func flattenSystemInterfaceIpv6Vrrp6(v *[]models.SystemInterfaceIpv6Vrrp6, sort 
 	return flat
 }
 
-func flattenSystemInterfaceMember(v *[]models.SystemInterfaceMember, sort bool) interface{} {
+func flattenSystemInterfaceMember(d *schema.ResourceData, v *[]models.SystemInterfaceMember, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.InterfaceName; tmp != nil {
 				v["interface_name"] = *tmp
@@ -3374,11 +3386,12 @@ func flattenSystemInterfaceMember(v *[]models.SystemInterfaceMember, sort bool) 
 	return flat
 }
 
-func flattenSystemInterfaceSecondaryip(v *[]models.SystemInterfaceSecondaryip, sort bool) interface{} {
+func flattenSystemInterfaceSecondaryip(d *schema.ResourceData, v *[]models.SystemInterfaceSecondaryip, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Allowaccess; tmp != nil {
 				v["allowaccess"] = *tmp
@@ -3405,6 +3418,7 @@ func flattenSystemInterfaceSecondaryip(v *[]models.SystemInterfaceSecondaryip, s
 			}
 
 			if tmp := cfg.Ip; tmp != nil {
+				tmp = utils.Ipv4Read(d, fmt.Sprintf("%s.%d.ip", prefix, i), *tmp)
 				v["ip"] = *tmp
 			}
 
@@ -3423,11 +3437,12 @@ func flattenSystemInterfaceSecondaryip(v *[]models.SystemInterfaceSecondaryip, s
 	return flat
 }
 
-func flattenSystemInterfaceSecurityGroups(v *[]models.SystemInterfaceSecurityGroups, sort bool) interface{} {
+func flattenSystemInterfaceSecurityGroups(d *schema.ResourceData, v *[]models.SystemInterfaceSecurityGroups, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -3444,11 +3459,12 @@ func flattenSystemInterfaceSecurityGroups(v *[]models.SystemInterfaceSecurityGro
 	return flat
 }
 
-func flattenSystemInterfaceTagging(v *[]models.SystemInterfaceTagging, sort bool) interface{} {
+func flattenSystemInterfaceTagging(d *schema.ResourceData, v *[]models.SystemInterfaceTagging, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Category; tmp != nil {
 				v["category"] = *tmp
@@ -3459,7 +3475,7 @@ func flattenSystemInterfaceTagging(v *[]models.SystemInterfaceTagging, sort bool
 			}
 
 			if tmp := cfg.Tags; tmp != nil {
-				v["tags"] = flattenSystemInterfaceTaggingTags(tmp, sort)
+				v["tags"] = flattenSystemInterfaceTaggingTags(d, tmp, prefix+"tags", sort)
 			}
 
 			flat = append(flat, v)
@@ -3473,11 +3489,12 @@ func flattenSystemInterfaceTagging(v *[]models.SystemInterfaceTagging, sort bool
 	return flat
 }
 
-func flattenSystemInterfaceTaggingTags(v *[]models.SystemInterfaceTaggingTags, sort bool) interface{} {
+func flattenSystemInterfaceTaggingTags(d *schema.ResourceData, v *[]models.SystemInterfaceTaggingTags, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -3494,11 +3511,12 @@ func flattenSystemInterfaceTaggingTags(v *[]models.SystemInterfaceTaggingTags, s
 	return flat
 }
 
-func flattenSystemInterfaceVrrp(v *[]models.SystemInterfaceVrrp, sort bool) interface{} {
+func flattenSystemInterfaceVrrp(d *schema.ResourceData, v *[]models.SystemInterfaceVrrp, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.AcceptMode; tmp != nil {
 				v["accept_mode"] = *tmp
@@ -3521,7 +3539,7 @@ func flattenSystemInterfaceVrrp(v *[]models.SystemInterfaceVrrp, sort bool) inte
 			}
 
 			if tmp := cfg.ProxyArp; tmp != nil {
-				v["proxy_arp"] = flattenSystemInterfaceVrrpProxyArp(tmp, sort)
+				v["proxy_arp"] = flattenSystemInterfaceVrrpProxyArp(d, tmp, prefix+"proxy_arp", sort)
 			}
 
 			if tmp := cfg.StartTime; tmp != nil {
@@ -3567,11 +3585,12 @@ func flattenSystemInterfaceVrrp(v *[]models.SystemInterfaceVrrp, sort bool) inte
 	return flat
 }
 
-func flattenSystemInterfaceVrrpProxyArp(v *[]models.SystemInterfaceVrrpProxyArp, sort bool) interface{} {
+func flattenSystemInterfaceVrrpProxyArp(d *schema.ResourceData, v *[]models.SystemInterfaceVrrpProxyArp, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Id; tmp != nil {
 				v["id"] = *tmp
@@ -3748,7 +3767,7 @@ func refreshObjectSystemInterface(d *schema.ResourceData, o *models.SystemInterf
 	}
 
 	if o.ClientOptions != nil {
-		if err = d.Set("client_options", flattenSystemInterfaceClientOptions(o.ClientOptions, sort)); err != nil {
+		if err = d.Set("client_options", flattenSystemInterfaceClientOptions(d, o.ClientOptions, "client_options", sort)); err != nil {
 			return diag.Errorf("error reading client_options: %v", err)
 		}
 	}
@@ -3922,7 +3941,7 @@ func refreshObjectSystemInterface(d *schema.ResourceData, o *models.SystemInterf
 	}
 
 	if o.DhcpSnoopingServerList != nil {
-		if err = d.Set("dhcp_snooping_server_list", flattenSystemInterfaceDhcpSnoopingServerList(o.DhcpSnoopingServerList, sort)); err != nil {
+		if err = d.Set("dhcp_snooping_server_list", flattenSystemInterfaceDhcpSnoopingServerList(d, o.DhcpSnoopingServerList, "dhcp_snooping_server_list", sort)); err != nil {
 			return diag.Errorf("error reading dhcp_snooping_server_list: %v", err)
 		}
 	}
@@ -3992,7 +4011,7 @@ func refreshObjectSystemInterface(d *schema.ResourceData, o *models.SystemInterf
 	}
 
 	if o.EgressQueues != nil {
-		if err = d.Set("egress_queues", flattenSystemInterfaceEgressQueues(o.EgressQueues, sort)); err != nil {
+		if err = d.Set("egress_queues", flattenSystemInterfaceEgressQueues(d, o.EgressQueues, "egress_queues", sort)); err != nil {
 			return diag.Errorf("error reading egress_queues: %v", err)
 		}
 	}
@@ -4062,7 +4081,7 @@ func refreshObjectSystemInterface(d *schema.ResourceData, o *models.SystemInterf
 	}
 
 	if o.FailAlertInterfaces != nil {
-		if err = d.Set("fail_alert_interfaces", flattenSystemInterfaceFailAlertInterfaces(o.FailAlertInterfaces, sort)); err != nil {
+		if err = d.Set("fail_alert_interfaces", flattenSystemInterfaceFailAlertInterfaces(d, o.FailAlertInterfaces, "fail_alert_interfaces", sort)); err != nil {
 			return diag.Errorf("error reading fail_alert_interfaces: %v", err)
 		}
 	}
@@ -4281,7 +4300,7 @@ func refreshObjectSystemInterface(d *schema.ResourceData, o *models.SystemInterf
 	}
 
 	if o.Ipv6 != nil {
-		if err = d.Set("ipv6", flattenSystemInterfaceIpv6(o.Ipv6, sort)); err != nil {
+		if err = d.Set("ipv6", flattenSystemInterfaceIpv6(d, o.Ipv6, "ipv6", sort)); err != nil {
 			return diag.Errorf("error reading ipv6: %v", err)
 		}
 	}
@@ -4420,7 +4439,7 @@ func refreshObjectSystemInterface(d *schema.ResourceData, o *models.SystemInterf
 	}
 
 	if o.Member != nil {
-		if err = d.Set("member", flattenSystemInterfaceMember(o.Member, sort)); err != nil {
+		if err = d.Set("member", flattenSystemInterfaceMember(d, o.Member, "member", sort)); err != nil {
 			return diag.Errorf("error reading member: %v", err)
 		}
 	}
@@ -4721,7 +4740,7 @@ func refreshObjectSystemInterface(d *schema.ResourceData, o *models.SystemInterf
 	}
 
 	if o.Secondaryip != nil {
-		if err = d.Set("secondaryip", flattenSystemInterfaceSecondaryip(o.Secondaryip, sort)); err != nil {
+		if err = d.Set("secondaryip", flattenSystemInterfaceSecondaryip(d, o.Secondaryip, "secondaryip", sort)); err != nil {
 			return diag.Errorf("error reading secondaryip: %v", err)
 		}
 	}
@@ -4751,7 +4770,7 @@ func refreshObjectSystemInterface(d *schema.ResourceData, o *models.SystemInterf
 	}
 
 	if o.SecurityGroups != nil {
-		if err = d.Set("security_groups", flattenSystemInterfaceSecurityGroups(o.SecurityGroups, sort)); err != nil {
+		if err = d.Set("security_groups", flattenSystemInterfaceSecurityGroups(d, o.SecurityGroups, "security_groups", sort)); err != nil {
 			return diag.Errorf("error reading security_groups: %v", err)
 		}
 	}
@@ -5045,7 +5064,7 @@ func refreshObjectSystemInterface(d *schema.ResourceData, o *models.SystemInterf
 	}
 
 	if o.Tagging != nil {
-		if err = d.Set("tagging", flattenSystemInterfaceTagging(o.Tagging, sort)); err != nil {
+		if err = d.Set("tagging", flattenSystemInterfaceTagging(d, o.Tagging, "tagging", sort)); err != nil {
 			return diag.Errorf("error reading tagging: %v", err)
 		}
 	}
@@ -5186,7 +5205,7 @@ func refreshObjectSystemInterface(d *schema.ResourceData, o *models.SystemInterf
 	}
 
 	if o.Vrrp != nil {
-		if err = d.Set("vrrp", flattenSystemInterfaceVrrp(o.Vrrp, sort)); err != nil {
+		if err = d.Set("vrrp", flattenSystemInterfaceVrrp(d, o.Vrrp, "vrrp", sort)); err != nil {
 			return diag.Errorf("error reading vrrp: %v", err)
 		}
 	}

@@ -392,11 +392,12 @@ func resourceSystemDdnsRead(ctx context.Context, d *schema.ResourceData, meta in
 	return nil
 }
 
-func flattenSystemDdnsDdnsServerAddr(v *[]models.SystemDdnsDdnsServerAddr, sort bool) interface{} {
+func flattenSystemDdnsDdnsServerAddr(d *schema.ResourceData, v *[]models.SystemDdnsDdnsServerAddr, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Addr; tmp != nil {
 				v["addr"] = *tmp
@@ -413,11 +414,12 @@ func flattenSystemDdnsDdnsServerAddr(v *[]models.SystemDdnsDdnsServerAddr, sort 
 	return flat
 }
 
-func flattenSystemDdnsMonitorInterface(v *[]models.SystemDdnsMonitorInterface, sort bool) interface{} {
+func flattenSystemDdnsMonitorInterface(d *schema.ResourceData, v *[]models.SystemDdnsMonitorInterface, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.InterfaceName; tmp != nil {
 				v["interface_name"] = *tmp
@@ -511,7 +513,7 @@ func refreshObjectSystemDdns(d *schema.ResourceData, o *models.SystemDdns, sv st
 	}
 
 	if o.DdnsServerAddr != nil {
-		if err = d.Set("ddns_server_addr", flattenSystemDdnsDdnsServerAddr(o.DdnsServerAddr, sort)); err != nil {
+		if err = d.Set("ddns_server_addr", flattenSystemDdnsDdnsServerAddr(d, o.DdnsServerAddr, "ddns_server_addr", sort)); err != nil {
 			return diag.Errorf("error reading ddns_server_addr: %v", err)
 		}
 	}
@@ -565,7 +567,7 @@ func refreshObjectSystemDdns(d *schema.ResourceData, o *models.SystemDdns, sv st
 	}
 
 	if o.MonitorInterface != nil {
-		if err = d.Set("monitor_interface", flattenSystemDdnsMonitorInterface(o.MonitorInterface, sort)); err != nil {
+		if err = d.Set("monitor_interface", flattenSystemDdnsMonitorInterface(d, o.MonitorInterface, "monitor_interface", sort)); err != nil {
 			return diag.Errorf("error reading monitor_interface: %v", err)
 		}
 	}

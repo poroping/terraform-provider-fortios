@@ -632,11 +632,12 @@ func resourceSystemAdminRead(ctx context.Context, d *schema.ResourceData, meta i
 	return nil
 }
 
-func flattenSystemAdminGuestUsergroups(v *[]models.SystemAdminGuestUsergroups, sort bool) interface{} {
+func flattenSystemAdminGuestUsergroups(d *schema.ResourceData, v *[]models.SystemAdminGuestUsergroups, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -653,11 +654,12 @@ func flattenSystemAdminGuestUsergroups(v *[]models.SystemAdminGuestUsergroups, s
 	return flat
 }
 
-func flattenSystemAdminVdom(v *[]models.SystemAdminVdom, sort bool) interface{} {
+func flattenSystemAdminVdom(d *schema.ResourceData, v *[]models.SystemAdminVdom, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -750,7 +752,7 @@ func refreshObjectSystemAdmin(d *schema.ResourceData, o *models.SystemAdmin, sv 
 	}
 
 	if o.GuestUsergroups != nil {
-		if err = d.Set("guest_usergroups", flattenSystemAdminGuestUsergroups(o.GuestUsergroups, sort)); err != nil {
+		if err = d.Set("guest_usergroups", flattenSystemAdminGuestUsergroups(d, o.GuestUsergroups, "guest_usergroups", sort)); err != nil {
 			return diag.Errorf("error reading guest_usergroups: %v", err)
 		}
 	}
@@ -1119,7 +1121,7 @@ func refreshObjectSystemAdmin(d *schema.ResourceData, o *models.SystemAdmin, sv 
 	}
 
 	if o.Vdom != nil {
-		if err = d.Set("vdom", flattenSystemAdminVdom(o.Vdom, sort)); err != nil {
+		if err = d.Set("vdom", flattenSystemAdminVdom(d, o.Vdom, "vdom", sort)); err != nil {
 			return diag.Errorf("error reading vdom: %v", err)
 		}
 	}

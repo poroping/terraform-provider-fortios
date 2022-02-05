@@ -363,11 +363,12 @@ func resourceFirewallAddrgrpRead(ctx context.Context, d *schema.ResourceData, me
 	return nil
 }
 
-func flattenFirewallAddrgrpExcludeMember(v *[]models.FirewallAddrgrpExcludeMember, sort bool) interface{} {
+func flattenFirewallAddrgrpExcludeMember(d *schema.ResourceData, v *[]models.FirewallAddrgrpExcludeMember, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -384,11 +385,12 @@ func flattenFirewallAddrgrpExcludeMember(v *[]models.FirewallAddrgrpExcludeMembe
 	return flat
 }
 
-func flattenFirewallAddrgrpMember(v *[]models.FirewallAddrgrpMember, sort bool) interface{} {
+func flattenFirewallAddrgrpMember(d *schema.ResourceData, v *[]models.FirewallAddrgrpMember, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -405,11 +407,12 @@ func flattenFirewallAddrgrpMember(v *[]models.FirewallAddrgrpMember, sort bool) 
 	return flat
 }
 
-func flattenFirewallAddrgrpTagging(v *[]models.FirewallAddrgrpTagging, sort bool) interface{} {
+func flattenFirewallAddrgrpTagging(d *schema.ResourceData, v *[]models.FirewallAddrgrpTagging, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Category; tmp != nil {
 				v["category"] = *tmp
@@ -420,7 +423,7 @@ func flattenFirewallAddrgrpTagging(v *[]models.FirewallAddrgrpTagging, sort bool
 			}
 
 			if tmp := cfg.Tags; tmp != nil {
-				v["tags"] = flattenFirewallAddrgrpTaggingTags(tmp, sort)
+				v["tags"] = flattenFirewallAddrgrpTaggingTags(d, tmp, prefix+"tags", sort)
 			}
 
 			flat = append(flat, v)
@@ -434,11 +437,12 @@ func flattenFirewallAddrgrpTagging(v *[]models.FirewallAddrgrpTagging, sort bool
 	return flat
 }
 
-func flattenFirewallAddrgrpTaggingTags(v *[]models.FirewallAddrgrpTaggingTags, sort bool) interface{} {
+func flattenFirewallAddrgrpTaggingTags(d *schema.ResourceData, v *[]models.FirewallAddrgrpTaggingTags, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -499,7 +503,7 @@ func refreshObjectFirewallAddrgrp(d *schema.ResourceData, o *models.FirewallAddr
 	}
 
 	if o.ExcludeMember != nil {
-		if err = d.Set("exclude_member", flattenFirewallAddrgrpExcludeMember(o.ExcludeMember, sort)); err != nil {
+		if err = d.Set("exclude_member", flattenFirewallAddrgrpExcludeMember(d, o.ExcludeMember, "exclude_member", sort)); err != nil {
 			return diag.Errorf("error reading exclude_member: %v", err)
 		}
 	}
@@ -513,7 +517,7 @@ func refreshObjectFirewallAddrgrp(d *schema.ResourceData, o *models.FirewallAddr
 	}
 
 	if o.Member != nil {
-		if err = d.Set("member", flattenFirewallAddrgrpMember(o.Member, sort)); err != nil {
+		if err = d.Set("member", flattenFirewallAddrgrpMember(d, o.Member, "member", sort)); err != nil {
 			return diag.Errorf("error reading member: %v", err)
 		}
 	}
@@ -527,7 +531,7 @@ func refreshObjectFirewallAddrgrp(d *schema.ResourceData, o *models.FirewallAddr
 	}
 
 	if o.Tagging != nil {
-		if err = d.Set("tagging", flattenFirewallAddrgrpTagging(o.Tagging, sort)); err != nil {
+		if err = d.Set("tagging", flattenFirewallAddrgrpTagging(d, o.Tagging, "tagging", sort)); err != nil {
 			return diag.Errorf("error reading tagging: %v", err)
 		}
 	}

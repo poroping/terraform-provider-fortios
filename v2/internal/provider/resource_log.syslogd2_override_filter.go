@@ -326,11 +326,12 @@ func resourceLogSyslogd2OverrideFilterRead(ctx context.Context, d *schema.Resour
 	return nil
 }
 
-func flattenLogSyslogd2OverrideFilterFreeStyle(v *[]models.LogSyslogd2OverrideFilterFreeStyle, sort bool) interface{} {
+func flattenLogSyslogd2OverrideFilterFreeStyle(d *schema.ResourceData, v *[]models.LogSyslogd2OverrideFilterFreeStyle, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Category; tmp != nil {
 				v["category"] = *tmp
@@ -395,7 +396,7 @@ func refreshObjectLogSyslogd2OverrideFilter(d *schema.ResourceData, o *models.Lo
 	}
 
 	if o.FreeStyle != nil {
-		if err = d.Set("free_style", flattenLogSyslogd2OverrideFilterFreeStyle(o.FreeStyle, sort)); err != nil {
+		if err = d.Set("free_style", flattenLogSyslogd2OverrideFilterFreeStyle(d, o.FreeStyle, "free_style", sort)); err != nil {
 			return diag.Errorf("error reading free_style: %v", err)
 		}
 	}

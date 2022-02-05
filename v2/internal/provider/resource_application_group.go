@@ -321,11 +321,12 @@ func resourceApplicationGroupRead(ctx context.Context, d *schema.ResourceData, m
 	return nil
 }
 
-func flattenApplicationGroupApplication(v *[]models.ApplicationGroupApplication, sort bool) interface{} {
+func flattenApplicationGroupApplication(d *schema.ResourceData, v *[]models.ApplicationGroupApplication, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Id; tmp != nil {
 				v["id"] = *tmp
@@ -342,11 +343,12 @@ func flattenApplicationGroupApplication(v *[]models.ApplicationGroupApplication,
 	return flat
 }
 
-func flattenApplicationGroupCategory(v *[]models.ApplicationGroupCategory, sort bool) interface{} {
+func flattenApplicationGroupCategory(d *schema.ResourceData, v *[]models.ApplicationGroupCategory, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Id; tmp != nil {
 				v["id"] = *tmp
@@ -363,11 +365,12 @@ func flattenApplicationGroupCategory(v *[]models.ApplicationGroupCategory, sort 
 	return flat
 }
 
-func flattenApplicationGroupRisk(v *[]models.ApplicationGroupRisk, sort bool) interface{} {
+func flattenApplicationGroupRisk(d *schema.ResourceData, v *[]models.ApplicationGroupRisk, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Level; tmp != nil {
 				v["level"] = *tmp
@@ -388,7 +391,7 @@ func refreshObjectApplicationGroup(d *schema.ResourceData, o *models.Application
 	var err error
 
 	if o.Application != nil {
-		if err = d.Set("application", flattenApplicationGroupApplication(o.Application, sort)); err != nil {
+		if err = d.Set("application", flattenApplicationGroupApplication(d, o.Application, "application", sort)); err != nil {
 			return diag.Errorf("error reading application: %v", err)
 		}
 	}
@@ -402,7 +405,7 @@ func refreshObjectApplicationGroup(d *schema.ResourceData, o *models.Application
 	}
 
 	if o.Category != nil {
-		if err = d.Set("category", flattenApplicationGroupCategory(o.Category, sort)); err != nil {
+		if err = d.Set("category", flattenApplicationGroupCategory(d, o.Category, "category", sort)); err != nil {
 			return diag.Errorf("error reading category: %v", err)
 		}
 	}
@@ -440,7 +443,7 @@ func refreshObjectApplicationGroup(d *schema.ResourceData, o *models.Application
 	}
 
 	if o.Risk != nil {
-		if err = d.Set("risk", flattenApplicationGroupRisk(o.Risk, sort)); err != nil {
+		if err = d.Set("risk", flattenApplicationGroupRisk(d, o.Risk, "risk", sort)); err != nil {
 			return diag.Errorf("error reading risk: %v", err)
 		}
 	}

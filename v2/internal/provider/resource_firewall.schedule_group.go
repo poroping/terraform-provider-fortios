@@ -249,11 +249,12 @@ func resourceFirewallScheduleGroupRead(ctx context.Context, d *schema.ResourceDa
 	return nil
 }
 
-func flattenFirewallScheduleGroupMember(v *[]models.FirewallScheduleGroupMember, sort bool) interface{} {
+func flattenFirewallScheduleGroupMember(d *schema.ResourceData, v *[]models.FirewallScheduleGroupMember, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -290,7 +291,7 @@ func refreshObjectFirewallScheduleGroup(d *schema.ResourceData, o *models.Firewa
 	}
 
 	if o.Member != nil {
-		if err = d.Set("member", flattenFirewallScheduleGroupMember(o.Member, sort)); err != nil {
+		if err = d.Set("member", flattenFirewallScheduleGroupMember(d, o.Member, "member", sort)); err != nil {
 			return diag.Errorf("error reading member: %v", err)
 		}
 	}

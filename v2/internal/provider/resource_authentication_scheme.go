@@ -330,11 +330,12 @@ func resourceAuthenticationSchemeRead(ctx context.Context, d *schema.ResourceDat
 	return nil
 }
 
-func flattenAuthenticationSchemeUserDatabase(v *[]models.AuthenticationSchemeUserDatabase, sort bool) interface{} {
+func flattenAuthenticationSchemeUserDatabase(d *schema.ResourceData, v *[]models.AuthenticationSchemeUserDatabase, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -459,7 +460,7 @@ func refreshObjectAuthenticationScheme(d *schema.ResourceData, o *models.Authent
 	}
 
 	if o.UserDatabase != nil {
-		if err = d.Set("user_database", flattenAuthenticationSchemeUserDatabase(o.UserDatabase, sort)); err != nil {
+		if err = d.Set("user_database", flattenAuthenticationSchemeUserDatabase(d, o.UserDatabase, "user_database", sort)); err != nil {
 			return diag.Errorf("error reading user_database: %v", err)
 		}
 	}

@@ -264,11 +264,12 @@ func resourceRouterCommunityListRead(ctx context.Context, d *schema.ResourceData
 	return nil
 }
 
-func flattenRouterCommunityListRule(v *[]models.RouterCommunityListRule, sort bool) interface{} {
+func flattenRouterCommunityListRule(d *schema.ResourceData, v *[]models.RouterCommunityListRule, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Action; tmp != nil {
 				v["action"] = *tmp
@@ -309,7 +310,7 @@ func refreshObjectRouterCommunityList(d *schema.ResourceData, o *models.RouterCo
 	}
 
 	if o.Rule != nil {
-		if err = d.Set("rule", flattenRouterCommunityListRule(o.Rule, sort)); err != nil {
+		if err = d.Set("rule", flattenRouterCommunityListRule(d, o.Rule, "rule", sort)); err != nil {
 			return diag.Errorf("error reading rule: %v", err)
 		}
 	}

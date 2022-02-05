@@ -252,7 +252,7 @@ func refreshObjectRouterBgpVrfLeak6(d *schema.ResourceData, o *models.RouterBgpV
 	var err error
 
 	if o.Target != nil {
-		if err = d.Set("target", flattenRouterBgpVrfLeak6Target(o.Target, sort)); err != nil {
+		if err = d.Set("target", flattenRouterBgpVrfLeak6Target(d, o.Target, "target", sort)); err != nil {
 			return diag.Errorf("error reading target: %v", err)
 		}
 	}

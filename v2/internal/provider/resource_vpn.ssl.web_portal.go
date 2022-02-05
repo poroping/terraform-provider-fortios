@@ -1193,14 +1193,15 @@ func resourceVpnSslWebPortalRead(ctx context.Context, d *schema.ResourceData, me
 	return nil
 }
 
-func flattenVpnSslWebPortalBookmarkGroup(v *[]models.VpnSslWebPortalBookmarkGroup, sort bool) interface{} {
+func flattenVpnSslWebPortalBookmarkGroup(d *schema.ResourceData, v *[]models.VpnSslWebPortalBookmarkGroup, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Bookmarks; tmp != nil {
-				v["bookmarks"] = flattenVpnSslWebPortalBookmarkGroupBookmarks(tmp, sort)
+				v["bookmarks"] = flattenVpnSslWebPortalBookmarkGroupBookmarks(d, tmp, prefix+"bookmarks", sort)
 			}
 
 			if tmp := cfg.Name; tmp != nil {
@@ -1218,11 +1219,12 @@ func flattenVpnSslWebPortalBookmarkGroup(v *[]models.VpnSslWebPortalBookmarkGrou
 	return flat
 }
 
-func flattenVpnSslWebPortalBookmarkGroupBookmarks(v *[]models.VpnSslWebPortalBookmarkGroupBookmarks, sort bool) interface{} {
+func flattenVpnSslWebPortalBookmarkGroupBookmarks(d *schema.ResourceData, v *[]models.VpnSslWebPortalBookmarkGroupBookmarks, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.AdditionalParams; tmp != nil {
 				v["additional_params"] = *tmp
@@ -1249,7 +1251,7 @@ func flattenVpnSslWebPortalBookmarkGroupBookmarks(v *[]models.VpnSslWebPortalBoo
 			}
 
 			if tmp := cfg.FormData; tmp != nil {
-				v["form_data"] = flattenVpnSslWebPortalBookmarkGroupBookmarksFormData(tmp, sort)
+				v["form_data"] = flattenVpnSslWebPortalBookmarkGroupBookmarksFormData(d, tmp, prefix+"form_data", sort)
 			}
 
 			if tmp := cfg.Height; tmp != nil {
@@ -1359,11 +1361,12 @@ func flattenVpnSslWebPortalBookmarkGroupBookmarks(v *[]models.VpnSslWebPortalBoo
 	return flat
 }
 
-func flattenVpnSslWebPortalBookmarkGroupBookmarksFormData(v *[]models.VpnSslWebPortalBookmarkGroupBookmarksFormData, sort bool) interface{} {
+func flattenVpnSslWebPortalBookmarkGroupBookmarksFormData(d *schema.ResourceData, v *[]models.VpnSslWebPortalBookmarkGroupBookmarksFormData, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -1384,11 +1387,12 @@ func flattenVpnSslWebPortalBookmarkGroupBookmarksFormData(v *[]models.VpnSslWebP
 	return flat
 }
 
-func flattenVpnSslWebPortalHostCheckPolicy(v *[]models.VpnSslWebPortalHostCheckPolicy, sort bool) interface{} {
+func flattenVpnSslWebPortalHostCheckPolicy(d *schema.ResourceData, v *[]models.VpnSslWebPortalHostCheckPolicy, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -1405,11 +1409,12 @@ func flattenVpnSslWebPortalHostCheckPolicy(v *[]models.VpnSslWebPortalHostCheckP
 	return flat
 }
 
-func flattenVpnSslWebPortalIpPools(v *[]models.VpnSslWebPortalIpPools, sort bool) interface{} {
+func flattenVpnSslWebPortalIpPools(d *schema.ResourceData, v *[]models.VpnSslWebPortalIpPools, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -1426,11 +1431,12 @@ func flattenVpnSslWebPortalIpPools(v *[]models.VpnSslWebPortalIpPools, sort bool
 	return flat
 }
 
-func flattenVpnSslWebPortalIpv6Pools(v *[]models.VpnSslWebPortalIpv6Pools, sort bool) interface{} {
+func flattenVpnSslWebPortalIpv6Pools(d *schema.ResourceData, v *[]models.VpnSslWebPortalIpv6Pools, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -1447,11 +1453,12 @@ func flattenVpnSslWebPortalIpv6Pools(v *[]models.VpnSslWebPortalIpv6Pools, sort 
 	return flat
 }
 
-func flattenVpnSslWebPortalIpv6SplitTunnelingRoutingAddress(v *[]models.VpnSslWebPortalIpv6SplitTunnelingRoutingAddress, sort bool) interface{} {
+func flattenVpnSslWebPortalIpv6SplitTunnelingRoutingAddress(d *schema.ResourceData, v *[]models.VpnSslWebPortalIpv6SplitTunnelingRoutingAddress, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -1468,14 +1475,15 @@ func flattenVpnSslWebPortalIpv6SplitTunnelingRoutingAddress(v *[]models.VpnSslWe
 	return flat
 }
 
-func flattenVpnSslWebPortalMacAddrCheckRule(v *[]models.VpnSslWebPortalMacAddrCheckRule, sort bool) interface{} {
+func flattenVpnSslWebPortalMacAddrCheckRule(d *schema.ResourceData, v *[]models.VpnSslWebPortalMacAddrCheckRule, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.MacAddrList; tmp != nil {
-				v["mac_addr_list"] = flattenVpnSslWebPortalMacAddrCheckRuleMacAddrList(tmp, sort)
+				v["mac_addr_list"] = flattenVpnSslWebPortalMacAddrCheckRuleMacAddrList(d, tmp, prefix+"mac_addr_list", sort)
 			}
 
 			if tmp := cfg.MacAddrMask; tmp != nil {
@@ -1497,11 +1505,12 @@ func flattenVpnSslWebPortalMacAddrCheckRule(v *[]models.VpnSslWebPortalMacAddrCh
 	return flat
 }
 
-func flattenVpnSslWebPortalMacAddrCheckRuleMacAddrList(v *[]models.VpnSslWebPortalMacAddrCheckRuleMacAddrList, sort bool) interface{} {
+func flattenVpnSslWebPortalMacAddrCheckRuleMacAddrList(d *schema.ResourceData, v *[]models.VpnSslWebPortalMacAddrCheckRuleMacAddrList, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Addr; tmp != nil {
 				v["addr"] = *tmp
@@ -1518,11 +1527,12 @@ func flattenVpnSslWebPortalMacAddrCheckRuleMacAddrList(v *[]models.VpnSslWebPort
 	return flat
 }
 
-func flattenVpnSslWebPortalOsCheckList(v *[]models.VpnSslWebPortalOsCheckList, sort bool) interface{} {
+func flattenVpnSslWebPortalOsCheckList(d *schema.ResourceData, v *[]models.VpnSslWebPortalOsCheckList, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Action; tmp != nil {
 				v["action"] = *tmp
@@ -1551,11 +1561,12 @@ func flattenVpnSslWebPortalOsCheckList(v *[]models.VpnSslWebPortalOsCheckList, s
 	return flat
 }
 
-func flattenVpnSslWebPortalSplitDns(v *[]models.VpnSslWebPortalSplitDns, sort bool) interface{} {
+func flattenVpnSslWebPortalSplitDns(d *schema.ResourceData, v *[]models.VpnSslWebPortalSplitDns, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.DnsServer1; tmp != nil {
 				v["dns_server1"] = *tmp
@@ -1592,11 +1603,12 @@ func flattenVpnSslWebPortalSplitDns(v *[]models.VpnSslWebPortalSplitDns, sort bo
 	return flat
 }
 
-func flattenVpnSslWebPortalSplitTunnelingRoutingAddress(v *[]models.VpnSslWebPortalSplitTunnelingRoutingAddress, sort bool) interface{} {
+func flattenVpnSslWebPortalSplitTunnelingRoutingAddress(d *schema.ResourceData, v *[]models.VpnSslWebPortalSplitTunnelingRoutingAddress, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -1633,7 +1645,7 @@ func refreshObjectVpnSslWebPortal(d *schema.ResourceData, o *models.VpnSslWebPor
 	}
 
 	if o.BookmarkGroup != nil {
-		if err = d.Set("bookmark_group", flattenVpnSslWebPortalBookmarkGroup(o.BookmarkGroup, sort)); err != nil {
+		if err = d.Set("bookmark_group", flattenVpnSslWebPortalBookmarkGroup(d, o.BookmarkGroup, "bookmark_group", sort)); err != nil {
 			return diag.Errorf("error reading bookmark_group: %v", err)
 		}
 	}
@@ -1775,7 +1787,7 @@ func refreshObjectVpnSslWebPortal(d *schema.ResourceData, o *models.VpnSslWebPor
 	}
 
 	if o.HostCheckPolicy != nil {
-		if err = d.Set("host_check_policy", flattenVpnSslWebPortalHostCheckPolicy(o.HostCheckPolicy, sort)); err != nil {
+		if err = d.Set("host_check_policy", flattenVpnSslWebPortalHostCheckPolicy(d, o.HostCheckPolicy, "host_check_policy", sort)); err != nil {
 			return diag.Errorf("error reading host_check_policy: %v", err)
 		}
 	}
@@ -1789,7 +1801,7 @@ func refreshObjectVpnSslWebPortal(d *schema.ResourceData, o *models.VpnSslWebPor
 	}
 
 	if o.IpPools != nil {
-		if err = d.Set("ip_pools", flattenVpnSslWebPortalIpPools(o.IpPools, sort)); err != nil {
+		if err = d.Set("ip_pools", flattenVpnSslWebPortalIpPools(d, o.IpPools, "ip_pools", sort)); err != nil {
 			return diag.Errorf("error reading ip_pools: %v", err)
 		}
 	}
@@ -1819,7 +1831,7 @@ func refreshObjectVpnSslWebPortal(d *schema.ResourceData, o *models.VpnSslWebPor
 	}
 
 	if o.Ipv6Pools != nil {
-		if err = d.Set("ipv6_pools", flattenVpnSslWebPortalIpv6Pools(o.Ipv6Pools, sort)); err != nil {
+		if err = d.Set("ipv6_pools", flattenVpnSslWebPortalIpv6Pools(d, o.Ipv6Pools, "ipv6_pools", sort)); err != nil {
 			return diag.Errorf("error reading ipv6_pools: %v", err)
 		}
 	}
@@ -1841,7 +1853,7 @@ func refreshObjectVpnSslWebPortal(d *schema.ResourceData, o *models.VpnSslWebPor
 	}
 
 	if o.Ipv6SplitTunnelingRoutingAddress != nil {
-		if err = d.Set("ipv6_split_tunneling_routing_address", flattenVpnSslWebPortalIpv6SplitTunnelingRoutingAddress(o.Ipv6SplitTunnelingRoutingAddress, sort)); err != nil {
+		if err = d.Set("ipv6_split_tunneling_routing_address", flattenVpnSslWebPortalIpv6SplitTunnelingRoutingAddress(d, o.Ipv6SplitTunnelingRoutingAddress, "ipv6_split_tunneling_routing_address", sort)); err != nil {
 			return diag.Errorf("error reading ipv6_split_tunneling_routing_address: %v", err)
 		}
 	}
@@ -1911,7 +1923,7 @@ func refreshObjectVpnSslWebPortal(d *schema.ResourceData, o *models.VpnSslWebPor
 	}
 
 	if o.MacAddrCheckRule != nil {
-		if err = d.Set("mac_addr_check_rule", flattenVpnSslWebPortalMacAddrCheckRule(o.MacAddrCheckRule, sort)); err != nil {
+		if err = d.Set("mac_addr_check_rule", flattenVpnSslWebPortalMacAddrCheckRule(d, o.MacAddrCheckRule, "mac_addr_check_rule", sort)); err != nil {
 			return diag.Errorf("error reading mac_addr_check_rule: %v", err)
 		}
 	}
@@ -1941,7 +1953,7 @@ func refreshObjectVpnSslWebPortal(d *schema.ResourceData, o *models.VpnSslWebPor
 	}
 
 	if o.OsCheckList != nil {
-		if err = d.Set("os_check_list", flattenVpnSslWebPortalOsCheckList(o.OsCheckList, sort)); err != nil {
+		if err = d.Set("os_check_list", flattenVpnSslWebPortalOsCheckList(d, o.OsCheckList, "os_check_list", sort)); err != nil {
 			return diag.Errorf("error reading os_check_list: %v", err)
 		}
 	}
@@ -2035,7 +2047,7 @@ func refreshObjectVpnSslWebPortal(d *schema.ResourceData, o *models.VpnSslWebPor
 	}
 
 	if o.SplitDns != nil {
-		if err = d.Set("split_dns", flattenVpnSslWebPortalSplitDns(o.SplitDns, sort)); err != nil {
+		if err = d.Set("split_dns", flattenVpnSslWebPortalSplitDns(d, o.SplitDns, "split_dns", sort)); err != nil {
 			return diag.Errorf("error reading split_dns: %v", err)
 		}
 	}
@@ -2049,7 +2061,7 @@ func refreshObjectVpnSslWebPortal(d *schema.ResourceData, o *models.VpnSslWebPor
 	}
 
 	if o.SplitTunnelingRoutingAddress != nil {
-		if err = d.Set("split_tunneling_routing_address", flattenVpnSslWebPortalSplitTunnelingRoutingAddress(o.SplitTunnelingRoutingAddress, sort)); err != nil {
+		if err = d.Set("split_tunneling_routing_address", flattenVpnSslWebPortalSplitTunnelingRoutingAddress(d, o.SplitTunnelingRoutingAddress, "split_tunneling_routing_address", sort)); err != nil {
 			return diag.Errorf("error reading split_tunneling_routing_address: %v", err)
 		}
 	}

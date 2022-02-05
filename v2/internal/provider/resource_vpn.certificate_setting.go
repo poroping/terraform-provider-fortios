@@ -441,11 +441,12 @@ func resourceVpnCertificateSettingRead(ctx context.Context, d *schema.ResourceDa
 	return nil
 }
 
-func flattenVpnCertificateSettingCrlVerification(v *[]models.VpnCertificateSettingCrlVerification, sort bool) interface{} {
+func flattenVpnCertificateSettingCrlVerification(d *schema.ResourceData, v *[]models.VpnCertificateSettingCrlVerification, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.ChainCrlAbsence; tmp != nil {
 				v["chain_crl_absence"] = *tmp
@@ -598,7 +599,7 @@ func refreshObjectVpnCertificateSetting(d *schema.ResourceData, o *models.VpnCer
 	}
 
 	if o.CrlVerification != nil {
-		if err = d.Set("crl_verification", flattenVpnCertificateSettingCrlVerification(o.CrlVerification, sort)); err != nil {
+		if err = d.Set("crl_verification", flattenVpnCertificateSettingCrlVerification(d, o.CrlVerification, "crl_verification", sort)); err != nil {
 			return diag.Errorf("error reading crl_verification: %v", err)
 		}
 	}

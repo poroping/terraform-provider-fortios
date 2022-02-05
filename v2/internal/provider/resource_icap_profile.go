@@ -499,11 +499,12 @@ func resourceIcapProfileRead(ctx context.Context, d *schema.ResourceData, meta i
 	return nil
 }
 
-func flattenIcapProfileIcapHeaders(v *[]models.IcapProfileIcapHeaders, sort bool) interface{} {
+func flattenIcapProfileIcapHeaders(d *schema.ResourceData, v *[]models.IcapProfileIcapHeaders, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Base64Encoding; tmp != nil {
 				v["base64_encoding"] = *tmp
@@ -532,18 +533,19 @@ func flattenIcapProfileIcapHeaders(v *[]models.IcapProfileIcapHeaders, sort bool
 	return flat
 }
 
-func flattenIcapProfileRespmodForwardRules(v *[]models.IcapProfileRespmodForwardRules, sort bool) interface{} {
+func flattenIcapProfileRespmodForwardRules(d *schema.ResourceData, v *[]models.IcapProfileRespmodForwardRules, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Action; tmp != nil {
 				v["action"] = *tmp
 			}
 
 			if tmp := cfg.HeaderGroup; tmp != nil {
-				v["header_group"] = flattenIcapProfileRespmodForwardRulesHeaderGroup(tmp, sort)
+				v["header_group"] = flattenIcapProfileRespmodForwardRulesHeaderGroup(d, tmp, prefix+"header_group", sort)
 			}
 
 			if tmp := cfg.Host; tmp != nil {
@@ -551,7 +553,7 @@ func flattenIcapProfileRespmodForwardRules(v *[]models.IcapProfileRespmodForward
 			}
 
 			if tmp := cfg.HttpRespStatusCode; tmp != nil {
-				v["http_resp_status_code"] = flattenIcapProfileRespmodForwardRulesHttpRespStatusCode(tmp, sort)
+				v["http_resp_status_code"] = flattenIcapProfileRespmodForwardRulesHttpRespStatusCode(d, tmp, prefix+"http_resp_status_code", sort)
 			}
 
 			if tmp := cfg.Name; tmp != nil {
@@ -569,11 +571,12 @@ func flattenIcapProfileRespmodForwardRules(v *[]models.IcapProfileRespmodForward
 	return flat
 }
 
-func flattenIcapProfileRespmodForwardRulesHeaderGroup(v *[]models.IcapProfileRespmodForwardRulesHeaderGroup, sort bool) interface{} {
+func flattenIcapProfileRespmodForwardRulesHeaderGroup(d *schema.ResourceData, v *[]models.IcapProfileRespmodForwardRulesHeaderGroup, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.CaseSensitivity; tmp != nil {
 				v["case_sensitivity"] = *tmp
@@ -602,11 +605,12 @@ func flattenIcapProfileRespmodForwardRulesHeaderGroup(v *[]models.IcapProfileRes
 	return flat
 }
 
-func flattenIcapProfileRespmodForwardRulesHttpRespStatusCode(v *[]models.IcapProfileRespmodForwardRulesHttpRespStatusCode, sort bool) interface{} {
+func flattenIcapProfileRespmodForwardRulesHttpRespStatusCode(d *schema.ResourceData, v *[]models.IcapProfileRespmodForwardRulesHttpRespStatusCode, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Code; tmp != nil {
 				v["code"] = *tmp
@@ -651,7 +655,7 @@ func refreshObjectIcapProfile(d *schema.ResourceData, o *models.IcapProfile, sv 
 	}
 
 	if o.IcapHeaders != nil {
-		if err = d.Set("icap_headers", flattenIcapProfileIcapHeaders(o.IcapHeaders, sort)); err != nil {
+		if err = d.Set("icap_headers", flattenIcapProfileIcapHeaders(d, o.IcapHeaders, "icap_headers", sort)); err != nil {
 			return diag.Errorf("error reading icap_headers: %v", err)
 		}
 	}
@@ -737,7 +741,7 @@ func refreshObjectIcapProfile(d *schema.ResourceData, o *models.IcapProfile, sv 
 	}
 
 	if o.RespmodForwardRules != nil {
-		if err = d.Set("respmod_forward_rules", flattenIcapProfileRespmodForwardRules(o.RespmodForwardRules, sort)); err != nil {
+		if err = d.Set("respmod_forward_rules", flattenIcapProfileRespmodForwardRules(d, o.RespmodForwardRules, "respmod_forward_rules", sort)); err != nil {
 			return diag.Errorf("error reading respmod_forward_rules: %v", err)
 		}
 	}

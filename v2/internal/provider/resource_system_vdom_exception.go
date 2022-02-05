@@ -251,11 +251,12 @@ func resourceSystemVdomExceptionRead(ctx context.Context, d *schema.ResourceData
 	return nil
 }
 
-func flattenSystemVdomExceptionVdom(v *[]models.SystemVdomExceptionVdom, sort bool) interface{} {
+func flattenSystemVdomExceptionVdom(d *schema.ResourceData, v *[]models.SystemVdomExceptionVdom, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -300,7 +301,7 @@ func refreshObjectSystemVdomException(d *schema.ResourceData, o *models.SystemVd
 	}
 
 	if o.Vdom != nil {
-		if err = d.Set("vdom", flattenSystemVdomExceptionVdom(o.Vdom, sort)); err != nil {
+		if err = d.Set("vdom", flattenSystemVdomExceptionVdom(d, o.Vdom, "vdom", sort)); err != nil {
 			return diag.Errorf("error reading vdom: %v", err)
 		}
 	}

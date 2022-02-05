@@ -476,11 +476,12 @@ func resourceFirewallAddress6Read(ctx context.Context, d *schema.ResourceData, m
 	return nil
 }
 
-func flattenFirewallAddress6List(v *[]models.FirewallAddress6List, sort bool) interface{} {
+func flattenFirewallAddress6List(d *schema.ResourceData, v *[]models.FirewallAddress6List, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Ip; tmp != nil {
 				v["ip"] = *tmp
@@ -497,11 +498,12 @@ func flattenFirewallAddress6List(v *[]models.FirewallAddress6List, sort bool) in
 	return flat
 }
 
-func flattenFirewallAddress6Macaddr(v *[]models.FirewallAddress6Macaddr, sort bool) interface{} {
+func flattenFirewallAddress6Macaddr(d *schema.ResourceData, v *[]models.FirewallAddress6Macaddr, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Macaddr; tmp != nil {
 				v["macaddr"] = *tmp
@@ -518,11 +520,12 @@ func flattenFirewallAddress6Macaddr(v *[]models.FirewallAddress6Macaddr, sort bo
 	return flat
 }
 
-func flattenFirewallAddress6SubnetSegment(v *[]models.FirewallAddress6SubnetSegment, sort bool) interface{} {
+func flattenFirewallAddress6SubnetSegment(d *schema.ResourceData, v *[]models.FirewallAddress6SubnetSegment, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -547,11 +550,12 @@ func flattenFirewallAddress6SubnetSegment(v *[]models.FirewallAddress6SubnetSegm
 	return flat
 }
 
-func flattenFirewallAddress6Tagging(v *[]models.FirewallAddress6Tagging, sort bool) interface{} {
+func flattenFirewallAddress6Tagging(d *schema.ResourceData, v *[]models.FirewallAddress6Tagging, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Category; tmp != nil {
 				v["category"] = *tmp
@@ -562,7 +566,7 @@ func flattenFirewallAddress6Tagging(v *[]models.FirewallAddress6Tagging, sort bo
 			}
 
 			if tmp := cfg.Tags; tmp != nil {
-				v["tags"] = flattenFirewallAddress6TaggingTags(tmp, sort)
+				v["tags"] = flattenFirewallAddress6TaggingTags(d, tmp, prefix+"tags", sort)
 			}
 
 			flat = append(flat, v)
@@ -576,11 +580,12 @@ func flattenFirewallAddress6Tagging(v *[]models.FirewallAddress6Tagging, sort bo
 	return flat
 }
 
-func flattenFirewallAddress6TaggingTags(v *[]models.FirewallAddress6TaggingTags, sort bool) interface{} {
+func flattenFirewallAddress6TaggingTags(d *schema.ResourceData, v *[]models.FirewallAddress6TaggingTags, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -689,13 +694,13 @@ func refreshObjectFirewallAddress6(d *schema.ResourceData, o *models.FirewallAdd
 	}
 
 	if o.List != nil {
-		if err = d.Set("list", flattenFirewallAddress6List(o.List, sort)); err != nil {
+		if err = d.Set("list", flattenFirewallAddress6List(d, o.List, "list", sort)); err != nil {
 			return diag.Errorf("error reading list: %v", err)
 		}
 	}
 
 	if o.Macaddr != nil {
-		if err = d.Set("macaddr", flattenFirewallAddress6Macaddr(o.Macaddr, sort)); err != nil {
+		if err = d.Set("macaddr", flattenFirewallAddress6Macaddr(d, o.Macaddr, "macaddr", sort)); err != nil {
 			return diag.Errorf("error reading macaddr: %v", err)
 		}
 	}
@@ -741,13 +746,13 @@ func refreshObjectFirewallAddress6(d *schema.ResourceData, o *models.FirewallAdd
 	}
 
 	if o.SubnetSegment != nil {
-		if err = d.Set("subnet_segment", flattenFirewallAddress6SubnetSegment(o.SubnetSegment, sort)); err != nil {
+		if err = d.Set("subnet_segment", flattenFirewallAddress6SubnetSegment(d, o.SubnetSegment, "subnet_segment", sort)); err != nil {
 			return diag.Errorf("error reading subnet_segment: %v", err)
 		}
 	}
 
 	if o.Tagging != nil {
-		if err = d.Set("tagging", flattenFirewallAddress6Tagging(o.Tagging, sort)); err != nil {
+		if err = d.Set("tagging", flattenFirewallAddress6Tagging(d, o.Tagging, "tagging", sort)); err != nil {
 			return diag.Errorf("error reading tagging: %v", err)
 		}
 	}

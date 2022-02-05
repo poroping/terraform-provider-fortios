@@ -273,11 +273,12 @@ func resourceWirelessControllerHotspot20IconRead(ctx context.Context, d *schema.
 	return nil
 }
 
-func flattenWirelessControllerHotspot20IconIconList(v *[]models.WirelessControllerHotspot20IconIconList, sort bool) interface{} {
+func flattenWirelessControllerHotspot20IconIconList(d *schema.ResourceData, v *[]models.WirelessControllerHotspot20IconIconList, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.File; tmp != nil {
 				v["file"] = *tmp
@@ -318,7 +319,7 @@ func refreshObjectWirelessControllerHotspot20Icon(d *schema.ResourceData, o *mod
 	var err error
 
 	if o.IconList != nil {
-		if err = d.Set("icon_list", flattenWirelessControllerHotspot20IconIconList(o.IconList, sort)); err != nil {
+		if err = d.Set("icon_list", flattenWirelessControllerHotspot20IconIconList(d, o.IconList, "icon_list", sort)); err != nil {
 			return diag.Errorf("error reading icon_list: %v", err)
 		}
 	}

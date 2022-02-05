@@ -289,11 +289,12 @@ func resourceVideofilterYoutubeChannelFilterRead(ctx context.Context, d *schema.
 	return nil
 }
 
-func flattenVideofilterYoutubeChannelFilterEntries(v *[]models.VideofilterYoutubeChannelFilterEntries, sort bool) interface{} {
+func flattenVideofilterYoutubeChannelFilterEntries(d *schema.ResourceData, v *[]models.VideofilterYoutubeChannelFilterEntries, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Action; tmp != nil {
 				v["action"] = *tmp
@@ -342,7 +343,7 @@ func refreshObjectVideofilterYoutubeChannelFilter(d *schema.ResourceData, o *mod
 	}
 
 	if o.Entries != nil {
-		if err = d.Set("entries", flattenVideofilterYoutubeChannelFilterEntries(o.Entries, sort)); err != nil {
+		if err = d.Set("entries", flattenVideofilterYoutubeChannelFilterEntries(d, o.Entries, "entries", sort)); err != nil {
 			return diag.Errorf("error reading entries: %v", err)
 		}
 	}

@@ -439,11 +439,12 @@ func resourceSystemDhcp6ServerRead(ctx context.Context, d *schema.ResourceData, 
 	return nil
 }
 
-func flattenSystemDhcp6ServerIpRange(v *[]models.SystemDhcp6ServerIpRange, sort bool) interface{} {
+func flattenSystemDhcp6ServerIpRange(d *schema.ResourceData, v *[]models.SystemDhcp6ServerIpRange, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.EndIp; tmp != nil {
 				v["end_ip"] = *tmp
@@ -468,11 +469,12 @@ func flattenSystemDhcp6ServerIpRange(v *[]models.SystemDhcp6ServerIpRange, sort 
 	return flat
 }
 
-func flattenSystemDhcp6ServerPrefixRange(v *[]models.SystemDhcp6ServerPrefixRange, sort bool) interface{} {
+func flattenSystemDhcp6ServerPrefixRange(d *schema.ResourceData, v *[]models.SystemDhcp6ServerPrefixRange, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.EndPrefix; tmp != nil {
 				v["end_prefix"] = *tmp
@@ -593,7 +595,7 @@ func refreshObjectSystemDhcp6Server(d *schema.ResourceData, o *models.SystemDhcp
 	}
 
 	if o.IpRange != nil {
-		if err = d.Set("ip_range", flattenSystemDhcp6ServerIpRange(o.IpRange, sort)); err != nil {
+		if err = d.Set("ip_range", flattenSystemDhcp6ServerIpRange(d, o.IpRange, "ip_range", sort)); err != nil {
 			return diag.Errorf("error reading ip_range: %v", err)
 		}
 	}
@@ -639,7 +641,7 @@ func refreshObjectSystemDhcp6Server(d *schema.ResourceData, o *models.SystemDhcp
 	}
 
 	if o.PrefixRange != nil {
-		if err = d.Set("prefix_range", flattenSystemDhcp6ServerPrefixRange(o.PrefixRange, sort)); err != nil {
+		if err = d.Set("prefix_range", flattenSystemDhcp6ServerPrefixRange(d, o.PrefixRange, "prefix_range", sort)); err != nil {
 			return diag.Errorf("error reading prefix_range: %v", err)
 		}
 	}

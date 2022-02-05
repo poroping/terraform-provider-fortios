@@ -354,11 +354,12 @@ func resourceApplicationNameRead(ctx context.Context, d *schema.ResourceData, me
 	return nil
 }
 
-func flattenApplicationNameMetadata(v *[]models.ApplicationNameMetadata, sort bool) interface{} {
+func flattenApplicationNameMetadata(d *schema.ResourceData, v *[]models.ApplicationNameMetadata, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Id; tmp != nil {
 				v["id"] = *tmp
@@ -383,11 +384,12 @@ func flattenApplicationNameMetadata(v *[]models.ApplicationNameMetadata, sort bo
 	return flat
 }
 
-func flattenApplicationNameParameters(v *[]models.ApplicationNameParameters, sort bool) interface{} {
+func flattenApplicationNameParameters(d *schema.ResourceData, v *[]models.ApplicationNameParameters, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.DefaultValue; tmp != nil {
 				v["defaultvalue"] = *tmp
@@ -436,7 +438,7 @@ func refreshObjectApplicationName(d *schema.ResourceData, o *models.ApplicationN
 	}
 
 	if o.Metadata != nil {
-		if err = d.Set("metadata", flattenApplicationNameMetadata(o.Metadata, sort)); err != nil {
+		if err = d.Set("metadata", flattenApplicationNameMetadata(d, o.Metadata, "metadata", sort)); err != nil {
 			return diag.Errorf("error reading metadata: %v", err)
 		}
 	}
@@ -458,7 +460,7 @@ func refreshObjectApplicationName(d *schema.ResourceData, o *models.ApplicationN
 	}
 
 	if o.Parameters != nil {
-		if err = d.Set("parameters", flattenApplicationNameParameters(o.Parameters, sort)); err != nil {
+		if err = d.Set("parameters", flattenApplicationNameParameters(d, o.Parameters, "parameters", sort)); err != nil {
 			return diag.Errorf("error reading parameters: %v", err)
 		}
 	}

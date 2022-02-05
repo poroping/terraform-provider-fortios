@@ -241,11 +241,12 @@ func resourceWirelessControllerVapGroupRead(ctx context.Context, d *schema.Resou
 	return nil
 }
 
-func flattenWirelessControllerVapGroupVaps(v *[]models.WirelessControllerVapGroupVaps, sort bool) interface{} {
+func flattenWirelessControllerVapGroupVaps(d *schema.ResourceData, v *[]models.WirelessControllerVapGroupVaps, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -282,7 +283,7 @@ func refreshObjectWirelessControllerVapGroup(d *schema.ResourceData, o *models.W
 	}
 
 	if o.Vaps != nil {
-		if err = d.Set("vaps", flattenWirelessControllerVapGroupVaps(o.Vaps, sort)); err != nil {
+		if err = d.Set("vaps", flattenWirelessControllerVapGroupVaps(d, o.Vaps, "vaps", sort)); err != nil {
 			return diag.Errorf("error reading vaps: %v", err)
 		}
 	}

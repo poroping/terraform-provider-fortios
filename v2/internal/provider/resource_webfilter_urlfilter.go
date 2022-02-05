@@ -338,11 +338,12 @@ func resourceWebfilterUrlfilterRead(ctx context.Context, d *schema.ResourceData,
 	return nil
 }
 
-func flattenWebfilterUrlfilterEntries(v *[]models.WebfilterUrlfilterEntries, sort bool) interface{} {
+func flattenWebfilterUrlfilterEntries(d *schema.ResourceData, v *[]models.WebfilterUrlfilterEntries, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Action; tmp != nil {
 				v["action"] = *tmp
@@ -407,7 +408,7 @@ func refreshObjectWebfilterUrlfilter(d *schema.ResourceData, o *models.Webfilter
 	}
 
 	if o.Entries != nil {
-		if err = d.Set("entries", flattenWebfilterUrlfilterEntries(o.Entries, sort)); err != nil {
+		if err = d.Set("entries", flattenWebfilterUrlfilterEntries(d, o.Entries, "entries", sort)); err != nil {
 			return diag.Errorf("error reading entries: %v", err)
 		}
 	}

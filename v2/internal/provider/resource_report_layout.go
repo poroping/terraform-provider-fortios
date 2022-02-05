@@ -752,11 +752,12 @@ func resourceReportLayoutRead(ctx context.Context, d *schema.ResourceData, meta 
 	return nil
 }
 
-func flattenReportLayoutBodyItem(v *[]models.ReportLayoutBodyItem, sort bool) interface{} {
+func flattenReportLayoutBodyItem(d *schema.ResourceData, v *[]models.ReportLayoutBodyItem, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Chart; tmp != nil {
 				v["chart"] = *tmp
@@ -799,7 +800,7 @@ func flattenReportLayoutBodyItem(v *[]models.ReportLayoutBodyItem, sort bool) in
 			}
 
 			if tmp := cfg.List; tmp != nil {
-				v["list"] = flattenReportLayoutBodyItemList(tmp, sort)
+				v["list"] = flattenReportLayoutBodyItemList(d, tmp, prefix+"list", sort)
 			}
 
 			if tmp := cfg.ListComponent; tmp != nil {
@@ -811,7 +812,7 @@ func flattenReportLayoutBodyItem(v *[]models.ReportLayoutBodyItem, sort bool) in
 			}
 
 			if tmp := cfg.Parameters; tmp != nil {
-				v["parameters"] = flattenReportLayoutBodyItemParameters(tmp, sort)
+				v["parameters"] = flattenReportLayoutBodyItemParameters(d, tmp, prefix+"parameters", sort)
 			}
 
 			if tmp := cfg.Style; tmp != nil {
@@ -865,11 +866,12 @@ func flattenReportLayoutBodyItem(v *[]models.ReportLayoutBodyItem, sort bool) in
 	return flat
 }
 
-func flattenReportLayoutBodyItemList(v *[]models.ReportLayoutBodyItemList, sort bool) interface{} {
+func flattenReportLayoutBodyItemList(d *schema.ResourceData, v *[]models.ReportLayoutBodyItemList, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Content; tmp != nil {
 				v["content"] = *tmp
@@ -890,11 +892,12 @@ func flattenReportLayoutBodyItemList(v *[]models.ReportLayoutBodyItemList, sort 
 	return flat
 }
 
-func flattenReportLayoutBodyItemParameters(v *[]models.ReportLayoutBodyItemParameters, sort bool) interface{} {
+func flattenReportLayoutBodyItemParameters(d *schema.ResourceData, v *[]models.ReportLayoutBodyItemParameters, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Id; tmp != nil {
 				v["id"] = *tmp
@@ -919,22 +922,23 @@ func flattenReportLayoutBodyItemParameters(v *[]models.ReportLayoutBodyItemParam
 	return flat
 }
 
-func flattenReportLayoutPage(v *[]models.ReportLayoutPage, sort bool) interface{} {
+func flattenReportLayoutPage(d *schema.ResourceData, v *[]models.ReportLayoutPage, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.ColumnBreakBefore; tmp != nil {
 				v["column_break_before"] = *tmp
 			}
 
 			if tmp := cfg.Footer; tmp != nil {
-				v["footer"] = flattenReportLayoutPageFooter(tmp, sort)
+				v["footer"] = flattenReportLayoutPageFooter(d, tmp, prefix+"footer", sort)
 			}
 
 			if tmp := cfg.Header; tmp != nil {
-				v["header"] = flattenReportLayoutPageHeader(tmp, sort)
+				v["header"] = flattenReportLayoutPageHeader(d, tmp, prefix+"header", sort)
 			}
 
 			if tmp := cfg.Options; tmp != nil {
@@ -956,14 +960,15 @@ func flattenReportLayoutPage(v *[]models.ReportLayoutPage, sort bool) interface{
 	return flat
 }
 
-func flattenReportLayoutPageFooter(v *[]models.ReportLayoutPageFooter, sort bool) interface{} {
+func flattenReportLayoutPageFooter(d *schema.ResourceData, v *[]models.ReportLayoutPageFooter, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.FooterItem; tmp != nil {
-				v["footer_item"] = flattenReportLayoutPageFooterFooterItem(tmp, sort)
+				v["footer_item"] = flattenReportLayoutPageFooterFooterItem(d, tmp, prefix+"footer_item", sort)
 			}
 
 			if tmp := cfg.Style; tmp != nil {
@@ -977,11 +982,12 @@ func flattenReportLayoutPageFooter(v *[]models.ReportLayoutPageFooter, sort bool
 	return flat
 }
 
-func flattenReportLayoutPageFooterFooterItem(v *[]models.ReportLayoutPageFooterFooterItem, sort bool) interface{} {
+func flattenReportLayoutPageFooterFooterItem(d *schema.ResourceData, v *[]models.ReportLayoutPageFooterFooterItem, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Content; tmp != nil {
 				v["content"] = *tmp
@@ -1018,14 +1024,15 @@ func flattenReportLayoutPageFooterFooterItem(v *[]models.ReportLayoutPageFooterF
 	return flat
 }
 
-func flattenReportLayoutPageHeader(v *[]models.ReportLayoutPageHeader, sort bool) interface{} {
+func flattenReportLayoutPageHeader(d *schema.ResourceData, v *[]models.ReportLayoutPageHeader, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.HeaderItem; tmp != nil {
-				v["header_item"] = flattenReportLayoutPageHeaderHeaderItem(tmp, sort)
+				v["header_item"] = flattenReportLayoutPageHeaderHeaderItem(d, tmp, prefix+"header_item", sort)
 			}
 
 			if tmp := cfg.Style; tmp != nil {
@@ -1039,11 +1046,12 @@ func flattenReportLayoutPageHeader(v *[]models.ReportLayoutPageHeader, sort bool
 	return flat
 }
 
-func flattenReportLayoutPageHeaderHeaderItem(v *[]models.ReportLayoutPageHeaderHeaderItem, sort bool) interface{} {
+func flattenReportLayoutPageHeaderHeaderItem(d *schema.ResourceData, v *[]models.ReportLayoutPageHeaderHeaderItem, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Content; tmp != nil {
 				v["content"] = *tmp
@@ -1084,7 +1092,7 @@ func refreshObjectReportLayout(d *schema.ResourceData, o *models.ReportLayout, s
 	var err error
 
 	if o.BodyItem != nil {
-		if err = d.Set("body_item", flattenReportLayoutBodyItem(o.BodyItem, sort)); err != nil {
+		if err = d.Set("body_item", flattenReportLayoutBodyItem(d, o.BodyItem, "body_item", sort)); err != nil {
 			return diag.Errorf("error reading body_item: %v", err)
 		}
 	}
@@ -1170,7 +1178,7 @@ func refreshObjectReportLayout(d *schema.ResourceData, o *models.ReportLayout, s
 	}
 
 	if o.Page != nil {
-		if err = d.Set("page", flattenReportLayoutPage(o.Page, sort)); err != nil {
+		if err = d.Set("page", flattenReportLayoutPage(d, o.Page, "page", sort)); err != nil {
 			return diag.Errorf("error reading page: %v", err)
 		}
 	}

@@ -991,11 +991,12 @@ func resourceFirewallAccessProxy6Read(ctx context.Context, d *schema.ResourceDat
 	return nil
 }
 
-func flattenFirewallAccessProxy6ApiGateway(v *[]models.FirewallAccessProxy6ApiGateway, sort bool) interface{} {
+func flattenFirewallAccessProxy6ApiGateway(d *schema.ResourceData, v *[]models.FirewallAccessProxy6ApiGateway, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.HttpCookieAge; tmp != nil {
 				v["http_cookie_age"] = *tmp
@@ -1038,7 +1039,7 @@ func flattenFirewallAccessProxy6ApiGateway(v *[]models.FirewallAccessProxy6ApiGa
 			}
 
 			if tmp := cfg.Realservers; tmp != nil {
-				v["realservers"] = flattenFirewallAccessProxy6ApiGatewayRealservers(tmp, sort)
+				v["realservers"] = flattenFirewallAccessProxy6ApiGatewayRealservers(d, tmp, prefix+"realservers", sort)
 			}
 
 			if tmp := cfg.SamlRedirect; tmp != nil {
@@ -1058,7 +1059,7 @@ func flattenFirewallAccessProxy6ApiGateway(v *[]models.FirewallAccessProxy6ApiGa
 			}
 
 			if tmp := cfg.SslCipherSuites; tmp != nil {
-				v["ssl_cipher_suites"] = flattenFirewallAccessProxy6ApiGatewaySslCipherSuites(tmp, sort)
+				v["ssl_cipher_suites"] = flattenFirewallAccessProxy6ApiGatewaySslCipherSuites(d, tmp, prefix+"ssl_cipher_suites", sort)
 			}
 
 			if tmp := cfg.SslDhBits; tmp != nil {
@@ -1100,11 +1101,12 @@ func flattenFirewallAccessProxy6ApiGateway(v *[]models.FirewallAccessProxy6ApiGa
 	return flat
 }
 
-func flattenFirewallAccessProxy6ApiGatewayRealservers(v *[]models.FirewallAccessProxy6ApiGatewayRealservers, sort bool) interface{} {
+func flattenFirewallAccessProxy6ApiGatewayRealservers(d *schema.ResourceData, v *[]models.FirewallAccessProxy6ApiGatewayRealservers, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.AddrType; tmp != nil {
 				v["addr_type"] = *tmp
@@ -1155,7 +1157,7 @@ func flattenFirewallAccessProxy6ApiGatewayRealservers(v *[]models.FirewallAccess
 			}
 
 			if tmp := cfg.SshHostKey; tmp != nil {
-				v["ssh_host_key"] = flattenFirewallAccessProxy6ApiGatewayRealserversSshHostKey(tmp, sort)
+				v["ssh_host_key"] = flattenFirewallAccessProxy6ApiGatewayRealserversSshHostKey(d, tmp, prefix+"ssh_host_key", sort)
 			}
 
 			if tmp := cfg.SshHostKeyValidation; tmp != nil {
@@ -1185,11 +1187,12 @@ func flattenFirewallAccessProxy6ApiGatewayRealservers(v *[]models.FirewallAccess
 	return flat
 }
 
-func flattenFirewallAccessProxy6ApiGatewayRealserversSshHostKey(v *[]models.FirewallAccessProxy6ApiGatewayRealserversSshHostKey, sort bool) interface{} {
+func flattenFirewallAccessProxy6ApiGatewayRealserversSshHostKey(d *schema.ResourceData, v *[]models.FirewallAccessProxy6ApiGatewayRealserversSshHostKey, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -1206,11 +1209,12 @@ func flattenFirewallAccessProxy6ApiGatewayRealserversSshHostKey(v *[]models.Fire
 	return flat
 }
 
-func flattenFirewallAccessProxy6ApiGatewaySslCipherSuites(v *[]models.FirewallAccessProxy6ApiGatewaySslCipherSuites, sort bool) interface{} {
+func flattenFirewallAccessProxy6ApiGatewaySslCipherSuites(d *schema.ResourceData, v *[]models.FirewallAccessProxy6ApiGatewaySslCipherSuites, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Cipher; tmp != nil {
 				v["cipher"] = *tmp
@@ -1235,11 +1239,12 @@ func flattenFirewallAccessProxy6ApiGatewaySslCipherSuites(v *[]models.FirewallAc
 	return flat
 }
 
-func flattenFirewallAccessProxy6ApiGateway6(v *[]models.FirewallAccessProxy6ApiGateway6, sort bool) interface{} {
+func flattenFirewallAccessProxy6ApiGateway6(d *schema.ResourceData, v *[]models.FirewallAccessProxy6ApiGateway6, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.HttpCookieAge; tmp != nil {
 				v["http_cookie_age"] = *tmp
@@ -1282,7 +1287,7 @@ func flattenFirewallAccessProxy6ApiGateway6(v *[]models.FirewallAccessProxy6ApiG
 			}
 
 			if tmp := cfg.Realservers; tmp != nil {
-				v["realservers"] = flattenFirewallAccessProxy6ApiGateway6Realservers(tmp, sort)
+				v["realservers"] = flattenFirewallAccessProxy6ApiGateway6Realservers(d, tmp, prefix+"realservers", sort)
 			}
 
 			if tmp := cfg.SamlRedirect; tmp != nil {
@@ -1302,7 +1307,7 @@ func flattenFirewallAccessProxy6ApiGateway6(v *[]models.FirewallAccessProxy6ApiG
 			}
 
 			if tmp := cfg.SslCipherSuites; tmp != nil {
-				v["ssl_cipher_suites"] = flattenFirewallAccessProxy6ApiGateway6SslCipherSuites(tmp, sort)
+				v["ssl_cipher_suites"] = flattenFirewallAccessProxy6ApiGateway6SslCipherSuites(d, tmp, prefix+"ssl_cipher_suites", sort)
 			}
 
 			if tmp := cfg.SslDhBits; tmp != nil {
@@ -1344,11 +1349,12 @@ func flattenFirewallAccessProxy6ApiGateway6(v *[]models.FirewallAccessProxy6ApiG
 	return flat
 }
 
-func flattenFirewallAccessProxy6ApiGateway6Realservers(v *[]models.FirewallAccessProxy6ApiGateway6Realservers, sort bool) interface{} {
+func flattenFirewallAccessProxy6ApiGateway6Realservers(d *schema.ResourceData, v *[]models.FirewallAccessProxy6ApiGateway6Realservers, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.AddrType; tmp != nil {
 				v["addr_type"] = *tmp
@@ -1399,7 +1405,7 @@ func flattenFirewallAccessProxy6ApiGateway6Realservers(v *[]models.FirewallAcces
 			}
 
 			if tmp := cfg.SshHostKey; tmp != nil {
-				v["ssh_host_key"] = flattenFirewallAccessProxy6ApiGateway6RealserversSshHostKey(tmp, sort)
+				v["ssh_host_key"] = flattenFirewallAccessProxy6ApiGateway6RealserversSshHostKey(d, tmp, prefix+"ssh_host_key", sort)
 			}
 
 			if tmp := cfg.SshHostKeyValidation; tmp != nil {
@@ -1429,11 +1435,12 @@ func flattenFirewallAccessProxy6ApiGateway6Realservers(v *[]models.FirewallAcces
 	return flat
 }
 
-func flattenFirewallAccessProxy6ApiGateway6RealserversSshHostKey(v *[]models.FirewallAccessProxy6ApiGateway6RealserversSshHostKey, sort bool) interface{} {
+func flattenFirewallAccessProxy6ApiGateway6RealserversSshHostKey(d *schema.ResourceData, v *[]models.FirewallAccessProxy6ApiGateway6RealserversSshHostKey, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -1450,11 +1457,12 @@ func flattenFirewallAccessProxy6ApiGateway6RealserversSshHostKey(v *[]models.Fir
 	return flat
 }
 
-func flattenFirewallAccessProxy6ApiGateway6SslCipherSuites(v *[]models.FirewallAccessProxy6ApiGateway6SslCipherSuites, sort bool) interface{} {
+func flattenFirewallAccessProxy6ApiGateway6SslCipherSuites(d *schema.ResourceData, v *[]models.FirewallAccessProxy6ApiGateway6SslCipherSuites, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Cipher; tmp != nil {
 				v["cipher"] = *tmp
@@ -1483,13 +1491,13 @@ func refreshObjectFirewallAccessProxy6(d *schema.ResourceData, o *models.Firewal
 	var err error
 
 	if o.ApiGateway != nil {
-		if err = d.Set("api_gateway", flattenFirewallAccessProxy6ApiGateway(o.ApiGateway, sort)); err != nil {
+		if err = d.Set("api_gateway", flattenFirewallAccessProxy6ApiGateway(d, o.ApiGateway, "api_gateway", sort)); err != nil {
 			return diag.Errorf("error reading api_gateway: %v", err)
 		}
 	}
 
 	if o.ApiGateway6 != nil {
-		if err = d.Set("api_gateway6", flattenFirewallAccessProxy6ApiGateway6(o.ApiGateway6, sort)); err != nil {
+		if err = d.Set("api_gateway6", flattenFirewallAccessProxy6ApiGateway6(d, o.ApiGateway6, "api_gateway6", sort)); err != nil {
 			return diag.Errorf("error reading api_gateway6: %v", err)
 		}
 	}

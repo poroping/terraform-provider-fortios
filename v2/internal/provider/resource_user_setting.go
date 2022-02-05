@@ -390,11 +390,12 @@ func resourceUserSettingRead(ctx context.Context, d *schema.ResourceData, meta i
 	return nil
 }
 
-func flattenUserSettingAuthPorts(v *[]models.UserSettingAuthPorts, sort bool) interface{} {
+func flattenUserSettingAuthPorts(d *schema.ResourceData, v *[]models.UserSettingAuthPorts, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Id; tmp != nil {
 				v["id"] = *tmp
@@ -495,7 +496,7 @@ func refreshObjectUserSetting(d *schema.ResourceData, o *models.UserSetting, sv 
 	}
 
 	if o.AuthPorts != nil {
-		if err = d.Set("auth_ports", flattenUserSettingAuthPorts(o.AuthPorts, sort)); err != nil {
+		if err = d.Set("auth_ports", flattenUserSettingAuthPorts(d, o.AuthPorts, "auth_ports", sort)); err != nil {
 			return diag.Errorf("error reading auth_ports: %v", err)
 		}
 	}

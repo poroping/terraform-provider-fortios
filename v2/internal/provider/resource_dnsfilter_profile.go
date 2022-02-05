@@ -469,11 +469,12 @@ func resourceDnsfilterProfileRead(ctx context.Context, d *schema.ResourceData, m
 	return nil
 }
 
-func flattenDnsfilterProfileDnsTranslation(v *[]models.DnsfilterProfileDnsTranslation, sort bool) interface{} {
+func flattenDnsfilterProfileDnsTranslation(d *schema.ResourceData, v *[]models.DnsfilterProfileDnsTranslation, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.AddrType; tmp != nil {
 				v["addr_type"] = *tmp
@@ -522,11 +523,12 @@ func flattenDnsfilterProfileDnsTranslation(v *[]models.DnsfilterProfileDnsTransl
 	return flat
 }
 
-func flattenDnsfilterProfileDomainFilter(v *[]models.DnsfilterProfileDomainFilter, sort bool) interface{} {
+func flattenDnsfilterProfileDomainFilter(d *schema.ResourceData, v *[]models.DnsfilterProfileDomainFilter, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.DomainFilterTable; tmp != nil {
 				v["domain_filter_table"] = *tmp
@@ -539,11 +541,12 @@ func flattenDnsfilterProfileDomainFilter(v *[]models.DnsfilterProfileDomainFilte
 	return flat
 }
 
-func flattenDnsfilterProfileExternalIpBlocklist(v *[]models.DnsfilterProfileExternalIpBlocklist, sort bool) interface{} {
+func flattenDnsfilterProfileExternalIpBlocklist(d *schema.ResourceData, v *[]models.DnsfilterProfileExternalIpBlocklist, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -560,14 +563,15 @@ func flattenDnsfilterProfileExternalIpBlocklist(v *[]models.DnsfilterProfileExte
 	return flat
 }
 
-func flattenDnsfilterProfileFtgdDns(v *[]models.DnsfilterProfileFtgdDns, sort bool) interface{} {
+func flattenDnsfilterProfileFtgdDns(d *schema.ResourceData, v *[]models.DnsfilterProfileFtgdDns, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Filters; tmp != nil {
-				v["filters"] = flattenDnsfilterProfileFtgdDnsFilters(tmp, sort)
+				v["filters"] = flattenDnsfilterProfileFtgdDnsFilters(d, tmp, prefix+"filters", sort)
 			}
 
 			if tmp := cfg.Options; tmp != nil {
@@ -581,11 +585,12 @@ func flattenDnsfilterProfileFtgdDns(v *[]models.DnsfilterProfileFtgdDns, sort bo
 	return flat
 }
 
-func flattenDnsfilterProfileFtgdDnsFilters(v *[]models.DnsfilterProfileFtgdDnsFilters, sort bool) interface{} {
+func flattenDnsfilterProfileFtgdDnsFilters(d *schema.ResourceData, v *[]models.DnsfilterProfileFtgdDnsFilters, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Action; tmp != nil {
 				v["action"] = *tmp
@@ -642,25 +647,25 @@ func refreshObjectDnsfilterProfile(d *schema.ResourceData, o *models.DnsfilterPr
 	}
 
 	if o.DnsTranslation != nil {
-		if err = d.Set("dns_translation", flattenDnsfilterProfileDnsTranslation(o.DnsTranslation, sort)); err != nil {
+		if err = d.Set("dns_translation", flattenDnsfilterProfileDnsTranslation(d, o.DnsTranslation, "dns_translation", sort)); err != nil {
 			return diag.Errorf("error reading dns_translation: %v", err)
 		}
 	}
 
 	if o.DomainFilter != nil {
-		if err = d.Set("domain_filter", flattenDnsfilterProfileDomainFilter(o.DomainFilter, sort)); err != nil {
+		if err = d.Set("domain_filter", flattenDnsfilterProfileDomainFilter(d, o.DomainFilter, "domain_filter", sort)); err != nil {
 			return diag.Errorf("error reading domain_filter: %v", err)
 		}
 	}
 
 	if o.ExternalIpBlocklist != nil {
-		if err = d.Set("external_ip_blocklist", flattenDnsfilterProfileExternalIpBlocklist(o.ExternalIpBlocklist, sort)); err != nil {
+		if err = d.Set("external_ip_blocklist", flattenDnsfilterProfileExternalIpBlocklist(d, o.ExternalIpBlocklist, "external_ip_blocklist", sort)); err != nil {
 			return diag.Errorf("error reading external_ip_blocklist: %v", err)
 		}
 	}
 
 	if o.FtgdDns != nil {
-		if err = d.Set("ftgd_dns", flattenDnsfilterProfileFtgdDns(o.FtgdDns, sort)); err != nil {
+		if err = d.Set("ftgd_dns", flattenDnsfilterProfileFtgdDns(d, o.FtgdDns, "ftgd_dns", sort)); err != nil {
 			return diag.Errorf("error reading ftgd_dns: %v", err)
 		}
 	}

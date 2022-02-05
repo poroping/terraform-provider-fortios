@@ -307,14 +307,15 @@ func resourceWirelessControllerHotspot20AnqpNaiRealmRead(ctx context.Context, d 
 	return nil
 }
 
-func flattenWirelessControllerHotspot20AnqpNaiRealmNaiList(v *[]models.WirelessControllerHotspot20AnqpNaiRealmNaiList, sort bool) interface{} {
+func flattenWirelessControllerHotspot20AnqpNaiRealmNaiList(d *schema.ResourceData, v *[]models.WirelessControllerHotspot20AnqpNaiRealmNaiList, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.EapMethod; tmp != nil {
-				v["eap_method"] = flattenWirelessControllerHotspot20AnqpNaiRealmNaiListEapMethod(tmp, sort)
+				v["eap_method"] = flattenWirelessControllerHotspot20AnqpNaiRealmNaiListEapMethod(d, tmp, prefix+"eap_method", sort)
 			}
 
 			if tmp := cfg.Encoding; tmp != nil {
@@ -340,14 +341,15 @@ func flattenWirelessControllerHotspot20AnqpNaiRealmNaiList(v *[]models.WirelessC
 	return flat
 }
 
-func flattenWirelessControllerHotspot20AnqpNaiRealmNaiListEapMethod(v *[]models.WirelessControllerHotspot20AnqpNaiRealmNaiListEapMethod, sort bool) interface{} {
+func flattenWirelessControllerHotspot20AnqpNaiRealmNaiListEapMethod(d *schema.ResourceData, v *[]models.WirelessControllerHotspot20AnqpNaiRealmNaiListEapMethod, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.AuthParam; tmp != nil {
-				v["auth_param"] = flattenWirelessControllerHotspot20AnqpNaiRealmNaiListEapMethodAuthParam(tmp, sort)
+				v["auth_param"] = flattenWirelessControllerHotspot20AnqpNaiRealmNaiListEapMethodAuthParam(d, tmp, prefix+"auth_param", sort)
 			}
 
 			if tmp := cfg.Index; tmp != nil {
@@ -369,11 +371,12 @@ func flattenWirelessControllerHotspot20AnqpNaiRealmNaiListEapMethod(v *[]models.
 	return flat
 }
 
-func flattenWirelessControllerHotspot20AnqpNaiRealmNaiListEapMethodAuthParam(v *[]models.WirelessControllerHotspot20AnqpNaiRealmNaiListEapMethodAuthParam, sort bool) interface{} {
+func flattenWirelessControllerHotspot20AnqpNaiRealmNaiListEapMethodAuthParam(d *schema.ResourceData, v *[]models.WirelessControllerHotspot20AnqpNaiRealmNaiListEapMethodAuthParam, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Id; tmp != nil {
 				v["id"] = *tmp
@@ -402,7 +405,7 @@ func refreshObjectWirelessControllerHotspot20AnqpNaiRealm(d *schema.ResourceData
 	var err error
 
 	if o.NaiList != nil {
-		if err = d.Set("nai_list", flattenWirelessControllerHotspot20AnqpNaiRealmNaiList(o.NaiList, sort)); err != nil {
+		if err = d.Set("nai_list", flattenWirelessControllerHotspot20AnqpNaiRealmNaiList(d, o.NaiList, "nai_list", sort)); err != nil {
 			return diag.Errorf("error reading nai_list: %v", err)
 		}
 	}

@@ -328,11 +328,12 @@ func resourceSystemVdomDnsRead(ctx context.Context, d *schema.ResourceData, meta
 	return nil
 }
 
-func flattenSystemVdomDnsServerHostname(v *[]models.SystemVdomDnsServerHostname, sort bool) interface{} {
+func flattenSystemVdomDnsServerHostname(d *schema.ResourceData, v *[]models.SystemVdomDnsServerHostname, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Hostname; tmp != nil {
 				v["hostname"] = *tmp
@@ -433,7 +434,7 @@ func refreshObjectSystemVdomDns(d *schema.ResourceData, o *models.SystemVdomDns,
 	}
 
 	if o.ServerHostname != nil {
-		if err = d.Set("server_hostname", flattenSystemVdomDnsServerHostname(o.ServerHostname, sort)); err != nil {
+		if err = d.Set("server_hostname", flattenSystemVdomDnsServerHostname(d, o.ServerHostname, "server_hostname", sort)); err != nil {
 			return diag.Errorf("error reading server_hostname: %v", err)
 		}
 	}

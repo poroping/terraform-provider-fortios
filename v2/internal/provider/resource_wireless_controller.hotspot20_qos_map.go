@@ -290,11 +290,12 @@ func resourceWirelessControllerHotspot20QosMapRead(ctx context.Context, d *schem
 	return nil
 }
 
-func flattenWirelessControllerHotspot20QosMapDscpExcept(v *[]models.WirelessControllerHotspot20QosMapDscpExcept, sort bool) interface{} {
+func flattenWirelessControllerHotspot20QosMapDscpExcept(d *schema.ResourceData, v *[]models.WirelessControllerHotspot20QosMapDscpExcept, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Dscp; tmp != nil {
 				v["dscp"] = *tmp
@@ -319,11 +320,12 @@ func flattenWirelessControllerHotspot20QosMapDscpExcept(v *[]models.WirelessCont
 	return flat
 }
 
-func flattenWirelessControllerHotspot20QosMapDscpRange(v *[]models.WirelessControllerHotspot20QosMapDscpRange, sort bool) interface{} {
+func flattenWirelessControllerHotspot20QosMapDscpRange(d *schema.ResourceData, v *[]models.WirelessControllerHotspot20QosMapDscpRange, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.High; tmp != nil {
 				v["high"] = *tmp
@@ -356,13 +358,13 @@ func refreshObjectWirelessControllerHotspot20QosMap(d *schema.ResourceData, o *m
 	var err error
 
 	if o.DscpExcept != nil {
-		if err = d.Set("dscp_except", flattenWirelessControllerHotspot20QosMapDscpExcept(o.DscpExcept, sort)); err != nil {
+		if err = d.Set("dscp_except", flattenWirelessControllerHotspot20QosMapDscpExcept(d, o.DscpExcept, "dscp_except", sort)); err != nil {
 			return diag.Errorf("error reading dscp_except: %v", err)
 		}
 	}
 
 	if o.DscpRange != nil {
-		if err = d.Set("dscp_range", flattenWirelessControllerHotspot20QosMapDscpRange(o.DscpRange, sort)); err != nil {
+		if err = d.Set("dscp_range", flattenWirelessControllerHotspot20QosMapDscpRange(d, o.DscpRange, "dscp_range", sort)); err != nil {
 			return diag.Errorf("error reading dscp_range: %v", err)
 		}
 	}

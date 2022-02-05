@@ -387,22 +387,23 @@ func resourceFirewallInternetServiceExtensionRead(ctx context.Context, d *schema
 	return nil
 }
 
-func flattenFirewallInternetServiceExtensionDisableEntry(v *[]models.FirewallInternetServiceExtensionDisableEntry, sort bool) interface{} {
+func flattenFirewallInternetServiceExtensionDisableEntry(d *schema.ResourceData, v *[]models.FirewallInternetServiceExtensionDisableEntry, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Id; tmp != nil {
 				v["id"] = *tmp
 			}
 
 			if tmp := cfg.IpRange; tmp != nil {
-				v["ip_range"] = flattenFirewallInternetServiceExtensionDisableEntryIpRange(tmp, sort)
+				v["ip_range"] = flattenFirewallInternetServiceExtensionDisableEntryIpRange(d, tmp, prefix+"ip_range", sort)
 			}
 
 			if tmp := cfg.PortRange; tmp != nil {
-				v["port_range"] = flattenFirewallInternetServiceExtensionDisableEntryPortRange(tmp, sort)
+				v["port_range"] = flattenFirewallInternetServiceExtensionDisableEntryPortRange(d, tmp, prefix+"port_range", sort)
 			}
 
 			if tmp := cfg.Protocol; tmp != nil {
@@ -420,11 +421,12 @@ func flattenFirewallInternetServiceExtensionDisableEntry(v *[]models.FirewallInt
 	return flat
 }
 
-func flattenFirewallInternetServiceExtensionDisableEntryIpRange(v *[]models.FirewallInternetServiceExtensionDisableEntryIpRange, sort bool) interface{} {
+func flattenFirewallInternetServiceExtensionDisableEntryIpRange(d *schema.ResourceData, v *[]models.FirewallInternetServiceExtensionDisableEntryIpRange, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.EndIp; tmp != nil {
 				v["end_ip"] = *tmp
@@ -449,11 +451,12 @@ func flattenFirewallInternetServiceExtensionDisableEntryIpRange(v *[]models.Fire
 	return flat
 }
 
-func flattenFirewallInternetServiceExtensionDisableEntryPortRange(v *[]models.FirewallInternetServiceExtensionDisableEntryPortRange, sort bool) interface{} {
+func flattenFirewallInternetServiceExtensionDisableEntryPortRange(d *schema.ResourceData, v *[]models.FirewallInternetServiceExtensionDisableEntryPortRange, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.EndPort; tmp != nil {
 				v["end_port"] = *tmp
@@ -478,14 +481,15 @@ func flattenFirewallInternetServiceExtensionDisableEntryPortRange(v *[]models.Fi
 	return flat
 }
 
-func flattenFirewallInternetServiceExtensionEntry(v *[]models.FirewallInternetServiceExtensionEntry, sort bool) interface{} {
+func flattenFirewallInternetServiceExtensionEntry(d *schema.ResourceData, v *[]models.FirewallInternetServiceExtensionEntry, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Dst; tmp != nil {
-				v["dst"] = flattenFirewallInternetServiceExtensionEntryDst(tmp, sort)
+				v["dst"] = flattenFirewallInternetServiceExtensionEntryDst(d, tmp, prefix+"dst", sort)
 			}
 
 			if tmp := cfg.Id; tmp != nil {
@@ -493,7 +497,7 @@ func flattenFirewallInternetServiceExtensionEntry(v *[]models.FirewallInternetSe
 			}
 
 			if tmp := cfg.PortRange; tmp != nil {
-				v["port_range"] = flattenFirewallInternetServiceExtensionEntryPortRange(tmp, sort)
+				v["port_range"] = flattenFirewallInternetServiceExtensionEntryPortRange(d, tmp, prefix+"port_range", sort)
 			}
 
 			if tmp := cfg.Protocol; tmp != nil {
@@ -511,11 +515,12 @@ func flattenFirewallInternetServiceExtensionEntry(v *[]models.FirewallInternetSe
 	return flat
 }
 
-func flattenFirewallInternetServiceExtensionEntryDst(v *[]models.FirewallInternetServiceExtensionEntryDst, sort bool) interface{} {
+func flattenFirewallInternetServiceExtensionEntryDst(d *schema.ResourceData, v *[]models.FirewallInternetServiceExtensionEntryDst, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -532,11 +537,12 @@ func flattenFirewallInternetServiceExtensionEntryDst(v *[]models.FirewallInterne
 	return flat
 }
 
-func flattenFirewallInternetServiceExtensionEntryPortRange(v *[]models.FirewallInternetServiceExtensionEntryPortRange, sort bool) interface{} {
+func flattenFirewallInternetServiceExtensionEntryPortRange(d *schema.ResourceData, v *[]models.FirewallInternetServiceExtensionEntryPortRange, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.EndPort; tmp != nil {
 				v["end_port"] = *tmp
@@ -573,13 +579,13 @@ func refreshObjectFirewallInternetServiceExtension(d *schema.ResourceData, o *mo
 	}
 
 	if o.DisableEntry != nil {
-		if err = d.Set("disable_entry", flattenFirewallInternetServiceExtensionDisableEntry(o.DisableEntry, sort)); err != nil {
+		if err = d.Set("disable_entry", flattenFirewallInternetServiceExtensionDisableEntry(d, o.DisableEntry, "disable_entry", sort)); err != nil {
 			return diag.Errorf("error reading disable_entry: %v", err)
 		}
 	}
 
 	if o.Entry != nil {
-		if err = d.Set("entry", flattenFirewallInternetServiceExtensionEntry(o.Entry, sort)); err != nil {
+		if err = d.Set("entry", flattenFirewallInternetServiceExtensionEntry(d, o.Entry, "entry", sort)); err != nil {
 			return diag.Errorf("error reading entry: %v", err)
 		}
 	}

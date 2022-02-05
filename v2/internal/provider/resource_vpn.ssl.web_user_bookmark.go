@@ -497,11 +497,12 @@ func resourceVpnSslWebUserBookmarkRead(ctx context.Context, d *schema.ResourceDa
 	return nil
 }
 
-func flattenVpnSslWebUserBookmarkBookmarks(v *[]models.VpnSslWebUserBookmarkBookmarks, sort bool) interface{} {
+func flattenVpnSslWebUserBookmarkBookmarks(d *schema.ResourceData, v *[]models.VpnSslWebUserBookmarkBookmarks, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.AdditionalParams; tmp != nil {
 				v["additional_params"] = *tmp
@@ -528,7 +529,7 @@ func flattenVpnSslWebUserBookmarkBookmarks(v *[]models.VpnSslWebUserBookmarkBook
 			}
 
 			if tmp := cfg.FormData; tmp != nil {
-				v["form_data"] = flattenVpnSslWebUserBookmarkBookmarksFormData(tmp, sort)
+				v["form_data"] = flattenVpnSslWebUserBookmarkBookmarksFormData(d, tmp, prefix+"form_data", sort)
 			}
 
 			if tmp := cfg.Height; tmp != nil {
@@ -638,11 +639,12 @@ func flattenVpnSslWebUserBookmarkBookmarks(v *[]models.VpnSslWebUserBookmarkBook
 	return flat
 }
 
-func flattenVpnSslWebUserBookmarkBookmarksFormData(v *[]models.VpnSslWebUserBookmarkBookmarksFormData, sort bool) interface{} {
+func flattenVpnSslWebUserBookmarkBookmarksFormData(d *schema.ResourceData, v *[]models.VpnSslWebUserBookmarkBookmarksFormData, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -667,7 +669,7 @@ func refreshObjectVpnSslWebUserBookmark(d *schema.ResourceData, o *models.VpnSsl
 	var err error
 
 	if o.Bookmarks != nil {
-		if err = d.Set("bookmarks", flattenVpnSslWebUserBookmarkBookmarks(o.Bookmarks, sort)); err != nil {
+		if err = d.Set("bookmarks", flattenVpnSslWebUserBookmarkBookmarks(d, o.Bookmarks, "bookmarks", sort)); err != nil {
 			return diag.Errorf("error reading bookmarks: %v", err)
 		}
 	}

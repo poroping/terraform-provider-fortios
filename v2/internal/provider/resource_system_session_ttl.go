@@ -253,11 +253,12 @@ func resourceSystemSessionTtlRead(ctx context.Context, d *schema.ResourceData, m
 	return nil
 }
 
-func flattenSystemSessionTtlPort(v *[]models.SystemSessionTtlPort, sort bool) interface{} {
+func flattenSystemSessionTtlPort(d *schema.ResourceData, v *[]models.SystemSessionTtlPort, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.EndPort; tmp != nil {
 				v["end_port"] = *tmp
@@ -302,7 +303,7 @@ func refreshObjectSystemSessionTtl(d *schema.ResourceData, o *models.SystemSessi
 	}
 
 	if o.Port != nil {
-		if err = d.Set("port", flattenSystemSessionTtlPort(o.Port, sort)); err != nil {
+		if err = d.Set("port", flattenSystemSessionTtlPort(d, o.Port, "port", sort)); err != nil {
 			return diag.Errorf("error reading port: %v", err)
 		}
 	}

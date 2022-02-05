@@ -573,11 +573,12 @@ func resourceSwitchControllerLocationRead(ctx context.Context, d *schema.Resourc
 	return nil
 }
 
-func flattenSwitchControllerLocationAddressCivic(v *[]models.SwitchControllerLocationAddressCivic, sort bool) interface{} {
+func flattenSwitchControllerLocationAddressCivic(d *schema.ResourceData, v *[]models.SwitchControllerLocationAddressCivic, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Additional; tmp != nil {
 				v["additional"] = *tmp
@@ -722,11 +723,12 @@ func flattenSwitchControllerLocationAddressCivic(v *[]models.SwitchControllerLoc
 	return flat
 }
 
-func flattenSwitchControllerLocationCoordinates(v *[]models.SwitchControllerLocationCoordinates, sort bool) interface{} {
+func flattenSwitchControllerLocationCoordinates(d *schema.ResourceData, v *[]models.SwitchControllerLocationCoordinates, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Altitude; tmp != nil {
 				v["altitude"] = *tmp
@@ -759,11 +761,12 @@ func flattenSwitchControllerLocationCoordinates(v *[]models.SwitchControllerLoca
 	return flat
 }
 
-func flattenSwitchControllerLocationElinNumber(v *[]models.SwitchControllerLocationElinNumber, sort bool) interface{} {
+func flattenSwitchControllerLocationElinNumber(d *schema.ResourceData, v *[]models.SwitchControllerLocationElinNumber, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.ElinNum; tmp != nil {
 				v["elin_num"] = *tmp
@@ -784,19 +787,19 @@ func refreshObjectSwitchControllerLocation(d *schema.ResourceData, o *models.Swi
 	var err error
 
 	if o.AddressCivic != nil {
-		if err = d.Set("address_civic", flattenSwitchControllerLocationAddressCivic(o.AddressCivic, sort)); err != nil {
+		if err = d.Set("address_civic", flattenSwitchControllerLocationAddressCivic(d, o.AddressCivic, "address_civic", sort)); err != nil {
 			return diag.Errorf("error reading address_civic: %v", err)
 		}
 	}
 
 	if o.Coordinates != nil {
-		if err = d.Set("coordinates", flattenSwitchControllerLocationCoordinates(o.Coordinates, sort)); err != nil {
+		if err = d.Set("coordinates", flattenSwitchControllerLocationCoordinates(d, o.Coordinates, "coordinates", sort)); err != nil {
 			return diag.Errorf("error reading coordinates: %v", err)
 		}
 	}
 
 	if o.ElinNumber != nil {
-		if err = d.Set("elin_number", flattenSwitchControllerLocationElinNumber(o.ElinNumber, sort)); err != nil {
+		if err = d.Set("elin_number", flattenSwitchControllerLocationElinNumber(d, o.ElinNumber, "elin_number", sort)); err != nil {
 			return diag.Errorf("error reading elin_number: %v", err)
 		}
 	}

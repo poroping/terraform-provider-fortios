@@ -603,11 +603,12 @@ func resourceRouterRipRead(ctx context.Context, d *schema.ResourceData, meta int
 	return nil
 }
 
-func flattenRouterRipDistance(v *[]models.RouterRipDistance, sort bool) interface{} {
+func flattenRouterRipDistance(d *schema.ResourceData, v *[]models.RouterRipDistance, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.AccessList; tmp != nil {
 				v["access_list"] = *tmp
@@ -622,6 +623,7 @@ func flattenRouterRipDistance(v *[]models.RouterRipDistance, sort bool) interfac
 			}
 
 			if tmp := cfg.Prefix; tmp != nil {
+				tmp = utils.Ipv4Read(d, fmt.Sprintf("%s.%d.prefix", prefix, i), *tmp)
 				v["prefix"] = *tmp
 			}
 
@@ -636,11 +638,12 @@ func flattenRouterRipDistance(v *[]models.RouterRipDistance, sort bool) interfac
 	return flat
 }
 
-func flattenRouterRipDistributeList(v *[]models.RouterRipDistributeList, sort bool) interface{} {
+func flattenRouterRipDistributeList(d *schema.ResourceData, v *[]models.RouterRipDistributeList, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Direction; tmp != nil {
 				v["direction"] = *tmp
@@ -673,11 +676,12 @@ func flattenRouterRipDistributeList(v *[]models.RouterRipDistributeList, sort bo
 	return flat
 }
 
-func flattenRouterRipInterface(v *[]models.RouterRipInterface, sort bool) interface{} {
+func flattenRouterRipInterface(d *schema.ResourceData, v *[]models.RouterRipInterface, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.AuthKeychain; tmp != nil {
 				v["auth_keychain"] = *tmp
@@ -730,11 +734,12 @@ func flattenRouterRipInterface(v *[]models.RouterRipInterface, sort bool) interf
 	return flat
 }
 
-func flattenRouterRipNeighbor(v *[]models.RouterRipNeighbor, sort bool) interface{} {
+func flattenRouterRipNeighbor(d *schema.ResourceData, v *[]models.RouterRipNeighbor, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Id; tmp != nil {
 				v["id"] = *tmp
@@ -755,17 +760,19 @@ func flattenRouterRipNeighbor(v *[]models.RouterRipNeighbor, sort bool) interfac
 	return flat
 }
 
-func flattenRouterRipNetwork(v *[]models.RouterRipNetwork, sort bool) interface{} {
+func flattenRouterRipNetwork(d *schema.ResourceData, v *[]models.RouterRipNetwork, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Id; tmp != nil {
 				v["id"] = *tmp
 			}
 
 			if tmp := cfg.Prefix; tmp != nil {
+				tmp = utils.Ipv4Read(d, fmt.Sprintf("%s.%d.prefix", prefix, i), *tmp)
 				v["prefix"] = *tmp
 			}
 
@@ -780,11 +787,12 @@ func flattenRouterRipNetwork(v *[]models.RouterRipNetwork, sort bool) interface{
 	return flat
 }
 
-func flattenRouterRipOffsetList(v *[]models.RouterRipOffsetList, sort bool) interface{} {
+func flattenRouterRipOffsetList(d *schema.ResourceData, v *[]models.RouterRipOffsetList, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.AccessList; tmp != nil {
 				v["access_list"] = *tmp
@@ -821,11 +829,12 @@ func flattenRouterRipOffsetList(v *[]models.RouterRipOffsetList, sort bool) inte
 	return flat
 }
 
-func flattenRouterRipPassiveInterface(v *[]models.RouterRipPassiveInterface, sort bool) interface{} {
+func flattenRouterRipPassiveInterface(d *schema.ResourceData, v *[]models.RouterRipPassiveInterface, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -842,11 +851,12 @@ func flattenRouterRipPassiveInterface(v *[]models.RouterRipPassiveInterface, sor
 	return flat
 }
 
-func flattenRouterRipRedistribute(v *[]models.RouterRipRedistribute, sort bool) interface{} {
+func flattenRouterRipRedistribute(d *schema.ResourceData, v *[]models.RouterRipRedistribute, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Metric; tmp != nil {
 				v["metric"] = *tmp
@@ -895,13 +905,13 @@ func refreshObjectRouterRip(d *schema.ResourceData, o *models.RouterRip, sv stri
 	}
 
 	if o.Distance != nil {
-		if err = d.Set("distance", flattenRouterRipDistance(o.Distance, sort)); err != nil {
+		if err = d.Set("distance", flattenRouterRipDistance(d, o.Distance, "distance", sort)); err != nil {
 			return diag.Errorf("error reading distance: %v", err)
 		}
 	}
 
 	if o.DistributeList != nil {
-		if err = d.Set("distribute_list", flattenRouterRipDistributeList(o.DistributeList, sort)); err != nil {
+		if err = d.Set("distribute_list", flattenRouterRipDistributeList(d, o.DistributeList, "distribute_list", sort)); err != nil {
 			return diag.Errorf("error reading distribute_list: %v", err)
 		}
 	}
@@ -915,7 +925,7 @@ func refreshObjectRouterRip(d *schema.ResourceData, o *models.RouterRip, sv stri
 	}
 
 	if o.Interface != nil {
-		if err = d.Set("interface", flattenRouterRipInterface(o.Interface, sort)); err != nil {
+		if err = d.Set("interface", flattenRouterRipInterface(d, o.Interface, "interface", sort)); err != nil {
 			return diag.Errorf("error reading interface: %v", err)
 		}
 	}
@@ -929,25 +939,25 @@ func refreshObjectRouterRip(d *schema.ResourceData, o *models.RouterRip, sv stri
 	}
 
 	if o.Neighbor != nil {
-		if err = d.Set("neighbor", flattenRouterRipNeighbor(o.Neighbor, sort)); err != nil {
+		if err = d.Set("neighbor", flattenRouterRipNeighbor(d, o.Neighbor, "neighbor", sort)); err != nil {
 			return diag.Errorf("error reading neighbor: %v", err)
 		}
 	}
 
 	if o.Network != nil {
-		if err = d.Set("network", flattenRouterRipNetwork(o.Network, sort)); err != nil {
+		if err = d.Set("network", flattenRouterRipNetwork(d, o.Network, "network", sort)); err != nil {
 			return diag.Errorf("error reading network: %v", err)
 		}
 	}
 
 	if o.OffsetList != nil {
-		if err = d.Set("offset_list", flattenRouterRipOffsetList(o.OffsetList, sort)); err != nil {
+		if err = d.Set("offset_list", flattenRouterRipOffsetList(d, o.OffsetList, "offset_list", sort)); err != nil {
 			return diag.Errorf("error reading offset_list: %v", err)
 		}
 	}
 
 	if o.PassiveInterface != nil {
-		if err = d.Set("passive_interface", flattenRouterRipPassiveInterface(o.PassiveInterface, sort)); err != nil {
+		if err = d.Set("passive_interface", flattenRouterRipPassiveInterface(d, o.PassiveInterface, "passive_interface", sort)); err != nil {
 			return diag.Errorf("error reading passive_interface: %v", err)
 		}
 	}
@@ -961,7 +971,7 @@ func refreshObjectRouterRip(d *schema.ResourceData, o *models.RouterRip, sv stri
 	}
 
 	if o.Redistribute != nil {
-		if err = d.Set("redistribute", flattenRouterRipRedistribute(o.Redistribute, sort)); err != nil {
+		if err = d.Set("redistribute", flattenRouterRipRedistribute(d, o.Redistribute, "redistribute", sort)); err != nil {
 			return diag.Errorf("error reading redistribute: %v", err)
 		}
 	}

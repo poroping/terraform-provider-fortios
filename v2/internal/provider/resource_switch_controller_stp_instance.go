@@ -235,11 +235,12 @@ func resourceSwitchControllerStpInstanceRead(ctx context.Context, d *schema.Reso
 	return nil
 }
 
-func flattenSwitchControllerStpInstanceVlanRange(v *[]models.SwitchControllerStpInstanceVlanRange, sort bool) interface{} {
+func flattenSwitchControllerStpInstanceVlanRange(d *schema.ResourceData, v *[]models.SwitchControllerStpInstanceVlanRange, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.VlanName; tmp != nil {
 				v["vlan_name"] = *tmp
@@ -268,7 +269,7 @@ func refreshObjectSwitchControllerStpInstance(d *schema.ResourceData, o *models.
 	}
 
 	if o.VlanRange != nil {
-		if err = d.Set("vlan_range", flattenSwitchControllerStpInstanceVlanRange(o.VlanRange, sort)); err != nil {
+		if err = d.Set("vlan_range", flattenSwitchControllerStpInstanceVlanRange(d, o.VlanRange, "vlan_range", sort)); err != nil {
 			return diag.Errorf("error reading vlan_range: %v", err)
 		}
 	}

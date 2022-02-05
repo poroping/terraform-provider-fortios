@@ -263,11 +263,12 @@ func resourceSctpFilterProfileRead(ctx context.Context, d *schema.ResourceData, 
 	return nil
 }
 
-func flattenSctpFilterProfilePpidFilters(v *[]models.SctpFilterProfilePpidFilters, sort bool) interface{} {
+func flattenSctpFilterProfilePpidFilters(d *schema.ResourceData, v *[]models.SctpFilterProfilePpidFilters, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Action; tmp != nil {
 				v["action"] = *tmp
@@ -316,7 +317,7 @@ func refreshObjectSctpFilterProfile(d *schema.ResourceData, o *models.SctpFilter
 	}
 
 	if o.PpidFilters != nil {
-		if err = d.Set("ppid_filters", flattenSctpFilterProfilePpidFilters(o.PpidFilters, sort)); err != nil {
+		if err = d.Set("ppid_filters", flattenSctpFilterProfilePpidFilters(d, o.PpidFilters, "ppid_filters", sort)); err != nil {
 			return diag.Errorf("error reading ppid_filters: %v", err)
 		}
 	}

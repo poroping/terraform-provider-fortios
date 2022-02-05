@@ -624,11 +624,12 @@ func resourceUserRadiusRead(ctx context.Context, d *schema.ResourceData, meta in
 	return nil
 }
 
-func flattenUserRadiusAccountingServer(v *[]models.UserRadiusAccountingServer, sort bool) interface{} {
+func flattenUserRadiusAccountingServer(d *schema.ResourceData, v *[]models.UserRadiusAccountingServer, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Id; tmp != nil {
 				v["id"] = *tmp
@@ -673,11 +674,12 @@ func flattenUserRadiusAccountingServer(v *[]models.UserRadiusAccountingServer, s
 	return flat
 }
 
-func flattenUserRadiusClass(v *[]models.UserRadiusClass, sort bool) interface{} {
+func flattenUserRadiusClass(d *schema.ResourceData, v *[]models.UserRadiusClass, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -698,7 +700,7 @@ func refreshObjectUserRadius(d *schema.ResourceData, o *models.UserRadius, sv st
 	var err error
 
 	if o.AccountingServer != nil {
-		if err = d.Set("accounting_server", flattenUserRadiusAccountingServer(o.AccountingServer, sort)); err != nil {
+		if err = d.Set("accounting_server", flattenUserRadiusAccountingServer(d, o.AccountingServer, "accounting_server", sort)); err != nil {
 			return diag.Errorf("error reading accounting_server: %v", err)
 		}
 	}
@@ -736,7 +738,7 @@ func refreshObjectUserRadius(d *schema.ResourceData, o *models.UserRadius, sv st
 	}
 
 	if o.Class != nil {
-		if err = d.Set("class", flattenUserRadiusClass(o.Class, sort)); err != nil {
+		if err = d.Set("class", flattenUserRadiusClass(d, o.Class, "class", sort)); err != nil {
 			return diag.Errorf("error reading class: %v", err)
 		}
 	}

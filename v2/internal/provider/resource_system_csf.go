@@ -490,11 +490,12 @@ func resourceSystemCsfRead(ctx context.Context, d *schema.ResourceData, meta int
 	return nil
 }
 
-func flattenSystemCsfFabricConnector(v *[]models.SystemCsfFabricConnector, sort bool) interface{} {
+func flattenSystemCsfFabricConnector(d *schema.ResourceData, v *[]models.SystemCsfFabricConnector, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Accprofile; tmp != nil {
 				v["accprofile"] = *tmp
@@ -519,11 +520,12 @@ func flattenSystemCsfFabricConnector(v *[]models.SystemCsfFabricConnector, sort 
 	return flat
 }
 
-func flattenSystemCsfFabricDevice(v *[]models.SystemCsfFabricDevice, sort bool) interface{} {
+func flattenSystemCsfFabricDevice(d *schema.ResourceData, v *[]models.SystemCsfFabricDevice, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.AccessToken; tmp != nil {
 				v["access_token"] = *tmp
@@ -552,11 +554,12 @@ func flattenSystemCsfFabricDevice(v *[]models.SystemCsfFabricDevice, sort bool) 
 	return flat
 }
 
-func flattenSystemCsfTrustedList(v *[]models.SystemCsfTrustedList, sort bool) interface{} {
+func flattenSystemCsfTrustedList(d *schema.ResourceData, v *[]models.SystemCsfTrustedList, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Action; tmp != nil {
 				v["action"] = *tmp
@@ -649,13 +652,13 @@ func refreshObjectSystemCsf(d *schema.ResourceData, o *models.SystemCsf, sv stri
 	}
 
 	if o.FabricConnector != nil {
-		if err = d.Set("fabric_connector", flattenSystemCsfFabricConnector(o.FabricConnector, sort)); err != nil {
+		if err = d.Set("fabric_connector", flattenSystemCsfFabricConnector(d, o.FabricConnector, "fabric_connector", sort)); err != nil {
 			return diag.Errorf("error reading fabric_connector: %v", err)
 		}
 	}
 
 	if o.FabricDevice != nil {
-		if err = d.Set("fabric_device", flattenSystemCsfFabricDevice(o.FabricDevice, sort)); err != nil {
+		if err = d.Set("fabric_device", flattenSystemCsfFabricDevice(d, o.FabricDevice, "fabric_device", sort)); err != nil {
 			return diag.Errorf("error reading fabric_device: %v", err)
 		}
 	}
@@ -742,7 +745,7 @@ func refreshObjectSystemCsf(d *schema.ResourceData, o *models.SystemCsf, sv stri
 	}
 
 	if o.TrustedList != nil {
-		if err = d.Set("trusted_list", flattenSystemCsfTrustedList(o.TrustedList, sort)); err != nil {
+		if err = d.Set("trusted_list", flattenSystemCsfTrustedList(d, o.TrustedList, "trusted_list", sort)); err != nil {
 			return diag.Errorf("error reading trusted_list: %v", err)
 		}
 	}

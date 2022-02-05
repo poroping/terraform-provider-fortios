@@ -992,11 +992,12 @@ func resourceExtenderControllerExtenderRead(ctx context.Context, d *schema.Resou
 	return nil
 }
 
-func flattenExtenderControllerExtenderControllerReport(v *[]models.ExtenderControllerExtenderControllerReport, sort bool) interface{} {
+func flattenExtenderControllerExtenderControllerReport(d *schema.ResourceData, v *[]models.ExtenderControllerExtenderControllerReport, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Interval; tmp != nil {
 				v["interval"] = *tmp
@@ -1017,14 +1018,15 @@ func flattenExtenderControllerExtenderControllerReport(v *[]models.ExtenderContr
 	return flat
 }
 
-func flattenExtenderControllerExtenderModem1(v *[]models.ExtenderControllerExtenderModem1, sort bool) interface{} {
+func flattenExtenderControllerExtenderModem1(d *schema.ResourceData, v *[]models.ExtenderControllerExtenderModem1, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.AutoSwitch; tmp != nil {
-				v["auto_switch"] = flattenExtenderControllerExtenderModem1AutoSwitch(tmp, sort)
+				v["auto_switch"] = flattenExtenderControllerExtenderModem1AutoSwitch(d, tmp, prefix+"auto_switch", sort)
 			}
 
 			if tmp := cfg.ConnStatus; tmp != nil {
@@ -1078,11 +1080,12 @@ func flattenExtenderControllerExtenderModem1(v *[]models.ExtenderControllerExten
 	return flat
 }
 
-func flattenExtenderControllerExtenderModem1AutoSwitch(v *[]models.ExtenderControllerExtenderModem1AutoSwitch, sort bool) interface{} {
+func flattenExtenderControllerExtenderModem1AutoSwitch(d *schema.ResourceData, v *[]models.ExtenderControllerExtenderModem1AutoSwitch, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Dataplan; tmp != nil {
 				v["dataplan"] = *tmp
@@ -1123,14 +1126,15 @@ func flattenExtenderControllerExtenderModem1AutoSwitch(v *[]models.ExtenderContr
 	return flat
 }
 
-func flattenExtenderControllerExtenderModem2(v *[]models.ExtenderControllerExtenderModem2, sort bool) interface{} {
+func flattenExtenderControllerExtenderModem2(d *schema.ResourceData, v *[]models.ExtenderControllerExtenderModem2, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.AutoSwitch; tmp != nil {
-				v["auto_switch"] = flattenExtenderControllerExtenderModem2AutoSwitch(tmp, sort)
+				v["auto_switch"] = flattenExtenderControllerExtenderModem2AutoSwitch(d, tmp, prefix+"auto_switch", sort)
 			}
 
 			if tmp := cfg.ConnStatus; tmp != nil {
@@ -1184,11 +1188,12 @@ func flattenExtenderControllerExtenderModem2(v *[]models.ExtenderControllerExten
 	return flat
 }
 
-func flattenExtenderControllerExtenderModem2AutoSwitch(v *[]models.ExtenderControllerExtenderModem2AutoSwitch, sort bool) interface{} {
+func flattenExtenderControllerExtenderModem2AutoSwitch(d *schema.ResourceData, v *[]models.ExtenderControllerExtenderModem2AutoSwitch, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Dataplan; tmp != nil {
 				v["dataplan"] = *tmp
@@ -1229,11 +1234,12 @@ func flattenExtenderControllerExtenderModem2AutoSwitch(v *[]models.ExtenderContr
 	return flat
 }
 
-func flattenExtenderControllerExtenderWanExtension(v *[]models.ExtenderControllerExtenderWanExtension, sort bool) interface{} {
+func flattenExtenderControllerExtenderWanExtension(d *schema.ResourceData, v *[]models.ExtenderControllerExtenderWanExtension, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Modem1Extension; tmp != nil {
 				v["modem1_extension"] = *tmp
@@ -1351,7 +1357,7 @@ func refreshObjectExtenderControllerExtender(d *schema.ResourceData, o *models.E
 	}
 
 	if o.ControllerReport != nil {
-		if err = d.Set("controller_report", flattenExtenderControllerExtenderControllerReport(o.ControllerReport, sort)); err != nil {
+		if err = d.Set("controller_report", flattenExtenderControllerExtenderControllerReport(d, o.ControllerReport, "controller_report", sort)); err != nil {
 			return diag.Errorf("error reading controller_report: %v", err)
 		}
 	}
@@ -1488,13 +1494,13 @@ func refreshObjectExtenderControllerExtender(d *schema.ResourceData, o *models.E
 	}
 
 	if o.Modem1 != nil {
-		if err = d.Set("modem1", flattenExtenderControllerExtenderModem1(o.Modem1, sort)); err != nil {
+		if err = d.Set("modem1", flattenExtenderControllerExtenderModem1(d, o.Modem1, "modem1", sort)); err != nil {
 			return diag.Errorf("error reading modem1: %v", err)
 		}
 	}
 
 	if o.Modem2 != nil {
-		if err = d.Set("modem2", flattenExtenderControllerExtenderModem2(o.Modem2, sort)); err != nil {
+		if err = d.Set("modem2", flattenExtenderControllerExtenderModem2(d, o.Modem2, "modem2", sort)); err != nil {
 			return diag.Errorf("error reading modem2: %v", err)
 		}
 	}
@@ -1654,7 +1660,7 @@ func refreshObjectExtenderControllerExtender(d *schema.ResourceData, o *models.E
 	}
 
 	if o.WanExtension != nil {
-		if err = d.Set("wan_extension", flattenExtenderControllerExtenderWanExtension(o.WanExtension, sort)); err != nil {
+		if err = d.Set("wan_extension", flattenExtenderControllerExtenderWanExtension(d, o.WanExtension, "wan_extension", sort)); err != nil {
 			return diag.Errorf("error reading wan_extension: %v", err)
 		}
 	}

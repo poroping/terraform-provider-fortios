@@ -323,11 +323,12 @@ func resourceRouterPolicy6Read(ctx context.Context, d *schema.ResourceData, meta
 	return nil
 }
 
-func flattenRouterPolicy6InputDevice(v *[]models.RouterPolicy6InputDevice, sort bool) interface{} {
+func flattenRouterPolicy6InputDevice(d *schema.ResourceData, v *[]models.RouterPolicy6InputDevice, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -380,7 +381,7 @@ func refreshObjectRouterPolicy6(d *schema.ResourceData, o *models.RouterPolicy6,
 	}
 
 	if o.InputDevice != nil {
-		if err = d.Set("input_device", flattenRouterPolicy6InputDevice(o.InputDevice, sort)); err != nil {
+		if err = d.Set("input_device", flattenRouterPolicy6InputDevice(d, o.InputDevice, "input_device", sort)); err != nil {
 			return diag.Errorf("error reading input_device: %v", err)
 		}
 	}

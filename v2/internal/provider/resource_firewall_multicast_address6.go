@@ -292,11 +292,12 @@ func resourceFirewallMulticastAddress6Read(ctx context.Context, d *schema.Resour
 	return nil
 }
 
-func flattenFirewallMulticastAddress6Tagging(v *[]models.FirewallMulticastAddress6Tagging, sort bool) interface{} {
+func flattenFirewallMulticastAddress6Tagging(d *schema.ResourceData, v *[]models.FirewallMulticastAddress6Tagging, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Category; tmp != nil {
 				v["category"] = *tmp
@@ -307,7 +308,7 @@ func flattenFirewallMulticastAddress6Tagging(v *[]models.FirewallMulticastAddres
 			}
 
 			if tmp := cfg.Tags; tmp != nil {
-				v["tags"] = flattenFirewallMulticastAddress6TaggingTags(tmp, sort)
+				v["tags"] = flattenFirewallMulticastAddress6TaggingTags(d, tmp, prefix+"tags", sort)
 			}
 
 			flat = append(flat, v)
@@ -321,11 +322,12 @@ func flattenFirewallMulticastAddress6Tagging(v *[]models.FirewallMulticastAddres
 	return flat
 }
 
-func flattenFirewallMulticastAddress6TaggingTags(v *[]models.FirewallMulticastAddress6TaggingTags, sort bool) interface{} {
+func flattenFirewallMulticastAddress6TaggingTags(d *schema.ResourceData, v *[]models.FirewallMulticastAddress6TaggingTags, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -378,7 +380,7 @@ func refreshObjectFirewallMulticastAddress6(d *schema.ResourceData, o *models.Fi
 	}
 
 	if o.Tagging != nil {
-		if err = d.Set("tagging", flattenFirewallMulticastAddress6Tagging(o.Tagging, sort)); err != nil {
+		if err = d.Set("tagging", flattenFirewallMulticastAddress6Tagging(d, o.Tagging, "tagging", sort)); err != nil {
 			return diag.Errorf("error reading tagging: %v", err)
 		}
 	}

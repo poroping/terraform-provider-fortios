@@ -233,11 +233,12 @@ func resourceSystemSsoForticloudAdminRead(ctx context.Context, d *schema.Resourc
 	return nil
 }
 
-func flattenSystemSsoForticloudAdminVdom(v *[]models.SystemSsoForticloudAdminVdom, sort bool) interface{} {
+func flattenSystemSsoForticloudAdminVdom(d *schema.ResourceData, v *[]models.SystemSsoForticloudAdminVdom, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -266,7 +267,7 @@ func refreshObjectSystemSsoForticloudAdmin(d *schema.ResourceData, o *models.Sys
 	}
 
 	if o.Vdom != nil {
-		if err = d.Set("vdom", flattenSystemSsoForticloudAdminVdom(o.Vdom, sort)); err != nil {
+		if err = d.Set("vdom", flattenSystemSsoForticloudAdminVdom(d, o.Vdom, "vdom", sort)); err != nil {
 			return diag.Errorf("error reading vdom: %v", err)
 		}
 	}

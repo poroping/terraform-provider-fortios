@@ -345,11 +345,12 @@ func resourceAuthenticationSettingRead(ctx context.Context, d *schema.ResourceDa
 	return nil
 }
 
-func flattenAuthenticationSettingDevRange(v *[]models.AuthenticationSettingDevRange, sort bool) interface{} {
+func flattenAuthenticationSettingDevRange(d *schema.ResourceData, v *[]models.AuthenticationSettingDevRange, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -366,11 +367,12 @@ func flattenAuthenticationSettingDevRange(v *[]models.AuthenticationSettingDevRa
 	return flat
 }
 
-func flattenAuthenticationSettingUserCertCa(v *[]models.AuthenticationSettingUserCertCa, sort bool) interface{} {
+func flattenAuthenticationSettingUserCertCa(d *schema.ResourceData, v *[]models.AuthenticationSettingUserCertCa, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -495,7 +497,7 @@ func refreshObjectAuthenticationSetting(d *schema.ResourceData, o *models.Authen
 	}
 
 	if o.DevRange != nil {
-		if err = d.Set("dev_range", flattenAuthenticationSettingDevRange(o.DevRange, sort)); err != nil {
+		if err = d.Set("dev_range", flattenAuthenticationSettingDevRange(d, o.DevRange, "dev_range", sort)); err != nil {
 			return diag.Errorf("error reading dev_range: %v", err)
 		}
 	}
@@ -509,7 +511,7 @@ func refreshObjectAuthenticationSetting(d *schema.ResourceData, o *models.Authen
 	}
 
 	if o.UserCertCa != nil {
-		if err = d.Set("user_cert_ca", flattenAuthenticationSettingUserCertCa(o.UserCertCa, sort)); err != nil {
+		if err = d.Set("user_cert_ca", flattenAuthenticationSettingUserCertCa(d, o.UserCertCa, "user_cert_ca", sort)); err != nil {
 			return diag.Errorf("error reading user_cert_ca: %v", err)
 		}
 	}

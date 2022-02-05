@@ -412,11 +412,12 @@ func resourceSystemCentralManagementRead(ctx context.Context, d *schema.Resource
 	return nil
 }
 
-func flattenSystemCentralManagementServerList(v *[]models.SystemCentralManagementServerList, sort bool) interface{} {
+func flattenSystemCentralManagementServerList(d *schema.ResourceData, v *[]models.SystemCentralManagementServerList, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.AddrType; tmp != nil {
 				v["addr_type"] = *tmp
@@ -601,7 +602,7 @@ func refreshObjectSystemCentralManagement(d *schema.ResourceData, o *models.Syst
 	}
 
 	if o.ServerList != nil {
-		if err = d.Set("server_list", flattenSystemCentralManagementServerList(o.ServerList, sort)); err != nil {
+		if err = d.Set("server_list", flattenSystemCentralManagementServerList(d, o.ServerList, "server_list", sort)); err != nil {
 			return diag.Errorf("error reading server_list: %v", err)
 		}
 	}

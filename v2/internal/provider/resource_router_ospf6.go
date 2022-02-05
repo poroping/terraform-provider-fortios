@@ -916,11 +916,12 @@ func resourceRouterOspf6Read(ctx context.Context, d *schema.ResourceData, meta i
 	return nil
 }
 
-func flattenRouterOspf6Area(v *[]models.RouterOspf6Area, sort bool) interface{} {
+func flattenRouterOspf6Area(d *schema.ResourceData, v *[]models.RouterOspf6Area, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Authentication; tmp != nil {
 				v["authentication"] = *tmp
@@ -943,7 +944,7 @@ func flattenRouterOspf6Area(v *[]models.RouterOspf6Area, sort bool) interface{} 
 			}
 
 			if tmp := cfg.IpsecKeys; tmp != nil {
-				v["ipsec_keys"] = flattenRouterOspf6AreaIpsecKeys(tmp, sort)
+				v["ipsec_keys"] = flattenRouterOspf6AreaIpsecKeys(d, tmp, prefix+"ipsec_keys", sort)
 			}
 
 			if tmp := cfg.KeyRolloverInterval; tmp != nil {
@@ -971,7 +972,7 @@ func flattenRouterOspf6Area(v *[]models.RouterOspf6Area, sort bool) interface{} 
 			}
 
 			if tmp := cfg.Range; tmp != nil {
-				v["range"] = flattenRouterOspf6AreaRange(tmp, sort)
+				v["range"] = flattenRouterOspf6AreaRange(d, tmp, prefix+"range", sort)
 			}
 
 			if tmp := cfg.StubType; tmp != nil {
@@ -983,7 +984,7 @@ func flattenRouterOspf6Area(v *[]models.RouterOspf6Area, sort bool) interface{} 
 			}
 
 			if tmp := cfg.VirtualLink; tmp != nil {
-				v["virtual_link"] = flattenRouterOspf6AreaVirtualLink(tmp, sort)
+				v["virtual_link"] = flattenRouterOspf6AreaVirtualLink(d, tmp, prefix+"virtual_link", sort)
 			}
 
 			flat = append(flat, v)
@@ -997,11 +998,12 @@ func flattenRouterOspf6Area(v *[]models.RouterOspf6Area, sort bool) interface{} 
 	return flat
 }
 
-func flattenRouterOspf6AreaIpsecKeys(v *[]models.RouterOspf6AreaIpsecKeys, sort bool) interface{} {
+func flattenRouterOspf6AreaIpsecKeys(d *schema.ResourceData, v *[]models.RouterOspf6AreaIpsecKeys, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.AuthKey; tmp != nil {
 				v["auth_key"] = *tmp
@@ -1026,11 +1028,12 @@ func flattenRouterOspf6AreaIpsecKeys(v *[]models.RouterOspf6AreaIpsecKeys, sort 
 	return flat
 }
 
-func flattenRouterOspf6AreaRange(v *[]models.RouterOspf6AreaRange, sort bool) interface{} {
+func flattenRouterOspf6AreaRange(d *schema.ResourceData, v *[]models.RouterOspf6AreaRange, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Advertise; tmp != nil {
 				v["advertise"] = *tmp
@@ -1055,11 +1058,12 @@ func flattenRouterOspf6AreaRange(v *[]models.RouterOspf6AreaRange, sort bool) in
 	return flat
 }
 
-func flattenRouterOspf6AreaVirtualLink(v *[]models.RouterOspf6AreaVirtualLink, sort bool) interface{} {
+func flattenRouterOspf6AreaVirtualLink(d *schema.ResourceData, v *[]models.RouterOspf6AreaVirtualLink, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Authentication; tmp != nil {
 				v["authentication"] = *tmp
@@ -1082,7 +1086,7 @@ func flattenRouterOspf6AreaVirtualLink(v *[]models.RouterOspf6AreaVirtualLink, s
 			}
 
 			if tmp := cfg.IpsecKeys; tmp != nil {
-				v["ipsec_keys"] = flattenRouterOspf6AreaVirtualLinkIpsecKeys(tmp, sort)
+				v["ipsec_keys"] = flattenRouterOspf6AreaVirtualLinkIpsecKeys(d, tmp, prefix+"ipsec_keys", sort)
 			}
 
 			if tmp := cfg.KeyRolloverInterval; tmp != nil {
@@ -1116,11 +1120,12 @@ func flattenRouterOspf6AreaVirtualLink(v *[]models.RouterOspf6AreaVirtualLink, s
 	return flat
 }
 
-func flattenRouterOspf6AreaVirtualLinkIpsecKeys(v *[]models.RouterOspf6AreaVirtualLinkIpsecKeys, sort bool) interface{} {
+func flattenRouterOspf6AreaVirtualLinkIpsecKeys(d *schema.ResourceData, v *[]models.RouterOspf6AreaVirtualLinkIpsecKeys, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.AuthKey; tmp != nil {
 				v["auth_key"] = *tmp
@@ -1145,11 +1150,12 @@ func flattenRouterOspf6AreaVirtualLinkIpsecKeys(v *[]models.RouterOspf6AreaVirtu
 	return flat
 }
 
-func flattenRouterOspf6Ospf6Interface(v *[]models.RouterOspf6Ospf6Interface, sort bool) interface{} {
+func flattenRouterOspf6Ospf6Interface(d *schema.ResourceData, v *[]models.RouterOspf6Ospf6Interface, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.AreaId; tmp != nil {
 				v["area_id"] = *tmp
@@ -1188,7 +1194,7 @@ func flattenRouterOspf6Ospf6Interface(v *[]models.RouterOspf6Ospf6Interface, sor
 			}
 
 			if tmp := cfg.IpsecKeys; tmp != nil {
-				v["ipsec_keys"] = flattenRouterOspf6Ospf6InterfaceIpsecKeys(tmp, sort)
+				v["ipsec_keys"] = flattenRouterOspf6Ospf6InterfaceIpsecKeys(d, tmp, prefix+"ipsec_keys", sort)
 			}
 
 			if tmp := cfg.KeyRolloverInterval; tmp != nil {
@@ -1208,7 +1214,7 @@ func flattenRouterOspf6Ospf6Interface(v *[]models.RouterOspf6Ospf6Interface, sor
 			}
 
 			if tmp := cfg.Neighbor; tmp != nil {
-				v["neighbor"] = flattenRouterOspf6Ospf6InterfaceNeighbor(tmp, sort)
+				v["neighbor"] = flattenRouterOspf6Ospf6InterfaceNeighbor(d, tmp, prefix+"neighbor", sort)
 			}
 
 			if tmp := cfg.NetworkType; tmp != nil {
@@ -1242,11 +1248,12 @@ func flattenRouterOspf6Ospf6Interface(v *[]models.RouterOspf6Ospf6Interface, sor
 	return flat
 }
 
-func flattenRouterOspf6Ospf6InterfaceIpsecKeys(v *[]models.RouterOspf6Ospf6InterfaceIpsecKeys, sort bool) interface{} {
+func flattenRouterOspf6Ospf6InterfaceIpsecKeys(d *schema.ResourceData, v *[]models.RouterOspf6Ospf6InterfaceIpsecKeys, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.AuthKey; tmp != nil {
 				v["auth_key"] = *tmp
@@ -1271,11 +1278,12 @@ func flattenRouterOspf6Ospf6InterfaceIpsecKeys(v *[]models.RouterOspf6Ospf6Inter
 	return flat
 }
 
-func flattenRouterOspf6Ospf6InterfaceNeighbor(v *[]models.RouterOspf6Ospf6InterfaceNeighbor, sort bool) interface{} {
+func flattenRouterOspf6Ospf6InterfaceNeighbor(d *schema.ResourceData, v *[]models.RouterOspf6Ospf6InterfaceNeighbor, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Cost; tmp != nil {
 				v["cost"] = *tmp
@@ -1304,11 +1312,12 @@ func flattenRouterOspf6Ospf6InterfaceNeighbor(v *[]models.RouterOspf6Ospf6Interf
 	return flat
 }
 
-func flattenRouterOspf6PassiveInterface(v *[]models.RouterOspf6PassiveInterface, sort bool) interface{} {
+func flattenRouterOspf6PassiveInterface(d *schema.ResourceData, v *[]models.RouterOspf6PassiveInterface, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -1325,11 +1334,12 @@ func flattenRouterOspf6PassiveInterface(v *[]models.RouterOspf6PassiveInterface,
 	return flat
 }
 
-func flattenRouterOspf6Redistribute(v *[]models.RouterOspf6Redistribute, sort bool) interface{} {
+func flattenRouterOspf6Redistribute(d *schema.ResourceData, v *[]models.RouterOspf6Redistribute, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Metric; tmp != nil {
 				v["metric"] = *tmp
@@ -1362,11 +1372,12 @@ func flattenRouterOspf6Redistribute(v *[]models.RouterOspf6Redistribute, sort bo
 	return flat
 }
 
-func flattenRouterOspf6SummaryAddress(v *[]models.RouterOspf6SummaryAddress, sort bool) interface{} {
+func flattenRouterOspf6SummaryAddress(d *schema.ResourceData, v *[]models.RouterOspf6SummaryAddress, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Advertise; tmp != nil {
 				v["advertise"] = *tmp
@@ -1407,7 +1418,7 @@ func refreshObjectRouterOspf6(d *schema.ResourceData, o *models.RouterOspf6, sv 
 	}
 
 	if o.Area != nil {
-		if err = d.Set("area", flattenRouterOspf6Area(o.Area, sort)); err != nil {
+		if err = d.Set("area", flattenRouterOspf6Area(d, o.Area, "area", sort)); err != nil {
 			return diag.Errorf("error reading area: %v", err)
 		}
 	}
@@ -1477,19 +1488,19 @@ func refreshObjectRouterOspf6(d *schema.ResourceData, o *models.RouterOspf6, sv 
 	}
 
 	if o.Ospf6Interface != nil {
-		if err = d.Set("ospf6_interface", flattenRouterOspf6Ospf6Interface(o.Ospf6Interface, sort)); err != nil {
+		if err = d.Set("ospf6_interface", flattenRouterOspf6Ospf6Interface(d, o.Ospf6Interface, "ospf6_interface", sort)); err != nil {
 			return diag.Errorf("error reading ospf6_interface: %v", err)
 		}
 	}
 
 	if o.PassiveInterface != nil {
-		if err = d.Set("passive_interface", flattenRouterOspf6PassiveInterface(o.PassiveInterface, sort)); err != nil {
+		if err = d.Set("passive_interface", flattenRouterOspf6PassiveInterface(d, o.PassiveInterface, "passive_interface", sort)); err != nil {
 			return diag.Errorf("error reading passive_interface: %v", err)
 		}
 	}
 
 	if o.Redistribute != nil {
-		if err = d.Set("redistribute", flattenRouterOspf6Redistribute(o.Redistribute, sort)); err != nil {
+		if err = d.Set("redistribute", flattenRouterOspf6Redistribute(d, o.Redistribute, "redistribute", sort)); err != nil {
 			return diag.Errorf("error reading redistribute: %v", err)
 		}
 	}
@@ -1511,7 +1522,7 @@ func refreshObjectRouterOspf6(d *schema.ResourceData, o *models.RouterOspf6, sv 
 	}
 
 	if o.SummaryAddress != nil {
-		if err = d.Set("summary_address", flattenRouterOspf6SummaryAddress(o.SummaryAddress, sort)); err != nil {
+		if err = d.Set("summary_address", flattenRouterOspf6SummaryAddress(d, o.SummaryAddress, "summary_address", sort)); err != nil {
 			return diag.Errorf("error reading summary_address: %v", err)
 		}
 	}

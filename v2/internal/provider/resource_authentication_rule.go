@@ -373,11 +373,12 @@ func resourceAuthenticationRuleRead(ctx context.Context, d *schema.ResourceData,
 	return nil
 }
 
-func flattenAuthenticationRuleDstaddr(v *[]models.AuthenticationRuleDstaddr, sort bool) interface{} {
+func flattenAuthenticationRuleDstaddr(d *schema.ResourceData, v *[]models.AuthenticationRuleDstaddr, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -394,11 +395,12 @@ func flattenAuthenticationRuleDstaddr(v *[]models.AuthenticationRuleDstaddr, sor
 	return flat
 }
 
-func flattenAuthenticationRuleDstaddr6(v *[]models.AuthenticationRuleDstaddr6, sort bool) interface{} {
+func flattenAuthenticationRuleDstaddr6(d *schema.ResourceData, v *[]models.AuthenticationRuleDstaddr6, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -415,11 +417,12 @@ func flattenAuthenticationRuleDstaddr6(v *[]models.AuthenticationRuleDstaddr6, s
 	return flat
 }
 
-func flattenAuthenticationRuleSrcaddr(v *[]models.AuthenticationRuleSrcaddr, sort bool) interface{} {
+func flattenAuthenticationRuleSrcaddr(d *schema.ResourceData, v *[]models.AuthenticationRuleSrcaddr, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -436,11 +439,12 @@ func flattenAuthenticationRuleSrcaddr(v *[]models.AuthenticationRuleSrcaddr, sor
 	return flat
 }
 
-func flattenAuthenticationRuleSrcaddr6(v *[]models.AuthenticationRuleSrcaddr6, sort bool) interface{} {
+func flattenAuthenticationRuleSrcaddr6(d *schema.ResourceData, v *[]models.AuthenticationRuleSrcaddr6, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -457,11 +461,12 @@ func flattenAuthenticationRuleSrcaddr6(v *[]models.AuthenticationRuleSrcaddr6, s
 	return flat
 }
 
-func flattenAuthenticationRuleSrcintf(v *[]models.AuthenticationRuleSrcintf, sort bool) interface{} {
+func flattenAuthenticationRuleSrcintf(d *schema.ResourceData, v *[]models.AuthenticationRuleSrcintf, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -498,13 +503,13 @@ func refreshObjectAuthenticationRule(d *schema.ResourceData, o *models.Authentic
 	}
 
 	if o.Dstaddr != nil {
-		if err = d.Set("dstaddr", flattenAuthenticationRuleDstaddr(o.Dstaddr, sort)); err != nil {
+		if err = d.Set("dstaddr", flattenAuthenticationRuleDstaddr(d, o.Dstaddr, "dstaddr", sort)); err != nil {
 			return diag.Errorf("error reading dstaddr: %v", err)
 		}
 	}
 
 	if o.Dstaddr6 != nil {
-		if err = d.Set("dstaddr6", flattenAuthenticationRuleDstaddr6(o.Dstaddr6, sort)); err != nil {
+		if err = d.Set("dstaddr6", flattenAuthenticationRuleDstaddr6(d, o.Dstaddr6, "dstaddr6", sort)); err != nil {
 			return diag.Errorf("error reading dstaddr6: %v", err)
 		}
 	}
@@ -534,19 +539,19 @@ func refreshObjectAuthenticationRule(d *schema.ResourceData, o *models.Authentic
 	}
 
 	if o.Srcaddr != nil {
-		if err = d.Set("srcaddr", flattenAuthenticationRuleSrcaddr(o.Srcaddr, sort)); err != nil {
+		if err = d.Set("srcaddr", flattenAuthenticationRuleSrcaddr(d, o.Srcaddr, "srcaddr", sort)); err != nil {
 			return diag.Errorf("error reading srcaddr: %v", err)
 		}
 	}
 
 	if o.Srcaddr6 != nil {
-		if err = d.Set("srcaddr6", flattenAuthenticationRuleSrcaddr6(o.Srcaddr6, sort)); err != nil {
+		if err = d.Set("srcaddr6", flattenAuthenticationRuleSrcaddr6(d, o.Srcaddr6, "srcaddr6", sort)); err != nil {
 			return diag.Errorf("error reading srcaddr6: %v", err)
 		}
 	}
 
 	if o.Srcintf != nil {
-		if err = d.Set("srcintf", flattenAuthenticationRuleSrcintf(o.Srcintf, sort)); err != nil {
+		if err = d.Set("srcintf", flattenAuthenticationRuleSrcintf(d, o.Srcintf, "srcintf", sort)); err != nil {
 			return diag.Errorf("error reading srcintf: %v", err)
 		}
 	}

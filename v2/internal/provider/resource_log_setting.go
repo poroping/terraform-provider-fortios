@@ -399,11 +399,12 @@ func resourceLogSettingRead(ctx context.Context, d *schema.ResourceData, meta in
 	return nil
 }
 
-func flattenLogSettingCustomLogFields(v *[]models.LogSettingCustomLogFields, sort bool) interface{} {
+func flattenLogSettingCustomLogFields(d *schema.ResourceData, v *[]models.LogSettingCustomLogFields, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.FieldId; tmp != nil {
 				v["field_id"] = *tmp
@@ -440,7 +441,7 @@ func refreshObjectLogSetting(d *schema.ResourceData, o *models.LogSetting, sv st
 	}
 
 	if o.CustomLogFields != nil {
-		if err = d.Set("custom_log_fields", flattenLogSettingCustomLogFields(o.CustomLogFields, sort)); err != nil {
+		if err = d.Set("custom_log_fields", flattenLogSettingCustomLogFields(d, o.CustomLogFields, "custom_log_fields", sort)); err != nil {
 			return diag.Errorf("error reading custom_log_fields: %v", err)
 		}
 	}

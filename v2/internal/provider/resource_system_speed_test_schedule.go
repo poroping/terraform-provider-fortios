@@ -312,11 +312,12 @@ func resourceSystemSpeedTestScheduleRead(ctx context.Context, d *schema.Resource
 	return nil
 }
 
-func flattenSystemSpeedTestScheduleSchedules(v *[]models.SystemSpeedTestScheduleSchedules, sort bool) interface{} {
+func flattenSystemSpeedTestScheduleSchedules(d *schema.ResourceData, v *[]models.SystemSpeedTestScheduleSchedules, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -361,7 +362,7 @@ func refreshObjectSystemSpeedTestSchedule(d *schema.ResourceData, o *models.Syst
 	}
 
 	if o.Schedules != nil {
-		if err = d.Set("schedules", flattenSystemSpeedTestScheduleSchedules(o.Schedules, sort)); err != nil {
+		if err = d.Set("schedules", flattenSystemSpeedTestScheduleSchedules(d, o.Schedules, "schedules", sort)); err != nil {
 			return diag.Errorf("error reading schedules: %v", err)
 		}
 	}

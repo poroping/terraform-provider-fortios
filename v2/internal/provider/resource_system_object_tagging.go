@@ -273,11 +273,12 @@ func resourceSystemObjectTaggingRead(ctx context.Context, d *schema.ResourceData
 	return nil
 }
 
-func flattenSystemObjectTaggingTags(v *[]models.SystemObjectTaggingTags, sort bool) interface{} {
+func flattenSystemObjectTaggingTags(d *schema.ResourceData, v *[]models.SystemObjectTaggingTags, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -346,7 +347,7 @@ func refreshObjectSystemObjectTagging(d *schema.ResourceData, o *models.SystemOb
 	}
 
 	if o.Tags != nil {
-		if err = d.Set("tags", flattenSystemObjectTaggingTags(o.Tags, sort)); err != nil {
+		if err = d.Set("tags", flattenSystemObjectTaggingTags(d, o.Tags, "tags", sort)); err != nil {
 			return diag.Errorf("error reading tags: %v", err)
 		}
 	}

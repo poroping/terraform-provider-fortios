@@ -924,11 +924,12 @@ func resourceRouterIsisRead(ctx context.Context, d *schema.ResourceData, meta in
 	return nil
 }
 
-func flattenRouterIsisIsisInterface(v *[]models.RouterIsisIsisInterface, sort bool) interface{} {
+func flattenRouterIsisIsisInterface(d *schema.ResourceData, v *[]models.RouterIsisIsisInterface, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.AuthKeychainL1; tmp != nil {
 				v["auth_keychain_l1"] = *tmp
@@ -1061,11 +1062,12 @@ func flattenRouterIsisIsisInterface(v *[]models.RouterIsisIsisInterface, sort bo
 	return flat
 }
 
-func flattenRouterIsisIsisNet(v *[]models.RouterIsisIsisNet, sort bool) interface{} {
+func flattenRouterIsisIsisNet(d *schema.ResourceData, v *[]models.RouterIsisIsisNet, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Id; tmp != nil {
 				v["id"] = *tmp
@@ -1086,11 +1088,12 @@ func flattenRouterIsisIsisNet(v *[]models.RouterIsisIsisNet, sort bool) interfac
 	return flat
 }
 
-func flattenRouterIsisRedistribute(v *[]models.RouterIsisRedistribute, sort bool) interface{} {
+func flattenRouterIsisRedistribute(d *schema.ResourceData, v *[]models.RouterIsisRedistribute, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Level; tmp != nil {
 				v["level"] = *tmp
@@ -1127,11 +1130,12 @@ func flattenRouterIsisRedistribute(v *[]models.RouterIsisRedistribute, sort bool
 	return flat
 }
 
-func flattenRouterIsisRedistribute6(v *[]models.RouterIsisRedistribute6, sort bool) interface{} {
+func flattenRouterIsisRedistribute6(d *schema.ResourceData, v *[]models.RouterIsisRedistribute6, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Level; tmp != nil {
 				v["level"] = *tmp
@@ -1168,11 +1172,12 @@ func flattenRouterIsisRedistribute6(v *[]models.RouterIsisRedistribute6, sort bo
 	return flat
 }
 
-func flattenRouterIsisSummaryAddress(v *[]models.RouterIsisSummaryAddress, sort bool) interface{} {
+func flattenRouterIsisSummaryAddress(d *schema.ResourceData, v *[]models.RouterIsisSummaryAddress, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Id; tmp != nil {
 				v["id"] = *tmp
@@ -1183,6 +1188,7 @@ func flattenRouterIsisSummaryAddress(v *[]models.RouterIsisSummaryAddress, sort 
 			}
 
 			if tmp := cfg.Prefix; tmp != nil {
+				tmp = utils.Ipv4Read(d, fmt.Sprintf("%s.%d.prefix", prefix, i), *tmp)
 				v["prefix"] = *tmp
 			}
 
@@ -1197,11 +1203,12 @@ func flattenRouterIsisSummaryAddress(v *[]models.RouterIsisSummaryAddress, sort 
 	return flat
 }
 
-func flattenRouterIsisSummaryAddress6(v *[]models.RouterIsisSummaryAddress6, sort bool) interface{} {
+func flattenRouterIsisSummaryAddress6(d *schema.ResourceData, v *[]models.RouterIsisSummaryAddress6, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Id; tmp != nil {
 				v["id"] = *tmp
@@ -1368,13 +1375,13 @@ func refreshObjectRouterIsis(d *schema.ResourceData, o *models.RouterIsis, sv st
 	}
 
 	if o.IsisInterface != nil {
-		if err = d.Set("isis_interface", flattenRouterIsisIsisInterface(o.IsisInterface, sort)); err != nil {
+		if err = d.Set("isis_interface", flattenRouterIsisIsisInterface(d, o.IsisInterface, "isis_interface", sort)); err != nil {
 			return diag.Errorf("error reading isis_interface: %v", err)
 		}
 	}
 
 	if o.IsisNet != nil {
-		if err = d.Set("isis_net", flattenRouterIsisIsisNet(o.IsisNet, sort)); err != nil {
+		if err = d.Set("isis_net", flattenRouterIsisIsisNet(d, o.IsisNet, "isis_net", sort)); err != nil {
 			return diag.Errorf("error reading isis_net: %v", err)
 		}
 	}
@@ -1444,7 +1451,7 @@ func refreshObjectRouterIsis(d *schema.ResourceData, o *models.RouterIsis, sv st
 	}
 
 	if o.Redistribute != nil {
-		if err = d.Set("redistribute", flattenRouterIsisRedistribute(o.Redistribute, sort)); err != nil {
+		if err = d.Set("redistribute", flattenRouterIsisRedistribute(d, o.Redistribute, "redistribute", sort)); err != nil {
 			return diag.Errorf("error reading redistribute: %v", err)
 		}
 	}
@@ -1482,7 +1489,7 @@ func refreshObjectRouterIsis(d *schema.ResourceData, o *models.RouterIsis, sv st
 	}
 
 	if o.Redistribute6 != nil {
-		if err = d.Set("redistribute6", flattenRouterIsisRedistribute6(o.Redistribute6, sort)); err != nil {
+		if err = d.Set("redistribute6", flattenRouterIsisRedistribute6(d, o.Redistribute6, "redistribute6", sort)); err != nil {
 			return diag.Errorf("error reading redistribute6: %v", err)
 		}
 	}
@@ -1536,13 +1543,13 @@ func refreshObjectRouterIsis(d *schema.ResourceData, o *models.RouterIsis, sv st
 	}
 
 	if o.SummaryAddress != nil {
-		if err = d.Set("summary_address", flattenRouterIsisSummaryAddress(o.SummaryAddress, sort)); err != nil {
+		if err = d.Set("summary_address", flattenRouterIsisSummaryAddress(d, o.SummaryAddress, "summary_address", sort)); err != nil {
 			return diag.Errorf("error reading summary_address: %v", err)
 		}
 	}
 
 	if o.SummaryAddress6 != nil {
-		if err = d.Set("summary_address6", flattenRouterIsisSummaryAddress6(o.SummaryAddress6, sort)); err != nil {
+		if err = d.Set("summary_address6", flattenRouterIsisSummaryAddress6(d, o.SummaryAddress6, "summary_address6", sort)); err != nil {
 			return diag.Errorf("error reading summary_address6: %v", err)
 		}
 	}

@@ -530,11 +530,12 @@ func resourceSystemLinkMonitorRead(ctx context.Context, d *schema.ResourceData, 
 	return nil
 }
 
-func flattenSystemLinkMonitorRoute(v *[]models.SystemLinkMonitorRoute, sort bool) interface{} {
+func flattenSystemLinkMonitorRoute(d *schema.ResourceData, v *[]models.SystemLinkMonitorRoute, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Subnet; tmp != nil {
 				v["subnet"] = *tmp
@@ -551,11 +552,12 @@ func flattenSystemLinkMonitorRoute(v *[]models.SystemLinkMonitorRoute, sort bool
 	return flat
 }
 
-func flattenSystemLinkMonitorServer(v *[]models.SystemLinkMonitorServer, sort bool) interface{} {
+func flattenSystemLinkMonitorServer(d *schema.ResourceData, v *[]models.SystemLinkMonitorServer, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Address; tmp != nil {
 				v["address"] = *tmp
@@ -572,11 +574,12 @@ func flattenSystemLinkMonitorServer(v *[]models.SystemLinkMonitorServer, sort bo
 	return flat
 }
 
-func flattenSystemLinkMonitorServerList(v *[]models.SystemLinkMonitorServerList, sort bool) interface{} {
+func flattenSystemLinkMonitorServerList(d *schema.ResourceData, v *[]models.SystemLinkMonitorServerList, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Dst; tmp != nil {
 				v["dst"] = *tmp
@@ -774,7 +777,7 @@ func refreshObjectSystemLinkMonitor(d *schema.ResourceData, o *models.SystemLink
 	}
 
 	if o.Route != nil {
-		if err = d.Set("route", flattenSystemLinkMonitorRoute(o.Route, sort)); err != nil {
+		if err = d.Set("route", flattenSystemLinkMonitorRoute(d, o.Route, "route", sort)); err != nil {
 			return diag.Errorf("error reading route: %v", err)
 		}
 	}
@@ -788,7 +791,7 @@ func refreshObjectSystemLinkMonitor(d *schema.ResourceData, o *models.SystemLink
 	}
 
 	if o.Server != nil {
-		if err = d.Set("server", flattenSystemLinkMonitorServer(o.Server, sort)); err != nil {
+		if err = d.Set("server", flattenSystemLinkMonitorServer(d, o.Server, "server", sort)); err != nil {
 			return diag.Errorf("error reading server: %v", err)
 		}
 	}
@@ -802,7 +805,7 @@ func refreshObjectSystemLinkMonitor(d *schema.ResourceData, o *models.SystemLink
 	}
 
 	if o.ServerList != nil {
-		if err = d.Set("server_list", flattenSystemLinkMonitorServerList(o.ServerList, sort)); err != nil {
+		if err = d.Set("server_list", flattenSystemLinkMonitorServerList(d, o.ServerList, "server_list", sort)); err != nil {
 			return diag.Errorf("error reading server_list: %v", err)
 		}
 	}

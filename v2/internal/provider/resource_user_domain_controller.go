@@ -435,11 +435,12 @@ func resourceUserDomainControllerRead(ctx context.Context, d *schema.ResourceDat
 	return nil
 }
 
-func flattenUserDomainControllerExtraServer(v *[]models.UserDomainControllerExtraServer, sort bool) interface{} {
+func flattenUserDomainControllerExtraServer(d *schema.ResourceData, v *[]models.UserDomainControllerExtraServer, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Id; tmp != nil {
 				v["id"] = *tmp
@@ -472,11 +473,12 @@ func flattenUserDomainControllerExtraServer(v *[]models.UserDomainControllerExtr
 	return flat
 }
 
-func flattenUserDomainControllerLdapServer(v *[]models.UserDomainControllerLdapServer, sort bool) interface{} {
+func flattenUserDomainControllerLdapServer(d *schema.ResourceData, v *[]models.UserDomainControllerLdapServer, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -553,7 +555,7 @@ func refreshObjectUserDomainController(d *schema.ResourceData, o *models.UserDom
 	}
 
 	if o.ExtraServer != nil {
-		if err = d.Set("extra_server", flattenUserDomainControllerExtraServer(o.ExtraServer, sort)); err != nil {
+		if err = d.Set("extra_server", flattenUserDomainControllerExtraServer(d, o.ExtraServer, "extra_server", sort)); err != nil {
 			return diag.Errorf("error reading extra_server: %v", err)
 		}
 	}
@@ -599,7 +601,7 @@ func refreshObjectUserDomainController(d *schema.ResourceData, o *models.UserDom
 	}
 
 	if o.LdapServer != nil {
-		if err = d.Set("ldap_server", flattenUserDomainControllerLdapServer(o.LdapServer, sort)); err != nil {
+		if err = d.Set("ldap_server", flattenUserDomainControllerLdapServer(d, o.LdapServer, "ldap_server", sort)); err != nil {
 			return diag.Errorf("error reading ldap_server: %v", err)
 		}
 	}

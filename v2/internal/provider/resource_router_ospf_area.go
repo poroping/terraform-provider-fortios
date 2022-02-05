@@ -527,7 +527,7 @@ func refreshObjectRouterOspfArea(d *schema.ResourceData, o *models.RouterOspfAre
 	}
 
 	if o.FilterList != nil {
-		if err = d.Set("filter_list", flattenRouterOspfAreaFilterList(o.FilterList, sort)); err != nil {
+		if err = d.Set("filter_list", flattenRouterOspfAreaFilterList(d, o.FilterList, "filter_list", sort)); err != nil {
 			return diag.Errorf("error reading filter_list: %v", err)
 		}
 	}
@@ -581,7 +581,7 @@ func refreshObjectRouterOspfArea(d *schema.ResourceData, o *models.RouterOspfAre
 	}
 
 	if o.Range != nil {
-		if err = d.Set("range", flattenRouterOspfAreaRange(o.Range, sort)); err != nil {
+		if err = d.Set("range", flattenRouterOspfAreaRange(d, o.Range, "range", sort)); err != nil {
 			return diag.Errorf("error reading range: %v", err)
 		}
 	}
@@ -611,7 +611,7 @@ func refreshObjectRouterOspfArea(d *schema.ResourceData, o *models.RouterOspfAre
 	}
 
 	if o.VirtualLink != nil {
-		if err = d.Set("virtual_link", flattenRouterOspfAreaVirtualLink(o.VirtualLink, sort)); err != nil {
+		if err = d.Set("virtual_link", flattenRouterOspfAreaVirtualLink(d, o.VirtualLink, "virtual_link", sort)); err != nil {
 			return diag.Errorf("error reading virtual_link: %v", err)
 		}
 	}

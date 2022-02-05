@@ -343,11 +343,12 @@ func resourceLogSyslogd2OverrideSettingRead(ctx context.Context, d *schema.Resou
 	return nil
 }
 
-func flattenLogSyslogd2OverrideSettingCustomFieldName(v *[]models.LogSyslogd2OverrideSettingCustomFieldName, sort bool) interface{} {
+func flattenLogSyslogd2OverrideSettingCustomFieldName(d *schema.ResourceData, v *[]models.LogSyslogd2OverrideSettingCustomFieldName, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Custom; tmp != nil {
 				v["custom"] = *tmp
@@ -384,7 +385,7 @@ func refreshObjectLogSyslogd2OverrideSetting(d *schema.ResourceData, o *models.L
 	}
 
 	if o.CustomFieldName != nil {
-		if err = d.Set("custom_field_name", flattenLogSyslogd2OverrideSettingCustomFieldName(o.CustomFieldName, sort)); err != nil {
+		if err = d.Set("custom_field_name", flattenLogSyslogd2OverrideSettingCustomFieldName(d, o.CustomFieldName, "custom_field_name", sort)); err != nil {
 			return diag.Errorf("error reading custom_field_name: %v", err)
 		}
 	}

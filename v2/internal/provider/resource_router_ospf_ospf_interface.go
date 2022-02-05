@@ -525,7 +525,7 @@ func refreshObjectRouterOspfOspfInterface(d *schema.ResourceData, o *models.Rout
 	}
 
 	if o.Md5Keys != nil {
-		if err = d.Set("md5_keys", flattenRouterOspfOspfInterfaceMd5Keys(o.Md5Keys, sort)); err != nil {
+		if err = d.Set("md5_keys", flattenRouterOspfOspfInterfaceMd5Keys(d, o.Md5Keys, "md5_keys", sort)); err != nil {
 			return diag.Errorf("error reading md5_keys: %v", err)
 		}
 	}

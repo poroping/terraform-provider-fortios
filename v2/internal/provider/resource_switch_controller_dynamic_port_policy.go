@@ -370,11 +370,12 @@ func resourceSwitchControllerDynamicPortPolicyRead(ctx context.Context, d *schem
 	return nil
 }
 
-func flattenSwitchControllerDynamicPortPolicyPolicy(v *[]models.SwitchControllerDynamicPortPolicyPolicy, sort bool) interface{} {
+func flattenSwitchControllerDynamicPortPolicyPolicy(d *schema.ResourceData, v *[]models.SwitchControllerDynamicPortPolicyPolicy, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.The8021x; tmp != nil {
 				v["802_1x"] = *tmp
@@ -405,7 +406,7 @@ func flattenSwitchControllerDynamicPortPolicyPolicy(v *[]models.SwitchController
 			}
 
 			if tmp := cfg.InterfaceTags; tmp != nil {
-				v["interface_tags"] = flattenSwitchControllerDynamicPortPolicyPolicyInterfaceTags(tmp, sort)
+				v["interface_tags"] = flattenSwitchControllerDynamicPortPolicyPolicyInterfaceTags(d, tmp, prefix+"interface_tags", sort)
 			}
 
 			if tmp := cfg.LldpProfile; tmp != nil {
@@ -447,11 +448,12 @@ func flattenSwitchControllerDynamicPortPolicyPolicy(v *[]models.SwitchController
 	return flat
 }
 
-func flattenSwitchControllerDynamicPortPolicyPolicyInterfaceTags(v *[]models.SwitchControllerDynamicPortPolicyPolicyInterfaceTags, sort bool) interface{} {
+func flattenSwitchControllerDynamicPortPolicyPolicyInterfaceTags(d *schema.ResourceData, v *[]models.SwitchControllerDynamicPortPolicyPolicyInterfaceTags, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.TagName; tmp != nil {
 				v["tag_name"] = *tmp
@@ -496,7 +498,7 @@ func refreshObjectSwitchControllerDynamicPortPolicy(d *schema.ResourceData, o *m
 	}
 
 	if o.Policy != nil {
-		if err = d.Set("policy", flattenSwitchControllerDynamicPortPolicyPolicy(o.Policy, sort)); err != nil {
+		if err = d.Set("policy", flattenSwitchControllerDynamicPortPolicyPolicy(d, o.Policy, "policy", sort)); err != nil {
 			return diag.Errorf("error reading policy: %v", err)
 		}
 	}

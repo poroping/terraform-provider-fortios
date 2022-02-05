@@ -339,11 +339,12 @@ func resourceFileFilterProfileRead(ctx context.Context, d *schema.ResourceData, 
 	return nil
 }
 
-func flattenFileFilterProfileRules(v *[]models.FileFilterProfileRules, sort bool) interface{} {
+func flattenFileFilterProfileRules(d *schema.ResourceData, v *[]models.FileFilterProfileRules, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Action; tmp != nil {
 				v["action"] = *tmp
@@ -358,7 +359,7 @@ func flattenFileFilterProfileRules(v *[]models.FileFilterProfileRules, sort bool
 			}
 
 			if tmp := cfg.FileType; tmp != nil {
-				v["file_type"] = flattenFileFilterProfileRulesFileType(tmp, sort)
+				v["file_type"] = flattenFileFilterProfileRulesFileType(d, tmp, prefix+"file_type", sort)
 			}
 
 			if tmp := cfg.Name; tmp != nil {
@@ -384,11 +385,12 @@ func flattenFileFilterProfileRules(v *[]models.FileFilterProfileRules, sort bool
 	return flat
 }
 
-func flattenFileFilterProfileRulesFileType(v *[]models.FileFilterProfileRulesFileType, sort bool) interface{} {
+func flattenFileFilterProfileRulesFileType(d *schema.ResourceData, v *[]models.FileFilterProfileRulesFileType, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -457,7 +459,7 @@ func refreshObjectFileFilterProfile(d *schema.ResourceData, o *models.FileFilter
 	}
 
 	if o.Rules != nil {
-		if err = d.Set("rules", flattenFileFilterProfileRules(o.Rules, sort)); err != nil {
+		if err = d.Set("rules", flattenFileFilterProfileRules(d, o.Rules, "rules", sort)); err != nil {
 			return diag.Errorf("error reading rules: %v", err)
 		}
 	}

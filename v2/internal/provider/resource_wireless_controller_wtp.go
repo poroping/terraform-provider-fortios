@@ -1365,11 +1365,12 @@ func resourceWirelessControllerWtpRead(ctx context.Context, d *schema.ResourceDa
 	return nil
 }
 
-func flattenWirelessControllerWtpLan(v *[]models.WirelessControllerWtpLan, sort bool) interface{} {
+func flattenWirelessControllerWtpLan(d *schema.ResourceData, v *[]models.WirelessControllerWtpLan, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.PortEslMode; tmp != nil {
 				v["port_esl_mode"] = *tmp
@@ -1458,11 +1459,12 @@ func flattenWirelessControllerWtpLan(v *[]models.WirelessControllerWtpLan, sort 
 	return flat
 }
 
-func flattenWirelessControllerWtpRadio1(v *[]models.WirelessControllerWtpRadio1, sort bool) interface{} {
+func flattenWirelessControllerWtpRadio1(d *schema.ResourceData, v *[]models.WirelessControllerWtpRadio1, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.AutoPowerHigh; tmp != nil {
 				v["auto_power_high"] = *tmp
@@ -1485,7 +1487,7 @@ func flattenWirelessControllerWtpRadio1(v *[]models.WirelessControllerWtpRadio1,
 			}
 
 			if tmp := cfg.Channel; tmp != nil {
-				v["channel"] = flattenWirelessControllerWtpRadio1Channel(tmp, sort)
+				v["channel"] = flattenWirelessControllerWtpRadio1Channel(d, tmp, prefix+"channel", sort)
 			}
 
 			if tmp := cfg.DrmaManualMode; tmp != nil {
@@ -1533,7 +1535,7 @@ func flattenWirelessControllerWtpRadio1(v *[]models.WirelessControllerWtpRadio1,
 			}
 
 			if tmp := cfg.Vaps; tmp != nil {
-				v["vaps"] = flattenWirelessControllerWtpRadio1Vaps(tmp, sort)
+				v["vaps"] = flattenWirelessControllerWtpRadio1Vaps(d, tmp, prefix+"vaps", sort)
 			}
 
 			flat = append(flat, v)
@@ -1543,11 +1545,12 @@ func flattenWirelessControllerWtpRadio1(v *[]models.WirelessControllerWtpRadio1,
 	return flat
 }
 
-func flattenWirelessControllerWtpRadio1Channel(v *[]models.WirelessControllerWtpRadio1Channel, sort bool) interface{} {
+func flattenWirelessControllerWtpRadio1Channel(d *schema.ResourceData, v *[]models.WirelessControllerWtpRadio1Channel, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Chan; tmp != nil {
 				v["chan"] = *tmp
@@ -1564,11 +1567,12 @@ func flattenWirelessControllerWtpRadio1Channel(v *[]models.WirelessControllerWtp
 	return flat
 }
 
-func flattenWirelessControllerWtpRadio1Vaps(v *[]models.WirelessControllerWtpRadio1Vaps, sort bool) interface{} {
+func flattenWirelessControllerWtpRadio1Vaps(d *schema.ResourceData, v *[]models.WirelessControllerWtpRadio1Vaps, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -1585,11 +1589,12 @@ func flattenWirelessControllerWtpRadio1Vaps(v *[]models.WirelessControllerWtpRad
 	return flat
 }
 
-func flattenWirelessControllerWtpRadio2(v *[]models.WirelessControllerWtpRadio2, sort bool) interface{} {
+func flattenWirelessControllerWtpRadio2(d *schema.ResourceData, v *[]models.WirelessControllerWtpRadio2, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.AutoPowerHigh; tmp != nil {
 				v["auto_power_high"] = *tmp
@@ -1612,7 +1617,7 @@ func flattenWirelessControllerWtpRadio2(v *[]models.WirelessControllerWtpRadio2,
 			}
 
 			if tmp := cfg.Channel; tmp != nil {
-				v["channel"] = flattenWirelessControllerWtpRadio2Channel(tmp, sort)
+				v["channel"] = flattenWirelessControllerWtpRadio2Channel(d, tmp, prefix+"channel", sort)
 			}
 
 			if tmp := cfg.DrmaManualMode; tmp != nil {
@@ -1660,7 +1665,7 @@ func flattenWirelessControllerWtpRadio2(v *[]models.WirelessControllerWtpRadio2,
 			}
 
 			if tmp := cfg.Vaps; tmp != nil {
-				v["vaps"] = flattenWirelessControllerWtpRadio2Vaps(tmp, sort)
+				v["vaps"] = flattenWirelessControllerWtpRadio2Vaps(d, tmp, prefix+"vaps", sort)
 			}
 
 			flat = append(flat, v)
@@ -1670,11 +1675,12 @@ func flattenWirelessControllerWtpRadio2(v *[]models.WirelessControllerWtpRadio2,
 	return flat
 }
 
-func flattenWirelessControllerWtpRadio2Channel(v *[]models.WirelessControllerWtpRadio2Channel, sort bool) interface{} {
+func flattenWirelessControllerWtpRadio2Channel(d *schema.ResourceData, v *[]models.WirelessControllerWtpRadio2Channel, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Chan; tmp != nil {
 				v["chan"] = *tmp
@@ -1691,11 +1697,12 @@ func flattenWirelessControllerWtpRadio2Channel(v *[]models.WirelessControllerWtp
 	return flat
 }
 
-func flattenWirelessControllerWtpRadio2Vaps(v *[]models.WirelessControllerWtpRadio2Vaps, sort bool) interface{} {
+func flattenWirelessControllerWtpRadio2Vaps(d *schema.ResourceData, v *[]models.WirelessControllerWtpRadio2Vaps, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -1712,11 +1719,12 @@ func flattenWirelessControllerWtpRadio2Vaps(v *[]models.WirelessControllerWtpRad
 	return flat
 }
 
-func flattenWirelessControllerWtpRadio3(v *[]models.WirelessControllerWtpRadio3, sort bool) interface{} {
+func flattenWirelessControllerWtpRadio3(d *schema.ResourceData, v *[]models.WirelessControllerWtpRadio3, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.AutoPowerHigh; tmp != nil {
 				v["auto_power_high"] = *tmp
@@ -1739,7 +1747,7 @@ func flattenWirelessControllerWtpRadio3(v *[]models.WirelessControllerWtpRadio3,
 			}
 
 			if tmp := cfg.Channel; tmp != nil {
-				v["channel"] = flattenWirelessControllerWtpRadio3Channel(tmp, sort)
+				v["channel"] = flattenWirelessControllerWtpRadio3Channel(d, tmp, prefix+"channel", sort)
 			}
 
 			if tmp := cfg.DrmaManualMode; tmp != nil {
@@ -1787,7 +1795,7 @@ func flattenWirelessControllerWtpRadio3(v *[]models.WirelessControllerWtpRadio3,
 			}
 
 			if tmp := cfg.Vaps; tmp != nil {
-				v["vaps"] = flattenWirelessControllerWtpRadio3Vaps(tmp, sort)
+				v["vaps"] = flattenWirelessControllerWtpRadio3Vaps(d, tmp, prefix+"vaps", sort)
 			}
 
 			flat = append(flat, v)
@@ -1797,11 +1805,12 @@ func flattenWirelessControllerWtpRadio3(v *[]models.WirelessControllerWtpRadio3,
 	return flat
 }
 
-func flattenWirelessControllerWtpRadio3Channel(v *[]models.WirelessControllerWtpRadio3Channel, sort bool) interface{} {
+func flattenWirelessControllerWtpRadio3Channel(d *schema.ResourceData, v *[]models.WirelessControllerWtpRadio3Channel, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Chan; tmp != nil {
 				v["chan"] = *tmp
@@ -1818,11 +1827,12 @@ func flattenWirelessControllerWtpRadio3Channel(v *[]models.WirelessControllerWtp
 	return flat
 }
 
-func flattenWirelessControllerWtpRadio3Vaps(v *[]models.WirelessControllerWtpRadio3Vaps, sort bool) interface{} {
+func flattenWirelessControllerWtpRadio3Vaps(d *schema.ResourceData, v *[]models.WirelessControllerWtpRadio3Vaps, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -1839,11 +1849,12 @@ func flattenWirelessControllerWtpRadio3Vaps(v *[]models.WirelessControllerWtpRad
 	return flat
 }
 
-func flattenWirelessControllerWtpRadio4(v *[]models.WirelessControllerWtpRadio4, sort bool) interface{} {
+func flattenWirelessControllerWtpRadio4(d *schema.ResourceData, v *[]models.WirelessControllerWtpRadio4, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.AutoPowerHigh; tmp != nil {
 				v["auto_power_high"] = *tmp
@@ -1866,7 +1877,7 @@ func flattenWirelessControllerWtpRadio4(v *[]models.WirelessControllerWtpRadio4,
 			}
 
 			if tmp := cfg.Channel; tmp != nil {
-				v["channel"] = flattenWirelessControllerWtpRadio4Channel(tmp, sort)
+				v["channel"] = flattenWirelessControllerWtpRadio4Channel(d, tmp, prefix+"channel", sort)
 			}
 
 			if tmp := cfg.DrmaManualMode; tmp != nil {
@@ -1914,7 +1925,7 @@ func flattenWirelessControllerWtpRadio4(v *[]models.WirelessControllerWtpRadio4,
 			}
 
 			if tmp := cfg.Vaps; tmp != nil {
-				v["vaps"] = flattenWirelessControllerWtpRadio4Vaps(tmp, sort)
+				v["vaps"] = flattenWirelessControllerWtpRadio4Vaps(d, tmp, prefix+"vaps", sort)
 			}
 
 			flat = append(flat, v)
@@ -1924,11 +1935,12 @@ func flattenWirelessControllerWtpRadio4(v *[]models.WirelessControllerWtpRadio4,
 	return flat
 }
 
-func flattenWirelessControllerWtpRadio4Channel(v *[]models.WirelessControllerWtpRadio4Channel, sort bool) interface{} {
+func flattenWirelessControllerWtpRadio4Channel(d *schema.ResourceData, v *[]models.WirelessControllerWtpRadio4Channel, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Chan; tmp != nil {
 				v["chan"] = *tmp
@@ -1945,11 +1957,12 @@ func flattenWirelessControllerWtpRadio4Channel(v *[]models.WirelessControllerWtp
 	return flat
 }
 
-func flattenWirelessControllerWtpRadio4Vaps(v *[]models.WirelessControllerWtpRadio4Vaps, sort bool) interface{} {
+func flattenWirelessControllerWtpRadio4Vaps(d *schema.ResourceData, v *[]models.WirelessControllerWtpRadio4Vaps, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -1966,13 +1979,15 @@ func flattenWirelessControllerWtpRadio4Vaps(v *[]models.WirelessControllerWtpRad
 	return flat
 }
 
-func flattenWirelessControllerWtpSplitTunnelingAcl(v *[]models.WirelessControllerWtpSplitTunnelingAcl, sort bool) interface{} {
+func flattenWirelessControllerWtpSplitTunnelingAcl(d *schema.ResourceData, v *[]models.WirelessControllerWtpSplitTunnelingAcl, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.DestIp; tmp != nil {
+				tmp = utils.Ipv4Read(d, fmt.Sprintf("%s.%d.dest_ip", prefix, i), *tmp)
 				v["dest_ip"] = *tmp
 			}
 
@@ -2083,7 +2098,7 @@ func refreshObjectWirelessControllerWtp(d *schema.ResourceData, o *models.Wirele
 	}
 
 	if o.Lan != nil {
-		if err = d.Set("lan", flattenWirelessControllerWtpLan(o.Lan, sort)); err != nil {
+		if err = d.Set("lan", flattenWirelessControllerWtpLan(d, o.Lan, "lan", sort)); err != nil {
 			return diag.Errorf("error reading lan: %v", err)
 		}
 	}
@@ -2194,25 +2209,25 @@ func refreshObjectWirelessControllerWtp(d *schema.ResourceData, o *models.Wirele
 	}
 
 	if o.Radio1 != nil {
-		if err = d.Set("radio_1", flattenWirelessControllerWtpRadio1(o.Radio1, sort)); err != nil {
+		if err = d.Set("radio_1", flattenWirelessControllerWtpRadio1(d, o.Radio1, "radio_1", sort)); err != nil {
 			return diag.Errorf("error reading radio_1: %v", err)
 		}
 	}
 
 	if o.Radio2 != nil {
-		if err = d.Set("radio_2", flattenWirelessControllerWtpRadio2(o.Radio2, sort)); err != nil {
+		if err = d.Set("radio_2", flattenWirelessControllerWtpRadio2(d, o.Radio2, "radio_2", sort)); err != nil {
 			return diag.Errorf("error reading radio_2: %v", err)
 		}
 	}
 
 	if o.Radio3 != nil {
-		if err = d.Set("radio_3", flattenWirelessControllerWtpRadio3(o.Radio3, sort)); err != nil {
+		if err = d.Set("radio_3", flattenWirelessControllerWtpRadio3(d, o.Radio3, "radio_3", sort)); err != nil {
 			return diag.Errorf("error reading radio_3: %v", err)
 		}
 	}
 
 	if o.Radio4 != nil {
-		if err = d.Set("radio_4", flattenWirelessControllerWtpRadio4(o.Radio4, sort)); err != nil {
+		if err = d.Set("radio_4", flattenWirelessControllerWtpRadio4(d, o.Radio4, "radio_4", sort)); err != nil {
 			return diag.Errorf("error reading radio_4: %v", err)
 		}
 	}
@@ -2242,7 +2257,7 @@ func refreshObjectWirelessControllerWtp(d *schema.ResourceData, o *models.Wirele
 	}
 
 	if o.SplitTunnelingAcl != nil {
-		if err = d.Set("split_tunneling_acl", flattenWirelessControllerWtpSplitTunnelingAcl(o.SplitTunnelingAcl, sort)); err != nil {
+		if err = d.Set("split_tunneling_acl", flattenWirelessControllerWtpSplitTunnelingAcl(d, o.SplitTunnelingAcl, "split_tunneling_acl", sort)); err != nil {
 			return diag.Errorf("error reading split_tunneling_acl: %v", err)
 		}
 	}

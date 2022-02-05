@@ -257,11 +257,12 @@ func resourceSwitchControllerSwitchGroupRead(ctx context.Context, d *schema.Reso
 	return nil
 }
 
-func flattenSwitchControllerSwitchGroupMembers(v *[]models.SwitchControllerSwitchGroupMembers, sort bool) interface{} {
+func flattenSwitchControllerSwitchGroupMembers(d *schema.ResourceData, v *[]models.SwitchControllerSwitchGroupMembers, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -302,7 +303,7 @@ func refreshObjectSwitchControllerSwitchGroup(d *schema.ResourceData, o *models.
 	}
 
 	if o.Members != nil {
-		if err = d.Set("members", flattenSwitchControllerSwitchGroupMembers(o.Members, sort)); err != nil {
+		if err = d.Set("members", flattenSwitchControllerSwitchGroupMembers(d, o.Members, "members", sort)); err != nil {
 			return diag.Errorf("error reading members: %v", err)
 		}
 	}

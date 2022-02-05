@@ -1623,22 +1623,23 @@ func resourceSystemSdwanRead(ctx context.Context, d *schema.ResourceData, meta i
 	return nil
 }
 
-func flattenSystemSdwanDuplication(v *[]models.SystemSdwanDuplication, sort bool) interface{} {
+func flattenSystemSdwanDuplication(d *schema.ResourceData, v *[]models.SystemSdwanDuplication, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Dstaddr; tmp != nil {
-				v["dstaddr"] = flattenSystemSdwanDuplicationDstaddr(tmp, sort)
+				v["dstaddr"] = flattenSystemSdwanDuplicationDstaddr(d, tmp, prefix+"dstaddr", sort)
 			}
 
 			if tmp := cfg.Dstaddr6; tmp != nil {
-				v["dstaddr6"] = flattenSystemSdwanDuplicationDstaddr6(tmp, sort)
+				v["dstaddr6"] = flattenSystemSdwanDuplicationDstaddr6(d, tmp, prefix+"dstaddr6", sort)
 			}
 
 			if tmp := cfg.Dstintf; tmp != nil {
-				v["dstintf"] = flattenSystemSdwanDuplicationDstintf(tmp, sort)
+				v["dstintf"] = flattenSystemSdwanDuplicationDstintf(d, tmp, prefix+"dstintf", sort)
 			}
 
 			if tmp := cfg.Id; tmp != nil {
@@ -1654,23 +1655,23 @@ func flattenSystemSdwanDuplication(v *[]models.SystemSdwanDuplication, sort bool
 			}
 
 			if tmp := cfg.Service; tmp != nil {
-				v["service"] = flattenSystemSdwanDuplicationService(tmp, sort)
+				v["service"] = flattenSystemSdwanDuplicationService(d, tmp, prefix+"service", sort)
 			}
 
 			if tmp := cfg.ServiceId; tmp != nil {
-				v["service_id"] = flattenSystemSdwanDuplicationServiceId(tmp, sort)
+				v["service_id"] = flattenSystemSdwanDuplicationServiceId(d, tmp, prefix+"service_id", sort)
 			}
 
 			if tmp := cfg.Srcaddr; tmp != nil {
-				v["srcaddr"] = flattenSystemSdwanDuplicationSrcaddr(tmp, sort)
+				v["srcaddr"] = flattenSystemSdwanDuplicationSrcaddr(d, tmp, prefix+"srcaddr", sort)
 			}
 
 			if tmp := cfg.Srcaddr6; tmp != nil {
-				v["srcaddr6"] = flattenSystemSdwanDuplicationSrcaddr6(tmp, sort)
+				v["srcaddr6"] = flattenSystemSdwanDuplicationSrcaddr6(d, tmp, prefix+"srcaddr6", sort)
 			}
 
 			if tmp := cfg.Srcintf; tmp != nil {
-				v["srcintf"] = flattenSystemSdwanDuplicationSrcintf(tmp, sort)
+				v["srcintf"] = flattenSystemSdwanDuplicationSrcintf(d, tmp, prefix+"srcintf", sort)
 			}
 
 			flat = append(flat, v)
@@ -1684,11 +1685,12 @@ func flattenSystemSdwanDuplication(v *[]models.SystemSdwanDuplication, sort bool
 	return flat
 }
 
-func flattenSystemSdwanDuplicationDstaddr(v *[]models.SystemSdwanDuplicationDstaddr, sort bool) interface{} {
+func flattenSystemSdwanDuplicationDstaddr(d *schema.ResourceData, v *[]models.SystemSdwanDuplicationDstaddr, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -1705,11 +1707,12 @@ func flattenSystemSdwanDuplicationDstaddr(v *[]models.SystemSdwanDuplicationDsta
 	return flat
 }
 
-func flattenSystemSdwanDuplicationDstaddr6(v *[]models.SystemSdwanDuplicationDstaddr6, sort bool) interface{} {
+func flattenSystemSdwanDuplicationDstaddr6(d *schema.ResourceData, v *[]models.SystemSdwanDuplicationDstaddr6, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -1726,11 +1729,12 @@ func flattenSystemSdwanDuplicationDstaddr6(v *[]models.SystemSdwanDuplicationDst
 	return flat
 }
 
-func flattenSystemSdwanDuplicationDstintf(v *[]models.SystemSdwanDuplicationDstintf, sort bool) interface{} {
+func flattenSystemSdwanDuplicationDstintf(d *schema.ResourceData, v *[]models.SystemSdwanDuplicationDstintf, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -1747,11 +1751,12 @@ func flattenSystemSdwanDuplicationDstintf(v *[]models.SystemSdwanDuplicationDsti
 	return flat
 }
 
-func flattenSystemSdwanDuplicationService(v *[]models.SystemSdwanDuplicationService, sort bool) interface{} {
+func flattenSystemSdwanDuplicationService(d *schema.ResourceData, v *[]models.SystemSdwanDuplicationService, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -1768,11 +1773,12 @@ func flattenSystemSdwanDuplicationService(v *[]models.SystemSdwanDuplicationServ
 	return flat
 }
 
-func flattenSystemSdwanDuplicationServiceId(v *[]models.SystemSdwanDuplicationServiceId, sort bool) interface{} {
+func flattenSystemSdwanDuplicationServiceId(d *schema.ResourceData, v *[]models.SystemSdwanDuplicationServiceId, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Id; tmp != nil {
 				v["id"] = *tmp
@@ -1789,11 +1795,12 @@ func flattenSystemSdwanDuplicationServiceId(v *[]models.SystemSdwanDuplicationSe
 	return flat
 }
 
-func flattenSystemSdwanDuplicationSrcaddr(v *[]models.SystemSdwanDuplicationSrcaddr, sort bool) interface{} {
+func flattenSystemSdwanDuplicationSrcaddr(d *schema.ResourceData, v *[]models.SystemSdwanDuplicationSrcaddr, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -1810,11 +1817,12 @@ func flattenSystemSdwanDuplicationSrcaddr(v *[]models.SystemSdwanDuplicationSrca
 	return flat
 }
 
-func flattenSystemSdwanDuplicationSrcaddr6(v *[]models.SystemSdwanDuplicationSrcaddr6, sort bool) interface{} {
+func flattenSystemSdwanDuplicationSrcaddr6(d *schema.ResourceData, v *[]models.SystemSdwanDuplicationSrcaddr6, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -1831,11 +1839,12 @@ func flattenSystemSdwanDuplicationSrcaddr6(v *[]models.SystemSdwanDuplicationSrc
 	return flat
 }
 
-func flattenSystemSdwanDuplicationSrcintf(v *[]models.SystemSdwanDuplicationSrcintf, sort bool) interface{} {
+func flattenSystemSdwanDuplicationSrcintf(d *schema.ResourceData, v *[]models.SystemSdwanDuplicationSrcintf, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -1852,11 +1861,12 @@ func flattenSystemSdwanDuplicationSrcintf(v *[]models.SystemSdwanDuplicationSrci
 	return flat
 }
 
-func flattenSystemSdwanFailAlertInterfaces(v *[]models.SystemSdwanFailAlertInterfaces, sort bool) interface{} {
+func flattenSystemSdwanFailAlertInterfaces(d *schema.ResourceData, v *[]models.SystemSdwanFailAlertInterfaces, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -1873,11 +1883,12 @@ func flattenSystemSdwanFailAlertInterfaces(v *[]models.SystemSdwanFailAlertInter
 	return flat
 }
 
-func flattenSystemSdwanHealthCheck(v *[]models.SystemSdwanHealthCheck, sort bool) interface{} {
+func flattenSystemSdwanHealthCheck(d *schema.ResourceData, v *[]models.SystemSdwanHealthCheck, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.AddrMode; tmp != nil {
 				v["addr_mode"] = *tmp
@@ -1932,7 +1943,7 @@ func flattenSystemSdwanHealthCheck(v *[]models.SystemSdwanHealthCheck, sort bool
 			}
 
 			if tmp := cfg.Members; tmp != nil {
-				v["members"] = flattenSystemSdwanHealthCheckMembers(tmp, sort)
+				v["members"] = flattenSystemSdwanHealthCheckMembers(d, tmp, prefix+"members", sort)
 			}
 
 			if tmp := cfg.Name; tmp != nil {
@@ -1984,7 +1995,7 @@ func flattenSystemSdwanHealthCheck(v *[]models.SystemSdwanHealthCheck, sort bool
 			}
 
 			if tmp := cfg.Sla; tmp != nil {
-				v["sla"] = flattenSystemSdwanHealthCheckSla(tmp, sort)
+				v["sla"] = flattenSystemSdwanHealthCheckSla(d, tmp, prefix+"sla", sort)
 			}
 
 			if tmp := cfg.SlaFailLogPeriod; tmp != nil {
@@ -2046,11 +2057,12 @@ func flattenSystemSdwanHealthCheck(v *[]models.SystemSdwanHealthCheck, sort bool
 	return flat
 }
 
-func flattenSystemSdwanHealthCheckMembers(v *[]models.SystemSdwanHealthCheckMembers, sort bool) interface{} {
+func flattenSystemSdwanHealthCheckMembers(d *schema.ResourceData, v *[]models.SystemSdwanHealthCheckMembers, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.SeqNum; tmp != nil {
 				v["seq_num"] = *tmp
@@ -2067,11 +2079,12 @@ func flattenSystemSdwanHealthCheckMembers(v *[]models.SystemSdwanHealthCheckMemb
 	return flat
 }
 
-func flattenSystemSdwanHealthCheckSla(v *[]models.SystemSdwanHealthCheckSla, sort bool) interface{} {
+func flattenSystemSdwanHealthCheckSla(d *schema.ResourceData, v *[]models.SystemSdwanHealthCheckSla, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Id; tmp != nil {
 				v["id"] = *tmp
@@ -2104,11 +2117,12 @@ func flattenSystemSdwanHealthCheckSla(v *[]models.SystemSdwanHealthCheckSla, sor
 	return flat
 }
 
-func flattenSystemSdwanMembers(v *[]models.SystemSdwanMembers, sort bool) interface{} {
+func flattenSystemSdwanMembers(d *schema.ResourceData, v *[]models.SystemSdwanMembers, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Comment; tmp != nil {
 				v["comment"] = *tmp
@@ -2185,11 +2199,12 @@ func flattenSystemSdwanMembers(v *[]models.SystemSdwanMembers, sort bool) interf
 	return flat
 }
 
-func flattenSystemSdwanNeighbor(v *[]models.SystemSdwanNeighbor, sort bool) interface{} {
+func flattenSystemSdwanNeighbor(d *schema.ResourceData, v *[]models.SystemSdwanNeighbor, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.HealthCheck; tmp != nil {
 				v["health_check"] = *tmp
@@ -2226,11 +2241,12 @@ func flattenSystemSdwanNeighbor(v *[]models.SystemSdwanNeighbor, sort bool) inte
 	return flat
 }
 
-func flattenSystemSdwanService(v *[]models.SystemSdwanService, sort bool) interface{} {
+func flattenSystemSdwanService(d *schema.ResourceData, v *[]models.SystemSdwanService, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.AddrMode; tmp != nil {
 				v["addr_mode"] = *tmp
@@ -2261,7 +2277,7 @@ func flattenSystemSdwanService(v *[]models.SystemSdwanService, sort bool) interf
 			}
 
 			if tmp := cfg.Dst; tmp != nil {
-				v["dst"] = flattenSystemSdwanServiceDst(tmp, sort)
+				v["dst"] = flattenSystemSdwanServiceDst(d, tmp, prefix+"dst", sort)
 			}
 
 			if tmp := cfg.DstNegate; tmp != nil {
@@ -2269,7 +2285,7 @@ func flattenSystemSdwanService(v *[]models.SystemSdwanService, sort bool) interf
 			}
 
 			if tmp := cfg.Dst6; tmp != nil {
-				v["dst6"] = flattenSystemSdwanServiceDst6(tmp, sort)
+				v["dst6"] = flattenSystemSdwanServiceDst6(d, tmp, prefix+"dst6", sort)
 			}
 
 			if tmp := cfg.EndPort; tmp != nil {
@@ -2281,7 +2297,7 @@ func flattenSystemSdwanService(v *[]models.SystemSdwanService, sort bool) interf
 			}
 
 			if tmp := cfg.Groups; tmp != nil {
-				v["groups"] = flattenSystemSdwanServiceGroups(tmp, sort)
+				v["groups"] = flattenSystemSdwanServiceGroups(d, tmp, prefix+"groups", sort)
 			}
 
 			if tmp := cfg.HashMode; tmp != nil {
@@ -2289,7 +2305,7 @@ func flattenSystemSdwanService(v *[]models.SystemSdwanService, sort bool) interf
 			}
 
 			if tmp := cfg.HealthCheck; tmp != nil {
-				v["health_check"] = flattenSystemSdwanServiceHealthCheck(tmp, sort)
+				v["health_check"] = flattenSystemSdwanServiceHealthCheck(d, tmp, prefix+"health_check", sort)
 			}
 
 			if tmp := cfg.HoldDownTime; tmp != nil {
@@ -2301,7 +2317,7 @@ func flattenSystemSdwanService(v *[]models.SystemSdwanService, sort bool) interf
 			}
 
 			if tmp := cfg.InputDevice; tmp != nil {
-				v["input_device"] = flattenSystemSdwanServiceInputDevice(tmp, sort)
+				v["input_device"] = flattenSystemSdwanServiceInputDevice(d, tmp, prefix+"input_device", sort)
 			}
 
 			if tmp := cfg.InputDeviceNegate; tmp != nil {
@@ -2313,27 +2329,27 @@ func flattenSystemSdwanService(v *[]models.SystemSdwanService, sort bool) interf
 			}
 
 			if tmp := cfg.InternetServiceAppCtrl; tmp != nil {
-				v["internet_service_app_ctrl"] = flattenSystemSdwanServiceInternetServiceAppCtrl(tmp, sort)
+				v["internet_service_app_ctrl"] = flattenSystemSdwanServiceInternetServiceAppCtrl(d, tmp, prefix+"internet_service_app_ctrl", sort)
 			}
 
 			if tmp := cfg.InternetServiceAppCtrlGroup; tmp != nil {
-				v["internet_service_app_ctrl_group"] = flattenSystemSdwanServiceInternetServiceAppCtrlGroup(tmp, sort)
+				v["internet_service_app_ctrl_group"] = flattenSystemSdwanServiceInternetServiceAppCtrlGroup(d, tmp, prefix+"internet_service_app_ctrl_group", sort)
 			}
 
 			if tmp := cfg.InternetServiceCustom; tmp != nil {
-				v["internet_service_custom"] = flattenSystemSdwanServiceInternetServiceCustom(tmp, sort)
+				v["internet_service_custom"] = flattenSystemSdwanServiceInternetServiceCustom(d, tmp, prefix+"internet_service_custom", sort)
 			}
 
 			if tmp := cfg.InternetServiceCustomGroup; tmp != nil {
-				v["internet_service_custom_group"] = flattenSystemSdwanServiceInternetServiceCustomGroup(tmp, sort)
+				v["internet_service_custom_group"] = flattenSystemSdwanServiceInternetServiceCustomGroup(d, tmp, prefix+"internet_service_custom_group", sort)
 			}
 
 			if tmp := cfg.InternetServiceGroup; tmp != nil {
-				v["internet_service_group"] = flattenSystemSdwanServiceInternetServiceGroup(tmp, sort)
+				v["internet_service_group"] = flattenSystemSdwanServiceInternetServiceGroup(d, tmp, prefix+"internet_service_group", sort)
 			}
 
 			if tmp := cfg.InternetServiceName; tmp != nil {
-				v["internet_service_name"] = flattenSystemSdwanServiceInternetServiceName(tmp, sort)
+				v["internet_service_name"] = flattenSystemSdwanServiceInternetServiceName(d, tmp, prefix+"internet_service_name", sort)
 			}
 
 			if tmp := cfg.JitterWeight; tmp != nil {
@@ -2373,11 +2389,11 @@ func flattenSystemSdwanService(v *[]models.SystemSdwanService, sort bool) interf
 			}
 
 			if tmp := cfg.PriorityMembers; tmp != nil {
-				v["priority_members"] = flattenSystemSdwanServicePriorityMembers(tmp, sort)
+				v["priority_members"] = flattenSystemSdwanServicePriorityMembers(d, tmp, prefix+"priority_members", sort)
 			}
 
 			if tmp := cfg.PriorityZone; tmp != nil {
-				v["priority_zone"] = flattenSystemSdwanServicePriorityZone(tmp, sort)
+				v["priority_zone"] = flattenSystemSdwanServicePriorityZone(d, tmp, prefix+"priority_zone", sort)
 			}
 
 			if tmp := cfg.Protocol; tmp != nil {
@@ -2397,7 +2413,7 @@ func flattenSystemSdwanService(v *[]models.SystemSdwanService, sort bool) interf
 			}
 
 			if tmp := cfg.Sla; tmp != nil {
-				v["sla"] = flattenSystemSdwanServiceSla(tmp, sort)
+				v["sla"] = flattenSystemSdwanServiceSla(d, tmp, prefix+"sla", sort)
 			}
 
 			if tmp := cfg.SlaCompareMethod; tmp != nil {
@@ -2405,7 +2421,7 @@ func flattenSystemSdwanService(v *[]models.SystemSdwanService, sort bool) interf
 			}
 
 			if tmp := cfg.Src; tmp != nil {
-				v["src"] = flattenSystemSdwanServiceSrc(tmp, sort)
+				v["src"] = flattenSystemSdwanServiceSrc(d, tmp, prefix+"src", sort)
 			}
 
 			if tmp := cfg.SrcNegate; tmp != nil {
@@ -2413,7 +2429,7 @@ func flattenSystemSdwanService(v *[]models.SystemSdwanService, sort bool) interf
 			}
 
 			if tmp := cfg.Src6; tmp != nil {
-				v["src6"] = flattenSystemSdwanServiceSrc6(tmp, sort)
+				v["src6"] = flattenSystemSdwanServiceSrc6(d, tmp, prefix+"src6", sort)
 			}
 
 			if tmp := cfg.StandaloneAction; tmp != nil {
@@ -2445,7 +2461,7 @@ func flattenSystemSdwanService(v *[]models.SystemSdwanService, sort bool) interf
 			}
 
 			if tmp := cfg.Users; tmp != nil {
-				v["users"] = flattenSystemSdwanServiceUsers(tmp, sort)
+				v["users"] = flattenSystemSdwanServiceUsers(d, tmp, prefix+"users", sort)
 			}
 
 			flat = append(flat, v)
@@ -2459,11 +2475,12 @@ func flattenSystemSdwanService(v *[]models.SystemSdwanService, sort bool) interf
 	return flat
 }
 
-func flattenSystemSdwanServiceDst(v *[]models.SystemSdwanServiceDst, sort bool) interface{} {
+func flattenSystemSdwanServiceDst(d *schema.ResourceData, v *[]models.SystemSdwanServiceDst, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -2480,11 +2497,12 @@ func flattenSystemSdwanServiceDst(v *[]models.SystemSdwanServiceDst, sort bool) 
 	return flat
 }
 
-func flattenSystemSdwanServiceDst6(v *[]models.SystemSdwanServiceDst6, sort bool) interface{} {
+func flattenSystemSdwanServiceDst6(d *schema.ResourceData, v *[]models.SystemSdwanServiceDst6, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -2501,11 +2519,12 @@ func flattenSystemSdwanServiceDst6(v *[]models.SystemSdwanServiceDst6, sort bool
 	return flat
 }
 
-func flattenSystemSdwanServiceGroups(v *[]models.SystemSdwanServiceGroups, sort bool) interface{} {
+func flattenSystemSdwanServiceGroups(d *schema.ResourceData, v *[]models.SystemSdwanServiceGroups, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -2522,11 +2541,12 @@ func flattenSystemSdwanServiceGroups(v *[]models.SystemSdwanServiceGroups, sort 
 	return flat
 }
 
-func flattenSystemSdwanServiceHealthCheck(v *[]models.SystemSdwanServiceHealthCheck, sort bool) interface{} {
+func flattenSystemSdwanServiceHealthCheck(d *schema.ResourceData, v *[]models.SystemSdwanServiceHealthCheck, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -2543,11 +2563,12 @@ func flattenSystemSdwanServiceHealthCheck(v *[]models.SystemSdwanServiceHealthCh
 	return flat
 }
 
-func flattenSystemSdwanServiceInputDevice(v *[]models.SystemSdwanServiceInputDevice, sort bool) interface{} {
+func flattenSystemSdwanServiceInputDevice(d *schema.ResourceData, v *[]models.SystemSdwanServiceInputDevice, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -2564,11 +2585,12 @@ func flattenSystemSdwanServiceInputDevice(v *[]models.SystemSdwanServiceInputDev
 	return flat
 }
 
-func flattenSystemSdwanServiceInternetServiceAppCtrl(v *[]models.SystemSdwanServiceInternetServiceAppCtrl, sort bool) interface{} {
+func flattenSystemSdwanServiceInternetServiceAppCtrl(d *schema.ResourceData, v *[]models.SystemSdwanServiceInternetServiceAppCtrl, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Id; tmp != nil {
 				v["id"] = *tmp
@@ -2585,11 +2607,12 @@ func flattenSystemSdwanServiceInternetServiceAppCtrl(v *[]models.SystemSdwanServ
 	return flat
 }
 
-func flattenSystemSdwanServiceInternetServiceAppCtrlGroup(v *[]models.SystemSdwanServiceInternetServiceAppCtrlGroup, sort bool) interface{} {
+func flattenSystemSdwanServiceInternetServiceAppCtrlGroup(d *schema.ResourceData, v *[]models.SystemSdwanServiceInternetServiceAppCtrlGroup, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -2606,11 +2629,12 @@ func flattenSystemSdwanServiceInternetServiceAppCtrlGroup(v *[]models.SystemSdwa
 	return flat
 }
 
-func flattenSystemSdwanServiceInternetServiceCustom(v *[]models.SystemSdwanServiceInternetServiceCustom, sort bool) interface{} {
+func flattenSystemSdwanServiceInternetServiceCustom(d *schema.ResourceData, v *[]models.SystemSdwanServiceInternetServiceCustom, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -2627,11 +2651,12 @@ func flattenSystemSdwanServiceInternetServiceCustom(v *[]models.SystemSdwanServi
 	return flat
 }
 
-func flattenSystemSdwanServiceInternetServiceCustomGroup(v *[]models.SystemSdwanServiceInternetServiceCustomGroup, sort bool) interface{} {
+func flattenSystemSdwanServiceInternetServiceCustomGroup(d *schema.ResourceData, v *[]models.SystemSdwanServiceInternetServiceCustomGroup, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -2648,11 +2673,12 @@ func flattenSystemSdwanServiceInternetServiceCustomGroup(v *[]models.SystemSdwan
 	return flat
 }
 
-func flattenSystemSdwanServiceInternetServiceGroup(v *[]models.SystemSdwanServiceInternetServiceGroup, sort bool) interface{} {
+func flattenSystemSdwanServiceInternetServiceGroup(d *schema.ResourceData, v *[]models.SystemSdwanServiceInternetServiceGroup, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -2669,11 +2695,12 @@ func flattenSystemSdwanServiceInternetServiceGroup(v *[]models.SystemSdwanServic
 	return flat
 }
 
-func flattenSystemSdwanServiceInternetServiceName(v *[]models.SystemSdwanServiceInternetServiceName, sort bool) interface{} {
+func flattenSystemSdwanServiceInternetServiceName(d *schema.ResourceData, v *[]models.SystemSdwanServiceInternetServiceName, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -2690,11 +2717,12 @@ func flattenSystemSdwanServiceInternetServiceName(v *[]models.SystemSdwanService
 	return flat
 }
 
-func flattenSystemSdwanServicePriorityMembers(v *[]models.SystemSdwanServicePriorityMembers, sort bool) interface{} {
+func flattenSystemSdwanServicePriorityMembers(d *schema.ResourceData, v *[]models.SystemSdwanServicePriorityMembers, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.SeqNum; tmp != nil {
 				v["seq_num"] = *tmp
@@ -2711,11 +2739,12 @@ func flattenSystemSdwanServicePriorityMembers(v *[]models.SystemSdwanServicePrio
 	return flat
 }
 
-func flattenSystemSdwanServicePriorityZone(v *[]models.SystemSdwanServicePriorityZone, sort bool) interface{} {
+func flattenSystemSdwanServicePriorityZone(d *schema.ResourceData, v *[]models.SystemSdwanServicePriorityZone, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -2732,11 +2761,12 @@ func flattenSystemSdwanServicePriorityZone(v *[]models.SystemSdwanServicePriorit
 	return flat
 }
 
-func flattenSystemSdwanServiceSla(v *[]models.SystemSdwanServiceSla, sort bool) interface{} {
+func flattenSystemSdwanServiceSla(d *schema.ResourceData, v *[]models.SystemSdwanServiceSla, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.HealthCheck; tmp != nil {
 				v["health_check"] = *tmp
@@ -2757,11 +2787,12 @@ func flattenSystemSdwanServiceSla(v *[]models.SystemSdwanServiceSla, sort bool) 
 	return flat
 }
 
-func flattenSystemSdwanServiceSrc(v *[]models.SystemSdwanServiceSrc, sort bool) interface{} {
+func flattenSystemSdwanServiceSrc(d *schema.ResourceData, v *[]models.SystemSdwanServiceSrc, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -2778,11 +2809,12 @@ func flattenSystemSdwanServiceSrc(v *[]models.SystemSdwanServiceSrc, sort bool) 
 	return flat
 }
 
-func flattenSystemSdwanServiceSrc6(v *[]models.SystemSdwanServiceSrc6, sort bool) interface{} {
+func flattenSystemSdwanServiceSrc6(d *schema.ResourceData, v *[]models.SystemSdwanServiceSrc6, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -2799,11 +2831,12 @@ func flattenSystemSdwanServiceSrc6(v *[]models.SystemSdwanServiceSrc6, sort bool
 	return flat
 }
 
-func flattenSystemSdwanServiceUsers(v *[]models.SystemSdwanServiceUsers, sort bool) interface{} {
+func flattenSystemSdwanServiceUsers(d *schema.ResourceData, v *[]models.SystemSdwanServiceUsers, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -2820,11 +2853,12 @@ func flattenSystemSdwanServiceUsers(v *[]models.SystemSdwanServiceUsers, sort bo
 	return flat
 }
 
-func flattenSystemSdwanZone(v *[]models.SystemSdwanZone, sort bool) interface{} {
+func flattenSystemSdwanZone(d *schema.ResourceData, v *[]models.SystemSdwanZone, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -2849,7 +2883,7 @@ func refreshObjectSystemSdwan(d *schema.ResourceData, o *models.SystemSdwan, sv 
 	var err error
 
 	if o.Duplication != nil {
-		if err = d.Set("duplication", flattenSystemSdwanDuplication(o.Duplication, sort)); err != nil {
+		if err = d.Set("duplication", flattenSystemSdwanDuplication(d, o.Duplication, "duplication", sort)); err != nil {
 			return diag.Errorf("error reading duplication: %v", err)
 		}
 	}
@@ -2863,7 +2897,7 @@ func refreshObjectSystemSdwan(d *schema.ResourceData, o *models.SystemSdwan, sv 
 	}
 
 	if o.FailAlertInterfaces != nil {
-		if err = d.Set("fail_alert_interfaces", flattenSystemSdwanFailAlertInterfaces(o.FailAlertInterfaces, sort)); err != nil {
+		if err = d.Set("fail_alert_interfaces", flattenSystemSdwanFailAlertInterfaces(d, o.FailAlertInterfaces, "fail_alert_interfaces", sort)); err != nil {
 			return diag.Errorf("error reading fail_alert_interfaces: %v", err)
 		}
 	}
@@ -2877,7 +2911,7 @@ func refreshObjectSystemSdwan(d *schema.ResourceData, o *models.SystemSdwan, sv 
 	}
 
 	if o.HealthCheck != nil {
-		if err = d.Set("health_check", flattenSystemSdwanHealthCheck(o.HealthCheck, sort)); err != nil {
+		if err = d.Set("health_check", flattenSystemSdwanHealthCheck(d, o.HealthCheck, "health_check", sort)); err != nil {
 			return diag.Errorf("error reading health_check: %v", err)
 		}
 	}
@@ -2891,13 +2925,13 @@ func refreshObjectSystemSdwan(d *schema.ResourceData, o *models.SystemSdwan, sv 
 	}
 
 	if o.Members != nil {
-		if err = d.Set("members", flattenSystemSdwanMembers(o.Members, sort)); err != nil {
+		if err = d.Set("members", flattenSystemSdwanMembers(d, o.Members, "members", sort)); err != nil {
 			return diag.Errorf("error reading members: %v", err)
 		}
 	}
 
 	if o.Neighbor != nil {
-		if err = d.Set("neighbor", flattenSystemSdwanNeighbor(o.Neighbor, sort)); err != nil {
+		if err = d.Set("neighbor", flattenSystemSdwanNeighbor(d, o.Neighbor, "neighbor", sort)); err != nil {
 			return diag.Errorf("error reading neighbor: %v", err)
 		}
 	}
@@ -2927,7 +2961,7 @@ func refreshObjectSystemSdwan(d *schema.ResourceData, o *models.SystemSdwan, sv 
 	}
 
 	if o.Service != nil {
-		if err = d.Set("service", flattenSystemSdwanService(o.Service, sort)); err != nil {
+		if err = d.Set("service", flattenSystemSdwanService(d, o.Service, "service", sort)); err != nil {
 			return diag.Errorf("error reading service: %v", err)
 		}
 	}
@@ -2949,7 +2983,7 @@ func refreshObjectSystemSdwan(d *schema.ResourceData, o *models.SystemSdwan, sv 
 	}
 
 	if o.Zone != nil {
-		if err = d.Set("zone", flattenSystemSdwanZone(o.Zone, sort)); err != nil {
+		if err = d.Set("zone", flattenSystemSdwanZone(d, o.Zone, "zone", sort)); err != nil {
 			return diag.Errorf("error reading zone: %v", err)
 		}
 	}

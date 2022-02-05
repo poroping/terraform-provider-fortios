@@ -393,11 +393,12 @@ func resourceWirelessControllerArrpProfileRead(ctx context.Context, d *schema.Re
 	return nil
 }
 
-func flattenWirelessControllerArrpProfileDarrpOptimizeSchedules(v *[]models.WirelessControllerArrpProfileDarrpOptimizeSchedules, sort bool) interface{} {
+func flattenWirelessControllerArrpProfileDarrpOptimizeSchedules(d *schema.ResourceData, v *[]models.WirelessControllerArrpProfileDarrpOptimizeSchedules, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -434,7 +435,7 @@ func refreshObjectWirelessControllerArrpProfile(d *schema.ResourceData, o *model
 	}
 
 	if o.DarrpOptimizeSchedules != nil {
-		if err = d.Set("darrp_optimize_schedules", flattenWirelessControllerArrpProfileDarrpOptimizeSchedules(o.DarrpOptimizeSchedules, sort)); err != nil {
+		if err = d.Set("darrp_optimize_schedules", flattenWirelessControllerArrpProfileDarrpOptimizeSchedules(d, o.DarrpOptimizeSchedules, "darrp_optimize_schedules", sort)); err != nil {
 			return diag.Errorf("error reading darrp_optimize_schedules: %v", err)
 		}
 	}

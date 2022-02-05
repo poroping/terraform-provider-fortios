@@ -257,11 +257,12 @@ func resourceUserKrbKeytabRead(ctx context.Context, d *schema.ResourceData, meta
 	return nil
 }
 
-func flattenUserKrbKeytabLdapServer(v *[]models.UserKrbKeytabLdapServer, sort bool) interface{} {
+func flattenUserKrbKeytabLdapServer(d *schema.ResourceData, v *[]models.UserKrbKeytabLdapServer, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -290,7 +291,7 @@ func refreshObjectUserKrbKeytab(d *schema.ResourceData, o *models.UserKrbKeytab,
 	}
 
 	if o.LdapServer != nil {
-		if err = d.Set("ldap_server", flattenUserKrbKeytabLdapServer(o.LdapServer, sort)); err != nil {
+		if err = d.Set("ldap_server", flattenUserKrbKeytabLdapServer(d, o.LdapServer, "ldap_server", sort)); err != nil {
 			return diag.Errorf("error reading ldap_server: %v", err)
 		}
 	}

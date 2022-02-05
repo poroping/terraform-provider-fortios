@@ -366,11 +366,12 @@ func resourceSystemNtpRead(ctx context.Context, d *schema.ResourceData, meta int
 	return nil
 }
 
-func flattenSystemNtpInterface(v *[]models.SystemNtpInterface, sort bool) interface{} {
+func flattenSystemNtpInterface(d *schema.ResourceData, v *[]models.SystemNtpInterface, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.InterfaceName; tmp != nil {
 				v["interface_name"] = *tmp
@@ -387,11 +388,12 @@ func flattenSystemNtpInterface(v *[]models.SystemNtpInterface, sort bool) interf
 	return flat
 }
 
-func flattenSystemNtpNtpserver(v *[]models.SystemNtpNtpserver, sort bool) interface{} {
+func flattenSystemNtpNtpserver(d *schema.ResourceData, v *[]models.SystemNtpNtpserver, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Authentication; tmp != nil {
 				v["authentication"] = *tmp
@@ -448,7 +450,7 @@ func refreshObjectSystemNtp(d *schema.ResourceData, o *models.SystemNtp, sv stri
 	}
 
 	if o.Interface != nil {
-		if err = d.Set("interface", flattenSystemNtpInterface(o.Interface, sort)); err != nil {
+		if err = d.Set("interface", flattenSystemNtpInterface(d, o.Interface, "interface", sort)); err != nil {
 			return diag.Errorf("error reading interface: %v", err)
 		}
 	}
@@ -479,7 +481,7 @@ func refreshObjectSystemNtp(d *schema.ResourceData, o *models.SystemNtp, sv stri
 	}
 
 	if o.Ntpserver != nil {
-		if err = d.Set("ntpserver", flattenSystemNtpNtpserver(o.Ntpserver, sort)); err != nil {
+		if err = d.Set("ntpserver", flattenSystemNtpNtpserver(d, o.Ntpserver, "ntpserver", sort)); err != nil {
 			return diag.Errorf("error reading ntpserver: %v", err)
 		}
 	}

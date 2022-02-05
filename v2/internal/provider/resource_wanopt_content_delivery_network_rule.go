@@ -475,11 +475,12 @@ func resourceWanoptContentDeliveryNetworkRuleRead(ctx context.Context, d *schema
 	return nil
 }
 
-func flattenWanoptContentDeliveryNetworkRuleHostDomainNameSuffix(v *[]models.WanoptContentDeliveryNetworkRuleHostDomainNameSuffix, sort bool) interface{} {
+func flattenWanoptContentDeliveryNetworkRuleHostDomainNameSuffix(d *schema.ResourceData, v *[]models.WanoptContentDeliveryNetworkRuleHostDomainNameSuffix, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -496,18 +497,19 @@ func flattenWanoptContentDeliveryNetworkRuleHostDomainNameSuffix(v *[]models.Wan
 	return flat
 }
 
-func flattenWanoptContentDeliveryNetworkRuleRules(v *[]models.WanoptContentDeliveryNetworkRuleRules, sort bool) interface{} {
+func flattenWanoptContentDeliveryNetworkRuleRules(d *schema.ResourceData, v *[]models.WanoptContentDeliveryNetworkRuleRules, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.ContentId; tmp != nil {
-				v["content_id"] = flattenWanoptContentDeliveryNetworkRuleRulesContentId(tmp, sort)
+				v["content_id"] = flattenWanoptContentDeliveryNetworkRuleRulesContentId(d, tmp, prefix+"content_id", sort)
 			}
 
 			if tmp := cfg.MatchEntries; tmp != nil {
-				v["match_entries"] = flattenWanoptContentDeliveryNetworkRuleRulesMatchEntries(tmp, sort)
+				v["match_entries"] = flattenWanoptContentDeliveryNetworkRuleRulesMatchEntries(d, tmp, prefix+"match_entries", sort)
 			}
 
 			if tmp := cfg.MatchMode; tmp != nil {
@@ -519,7 +521,7 @@ func flattenWanoptContentDeliveryNetworkRuleRules(v *[]models.WanoptContentDeliv
 			}
 
 			if tmp := cfg.SkipEntries; tmp != nil {
-				v["skip_entries"] = flattenWanoptContentDeliveryNetworkRuleRulesSkipEntries(tmp, sort)
+				v["skip_entries"] = flattenWanoptContentDeliveryNetworkRuleRulesSkipEntries(d, tmp, prefix+"skip_entries", sort)
 			}
 
 			if tmp := cfg.SkipRuleMode; tmp != nil {
@@ -537,11 +539,12 @@ func flattenWanoptContentDeliveryNetworkRuleRules(v *[]models.WanoptContentDeliv
 	return flat
 }
 
-func flattenWanoptContentDeliveryNetworkRuleRulesContentId(v *[]models.WanoptContentDeliveryNetworkRuleRulesContentId, sort bool) interface{} {
+func flattenWanoptContentDeliveryNetworkRuleRulesContentId(d *schema.ResourceData, v *[]models.WanoptContentDeliveryNetworkRuleRulesContentId, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.EndDirection; tmp != nil {
 				v["end_direction"] = *tmp
@@ -582,18 +585,19 @@ func flattenWanoptContentDeliveryNetworkRuleRulesContentId(v *[]models.WanoptCon
 	return flat
 }
 
-func flattenWanoptContentDeliveryNetworkRuleRulesMatchEntries(v *[]models.WanoptContentDeliveryNetworkRuleRulesMatchEntries, sort bool) interface{} {
+func flattenWanoptContentDeliveryNetworkRuleRulesMatchEntries(d *schema.ResourceData, v *[]models.WanoptContentDeliveryNetworkRuleRulesMatchEntries, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Id; tmp != nil {
 				v["id"] = *tmp
 			}
 
 			if tmp := cfg.Pattern; tmp != nil {
-				v["pattern"] = flattenWanoptContentDeliveryNetworkRuleRulesMatchEntriesPattern(tmp, sort)
+				v["pattern"] = flattenWanoptContentDeliveryNetworkRuleRulesMatchEntriesPattern(d, tmp, prefix+"pattern", sort)
 			}
 
 			if tmp := cfg.Target; tmp != nil {
@@ -611,11 +615,12 @@ func flattenWanoptContentDeliveryNetworkRuleRulesMatchEntries(v *[]models.Wanopt
 	return flat
 }
 
-func flattenWanoptContentDeliveryNetworkRuleRulesMatchEntriesPattern(v *[]models.WanoptContentDeliveryNetworkRuleRulesMatchEntriesPattern, sort bool) interface{} {
+func flattenWanoptContentDeliveryNetworkRuleRulesMatchEntriesPattern(d *schema.ResourceData, v *[]models.WanoptContentDeliveryNetworkRuleRulesMatchEntriesPattern, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.String; tmp != nil {
 				v["string"] = *tmp
@@ -632,18 +637,19 @@ func flattenWanoptContentDeliveryNetworkRuleRulesMatchEntriesPattern(v *[]models
 	return flat
 }
 
-func flattenWanoptContentDeliveryNetworkRuleRulesSkipEntries(v *[]models.WanoptContentDeliveryNetworkRuleRulesSkipEntries, sort bool) interface{} {
+func flattenWanoptContentDeliveryNetworkRuleRulesSkipEntries(d *schema.ResourceData, v *[]models.WanoptContentDeliveryNetworkRuleRulesSkipEntries, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Id; tmp != nil {
 				v["id"] = *tmp
 			}
 
 			if tmp := cfg.Pattern; tmp != nil {
-				v["pattern"] = flattenWanoptContentDeliveryNetworkRuleRulesSkipEntriesPattern(tmp, sort)
+				v["pattern"] = flattenWanoptContentDeliveryNetworkRuleRulesSkipEntriesPattern(d, tmp, prefix+"pattern", sort)
 			}
 
 			if tmp := cfg.Target; tmp != nil {
@@ -661,11 +667,12 @@ func flattenWanoptContentDeliveryNetworkRuleRulesSkipEntries(v *[]models.WanoptC
 	return flat
 }
 
-func flattenWanoptContentDeliveryNetworkRuleRulesSkipEntriesPattern(v *[]models.WanoptContentDeliveryNetworkRuleRulesSkipEntriesPattern, sort bool) interface{} {
+func flattenWanoptContentDeliveryNetworkRuleRulesSkipEntriesPattern(d *schema.ResourceData, v *[]models.WanoptContentDeliveryNetworkRuleRulesSkipEntriesPattern, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.String; tmp != nil {
 				v["string"] = *tmp
@@ -702,7 +709,7 @@ func refreshObjectWanoptContentDeliveryNetworkRule(d *schema.ResourceData, o *mo
 	}
 
 	if o.HostDomainNameSuffix != nil {
-		if err = d.Set("host_domain_name_suffix", flattenWanoptContentDeliveryNetworkRuleHostDomainNameSuffix(o.HostDomainNameSuffix, sort)); err != nil {
+		if err = d.Set("host_domain_name_suffix", flattenWanoptContentDeliveryNetworkRuleHostDomainNameSuffix(d, o.HostDomainNameSuffix, "host_domain_name_suffix", sort)); err != nil {
 			return diag.Errorf("error reading host_domain_name_suffix: %v", err)
 		}
 	}
@@ -740,7 +747,7 @@ func refreshObjectWanoptContentDeliveryNetworkRule(d *schema.ResourceData, o *mo
 	}
 
 	if o.Rules != nil {
-		if err = d.Set("rules", flattenWanoptContentDeliveryNetworkRuleRules(o.Rules, sort)); err != nil {
+		if err = d.Set("rules", flattenWanoptContentDeliveryNetworkRuleRules(d, o.Rules, "rules", sort)); err != nil {
 			return diag.Errorf("error reading rules: %v", err)
 		}
 	}

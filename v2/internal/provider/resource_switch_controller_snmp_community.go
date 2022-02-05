@@ -345,11 +345,12 @@ func resourceSwitchControllerSnmpCommunityRead(ctx context.Context, d *schema.Re
 	return nil
 }
 
-func flattenSwitchControllerSnmpCommunityHosts(v *[]models.SwitchControllerSnmpCommunityHosts, sort bool) interface{} {
+func flattenSwitchControllerSnmpCommunityHosts(d *schema.ResourceData, v *[]models.SwitchControllerSnmpCommunityHosts, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Id; tmp != nil {
 				v["id"] = *tmp
@@ -382,7 +383,7 @@ func refreshObjectSwitchControllerSnmpCommunity(d *schema.ResourceData, o *model
 	}
 
 	if o.Hosts != nil {
-		if err = d.Set("hosts", flattenSwitchControllerSnmpCommunityHosts(o.Hosts, sort)); err != nil {
+		if err = d.Set("hosts", flattenSwitchControllerSnmpCommunityHosts(d, o.Hosts, "hosts", sort)); err != nil {
 			return diag.Errorf("error reading hosts: %v", err)
 		}
 	}

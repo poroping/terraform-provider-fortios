@@ -1409,11 +1409,12 @@ func resourceAntivirusProfileRead(ctx context.Context, d *schema.ResourceData, m
 	return nil
 }
 
-func flattenAntivirusProfileCifs(v *[]models.AntivirusProfileCifs, sort bool) interface{} {
+func flattenAntivirusProfileCifs(d *schema.ResourceData, v *[]models.AntivirusProfileCifs, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.ArchiveBlock; tmp != nil {
 				v["archive_block"] = *tmp
@@ -1458,11 +1459,12 @@ func flattenAntivirusProfileCifs(v *[]models.AntivirusProfileCifs, sort bool) in
 	return flat
 }
 
-func flattenAntivirusProfileContentDisarm(v *[]models.AntivirusProfileContentDisarm, sort bool) interface{} {
+func flattenAntivirusProfileContentDisarm(d *schema.ResourceData, v *[]models.AntivirusProfileContentDisarm, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.CoverPage; tmp != nil {
 				v["cover_page"] = *tmp
@@ -1547,11 +1549,12 @@ func flattenAntivirusProfileContentDisarm(v *[]models.AntivirusProfileContentDis
 	return flat
 }
 
-func flattenAntivirusProfileExternalBlocklist(v *[]models.AntivirusProfileExternalBlocklist, sort bool) interface{} {
+func flattenAntivirusProfileExternalBlocklist(d *schema.ResourceData, v *[]models.AntivirusProfileExternalBlocklist, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -1568,11 +1571,12 @@ func flattenAntivirusProfileExternalBlocklist(v *[]models.AntivirusProfileExtern
 	return flat
 }
 
-func flattenAntivirusProfileFtp(v *[]models.AntivirusProfileFtp, sort bool) interface{} {
+func flattenAntivirusProfileFtp(d *schema.ResourceData, v *[]models.AntivirusProfileFtp, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.ArchiveBlock; tmp != nil {
 				v["archive_block"] = *tmp
@@ -1617,11 +1621,12 @@ func flattenAntivirusProfileFtp(v *[]models.AntivirusProfileFtp, sort bool) inte
 	return flat
 }
 
-func flattenAntivirusProfileHttp(v *[]models.AntivirusProfileHttp, sort bool) interface{} {
+func flattenAntivirusProfileHttp(d *schema.ResourceData, v *[]models.AntivirusProfileHttp, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.ArchiveBlock; tmp != nil {
 				v["archive_block"] = *tmp
@@ -1670,11 +1675,12 @@ func flattenAntivirusProfileHttp(v *[]models.AntivirusProfileHttp, sort bool) in
 	return flat
 }
 
-func flattenAntivirusProfileImap(v *[]models.AntivirusProfileImap, sort bool) interface{} {
+func flattenAntivirusProfileImap(d *schema.ResourceData, v *[]models.AntivirusProfileImap, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.ArchiveBlock; tmp != nil {
 				v["archive_block"] = *tmp
@@ -1727,11 +1733,12 @@ func flattenAntivirusProfileImap(v *[]models.AntivirusProfileImap, sort bool) in
 	return flat
 }
 
-func flattenAntivirusProfileMapi(v *[]models.AntivirusProfileMapi, sort bool) interface{} {
+func flattenAntivirusProfileMapi(d *schema.ResourceData, v *[]models.AntivirusProfileMapi, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.ArchiveBlock; tmp != nil {
 				v["archive_block"] = *tmp
@@ -1780,11 +1787,12 @@ func flattenAntivirusProfileMapi(v *[]models.AntivirusProfileMapi, sort bool) in
 	return flat
 }
 
-func flattenAntivirusProfileNacQuar(v *[]models.AntivirusProfileNacQuar, sort bool) interface{} {
+func flattenAntivirusProfileNacQuar(d *schema.ResourceData, v *[]models.AntivirusProfileNacQuar, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Expiry; tmp != nil {
 				v["expiry"] = *tmp
@@ -1805,11 +1813,12 @@ func flattenAntivirusProfileNacQuar(v *[]models.AntivirusProfileNacQuar, sort bo
 	return flat
 }
 
-func flattenAntivirusProfileNntp(v *[]models.AntivirusProfileNntp, sort bool) interface{} {
+func flattenAntivirusProfileNntp(d *schema.ResourceData, v *[]models.AntivirusProfileNntp, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.ArchiveBlock; tmp != nil {
 				v["archive_block"] = *tmp
@@ -1854,11 +1863,12 @@ func flattenAntivirusProfileNntp(v *[]models.AntivirusProfileNntp, sort bool) in
 	return flat
 }
 
-func flattenAntivirusProfileOutbreakPrevention(v *[]models.AntivirusProfileOutbreakPrevention, sort bool) interface{} {
+func flattenAntivirusProfileOutbreakPrevention(d *schema.ResourceData, v *[]models.AntivirusProfileOutbreakPrevention, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.ExternalBlocklist; tmp != nil {
 				v["external_blocklist"] = *tmp
@@ -1875,11 +1885,12 @@ func flattenAntivirusProfileOutbreakPrevention(v *[]models.AntivirusProfileOutbr
 	return flat
 }
 
-func flattenAntivirusProfilePop3(v *[]models.AntivirusProfilePop3, sort bool) interface{} {
+func flattenAntivirusProfilePop3(d *schema.ResourceData, v *[]models.AntivirusProfilePop3, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.ArchiveBlock; tmp != nil {
 				v["archive_block"] = *tmp
@@ -1932,11 +1943,12 @@ func flattenAntivirusProfilePop3(v *[]models.AntivirusProfilePop3, sort bool) in
 	return flat
 }
 
-func flattenAntivirusProfileSmtp(v *[]models.AntivirusProfileSmtp, sort bool) interface{} {
+func flattenAntivirusProfileSmtp(d *schema.ResourceData, v *[]models.AntivirusProfileSmtp, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.ArchiveBlock; tmp != nil {
 				v["archive_block"] = *tmp
@@ -1989,11 +2001,12 @@ func flattenAntivirusProfileSmtp(v *[]models.AntivirusProfileSmtp, sort bool) in
 	return flat
 }
 
-func flattenAntivirusProfileSsh(v *[]models.AntivirusProfileSsh, sort bool) interface{} {
+func flattenAntivirusProfileSsh(d *schema.ResourceData, v *[]models.AntivirusProfileSsh, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.ArchiveBlock; tmp != nil {
 				v["archive_block"] = *tmp
@@ -2106,7 +2119,7 @@ func refreshObjectAntivirusProfile(d *schema.ResourceData, o *models.AntivirusPr
 	}
 
 	if o.Cifs != nil {
-		if err = d.Set("cifs", flattenAntivirusProfileCifs(o.Cifs, sort)); err != nil {
+		if err = d.Set("cifs", flattenAntivirusProfileCifs(d, o.Cifs, "cifs", sort)); err != nil {
 			return diag.Errorf("error reading cifs: %v", err)
 		}
 	}
@@ -2120,7 +2133,7 @@ func refreshObjectAntivirusProfile(d *schema.ResourceData, o *models.AntivirusPr
 	}
 
 	if o.ContentDisarm != nil {
-		if err = d.Set("content_disarm", flattenAntivirusProfileContentDisarm(o.ContentDisarm, sort)); err != nil {
+		if err = d.Set("content_disarm", flattenAntivirusProfileContentDisarm(d, o.ContentDisarm, "content_disarm", sort)); err != nil {
 			return diag.Errorf("error reading content_disarm: %v", err)
 		}
 	}
@@ -2142,7 +2155,7 @@ func refreshObjectAntivirusProfile(d *schema.ResourceData, o *models.AntivirusPr
 	}
 
 	if o.ExternalBlocklist != nil {
-		if err = d.Set("external_blocklist", flattenAntivirusProfileExternalBlocklist(o.ExternalBlocklist, sort)); err != nil {
+		if err = d.Set("external_blocklist", flattenAntivirusProfileExternalBlocklist(d, o.ExternalBlocklist, "external_blocklist", sort)); err != nil {
 			return diag.Errorf("error reading external_blocklist: %v", err)
 		}
 	}
@@ -2196,25 +2209,25 @@ func refreshObjectAntivirusProfile(d *schema.ResourceData, o *models.AntivirusPr
 	}
 
 	if o.Ftp != nil {
-		if err = d.Set("ftp", flattenAntivirusProfileFtp(o.Ftp, sort)); err != nil {
+		if err = d.Set("ftp", flattenAntivirusProfileFtp(d, o.Ftp, "ftp", sort)); err != nil {
 			return diag.Errorf("error reading ftp: %v", err)
 		}
 	}
 
 	if o.Http != nil {
-		if err = d.Set("http", flattenAntivirusProfileHttp(o.Http, sort)); err != nil {
+		if err = d.Set("http", flattenAntivirusProfileHttp(d, o.Http, "http", sort)); err != nil {
 			return diag.Errorf("error reading http: %v", err)
 		}
 	}
 
 	if o.Imap != nil {
-		if err = d.Set("imap", flattenAntivirusProfileImap(o.Imap, sort)); err != nil {
+		if err = d.Set("imap", flattenAntivirusProfileImap(d, o.Imap, "imap", sort)); err != nil {
 			return diag.Errorf("error reading imap: %v", err)
 		}
 	}
 
 	if o.Mapi != nil {
-		if err = d.Set("mapi", flattenAntivirusProfileMapi(o.Mapi, sort)); err != nil {
+		if err = d.Set("mapi", flattenAntivirusProfileMapi(d, o.Mapi, "mapi", sort)); err != nil {
 			return diag.Errorf("error reading mapi: %v", err)
 		}
 	}
@@ -2228,7 +2241,7 @@ func refreshObjectAntivirusProfile(d *schema.ResourceData, o *models.AntivirusPr
 	}
 
 	if o.NacQuar != nil {
-		if err = d.Set("nac_quar", flattenAntivirusProfileNacQuar(o.NacQuar, sort)); err != nil {
+		if err = d.Set("nac_quar", flattenAntivirusProfileNacQuar(d, o.NacQuar, "nac_quar", sort)); err != nil {
 			return diag.Errorf("error reading nac_quar: %v", err)
 		}
 	}
@@ -2242,13 +2255,13 @@ func refreshObjectAntivirusProfile(d *schema.ResourceData, o *models.AntivirusPr
 	}
 
 	if o.Nntp != nil {
-		if err = d.Set("nntp", flattenAntivirusProfileNntp(o.Nntp, sort)); err != nil {
+		if err = d.Set("nntp", flattenAntivirusProfileNntp(d, o.Nntp, "nntp", sort)); err != nil {
 			return diag.Errorf("error reading nntp: %v", err)
 		}
 	}
 
 	if o.OutbreakPrevention != nil {
-		if err = d.Set("outbreak_prevention", flattenAntivirusProfileOutbreakPrevention(o.OutbreakPrevention, sort)); err != nil {
+		if err = d.Set("outbreak_prevention", flattenAntivirusProfileOutbreakPrevention(d, o.OutbreakPrevention, "outbreak_prevention", sort)); err != nil {
 			return diag.Errorf("error reading outbreak_prevention: %v", err)
 		}
 	}
@@ -2262,7 +2275,7 @@ func refreshObjectAntivirusProfile(d *schema.ResourceData, o *models.AntivirusPr
 	}
 
 	if o.Pop3 != nil {
-		if err = d.Set("pop3", flattenAntivirusProfilePop3(o.Pop3, sort)); err != nil {
+		if err = d.Set("pop3", flattenAntivirusProfilePop3(d, o.Pop3, "pop3", sort)); err != nil {
 			return diag.Errorf("error reading pop3: %v", err)
 		}
 	}
@@ -2284,13 +2297,13 @@ func refreshObjectAntivirusProfile(d *schema.ResourceData, o *models.AntivirusPr
 	}
 
 	if o.Smtp != nil {
-		if err = d.Set("smtp", flattenAntivirusProfileSmtp(o.Smtp, sort)); err != nil {
+		if err = d.Set("smtp", flattenAntivirusProfileSmtp(d, o.Smtp, "smtp", sort)); err != nil {
 			return diag.Errorf("error reading smtp: %v", err)
 		}
 	}
 
 	if o.Ssh != nil {
-		if err = d.Set("ssh", flattenAntivirusProfileSsh(o.Ssh, sort)); err != nil {
+		if err = d.Set("ssh", flattenAntivirusProfileSsh(d, o.Ssh, "ssh", sort)); err != nil {
 			return diag.Errorf("error reading ssh: %v", err)
 		}
 	}

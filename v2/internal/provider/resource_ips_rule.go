@@ -344,11 +344,12 @@ func resourceIpsRuleRead(ctx context.Context, d *schema.ResourceData, meta inter
 	return nil
 }
 
-func flattenIpsRuleMetadata(v *[]models.IpsRuleMetadata, sort bool) interface{} {
+func flattenIpsRuleMetadata(d *schema.ResourceData, v *[]models.IpsRuleMetadata, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Id; tmp != nil {
 				v["id"] = *tmp
@@ -433,7 +434,7 @@ func refreshObjectIpsRule(d *schema.ResourceData, o *models.IpsRule, sv string, 
 	}
 
 	if o.Metadata != nil {
-		if err = d.Set("metadata", flattenIpsRuleMetadata(o.Metadata, sort)); err != nil {
+		if err = d.Set("metadata", flattenIpsRuleMetadata(d, o.Metadata, "metadata", sort)); err != nil {
 			return diag.Errorf("error reading metadata: %v", err)
 		}
 	}

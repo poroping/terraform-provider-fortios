@@ -355,11 +355,12 @@ func resourceRouterStatic6Read(ctx context.Context, d *schema.ResourceData, meta
 	return nil
 }
 
-func flattenRouterStatic6SdwanZone(v *[]models.RouterStatic6SdwanZone, sort bool) interface{} {
+func flattenRouterStatic6SdwanZone(d *schema.ResourceData, v *[]models.RouterStatic6SdwanZone, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -476,7 +477,7 @@ func refreshObjectRouterStatic6(d *schema.ResourceData, o *models.RouterStatic6,
 	}
 
 	if o.SdwanZone != nil {
-		if err = d.Set("sdwan_zone", flattenRouterStatic6SdwanZone(o.SdwanZone, sort)); err != nil {
+		if err = d.Set("sdwan_zone", flattenRouterStatic6SdwanZone(d, o.SdwanZone, "sdwan_zone", sort)); err != nil {
 			return diag.Errorf("error reading sdwan_zone: %v", err)
 		}
 	}

@@ -395,11 +395,12 @@ func resourceWebProxyProfileRead(ctx context.Context, d *schema.ResourceData, me
 	return nil
 }
 
-func flattenWebProxyProfileHeaders(v *[]models.WebProxyProfileHeaders, sort bool) interface{} {
+func flattenWebProxyProfileHeaders(d *schema.ResourceData, v *[]models.WebProxyProfileHeaders, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Action; tmp != nil {
 				v["action"] = *tmp
@@ -418,11 +419,11 @@ func flattenWebProxyProfileHeaders(v *[]models.WebProxyProfileHeaders, sort bool
 			}
 
 			if tmp := cfg.Dstaddr; tmp != nil {
-				v["dstaddr"] = flattenWebProxyProfileHeadersDstaddr(tmp, sort)
+				v["dstaddr"] = flattenWebProxyProfileHeadersDstaddr(d, tmp, prefix+"dstaddr", sort)
 			}
 
 			if tmp := cfg.Dstaddr6; tmp != nil {
-				v["dstaddr6"] = flattenWebProxyProfileHeadersDstaddr6(tmp, sort)
+				v["dstaddr6"] = flattenWebProxyProfileHeadersDstaddr6(d, tmp, prefix+"dstaddr6", sort)
 			}
 
 			if tmp := cfg.Id; tmp != nil {
@@ -448,11 +449,12 @@ func flattenWebProxyProfileHeaders(v *[]models.WebProxyProfileHeaders, sort bool
 	return flat
 }
 
-func flattenWebProxyProfileHeadersDstaddr(v *[]models.WebProxyProfileHeadersDstaddr, sort bool) interface{} {
+func flattenWebProxyProfileHeadersDstaddr(d *schema.ResourceData, v *[]models.WebProxyProfileHeadersDstaddr, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -469,11 +471,12 @@ func flattenWebProxyProfileHeadersDstaddr(v *[]models.WebProxyProfileHeadersDsta
 	return flat
 }
 
-func flattenWebProxyProfileHeadersDstaddr6(v *[]models.WebProxyProfileHeadersDstaddr6, sort bool) interface{} {
+func flattenWebProxyProfileHeadersDstaddr6(d *schema.ResourceData, v *[]models.WebProxyProfileHeadersDstaddr6, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -558,7 +561,7 @@ func refreshObjectWebProxyProfile(d *schema.ResourceData, o *models.WebProxyProf
 	}
 
 	if o.Headers != nil {
-		if err = d.Set("headers", flattenWebProxyProfileHeaders(o.Headers, sort)); err != nil {
+		if err = d.Set("headers", flattenWebProxyProfileHeaders(d, o.Headers, "headers", sort)); err != nil {
 			return diag.Errorf("error reading headers: %v", err)
 		}
 	}

@@ -595,11 +595,12 @@ func resourceFirewallAddressRead(ctx context.Context, d *schema.ResourceData, me
 	return nil
 }
 
-func flattenFirewallAddressFssoGroup(v *[]models.FirewallAddressFssoGroup, sort bool) interface{} {
+func flattenFirewallAddressFssoGroup(d *schema.ResourceData, v *[]models.FirewallAddressFssoGroup, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -616,11 +617,12 @@ func flattenFirewallAddressFssoGroup(v *[]models.FirewallAddressFssoGroup, sort 
 	return flat
 }
 
-func flattenFirewallAddressList(v *[]models.FirewallAddressList, sort bool) interface{} {
+func flattenFirewallAddressList(d *schema.ResourceData, v *[]models.FirewallAddressList, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Ip; tmp != nil {
 				v["ip"] = *tmp
@@ -637,11 +639,12 @@ func flattenFirewallAddressList(v *[]models.FirewallAddressList, sort bool) inte
 	return flat
 }
 
-func flattenFirewallAddressMacaddr(v *[]models.FirewallAddressMacaddr, sort bool) interface{} {
+func flattenFirewallAddressMacaddr(d *schema.ResourceData, v *[]models.FirewallAddressMacaddr, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Macaddr; tmp != nil {
 				v["macaddr"] = *tmp
@@ -658,11 +661,12 @@ func flattenFirewallAddressMacaddr(v *[]models.FirewallAddressMacaddr, sort bool
 	return flat
 }
 
-func flattenFirewallAddressTagging(v *[]models.FirewallAddressTagging, sort bool) interface{} {
+func flattenFirewallAddressTagging(d *schema.ResourceData, v *[]models.FirewallAddressTagging, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Category; tmp != nil {
 				v["category"] = *tmp
@@ -673,7 +677,7 @@ func flattenFirewallAddressTagging(v *[]models.FirewallAddressTagging, sort bool
 			}
 
 			if tmp := cfg.Tags; tmp != nil {
-				v["tags"] = flattenFirewallAddressTaggingTags(tmp, sort)
+				v["tags"] = flattenFirewallAddressTaggingTags(d, tmp, prefix+"tags", sort)
 			}
 
 			flat = append(flat, v)
@@ -687,11 +691,12 @@ func flattenFirewallAddressTagging(v *[]models.FirewallAddressTagging, sort bool
 	return flat
 }
 
-func flattenFirewallAddressTaggingTags(v *[]models.FirewallAddressTaggingTags, sort bool) interface{} {
+func flattenFirewallAddressTaggingTags(d *schema.ResourceData, v *[]models.FirewallAddressTaggingTags, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -816,7 +821,7 @@ func refreshObjectFirewallAddress(d *schema.ResourceData, o *models.FirewallAddr
 	}
 
 	if o.FssoGroup != nil {
-		if err = d.Set("fsso_group", flattenFirewallAddressFssoGroup(o.FssoGroup, sort)); err != nil {
+		if err = d.Set("fsso_group", flattenFirewallAddressFssoGroup(d, o.FssoGroup, "fsso_group", sort)); err != nil {
 			return diag.Errorf("error reading fsso_group: %v", err)
 		}
 	}
@@ -830,13 +835,13 @@ func refreshObjectFirewallAddress(d *schema.ResourceData, o *models.FirewallAddr
 	}
 
 	if o.List != nil {
-		if err = d.Set("list", flattenFirewallAddressList(o.List, sort)); err != nil {
+		if err = d.Set("list", flattenFirewallAddressList(d, o.List, "list", sort)); err != nil {
 			return diag.Errorf("error reading list: %v", err)
 		}
 	}
 
 	if o.Macaddr != nil {
-		if err = d.Set("macaddr", flattenFirewallAddressMacaddr(o.Macaddr, sort)); err != nil {
+		if err = d.Set("macaddr", flattenFirewallAddressMacaddr(d, o.Macaddr, "macaddr", sort)); err != nil {
 			return diag.Errorf("error reading macaddr: %v", err)
 		}
 	}
@@ -983,7 +988,7 @@ func refreshObjectFirewallAddress(d *schema.ResourceData, o *models.FirewallAddr
 	}
 
 	if o.Tagging != nil {
-		if err = d.Set("tagging", flattenFirewallAddressTagging(o.Tagging, sort)); err != nil {
+		if err = d.Set("tagging", flattenFirewallAddressTagging(d, o.Tagging, "tagging", sort)); err != nil {
 			return diag.Errorf("error reading tagging: %v", err)
 		}
 	}

@@ -291,11 +291,12 @@ func resourceSystemZoneRead(ctx context.Context, d *schema.ResourceData, meta in
 	return nil
 }
 
-func flattenSystemZoneInterface(v *[]models.SystemZoneInterface, sort bool) interface{} {
+func flattenSystemZoneInterface(d *schema.ResourceData, v *[]models.SystemZoneInterface, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.InterfaceName; tmp != nil {
 				v["interface_name"] = *tmp
@@ -312,11 +313,12 @@ func flattenSystemZoneInterface(v *[]models.SystemZoneInterface, sort bool) inte
 	return flat
 }
 
-func flattenSystemZoneTagging(v *[]models.SystemZoneTagging, sort bool) interface{} {
+func flattenSystemZoneTagging(d *schema.ResourceData, v *[]models.SystemZoneTagging, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Category; tmp != nil {
 				v["category"] = *tmp
@@ -327,7 +329,7 @@ func flattenSystemZoneTagging(v *[]models.SystemZoneTagging, sort bool) interfac
 			}
 
 			if tmp := cfg.Tags; tmp != nil {
-				v["tags"] = flattenSystemZoneTaggingTags(tmp, sort)
+				v["tags"] = flattenSystemZoneTaggingTags(d, tmp, prefix+"tags", sort)
 			}
 
 			flat = append(flat, v)
@@ -341,11 +343,12 @@ func flattenSystemZoneTagging(v *[]models.SystemZoneTagging, sort bool) interfac
 	return flat
 }
 
-func flattenSystemZoneTaggingTags(v *[]models.SystemZoneTaggingTags, sort bool) interface{} {
+func flattenSystemZoneTaggingTags(d *schema.ResourceData, v *[]models.SystemZoneTaggingTags, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -374,7 +377,7 @@ func refreshObjectSystemZone(d *schema.ResourceData, o *models.SystemZone, sv st
 	}
 
 	if o.Interface != nil {
-		if err = d.Set("interface", flattenSystemZoneInterface(o.Interface, sort)); err != nil {
+		if err = d.Set("interface", flattenSystemZoneInterface(d, o.Interface, "interface", sort)); err != nil {
 			return diag.Errorf("error reading interface: %v", err)
 		}
 	}
@@ -396,7 +399,7 @@ func refreshObjectSystemZone(d *schema.ResourceData, o *models.SystemZone, sv st
 	}
 
 	if o.Tagging != nil {
-		if err = d.Set("tagging", flattenSystemZoneTagging(o.Tagging, sort)); err != nil {
+		if err = d.Set("tagging", flattenSystemZoneTagging(d, o.Tagging, "tagging", sort)); err != nil {
 			return diag.Errorf("error reading tagging: %v", err)
 		}
 	}

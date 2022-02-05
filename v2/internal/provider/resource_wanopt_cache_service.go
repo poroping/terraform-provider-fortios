@@ -328,11 +328,12 @@ func resourceWanoptCacheServiceRead(ctx context.Context, d *schema.ResourceData,
 	return nil
 }
 
-func flattenWanoptCacheServiceDstPeer(v *[]models.WanoptCacheServiceDstPeer, sort bool) interface{} {
+func flattenWanoptCacheServiceDstPeer(d *schema.ResourceData, v *[]models.WanoptCacheServiceDstPeer, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.AuthType; tmp != nil {
 				v["auth_type"] = *tmp
@@ -365,11 +366,12 @@ func flattenWanoptCacheServiceDstPeer(v *[]models.WanoptCacheServiceDstPeer, sor
 	return flat
 }
 
-func flattenWanoptCacheServiceSrcPeer(v *[]models.WanoptCacheServiceSrcPeer, sort bool) interface{} {
+func flattenWanoptCacheServiceSrcPeer(d *schema.ResourceData, v *[]models.WanoptCacheServiceSrcPeer, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.AuthType; tmp != nil {
 				v["auth_type"] = *tmp
@@ -430,7 +432,7 @@ func refreshObjectWanoptCacheService(d *schema.ResourceData, o *models.WanoptCac
 	}
 
 	if o.DstPeer != nil {
-		if err = d.Set("dst_peer", flattenWanoptCacheServiceDstPeer(o.DstPeer, sort)); err != nil {
+		if err = d.Set("dst_peer", flattenWanoptCacheServiceDstPeer(d, o.DstPeer, "dst_peer", sort)); err != nil {
 			return diag.Errorf("error reading dst_peer: %v", err)
 		}
 	}
@@ -444,7 +446,7 @@ func refreshObjectWanoptCacheService(d *schema.ResourceData, o *models.WanoptCac
 	}
 
 	if o.SrcPeer != nil {
-		if err = d.Set("src_peer", flattenWanoptCacheServiceSrcPeer(o.SrcPeer, sort)); err != nil {
+		if err = d.Set("src_peer", flattenWanoptCacheServiceSrcPeer(d, o.SrcPeer, "src_peer", sort)); err != nil {
 			return diag.Errorf("error reading src_peer: %v", err)
 		}
 	}

@@ -427,11 +427,12 @@ func resourceFirewallPolicy64Read(ctx context.Context, d *schema.ResourceData, m
 	return nil
 }
 
-func flattenFirewallPolicy64Dstaddr(v *[]models.FirewallPolicy64Dstaddr, sort bool) interface{} {
+func flattenFirewallPolicy64Dstaddr(d *schema.ResourceData, v *[]models.FirewallPolicy64Dstaddr, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -448,11 +449,12 @@ func flattenFirewallPolicy64Dstaddr(v *[]models.FirewallPolicy64Dstaddr, sort bo
 	return flat
 }
 
-func flattenFirewallPolicy64Poolname(v *[]models.FirewallPolicy64Poolname, sort bool) interface{} {
+func flattenFirewallPolicy64Poolname(d *schema.ResourceData, v *[]models.FirewallPolicy64Poolname, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -469,11 +471,12 @@ func flattenFirewallPolicy64Poolname(v *[]models.FirewallPolicy64Poolname, sort 
 	return flat
 }
 
-func flattenFirewallPolicy64Service(v *[]models.FirewallPolicy64Service, sort bool) interface{} {
+func flattenFirewallPolicy64Service(d *schema.ResourceData, v *[]models.FirewallPolicy64Service, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -490,11 +493,12 @@ func flattenFirewallPolicy64Service(v *[]models.FirewallPolicy64Service, sort bo
 	return flat
 }
 
-func flattenFirewallPolicy64Srcaddr(v *[]models.FirewallPolicy64Srcaddr, sort bool) interface{} {
+func flattenFirewallPolicy64Srcaddr(d *schema.ResourceData, v *[]models.FirewallPolicy64Srcaddr, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -531,7 +535,7 @@ func refreshObjectFirewallPolicy64(d *schema.ResourceData, o *models.FirewallPol
 	}
 
 	if o.Dstaddr != nil {
-		if err = d.Set("dstaddr", flattenFirewallPolicy64Dstaddr(o.Dstaddr, sort)); err != nil {
+		if err = d.Set("dstaddr", flattenFirewallPolicy64Dstaddr(d, o.Dstaddr, "dstaddr", sort)); err != nil {
 			return diag.Errorf("error reading dstaddr: %v", err)
 		}
 	}
@@ -609,7 +613,7 @@ func refreshObjectFirewallPolicy64(d *schema.ResourceData, o *models.FirewallPol
 	}
 
 	if o.Poolname != nil {
-		if err = d.Set("poolname", flattenFirewallPolicy64Poolname(o.Poolname, sort)); err != nil {
+		if err = d.Set("poolname", flattenFirewallPolicy64Poolname(d, o.Poolname, "poolname", sort)); err != nil {
 			return diag.Errorf("error reading poolname: %v", err)
 		}
 	}
@@ -623,13 +627,13 @@ func refreshObjectFirewallPolicy64(d *schema.ResourceData, o *models.FirewallPol
 	}
 
 	if o.Service != nil {
-		if err = d.Set("service", flattenFirewallPolicy64Service(o.Service, sort)); err != nil {
+		if err = d.Set("service", flattenFirewallPolicy64Service(d, o.Service, "service", sort)); err != nil {
 			return diag.Errorf("error reading service: %v", err)
 		}
 	}
 
 	if o.Srcaddr != nil {
-		if err = d.Set("srcaddr", flattenFirewallPolicy64Srcaddr(o.Srcaddr, sort)); err != nil {
+		if err = d.Set("srcaddr", flattenFirewallPolicy64Srcaddr(d, o.Srcaddr, "srcaddr", sort)); err != nil {
 			return diag.Errorf("error reading srcaddr: %v", err)
 		}
 	}

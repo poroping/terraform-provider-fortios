@@ -426,11 +426,12 @@ func resourceSystemClusterSyncRead(ctx context.Context, d *schema.ResourceData, 
 	return nil
 }
 
-func flattenSystemClusterSyncDownIntfsBeforeSessSync(v *[]models.SystemClusterSyncDownIntfsBeforeSessSync, sort bool) interface{} {
+func flattenSystemClusterSyncDownIntfsBeforeSessSync(d *schema.ResourceData, v *[]models.SystemClusterSyncDownIntfsBeforeSessSync, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -447,17 +448,19 @@ func flattenSystemClusterSyncDownIntfsBeforeSessSync(v *[]models.SystemClusterSy
 	return flat
 }
 
-func flattenSystemClusterSyncSessionSyncFilter(v *[]models.SystemClusterSyncSessionSyncFilter, sort bool) interface{} {
+func flattenSystemClusterSyncSessionSyncFilter(d *schema.ResourceData, v *[]models.SystemClusterSyncSessionSyncFilter, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.CustomService; tmp != nil {
-				v["custom_service"] = flattenSystemClusterSyncSessionSyncFilterCustomService(tmp, sort)
+				v["custom_service"] = flattenSystemClusterSyncSessionSyncFilterCustomService(d, tmp, prefix+"custom_service", sort)
 			}
 
 			if tmp := cfg.Dstaddr; tmp != nil {
+				tmp = utils.Ipv4Read(d, fmt.Sprintf("%s.%d.dstaddr", prefix, i), *tmp)
 				v["dstaddr"] = *tmp
 			}
 
@@ -470,6 +473,7 @@ func flattenSystemClusterSyncSessionSyncFilter(v *[]models.SystemClusterSyncSess
 			}
 
 			if tmp := cfg.Srcaddr; tmp != nil {
+				tmp = utils.Ipv4Read(d, fmt.Sprintf("%s.%d.srcaddr", prefix, i), *tmp)
 				v["srcaddr"] = *tmp
 			}
 
@@ -488,11 +492,12 @@ func flattenSystemClusterSyncSessionSyncFilter(v *[]models.SystemClusterSyncSess
 	return flat
 }
 
-func flattenSystemClusterSyncSessionSyncFilterCustomService(v *[]models.SystemClusterSyncSessionSyncFilterCustomService, sort bool) interface{} {
+func flattenSystemClusterSyncSessionSyncFilterCustomService(d *schema.ResourceData, v *[]models.SystemClusterSyncSessionSyncFilterCustomService, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.DstPortRange; tmp != nil {
 				v["dst_port_range"] = *tmp
@@ -517,11 +522,12 @@ func flattenSystemClusterSyncSessionSyncFilterCustomService(v *[]models.SystemCl
 	return flat
 }
 
-func flattenSystemClusterSyncSyncvd(v *[]models.SystemClusterSyncSyncvd, sort bool) interface{} {
+func flattenSystemClusterSyncSyncvd(d *schema.ResourceData, v *[]models.SystemClusterSyncSyncvd, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -542,7 +548,7 @@ func refreshObjectSystemClusterSync(d *schema.ResourceData, o *models.SystemClus
 	var err error
 
 	if o.DownIntfsBeforeSessSync != nil {
-		if err = d.Set("down_intfs_before_sess_sync", flattenSystemClusterSyncDownIntfsBeforeSessSync(o.DownIntfsBeforeSessSync, sort)); err != nil {
+		if err = d.Set("down_intfs_before_sess_sync", flattenSystemClusterSyncDownIntfsBeforeSessSync(d, o.DownIntfsBeforeSessSync, "down_intfs_before_sess_sync", sort)); err != nil {
 			return diag.Errorf("error reading down_intfs_before_sess_sync: %v", err)
 		}
 	}
@@ -628,7 +634,7 @@ func refreshObjectSystemClusterSync(d *schema.ResourceData, o *models.SystemClus
 	}
 
 	if o.SessionSyncFilter != nil {
-		if err = d.Set("session_sync_filter", flattenSystemClusterSyncSessionSyncFilter(o.SessionSyncFilter, sort)); err != nil {
+		if err = d.Set("session_sync_filter", flattenSystemClusterSyncSessionSyncFilter(d, o.SessionSyncFilter, "session_sync_filter", sort)); err != nil {
 			return diag.Errorf("error reading session_sync_filter: %v", err)
 		}
 	}
@@ -650,7 +656,7 @@ func refreshObjectSystemClusterSync(d *schema.ResourceData, o *models.SystemClus
 	}
 
 	if o.Syncvd != nil {
-		if err = d.Set("syncvd", flattenSystemClusterSyncSyncvd(o.Syncvd, sort)); err != nil {
+		if err = d.Set("syncvd", flattenSystemClusterSyncSyncvd(d, o.Syncvd, "syncvd", sort)); err != nil {
 			return diag.Errorf("error reading syncvd: %v", err)
 		}
 	}

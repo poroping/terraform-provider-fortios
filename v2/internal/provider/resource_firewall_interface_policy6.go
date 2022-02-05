@@ -403,11 +403,12 @@ func resourceFirewallInterfacePolicy6Read(ctx context.Context, d *schema.Resourc
 	return nil
 }
 
-func flattenFirewallInterfacePolicy6Dstaddr6(v *[]models.FirewallInterfacePolicy6Dstaddr6, sort bool) interface{} {
+func flattenFirewallInterfacePolicy6Dstaddr6(d *schema.ResourceData, v *[]models.FirewallInterfacePolicy6Dstaddr6, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -424,11 +425,12 @@ func flattenFirewallInterfacePolicy6Dstaddr6(v *[]models.FirewallInterfacePolicy
 	return flat
 }
 
-func flattenFirewallInterfacePolicy6Service6(v *[]models.FirewallInterfacePolicy6Service6, sort bool) interface{} {
+func flattenFirewallInterfacePolicy6Service6(d *schema.ResourceData, v *[]models.FirewallInterfacePolicy6Service6, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -445,11 +447,12 @@ func flattenFirewallInterfacePolicy6Service6(v *[]models.FirewallInterfacePolicy
 	return flat
 }
 
-func flattenFirewallInterfacePolicy6Srcaddr6(v *[]models.FirewallInterfacePolicy6Srcaddr6, sort bool) interface{} {
+func flattenFirewallInterfacePolicy6Srcaddr6(d *schema.ResourceData, v *[]models.FirewallInterfacePolicy6Srcaddr6, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -534,7 +537,7 @@ func refreshObjectFirewallInterfacePolicy6(d *schema.ResourceData, o *models.Fir
 	}
 
 	if o.Dstaddr6 != nil {
-		if err = d.Set("dstaddr6", flattenFirewallInterfacePolicy6Dstaddr6(o.Dstaddr6, sort)); err != nil {
+		if err = d.Set("dstaddr6", flattenFirewallInterfacePolicy6Dstaddr6(d, o.Dstaddr6, "dstaddr6", sort)); err != nil {
 			return diag.Errorf("error reading dstaddr6: %v", err)
 		}
 	}
@@ -596,13 +599,13 @@ func refreshObjectFirewallInterfacePolicy6(d *schema.ResourceData, o *models.Fir
 	}
 
 	if o.Service6 != nil {
-		if err = d.Set("service6", flattenFirewallInterfacePolicy6Service6(o.Service6, sort)); err != nil {
+		if err = d.Set("service6", flattenFirewallInterfacePolicy6Service6(d, o.Service6, "service6", sort)); err != nil {
 			return diag.Errorf("error reading service6: %v", err)
 		}
 	}
 
 	if o.Srcaddr6 != nil {
-		if err = d.Set("srcaddr6", flattenFirewallInterfacePolicy6Srcaddr6(o.Srcaddr6, sort)); err != nil {
+		if err = d.Set("srcaddr6", flattenFirewallInterfacePolicy6Srcaddr6(d, o.Srcaddr6, "srcaddr6", sort)); err != nil {
 			return diag.Errorf("error reading srcaddr6: %v", err)
 		}
 	}

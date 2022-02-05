@@ -970,11 +970,12 @@ func resourceSystemReplacemsgGroupRead(ctx context.Context, d *schema.ResourceDa
 	return nil
 }
 
-func flattenSystemReplacemsgGroupAdmin(v *[]models.SystemReplacemsgGroupAdmin, sort bool) interface{} {
+func flattenSystemReplacemsgGroupAdmin(d *schema.ResourceData, v *[]models.SystemReplacemsgGroupAdmin, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Buffer; tmp != nil {
 				v["buffer"] = *tmp
@@ -1003,11 +1004,12 @@ func flattenSystemReplacemsgGroupAdmin(v *[]models.SystemReplacemsgGroupAdmin, s
 	return flat
 }
 
-func flattenSystemReplacemsgGroupAlertmail(v *[]models.SystemReplacemsgGroupAlertmail, sort bool) interface{} {
+func flattenSystemReplacemsgGroupAlertmail(d *schema.ResourceData, v *[]models.SystemReplacemsgGroupAlertmail, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Buffer; tmp != nil {
 				v["buffer"] = *tmp
@@ -1036,11 +1038,12 @@ func flattenSystemReplacemsgGroupAlertmail(v *[]models.SystemReplacemsgGroupAler
 	return flat
 }
 
-func flattenSystemReplacemsgGroupAuth(v *[]models.SystemReplacemsgGroupAuth, sort bool) interface{} {
+func flattenSystemReplacemsgGroupAuth(d *schema.ResourceData, v *[]models.SystemReplacemsgGroupAuth, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Buffer; tmp != nil {
 				v["buffer"] = *tmp
@@ -1069,11 +1072,12 @@ func flattenSystemReplacemsgGroupAuth(v *[]models.SystemReplacemsgGroupAuth, sor
 	return flat
 }
 
-func flattenSystemReplacemsgGroupAutomation(v *[]models.SystemReplacemsgGroupAutomation, sort bool) interface{} {
+func flattenSystemReplacemsgGroupAutomation(d *schema.ResourceData, v *[]models.SystemReplacemsgGroupAutomation, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Buffer; tmp != nil {
 				v["buffer"] = *tmp
@@ -1102,11 +1106,12 @@ func flattenSystemReplacemsgGroupAutomation(v *[]models.SystemReplacemsgGroupAut
 	return flat
 }
 
-func flattenSystemReplacemsgGroupCustomMessage(v *[]models.SystemReplacemsgGroupCustomMessage, sort bool) interface{} {
+func flattenSystemReplacemsgGroupCustomMessage(d *schema.ResourceData, v *[]models.SystemReplacemsgGroupCustomMessage, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Buffer; tmp != nil {
 				v["buffer"] = *tmp
@@ -1135,11 +1140,12 @@ func flattenSystemReplacemsgGroupCustomMessage(v *[]models.SystemReplacemsgGroup
 	return flat
 }
 
-func flattenSystemReplacemsgGroupDeviceDetectionPortal(v *[]models.SystemReplacemsgGroupDeviceDetectionPortal, sort bool) interface{} {
+func flattenSystemReplacemsgGroupDeviceDetectionPortal(d *schema.ResourceData, v *[]models.SystemReplacemsgGroupDeviceDetectionPortal, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Buffer; tmp != nil {
 				v["buffer"] = *tmp
@@ -1168,11 +1174,12 @@ func flattenSystemReplacemsgGroupDeviceDetectionPortal(v *[]models.SystemReplace
 	return flat
 }
 
-func flattenSystemReplacemsgGroupFortiguardWf(v *[]models.SystemReplacemsgGroupFortiguardWf, sort bool) interface{} {
+func flattenSystemReplacemsgGroupFortiguardWf(d *schema.ResourceData, v *[]models.SystemReplacemsgGroupFortiguardWf, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Buffer; tmp != nil {
 				v["buffer"] = *tmp
@@ -1201,11 +1208,12 @@ func flattenSystemReplacemsgGroupFortiguardWf(v *[]models.SystemReplacemsgGroupF
 	return flat
 }
 
-func flattenSystemReplacemsgGroupFtp(v *[]models.SystemReplacemsgGroupFtp, sort bool) interface{} {
+func flattenSystemReplacemsgGroupFtp(d *schema.ResourceData, v *[]models.SystemReplacemsgGroupFtp, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Buffer; tmp != nil {
 				v["buffer"] = *tmp
@@ -1234,11 +1242,12 @@ func flattenSystemReplacemsgGroupFtp(v *[]models.SystemReplacemsgGroupFtp, sort 
 	return flat
 }
 
-func flattenSystemReplacemsgGroupHttp(v *[]models.SystemReplacemsgGroupHttp, sort bool) interface{} {
+func flattenSystemReplacemsgGroupHttp(d *schema.ResourceData, v *[]models.SystemReplacemsgGroupHttp, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Buffer; tmp != nil {
 				v["buffer"] = *tmp
@@ -1267,11 +1276,12 @@ func flattenSystemReplacemsgGroupHttp(v *[]models.SystemReplacemsgGroupHttp, sor
 	return flat
 }
 
-func flattenSystemReplacemsgGroupIcap(v *[]models.SystemReplacemsgGroupIcap, sort bool) interface{} {
+func flattenSystemReplacemsgGroupIcap(d *schema.ResourceData, v *[]models.SystemReplacemsgGroupIcap, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Buffer; tmp != nil {
 				v["buffer"] = *tmp
@@ -1300,11 +1310,12 @@ func flattenSystemReplacemsgGroupIcap(v *[]models.SystemReplacemsgGroupIcap, sor
 	return flat
 }
 
-func flattenSystemReplacemsgGroupMail(v *[]models.SystemReplacemsgGroupMail, sort bool) interface{} {
+func flattenSystemReplacemsgGroupMail(d *schema.ResourceData, v *[]models.SystemReplacemsgGroupMail, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Buffer; tmp != nil {
 				v["buffer"] = *tmp
@@ -1333,11 +1344,12 @@ func flattenSystemReplacemsgGroupMail(v *[]models.SystemReplacemsgGroupMail, sor
 	return flat
 }
 
-func flattenSystemReplacemsgGroupNacQuar(v *[]models.SystemReplacemsgGroupNacQuar, sort bool) interface{} {
+func flattenSystemReplacemsgGroupNacQuar(d *schema.ResourceData, v *[]models.SystemReplacemsgGroupNacQuar, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Buffer; tmp != nil {
 				v["buffer"] = *tmp
@@ -1366,11 +1378,12 @@ func flattenSystemReplacemsgGroupNacQuar(v *[]models.SystemReplacemsgGroupNacQua
 	return flat
 }
 
-func flattenSystemReplacemsgGroupNntp(v *[]models.SystemReplacemsgGroupNntp, sort bool) interface{} {
+func flattenSystemReplacemsgGroupNntp(d *schema.ResourceData, v *[]models.SystemReplacemsgGroupNntp, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Buffer; tmp != nil {
 				v["buffer"] = *tmp
@@ -1399,11 +1412,12 @@ func flattenSystemReplacemsgGroupNntp(v *[]models.SystemReplacemsgGroupNntp, sor
 	return flat
 }
 
-func flattenSystemReplacemsgGroupSpam(v *[]models.SystemReplacemsgGroupSpam, sort bool) interface{} {
+func flattenSystemReplacemsgGroupSpam(d *schema.ResourceData, v *[]models.SystemReplacemsgGroupSpam, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Buffer; tmp != nil {
 				v["buffer"] = *tmp
@@ -1432,11 +1446,12 @@ func flattenSystemReplacemsgGroupSpam(v *[]models.SystemReplacemsgGroupSpam, sor
 	return flat
 }
 
-func flattenSystemReplacemsgGroupSslvpn(v *[]models.SystemReplacemsgGroupSslvpn, sort bool) interface{} {
+func flattenSystemReplacemsgGroupSslvpn(d *schema.ResourceData, v *[]models.SystemReplacemsgGroupSslvpn, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Buffer; tmp != nil {
 				v["buffer"] = *tmp
@@ -1465,11 +1480,12 @@ func flattenSystemReplacemsgGroupSslvpn(v *[]models.SystemReplacemsgGroupSslvpn,
 	return flat
 }
 
-func flattenSystemReplacemsgGroupTrafficQuota(v *[]models.SystemReplacemsgGroupTrafficQuota, sort bool) interface{} {
+func flattenSystemReplacemsgGroupTrafficQuota(d *schema.ResourceData, v *[]models.SystemReplacemsgGroupTrafficQuota, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Buffer; tmp != nil {
 				v["buffer"] = *tmp
@@ -1498,11 +1514,12 @@ func flattenSystemReplacemsgGroupTrafficQuota(v *[]models.SystemReplacemsgGroupT
 	return flat
 }
 
-func flattenSystemReplacemsgGroupUtm(v *[]models.SystemReplacemsgGroupUtm, sort bool) interface{} {
+func flattenSystemReplacemsgGroupUtm(d *schema.ResourceData, v *[]models.SystemReplacemsgGroupUtm, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Buffer; tmp != nil {
 				v["buffer"] = *tmp
@@ -1531,11 +1548,12 @@ func flattenSystemReplacemsgGroupUtm(v *[]models.SystemReplacemsgGroupUtm, sort 
 	return flat
 }
 
-func flattenSystemReplacemsgGroupWebproxy(v *[]models.SystemReplacemsgGroupWebproxy, sort bool) interface{} {
+func flattenSystemReplacemsgGroupWebproxy(d *schema.ResourceData, v *[]models.SystemReplacemsgGroupWebproxy, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Buffer; tmp != nil {
 				v["buffer"] = *tmp
@@ -1568,25 +1586,25 @@ func refreshObjectSystemReplacemsgGroup(d *schema.ResourceData, o *models.System
 	var err error
 
 	if o.Admin != nil {
-		if err = d.Set("admin", flattenSystemReplacemsgGroupAdmin(o.Admin, sort)); err != nil {
+		if err = d.Set("admin", flattenSystemReplacemsgGroupAdmin(d, o.Admin, "admin", sort)); err != nil {
 			return diag.Errorf("error reading admin: %v", err)
 		}
 	}
 
 	if o.Alertmail != nil {
-		if err = d.Set("alertmail", flattenSystemReplacemsgGroupAlertmail(o.Alertmail, sort)); err != nil {
+		if err = d.Set("alertmail", flattenSystemReplacemsgGroupAlertmail(d, o.Alertmail, "alertmail", sort)); err != nil {
 			return diag.Errorf("error reading alertmail: %v", err)
 		}
 	}
 
 	if o.Auth != nil {
-		if err = d.Set("auth", flattenSystemReplacemsgGroupAuth(o.Auth, sort)); err != nil {
+		if err = d.Set("auth", flattenSystemReplacemsgGroupAuth(d, o.Auth, "auth", sort)); err != nil {
 			return diag.Errorf("error reading auth: %v", err)
 		}
 	}
 
 	if o.Automation != nil {
-		if err = d.Set("automation", flattenSystemReplacemsgGroupAutomation(o.Automation, sort)); err != nil {
+		if err = d.Set("automation", flattenSystemReplacemsgGroupAutomation(d, o.Automation, "automation", sort)); err != nil {
 			return diag.Errorf("error reading automation: %v", err)
 		}
 	}
@@ -1600,25 +1618,25 @@ func refreshObjectSystemReplacemsgGroup(d *schema.ResourceData, o *models.System
 	}
 
 	if o.CustomMessage != nil {
-		if err = d.Set("custom_message", flattenSystemReplacemsgGroupCustomMessage(o.CustomMessage, sort)); err != nil {
+		if err = d.Set("custom_message", flattenSystemReplacemsgGroupCustomMessage(d, o.CustomMessage, "custom_message", sort)); err != nil {
 			return diag.Errorf("error reading custom_message: %v", err)
 		}
 	}
 
 	if o.DeviceDetectionPortal != nil {
-		if err = d.Set("device_detection_portal", flattenSystemReplacemsgGroupDeviceDetectionPortal(o.DeviceDetectionPortal, sort)); err != nil {
+		if err = d.Set("device_detection_portal", flattenSystemReplacemsgGroupDeviceDetectionPortal(d, o.DeviceDetectionPortal, "device_detection_portal", sort)); err != nil {
 			return diag.Errorf("error reading device_detection_portal: %v", err)
 		}
 	}
 
 	if o.FortiguardWf != nil {
-		if err = d.Set("fortiguard_wf", flattenSystemReplacemsgGroupFortiguardWf(o.FortiguardWf, sort)); err != nil {
+		if err = d.Set("fortiguard_wf", flattenSystemReplacemsgGroupFortiguardWf(d, o.FortiguardWf, "fortiguard_wf", sort)); err != nil {
 			return diag.Errorf("error reading fortiguard_wf: %v", err)
 		}
 	}
 
 	if o.Ftp != nil {
-		if err = d.Set("ftp", flattenSystemReplacemsgGroupFtp(o.Ftp, sort)); err != nil {
+		if err = d.Set("ftp", flattenSystemReplacemsgGroupFtp(d, o.Ftp, "ftp", sort)); err != nil {
 			return diag.Errorf("error reading ftp: %v", err)
 		}
 	}
@@ -1632,25 +1650,25 @@ func refreshObjectSystemReplacemsgGroup(d *schema.ResourceData, o *models.System
 	}
 
 	if o.Http != nil {
-		if err = d.Set("http", flattenSystemReplacemsgGroupHttp(o.Http, sort)); err != nil {
+		if err = d.Set("http", flattenSystemReplacemsgGroupHttp(d, o.Http, "http", sort)); err != nil {
 			return diag.Errorf("error reading http: %v", err)
 		}
 	}
 
 	if o.Icap != nil {
-		if err = d.Set("icap", flattenSystemReplacemsgGroupIcap(o.Icap, sort)); err != nil {
+		if err = d.Set("icap", flattenSystemReplacemsgGroupIcap(d, o.Icap, "icap", sort)); err != nil {
 			return diag.Errorf("error reading icap: %v", err)
 		}
 	}
 
 	if o.Mail != nil {
-		if err = d.Set("mail", flattenSystemReplacemsgGroupMail(o.Mail, sort)); err != nil {
+		if err = d.Set("mail", flattenSystemReplacemsgGroupMail(d, o.Mail, "mail", sort)); err != nil {
 			return diag.Errorf("error reading mail: %v", err)
 		}
 	}
 
 	if o.NacQuar != nil {
-		if err = d.Set("nac_quar", flattenSystemReplacemsgGroupNacQuar(o.NacQuar, sort)); err != nil {
+		if err = d.Set("nac_quar", flattenSystemReplacemsgGroupNacQuar(d, o.NacQuar, "nac_quar", sort)); err != nil {
 			return diag.Errorf("error reading nac_quar: %v", err)
 		}
 	}
@@ -1664,37 +1682,37 @@ func refreshObjectSystemReplacemsgGroup(d *schema.ResourceData, o *models.System
 	}
 
 	if o.Nntp != nil {
-		if err = d.Set("nntp", flattenSystemReplacemsgGroupNntp(o.Nntp, sort)); err != nil {
+		if err = d.Set("nntp", flattenSystemReplacemsgGroupNntp(d, o.Nntp, "nntp", sort)); err != nil {
 			return diag.Errorf("error reading nntp: %v", err)
 		}
 	}
 
 	if o.Spam != nil {
-		if err = d.Set("spam", flattenSystemReplacemsgGroupSpam(o.Spam, sort)); err != nil {
+		if err = d.Set("spam", flattenSystemReplacemsgGroupSpam(d, o.Spam, "spam", sort)); err != nil {
 			return diag.Errorf("error reading spam: %v", err)
 		}
 	}
 
 	if o.Sslvpn != nil {
-		if err = d.Set("sslvpn", flattenSystemReplacemsgGroupSslvpn(o.Sslvpn, sort)); err != nil {
+		if err = d.Set("sslvpn", flattenSystemReplacemsgGroupSslvpn(d, o.Sslvpn, "sslvpn", sort)); err != nil {
 			return diag.Errorf("error reading sslvpn: %v", err)
 		}
 	}
 
 	if o.TrafficQuota != nil {
-		if err = d.Set("traffic_quota", flattenSystemReplacemsgGroupTrafficQuota(o.TrafficQuota, sort)); err != nil {
+		if err = d.Set("traffic_quota", flattenSystemReplacemsgGroupTrafficQuota(d, o.TrafficQuota, "traffic_quota", sort)); err != nil {
 			return diag.Errorf("error reading traffic_quota: %v", err)
 		}
 	}
 
 	if o.Utm != nil {
-		if err = d.Set("utm", flattenSystemReplacemsgGroupUtm(o.Utm, sort)); err != nil {
+		if err = d.Set("utm", flattenSystemReplacemsgGroupUtm(d, o.Utm, "utm", sort)); err != nil {
 			return diag.Errorf("error reading utm: %v", err)
 		}
 	}
 
 	if o.Webproxy != nil {
-		if err = d.Set("webproxy", flattenSystemReplacemsgGroupWebproxy(o.Webproxy, sort)); err != nil {
+		if err = d.Set("webproxy", flattenSystemReplacemsgGroupWebproxy(d, o.Webproxy, "webproxy", sort)); err != nil {
 			return diag.Errorf("error reading webproxy: %v", err)
 		}
 	}

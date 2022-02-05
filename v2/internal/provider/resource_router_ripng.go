@@ -571,11 +571,12 @@ func resourceRouterRipngRead(ctx context.Context, d *schema.ResourceData, meta i
 	return nil
 }
 
-func flattenRouterRipngAggregateAddress(v *[]models.RouterRipngAggregateAddress, sort bool) interface{} {
+func flattenRouterRipngAggregateAddress(d *schema.ResourceData, v *[]models.RouterRipngAggregateAddress, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Id; tmp != nil {
 				v["id"] = *tmp
@@ -596,11 +597,12 @@ func flattenRouterRipngAggregateAddress(v *[]models.RouterRipngAggregateAddress,
 	return flat
 }
 
-func flattenRouterRipngDistance(v *[]models.RouterRipngDistance, sort bool) interface{} {
+func flattenRouterRipngDistance(d *schema.ResourceData, v *[]models.RouterRipngDistance, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.AccessList6; tmp != nil {
 				v["access_list6"] = *tmp
@@ -629,11 +631,12 @@ func flattenRouterRipngDistance(v *[]models.RouterRipngDistance, sort bool) inte
 	return flat
 }
 
-func flattenRouterRipngDistributeList(v *[]models.RouterRipngDistributeList, sort bool) interface{} {
+func flattenRouterRipngDistributeList(d *schema.ResourceData, v *[]models.RouterRipngDistributeList, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Direction; tmp != nil {
 				v["direction"] = *tmp
@@ -666,11 +669,12 @@ func flattenRouterRipngDistributeList(v *[]models.RouterRipngDistributeList, sor
 	return flat
 }
 
-func flattenRouterRipngInterface(v *[]models.RouterRipngInterface, sort bool) interface{} {
+func flattenRouterRipngInterface(d *schema.ResourceData, v *[]models.RouterRipngInterface, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Flags; tmp != nil {
 				v["flags"] = *tmp
@@ -699,11 +703,12 @@ func flattenRouterRipngInterface(v *[]models.RouterRipngInterface, sort bool) in
 	return flat
 }
 
-func flattenRouterRipngNeighbor(v *[]models.RouterRipngNeighbor, sort bool) interface{} {
+func flattenRouterRipngNeighbor(d *schema.ResourceData, v *[]models.RouterRipngNeighbor, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Id; tmp != nil {
 				v["id"] = *tmp
@@ -728,11 +733,12 @@ func flattenRouterRipngNeighbor(v *[]models.RouterRipngNeighbor, sort bool) inte
 	return flat
 }
 
-func flattenRouterRipngNetwork(v *[]models.RouterRipngNetwork, sort bool) interface{} {
+func flattenRouterRipngNetwork(d *schema.ResourceData, v *[]models.RouterRipngNetwork, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Id; tmp != nil {
 				v["id"] = *tmp
@@ -753,11 +759,12 @@ func flattenRouterRipngNetwork(v *[]models.RouterRipngNetwork, sort bool) interf
 	return flat
 }
 
-func flattenRouterRipngOffsetList(v *[]models.RouterRipngOffsetList, sort bool) interface{} {
+func flattenRouterRipngOffsetList(d *schema.ResourceData, v *[]models.RouterRipngOffsetList, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.AccessList6; tmp != nil {
 				v["access_list6"] = *tmp
@@ -794,11 +801,12 @@ func flattenRouterRipngOffsetList(v *[]models.RouterRipngOffsetList, sort bool) 
 	return flat
 }
 
-func flattenRouterRipngPassiveInterface(v *[]models.RouterRipngPassiveInterface, sort bool) interface{} {
+func flattenRouterRipngPassiveInterface(d *schema.ResourceData, v *[]models.RouterRipngPassiveInterface, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -815,11 +823,12 @@ func flattenRouterRipngPassiveInterface(v *[]models.RouterRipngPassiveInterface,
 	return flat
 }
 
-func flattenRouterRipngRedistribute(v *[]models.RouterRipngRedistribute, sort bool) interface{} {
+func flattenRouterRipngRedistribute(d *schema.ResourceData, v *[]models.RouterRipngRedistribute, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Metric; tmp != nil {
 				v["metric"] = *tmp
@@ -852,7 +861,7 @@ func refreshObjectRouterRipng(d *schema.ResourceData, o *models.RouterRipng, sv 
 	var err error
 
 	if o.AggregateAddress != nil {
-		if err = d.Set("aggregate_address", flattenRouterRipngAggregateAddress(o.AggregateAddress, sort)); err != nil {
+		if err = d.Set("aggregate_address", flattenRouterRipngAggregateAddress(d, o.AggregateAddress, "aggregate_address", sort)); err != nil {
 			return diag.Errorf("error reading aggregate_address: %v", err)
 		}
 	}
@@ -874,13 +883,13 @@ func refreshObjectRouterRipng(d *schema.ResourceData, o *models.RouterRipng, sv 
 	}
 
 	if o.Distance != nil {
-		if err = d.Set("distance", flattenRouterRipngDistance(o.Distance, sort)); err != nil {
+		if err = d.Set("distance", flattenRouterRipngDistance(d, o.Distance, "distance", sort)); err != nil {
 			return diag.Errorf("error reading distance: %v", err)
 		}
 	}
 
 	if o.DistributeList != nil {
-		if err = d.Set("distribute_list", flattenRouterRipngDistributeList(o.DistributeList, sort)); err != nil {
+		if err = d.Set("distribute_list", flattenRouterRipngDistributeList(d, o.DistributeList, "distribute_list", sort)); err != nil {
 			return diag.Errorf("error reading distribute_list: %v", err)
 		}
 	}
@@ -894,7 +903,7 @@ func refreshObjectRouterRipng(d *schema.ResourceData, o *models.RouterRipng, sv 
 	}
 
 	if o.Interface != nil {
-		if err = d.Set("interface", flattenRouterRipngInterface(o.Interface, sort)); err != nil {
+		if err = d.Set("interface", flattenRouterRipngInterface(d, o.Interface, "interface", sort)); err != nil {
 			return diag.Errorf("error reading interface: %v", err)
 		}
 	}
@@ -908,31 +917,31 @@ func refreshObjectRouterRipng(d *schema.ResourceData, o *models.RouterRipng, sv 
 	}
 
 	if o.Neighbor != nil {
-		if err = d.Set("neighbor", flattenRouterRipngNeighbor(o.Neighbor, sort)); err != nil {
+		if err = d.Set("neighbor", flattenRouterRipngNeighbor(d, o.Neighbor, "neighbor", sort)); err != nil {
 			return diag.Errorf("error reading neighbor: %v", err)
 		}
 	}
 
 	if o.Network != nil {
-		if err = d.Set("network", flattenRouterRipngNetwork(o.Network, sort)); err != nil {
+		if err = d.Set("network", flattenRouterRipngNetwork(d, o.Network, "network", sort)); err != nil {
 			return diag.Errorf("error reading network: %v", err)
 		}
 	}
 
 	if o.OffsetList != nil {
-		if err = d.Set("offset_list", flattenRouterRipngOffsetList(o.OffsetList, sort)); err != nil {
+		if err = d.Set("offset_list", flattenRouterRipngOffsetList(d, o.OffsetList, "offset_list", sort)); err != nil {
 			return diag.Errorf("error reading offset_list: %v", err)
 		}
 	}
 
 	if o.PassiveInterface != nil {
-		if err = d.Set("passive_interface", flattenRouterRipngPassiveInterface(o.PassiveInterface, sort)); err != nil {
+		if err = d.Set("passive_interface", flattenRouterRipngPassiveInterface(d, o.PassiveInterface, "passive_interface", sort)); err != nil {
 			return diag.Errorf("error reading passive_interface: %v", err)
 		}
 	}
 
 	if o.Redistribute != nil {
-		if err = d.Set("redistribute", flattenRouterRipngRedistribute(o.Redistribute, sort)); err != nil {
+		if err = d.Set("redistribute", flattenRouterRipngRedistribute(d, o.Redistribute, "redistribute", sort)); err != nil {
 			return diag.Errorf("error reading redistribute: %v", err)
 		}
 	}

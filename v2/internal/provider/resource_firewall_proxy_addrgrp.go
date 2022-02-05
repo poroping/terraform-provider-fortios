@@ -314,11 +314,12 @@ func resourceFirewallProxyAddrgrpRead(ctx context.Context, d *schema.ResourceDat
 	return nil
 }
 
-func flattenFirewallProxyAddrgrpMember(v *[]models.FirewallProxyAddrgrpMember, sort bool) interface{} {
+func flattenFirewallProxyAddrgrpMember(d *schema.ResourceData, v *[]models.FirewallProxyAddrgrpMember, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -335,11 +336,12 @@ func flattenFirewallProxyAddrgrpMember(v *[]models.FirewallProxyAddrgrpMember, s
 	return flat
 }
 
-func flattenFirewallProxyAddrgrpTagging(v *[]models.FirewallProxyAddrgrpTagging, sort bool) interface{} {
+func flattenFirewallProxyAddrgrpTagging(d *schema.ResourceData, v *[]models.FirewallProxyAddrgrpTagging, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Category; tmp != nil {
 				v["category"] = *tmp
@@ -350,7 +352,7 @@ func flattenFirewallProxyAddrgrpTagging(v *[]models.FirewallProxyAddrgrpTagging,
 			}
 
 			if tmp := cfg.Tags; tmp != nil {
-				v["tags"] = flattenFirewallProxyAddrgrpTaggingTags(tmp, sort)
+				v["tags"] = flattenFirewallProxyAddrgrpTaggingTags(d, tmp, prefix+"tags", sort)
 			}
 
 			flat = append(flat, v)
@@ -364,11 +366,12 @@ func flattenFirewallProxyAddrgrpTagging(v *[]models.FirewallProxyAddrgrpTagging,
 	return flat
 }
 
-func flattenFirewallProxyAddrgrpTaggingTags(v *[]models.FirewallProxyAddrgrpTaggingTags, sort bool) interface{} {
+func flattenFirewallProxyAddrgrpTaggingTags(d *schema.ResourceData, v *[]models.FirewallProxyAddrgrpTaggingTags, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -405,7 +408,7 @@ func refreshObjectFirewallProxyAddrgrp(d *schema.ResourceData, o *models.Firewal
 	}
 
 	if o.Member != nil {
-		if err = d.Set("member", flattenFirewallProxyAddrgrpMember(o.Member, sort)); err != nil {
+		if err = d.Set("member", flattenFirewallProxyAddrgrpMember(d, o.Member, "member", sort)); err != nil {
 			return diag.Errorf("error reading member: %v", err)
 		}
 	}
@@ -419,7 +422,7 @@ func refreshObjectFirewallProxyAddrgrp(d *schema.ResourceData, o *models.Firewal
 	}
 
 	if o.Tagging != nil {
-		if err = d.Set("tagging", flattenFirewallProxyAddrgrpTagging(o.Tagging, sort)); err != nil {
+		if err = d.Set("tagging", flattenFirewallProxyAddrgrpTagging(d, o.Tagging, "tagging", sort)); err != nil {
 			return diag.Errorf("error reading tagging: %v", err)
 		}
 	}

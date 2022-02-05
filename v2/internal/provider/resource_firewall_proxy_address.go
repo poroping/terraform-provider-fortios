@@ -434,11 +434,12 @@ func resourceFirewallProxyAddressRead(ctx context.Context, d *schema.ResourceDat
 	return nil
 }
 
-func flattenFirewallProxyAddressCategory(v *[]models.FirewallProxyAddressCategory, sort bool) interface{} {
+func flattenFirewallProxyAddressCategory(d *schema.ResourceData, v *[]models.FirewallProxyAddressCategory, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Id; tmp != nil {
 				v["id"] = *tmp
@@ -455,11 +456,12 @@ func flattenFirewallProxyAddressCategory(v *[]models.FirewallProxyAddressCategor
 	return flat
 }
 
-func flattenFirewallProxyAddressHeaderGroup(v *[]models.FirewallProxyAddressHeaderGroup, sort bool) interface{} {
+func flattenFirewallProxyAddressHeaderGroup(d *schema.ResourceData, v *[]models.FirewallProxyAddressHeaderGroup, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.CaseSensitivity; tmp != nil {
 				v["case_sensitivity"] = *tmp
@@ -488,11 +490,12 @@ func flattenFirewallProxyAddressHeaderGroup(v *[]models.FirewallProxyAddressHead
 	return flat
 }
 
-func flattenFirewallProxyAddressTagging(v *[]models.FirewallProxyAddressTagging, sort bool) interface{} {
+func flattenFirewallProxyAddressTagging(d *schema.ResourceData, v *[]models.FirewallProxyAddressTagging, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Category; tmp != nil {
 				v["category"] = *tmp
@@ -503,7 +506,7 @@ func flattenFirewallProxyAddressTagging(v *[]models.FirewallProxyAddressTagging,
 			}
 
 			if tmp := cfg.Tags; tmp != nil {
-				v["tags"] = flattenFirewallProxyAddressTaggingTags(tmp, sort)
+				v["tags"] = flattenFirewallProxyAddressTaggingTags(d, tmp, prefix+"tags", sort)
 			}
 
 			flat = append(flat, v)
@@ -517,11 +520,12 @@ func flattenFirewallProxyAddressTagging(v *[]models.FirewallProxyAddressTagging,
 	return flat
 }
 
-func flattenFirewallProxyAddressTaggingTags(v *[]models.FirewallProxyAddressTaggingTags, sort bool) interface{} {
+func flattenFirewallProxyAddressTaggingTags(d *schema.ResourceData, v *[]models.FirewallProxyAddressTaggingTags, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -550,7 +554,7 @@ func refreshObjectFirewallProxyAddress(d *schema.ResourceData, o *models.Firewal
 	}
 
 	if o.Category != nil {
-		if err = d.Set("category", flattenFirewallProxyAddressCategory(o.Category, sort)); err != nil {
+		if err = d.Set("category", flattenFirewallProxyAddressCategory(d, o.Category, "category", sort)); err != nil {
 			return diag.Errorf("error reading category: %v", err)
 		}
 	}
@@ -580,7 +584,7 @@ func refreshObjectFirewallProxyAddress(d *schema.ResourceData, o *models.Firewal
 	}
 
 	if o.HeaderGroup != nil {
-		if err = d.Set("header_group", flattenFirewallProxyAddressHeaderGroup(o.HeaderGroup, sort)); err != nil {
+		if err = d.Set("header_group", flattenFirewallProxyAddressHeaderGroup(d, o.HeaderGroup, "header_group", sort)); err != nil {
 			return diag.Errorf("error reading header_group: %v", err)
 		}
 	}
@@ -650,7 +654,7 @@ func refreshObjectFirewallProxyAddress(d *schema.ResourceData, o *models.Firewal
 	}
 
 	if o.Tagging != nil {
-		if err = d.Set("tagging", flattenFirewallProxyAddressTagging(o.Tagging, sort)); err != nil {
+		if err = d.Set("tagging", flattenFirewallProxyAddressTagging(d, o.Tagging, "tagging", sort)); err != nil {
 			return diag.Errorf("error reading tagging: %v", err)
 		}
 	}

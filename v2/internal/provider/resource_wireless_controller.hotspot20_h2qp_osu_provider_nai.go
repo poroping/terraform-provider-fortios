@@ -241,11 +241,12 @@ func resourceWirelessControllerHotspot20H2qpOsuProviderNaiRead(ctx context.Conte
 	return nil
 }
 
-func flattenWirelessControllerHotspot20H2qpOsuProviderNaiNaiList(v *[]models.WirelessControllerHotspot20H2qpOsuProviderNaiNaiList, sort bool) interface{} {
+func flattenWirelessControllerHotspot20H2qpOsuProviderNaiNaiList(d *schema.ResourceData, v *[]models.WirelessControllerHotspot20H2qpOsuProviderNaiNaiList, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -270,7 +271,7 @@ func refreshObjectWirelessControllerHotspot20H2qpOsuProviderNai(d *schema.Resour
 	var err error
 
 	if o.NaiList != nil {
-		if err = d.Set("nai_list", flattenWirelessControllerHotspot20H2qpOsuProviderNaiNaiList(o.NaiList, sort)); err != nil {
+		if err = d.Set("nai_list", flattenWirelessControllerHotspot20H2qpOsuProviderNaiNaiList(d, o.NaiList, "nai_list", sort)); err != nil {
 			return diag.Errorf("error reading nai_list: %v", err)
 		}
 	}

@@ -241,11 +241,12 @@ func resourceSystemSsoAdminRead(ctx context.Context, d *schema.ResourceData, met
 	return nil
 }
 
-func flattenSystemSsoAdminVdom(v *[]models.SystemSsoAdminVdom, sort bool) interface{} {
+func flattenSystemSsoAdminVdom(d *schema.ResourceData, v *[]models.SystemSsoAdminVdom, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -282,7 +283,7 @@ func refreshObjectSystemSsoAdmin(d *schema.ResourceData, o *models.SystemSsoAdmi
 	}
 
 	if o.Vdom != nil {
-		if err = d.Set("vdom", flattenSystemSsoAdminVdom(o.Vdom, sort)); err != nil {
+		if err = d.Set("vdom", flattenSystemSsoAdminVdom(d, o.Vdom, "vdom", sort)); err != nil {
 			return diag.Errorf("error reading vdom: %v", err)
 		}
 	}

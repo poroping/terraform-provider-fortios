@@ -272,11 +272,12 @@ func resourceSystemAcmeRead(ctx context.Context, d *schema.ResourceData, meta in
 	return nil
 }
 
-func flattenSystemAcmeAccounts(v *[]models.SystemAcmeAccounts, sort bool) interface{} {
+func flattenSystemAcmeAccounts(d *schema.ResourceData, v *[]models.SystemAcmeAccounts, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Ca_url; tmp != nil {
 				v["ca_url"] = *tmp
@@ -313,11 +314,12 @@ func flattenSystemAcmeAccounts(v *[]models.SystemAcmeAccounts, sort bool) interf
 	return flat
 }
 
-func flattenSystemAcmeInterface(v *[]models.SystemAcmeInterface, sort bool) interface{} {
+func flattenSystemAcmeInterface(d *schema.ResourceData, v *[]models.SystemAcmeInterface, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.InterfaceName; tmp != nil {
 				v["interface_name"] = *tmp
@@ -338,13 +340,13 @@ func refreshObjectSystemAcme(d *schema.ResourceData, o *models.SystemAcme, sv st
 	var err error
 
 	if o.Accounts != nil {
-		if err = d.Set("accounts", flattenSystemAcmeAccounts(o.Accounts, sort)); err != nil {
+		if err = d.Set("accounts", flattenSystemAcmeAccounts(d, o.Accounts, "accounts", sort)); err != nil {
 			return diag.Errorf("error reading accounts: %v", err)
 		}
 	}
 
 	if o.Interface != nil {
-		if err = d.Set("interface", flattenSystemAcmeInterface(o.Interface, sort)); err != nil {
+		if err = d.Set("interface", flattenSystemAcmeInterface(d, o.Interface, "interface", sort)); err != nil {
 			return diag.Errorf("error reading interface: %v", err)
 		}
 	}

@@ -1,3 +1,8 @@
+## 3.1.3
+
+BUGFIXES:
+* Fixed IP values not being returned as CIDR in subtables.
+
 ## 3.1.2
 
 BUGFIXES:

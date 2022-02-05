@@ -1656,11 +1656,12 @@ func resourceWirelessControllerVapRead(ctx context.Context, d *schema.ResourceDa
 	return nil
 }
 
-func flattenWirelessControllerVapMacFilterList(v *[]models.WirelessControllerVapMacFilterList, sort bool) interface{} {
+func flattenWirelessControllerVapMacFilterList(d *schema.ResourceData, v *[]models.WirelessControllerVapMacFilterList, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Id; tmp != nil {
 				v["id"] = *tmp
@@ -1685,11 +1686,12 @@ func flattenWirelessControllerVapMacFilterList(v *[]models.WirelessControllerVap
 	return flat
 }
 
-func flattenWirelessControllerVapMpskKey(v *[]models.WirelessControllerVapMpskKey, sort bool) interface{} {
+func flattenWirelessControllerVapMpskKey(d *schema.ResourceData, v *[]models.WirelessControllerVapMpskKey, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Comment; tmp != nil {
 				v["comment"] = *tmp
@@ -1704,7 +1706,7 @@ func flattenWirelessControllerVapMpskKey(v *[]models.WirelessControllerVapMpskKe
 			}
 
 			if tmp := cfg.MpskSchedules; tmp != nil {
-				v["mpsk_schedules"] = flattenWirelessControllerVapMpskKeyMpskSchedules(tmp, sort)
+				v["mpsk_schedules"] = flattenWirelessControllerVapMpskKeyMpskSchedules(d, tmp, prefix+"mpsk_schedules", sort)
 			}
 
 			if tmp := cfg.Passphrase; tmp != nil {
@@ -1722,11 +1724,12 @@ func flattenWirelessControllerVapMpskKey(v *[]models.WirelessControllerVapMpskKe
 	return flat
 }
 
-func flattenWirelessControllerVapMpskKeyMpskSchedules(v *[]models.WirelessControllerVapMpskKeyMpskSchedules, sort bool) interface{} {
+func flattenWirelessControllerVapMpskKeyMpskSchedules(d *schema.ResourceData, v *[]models.WirelessControllerVapMpskKeyMpskSchedules, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -1743,11 +1746,12 @@ func flattenWirelessControllerVapMpskKeyMpskSchedules(v *[]models.WirelessContro
 	return flat
 }
 
-func flattenWirelessControllerVapPortalMessageOverrides(v *[]models.WirelessControllerVapPortalMessageOverrides, sort bool) interface{} {
+func flattenWirelessControllerVapPortalMessageOverrides(d *schema.ResourceData, v *[]models.WirelessControllerVapPortalMessageOverrides, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.AuthDisclaimerPage; tmp != nil {
 				v["auth_disclaimer_page"] = *tmp
@@ -1772,11 +1776,12 @@ func flattenWirelessControllerVapPortalMessageOverrides(v *[]models.WirelessCont
 	return flat
 }
 
-func flattenWirelessControllerVapRadiusMacAuthUsergroups(v *[]models.WirelessControllerVapRadiusMacAuthUsergroups, sort bool) interface{} {
+func flattenWirelessControllerVapRadiusMacAuthUsergroups(d *schema.ResourceData, v *[]models.WirelessControllerVapRadiusMacAuthUsergroups, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -1793,11 +1798,12 @@ func flattenWirelessControllerVapRadiusMacAuthUsergroups(v *[]models.WirelessCon
 	return flat
 }
 
-func flattenWirelessControllerVapSchedule(v *[]models.WirelessControllerVapSchedule, sort bool) interface{} {
+func flattenWirelessControllerVapSchedule(d *schema.ResourceData, v *[]models.WirelessControllerVapSchedule, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -1814,11 +1820,12 @@ func flattenWirelessControllerVapSchedule(v *[]models.WirelessControllerVapSched
 	return flat
 }
 
-func flattenWirelessControllerVapSelectedUsergroups(v *[]models.WirelessControllerVapSelectedUsergroups, sort bool) interface{} {
+func flattenWirelessControllerVapSelectedUsergroups(d *schema.ResourceData, v *[]models.WirelessControllerVapSelectedUsergroups, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -1835,11 +1842,12 @@ func flattenWirelessControllerVapSelectedUsergroups(v *[]models.WirelessControll
 	return flat
 }
 
-func flattenWirelessControllerVapUsergroup(v *[]models.WirelessControllerVapUsergroup, sort bool) interface{} {
+func flattenWirelessControllerVapUsergroup(d *schema.ResourceData, v *[]models.WirelessControllerVapUsergroup, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -1856,11 +1864,12 @@ func flattenWirelessControllerVapUsergroup(v *[]models.WirelessControllerVapUser
 	return flat
 }
 
-func flattenWirelessControllerVapVlanName(v *[]models.WirelessControllerVapVlanName, sort bool) interface{} {
+func flattenWirelessControllerVapVlanName(d *schema.ResourceData, v *[]models.WirelessControllerVapVlanName, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -1881,11 +1890,12 @@ func flattenWirelessControllerVapVlanName(v *[]models.WirelessControllerVapVlanN
 	return flat
 }
 
-func flattenWirelessControllerVapVlanPool(v *[]models.WirelessControllerVapVlanPool, sort bool) interface{} {
+func flattenWirelessControllerVapVlanPool(d *schema.ResourceData, v *[]models.WirelessControllerVapVlanPool, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Id; tmp != nil {
 				v["id"] = *tmp
@@ -2478,7 +2488,7 @@ func refreshObjectWirelessControllerVap(d *schema.ResourceData, o *models.Wirele
 	}
 
 	if o.MacFilterList != nil {
-		if err = d.Set("mac_filter_list", flattenWirelessControllerVapMacFilterList(o.MacFilterList, sort)); err != nil {
+		if err = d.Set("mac_filter_list", flattenWirelessControllerVapMacFilterList(d, o.MacFilterList, "mac_filter_list", sort)); err != nil {
 			return diag.Errorf("error reading mac_filter_list: %v", err)
 		}
 	}
@@ -2572,7 +2582,7 @@ func refreshObjectWirelessControllerVap(d *schema.ResourceData, o *models.Wirele
 	}
 
 	if o.MpskKey != nil {
-		if err = d.Set("mpsk_key", flattenWirelessControllerVapMpskKey(o.MpskKey, sort)); err != nil {
+		if err = d.Set("mpsk_key", flattenWirelessControllerVapMpskKey(d, o.MpskKey, "mpsk_key", sort)); err != nil {
 			return diag.Errorf("error reading mpsk_key: %v", err)
 		}
 	}
@@ -2747,7 +2757,7 @@ func refreshObjectWirelessControllerVap(d *schema.ResourceData, o *models.Wirele
 	}
 
 	if o.PortalMessageOverrides != nil {
-		if err = d.Set("portal_message_overrides", flattenWirelessControllerVapPortalMessageOverrides(o.PortalMessageOverrides, sort)); err != nil {
+		if err = d.Set("portal_message_overrides", flattenWirelessControllerVapPortalMessageOverrides(d, o.PortalMessageOverrides, "portal_message_overrides", sort)); err != nil {
 			return diag.Errorf("error reading portal_message_overrides: %v", err)
 		}
 	}
@@ -2857,7 +2867,7 @@ func refreshObjectWirelessControllerVap(d *schema.ResourceData, o *models.Wirele
 	}
 
 	if o.RadiusMacAuthUsergroups != nil {
-		if err = d.Set("radius_mac_auth_usergroups", flattenWirelessControllerVapRadiusMacAuthUsergroups(o.RadiusMacAuthUsergroups, sort)); err != nil {
+		if err = d.Set("radius_mac_auth_usergroups", flattenWirelessControllerVapRadiusMacAuthUsergroups(d, o.RadiusMacAuthUsergroups, "radius_mac_auth_usergroups", sort)); err != nil {
 			return diag.Errorf("error reading radius_mac_auth_usergroups: %v", err)
 		}
 	}
@@ -2976,7 +2986,7 @@ func refreshObjectWirelessControllerVap(d *schema.ResourceData, o *models.Wirele
 	}
 
 	if o.Schedule != nil {
-		if err = d.Set("schedule", flattenWirelessControllerVapSchedule(o.Schedule, sort)); err != nil {
+		if err = d.Set("schedule", flattenWirelessControllerVapSchedule(d, o.Schedule, "schedule", sort)); err != nil {
 			return diag.Errorf("error reading schedule: %v", err)
 		}
 	}
@@ -3014,7 +3024,7 @@ func refreshObjectWirelessControllerVap(d *schema.ResourceData, o *models.Wirele
 	}
 
 	if o.SelectedUsergroups != nil {
-		if err = d.Set("selected_usergroups", flattenWirelessControllerVapSelectedUsergroups(o.SelectedUsergroups, sort)); err != nil {
+		if err = d.Set("selected_usergroups", flattenWirelessControllerVapSelectedUsergroups(d, o.SelectedUsergroups, "selected_usergroups", sort)); err != nil {
 			return diag.Errorf("error reading selected_usergroups: %v", err)
 		}
 	}
@@ -3092,7 +3102,7 @@ func refreshObjectWirelessControllerVap(d *schema.ResourceData, o *models.Wirele
 	}
 
 	if o.Usergroup != nil {
-		if err = d.Set("usergroup", flattenWirelessControllerVapUsergroup(o.Usergroup, sort)); err != nil {
+		if err = d.Set("usergroup", flattenWirelessControllerVapUsergroup(d, o.Usergroup, "usergroup", sort)); err != nil {
 			return diag.Errorf("error reading usergroup: %v", err)
 		}
 	}
@@ -3130,13 +3140,13 @@ func refreshObjectWirelessControllerVap(d *schema.ResourceData, o *models.Wirele
 	}
 
 	if o.VlanName != nil {
-		if err = d.Set("vlan_name", flattenWirelessControllerVapVlanName(o.VlanName, sort)); err != nil {
+		if err = d.Set("vlan_name", flattenWirelessControllerVapVlanName(d, o.VlanName, "vlan_name", sort)); err != nil {
 			return diag.Errorf("error reading vlan_name: %v", err)
 		}
 	}
 
 	if o.VlanPool != nil {
-		if err = d.Set("vlan_pool", flattenWirelessControllerVapVlanPool(o.VlanPool, sort)); err != nil {
+		if err = d.Set("vlan_pool", flattenWirelessControllerVapVlanPool(d, o.VlanPool, "vlan_pool", sort)); err != nil {
 			return diag.Errorf("error reading vlan_pool: %v", err)
 		}
 	}

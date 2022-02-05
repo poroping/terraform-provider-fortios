@@ -273,11 +273,12 @@ func resourceSystemNat64Read(ctx context.Context, d *schema.ResourceData, meta i
 	return nil
 }
 
-func flattenSystemNat64SecondaryPrefix(v *[]models.SystemNat64SecondaryPrefix, sort bool) interface{} {
+func flattenSystemNat64SecondaryPrefix(d *schema.ResourceData, v *[]models.SystemNat64SecondaryPrefix, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -334,7 +335,7 @@ func refreshObjectSystemNat64(d *schema.ResourceData, o *models.SystemNat64, sv 
 	}
 
 	if o.SecondaryPrefix != nil {
-		if err = d.Set("secondary_prefix", flattenSystemNat64SecondaryPrefix(o.SecondaryPrefix, sort)); err != nil {
+		if err = d.Set("secondary_prefix", flattenSystemNat64SecondaryPrefix(d, o.SecondaryPrefix, "secondary_prefix", sort)); err != nil {
 			return diag.Errorf("error reading secondary_prefix: %v", err)
 		}
 	}

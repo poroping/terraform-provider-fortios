@@ -334,11 +334,12 @@ func resourceLogFortianalyzer3OverrideFilterRead(ctx context.Context, d *schema.
 	return nil
 }
 
-func flattenLogFortianalyzer3OverrideFilterFreeStyle(v *[]models.LogFortianalyzer3OverrideFilterFreeStyle, sort bool) interface{} {
+func flattenLogFortianalyzer3OverrideFilterFreeStyle(d *schema.ResourceData, v *[]models.LogFortianalyzer3OverrideFilterFreeStyle, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Category; tmp != nil {
 				v["category"] = *tmp
@@ -411,7 +412,7 @@ func refreshObjectLogFortianalyzer3OverrideFilter(d *schema.ResourceData, o *mod
 	}
 
 	if o.FreeStyle != nil {
-		if err = d.Set("free_style", flattenLogFortianalyzer3OverrideFilterFreeStyle(o.FreeStyle, sort)); err != nil {
+		if err = d.Set("free_style", flattenLogFortianalyzer3OverrideFilterFreeStyle(d, o.FreeStyle, "free_style", sort)); err != nil {
 			return diag.Errorf("error reading free_style: %v", err)
 		}
 	}

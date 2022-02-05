@@ -289,11 +289,12 @@ func resourceEmailfilterMheaderRead(ctx context.Context, d *schema.ResourceData,
 	return nil
 }
 
-func flattenEmailfilterMheaderEntries(v *[]models.EmailfilterMheaderEntries, sort bool) interface{} {
+func flattenEmailfilterMheaderEntries(d *schema.ResourceData, v *[]models.EmailfilterMheaderEntries, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Action; tmp != nil {
 				v["action"] = *tmp
@@ -342,7 +343,7 @@ func refreshObjectEmailfilterMheader(d *schema.ResourceData, o *models.Emailfilt
 	}
 
 	if o.Entries != nil {
-		if err = d.Set("entries", flattenEmailfilterMheaderEntries(o.Entries, sort)); err != nil {
+		if err = d.Set("entries", flattenEmailfilterMheaderEntries(d, o.Entries, "entries", sort)); err != nil {
 			return diag.Errorf("error reading entries: %v", err)
 		}
 	}

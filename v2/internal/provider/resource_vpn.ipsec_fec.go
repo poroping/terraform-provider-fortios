@@ -285,11 +285,12 @@ func resourceVpnIpsecFecRead(ctx context.Context, d *schema.ResourceData, meta i
 	return nil
 }
 
-func flattenVpnIpsecFecMappings(v *[]models.VpnIpsecFecMappings, sort bool) interface{} {
+func flattenVpnIpsecFecMappings(d *schema.ResourceData, v *[]models.VpnIpsecFecMappings, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.BandwidthBiThreshold; tmp != nil {
 				v["bandwidth_bi_threshold"] = *tmp
@@ -338,7 +339,7 @@ func refreshObjectVpnIpsecFec(d *schema.ResourceData, o *models.VpnIpsecFec, sv 
 	var err error
 
 	if o.Mappings != nil {
-		if err = d.Set("mappings", flattenVpnIpsecFecMappings(o.Mappings, sort)); err != nil {
+		if err = d.Set("mappings", flattenVpnIpsecFecMappings(d, o.Mappings, "mappings", sort)); err != nil {
 			return diag.Errorf("error reading mappings: %v", err)
 		}
 	}

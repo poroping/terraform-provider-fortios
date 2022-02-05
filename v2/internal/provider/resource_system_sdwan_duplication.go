@@ -372,19 +372,19 @@ func refreshObjectSystemSdwanDuplication(d *schema.ResourceData, o *models.Syste
 	var err error
 
 	if o.Dstaddr != nil {
-		if err = d.Set("dstaddr", flattenSystemSdwanDuplicationDstaddr(o.Dstaddr, sort)); err != nil {
+		if err = d.Set("dstaddr", flattenSystemSdwanDuplicationDstaddr(d, o.Dstaddr, "dstaddr", sort)); err != nil {
 			return diag.Errorf("error reading dstaddr: %v", err)
 		}
 	}
 
 	if o.Dstaddr6 != nil {
-		if err = d.Set("dstaddr6", flattenSystemSdwanDuplicationDstaddr6(o.Dstaddr6, sort)); err != nil {
+		if err = d.Set("dstaddr6", flattenSystemSdwanDuplicationDstaddr6(d, o.Dstaddr6, "dstaddr6", sort)); err != nil {
 			return diag.Errorf("error reading dstaddr6: %v", err)
 		}
 	}
 
 	if o.Dstintf != nil {
-		if err = d.Set("dstintf", flattenSystemSdwanDuplicationDstintf(o.Dstintf, sort)); err != nil {
+		if err = d.Set("dstintf", flattenSystemSdwanDuplicationDstintf(d, o.Dstintf, "dstintf", sort)); err != nil {
 			return diag.Errorf("error reading dstintf: %v", err)
 		}
 	}
@@ -414,31 +414,31 @@ func refreshObjectSystemSdwanDuplication(d *schema.ResourceData, o *models.Syste
 	}
 
 	if o.Service != nil {
-		if err = d.Set("service", flattenSystemSdwanDuplicationService(o.Service, sort)); err != nil {
+		if err = d.Set("service", flattenSystemSdwanDuplicationService(d, o.Service, "service", sort)); err != nil {
 			return diag.Errorf("error reading service: %v", err)
 		}
 	}
 
 	if o.ServiceId != nil {
-		if err = d.Set("service_id", flattenSystemSdwanDuplicationServiceId(o.ServiceId, sort)); err != nil {
+		if err = d.Set("service_id", flattenSystemSdwanDuplicationServiceId(d, o.ServiceId, "service_id", sort)); err != nil {
 			return diag.Errorf("error reading service_id: %v", err)
 		}
 	}
 
 	if o.Srcaddr != nil {
-		if err = d.Set("srcaddr", flattenSystemSdwanDuplicationSrcaddr(o.Srcaddr, sort)); err != nil {
+		if err = d.Set("srcaddr", flattenSystemSdwanDuplicationSrcaddr(d, o.Srcaddr, "srcaddr", sort)); err != nil {
 			return diag.Errorf("error reading srcaddr: %v", err)
 		}
 	}
 
 	if o.Srcaddr6 != nil {
-		if err = d.Set("srcaddr6", flattenSystemSdwanDuplicationSrcaddr6(o.Srcaddr6, sort)); err != nil {
+		if err = d.Set("srcaddr6", flattenSystemSdwanDuplicationSrcaddr6(d, o.Srcaddr6, "srcaddr6", sort)); err != nil {
 			return diag.Errorf("error reading srcaddr6: %v", err)
 		}
 	}
 
 	if o.Srcintf != nil {
-		if err = d.Set("srcintf", flattenSystemSdwanDuplicationSrcintf(o.Srcintf, sort)); err != nil {
+		if err = d.Set("srcintf", flattenSystemSdwanDuplicationSrcintf(d, o.Srcintf, "srcintf", sort)); err != nil {
 			return diag.Errorf("error reading srcintf: %v", err)
 		}
 	}

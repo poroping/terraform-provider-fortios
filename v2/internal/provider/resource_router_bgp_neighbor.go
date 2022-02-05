@@ -1204,13 +1204,13 @@ func refreshObjectRouterBgpNeighbor(d *schema.ResourceData, o *models.RouterBgpN
 	}
 
 	if o.ConditionalAdvertise != nil {
-		if err = d.Set("conditional_advertise", flattenRouterBgpNeighborConditionalAdvertise(o.ConditionalAdvertise, sort)); err != nil {
+		if err = d.Set("conditional_advertise", flattenRouterBgpNeighborConditionalAdvertise(d, o.ConditionalAdvertise, "conditional_advertise", sort)); err != nil {
 			return diag.Errorf("error reading conditional_advertise: %v", err)
 		}
 	}
 
 	if o.ConditionalAdvertise6 != nil {
-		if err = d.Set("conditional_advertise6", flattenRouterBgpNeighborConditionalAdvertise6(o.ConditionalAdvertise6, sort)); err != nil {
+		if err = d.Set("conditional_advertise6", flattenRouterBgpNeighborConditionalAdvertise6(d, o.ConditionalAdvertise6, "conditional_advertise6", sort)); err != nil {
 			return diag.Errorf("error reading conditional_advertise6: %v", err)
 		}
 	}

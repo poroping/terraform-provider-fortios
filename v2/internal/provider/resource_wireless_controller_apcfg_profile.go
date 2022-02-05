@@ -313,11 +313,12 @@ func resourceWirelessControllerApcfgProfileRead(ctx context.Context, d *schema.R
 	return nil
 }
 
-func flattenWirelessControllerApcfgProfileCommandList(v *[]models.WirelessControllerApcfgProfileCommandList, sort bool) interface{} {
+func flattenWirelessControllerApcfgProfileCommandList(d *schema.ResourceData, v *[]models.WirelessControllerApcfgProfileCommandList, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Id; tmp != nil {
 				v["id"] = *tmp
@@ -394,7 +395,7 @@ func refreshObjectWirelessControllerApcfgProfile(d *schema.ResourceData, o *mode
 	}
 
 	if o.CommandList != nil {
-		if err = d.Set("command_list", flattenWirelessControllerApcfgProfileCommandList(o.CommandList, sort)); err != nil {
+		if err = d.Set("command_list", flattenWirelessControllerApcfgProfileCommandList(d, o.CommandList, "command_list", sort)); err != nil {
 			return diag.Errorf("error reading command_list: %v", err)
 		}
 	}

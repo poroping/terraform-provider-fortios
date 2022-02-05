@@ -343,11 +343,12 @@ func resourceLogSyslogd4SettingRead(ctx context.Context, d *schema.ResourceData,
 	return nil
 }
 
-func flattenLogSyslogd4SettingCustomFieldName(v *[]models.LogSyslogd4SettingCustomFieldName, sort bool) interface{} {
+func flattenLogSyslogd4SettingCustomFieldName(d *schema.ResourceData, v *[]models.LogSyslogd4SettingCustomFieldName, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Custom; tmp != nil {
 				v["custom"] = *tmp
@@ -384,7 +385,7 @@ func refreshObjectLogSyslogd4Setting(d *schema.ResourceData, o *models.LogSyslog
 	}
 
 	if o.CustomFieldName != nil {
-		if err = d.Set("custom_field_name", flattenLogSyslogd4SettingCustomFieldName(o.CustomFieldName, sort)); err != nil {
+		if err = d.Set("custom_field_name", flattenLogSyslogd4SettingCustomFieldName(d, o.CustomFieldName, "custom_field_name", sort)); err != nil {
 			return diag.Errorf("error reading custom_field_name: %v", err)
 		}
 	}

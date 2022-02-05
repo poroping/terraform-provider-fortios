@@ -854,7 +854,7 @@ func refreshObjectSystemSdwanService(d *schema.ResourceData, o *models.SystemSdw
 	}
 
 	if o.Dst != nil {
-		if err = d.Set("dst", flattenSystemSdwanServiceDst(o.Dst, sort)); err != nil {
+		if err = d.Set("dst", flattenSystemSdwanServiceDst(d, o.Dst, "dst", sort)); err != nil {
 			return diag.Errorf("error reading dst: %v", err)
 		}
 	}
@@ -868,7 +868,7 @@ func refreshObjectSystemSdwanService(d *schema.ResourceData, o *models.SystemSdw
 	}
 
 	if o.Dst6 != nil {
-		if err = d.Set("dst6", flattenSystemSdwanServiceDst6(o.Dst6, sort)); err != nil {
+		if err = d.Set("dst6", flattenSystemSdwanServiceDst6(d, o.Dst6, "dst6", sort)); err != nil {
 			return diag.Errorf("error reading dst6: %v", err)
 		}
 	}
@@ -890,7 +890,7 @@ func refreshObjectSystemSdwanService(d *schema.ResourceData, o *models.SystemSdw
 	}
 
 	if o.Groups != nil {
-		if err = d.Set("groups", flattenSystemSdwanServiceGroups(o.Groups, sort)); err != nil {
+		if err = d.Set("groups", flattenSystemSdwanServiceGroups(d, o.Groups, "groups", sort)); err != nil {
 			return diag.Errorf("error reading groups: %v", err)
 		}
 	}
@@ -904,7 +904,7 @@ func refreshObjectSystemSdwanService(d *schema.ResourceData, o *models.SystemSdw
 	}
 
 	if o.HealthCheck != nil {
-		if err = d.Set("health_check", flattenSystemSdwanServiceHealthCheck(o.HealthCheck, sort)); err != nil {
+		if err = d.Set("health_check", flattenSystemSdwanServiceHealthCheck(d, o.HealthCheck, "health_check", sort)); err != nil {
 			return diag.Errorf("error reading health_check: %v", err)
 		}
 	}
@@ -926,7 +926,7 @@ func refreshObjectSystemSdwanService(d *schema.ResourceData, o *models.SystemSdw
 	}
 
 	if o.InputDevice != nil {
-		if err = d.Set("input_device", flattenSystemSdwanServiceInputDevice(o.InputDevice, sort)); err != nil {
+		if err = d.Set("input_device", flattenSystemSdwanServiceInputDevice(d, o.InputDevice, "input_device", sort)); err != nil {
 			return diag.Errorf("error reading input_device: %v", err)
 		}
 	}
@@ -948,37 +948,37 @@ func refreshObjectSystemSdwanService(d *schema.ResourceData, o *models.SystemSdw
 	}
 
 	if o.InternetServiceAppCtrl != nil {
-		if err = d.Set("internet_service_app_ctrl", flattenSystemSdwanServiceInternetServiceAppCtrl(o.InternetServiceAppCtrl, sort)); err != nil {
+		if err = d.Set("internet_service_app_ctrl", flattenSystemSdwanServiceInternetServiceAppCtrl(d, o.InternetServiceAppCtrl, "internet_service_app_ctrl", sort)); err != nil {
 			return diag.Errorf("error reading internet_service_app_ctrl: %v", err)
 		}
 	}
 
 	if o.InternetServiceAppCtrlGroup != nil {
-		if err = d.Set("internet_service_app_ctrl_group", flattenSystemSdwanServiceInternetServiceAppCtrlGroup(o.InternetServiceAppCtrlGroup, sort)); err != nil {
+		if err = d.Set("internet_service_app_ctrl_group", flattenSystemSdwanServiceInternetServiceAppCtrlGroup(d, o.InternetServiceAppCtrlGroup, "internet_service_app_ctrl_group", sort)); err != nil {
 			return diag.Errorf("error reading internet_service_app_ctrl_group: %v", err)
 		}
 	}
 
 	if o.InternetServiceCustom != nil {
-		if err = d.Set("internet_service_custom", flattenSystemSdwanServiceInternetServiceCustom(o.InternetServiceCustom, sort)); err != nil {
+		if err = d.Set("internet_service_custom", flattenSystemSdwanServiceInternetServiceCustom(d, o.InternetServiceCustom, "internet_service_custom", sort)); err != nil {
 			return diag.Errorf("error reading internet_service_custom: %v", err)
 		}
 	}
 
 	if o.InternetServiceCustomGroup != nil {
-		if err = d.Set("internet_service_custom_group", flattenSystemSdwanServiceInternetServiceCustomGroup(o.InternetServiceCustomGroup, sort)); err != nil {
+		if err = d.Set("internet_service_custom_group", flattenSystemSdwanServiceInternetServiceCustomGroup(d, o.InternetServiceCustomGroup, "internet_service_custom_group", sort)); err != nil {
 			return diag.Errorf("error reading internet_service_custom_group: %v", err)
 		}
 	}
 
 	if o.InternetServiceGroup != nil {
-		if err = d.Set("internet_service_group", flattenSystemSdwanServiceInternetServiceGroup(o.InternetServiceGroup, sort)); err != nil {
+		if err = d.Set("internet_service_group", flattenSystemSdwanServiceInternetServiceGroup(d, o.InternetServiceGroup, "internet_service_group", sort)); err != nil {
 			return diag.Errorf("error reading internet_service_group: %v", err)
 		}
 	}
 
 	if o.InternetServiceName != nil {
-		if err = d.Set("internet_service_name", flattenSystemSdwanServiceInternetServiceName(o.InternetServiceName, sort)); err != nil {
+		if err = d.Set("internet_service_name", flattenSystemSdwanServiceInternetServiceName(d, o.InternetServiceName, "internet_service_name", sort)); err != nil {
 			return diag.Errorf("error reading internet_service_name: %v", err)
 		}
 	}
@@ -1056,13 +1056,13 @@ func refreshObjectSystemSdwanService(d *schema.ResourceData, o *models.SystemSdw
 	}
 
 	if o.PriorityMembers != nil {
-		if err = d.Set("priority_members", flattenSystemSdwanServicePriorityMembers(o.PriorityMembers, sort)); err != nil {
+		if err = d.Set("priority_members", flattenSystemSdwanServicePriorityMembers(d, o.PriorityMembers, "priority_members", sort)); err != nil {
 			return diag.Errorf("error reading priority_members: %v", err)
 		}
 	}
 
 	if o.PriorityZone != nil {
-		if err = d.Set("priority_zone", flattenSystemSdwanServicePriorityZone(o.PriorityZone, sort)); err != nil {
+		if err = d.Set("priority_zone", flattenSystemSdwanServicePriorityZone(d, o.PriorityZone, "priority_zone", sort)); err != nil {
 			return diag.Errorf("error reading priority_zone: %v", err)
 		}
 	}
@@ -1100,7 +1100,7 @@ func refreshObjectSystemSdwanService(d *schema.ResourceData, o *models.SystemSdw
 	}
 
 	if o.Sla != nil {
-		if err = d.Set("sla", flattenSystemSdwanServiceSla(o.Sla, sort)); err != nil {
+		if err = d.Set("sla", flattenSystemSdwanServiceSla(d, o.Sla, "sla", sort)); err != nil {
 			return diag.Errorf("error reading sla: %v", err)
 		}
 	}
@@ -1114,7 +1114,7 @@ func refreshObjectSystemSdwanService(d *schema.ResourceData, o *models.SystemSdw
 	}
 
 	if o.Src != nil {
-		if err = d.Set("src", flattenSystemSdwanServiceSrc(o.Src, sort)); err != nil {
+		if err = d.Set("src", flattenSystemSdwanServiceSrc(d, o.Src, "src", sort)); err != nil {
 			return diag.Errorf("error reading src: %v", err)
 		}
 	}
@@ -1128,7 +1128,7 @@ func refreshObjectSystemSdwanService(d *schema.ResourceData, o *models.SystemSdw
 	}
 
 	if o.Src6 != nil {
-		if err = d.Set("src6", flattenSystemSdwanServiceSrc6(o.Src6, sort)); err != nil {
+		if err = d.Set("src6", flattenSystemSdwanServiceSrc6(d, o.Src6, "src6", sort)); err != nil {
 			return diag.Errorf("error reading src6: %v", err)
 		}
 	}
@@ -1190,7 +1190,7 @@ func refreshObjectSystemSdwanService(d *schema.ResourceData, o *models.SystemSdw
 	}
 
 	if o.Users != nil {
-		if err = d.Set("users", flattenSystemSdwanServiceUsers(o.Users, sort)); err != nil {
+		if err = d.Set("users", flattenSystemSdwanServiceUsers(d, o.Users, "users", sort)); err != nil {
 			return diag.Errorf("error reading users: %v", err)
 		}
 	}

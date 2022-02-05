@@ -601,11 +601,12 @@ func resourceWirelessControllerWidsProfileRead(ctx context.Context, d *schema.Re
 	return nil
 }
 
-func flattenWirelessControllerWidsProfileApBgscanDisableSchedules(v *[]models.WirelessControllerWidsProfileApBgscanDisableSchedules, sort bool) interface{} {
+func flattenWirelessControllerWidsProfileApBgscanDisableSchedules(d *schema.ResourceData, v *[]models.WirelessControllerWidsProfileApBgscanDisableSchedules, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -634,7 +635,7 @@ func refreshObjectWirelessControllerWidsProfile(d *schema.ResourceData, o *model
 	}
 
 	if o.ApBgscanDisableSchedules != nil {
-		if err = d.Set("ap_bgscan_disable_schedules", flattenWirelessControllerWidsProfileApBgscanDisableSchedules(o.ApBgscanDisableSchedules, sort)); err != nil {
+		if err = d.Set("ap_bgscan_disable_schedules", flattenWirelessControllerWidsProfileApBgscanDisableSchedules(d, o.ApBgscanDisableSchedules, "ap_bgscan_disable_schedules", sort)); err != nil {
 			return diag.Errorf("error reading ap_bgscan_disable_schedules: %v", err)
 		}
 	}

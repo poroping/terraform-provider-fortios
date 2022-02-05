@@ -288,11 +288,12 @@ func resourceFirewallInternetServiceDefinitionRead(ctx context.Context, d *schem
 	return nil
 }
 
-func flattenFirewallInternetServiceDefinitionEntry(v *[]models.FirewallInternetServiceDefinitionEntry, sort bool) interface{} {
+func flattenFirewallInternetServiceDefinitionEntry(d *schema.ResourceData, v *[]models.FirewallInternetServiceDefinitionEntry, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.CategoryId; tmp != nil {
 				v["category_id"] = *tmp
@@ -303,7 +304,7 @@ func flattenFirewallInternetServiceDefinitionEntry(v *[]models.FirewallInternetS
 			}
 
 			if tmp := cfg.PortRange; tmp != nil {
-				v["port_range"] = flattenFirewallInternetServiceDefinitionEntryPortRange(tmp, sort)
+				v["port_range"] = flattenFirewallInternetServiceDefinitionEntryPortRange(d, tmp, prefix+"port_range", sort)
 			}
 
 			if tmp := cfg.Protocol; tmp != nil {
@@ -325,11 +326,12 @@ func flattenFirewallInternetServiceDefinitionEntry(v *[]models.FirewallInternetS
 	return flat
 }
 
-func flattenFirewallInternetServiceDefinitionEntryPortRange(v *[]models.FirewallInternetServiceDefinitionEntryPortRange, sort bool) interface{} {
+func flattenFirewallInternetServiceDefinitionEntryPortRange(d *schema.ResourceData, v *[]models.FirewallInternetServiceDefinitionEntryPortRange, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.EndPort; tmp != nil {
 				v["end_port"] = *tmp
@@ -358,7 +360,7 @@ func refreshObjectFirewallInternetServiceDefinition(d *schema.ResourceData, o *m
 	var err error
 
 	if o.Entry != nil {
-		if err = d.Set("entry", flattenFirewallInternetServiceDefinitionEntry(o.Entry, sort)); err != nil {
+		if err = d.Set("entry", flattenFirewallInternetServiceDefinitionEntry(d, o.Entry, "entry", sort)); err != nil {
 			return diag.Errorf("error reading entry: %v", err)
 		}
 	}

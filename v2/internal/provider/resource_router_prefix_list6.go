@@ -278,11 +278,12 @@ func resourceRouterPrefixList6Read(ctx context.Context, d *schema.ResourceData, 
 	return nil
 }
 
-func flattenRouterPrefixList6Rule(v *[]models.RouterPrefixList6Rule, sort bool) interface{} {
+func flattenRouterPrefixList6Rule(d *schema.ResourceData, v *[]models.RouterPrefixList6Rule, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Action; tmp != nil {
 				v["action"] = *tmp
@@ -339,7 +340,7 @@ func refreshObjectRouterPrefixList6(d *schema.ResourceData, o *models.RouterPref
 	}
 
 	if o.Rule != nil {
-		if err = d.Set("rule", flattenRouterPrefixList6Rule(o.Rule, sort)); err != nil {
+		if err = d.Set("rule", flattenRouterPrefixList6Rule(d, o.Rule, "rule", sort)); err != nil {
 			return diag.Errorf("error reading rule: %v", err)
 		}
 	}

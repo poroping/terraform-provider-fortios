@@ -290,11 +290,12 @@ func resourceFirewallTtlPolicyRead(ctx context.Context, d *schema.ResourceData, 
 	return nil
 }
 
-func flattenFirewallTtlPolicyService(v *[]models.FirewallTtlPolicyService, sort bool) interface{} {
+func flattenFirewallTtlPolicyService(d *schema.ResourceData, v *[]models.FirewallTtlPolicyService, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -311,11 +312,12 @@ func flattenFirewallTtlPolicyService(v *[]models.FirewallTtlPolicyService, sort 
 	return flat
 }
 
-func flattenFirewallTtlPolicySrcaddr(v *[]models.FirewallTtlPolicySrcaddr, sort bool) interface{} {
+func flattenFirewallTtlPolicySrcaddr(d *schema.ResourceData, v *[]models.FirewallTtlPolicySrcaddr, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for _, cfg := range *v {
+		for i, cfg := range *v {
+			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
@@ -360,13 +362,13 @@ func refreshObjectFirewallTtlPolicy(d *schema.ResourceData, o *models.FirewallTt
 	}
 
 	if o.Service != nil {
-		if err = d.Set("service", flattenFirewallTtlPolicyService(o.Service, sort)); err != nil {
+		if err = d.Set("service", flattenFirewallTtlPolicyService(d, o.Service, "service", sort)); err != nil {
 			return diag.Errorf("error reading service: %v", err)
 		}
 	}
 
 	if o.Srcaddr != nil {
-		if err = d.Set("srcaddr", flattenFirewallTtlPolicySrcaddr(o.Srcaddr, sort)); err != nil {
+		if err = d.Set("srcaddr", flattenFirewallTtlPolicySrcaddr(d, o.Srcaddr, "srcaddr", sort)); err != nil {
 			return diag.Errorf("error reading srcaddr: %v", err)
 		}
 	}
