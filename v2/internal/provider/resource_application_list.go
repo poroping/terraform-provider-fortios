@@ -725,7 +725,7 @@ func flattenApplicationListEntries(d *schema.ResourceData, v *[]models.Applicati
 			}
 
 			if tmp := cfg.Application; tmp != nil {
-				v["application"] = flattenApplicationListEntriesApplication(d, tmp, prefix+"application", sort)
+				v["application"] = flattenApplicationListEntriesApplication(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "application"), sort)
 			}
 
 			if tmp := cfg.Behavior; tmp != nil {
@@ -733,11 +733,11 @@ func flattenApplicationListEntries(d *schema.ResourceData, v *[]models.Applicati
 			}
 
 			if tmp := cfg.Category; tmp != nil {
-				v["category"] = flattenApplicationListEntriesCategory(d, tmp, prefix+"category", sort)
+				v["category"] = flattenApplicationListEntriesCategory(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "category"), sort)
 			}
 
 			if tmp := cfg.Exclusion; tmp != nil {
-				v["exclusion"] = flattenApplicationListEntriesExclusion(d, tmp, prefix+"exclusion", sort)
+				v["exclusion"] = flattenApplicationListEntriesExclusion(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "exclusion"), sort)
 			}
 
 			if tmp := cfg.Id; tmp != nil {
@@ -753,7 +753,7 @@ func flattenApplicationListEntries(d *schema.ResourceData, v *[]models.Applicati
 			}
 
 			if tmp := cfg.Parameters; tmp != nil {
-				v["parameters"] = flattenApplicationListEntriesParameters(d, tmp, prefix+"parameters", sort)
+				v["parameters"] = flattenApplicationListEntriesParameters(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "parameters"), sort)
 			}
 
 			if tmp := cfg.PerIpShaper; tmp != nil {
@@ -797,7 +797,7 @@ func flattenApplicationListEntries(d *schema.ResourceData, v *[]models.Applicati
 			}
 
 			if tmp := cfg.Risk; tmp != nil {
-				v["risk"] = flattenApplicationListEntriesRisk(d, tmp, prefix+"risk", sort)
+				v["risk"] = flattenApplicationListEntriesRisk(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "risk"), sort)
 			}
 
 			if tmp := cfg.SessionTtl; tmp != nil {
@@ -813,7 +813,7 @@ func flattenApplicationListEntries(d *schema.ResourceData, v *[]models.Applicati
 			}
 
 			if tmp := cfg.SubCategory; tmp != nil {
-				v["sub_category"] = flattenApplicationListEntriesSubCategory(d, tmp, prefix+"sub_category", sort)
+				v["sub_category"] = flattenApplicationListEntriesSubCategory(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "sub_category"), sort)
 			}
 
 			if tmp := cfg.Technology; tmp != nil {
@@ -913,7 +913,7 @@ func flattenApplicationListEntriesParameters(d *schema.ResourceData, v *[]models
 			}
 
 			if tmp := cfg.Members; tmp != nil {
-				v["members"] = flattenApplicationListEntriesParametersMembers(d, tmp, prefix+"members", sort)
+				v["members"] = flattenApplicationListEntriesParametersMembers(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "members"), sort)
 			}
 
 			if tmp := cfg.Value; tmp != nil {

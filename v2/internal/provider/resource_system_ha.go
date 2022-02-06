@@ -515,7 +515,7 @@ func resourceSystemHa() *schema.Resource {
 			"secondary_vcluster": {
 				Type:        schema.TypeList,
 				Description: "Configure virtual cluster 2.",
-				Optional:    true,
+				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"monitor": {
@@ -966,8 +966,9 @@ func flattenSystemHaHaMgmtInterfaces(d *schema.ResourceData, v *[]models.SystemH
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Dst; tmp != nil {
-				tmp = utils.Ipv4Read(d, fmt.Sprintf("%s.%d.dst", prefix, i), *tmp)
-				v["dst"] = *tmp
+				if tmp = utils.Ipv4Read(d, fmt.Sprintf("%s.%d.dst", prefix, i), *tmp); tmp != nil {
+					v["dst"] = *tmp
+				}
 			}
 
 			if tmp := cfg.Gateway; tmp != nil {
@@ -997,11 +998,12 @@ func flattenSystemHaHaMgmtInterfaces(d *schema.ResourceData, v *[]models.SystemH
 	return flat
 }
 
-func flattenSystemHaSecondaryVcluster(d *schema.ResourceData, v *[]models.SystemHaSecondaryVcluster, prefix string, sort bool) interface{} {
+func flattenSystemHaSecondaryVcluster(d *schema.ResourceData, v *models.SystemHaSecondaryVcluster, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.SystemHaSecondaryVcluster{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Monitor; tmp != nil {
@@ -1512,9 +1514,11 @@ func refreshObjectSystemHa(d *schema.ResourceData, o *models.SystemHa, sv string
 		}
 	}
 
-	if o.SecondaryVcluster != nil {
-		if err = d.Set("secondary_vcluster", flattenSystemHaSecondaryVcluster(d, o.SecondaryVcluster, "secondary_vcluster", sort)); err != nil {
-			return diag.Errorf("error reading secondary_vcluster: %v", err)
+	if _, ok := d.GetOk("secondary_vcluster"); ok {
+		if o.SecondaryVcluster != nil {
+			if err = d.Set("secondary_vcluster", flattenSystemHaSecondaryVcluster(d, o.SecondaryVcluster, "secondary_vcluster", sort)); err != nil {
+				return diag.Errorf("error reading secondary_vcluster: %v", err)
+			}
 		}
 	}
 
@@ -1764,7 +1768,7 @@ func expandSystemHaHaMgmtInterfaces(d *schema.ResourceData, v interface{}, pre s
 	return &result, nil
 }
 
-func expandSystemHaSecondaryVcluster(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.SystemHaSecondaryVcluster, error) {
+func expandSystemHaSecondaryVcluster(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.SystemHaSecondaryVcluster, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -1852,7 +1856,7 @@ func expandSystemHaSecondaryVcluster(d *schema.ResourceData, v interface{}, pre 
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
 func expandSystemHaUnicastPeers(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.SystemHaUnicastPeers, error) {
@@ -2419,7 +2423,7 @@ func getObjectSystemHa(d *schema.ResourceData, sv string) (*models.SystemHa, dia
 	} else if d.HasChange("secondary_vcluster") {
 		old, new := d.GetChange("secondary_vcluster")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.SecondaryVcluster = &[]models.SystemHaSecondaryVcluster{}
+			obj.SecondaryVcluster = &models.SystemHaSecondaryVcluster{}
 		}
 	}
 	if v1, ok := d.GetOk("session_pickup"); ok {
@@ -2657,7 +2661,7 @@ func getEmptyObjectSystemHa(d *schema.ResourceData, sv string) (*models.SystemHa
 	diags := diag.Diagnostics{}
 
 	obj.HaMgmtInterfaces = &[]models.SystemHaHaMgmtInterfaces{}
-	obj.SecondaryVcluster = &[]models.SystemHaSecondaryVcluster{}
+	obj.SecondaryVcluster = &models.SystemHaSecondaryVcluster{}
 	obj.UnicastPeers = &[]models.SystemHaUnicastPeers{}
 
 	return &obj, diags

@@ -65,13 +65,13 @@ func resourceExtenderControllerExtenderProfile() *schema.Resource {
 			"cellular": {
 				Type:        schema.TypeList,
 				Description: "FortiExtender cellular configuration.",
-				Optional:    true,
+				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"controller_report": {
 							Type:        schema.TypeList,
 							Description: "FortiExtender controller report configuration.",
-							Optional:    true,
+							Optional:    true, MaxItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									"interval": {
@@ -120,13 +120,13 @@ func resourceExtenderControllerExtenderProfile() *schema.Resource {
 						"modem1": {
 							Type:        schema.TypeList,
 							Description: "Configuration options for modem 1.",
-							Optional:    true,
+							Optional:    true, MaxItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									"auto_switch": {
 										Type:        schema.TypeList,
 										Description: "FortiExtender auto switch configuration.",
-										Optional:    true,
+										Optional:    true, MaxItems: 1,
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
 												"dataplan": {
@@ -281,13 +281,13 @@ func resourceExtenderControllerExtenderProfile() *schema.Resource {
 						"modem2": {
 							Type:        schema.TypeList,
 							Description: "Configuration options for modem 2.",
-							Optional:    true,
+							Optional:    true, MaxItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									"auto_switch": {
 										Type:        schema.TypeList,
 										Description: "FortiExtender auto switch configuration.",
-										Optional:    true,
+										Optional:    true, MaxItems: 1,
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
 												"dataplan": {
@@ -442,13 +442,13 @@ func resourceExtenderControllerExtenderProfile() *schema.Resource {
 						"sms_notification": {
 							Type:        schema.TypeList,
 							Description: "FortiExtender cellular SMS notification configuration.",
-							Optional:    true,
+							Optional:    true, MaxItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									"alert": {
 										Type:        schema.TypeList,
 										Description: "SMS alert list.",
-										Optional:    true,
+										Optional:    true, MaxItems: 1,
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
 												"data_exhausted": {
@@ -593,7 +593,7 @@ func resourceExtenderControllerExtenderProfile() *schema.Resource {
 			"lan_extension": {
 				Type:        schema.TypeList,
 				Description: "FortiExtender lan extension configuration.",
-				Optional:    true,
+				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"backhaul": {
@@ -861,31 +861,32 @@ func resourceExtenderControllerExtenderProfileRead(ctx context.Context, d *schem
 	return nil
 }
 
-func flattenExtenderControllerExtenderProfileCellular(d *schema.ResourceData, v *[]models.ExtenderControllerExtenderProfileCellular, prefix string, sort bool) interface{} {
+func flattenExtenderControllerExtenderProfileCellular(d *schema.ResourceData, v *models.ExtenderControllerExtenderProfileCellular, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.ExtenderControllerExtenderProfileCellular{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.ControllerReport; tmp != nil {
-				v["controller_report"] = flattenExtenderControllerExtenderProfileCellularControllerReport(d, tmp, prefix+"controller_report", sort)
+				v["controller_report"] = flattenExtenderControllerExtenderProfileCellularControllerReport(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "controller_report"), sort)
 			}
 
 			if tmp := cfg.Dataplan; tmp != nil {
-				v["dataplan"] = flattenExtenderControllerExtenderProfileCellularDataplan(d, tmp, prefix+"dataplan", sort)
+				v["dataplan"] = flattenExtenderControllerExtenderProfileCellularDataplan(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "dataplan"), sort)
 			}
 
 			if tmp := cfg.Modem1; tmp != nil {
-				v["modem1"] = flattenExtenderControllerExtenderProfileCellularModem1(d, tmp, prefix+"modem1", sort)
+				v["modem1"] = flattenExtenderControllerExtenderProfileCellularModem1(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "modem1"), sort)
 			}
 
 			if tmp := cfg.Modem2; tmp != nil {
-				v["modem2"] = flattenExtenderControllerExtenderProfileCellularModem2(d, tmp, prefix+"modem2", sort)
+				v["modem2"] = flattenExtenderControllerExtenderProfileCellularModem2(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "modem2"), sort)
 			}
 
 			if tmp := cfg.SmsNotification; tmp != nil {
-				v["sms_notification"] = flattenExtenderControllerExtenderProfileCellularSmsNotification(d, tmp, prefix+"sms_notification", sort)
+				v["sms_notification"] = flattenExtenderControllerExtenderProfileCellularSmsNotification(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "sms_notification"), sort)
 			}
 
 			flat = append(flat, v)
@@ -895,11 +896,12 @@ func flattenExtenderControllerExtenderProfileCellular(d *schema.ResourceData, v 
 	return flat
 }
 
-func flattenExtenderControllerExtenderProfileCellularControllerReport(d *schema.ResourceData, v *[]models.ExtenderControllerExtenderProfileCellularControllerReport, prefix string, sort bool) interface{} {
+func flattenExtenderControllerExtenderProfileCellularControllerReport(d *schema.ResourceData, v *models.ExtenderControllerExtenderProfileCellularControllerReport, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.ExtenderControllerExtenderProfileCellularControllerReport{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Interval; tmp != nil {
@@ -943,15 +945,16 @@ func flattenExtenderControllerExtenderProfileCellularDataplan(d *schema.Resource
 	return flat
 }
 
-func flattenExtenderControllerExtenderProfileCellularModem1(d *schema.ResourceData, v *[]models.ExtenderControllerExtenderProfileCellularModem1, prefix string, sort bool) interface{} {
+func flattenExtenderControllerExtenderProfileCellularModem1(d *schema.ResourceData, v *models.ExtenderControllerExtenderProfileCellularModem1, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.ExtenderControllerExtenderProfileCellularModem1{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.AutoSwitch; tmp != nil {
-				v["auto_switch"] = flattenExtenderControllerExtenderProfileCellularModem1AutoSwitch(d, tmp, prefix+"auto_switch", sort)
+				v["auto_switch"] = flattenExtenderControllerExtenderProfileCellularModem1AutoSwitch(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "auto_switch"), sort)
 			}
 
 			if tmp := cfg.ConnStatus; tmp != nil {
@@ -1001,11 +1004,12 @@ func flattenExtenderControllerExtenderProfileCellularModem1(d *schema.ResourceDa
 	return flat
 }
 
-func flattenExtenderControllerExtenderProfileCellularModem1AutoSwitch(d *schema.ResourceData, v *[]models.ExtenderControllerExtenderProfileCellularModem1AutoSwitch, prefix string, sort bool) interface{} {
+func flattenExtenderControllerExtenderProfileCellularModem1AutoSwitch(d *schema.ResourceData, v *models.ExtenderControllerExtenderProfileCellularModem1AutoSwitch, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.ExtenderControllerExtenderProfileCellularModem1AutoSwitch{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Dataplan; tmp != nil {
@@ -1047,15 +1051,16 @@ func flattenExtenderControllerExtenderProfileCellularModem1AutoSwitch(d *schema.
 	return flat
 }
 
-func flattenExtenderControllerExtenderProfileCellularModem2(d *schema.ResourceData, v *[]models.ExtenderControllerExtenderProfileCellularModem2, prefix string, sort bool) interface{} {
+func flattenExtenderControllerExtenderProfileCellularModem2(d *schema.ResourceData, v *models.ExtenderControllerExtenderProfileCellularModem2, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.ExtenderControllerExtenderProfileCellularModem2{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.AutoSwitch; tmp != nil {
-				v["auto_switch"] = flattenExtenderControllerExtenderProfileCellularModem2AutoSwitch(d, tmp, prefix+"auto_switch", sort)
+				v["auto_switch"] = flattenExtenderControllerExtenderProfileCellularModem2AutoSwitch(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "auto_switch"), sort)
 			}
 
 			if tmp := cfg.ConnStatus; tmp != nil {
@@ -1105,11 +1110,12 @@ func flattenExtenderControllerExtenderProfileCellularModem2(d *schema.ResourceDa
 	return flat
 }
 
-func flattenExtenderControllerExtenderProfileCellularModem2AutoSwitch(d *schema.ResourceData, v *[]models.ExtenderControllerExtenderProfileCellularModem2AutoSwitch, prefix string, sort bool) interface{} {
+func flattenExtenderControllerExtenderProfileCellularModem2AutoSwitch(d *schema.ResourceData, v *models.ExtenderControllerExtenderProfileCellularModem2AutoSwitch, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.ExtenderControllerExtenderProfileCellularModem2AutoSwitch{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Dataplan; tmp != nil {
@@ -1151,19 +1157,20 @@ func flattenExtenderControllerExtenderProfileCellularModem2AutoSwitch(d *schema.
 	return flat
 }
 
-func flattenExtenderControllerExtenderProfileCellularSmsNotification(d *schema.ResourceData, v *[]models.ExtenderControllerExtenderProfileCellularSmsNotification, prefix string, sort bool) interface{} {
+func flattenExtenderControllerExtenderProfileCellularSmsNotification(d *schema.ResourceData, v *models.ExtenderControllerExtenderProfileCellularSmsNotification, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.ExtenderControllerExtenderProfileCellularSmsNotification{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Alert; tmp != nil {
-				v["alert"] = flattenExtenderControllerExtenderProfileCellularSmsNotificationAlert(d, tmp, prefix+"alert", sort)
+				v["alert"] = flattenExtenderControllerExtenderProfileCellularSmsNotificationAlert(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "alert"), sort)
 			}
 
 			if tmp := cfg.Receiver; tmp != nil {
-				v["receiver"] = flattenExtenderControllerExtenderProfileCellularSmsNotificationReceiver(d, tmp, prefix+"receiver", sort)
+				v["receiver"] = flattenExtenderControllerExtenderProfileCellularSmsNotificationReceiver(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "receiver"), sort)
 			}
 
 			if tmp := cfg.Status; tmp != nil {
@@ -1177,11 +1184,12 @@ func flattenExtenderControllerExtenderProfileCellularSmsNotification(d *schema.R
 	return flat
 }
 
-func flattenExtenderControllerExtenderProfileCellularSmsNotificationAlert(d *schema.ResourceData, v *[]models.ExtenderControllerExtenderProfileCellularSmsNotificationAlert, prefix string, sort bool) interface{} {
+func flattenExtenderControllerExtenderProfileCellularSmsNotificationAlert(d *schema.ResourceData, v *models.ExtenderControllerExtenderProfileCellularSmsNotificationAlert, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.ExtenderControllerExtenderProfileCellularSmsNotificationAlert{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.DataExhausted; tmp != nil {
@@ -1253,15 +1261,16 @@ func flattenExtenderControllerExtenderProfileCellularSmsNotificationReceiver(d *
 	return flat
 }
 
-func flattenExtenderControllerExtenderProfileLanExtension(d *schema.ResourceData, v *[]models.ExtenderControllerExtenderProfileLanExtension, prefix string, sort bool) interface{} {
+func flattenExtenderControllerExtenderProfileLanExtension(d *schema.ResourceData, v *models.ExtenderControllerExtenderProfileLanExtension, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.ExtenderControllerExtenderProfileLanExtension{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Backhaul; tmp != nil {
-				v["backhaul"] = flattenExtenderControllerExtenderProfileLanExtensionBackhaul(d, tmp, prefix+"backhaul", sort)
+				v["backhaul"] = flattenExtenderControllerExtenderProfileLanExtensionBackhaul(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "backhaul"), sort)
 			}
 
 			if tmp := cfg.BackhaulInterface; tmp != nil {
@@ -1340,9 +1349,11 @@ func refreshObjectExtenderControllerExtenderProfile(d *schema.ResourceData, o *m
 		}
 	}
 
-	if o.Cellular != nil {
-		if err = d.Set("cellular", flattenExtenderControllerExtenderProfileCellular(d, o.Cellular, "cellular", sort)); err != nil {
-			return diag.Errorf("error reading cellular: %v", err)
+	if _, ok := d.GetOk("cellular"); ok {
+		if o.Cellular != nil {
+			if err = d.Set("cellular", flattenExtenderControllerExtenderProfileCellular(d, o.Cellular, "cellular", sort)); err != nil {
+				return diag.Errorf("error reading cellular: %v", err)
+			}
 		}
 	}
 
@@ -1370,9 +1381,11 @@ func refreshObjectExtenderControllerExtenderProfile(d *schema.ResourceData, o *m
 		}
 	}
 
-	if o.LanExtension != nil {
-		if err = d.Set("lan_extension", flattenExtenderControllerExtenderProfileLanExtension(d, o.LanExtension, "lan_extension", sort)); err != nil {
-			return diag.Errorf("error reading lan_extension: %v", err)
+	if _, ok := d.GetOk("lan_extension"); ok {
+		if o.LanExtension != nil {
+			if err = d.Set("lan_extension", flattenExtenderControllerExtenderProfileLanExtension(d, o.LanExtension, "lan_extension", sort)); err != nil {
+				return diag.Errorf("error reading lan_extension: %v", err)
+			}
 		}
 	}
 
@@ -1412,7 +1425,7 @@ func refreshObjectExtenderControllerExtenderProfile(d *schema.ResourceData, o *m
 	return nil
 }
 
-func expandExtenderControllerExtenderProfileCellular(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.ExtenderControllerExtenderProfileCellular, error) {
+func expandExtenderControllerExtenderProfileCellular(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.ExtenderControllerExtenderProfileCellular, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -1476,10 +1489,10 @@ func expandExtenderControllerExtenderProfileCellular(d *schema.ResourceData, v i
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
-func expandExtenderControllerExtenderProfileCellularControllerReport(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.ExtenderControllerExtenderProfileCellularControllerReport, error) {
+func expandExtenderControllerExtenderProfileCellularControllerReport(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.ExtenderControllerExtenderProfileCellularControllerReport, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -1516,7 +1529,7 @@ func expandExtenderControllerExtenderProfileCellularControllerReport(d *schema.R
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
 func expandExtenderControllerExtenderProfileCellularDataplan(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.ExtenderControllerExtenderProfileCellularDataplan, error) {
@@ -1543,7 +1556,7 @@ func expandExtenderControllerExtenderProfileCellularDataplan(d *schema.ResourceD
 	return &result, nil
 }
 
-func expandExtenderControllerExtenderProfileCellularModem1(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.ExtenderControllerExtenderProfileCellularModem1, error) {
+func expandExtenderControllerExtenderProfileCellularModem1(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.ExtenderControllerExtenderProfileCellularModem1, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -1638,10 +1651,10 @@ func expandExtenderControllerExtenderProfileCellularModem1(d *schema.ResourceDat
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
-func expandExtenderControllerExtenderProfileCellularModem1AutoSwitch(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.ExtenderControllerExtenderProfileCellularModem1AutoSwitch, error) {
+func expandExtenderControllerExtenderProfileCellularModem1AutoSwitch(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.ExtenderControllerExtenderProfileCellularModem1AutoSwitch, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -1714,10 +1727,10 @@ func expandExtenderControllerExtenderProfileCellularModem1AutoSwitch(d *schema.R
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
-func expandExtenderControllerExtenderProfileCellularModem2(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.ExtenderControllerExtenderProfileCellularModem2, error) {
+func expandExtenderControllerExtenderProfileCellularModem2(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.ExtenderControllerExtenderProfileCellularModem2, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -1812,10 +1825,10 @@ func expandExtenderControllerExtenderProfileCellularModem2(d *schema.ResourceDat
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
-func expandExtenderControllerExtenderProfileCellularModem2AutoSwitch(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.ExtenderControllerExtenderProfileCellularModem2AutoSwitch, error) {
+func expandExtenderControllerExtenderProfileCellularModem2AutoSwitch(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.ExtenderControllerExtenderProfileCellularModem2AutoSwitch, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -1888,10 +1901,10 @@ func expandExtenderControllerExtenderProfileCellularModem2AutoSwitch(d *schema.R
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
-func expandExtenderControllerExtenderProfileCellularSmsNotification(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.ExtenderControllerExtenderProfileCellularSmsNotification, error) {
+func expandExtenderControllerExtenderProfileCellularSmsNotification(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.ExtenderControllerExtenderProfileCellularSmsNotification, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -1932,10 +1945,10 @@ func expandExtenderControllerExtenderProfileCellularSmsNotification(d *schema.Re
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
-func expandExtenderControllerExtenderProfileCellularSmsNotificationAlert(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.ExtenderControllerExtenderProfileCellularSmsNotificationAlert, error) {
+func expandExtenderControllerExtenderProfileCellularSmsNotificationAlert(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.ExtenderControllerExtenderProfileCellularSmsNotificationAlert, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -1998,7 +2011,7 @@ func expandExtenderControllerExtenderProfileCellularSmsNotificationAlert(d *sche
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
 func expandExtenderControllerExtenderProfileCellularSmsNotificationReceiver(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.ExtenderControllerExtenderProfileCellularSmsNotificationReceiver, error) {
@@ -2046,7 +2059,7 @@ func expandExtenderControllerExtenderProfileCellularSmsNotificationReceiver(d *s
 	return &result, nil
 }
 
-func expandExtenderControllerExtenderProfileLanExtension(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.ExtenderControllerExtenderProfileLanExtension, error) {
+func expandExtenderControllerExtenderProfileLanExtension(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.ExtenderControllerExtenderProfileLanExtension, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -2098,7 +2111,7 @@ func expandExtenderControllerExtenderProfileLanExtension(d *schema.ResourceData,
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
 func expandExtenderControllerExtenderProfileLanExtensionBackhaul(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.ExtenderControllerExtenderProfileLanExtensionBackhaul, error) {
@@ -2184,7 +2197,7 @@ func getObjectExtenderControllerExtenderProfile(d *schema.ResourceData, sv strin
 	} else if d.HasChange("cellular") {
 		old, new := d.GetChange("cellular")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.Cellular = &[]models.ExtenderControllerExtenderProfileCellular{}
+			obj.Cellular = &models.ExtenderControllerExtenderProfileCellular{}
 		}
 	}
 	if v1, ok := d.GetOk("enforce_bandwidth"); ok {
@@ -2229,7 +2242,7 @@ func getObjectExtenderControllerExtenderProfile(d *schema.ResourceData, sv strin
 	} else if d.HasChange("lan_extension") {
 		old, new := d.GetChange("lan_extension")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.LanExtension = &[]models.ExtenderControllerExtenderProfileLanExtension{}
+			obj.LanExtension = &models.ExtenderControllerExtenderProfileLanExtension{}
 		}
 	}
 	if v1, ok := d.GetOk("login_password"); ok {

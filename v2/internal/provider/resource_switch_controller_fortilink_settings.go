@@ -72,7 +72,7 @@ func resourceSwitchControllerFortilinkSettings() *schema.Resource {
 			"nac_ports": {
 				Type:        schema.TypeList,
 				Description: "NAC specific configuration.",
-				Optional:    true,
+				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"bounce_nac_port": {
@@ -308,11 +308,12 @@ func resourceSwitchControllerFortilinkSettingsRead(ctx context.Context, d *schem
 	return nil
 }
 
-func flattenSwitchControllerFortilinkSettingsNacPorts(d *schema.ResourceData, v *[]models.SwitchControllerFortilinkSettingsNacPorts, prefix string, sort bool) interface{} {
+func flattenSwitchControllerFortilinkSettingsNacPorts(d *schema.ResourceData, v *models.SwitchControllerFortilinkSettingsNacPorts, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.SwitchControllerFortilinkSettingsNacPorts{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.BounceNacPort; tmp != nil {
@@ -332,7 +333,7 @@ func flattenSwitchControllerFortilinkSettingsNacPorts(d *schema.ResourceData, v 
 			}
 
 			if tmp := cfg.NacSegmentVlans; tmp != nil {
-				v["nac_segment_vlans"] = flattenSwitchControllerFortilinkSettingsNacPortsNacSegmentVlans(d, tmp, prefix+"nac_segment_vlans", sort)
+				v["nac_segment_vlans"] = flattenSwitchControllerFortilinkSettingsNacPortsNacSegmentVlans(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "nac_segment_vlans"), sort)
 			}
 
 			if tmp := cfg.OnboardingVlan; tmp != nil {
@@ -399,9 +400,11 @@ func refreshObjectSwitchControllerFortilinkSettings(d *schema.ResourceData, o *m
 		}
 	}
 
-	if o.NacPorts != nil {
-		if err = d.Set("nac_ports", flattenSwitchControllerFortilinkSettingsNacPorts(d, o.NacPorts, "nac_ports", sort)); err != nil {
-			return diag.Errorf("error reading nac_ports: %v", err)
+	if _, ok := d.GetOk("nac_ports"); ok {
+		if o.NacPorts != nil {
+			if err = d.Set("nac_ports", flattenSwitchControllerFortilinkSettingsNacPorts(d, o.NacPorts, "nac_ports", sort)); err != nil {
+				return diag.Errorf("error reading nac_ports: %v", err)
+			}
 		}
 	}
 
@@ -416,7 +419,7 @@ func refreshObjectSwitchControllerFortilinkSettings(d *schema.ResourceData, o *m
 	return nil
 }
 
-func expandSwitchControllerFortilinkSettingsNacPorts(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.SwitchControllerFortilinkSettingsNacPorts, error) {
+func expandSwitchControllerFortilinkSettingsNacPorts(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.SwitchControllerFortilinkSettingsNacPorts, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -483,7 +486,7 @@ func expandSwitchControllerFortilinkSettingsNacPorts(d *schema.ResourceData, v i
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
 func expandSwitchControllerFortilinkSettingsNacPortsNacSegmentVlans(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.SwitchControllerFortilinkSettingsNacPortsNacSegmentVlans, error) {
@@ -556,7 +559,7 @@ func getObjectSwitchControllerFortilinkSettings(d *schema.ResourceData, sv strin
 	} else if d.HasChange("nac_ports") {
 		old, new := d.GetChange("nac_ports")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.NacPorts = &[]models.SwitchControllerFortilinkSettingsNacPorts{}
+			obj.NacPorts = &models.SwitchControllerFortilinkSettingsNacPorts{}
 		}
 	}
 	if v1, ok := d.GetOk("name"); ok {

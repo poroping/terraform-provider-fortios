@@ -64,7 +64,7 @@ func resourceVideofilterProfile() *schema.Resource {
 			"fortiguard_category": {
 				Type:        schema.TypeList,
 				Description: "Configure FortiGuard categories.",
-				Optional:    true,
+				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"filters": {
@@ -321,15 +321,16 @@ func resourceVideofilterProfileRead(ctx context.Context, d *schema.ResourceData,
 	return nil
 }
 
-func flattenVideofilterProfileFortiguardCategory(d *schema.ResourceData, v *[]models.VideofilterProfileFortiguardCategory, prefix string, sort bool) interface{} {
+func flattenVideofilterProfileFortiguardCategory(d *schema.ResourceData, v *models.VideofilterProfileFortiguardCategory, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.VideofilterProfileFortiguardCategory{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Filters; tmp != nil {
-				v["filters"] = flattenVideofilterProfileFortiguardCategoryFilters(d, tmp, prefix+"filters", sort)
+				v["filters"] = flattenVideofilterProfileFortiguardCategoryFilters(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "filters"), sort)
 			}
 
 			flat = append(flat, v)
@@ -392,9 +393,11 @@ func refreshObjectVideofilterProfile(d *schema.ResourceData, o *models.Videofilt
 		}
 	}
 
-	if o.FortiguardCategory != nil {
-		if err = d.Set("fortiguard_category", flattenVideofilterProfileFortiguardCategory(d, o.FortiguardCategory, "fortiguard_category", sort)); err != nil {
-			return diag.Errorf("error reading fortiguard_category: %v", err)
+	if _, ok := d.GetOk("fortiguard_category"); ok {
+		if o.FortiguardCategory != nil {
+			if err = d.Set("fortiguard_category", flattenVideofilterProfileFortiguardCategory(d, o.FortiguardCategory, "fortiguard_category", sort)); err != nil {
+				return diag.Errorf("error reading fortiguard_category: %v", err)
+			}
 		}
 	}
 
@@ -457,7 +460,7 @@ func refreshObjectVideofilterProfile(d *schema.ResourceData, o *models.Videofilt
 	return nil
 }
 
-func expandVideofilterProfileFortiguardCategory(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.VideofilterProfileFortiguardCategory, error) {
+func expandVideofilterProfileFortiguardCategory(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.VideofilterProfileFortiguardCategory, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -481,7 +484,7 @@ func expandVideofilterProfileFortiguardCategory(d *schema.ResourceData, v interf
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
 func expandVideofilterProfileFortiguardCategoryFilters(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.VideofilterProfileFortiguardCategoryFilters, error) {
@@ -567,7 +570,7 @@ func getObjectVideofilterProfile(d *schema.ResourceData, sv string) (*models.Vid
 	} else if d.HasChange("fortiguard_category") {
 		old, new := d.GetChange("fortiguard_category")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.FortiguardCategory = &[]models.VideofilterProfileFortiguardCategory{}
+			obj.FortiguardCategory = &models.VideofilterProfileFortiguardCategory{}
 		}
 	}
 	if v1, ok := d.GetOk("name"); ok {

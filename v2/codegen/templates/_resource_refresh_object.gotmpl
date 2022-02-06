@@ -25,10 +25,18 @@ func refreshObject{{.fpath}}(d *schema.ResourceData, o *models.{{.fpath}}, sv st
 			return diag.Errorf("error reading {{ if $value.NameReserved }}fos{{end}}{{ (flatten $value.name) }}: %v", err)
 		}
 	}
-{{- else if or (eq $value.category "table") (eq $value.category "complex") }}
+{{- else if eq $value.category "table" }}
 	if o.{{if $value.name_begin_with_int}}The{{end}}{{(mixedCase $value.name)}} != nil {
 		if err = d.Set("{{ if $value.NameReserved }}fos{{end}}{{(flatten $value.name)}}", flatten{{.fpath}}(d, o.{{if $value.name_begin_with_int}}The{{end}}{{(mixedCase $value.name)}}, "{{ (flatten $value.name) }}", sort)); err != nil {
 			return diag.Errorf("error reading {{ (flatten $value.name) }}: %v", err)
+		}
+	}
+{{- else if eq $value.category "complex" }}
+	if _, ok := d.GetOk("{{(flatten $value.name)}}"); ok {
+		if o.{{if $value.name_begin_with_int}}The{{end}}{{(mixedCase $value.name)}} != nil {
+			if err = d.Set("{{ if $value.NameReserved }}fos{{end}}{{(flatten $value.name)}}", flatten{{.fpath}}(d, o.{{if $value.name_begin_with_int}}The{{end}}{{(mixedCase $value.name)}}, "{{ (flatten $value.name) }}", sort)); err != nil {
+				return diag.Errorf("error reading {{ (flatten $value.name) }}: %v", err)
+			}
 		}
 	}
 {{ end }}

@@ -406,7 +406,7 @@ func flattenSwitchControllerDynamicPortPolicyPolicy(d *schema.ResourceData, v *[
 			}
 
 			if tmp := cfg.InterfaceTags; tmp != nil {
-				v["interface_tags"] = flattenSwitchControllerDynamicPortPolicyPolicyInterfaceTags(d, tmp, prefix+"interface_tags", sort)
+				v["interface_tags"] = flattenSwitchControllerDynamicPortPolicyPolicyInterfaceTags(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "interface_tags"), sort)
 			}
 
 			if tmp := cfg.LldpProfile; tmp != nil {

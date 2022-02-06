@@ -331,7 +331,7 @@ func flattenFirewallAddress6TemplateSubnetSegment(d *schema.ResourceData, v *[]m
 			}
 
 			if tmp := cfg.Values; tmp != nil {
-				v["values"] = flattenFirewallAddress6TemplateSubnetSegmentValues(d, tmp, prefix+"values", sort)
+				v["values"] = flattenFirewallAddress6TemplateSubnetSegmentValues(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "values"), sort)
 			}
 
 			flat = append(flat, v)

@@ -2586,8 +2586,9 @@ func flattenRouterBgpAdminDistance(d *schema.ResourceData, v *[]models.RouterBgp
 			}
 
 			if tmp := cfg.NeighbourPrefix; tmp != nil {
-				tmp = utils.Ipv4Read(d, fmt.Sprintf("%s.%d.neighbour_prefix", prefix, i), *tmp)
-				v["neighbour_prefix"] = *tmp
+				if tmp = utils.Ipv4Read(d, fmt.Sprintf("%s.%d.neighbour_prefix", prefix, i), *tmp); tmp != nil {
+					v["neighbour_prefix"] = *tmp
+				}
 			}
 
 			if tmp := cfg.RouteList; tmp != nil {
@@ -2621,8 +2622,9 @@ func flattenRouterBgpAggregateAddress(d *schema.ResourceData, v *[]models.Router
 			}
 
 			if tmp := cfg.Prefix; tmp != nil {
-				tmp = utils.Ipv4Read(d, fmt.Sprintf("%s.%d.prefix", prefix, i), *tmp)
-				v["prefix"] = *tmp
+				if tmp = utils.Ipv4Read(d, fmt.Sprintf("%s.%d.prefix", prefix, i), *tmp); tmp != nil {
+					v["prefix"] = *tmp
+				}
 			}
 
 			if tmp := cfg.SummaryOnly; tmp != nil {
@@ -2800,11 +2802,11 @@ func flattenRouterBgpNeighbor(d *schema.ResourceData, v *[]models.RouterBgpNeigh
 			}
 
 			if tmp := cfg.ConditionalAdvertise; tmp != nil {
-				v["conditional_advertise"] = flattenRouterBgpNeighborConditionalAdvertise(d, tmp, prefix+"conditional_advertise", sort)
+				v["conditional_advertise"] = flattenRouterBgpNeighborConditionalAdvertise(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "conditional_advertise"), sort)
 			}
 
 			if tmp := cfg.ConditionalAdvertise6; tmp != nil {
-				v["conditional_advertise6"] = flattenRouterBgpNeighborConditionalAdvertise6(d, tmp, prefix+"conditional_advertise6", sort)
+				v["conditional_advertise6"] = flattenRouterBgpNeighborConditionalAdvertise6(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "conditional_advertise6"), sort)
 			}
 
 			if tmp := cfg.ConnectTimer; tmp != nil {
@@ -3094,7 +3096,7 @@ func flattenRouterBgpNeighborConditionalAdvertise(d *schema.ResourceData, v *[]m
 			}
 
 			if tmp := cfg.ConditionRoutemap; tmp != nil {
-				v["condition_routemap"] = flattenRouterBgpNeighborConditionalAdvertiseConditionRoutemap(d, tmp, prefix+"condition_routemap", sort)
+				v["condition_routemap"] = flattenRouterBgpNeighborConditionalAdvertiseConditionRoutemap(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "condition_routemap"), sort)
 			}
 
 			if tmp := cfg.ConditionType; tmp != nil {
@@ -3146,7 +3148,7 @@ func flattenRouterBgpNeighborConditionalAdvertise6(d *schema.ResourceData, v *[]
 			}
 
 			if tmp := cfg.ConditionRoutemap; tmp != nil {
-				v["condition_routemap"] = flattenRouterBgpNeighborConditionalAdvertise6ConditionRoutemap(d, tmp, prefix+"condition_routemap", sort)
+				v["condition_routemap"] = flattenRouterBgpNeighborConditionalAdvertise6ConditionRoutemap(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "condition_routemap"), sort)
 			}
 
 			if tmp := cfg.ConditionType; tmp != nil {
@@ -3580,8 +3582,9 @@ func flattenRouterBgpNeighborRange(d *schema.ResourceData, v *[]models.RouterBgp
 			}
 
 			if tmp := cfg.Prefix; tmp != nil {
-				tmp = utils.Ipv4Read(d, fmt.Sprintf("%s.%d.prefix", prefix, i), *tmp)
-				v["prefix"] = *tmp
+				if tmp = utils.Ipv4Read(d, fmt.Sprintf("%s.%d.prefix", prefix, i), *tmp); tmp != nil {
+					v["prefix"] = *tmp
+				}
 			}
 
 			flat = append(flat, v)
@@ -3649,8 +3652,9 @@ func flattenRouterBgpNetwork(d *schema.ResourceData, v *[]models.RouterBgpNetwor
 			}
 
 			if tmp := cfg.Prefix; tmp != nil {
-				tmp = utils.Ipv4Read(d, fmt.Sprintf("%s.%d.prefix", prefix, i), *tmp)
-				v["prefix"] = *tmp
+				if tmp = utils.Ipv4Read(d, fmt.Sprintf("%s.%d.prefix", prefix, i), *tmp); tmp != nil {
+					v["prefix"] = *tmp
+				}
 			}
 
 			if tmp := cfg.RouteMap; tmp != nil {
@@ -3774,7 +3778,7 @@ func flattenRouterBgpVrfLeak(d *schema.ResourceData, v *[]models.RouterBgpVrfLea
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Target; tmp != nil {
-				v["target"] = flattenRouterBgpVrfLeakTarget(d, tmp, prefix+"target", sort)
+				v["target"] = flattenRouterBgpVrfLeakTarget(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "target"), sort)
 			}
 
 			if tmp := cfg.Vrf; tmp != nil {
@@ -3830,7 +3834,7 @@ func flattenRouterBgpVrfLeak6(d *schema.ResourceData, v *[]models.RouterBgpVrfLe
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Target; tmp != nil {
-				v["target"] = flattenRouterBgpVrfLeak6Target(d, tmp, prefix+"target", sort)
+				v["target"] = flattenRouterBgpVrfLeak6Target(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "target"), sort)
 			}
 
 			if tmp := cfg.Vrf; tmp != nil {

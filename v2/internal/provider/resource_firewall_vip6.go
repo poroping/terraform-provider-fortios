@@ -1021,7 +1021,7 @@ func flattenFirewallVip6Realservers(d *schema.ResourceData, v *[]models.Firewall
 			}
 
 			if tmp := cfg.Monitor; tmp != nil {
-				v["monitor"] = flattenFirewallVip6RealserversMonitor(d, tmp, prefix+"monitor", sort)
+				v["monitor"] = flattenFirewallVip6RealserversMonitor(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "monitor"), sort)
 			}
 
 			if tmp := cfg.Port; tmp != nil {

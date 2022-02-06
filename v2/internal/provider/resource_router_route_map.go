@@ -685,7 +685,7 @@ func flattenRouterRouteMapRule(d *schema.ResourceData, v *[]models.RouterRouteMa
 			}
 
 			if tmp := cfg.SetAspath; tmp != nil {
-				v["set_aspath"] = flattenRouterRouteMapRuleSetAspath(d, tmp, prefix+"set_aspath", sort)
+				v["set_aspath"] = flattenRouterRouteMapRuleSetAspath(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "set_aspath"), sort)
 			}
 
 			if tmp := cfg.SetAspathAction; tmp != nil {
@@ -697,7 +697,7 @@ func flattenRouterRouteMapRule(d *schema.ResourceData, v *[]models.RouterRouteMa
 			}
 
 			if tmp := cfg.SetCommunity; tmp != nil {
-				v["set_community"] = flattenRouterRouteMapRuleSetCommunity(d, tmp, prefix+"set_community", sort)
+				v["set_community"] = flattenRouterRouteMapRuleSetCommunity(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "set_community"), sort)
 			}
 
 			if tmp := cfg.SetCommunityAdditive; tmp != nil {
@@ -729,11 +729,11 @@ func flattenRouterRouteMapRule(d *schema.ResourceData, v *[]models.RouterRouteMa
 			}
 
 			if tmp := cfg.SetExtcommunityRt; tmp != nil {
-				v["set_extcommunity_rt"] = flattenRouterRouteMapRuleSetExtcommunityRt(d, tmp, prefix+"set_extcommunity_rt", sort)
+				v["set_extcommunity_rt"] = flattenRouterRouteMapRuleSetExtcommunityRt(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "set_extcommunity_rt"), sort)
 			}
 
 			if tmp := cfg.SetExtcommunitySoo; tmp != nil {
-				v["set_extcommunity_soo"] = flattenRouterRouteMapRuleSetExtcommunitySoo(d, tmp, prefix+"set_extcommunity_soo", sort)
+				v["set_extcommunity_soo"] = flattenRouterRouteMapRuleSetExtcommunitySoo(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "set_extcommunity_soo"), sort)
 			}
 
 			if tmp := cfg.SetFlags; tmp != nil {

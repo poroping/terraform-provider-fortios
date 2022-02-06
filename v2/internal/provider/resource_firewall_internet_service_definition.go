@@ -304,7 +304,7 @@ func flattenFirewallInternetServiceDefinitionEntry(d *schema.ResourceData, v *[]
 			}
 
 			if tmp := cfg.PortRange; tmp != nil {
-				v["port_range"] = flattenFirewallInternetServiceDefinitionEntryPortRange(d, tmp, prefix+"port_range", sort)
+				v["port_range"] = flattenFirewallInternetServiceDefinitionEntryPortRange(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "port_range"), sort)
 			}
 
 			if tmp := cfg.Protocol; tmp != nil {

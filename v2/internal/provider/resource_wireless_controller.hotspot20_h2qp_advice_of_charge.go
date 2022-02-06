@@ -318,7 +318,7 @@ func flattenWirelessControllerHotspot20H2qpAdviceOfChargeAocList(d *schema.Resou
 			}
 
 			if tmp := cfg.PlanInfo; tmp != nil {
-				v["plan_info"] = flattenWirelessControllerHotspot20H2qpAdviceOfChargeAocListPlanInfo(d, tmp, prefix+"plan_info", sort)
+				v["plan_info"] = flattenWirelessControllerHotspot20H2qpAdviceOfChargeAocListPlanInfo(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "plan_info"), sort)
 			}
 
 			if tmp := cfg.Type; tmp != nil {

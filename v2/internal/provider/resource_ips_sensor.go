@@ -702,11 +702,11 @@ func flattenIpsSensorEntries(d *schema.ResourceData, v *[]models.IpsSensorEntrie
 			}
 
 			if tmp := cfg.Cve; tmp != nil {
-				v["cve"] = flattenIpsSensorEntriesCve(d, tmp, prefix+"cve", sort)
+				v["cve"] = flattenIpsSensorEntriesCve(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "cve"), sort)
 			}
 
 			if tmp := cfg.ExemptIp; tmp != nil {
-				v["exempt_ip"] = flattenIpsSensorEntriesExemptIp(d, tmp, prefix+"exempt_ip", sort)
+				v["exempt_ip"] = flattenIpsSensorEntriesExemptIp(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "exempt_ip"), sort)
 			}
 
 			if tmp := cfg.Id; tmp != nil {
@@ -766,7 +766,7 @@ func flattenIpsSensorEntries(d *schema.ResourceData, v *[]models.IpsSensorEntrie
 			}
 
 			if tmp := cfg.Rule; tmp != nil {
-				v["rule"] = flattenIpsSensorEntriesRule(d, tmp, prefix+"rule", sort)
+				v["rule"] = flattenIpsSensorEntriesRule(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "rule"), sort)
 			}
 
 			if tmp := cfg.Severity; tmp != nil {
@@ -818,8 +818,9 @@ func flattenIpsSensorEntriesExemptIp(d *schema.ResourceData, v *[]models.IpsSens
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.DstIp; tmp != nil {
-				tmp = utils.Ipv4Read(d, fmt.Sprintf("%s.%d.dst_ip", prefix, i), *tmp)
-				v["dst_ip"] = *tmp
+				if tmp = utils.Ipv4Read(d, fmt.Sprintf("%s.%d.dst_ip", prefix, i), *tmp); tmp != nil {
+					v["dst_ip"] = *tmp
+				}
 			}
 
 			if tmp := cfg.Id; tmp != nil {
@@ -827,8 +828,9 @@ func flattenIpsSensorEntriesExemptIp(d *schema.ResourceData, v *[]models.IpsSens
 			}
 
 			if tmp := cfg.SrcIp; tmp != nil {
-				tmp = utils.Ipv4Read(d, fmt.Sprintf("%s.%d.src_ip", prefix, i), *tmp)
-				v["src_ip"] = *tmp
+				if tmp = utils.Ipv4Read(d, fmt.Sprintf("%s.%d.src_ip", prefix, i), *tmp); tmp != nil {
+					v["src_ip"] = *tmp
+				}
 			}
 
 			flat = append(flat, v)
@@ -946,7 +948,7 @@ func flattenIpsSensorOverride(d *schema.ResourceData, v *[]models.IpsSensorOverr
 			}
 
 			if tmp := cfg.ExemptIp; tmp != nil {
-				v["exempt_ip"] = flattenIpsSensorOverrideExemptIp(d, tmp, prefix+"exempt_ip", sort)
+				v["exempt_ip"] = flattenIpsSensorOverrideExemptIp(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "exempt_ip"), sort)
 			}
 
 			if tmp := cfg.Log; tmp != nil {
@@ -996,8 +998,9 @@ func flattenIpsSensorOverrideExemptIp(d *schema.ResourceData, v *[]models.IpsSen
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.DstIp; tmp != nil {
-				tmp = utils.Ipv4Read(d, fmt.Sprintf("%s.%d.dst_ip", prefix, i), *tmp)
-				v["dst_ip"] = *tmp
+				if tmp = utils.Ipv4Read(d, fmt.Sprintf("%s.%d.dst_ip", prefix, i), *tmp); tmp != nil {
+					v["dst_ip"] = *tmp
+				}
 			}
 
 			if tmp := cfg.Id; tmp != nil {
@@ -1005,8 +1008,9 @@ func flattenIpsSensorOverrideExemptIp(d *schema.ResourceData, v *[]models.IpsSen
 			}
 
 			if tmp := cfg.SrcIp; tmp != nil {
-				tmp = utils.Ipv4Read(d, fmt.Sprintf("%s.%d.src_ip", prefix, i), *tmp)
-				v["src_ip"] = *tmp
+				if tmp = utils.Ipv4Read(d, fmt.Sprintf("%s.%d.src_ip", prefix, i), *tmp); tmp != nil {
+					v["src_ip"] = *tmp
+				}
 			}
 
 			flat = append(flat, v)

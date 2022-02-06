@@ -545,7 +545,7 @@ func flattenIcapProfileRespmodForwardRules(d *schema.ResourceData, v *[]models.I
 			}
 
 			if tmp := cfg.HeaderGroup; tmp != nil {
-				v["header_group"] = flattenIcapProfileRespmodForwardRulesHeaderGroup(d, tmp, prefix+"header_group", sort)
+				v["header_group"] = flattenIcapProfileRespmodForwardRulesHeaderGroup(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "header_group"), sort)
 			}
 
 			if tmp := cfg.Host; tmp != nil {
@@ -553,7 +553,7 @@ func flattenIcapProfileRespmodForwardRules(d *schema.ResourceData, v *[]models.I
 			}
 
 			if tmp := cfg.HttpRespStatusCode; tmp != nil {
-				v["http_resp_status_code"] = flattenIcapProfileRespmodForwardRulesHttpRespStatusCode(d, tmp, prefix+"http_resp_status_code", sort)
+				v["http_resp_status_code"] = flattenIcapProfileRespmodForwardRulesHttpRespStatusCode(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "http_resp_status_code"), sort)
 			}
 
 			if tmp := cfg.Name; tmp != nil {

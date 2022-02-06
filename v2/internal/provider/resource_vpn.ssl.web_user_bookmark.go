@@ -529,7 +529,7 @@ func flattenVpnSslWebUserBookmarkBookmarks(d *schema.ResourceData, v *[]models.V
 			}
 
 			if tmp := cfg.FormData; tmp != nil {
-				v["form_data"] = flattenVpnSslWebUserBookmarkBookmarksFormData(d, tmp, prefix+"form_data", sort)
+				v["form_data"] = flattenVpnSslWebUserBookmarkBookmarksFormData(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "form_data"), sort)
 			}
 
 			if tmp := cfg.Height; tmp != nil {

@@ -96,7 +96,7 @@ func resourceSystemAccprofile() *schema.Resource {
 			"fwgrp_permission": {
 				Type:        schema.TypeList,
 				Description: "Custom firewall permission.",
-				Optional:    true,
+				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"address": {
@@ -153,7 +153,7 @@ func resourceSystemAccprofile() *schema.Resource {
 			"loggrp_permission": {
 				Type:        schema.TypeList,
 				Description: "Custom Log & Report permission.",
-				Optional:    true,
+				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"config": {
@@ -210,7 +210,7 @@ func resourceSystemAccprofile() *schema.Resource {
 			"netgrp_permission": {
 				Type:        schema.TypeList,
 				Description: "Custom network permission.",
-				Optional:    true,
+				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"cfg": {
@@ -267,7 +267,7 @@ func resourceSystemAccprofile() *schema.Resource {
 			"sysgrp_permission": {
 				Type:        schema.TypeList,
 				Description: "Custom system permission.",
-				Optional:    true,
+				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"admin": {
@@ -324,7 +324,7 @@ func resourceSystemAccprofile() *schema.Resource {
 			"utmgrp_permission": {
 				Type:        schema.TypeList,
 				Description: "Custom Security Profile permissions.",
-				Optional:    true,
+				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"antivirus": {
@@ -607,11 +607,12 @@ func resourceSystemAccprofileRead(ctx context.Context, d *schema.ResourceData, m
 	return nil
 }
 
-func flattenSystemAccprofileFwgrpPermission(d *schema.ResourceData, v *[]models.SystemAccprofileFwgrpPermission, prefix string, sort bool) interface{} {
+func flattenSystemAccprofileFwgrpPermission(d *schema.ResourceData, v *models.SystemAccprofileFwgrpPermission, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.SystemAccprofileFwgrpPermission{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Address; tmp != nil {
@@ -641,11 +642,12 @@ func flattenSystemAccprofileFwgrpPermission(d *schema.ResourceData, v *[]models.
 	return flat
 }
 
-func flattenSystemAccprofileLoggrpPermission(d *schema.ResourceData, v *[]models.SystemAccprofileLoggrpPermission, prefix string, sort bool) interface{} {
+func flattenSystemAccprofileLoggrpPermission(d *schema.ResourceData, v *models.SystemAccprofileLoggrpPermission, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.SystemAccprofileLoggrpPermission{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Config; tmp != nil {
@@ -671,11 +673,12 @@ func flattenSystemAccprofileLoggrpPermission(d *schema.ResourceData, v *[]models
 	return flat
 }
 
-func flattenSystemAccprofileNetgrpPermission(d *schema.ResourceData, v *[]models.SystemAccprofileNetgrpPermission, prefix string, sort bool) interface{} {
+func flattenSystemAccprofileNetgrpPermission(d *schema.ResourceData, v *models.SystemAccprofileNetgrpPermission, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.SystemAccprofileNetgrpPermission{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Cfg; tmp != nil {
@@ -697,11 +700,12 @@ func flattenSystemAccprofileNetgrpPermission(d *schema.ResourceData, v *[]models
 	return flat
 }
 
-func flattenSystemAccprofileSysgrpPermission(d *schema.ResourceData, v *[]models.SystemAccprofileSysgrpPermission, prefix string, sort bool) interface{} {
+func flattenSystemAccprofileSysgrpPermission(d *schema.ResourceData, v *models.SystemAccprofileSysgrpPermission, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.SystemAccprofileSysgrpPermission{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Admin; tmp != nil {
@@ -727,11 +731,12 @@ func flattenSystemAccprofileSysgrpPermission(d *schema.ResourceData, v *[]models
 	return flat
 }
 
-func flattenSystemAccprofileUtmgrpPermission(d *schema.ResourceData, v *[]models.SystemAccprofileUtmgrpPermission, prefix string, sort bool) interface{} {
+func flattenSystemAccprofileUtmgrpPermission(d *schema.ResourceData, v *models.SystemAccprofileUtmgrpPermission, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.SystemAccprofileUtmgrpPermission{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Antivirus; tmp != nil {
@@ -840,9 +845,11 @@ func refreshObjectSystemAccprofile(d *schema.ResourceData, o *models.SystemAccpr
 		}
 	}
 
-	if o.FwgrpPermission != nil {
-		if err = d.Set("fwgrp_permission", flattenSystemAccprofileFwgrpPermission(d, o.FwgrpPermission, "fwgrp_permission", sort)); err != nil {
-			return diag.Errorf("error reading fwgrp_permission: %v", err)
+	if _, ok := d.GetOk("fwgrp_permission"); ok {
+		if o.FwgrpPermission != nil {
+			if err = d.Set("fwgrp_permission", flattenSystemAccprofileFwgrpPermission(d, o.FwgrpPermission, "fwgrp_permission", sort)); err != nil {
+				return diag.Errorf("error reading fwgrp_permission: %v", err)
+			}
 		}
 	}
 
@@ -854,9 +861,11 @@ func refreshObjectSystemAccprofile(d *schema.ResourceData, o *models.SystemAccpr
 		}
 	}
 
-	if o.LoggrpPermission != nil {
-		if err = d.Set("loggrp_permission", flattenSystemAccprofileLoggrpPermission(d, o.LoggrpPermission, "loggrp_permission", sort)); err != nil {
-			return diag.Errorf("error reading loggrp_permission: %v", err)
+	if _, ok := d.GetOk("loggrp_permission"); ok {
+		if o.LoggrpPermission != nil {
+			if err = d.Set("loggrp_permission", flattenSystemAccprofileLoggrpPermission(d, o.LoggrpPermission, "loggrp_permission", sort)); err != nil {
+				return diag.Errorf("error reading loggrp_permission: %v", err)
+			}
 		}
 	}
 
@@ -876,9 +885,11 @@ func refreshObjectSystemAccprofile(d *schema.ResourceData, o *models.SystemAccpr
 		}
 	}
 
-	if o.NetgrpPermission != nil {
-		if err = d.Set("netgrp_permission", flattenSystemAccprofileNetgrpPermission(d, o.NetgrpPermission, "netgrp_permission", sort)); err != nil {
-			return diag.Errorf("error reading netgrp_permission: %v", err)
+	if _, ok := d.GetOk("netgrp_permission"); ok {
+		if o.NetgrpPermission != nil {
+			if err = d.Set("netgrp_permission", flattenSystemAccprofileNetgrpPermission(d, o.NetgrpPermission, "netgrp_permission", sort)); err != nil {
+				return diag.Errorf("error reading netgrp_permission: %v", err)
+			}
 		}
 	}
 
@@ -906,9 +917,11 @@ func refreshObjectSystemAccprofile(d *schema.ResourceData, o *models.SystemAccpr
 		}
 	}
 
-	if o.SysgrpPermission != nil {
-		if err = d.Set("sysgrp_permission", flattenSystemAccprofileSysgrpPermission(d, o.SysgrpPermission, "sysgrp_permission", sort)); err != nil {
-			return diag.Errorf("error reading sysgrp_permission: %v", err)
+	if _, ok := d.GetOk("sysgrp_permission"); ok {
+		if o.SysgrpPermission != nil {
+			if err = d.Set("sysgrp_permission", flattenSystemAccprofileSysgrpPermission(d, o.SysgrpPermission, "sysgrp_permission", sort)); err != nil {
+				return diag.Errorf("error reading sysgrp_permission: %v", err)
+			}
 		}
 	}
 
@@ -928,9 +941,11 @@ func refreshObjectSystemAccprofile(d *schema.ResourceData, o *models.SystemAccpr
 		}
 	}
 
-	if o.UtmgrpPermission != nil {
-		if err = d.Set("utmgrp_permission", flattenSystemAccprofileUtmgrpPermission(d, o.UtmgrpPermission, "utmgrp_permission", sort)); err != nil {
-			return diag.Errorf("error reading utmgrp_permission: %v", err)
+	if _, ok := d.GetOk("utmgrp_permission"); ok {
+		if o.UtmgrpPermission != nil {
+			if err = d.Set("utmgrp_permission", flattenSystemAccprofileUtmgrpPermission(d, o.UtmgrpPermission, "utmgrp_permission", sort)); err != nil {
+				return diag.Errorf("error reading utmgrp_permission: %v", err)
+			}
 		}
 	}
 
@@ -961,7 +976,7 @@ func refreshObjectSystemAccprofile(d *schema.ResourceData, o *models.SystemAccpr
 	return nil
 }
 
-func expandSystemAccprofileFwgrpPermission(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.SystemAccprofileFwgrpPermission, error) {
+func expandSystemAccprofileFwgrpPermission(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.SystemAccprofileFwgrpPermission, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -1010,10 +1025,10 @@ func expandSystemAccprofileFwgrpPermission(d *schema.ResourceData, v interface{}
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
-func expandSystemAccprofileLoggrpPermission(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.SystemAccprofileLoggrpPermission, error) {
+func expandSystemAccprofileLoggrpPermission(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.SystemAccprofileLoggrpPermission, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -1055,10 +1070,10 @@ func expandSystemAccprofileLoggrpPermission(d *schema.ResourceData, v interface{
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
-func expandSystemAccprofileNetgrpPermission(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.SystemAccprofileNetgrpPermission, error) {
+func expandSystemAccprofileNetgrpPermission(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.SystemAccprofileNetgrpPermission, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -1093,10 +1108,10 @@ func expandSystemAccprofileNetgrpPermission(d *schema.ResourceData, v interface{
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
-func expandSystemAccprofileSysgrpPermission(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.SystemAccprofileSysgrpPermission, error) {
+func expandSystemAccprofileSysgrpPermission(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.SystemAccprofileSysgrpPermission, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -1138,10 +1153,10 @@ func expandSystemAccprofileSysgrpPermission(d *schema.ResourceData, v interface{
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
-func expandSystemAccprofileUtmgrpPermission(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.SystemAccprofileUtmgrpPermission, error) {
+func expandSystemAccprofileUtmgrpPermission(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.SystemAccprofileUtmgrpPermission, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -1239,7 +1254,7 @@ func expandSystemAccprofileUtmgrpPermission(d *schema.ResourceData, v interface{
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
 func getObjectSystemAccprofile(d *schema.ResourceData, sv string) (*models.SystemAccprofile, diag.Diagnostics) {
@@ -1315,7 +1330,7 @@ func getObjectSystemAccprofile(d *schema.ResourceData, sv string) (*models.Syste
 	} else if d.HasChange("fwgrp_permission") {
 		old, new := d.GetChange("fwgrp_permission")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.FwgrpPermission = &[]models.SystemAccprofileFwgrpPermission{}
+			obj.FwgrpPermission = &models.SystemAccprofileFwgrpPermission{}
 		}
 	}
 	if v1, ok := d.GetOk("loggrp"); ok {
@@ -1341,7 +1356,7 @@ func getObjectSystemAccprofile(d *schema.ResourceData, sv string) (*models.Syste
 	} else if d.HasChange("loggrp_permission") {
 		old, new := d.GetChange("loggrp_permission")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.LoggrpPermission = &[]models.SystemAccprofileLoggrpPermission{}
+			obj.LoggrpPermission = &models.SystemAccprofileLoggrpPermission{}
 		}
 	}
 	if v1, ok := d.GetOk("name"); ok {
@@ -1376,7 +1391,7 @@ func getObjectSystemAccprofile(d *schema.ResourceData, sv string) (*models.Syste
 	} else if d.HasChange("netgrp_permission") {
 		old, new := d.GetChange("netgrp_permission")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.NetgrpPermission = &[]models.SystemAccprofileNetgrpPermission{}
+			obj.NetgrpPermission = &models.SystemAccprofileNetgrpPermission{}
 		}
 	}
 	if v1, ok := d.GetOk("scope"); ok {
@@ -1420,7 +1435,7 @@ func getObjectSystemAccprofile(d *schema.ResourceData, sv string) (*models.Syste
 	} else if d.HasChange("sysgrp_permission") {
 		old, new := d.GetChange("sysgrp_permission")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.SysgrpPermission = &[]models.SystemAccprofileSysgrpPermission{}
+			obj.SysgrpPermission = &models.SystemAccprofileSysgrpPermission{}
 		}
 	}
 	if v1, ok := d.GetOk("system_diagnostics"); ok {
@@ -1455,7 +1470,7 @@ func getObjectSystemAccprofile(d *schema.ResourceData, sv string) (*models.Syste
 	} else if d.HasChange("utmgrp_permission") {
 		old, new := d.GetChange("utmgrp_permission")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.UtmgrpPermission = &[]models.SystemAccprofileUtmgrpPermission{}
+			obj.UtmgrpPermission = &models.SystemAccprofileUtmgrpPermission{}
 		}
 	}
 	if v1, ok := d.GetOk("vpngrp"); ok {

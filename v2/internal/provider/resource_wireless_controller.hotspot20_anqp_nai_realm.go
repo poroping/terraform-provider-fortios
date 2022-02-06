@@ -315,7 +315,7 @@ func flattenWirelessControllerHotspot20AnqpNaiRealmNaiList(d *schema.ResourceDat
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.EapMethod; tmp != nil {
-				v["eap_method"] = flattenWirelessControllerHotspot20AnqpNaiRealmNaiListEapMethod(d, tmp, prefix+"eap_method", sort)
+				v["eap_method"] = flattenWirelessControllerHotspot20AnqpNaiRealmNaiListEapMethod(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "eap_method"), sort)
 			}
 
 			if tmp := cfg.Encoding; tmp != nil {
@@ -349,7 +349,7 @@ func flattenWirelessControllerHotspot20AnqpNaiRealmNaiListEapMethod(d *schema.Re
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.AuthParam; tmp != nil {
-				v["auth_param"] = flattenWirelessControllerHotspot20AnqpNaiRealmNaiListEapMethodAuthParam(d, tmp, prefix+"auth_param", sort)
+				v["auth_param"] = flattenWirelessControllerHotspot20AnqpNaiRealmNaiListEapMethodAuthParam(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "auth_param"), sort)
 			}
 
 			if tmp := cfg.Index; tmp != nil {

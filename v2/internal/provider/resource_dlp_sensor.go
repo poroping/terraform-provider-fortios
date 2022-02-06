@@ -479,7 +479,7 @@ func flattenDlpSensorFilter(d *schema.ResourceData, v *[]models.DlpSensorFilter,
 			}
 
 			if tmp := cfg.Sensitivity; tmp != nil {
-				v["sensitivity"] = flattenDlpSensorFilterSensitivity(d, tmp, prefix+"sensitivity", sort)
+				v["sensitivity"] = flattenDlpSensorFilterSensitivity(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "sensitivity"), sort)
 			}
 
 			if tmp := cfg.Severity; tmp != nil {

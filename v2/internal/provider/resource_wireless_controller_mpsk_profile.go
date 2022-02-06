@@ -338,7 +338,7 @@ func flattenWirelessControllerMpskProfileMpskGroup(d *schema.ResourceData, v *[]
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.MpskKey; tmp != nil {
-				v["mpsk_key"] = flattenWirelessControllerMpskProfileMpskGroupMpskKey(d, tmp, prefix+"mpsk_key", sort)
+				v["mpsk_key"] = flattenWirelessControllerMpskProfileMpskGroupMpskKey(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "mpsk_key"), sort)
 			}
 
 			if tmp := cfg.Name; tmp != nil {
@@ -388,7 +388,7 @@ func flattenWirelessControllerMpskProfileMpskGroupMpskKey(d *schema.ResourceData
 			}
 
 			if tmp := cfg.MpskSchedules; tmp != nil {
-				v["mpsk_schedules"] = flattenWirelessControllerMpskProfileMpskGroupMpskKeyMpskSchedules(d, tmp, prefix+"mpsk_schedules", sort)
+				v["mpsk_schedules"] = flattenWirelessControllerMpskProfileMpskGroupMpskKeyMpskSchedules(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "mpsk_schedules"), sort)
 			}
 
 			if tmp := cfg.Name; tmp != nil {

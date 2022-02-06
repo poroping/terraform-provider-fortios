@@ -959,7 +959,7 @@ func resourceWirelessControllerVap() *schema.Resource {
 			"portal_message_overrides": {
 				Type:        schema.TypeList,
 				Description: "Individual message overrides.",
-				Optional:    true,
+				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"auth_disclaimer_page": {
@@ -1706,7 +1706,7 @@ func flattenWirelessControllerVapMpskKey(d *schema.ResourceData, v *[]models.Wir
 			}
 
 			if tmp := cfg.MpskSchedules; tmp != nil {
-				v["mpsk_schedules"] = flattenWirelessControllerVapMpskKeyMpskSchedules(d, tmp, prefix+"mpsk_schedules", sort)
+				v["mpsk_schedules"] = flattenWirelessControllerVapMpskKeyMpskSchedules(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "mpsk_schedules"), sort)
 			}
 
 			if tmp := cfg.Passphrase; tmp != nil {
@@ -1746,11 +1746,12 @@ func flattenWirelessControllerVapMpskKeyMpskSchedules(d *schema.ResourceData, v 
 	return flat
 }
 
-func flattenWirelessControllerVapPortalMessageOverrides(d *schema.ResourceData, v *[]models.WirelessControllerVapPortalMessageOverrides, prefix string, sort bool) interface{} {
+func flattenWirelessControllerVapPortalMessageOverrides(d *schema.ResourceData, v *models.WirelessControllerVapPortalMessageOverrides, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.WirelessControllerVapPortalMessageOverrides{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.AuthDisclaimerPage; tmp != nil {
@@ -2756,9 +2757,11 @@ func refreshObjectWirelessControllerVap(d *schema.ResourceData, o *models.Wirele
 		}
 	}
 
-	if o.PortalMessageOverrides != nil {
-		if err = d.Set("portal_message_overrides", flattenWirelessControllerVapPortalMessageOverrides(d, o.PortalMessageOverrides, "portal_message_overrides", sort)); err != nil {
-			return diag.Errorf("error reading portal_message_overrides: %v", err)
+	if _, ok := d.GetOk("portal_message_overrides"); ok {
+		if o.PortalMessageOverrides != nil {
+			if err = d.Set("portal_message_overrides", flattenWirelessControllerVapPortalMessageOverrides(d, o.PortalMessageOverrides, "portal_message_overrides", sort)); err != nil {
+				return diag.Errorf("error reading portal_message_overrides: %v", err)
+			}
 		}
 	}
 
@@ -3304,7 +3307,7 @@ func expandWirelessControllerVapMpskKeyMpskSchedules(d *schema.ResourceData, v i
 	return &result, nil
 }
 
-func expandWirelessControllerVapPortalMessageOverrides(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.WirelessControllerVapPortalMessageOverrides, error) {
+func expandWirelessControllerVapPortalMessageOverrides(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.WirelessControllerVapPortalMessageOverrides, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -3346,7 +3349,7 @@ func expandWirelessControllerVapPortalMessageOverrides(d *schema.ResourceData, v
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
 func expandWirelessControllerVapRadiusMacAuthUsergroups(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.WirelessControllerVapRadiusMacAuthUsergroups, error) {
@@ -4501,7 +4504,7 @@ func getObjectWirelessControllerVap(d *schema.ResourceData, sv string) (*models.
 	} else if d.HasChange("portal_message_overrides") {
 		old, new := d.GetChange("portal_message_overrides")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.PortalMessageOverrides = &[]models.WirelessControllerVapPortalMessageOverrides{}
+			obj.PortalMessageOverrides = &models.WirelessControllerVapPortalMessageOverrides{}
 		}
 	}
 	if v1, ok := d.GetOk("portal_type"); ok {

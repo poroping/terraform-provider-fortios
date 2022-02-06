@@ -514,7 +514,7 @@ func resourceSystemInterface() *schema.Resource {
 			"egress_queues": {
 				Type:        schema.TypeList,
 				Description: "Configure queues of NP port on egress path.",
-				Optional:    true,
+				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"cos0": {
@@ -874,7 +874,7 @@ func resourceSystemInterface() *schema.Resource {
 			"ipv6": {
 				Type:        schema.TypeList,
 				Description: "IPv6 of interface.",
-				Optional:    true,
+				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"autoconf": {
@@ -2866,11 +2866,12 @@ func flattenSystemInterfaceDhcpSnoopingServerList(d *schema.ResourceData, v *[]m
 	return flat
 }
 
-func flattenSystemInterfaceEgressQueues(d *schema.ResourceData, v *[]models.SystemInterfaceEgressQueues, prefix string, sort bool) interface{} {
+func flattenSystemInterfaceEgressQueues(d *schema.ResourceData, v *models.SystemInterfaceEgressQueues, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.SystemInterfaceEgressQueues{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Cos0; tmp != nil {
@@ -2934,11 +2935,12 @@ func flattenSystemInterfaceFailAlertInterfaces(d *schema.ResourceData, v *[]mode
 	return flat
 }
 
-func flattenSystemInterfaceIpv6(d *schema.ResourceData, v *[]models.SystemInterfaceIpv6, prefix string, sort bool) interface{} {
+func flattenSystemInterfaceIpv6(d *schema.ResourceData, v *models.SystemInterfaceIpv6, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.SystemInterfaceIpv6{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Autoconf; tmp != nil {
@@ -2954,7 +2956,7 @@ func flattenSystemInterfaceIpv6(d *schema.ResourceData, v *[]models.SystemInterf
 			}
 
 			if tmp := cfg.Dhcp6IapdList; tmp != nil {
-				v["dhcp6_iapd_list"] = flattenSystemInterfaceIpv6Dhcp6IapdList(d, tmp, prefix+"dhcp6_iapd_list", sort)
+				v["dhcp6_iapd_list"] = flattenSystemInterfaceIpv6Dhcp6IapdList(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "dhcp6_iapd_list"), sort)
 			}
 
 			if tmp := cfg.Dhcp6InformationRequest; tmp != nil {
@@ -3014,7 +3016,7 @@ func flattenSystemInterfaceIpv6(d *schema.ResourceData, v *[]models.SystemInterf
 			}
 
 			if tmp := cfg.Ip6DelegatedPrefixList; tmp != nil {
-				v["ip6_delegated_prefix_list"] = flattenSystemInterfaceIpv6Ip6DelegatedPrefixList(d, tmp, prefix+"ip6_delegated_prefix_list", sort)
+				v["ip6_delegated_prefix_list"] = flattenSystemInterfaceIpv6Ip6DelegatedPrefixList(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "ip6_delegated_prefix_list"), sort)
 			}
 
 			if tmp := cfg.Ip6DnsServerOverride; tmp != nil {
@@ -3022,7 +3024,7 @@ func flattenSystemInterfaceIpv6(d *schema.ResourceData, v *[]models.SystemInterf
 			}
 
 			if tmp := cfg.Ip6ExtraAddr; tmp != nil {
-				v["ip6_extra_addr"] = flattenSystemInterfaceIpv6Ip6ExtraAddr(d, tmp, prefix+"ip6_extra_addr", sort)
+				v["ip6_extra_addr"] = flattenSystemInterfaceIpv6Ip6ExtraAddr(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "ip6_extra_addr"), sort)
 			}
 
 			if tmp := cfg.Ip6HopLimit; tmp != nil {
@@ -3054,7 +3056,7 @@ func flattenSystemInterfaceIpv6(d *schema.ResourceData, v *[]models.SystemInterf
 			}
 
 			if tmp := cfg.Ip6PrefixList; tmp != nil {
-				v["ip6_prefix_list"] = flattenSystemInterfaceIpv6Ip6PrefixList(d, tmp, prefix+"ip6_prefix_list", sort)
+				v["ip6_prefix_list"] = flattenSystemInterfaceIpv6Ip6PrefixList(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "ip6_prefix_list"), sort)
 			}
 
 			if tmp := cfg.Ip6PrefixMode; tmp != nil {
@@ -3122,7 +3124,7 @@ func flattenSystemInterfaceIpv6(d *schema.ResourceData, v *[]models.SystemInterf
 			}
 
 			if tmp := cfg.Vrrp6; tmp != nil {
-				v["vrrp6"] = flattenSystemInterfaceIpv6Vrrp6(d, tmp, prefix+"vrrp6", sort)
+				v["vrrp6"] = flattenSystemInterfaceIpv6Vrrp6(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "vrrp6"), sort)
 			}
 
 			flat = append(flat, v)
@@ -3250,7 +3252,7 @@ func flattenSystemInterfaceIpv6Ip6PrefixList(d *schema.ResourceData, v *[]models
 			}
 
 			if tmp := cfg.Dnssl; tmp != nil {
-				v["dnssl"] = flattenSystemInterfaceIpv6Ip6PrefixListDnssl(d, tmp, prefix+"dnssl", sort)
+				v["dnssl"] = flattenSystemInterfaceIpv6Ip6PrefixListDnssl(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "dnssl"), sort)
 			}
 
 			if tmp := cfg.OnlinkFlag; tmp != nil {
@@ -3418,8 +3420,9 @@ func flattenSystemInterfaceSecondaryip(d *schema.ResourceData, v *[]models.Syste
 			}
 
 			if tmp := cfg.Ip; tmp != nil {
-				tmp = utils.Ipv4Read(d, fmt.Sprintf("%s.%d.ip", prefix, i), *tmp)
-				v["ip"] = *tmp
+				if tmp = utils.Ipv4Read(d, fmt.Sprintf("%s.%d.ip", prefix, i), *tmp); tmp != nil {
+					v["ip"] = *tmp
+				}
 			}
 
 			if tmp := cfg.PingServStatus; tmp != nil {
@@ -3475,7 +3478,7 @@ func flattenSystemInterfaceTagging(d *schema.ResourceData, v *[]models.SystemInt
 			}
 
 			if tmp := cfg.Tags; tmp != nil {
-				v["tags"] = flattenSystemInterfaceTaggingTags(d, tmp, prefix+"tags", sort)
+				v["tags"] = flattenSystemInterfaceTaggingTags(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "tags"), sort)
 			}
 
 			flat = append(flat, v)
@@ -3539,7 +3542,7 @@ func flattenSystemInterfaceVrrp(d *schema.ResourceData, v *[]models.SystemInterf
 			}
 
 			if tmp := cfg.ProxyArp; tmp != nil {
-				v["proxy_arp"] = flattenSystemInterfaceVrrpProxyArp(d, tmp, prefix+"proxy_arp", sort)
+				v["proxy_arp"] = flattenSystemInterfaceVrrpProxyArp(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "proxy_arp"), sort)
 			}
 
 			if tmp := cfg.StartTime; tmp != nil {
@@ -4010,9 +4013,11 @@ func refreshObjectSystemInterface(d *schema.ResourceData, o *models.SystemInterf
 		}
 	}
 
-	if o.EgressQueues != nil {
-		if err = d.Set("egress_queues", flattenSystemInterfaceEgressQueues(d, o.EgressQueues, "egress_queues", sort)); err != nil {
-			return diag.Errorf("error reading egress_queues: %v", err)
+	if _, ok := d.GetOk("egress_queues"); ok {
+		if o.EgressQueues != nil {
+			if err = d.Set("egress_queues", flattenSystemInterfaceEgressQueues(d, o.EgressQueues, "egress_queues", sort)); err != nil {
+				return diag.Errorf("error reading egress_queues: %v", err)
+			}
 		}
 	}
 
@@ -4299,9 +4304,11 @@ func refreshObjectSystemInterface(d *schema.ResourceData, o *models.SystemInterf
 		}
 	}
 
-	if o.Ipv6 != nil {
-		if err = d.Set("ipv6", flattenSystemInterfaceIpv6(d, o.Ipv6, "ipv6", sort)); err != nil {
-			return diag.Errorf("error reading ipv6: %v", err)
+	if _, ok := d.GetOk("ipv6"); ok {
+		if o.Ipv6 != nil {
+			if err = d.Set("ipv6", flattenSystemInterfaceIpv6(d, o.Ipv6, "ipv6", sort)); err != nil {
+				return diag.Errorf("error reading ipv6: %v", err)
+			}
 		}
 	}
 
@@ -5330,7 +5337,7 @@ func expandSystemInterfaceDhcpSnoopingServerList(d *schema.ResourceData, v inter
 	return &result, nil
 }
 
-func expandSystemInterfaceEgressQueues(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.SystemInterfaceEgressQueues, error) {
+func expandSystemInterfaceEgressQueues(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.SystemInterfaceEgressQueues, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -5400,7 +5407,7 @@ func expandSystemInterfaceEgressQueues(d *schema.ResourceData, v interface{}, pr
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
 func expandSystemInterfaceFailAlertInterfaces(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.SystemInterfaceFailAlertInterfaces, error) {
@@ -5427,7 +5434,7 @@ func expandSystemInterfaceFailAlertInterfaces(d *schema.ResourceData, v interfac
 	return &result, nil
 }
 
-func expandSystemInterfaceIpv6(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.SystemInterfaceIpv6, error) {
+func expandSystemInterfaceIpv6(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.SystemInterfaceIpv6, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -5792,7 +5799,7 @@ func expandSystemInterfaceIpv6(d *schema.ResourceData, v interface{}, pre string
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
 func expandSystemInterfaceIpv6Dhcp6IapdList(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.SystemInterfaceIpv6Dhcp6IapdList, error) {
@@ -6970,7 +6977,7 @@ func getObjectSystemInterface(d *schema.ResourceData, sv string) (*models.System
 	} else if d.HasChange("egress_queues") {
 		old, new := d.GetChange("egress_queues")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.EgressQueues = &[]models.SystemInterfaceEgressQueues{}
+			obj.EgressQueues = &models.SystemInterfaceEgressQueues{}
 		}
 	}
 	if v1, ok := d.GetOk("egress_shaping_profile"); ok {
@@ -7319,7 +7326,7 @@ func getObjectSystemInterface(d *schema.ResourceData, sv string) (*models.System
 	} else if d.HasChange("ipv6") {
 		old, new := d.GetChange("ipv6")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.Ipv6 = &[]models.SystemInterfaceIpv6{}
+			obj.Ipv6 = &models.SystemInterfaceIpv6{}
 		}
 	}
 	if v1, ok := d.GetOk("l2forward"); ok {

@@ -352,7 +352,7 @@ func flattenFirewallAddrgrp6Tagging(d *schema.ResourceData, v *[]models.Firewall
 			}
 
 			if tmp := cfg.Tags; tmp != nil {
-				v["tags"] = flattenFirewallAddrgrp6TaggingTags(d, tmp, prefix+"tags", sort)
+				v["tags"] = flattenFirewallAddrgrp6TaggingTags(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "tags"), sort)
 			}
 
 			flat = append(flat, v)

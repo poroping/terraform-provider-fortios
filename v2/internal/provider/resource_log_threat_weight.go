@@ -138,7 +138,7 @@ func resourceLogThreatWeight() *schema.Resource {
 			"ips": {
 				Type:        schema.TypeList,
 				Description: "IPS threat weight settings.",
-				Optional:    true,
+				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"critical_severity": {
@@ -187,7 +187,7 @@ func resourceLogThreatWeight() *schema.Resource {
 			"level": {
 				Type:        schema.TypeList,
 				Description: "Score mapping for threat weight levels.",
-				Optional:    true,
+				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"critical": {
@@ -228,7 +228,7 @@ func resourceLogThreatWeight() *schema.Resource {
 			"malware": {
 				Type:        schema.TypeList,
 				Description: "Anti-virus malware threat weight settings.",
-				Optional:    true,
+				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"command_blocked": {
@@ -624,11 +624,12 @@ func flattenLogThreatWeightGeolocation(d *schema.ResourceData, v *[]models.LogTh
 	return flat
 }
 
-func flattenLogThreatWeightIps(d *schema.ResourceData, v *[]models.LogThreatWeightIps, prefix string, sort bool) interface{} {
+func flattenLogThreatWeightIps(d *schema.ResourceData, v *models.LogThreatWeightIps, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.LogThreatWeightIps{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.CriticalSeverity; tmp != nil {
@@ -658,11 +659,12 @@ func flattenLogThreatWeightIps(d *schema.ResourceData, v *[]models.LogThreatWeig
 	return flat
 }
 
-func flattenLogThreatWeightLevel(d *schema.ResourceData, v *[]models.LogThreatWeightLevel, prefix string, sort bool) interface{} {
+func flattenLogThreatWeightLevel(d *schema.ResourceData, v *models.LogThreatWeightLevel, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.LogThreatWeightLevel{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Critical; tmp != nil {
@@ -688,11 +690,12 @@ func flattenLogThreatWeightLevel(d *schema.ResourceData, v *[]models.LogThreatWe
 	return flat
 }
 
-func flattenLogThreatWeightMalware(d *schema.ResourceData, v *[]models.LogThreatWeightMalware, prefix string, sort bool) interface{} {
+func flattenLogThreatWeightMalware(d *schema.ResourceData, v *models.LogThreatWeightMalware, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.LogThreatWeightMalware{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.CommandBlocked; tmp != nil {
@@ -835,21 +838,27 @@ func refreshObjectLogThreatWeight(d *schema.ResourceData, o *models.LogThreatWei
 		}
 	}
 
-	if o.Ips != nil {
-		if err = d.Set("ips", flattenLogThreatWeightIps(d, o.Ips, "ips", sort)); err != nil {
-			return diag.Errorf("error reading ips: %v", err)
+	if _, ok := d.GetOk("ips"); ok {
+		if o.Ips != nil {
+			if err = d.Set("ips", flattenLogThreatWeightIps(d, o.Ips, "ips", sort)); err != nil {
+				return diag.Errorf("error reading ips: %v", err)
+			}
 		}
 	}
 
-	if o.Level != nil {
-		if err = d.Set("level", flattenLogThreatWeightLevel(d, o.Level, "level", sort)); err != nil {
-			return diag.Errorf("error reading level: %v", err)
+	if _, ok := d.GetOk("level"); ok {
+		if o.Level != nil {
+			if err = d.Set("level", flattenLogThreatWeightLevel(d, o.Level, "level", sort)); err != nil {
+				return diag.Errorf("error reading level: %v", err)
+			}
 		}
 	}
 
-	if o.Malware != nil {
-		if err = d.Set("malware", flattenLogThreatWeightMalware(d, o.Malware, "malware", sort)); err != nil {
-			return diag.Errorf("error reading malware: %v", err)
+	if _, ok := d.GetOk("malware"); ok {
+		if o.Malware != nil {
+			if err = d.Set("malware", flattenLogThreatWeightMalware(d, o.Malware, "malware", sort)); err != nil {
+				return diag.Errorf("error reading malware: %v", err)
+			}
 		}
 	}
 
@@ -957,7 +966,7 @@ func expandLogThreatWeightGeolocation(d *schema.ResourceData, v interface{}, pre
 	return &result, nil
 }
 
-func expandLogThreatWeightIps(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.LogThreatWeightIps, error) {
+func expandLogThreatWeightIps(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.LogThreatWeightIps, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -1006,10 +1015,10 @@ func expandLogThreatWeightIps(d *schema.ResourceData, v interface{}, pre string,
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
-func expandLogThreatWeightLevel(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.LogThreatWeightLevel, error) {
+func expandLogThreatWeightLevel(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.LogThreatWeightLevel, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -1055,10 +1064,10 @@ func expandLogThreatWeightLevel(d *schema.ResourceData, v interface{}, pre strin
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
-func expandLogThreatWeightMalware(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.LogThreatWeightMalware, error) {
+func expandLogThreatWeightMalware(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.LogThreatWeightMalware, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -1184,7 +1193,7 @@ func expandLogThreatWeightMalware(d *schema.ResourceData, v interface{}, pre str
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
 func expandLogThreatWeightWeb(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.LogThreatWeightWeb, error) {
@@ -1306,7 +1315,7 @@ func getObjectLogThreatWeight(d *schema.ResourceData, sv string) (*models.LogThr
 	} else if d.HasChange("ips") {
 		old, new := d.GetChange("ips")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.Ips = &[]models.LogThreatWeightIps{}
+			obj.Ips = &models.LogThreatWeightIps{}
 		}
 	}
 	if v, ok := d.GetOk("level"); ok {
@@ -1323,7 +1332,7 @@ func getObjectLogThreatWeight(d *schema.ResourceData, sv string) (*models.LogThr
 	} else if d.HasChange("level") {
 		old, new := d.GetChange("level")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.Level = &[]models.LogThreatWeightLevel{}
+			obj.Level = &models.LogThreatWeightLevel{}
 		}
 	}
 	if v, ok := d.GetOk("malware"); ok {
@@ -1340,7 +1349,7 @@ func getObjectLogThreatWeight(d *schema.ResourceData, sv string) (*models.LogThr
 	} else if d.HasChange("malware") {
 		old, new := d.GetChange("malware")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.Malware = &[]models.LogThreatWeightMalware{}
+			obj.Malware = &models.LogThreatWeightMalware{}
 		}
 	}
 	if v1, ok := d.GetOk("status"); ok {
@@ -1388,9 +1397,9 @@ func getEmptyObjectLogThreatWeight(d *schema.ResourceData, sv string) (*models.L
 
 	obj.Application = &[]models.LogThreatWeightApplication{}
 	obj.Geolocation = &[]models.LogThreatWeightGeolocation{}
-	obj.Ips = &[]models.LogThreatWeightIps{}
-	obj.Level = &[]models.LogThreatWeightLevel{}
-	obj.Malware = &[]models.LogThreatWeightMalware{}
+	obj.Ips = &models.LogThreatWeightIps{}
+	obj.Level = &models.LogThreatWeightLevel{}
+	obj.Malware = &models.LogThreatWeightMalware{}
 	obj.Web = &[]models.LogThreatWeightWeb{}
 
 	return &obj, diags

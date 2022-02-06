@@ -977,7 +977,7 @@ func flattenVpnSslSettingsAuthenticationRule(d *schema.ResourceData, v *[]models
 			}
 
 			if tmp := cfg.Groups; tmp != nil {
-				v["groups"] = flattenVpnSslSettingsAuthenticationRuleGroups(d, tmp, prefix+"groups", sort)
+				v["groups"] = flattenVpnSslSettingsAuthenticationRuleGroups(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "groups"), sort)
 			}
 
 			if tmp := cfg.Id; tmp != nil {
@@ -993,7 +993,7 @@ func flattenVpnSslSettingsAuthenticationRule(d *schema.ResourceData, v *[]models
 			}
 
 			if tmp := cfg.SourceAddress; tmp != nil {
-				v["source_address"] = flattenVpnSslSettingsAuthenticationRuleSourceAddress(d, tmp, prefix+"source_address", sort)
+				v["source_address"] = flattenVpnSslSettingsAuthenticationRuleSourceAddress(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "source_address"), sort)
 			}
 
 			if tmp := cfg.SourceAddressNegate; tmp != nil {
@@ -1001,7 +1001,7 @@ func flattenVpnSslSettingsAuthenticationRule(d *schema.ResourceData, v *[]models
 			}
 
 			if tmp := cfg.SourceAddress6; tmp != nil {
-				v["source_address6"] = flattenVpnSslSettingsAuthenticationRuleSourceAddress6(d, tmp, prefix+"source_address6", sort)
+				v["source_address6"] = flattenVpnSslSettingsAuthenticationRuleSourceAddress6(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "source_address6"), sort)
 			}
 
 			if tmp := cfg.SourceAddress6Negate; tmp != nil {
@@ -1009,7 +1009,7 @@ func flattenVpnSslSettingsAuthenticationRule(d *schema.ResourceData, v *[]models
 			}
 
 			if tmp := cfg.SourceInterface; tmp != nil {
-				v["source_interface"] = flattenVpnSslSettingsAuthenticationRuleSourceInterface(d, tmp, prefix+"source_interface", sort)
+				v["source_interface"] = flattenVpnSslSettingsAuthenticationRuleSourceInterface(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "source_interface"), sort)
 			}
 
 			if tmp := cfg.UserPeer; tmp != nil {
@@ -1017,7 +1017,7 @@ func flattenVpnSslSettingsAuthenticationRule(d *schema.ResourceData, v *[]models
 			}
 
 			if tmp := cfg.Users; tmp != nil {
-				v["users"] = flattenVpnSslSettingsAuthenticationRuleUsers(d, tmp, prefix+"users", sort)
+				v["users"] = flattenVpnSslSettingsAuthenticationRuleUsers(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "users"), sort)
 			}
 
 			flat = append(flat, v)

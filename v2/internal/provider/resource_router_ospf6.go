@@ -944,7 +944,7 @@ func flattenRouterOspf6Area(d *schema.ResourceData, v *[]models.RouterOspf6Area,
 			}
 
 			if tmp := cfg.IpsecKeys; tmp != nil {
-				v["ipsec_keys"] = flattenRouterOspf6AreaIpsecKeys(d, tmp, prefix+"ipsec_keys", sort)
+				v["ipsec_keys"] = flattenRouterOspf6AreaIpsecKeys(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "ipsec_keys"), sort)
 			}
 
 			if tmp := cfg.KeyRolloverInterval; tmp != nil {
@@ -972,7 +972,7 @@ func flattenRouterOspf6Area(d *schema.ResourceData, v *[]models.RouterOspf6Area,
 			}
 
 			if tmp := cfg.Range; tmp != nil {
-				v["range"] = flattenRouterOspf6AreaRange(d, tmp, prefix+"range", sort)
+				v["range"] = flattenRouterOspf6AreaRange(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "range"), sort)
 			}
 
 			if tmp := cfg.StubType; tmp != nil {
@@ -984,7 +984,7 @@ func flattenRouterOspf6Area(d *schema.ResourceData, v *[]models.RouterOspf6Area,
 			}
 
 			if tmp := cfg.VirtualLink; tmp != nil {
-				v["virtual_link"] = flattenRouterOspf6AreaVirtualLink(d, tmp, prefix+"virtual_link", sort)
+				v["virtual_link"] = flattenRouterOspf6AreaVirtualLink(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "virtual_link"), sort)
 			}
 
 			flat = append(flat, v)
@@ -1086,7 +1086,7 @@ func flattenRouterOspf6AreaVirtualLink(d *schema.ResourceData, v *[]models.Route
 			}
 
 			if tmp := cfg.IpsecKeys; tmp != nil {
-				v["ipsec_keys"] = flattenRouterOspf6AreaVirtualLinkIpsecKeys(d, tmp, prefix+"ipsec_keys", sort)
+				v["ipsec_keys"] = flattenRouterOspf6AreaVirtualLinkIpsecKeys(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "ipsec_keys"), sort)
 			}
 
 			if tmp := cfg.KeyRolloverInterval; tmp != nil {
@@ -1194,7 +1194,7 @@ func flattenRouterOspf6Ospf6Interface(d *schema.ResourceData, v *[]models.Router
 			}
 
 			if tmp := cfg.IpsecKeys; tmp != nil {
-				v["ipsec_keys"] = flattenRouterOspf6Ospf6InterfaceIpsecKeys(d, tmp, prefix+"ipsec_keys", sort)
+				v["ipsec_keys"] = flattenRouterOspf6Ospf6InterfaceIpsecKeys(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "ipsec_keys"), sort)
 			}
 
 			if tmp := cfg.KeyRolloverInterval; tmp != nil {
@@ -1214,7 +1214,7 @@ func flattenRouterOspf6Ospf6Interface(d *schema.ResourceData, v *[]models.Router
 			}
 
 			if tmp := cfg.Neighbor; tmp != nil {
-				v["neighbor"] = flattenRouterOspf6Ospf6InterfaceNeighbor(d, tmp, prefix+"neighbor", sort)
+				v["neighbor"] = flattenRouterOspf6Ospf6InterfaceNeighbor(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "neighbor"), sort)
 			}
 
 			if tmp := cfg.NetworkType; tmp != nil {

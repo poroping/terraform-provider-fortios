@@ -1,7 +1,7 @@
 {{ define "EXPAND" }}
 {{- range $key, $value := .children }}
 {{- if or (eq $value.category "table") (eq $value.category "complex") }}
-func expand{{.fpath}}(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.{{ .fpath }}, error) {
+func expand{{.fpath}}(d *schema.ResourceData, v interface{}, pre string, sv string) (*{{ if eq $value.category "table" }}[]{{ end }}models.{{ .fpath }}, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -33,7 +33,7 @@ func expand{{.fpath}}(d *schema.ResourceData, v interface{}, pre string, sv stri
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return {{ if eq $value.category "table" }}&result{{else}}&result[0]{{ end }}, nil
 }
 {{ template "EXPAND" $value }}
 {{- end }}

@@ -42,7 +42,7 @@ func resourceSystemIke() *schema.Resource {
 			"dh_group_1": {
 				Type:        schema.TypeList,
 				Description: "Diffie-Hellman group 1 (MODP-768).",
-				Optional:    true,
+				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"keypair_cache": {
@@ -75,7 +75,7 @@ func resourceSystemIke() *schema.Resource {
 			"dh_group_14": {
 				Type:        schema.TypeList,
 				Description: "Diffie-Hellman group 14 (MODP-2048).",
-				Optional:    true,
+				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"keypair_cache": {
@@ -108,7 +108,7 @@ func resourceSystemIke() *schema.Resource {
 			"dh_group_15": {
 				Type:        schema.TypeList,
 				Description: "Diffie-Hellman group 15 (MODP-3072).",
-				Optional:    true,
+				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"keypair_cache": {
@@ -141,7 +141,7 @@ func resourceSystemIke() *schema.Resource {
 			"dh_group_16": {
 				Type:        schema.TypeList,
 				Description: "Diffie-Hellman group 16 (MODP-4096).",
-				Optional:    true,
+				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"keypair_cache": {
@@ -174,7 +174,7 @@ func resourceSystemIke() *schema.Resource {
 			"dh_group_17": {
 				Type:        schema.TypeList,
 				Description: "Diffie-Hellman group 17 (MODP-6144).",
-				Optional:    true,
+				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"keypair_cache": {
@@ -207,7 +207,7 @@ func resourceSystemIke() *schema.Resource {
 			"dh_group_18": {
 				Type:        schema.TypeList,
 				Description: "Diffie-Hellman group 18 (MODP-8192).",
-				Optional:    true,
+				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"keypair_cache": {
@@ -240,7 +240,7 @@ func resourceSystemIke() *schema.Resource {
 			"dh_group_19": {
 				Type:        schema.TypeList,
 				Description: "Diffie-Hellman group 19 (EC-P256).",
-				Optional:    true,
+				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"keypair_cache": {
@@ -273,7 +273,7 @@ func resourceSystemIke() *schema.Resource {
 			"dh_group_2": {
 				Type:        schema.TypeList,
 				Description: "Diffie-Hellman group 2 (MODP-1024).",
-				Optional:    true,
+				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"keypair_cache": {
@@ -306,7 +306,7 @@ func resourceSystemIke() *schema.Resource {
 			"dh_group_20": {
 				Type:        schema.TypeList,
 				Description: "Diffie-Hellman group 20 (EC-P384).",
-				Optional:    true,
+				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"keypair_cache": {
@@ -339,7 +339,7 @@ func resourceSystemIke() *schema.Resource {
 			"dh_group_21": {
 				Type:        schema.TypeList,
 				Description: "Diffie-Hellman group 21 (EC-P521).",
-				Optional:    true,
+				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"keypair_cache": {
@@ -372,7 +372,7 @@ func resourceSystemIke() *schema.Resource {
 			"dh_group_27": {
 				Type:        schema.TypeList,
 				Description: "Diffie-Hellman group 27 (EC-P224BP).",
-				Optional:    true,
+				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"keypair_cache": {
@@ -405,7 +405,7 @@ func resourceSystemIke() *schema.Resource {
 			"dh_group_28": {
 				Type:        schema.TypeList,
 				Description: "Diffie-Hellman group 28 (EC-P256BP).",
-				Optional:    true,
+				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"keypair_cache": {
@@ -438,7 +438,7 @@ func resourceSystemIke() *schema.Resource {
 			"dh_group_29": {
 				Type:        schema.TypeList,
 				Description: "Diffie-Hellman group 29 (EC-P384BP).",
-				Optional:    true,
+				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"keypair_cache": {
@@ -471,7 +471,7 @@ func resourceSystemIke() *schema.Resource {
 			"dh_group_30": {
 				Type:        schema.TypeList,
 				Description: "Diffie-Hellman group 30 (EC-P512BP).",
-				Optional:    true,
+				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"keypair_cache": {
@@ -504,7 +504,7 @@ func resourceSystemIke() *schema.Resource {
 			"dh_group_31": {
 				Type:        schema.TypeList,
 				Description: "Diffie-Hellman group 31 (EC-X25519).",
-				Optional:    true,
+				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"keypair_cache": {
@@ -537,7 +537,7 @@ func resourceSystemIke() *schema.Resource {
 			"dh_group_32": {
 				Type:        schema.TypeList,
 				Description: "Diffie-Hellman group 32 (EC-X448).",
-				Optional:    true,
+				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"keypair_cache": {
@@ -570,7 +570,7 @@ func resourceSystemIke() *schema.Resource {
 			"dh_group_5": {
 				Type:        schema.TypeList,
 				Description: "Diffie-Hellman group 5 (MODP-1536).",
-				Optional:    true,
+				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"keypair_cache": {
@@ -809,11 +809,12 @@ func resourceSystemIkeRead(ctx context.Context, d *schema.ResourceData, meta int
 	return nil
 }
 
-func flattenSystemIkeDhGroup1(d *schema.ResourceData, v *[]models.SystemIkeDhGroup1, prefix string, sort bool) interface{} {
+func flattenSystemIkeDhGroup1(d *schema.ResourceData, v *models.SystemIkeDhGroup1, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.SystemIkeDhGroup1{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.KeypairCache; tmp != nil {
@@ -835,11 +836,12 @@ func flattenSystemIkeDhGroup1(d *schema.ResourceData, v *[]models.SystemIkeDhGro
 	return flat
 }
 
-func flattenSystemIkeDhGroup14(d *schema.ResourceData, v *[]models.SystemIkeDhGroup14, prefix string, sort bool) interface{} {
+func flattenSystemIkeDhGroup14(d *schema.ResourceData, v *models.SystemIkeDhGroup14, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.SystemIkeDhGroup14{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.KeypairCache; tmp != nil {
@@ -861,11 +863,12 @@ func flattenSystemIkeDhGroup14(d *schema.ResourceData, v *[]models.SystemIkeDhGr
 	return flat
 }
 
-func flattenSystemIkeDhGroup15(d *schema.ResourceData, v *[]models.SystemIkeDhGroup15, prefix string, sort bool) interface{} {
+func flattenSystemIkeDhGroup15(d *schema.ResourceData, v *models.SystemIkeDhGroup15, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.SystemIkeDhGroup15{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.KeypairCache; tmp != nil {
@@ -887,11 +890,12 @@ func flattenSystemIkeDhGroup15(d *schema.ResourceData, v *[]models.SystemIkeDhGr
 	return flat
 }
 
-func flattenSystemIkeDhGroup16(d *schema.ResourceData, v *[]models.SystemIkeDhGroup16, prefix string, sort bool) interface{} {
+func flattenSystemIkeDhGroup16(d *schema.ResourceData, v *models.SystemIkeDhGroup16, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.SystemIkeDhGroup16{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.KeypairCache; tmp != nil {
@@ -913,11 +917,12 @@ func flattenSystemIkeDhGroup16(d *schema.ResourceData, v *[]models.SystemIkeDhGr
 	return flat
 }
 
-func flattenSystemIkeDhGroup17(d *schema.ResourceData, v *[]models.SystemIkeDhGroup17, prefix string, sort bool) interface{} {
+func flattenSystemIkeDhGroup17(d *schema.ResourceData, v *models.SystemIkeDhGroup17, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.SystemIkeDhGroup17{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.KeypairCache; tmp != nil {
@@ -939,11 +944,12 @@ func flattenSystemIkeDhGroup17(d *schema.ResourceData, v *[]models.SystemIkeDhGr
 	return flat
 }
 
-func flattenSystemIkeDhGroup18(d *schema.ResourceData, v *[]models.SystemIkeDhGroup18, prefix string, sort bool) interface{} {
+func flattenSystemIkeDhGroup18(d *schema.ResourceData, v *models.SystemIkeDhGroup18, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.SystemIkeDhGroup18{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.KeypairCache; tmp != nil {
@@ -965,11 +971,12 @@ func flattenSystemIkeDhGroup18(d *schema.ResourceData, v *[]models.SystemIkeDhGr
 	return flat
 }
 
-func flattenSystemIkeDhGroup19(d *schema.ResourceData, v *[]models.SystemIkeDhGroup19, prefix string, sort bool) interface{} {
+func flattenSystemIkeDhGroup19(d *schema.ResourceData, v *models.SystemIkeDhGroup19, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.SystemIkeDhGroup19{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.KeypairCache; tmp != nil {
@@ -991,11 +998,12 @@ func flattenSystemIkeDhGroup19(d *schema.ResourceData, v *[]models.SystemIkeDhGr
 	return flat
 }
 
-func flattenSystemIkeDhGroup2(d *schema.ResourceData, v *[]models.SystemIkeDhGroup2, prefix string, sort bool) interface{} {
+func flattenSystemIkeDhGroup2(d *schema.ResourceData, v *models.SystemIkeDhGroup2, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.SystemIkeDhGroup2{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.KeypairCache; tmp != nil {
@@ -1017,11 +1025,12 @@ func flattenSystemIkeDhGroup2(d *schema.ResourceData, v *[]models.SystemIkeDhGro
 	return flat
 }
 
-func flattenSystemIkeDhGroup20(d *schema.ResourceData, v *[]models.SystemIkeDhGroup20, prefix string, sort bool) interface{} {
+func flattenSystemIkeDhGroup20(d *schema.ResourceData, v *models.SystemIkeDhGroup20, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.SystemIkeDhGroup20{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.KeypairCache; tmp != nil {
@@ -1043,11 +1052,12 @@ func flattenSystemIkeDhGroup20(d *schema.ResourceData, v *[]models.SystemIkeDhGr
 	return flat
 }
 
-func flattenSystemIkeDhGroup21(d *schema.ResourceData, v *[]models.SystemIkeDhGroup21, prefix string, sort bool) interface{} {
+func flattenSystemIkeDhGroup21(d *schema.ResourceData, v *models.SystemIkeDhGroup21, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.SystemIkeDhGroup21{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.KeypairCache; tmp != nil {
@@ -1069,11 +1079,12 @@ func flattenSystemIkeDhGroup21(d *schema.ResourceData, v *[]models.SystemIkeDhGr
 	return flat
 }
 
-func flattenSystemIkeDhGroup27(d *schema.ResourceData, v *[]models.SystemIkeDhGroup27, prefix string, sort bool) interface{} {
+func flattenSystemIkeDhGroup27(d *schema.ResourceData, v *models.SystemIkeDhGroup27, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.SystemIkeDhGroup27{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.KeypairCache; tmp != nil {
@@ -1095,11 +1106,12 @@ func flattenSystemIkeDhGroup27(d *schema.ResourceData, v *[]models.SystemIkeDhGr
 	return flat
 }
 
-func flattenSystemIkeDhGroup28(d *schema.ResourceData, v *[]models.SystemIkeDhGroup28, prefix string, sort bool) interface{} {
+func flattenSystemIkeDhGroup28(d *schema.ResourceData, v *models.SystemIkeDhGroup28, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.SystemIkeDhGroup28{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.KeypairCache; tmp != nil {
@@ -1121,11 +1133,12 @@ func flattenSystemIkeDhGroup28(d *schema.ResourceData, v *[]models.SystemIkeDhGr
 	return flat
 }
 
-func flattenSystemIkeDhGroup29(d *schema.ResourceData, v *[]models.SystemIkeDhGroup29, prefix string, sort bool) interface{} {
+func flattenSystemIkeDhGroup29(d *schema.ResourceData, v *models.SystemIkeDhGroup29, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.SystemIkeDhGroup29{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.KeypairCache; tmp != nil {
@@ -1147,11 +1160,12 @@ func flattenSystemIkeDhGroup29(d *schema.ResourceData, v *[]models.SystemIkeDhGr
 	return flat
 }
 
-func flattenSystemIkeDhGroup30(d *schema.ResourceData, v *[]models.SystemIkeDhGroup30, prefix string, sort bool) interface{} {
+func flattenSystemIkeDhGroup30(d *schema.ResourceData, v *models.SystemIkeDhGroup30, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.SystemIkeDhGroup30{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.KeypairCache; tmp != nil {
@@ -1173,11 +1187,12 @@ func flattenSystemIkeDhGroup30(d *schema.ResourceData, v *[]models.SystemIkeDhGr
 	return flat
 }
 
-func flattenSystemIkeDhGroup31(d *schema.ResourceData, v *[]models.SystemIkeDhGroup31, prefix string, sort bool) interface{} {
+func flattenSystemIkeDhGroup31(d *schema.ResourceData, v *models.SystemIkeDhGroup31, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.SystemIkeDhGroup31{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.KeypairCache; tmp != nil {
@@ -1199,11 +1214,12 @@ func flattenSystemIkeDhGroup31(d *schema.ResourceData, v *[]models.SystemIkeDhGr
 	return flat
 }
 
-func flattenSystemIkeDhGroup32(d *schema.ResourceData, v *[]models.SystemIkeDhGroup32, prefix string, sort bool) interface{} {
+func flattenSystemIkeDhGroup32(d *schema.ResourceData, v *models.SystemIkeDhGroup32, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.SystemIkeDhGroup32{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.KeypairCache; tmp != nil {
@@ -1225,11 +1241,12 @@ func flattenSystemIkeDhGroup32(d *schema.ResourceData, v *[]models.SystemIkeDhGr
 	return flat
 }
 
-func flattenSystemIkeDhGroup5(d *schema.ResourceData, v *[]models.SystemIkeDhGroup5, prefix string, sort bool) interface{} {
+func flattenSystemIkeDhGroup5(d *schema.ResourceData, v *models.SystemIkeDhGroup5, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.SystemIkeDhGroup5{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.KeypairCache; tmp != nil {
@@ -1254,105 +1271,139 @@ func flattenSystemIkeDhGroup5(d *schema.ResourceData, v *[]models.SystemIkeDhGro
 func refreshObjectSystemIke(d *schema.ResourceData, o *models.SystemIke, sv string, sort bool) diag.Diagnostics {
 	var err error
 
-	if o.DhGroup1 != nil {
-		if err = d.Set("dh_group_1", flattenSystemIkeDhGroup1(d, o.DhGroup1, "dh_group_1", sort)); err != nil {
-			return diag.Errorf("error reading dh_group_1: %v", err)
+	if _, ok := d.GetOk("dh_group_1"); ok {
+		if o.DhGroup1 != nil {
+			if err = d.Set("dh_group_1", flattenSystemIkeDhGroup1(d, o.DhGroup1, "dh_group_1", sort)); err != nil {
+				return diag.Errorf("error reading dh_group_1: %v", err)
+			}
 		}
 	}
 
-	if o.DhGroup14 != nil {
-		if err = d.Set("dh_group_14", flattenSystemIkeDhGroup14(d, o.DhGroup14, "dh_group_14", sort)); err != nil {
-			return diag.Errorf("error reading dh_group_14: %v", err)
+	if _, ok := d.GetOk("dh_group_14"); ok {
+		if o.DhGroup14 != nil {
+			if err = d.Set("dh_group_14", flattenSystemIkeDhGroup14(d, o.DhGroup14, "dh_group_14", sort)); err != nil {
+				return diag.Errorf("error reading dh_group_14: %v", err)
+			}
 		}
 	}
 
-	if o.DhGroup15 != nil {
-		if err = d.Set("dh_group_15", flattenSystemIkeDhGroup15(d, o.DhGroup15, "dh_group_15", sort)); err != nil {
-			return diag.Errorf("error reading dh_group_15: %v", err)
+	if _, ok := d.GetOk("dh_group_15"); ok {
+		if o.DhGroup15 != nil {
+			if err = d.Set("dh_group_15", flattenSystemIkeDhGroup15(d, o.DhGroup15, "dh_group_15", sort)); err != nil {
+				return diag.Errorf("error reading dh_group_15: %v", err)
+			}
 		}
 	}
 
-	if o.DhGroup16 != nil {
-		if err = d.Set("dh_group_16", flattenSystemIkeDhGroup16(d, o.DhGroup16, "dh_group_16", sort)); err != nil {
-			return diag.Errorf("error reading dh_group_16: %v", err)
+	if _, ok := d.GetOk("dh_group_16"); ok {
+		if o.DhGroup16 != nil {
+			if err = d.Set("dh_group_16", flattenSystemIkeDhGroup16(d, o.DhGroup16, "dh_group_16", sort)); err != nil {
+				return diag.Errorf("error reading dh_group_16: %v", err)
+			}
 		}
 	}
 
-	if o.DhGroup17 != nil {
-		if err = d.Set("dh_group_17", flattenSystemIkeDhGroup17(d, o.DhGroup17, "dh_group_17", sort)); err != nil {
-			return diag.Errorf("error reading dh_group_17: %v", err)
+	if _, ok := d.GetOk("dh_group_17"); ok {
+		if o.DhGroup17 != nil {
+			if err = d.Set("dh_group_17", flattenSystemIkeDhGroup17(d, o.DhGroup17, "dh_group_17", sort)); err != nil {
+				return diag.Errorf("error reading dh_group_17: %v", err)
+			}
 		}
 	}
 
-	if o.DhGroup18 != nil {
-		if err = d.Set("dh_group_18", flattenSystemIkeDhGroup18(d, o.DhGroup18, "dh_group_18", sort)); err != nil {
-			return diag.Errorf("error reading dh_group_18: %v", err)
+	if _, ok := d.GetOk("dh_group_18"); ok {
+		if o.DhGroup18 != nil {
+			if err = d.Set("dh_group_18", flattenSystemIkeDhGroup18(d, o.DhGroup18, "dh_group_18", sort)); err != nil {
+				return diag.Errorf("error reading dh_group_18: %v", err)
+			}
 		}
 	}
 
-	if o.DhGroup19 != nil {
-		if err = d.Set("dh_group_19", flattenSystemIkeDhGroup19(d, o.DhGroup19, "dh_group_19", sort)); err != nil {
-			return diag.Errorf("error reading dh_group_19: %v", err)
+	if _, ok := d.GetOk("dh_group_19"); ok {
+		if o.DhGroup19 != nil {
+			if err = d.Set("dh_group_19", flattenSystemIkeDhGroup19(d, o.DhGroup19, "dh_group_19", sort)); err != nil {
+				return diag.Errorf("error reading dh_group_19: %v", err)
+			}
 		}
 	}
 
-	if o.DhGroup2 != nil {
-		if err = d.Set("dh_group_2", flattenSystemIkeDhGroup2(d, o.DhGroup2, "dh_group_2", sort)); err != nil {
-			return diag.Errorf("error reading dh_group_2: %v", err)
+	if _, ok := d.GetOk("dh_group_2"); ok {
+		if o.DhGroup2 != nil {
+			if err = d.Set("dh_group_2", flattenSystemIkeDhGroup2(d, o.DhGroup2, "dh_group_2", sort)); err != nil {
+				return diag.Errorf("error reading dh_group_2: %v", err)
+			}
 		}
 	}
 
-	if o.DhGroup20 != nil {
-		if err = d.Set("dh_group_20", flattenSystemIkeDhGroup20(d, o.DhGroup20, "dh_group_20", sort)); err != nil {
-			return diag.Errorf("error reading dh_group_20: %v", err)
+	if _, ok := d.GetOk("dh_group_20"); ok {
+		if o.DhGroup20 != nil {
+			if err = d.Set("dh_group_20", flattenSystemIkeDhGroup20(d, o.DhGroup20, "dh_group_20", sort)); err != nil {
+				return diag.Errorf("error reading dh_group_20: %v", err)
+			}
 		}
 	}
 
-	if o.DhGroup21 != nil {
-		if err = d.Set("dh_group_21", flattenSystemIkeDhGroup21(d, o.DhGroup21, "dh_group_21", sort)); err != nil {
-			return diag.Errorf("error reading dh_group_21: %v", err)
+	if _, ok := d.GetOk("dh_group_21"); ok {
+		if o.DhGroup21 != nil {
+			if err = d.Set("dh_group_21", flattenSystemIkeDhGroup21(d, o.DhGroup21, "dh_group_21", sort)); err != nil {
+				return diag.Errorf("error reading dh_group_21: %v", err)
+			}
 		}
 	}
 
-	if o.DhGroup27 != nil {
-		if err = d.Set("dh_group_27", flattenSystemIkeDhGroup27(d, o.DhGroup27, "dh_group_27", sort)); err != nil {
-			return diag.Errorf("error reading dh_group_27: %v", err)
+	if _, ok := d.GetOk("dh_group_27"); ok {
+		if o.DhGroup27 != nil {
+			if err = d.Set("dh_group_27", flattenSystemIkeDhGroup27(d, o.DhGroup27, "dh_group_27", sort)); err != nil {
+				return diag.Errorf("error reading dh_group_27: %v", err)
+			}
 		}
 	}
 
-	if o.DhGroup28 != nil {
-		if err = d.Set("dh_group_28", flattenSystemIkeDhGroup28(d, o.DhGroup28, "dh_group_28", sort)); err != nil {
-			return diag.Errorf("error reading dh_group_28: %v", err)
+	if _, ok := d.GetOk("dh_group_28"); ok {
+		if o.DhGroup28 != nil {
+			if err = d.Set("dh_group_28", flattenSystemIkeDhGroup28(d, o.DhGroup28, "dh_group_28", sort)); err != nil {
+				return diag.Errorf("error reading dh_group_28: %v", err)
+			}
 		}
 	}
 
-	if o.DhGroup29 != nil {
-		if err = d.Set("dh_group_29", flattenSystemIkeDhGroup29(d, o.DhGroup29, "dh_group_29", sort)); err != nil {
-			return diag.Errorf("error reading dh_group_29: %v", err)
+	if _, ok := d.GetOk("dh_group_29"); ok {
+		if o.DhGroup29 != nil {
+			if err = d.Set("dh_group_29", flattenSystemIkeDhGroup29(d, o.DhGroup29, "dh_group_29", sort)); err != nil {
+				return diag.Errorf("error reading dh_group_29: %v", err)
+			}
 		}
 	}
 
-	if o.DhGroup30 != nil {
-		if err = d.Set("dh_group_30", flattenSystemIkeDhGroup30(d, o.DhGroup30, "dh_group_30", sort)); err != nil {
-			return diag.Errorf("error reading dh_group_30: %v", err)
+	if _, ok := d.GetOk("dh_group_30"); ok {
+		if o.DhGroup30 != nil {
+			if err = d.Set("dh_group_30", flattenSystemIkeDhGroup30(d, o.DhGroup30, "dh_group_30", sort)); err != nil {
+				return diag.Errorf("error reading dh_group_30: %v", err)
+			}
 		}
 	}
 
-	if o.DhGroup31 != nil {
-		if err = d.Set("dh_group_31", flattenSystemIkeDhGroup31(d, o.DhGroup31, "dh_group_31", sort)); err != nil {
-			return diag.Errorf("error reading dh_group_31: %v", err)
+	if _, ok := d.GetOk("dh_group_31"); ok {
+		if o.DhGroup31 != nil {
+			if err = d.Set("dh_group_31", flattenSystemIkeDhGroup31(d, o.DhGroup31, "dh_group_31", sort)); err != nil {
+				return diag.Errorf("error reading dh_group_31: %v", err)
+			}
 		}
 	}
 
-	if o.DhGroup32 != nil {
-		if err = d.Set("dh_group_32", flattenSystemIkeDhGroup32(d, o.DhGroup32, "dh_group_32", sort)); err != nil {
-			return diag.Errorf("error reading dh_group_32: %v", err)
+	if _, ok := d.GetOk("dh_group_32"); ok {
+		if o.DhGroup32 != nil {
+			if err = d.Set("dh_group_32", flattenSystemIkeDhGroup32(d, o.DhGroup32, "dh_group_32", sort)); err != nil {
+				return diag.Errorf("error reading dh_group_32: %v", err)
+			}
 		}
 	}
 
-	if o.DhGroup5 != nil {
-		if err = d.Set("dh_group_5", flattenSystemIkeDhGroup5(d, o.DhGroup5, "dh_group_5", sort)); err != nil {
-			return diag.Errorf("error reading dh_group_5: %v", err)
+	if _, ok := d.GetOk("dh_group_5"); ok {
+		if o.DhGroup5 != nil {
+			if err = d.Set("dh_group_5", flattenSystemIkeDhGroup5(d, o.DhGroup5, "dh_group_5", sort)); err != nil {
+				return diag.Errorf("error reading dh_group_5: %v", err)
+			}
 		}
 	}
 
@@ -1415,7 +1466,7 @@ func refreshObjectSystemIke(d *schema.ResourceData, o *models.SystemIke, sv stri
 	return nil
 }
 
-func expandSystemIkeDhGroup1(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.SystemIkeDhGroup1, error) {
+func expandSystemIkeDhGroup1(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.SystemIkeDhGroup1, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -1451,10 +1502,10 @@ func expandSystemIkeDhGroup1(d *schema.ResourceData, v interface{}, pre string, 
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
-func expandSystemIkeDhGroup14(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.SystemIkeDhGroup14, error) {
+func expandSystemIkeDhGroup14(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.SystemIkeDhGroup14, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -1490,10 +1541,10 @@ func expandSystemIkeDhGroup14(d *schema.ResourceData, v interface{}, pre string,
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
-func expandSystemIkeDhGroup15(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.SystemIkeDhGroup15, error) {
+func expandSystemIkeDhGroup15(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.SystemIkeDhGroup15, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -1529,10 +1580,10 @@ func expandSystemIkeDhGroup15(d *schema.ResourceData, v interface{}, pre string,
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
-func expandSystemIkeDhGroup16(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.SystemIkeDhGroup16, error) {
+func expandSystemIkeDhGroup16(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.SystemIkeDhGroup16, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -1568,10 +1619,10 @@ func expandSystemIkeDhGroup16(d *schema.ResourceData, v interface{}, pre string,
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
-func expandSystemIkeDhGroup17(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.SystemIkeDhGroup17, error) {
+func expandSystemIkeDhGroup17(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.SystemIkeDhGroup17, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -1607,10 +1658,10 @@ func expandSystemIkeDhGroup17(d *schema.ResourceData, v interface{}, pre string,
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
-func expandSystemIkeDhGroup18(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.SystemIkeDhGroup18, error) {
+func expandSystemIkeDhGroup18(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.SystemIkeDhGroup18, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -1646,10 +1697,10 @@ func expandSystemIkeDhGroup18(d *schema.ResourceData, v interface{}, pre string,
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
-func expandSystemIkeDhGroup19(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.SystemIkeDhGroup19, error) {
+func expandSystemIkeDhGroup19(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.SystemIkeDhGroup19, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -1685,10 +1736,10 @@ func expandSystemIkeDhGroup19(d *schema.ResourceData, v interface{}, pre string,
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
-func expandSystemIkeDhGroup2(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.SystemIkeDhGroup2, error) {
+func expandSystemIkeDhGroup2(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.SystemIkeDhGroup2, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -1724,10 +1775,10 @@ func expandSystemIkeDhGroup2(d *schema.ResourceData, v interface{}, pre string, 
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
-func expandSystemIkeDhGroup20(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.SystemIkeDhGroup20, error) {
+func expandSystemIkeDhGroup20(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.SystemIkeDhGroup20, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -1763,10 +1814,10 @@ func expandSystemIkeDhGroup20(d *schema.ResourceData, v interface{}, pre string,
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
-func expandSystemIkeDhGroup21(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.SystemIkeDhGroup21, error) {
+func expandSystemIkeDhGroup21(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.SystemIkeDhGroup21, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -1802,10 +1853,10 @@ func expandSystemIkeDhGroup21(d *schema.ResourceData, v interface{}, pre string,
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
-func expandSystemIkeDhGroup27(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.SystemIkeDhGroup27, error) {
+func expandSystemIkeDhGroup27(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.SystemIkeDhGroup27, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -1841,10 +1892,10 @@ func expandSystemIkeDhGroup27(d *schema.ResourceData, v interface{}, pre string,
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
-func expandSystemIkeDhGroup28(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.SystemIkeDhGroup28, error) {
+func expandSystemIkeDhGroup28(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.SystemIkeDhGroup28, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -1880,10 +1931,10 @@ func expandSystemIkeDhGroup28(d *schema.ResourceData, v interface{}, pre string,
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
-func expandSystemIkeDhGroup29(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.SystemIkeDhGroup29, error) {
+func expandSystemIkeDhGroup29(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.SystemIkeDhGroup29, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -1919,10 +1970,10 @@ func expandSystemIkeDhGroup29(d *schema.ResourceData, v interface{}, pre string,
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
-func expandSystemIkeDhGroup30(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.SystemIkeDhGroup30, error) {
+func expandSystemIkeDhGroup30(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.SystemIkeDhGroup30, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -1958,10 +2009,10 @@ func expandSystemIkeDhGroup30(d *schema.ResourceData, v interface{}, pre string,
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
-func expandSystemIkeDhGroup31(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.SystemIkeDhGroup31, error) {
+func expandSystemIkeDhGroup31(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.SystemIkeDhGroup31, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -1997,10 +2048,10 @@ func expandSystemIkeDhGroup31(d *schema.ResourceData, v interface{}, pre string,
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
-func expandSystemIkeDhGroup32(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.SystemIkeDhGroup32, error) {
+func expandSystemIkeDhGroup32(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.SystemIkeDhGroup32, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -2036,10 +2087,10 @@ func expandSystemIkeDhGroup32(d *schema.ResourceData, v interface{}, pre string,
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
-func expandSystemIkeDhGroup5(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.SystemIkeDhGroup5, error) {
+func expandSystemIkeDhGroup5(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.SystemIkeDhGroup5, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -2075,7 +2126,7 @@ func expandSystemIkeDhGroup5(d *schema.ResourceData, v interface{}, pre string, 
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
 func getObjectSystemIke(d *schema.ResourceData, sv string) (*models.SystemIke, diag.Diagnostics) {
@@ -2096,7 +2147,7 @@ func getObjectSystemIke(d *schema.ResourceData, sv string) (*models.SystemIke, d
 	} else if d.HasChange("dh_group_1") {
 		old, new := d.GetChange("dh_group_1")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.DhGroup1 = &[]models.SystemIkeDhGroup1{}
+			obj.DhGroup1 = &models.SystemIkeDhGroup1{}
 		}
 	}
 	if v, ok := d.GetOk("dh_group_14"); ok {
@@ -2113,7 +2164,7 @@ func getObjectSystemIke(d *schema.ResourceData, sv string) (*models.SystemIke, d
 	} else if d.HasChange("dh_group_14") {
 		old, new := d.GetChange("dh_group_14")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.DhGroup14 = &[]models.SystemIkeDhGroup14{}
+			obj.DhGroup14 = &models.SystemIkeDhGroup14{}
 		}
 	}
 	if v, ok := d.GetOk("dh_group_15"); ok {
@@ -2130,7 +2181,7 @@ func getObjectSystemIke(d *schema.ResourceData, sv string) (*models.SystemIke, d
 	} else if d.HasChange("dh_group_15") {
 		old, new := d.GetChange("dh_group_15")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.DhGroup15 = &[]models.SystemIkeDhGroup15{}
+			obj.DhGroup15 = &models.SystemIkeDhGroup15{}
 		}
 	}
 	if v, ok := d.GetOk("dh_group_16"); ok {
@@ -2147,7 +2198,7 @@ func getObjectSystemIke(d *schema.ResourceData, sv string) (*models.SystemIke, d
 	} else if d.HasChange("dh_group_16") {
 		old, new := d.GetChange("dh_group_16")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.DhGroup16 = &[]models.SystemIkeDhGroup16{}
+			obj.DhGroup16 = &models.SystemIkeDhGroup16{}
 		}
 	}
 	if v, ok := d.GetOk("dh_group_17"); ok {
@@ -2164,7 +2215,7 @@ func getObjectSystemIke(d *schema.ResourceData, sv string) (*models.SystemIke, d
 	} else if d.HasChange("dh_group_17") {
 		old, new := d.GetChange("dh_group_17")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.DhGroup17 = &[]models.SystemIkeDhGroup17{}
+			obj.DhGroup17 = &models.SystemIkeDhGroup17{}
 		}
 	}
 	if v, ok := d.GetOk("dh_group_18"); ok {
@@ -2181,7 +2232,7 @@ func getObjectSystemIke(d *schema.ResourceData, sv string) (*models.SystemIke, d
 	} else if d.HasChange("dh_group_18") {
 		old, new := d.GetChange("dh_group_18")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.DhGroup18 = &[]models.SystemIkeDhGroup18{}
+			obj.DhGroup18 = &models.SystemIkeDhGroup18{}
 		}
 	}
 	if v, ok := d.GetOk("dh_group_19"); ok {
@@ -2198,7 +2249,7 @@ func getObjectSystemIke(d *schema.ResourceData, sv string) (*models.SystemIke, d
 	} else if d.HasChange("dh_group_19") {
 		old, new := d.GetChange("dh_group_19")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.DhGroup19 = &[]models.SystemIkeDhGroup19{}
+			obj.DhGroup19 = &models.SystemIkeDhGroup19{}
 		}
 	}
 	if v, ok := d.GetOk("dh_group_2"); ok {
@@ -2215,7 +2266,7 @@ func getObjectSystemIke(d *schema.ResourceData, sv string) (*models.SystemIke, d
 	} else if d.HasChange("dh_group_2") {
 		old, new := d.GetChange("dh_group_2")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.DhGroup2 = &[]models.SystemIkeDhGroup2{}
+			obj.DhGroup2 = &models.SystemIkeDhGroup2{}
 		}
 	}
 	if v, ok := d.GetOk("dh_group_20"); ok {
@@ -2232,7 +2283,7 @@ func getObjectSystemIke(d *schema.ResourceData, sv string) (*models.SystemIke, d
 	} else if d.HasChange("dh_group_20") {
 		old, new := d.GetChange("dh_group_20")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.DhGroup20 = &[]models.SystemIkeDhGroup20{}
+			obj.DhGroup20 = &models.SystemIkeDhGroup20{}
 		}
 	}
 	if v, ok := d.GetOk("dh_group_21"); ok {
@@ -2249,7 +2300,7 @@ func getObjectSystemIke(d *schema.ResourceData, sv string) (*models.SystemIke, d
 	} else if d.HasChange("dh_group_21") {
 		old, new := d.GetChange("dh_group_21")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.DhGroup21 = &[]models.SystemIkeDhGroup21{}
+			obj.DhGroup21 = &models.SystemIkeDhGroup21{}
 		}
 	}
 	if v, ok := d.GetOk("dh_group_27"); ok {
@@ -2266,7 +2317,7 @@ func getObjectSystemIke(d *schema.ResourceData, sv string) (*models.SystemIke, d
 	} else if d.HasChange("dh_group_27") {
 		old, new := d.GetChange("dh_group_27")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.DhGroup27 = &[]models.SystemIkeDhGroup27{}
+			obj.DhGroup27 = &models.SystemIkeDhGroup27{}
 		}
 	}
 	if v, ok := d.GetOk("dh_group_28"); ok {
@@ -2283,7 +2334,7 @@ func getObjectSystemIke(d *schema.ResourceData, sv string) (*models.SystemIke, d
 	} else if d.HasChange("dh_group_28") {
 		old, new := d.GetChange("dh_group_28")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.DhGroup28 = &[]models.SystemIkeDhGroup28{}
+			obj.DhGroup28 = &models.SystemIkeDhGroup28{}
 		}
 	}
 	if v, ok := d.GetOk("dh_group_29"); ok {
@@ -2300,7 +2351,7 @@ func getObjectSystemIke(d *schema.ResourceData, sv string) (*models.SystemIke, d
 	} else if d.HasChange("dh_group_29") {
 		old, new := d.GetChange("dh_group_29")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.DhGroup29 = &[]models.SystemIkeDhGroup29{}
+			obj.DhGroup29 = &models.SystemIkeDhGroup29{}
 		}
 	}
 	if v, ok := d.GetOk("dh_group_30"); ok {
@@ -2317,7 +2368,7 @@ func getObjectSystemIke(d *schema.ResourceData, sv string) (*models.SystemIke, d
 	} else if d.HasChange("dh_group_30") {
 		old, new := d.GetChange("dh_group_30")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.DhGroup30 = &[]models.SystemIkeDhGroup30{}
+			obj.DhGroup30 = &models.SystemIkeDhGroup30{}
 		}
 	}
 	if v, ok := d.GetOk("dh_group_31"); ok {
@@ -2334,7 +2385,7 @@ func getObjectSystemIke(d *schema.ResourceData, sv string) (*models.SystemIke, d
 	} else if d.HasChange("dh_group_31") {
 		old, new := d.GetChange("dh_group_31")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.DhGroup31 = &[]models.SystemIkeDhGroup31{}
+			obj.DhGroup31 = &models.SystemIkeDhGroup31{}
 		}
 	}
 	if v, ok := d.GetOk("dh_group_32"); ok {
@@ -2351,7 +2402,7 @@ func getObjectSystemIke(d *schema.ResourceData, sv string) (*models.SystemIke, d
 	} else if d.HasChange("dh_group_32") {
 		old, new := d.GetChange("dh_group_32")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.DhGroup32 = &[]models.SystemIkeDhGroup32{}
+			obj.DhGroup32 = &models.SystemIkeDhGroup32{}
 		}
 	}
 	if v, ok := d.GetOk("dh_group_5"); ok {
@@ -2368,7 +2419,7 @@ func getObjectSystemIke(d *schema.ResourceData, sv string) (*models.SystemIke, d
 	} else if d.HasChange("dh_group_5") {
 		old, new := d.GetChange("dh_group_5")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.DhGroup5 = &[]models.SystemIkeDhGroup5{}
+			obj.DhGroup5 = &models.SystemIkeDhGroup5{}
 		}
 	}
 	if v1, ok := d.GetOk("dh_keypair_cache"); ok {
@@ -2445,23 +2496,23 @@ func getEmptyObjectSystemIke(d *schema.ResourceData, sv string) (*models.SystemI
 	obj := models.SystemIke{}
 	diags := diag.Diagnostics{}
 
-	obj.DhGroup1 = &[]models.SystemIkeDhGroup1{}
-	obj.DhGroup14 = &[]models.SystemIkeDhGroup14{}
-	obj.DhGroup15 = &[]models.SystemIkeDhGroup15{}
-	obj.DhGroup16 = &[]models.SystemIkeDhGroup16{}
-	obj.DhGroup17 = &[]models.SystemIkeDhGroup17{}
-	obj.DhGroup18 = &[]models.SystemIkeDhGroup18{}
-	obj.DhGroup19 = &[]models.SystemIkeDhGroup19{}
-	obj.DhGroup2 = &[]models.SystemIkeDhGroup2{}
-	obj.DhGroup20 = &[]models.SystemIkeDhGroup20{}
-	obj.DhGroup21 = &[]models.SystemIkeDhGroup21{}
-	obj.DhGroup27 = &[]models.SystemIkeDhGroup27{}
-	obj.DhGroup28 = &[]models.SystemIkeDhGroup28{}
-	obj.DhGroup29 = &[]models.SystemIkeDhGroup29{}
-	obj.DhGroup30 = &[]models.SystemIkeDhGroup30{}
-	obj.DhGroup31 = &[]models.SystemIkeDhGroup31{}
-	obj.DhGroup32 = &[]models.SystemIkeDhGroup32{}
-	obj.DhGroup5 = &[]models.SystemIkeDhGroup5{}
+	obj.DhGroup1 = &models.SystemIkeDhGroup1{}
+	obj.DhGroup14 = &models.SystemIkeDhGroup14{}
+	obj.DhGroup15 = &models.SystemIkeDhGroup15{}
+	obj.DhGroup16 = &models.SystemIkeDhGroup16{}
+	obj.DhGroup17 = &models.SystemIkeDhGroup17{}
+	obj.DhGroup18 = &models.SystemIkeDhGroup18{}
+	obj.DhGroup19 = &models.SystemIkeDhGroup19{}
+	obj.DhGroup2 = &models.SystemIkeDhGroup2{}
+	obj.DhGroup20 = &models.SystemIkeDhGroup20{}
+	obj.DhGroup21 = &models.SystemIkeDhGroup21{}
+	obj.DhGroup27 = &models.SystemIkeDhGroup27{}
+	obj.DhGroup28 = &models.SystemIkeDhGroup28{}
+	obj.DhGroup29 = &models.SystemIkeDhGroup29{}
+	obj.DhGroup30 = &models.SystemIkeDhGroup30{}
+	obj.DhGroup31 = &models.SystemIkeDhGroup31{}
+	obj.DhGroup32 = &models.SystemIkeDhGroup32{}
+	obj.DhGroup5 = &models.SystemIkeDhGroup5{}
 
 	return &obj, diags
 }

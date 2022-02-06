@@ -359,7 +359,7 @@ func flattenFileFilterProfileRules(d *schema.ResourceData, v *[]models.FileFilte
 			}
 
 			if tmp := cfg.FileType; tmp != nil {
-				v["file_type"] = flattenFileFilterProfileRulesFileType(d, tmp, prefix+"file_type", sort)
+				v["file_type"] = flattenFileFilterProfileRulesFileType(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "file_type"), sort)
 			}
 
 			if tmp := cfg.Name; tmp != nil {

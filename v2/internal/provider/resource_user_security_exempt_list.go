@@ -299,7 +299,7 @@ func flattenUserSecurityExemptListRule(d *schema.ResourceData, v *[]models.UserS
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Dstaddr; tmp != nil {
-				v["dstaddr"] = flattenUserSecurityExemptListRuleDstaddr(d, tmp, prefix+"dstaddr", sort)
+				v["dstaddr"] = flattenUserSecurityExemptListRuleDstaddr(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "dstaddr"), sort)
 			}
 
 			if tmp := cfg.Id; tmp != nil {
@@ -307,11 +307,11 @@ func flattenUserSecurityExemptListRule(d *schema.ResourceData, v *[]models.UserS
 			}
 
 			if tmp := cfg.Service; tmp != nil {
-				v["service"] = flattenUserSecurityExemptListRuleService(d, tmp, prefix+"service", sort)
+				v["service"] = flattenUserSecurityExemptListRuleService(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "service"), sort)
 			}
 
 			if tmp := cfg.Srcaddr; tmp != nil {
-				v["srcaddr"] = flattenUserSecurityExemptListRuleSrcaddr(d, tmp, prefix+"srcaddr", sort)
+				v["srcaddr"] = flattenUserSecurityExemptListRuleSrcaddr(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "srcaddr"), sort)
 			}
 
 			flat = append(flat, v)

@@ -93,7 +93,7 @@ func resourceRouterMulticast() *schema.Resource {
 						"igmp": {
 							Type:        schema.TypeList,
 							Description: "IGMP configuration options.",
-							Optional:    true,
+							Optional:    true, MaxItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									"access_group": {
@@ -322,7 +322,7 @@ func resourceRouterMulticast() *schema.Resource {
 			"pim_sm_global": {
 				Type:        schema.TypeList,
 				Description: "PIM sparse-mode global settings.",
-				Optional:    true,
+				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"accept_register_list": {
@@ -757,11 +757,11 @@ func flattenRouterMulticastInterface(d *schema.ResourceData, v *[]models.RouterM
 			}
 
 			if tmp := cfg.Igmp; tmp != nil {
-				v["igmp"] = flattenRouterMulticastInterfaceIgmp(d, tmp, prefix+"igmp", sort)
+				v["igmp"] = flattenRouterMulticastInterfaceIgmp(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "igmp"), sort)
 			}
 
 			if tmp := cfg.JoinGroup; tmp != nil {
-				v["join_group"] = flattenRouterMulticastInterfaceJoinGroup(d, tmp, prefix+"join_group", sort)
+				v["join_group"] = flattenRouterMulticastInterfaceJoinGroup(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "join_group"), sort)
 			}
 
 			if tmp := cfg.MulticastFlow; tmp != nil {
@@ -835,11 +835,12 @@ func flattenRouterMulticastInterface(d *schema.ResourceData, v *[]models.RouterM
 	return flat
 }
 
-func flattenRouterMulticastInterfaceIgmp(d *schema.ResourceData, v *[]models.RouterMulticastInterfaceIgmp, prefix string, sort bool) interface{} {
+func flattenRouterMulticastInterfaceIgmp(d *schema.ResourceData, v *models.RouterMulticastInterfaceIgmp, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.RouterMulticastInterfaceIgmp{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.AccessGroup; tmp != nil {
@@ -907,11 +908,12 @@ func flattenRouterMulticastInterfaceJoinGroup(d *schema.ResourceData, v *[]model
 	return flat
 }
 
-func flattenRouterMulticastPimSmGlobal(d *schema.ResourceData, v *[]models.RouterMulticastPimSmGlobal, prefix string, sort bool) interface{} {
+func flattenRouterMulticastPimSmGlobal(d *schema.ResourceData, v *models.RouterMulticastPimSmGlobal, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.RouterMulticastPimSmGlobal{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.AcceptRegisterList; tmp != nil {
@@ -995,7 +997,7 @@ func flattenRouterMulticastPimSmGlobal(d *schema.ResourceData, v *[]models.Route
 			}
 
 			if tmp := cfg.RpAddress; tmp != nil {
-				v["rp_address"] = flattenRouterMulticastPimSmGlobalRpAddress(d, tmp, prefix+"rp_address", sort)
+				v["rp_address"] = flattenRouterMulticastPimSmGlobalRpAddress(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "rp_address"), sort)
 			}
 
 			if tmp := cfg.RpRegisterKeepalive; tmp != nil {
@@ -1072,9 +1074,11 @@ func refreshObjectRouterMulticast(d *schema.ResourceData, o *models.RouterMultic
 		}
 	}
 
-	if o.PimSmGlobal != nil {
-		if err = d.Set("pim_sm_global", flattenRouterMulticastPimSmGlobal(d, o.PimSmGlobal, "pim_sm_global", sort)); err != nil {
-			return diag.Errorf("error reading pim_sm_global: %v", err)
+	if _, ok := d.GetOk("pim_sm_global"); ok {
+		if o.PimSmGlobal != nil {
+			if err = d.Set("pim_sm_global", flattenRouterMulticastPimSmGlobal(d, o.PimSmGlobal, "pim_sm_global", sort)); err != nil {
+				return diag.Errorf("error reading pim_sm_global: %v", err)
+			}
 		}
 	}
 
@@ -1282,7 +1286,7 @@ func expandRouterMulticastInterface(d *schema.ResourceData, v interface{}, pre s
 	return &result, nil
 }
 
-func expandRouterMulticastInterfaceIgmp(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.RouterMulticastInterfaceIgmp, error) {
+func expandRouterMulticastInterfaceIgmp(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.RouterMulticastInterfaceIgmp, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -1364,7 +1368,7 @@ func expandRouterMulticastInterfaceIgmp(d *schema.ResourceData, v interface{}, p
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
 func expandRouterMulticastInterfaceJoinGroup(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.RouterMulticastInterfaceJoinGroup, error) {
@@ -1391,7 +1395,7 @@ func expandRouterMulticastInterfaceJoinGroup(d *schema.ResourceData, v interface
 	return &result, nil
 }
 
-func expandRouterMulticastPimSmGlobal(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.RouterMulticastPimSmGlobal, error) {
+func expandRouterMulticastPimSmGlobal(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.RouterMulticastPimSmGlobal, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -1598,7 +1602,7 @@ func expandRouterMulticastPimSmGlobal(d *schema.ResourceData, v interface{}, pre
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
 func expandRouterMulticastPimSmGlobalRpAddress(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.RouterMulticastPimSmGlobalRpAddress, error) {
@@ -1684,7 +1688,7 @@ func getObjectRouterMulticast(d *schema.ResourceData, sv string) (*models.Router
 	} else if d.HasChange("pim_sm_global") {
 		old, new := d.GetChange("pim_sm_global")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.PimSmGlobal = &[]models.RouterMulticastPimSmGlobal{}
+			obj.PimSmGlobal = &models.RouterMulticastPimSmGlobal{}
 		}
 	}
 	if v1, ok := d.GetOk("route_limit"); ok {
@@ -1716,7 +1720,7 @@ func getEmptyObjectRouterMulticast(d *schema.ResourceData, sv string) (*models.R
 	diags := diag.Diagnostics{}
 
 	obj.Interface = &[]models.RouterMulticastInterface{}
-	obj.PimSmGlobal = &[]models.RouterMulticastPimSmGlobal{}
+	obj.PimSmGlobal = &models.RouterMulticastPimSmGlobal{}
 
 	return &obj, diags
 }

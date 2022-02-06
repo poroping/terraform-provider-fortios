@@ -94,7 +94,7 @@ func resourceFirewallSslSshProfile() *schema.Resource {
 			"dot": {
 				Type:        schema.TypeList,
 				Description: "Configure DNS over TLS options.",
-				Optional:    true,
+				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"cert_validation_failure": {
@@ -199,7 +199,7 @@ func resourceFirewallSslSshProfile() *schema.Resource {
 			"ftps": {
 				Type:        schema.TypeList,
 				Description: "Configure FTPS options.",
-				Optional:    true,
+				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"cert_validation_failure": {
@@ -336,7 +336,7 @@ func resourceFirewallSslSshProfile() *schema.Resource {
 			"https": {
 				Type:        schema.TypeList,
 				Description: "Configure HTTPS options.",
-				Optional:    true,
+				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"cert_probe_failure": {
@@ -489,7 +489,7 @@ func resourceFirewallSslSshProfile() *schema.Resource {
 			"imaps": {
 				Type:        schema.TypeList,
 				Description: "Configure IMAPS options.",
-				Optional:    true,
+				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"cert_validation_failure": {
@@ -642,7 +642,7 @@ func resourceFirewallSslSshProfile() *schema.Resource {
 			"pop3s": {
 				Type:        schema.TypeList,
 				Description: "Configure POP3S options.",
-				Optional:    true,
+				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"cert_validation_failure": {
@@ -812,7 +812,7 @@ func resourceFirewallSslSshProfile() *schema.Resource {
 			"smtps": {
 				Type:        schema.TypeList,
 				Description: "Configure SMTPS options.",
-				Optional:    true,
+				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"cert_validation_failure": {
@@ -949,7 +949,7 @@ func resourceFirewallSslSshProfile() *schema.Resource {
 			"ssh": {
 				Type:        schema.TypeList,
 				Description: "Configure SSH options.",
-				Optional:    true,
+				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"inspect_all": {
@@ -1014,7 +1014,7 @@ func resourceFirewallSslSshProfile() *schema.Resource {
 			"ssl": {
 				Type:        schema.TypeList,
 				Description: "Configure SSL options.",
-				Optional:    true,
+				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"cert_probe_failure": {
@@ -1578,11 +1578,12 @@ func resourceFirewallSslSshProfileRead(ctx context.Context, d *schema.ResourceDa
 	return nil
 }
 
-func flattenFirewallSslSshProfileDot(d *schema.ResourceData, v *[]models.FirewallSslSshProfileDot, prefix string, sort bool) interface{} {
+func flattenFirewallSslSshProfileDot(d *schema.ResourceData, v *models.FirewallSslSshProfileDot, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.FirewallSslSshProfileDot{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.CertValidationFailure; tmp != nil {
@@ -1640,11 +1641,12 @@ func flattenFirewallSslSshProfileDot(d *schema.ResourceData, v *[]models.Firewal
 	return flat
 }
 
-func flattenFirewallSslSshProfileFtps(d *schema.ResourceData, v *[]models.FirewallSslSshProfileFtps, prefix string, sort bool) interface{} {
+func flattenFirewallSslSshProfileFtps(d *schema.ResourceData, v *models.FirewallSslSshProfileFtps, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.FirewallSslSshProfileFtps{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.CertValidationFailure; tmp != nil {
@@ -1718,11 +1720,12 @@ func flattenFirewallSslSshProfileFtps(d *schema.ResourceData, v *[]models.Firewa
 	return flat
 }
 
-func flattenFirewallSslSshProfileHttps(d *schema.ResourceData, v *[]models.FirewallSslSshProfileHttps, prefix string, sort bool) interface{} {
+func flattenFirewallSslSshProfileHttps(d *schema.ResourceData, v *models.FirewallSslSshProfileHttps, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.FirewallSslSshProfileHttps{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.CertProbeFailure; tmp != nil {
@@ -1804,11 +1807,12 @@ func flattenFirewallSslSshProfileHttps(d *schema.ResourceData, v *[]models.Firew
 	return flat
 }
 
-func flattenFirewallSslSshProfileImaps(d *schema.ResourceData, v *[]models.FirewallSslSshProfileImaps, prefix string, sort bool) interface{} {
+func flattenFirewallSslSshProfileImaps(d *schema.ResourceData, v *models.FirewallSslSshProfileImaps, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.FirewallSslSshProfileImaps{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.CertValidationFailure; tmp != nil {
@@ -1882,11 +1886,12 @@ func flattenFirewallSslSshProfileImaps(d *schema.ResourceData, v *[]models.Firew
 	return flat
 }
 
-func flattenFirewallSslSshProfilePop3s(d *schema.ResourceData, v *[]models.FirewallSslSshProfilePop3s, prefix string, sort bool) interface{} {
+func flattenFirewallSslSshProfilePop3s(d *schema.ResourceData, v *models.FirewallSslSshProfilePop3s, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.FirewallSslSshProfilePop3s{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.CertValidationFailure; tmp != nil {
@@ -1982,11 +1987,12 @@ func flattenFirewallSslSshProfileServerCert(d *schema.ResourceData, v *[]models.
 	return flat
 }
 
-func flattenFirewallSslSshProfileSmtps(d *schema.ResourceData, v *[]models.FirewallSslSshProfileSmtps, prefix string, sort bool) interface{} {
+func flattenFirewallSslSshProfileSmtps(d *schema.ResourceData, v *models.FirewallSslSshProfileSmtps, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.FirewallSslSshProfileSmtps{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.CertValidationFailure; tmp != nil {
@@ -2060,11 +2066,12 @@ func flattenFirewallSslSshProfileSmtps(d *schema.ResourceData, v *[]models.Firew
 	return flat
 }
 
-func flattenFirewallSslSshProfileSsh(d *schema.ResourceData, v *[]models.FirewallSslSshProfileSsh, prefix string, sort bool) interface{} {
+func flattenFirewallSslSshProfileSsh(d *schema.ResourceData, v *models.FirewallSslSshProfileSsh, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.FirewallSslSshProfileSsh{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.InspectAll; tmp != nil {
@@ -2102,11 +2109,12 @@ func flattenFirewallSslSshProfileSsh(d *schema.ResourceData, v *[]models.Firewal
 	return flat
 }
 
-func flattenFirewallSslSshProfileSsl(d *schema.ResourceData, v *[]models.FirewallSslSshProfileSsl, prefix string, sort bool) interface{} {
+func flattenFirewallSslSshProfileSsl(d *schema.ResourceData, v *models.FirewallSslSshProfileSsl, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.FirewallSslSshProfileSsl{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.CertProbeFailure; tmp != nil {
@@ -2343,27 +2351,35 @@ func refreshObjectFirewallSslSshProfile(d *schema.ResourceData, o *models.Firewa
 		}
 	}
 
-	if o.Dot != nil {
-		if err = d.Set("dot", flattenFirewallSslSshProfileDot(d, o.Dot, "dot", sort)); err != nil {
-			return diag.Errorf("error reading dot: %v", err)
+	if _, ok := d.GetOk("dot"); ok {
+		if o.Dot != nil {
+			if err = d.Set("dot", flattenFirewallSslSshProfileDot(d, o.Dot, "dot", sort)); err != nil {
+				return diag.Errorf("error reading dot: %v", err)
+			}
 		}
 	}
 
-	if o.Ftps != nil {
-		if err = d.Set("ftps", flattenFirewallSslSshProfileFtps(d, o.Ftps, "ftps", sort)); err != nil {
-			return diag.Errorf("error reading ftps: %v", err)
+	if _, ok := d.GetOk("ftps"); ok {
+		if o.Ftps != nil {
+			if err = d.Set("ftps", flattenFirewallSslSshProfileFtps(d, o.Ftps, "ftps", sort)); err != nil {
+				return diag.Errorf("error reading ftps: %v", err)
+			}
 		}
 	}
 
-	if o.Https != nil {
-		if err = d.Set("https", flattenFirewallSslSshProfileHttps(d, o.Https, "https", sort)); err != nil {
-			return diag.Errorf("error reading https: %v", err)
+	if _, ok := d.GetOk("https"); ok {
+		if o.Https != nil {
+			if err = d.Set("https", flattenFirewallSslSshProfileHttps(d, o.Https, "https", sort)); err != nil {
+				return diag.Errorf("error reading https: %v", err)
+			}
 		}
 	}
 
-	if o.Imaps != nil {
-		if err = d.Set("imaps", flattenFirewallSslSshProfileImaps(d, o.Imaps, "imaps", sort)); err != nil {
-			return diag.Errorf("error reading imaps: %v", err)
+	if _, ok := d.GetOk("imaps"); ok {
+		if o.Imaps != nil {
+			if err = d.Set("imaps", flattenFirewallSslSshProfileImaps(d, o.Imaps, "imaps", sort)); err != nil {
+				return diag.Errorf("error reading imaps: %v", err)
+			}
 		}
 	}
 
@@ -2383,9 +2399,11 @@ func refreshObjectFirewallSslSshProfile(d *schema.ResourceData, o *models.Firewa
 		}
 	}
 
-	if o.Pop3s != nil {
-		if err = d.Set("pop3s", flattenFirewallSslSshProfilePop3s(d, o.Pop3s, "pop3s", sort)); err != nil {
-			return diag.Errorf("error reading pop3s: %v", err)
+	if _, ok := d.GetOk("pop3s"); ok {
+		if o.Pop3s != nil {
+			if err = d.Set("pop3s", flattenFirewallSslSshProfilePop3s(d, o.Pop3s, "pop3s", sort)); err != nil {
+				return diag.Errorf("error reading pop3s: %v", err)
+			}
 		}
 	}
 
@@ -2411,21 +2429,27 @@ func refreshObjectFirewallSslSshProfile(d *schema.ResourceData, o *models.Firewa
 		}
 	}
 
-	if o.Smtps != nil {
-		if err = d.Set("smtps", flattenFirewallSslSshProfileSmtps(d, o.Smtps, "smtps", sort)); err != nil {
-			return diag.Errorf("error reading smtps: %v", err)
+	if _, ok := d.GetOk("smtps"); ok {
+		if o.Smtps != nil {
+			if err = d.Set("smtps", flattenFirewallSslSshProfileSmtps(d, o.Smtps, "smtps", sort)); err != nil {
+				return diag.Errorf("error reading smtps: %v", err)
+			}
 		}
 	}
 
-	if o.Ssh != nil {
-		if err = d.Set("ssh", flattenFirewallSslSshProfileSsh(d, o.Ssh, "ssh", sort)); err != nil {
-			return diag.Errorf("error reading ssh: %v", err)
+	if _, ok := d.GetOk("ssh"); ok {
+		if o.Ssh != nil {
+			if err = d.Set("ssh", flattenFirewallSslSshProfileSsh(d, o.Ssh, "ssh", sort)); err != nil {
+				return diag.Errorf("error reading ssh: %v", err)
+			}
 		}
 	}
 
-	if o.Ssl != nil {
-		if err = d.Set("ssl", flattenFirewallSslSshProfileSsl(d, o.Ssl, "ssl", sort)); err != nil {
-			return diag.Errorf("error reading ssl: %v", err)
+	if _, ok := d.GetOk("ssl"); ok {
+		if o.Ssl != nil {
+			if err = d.Set("ssl", flattenFirewallSslSshProfileSsl(d, o.Ssl, "ssl", sort)); err != nil {
+				return diag.Errorf("error reading ssl: %v", err)
+			}
 		}
 	}
 
@@ -2532,7 +2556,7 @@ func refreshObjectFirewallSslSshProfile(d *schema.ResourceData, o *models.Firewa
 	return nil
 }
 
-func expandFirewallSslSshProfileDot(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.FirewallSslSshProfileDot, error) {
+func expandFirewallSslSshProfileDot(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.FirewallSslSshProfileDot, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -2630,10 +2654,10 @@ func expandFirewallSslSshProfileDot(d *schema.ResourceData, v interface{}, pre s
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
-func expandFirewallSslSshProfileFtps(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.FirewallSslSshProfileFtps, error) {
+func expandFirewallSslSshProfileFtps(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.FirewallSslSshProfileFtps, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -2760,10 +2784,10 @@ func expandFirewallSslSshProfileFtps(d *schema.ResourceData, v interface{}, pre 
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
-func expandFirewallSslSshProfileHttps(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.FirewallSslSshProfileHttps, error) {
+func expandFirewallSslSshProfileHttps(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.FirewallSslSshProfileHttps, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -2904,10 +2928,10 @@ func expandFirewallSslSshProfileHttps(d *schema.ResourceData, v interface{}, pre
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
-func expandFirewallSslSshProfileImaps(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.FirewallSslSshProfileImaps, error) {
+func expandFirewallSslSshProfileImaps(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.FirewallSslSshProfileImaps, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -3034,10 +3058,10 @@ func expandFirewallSslSshProfileImaps(d *schema.ResourceData, v interface{}, pre
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
-func expandFirewallSslSshProfilePop3s(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.FirewallSslSshProfilePop3s, error) {
+func expandFirewallSslSshProfilePop3s(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.FirewallSslSshProfilePop3s, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -3164,7 +3188,7 @@ func expandFirewallSslSshProfilePop3s(d *schema.ResourceData, v interface{}, pre
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
 func expandFirewallSslSshProfileServerCert(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.FirewallSslSshProfileServerCert, error) {
@@ -3191,7 +3215,7 @@ func expandFirewallSslSshProfileServerCert(d *schema.ResourceData, v interface{}
 	return &result, nil
 }
 
-func expandFirewallSslSshProfileSmtps(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.FirewallSslSshProfileSmtps, error) {
+func expandFirewallSslSshProfileSmtps(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.FirewallSslSshProfileSmtps, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -3318,10 +3342,10 @@ func expandFirewallSslSshProfileSmtps(d *schema.ResourceData, v interface{}, pre
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
-func expandFirewallSslSshProfileSsh(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.FirewallSslSshProfileSsh, error) {
+func expandFirewallSslSshProfileSsh(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.FirewallSslSshProfileSsh, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -3385,10 +3409,10 @@ func expandFirewallSslSshProfileSsh(d *schema.ResourceData, v interface{}, pre s
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
-func expandFirewallSslSshProfileSsl(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.FirewallSslSshProfileSsl, error) {
+func expandFirewallSslSshProfileSsl(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.FirewallSslSshProfileSsl, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -3514,7 +3538,7 @@ func expandFirewallSslSshProfileSsl(d *schema.ResourceData, v interface{}, pre s
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
 func expandFirewallSslSshProfileSslExempt(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.FirewallSslSshProfileSslExempt, error) {
@@ -3764,7 +3788,7 @@ func getObjectFirewallSslSshProfile(d *schema.ResourceData, sv string) (*models.
 	} else if d.HasChange("dot") {
 		old, new := d.GetChange("dot")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.Dot = &[]models.FirewallSslSshProfileDot{}
+			obj.Dot = &models.FirewallSslSshProfileDot{}
 		}
 	}
 	if v, ok := d.GetOk("ftps"); ok {
@@ -3781,7 +3805,7 @@ func getObjectFirewallSslSshProfile(d *schema.ResourceData, sv string) (*models.
 	} else if d.HasChange("ftps") {
 		old, new := d.GetChange("ftps")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.Ftps = &[]models.FirewallSslSshProfileFtps{}
+			obj.Ftps = &models.FirewallSslSshProfileFtps{}
 		}
 	}
 	if v, ok := d.GetOk("https"); ok {
@@ -3798,7 +3822,7 @@ func getObjectFirewallSslSshProfile(d *schema.ResourceData, sv string) (*models.
 	} else if d.HasChange("https") {
 		old, new := d.GetChange("https")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.Https = &[]models.FirewallSslSshProfileHttps{}
+			obj.Https = &models.FirewallSslSshProfileHttps{}
 		}
 	}
 	if v, ok := d.GetOk("imaps"); ok {
@@ -3815,7 +3839,7 @@ func getObjectFirewallSslSshProfile(d *schema.ResourceData, sv string) (*models.
 	} else if d.HasChange("imaps") {
 		old, new := d.GetChange("imaps")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.Imaps = &[]models.FirewallSslSshProfileImaps{}
+			obj.Imaps = &models.FirewallSslSshProfileImaps{}
 		}
 	}
 	if v1, ok := d.GetOk("mapi_over_https"); ok {
@@ -3850,7 +3874,7 @@ func getObjectFirewallSslSshProfile(d *schema.ResourceData, sv string) (*models.
 	} else if d.HasChange("pop3s") {
 		old, new := d.GetChange("pop3s")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.Pop3s = &[]models.FirewallSslSshProfilePop3s{}
+			obj.Pop3s = &models.FirewallSslSshProfilePop3s{}
 		}
 	}
 	if v1, ok := d.GetOk("rpc_over_https"); ok {
@@ -3902,7 +3926,7 @@ func getObjectFirewallSslSshProfile(d *schema.ResourceData, sv string) (*models.
 	} else if d.HasChange("smtps") {
 		old, new := d.GetChange("smtps")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.Smtps = &[]models.FirewallSslSshProfileSmtps{}
+			obj.Smtps = &models.FirewallSslSshProfileSmtps{}
 		}
 	}
 	if v, ok := d.GetOk("ssh"); ok {
@@ -3919,7 +3943,7 @@ func getObjectFirewallSslSshProfile(d *schema.ResourceData, sv string) (*models.
 	} else if d.HasChange("ssh") {
 		old, new := d.GetChange("ssh")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.Ssh = &[]models.FirewallSslSshProfileSsh{}
+			obj.Ssh = &models.FirewallSslSshProfileSsh{}
 		}
 	}
 	if v, ok := d.GetOk("ssl"); ok {
@@ -3936,7 +3960,7 @@ func getObjectFirewallSslSshProfile(d *schema.ResourceData, sv string) (*models.
 	} else if d.HasChange("ssl") {
 		old, new := d.GetChange("ssl")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.Ssl = &[]models.FirewallSslSshProfileSsl{}
+			obj.Ssl = &models.FirewallSslSshProfileSsl{}
 		}
 	}
 	if v1, ok := d.GetOk("ssl_anomalies_log"); ok {

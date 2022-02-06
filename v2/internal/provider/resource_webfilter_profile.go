@@ -55,7 +55,7 @@ func resourceWebfilterProfile() *schema.Resource {
 			"antiphish": {
 				Type:        schema.TypeList,
 				Description: "AntiPhishing profile.",
-				Optional:    true,
+				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"authentication": {
@@ -225,7 +225,7 @@ func resourceWebfilterProfile() *schema.Resource {
 			"file_filter": {
 				Type:        schema.TypeList,
 				Description: "File filter.",
-				Optional:    true,
+				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"entries": {
@@ -332,7 +332,7 @@ func resourceWebfilterProfile() *schema.Resource {
 			"ftgd_wf": {
 				Type:        schema.TypeList,
 				Description: "FortiGuard Web Filter settings.",
-				Optional:    true,
+				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"exempt_quota": {
@@ -588,7 +588,7 @@ func resourceWebfilterProfile() *schema.Resource {
 			"override": {
 				Type:        schema.TypeList,
 				Description: "Web Filter override settings.",
-				Optional:    true,
+				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"ovrd_cookie": {
@@ -702,7 +702,7 @@ func resourceWebfilterProfile() *schema.Resource {
 			"web": {
 				Type:        schema.TypeList,
 				Description: "Web content filtering settings.",
-				Optional:    true,
+				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"allowlist": {
@@ -1184,11 +1184,12 @@ func resourceWebfilterProfileRead(ctx context.Context, d *schema.ResourceData, m
 	return nil
 }
 
-func flattenWebfilterProfileAntiphish(d *schema.ResourceData, v *[]models.WebfilterProfileAntiphish, prefix string, sort bool) interface{} {
+func flattenWebfilterProfileAntiphish(d *schema.ResourceData, v *models.WebfilterProfileAntiphish, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.WebfilterProfileAntiphish{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Authentication; tmp != nil {
@@ -1208,7 +1209,7 @@ func flattenWebfilterProfileAntiphish(d *schema.ResourceData, v *[]models.Webfil
 			}
 
 			if tmp := cfg.CustomPatterns; tmp != nil {
-				v["custom_patterns"] = flattenWebfilterProfileAntiphishCustomPatterns(d, tmp, prefix+"custom_patterns", sort)
+				v["custom_patterns"] = flattenWebfilterProfileAntiphishCustomPatterns(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "custom_patterns"), sort)
 			}
 
 			if tmp := cfg.DefaultAction; tmp != nil {
@@ -1220,7 +1221,7 @@ func flattenWebfilterProfileAntiphish(d *schema.ResourceData, v *[]models.Webfil
 			}
 
 			if tmp := cfg.InspectionEntries; tmp != nil {
-				v["inspection_entries"] = flattenWebfilterProfileAntiphishInspectionEntries(d, tmp, prefix+"inspection_entries", sort)
+				v["inspection_entries"] = flattenWebfilterProfileAntiphishInspectionEntries(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "inspection_entries"), sort)
 			}
 
 			if tmp := cfg.Ldap; tmp != nil {
@@ -1302,15 +1303,16 @@ func flattenWebfilterProfileAntiphishInspectionEntries(d *schema.ResourceData, v
 	return flat
 }
 
-func flattenWebfilterProfileFileFilter(d *schema.ResourceData, v *[]models.WebfilterProfileFileFilter, prefix string, sort bool) interface{} {
+func flattenWebfilterProfileFileFilter(d *schema.ResourceData, v *models.WebfilterProfileFileFilter, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.WebfilterProfileFileFilter{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Entries; tmp != nil {
-				v["entries"] = flattenWebfilterProfileFileFilterEntries(d, tmp, prefix+"entries", sort)
+				v["entries"] = flattenWebfilterProfileFileFilterEntries(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "entries"), sort)
 			}
 
 			if tmp := cfg.Log; tmp != nil {
@@ -1352,7 +1354,7 @@ func flattenWebfilterProfileFileFilterEntries(d *schema.ResourceData, v *[]model
 			}
 
 			if tmp := cfg.FileType; tmp != nil {
-				v["file_type"] = flattenWebfilterProfileFileFilterEntriesFileType(d, tmp, prefix+"file_type", sort)
+				v["file_type"] = flattenWebfilterProfileFileFilterEntriesFileType(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "file_type"), sort)
 			}
 
 			if tmp := cfg.Filter; tmp != nil {
@@ -1400,11 +1402,12 @@ func flattenWebfilterProfileFileFilterEntriesFileType(d *schema.ResourceData, v 
 	return flat
 }
 
-func flattenWebfilterProfileFtgdWf(d *schema.ResourceData, v *[]models.WebfilterProfileFtgdWf, prefix string, sort bool) interface{} {
+func flattenWebfilterProfileFtgdWf(d *schema.ResourceData, v *models.WebfilterProfileFtgdWf, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.WebfilterProfileFtgdWf{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.ExemptQuota; tmp != nil {
@@ -1412,7 +1415,7 @@ func flattenWebfilterProfileFtgdWf(d *schema.ResourceData, v *[]models.Webfilter
 			}
 
 			if tmp := cfg.Filters; tmp != nil {
-				v["filters"] = flattenWebfilterProfileFtgdWfFilters(d, tmp, prefix+"filters", sort)
+				v["filters"] = flattenWebfilterProfileFtgdWfFilters(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "filters"), sort)
 			}
 
 			if tmp := cfg.MaxQuotaTimeout; tmp != nil {
@@ -1428,7 +1431,7 @@ func flattenWebfilterProfileFtgdWf(d *schema.ResourceData, v *[]models.Webfilter
 			}
 
 			if tmp := cfg.Quota; tmp != nil {
-				v["quota"] = flattenWebfilterProfileFtgdWfQuota(d, tmp, prefix+"quota", sort)
+				v["quota"] = flattenWebfilterProfileFtgdWfQuota(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "quota"), sort)
 			}
 
 			if tmp := cfg.RateCrlUrls; tmp != nil {
@@ -1466,7 +1469,7 @@ func flattenWebfilterProfileFtgdWfFilters(d *schema.ResourceData, v *[]models.We
 			}
 
 			if tmp := cfg.AuthUsrGrp; tmp != nil {
-				v["auth_usr_grp"] = flattenWebfilterProfileFtgdWfFiltersAuthUsrGrp(d, tmp, prefix+"auth_usr_grp", sort)
+				v["auth_usr_grp"] = flattenWebfilterProfileFtgdWfFiltersAuthUsrGrp(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "auth_usr_grp"), sort)
 			}
 
 			if tmp := cfg.Category; tmp != nil {
@@ -1576,11 +1579,12 @@ func flattenWebfilterProfileFtgdWfQuota(d *schema.ResourceData, v *[]models.Webf
 	return flat
 }
 
-func flattenWebfilterProfileOverride(d *schema.ResourceData, v *[]models.WebfilterProfileOverride, prefix string, sort bool) interface{} {
+func flattenWebfilterProfileOverride(d *schema.ResourceData, v *models.WebfilterProfileOverride, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.WebfilterProfileOverride{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.OvrdCookie; tmp != nil {
@@ -1600,11 +1604,11 @@ func flattenWebfilterProfileOverride(d *schema.ResourceData, v *[]models.Webfilt
 			}
 
 			if tmp := cfg.OvrdUserGroup; tmp != nil {
-				v["ovrd_user_group"] = flattenWebfilterProfileOverrideOvrdUserGroup(d, tmp, prefix+"ovrd_user_group", sort)
+				v["ovrd_user_group"] = flattenWebfilterProfileOverrideOvrdUserGroup(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "ovrd_user_group"), sort)
 			}
 
 			if tmp := cfg.Profile; tmp != nil {
-				v["profile"] = flattenWebfilterProfileOverrideProfile(d, tmp, prefix+"profile", sort)
+				v["profile"] = flattenWebfilterProfileOverrideProfile(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "profile"), sort)
 			}
 
 			if tmp := cfg.ProfileAttribute; tmp != nil {
@@ -1666,11 +1670,12 @@ func flattenWebfilterProfileOverrideProfile(d *schema.ResourceData, v *[]models.
 	return flat
 }
 
-func flattenWebfilterProfileWeb(d *schema.ResourceData, v *[]models.WebfilterProfileWeb, prefix string, sort bool) interface{} {
+func flattenWebfilterProfileWeb(d *schema.ResourceData, v *models.WebfilterProfileWeb, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.WebfilterProfileWeb{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Allowlist; tmp != nil {
@@ -1698,7 +1703,7 @@ func flattenWebfilterProfileWeb(d *schema.ResourceData, v *[]models.WebfilterPro
 			}
 
 			if tmp := cfg.KeywordMatch; tmp != nil {
-				v["keyword_match"] = flattenWebfilterProfileWebKeywordMatch(d, tmp, prefix+"keyword_match", sort)
+				v["keyword_match"] = flattenWebfilterProfileWebKeywordMatch(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "keyword_match"), sort)
 			}
 
 			if tmp := cfg.LogSearch; tmp != nil {
@@ -1809,9 +1814,11 @@ func flattenWebfilterProfileYoutubeChannelFilter(d *schema.ResourceData, v *[]mo
 func refreshObjectWebfilterProfile(d *schema.ResourceData, o *models.WebfilterProfile, sv string, sort bool) diag.Diagnostics {
 	var err error
 
-	if o.Antiphish != nil {
-		if err = d.Set("antiphish", flattenWebfilterProfileAntiphish(d, o.Antiphish, "antiphish", sort)); err != nil {
-			return diag.Errorf("error reading antiphish: %v", err)
+	if _, ok := d.GetOk("antiphish"); ok {
+		if o.Antiphish != nil {
+			if err = d.Set("antiphish", flattenWebfilterProfileAntiphish(d, o.Antiphish, "antiphish", sort)); err != nil {
+				return diag.Errorf("error reading antiphish: %v", err)
+			}
 		}
 	}
 
@@ -1839,15 +1846,19 @@ func refreshObjectWebfilterProfile(d *schema.ResourceData, o *models.WebfilterPr
 		}
 	}
 
-	if o.FileFilter != nil {
-		if err = d.Set("file_filter", flattenWebfilterProfileFileFilter(d, o.FileFilter, "file_filter", sort)); err != nil {
-			return diag.Errorf("error reading file_filter: %v", err)
+	if _, ok := d.GetOk("file_filter"); ok {
+		if o.FileFilter != nil {
+			if err = d.Set("file_filter", flattenWebfilterProfileFileFilter(d, o.FileFilter, "file_filter", sort)); err != nil {
+				return diag.Errorf("error reading file_filter: %v", err)
+			}
 		}
 	}
 
-	if o.FtgdWf != nil {
-		if err = d.Set("ftgd_wf", flattenWebfilterProfileFtgdWf(d, o.FtgdWf, "ftgd_wf", sort)); err != nil {
-			return diag.Errorf("error reading ftgd_wf: %v", err)
+	if _, ok := d.GetOk("ftgd_wf"); ok {
+		if o.FtgdWf != nil {
+			if err = d.Set("ftgd_wf", flattenWebfilterProfileFtgdWf(d, o.FtgdWf, "ftgd_wf", sort)); err != nil {
+				return diag.Errorf("error reading ftgd_wf: %v", err)
+			}
 		}
 	}
 
@@ -1883,9 +1894,11 @@ func refreshObjectWebfilterProfile(d *schema.ResourceData, o *models.WebfilterPr
 		}
 	}
 
-	if o.Override != nil {
-		if err = d.Set("override", flattenWebfilterProfileOverride(d, o.Override, "override", sort)); err != nil {
-			return diag.Errorf("error reading override: %v", err)
+	if _, ok := d.GetOk("override"); ok {
+		if o.Override != nil {
+			if err = d.Set("override", flattenWebfilterProfileOverride(d, o.Override, "override", sort)); err != nil {
+				return diag.Errorf("error reading override: %v", err)
+			}
 		}
 	}
 
@@ -1913,9 +1926,11 @@ func refreshObjectWebfilterProfile(d *schema.ResourceData, o *models.WebfilterPr
 		}
 	}
 
-	if o.Web != nil {
-		if err = d.Set("web", flattenWebfilterProfileWeb(d, o.Web, "web", sort)); err != nil {
-			return diag.Errorf("error reading web: %v", err)
+	if _, ok := d.GetOk("web"); ok {
+		if o.Web != nil {
+			if err = d.Set("web", flattenWebfilterProfileWeb(d, o.Web, "web", sort)); err != nil {
+				return diag.Errorf("error reading web: %v", err)
+			}
 		}
 	}
 
@@ -2094,7 +2109,7 @@ func refreshObjectWebfilterProfile(d *schema.ResourceData, o *models.WebfilterPr
 	return nil
 }
 
-func expandWebfilterProfileAntiphish(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.WebfilterProfileAntiphish, error) {
+func expandWebfilterProfileAntiphish(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.WebfilterProfileAntiphish, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -2192,7 +2207,7 @@ func expandWebfilterProfileAntiphish(d *schema.ResourceData, v interface{}, pre 
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
 func expandWebfilterProfileAntiphishCustomPatterns(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.WebfilterProfileAntiphishCustomPatterns, error) {
@@ -2271,7 +2286,7 @@ func expandWebfilterProfileAntiphishInspectionEntries(d *schema.ResourceData, v 
 	return &result, nil
 }
 
-func expandWebfilterProfileFileFilter(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.WebfilterProfileFileFilter, error) {
+func expandWebfilterProfileFileFilter(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.WebfilterProfileFileFilter, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -2316,7 +2331,7 @@ func expandWebfilterProfileFileFilter(d *schema.ResourceData, v interface{}, pre
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
 func expandWebfilterProfileFileFilterEntries(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.WebfilterProfileFileFilterEntries, error) {
@@ -2412,7 +2427,7 @@ func expandWebfilterProfileFileFilterEntriesFileType(d *schema.ResourceData, v i
 	return &result, nil
 }
 
-func expandWebfilterProfileFtgdWf(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.WebfilterProfileFtgdWf, error) {
+func expandWebfilterProfileFtgdWf(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.WebfilterProfileFtgdWf, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -2503,7 +2518,7 @@ func expandWebfilterProfileFtgdWf(d *schema.ResourceData, v interface{}, pre str
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
 func expandWebfilterProfileFtgdWfFilters(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.WebfilterProfileFtgdWfFilters, error) {
@@ -2683,7 +2698,7 @@ func expandWebfilterProfileFtgdWfQuota(d *schema.ResourceData, v interface{}, pr
 	return &result, nil
 }
 
-func expandWebfilterProfileOverride(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.WebfilterProfileOverride, error) {
+func expandWebfilterProfileOverride(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.WebfilterProfileOverride, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -2759,7 +2774,7 @@ func expandWebfilterProfileOverride(d *schema.ResourceData, v interface{}, pre s
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
 func expandWebfilterProfileOverrideOvrdUserGroup(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.WebfilterProfileOverrideOvrdUserGroup, error) {
@@ -2810,7 +2825,7 @@ func expandWebfilterProfileOverrideProfile(d *schema.ResourceData, v interface{}
 	return &result, nil
 }
 
-func expandWebfilterProfileWeb(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.WebfilterProfileWeb, error) {
+func expandWebfilterProfileWeb(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.WebfilterProfileWeb, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -2922,7 +2937,7 @@ func expandWebfilterProfileWeb(d *schema.ResourceData, v interface{}, pre string
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
 func expandWebfilterProfileWebKeywordMatch(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.WebfilterProfileWebKeywordMatch, error) {
@@ -3030,7 +3045,7 @@ func getObjectWebfilterProfile(d *schema.ResourceData, sv string) (*models.Webfi
 	} else if d.HasChange("antiphish") {
 		old, new := d.GetChange("antiphish")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.Antiphish = &[]models.WebfilterProfileAntiphish{}
+			obj.Antiphish = &models.WebfilterProfileAntiphish{}
 		}
 	}
 	if v1, ok := d.GetOk("comment"); ok {
@@ -3074,7 +3089,7 @@ func getObjectWebfilterProfile(d *schema.ResourceData, sv string) (*models.Webfi
 	} else if d.HasChange("file_filter") {
 		old, new := d.GetChange("file_filter")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.FileFilter = &[]models.WebfilterProfileFileFilter{}
+			obj.FileFilter = &models.WebfilterProfileFileFilter{}
 		}
 	}
 	if v, ok := d.GetOk("ftgd_wf"); ok {
@@ -3091,7 +3106,7 @@ func getObjectWebfilterProfile(d *schema.ResourceData, sv string) (*models.Webfi
 	} else if d.HasChange("ftgd_wf") {
 		old, new := d.GetChange("ftgd_wf")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.FtgdWf = &[]models.WebfilterProfileFtgdWf{}
+			obj.FtgdWf = &models.WebfilterProfileFtgdWf{}
 		}
 	}
 	if v1, ok := d.GetOk("https_replacemsg"); ok {
@@ -3144,7 +3159,7 @@ func getObjectWebfilterProfile(d *schema.ResourceData, sv string) (*models.Webfi
 	} else if d.HasChange("override") {
 		old, new := d.GetChange("override")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.Override = &[]models.WebfilterProfileOverride{}
+			obj.Override = &models.WebfilterProfileOverride{}
 		}
 	}
 	if v1, ok := d.GetOk("ovrd_perm"); ok {
@@ -3188,7 +3203,7 @@ func getObjectWebfilterProfile(d *schema.ResourceData, sv string) (*models.Webfi
 	} else if d.HasChange("web") {
 		old, new := d.GetChange("web")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.Web = &[]models.WebfilterProfileWeb{}
+			obj.Web = &models.WebfilterProfileWeb{}
 		}
 	}
 	if v1, ok := d.GetOk("web_antiphishing_log"); ok {

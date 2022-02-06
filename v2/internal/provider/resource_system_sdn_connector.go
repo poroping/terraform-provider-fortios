@@ -794,7 +794,7 @@ func flattenSystemSdnConnectorExternalAccountList(d *schema.ResourceData, v *[]m
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.RegionList; tmp != nil {
-				v["region_list"] = flattenSystemSdnConnectorExternalAccountListRegionList(d, tmp, prefix+"region_list", sort)
+				v["region_list"] = flattenSystemSdnConnectorExternalAccountListRegionList(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "region_list"), sort)
 			}
 
 			if tmp := cfg.RoleArn; tmp != nil {
@@ -890,7 +890,7 @@ func flattenSystemSdnConnectorGcpProjectList(d *schema.ResourceData, v *[]models
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.GcpZoneList; tmp != nil {
-				v["gcp_zone_list"] = flattenSystemSdnConnectorGcpProjectListGcpZoneList(d, tmp, prefix+"gcp_zone_list", sort)
+				v["gcp_zone_list"] = flattenSystemSdnConnectorGcpProjectListGcpZoneList(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "gcp_zone_list"), sort)
 			}
 
 			if tmp := cfg.Id; tmp != nil {
@@ -938,7 +938,7 @@ func flattenSystemSdnConnectorNic(d *schema.ResourceData, v *[]models.SystemSdnC
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Ip; tmp != nil {
-				v["ip"] = flattenSystemSdnConnectorNicIp(d, tmp, prefix+"ip", sort)
+				v["ip"] = flattenSystemSdnConnectorNicIp(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "ip"), sort)
 			}
 
 			if tmp := cfg.Name; tmp != nil {
@@ -1024,7 +1024,7 @@ func flattenSystemSdnConnectorRouteTable(d *schema.ResourceData, v *[]models.Sys
 			}
 
 			if tmp := cfg.Route; tmp != nil {
-				v["route"] = flattenSystemSdnConnectorRouteTableRoute(d, tmp, prefix+"route", sort)
+				v["route"] = flattenSystemSdnConnectorRouteTableRoute(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "route"), sort)
 			}
 
 			if tmp := cfg.SubscriptionId; tmp != nil {

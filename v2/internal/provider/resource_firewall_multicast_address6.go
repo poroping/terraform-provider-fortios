@@ -308,7 +308,7 @@ func flattenFirewallMulticastAddress6Tagging(d *schema.ResourceData, v *[]models
 			}
 
 			if tmp := cfg.Tags; tmp != nil {
-				v["tags"] = flattenFirewallMulticastAddress6TaggingTags(d, tmp, prefix+"tags", sort)
+				v["tags"] = flattenFirewallMulticastAddress6TaggingTags(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "tags"), sort)
 			}
 
 			flat = append(flat, v)

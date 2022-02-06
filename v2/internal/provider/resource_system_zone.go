@@ -329,7 +329,7 @@ func flattenSystemZoneTagging(d *schema.ResourceData, v *[]models.SystemZoneTagg
 			}
 
 			if tmp := cfg.Tags; tmp != nil {
-				v["tags"] = flattenSystemZoneTaggingTags(d, tmp, prefix+"tags", sort)
+				v["tags"] = flattenSystemZoneTaggingTags(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "tags"), sort)
 			}
 
 			flat = append(flat, v)

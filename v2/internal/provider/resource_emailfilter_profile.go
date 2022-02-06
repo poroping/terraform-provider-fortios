@@ -73,7 +73,7 @@ func resourceEmailfilterProfile() *schema.Resource {
 			"file_filter": {
 				Type:        schema.TypeList,
 				Description: "File filter.",
-				Optional:    true,
+				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"entries": {
@@ -172,7 +172,7 @@ func resourceEmailfilterProfile() *schema.Resource {
 			"gmail": {
 				Type:        schema.TypeList,
 				Description: "Gmail.",
-				Optional:    true,
+				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"log": {
@@ -197,7 +197,7 @@ func resourceEmailfilterProfile() *schema.Resource {
 			"imap": {
 				Type:        schema.TypeList,
 				Description: "IMAP.",
-				Optional:    true,
+				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"action": {
@@ -246,7 +246,7 @@ func resourceEmailfilterProfile() *schema.Resource {
 			"mapi": {
 				Type:        schema.TypeList,
 				Description: "MAPI.",
-				Optional:    true,
+				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"action": {
@@ -279,7 +279,7 @@ func resourceEmailfilterProfile() *schema.Resource {
 			"msn_hotmail": {
 				Type:        schema.TypeList,
 				Description: "MSN Hotmail.",
-				Optional:    true,
+				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"log": {
@@ -320,7 +320,7 @@ func resourceEmailfilterProfile() *schema.Resource {
 			"other_webmails": {
 				Type:        schema.TypeList,
 				Description: "Other supported webmails.",
-				Optional:    true,
+				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"log_all": {
@@ -337,7 +337,7 @@ func resourceEmailfilterProfile() *schema.Resource {
 			"pop3": {
 				Type:        schema.TypeList,
 				Description: "POP3.",
-				Optional:    true,
+				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"action": {
@@ -394,7 +394,7 @@ func resourceEmailfilterProfile() *schema.Resource {
 			"smtp": {
 				Type:        schema.TypeList,
 				Description: "SMTP.",
-				Optional:    true,
+				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"action": {
@@ -533,7 +533,7 @@ func resourceEmailfilterProfile() *schema.Resource {
 			"yahoo_mail": {
 				Type:        schema.TypeList,
 				Description: "Yahoo! Mail.",
-				Optional:    true,
+				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"log": {
@@ -712,15 +712,16 @@ func resourceEmailfilterProfileRead(ctx context.Context, d *schema.ResourceData,
 	return nil
 }
 
-func flattenEmailfilterProfileFileFilter(d *schema.ResourceData, v *[]models.EmailfilterProfileFileFilter, prefix string, sort bool) interface{} {
+func flattenEmailfilterProfileFileFilter(d *schema.ResourceData, v *models.EmailfilterProfileFileFilter, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.EmailfilterProfileFileFilter{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Entries; tmp != nil {
-				v["entries"] = flattenEmailfilterProfileFileFilterEntries(d, tmp, prefix+"entries", sort)
+				v["entries"] = flattenEmailfilterProfileFileFilterEntries(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "entries"), sort)
 			}
 
 			if tmp := cfg.Log; tmp != nil {
@@ -758,7 +759,7 @@ func flattenEmailfilterProfileFileFilterEntries(d *schema.ResourceData, v *[]mod
 			}
 
 			if tmp := cfg.FileType; tmp != nil {
-				v["file_type"] = flattenEmailfilterProfileFileFilterEntriesFileType(d, tmp, prefix+"file_type", sort)
+				v["file_type"] = flattenEmailfilterProfileFileFilterEntriesFileType(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "file_type"), sort)
 			}
 
 			if tmp := cfg.Filter; tmp != nil {
@@ -806,11 +807,12 @@ func flattenEmailfilterProfileFileFilterEntriesFileType(d *schema.ResourceData, 
 	return flat
 }
 
-func flattenEmailfilterProfileGmail(d *schema.ResourceData, v *[]models.EmailfilterProfileGmail, prefix string, sort bool) interface{} {
+func flattenEmailfilterProfileGmail(d *schema.ResourceData, v *models.EmailfilterProfileGmail, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.EmailfilterProfileGmail{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Log; tmp != nil {
@@ -828,11 +830,12 @@ func flattenEmailfilterProfileGmail(d *schema.ResourceData, v *[]models.Emailfil
 	return flat
 }
 
-func flattenEmailfilterProfileImap(d *schema.ResourceData, v *[]models.EmailfilterProfileImap, prefix string, sort bool) interface{} {
+func flattenEmailfilterProfileImap(d *schema.ResourceData, v *models.EmailfilterProfileImap, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.EmailfilterProfileImap{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Action; tmp != nil {
@@ -862,11 +865,12 @@ func flattenEmailfilterProfileImap(d *schema.ResourceData, v *[]models.Emailfilt
 	return flat
 }
 
-func flattenEmailfilterProfileMapi(d *schema.ResourceData, v *[]models.EmailfilterProfileMapi, prefix string, sort bool) interface{} {
+func flattenEmailfilterProfileMapi(d *schema.ResourceData, v *models.EmailfilterProfileMapi, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.EmailfilterProfileMapi{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Action; tmp != nil {
@@ -888,11 +892,12 @@ func flattenEmailfilterProfileMapi(d *schema.ResourceData, v *[]models.Emailfilt
 	return flat
 }
 
-func flattenEmailfilterProfileMsnHotmail(d *schema.ResourceData, v *[]models.EmailfilterProfileMsnHotmail, prefix string, sort bool) interface{} {
+func flattenEmailfilterProfileMsnHotmail(d *schema.ResourceData, v *models.EmailfilterProfileMsnHotmail, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.EmailfilterProfileMsnHotmail{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Log; tmp != nil {
@@ -910,11 +915,12 @@ func flattenEmailfilterProfileMsnHotmail(d *schema.ResourceData, v *[]models.Ema
 	return flat
 }
 
-func flattenEmailfilterProfileOtherWebmails(d *schema.ResourceData, v *[]models.EmailfilterProfileOtherWebmails, prefix string, sort bool) interface{} {
+func flattenEmailfilterProfileOtherWebmails(d *schema.ResourceData, v *models.EmailfilterProfileOtherWebmails, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.EmailfilterProfileOtherWebmails{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.LogAll; tmp != nil {
@@ -928,11 +934,12 @@ func flattenEmailfilterProfileOtherWebmails(d *schema.ResourceData, v *[]models.
 	return flat
 }
 
-func flattenEmailfilterProfilePop3(d *schema.ResourceData, v *[]models.EmailfilterProfilePop3, prefix string, sort bool) interface{} {
+func flattenEmailfilterProfilePop3(d *schema.ResourceData, v *models.EmailfilterProfilePop3, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.EmailfilterProfilePop3{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Action; tmp != nil {
@@ -962,11 +969,12 @@ func flattenEmailfilterProfilePop3(d *schema.ResourceData, v *[]models.Emailfilt
 	return flat
 }
 
-func flattenEmailfilterProfileSmtp(d *schema.ResourceData, v *[]models.EmailfilterProfileSmtp, prefix string, sort bool) interface{} {
+func flattenEmailfilterProfileSmtp(d *schema.ResourceData, v *models.EmailfilterProfileSmtp, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.EmailfilterProfileSmtp{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Action; tmp != nil {
@@ -1004,11 +1012,12 @@ func flattenEmailfilterProfileSmtp(d *schema.ResourceData, v *[]models.Emailfilt
 	return flat
 }
 
-func flattenEmailfilterProfileYahooMail(d *schema.ResourceData, v *[]models.EmailfilterProfileYahooMail, prefix string, sort bool) interface{} {
+func flattenEmailfilterProfileYahooMail(d *schema.ResourceData, v *models.EmailfilterProfileYahooMail, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.EmailfilterProfileYahooMail{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Log; tmp != nil {
@@ -1053,33 +1062,43 @@ func refreshObjectEmailfilterProfile(d *schema.ResourceData, o *models.Emailfilt
 		}
 	}
 
-	if o.FileFilter != nil {
-		if err = d.Set("file_filter", flattenEmailfilterProfileFileFilter(d, o.FileFilter, "file_filter", sort)); err != nil {
-			return diag.Errorf("error reading file_filter: %v", err)
+	if _, ok := d.GetOk("file_filter"); ok {
+		if o.FileFilter != nil {
+			if err = d.Set("file_filter", flattenEmailfilterProfileFileFilter(d, o.FileFilter, "file_filter", sort)); err != nil {
+				return diag.Errorf("error reading file_filter: %v", err)
+			}
 		}
 	}
 
-	if o.Gmail != nil {
-		if err = d.Set("gmail", flattenEmailfilterProfileGmail(d, o.Gmail, "gmail", sort)); err != nil {
-			return diag.Errorf("error reading gmail: %v", err)
+	if _, ok := d.GetOk("gmail"); ok {
+		if o.Gmail != nil {
+			if err = d.Set("gmail", flattenEmailfilterProfileGmail(d, o.Gmail, "gmail", sort)); err != nil {
+				return diag.Errorf("error reading gmail: %v", err)
+			}
 		}
 	}
 
-	if o.Imap != nil {
-		if err = d.Set("imap", flattenEmailfilterProfileImap(d, o.Imap, "imap", sort)); err != nil {
-			return diag.Errorf("error reading imap: %v", err)
+	if _, ok := d.GetOk("imap"); ok {
+		if o.Imap != nil {
+			if err = d.Set("imap", flattenEmailfilterProfileImap(d, o.Imap, "imap", sort)); err != nil {
+				return diag.Errorf("error reading imap: %v", err)
+			}
 		}
 	}
 
-	if o.Mapi != nil {
-		if err = d.Set("mapi", flattenEmailfilterProfileMapi(d, o.Mapi, "mapi", sort)); err != nil {
-			return diag.Errorf("error reading mapi: %v", err)
+	if _, ok := d.GetOk("mapi"); ok {
+		if o.Mapi != nil {
+			if err = d.Set("mapi", flattenEmailfilterProfileMapi(d, o.Mapi, "mapi", sort)); err != nil {
+				return diag.Errorf("error reading mapi: %v", err)
+			}
 		}
 	}
 
-	if o.MsnHotmail != nil {
-		if err = d.Set("msn_hotmail", flattenEmailfilterProfileMsnHotmail(d, o.MsnHotmail, "msn_hotmail", sort)); err != nil {
-			return diag.Errorf("error reading msn_hotmail: %v", err)
+	if _, ok := d.GetOk("msn_hotmail"); ok {
+		if o.MsnHotmail != nil {
+			if err = d.Set("msn_hotmail", flattenEmailfilterProfileMsnHotmail(d, o.MsnHotmail, "msn_hotmail", sort)); err != nil {
+				return diag.Errorf("error reading msn_hotmail: %v", err)
+			}
 		}
 	}
 
@@ -1099,15 +1118,19 @@ func refreshObjectEmailfilterProfile(d *schema.ResourceData, o *models.Emailfilt
 		}
 	}
 
-	if o.OtherWebmails != nil {
-		if err = d.Set("other_webmails", flattenEmailfilterProfileOtherWebmails(d, o.OtherWebmails, "other_webmails", sort)); err != nil {
-			return diag.Errorf("error reading other_webmails: %v", err)
+	if _, ok := d.GetOk("other_webmails"); ok {
+		if o.OtherWebmails != nil {
+			if err = d.Set("other_webmails", flattenEmailfilterProfileOtherWebmails(d, o.OtherWebmails, "other_webmails", sort)); err != nil {
+				return diag.Errorf("error reading other_webmails: %v", err)
+			}
 		}
 	}
 
-	if o.Pop3 != nil {
-		if err = d.Set("pop3", flattenEmailfilterProfilePop3(d, o.Pop3, "pop3", sort)); err != nil {
-			return diag.Errorf("error reading pop3: %v", err)
+	if _, ok := d.GetOk("pop3"); ok {
+		if o.Pop3 != nil {
+			if err = d.Set("pop3", flattenEmailfilterProfilePop3(d, o.Pop3, "pop3", sort)); err != nil {
+				return diag.Errorf("error reading pop3: %v", err)
+			}
 		}
 	}
 
@@ -1119,9 +1142,11 @@ func refreshObjectEmailfilterProfile(d *schema.ResourceData, o *models.Emailfilt
 		}
 	}
 
-	if o.Smtp != nil {
-		if err = d.Set("smtp", flattenEmailfilterProfileSmtp(d, o.Smtp, "smtp", sort)); err != nil {
-			return diag.Errorf("error reading smtp: %v", err)
+	if _, ok := d.GetOk("smtp"); ok {
+		if o.Smtp != nil {
+			if err = d.Set("smtp", flattenEmailfilterProfileSmtp(d, o.Smtp, "smtp", sort)); err != nil {
+				return diag.Errorf("error reading smtp: %v", err)
+			}
 		}
 	}
 
@@ -1205,16 +1230,18 @@ func refreshObjectEmailfilterProfile(d *schema.ResourceData, o *models.Emailfilt
 		}
 	}
 
-	if o.YahooMail != nil {
-		if err = d.Set("yahoo_mail", flattenEmailfilterProfileYahooMail(d, o.YahooMail, "yahoo_mail", sort)); err != nil {
-			return diag.Errorf("error reading yahoo_mail: %v", err)
+	if _, ok := d.GetOk("yahoo_mail"); ok {
+		if o.YahooMail != nil {
+			if err = d.Set("yahoo_mail", flattenEmailfilterProfileYahooMail(d, o.YahooMail, "yahoo_mail", sort)); err != nil {
+				return diag.Errorf("error reading yahoo_mail: %v", err)
+			}
 		}
 	}
 
 	return nil
 }
 
-func expandEmailfilterProfileFileFilter(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.EmailfilterProfileFileFilter, error) {
+func expandEmailfilterProfileFileFilter(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.EmailfilterProfileFileFilter, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -1259,7 +1286,7 @@ func expandEmailfilterProfileFileFilter(d *schema.ResourceData, v interface{}, p
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
 func expandEmailfilterProfileFileFilterEntries(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.EmailfilterProfileFileFilterEntries, error) {
@@ -1348,7 +1375,7 @@ func expandEmailfilterProfileFileFilterEntriesFileType(d *schema.ResourceData, v
 	return &result, nil
 }
 
-func expandEmailfilterProfileGmail(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.EmailfilterProfileGmail, error) {
+func expandEmailfilterProfileGmail(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.EmailfilterProfileGmail, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -1376,10 +1403,10 @@ func expandEmailfilterProfileGmail(d *schema.ResourceData, v interface{}, pre st
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
-func expandEmailfilterProfileImap(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.EmailfilterProfileImap, error) {
+func expandEmailfilterProfileImap(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.EmailfilterProfileImap, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -1428,10 +1455,10 @@ func expandEmailfilterProfileImap(d *schema.ResourceData, v interface{}, pre str
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
-func expandEmailfilterProfileMapi(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.EmailfilterProfileMapi, error) {
+func expandEmailfilterProfileMapi(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.EmailfilterProfileMapi, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -1466,10 +1493,10 @@ func expandEmailfilterProfileMapi(d *schema.ResourceData, v interface{}, pre str
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
-func expandEmailfilterProfileMsnHotmail(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.EmailfilterProfileMsnHotmail, error) {
+func expandEmailfilterProfileMsnHotmail(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.EmailfilterProfileMsnHotmail, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -1497,10 +1524,10 @@ func expandEmailfilterProfileMsnHotmail(d *schema.ResourceData, v interface{}, p
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
-func expandEmailfilterProfileOtherWebmails(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.EmailfilterProfileOtherWebmails, error) {
+func expandEmailfilterProfileOtherWebmails(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.EmailfilterProfileOtherWebmails, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -1521,10 +1548,10 @@ func expandEmailfilterProfileOtherWebmails(d *schema.ResourceData, v interface{}
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
-func expandEmailfilterProfilePop3(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.EmailfilterProfilePop3, error) {
+func expandEmailfilterProfilePop3(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.EmailfilterProfilePop3, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -1573,10 +1600,10 @@ func expandEmailfilterProfilePop3(d *schema.ResourceData, v interface{}, pre str
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
-func expandEmailfilterProfileSmtp(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.EmailfilterProfileSmtp, error) {
+func expandEmailfilterProfileSmtp(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.EmailfilterProfileSmtp, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -1639,10 +1666,10 @@ func expandEmailfilterProfileSmtp(d *schema.ResourceData, v interface{}, pre str
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
-func expandEmailfilterProfileYahooMail(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.EmailfilterProfileYahooMail, error) {
+func expandEmailfilterProfileYahooMail(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.EmailfilterProfileYahooMail, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -1670,7 +1697,7 @@ func expandEmailfilterProfileYahooMail(d *schema.ResourceData, v interface{}, pr
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
 func getObjectEmailfilterProfile(d *schema.ResourceData, sv string) (*models.EmailfilterProfile, diag.Diagnostics) {
@@ -1718,7 +1745,7 @@ func getObjectEmailfilterProfile(d *schema.ResourceData, sv string) (*models.Ema
 	} else if d.HasChange("file_filter") {
 		old, new := d.GetChange("file_filter")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.FileFilter = &[]models.EmailfilterProfileFileFilter{}
+			obj.FileFilter = &models.EmailfilterProfileFileFilter{}
 		}
 	}
 	if v, ok := d.GetOk("gmail"); ok {
@@ -1735,7 +1762,7 @@ func getObjectEmailfilterProfile(d *schema.ResourceData, sv string) (*models.Ema
 	} else if d.HasChange("gmail") {
 		old, new := d.GetChange("gmail")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.Gmail = &[]models.EmailfilterProfileGmail{}
+			obj.Gmail = &models.EmailfilterProfileGmail{}
 		}
 	}
 	if v, ok := d.GetOk("imap"); ok {
@@ -1752,7 +1779,7 @@ func getObjectEmailfilterProfile(d *schema.ResourceData, sv string) (*models.Ema
 	} else if d.HasChange("imap") {
 		old, new := d.GetChange("imap")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.Imap = &[]models.EmailfilterProfileImap{}
+			obj.Imap = &models.EmailfilterProfileImap{}
 		}
 	}
 	if v, ok := d.GetOk("mapi"); ok {
@@ -1769,7 +1796,7 @@ func getObjectEmailfilterProfile(d *schema.ResourceData, sv string) (*models.Ema
 	} else if d.HasChange("mapi") {
 		old, new := d.GetChange("mapi")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.Mapi = &[]models.EmailfilterProfileMapi{}
+			obj.Mapi = &models.EmailfilterProfileMapi{}
 		}
 	}
 	if v, ok := d.GetOk("msn_hotmail"); ok {
@@ -1786,7 +1813,7 @@ func getObjectEmailfilterProfile(d *schema.ResourceData, sv string) (*models.Ema
 	} else if d.HasChange("msn_hotmail") {
 		old, new := d.GetChange("msn_hotmail")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.MsnHotmail = &[]models.EmailfilterProfileMsnHotmail{}
+			obj.MsnHotmail = &models.EmailfilterProfileMsnHotmail{}
 		}
 	}
 	if v1, ok := d.GetOk("name"); ok {
@@ -1821,7 +1848,7 @@ func getObjectEmailfilterProfile(d *schema.ResourceData, sv string) (*models.Ema
 	} else if d.HasChange("other_webmails") {
 		old, new := d.GetChange("other_webmails")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.OtherWebmails = &[]models.EmailfilterProfileOtherWebmails{}
+			obj.OtherWebmails = &models.EmailfilterProfileOtherWebmails{}
 		}
 	}
 	if v, ok := d.GetOk("pop3"); ok {
@@ -1838,7 +1865,7 @@ func getObjectEmailfilterProfile(d *schema.ResourceData, sv string) (*models.Ema
 	} else if d.HasChange("pop3") {
 		old, new := d.GetChange("pop3")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.Pop3 = &[]models.EmailfilterProfilePop3{}
+			obj.Pop3 = &models.EmailfilterProfilePop3{}
 		}
 	}
 	if v1, ok := d.GetOk("replacemsg_group"); ok {
@@ -1864,7 +1891,7 @@ func getObjectEmailfilterProfile(d *schema.ResourceData, sv string) (*models.Ema
 	} else if d.HasChange("smtp") {
 		old, new := d.GetChange("smtp")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.Smtp = &[]models.EmailfilterProfileSmtp{}
+			obj.Smtp = &models.EmailfilterProfileSmtp{}
 		}
 	}
 	if v1, ok := d.GetOk("spam_bal_table"); ok {
@@ -1978,7 +2005,7 @@ func getObjectEmailfilterProfile(d *schema.ResourceData, sv string) (*models.Ema
 	} else if d.HasChange("yahoo_mail") {
 		old, new := d.GetChange("yahoo_mail")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.YahooMail = &[]models.EmailfilterProfileYahooMail{}
+			obj.YahooMail = &models.EmailfilterProfileYahooMail{}
 		}
 	}
 	return &obj, diags

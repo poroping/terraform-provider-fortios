@@ -55,7 +55,7 @@ func resourceWafProfile() *schema.Resource {
 			"address_list": {
 				Type:        schema.TypeList,
 				Description: "Address block and allow lists.",
-				Optional:    true,
+				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"blocked_address": {
@@ -130,13 +130,13 @@ func resourceWafProfile() *schema.Resource {
 			"constraint": {
 				Type:        schema.TypeList,
 				Description: "WAF HTTP protocol restrictions.",
-				Optional:    true,
+				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"content_length": {
 							Type:        schema.TypeList,
 							Description: "HTTP content length in request.",
-							Optional:    true,
+							Optional:    true, MaxItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									"action": {
@@ -329,7 +329,7 @@ func resourceWafProfile() *schema.Resource {
 						"header_length": {
 							Type:        schema.TypeList,
 							Description: "HTTP header length in request.",
-							Optional:    true,
+							Optional:    true, MaxItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									"action": {
@@ -378,7 +378,7 @@ func resourceWafProfile() *schema.Resource {
 						"hostname": {
 							Type:        schema.TypeList,
 							Description: "Enable/disable hostname check.",
-							Optional:    true,
+							Optional:    true, MaxItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									"action": {
@@ -419,7 +419,7 @@ func resourceWafProfile() *schema.Resource {
 						"line_length": {
 							Type:        schema.TypeList,
 							Description: "HTTP line length in request.",
-							Optional:    true,
+							Optional:    true, MaxItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									"action": {
@@ -468,7 +468,7 @@ func resourceWafProfile() *schema.Resource {
 						"malformed": {
 							Type:        schema.TypeList,
 							Description: "Enable/disable malformed HTTP request check.",
-							Optional:    true,
+							Optional:    true, MaxItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									"action": {
@@ -509,7 +509,7 @@ func resourceWafProfile() *schema.Resource {
 						"max_cookie": {
 							Type:        schema.TypeList,
 							Description: "Maximum number of cookies in HTTP request.",
-							Optional:    true,
+							Optional:    true, MaxItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									"action": {
@@ -558,7 +558,7 @@ func resourceWafProfile() *schema.Resource {
 						"max_header_line": {
 							Type:        schema.TypeList,
 							Description: "Maximum number of HTTP header line.",
-							Optional:    true,
+							Optional:    true, MaxItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									"action": {
@@ -607,7 +607,7 @@ func resourceWafProfile() *schema.Resource {
 						"max_range_segment": {
 							Type:        schema.TypeList,
 							Description: "Maximum number of range segments in HTTP range line.",
-							Optional:    true,
+							Optional:    true, MaxItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									"action": {
@@ -656,7 +656,7 @@ func resourceWafProfile() *schema.Resource {
 						"max_url_param": {
 							Type:        schema.TypeList,
 							Description: "Maximum number of parameters in URL.",
-							Optional:    true,
+							Optional:    true, MaxItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									"action": {
@@ -705,7 +705,7 @@ func resourceWafProfile() *schema.Resource {
 						"method": {
 							Type:        schema.TypeList,
 							Description: "Enable/disable HTTP method check.",
-							Optional:    true,
+							Optional:    true, MaxItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									"action": {
@@ -746,7 +746,7 @@ func resourceWafProfile() *schema.Resource {
 						"param_length": {
 							Type:        schema.TypeList,
 							Description: "Maximum length of parameter in URL, HTTP POST request or HTTP body.",
-							Optional:    true,
+							Optional:    true, MaxItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									"action": {
@@ -795,7 +795,7 @@ func resourceWafProfile() *schema.Resource {
 						"url_param_length": {
 							Type:        schema.TypeList,
 							Description: "Maximum length of parameter in URL.",
-							Optional:    true,
+							Optional:    true, MaxItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									"action": {
@@ -844,7 +844,7 @@ func resourceWafProfile() *schema.Resource {
 						"version": {
 							Type:        schema.TypeList,
 							Description: "Enable/disable HTTP version check.",
-							Optional:    true,
+							Optional:    true, MaxItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									"action": {
@@ -904,7 +904,7 @@ func resourceWafProfile() *schema.Resource {
 			"method": {
 				Type:        schema.TypeList,
 				Description: "Method restriction.",
-				Optional:    true,
+				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"default_allowed_methods": {
@@ -1001,7 +1001,7 @@ func resourceWafProfile() *schema.Resource {
 			"signature": {
 				Type:        schema.TypeList,
 				Description: "WAF signatures.",
-				Optional:    true,
+				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"credit_card_detection_threshold": {
@@ -1429,15 +1429,16 @@ func resourceWafProfileRead(ctx context.Context, d *schema.ResourceData, meta in
 	return nil
 }
 
-func flattenWafProfileAddressList(d *schema.ResourceData, v *[]models.WafProfileAddressList, prefix string, sort bool) interface{} {
+func flattenWafProfileAddressList(d *schema.ResourceData, v *models.WafProfileAddressList, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.WafProfileAddressList{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.BlockedAddress; tmp != nil {
-				v["blocked_address"] = flattenWafProfileAddressListBlockedAddress(d, tmp, prefix+"blocked_address", sort)
+				v["blocked_address"] = flattenWafProfileAddressListBlockedAddress(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "blocked_address"), sort)
 			}
 
 			if tmp := cfg.BlockedLog; tmp != nil {
@@ -1453,7 +1454,7 @@ func flattenWafProfileAddressList(d *schema.ResourceData, v *[]models.WafProfile
 			}
 
 			if tmp := cfg.TrustedAddress; tmp != nil {
-				v["trusted_address"] = flattenWafProfileAddressListTrustedAddress(d, tmp, prefix+"trusted_address", sort)
+				v["trusted_address"] = flattenWafProfileAddressListTrustedAddress(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "trusted_address"), sort)
 			}
 
 			flat = append(flat, v)
@@ -1507,67 +1508,68 @@ func flattenWafProfileAddressListTrustedAddress(d *schema.ResourceData, v *[]mod
 	return flat
 }
 
-func flattenWafProfileConstraint(d *schema.ResourceData, v *[]models.WafProfileConstraint, prefix string, sort bool) interface{} {
+func flattenWafProfileConstraint(d *schema.ResourceData, v *models.WafProfileConstraint, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.WafProfileConstraint{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.ContentLength; tmp != nil {
-				v["content_length"] = flattenWafProfileConstraintContentLength(d, tmp, prefix+"content_length", sort)
+				v["content_length"] = flattenWafProfileConstraintContentLength(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "content_length"), sort)
 			}
 
 			if tmp := cfg.Exception; tmp != nil {
-				v["exception"] = flattenWafProfileConstraintException(d, tmp, prefix+"exception", sort)
+				v["exception"] = flattenWafProfileConstraintException(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "exception"), sort)
 			}
 
 			if tmp := cfg.HeaderLength; tmp != nil {
-				v["header_length"] = flattenWafProfileConstraintHeaderLength(d, tmp, prefix+"header_length", sort)
+				v["header_length"] = flattenWafProfileConstraintHeaderLength(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "header_length"), sort)
 			}
 
 			if tmp := cfg.Hostname; tmp != nil {
-				v["hostname"] = flattenWafProfileConstraintHostname(d, tmp, prefix+"hostname", sort)
+				v["hostname"] = flattenWafProfileConstraintHostname(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "hostname"), sort)
 			}
 
 			if tmp := cfg.LineLength; tmp != nil {
-				v["line_length"] = flattenWafProfileConstraintLineLength(d, tmp, prefix+"line_length", sort)
+				v["line_length"] = flattenWafProfileConstraintLineLength(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "line_length"), sort)
 			}
 
 			if tmp := cfg.Malformed; tmp != nil {
-				v["malformed"] = flattenWafProfileConstraintMalformed(d, tmp, prefix+"malformed", sort)
+				v["malformed"] = flattenWafProfileConstraintMalformed(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "malformed"), sort)
 			}
 
 			if tmp := cfg.MaxCookie; tmp != nil {
-				v["max_cookie"] = flattenWafProfileConstraintMaxCookie(d, tmp, prefix+"max_cookie", sort)
+				v["max_cookie"] = flattenWafProfileConstraintMaxCookie(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "max_cookie"), sort)
 			}
 
 			if tmp := cfg.MaxHeaderLine; tmp != nil {
-				v["max_header_line"] = flattenWafProfileConstraintMaxHeaderLine(d, tmp, prefix+"max_header_line", sort)
+				v["max_header_line"] = flattenWafProfileConstraintMaxHeaderLine(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "max_header_line"), sort)
 			}
 
 			if tmp := cfg.MaxRangeSegment; tmp != nil {
-				v["max_range_segment"] = flattenWafProfileConstraintMaxRangeSegment(d, tmp, prefix+"max_range_segment", sort)
+				v["max_range_segment"] = flattenWafProfileConstraintMaxRangeSegment(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "max_range_segment"), sort)
 			}
 
 			if tmp := cfg.MaxUrlParam; tmp != nil {
-				v["max_url_param"] = flattenWafProfileConstraintMaxUrlParam(d, tmp, prefix+"max_url_param", sort)
+				v["max_url_param"] = flattenWafProfileConstraintMaxUrlParam(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "max_url_param"), sort)
 			}
 
 			if tmp := cfg.Method; tmp != nil {
-				v["method"] = flattenWafProfileConstraintMethod(d, tmp, prefix+"method", sort)
+				v["method"] = flattenWafProfileConstraintMethod(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "method"), sort)
 			}
 
 			if tmp := cfg.ParamLength; tmp != nil {
-				v["param_length"] = flattenWafProfileConstraintParamLength(d, tmp, prefix+"param_length", sort)
+				v["param_length"] = flattenWafProfileConstraintParamLength(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "param_length"), sort)
 			}
 
 			if tmp := cfg.UrlParamLength; tmp != nil {
-				v["url_param_length"] = flattenWafProfileConstraintUrlParamLength(d, tmp, prefix+"url_param_length", sort)
+				v["url_param_length"] = flattenWafProfileConstraintUrlParamLength(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "url_param_length"), sort)
 			}
 
 			if tmp := cfg.Version; tmp != nil {
-				v["version"] = flattenWafProfileConstraintVersion(d, tmp, prefix+"version", sort)
+				v["version"] = flattenWafProfileConstraintVersion(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "version"), sort)
 			}
 
 			flat = append(flat, v)
@@ -1577,11 +1579,12 @@ func flattenWafProfileConstraint(d *schema.ResourceData, v *[]models.WafProfileC
 	return flat
 }
 
-func flattenWafProfileConstraintContentLength(d *schema.ResourceData, v *[]models.WafProfileConstraintContentLength, prefix string, sort bool) interface{} {
+func flattenWafProfileConstraintContentLength(d *schema.ResourceData, v *models.WafProfileConstraintContentLength, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.WafProfileConstraintContentLength{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Action; tmp != nil {
@@ -1697,11 +1700,12 @@ func flattenWafProfileConstraintException(d *schema.ResourceData, v *[]models.Wa
 	return flat
 }
 
-func flattenWafProfileConstraintHeaderLength(d *schema.ResourceData, v *[]models.WafProfileConstraintHeaderLength, prefix string, sort bool) interface{} {
+func flattenWafProfileConstraintHeaderLength(d *schema.ResourceData, v *models.WafProfileConstraintHeaderLength, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.WafProfileConstraintHeaderLength{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Action; tmp != nil {
@@ -1731,11 +1735,12 @@ func flattenWafProfileConstraintHeaderLength(d *schema.ResourceData, v *[]models
 	return flat
 }
 
-func flattenWafProfileConstraintHostname(d *schema.ResourceData, v *[]models.WafProfileConstraintHostname, prefix string, sort bool) interface{} {
+func flattenWafProfileConstraintHostname(d *schema.ResourceData, v *models.WafProfileConstraintHostname, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.WafProfileConstraintHostname{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Action; tmp != nil {
@@ -1761,11 +1766,12 @@ func flattenWafProfileConstraintHostname(d *schema.ResourceData, v *[]models.Waf
 	return flat
 }
 
-func flattenWafProfileConstraintLineLength(d *schema.ResourceData, v *[]models.WafProfileConstraintLineLength, prefix string, sort bool) interface{} {
+func flattenWafProfileConstraintLineLength(d *schema.ResourceData, v *models.WafProfileConstraintLineLength, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.WafProfileConstraintLineLength{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Action; tmp != nil {
@@ -1795,11 +1801,12 @@ func flattenWafProfileConstraintLineLength(d *schema.ResourceData, v *[]models.W
 	return flat
 }
 
-func flattenWafProfileConstraintMalformed(d *schema.ResourceData, v *[]models.WafProfileConstraintMalformed, prefix string, sort bool) interface{} {
+func flattenWafProfileConstraintMalformed(d *schema.ResourceData, v *models.WafProfileConstraintMalformed, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.WafProfileConstraintMalformed{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Action; tmp != nil {
@@ -1825,11 +1832,12 @@ func flattenWafProfileConstraintMalformed(d *schema.ResourceData, v *[]models.Wa
 	return flat
 }
 
-func flattenWafProfileConstraintMaxCookie(d *schema.ResourceData, v *[]models.WafProfileConstraintMaxCookie, prefix string, sort bool) interface{} {
+func flattenWafProfileConstraintMaxCookie(d *schema.ResourceData, v *models.WafProfileConstraintMaxCookie, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.WafProfileConstraintMaxCookie{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Action; tmp != nil {
@@ -1859,11 +1867,12 @@ func flattenWafProfileConstraintMaxCookie(d *schema.ResourceData, v *[]models.Wa
 	return flat
 }
 
-func flattenWafProfileConstraintMaxHeaderLine(d *schema.ResourceData, v *[]models.WafProfileConstraintMaxHeaderLine, prefix string, sort bool) interface{} {
+func flattenWafProfileConstraintMaxHeaderLine(d *schema.ResourceData, v *models.WafProfileConstraintMaxHeaderLine, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.WafProfileConstraintMaxHeaderLine{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Action; tmp != nil {
@@ -1893,11 +1902,12 @@ func flattenWafProfileConstraintMaxHeaderLine(d *schema.ResourceData, v *[]model
 	return flat
 }
 
-func flattenWafProfileConstraintMaxRangeSegment(d *schema.ResourceData, v *[]models.WafProfileConstraintMaxRangeSegment, prefix string, sort bool) interface{} {
+func flattenWafProfileConstraintMaxRangeSegment(d *schema.ResourceData, v *models.WafProfileConstraintMaxRangeSegment, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.WafProfileConstraintMaxRangeSegment{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Action; tmp != nil {
@@ -1927,11 +1937,12 @@ func flattenWafProfileConstraintMaxRangeSegment(d *schema.ResourceData, v *[]mod
 	return flat
 }
 
-func flattenWafProfileConstraintMaxUrlParam(d *schema.ResourceData, v *[]models.WafProfileConstraintMaxUrlParam, prefix string, sort bool) interface{} {
+func flattenWafProfileConstraintMaxUrlParam(d *schema.ResourceData, v *models.WafProfileConstraintMaxUrlParam, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.WafProfileConstraintMaxUrlParam{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Action; tmp != nil {
@@ -1961,11 +1972,12 @@ func flattenWafProfileConstraintMaxUrlParam(d *schema.ResourceData, v *[]models.
 	return flat
 }
 
-func flattenWafProfileConstraintMethod(d *schema.ResourceData, v *[]models.WafProfileConstraintMethod, prefix string, sort bool) interface{} {
+func flattenWafProfileConstraintMethod(d *schema.ResourceData, v *models.WafProfileConstraintMethod, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.WafProfileConstraintMethod{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Action; tmp != nil {
@@ -1991,45 +2003,12 @@ func flattenWafProfileConstraintMethod(d *schema.ResourceData, v *[]models.WafPr
 	return flat
 }
 
-func flattenWafProfileConstraintParamLength(d *schema.ResourceData, v *[]models.WafProfileConstraintParamLength, prefix string, sort bool) interface{} {
+func flattenWafProfileConstraintParamLength(d *schema.ResourceData, v *models.WafProfileConstraintParamLength, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
-			_ = i
-			v := make(map[string]interface{})
-			if tmp := cfg.Action; tmp != nil {
-				v["action"] = *tmp
-			}
-
-			if tmp := cfg.Length; tmp != nil {
-				v["length"] = *tmp
-			}
-
-			if tmp := cfg.Log; tmp != nil {
-				v["log"] = *tmp
-			}
-
-			if tmp := cfg.Severity; tmp != nil {
-				v["severity"] = *tmp
-			}
-
-			if tmp := cfg.Status; tmp != nil {
-				v["status"] = *tmp
-			}
-
-			flat = append(flat, v)
-		}
-	}
-
-	return flat
-}
-
-func flattenWafProfileConstraintUrlParamLength(d *schema.ResourceData, v *[]models.WafProfileConstraintUrlParamLength, prefix string, sort bool) interface{} {
-	flat := make([]map[string]interface{}, 0)
-
-	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.WafProfileConstraintParamLength{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Action; tmp != nil {
@@ -2059,11 +2038,47 @@ func flattenWafProfileConstraintUrlParamLength(d *schema.ResourceData, v *[]mode
 	return flat
 }
 
-func flattenWafProfileConstraintVersion(d *schema.ResourceData, v *[]models.WafProfileConstraintVersion, prefix string, sort bool) interface{} {
+func flattenWafProfileConstraintUrlParamLength(d *schema.ResourceData, v *models.WafProfileConstraintUrlParamLength, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.WafProfileConstraintUrlParamLength{*v}
+		for i, cfg := range v2 {
+			_ = i
+			v := make(map[string]interface{})
+			if tmp := cfg.Action; tmp != nil {
+				v["action"] = *tmp
+			}
+
+			if tmp := cfg.Length; tmp != nil {
+				v["length"] = *tmp
+			}
+
+			if tmp := cfg.Log; tmp != nil {
+				v["log"] = *tmp
+			}
+
+			if tmp := cfg.Severity; tmp != nil {
+				v["severity"] = *tmp
+			}
+
+			if tmp := cfg.Status; tmp != nil {
+				v["status"] = *tmp
+			}
+
+			flat = append(flat, v)
+		}
+	}
+
+	return flat
+}
+
+func flattenWafProfileConstraintVersion(d *schema.ResourceData, v *models.WafProfileConstraintVersion, prefix string, sort bool) interface{} {
+	flat := make([]map[string]interface{}, 0)
+
+	if v != nil {
+		v2 := []models.WafProfileConstraintVersion{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Action; tmp != nil {
@@ -2089,11 +2104,12 @@ func flattenWafProfileConstraintVersion(d *schema.ResourceData, v *[]models.WafP
 	return flat
 }
 
-func flattenWafProfileMethod(d *schema.ResourceData, v *[]models.WafProfileMethod, prefix string, sort bool) interface{} {
+func flattenWafProfileMethod(d *schema.ResourceData, v *models.WafProfileMethod, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.WafProfileMethod{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.DefaultAllowedMethods; tmp != nil {
@@ -2105,7 +2121,7 @@ func flattenWafProfileMethod(d *schema.ResourceData, v *[]models.WafProfileMetho
 			}
 
 			if tmp := cfg.MethodPolicy; tmp != nil {
-				v["method_policy"] = flattenWafProfileMethodMethodPolicy(d, tmp, prefix+"method_policy", sort)
+				v["method_policy"] = flattenWafProfileMethodMethodPolicy(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "method_policy"), sort)
 			}
 
 			if tmp := cfg.Severity; tmp != nil {
@@ -2161,11 +2177,12 @@ func flattenWafProfileMethodMethodPolicy(d *schema.ResourceData, v *[]models.Waf
 	return flat
 }
 
-func flattenWafProfileSignature(d *schema.ResourceData, v *[]models.WafProfileSignature, prefix string, sort bool) interface{} {
+func flattenWafProfileSignature(d *schema.ResourceData, v *models.WafProfileSignature, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.WafProfileSignature{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.CreditCardDetectionThreshold; tmp != nil {
@@ -2173,19 +2190,19 @@ func flattenWafProfileSignature(d *schema.ResourceData, v *[]models.WafProfileSi
 			}
 
 			if tmp := cfg.CustomSignature; tmp != nil {
-				v["custom_signature"] = flattenWafProfileSignatureCustomSignature(d, tmp, prefix+"custom_signature", sort)
+				v["custom_signature"] = flattenWafProfileSignatureCustomSignature(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "custom_signature"), sort)
 			}
 
 			if tmp := cfg.DisabledSignature; tmp != nil {
-				v["disabled_signature"] = flattenWafProfileSignatureDisabledSignature(d, tmp, prefix+"disabled_signature", sort)
+				v["disabled_signature"] = flattenWafProfileSignatureDisabledSignature(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "disabled_signature"), sort)
 			}
 
 			if tmp := cfg.DisabledSubClass; tmp != nil {
-				v["disabled_sub_class"] = flattenWafProfileSignatureDisabledSubClass(d, tmp, prefix+"disabled_sub_class", sort)
+				v["disabled_sub_class"] = flattenWafProfileSignatureDisabledSubClass(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "disabled_sub_class"), sort)
 			}
 
 			if tmp := cfg.MainClass; tmp != nil {
-				v["main_class"] = flattenWafProfileSignatureMainClass(d, tmp, prefix+"main_class", sort)
+				v["main_class"] = flattenWafProfileSignatureMainClass(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "main_class"), sort)
 			}
 
 			flat = append(flat, v)
@@ -2339,7 +2356,7 @@ func flattenWafProfileUrlAccess(d *schema.ResourceData, v *[]models.WafProfileUr
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.AccessPattern; tmp != nil {
-				v["access_pattern"] = flattenWafProfileUrlAccessAccessPattern(d, tmp, prefix+"access_pattern", sort)
+				v["access_pattern"] = flattenWafProfileUrlAccessAccessPattern(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "access_pattern"), sort)
 			}
 
 			if tmp := cfg.Action; tmp != nil {
@@ -2414,9 +2431,11 @@ func flattenWafProfileUrlAccessAccessPattern(d *schema.ResourceData, v *[]models
 func refreshObjectWafProfile(d *schema.ResourceData, o *models.WafProfile, sv string, sort bool) diag.Diagnostics {
 	var err error
 
-	if o.AddressList != nil {
-		if err = d.Set("address_list", flattenWafProfileAddressList(d, o.AddressList, "address_list", sort)); err != nil {
-			return diag.Errorf("error reading address_list: %v", err)
+	if _, ok := d.GetOk("address_list"); ok {
+		if o.AddressList != nil {
+			if err = d.Set("address_list", flattenWafProfileAddressList(d, o.AddressList, "address_list", sort)); err != nil {
+				return diag.Errorf("error reading address_list: %v", err)
+			}
 		}
 	}
 
@@ -2428,9 +2447,11 @@ func refreshObjectWafProfile(d *schema.ResourceData, o *models.WafProfile, sv st
 		}
 	}
 
-	if o.Constraint != nil {
-		if err = d.Set("constraint", flattenWafProfileConstraint(d, o.Constraint, "constraint", sort)); err != nil {
-			return diag.Errorf("error reading constraint: %v", err)
+	if _, ok := d.GetOk("constraint"); ok {
+		if o.Constraint != nil {
+			if err = d.Set("constraint", flattenWafProfileConstraint(d, o.Constraint, "constraint", sort)); err != nil {
+				return diag.Errorf("error reading constraint: %v", err)
+			}
 		}
 	}
 
@@ -2450,9 +2471,11 @@ func refreshObjectWafProfile(d *schema.ResourceData, o *models.WafProfile, sv st
 		}
 	}
 
-	if o.Method != nil {
-		if err = d.Set("method", flattenWafProfileMethod(d, o.Method, "method", sort)); err != nil {
-			return diag.Errorf("error reading method: %v", err)
+	if _, ok := d.GetOk("method"); ok {
+		if o.Method != nil {
+			if err = d.Set("method", flattenWafProfileMethod(d, o.Method, "method", sort)); err != nil {
+				return diag.Errorf("error reading method: %v", err)
+			}
 		}
 	}
 
@@ -2464,9 +2487,11 @@ func refreshObjectWafProfile(d *schema.ResourceData, o *models.WafProfile, sv st
 		}
 	}
 
-	if o.Signature != nil {
-		if err = d.Set("signature", flattenWafProfileSignature(d, o.Signature, "signature", sort)); err != nil {
-			return diag.Errorf("error reading signature: %v", err)
+	if _, ok := d.GetOk("signature"); ok {
+		if o.Signature != nil {
+			if err = d.Set("signature", flattenWafProfileSignature(d, o.Signature, "signature", sort)); err != nil {
+				return diag.Errorf("error reading signature: %v", err)
+			}
 		}
 	}
 
@@ -2479,7 +2504,7 @@ func refreshObjectWafProfile(d *schema.ResourceData, o *models.WafProfile, sv st
 	return nil
 }
 
-func expandWafProfileAddressList(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.WafProfileAddressList, error) {
+func expandWafProfileAddressList(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.WafProfileAddressList, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -2534,7 +2559,7 @@ func expandWafProfileAddressList(d *schema.ResourceData, v interface{}, pre stri
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
 func expandWafProfileAddressListBlockedAddress(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.WafProfileAddressListBlockedAddress, error) {
@@ -2585,7 +2610,7 @@ func expandWafProfileAddressListTrustedAddress(d *schema.ResourceData, v interfa
 	return &result, nil
 }
 
-func expandWafProfileConstraint(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.WafProfileConstraint, error) {
+func expandWafProfileConstraint(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.WafProfileConstraint, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -2739,10 +2764,10 @@ func expandWafProfileConstraint(d *schema.ResourceData, v interface{}, pre strin
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
-func expandWafProfileConstraintContentLength(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.WafProfileConstraintContentLength, error) {
+func expandWafProfileConstraintContentLength(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.WafProfileConstraintContentLength, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -2792,7 +2817,7 @@ func expandWafProfileConstraintContentLength(d *schema.ResourceData, v interface
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
 func expandWafProfileConstraintException(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.WafProfileConstraintException, error) {
@@ -2932,7 +2957,7 @@ func expandWafProfileConstraintException(d *schema.ResourceData, v interface{}, 
 	return &result, nil
 }
 
-func expandWafProfileConstraintHeaderLength(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.WafProfileConstraintHeaderLength, error) {
+func expandWafProfileConstraintHeaderLength(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.WafProfileConstraintHeaderLength, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -2982,10 +3007,10 @@ func expandWafProfileConstraintHeaderLength(d *schema.ResourceData, v interface{
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
-func expandWafProfileConstraintHostname(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.WafProfileConstraintHostname, error) {
+func expandWafProfileConstraintHostname(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.WafProfileConstraintHostname, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -3027,10 +3052,10 @@ func expandWafProfileConstraintHostname(d *schema.ResourceData, v interface{}, p
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
-func expandWafProfileConstraintLineLength(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.WafProfileConstraintLineLength, error) {
+func expandWafProfileConstraintLineLength(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.WafProfileConstraintLineLength, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -3080,10 +3105,10 @@ func expandWafProfileConstraintLineLength(d *schema.ResourceData, v interface{},
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
-func expandWafProfileConstraintMalformed(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.WafProfileConstraintMalformed, error) {
+func expandWafProfileConstraintMalformed(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.WafProfileConstraintMalformed, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -3125,10 +3150,10 @@ func expandWafProfileConstraintMalformed(d *schema.ResourceData, v interface{}, 
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
-func expandWafProfileConstraintMaxCookie(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.WafProfileConstraintMaxCookie, error) {
+func expandWafProfileConstraintMaxCookie(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.WafProfileConstraintMaxCookie, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -3178,10 +3203,10 @@ func expandWafProfileConstraintMaxCookie(d *schema.ResourceData, v interface{}, 
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
-func expandWafProfileConstraintMaxHeaderLine(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.WafProfileConstraintMaxHeaderLine, error) {
+func expandWafProfileConstraintMaxHeaderLine(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.WafProfileConstraintMaxHeaderLine, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -3231,10 +3256,10 @@ func expandWafProfileConstraintMaxHeaderLine(d *schema.ResourceData, v interface
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
-func expandWafProfileConstraintMaxRangeSegment(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.WafProfileConstraintMaxRangeSegment, error) {
+func expandWafProfileConstraintMaxRangeSegment(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.WafProfileConstraintMaxRangeSegment, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -3284,10 +3309,10 @@ func expandWafProfileConstraintMaxRangeSegment(d *schema.ResourceData, v interfa
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
-func expandWafProfileConstraintMaxUrlParam(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.WafProfileConstraintMaxUrlParam, error) {
+func expandWafProfileConstraintMaxUrlParam(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.WafProfileConstraintMaxUrlParam, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -3337,10 +3362,10 @@ func expandWafProfileConstraintMaxUrlParam(d *schema.ResourceData, v interface{}
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
-func expandWafProfileConstraintMethod(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.WafProfileConstraintMethod, error) {
+func expandWafProfileConstraintMethod(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.WafProfileConstraintMethod, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -3382,10 +3407,10 @@ func expandWafProfileConstraintMethod(d *schema.ResourceData, v interface{}, pre
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
-func expandWafProfileConstraintParamLength(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.WafProfileConstraintParamLength, error) {
+func expandWafProfileConstraintParamLength(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.WafProfileConstraintParamLength, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -3435,10 +3460,10 @@ func expandWafProfileConstraintParamLength(d *schema.ResourceData, v interface{}
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
-func expandWafProfileConstraintUrlParamLength(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.WafProfileConstraintUrlParamLength, error) {
+func expandWafProfileConstraintUrlParamLength(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.WafProfileConstraintUrlParamLength, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -3488,10 +3513,10 @@ func expandWafProfileConstraintUrlParamLength(d *schema.ResourceData, v interfac
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
-func expandWafProfileConstraintVersion(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.WafProfileConstraintVersion, error) {
+func expandWafProfileConstraintVersion(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.WafProfileConstraintVersion, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -3533,10 +3558,10 @@ func expandWafProfileConstraintVersion(d *schema.ResourceData, v interface{}, pr
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
-func expandWafProfileMethod(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.WafProfileMethod, error) {
+func expandWafProfileMethod(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.WafProfileMethod, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -3588,7 +3613,7 @@ func expandWafProfileMethod(d *schema.ResourceData, v interface{}, pre string, s
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
 func expandWafProfileMethodMethodPolicy(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.WafProfileMethodMethodPolicy, error) {
@@ -3644,7 +3669,7 @@ func expandWafProfileMethodMethodPolicy(d *schema.ResourceData, v interface{}, p
 	return &result, nil
 }
 
-func expandWafProfileSignature(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.WafProfileSignature, error) {
+func expandWafProfileSignature(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.WafProfileSignature, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -3706,7 +3731,7 @@ func expandWafProfileSignature(d *schema.ResourceData, v interface{}, pre string
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
 func expandWafProfileSignatureCustomSignature(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.WafProfileSignatureCustomSignature, error) {
@@ -4026,7 +4051,7 @@ func getObjectWafProfile(d *schema.ResourceData, sv string) (*models.WafProfile,
 	} else if d.HasChange("address_list") {
 		old, new := d.GetChange("address_list")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.AddressList = &[]models.WafProfileAddressList{}
+			obj.AddressList = &models.WafProfileAddressList{}
 		}
 	}
 	if v1, ok := d.GetOk("comment"); ok {
@@ -4052,7 +4077,7 @@ func getObjectWafProfile(d *schema.ResourceData, sv string) (*models.WafProfile,
 	} else if d.HasChange("constraint") {
 		old, new := d.GetChange("constraint")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.Constraint = &[]models.WafProfileConstraint{}
+			obj.Constraint = &models.WafProfileConstraint{}
 		}
 	}
 	if v1, ok := d.GetOk("extended_log"); ok {
@@ -4087,7 +4112,7 @@ func getObjectWafProfile(d *schema.ResourceData, sv string) (*models.WafProfile,
 	} else if d.HasChange("method") {
 		old, new := d.GetChange("method")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.Method = &[]models.WafProfileMethod{}
+			obj.Method = &models.WafProfileMethod{}
 		}
 	}
 	if v1, ok := d.GetOk("name"); ok {
@@ -4113,7 +4138,7 @@ func getObjectWafProfile(d *schema.ResourceData, sv string) (*models.WafProfile,
 	} else if d.HasChange("signature") {
 		old, new := d.GetChange("signature")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.Signature = &[]models.WafProfileSignature{}
+			obj.Signature = &models.WafProfileSignature{}
 		}
 	}
 	if v, ok := d.GetOk("url_access"); ok {

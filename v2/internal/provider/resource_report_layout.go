@@ -372,7 +372,7 @@ func resourceReportLayout() *schema.Resource {
 			"page": {
 				Type:        schema.TypeList,
 				Description: "Configure report page.",
-				Optional:    true,
+				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"column_break_before": {
@@ -386,7 +386,7 @@ func resourceReportLayout() *schema.Resource {
 						"footer": {
 							Type:        schema.TypeList,
 							Description: "Configure report page footer.",
-							Optional:    true,
+							Optional:    true, MaxItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									"footer_item": {
@@ -459,7 +459,7 @@ func resourceReportLayout() *schema.Resource {
 						"header": {
 							Type:        schema.TypeList,
 							Description: "Configure report page header.",
-							Optional:    true,
+							Optional:    true, MaxItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									"header_item": {
@@ -800,7 +800,7 @@ func flattenReportLayoutBodyItem(d *schema.ResourceData, v *[]models.ReportLayou
 			}
 
 			if tmp := cfg.List; tmp != nil {
-				v["list"] = flattenReportLayoutBodyItemList(d, tmp, prefix+"list", sort)
+				v["list"] = flattenReportLayoutBodyItemList(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "list"), sort)
 			}
 
 			if tmp := cfg.ListComponent; tmp != nil {
@@ -812,7 +812,7 @@ func flattenReportLayoutBodyItem(d *schema.ResourceData, v *[]models.ReportLayou
 			}
 
 			if tmp := cfg.Parameters; tmp != nil {
-				v["parameters"] = flattenReportLayoutBodyItemParameters(d, tmp, prefix+"parameters", sort)
+				v["parameters"] = flattenReportLayoutBodyItemParameters(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "parameters"), sort)
 			}
 
 			if tmp := cfg.Style; tmp != nil {
@@ -922,11 +922,12 @@ func flattenReportLayoutBodyItemParameters(d *schema.ResourceData, v *[]models.R
 	return flat
 }
 
-func flattenReportLayoutPage(d *schema.ResourceData, v *[]models.ReportLayoutPage, prefix string, sort bool) interface{} {
+func flattenReportLayoutPage(d *schema.ResourceData, v *models.ReportLayoutPage, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.ReportLayoutPage{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.ColumnBreakBefore; tmp != nil {
@@ -934,11 +935,11 @@ func flattenReportLayoutPage(d *schema.ResourceData, v *[]models.ReportLayoutPag
 			}
 
 			if tmp := cfg.Footer; tmp != nil {
-				v["footer"] = flattenReportLayoutPageFooter(d, tmp, prefix+"footer", sort)
+				v["footer"] = flattenReportLayoutPageFooter(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "footer"), sort)
 			}
 
 			if tmp := cfg.Header; tmp != nil {
-				v["header"] = flattenReportLayoutPageHeader(d, tmp, prefix+"header", sort)
+				v["header"] = flattenReportLayoutPageHeader(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "header"), sort)
 			}
 
 			if tmp := cfg.Options; tmp != nil {
@@ -960,15 +961,16 @@ func flattenReportLayoutPage(d *schema.ResourceData, v *[]models.ReportLayoutPag
 	return flat
 }
 
-func flattenReportLayoutPageFooter(d *schema.ResourceData, v *[]models.ReportLayoutPageFooter, prefix string, sort bool) interface{} {
+func flattenReportLayoutPageFooter(d *schema.ResourceData, v *models.ReportLayoutPageFooter, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.ReportLayoutPageFooter{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.FooterItem; tmp != nil {
-				v["footer_item"] = flattenReportLayoutPageFooterFooterItem(d, tmp, prefix+"footer_item", sort)
+				v["footer_item"] = flattenReportLayoutPageFooterFooterItem(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "footer_item"), sort)
 			}
 
 			if tmp := cfg.Style; tmp != nil {
@@ -1024,15 +1026,16 @@ func flattenReportLayoutPageFooterFooterItem(d *schema.ResourceData, v *[]models
 	return flat
 }
 
-func flattenReportLayoutPageHeader(d *schema.ResourceData, v *[]models.ReportLayoutPageHeader, prefix string, sort bool) interface{} {
+func flattenReportLayoutPageHeader(d *schema.ResourceData, v *models.ReportLayoutPageHeader, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.ReportLayoutPageHeader{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.HeaderItem; tmp != nil {
-				v["header_item"] = flattenReportLayoutPageHeaderHeaderItem(d, tmp, prefix+"header_item", sort)
+				v["header_item"] = flattenReportLayoutPageHeaderHeaderItem(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "header_item"), sort)
 			}
 
 			if tmp := cfg.Style; tmp != nil {
@@ -1177,9 +1180,11 @@ func refreshObjectReportLayout(d *schema.ResourceData, o *models.ReportLayout, s
 		}
 	}
 
-	if o.Page != nil {
-		if err = d.Set("page", flattenReportLayoutPage(d, o.Page, "page", sort)); err != nil {
-			return diag.Errorf("error reading page: %v", err)
+	if _, ok := d.GetOk("page"); ok {
+		if o.Page != nil {
+			if err = d.Set("page", flattenReportLayoutPage(d, o.Page, "page", sort)); err != nil {
+				return diag.Errorf("error reading page: %v", err)
+			}
 		}
 	}
 
@@ -1491,7 +1496,7 @@ func expandReportLayoutBodyItemParameters(d *schema.ResourceData, v interface{},
 	return &result, nil
 }
 
-func expandReportLayoutPage(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.ReportLayoutPage, error) {
+func expandReportLayoutPage(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.ReportLayoutPage, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -1553,10 +1558,10 @@ func expandReportLayoutPage(d *schema.ResourceData, v interface{}, pre string, s
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
-func expandReportLayoutPageFooter(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.ReportLayoutPageFooter, error) {
+func expandReportLayoutPageFooter(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.ReportLayoutPageFooter, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -1587,7 +1592,7 @@ func expandReportLayoutPageFooter(d *schema.ResourceData, v interface{}, pre str
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
 func expandReportLayoutPageFooterFooterItem(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.ReportLayoutPageFooterFooterItem, error) {
@@ -1650,7 +1655,7 @@ func expandReportLayoutPageFooterFooterItem(d *schema.ResourceData, v interface{
 	return &result, nil
 }
 
-func expandReportLayoutPageHeader(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.ReportLayoutPageHeader, error) {
+func expandReportLayoutPageHeader(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.ReportLayoutPageHeader, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -1681,7 +1686,7 @@ func expandReportLayoutPageHeader(d *schema.ResourceData, v interface{}, pre str
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
 func expandReportLayoutPageHeaderHeaderItem(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.ReportLayoutPageHeaderHeaderItem, error) {
@@ -1870,7 +1875,7 @@ func getObjectReportLayout(d *schema.ResourceData, sv string) (*models.ReportLay
 	} else if d.HasChange("page") {
 		old, new := d.GetChange("page")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.Page = &[]models.ReportLayoutPage{}
+			obj.Page = &models.ReportLayoutPage{}
 		}
 	}
 	if v1, ok := d.GetOk("schedule_type"); ok {

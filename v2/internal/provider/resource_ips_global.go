@@ -178,7 +178,7 @@ func resourceIpsGlobal() *schema.Resource {
 			"tls_active_probe": {
 				Type:        schema.TypeList,
 				Description: "TLS active probe configuration.",
-				Optional:    true,
+				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"interface": {
@@ -385,11 +385,12 @@ func resourceIpsGlobalRead(ctx context.Context, d *schema.ResourceData, meta int
 	return nil
 }
 
-func flattenIpsGlobalTlsActiveProbe(d *schema.ResourceData, v *[]models.IpsGlobalTlsActiveProbe, prefix string, sort bool) interface{} {
+func flattenIpsGlobalTlsActiveProbe(d *schema.ResourceData, v *models.IpsGlobalTlsActiveProbe, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.IpsGlobalTlsActiveProbe{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Interface; tmp != nil {
@@ -558,9 +559,11 @@ func refreshObjectIpsGlobal(d *schema.ResourceData, o *models.IpsGlobal, sv stri
 		}
 	}
 
-	if o.TlsActiveProbe != nil {
-		if err = d.Set("tls_active_probe", flattenIpsGlobalTlsActiveProbe(d, o.TlsActiveProbe, "tls_active_probe", sort)); err != nil {
-			return diag.Errorf("error reading tls_active_probe: %v", err)
+	if _, ok := d.GetOk("tls_active_probe"); ok {
+		if o.TlsActiveProbe != nil {
+			if err = d.Set("tls_active_probe", flattenIpsGlobalTlsActiveProbe(d, o.TlsActiveProbe, "tls_active_probe", sort)); err != nil {
+				return diag.Errorf("error reading tls_active_probe: %v", err)
+			}
 		}
 	}
 
@@ -575,7 +578,7 @@ func refreshObjectIpsGlobal(d *schema.ResourceData, o *models.IpsGlobal, sv stri
 	return nil
 }
 
-func expandIpsGlobalTlsActiveProbe(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.IpsGlobalTlsActiveProbe, error) {
+func expandIpsGlobalTlsActiveProbe(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.IpsGlobalTlsActiveProbe, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -624,7 +627,7 @@ func expandIpsGlobalTlsActiveProbe(d *schema.ResourceData, v interface{}, pre st
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
 func getObjectIpsGlobal(d *schema.ResourceData, sv string) (*models.IpsGlobal, diag.Diagnostics) {
@@ -804,7 +807,7 @@ func getObjectIpsGlobal(d *schema.ResourceData, sv string) (*models.IpsGlobal, d
 	} else if d.HasChange("tls_active_probe") {
 		old, new := d.GetChange("tls_active_probe")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.TlsActiveProbe = &[]models.IpsGlobalTlsActiveProbe{}
+			obj.TlsActiveProbe = &models.IpsGlobalTlsActiveProbe{}
 		}
 	}
 	if v1, ok := d.GetOk("traffic_submit"); ok {
@@ -824,7 +827,7 @@ func getEmptyObjectIpsGlobal(d *schema.ResourceData, sv string) (*models.IpsGlob
 	obj := models.IpsGlobal{}
 	diags := diag.Diagnostics{}
 
-	obj.TlsActiveProbe = &[]models.IpsGlobalTlsActiveProbe{}
+	obj.TlsActiveProbe = &models.IpsGlobalTlsActiveProbe{}
 
 	return &obj, diags
 }

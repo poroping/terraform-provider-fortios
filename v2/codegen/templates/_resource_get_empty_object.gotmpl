@@ -12,7 +12,7 @@ func getEmptyObject{{.fpath}}(d *schema.ResourceData, sv string) (*models.{{.fpa
 {{ define "getEmptyObjects" }}
 {{- range $key, $value := .children }}
 {{- if or (eq $value.category "table") (eq $value.category "complex") }}
-			obj.{{if $value.name_begin_with_int}}The{{end}}{{(mixedCase $value.name)}} = &[]models.{{ .fpath }}{}
+			obj.{{if $value.name_begin_with_int}}The{{end}}{{(mixedCase $value.name)}} = &{{ if eq $value.category "table" }}[]{{ end }}models.{{ .fpath }}{}
 {{- end }}
 {{- end }}
 {{- end }}

@@ -329,7 +329,7 @@ func flattenVpnSslWebHostCheckSoftwareCheckItemList(d *schema.ResourceData, v *[
 			}
 
 			if tmp := cfg.Md5s; tmp != nil {
-				v["md5s"] = flattenVpnSslWebHostCheckSoftwareCheckItemListMd5s(d, tmp, prefix+"md5s", sort)
+				v["md5s"] = flattenVpnSslWebHostCheckSoftwareCheckItemListMd5s(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "md5s"), sort)
 			}
 
 			if tmp := cfg.Target; tmp != nil {

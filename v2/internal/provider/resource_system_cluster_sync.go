@@ -153,7 +153,7 @@ func resourceSystemClusterSync() *schema.Resource {
 			"session_sync_filter": {
 				Type:        schema.TypeList,
 				Description: "Add one or more filters if you only want to synchronize some sessions. Use the filter to configure the types of sessions to synchronize.",
-				Optional:    true,
+				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"custom_service": {
@@ -448,20 +448,22 @@ func flattenSystemClusterSyncDownIntfsBeforeSessSync(d *schema.ResourceData, v *
 	return flat
 }
 
-func flattenSystemClusterSyncSessionSyncFilter(d *schema.ResourceData, v *[]models.SystemClusterSyncSessionSyncFilter, prefix string, sort bool) interface{} {
+func flattenSystemClusterSyncSessionSyncFilter(d *schema.ResourceData, v *models.SystemClusterSyncSessionSyncFilter, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.SystemClusterSyncSessionSyncFilter{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.CustomService; tmp != nil {
-				v["custom_service"] = flattenSystemClusterSyncSessionSyncFilterCustomService(d, tmp, prefix+"custom_service", sort)
+				v["custom_service"] = flattenSystemClusterSyncSessionSyncFilterCustomService(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "custom_service"), sort)
 			}
 
 			if tmp := cfg.Dstaddr; tmp != nil {
-				tmp = utils.Ipv4Read(d, fmt.Sprintf("%s.%d.dstaddr", prefix, i), *tmp)
-				v["dstaddr"] = *tmp
+				if tmp = utils.Ipv4Read(d, fmt.Sprintf("%s.%d.dstaddr", prefix, i), *tmp); tmp != nil {
+					v["dstaddr"] = *tmp
+				}
 			}
 
 			if tmp := cfg.Dstaddr6; tmp != nil {
@@ -473,8 +475,9 @@ func flattenSystemClusterSyncSessionSyncFilter(d *schema.ResourceData, v *[]mode
 			}
 
 			if tmp := cfg.Srcaddr; tmp != nil {
-				tmp = utils.Ipv4Read(d, fmt.Sprintf("%s.%d.srcaddr", prefix, i), *tmp)
-				v["srcaddr"] = *tmp
+				if tmp = utils.Ipv4Read(d, fmt.Sprintf("%s.%d.srcaddr", prefix, i), *tmp); tmp != nil {
+					v["srcaddr"] = *tmp
+				}
 			}
 
 			if tmp := cfg.Srcaddr6; tmp != nil {
@@ -633,9 +636,11 @@ func refreshObjectSystemClusterSync(d *schema.ResourceData, o *models.SystemClus
 		}
 	}
 
-	if o.SessionSyncFilter != nil {
-		if err = d.Set("session_sync_filter", flattenSystemClusterSyncSessionSyncFilter(d, o.SessionSyncFilter, "session_sync_filter", sort)); err != nil {
-			return diag.Errorf("error reading session_sync_filter: %v", err)
+	if _, ok := d.GetOk("session_sync_filter"); ok {
+		if o.SessionSyncFilter != nil {
+			if err = d.Set("session_sync_filter", flattenSystemClusterSyncSessionSyncFilter(d, o.SessionSyncFilter, "session_sync_filter", sort)); err != nil {
+				return diag.Errorf("error reading session_sync_filter: %v", err)
+			}
 		}
 	}
 
@@ -688,7 +693,7 @@ func expandSystemClusterSyncDownIntfsBeforeSessSync(d *schema.ResourceData, v in
 	return &result, nil
 }
 
-func expandSystemClusterSyncSessionSyncFilter(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.SystemClusterSyncSessionSyncFilter, error) {
+func expandSystemClusterSyncSessionSyncFilter(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.SystemClusterSyncSessionSyncFilter, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -754,7 +759,7 @@ func expandSystemClusterSyncSessionSyncFilter(d *schema.ResourceData, v interfac
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
 func expandSystemClusterSyncSessionSyncFilterCustomService(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.SystemClusterSyncSessionSyncFilterCustomService, error) {
@@ -950,7 +955,7 @@ func getObjectSystemClusterSync(d *schema.ResourceData, sv string) (*models.Syst
 	} else if d.HasChange("session_sync_filter") {
 		old, new := d.GetChange("session_sync_filter")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.SessionSyncFilter = &[]models.SystemClusterSyncSessionSyncFilter{}
+			obj.SessionSyncFilter = &models.SystemClusterSyncSessionSyncFilter{}
 		}
 	}
 	if v1, ok := d.GetOk("slave_add_ike_routes"); ok {

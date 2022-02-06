@@ -289,7 +289,7 @@ func flattenFirewallIdentityBasedRouteRule(d *schema.ResourceData, v *[]models.F
 			}
 
 			if tmp := cfg.Groups; tmp != nil {
-				v["groups"] = flattenFirewallIdentityBasedRouteRuleGroups(d, tmp, prefix+"groups", sort)
+				v["groups"] = flattenFirewallIdentityBasedRouteRuleGroups(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "groups"), sort)
 			}
 
 			if tmp := cfg.Id; tmp != nil {

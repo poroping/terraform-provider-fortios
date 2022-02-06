@@ -48,7 +48,7 @@ func resourceSwitchControllerLocation() *schema.Resource {
 			"address_civic": {
 				Type:        schema.TypeList,
 				Description: "Configure location civic address.",
-				Optional:    true,
+				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"additional": {
@@ -329,7 +329,7 @@ func resourceSwitchControllerLocation() *schema.Resource {
 			"coordinates": {
 				Type:        schema.TypeList,
 				Description: "Configure location GPS coordinates.",
-				Optional:    true,
+				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"altitude": {
@@ -386,7 +386,7 @@ func resourceSwitchControllerLocation() *schema.Resource {
 			"elin_number": {
 				Type:        schema.TypeList,
 				Description: "Configure location ELIN number.",
-				Optional:    true,
+				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"elin_num": {
@@ -573,11 +573,12 @@ func resourceSwitchControllerLocationRead(ctx context.Context, d *schema.Resourc
 	return nil
 }
 
-func flattenSwitchControllerLocationAddressCivic(d *schema.ResourceData, v *[]models.SwitchControllerLocationAddressCivic, prefix string, sort bool) interface{} {
+func flattenSwitchControllerLocationAddressCivic(d *schema.ResourceData, v *models.SwitchControllerLocationAddressCivic, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.SwitchControllerLocationAddressCivic{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Additional; tmp != nil {
@@ -723,11 +724,12 @@ func flattenSwitchControllerLocationAddressCivic(d *schema.ResourceData, v *[]mo
 	return flat
 }
 
-func flattenSwitchControllerLocationCoordinates(d *schema.ResourceData, v *[]models.SwitchControllerLocationCoordinates, prefix string, sort bool) interface{} {
+func flattenSwitchControllerLocationCoordinates(d *schema.ResourceData, v *models.SwitchControllerLocationCoordinates, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.SwitchControllerLocationCoordinates{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Altitude; tmp != nil {
@@ -761,11 +763,12 @@ func flattenSwitchControllerLocationCoordinates(d *schema.ResourceData, v *[]mod
 	return flat
 }
 
-func flattenSwitchControllerLocationElinNumber(d *schema.ResourceData, v *[]models.SwitchControllerLocationElinNumber, prefix string, sort bool) interface{} {
+func flattenSwitchControllerLocationElinNumber(d *schema.ResourceData, v *models.SwitchControllerLocationElinNumber, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.SwitchControllerLocationElinNumber{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.ElinNum; tmp != nil {
@@ -786,21 +789,27 @@ func flattenSwitchControllerLocationElinNumber(d *schema.ResourceData, v *[]mode
 func refreshObjectSwitchControllerLocation(d *schema.ResourceData, o *models.SwitchControllerLocation, sv string, sort bool) diag.Diagnostics {
 	var err error
 
-	if o.AddressCivic != nil {
-		if err = d.Set("address_civic", flattenSwitchControllerLocationAddressCivic(d, o.AddressCivic, "address_civic", sort)); err != nil {
-			return diag.Errorf("error reading address_civic: %v", err)
+	if _, ok := d.GetOk("address_civic"); ok {
+		if o.AddressCivic != nil {
+			if err = d.Set("address_civic", flattenSwitchControllerLocationAddressCivic(d, o.AddressCivic, "address_civic", sort)); err != nil {
+				return diag.Errorf("error reading address_civic: %v", err)
+			}
 		}
 	}
 
-	if o.Coordinates != nil {
-		if err = d.Set("coordinates", flattenSwitchControllerLocationCoordinates(d, o.Coordinates, "coordinates", sort)); err != nil {
-			return diag.Errorf("error reading coordinates: %v", err)
+	if _, ok := d.GetOk("coordinates"); ok {
+		if o.Coordinates != nil {
+			if err = d.Set("coordinates", flattenSwitchControllerLocationCoordinates(d, o.Coordinates, "coordinates", sort)); err != nil {
+				return diag.Errorf("error reading coordinates: %v", err)
+			}
 		}
 	}
 
-	if o.ElinNumber != nil {
-		if err = d.Set("elin_number", flattenSwitchControllerLocationElinNumber(d, o.ElinNumber, "elin_number", sort)); err != nil {
-			return diag.Errorf("error reading elin_number: %v", err)
+	if _, ok := d.GetOk("elin_number"); ok {
+		if o.ElinNumber != nil {
+			if err = d.Set("elin_number", flattenSwitchControllerLocationElinNumber(d, o.ElinNumber, "elin_number", sort)); err != nil {
+				return diag.Errorf("error reading elin_number: %v", err)
+			}
 		}
 	}
 
@@ -815,7 +824,7 @@ func refreshObjectSwitchControllerLocation(d *schema.ResourceData, o *models.Swi
 	return nil
 }
 
-func expandSwitchControllerLocationAddressCivic(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.SwitchControllerLocationAddressCivic, error) {
+func expandSwitchControllerLocationAddressCivic(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.SwitchControllerLocationAddressCivic, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -1067,10 +1076,10 @@ func expandSwitchControllerLocationAddressCivic(d *schema.ResourceData, v interf
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
-func expandSwitchControllerLocationCoordinates(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.SwitchControllerLocationCoordinates, error) {
+func expandSwitchControllerLocationCoordinates(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.SwitchControllerLocationCoordinates, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -1126,10 +1135,10 @@ func expandSwitchControllerLocationCoordinates(d *schema.ResourceData, v interfa
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
-func expandSwitchControllerLocationElinNumber(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.SwitchControllerLocationElinNumber, error) {
+func expandSwitchControllerLocationElinNumber(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.SwitchControllerLocationElinNumber, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -1157,7 +1166,7 @@ func expandSwitchControllerLocationElinNumber(d *schema.ResourceData, v interfac
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
 func getObjectSwitchControllerLocation(d *schema.ResourceData, sv string) (*models.SwitchControllerLocation, diag.Diagnostics) {
@@ -1178,7 +1187,7 @@ func getObjectSwitchControllerLocation(d *schema.ResourceData, sv string) (*mode
 	} else if d.HasChange("address_civic") {
 		old, new := d.GetChange("address_civic")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.AddressCivic = &[]models.SwitchControllerLocationAddressCivic{}
+			obj.AddressCivic = &models.SwitchControllerLocationAddressCivic{}
 		}
 	}
 	if v, ok := d.GetOk("coordinates"); ok {
@@ -1195,7 +1204,7 @@ func getObjectSwitchControllerLocation(d *schema.ResourceData, sv string) (*mode
 	} else if d.HasChange("coordinates") {
 		old, new := d.GetChange("coordinates")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.Coordinates = &[]models.SwitchControllerLocationCoordinates{}
+			obj.Coordinates = &models.SwitchControllerLocationCoordinates{}
 		}
 	}
 	if v, ok := d.GetOk("elin_number"); ok {
@@ -1212,7 +1221,7 @@ func getObjectSwitchControllerLocation(d *schema.ResourceData, sv string) (*mode
 	} else if d.HasChange("elin_number") {
 		old, new := d.GetChange("elin_number")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.ElinNumber = &[]models.SwitchControllerLocationElinNumber{}
+			obj.ElinNumber = &models.SwitchControllerLocationElinNumber{}
 		}
 	}
 	if v1, ok := d.GetOk("name"); ok {

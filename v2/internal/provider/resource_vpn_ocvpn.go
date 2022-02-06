@@ -81,7 +81,7 @@ func resourceVpnOcvpn() *schema.Resource {
 			"forticlient_access": {
 				Type:        schema.TypeList,
 				Description: "Configure FortiClient settings.",
-				Optional:    true,
+				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"auth_groups": {
@@ -483,15 +483,16 @@ func resourceVpnOcvpnRead(ctx context.Context, d *schema.ResourceData, meta inte
 	return nil
 }
 
-func flattenVpnOcvpnForticlientAccess(d *schema.ResourceData, v *[]models.VpnOcvpnForticlientAccess, prefix string, sort bool) interface{} {
+func flattenVpnOcvpnForticlientAccess(d *schema.ResourceData, v *models.VpnOcvpnForticlientAccess, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.VpnOcvpnForticlientAccess{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.AuthGroups; tmp != nil {
-				v["auth_groups"] = flattenVpnOcvpnForticlientAccessAuthGroups(d, tmp, prefix+"auth_groups", sort)
+				v["auth_groups"] = flattenVpnOcvpnForticlientAccessAuthGroups(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "auth_groups"), sort)
 			}
 
 			if tmp := cfg.Psksecret; tmp != nil {
@@ -525,7 +526,7 @@ func flattenVpnOcvpnForticlientAccessAuthGroups(d *schema.ResourceData, v *[]mod
 			}
 
 			if tmp := cfg.Overlays; tmp != nil {
-				v["overlays"] = flattenVpnOcvpnForticlientAccessAuthGroupsOverlays(d, tmp, prefix+"overlays", sort)
+				v["overlays"] = flattenVpnOcvpnForticlientAccessAuthGroupsOverlays(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "overlays"), sort)
 			}
 
 			flat = append(flat, v)
@@ -597,7 +598,7 @@ func flattenVpnOcvpnOverlays(d *schema.ResourceData, v *[]models.VpnOcvpnOverlay
 			}
 
 			if tmp := cfg.Subnets; tmp != nil {
-				v["subnets"] = flattenVpnOcvpnOverlaysSubnets(d, tmp, prefix+"subnets", sort)
+				v["subnets"] = flattenVpnOcvpnOverlaysSubnets(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "subnets"), sort)
 			}
 
 			flat = append(flat, v)
@@ -627,8 +628,9 @@ func flattenVpnOcvpnOverlaysSubnets(d *schema.ResourceData, v *[]models.VpnOcvpn
 			}
 
 			if tmp := cfg.Subnet; tmp != nil {
-				tmp = utils.Ipv4Read(d, fmt.Sprintf("%s.%d.subnet", prefix, i), *tmp)
-				v["subnet"] = *tmp
+				if tmp = utils.Ipv4Read(d, fmt.Sprintf("%s.%d.subnet", prefix, i), *tmp); tmp != nil {
+					v["subnet"] = *tmp
+				}
 			}
 
 			if tmp := cfg.Type; tmp != nil {
@@ -703,9 +705,11 @@ func refreshObjectVpnOcvpn(d *schema.ResourceData, o *models.VpnOcvpn, sv string
 		}
 	}
 
-	if o.ForticlientAccess != nil {
-		if err = d.Set("forticlient_access", flattenVpnOcvpnForticlientAccess(d, o.ForticlientAccess, "forticlient_access", sort)); err != nil {
-			return diag.Errorf("error reading forticlient_access: %v", err)
+	if _, ok := d.GetOk("forticlient_access"); ok {
+		if o.ForticlientAccess != nil {
+			if err = d.Set("forticlient_access", flattenVpnOcvpnForticlientAccess(d, o.ForticlientAccess, "forticlient_access", sort)); err != nil {
+				return diag.Errorf("error reading forticlient_access: %v", err)
+			}
 		}
 	}
 
@@ -793,7 +797,7 @@ func refreshObjectVpnOcvpn(d *schema.ResourceData, o *models.VpnOcvpn, sv string
 	return nil
 }
 
-func expandVpnOcvpnForticlientAccess(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.VpnOcvpnForticlientAccess, error) {
+func expandVpnOcvpnForticlientAccess(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.VpnOcvpnForticlientAccess, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -831,7 +835,7 @@ func expandVpnOcvpnForticlientAccess(d *schema.ResourceData, v interface{}, pre 
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
 func expandVpnOcvpnForticlientAccessAuthGroups(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.VpnOcvpnForticlientAccessAuthGroups, error) {
@@ -1100,7 +1104,7 @@ func getObjectVpnOcvpn(d *schema.ResourceData, sv string) (*models.VpnOcvpn, dia
 	} else if d.HasChange("forticlient_access") {
 		old, new := d.GetChange("forticlient_access")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.ForticlientAccess = &[]models.VpnOcvpnForticlientAccess{}
+			obj.ForticlientAccess = &models.VpnOcvpnForticlientAccess{}
 		}
 	}
 	if v1, ok := d.GetOk("ip_allocation_block"); ok {
@@ -1218,7 +1222,7 @@ func getEmptyObjectVpnOcvpn(d *schema.ResourceData, sv string) (*models.VpnOcvpn
 	obj := models.VpnOcvpn{}
 	diags := diag.Diagnostics{}
 
-	obj.ForticlientAccess = &[]models.VpnOcvpnForticlientAccess{}
+	obj.ForticlientAccess = &models.VpnOcvpnForticlientAccess{}
 	obj.Overlays = &[]models.VpnOcvpnOverlays{}
 	obj.WanInterface = &[]models.VpnOcvpnWanInterface{}
 

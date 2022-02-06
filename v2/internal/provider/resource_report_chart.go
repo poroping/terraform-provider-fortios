@@ -70,7 +70,7 @@ func resourceReportChart() *schema.Resource {
 			"category_series": {
 				Type:        schema.TypeList,
 				Description: "Category series of pie chart.",
-				Optional:    true,
+				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"databind": {
@@ -356,7 +356,7 @@ func resourceReportChart() *schema.Resource {
 			"value_series": {
 				Type:        schema.TypeList,
 				Description: "Value series of pie chart.",
-				Optional:    true,
+				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"databind": {
@@ -373,7 +373,7 @@ func resourceReportChart() *schema.Resource {
 			"x_series": {
 				Type:        schema.TypeList,
 				Description: "X-series of chart.",
-				Optional:    true,
+				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"caption": {
@@ -470,7 +470,7 @@ func resourceReportChart() *schema.Resource {
 			"y_series": {
 				Type:        schema.TypeList,
 				Description: "Y-series of chart.",
-				Optional:    true,
+				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"caption": {
@@ -721,11 +721,12 @@ func resourceReportChartRead(ctx context.Context, d *schema.ResourceData, meta i
 	return nil
 }
 
-func flattenReportChartCategorySeries(d *schema.ResourceData, v *[]models.ReportChartCategorySeries, prefix string, sort bool) interface{} {
+func flattenReportChartCategorySeries(d *schema.ResourceData, v *models.ReportChartCategorySeries, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.ReportChartCategorySeries{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Databind; tmp != nil {
@@ -775,7 +776,7 @@ func flattenReportChartColumn(d *schema.ResourceData, v *[]models.ReportChartCol
 			}
 
 			if tmp := cfg.Mapping; tmp != nil {
-				v["mapping"] = flattenReportChartColumnMapping(d, tmp, prefix+"mapping", sort)
+				v["mapping"] = flattenReportChartColumnMapping(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "mapping"), sort)
 			}
 
 			flat = append(flat, v)
@@ -861,11 +862,12 @@ func flattenReportChartDrillDownCharts(d *schema.ResourceData, v *[]models.Repor
 	return flat
 }
 
-func flattenReportChartValueSeries(d *schema.ResourceData, v *[]models.ReportChartValueSeries, prefix string, sort bool) interface{} {
+func flattenReportChartValueSeries(d *schema.ResourceData, v *models.ReportChartValueSeries, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.ReportChartValueSeries{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Databind; tmp != nil {
@@ -879,11 +881,12 @@ func flattenReportChartValueSeries(d *schema.ResourceData, v *[]models.ReportCha
 	return flat
 }
 
-func flattenReportChartXSeries(d *schema.ResourceData, v *[]models.ReportChartXSeries, prefix string, sort bool) interface{} {
+func flattenReportChartXSeries(d *schema.ResourceData, v *models.ReportChartXSeries, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.ReportChartXSeries{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Caption; tmp != nil {
@@ -937,11 +940,12 @@ func flattenReportChartXSeries(d *schema.ResourceData, v *[]models.ReportChartXS
 	return flat
 }
 
-func flattenReportChartYSeries(d *schema.ResourceData, v *[]models.ReportChartYSeries, prefix string, sort bool) interface{} {
+func flattenReportChartYSeries(d *schema.ResourceData, v *models.ReportChartYSeries, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.ReportChartYSeries{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Caption; tmp != nil {
@@ -1014,9 +1018,11 @@ func refreshObjectReportChart(d *schema.ResourceData, o *models.ReportChart, sv 
 		}
 	}
 
-	if o.CategorySeries != nil {
-		if err = d.Set("category_series", flattenReportChartCategorySeries(d, o.CategorySeries, "category_series", sort)); err != nil {
-			return diag.Errorf("error reading category_series: %v", err)
+	if _, ok := d.GetOk("category_series"); ok {
+		if o.CategorySeries != nil {
+			if err = d.Set("category_series", flattenReportChartCategorySeries(d, o.CategorySeries, "category_series", sort)); err != nil {
+				return diag.Errorf("error reading category_series: %v", err)
+			}
 		}
 	}
 
@@ -1152,28 +1158,34 @@ func refreshObjectReportChart(d *schema.ResourceData, o *models.ReportChart, sv 
 		}
 	}
 
-	if o.ValueSeries != nil {
-		if err = d.Set("value_series", flattenReportChartValueSeries(d, o.ValueSeries, "value_series", sort)); err != nil {
-			return diag.Errorf("error reading value_series: %v", err)
+	if _, ok := d.GetOk("value_series"); ok {
+		if o.ValueSeries != nil {
+			if err = d.Set("value_series", flattenReportChartValueSeries(d, o.ValueSeries, "value_series", sort)); err != nil {
+				return diag.Errorf("error reading value_series: %v", err)
+			}
 		}
 	}
 
-	if o.XSeries != nil {
-		if err = d.Set("x_series", flattenReportChartXSeries(d, o.XSeries, "x_series", sort)); err != nil {
-			return diag.Errorf("error reading x_series: %v", err)
+	if _, ok := d.GetOk("x_series"); ok {
+		if o.XSeries != nil {
+			if err = d.Set("x_series", flattenReportChartXSeries(d, o.XSeries, "x_series", sort)); err != nil {
+				return diag.Errorf("error reading x_series: %v", err)
+			}
 		}
 	}
 
-	if o.YSeries != nil {
-		if err = d.Set("y_series", flattenReportChartYSeries(d, o.YSeries, "y_series", sort)); err != nil {
-			return diag.Errorf("error reading y_series: %v", err)
+	if _, ok := d.GetOk("y_series"); ok {
+		if o.YSeries != nil {
+			if err = d.Set("y_series", flattenReportChartYSeries(d, o.YSeries, "y_series", sort)); err != nil {
+				return diag.Errorf("error reading y_series: %v", err)
+			}
 		}
 	}
 
 	return nil
 }
 
-func expandReportChartCategorySeries(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.ReportChartCategorySeries, error) {
+func expandReportChartCategorySeries(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.ReportChartCategorySeries, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -1202,7 +1214,7 @@ func expandReportChartCategorySeries(d *schema.ResourceData, v interface{}, pre 
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
 func expandReportChartColumn(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.ReportChartColumn, error) {
@@ -1374,7 +1386,7 @@ func expandReportChartDrillDownCharts(d *schema.ResourceData, v interface{}, pre
 	return &result, nil
 }
 
-func expandReportChartValueSeries(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.ReportChartValueSeries, error) {
+func expandReportChartValueSeries(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.ReportChartValueSeries, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -1395,10 +1407,10 @@ func expandReportChartValueSeries(d *schema.ResourceData, v interface{}, pre str
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
-func expandReportChartXSeries(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.ReportChartXSeries, error) {
+func expandReportChartXSeries(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.ReportChartXSeries, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -1492,10 +1504,10 @@ func expandReportChartXSeries(d *schema.ResourceData, v interface{}, pre string,
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
-func expandReportChartYSeries(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.ReportChartYSeries, error) {
+func expandReportChartYSeries(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.ReportChartYSeries, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -1588,7 +1600,7 @@ func expandReportChartYSeries(d *schema.ResourceData, v interface{}, pre string,
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
 func getObjectReportChart(d *schema.ResourceData, sv string) (*models.ReportChart, diag.Diagnostics) {
@@ -1627,7 +1639,7 @@ func getObjectReportChart(d *schema.ResourceData, sv string) (*models.ReportChar
 	} else if d.HasChange("category_series") {
 		old, new := d.GetChange("category_series")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.CategorySeries = &[]models.ReportChartCategorySeries{}
+			obj.CategorySeries = &models.ReportChartCategorySeries{}
 		}
 	}
 	if v1, ok := d.GetOk("color_palette"); ok {
@@ -1816,7 +1828,7 @@ func getObjectReportChart(d *schema.ResourceData, sv string) (*models.ReportChar
 	} else if d.HasChange("value_series") {
 		old, new := d.GetChange("value_series")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.ValueSeries = &[]models.ReportChartValueSeries{}
+			obj.ValueSeries = &models.ReportChartValueSeries{}
 		}
 	}
 	if v, ok := d.GetOk("x_series"); ok {
@@ -1833,7 +1845,7 @@ func getObjectReportChart(d *schema.ResourceData, sv string) (*models.ReportChar
 	} else if d.HasChange("x_series") {
 		old, new := d.GetChange("x_series")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.XSeries = &[]models.ReportChartXSeries{}
+			obj.XSeries = &models.ReportChartXSeries{}
 		}
 	}
 	if v, ok := d.GetOk("y_series"); ok {
@@ -1850,7 +1862,7 @@ func getObjectReportChart(d *schema.ResourceData, sv string) (*models.ReportChar
 	} else if d.HasChange("y_series") {
 		old, new := d.GetChange("y_series")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.YSeries = &[]models.ReportChartYSeries{}
+			obj.YSeries = &models.ReportChartYSeries{}
 		}
 	}
 	return &obj, diags

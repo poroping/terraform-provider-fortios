@@ -71,7 +71,7 @@ func resourceSshFilterProfile() *schema.Resource {
 			"file_filter": {
 				Type:        schema.TypeList,
 				Description: "File filter.",
-				Optional:    true,
+				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"entries": {
@@ -404,15 +404,16 @@ func resourceSshFilterProfileRead(ctx context.Context, d *schema.ResourceData, m
 	return nil
 }
 
-func flattenSshFilterProfileFileFilter(d *schema.ResourceData, v *[]models.SshFilterProfileFileFilter, prefix string, sort bool) interface{} {
+func flattenSshFilterProfileFileFilter(d *schema.ResourceData, v *models.SshFilterProfileFileFilter, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.SshFilterProfileFileFilter{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Entries; tmp != nil {
-				v["entries"] = flattenSshFilterProfileFileFilterEntries(d, tmp, prefix+"entries", sort)
+				v["entries"] = flattenSshFilterProfileFileFilterEntries(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "entries"), sort)
 			}
 
 			if tmp := cfg.Log; tmp != nil {
@@ -454,7 +455,7 @@ func flattenSshFilterProfileFileFilterEntries(d *schema.ResourceData, v *[]model
 			}
 
 			if tmp := cfg.FileType; tmp != nil {
-				v["file_type"] = flattenSshFilterProfileFileFilterEntriesFileType(d, tmp, prefix+"file_type", sort)
+				v["file_type"] = flattenSshFilterProfileFileFilterEntriesFileType(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "file_type"), sort)
 			}
 
 			if tmp := cfg.Filter; tmp != nil {
@@ -563,9 +564,11 @@ func refreshObjectSshFilterProfile(d *schema.ResourceData, o *models.SshFilterPr
 		}
 	}
 
-	if o.FileFilter != nil {
-		if err = d.Set("file_filter", flattenSshFilterProfileFileFilter(d, o.FileFilter, "file_filter", sort)); err != nil {
-			return diag.Errorf("error reading file_filter: %v", err)
+	if _, ok := d.GetOk("file_filter"); ok {
+		if o.FileFilter != nil {
+			if err = d.Set("file_filter", flattenSshFilterProfileFileFilter(d, o.FileFilter, "file_filter", sort)); err != nil {
+				return diag.Errorf("error reading file_filter: %v", err)
+			}
 		}
 	}
 
@@ -594,7 +597,7 @@ func refreshObjectSshFilterProfile(d *schema.ResourceData, o *models.SshFilterPr
 	return nil
 }
 
-func expandSshFilterProfileFileFilter(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.SshFilterProfileFileFilter, error) {
+func expandSshFilterProfileFileFilter(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.SshFilterProfileFileFilter, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -639,7 +642,7 @@ func expandSshFilterProfileFileFilter(d *schema.ResourceData, v interface{}, pre
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
 func expandSshFilterProfileFileFilterEntries(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.SshFilterProfileFileFilterEntries, error) {
@@ -831,7 +834,7 @@ func getObjectSshFilterProfile(d *schema.ResourceData, sv string) (*models.SshFi
 	} else if d.HasChange("file_filter") {
 		old, new := d.GetChange("file_filter")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.FileFilter = &[]models.SshFilterProfileFileFilter{}
+			obj.FileFilter = &models.SshFilterProfileFileFilter{}
 		}
 	}
 	if v1, ok := d.GetOk("log"); ok {

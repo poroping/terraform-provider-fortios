@@ -2,6 +2,7 @@
 
 BUGFIXES:
 * Fixed IP values not being returned as CIDR in subtables.
+* Fixed issue where complex children were not being read correctly.
 
 ## 3.1.2
 

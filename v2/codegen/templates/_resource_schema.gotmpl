@@ -25,6 +25,7 @@
             	Type:         schema.TypeList,
                 Description: {{ $value.help | printf "%q"}},
 				Optional:     true,
+                {{- if eq $value.category "complex" }}MaxItems: 1,{{end}}
 			    Elem: &schema.Resource{
                         Schema: map[string]*schema.Schema{
                         {{- template "SCHEMA" $value}}

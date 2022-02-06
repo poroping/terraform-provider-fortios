@@ -419,11 +419,11 @@ func flattenWebProxyProfileHeaders(d *schema.ResourceData, v *[]models.WebProxyP
 			}
 
 			if tmp := cfg.Dstaddr; tmp != nil {
-				v["dstaddr"] = flattenWebProxyProfileHeadersDstaddr(d, tmp, prefix+"dstaddr", sort)
+				v["dstaddr"] = flattenWebProxyProfileHeadersDstaddr(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "dstaddr"), sort)
 			}
 
 			if tmp := cfg.Dstaddr6; tmp != nil {
-				v["dstaddr6"] = flattenWebProxyProfileHeadersDstaddr6(d, tmp, prefix+"dstaddr6", sort)
+				v["dstaddr6"] = flattenWebProxyProfileHeadersDstaddr6(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "dstaddr6"), sort)
 			}
 
 			if tmp := cfg.Id; tmp != nil {

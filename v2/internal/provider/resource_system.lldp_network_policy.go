@@ -56,7 +56,7 @@ func resourceSystemLldpNetworkPolicy() *schema.Resource {
 			"guest": {
 				Type:        schema.TypeList,
 				Description: "Guest.",
-				Optional:    true,
+				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"dscp": {
@@ -105,7 +105,7 @@ func resourceSystemLldpNetworkPolicy() *schema.Resource {
 			"guest_voice_signaling": {
 				Type:        schema.TypeList,
 				Description: "Guest Voice Signaling.",
-				Optional:    true,
+				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"dscp": {
@@ -162,7 +162,7 @@ func resourceSystemLldpNetworkPolicy() *schema.Resource {
 			"softphone": {
 				Type:        schema.TypeList,
 				Description: "Softphone.",
-				Optional:    true,
+				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"dscp": {
@@ -211,7 +211,7 @@ func resourceSystemLldpNetworkPolicy() *schema.Resource {
 			"streaming_video": {
 				Type:        schema.TypeList,
 				Description: "Streaming Video.",
-				Optional:    true,
+				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"dscp": {
@@ -260,7 +260,7 @@ func resourceSystemLldpNetworkPolicy() *schema.Resource {
 			"video_conferencing": {
 				Type:        schema.TypeList,
 				Description: "Video Conferencing.",
-				Optional:    true,
+				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"dscp": {
@@ -309,7 +309,7 @@ func resourceSystemLldpNetworkPolicy() *schema.Resource {
 			"video_signaling": {
 				Type:        schema.TypeList,
 				Description: "Video Signaling.",
-				Optional:    true,
+				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"dscp": {
@@ -358,7 +358,7 @@ func resourceSystemLldpNetworkPolicy() *schema.Resource {
 			"voice": {
 				Type:        schema.TypeList,
 				Description: "Voice.",
-				Optional:    true,
+				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"dscp": {
@@ -407,7 +407,7 @@ func resourceSystemLldpNetworkPolicy() *schema.Resource {
 			"voice_signaling": {
 				Type:        schema.TypeList,
 				Description: "Voice signaling.",
-				Optional:    true,
+				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"dscp": {
@@ -610,11 +610,12 @@ func resourceSystemLldpNetworkPolicyRead(ctx context.Context, d *schema.Resource
 	return nil
 }
 
-func flattenSystemLldpNetworkPolicyGuest(d *schema.ResourceData, v *[]models.SystemLldpNetworkPolicyGuest, prefix string, sort bool) interface{} {
+func flattenSystemLldpNetworkPolicyGuest(d *schema.ResourceData, v *models.SystemLldpNetworkPolicyGuest, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.SystemLldpNetworkPolicyGuest{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Dscp; tmp != nil {
@@ -644,11 +645,12 @@ func flattenSystemLldpNetworkPolicyGuest(d *schema.ResourceData, v *[]models.Sys
 	return flat
 }
 
-func flattenSystemLldpNetworkPolicyGuestVoiceSignaling(d *schema.ResourceData, v *[]models.SystemLldpNetworkPolicyGuestVoiceSignaling, prefix string, sort bool) interface{} {
+func flattenSystemLldpNetworkPolicyGuestVoiceSignaling(d *schema.ResourceData, v *models.SystemLldpNetworkPolicyGuestVoiceSignaling, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.SystemLldpNetworkPolicyGuestVoiceSignaling{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Dscp; tmp != nil {
@@ -678,11 +680,12 @@ func flattenSystemLldpNetworkPolicyGuestVoiceSignaling(d *schema.ResourceData, v
 	return flat
 }
 
-func flattenSystemLldpNetworkPolicySoftphone(d *schema.ResourceData, v *[]models.SystemLldpNetworkPolicySoftphone, prefix string, sort bool) interface{} {
+func flattenSystemLldpNetworkPolicySoftphone(d *schema.ResourceData, v *models.SystemLldpNetworkPolicySoftphone, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.SystemLldpNetworkPolicySoftphone{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Dscp; tmp != nil {
@@ -712,11 +715,12 @@ func flattenSystemLldpNetworkPolicySoftphone(d *schema.ResourceData, v *[]models
 	return flat
 }
 
-func flattenSystemLldpNetworkPolicyStreamingVideo(d *schema.ResourceData, v *[]models.SystemLldpNetworkPolicyStreamingVideo, prefix string, sort bool) interface{} {
+func flattenSystemLldpNetworkPolicyStreamingVideo(d *schema.ResourceData, v *models.SystemLldpNetworkPolicyStreamingVideo, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.SystemLldpNetworkPolicyStreamingVideo{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Dscp; tmp != nil {
@@ -746,11 +750,12 @@ func flattenSystemLldpNetworkPolicyStreamingVideo(d *schema.ResourceData, v *[]m
 	return flat
 }
 
-func flattenSystemLldpNetworkPolicyVideoConferencing(d *schema.ResourceData, v *[]models.SystemLldpNetworkPolicyVideoConferencing, prefix string, sort bool) interface{} {
+func flattenSystemLldpNetworkPolicyVideoConferencing(d *schema.ResourceData, v *models.SystemLldpNetworkPolicyVideoConferencing, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.SystemLldpNetworkPolicyVideoConferencing{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Dscp; tmp != nil {
@@ -780,11 +785,12 @@ func flattenSystemLldpNetworkPolicyVideoConferencing(d *schema.ResourceData, v *
 	return flat
 }
 
-func flattenSystemLldpNetworkPolicyVideoSignaling(d *schema.ResourceData, v *[]models.SystemLldpNetworkPolicyVideoSignaling, prefix string, sort bool) interface{} {
+func flattenSystemLldpNetworkPolicyVideoSignaling(d *schema.ResourceData, v *models.SystemLldpNetworkPolicyVideoSignaling, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.SystemLldpNetworkPolicyVideoSignaling{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Dscp; tmp != nil {
@@ -814,11 +820,12 @@ func flattenSystemLldpNetworkPolicyVideoSignaling(d *schema.ResourceData, v *[]m
 	return flat
 }
 
-func flattenSystemLldpNetworkPolicyVoice(d *schema.ResourceData, v *[]models.SystemLldpNetworkPolicyVoice, prefix string, sort bool) interface{} {
+func flattenSystemLldpNetworkPolicyVoice(d *schema.ResourceData, v *models.SystemLldpNetworkPolicyVoice, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.SystemLldpNetworkPolicyVoice{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Dscp; tmp != nil {
@@ -848,11 +855,12 @@ func flattenSystemLldpNetworkPolicyVoice(d *schema.ResourceData, v *[]models.Sys
 	return flat
 }
 
-func flattenSystemLldpNetworkPolicyVoiceSignaling(d *schema.ResourceData, v *[]models.SystemLldpNetworkPolicyVoiceSignaling, prefix string, sort bool) interface{} {
+func flattenSystemLldpNetworkPolicyVoiceSignaling(d *schema.ResourceData, v *models.SystemLldpNetworkPolicyVoiceSignaling, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.SystemLldpNetworkPolicyVoiceSignaling{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Dscp; tmp != nil {
@@ -893,15 +901,19 @@ func refreshObjectSystemLldpNetworkPolicy(d *schema.ResourceData, o *models.Syst
 		}
 	}
 
-	if o.Guest != nil {
-		if err = d.Set("guest", flattenSystemLldpNetworkPolicyGuest(d, o.Guest, "guest", sort)); err != nil {
-			return diag.Errorf("error reading guest: %v", err)
+	if _, ok := d.GetOk("guest"); ok {
+		if o.Guest != nil {
+			if err = d.Set("guest", flattenSystemLldpNetworkPolicyGuest(d, o.Guest, "guest", sort)); err != nil {
+				return diag.Errorf("error reading guest: %v", err)
+			}
 		}
 	}
 
-	if o.GuestVoiceSignaling != nil {
-		if err = d.Set("guest_voice_signaling", flattenSystemLldpNetworkPolicyGuestVoiceSignaling(d, o.GuestVoiceSignaling, "guest_voice_signaling", sort)); err != nil {
-			return diag.Errorf("error reading guest_voice_signaling: %v", err)
+	if _, ok := d.GetOk("guest_voice_signaling"); ok {
+		if o.GuestVoiceSignaling != nil {
+			if err = d.Set("guest_voice_signaling", flattenSystemLldpNetworkPolicyGuestVoiceSignaling(d, o.GuestVoiceSignaling, "guest_voice_signaling", sort)); err != nil {
+				return diag.Errorf("error reading guest_voice_signaling: %v", err)
+			}
 		}
 	}
 
@@ -913,46 +925,58 @@ func refreshObjectSystemLldpNetworkPolicy(d *schema.ResourceData, o *models.Syst
 		}
 	}
 
-	if o.Softphone != nil {
-		if err = d.Set("softphone", flattenSystemLldpNetworkPolicySoftphone(d, o.Softphone, "softphone", sort)); err != nil {
-			return diag.Errorf("error reading softphone: %v", err)
+	if _, ok := d.GetOk("softphone"); ok {
+		if o.Softphone != nil {
+			if err = d.Set("softphone", flattenSystemLldpNetworkPolicySoftphone(d, o.Softphone, "softphone", sort)); err != nil {
+				return diag.Errorf("error reading softphone: %v", err)
+			}
 		}
 	}
 
-	if o.StreamingVideo != nil {
-		if err = d.Set("streaming_video", flattenSystemLldpNetworkPolicyStreamingVideo(d, o.StreamingVideo, "streaming_video", sort)); err != nil {
-			return diag.Errorf("error reading streaming_video: %v", err)
+	if _, ok := d.GetOk("streaming_video"); ok {
+		if o.StreamingVideo != nil {
+			if err = d.Set("streaming_video", flattenSystemLldpNetworkPolicyStreamingVideo(d, o.StreamingVideo, "streaming_video", sort)); err != nil {
+				return diag.Errorf("error reading streaming_video: %v", err)
+			}
 		}
 	}
 
-	if o.VideoConferencing != nil {
-		if err = d.Set("video_conferencing", flattenSystemLldpNetworkPolicyVideoConferencing(d, o.VideoConferencing, "video_conferencing", sort)); err != nil {
-			return diag.Errorf("error reading video_conferencing: %v", err)
+	if _, ok := d.GetOk("video_conferencing"); ok {
+		if o.VideoConferencing != nil {
+			if err = d.Set("video_conferencing", flattenSystemLldpNetworkPolicyVideoConferencing(d, o.VideoConferencing, "video_conferencing", sort)); err != nil {
+				return diag.Errorf("error reading video_conferencing: %v", err)
+			}
 		}
 	}
 
-	if o.VideoSignaling != nil {
-		if err = d.Set("video_signaling", flattenSystemLldpNetworkPolicyVideoSignaling(d, o.VideoSignaling, "video_signaling", sort)); err != nil {
-			return diag.Errorf("error reading video_signaling: %v", err)
+	if _, ok := d.GetOk("video_signaling"); ok {
+		if o.VideoSignaling != nil {
+			if err = d.Set("video_signaling", flattenSystemLldpNetworkPolicyVideoSignaling(d, o.VideoSignaling, "video_signaling", sort)); err != nil {
+				return diag.Errorf("error reading video_signaling: %v", err)
+			}
 		}
 	}
 
-	if o.Voice != nil {
-		if err = d.Set("voice", flattenSystemLldpNetworkPolicyVoice(d, o.Voice, "voice", sort)); err != nil {
-			return diag.Errorf("error reading voice: %v", err)
+	if _, ok := d.GetOk("voice"); ok {
+		if o.Voice != nil {
+			if err = d.Set("voice", flattenSystemLldpNetworkPolicyVoice(d, o.Voice, "voice", sort)); err != nil {
+				return diag.Errorf("error reading voice: %v", err)
+			}
 		}
 	}
 
-	if o.VoiceSignaling != nil {
-		if err = d.Set("voice_signaling", flattenSystemLldpNetworkPolicyVoiceSignaling(d, o.VoiceSignaling, "voice_signaling", sort)); err != nil {
-			return diag.Errorf("error reading voice_signaling: %v", err)
+	if _, ok := d.GetOk("voice_signaling"); ok {
+		if o.VoiceSignaling != nil {
+			if err = d.Set("voice_signaling", flattenSystemLldpNetworkPolicyVoiceSignaling(d, o.VoiceSignaling, "voice_signaling", sort)); err != nil {
+				return diag.Errorf("error reading voice_signaling: %v", err)
+			}
 		}
 	}
 
 	return nil
 }
 
-func expandSystemLldpNetworkPolicyGuest(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.SystemLldpNetworkPolicyGuest, error) {
+func expandSystemLldpNetworkPolicyGuest(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.SystemLldpNetworkPolicyGuest, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -1004,10 +1028,10 @@ func expandSystemLldpNetworkPolicyGuest(d *schema.ResourceData, v interface{}, p
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
-func expandSystemLldpNetworkPolicyGuestVoiceSignaling(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.SystemLldpNetworkPolicyGuestVoiceSignaling, error) {
+func expandSystemLldpNetworkPolicyGuestVoiceSignaling(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.SystemLldpNetworkPolicyGuestVoiceSignaling, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -1059,10 +1083,10 @@ func expandSystemLldpNetworkPolicyGuestVoiceSignaling(d *schema.ResourceData, v 
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
-func expandSystemLldpNetworkPolicySoftphone(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.SystemLldpNetworkPolicySoftphone, error) {
+func expandSystemLldpNetworkPolicySoftphone(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.SystemLldpNetworkPolicySoftphone, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -1114,10 +1138,10 @@ func expandSystemLldpNetworkPolicySoftphone(d *schema.ResourceData, v interface{
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
-func expandSystemLldpNetworkPolicyStreamingVideo(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.SystemLldpNetworkPolicyStreamingVideo, error) {
+func expandSystemLldpNetworkPolicyStreamingVideo(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.SystemLldpNetworkPolicyStreamingVideo, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -1169,10 +1193,10 @@ func expandSystemLldpNetworkPolicyStreamingVideo(d *schema.ResourceData, v inter
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
-func expandSystemLldpNetworkPolicyVideoConferencing(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.SystemLldpNetworkPolicyVideoConferencing, error) {
+func expandSystemLldpNetworkPolicyVideoConferencing(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.SystemLldpNetworkPolicyVideoConferencing, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -1224,10 +1248,10 @@ func expandSystemLldpNetworkPolicyVideoConferencing(d *schema.ResourceData, v in
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
-func expandSystemLldpNetworkPolicyVideoSignaling(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.SystemLldpNetworkPolicyVideoSignaling, error) {
+func expandSystemLldpNetworkPolicyVideoSignaling(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.SystemLldpNetworkPolicyVideoSignaling, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -1279,10 +1303,10 @@ func expandSystemLldpNetworkPolicyVideoSignaling(d *schema.ResourceData, v inter
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
-func expandSystemLldpNetworkPolicyVoice(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.SystemLldpNetworkPolicyVoice, error) {
+func expandSystemLldpNetworkPolicyVoice(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.SystemLldpNetworkPolicyVoice, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -1334,10 +1358,10 @@ func expandSystemLldpNetworkPolicyVoice(d *schema.ResourceData, v interface{}, p
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
-func expandSystemLldpNetworkPolicyVoiceSignaling(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.SystemLldpNetworkPolicyVoiceSignaling, error) {
+func expandSystemLldpNetworkPolicyVoiceSignaling(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.SystemLldpNetworkPolicyVoiceSignaling, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -1389,7 +1413,7 @@ func expandSystemLldpNetworkPolicyVoiceSignaling(d *schema.ResourceData, v inter
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
 func getObjectSystemLldpNetworkPolicy(d *schema.ResourceData, sv string) (*models.SystemLldpNetworkPolicy, diag.Diagnostics) {
@@ -1419,7 +1443,7 @@ func getObjectSystemLldpNetworkPolicy(d *schema.ResourceData, sv string) (*model
 	} else if d.HasChange("guest") {
 		old, new := d.GetChange("guest")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.Guest = &[]models.SystemLldpNetworkPolicyGuest{}
+			obj.Guest = &models.SystemLldpNetworkPolicyGuest{}
 		}
 	}
 	if v, ok := d.GetOk("guest_voice_signaling"); ok {
@@ -1436,7 +1460,7 @@ func getObjectSystemLldpNetworkPolicy(d *schema.ResourceData, sv string) (*model
 	} else if d.HasChange("guest_voice_signaling") {
 		old, new := d.GetChange("guest_voice_signaling")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.GuestVoiceSignaling = &[]models.SystemLldpNetworkPolicyGuestVoiceSignaling{}
+			obj.GuestVoiceSignaling = &models.SystemLldpNetworkPolicyGuestVoiceSignaling{}
 		}
 	}
 	if v1, ok := d.GetOk("name"); ok {
@@ -1462,7 +1486,7 @@ func getObjectSystemLldpNetworkPolicy(d *schema.ResourceData, sv string) (*model
 	} else if d.HasChange("softphone") {
 		old, new := d.GetChange("softphone")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.Softphone = &[]models.SystemLldpNetworkPolicySoftphone{}
+			obj.Softphone = &models.SystemLldpNetworkPolicySoftphone{}
 		}
 	}
 	if v, ok := d.GetOk("streaming_video"); ok {
@@ -1479,7 +1503,7 @@ func getObjectSystemLldpNetworkPolicy(d *schema.ResourceData, sv string) (*model
 	} else if d.HasChange("streaming_video") {
 		old, new := d.GetChange("streaming_video")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.StreamingVideo = &[]models.SystemLldpNetworkPolicyStreamingVideo{}
+			obj.StreamingVideo = &models.SystemLldpNetworkPolicyStreamingVideo{}
 		}
 	}
 	if v, ok := d.GetOk("video_conferencing"); ok {
@@ -1496,7 +1520,7 @@ func getObjectSystemLldpNetworkPolicy(d *schema.ResourceData, sv string) (*model
 	} else if d.HasChange("video_conferencing") {
 		old, new := d.GetChange("video_conferencing")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.VideoConferencing = &[]models.SystemLldpNetworkPolicyVideoConferencing{}
+			obj.VideoConferencing = &models.SystemLldpNetworkPolicyVideoConferencing{}
 		}
 	}
 	if v, ok := d.GetOk("video_signaling"); ok {
@@ -1513,7 +1537,7 @@ func getObjectSystemLldpNetworkPolicy(d *schema.ResourceData, sv string) (*model
 	} else if d.HasChange("video_signaling") {
 		old, new := d.GetChange("video_signaling")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.VideoSignaling = &[]models.SystemLldpNetworkPolicyVideoSignaling{}
+			obj.VideoSignaling = &models.SystemLldpNetworkPolicyVideoSignaling{}
 		}
 	}
 	if v, ok := d.GetOk("voice"); ok {
@@ -1530,7 +1554,7 @@ func getObjectSystemLldpNetworkPolicy(d *schema.ResourceData, sv string) (*model
 	} else if d.HasChange("voice") {
 		old, new := d.GetChange("voice")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.Voice = &[]models.SystemLldpNetworkPolicyVoice{}
+			obj.Voice = &models.SystemLldpNetworkPolicyVoice{}
 		}
 	}
 	if v, ok := d.GetOk("voice_signaling"); ok {
@@ -1547,7 +1571,7 @@ func getObjectSystemLldpNetworkPolicy(d *schema.ResourceData, sv string) (*model
 	} else if d.HasChange("voice_signaling") {
 		old, new := d.GetChange("voice_signaling")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.VoiceSignaling = &[]models.SystemLldpNetworkPolicyVoiceSignaling{}
+			obj.VoiceSignaling = &models.SystemLldpNetworkPolicyVoiceSignaling{}
 		}
 	}
 	return &obj, diags

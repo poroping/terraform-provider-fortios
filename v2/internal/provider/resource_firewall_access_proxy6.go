@@ -1039,7 +1039,7 @@ func flattenFirewallAccessProxy6ApiGateway(d *schema.ResourceData, v *[]models.F
 			}
 
 			if tmp := cfg.Realservers; tmp != nil {
-				v["realservers"] = flattenFirewallAccessProxy6ApiGatewayRealservers(d, tmp, prefix+"realservers", sort)
+				v["realservers"] = flattenFirewallAccessProxy6ApiGatewayRealservers(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "realservers"), sort)
 			}
 
 			if tmp := cfg.SamlRedirect; tmp != nil {
@@ -1059,7 +1059,7 @@ func flattenFirewallAccessProxy6ApiGateway(d *schema.ResourceData, v *[]models.F
 			}
 
 			if tmp := cfg.SslCipherSuites; tmp != nil {
-				v["ssl_cipher_suites"] = flattenFirewallAccessProxy6ApiGatewaySslCipherSuites(d, tmp, prefix+"ssl_cipher_suites", sort)
+				v["ssl_cipher_suites"] = flattenFirewallAccessProxy6ApiGatewaySslCipherSuites(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "ssl_cipher_suites"), sort)
 			}
 
 			if tmp := cfg.SslDhBits; tmp != nil {
@@ -1157,7 +1157,7 @@ func flattenFirewallAccessProxy6ApiGatewayRealservers(d *schema.ResourceData, v 
 			}
 
 			if tmp := cfg.SshHostKey; tmp != nil {
-				v["ssh_host_key"] = flattenFirewallAccessProxy6ApiGatewayRealserversSshHostKey(d, tmp, prefix+"ssh_host_key", sort)
+				v["ssh_host_key"] = flattenFirewallAccessProxy6ApiGatewayRealserversSshHostKey(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "ssh_host_key"), sort)
 			}
 
 			if tmp := cfg.SshHostKeyValidation; tmp != nil {
@@ -1287,7 +1287,7 @@ func flattenFirewallAccessProxy6ApiGateway6(d *schema.ResourceData, v *[]models.
 			}
 
 			if tmp := cfg.Realservers; tmp != nil {
-				v["realservers"] = flattenFirewallAccessProxy6ApiGateway6Realservers(d, tmp, prefix+"realservers", sort)
+				v["realservers"] = flattenFirewallAccessProxy6ApiGateway6Realservers(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "realservers"), sort)
 			}
 
 			if tmp := cfg.SamlRedirect; tmp != nil {
@@ -1307,7 +1307,7 @@ func flattenFirewallAccessProxy6ApiGateway6(d *schema.ResourceData, v *[]models.
 			}
 
 			if tmp := cfg.SslCipherSuites; tmp != nil {
-				v["ssl_cipher_suites"] = flattenFirewallAccessProxy6ApiGateway6SslCipherSuites(d, tmp, prefix+"ssl_cipher_suites", sort)
+				v["ssl_cipher_suites"] = flattenFirewallAccessProxy6ApiGateway6SslCipherSuites(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "ssl_cipher_suites"), sort)
 			}
 
 			if tmp := cfg.SslDhBits; tmp != nil {
@@ -1405,7 +1405,7 @@ func flattenFirewallAccessProxy6ApiGateway6Realservers(d *schema.ResourceData, v
 			}
 
 			if tmp := cfg.SshHostKey; tmp != nil {
-				v["ssh_host_key"] = flattenFirewallAccessProxy6ApiGateway6RealserversSshHostKey(d, tmp, prefix+"ssh_host_key", sort)
+				v["ssh_host_key"] = flattenFirewallAccessProxy6ApiGateway6RealserversSshHostKey(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "ssh_host_key"), sort)
 			}
 
 			if tmp := cfg.SshHostKeyValidation; tmp != nil {

@@ -1383,7 +1383,7 @@ func flattenSystemVirtualWanLinkHealthCheck(d *schema.ResourceData, v *[]models.
 			}
 
 			if tmp := cfg.Members; tmp != nil {
-				v["members"] = flattenSystemVirtualWanLinkHealthCheckMembers(d, tmp, prefix+"members", sort)
+				v["members"] = flattenSystemVirtualWanLinkHealthCheckMembers(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "members"), sort)
 			}
 
 			if tmp := cfg.Name; tmp != nil {
@@ -1431,7 +1431,7 @@ func flattenSystemVirtualWanLinkHealthCheck(d *schema.ResourceData, v *[]models.
 			}
 
 			if tmp := cfg.Sla; tmp != nil {
-				v["sla"] = flattenSystemVirtualWanLinkHealthCheckSla(d, tmp, prefix+"sla", sort)
+				v["sla"] = flattenSystemVirtualWanLinkHealthCheckSla(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "sla"), sort)
 			}
 
 			if tmp := cfg.SlaFailLogPeriod; tmp != nil {
@@ -1697,7 +1697,7 @@ func flattenSystemVirtualWanLinkService(d *schema.ResourceData, v *[]models.Syst
 			}
 
 			if tmp := cfg.Dst; tmp != nil {
-				v["dst"] = flattenSystemVirtualWanLinkServiceDst(d, tmp, prefix+"dst", sort)
+				v["dst"] = flattenSystemVirtualWanLinkServiceDst(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "dst"), sort)
 			}
 
 			if tmp := cfg.DstNegate; tmp != nil {
@@ -1705,7 +1705,7 @@ func flattenSystemVirtualWanLinkService(d *schema.ResourceData, v *[]models.Syst
 			}
 
 			if tmp := cfg.Dst6; tmp != nil {
-				v["dst6"] = flattenSystemVirtualWanLinkServiceDst6(d, tmp, prefix+"dst6", sort)
+				v["dst6"] = flattenSystemVirtualWanLinkServiceDst6(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "dst6"), sort)
 			}
 
 			if tmp := cfg.EndPort; tmp != nil {
@@ -1717,11 +1717,11 @@ func flattenSystemVirtualWanLinkService(d *schema.ResourceData, v *[]models.Syst
 			}
 
 			if tmp := cfg.Groups; tmp != nil {
-				v["groups"] = flattenSystemVirtualWanLinkServiceGroups(d, tmp, prefix+"groups", sort)
+				v["groups"] = flattenSystemVirtualWanLinkServiceGroups(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "groups"), sort)
 			}
 
 			if tmp := cfg.HealthCheck; tmp != nil {
-				v["health_check"] = flattenSystemVirtualWanLinkServiceHealthCheck(d, tmp, prefix+"health_check", sort)
+				v["health_check"] = flattenSystemVirtualWanLinkServiceHealthCheck(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "health_check"), sort)
 			}
 
 			if tmp := cfg.HoldDownTime; tmp != nil {
@@ -1733,7 +1733,7 @@ func flattenSystemVirtualWanLinkService(d *schema.ResourceData, v *[]models.Syst
 			}
 
 			if tmp := cfg.InputDevice; tmp != nil {
-				v["input_device"] = flattenSystemVirtualWanLinkServiceInputDevice(d, tmp, prefix+"input_device", sort)
+				v["input_device"] = flattenSystemVirtualWanLinkServiceInputDevice(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "input_device"), sort)
 			}
 
 			if tmp := cfg.InputDeviceNegate; tmp != nil {
@@ -1745,31 +1745,31 @@ func flattenSystemVirtualWanLinkService(d *schema.ResourceData, v *[]models.Syst
 			}
 
 			if tmp := cfg.InternetServiceAppCtrl; tmp != nil {
-				v["internet_service_app_ctrl"] = flattenSystemVirtualWanLinkServiceInternetServiceAppCtrl(d, tmp, prefix+"internet_service_app_ctrl", sort)
+				v["internet_service_app_ctrl"] = flattenSystemVirtualWanLinkServiceInternetServiceAppCtrl(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "internet_service_app_ctrl"), sort)
 			}
 
 			if tmp := cfg.InternetServiceAppCtrlGroup; tmp != nil {
-				v["internet_service_app_ctrl_group"] = flattenSystemVirtualWanLinkServiceInternetServiceAppCtrlGroup(d, tmp, prefix+"internet_service_app_ctrl_group", sort)
+				v["internet_service_app_ctrl_group"] = flattenSystemVirtualWanLinkServiceInternetServiceAppCtrlGroup(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "internet_service_app_ctrl_group"), sort)
 			}
 
 			if tmp := cfg.InternetServiceCustom; tmp != nil {
-				v["internet_service_custom"] = flattenSystemVirtualWanLinkServiceInternetServiceCustom(d, tmp, prefix+"internet_service_custom", sort)
+				v["internet_service_custom"] = flattenSystemVirtualWanLinkServiceInternetServiceCustom(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "internet_service_custom"), sort)
 			}
 
 			if tmp := cfg.InternetServiceCustomGroup; tmp != nil {
-				v["internet_service_custom_group"] = flattenSystemVirtualWanLinkServiceInternetServiceCustomGroup(d, tmp, prefix+"internet_service_custom_group", sort)
+				v["internet_service_custom_group"] = flattenSystemVirtualWanLinkServiceInternetServiceCustomGroup(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "internet_service_custom_group"), sort)
 			}
 
 			if tmp := cfg.InternetServiceGroup; tmp != nil {
-				v["internet_service_group"] = flattenSystemVirtualWanLinkServiceInternetServiceGroup(d, tmp, prefix+"internet_service_group", sort)
+				v["internet_service_group"] = flattenSystemVirtualWanLinkServiceInternetServiceGroup(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "internet_service_group"), sort)
 			}
 
 			if tmp := cfg.InternetServiceId; tmp != nil {
-				v["internet_service_id"] = flattenSystemVirtualWanLinkServiceInternetServiceId(d, tmp, prefix+"internet_service_id", sort)
+				v["internet_service_id"] = flattenSystemVirtualWanLinkServiceInternetServiceId(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "internet_service_id"), sort)
 			}
 
 			if tmp := cfg.InternetServiceName; tmp != nil {
-				v["internet_service_name"] = flattenSystemVirtualWanLinkServiceInternetServiceName(d, tmp, prefix+"internet_service_name", sort)
+				v["internet_service_name"] = flattenSystemVirtualWanLinkServiceInternetServiceName(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "internet_service_name"), sort)
 			}
 
 			if tmp := cfg.JitterWeight; tmp != nil {
@@ -1801,7 +1801,7 @@ func flattenSystemVirtualWanLinkService(d *schema.ResourceData, v *[]models.Syst
 			}
 
 			if tmp := cfg.PriorityMembers; tmp != nil {
-				v["priority_members"] = flattenSystemVirtualWanLinkServicePriorityMembers(d, tmp, prefix+"priority_members", sort)
+				v["priority_members"] = flattenSystemVirtualWanLinkServicePriorityMembers(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "priority_members"), sort)
 			}
 
 			if tmp := cfg.Protocol; tmp != nil {
@@ -1821,7 +1821,7 @@ func flattenSystemVirtualWanLinkService(d *schema.ResourceData, v *[]models.Syst
 			}
 
 			if tmp := cfg.Sla; tmp != nil {
-				v["sla"] = flattenSystemVirtualWanLinkServiceSla(d, tmp, prefix+"sla", sort)
+				v["sla"] = flattenSystemVirtualWanLinkServiceSla(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "sla"), sort)
 			}
 
 			if tmp := cfg.SlaCompareMethod; tmp != nil {
@@ -1829,7 +1829,7 @@ func flattenSystemVirtualWanLinkService(d *schema.ResourceData, v *[]models.Syst
 			}
 
 			if tmp := cfg.Src; tmp != nil {
-				v["src"] = flattenSystemVirtualWanLinkServiceSrc(d, tmp, prefix+"src", sort)
+				v["src"] = flattenSystemVirtualWanLinkServiceSrc(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "src"), sort)
 			}
 
 			if tmp := cfg.SrcNegate; tmp != nil {
@@ -1837,7 +1837,7 @@ func flattenSystemVirtualWanLinkService(d *schema.ResourceData, v *[]models.Syst
 			}
 
 			if tmp := cfg.Src6; tmp != nil {
-				v["src6"] = flattenSystemVirtualWanLinkServiceSrc6(d, tmp, prefix+"src6", sort)
+				v["src6"] = flattenSystemVirtualWanLinkServiceSrc6(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "src6"), sort)
 			}
 
 			if tmp := cfg.StandaloneAction; tmp != nil {
@@ -1861,7 +1861,7 @@ func flattenSystemVirtualWanLinkService(d *schema.ResourceData, v *[]models.Syst
 			}
 
 			if tmp := cfg.Users; tmp != nil {
-				v["users"] = flattenSystemVirtualWanLinkServiceUsers(d, tmp, prefix+"users", sort)
+				v["users"] = flattenSystemVirtualWanLinkServiceUsers(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "users"), sort)
 			}
 
 			flat = append(flat, v)

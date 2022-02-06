@@ -1,17 +1,20 @@
 {{ define "FLATTEN" }}
 {{- range $key, $value := .children }}
 {{- if or (eq $value.category "table") (eq $value.category "complex") }}
-func flatten{{.fpath}}(d *schema.ResourceData, v *[]models.{{.fpath}}, prefix string, sort bool) interface{} {
+func flatten{{.fpath}}(d *schema.ResourceData, v *{{ if eq $value.category "table" }}[]{{ end }}models.{{.fpath}}, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+	{{- if eq $value.category "complex" }}v2 := []models.{{.fpath}}{*v}
+		for i, cfg := range v2 { {{else}}
+		for i, cfg := range *v {  {{end}}
 			_ = i
 			v := make(map[string]interface{})
 		{{- range $key, $value := $value.children }}
 			if tmp := cfg.{{if $value.name_begin_with_int}}The{{end}}{{(mixedCase $value.name)}}; tmp != nil {
 				{{- (flattenFunc $value) }}
-				v["{{ if $value.NameReserved }}fos{{end}}{{(flatten $value.name)}}"] = {{ if or (eq $value.category "table") (eq $value.category "complex") }}flatten{{.fpath}}(d, tmp, prefix + "{{ (flatten $value.name) }}", sort){{else}}*tmp{{end}}
+				v["{{ if $value.NameReserved }}fos{{end}}{{(flatten $value.name)}}"] = {{ if or (eq $value.category "table") (eq $value.category "complex") }}flatten{{.fpath}}(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "{{ (flatten $value.name) }}"), sort){{else}}*tmp{{end}}
+				{{- if not (eq (flattenFunc $value) "") }} } {{end}}
 			}
 		{{ end }}
 			flat = append(flat, v)

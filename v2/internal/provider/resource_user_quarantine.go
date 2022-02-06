@@ -303,7 +303,7 @@ func flattenUserQuarantineTargets(d *schema.ResourceData, v *[]models.UserQuaran
 			}
 
 			if tmp := cfg.Macs; tmp != nil {
-				v["macs"] = flattenUserQuarantineTargetsMacs(d, tmp, prefix+"macs", sort)
+				v["macs"] = flattenUserQuarantineTargetsMacs(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "macs"), sort)
 			}
 
 			flat = append(flat, v)

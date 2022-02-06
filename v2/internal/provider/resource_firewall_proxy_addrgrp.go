@@ -352,7 +352,7 @@ func flattenFirewallProxyAddrgrpTagging(d *schema.ResourceData, v *[]models.Fire
 			}
 
 			if tmp := cfg.Tags; tmp != nil {
-				v["tags"] = flattenFirewallProxyAddrgrpTaggingTags(d, tmp, prefix+"tags", sort)
+				v["tags"] = flattenFirewallProxyAddrgrpTaggingTags(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "tags"), sort)
 			}
 
 			flat = append(flat, v)

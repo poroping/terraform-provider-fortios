@@ -170,7 +170,7 @@ func resourceVpnCertificateSetting() *schema.Resource {
 			"crl_verification": {
 				Type:        schema.TypeList,
 				Description: "CRL verification options.",
-				Optional:    true,
+				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"chain_crl_absence": {
@@ -441,11 +441,12 @@ func resourceVpnCertificateSettingRead(ctx context.Context, d *schema.ResourceDa
 	return nil
 }
 
-func flattenVpnCertificateSettingCrlVerification(d *schema.ResourceData, v *[]models.VpnCertificateSettingCrlVerification, prefix string, sort bool) interface{} {
+func flattenVpnCertificateSettingCrlVerification(d *schema.ResourceData, v *models.VpnCertificateSettingCrlVerification, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.VpnCertificateSettingCrlVerification{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.ChainCrlAbsence; tmp != nil {
@@ -598,9 +599,11 @@ func refreshObjectVpnCertificateSetting(d *schema.ResourceData, o *models.VpnCer
 		}
 	}
 
-	if o.CrlVerification != nil {
-		if err = d.Set("crl_verification", flattenVpnCertificateSettingCrlVerification(d, o.CrlVerification, "crl_verification", sort)); err != nil {
-			return diag.Errorf("error reading crl_verification: %v", err)
+	if _, ok := d.GetOk("crl_verification"); ok {
+		if o.CrlVerification != nil {
+			if err = d.Set("crl_verification", flattenVpnCertificateSettingCrlVerification(d, o.CrlVerification, "crl_verification", sort)); err != nil {
+				return diag.Errorf("error reading crl_verification: %v", err)
+			}
 		}
 	}
 
@@ -695,7 +698,7 @@ func refreshObjectVpnCertificateSetting(d *schema.ResourceData, o *models.VpnCer
 	return nil
 }
 
-func expandVpnCertificateSettingCrlVerification(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.VpnCertificateSettingCrlVerification, error) {
+func expandVpnCertificateSettingCrlVerification(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.VpnCertificateSettingCrlVerification, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -730,7 +733,7 @@ func expandVpnCertificateSettingCrlVerification(d *schema.ResourceData, v interf
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
 func getObjectVpnCertificateSetting(d *schema.ResourceData, sv string) (*models.VpnCertificateSetting, diag.Diagnostics) {
@@ -895,7 +898,7 @@ func getObjectVpnCertificateSetting(d *schema.ResourceData, sv string) (*models.
 	} else if d.HasChange("crl_verification") {
 		old, new := d.GetChange("crl_verification")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.CrlVerification = &[]models.VpnCertificateSettingCrlVerification{}
+			obj.CrlVerification = &models.VpnCertificateSettingCrlVerification{}
 		}
 	}
 	if v1, ok := d.GetOk("interface"); ok {
@@ -1005,7 +1008,7 @@ func getEmptyObjectVpnCertificateSetting(d *schema.ResourceData, sv string) (*mo
 	obj := models.VpnCertificateSetting{}
 	diags := diag.Diagnostics{}
 
-	obj.CrlVerification = &[]models.VpnCertificateSettingCrlVerification{}
+	obj.CrlVerification = &models.VpnCertificateSettingCrlVerification{}
 
 	return &obj, diags
 }

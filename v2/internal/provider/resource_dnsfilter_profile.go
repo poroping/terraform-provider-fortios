@@ -160,7 +160,7 @@ func resourceDnsfilterProfile() *schema.Resource {
 			"domain_filter": {
 				Type:        schema.TypeList,
 				Description: "Domain filter settings.",
-				Optional:    true,
+				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"domain_filter_table": {
@@ -193,7 +193,7 @@ func resourceDnsfilterProfile() *schema.Resource {
 			"ftgd_dns": {
 				Type:        schema.TypeList,
 				Description: "FortiGuard DNS Filter settings.",
-				Optional:    true,
+				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"filters": {
@@ -523,11 +523,12 @@ func flattenDnsfilterProfileDnsTranslation(d *schema.ResourceData, v *[]models.D
 	return flat
 }
 
-func flattenDnsfilterProfileDomainFilter(d *schema.ResourceData, v *[]models.DnsfilterProfileDomainFilter, prefix string, sort bool) interface{} {
+func flattenDnsfilterProfileDomainFilter(d *schema.ResourceData, v *models.DnsfilterProfileDomainFilter, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.DnsfilterProfileDomainFilter{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.DomainFilterTable; tmp != nil {
@@ -563,15 +564,16 @@ func flattenDnsfilterProfileExternalIpBlocklist(d *schema.ResourceData, v *[]mod
 	return flat
 }
 
-func flattenDnsfilterProfileFtgdDns(d *schema.ResourceData, v *[]models.DnsfilterProfileFtgdDns, prefix string, sort bool) interface{} {
+func flattenDnsfilterProfileFtgdDns(d *schema.ResourceData, v *models.DnsfilterProfileFtgdDns, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.DnsfilterProfileFtgdDns{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Filters; tmp != nil {
-				v["filters"] = flattenDnsfilterProfileFtgdDnsFilters(d, tmp, prefix+"filters", sort)
+				v["filters"] = flattenDnsfilterProfileFtgdDnsFilters(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "filters"), sort)
 			}
 
 			if tmp := cfg.Options; tmp != nil {
@@ -652,9 +654,11 @@ func refreshObjectDnsfilterProfile(d *schema.ResourceData, o *models.DnsfilterPr
 		}
 	}
 
-	if o.DomainFilter != nil {
-		if err = d.Set("domain_filter", flattenDnsfilterProfileDomainFilter(d, o.DomainFilter, "domain_filter", sort)); err != nil {
-			return diag.Errorf("error reading domain_filter: %v", err)
+	if _, ok := d.GetOk("domain_filter"); ok {
+		if o.DomainFilter != nil {
+			if err = d.Set("domain_filter", flattenDnsfilterProfileDomainFilter(d, o.DomainFilter, "domain_filter", sort)); err != nil {
+				return diag.Errorf("error reading domain_filter: %v", err)
+			}
 		}
 	}
 
@@ -664,9 +668,11 @@ func refreshObjectDnsfilterProfile(d *schema.ResourceData, o *models.DnsfilterPr
 		}
 	}
 
-	if o.FtgdDns != nil {
-		if err = d.Set("ftgd_dns", flattenDnsfilterProfileFtgdDns(d, o.FtgdDns, "ftgd_dns", sort)); err != nil {
-			return diag.Errorf("error reading ftgd_dns: %v", err)
+	if _, ok := d.GetOk("ftgd_dns"); ok {
+		if o.FtgdDns != nil {
+			if err = d.Set("ftgd_dns", flattenDnsfilterProfileFtgdDns(d, o.FtgdDns, "ftgd_dns", sort)); err != nil {
+				return diag.Errorf("error reading ftgd_dns: %v", err)
+			}
 		}
 	}
 
@@ -819,7 +825,7 @@ func expandDnsfilterProfileDnsTranslation(d *schema.ResourceData, v interface{},
 	return &result, nil
 }
 
-func expandDnsfilterProfileDomainFilter(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.DnsfilterProfileDomainFilter, error) {
+func expandDnsfilterProfileDomainFilter(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.DnsfilterProfileDomainFilter, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -841,7 +847,7 @@ func expandDnsfilterProfileDomainFilter(d *schema.ResourceData, v interface{}, p
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
 func expandDnsfilterProfileExternalIpBlocklist(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.DnsfilterProfileExternalIpBlocklist, error) {
@@ -868,7 +874,7 @@ func expandDnsfilterProfileExternalIpBlocklist(d *schema.ResourceData, v interfa
 	return &result, nil
 }
 
-func expandDnsfilterProfileFtgdDns(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.DnsfilterProfileFtgdDns, error) {
+func expandDnsfilterProfileFtgdDns(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.DnsfilterProfileFtgdDns, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -899,7 +905,7 @@ func expandDnsfilterProfileFtgdDns(d *schema.ResourceData, v interface{}, pre st
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
 func expandDnsfilterProfileFtgdDnsFilters(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.DnsfilterProfileFtgdDnsFilters, error) {
@@ -1011,7 +1017,7 @@ func getObjectDnsfilterProfile(d *schema.ResourceData, sv string) (*models.Dnsfi
 	} else if d.HasChange("domain_filter") {
 		old, new := d.GetChange("domain_filter")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.DomainFilter = &[]models.DnsfilterProfileDomainFilter{}
+			obj.DomainFilter = &models.DnsfilterProfileDomainFilter{}
 		}
 	}
 	if v, ok := d.GetOk("external_ip_blocklist"); ok {
@@ -1045,7 +1051,7 @@ func getObjectDnsfilterProfile(d *schema.ResourceData, sv string) (*models.Dnsfi
 	} else if d.HasChange("ftgd_dns") {
 		old, new := d.GetChange("ftgd_dns")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.FtgdDns = &[]models.DnsfilterProfileFtgdDns{}
+			obj.FtgdDns = &models.DnsfilterProfileFtgdDns{}
 		}
 	}
 	if v1, ok := d.GetOk("log_all_domain"); ok {

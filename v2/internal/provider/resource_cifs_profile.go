@@ -62,7 +62,7 @@ func resourceCifsProfile() *schema.Resource {
 			"file_filter": {
 				Type:        schema.TypeList,
 				Description: "File filter.",
-				Optional:    true,
+				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"entries": {
@@ -340,15 +340,16 @@ func resourceCifsProfileRead(ctx context.Context, d *schema.ResourceData, meta i
 	return nil
 }
 
-func flattenCifsProfileFileFilter(d *schema.ResourceData, v *[]models.CifsProfileFileFilter, prefix string, sort bool) interface{} {
+func flattenCifsProfileFileFilter(d *schema.ResourceData, v *models.CifsProfileFileFilter, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.CifsProfileFileFilter{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Entries; tmp != nil {
-				v["entries"] = flattenCifsProfileFileFilterEntries(d, tmp, prefix+"entries", sort)
+				v["entries"] = flattenCifsProfileFileFilterEntries(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "entries"), sort)
 			}
 
 			if tmp := cfg.Log; tmp != nil {
@@ -386,7 +387,7 @@ func flattenCifsProfileFileFilterEntries(d *schema.ResourceData, v *[]models.Cif
 			}
 
 			if tmp := cfg.FileType; tmp != nil {
-				v["file_type"] = flattenCifsProfileFileFilterEntriesFileType(d, tmp, prefix+"file_type", sort)
+				v["file_type"] = flattenCifsProfileFileFilterEntriesFileType(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "file_type"), sort)
 			}
 
 			if tmp := cfg.Filter; tmp != nil {
@@ -463,9 +464,11 @@ func refreshObjectCifsProfile(d *schema.ResourceData, o *models.CifsProfile, sv 
 		}
 	}
 
-	if o.FileFilter != nil {
-		if err = d.Set("file_filter", flattenCifsProfileFileFilter(d, o.FileFilter, "file_filter", sort)); err != nil {
-			return diag.Errorf("error reading file_filter: %v", err)
+	if _, ok := d.GetOk("file_filter"); ok {
+		if o.FileFilter != nil {
+			if err = d.Set("file_filter", flattenCifsProfileFileFilter(d, o.FileFilter, "file_filter", sort)); err != nil {
+				return diag.Errorf("error reading file_filter: %v", err)
+			}
 		}
 	}
 
@@ -494,7 +497,7 @@ func refreshObjectCifsProfile(d *schema.ResourceData, o *models.CifsProfile, sv 
 	return nil
 }
 
-func expandCifsProfileFileFilter(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.CifsProfileFileFilter, error) {
+func expandCifsProfileFileFilter(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.CifsProfileFileFilter, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -532,7 +535,7 @@ func expandCifsProfileFileFilter(d *schema.ResourceData, v interface{}, pre stri
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
 func expandCifsProfileFileFilterEntries(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.CifsProfileFileFilterEntries, error) {
@@ -672,7 +675,7 @@ func getObjectCifsProfile(d *schema.ResourceData, sv string) (*models.CifsProfil
 	} else if d.HasChange("file_filter") {
 		old, new := d.GetChange("file_filter")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.FileFilter = &[]models.CifsProfileFileFilter{}
+			obj.FileFilter = &models.CifsProfileFileFilter{}
 		}
 	}
 	if v1, ok := d.GetOk("name"); ok {

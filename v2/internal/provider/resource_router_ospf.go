@@ -1149,7 +1149,7 @@ func flattenRouterOspfArea(d *schema.ResourceData, v *[]models.RouterOspfArea, p
 			}
 
 			if tmp := cfg.FilterList; tmp != nil {
-				v["filter_list"] = flattenRouterOspfAreaFilterList(d, tmp, prefix+"filter_list", sort)
+				v["filter_list"] = flattenRouterOspfAreaFilterList(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "filter_list"), sort)
 			}
 
 			if tmp := cfg.Id; tmp != nil {
@@ -1177,7 +1177,7 @@ func flattenRouterOspfArea(d *schema.ResourceData, v *[]models.RouterOspfArea, p
 			}
 
 			if tmp := cfg.Range; tmp != nil {
-				v["range"] = flattenRouterOspfAreaRange(d, tmp, prefix+"range", sort)
+				v["range"] = flattenRouterOspfAreaRange(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "range"), sort)
 			}
 
 			if tmp := cfg.Shortcut; tmp != nil {
@@ -1193,7 +1193,7 @@ func flattenRouterOspfArea(d *schema.ResourceData, v *[]models.RouterOspfArea, p
 			}
 
 			if tmp := cfg.VirtualLink; tmp != nil {
-				v["virtual_link"] = flattenRouterOspfAreaVirtualLink(d, tmp, prefix+"virtual_link", sort)
+				v["virtual_link"] = flattenRouterOspfAreaVirtualLink(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "virtual_link"), sort)
 			}
 
 			flat = append(flat, v)
@@ -1253,13 +1253,15 @@ func flattenRouterOspfAreaRange(d *schema.ResourceData, v *[]models.RouterOspfAr
 			}
 
 			if tmp := cfg.Prefix; tmp != nil {
-				tmp = utils.Ipv4Read(d, fmt.Sprintf("%s.%d.prefix", prefix, i), *tmp)
-				v["prefix"] = *tmp
+				if tmp = utils.Ipv4Read(d, fmt.Sprintf("%s.%d.prefix", prefix, i), *tmp); tmp != nil {
+					v["prefix"] = *tmp
+				}
 			}
 
 			if tmp := cfg.Substitute; tmp != nil {
-				tmp = utils.Ipv4Read(d, fmt.Sprintf("%s.%d.substitute", prefix, i), *tmp)
-				v["substitute"] = *tmp
+				if tmp = utils.Ipv4Read(d, fmt.Sprintf("%s.%d.substitute", prefix, i), *tmp); tmp != nil {
+					v["substitute"] = *tmp
+				}
 			}
 
 			if tmp := cfg.SubstituteStatus; tmp != nil {
@@ -1309,7 +1311,7 @@ func flattenRouterOspfAreaVirtualLink(d *schema.ResourceData, v *[]models.Router
 			}
 
 			if tmp := cfg.Md5Keys; tmp != nil {
-				v["md5_keys"] = flattenRouterOspfAreaVirtualLinkMd5Keys(d, tmp, prefix+"md5_keys", sort)
+				v["md5_keys"] = flattenRouterOspfAreaVirtualLinkMd5Keys(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "md5_keys"), sort)
 			}
 
 			if tmp := cfg.Name; tmp != nil {
@@ -1453,8 +1455,9 @@ func flattenRouterOspfNetwork(d *schema.ResourceData, v *[]models.RouterOspfNetw
 			}
 
 			if tmp := cfg.Prefix; tmp != nil {
-				tmp = utils.Ipv4Read(d, fmt.Sprintf("%s.%d.prefix", prefix, i), *tmp)
-				v["prefix"] = *tmp
+				if tmp = utils.Ipv4Read(d, fmt.Sprintf("%s.%d.prefix", prefix, i), *tmp); tmp != nil {
+					v["prefix"] = *tmp
+				}
 			}
 
 			flat = append(flat, v)
@@ -1528,7 +1531,7 @@ func flattenRouterOspfOspfInterface(d *schema.ResourceData, v *[]models.RouterOs
 			}
 
 			if tmp := cfg.Md5Keys; tmp != nil {
-				v["md5_keys"] = flattenRouterOspfOspfInterfaceMd5Keys(d, tmp, prefix+"md5_keys", sort)
+				v["md5_keys"] = flattenRouterOspfOspfInterfaceMd5Keys(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "md5_keys"), sort)
 			}
 
 			if tmp := cfg.Mtu; tmp != nil {
@@ -1688,8 +1691,9 @@ func flattenRouterOspfSummaryAddress(d *schema.ResourceData, v *[]models.RouterO
 			}
 
 			if tmp := cfg.Prefix; tmp != nil {
-				tmp = utils.Ipv4Read(d, fmt.Sprintf("%s.%d.prefix", prefix, i), *tmp)
-				v["prefix"] = *tmp
+				if tmp = utils.Ipv4Read(d, fmt.Sprintf("%s.%d.prefix", prefix, i), *tmp); tmp != nil {
+					v["prefix"] = *tmp
+				}
 			}
 
 			if tmp := cfg.Tag; tmp != nil {

@@ -24,7 +24,7 @@ func getObject{{.fpath}}(d *schema.ResourceData, sv string) (*models.{{.fpath}},
 	} else if d.HasChange("{{ if $value.NameReserved }}fos{{end}}{{(flatten $value.name)}}") {
 		old, new := d.GetChange("{{ if $value.NameReserved }}fos{{end}}{{(flatten $value.name)}}")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.{{if $value.name_begin_with_int}}The{{end}}{{(mixedCase $value.name)}} = &[]models.{{ .fpath }}{}
+			obj.{{if $value.name_begin_with_int}}The{{end}}{{(mixedCase $value.name)}} = &{{ if eq $value.category "table" }}[]{{ end }}models.{{ .fpath }}{}
 		}
 	}
 {{- else }}

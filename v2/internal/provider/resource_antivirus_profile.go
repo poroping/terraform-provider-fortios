@@ -115,7 +115,7 @@ func resourceAntivirusProfile() *schema.Resource {
 			"cifs": {
 				Type:        schema.TypeList,
 				Description: "Configure CIFS AntiVirus options.",
-				Optional:    true,
+				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"archive_block": {
@@ -204,7 +204,7 @@ func resourceAntivirusProfile() *schema.Resource {
 			"content_disarm": {
 				Type:        schema.TypeList,
 				Description: "AV Content Disarm and Reconstruction settings.",
-				Optional:    true,
+				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"cover_page": {
@@ -446,7 +446,7 @@ func resourceAntivirusProfile() *schema.Resource {
 			"ftp": {
 				Type:        schema.TypeList,
 				Description: "Configure FTP AntiVirus options.",
-				Optional:    true,
+				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"archive_block": {
@@ -527,7 +527,7 @@ func resourceAntivirusProfile() *schema.Resource {
 			"http": {
 				Type:        schema.TypeList,
 				Description: "Configure HTTP AntiVirus options.",
-				Optional:    true,
+				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"archive_block": {
@@ -616,7 +616,7 @@ func resourceAntivirusProfile() *schema.Resource {
 			"imap": {
 				Type:        schema.TypeList,
 				Description: "Configure IMAP AntiVirus options.",
-				Optional:    true,
+				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"archive_block": {
@@ -713,7 +713,7 @@ func resourceAntivirusProfile() *schema.Resource {
 			"mapi": {
 				Type:        schema.TypeList,
 				Description: "Configure MAPI AntiVirus options.",
-				Optional:    true,
+				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"archive_block": {
@@ -810,7 +810,7 @@ func resourceAntivirusProfile() *schema.Resource {
 			"nac_quar": {
 				Type:        schema.TypeList,
 				Description: "Configure AntiVirus quarantine settings.",
-				Optional:    true,
+				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"expiry": {
@@ -850,7 +850,7 @@ func resourceAntivirusProfile() *schema.Resource {
 			"nntp": {
 				Type:        schema.TypeList,
 				Description: "Configure NNTP AntiVirus options.",
-				Optional:    true,
+				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"archive_block": {
@@ -931,7 +931,7 @@ func resourceAntivirusProfile() *schema.Resource {
 			"outbreak_prevention": {
 				Type:        schema.TypeList,
 				Description: "Configure Virus Outbreak Prevention settings.",
-				Optional:    true,
+				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"external_blocklist": {
@@ -964,7 +964,7 @@ func resourceAntivirusProfile() *schema.Resource {
 			"pop3": {
 				Type:        schema.TypeList,
 				Description: "Configure POP3 AntiVirus options.",
-				Optional:    true,
+				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"archive_block": {
@@ -1077,7 +1077,7 @@ func resourceAntivirusProfile() *schema.Resource {
 			"smtp": {
 				Type:        schema.TypeList,
 				Description: "Configure SMTP AntiVirus options.",
-				Optional:    true,
+				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"archive_block": {
@@ -1174,7 +1174,7 @@ func resourceAntivirusProfile() *schema.Resource {
 			"ssh": {
 				Type:        schema.TypeList,
 				Description: "Configure SFTP and SCP AntiVirus options.",
-				Optional:    true,
+				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"archive_block": {
@@ -1409,11 +1409,12 @@ func resourceAntivirusProfileRead(ctx context.Context, d *schema.ResourceData, m
 	return nil
 }
 
-func flattenAntivirusProfileCifs(d *schema.ResourceData, v *[]models.AntivirusProfileCifs, prefix string, sort bool) interface{} {
+func flattenAntivirusProfileCifs(d *schema.ResourceData, v *models.AntivirusProfileCifs, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.AntivirusProfileCifs{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.ArchiveBlock; tmp != nil {
@@ -1459,11 +1460,12 @@ func flattenAntivirusProfileCifs(d *schema.ResourceData, v *[]models.AntivirusPr
 	return flat
 }
 
-func flattenAntivirusProfileContentDisarm(d *schema.ResourceData, v *[]models.AntivirusProfileContentDisarm, prefix string, sort bool) interface{} {
+func flattenAntivirusProfileContentDisarm(d *schema.ResourceData, v *models.AntivirusProfileContentDisarm, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.AntivirusProfileContentDisarm{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.CoverPage; tmp != nil {
@@ -1571,11 +1573,12 @@ func flattenAntivirusProfileExternalBlocklist(d *schema.ResourceData, v *[]model
 	return flat
 }
 
-func flattenAntivirusProfileFtp(d *schema.ResourceData, v *[]models.AntivirusProfileFtp, prefix string, sort bool) interface{} {
+func flattenAntivirusProfileFtp(d *schema.ResourceData, v *models.AntivirusProfileFtp, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.AntivirusProfileFtp{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.ArchiveBlock; tmp != nil {
@@ -1621,11 +1624,12 @@ func flattenAntivirusProfileFtp(d *schema.ResourceData, v *[]models.AntivirusPro
 	return flat
 }
 
-func flattenAntivirusProfileHttp(d *schema.ResourceData, v *[]models.AntivirusProfileHttp, prefix string, sort bool) interface{} {
+func flattenAntivirusProfileHttp(d *schema.ResourceData, v *models.AntivirusProfileHttp, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.AntivirusProfileHttp{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.ArchiveBlock; tmp != nil {
@@ -1675,11 +1679,12 @@ func flattenAntivirusProfileHttp(d *schema.ResourceData, v *[]models.AntivirusPr
 	return flat
 }
 
-func flattenAntivirusProfileImap(d *schema.ResourceData, v *[]models.AntivirusProfileImap, prefix string, sort bool) interface{} {
+func flattenAntivirusProfileImap(d *schema.ResourceData, v *models.AntivirusProfileImap, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.AntivirusProfileImap{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.ArchiveBlock; tmp != nil {
@@ -1733,11 +1738,12 @@ func flattenAntivirusProfileImap(d *schema.ResourceData, v *[]models.AntivirusPr
 	return flat
 }
 
-func flattenAntivirusProfileMapi(d *schema.ResourceData, v *[]models.AntivirusProfileMapi, prefix string, sort bool) interface{} {
+func flattenAntivirusProfileMapi(d *schema.ResourceData, v *models.AntivirusProfileMapi, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.AntivirusProfileMapi{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.ArchiveBlock; tmp != nil {
@@ -1787,11 +1793,12 @@ func flattenAntivirusProfileMapi(d *schema.ResourceData, v *[]models.AntivirusPr
 	return flat
 }
 
-func flattenAntivirusProfileNacQuar(d *schema.ResourceData, v *[]models.AntivirusProfileNacQuar, prefix string, sort bool) interface{} {
+func flattenAntivirusProfileNacQuar(d *schema.ResourceData, v *models.AntivirusProfileNacQuar, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.AntivirusProfileNacQuar{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Expiry; tmp != nil {
@@ -1813,11 +1820,12 @@ func flattenAntivirusProfileNacQuar(d *schema.ResourceData, v *[]models.Antiviru
 	return flat
 }
 
-func flattenAntivirusProfileNntp(d *schema.ResourceData, v *[]models.AntivirusProfileNntp, prefix string, sort bool) interface{} {
+func flattenAntivirusProfileNntp(d *schema.ResourceData, v *models.AntivirusProfileNntp, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.AntivirusProfileNntp{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.ArchiveBlock; tmp != nil {
@@ -1863,11 +1871,12 @@ func flattenAntivirusProfileNntp(d *schema.ResourceData, v *[]models.AntivirusPr
 	return flat
 }
 
-func flattenAntivirusProfileOutbreakPrevention(d *schema.ResourceData, v *[]models.AntivirusProfileOutbreakPrevention, prefix string, sort bool) interface{} {
+func flattenAntivirusProfileOutbreakPrevention(d *schema.ResourceData, v *models.AntivirusProfileOutbreakPrevention, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.AntivirusProfileOutbreakPrevention{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.ExternalBlocklist; tmp != nil {
@@ -1885,11 +1894,12 @@ func flattenAntivirusProfileOutbreakPrevention(d *schema.ResourceData, v *[]mode
 	return flat
 }
 
-func flattenAntivirusProfilePop3(d *schema.ResourceData, v *[]models.AntivirusProfilePop3, prefix string, sort bool) interface{} {
+func flattenAntivirusProfilePop3(d *schema.ResourceData, v *models.AntivirusProfilePop3, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.AntivirusProfilePop3{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.ArchiveBlock; tmp != nil {
@@ -1943,11 +1953,12 @@ func flattenAntivirusProfilePop3(d *schema.ResourceData, v *[]models.AntivirusPr
 	return flat
 }
 
-func flattenAntivirusProfileSmtp(d *schema.ResourceData, v *[]models.AntivirusProfileSmtp, prefix string, sort bool) interface{} {
+func flattenAntivirusProfileSmtp(d *schema.ResourceData, v *models.AntivirusProfileSmtp, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.AntivirusProfileSmtp{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.ArchiveBlock; tmp != nil {
@@ -2001,11 +2012,12 @@ func flattenAntivirusProfileSmtp(d *schema.ResourceData, v *[]models.AntivirusPr
 	return flat
 }
 
-func flattenAntivirusProfileSsh(d *schema.ResourceData, v *[]models.AntivirusProfileSsh, prefix string, sort bool) interface{} {
+func flattenAntivirusProfileSsh(d *schema.ResourceData, v *models.AntivirusProfileSsh, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.AntivirusProfileSsh{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.ArchiveBlock; tmp != nil {
@@ -2118,9 +2130,11 @@ func refreshObjectAntivirusProfile(d *schema.ResourceData, o *models.AntivirusPr
 		}
 	}
 
-	if o.Cifs != nil {
-		if err = d.Set("cifs", flattenAntivirusProfileCifs(d, o.Cifs, "cifs", sort)); err != nil {
-			return diag.Errorf("error reading cifs: %v", err)
+	if _, ok := d.GetOk("cifs"); ok {
+		if o.Cifs != nil {
+			if err = d.Set("cifs", flattenAntivirusProfileCifs(d, o.Cifs, "cifs", sort)); err != nil {
+				return diag.Errorf("error reading cifs: %v", err)
+			}
 		}
 	}
 
@@ -2132,9 +2146,11 @@ func refreshObjectAntivirusProfile(d *schema.ResourceData, o *models.AntivirusPr
 		}
 	}
 
-	if o.ContentDisarm != nil {
-		if err = d.Set("content_disarm", flattenAntivirusProfileContentDisarm(d, o.ContentDisarm, "content_disarm", sort)); err != nil {
-			return diag.Errorf("error reading content_disarm: %v", err)
+	if _, ok := d.GetOk("content_disarm"); ok {
+		if o.ContentDisarm != nil {
+			if err = d.Set("content_disarm", flattenAntivirusProfileContentDisarm(d, o.ContentDisarm, "content_disarm", sort)); err != nil {
+				return diag.Errorf("error reading content_disarm: %v", err)
+			}
 		}
 	}
 
@@ -2208,27 +2224,35 @@ func refreshObjectAntivirusProfile(d *schema.ResourceData, o *models.AntivirusPr
 		}
 	}
 
-	if o.Ftp != nil {
-		if err = d.Set("ftp", flattenAntivirusProfileFtp(d, o.Ftp, "ftp", sort)); err != nil {
-			return diag.Errorf("error reading ftp: %v", err)
+	if _, ok := d.GetOk("ftp"); ok {
+		if o.Ftp != nil {
+			if err = d.Set("ftp", flattenAntivirusProfileFtp(d, o.Ftp, "ftp", sort)); err != nil {
+				return diag.Errorf("error reading ftp: %v", err)
+			}
 		}
 	}
 
-	if o.Http != nil {
-		if err = d.Set("http", flattenAntivirusProfileHttp(d, o.Http, "http", sort)); err != nil {
-			return diag.Errorf("error reading http: %v", err)
+	if _, ok := d.GetOk("http"); ok {
+		if o.Http != nil {
+			if err = d.Set("http", flattenAntivirusProfileHttp(d, o.Http, "http", sort)); err != nil {
+				return diag.Errorf("error reading http: %v", err)
+			}
 		}
 	}
 
-	if o.Imap != nil {
-		if err = d.Set("imap", flattenAntivirusProfileImap(d, o.Imap, "imap", sort)); err != nil {
-			return diag.Errorf("error reading imap: %v", err)
+	if _, ok := d.GetOk("imap"); ok {
+		if o.Imap != nil {
+			if err = d.Set("imap", flattenAntivirusProfileImap(d, o.Imap, "imap", sort)); err != nil {
+				return diag.Errorf("error reading imap: %v", err)
+			}
 		}
 	}
 
-	if o.Mapi != nil {
-		if err = d.Set("mapi", flattenAntivirusProfileMapi(d, o.Mapi, "mapi", sort)); err != nil {
-			return diag.Errorf("error reading mapi: %v", err)
+	if _, ok := d.GetOk("mapi"); ok {
+		if o.Mapi != nil {
+			if err = d.Set("mapi", flattenAntivirusProfileMapi(d, o.Mapi, "mapi", sort)); err != nil {
+				return diag.Errorf("error reading mapi: %v", err)
+			}
 		}
 	}
 
@@ -2240,9 +2264,11 @@ func refreshObjectAntivirusProfile(d *schema.ResourceData, o *models.AntivirusPr
 		}
 	}
 
-	if o.NacQuar != nil {
-		if err = d.Set("nac_quar", flattenAntivirusProfileNacQuar(d, o.NacQuar, "nac_quar", sort)); err != nil {
-			return diag.Errorf("error reading nac_quar: %v", err)
+	if _, ok := d.GetOk("nac_quar"); ok {
+		if o.NacQuar != nil {
+			if err = d.Set("nac_quar", flattenAntivirusProfileNacQuar(d, o.NacQuar, "nac_quar", sort)); err != nil {
+				return diag.Errorf("error reading nac_quar: %v", err)
+			}
 		}
 	}
 
@@ -2254,15 +2280,19 @@ func refreshObjectAntivirusProfile(d *schema.ResourceData, o *models.AntivirusPr
 		}
 	}
 
-	if o.Nntp != nil {
-		if err = d.Set("nntp", flattenAntivirusProfileNntp(d, o.Nntp, "nntp", sort)); err != nil {
-			return diag.Errorf("error reading nntp: %v", err)
+	if _, ok := d.GetOk("nntp"); ok {
+		if o.Nntp != nil {
+			if err = d.Set("nntp", flattenAntivirusProfileNntp(d, o.Nntp, "nntp", sort)); err != nil {
+				return diag.Errorf("error reading nntp: %v", err)
+			}
 		}
 	}
 
-	if o.OutbreakPrevention != nil {
-		if err = d.Set("outbreak_prevention", flattenAntivirusProfileOutbreakPrevention(d, o.OutbreakPrevention, "outbreak_prevention", sort)); err != nil {
-			return diag.Errorf("error reading outbreak_prevention: %v", err)
+	if _, ok := d.GetOk("outbreak_prevention"); ok {
+		if o.OutbreakPrevention != nil {
+			if err = d.Set("outbreak_prevention", flattenAntivirusProfileOutbreakPrevention(d, o.OutbreakPrevention, "outbreak_prevention", sort)); err != nil {
+				return diag.Errorf("error reading outbreak_prevention: %v", err)
+			}
 		}
 	}
 
@@ -2274,9 +2304,11 @@ func refreshObjectAntivirusProfile(d *schema.ResourceData, o *models.AntivirusPr
 		}
 	}
 
-	if o.Pop3 != nil {
-		if err = d.Set("pop3", flattenAntivirusProfilePop3(d, o.Pop3, "pop3", sort)); err != nil {
-			return diag.Errorf("error reading pop3: %v", err)
+	if _, ok := d.GetOk("pop3"); ok {
+		if o.Pop3 != nil {
+			if err = d.Set("pop3", flattenAntivirusProfilePop3(d, o.Pop3, "pop3", sort)); err != nil {
+				return diag.Errorf("error reading pop3: %v", err)
+			}
 		}
 	}
 
@@ -2296,22 +2328,26 @@ func refreshObjectAntivirusProfile(d *schema.ResourceData, o *models.AntivirusPr
 		}
 	}
 
-	if o.Smtp != nil {
-		if err = d.Set("smtp", flattenAntivirusProfileSmtp(d, o.Smtp, "smtp", sort)); err != nil {
-			return diag.Errorf("error reading smtp: %v", err)
+	if _, ok := d.GetOk("smtp"); ok {
+		if o.Smtp != nil {
+			if err = d.Set("smtp", flattenAntivirusProfileSmtp(d, o.Smtp, "smtp", sort)); err != nil {
+				return diag.Errorf("error reading smtp: %v", err)
+			}
 		}
 	}
 
-	if o.Ssh != nil {
-		if err = d.Set("ssh", flattenAntivirusProfileSsh(d, o.Ssh, "ssh", sort)); err != nil {
-			return diag.Errorf("error reading ssh: %v", err)
+	if _, ok := d.GetOk("ssh"); ok {
+		if o.Ssh != nil {
+			if err = d.Set("ssh", flattenAntivirusProfileSsh(d, o.Ssh, "ssh", sort)); err != nil {
+				return diag.Errorf("error reading ssh: %v", err)
+			}
 		}
 	}
 
 	return nil
 }
 
-func expandAntivirusProfileCifs(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.AntivirusProfileCifs, error) {
+func expandAntivirusProfileCifs(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.AntivirusProfileCifs, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -2388,10 +2424,10 @@ func expandAntivirusProfileCifs(d *schema.ResourceData, v interface{}, pre strin
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
-func expandAntivirusProfileContentDisarm(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.AntivirusProfileContentDisarm, error) {
+func expandAntivirusProfileContentDisarm(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.AntivirusProfileContentDisarm, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -2538,7 +2574,7 @@ func expandAntivirusProfileContentDisarm(d *schema.ResourceData, v interface{}, 
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
 func expandAntivirusProfileExternalBlocklist(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.AntivirusProfileExternalBlocklist, error) {
@@ -2565,7 +2601,7 @@ func expandAntivirusProfileExternalBlocklist(d *schema.ResourceData, v interface
 	return &result, nil
 }
 
-func expandAntivirusProfileFtp(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.AntivirusProfileFtp, error) {
+func expandAntivirusProfileFtp(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.AntivirusProfileFtp, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -2642,10 +2678,10 @@ func expandAntivirusProfileFtp(d *schema.ResourceData, v interface{}, pre string
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
-func expandAntivirusProfileHttp(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.AntivirusProfileHttp, error) {
+func expandAntivirusProfileHttp(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.AntivirusProfileHttp, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -2729,10 +2765,10 @@ func expandAntivirusProfileHttp(d *schema.ResourceData, v interface{}, pre strin
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
-func expandAntivirusProfileImap(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.AntivirusProfileImap, error) {
+func expandAntivirusProfileImap(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.AntivirusProfileImap, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -2823,10 +2859,10 @@ func expandAntivirusProfileImap(d *schema.ResourceData, v interface{}, pre strin
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
-func expandAntivirusProfileMapi(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.AntivirusProfileMapi, error) {
+func expandAntivirusProfileMapi(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.AntivirusProfileMapi, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -2910,10 +2946,10 @@ func expandAntivirusProfileMapi(d *schema.ResourceData, v interface{}, pre strin
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
-func expandAntivirusProfileNacQuar(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.AntivirusProfileNacQuar, error) {
+func expandAntivirusProfileNacQuar(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.AntivirusProfileNacQuar, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -2948,10 +2984,10 @@ func expandAntivirusProfileNacQuar(d *schema.ResourceData, v interface{}, pre st
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
-func expandAntivirusProfileNntp(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.AntivirusProfileNntp, error) {
+func expandAntivirusProfileNntp(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.AntivirusProfileNntp, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -3028,10 +3064,10 @@ func expandAntivirusProfileNntp(d *schema.ResourceData, v interface{}, pre strin
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
-func expandAntivirusProfileOutbreakPrevention(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.AntivirusProfileOutbreakPrevention, error) {
+func expandAntivirusProfileOutbreakPrevention(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.AntivirusProfileOutbreakPrevention, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -3059,10 +3095,10 @@ func expandAntivirusProfileOutbreakPrevention(d *schema.ResourceData, v interfac
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
-func expandAntivirusProfilePop3(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.AntivirusProfilePop3, error) {
+func expandAntivirusProfilePop3(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.AntivirusProfilePop3, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -3153,10 +3189,10 @@ func expandAntivirusProfilePop3(d *schema.ResourceData, v interface{}, pre strin
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
-func expandAntivirusProfileSmtp(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.AntivirusProfileSmtp, error) {
+func expandAntivirusProfileSmtp(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.AntivirusProfileSmtp, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -3247,10 +3283,10 @@ func expandAntivirusProfileSmtp(d *schema.ResourceData, v interface{}, pre strin
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
-func expandAntivirusProfileSsh(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.AntivirusProfileSsh, error) {
+func expandAntivirusProfileSsh(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.AntivirusProfileSsh, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -3327,7 +3363,7 @@ func expandAntivirusProfileSsh(d *schema.ResourceData, v interface{}, pre string
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
 func getObjectAntivirusProfile(d *schema.ResourceData, sv string) (*models.AntivirusProfile, diag.Diagnostics) {
@@ -3425,7 +3461,7 @@ func getObjectAntivirusProfile(d *schema.ResourceData, sv string) (*models.Antiv
 	} else if d.HasChange("cifs") {
 		old, new := d.GetChange("cifs")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.Cifs = &[]models.AntivirusProfileCifs{}
+			obj.Cifs = &models.AntivirusProfileCifs{}
 		}
 	}
 	if v1, ok := d.GetOk("comment"); ok {
@@ -3451,7 +3487,7 @@ func getObjectAntivirusProfile(d *schema.ResourceData, sv string) (*models.Antiv
 	} else if d.HasChange("content_disarm") {
 		old, new := d.GetChange("content_disarm")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.ContentDisarm = &[]models.AntivirusProfileContentDisarm{}
+			obj.ContentDisarm = &models.AntivirusProfileContentDisarm{}
 		}
 	}
 	if v1, ok := d.GetOk("ems_threat_feed"); ok {
@@ -3557,7 +3593,7 @@ func getObjectAntivirusProfile(d *schema.ResourceData, sv string) (*models.Antiv
 	} else if d.HasChange("ftp") {
 		old, new := d.GetChange("ftp")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.Ftp = &[]models.AntivirusProfileFtp{}
+			obj.Ftp = &models.AntivirusProfileFtp{}
 		}
 	}
 	if v, ok := d.GetOk("http"); ok {
@@ -3574,7 +3610,7 @@ func getObjectAntivirusProfile(d *schema.ResourceData, sv string) (*models.Antiv
 	} else if d.HasChange("http") {
 		old, new := d.GetChange("http")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.Http = &[]models.AntivirusProfileHttp{}
+			obj.Http = &models.AntivirusProfileHttp{}
 		}
 	}
 	if v, ok := d.GetOk("imap"); ok {
@@ -3591,7 +3627,7 @@ func getObjectAntivirusProfile(d *schema.ResourceData, sv string) (*models.Antiv
 	} else if d.HasChange("imap") {
 		old, new := d.GetChange("imap")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.Imap = &[]models.AntivirusProfileImap{}
+			obj.Imap = &models.AntivirusProfileImap{}
 		}
 	}
 	if v, ok := d.GetOk("mapi"); ok {
@@ -3608,7 +3644,7 @@ func getObjectAntivirusProfile(d *schema.ResourceData, sv string) (*models.Antiv
 	} else if d.HasChange("mapi") {
 		old, new := d.GetChange("mapi")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.Mapi = &[]models.AntivirusProfileMapi{}
+			obj.Mapi = &models.AntivirusProfileMapi{}
 		}
 	}
 	if v1, ok := d.GetOk("mobile_malware_db"); ok {
@@ -3634,7 +3670,7 @@ func getObjectAntivirusProfile(d *schema.ResourceData, sv string) (*models.Antiv
 	} else if d.HasChange("nac_quar") {
 		old, new := d.GetChange("nac_quar")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.NacQuar = &[]models.AntivirusProfileNacQuar{}
+			obj.NacQuar = &models.AntivirusProfileNacQuar{}
 		}
 	}
 	if v1, ok := d.GetOk("name"); ok {
@@ -3660,7 +3696,7 @@ func getObjectAntivirusProfile(d *schema.ResourceData, sv string) (*models.Antiv
 	} else if d.HasChange("nntp") {
 		old, new := d.GetChange("nntp")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.Nntp = &[]models.AntivirusProfileNntp{}
+			obj.Nntp = &models.AntivirusProfileNntp{}
 		}
 	}
 	if v, ok := d.GetOk("outbreak_prevention"); ok {
@@ -3677,7 +3713,7 @@ func getObjectAntivirusProfile(d *schema.ResourceData, sv string) (*models.Antiv
 	} else if d.HasChange("outbreak_prevention") {
 		old, new := d.GetChange("outbreak_prevention")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.OutbreakPrevention = &[]models.AntivirusProfileOutbreakPrevention{}
+			obj.OutbreakPrevention = &models.AntivirusProfileOutbreakPrevention{}
 		}
 	}
 	if v1, ok := d.GetOk("outbreak_prevention_archive_scan"); ok {
@@ -3703,7 +3739,7 @@ func getObjectAntivirusProfile(d *schema.ResourceData, sv string) (*models.Antiv
 	} else if d.HasChange("pop3") {
 		old, new := d.GetChange("pop3")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.Pop3 = &[]models.AntivirusProfilePop3{}
+			obj.Pop3 = &models.AntivirusProfilePop3{}
 		}
 	}
 	if v1, ok := d.GetOk("replacemsg_group"); ok {
@@ -3738,7 +3774,7 @@ func getObjectAntivirusProfile(d *schema.ResourceData, sv string) (*models.Antiv
 	} else if d.HasChange("smtp") {
 		old, new := d.GetChange("smtp")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.Smtp = &[]models.AntivirusProfileSmtp{}
+			obj.Smtp = &models.AntivirusProfileSmtp{}
 		}
 	}
 	if v, ok := d.GetOk("ssh"); ok {
@@ -3755,7 +3791,7 @@ func getObjectAntivirusProfile(d *schema.ResourceData, sv string) (*models.Antiv
 	} else if d.HasChange("ssh") {
 		old, new := d.GetChange("ssh")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.Ssh = &[]models.AntivirusProfileSsh{}
+			obj.Ssh = &models.AntivirusProfileSsh{}
 		}
 	}
 	return &obj, diags

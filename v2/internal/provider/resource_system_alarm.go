@@ -412,7 +412,7 @@ func flattenSystemAlarmGroups(d *schema.ResourceData, v *[]models.SystemAlarmGro
 			}
 
 			if tmp := cfg.FwPolicyViolations; tmp != nil {
-				v["fw_policy_violations"] = flattenSystemAlarmGroupsFwPolicyViolations(d, tmp, prefix+"fw_policy_violations", sort)
+				v["fw_policy_violations"] = flattenSystemAlarmGroupsFwPolicyViolations(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "fw_policy_violations"), sort)
 			}
 
 			if tmp := cfg.Id; tmp != nil {

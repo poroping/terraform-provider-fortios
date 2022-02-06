@@ -313,7 +313,7 @@ func flattenFirewallInternetServiceCustomEntry(d *schema.ResourceData, v *[]mode
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Dst; tmp != nil {
-				v["dst"] = flattenFirewallInternetServiceCustomEntryDst(d, tmp, prefix+"dst", sort)
+				v["dst"] = flattenFirewallInternetServiceCustomEntryDst(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "dst"), sort)
 			}
 
 			if tmp := cfg.Id; tmp != nil {
@@ -321,7 +321,7 @@ func flattenFirewallInternetServiceCustomEntry(d *schema.ResourceData, v *[]mode
 			}
 
 			if tmp := cfg.PortRange; tmp != nil {
-				v["port_range"] = flattenFirewallInternetServiceCustomEntryPortRange(d, tmp, prefix+"port_range", sort)
+				v["port_range"] = flattenFirewallInternetServiceCustomEntryPortRange(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "port_range"), sort)
 			}
 
 			if tmp := cfg.Protocol; tmp != nil {

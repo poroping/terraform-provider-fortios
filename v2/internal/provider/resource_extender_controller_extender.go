@@ -144,7 +144,7 @@ func resourceExtenderControllerExtender() *schema.Resource {
 			"controller_report": {
 				Type:        schema.TypeList,
 				Description: "FortiExtender controller report configuration.",
-				Optional:    true,
+				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"interval": {
@@ -302,13 +302,13 @@ func resourceExtenderControllerExtender() *schema.Resource {
 			"modem1": {
 				Type:        schema.TypeList,
 				Description: "Configuration options for modem 1.",
-				Optional:    true,
+				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"auto_switch": {
 							Type:        schema.TypeList,
 							Description: "FortiExtender auto switch configuration.",
-							Optional:    true,
+							Optional:    true, MaxItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									"dataplan": {
@@ -470,13 +470,13 @@ func resourceExtenderControllerExtender() *schema.Resource {
 			"modem2": {
 				Type:        schema.TypeList,
 				Description: "Configuration options for modem 2.",
-				Optional:    true,
+				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"auto_switch": {
 							Type:        schema.TypeList,
 							Description: "FortiExtender auto switch configuration.",
-							Optional:    true,
+							Optional:    true, MaxItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									"dataplan": {
@@ -789,7 +789,7 @@ func resourceExtenderControllerExtender() *schema.Resource {
 			"wan_extension": {
 				Type:        schema.TypeList,
 				Description: "FortiExtender wan extension configuration.",
-				Optional:    true,
+				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"modem1_extension": {
@@ -992,11 +992,12 @@ func resourceExtenderControllerExtenderRead(ctx context.Context, d *schema.Resou
 	return nil
 }
 
-func flattenExtenderControllerExtenderControllerReport(d *schema.ResourceData, v *[]models.ExtenderControllerExtenderControllerReport, prefix string, sort bool) interface{} {
+func flattenExtenderControllerExtenderControllerReport(d *schema.ResourceData, v *models.ExtenderControllerExtenderControllerReport, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.ExtenderControllerExtenderControllerReport{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Interval; tmp != nil {
@@ -1018,15 +1019,16 @@ func flattenExtenderControllerExtenderControllerReport(d *schema.ResourceData, v
 	return flat
 }
 
-func flattenExtenderControllerExtenderModem1(d *schema.ResourceData, v *[]models.ExtenderControllerExtenderModem1, prefix string, sort bool) interface{} {
+func flattenExtenderControllerExtenderModem1(d *schema.ResourceData, v *models.ExtenderControllerExtenderModem1, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.ExtenderControllerExtenderModem1{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.AutoSwitch; tmp != nil {
-				v["auto_switch"] = flattenExtenderControllerExtenderModem1AutoSwitch(d, tmp, prefix+"auto_switch", sort)
+				v["auto_switch"] = flattenExtenderControllerExtenderModem1AutoSwitch(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "auto_switch"), sort)
 			}
 
 			if tmp := cfg.ConnStatus; tmp != nil {
@@ -1080,11 +1082,12 @@ func flattenExtenderControllerExtenderModem1(d *schema.ResourceData, v *[]models
 	return flat
 }
 
-func flattenExtenderControllerExtenderModem1AutoSwitch(d *schema.ResourceData, v *[]models.ExtenderControllerExtenderModem1AutoSwitch, prefix string, sort bool) interface{} {
+func flattenExtenderControllerExtenderModem1AutoSwitch(d *schema.ResourceData, v *models.ExtenderControllerExtenderModem1AutoSwitch, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.ExtenderControllerExtenderModem1AutoSwitch{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Dataplan; tmp != nil {
@@ -1126,15 +1129,16 @@ func flattenExtenderControllerExtenderModem1AutoSwitch(d *schema.ResourceData, v
 	return flat
 }
 
-func flattenExtenderControllerExtenderModem2(d *schema.ResourceData, v *[]models.ExtenderControllerExtenderModem2, prefix string, sort bool) interface{} {
+func flattenExtenderControllerExtenderModem2(d *schema.ResourceData, v *models.ExtenderControllerExtenderModem2, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.ExtenderControllerExtenderModem2{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.AutoSwitch; tmp != nil {
-				v["auto_switch"] = flattenExtenderControllerExtenderModem2AutoSwitch(d, tmp, prefix+"auto_switch", sort)
+				v["auto_switch"] = flattenExtenderControllerExtenderModem2AutoSwitch(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "auto_switch"), sort)
 			}
 
 			if tmp := cfg.ConnStatus; tmp != nil {
@@ -1188,11 +1192,12 @@ func flattenExtenderControllerExtenderModem2(d *schema.ResourceData, v *[]models
 	return flat
 }
 
-func flattenExtenderControllerExtenderModem2AutoSwitch(d *schema.ResourceData, v *[]models.ExtenderControllerExtenderModem2AutoSwitch, prefix string, sort bool) interface{} {
+func flattenExtenderControllerExtenderModem2AutoSwitch(d *schema.ResourceData, v *models.ExtenderControllerExtenderModem2AutoSwitch, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.ExtenderControllerExtenderModem2AutoSwitch{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Dataplan; tmp != nil {
@@ -1234,11 +1239,12 @@ func flattenExtenderControllerExtenderModem2AutoSwitch(d *schema.ResourceData, v
 	return flat
 }
 
-func flattenExtenderControllerExtenderWanExtension(d *schema.ResourceData, v *[]models.ExtenderControllerExtenderWanExtension, prefix string, sort bool) interface{} {
+func flattenExtenderControllerExtenderWanExtension(d *schema.ResourceData, v *models.ExtenderControllerExtenderWanExtension, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.ExtenderControllerExtenderWanExtension{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Modem1Extension; tmp != nil {
@@ -1356,9 +1362,11 @@ func refreshObjectExtenderControllerExtender(d *schema.ResourceData, o *models.E
 		}
 	}
 
-	if o.ControllerReport != nil {
-		if err = d.Set("controller_report", flattenExtenderControllerExtenderControllerReport(d, o.ControllerReport, "controller_report", sort)); err != nil {
-			return diag.Errorf("error reading controller_report: %v", err)
+	if _, ok := d.GetOk("controller_report"); ok {
+		if o.ControllerReport != nil {
+			if err = d.Set("controller_report", flattenExtenderControllerExtenderControllerReport(d, o.ControllerReport, "controller_report", sort)); err != nil {
+				return diag.Errorf("error reading controller_report: %v", err)
+			}
 		}
 	}
 
@@ -1493,15 +1501,19 @@ func refreshObjectExtenderControllerExtender(d *schema.ResourceData, o *models.E
 		}
 	}
 
-	if o.Modem1 != nil {
-		if err = d.Set("modem1", flattenExtenderControllerExtenderModem1(d, o.Modem1, "modem1", sort)); err != nil {
-			return diag.Errorf("error reading modem1: %v", err)
+	if _, ok := d.GetOk("modem1"); ok {
+		if o.Modem1 != nil {
+			if err = d.Set("modem1", flattenExtenderControllerExtenderModem1(d, o.Modem1, "modem1", sort)); err != nil {
+				return diag.Errorf("error reading modem1: %v", err)
+			}
 		}
 	}
 
-	if o.Modem2 != nil {
-		if err = d.Set("modem2", flattenExtenderControllerExtenderModem2(d, o.Modem2, "modem2", sort)); err != nil {
-			return diag.Errorf("error reading modem2: %v", err)
+	if _, ok := d.GetOk("modem2"); ok {
+		if o.Modem2 != nil {
+			if err = d.Set("modem2", flattenExtenderControllerExtenderModem2(d, o.Modem2, "modem2", sort)); err != nil {
+				return diag.Errorf("error reading modem2: %v", err)
+			}
 		}
 	}
 
@@ -1659,9 +1671,11 @@ func refreshObjectExtenderControllerExtender(d *schema.ResourceData, o *models.E
 		}
 	}
 
-	if o.WanExtension != nil {
-		if err = d.Set("wan_extension", flattenExtenderControllerExtenderWanExtension(d, o.WanExtension, "wan_extension", sort)); err != nil {
-			return diag.Errorf("error reading wan_extension: %v", err)
+	if _, ok := d.GetOk("wan_extension"); ok {
+		if o.WanExtension != nil {
+			if err = d.Set("wan_extension", flattenExtenderControllerExtenderWanExtension(d, o.WanExtension, "wan_extension", sort)); err != nil {
+				return diag.Errorf("error reading wan_extension: %v", err)
+			}
 		}
 	}
 
@@ -1692,7 +1706,7 @@ func refreshObjectExtenderControllerExtender(d *schema.ResourceData, o *models.E
 	return nil
 }
 
-func expandExtenderControllerExtenderControllerReport(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.ExtenderControllerExtenderControllerReport, error) {
+func expandExtenderControllerExtenderControllerReport(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.ExtenderControllerExtenderControllerReport, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -1729,10 +1743,10 @@ func expandExtenderControllerExtenderControllerReport(d *schema.ResourceData, v 
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
-func expandExtenderControllerExtenderModem1(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.ExtenderControllerExtenderModem1, error) {
+func expandExtenderControllerExtenderModem1(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.ExtenderControllerExtenderModem1, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -1834,10 +1848,10 @@ func expandExtenderControllerExtenderModem1(d *schema.ResourceData, v interface{
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
-func expandExtenderControllerExtenderModem1AutoSwitch(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.ExtenderControllerExtenderModem1AutoSwitch, error) {
+func expandExtenderControllerExtenderModem1AutoSwitch(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.ExtenderControllerExtenderModem1AutoSwitch, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -1910,10 +1924,10 @@ func expandExtenderControllerExtenderModem1AutoSwitch(d *schema.ResourceData, v 
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
-func expandExtenderControllerExtenderModem2(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.ExtenderControllerExtenderModem2, error) {
+func expandExtenderControllerExtenderModem2(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.ExtenderControllerExtenderModem2, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -2015,10 +2029,10 @@ func expandExtenderControllerExtenderModem2(d *schema.ResourceData, v interface{
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
-func expandExtenderControllerExtenderModem2AutoSwitch(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.ExtenderControllerExtenderModem2AutoSwitch, error) {
+func expandExtenderControllerExtenderModem2AutoSwitch(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.ExtenderControllerExtenderModem2AutoSwitch, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -2091,10 +2105,10 @@ func expandExtenderControllerExtenderModem2AutoSwitch(d *schema.ResourceData, v 
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
-func expandExtenderControllerExtenderWanExtension(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.ExtenderControllerExtenderWanExtension, error) {
+func expandExtenderControllerExtenderWanExtension(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.ExtenderControllerExtenderWanExtension, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -2122,7 +2136,7 @@ func expandExtenderControllerExtenderWanExtension(d *schema.ResourceData, v inte
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
 func getObjectExtenderControllerExtender(d *schema.ResourceData, sv string) (*models.ExtenderControllerExtender, diag.Diagnostics) {
@@ -2254,7 +2268,7 @@ func getObjectExtenderControllerExtender(d *schema.ResourceData, sv string) (*mo
 	} else if d.HasChange("controller_report") {
 		old, new := d.GetChange("controller_report")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.ControllerReport = &[]models.ExtenderControllerExtenderControllerReport{}
+			obj.ControllerReport = &models.ExtenderControllerExtenderControllerReport{}
 		}
 	}
 	if v1, ok := d.GetOk("description"); ok {
@@ -2417,7 +2431,7 @@ func getObjectExtenderControllerExtender(d *schema.ResourceData, sv string) (*mo
 	} else if d.HasChange("modem1") {
 		old, new := d.GetChange("modem1")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.Modem1 = &[]models.ExtenderControllerExtenderModem1{}
+			obj.Modem1 = &models.ExtenderControllerExtenderModem1{}
 		}
 	}
 	if v, ok := d.GetOk("modem2"); ok {
@@ -2434,7 +2448,7 @@ func getObjectExtenderControllerExtender(d *schema.ResourceData, sv string) (*mo
 	} else if d.HasChange("modem2") {
 		old, new := d.GetChange("modem2")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.Modem2 = &[]models.ExtenderControllerExtenderModem2{}
+			obj.Modem2 = &models.ExtenderControllerExtenderModem2{}
 		}
 	}
 	if v1, ok := d.GetOk("multi_mode"); ok {
@@ -2624,7 +2638,7 @@ func getObjectExtenderControllerExtender(d *schema.ResourceData, sv string) (*mo
 	} else if d.HasChange("wan_extension") {
 		old, new := d.GetChange("wan_extension")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.WanExtension = &[]models.ExtenderControllerExtenderWanExtension{}
+			obj.WanExtension = &models.ExtenderControllerExtenderWanExtension{}
 		}
 	}
 	if v1, ok := d.GetOk("wimax_auth_protocol"); ok {

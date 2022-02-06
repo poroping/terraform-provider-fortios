@@ -299,8 +299,9 @@ func flattenEmailfilterIptrustEntries(d *schema.ResourceData, v *[]models.Emailf
 			}
 
 			if tmp := cfg.Ip4Subnet; tmp != nil {
-				tmp = utils.Ipv4Read(d, fmt.Sprintf("%s.%d.ip4_subnet", prefix, i), *tmp)
-				v["ip4_subnet"] = *tmp
+				if tmp = utils.Ipv4Read(d, fmt.Sprintf("%s.%d.ip4_subnet", prefix, i), *tmp); tmp != nil {
+					v["ip4_subnet"] = *tmp
+				}
 			}
 
 			if tmp := cfg.Ip6Subnet; tmp != nil {

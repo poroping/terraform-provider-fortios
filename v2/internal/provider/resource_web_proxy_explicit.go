@@ -511,7 +511,7 @@ func flattenWebProxyExplicitPacPolicy(d *schema.ResourceData, v *[]models.WebPro
 			}
 
 			if tmp := cfg.Dstaddr; tmp != nil {
-				v["dstaddr"] = flattenWebProxyExplicitPacPolicyDstaddr(d, tmp, prefix+"dstaddr", sort)
+				v["dstaddr"] = flattenWebProxyExplicitPacPolicyDstaddr(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "dstaddr"), sort)
 			}
 
 			if tmp := cfg.PacFileData; tmp != nil {
@@ -527,11 +527,11 @@ func flattenWebProxyExplicitPacPolicy(d *schema.ResourceData, v *[]models.WebPro
 			}
 
 			if tmp := cfg.Srcaddr; tmp != nil {
-				v["srcaddr"] = flattenWebProxyExplicitPacPolicySrcaddr(d, tmp, prefix+"srcaddr", sort)
+				v["srcaddr"] = flattenWebProxyExplicitPacPolicySrcaddr(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "srcaddr"), sort)
 			}
 
 			if tmp := cfg.Srcaddr6; tmp != nil {
-				v["srcaddr6"] = flattenWebProxyExplicitPacPolicySrcaddr6(d, tmp, prefix+"srcaddr6", sort)
+				v["srcaddr6"] = flattenWebProxyExplicitPacPolicySrcaddr6(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "srcaddr6"), sort)
 			}
 
 			if tmp := cfg.Status; tmp != nil {

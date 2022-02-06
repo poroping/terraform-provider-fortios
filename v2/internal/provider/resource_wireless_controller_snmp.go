@@ -414,7 +414,7 @@ func flattenWirelessControllerSnmpCommunity(d *schema.ResourceData, v *[]models.
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Hosts; tmp != nil {
-				v["hosts"] = flattenWirelessControllerSnmpCommunityHosts(d, tmp, prefix+"hosts", sort)
+				v["hosts"] = flattenWirelessControllerSnmpCommunityHosts(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "hosts"), sort)
 			}
 
 			if tmp := cfg.Id; tmp != nil {

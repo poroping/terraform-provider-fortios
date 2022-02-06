@@ -1201,7 +1201,7 @@ func flattenVpnSslWebPortalBookmarkGroup(d *schema.ResourceData, v *[]models.Vpn
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Bookmarks; tmp != nil {
-				v["bookmarks"] = flattenVpnSslWebPortalBookmarkGroupBookmarks(d, tmp, prefix+"bookmarks", sort)
+				v["bookmarks"] = flattenVpnSslWebPortalBookmarkGroupBookmarks(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "bookmarks"), sort)
 			}
 
 			if tmp := cfg.Name; tmp != nil {
@@ -1251,7 +1251,7 @@ func flattenVpnSslWebPortalBookmarkGroupBookmarks(d *schema.ResourceData, v *[]m
 			}
 
 			if tmp := cfg.FormData; tmp != nil {
-				v["form_data"] = flattenVpnSslWebPortalBookmarkGroupBookmarksFormData(d, tmp, prefix+"form_data", sort)
+				v["form_data"] = flattenVpnSslWebPortalBookmarkGroupBookmarksFormData(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "form_data"), sort)
 			}
 
 			if tmp := cfg.Height; tmp != nil {
@@ -1483,7 +1483,7 @@ func flattenVpnSslWebPortalMacAddrCheckRule(d *schema.ResourceData, v *[]models.
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.MacAddrList; tmp != nil {
-				v["mac_addr_list"] = flattenVpnSslWebPortalMacAddrCheckRuleMacAddrList(d, tmp, prefix+"mac_addr_list", sort)
+				v["mac_addr_list"] = flattenVpnSslWebPortalMacAddrCheckRuleMacAddrList(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "mac_addr_list"), sort)
 			}
 
 			if tmp := cfg.MacAddrMask; tmp != nil {

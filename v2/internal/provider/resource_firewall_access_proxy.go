@@ -893,7 +893,7 @@ func resourceFirewallAccessProxy() *schema.Resource {
 			"server_pubkey_auth_settings": {
 				Type:        schema.TypeList,
 				Description: "Server SSH public key authentication settings.",
-				Optional:    true,
+				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"auth_ca": {
@@ -1209,7 +1209,7 @@ func flattenFirewallAccessProxyApiGateway(d *schema.ResourceData, v *[]models.Fi
 			}
 
 			if tmp := cfg.Realservers; tmp != nil {
-				v["realservers"] = flattenFirewallAccessProxyApiGatewayRealservers(d, tmp, prefix+"realservers", sort)
+				v["realservers"] = flattenFirewallAccessProxyApiGatewayRealservers(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "realservers"), sort)
 			}
 
 			if tmp := cfg.SamlRedirect; tmp != nil {
@@ -1229,7 +1229,7 @@ func flattenFirewallAccessProxyApiGateway(d *schema.ResourceData, v *[]models.Fi
 			}
 
 			if tmp := cfg.SslCipherSuites; tmp != nil {
-				v["ssl_cipher_suites"] = flattenFirewallAccessProxyApiGatewaySslCipherSuites(d, tmp, prefix+"ssl_cipher_suites", sort)
+				v["ssl_cipher_suites"] = flattenFirewallAccessProxyApiGatewaySslCipherSuites(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "ssl_cipher_suites"), sort)
 			}
 
 			if tmp := cfg.SslDhBits; tmp != nil {
@@ -1327,7 +1327,7 @@ func flattenFirewallAccessProxyApiGatewayRealservers(d *schema.ResourceData, v *
 			}
 
 			if tmp := cfg.SshHostKey; tmp != nil {
-				v["ssh_host_key"] = flattenFirewallAccessProxyApiGatewayRealserversSshHostKey(d, tmp, prefix+"ssh_host_key", sort)
+				v["ssh_host_key"] = flattenFirewallAccessProxyApiGatewayRealserversSshHostKey(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "ssh_host_key"), sort)
 			}
 
 			if tmp := cfg.SshHostKeyValidation; tmp != nil {
@@ -1457,7 +1457,7 @@ func flattenFirewallAccessProxyApiGateway6(d *schema.ResourceData, v *[]models.F
 			}
 
 			if tmp := cfg.Realservers; tmp != nil {
-				v["realservers"] = flattenFirewallAccessProxyApiGateway6Realservers(d, tmp, prefix+"realservers", sort)
+				v["realservers"] = flattenFirewallAccessProxyApiGateway6Realservers(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "realservers"), sort)
 			}
 
 			if tmp := cfg.SamlRedirect; tmp != nil {
@@ -1477,7 +1477,7 @@ func flattenFirewallAccessProxyApiGateway6(d *schema.ResourceData, v *[]models.F
 			}
 
 			if tmp := cfg.SslCipherSuites; tmp != nil {
-				v["ssl_cipher_suites"] = flattenFirewallAccessProxyApiGateway6SslCipherSuites(d, tmp, prefix+"ssl_cipher_suites", sort)
+				v["ssl_cipher_suites"] = flattenFirewallAccessProxyApiGateway6SslCipherSuites(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "ssl_cipher_suites"), sort)
 			}
 
 			if tmp := cfg.SslDhBits; tmp != nil {
@@ -1575,7 +1575,7 @@ func flattenFirewallAccessProxyApiGateway6Realservers(d *schema.ResourceData, v 
 			}
 
 			if tmp := cfg.SshHostKey; tmp != nil {
-				v["ssh_host_key"] = flattenFirewallAccessProxyApiGateway6RealserversSshHostKey(d, tmp, prefix+"ssh_host_key", sort)
+				v["ssh_host_key"] = flattenFirewallAccessProxyApiGateway6RealserversSshHostKey(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "ssh_host_key"), sort)
 			}
 
 			if tmp := cfg.SshHostKeyValidation; tmp != nil {
@@ -1695,11 +1695,12 @@ func flattenFirewallAccessProxyRealservers(d *schema.ResourceData, v *[]models.F
 	return flat
 }
 
-func flattenFirewallAccessProxyServerPubkeyAuthSettings(d *schema.ResourceData, v *[]models.FirewallAccessProxyServerPubkeyAuthSettings, prefix string, sort bool) interface{} {
+func flattenFirewallAccessProxyServerPubkeyAuthSettings(d *schema.ResourceData, v *models.FirewallAccessProxyServerPubkeyAuthSettings, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.FirewallAccessProxyServerPubkeyAuthSettings{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.AuthCa; tmp != nil {
@@ -1707,7 +1708,7 @@ func flattenFirewallAccessProxyServerPubkeyAuthSettings(d *schema.ResourceData, 
 			}
 
 			if tmp := cfg.CertExtension; tmp != nil {
-				v["cert_extension"] = flattenFirewallAccessProxyServerPubkeyAuthSettingsCertExtension(d, tmp, prefix+"cert_extension", sort)
+				v["cert_extension"] = flattenFirewallAccessProxyServerPubkeyAuthSettingsCertExtension(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "cert_extension"), sort)
 			}
 
 			if tmp := cfg.PermitAgentForwarding; tmp != nil {
@@ -1868,9 +1869,11 @@ func refreshObjectFirewallAccessProxy(d *schema.ResourceData, o *models.Firewall
 		}
 	}
 
-	if o.ServerPubkeyAuthSettings != nil {
-		if err = d.Set("server_pubkey_auth_settings", flattenFirewallAccessProxyServerPubkeyAuthSettings(d, o.ServerPubkeyAuthSettings, "server_pubkey_auth_settings", sort)); err != nil {
-			return diag.Errorf("error reading server_pubkey_auth_settings: %v", err)
+	if _, ok := d.GetOk("server_pubkey_auth_settings"); ok {
+		if o.ServerPubkeyAuthSettings != nil {
+			if err = d.Set("server_pubkey_auth_settings", flattenFirewallAccessProxyServerPubkeyAuthSettings(d, o.ServerPubkeyAuthSettings, "server_pubkey_auth_settings", sort)); err != nil {
+				return diag.Errorf("error reading server_pubkey_auth_settings: %v", err)
+			}
 		}
 	}
 
@@ -2724,7 +2727,7 @@ func expandFirewallAccessProxyRealservers(d *schema.ResourceData, v interface{},
 	return &result, nil
 }
 
-func expandFirewallAccessProxyServerPubkeyAuthSettings(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.FirewallAccessProxyServerPubkeyAuthSettings, error) {
+func expandFirewallAccessProxyServerPubkeyAuthSettings(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.FirewallAccessProxyServerPubkeyAuthSettings, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -2797,7 +2800,7 @@ func expandFirewallAccessProxyServerPubkeyAuthSettings(d *schema.ResourceData, v
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
 func expandFirewallAccessProxyServerPubkeyAuthSettingsCertExtension(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.FirewallAccessProxyServerPubkeyAuthSettingsCertExtension, error) {
@@ -2995,7 +2998,7 @@ func getObjectFirewallAccessProxy(d *schema.ResourceData, sv string) (*models.Fi
 	} else if d.HasChange("server_pubkey_auth_settings") {
 		old, new := d.GetChange("server_pubkey_auth_settings")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.ServerPubkeyAuthSettings = &[]models.FirewallAccessProxyServerPubkeyAuthSettings{}
+			obj.ServerPubkeyAuthSettings = &models.FirewallAccessProxyServerPubkeyAuthSettings{}
 		}
 	}
 	if v1, ok := d.GetOk("vip"); ok {

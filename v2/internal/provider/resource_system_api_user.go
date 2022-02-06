@@ -343,8 +343,9 @@ func flattenSystemApiUserTrusthost(d *schema.ResourceData, v *[]models.SystemApi
 			}
 
 			if tmp := cfg.Ipv4Trusthost; tmp != nil {
-				tmp = utils.Ipv4Read(d, fmt.Sprintf("%s.%d.ipv4_trusthost", prefix, i), *tmp)
-				v["ipv4_trusthost"] = *tmp
+				if tmp = utils.Ipv4Read(d, fmt.Sprintf("%s.%d.ipv4_trusthost", prefix, i), *tmp); tmp != nil {
+					v["ipv4_trusthost"] = *tmp
+				}
 			}
 
 			if tmp := cfg.Ipv6Trusthost; tmp != nil {

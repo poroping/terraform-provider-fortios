@@ -125,7 +125,7 @@ func resourceWanoptContentDeliveryNetworkRule() *schema.Resource {
 						"content_id": {
 							Type:        schema.TypeList,
 							Description: "Content ID settings.",
-							Optional:    true,
+							Optional:    true, MaxItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									"end_direction": {
@@ -505,11 +505,11 @@ func flattenWanoptContentDeliveryNetworkRuleRules(d *schema.ResourceData, v *[]m
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.ContentId; tmp != nil {
-				v["content_id"] = flattenWanoptContentDeliveryNetworkRuleRulesContentId(d, tmp, prefix+"content_id", sort)
+				v["content_id"] = flattenWanoptContentDeliveryNetworkRuleRulesContentId(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "content_id"), sort)
 			}
 
 			if tmp := cfg.MatchEntries; tmp != nil {
-				v["match_entries"] = flattenWanoptContentDeliveryNetworkRuleRulesMatchEntries(d, tmp, prefix+"match_entries", sort)
+				v["match_entries"] = flattenWanoptContentDeliveryNetworkRuleRulesMatchEntries(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "match_entries"), sort)
 			}
 
 			if tmp := cfg.MatchMode; tmp != nil {
@@ -521,7 +521,7 @@ func flattenWanoptContentDeliveryNetworkRuleRules(d *schema.ResourceData, v *[]m
 			}
 
 			if tmp := cfg.SkipEntries; tmp != nil {
-				v["skip_entries"] = flattenWanoptContentDeliveryNetworkRuleRulesSkipEntries(d, tmp, prefix+"skip_entries", sort)
+				v["skip_entries"] = flattenWanoptContentDeliveryNetworkRuleRulesSkipEntries(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "skip_entries"), sort)
 			}
 
 			if tmp := cfg.SkipRuleMode; tmp != nil {
@@ -539,11 +539,12 @@ func flattenWanoptContentDeliveryNetworkRuleRules(d *schema.ResourceData, v *[]m
 	return flat
 }
 
-func flattenWanoptContentDeliveryNetworkRuleRulesContentId(d *schema.ResourceData, v *[]models.WanoptContentDeliveryNetworkRuleRulesContentId, prefix string, sort bool) interface{} {
+func flattenWanoptContentDeliveryNetworkRuleRulesContentId(d *schema.ResourceData, v *models.WanoptContentDeliveryNetworkRuleRulesContentId, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.WanoptContentDeliveryNetworkRuleRulesContentId{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.EndDirection; tmp != nil {
@@ -597,7 +598,7 @@ func flattenWanoptContentDeliveryNetworkRuleRulesMatchEntries(d *schema.Resource
 			}
 
 			if tmp := cfg.Pattern; tmp != nil {
-				v["pattern"] = flattenWanoptContentDeliveryNetworkRuleRulesMatchEntriesPattern(d, tmp, prefix+"pattern", sort)
+				v["pattern"] = flattenWanoptContentDeliveryNetworkRuleRulesMatchEntriesPattern(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "pattern"), sort)
 			}
 
 			if tmp := cfg.Target; tmp != nil {
@@ -649,7 +650,7 @@ func flattenWanoptContentDeliveryNetworkRuleRulesSkipEntries(d *schema.ResourceD
 			}
 
 			if tmp := cfg.Pattern; tmp != nil {
-				v["pattern"] = flattenWanoptContentDeliveryNetworkRuleRulesSkipEntriesPattern(d, tmp, prefix+"pattern", sort)
+				v["pattern"] = flattenWanoptContentDeliveryNetworkRuleRulesSkipEntriesPattern(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "pattern"), sort)
 			}
 
 			if tmp := cfg.Target; tmp != nil {
@@ -863,7 +864,7 @@ func expandWanoptContentDeliveryNetworkRuleRules(d *schema.ResourceData, v inter
 	return &result, nil
 }
 
-func expandWanoptContentDeliveryNetworkRuleRulesContentId(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.WanoptContentDeliveryNetworkRuleRulesContentId, error) {
+func expandWanoptContentDeliveryNetworkRuleRulesContentId(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.WanoptContentDeliveryNetworkRuleRulesContentId, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -935,7 +936,7 @@ func expandWanoptContentDeliveryNetworkRuleRulesContentId(d *schema.ResourceData
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
 func expandWanoptContentDeliveryNetworkRuleRulesMatchEntries(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.WanoptContentDeliveryNetworkRuleRulesMatchEntries, error) {

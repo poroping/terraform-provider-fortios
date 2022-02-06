@@ -1188,8 +1188,9 @@ func flattenRouterIsisSummaryAddress(d *schema.ResourceData, v *[]models.RouterI
 			}
 
 			if tmp := cfg.Prefix; tmp != nil {
-				tmp = utils.Ipv4Read(d, fmt.Sprintf("%s.%d.prefix", prefix, i), *tmp)
-				v["prefix"] = *tmp
+				if tmp = utils.Ipv4Read(d, fmt.Sprintf("%s.%d.prefix", prefix, i), *tmp); tmp != nil {
+					v["prefix"] = *tmp
+				}
 			}
 
 			flat = append(flat, v)

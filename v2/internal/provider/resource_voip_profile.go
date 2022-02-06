@@ -64,7 +64,7 @@ func resourceVoipProfile() *schema.Resource {
 			"msrp": {
 				Type:        schema.TypeList,
 				Description: "MSRP.",
-				Optional:    true,
+				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"log_violations": {
@@ -113,7 +113,7 @@ func resourceVoipProfile() *schema.Resource {
 			"sccp": {
 				Type:        schema.TypeList,
 				Description: "SCCP.",
-				Optional:    true,
+				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"block_mcast": {
@@ -170,7 +170,7 @@ func resourceVoipProfile() *schema.Resource {
 			"sip": {
 				Type:        schema.TypeList,
 				Description: "SIP.",
-				Optional:    true,
+				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"ack_rate": {
@@ -1219,11 +1219,12 @@ func resourceVoipProfileRead(ctx context.Context, d *schema.ResourceData, meta i
 	return nil
 }
 
-func flattenVoipProfileMsrp(d *schema.ResourceData, v *[]models.VoipProfileMsrp, prefix string, sort bool) interface{} {
+func flattenVoipProfileMsrp(d *schema.ResourceData, v *models.VoipProfileMsrp, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.VoipProfileMsrp{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.LogViolations; tmp != nil {
@@ -1249,11 +1250,12 @@ func flattenVoipProfileMsrp(d *schema.ResourceData, v *[]models.VoipProfileMsrp,
 	return flat
 }
 
-func flattenVoipProfileSccp(d *schema.ResourceData, v *[]models.VoipProfileSccp, prefix string, sort bool) interface{} {
+func flattenVoipProfileSccp(d *schema.ResourceData, v *models.VoipProfileSccp, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.VoipProfileSccp{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.BlockMcast; tmp != nil {
@@ -1287,11 +1289,12 @@ func flattenVoipProfileSccp(d *schema.ResourceData, v *[]models.VoipProfileSccp,
 	return flat
 }
 
-func flattenVoipProfileSip(d *schema.ResourceData, v *[]models.VoipProfileSip, prefix string, sort bool) interface{} {
+func flattenVoipProfileSip(d *schema.ResourceData, v *models.VoipProfileSip, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.VoipProfileSip{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.AckRate; tmp != nil {
@@ -1772,9 +1775,11 @@ func refreshObjectVoipProfile(d *schema.ResourceData, o *models.VoipProfile, sv 
 		}
 	}
 
-	if o.Msrp != nil {
-		if err = d.Set("msrp", flattenVoipProfileMsrp(d, o.Msrp, "msrp", sort)); err != nil {
-			return diag.Errorf("error reading msrp: %v", err)
+	if _, ok := d.GetOk("msrp"); ok {
+		if o.Msrp != nil {
+			if err = d.Set("msrp", flattenVoipProfileMsrp(d, o.Msrp, "msrp", sort)); err != nil {
+				return diag.Errorf("error reading msrp: %v", err)
+			}
 		}
 	}
 
@@ -1786,22 +1791,26 @@ func refreshObjectVoipProfile(d *schema.ResourceData, o *models.VoipProfile, sv 
 		}
 	}
 
-	if o.Sccp != nil {
-		if err = d.Set("sccp", flattenVoipProfileSccp(d, o.Sccp, "sccp", sort)); err != nil {
-			return diag.Errorf("error reading sccp: %v", err)
+	if _, ok := d.GetOk("sccp"); ok {
+		if o.Sccp != nil {
+			if err = d.Set("sccp", flattenVoipProfileSccp(d, o.Sccp, "sccp", sort)); err != nil {
+				return diag.Errorf("error reading sccp: %v", err)
+			}
 		}
 	}
 
-	if o.Sip != nil {
-		if err = d.Set("sip", flattenVoipProfileSip(d, o.Sip, "sip", sort)); err != nil {
-			return diag.Errorf("error reading sip: %v", err)
+	if _, ok := d.GetOk("sip"); ok {
+		if o.Sip != nil {
+			if err = d.Set("sip", flattenVoipProfileSip(d, o.Sip, "sip", sort)); err != nil {
+				return diag.Errorf("error reading sip: %v", err)
+			}
 		}
 	}
 
 	return nil
 }
 
-func expandVoipProfileMsrp(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.VoipProfileMsrp, error) {
+func expandVoipProfileMsrp(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.VoipProfileMsrp, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -1844,10 +1853,10 @@ func expandVoipProfileMsrp(d *schema.ResourceData, v interface{}, pre string, sv
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
-func expandVoipProfileSccp(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.VoipProfileSccp, error) {
+func expandVoipProfileSccp(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.VoipProfileSccp, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -1904,10 +1913,10 @@ func expandVoipProfileSccp(d *schema.ResourceData, v interface{}, pre string, sv
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
-func expandVoipProfileSip(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.VoipProfileSip, error) {
+func expandVoipProfileSip(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.VoipProfileSip, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -2732,7 +2741,7 @@ func expandVoipProfileSip(d *schema.ResourceData, v interface{}, pre string, sv 
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
 func getObjectVoipProfile(d *schema.ResourceData, sv string) (*models.VoipProfile, diag.Diagnostics) {
@@ -2771,7 +2780,7 @@ func getObjectVoipProfile(d *schema.ResourceData, sv string) (*models.VoipProfil
 	} else if d.HasChange("msrp") {
 		old, new := d.GetChange("msrp")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.Msrp = &[]models.VoipProfileMsrp{}
+			obj.Msrp = &models.VoipProfileMsrp{}
 		}
 	}
 	if v1, ok := d.GetOk("name"); ok {
@@ -2797,7 +2806,7 @@ func getObjectVoipProfile(d *schema.ResourceData, sv string) (*models.VoipProfil
 	} else if d.HasChange("sccp") {
 		old, new := d.GetChange("sccp")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.Sccp = &[]models.VoipProfileSccp{}
+			obj.Sccp = &models.VoipProfileSccp{}
 		}
 	}
 	if v, ok := d.GetOk("sip"); ok {
@@ -2814,7 +2823,7 @@ func getObjectVoipProfile(d *schema.ResourceData, sv string) (*models.VoipProfil
 	} else if d.HasChange("sip") {
 		old, new := d.GetChange("sip")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.Sip = &[]models.VoipProfileSip{}
+			obj.Sip = &models.VoipProfileSip{}
 		}
 	}
 	return &obj, diags

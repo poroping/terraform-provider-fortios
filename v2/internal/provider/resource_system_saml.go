@@ -462,7 +462,7 @@ func flattenSystemSamlServiceProviders(d *schema.ResourceData, v *[]models.Syste
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.AssertionAttributes; tmp != nil {
-				v["assertion_attributes"] = flattenSystemSamlServiceProvidersAssertionAttributes(d, tmp, prefix+"assertion_attributes", sort)
+				v["assertion_attributes"] = flattenSystemSamlServiceProvidersAssertionAttributes(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "assertion_attributes"), sort)
 			}
 
 			if tmp := cfg.IdpEntityId; tmp != nil {

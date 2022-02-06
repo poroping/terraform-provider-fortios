@@ -55,7 +55,7 @@ func resourceSwitchControllerManagedSwitch() *schema.Resource {
 			"802_1x_settings": {
 				Type:        schema.TypeList,
 				Description: "Configuration method to edit FortiSwitch 802.1X global settings.",
-				Optional:    true,
+				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"link_down_auth": {
@@ -231,7 +231,7 @@ func resourceSwitchControllerManagedSwitch() *schema.Resource {
 			"igmp_snooping": {
 				Type:        schema.TypeList,
 				Description: "Configure FortiSwitch IGMP snooping global settings.",
-				Optional:    true,
+				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"aging_time": {
@@ -1481,7 +1481,7 @@ func resourceSwitchControllerManagedSwitch() *schema.Resource {
 			"snmp_sysinfo": {
 				Type:        schema.TypeList,
 				Description: "Configuration method to edit Simple Network Management Protocol (SNMP) system info.",
-				Optional:    true,
+				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"contact_info": {
@@ -1530,7 +1530,7 @@ func resourceSwitchControllerManagedSwitch() *schema.Resource {
 			"snmp_trap_threshold": {
 				Type:        schema.TypeList,
 				Description: "Configuration method to edit Simple Network Management Protocol (SNMP) trap threshold values.",
-				Optional:    true,
+				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"trap_high_cpu_threshold": {
@@ -1696,7 +1696,7 @@ func resourceSwitchControllerManagedSwitch() *schema.Resource {
 			"storm_control": {
 				Type:        schema.TypeList,
 				Description: "Configuration method to edit FortiSwitch storm control for measuring traffic activity using data rates to prevent traffic disruption.",
-				Optional:    true,
+				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"broadcast": {
@@ -1770,7 +1770,7 @@ func resourceSwitchControllerManagedSwitch() *schema.Resource {
 			"stp_settings": {
 				Type:        schema.TypeList,
 				Description: "Configuration method to edit Spanning Tree Protocol (STP) settings used to prevent bridge loops.",
-				Optional:    true,
+				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"forward_time": {
@@ -1867,7 +1867,7 @@ func resourceSwitchControllerManagedSwitch() *schema.Resource {
 			"switch_log": {
 				Type:        schema.TypeList,
 				Description: "Configuration method to edit FortiSwitch logging settings (logs are transferred to and inserted into the FortiGate event log).",
-				Optional:    true,
+				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"local_override": {
@@ -2086,11 +2086,12 @@ func resourceSwitchControllerManagedSwitchRead(ctx context.Context, d *schema.Re
 	return nil
 }
 
-func flattenSwitchControllerManagedSwitch8021XSettings(d *schema.ResourceData, v *[]models.SwitchControllerManagedSwitch8021XSettings, prefix string, sort bool) interface{} {
+func flattenSwitchControllerManagedSwitch8021XSettings(d *schema.ResourceData, v *models.SwitchControllerManagedSwitch8021XSettings, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.SwitchControllerManagedSwitch8021XSettings{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.LinkDownAuth; tmp != nil {
@@ -2146,11 +2147,12 @@ func flattenSwitchControllerManagedSwitchCustomCommand(d *schema.ResourceData, v
 	return flat
 }
 
-func flattenSwitchControllerManagedSwitchIgmpSnooping(d *schema.ResourceData, v *[]models.SwitchControllerManagedSwitchIgmpSnooping, prefix string, sort bool) interface{} {
+func flattenSwitchControllerManagedSwitchIgmpSnooping(d *schema.ResourceData, v *models.SwitchControllerManagedSwitchIgmpSnooping, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.SwitchControllerManagedSwitchIgmpSnooping{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.AgingTime; tmp != nil {
@@ -2166,7 +2168,7 @@ func flattenSwitchControllerManagedSwitchIgmpSnooping(d *schema.ResourceData, v 
 			}
 
 			if tmp := cfg.Vlans; tmp != nil {
-				v["vlans"] = flattenSwitchControllerManagedSwitchIgmpSnoopingVlans(d, tmp, prefix+"vlans", sort)
+				v["vlans"] = flattenSwitchControllerManagedSwitchIgmpSnoopingVlans(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "vlans"), sort)
 			}
 
 			flat = append(flat, v)
@@ -2222,7 +2224,7 @@ func flattenSwitchControllerManagedSwitchIpSourceGuard(d *schema.ResourceData, v
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.BindingEntry; tmp != nil {
-				v["binding_entry"] = flattenSwitchControllerManagedSwitchIpSourceGuardBindingEntry(d, tmp, prefix+"binding_entry", sort)
+				v["binding_entry"] = flattenSwitchControllerManagedSwitchIpSourceGuardBindingEntry(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "binding_entry"), sort)
 			}
 
 			if tmp := cfg.Description; tmp != nil {
@@ -2290,11 +2292,11 @@ func flattenSwitchControllerManagedSwitchMirror(d *schema.ResourceData, v *[]mod
 			}
 
 			if tmp := cfg.SrcEgress; tmp != nil {
-				v["src_egress"] = flattenSwitchControllerManagedSwitchMirrorSrcEgress(d, tmp, prefix+"src_egress", sort)
+				v["src_egress"] = flattenSwitchControllerManagedSwitchMirrorSrcEgress(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "src_egress"), sort)
 			}
 
 			if tmp := cfg.SrcIngress; tmp != nil {
-				v["src_ingress"] = flattenSwitchControllerManagedSwitchMirrorSrcIngress(d, tmp, prefix+"src_ingress", sort)
+				v["src_ingress"] = flattenSwitchControllerManagedSwitchMirrorSrcIngress(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "src_ingress"), sort)
 			}
 
 			if tmp := cfg.Status; tmp != nil {
@@ -2376,7 +2378,7 @@ func flattenSwitchControllerManagedSwitchPorts(d *schema.ResourceData, v *[]mode
 			}
 
 			if tmp := cfg.AllowedVlans; tmp != nil {
-				v["allowed_vlans"] = flattenSwitchControllerManagedSwitchPortsAllowedVlans(d, tmp, prefix+"allowed_vlans", sort)
+				v["allowed_vlans"] = flattenSwitchControllerManagedSwitchPortsAllowedVlans(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "allowed_vlans"), sort)
 			}
 
 			if tmp := cfg.AllowedVlansAll; tmp != nil {
@@ -2412,7 +2414,7 @@ func flattenSwitchControllerManagedSwitchPorts(d *schema.ResourceData, v *[]mode
 			}
 
 			if tmp := cfg.ExportTags; tmp != nil {
-				v["export_tags"] = flattenSwitchControllerManagedSwitchPortsExportTags(d, tmp, prefix+"export_tags", sort)
+				v["export_tags"] = flattenSwitchControllerManagedSwitchPortsExportTags(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "export_tags"), sort)
 			}
 
 			if tmp := cfg.ExportTo; tmp != nil {
@@ -2468,7 +2470,7 @@ func flattenSwitchControllerManagedSwitchPorts(d *schema.ResourceData, v *[]mode
 			}
 
 			if tmp := cfg.InterfaceTags; tmp != nil {
-				v["interface_tags"] = flattenSwitchControllerManagedSwitchPortsInterfaceTags(d, tmp, prefix+"interface_tags", sort)
+				v["interface_tags"] = flattenSwitchControllerManagedSwitchPortsInterfaceTags(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "interface_tags"), sort)
 			}
 
 			if tmp := cfg.IpSourceGuard; tmp != nil {
@@ -2544,7 +2546,7 @@ func flattenSwitchControllerManagedSwitchPorts(d *schema.ResourceData, v *[]mode
 			}
 
 			if tmp := cfg.Members; tmp != nil {
-				v["members"] = flattenSwitchControllerManagedSwitchPortsMembers(d, tmp, prefix+"members", sort)
+				v["members"] = flattenSwitchControllerManagedSwitchPortsMembers(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "members"), sort)
 			}
 
 			if tmp := cfg.MinBundle; tmp != nil {
@@ -2688,7 +2690,7 @@ func flattenSwitchControllerManagedSwitchPorts(d *schema.ResourceData, v *[]mode
 			}
 
 			if tmp := cfg.UntaggedVlans; tmp != nil {
-				v["untagged_vlans"] = flattenSwitchControllerManagedSwitchPortsUntaggedVlans(d, tmp, prefix+"untagged_vlans", sort)
+				v["untagged_vlans"] = flattenSwitchControllerManagedSwitchPortsUntaggedVlans(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "untagged_vlans"), sort)
 			}
 
 			if tmp := cfg.Vlan; tmp != nil {
@@ -2874,7 +2876,7 @@ func flattenSwitchControllerManagedSwitchSnmpCommunity(d *schema.ResourceData, v
 			}
 
 			if tmp := cfg.Hosts; tmp != nil {
-				v["hosts"] = flattenSwitchControllerManagedSwitchSnmpCommunityHosts(d, tmp, prefix+"hosts", sort)
+				v["hosts"] = flattenSwitchControllerManagedSwitchSnmpCommunityHosts(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "hosts"), sort)
 			}
 
 			if tmp := cfg.Id; tmp != nil {
@@ -2966,11 +2968,12 @@ func flattenSwitchControllerManagedSwitchSnmpCommunityHosts(d *schema.ResourceDa
 	return flat
 }
 
-func flattenSwitchControllerManagedSwitchSnmpSysinfo(d *schema.ResourceData, v *[]models.SwitchControllerManagedSwitchSnmpSysinfo, prefix string, sort bool) interface{} {
+func flattenSwitchControllerManagedSwitchSnmpSysinfo(d *schema.ResourceData, v *models.SwitchControllerManagedSwitchSnmpSysinfo, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.SwitchControllerManagedSwitchSnmpSysinfo{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.ContactInfo; tmp != nil {
@@ -3000,11 +3003,12 @@ func flattenSwitchControllerManagedSwitchSnmpSysinfo(d *schema.ResourceData, v *
 	return flat
 }
 
-func flattenSwitchControllerManagedSwitchSnmpTrapThreshold(d *schema.ResourceData, v *[]models.SwitchControllerManagedSwitchSnmpTrapThreshold, prefix string, sort bool) interface{} {
+func flattenSwitchControllerManagedSwitchSnmpTrapThreshold(d *schema.ResourceData, v *models.SwitchControllerManagedSwitchSnmpTrapThreshold, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.SwitchControllerManagedSwitchSnmpTrapThreshold{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.TrapHighCpuThreshold; tmp != nil {
@@ -3118,11 +3122,12 @@ func flattenSwitchControllerManagedSwitchStaticMac(d *schema.ResourceData, v *[]
 	return flat
 }
 
-func flattenSwitchControllerManagedSwitchStormControl(d *schema.ResourceData, v *[]models.SwitchControllerManagedSwitchStormControl, prefix string, sort bool) interface{} {
+func flattenSwitchControllerManagedSwitchStormControl(d *schema.ResourceData, v *models.SwitchControllerManagedSwitchStormControl, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.SwitchControllerManagedSwitchStormControl{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.Broadcast; tmp != nil {
@@ -3178,11 +3183,12 @@ func flattenSwitchControllerManagedSwitchStpInstance(d *schema.ResourceData, v *
 	return flat
 }
 
-func flattenSwitchControllerManagedSwitchStpSettings(d *schema.ResourceData, v *[]models.SwitchControllerManagedSwitchStpSettings, prefix string, sort bool) interface{} {
+func flattenSwitchControllerManagedSwitchStpSettings(d *schema.ResourceData, v *models.SwitchControllerManagedSwitchStpSettings, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.SwitchControllerManagedSwitchStpSettings{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.ForwardTime; tmp != nil {
@@ -3224,11 +3230,12 @@ func flattenSwitchControllerManagedSwitchStpSettings(d *schema.ResourceData, v *
 	return flat
 }
 
-func flattenSwitchControllerManagedSwitchSwitchLog(d *schema.ResourceData, v *[]models.SwitchControllerManagedSwitchSwitchLog, prefix string, sort bool) interface{} {
+func flattenSwitchControllerManagedSwitchSwitchLog(d *schema.ResourceData, v *models.SwitchControllerManagedSwitchSwitchLog, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
-		for i, cfg := range *v {
+		v2 := []models.SwitchControllerManagedSwitchSwitchLog{*v}
+		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
 			if tmp := cfg.LocalOverride; tmp != nil {
@@ -3253,9 +3260,11 @@ func flattenSwitchControllerManagedSwitchSwitchLog(d *schema.ResourceData, v *[]
 func refreshObjectSwitchControllerManagedSwitch(d *schema.ResourceData, o *models.SwitchControllerManagedSwitch, sv string, sort bool) diag.Diagnostics {
 	var err error
 
-	if o.The8021XSettings != nil {
-		if err = d.Set("802_1x_settings", flattenSwitchControllerManagedSwitch8021XSettings(d, o.The8021XSettings, "802_1x_settings", sort)); err != nil {
-			return diag.Errorf("error reading 802_1x_settings: %v", err)
+	if _, ok := d.GetOk("802_1x_settings"); ok {
+		if o.The8021XSettings != nil {
+			if err = d.Set("802_1x_settings", flattenSwitchControllerManagedSwitch8021XSettings(d, o.The8021XSettings, "802_1x_settings", sort)); err != nil {
+				return diag.Errorf("error reading 802_1x_settings: %v", err)
+			}
 		}
 	}
 
@@ -3369,9 +3378,11 @@ func refreshObjectSwitchControllerManagedSwitch(d *schema.ResourceData, o *model
 		}
 	}
 
-	if o.IgmpSnooping != nil {
-		if err = d.Set("igmp_snooping", flattenSwitchControllerManagedSwitchIgmpSnooping(d, o.IgmpSnooping, "igmp_snooping", sort)); err != nil {
-			return diag.Errorf("error reading igmp_snooping: %v", err)
+	if _, ok := d.GetOk("igmp_snooping"); ok {
+		if o.IgmpSnooping != nil {
+			if err = d.Set("igmp_snooping", flattenSwitchControllerManagedSwitchIgmpSnooping(d, o.IgmpSnooping, "igmp_snooping", sort)); err != nil {
+				return diag.Errorf("error reading igmp_snooping: %v", err)
+			}
 		}
 	}
 
@@ -3525,15 +3536,19 @@ func refreshObjectSwitchControllerManagedSwitch(d *schema.ResourceData, o *model
 		}
 	}
 
-	if o.SnmpSysinfo != nil {
-		if err = d.Set("snmp_sysinfo", flattenSwitchControllerManagedSwitchSnmpSysinfo(d, o.SnmpSysinfo, "snmp_sysinfo", sort)); err != nil {
-			return diag.Errorf("error reading snmp_sysinfo: %v", err)
+	if _, ok := d.GetOk("snmp_sysinfo"); ok {
+		if o.SnmpSysinfo != nil {
+			if err = d.Set("snmp_sysinfo", flattenSwitchControllerManagedSwitchSnmpSysinfo(d, o.SnmpSysinfo, "snmp_sysinfo", sort)); err != nil {
+				return diag.Errorf("error reading snmp_sysinfo: %v", err)
+			}
 		}
 	}
 
-	if o.SnmpTrapThreshold != nil {
-		if err = d.Set("snmp_trap_threshold", flattenSwitchControllerManagedSwitchSnmpTrapThreshold(d, o.SnmpTrapThreshold, "snmp_trap_threshold", sort)); err != nil {
-			return diag.Errorf("error reading snmp_trap_threshold: %v", err)
+	if _, ok := d.GetOk("snmp_trap_threshold"); ok {
+		if o.SnmpTrapThreshold != nil {
+			if err = d.Set("snmp_trap_threshold", flattenSwitchControllerManagedSwitchSnmpTrapThreshold(d, o.SnmpTrapThreshold, "snmp_trap_threshold", sort)); err != nil {
+				return diag.Errorf("error reading snmp_trap_threshold: %v", err)
+			}
 		}
 	}
 
@@ -3557,9 +3572,11 @@ func refreshObjectSwitchControllerManagedSwitch(d *schema.ResourceData, o *model
 		}
 	}
 
-	if o.StormControl != nil {
-		if err = d.Set("storm_control", flattenSwitchControllerManagedSwitchStormControl(d, o.StormControl, "storm_control", sort)); err != nil {
-			return diag.Errorf("error reading storm_control: %v", err)
+	if _, ok := d.GetOk("storm_control"); ok {
+		if o.StormControl != nil {
+			if err = d.Set("storm_control", flattenSwitchControllerManagedSwitchStormControl(d, o.StormControl, "storm_control", sort)); err != nil {
+				return diag.Errorf("error reading storm_control: %v", err)
+			}
 		}
 	}
 
@@ -3569,9 +3586,11 @@ func refreshObjectSwitchControllerManagedSwitch(d *schema.ResourceData, o *model
 		}
 	}
 
-	if o.StpSettings != nil {
-		if err = d.Set("stp_settings", flattenSwitchControllerManagedSwitchStpSettings(d, o.StpSettings, "stp_settings", sort)); err != nil {
-			return diag.Errorf("error reading stp_settings: %v", err)
+	if _, ok := d.GetOk("stp_settings"); ok {
+		if o.StpSettings != nil {
+			if err = d.Set("stp_settings", flattenSwitchControllerManagedSwitchStpSettings(d, o.StpSettings, "stp_settings", sort)); err != nil {
+				return diag.Errorf("error reading stp_settings: %v", err)
+			}
 		}
 	}
 
@@ -3599,9 +3618,11 @@ func refreshObjectSwitchControllerManagedSwitch(d *schema.ResourceData, o *model
 		}
 	}
 
-	if o.SwitchLog != nil {
-		if err = d.Set("switch_log", flattenSwitchControllerManagedSwitchSwitchLog(d, o.SwitchLog, "switch_log", sort)); err != nil {
-			return diag.Errorf("error reading switch_log: %v", err)
+	if _, ok := d.GetOk("switch_log"); ok {
+		if o.SwitchLog != nil {
+			if err = d.Set("switch_log", flattenSwitchControllerManagedSwitchSwitchLog(d, o.SwitchLog, "switch_log", sort)); err != nil {
+				return diag.Errorf("error reading switch_log: %v", err)
+			}
 		}
 	}
 
@@ -3640,7 +3661,7 @@ func refreshObjectSwitchControllerManagedSwitch(d *schema.ResourceData, o *model
 	return nil
 }
 
-func expandSwitchControllerManagedSwitch8021XSettings(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.SwitchControllerManagedSwitch8021XSettings, error) {
+func expandSwitchControllerManagedSwitch8021XSettings(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.SwitchControllerManagedSwitch8021XSettings, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -3692,7 +3713,7 @@ func expandSwitchControllerManagedSwitch8021XSettings(d *schema.ResourceData, v 
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
 func expandSwitchControllerManagedSwitchCustomCommand(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.SwitchControllerManagedSwitchCustomCommand, error) {
@@ -3726,7 +3747,7 @@ func expandSwitchControllerManagedSwitchCustomCommand(d *schema.ResourceData, v 
 	return &result, nil
 }
 
-func expandSwitchControllerManagedSwitchIgmpSnooping(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.SwitchControllerManagedSwitchIgmpSnooping, error) {
+func expandSwitchControllerManagedSwitchIgmpSnooping(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.SwitchControllerManagedSwitchIgmpSnooping, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -3772,7 +3793,7 @@ func expandSwitchControllerManagedSwitchIgmpSnooping(d *schema.ResourceData, v i
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
 func expandSwitchControllerManagedSwitchIgmpSnoopingVlans(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.SwitchControllerManagedSwitchIgmpSnoopingVlans, error) {
@@ -4995,7 +5016,7 @@ func expandSwitchControllerManagedSwitchSnmpCommunityHosts(d *schema.ResourceDat
 	return &result, nil
 }
 
-func expandSwitchControllerManagedSwitchSnmpSysinfo(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.SwitchControllerManagedSwitchSnmpSysinfo, error) {
+func expandSwitchControllerManagedSwitchSnmpSysinfo(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.SwitchControllerManagedSwitchSnmpSysinfo, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -5044,10 +5065,10 @@ func expandSwitchControllerManagedSwitchSnmpSysinfo(d *schema.ResourceData, v in
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
-func expandSwitchControllerManagedSwitchSnmpTrapThreshold(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.SwitchControllerManagedSwitchSnmpTrapThreshold, error) {
+func expandSwitchControllerManagedSwitchSnmpTrapThreshold(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.SwitchControllerManagedSwitchSnmpTrapThreshold, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -5085,7 +5106,7 @@ func expandSwitchControllerManagedSwitchSnmpTrapThreshold(d *schema.ResourceData
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
 func expandSwitchControllerManagedSwitchSnmpUser(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.SwitchControllerManagedSwitchSnmpUser, error) {
@@ -5222,7 +5243,7 @@ func expandSwitchControllerManagedSwitchStaticMac(d *schema.ResourceData, v inte
 	return &result, nil
 }
 
-func expandSwitchControllerManagedSwitchStormControl(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.SwitchControllerManagedSwitchStormControl, error) {
+func expandSwitchControllerManagedSwitchStormControl(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.SwitchControllerManagedSwitchStormControl, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -5272,7 +5293,7 @@ func expandSwitchControllerManagedSwitchStormControl(d *schema.ResourceData, v i
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
 func expandSwitchControllerManagedSwitchStpInstance(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.SwitchControllerManagedSwitchStpInstance, error) {
@@ -5306,7 +5327,7 @@ func expandSwitchControllerManagedSwitchStpInstance(d *schema.ResourceData, v in
 	return &result, nil
 }
 
-func expandSwitchControllerManagedSwitchStpSettings(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.SwitchControllerManagedSwitchStpSettings, error) {
+func expandSwitchControllerManagedSwitchStpSettings(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.SwitchControllerManagedSwitchStpSettings, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -5382,10 +5403,10 @@ func expandSwitchControllerManagedSwitchStpSettings(d *schema.ResourceData, v in
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
-func expandSwitchControllerManagedSwitchSwitchLog(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.SwitchControllerManagedSwitchSwitchLog, error) {
+func expandSwitchControllerManagedSwitchSwitchLog(d *schema.ResourceData, v interface{}, pre string, sv string) (*models.SwitchControllerManagedSwitchSwitchLog, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
 		return nil, nil
@@ -5420,7 +5441,7 @@ func expandSwitchControllerManagedSwitchSwitchLog(d *schema.ResourceData, v inte
 
 		result = append(result, tmp)
 	}
-	return &result, nil
+	return &result[0], nil
 }
 
 func getObjectSwitchControllerManagedSwitch(d *schema.ResourceData, sv string) (*models.SwitchControllerManagedSwitch, diag.Diagnostics) {
@@ -5441,7 +5462,7 @@ func getObjectSwitchControllerManagedSwitch(d *schema.ResourceData, sv string) (
 	} else if d.HasChange("802_1x_settings") {
 		old, new := d.GetChange("802_1x_settings")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.The8021XSettings = &[]models.SwitchControllerManagedSwitch8021XSettings{}
+			obj.The8021XSettings = &models.SwitchControllerManagedSwitch8021XSettings{}
 		}
 	}
 	if v1, ok := d.GetOk("access_profile"); ok {
@@ -5595,7 +5616,7 @@ func getObjectSwitchControllerManagedSwitch(d *schema.ResourceData, sv string) (
 	} else if d.HasChange("igmp_snooping") {
 		old, new := d.GetChange("igmp_snooping")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.IgmpSnooping = &[]models.SwitchControllerManagedSwitchIgmpSnooping{}
+			obj.IgmpSnooping = &models.SwitchControllerManagedSwitchIgmpSnooping{}
 		}
 	}
 	if v, ok := d.GetOk("ip_source_guard"); ok {
@@ -5837,7 +5858,7 @@ func getObjectSwitchControllerManagedSwitch(d *schema.ResourceData, sv string) (
 	} else if d.HasChange("snmp_sysinfo") {
 		old, new := d.GetChange("snmp_sysinfo")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.SnmpSysinfo = &[]models.SwitchControllerManagedSwitchSnmpSysinfo{}
+			obj.SnmpSysinfo = &models.SwitchControllerManagedSwitchSnmpSysinfo{}
 		}
 	}
 	if v, ok := d.GetOk("snmp_trap_threshold"); ok {
@@ -5854,7 +5875,7 @@ func getObjectSwitchControllerManagedSwitch(d *schema.ResourceData, sv string) (
 	} else if d.HasChange("snmp_trap_threshold") {
 		old, new := d.GetChange("snmp_trap_threshold")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.SnmpTrapThreshold = &[]models.SwitchControllerManagedSwitchSnmpTrapThreshold{}
+			obj.SnmpTrapThreshold = &models.SwitchControllerManagedSwitchSnmpTrapThreshold{}
 		}
 	}
 	if v, ok := d.GetOk("snmp_user"); ok {
@@ -5914,7 +5935,7 @@ func getObjectSwitchControllerManagedSwitch(d *schema.ResourceData, sv string) (
 	} else if d.HasChange("storm_control") {
 		old, new := d.GetChange("storm_control")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.StormControl = &[]models.SwitchControllerManagedSwitchStormControl{}
+			obj.StormControl = &models.SwitchControllerManagedSwitchStormControl{}
 		}
 	}
 	if v, ok := d.GetOk("stp_instance"); ok {
@@ -5948,7 +5969,7 @@ func getObjectSwitchControllerManagedSwitch(d *schema.ResourceData, sv string) (
 	} else if d.HasChange("stp_settings") {
 		old, new := d.GetChange("stp_settings")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.StpSettings = &[]models.SwitchControllerManagedSwitchStpSettings{}
+			obj.StpSettings = &models.SwitchControllerManagedSwitchStpSettings{}
 		}
 	}
 	if v1, ok := d.GetOk("switch_device_tag"); ok {
@@ -5992,7 +6013,7 @@ func getObjectSwitchControllerManagedSwitch(d *schema.ResourceData, sv string) (
 	} else if d.HasChange("switch_log") {
 		old, new := d.GetChange("switch_log")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.SwitchLog = &[]models.SwitchControllerManagedSwitchSwitchLog{}
+			obj.SwitchLog = &models.SwitchControllerManagedSwitchSwitchLog{}
 		}
 	}
 	if v1, ok := d.GetOk("switch_profile"); ok {
