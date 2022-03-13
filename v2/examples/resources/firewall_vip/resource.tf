@@ -7,3 +7,17 @@ resource "fortios_firewall_vip" "example" {
     range = "192.168.1.1-192.168.1.1"
   }
 }
+
+resource "fortios_firewall_address" "example2" {
+  name = "example.com"
+  type = "fqdn"
+  fqdn = "example.com"  
+}
+
+resource "fortios_firewall_vip" "example2" {
+  extip       = "192.0.2.1/24"
+  name        = "examplevip"
+  extintf     = "any"
+  mapped_addr = fortios_firewall_address.example2.name
+  type        = "fqdn"
+}
