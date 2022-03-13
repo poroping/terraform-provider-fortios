@@ -1,3 +1,11 @@
+## 3.1.4 (unreleased)
+
+BUGFIXES:
+* Provider will no longer attempt to delete a VPN interface directly. Fixes [#15](https://github.com/poroping/terraform-provider-fortios/issues/15)
+
+IMPROVEMENTS:
+* Added more tests/examples.
+
 ## 3.1.3
 
 BUGFIXES:
