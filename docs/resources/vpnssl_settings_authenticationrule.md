@@ -1,7 +1,7 @@
 ---
 subcategory: "FortiGate Vpn"
 layout: "fortios"
-page_title: "FortiOS: fortios_vpnssl_settings_authenticationrule"
+page_title: "FortiOS: fortios_vpnssl_settings_authentication_rule"
 description: |-
   Authentication rule for SSL-VPN.
 ---

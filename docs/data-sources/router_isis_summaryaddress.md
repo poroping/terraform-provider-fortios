@@ -1,7 +1,7 @@
 ---
 subcategory: "FortiGate Router"
 layout: "fortios"
-page_title: "FortiOS: fortios_router_isis_summaryaddress"
+page_title: "FortiOS: fortios_router_isis_summary_address"
 description: |-
   Get information on a fortios IS-IS summary addresses.
 ---

@@ -1,7 +1,7 @@
 ---
 subcategory: "FortiGate Router"
 layout: "fortios"
-page_title: "FortiOS: fortios_router_rip_offsetlist"
+page_title: "FortiOS: fortios_router_rip_offset_list"
 description: |-
   Offset list.
 ---

@@ -1,7 +1,7 @@
 ---
 subcategory: "FortiGate System"
 layout: "fortios"
-page_title: "FortiOS: fortios_system_sdwan_healthcheck"
+page_title: "FortiOS: fortios_system_sdwan_health_check"
 description: |-
   SD-WAN status checking or health checking. Identify a server on the Internet and determine how SD-WAN verifies that the FortiGate can communicate with it.
 ---

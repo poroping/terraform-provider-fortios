@@ -1,7 +1,7 @@
 ---
 subcategory: "FortiGate Router"
 layout: "fortios"
-page_title: "FortiOS: fortios_router_bgp_admindistance"
+page_title: "FortiOS: fortios_router_bgp_admin_distance"
 description: |-
   Administrative distance modifications.
 ---

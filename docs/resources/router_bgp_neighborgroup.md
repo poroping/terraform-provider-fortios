@@ -1,7 +1,7 @@
 ---
 subcategory: "FortiGate Router"
 layout: "fortios"
-page_title: "FortiOS: fortios_router_bgp_neighborgroup"
+page_title: "FortiOS: fortios_router_bgp_neighbor_group"
 description: |-
   BGP neighbor group table.
 ---

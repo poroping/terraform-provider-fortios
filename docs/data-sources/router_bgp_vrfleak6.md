@@ -1,7 +1,7 @@
 ---
 subcategory: "FortiGate Router"
 layout: "fortios"
-page_title: "FortiOS: fortios_router_bgp_vrfleak6"
+page_title: "FortiOS: fortios_router_bgp_vrf_leak6"
 description: |-
   Get information on a fortios BGP IPv6 VRF leaking table.
 ---

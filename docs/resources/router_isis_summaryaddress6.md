@@ -1,7 +1,7 @@
 ---
 subcategory: "FortiGate Router"
 layout: "fortios"
-page_title: "FortiOS: fortios_router_isis_summaryaddress6"
+page_title: "FortiOS: fortios_router_isis_summary_address6"
 description: |-
   IS-IS IPv6 summary address.
 ---

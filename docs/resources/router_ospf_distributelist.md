@@ -1,7 +1,7 @@
 ---
 subcategory: "FortiGate Router"
 layout: "fortios"
-page_title: "FortiOS: fortios_router_ospf_distributelist"
+page_title: "FortiOS: fortios_router_ospf_distribute_list"
 description: |-
   Distribute list configuration.
 ---

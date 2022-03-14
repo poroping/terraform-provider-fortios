@@ -1,7 +1,7 @@
 ---
 subcategory: "FortiGate Router"
 layout: "fortios"
-page_title: "FortiOS: fortios_router_ospf6_ospf6interface"
+page_title: "FortiOS: fortios_router_ospf6_ospf6_interface"
 description: |-
   OSPF6 interface configuration.
 ---

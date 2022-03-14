@@ -1,7 +1,7 @@
 {{- define "resDocsHeader" }}---
 subcategory: "FortiGate {{ (title (subcategory .path)) }}"
 layout: "fortios"
-page_title: "FortiOS: fortios_{{.resName}}"
+page_title: "FortiOS: fortios_{{(resNameFlatten .path)}}_{{(resNameFlatten .name)}}{{with .child_path}}_{{(resFlatten .)}}{{end}}"
 description: |-
   {{.results.help}}
 ---

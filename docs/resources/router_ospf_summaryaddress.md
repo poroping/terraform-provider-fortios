@@ -1,7 +1,7 @@
 ---
 subcategory: "FortiGate Router"
 layout: "fortios"
-page_title: "FortiOS: fortios_router_ospf_summaryaddress"
+page_title: "FortiOS: fortios_router_ospf_summary_address"
 description: |-
   IP address summary configuration.
 ---

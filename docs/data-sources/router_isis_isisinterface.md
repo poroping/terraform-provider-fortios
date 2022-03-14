@@ -1,7 +1,7 @@
 ---
 subcategory: "FortiGate Router"
 layout: "fortios"
-page_title: "FortiOS: fortios_router_isis_isisinterface"
+page_title: "FortiOS: fortios_router_isis_isis_interface"
 description: |-
   Get information on a fortios IS-IS interface configuration.
 ---

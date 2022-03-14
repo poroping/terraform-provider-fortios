@@ -1,7 +1,7 @@
 ---
 subcategory: "FortiGate Router"
 layout: "fortios"
-page_title: "FortiOS: fortios_router_bgp_aggregateaddress6"
+page_title: "FortiOS: fortios_router_bgp_aggregate_address6"
 description: |-
   Get information on a fortios BGP IPv6 aggregate address table.
 ---
