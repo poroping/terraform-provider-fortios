@@ -430,7 +430,9 @@ func providerDataSources() map[string]*schema.Resource {
 
 		"fortios_router_bfd6": dataSourceRouterBfd6(),
 
-		"fortios_router_bgp": dataSourceRouterBgp(),
+		"fortios_router_bfd_neighbor":     dataSourceRouterBfdNeighbor(),
+		"fortios_router_bfd_neighborlist": dataSourceRouterBfdNeighborList(),
+		"fortios_router_bgp":              dataSourceRouterBgp(),
 
 		"fortios_router_bgp_admin_distance":         dataSourceRouterBgpAdminDistance(),
 		"fortios_router_bgp_admin_distancelist":     dataSourceRouterBgpAdminDistanceList(),

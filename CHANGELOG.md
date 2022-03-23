@@ -1,3 +1,9 @@
+## 3.1.5
+
+IMPROVEMENTS:
+* **New Resource** `fortios_router_bfd_neighbor` Fixes [#17](https://github.com/poroping/terraform-provider-fortios/issues/17)
+* **New Data Source:** `fortios_router_bfd_neighbor`
+
 ## 3.1.4
 
 BUGFIXES:

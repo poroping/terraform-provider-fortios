@@ -219,6 +219,7 @@ func providerResources() map[string]*schema.Resource {
 		"fortios_router_authpath":                                    resourceRouterAuthPath(),
 		"fortios_router_bfd":                                         resourceRouterBfd(),
 		"fortios_router_bfd6":                                        resourceRouterBfd6(),
+		"fortios_router_bfd_neighbor":                                resourceRouterBfdNeighbor(),
 		"fortios_router_bgp":                                         resourceRouterBgp(),
 		"fortios_router_bgp_admin_distance":                          resourceRouterBgpAdminDistance(),
 		"fortios_router_bgp_aggregate_address":                       resourceRouterBgpAggregateAddress(),
