@@ -2,6 +2,8 @@
 
 IMPROVEMENTS:
 * Support for 7.2.0
+* **New Resource** `fortios_router_bgp_vrf` - Endpoint was renamed in 7.2.0
+* **New Resource** `fortios_router_bgp_vrf6` - Endpoint was renamed in 7.2.0
 
 ## 3.1.5
 
