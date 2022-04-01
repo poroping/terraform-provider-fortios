@@ -30,6 +30,7 @@ The following attributes are exported:
 * `av_profile` - Name of an existing Antivirus profile.
 * `cifs_profile` - Name of an existing CIFS profile.
 * `comments` - Comment.
+* `dlp_profile` - Name of an existing DLP profile.
 * `dlp_sensor` - Name of an existing DLP sensor.
 * `dnsfilter_profile` - Name of an existing DNS filter profile.
 * `dstaddr_negate` - When enabled dstaddr/dstaddr6 specifies what the destination address must NOT be.
@@ -60,6 +61,7 @@ The following attributes are exported:
 * `ssh_filter_profile` - Name of an existing SSH filter profile.
 * `ssl_ssh_profile` - Name of an existing SSL SSH profile.
 * `status` - Enable or disable this policy.
+* `url_category` - URL categories or groups.
 * `uuid` - Universally Unique Identifier (UUID; automatically assigned but can be manually reset).
 * `videofilter_profile` - Name of an existing VideoFilter profile.
 * `voip_profile` - Name of an existing VoIP profile.
@@ -184,11 +186,6 @@ The `srcaddr6` block contains:
 The `srcintf` block contains:
 
 * `name` - Interface name.
-* `url_category` - URL category ID list.The structure of `url_category` block is documented below.
-
-The `url_category` block contains:
-
-* `id` - URL category ID.
 * `users` - Names of individual users that can authenticate with this policy.The structure of `users` block is documented below.
 
 The `users` block contains:

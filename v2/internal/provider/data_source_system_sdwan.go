@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
+// Generated from templates using FortiOS v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -119,6 +119,11 @@ func dataSourceSystemSdwan() *schema.Resource {
 									},
 								},
 							},
+						},
+						"sla_match_service": {
+							Type:        schema.TypeString,
+							Description: "Enable/disable packet duplication matching health-check SLAs in service rule.",
+							Computed:    true,
 						},
 						"srcaddr": {
 							Type:        schema.TypeList,
@@ -274,6 +279,11 @@ func dataSourceSystemSdwan() *schema.Resource {
 								},
 							},
 						},
+						"mos_codec": {
+							Type:        schema.TypeString,
+							Description: "Codec to use for MOS calculation (default = g711).",
+							Computed:    true,
+						},
 						"name": {
 							Type:        schema.TypeString,
 							Description: "Status check or health check name.",
@@ -361,6 +371,11 @@ func dataSourceSystemSdwan() *schema.Resource {
 										Description: "Criteria on which to base link selection.",
 										Computed:    true,
 									},
+									"mos_threshold": {
+										Type:        schema.TypeString,
+										Description: "Minimum Mean Opinion Score for SLA to be marked as pass. (1.0 - 5.0, default = 3.6).",
+										Computed:    true,
+									},
 									"packetloss_threshold": {
 										Type:        schema.TypeInt,
 										Description: "Packet loss for SLA to make decision in percentage. (0 - 100, default = 0).",
@@ -377,6 +392,11 @@ func dataSourceSystemSdwan() *schema.Resource {
 						"sla_pass_log_period": {
 							Type:        schema.TypeInt,
 							Description: "Time interval in seconds that SLA pass log messages will be generated (0 - 3600, default = 0).",
+							Computed:    true,
+						},
+						"source": {
+							Type:        schema.TypeString,
+							Description: "Source IP address used in the health-check packet to the server.",
 							Computed:    true,
 						},
 						"system_dns": {
@@ -427,6 +447,11 @@ func dataSourceSystemSdwan() *schema.Resource {
 						"user": {
 							Type:        schema.TypeString,
 							Description: "The user name to access probe server.",
+							Computed:    true,
+						},
+						"vrf": {
+							Type:        schema.TypeInt,
+							Description: "Virtual Routing Forwarding ID.",
 							Computed:    true,
 						},
 					},
@@ -543,8 +568,22 @@ func dataSourceSystemSdwan() *schema.Resource {
 							Computed:    true,
 						},
 						"member": {
+							Type:        schema.TypeList,
+							Description: "Member sequence number list.",
+							Computed:    true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"seq_num": {
+										Type:        schema.TypeInt,
+										Description: "Member sequence number.",
+										Computed:    true,
+									},
+								},
+							},
+						},
+						"minimum_sla_meet_members": {
 							Type:        schema.TypeInt,
-							Description: "Member sequence number.",
+							Description: "Minimum number of members which meet SLA when the neighbor is preferred.",
 							Computed:    true,
 						},
 						"mode": {
@@ -726,6 +765,20 @@ func dataSourceSystemSdwan() *schema.Resource {
 							Description: "Enable/disable negation of input device match.",
 							Computed:    true,
 						},
+						"input_zone": {
+							Type:        schema.TypeList,
+							Description: "Source input-zone name.",
+							Computed:    true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"name": {
+										Type:        schema.TypeString,
+										Description: "Zone.",
+										Computed:    true,
+									},
+								},
+							},
+						},
 						"internet_service": {
 							Type:        schema.TypeString,
 							Description: "Enable/disable use of Internet service for application-based load balancing.",
@@ -740,6 +793,20 @@ func dataSourceSystemSdwan() *schema.Resource {
 									"id": {
 										Type:        schema.TypeInt,
 										Description: "Application control based Internet Service ID.",
+										Computed:    true,
+									},
+								},
+							},
+						},
+						"internet_service_app_ctrl_category": {
+							Type:        schema.TypeList,
+							Description: "IDs of one or more application control categories.",
+							Computed:    true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"id": {
+										Type:        schema.TypeInt,
+										Description: "Application control category ID.",
 										Computed:    true,
 									},
 								},

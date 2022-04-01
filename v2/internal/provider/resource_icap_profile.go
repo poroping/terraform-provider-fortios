@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -52,6 +52,22 @@ func resourceIcapProfile() *schema.Resource {
 				Optional:    true,
 				Default:     false,
 			},
+			"204_response": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"disable", "enable"}, false),
+
+				Description: "Enable/disable allowance of 204 response from ICAP server.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"204_size_limit": {
+				Type:         schema.TypeInt,
+				ValidateFunc: validation.IntBetween(1, 10),
+
+				Description: "204 response size limit to be saved by ICAP client in megabytes (1 - 10, default = 1 MB).",
+				Optional:    true,
+				Computed:    true,
+			},
 			"chunk_encap": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringInSlice([]string{"disable", "enable"}, false),
@@ -67,6 +83,38 @@ func resourceIcapProfile() *schema.Resource {
 				Description:      "Enable/disable ICAP extension features.",
 				Optional:         true,
 				Computed:         true,
+			},
+			"file_transfer": {
+				Type: schema.TypeString,
+
+				DiffSuppressFunc: suppressors.DiffFakeListEqual,
+				Description:      "Configure the file transfer protocols to pass transferred files to an ICAP server as REQMOD.",
+				Optional:         true,
+				Computed:         true,
+			},
+			"file_transfer_failure": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"error", "bypass"}, false),
+
+				Description: "Action to take if the ICAP server cannot be contacted when processing a file transfer.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"file_transfer_path": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringLenBetween(0, 127),
+
+				Description: "Path component of the ICAP URI that identifies the file transfer processing service.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"file_transfer_server": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringLenBetween(0, 63),
+
+				Description: "ICAP server to use for a file transfer.",
+				Optional:    true,
+				Computed:    true,
 			},
 			"icap_block_log": {
 				Type:         schema.TypeString,
@@ -182,7 +230,7 @@ func resourceIcapProfile() *schema.Resource {
 			},
 			"request_server": {
 				Type:         schema.TypeString,
-				ValidateFunc: validation.StringLenBetween(0, 35),
+				ValidateFunc: validation.StringLenBetween(0, 63),
 
 				Description: "ICAP server to use for an HTTP request.",
 				Optional:    true,
@@ -320,7 +368,7 @@ func resourceIcapProfile() *schema.Resource {
 			},
 			"response_server": {
 				Type:         schema.TypeString,
-				ValidateFunc: validation.StringLenBetween(0, 35),
+				ValidateFunc: validation.StringLenBetween(0, 63),
 
 				Description: "ICAP server to use for an HTTP response.",
 				Optional:    true,
@@ -339,6 +387,14 @@ func resourceIcapProfile() *schema.Resource {
 				ValidateFunc: validation.StringInSlice([]string{"disable", "enable"}, false),
 
 				Description: "Enable/disable bypassing of ICAP server for streaming content.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"timeout": {
+				Type:         schema.TypeInt,
+				ValidateFunc: validation.IntBetween(30, 3600),
+
+				Description: "Time (in seconds) that ICAP client waits for the response from ICAP server.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -630,6 +686,22 @@ func flattenIcapProfileRespmodForwardRulesHttpRespStatusCode(d *schema.ResourceD
 func refreshObjectIcapProfile(d *schema.ResourceData, o *models.IcapProfile, sv string, sort bool) diag.Diagnostics {
 	var err error
 
+	if o.The204Response != nil {
+		v := *o.The204Response
+
+		if err = d.Set("204_response", v); err != nil {
+			return diag.Errorf("error reading 204_response: %v", err)
+		}
+	}
+
+	if o.The204SizeLimit != nil {
+		v := *o.The204SizeLimit
+
+		if err = d.Set("204_size_limit", v); err != nil {
+			return diag.Errorf("error reading 204_size_limit: %v", err)
+		}
+	}
+
 	if o.ChunkEncap != nil {
 		v := *o.ChunkEncap
 
@@ -643,6 +715,38 @@ func refreshObjectIcapProfile(d *schema.ResourceData, o *models.IcapProfile, sv 
 
 		if err = d.Set("extension_feature", v); err != nil {
 			return diag.Errorf("error reading extension_feature: %v", err)
+		}
+	}
+
+	if o.FileTransfer != nil {
+		v := *o.FileTransfer
+
+		if err = d.Set("file_transfer", v); err != nil {
+			return diag.Errorf("error reading file_transfer: %v", err)
+		}
+	}
+
+	if o.FileTransferFailure != nil {
+		v := *o.FileTransferFailure
+
+		if err = d.Set("file_transfer_failure", v); err != nil {
+			return diag.Errorf("error reading file_transfer_failure: %v", err)
+		}
+	}
+
+	if o.FileTransferPath != nil {
+		v := *o.FileTransferPath
+
+		if err = d.Set("file_transfer_path", v); err != nil {
+			return diag.Errorf("error reading file_transfer_path: %v", err)
+		}
+	}
+
+	if o.FileTransferServer != nil {
+		v := *o.FileTransferServer
+
+		if err = d.Set("file_transfer_server", v); err != nil {
+			return diag.Errorf("error reading file_transfer_server: %v", err)
 		}
 	}
 
@@ -799,6 +903,14 @@ func refreshObjectIcapProfile(d *schema.ResourceData, o *models.IcapProfile, sv 
 
 		if err = d.Set("streaming_content_bypass", v); err != nil {
 			return diag.Errorf("error reading streaming_content_bypass: %v", err)
+		}
+	}
+
+	if o.Timeout != nil {
+		v := *o.Timeout
+
+		if err = d.Set("timeout", v); err != nil {
+			return diag.Errorf("error reading timeout: %v", err)
 		}
 	}
 
@@ -984,6 +1096,25 @@ func getObjectIcapProfile(d *schema.ResourceData, sv string) (*models.IcapProfil
 	obj := models.IcapProfile{}
 	diags := diag.Diagnostics{}
 
+	if v1, ok := d.GetOk("204_response"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.0", "") {
+				e := utils.AttributeVersionWarning("204_response", sv)
+				diags = append(diags, e)
+			}
+			obj.The204Response = &v2
+		}
+	}
+	if v1, ok := d.GetOk("204_size_limit"); ok {
+		if v2, ok := v1.(int); ok {
+			if !utils.CheckVer(sv, "v7.2.0", "") {
+				e := utils.AttributeVersionWarning("204_size_limit", sv)
+				diags = append(diags, e)
+			}
+			tmp := int64(v2)
+			obj.The204SizeLimit = &tmp
+		}
+	}
 	if v1, ok := d.GetOk("chunk_encap"); ok {
 		if v2, ok := v1.(string); ok {
 			if !utils.CheckVer(sv, "v7.0.2", "") {
@@ -1000,6 +1131,42 @@ func getObjectIcapProfile(d *schema.ResourceData, sv string) (*models.IcapProfil
 				diags = append(diags, e)
 			}
 			obj.ExtensionFeature = &v2
+		}
+	}
+	if v1, ok := d.GetOk("file_transfer"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.0", "") {
+				e := utils.AttributeVersionWarning("file_transfer", sv)
+				diags = append(diags, e)
+			}
+			obj.FileTransfer = &v2
+		}
+	}
+	if v1, ok := d.GetOk("file_transfer_failure"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.0", "") {
+				e := utils.AttributeVersionWarning("file_transfer_failure", sv)
+				diags = append(diags, e)
+			}
+			obj.FileTransferFailure = &v2
+		}
+	}
+	if v1, ok := d.GetOk("file_transfer_path"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.0", "") {
+				e := utils.AttributeVersionWarning("file_transfer_path", sv)
+				diags = append(diags, e)
+			}
+			obj.FileTransferPath = &v2
+		}
+	}
+	if v1, ok := d.GetOk("file_transfer_server"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.0", "") {
+				e := utils.AttributeVersionWarning("file_transfer_server", sv)
+				diags = append(diags, e)
+			}
+			obj.FileTransferServer = &v2
 		}
 	}
 	if v1, ok := d.GetOk("icap_block_log"); ok {
@@ -1198,6 +1365,16 @@ func getObjectIcapProfile(d *schema.ResourceData, sv string) (*models.IcapProfil
 				diags = append(diags, e)
 			}
 			obj.StreamingContentBypass = &v2
+		}
+	}
+	if v1, ok := d.GetOk("timeout"); ok {
+		if v2, ok := v1.(int); ok {
+			if !utils.CheckVer(sv, "v7.2.0", "") {
+				e := utils.AttributeVersionWarning("timeout", sv)
+				diags = append(diags, e)
+			}
+			tmp := int64(v2)
+			obj.Timeout = &tmp
 		}
 	}
 	return &obj, diags

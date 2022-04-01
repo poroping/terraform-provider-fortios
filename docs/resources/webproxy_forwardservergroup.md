@@ -29,7 +29,7 @@ Configure a forward server group consisting or multiple forward servers. Support
 The `server_list` block contains:
 
 * `name` - Forward server name. This attribute must reference one of the following datasources: `web-proxy.forward-server.name` .
-* `weight` - Optionally assign a weight of the forwarding server for weighted load balancing (1 - 100, default = 10).
+* `weight` - Optionally assign a weight of the forwarding server for weighted load balancing (1 - 100, default = 10)
 
 ## Attribute Reference
 

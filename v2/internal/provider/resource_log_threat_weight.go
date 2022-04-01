@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -268,6 +268,22 @@ func resourceLogThreatWeight() *schema.Resource {
 							ValidateFunc: validation.StringInSlice([]string{"disable", "low", "medium", "high", "critical"}, false),
 
 							Description: "Threat weight score for FortiAI-detected virus.",
+							Optional:    true,
+							Computed:    true,
+						},
+						"fortindr": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringInSlice([]string{"disable", "low", "medium", "high", "critical"}, false),
+
+							Description: "Threat weight score for FortiNDR-detected virus.",
+							Optional:    true,
+							Computed:    true,
+						},
+						"fortisandbox": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringInSlice([]string{"disable", "low", "medium", "high", "critical"}, false),
+
+							Description: "Threat weight score for FortiSandbox-detected virus.",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -718,6 +734,14 @@ func flattenLogThreatWeightMalware(d *schema.ResourceData, v *models.LogThreatWe
 				v["fortiai"] = *tmp
 			}
 
+			if tmp := cfg.Fortindr; tmp != nil {
+				v["fortindr"] = *tmp
+			}
+
+			if tmp := cfg.Fortisandbox; tmp != nil {
+				v["fortisandbox"] = *tmp
+			}
+
 			if tmp := cfg.FsaHighRisk; tmp != nil {
 				v["fsa_high_risk"] = *tmp
 			}
@@ -1111,6 +1135,20 @@ func expandLogThreatWeightMalware(d *schema.ResourceData, v interface{}, pre str
 		if v1, ok := d.GetOk(pre_append); ok {
 			if v2, ok := v1.(string); ok {
 				tmp.Fortiai = &v2
+			}
+		}
+
+		pre_append = fmt.Sprintf("%s.%d.fortindr", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.Fortindr = &v2
+			}
+		}
+
+		pre_append = fmt.Sprintf("%s.%d.fortisandbox", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.Fortisandbox = &v2
 			}
 		}
 

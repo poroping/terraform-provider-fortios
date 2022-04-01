@@ -25,6 +25,7 @@ Configure NGFW IPv4/IPv6 application policies.
 * `av_profile` - Name of an existing Antivirus profile. This attribute must reference one of the following datasources: `antivirus.profile.name` .
 * `cifs_profile` - Name of an existing CIFS profile. This attribute must reference one of the following datasources: `cifs.profile.name` .
 * `comments` - Comment.
+* `dlp_profile` - Name of an existing DLP profile. This attribute must reference one of the following datasources: `dlp.profile.name` .
 * `dlp_sensor` - Name of an existing DLP sensor. This attribute must reference one of the following datasources: `dlp.sensor.name` .
 * `dnsfilter_profile` - Name of an existing DNS filter profile. This attribute must reference one of the following datasources: `dnsfilter.profile.name` .
 * `dstaddr_negate` - When enabled dstaddr/dstaddr6 specifies what the destination address must NOT be. Valid values: `enable` `disable` .
@@ -55,6 +56,7 @@ Configure NGFW IPv4/IPv6 application policies.
 * `ssh_filter_profile` - Name of an existing SSH filter profile. This attribute must reference one of the following datasources: `ssh-filter.profile.name` .
 * `ssl_ssh_profile` - Name of an existing SSL SSH profile. This attribute must reference one of the following datasources: `firewall.ssl-ssh-profile.name` .
 * `status` - Enable or disable this policy. Valid values: `enable` `disable` .
+* `url_category` - URL categories or groups.
 * `uuid` - Universally Unique Identifier (UUID; automatically assigned but can be manually reset).
 * `videofilter_profile` - Name of an existing VideoFilter profile. This attribute must reference one of the following datasources: `videofilter.profile.name` .
 * `voip_profile` - Name of an existing VoIP profile. This attribute must reference one of the following datasources: `voip.profile.name` .
@@ -179,11 +181,6 @@ The `srcaddr6` block contains:
 The `srcintf` block contains:
 
 * `name` - Interface name. This attribute must reference one of the following datasources: `system.interface.name` `system.zone.name` `system.sdwan.zone.name` .
-* `url_category` - URL category ID list. The structure of `url_category` block is documented below.
-
-The `url_category` block contains:
-
-* `id` - URL category ID.
 * `users` - Names of individual users that can authenticate with this policy. The structure of `users` block is documented below.
 
 The `users` block contains:

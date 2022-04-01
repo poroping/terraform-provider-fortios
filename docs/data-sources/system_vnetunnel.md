@@ -25,7 +25,9 @@ Use this data source to get information on a fortios Configure virtual network e
 The following attributes are exported:
 
 * `bmr_hostname` - BMR hostname.
-* `br` - Border relay IPv6 address.
+* `br` - IPv6 address or FQDN of the border relay.
+* `http_password` - HTTP authentication password.
+* `http_username` - HTTP authentication user name.
 * `interface` - Interface name.
 * `ipv4_address` - Tunnel IPv4 address and netmask.
 * `mode` - VNE tunnel mode.

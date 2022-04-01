@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -172,6 +172,14 @@ func resourceUserRadius() *schema.Resource {
 						},
 					},
 				},
+			},
+			"delimiter": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"plus", "comma"}, false),
+
+				Description: "Configure delimiter to be used for separating profile group names in the SSO attribute (default = plus character \"+\").",
+				Optional:    true,
+				Computed:    true,
 			},
 			"group_override_attr_type": {
 				Type:         schema.TypeString,
@@ -743,6 +751,14 @@ func refreshObjectUserRadius(d *schema.ResourceData, o *models.UserRadius, sv st
 		}
 	}
 
+	if o.Delimiter != nil {
+		v := *o.Delimiter
+
+		if err = d.Set("delimiter", v); err != nil {
+			return diag.Errorf("error reading delimiter: %v", err)
+		}
+	}
+
 	if o.GroupOverrideAttrType != nil {
 		v := *o.GroupOverrideAttrType
 
@@ -1218,6 +1234,15 @@ func getObjectUserRadius(d *schema.ResourceData, sv string) (*models.UserRadius,
 		old, new := d.GetChange("class")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
 			obj.Class = &[]models.UserRadiusClass{}
+		}
+	}
+	if v1, ok := d.GetOk("delimiter"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.0", "") {
+				e := utils.AttributeVersionWarning("delimiter", sv)
+				diags = append(diags, e)
+			}
+			obj.Delimiter = &v2
 		}
 	}
 	if v1, ok := d.GetOk("group_override_attr_type"); ok {

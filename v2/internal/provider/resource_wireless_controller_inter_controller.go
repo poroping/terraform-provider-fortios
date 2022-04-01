@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -122,6 +122,14 @@ func resourceWirelessControllerInterController() *schema.Resource {
 				ValidateFunc: validation.StringInSlice([]string{"primary", "secondary"}, false),
 
 				Description: "Configure inter-controller's priority (primary or secondary, default = primary).",
+				Optional:    true,
+				Computed:    true,
+			},
+			"l3_roaming": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+				Description: "Enable/disable layer 3 roaming (default = disable).",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -362,6 +370,14 @@ func refreshObjectWirelessControllerInterController(d *schema.ResourceData, o *m
 		}
 	}
 
+	if o.L3Roaming != nil {
+		v := *o.L3Roaming
+
+		if err = d.Set("l3_roaming", v); err != nil {
+			return diag.Errorf("error reading l3_roaming: %v", err)
+		}
+	}
+
 	return nil
 }
 
@@ -478,6 +494,15 @@ func getObjectWirelessControllerInterController(d *schema.ResourceData, sv strin
 				diags = append(diags, e)
 			}
 			obj.InterControllerPri = &v2
+		}
+	}
+	if v1, ok := d.GetOk("l3_roaming"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.0", "") {
+				e := utils.AttributeVersionWarning("l3_roaming", sv)
+				diags = append(diags, e)
+			}
+			obj.L3Roaming = &v2
 		}
 	}
 	return &obj, diags

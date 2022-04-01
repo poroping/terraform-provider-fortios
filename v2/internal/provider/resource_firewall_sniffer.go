@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -160,6 +160,22 @@ func resourceFirewallSniffer() *schema.Resource {
 				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
 
 				Description: "Enable/disable antivirus profile.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"dlp_profile": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringLenBetween(0, 35),
+
+				Description: "Name of an existing DLP profile.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"dlp_profile_status": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+				Description: "Enable/disable DLP profile.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -647,6 +663,22 @@ func refreshObjectFirewallSniffer(d *schema.ResourceData, o *models.FirewallSnif
 		}
 	}
 
+	if o.DlpProfile != nil {
+		v := *o.DlpProfile
+
+		if err = d.Set("dlp_profile", v); err != nil {
+			return diag.Errorf("error reading dlp_profile: %v", err)
+		}
+	}
+
+	if o.DlpProfileStatus != nil {
+		v := *o.DlpProfileStatus
+
+		if err = d.Set("dlp_profile_status", v); err != nil {
+			return diag.Errorf("error reading dlp_profile_status: %v", err)
+		}
+	}
+
 	if o.DlpSensor != nil {
 		v := *o.DlpSensor
 
@@ -1011,9 +1043,27 @@ func getObjectFirewallSniffer(d *schema.ResourceData, sv string) (*models.Firewa
 			obj.AvProfileStatus = &v2
 		}
 	}
+	if v1, ok := d.GetOk("dlp_profile"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.0", "") {
+				e := utils.AttributeVersionWarning("dlp_profile", sv)
+				diags = append(diags, e)
+			}
+			obj.DlpProfile = &v2
+		}
+	}
+	if v1, ok := d.GetOk("dlp_profile_status"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.0", "") {
+				e := utils.AttributeVersionWarning("dlp_profile_status", sv)
+				diags = append(diags, e)
+			}
+			obj.DlpProfileStatus = &v2
+		}
+	}
 	if v1, ok := d.GetOk("dlp_sensor"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "") {
+			if !utils.CheckVer(sv, "", "v7.2.0") {
 				e := utils.AttributeVersionWarning("dlp_sensor", sv)
 				diags = append(diags, e)
 			}
@@ -1022,7 +1072,7 @@ func getObjectFirewallSniffer(d *schema.ResourceData, sv string) (*models.Firewa
 	}
 	if v1, ok := d.GetOk("dlp_sensor_status"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "") {
+			if !utils.CheckVer(sv, "", "v7.2.0") {
 				e := utils.AttributeVersionWarning("dlp_sensor_status", sv)
 				diags = append(diags, e)
 			}
@@ -1076,7 +1126,7 @@ func getObjectFirewallSniffer(d *schema.ResourceData, sv string) (*models.Firewa
 	}
 	if v1, ok := d.GetOk("host"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "") {
+			if !utils.CheckVer(sv, "", "v7.2.0") {
 				e := utils.AttributeVersionWarning("host", sv)
 				diags = append(diags, e)
 			}
@@ -1157,7 +1207,7 @@ func getObjectFirewallSniffer(d *schema.ResourceData, sv string) (*models.Firewa
 	}
 	if v1, ok := d.GetOk("ipv6"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "") {
+			if !utils.CheckVer(sv, "", "v7.2.0") {
 				e := utils.AttributeVersionWarning("ipv6", sv)
 				diags = append(diags, e)
 			}
@@ -1175,7 +1225,7 @@ func getObjectFirewallSniffer(d *schema.ResourceData, sv string) (*models.Firewa
 	}
 	if v1, ok := d.GetOk("max_packet_count"); ok {
 		if v2, ok := v1.(int); ok {
-			if !utils.CheckVer(sv, "", "") {
+			if !utils.CheckVer(sv, "", "v7.2.0") {
 				e := utils.AttributeVersionWarning("max_packet_count", sv)
 				diags = append(diags, e)
 			}
@@ -1185,7 +1235,7 @@ func getObjectFirewallSniffer(d *schema.ResourceData, sv string) (*models.Firewa
 	}
 	if v1, ok := d.GetOk("non_ip"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "") {
+			if !utils.CheckVer(sv, "", "v7.2.0") {
 				e := utils.AttributeVersionWarning("non_ip", sv)
 				diags = append(diags, e)
 			}
@@ -1194,7 +1244,7 @@ func getObjectFirewallSniffer(d *schema.ResourceData, sv string) (*models.Firewa
 	}
 	if v1, ok := d.GetOk("port"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "") {
+			if !utils.CheckVer(sv, "", "v7.2.0") {
 				e := utils.AttributeVersionWarning("port", sv)
 				diags = append(diags, e)
 			}
@@ -1203,7 +1253,7 @@ func getObjectFirewallSniffer(d *schema.ResourceData, sv string) (*models.Firewa
 	}
 	if v1, ok := d.GetOk("protocol"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "") {
+			if !utils.CheckVer(sv, "", "v7.2.0") {
 				e := utils.AttributeVersionWarning("protocol", sv)
 				diags = append(diags, e)
 			}
@@ -1221,7 +1271,7 @@ func getObjectFirewallSniffer(d *schema.ResourceData, sv string) (*models.Firewa
 	}
 	if v1, ok := d.GetOk("vlan"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "") {
+			if !utils.CheckVer(sv, "", "v7.2.0") {
 				e := utils.AttributeVersionWarning("vlan", sv)
 				diags = append(diags, e)
 			}

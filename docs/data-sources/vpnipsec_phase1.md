@@ -107,6 +107,7 @@ The following attributes are exported:
 * `mesh_selector_type` - Add selectors containing subsets of the configuration depending on traffic.
 * `mode` - ID protection mode used to establish a secure channel.
 * `mode_cfg` - Enable/disable configuration method.
+* `mode_cfg_allow_client_selector` - Enable/disable mode-cfg client to use custom phase2 selectors.
 * `name` - IPsec remote gateway name.
 * `nattraversal` - Enable/disable NAT traversal.
 * `negotiate_timeout` - IKE SA negotiation timeout in seconds (1 - 300).

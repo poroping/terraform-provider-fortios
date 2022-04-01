@@ -69,6 +69,8 @@ The `malware` block contains:
 * `ems_threat_feed` - Threat weight score for virus (EMS threat feed) detected.
 * `file_blocked` - Threat weight score for blocked file detected.
 * `fortiai` - Threat weight score for FortiAI-detected virus.
+* `fortindr` - Threat weight score for FortiNDR-detected virus.
+* `fortisandbox` - Threat weight score for FortiSandbox-detected virus.
 * `fsa_high_risk` - Threat weight score for FortiSandbox high risk malware detected.
 * `fsa_malicious` - Threat weight score for FortiSandbox malicious malware detected.
 * `fsa_medium_risk` - Threat weight score for FortiSandbox medium risk malware detected.

@@ -24,6 +24,7 @@ Configure SSL-VPN.
 * `auth_timeout` - SSL-VPN authentication timeout (1 - 259200 sec (3 days), 0 for no timeout).
 * `auto_tunnel_static_route` - Enable/disable to auto-create static routes for the SSL-VPN tunnel IP addresses. Valid values: `enable` `disable` .
 * `banned_cipher` - Select one or more cipher technologies that cannot be used in SSL-VPN negotiations. Only applies to TLS 1.2 and below. Valid values: `RSA` `DHE` `ECDHE` `DSS` `ECDSA` `AES` `AESGCM` `CAMELLIA` `3DES` `SHA1` `SHA256` `SHA384` `STATIC` `CHACHA20` `ARIA` `AESCCM` .
+* `browser_language_detection` - Enable/disable overriding the configured system language based on the preferred language of the browser. Valid values: `enable` `disable` .
 * `check_referer` - Enable/disable verification of referer field in HTTP request header. Valid values: `enable` `disable` .
 * `ciphersuite` - Select one or more TLS 1.3 ciphersuites to enable. Does not affect ciphers in TLS 1.2 and below. At least one must be enabled. To disable all, set ssl-max-proto-ver to tls1-2 or below. Valid values: `TLS-AES-128-GCM-SHA256` `TLS-AES-256-GCM-SHA384` `TLS-CHACHA20-POLY1305-SHA256` `TLS-AES-128-CCM-SHA256` `TLS-AES-128-CCM-8-SHA256` .
 * `client_sigalgs` - Set signature algorithms related to client authentication. Affects TLS version <= 1.2 only. Valid values: `no-rsa-pss` `all` .
@@ -80,6 +81,7 @@ Configure SSL-VPN.
 * `unsafe_legacy_renegotiation` - Enable/disable unsafe legacy re-negotiation. Valid values: `enable` `disable` .
 * `url_obscuration` - Enable/disable to obscure the host name of the URL of the web browser display. Valid values: `enable` `disable` .
 * `user_peer` - Name of user peer. This attribute must reference one of the following datasources: `user.peer.name` .
+* `web_mode_snat` - Enable/disable use of IP pools defined in firewall policy while using web-mode. Valid values: `enable` `disable` .
 * `wins_server1` - WINS server 1.
 * `wins_server2` - WINS server 2.
 * `x_content_type_options` - Add HTTP X-Content-Type-Options header. Valid values: `enable` `disable` .

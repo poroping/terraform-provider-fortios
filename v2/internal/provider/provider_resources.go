@@ -232,6 +232,8 @@ func providerResources() map[string]*schema.Resource {
 		"fortios_router_bgp_network6":                                resourceRouterBgpNetwork6(),
 		"fortios_router_bgp_redistribute":                            resourceRouterBgpRedistribute(),
 		"fortios_router_bgp_redistribute6":                           resourceRouterBgpRedistribute6(),
+		"fortios_router_bgp_vrf":                                     resourceRouterBgpVrf(),
+		"fortios_router_bgp_vrf6":                                    resourceRouterBgpVrf6(),
 		"fortios_router_bgp_vrf_leak":                                resourceRouterBgpVrfLeak(),
 		"fortios_router_bgp_vrf_leak6":                               resourceRouterBgpVrfLeak6(),
 		"fortios_router_communitylist":                               resourceRouterCommunityList(),

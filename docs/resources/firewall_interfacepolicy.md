@@ -25,6 +25,8 @@ Configure IPv4 interface policies.
 * `av_profile` - Antivirus profile. This attribute must reference one of the following datasources: `antivirus.profile.name` .
 * `av_profile_status` - Enable/disable antivirus. Valid values: `enable` `disable` .
 * `comments` - Comments.
+* `dlp_profile` - DLP profile name. This attribute must reference one of the following datasources: `dlp.profile.name` .
+* `dlp_profile_status` - Enable/disable DLP. Valid values: `enable` `disable` .
 * `dlp_sensor` - DLP sensor name. This attribute must reference one of the following datasources: `dlp.sensor.name` .
 * `dlp_sensor_status` - Enable/disable DLP. Valid values: `enable` `disable` .
 * `dsri` - Enable/disable DSRI. Valid values: `enable` `disable` .

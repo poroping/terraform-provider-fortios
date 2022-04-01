@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
+// Generated from templates using FortiOS v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -44,6 +44,12 @@ func resourceSystemSdwanNeighbor() *schema.Resource {
 				Optional:    true,
 				Default:     false,
 			},
+			"dynamic_sort_subtable": {
+				Type:        schema.TypeBool,
+				Description: "If set will sort table response by mkey",
+				Optional:    true,
+				Default:     false,
+			},
 			"health_check": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
@@ -61,9 +67,26 @@ func resourceSystemSdwanNeighbor() *schema.Resource {
 				Required:    true,
 			},
 			"member": {
-				Type: schema.TypeInt,
+				Type:        schema.TypeList,
+				Description: "Member sequence number list.",
+				Optional:    true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"seq_num": {
+							Type: schema.TypeInt,
 
-				Description: "Member sequence number.",
+							Description: "Member sequence number.",
+							Optional:    true,
+							Computed:    true,
+						},
+					},
+				},
+			},
+			"minimum_sla_meet_members": {
+				Type:         schema.TypeInt,
+				ValidateFunc: validation.IntBetween(1, 255),
+
+				Description: "Minimum number of members which meet SLA when the neighbor is preferred.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -267,10 +290,16 @@ func refreshObjectSystemSdwanNeighbor(d *schema.ResourceData, o *models.SystemSd
 	}
 
 	if o.Member != nil {
-		v := *o.Member
-
-		if err = d.Set("member", v); err != nil {
+		if err = d.Set("member", flattenSystemSdwanNeighborMember(d, o.Member, "member", sort)); err != nil {
 			return diag.Errorf("error reading member: %v", err)
+		}
+	}
+
+	if o.MinimumSlaMeetMembers != nil {
+		v := *o.MinimumSlaMeetMembers
+
+		if err = d.Set("minimum_sla_meet_members", v); err != nil {
+			return diag.Errorf("error reading minimum_sla_meet_members: %v", err)
 		}
 	}
 
@@ -323,14 +352,31 @@ func getObjectSystemSdwanNeighbor(d *schema.ResourceData, sv string) (*models.Sy
 			obj.Ip = &v2
 		}
 	}
-	if v1, ok := d.GetOk("member"); ok {
+	if v, ok := d.GetOk("member"); ok {
+		if !utils.CheckVer(sv, "", "") {
+			e := utils.AttributeVersionWarning("member", sv)
+			diags = append(diags, e)
+		}
+		t, err := expandSystemSdwanNeighborMember(d, v, "member", sv)
+		if err != nil {
+			return &obj, diag.FromErr(err)
+		} else if t != nil {
+			obj.Member = t
+		}
+	} else if d.HasChange("member") {
+		old, new := d.GetChange("member")
+		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
+			obj.Member = &[]models.SystemSdwanNeighborMember{}
+		}
+	}
+	if v1, ok := d.GetOk("minimum_sla_meet_members"); ok {
 		if v2, ok := v1.(int); ok {
-			if !utils.CheckVer(sv, "", "") {
-				e := utils.AttributeVersionWarning("member", sv)
+			if !utils.CheckVer(sv, "v7.2.0", "") {
+				e := utils.AttributeVersionWarning("minimum_sla_meet_members", sv)
 				diags = append(diags, e)
 			}
 			tmp := int64(v2)
-			obj.Member = &tmp
+			obj.MinimumSlaMeetMembers = &tmp
 		}
 	}
 	if v1, ok := d.GetOk("mode"); ok {

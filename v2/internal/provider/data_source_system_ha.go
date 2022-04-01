@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -71,7 +71,7 @@ func dataSourceSystemHa() *schema.Resource {
 			},
 			"group_id": {
 				Type:        schema.TypeInt,
-				Description: "HA group ID  (0 - 1023). Must be the same for all members.",
+				Description: "HA group ID  (0 - 1023;  or 0 - 7 when vcluster is enabled). Must be the same for all members.",
 				Computed:    true,
 			},
 			"group_name": {
@@ -261,7 +261,7 @@ func dataSourceSystemHa() *schema.Resource {
 			},
 			"override": {
 				Type:        schema.TypeString,
-				Description: "Enable and increase the priority of the unit that should always be primary.",
+				Description: "Enable and increase the priority of the unit that should always be primary (master).",
 				Computed:    true,
 			},
 			"override_wait_time": {
@@ -495,7 +495,7 @@ func dataSourceSystemHa() *schema.Resource {
 			},
 			"uninterruptible_primary_wait": {
 				Type:        schema.TypeInt,
-				Description: "Number of minutes the primary HA unit waits before the secondary HA unit is considered upgraded and the system is started before starting its own upgrade (1 - 300, default = 30).",
+				Description: "Number of minutes the primary HA unit waits before the secondary HA unit is considered upgraded and the system is started before starting its own upgrade (15 - 300, default = 30).",
 				Computed:    true,
 			},
 			"uninterruptible_upgrade": {
@@ -503,9 +503,77 @@ func dataSourceSystemHa() *schema.Resource {
 				Description: "Enable to upgrade a cluster without blocking network traffic.",
 				Computed:    true,
 			},
+			"vcluster": {
+				Type:        schema.TypeList,
+				Description: "Virtual cluster table.",
+				Computed:    true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"monitor": {
+							Type:        schema.TypeString,
+							Description: "Interfaces to check for port monitoring (or link failure).",
+							Computed:    true,
+						},
+						"override": {
+							Type:        schema.TypeString,
+							Description: "Enable and increase the priority of the unit that should always be primary (master).",
+							Computed:    true,
+						},
+						"override_wait_time": {
+							Type:        schema.TypeInt,
+							Description: "Delay negotiating if override is enabled (0 - 3600 sec). Reduces how often the cluster negotiates.",
+							Computed:    true,
+						},
+						"pingserver_failover_threshold": {
+							Type:        schema.TypeInt,
+							Description: "Remote IP monitoring failover threshold (0 - 50).",
+							Computed:    true,
+						},
+						"pingserver_monitor_interface": {
+							Type:        schema.TypeString,
+							Description: "Interfaces to check for remote IP monitoring.",
+							Computed:    true,
+						},
+						"pingserver_slave_force_reset": {
+							Type:        schema.TypeString,
+							Description: "Enable to force the cluster to negotiate after a remote IP monitoring failover.",
+							Computed:    true,
+						},
+						"priority": {
+							Type:        schema.TypeInt,
+							Description: "Increase the priority to select the primary unit (0 - 255).",
+							Computed:    true,
+						},
+						"vcluster_id": {
+							Type:        schema.TypeInt,
+							Description: "ID.",
+							Computed:    true,
+						},
+						"vdom": {
+							Type:        schema.TypeList,
+							Description: "Virtual domain(s) in the virtual cluster.",
+							Computed:    true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"name": {
+										Type:        schema.TypeString,
+										Description: "Virtual domain name.",
+										Computed:    true,
+									},
+								},
+							},
+						},
+					},
+				},
+			},
 			"vcluster_id": {
 				Type:        schema.TypeInt,
 				Description: "Cluster ID.",
+				Computed:    true,
+			},
+			"vcluster_status": {
+				Type:        schema.TypeString,
+				Description: "Enable/disable virtual cluster for virtual clustering.",
 				Computed:    true,
 			},
 			"vcluster2": {
@@ -520,7 +588,7 @@ func dataSourceSystemHa() *schema.Resource {
 			},
 			"weight": {
 				Type:        schema.TypeString,
-				Description: "Weighted round robin weight for each cluster unit. Syntax <priority> <weight>.",
+				Description: "Weight-round-robin weight for each cluster unit. Syntax <priority> <weight>.",
 				Computed:    true,
 			},
 		},

@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -154,6 +154,14 @@ func resourceVpnIpsecPhase1Interface() *schema.Resource {
 				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
 
 				Description: "Enable/disable forwarding auto-discovery short-cut messages.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"auto_discovery_offer_interval": {
+				Type:         schema.TypeInt,
+				ValidateFunc: validation.IntBetween(1, 300),
+
+				Description: "Interval between shortcut offer messages in seconds (1 - 300, default = 5).",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -431,9 +439,9 @@ func resourceVpnIpsecPhase1Interface() *schema.Resource {
 			},
 			"encapsulation": {
 				Type:         schema.TypeString,
-				ValidateFunc: validation.StringInSlice([]string{"none", "gre", "vxlan"}, false),
+				ValidateFunc: validation.StringInSlice([]string{"none", "gre", "vxlan", "vpn-id-ipip"}, false),
 
-				Description: "Enable/disable GRE/VXLAN encapsulation.",
+				Description: "Enable/disable GRE/VXLAN/VPNID encapsulation.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -970,6 +978,14 @@ func resourceVpnIpsecPhase1Interface() *schema.Resource {
 				ValidateFunc: validation.StringInSlice([]string{"disable", "enable"}, false),
 
 				Description: "Enable/disable configuration method.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"mode_cfg_allow_client_selector": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"disable", "enable"}, false),
+
+				Description: "Enable/disable mode-cfg client to use custom phase2 selectors.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -1674,6 +1690,14 @@ func refreshObjectVpnIpsecPhase1Interface(d *schema.ResourceData, o *models.VpnI
 
 		if err = d.Set("auto_discovery_forwarder", v); err != nil {
 			return diag.Errorf("error reading auto_discovery_forwarder: %v", err)
+		}
+	}
+
+	if o.AutoDiscoveryOfferInterval != nil {
+		v := *o.AutoDiscoveryOfferInterval
+
+		if err = d.Set("auto_discovery_offer_interval", v); err != nil {
+			return diag.Errorf("error reading auto_discovery_offer_interval: %v", err)
 		}
 	}
 
@@ -2422,6 +2446,14 @@ func refreshObjectVpnIpsecPhase1Interface(d *schema.ResourceData, o *models.VpnI
 		}
 	}
 
+	if o.ModeCfgAllowClientSelector != nil {
+		v := *o.ModeCfgAllowClientSelector
+
+		if err = d.Set("mode_cfg_allow_client_selector", v); err != nil {
+			return diag.Errorf("error reading mode_cfg_allow_client_selector: %v", err)
+		}
+	}
+
 	if o.Monitor != nil {
 		v := *o.Monitor
 
@@ -3010,6 +3042,16 @@ func getObjectVpnIpsecPhase1Interface(d *schema.ResourceData, sv string) (*model
 				diags = append(diags, e)
 			}
 			obj.AutoDiscoveryForwarder = &v2
+		}
+	}
+	if v1, ok := d.GetOk("auto_discovery_offer_interval"); ok {
+		if v2, ok := v1.(int); ok {
+			if !utils.CheckVer(sv, "v7.2.0", "") {
+				e := utils.AttributeVersionWarning("auto_discovery_offer_interval", sv)
+				diags = append(diags, e)
+			}
+			tmp := int64(v2)
+			obj.AutoDiscoveryOfferInterval = &tmp
 		}
 	}
 	if v1, ok := d.GetOk("auto_discovery_psk"); ok {
@@ -3901,6 +3943,15 @@ func getObjectVpnIpsecPhase1Interface(d *schema.ResourceData, sv string) (*model
 				diags = append(diags, e)
 			}
 			obj.ModeCfg = &v2
+		}
+	}
+	if v1, ok := d.GetOk("mode_cfg_allow_client_selector"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.0", "") {
+				e := utils.AttributeVersionWarning("mode_cfg_allow_client_selector", sv)
+				diags = append(diags, e)
+			}
+			obj.ModeCfgAllowClientSelector = &v2
 		}
 	}
 	if v1, ok := d.GetOk("monitor"); ok {

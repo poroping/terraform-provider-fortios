@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -28,6 +28,56 @@ func dataSourceRouterBfd6() *schema.Resource {
 				Description: "Specifies the vdom to which the dataSource will be applied when the FortiGate unit is running in VDOM mode. If you want to inherit the VDOM configuration of the provider, do not set this parameter.",
 				Optional:    true,
 				ForceNew:    true,
+			},
+			"multihop_template": {
+				Type:        schema.TypeList,
+				Description: "BFD IPv6 multi-hop template table.",
+				Computed:    true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"auth_mode": {
+							Type:        schema.TypeString,
+							Description: "Authentication mode.",
+							Computed:    true,
+						},
+						"bfd_desired_min_tx": {
+							Type:        schema.TypeInt,
+							Description: "BFD desired minimal transmit interval (milliseconds).",
+							Computed:    true,
+						},
+						"bfd_detect_mult": {
+							Type:        schema.TypeInt,
+							Description: "BFD detection multiplier.",
+							Computed:    true,
+						},
+						"bfd_required_min_rx": {
+							Type:        schema.TypeInt,
+							Description: "BFD required minimal receive interval (milliseconds).",
+							Computed:    true,
+						},
+						"dst": {
+							Type:        schema.TypeString,
+							Description: "Destination prefix.",
+							Computed:    true,
+						},
+						"id": {
+							Type:        schema.TypeInt,
+							Description: "ID.",
+							Computed:    true,
+						},
+						"md5_key": {
+							Type:        schema.TypeString,
+							Description: "MD5 key of key ID 1.",
+							Computed:    true,
+							Sensitive:   true,
+						},
+						"src": {
+							Type:        schema.TypeString,
+							Description: "Source prefix.",
+							Computed:    true,
+						},
+					},
+				},
 			},
 			"neighbor": {
 				Type:        schema.TypeList,

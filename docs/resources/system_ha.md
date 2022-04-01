@@ -27,7 +27,7 @@ Configure HA.
 * `failover_hold_time` - Time to wait before failover (0 - 300 sec, default = 0), to avoid flip.
 * `ftp_proxy_threshold` - Dynamic weighted load balancing weight and high and low number of FTP proxy sessions.
 * `gratuitous_arps` - Enable/disable gratuitous ARPs. Disable if link-failed-signal enabled. Valid values: `enable` `disable` .
-* `group_id` - HA group ID  (0 - 1023). Must be the same for all members.
+* `group_id` - HA group ID  (0 - 1023;  or 0 - 7 when vcluster is enabled). Must be the same for all members.
 * `group_name` - Cluster group name. Must be the same for all members.
 * `ha_direct` - Enable/disable using ha-mgmt interface for syslog, SNMP, remote authentication (RADIUS), FortiAnalyzer, FortiSandbox, sFlow, and Netflow. Valid values: `enable` `disable` .
 * `ha_eth_type` - HA heartbeat packet Ethertype (4-digit hex).
@@ -58,7 +58,7 @@ Configure HA.
 * `monitor` - Interfaces to check for port monitoring (or link failure). This attribute must reference one of the following datasources: `system.interface.name` .
 * `multicast_ttl` - HA multicast TTL on primary (5 - 3600 sec).
 * `nntp_proxy_threshold` - Dynamic weighted load balancing weight and high and low number of NNTP proxy sessions.
-* `override` - Enable and increase the priority of the unit that should always be primary. Valid values: `enable` `disable` .
+* `override` - Enable and increase the priority of the unit that should always be primary (master). Valid values: `enable` `disable` .
 * `override_wait_time` - Delay negotiating if override is enabled (0 - 3600 sec). Reduces how often the cluster negotiates.
 * `password` - Cluster password. Must be the same for all members.
 * `pingserver_failover_threshold` - Remote IP monitoring failover threshold (0 - 50).
@@ -89,12 +89,13 @@ Configure HA.
 * `unicast_hb_netmask` - Unicast heartbeat netmask.
 * `unicast_hb_peerip` - Unicast heartbeat peer IP.
 * `unicast_status` - Enable/disable unicast connection. Valid values: `enable` `disable` .
-* `uninterruptible_primary_wait` - Number of minutes the primary HA unit waits before the secondary HA unit is considered upgraded and the system is started before starting its own upgrade (1 - 300, default = 30).
+* `uninterruptible_primary_wait` - Number of minutes the primary HA unit waits before the secondary HA unit is considered upgraded and the system is started before starting its own upgrade (15 - 300, default = 30).
 * `uninterruptible_upgrade` - Enable to upgrade a cluster without blocking network traffic. Valid values: `enable` `disable` .
 * `vcluster_id` - Cluster ID.
+* `vcluster_status` - Enable/disable virtual cluster for virtual clustering. Valid values: `enable` `disable` .
 * `vcluster2` - Enable/disable virtual cluster 2 for virtual clustering. Valid values: `enable` `disable` .
 * `vdom` - VDOMs in virtual cluster 1.
-* `weight` - Weighted round robin weight for each cluster unit. Syntax <priority> <weight>.
+* `weight` - Weight-round-robin weight for each cluster unit. Syntax <priority> <weight>.
 * `ha_mgmt_interfaces` - Reserve interfaces to manage individual cluster units. The structure of `ha_mgmt_interfaces` block is documented below.
 
 The `ha_mgmt_interfaces` block contains:
@@ -124,6 +125,23 @@ The `unicast_peers` block contains:
 
 * `id` - Table ID.
 * `peer_ip` - Unicast peer IP.
+* `vcluster` - Virtual cluster table. The structure of `vcluster` block is documented below.
+
+The `vcluster` block contains:
+
+* `monitor` - Interfaces to check for port monitoring (or link failure). This attribute must reference one of the following datasources: `system.interface.name` .
+* `override` - Enable and increase the priority of the unit that should always be primary (master). Valid values: `enable` `disable` .
+* `override_wait_time` - Delay negotiating if override is enabled (0 - 3600 sec). Reduces how often the cluster negotiates.
+* `pingserver_failover_threshold` - Remote IP monitoring failover threshold (0 - 50).
+* `pingserver_monitor_interface` - Interfaces to check for remote IP monitoring. This attribute must reference one of the following datasources: `system.interface.name` .
+* `pingserver_slave_force_reset` - Enable to force the cluster to negotiate after a remote IP monitoring failover. Valid values: `enable` `disable` .
+* `priority` - Increase the priority to select the primary unit (0 - 255).
+* `vcluster_id` - ID.
+* `vdom` - Virtual domain(s) in the virtual cluster. The structure of `vdom` block is documented below.
+
+The `vdom` block contains:
+
+* `name` - Virtual domain name. This attribute must reference one of the following datasources: `system.vdom.name` .
 
 ## Attribute Reference
 

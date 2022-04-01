@@ -38,6 +38,7 @@ The following attributes are exported:
 * `http_get` - URL used to communicate with the server if the protocol if the protocol is HTTP.
 * `http_match` - Response string expected from the server if the protocol is HTTP.
 * `interval` - Status check interval in milliseconds, or the time between attempting to connect to the server (500 - 3600*1000 msec, default = 500).
+* `mos_codec` - Codec to use for MOS calculation (default = g711).
 * `name` - Status check or health check name.
 * `packet_size` - Packet size of a TWAMP test session.
 * `password` - TWAMP controller password in authentication mode.
@@ -52,6 +53,7 @@ The following attributes are exported:
 * `server` - IP address or FQDN name of the server.
 * `sla_fail_log_period` - Time interval in seconds that SLA fail log messages will be generated (0 - 3600, default = 0).
 * `sla_pass_log_period` - Time interval in seconds that SLA pass log messages will be generated (0 - 3600, default = 0).
+* `source` - Source IP address used in the health-check packet to the server.
 * `system_dns` - Enable/disable system DNS as the probe server.
 * `threshold_alert_jitter` - Alert threshold for jitter (ms, default = 0).
 * `threshold_alert_latency` - Alert threshold for latency (ms, default = 0).
@@ -62,6 +64,7 @@ The following attributes are exported:
 * `update_cascade_interface` - Enable/disable update cascade interface.
 * `update_static_route` - Enable/disable updating the static route.
 * `user` - The user name to access probe server.
+* `vrf` - Virtual Routing Forwarding ID.
 * `members` - Member sequence number list.The structure of `members` block is documented below.
 
 The `members` block contains:
@@ -75,4 +78,5 @@ The `sla` block contains:
 * `jitter_threshold` - Jitter for SLA to make decision in milliseconds. (0 - 10000000, default = 5).
 * `latency_threshold` - Latency for SLA to make decision in milliseconds. (0 - 10000000, default = 5).
 * `link_cost_factor` - Criteria on which to base link selection.
+* `mos_threshold` - Minimum Mean Opinion Score for SLA to be marked as pass. (1.0 - 5.0, default = 3.6).
 * `packetloss_threshold` - Packet loss for SLA to make decision in percentage. (0 - 100, default = 0).

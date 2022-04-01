@@ -1,3 +1,8 @@
+## 3.2.0 (unreleased)
+
+IMPROVEMENTS:
+* Support for 7.2.0
+
 ## 3.1.5
 
 IMPROVEMENTS:

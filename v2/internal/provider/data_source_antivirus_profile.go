@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -32,7 +32,7 @@ func dataSourceAntivirusProfile() *schema.Resource {
 			},
 			"analytics_accept_filetype": {
 				Type:        schema.TypeInt,
-				Description: "Only submit files matching this DLP file-pattern to FortiSandbox.",
+				Description: "Only submit files matching this DLP file-pattern to FortiSandbox (post-transfer scan only).",
 				Computed:    true,
 			},
 			"analytics_bl_filetype": {
@@ -47,7 +47,7 @@ func dataSourceAntivirusProfile() *schema.Resource {
 			},
 			"analytics_ignore_filetype": {
 				Type:        schema.TypeInt,
-				Description: "Do not submit files matching this DLP file-pattern to FortiSandbox.",
+				Description: "Do not submit files matching this DLP file-pattern to FortiSandbox (post-transfer scan only).",
 				Computed:    true,
 			},
 			"analytics_max_upload": {
@@ -104,6 +104,16 @@ func dataSourceAntivirusProfile() *schema.Resource {
 						"fortiai": {
 							Type:        schema.TypeString,
 							Description: "Enable/disable scanning of files by FortiAI.",
+							Computed:    true,
+						},
+						"fortindr": {
+							Type:        schema.TypeString,
+							Description: "Enable scanning of files by FortiNDR.",
+							Computed:    true,
+						},
+						"fortisandbox": {
+							Type:        schema.TypeString,
+							Description: "Enable scanning of files by FortiSandbox.",
 							Computed:    true,
 						},
 						"options": {
@@ -282,6 +292,36 @@ func dataSourceAntivirusProfile() *schema.Resource {
 				Description: "Action to take if FortiAI encounters a scan timeout.",
 				Computed:    true,
 			},
+			"fortindr_error_action": {
+				Type:        schema.TypeString,
+				Description: "Action to take if FortiNDR encounters an error.",
+				Computed:    true,
+			},
+			"fortindr_timeout_action": {
+				Type:        schema.TypeString,
+				Description: "Action to take if FortiNDR encounters a scan timeout.",
+				Computed:    true,
+			},
+			"fortisandbox_error_action": {
+				Type:        schema.TypeString,
+				Description: "Action to take if FortiSandbox inline scan encounters an error.",
+				Computed:    true,
+			},
+			"fortisandbox_max_upload": {
+				Type:        schema.TypeInt,
+				Description: "Maximum size of files that can be uploaded to FortiSandbox.",
+				Computed:    true,
+			},
+			"fortisandbox_mode": {
+				Type:        schema.TypeString,
+				Description: "FortiSandbox scan modes.",
+				Computed:    true,
+			},
+			"fortisandbox_timeout_action": {
+				Type:        schema.TypeString,
+				Description: "Action to take if FortiSandbox inline scan encounters a scan timeout.",
+				Computed:    true,
+			},
 			"ftgd_analytics": {
 				Type:        schema.TypeString,
 				Description: "Settings to control which files are uploaded to FortiSandbox.",
@@ -321,6 +361,16 @@ func dataSourceAntivirusProfile() *schema.Resource {
 						"fortiai": {
 							Type:        schema.TypeString,
 							Description: "Enable/disable scanning of files by FortiAI.",
+							Computed:    true,
+						},
+						"fortindr": {
+							Type:        schema.TypeString,
+							Description: "Enable scanning of files by FortiNDR.",
+							Computed:    true,
+						},
+						"fortisandbox": {
+							Type:        schema.TypeString,
+							Description: "Enable scanning of files by FortiSandbox.",
 							Computed:    true,
 						},
 						"options": {
@@ -380,6 +430,16 @@ func dataSourceAntivirusProfile() *schema.Resource {
 						"fortiai": {
 							Type:        schema.TypeString,
 							Description: "Enable/disable scanning of files by FortiAI.",
+							Computed:    true,
+						},
+						"fortindr": {
+							Type:        schema.TypeString,
+							Description: "Enable scanning of files by FortiNDR.",
+							Computed:    true,
+						},
+						"fortisandbox": {
+							Type:        schema.TypeString,
+							Description: "Enable scanning of files by FortiSandbox.",
 							Computed:    true,
 						},
 						"options": {
@@ -446,6 +506,16 @@ func dataSourceAntivirusProfile() *schema.Resource {
 							Description: "Enable/disable scanning of files by FortiAI.",
 							Computed:    true,
 						},
+						"fortindr": {
+							Type:        schema.TypeString,
+							Description: "Enable scanning of files by FortiNDR.",
+							Computed:    true,
+						},
+						"fortisandbox": {
+							Type:        schema.TypeString,
+							Description: "Enable scanning of files by FortiSandbox.",
+							Computed:    true,
+						},
 						"options": {
 							Type:        schema.TypeString,
 							Description: "Enable/disable IMAP AntiVirus scanning, monitoring, and quarantine.",
@@ -503,6 +573,16 @@ func dataSourceAntivirusProfile() *schema.Resource {
 						"fortiai": {
 							Type:        schema.TypeString,
 							Description: "Enable/disable scanning of files by FortiAI.",
+							Computed:    true,
+						},
+						"fortindr": {
+							Type:        schema.TypeString,
+							Description: "Enable scanning of files by FortiNDR.",
+							Computed:    true,
+						},
+						"fortisandbox": {
+							Type:        schema.TypeString,
+							Description: "Enable scanning of files by FortiSandbox.",
 							Computed:    true,
 						},
 						"options": {
@@ -593,6 +673,16 @@ func dataSourceAntivirusProfile() *schema.Resource {
 							Description: "Enable/disable scanning of files by FortiAI.",
 							Computed:    true,
 						},
+						"fortindr": {
+							Type:        schema.TypeString,
+							Description: "Enable scanning of files by FortiNDR.",
+							Computed:    true,
+						},
+						"fortisandbox": {
+							Type:        schema.TypeString,
+							Description: "Enable scanning of files by FortiSandbox.",
+							Computed:    true,
+						},
 						"options": {
 							Type:        schema.TypeString,
 							Description: "Enable/disable NNTP AntiVirus scanning, monitoring, and quarantine.",
@@ -681,6 +771,16 @@ func dataSourceAntivirusProfile() *schema.Resource {
 							Description: "Enable/disable scanning of files by FortiAI.",
 							Computed:    true,
 						},
+						"fortindr": {
+							Type:        schema.TypeString,
+							Description: "Enable scanning of files by FortiNDR.",
+							Computed:    true,
+						},
+						"fortisandbox": {
+							Type:        schema.TypeString,
+							Description: "Enable scanning of files by FortiSandbox.",
+							Computed:    true,
+						},
 						"options": {
 							Type:        schema.TypeString,
 							Description: "Enable/disable POP3 AntiVirus scanning, monitoring, and quarantine.",
@@ -755,6 +855,16 @@ func dataSourceAntivirusProfile() *schema.Resource {
 							Description: "Enable/disable scanning of files by FortiAI.",
 							Computed:    true,
 						},
+						"fortindr": {
+							Type:        schema.TypeString,
+							Description: "Enable scanning of files by FortiNDR.",
+							Computed:    true,
+						},
+						"fortisandbox": {
+							Type:        schema.TypeString,
+							Description: "Enable scanning of files by FortiSandbox.",
+							Computed:    true,
+						},
 						"options": {
 							Type:        schema.TypeString,
 							Description: "Enable/disable SMTP AntiVirus scanning, monitoring, and quarantine.",
@@ -807,6 +917,16 @@ func dataSourceAntivirusProfile() *schema.Resource {
 						"fortiai": {
 							Type:        schema.TypeString,
 							Description: "Enable/disable scanning of files by FortiAI.",
+							Computed:    true,
+						},
+						"fortindr": {
+							Type:        schema.TypeString,
+							Description: "Enable scanning of files by FortiNDR.",
+							Computed:    true,
+						},
+						"fortisandbox": {
+							Type:        schema.TypeString,
+							Description: "Enable scanning of files by FortiSandbox.",
 							Computed:    true,
 						},
 						"options": {

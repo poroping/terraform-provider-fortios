@@ -29,6 +29,7 @@ The following attributes are exported:
 * `auth_pwd` - Password for authentication protocol.
 * `events` - SNMP notifications (traps) to send.
 * `ha_direct` - Enable/disable direct management of HA cluster members.
+* `mib_view` - SNMP access control MIB view.
 * `name` - SNMP user name.
 * `notify_hosts` - SNMP managers to send notifications (traps) to.
 * `notify_hosts6` - IPv6 SNMP managers to send notifications (traps) to.
@@ -43,3 +44,8 @@ The following attributes are exported:
 * `trap_lport` - SNMPv3 local trap port (default = 162).
 * `trap_rport` - SNMPv3 trap remote port (default = 162).
 * `trap_status` - Enable/disable traps for this SNMP user.
+* `vdoms` - SNMP access control VDOMs.The structure of `vdoms` block is documented below.
+
+The `vdoms` block contains:
+
+* `name` - VDOM name

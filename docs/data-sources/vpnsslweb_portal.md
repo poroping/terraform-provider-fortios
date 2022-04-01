@@ -30,6 +30,8 @@ The following attributes are exported:
 * `clipboard` - Enable to support RDP/VPC clipboard functionality.
 * `custom_lang` - Change the web portal display language. Overrides config system global set language. You can use config system custom-language and execute system custom-language to add custom language files.
 * `customize_forticlient_download_url` - Enable support of customized download URL for FortiClient.
+* `default_window_height` - Screen height (range from 0 - 65535, default = 768).
+* `default_window_width` - Screen width (range from 0 - 65535, default = 1024).
 * `display_bookmark` - Enable to display the web portal bookmark widget.
 * `display_connection_tools` - Enable to display the web portal connection tools widget.
 * `display_history` - Enable to display the web portal user login history widget.
@@ -99,7 +101,7 @@ The `bookmarks` block contains:
 * `description` - Description.
 * `domain` - Login domain.
 * `folder` - Network shared file folder parameter.
-* `height` - Screen height (range from 480 - 65535, default = 768).
+* `height` - Screen height (range from 0 - 65535, default = 0).
 * `host` - Host name/IP parameter.
 * `keyboard_layout` - Keyboard layout.
 * `listening_port` - Listening port (0 - 65535).
@@ -122,7 +124,7 @@ The `bookmarks` block contains:
 * `sso_password` - SSO password.
 * `sso_username` - SSO user name.
 * `url` - URL parameter.
-* `width` - Screen width (range from 640 - 65535, default = 1024).
+* `width` - Screen width (range from 0 - 65535, default = 0).
 * `form_data` - Form data.The structure of `form_data` block is documented below.
 
 The `form_data` block contains:

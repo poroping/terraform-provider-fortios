@@ -28,9 +28,12 @@ The following attributes are exported:
 * `access_control_list` - Profile name for access-control-list.
 * `acct_interim_interval` - WiFi RADIUS accounting interim interval (60 - 86400 sec, default = 0).
 * `additional_akms` - Additional AKMs.
-* `address_group` - Address group ID.
+* `address_group` - Firewall Address Group Name.
+* `address_group_policy` - Configure MAC address filtering policy for MAC addresses that are in the address-group.
 * `antivirus_profile` - AntiVirus profile name.
+* `application_detection_engine` - Enable/disable application detection engine (default = disable).
 * `application_list` - Application control list name.
+* `application_report_intv` - Application report interval (30 - 864000 sec, default = 120).
 * `atf_weight` - Airtime weight in percentage (default = 20).
 * `auth` - Authentication protocol.
 * `auth_cert` - HTTPS server certificate.
@@ -82,6 +85,7 @@ The following attributes are exported:
 * `ipv6_rules` - Optional rules of IPv6 packets. For example, you can keep RA, RS and so on off of the wireless network.
 * `key` - WEP Key.
 * `keyindex` - WEP key index (1 - 4).
+* `l3_roaming` - Enable/disable layer 3 roaming (default = disable).
 * `ldpc` - VAP low-density parity-check (LDPC) coding configuration.
 * `local_authentication` - Enable/disable AP local authentication.
 * `local_bridging` - Enable/disable bridging of wireless and Ethernet interfaces on the FortiAP (default = disable).

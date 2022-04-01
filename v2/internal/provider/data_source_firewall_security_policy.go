@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -95,6 +95,11 @@ func dataSourceFirewallSecurityPolicy() *schema.Resource {
 			"comments": {
 				Type:        schema.TypeString,
 				Description: "Comment.",
+				Computed:    true,
+			},
+			"dlp_profile": {
+				Type:        schema.TypeString,
+				Description: "Name of an existing DLP profile.",
 				Computed:    true,
 			},
 			"dlp_sensor": {
@@ -542,18 +547,9 @@ func dataSourceFirewallSecurityPolicy() *schema.Resource {
 				Computed:    true,
 			},
 			"url_category": {
-				Type:        schema.TypeList,
-				Description: "URL category ID list.",
+				Type:        schema.TypeString,
+				Description: "URL categories or groups.",
 				Computed:    true,
-				Elem: &schema.Resource{
-					Schema: map[string]*schema.Schema{
-						"id": {
-							Type:        schema.TypeInt,
-							Description: "URL category ID.",
-							Computed:    true,
-						},
-					},
-				},
 			},
 			"users": {
 				Type:        schema.TypeList,

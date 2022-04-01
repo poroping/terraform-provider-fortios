@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -1160,7 +1160,7 @@ func resourceFirewallSslSshProfile() *schema.Resource {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringInSlice([]string{"disable", "enable"}, false),
 
-				Description: "Enable/disable logging SSL anomalies.",
+				Description: "Enable/disable logging of SSL anomalies.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -1228,6 +1228,14 @@ func resourceFirewallSslSshProfile() *schema.Resource {
 						},
 					},
 				},
+			},
+			"ssl_exemption_ip_rating": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+				Description: "Enable/disable IP based URL rating.",
+				Optional:    true,
+				Computed:    true,
 			},
 			"ssl_exemption_log": {
 				Type:         schema.TypeString,
@@ -2472,6 +2480,14 @@ func refreshObjectFirewallSslSshProfile(d *schema.ResourceData, o *models.Firewa
 	if o.SslExempt != nil {
 		if err = d.Set("ssl_exempt", flattenFirewallSslSshProfileSslExempt(d, o.SslExempt, "ssl_exempt", sort)); err != nil {
 			return diag.Errorf("error reading ssl_exempt: %v", err)
+		}
+	}
+
+	if o.SslExemptionIpRating != nil {
+		v := *o.SslExemptionIpRating
+
+		if err = d.Set("ssl_exemption_ip_rating", v); err != nil {
+			return diag.Errorf("error reading ssl_exemption_ip_rating: %v", err)
 		}
 	}
 
@@ -3996,6 +4012,15 @@ func getObjectFirewallSslSshProfile(d *schema.ResourceData, sv string) (*models.
 		old, new := d.GetChange("ssl_exempt")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
 			obj.SslExempt = &[]models.FirewallSslSshProfileSslExempt{}
+		}
+	}
+	if v1, ok := d.GetOk("ssl_exemption_ip_rating"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.0", "") {
+				e := utils.AttributeVersionWarning("ssl_exemption_ip_rating", sv)
+				diags = append(diags, e)
+			}
+			obj.SslExemptionIpRating = &v2
 		}
 	}
 	if v1, ok := d.GetOk("ssl_exemption_log"); ok {

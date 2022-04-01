@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -389,6 +389,14 @@ func resourceSystemAutomationAction() *schema.Resource {
 				ForceNew:    true,
 				Required:    true,
 			},
+			"output_size": {
+				Type:         schema.TypeInt,
+				ValidateFunc: validation.IntBetween(1, 1024),
+
+				Description: "Number of megabytes to limit script output to (1 - 1024, default = 10).",
+				Optional:    true,
+				Computed:    true,
+			},
 			"port": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 65535),
@@ -459,6 +467,14 @@ func resourceSystemAutomationAction() *schema.Resource {
 				ValidateFunc: validation.StringLenBetween(0, 255),
 
 				Description: "NSX security tag.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"timeout": {
+				Type:         schema.TypeInt,
+				ValidateFunc: validation.IntBetween(0, 300),
+
+				Description: "Maximum running time for this script in seconds (0 = no timeout).",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -1031,6 +1047,14 @@ func refreshObjectSystemAutomationAction(d *schema.ResourceData, o *models.Syste
 		}
 	}
 
+	if o.OutputSize != nil {
+		v := *o.OutputSize
+
+		if err = d.Set("output_size", v); err != nil {
+			return diag.Errorf("error reading output_size: %v", err)
+		}
+	}
+
 	if o.Port != nil {
 		v := *o.Port
 
@@ -1090,6 +1114,14 @@ func refreshObjectSystemAutomationAction(d *schema.ResourceData, o *models.Syste
 
 		if err = d.Set("security_tag", v); err != nil {
 			return diag.Errorf("error reading security_tag: %v", err)
+		}
+	}
+
+	if o.Timeout != nil {
+		v := *o.Timeout
+
+		if err = d.Set("timeout", v); err != nil {
+			return diag.Errorf("error reading timeout: %v", err)
 		}
 	}
 
@@ -1574,6 +1606,16 @@ func getObjectSystemAutomationAction(d *schema.ResourceData, sv string) (*models
 			obj.Name = &v2
 		}
 	}
+	if v1, ok := d.GetOk("output_size"); ok {
+		if v2, ok := v1.(int); ok {
+			if !utils.CheckVer(sv, "v7.2.0", "") {
+				e := utils.AttributeVersionWarning("output_size", sv)
+				diags = append(diags, e)
+			}
+			tmp := int64(v2)
+			obj.OutputSize = &tmp
+		}
+	}
 	if v1, ok := d.GetOk("port"); ok {
 		if v2, ok := v1.(int); ok {
 			if !utils.CheckVer(sv, "", "") {
@@ -1653,6 +1695,16 @@ func getObjectSystemAutomationAction(d *schema.ResourceData, sv string) (*models
 				diags = append(diags, e)
 			}
 			obj.SecurityTag = &v2
+		}
+	}
+	if v1, ok := d.GetOk("timeout"); ok {
+		if v2, ok := v1.(int); ok {
+			if !utils.CheckVer(sv, "v7.2.0", "") {
+				e := utils.AttributeVersionWarning("timeout", sv)
+				diags = append(diags, e)
+			}
+			tmp := int64(v2)
+			obj.Timeout = &tmp
 		}
 	}
 	if v1, ok := d.GetOk("tls_certificate"); ok {

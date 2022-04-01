@@ -22,6 +22,7 @@ SNMP community configuration.
 
 * `events` - SNMP trap events. Valid values: `cpu-high` `mem-low` `log-full` `intf-ip` `vpn-tun-up` `vpn-tun-down` `ha-switch` `ha-hb-failure` `ips-signature` `ips-anomaly` `av-virus` `av-oversize` `av-pattern` `av-fragmented` `fm-if-change` `fm-conf-change` `bgp-established` `bgp-backward-transition` `ha-member-up` `ha-member-down` `ent-conf-change` `av-conserve` `av-bypass` `av-oversize-passed` `av-oversize-blocked` `ips-pkg-update` `ips-fail-open` `faz-disconnect` `wc-ap-up` `wc-ap-down` `fswctl-session-up` `fswctl-session-down` `load-balance-real-server-down` `device-new` `per-cpu-high` `dhcp` `ospf-nbr-state-change` `ospf-virtnbr-state-change` .
 * `id` - Community ID.
+* `mib_view` - SNMP access control MIB view. This attribute must reference one of the following datasources: `system.snmp.mib-view.name` .
 * `name` - Community name.
 * `query_v1_port` - SNMP v1 query port (default = 161).
 * `query_v1_status` - Enable/disable SNMP v1 queries. Valid values: `enable` `disable` .
@@ -52,6 +53,11 @@ The `hosts6` block contains:
 * `id` - Host6 entry ID.
 * `ipv6` - SNMP manager IPv6 address prefix.
 * `source_ipv6` - Source IPv6 address for SNMP traps.
+* `vdoms` - SNMP access control VDOMs. The structure of `vdoms` block is documented below.
+
+The `vdoms` block contains:
+
+* `name` - VDOM name This attribute must reference one of the following datasources: `system.vdom.name` .
 
 ## Attribute Reference
 

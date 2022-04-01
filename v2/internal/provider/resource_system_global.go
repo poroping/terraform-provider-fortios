@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -293,6 +293,14 @@ func resourceSystemGlobal() *schema.Resource {
 				ValidateFunc: validation.IntBetween(1, 65535),
 
 				Description: "User authentication HTTPS port. (1 - 65535, default = 1003).",
+				Optional:    true,
+				Computed:    true,
+			},
+			"auth_ike_saml_port": {
+				Type:         schema.TypeInt,
+				ValidateFunc: validation.IntBetween(0, 65535),
+
+				Description: "User IKE SAML authentication port (0 - 65535, default = 1001).",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -794,6 +802,14 @@ func resourceSystemGlobal() *schema.Resource {
 				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
 
 				Description: "Enable/disable wireless open security option on the GUI.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"gui_workflow_management": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+				Description: "Enable/disable Workflow management features on the GUI.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -1675,7 +1691,7 @@ func resourceSystemGlobal() *schema.Resource {
 			},
 			"user_device_store_max_devices": {
 				Type:         schema.TypeInt,
-				ValidateFunc: validation.IntBetween(36677, 104794),
+				ValidateFunc: validation.IntBetween(36677, 104793),
 
 				Description: "Maximum number of devices allowed in user device store.",
 				Optional:    true,
@@ -1683,7 +1699,7 @@ func resourceSystemGlobal() *schema.Resource {
 			},
 			"user_device_store_max_unified_mem": {
 				Type:         schema.TypeInt,
-				ValidateFunc: validation.IntBetween(73355960, 733559603),
+				ValidateFunc: validation.IntBetween(73355796, 733557964),
 
 				Description: "Maximum unified memory allowed in user device store.",
 				Optional:    true,
@@ -1691,7 +1707,7 @@ func resourceSystemGlobal() *schema.Resource {
 			},
 			"user_device_store_max_users": {
 				Type:         schema.TypeInt,
-				ValidateFunc: validation.IntBetween(36677, 104794),
+				ValidateFunc: validation.IntBetween(36677, 104793),
 
 				Description: "Maximum number of users allowed in user device store.",
 				Optional:    true,
@@ -2221,6 +2237,14 @@ func refreshObjectSystemGlobal(d *schema.ResourceData, o *models.SystemGlobal, s
 		}
 	}
 
+	if o.AuthIkeSamlPort != nil {
+		v := *o.AuthIkeSamlPort
+
+		if err = d.Set("auth_ike_saml_port", v); err != nil {
+			return diag.Errorf("error reading auth_ike_saml_port: %v", err)
+		}
+	}
+
 	if o.AuthKeepalive != nil {
 		v := *o.AuthKeepalive
 
@@ -2727,6 +2751,14 @@ func refreshObjectSystemGlobal(d *schema.ResourceData, o *models.SystemGlobal, s
 
 		if err = d.Set("gui_wireless_opensecurity", v); err != nil {
 			return diag.Errorf("error reading gui_wireless_opensecurity: %v", err)
+		}
+	}
+
+	if o.GuiWorkflowManagement != nil {
+		v := *o.GuiWorkflowManagement
+
+		if err = d.Set("gui_workflow_management", v); err != nil {
+			return diag.Errorf("error reading gui_workflow_management: %v", err)
 		}
 	}
 
@@ -4060,6 +4092,16 @@ func getObjectSystemGlobal(d *schema.ResourceData, sv string) (*models.SystemGlo
 			obj.AuthHttpsPort = &tmp
 		}
 	}
+	if v1, ok := d.GetOk("auth_ike_saml_port"); ok {
+		if v2, ok := v1.(int); ok {
+			if !utils.CheckVer(sv, "v7.2.0", "") {
+				e := utils.AttributeVersionWarning("auth_ike_saml_port", sv)
+				diags = append(diags, e)
+			}
+			tmp := int64(v2)
+			obj.AuthIkeSamlPort = &tmp
+		}
+	}
 	if v1, ok := d.GetOk("auth_keepalive"); ok {
 		if v2, ok := v1.(string); ok {
 			if !utils.CheckVer(sv, "", "") {
@@ -4640,6 +4682,15 @@ func getObjectSystemGlobal(d *schema.ResourceData, sv string) (*models.SystemGlo
 				diags = append(diags, e)
 			}
 			obj.GuiWirelessOpensecurity = &v2
+		}
+	}
+	if v1, ok := d.GetOk("gui_workflow_management"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.0", "") {
+				e := utils.AttributeVersionWarning("gui_workflow_management", sv)
+				diags = append(diags, e)
+			}
+			obj.GuiWorkflowManagement = &v2
 		}
 	}
 	if v1, ok := d.GetOk("ha_affinity"); ok {

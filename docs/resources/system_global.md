@@ -50,6 +50,7 @@ Configure global attributes.
 * `auth_cert` - Server certificate that the FortiGate uses for HTTPS firewall authentication connections. This attribute must reference one of the following datasources: `certificate.local.name` .
 * `auth_http_port` - User authentication HTTP port. (1 - 65535, default = 1000).
 * `auth_https_port` - User authentication HTTPS port. (1 - 65535, default = 1003).
+* `auth_ike_saml_port` - User IKE SAML authentication port (0 - 65535, default = 1001).
 * `auth_keepalive` - Enable to prevent user authentication sessions from timing out when idle. Valid values: `enable` `disable` .
 * `auth_session_limit` - Action to take when the number of allowed user authenticated sessions is reached. Valid values: `block-new` `logout-inactive` .
 * `auto_auth_extension_device` - Enable/disable automatic authorization of dedicated Fortinet extension devices. Valid values: `enable` `disable` .
@@ -113,6 +114,7 @@ Configure global attributes.
 * `gui_rest_api_cache` - Enable/disable REST API result caching on FortiGate. Valid values: `enable` `disable` .
 * `gui_theme` - Color scheme for the administration GUI. Valid values: `jade` `neutrino` `mariner` `graphite` `melongene` `retro` `dark-matter` `onyx` `eclipse` .
 * `gui_wireless_opensecurity` - Enable/disable wireless open security option on the GUI. Valid values: `enable` `disable` .
+* `gui_workflow_management` - Enable/disable Workflow management features on the GUI. Valid values: `enable` `disable` .
 * `ha_affinity` - Affinity setting for HA daemons (hexadecimal value up to 256 bits in the format of xxxxxxxxxxxxxxxx).
 * `honor_df` - Enable/disable honoring of Don't-Fragment (DF) flag. Valid values: `enable` `disable` .
 * `hostname` - FortiGate unit's hostname. Most models will truncate names longer than 24 characters. Some models support hostnames up to 35 characters.

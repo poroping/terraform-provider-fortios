@@ -67,6 +67,7 @@ The following attributes are exported:
 * `update_ffdb` - Enable/disable Internet Service Database update.
 * `update_server_location` - Location from which to receive FortiGuard updates.
 * `update_uwdb` - Enable/disable allowlist update.
+* `vdom` - FortiGuard Service virtual domain name.
 * `videofilter_expiration` - Expiration date of the FortiGuard video filter contract.
 * `videofilter_license` - Interval of time between license checks for the FortiGuard video filter contract.
 * `webfilter_cache` - Enable/disable FortiGuard web filter caching.

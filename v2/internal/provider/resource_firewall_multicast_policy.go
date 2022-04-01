@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -203,6 +203,14 @@ func resourceFirewallMulticastPolicy() *schema.Resource {
 				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
 
 				Description: "Enable/disable this policy.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"traffic_shaper": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringLenBetween(0, 35),
+
+				Description: "Traffic shaper to apply to traffic forwarded by the multicast policy.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -549,6 +557,14 @@ func refreshObjectFirewallMulticastPolicy(d *schema.ResourceData, o *models.Fire
 		}
 	}
 
+	if o.TrafficShaper != nil {
+		v := *o.TrafficShaper
+
+		if err = d.Set("traffic_shaper", v); err != nil {
+			return diag.Errorf("error reading traffic_shaper: %v", err)
+		}
+	}
+
 	if o.Uuid != nil {
 		v := *o.Uuid
 
@@ -783,6 +799,15 @@ func getObjectFirewallMulticastPolicy(d *schema.ResourceData, sv string) (*model
 				diags = append(diags, e)
 			}
 			obj.Status = &v2
+		}
+	}
+	if v1, ok := d.GetOk("traffic_shaper"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.0", "") {
+				e := utils.AttributeVersionWarning("traffic_shaper", sv)
+				diags = append(diags, e)
+			}
+			obj.TrafficShaper = &v2
 		}
 	}
 	if v1, ok := d.GetOk("uuid"); ok {

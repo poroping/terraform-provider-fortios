@@ -23,6 +23,8 @@ Configure LDAP server entries.
 * `account_key_processing` - Account key processing operation, either keep or strip domain string of UPN in the token. Valid values: `same` `strip` .
 * `antiphish` - Enable/disable AntiPhishing credential backend. Valid values: `enable` `disable` .
 * `ca_cert` - CA certificate name. This attribute must reference one of the following datasources: `vpn.certificate.ca.name` .
+* `client_cert` - Client certificate name. This attribute must reference one of the following datasources: `vpn.certificate.local.name` .
+* `client_cert_auth` - Enable/disable using client certificate for TLS authentication. Valid values: `enable` `disable` .
 * `cnid` - Common name identifier for the LDAP server. The common name identifier for most LDAP servers is "cn".
 * `dn` - Distinguished name used to look up entries on the LDAP server.
 * `group_filter` - Filter used for group matching.

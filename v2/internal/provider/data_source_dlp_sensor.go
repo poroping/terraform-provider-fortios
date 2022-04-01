@@ -1,9 +1,9 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
-// Description: Configure DLP sensors.
+// Description: Configure sensors used by DLP blocking.
 
 package provider
 
@@ -19,7 +19,7 @@ import (
 
 func dataSourceDlpSensor() *schema.Resource {
 	return &schema.Resource{
-		Description: "Configure DLP sensors.",
+		Description: "Configure sensors used by DLP blocking.",
 
 		ReadContext: dataSourceDlpSensorRead,
 
@@ -32,12 +32,46 @@ func dataSourceDlpSensor() *schema.Resource {
 			},
 			"comment": {
 				Type:        schema.TypeString,
-				Description: "Comment.",
+				Description: "Optional comments.",
 				Computed:    true,
 			},
 			"dlp_log": {
 				Type:        schema.TypeString,
 				Description: "Enable/disable DLP logging.",
+				Computed:    true,
+			},
+			"entries": {
+				Type:        schema.TypeList,
+				Description: "DLP sensor entries.",
+				Computed:    true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"count": {
+							Type:        schema.TypeInt,
+							Description: "Count of dictionary matches to trigger sensor entry match (Dictionary might not be able to trigger more than once based on its 'repeat' option, 1 - 255, default = 1).",
+							Computed:    true,
+						},
+						"dictionary": {
+							Type:        schema.TypeString,
+							Description: "Select a DLP dictionary.",
+							Computed:    true,
+						},
+						"id": {
+							Type:        schema.TypeInt,
+							Description: "ID.",
+							Computed:    true,
+						},
+						"status": {
+							Type:        schema.TypeString,
+							Description: "Enable/disable this entry.",
+							Computed:    true,
+						},
+					},
+				},
+			},
+			"eval": {
+				Type:        schema.TypeString,
+				Description: "Expression to evaluate.",
 				Computed:    true,
 			},
 			"extended_log": {
@@ -148,6 +182,11 @@ func dataSourceDlpSensor() *schema.Resource {
 				Description: "Protocols to always content archive.",
 				Computed:    true,
 			},
+			"match_type": {
+				Type:        schema.TypeString,
+				Description: "Logical relation between entries (default = match-any).",
+				Computed:    true,
+			},
 			"nac_quar_log": {
 				Type:        schema.TypeString,
 				Description: "Enable/disable NAC quarantine logging.",
@@ -155,7 +194,7 @@ func dataSourceDlpSensor() *schema.Resource {
 			},
 			"name": {
 				Type:        schema.TypeString,
-				Description: "Name of the DLP sensor.",
+				Description: "Name of table containing the sensor.",
 				Required:    true,
 			},
 			"options": {

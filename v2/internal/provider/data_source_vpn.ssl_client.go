@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
+// Generated from templates using FortiOS v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -33,6 +33,11 @@ func dataSourceVpnSslClient() *schema.Resource {
 			"certificate": {
 				Type:        schema.TypeString,
 				Description: "Certificate to offer to SSL-VPN server if it requests one.",
+				Computed:    true,
+			},
+			"class_id": {
+				Type:        schema.TypeInt,
+				Description: "Traffic class ID.",
 				Computed:    true,
 			},
 			"comment": {

@@ -484,6 +484,7 @@ func schemaTypeLookup(s string) string {
 		"password_aes256":        "TypeString",
 		"uuid":                   "TypeString",
 		"ether-type":             "TypeString",
+		"datetime":               "TypeString",
 	}
 	s, ok := m[s]
 	if !ok {
@@ -518,6 +519,7 @@ func typeLookup(s string) string {
 		"password_aes256":        "string",
 		"uuid":                   "string",
 		"ether-type":             "string",
+		"datetime":               "string",
 	}
 	s, ok := m[s]
 	if !ok {
@@ -558,6 +560,7 @@ func valiLookup(values map[string]interface{}) string {
 		"password_aes256":        "",
 		"uuid":                   "",
 		"ether-type":             "",
+		"datetime":               "",
 	}
 	s, ok := m[vtype]
 	if !ok {
@@ -605,6 +608,7 @@ func diffLookup(values map[string]interface{}, fullPath string) string {
 		"password_aes256":        "",
 		"uuid":                   "",
 		"ether-type":             "",
+		"datetime":               "",
 	}
 	s, ok := m[vtype]
 	if !ok {
@@ -718,6 +722,7 @@ func flattenFunc(values map[string]interface{}) string {
 		"password_aes256":        "",
 		"uuid":                   "",
 		"ether-type":             "",
+		"datetime":               "",
 	}
 	s, ok := m[vtype]
 	if !ok {

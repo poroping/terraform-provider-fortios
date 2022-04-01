@@ -34,6 +34,7 @@ The following attributes are exported:
 * `fortinetone_cloud_authentication` - Enable/disable authentication of FortiClient EMS Cloud through FortiCloud account.
 * `https_port` - FortiClient EMS HTTPS access port number. (1 - 65535, default: 443).
 * `name` - FortiClient Enterprise Management Server (EMS) name.
+* `out_of_sync_threshold` - Outdated resource threshold in seconds (10 - 3600, default = 180).
 * `preserve_ssl_session` - Enable/disable preservation of EMS SSL session connection. Warning, most users should not touch this setting.
 * `pull_avatars` - Enable/disable pulling avatars from EMS.
 * `pull_malware_hash` - Enable/disable pulling FortiClient malware hash from EMS.

@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -16,6 +16,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 	"github.com/poroping/forti-sdk-go/v2/models"
+	"github.com/poroping/terraform-provider-fortios/v2/suppressors"
 	"github.com/poroping/terraform-provider-fortios/v2/utils"
 )
 
@@ -137,6 +138,14 @@ func resourceFirewallSecurityPolicy() *schema.Resource {
 				ValidateFunc: validation.StringLenBetween(0, 1023),
 
 				Description: "Comment.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"dlp_profile": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringLenBetween(0, 35),
+
+				Description: "Name of an existing DLP profile.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -736,20 +745,12 @@ func resourceFirewallSecurityPolicy() *schema.Resource {
 				Computed:    true,
 			},
 			"url_category": {
-				Type:        schema.TypeList,
-				Description: "URL category ID list.",
-				Optional:    true,
-				Elem: &schema.Resource{
-					Schema: map[string]*schema.Schema{
-						"id": {
-							Type: schema.TypeInt,
+				Type: schema.TypeString,
 
-							Description: "URL category ID.",
-							Optional:    true,
-							Computed:    true,
-						},
-					},
-				},
+				DiffSuppressFunc: suppressors.DiffMultiStringEqual,
+				Description:      "URL categories or groups.",
+				Optional:         true,
+				Computed:         true,
 			},
 			"users": {
 				Type:        schema.TypeList,
@@ -1484,28 +1485,6 @@ func flattenFirewallSecurityPolicySrcintf(d *schema.ResourceData, v *[]models.Fi
 	return flat
 }
 
-func flattenFirewallSecurityPolicyUrlCategory(d *schema.ResourceData, v *[]models.FirewallSecurityPolicyUrlCategory, prefix string, sort bool) interface{} {
-	flat := make([]map[string]interface{}, 0)
-
-	if v != nil {
-		for i, cfg := range *v {
-			_ = i
-			v := make(map[string]interface{})
-			if tmp := cfg.Id; tmp != nil {
-				v["id"] = *tmp
-			}
-
-			flat = append(flat, v)
-		}
-	}
-
-	if sort {
-		utils.SortSubtable(flat, "id")
-	}
-
-	return flat
-}
-
 func flattenFirewallSecurityPolicyUsers(d *schema.ResourceData, v *[]models.FirewallSecurityPolicyUsers, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
@@ -1586,6 +1565,14 @@ func refreshObjectFirewallSecurityPolicy(d *schema.ResourceData, o *models.Firew
 
 		if err = d.Set("comments", v); err != nil {
 			return diag.Errorf("error reading comments: %v", err)
+		}
+	}
+
+	if o.DlpProfile != nil {
+		v := *o.DlpProfile
+
+		if err = d.Set("dlp_profile", v); err != nil {
+			return diag.Errorf("error reading dlp_profile: %v", err)
 		}
 	}
 
@@ -1956,7 +1943,9 @@ func refreshObjectFirewallSecurityPolicy(d *schema.ResourceData, o *models.Firew
 	}
 
 	if o.UrlCategory != nil {
-		if err = d.Set("url_category", flattenFirewallSecurityPolicyUrlCategory(d, o.UrlCategory, "url_category", sort)); err != nil {
+		v := *o.UrlCategory
+
+		if err = d.Set("url_category", v); err != nil {
 			return diag.Errorf("error reading url_category: %v", err)
 		}
 	}
@@ -2582,31 +2571,6 @@ func expandFirewallSecurityPolicySrcintf(d *schema.ResourceData, v interface{}, 
 	return &result, nil
 }
 
-func expandFirewallSecurityPolicyUrlCategory(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.FirewallSecurityPolicyUrlCategory, error) {
-	l := v.([]interface{})
-	if len(l) == 0 || l[0] == nil {
-		return nil, nil
-	}
-
-	var result []models.FirewallSecurityPolicyUrlCategory
-
-	for i := range l {
-		tmp := models.FirewallSecurityPolicyUrlCategory{}
-		var pre_append string
-
-		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
-		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int); ok {
-				v3 := int64(v2)
-				tmp.Id = &v3
-			}
-		}
-
-		result = append(result, tmp)
-	}
-	return &result, nil
-}
-
 func expandFirewallSecurityPolicyUsers(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.FirewallSecurityPolicyUsers, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
@@ -2731,9 +2695,18 @@ func getObjectFirewallSecurityPolicy(d *schema.ResourceData, sv string) (*models
 			obj.Comments = &v2
 		}
 	}
+	if v1, ok := d.GetOk("dlp_profile"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.0", "") {
+				e := utils.AttributeVersionWarning("dlp_profile", sv)
+				diags = append(diags, e)
+			}
+			obj.DlpProfile = &v2
+		}
+	}
 	if v1, ok := d.GetOk("dlp_sensor"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "") {
+			if !utils.CheckVer(sv, "", "v7.2.0") {
 				e := utils.AttributeVersionWarning("dlp_sensor", sv)
 				diags = append(diags, e)
 			}
@@ -3359,21 +3332,13 @@ func getObjectFirewallSecurityPolicy(d *schema.ResourceData, sv string) (*models
 			obj.Status = &v2
 		}
 	}
-	if v, ok := d.GetOk("url_category"); ok {
-		if !utils.CheckVer(sv, "", "") {
-			e := utils.AttributeVersionWarning("url_category", sv)
-			diags = append(diags, e)
-		}
-		t, err := expandFirewallSecurityPolicyUrlCategory(d, v, "url_category", sv)
-		if err != nil {
-			return &obj, diag.FromErr(err)
-		} else if t != nil {
-			obj.UrlCategory = t
-		}
-	} else if d.HasChange("url_category") {
-		old, new := d.GetChange("url_category")
-		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
-			obj.UrlCategory = &[]models.FirewallSecurityPolicyUrlCategory{}
+	if v1, ok := d.GetOk("url_category"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "", "") {
+				e := utils.AttributeVersionWarning("url_category", sv)
+				diags = append(diags, e)
+			}
+			obj.UrlCategory = &v2
 		}
 	}
 	if v, ok := d.GetOk("users"); ok {

@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -132,9 +132,9 @@ func resourceVpnSslWebUserBookmark() *schema.Resource {
 						},
 						"height": {
 							Type:         schema.TypeInt,
-							ValidateFunc: validation.IntBetween(480, 65535),
+							ValidateFunc: validation.IntBetween(0, 65535),
 
-							Description: "Screen height (range from 480 - 65535, default = 768).",
+							Description: "Screen height (range from 0 - 65535, default = 0).",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -148,7 +148,7 @@ func resourceVpnSslWebUserBookmark() *schema.Resource {
 						},
 						"keyboard_layout": {
 							Type:         schema.TypeString,
-							ValidateFunc: validation.StringInSlice([]string{"ar-101", "ar-102", "ar-102-azerty", "can-mul", "cz", "cz-qwerty", "cz-pr", "da", "nl", "de", "de-ch", "de-ibm", "en-uk", "en-uk-ext", "en-us", "en-us-dvorak", "es", "es-var", "fi", "fi-sami", "fr", "fr-ca", "fr-ch", "fr-be", "hr", "hu", "hu-101", "it", "it-142", "ja", "ko", "lt", "lt-ibm", "lt-std", "lav-std", "lav-leg", "mk", "mk-std", "no", "no-sami", "pol-214", "pol-pr", "pt", "pt-br", "pt-br-abnt2", "ru", "ru-mne", "ru-t", "sl", "sv", "sv-sami", "tuk", "tur-f", "tur-q", "zh-sym-sg-us", "zh-sym-us", "zh-tr-hk", "zh-tr-mo", "zh-tr-us"}, false),
+							ValidateFunc: validation.StringInSlice([]string{"ar-101", "ar-102", "ar-102-azerty", "can-mul", "cz", "cz-qwerty", "cz-pr", "da", "nl", "de", "de-ch", "de-ibm", "en-uk", "en-uk-ext", "en-us", "en-us-dvorak", "es", "es-var", "fi", "fi-sami", "fr", "fr-apple", "fr-ca", "fr-ch", "fr-be", "hr", "hu", "hu-101", "it", "it-142", "ja", "ko", "lt", "lt-ibm", "lt-std", "lav-std", "lav-leg", "mk", "mk-std", "no", "no-sami", "pol-214", "pol-pr", "pt", "pt-br", "pt-br-abnt2", "ru", "ru-mne", "ru-t", "sl", "sv", "sv-sami", "tuk", "tur-f", "tur-q", "zh-sym-sg-us", "zh-sym-us", "zh-tr-hk", "zh-tr-mo", "zh-tr-us"}, false),
 
 							Description: "Keyboard layout.",
 							Optional:    true,
@@ -315,9 +315,9 @@ func resourceVpnSslWebUserBookmark() *schema.Resource {
 						},
 						"width": {
 							Type:         schema.TypeInt,
-							ValidateFunc: validation.IntBetween(640, 65535),
+							ValidateFunc: validation.IntBetween(0, 65535),
 
-							Description: "Screen width (range from 640 - 65535, default = 1024).",
+							Description: "Screen width (range from 0 - 65535, default = 0).",
 							Optional:    true,
 							Computed:    true,
 						},

@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -367,6 +367,14 @@ func resourceFirewallProfileProtocolOptions() *schema.Resource {
 				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
+						"address_ip_rating": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+							Description: "Enable/disable IP based URL rating.",
+							Optional:    true,
+							Computed:    true,
+						},
 						"block_page_status_code": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(100, 599),
@@ -404,6 +412,14 @@ func resourceFirewallProfileProtocolOptions() *schema.Resource {
 							ValidateFunc: validation.IntBetween(1, 65535),
 
 							Description: "Port for use by Fortinet Bar (1 - 65535, default = 8011).",
+							Optional:    true,
+							Computed:    true,
+						},
+						"h2c": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+							Description: "Enable/disable h2c HTTP connection upgrade.",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -1555,6 +1571,10 @@ func flattenFirewallProfileProtocolOptionsHttp(d *schema.ResourceData, v *models
 		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
+			if tmp := cfg.AddressIpRating; tmp != nil {
+				v["address_ip_rating"] = *tmp
+			}
+
 			if tmp := cfg.BlockPageStatusCode; tmp != nil {
 				v["block_page_status_code"] = *tmp
 			}
@@ -1573,6 +1593,10 @@ func flattenFirewallProfileProtocolOptionsHttp(d *schema.ResourceData, v *models
 
 			if tmp := cfg.FortinetBarPort; tmp != nil {
 				v["fortinet_bar_port"] = *tmp
+			}
+
+			if tmp := cfg.H2c; tmp != nil {
+				v["h2c"] = *tmp
 			}
 
 			if tmp := cfg.InspectAll; tmp != nil {
@@ -2516,6 +2540,13 @@ func expandFirewallProfileProtocolOptionsHttp(d *schema.ResourceData, v interfac
 		tmp := models.FirewallProfileProtocolOptionsHttp{}
 		var pre_append string
 
+		pre_append = fmt.Sprintf("%s.%d.address_ip_rating", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.AddressIpRating = &v2
+			}
+		}
+
 		pre_append = fmt.Sprintf("%s.%d.block_page_status_code", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
 			if v2, ok := v1.(int); ok {
@@ -2552,6 +2583,13 @@ func expandFirewallProfileProtocolOptionsHttp(d *schema.ResourceData, v interfac
 			if v2, ok := v1.(int); ok {
 				v3 := int64(v2)
 				tmp.FortinetBarPort = &v3
+			}
+		}
+
+		pre_append = fmt.Sprintf("%s.%d.h2c", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.H2c = &v2
 			}
 		}
 

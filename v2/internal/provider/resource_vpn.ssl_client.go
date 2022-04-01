@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
+// Generated from templates using FortiOS v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -49,6 +49,13 @@ func resourceVpnSslClient() *schema.Resource {
 				ValidateFunc: validation.StringLenBetween(0, 35),
 
 				Description: "Certificate to offer to SSL-VPN server if it requests one.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"class_id": {
+				Type: schema.TypeInt,
+
+				Description: "Traffic class ID.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -324,6 +331,14 @@ func refreshObjectVpnSslClient(d *schema.ResourceData, o *models.VpnSslClient, s
 		}
 	}
 
+	if o.ClassId != nil {
+		v := *o.ClassId
+
+		if err = d.Set("class_id", v); err != nil {
+			return diag.Errorf("error reading class_id: %v", err)
+		}
+	}
+
 	if o.Comment != nil {
 		v := *o.Comment
 
@@ -443,6 +458,16 @@ func getObjectVpnSslClient(d *schema.ResourceData, sv string) (*models.VpnSslCli
 				diags = append(diags, e)
 			}
 			obj.Certificate = &v2
+		}
+	}
+	if v1, ok := d.GetOk("class_id"); ok {
+		if v2, ok := v1.(int); ok {
+			if !utils.CheckVer(sv, "v7.2.0", "") {
+				e := utils.AttributeVersionWarning("class_id", sv)
+				diags = append(diags, e)
+			}
+			tmp := int64(v2)
+			obj.ClassId = &tmp
 		}
 	}
 	if v1, ok := d.GetOk("comment"); ok {

@@ -38,6 +38,7 @@ The following attributes are exported:
 * `authusr` - XAuth user name.
 * `authusrgrp` - Authentication user group.
 * `auto_discovery_forwarder` - Enable/disable forwarding auto-discovery short-cut messages.
+* `auto_discovery_offer_interval` - Interval between shortcut offer messages in seconds (1 - 300, default = 5).
 * `auto_discovery_psk` - Enable/disable use of pre-shared secrets for authentication of auto-discovery tunnels.
 * `auto_discovery_receiver` - Enable/disable accepting auto-discovery short-cut messages.
 * `auto_discovery_sender` - Enable/disable sending auto-discovery short-cut messages.
@@ -68,7 +69,7 @@ The following attributes are exported:
 * `encap_local_gw6` - Local IPv6 address of GRE/VXLAN tunnel.
 * `encap_remote_gw4` - Remote IPv4 address of GRE/VXLAN tunnel.
 * `encap_remote_gw6` - Remote IPv6 address of GRE/VXLAN tunnel.
-* `encapsulation` - Enable/disable GRE/VXLAN encapsulation.
+* `encapsulation` - Enable/disable GRE/VXLAN/VPNID encapsulation.
 * `encapsulation_address` - Source for GRE/VXLAN tunnel address.
 * `enforce_unique_id` - Enable/disable peer ID uniqueness check.
 * `esn` - Extended sequence number (ESN) negotiation.
@@ -128,6 +129,7 @@ The following attributes are exported:
 * `mesh_selector_type` - Add selectors containing subsets of the configuration depending on traffic.
 * `mode` - The ID protection mode used to establish a secure channel.
 * `mode_cfg` - Enable/disable configuration method.
+* `mode_cfg_allow_client_selector` - Enable/disable mode-cfg client to use custom phase2 selectors.
 * `monitor` - IPsec interface as backup for primary interface.
 * `monitor_hold_down_delay` - Time to wait in seconds before recovery once primary re-establishes.
 * `monitor_hold_down_time` - Time of day at which to fail back to primary after it re-establishes.

@@ -33,6 +33,7 @@ Configure VPN remote gateway.
 * `authusr` - XAuth user name.
 * `authusrgrp` - Authentication user group. This attribute must reference one of the following datasources: `user.group.name` .
 * `auto_discovery_forwarder` - Enable/disable forwarding auto-discovery short-cut messages. Valid values: `enable` `disable` .
+* `auto_discovery_offer_interval` - Interval between shortcut offer messages in seconds (1 - 300, default = 5).
 * `auto_discovery_psk` - Enable/disable use of pre-shared secrets for authentication of auto-discovery tunnels. Valid values: `enable` `disable` .
 * `auto_discovery_receiver` - Enable/disable accepting auto-discovery short-cut messages. Valid values: `enable` `disable` .
 * `auto_discovery_sender` - Enable/disable sending auto-discovery short-cut messages. Valid values: `enable` `disable` .
@@ -63,7 +64,7 @@ Configure VPN remote gateway.
 * `encap_local_gw6` - Local IPv6 address of GRE/VXLAN tunnel.
 * `encap_remote_gw4` - Remote IPv4 address of GRE/VXLAN tunnel.
 * `encap_remote_gw6` - Remote IPv6 address of GRE/VXLAN tunnel.
-* `encapsulation` - Enable/disable GRE/VXLAN encapsulation. Valid values: `none` `gre` `vxlan` .
+* `encapsulation` - Enable/disable GRE/VXLAN/VPNID encapsulation. Valid values: `none` `gre` `vxlan` `vpn-id-ipip` .
 * `encapsulation_address` - Source for GRE/VXLAN tunnel address. Valid values: `ike` `ipv4` `ipv6` .
 * `enforce_unique_id` - Enable/disable peer ID uniqueness check. Valid values: `disable` `keep-new` `keep-old` .
 * `esn` - Extended sequence number (ESN) negotiation. Valid values: `require` `allow` `disable` .
@@ -123,6 +124,7 @@ Configure VPN remote gateway.
 * `mesh_selector_type` - Add selectors containing subsets of the configuration depending on traffic. Valid values: `disable` `subnet` `host` .
 * `mode` - The ID protection mode used to establish a secure channel. Valid values: `aggressive` `main` .
 * `mode_cfg` - Enable/disable configuration method. Valid values: `disable` `enable` .
+* `mode_cfg_allow_client_selector` - Enable/disable mode-cfg client to use custom phase2 selectors. Valid values: `disable` `enable` .
 * `monitor` - IPsec interface as backup for primary interface. This attribute must reference one of the following datasources: `vpn.ipsec.phase1-interface.name` .
 * `monitor_hold_down_delay` - Time to wait in seconds before recovery once primary re-establishes.
 * `monitor_hold_down_time` - Time of day at which to fail back to primary after it re-establishes.

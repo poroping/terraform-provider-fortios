@@ -36,7 +36,7 @@ The `bookmarks` block contains:
 * `description` - Description.
 * `domain` - Login domain.
 * `folder` - Network shared file folder parameter.
-* `height` - Screen height (range from 480 - 65535, default = 768).
+* `height` - Screen height (range from 0 - 65535, default = 0).
 * `host` - Host name/IP parameter.
 * `keyboard_layout` - Keyboard layout.
 * `listening_port` - Listening port (0 - 65535).
@@ -59,7 +59,7 @@ The `bookmarks` block contains:
 * `sso_password` - SSO password.
 * `sso_username` - SSO user name.
 * `url` - URL parameter.
-* `width` - Screen width (range from 640 - 65535, default = 1024).
+* `width` - Screen width (range from 0 - 65535, default = 0).
 * `form_data` - Form data.The structure of `form_data` block is documented below.
 
 The `form_data` block contains:

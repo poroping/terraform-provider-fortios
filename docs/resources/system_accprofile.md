@@ -81,6 +81,7 @@ The `utmgrp_permission` block contains:
 * `file_filter` - File-filter profiles and settings. Valid values: `none` `read` `read-write` .
 * `icap` - ICAP profiles and settings. Valid values: `none` `read` `read-write` .
 * `ips` - IPS profiles and settings. Valid values: `none` `read` `read-write` .
+* `videofilter` - Video filter profiles and settings. Valid values: `none` `read` `read-write` .
 * `voip` - VoIP profiles and settings. Valid values: `none` `read` `read-write` .
 * `waf` - Web Application Firewall profiles and settings. Valid values: `none` `read` `read-write` .
 * `webfilter` - Web Filter profiles and settings. Valid values: `none` `read` `read-write` .

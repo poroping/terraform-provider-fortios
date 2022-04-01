@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -503,6 +503,54 @@ func resourceSystemInterface() *schema.Resource {
 				Optional:    true,
 				Computed:    true,
 			},
+			"eap_ca_cert": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringLenBetween(0, 79),
+
+				Description: "EAP CA certificate name.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"eap_identity": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringLenBetween(0, 35),
+
+				Description: "EAP identity.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"eap_method": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"tls", "peap"}, false),
+
+				Description: "EAP method.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"eap_password": {
+				Type: schema.TypeString,
+
+				Description: "EAP password.",
+				Optional:    true,
+				Computed:    true,
+				Sensitive:   true,
+			},
+			"eap_supplicant": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+				Description: "Enable/disable EAP-Supplicant.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"eap_user_cert": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringLenBetween(0, 35),
+
+				Description: "EAP user certificate name.",
+				Optional:    true,
+				Computed:    true,
+			},
 			"egress_cos": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringInSlice([]string{"disable", "cos0", "cos1", "cos2", "cos3", "cos4", "cos5", "cos6", "cos7"}, false),
@@ -780,6 +828,14 @@ func resourceSystemInterface() *schema.Resource {
 				ValidateFunc: validation.IntBetween(0, 32767),
 
 				Description: "PPPoE auto disconnect after idle timeout seconds, 0 means no timeout.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"ike_saml_server": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringLenBetween(0, 35),
+
+				Description: "Configure IKE authentication SAML server.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -2354,7 +2410,8 @@ func resourceSystemInterface() *schema.Resource {
 				},
 			},
 			"tcp_mss": {
-				Type: schema.TypeInt,
+				Type:         schema.TypeInt,
+				ValidateFunc: validation.IntBetween(48, 65535),
 
 				Description: "TCP maximum segment size. 0 means do not change segment size.",
 				Optional:    true,
@@ -2466,7 +2523,7 @@ func resourceSystemInterface() *schema.Resource {
 			},
 			"vrf": {
 				Type:         schema.TypeInt,
-				ValidateFunc: validation.IntBetween(0, 31),
+				ValidateFunc: validation.IntBetween(0, 63),
 
 				Description: "Virtual Routing Forwarding ID.",
 				Optional:    true,
@@ -4020,6 +4077,55 @@ func refreshObjectSystemInterface(d *schema.ResourceData, o *models.SystemInterf
 		}
 	}
 
+	if o.EapCaCert != nil {
+		v := *o.EapCaCert
+
+		if err = d.Set("eap_ca_cert", v); err != nil {
+			return diag.Errorf("error reading eap_ca_cert: %v", err)
+		}
+	}
+
+	if o.EapIdentity != nil {
+		v := *o.EapIdentity
+
+		if err = d.Set("eap_identity", v); err != nil {
+			return diag.Errorf("error reading eap_identity: %v", err)
+		}
+	}
+
+	if o.EapMethod != nil {
+		v := *o.EapMethod
+
+		if err = d.Set("eap_method", v); err != nil {
+			return diag.Errorf("error reading eap_method: %v", err)
+		}
+	}
+
+	if o.EapPassword != nil {
+		v := *o.EapPassword
+
+		if v == "ENC XXXX" {
+		} else if err = d.Set("eap_password", v); err != nil {
+			return diag.Errorf("error reading eap_password: %v", err)
+		}
+	}
+
+	if o.EapSupplicant != nil {
+		v := *o.EapSupplicant
+
+		if err = d.Set("eap_supplicant", v); err != nil {
+			return diag.Errorf("error reading eap_supplicant: %v", err)
+		}
+	}
+
+	if o.EapUserCert != nil {
+		v := *o.EapUserCert
+
+		if err = d.Set("eap_user_cert", v); err != nil {
+			return diag.Errorf("error reading eap_user_cert: %v", err)
+		}
+	}
+
 	if o.EgressCos != nil {
 		v := *o.EgressCos
 
@@ -4223,6 +4329,14 @@ func refreshObjectSystemInterface(d *schema.ResourceData, o *models.SystemInterf
 
 		if err = d.Set("idle_timeout", v); err != nil {
 			return diag.Errorf("error reading idle_timeout: %v", err)
+		}
+	}
+
+	if o.IkeSamlServer != nil {
+		v := *o.IkeSamlServer
+
+		if err = d.Set("ike_saml_server", v); err != nil {
+			return diag.Errorf("error reading ike_saml_server: %v", err)
 		}
 	}
 
@@ -6969,6 +7083,60 @@ func getObjectSystemInterface(d *schema.ResourceData, sv string) (*models.System
 			obj.DropOverlappedFragment = &v2
 		}
 	}
+	if v1, ok := d.GetOk("eap_ca_cert"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.0", "") {
+				e := utils.AttributeVersionWarning("eap_ca_cert", sv)
+				diags = append(diags, e)
+			}
+			obj.EapCaCert = &v2
+		}
+	}
+	if v1, ok := d.GetOk("eap_identity"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.0", "") {
+				e := utils.AttributeVersionWarning("eap_identity", sv)
+				diags = append(diags, e)
+			}
+			obj.EapIdentity = &v2
+		}
+	}
+	if v1, ok := d.GetOk("eap_method"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.0", "") {
+				e := utils.AttributeVersionWarning("eap_method", sv)
+				diags = append(diags, e)
+			}
+			obj.EapMethod = &v2
+		}
+	}
+	if v1, ok := d.GetOk("eap_password"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.0", "") {
+				e := utils.AttributeVersionWarning("eap_password", sv)
+				diags = append(diags, e)
+			}
+			obj.EapPassword = &v2
+		}
+	}
+	if v1, ok := d.GetOk("eap_supplicant"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.0", "") {
+				e := utils.AttributeVersionWarning("eap_supplicant", sv)
+				diags = append(diags, e)
+			}
+			obj.EapSupplicant = &v2
+		}
+	}
+	if v1, ok := d.GetOk("eap_user_cert"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.0", "") {
+				e := utils.AttributeVersionWarning("eap_user_cert", sv)
+				diags = append(diags, e)
+			}
+			obj.EapUserCert = &v2
+		}
+	}
 	if v1, ok := d.GetOk("egress_cos"); ok {
 		if v2, ok := v1.(string); ok {
 			if !utils.CheckVer(sv, "", "v6.4.0") {
@@ -7223,6 +7391,15 @@ func getObjectSystemInterface(d *schema.ResourceData, sv string) (*models.System
 			}
 			tmp := int64(v2)
 			obj.IdleTimeout = &tmp
+		}
+	}
+	if v1, ok := d.GetOk("ike_saml_server"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.0", "") {
+				e := utils.AttributeVersionWarning("ike_saml_server", sv)
+				diags = append(diags, e)
+			}
+			obj.IkeSamlServer = &v2
 		}
 	}
 	if v1, ok := d.GetOk("inbandwidth"); ok {

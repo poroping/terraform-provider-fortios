@@ -25,6 +25,10 @@ Use this data source to get information on a fortios Configure ICAP servers.
 
 The following attributes are exported:
 
+* `addr_type` - Address type of the remote ICAP server: IPv4, IPv6 or FQDN.
+* `fqdn` - ICAP remote server Fully Qualified Domain Name (FQDN).
+* `healthcheck` - Enable/disable ICAP remote server health checking. Attempts to connect to the remote ICAP server to verify that the server is operating normally.
+* `healthcheck_service` - ICAP Service name to use for health checks.
 * `ip_address` - IPv4 address of the ICAP server.
 * `ip_version` - IP version.
 * `ip6_address` - IPv6 address of the ICAP server.

@@ -3,11 +3,11 @@ subcategory: "FortiGate Dlp"
 layout: "fortios"
 page_title: "FortiOS: fortios_dlp_sensor"
 description: |-
-  Get information on a fortios Configure DLP sensors.
+  Get information on a fortios Configure sensors used by DLP blocking.
 ---
 
 # Data Source: fortios_dlp_sensor
-Use this data source to get information on a fortios Configure DLP sensors.
+Use this data source to get information on a fortios Configure sensors used by DLP blocking.
 
 
 ## Example Usage
@@ -18,23 +18,33 @@ Use this data source to get information on a fortios Configure DLP sensors.
 
 ## Argument Reference
 
-* `name` - (Required) Name of the DLP sensor.
+* `name` - (Required) Name of table containing the sensor.
 * `vdomparam` - Specifies the vdom to which the data source will be applied when the FortiGate unit is running in VDOM mode. Only one vdom can be specified. If you want to inherit the vdom configuration of the provider, please do not set this parameter.
 
 ## Attribute Reference
 
 The following attributes are exported:
 
-* `comment` - Comment.
+* `comment` - Optional comments.
 * `dlp_log` - Enable/disable DLP logging.
+* `eval` - Expression to evaluate.
 * `extended_log` - Enable/disable extended logging for data leak prevention.
 * `feature_set` - Flow/proxy feature set.
 * `full_archive_proto` - Protocols to always content archive.
+* `match_type` - Logical relation between entries (default = match-any).
 * `nac_quar_log` - Enable/disable NAC quarantine logging.
-* `name` - Name of the DLP sensor.
+* `name` - Name of table containing the sensor.
 * `options` - Configure DLP options.
 * `replacemsg_group` - Replacement message group used by this DLP sensor.
 * `summary_proto` - Protocols to always log summary.
+* `entries` - DLP sensor entries.The structure of `entries` block is documented below.
+
+The `entries` block contains:
+
+* `count` - Count of dictionary matches to trigger sensor entry match (Dictionary might not be able to trigger more than once based on its 'repeat' option, 1 - 255, default = 1).
+* `dictionary` - Select a DLP dictionary.
+* `id` - ID.
+* `status` - Enable/disable this entry.
 * `filter` - Set up DLP filters for this sensor.The structure of `filter` block is documented below.
 
 The `filter` block contains:

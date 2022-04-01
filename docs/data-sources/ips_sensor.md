@@ -37,7 +37,10 @@ The `entries` block contains:
 
 * `action` - Action taken with traffic in which signatures are detected.
 * `application` - Operating systems to be protected. Use all for every application and other for unlisted application.
+* `default_action` - Signature default action filter.
+* `default_status` - Signature default status filter.
 * `id` - Rule ID in IPS database (0 - 4294967295).
+* `last_modified` - Filter by signature last modified date. Formats: before <date>, after <date>, between <start-date> <end-date>.
 * `location` - Protect client or server traffic.
 * `log` - Enable/disable logging of signatures included in filter.
 * `log_attack_context` - Enable/disable logging of attack context: URL buffer, header buffer, body buffer, packet buffer.
@@ -70,6 +73,11 @@ The `exempt_ip` block contains:
 The `rule` block contains:
 
 * `id` - Rule IPS.
+* `vuln_type` - List of signature vulnerability types to filter by.The structure of `vuln_type` block is documented below.
+
+The `vuln_type` block contains:
+
+* `id` - Vulnerability type ID.
 * `filter` - IPS sensor filter.The structure of `filter` block is documented below.
 
 The `filter` block contains:

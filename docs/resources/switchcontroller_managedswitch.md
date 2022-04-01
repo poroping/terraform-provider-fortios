@@ -62,6 +62,7 @@ The `802_1x_settings` block contains:
 
 * `link_down_auth` - Authentication state to set if a link is down. Valid values: `set-unauth` `no-action` .
 * `local_override` - Enable to override global 802.1X settings on individual FortiSwitches. Valid values: `enable` `disable` .
+* `mab_reauth` - Enable or disable MAB reauthentication settings. Valid values: `disable` `enable` .
 * `max_reauth_attempt` - Maximum number of authentication attempts (0 - 15, default = 3).
 * `reauth_period` - Reauthentication time interval (1 - 1440 min, default = 60, 0 = disable).
 * `tx_period` - 802.1X Tx period (seconds, default=30).
@@ -140,6 +141,10 @@ The `ports` block contains:
 * `fgt_peer_port_name` - FGT peer port name.
 * `fiber_port` - Fiber-port.
 * `flags` - Port properties flags.
+* `flap_duration` - Period over which flap events are calculated (seconds).
+* `flap_rate` - Number of stage change events needed within flap-duration.
+* `flap_timeout` - Flap guard disabling protection (min).
+* `flapguard` - Enable/disable flap guard. Valid values: `enable` `disable` .
 * `flow_control` - Flow control direction. Valid values: `disable` `tx` `rx` `both` .
 * `fortilink_port` - FortiLink uplink port.
 * `igmp_snooping` - Set IGMP snooping mode for the physical port interface. Valid values: `enable` `disable` .

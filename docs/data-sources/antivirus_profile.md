@@ -25,10 +25,10 @@ Use this data source to get information on a fortios Configure AntiVirus profile
 
 The following attributes are exported:
 
-* `analytics_accept_filetype` - Only submit files matching this DLP file-pattern to FortiSandbox.
+* `analytics_accept_filetype` - Only submit files matching this DLP file-pattern to FortiSandbox (post-transfer scan only).
 * `analytics_bl_filetype` - Only submit files matching this DLP file-pattern to FortiSandbox.
 * `analytics_db` - Enable/disable using the FortiSandbox signature database to supplement the AV signature databases.
-* `analytics_ignore_filetype` - Do not submit files matching this DLP file-pattern to FortiSandbox.
+* `analytics_ignore_filetype` - Do not submit files matching this DLP file-pattern to FortiSandbox (post-transfer scan only).
 * `analytics_max_upload` - Maximum size of files that can be uploaded to FortiSandbox.
 * `analytics_wl_filetype` - Do not submit files matching this DLP file-pattern to FortiSandbox.
 * `av_block_log` - Enable/disable logging for AntiVirus file blocking.
@@ -41,6 +41,12 @@ The following attributes are exported:
 * `feature_set` - Flow/proxy feature set.
 * `fortiai_error_action` - Action to take if FortiAI encounters an error.
 * `fortiai_timeout_action` - Action to take if FortiAI encounters a scan timeout.
+* `fortindr_error_action` - Action to take if FortiNDR encounters an error.
+* `fortindr_timeout_action` - Action to take if FortiNDR encounters a scan timeout.
+* `fortisandbox_error_action` - Action to take if FortiSandbox inline scan encounters an error.
+* `fortisandbox_max_upload` - Maximum size of files that can be uploaded to FortiSandbox.
+* `fortisandbox_mode` - FortiSandbox scan modes.
+* `fortisandbox_timeout_action` - Action to take if FortiSandbox inline scan encounters a scan timeout.
 * `ftgd_analytics` - Settings to control which files are uploaded to FortiSandbox.
 * `mobile_malware_db` - Enable/disable using the mobile malware signature database.
 * `name` - Profile name.
@@ -57,6 +63,8 @@ The `cifs` block contains:
 * `emulator` - Enable/disable the virus emulator.
 * `external_blocklist` - Enable external-blocklist. Analyzes files including the content of archives.
 * `fortiai` - Enable/disable scanning of files by FortiAI.
+* `fortindr` - Enable scanning of files by FortiNDR.
+* `fortisandbox` - Enable scanning of files by FortiSandbox.
 * `options` - Enable/disable CIFS AntiVirus scanning, monitoring, and quarantine.
 * `outbreak_prevention` - Enable virus outbreak prevention service.
 * `quarantine` - Enable/disable quarantine for infected files.
@@ -98,6 +106,8 @@ The `ftp` block contains:
 * `emulator` - Enable/disable the virus emulator.
 * `external_blocklist` - Enable external-blocklist. Analyzes files including the content of archives.
 * `fortiai` - Enable/disable scanning of files by FortiAI.
+* `fortindr` - Enable scanning of files by FortiNDR.
+* `fortisandbox` - Enable scanning of files by FortiSandbox.
 * `options` - Enable/disable FTP AntiVirus scanning, monitoring, and quarantine.
 * `outbreak_prevention` - Enable virus outbreak prevention service.
 * `quarantine` - Enable/disable quarantine for infected files.
@@ -112,6 +122,8 @@ The `http` block contains:
 * `emulator` - Enable/disable the virus emulator.
 * `external_blocklist` - Enable external-blocklist. Analyzes files including the content of archives.
 * `fortiai` - Enable/disable scanning of files by FortiAI.
+* `fortindr` - Enable scanning of files by FortiNDR.
+* `fortisandbox` - Enable scanning of files by FortiSandbox.
 * `options` - Enable/disable HTTP AntiVirus scanning, monitoring, and quarantine.
 * `outbreak_prevention` - Enable virus outbreak prevention service.
 * `quarantine` - Enable/disable quarantine for infected files.
@@ -127,6 +139,8 @@ The `imap` block contains:
 * `executables` - Treat Windows executable files as viruses for the purpose of blocking or monitoring.
 * `external_blocklist` - Enable external-blocklist. Analyzes files including the content of archives.
 * `fortiai` - Enable/disable scanning of files by FortiAI.
+* `fortindr` - Enable scanning of files by FortiNDR.
+* `fortisandbox` - Enable scanning of files by FortiSandbox.
 * `options` - Enable/disable IMAP AntiVirus scanning, monitoring, and quarantine.
 * `outbreak_prevention` - Enable virus outbreak prevention service.
 * `quarantine` - Enable/disable quarantine for infected files.
@@ -141,6 +155,8 @@ The `mapi` block contains:
 * `executables` - Treat Windows executable files as viruses for the purpose of blocking or monitoring.
 * `external_blocklist` - Enable external-blocklist. Analyzes files including the content of archives.
 * `fortiai` - Enable/disable scanning of files by FortiAI.
+* `fortindr` - Enable scanning of files by FortiNDR.
+* `fortisandbox` - Enable scanning of files by FortiSandbox.
 * `options` - Enable/disable MAPI AntiVirus scanning, monitoring, and quarantine.
 * `outbreak_prevention` - Enable virus outbreak prevention service.
 * `quarantine` - Enable/disable quarantine for infected files.
@@ -161,6 +177,8 @@ The `nntp` block contains:
 * `emulator` - Enable/disable the virus emulator.
 * `external_blocklist` - Enable external-blocklist. Analyzes files including the content of archives.
 * `fortiai` - Enable/disable scanning of files by FortiAI.
+* `fortindr` - Enable scanning of files by FortiNDR.
+* `fortisandbox` - Enable scanning of files by FortiSandbox.
 * `options` - Enable/disable NNTP AntiVirus scanning, monitoring, and quarantine.
 * `outbreak_prevention` - Enable virus outbreak prevention service.
 * `quarantine` - Enable/disable quarantine for infected files.
@@ -182,6 +200,8 @@ The `pop3` block contains:
 * `executables` - Treat Windows executable files as viruses for the purpose of blocking or monitoring.
 * `external_blocklist` - Enable external-blocklist. Analyzes files including the content of archives.
 * `fortiai` - Enable/disable scanning of files by FortiAI.
+* `fortindr` - Enable scanning of files by FortiNDR.
+* `fortisandbox` - Enable scanning of files by FortiSandbox.
 * `options` - Enable/disable POP3 AntiVirus scanning, monitoring, and quarantine.
 * `outbreak_prevention` - Enable virus outbreak prevention service.
 * `quarantine` - Enable/disable quarantine for infected files.
@@ -197,6 +217,8 @@ The `smtp` block contains:
 * `executables` - Treat Windows executable files as viruses for the purpose of blocking or monitoring.
 * `external_blocklist` - Enable external-blocklist. Analyzes files including the content of archives.
 * `fortiai` - Enable/disable scanning of files by FortiAI.
+* `fortindr` - Enable scanning of files by FortiNDR.
+* `fortisandbox` - Enable scanning of files by FortiSandbox.
 * `options` - Enable/disable SMTP AntiVirus scanning, monitoring, and quarantine.
 * `outbreak_prevention` - Enable virus outbreak prevention service.
 * `quarantine` - Enable/disable quarantine for infected files.
@@ -210,6 +232,8 @@ The `ssh` block contains:
 * `emulator` - Enable/disable the virus emulator.
 * `external_blocklist` - Enable external-blocklist. Analyzes files including the content of archives.
 * `fortiai` - Enable/disable scanning of files by FortiAI.
+* `fortindr` - Enable scanning of files by FortiNDR.
+* `fortisandbox` - Enable scanning of files by FortiSandbox.
 * `options` - Enable/disable SFTP and SCP AntiVirus scanning, monitoring, and quarantine.
 * `outbreak_prevention` - Enable virus outbreak prevention service.
 * `quarantine` - Enable/disable quarantine for infected files.

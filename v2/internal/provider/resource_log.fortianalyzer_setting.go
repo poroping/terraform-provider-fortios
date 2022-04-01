@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -89,7 +89,7 @@ func resourceLogFortianalyzerSetting() *schema.Resource {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringInSlice([]string{"sha256", "sha1"}, false),
 
-				Description: "FortiAnalyzer IPsec tunnel HMAC algorithm.",
+				Description: "OFTP login hash algorithm.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -200,7 +200,7 @@ func resourceLogFortianalyzerSetting() *schema.Resource {
 			},
 			"ssl_min_proto_version": {
 				Type:         schema.TypeString,
-				ValidateFunc: validation.StringInSlice([]string{"default", "SSLv3", "TLSv1", "TLSv1-1", "TLSv1-2"}, false),
+				ValidateFunc: validation.StringInSlice([]string{"default", "SSLv3", "TLSv1", "TLSv1-1", "TLSv1-2", "TLSv1-3"}, false),
 
 				Description: "Minimum supported protocol version for SSL/TLS connections (default is to follow system global setting).",
 				Optional:    true,

@@ -40,6 +40,7 @@ Configure IPv4/IPv6 policies.
 * `diffservcode_forward` - Change packet's DiffServ to this value.
 * `diffservcode_rev` - Change packet's reverse (reply) DiffServ to this value.
 * `disclaimer` - Enable/disable user authentication disclaimer. Valid values: `enable` `disable` .
+* `dlp_profile` - Name of an existing DLP profile. This attribute must reference one of the following datasources: `dlp.profile.name` .
 * `dlp_sensor` - Name of an existing DLP sensor. This attribute must reference one of the following datasources: `dlp.sensor.name` .
 * `dnsfilter_profile` - Name of an existing DNS filter profile. This attribute must reference one of the following datasources: `dnsfilter.profile.name` .
 * `dsri` - Enable DSRI to ignore HTTP server responses. Valid values: `enable` `disable` .
@@ -85,6 +86,8 @@ Configure IPv4/IPv6 policies.
 * `per_ip_shaper` - Per-IP traffic shaper. This attribute must reference one of the following datasources: `firewall.shaper.per-ip-shaper.name` .
 * `permit_any_host` - Accept UDP packets from any host. Valid values: `enable` `disable` .
 * `permit_stun_host` - Accept UDP packets from any Session Traversal Utilities for NAT (STUN) host. Valid values: `enable` `disable` .
+* `policy_expiry` - Enable/disable policy expiry. Valid values: `enable` `disable` .
+* `policy_expiry_date` - Policy expiry date (YYYY-MM-DD HH:MM:SS).
 * `policyid` - Policy ID (0 - 4294967294).
 * `profile_group` - Name of profile group. This attribute must reference one of the following datasources: `firewall.profile-group.name` .
 * `profile_protocol_options` - Name of an existing Protocol options profile. This attribute must reference one of the following datasources: `firewall.profile-protocol-options.name` .

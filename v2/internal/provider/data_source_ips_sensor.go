@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -70,6 +70,16 @@ func dataSourceIpsSensor() *schema.Resource {
 								},
 							},
 						},
+						"default_action": {
+							Type:        schema.TypeString,
+							Description: "Signature default action filter.",
+							Computed:    true,
+						},
+						"default_status": {
+							Type:        schema.TypeString,
+							Description: "Signature default status filter.",
+							Computed:    true,
+						},
 						"exempt_ip": {
 							Type:        schema.TypeList,
 							Description: "Traffic from selected source or destination IP addresses is exempt from this signature.",
@@ -97,6 +107,11 @@ func dataSourceIpsSensor() *schema.Resource {
 						"id": {
 							Type:        schema.TypeInt,
 							Description: "Rule ID in IPS database (0 - 4294967295).",
+							Computed:    true,
+						},
+						"last_modified": {
+							Type:        schema.TypeString,
+							Description: "Filter by signature last modified date. Formats: before <date>, after <date>, between <start-date> <end-date>.",
 							Computed:    true,
 						},
 						"location": {
@@ -187,6 +202,20 @@ func dataSourceIpsSensor() *schema.Resource {
 							Type:        schema.TypeString,
 							Description: "Status of the signatures included in filter. Only those filters with a status to enable are used.",
 							Computed:    true,
+						},
+						"vuln_type": {
+							Type:        schema.TypeList,
+							Description: "List of signature vulnerability types to filter by.",
+							Computed:    true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"id": {
+										Type:        schema.TypeInt,
+										Description: "Vulnerability type ID.",
+										Computed:    true,
+									},
+								},
+							},
 						},
 					},
 				},

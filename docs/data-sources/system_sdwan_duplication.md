@@ -28,6 +28,7 @@ The following attributes are exported:
 * `id` - Duplication rule ID (1 - 255).
 * `packet_de_duplication` - Enable/disable discarding of packets that have been duplicated.
 * `packet_duplication` - Configure packet duplication method.
+* `sla_match_service` - Enable/disable packet duplication matching health-check SLAs in service rule.
 * `dstaddr` - Destination address or address group names.The structure of `dstaddr` block is documented below.
 
 The `dstaddr` block contains:

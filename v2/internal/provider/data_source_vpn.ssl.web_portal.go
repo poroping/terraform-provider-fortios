@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -103,7 +103,7 @@ func dataSourceVpnSslWebPortal() *schema.Resource {
 									},
 									"height": {
 										Type:        schema.TypeInt,
-										Description: "Screen height (range from 480 - 65535, default = 768).",
+										Description: "Screen height (range from 0 - 65535, default = 0).",
 										Computed:    true,
 									},
 									"host": {
@@ -220,7 +220,7 @@ func dataSourceVpnSslWebPortal() *schema.Resource {
 									},
 									"width": {
 										Type:        schema.TypeInt,
-										Description: "Screen width (range from 640 - 65535, default = 1024).",
+										Description: "Screen width (range from 0 - 65535, default = 0).",
 										Computed:    true,
 									},
 								},
@@ -247,6 +247,16 @@ func dataSourceVpnSslWebPortal() *schema.Resource {
 			"customize_forticlient_download_url": {
 				Type:        schema.TypeString,
 				Description: "Enable support of customized download URL for FortiClient.",
+				Computed:    true,
+			},
+			"default_window_height": {
+				Type:        schema.TypeInt,
+				Description: "Screen height (range from 0 - 65535, default = 768).",
+				Computed:    true,
+			},
+			"default_window_width": {
+				Type:        schema.TypeInt,
+				Description: "Screen width (range from 0 - 65535, default = 1024).",
 				Computed:    true,
 			},
 			"display_bookmark": {

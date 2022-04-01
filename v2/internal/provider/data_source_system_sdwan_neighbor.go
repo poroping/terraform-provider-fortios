@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
+// Generated from templates using FortiOS v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -41,8 +41,22 @@ func dataSourceSystemSdwanNeighbor() *schema.Resource {
 				Required:    true,
 			},
 			"member": {
+				Type:        schema.TypeList,
+				Description: "Member sequence number list.",
+				Computed:    true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"seq_num": {
+							Type:        schema.TypeInt,
+							Description: "Member sequence number.",
+							Computed:    true,
+						},
+					},
+				},
+			},
+			"minimum_sla_meet_members": {
 				Type:        schema.TypeInt,
-				Description: "Member sequence number.",
+				Description: "Minimum number of members which meet SLA when the neighbor is preferred.",
 				Computed:    true,
 			},
 			"mode": {

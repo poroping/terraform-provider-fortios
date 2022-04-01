@@ -55,3 +55,8 @@ The `fields` block contains:
 The `logid` block contains:
 
 * `id` - Log ID.
+* `vdom` - Virtual domain(s) that this trigger is valid for.The structure of `vdom` block is documented below.
+
+The `vdom` block contains:
+
+* `name` - Virtual domain name.

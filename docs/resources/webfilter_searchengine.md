@@ -24,7 +24,7 @@ Configure web filter search engines.
 * `name` - Search engine name.
 * `query` - Code used to prefix a query (must end with an equals character).
 * `safesearch` - Safe search method. You can disable safe search, add the safe search string to URLs, or insert a safe search header. Valid values: `disable` `url` `header` `translate` `yt-pattern` `yt-scan` `yt-video` `yt-channel` .
-* `safesearch_str` - Safe search parameter used in the URL.
+* `safesearch_str` - In URL mode, it is the safe search parameter used in the URL. In translate mode, it provides either the regex to translate the URL, or the special case to translate the URL
 * `url` - URL (regular expression).
 
 ## Attribute Reference

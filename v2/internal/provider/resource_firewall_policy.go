@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -273,6 +273,14 @@ func resourceFirewallPolicy() *schema.Resource {
 				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
 
 				Description: "Enable/disable user authentication disclaimer.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"dlp_profile": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringLenBetween(0, 35),
+
+				Description: "Name of an existing DLP profile.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -903,6 +911,21 @@ func resourceFirewallPolicy() *schema.Resource {
 				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
 
 				Description: "Accept UDP packets from any Session Traversal Utilities for NAT (STUN) host.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"policy_expiry": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+				Description: "Enable/disable policy expiry.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"policy_expiry_date": {
+				Type: schema.TypeString,
+
+				Description: "Policy expiry date (YYYY-MM-DD HH:MM:SS).",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -2668,6 +2691,14 @@ func refreshObjectFirewallPolicy(d *schema.ResourceData, o *models.FirewallPolic
 		}
 	}
 
+	if o.DlpProfile != nil {
+		v := *o.DlpProfile
+
+		if err = d.Set("dlp_profile", v); err != nil {
+			return diag.Errorf("error reading dlp_profile: %v", err)
+		}
+	}
+
 	if o.DlpSensor != nil {
 		v := *o.DlpSensor
 
@@ -3126,6 +3157,22 @@ func refreshObjectFirewallPolicy(d *schema.ResourceData, o *models.FirewallPolic
 
 		if err = d.Set("permit_stun_host", v); err != nil {
 			return diag.Errorf("error reading permit_stun_host: %v", err)
+		}
+	}
+
+	if o.PolicyExpiry != nil {
+		v := *o.PolicyExpiry
+
+		if err = d.Set("policy_expiry", v); err != nil {
+			return diag.Errorf("error reading policy_expiry: %v", err)
+		}
+	}
+
+	if o.PolicyExpiryDate != nil {
+		v := *o.PolicyExpiryDate
+
+		if err = d.Set("policy_expiry_date", v); err != nil {
+			return diag.Errorf("error reading policy_expiry_date: %v", err)
 		}
 	}
 
@@ -4731,9 +4778,18 @@ func getObjectFirewallPolicy(d *schema.ResourceData, sv string) (*models.Firewal
 			obj.Disclaimer = &v2
 		}
 	}
+	if v1, ok := d.GetOk("dlp_profile"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.0", "") {
+				e := utils.AttributeVersionWarning("dlp_profile", sv)
+				diags = append(diags, e)
+			}
+			obj.DlpProfile = &v2
+		}
+	}
 	if v1, ok := d.GetOk("dlp_sensor"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "") {
+			if !utils.CheckVer(sv, "", "v7.2.0") {
 				e := utils.AttributeVersionWarning("dlp_sensor", sv)
 				diags = append(diags, e)
 			}
@@ -5406,6 +5462,24 @@ func getObjectFirewallPolicy(d *schema.ResourceData, sv string) (*models.Firewal
 				diags = append(diags, e)
 			}
 			obj.PermitStunHost = &v2
+		}
+	}
+	if v1, ok := d.GetOk("policy_expiry"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.0", "") {
+				e := utils.AttributeVersionWarning("policy_expiry", sv)
+				diags = append(diags, e)
+			}
+			obj.PolicyExpiry = &v2
+		}
+	}
+	if v1, ok := d.GetOk("policy_expiry_date"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.0", "") {
+				e := utils.AttributeVersionWarning("policy_expiry_date", sv)
+				diags = append(diags, e)
+			}
+			obj.PolicyExpiryDate = &v2
 		}
 	}
 	if v1, ok := d.GetOk("policyid"); ok {

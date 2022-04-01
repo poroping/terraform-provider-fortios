@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
+// Generated from templates using FortiOS v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -81,6 +81,16 @@ func dataSourceSystemAcme() *schema.Resource {
 						},
 					},
 				},
+			},
+			"source_ip": {
+				Type:        schema.TypeString,
+				Description: "Source IPv4 address used to connect to the ACME server.",
+				Computed:    true,
+			},
+			"source_ip6": {
+				Type:        schema.TypeString,
+				Description: "Source IPv6 address used to connect to the ACME server.",
+				Computed:    true,
 			},
 		},
 	}

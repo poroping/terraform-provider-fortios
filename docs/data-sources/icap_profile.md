@@ -25,8 +25,14 @@ Use this data source to get information on a fortios Configure ICAP profiles.
 
 The following attributes are exported:
 
+* `204_response` - Enable/disable allowance of 204 response from ICAP server.
+* `204_size_limit` - 204 response size limit to be saved by ICAP client in megabytes (1 - 10, default = 1 MB).
 * `chunk_encap` - Enable/disable chunked encapsulation (default = disable).
 * `extension_feature` - Enable/disable ICAP extension features.
+* `file_transfer` - Configure the file transfer protocols to pass transferred files to an ICAP server as REQMOD.
+* `file_transfer_failure` - Action to take if the ICAP server cannot be contacted when processing a file transfer.
+* `file_transfer_path` - Path component of the ICAP URI that identifies the file transfer processing service.
+* `file_transfer_server` - ICAP server to use for a file transfer.
 * `icap_block_log` - Enable/disable UTM log when infection found (default = disable).
 * `methods` - The allowed HTTP methods that will be sent to ICAP server for further processing.
 * `name` - ICAP profile name.
@@ -45,6 +51,7 @@ The following attributes are exported:
 * `response_server` - ICAP server to use for an HTTP response.
 * `scan_progress_interval` - Scan progress interval value.
 * `streaming_content_bypass` - Enable/disable bypassing of ICAP server for streaming content.
+* `timeout` - Time (in seconds) that ICAP client waits for the response from ICAP server.
 * `icap_headers` - Configure ICAP forwarded request headers.The structure of `icap_headers` block is documented below.
 
 The `icap_headers` block contains:

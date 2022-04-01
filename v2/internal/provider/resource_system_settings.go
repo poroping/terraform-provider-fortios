@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -180,6 +180,22 @@ func resourceSystemSettings() *schema.Resource {
 				ValidateFunc: validation.StringInSlice([]string{}, false),
 
 				Description: "Consolidated firewall mode.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"default_app_port_as_service": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+				Description: "Enable/disable policy service enforcement based on application default ports.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"default_policy_expiry_days": {
+				Type:         schema.TypeInt,
+				ValidateFunc: validation.IntBetween(0, 365),
+
+				Description: "Default policy expiry in days (0 - 365 days, default = 30).",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -440,6 +456,14 @@ func resourceSystemSettings() *schema.Resource {
 				Optional:    true,
 				Computed:    true,
 			},
+			"gui_enforce_change_summary": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"disable", "require", "optional"}, false),
+
+				Description: "Enforce change summaries for select tables in the GUI.",
+				Optional:    true,
+				Computed:    true,
+			},
 			"gui_explicit_proxy": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
@@ -557,6 +581,14 @@ func resourceSystemSettings() *schema.Resource {
 				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
 
 				Description: "Enable/disable object colors on the GUI.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"gui_ot": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+				Description: "Enable/disable Show Operational Technology Purdue Model.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -1023,6 +1055,14 @@ func resourceSystemSettings() *schema.Resource {
 				Optional:    true,
 				Computed:    true,
 			},
+			"vdom_type": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"traffic", "admin"}, false),
+
+				Description: "VDOM type (traffic or admin).",
+				Optional:    true,
+				Computed:    true,
+			},
 			"vpn_stats_log": {
 				Type: schema.TypeString,
 
@@ -1360,6 +1400,22 @@ func refreshObjectSystemSettings(d *schema.ResourceData, o *models.SystemSetting
 		}
 	}
 
+	if o.DefaultAppPortAsService != nil {
+		v := *o.DefaultAppPortAsService
+
+		if err = d.Set("default_app_port_as_service", v); err != nil {
+			return diag.Errorf("error reading default_app_port_as_service: %v", err)
+		}
+	}
+
+	if o.DefaultPolicyExpiryDays != nil {
+		v := *o.DefaultPolicyExpiryDays
+
+		if err = d.Set("default_policy_expiry_days", v); err != nil {
+			return diag.Errorf("error reading default_policy_expiry_days: %v", err)
+		}
+	}
+
 	if o.DefaultVoipAlgMode != nil {
 		v := *o.DefaultVoipAlgMode
 
@@ -1606,6 +1662,14 @@ func refreshObjectSystemSettings(d *schema.ResourceData, o *models.SystemSetting
 		}
 	}
 
+	if o.GuiEnforceChangeSummary != nil {
+		v := *o.GuiEnforceChangeSummary
+
+		if err = d.Set("gui_enforce_change_summary", v); err != nil {
+			return diag.Errorf("error reading gui_enforce_change_summary: %v", err)
+		}
+	}
+
 	if o.GuiExplicitProxy != nil {
 		v := *o.GuiExplicitProxy
 
@@ -1723,6 +1787,14 @@ func refreshObjectSystemSettings(d *schema.ResourceData, o *models.SystemSetting
 
 		if err = d.Set("gui_object_colors", v); err != nil {
 			return diag.Errorf("error reading gui_object_colors: %v", err)
+		}
+	}
+
+	if o.GuiOt != nil {
+		v := *o.GuiOt
+
+		if err = d.Set("gui_ot", v); err != nil {
+			return diag.Errorf("error reading gui_ot: %v", err)
 		}
 	}
 
@@ -2195,6 +2267,14 @@ func refreshObjectSystemSettings(d *schema.ResourceData, o *models.SystemSetting
 		}
 	}
 
+	if o.VdomType != nil {
+		v := *o.VdomType
+
+		if err = d.Set("vdom_type", v); err != nil {
+			return diag.Errorf("error reading vdom_type: %v", err)
+		}
+	}
+
 	if o.VpnStatsLog != nil {
 		v := *o.VpnStatsLog
 
@@ -2404,6 +2484,25 @@ func getObjectSystemSettings(d *schema.ResourceData, sv string) (*models.SystemS
 				diags = append(diags, e)
 			}
 			obj.ConsolidatedFirewallMode = &v2
+		}
+	}
+	if v1, ok := d.GetOk("default_app_port_as_service"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.0", "") {
+				e := utils.AttributeVersionWarning("default_app_port_as_service", sv)
+				diags = append(diags, e)
+			}
+			obj.DefaultAppPortAsService = &v2
+		}
+	}
+	if v1, ok := d.GetOk("default_policy_expiry_days"); ok {
+		if v2, ok := v1.(int); ok {
+			if !utils.CheckVer(sv, "v7.2.0", "") {
+				e := utils.AttributeVersionWarning("default_policy_expiry_days", sv)
+				diags = append(diags, e)
+			}
+			tmp := int64(v2)
+			obj.DefaultPolicyExpiryDays = &tmp
 		}
 	}
 	if v1, ok := d.GetOk("default_voip_alg_mode"); ok {
@@ -2695,6 +2794,15 @@ func getObjectSystemSettings(d *schema.ResourceData, sv string) (*models.SystemS
 			obj.GuiEndpointControlAdvanced = &v2
 		}
 	}
+	if v1, ok := d.GetOk("gui_enforce_change_summary"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.0", "") {
+				e := utils.AttributeVersionWarning("gui_enforce_change_summary", sv)
+				diags = append(diags, e)
+			}
+			obj.GuiEnforceChangeSummary = &v2
+		}
+	}
 	if v1, ok := d.GetOk("gui_explicit_proxy"); ok {
 		if v2, ok := v1.(string); ok {
 			if !utils.CheckVer(sv, "", "") {
@@ -2828,6 +2936,15 @@ func getObjectSystemSettings(d *schema.ResourceData, sv string) (*models.SystemS
 				diags = append(diags, e)
 			}
 			obj.GuiObjectColors = &v2
+		}
+	}
+	if v1, ok := d.GetOk("gui_ot"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.0", "") {
+				e := utils.AttributeVersionWarning("gui_ot", sv)
+				diags = append(diags, e)
+			}
+			obj.GuiOt = &v2
 		}
 	}
 	if v1, ok := d.GetOk("gui_per_policy_disclaimer"); ok {
@@ -3356,6 +3473,15 @@ func getObjectSystemSettings(d *schema.ResourceData, sv string) (*models.SystemS
 				diags = append(diags, e)
 			}
 			obj.V4EcmpMode = &v2
+		}
+	}
+	if v1, ok := d.GetOk("vdom_type"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.0", "") {
+				e := utils.AttributeVersionWarning("vdom_type", sv)
+				diags = append(diags, e)
+			}
+			obj.VdomType = &v2
 		}
 	}
 	if v1, ok := d.GetOk("vpn_stats_log"); ok {

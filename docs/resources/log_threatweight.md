@@ -64,6 +64,8 @@ The `malware` block contains:
 * `ems_threat_feed` - Threat weight score for virus (EMS threat feed) detected. Valid values: `disable` `low` `medium` `high` `critical` .
 * `file_blocked` - Threat weight score for blocked file detected. Valid values: `disable` `low` `medium` `high` `critical` .
 * `fortiai` - Threat weight score for FortiAI-detected virus. Valid values: `disable` `low` `medium` `high` `critical` .
+* `fortindr` - Threat weight score for FortiNDR-detected virus. Valid values: `disable` `low` `medium` `high` `critical` .
+* `fortisandbox` - Threat weight score for FortiSandbox-detected virus. Valid values: `disable` `low` `medium` `high` `critical` .
 * `fsa_high_risk` - Threat weight score for FortiSandbox high risk malware detected. Valid values: `disable` `low` `medium` `high` `critical` .
 * `fsa_malicious` - Threat weight score for FortiSandbox malicious malware detected. Valid values: `disable` `low` `medium` `high` `critical` .
 * `fsa_medium_risk` - Threat weight score for FortiSandbox medium risk malware detected. Valid values: `disable` `low` `medium` `high` `critical` .

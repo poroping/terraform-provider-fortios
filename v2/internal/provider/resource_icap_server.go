@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -45,6 +45,38 @@ func resourceIcapServer() *schema.Resource {
 				Optional:    true,
 				Default:     false,
 			},
+			"addr_type": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"ip4", "ip6", "fqdn"}, false),
+
+				Description: "Address type of the remote ICAP server: IPv4, IPv6 or FQDN.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"fqdn": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringLenBetween(0, 255),
+
+				Description: "ICAP remote server Fully Qualified Domain Name (FQDN).",
+				Optional:    true,
+				Computed:    true,
+			},
+			"healthcheck": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"disable", "enable"}, false),
+
+				Description: "Enable/disable ICAP remote server health checking. Attempts to connect to the remote ICAP server to verify that the server is operating normally.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"healthcheck_service": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringLenBetween(0, 127),
+
+				Description: "ICAP Service name to use for health checks.",
+				Optional:    true,
+				Computed:    true,
+			},
 			"ip_address": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.IsIPv4Address,
@@ -79,7 +111,7 @@ func resourceIcapServer() *schema.Resource {
 			},
 			"name": {
 				Type:         schema.TypeString,
-				ValidateFunc: validation.StringLenBetween(0, 35),
+				ValidateFunc: validation.StringLenBetween(0, 63),
 
 				Description: "Server name.",
 				ForceNew:    true,
@@ -95,7 +127,7 @@ func resourceIcapServer() *schema.Resource {
 			},
 			"secure": {
 				Type:         schema.TypeString,
-				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+				ValidateFunc: validation.StringInSlice([]string{"disable", "enable"}, false),
 
 				Description: "Enable/disable secure connection to ICAP server.",
 				Optional:    true,
@@ -103,7 +135,7 @@ func resourceIcapServer() *schema.Resource {
 			},
 			"ssl_cert": {
 				Type:         schema.TypeString,
-				ValidateFunc: validation.StringLenBetween(0, 255),
+				ValidateFunc: validation.StringLenBetween(0, 79),
 
 				Description: "CA certificate name.",
 				Optional:    true,
@@ -269,6 +301,38 @@ func resourceIcapServerRead(ctx context.Context, d *schema.ResourceData, meta in
 func refreshObjectIcapServer(d *schema.ResourceData, o *models.IcapServer, sv string, sort bool) diag.Diagnostics {
 	var err error
 
+	if o.AddrType != nil {
+		v := *o.AddrType
+
+		if err = d.Set("addr_type", v); err != nil {
+			return diag.Errorf("error reading addr_type: %v", err)
+		}
+	}
+
+	if o.Fqdn != nil {
+		v := *o.Fqdn
+
+		if err = d.Set("fqdn", v); err != nil {
+			return diag.Errorf("error reading fqdn: %v", err)
+		}
+	}
+
+	if o.Healthcheck != nil {
+		v := *o.Healthcheck
+
+		if err = d.Set("healthcheck", v); err != nil {
+			return diag.Errorf("error reading healthcheck: %v", err)
+		}
+	}
+
+	if o.HealthcheckService != nil {
+		v := *o.HealthcheckService
+
+		if err = d.Set("healthcheck_service", v); err != nil {
+			return diag.Errorf("error reading healthcheck_service: %v", err)
+		}
+	}
+
 	if o.IpAddress != nil {
 		v := *o.IpAddress
 
@@ -340,6 +404,42 @@ func getObjectIcapServer(d *schema.ResourceData, sv string) (*models.IcapServer,
 	obj := models.IcapServer{}
 	diags := diag.Diagnostics{}
 
+	if v1, ok := d.GetOk("addr_type"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.0", "") {
+				e := utils.AttributeVersionWarning("addr_type", sv)
+				diags = append(diags, e)
+			}
+			obj.AddrType = &v2
+		}
+	}
+	if v1, ok := d.GetOk("fqdn"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.0", "") {
+				e := utils.AttributeVersionWarning("fqdn", sv)
+				diags = append(diags, e)
+			}
+			obj.Fqdn = &v2
+		}
+	}
+	if v1, ok := d.GetOk("healthcheck"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.0", "") {
+				e := utils.AttributeVersionWarning("healthcheck", sv)
+				diags = append(diags, e)
+			}
+			obj.Healthcheck = &v2
+		}
+	}
+	if v1, ok := d.GetOk("healthcheck_service"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.0", "") {
+				e := utils.AttributeVersionWarning("healthcheck_service", sv)
+				diags = append(diags, e)
+			}
+			obj.HealthcheckService = &v2
+		}
+	}
 	if v1, ok := d.GetOk("ip_address"); ok {
 		if v2, ok := v1.(string); ok {
 			if !utils.CheckVer(sv, "", "") {
@@ -351,7 +451,7 @@ func getObjectIcapServer(d *schema.ResourceData, sv string) (*models.IcapServer,
 	}
 	if v1, ok := d.GetOk("ip_version"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "") {
+			if !utils.CheckVer(sv, "", "v7.2.0") {
 				e := utils.AttributeVersionWarning("ip_version", sv)
 				diags = append(diags, e)
 			}

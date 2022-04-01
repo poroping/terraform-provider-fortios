@@ -21,7 +21,7 @@ Trigger for automation stitches.
 * `dynamic_sort_table` - `true` or `false`, set this parameter to `true` when using dynamic for_each + toset to configure and sort sub-tables, if set to `true` static sub-tables must be ordered.
 
 * `description` - Description.
-* `event_type` - Event type. Valid values: `ioc` `event-log` `reboot` `low-memory` `high-cpu` `license-near-expiry` `ha-failover` `config-change` `security-rating-summary` `virus-ips-db-updated` `faz-event` `incoming-webhook` `fabric-event` .
+* `event_type` - Event type. Valid values: `ioc` `event-log` `reboot` `low-memory` `high-cpu` `license-near-expiry` `ha-failover` `config-change` `security-rating-summary` `virus-ips-db-updated` `faz-event` `incoming-webhook` `fabric-event` `ips-logs` `anomaly-logs` `virus-logs` `ssh-logs` `webfilter-violation` `traffic-violation` .
 * `fabric_event_name` - Fabric connector event handler name.
 * `fabric_event_severity` - Fabric connector event severity.
 * `faz_event_name` - FortiAnalyzer event handler name.
@@ -50,6 +50,11 @@ The `fields` block contains:
 The `logid` block contains:
 
 * `id` - Log ID.
+* `vdom` - Virtual domain(s) that this trigger is valid for. The structure of `vdom` block is documented below.
+
+The `vdom` block contains:
+
+* `name` - Virtual domain name. This attribute must reference one of the following datasources: `system.vdom.name` .
 
 ## Attribute Reference
 

@@ -20,10 +20,16 @@ Configure ICAP profiles.
 * `allow_append` - If set to true allows provider to overwrite existing resources instead of erroring. Useful for brownfield implementations. Use with caution! Requires `name` to be defined.
 * `dynamic_sort_table` - `true` or `false`, set this parameter to `true` when using dynamic for_each + toset to configure and sort sub-tables, if set to `true` static sub-tables must be ordered.
 
+* `204_response` - Enable/disable allowance of 204 response from ICAP server. Valid values: `disable` `enable` .
+* `204_size_limit` - 204 response size limit to be saved by ICAP client in megabytes (1 - 10, default = 1 MB).
 * `chunk_encap` - Enable/disable chunked encapsulation (default = disable). Valid values: `disable` `enable` .
 * `extension_feature` - Enable/disable ICAP extension features. Valid values: `scan-progress` .
+* `file_transfer` - Configure the file transfer protocols to pass transferred files to an ICAP server as REQMOD. Valid values: `ssh` `ftp` .
+* `file_transfer_failure` - Action to take if the ICAP server cannot be contacted when processing a file transfer. Valid values: `error` `bypass` .
+* `file_transfer_path` - Path component of the ICAP URI that identifies the file transfer processing service.
+* `file_transfer_server` - ICAP server to use for a file transfer. This attribute must reference one of the following datasources: `icap.server.name` `icap.server-group.name` .
 * `icap_block_log` - Enable/disable UTM log when infection found (default = disable). Valid values: `disable` `enable` .
-* `methods` - The allowed HTTP methods that will be sent to ICAP server for further processing. Valid values: `delete` `get` `head` `options` `post` `put` `trace` `other` .
+* `methods` - The allowed HTTP methods that will be sent to ICAP server for further processing. Valid values: `delete` `get` `head` `options` `post` `put` `trace` `connect` `other` .
 * `name` - ICAP profile name.
 * `preview` - Enable/disable preview of data to ICAP server. Valid values: `disable` `enable` .
 * `preview_data_length` - Preview data length to be sent to ICAP server.
@@ -31,15 +37,16 @@ Configure ICAP profiles.
 * `request` - Enable/disable whether an HTTP request is passed to an ICAP server. Valid values: `disable` `enable` .
 * `request_failure` - Action to take if the ICAP server cannot be contacted when processing an HTTP request. Valid values: `error` `bypass` .
 * `request_path` - Path component of the ICAP URI that identifies the HTTP request processing service.
-* `request_server` - ICAP server to use for an HTTP request. This attribute must reference one of the following datasources: `icap.server.name` .
+* `request_server` - ICAP server to use for an HTTP request. This attribute must reference one of the following datasources: `icap.server.name` `icap.server-group.name` .
 * `respmod_default_action` - Default action to ICAP response modification (respmod) processing. Valid values: `forward` `bypass` .
 * `response` - Enable/disable whether an HTTP response is passed to an ICAP server. Valid values: `disable` `enable` .
 * `response_failure` - Action to take if the ICAP server cannot be contacted when processing an HTTP response. Valid values: `error` `bypass` .
 * `response_path` - Path component of the ICAP URI that identifies the HTTP response processing service.
 * `response_req_hdr` - Enable/disable addition of req-hdr for ICAP response modification (respmod) processing. Valid values: `disable` `enable` .
-* `response_server` - ICAP server to use for an HTTP response. This attribute must reference one of the following datasources: `icap.server.name` .
+* `response_server` - ICAP server to use for an HTTP response. This attribute must reference one of the following datasources: `icap.server.name` `icap.server-group.name` .
 * `scan_progress_interval` - Scan progress interval value.
 * `streaming_content_bypass` - Enable/disable bypassing of ICAP server for streaming content. Valid values: `disable` `enable` .
+* `timeout` - Time (in seconds) that ICAP client waits for the response from ICAP server.
 * `icap_headers` - Configure ICAP forwarded request headers. The structure of `icap_headers` block is documented below.
 
 The `icap_headers` block contains:

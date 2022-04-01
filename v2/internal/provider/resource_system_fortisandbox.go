@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -59,6 +59,14 @@ func resourceSystemFortisandbox() *schema.Resource {
 				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
 
 				Description: "Enable/disable FortiSandbox Cloud.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"inline_scan": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+				Description: "Enable/disable FortiSandbox inline scan.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -290,6 +298,14 @@ func refreshObjectSystemFortisandbox(d *schema.ResourceData, o *models.SystemFor
 		}
 	}
 
+	if o.InlineScan != nil {
+		v := *o.InlineScan
+
+		if err = d.Set("inline_scan", v); err != nil {
+			return diag.Errorf("error reading inline_scan: %v", err)
+		}
+	}
+
 	if o.Interface != nil {
 		v := *o.Interface
 
@@ -370,6 +386,15 @@ func getObjectSystemFortisandbox(d *schema.ResourceData, sv string) (*models.Sys
 				diags = append(diags, e)
 			}
 			obj.Forticloud = &v2
+		}
+	}
+	if v1, ok := d.GetOk("inline_scan"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.0", "") {
+				e := utils.AttributeVersionWarning("inline_scan", sv)
+				diags = append(diags, e)
+			}
+			obj.InlineScan = &v2
 		}
 	}
 	if v1, ok := d.GetOk("interface"); ok {

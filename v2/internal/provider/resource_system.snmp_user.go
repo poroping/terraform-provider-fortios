@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -9,6 +9,7 @@ package provider
 
 import (
 	"context"
+	"fmt"
 	"log"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
@@ -45,6 +46,12 @@ func resourceSystemSnmpUser() *schema.Resource {
 				Optional:    true,
 				Default:     false,
 			},
+			"dynamic_sort_subtable": {
+				Type:        schema.TypeBool,
+				Description: "If set will sort table response by mkey",
+				Optional:    true,
+				Default:     false,
+			},
 			"auth_proto": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringInSlice([]string{"md5", "sha", "sha224", "sha256", "sha384", "sha512"}, false),
@@ -74,6 +81,14 @@ func resourceSystemSnmpUser() *schema.Resource {
 				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
 
 				Description: "Enable/disable direct management of HA cluster members.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"mib_view": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringLenBetween(0, 32),
+
+				Description: "SNMP access control MIB view.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -127,7 +142,7 @@ func resourceSystemSnmpUser() *schema.Resource {
 			},
 			"query_port": {
 				Type:         schema.TypeInt,
-				ValidateFunc: validation.IntBetween(0, 65535),
+				ValidateFunc: validation.IntBetween(1, 65535),
 
 				Description: "SNMPv3 query port (default = 161).",
 				Optional:    true,
@@ -167,7 +182,7 @@ func resourceSystemSnmpUser() *schema.Resource {
 			},
 			"trap_lport": {
 				Type:         schema.TypeInt,
-				ValidateFunc: validation.IntBetween(0, 65535),
+				ValidateFunc: validation.IntBetween(1, 65535),
 
 				Description: "SNMPv3 local trap port (default = 162).",
 				Optional:    true,
@@ -175,7 +190,7 @@ func resourceSystemSnmpUser() *schema.Resource {
 			},
 			"trap_rport": {
 				Type:         schema.TypeInt,
-				ValidateFunc: validation.IntBetween(0, 65535),
+				ValidateFunc: validation.IntBetween(1, 65535),
 
 				Description: "SNMPv3 trap remote port (default = 162).",
 				Optional:    true,
@@ -188,6 +203,23 @@ func resourceSystemSnmpUser() *schema.Resource {
 				Description: "Enable/disable traps for this SNMP user.",
 				Optional:    true,
 				Computed:    true,
+			},
+			"vdoms": {
+				Type:        schema.TypeList,
+				Description: "SNMP access control VDOMs.",
+				Optional:    true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"name": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringLenBetween(0, 79),
+
+							Description: "VDOM name",
+							Optional:    true,
+							Computed:    true,
+						},
+					},
+				},
 			},
 		},
 	}
@@ -346,6 +378,28 @@ func resourceSystemSnmpUserRead(ctx context.Context, d *schema.ResourceData, met
 	return nil
 }
 
+func flattenSystemSnmpUserVdoms(d *schema.ResourceData, v *[]models.SystemSnmpUserVdoms, prefix string, sort bool) interface{} {
+	flat := make([]map[string]interface{}, 0)
+
+	if v != nil {
+		for i, cfg := range *v {
+			_ = i
+			v := make(map[string]interface{})
+			if tmp := cfg.Name; tmp != nil {
+				v["name"] = *tmp
+			}
+
+			flat = append(flat, v)
+		}
+	}
+
+	if sort {
+		utils.SortSubtable(flat, "name")
+	}
+
+	return flat
+}
+
 func refreshObjectSystemSnmpUser(d *schema.ResourceData, o *models.SystemSnmpUser, sv string, sort bool) diag.Diagnostics {
 	var err error
 
@@ -379,6 +433,14 @@ func refreshObjectSystemSnmpUser(d *schema.ResourceData, o *models.SystemSnmpUse
 
 		if err = d.Set("ha_direct", v); err != nil {
 			return diag.Errorf("error reading ha_direct: %v", err)
+		}
+	}
+
+	if o.MibView != nil {
+		v := *o.MibView
+
+		if err = d.Set("mib_view", v); err != nil {
+			return diag.Errorf("error reading mib_view: %v", err)
 		}
 	}
 
@@ -495,7 +557,37 @@ func refreshObjectSystemSnmpUser(d *schema.ResourceData, o *models.SystemSnmpUse
 		}
 	}
 
+	if o.Vdoms != nil {
+		if err = d.Set("vdoms", flattenSystemSnmpUserVdoms(d, o.Vdoms, "vdoms", sort)); err != nil {
+			return diag.Errorf("error reading vdoms: %v", err)
+		}
+	}
+
 	return nil
+}
+
+func expandSystemSnmpUserVdoms(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.SystemSnmpUserVdoms, error) {
+	l := v.([]interface{})
+	if len(l) == 0 || l[0] == nil {
+		return nil, nil
+	}
+
+	var result []models.SystemSnmpUserVdoms
+
+	for i := range l {
+		tmp := models.SystemSnmpUserVdoms{}
+		var pre_append string
+
+		pre_append = fmt.Sprintf("%s.%d.name", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.Name = &v2
+			}
+		}
+
+		result = append(result, tmp)
+	}
+	return &result, nil
 }
 
 func getObjectSystemSnmpUser(d *schema.ResourceData, sv string) (*models.SystemSnmpUser, diag.Diagnostics) {
@@ -536,6 +628,15 @@ func getObjectSystemSnmpUser(d *schema.ResourceData, sv string) (*models.SystemS
 				diags = append(diags, e)
 			}
 			obj.HaDirect = &v2
+		}
+	}
+	if v1, ok := d.GetOk("mib_view"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.0", "") {
+				e := utils.AttributeVersionWarning("mib_view", sv)
+				diags = append(diags, e)
+			}
+			obj.MibView = &v2
 		}
 	}
 	if v1, ok := d.GetOk("name"); ok {
@@ -665,6 +766,23 @@ func getObjectSystemSnmpUser(d *schema.ResourceData, sv string) (*models.SystemS
 				diags = append(diags, e)
 			}
 			obj.TrapStatus = &v2
+		}
+	}
+	if v, ok := d.GetOk("vdoms"); ok {
+		if !utils.CheckVer(sv, "v7.2.0", "") {
+			e := utils.AttributeVersionWarning("vdoms", sv)
+			diags = append(diags, e)
+		}
+		t, err := expandSystemSnmpUserVdoms(d, v, "vdoms", sv)
+		if err != nil {
+			return &obj, diag.FromErr(err)
+		} else if t != nil {
+			obj.Vdoms = t
+		}
+	} else if d.HasChange("vdoms") {
+		old, new := d.GetChange("vdoms")
+		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
+			obj.Vdoms = &[]models.SystemSnmpUserVdoms{}
 		}
 	}
 	return &obj, diags
